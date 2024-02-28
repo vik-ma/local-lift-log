@@ -1,6 +1,7 @@
-import "./App.css";
 import { useState, useEffect } from "react";
 import { invoke } from "@tauri-apps/api";
+import {Checkbox} from "@nextui-org/react";
+import "./App.css";
 
 function App() {
   const [greeting, setGreeting] = useState<string>("");
@@ -22,6 +23,7 @@ function App() {
           {greeting}
         </h1>
       </div>
+      <Checkbox defaultSelected>Option</Checkbox>
     </>
   );
 }
