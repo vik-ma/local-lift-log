@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { invoke } from "@tauri-apps/api";
-import {Checkbox} from "@nextui-org/react";
+import { Checkbox } from "@nextui-org/react";
 
 export default function HomePage() {
   const [greeting, setGreeting] = useState<string>("");
@@ -17,12 +17,14 @@ export default function HomePage() {
 
   return (
     <>
-      <div className="bg-neutral-900 px-6 py-4 rounded rounded-xl">
-        <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b">
-          {greeting}
-        </h1>
+      <div className="flex flex-col items-center gap-2">
+        <div className="bg-neutral-900 px-6 py-4 rounded rounded-xl">
+          <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b">
+            {greeting}
+          </h1>
+        </div>
+        <Checkbox defaultSelected>Option</Checkbox>
       </div>
-      <Checkbox defaultSelected>Option</Checkbox>
     </>
   );
 }
