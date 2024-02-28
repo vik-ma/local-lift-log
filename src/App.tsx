@@ -7,7 +7,7 @@ function App() {
 
   useEffect(() => {
     const getGreeting = async () => {
-      const msg = await invoke<string>("greet", { name: "Tdfsdfsdst" });
+      const msg = await invoke<string>("greet", { name: "Test" });
 
       setGreeting(msg);
     };
@@ -17,7 +17,7 @@ function App() {
 
   return (
     <>
-      <div className="text-3xl text-red-500">{greeting}</div>
+      <div className="text-3xl font-semibold">{greeting}</div>
     </>
   );
 }
