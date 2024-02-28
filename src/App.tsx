@@ -17,7 +17,7 @@ function App() {
 
   return (
     <>
-      <div>{greeting}</div>
+      <div className="text-3xl text-red-500">{greeting}</div>
     </>
   );
 }
