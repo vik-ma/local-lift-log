@@ -1,7 +1,6 @@
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { NextUIProvider } from "@nextui-org/react";
-import HomePage from "./pages/Home";
-import RoutineListPage from "./pages/RoutineList";
+import { HomePage, RoutineListPage } from "./pages";
 import SiteHeader from "./components/SiteHeader";
 
 function App() {
