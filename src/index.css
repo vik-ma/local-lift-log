@@ -14,18 +14,20 @@
 
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+  --primary-color: #ffa44f;
+  --foreground-color: #404040;
 }
 
 a {
   font-weight: 500;
-  color: #404040;
+  color: var(--foreground-color);
   text-decoration: inherit;
 }
 a:hover {
-  color: #ffa44f;
+  color: var(--primary-color);
 }
 a.active {
-  color: #ffa44f;
+  color: var(--primary-color);
 }
 
 body {
@@ -33,7 +35,7 @@ body {
   display: flex;
   width: 100vw;
   min-height: 100vh;
-  color: #404040;
+  color: var(--foreground-color);
   background-color: #ffffff;
   background: linear-gradient(
     to bottom,
