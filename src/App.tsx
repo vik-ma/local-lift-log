@@ -13,8 +13,10 @@ function App() {
         <main className="flex justify-center p-5">
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/routines" element={<RoutineListPage />} />
-            <Route path=":id" element={<RoutineDetailsPage />} />
+            <Route path="/routines">
+              <Route index element={<RoutineListPage />} />
+              <Route path=":id" element={<RoutineDetailsPage />} />
+            </Route>
           </Routes>
         </main>
       </NextUIProvider>

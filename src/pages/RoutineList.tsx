@@ -1,6 +1,21 @@
 import { Button, Input } from "@nextui-org/react";
+import { useNavigate } from "react-router-dom";
+import { ChangeEvent, useState } from "react";
 
 export default function RoutineListPage() {
+  const navigate = useNavigate();
+  const [inputValue, setInputValue] = useState<string>("");
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  };
+
+  const handleButtonClick = () => {
+    if (inputValue === "") return;
+
+    navigate(`/routines/${inputValue}`);
+  };
+
   return (
     <>
       <div className="flex flex-col gap-4">
@@ -10,8 +25,18 @@ export default function RoutineListPage() {
           </h1>
         </div>
         <div className="flex flex-row gap-2 items-center">
-          <Input type="text" label="Id" placeholder="Enter Routine Id" />
-          <Button className="text-lg" size="lg" color="primary">
+          <Input
+            type="text"
+            label="Id"
+            placeholder="Enter Routine Id"
+            onChange={handleInputChange}
+          />
+          <Button
+            className="text-lg"
+            size="lg"
+            color="primary"
+            onClick={handleButtonClick}
+          >
             OK
           </Button>
         </div>
