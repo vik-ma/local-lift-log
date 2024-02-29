@@ -1,18 +1,15 @@
-import { Navbar, NavbarContent, NavbarItem, Link } from "@nextui-org/react";
+import { Navbar, NavbarContent, NavbarItem } from "@nextui-org/react";
+import { NavLink } from "react-router-dom";
 
 export default function SiteHeader() {
   return (
     <Navbar isBordered>
       <NavbarContent className="flex gap-4">
         <NavbarItem>
-          <Link color="foreground" href="/">
-            Home
-          </Link>
+          <NavLink to="/">Home</NavLink>
         </NavbarItem>
         <NavbarItem>
-          <Link color="foreground" href="/routines">
-            Routines
-          </Link>
+          <NavLink to="/routines">Routines</NavLink>
         </NavbarItem>
       </NavbarContent>
     </Navbar>
