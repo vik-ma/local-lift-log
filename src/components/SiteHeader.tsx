@@ -15,14 +15,24 @@ export default function SiteHeader() {
           <NavLink to="/routines">Routines</NavLink>
         </NavbarItem>
       </NavbarContent>
-      <NavbarContent justify="end">
+      <NavbarContent className="flex gap-2.5" justify="end">
         <NavbarItem>
-          <Button as={Link} onClick={() => navigate(-1)}>
+          <Button
+            color="primary"
+            variant="ghost"
+            as={Link}
+            onClick={() => navigate(-1)}
+          >
             Back
           </Button>
         </NavbarItem>
         <NavbarItem>
-          <Button as={Link} onClick={() => navigate(+1)}>
+          <Button
+            color="primary"
+            variant="ghost"
+            as={Link}
+            onClick={() => navigate(+1)}
+          >
             Forward
           </Button>
         </NavbarItem>
