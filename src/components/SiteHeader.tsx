@@ -1,6 +1,8 @@
 import { Navbar, NavbarContent, NavbarItem, Button } from "@nextui-org/react";
 import { Link } from "react-router-dom";
 import { NavLink, useNavigate } from "react-router-dom";
+import ArrowRightIcon from "../assets/ArrowRightIcon";
+import ArrowLeftIcon from "../assets/ArrowLeftIcon";
 
 export default function SiteHeader() {
   const navigate = useNavigate();
@@ -15,25 +17,25 @@ export default function SiteHeader() {
           <NavLink to="/routines">Routines</NavLink>
         </NavbarItem>
       </NavbarContent>
-      <NavbarContent className="flex gap-2.5" justify="end">
-        <NavbarItem>
+      <NavbarContent className="flex gap-2" justify="end">
+        <NavbarItem className="flex items-center justify-center">
           <Button
-            color="primary"
+            size="sm"
             variant="ghost"
             as={Link}
             onClick={() => navigate(-1)}
           >
-            Back
+            <ArrowLeftIcon />
           </Button>
         </NavbarItem>
-        <NavbarItem>
+        <NavbarItem className="flex items-center justify-center">
           <Button
-            color="primary"
+            size="sm"
             variant="ghost"
             as={Link}
             onClick={() => navigate(+1)}
           >
-            Forward
+            <ArrowRightIcon />
           </Button>
         </NavbarItem>
       </NavbarContent>
