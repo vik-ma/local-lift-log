@@ -25,9 +25,9 @@ function App() {
               <Route index element={<RoutineListPage />} />
               <Route path=":id" element={<RoutineDetailsPage />} />
             </Route>
-            <Route path="/" element={<SetListPage />} />
-            <Route path="/" element={<ExerciseListPage />} />
-            <Route path="/" element={<SettingsPage />} />
+            <Route path="/sets" element={<SetListPage />} />
+            <Route path="/exercises" element={<ExerciseListPage />} />
+            <Route path="/settings" element={<SettingsPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
