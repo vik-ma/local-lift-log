@@ -1,6 +1,6 @@
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { NextUIProvider } from "@nextui-org/react";
-import { HomePage, RoutineListPage, RoutineDetailsPage } from "./pages";
+import { HomePage, RoutineListPage, RoutineDetailsPage, NotFound } from "./pages";
 import SiteHeader from "./components/SiteHeader";
 
 function App() {
@@ -17,6 +17,7 @@ function App() {
               <Route index element={<RoutineListPage />} />
               <Route path=":id" element={<RoutineDetailsPage />} />
             </Route>
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
       </NextUIProvider>
