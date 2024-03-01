@@ -53,7 +53,7 @@ export default function SiteHeader() {
             <DropdownTrigger>
               <Button
                 disableRipple
-                className="p-0 bg-transparent data-[hover=true]:bg-transparent"
+                className="p-0 text-[#404040] text-md font-medium bg-transparent data-[hover=true]:bg-transparent"
                 endContent={<ChevronDownIcon fill="currentColor" size={16} />}
                 radius="sm"
                 variant="light"
