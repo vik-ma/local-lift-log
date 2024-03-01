@@ -1,4 +1,10 @@
-import { Navbar, NavbarContent, NavbarItem, Button, Link } from "@nextui-org/react";
+import {
+  Navbar,
+  NavbarContent,
+  NavbarItem,
+  Button,
+  Link,
+} from "@nextui-org/react";
 import { NavLink, useNavigate } from "react-router-dom";
 import ArrowRightIcon from "../assets/ArrowRightIcon";
 import ArrowLeftIcon from "../assets/ArrowLeftIcon";
@@ -8,15 +14,7 @@ export default function SiteHeader() {
 
   return (
     <Navbar isBordered>
-      <NavbarContent className="flex gap-4">
-        <NavbarItem>
-          <NavLink to="/">Home</NavLink>
-        </NavbarItem>
-        <NavbarItem>
-          <NavLink to="/routines">Routines</NavLink>
-        </NavbarItem>
-      </NavbarContent>
-      <NavbarContent className="flex gap-2" justify="end">
+      <NavbarContent className="flex gap-1.5">
         <NavbarItem className="flex items-center justify-center">
           <Button
             size="sm"
@@ -36,6 +34,14 @@ export default function SiteHeader() {
           >
             <ArrowRightIcon />
           </Button>
+        </NavbarItem>
+      </NavbarContent>
+      <NavbarContent className="flex gap-4" justify="end">
+        <NavbarItem>
+          <NavLink to="/">Home</NavLink>
+        </NavbarItem>
+        <NavbarItem>
+          <NavLink to="/routines">Routines</NavLink>
         </NavbarItem>
       </NavbarContent>
     </Navbar>
