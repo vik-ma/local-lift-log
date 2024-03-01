@@ -1,5 +1,4 @@
-import { Navbar, NavbarContent, NavbarItem, Button } from "@nextui-org/react";
-import { Link } from "react-router-dom";
+import { Navbar, NavbarContent, NavbarItem, Button, Link } from "@nextui-org/react";
 import { NavLink, useNavigate } from "react-router-dom";
 import ArrowRightIcon from "../assets/ArrowRightIcon";
 import ArrowLeftIcon from "../assets/ArrowLeftIcon";
