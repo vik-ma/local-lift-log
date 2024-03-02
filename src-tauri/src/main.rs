@@ -8,8 +8,8 @@ fn greet(name: &str) -> String {
     format!("Hello, {}!", name)
 }
 
-fn main() {
-    let migrations = vec![Migration {
+fn get_migrations() -> Vec<Migration> {
+    vec![Migration {
         version: 1,
         description: "create_initial_tables",
         sql: "CREATE TABLE routines (
@@ -19,9 +19,13 @@ fn main() {
           is_schedule_weekly BOOLEAN,
           num_days_in_schedule SMALLINT,
           custom_schedule_start_date TEXT
-          );",
+        );",
         kind: MigrationKind::Up,
-    }];
+    }]
+}
+
+fn main() {
+    let migrations = get_migrations();
 
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![greet])
