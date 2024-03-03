@@ -28,12 +28,13 @@ fn db_file_exists() -> bool {
 fn get_db_path() -> String {
     let module_path = std::module_path!();
     let parent_dir = Path::new(&module_path).parent().unwrap();
-    let db_path = parent_dir.join("local_lift_log_db.sqlite");
+    let filename = get_filename();
+    let db_path = parent_dir.join(filename);
     db_path.to_str().unwrap().to_string()
 }
 
 fn get_filename() -> String {
-    dotenv.ok();
+    dotenv().ok();
     let filename = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
     filename
 }
