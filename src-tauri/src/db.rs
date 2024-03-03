@@ -1,3 +1,5 @@
+use dotenvy::dotenv;
+use std::env;
 use std::fs;
 use std::path::Path;
 
@@ -28,4 +30,10 @@ fn get_db_path() -> String {
     let parent_dir = Path::new(&module_path).parent().unwrap();
     let db_path = parent_dir.join("local_lift_log_db.sqlite");
     db_path.to_str().unwrap().to_string()
+}
+
+fn get_filename() -> String {
+    dotenv.ok();
+    let filename = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
+    filename
 }
