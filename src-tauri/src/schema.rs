@@ -1,5 +1,7 @@
+// @generated automatically by Diesel CLI.
+
 diesel::table! {
-    routines {
+    routines (id) {
         id -> Integer,
         name -> Text,
         note -> Nullable<Text>,
