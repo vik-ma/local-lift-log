@@ -10,3 +10,10 @@ diesel::table! {
         custom_schedule_start_date -> Nullable<Text>,
     }
 }
+
+diesel::table! {
+    user_settings (id) {
+        id -> Integer,
+        show_timestamp_on_completed_set -> Bool,
+    }
+}
