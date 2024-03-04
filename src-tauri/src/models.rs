@@ -18,4 +18,5 @@ pub struct Routine {
 pub struct UserSetting {
     pub id: i32,
     pub show_timestamp_on_completed_set: bool,
+    pub active_routine_id: i32,
 }

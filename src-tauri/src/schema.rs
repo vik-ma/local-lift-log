@@ -15,5 +15,6 @@ diesel::table! {
     user_settings (id) {
         id -> Integer,
         show_timestamp_on_completed_set -> Bool,
+        active_routine_id -> Integer,
     }
 }
