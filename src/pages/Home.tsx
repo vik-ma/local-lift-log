@@ -1,6 +1,22 @@
 import { useState, useEffect } from "react";
 import { invoke } from "@tauri-apps/api";
-import { Checkbox } from "@nextui-org/react";
+import { Checkbox, Button } from "@nextui-org/react";
+import Database from "tauri-plugin-sql-api";
+
+const addRoutine = async () => {
+  const db = await Database.load("sqlite:local_lift_log_db.sqlite");
+
+  try {
+    const result = await db.execute(
+      "INSERT into routines (name, is_schedule_weekly, num_days_in_schedule) VALUES ($1, $2, $3)",
+      ["test", true, 7]
+    );
+
+    console.log("Success:", result);
+  } catch (error) {
+    console.error("Error:", error);
+  }
+};
 
 export default function HomePage() {
   const [greeting, setGreeting] = useState<string>("");
@@ -24,6 +40,14 @@ export default function HomePage() {
           </h1>
         </div>
         <Checkbox defaultSelected>Option</Checkbox>
+        <Button
+          className="text-lg"
+          size="lg"
+          color="primary"
+          onClick={addRoutine}
+        >
+          Test
+        </Button>
       </div>
     </>
   );
