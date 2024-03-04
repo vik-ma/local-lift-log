@@ -4,7 +4,9 @@ import { Checkbox, Button } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
 
 const addRoutine = async () => {
-  const db = await Database.load("sqlite:local_lift_log_db.sqlite");
+  const databaseUrl: string = import.meta.env.VITE_DATABASE_URL_FULL;
+
+  const db = await Database.load(databaseUrl);
 
   try {
     const result = await db.execute(
