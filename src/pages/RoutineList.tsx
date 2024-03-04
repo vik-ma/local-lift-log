@@ -1,8 +1,40 @@
 import { Button, Input } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import { ChangeEvent, useState } from "react";
+import Database from "tauri-plugin-sql-api";
+
+type Routine = {
+  id: number;
+  name: string;
+  note?: string | null;
+  is_schedule_weekly: boolean;
+  num_days_in_schedule: number;
+  custom_schedule_start_date?: string | null;
+};
 
 export default function RoutineListPage() {
+  const getRoutines = async () => {
+    try {
+      const databaseUrl: string = import.meta.env.VITE_DATABASE_URL_FULL;
+      const db = await Database.load(databaseUrl);
+
+      const result = await db.select<Routine[]>("SELECT * FROM routines");
+
+      const routines: Routine[] = result.map((row) => ({
+        id: row.id,
+        name: row.name,
+        note: row.note,
+        is_schedule_weekly: row.is_schedule_weekly,
+        num_days_in_schedule: row.num_days_in_schedule,
+        custom_schedule_start_date: row.custom_schedule_start_date,
+      }));
+
+      setRoutines(routines);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState<string>("");
 
@@ -15,6 +47,8 @@ export default function RoutineListPage() {
 
     navigate(`/routines/${inputValue}`);
   };
+
+  const [routines, setRoutines] = useState<Routine[]>([]);
 
   return (
     <>
@@ -39,6 +73,21 @@ export default function RoutineListPage() {
           >
             OK
           </Button>
+        </div>
+        <div className="flex flex-row gap-2 items-center">
+          <Button
+            className="text-lg"
+            size="lg"
+            color="primary"
+            onClick={getRoutines}
+          >
+            Get Routines
+          </Button>
+          <div>
+            {routines.map((routine, index) => (
+              <h1 key={`routine-${index}`}>{routine.name}</h1>
+            ))}
+          </div>
         </div>
       </div>
     </>
