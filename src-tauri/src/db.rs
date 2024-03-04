@@ -1,8 +1,10 @@
 use dotenvy::dotenv;
+use tauri::api::path;
 
 use std::env;
 use std::fs;
 use std::path::Path;
+use std::path::PathBuf;
 
 use diesel::prelude::*;
 use diesel::sqlite::SqliteConnection;
@@ -47,10 +49,14 @@ fn db_file_exists() -> bool {
 }
 
 fn get_db_path() -> String {
-    let module_path = std::module_path!();
-    let parent_dir = Path::new(&module_path).parent().unwrap();
+    let config_dir = path::config_dir().unwrap();
+    let app_dir = "local-lift-log";
     let filename = get_filename();
-    let db_path = parent_dir.join(filename);
+
+    let mut db_path = PathBuf::from(&config_dir);
+    db_path.push(app_dir);
+    db_path.push(filename);
+
     db_path.to_str().unwrap().to_string()
 }
 
