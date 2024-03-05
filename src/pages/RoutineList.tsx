@@ -1,4 +1,4 @@
-import { Button, Input } from "@nextui-org/react";
+import { Button, Input, Link } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import { ChangeEvent, useState, useEffect } from "react";
 import { Routine } from "../typings";
@@ -36,16 +36,12 @@ export default function RoutineListPage() {
     getRoutines();
   }, [db]);
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
-  };
-
   const handleButtonClick = () => {
     if (inputValue === "") return;
 
-    const routine : Routine = routines[0];
+    const routine: Routine = routines[0];
 
-    navigate(`/routines/${inputValue}`, {state:{routine: routine}});
+    navigate(`/routines/${inputValue}`, { state: { routine: routine } });
   };
 
   return (
@@ -56,28 +52,17 @@ export default function RoutineListPage() {
             Routines
           </h1>
         </div>
-        <div className="flex flex-row gap-2 items-center">
-          <Input
-            type="text"
-            label="Id"
-            placeholder="Enter Routine Id"
-            onChange={handleInputChange}
-          />
-          <Button
-            className="text-lg"
-            size="lg"
-            color="primary"
-            onClick={handleButtonClick}
-          >
-            OK
-          </Button>
-        </div>
-        <div className="flex flex-row gap-2 items-center">
-          <div>
-            {routines.map((routine, index) => (
-              <h1 key={`routine-${index}`}>{routine.name}</h1>
-            ))}
-          </div>
+        <div className="flex flex-col gap-2 items-stretch">
+          {routines.map((routine, index) => (
+            <Button
+              className="text-lg"
+              size="lg"
+              color="primary"
+              key={`routine-${index}`}
+            >
+              {routine.name}
+            </Button>
+          ))}
         </div>
       </div>
     </>
