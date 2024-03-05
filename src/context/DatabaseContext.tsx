@@ -3,13 +3,11 @@ import { createContext } from "react";
 import { UserSettings } from "../typings";
 
 type DatabaseContextProps = {
-    db: Database | null;
-    isDatabaseLoaded: boolean;
-    userSettings: UserSettings | null;
-  };
-  
-  export const DatabaseContext = createContext<DatabaseContextProps>({
-    db: null,
-    isDatabaseLoaded: false,
-    userSettings: null,
-  });
+  db: Database | null;
+  userSettings: UserSettings | null;
+};
+
+export const DatabaseContext = createContext<DatabaseContextProps>({
+  db: null,
+  userSettings: null,
+});

@@ -9,7 +9,6 @@ export const DatabaseContextProvider = ({
   children: ReactNode;
 }) => {
   const [db, setDb] = useState<Database | null>(null);
-  const [isDatabaseLoaded, setIsDatabaseLoaded] = useState<boolean>(false);
   const [userSettings, setUserSettings] = useState<UserSettings | null>(null);
 
   useEffect(() => {
@@ -19,10 +18,8 @@ export const DatabaseContextProvider = ({
       try {
         const db = await Database.load(databaseUrl);
         setDb(db);
-        setIsDatabaseLoaded(true);
       } catch (error) {
         console.log(error);
-        setIsDatabaseLoaded(false);
       }
     };
 
@@ -30,14 +27,15 @@ export const DatabaseContextProvider = ({
   }, []);
 
   useEffect(() => {
-    if (!isDatabaseLoaded) return;
-  }, [isDatabaseLoaded]);
+    if (db === null) return;
+
+    
+  }, [db]);
 
   return (
     <DatabaseContext.Provider
       value={{
         db,
-        isDatabaseLoaded,
         userSettings,
       }}
     >
