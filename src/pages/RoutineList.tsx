@@ -49,11 +49,10 @@ export default function RoutineListPage() {
             Routines
           </h1>
         </div>
-        <div className="flex flex-col gap-2 items-stretch">
+        <div className="flex flex-col gap-1.5 items-stretch">
           {routines.map((routine, index) => (
             <Button
-              className="text-lg"
-              size="lg"
+              className="text-lg font-medium"
               color="primary"
               key={`routine-${index}`}
               onClick={() => handleRoutineButtonClick(routine)}
