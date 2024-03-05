@@ -1,6 +1,6 @@
 import { Button, Input } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState, useEffect } from "react";
 import { Routine } from "../typings";
 import { useDatabaseContext } from "../context/useDatabaseContext";
 
@@ -11,26 +11,30 @@ export default function RoutineListPage() {
 
   const { db } = useDatabaseContext();
 
-  const getRoutines = async () => {
-    try {
-      if (db === null) throw new Error("Database is not loaded!");
+  useEffect(() => {
+    const getRoutines = async () => {
+      try {
+        if (db === null) throw new Error("Database is not loaded!");
 
-      const result = await db.select<Routine[]>("SELECT * FROM routines");
+        const result = await db.select<Routine[]>("SELECT * FROM routines");
 
-      const routines: Routine[] = result.map((row) => ({
-        id: row.id,
-        name: row.name,
-        note: row.note,
-        is_schedule_weekly: row.is_schedule_weekly,
-        num_days_in_schedule: row.num_days_in_schedule,
-        custom_schedule_start_date: row.custom_schedule_start_date,
-      }));
+        const routines: Routine[] = result.map((row) => ({
+          id: row.id,
+          name: row.name,
+          note: row.note,
+          is_schedule_weekly: row.is_schedule_weekly,
+          num_days_in_schedule: row.num_days_in_schedule,
+          custom_schedule_start_date: row.custom_schedule_start_date,
+        }));
 
-      setRoutines(routines);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+        setRoutines(routines);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getRoutines();
+  }, [db]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -67,14 +71,6 @@ export default function RoutineListPage() {
           </Button>
         </div>
         <div className="flex flex-row gap-2 items-center">
-          <Button
-            className="text-lg"
-            size="lg"
-            color="primary"
-            onClick={getRoutines}
-          >
-            Get Routines
-          </Button>
           <div>
             {routines.map((routine, index) => (
               <h1 key={`routine-${index}`}>{routine.name}</h1>
