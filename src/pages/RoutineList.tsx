@@ -2,15 +2,7 @@ import { Button, Input } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import { ChangeEvent, useState } from "react";
 import Database from "tauri-plugin-sql-api";
-
-type Routine = {
-  id: number;
-  name: string;
-  note?: string | null;
-  is_schedule_weekly: boolean;
-  num_days_in_schedule: number;
-  custom_schedule_start_date?: string | null;
-};
+import { Routine } from "../typings";
 
 export default function RoutineListPage() {
   const getRoutines = async () => {
