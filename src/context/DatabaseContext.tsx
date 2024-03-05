@@ -28,6 +28,7 @@ export const DatabaseContextProvider = ({
         setDb(db);
         setIsDatabaseLoaded(true);
       } catch (error) {
+        console.log(error);
         setIsDatabaseLoaded(false);
       }
     };

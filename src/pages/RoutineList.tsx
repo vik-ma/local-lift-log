@@ -1,14 +1,19 @@
 import { Button, Input } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import { ChangeEvent, useState } from "react";
-import Database from "tauri-plugin-sql-api";
 import { Routine } from "../typings";
+import { useDatabaseContext } from "../context/useDatabaseContext";
 
 export default function RoutineListPage() {
+  const navigate = useNavigate();
+  const [inputValue, setInputValue] = useState<string>("");
+  const [routines, setRoutines] = useState<Routine[]>([]);
+
+  const { db } = useDatabaseContext();
+
   const getRoutines = async () => {
     try {
-      const databaseUrl: string = import.meta.env.VITE_DATABASE_URL_FULL;
-      const db = await Database.load(databaseUrl);
+      if (db === null) throw new Error("Database is not loaded!");
 
       const result = await db.select<Routine[]>("SELECT * FROM routines");
 
@@ -27,9 +32,6 @@ export default function RoutineListPage() {
     }
   };
 
-  const navigate = useNavigate();
-  const [inputValue, setInputValue] = useState<string>("");
-
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
@@ -39,8 +41,6 @@ export default function RoutineListPage() {
 
     navigate(`/routines/${inputValue}`);
   };
-
-  const [routines, setRoutines] = useState<Routine[]>([]);
 
   return (
     <>
