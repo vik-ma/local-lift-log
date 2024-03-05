@@ -43,7 +43,9 @@ export default function RoutineListPage() {
   const handleButtonClick = () => {
     if (inputValue === "") return;
 
-    navigate(`/routines/${inputValue}`);
+    const routine : Routine = routines[0];
+
+    navigate(`/routines/${inputValue}`, {state:{routine: routine}});
   };
 
   return (
