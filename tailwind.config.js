@@ -24,9 +24,9 @@ export default {
         light: {
           colors: {
             primary: {
-              DEFAULT: "#ffa44f",
+              DEFAULT: "#ffb34f",
             },
-            focus: "#ffa44f",
+            focus: "#ffb34f",
           },
         },
       },
