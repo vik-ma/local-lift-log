@@ -1,12 +1,11 @@
-import { Button, Input, Link } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
-import { ChangeEvent, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Routine } from "../typings";
 import { useDatabaseContext } from "../context/useDatabaseContext";
 
 export default function RoutineListPage() {
   const navigate = useNavigate();
-  const [inputValue, setInputValue] = useState<string>("");
   const [routines, setRoutines] = useState<Routine[]>([]);
 
   const { db } = useDatabaseContext();
@@ -36,12 +35,10 @@ export default function RoutineListPage() {
     getRoutines();
   }, [db]);
 
-  const handleButtonClick = () => {
-    if (inputValue === "") return;
+  const handleRoutineButtonClick = (routine: Routine) => {
+    if (routine === null) return;
 
-    const routine: Routine = routines[0];
-
-    navigate(`/routines/${inputValue}`, { state: { routine: routine } });
+    navigate(`/routines/${routine.id}`, { state: { routine: routine } });
   };
 
   return (
@@ -59,6 +56,7 @@ export default function RoutineListPage() {
               size="lg"
               color="primary"
               key={`routine-${index}`}
+              onClick={() => handleRoutineButtonClick(routine)}
             >
               {routine.name}
             </Button>
