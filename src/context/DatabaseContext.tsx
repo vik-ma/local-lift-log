@@ -1,14 +1,17 @@
 import { createContext, useState, useEffect, ReactNode } from "react";
 import Database from "tauri-plugin-sql-api";
+import { UserSettings } from "../typings";
 
 type DatabaseContextProps = {
   db: Database | null;
   isDatabaseLoaded: boolean;
+  userSettings: UserSettings | null;
 };
 
 export const DatabaseContext = createContext<DatabaseContextProps>({
   db: null,
   isDatabaseLoaded: false,
+  userSettings: null,
 });
 
 export const DatabaseContextProvider = ({
@@ -18,6 +21,7 @@ export const DatabaseContextProvider = ({
 }) => {
   const [db, setDb] = useState<Database | null>(null);
   const [isDatabaseLoaded, setIsDatabaseLoaded] = useState<boolean>(false);
+  const [userSettings, setUserSettings] = useState<UserSettings | null>(null);
 
   useEffect(() => {
     const loadDatabase = async () => {
@@ -36,11 +40,16 @@ export const DatabaseContextProvider = ({
     loadDatabase();
   }, []);
 
+  useEffect(() => {
+    if (!isDatabaseLoaded) return;
+  }, [isDatabaseLoaded]);
+
   return (
     <DatabaseContext.Provider
       value={{
         db,
         isDatabaseLoaded,
+        userSettings,
       }}
     >
       {children}
