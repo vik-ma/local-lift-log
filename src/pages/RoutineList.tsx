@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Routine, UserSettings } from "../typings";
 import { useDatabaseContext } from "../context/useDatabaseContext";
+import UpdateUserSettings from "../helpers/UpdateUserSettings";
 
 export default function RoutineListPage() {
   const navigate = useNavigate();
@@ -41,7 +42,7 @@ export default function RoutineListPage() {
     navigate(`/routines/${routine.id}`, { state: { routine: routine } });
   };
 
-  const handleSetActiveButtonClick = (routine: Routine) => {
+  const handleSetActiveButtonClick = async (routine: Routine) => {
     if (userSettings === null || routine.id === userSettings.active_routine_id)
       return;
 
@@ -49,7 +50,9 @@ export default function RoutineListPage() {
       ...userSettings,
       active_routine_id: routine.id,
     };
+
     setUserSettings(updatedSettings);
+    await UpdateUserSettings({ userSettings: updatedSettings, db: db! });
   };
 
   return (
