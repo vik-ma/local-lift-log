@@ -69,9 +69,8 @@ export default function RoutineListPage() {
     onOpen();
   };
 
-  const deleteRoutine = () => {
+  const deleteRoutine = async () => {
     if (routineToDelete === null) return;
-    console.log("asd");
 
     try {
       if (db === null) return;
@@ -82,6 +81,16 @@ export default function RoutineListPage() {
         (item) => item.id !== routineToDelete?.id
       );
       setRoutines(updatedRoutines);
+
+      if (routineToDelete.id === userSettings?.active_routine_id) {
+        const updatedSettings: UserSettings = {
+          ...userSettings,
+          active_routine_id: 0,
+        };
+
+        setUserSettings(updatedSettings);
+        await UpdateUserSettings({ userSettings: updatedSettings, db: db! });
+      }
     } catch (error) {
       console.log(error);
     }
