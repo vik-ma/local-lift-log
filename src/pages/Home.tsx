@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { invoke } from "@tauri-apps/api";
 import { Checkbox, Button } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
+import { useDatabaseContext } from "../context/useDatabaseContext";
 
 const addRoutine = async () => {
   const databaseUrl: string = import.meta.env.VITE_DATABASE_URL_FULL;
@@ -33,6 +34,8 @@ export default function HomePage() {
     getGreeting();
   }, []);
 
+  const {userSettings} = useDatabaseContext();
+
   return (
     <>
       <div className="flex flex-col items-center gap-2">
@@ -50,6 +53,7 @@ export default function HomePage() {
         >
           Test
         </Button>
+        <p>{userSettings?.id}</p>
       </div>
     </>
   );

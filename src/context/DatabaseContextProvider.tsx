@@ -35,7 +35,10 @@ export const DatabaseContextProvider = ({
           "SELECT * FROM user_settings LIMIT 1"
         );
 
-        if (result.length !== 1) {
+        if (result.length === 1) {
+          const userSettings: UserSettings = result[0];
+          setUserSettings(userSettings);
+        } else {
           await createDefaultUserSettings();
         }
       } catch (error) {
