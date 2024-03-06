@@ -78,6 +78,7 @@ export const DatabaseContextProvider = ({
       value={{
         db,
         userSettings,
+        setUserSettings,
       }}
     >
       {children}
