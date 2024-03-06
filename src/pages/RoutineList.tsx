@@ -55,6 +55,23 @@ export default function RoutineListPage() {
     await UpdateUserSettings({ userSettings: updatedSettings, db: db! });
   };
 
+  const handleDeleteButtonClick = async (routine: Routine) => {
+    if (routine === null) return;
+
+    try {
+      if (db === null) return;
+
+      db.execute("DELETE from routines WHERE id = $1", [routine.id]);
+
+      const updatedRoutines: Routine[] = routines.filter(
+        (item) => item.id !== routine.id
+      );
+      setRoutines(updatedRoutines);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <div className="flex flex-col gap-4">
@@ -89,7 +106,12 @@ export default function RoutineListPage() {
               >
                 Set Active
               </Button>
-              <Button color="danger">Delete</Button>
+              <Button
+                color="danger"
+                onClick={() => handleDeleteButtonClick(routine)}
+              >
+                Delete
+              </Button>
             </div>
           ))}
         </div>
