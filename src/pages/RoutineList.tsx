@@ -1,19 +1,19 @@
 import { Button } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { Routine } from "../typings";
+import { Routine, UserSettings } from "../typings";
 import { useDatabaseContext } from "../context/useDatabaseContext";
 
 export default function RoutineListPage() {
   const navigate = useNavigate();
   const [routines, setRoutines] = useState<Routine[]>([]);
 
-  const { db } = useDatabaseContext();
+  const { db, userSettings, setUserSettings } = useDatabaseContext();
 
   useEffect(() => {
     const getRoutines = async () => {
       try {
-        if (db === null) throw new Error("Database is not loaded!");
+        if (db === null) return;
 
         const result = await db.select<Routine[]>("SELECT * FROM routines");
 
@@ -41,7 +41,16 @@ export default function RoutineListPage() {
     navigate(`/routines/${routine.id}`, { state: { routine: routine } });
   };
 
-  const { userSettings } = useDatabaseContext();
+  const handleSetActiveButtonClick = (routine: Routine) => {
+    if (userSettings === null || routine.id === userSettings.active_routine_id)
+      return;
+
+    const updatedSettings: UserSettings = {
+      ...userSettings,
+      active_routine_id: routine.id,
+    };
+    setUserSettings(updatedSettings);
+  };
 
   return (
     <>
@@ -70,9 +79,10 @@ export default function RoutineListPage() {
                 color="success"
                 variant={
                   userSettings?.active_routine_id === routine.id
-                    ? "faded"
-                    : "ghost"
+                    ? "flat"
+                    : "light"
                 }
+                onClick={() => handleSetActiveButtonClick(routine)}
               >
                 Set Active
               </Button>
