@@ -51,7 +51,7 @@ export default function RoutineListPage() {
     navigate(`/routines/${routine.id}`, { state: { routine: routine } });
   };
 
-  const handleSetActiveButtonClick = async (routine: Routine) => {
+  const handleSetActiveButtonClick = (routine: Routine) => {
     if (userSettings === null || routine.id === userSettings.active_routine_id)
       return;
 
@@ -60,8 +60,7 @@ export default function RoutineListPage() {
       active_routine_id: routine.id,
     };
 
-    setUserSettings(updatedSettings);
-    await UpdateUserSettings({ userSettings: updatedSettings, db: db! });
+    updateUserSettings(updatedSettings);
   };
 
   const handleDeleteButtonClick = (routine: Routine) => {
@@ -88,8 +87,7 @@ export default function RoutineListPage() {
           active_routine_id: 0,
         };
 
-        setUserSettings(updatedSettings);
-        await UpdateUserSettings({ userSettings: updatedSettings, db: db! });
+        updateUserSettings(updatedSettings);
       }
     } catch (error) {
       console.log(error);
@@ -97,6 +95,11 @@ export default function RoutineListPage() {
 
     setRoutineToDelete(null);
     onClose();
+  };
+
+  const updateUserSettings = async (updatedSettings: UserSettings) => {
+    setUserSettings(updatedSettings);
+    await UpdateUserSettings({ userSettings: updatedSettings, db: db! });
   };
 
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
