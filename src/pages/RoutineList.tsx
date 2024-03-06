@@ -41,6 +41,8 @@ export default function RoutineListPage() {
     navigate(`/routines/${routine.id}`, { state: { routine: routine } });
   };
 
+  const { userSettings } = useDatabaseContext();
+
   return (
     <>
       <div className="flex flex-col gap-4">
@@ -49,16 +51,33 @@ export default function RoutineListPage() {
             Routines
           </h1>
         </div>
-        <div className="flex flex-col gap-1.5 items-stretch">
+        <div className="flex flex-col gap-1.5">
           {routines.map((routine, index) => (
-            <Button
-              className="text-lg font-medium"
-              color="primary"
+            <div
+              className="flex flex-row justify-stretch gap-1"
               key={`routine-${index}`}
-              onClick={() => handleRoutineButtonClick(routine)}
             >
-              {routine.name}
-            </Button>
+              <div className="w-[200px]">
+                <Button
+                  className="w-full text-lg font-medium"
+                  color="primary"
+                  onClick={() => handleRoutineButtonClick(routine)}
+                >
+                  {routine.name}
+                </Button>
+              </div>
+              <Button
+                color="success"
+                variant={
+                  userSettings?.active_routine_id === routine.id
+                    ? "faded"
+                    : "ghost"
+                }
+              >
+                Set Active
+              </Button>
+              <Button color="danger">Delete</Button>
+            </div>
           ))}
         </div>
       </div>
