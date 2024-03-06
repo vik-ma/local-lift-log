@@ -29,7 +29,45 @@ export const DatabaseContextProvider = ({
   useEffect(() => {
     if (db === null) return;
 
-    
+    const getUserSettings = async () => {
+      try {
+        const result: UserSettings[] = await db.select(
+          "SELECT * FROM user_settings LIMIT 1"
+        );
+
+        if (result.length !== 1) {
+          await createDefaultUserSettings();
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const createDefaultUserSettings = async () => {
+      const show_timestamp_on_completed_set: boolean = false;
+      const active_routine_id: number = 0;
+
+      try {
+        const result = await db.execute(
+          "INSERT into user_settings (show_timestamp_on_completed_set, active_routine_id) VALUES ($1, $2)",
+          [show_timestamp_on_completed_set, active_routine_id]
+        );
+
+        const id: number = result.lastInsertId;
+
+        const userSettings: UserSettings = {
+          id: id,
+          show_timestamp_on_completed_set: show_timestamp_on_completed_set,
+          active_routine_id: active_routine_id,
+        };
+
+        setUserSettings(userSettings);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getUserSettings();
   }, [db]);
 
   return (
