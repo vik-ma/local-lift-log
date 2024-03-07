@@ -13,7 +13,7 @@ import {
   SelectItem,
 } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Routine, UserSettings } from "../typings";
 import { useDatabaseContext } from "../context/useDatabaseContext";
 import UpdateUserSettings from "../helpers/UpdateUserSettings";
@@ -81,25 +81,25 @@ export default function RoutineListPage() {
   const addRoutine = async () => {
     if (db === null) return;
 
-    try {
-      const newRoutine: Routine = {
-        id: 0,
-        name: "test",
-        is_schedule_weekly: true,
-        num_days_in_schedule: 7,
-      };
+    if (!isNewRoutineValid()) return;
 
+    try {
       const result = await db.execute(
-        "INSERT into routines (name, is_schedule_weekly, num_days_in_schedule) VALUES ($1, $2, $3)",
+        "INSERT into routines (name, note, is_schedule_weekly, num_days_in_schedule, custom_schedule_start_date) VALUES ($1, $2, $3, $4, $5)",
         [
           newRoutine.name,
+          newRoutine.note,
           newRoutine.is_schedule_weekly,
           newRoutine.num_days_in_schedule,
+          newRoutine.custom_schedule_start_date,
         ]
       );
 
       newRoutine.id = result.lastInsertId;
       setRoutines([...routines, newRoutine]);
+
+      newRoutineModal.onClose();
+      setNewRoutine(defaultNewRoutine);
 
       toast.success("Routine Created");
     } catch (error) {
@@ -154,16 +154,54 @@ export default function RoutineListPage() {
   const defaultNewRoutine: Routine = {
     id: 0,
     name: "",
+    note: null,
     is_schedule_weekly: true,
     num_days_in_schedule: 7,
+    custom_schedule_start_date: null,
   };
 
   const [newRoutine, setNewRoutine] = useState<Routine>(defaultNewRoutine);
 
+  const isNewRoutineNameInvalid = useMemo(() => {
+    return newRoutine.name === null || newRoutine.name.trim().length === 0;
+  }, [newRoutine.name]);
+
+  const isNewRoutineValid = () => {
+    if (newRoutine.name === null || newRoutine.name.trim().length === 0)
+      return false;
+
+    if (newRoutine.is_schedule_weekly && newRoutine.num_days_in_schedule !== 7)
+      return false;
+
+    if (
+      newRoutine.num_days_in_schedule < 2 ||
+      newRoutine.num_days_in_schedule > 14
+    )
+      return false;
+
+    return true;
+  };
+
   const handleScheduleTypeChange = (scheduleType: string) => {
-    if (scheduleType === "weekly")
-      setNewRoutine((prev) => ({ ...prev, is_schedule_weekly: true }));
-    else setNewRoutine((prev) => ({ ...prev, is_schedule_weekly: false }));
+    if (scheduleType === "weekly") {
+      setNewRoutine((prev) => ({
+        ...prev,
+        is_schedule_weekly: true,
+        num_days_in_schedule: 7,
+      }));
+    } else setNewRoutine((prev) => ({ ...prev, is_schedule_weekly: false }));
+  };
+
+  const handleNumDaysInScheduleChange = (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    if (newRoutine.is_schedule_weekly) return;
+
+    const numDays: number = parseInt(e.target.value);
+
+    if (isNaN(numDays) || numDays < 2 || numDays > 14) return;
+
+    setNewRoutine((prev) => ({ ...prev, num_days_in_schedule: numDays }));
   };
 
   return (
@@ -205,8 +243,27 @@ export default function RoutineListPage() {
                 New Routine
               </ModalHeader>
               <ModalBody>
-                <Input label="Name" variant="faded" isRequired />
-                <Input label="Note" variant="faded" />
+                <Input
+                  value={newRoutine.name}
+                  isInvalid={isNewRoutineNameInvalid}
+                  label="Name"
+                  errorMessage={
+                    isNewRoutineNameInvalid && "Name can't be empty"
+                  }
+                  variant="faded"
+                  onValueChange={(value) =>
+                    setNewRoutine((prev) => ({ ...prev, name: value }))
+                  }
+                  isRequired
+                />
+                <Input
+                  value={newRoutine.note!}
+                  label="Note"
+                  variant="faded"
+                  onValueChange={(value) =>
+                    setNewRoutine((prev) => ({ ...prev, note: value }))
+                  }
+                />
                 <div className="flex justify-between items-center px-1 gap-4">
                   <RadioGroup
                     value={newRoutine.is_schedule_weekly ? "weekly" : "custom"}
@@ -224,6 +281,8 @@ export default function RoutineListPage() {
                     label="Number of days in schedule"
                     labelPlacement="outside"
                     placeholder="Select number of days"
+                    selectedKeys={[newRoutine.num_days_in_schedule.toString()]}
+                    onChange={handleNumDaysInScheduleChange}
                     className={
                       newRoutine.is_schedule_weekly
                         ? "hidden max-w-[240px]"
@@ -242,7 +301,13 @@ export default function RoutineListPage() {
                 <Button color="success" variant="light" onPress={onClose}>
                   Close
                 </Button>
-                <Button color="success">Create</Button>
+                <Button
+                  color="success"
+                  onPress={addRoutine}
+                  isDisabled={isNewRoutineNameInvalid}
+                >
+                  Create
+                </Button>
               </ModalFooter>
             </>
           )}
