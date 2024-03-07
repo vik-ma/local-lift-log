@@ -12,6 +12,7 @@ import { useState, useEffect } from "react";
 import { Routine, UserSettings } from "../typings";
 import { useDatabaseContext } from "../context/useDatabaseContext";
 import UpdateUserSettings from "../helpers/UpdateUserSettings";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function RoutineListPage() {
   const navigate = useNavigate();
@@ -89,6 +90,8 @@ export default function RoutineListPage() {
 
         updateUserSettings(updatedSettings);
       }
+
+      toast.success("Routine Deleted", { duration: 1200 });
     } catch (error) {
       console.log(error);
     }
@@ -106,6 +109,7 @@ export default function RoutineListPage() {
 
   return (
     <>
+      <Toaster position="bottom-center" />
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           {(onClose) => (
