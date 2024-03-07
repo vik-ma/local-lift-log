@@ -151,6 +151,21 @@ export default function RoutineListPage() {
     (_, index) => index + 2
   );
 
+  const defaultNewRoutine: Routine = {
+    id: 0,
+    name: "",
+    is_schedule_weekly: true,
+    num_days_in_schedule: 7,
+  };
+
+  const [newRoutine, setNewRoutine] = useState<Routine>(defaultNewRoutine);
+
+  const handleScheduleTypeChange = (scheduleType: string) => {
+    if (scheduleType === "weekly")
+      setNewRoutine((prev) => ({ ...prev, is_schedule_weekly: true }));
+    else setNewRoutine((prev) => ({ ...prev, is_schedule_weekly: false }));
+  };
+
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
@@ -193,17 +208,27 @@ export default function RoutineListPage() {
                 <Input label="Name" variant="faded" isRequired />
                 <Input label="Note" variant="faded" />
                 <div className="flex justify-between items-center px-1 gap-4">
-                  <RadioGroup defaultValue="weekly" label="Schedule Type">
+                  <RadioGroup
+                    value={newRoutine.is_schedule_weekly ? "weekly" : "custom"}
+                    onValueChange={(value) => handleScheduleTypeChange(value)}
+                    defaultValue="weekly"
+                    label="Schedule Type"
+                  >
                     <Radio value="weekly">Weekly</Radio>
                     <Radio value="custom">Custom</Radio>
                   </RadioGroup>
                   <Select
+                    isRequired
                     size="lg"
                     variant="faded"
                     label="Number of days in schedule"
                     labelPlacement="outside"
                     placeholder="Select number of days"
-                    className="max-w-[240px]"
+                    className={
+                      newRoutine.is_schedule_weekly
+                        ? "hidden max-w-[240px]"
+                        : " max-w-[240px]"
+                    }
                   >
                     {numDaysInScheduleOptions.map((number) => (
                       <SelectItem key={number} value={number}>
