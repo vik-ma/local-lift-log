@@ -28,6 +28,7 @@ export default {
             },
             success: {
               DEFAULT: "#84cc16",
+              foreground: "#fff",
               600: "#84bd2f",
             },
             danger: {
