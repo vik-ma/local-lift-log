@@ -6,6 +6,11 @@ import {
   ModalBody,
   ModalFooter,
   useDisclosure,
+  Input,
+  Radio,
+  RadioGroup,
+  Select,
+  SelectItem,
 } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -141,6 +146,11 @@ export default function RoutineListPage() {
   const deleteModal = useDisclosure();
   const newRoutineModal = useDisclosure();
 
+  const numDaysInScheduleOptions: number[] = Array.from(
+    { length: 13 },
+    (_, index) => index + 2
+  );
+
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
@@ -180,13 +190,34 @@ export default function RoutineListPage() {
                 New Routine
               </ModalHeader>
               <ModalBody>
-                <p>asdasddas</p>
+                <Input label="Name" variant="faded" isRequired />
+                <Input label="Note" variant="faded" />
+                <div className="flex justify-between items-center px-1 gap-4">
+                  <RadioGroup defaultValue="weekly" label="Schedule Type">
+                    <Radio value="weekly">Weekly</Radio>
+                    <Radio value="custom">Custom</Radio>
+                  </RadioGroup>
+                  <Select
+                    size="lg"
+                    variant="faded"
+                    label="Number of days in schedule"
+                    labelPlacement="outside"
+                    placeholder="Select number of days"
+                    className="max-w-[240px]"
+                  >
+                    {numDaysInScheduleOptions.map((number) => (
+                      <SelectItem key={number} value={number}>
+                        {number.toString()}
+                      </SelectItem>
+                    ))}
+                  </Select>
+                </div>
               </ModalBody>
               <ModalFooter>
                 <Button color="success" variant="light" onPress={onClose}>
                   Close
                 </Button>
-                <Button color="success">Delete</Button>
+                <Button color="success">Create</Button>
               </ModalFooter>
             </>
           )}
