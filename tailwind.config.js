@@ -26,6 +26,13 @@ export default {
             primary: {
               DEFAULT: "#ffb34f",
             },
+            success: {
+              DEFAULT: "#84cc16",
+              600: "#84bd2f",
+            },
+            danger: {
+              DEFAULT: "#ef5844",
+            },
             focus: "#ffb34f",
           },
         },
