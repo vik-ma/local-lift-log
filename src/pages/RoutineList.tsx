@@ -66,7 +66,11 @@ export default function RoutineListPage() {
 
   const handleDeleteButtonPress = (routine: Routine) => {
     setRoutineToDelete(routine);
-    onOpen();
+    deleteModal.onOpen();
+  };
+
+  const handleCreateNewRoutineButtonPress = () => {
+    newRoutineModal.onOpen();
   };
 
   const addRoutine = async () => {
@@ -126,7 +130,7 @@ export default function RoutineListPage() {
     }
 
     setRoutineToDelete(null);
-    onClose();
+    deleteModal.onClose();
   };
 
   const updateUserSettings = async (updatedSettings: UserSettings) => {
@@ -134,12 +138,16 @@ export default function RoutineListPage() {
     await UpdateUserSettings({ userSettings: updatedSettings, db: db! });
   };
 
-  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
+  const deleteModal = useDisclosure();
+  const newRoutineModal = useDisclosure();
 
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Modal
+        isOpen={deleteModal.isOpen}
+        onOpenChange={deleteModal.onOpenChange}
+      >
         <ModalContent>
           {(onClose) => (
             <>
@@ -156,6 +164,29 @@ export default function RoutineListPage() {
                 <Button color="danger" onPress={deleteRoutine}>
                   Delete
                 </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
+      <Modal
+        isOpen={newRoutineModal.isOpen}
+        onOpenChange={newRoutineModal.onOpenChange}
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">
+                New Routine
+              </ModalHeader>
+              <ModalBody>
+                <p>asdasddas</p>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="success" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+                <Button color="success">Delete</Button>
               </ModalFooter>
             </>
           )}
@@ -207,7 +238,7 @@ export default function RoutineListPage() {
             className="text-lg font-medium"
             size="lg"
             color="success"
-            onPress={addRoutine}
+            onPress={handleCreateNewRoutineButtonPress}
           >
             Create New Routine
           </Button>
