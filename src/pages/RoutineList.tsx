@@ -69,6 +69,35 @@ export default function RoutineListPage() {
     onOpen();
   };
 
+  const addRoutine = async () => {
+    if (db === null) return;
+
+    try {
+      const newRoutine: Routine = {
+        id: 0,
+        name: "test",
+        is_schedule_weekly: true,
+        num_days_in_schedule: 7,
+      };
+
+      const result = await db.execute(
+        "INSERT into routines (name, is_schedule_weekly, num_days_in_schedule) VALUES ($1, $2, $3)",
+        [
+          newRoutine.name,
+          newRoutine.is_schedule_weekly,
+          newRoutine.num_days_in_schedule,
+        ]
+      );
+
+      newRoutine.id = result.lastInsertId;
+      setRoutines([...routines, newRoutine]);
+
+      toast.success("Routine Created");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const deleteRoutine = async () => {
     if (routineToDelete === null) return;
 
@@ -91,7 +120,7 @@ export default function RoutineListPage() {
         updateUserSettings(updatedSettings);
       }
 
-      toast.success("Routine Deleted", { duration: 1200 });
+      toast.success("Routine Deleted");
     } catch (error) {
       console.log(error);
     }
@@ -109,7 +138,7 @@ export default function RoutineListPage() {
 
   return (
     <>
-      <Toaster position="bottom-center" />
+      <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           {(onClose) => (
@@ -172,6 +201,16 @@ export default function RoutineListPage() {
               </Button>
             </div>
           ))}
+        </div>
+        <div className="flex justify-center">
+          <Button
+            className="text-lg font-medium"
+            size="lg"
+            color="success"
+            onPress={addRoutine}
+          >
+            Create New Routine
+          </Button>
         </div>
       </div>
     </>
