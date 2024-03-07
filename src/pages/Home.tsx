@@ -34,7 +34,7 @@ export default function HomePage() {
     getGreeting();
   }, []);
 
-  const {userSettings} = useDatabaseContext();
+  const { userSettings } = useDatabaseContext();
 
   return (
     <>
@@ -49,7 +49,7 @@ export default function HomePage() {
           className="text-lg"
           size="lg"
           color="primary"
-          onClick={addRoutine}
+          onPress={addRoutine}
         >
           Test
         </Button>

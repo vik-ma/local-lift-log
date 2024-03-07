@@ -45,13 +45,13 @@ export default function RoutineListPage() {
     getRoutines();
   }, [db]);
 
-  const handleRoutineButtonClick = (routine: Routine) => {
+  const handleRoutineButtonPress = (routine: Routine) => {
     if (routine === null) return;
 
     navigate(`/routines/${routine.id}`, { state: { routine: routine } });
   };
 
-  const handleSetActiveButtonClick = (routine: Routine) => {
+  const handleSetActiveButtonPress = (routine: Routine) => {
     if (userSettings === null || routine.id === userSettings.active_routine_id)
       return;
 
@@ -63,7 +63,7 @@ export default function RoutineListPage() {
     updateUserSettings(updatedSettings);
   };
 
-  const handleDeleteButtonClick = (routine: Routine) => {
+  const handleDeleteButtonPress = (routine: Routine) => {
     setRoutineToDelete(routine);
     onOpen();
   };
@@ -144,7 +144,7 @@ export default function RoutineListPage() {
                 <Button
                   className="w-full text-lg font-medium"
                   color="primary"
-                  onClick={() => handleRoutineButtonClick(routine)}
+                  onPress={() => handleRoutineButtonPress(routine)}
                 >
                   {routine.name}
                 </Button>
@@ -156,13 +156,13 @@ export default function RoutineListPage() {
                     ? "flat"
                     : "light"
                 }
-                onClick={() => handleSetActiveButtonClick(routine)}
+                onPress={() => handleSetActiveButtonPress(routine)}
               >
                 Set Active
               </Button>
               <Button
                 color="danger"
-                onClick={() => handleDeleteButtonClick(routine)}
+                onPress={() => handleDeleteButtonPress(routine)}
               >
                 Delete
               </Button>

@@ -25,7 +25,7 @@ export default function SiteHeader() {
             size="sm"
             variant="ghost"
             as={Link}
-            onClick={() => navigate(-1)}
+            onPress={() => navigate(-1)}
           >
             <ArrowLeftIcon />
           </Button>
@@ -35,7 +35,7 @@ export default function SiteHeader() {
             size="sm"
             variant="ghost"
             as={Link}
-            onClick={() => navigate(+1)}
+            onPress={() => navigate(+1)}
           >
             <ArrowRightIcon />
           </Button>
