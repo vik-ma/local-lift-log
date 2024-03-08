@@ -13,7 +13,7 @@ export const DatabaseContextProvider = ({
 
   useEffect(() => {
     const loadDatabase = async () => {
-      const databaseUrl: string = import.meta.env.VITE_DATABASE_URL_FULL;
+      const databaseUrl: string = import.meta.env.VITE_DB;
 
       try {
         const db = await Database.load(databaseUrl);
