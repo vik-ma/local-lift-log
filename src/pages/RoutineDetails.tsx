@@ -95,12 +95,14 @@ export default function RoutineDetailsPage() {
             variant="faded"
             onValueChange={(value) => setNewRoutineName(value)}
             isRequired
+            isClearable
           />
           <Input
             value={newRoutineNote!}
             label="Note"
             variant="faded"
             onValueChange={(value) => setNewRoutineNote(value)}
+            isClearable
           />
           <div className="flex justify-center gap-4">
             <Button color="danger" onPress={() => setIsEditing(false)}>

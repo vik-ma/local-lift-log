@@ -250,6 +250,7 @@ export default function RoutineListPage() {
                     setNewRoutine((prev) => ({ ...prev, name: value }))
                   }
                   isRequired
+                  isClearable
                 />
                 <Input
                   value={newRoutine.note!}
@@ -258,6 +259,7 @@ export default function RoutineListPage() {
                   onValueChange={(value) =>
                     setNewRoutine((prev) => ({ ...prev, note: value }))
                   }
+                  isClearable
                 />
                 <div className="flex justify-between items-center px-1 gap-4">
                   <RadioGroup
