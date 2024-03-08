@@ -63,6 +63,7 @@ export default function SiteHeader() {
             </DropdownTrigger>
           </NavbarItem>
           <DropdownMenu
+            aria-label="Dropdown menu with navigation to more pages"
             itemClasses={{
               base: "hover:text-[#404040] gap-4",
             }}
