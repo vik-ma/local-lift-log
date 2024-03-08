@@ -14,15 +14,15 @@ import {
 } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useMemo } from "react";
-import { Routine, UserSettings } from "../typings";
+import { Routine, RoutineListItem, UserSettings } from "../typings";
 import { useDatabaseContext } from "../context/useDatabaseContext";
 import UpdateUserSettings from "../helpers/UpdateUserSettings";
 import toast, { Toaster } from "react-hot-toast";
 
 export default function RoutineListPage() {
   const navigate = useNavigate();
-  const [routines, setRoutines] = useState<Routine[]>([]);
-  const [routineToDelete, setRoutineToDelete] = useState<Routine | null>(null);
+  const [routines, setRoutines] = useState<RoutineListItem[]>([]);
+  const [routineToDelete, setRoutineToDelete] = useState<RoutineListItem>();
 
   const { db, userSettings, setUserSettings } = useDatabaseContext();
 
@@ -31,15 +31,13 @@ export default function RoutineListPage() {
       try {
         if (db === null) return;
 
-        const result = await db.select<Routine[]>("SELECT * FROM routines");
+        const result = await db.select<Routine[]>(
+          "SELECT id, name FROM routines"
+        );
 
-        const routines: Routine[] = result.map((row) => ({
+        const routines: RoutineListItem[] = result.map((row) => ({
           id: row.id,
           name: row.name,
-          note: row.note,
-          is_schedule_weekly: row.is_schedule_weekly,
-          num_days_in_schedule: row.num_days_in_schedule,
-          custom_schedule_start_date: row.custom_schedule_start_date,
         }));
 
         setRoutines(routines);
@@ -51,13 +49,7 @@ export default function RoutineListPage() {
     getRoutines();
   }, [db]);
 
-  const handleRoutineButtonPress = (routine: Routine) => {
-    if (routine === null) return;
-
-    navigate(`/routines/${routine.id}`);
-  };
-
-  const handleSetActiveButtonPress = (routine: Routine) => {
+  const handleSetActiveButtonPress = (routine: RoutineListItem) => {
     if (userSettings === null || routine.id === userSettings.active_routine_id)
       return;
 
@@ -69,7 +61,7 @@ export default function RoutineListPage() {
     updateUserSettings(updatedSettings);
   };
 
-  const handleDeleteButtonPress = (routine: Routine) => {
+  const handleDeleteButtonPress = (routine: RoutineListItem) => {
     setRoutineToDelete(routine);
     deleteModal.onOpen();
   };
@@ -108,14 +100,14 @@ export default function RoutineListPage() {
   };
 
   const deleteRoutine = async () => {
-    if (routineToDelete === null) return;
+    if (routineToDelete === undefined) return;
 
     try {
       if (db === null) return;
 
       db.execute("DELETE from routines WHERE id = $1", [routineToDelete.id]);
 
-      const updatedRoutines: Routine[] = routines.filter(
+      const updatedRoutines: RoutineListItem[] = routines.filter(
         (item) => item.id !== routineToDelete?.id
       );
       setRoutines(updatedRoutines);
@@ -134,7 +126,7 @@ export default function RoutineListPage() {
       console.log(error);
     }
 
-    setRoutineToDelete(null);
+    setRoutineToDelete(undefined);
     deleteModal.onClose();
   };
 
@@ -329,7 +321,7 @@ export default function RoutineListPage() {
                 <Button
                   className="w-full text-lg font-medium"
                   color="primary"
-                  onPress={() => handleRoutineButtonPress(routine)}
+                  onPress={() => navigate(`/routines/${routine.id}`)}
                 >
                   {routine.name}
                 </Button>

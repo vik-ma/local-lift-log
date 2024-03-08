@@ -7,6 +7,11 @@ export type Routine = {
   custom_schedule_start_date?: string | null;
 };
 
+export type RoutineListItem = {
+  id: number;
+  name: string;
+}
+
 export type UserSettings = {
   id: number;
   show_timestamp_on_completed_set: boolean;
