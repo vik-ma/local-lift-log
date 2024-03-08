@@ -19,17 +19,19 @@ function App() {
       <NextUIProvider navigate={navigate}>
         <SiteHeader />
         <main className="flex justify-center p-5">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/routines">
-              <Route index element={<RoutineListPage />} />
-              <Route path=":id" element={<RoutineDetailsPage />} />
-            </Route>
-            <Route path="/sets" element={<SetListPage />} />
-            <Route path="/exercises" element={<ExerciseListPage />} />
-            <Route path="/settings" element={<SettingsPage />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <div className="w-[400px]">
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/routines">
+                <Route index element={<RoutineListPage />} />
+                <Route path=":id" element={<RoutineDetailsPage />} />
+              </Route>
+              <Route path="/sets" element={<SetListPage />} />
+              <Route path="/exercises" element={<ExerciseListPage />} />
+              <Route path="/settings" element={<SettingsPage />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </div>
         </main>
       </NextUIProvider>
     </>
