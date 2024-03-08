@@ -5,7 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../state/store";
 import { UserSettings } from "../typings";
-import { addUserSettings } from "../state/user_settings/userSettingsSlice";
+import { updateUserSettings } from "../state/user_settings/userSettingsSlice";
+import UpdateUserSettings from "../helpers/UpdateUserSettings";
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ export default function HomePage() {
 
         if (result.length === 1) {
           const userSettings: UserSettings = result[0];
-          dispatch(addUserSettings(userSettings));
+          dispatch(updateUserSettings(userSettings));
         }
       } catch (error) {
         console.log(error);
@@ -52,7 +53,13 @@ export default function HomePage() {
   };
 
   const testFunction = async () => {
-    return;
+    const updatedSettings: UserSettings = {
+      ...userSettings!,
+      active_routine_id: 33,
+    };
+
+    dispatch(updateUserSettings(updatedSettings));
+    await UpdateUserSettings({ userSettings: updatedSettings });
   };
 
   return (
@@ -86,9 +93,10 @@ export default function HomePage() {
           color="primary"
           onPress={testFunction}
         >
-          Test
+          Update Settings
         </Button>
         <p>Settings Id: {userSettings?.id}</p>
+        <p>Active Routine Id: {userSettings?.active_routine_id}</p>
       </div>
     </div>
   );

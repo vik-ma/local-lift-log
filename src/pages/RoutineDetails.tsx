@@ -2,12 +2,11 @@ import { useParams } from "react-router-dom";
 import { Routine } from "../typings";
 import { useState, useMemo, useEffect } from "react";
 import { Button, Input } from "@nextui-org/react";
-import { useDatabaseContext } from "../context/useDatabaseContext";
 import { NotFound } from ".";
+import Database from "tauri-plugin-sql-api";
 
 export default function RoutineDetailsPage() {
   const { id } = useParams();
-  const { db } = useDatabaseContext();
   const [routine, setRoutine] = useState<Routine>();
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [newRoutineName, setNewRoutineName] = useState<string>("");
@@ -24,7 +23,7 @@ export default function RoutineDetailsPage() {
   useEffect(() => {
     const getRoutine = async () => {
       try {
-        if (db === null) return;
+        const db = await Database.load(import.meta.env.VITE_DB);
 
         const result = await db.select<Routine[]>(
           "SELECT * FROM routines WHERE id = $1",
@@ -43,16 +42,18 @@ export default function RoutineDetailsPage() {
     };
 
     getRoutine();
-  }, [id, db]);
+  }, [id]);
 
   const updateRoutineNoteAndName = async () => {
     if (isNewRoutineNameInvalid) return;
 
     try {
-      if (db === null || routine === undefined) return;
+      if (routine === undefined) return;
 
       const noteToInsert: string | null =
         newRoutineNote.trim().length === 0 ? null : newRoutineNote;
+
+      const db = await Database.load(import.meta.env.VITE_DB);
 
       await db.execute(
         "UPDATE routines SET name = $1, note = $2 WHERE id = $3",

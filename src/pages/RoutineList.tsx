@@ -15,14 +15,23 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useMemo } from "react";
 import { Routine, RoutineListItem, UserSettings } from "../typings";
-import { useDatabaseContext } from "../context/useDatabaseContext";
 import UpdateUserSettings from "../helpers/UpdateUserSettings";
 import toast, { Toaster } from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../state/store";
+import Database from "tauri-plugin-sql-api";
+import { updateUserSettings } from "../state/user_settings/userSettingsSlice";
 
 export default function RoutineListPage() {
-  const navigate = useNavigate();
   const [routines, setRoutines] = useState<RoutineListItem[]>([]);
   const [routineToDelete, setRoutineToDelete] = useState<RoutineListItem>();
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const userSettings = useSelector(
+    (state: RootState) => state.userSettings.userSettings
+  );
 
   const defaultNewRoutine: Routine = {
     id: 0,
@@ -40,15 +49,13 @@ export default function RoutineListPage() {
     (_, index) => index + 2
   );
 
-  const { db, userSettings, setUserSettings } = useDatabaseContext();
-
   const deleteModal = useDisclosure();
   const newRoutineModal = useDisclosure();
 
   useEffect(() => {
     const getRoutines = async () => {
       try {
-        if (db === null) return;
+        const db = await Database.load(import.meta.env.VITE_DB);
 
         const result = await db.select<Routine[]>(
           "SELECT id, name FROM routines"
@@ -66,10 +73,13 @@ export default function RoutineListPage() {
     };
 
     getRoutines();
-  }, [db]);
+  }, []);
 
-  const handleSetActiveButtonPress = (routine: RoutineListItem) => {
-    if (userSettings === null || routine.id === userSettings.active_routine_id)
+  const handleSetActiveButtonPress = async (routine: RoutineListItem) => {
+    if (
+      userSettings === undefined ||
+      routine.id === userSettings.active_routine_id
+    )
       return;
 
     const updatedSettings: UserSettings = {
@@ -77,7 +87,8 @@ export default function RoutineListPage() {
       active_routine_id: routine.id,
     };
 
-    updateUserSettings(updatedSettings);
+    await UpdateUserSettings({ userSettings: updatedSettings });
+    dispatch(updateUserSettings(updatedSettings));
   };
 
   const handleDeleteButtonPress = (routine: RoutineListItem) => {
@@ -90,11 +101,11 @@ export default function RoutineListPage() {
   };
 
   const addRoutine = async () => {
-    if (db === null) return;
-
     if (!isNewRoutineValid()) return;
 
     try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
       const result = await db.execute(
         "INSERT into routines (name, note, is_schedule_weekly, num_days_in_schedule, custom_schedule_start_date) VALUES ($1, $2, $3, $4, $5)",
         [
@@ -125,7 +136,7 @@ export default function RoutineListPage() {
     if (routineToDelete === undefined) return;
 
     try {
-      if (db === null) return;
+      const db = await Database.load(import.meta.env.VITE_DB);
 
       db.execute("DELETE from routines WHERE id = $1", [routineToDelete.id]);
 
@@ -140,7 +151,8 @@ export default function RoutineListPage() {
           active_routine_id: 0,
         };
 
-        updateUserSettings(updatedSettings);
+        await UpdateUserSettings({ userSettings: updatedSettings });
+        dispatch(updateUserSettings(updatedSettings));
       }
 
       toast.success("Routine Deleted");
@@ -150,11 +162,6 @@ export default function RoutineListPage() {
 
     setRoutineToDelete(undefined);
     deleteModal.onClose();
-  };
-
-  const updateUserSettings = async (updatedSettings: UserSettings) => {
-    setUserSettings(updatedSettings);
-    await UpdateUserSettings({ userSettings: updatedSettings, db: db! });
   };
 
   const isNewRoutineNameInvalid = useMemo(() => {
@@ -361,6 +368,7 @@ export default function RoutineListPage() {
             Create New Routine
           </Button>
         </div>
+        <p>{userSettings?.active_routine_id}</p>
       </div>
     </>
   );
