@@ -54,7 +54,7 @@ export default function RoutineListPage() {
   const handleRoutineButtonPress = (routine: Routine) => {
     if (routine === null) return;
 
-    navigate(`/routines/${routine.id}`, { state: { routine: routine } });
+    navigate(`/routines/${routine.id}`);
   };
 
   const handleSetActiveButtonPress = (routine: Routine) => {
