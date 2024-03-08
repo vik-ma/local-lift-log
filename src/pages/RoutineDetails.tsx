@@ -2,6 +2,7 @@ import { useLocation } from "react-router-dom";
 import { Routine } from "../typings";
 import { useState, useMemo } from "react";
 import { Button, Input } from "@nextui-org/react";
+import { useDatabaseContext } from "../context/useDatabaseContext";
 
 export default function RoutineDetailsPage() {
   const location = useLocation();
@@ -9,22 +10,47 @@ export default function RoutineDetailsPage() {
   const [routine, setRoutine] = useState<Routine>(state);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [newRoutineName, setNewRoutineName] = useState<string>(routine.name);
-  const [newRoutineNote, setNewRoutineNote] = useState<
-    string | null | undefined
-  >(routine.note);
+  const [newRoutineNote, setNewRoutineNote] = useState<string>(
+    typeof routine.note === "string" ? routine.note : ""
+  );
+  const { db } = useDatabaseContext();
 
   const isNewRoutineNameInvalid = useMemo(() => {
     return newRoutineName === null || newRoutineName.trim().length === 0;
   }, [newRoutineName]);
 
+  const updateRoutineNoteAndName = async () => {
+    if (isNewRoutineNameInvalid) return;
+
+    try {
+      if (db === null) return;
+
+      const noteToInsert: string | null =
+        newRoutineNote.trim().length === 0 ? null : newRoutineNote;
+
+      await db.execute(
+        "UPDATE routines SET name = $1, note = $2 WHERE id = $3",
+        [newRoutineName, noteToInsert, routine.id]
+      );
+
+      setRoutine((prev) => ({
+        ...prev,
+        name: newRoutineName,
+        note: newRoutineNote,
+      }));
+
+      setIsEditing(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <div className="flex flex-col gap-4 w-56">
-      <div className="flex justify-center items-center">
-        <div className="bg-neutral-900 px-6 py-4 rounded-xl w-fit">
-          <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b">
-            {routine.name}
-          </h1>
-        </div>
+    <div className="flex flex-col gap-4 w-[400px]">
+      <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">
+        <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b">
+          {routine.name}
+        </h1>
       </div>
       <div>
         <h2 className="text-xl px-1">
@@ -52,7 +78,7 @@ export default function RoutineDetailsPage() {
             <Button color="danger" onPress={() => setIsEditing(false)}>
               Cancel
             </Button>
-            <Button color="success" onPress={() => {}}>
+            <Button color="success" onPress={updateRoutineNoteAndName}>
               Save
             </Button>
           </div>
