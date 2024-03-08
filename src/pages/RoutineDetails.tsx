@@ -8,13 +8,17 @@ import { NotFound } from ".";
 export default function RoutineDetailsPage() {
   const { id } = useParams();
   const { db } = useDatabaseContext();
-  const [routine, setRoutine] = useState<Routine | undefined>();
+  const [routine, setRoutine] = useState<Routine>();
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [newRoutineName, setNewRoutineName] = useState<string>("");
   const [newRoutineNote, setNewRoutineNote] = useState<string>("");
 
   const isNewRoutineNameInvalid = useMemo(() => {
-    return newRoutineName === null || newRoutineName.trim().length === 0;
+    return (
+      newRoutineName === null ||
+      newRoutineName === undefined ||
+      newRoutineName.trim().length === 0
+    );
   }, [newRoutineName]);
 
   useEffect(() => {
@@ -67,7 +71,7 @@ export default function RoutineDetailsPage() {
     }
   };
 
-  if (typeof routine === "undefined") return NotFound();
+  if (routine === undefined) return NotFound();
 
   return (
     <div className="flex flex-col gap-4">
