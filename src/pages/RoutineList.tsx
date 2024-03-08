@@ -24,7 +24,26 @@ export default function RoutineListPage() {
   const [routines, setRoutines] = useState<RoutineListItem[]>([]);
   const [routineToDelete, setRoutineToDelete] = useState<RoutineListItem>();
 
+  const defaultNewRoutine: Routine = {
+    id: 0,
+    name: "",
+    note: null,
+    is_schedule_weekly: true,
+    num_days_in_schedule: 7,
+    custom_schedule_start_date: null,
+  };
+
+  const [newRoutine, setNewRoutine] = useState<Routine>(defaultNewRoutine);
+
+  const numDaysInScheduleOptions: number[] = Array.from(
+    { length: 13 },
+    (_, index) => index + 2
+  );
+
   const { db, userSettings, setUserSettings } = useDatabaseContext();
+
+  const deleteModal = useDisclosure();
+  const newRoutineModal = useDisclosure();
 
   useEffect(() => {
     const getRoutines = async () => {
@@ -87,8 +106,11 @@ export default function RoutineListPage() {
         ]
       );
 
-      newRoutine.id = result.lastInsertId;
-      setRoutines([...routines, newRoutine]);
+      const newRoutineListItem: RoutineListItem = {
+        id: result.lastInsertId,
+        name: newRoutine.name,
+      };
+      setRoutines([...routines, newRoutineListItem]);
 
       newRoutineModal.onClose();
       setNewRoutine(defaultNewRoutine);
@@ -134,25 +156,6 @@ export default function RoutineListPage() {
     setUserSettings(updatedSettings);
     await UpdateUserSettings({ userSettings: updatedSettings, db: db! });
   };
-
-  const deleteModal = useDisclosure();
-  const newRoutineModal = useDisclosure();
-
-  const numDaysInScheduleOptions: number[] = Array.from(
-    { length: 13 },
-    (_, index) => index + 2
-  );
-
-  const defaultNewRoutine: Routine = {
-    id: 0,
-    name: "",
-    note: null,
-    is_schedule_weekly: true,
-    num_days_in_schedule: 7,
-    custom_schedule_start_date: null,
-  };
-
-  const [newRoutine, setNewRoutine] = useState<Routine>(defaultNewRoutine);
 
   const isNewRoutineNameInvalid = useMemo(() => {
     return newRoutine.name === null || newRoutine.name.trim().length === 0;
