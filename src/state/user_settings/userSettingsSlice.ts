@@ -31,7 +31,7 @@ const userSettingsSlice = createSlice({
 export const updateUserSettingsAsync = createAsyncThunk(
   "userSettings/updateUserSettingsAsync",
   async (userSettings: UserSettings) => {
-    await UpdateUserSettings({ userSettings: userSettings });
+    await UpdateUserSettings(userSettings);
     return userSettings;
   }
 );

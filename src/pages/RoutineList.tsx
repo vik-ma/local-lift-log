@@ -16,17 +16,15 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useMemo } from "react";
 import { Routine, RoutineListItem, UserSettings } from "../typings";
 import toast, { Toaster } from "react-hot-toast";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../state/store";
 import Database from "tauri-plugin-sql-api";
-import { updateUserSettingsAsync } from "../state/user_settings/userSettingsSlice";
+import UpdateUserSettings from "../helpers/UpdateUserSettings";
 
 export default function RoutineListPage() {
   const [routines, setRoutines] = useState<RoutineListItem[]>([]);
   const [routineToDelete, setRoutineToDelete] = useState<RoutineListItem>();
 
   const navigate = useNavigate();
-  const dispatch = useDispatch<AppDispatch>();
+
 
   const userSettings = useSelector(
     (state: RootState) => state.userSettings.userSettings
@@ -86,7 +84,7 @@ export default function RoutineListPage() {
       active_routine_id: routine.id,
     };
 
-    dispatch(updateUserSettingsAsync(updatedSettings));
+    UpdateUserSettings(updatedSettings);
   };
 
   const handleDeleteButtonPress = (routine: RoutineListItem) => {

@@ -1,14 +1,9 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Checkbox, Button } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../state/store";
 import { UserSettings } from "../typings";
-import {
-  addUserSettings,
-  updateUserSettingsAsync,
-} from "../state/user_settings/userSettingsSlice";
+import UpdateUserSettings from "../helpers/UpdateUserSettings";
 
 const createDefaultUserSettings = async () => {
   try {
@@ -38,12 +33,8 @@ const createDefaultUserSettings = async () => {
 };
 
 export default function HomePage() {
+  const [userSettings, setUserSettings] = useState<UserSettings>();
   const navigate = useNavigate();
-  const dispatch = useDispatch<AppDispatch>();
-
-  const userSettings = useSelector(
-    (state: RootState) => state.userSettings.userSettings
-  );
 
   const initialized = useRef(false);
 
@@ -57,8 +48,8 @@ export default function HomePage() {
         );
 
         if (result.length === 1) {
-          const userSettings: UserSettings = result[0];
-          dispatch(addUserSettings(userSettings));
+          const settings: UserSettings = result[0];
+          setUserSettings(settings);
         } else {
           // TODO: REMOVE LATER?
           // Stop useEffect running twice in dev
@@ -69,16 +60,19 @@ export default function HomePage() {
           const defaultUserSettings: UserSettings | null =
             await createDefaultUserSettings();
 
-          if (defaultUserSettings !== null)
-            dispatch(addUserSettings(defaultUserSettings));
+          if (defaultUserSettings !== null) {
+            await UpdateUserSettings(defaultUserSettings);
+            setUserSettings(defaultUserSettings);
+          }
         }
       } catch (error) {
         console.log(error);
       }
     };
 
-    if (userSettings === undefined) getUserSettings();
-  }, [dispatch, userSettings]);
+    console.log("Asd");
+    getUserSettings();
+  }, [userSettings]);
 
   const addRoutine = async () => {
     const db = await Database.load(import.meta.env.VITE_DB);
@@ -101,7 +95,8 @@ export default function HomePage() {
       active_routine_id: 33,
     };
 
-    dispatch(updateUserSettingsAsync(updatedSettings));
+    await UpdateUserSettings(updatedSettings);
+    setUserSettings(updatedSettings);
   };
 
   return (

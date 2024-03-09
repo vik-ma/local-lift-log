@@ -1,11 +1,7 @@
 import Database from "tauri-plugin-sql-api";
 import { UserSettings } from "../typings";
 
-export default async function UpdateUserSettings({
-  userSettings,
-}: {
-  userSettings: UserSettings;
-}) {
+export default async function UpdateUserSettings(userSettings: UserSettings) {
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
 
