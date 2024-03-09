@@ -3,34 +3,9 @@ import { Checkbox, Button } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
 import { useNavigate } from "react-router-dom";
 import { UserSettings } from "../typings";
-import UpdateUserSettings from "../helpers/UpdateUserSettings";
-
-const createDefaultUserSettings = async () => {
-  try {
-    const db = await Database.load(import.meta.env.VITE_DB);
-
-    const show_timestamp_on_completed_set: boolean = true;
-    const active_routine_id: number = 0;
-
-    const result = await db.execute(
-      "INSERT into user_settings (show_timestamp_on_completed_set, active_routine_id) VALUES ($1, $2)",
-      [show_timestamp_on_completed_set, active_routine_id]
-    );
-
-    const id: number = result.lastInsertId;
-
-    const defaultUserSettings: UserSettings = {
-      id: id,
-      show_timestamp_on_completed_set: show_timestamp_on_completed_set,
-      active_routine_id: active_routine_id,
-    };
-
-    return defaultUserSettings;
-  } catch (error) {
-    console.log(error);
-    return null;
-  }
-};
+import { UpdateUserSettings } from "../helpers/UserSettings/UpdateUserSettings";
+import { GetUserSettings } from "../helpers/UserSettings/GetUserSettings";
+import { CreateDefaultUserSettings } from "../helpers/UserSettings/CreateDefaultUserSettings";
 
 export default function HomePage() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
@@ -39,16 +14,10 @@ export default function HomePage() {
   const initialized = useRef(false);
 
   useEffect(() => {
-    const getUserSettings = async () => {
+    const loadUserSettings = async () => {
       try {
-        const db = await Database.load(import.meta.env.VITE_DB);
-
-        const result: UserSettings[] = await db.select(
-          "SELECT * FROM user_settings LIMIT 1"
-        );
-
-        if (result.length === 1) {
-          const settings: UserSettings = result[0];
+        const settings: UserSettings | undefined = await GetUserSettings();
+        if (settings !== undefined) {
           setUserSettings(settings);
         } else {
           // TODO: REMOVE LATER?
@@ -57,10 +26,10 @@ export default function HomePage() {
             initialized.current = true;
           } else return;
 
-          const defaultUserSettings: UserSettings | null =
-            await createDefaultUserSettings();
-
-          if (defaultUserSettings !== null) {
+          const defaultUserSettings: UserSettings | undefined =
+            await CreateDefaultUserSettings();
+            
+          if (defaultUserSettings !== undefined) {
             await UpdateUserSettings(defaultUserSettings);
             setUserSettings(defaultUserSettings);
           }
@@ -70,9 +39,8 @@ export default function HomePage() {
       }
     };
 
-    console.log("Asd");
-    getUserSettings();
-  }, [userSettings]);
+    loadUserSettings();
+  }, []);
 
   const addRoutine = async () => {
     const db = await Database.load(import.meta.env.VITE_DB);
