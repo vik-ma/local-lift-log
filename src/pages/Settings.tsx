@@ -19,7 +19,7 @@ export default function SettingsPage() {
   const handleSetShowTimestampChange = async (value: boolean) => {
     const updatedSettings: UserSettings = {
       ...userSettings!,
-      show_timestamp_on_completed_set: value,
+      show_timestamp_on_completed_set: value.toString(),
     };
 
     await updateUserSettings(updatedSettings);
@@ -43,7 +43,9 @@ export default function SettingsPage() {
             color="success"
             size="lg"
             isSelected={
-              userSettings?.show_timestamp_on_completed_set ? true : false
+              userSettings?.show_timestamp_on_completed_set === "true"
+                ? true
+                : false
             }
             onValueChange={(value) => handleSetShowTimestampChange(value)}
           >

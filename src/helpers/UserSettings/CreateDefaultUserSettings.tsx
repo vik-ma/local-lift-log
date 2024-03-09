@@ -2,7 +2,7 @@ import Database from "tauri-plugin-sql-api";
 import { UserSettings } from "../../typings";
 
 export const CreateDefaultUserSettings = async () => {
-  const show_timestamp_on_completed_set: boolean = true;
+  const show_timestamp_on_completed_set: string = "true";
   const active_routine_id: number = 0;
 
   try {
