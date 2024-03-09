@@ -42,7 +42,9 @@ export default function SettingsPage() {
           <Switch
             color="success"
             size="lg"
-            isSelected={userSettings?.show_timestamp_on_completed_set}
+            isSelected={
+              userSettings?.show_timestamp_on_completed_set ? true : false
+            }
             onValueChange={(value) => handleSetShowTimestampChange(value)}
           >
             Show Timestamp On Completed Sets
