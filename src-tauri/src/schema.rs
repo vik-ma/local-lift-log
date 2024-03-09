@@ -18,3 +18,12 @@ diesel::table! {
         active_routine_id -> Integer,
     }
 }
+
+diesel::table! {
+    exercises (id) {
+        id -> Integer,
+        name -> Text,
+        exercise_group_set_string -> Text,
+        note -> Nullable<Text>
+    }
+}

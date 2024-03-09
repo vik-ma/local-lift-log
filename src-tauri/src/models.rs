@@ -20,3 +20,13 @@ pub struct UserSetting {
     pub show_timestamp_on_completed_set: bool,
     pub active_routine_id: i32,
 }
+
+#[derive(Queryable, Selectable)]
+#[diesel(table_name = crate::schema::exercises)]
+#[diesel(check_for_backend(diesel::sqlite::Sqlite))]
+pub struct Exercise {
+    pub id: i32,
+    pub name: String,
+    pub exercise_group_set_string: String,
+    pub note: Option<String>
+}
