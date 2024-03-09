@@ -10,10 +10,17 @@ export type Routine = {
 export type RoutineListItem = {
   id: number;
   name: string;
-}
+};
 
 export type UserSettings = {
   id: number;
   show_timestamp_on_completed_set: string;
   active_routine_id: number;
-}
+};
+
+export type Exercise = {
+  id: number;
+  name: string;
+  exercise_group_set_string: string;
+  note?: string | null;
+};
