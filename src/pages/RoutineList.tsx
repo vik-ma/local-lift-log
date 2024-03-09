@@ -87,8 +87,12 @@ export default function RoutineListPage() {
       active_routine_id: routine.id,
     };
 
-    await UpdateUserSettings(updatedSettings);
-    setUserSettings(updatedSettings);
+    await updateUserSettings(updatedSettings);
+  };
+
+  const updateUserSettings = async (userSettings: UserSettings) => {
+    await UpdateUserSettings(userSettings);
+    setUserSettings(userSettings);
   };
 
   const handleDeleteButtonPress = (routine: RoutineListItem) => {
@@ -151,8 +155,7 @@ export default function RoutineListPage() {
           active_routine_id: 0,
         };
 
-        await UpdateUserSettings(updatedSettings);
-        setUserSettings(updatedSettings);
+        await updateUserSettings(updatedSettings);
       }
 
       toast.success("Routine Deleted");
