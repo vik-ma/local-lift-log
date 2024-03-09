@@ -15,19 +15,18 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useMemo } from "react";
 import { Routine, RoutineListItem, UserSettings } from "../typings";
-import UpdateUserSettings from "../helpers/UpdateUserSettings";
 import toast, { Toaster } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../state/store";
+import { AppDispatch, RootState } from "../state/store";
 import Database from "tauri-plugin-sql-api";
-import { updateUserSettings } from "../state/user_settings/userSettingsSlice";
+import { updateUserSettingsAsync } from "../state/user_settings/userSettingsSlice";
 
 export default function RoutineListPage() {
   const [routines, setRoutines] = useState<RoutineListItem[]>([]);
   const [routineToDelete, setRoutineToDelete] = useState<RoutineListItem>();
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const userSettings = useSelector(
     (state: RootState) => state.userSettings.userSettings
@@ -87,8 +86,7 @@ export default function RoutineListPage() {
       active_routine_id: routine.id,
     };
 
-    await UpdateUserSettings({ userSettings: updatedSettings });
-    dispatch(updateUserSettings(updatedSettings));
+    dispatch(updateUserSettingsAsync(updatedSettings));
   };
 
   const handleDeleteButtonPress = (routine: RoutineListItem) => {
@@ -151,8 +149,7 @@ export default function RoutineListPage() {
           active_routine_id: 0,
         };
 
-        await UpdateUserSettings({ userSettings: updatedSettings });
-        dispatch(updateUserSettings(updatedSettings));
+        dispatch(updateUserSettingsAsync(updatedSettings));
       }
 
       toast.success("Routine Deleted");
@@ -368,7 +365,6 @@ export default function RoutineListPage() {
             Create New Routine
           </Button>
         </div>
-        <p>{userSettings?.active_routine_id}</p>
       </div>
     </>
   );
