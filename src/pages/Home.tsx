@@ -1,20 +1,51 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Checkbox, Button } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../state/store";
+import { AppDispatch, RootState } from "../state/store";
 import { UserSettings } from "../typings";
-import { updateUserSettings } from "../state/user_settings/userSettingsSlice";
-import UpdateUserSettings from "../helpers/UpdateUserSettings";
+import {
+  addUserSettings,
+  updateUserSettingsAsync,
+} from "../state/user_settings/userSettingsSlice";
+
+const createDefaultUserSettings = async () => {
+  try {
+    const db = await Database.load(import.meta.env.VITE_DB);
+
+    const show_timestamp_on_completed_set: boolean = true;
+    const active_routine_id: number = 0;
+
+    const result = await db.execute(
+      "INSERT into user_settings (show_timestamp_on_completed_set, active_routine_id) VALUES ($1, $2)",
+      [show_timestamp_on_completed_set, active_routine_id]
+    );
+
+    const id: number = result.lastInsertId;
+
+    const defaultUserSettings: UserSettings = {
+      id: id,
+      show_timestamp_on_completed_set: show_timestamp_on_completed_set,
+      active_routine_id: active_routine_id,
+    };
+
+    return defaultUserSettings;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
 
 export default function HomePage() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const userSettings = useSelector(
     (state: RootState) => state.userSettings.userSettings
   );
+
+  const initialized = useRef(false);
 
   useEffect(() => {
     const getUserSettings = async () => {
@@ -27,7 +58,19 @@ export default function HomePage() {
 
         if (result.length === 1) {
           const userSettings: UserSettings = result[0];
-          dispatch(updateUserSettings(userSettings));
+          dispatch(addUserSettings(userSettings));
+        } else {
+          // TODO: REMOVE LATER?
+          // Stop useEffect running twice in dev
+          if (!initialized.current) {
+            initialized.current = true;
+          } else return;
+
+          const defaultUserSettings: UserSettings | null =
+            await createDefaultUserSettings();
+
+          if (defaultUserSettings !== null)
+            dispatch(addUserSettings(defaultUserSettings));
         }
       } catch (error) {
         console.log(error);
@@ -58,8 +101,7 @@ export default function HomePage() {
       active_routine_id: 33,
     };
 
-    dispatch(updateUserSettings(updatedSettings));
-    await UpdateUserSettings({ userSettings: updatedSettings });
+    dispatch(updateUserSettingsAsync(updatedSettings));
   };
 
   return (
