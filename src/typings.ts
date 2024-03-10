@@ -28,6 +28,7 @@ export type Exercise = {
 export type ExerciseListItem = {
   id: number;
   name: string;
+  exercise_group_set: Set<string>;
   exercise_group_string: string;
 };
 

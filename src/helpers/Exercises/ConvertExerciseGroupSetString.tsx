@@ -1,8 +1,13 @@
 import { ExerciseGroupDictionary } from "./ExerciseGroupDictionary";
 
-export const ConvertExerciseGroupSetStringToString = (
+type ConvertedExerciseGroupSet = {
+  set: Set<string>;
+  formattedString: string;
+};
+
+export const ConvertExerciseGroupSetString = (
   exerciseGroupSetString: string
-): string => {
+): ConvertedExerciseGroupSet => {
   const exerciseGroups: string[] = exerciseGroupSetString.split(",");
   const exerciseGroupDictionary = ExerciseGroupDictionary();
 
@@ -15,5 +20,5 @@ export const ConvertExerciseGroupSetStringToString = (
 
   const formattedString: string = [...exerciseGroupSet].join(", ");
 
-  return formattedString;
+  return { set: exerciseGroupSet, formattedString: formattedString };
 };

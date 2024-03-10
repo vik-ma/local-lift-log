@@ -1,7 +1,7 @@
 import Database from "tauri-plugin-sql-api";
 import { useState, useEffect } from "react";
 import { Exercise, ExerciseListItem } from "../typings";
-import { ConvertExerciseGroupSetStringToString } from "../helpers/Exercises/ConvertExerciseGroupSetStringToString";
+import { ConvertExerciseGroupSetString } from "../helpers/Exercises/ConvertExerciseGroupSetString";
 
 export default function ExerciseListPage() {
   const [exercises, setExercises] = useState<ExerciseListItem[]>([]);
@@ -15,13 +15,17 @@ export default function ExerciseListPage() {
           "SELECT id, name, exercise_group_set_string FROM exercises"
         );
 
-        const exercises: ExerciseListItem[] = result.map((row) => ({
-          id: row.id,
-          name: row.name,
-          exercise_group_string: ConvertExerciseGroupSetStringToString(
+        const exercises: ExerciseListItem[] = result.map((row) => {
+          const convertedValues = ConvertExerciseGroupSetString(
             row.exercise_group_set_string
-          ),
-        }));
+          );
+          return {
+            id: row.id,
+            name: row.name,
+            exercise_group_set: convertedValues.set,
+            exercise_group_string: convertedValues.formattedString,
+          };
+        });
 
         setExercises(exercises);
       } catch (error) {
