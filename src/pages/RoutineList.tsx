@@ -100,10 +100,6 @@ export default function RoutineListPage() {
     deleteModal.onOpen();
   };
 
-  const handleCreateNewRoutineButtonPress = () => {
-    newRoutineModal.onOpen();
-  };
-
   const addRoutine = async () => {
     if (!isNewRoutineValid()) return;
 
@@ -366,7 +362,7 @@ export default function RoutineListPage() {
             className="text-lg font-medium"
             size="lg"
             color="success"
-            onPress={handleCreateNewRoutineButtonPress}
+            onPress={() => newRoutineModal.onOpen()}
           >
             Create New Routine
           </Button>
