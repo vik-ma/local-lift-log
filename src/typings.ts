@@ -25,4 +25,10 @@ export type Exercise = {
   note?: string | null;
 };
 
-export type ExerciseGroupMap = Record<number, string>;
+export type ExerciseListItem = {
+  id: number;
+  name: string;
+  exercise_group_string: string;
+};
+
+export type ExerciseGroupMap = Map<string, string>;
