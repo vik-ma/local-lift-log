@@ -24,3 +24,5 @@ export type Exercise = {
   exercise_group_set_string: string;
   note?: string | null;
 };
+
+export type ExerciseGroupMap = Record<number, string>;
