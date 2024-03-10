@@ -6,6 +6,7 @@ import { UserSettings } from "../typings";
 import { UpdateUserSettings } from "../helpers/UserSettings/UpdateUserSettings";
 import { GetUserSettings } from "../helpers/UserSettings/GetUserSettings";
 import { CreateDefaultUserSettings } from "../helpers/UserSettings/CreateDefaultUserSettings";
+import { CreateDefaultExerciseList } from "../helpers/Exercises/CreateDefaultExerciseList";
 
 export default function HomePage() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
@@ -18,8 +19,11 @@ export default function HomePage() {
       try {
         const settings: UserSettings | undefined = await GetUserSettings();
         if (settings !== undefined) {
+          // If UserSettings exists
           setUserSettings(settings);
         } else {
+          // If no UserSettings exists
+
           // TODO: REMOVE LATER?
           // Stop useEffect running twice in dev
           if (!initialized.current) {
@@ -28,11 +32,15 @@ export default function HomePage() {
 
           const defaultUserSettings: UserSettings | undefined =
             await CreateDefaultUserSettings();
-            
+
+          // Create Default User Settings
           if (defaultUserSettings !== undefined) {
             await UpdateUserSettings(defaultUserSettings);
             setUserSettings(defaultUserSettings);
           }
+
+          // Create Default Exercise List
+          await CreateDefaultExerciseList();
         }
       } catch (error) {
         console.log(error);
