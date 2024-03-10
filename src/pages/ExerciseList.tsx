@@ -12,11 +12,14 @@ import {
   ModalFooter,
 } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 export default function ExerciseListPage() {
   const [exercises, setExercises] = useState<ExerciseListItem[]>([]);
   const [exerciseToDelete, setExerciseToDelete] = useState<ExerciseListItem>();
+
   const deleteModal = useDisclosure();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getExercises = async () => {
@@ -116,13 +119,18 @@ export default function ExerciseListPage() {
               className="flex flex-row justify-between rounded-lg px-2 hover:bg-amber-100 p-1"
             >
               <div className="flex flex-col">
-                <div className="text-xl">{exercise.name}</div>
+                <div className="text-lg">{exercise.name}</div>
                 <div className="text-xs text-stone-500">
                   {exercise.exercise_group_string}
                 </div>
               </div>
               <div className="flex items-center gap-1">
-                <Button className="font-medium">Edit</Button>
+                <Button
+                  className="font-medium"
+                  onPress={() => navigate(`/exercises/${exercise.id}`)}
+                >
+                  Edit
+                </Button>
                 <Button
                   className="font-medium"
                   color="danger"

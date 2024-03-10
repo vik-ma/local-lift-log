@@ -7,6 +7,7 @@ import {
   NotFound,
   SetListPage,
   ExerciseListPage,
+  ExerciseDetailsPage,
   SettingsPage,
 } from "./pages";
 import SiteHeader from "./components/SiteHeader";
@@ -27,7 +28,10 @@ function App() {
                 <Route path=":id" element={<RoutineDetailsPage />} />
               </Route>
               <Route path="/sets" element={<SetListPage />} />
-              <Route path="/exercises" element={<ExerciseListPage />} />
+              <Route path="/exercises">
+                <Route index element={<ExerciseListPage />} />
+                <Route path=":id" element={<ExerciseDetailsPage />} />
+              </Route>
               <Route path="/settings" element={<SettingsPage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
