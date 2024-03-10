@@ -11,10 +11,14 @@ import {
   ModalBody,
   ModalFooter,
   Input,
+  Checkbox,
+  CheckboxGroup,
 } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { ValidateExerciseGroupSetString } from "../helpers/Exercises/ValidateExerciseGroupSetString";
+import { ExerciseGroupDictionary } from "../helpers/Exercises/ExerciseGroupDictionary";
+import { ConvertExerciseGroupStringListToString } from "../helpers/Exercises/ConvertExerciseGroupStringListToString";
 
 export default function ExerciseListPage() {
   const [exercises, setExercises] = useState<ExerciseListItem[]>([]);
@@ -33,6 +37,9 @@ export default function ExerciseListPage() {
   };
 
   const [newExercise, setNewExercise] = useState<Exercise>(defaultNewExercise);
+  const [newExerciseGroupStringList, setNewExerciseGroupStringList] = useState<
+    string[]
+  >([]);
 
   useEffect(() => {
     const getExercises = async () => {
@@ -120,6 +127,7 @@ export default function ExerciseListPage() {
 
       newExerciseModal.onClose();
       setNewExercise(defaultNewExercise);
+      setNewExerciseGroupStringList([]);
 
       toast.success("Exercise Created");
     } catch (error) {
@@ -131,6 +139,26 @@ export default function ExerciseListPage() {
     return newExercise.name === null || newExercise.name.trim().length === 0;
   }, [newExercise.name]);
 
+  const isNewExerciseGroupStringInvalid = useMemo(() => {
+    return !ValidateExerciseGroupSetString(
+      newExercise.exercise_group_set_string
+    );
+  }, [newExercise.exercise_group_set_string]);
+
+  const handleExerciseGroupStringChange = (
+    exerciseGroupStringList: string[]
+  ) => {
+    const exerciseGroupSetString = ConvertExerciseGroupStringListToString(
+      exerciseGroupStringList
+    );
+
+    setNewExercise((prev) => ({
+      ...prev,
+      exercise_group_set_string: exerciseGroupSetString,
+    }));
+    setNewExerciseGroupStringList(exerciseGroupStringList);
+  };
+
   const isNewExerciseValid = () => {
     if (newExercise.name === null || newExercise.name.trim().length === 0)
       return false;
@@ -140,6 +168,8 @@ export default function ExerciseListPage() {
 
     return true;
   };
+
+  const exerciseGroupDictionary = ExerciseGroupDictionary();
 
   return (
     <>
@@ -203,7 +233,31 @@ export default function ExerciseListPage() {
                   }
                   isClearable
                 />
-                <div></div>
+                <div>
+                  <CheckboxGroup
+                    isRequired
+                    isInvalid={isNewExerciseGroupStringInvalid}
+                    defaultValue={newExerciseGroupStringList}
+                    label="Select Exercise Groups"
+                    errorMessage={
+                      isNewExerciseGroupStringInvalid &&
+                      "At least one Exercise Group must be selected"
+                    }
+                    onValueChange={(value) =>
+                      handleExerciseGroupStringChange(value)
+                    }
+                  >
+                    <div className="grid grid-cols-2 gap-0.5">
+                      {Array.from(exerciseGroupDictionary).map(
+                        ([key, value]) => (
+                          <Checkbox key={key} color="success" value={key}>
+                            {value}
+                          </Checkbox>
+                        )
+                      )}
+                    </div>
+                  </CheckboxGroup>
+                </div>
               </ModalBody>
               <ModalFooter>
                 <Button color="success" variant="light" onPress={onClose}>
@@ -212,7 +266,9 @@ export default function ExerciseListPage() {
                 <Button
                   color="success"
                   onPress={addExercise}
-                  isDisabled={isNewExerciseNameInvalid}
+                  isDisabled={
+                    isNewExerciseNameInvalid || isNewExerciseGroupStringInvalid
+                  }
                 >
                   Create
                 </Button>
