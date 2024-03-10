@@ -2,10 +2,21 @@ import Database from "tauri-plugin-sql-api";
 import { useState, useEffect } from "react";
 import { Exercise, ExerciseListItem } from "../typings";
 import { ConvertExerciseGroupSetString } from "../helpers/Exercises/ConvertExerciseGroupSetString";
-import { Button } from "@nextui-org/react";
+import {
+  Button,
+  useDisclosure,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from "@nextui-org/react";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function ExerciseListPage() {
   const [exercises, setExercises] = useState<ExerciseListItem[]>([]);
+  const [exerciseToDelete, setExerciseToDelete] = useState<ExerciseListItem>();
+  const deleteModal = useDisclosure();
 
   useEffect(() => {
     const getExercises = async () => {
@@ -37,8 +48,61 @@ export default function ExerciseListPage() {
     getExercises();
   }, []);
 
+  const deleteExercise = async () => {
+    if (exerciseToDelete === undefined) return;
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      db.execute("DELETE from exercises WHERE id = $1", [exerciseToDelete.id]);
+
+      const updatedExercises: ExerciseListItem[] = exercises.filter(
+        (item) => item.id !== exerciseToDelete?.id
+      );
+      setExercises(updatedExercises);
+
+      toast.success("Exercise Deleted");
+    } catch (error) {
+      console.log(error);
+    }
+
+    setExerciseToDelete(undefined);
+    deleteModal.onClose();
+  };
+
+  const handleDeleteButtonPress = (exercise: ExerciseListItem) => {
+    setExerciseToDelete(exercise);
+    deleteModal.onOpen();
+  };
+
   return (
     <>
+      <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
+      <Modal
+        isOpen={deleteModal.isOpen}
+        onOpenChange={deleteModal.onOpenChange}
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">
+                Delete Exercise
+              </ModalHeader>
+              <ModalBody>
+                <p>Are you sure you want to permanently delete Exercise?</p>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="danger" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+                <Button color="danger" onPress={deleteExercise}>
+                  Delete
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
       <div className="flex flex-col items-center gap-2">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">
           <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b">
@@ -53,11 +117,17 @@ export default function ExerciseListPage() {
             >
               <div className="flex flex-col">
                 <div className="text-xl">{exercise.name}</div>
-                <div className="text-xs text-stone-500">{exercise.exercise_group_string}</div>
+                <div className="text-xs text-stone-500">
+                  {exercise.exercise_group_string}
+                </div>
               </div>
               <div className="flex items-center gap-1">
                 <Button className="font-medium">Edit</Button>
-                <Button className="font-medium" color="danger">
+                <Button
+                  className="font-medium"
+                  color="danger"
+                  onPress={() => handleDeleteButtonPress(exercise)}
+                >
                   Delete
                 </Button>
               </div>
