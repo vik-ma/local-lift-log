@@ -1,4 +1,4 @@
-import { ExerciseGroupMap } from "../../typings";
+export type ExerciseGroupMap = Map<string, string>;
 
 export const ExerciseGroupDictionary = () => {
   const exerciseGroupDictionary: ExerciseGroupMap = new Map<string, string>();

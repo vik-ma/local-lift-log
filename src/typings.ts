@@ -31,5 +31,3 @@ export type ExerciseListItem = {
   exercise_group_set: Set<string>;
   exercise_group_string: string;
 };
-
-export type ExerciseGroupMap = Map<string, string>;
