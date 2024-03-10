@@ -14,6 +14,7 @@ import {
 } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { ValidateExerciseGroupSetString } from "../helpers/Exercises/ValidateExerciseGroupSetString";
 
 export default function ExerciseListPage() {
   const [exercises, setExercises] = useState<ExerciseListItem[]>([]);
@@ -134,7 +135,8 @@ export default function ExerciseListPage() {
     if (newExercise.name === null || newExercise.name.trim().length === 0)
       return false;
 
-    // TODO: VALIDATE EXERCISEGROUPSETSTRING
+    if (!ValidateExerciseGroupSetString(newExercise.exercise_group_set_string))
+      return false;
 
     return true;
   };
