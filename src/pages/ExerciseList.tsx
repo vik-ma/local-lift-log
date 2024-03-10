@@ -2,6 +2,7 @@ import Database from "tauri-plugin-sql-api";
 import { useState, useEffect } from "react";
 import { Exercise, ExerciseListItem } from "../typings";
 import { ConvertExerciseGroupSetString } from "../helpers/Exercises/ConvertExerciseGroupSetString";
+import { Button } from "@nextui-org/react";
 
 export default function ExerciseListPage() {
   const [exercises, setExercises] = useState<ExerciseListItem[]>([]);
@@ -44,11 +45,22 @@ export default function ExerciseListPage() {
             Exercise List
           </h1>
         </div>
-        <div className="flex flex-col gap-0.5">
+        <div className="flex flex-col">
           {exercises.map((exercise) => (
-            <div key={exercise.id} className="flex flex-col">
-              <div className="text-xl">{exercise.name}</div>
-              <div className="text-xs">{exercise.exercise_group_string}</div>
+            <div
+              key={exercise.id}
+              className="flex flex-row justify-between rounded-lg px-2 hover:bg-amber-100 p-1"
+            >
+              <div className="flex flex-col">
+                <div className="text-xl">{exercise.name}</div>
+                <div className="text-xs text-stone-500">{exercise.exercise_group_string}</div>
+              </div>
+              <div className="flex items-center gap-1">
+                <Button className="font-medium">Edit</Button>
+                <Button className="font-medium" color="danger">
+                  Delete
+                </Button>
+              </div>
             </div>
           ))}
         </div>
