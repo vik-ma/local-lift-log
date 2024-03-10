@@ -1,5 +1,5 @@
 import Database from "tauri-plugin-sql-api";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Exercise, ExerciseListItem } from "../typings";
 import { ConvertExerciseGroupSetString } from "../helpers/Exercises/ConvertExerciseGroupSetString";
 import {
@@ -10,6 +10,7 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
+  Input,
 } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
@@ -19,7 +20,18 @@ export default function ExerciseListPage() {
   const [exerciseToDelete, setExerciseToDelete] = useState<ExerciseListItem>();
 
   const deleteModal = useDisclosure();
+  const newExerciseModal = useDisclosure();
+
   const navigate = useNavigate();
+
+  const defaultNewExercise: Exercise = {
+    id: 0,
+    name: "",
+    exercise_group_set_string: "",
+    note: null,
+  };
+
+  const [newExercise, setNewExercise] = useState<Exercise>(defaultNewExercise);
 
   useEffect(() => {
     const getExercises = async () => {
@@ -78,6 +90,55 @@ export default function ExerciseListPage() {
     deleteModal.onOpen();
   };
 
+  const addExercise = async () => {
+    if (!isNewExerciseValid()) return;
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      const result = await db.execute(
+        "INSERT into exercises (name, exercise_group_set_string, note) VALUES ($1, $2, $3)",
+        [
+          newExercise.name,
+          newExercise.exercise_group_set_string,
+          newExercise.note,
+        ]
+      );
+
+      const convertedValues = ConvertExerciseGroupSetString(
+        newExercise.exercise_group_set_string
+      );
+
+      const newExerciseListItem: ExerciseListItem = {
+        id: result.lastInsertId,
+        name: newExercise.name,
+        exercise_group_set: convertedValues.set,
+        exercise_group_string: convertedValues.formattedString,
+      };
+      setExercises([...exercises, newExerciseListItem]);
+
+      newExerciseModal.onClose();
+      setNewExercise(defaultNewExercise);
+
+      toast.success("Exercise Created");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const isNewExerciseNameInvalid = useMemo(() => {
+    return newExercise.name === null || newExercise.name.trim().length === 0;
+  }, [newExercise.name]);
+
+  const isNewExerciseValid = () => {
+    if (newExercise.name === null || newExercise.name.trim().length === 0)
+      return false;
+
+    // TODO: VALIDATE EXERCISEGROUPSETSTRING
+
+    return true;
+  };
+
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
@@ -100,6 +161,58 @@ export default function ExerciseListPage() {
                 </Button>
                 <Button color="danger" onPress={deleteExercise}>
                   Delete
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
+      <Modal
+        isOpen={newExerciseModal.isOpen}
+        onOpenChange={newExerciseModal.onOpenChange}
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">
+                New Exercise
+              </ModalHeader>
+              <ModalBody>
+                <Input
+                  value={newExercise.name}
+                  isInvalid={isNewExerciseNameInvalid}
+                  label="Name"
+                  errorMessage={
+                    isNewExerciseNameInvalid && "Name can't be empty"
+                  }
+                  variant="faded"
+                  onValueChange={(value) =>
+                    setNewExercise((prev) => ({ ...prev, name: value }))
+                  }
+                  isRequired
+                  isClearable
+                />
+                <Input
+                  value={newExercise.note ?? ""}
+                  label="Note"
+                  variant="faded"
+                  onValueChange={(value) =>
+                    setNewExercise((prev) => ({ ...prev, note: value }))
+                  }
+                  isClearable
+                />
+                <div></div>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="success" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+                <Button
+                  color="success"
+                  onPress={addExercise}
+                  isDisabled={isNewExerciseNameInvalid}
+                >
+                  Create
                 </Button>
               </ModalFooter>
             </>
@@ -141,6 +254,16 @@ export default function ExerciseListPage() {
               </div>
             </div>
           ))}
+        </div>
+        <div className="flex justify-center">
+          <Button
+            className="text-lg font-medium"
+            size="lg"
+            color="success"
+            onPress={() => newExerciseModal.onOpen()}
+          >
+            Create New Exercise
+          </Button>
         </div>
       </div>
     </>

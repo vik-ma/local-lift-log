@@ -259,7 +259,7 @@ export default function RoutineListPage() {
                   isClearable
                 />
                 <Input
-                  value={newRoutine.note!}
+                  value={newRoutine.note ?? ""}
                   label="Note"
                   variant="faded"
                   onValueChange={(value) =>
