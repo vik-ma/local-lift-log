@@ -74,6 +74,9 @@ export default function SiteHeader() {
             <DropdownItem href="/exercises" key="exercises">
               Exercise List
             </DropdownItem>
+            <DropdownItem href="/workout-templates" key="workout-templates">
+              Workout Templates
+            </DropdownItem>
             <DropdownItem href="/settings" key="settings">
               Settings
             </DropdownItem>

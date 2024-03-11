@@ -79,4 +79,6 @@ pub struct Set {
     pub is_tracking_time: bool,
     pub is_tracking_distance: bool,
     pub is_tracking_resistance_level: bool,
+    pub weight_unit: Option<String>,
+    pub distance_unit: Option<String>,
 }

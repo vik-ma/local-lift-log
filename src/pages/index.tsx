@@ -6,3 +6,5 @@ export { default as SetListPage } from "./SetList";
 export { default as ExerciseListPage } from "./ExerciseList";
 export { default as ExerciseDetailsPage } from "./ExerciseDetails";
 export { default as SettingsPage } from "./Settings";
+export { default as WorkoutTemplateListPage } from "./WorkoutTemplateList";
+export { default as WorkoutTemplateDetailsPage } from "./WorkoutTemplateDetails";

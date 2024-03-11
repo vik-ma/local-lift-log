@@ -71,5 +71,7 @@ diesel::table! {
         is_tracking_time -> Bool,
         is_tracking_distance -> Bool,
         is_tracking_resistance_level -> Bool,
+        weight_unit -> Nullable<Text>,
+        distance_unit -> Nullable<Text>,
     }
 }
