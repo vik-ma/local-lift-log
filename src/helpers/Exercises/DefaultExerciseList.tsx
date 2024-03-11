@@ -15,11 +15,11 @@ export const DefaultExerciseList = () => {
   });
   defaultExerciseList.push({
     name: "Deadlift",
-    exercise_group_set_string: "5,6,7,8,9,10,11,17",
+    exercise_group_set_string: "5,6,7,8,9,10,11",
   });
   defaultExerciseList.push({
     name: "Calf Raise",
-    exercise_group_set_string: "12,18",
+    exercise_group_set_string: "12",
   });
   defaultExerciseList.push({
     name: "Sit-Up",
