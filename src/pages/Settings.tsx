@@ -3,14 +3,17 @@ import { UserSettings } from "../typings";
 import { GetUserSettings } from "../helpers/UserSettings/GetUserSettings";
 import { Switch } from "@nextui-org/react";
 import { UpdateUserSettings } from "../helpers/UserSettings/UpdateUserSettings";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 export default function SettingsPage() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const loadUserSettings = async () => {
       const settings: UserSettings | undefined = await GetUserSettings();
       if (settings !== undefined) setUserSettings(settings);
+      setIsLoading(false);
     };
 
     loadUserSettings();
@@ -38,20 +41,24 @@ export default function SettingsPage() {
             Settings
           </h1>
         </div>
-        <div className="flex flex-col gap-2">
-          <Switch
-            color="success"
-            size="lg"
-            isSelected={
-              userSettings?.show_timestamp_on_completed_set === "true"
-                ? true
-                : false
-            }
-            onValueChange={(value) => handleSetShowTimestampChange(value)}
-          >
-            Show Timestamp On Completed Sets
-          </Switch>
-        </div>
+        {isLoading ? (
+          <LoadingSpinner />
+        ) : (
+          <div className="flex flex-col gap-2">
+            <Switch
+              color="success"
+              size="lg"
+              isSelected={
+                userSettings?.show_timestamp_on_completed_set === "true"
+                  ? true
+                  : false
+              }
+              onValueChange={(value) => handleSetShowTimestampChange(value)}
+            >
+              Show Timestamp On Completed Sets
+            </Switch>
+          </div>
+        )}
       </div>
     </>
   );

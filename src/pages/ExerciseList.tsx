@@ -13,7 +13,6 @@ import {
   Input,
   Checkbox,
   CheckboxGroup,
-  Spinner,
 } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
@@ -21,6 +20,7 @@ import { ValidateExerciseGroupSetString } from "../helpers/Exercises/ValidateExe
 import { ExerciseGroupDictionary } from "../helpers/Exercises/ExerciseGroupDictionary";
 import { ConvertExerciseGroupStringListToString } from "../helpers/Exercises/ConvertExerciseGroupStringListToString";
 import { CreateDefaultExerciseList } from "../helpers/Exercises/CreateDefaultExerciseList";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 export default function ExerciseListPage() {
   const [exercises, setExercises] = useState<ExerciseListItem[]>([]);
@@ -293,9 +293,7 @@ export default function ExerciseListPage() {
           </h1>
         </div>
         {isLoading ? (
-          <div className="flex flex-col justify-center items-center py-12">
-            <Spinner />
-          </div>
+          <LoadingSpinner />
         ) : (
           <>
             <div className="flex flex-col">
