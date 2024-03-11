@@ -21,11 +21,28 @@ import { ExerciseGroupDictionary } from "../helpers/Exercises/ExerciseGroupDicti
 import { ConvertExerciseGroupStringListToSetString } from "../helpers/Exercises/ConvertExerciseGroupStringListToSetString";
 import { CreateDefaultExerciseList } from "../helpers/Exercises/CreateDefaultExerciseList";
 import LoadingSpinner from "../components/LoadingSpinner";
+import SearchIcon from "../assets/SearchIcon";
 
 export default function ExerciseListPage() {
   const [exercises, setExercises] = useState<ExerciseListItem[]>([]);
   const [exerciseToDelete, setExerciseToDelete] = useState<ExerciseListItem>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [filterQuery, setFilterQuery] = useState<string>("");
+
+  const filteredExercises = useMemo(() => {
+    if (filterQuery !== "") {
+      return exercises.filter(
+        (item) =>
+          item.name
+            .toLocaleLowerCase()
+            .includes(filterQuery.toLocaleLowerCase()) ||
+          item.exercise_group_string
+            .toLocaleLowerCase()
+            .includes(filterQuery.toLocaleLowerCase())
+      );
+    }
+    return exercises;
+  }, [exercises, filterQuery]);
 
   const deleteModal = useDisclosure();
   const newExerciseModal = useDisclosure();
@@ -301,12 +318,21 @@ export default function ExerciseListPage() {
             Exercise List
           </h1>
         </div>
+        <Input
+          label="Search"
+          variant="faded"
+          placeholder="Type to search..."
+          isClearable
+          value={filterQuery}
+          onValueChange={setFilterQuery}
+          startContent={<SearchIcon />}
+        />
         {isLoading ? (
           <LoadingSpinner />
         ) : (
           <>
             <div className="flex flex-col">
-              {exercises.map((exercise) => (
+              {filteredExercises.map((exercise) => (
                 <div
                   key={exercise.id}
                   className="flex flex-row justify-between rounded-lg px-2 hover:bg-amber-100 p-1"
