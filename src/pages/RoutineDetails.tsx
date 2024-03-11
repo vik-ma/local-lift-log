@@ -4,6 +4,7 @@ import { useState, useMemo, useEffect } from "react";
 import { Button, Input } from "@nextui-org/react";
 import { NotFound } from ".";
 import Database from "tauri-plugin-sql-api";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 export default function RoutineDetailsPage() {
   const { id } = useParams();
@@ -11,6 +12,7 @@ export default function RoutineDetailsPage() {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [newRoutineName, setNewRoutineName] = useState<string>("");
   const [newRoutineNote, setNewRoutineNote] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const isNewRoutineNameInvalid = useMemo(() => {
     return (
@@ -36,6 +38,7 @@ export default function RoutineDetailsPage() {
         setRoutine(currentRoutine);
         setNewRoutineName(currentRoutine.name);
         setNewRoutineNote(currentRoutine.note ?? "");
+        setIsLoading(false);
       } catch (error) {
         console.log(error);
       }
@@ -76,50 +79,56 @@ export default function RoutineDetailsPage() {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">
-        <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b">
-          {routine?.name}
-        </h1>
-      </div>
-      <div>
-        <h2 className="text-xl px-1">
-          <span className="font-semibold">Note:</span> {routine?.note}
-        </h2>
-      </div>
-      {isEditing ? (
-        <div className="flex flex-col justify-center gap-2">
-          <Input
-            value={newRoutineName}
-            isInvalid={isNewRoutineNameInvalid}
-            label="Name"
-            errorMessage={isNewRoutineNameInvalid && "Name can't be empty"}
-            variant="faded"
-            onValueChange={(value) => setNewRoutineName(value)}
-            isRequired
-            isClearable
-          />
-          <Input
-            value={newRoutineNote!}
-            label="Note"
-            variant="faded"
-            onValueChange={(value) => setNewRoutineNote(value)}
-            isClearable
-          />
-          <div className="flex justify-center gap-4">
-            <Button color="danger" onPress={() => setIsEditing(false)}>
-              Cancel
-            </Button>
-            <Button color="success" onPress={updateRoutineNoteAndName}>
-              Save
-            </Button>
-          </div>
-        </div>
+      {isLoading ? (
+        <LoadingSpinner />
       ) : (
-        <div className="flex justify-center">
-          <Button color="primary" onPress={() => setIsEditing(true)}>
-            Edit
-          </Button>
-        </div>
+        <>
+          <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">
+            <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b">
+              {routine?.name}
+            </h1>
+          </div>
+          <div>
+            <h2 className="text-xl px-1">
+              <span className="font-semibold">Note:</span> {routine?.note}
+            </h2>
+          </div>
+          {isEditing ? (
+            <div className="flex flex-col justify-center gap-2">
+              <Input
+                value={newRoutineName}
+                isInvalid={isNewRoutineNameInvalid}
+                label="Name"
+                errorMessage={isNewRoutineNameInvalid && "Name can't be empty"}
+                variant="faded"
+                onValueChange={(value) => setNewRoutineName(value)}
+                isRequired
+                isClearable
+              />
+              <Input
+                value={newRoutineNote!}
+                label="Note"
+                variant="faded"
+                onValueChange={(value) => setNewRoutineNote(value)}
+                isClearable
+              />
+              <div className="flex justify-center gap-4">
+                <Button color="danger" onPress={() => setIsEditing(false)}>
+                  Cancel
+                </Button>
+                <Button color="success" onPress={updateRoutineNoteAndName}>
+                  Save
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <div className="flex justify-center">
+              <Button color="primary" onPress={() => setIsEditing(true)}>
+                Edit
+              </Button>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

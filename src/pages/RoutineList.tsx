@@ -19,11 +19,13 @@ import toast, { Toaster } from "react-hot-toast";
 import Database from "tauri-plugin-sql-api";
 import { UpdateUserSettings } from "../helpers/UserSettings/UpdateUserSettings";
 import { GetUserSettings } from "../helpers/UserSettings/GetUserSettings";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 export default function RoutineListPage() {
   const [routines, setRoutines] = useState<RoutineListItem[]>([]);
   const [routineToDelete, setRoutineToDelete] = useState<RoutineListItem>();
   const [userSettings, setUserSettings] = useState<UserSettings>();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const navigate = useNavigate();
 
@@ -61,6 +63,7 @@ export default function RoutineListPage() {
         }));
 
         setRoutines(routines);
+        setIsLoading(false);
       } catch (error) {
         console.log(error);
       }
@@ -322,51 +325,57 @@ export default function RoutineListPage() {
             Routines
           </h1>
         </div>
-        <div className="flex flex-col gap-1.5">
-          {routines.map((routine, index) => (
-            <div
-              className="flex flex-row justify-stretch gap-1"
-              key={`routine-${index}`}
-            >
-              <div className="w-[200px]">
-                <Button
-                  className="w-full text-lg font-medium"
-                  color="primary"
-                  onPress={() => navigate(`/routines/${routine.id}`)}
+        {isLoading ? (
+          <LoadingSpinner />
+        ) : (
+          <>
+            <div className="flex flex-col gap-1.5">
+              {routines.map((routine, index) => (
+                <div
+                  className="flex flex-row justify-stretch gap-1"
+                  key={`routine-${index}`}
                 >
-                  {routine.name}
-                </Button>
-              </div>
+                  <div className="w-[200px]">
+                    <Button
+                      className="w-full text-lg font-medium"
+                      color="primary"
+                      onPress={() => navigate(`/routines/${routine.id}`)}
+                    >
+                      {routine.name}
+                    </Button>
+                  </div>
+                  <Button
+                    color="success"
+                    variant={
+                      userSettings?.active_routine_id === routine.id
+                        ? "flat"
+                        : "light"
+                    }
+                    onPress={() => handleSetActiveButtonPress(routine)}
+                  >
+                    Set Active
+                  </Button>
+                  <Button
+                    color="danger"
+                    onPress={() => handleDeleteButtonPress(routine)}
+                  >
+                    Delete
+                  </Button>
+                </div>
+              ))}
+            </div>
+            <div className="flex justify-center">
               <Button
+                className="text-lg font-medium"
+                size="lg"
                 color="success"
-                variant={
-                  userSettings?.active_routine_id === routine.id
-                    ? "flat"
-                    : "light"
-                }
-                onPress={() => handleSetActiveButtonPress(routine)}
+                onPress={() => newRoutineModal.onOpen()}
               >
-                Set Active
-              </Button>
-              <Button
-                color="danger"
-                onPress={() => handleDeleteButtonPress(routine)}
-              >
-                Delete
+                Create New Routine
               </Button>
             </div>
-          ))}
-        </div>
-        <div className="flex justify-center">
-          <Button
-            className="text-lg font-medium"
-            size="lg"
-            color="success"
-            onPress={() => newRoutineModal.onOpen()}
-          >
-            Create New Routine
-          </Button>
-        </div>
+          </>
+        )}
       </div>
     </>
   );
