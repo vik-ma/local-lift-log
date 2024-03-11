@@ -13,6 +13,7 @@ import {
   Input,
   Checkbox,
   CheckboxGroup,
+  Spinner,
 } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
@@ -24,6 +25,7 @@ import { CreateDefaultExerciseList } from "../helpers/Exercises/CreateDefaultExe
 export default function ExerciseListPage() {
   const [exercises, setExercises] = useState<ExerciseListItem[]>([]);
   const [exerciseToDelete, setExerciseToDelete] = useState<ExerciseListItem>();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const deleteModal = useDisclosure();
   const newExerciseModal = useDisclosure();
@@ -63,6 +65,7 @@ export default function ExerciseListPage() {
       });
 
       setExercises(exercises);
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -289,57 +292,65 @@ export default function ExerciseListPage() {
             Exercise List
           </h1>
         </div>
-        <div className="flex flex-col">
-          {exercises.map((exercise) => (
-            <div
-              key={exercise.id}
-              className="flex flex-row justify-between rounded-lg px-2 hover:bg-amber-100 p-1"
-            >
-              <div className="flex flex-col">
-                <div className="text-lg">{exercise.name}</div>
-                <div className="text-xs text-stone-500">
-                  {exercise.exercise_group_string}
-                </div>
-              </div>
-              <div className="flex items-center gap-1">
-                <Button
-                  className="font-medium"
-                  onPress={() => navigate(`/exercises/${exercise.id}`)}
-                >
-                  Edit
-                </Button>
-                <Button
-                  className="font-medium"
-                  color="danger"
-                  onPress={() => handleDeleteButtonPress(exercise)}
-                >
-                  Delete
-                </Button>
-              </div>
-            </div>
-          ))}
-        </div>
-        <div className="flex justify-center">
-          <Button
-            className="text-lg font-medium"
-            size="lg"
-            color="success"
-            onPress={() => newExerciseModal.onOpen()}
-          >
-            Create New Exercise
-          </Button>
-        </div>
-        {exercises.length === 0 && (
-          <div className="flex justify-center">
-            <Button
-              className="text-lg font-medium"
-              size="lg"
-              color="primary"
-              onPress={restoreDefaultExerciseList}
-            >
-              Restore Default Exercise List
-            </Button>
+        {isLoading ? (
+          <div className="flex flex-col justify-center items-center py-12">
+            <Spinner />
           </div>
+        ) : (
+          <>
+            <div className="flex flex-col">
+              {exercises.map((exercise) => (
+                <div
+                  key={exercise.id}
+                  className="flex flex-row justify-between rounded-lg px-2 hover:bg-amber-100 p-1"
+                >
+                  <div className="flex flex-col">
+                    <div className="text-lg">{exercise.name}</div>
+                    <div className="text-xs text-stone-500">
+                      {exercise.exercise_group_string}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <Button
+                      className="font-medium"
+                      onPress={() => navigate(`/exercises/${exercise.id}`)}
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      className="font-medium"
+                      color="danger"
+                      onPress={() => handleDeleteButtonPress(exercise)}
+                    >
+                      Delete
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="flex justify-center">
+              <Button
+                className="text-lg font-medium"
+                size="lg"
+                color="success"
+                onPress={() => newExerciseModal.onOpen()}
+              >
+                Create New Exercise
+              </Button>
+            </div>
+            {exercises.length === 0 && (
+              <div className="flex justify-center">
+                <Button
+                  className="text-lg font-medium"
+                  size="lg"
+                  color="primary"
+                  onPress={restoreDefaultExerciseList}
+                >
+                  Restore Default Exercise List
+                </Button>
+              </div>
+            )}
+          </>
         )}
       </div>
     </>
