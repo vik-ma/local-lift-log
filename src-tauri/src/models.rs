@@ -28,5 +28,55 @@ pub struct Exercise {
     pub id: i32,
     pub name: String,
     pub exercise_group_set_string: String,
-    pub note: Option<String>
+    pub note: Option<String>,
+}
+
+#[derive(Queryable, Selectable)]
+#[diesel(table_name = crate::schema::workout_templates)]
+#[diesel(check_for_backend(diesel::sqlite::Sqlite))]
+pub struct WorkoutTemplate {
+    pub id: i32,
+    pub name: String,
+    pub set_list_order: String,
+    pub note: Option<String>,
+}
+
+#[derive(Queryable, Selectable)]
+#[diesel(table_name = crate::schema::workout_template_schedules)]
+#[diesel(check_for_backend(diesel::sqlite::Sqlite))]
+pub struct WorkoutTemplateSchedule {
+    pub id: i32,
+    pub day: i16,
+    pub workout_template_id: i32,
+    pub routine_id: i32,
+}
+
+#[derive(Queryable, Selectable)]
+#[diesel(table_name = crate::schema::sets)]
+#[diesel(check_for_backend(diesel::sqlite::Sqlite))]
+pub struct Set {
+    pub id: i32,
+    pub workout_id: i32,
+    pub exercise_id: i32,
+    pub is_template: bool,
+    pub workout_template_id: i32,
+    pub note: Option<String>,
+    pub comment: Option<String>,
+    pub is_completed: bool,
+    pub time_completed: Option<String>,
+    pub is_warmup: bool,
+    pub weight: f32,
+    pub reps: i32,
+    pub rir: i16,
+    pub rpe: i16,
+    pub time_in_seconds: i32,
+    pub distance: f32,
+    pub resistance_level: f32,
+    pub is_tracking_weight: bool,
+    pub is_tracking_reps: bool,
+    pub is_tracking_rir: bool,
+    pub is_tracking_rpe: bool,
+    pub is_tracking_time: bool,
+    pub is_tracking_distance: bool,
+    pub is_tracking_resistance_level: bool,
 }
