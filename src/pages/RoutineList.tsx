@@ -167,7 +167,11 @@ export default function RoutineListPage() {
   };
 
   const isNewRoutineNameInvalid = useMemo(() => {
-    return newRoutine.name === null || newRoutine.name.trim().length === 0;
+    return (
+      newRoutine.name === null ||
+      newRoutine.name === undefined ||
+      newRoutine.name.trim().length === 0
+    );
   }, [newRoutine.name]);
 
   const isNewRoutineValid = () => {

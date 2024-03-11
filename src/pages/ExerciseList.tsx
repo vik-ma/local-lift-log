@@ -59,7 +59,7 @@ export default function ExerciseListPage() {
         return {
           id: row.id,
           name: row.name,
-          exercise_group_set: convertedValues.set,
+          exercise_group_list: convertedValues.list,
           exercise_group_string: convertedValues.formattedString,
         };
       });
@@ -124,7 +124,7 @@ export default function ExerciseListPage() {
       const newExerciseListItem: ExerciseListItem = {
         id: result.lastInsertId,
         name: newExercise.name,
-        exercise_group_set: convertedValues.set,
+        exercise_group_list: convertedValues.list,
         exercise_group_string: convertedValues.formattedString,
       };
       setExercises([...exercises, newExerciseListItem]);
@@ -140,7 +140,11 @@ export default function ExerciseListPage() {
   };
 
   const isNewExerciseNameInvalid = useMemo(() => {
-    return newExercise.name === null || newExercise.name.trim().length === 0;
+    return (
+      newExercise.name === null ||
+      newExercise.name === undefined ||
+      newExercise.name.trim().length === 0
+    );
   }, [newExercise.name]);
 
   const isNewExerciseGroupStringInvalid = useMemo(() => {
