@@ -1,5 +1,5 @@
 import Database from "tauri-plugin-sql-api";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { Exercise, ExerciseListItem } from "../typings";
 import { ConvertExerciseGroupSetString } from "../helpers/Exercises/ConvertExerciseGroupSetString";
 import {
@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import { ValidateExerciseGroupSetString } from "../helpers/Exercises/ValidateExerciseGroupSetString";
 import { ExerciseGroupDictionary } from "../helpers/Exercises/ExerciseGroupDictionary";
 import { ConvertExerciseGroupStringListToString } from "../helpers/Exercises/ConvertExerciseGroupStringListToString";
+import { CreateDefaultExerciseList } from "../helpers/Exercises/CreateDefaultExerciseList";
 
 export default function ExerciseListPage() {
   const [exercises, setExercises] = useState<ExerciseListItem[]>([]);
@@ -41,35 +42,35 @@ export default function ExerciseListPage() {
     string[]
   >([]);
 
-  useEffect(() => {
-    const getExercises = async () => {
-      try {
-        const db = await Database.load(import.meta.env.VITE_DB);
+  const getExercises = useCallback(async () => {
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
 
-        const result = await db.select<Exercise[]>(
-          "SELECT id, name, exercise_group_set_string FROM exercises"
+      const result = await db.select<Exercise[]>(
+        "SELECT id, name, exercise_group_set_string FROM exercises"
+      );
+
+      const exercises: ExerciseListItem[] = result.map((row) => {
+        const convertedValues = ConvertExerciseGroupSetString(
+          row.exercise_group_set_string
         );
+        return {
+          id: row.id,
+          name: row.name,
+          exercise_group_set: convertedValues.set,
+          exercise_group_string: convertedValues.formattedString,
+        };
+      });
 
-        const exercises: ExerciseListItem[] = result.map((row) => {
-          const convertedValues = ConvertExerciseGroupSetString(
-            row.exercise_group_set_string
-          );
-          return {
-            id: row.id,
-            name: row.name,
-            exercise_group_set: convertedValues.set,
-            exercise_group_string: convertedValues.formattedString,
-          };
-        });
-
-        setExercises(exercises);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    getExercises();
+      setExercises(exercises);
+    } catch (error) {
+      console.log(error);
+    }
   }, []);
+
+  useEffect(() => {
+    getExercises();
+  }, [getExercises]);
 
   const deleteExercise = async () => {
     if (exerciseToDelete === undefined) return;
@@ -167,6 +168,11 @@ export default function ExerciseListPage() {
       return false;
 
     return true;
+  };
+
+  const restoreDefaultExerciseList = async () => {
+    await CreateDefaultExerciseList();
+    await getExercises();
   };
 
   const exerciseGroupDictionary = ExerciseGroupDictionary();
@@ -323,6 +329,18 @@ export default function ExerciseListPage() {
             Create New Exercise
           </Button>
         </div>
+        {exercises.length === 0 && (
+          <div className="flex justify-center">
+            <Button
+              className="text-lg font-medium"
+              size="lg"
+              color="primary"
+              onPress={restoreDefaultExerciseList}
+            >
+              Restore Default Exercise List
+            </Button>
+          </div>
+        )}
       </div>
     </>
   );
