@@ -1,4 +1,4 @@
-export const ConvertExerciseGroupStringListToString = (
+export const ConvertExerciseGroupStringListToSetString = (
   exerciseGroupSetStringList: string[]
 ): string => {
   const exerciseGroupSetString: string = [...exerciseGroupSetStringList].join(

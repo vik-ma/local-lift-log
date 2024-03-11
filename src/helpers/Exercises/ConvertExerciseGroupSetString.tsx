@@ -11,14 +11,17 @@ export const ConvertExerciseGroupSetString = (
   const exerciseGroups: string[] = exerciseGroupSetString.split(",");
   const exerciseGroupDictionary = ExerciseGroupDictionary();
 
-  const exerciseGroupSet: string[] = [];
+  const exerciseGroupNumberList: string[] = [];
+  const exerciseGroupNameList: string[] = [];
 
   exerciseGroups.map((group: string) => {
-    if (exerciseGroupDictionary.has(group))
-      exerciseGroupSet.push(exerciseGroupDictionary.get(group)!);
+    if (exerciseGroupDictionary.has(group)) {
+      exerciseGroupNameList.push(exerciseGroupDictionary.get(group)!);
+      exerciseGroupNumberList.push(group);
+    }
   });
 
-  const formattedString: string = [...exerciseGroupSet].join(", ");
+  const formattedString: string = [...exerciseGroupNameList].join(", ");
 
-  return { list: exerciseGroupSet, formattedString: formattedString };
+  return { list: exerciseGroupNumberList, formattedString: formattedString };
 };

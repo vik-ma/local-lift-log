@@ -18,7 +18,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { ValidateExerciseGroupSetString } from "../helpers/Exercises/ValidateExerciseGroupSetString";
 import { ExerciseGroupDictionary } from "../helpers/Exercises/ExerciseGroupDictionary";
-import { ConvertExerciseGroupStringListToString } from "../helpers/Exercises/ConvertExerciseGroupStringListToString";
+import { ConvertExerciseGroupStringListToSetString } from "../helpers/Exercises/ConvertExerciseGroupStringListToSetString";
 import { CreateDefaultExerciseList } from "../helpers/Exercises/CreateDefaultExerciseList";
 import LoadingSpinner from "../components/LoadingSpinner";
 
@@ -147,7 +147,7 @@ export default function ExerciseListPage() {
     );
   }, [newExercise.name]);
 
-  const isNewExerciseGroupStringInvalid = useMemo(() => {
+  const isNewExerciseGroupSetStringInvalid = useMemo(() => {
     return !ValidateExerciseGroupSetString(
       newExercise.exercise_group_set_string
     );
@@ -156,7 +156,7 @@ export default function ExerciseListPage() {
   const handleExerciseGroupStringChange = (
     exerciseGroupStringList: string[]
   ) => {
-    const exerciseGroupSetString = ConvertExerciseGroupStringListToString(
+    const exerciseGroupSetString = ConvertExerciseGroupStringListToSetString(
       exerciseGroupStringList
     );
 
@@ -168,7 +168,11 @@ export default function ExerciseListPage() {
   };
 
   const isNewExerciseValid = () => {
-    if (newExercise.name === null || newExercise.name.trim().length === 0)
+    if (
+      newExercise.name === null ||
+      newExercise === undefined ||
+      newExercise.name.trim().length === 0
+    )
       return false;
 
     if (!ValidateExerciseGroupSetString(newExercise.exercise_group_set_string))
@@ -249,11 +253,11 @@ export default function ExerciseListPage() {
                 <div>
                   <CheckboxGroup
                     isRequired
-                    isInvalid={isNewExerciseGroupStringInvalid}
+                    isInvalid={isNewExerciseGroupSetStringInvalid}
                     defaultValue={newExerciseGroupStringList}
                     label="Select Exercise Groups"
                     errorMessage={
-                      isNewExerciseGroupStringInvalid &&
+                      isNewExerciseGroupSetStringInvalid &&
                       "At least one Exercise Group must be selected"
                     }
                     onValueChange={(value) =>
@@ -280,7 +284,8 @@ export default function ExerciseListPage() {
                   color="success"
                   onPress={addExercise}
                   isDisabled={
-                    isNewExerciseNameInvalid || isNewExerciseGroupStringInvalid
+                    isNewExerciseNameInvalid ||
+                    isNewExerciseGroupSetStringInvalid
                   }
                 >
                   Create
