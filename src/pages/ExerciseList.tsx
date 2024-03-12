@@ -53,7 +53,7 @@ export default function ExerciseListPage() {
     id: 0,
     name: "",
     exercise_group_set_string: "",
-    note: null,
+    note: "",
   };
 
   const [newExercise, setNewExercise] = useState<Exercise>(defaultNewExercise);
@@ -125,13 +125,12 @@ export default function ExerciseListPage() {
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
+      const noteToInsert: string | null =
+        newExercise.note?.trim().length === 0 ? null : newExercise.note;
+
       const result = await db.execute(
         "INSERT into exercises (name, exercise_group_set_string, note) VALUES ($1, $2, $3)",
-        [
-          newExercise.name,
-          newExercise.exercise_group_set_string,
-          newExercise.note,
-        ]
+        [newExercise.name, newExercise.exercise_group_set_string, noteToInsert]
       );
 
       const convertedValues = ConvertExerciseGroupSetString(

@@ -32,7 +32,7 @@ export default function RoutineListPage() {
   const defaultNewRoutine: Routine = {
     id: 0,
     name: "",
-    note: null,
+    note: "",
     is_schedule_weekly: "true",
     num_days_in_schedule: 7,
     custom_schedule_start_date: null,
@@ -109,11 +109,14 @@ export default function RoutineListPage() {
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
+      const noteToInsert: string | null =
+        newRoutine.note?.trim().length === 0 ? null : newRoutine.note;
+
       const result = await db.execute(
         "INSERT into routines (name, note, is_schedule_weekly, num_days_in_schedule, custom_schedule_start_date) VALUES ($1, $2, $3, $4, $5)",
         [
           newRoutine.name,
-          newRoutine.note,
+          noteToInsert,
           newRoutine.is_schedule_weekly,
           newRoutine.num_days_in_schedule,
           newRoutine.custom_schedule_start_date,
