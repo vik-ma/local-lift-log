@@ -1,10 +1,10 @@
 export type Routine = {
   id: number;
   name: string;
-  note?: string | null;
+  note: string | null;
   is_schedule_weekly: string;
   num_days_in_schedule: number;
-  custom_schedule_start_date?: string | null;
+  custom_schedule_start_date: string | null;
 };
 
 export type RoutineListItem = {
@@ -22,7 +22,7 @@ export type Exercise = {
   id: number;
   name: string;
   exercise_group_set_string: string;
-  note?: string | null;
+  note: string | null;
 };
 
 export type ExerciseListItem = {
@@ -36,7 +36,7 @@ export type WorkoutTemplate = {
   id: number;
   name: string;
   set_list_order: string;
-  note?: string;
+  note: string | null;
 };
 
 export type WorkoutTemplatesSchedule = {
@@ -52,8 +52,8 @@ export type Set = {
   exercise_id: number;
   is_template: string;
   workout_template_id: number;
-  note?: string;
-  comment?: string;
+  note: string | null;
+  comment: string | null;
   is_completed: string;
   time_completed: string;
   is_warmup: string;
