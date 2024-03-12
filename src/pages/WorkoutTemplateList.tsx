@@ -91,7 +91,7 @@ export default function WorkoutTemplateList() {
       setWorkoutTemplates([...workoutTemplates, newTemplate]);
 
       newWorkoutTemplateModal.onClose();
-      setNewWorkoutTemplate(defaultNewWorkoutTemplate);
+      navigate(`/workout-templates/${result.lastInsertId}`);
     } catch (error) {
       console.error(error);
     }
@@ -174,7 +174,7 @@ export default function WorkoutTemplateList() {
                   className="flex flex-row justify-stretch gap-1"
                   key={`workout-template-${index}`}
                 >
-                  <div className="w-[200px]">
+                  <div className="w-full">
                     <Button
                       className="w-full text-lg font-medium"
                       color="primary"
