@@ -13,12 +13,15 @@ import {
 import { useState, useEffect, useMemo } from "react";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function WorkoutTemplateList() {
   const [workoutTemplates, setWorkoutTemplates] = useState<WorkoutTemplate[]>(
     []
   );
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [workoutTemplateToDelete, setWorkoutTemplateToDelete] =
+    useState<WorkoutTemplate>();
 
   const defaultNewWorkoutTemplate: WorkoutTemplate = {
     id: 0,
@@ -33,7 +36,7 @@ export default function WorkoutTemplateList() {
 
   const navigate = useNavigate();
 
-  // const deleteModal = useDisclosure();
+  const deleteModal = useDisclosure();
   const newWorkoutTemplateModal = useDisclosure();
 
   useEffect(() => {
@@ -97,6 +100,36 @@ export default function WorkoutTemplateList() {
     }
   };
 
+  const deleteWorkoutTemplate = async () => {
+    if (workoutTemplateToDelete === undefined) return;
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      db.execute("DELETE from workout_templates WHERE id = $1", [
+        workoutTemplateToDelete.id,
+      ]);
+
+      const updatedWorkoutTemplates: WorkoutTemplate[] =
+        workoutTemplates.filter(
+          (item) => item.id !== workoutTemplateToDelete?.id
+        );
+      setWorkoutTemplates(updatedWorkoutTemplates);
+
+      toast.success("Workout Template Deleted");
+    } catch (error) {
+      console.log(error);
+    }
+
+    setWorkoutTemplateToDelete(undefined);
+    deleteModal.onClose();
+  };
+
+  const handleDeleteButtonPress = (workoutTemplate: WorkoutTemplate) => {
+    setWorkoutTemplateToDelete(workoutTemplate);
+    deleteModal.onOpen();
+  };
+
   const isNewWorkoutTemplateNameInvalid = useMemo(() => {
     return (
       newWorkoutTemplate.name === null ||
@@ -107,6 +140,35 @@ export default function WorkoutTemplateList() {
 
   return (
     <>
+      <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
+      <Modal
+        isOpen={deleteModal.isOpen}
+        onOpenChange={deleteModal.onOpenChange}
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">
+                Delete Workout Template
+              </ModalHeader>
+              <ModalBody>
+                <p>
+                  Are you sure you want to permanently delete Workout Template{" "}
+                  {workoutTemplateToDelete?.name}?
+                </p>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="danger" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+                <Button color="danger" onPress={deleteWorkoutTemplate}>
+                  Delete
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
       <Modal
         isOpen={newWorkoutTemplateModal.isOpen}
         onOpenChange={newWorkoutTemplateModal.onOpenChange}
@@ -187,7 +249,7 @@ export default function WorkoutTemplateList() {
                   </div>
                   <Button
                     color="danger"
-                    // onPress={() => handleDeleteButtonPress(template)}
+                    onPress={() => handleDeleteButtonPress(template)}
                   >
                     Delete
                   </Button>
