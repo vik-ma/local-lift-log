@@ -1,7 +1,18 @@
 import { useParams } from "react-router-dom";
-import { Routine } from "../typings";
+import { Routine, WorkoutTemplateListItem } from "../typings";
 import { useState, useMemo, useEffect } from "react";
-import { Button, Input } from "@nextui-org/react";
+import {
+  Button,
+  useDisclosure,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Input,
+  Listbox,
+  ListboxItem,
+} from "@nextui-org/react";
 import { NotFound } from ".";
 import Database from "tauri-plugin-sql-api";
 import LoadingSpinner from "../components/LoadingSpinner";
@@ -14,6 +25,10 @@ export default function RoutineDetailsPage() {
   const [newRoutineName, setNewRoutineName] = useState<string>("");
   const [newRoutineNote, setNewRoutineNote] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [workoutTemplates, setWorkoutTemplates] = useState<
+    WorkoutTemplateListItem[]
+  >([]);
+  const [selectedDay, setSelectedDay] = useState<number>(0);
 
   const isNewRoutineNameInvalid = useMemo(() => {
     return (
@@ -22,6 +37,8 @@ export default function RoutineDetailsPage() {
       newRoutineName.trim().length === 0
     );
   }, [newRoutineName]);
+
+  const workoutTemplatesModal = useDisclosure();
 
   useEffect(() => {
     const getRoutine = async () => {
@@ -45,7 +62,27 @@ export default function RoutineDetailsPage() {
       }
     };
 
+    const getWorkoutTemplates = async () => {
+      try {
+        const db = await Database.load(import.meta.env.VITE_DB);
+
+        const result = await db.select<WorkoutTemplateListItem[]>(
+          "SELECT id, name FROM workout_templates"
+        );
+
+        const templates: WorkoutTemplateListItem[] = result.map((row) => ({
+          id: row.id,
+          name: row.name,
+        }));
+
+        setWorkoutTemplates(templates);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     getRoutine();
+    getWorkoutTemplates();
   }, [id]);
 
   const updateRoutineNoteAndName = async () => {
@@ -76,6 +113,11 @@ export default function RoutineDetailsPage() {
     }
   };
 
+  const handleAddWorkoutButtonPress = (day: number) => {
+    setSelectedDay(day);
+    workoutTemplatesModal.onOpen();
+  };
+
   if (routine === undefined) return NotFound();
 
   const dayNameList: string[] = GetScheduleDayNames(
@@ -84,76 +126,127 @@ export default function RoutineDetailsPage() {
   );
 
   return (
-    <div className="flex flex-col gap-4">
-      {isLoading ? (
-        <LoadingSpinner />
-      ) : (
-        <>
-          <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">
-            <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b">
-              {routine?.name}
-            </h1>
-          </div>
-          <div>
-            <h2 className="text-xl px-1">
-              <span className="font-semibold">Note:</span> {routine?.note}
-            </h2>
-          </div>
-          {isEditing ? (
-            <div className="flex flex-col justify-center gap-2">
-              <Input
-                value={newRoutineName}
-                isInvalid={isNewRoutineNameInvalid}
-                label="Name"
-                errorMessage={isNewRoutineNameInvalid && "Name can't be empty"}
-                variant="faded"
-                onValueChange={(value) => setNewRoutineName(value)}
-                isRequired
-                isClearable
-              />
-              <Input
-                value={newRoutineNote!}
-                label="Note"
-                variant="faded"
-                onValueChange={(value) => setNewRoutineNote(value)}
-                isClearable
-              />
-              <div className="flex justify-center gap-4">
-                <Button color="danger" onPress={() => setIsEditing(false)}>
-                  Cancel
+    <>
+      <Modal
+        isOpen={workoutTemplatesModal.isOpen}
+        onOpenChange={workoutTemplatesModal.onOpenChange}
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex gap-1.5">
+                <h2>
+                  Add Workout Template to{" "}
+                  <span className="text-success">
+                    {dayNameList[selectedDay]}
+                  </span>
+                </h2>
+              </ModalHeader>
+              <ModalBody>
+                <Listbox
+                  aria-label="Workout Template List"
+                  onAction={(key) => console.log(key)}
+                >
+                  {workoutTemplates.map((template) => (
+                    <ListboxItem
+                      key={`${template.id}`}
+                      className="text-success"
+                      color="success"
+                      variant="faded"
+                    >
+                      {template.name}
+                    </ListboxItem>
+                  ))}
+                </Listbox>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="success" variant="light" onPress={onClose}>
+                  Close
                 </Button>
-                <Button color="success" onPress={updateRoutineNoteAndName}>
-                  Save
+                <Button color="success">Add</Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
+      <div className="flex flex-col gap-4">
+        {isLoading ? (
+          <LoadingSpinner />
+        ) : (
+          <>
+            <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">
+              <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b">
+                {routine?.name}
+              </h1>
+            </div>
+            <div>
+              <h2 className="text-xl px-1">
+                <span className="font-semibold">Note:</span> {routine?.note}
+              </h2>
+            </div>
+            {isEditing ? (
+              <div className="flex flex-col justify-center gap-2">
+                <Input
+                  value={newRoutineName}
+                  isInvalid={isNewRoutineNameInvalid}
+                  label="Name"
+                  errorMessage={
+                    isNewRoutineNameInvalid && "Name can't be empty"
+                  }
+                  variant="faded"
+                  onValueChange={(value) => setNewRoutineName(value)}
+                  isRequired
+                  isClearable
+                />
+                <Input
+                  value={newRoutineNote!}
+                  label="Note"
+                  variant="faded"
+                  onValueChange={(value) => setNewRoutineNote(value)}
+                  isClearable
+                />
+                <div className="flex justify-center gap-4">
+                  <Button color="danger" onPress={() => setIsEditing(false)}>
+                    Cancel
+                  </Button>
+                  <Button color="success" onPress={updateRoutineNoteAndName}>
+                    Save
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <div className="flex justify-center">
+                <Button color="primary" onPress={() => setIsEditing(true)}>
+                  Edit
                 </Button>
               </div>
-            </div>
-          ) : (
-            <div className="flex justify-center">
-              <Button color="primary" onPress={() => setIsEditing(true)}>
-                Edit
-              </Button>
-            </div>
-          )}
-        </>
-      )}
-      <div>
-        <h2 className="text-xl font-semibold">
-          {routine.is_schedule_weekly !== "true"
-            ? `${routine.num_days_in_schedule} Day Schedule`
-            : "Weekly Schedule"}
-        </h2>
-        <div className="flex flex-col gap-1.5 py-1">
-          {Array.from(Array(routine.num_days_in_schedule), (_, i) => (
-            <div key={`day-${i + 1}`} className="flex gap-5 items-center">
-              <span className="font-medium w-24">{dayNameList[i]}</span>
-              <span className="">No workout</span>
-              <Button className="text-sm" size="sm" color="success">
-                Add Workout
-              </Button>
-            </div>
-          ))}
+            )}
+          </>
+        )}
+        <div>
+          <h2 className="text-xl font-semibold">
+            {routine.is_schedule_weekly !== "true"
+              ? `${routine.num_days_in_schedule} Day Schedule`
+              : "Weekly Schedule"}
+          </h2>
+          <div className="flex flex-col gap-1.5 py-1">
+            {Array.from(Array(routine.num_days_in_schedule), (_, i) => (
+              <div key={`day-${i + 1}`} className="flex gap-5 items-center">
+                <span className="font-medium w-24">{dayNameList[i]}</span>
+                <span className="">No workout</span>
+                <Button
+                  className="text-sm"
+                  size="sm"
+                  color="success"
+                  onPress={() => handleAddWorkoutButtonPress(i)}
+                >
+                  Add Workout
+                </Button>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

@@ -45,7 +45,7 @@ export default function WorkoutTemplateList() {
         const db = await Database.load(import.meta.env.VITE_DB);
 
         const result = await db.select<WorkoutTemplateListItem[]>(
-          "SELECT * FROM workout_templates"
+          "SELECT id, name FROM workout_templates"
         );
 
         const templates: WorkoutTemplateListItem[] = result.map((row) => ({
