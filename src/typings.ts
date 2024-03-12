@@ -39,6 +39,11 @@ export type WorkoutTemplate = {
   note: string | null;
 };
 
+export type WorkoutTemplateListItem = {
+  id: number;
+  name: string;
+};
+
 export type WorkoutTemplatesSchedule = {
   id: number;
   day: number;

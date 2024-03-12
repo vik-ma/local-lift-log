@@ -1,5 +1,5 @@
 import Database from "tauri-plugin-sql-api";
-import { WorkoutTemplate } from "../typings";
+import { WorkoutTemplate, WorkoutTemplateListItem } from "../typings";
 import {
   Button,
   useDisclosure,
@@ -16,12 +16,12 @@ import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 
 export default function WorkoutTemplateList() {
-  const [workoutTemplates, setWorkoutTemplates] = useState<WorkoutTemplate[]>(
-    []
-  );
+  const [workoutTemplates, setWorkoutTemplates] = useState<
+    WorkoutTemplateListItem[]
+  >([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [workoutTemplateToDelete, setWorkoutTemplateToDelete] =
-    useState<WorkoutTemplate>();
+    useState<WorkoutTemplateListItem>();
 
   const defaultNewWorkoutTemplate: WorkoutTemplate = {
     id: 0,
@@ -44,15 +44,13 @@ export default function WorkoutTemplateList() {
       try {
         const db = await Database.load(import.meta.env.VITE_DB);
 
-        const result = await db.select<WorkoutTemplate[]>(
+        const result = await db.select<WorkoutTemplateListItem[]>(
           "SELECT * FROM workout_templates"
         );
 
-        const templates: WorkoutTemplate[] = result.map((row) => ({
+        const templates: WorkoutTemplateListItem[] = result.map((row) => ({
           id: row.id,
           name: row.name,
-          set_list_order: row.set_list_order,
-          note: row.note,
         }));
 
         setWorkoutTemplates(templates);
@@ -85,11 +83,9 @@ export default function WorkoutTemplateList() {
         ]
       );
 
-      const newTemplate: WorkoutTemplate = {
+      const newTemplate: WorkoutTemplateListItem = {
         id: result.lastInsertId,
         name: newWorkoutTemplate.name,
-        set_list_order: newWorkoutTemplate.set_list_order,
-        note: newWorkoutTemplate.note,
       };
       setWorkoutTemplates([...workoutTemplates, newTemplate]);
 
@@ -110,7 +106,7 @@ export default function WorkoutTemplateList() {
         workoutTemplateToDelete.id,
       ]);
 
-      const updatedWorkoutTemplates: WorkoutTemplate[] =
+      const updatedWorkoutTemplates: WorkoutTemplateListItem[] =
         workoutTemplates.filter(
           (item) => item.id !== workoutTemplateToDelete?.id
         );
@@ -125,7 +121,9 @@ export default function WorkoutTemplateList() {
     deleteModal.onClose();
   };
 
-  const handleDeleteButtonPress = (workoutTemplate: WorkoutTemplate) => {
+  const handleDeleteButtonPress = (
+    workoutTemplate: WorkoutTemplateListItem
+  ) => {
     setWorkoutTemplateToDelete(workoutTemplate);
     deleteModal.onOpen();
   };
