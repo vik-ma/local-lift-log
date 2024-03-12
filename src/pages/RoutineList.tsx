@@ -226,7 +226,10 @@ export default function RoutineListPage() {
                 Delete Routine
               </ModalHeader>
               <ModalBody>
-                <p>Are you sure you want to permanently delete Routine?</p>
+                <p>
+                  Are you sure you want to permanently delete{" "}
+                  {routineToDelete?.name}?
+                </p>
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="light" onPress={onClose}>

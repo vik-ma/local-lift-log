@@ -219,7 +219,10 @@ export default function ExerciseListPage() {
                 Delete Exercise
               </ModalHeader>
               <ModalBody>
-                <p>Are you sure you want to permanently delete Exercise?</p>
+                <p>
+                  Are you sure you want to permanently delete{" "}
+                  {exerciseToDelete?.name}?
+                </p>
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="light" onPress={onClose}>

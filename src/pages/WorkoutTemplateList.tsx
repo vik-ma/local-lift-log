@@ -153,7 +153,7 @@ export default function WorkoutTemplateList() {
               </ModalHeader>
               <ModalBody>
                 <p>
-                  Are you sure you want to permanently delete Workout Template{" "}
+                  Are you sure you want to permanently delete{" "}
                   {workoutTemplateToDelete?.name}?
                 </p>
               </ModalBody>
