@@ -5,6 +5,7 @@ import { Button, Input } from "@nextui-org/react";
 import { NotFound } from ".";
 import Database from "tauri-plugin-sql-api";
 import LoadingSpinner from "../components/LoadingSpinner";
+import { GetScheduleDayNames } from "../helpers/Routines/GetScheduleDayNames";
 
 export default function RoutineDetailsPage() {
   const { id } = useParams();
@@ -77,6 +78,11 @@ export default function RoutineDetailsPage() {
 
   if (routine === undefined) return NotFound();
 
+  const dayNameList: string[] = GetScheduleDayNames(
+    routine?.num_days_in_schedule,
+    routine?.is_schedule_weekly === "true" ? true : false
+  );
+
   return (
     <div className="flex flex-col gap-4">
       {isLoading ? (
@@ -130,6 +136,24 @@ export default function RoutineDetailsPage() {
           )}
         </>
       )}
+      <div>
+        <h2 className="text-xl font-semibold">
+          {routine.is_schedule_weekly !== "true"
+            ? `${routine.num_days_in_schedule} Day Schedule`
+            : "Weekly Schedule"}
+        </h2>
+        <div className="flex flex-col gap-1.5 py-1">
+          {Array.from(Array(routine.num_days_in_schedule), (_, i) => (
+            <div key={`day-${i + 1}`} className="flex gap-5 items-center">
+              <span className="font-medium w-24">{dayNameList[i]}</span>
+              <span className="">No workout</span>
+              <Button className="text-sm" size="sm" color="success">
+                Add Workout
+              </Button>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
