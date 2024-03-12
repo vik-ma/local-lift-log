@@ -10,7 +10,7 @@ import {
   ModalFooter,
   Input,
 } from "@nextui-org/react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { useNavigate } from "react-router-dom";
 
@@ -20,7 +20,21 @@ export default function WorkoutTemplateList() {
   );
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
+  const defaultNewWorkoutTemplate: WorkoutTemplate = {
+    id: 0,
+    name: "",
+    set_list_order: "",
+    note: "",
+  };
+
+  const [newWorkoutTemplate, setNewWorkoutTemplate] = useState<WorkoutTemplate>(
+    defaultNewWorkoutTemplate
+  );
+
   const navigate = useNavigate();
+
+  // const deleteModal = useDisclosure();
+  const newWorkoutTemplateModal = useDisclosure();
 
   useEffect(() => {
     const getWorkoutTemplates = async () => {
@@ -48,8 +62,102 @@ export default function WorkoutTemplateList() {
     getWorkoutTemplates();
   }, []);
 
+  const addWorkoutTemplate = async () => {
+    if (isNewWorkoutTemplateNameInvalid) return;
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      const noteToInsert: string | null =
+        newWorkoutTemplate.note?.trim().length === 0
+          ? null
+          : newWorkoutTemplate.note;
+
+      const result = await db.execute(
+        "INSERT into workout_templates (name, set_list_order, note) VALUES ($1, $2, $3)",
+        [
+          newWorkoutTemplate.name,
+          newWorkoutTemplate.set_list_order,
+          noteToInsert,
+        ]
+      );
+
+      const newTemplate: WorkoutTemplate = {
+        id: result.lastInsertId,
+        name: newWorkoutTemplate.name,
+        set_list_order: newWorkoutTemplate.set_list_order,
+        note: newWorkoutTemplate.note,
+      };
+      setWorkoutTemplates([...workoutTemplates, newTemplate]);
+
+      newWorkoutTemplateModal.onClose();
+      setNewWorkoutTemplate(defaultNewWorkoutTemplate);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const isNewWorkoutTemplateNameInvalid = useMemo(() => {
+    return (
+      newWorkoutTemplate.name === null ||
+      newWorkoutTemplate.name === undefined ||
+      newWorkoutTemplate.name.trim().length === 0
+    );
+  }, [newWorkoutTemplate.name]);
+
   return (
     <>
+      <Modal
+        isOpen={newWorkoutTemplateModal.isOpen}
+        onOpenChange={newWorkoutTemplateModal.onOpenChange}
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">
+                New Workout Template
+              </ModalHeader>
+              <ModalBody>
+                <Input
+                  value={newWorkoutTemplate.name}
+                  isInvalid={isNewWorkoutTemplateNameInvalid}
+                  label="Name"
+                  errorMessage={
+                    isNewWorkoutTemplateNameInvalid && "Name can't be empty"
+                  }
+                  variant="faded"
+                  onValueChange={(value) =>
+                    setNewWorkoutTemplate((prev) => ({ ...prev, name: value }))
+                  }
+                  isRequired
+                  isClearable
+                />
+                <Input
+                  value={newWorkoutTemplate.note ?? ""}
+                  label="Note"
+                  variant="faded"
+                  onValueChange={(value) =>
+                    setNewWorkoutTemplate((prev) => ({ ...prev, note: value }))
+                  }
+                  isClearable
+                />
+              </ModalBody>
+              <ModalFooter>
+                <Button color="success" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+                <Button
+                  color="success"
+                  onPress={addWorkoutTemplate}
+                  isDisabled={isNewWorkoutTemplateNameInvalid}
+                >
+                  Create
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
       <div className="flex flex-col gap-4">
         <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">
           <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b">
@@ -64,7 +172,7 @@ export default function WorkoutTemplateList() {
               {workoutTemplates.map((template, index) => (
                 <div
                   className="flex flex-row justify-stretch gap-1"
-                  key={`routine-${index}`}
+                  key={`workout-template-${index}`}
                 >
                   <div className="w-[200px]">
                     <Button
@@ -91,7 +199,7 @@ export default function WorkoutTemplateList() {
                 className="text-lg font-medium"
                 size="lg"
                 color="success"
-                // onPress={() => newWorkoutTemplateModal.onOpen()}
+                onPress={() => newWorkoutTemplateModal.onOpen()}
               >
                 Create New Workout Template
               </Button>
