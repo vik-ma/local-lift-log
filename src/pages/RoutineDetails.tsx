@@ -305,19 +305,29 @@ export default function RoutineDetailsPage() {
                 key={`day-${i + 1}`}
                 className="flex items-center justify-between"
               >
-                <div className="flex flex-col">
+                <div className="flex flex-col w-48 gap-1">
                   <span className="font-medium">{dayNameList[i]}</span>
                   {scheduleValues[i]?.length > 0 ? (
                     scheduleValues[i].map((schedule) => {
-                      return <div>{schedule.name}</div>;
+                      return (
+                        <div className="flex justify-between items-center">
+                          <span>{schedule.name}</span>
+                          <Button
+                            className="text-sm"
+                            size="sm"
+                            color="danger"
+                            onPress={() => {}}
+                          >
+                            Remove
+                          </Button>
+                        </div>
+                      );
                     })
                   ) : (
                     <div className="text-stone-400">No workout</div>
                   )}
                 </div>
                 <Button
-                  className="text-sm"
-                  size="sm"
                   color="success"
                   onPress={() => handleAddWorkoutButtonPress(i)}
                 >
