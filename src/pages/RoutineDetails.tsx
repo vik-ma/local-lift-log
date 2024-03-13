@@ -38,6 +38,8 @@ export default function RoutineDetailsPage() {
   const [scheduleValues, setScheduleValues] = useState<RoutineScheduleItem[][]>(
     []
   );
+  const [workoutTemplateScheduleToRemove, setWorkoutTemplateScheduleToRemove] =
+    useState<RoutineScheduleItem>();
 
   const isNewRoutineNameInvalid = useMemo(() => {
     return (
@@ -47,6 +49,7 @@ export default function RoutineDetailsPage() {
     );
   }, [newRoutineName]);
 
+  const deleteModal = useDisclosure();
   const workoutTemplatesModal = useDisclosure();
 
   const getWorkoutTemplateSchedules = useCallback(async () => {
@@ -186,29 +189,32 @@ export default function RoutineDetailsPage() {
     }
   };
 
-  const removeWorkoutTemplateFromDay = async (workoutTemplateId: number) => {
-    if (
-      routine === undefined ||
-      isNaN(workoutTemplateId) ||
-      selectedDay < 0 ||
-      selectedDay > routine?.num_days_in_schedule - 1
-    )
+  const removeWorkoutTemplateFromDay = async () => {
+    if (routine === undefined || workoutTemplateScheduleToRemove === undefined)
       return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
       await db.execute("DELETE from workout_template_schedules WHERE id = $1", [
-        workoutTemplateId,
+        workoutTemplateScheduleToRemove.id,
       ]);
 
       await getWorkoutTemplateSchedules();
 
-      workoutTemplatesModal.onClose();
-      toast.success(`Workout removed from ${dayNameList[selectedDay]}`);
+      deleteModal.onClose();
+      toast.success(
+        `${workoutTemplateScheduleToRemove.name} removed from ${dayNameList[selectedDay]}`
+      );
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleRemoveButtonPressed = (schedule: RoutineScheduleItem) => {
+    setSelectedDay(schedule.day);
+    setWorkoutTemplateScheduleToRemove(schedule);
+    deleteModal.onOpen();
   };
 
   if (routine === undefined) return NotFound();
@@ -221,6 +227,39 @@ export default function RoutineDetailsPage() {
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
+      <Modal
+        isOpen={deleteModal.isOpen}
+        onOpenChange={deleteModal.onOpenChange}
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">
+                <h2>
+                  Remove Workout Template from{" "}
+                  <span className="text-success">
+                    {dayNameList[selectedDay]}
+                  </span>
+                </h2>
+              </ModalHeader>
+              <ModalBody>
+                <p>
+                  Are you sure you want to remove{" "}
+                  {workoutTemplateScheduleToRemove?.name}?
+                </p>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="danger" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+                <Button color="danger" onPress={removeWorkoutTemplateFromDay}>
+                  Remove
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
       <Modal
         isOpen={workoutTemplatesModal.isOpen}
         onOpenChange={workoutTemplatesModal.onOpenChange}
@@ -343,7 +382,7 @@ export default function RoutineDetailsPage() {
                             size="sm"
                             color="danger"
                             onPress={() => {
-                              removeWorkoutTemplateFromDay(schedule.id);
+                              handleRemoveButtonPressed(schedule);
                             }}
                           >
                             Remove
