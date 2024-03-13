@@ -310,7 +310,10 @@ export default function RoutineDetailsPage() {
                   {scheduleValues[i]?.length > 0 ? (
                     scheduleValues[i].map((schedule) => {
                       return (
-                        <div className="flex justify-between items-center">
+                        <div
+                          key={`${schedule.id}`}
+                          className="flex justify-between items-center"
+                        >
                           <span>{schedule.name}</span>
                           <Button
                             className="text-sm"
