@@ -2,9 +2,9 @@ import { useParams } from "react-router-dom";
 import {
   Routine,
   WorkoutTemplateListItem,
-  WorkoutTemplateScheduleWithName,
+  RoutineScheduleItem,
 } from "../typings";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import {
   Button,
   useDisclosure,
@@ -34,6 +34,7 @@ export default function RoutineDetailsPage() {
     WorkoutTemplateListItem[]
   >([]);
   const [selectedDay, setSelectedDay] = useState<number>(0);
+  const [scheduleValues, setScheduleValues] = useState<string[]>([]);
 
   const isNewRoutineNameInvalid = useMemo(() => {
     return (
@@ -44,6 +45,46 @@ export default function RoutineDetailsPage() {
   }, [newRoutineName]);
 
   const workoutTemplatesModal = useDisclosure();
+
+  const getWorkoutTemplateSchedules = useCallback(async () => {
+    if (routine?.num_days_in_schedule === undefined) return;
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      const result = await db.select<RoutineScheduleItem[]>(
+        `SELECT workout_template_schedules.id, day, workout_template_id, workout_templates.name 
+        FROM workout_template_schedules 
+        JOIN workout_templates 
+        ON workout_template_schedules.id=workout_templates.id 
+        WHERE routine_id = $1`,
+        [id]
+      );
+
+      const schedules: RoutineScheduleItem[] = result.map((row) => ({
+        id: row.id,
+        day: row.day,
+        workout_template_id: row.workout_template_id,
+        name: row.name,
+      }));
+
+      const workoutScheduleStringList: string[] = Array.from(
+        { length: routine?.num_days_in_schedule },
+        (_, i) => {
+          const itemsForDay = schedules.filter((item) => item.day === i);
+          if (itemsForDay.length === 0) {
+            return "No Workout Set";
+          } else {
+            return itemsForDay.map((item) => item.name).join(", ");
+          }
+        }
+      );
+
+      setScheduleValues(workoutScheduleStringList);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [id, routine?.num_days_in_schedule]);
 
   useEffect(() => {
     const getRoutine = async () => {
@@ -86,38 +127,10 @@ export default function RoutineDetailsPage() {
       }
     };
 
-    const getWorkoutTemplateSchedules = async () => {
-      try {
-        const db = await Database.load(import.meta.env.VITE_DB);
-
-        const result = await db.select<WorkoutTemplateScheduleWithName[]>(
-          `SELECT workout_template_schedules.id, day, workout_template_id, workout_templates.name 
-          FROM workout_template_schedules 
-          JOIN workout_templates 
-          ON workout_template_schedules.id=workout_templates.id 
-          WHERE routine_id = $1`,
-          [id]
-        );
-
-        const schedules: WorkoutTemplateScheduleWithName[] = result.map(
-          (row) => ({
-            id: row.id,
-            day: row.day,
-            workout_template_id: row.workout_template_id,
-            name: row.name,
-          })
-        );
-
-        console.log(schedules);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
     getRoutine();
     getWorkoutTemplates();
     getWorkoutTemplateSchedules();
-  }, [id]);
+  }, [id, getWorkoutTemplateSchedules]);
 
   const updateRoutineNoteAndName = async () => {
     if (isNewRoutineNameInvalid) return;
@@ -297,7 +310,7 @@ export default function RoutineDetailsPage() {
             {Array.from(Array(routine.num_days_in_schedule), (_, i) => (
               <div key={`day-${i + 1}`} className="flex gap-5 items-center">
                 <span className="font-medium w-24">{dayNameList[i]}</span>
-                <span className="">No workout</span>
+                <span className="">{scheduleValues[i]}</span>
                 <Button
                   className="text-sm"
                   size="sm"

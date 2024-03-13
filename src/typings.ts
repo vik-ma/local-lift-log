@@ -51,7 +51,7 @@ export type WorkoutTemplatesSchedule = {
   routine_id: number;
 };
 
-export type WorkoutTemplateScheduleWithName = {
+export type RoutineScheduleItem = {
   id: number;
   day: number;
   workout_template_id: number;
