@@ -1,5 +1,9 @@
 import { useParams } from "react-router-dom";
-import { Routine, WorkoutTemplateListItem } from "../typings";
+import {
+  Routine,
+  WorkoutTemplateListItem,
+  WorkoutTemplateScheduleWithName,
+} from "../typings";
 import { useState, useMemo, useEffect } from "react";
 import {
   Button,
@@ -82,8 +86,37 @@ export default function RoutineDetailsPage() {
       }
     };
 
+    const getWorkoutTemplateSchedules = async () => {
+      try {
+        const db = await Database.load(import.meta.env.VITE_DB);
+
+        const result = await db.select<WorkoutTemplateScheduleWithName[]>(
+          `SELECT workout_template_schedules.id, day, workout_template_id, workout_templates.name 
+          FROM workout_template_schedules 
+          JOIN workout_templates 
+          ON workout_template_schedules.id=workout_templates.id 
+          WHERE routine_id = $1`,
+          [id]
+        );
+
+        const schedules: WorkoutTemplateScheduleWithName[] = result.map(
+          (row) => ({
+            id: row.id,
+            day: row.day,
+            workout_template_id: row.workout_template_id,
+            name: row.name,
+          })
+        );
+
+        console.log(schedules);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     getRoutine();
     getWorkoutTemplates();
+    getWorkoutTemplateSchedules();
   }, [id]);
 
   const updateRoutineNoteAndName = async () => {
