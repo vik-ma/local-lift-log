@@ -306,11 +306,16 @@ export default function RoutineDetailsPage() {
               ? `${routine.num_days_in_schedule} Day Schedule`
               : "Weekly Schedule"}
           </h2>
-          <div className="flex flex-col gap-1.5 py-1">
+          <div className="flex flex-col gap-0.5 py-1">
             {Array.from(Array(routine.num_days_in_schedule), (_, i) => (
-              <div key={`day-${i + 1}`} className="flex gap-5 items-center">
-                <span className="font-medium w-24">{dayNameList[i]}</span>
-                <span className="">{scheduleValues[i]}</span>
+              <div
+                key={`day-${i + 1}`}
+                className="flex items-center justify-between"
+              >
+                <div className="flex flex-col">
+                  <span className="font-medium">{dayNameList[i]}</span>
+                  <span className="">{scheduleValues[i]}</span>
+                </div>
                 <Button
                   className="text-sm"
                   size="sm"
