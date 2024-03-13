@@ -146,6 +146,12 @@ export default function RoutineListPage() {
 
       db.execute("DELETE from routines WHERE id = $1", [routineToDelete.id]);
 
+      // Delete all workout_template_schedules referencing routine
+      db.execute(
+        "DELETE from workout_template_schedules WHERE routine_id = $1",
+        [routineToDelete.id]
+      );
+
       const updatedRoutines: RoutineListItem[] = routines.filter(
         (item) => item.id !== routineToDelete?.id
       );
