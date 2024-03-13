@@ -170,8 +170,6 @@ export default function RoutineDetailsPage() {
       return;
 
     try {
-      if (routine === undefined) return;
-
       const db = await Database.load(import.meta.env.VITE_DB);
 
       await db.execute(
@@ -179,10 +177,35 @@ export default function RoutineDetailsPage() {
         [selectedDay, workoutTemplateId, routine.id]
       );
 
-      // TODO: UPDATE SCHEDULE
+      await getWorkoutTemplateSchedules();
 
       workoutTemplatesModal.onClose();
-      toast.success(`Workout Added to ${dayNameList[selectedDay]} `);
+      toast.success(`Workout added to ${dayNameList[selectedDay]}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const removeWorkoutTemplateFromDay = async (workoutTemplateId: number) => {
+    if (
+      routine === undefined ||
+      isNaN(workoutTemplateId) ||
+      selectedDay < 0 ||
+      selectedDay > routine?.num_days_in_schedule - 1
+    )
+      return;
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      await db.execute("DELETE from workout_template_schedules WHERE id = $1", [
+        workoutTemplateId,
+      ]);
+
+      await getWorkoutTemplateSchedules();
+
+      workoutTemplatesModal.onClose();
+      toast.success(`Workout removed from ${dayNameList[selectedDay]}`);
     } catch (error) {
       console.log(error);
     }
@@ -319,7 +342,9 @@ export default function RoutineDetailsPage() {
                             className="text-sm"
                             size="sm"
                             color="danger"
-                            onPress={() => {}}
+                            onPress={() => {
+                              removeWorkoutTemplateFromDay(schedule.id);
+                            }}
                           >
                             Remove
                           </Button>
