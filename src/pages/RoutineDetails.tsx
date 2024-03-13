@@ -53,10 +53,9 @@ export default function RoutineDetailsPage() {
       const db = await Database.load(import.meta.env.VITE_DB);
 
       const result = await db.select<RoutineScheduleItem[]>(
-        `SELECT workout_template_schedules.id, day, workout_template_id, workout_templates.name 
+        `SELECT workout_template_schedules.id, day, workout_template_id,
+        (SELECT name FROM workout_templates WHERE id = workout_template_schedules.workout_template_id) AS name
         FROM workout_template_schedules 
-        JOIN workout_templates 
-        ON workout_template_schedules.id=workout_templates.id 
         WHERE routine_id = $1`,
         [id]
       );
@@ -67,6 +66,8 @@ export default function RoutineDetailsPage() {
         workout_template_id: row.workout_template_id,
         name: row.name,
       }));
+
+      console.log(schedules);
 
       const workoutScheduleStringList: string[] = Array.from(
         { length: routine?.num_days_in_schedule },
