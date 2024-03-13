@@ -17,6 +17,7 @@ import { NotFound } from ".";
 import Database from "tauri-plugin-sql-api";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { GetScheduleDayNames } from "../helpers/Routines/GetScheduleDayNames";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function RoutineDetailsPage() {
   const { id } = useParams();
@@ -118,6 +119,36 @@ export default function RoutineDetailsPage() {
     workoutTemplatesModal.onOpen();
   };
 
+  const addWorkoutTemplateToDay = async (workoutTemplateIdString: string) => {
+    const workoutTemplateId: number = parseInt(workoutTemplateIdString);
+
+    if (
+      routine === undefined ||
+      isNaN(workoutTemplateId) ||
+      selectedDay < 0 ||
+      selectedDay > routine?.num_days_in_schedule - 1
+    )
+      return;
+
+    try {
+      if (routine === undefined) return;
+
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      await db.execute(
+        "INSERT into workout_template_schedules (day, workout_template_id, routine_id) VALUES ($1, $2, $3)",
+        [selectedDay, workoutTemplateId, routine.id]
+      );
+
+      // TODO: UPDATE SCHEDULE
+
+      workoutTemplatesModal.onClose();
+      toast.success(`Workout Added to ${dayNameList[selectedDay]} `);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   if (routine === undefined) return NotFound();
 
   const dayNameList: string[] = GetScheduleDayNames(
@@ -127,6 +158,7 @@ export default function RoutineDetailsPage() {
 
   return (
     <>
+      <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
       <Modal
         isOpen={workoutTemplatesModal.isOpen}
         onOpenChange={workoutTemplatesModal.onOpenChange}
@@ -145,7 +177,7 @@ export default function RoutineDetailsPage() {
               <ModalBody>
                 <Listbox
                   aria-label="Workout Template List"
-                  onAction={(key) => console.log(key)}
+                  onAction={(key) => addWorkoutTemplateToDay(key.toString())}
                 >
                   {workoutTemplates.map((template) => (
                     <ListboxItem
@@ -160,10 +192,9 @@ export default function RoutineDetailsPage() {
                 </Listbox>
               </ModalBody>
               <ModalFooter>
-                <Button color="success" variant="light" onPress={onClose}>
-                  Close
+                <Button color="danger" variant="light" onPress={onClose}>
+                  Cancel
                 </Button>
-                <Button color="success">Add</Button>
               </ModalFooter>
             </>
           )}
