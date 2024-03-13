@@ -21,6 +21,7 @@ import { NotFound } from ".";
 import Database from "tauri-plugin-sql-api";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { GetScheduleDayNames } from "../helpers/Routines/GetScheduleDayNames";
+import { GetScheduleDayValues } from "../helpers/Routines/GetScheduleValues";
 import toast, { Toaster } from "react-hot-toast";
 
 export default function RoutineDetailsPage() {
@@ -34,7 +35,9 @@ export default function RoutineDetailsPage() {
     WorkoutTemplateListItem[]
   >([]);
   const [selectedDay, setSelectedDay] = useState<number>(0);
-  const [scheduleValues, setScheduleValues] = useState<string[]>([]);
+  const [scheduleValues, setScheduleValues] = useState<RoutineScheduleItem[][]>(
+    []
+  );
 
   const isNewRoutineNameInvalid = useMemo(() => {
     return (
@@ -67,19 +70,8 @@ export default function RoutineDetailsPage() {
         name: row.name,
       }));
 
-      console.log(schedules);
-
-      const workoutScheduleStringList: string[] = Array.from(
-        { length: routine?.num_days_in_schedule },
-        (_, i) => {
-          const itemsForDay = schedules.filter((item) => item.day === i);
-          if (itemsForDay.length === 0) {
-            return "No Workout Set";
-          } else {
-            return itemsForDay.map((item) => item.name).join(", ");
-          }
-        }
-      );
+      const workoutScheduleStringList: RoutineScheduleItem[][] =
+        GetScheduleDayValues(routine?.num_days_in_schedule, schedules);
 
       setScheduleValues(workoutScheduleStringList);
     } catch (error) {
@@ -315,7 +307,13 @@ export default function RoutineDetailsPage() {
               >
                 <div className="flex flex-col">
                   <span className="font-medium">{dayNameList[i]}</span>
-                  <span className="">{scheduleValues[i]}</span>
+                  {scheduleValues[i]?.length > 0 ? (
+                    scheduleValues[i].map((schedule) => {
+                      return <div>{schedule.name}</div>;
+                    })
+                  ) : (
+                    <div className="text-stone-400">No workout</div>
+                  )}
                 </div>
                 <Button
                   className="text-sm"
