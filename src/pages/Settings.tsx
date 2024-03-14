@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { UserSettings } from "../typings";
 import { GetUserSettings } from "../helpers/UserSettings/GetUserSettings";
 import { Switch } from "@nextui-org/react";
-import { UpdateUserSettings } from "../helpers/UserSettings/UpdateUserSettings";
+import { UpdateAllUserSettings } from "../helpers/UserSettings/UpdateAllUserSettings";
 import LoadingSpinner from "../components/LoadingSpinner";
 
 export default function SettingsPage() {
@@ -29,7 +29,7 @@ export default function SettingsPage() {
   };
 
   const updateUserSettings = async (userSettings: UserSettings) => {
-    await UpdateUserSettings(userSettings);
+    await UpdateAllUserSettings(userSettings);
     setUserSettings(userSettings);
   };
 

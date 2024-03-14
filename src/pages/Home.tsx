@@ -3,7 +3,7 @@ import { Checkbox, Button } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
 import { useNavigate } from "react-router-dom";
 import { UserSettings } from "../typings";
-import { UpdateUserSettings } from "../helpers/UserSettings/UpdateUserSettings";
+import { UpdateAllUserSettings } from "../helpers/UserSettings/UpdateAllUserSettings";
 import { GetUserSettings } from "../helpers/UserSettings/GetUserSettings";
 import { CreateDefaultUserSettings } from "../helpers/UserSettings/CreateDefaultUserSettings";
 import { CreateDefaultExerciseList } from "../helpers/Exercises/CreateDefaultExerciseList";
@@ -35,7 +35,7 @@ export default function HomePage() {
 
           // Create Default User Settings
           if (defaultUserSettings !== undefined) {
-            await UpdateUserSettings(defaultUserSettings);
+            await UpdateAllUserSettings(defaultUserSettings);
             setUserSettings(defaultUserSettings);
           }
 
@@ -71,7 +71,7 @@ export default function HomePage() {
       active_routine_id: 33,
     };
 
-    await UpdateUserSettings(updatedSettings);
+    await UpdateAllUserSettings(updatedSettings);
     setUserSettings(updatedSettings);
   };
 

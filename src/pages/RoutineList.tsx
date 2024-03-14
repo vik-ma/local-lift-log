@@ -17,7 +17,7 @@ import { useState, useEffect, useMemo } from "react";
 import { Routine, RoutineListItem, UserSettings } from "../typings";
 import toast, { Toaster } from "react-hot-toast";
 import Database from "tauri-plugin-sql-api";
-import { UpdateUserSettings } from "../helpers/UserSettings/UpdateUserSettings";
+import { UpdateAllUserSettings } from "../helpers/UserSettings/UpdateAllUserSettings";
 import { GetUserSettings } from "../helpers/UserSettings/GetUserSettings";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { NumDaysInScheduleOptions } from "../helpers/Routines/NumDaysInScheduleOptions";
@@ -92,7 +92,7 @@ export default function RoutineListPage() {
   };
 
   const updateUserSettings = async (userSettings: UserSettings) => {
-    await UpdateUserSettings(userSettings);
+    await UpdateAllUserSettings(userSettings);
     setUserSettings(userSettings);
   };
 
