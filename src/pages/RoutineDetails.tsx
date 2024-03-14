@@ -136,7 +136,7 @@ export default function RoutineDetailsPage() {
       const userSettings: UserSettingsOptional | undefined =
         await GetActiveRoutineId();
 
-      setUserSettings(userSettings);
+      if (userSettings !== undefined) setUserSettings(userSettings);
     };
 
     getRoutine();

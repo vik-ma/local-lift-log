@@ -14,18 +14,18 @@ import {
 } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useMemo } from "react";
-import { Routine, RoutineListItem, UserSettings } from "../typings";
+import { Routine, RoutineListItem, UserSettingsOptional } from "../typings";
 import toast, { Toaster } from "react-hot-toast";
 import Database from "tauri-plugin-sql-api";
-import { UpdateAllUserSettings } from "../helpers/UserSettings/UpdateAllUserSettings";
-import { GetUserSettings } from "../helpers/UserSettings/GetUserSettings";
+import { UpdateActiveRoutineId } from "../helpers/UserSettings/UpdateActiveRoutineId";
+import { GetActiveRoutineId } from "../helpers/UserSettings/GetActiveRoutineId";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { NumDaysInScheduleOptions } from "../helpers/Routines/NumDaysInScheduleOptions";
 
 export default function RoutineListPage() {
   const [routines, setRoutines] = useState<RoutineListItem[]>([]);
   const [routineToDelete, setRoutineToDelete] = useState<RoutineListItem>();
-  const [userSettings, setUserSettings] = useState<UserSettings>();
+  const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const navigate = useNavigate();
@@ -67,12 +67,14 @@ export default function RoutineListPage() {
       }
     };
 
-    const loadUserSettings = async () => {
-      const settings: UserSettings | undefined = await GetUserSettings();
-      if (settings !== undefined) setUserSettings(settings);
+    const getActiveRoutineId = async () => {
+      const userSettings: UserSettingsOptional | undefined =
+        await GetActiveRoutineId();
+
+      if (userSettings !== undefined) setUserSettings(userSettings);
     };
 
-    loadUserSettings();
+    getActiveRoutineId();
     getRoutines();
   }, []);
 
@@ -83,16 +85,16 @@ export default function RoutineListPage() {
     )
       return;
 
-    const updatedSettings: UserSettings = {
+    const updatedSettings: UserSettingsOptional = {
       ...userSettings,
       active_routine_id: routine.id,
     };
 
-    await updateUserSettings(updatedSettings);
+    await updateActiveRoutineId(updatedSettings);
   };
 
-  const updateUserSettings = async (userSettings: UserSettings) => {
-    await UpdateAllUserSettings(userSettings);
+  const updateActiveRoutineId = async (userSettings: UserSettingsOptional) => {
+    await UpdateActiveRoutineId(userSettings);
     setUserSettings(userSettings);
   };
 
@@ -156,12 +158,12 @@ export default function RoutineListPage() {
       setRoutines(updatedRoutines);
 
       if (routineToDelete.id === userSettings?.active_routine_id) {
-        const updatedSettings: UserSettings = {
+        const updatedSettings: UserSettingsOptional = {
           ...userSettings,
           active_routine_id: 0,
         };
 
-        await updateUserSettings(updatedSettings);
+        await updateActiveRoutineId(updatedSettings);
       }
 
       toast.success("Routine Deleted");
