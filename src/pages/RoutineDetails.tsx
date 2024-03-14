@@ -31,6 +31,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { NumDaysInScheduleOptions } from "../helpers/Routines/NumDaysInScheduleOptions";
 import { UpdateActiveRoutineId } from "../helpers/UserSettings/UpdateActiveRoutineId";
 import { GetActiveRoutineId } from "../helpers/UserSettings/GetActiveRoutineId";
+import Calendar from "react-calendar";
 
 export default function RoutineDetailsPage() {
   const { id } = useParams();
@@ -61,6 +62,7 @@ export default function RoutineDetailsPage() {
 
   const deleteModal = useDisclosure();
   const workoutTemplatesModal = useDisclosure();
+  const calendarModal = useDisclosure();
 
   const getWorkoutTemplateSchedules = useCallback(async () => {
     if (routine?.num_days_in_schedule === undefined) return;
@@ -382,6 +384,29 @@ export default function RoutineDetailsPage() {
           )}
         </ModalContent>
       </Modal>
+      <Modal
+        isOpen={calendarModal.isOpen}
+        onOpenChange={calendarModal.onOpenChange}
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">
+                Pick Custom Schedule Start Date
+              </ModalHeader>
+              <ModalBody>
+                <Calendar onClickDay={(value) => console.log(value)} />
+              </ModalBody>
+              <ModalFooter>
+                <Button color="success" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+                <Button color="success">Select</Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
       <div className="flex flex-col gap-4">
         {isLoading ? (
           <LoadingSpinner />
@@ -497,11 +522,22 @@ export default function RoutineDetailsPage() {
           </>
         )}
         <div>
-          <h2 className="text-xl font-semibold">
-            {routine.is_schedule_weekly === 0
-              ? `${routine.num_days_in_schedule} Day Schedule`
-              : "Weekly Schedule"}
-          </h2>
+          <div className="flex justify-between">
+            <h2 className="text-xl font-semibold">
+              {routine.is_schedule_weekly === 0
+                ? `${routine.num_days_in_schedule} Day Schedule`
+                : "Weekly Schedule"}
+            </h2>
+            {routine.is_schedule_weekly === 0 && (
+              <Button
+                size="sm"
+                color="primary"
+                onPress={() => calendarModal.onOpen()}
+              >
+                Pick StartDate
+              </Button>
+            )}
+          </div>
           <div className="flex flex-col gap-0.5 py-1">
             {Array.from(Array(routine.num_days_in_schedule), (_, i) => (
               <div
@@ -543,6 +579,7 @@ export default function RoutineDetailsPage() {
                 </Button>
               </div>
             ))}
+            d
           </div>
         </div>
       </div>
