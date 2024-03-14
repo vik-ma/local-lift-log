@@ -18,6 +18,12 @@ export type UserSettings = {
   active_routine_id: number;
 };
 
+export type UserSettingsOptional = {
+  id: number;
+  show_timestamp_on_completed_set?: number;
+  active_routine_id?: number;
+};
+
 export type Exercise = {
   id: number;
   name: string;
@@ -56,7 +62,7 @@ export type RoutineScheduleItem = {
   day: number;
   workout_template_id: number;
   name: string;
-}
+};
 
 export type Set = {
   id: number;

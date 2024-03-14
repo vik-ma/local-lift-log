@@ -3,6 +3,7 @@ import {
   Routine,
   WorkoutTemplateListItem,
   RoutineScheduleItem,
+  UserSettingsOptional,
 } from "../typings";
 import { useState, useMemo, useEffect, useCallback } from "react";
 import {
@@ -44,6 +45,7 @@ export default function RoutineDetailsPage() {
   );
   const [workoutTemplateScheduleToRemove, setWorkoutTemplateScheduleToRemove] =
     useState<RoutineScheduleItem>();
+  const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
 
   const numDaysInScheduleOptions: number[] = NumDaysInScheduleOptions;
 
@@ -128,9 +130,26 @@ export default function RoutineDetailsPage() {
       }
     };
 
+    const getActiveRoutineId = async () => {
+      try {
+        const db = await Database.load(import.meta.env.VITE_DB);
+
+        const result = await db.select<UserSettingsOptional[]>(
+          "SELECT id, active_routine_id FROM user_settings"
+        );
+
+        const userSettings = result[0];
+
+        setUserSettings(userSettings);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     getRoutine();
     getWorkoutTemplates();
     getWorkoutTemplateSchedules();
+    getActiveRoutineId();
   }, [id, getWorkoutTemplateSchedules]);
 
   const updateRoutine = async () => {
@@ -273,6 +292,23 @@ export default function RoutineDetailsPage() {
     setEditedRoutine((prev) => ({ ...prev!, num_days_in_schedule: numDays }));
   };
 
+  const handleSetActiveButtonPress = async () => {
+    if (routine === undefined || userSettings === undefined) return;
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      db.execute(
+        "UPDATE user_settings SET active_routine_id = $1 WHERE id = $2",
+        [routine.id, userSettings.id]
+      );
+
+      setUserSettings((prev) => ({ ...prev!, active_routine_id: routine.id }));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   if (routine === undefined) return NotFound();
 
   const dayNameList: string[] = GetScheduleDayNames(
@@ -367,8 +403,28 @@ export default function RoutineDetailsPage() {
                 {routine?.name}
               </h1>
             </div>
+            <div className="flex justify-center">
+              {userSettings?.active_routine_id === routine.id ? (
+                <span className="text-xl text-success font-semibold">
+                  Currently Active Routine
+                </span>
+              ) : (
+                <div className="flex flex-col items-center gap-0.5">
+                  <span className="text-lg text-danger font-semibold">
+                    Currently Not Active Routine
+                  </span>
+                  <Button
+                    size="sm"
+                    color="primary"
+                    onPress={handleSetActiveButtonPress}
+                  >
+                    Set Active
+                  </Button>
+                </div>
+              )}
+            </div>
             <div>
-              <h2 className="text-xl px-1">
+              <h2 className="text-xl">
                 <span className="font-semibold">Note:</span> {routine?.note}
               </h2>
             </div>
