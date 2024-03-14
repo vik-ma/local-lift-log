@@ -2,7 +2,7 @@ export type Routine = {
   id: number;
   name: string;
   note: string | null;
-  is_schedule_weekly: boolean;
+  is_schedule_weekly: number;
   num_days_in_schedule: number;
   custom_schedule_start_date: string | null;
 };
@@ -14,7 +14,7 @@ export type RoutineListItem = {
 
 export type UserSettings = {
   id: number;
-  show_timestamp_on_completed_set: boolean;
+  show_timestamp_on_completed_set: number;
   active_routine_id: number;
 };
 
@@ -62,13 +62,13 @@ export type Set = {
   id: number;
   workout_id: number;
   exercise_id: number;
-  is_template: boolean;
+  is_template: number;
   workout_template_id: number;
   note: string | null;
   comment: string | null;
-  is_completed: boolean;
+  is_completed: number;
   time_completed: string;
-  is_warmup: boolean;
+  is_warmup: number;
   weight: number;
   reps: number;
   rir: number;
@@ -76,13 +76,13 @@ export type Set = {
   time_in_seconds: number;
   distance: number;
   resistance_level: number;
-  is_tracking_weight: boolean;
-  is_tracking_reps: boolean;
-  is_tracking_rir: boolean;
-  is_tracking_rpe: boolean;
-  is_tracking_time: boolean;
-  is_tracking_distance: boolean;
-  is_tracking_resistance_level: boolean;
+  is_tracking_weight: number;
+  is_tracking_reps: number;
+  is_tracking_rir: number;
+  is_tracking_rpe: number;
+  is_tracking_time: number;
+  is_tracking_distance: number;
+  is_tracking_resistance_level: number;
   weight_unit: string;
   distance_unit: string;
 };
