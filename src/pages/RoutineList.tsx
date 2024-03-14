@@ -20,6 +20,7 @@ import Database from "tauri-plugin-sql-api";
 import { UpdateUserSettings } from "../helpers/UserSettings/UpdateUserSettings";
 import { GetUserSettings } from "../helpers/UserSettings/GetUserSettings";
 import LoadingSpinner from "../components/LoadingSpinner";
+import { NumDaysInScheduleOptions } from "../helpers/Routines/NumDaysInScheduleOptions";
 
 export default function RoutineListPage() {
   const [routines, setRoutines] = useState<RoutineListItem[]>([]);
@@ -40,10 +41,7 @@ export default function RoutineListPage() {
 
   const [newRoutine, setNewRoutine] = useState<Routine>(defaultNewRoutine);
 
-  const numDaysInScheduleOptions: number[] = Array.from(
-    { length: 13 },
-    (_, index) => index + 2
-  );
+  const numDaysInScheduleOptions: number[] = NumDaysInScheduleOptions;
 
   const deleteModal = useDisclosure();
   const newRoutineModal = useDisclosure();
