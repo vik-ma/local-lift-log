@@ -29,6 +29,8 @@ import { GetScheduleDayNames } from "../helpers/Routines/GetScheduleDayNames";
 import { GetScheduleDayValues } from "../helpers/Routines/GetScheduleValues";
 import toast, { Toaster } from "react-hot-toast";
 import { NumDaysInScheduleOptions } from "../helpers/Routines/NumDaysInScheduleOptions";
+import { UpdateActiveRoutineId } from "../helpers/UserSettings/UpdateActiveRoutineId";
+import { GetActiveRoutineId } from "../helpers/UserSettings/GetActiveRoutineId";
 
 export default function RoutineDetailsPage() {
   const { id } = useParams();
@@ -131,19 +133,10 @@ export default function RoutineDetailsPage() {
     };
 
     const getActiveRoutineId = async () => {
-      try {
-        const db = await Database.load(import.meta.env.VITE_DB);
+      const userSettings: UserSettingsOptional | undefined =
+        await GetActiveRoutineId();
 
-        const result = await db.select<UserSettingsOptional[]>(
-          "SELECT id, active_routine_id FROM user_settings"
-        );
-
-        const userSettings = result[0];
-
-        setUserSettings(userSettings);
-      } catch (error) {
-        console.log(error);
-      }
+      setUserSettings(userSettings);
     };
 
     getRoutine();
@@ -295,18 +288,14 @@ export default function RoutineDetailsPage() {
   const handleSetActiveButtonPress = async () => {
     if (routine === undefined || userSettings === undefined) return;
 
-    try {
-      const db = await Database.load(import.meta.env.VITE_DB);
+    const updatedSettings: UserSettingsOptional = {
+      ...userSettings,
+      active_routine_id: routine.id,
+    };
 
-      db.execute(
-        "UPDATE user_settings SET active_routine_id = $1 WHERE id = $2",
-        [routine.id, userSettings.id]
-      );
+    await UpdateActiveRoutineId(updatedSettings);
 
-      setUserSettings((prev) => ({ ...prev!, active_routine_id: routine.id }));
-    } catch (error) {
-      console.log(error);
-    }
+    setUserSettings(updatedSettings);
   };
 
   if (routine === undefined) return NotFound();
