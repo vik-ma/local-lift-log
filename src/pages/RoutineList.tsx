@@ -181,7 +181,7 @@ export default function RoutineListPage() {
     );
   }, [newRoutine.name]);
 
-  const isNewRoutineValid = () => {
+  const isNewRoutineValid = (): boolean => {
     if (newRoutine.name === null || newRoutine.name.trim().length === 0)
       return false;
 
