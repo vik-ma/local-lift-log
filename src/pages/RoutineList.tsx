@@ -33,7 +33,7 @@ export default function RoutineListPage() {
     id: 0,
     name: "",
     note: "",
-    is_schedule_weekly: "true",
+    is_schedule_weekly: 1,
     num_days_in_schedule: 7,
     custom_schedule_start_date: null,
   };
@@ -203,10 +203,10 @@ export default function RoutineListPage() {
     if (scheduleType === "weekly") {
       setNewRoutine((prev) => ({
         ...prev,
-        is_schedule_weekly: "true",
+        is_schedule_weekly: 1,
         num_days_in_schedule: 7,
       }));
-    } else setNewRoutine((prev) => ({ ...prev, is_schedule_weekly: "false" }));
+    } else setNewRoutine((prev) => ({ ...prev, is_schedule_weekly: 0 }));
   };
 
   const handleNumDaysInScheduleChange = (

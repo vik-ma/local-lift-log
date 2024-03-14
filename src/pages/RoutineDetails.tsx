@@ -221,7 +221,7 @@ export default function RoutineDetailsPage() {
 
   const dayNameList: string[] = GetScheduleDayNames(
     routine?.num_days_in_schedule,
-    routine?.is_schedule_weekly === "true" ? true : false
+    routine?.is_schedule_weekly === 1 ? true : false
   );
 
   return (
@@ -357,7 +357,7 @@ export default function RoutineDetailsPage() {
         )}
         <div>
           <h2 className="text-xl font-semibold">
-            {routine.is_schedule_weekly !== "true"
+            {routine.is_schedule_weekly === 0
               ? `${routine.num_days_in_schedule} Day Schedule`
               : "Weekly Schedule"}
           </h2>
