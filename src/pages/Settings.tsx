@@ -22,7 +22,7 @@ export default function SettingsPage() {
   const handleSetShowTimestampChange = async (value: boolean) => {
     const updatedSettings: UserSettings = {
       ...userSettings!,
-      show_timestamp_on_completed_set: value,
+      show_timestamp_on_completed_set: value ? 1 : 0,
     };
 
     await updateUserSettings(updatedSettings);

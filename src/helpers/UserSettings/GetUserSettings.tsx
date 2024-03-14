@@ -1,6 +1,5 @@
 import Database from "tauri-plugin-sql-api";
 import { UserSettings } from "../../typings";
-import { ConvertStringToBoolean } from "../Misc/ConvertStringToBoolean";
 
 export const GetUserSettings = async () => {
   try {
@@ -12,12 +11,6 @@ export const GetUserSettings = async () => {
 
     if (result.length === 1) {
       const userSettings: UserSettings = result[0];
-      // Convert boolean values saved as strings
-      const convertedBooleanValue = ConvertStringToBoolean(
-        userSettings.show_timestamp_on_completed_set
-      );
-      userSettings.show_timestamp_on_completed_set = convertedBooleanValue;
-
       return userSettings;
     } else {
       return undefined;
