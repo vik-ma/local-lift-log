@@ -336,6 +336,31 @@ export default function RoutineDetailsPage() {
     }
   };
 
+  const resetCustomStartDate = async () => {
+    if (routine === undefined || routine.custom_schedule_start_date === null)
+      return;
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      await db.execute(
+        "UPDATE routines SET custom_schedule_start_date = $1 WHERE id = $2",
+        [null, routine.id]
+      );
+
+      setRoutine((prev) => ({
+        ...prev!,
+        custom_schedule_start_date: null,
+      }));
+
+      setNewCustomStartDate("");
+
+      toast.success("Start Date Reset");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   if (routine === undefined) return NotFound();
 
   const dayNameList: string[] = GetScheduleDayNames(
@@ -428,7 +453,7 @@ export default function RoutineDetailsPage() {
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                Pick Custom Schedule Start Date
+                Set Custom Schedule Start Date
               </ModalHeader>
               <ModalBody>
                 <Calendar
@@ -597,12 +622,12 @@ export default function RoutineDetailsPage() {
                     color="success"
                     onPress={() => calendarModal.onOpen()}
                   >
-                    Pick StartDate
+                    Set StartDate
                   </Button>
                   <Button
                     size="sm"
                     color="danger"
-                    onPress={() => calendarModal.onOpen()}
+                    onPress={resetCustomStartDate}
                   >
                     Reset
                   </Button>
