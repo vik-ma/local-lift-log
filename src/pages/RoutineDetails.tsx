@@ -33,6 +33,7 @@ import { UpdateActiveRoutineId } from "../helpers/UserSettings/UpdateActiveRouti
 import { GetActiveRoutineId } from "../helpers/UserSettings/GetActiveRoutineId";
 import Calendar from "react-calendar";
 import { ConvertDateToYmdString } from "../helpers/Dates/ConvertDateToYmdString";
+import { IsYmdDateStringValid } from "../helpers/Dates/IsYmdDateStringValid";
 
 export default function RoutineDetailsPage() {
   const { id } = useParams();
@@ -302,12 +303,37 @@ export default function RoutineDetailsPage() {
     setUserSettings(updatedSettings);
   };
 
-  const handleSelectCustomStartDate = async (selectedDate: Date) => {
+  const handleSelectCustomStartDate = (selectedDate: Date) => {
     if (routine === undefined) return;
 
     const formattedDate = ConvertDateToYmdString(selectedDate);
 
     setNewCustomStartDate(formattedDate);
+  };
+
+  const updateCustomStartDate = async () => {
+    if (routine === undefined || routine.is_schedule_weekly) return;
+
+    if (!IsYmdDateStringValid(newCustomStartDate)) return;
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      await db.execute(
+        "UPDATE routines SET custom_schedule_start_date = $1 WHERE id = $2",
+        [newCustomStartDate, routine.id]
+      );
+
+      setRoutine((prev) => ({
+        ...prev!,
+        custom_schedule_start_date: newCustomStartDate,
+      }));
+
+      calendarModal.onClose();
+      toast.success("Start Date Updated");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   if (routine === undefined) return NotFound();
@@ -409,12 +435,22 @@ export default function RoutineDetailsPage() {
                   value={newCustomStartDate}
                   onClickDay={(value) => handleSelectCustomStartDate(value)}
                 />
+                <span className="font-medium text-lg">
+                  Start Date:{" "}
+                  <span className="text-success">{newCustomStartDate}</span>
+                </span>
               </ModalBody>
               <ModalFooter>
                 <Button color="success" variant="light" onPress={onClose}>
                   Close
                 </Button>
-                <Button color="success">Select</Button>
+                <Button
+                  color="success"
+                  isDisabled={newCustomStartDate === ""}
+                  onPress={updateCustomStartDate}
+                >
+                  Select
+                </Button>
               </ModalFooter>
             </>
           )}
