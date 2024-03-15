@@ -93,10 +93,8 @@ export default function WorkoutTemplateDetails() {
             </h1>
           </div>
           <div>
-            <h2 className="text-xl px-1">
-              <span className="font-semibold">Note:</span>{" "}
-              {workoutTemplate?.note}
-            </h2>
+            <h2 className="text-xl font-semibold ">Note</h2>
+            <span>{workoutTemplate?.note}</span>
           </div>
           {isEditing ? (
             <div className="flex flex-col justify-center gap-2">

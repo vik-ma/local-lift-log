@@ -512,9 +512,8 @@ export default function RoutineDetailsPage() {
               )}
             </div>
             <div>
-              <h2 className="text-xl">
-                <span className="font-semibold">Note:</span> {routine?.note}
-              </h2>
+              <h2 className="text-xl font-semibold ">Note</h2>
+              <span>{routine?.note}</span>
             </div>
             {isEditing ? (
               <div className="flex flex-col justify-center gap-2">

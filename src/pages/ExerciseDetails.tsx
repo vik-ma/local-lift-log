@@ -140,15 +140,12 @@ export default function ExerciseDetailsPage() {
             </h1>
           </div>
           <div>
-            <h2 className="text-xl px-1">
-              <span className="font-semibold">Note:</span> {exercise?.note}
-            </h2>
+            <h2 className="text-xl font-semibold ">Note</h2>
+            <span>{exercise?.note}</span>
           </div>
           <div>
-            <h2 className="text-xl px-1">
-              <span className="font-semibold">Exercise Groups:</span>{" "}
-              {exerciseGroupString}
-            </h2>
+            <h2 className="text-xl font-semibold">Exercise Groups</h2>
+            <span>{exerciseGroupString}</span>
           </div>
           {isEditing ? (
             <div className="flex flex-col justify-center gap-2">
