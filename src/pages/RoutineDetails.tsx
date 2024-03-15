@@ -478,7 +478,7 @@ export default function RoutineDetailsPage() {
                   </span>
                   <Button
                     size="sm"
-                    color="primary"
+                    color="success"
                     onPress={handleSetActiveButtonPress}
                   >
                     Set Active
@@ -563,7 +563,7 @@ export default function RoutineDetailsPage() {
               </div>
             ) : (
               <div className="flex justify-center">
-                <Button color="primary" onPress={() => setIsEditing(true)}>
+                <Button color="success" onPress={() => setIsEditing(true)}>
                   Edit
                 </Button>
               </div>
@@ -571,20 +571,43 @@ export default function RoutineDetailsPage() {
           </>
         )}
         <div>
-          <div className="flex justify-between">
+          <div className="flex flex-col gap-1">
             <h2 className="text-xl font-semibold">
               {routine.is_schedule_weekly === 0
                 ? `${routine.num_days_in_schedule} Day Schedule`
                 : "Weekly Schedule"}
             </h2>
             {routine.is_schedule_weekly === 0 && (
-              <Button
-                size="sm"
-                color="primary"
-                onPress={() => calendarModal.onOpen()}
-              >
-                Pick StartDate
-              </Button>
+              <div className="flex gap-8 items-center justify-between">
+                {routine.custom_schedule_start_date === null ? (
+                  <span className="font-medium text-danger">
+                    No Start Date Selected
+                  </span>
+                ) : (
+                  <div className="flex w-full justify-between">
+                    <span className="font-medium">Start Date</span>
+                    <span className="font-medium text-success">
+                      {routine.custom_schedule_start_date}
+                    </span>
+                  </div>
+                )}
+                <div className="flex gap-1">
+                  <Button
+                    size="sm"
+                    color="success"
+                    onPress={() => calendarModal.onOpen()}
+                  >
+                    Pick StartDate
+                  </Button>
+                  <Button
+                    size="sm"
+                    color="danger"
+                    onPress={() => calendarModal.onOpen()}
+                  >
+                    Reset
+                  </Button>
+                </div>
+              </div>
             )}
           </div>
           <div className="flex flex-col gap-0.5 py-1">
