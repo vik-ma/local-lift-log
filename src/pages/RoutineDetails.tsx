@@ -32,6 +32,7 @@ import { NumDaysInScheduleOptions } from "../helpers/Routines/NumDaysInScheduleO
 import { UpdateActiveRoutineId } from "../helpers/UserSettings/UpdateActiveRoutineId";
 import { GetActiveRoutineId } from "../helpers/UserSettings/GetActiveRoutineId";
 import Calendar from "react-calendar";
+import { ConvertDateToYmdString } from "../helpers/Dates/ConvertDateToYmdString";
 
 export default function RoutineDetailsPage() {
   const { id } = useParams();
@@ -49,6 +50,7 @@ export default function RoutineDetailsPage() {
   const [workoutTemplateScheduleToRemove, setWorkoutTemplateScheduleToRemove] =
     useState<RoutineScheduleItem>();
   const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
+  const [newCustomStartDate, setNewCustomStartDate] = useState<string>("");
 
   const numDaysInScheduleOptions: number[] = NumDaysInScheduleOptions;
 
@@ -300,6 +302,14 @@ export default function RoutineDetailsPage() {
     setUserSettings(updatedSettings);
   };
 
+  const handleSelectCustomStartDate = async (selectedDate: Date) => {
+    if (routine === undefined) return;
+
+    const formattedDate = ConvertDateToYmdString(selectedDate);
+
+    setNewCustomStartDate(formattedDate);
+  };
+
   if (routine === undefined) return NotFound();
 
   const dayNameList: string[] = GetScheduleDayNames(
@@ -395,7 +405,10 @@ export default function RoutineDetailsPage() {
                 Pick Custom Schedule Start Date
               </ModalHeader>
               <ModalBody>
-                <Calendar onClickDay={(value) => console.log(value)} />
+                <Calendar
+                  value={newCustomStartDate}
+                  onClickDay={(value) => handleSelectCustomStartDate(value)}
+                />
               </ModalBody>
               <ModalFooter>
                 <Button color="success" variant="light" onPress={onClose}>
