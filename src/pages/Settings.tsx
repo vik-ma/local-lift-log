@@ -1,13 +1,20 @@
 import { useState, useEffect } from "react";
-import { UserSettings } from "../typings";
+import { UserSettings, UserSettingsOptional } from "../typings";
 import { GetUserSettings } from "../helpers/UserSettings/GetUserSettings";
-import { Switch } from "@nextui-org/react";
-import { UpdateAllUserSettings } from "../helpers/UserSettings/UpdateAllUserSettings";
+import { Switch, Select, SelectItem } from "@nextui-org/react";
+import { UpdateShowTimestamp } from "../helpers/UserSettings/UpdateShowTimestamp";
 import LoadingSpinner from "../components/LoadingSpinner";
+import { ValidWeightUnits } from "../helpers/UserSettings/ValidWeightUnits";
+import { ValidDistanceUnits } from "../helpers/UserSettings/ValidDistanceUnits";
+import { UpdateDefaultUnitWeight } from "../helpers/UserSettings/UpdateDefaultUnitWeight";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function SettingsPage() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const weightUnits: string[] = ValidWeightUnits();
+  const distanceUnits: string[] = ValidDistanceUnits();
 
   useEffect(() => {
     const loadUserSettings = async () => {
@@ -20,21 +27,59 @@ export default function SettingsPage() {
   }, []);
 
   const handleSetShowTimestampChange = async (value: boolean) => {
-    const updatedSettings: UserSettings = {
-      ...userSettings!,
+    if (userSettings === undefined) return;
+
+    const updatedSettings: UserSettingsOptional = {
+      id: userSettings.id,
       show_timestamp_on_completed_set: value ? 1 : 0,
     };
 
-    await updateUserSettings(updatedSettings);
+    await UpdateShowTimestamp(updatedSettings);
+    setUserSettings((prev) => ({ ...prev!, ...updatedSettings }));
+    showToast();
   };
 
-  const updateUserSettings = async (userSettings: UserSettings) => {
-    await UpdateAllUserSettings(userSettings);
-    setUserSettings(userSettings);
+  const handleDefaultUnitWeightChange = async (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    if (userSettings === undefined) return;
+
+    const weightUnit: string = e.target.value;
+
+    const updatedSettings: UserSettingsOptional = {
+      id: userSettings.id,
+      default_unit_weight: weightUnit,
+    };
+
+    await UpdateDefaultUnitWeight(updatedSettings);
+    setUserSettings((prev) => ({ ...prev!, ...updatedSettings }));
+    showToast();
+  };
+
+  const handleDefaultUnitDistanceChange = async (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    if (userSettings === undefined) return;
+
+    const distanceUnit: string = e.target.value;
+
+    const updatedSettings: UserSettingsOptional = {
+      id: userSettings.id,
+      default_unit_distance: distanceUnit,
+    };
+
+    await UpdateDefaultUnitWeight(updatedSettings);
+    setUserSettings((prev) => ({ ...prev!, ...updatedSettings }));
+    showToast();
+  };
+
+  const showToast = () => {
+    toast.success("Setting Updated");
   };
 
   return (
     <>
+      <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
       <div className="flex flex-col items-center gap-4">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">
           <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b">
@@ -44,8 +89,43 @@ export default function SettingsPage() {
         {isLoading ? (
           <LoadingSpinner />
         ) : (
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-3">
+            <div className="flex gap-3 items-center justify-between">
+              <span className="text-lg">Default Weight Unit</span>
+              <Select
+                aria-label="Select Default Weight Unit"
+                className="max-w-20"
+                size="lg"
+                variant="faded"
+                selectedKeys={[userSettings!.default_unit_weight]}
+                onChange={(value) => handleDefaultUnitWeightChange(value)}
+              >
+                {weightUnits.map((unit) => (
+                  <SelectItem key={unit} value={unit}>
+                    {unit}
+                  </SelectItem>
+                ))}
+              </Select>
+            </div>
+            <div className="flex gap-3 items-center justify-between">
+              <span className="text-lg">Default Distance Unit</span>
+              <Select
+                aria-label="Select Default Distance Unit"
+                className="max-w-20"
+                size="lg"
+                variant="faded"
+                selectedKeys={[userSettings!.default_unit_distance]}
+                onChange={(value) => handleDefaultUnitDistanceChange(value)}
+              >
+                {distanceUnits.map((unit) => (
+                  <SelectItem key={unit} value={unit}>
+                    {unit}
+                  </SelectItem>
+                ))}
+              </Select>
+            </div>
             <Switch
+              className="flex-row-reverse gap-3"
               color="success"
               size="lg"
               isSelected={
