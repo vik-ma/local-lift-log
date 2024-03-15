@@ -126,6 +126,7 @@ body {
   padding: 0.3em;
   font-size: 1.1em;
   font-weight: 600;
+  border-radius: 8px;
 }
 
 .react-calendar__tile:enabled:hover,
@@ -134,7 +135,8 @@ body {
 }
 
 .react-calendar__tile--now {
-  background: var(--primary-color);
+  background: #ffd634;
+  color: #ffffff;
 }
 
 .react-calendar__tile--now:enabled:hover,
