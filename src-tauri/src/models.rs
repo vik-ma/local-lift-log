@@ -19,6 +19,8 @@ pub struct UserSetting {
     pub id: i32,
     pub show_timestamp_on_completed_set: i16,
     pub active_routine_id: i32,
+    pub default_unit_weight: String,
+    pub default_unit_distance: String,
 }
 
 #[derive(Queryable, Selectable)]

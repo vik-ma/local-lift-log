@@ -16,12 +16,16 @@ export type UserSettings = {
   id: number;
   show_timestamp_on_completed_set: number;
   active_routine_id: number;
+  default_unit_weight: string;
+  default_unit_distance: string;
 };
 
 export type UserSettingsOptional = {
   id: number;
   show_timestamp_on_completed_set?: number;
   active_routine_id?: number;
+  default_unit_weight?: string;
+  default_unit_distance?: string;
 };
 
 export type Exercise = {
@@ -73,7 +77,7 @@ export type Set = {
   note: string | null;
   comment: string | null;
   is_completed: number;
-  time_completed: string;
+  time_completed: string | null;
   is_warmup: number;
   weight: number;
   reps: number;

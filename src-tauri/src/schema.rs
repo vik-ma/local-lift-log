@@ -16,6 +16,8 @@ diesel::table! {
         id -> Integer,
         show_timestamp_on_completed_set -> SmallInt,
         active_routine_id -> Integer,
+        default_unit_weight -> Text,
+        default_unit_distance -> Text,
     }
 }
 
