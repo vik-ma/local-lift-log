@@ -25,15 +25,17 @@ import {
 import { NotFound } from ".";
 import Database from "tauri-plugin-sql-api";
 import LoadingSpinner from "../components/LoadingSpinner";
-import { GetScheduleDayNames } from "../helpers/Routines/GetScheduleDayNames";
-import { GetScheduleDayValues } from "../helpers/Routines/GetScheduleValues";
+import {
+  GetScheduleDayNames,
+  GetScheduleDayValues,
+  NumDaysInScheduleOptions,
+  UpdateActiveRoutineId,
+  GetActiveRoutineId,
+  ConvertDateToYmdString,
+  IsYmdDateStringValid,
+} from "../helpers";
 import toast, { Toaster } from "react-hot-toast";
-import { NumDaysInScheduleOptions } from "../helpers/Routines/NumDaysInScheduleOptions";
-import { UpdateActiveRoutineId } from "../helpers/UserSettings/UpdateActiveRoutineId";
-import { GetActiveRoutineId } from "../helpers/UserSettings/GetActiveRoutineId";
 import Calendar from "react-calendar";
-import { ConvertDateToYmdString } from "../helpers/Dates/ConvertDateToYmdString";
-import { IsYmdDateStringValid } from "../helpers/Dates/IsYmdDateStringValid";
 
 export default function RoutineDetailsPage() {
   const { id } = useParams();

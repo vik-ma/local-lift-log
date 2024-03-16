@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { UserSettings, UserSettingsOptional } from "../typings";
-import { GetUserSettings } from "../helpers/UserSettings/GetUserSettings";
+import {
+  GetUserSettings,
+  UpdateShowTimestamp,
+  ValidWeightUnits,
+  ValidDistanceUnits,
+  UpdateDefaultUnitWeight,
+} from "../helpers";
 import { Switch, Select, SelectItem } from "@nextui-org/react";
-import { UpdateShowTimestamp } from "../helpers/UserSettings/UpdateShowTimestamp";
 import LoadingSpinner from "../components/LoadingSpinner";
-import { ValidWeightUnits } from "../helpers/UserSettings/ValidWeightUnits";
-import { ValidDistanceUnits } from "../helpers/UserSettings/ValidDistanceUnits";
-import { UpdateDefaultUnitWeight } from "../helpers/UserSettings/UpdateDefaultUnitWeight";
 import toast, { Toaster } from "react-hot-toast";
 
 export default function SettingsPage() {

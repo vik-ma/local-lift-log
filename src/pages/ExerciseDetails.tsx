@@ -5,10 +5,12 @@ import { NotFound } from ".";
 import { Button, Input, CheckboxGroup, Checkbox } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
 import LoadingSpinner from "../components/LoadingSpinner";
-import { ConvertExerciseGroupSetString } from "../helpers/Exercises/ConvertExerciseGroupSetString";
-import { ValidateExerciseGroupSetString } from "../helpers/Exercises/ValidateExerciseGroupSetString";
-import { ConvertExerciseGroupStringListToSetString } from "../helpers/Exercises/ConvertExerciseGroupStringListToSetString";
-import { ExerciseGroupDictionary } from "../helpers/Exercises/ExerciseGroupDictionary";
+import {
+  ConvertExerciseGroupSetString,
+  ValidateExerciseGroupSetString,
+  ConvertExerciseGroupStringListToSetString,
+  ExerciseGroupDictionary,
+} from "../helpers";
 
 export default function ExerciseDetailsPage() {
   const { id } = useParams();

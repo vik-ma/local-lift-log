@@ -11,10 +11,12 @@ import {
 import Database from "tauri-plugin-sql-api";
 import { useNavigate } from "react-router-dom";
 import { UserSettings } from "../typings";
-import { UpdateAllUserSettings } from "../helpers/UserSettings/UpdateAllUserSettings";
-import { GetUserSettings } from "../helpers/UserSettings/GetUserSettings";
-import { CreateDefaultUserSettings } from "../helpers/UserSettings/CreateDefaultUserSettings";
-import { CreateDefaultExerciseList } from "../helpers/Exercises/CreateDefaultExerciseList";
+import {
+  UpdateAllUserSettings,
+  GetUserSettings,
+  CreateDefaultUserSettings,
+  CreateDefaultExerciseList,
+} from "../helpers";
 
 export default function HomePage() {
   const [userSettings, setUserSettings] = useState<UserSettings>();

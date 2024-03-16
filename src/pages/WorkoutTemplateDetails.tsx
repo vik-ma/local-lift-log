@@ -15,7 +15,7 @@ import Database from "tauri-plugin-sql-api";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { NotFound } from ".";
 import toast, { Toaster } from "react-hot-toast";
-import { GetDefaultUnitValues } from "../helpers/UserSettings/GetDefaultUnitValues";
+import { GetDefaultUnitValues } from "../helpers";
 
 export default function WorkoutTemplateDetails() {
   const { id } = useParams();

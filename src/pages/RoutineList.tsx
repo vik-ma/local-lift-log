@@ -17,10 +17,12 @@ import { useState, useEffect, useMemo } from "react";
 import { Routine, RoutineListItem, UserSettingsOptional } from "../typings";
 import toast, { Toaster } from "react-hot-toast";
 import Database from "tauri-plugin-sql-api";
-import { UpdateActiveRoutineId } from "../helpers/UserSettings/UpdateActiveRoutineId";
-import { GetActiveRoutineId } from "../helpers/UserSettings/GetActiveRoutineId";
+import {
+  UpdateActiveRoutineId,
+  GetActiveRoutineId,
+  NumDaysInScheduleOptions,
+} from "../helpers";
 import LoadingSpinner from "../components/LoadingSpinner";
-import { NumDaysInScheduleOptions } from "../helpers/Routines/NumDaysInScheduleOptions";
 
 export default function RoutineListPage() {
   const [routines, setRoutines] = useState<RoutineListItem[]>([]);
