@@ -42,6 +42,12 @@ export type ExerciseListItem = {
   exercise_group_string: string;
 };
 
+export type ExerciseWithGroupString = {
+  id: number;
+  name: string;
+  exercise_group_string: string;
+};
+
 export type WorkoutTemplate = {
   id: number;
   name: string;

@@ -7,6 +7,7 @@ export { CreateDefaultExerciseList } from "./Exercises/CreateDefaultExerciseList
 export { DefaultExerciseList } from "./Exercises/DefaultExerciseList";
 export { ExerciseGroupDictionary } from "./Exercises/ExerciseGroupDictionary";
 export { ValidateExerciseGroupSetString } from "./Exercises/ValidateExerciseGroupSetString";
+export { GetExerciseListWithGroupStrings } from "./Exercises/GetExerciseListWithGroupStrings";
 
 export { GetScheduleDayNames } from "./Routines/GetScheduleDayNames";
 export { GetScheduleDayValues } from "./Routines/GetScheduleValues";
