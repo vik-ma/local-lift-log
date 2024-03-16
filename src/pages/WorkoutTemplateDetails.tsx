@@ -39,9 +39,25 @@ export default function WorkoutTemplateDetails() {
   const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
   const [newSetTrackingOption, setNewSetTrackingOption] =
     useState<string>("weight");
-  const [exerciseList, setExerciseList] = useState<ExerciseWithGroupString[]>(
-    []
-  );
+  const [exercises, setExercises] = useState<ExerciseWithGroupString[]>([]);
+  const [filterQuery, setFilterQuery] = useState<string>("");
+  const [selectedExercise, setSelectedExercise] =
+    useState<ExerciseWithGroupString>();
+
+  const filteredExercises = useMemo(() => {
+    if (filterQuery !== "") {
+      return exercises.filter(
+        (item) =>
+          item.name
+            .toLocaleLowerCase()
+            .includes(filterQuery.toLocaleLowerCase()) ||
+          item.exercise_group_string
+            .toLocaleLowerCase()
+            .includes(filterQuery.toLocaleLowerCase())
+      );
+    }
+    return exercises;
+  }, [exercises, filterQuery]);
 
   const defaultNewSet: WorkoutSet = {
     id: 0,
@@ -123,8 +139,7 @@ export default function WorkoutTemplateDetails() {
 
     const getExerciseList = async () => {
       const exercises = await GetExerciseListWithGroupStrings();
-
-      if (exercises !== undefined) setExerciseList(exercises);
+      if (exercises !== undefined) setExercises(exercises);
     };
 
     getWorkoutTemplate();
@@ -180,51 +195,48 @@ export default function WorkoutTemplateDetails() {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">New Set</ModalHeader>
+              <ModalHeader className="flex flex-col gap-1">
+                {selectedExercise === undefined
+                  ? "Select Exercise"
+                  : "Tracking Options"}
+              </ModalHeader>
               <ModalBody>
-                <div>
-                  <Select
-                    items={exerciseList}
-                    label="Exercise"
-                    variant="bordered"
-                    placeholder="Select Exercise"
-                    classNames={{
-                      base: "max-w-xs",
-                      trigger: "min-h-unit-12 py-2",
-                    }}
-                  >
-                    {(exercise: ExerciseWithGroupString) => (
-                      <SelectItem key={exercise.id} textValue={exercise.name}>
-                        <div className="flex gap-2 items-center">
-                          <div className="flex flex-col">
-                            <span className="text-small">{exercise.name}</span>
-                            <span className="text-tiny text-default-400">
-                              {exercise.exercise_group_string}
-                            </span>
-                          </div>
+                {selectedExercise === undefined ? (
+                  <div>
+                    {filteredExercises.map((exercise) => (
+                      <div
+                        key={exercise.id}
+                        className="flex gap-2 items-center"
+                      >
+                        <div className="flex flex-col">
+                          <span className="text-small">{exercise.name}</span>
+                          <span className="text-tiny text-default-400">
+                            {exercise.exercise_group_string}
+                          </span>
                         </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div>
+                    <Select
+                      label="Tracking Options"
+                      variant="faded"
+                      selectedKeys={[newSetTrackingOption]}
+                      onChange={(value) => handleChangeSetTrackingOption(value)}
+                    >
+                      <SelectItem key="weight" value="weight">
+                        Weight & Reps
                       </SelectItem>
-                    )}
-                  </Select>
-                </div>
-                <div>
-                  <Select
-                    label="Tracking Options"
-                    variant="faded"
-                    selectedKeys={[newSetTrackingOption]}
-                    onChange={(value) => handleChangeSetTrackingOption(value)}
-                  >
-                    <SelectItem key="weight" value="weight">
-                      Weight & Reps
-                    </SelectItem>
-                    <SelectItem key="distance" value="distance">
-                      Distance & Time
-                    </SelectItem>
-                    <SelectItem key="custom" value="custom">
-                      Custom
-                    </SelectItem>
-                  </Select>
-                </div>
+                      <SelectItem key="distance" value="distance">
+                        Distance & Time
+                      </SelectItem>
+                      <SelectItem key="custom" value="custom">
+                        Custom
+                      </SelectItem>
+                    </Select>
+                  </div>
+                )}
               </ModalBody>
               <ModalFooter>
                 <Button color="success" variant="light" onPress={onClose}>
