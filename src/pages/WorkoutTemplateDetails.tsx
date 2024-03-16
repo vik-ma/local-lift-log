@@ -10,6 +10,8 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
+  Select,
+  SelectItem,
 } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
 import LoadingSpinner from "../components/LoadingSpinner";
@@ -27,6 +29,8 @@ export default function WorkoutTemplateDetails() {
     useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
+  const [newSetTrackingOption, setNewSetTrackingOption] =
+    useState<string>("weight");
 
   const defaultNewSet: WorkoutSet = {
     id: 0,
@@ -140,6 +144,12 @@ export default function WorkoutTemplateDetails() {
     }
   };
 
+  const handleChangeSetTrackingOption = (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    setNewSetTrackingOption(e.target.value);
+  };
+
   if (workoutTemplate === undefined) return NotFound();
 
   return (
@@ -154,6 +164,24 @@ export default function WorkoutTemplateDetails() {
             <>
               <ModalHeader className="flex flex-col gap-1">New Set</ModalHeader>
               <ModalBody>
+                <div>
+                  <Select
+                    label="Tracking Options"
+                    variant="faded"
+                    selectedKeys={[newSetTrackingOption]}
+                    onChange={(value) => handleChangeSetTrackingOption(value)}
+                  >
+                    <SelectItem key="weight" value="weight">
+                      Weight & Reps
+                    </SelectItem>
+                    <SelectItem key="distance" value="distance">
+                      Distance & Time
+                    </SelectItem>
+                    <SelectItem key="custom" value="custom">
+                      Custom
+                    </SelectItem>
+                  </Select>
+                </div>
               </ModalBody>
               <ModalFooter>
                 <Button color="success" variant="light" onPress={onClose}>
