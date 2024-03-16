@@ -59,6 +59,8 @@ export default function WorkoutTemplateDetails() {
 
   const [newSet, setNewSet] = useState<WorkoutSet>(defaultNewSet);
 
+  const newSetModal = useDisclosure();
+
   const isNewWorkoutTemplateNameInvalid = useMemo(() => {
     return (
       newWorkoutTemplateName === null ||
@@ -92,7 +94,13 @@ export default function WorkoutTemplateDetails() {
     const loadUserSettings = async () => {
       try {
         const userSettings = await GetDefaultUnitValues();
-        if (userSettings !== undefined) setUserSettings(userSettings);
+        if (userSettings === undefined) return;
+        setUserSettings(userSettings);
+        setNewSet((prev) => ({
+          ...prev,
+          weight_unit: userSettings.default_unit_weight!,
+          distance_unit: userSettings.default_unit_distance!,
+        }));
       } catch (error) {
         console.log(error);
       }
@@ -135,68 +143,95 @@ export default function WorkoutTemplateDetails() {
   if (workoutTemplate === undefined) return NotFound();
 
   return (
-    <div className="flex flex-col gap-4">
-      {isLoading ? (
-        <LoadingSpinner />
-      ) : (
-        <>
-          <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">
-            <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b">
-              {workoutTemplate.name}
-            </h1>
-          </div>
-          <div>
-            <h2 className="text-xl font-semibold ">Note</h2>
-            <span>{workoutTemplate?.note}</span>
-          </div>
-          {isEditing ? (
-            <div className="flex flex-col justify-center gap-2">
-              <Input
-                value={newWorkoutTemplateName}
-                isInvalid={isNewWorkoutTemplateNameInvalid}
-                label="Name"
-                errorMessage={
-                  isNewWorkoutTemplateNameInvalid && "Name can't be empty"
-                }
-                variant="faded"
-                onValueChange={(value) => setNewWorkoutTemplateName(value)}
-                isRequired
-                isClearable
-              />
-              <Input
-                value={newWorkoutTemplateNote!}
-                label="Note"
-                variant="faded"
-                onValueChange={(value) => setNewWorkoutTemplateNote(value)}
-                isClearable
-              />
-              <div className="flex justify-center gap-4">
-                <Button color="danger" onPress={() => setIsEditing(false)}>
-                  Cancel
+    <>
+      <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
+      <Modal
+        isOpen={newSetModal.isOpen}
+        onOpenChange={newSetModal.onOpenChange}
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">New Set</ModalHeader>
+              <ModalBody>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="success" variant="light" onPress={onClose}>
+                  Close
                 </Button>
-                <Button
-                  color="success"
-                  onPress={updateWorkoutTemplateNoteAndName}
-                >
-                  Save
+                <Button color="success" onPress={() => {}}>
+                  Delete
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
+      <div className="flex flex-col gap-4">
+        {isLoading ? (
+          <LoadingSpinner />
+        ) : (
+          <>
+            <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">
+              <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b">
+                {workoutTemplate.name}
+              </h1>
+            </div>
+            <div>
+              <h2 className="text-xl font-semibold ">Note</h2>
+              <span>{workoutTemplate?.note}</span>
+            </div>
+            {isEditing ? (
+              <div className="flex flex-col justify-center gap-2">
+                <Input
+                  value={newWorkoutTemplateName}
+                  isInvalid={isNewWorkoutTemplateNameInvalid}
+                  label="Name"
+                  errorMessage={
+                    isNewWorkoutTemplateNameInvalid && "Name can't be empty"
+                  }
+                  variant="faded"
+                  onValueChange={(value) => setNewWorkoutTemplateName(value)}
+                  isRequired
+                  isClearable
+                />
+                <Input
+                  value={newWorkoutTemplateNote!}
+                  label="Note"
+                  variant="faded"
+                  onValueChange={(value) => setNewWorkoutTemplateNote(value)}
+                  isClearable
+                />
+                <div className="flex justify-center gap-4">
+                  <Button color="danger" onPress={() => setIsEditing(false)}>
+                    Cancel
+                  </Button>
+                  <Button
+                    color="success"
+                    onPress={updateWorkoutTemplateNoteAndName}
+                  >
+                    Save
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <div className="flex justify-center">
+                <Button color="primary" onPress={() => setIsEditing(true)}>
+                  Edit
+                </Button>
+              </div>
+            )}
+            <div>
+              <h2 className="text-xl font-semibold ">Set List</h2>
+              <div className="flex justify-center">
+                <Button color="success" onPress={() => newSetModal.onOpen()}>
+                  Add Set
                 </Button>
               </div>
             </div>
-          ) : (
-            <div className="flex justify-center">
-              <Button color="primary" onPress={() => setIsEditing(true)}>
-                Edit
-              </Button>
-            </div>
-          )}
-          <div>
-            <h2 className="text-xl font-semibold ">Set List</h2>
-            <div className="flex justify-center">
-              <Button color="success">Add Set</Button>
-            </div>
-          </div>
-        </>
-      )}
-    </div>
+          </>
+        )}
+      </div>
+    </>
   );
 }
