@@ -1,5 +1,10 @@
 import { useParams } from "react-router-dom";
-import { UserSettingsOptional, WorkoutSet, WorkoutTemplate } from "../typings";
+import {
+  ExerciseWithGroupString,
+  UserSettingsOptional,
+  WorkoutSet,
+  WorkoutTemplate,
+} from "../typings";
 import { useState, useMemo, useEffect } from "react";
 import {
   Button,
@@ -17,7 +22,10 @@ import Database from "tauri-plugin-sql-api";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { NotFound } from ".";
 import toast, { Toaster } from "react-hot-toast";
-import { GetDefaultUnitValues } from "../helpers";
+import {
+  GetDefaultUnitValues,
+  GetExerciseListWithGroupStrings,
+} from "../helpers";
 
 export default function WorkoutTemplateDetails() {
   const { id } = useParams();
@@ -31,6 +39,9 @@ export default function WorkoutTemplateDetails() {
   const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
   const [newSetTrackingOption, setNewSetTrackingOption] =
     useState<string>("weight");
+  const [exerciseList, setExerciseList] = useState<ExerciseWithGroupString[]>(
+    []
+  );
 
   const defaultNewSet: WorkoutSet = {
     id: 0,
@@ -61,7 +72,7 @@ export default function WorkoutTemplateDetails() {
     distance_unit: "",
   };
 
-  const [newSet, setNewSet] = useState<WorkoutSet>(defaultNewSet);
+  const [operatingSet, newOperatingSet] = useState<WorkoutSet>(defaultNewSet);
 
   const newSetModal = useDisclosure();
 
@@ -100,7 +111,7 @@ export default function WorkoutTemplateDetails() {
         const userSettings = await GetDefaultUnitValues();
         if (userSettings === undefined) return;
         setUserSettings(userSettings);
-        setNewSet((prev) => ({
+        newOperatingSet((prev) => ({
           ...prev,
           weight_unit: userSettings.default_unit_weight!,
           distance_unit: userSettings.default_unit_distance!,
@@ -110,8 +121,15 @@ export default function WorkoutTemplateDetails() {
       }
     };
 
+    const getExerciseList = async () => {
+      const exercises = await GetExerciseListWithGroupStrings();
+
+      if (exercises !== undefined) setExerciseList(exercises);
+    };
+
     getWorkoutTemplate();
     loadUserSettings();
+    getExerciseList();
   }, [id]);
 
   const updateWorkoutTemplateNoteAndName = async () => {
@@ -164,6 +182,31 @@ export default function WorkoutTemplateDetails() {
             <>
               <ModalHeader className="flex flex-col gap-1">New Set</ModalHeader>
               <ModalBody>
+                <div>
+                  <Select
+                    items={exerciseList}
+                    label="Exercise"
+                    variant="bordered"
+                    placeholder="Select Exercise"
+                    classNames={{
+                      base: "max-w-xs",
+                      trigger: "min-h-unit-12 py-2",
+                    }}
+                  >
+                    {(exercise: ExerciseWithGroupString) => (
+                      <SelectItem key={exercise.id} textValue={exercise.name}>
+                        <div className="flex gap-2 items-center">
+                          <div className="flex flex-col">
+                            <span className="text-small">{exercise.name}</span>
+                            <span className="text-tiny text-default-400">
+                              {exercise.exercise_group_string}
+                            </span>
+                          </div>
+                        </div>
+                      </SelectItem>
+                    )}
+                  </Select>
+                </div>
                 <div>
                   <Select
                     label="Tracking Options"
