@@ -27,7 +27,7 @@ import {
   GetDefaultUnitValues,
   GetExerciseListWithGroupStrings,
 } from "../helpers";
-import SearchIcon from "../assets/SearchIcon";
+import { SearchIcon } from "../assets";
 
 export default function WorkoutTemplateDetails() {
   const { id } = useParams();

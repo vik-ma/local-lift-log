@@ -1,4 +1,4 @@
-export default function ArrowLeftIcon() {
+export const ArrowLeftIcon = () => {
   return (
     <svg
       width="30px"
@@ -16,4 +16,6 @@ export default function ArrowLeftIcon() {
       ></path>
     </svg>
   );
-}
+};
+
+export default ArrowLeftIcon;

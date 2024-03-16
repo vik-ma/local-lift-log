@@ -10,9 +10,7 @@ import {
   DropdownItem,
 } from "@nextui-org/react";
 import { NavLink, useNavigate } from "react-router-dom";
-import ArrowRightIcon from "../assets/ArrowRightIcon";
-import ArrowLeftIcon from "../assets/ArrowLeftIcon";
-import ChevronDownIcon from "../assets/ChevronDownIcon";
+import { ArrowRightIcon, ArrowLeftIcon, ChevronDownIcon } from "../assets";
 
 export default function SiteHeader() {
   const navigate = useNavigate();
