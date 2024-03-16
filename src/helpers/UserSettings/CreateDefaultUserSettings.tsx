@@ -1,15 +1,24 @@
 import Database from "tauri-plugin-sql-api";
 import { UserSettings } from "../../typings";
 
-export const CreateDefaultUserSettings = async () => {
+export const CreateDefaultUserSettings = async (
+  useMetricUnits: boolean
+): Promise<UserSettings | undefined> => {
   const show_timestamp_on_completed_set: number = 1;
   const active_routine_id: number = 0;
-  // TODO: CHANGE TO GET VALUE FROM PARAMETER (AFTER PROMPT)
-  const default_unit_weight: string = "kg";
-  const default_unit_distance: string = "km";
+
+  const default_unit_weight: string = useMetricUnits ? "kg" : "lbs";
+  const default_unit_distance: string = useMetricUnits ? "km" : "mi";
 
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
+
+    const rowsInUserSettings: UserSettings[] = await db.select(
+      "SELECT * from user_settings"
+    );
+
+    // Ensure no other user_settings exist
+    if (rowsInUserSettings.length > 0) return;
 
     const result = await db.execute(
       `INSERT into user_settings 

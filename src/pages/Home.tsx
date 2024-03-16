@@ -18,15 +18,17 @@ import { CreateDefaultExerciseList } from "../helpers/Exercises/CreateDefaultExe
 
 export default function HomePage() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
+  const [isUserSettingsLoaded, setIsUserSettingsLoaded] =
+    useState<boolean>(false);
   const navigate = useNavigate();
 
   const initialized = useRef(false);
 
   const setUnitsModal = useDisclosure();
 
-  const createDefaultUserSettings = async (isMetricUnits: boolean) => {
+  const createDefaultUserSettings = async (useMetricUnits: boolean) => {
     const defaultUserSettings: UserSettings | undefined =
-      await CreateDefaultUserSettings();
+      await CreateDefaultUserSettings(useMetricUnits);
 
     // Create Default User Settings
     if (defaultUserSettings !== undefined) {
@@ -36,19 +38,24 @@ export default function HomePage() {
 
     // Create Default Exercise List
     await CreateDefaultExerciseList();
+
+    setIsUserSettingsLoaded(true);
+    setUnitsModal.onClose();
   };
 
   useEffect(() => {
     const loadUserSettings = async () => {
+      if (isUserSettingsLoaded) return;
+
       try {
         const settings: UserSettings | undefined = await GetUserSettings();
         if (settings !== undefined) {
           // If UserSettings exists
           setUserSettings(settings);
+          setIsUserSettingsLoaded(true);
         } else {
           // If no UserSettings exists
 
-          // TODO: REMOVE LATER?
           // Stop useEffect running twice in dev
           if (!initialized.current) {
             initialized.current = true;
@@ -62,7 +69,7 @@ export default function HomePage() {
     };
 
     loadUserSettings();
-  }, [setUnitsModal]);
+  }, [setUnitsModal, isUserSettingsLoaded]);
 
   const addRoutine = async () => {
     const db = await Database.load(import.meta.env.VITE_DB);
@@ -111,6 +118,7 @@ export default function HomePage() {
                   className="text-lg font-medium"
                   size="lg"
                   color="primary"
+                  onPress={() => createDefaultUserSettings(true)}
                 >
                   Metric
                 </Button>
@@ -118,6 +126,7 @@ export default function HomePage() {
                   className="text-lg font-medium"
                   size="lg"
                   color="primary"
+                  onPress={() => createDefaultUserSettings(false)}
                 >
                   Imperial
                 </Button>
