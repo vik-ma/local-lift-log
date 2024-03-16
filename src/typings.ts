@@ -68,7 +68,7 @@ export type RoutineScheduleItem = {
   name: string;
 };
 
-export type Set = {
+export type WorkoutSet = {
   id: number;
   workout_id: number;
   exercise_id: number;
