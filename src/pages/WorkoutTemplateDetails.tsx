@@ -26,6 +26,7 @@ import {
   GetDefaultUnitValues,
   GetExerciseListWithGroupStrings,
 } from "../helpers";
+import SearchIcon from "../assets/SearchIcon";
 
 export default function WorkoutTemplateDetails() {
   const { id } = useParams();
@@ -202,23 +203,32 @@ export default function WorkoutTemplateDetails() {
               </ModalHeader>
               <ModalBody>
                 {selectedExercise === undefined ? (
-                  <div>
-                    {filteredExercises.map((exercise) => (
-                      <div
-                        key={exercise.id}
-                        className="flex gap-2 items-center"
-                      >
-                        <div className="flex flex-col">
-                          <span className="text-small">{exercise.name}</span>
-                          <span className="text-tiny text-default-400">
+                  <div className="h-[400px] flex flex-col gap-3">
+                    <Input
+                      label="Search"
+                      variant="faded"
+                      placeholder="Type to search..."
+                      isClearable
+                      value={filterQuery}
+                      onValueChange={setFilterQuery}
+                      startContent={<SearchIcon />}
+                    />
+                    <div className="flex flex-col gap-1 px-1">
+                      {filteredExercises.map((exercise) => (
+                        <button
+                          key={exercise.id}
+                          className="flex flex-col justify-start items-start"
+                        >
+                          <span className="text-md">{exercise.name}</span>
+                          <span className="text-xs text-stone-500 text-left">
                             {exercise.exercise_group_string}
                           </span>
-                        </div>
-                      </div>
-                    ))}
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 ) : (
-                  <div>
+                  <div className="h-[400px]">
                     <Select
                       label="Tracking Options"
                       variant="faded"
@@ -242,8 +252,12 @@ export default function WorkoutTemplateDetails() {
                 <Button color="success" variant="light" onPress={onClose}>
                   Close
                 </Button>
-                <Button color="success" onPress={() => {}}>
-                  Delete
+                <Button
+                  color="success"
+                  isDisabled={selectedExercise === undefined}
+                  onPress={() => {}}
+                >
+                  Save
                 </Button>
               </ModalFooter>
             </>
