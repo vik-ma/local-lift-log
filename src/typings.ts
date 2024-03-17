@@ -101,4 +101,5 @@ export type WorkoutSet = {
   is_tracking_resistance_level: number;
   weight_unit: string;
   distance_unit: string;
+  exercise_name?: string;
 };

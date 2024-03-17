@@ -46,6 +46,7 @@ export default function WorkoutTemplateDetails() {
   const [filterQuery, setFilterQuery] = useState<string>("");
   const [selectedExercise, setSelectedExercise] =
     useState<ExerciseWithGroupString>();
+  const [sets, setSets] = useState<WorkoutSet[]>([]);
 
   const filteredExercises = useMemo(() => {
     if (filterQuery !== "") {
@@ -145,9 +146,24 @@ export default function WorkoutTemplateDetails() {
       if (exercises !== undefined) setExercises(exercises);
     };
 
+    const getSetList = async () => {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      const result = await db.select<WorkoutSet[]>(
+        `SELECT sets.*, exercises.name AS exercise_name
+        FROM sets 
+        JOIN exercises ON sets.exercise_id = exercises.id 
+        WHERE workout_template_id = $1 AND is_template = $2`,
+        [id, 1]
+      );
+
+      setSets(result);
+    };
+
     getWorkoutTemplate();
     loadUserSettings();
     getExerciseList();
+    getSetList();
   }, [id]);
 
   const updateWorkoutTemplateNoteAndName = async () => {
@@ -257,6 +273,17 @@ export default function WorkoutTemplateDetails() {
         ]
       );
 
+      const newSet: WorkoutSet = {
+        ...operatingSet,
+        id: result.lastInsertId,
+        exercise_id: selectedExercise.id,
+        workout_template_id: workoutTemplate.id,
+        note: noteToInsert,
+        exercise_name: selectedExercise.name,
+      };
+
+      setSets([...sets, newSet]);
+
       setOperatingSet({
         ...defaultNewSet,
         weight_unit: userSettings!.default_unit_weight!,
@@ -266,12 +293,16 @@ export default function WorkoutTemplateDetails() {
       setNewSetTrackingOption("weight");
 
       newSetModal.onClose();
+
+      toast.success("Set Added");
     } catch (error) {
       console.error(error);
     }
   };
 
   if (workoutTemplate === undefined) return NotFound();
+
+  console.log(sets);
 
   return (
     <>
@@ -554,6 +585,13 @@ export default function WorkoutTemplateDetails() {
             )}
             <div>
               <h2 className="text-xl font-semibold ">Set List</h2>
+              <div className="flex flex-col">
+                {sets.map((set) => (
+                  <div key={set.id}>
+                    <span>{set.exercise_name}</span>
+                  </div>
+                ))}
+              </div>
               <div className="flex justify-center">
                 <Button color="success" onPress={() => newSetModal.onOpen()}>
                   Add Set
