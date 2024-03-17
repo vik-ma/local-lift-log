@@ -273,10 +273,28 @@ export default function WorkoutTemplateDetails() {
                           Change Exercise
                         </Button>
                       </div>
+                      <Input
+                        value={operatingSet.note ?? ""}
+                        label="Note"
+                        variant="faded"
+                        size="sm"
+                        onValueChange={(value) =>
+                          setOperatingSet((prev) => ({
+                            ...prev,
+                            note: value,
+                          }))
+                        }
+                        isClearable
+                      />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <h3 className="text-xl font-semibold px-1">Track</h3>
                       <Select
-                        label="Tracking Presets"
+                        label="Presets"
+                        size="sm"
                         variant="faded"
                         selectedKeys={[newSetTrackingOption]}
+                        disallowEmptySelection={true}
                         onChange={(value) =>
                           handleChangeSetTrackingOption(value)
                         }
@@ -288,12 +306,7 @@ export default function WorkoutTemplateDetails() {
                           Distance & Time
                         </SelectItem>
                       </Select>
-                    </div>
-                    <div className="flex flex-col gap-2 px-1">
-                      <h2 className="text-2xl font-semibold">
-                        Values To Track
-                      </h2>
-                      <div className="grid grid-cols-2 gap-2">
+                      <div className="grid grid-cols-2 gap-2 p-1">
                         <Checkbox
                           color="success"
                           isSelected={
@@ -408,18 +421,6 @@ export default function WorkoutTemplateDetails() {
                         </Checkbox>
                       </div>
                     </div>
-                    <Input
-                      value={operatingSet.note ?? ""}
-                      label="Note"
-                      variant="faded"
-                      onValueChange={(value) =>
-                        setOperatingSet((prev) => ({
-                          ...prev,
-                          note: value,
-                        }))
-                      }
-                      isClearable
-                    />
                   </div>
                 )}
               </ModalBody>
