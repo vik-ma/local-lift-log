@@ -408,6 +408,18 @@ export default function WorkoutTemplateDetails() {
                         </Checkbox>
                       </div>
                     </div>
+                    <Input
+                      value={operatingSet.note ?? ""}
+                      label="Note"
+                      variant="faded"
+                      onValueChange={(value) =>
+                        setOperatingSet((prev) => ({
+                          ...prev,
+                          note: value,
+                        }))
+                      }
+                      isClearable
+                    />
                   </div>
                 )}
               </ModalBody>
