@@ -18,6 +18,7 @@ import {
   Select,
   SelectItem,
   ScrollShadow,
+  Checkbox,
 } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
 import LoadingSpinner from "../components/LoadingSpinner";
@@ -27,7 +28,7 @@ import {
   GetDefaultUnitValues,
   GetExerciseListWithGroupStrings,
 } from "../helpers";
-import { ArrowLeftIcon, SearchIcon } from "../assets";
+import { SearchIcon } from "../assets";
 
 export default function WorkoutTemplateDetails() {
   const { id } = useParams();
@@ -90,7 +91,7 @@ export default function WorkoutTemplateDetails() {
     distance_unit: "",
   };
 
-  const [operatingSet, newOperatingSet] = useState<WorkoutSet>(defaultNewSet);
+  const [operatingSet, setOperatingSet] = useState<WorkoutSet>(defaultNewSet);
 
   const newSetModal = useDisclosure();
 
@@ -129,7 +130,7 @@ export default function WorkoutTemplateDetails() {
         const userSettings = await GetDefaultUnitValues();
         if (userSettings === undefined) return;
         setUserSettings(userSettings);
-        newOperatingSet((prev) => ({
+        setOperatingSet((prev) => ({
           ...prev,
           weight_unit: userSettings.default_unit_weight!,
           distance_unit: userSettings.default_unit_distance!,
@@ -230,36 +231,111 @@ export default function WorkoutTemplateDetails() {
                     </ScrollShadow>
                   </div>
                 ) : (
-                  <div className="flex flex-col gap-2 h-[400px]">
-                    <div className="flex flex-row gap-2 items-center justify-between">
-                      <h2 className="text-2xl font-semibold px-1">
-                        {selectedExercise.name}
-                      </h2>
-                      <Button
-                        size="sm"
-                        variant="flat"
-                        color="danger"
-                        onPress={() => setSelectedExercise(undefined)}
+                  <div className="flex flex-col gap-3 h-[400px]">
+                    <div className="flex flex-col gap-3">
+                      <div className="flex flex-row items-center justify-between">
+                        <h2 className="text-2xl font-semibold px-1">
+                          {selectedExercise.name}
+                        </h2>
+                        <Button
+                          size="sm"
+                          variant="flat"
+                          color="danger"
+                          onPress={() => setSelectedExercise(undefined)}
+                        >
+                          Change Exercise
+                        </Button>
+                      </div>
+                      <Select
+                        label="Tracking Options"
+                        variant="faded"
+                        selectedKeys={[newSetTrackingOption]}
+                        onChange={(value) =>
+                          handleChangeSetTrackingOption(value)
+                        }
                       >
-                        Change Exercise
-                      </Button>
+                        <SelectItem key="weight" value="weight">
+                          Weight & Reps
+                        </SelectItem>
+                        <SelectItem key="distance" value="distance">
+                          Distance & Time
+                        </SelectItem>
+                        <SelectItem key="custom" value="custom">
+                          Custom
+                        </SelectItem>
+                      </Select>
                     </div>
-                    <Select
-                      label="Tracking Options"
-                      variant="faded"
-                      selectedKeys={[newSetTrackingOption]}
-                      onChange={(value) => handleChangeSetTrackingOption(value)}
-                    >
-                      <SelectItem key="weight" value="weight">
-                        Weight & Reps
-                      </SelectItem>
-                      <SelectItem key="distance" value="distance">
-                        Distance & Time
-                      </SelectItem>
-                      <SelectItem key="custom" value="custom">
-                        Custom
-                      </SelectItem>
-                    </Select>
+                    <div className="flex flex-col gap-2 px-1">
+                      <h2 className="text-2xl font-semibold">
+                        Values To Track
+                      </h2>
+                      <div className="grid grid-cols-2 gap-2">
+                        <Checkbox
+                          color="success"
+                          isSelected={
+                            operatingSet.is_tracking_weight ? true : false
+                          }
+                        >
+                          Weight
+                        </Checkbox>
+                        <Checkbox
+                          color="success"
+                          isSelected={
+                            operatingSet.is_tracking_reps ? true : false
+                          }
+                        >
+                          Reps
+                        </Checkbox>
+                        <Checkbox
+                          color="success"
+                          isSelected={
+                            operatingSet.is_tracking_distance ? true : false
+                          }
+                        >
+                          Distance
+                        </Checkbox>
+                        <Checkbox
+                          color="success"
+                          isSelected={
+                            operatingSet.is_tracking_time ? true : false
+                          }
+                        >
+                          Time
+                        </Checkbox>
+                        <Checkbox
+                          color="success"
+                          isSelected={
+                            operatingSet.is_tracking_rir ? true : false
+                          }
+                        >
+                          RIR
+                        </Checkbox>
+                        <Checkbox
+                          color="success"
+                          isSelected={
+                            operatingSet.is_tracking_rpe ? true : false
+                          }
+                        >
+                          RPE
+                        </Checkbox>
+                        <Checkbox
+                          color="success"
+                          isSelected={
+                            operatingSet.is_tracking_resistance_level
+                              ? true
+                              : false
+                          }
+                        >
+                          Resistance Level
+                        </Checkbox>
+                        <Checkbox
+                          color="success"
+                          isSelected={operatingSet.is_warmup ? true : false}
+                        >
+                          <span className="text-primary">Warmup Set</span>
+                        </Checkbox>
+                      </div>
+                    </div>
                   </div>
                 )}
               </ModalBody>
