@@ -106,6 +106,12 @@ export default function WorkoutTemplateList() {
         workoutTemplateToDelete.id,
       ]);
 
+      // Delete all sets referencing workout_template
+      db.execute(
+        "DELETE from sets WHERE workout_template_id = $1 AND is_template = $2",
+        [workoutTemplateToDelete.id, 1]
+      );
+
       const updatedWorkoutTemplates: WorkoutTemplateListItem[] =
         workoutTemplates.filter(
           (item) => item.id !== workoutTemplateToDelete?.id
