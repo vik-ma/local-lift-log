@@ -213,6 +213,64 @@ export default function WorkoutTemplateDetails() {
     }
   };
 
+  const addSet = async () => {
+    if (selectedExercise === undefined || workoutTemplate === undefined) return;
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      const noteToInsert: string | null =
+        operatingSet.note?.trim().length === 0 ? null : operatingSet.note;
+
+      const result = await db.execute(
+        `INSERT into sets 
+        (workout_id, exercise_id, is_template, workout_template_id, note, is_completed, is_warmup, 
+          weight, reps, rir, rpe, time_in_seconds, distance, resistance_level, is_tracking_weight,
+          is_tracking_reps, is_tracking_rir, is_tracking_rpe, is_tracking_time, is_tracking_distance,
+          is_tracking_resistance_level, weight_unit, distance_unit) 
+        VALUES 
+        ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23)`,
+        [
+          operatingSet.workout_id,
+          selectedExercise.id,
+          operatingSet.is_template,
+          workoutTemplate.id,
+          noteToInsert,
+          operatingSet.is_completed,
+          operatingSet.is_warmup,
+          operatingSet.weight,
+          operatingSet.reps,
+          operatingSet.rir,
+          operatingSet.rpe,
+          operatingSet.time_in_seconds,
+          operatingSet.distance,
+          operatingSet.resistance_level,
+          operatingSet.is_tracking_weight,
+          operatingSet.is_tracking_reps,
+          operatingSet.is_tracking_rir,
+          operatingSet.is_tracking_rpe,
+          operatingSet.is_tracking_time,
+          operatingSet.is_tracking_distance,
+          operatingSet.is_tracking_resistance_level,
+          operatingSet.weight_unit,
+          operatingSet.distance_unit,
+        ]
+      );
+
+      setOperatingSet({
+        ...defaultNewSet,
+        weight_unit: userSettings!.default_unit_weight!,
+        distance_unit: userSettings!.default_unit_distance!,
+      });
+      setSelectedExercise(undefined);
+      setNewSetTrackingOption("weight");
+
+      newSetModal.onClose();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   if (workoutTemplate === undefined) return NotFound();
 
   return (
@@ -431,7 +489,7 @@ export default function WorkoutTemplateDetails() {
                 <Button
                   color="success"
                   isDisabled={selectedExercise === undefined}
-                  onPress={() => {}}
+                  onPress={addSet}
                 >
                   Save
                 </Button>
