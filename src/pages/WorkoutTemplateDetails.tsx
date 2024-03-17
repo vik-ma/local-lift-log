@@ -47,6 +47,9 @@ export default function WorkoutTemplateDetails() {
   const [selectedExercise, setSelectedExercise] =
     useState<ExerciseWithGroupString>();
   const [sets, setSets] = useState<WorkoutSet[]>([]);
+  const [numNewSets, setNumNewSets] = useState<string>("1");
+
+  const numSetsOptions: string[] = ["1", "2", "3", "4", "5", "6"];
 
   const filteredExercises = useMemo(() => {
     if (filterQuery !== "") {
@@ -232,57 +235,67 @@ export default function WorkoutTemplateDetails() {
   const addSet = async () => {
     if (selectedExercise === undefined || workoutTemplate === undefined) return;
 
+    if (!numSetsOptions.includes(numNewSets)) return;
+
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
       const noteToInsert: string | null =
         operatingSet.note?.trim().length === 0 ? null : operatingSet.note;
 
-      const result = await db.execute(
-        `INSERT into sets 
-        (workout_id, exercise_id, is_template, workout_template_id, note, is_completed, is_warmup, 
-          weight, reps, rir, rpe, time_in_seconds, distance, resistance_level, is_tracking_weight,
-          is_tracking_reps, is_tracking_rir, is_tracking_rpe, is_tracking_time, is_tracking_distance,
-          is_tracking_resistance_level, weight_unit, distance_unit) 
-        VALUES 
-        ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23)`,
-        [
-          operatingSet.workout_id,
-          selectedExercise.id,
-          operatingSet.is_template,
-          workoutTemplate.id,
-          noteToInsert,
-          operatingSet.is_completed,
-          operatingSet.is_warmup,
-          operatingSet.weight,
-          operatingSet.reps,
-          operatingSet.rir,
-          operatingSet.rpe,
-          operatingSet.time_in_seconds,
-          operatingSet.distance,
-          operatingSet.resistance_level,
-          operatingSet.is_tracking_weight,
-          operatingSet.is_tracking_reps,
-          operatingSet.is_tracking_rir,
-          operatingSet.is_tracking_rpe,
-          operatingSet.is_tracking_time,
-          operatingSet.is_tracking_distance,
-          operatingSet.is_tracking_resistance_level,
-          operatingSet.weight_unit,
-          operatingSet.distance_unit,
-        ]
-      );
+      const newSets: WorkoutSet[] = [];
 
-      const newSet: WorkoutSet = {
-        ...operatingSet,
-        id: result.lastInsertId,
-        exercise_id: selectedExercise.id,
-        workout_template_id: workoutTemplate.id,
-        note: noteToInsert,
-        exercise_name: selectedExercise.name,
-      };
+      const numSetsToAdd: number = parseInt(numNewSets);
 
-      setSets([...sets, newSet]);
+      for (let i = 0; i < numSetsToAdd; i++) {
+        const result = await db.execute(
+          `INSERT into sets 
+          (workout_id, exercise_id, is_template, workout_template_id, note, is_completed, is_warmup, 
+            weight, reps, rir, rpe, time_in_seconds, distance, resistance_level, is_tracking_weight,
+            is_tracking_reps, is_tracking_rir, is_tracking_rpe, is_tracking_time, is_tracking_distance,
+            is_tracking_resistance_level, weight_unit, distance_unit) 
+          VALUES 
+          ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23)`,
+          [
+            operatingSet.workout_id,
+            selectedExercise.id,
+            operatingSet.is_template,
+            workoutTemplate.id,
+            noteToInsert,
+            operatingSet.is_completed,
+            operatingSet.is_warmup,
+            operatingSet.weight,
+            operatingSet.reps,
+            operatingSet.rir,
+            operatingSet.rpe,
+            operatingSet.time_in_seconds,
+            operatingSet.distance,
+            operatingSet.resistance_level,
+            operatingSet.is_tracking_weight,
+            operatingSet.is_tracking_reps,
+            operatingSet.is_tracking_rir,
+            operatingSet.is_tracking_rpe,
+            operatingSet.is_tracking_time,
+            operatingSet.is_tracking_distance,
+            operatingSet.is_tracking_resistance_level,
+            operatingSet.weight_unit,
+            operatingSet.distance_unit,
+          ]
+        );
+
+        const newSet: WorkoutSet = {
+          ...operatingSet,
+          id: result.lastInsertId,
+          exercise_id: selectedExercise.id,
+          workout_template_id: workoutTemplate.id,
+          note: noteToInsert,
+          exercise_name: selectedExercise.name,
+        };
+
+        newSets.push(newSet);
+      }
+
+      setSets([...sets, ...newSets]);
 
       setOperatingSet({
         ...defaultNewSet,
@@ -398,7 +411,6 @@ export default function WorkoutTemplateDetails() {
                       <h3 className="text-xl font-semibold px-1">Track</h3>
                       <Select
                         label="Presets"
-                        size="sm"
                         variant="faded"
                         selectedKeys={[newSetTrackingOption]}
                         disallowEmptySelection={true}
@@ -527,6 +539,21 @@ export default function WorkoutTemplateDetails() {
                           <span className="text-primary">Warmup Set</span>
                         </Checkbox>
                       </div>
+                      <div className="flex flex-row justify-between">
+                        <Select
+                          label="Number Of Sets To Add"
+                          variant="faded"
+                          selectedKeys={[numNewSets]}
+                          disallowEmptySelection={true}
+                          onChange={(e) => setNumNewSets(e.target.value)}
+                        >
+                          {numSetsOptions.map((num) => (
+                            <SelectItem key={num} value={num}>
+                              {num}
+                            </SelectItem>
+                          ))}
+                        </Select>
+                      </div>
                     </div>
                   </div>
                 )}
@@ -540,7 +567,7 @@ export default function WorkoutTemplateDetails() {
                   isDisabled={selectedExercise === undefined}
                   onPress={addSet}
                 >
-                  Save
+                  Add
                 </Button>
               </ModalFooter>
             </>
