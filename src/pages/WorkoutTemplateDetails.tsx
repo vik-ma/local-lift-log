@@ -80,8 +80,8 @@ export default function WorkoutTemplateDetails() {
     time_in_seconds: 0,
     distance: 0,
     resistance_level: 0,
-    is_tracking_weight: 0,
-    is_tracking_reps: 0,
+    is_tracking_weight: 1,
+    is_tracking_reps: 1,
     is_tracking_rir: 0,
     is_tracking_rpe: 0,
     is_tracking_time: 0,
@@ -183,7 +183,34 @@ export default function WorkoutTemplateDetails() {
   const handleChangeSetTrackingOption = (
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
-    setNewSetTrackingOption(e.target.value);
+    const value: string = e.target.value;
+    setNewSetTrackingOption(value);
+
+    if (value === "weight") {
+      setOperatingSet((prev) => ({
+        ...prev,
+        is_tracking_weight: 1,
+        is_tracking_reps: 1,
+        is_tracking_distance: 0,
+        is_tracking_time: 0,
+        is_tracking_rir: 0,
+        is_tracking_rpe: 0,
+        is_tracking_resistance_level: 0,
+      }));
+    }
+
+    if (value === "distance") {
+      setOperatingSet((prev) => ({
+        ...prev,
+        is_tracking_weight: 0,
+        is_tracking_reps: 0,
+        is_tracking_distance: 1,
+        is_tracking_time: 1,
+        is_tracking_rir: 0,
+        is_tracking_rpe: 0,
+        is_tracking_resistance_level: 0,
+      }));
+    }
   };
 
   if (workoutTemplate === undefined) return NotFound();
@@ -259,9 +286,6 @@ export default function WorkoutTemplateDetails() {
                         </SelectItem>
                         <SelectItem key="distance" value="distance">
                           Distance & Time
-                        </SelectItem>
-                        <SelectItem key="custom" value="custom">
-                          Custom
                         </SelectItem>
                       </Select>
                     </div>
