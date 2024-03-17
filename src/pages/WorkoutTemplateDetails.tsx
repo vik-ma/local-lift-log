@@ -300,6 +300,24 @@ export default function WorkoutTemplateDetails() {
     }
   };
 
+  const removeSet = async (set: WorkoutSet) => {
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      db.execute("DELETE from sets WHERE id = $1", [set.id]);
+
+      const updatedSets: WorkoutSet[] = sets.filter(
+        (item) => item.id !== set.id
+      );
+
+      setSets(updatedSets);
+
+      toast.success("Set Removed");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   if (workoutTemplate === undefined) return NotFound();
 
   console.log(sets);
@@ -585,10 +603,20 @@ export default function WorkoutTemplateDetails() {
             )}
             <div>
               <h2 className="text-xl font-semibold ">Set List</h2>
-              <div className="flex flex-col">
+              <div className="flex flex-col gap-1">
                 {sets.map((set) => (
-                  <div key={set.id}>
+                  <div
+                    key={set.id}
+                    className="flex gap-2 justify-between items-center"
+                  >
                     <span>{set.exercise_name}</span>
+                    <Button
+                      size="sm"
+                      color="danger"
+                      onPress={() => removeSet(set)}
+                    >
+                      Remove
+                    </Button>
                   </div>
                 ))}
               </div>
