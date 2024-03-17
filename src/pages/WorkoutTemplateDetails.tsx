@@ -17,7 +17,7 @@ import {
   ModalFooter,
   Select,
   SelectItem,
-  ScrollShadow
+  ScrollShadow,
 } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
 import LoadingSpinner from "../components/LoadingSpinner";
@@ -27,7 +27,7 @@ import {
   GetDefaultUnitValues,
   GetExerciseListWithGroupStrings,
 } from "../helpers";
-import { SearchIcon } from "../assets";
+import { ArrowLeftIcon, SearchIcon } from "../assets";
 
 export default function WorkoutTemplateDetails() {
   const { id } = useParams();
@@ -209,7 +209,6 @@ export default function WorkoutTemplateDetails() {
                       label="Search"
                       variant="faded"
                       placeholder="Type to search..."
-                      size="lg"
                       isClearable
                       value={filterQuery}
                       onValueChange={setFilterQuery}
@@ -220,6 +219,7 @@ export default function WorkoutTemplateDetails() {
                         <button
                           key={exercise.id}
                           className="flex flex-col justify-start items-start bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:bg-default-200 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                          onClick={() => setSelectedExercise(exercise)}
                         >
                           <span className="text-md">{exercise.name}</span>
                           <span className="text-xs text-stone-500 text-left">
@@ -230,7 +230,20 @@ export default function WorkoutTemplateDetails() {
                     </ScrollShadow>
                   </div>
                 ) : (
-                  <div className="h-[400px]">
+                  <div className="flex flex-col gap-2 h-[400px]">
+                    <div className="flex flex-row gap-2 items-center justify-between">
+                      <h2 className="text-2xl font-semibold px-1">
+                        {selectedExercise.name}
+                      </h2>
+                      <Button
+                        size="sm"
+                        variant="flat"
+                        color="danger"
+                        onPress={() => setSelectedExercise(undefined)}
+                      >
+                        Change Exercise
+                      </Button>
+                    </div>
                     <Select
                       label="Tracking Options"
                       variant="faded"
@@ -277,7 +290,7 @@ export default function WorkoutTemplateDetails() {
               </h1>
             </div>
             <div>
-              <h2 className="text-xl font-semibold ">Note</h2>
+              <h2 className="text-xl font-semibold">Note</h2>
               <span>{workoutTemplate?.note}</span>
             </div>
             {isEditing ? (
