@@ -63,6 +63,7 @@ diesel::table! {
         weight -> Float,
         reps -> SmallInt,
         rir -> SmallInt,
+        rpe -> SmallInt,
         time_in_seconds -> Integer,
         distance -> Float,
         resistance_level -> Float,
