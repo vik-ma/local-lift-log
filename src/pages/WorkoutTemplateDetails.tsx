@@ -247,7 +247,7 @@ export default function WorkoutTemplateDetails() {
                         </Button>
                       </div>
                       <Select
-                        label="Tracking Options"
+                        label="Tracking Presets"
                         variant="faded"
                         selectedKeys={[newSetTrackingOption]}
                         onChange={(value) =>
@@ -275,6 +275,12 @@ export default function WorkoutTemplateDetails() {
                           isSelected={
                             operatingSet.is_tracking_weight ? true : false
                           }
+                          onValueChange={(value) =>
+                            setOperatingSet((prev) => ({
+                              ...prev,
+                              is_tracking_weight: value ? 1 : 0,
+                            }))
+                          }
                         >
                           Weight
                         </Checkbox>
@@ -282,6 +288,12 @@ export default function WorkoutTemplateDetails() {
                           color="success"
                           isSelected={
                             operatingSet.is_tracking_reps ? true : false
+                          }
+                          onValueChange={(value) =>
+                            setOperatingSet((prev) => ({
+                              ...prev,
+                              is_tracking_reps: value ? 1 : 0,
+                            }))
                           }
                         >
                           Reps
@@ -291,6 +303,12 @@ export default function WorkoutTemplateDetails() {
                           isSelected={
                             operatingSet.is_tracking_distance ? true : false
                           }
+                          onValueChange={(value) =>
+                            setOperatingSet((prev) => ({
+                              ...prev,
+                              is_tracking_distance: value ? 1 : 0,
+                            }))
+                          }
                         >
                           Distance
                         </Checkbox>
@@ -298,6 +316,12 @@ export default function WorkoutTemplateDetails() {
                           color="success"
                           isSelected={
                             operatingSet.is_tracking_time ? true : false
+                          }
+                          onValueChange={(value) =>
+                            setOperatingSet((prev) => ({
+                              ...prev,
+                              is_tracking_time: value ? 1 : 0,
+                            }))
                           }
                         >
                           Time
@@ -307,6 +331,12 @@ export default function WorkoutTemplateDetails() {
                           isSelected={
                             operatingSet.is_tracking_rir ? true : false
                           }
+                          onValueChange={(value) =>
+                            setOperatingSet((prev) => ({
+                              ...prev,
+                              is_tracking_rir: value ? 1 : 0,
+                            }))
+                          }
                         >
                           RIR
                         </Checkbox>
@@ -314,6 +344,12 @@ export default function WorkoutTemplateDetails() {
                           color="success"
                           isSelected={
                             operatingSet.is_tracking_rpe ? true : false
+                          }
+                          onValueChange={(value) =>
+                            setOperatingSet((prev) => ({
+                              ...prev,
+                              is_tracking_rpe: value ? 1 : 0,
+                            }))
                           }
                         >
                           RPE
@@ -325,12 +361,24 @@ export default function WorkoutTemplateDetails() {
                               ? true
                               : false
                           }
+                          onValueChange={(value) =>
+                            setOperatingSet((prev) => ({
+                              ...prev,
+                              is_tracking_resistance_level: value ? 1 : 0,
+                            }))
+                          }
                         >
                           Resistance Level
                         </Checkbox>
                         <Checkbox
                           color="success"
                           isSelected={operatingSet.is_warmup ? true : false}
+                          onValueChange={(value) =>
+                            setOperatingSet((prev) => ({
+                              ...prev,
+                              is_warmup: value ? 1 : 0,
+                            }))
+                          }
                         >
                           <span className="text-primary">Warmup Set</span>
                         </Checkbox>
