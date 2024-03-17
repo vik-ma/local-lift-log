@@ -16,7 +16,7 @@ export const ExerciseGroupDictionary = () => {
   exerciseGroupDictionary.set("10", "Quadriceps");
   exerciseGroupDictionary.set("11", "Hamstrings");
   exerciseGroupDictionary.set("12", "Calves");
-  exerciseGroupDictionary.set("13", "Core");
+  exerciseGroupDictionary.set("13", "Core (Abs)");
   exerciseGroupDictionary.set("14", "Grip");
   exerciseGroupDictionary.set("15", "Cardio");
   exerciseGroupDictionary.set("16", "Other");
