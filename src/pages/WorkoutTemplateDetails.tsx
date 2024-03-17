@@ -153,8 +153,8 @@ export default function WorkoutTemplateDetails() {
         `SELECT sets.*, exercises.name AS exercise_name
         FROM sets 
         JOIN exercises ON sets.exercise_id = exercises.id 
-        WHERE workout_template_id = $1 AND is_template = $2`,
-        [id, 1]
+        WHERE workout_template_id = $1 AND is_template = 1`,
+        [id]
       );
 
       setSets(result);
