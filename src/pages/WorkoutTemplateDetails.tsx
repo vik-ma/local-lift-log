@@ -25,6 +25,7 @@ import LoadingSpinner from "../components/LoadingSpinner";
 import { NotFound } from ".";
 import toast, { Toaster } from "react-hot-toast";
 import {
+  GenerateSetListOrderString,
   GetDefaultUnitValues,
   GetExerciseListWithGroupStrings,
 } from "../helpers";
@@ -296,7 +297,9 @@ export default function WorkoutTemplateDetails() {
         newSets.push(newSet);
       }
 
-      setSets([...sets, ...newSets]);
+      const updatedSetList = [...sets, ...newSets];
+      setSets(updatedSetList);
+      await updateSetListOrder(updatedSetList);
 
       setOperatingSet({
         ...defaultNewSet,
@@ -318,11 +321,11 @@ export default function WorkoutTemplateDetails() {
 
       db.execute("DELETE from sets WHERE id = $1", [set.id]);
 
-      const updatedSets: WorkoutSet[] = sets.filter(
+      const updatedSetList: WorkoutSet[] = sets.filter(
         (item) => item.id !== set.id
       );
-
-      setSets(updatedSets);
+      setSets(updatedSetList);
+      await updateSetListOrder(updatedSetList);
 
       toast.success("Set Removed");
     } catch (error) {
@@ -375,6 +378,23 @@ export default function WorkoutTemplateDetails() {
 
       newSetModal.onClose();
       toast.success("Set Updated");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const updateSetListOrder = async (setList: WorkoutSet[]) => {
+    if (workoutTemplate === undefined) return;
+
+    const setListOrderString: string = GenerateSetListOrderString(setList);
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      await db.execute(
+        `UPDATE workout_templates SET set_list_order = $1 WHERE id = $2`,
+        [setListOrderString, workoutTemplate.id]
+      );
     } catch (error) {
       console.log(error);
     }
