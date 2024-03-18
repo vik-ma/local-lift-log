@@ -1,0 +1,3 @@
+-- Your SQL goes here
+ALTER TABLE `sets` DROP COLUMN `rpe`;
+ALTER TABLE `sets` ADD COLUMN `rpe` SMALLINT NOT NULL;
