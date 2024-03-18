@@ -48,6 +48,7 @@ export default function WorkoutTemplateDetails() {
     useState<ExerciseWithGroupString>();
   const [sets, setSets] = useState<WorkoutSet[]>([]);
   const [numNewSets, setNumNewSets] = useState<string>("1");
+  const [isEditingSet, setIsEditingSet] = useState<boolean>(false);
 
   const numSetsOptions: string[] = ["1", "2", "3", "4", "5", "6"];
 
@@ -331,6 +332,39 @@ export default function WorkoutTemplateDetails() {
     }
   };
 
+  const handleAddSetButtonPressed = () => {
+    if (isEditingSet) {
+      setIsEditingSet(false);
+      setSelectedExercise(undefined);
+      setOperatingSet({
+        ...defaultNewSet,
+        weight_unit: userSettings!.default_unit_weight!,
+        distance_unit: userSettings!.default_unit_distance!,
+      });
+    }
+
+    newSetModal.onOpen();
+  };
+
+  const handleEditButtonPressed = (set: WorkoutSet) => {
+    const exercise = exercises.find((item) => item.id === set.exercise_id);
+
+    if (exercise === undefined) return;
+
+    setOperatingSet(set);
+    setIsEditingSet(true);
+    setSelectedExercise(exercise);
+
+    newSetModal.onOpen();
+  };
+
+  const handleExercisePressed = (exercise: ExerciseWithGroupString) => {
+    if (isEditing) {
+      setOperatingSet((prev) => ({ ...prev, exercise_id: exercise.id }));
+    }
+    setSelectedExercise(exercise);
+  };
+
   if (workoutTemplate === undefined) return NotFound();
 
   console.log(sets);
@@ -367,7 +401,7 @@ export default function WorkoutTemplateDetails() {
                         <button
                           key={exercise.id}
                           className="flex flex-col justify-start items-start bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:bg-default-200 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-                          onClick={() => setSelectedExercise(exercise)}
+                          onClick={() => handleExercisePressed(exercise)}
                         >
                           <span className="text-md">{exercise.name}</span>
                           <span className="text-xs text-stone-500 text-left">
@@ -539,21 +573,23 @@ export default function WorkoutTemplateDetails() {
                           <span className="text-primary">Warmup Set</span>
                         </Checkbox>
                       </div>
-                      <div className="flex flex-row justify-between">
-                        <Select
-                          label="Number Of Sets To Add"
-                          variant="faded"
-                          selectedKeys={[numNewSets]}
-                          disallowEmptySelection={true}
-                          onChange={(e) => setNumNewSets(e.target.value)}
-                        >
-                          {numSetsOptions.map((num) => (
-                            <SelectItem key={num} value={num}>
-                              {num}
-                            </SelectItem>
-                          ))}
-                        </Select>
-                      </div>
+                      {!isEditingSet && (
+                        <div className="flex flex-row justify-between">
+                          <Select
+                            label="Number Of Sets To Add"
+                            variant="faded"
+                            selectedKeys={[numNewSets]}
+                            disallowEmptySelection={true}
+                            onChange={(e) => setNumNewSets(e.target.value)}
+                          >
+                            {numSetsOptions.map((num) => (
+                              <SelectItem key={num} value={num}>
+                                {num}
+                              </SelectItem>
+                            ))}
+                          </Select>
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}
@@ -567,7 +603,7 @@ export default function WorkoutTemplateDetails() {
                   isDisabled={selectedExercise === undefined}
                   onPress={addSet}
                 >
-                  Add
+                  {isEditingSet ? "Save" : "Add"}
                 </Button>
               </ModalFooter>
             </>
@@ -637,18 +673,27 @@ export default function WorkoutTemplateDetails() {
                     className="flex gap-2 justify-between items-center"
                   >
                     <span>{set.exercise_name}</span>
-                    <Button
-                      size="sm"
-                      color="danger"
-                      onPress={() => removeSet(set)}
-                    >
-                      Remove
-                    </Button>
+                    <div className="flex gap-1">
+                      <Button
+                        size="sm"
+                        color="primary"
+                        onPress={() => handleEditButtonPressed(set)}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        size="sm"
+                        color="danger"
+                        onPress={() => removeSet(set)}
+                      >
+                        Remove
+                      </Button>
+                    </div>
                   </div>
                 ))}
               </div>
               <div className="flex justify-center">
-                <Button color="success" onPress={() => newSetModal.onOpen()}>
+                <Button color="success" onPress={handleAddSetButtonPressed}>
                   Add Set
                 </Button>
               </div>
