@@ -152,17 +152,21 @@ export default function WorkoutTemplateDetails() {
     };
 
     const getSetList = async () => {
-      const db = await Database.load(import.meta.env.VITE_DB);
+      try {
+        const db = await Database.load(import.meta.env.VITE_DB);
 
-      const result = await db.select<WorkoutSet[]>(
-        `SELECT sets.*, exercises.name AS exercise_name
-        FROM sets 
-        JOIN exercises ON sets.exercise_id = exercises.id 
-        WHERE workout_template_id = $1 AND is_template = 1`,
-        [id]
-      );
+        const result = await db.select<WorkoutSet[]>(
+          `SELECT sets.*, exercises.name AS exercise_name
+          FROM sets 
+          JOIN exercises ON sets.exercise_id = exercises.id 
+          WHERE workout_template_id = $1 AND is_template = 1`,
+          [id]
+        );
 
-      setSets(result);
+        setSets(result);
+      } catch (error) {
+        console.log(error);
+      }
     };
 
     getWorkoutTemplate();
