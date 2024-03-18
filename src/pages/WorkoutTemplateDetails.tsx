@@ -51,6 +51,8 @@ export default function WorkoutTemplateDetails() {
   const [sets, setSets] = useState<WorkoutSet[]>([]);
   const [numNewSets, setNumNewSets] = useState<string>("1");
   const [isEditingSet, setIsEditingSet] = useState<boolean>(false);
+  const [isEditingDefaultValues, setIsEditingDefaultValues] =
+    useState<boolean>(false);
 
   const numSetsOptions: string[] = ["1", "2", "3", "4", "5", "6"];
 
@@ -101,6 +103,7 @@ export default function WorkoutTemplateDetails() {
   const [operatingSet, setOperatingSet] = useState<WorkoutSet>(defaultNewSet);
 
   const newSetModal = useDisclosure();
+  const defaultValuesModal = useDisclosure();
 
   const isNewWorkoutTemplateNameInvalid = useMemo(() => {
     return (
@@ -401,8 +404,59 @@ export default function WorkoutTemplateDetails() {
     }
   };
 
+  const updateSetDefaultValues = async () => {
+    if (selectedExercise === undefined || workoutTemplate === undefined) return;
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      const noteToInsert: string | null =
+        operatingSet.note?.trim().length === 0 ? null : operatingSet.note;
+
+      await db.execute(
+        `UPDATE sets SET 
+        exercise_id = $1, note = $2, is_warmup = $3, is_tracking_weight = $4,
+        is_tracking_reps = $5, is_tracking_rir = $6, is_tracking_rpe = $7, 
+        is_tracking_time = $8, is_tracking_distance = $9, is_tracking_resistance_level = $10 
+        WHERE id = $11`,
+        [
+          selectedExercise.id,
+          noteToInsert,
+          operatingSet.is_warmup,
+          operatingSet.is_tracking_weight,
+          operatingSet.is_tracking_reps,
+          operatingSet.is_tracking_rir,
+          operatingSet.is_tracking_rpe,
+          operatingSet.is_tracking_time,
+          operatingSet.is_tracking_distance,
+          operatingSet.is_tracking_resistance_level,
+          operatingSet.id,
+        ]
+      );
+
+      const updatedSet: WorkoutSet = {
+        ...operatingSet,
+        exercise_id: selectedExercise.id,
+        note: noteToInsert,
+        exercise_name: selectedExercise.name,
+      };
+
+      setSets((prev) =>
+        prev.map((item) => (item.id === operatingSet.id ? updatedSet : item))
+      );
+
+      resetSetToDefault();
+
+      newSetModal.onClose();
+      toast.success("Set Updated");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const resetSetToDefault = () => {
     setIsEditingSet(false);
+    setIsEditingDefaultValues(false);
     setSelectedExercise(undefined);
     setNewSetTrackingOption("weight");
     setOperatingSet({
@@ -421,7 +475,7 @@ export default function WorkoutTemplateDetails() {
   };
 
   const handleAddSetButtonPressed = () => {
-    if (isEditingSet) {
+    if (isEditingSet || isEditingDefaultValues) {
       resetSetToDefault();
     }
 
@@ -435,9 +489,23 @@ export default function WorkoutTemplateDetails() {
 
     setOperatingSet(set);
     setIsEditingSet(true);
+    setIsEditingDefaultValues(false);
     setSelectedExercise(exercise);
 
     newSetModal.onOpen();
+  };
+
+  const handleSetDefaultValuesButtonPressed = (set: WorkoutSet) => {
+    const exercise = exercises.find((item) => item.id === set.exercise_id);
+
+    if (exercise === undefined) return;
+
+    setOperatingSet(set);
+    setIsEditingDefaultValues(true);
+    setIsEditingSet(false);
+    setSelectedExercise(exercise);
+
+    defaultValuesModal.onOpen();
   };
 
   const handleExercisePressed = (exercise: ExerciseWithGroupString) => {
@@ -690,6 +758,33 @@ export default function WorkoutTemplateDetails() {
           )}
         </ModalContent>
       </Modal>
+      <Modal
+        isOpen={defaultValuesModal.isOpen}
+        onOpenChange={defaultValuesModal.onOpenChange}
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">
+                Set Default Values
+              </ModalHeader>
+              <ModalBody>
+                <h2 className="text-2xl font-semibold px-1">
+                  {selectedExercise?.name}
+                </h2>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="success" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+                <Button color="success" onPress={updateSetDefaultValues}>
+                  Save
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
       <div className="flex flex-col gap-4">
         {isLoading ? (
           <LoadingSpinner />
@@ -754,6 +849,13 @@ export default function WorkoutTemplateDetails() {
                   >
                     <span>{set.exercise_name}</span>
                     <div className="flex gap-1">
+                      <Button
+                        size="sm"
+                        color="primary"
+                        onPress={() => handleSetDefaultValuesButtonPressed(set)}
+                      >
+                        Set Default Values
+                      </Button>
                       <Button
                         size="sm"
                         color="primary"
