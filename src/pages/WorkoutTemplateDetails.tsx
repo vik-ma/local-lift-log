@@ -28,6 +28,7 @@ import {
   GenerateSetListOrderString,
   GetDefaultUnitValues,
   GetExerciseListWithGroupStrings,
+  OrderSetsBySetListOrderString,
 } from "../helpers";
 import { SearchIcon } from "../assets";
 
@@ -110,7 +111,7 @@ export default function WorkoutTemplateDetails() {
   }, [newWorkoutTemplateName]);
 
   useEffect(() => {
-    const getWorkoutTemplate = async () => {
+    const getWorkoutTemplateAndSetList = async () => {
       try {
         const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -121,10 +122,25 @@ export default function WorkoutTemplateDetails() {
 
         if (result.length === 0) return;
 
-        const currentWorkoutTemplate: WorkoutTemplate = result[0];
-        setWorkoutTemplate(currentWorkoutTemplate);
-        setNewWorkoutTemplateName(currentWorkoutTemplate.name);
-        setNewWorkoutTemplateNote(currentWorkoutTemplate.note ?? "");
+        const workoutTemplate: WorkoutTemplate = result[0];
+
+        const setList = await db.select<WorkoutSet[]>(
+          `SELECT sets.*, exercises.name AS exercise_name
+          FROM sets 
+          JOIN exercises ON sets.exercise_id = exercises.id 
+          WHERE workout_template_id = $1 AND is_template = 1`,
+          [id]
+        );
+
+        const orderedSetList: WorkoutSet[] = OrderSetsBySetListOrderString(
+          setList,
+          workoutTemplate.set_list_order
+        );
+
+        setWorkoutTemplate(workoutTemplate);
+        setNewWorkoutTemplateName(workoutTemplate.name);
+        setNewWorkoutTemplateNote(workoutTemplate.note ?? "");
+        setSets(orderedSetList);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -151,28 +167,9 @@ export default function WorkoutTemplateDetails() {
       if (exercises !== undefined) setExercises(exercises);
     };
 
-    const getSetList = async () => {
-      try {
-        const db = await Database.load(import.meta.env.VITE_DB);
-
-        const result = await db.select<WorkoutSet[]>(
-          `SELECT sets.*, exercises.name AS exercise_name
-          FROM sets 
-          JOIN exercises ON sets.exercise_id = exercises.id 
-          WHERE workout_template_id = $1 AND is_template = 1`,
-          [id]
-        );
-
-        setSets(result);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    getWorkoutTemplate();
+    getWorkoutTemplateAndSetList();
     loadUserSettings();
     getExerciseList();
-    getSetList();
   }, [id]);
 
   const updateWorkoutTemplateNoteAndName = async () => {
