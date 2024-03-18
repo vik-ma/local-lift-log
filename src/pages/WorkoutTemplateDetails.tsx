@@ -303,8 +303,7 @@ export default function WorkoutTemplateDetails() {
         weight_unit: userSettings!.default_unit_weight!,
         distance_unit: userSettings!.default_unit_distance!,
       });
-      setSelectedExercise(undefined);
-      setNewSetTrackingOption("weight");
+      resetSetToDefault();
 
       newSetModal.onClose();
       toast.success("Set Added");
@@ -372,13 +371,24 @@ export default function WorkoutTemplateDetails() {
         prev.map((item) => (item.id === operatingSet.id ? updatedSet : item))
       );
 
-      // RESET
+      resetSetToDefault();
 
       newSetModal.onClose();
       toast.success("Set Updated");
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const resetSetToDefault = () => {
+    setIsEditingSet(false);
+    setSelectedExercise(undefined);
+    setNewSetTrackingOption("weight");
+    setOperatingSet({
+      ...defaultNewSet,
+      weight_unit: userSettings!.default_unit_weight!,
+      distance_unit: userSettings!.default_unit_distance!,
+    });
   };
 
   const handleSaveSetButtonPressed = async () => {
@@ -391,13 +401,7 @@ export default function WorkoutTemplateDetails() {
 
   const handleAddSetButtonPressed = () => {
     if (isEditingSet) {
-      setIsEditingSet(false);
-      setSelectedExercise(undefined);
-      setOperatingSet({
-        ...defaultNewSet,
-        weight_unit: userSettings!.default_unit_weight!,
-        distance_unit: userSettings!.default_unit_distance!,
-      });
+      resetSetToDefault();
     }
 
     newSetModal.onOpen();
