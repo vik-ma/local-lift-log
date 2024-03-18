@@ -769,9 +769,95 @@ export default function WorkoutTemplateDetails() {
                 Set Default Values
               </ModalHeader>
               <ModalBody>
-                <h2 className="text-2xl font-semibold px-1">
-                  {selectedExercise?.name}
-                </h2>
+                <div className="flex flex-col gap-2">
+                  <h2 className="text-2xl font-semibold">
+                    {selectedExercise?.name}
+                  </h2>
+                  {!!operatingSet.is_tracking_weight && (
+                    <Input
+                      value={
+                        operatingSet.weight === 0
+                          ? ""
+                          : operatingSet.weight.toString()
+                      }
+                      label="Weight"
+                      variant="faded"
+                      isClearable
+                    />
+                  )}
+                  {!!operatingSet.is_tracking_reps && (
+                    <Input
+                      value={
+                        operatingSet.reps === 0
+                          ? ""
+                          : operatingSet.reps.toString()
+                      }
+                      label="Reps"
+                      variant="faded"
+                      isClearable
+                    />
+                  )}
+                  {!!operatingSet.is_tracking_distance && (
+                    <Input
+                      value={
+                        operatingSet.distance === 0
+                          ? ""
+                          : operatingSet.distance.toString()
+                      }
+                      label="Distance"
+                      variant="faded"
+                      isClearable
+                    />
+                  )}
+                  {!!operatingSet.is_tracking_time && (
+                    <Input
+                      value={
+                        operatingSet.time_in_seconds === 0
+                          ? ""
+                          : operatingSet.time_in_seconds.toString()
+                      }
+                      label="Time"
+                      variant="faded"
+                      isClearable
+                    />
+                  )}
+                  {!!operatingSet.is_tracking_rir && (
+                    <Input
+                      value={
+                        operatingSet.rir === 0
+                          ? ""
+                          : operatingSet.rir.toString()
+                      }
+                      label="RIR"
+                      variant="faded"
+                      isClearable
+                    />
+                  )}
+                  {!!operatingSet.is_tracking_rpe && (
+                    <Input
+                      value={
+                        operatingSet.rpe === 0
+                          ? ""
+                          : operatingSet.rpe.toString()
+                      }
+                      label="RPE"
+                      variant="faded"
+                      isClearable
+                    />
+                  )}
+                  {!!operatingSet.is_tracking_resistance_level && (
+                    <Input
+                      value={
+                        operatingSet.resistance_level === 0
+                          ? ""
+                          : operatingSet.resistance_level.toString()
+                      }
+                      label="Resistance Level"
+                      variant="faded"
+                      isClearable
+                    />
+                  )}
+                </div>
               </ModalBody>
               <ModalFooter>
                 <Button color="success" variant="light" onPress={onClose}>
@@ -839,8 +925,8 @@ export default function WorkoutTemplateDetails() {
                 </Button>
               </div>
             )}
-            <div>
-              <h2 className="text-xl font-semibold ">Set List</h2>
+            <div className="flex flex-col gap-2">
+              <h2 className="text-xl font-semibold">Set List</h2>
               <div className="flex flex-col gap-1">
                 {sets.map((set) => (
                   <div
