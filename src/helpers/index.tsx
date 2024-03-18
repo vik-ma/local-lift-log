@@ -26,3 +26,5 @@ export { ValidDistanceUnits } from "./UserSettings/ValidDistanceUnits";
 export { ValidWeightUnits } from "./UserSettings/ValidWeightUnits";
 
 export { GenerateSetListOrderString } from "./Sets/GenerateSetListOrderString";
+
+export { OrderSetsBySetListOrderString as OrderSetsBySetListOrderString } from "./Sets/OrderSetsBySetListOrderString";
