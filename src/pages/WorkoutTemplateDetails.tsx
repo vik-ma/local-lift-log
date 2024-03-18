@@ -307,7 +307,6 @@ export default function WorkoutTemplateDetails() {
       setNewSetTrackingOption("weight");
 
       newSetModal.onClose();
-
       toast.success("Set Added");
     } catch (error) {
       console.error(error);
@@ -329,6 +328,64 @@ export default function WorkoutTemplateDetails() {
       toast.success("Set Removed");
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  const updateSet = async () => {
+    if (selectedExercise === undefined || workoutTemplate === undefined) return;
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      const noteToInsert: string | null =
+        operatingSet.note?.trim().length === 0 ? null : operatingSet.note;
+
+      await db.execute(
+        `UPDATE sets SET 
+        exercise_id = $1, note = $2, is_warmup = $3, is_tracking_weight = $4,
+        is_tracking_reps = $5, is_tracking_rir = $6, is_tracking_rpe = $7, 
+        is_tracking_time = $8, is_tracking_distance = $9, is_tracking_resistance_level = $10 
+        WHERE id = $11`,
+        [
+          selectedExercise.id,
+          noteToInsert,
+          operatingSet.is_warmup,
+          operatingSet.is_tracking_weight,
+          operatingSet.is_tracking_reps,
+          operatingSet.is_tracking_rir,
+          operatingSet.is_tracking_rpe,
+          operatingSet.is_tracking_time,
+          operatingSet.is_tracking_distance,
+          operatingSet.is_tracking_resistance_level,
+          operatingSet.id,
+        ]
+      );
+
+      const updatedSet: WorkoutSet = {
+        ...operatingSet,
+        exercise_id: selectedExercise.id,
+        note: noteToInsert,
+        exercise_name: selectedExercise.name,
+      };
+
+      setSets((prev) =>
+        prev.map((item) => (item.id === operatingSet.id ? updatedSet : item))
+      );
+
+      // RESET
+
+      newSetModal.onClose();
+      toast.success("Set Updated");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleSaveSetButtonPressed = async () => {
+    if (isEditingSet) {
+      await updateSet();
+    } else {
+      await addSet();
     }
   };
 
@@ -359,15 +416,13 @@ export default function WorkoutTemplateDetails() {
   };
 
   const handleExercisePressed = (exercise: ExerciseWithGroupString) => {
-    if (isEditing) {
+    if (isEditingSet) {
       setOperatingSet((prev) => ({ ...prev, exercise_id: exercise.id }));
     }
     setSelectedExercise(exercise);
   };
 
   if (workoutTemplate === undefined) return NotFound();
-
-  console.log(sets);
 
   return (
     <>
@@ -601,7 +656,7 @@ export default function WorkoutTemplateDetails() {
                 <Button
                   color="success"
                   isDisabled={selectedExercise === undefined}
-                  onPress={addSet}
+                  onPress={handleSaveSetButtonPressed}
                 >
                   {isEditingSet ? "Save" : "Add"}
                 </Button>
