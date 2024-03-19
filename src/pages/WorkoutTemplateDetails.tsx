@@ -31,6 +31,7 @@ import {
   OrderSetsBySetListOrderString,
 } from "../helpers";
 import { SearchIcon } from "../assets";
+import { Reorder } from "framer-motion";
 
 export default function WorkoutTemplateDetails() {
   const { id } = useParams();
@@ -928,37 +929,44 @@ export default function WorkoutTemplateDetails() {
             <div className="flex flex-col gap-2">
               <h2 className="text-xl font-semibold">Set List</h2>
               <div className="flex flex-col gap-1">
-                {sets.map((set) => (
-                  <div
-                    key={set.id}
-                    className="flex gap-2 justify-between items-center"
-                  >
-                    <span>{set.exercise_name}</span>
-                    <div className="flex gap-1">
-                      <Button
-                        size="sm"
-                        color="primary"
-                        onPress={() => handleSetDefaultValuesButtonPressed(set)}
-                      >
-                        Set Default Values
-                      </Button>
-                      <Button
-                        size="sm"
-                        color="primary"
-                        onPress={() => handleEditButtonPressed(set)}
-                      >
-                        Edit
-                      </Button>
-                      <Button
-                        size="sm"
-                        color="danger"
-                        onPress={() => removeSet(set)}
-                      >
-                        Remove
-                      </Button>
-                    </div>
-                  </div>
-                ))}
+                <Reorder.Group
+                  className="flex flex-col gap-1.5"
+                  values={sets}
+                  onReorder={setSets}
+                >
+                  {sets.map((set) => (
+                    <Reorder.Item key={set.id} value={set}>
+                      <div className="flex gap-2 justify-between items-center">
+                        <span>{set.exercise_name}</span>
+                        <div className="flex gap-1">
+                          <Button
+                            size="sm"
+                            color="primary"
+                            onPress={() =>
+                              handleSetDefaultValuesButtonPressed(set)
+                            }
+                          >
+                            Set Default Values
+                          </Button>
+                          <Button
+                            size="sm"
+                            color="primary"
+                            onPress={() => handleEditButtonPressed(set)}
+                          >
+                            Edit
+                          </Button>
+                          <Button
+                            size="sm"
+                            color="danger"
+                            onPress={() => removeSet(set)}
+                          >
+                            Remove
+                          </Button>
+                        </div>
+                      </div>
+                    </Reorder.Item>
+                  ))}
+                </Reorder.Group>
               </div>
               <div className="flex justify-center">
                 <Button color="success" onPress={handleAddSetButtonPressed}>
