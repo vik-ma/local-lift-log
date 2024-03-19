@@ -927,7 +927,15 @@ export default function WorkoutTemplateDetails() {
               </div>
             )}
             <div className="flex flex-col gap-2">
-              <h2 className="text-xl font-semibold">Set List</h2>
+              <h2 className="text-xl font-semibold flex items-center justify-between">
+                Set List{" "}
+                {sets.length > 1 && (
+                  <span className="text-xs italic text-stone-500 font-normal">
+                    Drag Sets To Reorder Set List
+                  </span>
+                )}
+              </h2>
+
               <div className="flex flex-col gap-1">
                 <Reorder.Group
                   className="flex flex-col gap-1.5"
