@@ -4,6 +4,7 @@ import {
   UserSettingsOptional,
   WorkoutSet,
   WorkoutTemplate,
+  SetValueFunction,
 } from "../typings";
 import { useState, useMemo, useEffect } from "react";
 import {
@@ -21,7 +22,12 @@ import {
   Checkbox,
 } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
-import { LoadingSpinner, TimeInput } from "../components";
+import {
+  WeightUnitDropdown,
+  DistanceUnitDropdown,
+  LoadingSpinner,
+  TimeInput,
+} from "../components";
 import { NotFound } from ".";
 import toast, { Toaster } from "react-hot-toast";
 import {
@@ -29,8 +35,6 @@ import {
   GetDefaultUnitValues,
   GetExerciseListWithGroupStrings,
   OrderSetsBySetListOrderString,
-  ValidWeightUnits,
-  ValidDistanceUnits,
 } from "../helpers";
 import { SearchIcon } from "../assets";
 import { Reorder } from "framer-motion";
@@ -504,9 +508,6 @@ export default function WorkoutTemplateDetails() {
 
   if (workoutTemplate === undefined) return NotFound();
 
-  const weightUnits: string[] = ValidWeightUnits();
-  const distanceUnits: string[] = ValidDistanceUnits();
-
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
@@ -760,25 +761,10 @@ export default function WorkoutTemplateDetails() {
                         variant="faded"
                         isClearable
                       />
-                      <Select
-                        label="Unit"
-                        size="sm"
-                        className="max-w-20"
-                        variant="faded"
-                        selectedKeys={[operatingSet.weight_unit]}
-                        onChange={(e) =>
-                          setOperatingSet((prev) => ({
-                            ...prev,
-                            weight_unit: e.target.value,
-                          }))
-                        }
-                      >
-                        {weightUnits.map((unit) => (
-                          <SelectItem key={unit} value={unit}>
-                            {unit}
-                          </SelectItem>
-                        ))}
-                      </Select>
+                      <WeightUnitDropdown
+                        value={operatingSet.weight_unit}
+                        setValue={setOperatingSet as SetValueFunction}
+                      />
                     </div>
                   )}
                   {!!operatingSet.is_tracking_reps && (
@@ -807,25 +793,10 @@ export default function WorkoutTemplateDetails() {
                         variant="faded"
                         isClearable
                       />
-                      <Select
-                        label="Unit"
-                        size="sm"
-                        className="max-w-20"
-                        variant="faded"
-                        selectedKeys={[operatingSet.distance_unit]}
-                        onChange={(e) =>
-                          setOperatingSet((prev) => ({
-                            ...prev,
-                            distance_unit: e.target.value,
-                          }))
-                        }
-                      >
-                        {distanceUnits.map((unit) => (
-                          <SelectItem key={unit} value={unit}>
-                            {unit}
-                          </SelectItem>
-                        ))}
-                      </Select>
+                      <DistanceUnitDropdown
+                        value={operatingSet.distance_unit}
+                        setValue={setOperatingSet as SetValueFunction}
+                      />
                     </div>
                   )}
                   {!!operatingSet.is_tracking_time && (

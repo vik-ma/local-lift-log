@@ -103,3 +103,12 @@ export type WorkoutSet = {
   distance_unit: string;
   exercise_name?: string;
 };
+
+export type SetValueFunction = React.Dispatch<
+  React.SetStateAction<WorkoutSet | UserSettings>
+>;
+
+export type UnitDropdownProps = {
+  value: string;
+  setValue: SetValueFunction;
+};
