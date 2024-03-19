@@ -21,7 +21,7 @@ import {
   Checkbox,
 } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
-import { LoadingSpinner } from "../components";
+import { LoadingSpinner, TimeInput } from "../components";
 import { NotFound } from ".";
 import toast, { Toaster } from "react-hot-toast";
 import {
@@ -779,15 +779,9 @@ export default function WorkoutTemplateDetails() {
                     />
                   )}
                   {!!operatingSet.is_tracking_time && (
-                    <Input
-                      value={
-                        operatingSet.time_in_seconds === 0
-                          ? ""
-                          : operatingSet.time_in_seconds.toString()
-                      }
-                      label="Time"
-                      variant="faded"
-                      isClearable
+                    <TimeInput
+                      value={operatingSet}
+                      setValue={setOperatingSet}
                     />
                   )}
                   {!!operatingSet.is_tracking_rir && (
