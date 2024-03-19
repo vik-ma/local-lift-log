@@ -24,7 +24,7 @@ import {
 } from "@nextui-org/react";
 import { NotFound } from ".";
 import Database from "tauri-plugin-sql-api";
-import LoadingSpinner from "../components/LoadingSpinner";
+import { LoadingSpinner } from "../components";
 import {
   GetScheduleDayNames,
   GetScheduleDayValues,

@@ -4,7 +4,7 @@ import { useState, useMemo, useEffect } from "react";
 import { NotFound } from ".";
 import { Button, Input, CheckboxGroup, Checkbox } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
-import LoadingSpinner from "../components/LoadingSpinner";
+import { LoadingSpinner } from "../components";
 import {
   ConvertExerciseGroupSetString,
   ValidateExerciseGroupSetString,

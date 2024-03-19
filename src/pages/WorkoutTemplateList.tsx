@@ -11,7 +11,7 @@ import {
   Input,
 } from "@nextui-org/react";
 import { useState, useEffect, useMemo } from "react";
-import LoadingSpinner from "../components/LoadingSpinner";
+import { LoadingSpinner } from "../components";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 

@@ -12,7 +12,7 @@ import {
 import { NavLink, useNavigate } from "react-router-dom";
 import { ArrowRightIcon, ArrowLeftIcon, ChevronDownIcon } from "../assets";
 
-export default function SiteHeader() {
+export const SiteHeader = () => {
   const navigate = useNavigate();
 
   return (
@@ -83,4 +83,6 @@ export default function SiteHeader() {
       </NavbarContent>
     </Navbar>
   );
-}
+};
+
+export default SiteHeader;

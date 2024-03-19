@@ -8,7 +8,7 @@ import {
   UpdateDefaultUnitWeight,
 } from "../helpers";
 import { Switch, Select, SelectItem } from "@nextui-org/react";
-import LoadingSpinner from "../components/LoadingSpinner";
+import { LoadingSpinner } from "../components";
 import toast, { Toaster } from "react-hot-toast";
 
 export default function SettingsPage() {

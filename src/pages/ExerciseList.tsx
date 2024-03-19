@@ -22,7 +22,7 @@ import {
 } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import LoadingSpinner from "../components/LoadingSpinner";
+import { LoadingSpinner } from "../components";
 import { SearchIcon } from "../assets";
 
 export default function ExerciseListPage() {

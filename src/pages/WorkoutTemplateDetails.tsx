@@ -21,7 +21,7 @@ import {
   Checkbox,
 } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
-import LoadingSpinner from "../components/LoadingSpinner";
+import { LoadingSpinner } from "../components";
 import { NotFound } from ".";
 import toast, { Toaster } from "react-hot-toast";
 import {

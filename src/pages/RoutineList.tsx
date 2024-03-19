@@ -22,7 +22,7 @@ import {
   GetActiveRoutineId,
   NumDaysInScheduleOptions,
 } from "../helpers";
-import LoadingSpinner from "../components/LoadingSpinner";
+import { LoadingSpinner } from "../components";
 
 export default function RoutineListPage() {
   const [routines, setRoutines] = useState<RoutineListItem[]>([]);

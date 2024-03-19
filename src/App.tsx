@@ -12,7 +12,7 @@ import {
   WorkoutTemplateListPage,
   WorkoutTemplateDetailsPage,
 } from "./pages";
-import SiteHeader from "./components/SiteHeader";
+import { SiteHeader } from "./components";
 
 function App() {
   const navigate = useNavigate();
