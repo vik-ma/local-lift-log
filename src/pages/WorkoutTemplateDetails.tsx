@@ -43,8 +43,6 @@ export default function WorkoutTemplateDetails() {
     useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
-  const [newSetTrackingOption, setNewSetTrackingOption] =
-    useState<string>("weight");
   const [exercises, setExercises] = useState<ExerciseWithGroupString[]>([]);
   const [filterQuery, setFilterQuery] = useState<string>("");
   const [selectedExercise, setSelectedExercise] =
@@ -90,8 +88,8 @@ export default function WorkoutTemplateDetails() {
     time_in_seconds: 0,
     distance: 0,
     resistance_level: 0,
-    is_tracking_weight: 1,
-    is_tracking_reps: 1,
+    is_tracking_weight: 0,
+    is_tracking_reps: 0,
     is_tracking_rir: 0,
     is_tracking_rpe: 0,
     is_tracking_time: 0,
@@ -203,39 +201,6 @@ export default function WorkoutTemplateDetails() {
       setIsEditing(false);
     } catch (error) {
       console.log(error);
-    }
-  };
-
-  const handleChangeSetTrackingOption = (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    const value: string = e.target.value;
-    setNewSetTrackingOption(value);
-
-    if (value === "weight") {
-      setOperatingSet((prev) => ({
-        ...prev,
-        is_tracking_weight: 1,
-        is_tracking_reps: 1,
-        is_tracking_distance: 0,
-        is_tracking_time: 0,
-        is_tracking_rir: 0,
-        is_tracking_rpe: 0,
-        is_tracking_resistance_level: 0,
-      }));
-    }
-
-    if (value === "distance") {
-      setOperatingSet((prev) => ({
-        ...prev,
-        is_tracking_weight: 0,
-        is_tracking_reps: 0,
-        is_tracking_distance: 1,
-        is_tracking_time: 1,
-        is_tracking_rir: 0,
-        is_tracking_rpe: 0,
-        is_tracking_resistance_level: 0,
-      }));
     }
   };
 
@@ -459,7 +424,6 @@ export default function WorkoutTemplateDetails() {
     setIsEditingSet(false);
     setIsEditingDefaultValues(false);
     setSelectedExercise(undefined);
-    setNewSetTrackingOption("weight");
     setOperatingSet({
       ...defaultNewSet,
       weight_unit: userSettings!.default_unit_weight!,
@@ -510,10 +474,30 @@ export default function WorkoutTemplateDetails() {
   };
 
   const handleExercisePressed = (exercise: ExerciseWithGroupString) => {
+    setSelectedExercise(exercise);
+
     if (isEditingSet) {
       setOperatingSet((prev) => ({ ...prev, exercise_id: exercise.id }));
+      return;
     }
-    setSelectedExercise(exercise);
+
+    if (exercise.exercise_group_string === "Cardio") {
+      setOperatingSet((prev) => ({
+        ...prev,
+        is_tracking_weight: 0,
+        is_tracking_reps: 0,
+        is_tracking_distance: 1,
+        is_tracking_time: 1,
+      }));
+    } else {
+      setOperatingSet((prev) => ({
+        ...prev,
+        is_tracking_weight: 1,
+        is_tracking_reps: 1,
+        is_tracking_distance: 0,
+        is_tracking_time: 0,
+      }));
+    }
   };
 
   if (workoutTemplate === undefined) return NotFound();
@@ -592,22 +576,6 @@ export default function WorkoutTemplateDetails() {
                     </div>
                     <div className="flex flex-col gap-2">
                       <h3 className="text-xl font-semibold px-1">Track</h3>
-                      <Select
-                        label="Presets"
-                        variant="faded"
-                        selectedKeys={[newSetTrackingOption]}
-                        disallowEmptySelection={true}
-                        onChange={(value) =>
-                          handleChangeSetTrackingOption(value)
-                        }
-                      >
-                        <SelectItem key="weight" value="weight">
-                          Weight & Reps
-                        </SelectItem>
-                        <SelectItem key="distance" value="distance">
-                          Distance & Time
-                        </SelectItem>
-                      </Select>
                       <div className="grid grid-cols-2 gap-2 p-1">
                         <Checkbox
                           color="success"
