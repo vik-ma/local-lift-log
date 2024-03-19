@@ -29,6 +29,8 @@ import {
   GetDefaultUnitValues,
   GetExerciseListWithGroupStrings,
   OrderSetsBySetListOrderString,
+  ValidWeightUnits,
+  ValidDistanceUnits,
 } from "../helpers";
 import { SearchIcon } from "../assets";
 import { Reorder } from "framer-motion";
@@ -502,6 +504,9 @@ export default function WorkoutTemplateDetails() {
 
   if (workoutTemplate === undefined) return NotFound();
 
+  const weightUnits: string[] = ValidWeightUnits();
+  const distanceUnits: string[] = ValidDistanceUnits();
+
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
@@ -743,16 +748,36 @@ export default function WorkoutTemplateDetails() {
                     {selectedExercise?.name}
                   </h2>
                   {!!operatingSet.is_tracking_weight && (
-                    <Input
-                      value={
-                        operatingSet.weight === 0
-                          ? ""
-                          : operatingSet.weight.toString()
-                      }
-                      label="Weight"
-                      variant="faded"
-                      isClearable
-                    />
+                    <div className="flex justify-between gap-2">
+                      <Input
+                        value={
+                          operatingSet.weight === 0
+                            ? ""
+                            : operatingSet.weight.toString()
+                        }
+                        label="Weight"
+                        variant="faded"
+                        isClearable
+                      />
+                      <Select
+                        label="Unit"
+                        className="max-w-20"
+                        variant="faded"
+                        selectedKeys={[operatingSet.weight_unit]}
+                        onChange={(e) =>
+                          setOperatingSet((prev) => ({
+                            ...prev,
+                            weight_unit: e.target.value,
+                          }))
+                        }
+                      >
+                        {weightUnits.map((unit) => (
+                          <SelectItem key={unit} value={unit}>
+                            {unit}
+                          </SelectItem>
+                        ))}
+                      </Select>
+                    </div>
                   )}
                   {!!operatingSet.is_tracking_reps && (
                     <Input
@@ -767,16 +792,36 @@ export default function WorkoutTemplateDetails() {
                     />
                   )}
                   {!!operatingSet.is_tracking_distance && (
-                    <Input
-                      value={
-                        operatingSet.distance === 0
-                          ? ""
-                          : operatingSet.distance.toString()
-                      }
-                      label="Distance"
-                      variant="faded"
-                      isClearable
-                    />
+                    <div className="flex justify-between gap-2">
+                      <Input
+                        value={
+                          operatingSet.distance === 0
+                            ? ""
+                            : operatingSet.distance.toString()
+                        }
+                        label="Distance"
+                        variant="faded"
+                        isClearable
+                      />
+                      <Select
+                        label="Unit"
+                        className="max-w-20"
+                        variant="faded"
+                        selectedKeys={[operatingSet.distance_unit]}
+                        onChange={(e) =>
+                          setOperatingSet((prev) => ({
+                            ...prev,
+                            distance_unit: e.target.value,
+                          }))
+                        }
+                      >
+                        {distanceUnits.map((unit) => (
+                          <SelectItem key={unit} value={unit}>
+                            {unit}
+                          </SelectItem>
+                        ))}
+                      </Select>
+                    </div>
                   )}
                   {!!operatingSet.is_tracking_time && (
                     <TimeInput
