@@ -104,11 +104,17 @@ export type WorkoutSet = {
   exercise_name?: string;
 };
 
-export type SetValueFunction = React.Dispatch<
-  React.SetStateAction<WorkoutSet | UserSettings>
+export type UnitDropDownActionSet = React.Dispatch<
+  React.SetStateAction<WorkoutSet>
 >;
+
+export type UnitDropDownActionSettings = (
+  e: React.ChangeEvent<HTMLSelectElement>
+) => Promise<void>;
 
 export type UnitDropdownProps = {
   value: string;
-  setValue: SetValueFunction;
+  actionSet?: UnitDropDownActionSet;
+  actionSettings?: UnitDropDownActionSettings;
+  targetType: "set" | "settings";
 };

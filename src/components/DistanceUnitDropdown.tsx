@@ -4,9 +4,25 @@ import { UnitDropdownProps } from "../typings";
 
 export const DistanceUnitDropdown = ({
   value,
-  setValue,
+  actionSet,
+  actionSettings,
+  targetType,
 }: UnitDropdownProps) => {
   const distanceUnits: string[] = ValidDistanceUnits();
+
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    if (targetType === "set" && actionSet !== undefined) {
+      actionSet((prev) => ({
+        ...prev,
+        distance_unit: e.target.value,
+      }));
+    }
+
+    if (targetType === "settings" && actionSettings !== undefined) {
+      actionSettings(e);
+    }
+  };
+
   return (
     <Select
       label="Unit"
@@ -14,12 +30,7 @@ export const DistanceUnitDropdown = ({
       className="max-w-20"
       variant="faded"
       selectedKeys={[value]}
-      onChange={(e) =>
-        setValue((prev) => ({
-          ...prev,
-          distance_unit: e.target.value,
-        }))
-      }
+      onChange={(e) => handleChange(e)}
     >
       {distanceUnits.map((unit) => (
         <SelectItem key={unit} value={unit}>

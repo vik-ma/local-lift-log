@@ -3,20 +3,19 @@ import { UserSettings, UserSettingsOptional } from "../typings";
 import {
   GetUserSettings,
   UpdateShowTimestamp,
-  ValidWeightUnits,
-  ValidDistanceUnits,
   UpdateDefaultUnitWeight,
 } from "../helpers";
-import { Switch, Select, SelectItem } from "@nextui-org/react";
-import { LoadingSpinner } from "../components";
+import { Switch } from "@nextui-org/react";
+import {
+  LoadingSpinner,
+  WeightUnitDropdown,
+  DistanceUnitDropdown,
+} from "../components";
 import toast, { Toaster } from "react-hot-toast";
 
 export default function SettingsPage() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
-
-  const weightUnits: string[] = ValidWeightUnits();
-  const distanceUnits: string[] = ValidDistanceUnits();
 
   useEffect(() => {
     const loadUserSettings = async () => {
@@ -94,37 +93,19 @@ export default function SettingsPage() {
           <div className="flex flex-col gap-3">
             <div className="flex gap-3 items-center justify-between">
               <span className="text-lg">Default Weight Unit</span>
-              <Select
-                aria-label="Select Default Weight Unit"
-                className="max-w-20"
-                size="lg"
-                variant="faded"
-                selectedKeys={[userSettings!.default_unit_weight]}
-                onChange={(value) => handleDefaultUnitWeightChange(value)}
-              >
-                {weightUnits.map((unit) => (
-                  <SelectItem key={unit} value={unit}>
-                    {unit}
-                  </SelectItem>
-                ))}
-              </Select>
+              <WeightUnitDropdown
+                value={userSettings!.default_unit_weight}
+                actionSettings={handleDefaultUnitWeightChange}
+                targetType="settings"
+              />
             </div>
             <div className="flex gap-3 items-center justify-between">
               <span className="text-lg">Default Distance Unit</span>
-              <Select
-                aria-label="Select Default Distance Unit"
-                className="max-w-20"
-                size="lg"
-                variant="faded"
-                selectedKeys={[userSettings!.default_unit_distance]}
-                onChange={(value) => handleDefaultUnitDistanceChange(value)}
-              >
-                {distanceUnits.map((unit) => (
-                  <SelectItem key={unit} value={unit}>
-                    {unit}
-                  </SelectItem>
-                ))}
-              </Select>
+              <DistanceUnitDropdown
+                value={userSettings!.default_unit_distance}
+                actionSettings={handleDefaultUnitDistanceChange}
+                targetType="settings"
+              />
             </div>
             <Switch
               className="flex-row-reverse gap-3"

@@ -4,7 +4,7 @@ import {
   UserSettingsOptional,
   WorkoutSet,
   WorkoutTemplate,
-  SetValueFunction,
+  UnitDropDownActionSet,
 } from "../typings";
 import { useState, useMemo, useEffect } from "react";
 import {
@@ -763,7 +763,8 @@ export default function WorkoutTemplateDetails() {
                       />
                       <WeightUnitDropdown
                         value={operatingSet.weight_unit}
-                        setValue={setOperatingSet as SetValueFunction}
+                        actionSet={setOperatingSet}
+                        targetType="set"
                       />
                     </div>
                   )}
@@ -795,7 +796,8 @@ export default function WorkoutTemplateDetails() {
                       />
                       <DistanceUnitDropdown
                         value={operatingSet.distance_unit}
-                        setValue={setOperatingSet as SetValueFunction}
+                        actionSet={setOperatingSet as UnitDropDownActionSet}
+                        targetType="set"
                       />
                     </div>
                   )}
