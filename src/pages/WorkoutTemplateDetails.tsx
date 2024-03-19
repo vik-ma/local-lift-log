@@ -756,11 +756,13 @@ export default function WorkoutTemplateDetails() {
                             : operatingSet.weight.toString()
                         }
                         label="Weight"
+                        size="sm"
                         variant="faded"
                         isClearable
                       />
                       <Select
                         label="Unit"
+                        size="sm"
                         className="max-w-20"
                         variant="faded"
                         selectedKeys={[operatingSet.weight_unit]}
@@ -787,6 +789,7 @@ export default function WorkoutTemplateDetails() {
                           : operatingSet.reps.toString()
                       }
                       label="Reps"
+                      size="sm"
                       variant="faded"
                       isClearable
                     />
@@ -800,11 +803,13 @@ export default function WorkoutTemplateDetails() {
                             : operatingSet.distance.toString()
                         }
                         label="Distance"
+                        size="sm"
                         variant="faded"
                         isClearable
                       />
                       <Select
                         label="Unit"
+                        size="sm"
                         className="max-w-20"
                         variant="faded"
                         selectedKeys={[operatingSet.distance_unit]}
@@ -837,6 +842,7 @@ export default function WorkoutTemplateDetails() {
                           : operatingSet.rir.toString()
                       }
                       label="RIR"
+                      size="sm"
                       variant="faded"
                       isClearable
                     />
@@ -849,6 +855,7 @@ export default function WorkoutTemplateDetails() {
                           : operatingSet.rpe.toString()
                       }
                       label="RPE"
+                      size="sm"
                       variant="faded"
                       isClearable
                     />
@@ -861,6 +868,7 @@ export default function WorkoutTemplateDetails() {
                           : operatingSet.resistance_level.toString()
                       }
                       label="Resistance Level"
+                      size="sm"
                       variant="faded"
                       isClearable
                     />
