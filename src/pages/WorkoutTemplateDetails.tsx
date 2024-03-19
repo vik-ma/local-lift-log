@@ -388,7 +388,7 @@ export default function WorkoutTemplateDetails() {
     }
   };
 
-  const updateSetListOrder = async (setList: WorkoutSet[]) => {
+  const updateSetListOrder = async (setList: WorkoutSet[] = sets) => {
     if (workoutTemplate === undefined) return;
 
     const setListOrderString: string = GenerateSetListOrderString(setList);
@@ -935,7 +935,11 @@ export default function WorkoutTemplateDetails() {
                   onReorder={setSets}
                 >
                   {sets.map((set) => (
-                    <Reorder.Item key={set.id} value={set}>
+                    <Reorder.Item
+                      key={set.id}
+                      value={set}
+                      onDragEnd={() => updateSetListOrder()}
+                    >
                       <div className="flex gap-2 justify-between items-center">
                         <span>{set.exercise_name}</span>
                         <div className="flex gap-1">
