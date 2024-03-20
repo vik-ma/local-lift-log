@@ -50,7 +50,7 @@ export default function RoutineDetailsPage() {
   const [scheduleValues, setScheduleValues] = useState<RoutineScheduleItem[][]>(
     []
   );
-  const [workoutTemplateScheduleToRemove, setWorkoutTemplateScheduleToRemove] =
+  const [workoutRoutineScheduleToRemove, setworkoutRoutineScheduleToRemove] =
     useState<RoutineScheduleItem>();
   const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
   const [newCustomStartDate, setNewCustomStartDate] = useState<string>("");
@@ -69,16 +69,16 @@ export default function RoutineDetailsPage() {
   const workoutTemplatesModal = useDisclosure();
   const calendarModal = useDisclosure();
 
-  const getWorkoutTemplateSchedules = useCallback(async () => {
+  const getworkoutRoutineSchedules = useCallback(async () => {
     if (routine?.num_days_in_schedule === undefined) return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
       const result = await db.select<RoutineScheduleItem[]>(
-        `SELECT workout_template_schedules.id, day, workout_template_id,
-        (SELECT name FROM workout_templates WHERE id = workout_template_schedules.workout_template_id) AS name
-        FROM workout_template_schedules 
+        `SELECT workout_routine_schedules.id, day, workout_template_id,
+        (SELECT name FROM workout_templates WHERE id = workout_routine_schedules.workout_template_id) AS name
+        FROM workout_routine_schedules 
         WHERE routine_id = $1`,
         [id]
       );
@@ -148,9 +148,9 @@ export default function RoutineDetailsPage() {
 
     getRoutine();
     getWorkoutTemplates();
-    getWorkoutTemplateSchedules();
+    getworkoutRoutineSchedules();
     getActiveRoutineId();
-  }, [id, getWorkoutTemplateSchedules]);
+  }, [id, getworkoutRoutineSchedules]);
 
   const updateRoutine = async () => {
     if (!isEditedRoutineValid()) return;
@@ -229,11 +229,11 @@ export default function RoutineDetailsPage() {
       const db = await Database.load(import.meta.env.VITE_DB);
 
       await db.execute(
-        "INSERT into workout_template_schedules (day, workout_template_id, routine_id) VALUES ($1, $2, $3)",
+        "INSERT into workout_routine_schedules (day, workout_template_id, routine_id) VALUES ($1, $2, $3)",
         [selectedDay, workoutTemplateId, routine.id]
       );
 
-      await getWorkoutTemplateSchedules();
+      await getworkoutRoutineSchedules();
 
       workoutTemplatesModal.onClose();
       toast.success(`Workout added to ${dayNameList[selectedDay]}`);
@@ -243,21 +243,21 @@ export default function RoutineDetailsPage() {
   };
 
   const removeWorkoutTemplateFromDay = async () => {
-    if (routine === undefined || workoutTemplateScheduleToRemove === undefined)
+    if (routine === undefined || workoutRoutineScheduleToRemove === undefined)
       return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
-      await db.execute("DELETE from workout_template_schedules WHERE id = $1", [
-        workoutTemplateScheduleToRemove.id,
+      await db.execute("DELETE from workout_routine_schedules WHERE id = $1", [
+        workoutRoutineScheduleToRemove.id,
       ]);
 
-      await getWorkoutTemplateSchedules();
+      await getworkoutRoutineSchedules();
 
       deleteModal.onClose();
       toast.success(
-        `${workoutTemplateScheduleToRemove.name} removed from ${dayNameList[selectedDay]}`
+        `${workoutRoutineScheduleToRemove.name} removed from ${dayNameList[selectedDay]}`
       );
     } catch (error) {
       console.log(error);
@@ -266,7 +266,7 @@ export default function RoutineDetailsPage() {
 
   const handleRemoveButtonPressed = (schedule: RoutineScheduleItem) => {
     setSelectedDay(schedule.day);
-    setWorkoutTemplateScheduleToRemove(schedule);
+    setworkoutRoutineScheduleToRemove(schedule);
     deleteModal.onOpen();
   };
 
@@ -391,7 +391,7 @@ export default function RoutineDetailsPage() {
               <ModalBody>
                 <p>
                   Are you sure you want to remove{" "}
-                  {workoutTemplateScheduleToRemove?.name}?
+                  {workoutRoutineScheduleToRemove?.name}?
                 </p>
               </ModalBody>
               <ModalFooter>
@@ -677,7 +677,6 @@ export default function RoutineDetailsPage() {
                 </Button>
               </div>
             ))}
-            d
           </div>
         </div>
       </div>

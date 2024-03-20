@@ -148,9 +148,9 @@ export default function RoutineListPage() {
 
       db.execute("DELETE from routines WHERE id = $1", [routineToDelete.id]);
 
-      // Delete all workout_template_schedules referencing routine
+      // Delete all workout_routine_schedules referencing routine
       db.execute(
-        "DELETE from workout_template_schedules WHERE routine_id = $1",
+        "DELETE from workout_routine_schedules WHERE routine_id = $1",
         [routineToDelete.id]
       );
 
