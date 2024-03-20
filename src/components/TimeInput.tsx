@@ -10,14 +10,22 @@ type TimeInputProps = {
 export const TimeInput = ({ value, setValue }: TimeInputProps) => {
   const [inputType, setInputType] = useState<string>("hhmmss");
 
-  const secondsDefaultValue =
+  const secondsDefaultValue: string =
     value.time_in_seconds === 0 ? "" : value.time_in_seconds.toString();
 
-  const [secondsInput, setSecondsInput] = useState<string>(secondsDefaultValue);
-
-  const handleChange = () => {
-    setValue((prev) => ({ ...prev, time_in_seconds: 5 }));
+  const convertSecondsToMinutes = (seconds: number): string => {
+    if (seconds === 0) return "";
+    const minutes = seconds / 60;
+    const minutesTrimmed = Math.round(minutes * 100) / 100;
+    return minutesTrimmed.toString();
   };
+
+  const minutesDefaultValue: string = convertSecondsToMinutes(
+    value.time_in_seconds
+  );
+
+  const [secondsInput, setSecondsInput] = useState<string>(secondsDefaultValue);
+  const [minutesInput, setMinutesInput] = useState<string>(minutesDefaultValue);
 
   const isNumberNegative = (number: number): boolean => {
     if (number < 0) return true;
@@ -30,25 +38,44 @@ export const TimeInput = ({ value, setValue }: TimeInputProps) => {
     return isNumberNegative(secondsNumber);
   }, [secondsInput]);
 
+  const isMinutesInputInvalid = useMemo(() => {
+    const minutesNumber = Number.parseFloat(minutesInput);
+    if (isNaN(minutesNumber)) return true;
+    return isNumberNegative(minutesNumber);
+  }, [minutesInput]);
+
   const handleSecondsInput = (value: string) => {
     setSecondsInput(value);
-
     const trimmedValue = value.trim();
-
     const seconds = trimmedValue.length === 0 ? 0 : Number(trimmedValue);
 
     if (isNumberNegative(seconds)) return;
 
     if (Number.isInteger(seconds)) {
       setValue((prev) => ({ ...prev, time_in_seconds: seconds }));
+      setMinutesInput(convertSecondsToMinutes(seconds));
     }
+  };
+
+  const handleMinutesInput = (value: string) => {
+    setMinutesInput(value);
   };
 
   return (
     <div className="flex justify-between gap-2">
       <div className="flex items-center">
         {inputType === "hhmmss" && "HH:MM:SS"}
-        {inputType === "minutes" && "Minutes"}
+        {inputType === "minutes" && (
+          <Input
+            label="Minutes"
+            size="sm"
+            variant="faded"
+            isClearable
+            value={minutesInput}
+            onValueChange={(value) => handleMinutesInput(value)}
+            isInvalid={isMinutesInputInvalid}
+          />
+        )}
         {inputType === "seconds" && (
           <Input
             label="Seconds"
