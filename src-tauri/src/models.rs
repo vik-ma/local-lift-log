@@ -44,9 +44,9 @@ pub struct WorkoutTemplate {
 }
 
 #[derive(Queryable, Selectable)]
-#[diesel(table_name = crate::schema::workout_template_schedules)]
+#[diesel(table_name = crate::schema::workout_routine_schedules)]
 #[diesel(check_for_backend(diesel::sqlite::Sqlite))]
-pub struct WorkoutTemplateSchedule {
+pub struct WorkoutRoutineSchedule {
     pub id: i32,
     pub day: i16,
     pub workout_template_id: i32,

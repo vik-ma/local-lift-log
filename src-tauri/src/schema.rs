@@ -40,7 +40,7 @@ diesel::table! {
 }
 
 diesel::table! {
-    workout_template_schedules (id) {
+    workout_routine_schedules (id) {
         id -> Integer,
         day -> Integer,
         workout_template_id -> Integer,
