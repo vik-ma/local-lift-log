@@ -419,8 +419,8 @@ export default function WorkoutTemplateDetails() {
 
       resetSetToDefault();
 
-      newSetModal.onClose();
-      toast.success("Set Updated");
+      defaultValuesModal.onClose();
+      toast.success("Default Values Updated");
     } catch (error) {
       console.log(error);
     }
