@@ -27,21 +27,22 @@ export const TimeInput = ({ value, setValue }: TimeInputProps) => {
   const [secondsInput, setSecondsInput] = useState<string>(secondsDefaultValue);
   const [minutesInput, setMinutesInput] = useState<string>(minutesDefaultValue);
 
-  const isNumberNegative = (number: number): boolean => {
+  const isNumberNegativeOrInfinity = (number: number): boolean => {
     if (number < 0) return true;
+    if (!isFinite(number)) return true;
     return false;
   };
 
   const isSecondsInputInvalid = useMemo(() => {
     const secondsNumber = Number(secondsInput);
     if (!Number.isInteger(secondsNumber)) return true;
-    return isNumberNegative(secondsNumber);
+    return isNumberNegativeOrInfinity(secondsNumber);
   }, [secondsInput]);
 
   const isMinutesInputInvalid = useMemo(() => {
-    const minutesNumber = Number.parseFloat(minutesInput);
+    const minutesNumber = Number(minutesInput);
     if (isNaN(minutesNumber)) return true;
-    return isNumberNegative(minutesNumber);
+    return isNumberNegativeOrInfinity(minutesNumber);
   }, [minutesInput]);
 
   const handleSecondsInput = (value: string) => {
@@ -49,16 +50,28 @@ export const TimeInput = ({ value, setValue }: TimeInputProps) => {
     const trimmedValue = value.trim();
     const seconds = trimmedValue.length === 0 ? 0 : Number(trimmedValue);
 
-    if (isNumberNegative(seconds)) return;
+    if (isNumberNegativeOrInfinity(seconds) || !Number.isInteger(seconds))
+      return;
 
-    if (Number.isInteger(seconds)) {
-      setValue((prev) => ({ ...prev, time_in_seconds: seconds }));
-      setMinutesInput(convertSecondsToMinutes(seconds));
-    }
+    setValue((prev) => ({ ...prev, time_in_seconds: seconds }));
+    setMinutesInput(convertSecondsToMinutes(seconds));
   };
 
   const handleMinutesInput = (value: string) => {
     setMinutesInput(value);
+    const trimmedValue = value.trim();
+    const minutes = trimmedValue.length === 0 ? 0 : Number(trimmedValue);
+
+    if (isNumberNegativeOrInfinity(minutes)) return;
+
+    const seconds: number = convertMinutesToSeconds(minutes);
+
+    setValue((prev) => ({ ...prev, time_in_seconds: seconds }));
+    setSecondsInput(seconds.toString());
+  };
+
+  const convertMinutesToSeconds = (minutes: number): number => {
+    return Math.floor(minutes * 60);
   };
 
   return (
