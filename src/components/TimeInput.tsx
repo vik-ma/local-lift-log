@@ -8,9 +8,9 @@ type TimeInputProps = {
 };
 
 type HoursMinutesSecondsInput = {
-  seconds: string;
-  minutes: string;
   hours: string;
+  minutes: string;
+  seconds: string;
 };
 
 export const TimeInput = ({ value, setValue }: TimeInputProps) => {
@@ -62,6 +62,11 @@ export const TimeInput = ({ value, setValue }: TimeInputProps) => {
     return false;
   };
 
+  const isNumberAbove60 = (number: number): boolean => {
+    if (number > 60) return true;
+    return false;
+  };
+
   const isSecondsInputInvalid = useMemo(() => {
     const secondsNumber = Number(secondsInput);
     if (!Number.isInteger(secondsNumber)) return true;
@@ -74,7 +79,27 @@ export const TimeInput = ({ value, setValue }: TimeInputProps) => {
     return isNumberNegativeOrInfinity(minutesNumber);
   }, [minutesInput]);
 
-  const handleSecondsInput = (value: string) => {
+  const isHhmmssSecondsInputInvalid = useMemo(() => {
+    const secondsNumber = Number(hoursMinutesSecondsInput.seconds);
+    if (!Number.isInteger(secondsNumber) || isNumberAbove60(secondsNumber))
+      return true;
+    return isNumberNegativeOrInfinity(secondsNumber);
+  }, [hoursMinutesSecondsInput.seconds]);
+
+  const isHhmmssMinutesInputInvalid = useMemo(() => {
+    const minutesNumber = Number(hoursMinutesSecondsInput.minutes);
+    if (!Number.isInteger(minutesNumber) || isNumberAbove60(minutesNumber))
+      return true;
+    return isNumberNegativeOrInfinity(minutesNumber);
+  }, [hoursMinutesSecondsInput.minutes]);
+
+  const isHhmmssHoursInputInvalid = useMemo(() => {
+    const hoursNumber = Number(hoursMinutesSecondsInput.hours);
+    if (!Number.isInteger(hoursNumber)) return true;
+    return isNumberNegativeOrInfinity(hoursNumber);
+  }, [hoursMinutesSecondsInput.hours]);
+
+  const handleSecondsInputChange = (value: string) => {
     setSecondsInput(value);
     const trimmedValue = value.trim();
     const seconds = trimmedValue.length === 0 ? 0 : Number(trimmedValue);
@@ -86,7 +111,7 @@ export const TimeInput = ({ value, setValue }: TimeInputProps) => {
     setMinutesInput(convertSecondsToMinutes(seconds));
   };
 
-  const handleMinutesInput = (value: string) => {
+  const handleMinutesInputChange = (value: string) => {
     setMinutesInput(value);
     const trimmedValue = value.trim();
     const minutes = trimmedValue.length === 0 ? 0 : Number(trimmedValue);
@@ -103,14 +128,60 @@ export const TimeInput = ({ value, setValue }: TimeInputProps) => {
     return Math.floor(minutes * 60);
   };
 
+  const handleHoursMinutesSecondsInputChange = (
+    value: HoursMinutesSecondsInput
+  ) => {
+    setHoursMinutesSecondsInput(value);
+    console.log(value);
+  };
+
   return (
     <div className="flex justify-between gap-2">
       <div className="flex">
         {inputType === "hhmmss" && (
           <div className="flex gap-1 w-full">
-            <Input label="Hours" size="sm" variant="faded" isClearable />
-            <Input label="Minutes" size="sm" variant="faded" isClearable />
-            <Input label="Seconds" size="sm" variant="faded" isClearable />
+            <Input
+              label="Hours"
+              size="sm"
+              variant="faded"
+              isClearable
+              value={hoursMinutesSecondsInput.hours}
+              onValueChange={(value) =>
+                handleHoursMinutesSecondsInputChange({
+                  ...hoursMinutesSecondsInput,
+                  hours: value,
+                })
+              }
+              isInvalid={isHhmmssSecondsInputInvalid}
+            />
+            <Input
+              label="Minutes"
+              size="sm"
+              variant="faded"
+              isClearable
+              value={hoursMinutesSecondsInput.minutes}
+              onValueChange={(value) =>
+                handleHoursMinutesSecondsInputChange({
+                  ...hoursMinutesSecondsInput,
+                  minutes: value,
+                })
+              }
+              isInvalid={isHhmmssMinutesInputInvalid}
+            />
+            <Input
+              label="Seconds"
+              size="sm"
+              variant="faded"
+              isClearable
+              value={hoursMinutesSecondsInput.seconds}
+              onValueChange={(value) =>
+                handleHoursMinutesSecondsInputChange({
+                  ...hoursMinutesSecondsInput,
+                  seconds: value,
+                })
+              }
+              isInvalid={isHhmmssHoursInputInvalid}
+            />
           </div>
         )}
         {inputType === "minutes" && (
@@ -120,7 +191,7 @@ export const TimeInput = ({ value, setValue }: TimeInputProps) => {
             variant="faded"
             isClearable
             value={minutesInput}
-            onValueChange={(value) => handleMinutesInput(value)}
+            onValueChange={(value) => handleMinutesInputChange(value)}
             isInvalid={isMinutesInputInvalid}
           />
         )}
@@ -131,7 +202,7 @@ export const TimeInput = ({ value, setValue }: TimeInputProps) => {
             variant="faded"
             isClearable
             value={secondsInput}
-            onValueChange={(value) => handleSecondsInput(value)}
+            onValueChange={(value) => handleSecondsInputChange(value)}
             isInvalid={isSecondsInputInvalid}
           />
         )}
