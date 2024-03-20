@@ -76,8 +76,14 @@ export const TimeInput = ({ value, setValue }: TimeInputProps) => {
 
   return (
     <div className="flex justify-between gap-2">
-      <div className="flex items-center">
-        {inputType === "hhmmss" && "HH:MM:SS"}
+      <div className="flex">
+        {inputType === "hhmmss" && (
+          <div className="flex gap-1 w-full">
+            <Input label="Hours" size="sm" variant="faded" isClearable />
+            <Input label="Minutes" size="sm" variant="faded" isClearable />
+            <Input label="Seconds" size="sm" variant="faded" isClearable />
+          </div>
+        )}
         {inputType === "minutes" && (
           <Input
             label="Minutes"
@@ -101,25 +107,27 @@ export const TimeInput = ({ value, setValue }: TimeInputProps) => {
           />
         )}
       </div>
-      <Select
-        className="w-32"
-        label="Input Type"
-        size="sm"
-        variant="faded"
-        selectedKeys={[inputType]}
-        disallowEmptySelection={true}
-        onChange={(e) => setInputType(e.target.value)}
-      >
-        <SelectItem key="hhmmss" value={"hhmmss"}>
-          HH:MM:SS
-        </SelectItem>
-        <SelectItem key="minutes" value={"minutes"}>
-          Minutes
-        </SelectItem>
-        <SelectItem key="seconds" value={"seconds"}>
-          Seconds
-        </SelectItem>
-      </Select>
+      <div>
+        <Select
+          className="w-32"
+          label="Input Type"
+          size="sm"
+          variant="faded"
+          selectedKeys={[inputType]}
+          disallowEmptySelection={true}
+          onChange={(e) => setInputType(e.target.value)}
+        >
+          <SelectItem key="hhmmss" value={"hhmmss"}>
+            HH:MM:SS
+          </SelectItem>
+          <SelectItem key="minutes" value={"minutes"}>
+            Minutes
+          </SelectItem>
+          <SelectItem key="seconds" value={"seconds"}>
+            Seconds
+          </SelectItem>
+        </Select>
+      </div>
     </div>
   );
 };
