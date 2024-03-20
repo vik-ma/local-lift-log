@@ -19,8 +19,15 @@ export const TimeInput = ({ value, setValue }: TimeInputProps) => {
     setValue((prev) => ({ ...prev, time_in_seconds: 5 }));
   };
 
+  const isNumberNegative = (number: number): boolean => {
+    if (number < 0) return true;
+    return false;
+  };
+
   const isSecondsInputInvalid = useMemo(() => {
-    return !Number.isInteger(Number(secondsInput));
+    const secondsNumber = Number(secondsInput);
+    if (!Number.isInteger(secondsNumber)) return true;
+    return isNumberNegative(secondsNumber);
   }, [secondsInput]);
 
   const handleSecondsInput = (value: string) => {
@@ -28,10 +35,12 @@ export const TimeInput = ({ value, setValue }: TimeInputProps) => {
 
     const trimmedValue = value.trim();
 
-    const numberValue = trimmedValue.length === 0 ? 0 : Number(trimmedValue);
+    const seconds = trimmedValue.length === 0 ? 0 : Number(trimmedValue);
 
-    if (Number.isInteger(Number(numberValue))) {
-      setValue((prev) => ({ ...prev, time_in_seconds: numberValue }));
+    if (isNumberNegative(seconds)) return;
+
+    if (Number.isInteger(seconds)) {
+      setValue((prev) => ({ ...prev, time_in_seconds: seconds }));
     }
   };
 
