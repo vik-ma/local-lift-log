@@ -7,6 +7,12 @@ type TimeInputProps = {
   setValue: React.Dispatch<React.SetStateAction<WorkoutSet>>;
 };
 
+type HoursMinutesSecondsInput = {
+  seconds: string;
+  minutes: string;
+  hours: string;
+};
+
 export const TimeInput = ({ value, setValue }: TimeInputProps) => {
   const [inputType, setInputType] = useState<string>("hhmmss");
 
@@ -24,8 +30,31 @@ export const TimeInput = ({ value, setValue }: TimeInputProps) => {
     value.time_in_seconds
   );
 
+  const convertSecondsToHoursMinutesSeconds = (
+    seconds: number
+  ): HoursMinutesSecondsInput => {
+    if (seconds === 0) return { seconds: "", minutes: "", hours: "" };
+
+    const hours = Math.floor(seconds / 3600);
+    const remainingSecondsAfterHours = seconds % 3600;
+    const minutes = Math.floor(remainingSecondsAfterHours / 60);
+    const remainingSeconds = remainingSecondsAfterHours % 60;
+
+    const hoursMinutesSecondsInput: HoursMinutesSecondsInput = {
+      hours: hours === 0 ? "" : hours.toString(),
+      minutes: minutes === 0 ? "" : minutes.toString(),
+      seconds: remainingSeconds.toString(),
+    };
+    return hoursMinutesSecondsInput;
+  };
+
+  const hoursMinutesSecondsDefaultValue: HoursMinutesSecondsInput =
+    convertSecondsToHoursMinutesSeconds(value.time_in_seconds);
+
   const [secondsInput, setSecondsInput] = useState<string>(secondsDefaultValue);
   const [minutesInput, setMinutesInput] = useState<string>(minutesDefaultValue);
+  const [hoursMinutesSecondsInput, setHoursMinutesSecondsInput] =
+    useState<HoursMinutesSecondsInput>(hoursMinutesSecondsDefaultValue);
 
   const isNumberNegativeOrInfinity = (number: number): boolean => {
     if (number < 0) return true;
