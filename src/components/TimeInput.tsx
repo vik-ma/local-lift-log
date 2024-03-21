@@ -128,11 +128,30 @@ export const TimeInput = ({ value, setValue }: TimeInputProps) => {
     return Math.floor(minutes * 60);
   };
 
+  const convertHoursMinutesSecondsToSeconds = (hours: number, minutes: number, seconds: number) => {
+    const timeInSeconds = (hours * 3600) + (minutes * 60) + seconds;
+    return timeInSeconds;
+  }
+
   const handleHoursMinutesSecondsInputChange = (
     value: HoursMinutesSecondsInput
   ) => {
     setHoursMinutesSecondsInput(value);
-    console.log(value);
+    const hours = value.hours.trim().length === 0 ? 0 : Number(value.hours);
+    const minutes =
+      value.minutes.trim().length === 0 ? 0 : Number(value.minutes);
+    const seconds =
+      value.seconds.trim().length === 0 ? 0 : Number(value.seconds);
+
+    if (
+      isNumberNegativeOrInfinity(hours) ||
+      isNumberNegativeOrInfinity(minutes) ||
+      isNumberNegativeOrInfinity(seconds)
+    )
+      return;
+
+
+      console.log(convertHoursMinutesSecondsToSeconds(hours, minutes, seconds))
   };
 
   return (
