@@ -43,7 +43,7 @@ export const TimeInput = ({ value, setValue }: TimeInputProps) => {
     const hoursMinutesSecondsInput: HoursMinutesSecondsInput = {
       hours: hours === 0 ? "" : hours.toString(),
       minutes: minutes === 0 ? "" : minutes.toString(),
-      seconds: remainingSeconds.toString(),
+      seconds: remainingSeconds === 0 ? "" : remainingSeconds.toString(),
     };
     return hoursMinutesSecondsInput;
   };
