@@ -62,8 +62,8 @@ export const TimeInput = ({ value, setValue }: TimeInputProps) => {
     return false;
   };
 
-  const isNumberAbove60 = (number: number): boolean => {
-    if (number > 60) return true;
+  const isNumberAbove59 = (number: number): boolean => {
+    if (number > 59) return true;
     return false;
   };
 
@@ -81,14 +81,14 @@ export const TimeInput = ({ value, setValue }: TimeInputProps) => {
 
   const isHhmmssSecondsInputInvalid = useMemo(() => {
     const secondsNumber = Number(hoursMinutesSecondsInput.seconds);
-    if (!Number.isInteger(secondsNumber) || isNumberAbove60(secondsNumber))
+    if (!Number.isInteger(secondsNumber) || isNumberAbove59(secondsNumber))
       return true;
     return isNumberNegativeOrInfinity(secondsNumber);
   }, [hoursMinutesSecondsInput.seconds]);
 
   const isHhmmssMinutesInputInvalid = useMemo(() => {
     const minutesNumber = Number(hoursMinutesSecondsInput.minutes);
-    if (!Number.isInteger(minutesNumber) || isNumberAbove60(minutesNumber))
+    if (!Number.isInteger(minutesNumber) || isNumberAbove59(minutesNumber))
       return true;
     return isNumberNegativeOrInfinity(minutesNumber);
   }, [hoursMinutesSecondsInput.minutes]);
