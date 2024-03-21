@@ -10,7 +10,7 @@ export const CreateDefaultUserSettings = async (
   const default_unit_weight: string = useMetricUnits ? "kg" : "lbs";
   const default_unit_distance: string = useMetricUnits ? "km" : "mi";
 
-  const default_time_input = "hhmmss";
+  const default_time_input: string = "hhmmss";
 
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
@@ -43,7 +43,7 @@ export const CreateDefaultUserSettings = async (
       active_routine_id: active_routine_id,
       default_unit_weight: default_unit_weight,
       default_unit_distance: default_unit_distance,
-      default_time_input: default_time_input
+      default_time_input: default_time_input,
     };
 
     return defaultUserSettings;

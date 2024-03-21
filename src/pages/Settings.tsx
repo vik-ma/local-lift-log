@@ -4,6 +4,7 @@ import {
   GetUserSettings,
   UpdateShowTimestamp,
   UpdateDefaultUnitWeight,
+  UpdateDefaultTimeInput,
 } from "../helpers";
 import { Switch, Select, SelectItem } from "@nextui-org/react";
 import {
@@ -74,6 +75,23 @@ export default function SettingsPage() {
     showToast();
   };
 
+  const handleDefaultTimeInputChange = async (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    if (userSettings === undefined) return;
+
+    const timeInputType: string = e.target.value;
+
+    const updatedSettings: UserSettingsOptional = {
+      id: userSettings.id,
+      default_time_input: timeInputType,
+    };
+
+    await UpdateDefaultTimeInput(updatedSettings);
+    setUserSettings((prev) => ({ ...prev!, ...updatedSettings }));
+    showToast();
+  };
+
   const showToast = () => {
     toast.success("Setting Updated");
   };
@@ -126,7 +144,7 @@ export default function SettingsPage() {
                 size="sm"
                 variant="faded"
                 selectedKeys={[userSettings!.default_time_input]}
-                // onChange={(e) => handleChange(e)}
+                onChange={(value) => handleDefaultTimeInputChange(value)}
               >
                 <SelectItem key="hhmmss" value="hhmmss">
                   HH:MM:SS

@@ -18,7 +18,7 @@ export type UserSettings = {
   active_routine_id: number;
   default_unit_weight: string;
   default_unit_distance: string;
-  default_time_input: "hhmmss" | "minutes" | "seconds";
+  default_time_input: string;
 };
 
 export type UserSettingsOptional = {
@@ -27,7 +27,7 @@ export type UserSettingsOptional = {
   active_routine_id?: number;
   default_unit_weight?: string;
   default_unit_distance?: string;
-  default_time_input?: "hhmmss" | "minutes" | "seconds";
+  default_time_input?: string;
 };
 
 export type Exercise = {
