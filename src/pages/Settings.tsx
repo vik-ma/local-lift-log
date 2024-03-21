@@ -5,7 +5,7 @@ import {
   UpdateShowTimestamp,
   UpdateDefaultUnitWeight,
 } from "../helpers";
-import { Switch } from "@nextui-org/react";
+import { Switch, Select, SelectItem } from "@nextui-org/react";
 import {
   LoadingSpinner,
   WeightUnitDropdown,
@@ -118,6 +118,27 @@ export default function SettingsPage() {
             >
               Show Timestamp On Completed Sets
             </Switch>
+            <div className="flex gap-3 items-center justify-between">
+              <span className="text-lg">Default Time Input</span>
+              <Select
+                label="Input Type"
+                className="max-w-32"
+                size="sm"
+                variant="faded"
+                selectedKeys={[userSettings!.default_time_input]}
+                // onChange={(e) => handleChange(e)}
+              >
+                <SelectItem key="hhmmss" value="hhmmss">
+                  HH:MM:SS
+                </SelectItem>
+                <SelectItem key="minutes" value="minutes">
+                  Minutes
+                </SelectItem>
+                <SelectItem key="seconds" value="seconds">
+                  Seconds
+                </SelectItem>
+              </Select>
+            </div>
           </div>
         )}
       </div>
