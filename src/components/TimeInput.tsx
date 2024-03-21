@@ -128,10 +128,14 @@ export const TimeInput = ({ value, setValue }: TimeInputProps) => {
     return Math.floor(minutes * 60);
   };
 
-  const convertHoursMinutesSecondsToSeconds = (hours: number, minutes: number, seconds: number) => {
-    const timeInSeconds = (hours * 3600) + (minutes * 60) + seconds;
+  const convertHoursMinutesSecondsToSeconds = (
+    hours: number,
+    minutes: number,
+    seconds: number
+  ): number => {
+    const timeInSeconds = hours * 3600 + minutes * 60 + seconds;
     return timeInSeconds;
-  }
+  };
 
   const handleHoursMinutesSecondsInputChange = (
     value: HoursMinutesSecondsInput
@@ -150,8 +154,15 @@ export const TimeInput = ({ value, setValue }: TimeInputProps) => {
     )
       return;
 
+    const timeInSeconds = convertHoursMinutesSecondsToSeconds(
+      hours,
+      minutes,
+      seconds
+    );
 
-      console.log(convertHoursMinutesSecondsToSeconds(hours, minutes, seconds))
+    setValue((prev) => ({ ...prev, time_in_seconds: timeInSeconds }));
+    setSecondsInput(timeInSeconds.toString());
+    setMinutesInput(convertSecondsToMinutes(timeInSeconds));
   };
 
   return (
