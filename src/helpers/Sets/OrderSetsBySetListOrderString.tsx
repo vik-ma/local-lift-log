@@ -10,7 +10,5 @@ export const OrderSetsBySetListOrderString = (
     return idA - idB;
   });
 
-  sortedArray.map((item) => console.log(item.id));
-
   return sortedArray;
 };

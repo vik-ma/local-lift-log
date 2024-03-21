@@ -287,7 +287,7 @@ export default function WorkoutTemplateDetails() {
       newSetModal.onClose();
       toast.success("Set Added");
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
 
@@ -305,7 +305,7 @@ export default function WorkoutTemplateDetails() {
 
       toast.success("Set Removed");
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
 

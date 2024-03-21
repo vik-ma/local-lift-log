@@ -92,7 +92,7 @@ export default function WorkoutTemplateList() {
       newWorkoutTemplateModal.onClose();
       navigate(`/workout-templates/${result.lastInsertId}`);
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
 

@@ -136,7 +136,7 @@ export default function RoutineListPage() {
 
       toast.success("Routine Created");
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
 

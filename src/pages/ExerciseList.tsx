@@ -153,7 +153,7 @@ export default function ExerciseListPage() {
 
       toast.success("Exercise Created");
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
 
