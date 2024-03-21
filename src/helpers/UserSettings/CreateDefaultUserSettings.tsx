@@ -10,6 +10,8 @@ export const CreateDefaultUserSettings = async (
   const default_unit_weight: string = useMetricUnits ? "kg" : "lbs";
   const default_unit_distance: string = useMetricUnits ? "km" : "mi";
 
+  const default_time_input = "hhmmss";
+
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -22,13 +24,14 @@ export const CreateDefaultUserSettings = async (
 
     const result = await db.execute(
       `INSERT into user_settings 
-      (show_timestamp_on_completed_set, active_routine_id, default_unit_weight, default_unit_distance) 
-      VALUES ($1, $2, $3, $4)`,
+      (show_timestamp_on_completed_set, active_routine_id, default_unit_weight, default_unit_distance, default_time_input) 
+      VALUES ($1, $2, $3, $4, $5)`,
       [
         show_timestamp_on_completed_set,
         active_routine_id,
         default_unit_weight,
         default_unit_distance,
+        default_time_input,
       ]
     );
 
@@ -40,6 +43,7 @@ export const CreateDefaultUserSettings = async (
       active_routine_id: active_routine_id,
       default_unit_weight: default_unit_weight,
       default_unit_distance: default_unit_distance,
+      default_time_input: default_time_input
     };
 
     return defaultUserSettings;
