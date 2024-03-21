@@ -109,6 +109,7 @@ export const TimeInput = ({ value, setValue }: TimeInputProps) => {
 
     setValue((prev) => ({ ...prev, time_in_seconds: seconds }));
     setMinutesInput(convertSecondsToMinutes(seconds));
+    setHoursMinutesSecondsInput(convertSecondsToHoursMinutesSeconds(seconds));
   };
 
   const handleMinutesInputChange = (value: string) => {
@@ -122,6 +123,7 @@ export const TimeInput = ({ value, setValue }: TimeInputProps) => {
 
     setValue((prev) => ({ ...prev, time_in_seconds: seconds }));
     setSecondsInput(seconds.toString());
+    setHoursMinutesSecondsInput(convertSecondsToHoursMinutesSeconds(seconds));
   };
 
   const convertMinutesToSeconds = (minutes: number): number => {
