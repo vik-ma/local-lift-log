@@ -24,6 +24,7 @@ export { UpdateDefaultUnitWeight } from "./UserSettings/UpdateDefaultUnitWeight"
 export { UpdateShowTimestamp } from "./UserSettings/UpdateShowTimestamp";
 export { ValidDistanceUnits } from "./UserSettings/ValidDistanceUnits";
 export { ValidWeightUnits } from "./UserSettings/ValidWeightUnits";
+export { UpdateDefaultTimeInput } from "./UserSettings/UpdateDefaultTimeInput";
 
 export { GenerateSetListOrderString } from "./Sets/GenerateSetListOrderString";
 
