@@ -21,6 +21,7 @@ pub struct UserSetting {
     pub active_routine_id: i32,
     pub default_unit_weight: String,
     pub default_unit_distance: String,
+    pub default_time_input: String,
 }
 
 #[derive(Queryable, Selectable)]

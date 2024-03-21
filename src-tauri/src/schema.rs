@@ -18,6 +18,7 @@ diesel::table! {
         active_routine_id -> Integer,
         default_unit_weight -> Text,
         default_unit_distance -> Text,
+        default_time_input -> Text,
     }
 }
 
