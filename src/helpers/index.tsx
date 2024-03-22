@@ -31,3 +31,5 @@ export { OrderSetsBySetListOrderString as OrderSetsBySetListOrderString } from "
 
 export { IsNumberNegativeOrInfinity } from "./Numbers/IsNumberNegativeOrInfinity";
 export { IsNumberAbove59 } from "./Numbers/IsNumberAbove59";
+export { IsStringValidNumber } from "./Numbers/IsStringValidNumber";
+export { IsStringValidInteger } from "./Numbers/IsStringValidInteger";
