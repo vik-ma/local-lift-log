@@ -32,8 +32,8 @@ import { NotFound } from ".";
 import toast, { Toaster } from "react-hot-toast";
 import {
   GenerateSetListOrderString,
-  GetDefaultUnitValues,
   GetExerciseListWithGroupStrings,
+  GetUserSettings,
   OrderSetsBySetListOrderString,
 } from "../helpers";
 import { SearchIcon } from "../assets";
@@ -157,7 +157,7 @@ export default function WorkoutTemplateDetails() {
 
     const loadUserSettings = async () => {
       try {
-        const userSettings = await GetDefaultUnitValues();
+        const userSettings = await GetUserSettings();
         if (userSettings === undefined) return;
         setUserSettings(userSettings);
         setOperatingSet((prev) => ({
@@ -794,6 +794,7 @@ export default function WorkoutTemplateDetails() {
                     <TimeInput
                       value={operatingSet}
                       setValue={setOperatingSet}
+                      defaultTimeInput={userSettings!.default_time_input!}
                     />
                   )}
                   {!!operatingSet.is_tracking_rir && (

@@ -5,6 +5,7 @@ import { useState, useMemo } from "react";
 type TimeInputProps = {
   value: WorkoutSet;
   setValue: React.Dispatch<React.SetStateAction<WorkoutSet>>;
+  defaultTimeInput: string;
 };
 
 type HoursMinutesSecondsInput = {
@@ -13,8 +14,12 @@ type HoursMinutesSecondsInput = {
   seconds: string;
 };
 
-export const TimeInput = ({ value, setValue }: TimeInputProps) => {
-  const [inputType, setInputType] = useState<string>("hhmmss");
+export const TimeInput = ({
+  value,
+  setValue,
+  defaultTimeInput,
+}: TimeInputProps) => {
+  const [inputType, setInputType] = useState<string>(defaultTimeInput);
 
   const secondsDefaultValue: string =
     value.time_in_seconds === 0 ? "" : value.time_in_seconds.toString();
