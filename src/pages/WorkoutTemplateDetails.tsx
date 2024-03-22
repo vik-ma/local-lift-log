@@ -461,7 +461,6 @@ export default function WorkoutTemplateDetails() {
     if (exercise === undefined) return;
 
     setOperatingSet(set);
-    setDefaultValuesInputStrings(set);
     setIsEditingSet(true);
     setIsEditingDefaultValues(false);
     setSelectedExercise(exercise);
@@ -471,14 +470,19 @@ export default function WorkoutTemplateDetails() {
 
   const setDefaultValuesInputStrings = (set: WorkoutSet) => {
     const newSetTrackingValuesInput = {
-      weight: set.is_tracking_weight ? set.weight.toString() : "",
-      reps: set.is_tracking_reps ? set.reps.toString() : "",
-      rir: set.is_tracking_rir ? set.rir.toString() : "",
-      rpe: set.is_tracking_rpe ? set.rpe.toString() : "",
-      distance: set.is_tracking_distance ? set.distance.toString() : "",
-      resistance_level: set.is_tracking_resistance_level
-        ? set.resistance_level.toString()
-        : "",
+      weight:
+        set.is_tracking_weight && set.weight !== 0 ? set.weight.toString() : "",
+      reps: set.is_tracking_reps && set.reps !== 0 ? set.reps.toString() : "",
+      rir: set.is_tracking_rir && set.rir !== 0 ? set.rir.toString() : "",
+      rpe: set.is_tracking_rpe && set.rpe !== 0 ? set.rpe.toString() : "",
+      distance:
+        set.is_tracking_distance && set.distance !== 0
+          ? set.distance.toString()
+          : "",
+      resistance_level:
+        set.is_tracking_resistance_level && set.resistance_level !== 0
+          ? set.resistance_level.toString()
+          : "",
     };
     setSetTrackingValuesInput(newSetTrackingValuesInput);
   };
@@ -492,6 +496,7 @@ export default function WorkoutTemplateDetails() {
     setIsEditingDefaultValues(true);
     setIsEditingSet(false);
     setSelectedExercise(exercise);
+    setDefaultValuesInputStrings(set);
 
     defaultValuesModal.onOpen();
   };
