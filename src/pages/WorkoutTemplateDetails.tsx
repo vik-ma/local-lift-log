@@ -772,6 +772,14 @@ export default function WorkoutTemplateDetails() {
                         label="Weight"
                         size="sm"
                         variant="faded"
+                        onValueChange={(value) =>
+                          setSetTrackingValuesInput(
+                            (prev: SetTrackingValuesInput) => ({
+                              ...prev,
+                              weight: value,
+                            })
+                          )
+                        }
                         isClearable
                       />
                       <WeightUnitDropdown
@@ -787,6 +795,14 @@ export default function WorkoutTemplateDetails() {
                       label="Reps"
                       size="sm"
                       variant="faded"
+                      onValueChange={(value) =>
+                        setSetTrackingValuesInput(
+                          (prev: SetTrackingValuesInput) => ({
+                            ...prev,
+                            reps: value,
+                          })
+                        )
+                      }
                       isClearable
                     />
                   )}
@@ -797,6 +813,14 @@ export default function WorkoutTemplateDetails() {
                         label="Distance"
                         size="sm"
                         variant="faded"
+                        onValueChange={(value) =>
+                          setSetTrackingValuesInput(
+                            (prev: SetTrackingValuesInput) => ({
+                              ...prev,
+                              distance: value,
+                            })
+                          )
+                        }
                         isClearable
                       />
                       <DistanceUnitDropdown
@@ -820,6 +844,14 @@ export default function WorkoutTemplateDetails() {
                       label="RIR"
                       size="sm"
                       variant="faded"
+                      onValueChange={(value) =>
+                        setSetTrackingValuesInput(
+                          (prev: SetTrackingValuesInput) => ({
+                            ...prev,
+                            rir: value,
+                          })
+                        )
+                      }
                       isClearable
                     />
                   )}
@@ -829,6 +861,14 @@ export default function WorkoutTemplateDetails() {
                       label="RPE"
                       size="sm"
                       variant="faded"
+                      onValueChange={(value) =>
+                        setSetTrackingValuesInput(
+                          (prev: SetTrackingValuesInput) => ({
+                            ...prev,
+                            rpe: value,
+                          })
+                        )
+                      }
                       isClearable
                     />
                   )}
@@ -838,6 +878,14 @@ export default function WorkoutTemplateDetails() {
                       label="Resistance Level"
                       size="sm"
                       variant="faded"
+                      onValueChange={(value) =>
+                        setSetTrackingValuesInput(
+                          (prev: SetTrackingValuesInput) => ({
+                            ...prev,
+                            resistance_level: value,
+                          })
+                        )
+                      }
                       isClearable
                     />
                   )}
