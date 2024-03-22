@@ -5,6 +5,7 @@ import {
   WorkoutSet,
   WorkoutTemplate,
   UnitDropDownActionSet,
+  SetTrackingValuesInput,
 } from "../typings";
 import { useState, useMemo, useEffect } from "react";
 import {
@@ -59,6 +60,8 @@ export default function WorkoutTemplateDetails() {
   const [isEditingDefaultValues, setIsEditingDefaultValues] =
     useState<boolean>(false);
   const [isTimeInputInvalid, setIsTimeInputInvalid] = useState<boolean>(false);
+  const [setTrackingValuesInput, setSetTrackingValuesInput] =
+    useState<SetTrackingValuesInput>();
 
   const numSetsOptions: string[] = ["1", "2", "3", "4", "5", "6"];
 
@@ -448,11 +451,26 @@ export default function WorkoutTemplateDetails() {
     if (exercise === undefined) return;
 
     setOperatingSet(set);
+    setDefaultValuesInputStrings(set);
     setIsEditingSet(true);
     setIsEditingDefaultValues(false);
     setSelectedExercise(exercise);
 
     newSetModal.onOpen();
+  };
+
+  const setDefaultValuesInputStrings = (set: WorkoutSet) => {
+    const newSetTrackingValuesInput = {
+      weight: set.is_tracking_weight ? set.weight.toString() : "",
+      reps: set.is_tracking_reps ? set.reps.toString() : "",
+      rir: set.is_tracking_rir ? set.rir.toString() : "",
+      rpe: set.is_tracking_rpe ? set.rpe.toString() : "",
+      distance: set.is_tracking_distance ? set.distance.toString() : "",
+      resistance_level: set.is_tracking_resistance_level
+        ? set.resistance_level.toString()
+        : "",
+    };
+    setSetTrackingValuesInput(newSetTrackingValuesInput);
   };
 
   const handleSetDefaultValuesButtonPressed = (set: WorkoutSet) => {
@@ -740,11 +758,7 @@ export default function WorkoutTemplateDetails() {
                   {!!operatingSet.is_tracking_weight && (
                     <div className="flex justify-between gap-2">
                       <Input
-                        value={
-                          operatingSet.weight === 0
-                            ? ""
-                            : operatingSet.weight.toString()
-                        }
+                        value={setTrackingValuesInput?.weight}
                         label="Weight"
                         size="sm"
                         variant="faded"
@@ -759,11 +773,7 @@ export default function WorkoutTemplateDetails() {
                   )}
                   {!!operatingSet.is_tracking_reps && (
                     <Input
-                      value={
-                        operatingSet.reps === 0
-                          ? ""
-                          : operatingSet.reps.toString()
-                      }
+                      value={setTrackingValuesInput?.reps}
                       label="Reps"
                       size="sm"
                       variant="faded"
@@ -773,11 +783,7 @@ export default function WorkoutTemplateDetails() {
                   {!!operatingSet.is_tracking_distance && (
                     <div className="flex justify-between gap-2">
                       <Input
-                        value={
-                          operatingSet.distance === 0
-                            ? ""
-                            : operatingSet.distance.toString()
-                        }
+                        value={setTrackingValuesInput?.distance}
                         label="Distance"
                         size="sm"
                         variant="faded"
@@ -800,12 +806,7 @@ export default function WorkoutTemplateDetails() {
                   )}
                   {!!operatingSet.is_tracking_rir && (
                     <Input
-                      value={
-                        operatingSet.rir === 0
-                          ? ""
-                          : operatingSet.rir.toString()
-                      }
-                      label="RIR"
+                      value={setTrackingValuesInput?.rir}
                       size="sm"
                       variant="faded"
                       isClearable
@@ -813,11 +814,7 @@ export default function WorkoutTemplateDetails() {
                   )}
                   {!!operatingSet.is_tracking_rpe && (
                     <Input
-                      value={
-                        operatingSet.rpe === 0
-                          ? ""
-                          : operatingSet.rpe.toString()
-                      }
+                      value={setTrackingValuesInput?.rpe}
                       label="RPE"
                       size="sm"
                       variant="faded"
@@ -826,11 +823,7 @@ export default function WorkoutTemplateDetails() {
                   )}
                   {!!operatingSet.is_tracking_resistance_level && (
                     <Input
-                      value={
-                        operatingSet.resistance_level === 0
-                          ? ""
-                          : operatingSet.resistance_level.toString()
-                      }
+                      value={setTrackingValuesInput?.resistance_level}
                       label="Resistance Level"
                       size="sm"
                       variant="faded"

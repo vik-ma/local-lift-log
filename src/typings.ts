@@ -120,3 +120,12 @@ export type UnitDropdownProps = {
   actionSettings?: UnitDropDownActionSettings;
   targetType: "set" | "settings";
 };
+
+export type SetTrackingValuesInput = {
+  weight: string;
+  reps: string;
+  rir: string;
+  rpe: string;
+  distance: string;
+  resistance_level: string;
+}
