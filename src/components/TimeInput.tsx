@@ -1,6 +1,7 @@
 import { Input, Select, SelectItem } from "@nextui-org/react";
 import { WorkoutSet } from "../typings";
 import { useState, useMemo, useEffect } from "react";
+import { IsNumberAbove59, IsNumberNegativeOrInfinity } from "../helpers";
 
 type TimeInputProps = {
   value: WorkoutSet;
@@ -63,47 +64,36 @@ export const TimeInput = ({
   const [hoursMinutesSecondsInput, setHoursMinutesSecondsInput] =
     useState<HoursMinutesSecondsInput>(hoursMinutesSecondsDefaultValue);
 
-  const isNumberNegativeOrInfinity = (number: number): boolean => {
-    if (number < 0) return true;
-    if (!isFinite(number)) return true;
-    return false;
-  };
-
-  const isNumberAbove59 = (number: number): boolean => {
-    if (number > 59) return true;
-    return false;
-  };
-
   const isSecondsInputInvalid = useMemo(() => {
     const secondsNumber = Number(secondsInput);
     if (!Number.isInteger(secondsNumber)) return true;
-    return isNumberNegativeOrInfinity(secondsNumber);
+    return IsNumberNegativeOrInfinity(secondsNumber);
   }, [secondsInput]);
 
   const isMinutesInputInvalid = useMemo(() => {
     const minutesNumber = Number(minutesInput);
     if (isNaN(minutesNumber)) return true;
-    return isNumberNegativeOrInfinity(minutesNumber);
+    return IsNumberNegativeOrInfinity(minutesNumber);
   }, [minutesInput]);
 
   const isHhmmssSecondsInputInvalid = useMemo(() => {
     const secondsNumber = Number(hoursMinutesSecondsInput.seconds);
-    if (!Number.isInteger(secondsNumber) || isNumberAbove59(secondsNumber))
+    if (!Number.isInteger(secondsNumber) || IsNumberAbove59(secondsNumber))
       return true;
-    return isNumberNegativeOrInfinity(secondsNumber);
+    return IsNumberNegativeOrInfinity(secondsNumber);
   }, [hoursMinutesSecondsInput.seconds]);
 
   const isHhmmssMinutesInputInvalid = useMemo(() => {
     const minutesNumber = Number(hoursMinutesSecondsInput.minutes);
-    if (!Number.isInteger(minutesNumber) || isNumberAbove59(minutesNumber))
+    if (!Number.isInteger(minutesNumber) || IsNumberAbove59(minutesNumber))
       return true;
-    return isNumberNegativeOrInfinity(minutesNumber);
+    return IsNumberNegativeOrInfinity(minutesNumber);
   }, [hoursMinutesSecondsInput.minutes]);
 
   const isHhmmssHoursInputInvalid = useMemo(() => {
     const hoursNumber = Number(hoursMinutesSecondsInput.hours);
     if (!Number.isInteger(hoursNumber)) return true;
-    return isNumberNegativeOrInfinity(hoursNumber);
+    return IsNumberNegativeOrInfinity(hoursNumber);
   }, [hoursMinutesSecondsInput.hours]);
 
   useEffect(() => {
@@ -132,7 +122,7 @@ export const TimeInput = ({
     const trimmedValue = value.trim();
     const seconds = trimmedValue.length === 0 ? 0 : Number(trimmedValue);
 
-    if (isNumberNegativeOrInfinity(seconds) || !Number.isInteger(seconds))
+    if (IsNumberNegativeOrInfinity(seconds) || !Number.isInteger(seconds))
       return;
 
     setValue((prev) => ({ ...prev, time_in_seconds: seconds }));
@@ -145,7 +135,7 @@ export const TimeInput = ({
     const trimmedValue = value.trim();
     const minutes = trimmedValue.length === 0 ? 0 : Number(trimmedValue);
 
-    if (isNumberNegativeOrInfinity(minutes)) return;
+    if (IsNumberNegativeOrInfinity(minutes)) return;
 
     const seconds: number = convertMinutesToSeconds(minutes);
 
@@ -178,9 +168,9 @@ export const TimeInput = ({
       value.seconds.trim().length === 0 ? 0 : Number(value.seconds);
 
     if (
-      isNumberNegativeOrInfinity(hours) ||
-      isNumberNegativeOrInfinity(minutes) ||
-      isNumberNegativeOrInfinity(seconds)
+      IsNumberNegativeOrInfinity(hours) ||
+      IsNumberNegativeOrInfinity(minutes) ||
+      IsNumberNegativeOrInfinity(seconds)
     )
       return;
 

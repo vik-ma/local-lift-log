@@ -27,5 +27,7 @@ export { ValidWeightUnits } from "./UserSettings/ValidWeightUnits";
 export { UpdateDefaultTimeInput } from "./UserSettings/UpdateDefaultTimeInput";
 
 export { GenerateSetListOrderString } from "./Sets/GenerateSetListOrderString";
-
 export { OrderSetsBySetListOrderString as OrderSetsBySetListOrderString } from "./Sets/OrderSetsBySetListOrderString";
+
+export { IsNumberNegativeOrInfinity } from "./Numbers/IsNumberNegativeOrInfinity";
+export { IsNumberAbove59 } from "./Numbers/IsNumberAbove59";
