@@ -212,7 +212,7 @@ export const TimeInput = ({
                   hours: value,
                 })
               }
-              isInvalid={isHhmmssSecondsInputInvalid}
+              isInvalid={isHhmmssHoursInputInvalid}
             />
             <Input
               label="Minutes"
@@ -240,7 +240,7 @@ export const TimeInput = ({
                   seconds: value,
                 })
               }
-              isInvalid={isHhmmssHoursInputInvalid}
+              isInvalid={isHhmmssSecondsInputInvalid}
             />
           </div>
         )}
