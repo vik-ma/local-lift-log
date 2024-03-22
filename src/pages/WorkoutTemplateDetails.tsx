@@ -35,6 +35,8 @@ import {
   GenerateSetListOrderString,
   GetExerciseListWithGroupStrings,
   GetUserSettings,
+  IsStringInvalidInteger,
+  IsStringInvalidNumber,
   OrderSetsBySetListOrderString,
 } from "../helpers";
 import { SearchIcon } from "../assets";
@@ -528,6 +530,30 @@ export default function WorkoutTemplateDetails() {
     }
   };
 
+  const isDefaultWeightInputInvalid = useMemo(() => {
+    return IsStringInvalidNumber(setTrackingValuesInput.weight);
+  }, [setTrackingValuesInput.weight]);
+
+  const isDefaultRepsInputInvalid = useMemo(() => {
+    return IsStringInvalidInteger(setTrackingValuesInput.reps);
+  }, [setTrackingValuesInput.reps]);
+
+  const isDefaultDistanceInputInvalid = useMemo(() => {
+    return IsStringInvalidNumber(setTrackingValuesInput.distance);
+  }, [setTrackingValuesInput.distance]);
+
+  const isDefaultRirInputInvalid = useMemo(() => {
+    return IsStringInvalidInteger(setTrackingValuesInput.rir);
+  }, [setTrackingValuesInput.rir]);
+
+  const isDefaultRpeInputInvalid = useMemo(() => {
+    return IsStringInvalidInteger(setTrackingValuesInput.rpe);
+  }, [setTrackingValuesInput.rpe]);
+
+  const isDefaultResistanceLevelInputInvalid = useMemo(() => {
+    return IsStringInvalidNumber(setTrackingValuesInput.resistance_level);
+  }, [setTrackingValuesInput.resistance_level]);
+
   if (workoutTemplate === undefined) return NotFound();
 
   return (
@@ -785,6 +811,7 @@ export default function WorkoutTemplateDetails() {
                             })
                           )
                         }
+                        isInvalid={isDefaultWeightInputInvalid}
                         isClearable
                       />
                       <WeightUnitDropdown
@@ -808,6 +835,7 @@ export default function WorkoutTemplateDetails() {
                           })
                         )
                       }
+                      isInvalid={isDefaultRepsInputInvalid}
                       isClearable
                     />
                   )}
@@ -826,6 +854,7 @@ export default function WorkoutTemplateDetails() {
                             })
                           )
                         }
+                        isInvalid={isDefaultDistanceInputInvalid}
                         isClearable
                       />
                       <DistanceUnitDropdown
@@ -857,6 +886,7 @@ export default function WorkoutTemplateDetails() {
                           })
                         )
                       }
+                      isInvalid={isDefaultRirInputInvalid}
                       isClearable
                     />
                   )}
@@ -874,6 +904,7 @@ export default function WorkoutTemplateDetails() {
                           })
                         )
                       }
+                      isInvalid={isDefaultRpeInputInvalid}
                       isClearable
                     />
                   )}
@@ -891,6 +922,7 @@ export default function WorkoutTemplateDetails() {
                           })
                         )
                       }
+                      isInvalid={isDefaultResistanceLevelInputInvalid}
                       isClearable
                     />
                   )}
