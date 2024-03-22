@@ -554,6 +554,25 @@ export default function WorkoutTemplateDetails() {
     return IsStringInvalidNumber(setTrackingValuesInput.resistance_level);
   }, [setTrackingValuesInput.resistance_level]);
 
+  const isSetDefaultValuesInvalid = useMemo(() => {
+    if (isDefaultWeightInputInvalid) return true;
+    if (isDefaultRepsInputInvalid) return true;
+    if (isDefaultDistanceInputInvalid) return true;
+    if (isTimeInputInvalid) return true;
+    if (isDefaultRirInputInvalid) return true;
+    if (isDefaultRpeInputInvalid) return true;
+    if (isDefaultResistanceLevelInputInvalid) return true;
+    return false;
+  }, [
+    isDefaultWeightInputInvalid,
+    isDefaultRepsInputInvalid,
+    isDefaultDistanceInputInvalid,
+    isTimeInputInvalid,
+    isDefaultRirInputInvalid,
+    isDefaultRpeInputInvalid,
+    isDefaultResistanceLevelInputInvalid,
+  ]);
+
   if (workoutTemplate === undefined) return NotFound();
 
   return (
@@ -935,7 +954,7 @@ export default function WorkoutTemplateDetails() {
                 <Button
                   color="success"
                   onPress={updateSetDefaultValues}
-                  isDisabled={isTimeInputInvalid}
+                  isDisabled={isSetDefaultValuesInvalid}
                 >
                   Save
                 </Button>
