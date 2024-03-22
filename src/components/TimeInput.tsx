@@ -1,7 +1,12 @@
 import { Input, Select, SelectItem } from "@nextui-org/react";
 import { WorkoutSet } from "../typings";
 import { useState, useMemo, useEffect } from "react";
-import { IsNumberAbove59, IsNumberNegativeOrInfinity } from "../helpers";
+import {
+  IsNumberNegativeOrInfinity,
+  IsStringInvalidInteger,
+  IsStringInvalidNumber,
+  IsStringInvalidNumberOrAbove59,
+} from "../helpers";
 
 type TimeInputProps = {
   value: WorkoutSet;
@@ -65,35 +70,23 @@ export const TimeInput = ({
     useState<HoursMinutesSecondsInput>(hoursMinutesSecondsDefaultValue);
 
   const isSecondsInputInvalid = useMemo(() => {
-    const secondsNumber = Number(secondsInput);
-    if (!Number.isInteger(secondsNumber)) return true;
-    return IsNumberNegativeOrInfinity(secondsNumber);
+    return IsStringInvalidInteger(secondsInput);
   }, [secondsInput]);
 
   const isMinutesInputInvalid = useMemo(() => {
-    const minutesNumber = Number(minutesInput);
-    if (isNaN(minutesNumber)) return true;
-    return IsNumberNegativeOrInfinity(minutesNumber);
+    return IsStringInvalidNumber(minutesInput);
   }, [minutesInput]);
 
   const isHhmmssSecondsInputInvalid = useMemo(() => {
-    const secondsNumber = Number(hoursMinutesSecondsInput.seconds);
-    if (!Number.isInteger(secondsNumber) || IsNumberAbove59(secondsNumber))
-      return true;
-    return IsNumberNegativeOrInfinity(secondsNumber);
+    return IsStringInvalidNumberOrAbove59(hoursMinutesSecondsInput.seconds);
   }, [hoursMinutesSecondsInput.seconds]);
 
   const isHhmmssMinutesInputInvalid = useMemo(() => {
-    const minutesNumber = Number(hoursMinutesSecondsInput.minutes);
-    if (!Number.isInteger(minutesNumber) || IsNumberAbove59(minutesNumber))
-      return true;
-    return IsNumberNegativeOrInfinity(minutesNumber);
+    return IsStringInvalidNumberOrAbove59(hoursMinutesSecondsInput.minutes);
   }, [hoursMinutesSecondsInput.minutes]);
 
   const isHhmmssHoursInputInvalid = useMemo(() => {
-    const hoursNumber = Number(hoursMinutesSecondsInput.hours);
-    if (!Number.isInteger(hoursNumber)) return true;
-    return IsNumberNegativeOrInfinity(hoursNumber);
+    return IsStringInvalidInteger(hoursMinutesSecondsInput.hours);
   }, [hoursMinutesSecondsInput.hours]);
 
   useEffect(() => {
