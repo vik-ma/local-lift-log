@@ -58,6 +58,7 @@ export default function WorkoutTemplateDetails() {
   const [isEditingSet, setIsEditingSet] = useState<boolean>(false);
   const [isEditingDefaultValues, setIsEditingDefaultValues] =
     useState<boolean>(false);
+  const [isTimeInputInvalid, setIsTimeInputInvalid] = useState<boolean>(false);
 
   const numSetsOptions: string[] = ["1", "2", "3", "4", "5", "6"];
 
@@ -384,9 +385,8 @@ export default function WorkoutTemplateDetails() {
 
       await db.execute(
         `UPDATE sets SET 
-        weight = $1, reps = $2, distance = $3, time_in_seconds = $4,
-        rir = $5, rpe = $6, resistance_level = $7, 
-        weight_unit = $8, distance_unit = $9 
+        weight = $1, reps = $2, distance = $3, time_in_seconds = $4, rir = $5, 
+        rpe = $6, resistance_level = $7, weight_unit = $8, distance_unit = $9 
         WHERE id = $10`,
         [
           operatingSet.weight,
@@ -795,6 +795,7 @@ export default function WorkoutTemplateDetails() {
                       value={operatingSet}
                       setValue={setOperatingSet}
                       defaultTimeInput={userSettings!.default_time_input!}
+                      setIsInvalid={setIsTimeInputInvalid}
                     />
                   )}
                   {!!operatingSet.is_tracking_rir && (
@@ -842,7 +843,11 @@ export default function WorkoutTemplateDetails() {
                 <Button color="success" variant="light" onPress={onClose}>
                   Close
                 </Button>
-                <Button color="success" onPress={updateSetDefaultValues}>
+                <Button
+                  color="success"
+                  onPress={updateSetDefaultValues}
+                  isDisabled={isTimeInputInvalid}
+                >
                   Save
                 </Button>
               </ModalFooter>

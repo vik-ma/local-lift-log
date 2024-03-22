@@ -1,11 +1,12 @@
 import { Input, Select, SelectItem } from "@nextui-org/react";
 import { WorkoutSet } from "../typings";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 
 type TimeInputProps = {
   value: WorkoutSet;
   setValue: React.Dispatch<React.SetStateAction<WorkoutSet>>;
   defaultTimeInput: string;
+  setIsInvalid: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 type HoursMinutesSecondsInput = {
@@ -18,6 +19,7 @@ export const TimeInput = ({
   value,
   setValue,
   defaultTimeInput,
+  setIsInvalid,
 }: TimeInputProps) => {
   const [inputType, setInputType] = useState<string>(defaultTimeInput);
 
@@ -103,6 +105,27 @@ export const TimeInput = ({
     if (!Number.isInteger(hoursNumber)) return true;
     return isNumberNegativeOrInfinity(hoursNumber);
   }, [hoursMinutesSecondsInput.hours]);
+
+  useEffect(() => {
+    if (
+      isSecondsInputInvalid ||
+      isMinutesInputInvalid ||
+      isHhmmssHoursInputInvalid ||
+      isHhmmssMinutesInputInvalid ||
+      isHhmmssSecondsInputInvalid
+    ) {
+      setIsInvalid(true);
+    } else {
+      setIsInvalid(false);
+    }
+  }, [
+    isSecondsInputInvalid,
+    isMinutesInputInvalid,
+    isHhmmssHoursInputInvalid,
+    isHhmmssMinutesInputInvalid,
+    isHhmmssSecondsInputInvalid,
+    setIsInvalid,
+  ]);
 
   const handleSecondsInputChange = (value: string) => {
     setSecondsInput(value);
