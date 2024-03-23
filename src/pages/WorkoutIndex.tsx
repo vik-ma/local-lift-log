@@ -47,43 +47,34 @@ export default function WorkoutIndex() {
     getWorkoutTemplates();
   }, []);
 
-  const createWorkout = async (workout: Workout): Promise<number> => {
+  const createWorkout = async (workout_template_id: number) => {
+    const currentDate: string = GetCurrentYmdDateString();
+
+    const newWorkout: Workout = {
+      id: 0,
+      workout_template_id: workout_template_id,
+      date: currentDate,
+      set_list_order: "",
+      note: null,
+    };
+
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
       const result = await db.execute(
         "INSERT into workouts (workout_template_id, date, set_list_order, note) VALUES ($1, $2, $3, $4)",
         [
-          workout.workout_template_id,
-          workout.date,
-          workout.set_list_order,
-          workout.note,
+          newWorkout.workout_template_id,
+          newWorkout.date,
+          newWorkout.set_list_order,
+          newWorkout.note,
         ]
       );
 
-      return result.lastInsertId;
+      navigate(`/workouts/${result.lastInsertId}`);
     } catch (error) {
       console.log(error);
-      return 0;
     }
-  };
-
-  const handleNewEmptyWorkoutPress = async () => {
-    const currentDate: string = GetCurrentYmdDateString();
-
-    const newWorkout: Workout = {
-      id: 0,
-      workout_template_id: 0,
-      date: currentDate,
-      set_list_order: "",
-      note: null,
-    };
-
-    const newWorkoutId: number = await createWorkout(newWorkout);
-
-    if (newWorkoutId === 0) return;
-
-    navigate(`/workouts/${newWorkoutId}`);
   };
 
   return (
@@ -135,7 +126,7 @@ export default function WorkoutIndex() {
             size="lg"
             color="success"
             className="font-medium text-xl"
-            onPress={handleNewEmptyWorkoutPress}
+            onPress={() => createWorkout(0)}
           >
             New Empty Workout
           </Button>
