@@ -422,9 +422,21 @@ export default function WorkoutTemplateDetails() {
           operatingSet.id,
         ]
       );
+
+      const newSet: WorkoutSet = {
+        ...operatingSet,
+        weight: setTrackingValuesNumber.weight,
+        reps: setTrackingValuesNumber.reps,
+        distance: setTrackingValuesNumber.distance,
+        rir: setTrackingValuesNumber.rir,
+        rpe: setTrackingValuesNumber.rpe,
+        resistance_level: setTrackingValuesNumber.resistance_level,
+      };
+
       setSets((prev) =>
-        prev.map((item) => (item.id === operatingSet.id ? operatingSet : item))
+        prev.map((item) => (item.id === operatingSet.id ? newSet : item))
       );
+
       resetSetToDefault();
       defaultValuesModal.onClose();
       toast.success("Default Values Updated");
