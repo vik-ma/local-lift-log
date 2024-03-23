@@ -3,6 +3,7 @@ import { Workout } from "../typings";
 import { useNavigate } from "react-router-dom";
 import { LoadingSpinner } from "../components";
 import Database from "tauri-plugin-sql-api";
+import { Button } from "@nextui-org/react";
 
 export default function WorkoutList() {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
@@ -46,12 +47,16 @@ export default function WorkoutList() {
         {isLoading ? (
           <LoadingSpinner />
         ) : (
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-1.5">
             {workouts.map((workout) => (
               <div className="flex flex-row gap-2" key={`${workout.id}`}>
-                <span>{workout.id}</span>
-                <span>{workout.date}</span>
-                <span>{workout.note}</span>
+                <Button
+                  className="text-xl font-medium"
+                  color="primary"
+                  onPress={() => navigate(`/workouts/${workout.id}`)}
+                >
+                  {workout.date}
+                </Button>
               </div>
             ))}
           </div>
