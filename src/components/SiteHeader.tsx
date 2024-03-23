@@ -46,6 +46,9 @@ export const SiteHeader = () => {
         <NavbarItem>
           <NavLink to="/routines">Routines</NavLink>
         </NavbarItem>
+        <NavbarItem>
+          <NavLink to="/workouts">Workouts</NavLink>
+        </NavbarItem>
         <Dropdown>
           <NavbarItem>
             <DropdownTrigger>

@@ -7,3 +7,6 @@ export { default as ExerciseDetailsPage } from "./ExerciseDetails";
 export { default as SettingsPage } from "./Settings";
 export { default as WorkoutTemplateListPage } from "./WorkoutTemplateList";
 export { default as WorkoutTemplateDetailsPage } from "./WorkoutTemplateDetails";
+export { default as WorkoutIndexPage } from "./WorkoutIndex";
+export { default as WorkoutListPage } from "./WorkoutList";
+export { default as WorkoutDetailsPage } from "./WorkoutDetails";
