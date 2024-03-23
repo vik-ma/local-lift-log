@@ -92,7 +92,7 @@ export default function WorkoutIndex() {
               <ModalBody>
                 <Listbox
                   aria-label="Workout Template List"
-                  // onAction={}
+                  onAction={(key) => createWorkout(Number(key))}
                 >
                   {workoutTemplates.map((template) => (
                     <ListboxItem
