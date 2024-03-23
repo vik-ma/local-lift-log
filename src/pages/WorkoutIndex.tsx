@@ -7,6 +7,27 @@ import Database from "tauri-plugin-sql-api";
 export default function WorkoutIndex() {
   const navigate = useNavigate();
 
+  const createWorkout = async (workout: Workout): Promise<number> => {
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      const result = await db.execute(
+        "INSERT into workouts (workout_template_id, date, set_list_order, note) VALUES ($1, $2, $3, $4)",
+        [
+          workout.workout_template_id,
+          workout.date,
+          workout.set_list_order,
+          workout.note,
+        ]
+      );
+
+      return result.lastInsertId;
+    } catch (error) {
+      console.log(error);
+      return 0;
+    }
+  };
+
   const handleNewEmptyWorkoutPress = async () => {
     const currentDate: string = GetCurrentYmdDateString();
 
@@ -18,24 +39,11 @@ export default function WorkoutIndex() {
       note: null,
     };
 
-    try {
-      const db = await Database.load(import.meta.env.VITE_DB);
+    const newWorkoutId: number = await createWorkout(newWorkout);
 
-      const result = await db.execute(
-        "INSERT into workouts (workout_template_id, date, set_list_order, note) VALUES ($1, $2, $3, $4)",
-        [
-          newWorkout.id,
-          newWorkout.workout_template_id,
-          newWorkout.date,
-          newWorkout.set_list_order,
-          newWorkout.note,
-        ]
-      );
+    if (newWorkoutId === 0) return;
 
-      navigate(`/workouts/${result.lastInsertId}`);
-    } catch (error) {
-      console.log(error);
-    }
+    navigate(`/workouts/${newWorkoutId}`);
   };
 
   return (
