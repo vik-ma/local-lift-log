@@ -66,9 +66,6 @@ export const SiteHeader = () => {
               base: "hover:text-[#404040] gap-4",
             }}
           >
-            <DropdownItem href="/sets" key="sets">
-              Set List
-            </DropdownItem>
             <DropdownItem href="/exercises" key="exercises">
               Exercise List
             </DropdownItem>

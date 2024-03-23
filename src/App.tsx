@@ -5,7 +5,6 @@ import {
   RoutineListPage,
   RoutineDetailsPage,
   NotFound,
-  SetListPage,
   ExerciseListPage,
   ExerciseDetailsPage,
   SettingsPage,
@@ -29,7 +28,6 @@ function App() {
                 <Route index element={<RoutineListPage />} />
                 <Route path=":id" element={<RoutineDetailsPage />} />
               </Route>
-              <Route path="/sets" element={<SetListPage />} />
               <Route path="/exercises">
                 <Route index element={<ExerciseListPage />} />
                 <Route path=":id" element={<ExerciseDetailsPage />} />
