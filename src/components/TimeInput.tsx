@@ -2,6 +2,7 @@ import { Input, Select, SelectItem } from "@nextui-org/react";
 import { WorkoutSet } from "../typings";
 import { useState, useMemo, useEffect } from "react";
 import {
+  ConvertNumberToTwoDecimals,
   IsNumberNegativeOrInfinity,
   IsStringInvalidInteger,
   IsStringInvalidNumber,
@@ -35,7 +36,7 @@ export const TimeInput = ({
   const convertSecondsToMinutes = (seconds: number): string => {
     if (seconds === 0) return "";
     const minutes = seconds / 60;
-    const minutesTrimmed = Math.round(minutes * 100) / 100;
+    const minutesTrimmed = ConvertNumberToTwoDecimals(minutes);
     return minutesTrimmed.toString();
   };
 
