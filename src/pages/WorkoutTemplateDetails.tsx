@@ -39,6 +39,7 @@ import {
   GetUserSettings,
   IsStringInvalidInteger,
   IsStringInvalidNumber,
+  IsStringInvalidNumberOrAbove10,
   OrderSetsBySetListOrderString,
 } from "../helpers";
 import { SearchIcon } from "../assets";
@@ -562,7 +563,7 @@ export default function WorkoutTemplateDetails() {
   }, [setTrackingValuesInput.rir]);
 
   const isDefaultRpeInputInvalid = useMemo(() => {
-    return IsStringInvalidInteger(setTrackingValuesInput.rpe);
+    return IsStringInvalidNumberOrAbove10(setTrackingValuesInput.rpe);
   }, [setTrackingValuesInput.rpe]);
 
   const isDefaultResistanceLevelInputInvalid = useMemo(() => {
