@@ -6,6 +6,7 @@ import {
   WorkoutTemplate,
   UnitDropDownActionSet,
   SetTrackingValuesInput,
+  SetTrackingValuesNumbers,
 } from "../typings";
 import { useState, useMemo, useEffect } from "react";
 import {
@@ -32,6 +33,7 @@ import {
 import { NotFound } from ".";
 import toast, { Toaster } from "react-hot-toast";
 import {
+  ConvertNumberToTwoDecimals,
   GenerateSetListOrderString,
   GetExerciseListWithGroupStrings,
   GetUserSettings,
@@ -395,34 +397,35 @@ export default function WorkoutTemplateDetails() {
   const updateSetDefaultValues = async () => {
     if (workoutTemplate === undefined) return;
 
+    if (isSetDefaultValuesInvalid) return;
+
+    const setTrackingValuesNumber: SetTrackingValuesNumbers =
+      convertSetTrackingValuesToNumber();
+
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
-
       await db.execute(
-        `UPDATE sets SET 
-        weight = $1, reps = $2, distance = $3, time_in_seconds = $4, rir = $5, 
-        rpe = $6, resistance_level = $7, weight_unit = $8, distance_unit = $9 
+        `UPDATE sets SET
+        weight = $1, reps = $2, distance = $3, time_in_seconds = $4, rir = $5,
+        rpe = $6, resistance_level = $7, weight_unit = $8, distance_unit = $9
         WHERE id = $10`,
         [
-          operatingSet.weight,
-          operatingSet.reps,
-          operatingSet.distance,
+          setTrackingValuesNumber.weight,
+          setTrackingValuesNumber.reps,
+          setTrackingValuesNumber.distance,
           operatingSet.time_in_seconds,
-          operatingSet.rir,
-          operatingSet.rpe,
-          operatingSet.resistance_level,
+          setTrackingValuesNumber.rir,
+          setTrackingValuesNumber.rpe,
+          setTrackingValuesNumber.resistance_level,
           operatingSet.weight_unit,
           operatingSet.distance_unit,
           operatingSet.id,
         ]
       );
-
       setSets((prev) =>
         prev.map((item) => (item.id === operatingSet.id ? operatingSet : item))
       );
-
       resetSetToDefault();
-
       defaultValuesModal.onClose();
       toast.success("Default Values Updated");
     } catch (error) {
@@ -572,6 +575,38 @@ export default function WorkoutTemplateDetails() {
     isDefaultRpeInputInvalid,
     isDefaultResistanceLevelInputInvalid,
   ]);
+
+  const convertSetTrackingValuesToNumber = (): SetTrackingValuesNumbers => {
+    const setTrackingValuesNumber: SetTrackingValuesNumbers = {
+      weight:
+        setTrackingValuesInput.weight.trim().length === 0
+          ? 0
+          : ConvertNumberToTwoDecimals(Number(setTrackingValuesInput.weight)),
+      reps:
+        setTrackingValuesInput.reps.trim().length === 0
+          ? 0
+          : Number(setTrackingValuesInput.reps),
+      rir:
+        setTrackingValuesInput.rir.trim().length === 0
+          ? 0
+          : Number(setTrackingValuesInput.rir),
+      rpe:
+        setTrackingValuesInput.rpe.trim().length === 0
+          ? 0
+          : Number(setTrackingValuesInput.rpe),
+      distance:
+        setTrackingValuesInput.distance.trim().length === 0
+          ? 0
+          : ConvertNumberToTwoDecimals(Number(setTrackingValuesInput.distance)),
+      resistance_level:
+        setTrackingValuesInput.resistance_level.trim().length === 0
+          ? 0
+          : ConvertNumberToTwoDecimals(
+              Number(setTrackingValuesInput.resistance_level)
+            ),
+    };
+    return setTrackingValuesNumber;
+  };
 
   if (workoutTemplate === undefined) return NotFound();
 

@@ -128,4 +128,13 @@ export type SetTrackingValuesInput = {
   rpe: string;
   distance: string;
   resistance_level: string;
-}
+};
+
+export type SetTrackingValuesNumbers = {
+  weight: number;
+  reps: number;
+  rir: number;
+  rpe: number;
+  distance: number;
+  resistance_level: number;
+};
