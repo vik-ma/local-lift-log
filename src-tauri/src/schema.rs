@@ -79,3 +79,13 @@ diesel::table! {
         distance_unit -> Nullable<Text>,
     }
 }
+
+diesel::table! {
+    workouts (id) {
+        id -> Integer,
+        workout_template_id -> Integer,
+        date -> Text,
+        set_list_order -> Text,
+        note -> Nullable<Text>,
+    }
+}

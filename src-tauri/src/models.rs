@@ -85,3 +85,14 @@ pub struct Set {
     pub weight_unit: Option<String>,
     pub distance_unit: Option<String>,
 }
+
+#[derive(Queryable, Selectable)]
+#[diesel(table_name = crate::schema::workouts)]
+#[diesel(check_for_backend(diesel::sqlite::Sqlite))]
+pub struct Workout {
+    pub id: i32,
+    pub workout_template_id: i32,
+    pub date: String,
+    pub set_list_order: String,
+    pub note: Option<String>,
+}
