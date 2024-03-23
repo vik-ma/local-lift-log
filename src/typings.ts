@@ -138,3 +138,11 @@ export type SetTrackingValuesNumbers = {
   distance: number;
   resistance_level: number;
 };
+
+export type Workout = {
+  id: number;
+  workout_template_id: number;
+  date: string;
+  set_list_order: string;
+  note: string | null;
+}
