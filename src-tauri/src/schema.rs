@@ -87,5 +87,6 @@ diesel::table! {
         date -> Text,
         set_list_order -> Text,
         note -> Nullable<Text>,
+        is_loaded -> SmallInt,
     }
 }

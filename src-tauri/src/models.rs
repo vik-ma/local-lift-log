@@ -95,4 +95,5 @@ pub struct Workout {
     pub date: String,
     pub set_list_order: String,
     pub note: Option<String>,
+    pub is_loaded: i16,
 }
