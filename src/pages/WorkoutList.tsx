@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import { Workout } from "../typings";
+import { WorkoutListItem } from "../typings";
 import { useNavigate } from "react-router-dom";
 import { LoadingSpinner } from "../components";
 import Database from "tauri-plugin-sql-api";
 import { Button } from "@nextui-org/react";
 
 export default function WorkoutList() {
-  const [workouts, setWorkouts] = useState<Workout[]>([]);
+  const [workouts, setWorkouts] = useState<WorkoutListItem[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const navigate = useNavigate();
@@ -16,15 +16,19 @@ export default function WorkoutList() {
       try {
         const db = await Database.load(import.meta.env.VITE_DB);
 
-        const result = await db.select<Workout[]>("SELECT * FROM workouts");
+        const result = await db.select<WorkoutListItem[]>(
+          "SELECT id, date FROM workouts"
+        );
 
-        const workouts: Workout[] = result.map((row) => ({
-          id: row.id,
-          workout_template_id: row.workout_template_id,
-          date: row.date,
-          set_list_order: row.set_list_order,
-          note: row.note,
-        }));
+        const workouts: WorkoutListItem[] = result.map((row) => {
+          const formattedDate: string = new Date(row.date)
+            .toString()
+            .substring(0, 15);
+          return {
+            id: row.id,
+            date: formattedDate,
+          };
+        });
 
         setWorkouts(workouts);
         setIsLoading(false);

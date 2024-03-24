@@ -146,3 +146,8 @@ export type Workout = {
   set_list_order: string;
   note: string | null;
 }
+
+export type WorkoutListItem = {
+  id: number;
+  date: string;
+}
