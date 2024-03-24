@@ -21,9 +21,7 @@ export default function WorkoutList() {
         );
 
         const workouts: WorkoutListItem[] = result.map((row) => {
-          const formattedDate: string = new Date(row.date)
-            .toString()
-            .substring(0, 15);
+          const formattedDate: string = new Date(row.date).toDateString();
           return {
             id: row.id,
             date: formattedDate,
