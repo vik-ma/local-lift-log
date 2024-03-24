@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { Workout, WorkoutSet } from "../typings";
 import { LoadingSpinner } from "../components";
@@ -13,6 +13,28 @@ export default function WorkoutDetails() {
   const [sets, setSets] = useState<WorkoutSet[]>([]);
 
   const { id } = useParams();
+
+  const updateWorkout = useCallback(async (workout: Workout) => {
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      db.execute(
+        `UPDATE workouts SET 
+        workout_template_id = $1, date = $2, set_list_order = $3, note = $4, is_loaded = $5 
+        WHERE id = $6`,
+        [
+          workout.workout_template_id,
+          workout.date,
+          workout.set_list_order,
+          workout.note,
+          workout.is_loaded,
+          workout.id,
+        ]
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
   useEffect(() => {
     const loadWorkout = async () => {
@@ -44,9 +66,13 @@ export default function WorkoutDetails() {
 
           setSets(orderedSetList);
         } else {
-          if (workout.workout_template_id === 0) return;
+          if (workout.workout_template_id !== 0) {
+            // TODO: Create new sets
+          }
 
+          workout.is_loaded = 1;
 
+          await updateWorkout(workout);
         }
 
         const formattedDate: string = new Date(workout.date).toDateString();
@@ -60,7 +86,7 @@ export default function WorkoutDetails() {
     };
 
     loadWorkout();
-  }, [id]);
+  }, [id, updateWorkout]);
 
   if (workout === undefined) return NotFound();
 
