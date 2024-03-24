@@ -145,6 +145,7 @@ export type Workout = {
   date: string;
   set_list_order: string;
   note: string | null;
+  is_loaded: number;
 }
 
 export type WorkoutListItem = {

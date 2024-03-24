@@ -56,18 +56,22 @@ export default function WorkoutIndex() {
       date: currentDate,
       set_list_order: "",
       note: null,
+      is_loaded: 0,
     };
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
       const result = await db.execute(
-        "INSERT into workouts (workout_template_id, date, set_list_order, note) VALUES ($1, $2, $3, $4)",
+        `INSERT into workouts 
+        (workout_template_id, date, set_list_order, note, is_loaded) 
+        VALUES ($1, $2, $3, $4, $5)`,
         [
           newWorkout.workout_template_id,
           newWorkout.date,
           newWorkout.set_list_order,
           newWorkout.note,
+          newWorkout.is_loaded,
         ]
       );
 
