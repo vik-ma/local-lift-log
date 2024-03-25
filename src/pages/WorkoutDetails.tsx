@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useParams } from "react-router-dom";
-import { Workout, WorkoutSet } from "../typings";
+import { Workout, WorkoutSet, UserSettings } from "../typings";
 import { LoadingSpinner } from "../components";
 import Database from "tauri-plugin-sql-api";
 import { NotFound } from ".";
@@ -8,6 +8,8 @@ import {
   CreateSetsFromWorkoutTemplate,
   GenerateSetListOrderString,
   OrderSetsBySetListOrderString,
+  GetUserSettings,
+  DefaultNewSet,
 } from "../helpers";
 import {
   Button,
@@ -27,10 +29,14 @@ export default function WorkoutDetails() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [sets, setSets] = useState<WorkoutSet[]>([]);
   const [setToDelete, setSetToDelete] = useState<WorkoutSet>();
+  const [userSettings, setUserSettings] = useState<UserSettings>();
 
   const initialized = useRef(false);
 
   const { id } = useParams();
+
+  const defaultNewSet: WorkoutSet = DefaultNewSet(false);
+  const [operatingSet, setOperatingSet] = useState<WorkoutSet>(defaultNewSet);
 
   const deleteModal = useDisclosure();
 
@@ -118,7 +124,23 @@ export default function WorkoutDetails() {
       }
     };
 
+    const loadUserSettings = async () => {
+      try {
+        const userSettings = await GetUserSettings();
+        if (userSettings === undefined) return;
+        setUserSettings(userSettings);
+        setOperatingSet((prev) => ({
+          ...prev,
+          weight_unit: userSettings.default_unit_weight!,
+          distance_unit: userSettings.default_unit_distance!,
+        }));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     loadWorkout();
+    loadUserSettings();
   }, [id, updateWorkout]);
 
   const updateSetListOrder = async (setList: WorkoutSet[] = sets) => {
