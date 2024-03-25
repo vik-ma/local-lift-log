@@ -30,6 +30,10 @@ import {
   ScrollShadow,
   Checkbox,
   Input,
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
 } from "@nextui-org/react";
 import { Reorder } from "framer-motion";
 import toast, { Toaster } from "react-hot-toast";
@@ -49,6 +53,7 @@ export default function WorkoutDetails() {
   const [isEditingSet, setIsEditingSet] = useState<boolean>(false);
   const [numNewSets, setNumNewSets] = useState<string>("1");
   const [workoutNote, setWorkoutNote] = useState<string>("");
+  const [activeSet, setActiveSet] = useState<WorkoutSet>();
 
   const initialized = useRef(false);
 
@@ -129,6 +134,10 @@ export default function WorkoutDetails() {
 
           setSets(orderedSetList);
           setWorkoutNote(workout.note === null ? "" : workout.note);
+
+          if (orderedSetList.length > 0) {
+            setActiveSet(orderedSetList[0]);
+          }
         } else {
           // Stop useEffect running twice in dev
           if (!initialized.current) {
@@ -762,6 +771,19 @@ export default function WorkoutDetails() {
                   Add Set
                 </Button>
               </div>
+              {activeSet !== undefined && (
+                <div>
+                  <Card>
+                    <CardHeader className="justify-between">
+                      <h2>{activeSet.exercise_name}</h2>
+                    </CardHeader>
+                    <CardBody className="px-3 py-0 text-small text-default-400"></CardBody>
+                    <CardFooter className="flex justify-end">
+                      <Button color="success">Save</Button>
+                    </CardFooter>
+                  </Card>
+                </div>
+              )}
             </div>
           </>
         )}
