@@ -29,6 +29,7 @@ export { UpdateDefaultTimeInput } from "./UserSettings/UpdateDefaultTimeInput";
 export { GenerateSetListOrderString } from "./Sets/GenerateSetListOrderString";
 export { OrderSetsBySetListOrderString } from "./Sets/OrderSetsBySetListOrderString";
 export { CreateSetsFromWorkoutTemplate } from "./Sets/CreateSetsFromWorkoutTemplate";
+export { DefaultNewSet } from "./Sets/DefaultNewSet";
 
 export { IsNumberNegativeOrInfinity } from "./Numbers/IsNumberNegativeOrInfinity";
 export { IsStringInvalidNumberOrAbove59 } from "./Numbers/IsStringInvalidNumberOrAbove59";
