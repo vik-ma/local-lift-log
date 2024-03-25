@@ -1,16 +1,22 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { Workout, WorkoutSet } from "../typings";
 import { LoadingSpinner } from "../components";
 import Database from "tauri-plugin-sql-api";
 import { NotFound } from ".";
-import { OrderSetsBySetListOrderString } from "../helpers";
+import {
+  CreateSetsFromWorkoutTemplate,
+  GenerateSetListOrderString,
+  OrderSetsBySetListOrderString,
+} from "../helpers";
 
 export default function WorkoutDetails() {
   const [workout, setWorkout] = useState<Workout>();
   const [workoutDate, setWorkoutDate] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [sets, setSets] = useState<WorkoutSet[]>([]);
+
+  const initialized = useRef(false);
 
   const { id } = useParams();
 
@@ -66,8 +72,21 @@ export default function WorkoutDetails() {
 
           setSets(orderedSetList);
         } else {
+          // Stop useEffect running twice in dev
+          if (!initialized.current) {
+            initialized.current = true;
+          } else return;
+
           if (workout.workout_template_id !== 0) {
-            // TODO: Create new sets
+            const setList = await CreateSetsFromWorkoutTemplate(
+              workout.id,
+              workout.workout_template_id
+            );
+
+            const setListOrder: string = GenerateSetListOrderString(setList);
+            workout.set_list_order = setListOrder;
+
+            setSets(setList);
           }
 
           workout.is_loaded = 1;
