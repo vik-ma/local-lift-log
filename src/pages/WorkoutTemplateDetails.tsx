@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import {
   ExerciseWithGroupString,
-  UserSettingsOptional,
+  UserSettings,
   WorkoutSet,
   WorkoutTemplate,
   UnitDropDownActionSet,
@@ -54,7 +54,7 @@ export default function WorkoutTemplateDetails() {
   const [newWorkoutTemplateNote, setNewWorkoutTemplateNote] =
     useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
+  const [userSettings, setUserSettings] = useState<UserSettings>();
   const [exercises, setExercises] = useState<ExerciseWithGroupString[]>([]);
   const [filterQuery, setFilterQuery] = useState<string>("");
   const [selectedExercise, setSelectedExercise] =
