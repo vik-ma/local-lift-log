@@ -9,6 +9,8 @@ import {
   GenerateSetListOrderString,
   OrderSetsBySetListOrderString,
 } from "../helpers";
+import { Button } from "@nextui-org/react";
+import { Reorder } from "framer-motion";
 
 export default function WorkoutDetails() {
   const [workout, setWorkout] = useState<Workout>();
@@ -118,6 +120,44 @@ export default function WorkoutDetails() {
           <>
             <div className="flex justify-center">
               <h1 className="text-2xl font-semibold">{workoutDate}</h1>
+            </div>
+            <div className="flex flex-col gap-2">
+              <h2 className="text-xl font-semibold flex items-center justify-between">
+                Set List{" "}
+                {sets.length > 1 && (
+                  <span className="text-xs italic text-stone-500 font-normal">
+                    Drag Sets To Reorder Set List
+                  </span>
+                )}
+              </h2>
+              <div className="flex flex-col gap-1">
+                <Reorder.Group
+                  className="flex flex-col gap-1"
+                  values={sets}
+                  onReorder={setSets}
+                >
+                  {sets.map((set) => (
+                    <Reorder.Item
+                      key={set.id}
+                      value={set}
+                      // onDragEnd={() => updateSetListOrder()}
+                    >
+                      <div className="flex gap-2 justify-between items-center">
+                        <span>{set.exercise_name}</span>
+                        <div className="flex gap-1">
+                          <Button
+                            size="sm"
+                            color="danger"
+                            // onPress={() => removeSet(set)}
+                          >
+                            Delete
+                          </Button>
+                        </div>
+                      </div>
+                    </Reorder.Item>
+                  ))}
+                </Reorder.Group>
+              </div>
             </div>
           </>
         )}
