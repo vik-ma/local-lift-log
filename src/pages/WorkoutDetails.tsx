@@ -48,6 +48,7 @@ export default function WorkoutDetails() {
     useState<ExerciseWithGroupString>();
   const [isEditingSet, setIsEditingSet] = useState<boolean>(false);
   const [numNewSets, setNumNewSets] = useState<string>("1");
+  const [workoutNote, setWorkoutNote] = useState<string>("");
 
   const initialized = useRef(false);
 
@@ -127,6 +128,7 @@ export default function WorkoutDetails() {
           );
 
           setSets(orderedSetList);
+          setWorkoutNote(workout.note === null ? "" : workout.note);
         } else {
           // Stop useEffect running twice in dev
           if (!initialized.current) {
@@ -423,6 +425,18 @@ export default function WorkoutDetails() {
     newSetModal.onOpen();
   };
 
+  const handleSaveNoteButtonPressed = async () => {
+    if (workout === undefined) return;
+
+    const noteToInsert: string | null =
+      workoutNote.trim().length === 0 ? null : workoutNote;
+
+    const updatedWorkout: Workout = { ...workout, note: noteToInsert };
+
+    await updateWorkout(updatedWorkout);
+    setWorkout(updatedWorkout);
+  };
+
   if (workout === undefined) return NotFound();
 
   return (
@@ -685,6 +699,19 @@ export default function WorkoutDetails() {
           <>
             <div className="flex justify-center">
               <h1 className="text-2xl font-semibold">{workoutDate}</h1>
+            </div>
+            <div className="flex flex-row justify-between gap-2 items-center">
+              <Input
+                value={workoutNote}
+                label="Workout Note"
+                variant="faded"
+                size="sm"
+                onValueChange={(value) => setWorkoutNote(value)}
+                isClearable
+              />
+              <Button color="success" onPress={handleSaveNoteButtonPressed}>
+                Save
+              </Button>
             </div>
             <div className="flex flex-col gap-2">
               <h2 className="text-xl font-semibold flex items-center justify-between">
