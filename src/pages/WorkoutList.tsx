@@ -93,7 +93,7 @@ export default function WorkoutList() {
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                Delete Routine
+                Delete Workout
               </ModalHeader>
               <ModalBody>
                 <p>

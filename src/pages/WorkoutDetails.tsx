@@ -19,6 +19,7 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { Reorder } from "framer-motion";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function WorkoutDetails() {
   const [workout, setWorkout] = useState<Workout>();
@@ -134,10 +135,67 @@ export default function WorkoutDetails() {
     setWorkout(updatedWorkout);
   };
 
+  const deleteSet = async () => {
+    if (setToDelete === undefined) return;
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      db.execute("DELETE from sets WHERE id = $1", [setToDelete.id]);
+
+      const updatedSetList: WorkoutSet[] = sets.filter(
+        (item) => item.id !== setToDelete.id
+      );
+      setSets(updatedSetList);
+      await updateSetListOrder(updatedSetList);
+
+      toast.success("Set Deleted");
+    } catch (error) {
+      console.log(error);
+    }
+
+    setSetToDelete(undefined);
+    deleteModal.onClose();
+  };
+
+  const handleDeleteButtonPress = (set: WorkoutSet) => {
+    setSetToDelete(set);
+    deleteModal.onOpen();
+  };
+
   if (workout === undefined) return NotFound();
 
   return (
     <>
+      <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
+      <Modal
+        isOpen={deleteModal.isOpen}
+        onOpenChange={deleteModal.onOpenChange}
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">
+                Delete Set
+              </ModalHeader>
+              <ModalBody>
+                <p>
+                  Are you sure you want to delete {setToDelete?.exercise_name}{" "}
+                  Set from Workout?
+                </p>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="danger" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+                <Button color="danger" onPress={deleteSet}>
+                  Delete
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
       <div className="flex flex-col gap-4">
         {isLoading ? (
           <LoadingSpinner />
@@ -173,7 +231,7 @@ export default function WorkoutDetails() {
                           <Button
                             size="sm"
                             color="danger"
-                            // onPress={() => removeSet(set)}
+                            onPress={() => handleDeleteButtonPress(set)}
                           >
                             Delete
                           </Button>
