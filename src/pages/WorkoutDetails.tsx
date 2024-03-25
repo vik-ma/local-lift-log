@@ -9,7 +9,15 @@ import {
   GenerateSetListOrderString,
   OrderSetsBySetListOrderString,
 } from "../helpers";
-import { Button } from "@nextui-org/react";
+import {
+  Button,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+} from "@nextui-org/react";
 import { Reorder } from "framer-motion";
 
 export default function WorkoutDetails() {
@@ -17,10 +25,13 @@ export default function WorkoutDetails() {
   const [workoutDate, setWorkoutDate] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [sets, setSets] = useState<WorkoutSet[]>([]);
+  const [setToDelete, setSetToDelete] = useState<WorkoutSet>();
 
   const initialized = useRef(false);
 
   const { id } = useParams();
+
+  const deleteModal = useDisclosure();
 
   const updateWorkout = useCallback(async (workout: Workout) => {
     try {
@@ -109,6 +120,20 @@ export default function WorkoutDetails() {
     loadWorkout();
   }, [id, updateWorkout]);
 
+  const updateSetListOrder = async (setList: WorkoutSet[] = sets) => {
+    if (workout === undefined) return;
+
+    const setListOrderString: string = GenerateSetListOrderString(setList);
+
+    const updatedWorkout: Workout = {
+      ...workout,
+      set_list_order: setListOrderString,
+    };
+
+    await updateWorkout(updatedWorkout);
+    setWorkout(updatedWorkout);
+  };
+
   if (workout === undefined) return NotFound();
 
   return (
@@ -140,7 +165,7 @@ export default function WorkoutDetails() {
                     <Reorder.Item
                       key={set.id}
                       value={set}
-                      // onDragEnd={() => updateSetListOrder()}
+                      onDragEnd={() => updateSetListOrder()}
                     >
                       <div className="flex gap-2 justify-between items-center">
                         <span>{set.exercise_name}</span>
