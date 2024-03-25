@@ -98,7 +98,8 @@ export default function WorkoutList() {
               <ModalBody>
                 <p>
                   Are you sure you want to permanently delete Workout on{" "}
-                  {workoutToDelete?.date}?
+                  {workoutToDelete?.date}, including all Sets performed in the
+                  Workout?
                 </p>
               </ModalBody>
               <ModalFooter>
