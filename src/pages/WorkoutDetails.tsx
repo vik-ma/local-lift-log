@@ -1,6 +1,11 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { useParams } from "react-router-dom";
-import { Workout, WorkoutSet, UserSettings } from "../typings";
+import {
+  Workout,
+  WorkoutSet,
+  UserSettings,
+  ExerciseWithGroupString,
+} from "../typings";
 import { LoadingSpinner } from "../components";
 import Database from "tauri-plugin-sql-api";
 import { NotFound } from ".";
@@ -10,6 +15,7 @@ import {
   OrderSetsBySetListOrderString,
   GetUserSettings,
   DefaultNewSet,
+  GetExerciseListWithGroupStrings,
 } from "../helpers";
 import {
   Button,
@@ -19,9 +25,15 @@ import {
   ModalBody,
   ModalFooter,
   useDisclosure,
+  Select,
+  SelectItem,
+  ScrollShadow,
+  Checkbox,
+  Input,
 } from "@nextui-org/react";
 import { Reorder } from "framer-motion";
 import toast, { Toaster } from "react-hot-toast";
+import { SearchIcon } from "../assets";
 
 export default function WorkoutDetails() {
   const [workout, setWorkout] = useState<Workout>();
@@ -30,6 +42,12 @@ export default function WorkoutDetails() {
   const [sets, setSets] = useState<WorkoutSet[]>([]);
   const [setToDelete, setSetToDelete] = useState<WorkoutSet>();
   const [userSettings, setUserSettings] = useState<UserSettings>();
+  const [exercises, setExercises] = useState<ExerciseWithGroupString[]>([]);
+  const [filterQuery, setFilterQuery] = useState<string>("");
+  const [selectedExercise, setSelectedExercise] =
+    useState<ExerciseWithGroupString>();
+  const [isEditingSet, setIsEditingSet] = useState<boolean>(false);
+  const [numNewSets, setNumNewSets] = useState<string>("1");
 
   const initialized = useRef(false);
 
@@ -38,7 +56,25 @@ export default function WorkoutDetails() {
   const defaultNewSet: WorkoutSet = DefaultNewSet(false);
   const [operatingSet, setOperatingSet] = useState<WorkoutSet>(defaultNewSet);
 
+  const newSetModal = useDisclosure();
   const deleteModal = useDisclosure();
+
+  const numSetsOptions: string[] = ["1", "2", "3", "4", "5", "6"];
+
+  const filteredExercises = useMemo(() => {
+    if (filterQuery !== "") {
+      return exercises.filter(
+        (item) =>
+          item.name
+            .toLocaleLowerCase()
+            .includes(filterQuery.toLocaleLowerCase()) ||
+          item.exercise_group_string
+            .toLocaleLowerCase()
+            .includes(filterQuery.toLocaleLowerCase())
+      );
+    }
+    return exercises;
+  }, [exercises, filterQuery]);
 
   const updateWorkout = useCallback(async (workout: Workout) => {
     try {
@@ -139,8 +175,14 @@ export default function WorkoutDetails() {
       }
     };
 
+    const getExerciseList = async () => {
+      const exercises = await GetExerciseListWithGroupStrings();
+      if (exercises !== undefined) setExercises(exercises);
+    };
+
     loadWorkout();
     loadUserSettings();
+    getExerciseList();
   }, [id, updateWorkout]);
 
   const updateSetListOrder = async (setList: WorkoutSet[] = sets) => {
@@ -185,11 +227,286 @@ export default function WorkoutDetails() {
     deleteModal.onOpen();
   };
 
+  const resetSetToDefault = () => {
+    setIsEditingSet(false);
+    setSelectedExercise(undefined);
+    setOperatingSet({
+      ...defaultNewSet,
+      weight_unit: userSettings!.default_unit_weight!,
+      distance_unit: userSettings!.default_unit_distance!,
+    });
+  };
+
+  const handleAddSetButtonPressed = () => {
+    if (isEditingSet) {
+      resetSetToDefault();
+    }
+
+    newSetModal.onOpen();
+  };
+
+  const handleExercisePressed = (exercise: ExerciseWithGroupString) => {
+    setSelectedExercise(exercise);
+
+    if (isEditingSet) {
+      setOperatingSet((prev) => ({ ...prev, exercise_id: exercise.id }));
+      return;
+    }
+
+    if (exercise.exercise_group_string === "Cardio") {
+      setOperatingSet((prev) => ({
+        ...prev,
+        is_tracking_weight: 0,
+        is_tracking_reps: 0,
+        is_tracking_distance: 1,
+        is_tracking_time: 1,
+      }));
+    } else {
+      setOperatingSet((prev) => ({
+        ...prev,
+        is_tracking_weight: 1,
+        is_tracking_reps: 1,
+        is_tracking_distance: 0,
+        is_tracking_time: 0,
+      }));
+    }
+  };
+
+  const handleSaveSetButtonPressed = async () => {
+    if (isEditingSet) {
+      // await updateSet();
+    } else {
+      // await addSet();
+    }
+  };
+
   if (workout === undefined) return NotFound();
 
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
+      <Modal
+        isOpen={newSetModal.isOpen}
+        onOpenChange={newSetModal.onOpenChange}
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">
+                {selectedExercise === undefined
+                  ? "Select Exercise"
+                  : "Tracking Options"}
+              </ModalHeader>
+              <ModalBody>
+                {selectedExercise === undefined ? (
+                  <div className="h-[400px] flex flex-col gap-2">
+                    <Input
+                      label="Search"
+                      variant="faded"
+                      placeholder="Type to search..."
+                      isClearable
+                      value={filterQuery}
+                      onValueChange={setFilterQuery}
+                      startContent={<SearchIcon />}
+                    />
+                    <ScrollShadow className="flex flex-col gap-1">
+                      {filteredExercises.map((exercise) => (
+                        <button
+                          key={exercise.id}
+                          className="flex flex-col justify-start items-start bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:bg-default-200 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                          onClick={() => handleExercisePressed(exercise)}
+                        >
+                          <span className="text-md">{exercise.name}</span>
+                          <span className="text-xs text-stone-500 text-left">
+                            {exercise.exercise_group_string}
+                          </span>
+                        </button>
+                      ))}
+                    </ScrollShadow>
+                  </div>
+                ) : (
+                  <div className="flex flex-col gap-3 h-[400px]">
+                    <div className="flex flex-col gap-3">
+                      <div className="flex flex-row items-center justify-between">
+                        <h2 className="text-2xl font-semibold px-1">
+                          {selectedExercise.name}
+                        </h2>
+                        <Button
+                          size="sm"
+                          variant="flat"
+                          color="danger"
+                          onPress={() => setSelectedExercise(undefined)}
+                        >
+                          Change Exercise
+                        </Button>
+                      </div>
+                      <Input
+                        value={operatingSet.note ?? ""}
+                        label="Note"
+                        variant="faded"
+                        size="sm"
+                        onValueChange={(value) =>
+                          setOperatingSet((prev) => ({
+                            ...prev,
+                            note: value,
+                          }))
+                        }
+                        isClearable
+                      />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <h3 className="text-xl font-semibold px-1">Track</h3>
+                      <div className="grid grid-cols-2 gap-2 p-1">
+                        <Checkbox
+                          color="success"
+                          isSelected={
+                            operatingSet.is_tracking_weight ? true : false
+                          }
+                          onValueChange={(value) =>
+                            setOperatingSet((prev) => ({
+                              ...prev,
+                              is_tracking_weight: value ? 1 : 0,
+                            }))
+                          }
+                        >
+                          Weight
+                        </Checkbox>
+                        <Checkbox
+                          color="success"
+                          isSelected={
+                            operatingSet.is_tracking_reps ? true : false
+                          }
+                          onValueChange={(value) =>
+                            setOperatingSet((prev) => ({
+                              ...prev,
+                              is_tracking_reps: value ? 1 : 0,
+                            }))
+                          }
+                        >
+                          Reps
+                        </Checkbox>
+                        <Checkbox
+                          color="success"
+                          isSelected={
+                            operatingSet.is_tracking_distance ? true : false
+                          }
+                          onValueChange={(value) =>
+                            setOperatingSet((prev) => ({
+                              ...prev,
+                              is_tracking_distance: value ? 1 : 0,
+                            }))
+                          }
+                        >
+                          Distance
+                        </Checkbox>
+                        <Checkbox
+                          color="success"
+                          isSelected={
+                            operatingSet.is_tracking_time ? true : false
+                          }
+                          onValueChange={(value) =>
+                            setOperatingSet((prev) => ({
+                              ...prev,
+                              is_tracking_time: value ? 1 : 0,
+                            }))
+                          }
+                        >
+                          Time
+                        </Checkbox>
+                        <Checkbox
+                          color="success"
+                          isSelected={
+                            operatingSet.is_tracking_rir ? true : false
+                          }
+                          onValueChange={(value) =>
+                            setOperatingSet((prev) => ({
+                              ...prev,
+                              is_tracking_rir: value ? 1 : 0,
+                            }))
+                          }
+                        >
+                          RIR
+                        </Checkbox>
+                        <Checkbox
+                          color="success"
+                          isSelected={
+                            operatingSet.is_tracking_rpe ? true : false
+                          }
+                          onValueChange={(value) =>
+                            setOperatingSet((prev) => ({
+                              ...prev,
+                              is_tracking_rpe: value ? 1 : 0,
+                            }))
+                          }
+                        >
+                          RPE
+                        </Checkbox>
+                        <Checkbox
+                          color="success"
+                          isSelected={
+                            operatingSet.is_tracking_resistance_level
+                              ? true
+                              : false
+                          }
+                          onValueChange={(value) =>
+                            setOperatingSet((prev) => ({
+                              ...prev,
+                              is_tracking_resistance_level: value ? 1 : 0,
+                            }))
+                          }
+                        >
+                          Resistance Level
+                        </Checkbox>
+                        <Checkbox
+                          color="success"
+                          isSelected={operatingSet.is_warmup ? true : false}
+                          onValueChange={(value) =>
+                            setOperatingSet((prev) => ({
+                              ...prev,
+                              is_warmup: value ? 1 : 0,
+                            }))
+                          }
+                        >
+                          <span className="text-primary">Warmup Set</span>
+                        </Checkbox>
+                      </div>
+                      {!isEditingSet && (
+                        <div className="flex flex-row justify-between">
+                          <Select
+                            label="Number Of Sets To Add"
+                            variant="faded"
+                            selectedKeys={[numNewSets]}
+                            disallowEmptySelection={true}
+                            onChange={(e) => setNumNewSets(e.target.value)}
+                          >
+                            {numSetsOptions.map((num) => (
+                              <SelectItem key={num} value={num}>
+                                {num}
+                              </SelectItem>
+                            ))}
+                          </Select>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </ModalBody>
+              <ModalFooter>
+                <Button color="success" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+                <Button
+                  color="success"
+                  isDisabled={selectedExercise === undefined}
+                  onPress={handleSaveSetButtonPressed}
+                >
+                  {isEditingSet ? "Save" : "Add"}
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
       <Modal
         isOpen={deleteModal.isOpen}
         onOpenChange={deleteModal.onOpenChange}
@@ -262,6 +579,11 @@ export default function WorkoutDetails() {
                     </Reorder.Item>
                   ))}
                 </Reorder.Group>
+              </div>
+              <div className="flex justify-center">
+                <Button color="success" onPress={handleAddSetButtonPressed}>
+                  Add Set
+                </Button>
               </div>
             </div>
           </>
