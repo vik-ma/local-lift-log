@@ -272,12 +272,155 @@ export default function WorkoutDetails() {
     }
   };
 
+  const addSet = async () => {
+    if (selectedExercise === undefined || workout === undefined) return;
+
+    if (!numSetsOptions.includes(numNewSets)) return;
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      const noteToInsert: string | null =
+        operatingSet.note?.trim().length === 0 ? null : operatingSet.note;
+
+      const newSets: WorkoutSet[] = [];
+
+      const numSetsToAdd: number = parseInt(numNewSets);
+
+      for (let i = 0; i < numSetsToAdd; i++) {
+        const result = await db.execute(
+          `INSERT into sets 
+          (workout_id, exercise_id, is_template, workout_template_id, note, is_completed, is_warmup, 
+            weight, reps, rir, rpe, time_in_seconds, distance, resistance_level, is_tracking_weight,
+            is_tracking_reps, is_tracking_rir, is_tracking_rpe, is_tracking_time, is_tracking_distance,
+            is_tracking_resistance_level, weight_unit, distance_unit) 
+          VALUES 
+          ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23)`,
+          [
+            workout.id,
+            selectedExercise.id,
+            operatingSet.is_template,
+            workout.workout_template_id,
+            noteToInsert,
+            operatingSet.is_completed,
+            operatingSet.is_warmup,
+            operatingSet.weight,
+            operatingSet.reps,
+            operatingSet.rir,
+            operatingSet.rpe,
+            operatingSet.time_in_seconds,
+            operatingSet.distance,
+            operatingSet.resistance_level,
+            operatingSet.is_tracking_weight,
+            operatingSet.is_tracking_reps,
+            operatingSet.is_tracking_rir,
+            operatingSet.is_tracking_rpe,
+            operatingSet.is_tracking_time,
+            operatingSet.is_tracking_distance,
+            operatingSet.is_tracking_resistance_level,
+            operatingSet.weight_unit,
+            operatingSet.distance_unit,
+          ]
+        );
+
+        const newSet: WorkoutSet = {
+          ...operatingSet,
+          id: result.lastInsertId,
+          exercise_id: selectedExercise.id,
+          workout_id: workout.id,
+          note: noteToInsert,
+          exercise_name: selectedExercise.name,
+        };
+
+        newSets.push(newSet);
+      }
+
+      const updatedSetList = [...sets, ...newSets];
+      setSets(updatedSetList);
+      await updateSetListOrder(updatedSetList);
+
+      setOperatingSet({
+        ...defaultNewSet,
+        weight_unit: userSettings!.default_unit_weight!,
+        distance_unit: userSettings!.default_unit_distance!,
+      });
+      resetSetToDefault();
+
+      newSetModal.onClose();
+      toast.success("Set Added");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const updateSet = async () => {
+    if (selectedExercise === undefined || workout === undefined) return;
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      const noteToInsert: string | null =
+        operatingSet.note?.trim().length === 0 ? null : operatingSet.note;
+
+      await db.execute(
+        `UPDATE sets SET 
+        exercise_id = $1, note = $2, is_warmup = $3, is_tracking_weight = $4,
+        is_tracking_reps = $5, is_tracking_rir = $6, is_tracking_rpe = $7, 
+        is_tracking_time = $8, is_tracking_distance = $9, is_tracking_resistance_level = $10 
+        WHERE id = $11`,
+        [
+          selectedExercise.id,
+          noteToInsert,
+          operatingSet.is_warmup,
+          operatingSet.is_tracking_weight,
+          operatingSet.is_tracking_reps,
+          operatingSet.is_tracking_rir,
+          operatingSet.is_tracking_rpe,
+          operatingSet.is_tracking_time,
+          operatingSet.is_tracking_distance,
+          operatingSet.is_tracking_resistance_level,
+          operatingSet.id,
+        ]
+      );
+
+      const updatedSet: WorkoutSet = {
+        ...operatingSet,
+        exercise_id: selectedExercise.id,
+        note: noteToInsert,
+        exercise_name: selectedExercise.name,
+      };
+
+      setSets((prev) =>
+        prev.map((item) => (item.id === operatingSet.id ? updatedSet : item))
+      );
+
+      resetSetToDefault();
+
+      newSetModal.onClose();
+      toast.success("Set Updated");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleSaveSetButtonPressed = async () => {
     if (isEditingSet) {
-      // await updateSet();
+      await updateSet();
     } else {
-      // await addSet();
+      await addSet();
     }
+  };
+
+  const handleEditButtonPressed = (set: WorkoutSet) => {
+    const exercise = exercises.find((item) => item.id === set.exercise_id);
+
+    if (exercise === undefined) return;
+
+    setOperatingSet(set);
+    setIsEditingSet(true);
+    setSelectedExercise(exercise);
+
+    newSetModal.onOpen();
   };
 
   if (workout === undefined) return NotFound();
@@ -567,6 +710,13 @@ export default function WorkoutDetails() {
                       <div className="flex gap-2 justify-between items-center">
                         <span>{set.exercise_name}</span>
                         <div className="flex gap-1">
+                          <Button
+                            size="sm"
+                            color="primary"
+                            onPress={() => handleEditButtonPressed(set)}
+                          >
+                            Edit
+                          </Button>
                           <Button
                             size="sm"
                             color="danger"
