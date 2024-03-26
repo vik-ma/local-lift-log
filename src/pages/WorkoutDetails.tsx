@@ -565,7 +565,7 @@ export default function WorkoutDetails() {
       // TODO: UPDATE SET IN SETLIST
 
       const newActiveSetIndex: number = activeSetIndex + 1;
-      if (activeSetIndex < sets.length) {
+      if (newActiveSetIndex < sets.length) {
         setActiveSetIndex(newActiveSetIndex);
         setActiveSet(sets[newActiveSetIndex]);
       }
