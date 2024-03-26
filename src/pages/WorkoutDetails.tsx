@@ -68,6 +68,7 @@ export default function WorkoutDetails() {
   const [activeSet, setActiveSet] = useState<WorkoutSet>();
   const [activeSetIndex, setActiveSetIndex] = useState<number>(0);
   const [isTimeInputInvalid, setIsTimeInputInvalid] = useState<boolean>(false);
+  const [showCommentInput, setShowCommentInput] = useState<boolean>(false);
 
   const initialized = useRef(false);
 
@@ -537,9 +538,11 @@ export default function WorkoutDetails() {
       setTrackingValuesInput
     );
 
-    // TODO: ADD COMMENTTOINSERT
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
+
+      const commentToInsert: string | null =
+        activeSet.comment?.trim().length === 0 ? null : activeSet.comment;
 
       await db.execute(
         `UPDATE sets SET
@@ -557,7 +560,7 @@ export default function WorkoutDetails() {
           setTrackingValuesNumbers.resistance_level,
           activeSet.weight_unit,
           activeSet.distance_unit,
-          activeSet.comment,
+          commentToInsert,
           currentDate,
           activeSet.id,
         ]
@@ -583,6 +586,7 @@ export default function WorkoutDetails() {
         setActiveSetIndex(newActiveSetIndex);
         setActiveSet(sets[newActiveSetIndex]);
       }
+      setShowCommentInput(false);
     } catch (error) {
       console.log(error);
     }
@@ -1051,9 +1055,33 @@ export default function WorkoutDetails() {
                             isClearable
                           />
                         )}
+                        {showCommentInput && (
+                          <Input
+                            value={activeSet.comment ?? ""}
+                            label="Comment"
+                            size="sm"
+                            variant="faded"
+                            onValueChange={(value) =>
+                              setActiveSet((prev) => ({
+                                ...prev!,
+                                comment: value,
+                              }))
+                            }
+                            isInvalid={isResistanceLevelInputInvalid}
+                            isClearable
+                          />
+                        )}
                       </div>
                     </CardBody>
-                    <CardFooter className="flex justify-end">
+                    <CardFooter className="flex justify-between">
+                      <Button
+                        color="success"
+                        onPress={() => setShowCommentInput(!showCommentInput)}
+                      >
+                        {showCommentInput
+                          ? "Hide Comment Field"
+                          : "Add Comment"}
+                      </Button>
                       <Button
                         color="success"
                         isDisabled={isSetTrackingInputsInvalid}
