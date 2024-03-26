@@ -888,7 +888,13 @@ export default function WorkoutDetails() {
                       onDragEnd={() => updateSetListOrder()}
                       onClick={() => setActiveSet(set)}
                     >
-                      <div className="flex gap-2 justify-between items-center bg-white rounded-lg px-2 py-1.5 cursor-pointer hover:bg-stone-50">
+                      <div
+                        className={
+                          set.id === activeSet?.id
+                            ? "flex gap-2 justify-between items-center outline outline-2 outline-yellow-300 bg-yellow-100 rounded-lg px-2 py-1.5 cursor-pointer"
+                            : "flex gap-2 justify-between items-center bg-white rounded-lg px-2 py-1.5 cursor-pointer hover:bg-stone-50"
+                        }
+                      >
                         <span>{set.exercise_name}</span>
                         <div className="flex gap-1">
                           <Button
