@@ -26,6 +26,7 @@ import {
   IsStringInvalidInteger,
   IsStringInvalidNumber,
   IsStringInvalidNumberOrAbove10,
+  ConvertSetInputValuesToNumbers,
 } from "../helpers";
 import {
   Button,
@@ -64,6 +65,7 @@ export default function WorkoutDetails() {
   const [numNewSets, setNumNewSets] = useState<string>("1");
   const [workoutNote, setWorkoutNote] = useState<string>("");
   const [activeSet, setActiveSet] = useState<WorkoutSet>();
+  const [activeSetIndex, setActiveSetIndex] = useState<number>(0);
   const [isTimeInputInvalid, setIsTimeInputInvalid] = useState<boolean>(false);
 
   const initialized = useRef(false);
@@ -159,6 +161,7 @@ export default function WorkoutDetails() {
           setWorkoutNote(workout.note === null ? "" : workout.note);
 
           if (orderedSetList.length > 0) {
+            // TODO: SET FIRST INCOMPLETE SET AS INDEX
             setActiveSet(orderedSetList[0]);
           }
         } else {
@@ -528,6 +531,54 @@ export default function WorkoutDetails() {
     isRpeInputInvalid,
     isResistanceLevelInputInvalid,
   ]);
+
+  const saveActiveSet = async () => {
+    if (activeSet === undefined || workout === undefined) return;
+
+    if (isSetTrackingInputsInvalid) return;
+
+    const currentDate = new Date().toString();
+
+    const setTrackingValuesNumbers = ConvertSetInputValuesToNumbers(
+      setTrackingValuesInput
+    );
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      await db.execute(
+        `UPDATE sets SET
+        weight = $1, reps = $2, distance = $3, time_in_seconds = $4, rir = $5,
+        rpe = $6, resistance_level = $7, weight_unit = $8, distance_unit = $9,
+        comment = $10, time_completed = $11, is_completed = 1
+        WHERE id = $12`,
+        [
+          setTrackingValuesNumbers.weight,
+          setTrackingValuesNumbers.reps,
+          setTrackingValuesNumbers.distance,
+          activeSet.time_in_seconds,
+          setTrackingValuesNumbers.rir,
+          setTrackingValuesNumbers.rpe,
+          setTrackingValuesNumbers.resistance_level,
+          activeSet.weight_unit,
+          activeSet.distance_unit,
+          activeSet.comment,
+          currentDate,
+          activeSet.id,
+        ]
+      );
+
+      // TODO: UPDATE SET IN SETLIST
+
+      const newActiveSetIndex: number = activeSetIndex + 1;
+      if (activeSetIndex < sets.length) {
+        setActiveSetIndex(newActiveSetIndex);
+        setActiveSet(sets[newActiveSetIndex]);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   if (workout === undefined) return NotFound();
 
@@ -995,7 +1046,13 @@ export default function WorkoutDetails() {
                       </div>
                     </CardBody>
                     <CardFooter className="flex justify-end">
-                      <Button color="success">Save</Button>
+                      <Button
+                        color="success"
+                        isDisabled={isSetTrackingInputsInvalid}
+                        onPress={saveActiveSet}
+                      >
+                        Save
+                      </Button>
                     </CardFooter>
                   </Card>
                 </div>
