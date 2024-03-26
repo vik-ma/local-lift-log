@@ -537,6 +537,7 @@ export default function WorkoutDetails() {
       setTrackingValuesInput
     );
 
+    // TODO: ADD COMMENTTOINSERT
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -562,7 +563,20 @@ export default function WorkoutDetails() {
         ]
       );
 
-      // TODO: UPDATE SET IN SETLIST
+      const updatedSet: WorkoutSet = {
+        ...activeSet,
+        weight: setTrackingValuesNumbers.weight,
+        reps: setTrackingValuesNumbers.reps,
+        distance: setTrackingValuesNumbers.distance,
+        rir: setTrackingValuesNumbers.rir,
+        rpe: setTrackingValuesNumbers.rpe,
+        resistance_level: setTrackingValuesNumbers.resistance_level,
+        time_completed: currentDate,
+      };
+
+      setSets((prev) =>
+        prev.map((item) => (item.id === activeSet.id ? updatedSet : item))
+      );
 
       const newActiveSetIndex: number = activeSetIndex + 1;
       if (newActiveSetIndex < sets.length) {
