@@ -424,6 +424,23 @@ export default function WorkoutDetails() {
         exercise_name: selectedExercise.name,
       };
 
+      if (activeSet?.id === updatedSet.id) {
+        setActiveSet({
+          ...activeSet,
+          exercise_id: selectedExercise.id,
+          note: noteToInsert,
+          exercise_name: selectedExercise.name,
+          is_warmup: updatedSet.is_warmup,
+          is_tracking_weight: updatedSet.is_tracking_weight,
+          is_tracking_reps: updatedSet.is_tracking_reps,
+          is_tracking_rir: updatedSet.is_tracking_rir,
+          is_tracking_rpe: updatedSet.is_tracking_rpe,
+          is_tracking_time: updatedSet.is_tracking_time,
+          is_tracking_distance: updatedSet.is_tracking_distance,
+          is_tracking_resistance_level: updatedSet.is_tracking_resistance_level,
+        });
+      }
+
       setSets((prev) =>
         prev.map((item) => (item.id === operatingSet.id ? updatedSet : item))
       );
