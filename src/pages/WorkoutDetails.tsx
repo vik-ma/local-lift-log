@@ -27,6 +27,7 @@ import {
   IsStringInvalidNumber,
   IsStringInvalidNumberOrAbove10,
   ConvertSetInputValuesToNumbers,
+  DefaultSetInputValues,
 } from "../helpers";
 import {
   Button,
@@ -75,14 +76,7 @@ export default function WorkoutDetails() {
   const defaultNewSet: WorkoutSet = DefaultNewSet(false);
   const [operatingSet, setOperatingSet] = useState<WorkoutSet>(defaultNewSet);
 
-  const defaultSetInputValues: SetTrackingValuesInput = {
-    weight: "",
-    reps: "",
-    rir: "",
-    rpe: "",
-    distance: "",
-    resistance_level: "",
-  };
+  const defaultSetInputValues: SetTrackingValuesInput = DefaultSetInputValues();
 
   const [setTrackingValuesInput, setSetTrackingValuesInput] =
     useState<SetTrackingValuesInput>(defaultSetInputValues);

@@ -31,6 +31,7 @@ export { OrderSetsBySetListOrderString } from "./Sets/OrderSetsBySetListOrderStr
 export { CreateSetsFromWorkoutTemplate } from "./Sets/CreateSetsFromWorkoutTemplate";
 export { DefaultNewSet } from "./Sets/DefaultNewSet";
 export { ConvertSetInputValuesToNumbers } from "./Sets/ConvertSetInputValuesToNumbers";
+export { DefaultSetInputValues } from "./Sets/DefaultSetInputValues";
 
 export { IsNumberNegativeOrInfinity } from "./Numbers/IsNumberNegativeOrInfinity";
 export { IsStringInvalidNumberOrAbove59 } from "./Numbers/IsStringInvalidNumberOrAbove59";

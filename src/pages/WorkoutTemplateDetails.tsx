@@ -34,6 +34,7 @@ import toast, { Toaster } from "react-hot-toast";
 import {
   ConvertSetInputValuesToNumbers,
   DefaultNewSet,
+  DefaultSetInputValues,
   GenerateSetListOrderString,
   GetExerciseListWithGroupStrings,
   GetUserSettings,
@@ -66,14 +67,8 @@ export default function WorkoutTemplateDetails() {
     useState<boolean>(false);
   const [isTimeInputInvalid, setIsTimeInputInvalid] = useState<boolean>(false);
 
-  const defaultSetTrackingValuesInput: SetTrackingValuesInput = {
-    weight: "",
-    reps: "",
-    rir: "",
-    rpe: "",
-    distance: "",
-    resistance_level: "",
-  };
+  const defaultSetTrackingValuesInput: SetTrackingValuesInput =
+    DefaultSetInputValues();
 
   const [setTrackingValuesInput, setSetTrackingValuesInput] =
     useState<SetTrackingValuesInput>(defaultSetTrackingValuesInput);
