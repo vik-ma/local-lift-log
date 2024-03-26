@@ -106,18 +106,18 @@ export type WorkoutSet = {
   exercise_name?: string;
 };
 
-export type UnitDropDownActionSet = React.Dispatch<
+export type SetWorkoutSetAction = React.Dispatch<
   React.SetStateAction<WorkoutSet>
 >;
 
-export type UnitDropDownActionSettings = (
+export type HTMLSelectElementChange = (
   e: React.ChangeEvent<HTMLSelectElement>
 ) => Promise<void>;
 
 export type UnitDropdownProps = {
   value: string;
-  actionSet?: UnitDropDownActionSet;
-  actionSettings?: UnitDropDownActionSettings;
+  actionSet?: SetWorkoutSetAction;
+  actionSettings?: HTMLSelectElementChange;
   targetType: "set" | "settings";
 };
 
@@ -146,9 +146,9 @@ export type Workout = {
   set_list_order: string;
   note: string | null;
   is_loaded: number;
-}
+};
 
 export type WorkoutListItem = {
   id: number;
   date: string;
-}
+};

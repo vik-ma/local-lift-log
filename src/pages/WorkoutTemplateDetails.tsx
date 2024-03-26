@@ -4,7 +4,7 @@ import {
   UserSettings,
   WorkoutSet,
   WorkoutTemplate,
-  UnitDropDownActionSet,
+  SetWorkoutSetAction,
   SetTrackingValuesInput,
   SetTrackingValuesNumbers,
 } from "../typings";
@@ -857,7 +857,7 @@ export default function WorkoutTemplateDetails() {
                       />
                       <WeightUnitDropdown
                         value={operatingSet.weight_unit}
-                        actionSet={setOperatingSet}
+                        actionSet={setOperatingSet as SetWorkoutSetAction}
                         targetType="set"
                       />
                     </div>
@@ -900,7 +900,7 @@ export default function WorkoutTemplateDetails() {
                       />
                       <DistanceUnitDropdown
                         value={operatingSet.distance_unit}
-                        actionSet={setOperatingSet as UnitDropDownActionSet}
+                        actionSet={setOperatingSet as SetWorkoutSetAction}
                         targetType="set"
                       />
                     </div>
