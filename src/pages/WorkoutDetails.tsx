@@ -66,7 +66,6 @@ export default function WorkoutDetails() {
   const [numNewSets, setNumNewSets] = useState<string>("1");
   const [workoutNote, setWorkoutNote] = useState<string>("");
   const [activeSet, setActiveSet] = useState<WorkoutSet>();
-  const [activeSetIndex, setActiveSetIndex] = useState<number>(0);
   const [isTimeInputInvalid, setIsTimeInputInvalid] = useState<boolean>(false);
   const [showCommentInput, setShowCommentInput] = useState<boolean>(false);
 
@@ -581,10 +580,9 @@ export default function WorkoutDetails() {
         prev.map((item) => (item.id === activeSet.id ? updatedSet : item))
       );
 
-      const newActiveSetIndex: number = activeSetIndex + 1;
-      if (newActiveSetIndex < sets.length) {
-        setActiveSetIndex(newActiveSetIndex);
-        setActiveSet(sets[newActiveSetIndex]);
+      const activeSetIndex: number = sets.indexOf(activeSet);
+      if (activeSetIndex < sets.length - 1) {
+        setActiveSet(sets[activeSetIndex + 1]);
       }
       setShowCommentInput(false);
     } catch (error) {
