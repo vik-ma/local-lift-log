@@ -888,8 +888,9 @@ export default function WorkoutDetails() {
                       key={set.id}
                       value={set}
                       onDragEnd={() => updateSetListOrder()}
+                      onClick={() => setActiveSet(set)}
                     >
-                      <div className="flex gap-2 justify-between items-center">
+                      <div className="flex gap-2 justify-between items-center bg-white rounded-lg px-2 py-1.5 cursor-pointer hover:bg-stone-50">
                         <span>{set.exercise_name}</span>
                         <div className="flex gap-1">
                           <Button
