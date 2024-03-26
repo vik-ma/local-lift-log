@@ -6,7 +6,6 @@ import {
   WorkoutTemplate,
   SetWorkoutSetAction,
   SetTrackingValuesInput,
-  SetTrackingValuesNumbers,
 } from "../typings";
 import { useState, useMemo, useEffect } from "react";
 import {
@@ -33,7 +32,7 @@ import {
 import { NotFound } from ".";
 import toast, { Toaster } from "react-hot-toast";
 import {
-  ConvertNumberToTwoDecimals,
+  ConvertSetInputValuesToNumbers,
   DefaultNewSet,
   GenerateSetListOrderString,
   GetExerciseListWithGroupStrings,
@@ -374,8 +373,9 @@ export default function WorkoutTemplateDetails() {
 
     if (isSetDefaultValuesInvalid) return;
 
-    const setTrackingValuesNumber: SetTrackingValuesNumbers =
-      convertSetTrackingValuesToNumber();
+    const setTrackingValuesNumber = ConvertSetInputValuesToNumbers(
+      setTrackingValuesInput
+    );
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
@@ -562,38 +562,6 @@ export default function WorkoutTemplateDetails() {
     isDefaultRpeInputInvalid,
     isDefaultResistanceLevelInputInvalid,
   ]);
-
-  const convertSetTrackingValuesToNumber = (): SetTrackingValuesNumbers => {
-    const setTrackingValuesNumber: SetTrackingValuesNumbers = {
-      weight:
-        setTrackingValuesInput.weight.trim().length === 0
-          ? 0
-          : ConvertNumberToTwoDecimals(Number(setTrackingValuesInput.weight)),
-      reps:
-        setTrackingValuesInput.reps.trim().length === 0
-          ? 0
-          : Number(setTrackingValuesInput.reps),
-      rir:
-        setTrackingValuesInput.rir.trim().length === 0
-          ? 0
-          : Number(setTrackingValuesInput.rir),
-      rpe:
-        setTrackingValuesInput.rpe.trim().length === 0
-          ? 0
-          : Number(setTrackingValuesInput.rpe),
-      distance:
-        setTrackingValuesInput.distance.trim().length === 0
-          ? 0
-          : ConvertNumberToTwoDecimals(Number(setTrackingValuesInput.distance)),
-      resistance_level:
-        setTrackingValuesInput.resistance_level.trim().length === 0
-          ? 0
-          : ConvertNumberToTwoDecimals(
-              Number(setTrackingValuesInput.resistance_level)
-            ),
-    };
-    return setTrackingValuesNumber;
-  };
 
   if (workoutTemplate === undefined) return NotFound();
 
