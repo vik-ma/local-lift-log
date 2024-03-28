@@ -6,6 +6,7 @@ export const WeightUnitDropdown = ({
   value,
   actionSet,
   actionSettings,
+  actionMeasurements,
   targetType,
 }: UnitDropdownProps) => {
   const weightUnits: string[] = ValidWeightUnits();
@@ -20,6 +21,10 @@ export const WeightUnitDropdown = ({
 
     if (targetType === "settings" && actionSettings !== undefined) {
       actionSettings(e);
+    }
+
+    if (targetType === "measurements" && actionMeasurements !== undefined) {
+      actionMeasurements(e.target.value);
     }
   };
 

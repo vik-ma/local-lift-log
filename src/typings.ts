@@ -118,7 +118,8 @@ export type UnitDropdownProps = {
   value: string;
   actionSet?: SetWorkoutSetAction;
   actionSettings?: HTMLSelectElementChange;
-  targetType: "set" | "settings";
+  actionMeasurements?: React.Dispatch<React.SetStateAction<string>>;
+  targetType: "set" | "settings" | "measurements";
 };
 
 export type SetTrackingValuesInput = {
@@ -158,4 +159,4 @@ export type UserWeight = {
   weight: number;
   weight_unit: string;
   date: string;
-}
+};
