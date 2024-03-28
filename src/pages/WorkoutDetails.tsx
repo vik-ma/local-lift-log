@@ -68,6 +68,8 @@ export default function WorkoutDetails() {
   const [activeSet, setActiveSet] = useState<WorkoutSet>();
   const [isTimeInputInvalid, setIsTimeInputInvalid] = useState<boolean>(false);
   const [showCommentInput, setShowCommentInput] = useState<boolean>(false);
+  const [showWorkoutNoteInput, setShowWorkoutNoteInput] =
+    useState<boolean>(false);
 
   const initialized = useRef(false);
 
@@ -850,22 +852,32 @@ export default function WorkoutDetails() {
           <LoadingSpinner />
         ) : (
           <>
-            <div className="flex justify-center">
+            <div className="flex justify-center items-center gap-5">
               <h1 className="text-2xl font-semibold">{workoutDate}</h1>
-            </div>
-            <div className="flex flex-row justify-between gap-2 items-center">
-              <Input
-                value={workoutNote}
-                label="Workout Note"
-                variant="faded"
-                size="sm"
-                onValueChange={(value) => setWorkoutNote(value)}
-                isClearable
-              />
-              <Button color="success" onPress={handleSaveNoteButtonPressed}>
-                Save
+              <Button
+                color="success"
+                variant="flat"
+                onClick={() => setShowWorkoutNoteInput(!showWorkoutNoteInput)}
+              >
+                Set Workout Note
               </Button>
             </div>
+            {showWorkoutNoteInput && (
+              <div className="flex flex-row justify-between gap-2 items-center">
+                <Input
+                  value={workoutNote}
+                  label="Workout Note"
+                  variant="faded"
+                  size="sm"
+                  onValueChange={(value) => setWorkoutNote(value)}
+                  isClearable
+                />
+                <Button color="success" onPress={handleSaveNoteButtonPressed}>
+                  Save
+                </Button>
+              </div>
+            )}
+
             <div className="flex flex-col gap-2">
               <h2 className="text-xl font-semibold flex items-center justify-between">
                 Set List{" "}
@@ -1081,6 +1093,7 @@ export default function WorkoutDetails() {
                     <CardFooter className="flex justify-between">
                       <Button
                         color="success"
+                        variant="flat"
                         onPress={() => setShowCommentInput(!showCommentInput)}
                       >
                         {showCommentInput
