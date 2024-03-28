@@ -152,3 +152,10 @@ export type WorkoutListItem = {
   id: number;
   date: string;
 };
+
+export type UserWeight = {
+  id: number;
+  weight: number;
+  weight_unit: string;
+  date: string;
+}
