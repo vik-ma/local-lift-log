@@ -10,3 +10,4 @@ export { default as WorkoutTemplateDetailsPage } from "./WorkoutTemplateDetails"
 export { default as WorkoutIndexPage } from "./WorkoutIndex";
 export { default as WorkoutListPage } from "./WorkoutList";
 export { default as WorkoutDetailsPage } from "./WorkoutDetails";
+export { default as UserMeasurementsPage } from "./UserMeasurements";
