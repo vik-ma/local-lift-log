@@ -90,3 +90,12 @@ diesel::table! {
         is_loaded -> SmallInt,
     }
 }
+
+diesel::table! {
+    user_weights (id) {
+        id -> Integer,
+        weight -> Float,
+        weight_unit -> Text,
+        date -> Text,
+    }
+}

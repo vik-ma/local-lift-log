@@ -97,3 +97,13 @@ pub struct Workout {
     pub note: Option<String>,
     pub is_loaded: i16,
 }
+
+#[derive(Queryable, Selectable)]
+#[diesel(table_name = crate::schema::user_weights)]
+#[diesel(check_for_backend(diesel::sqlite::Sqlite))]
+pub struct UserWeight {
+    pub id: i32,
+    pub weight: f32,
+    pub weight_unit: String,
+    pub date: String,
+}
