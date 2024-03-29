@@ -71,6 +71,7 @@ export default function UserMeasurementsPage() {
       };
 
       setLatestUserWeight(newUserWeight);
+      setNewWeightInput("");
 
       toast.success("Body Weight Updated");
     } catch (error) {
