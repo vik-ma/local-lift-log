@@ -3,6 +3,7 @@ import { UserSettingsOptional, UserWeight } from "../typings";
 import { LoadingSpinner, WeightUnitDropdown } from "../components";
 import { GetDefaultUnitValues, IsStringInvalidNumber } from "../helpers";
 import { Button, Input } from "@nextui-org/react";
+import Database from "tauri-plugin-sql-api";
 
 export default function UserMeasurementsPage() {
   const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
@@ -29,6 +30,25 @@ export default function UserMeasurementsPage() {
   const isWeightInputInvalid = useMemo(() => {
     return IsStringInvalidNumber(newWeightInput);
   }, [newWeightInput]);
+
+  const addUserWeight = async () => {
+    if (isWeightInputInvalid || newWeightInput.trim().length === 0) return;
+
+    const newWeight = Number(newWeightInput);
+
+    const currentDate = new Date().toString();
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      const result = await db.execute(
+        "INSERT into user_weights (weight, weight_unit, date) VALUES ($1, $2, $3)",
+        [newWeight, newWeightUnit, currentDate]
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -63,7 +83,10 @@ export default function UserMeasurementsPage() {
               <Button
                 className="font-medium"
                 color="success"
-                isDisabled={isWeightInputInvalid || newWeightInput === ""}
+                onPress={addUserWeight}
+                isDisabled={
+                  isWeightInputInvalid || newWeightInput.trim().length === 0
+                }
               >
                 Add
               </Button>
