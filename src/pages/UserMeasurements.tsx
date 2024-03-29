@@ -8,6 +8,7 @@ import {
 } from "../helpers";
 import { Button, Input } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function UserMeasurementsPage() {
   const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
@@ -55,6 +56,17 @@ export default function UserMeasurementsPage() {
         "INSERT into user_weights (weight, weight_unit, date) VALUES ($1, $2, $3)",
         [newWeight, newWeightUnit, currentDate]
       );
+
+      const newUserWeight: UserWeight = {
+        id: result.lastInsertId,
+        weight: newWeight,
+        weight_unit: newWeightUnit,
+        date: currentDate,
+      };
+
+      setLatestUserWeight(newUserWeight);
+
+      toast.success("Body Weight Updated");
     } catch (error) {
       console.log(error);
     }
@@ -62,6 +74,7 @@ export default function UserMeasurementsPage() {
 
   return (
     <>
+      <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
       <div className="flex flex-col items-center gap-4">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">
           <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b">
