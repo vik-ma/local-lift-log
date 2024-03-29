@@ -49,21 +49,25 @@ export default function UserMeasurementsPage() {
 
     const newWeight = Number(newWeightInput);
 
-    const currentDate = new Date().toString();
+    const currentDate = new Date();
+    const dateString = currentDate.toString();
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
       const result = await db.execute(
         "INSERT into user_weights (weight, weight_unit, date) VALUES ($1, $2, $3)",
-        [newWeight, newWeightUnit, currentDate]
+        [newWeight, newWeightUnit, dateString]
       );
+
+      const formattedDate: string = currentDate.toDateString();
 
       const newUserWeight: UserWeight = {
         id: result.lastInsertId,
         weight: newWeight,
         weight_unit: newWeightUnit,
-        date: currentDate,
+        date: dateString,
+        formattedDate: formattedDate,
       };
 
       setLatestUserWeight(newUserWeight);
@@ -101,10 +105,15 @@ export default function UserMeasurementsPage() {
                     View Full List
                   </Button>
                 </h3>
-                <span className="flex font-medium">
-                  {latestUserWeight?.weight}
-                  {latestUserWeight?.weight_unit}
-                </span>
+                <div className="flex gap-2 font-medium">
+                  <span>
+                    {latestUserWeight?.weight}
+                    {latestUserWeight?.weight_unit}
+                  </span>
+                  <span className="text-stone-400">
+                    {latestUserWeight?.formattedDate}
+                  </span>
+                </div>
               </div>
               <div className="flex justify-between gap-2 items-center">
                 <Input

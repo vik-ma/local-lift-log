@@ -2,6 +2,7 @@ import Database from "tauri-plugin-sql-api";
 import { useState, useEffect } from "react";
 import { UserWeight } from "../typings";
 import { LoadingSpinner } from "../components";
+import { FormatDateString } from "../helpers";
 
 export default function UserWeightListPage() {
   const [userWeights, setUserWeights] = useState<UserWeight[]>([]);
@@ -16,12 +17,16 @@ export default function UserWeightListPage() {
           "SELECT * FROM user_weights"
         );
 
-        const userWeights: UserWeight[] = result.map((row) => ({
-          id: row.id,
-          weight: row.weight,
-          weight_unit: row.weight_unit,
-          date: row.date,
-        }));
+        const userWeights: UserWeight[] = result.map((row) => {
+          const formattedDate: string = FormatDateString(row.date);
+          return {
+            id: row.id,
+            weight: row.weight,
+            weight_unit: row.weight_unit,
+            date: row.date,
+            formattedDate: formattedDate,
+          };
+        });
 
         setUserWeights(userWeights);
         setIsLoading(false);
@@ -47,12 +52,15 @@ export default function UserWeightListPage() {
             <div className="flex flex-col gap-1.5">
               {userWeights.map((userWeight) => (
                 <div
-                  className="flex flex-row justify-stretch gap-1"
+                  className="flex justify-between gap-2 font-medium"
                   key={`${userWeight.id}`}
                 >
-                  <span className="flex font-medium">
+                  <span>
                     {userWeight.weight}
                     {userWeight.weight_unit}
+                  </span>
+                  <span className="text-stone-400">
+                    {userWeight.formattedDate}
                   </span>
                 </div>
               ))}
