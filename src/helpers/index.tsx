@@ -1,5 +1,7 @@
 export { IsYmdDateStringValid } from "./Dates/IsYmdDateStringValid";
 export { ConvertDateToYmdString } from "./Dates/ConvertDateToYmdString";
+export { GetCurrentYmdDateString } from "./Dates/GetCurrentYmdDateString";
+export { FormatDateString } from "./Dates/FormatDateString";
 
 export { ConvertExerciseGroupSetString } from "./Exercises/ConvertExerciseGroupSetString";
 export { ConvertExerciseGroupStringListToSetString } from "./Exercises/ConvertExerciseGroupStringListToSetString";
