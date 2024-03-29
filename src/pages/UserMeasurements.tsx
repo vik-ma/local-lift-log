@@ -1,7 +1,11 @@
 import { useState, useEffect, useMemo } from "react";
 import { UserSettingsOptional, UserWeight } from "../typings";
 import { LoadingSpinner, WeightUnitDropdown } from "../components";
-import { GetDefaultUnitValues, IsStringInvalidNumber } from "../helpers";
+import {
+  GetDefaultUnitValues,
+  GetLatestUserWeight,
+  IsStringInvalidNumber,
+} from "../helpers";
 import { Button, Input } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
 
@@ -24,7 +28,13 @@ export default function UserMeasurementsPage() {
       setIsLoading(false);
     };
 
+    const getLatestUserWeight = async () => {
+      const userWeight: UserWeight | undefined = await GetLatestUserWeight();
+      if (userWeight !== undefined) setLatestUserWeight(userWeight);
+    };
+
     loadUserSettings();
+    getLatestUserWeight();
   }, []);
 
   const isWeightInputInvalid = useMemo(() => {
@@ -61,10 +71,16 @@ export default function UserMeasurementsPage() {
         {isLoading ? (
           <LoadingSpinner />
         ) : (
-          <div className="flex flex-col gap-4">
-            <h2 className="flex text-3xl font-semibold justify-center">
-              Body Weight
-            </h2>
+          <div className="flex flex-col gap-4  items-center">
+            <h2 className="flex text-3xl font-semibold">Body Weight</h2>
+            <div className="flex flex-col items-center text-stone-600">
+              <h3 className="flex text-xl font-semibold">Latest Weight</h3>
+              <span>
+                {latestUserWeight?.weight}
+                {latestUserWeight?.weight_unit}
+              </span>
+            </div>
+
             <div className="flex justify-between gap-2 items-center">
               <Input
                 value={newWeightInput}
