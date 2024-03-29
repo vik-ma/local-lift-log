@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { UserSettingsOptional, UserWeight } from "../typings";
 import { LoadingSpinner, WeightUnitDropdown } from "../components";
-import { GetDefaultUnitValues } from "../helpers";
+import { GetDefaultUnitValues, IsStringInvalidNumber } from "../helpers";
 import { Button, Input } from "@nextui-org/react";
 
 export default function UserMeasurementsPage() {
@@ -26,6 +26,10 @@ export default function UserMeasurementsPage() {
     loadUserSettings();
   }, []);
 
+  const isWeightInputInvalid = useMemo(() => {
+    return IsStringInvalidNumber(newWeightInput);
+  }, [newWeightInput]);
+
   return (
     <>
       <div className="flex flex-col items-center gap-4">
@@ -48,7 +52,7 @@ export default function UserMeasurementsPage() {
                 size="sm"
                 variant="faded"
                 onValueChange={(value) => setNewWeightInput(value)}
-                // isInvalid={}
+                isInvalid={isWeightInputInvalid}
                 isClearable
               />
               <WeightUnitDropdown
@@ -56,7 +60,11 @@ export default function UserMeasurementsPage() {
                 actionMeasurements={setNewWeightUnit}
                 targetType="measurements"
               />
-              <Button className="font-medium" color="success">
+              <Button
+                className="font-medium"
+                color="success"
+                isDisabled={isWeightInputInvalid || newWeightInput === ""}
+              >
                 Add
               </Button>
             </div>
