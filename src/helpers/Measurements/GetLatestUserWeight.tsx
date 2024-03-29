@@ -1,5 +1,6 @@
 import Database from "tauri-plugin-sql-api";
 import { UserWeight } from "../../typings";
+import { FormatDateString } from "..";
 
 export const GetLatestUserWeight = async () => {
   try {
@@ -10,6 +11,8 @@ export const GetLatestUserWeight = async () => {
     ORDER BY id DESC LIMIT 1`);
 
     const userWeight: UserWeight = result[0];
+
+    userWeight.formattedDate = FormatDateString(userWeight.date);
 
     return userWeight;
   } catch (error) {

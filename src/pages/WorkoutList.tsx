@@ -13,6 +13,7 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
+import { FormatDateString } from "../helpers";
 
 export default function WorkoutList() {
   const [workouts, setWorkouts] = useState<WorkoutListItem[]>([]);
@@ -33,7 +34,7 @@ export default function WorkoutList() {
         );
 
         const workouts: WorkoutListItem[] = result.map((row) => {
-          const formattedDate: string = new Date(row.date).toDateString();
+          const formattedDate: string = FormatDateString(row.date);
           return {
             id: row.id,
             date: formattedDate,

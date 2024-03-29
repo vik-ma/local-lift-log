@@ -28,6 +28,7 @@ import {
   IsStringInvalidNumberOrAbove10,
   ConvertSetInputValuesToNumbers,
   DefaultSetInputValues,
+  FormatDateString,
 } from "../helpers";
 import {
   Button,
@@ -183,7 +184,7 @@ export default function WorkoutDetails() {
           await updateWorkout(workout);
         }
 
-        const formattedDate: string = new Date(workout.date).toDateString();
+        const formattedDate: string = FormatDateString(workout.date);
 
         setWorkout(workout);
         setWorkoutDate(formattedDate);

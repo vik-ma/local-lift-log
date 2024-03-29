@@ -159,4 +159,5 @@ export type UserWeight = {
   weight: number;
   weight_unit: string;
   date: string;
+  formattedDate: string;
 };
