@@ -39,3 +39,5 @@ export { IsStringInvalidNumber } from "./Numbers/IsStringInvalidNumber";
 export { IsStringInvalidInteger } from "./Numbers/IsStringInvalidInteger";
 export { ConvertNumberToTwoDecimals } from "./Numbers/ConvertNumberToTwoDecimals";
 export { IsStringInvalidNumberOrAbove10 } from "./Numbers/IsStringInvalidNumberOrAbove10";
+
+export { GetLatestUserWeight } from "./Measurements/GetLatestUserWeight";
