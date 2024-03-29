@@ -12,7 +12,6 @@ import toast, { Toaster } from "react-hot-toast";
 
 export default function UserMeasurementsPage() {
   const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
-  const [userWeights, setUserWeights] = useState<UserWeight[]>([]);
   const [latestUserWeight, setLatestUserWeight] = useState<UserWeight>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [newWeightInput, setNewWeightInput] = useState<string>("");
@@ -87,8 +86,8 @@ export default function UserMeasurementsPage() {
           <div className="flex flex-col gap-4  items-center">
             <h2 className="flex text-3xl font-semibold">Body Weight</h2>
             <div className="flex flex-col items-center text-stone-600">
-              <h3 className="flex text-xl font-semibold">Latest Weight</h3>
-              <span>
+              <h3 className="flex text-lg font-semibold">Latest Weight</h3>
+              <span className="font-medium">
                 {latestUserWeight?.weight}
                 {latestUserWeight?.weight_unit}
               </span>
