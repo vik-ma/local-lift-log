@@ -9,6 +9,7 @@ import {
 import { Button, Input } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
 import toast, { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 export default function UserMeasurementsPage() {
   const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
@@ -16,6 +17,8 @@ export default function UserMeasurementsPage() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [newWeightInput, setNewWeightInput] = useState<string>("");
   const [newWeightUnit, setNewWeightUnit] = useState<string>("");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadUserSettings = async () => {
@@ -83,43 +86,54 @@ export default function UserMeasurementsPage() {
         {isLoading ? (
           <LoadingSpinner />
         ) : (
-          <div className="flex flex-col gap-4  items-center">
-            <h2 className="flex text-3xl font-semibold">Body Weight</h2>
-            <div className="flex flex-col items-center text-stone-600">
-              <h3 className="flex text-lg font-semibold">Latest Weight</h3>
-              <span className="font-medium">
-                {latestUserWeight?.weight}
-                {latestUserWeight?.weight_unit}
-              </span>
+          <>
+            <div className="flex flex-col gap-4 items-center">
+              <h2 className="flex text-3xl font-semibold">Body Weight</h2>
+              <div className="flex flex-col items-center text-stone-600">
+                <h3 className="flex text-lg font-semibold items-center gap-3">
+                  Latest Weight
+                  <Button
+                    color="success"
+                    variant="flat"
+                    size="sm"
+                    onClick={() => navigate("/measurements/body-weight-list")}
+                  >
+                    View Full List
+                  </Button>
+                </h3>
+                <span className="flex font-medium">
+                  {latestUserWeight?.weight}
+                  {latestUserWeight?.weight_unit}
+                </span>
+              </div>
+              <div className="flex justify-between gap-2 items-center">
+                <Input
+                  value={newWeightInput}
+                  label="Weight"
+                  size="sm"
+                  variant="faded"
+                  onValueChange={(value) => setNewWeightInput(value)}
+                  isInvalid={isWeightInputInvalid}
+                  isClearable
+                />
+                <WeightUnitDropdown
+                  value={newWeightUnit}
+                  actionMeasurements={setNewWeightUnit}
+                  targetType="measurements"
+                />
+                <Button
+                  className="font-medium"
+                  color="success"
+                  onPress={addUserWeight}
+                  isDisabled={
+                    isWeightInputInvalid || newWeightInput.trim().length === 0
+                  }
+                >
+                  Add
+                </Button>
+              </div>
             </div>
-
-            <div className="flex justify-between gap-2 items-center">
-              <Input
-                value={newWeightInput}
-                label="Weight"
-                size="sm"
-                variant="faded"
-                onValueChange={(value) => setNewWeightInput(value)}
-                isInvalid={isWeightInputInvalid}
-                isClearable
-              />
-              <WeightUnitDropdown
-                value={newWeightUnit}
-                actionMeasurements={setNewWeightUnit}
-                targetType="measurements"
-              />
-              <Button
-                className="font-medium"
-                color="success"
-                onPress={addUserWeight}
-                isDisabled={
-                  isWeightInputInvalid || newWeightInput.trim().length === 0
-                }
-              >
-                Add
-              </Button>
-            </div>
-          </div>
+          </>
         )}
       </div>
     </>
