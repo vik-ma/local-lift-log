@@ -121,10 +121,10 @@ export default function UserWeightListPage() {
           <LoadingSpinner />
         ) : (
           <>
-            <div className="flex flex-col gap-1.5">
+            <div className="flex flex-col gap-1">
               {userWeights.map((userWeight) => (
                 <div
-                  className="flex justify-between gap-4 font-medium items-center"
+                  className="flex flex-col gap-1 font-medium items-center bg-white px-2.5 py-1.5 rounded-xl"
                   key={`${userWeight.id}`}
                 >
                   <div className="flex justify-between gap-4 font-medium w-full">
@@ -136,13 +136,24 @@ export default function UserWeightListPage() {
                       {userWeight.formattedDate}
                     </span>
                   </div>
-                  <Button
-                    color="danger"
-                    size="sm"
-                    onClick={() => handleDeleteButtonPress(userWeight)}
-                  >
-                    Delete
-                  </Button>
+                  <div className="flex justify-end gap-1 w-full">
+                    <Button
+                      color="primary"
+                      variant="flat"
+                      size="sm"
+                      // onClick={}
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      color="danger"
+                      variant="flat"
+                      size="sm"
+                      onClick={() => handleDeleteButtonPress(userWeight)}
+                    >
+                      Delete
+                    </Button>
+                  </div>
                 </div>
               ))}
             </div>
