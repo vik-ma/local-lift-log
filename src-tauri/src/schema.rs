@@ -99,3 +99,12 @@ diesel::table! {
         date -> Text,
     }
 }
+
+diesel::table! {
+    equipment_weights (id) {
+        id -> Integer,
+        name -> Text,
+        weight -> Float,
+        weight_unit -> Text,
+    }
+}

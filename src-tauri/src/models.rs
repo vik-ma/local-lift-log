@@ -107,3 +107,13 @@ pub struct UserWeight {
     pub weight_unit: String,
     pub date: String,
 }
+
+#[derive(Queryable, Selectable)]
+#[diesel(table_name = crate::schema::equipment_weights)]
+#[diesel(check_for_backend(diesel::sqlite::Sqlite))]
+pub struct EquipmentWeight {
+    pub id: i32,
+    pub name: String,
+    pub weight: f32,
+    pub weight_unit: String,
+}
