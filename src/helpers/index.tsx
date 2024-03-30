@@ -44,3 +44,6 @@ export { ConvertNumberToTwoDecimals } from "./Numbers/ConvertNumberToTwoDecimals
 export { IsStringInvalidNumberOrAbove10 } from "./Numbers/IsStringInvalidNumberOrAbove10";
 
 export { GetLatestUserWeight } from "./Measurements/GetLatestUserWeight";
+
+export { DefaultEquipmentWeightList } from "./Equipment/DefaultEquipmentWeightList";
+export { CreateDefaultEquipmentWeights } from "./Equipment/CreateDefaultEquipmentWeights";
