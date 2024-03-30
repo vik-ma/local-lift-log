@@ -106,6 +106,41 @@ export default function UserWeightListPage() {
     return IsStringInvalidNumber(newWeightInput);
   }, [newWeightInput]);
 
+  const updateUserWeight = async () => {
+    if (operatingUserWeight === undefined) return;
+
+    if (isWeightInputInvalid || newWeightInput.trim().length === 0) return;
+
+    const newWeight = Number(newWeightInput);
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      await db.execute(
+        "UPDATE user_weights SET weight = $1, weight_unit = $2 WHERE id = $3",
+        [newWeight, newWeightUnit, operatingUserWeight.id]
+      );
+
+      const updatedUserWeight: UserWeight = {
+        ...operatingUserWeight,
+        weight: newWeight,
+        weight_unit: newWeightUnit,
+      };
+
+      setUserWeights((prev) =>
+        prev.map((item) =>
+          item.id === operatingUserWeight.id ? updatedUserWeight : item
+        )
+      );
+
+      setNewWeightInput("");
+      toast.success("Body Weight Updated");
+      editWeightModal.onClose();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
@@ -183,7 +218,7 @@ export default function UserWeightListPage() {
                 </Button>
                 <Button
                   color="success"
-                  // onPress={deleteUserWeight}
+                  onPress={updateUserWeight}
                   isDisabled={
                     isWeightInputInvalid || newWeightInput.trim().length === 0
                   }
