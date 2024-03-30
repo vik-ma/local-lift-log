@@ -16,6 +16,7 @@ import {
   GetUserSettings,
   CreateDefaultUserSettings,
   CreateDefaultExerciseList,
+  CreateDefaultEquipmentWeights,
 } from "../helpers";
 
 export default function HomePage() {
@@ -40,6 +41,9 @@ export default function HomePage() {
 
     // Create Default Exercise List
     await CreateDefaultExerciseList();
+
+    // Create Default Equipment Weights
+    await CreateDefaultEquipmentWeights(useMetricUnits);
 
     setIsUserSettingsLoaded(true);
     setUnitsModal.onClose();

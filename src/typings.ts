@@ -161,3 +161,10 @@ export type UserWeight = {
   date: string;
   formattedDate: string;
 };
+
+export type EquipmentWeight = {
+  id: number;
+  name: string;
+  weight: number;
+  weight_unit: string;
+}

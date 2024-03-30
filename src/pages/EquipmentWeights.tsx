@@ -1,8 +1,38 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { LoadingSpinner } from "../components";
+import Database from "tauri-plugin-sql-api";
+import { EquipmentWeight } from "../typings";
 
 export default function EquipmentWeights() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [equipmentWeights, setEquipmentWeights] = useState<EquipmentWeight[]>();
+
+  useEffect(() => {
+    const getEquipmentWeights = async () => {
+      try {
+        const db = await Database.load(import.meta.env.VITE_DB);
+
+        const result = await db.select<EquipmentWeight[]>(
+          "SELECT * FROM equipment_weights"
+        );
+
+        const equipmentWeights: EquipmentWeight[] = result.map((row) => ({
+          id: row.id,
+          name: row.name,
+          weight: row.weight,
+          weight_unit: row.weight_unit,
+        }));
+
+        setEquipmentWeights(equipmentWeights);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getEquipmentWeights();
+  }, []);
+
   return (
     <>
       <div className="flex flex-col items-center gap-4">
@@ -15,7 +45,18 @@ export default function EquipmentWeights() {
           <LoadingSpinner />
         ) : (
           <>
-            <div className="flex flex-col gap-1"></div>
+            <div className="flex flex-col gap-1">
+              {equipmentWeights?.map((equipment) => (
+                <div
+                  className="flex flex-row justify-center gap-1"
+                  key={`${equipment}`}
+                >
+                  <span>{equipment.name}</span>
+                  <span>{equipment.weight}</span>
+                  <span>{equipment.weight_unit}</span>
+                </div>
+              ))}
+            </div>
           </>
         )}
       </div>
