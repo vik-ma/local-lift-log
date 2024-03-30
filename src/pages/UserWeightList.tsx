@@ -1,8 +1,12 @@
 import Database from "tauri-plugin-sql-api";
-import { useState, useEffect } from "react";
-import { UserWeight } from "../typings";
-import { LoadingSpinner } from "../components";
-import { FormatDateTimeString } from "../helpers";
+import { useState, useEffect, useMemo } from "react";
+import { UserWeight, UserSettingsOptional } from "../typings";
+import { LoadingSpinner, WeightUnitDropdown } from "../components";
+import {
+  FormatDateTimeString,
+  IsStringInvalidNumber,
+  GetDefaultUnitValues,
+} from "../helpers";
 import {
   Button,
   useDisclosure,
@@ -11,6 +15,7 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
+  Input,
 } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -18,10 +23,21 @@ export default function UserWeightListPage() {
   const [userWeights, setUserWeights] = useState<UserWeight[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [userWeightToDelete, setUserWeightToDelete] = useState<UserWeight>();
+  const [operatingUserWeight, setOperatingUserWeight] = useState<UserWeight>();
+  const [newWeightInput, setNewWeightInput] = useState<string>("");
+  const [newWeightUnit, setNewWeightUnit] = useState<string>("");
 
   const deleteModal = useDisclosure();
+  const editWeightModal = useDisclosure();
 
   useEffect(() => {
+    const loadUserSettings = async () => {
+      const settings: UserSettingsOptional | undefined =
+        await GetDefaultUnitValues();
+      if (settings !== undefined)
+        setNewWeightUnit(settings.default_unit_weight!);
+    };
+
     const getUserWeights = async () => {
       try {
         const db = await Database.load(import.meta.env.VITE_DB);
@@ -48,6 +64,7 @@ export default function UserWeightListPage() {
       }
     };
 
+    loadUserSettings();
     getUserWeights();
   }, []);
 
@@ -80,6 +97,15 @@ export default function UserWeightListPage() {
     deleteModal.onClose();
   };
 
+  const handleEditButtonPress = (userWeight: UserWeight) => {
+    setOperatingUserWeight(userWeight);
+    editWeightModal.onOpen();
+  };
+
+  const isWeightInputInvalid = useMemo(() => {
+    return IsStringInvalidNumber(newWeightInput);
+  }, [newWeightInput]);
+
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
@@ -105,6 +131,64 @@ export default function UserWeightListPage() {
                 </Button>
                 <Button color="danger" onPress={deleteUserWeight}>
                   Delete
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
+      <Modal
+        isOpen={editWeightModal.isOpen}
+        onOpenChange={editWeightModal.onOpenChange}
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">
+                Edit Body Weight Record
+              </ModalHeader>
+              <ModalBody>
+                <div className="flex flex-col gap-4">
+                  <div className="flex gap-2 font-medium">
+                    <span className="text-amber-400">Old Value:</span>
+                    <span>
+                      {operatingUserWeight?.weight}
+                      {operatingUserWeight?.weight_unit}
+                    </span>
+                    <span className="text-stone-400">
+                      {operatingUserWeight?.formattedDate}
+                    </span>
+                  </div>
+                  <div className="flex gap-2">
+                    <Input
+                      value={newWeightInput}
+                      label="Weight"
+                      size="sm"
+                      variant="faded"
+                      onValueChange={(value) => setNewWeightInput(value)}
+                      isInvalid={isWeightInputInvalid}
+                      isClearable
+                    />
+                    <WeightUnitDropdown
+                      value={newWeightUnit}
+                      actionMeasurements={setNewWeightUnit}
+                      targetType="measurements"
+                    />
+                  </div>
+                </div>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="success" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+                <Button
+                  color="success"
+                  // onPress={deleteUserWeight}
+                  isDisabled={
+                    isWeightInputInvalid || newWeightInput.trim().length === 0
+                  }
+                >
+                  Update
                 </Button>
               </ModalFooter>
             </>
@@ -141,7 +225,7 @@ export default function UserWeightListPage() {
                       color="primary"
                       variant="flat"
                       size="sm"
-                      // onClick={}
+                      onClick={() => handleEditButtonPress(userWeight)}
                     >
                       Edit
                     </Button>

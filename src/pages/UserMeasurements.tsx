@@ -29,12 +29,12 @@ export default function UserMeasurementsPage() {
         setUserSettings(settings);
         setNewWeightUnit(settings.default_unit_weight!);
       }
-      setIsLoading(false);
     };
 
     const getLatestUserWeight = async () => {
       const userWeight: UserWeight | undefined = await GetLatestUserWeight();
       if (userWeight !== undefined) setLatestUserWeight(userWeight);
+      setIsLoading(false);
     };
 
     loadUserSettings();
