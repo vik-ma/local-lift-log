@@ -15,6 +15,7 @@ import {
   WorkoutDetailsPage,
   UserMeasurementsPage,
   UserWeightListPage,
+  EquipmentWeightsPage,
 } from "./pages";
 import { SiteHeader } from "./components";
 
@@ -54,6 +55,7 @@ function App() {
                   element={<UserWeightListPage />}
                 />
               </Route>
+              <Route path="/equipment-weights" element={<EquipmentWeightsPage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </div>
