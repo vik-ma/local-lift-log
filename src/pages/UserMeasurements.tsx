@@ -18,6 +18,7 @@ export default function UserMeasurementsPage() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [newWeightInput, setNewWeightInput] = useState<string>("");
   const [newWeightUnit, setNewWeightUnit] = useState<string>("");
+  const [isEditing, setIsEditing] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -80,6 +81,22 @@ export default function UserMeasurementsPage() {
     }
   };
 
+  const handleEditButtonPress = () => {
+    if (latestUserWeight === undefined) return;
+
+    setNewWeightInput(latestUserWeight.weight.toString());
+    setNewWeightUnit(latestUserWeight.weight_unit);
+    setIsEditing(true);
+  };
+
+  const handleCancelButtonPress = () => {
+    if (userSettings === undefined) return;
+
+    setNewWeightInput("");
+    setNewWeightUnit(userSettings.default_unit_weight!);
+    setIsEditing(false);
+  };
+
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
@@ -95,7 +112,7 @@ export default function UserMeasurementsPage() {
           <>
             <div className="flex flex-col gap-4 items-center">
               <h2 className="flex text-3xl font-semibold">Body Weight</h2>
-              <div className="flex flex-col items-center text-stone-600">
+              <div className="flex flex-col items-center text-stone-600 gap-2">
                 <h3 className="flex text-lg font-semibold items-center gap-3">
                   Latest Weight
                   <Button
@@ -107,7 +124,7 @@ export default function UserMeasurementsPage() {
                     View Full List
                   </Button>
                 </h3>
-                <div className="flex gap-2 font-medium">
+                <div className="flex gap-2 font-medium items-center">
                   <span>
                     {latestUserWeight?.weight}
                     {latestUserWeight?.weight_unit}
@@ -115,6 +132,18 @@ export default function UserMeasurementsPage() {
                   <span className="text-stone-400">
                     {latestUserWeight?.formattedDate}
                   </span>
+                  <Button
+                    color={isEditing ? "danger" : "success"}
+                    variant="flat"
+                    size="sm"
+                    onPress={
+                      isEditing
+                        ? handleCancelButtonPress
+                        : handleEditButtonPress
+                    }
+                  >
+                    {isEditing ? "Cancel" : "Edit"}
+                  </Button>
                 </div>
               </div>
               <div className="flex justify-between gap-2 items-center">
@@ -140,7 +169,7 @@ export default function UserMeasurementsPage() {
                     isWeightInputInvalid || newWeightInput.trim().length === 0
                   }
                 >
-                  Add
+                  {isEditing ? "Update" : "Add"}
                 </Button>
               </div>
             </div>
