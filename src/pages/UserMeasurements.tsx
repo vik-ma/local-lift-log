@@ -75,6 +75,37 @@ export default function UserMeasurementsPage() {
       setLatestUserWeight(newUserWeight);
       setNewWeightInput("");
 
+      toast.success("Body Weight Added");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const updateUserWeight = async () => {
+    if (latestUserWeight === undefined) return;
+
+    if (isWeightInputInvalid || newWeightInput.trim().length === 0) return;
+
+    const newWeight = Number(newWeightInput);
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      await db.execute(
+        "UPDATE user_weights SET weight = $1, weight_unit = $2 WHERE id = $3",
+        [newWeight, newWeightUnit, latestUserWeight.id]
+      );
+
+      const updatedUserWeight: UserWeight = {
+        ...latestUserWeight,
+        weight: newWeight,
+        weight_unit: newWeightUnit,
+      };
+
+      setLatestUserWeight(updatedUserWeight);
+      setNewWeightInput("");
+      setIsEditing(false);
+
       toast.success("Body Weight Updated");
     } catch (error) {
       console.log(error);
@@ -93,7 +124,6 @@ export default function UserMeasurementsPage() {
     if (userSettings === undefined) return;
 
     setNewWeightInput("");
-    setNewWeightUnit(userSettings.default_unit_weight!);
     setIsEditing(false);
   };
 
@@ -164,7 +194,7 @@ export default function UserMeasurementsPage() {
                 <Button
                   className="font-medium"
                   color="success"
-                  onPress={addUserWeight}
+                  onPress={isEditing ? updateUserWeight : addUserWeight}
                   isDisabled={
                     isWeightInputInvalid || newWeightInput.trim().length === 0
                   }
