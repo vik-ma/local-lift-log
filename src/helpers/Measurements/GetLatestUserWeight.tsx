@@ -1,6 +1,6 @@
 import Database from "tauri-plugin-sql-api";
 import { UserWeight } from "../../typings";
-import { FormatDateString } from "..";
+import { FormatDateTimeString } from "..";
 
 export const GetLatestUserWeight = async () => {
   try {
@@ -12,7 +12,7 @@ export const GetLatestUserWeight = async () => {
 
     const userWeight: UserWeight = result[0];
 
-    userWeight.formattedDate = FormatDateString(userWeight.date);
+    userWeight.formattedDate = FormatDateTimeString(userWeight.date);
 
     return userWeight;
   } catch (error) {

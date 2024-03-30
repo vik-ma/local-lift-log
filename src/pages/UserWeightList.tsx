@@ -2,7 +2,7 @@ import Database from "tauri-plugin-sql-api";
 import { useState, useEffect } from "react";
 import { UserWeight } from "../typings";
 import { LoadingSpinner } from "../components";
-import { FormatDateString } from "../helpers";
+import { FormatDateTimeString } from "../helpers";
 import {
   Button,
   useDisclosure,
@@ -31,7 +31,7 @@ export default function UserWeightListPage() {
         );
 
         const userWeights: UserWeight[] = result.map((row) => {
-          const formattedDate: string = FormatDateString(row.date);
+          const formattedDate: string = FormatDateTimeString(row.date);
           return {
             id: row.id,
             weight: row.weight,
@@ -71,7 +71,7 @@ export default function UserWeightListPage() {
       );
       setUserWeights(updatedUserWeights);
 
-      toast.success("Exercise Deleted");
+      toast.success("Body Weight Record Deleted");
     } catch (error) {
       console.log(error);
     }

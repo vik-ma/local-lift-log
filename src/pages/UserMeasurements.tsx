@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from "react";
 import { UserSettingsOptional, UserWeight } from "../typings";
 import { LoadingSpinner, WeightUnitDropdown } from "../components";
 import {
+  FormatDateTimeString,
   GetDefaultUnitValues,
   GetLatestUserWeight,
   IsStringInvalidNumber,
@@ -60,7 +61,7 @@ export default function UserMeasurementsPage() {
         [newWeight, newWeightUnit, dateString]
       );
 
-      const formattedDate: string = currentDate.toDateString();
+      const formattedDate: string = FormatDateTimeString(dateString);
 
       const newUserWeight: UserWeight = {
         id: result.lastInsertId,
