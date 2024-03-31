@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { LoadingSpinner } from "../components";
 import Database from "tauri-plugin-sql-api";
-import { EquipmentWeight } from "../typings";
+import { EquipmentWeight, UserSettingsOptional } from "../typings";
 import {
   Button,
   Modal,
@@ -12,14 +12,28 @@ import {
   useDisclosure,
   Input,
 } from "@nextui-org/react";
+import { GetDefaultUnitValues } from "../helpers";
 
 export default function EquipmentWeights() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [equipmentWeights, setEquipmentWeights] = useState<EquipmentWeight[]>();
+  const [newEquipmentName, setNewEquipmentName] = useState<string>("");
+  const [newWeightInput, setNewWeightInput] = useState<string>("");
+  const [newWeightUnit, setNewWeightUnit] = useState<string>("");
+  const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
 
   const newEquipmentModal = useDisclosure();
 
   useEffect(() => {
+    const loadUserSettings = async () => {
+      const settings: UserSettingsOptional | undefined =
+        await GetDefaultUnitValues();
+      if (settings !== undefined) {
+        setUserSettings(settings);
+        setNewWeightUnit(settings.default_unit_weight!);
+      }
+    };
+
     const getEquipmentWeights = async () => {
       try {
         const db = await Database.load(import.meta.env.VITE_DB);
@@ -42,6 +56,7 @@ export default function EquipmentWeights() {
       }
     };
 
+    loadUserSettings();
     getEquipmentWeights();
   }, []);
 
