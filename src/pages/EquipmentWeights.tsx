@@ -26,7 +26,9 @@ export default function EquipmentWeights() {
   const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
   const [operatingEquipment, setOperatingEquipment] =
     useState<EquipmentWeight>();
+  const [equipmentToDelete, setEquipmentToDelete] = useState<EquipmentWeight>();
 
+  const deleteModal = useDisclosure();
   const newEquipmentModal = useDisclosure();
 
   useEffect(() => {
@@ -149,6 +151,29 @@ export default function EquipmentWeights() {
     }
   };
 
+  const deleteEquipmentWeight = async () => {
+    if (equipmentToDelete === undefined) return;
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      db.execute("DELETE from equipment_weights WHERE id = $1", [
+        equipmentToDelete.id,
+      ]);
+
+      const updatedEquipmentWeights: EquipmentWeight[] =
+        equipmentWeights.filter((item) => item.id !== equipmentToDelete?.id);
+      setEquipmentWeights(updatedEquipmentWeights);
+
+      toast.success("Equipment Weight Deleted");
+    } catch (error) {
+      console.log(error);
+    }
+
+    setEquipmentToDelete(undefined);
+    deleteModal.onClose();
+  };
+
   const resetNewEquipment = () => {
     if (userSettings === undefined) return;
     setOperatingEquipment(undefined);
@@ -170,9 +195,42 @@ export default function EquipmentWeights() {
     newEquipmentModal.onOpen();
   };
 
+  const handleDeleteButtonPress = (equipment: EquipmentWeight) => {
+    setEquipmentToDelete(equipment);
+    deleteModal.onOpen();
+  };
+
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
+      <Modal
+        isOpen={deleteModal.isOpen}
+        onOpenChange={deleteModal.onOpenChange}
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">
+                Delete Equipment Weight
+              </ModalHeader>
+              <ModalBody>
+                <p>
+                  Are you sure you want to permanently delete{" "}
+                  {equipmentToDelete?.name}?
+                </p>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="danger" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+                <Button color="danger" onPress={deleteEquipmentWeight}>
+                  Delete
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
       <Modal
         isOpen={newEquipmentModal.isOpen}
         onOpenChange={newEquipmentModal.onOpenChange}
@@ -267,7 +325,11 @@ export default function EquipmentWeights() {
                     >
                       Edit
                     </Button>
-                    <Button color="danger" size="sm">
+                    <Button
+                      color="danger"
+                      size="sm"
+                      onPress={() => handleDeleteButtonPress(equipment)}
+                    >
                       Delete
                     </Button>
                   </div>
