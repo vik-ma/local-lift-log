@@ -4,27 +4,27 @@ import { UnitDropdownProps } from "../typings";
 
 export const WeightUnitDropdown = ({
   value,
-  actionSet,
-  actionSettings,
-  actionMeasurements,
+  setSet,
+  setUserSettings,
+  setState,
   targetType,
 }: UnitDropdownProps) => {
   const weightUnits: string[] = ValidWeightUnits();
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    if (targetType === "set" && actionSet !== undefined) {
-      actionSet((prev) => ({
+    if (targetType === "set" && setSet !== undefined) {
+      setSet((prev) => ({
         ...prev,
         weight_unit: e.target.value,
       }));
     }
 
-    if (targetType === "settings" && actionSettings !== undefined) {
-      actionSettings(e);
+    if (targetType === "settings" && setUserSettings !== undefined) {
+      setUserSettings(e);
     }
 
-    if (targetType === "measurements" && actionMeasurements !== undefined) {
-      actionMeasurements(e.target.value);
+    if (targetType === "state" && setState !== undefined) {
+      setState(e.target.value);
     }
   };
 

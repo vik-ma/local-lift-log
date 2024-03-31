@@ -116,10 +116,10 @@ export type HTMLSelectElementChange = (
 
 export type UnitDropdownProps = {
   value: string;
-  actionSet?: SetWorkoutSetAction;
-  actionSettings?: HTMLSelectElementChange;
-  actionMeasurements?: React.Dispatch<React.SetStateAction<string>>;
-  targetType: "set" | "settings" | "measurements";
+  setSet?: SetWorkoutSetAction;
+  setUserSettings?: HTMLSelectElementChange;
+  setState?: React.Dispatch<React.SetStateAction<string>>;
+  targetType: "set" | "settings" | "state";
 };
 
 export type SetTrackingValuesInput = {
@@ -167,4 +167,4 @@ export type EquipmentWeight = {
   name: string;
   weight: number;
   weight_unit: string;
-}
+};

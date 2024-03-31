@@ -113,7 +113,7 @@ export default function SettingsPage() {
               <span className="text-lg">Default Weight Unit</span>
               <WeightUnitDropdown
                 value={userSettings!.default_unit_weight}
-                actionSettings={handleDefaultUnitWeightChange}
+                setUserSettings={handleDefaultUnitWeightChange}
                 targetType="settings"
               />
             </div>
@@ -121,7 +121,7 @@ export default function SettingsPage() {
               <span className="text-lg">Default Distance Unit</span>
               <DistanceUnitDropdown
                 value={userSettings!.default_unit_distance}
-                actionSettings={handleDefaultUnitDistanceChange}
+                setUserSettings={handleDefaultUnitDistanceChange}
                 targetType="settings"
               />
             </div>

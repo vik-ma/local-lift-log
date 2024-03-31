@@ -4,22 +4,22 @@ import { UnitDropdownProps } from "../typings";
 
 export const DistanceUnitDropdown = ({
   value,
-  actionSet,
-  actionSettings,
+  setSet,
+  setUserSettings,
   targetType,
 }: UnitDropdownProps) => {
   const distanceUnits: string[] = ValidDistanceUnits();
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    if (targetType === "set" && actionSet !== undefined) {
-      actionSet((prev) => ({
+    if (targetType === "set" && setSet !== undefined) {
+      setSet((prev) => ({
         ...prev,
         distance_unit: e.target.value,
       }));
     }
 
-    if (targetType === "settings" && actionSettings !== undefined) {
-      actionSettings(e);
+    if (targetType === "settings" && setUserSettings !== undefined) {
+      setUserSettings(e);
     }
   };
 

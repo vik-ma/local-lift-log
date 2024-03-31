@@ -820,7 +820,7 @@ export default function WorkoutTemplateDetails() {
                       />
                       <WeightUnitDropdown
                         value={operatingSet.weight_unit}
-                        actionSet={setOperatingSet as SetWorkoutSetAction}
+                        setSet={setOperatingSet as SetWorkoutSetAction}
                         targetType="set"
                       />
                     </div>
@@ -863,7 +863,7 @@ export default function WorkoutTemplateDetails() {
                       />
                       <DistanceUnitDropdown
                         value={operatingSet.distance_unit}
-                        actionSet={setOperatingSet as SetWorkoutSetAction}
+                        setSet={setOperatingSet as SetWorkoutSetAction}
                         targetType="set"
                       />
                     </div>

@@ -188,8 +188,8 @@ export default function UserMeasurementsPage() {
                 />
                 <WeightUnitDropdown
                   value={newWeightUnit}
-                  actionMeasurements={setNewWeightUnit}
-                  targetType="measurements"
+                  setState={setNewWeightUnit}
+                  targetType="state"
                 />
                 <Button
                   className="font-medium"

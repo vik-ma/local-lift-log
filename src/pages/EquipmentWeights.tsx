@@ -106,8 +106,8 @@ export default function EquipmentWeights() {
                   />
                   <WeightUnitDropdown
                     value={newWeightUnit}
-                    actionMeasurements={setNewWeightUnit}
-                    targetType="measurements"
+                    setState={setNewWeightUnit}
+                    targetType="state"
                   />
                 </div>
                 <div className="flex justify-between items-center px-1 gap-4"></div>

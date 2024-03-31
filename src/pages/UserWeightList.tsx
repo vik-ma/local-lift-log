@@ -206,8 +206,8 @@ export default function UserWeightListPage() {
                     />
                     <WeightUnitDropdown
                       value={newWeightUnit}
-                      actionMeasurements={setNewWeightUnit}
-                      targetType="measurements"
+                      setState={setNewWeightUnit}
+                      targetType="state"
                     />
                   </div>
                 </div>
