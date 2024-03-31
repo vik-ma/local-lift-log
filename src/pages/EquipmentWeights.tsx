@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { LoadingSpinner } from "../components";
 import Database from "tauri-plugin-sql-api";
 import { EquipmentWeight, UserSettingsOptional } from "../typings";
@@ -60,6 +60,14 @@ export default function EquipmentWeights() {
     getEquipmentWeights();
   }, []);
 
+  const isNewEquipmentNameInvalid = useMemo(() => {
+    return (
+      newEquipmentName === null ||
+      newEquipmentName === undefined ||
+      newEquipmentName.trim().length === 0
+    );
+  }, [newEquipmentName]);
+
   return (
     <>
       <Modal
@@ -74,16 +82,14 @@ export default function EquipmentWeights() {
               </ModalHeader>
               <ModalBody>
                 <Input
-                  // value={}
-                  // isInvalid={}
+                  value={newEquipmentName}
+                  isInvalid={isNewEquipmentNameInvalid}
                   label="Name"
-                  // errorMessage={
-                  //    && "Name can't be empty"
-                  // }
+                  errorMessage={
+                    isNewEquipmentNameInvalid && "Name can't be empty"
+                  }
                   variant="faded"
-                  // onValueChange={(value) =>
-
-                  // }
+                  onValueChange={(value) => setNewEquipmentName(value)}
                   isRequired
                   isClearable
                 />
