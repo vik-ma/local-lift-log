@@ -12,7 +12,7 @@ import {
   useDisclosure,
   Input,
 } from "@nextui-org/react";
-import { GetDefaultUnitValues } from "../helpers";
+import { GetDefaultUnitValues, IsStringInvalidNumberOr0 } from "../helpers";
 
 export default function EquipmentWeights() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -68,6 +68,10 @@ export default function EquipmentWeights() {
     );
   }, [newEquipmentName]);
 
+  const isWeightInputInvalid = useMemo(() => {
+    return IsStringInvalidNumberOr0(newWeightInput);
+  }, [newWeightInput]);
+
   return (
     <>
       <Modal
@@ -100,8 +104,9 @@ export default function EquipmentWeights() {
                     label="Weight"
                     size="sm"
                     variant="faded"
-                    // onValueChange={(value) =>}
-                    // isInvalid={}
+                    onValueChange={(value) => setNewWeightInput(value)}
+                    isInvalid={isWeightInputInvalid}
+                    isRequired
                     isClearable
                   />
                   <WeightUnitDropdown
@@ -119,7 +124,7 @@ export default function EquipmentWeights() {
                 <Button
                   color="success"
                   // onPress={}
-                  // isDisabled={}
+                  isDisabled={isNewEquipmentNameInvalid || isWeightInputInvalid}
                 >
                   Create
                 </Button>
