@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { LoadingSpinner } from "../components";
+import { LoadingSpinner, WeightUnitDropdown } from "../components";
 import Database from "tauri-plugin-sql-api";
 import { EquipmentWeight, UserSettingsOptional } from "../typings";
 import {
@@ -85,6 +85,7 @@ export default function EquipmentWeights() {
                   value={newEquipmentName}
                   isInvalid={isNewEquipmentNameInvalid}
                   label="Name"
+                  size="sm"
                   errorMessage={
                     isNewEquipmentNameInvalid && "Name can't be empty"
                   }
@@ -93,13 +94,22 @@ export default function EquipmentWeights() {
                   isRequired
                   isClearable
                 />
-                <Input
-                  // value={}
-                  label="Weight"
-                  variant="faded"
-                  // onValueChange={(value) =>}
-                  isClearable
-                />
+                <div className="flex justify-between gap-2">
+                  <Input
+                    value={newWeightInput}
+                    label="Weight"
+                    size="sm"
+                    variant="faded"
+                    // onValueChange={(value) =>}
+                    // isInvalid={}
+                    isClearable
+                  />
+                  <WeightUnitDropdown
+                    value={newWeightUnit}
+                    actionMeasurements={setNewWeightUnit}
+                    targetType="measurements"
+                  />
+                </div>
                 <div className="flex justify-between items-center px-1 gap-4"></div>
               </ModalBody>
               <ModalFooter>
