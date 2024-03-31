@@ -13,10 +13,13 @@ import {
   Input,
 } from "@nextui-org/react";
 import { GetDefaultUnitValues, IsStringInvalidNumberOr0 } from "../helpers";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function EquipmentWeights() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [equipmentWeights, setEquipmentWeights] = useState<EquipmentWeight[]>();
+  const [equipmentWeights, setEquipmentWeights] = useState<EquipmentWeight[]>(
+    []
+  );
   const [newEquipmentName, setNewEquipmentName] = useState<string>("");
   const [newWeightInput, setNewWeightInput] = useState<string>("");
   const [newWeightUnit, setNewWeightUnit] = useState<string>("");
@@ -72,8 +75,47 @@ export default function EquipmentWeights() {
     return IsStringInvalidNumberOr0(newWeightInput);
   }, [newWeightInput]);
 
+  const isNewEquipmentInvalid = useMemo(() => {
+    if (isNewEquipmentNameInvalid) return true;
+    if (isWeightInputInvalid) return true;
+    return false;
+  }, [isNewEquipmentNameInvalid, isWeightInputInvalid]);
+
+  const addEquipmentWeight = async () => {
+    if (isNewEquipmentInvalid) return;
+
+    const weight = Number(newWeightInput);
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      const result = await db.execute(
+        "INSERT into equipment_weights (name, weight, weight_unit) VALUES ($1, $2, $3)",
+        [newEquipmentName, weight, newWeightUnit]
+      );
+
+      const newEquipment: EquipmentWeight = {
+        id: result.lastInsertId,
+        name: newEquipmentName,
+        weight: weight,
+        weight_unit: newWeightUnit,
+      };
+
+      setEquipmentWeights([...equipmentWeights, newEquipment]);
+
+      setNewEquipmentName("");
+      setNewWeightInput("");
+      newEquipmentModal.onClose();
+
+      toast.success("Equipment Weight Added");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
+      <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
       <Modal
         isOpen={newEquipmentModal.isOpen}
         onOpenChange={newEquipmentModal.onOpenChange}
@@ -123,8 +165,8 @@ export default function EquipmentWeights() {
                 </Button>
                 <Button
                   color="success"
-                  // onPress={}
-                  isDisabled={isNewEquipmentNameInvalid || isWeightInputInvalid}
+                  onPress={addEquipmentWeight}
+                  isDisabled={isNewEquipmentInvalid}
                 >
                   Create
                 </Button>
