@@ -2,11 +2,22 @@ import { useState, useEffect } from "react";
 import { LoadingSpinner } from "../components";
 import Database from "tauri-plugin-sql-api";
 import { EquipmentWeight } from "../typings";
-import { Button } from "@nextui-org/react";
+import {
+  Button,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+  Input,
+} from "@nextui-org/react";
 
 export default function EquipmentWeights() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [equipmentWeights, setEquipmentWeights] = useState<EquipmentWeight[]>();
+
+  const newEquipmentModal = useDisclosure();
 
   useEffect(() => {
     const getEquipmentWeights = async () => {
@@ -36,6 +47,56 @@ export default function EquipmentWeights() {
 
   return (
     <>
+      <Modal
+        isOpen={newEquipmentModal.isOpen}
+        onOpenChange={newEquipmentModal.onOpenChange}
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">
+                New Equipment Weight
+              </ModalHeader>
+              <ModalBody>
+                <Input
+                  // value={}
+                  // isInvalid={}
+                  label="Name"
+                  // errorMessage={
+                  //    && "Name can't be empty"
+                  // }
+                  variant="faded"
+                  // onValueChange={(value) =>
+
+                  // }
+                  isRequired
+                  isClearable
+                />
+                <Input
+                  // value={}
+                  label="Weight"
+                  variant="faded"
+                  // onValueChange={(value) =>}
+                  isClearable
+                />
+                <div className="flex justify-between items-center px-1 gap-4"></div>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="success" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+                <Button
+                  color="success"
+                  // onPress={}
+                  // isDisabled={}
+                >
+                  Create
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
       <div className="flex flex-col items-center gap-4">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">
           <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b">
@@ -69,6 +130,14 @@ export default function EquipmentWeights() {
                   </div>
                 </div>
               ))}
+              <div className="flex justify-center mt-1">
+                <Button
+                  color="success"
+                  onPress={() => newEquipmentModal.onOpen()}
+                >
+                  Create New Equipment Weight
+                </Button>
+              </div>
             </div>
           </>
         )}
