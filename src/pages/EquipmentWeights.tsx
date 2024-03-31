@@ -24,6 +24,7 @@ export default function EquipmentWeights() {
   const [newWeightInput, setNewWeightInput] = useState<string>("");
   const [newWeightUnit, setNewWeightUnit] = useState<string>("");
   const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
+  const [editingEquipmentId, setEditingEquipmentId] = useState<number>(0);
 
   const newEquipmentModal = useDisclosure();
 
@@ -103,14 +104,34 @@ export default function EquipmentWeights() {
 
       setEquipmentWeights([...equipmentWeights, newEquipment]);
 
-      setNewEquipmentName("");
-      setNewWeightInput("");
+      resetNewEquipment();
       newEquipmentModal.onClose();
 
       toast.success("Equipment Weight Added");
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const resetNewEquipment = () => {
+    if (userSettings === undefined) return;
+    setEditingEquipmentId(0);
+    setNewEquipmentName("");
+    setNewWeightInput("");
+    setNewWeightUnit(userSettings.default_unit_weight!);
+  };
+
+  const handleNewButtonPressed = () => {
+    if (editingEquipmentId !== 0) resetNewEquipment();
+    newEquipmentModal.onOpen();
+  };
+
+  const handleEditButtonPressed = (equipment: EquipmentWeight) => {
+    setEditingEquipmentId(equipment.id);
+    setNewEquipmentName(equipment.name);
+    setNewWeightInput(equipment.weight.toString());
+    setNewWeightUnit(equipment.weight_unit);
+    newEquipmentModal.onOpen();
   };
 
   return (
@@ -199,7 +220,11 @@ export default function EquipmentWeights() {
                     </span>
                   </div>
                   <div className="flex justify-end gap-1">
-                    <Button color="primary" size="sm">
+                    <Button
+                      color="primary"
+                      size="sm"
+                      onPress={() => handleEditButtonPressed(equipment)}
+                    >
                       Edit
                     </Button>
                     <Button color="danger" size="sm">
@@ -211,7 +236,7 @@ export default function EquipmentWeights() {
               <div className="flex justify-center mt-1">
                 <Button
                   color="success"
-                  onPress={() => newEquipmentModal.onOpen()}
+                  onPress={() => handleNewButtonPressed()}
                 >
                   Create New Equipment Weight
                 </Button>
