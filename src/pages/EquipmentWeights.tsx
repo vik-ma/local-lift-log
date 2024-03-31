@@ -24,7 +24,8 @@ export default function EquipmentWeights() {
   const [newWeightInput, setNewWeightInput] = useState<string>("");
   const [newWeightUnit, setNewWeightUnit] = useState<string>("");
   const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
-  const [editingEquipmentId, setEditingEquipmentId] = useState<number>(0);
+  const [operatingEquipment, setOperatingEquipment] =
+    useState<EquipmentWeight>();
 
   const newEquipmentModal = useDisclosure();
 
@@ -113,21 +114,56 @@ export default function EquipmentWeights() {
     }
   };
 
+  const updateEquipmentWeight = async () => {
+    if (operatingEquipment === undefined || isNewEquipmentInvalid) return;
+
+    const weight = Number(newWeightInput);
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      await db.execute(
+        "UPDATE equipment_weights SET name = $1, weight = $2, weight_unit = $3 WHERE id = $4",
+        [newEquipmentName, weight, newWeightUnit, operatingEquipment.id]
+      );
+
+      const updatedEquipment: EquipmentWeight = {
+        ...operatingEquipment,
+        name: newEquipmentName,
+        weight: weight,
+        weight_unit: newWeightUnit,
+      };
+
+      setEquipmentWeights((prev) =>
+        prev.map((item) =>
+          item.id === operatingEquipment.id ? updatedEquipment : item
+        )
+      );
+
+      resetNewEquipment();
+      newEquipmentModal.onClose();
+
+      toast.success("Equipment Weight Updated");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const resetNewEquipment = () => {
     if (userSettings === undefined) return;
-    setEditingEquipmentId(0);
+    setOperatingEquipment(undefined);
     setNewEquipmentName("");
     setNewWeightInput("");
     setNewWeightUnit(userSettings.default_unit_weight!);
   };
 
   const handleNewButtonPressed = () => {
-    if (editingEquipmentId !== 0) resetNewEquipment();
+    if (operatingEquipment !== undefined) resetNewEquipment();
     newEquipmentModal.onOpen();
   };
 
   const handleEditButtonPressed = (equipment: EquipmentWeight) => {
-    setEditingEquipmentId(equipment.id);
+    setOperatingEquipment(equipment);
     setNewEquipmentName(equipment.name);
     setNewWeightInput(equipment.weight.toString());
     setNewWeightUnit(equipment.weight_unit);
@@ -186,10 +222,14 @@ export default function EquipmentWeights() {
                 </Button>
                 <Button
                   color="success"
-                  onPress={addEquipmentWeight}
+                  onPress={
+                    operatingEquipment === undefined
+                      ? addEquipmentWeight
+                      : updateEquipmentWeight
+                  }
                   isDisabled={isNewEquipmentInvalid}
                 >
-                  Create
+                  {operatingEquipment === undefined ? "Create" : "Update"}
                 </Button>
               </ModalFooter>
             </>
