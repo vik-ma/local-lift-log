@@ -641,7 +641,7 @@ export default function WorkoutDetails() {
                   <div className="flex flex-col gap-3 h-[400px]">
                     <div className="flex flex-col gap-3">
                       <div className="flex flex-row items-center justify-between">
-                        <h2 className="text-2xl font-semibold px-1">
+                        <h2 className="text-2xl font-semibold px-1 truncate w-4/6">
                           {selectedExercise.name}
                         </h2>
                         <Button
@@ -908,7 +908,7 @@ export default function WorkoutDetails() {
                             : "flex gap-2 justify-between items-center bg-white rounded-lg px-2 py-1.5 cursor-pointer hover:bg-stone-50"
                         }
                       >
-                        <span>{set.exercise_name}</span>
+                        <span className="truncate">{set.exercise_name}</span>
                         <div className="flex gap-1">
                           <Button
                             size="sm"
@@ -939,7 +939,7 @@ export default function WorkoutDetails() {
                 <div>
                   <Card>
                     <CardHeader className="justify-between">
-                      <h2>{activeSet.exercise_name}</h2>
+                      <h2 className="truncate">{activeSet.exercise_name}</h2>
                     </CardHeader>
                     <CardBody className="px-3 py-0 text-small text-default-400">
                       <div>
