@@ -956,6 +956,7 @@ export default function WorkoutDetails() {
                   }
                 >
                   <AccordionItem
+                    className="border-2 border-yellow-300"
                     key="active-set"
                     aria-label="Active Set"
                     title={activeSet.exercise_name}
