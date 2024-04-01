@@ -594,7 +594,9 @@ export default function WorkoutTemplateDetails() {
                           className="flex flex-col justify-start items-start bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:bg-default-200 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                           onClick={() => handleExercisePressed(exercise)}
                         >
-                          <span className="text-md">{exercise.name}</span>
+                          <span className="text-md max-w-full truncate">
+                            {exercise.name}
+                          </span>
                           <span className="text-xs text-stone-500 text-left">
                             {exercise.exercise_group_string}
                           </span>
