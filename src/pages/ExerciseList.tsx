@@ -335,14 +335,14 @@ export default function ExerciseListPage() {
           <LoadingSpinner />
         ) : (
           <>
-            <div className="flex flex-col">
+            <div className="flex flex-col w-full">
               {filteredExercises.map((exercise) => (
                 <div
                   key={exercise.id}
                   className="flex flex-row justify-between rounded-lg px-2 hover:bg-amber-100 p-1"
                 >
                   <div className="flex flex-col">
-                    <div className="text-lg">{exercise.name}</div>
+                    <div className="text-lg truncate w-56">{exercise.name}</div>
                     <div className="text-xs text-stone-500">
                       {exercise.exercise_group_string}
                     </div>
