@@ -43,10 +43,8 @@ import {
   ScrollShadow,
   Checkbox,
   Input,
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
+  Accordion,
+  AccordionItem,
 } from "@nextui-org/react";
 import { Reorder } from "framer-motion";
 import toast, { Toaster } from "react-hot-toast";
@@ -941,12 +939,16 @@ export default function WorkoutDetails() {
                 </Button>
               </div>
               {activeSet !== undefined && (
-                <Card className="fixed bottom-0 w-[400px]">
-                  <CardHeader className="justify-between">
-                    <h2 className="truncate">{activeSet.exercise_name}</h2>
-                  </CardHeader>
-                  <CardBody className="px-3 py-0 text-small text-default-400">
-                    <div>
+                <Accordion
+                  variant="splitted"
+                  className="fixed bottom-0 w-[400px]"
+                >
+                  <AccordionItem
+                    key="active-set"
+                    aria-label="Active Set"
+                    title={activeSet.exercise_name}
+                  >
+                    <div className="flex flex-col gap-1.5">
                       {!!activeSet.is_tracking_weight && (
                         <div className="flex justify-between gap-2">
                           <Input
@@ -1092,26 +1094,28 @@ export default function WorkoutDetails() {
                           isInvalid={isResistanceLevelInputInvalid}
                           isClearable
                         />
-                      )}
+                      )}{" "}
+                      <div className="flex justify-between">
+                        <Button
+                          color="success"
+                          variant="flat"
+                          onPress={() => setShowCommentInput(!showCommentInput)}
+                        >
+                          {showCommentInput
+                            ? "Hide Comment Field"
+                            : "Add Comment"}
+                        </Button>
+                        <Button
+                          color="success"
+                          isDisabled={isSetTrackingInputsInvalid}
+                          onPress={saveActiveSet}
+                        >
+                          Save
+                        </Button>
+                      </div>
                     </div>
-                  </CardBody>
-                  <CardFooter className="flex justify-between">
-                    <Button
-                      color="success"
-                      variant="flat"
-                      onPress={() => setShowCommentInput(!showCommentInput)}
-                    >
-                      {showCommentInput ? "Hide Comment Field" : "Add Comment"}
-                    </Button>
-                    <Button
-                      color="success"
-                      isDisabled={isSetTrackingInputsInvalid}
-                      onPress={saveActiveSet}
-                    >
-                      Save
-                    </Button>
-                  </CardFooter>
-                </Card>
+                  </AccordionItem>
+                </Accordion>
               )}
             </div>
           </>
