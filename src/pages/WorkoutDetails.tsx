@@ -69,7 +69,9 @@ export default function WorkoutDetails() {
   const [showCommentInput, setShowCommentInput] = useState<boolean>(false);
   const [showWorkoutNoteInput, setShowWorkoutNoteInput] =
     useState<boolean>(false);
-  const [selectedKeys, setSelectedKeys] = useState("active-set");
+  const [selectedKeys, setSelectedKeys] = useState<Set<string>>(
+    new Set(["active-set"])
+  );
 
   const initialized = useRef(false);
 
@@ -597,7 +599,7 @@ export default function WorkoutDetails() {
 
   const handleClickActiveSet = (set: WorkoutSet) => {
     setActiveSet(set);
-    setSelectedKeys("active-set");
+    setSelectedKeys(new Set(["active-set"]));
   };
 
   if (workout === undefined) return NotFound();
@@ -948,8 +950,10 @@ export default function WorkoutDetails() {
                 <Accordion
                   variant="splitted"
                   className="fixed bottom-0 w-[400px]"
-                  selectedKeys={[selectedKeys]}
-                  onSelectionChange={(keys) => setSelectedKeys(keys as string)}
+                  selectedKeys={selectedKeys}
+                  onSelectionChange={(keys) =>
+                    setSelectedKeys(keys as Set<string>)
+                  }
                 >
                   <AccordionItem
                     key="active-set"
