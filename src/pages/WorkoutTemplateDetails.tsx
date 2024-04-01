@@ -96,6 +96,8 @@ export default function WorkoutTemplateDetails() {
 
   const newSetModal = useDisclosure();
   const defaultValuesModal = useDisclosure();
+  const supersetModal = useDisclosure();
+  const dropsetModal = useDisclosure();
 
   const isNewWorkoutTemplateNameInvalid = useMemo(() => {
     return (
@@ -953,6 +955,46 @@ export default function WorkoutTemplateDetails() {
           )}
         </ModalContent>
       </Modal>
+      <Modal
+        isOpen={supersetModal.isOpen}
+        onOpenChange={supersetModal.onOpenChange}
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">
+                Superset
+              </ModalHeader>
+              <ModalBody></ModalBody>
+              <ModalFooter>
+                <Button color="success" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+                <Button color="success">Add</Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
+      <Modal
+        isOpen={dropsetModal.isOpen}
+        onOpenChange={dropsetModal.onOpenChange}
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">Dropset</ModalHeader>
+              <ModalBody></ModalBody>
+              <ModalFooter>
+                <Button color="success" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+                <Button color="success">Add</Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
       <div className="flex flex-col gap-4">
         {isLoading ? (
           <LoadingSpinner />
@@ -1061,9 +1103,15 @@ export default function WorkoutTemplateDetails() {
                   ))}
                 </Reorder.Group>
               </div>
-              <div className="flex justify-center">
+              <div className="flex gap-1 justify-center">
                 <Button color="success" onPress={handleAddSetButtonPressed}>
                   Add Set
+                </Button>
+                <Button color="success" onPress={() => supersetModal.onOpen()}>
+                  Add Superset
+                </Button>
+                <Button color="success" onPress={() => dropsetModal.onOpen()}>
+                  Add Dropset
                 </Button>
               </div>
             </div>
