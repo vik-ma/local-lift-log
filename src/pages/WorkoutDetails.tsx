@@ -941,181 +941,177 @@ export default function WorkoutDetails() {
                 </Button>
               </div>
               {activeSet !== undefined && (
-                <div>
-                  <Card>
-                    <CardHeader className="justify-between">
-                      <h2 className="truncate">{activeSet.exercise_name}</h2>
-                    </CardHeader>
-                    <CardBody className="px-3 py-0 text-small text-default-400">
-                      <div>
-                        {!!activeSet.is_tracking_weight && (
-                          <div className="flex justify-between gap-2">
-                            <Input
-                              value={setTrackingValuesInput.weight}
-                              label="Weight"
-                              size="sm"
-                              variant="faded"
-                              onValueChange={(value) =>
-                                setSetTrackingValuesInput(
-                                  (prev: SetTrackingValuesInput) => ({
-                                    ...prev,
-                                    weight: value,
-                                  })
-                                )
-                              }
-                              isInvalid={isWeightInputInvalid}
-                              isClearable
-                            />
-                            <WeightUnitDropdown
-                              value={activeSet.weight_unit}
-                              setSet={setActiveSet as SetWorkoutSetAction}
-                              targetType="set"
-                            />
-                          </div>
-                        )}
-                        {!!activeSet.is_tracking_reps && (
+                <Card className="fixed bottom-0 w-[400px]">
+                  <CardHeader className="justify-between">
+                    <h2 className="truncate">{activeSet.exercise_name}</h2>
+                  </CardHeader>
+                  <CardBody className="px-3 py-0 text-small text-default-400">
+                    <div>
+                      {!!activeSet.is_tracking_weight && (
+                        <div className="flex justify-between gap-2">
                           <Input
-                            value={setTrackingValuesInput.reps}
-                            label="Reps"
+                            value={setTrackingValuesInput.weight}
+                            label="Weight"
                             size="sm"
                             variant="faded"
                             onValueChange={(value) =>
                               setSetTrackingValuesInput(
                                 (prev: SetTrackingValuesInput) => ({
                                   ...prev,
-                                  reps: value,
+                                  weight: value,
                                 })
                               )
                             }
-                            isInvalid={isRepsInputInvalid}
+                            isInvalid={isWeightInputInvalid}
                             isClearable
                           />
-                        )}
-                        {!!activeSet.is_tracking_distance && (
-                          <div className="flex justify-between gap-2">
-                            <Input
-                              value={setTrackingValuesInput.distance}
-                              label="Distance"
-                              size="sm"
-                              variant="faded"
-                              onValueChange={(value) =>
-                                setSetTrackingValuesInput(
-                                  (prev: SetTrackingValuesInput) => ({
-                                    ...prev,
-                                    distance: value,
-                                  })
-                                )
-                              }
-                              isInvalid={isDistanceInputInvalid}
-                              isClearable
-                            />
-                            <DistanceUnitDropdown
-                              value={activeSet.distance_unit}
-                              setSet={setActiveSet as SetWorkoutSetAction}
-                              targetType="set"
-                            />
-                          </div>
-                        )}
-                        {!!activeSet.is_tracking_time && (
-                          <TimeInput
-                            value={activeSet}
-                            setValue={setActiveSet as SetWorkoutSetAction}
-                            defaultTimeInput={userSettings!.default_time_input!}
-                            setIsInvalid={setIsTimeInputInvalid}
+                          <WeightUnitDropdown
+                            value={activeSet.weight_unit}
+                            setSet={setActiveSet as SetWorkoutSetAction}
+                            targetType="set"
                           />
-                        )}
-                        {!!activeSet.is_tracking_rir && (
+                        </div>
+                      )}
+                      {!!activeSet.is_tracking_reps && (
+                        <Input
+                          value={setTrackingValuesInput.reps}
+                          label="Reps"
+                          size="sm"
+                          variant="faded"
+                          onValueChange={(value) =>
+                            setSetTrackingValuesInput(
+                              (prev: SetTrackingValuesInput) => ({
+                                ...prev,
+                                reps: value,
+                              })
+                            )
+                          }
+                          isInvalid={isRepsInputInvalid}
+                          isClearable
+                        />
+                      )}
+                      {!!activeSet.is_tracking_distance && (
+                        <div className="flex justify-between gap-2">
                           <Input
-                            value={setTrackingValuesInput.rir}
-                            label="RIR"
+                            value={setTrackingValuesInput.distance}
+                            label="Distance"
                             size="sm"
                             variant="faded"
                             onValueChange={(value) =>
                               setSetTrackingValuesInput(
                                 (prev: SetTrackingValuesInput) => ({
                                   ...prev,
-                                  rir: value,
+                                  distance: value,
                                 })
                               )
                             }
-                            isInvalid={isRirInputInvalid}
+                            isInvalid={isDistanceInputInvalid}
                             isClearable
                           />
-                        )}
-                        {!!activeSet.is_tracking_rpe && (
-                          <Input
-                            value={setTrackingValuesInput.rpe}
-                            label="RPE"
-                            size="sm"
-                            variant="faded"
-                            onValueChange={(value) =>
-                              setSetTrackingValuesInput(
-                                (prev: SetTrackingValuesInput) => ({
-                                  ...prev,
-                                  rpe: value,
-                                })
-                              )
-                            }
-                            isInvalid={isRpeInputInvalid}
-                            isClearable
+                          <DistanceUnitDropdown
+                            value={activeSet.distance_unit}
+                            setSet={setActiveSet as SetWorkoutSetAction}
+                            targetType="set"
                           />
-                        )}
-                        {!!activeSet.is_tracking_resistance_level && (
-                          <Input
-                            value={setTrackingValuesInput.resistance_level}
-                            label="Resistance Level"
-                            size="sm"
-                            variant="faded"
-                            onValueChange={(value) =>
-                              setSetTrackingValuesInput(
-                                (prev: SetTrackingValuesInput) => ({
-                                  ...prev,
-                                  resistance_level: value,
-                                })
-                              )
-                            }
-                            isInvalid={isResistanceLevelInputInvalid}
-                            isClearable
-                          />
-                        )}
-                        {showCommentInput && (
-                          <Input
-                            value={activeSet.comment ?? ""}
-                            label="Comment"
-                            size="sm"
-                            variant="faded"
-                            onValueChange={(value) =>
-                              setActiveSet((prev) => ({
-                                ...prev!,
-                                comment: value,
-                              }))
-                            }
-                            isInvalid={isResistanceLevelInputInvalid}
-                            isClearable
-                          />
-                        )}
-                      </div>
-                    </CardBody>
-                    <CardFooter className="flex justify-between">
-                      <Button
-                        color="success"
-                        variant="flat"
-                        onPress={() => setShowCommentInput(!showCommentInput)}
-                      >
-                        {showCommentInput
-                          ? "Hide Comment Field"
-                          : "Add Comment"}
-                      </Button>
-                      <Button
-                        color="success"
-                        isDisabled={isSetTrackingInputsInvalid}
-                        onPress={saveActiveSet}
-                      >
-                        Save
-                      </Button>
-                    </CardFooter>
-                  </Card>
-                </div>
+                        </div>
+                      )}
+                      {!!activeSet.is_tracking_time && (
+                        <TimeInput
+                          value={activeSet}
+                          setValue={setActiveSet as SetWorkoutSetAction}
+                          defaultTimeInput={userSettings!.default_time_input!}
+                          setIsInvalid={setIsTimeInputInvalid}
+                        />
+                      )}
+                      {!!activeSet.is_tracking_rir && (
+                        <Input
+                          value={setTrackingValuesInput.rir}
+                          label="RIR"
+                          size="sm"
+                          variant="faded"
+                          onValueChange={(value) =>
+                            setSetTrackingValuesInput(
+                              (prev: SetTrackingValuesInput) => ({
+                                ...prev,
+                                rir: value,
+                              })
+                            )
+                          }
+                          isInvalid={isRirInputInvalid}
+                          isClearable
+                        />
+                      )}
+                      {!!activeSet.is_tracking_rpe && (
+                        <Input
+                          value={setTrackingValuesInput.rpe}
+                          label="RPE"
+                          size="sm"
+                          variant="faded"
+                          onValueChange={(value) =>
+                            setSetTrackingValuesInput(
+                              (prev: SetTrackingValuesInput) => ({
+                                ...prev,
+                                rpe: value,
+                              })
+                            )
+                          }
+                          isInvalid={isRpeInputInvalid}
+                          isClearable
+                        />
+                      )}
+                      {!!activeSet.is_tracking_resistance_level && (
+                        <Input
+                          value={setTrackingValuesInput.resistance_level}
+                          label="Resistance Level"
+                          size="sm"
+                          variant="faded"
+                          onValueChange={(value) =>
+                            setSetTrackingValuesInput(
+                              (prev: SetTrackingValuesInput) => ({
+                                ...prev,
+                                resistance_level: value,
+                              })
+                            )
+                          }
+                          isInvalid={isResistanceLevelInputInvalid}
+                          isClearable
+                        />
+                      )}
+                      {showCommentInput && (
+                        <Input
+                          value={activeSet.comment ?? ""}
+                          label="Comment"
+                          size="sm"
+                          variant="faded"
+                          onValueChange={(value) =>
+                            setActiveSet((prev) => ({
+                              ...prev!,
+                              comment: value,
+                            }))
+                          }
+                          isInvalid={isResistanceLevelInputInvalid}
+                          isClearable
+                        />
+                      )}
+                    </div>
+                  </CardBody>
+                  <CardFooter className="flex justify-between">
+                    <Button
+                      color="success"
+                      variant="flat"
+                      onPress={() => setShowCommentInput(!showCommentInput)}
+                    >
+                      {showCommentInput ? "Hide Comment Field" : "Add Comment"}
+                    </Button>
+                    <Button
+                      color="success"
+                      isDisabled={isSetTrackingInputsInvalid}
+                      onPress={saveActiveSet}
+                    >
+                      Save
+                    </Button>
+                  </CardFooter>
+                </Card>
               )}
             </div>
           </>
