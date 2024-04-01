@@ -310,8 +310,8 @@ export default function EquipmentWeights() {
                   className="flex flex-row justify-between gap-4 bg-white rounded-xl py-2 px-2.5 items-center"
                   key={`${equipment}`}
                 >
-                  <div className="flex flex-row justify-between w-full">
-                    <span>{equipment.name}</span>
+                  <div className="flex flex-row justify-between w-3/5">
+                    <span className="truncate">{equipment.name}</span>
                     <span>
                       {equipment.weight}
                       {equipment.weight_unit}
