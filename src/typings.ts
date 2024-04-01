@@ -103,6 +103,10 @@ export type WorkoutSet = {
   is_tracking_resistance_level: number;
   weight_unit: string;
   distance_unit: string;
+  is_superset: number;
+  is_dropset: number;
+  superset_values: string | null;
+  dropset_values: string | null;
   exercise_name?: string;
 };
 

@@ -327,9 +327,10 @@ export default function WorkoutDetails() {
           (workout_id, exercise_id, is_template, workout_template_id, note, is_completed, is_warmup, 
             weight, reps, rir, rpe, time_in_seconds, distance, resistance_level, is_tracking_weight,
             is_tracking_reps, is_tracking_rir, is_tracking_rpe, is_tracking_time, is_tracking_distance,
-            is_tracking_resistance_level, weight_unit, distance_unit) 
+            is_tracking_resistance_level, weight_unit, distance_unit, is_superset, is_dropset) 
           VALUES 
-          ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23)`,
+          ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, 
+            $21, $22, $23, $24, $25)`,
           [
             workout.id,
             selectedExercise.id,
@@ -354,6 +355,8 @@ export default function WorkoutDetails() {
             operatingSet.is_tracking_resistance_level,
             operatingSet.weight_unit,
             operatingSet.distance_unit,
+            0,
+            0,
           ]
         );
 
