@@ -134,7 +134,7 @@ export const TimeInput = ({
     const seconds: number = convertMinutesToSeconds(minutes);
 
     setValue((prev) => ({ ...prev, time_in_seconds: seconds }));
-    setSecondsInput(seconds.toString());
+    setSecondsInput(seconds === 0 ? "" : seconds.toString());
     setHoursMinutesSecondsInput(convertSecondsToHoursMinutesSeconds(seconds));
   };
 
@@ -175,7 +175,7 @@ export const TimeInput = ({
     );
 
     setValue((prev) => ({ ...prev, time_in_seconds: timeInSeconds }));
-    setSecondsInput(timeInSeconds.toString());
+    setSecondsInput(timeInSeconds === 0 ? "" : timeInSeconds.toString());
     setMinutesInput(convertSecondsToMinutes(timeInSeconds));
   };
 
