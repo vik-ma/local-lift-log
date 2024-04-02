@@ -956,12 +956,15 @@ export default function WorkoutDetails() {
                   }
                 >
                   <AccordionItem
+                    classNames={{
+                      title: "text-2xl font-semibold text-yellow-500",
+                    }}
                     className="border-2 border-yellow-300"
                     key="active-set"
                     aria-label="Active Set"
                     title={activeSet.exercise_name}
                   >
-                    <div className="flex flex-col gap-2">
+                    <div className="flex flex-col gap-4">
                       <div className="flex flex-wrap gap-1.5 justify-evenly">
                         {!!activeSet.is_tracking_weight && (
                           <div className="flex justify-between gap-2 w-56">
