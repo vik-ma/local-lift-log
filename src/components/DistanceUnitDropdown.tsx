@@ -25,9 +25,8 @@ export const DistanceUnitDropdown = ({
 
   return (
     <Select
-      label="Unit"
-      size="sm"
-      className="max-w-20"
+      aria-label="Distance Unit Dropdown Menu"
+      className="max-w-[4.5rem]"
       variant="faded"
       selectedKeys={[value]}
       onChange={(e) => handleChange(e)}

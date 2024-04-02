@@ -30,9 +30,8 @@ export const WeightUnitDropdown = ({
 
   return (
     <Select
-      label="Unit"
-      size="sm"
-      className="max-w-20"
+      aria-label="Weight Unit Dropdown Menu"
+      className="max-w-[4.5rem]"
       variant="faded"
       selectedKeys={[value]}
       onChange={(e) => handleChange(e)}
