@@ -916,10 +916,15 @@ export default function WorkoutDetails() {
                         className={
                           set.id === activeSet?.id
                             ? "flex gap-2 justify-between items-center outline outline-2 outline-yellow-300 bg-yellow-100 rounded-lg px-2 py-1.5 cursor-pointer"
+                            : set.is_warmup
+                            ? "flex gap-2 justify-between items-center bg-orange-100 rounded-lg px-2 py-1.5 cursor-pointer hover:bg-orange-200"
                             : "flex gap-2 justify-between items-center bg-white rounded-lg px-2 py-1.5 cursor-pointer hover:bg-stone-50"
                         }
                       >
                         <span className="truncate">{set.exercise_name}</span>
+                        {set.is_warmup === 1 && (
+                          <span className="text-stone-400">Warmup</span>
+                        )}
                         <div className="flex gap-1">
                           <Button
                             size="sm"
@@ -962,7 +967,11 @@ export default function WorkoutDetails() {
                     className="border-2 border-yellow-300"
                     key="active-set"
                     aria-label="Active Set"
-                    title={activeSet.exercise_name}
+                    title={
+                      activeSet.is_warmup
+                        ? `${activeSet.exercise_name} (Warmup)`
+                        : `${activeSet.exercise_name}`
+                    }
                   >
                     <div className="flex flex-col gap-4">
                       <div className="flex flex-wrap gap-1.5 justify-evenly">
