@@ -180,13 +180,12 @@ export const TimeInput = ({
   };
 
   return (
-    <div className="flex justify-between gap-2">
+    <div className="flex justify-between gap-1">
       <div className="flex">
         {inputType === "hhmmss" && (
           <div className="flex gap-1 w-full">
             <Input
-              label="Hours"
-              size="sm"
+              aria-label="Hours Input Field"
               variant="faded"
               isClearable
               value={hoursMinutesSecondsInput.hours}
@@ -199,8 +198,7 @@ export const TimeInput = ({
               isInvalid={isHhmmssHoursInputInvalid}
             />
             <Input
-              label="Minutes"
-              size="sm"
+              aria-label="Minutes Input Field"
               variant="faded"
               isClearable
               value={hoursMinutesSecondsInput.minutes}
@@ -213,8 +211,7 @@ export const TimeInput = ({
               isInvalid={isHhmmssMinutesInputInvalid}
             />
             <Input
-              label="Seconds"
-              size="sm"
+              aria-label="Seconds Input Field"
               variant="faded"
               isClearable
               value={hoursMinutesSecondsInput.seconds}
@@ -230,8 +227,7 @@ export const TimeInput = ({
         )}
         {inputType === "minutes" && (
           <Input
-            label="Minutes"
-            size="sm"
+            aria-label="Minutes Input Field"
             variant="faded"
             isClearable
             value={minutesInput}
@@ -241,8 +237,7 @@ export const TimeInput = ({
         )}
         {inputType === "seconds" && (
           <Input
-            label="Seconds"
-            size="sm"
+            aria-label="Seconds Input Field"
             variant="faded"
             isClearable
             value={secondsInput}
@@ -253,9 +248,8 @@ export const TimeInput = ({
       </div>
       <div>
         <Select
+          aria-label="Time Input Type Dropdown Menu"
           className="w-32"
-          label="Input Type"
-          size="sm"
           variant="faded"
           selectedKeys={[inputType]}
           disallowEmptySelection={true}
