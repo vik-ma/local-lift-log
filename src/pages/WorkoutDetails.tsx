@@ -967,6 +967,14 @@ export default function WorkoutDetails() {
                     }
                   >
                     <div className="flex flex-col gap-4">
+                      {activeSet.note !== null && (
+                        <div className="text-stone-500 text-lg">
+                          <span className="font-semibold text-stone-600">
+                            Note:
+                          </span>{" "}
+                          {activeSet.note}
+                        </div>
+                      )}
                       <div className="flex flex-wrap gap-1.5 justify-evenly">
                         {!!activeSet.is_tracking_weight && (
                           <div className="flex justify-between gap-2 w-56">
