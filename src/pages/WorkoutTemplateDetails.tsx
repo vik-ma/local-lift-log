@@ -807,136 +807,146 @@ export default function WorkoutTemplateDetails() {
                   <h2 className="text-2xl font-semibold">
                     {selectedExercise?.name}
                   </h2>
-                  {!!operatingSet.is_tracking_weight && (
-                    <div className="flex justify-between gap-2">
+                  <div className="flex flex-wrap gap-1.5 justify-evenly">
+                    {!!operatingSet.is_tracking_weight && (
+                      <div className="flex justify-between gap-2 w-56">
+                        <Input
+                          value={setTrackingValuesInput.weight}
+                          label="Weight"
+                          variant="faded"
+                          labelPlacement="outside-left"
+                          onValueChange={(value) =>
+                            setSetTrackingValuesInput(
+                              (prev: SetTrackingValuesInput) => ({
+                                ...prev,
+                                weight: value,
+                              })
+                            )
+                          }
+                          isInvalid={isDefaultWeightInputInvalid}
+                          isClearable
+                        />
+                        <WeightUnitDropdown
+                          value={operatingSet.weight_unit}
+                          setSet={setOperatingSet as SetWorkoutSetAction}
+                          targetType="set"
+                        />
+                      </div>
+                    )}
+                    {!!operatingSet.is_tracking_reps && (
                       <Input
-                        value={setTrackingValuesInput.weight}
-                        label="Weight"
-                        size="sm"
+                        className="w-28"
+                        value={setTrackingValuesInput.reps}
+                        label="Reps"
                         variant="faded"
+                        labelPlacement="outside-left"
                         onValueChange={(value) =>
                           setSetTrackingValuesInput(
                             (prev: SetTrackingValuesInput) => ({
                               ...prev,
-                              weight: value,
+                              reps: value,
                             })
                           )
                         }
-                        isInvalid={isDefaultWeightInputInvalid}
+                        isInvalid={isDefaultRepsInputInvalid}
                         isClearable
                       />
-                      <WeightUnitDropdown
-                        value={operatingSet.weight_unit}
-                        setSet={setOperatingSet as SetWorkoutSetAction}
-                        targetType="set"
+                    )}
+                    {!!operatingSet.is_tracking_distance && (
+                      <div className="flex justify-between gap-2 w-64">
+                        <Input
+                          value={setTrackingValuesInput.distance}
+                          label="Distance"
+                          variant="faded"
+                          labelPlacement="outside-left"
+                          onValueChange={(value) =>
+                            setSetTrackingValuesInput(
+                              (prev: SetTrackingValuesInput) => ({
+                                ...prev,
+                                distance: value,
+                              })
+                            )
+                          }
+                          isInvalid={isDefaultDistanceInputInvalid}
+                          isClearable
+                        />
+                        <DistanceUnitDropdown
+                          value={operatingSet.distance_unit}
+                          setSet={setOperatingSet as SetWorkoutSetAction}
+                          targetType="set"
+                        />
+                      </div>
+                    )}
+                    {!!operatingSet.is_tracking_time && (
+                      <TimeInput
+                        value={operatingSet}
+                        setValue={setOperatingSet}
+                        defaultTimeInput={userSettings!.default_time_input!}
+                        setIsInvalid={setIsTimeInputInvalid}
                       />
-                    </div>
-                  )}
-                  {!!operatingSet.is_tracking_reps && (
-                    <Input
-                      value={setTrackingValuesInput.reps}
-                      label="Reps"
-                      size="sm"
-                      variant="faded"
-                      onValueChange={(value) =>
-                        setSetTrackingValuesInput(
-                          (prev: SetTrackingValuesInput) => ({
-                            ...prev,
-                            reps: value,
-                          })
-                        )
-                      }
-                      isInvalid={isDefaultRepsInputInvalid}
-                      isClearable
-                    />
-                  )}
-                  {!!operatingSet.is_tracking_distance && (
-                    <div className="flex justify-between gap-2">
+                    )}
+                    {!!operatingSet.is_tracking_rir && (
                       <Input
-                        value={setTrackingValuesInput.distance}
-                        label="Distance"
-                        size="sm"
+                        className="w-[6.5rem]"
+                        value={setTrackingValuesInput.rir}
+                        label="RIR"
                         variant="faded"
+                        labelPlacement="outside-left"
                         onValueChange={(value) =>
                           setSetTrackingValuesInput(
                             (prev: SetTrackingValuesInput) => ({
                               ...prev,
-                              distance: value,
+                              rir: value,
                             })
                           )
                         }
-                        isInvalid={isDefaultDistanceInputInvalid}
+                        isInvalid={isDefaultRirInputInvalid}
                         isClearable
                       />
-                      <DistanceUnitDropdown
-                        value={operatingSet.distance_unit}
-                        setSet={setOperatingSet as SetWorkoutSetAction}
-                        targetType="set"
+                    )}
+                    {!!operatingSet.is_tracking_rpe && (
+                      <Input
+                        className="w-[6.5rem]"
+                        value={setTrackingValuesInput.rpe}
+                        label="RPE"
+                        variant="faded"
+                        labelPlacement="outside-left"
+                        onValueChange={(value) =>
+                          setSetTrackingValuesInput(
+                            (prev: SetTrackingValuesInput) => ({
+                              ...prev,
+                              rpe: value,
+                            })
+                          )
+                        }
+                        isInvalid={isDefaultRpeInputInvalid}
+                        isClearable
                       />
-                    </div>
-                  )}
-                  {!!operatingSet.is_tracking_time && (
-                    <TimeInput
-                      value={operatingSet}
-                      setValue={setOperatingSet}
-                      defaultTimeInput={userSettings!.default_time_input!}
-                      setIsInvalid={setIsTimeInputInvalid}
-                    />
-                  )}
-                  {!!operatingSet.is_tracking_rir && (
-                    <Input
-                      value={setTrackingValuesInput.rir}
-                      label="RIR"
-                      size="sm"
-                      variant="faded"
-                      onValueChange={(value) =>
-                        setSetTrackingValuesInput(
-                          (prev: SetTrackingValuesInput) => ({
-                            ...prev,
-                            rir: value,
-                          })
-                        )
-                      }
-                      isInvalid={isDefaultRirInputInvalid}
-                      isClearable
-                    />
-                  )}
-                  {!!operatingSet.is_tracking_rpe && (
-                    <Input
-                      value={setTrackingValuesInput.rpe}
-                      label="RPE"
-                      size="sm"
-                      variant="faded"
-                      onValueChange={(value) =>
-                        setSetTrackingValuesInput(
-                          (prev: SetTrackingValuesInput) => ({
-                            ...prev,
-                            rpe: value,
-                          })
-                        )
-                      }
-                      isInvalid={isDefaultRpeInputInvalid}
-                      isClearable
-                    />
-                  )}
-                  {!!operatingSet.is_tracking_resistance_level && (
-                    <Input
-                      value={setTrackingValuesInput.resistance_level}
-                      label="Resistance Level"
-                      size="sm"
-                      variant="faded"
-                      onValueChange={(value) =>
-                        setSetTrackingValuesInput(
-                          (prev: SetTrackingValuesInput) => ({
-                            ...prev,
-                            resistance_level: value,
-                          })
-                        )
-                      }
-                      isInvalid={isDefaultResistanceLevelInputInvalid}
-                      isClearable
-                    />
-                  )}
+                    )}
+                    {!!operatingSet.is_tracking_resistance_level && (
+                      <Input
+                        className="w-auto"
+                        classNames={{
+                          label: "whitespace-nowrap",
+                          input: "w-16",
+                        }}
+                        value={setTrackingValuesInput.resistance_level}
+                        label="Resistance Level"
+                        variant="faded"
+                        labelPlacement="outside-left"
+                        onValueChange={(value) =>
+                          setSetTrackingValuesInput(
+                            (prev: SetTrackingValuesInput) => ({
+                              ...prev,
+                              resistance_level: value,
+                            })
+                          )
+                        }
+                        isInvalid={isDefaultResistanceLevelInputInvalid}
+                        isClearable
+                      />
+                    )}
+                  </div>
                 </div>
               </ModalBody>
               <ModalFooter>

@@ -961,8 +961,8 @@ export default function WorkoutDetails() {
                     aria-label="Active Set"
                     title={activeSet.exercise_name}
                   >
-                    <div className="flex flex-col gap-1.5">
-                      <div className="flex flex-wrap gap-3 justify-evenly">
+                    <div className="flex flex-col gap-2">
+                      <div className="flex flex-wrap gap-1.5 justify-evenly">
                         {!!activeSet.is_tracking_weight && (
                           <div className="flex justify-between gap-2 w-56">
                             <Input
