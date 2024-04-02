@@ -928,13 +928,6 @@ export default function WorkoutDetails() {
                         <div className="flex gap-1">
                           <Button
                             size="sm"
-                            color="primary"
-                            onPress={() => handleEditButtonPressed(set)}
-                          >
-                            Edit
-                          </Button>
-                          <Button
-                            size="sm"
                             color="danger"
                             onPress={() => handleDeleteButtonPress(set)}
                           >
@@ -1131,15 +1124,26 @@ export default function WorkoutDetails() {
                         )}
                       </div>
                       <div className="flex justify-between">
-                        <Button
-                          color="success"
-                          variant="flat"
-                          onPress={() => setShowCommentInput(!showCommentInput)}
-                        >
-                          {showCommentInput
-                            ? "Hide Comment Field"
-                            : "Add Comment"}
-                        </Button>
+                        <div className="flex gap-1">
+                          <Button
+                            color="success"
+                            variant="flat"
+                            onPress={() =>
+                              setShowCommentInput(!showCommentInput)
+                            }
+                          >
+                            {showCommentInput
+                              ? "Hide Comment Field"
+                              : "Add Comment"}
+                          </Button>
+                          <Button
+                            color="success"
+                            variant="flat"
+                            onPress={() => handleEditButtonPressed(activeSet)}
+                          >
+                            Edit
+                          </Button>
+                        </div>
                         <Button
                           color="success"
                           isDisabled={isSetTrackingInputsInvalid}
