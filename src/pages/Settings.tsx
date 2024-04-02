@@ -139,9 +139,8 @@ export default function SettingsPage() {
             <div className="flex gap-3 items-center justify-between">
               <span className="text-lg">Default Time Input</span>
               <Select
-                label="Input Type"
-                className="max-w-32"
-                size="sm"
+                aria-label="Time Input Type Dropdown Menu"
+                className="w-32"
                 variant="faded"
                 selectedKeys={[userSettings!.default_time_input]}
                 onChange={(value) => handleDefaultTimeInputChange(value)}
