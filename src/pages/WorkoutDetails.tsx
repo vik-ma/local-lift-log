@@ -969,7 +969,8 @@ export default function WorkoutDetails() {
                 >
                   <AccordionItem
                     classNames={{
-                      title: "text-2xl font-semibold text-yellow-500",
+                      title:
+                        "text-2xl font-semibold text-yellow-500 break-all",
                     }}
                     className="border-2 border-yellow-300"
                     key="active-set"
