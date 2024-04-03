@@ -927,7 +927,7 @@ export default function WorkoutDetails() {
                             : "flex flex-col gap-0.5 bg-white rounded-lg px-2.5 py-1.5 cursor-pointer hover:bg-stone-50"
                         }
                       >
-                        <div className="flex font-semibold justify-between">
+                        <div className="flex font-medium justify-between">
                           <span className="truncate text-lg max-w-52">
                             {set.exercise_name}
                           </span>
@@ -962,19 +962,19 @@ export default function WorkoutDetails() {
                               {set.is_tracking_rir === 1 &&
                                 set.is_completed && (
                                   <span>
-                                    RIR{" "}
                                     <strong className="font-semibold">
                                       {set.rir}
-                                    </strong>
+                                    </strong>{" "}
+                                    RIR
                                   </span>
                                 )}
                               {set.is_tracking_rpe === 1 &&
                                 set.is_completed && (
                                   <span>
-                                    RPE{" "}
                                     <strong className="font-semibold">
                                       {set.rpe}
-                                    </strong>
+                                    </strong>{" "}
+                                    RPE
                                   </span>
                                 )}
                             </div>
