@@ -938,53 +938,60 @@ export default function WorkoutDetails() {
                             <span className="text-lime-400">Completed</span>
                           )}
                         </div>
-                        <div className="flex gap-2 items-center">
-                          {set.is_tracking_weight === 1 &&
-                            (set.is_completed || set.weight > 0) && (
-                              <span>
-                                {set.weight} {set.weight_unit}
-                              </span>
-                            )}
-                          {set.is_tracking_reps === 1 &&
-                            (set.is_completed || set.reps > 0) && (
-                              <span>{set.reps} Reps</span>
-                            )}
-                          {set.is_tracking_rir === 1 && set.is_completed && (
-                            <span>{set.rir} RIR</span>
-                          )}
-                          {set.is_tracking_rpe === 1 && set.is_completed && (
-                            <span>RPE {set.rpe}</span>
-                          )}
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <div className="flex gap-2">
-                            {set.is_tracking_distance === 1 &&
-                              (set.is_completed || set.distance > 0) && (
-                                <span>
-                                  {set.distance} {set.distance_unit}
-                                </span>
-                              )}
-                            {set.is_tracking_time === 1 &&
-                              (set.is_completed || set.time_in_seconds > 0) && (
-                                <span>
-                                  {FormatTimeInSecondsToHhmmssString(
-                                    set.time_in_seconds
+                        <div className="flex justify-between items-end">
+                          <div className="flex flex-col">
+                            <div className="flex gap-2">
+                              {set.is_tracking_weight === 1 &&
+                                (set.is_completed || set.weight > 0) && (
+                                  <span>
+                                    {set.weight} {set.weight_unit}
+                                  </span>
+                                )}
+                              {set.is_tracking_reps === 1 &&
+                                (set.is_completed || set.reps > 0) && (
+                                  <span>{set.reps} Reps</span>
+                                )}
+                              {set.is_tracking_rir === 1 &&
+                                set.is_completed && <span>{set.rir} RIR</span>}
+                              {set.is_tracking_rpe === 1 &&
+                                set.is_completed && <span>RPE {set.rpe}</span>}
+                            </div>
+                            <div className="flex justify-between">
+                              <div className="flex gap-2">
+                                {set.is_tracking_distance === 1 &&
+                                  (set.is_completed || set.distance > 0) && (
+                                    <span>
+                                      {set.distance} {set.distance_unit}
+                                    </span>
                                   )}
-                                </span>
-                              )}
-                            {set.is_tracking_resistance_level === 1 &&
-                              (set.is_completed ||
-                                set.resistance_level > 0) && (
-                                <span>Resistance {set.resistance_level}</span>
-                              )}
+                                {set.is_tracking_time === 1 &&
+                                  (set.is_completed ||
+                                    set.time_in_seconds > 0) && (
+                                    <span>
+                                      {FormatTimeInSecondsToHhmmssString(
+                                        set.time_in_seconds
+                                      )}
+                                    </span>
+                                  )}
+                                {set.is_tracking_resistance_level === 1 &&
+                                  (set.is_completed ||
+                                    set.resistance_level > 0) && (
+                                    <span>
+                                      Resistance {set.resistance_level}
+                                    </span>
+                                  )}
+                              </div>
+                            </div>
                           </div>
-                          <Button
-                            size="sm"
-                            color="danger"
-                            onPress={() => handleDeleteButtonPress(set)}
-                          >
-                            Delete
-                          </Button>
+                          <div>
+                            <Button
+                              size="sm"
+                              color="danger"
+                              onPress={() => handleDeleteButtonPress(set)}
+                            >
+                              Delete
+                            </Button>
+                          </div>
                         </div>
                       </div>
                     </Reorder.Item>
