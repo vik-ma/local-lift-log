@@ -940,44 +940,74 @@ export default function WorkoutDetails() {
                         </div>
                         <div className="flex justify-between items-end">
                           <div className="flex flex-col">
-                            <div className="flex gap-2">
+                            <div className="flex gap-3">
                               {set.is_tracking_weight === 1 &&
                                 (set.is_completed || set.weight > 0) && (
                                   <span>
-                                    {set.weight} {set.weight_unit}
+                                    <strong className="font-semibold">
+                                      {set.weight}
+                                    </strong>{" "}
+                                    {set.weight_unit}
                                   </span>
                                 )}
                               {set.is_tracking_reps === 1 &&
                                 (set.is_completed || set.reps > 0) && (
-                                  <span>{set.reps} Reps</span>
+                                  <span>
+                                    <strong className="font-semibold">
+                                      {set.reps}
+                                    </strong>{" "}
+                                    Reps
+                                  </span>
                                 )}
                               {set.is_tracking_rir === 1 &&
-                                set.is_completed && <span>{set.rir} RIR</span>}
+                                set.is_completed && (
+                                  <span>
+                                    RIR{" "}
+                                    <strong className="font-semibold">
+                                      {set.rir}
+                                    </strong>
+                                  </span>
+                                )}
                               {set.is_tracking_rpe === 1 &&
-                                set.is_completed && <span>RPE {set.rpe}</span>}
+                                set.is_completed && (
+                                  <span>
+                                    RPE{" "}
+                                    <strong className="font-semibold">
+                                      {set.rpe}
+                                    </strong>
+                                  </span>
+                                )}
                             </div>
                             <div className="flex justify-between">
-                              <div className="flex gap-2">
+                              <div className="flex gap-3">
                                 {set.is_tracking_distance === 1 &&
                                   (set.is_completed || set.distance > 0) && (
                                     <span>
-                                      {set.distance} {set.distance_unit}
+                                      <strong className="font-semibold">
+                                        {set.distance}
+                                      </strong>{" "}
+                                      {set.distance_unit}
                                     </span>
                                   )}
                                 {set.is_tracking_time === 1 &&
                                   (set.is_completed ||
                                     set.time_in_seconds > 0) && (
                                     <span>
-                                      {FormatTimeInSecondsToHhmmssString(
-                                        set.time_in_seconds
-                                      )}
+                                      <strong className="font-semibold">
+                                        {FormatTimeInSecondsToHhmmssString(
+                                          set.time_in_seconds
+                                        )}
+                                      </strong>
                                     </span>
                                   )}
                                 {set.is_tracking_resistance_level === 1 &&
                                   (set.is_completed ||
                                     set.resistance_level > 0) && (
                                     <span>
-                                      Resistance {set.resistance_level}
+                                      <strong className="font-semibold">
+                                        {set.resistance_level}
+                                      </strong>{" "}
+                                      Resistance Level
                                     </span>
                                   )}
                               </div>
