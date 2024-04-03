@@ -919,27 +919,34 @@ export default function WorkoutDetails() {
                       <div
                         className={
                           set.id === activeSet?.id
-                            ? "flex gap-2 justify-between items-center outline outline-2 outline-yellow-300 bg-yellow-100 rounded-lg px-2 py-1.5 cursor-pointer"
+                            ? "flex flex-col gap-0.5 outline outline-2 outline-yellow-300 bg-yellow-100 rounded-lg px-2.5 py-1.5 cursor-pointer"
                             : set.is_warmup
-                            ? "flex gap-2 justify-between items-center bg-orange-100 rounded-lg px-2 py-1.5 cursor-pointer hover:bg-orange-200"
-                            : "flex gap-2 justify-between items-center bg-white rounded-lg px-2 py-1.5 cursor-pointer hover:bg-stone-50"
+                            ? "flex flex-col gap-0.5 bg-orange-100 rounded-lg px-2.5 py-1.5 cursor-pointer hover:bg-orange-200"
+                            : "flex flex-col gap-0.5 bg-white rounded-lg px-2.5 py-1.5 cursor-pointer hover:bg-stone-50"
                         }
                       >
-                        <span className="truncate">{set.exercise_name}</span>
-                        {set.is_warmup === 1 && (
-                          <span className="text-stone-400">Warmup</span>
-                        )}
-                        {set.is_completed === 1 && (
-                          <span className="text-lime-400">Completed</span>
-                        )}
-                        <div className="flex gap-1">
-                          <Button
-                            size="sm"
-                            color="danger"
-                            onPress={() => handleDeleteButtonPress(set)}
-                          >
-                            Delete
-                          </Button>
+                        <div className="flex justify-between">
+                          <span className="truncate font-medium text-lg max-w-52">
+                            {set.exercise_name}
+                          </span>
+                          {set.is_warmup === 1 && (
+                            <span className="text-stone-400">Warmup</span>
+                          )}
+                          {set.is_completed === 1 && (
+                            <span className="text-lime-400">Completed</span>
+                          )}
+                        </div>
+                        <div className="flex justify-between">
+                          <div></div>
+                          <div>
+                            <Button
+                              size="sm"
+                              color="danger"
+                              onPress={() => handleDeleteButtonPress(set)}
+                            >
+                              Delete
+                            </Button>
+                          </div>
                         </div>
                       </div>
                     </Reorder.Item>
