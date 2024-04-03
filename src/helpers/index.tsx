@@ -43,6 +43,7 @@ export { IsStringInvalidInteger } from "./Numbers/IsStringInvalidInteger";
 export { ConvertNumberToTwoDecimals } from "./Numbers/ConvertNumberToTwoDecimals";
 export { IsStringInvalidNumberOrAbove10 } from "./Numbers/IsStringInvalidNumberOrAbove10";
 export { IsStringInvalidNumberOr0 } from "./Numbers/IsStringInvalidNumberOr0";
+export { FormatTimeInSecondsToHhmmssString } from "./Numbers/FormatTimeInSecondsToHhmmssString";
 
 export { GetLatestUserWeight } from "./Measurements/GetLatestUserWeight";
 
