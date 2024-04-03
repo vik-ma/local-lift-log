@@ -159,8 +159,11 @@ export default function WorkoutDetails() {
           setWorkoutNote(workout.note === null ? "" : workout.note);
 
           if (orderedSetList.length > 0) {
-            // TODO: SET FIRST INCOMPLETE SET AS INDEX
-            setActiveSet(orderedSetList[0]);
+            const firstIncompleteIndex = orderedSetList.findIndex(
+              (obj) => obj.is_completed === 0
+            );
+            if (firstIncompleteIndex !== -1)
+              setActiveSet(orderedSetList[firstIncompleteIndex]);
           }
         } else {
           // Stop useEffect running twice in dev
