@@ -580,6 +580,7 @@ export default function WorkoutDetails() {
         rir: setTrackingValuesNumbers.rir,
         rpe: setTrackingValuesNumbers.rpe,
         resistance_level: setTrackingValuesNumbers.resistance_level,
+        is_completed: 1,
         time_completed: currentDate,
       };
 
@@ -924,6 +925,9 @@ export default function WorkoutDetails() {
                         <span className="truncate">{set.exercise_name}</span>
                         {set.is_warmup === 1 && (
                           <span className="text-stone-400">Warmup</span>
+                        )}
+                        {set.is_completed === 1 && (
+                          <span className="text-lime-400">Completed</span>
                         )}
                         <div className="flex gap-1">
                           <Button
