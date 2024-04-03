@@ -927,15 +927,15 @@ export default function WorkoutDetails() {
                             : "flex flex-col gap-0.5 bg-white rounded-lg px-2.5 py-1.5 cursor-pointer hover:bg-stone-50"
                         }
                       >
-                        <div className="flex justify-between">
-                          <span className="truncate font-medium text-lg max-w-52">
+                        <div className="flex font-semibold justify-between">
+                          <span className="truncate text-lg max-w-52">
                             {set.exercise_name}
                           </span>
                           {set.is_warmup === 1 && (
-                            <span className="text-stone-400">Warmup</span>
+                            <span className="text-orange-400">Warmup</span>
                           )}
                           {set.is_completed === 1 && (
-                            <span className="text-lime-400">Completed</span>
+                            <span className="text-success">Completed</span>
                           )}
                         </div>
                         <div className="flex justify-between items-end">
