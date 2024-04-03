@@ -937,8 +937,26 @@ export default function WorkoutDetails() {
                             <span className="text-lime-400">Completed</span>
                           )}
                         </div>
-                        <div className="flex justify-between">
-                          <div></div>
+                        <div className="flex justify-between items-center">
+                          <div className="flex gap-2">
+                            {set.is_tracking_weight === 1 &&
+                              (set.is_completed || set.weight > 0) && (
+                                <span>
+                                  {set.weight} {set.weight_unit}
+                                </span>
+                              )}
+                            {set.is_tracking_reps === 1 &&
+                              (set.is_completed || set.reps > 0) && (
+                                <span>{set.reps} Reps</span>
+                              )}
+                            {set.is_tracking_rir === 1 && set.is_completed && (
+                              <span>{set.rir} RIR</span>
+                            )}
+                            {set.is_tracking_rpe === 1 && set.is_completed && (
+                              <span>RPE {set.rpe}</span>
+                            )}
+                            {/* TODO: ADD TIME + DISTANCE + RESISTANCE */}
+                          </div>
                           <div>
                             <Button
                               size="sm"
