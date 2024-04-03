@@ -596,6 +596,7 @@ export default function WorkoutDetails() {
         setActiveSet(sets[activeSetIndex + 1]);
       }
       setShowCommentInput(false);
+      toast.success("Set Saved");
     } catch (error) {
       console.log(error);
     }
@@ -969,8 +970,7 @@ export default function WorkoutDetails() {
                 >
                   <AccordionItem
                     classNames={{
-                      title:
-                        "text-2xl font-semibold text-yellow-500 break-all",
+                      title: "text-2xl font-semibold text-yellow-500 break-all",
                     }}
                     className="border-2 border-yellow-300"
                     key="active-set"
@@ -1172,7 +1172,7 @@ export default function WorkoutDetails() {
                           isDisabled={isSetTrackingInputsInvalid}
                           onPress={saveActiveSet}
                         >
-                          Save
+                          {activeSet.is_completed ? "Update" : "Save"}
                         </Button>
                       </div>
                     </div>
