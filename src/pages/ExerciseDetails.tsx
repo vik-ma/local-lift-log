@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Exercise } from "../typings";
 import { useState, useMemo, useEffect } from "react";
 import { NotFound } from ".";
@@ -23,6 +23,8 @@ export default function ExerciseDetailsPage() {
     useState<string>("");
   const [exerciseGroupList, setExerciseGroupList] = useState<string[]>([]);
   const [exerciseGroupString, setExerciseGroupString] = useState<string>("");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getExercise = async () => {
@@ -208,9 +210,15 @@ export default function ExerciseDetailsPage() {
               </div>
             </div>
           ) : (
-            <div className="flex justify-center">
+            <div className="flex gap-2 justify-center">
               <Button color="primary" onPress={() => setIsEditing(true)}>
                 Edit
+              </Button>
+              <Button
+                color="success"
+                onPress={() => navigate(`/exercises/${id}/history`)}
+              >
+                History
               </Button>
             </div>
           )}
