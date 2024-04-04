@@ -30,6 +30,7 @@ import {
   DefaultSetInputValues,
   FormatDateString,
   FormatTimeInSecondsToHhmmssString,
+  ConvertDateStringToTimeString,
 } from "../helpers";
 import {
   Button,
@@ -1062,6 +1063,16 @@ export default function WorkoutDetails() {
                             Note:
                           </span>{" "}
                           {activeSet.note}
+                        </div>
+                      )}
+                      {activeSet.time_completed !== null && (
+                        <div className="text-lg text-success">
+                          Completed at{" "}
+                          <span className="font-semibold">
+                            {ConvertDateStringToTimeString(
+                              activeSet.time_completed
+                            )}
+                          </span>
                         </div>
                       )}
                       <div className="flex flex-wrap gap-1.5 justify-evenly">
