@@ -936,7 +936,13 @@ export default function WorkoutDetails() {
                             <span className="text-orange-400">Warmup</span>
                           )}
                           {set.is_completed === 1 && (
-                            <span className="text-success">Completed</span>
+                            <span className="text-success">
+                              {userSettings?.show_timestamp_on_completed_set
+                                ? ConvertDateStringToTimeString(
+                                    set.time_completed!
+                                  )
+                                : "Completed"}
+                            </span>
                           )}
                         </div>
                         <div className="flex justify-between items-end">
@@ -1065,16 +1071,17 @@ export default function WorkoutDetails() {
                           {activeSet.note}
                         </div>
                       )}
-                      {activeSet.time_completed !== null && (
-                        <div className="text-lg text-success">
-                          Completed at{" "}
-                          <span className="font-semibold">
-                            {ConvertDateStringToTimeString(
-                              activeSet.time_completed
-                            )}
-                          </span>
-                        </div>
-                      )}
+                      {userSettings?.show_timestamp_on_completed_set === 1 &&
+                        activeSet.time_completed !== null && (
+                          <div className="text-lg text-success">
+                            Completed at{" "}
+                            <span className="font-semibold">
+                              {ConvertDateStringToTimeString(
+                                activeSet.time_completed
+                              )}
+                            </span>
+                          </div>
+                        )}
                       <div className="flex flex-wrap gap-1.5 justify-evenly">
                         {!!activeSet.is_tracking_weight && (
                           <div className="flex justify-between gap-2 w-56">
