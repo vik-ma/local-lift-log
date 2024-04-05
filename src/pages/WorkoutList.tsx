@@ -124,26 +124,24 @@ export default function WorkoutList() {
         {isLoading ? (
           <LoadingSpinner />
         ) : (
-          <div className="flex flex-col gap-1.5">
+          <div className="flex flex-col gap-1.5 w-full">
             {workouts.map((workout) => (
               <div
-                className="flex flex-row justify-between gap-2"
+                className="flex flex-row justify-between items-center gap-2"
                 key={`${workout.id}`}
+                onClick={() => navigate(`/workouts/${workout.id}`)}
               >
-                <Button
-                  className="text-xl font-medium"
-                  color="primary"
-                  onPress={() => navigate(`/workouts/${workout.id}`)}
-                >
+                <div className="text-lg font-medium bg-white px-2.5 py-2 w-full rounded-lg cursor-pointer hover:bg-stone-100">
                   {workout.date}
-                </Button>
-                <Button
-                  className="text-xl font-medium"
-                  color="danger"
-                  onPress={() => handleDeleteButtonPress(workout)}
-                >
-                  Delete
-                </Button>
+                </div>
+                <div>
+                  <Button
+                    color="danger"
+                    onPress={() => handleDeleteButtonPress(workout)}
+                  >
+                    Delete
+                  </Button>
+                </div>
               </div>
             ))}
           </div>
