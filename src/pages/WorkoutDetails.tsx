@@ -113,14 +113,16 @@ export default function WorkoutDetails() {
 
       db.execute(
         `UPDATE workouts SET 
-        workout_template_id = $1, date = $2, set_list_order = $3, note = $4, is_loaded = $5 
-        WHERE id = $6`,
+        workout_template_id = $1, date = $2, set_list_order = $3, note = $4, 
+        is_loaded = $5, rating = $6
+        WHERE id = $7`,
         [
           workout.workout_template_id,
           workout.date,
           workout.set_list_order,
           workout.note,
           workout.is_loaded,
+          workout.rating,
           workout.id,
         ]
       );

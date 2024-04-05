@@ -57,6 +57,7 @@ export default function WorkoutIndex() {
       set_list_order: "",
       note: null,
       is_loaded: 0,
+      rating: 0,
     };
 
     try {
@@ -64,14 +65,15 @@ export default function WorkoutIndex() {
 
       const result = await db.execute(
         `INSERT into workouts 
-        (workout_template_id, date, set_list_order, note, is_loaded) 
-        VALUES ($1, $2, $3, $4, $5)`,
+        (workout_template_id, date, set_list_order, note, is_loaded, rating) 
+        VALUES ($1, $2, $3, $4, $5, $6)`,
         [
           newWorkout.workout_template_id,
           newWorkout.date,
           newWorkout.set_list_order,
           newWorkout.note,
           newWorkout.is_loaded,
+          newWorkout.rating,
         ]
       );
 

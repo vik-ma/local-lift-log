@@ -150,6 +150,7 @@ export type Workout = {
   set_list_order: string;
   note: string | null;
   is_loaded: number;
+  rating: number;
 };
 
 export type WorkoutListItem = {
