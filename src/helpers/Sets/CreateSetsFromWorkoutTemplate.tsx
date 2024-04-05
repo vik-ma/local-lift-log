@@ -45,8 +45,7 @@ export const CreateSetsFromWorkoutTemplate = async (
             (workout_id, exercise_id, is_template, workout_template_id, note, is_completed, is_warmup,
               weight, reps, rir, rpe, time_in_seconds, distance, resistance_level, is_tracking_weight,
               is_tracking_reps, is_tracking_rir, is_tracking_rpe, is_tracking_time, is_tracking_distance,
-              is_tracking_resistance_level, weight_unit, distance_unit, is_superset, is_dropset, 
-              superset_values, dropset_values)
+              is_tracking_resistance_level, weight_unit, distance_unit, is_superset, is_dropset, multiset_values)
             VALUES
             ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, 
               $21, $22, $23, $24, $25, $26, $27)`,
@@ -76,8 +75,7 @@ export const CreateSetsFromWorkoutTemplate = async (
           set.distance_unit,
           set.is_superset,
           set.is_dropset,
-          set.superset_values,
-          set.dropset_values,
+          set.multiset_values
         ]
       );
 

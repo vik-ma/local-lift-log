@@ -105,8 +105,7 @@ export type WorkoutSet = {
   distance_unit: string;
   is_superset: number;
   is_dropset: number;
-  superset_values: string | null;
-  dropset_values: string | null;
+  multiset_values: string | null;
   exercise_name?: string;
 };
 
