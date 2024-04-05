@@ -99,6 +99,7 @@ pub struct Workout {
     pub set_list_order: String,
     pub note: Option<String>,
     pub is_loaded: i16,
+    pub rating: i16,
 }
 
 #[derive(Queryable, Selectable)]
