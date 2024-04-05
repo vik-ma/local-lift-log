@@ -126,10 +126,8 @@ export type UnitDropdownProps = {
 };
 
 export type WorkoutRatingProps = {
-  value: number;
-  setState?: React.Dispatch<React.SetStateAction<number>>;
-  handleChangeInList?: HTMLSelectElementChange;
-  targetType: "list" | "details";
+  rating: number;
+  workout_id: number;
 };
 
 export type SetTrackingValuesInput = {

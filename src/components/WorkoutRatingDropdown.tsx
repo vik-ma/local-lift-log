@@ -2,10 +2,8 @@ import { Select, SelectItem } from "@nextui-org/react";
 import { WorkoutRatingProps } from "../typings";
 
 export const WorkoutRatingDropdown = ({
-  value,
-  setState,
-  handleChangeInList,
-  targetType,
+  rating,
+  workout_id,
 }: WorkoutRatingProps) => {
   const choiceMap = new Map<string, number>([
     ["No Rating", 0],
@@ -25,20 +23,12 @@ export const WorkoutRatingDropdown = ({
     const numberValue: number | undefined = choiceMap.get(e.target.value);
 
     if (numberValue === undefined) return;
-
-    // if (targetType === "list" && handleChangeInList !== undefined) {
-      
-    // }
-
-    if (targetType === "details" && setState !== undefined) {
-      setState(numberValue);
-    }
   };
 
   return (
     <Select
-      label="Rating"
-      className="max-w-[4.5rem]"
+      aria-label="Workout Rating"
+      className="max-w-[8rem]"
       variant="faded"
       selectedKeys={[stringValue]}
       onChange={(e) => handleChange(e)}
