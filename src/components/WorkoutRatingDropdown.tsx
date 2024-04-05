@@ -5,24 +5,13 @@ export const WorkoutRatingDropdown = ({
   rating,
   workout_id,
 }: WorkoutRatingProps) => {
-  const choiceMap = new Map<string, number>([
-    ["No Rating", 0],
-    ["Bad", 1],
-    ["Good", 2],
-  ]);
-
-  const reverseChoiceMap = new Map<number, string>([
-    [0, "No Rating"],
-    [1, "Bad"],
-    [2, "Good"],
-  ]);
-
-  const stringValue: string = reverseChoiceMap.get(value) ?? "No Rating";
+  const validRatings: string[] = ["0", "1", "2"];
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const numberValue: number | undefined = choiceMap.get(e.target.value);
+    if (!validRatings.includes(e.target.value)) return;
 
-    if (numberValue === undefined) return;
+    const numberValue: number = Number(e.target.value);
+    console.log(numberValue);
   };
 
   return (
@@ -30,14 +19,18 @@ export const WorkoutRatingDropdown = ({
       aria-label="Workout Rating"
       className="max-w-[8rem]"
       variant="faded"
-      selectedKeys={[stringValue]}
+      defaultSelectedKeys={[rating.toString()]}
       onChange={(e) => handleChange(e)}
     >
-      {Array.from(choiceMap.keys()).map((unit) => (
-        <SelectItem key={unit} value={unit}>
-          {unit}
-        </SelectItem>
-      ))}
+      <SelectItem key="0" value="0">
+        No Rating
+      </SelectItem>
+      <SelectItem key="1" value="1">
+        Good
+      </SelectItem>
+      <SelectItem key="2" value="2">
+        Bad
+      </SelectItem>
     </Select>
   );
 };
