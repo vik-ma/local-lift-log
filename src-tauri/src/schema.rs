@@ -79,8 +79,7 @@ diesel::table! {
         distance_unit -> Nullable<Text>,
         is_superset -> SmallInt,
         is_dropset -> SmallInt,
-        superset_values -> Nullable<Text>,
-        dropset_values -> Nullable<Text>,
+        multiset_values -> Nullable<Text>,
     }
 }
 

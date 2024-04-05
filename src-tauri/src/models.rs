@@ -86,8 +86,7 @@ pub struct Set {
     pub distance_unit: Option<String>,
     pub is_superset: i16,
     pub is_dropset: i16,
-    pub superset_values: Option<String>,
-    pub dropset_values: Option<String>,
+    pub multiset_values: Option<String>,
 }
 
 #[derive(Queryable, Selectable)]
