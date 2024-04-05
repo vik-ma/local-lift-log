@@ -125,6 +125,13 @@ export type UnitDropdownProps = {
   targetType: "set" | "settings" | "state";
 };
 
+export type WorkoutRatingProps = {
+  value: number;
+  setState?: React.Dispatch<React.SetStateAction<number>>;
+  handleChangeInList?: HTMLSelectElementChange;
+  targetType: "list" | "details";
+};
+
 export type SetTrackingValuesInput = {
   weight: string;
   reps: string;
