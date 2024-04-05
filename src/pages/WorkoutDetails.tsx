@@ -951,7 +951,7 @@ export default function WorkoutDetails() {
                           <div className="flex flex-col">
                             <div className="flex gap-3">
                               {set.is_tracking_weight === 1 &&
-                                (set.is_completed || set.weight > 0) && (
+                                (set.is_completed === 1 || set.weight > 0) && (
                                   <span>
                                     <strong className="font-semibold">
                                       {set.weight}
@@ -960,7 +960,7 @@ export default function WorkoutDetails() {
                                   </span>
                                 )}
                               {set.is_tracking_reps === 1 &&
-                                (set.is_completed || set.reps > 0) && (
+                                (set.is_completed === 1 || set.reps > 0) && (
                                   <span>
                                     <strong className="font-semibold">
                                       {set.reps}
@@ -969,7 +969,7 @@ export default function WorkoutDetails() {
                                   </span>
                                 )}
                               {set.is_tracking_rir === 1 &&
-                                set.is_completed && (
+                                set.is_completed === 1 && (
                                   <span>
                                     <strong className="font-semibold">
                                       {set.rir}
@@ -978,7 +978,7 @@ export default function WorkoutDetails() {
                                   </span>
                                 )}
                               {set.is_tracking_rpe === 1 &&
-                                set.is_completed && (
+                                set.is_completed === 1 && (
                                   <span>
                                     <strong className="font-semibold">
                                       {set.rpe}
@@ -990,7 +990,8 @@ export default function WorkoutDetails() {
                             <div className="flex justify-between">
                               <div className="flex gap-3">
                                 {set.is_tracking_distance === 1 &&
-                                  (set.is_completed || set.distance > 0) && (
+                                  (set.is_completed === 1 ||
+                                    set.distance > 0) && (
                                     <span>
                                       <strong className="font-semibold">
                                         {set.distance}
@@ -999,7 +1000,7 @@ export default function WorkoutDetails() {
                                     </span>
                                   )}
                                 {set.is_tracking_time === 1 &&
-                                  (set.is_completed ||
+                                  (set.is_completed === 1 ||
                                     set.time_in_seconds > 0) && (
                                     <span>
                                       <strong className="font-semibold">
@@ -1010,7 +1011,7 @@ export default function WorkoutDetails() {
                                     </span>
                                   )}
                                 {set.is_tracking_resistance_level === 1 &&
-                                  (set.is_completed ||
+                                  (set.is_completed === 1 ||
                                     set.resistance_level > 0) && (
                                     <span>
                                       <strong className="font-semibold">
@@ -1264,7 +1265,7 @@ export default function WorkoutDetails() {
                           isDisabled={isSetTrackingInputsInvalid}
                           onPress={saveActiveSet}
                         >
-                          {activeSet.is_completed ? "Update" : "Save"}
+                          {activeSet.is_completed === 1 ? "Update" : "Save"}
                         </Button>
                       </div>
                     </div>
