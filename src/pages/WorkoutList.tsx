@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { WorkoutListItem } from "../typings";
 import { useNavigate } from "react-router-dom";
-import { LoadingSpinner } from "../components";
+import { LoadingSpinner, WorkoutRatingDropdown } from "../components";
 import Database from "tauri-plugin-sql-api";
 import {
   Button,
@@ -30,7 +30,7 @@ export default function WorkoutList() {
         const db = await Database.load(import.meta.env.VITE_DB);
 
         const result = await db.select<WorkoutListItem[]>(
-          "SELECT id, date FROM workouts"
+          "SELECT id, date, rating FROM workouts"
         );
 
         const workouts: WorkoutListItem[] = result.map((row) => {
@@ -38,6 +38,7 @@ export default function WorkoutList() {
           return {
             id: row.id,
             date: formattedDate,
+            rating: row.rating,
           };
         });
 
@@ -127,14 +128,20 @@ export default function WorkoutList() {
           <div className="flex flex-col gap-1.5 w-full">
             {workouts.map((workout) => (
               <div
-                className="flex flex-row justify-between items-center gap-2"
+                className="flex flex-row justify-between items-center gap-1"
                 key={`${workout.id}`}
-                onClick={() => navigate(`/workouts/${workout.id}`)}
               >
-                <div className="text-lg font-medium bg-white px-2.5 py-2 w-full rounded-lg cursor-pointer hover:bg-stone-100">
+                <Button
+                  className="w-full bg-white text-lg font-medium hover:bg-stone-100"
+                  onClick={() => navigate(`/workouts/${workout.id}`)}
+                >
                   {workout.date}
-                </div>
-                <div>
+                </Button>
+                <div className="flex gap-1 items-center">
+                  <WorkoutRatingDropdown
+                    rating={workout.rating}
+                    workout_id={workout.id}
+                  />
                   <Button
                     color="danger"
                     onPress={() => handleDeleteButtonPress(workout)}

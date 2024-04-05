@@ -161,6 +161,7 @@ export type Workout = {
 export type WorkoutListItem = {
   id: number;
   date: string;
+  rating: number;
 };
 
 export type UserWeight = {

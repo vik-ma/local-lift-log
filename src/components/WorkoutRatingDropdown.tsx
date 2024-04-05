@@ -37,8 +37,8 @@ export const WorkoutRatingDropdown = ({
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
       <Select
         aria-label="Workout Rating"
-        className="max-w-[8rem]"
-        variant="faded"
+        className="w-[7.5rem]"
+        variant="flat"
         defaultSelectedKeys={[rating.toString()]}
         onChange={(e) => handleChange(e)}
       >

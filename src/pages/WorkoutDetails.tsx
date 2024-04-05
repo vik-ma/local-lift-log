@@ -13,6 +13,7 @@ import {
   WeightUnitDropdown,
   DistanceUnitDropdown,
   TimeInput,
+  WorkoutRatingDropdown,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
 import { NotFound } from ".";
@@ -875,6 +876,8 @@ export default function WorkoutDetails() {
           <>
             <div className="flex justify-center items-center gap-5">
               <h1 className="text-2xl font-semibold">{workoutDate}</h1>
+            </div>
+            <div className="flex justify-center items-center gap-5">
               <Button
                 color="success"
                 variant="flat"
@@ -882,6 +885,10 @@ export default function WorkoutDetails() {
               >
                 Set Workout Note
               </Button>
+              <WorkoutRatingDropdown
+                rating={workout.rating}
+                workout_id={workout.id}
+              />
             </div>
             {showWorkoutNoteInput && (
               <div className="flex flex-row justify-between gap-2 items-center">
