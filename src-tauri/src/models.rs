@@ -129,4 +129,5 @@ pub struct Measurement {
     pub id: i32,
     pub name: String,
     pub default_unit: String,
+    pub measurement_type: String,
 }

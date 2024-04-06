@@ -118,5 +118,6 @@ diesel::table! {
         id -> Integer,
         name -> Text,
         default_unit -> Text,
+        measurement_type -> Text,
     }
 }
