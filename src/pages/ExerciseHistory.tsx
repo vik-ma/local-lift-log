@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { Exercise } from "../typings";
+import { Exercise, WorkoutSet } from "../typings";
 import { useState, useEffect } from "react";
 import Database from "tauri-plugin-sql-api";
 import { LoadingSpinner } from "../components";
@@ -7,6 +7,7 @@ import { LoadingSpinner } from "../components";
 export default function ExerciseHistoryPage() {
   const [exercise, setExercise] = useState<Exercise>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [sets, setSets] = useState<WorkoutSet[]>([]);
 
   const { id } = useParams();
 
@@ -25,6 +26,21 @@ export default function ExerciseHistoryPage() {
         const currentExercise: Exercise = result[0];
 
         setExercise(currentExercise);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const getSets = async () => {
+      try {
+        const db = await Database.load(import.meta.env.VITE_DB);
+
+        const result = await db.select<WorkoutSet[]>(
+          "SELECT * FROM sets WHERE exercise_id = $1 AND is_completed = 1",
+          [id]
+        );
+
+        setSets(result);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -32,7 +48,9 @@ export default function ExerciseHistoryPage() {
     };
 
     getExercise();
+    getSets();
   }, [id]);
+  
   return (
     <div className="flex flex-col gap-4">
       {isLoading ? (
