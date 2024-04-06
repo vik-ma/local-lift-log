@@ -47,6 +47,7 @@ export { IsStringInvalidNumberOr0 } from "./Numbers/IsStringInvalidNumberOr0";
 export { FormatTimeInSecondsToHhmmssString } from "./Numbers/FormatTimeInSecondsToHhmmssString";
 
 export { GetLatestUserWeight } from "./Measurements/GetLatestUserWeight";
+export { ValidMeasurementsUnits } from "./Measurements/ValidMeasurementsUnits";
 
 export { DefaultEquipmentWeightList } from "./Equipment/DefaultEquipmentWeightList";
 export { CreateDefaultEquipmentWeights } from "./Equipment/CreateDefaultEquipmentWeights";
