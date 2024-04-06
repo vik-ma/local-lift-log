@@ -112,3 +112,11 @@ diesel::table! {
         weight_unit -> Text,
     }
 }
+
+diesel::table! {
+    measurements (id) {
+        id -> Integer,
+        name -> Text,
+        default_unit -> Text,
+    }
+}

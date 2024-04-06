@@ -121,3 +121,12 @@ pub struct EquipmentWeight {
     pub weight: f32,
     pub weight_unit: String,
 }
+
+#[derive(Queryable, Selectable)]
+#[diesel(table_name = crate::schema::measurements)]
+#[diesel(check_for_backend(diesel::sqlite::Sqlite))]
+pub struct Measurement {
+    pub id: i32,
+    pub name: String,
+    pub default_unit: String,
+}
