@@ -202,6 +202,16 @@ export default function UserMeasurementsPage() {
                   {isEditing ? "Update" : "Add"}
                 </Button>
               </div>
+              <h2 className="flex text-3xl font-semibold">Body Measurements</h2>
+              <div className="flex justify-center">
+                <Button
+                  color="success"
+                  variant="flat"
+                  onClick={() => navigate("/measurements/measurements-list")}
+                >
+                  Measurements List
+                </Button>
+              </div>
             </div>
           </>
         )}

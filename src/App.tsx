@@ -56,7 +56,7 @@ function App() {
               <Route path="/measurements">
                 <Route index element={<UserMeasurementsPage />} />
                 <Route
-                  path="/measurements-list"
+                  path="measurements-list"
                   element={<MeasurementsListPage />}
                 />
                 <Route
