@@ -11,6 +11,7 @@ export const WorkoutRatingDropdown = ({
   const [selectedKeys, setSelectedKeys] = useState<Set<string>>(
     new Set([rating.toString()])
   );
+  const selectedKey: string = Array.from(selectedKeys)[0];
 
   const validRatings: string[] = ["0", "1", "2"];
 
@@ -46,6 +47,17 @@ export const WorkoutRatingDropdown = ({
       <Select
         aria-label="Workout Rating"
         className="w-[7.5rem]"
+        classNames={
+          selectedKey === "1"
+            ? {
+                value: "group-data-[has-value=true]:text-success",
+              }
+            : selectedKey === "2"
+            ? {
+                value: "group-data-[has-value=true]:text-danger",
+              }
+            : { value: "" }
+        }
         variant="flat"
         selectedKeys={selectedKeys}
         onSelectionChange={(keys) => handleChange(keys as Set<string>)}
