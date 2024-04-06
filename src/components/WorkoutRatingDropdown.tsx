@@ -2,11 +2,16 @@ import { Select, SelectItem } from "@nextui-org/react";
 import { WorkoutRatingProps } from "../typings";
 import Database from "tauri-plugin-sql-api";
 import toast, { Toaster } from "react-hot-toast";
+import { useState } from "react";
 
 export const WorkoutRatingDropdown = ({
   rating,
   workout_id,
 }: WorkoutRatingProps) => {
+  const [selectedKeys, setSelectedKeys] = useState<Set<string>>(
+    new Set([rating.toString()])
+  );
+
   const validRatings: string[] = ["0", "1", "2"];
 
   const handleChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -39,8 +44,8 @@ export const WorkoutRatingDropdown = ({
         aria-label="Workout Rating"
         className="w-[7.5rem]"
         variant="flat"
-        defaultSelectedKeys={[rating.toString()]}
-        onChange={(e) => handleChange(e)}
+        selectedKeys={selectedKeys}
+        onSelectionChange={(keys) => setSelectedKeys(keys as Set<string>)}
       >
         <SelectItem key="0" value="0">
           No Rating
