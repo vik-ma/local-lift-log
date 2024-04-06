@@ -17,6 +17,7 @@ import {
   UserWeightListPage,
   EquipmentWeightsPage,
   ExerciseHistoryPage,
+  MeasurementsListPage,
 } from "./pages";
 import { SiteHeader } from "./components";
 
@@ -54,6 +55,10 @@ function App() {
               <Route path="/settings" element={<SettingsPage />} />
               <Route path="/measurements">
                 <Route index element={<UserMeasurementsPage />} />
+                <Route
+                  path="/measurements-list"
+                  element={<MeasurementsListPage />}
+                />
                 <Route
                   path="body-weight-list"
                   element={<UserWeightListPage />}
