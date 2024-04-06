@@ -14,12 +14,15 @@ export const WorkoutRatingDropdown = ({
 
   const validRatings: string[] = ["0", "1", "2"];
 
-  const handleChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
-    if (!validRatings.includes(e.target.value)) return;
+  const handleChange = async (keys: Set<string>) => {
+    const stringValue: string = Array.from(keys)[0];
 
-    const numberValue: number = Number(e.target.value);
+    if (!validRatings.includes(stringValue)) return;
+
+    const numberValue: number = Number(stringValue);
 
     await updateWorkoutRating(numberValue);
+    setSelectedKeys(keys);
   };
 
   const updateWorkoutRating = async (ratingValue: number) => {
@@ -45,7 +48,7 @@ export const WorkoutRatingDropdown = ({
         className="w-[7.5rem]"
         variant="flat"
         selectedKeys={selectedKeys}
-        onSelectionChange={(keys) => setSelectedKeys(keys as Set<string>)}
+        onSelectionChange={(keys) => handleChange(keys as Set<string>)}
       >
         <SelectItem key="0" value="0">
           No Rating
