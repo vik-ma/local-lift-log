@@ -53,10 +53,10 @@ export const WorkoutRatingDropdown = ({
         <SelectItem key="0" value="0">
           No Rating
         </SelectItem>
-        <SelectItem key="1" value="1">
+        <SelectItem className="text-success" key="1" value="1">
           Good
         </SelectItem>
-        <SelectItem key="2" value="2">
+        <SelectItem className="text-danger" key="2" value="2">
           Bad
         </SelectItem>
       </Select>
