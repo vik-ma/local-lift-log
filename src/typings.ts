@@ -178,3 +178,10 @@ export type EquipmentWeight = {
   weight: number;
   weight_unit: string;
 };
+
+export type Measurement = {
+  id: number;
+  name: string;
+  default_unit: string;
+  measurement_type: string;
+};

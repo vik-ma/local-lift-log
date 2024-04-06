@@ -1,4 +1,30 @@
+import { useState, useEffect } from "react";
+import { LoadingSpinner } from "../components";
+import { Measurement } from "../typings";
+import Database from "tauri-plugin-sql-api";
+
 export default function MeasurementsListPage() {
+  const [measurements, setMeasurements] = useState<Measurement[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const getMeasurements = async () => {
+      try {
+        const db = await Database.load(import.meta.env.VITE_DB);
+
+        const result = await db.select<Measurement[]>(
+          "SELECT * FROM measurements"
+        );
+
+        setMeasurements(result);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getMeasurements();
+  }, []);
   return (
     <>
       <div className="flex flex-col items-center gap-4">
@@ -7,6 +33,13 @@ export default function MeasurementsListPage() {
             Measurements
           </h1>
         </div>
+        {isLoading ? (
+          <LoadingSpinner />
+        ) : (
+          <>
+            <div className="flex flex-col gap-4 items-center"></div>
+          </>
+        )}
       </div>
     </>
   );
