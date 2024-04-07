@@ -131,6 +131,7 @@ export type UnitDropdownProps = {
 
 export type MeasurementDropdownProps = {
   value: string;
+  isDisabled: boolean;
   setMeasurements: SetMeasurementAction;
 };
 

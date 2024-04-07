@@ -56,6 +56,11 @@ export default function MeasurementsListPage() {
                     </div>
                     <MeasurementUnitDropdown
                       value={measurement.default_unit}
+                      isDisabled={
+                        measurement.measurement_type === "Caliper"
+                          ? true
+                          : false
+                      }
                       setMeasurements={
                         setOperatingMeasurement as SetMeasurementsAction
                       }

@@ -4,6 +4,7 @@ import { MeasurementDropdownProps } from "../typings";
 
 export const MeasurementUnitDropdown = ({
   value,
+  isDisabled,
   setMeasurements,
 }: MeasurementDropdownProps) => {
   const measurementUnits: string[] = ValidMeasurementsUnits();
@@ -18,6 +19,7 @@ export const MeasurementUnitDropdown = ({
       variant="faded"
       selectedKeys={[value]}
       onChange={(e) => handleChange(e)}
+      isDisabled={isDisabled}
     >
       {measurementUnits.map((unit) => (
         <SelectItem key={unit} value={unit}>
