@@ -1,5 +1,10 @@
-export const DefaultExerciseList = () => {
-  const defaultExerciseList = [];
+type DefaultExercise = {
+  name: string;
+  exercise_group_set_string: string;
+};
+
+export const DefaultExerciseList = (): DefaultExercise[] => {
+  const defaultExerciseList: DefaultExercise[] = [];
 
   defaultExerciseList.push({
     name: "Bench Press",

@@ -1,5 +1,13 @@
-export const DefaultEquipmentWeightList = (isMetric: boolean) => {
-  const defaultEquipmentWeightList = [];
+type DefaultEquipmentWeight = {
+  name: string;
+  weight: number;
+  weight_unit: string;
+};
+
+export const DefaultEquipmentWeightList = (
+  isMetric: boolean
+): DefaultEquipmentWeight[] => {
+  const defaultEquipmentWeightList: DefaultEquipmentWeight[] = [];
 
   if (isMetric) {
     // Metric Units
