@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
-import { LoadingSpinner } from "../components";
-import { Measurement } from "../typings";
+import { LoadingSpinner, MeasurementUnitDropdown } from "../components";
+import { Measurement, SetMeasurementsAction } from "../typings";
 import Database from "tauri-plugin-sql-api";
 
 export default function MeasurementsListPage() {
   const [measurements, setMeasurements] = useState<Measurement[]>([]);
+  const [operatingMeasurement, setOperatingMeasurement] =
+    useState<Measurement>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -42,7 +44,7 @@ export default function MeasurementsListPage() {
                 {measurements.map((measurement) => (
                   <div
                     key={measurement.id}
-                    className="flex flex-row justify-between rounded-lg px-2 py-1 outline outline-2 outline-stone-300 bg-white hover:bg-stone-100"
+                    className="flex flex-row justify-between items-center rounded-lg px-2 py-1 outline outline-2 outline-stone-300 bg-white hover:bg-stone-100"
                   >
                     <div className="flex flex-col">
                       <div className="text-lg truncate w-56">
@@ -52,6 +54,12 @@ export default function MeasurementsListPage() {
                         {measurement.measurement_type}
                       </div>
                     </div>
+                    <MeasurementUnitDropdown
+                      value={measurement.default_unit}
+                      setMeasurements={
+                        setOperatingMeasurement as SetMeasurementsAction
+                      }
+                    />
                   </div>
                 ))}
               </div>
