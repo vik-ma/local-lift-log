@@ -48,6 +48,7 @@ export { FormatTimeInSecondsToHhmmssString } from "./Numbers/FormatTimeInSeconds
 
 export { GetLatestUserWeight } from "./Measurements/GetLatestUserWeight";
 export { ValidMeasurementsUnits } from "./Measurements/ValidMeasurementsUnits";
+export { DefaultMeasurementList } from "./Measurements/DefaultMeasurementList";
 
 export { DefaultEquipmentWeightList } from "./Equipment/DefaultEquipmentWeightList";
 export { CreateDefaultEquipmentWeights } from "./Equipment/CreateDefaultEquipmentWeights";
