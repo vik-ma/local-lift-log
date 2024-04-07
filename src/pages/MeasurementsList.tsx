@@ -37,7 +37,25 @@ export default function MeasurementsListPage() {
           <LoadingSpinner />
         ) : (
           <>
-            <div className="flex flex-col gap-4 items-center"></div>
+            <div className="w-full">
+              <div className="flex flex-col gap-1 ">
+                {measurements.map((measurement) => (
+                  <div
+                    key={measurement.id}
+                    className="flex flex-row justify-between rounded-lg px-2 bg-white hover:bg-stone-100 p-1"
+                  >
+                    <div className="flex flex-col">
+                      <div className="text-lg truncate w-56">
+                        {measurement.name}
+                      </div>
+                      <div className="text-xs text-stone-500">
+                        {measurement.measurement_type}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </>
         )}
       </div>

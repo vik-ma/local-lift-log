@@ -209,7 +209,7 @@ export default function UserMeasurementsPage() {
                   variant="flat"
                   onClick={() => navigate("/measurements/measurements-list")}
                 >
-                  Measurements List
+                  List of Measurements
                 </Button>
               </div>
             </div>
