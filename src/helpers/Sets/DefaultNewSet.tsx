@@ -28,6 +28,9 @@ export const DefaultNewSet = (isTemplate: boolean): WorkoutSet => {
     is_tracking_resistance_level: 0,
     weight_unit: "",
     distance_unit: "",
+    is_superset: 0,
+    is_dropset: 0,
+    multiset_values: null,
   };
 
   return defaultNewSet;
