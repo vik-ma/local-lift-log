@@ -113,6 +113,10 @@ export type SetWorkoutSetAction = React.Dispatch<
   React.SetStateAction<WorkoutSet>
 >;
 
+export type SetMeasurementAction = React.Dispatch<
+  React.SetStateAction<Measurement>
+>;
+
 export type HTMLSelectElementChange = (
   e: React.ChangeEvent<HTMLSelectElement>
 ) => Promise<void>;
@@ -123,6 +127,11 @@ export type UnitDropdownProps = {
   setUserSettings?: HTMLSelectElementChange;
   setState?: React.Dispatch<React.SetStateAction<string>>;
   targetType: "set" | "settings" | "state";
+};
+
+export type MeasurementDropdownProps = {
+  value: string;
+  setMeasurements: SetMeasurementAction;
 };
 
 export type WorkoutRatingProps = {

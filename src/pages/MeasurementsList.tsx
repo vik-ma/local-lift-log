@@ -38,11 +38,11 @@ export default function MeasurementsListPage() {
         ) : (
           <>
             <div className="w-full">
-              <div className="flex flex-col gap-1 ">
+              <div className="flex flex-col gap-1.5">
                 {measurements.map((measurement) => (
                   <div
                     key={measurement.id}
-                    className="flex flex-row justify-between rounded-lg px-2 bg-white hover:bg-stone-100 p-1"
+                    className="flex flex-row justify-between rounded-lg px-2 py-1 outline outline-2 outline-stone-300 bg-white hover:bg-stone-100"
                   >
                     <div className="flex flex-col">
                       <div className="text-lg truncate w-56">
