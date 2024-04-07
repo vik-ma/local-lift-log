@@ -113,8 +113,8 @@ export type SetWorkoutSetAction = React.Dispatch<
   React.SetStateAction<WorkoutSet>
 >;
 
-export type SetMeasurementAction = React.Dispatch<
-  React.SetStateAction<Measurement>
+export type SetMeasurementsAction = React.Dispatch<
+  React.SetStateAction<Measurement[]>
 >;
 
 export type HTMLSelectElementChange = (
@@ -130,9 +130,10 @@ export type UnitDropdownProps = {
 };
 
 export type MeasurementDropdownProps = {
-  value: string;
+  measurement: Measurement;
   isDisabled: boolean;
-  setMeasurements: SetMeasurementAction;
+  measurements: Measurement[];
+  setMeasurements: SetMeasurementsAction;
 };
 
 export type WorkoutRatingProps = {
