@@ -48,7 +48,7 @@ export const MeasurementUnitDropdown = ({
       <Select
         label="Unit"
         size="sm"
-        className="max-w-20"
+        className="w-20"
         variant="faded"
         selectedKeys={[value]}
         onChange={(e) => handleChange(e)}

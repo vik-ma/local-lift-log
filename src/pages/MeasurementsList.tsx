@@ -2,12 +2,24 @@ import { useState, useEffect } from "react";
 import { LoadingSpinner, MeasurementUnitDropdown } from "../components";
 import { Measurement, SetMeasurementsAction } from "../typings";
 import Database from "tauri-plugin-sql-api";
+import {
+  Button,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+} from "@nextui-org/react";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function MeasurementsListPage() {
   const [measurements, setMeasurements] = useState<Measurement[]>([]);
   const [operatingMeasurement, setOperatingMeasurement] =
     useState<Measurement>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const deleteModal = useDisclosure();
 
   useEffect(() => {
     const getMeasurements = async () => {
@@ -27,8 +39,67 @@ export default function MeasurementsListPage() {
 
     getMeasurements();
   }, []);
+
+  const deleteMeasurement = async () => {
+    if (operatingMeasurement === undefined) return;
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      db.execute("DELETE from measurements WHERE id = $1", [
+        operatingMeasurement.id,
+      ]);
+
+      const updatedMeasurements: Measurement[] = measurements.filter(
+        (item) => item.id !== operatingMeasurement?.id
+      );
+      setMeasurements(updatedMeasurements);
+
+      toast.success("Measurement Deleted");
+    } catch (error) {
+      console.log(error);
+    }
+
+    setOperatingMeasurement(undefined);
+    deleteModal.onClose();
+  };
+
+  const handleDeleteButtonPress = (measurement: Measurement) => {
+    setOperatingMeasurement(measurement);
+    deleteModal.onOpen();
+  };
+
   return (
     <>
+      <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
+      <Modal
+        isOpen={deleteModal.isOpen}
+        onOpenChange={deleteModal.onOpenChange}
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">
+                Delete Measurement
+              </ModalHeader>
+              <ModalBody>
+                <p>
+                  Are you sure you want to permanently delete{" "}
+                  {operatingMeasurement?.name} measurement?
+                </p>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="danger" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+                <Button color="danger" onPress={deleteMeasurement}>
+                  Delete
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
       <div className="flex flex-col items-center gap-4">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">
           <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">
@@ -54,16 +125,26 @@ export default function MeasurementsListPage() {
                         {measurement.measurement_type}
                       </div>
                     </div>
-                    <MeasurementUnitDropdown
-                      measurement={measurement}
-                      isDisabled={
-                        measurement.measurement_type === "Caliper"
-                          ? true
-                          : false
-                      }
-                      measurements={measurements}
-                      setMeasurements={setMeasurements as SetMeasurementsAction}
-                    />
+                    <div className="flex justify-between gap-1 items-center">
+                      <MeasurementUnitDropdown
+                        measurement={measurement}
+                        isDisabled={
+                          measurement.measurement_type === "Caliper"
+                            ? true
+                            : false
+                        }
+                        measurements={measurements}
+                        setMeasurements={
+                          setMeasurements as SetMeasurementsAction
+                        }
+                      />
+                      <Button
+                        color="danger"
+                        onPress={() => handleDeleteButtonPress(measurement)}
+                      >
+                        Delete
+                      </Button>
+                    </div>
                   </div>
                 ))}
               </div>
