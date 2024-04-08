@@ -87,6 +87,16 @@ export default function MeasurementListPage() {
     newMeasurementModal.onOpen();
   };
 
+  const handleMeasurementTypeChange = (measurementType: string) => {
+    const newDefaultUnit: string = measurementType === "Caliper" ? "mm" : "cm";
+
+    setNewMeasurement((prev) => ({
+      ...prev,
+      default_unit: newDefaultUnit,
+      measurement_type: measurementType,
+    }));
+  };
+
   const isNewMeasurementNameInvalid = useMemo(() => {
     return (
       newMeasurement.name === null ||
@@ -158,10 +168,7 @@ export default function MeasurementListPage() {
                   <RadioGroup
                     value={newMeasurement.measurement_type}
                     onValueChange={(value) =>
-                      setNewMeasurement((prev) => ({
-                        ...prev,
-                        measurement_type: value,
-                      }))
+                      handleMeasurementTypeChange(value)
                     }
                     label="Measurement Type"
                   >
@@ -244,7 +251,7 @@ export default function MeasurementListPage() {
         )}
         <div className="flex gap-1 justify-center">
           <Button color="success" onPress={handleAddButtonPressed}>
-            Add Measurement
+            Add New Measurement
           </Button>
         </div>
       </div>
