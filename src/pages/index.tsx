@@ -12,6 +12,6 @@ export { default as WorkoutIndexPage } from "./WorkoutIndex";
 export { default as WorkoutListPage } from "./WorkoutList";
 export { default as WorkoutDetailsPage } from "./WorkoutDetails";
 export { default as UserMeasurementsPage } from "./UserMeasurements";
-export { default as MeasurementsListPage } from "./MeasurementsList";
+export { default as MeasurementListPage } from "./MeasurementList";
 export { default as UserWeightListPage } from "./UserWeightList";
 export { default as EquipmentWeightsPage } from "./EquipmentWeights";

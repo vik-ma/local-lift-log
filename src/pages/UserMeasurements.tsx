@@ -207,7 +207,7 @@ export default function UserMeasurementsPage() {
                 <Button
                   color="success"
                   variant="flat"
-                  onClick={() => navigate("/measurements/measurements-list")}
+                  onClick={() => navigate("/measurements/measurement-list")}
                 >
                   List of Measurements
                 </Button>

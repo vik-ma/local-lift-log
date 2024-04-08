@@ -13,7 +13,7 @@ import {
 } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
 
-export default function MeasurementsListPage() {
+export default function MeasurementListPage() {
   const [measurements, setMeasurements] = useState<Measurement[]>([]);
   const [operatingMeasurement, setOperatingMeasurement] =
     useState<Measurement>();
