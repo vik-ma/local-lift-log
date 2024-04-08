@@ -11,6 +11,10 @@ import {
   ModalFooter,
   useDisclosure,
   Input,
+  Select,
+  SelectItem,
+  Radio,
+  RadioGroup,
 } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -152,6 +156,21 @@ export default function MeasurementListPage() {
                   isRequired
                   isClearable
                 />
+                <div className="flex justify-between items-center px-1 gap-4">
+                  <RadioGroup
+                    value={newMeasurement.measurement_type}
+                    onValueChange={(value) =>
+                      setNewMeasurement((prev) => ({
+                        ...prev,
+                        measurement_type: value,
+                      }))
+                    }
+                    label="Measurement Type"
+                  >
+                    <Radio value="Circumference">Circumference</Radio>
+                    <Radio value="Caliper">Caliper</Radio>
+                  </RadioGroup>
+                </div>
               </ModalBody>
               <ModalFooter>
                 <Button color="success" variant="light" onPress={onClose}>
