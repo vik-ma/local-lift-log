@@ -33,7 +33,7 @@ export const MeasurementUnitDropdown = ({
       setMeasurements(updatedMeasurements);
     }
 
-    if (targetType === "object" && setMeasurement !== undefined) {
+    if (targetType === "modal" && setMeasurement !== undefined) {
       setMeasurement((prev) => ({
         ...prev,
         default_unit: value,
@@ -61,8 +61,9 @@ export const MeasurementUnitDropdown = ({
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
       <Select
         label="Unit"
-        size="sm"
+        size={targetType === "modal" ? "lg" : "sm"}
         className="w-20"
+        labelPlacement={targetType === "modal" ? "outside" : "inside"}
         variant="faded"
         selectedKeys={[value]}
         onChange={(e) => handleChange(e)}

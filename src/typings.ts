@@ -139,7 +139,7 @@ export type MeasurementDropdownProps = {
   measurements?: Measurement[];
   setMeasurements?: SetMeasurementsAction;
   setMeasurement?: SetMeasurementAction;
-  targetType: "object" | "list";
+  targetType: "modal" | "list";
 };
 
 export type WorkoutRatingProps = {

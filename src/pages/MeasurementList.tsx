@@ -154,7 +154,7 @@ export default function MeasurementListPage() {
                   isRequired
                   isClearable
                 />
-                <div className="flex justify-between items-center px-1 gap-4">
+                <div className="flex justify-around items-center px-1">
                   <RadioGroup
                     value={newMeasurement.measurement_type}
                     onValueChange={(value) =>
@@ -176,7 +176,7 @@ export default function MeasurementListPage() {
                         : false
                     }
                     setMeasurement={setNewMeasurement}
-                    targetType="object"
+                    targetType="modal"
                   />
                 </div>
               </ModalBody>
