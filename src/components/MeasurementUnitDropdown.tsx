@@ -9,6 +9,7 @@ export const MeasurementUnitDropdown = ({
   isDisabled,
   measurements,
   setMeasurements,
+  setMeasurement,
   targetType,
 }: MeasurementDropdownProps) => {
   const value: string = measurement.default_unit;
@@ -30,6 +31,13 @@ export const MeasurementUnitDropdown = ({
 
       await updateMeasurementUnit(value);
       setMeasurements(updatedMeasurements);
+    }
+
+    if (targetType === "object" && setMeasurement !== undefined) {
+      setMeasurement((prev) => ({
+        ...prev,
+        default_unit: value,
+      }));
     }
   };
 

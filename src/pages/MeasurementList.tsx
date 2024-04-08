@@ -24,7 +24,7 @@ export default function MeasurementListPage() {
   const defaultNewMeasurement: Measurement = {
     id: 0,
     name: "",
-    default_unit: "",
+    default_unit: "cm",
     measurement_type: "Circumference",
   };
 
@@ -168,6 +168,16 @@ export default function MeasurementListPage() {
                     <Radio value="Circumference">Circumference</Radio>
                     <Radio value="Caliper">Caliper</Radio>
                   </RadioGroup>
+                  <MeasurementUnitDropdown
+                    measurement={newMeasurement}
+                    isDisabled={
+                      newMeasurement.measurement_type === "Caliper"
+                        ? true
+                        : false
+                    }
+                    setMeasurement={setNewMeasurement}
+                    targetType="object"
+                  />
                 </div>
               </ModalBody>
               <ModalFooter>

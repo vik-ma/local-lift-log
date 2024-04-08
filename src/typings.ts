@@ -117,6 +117,10 @@ export type SetMeasurementsAction = React.Dispatch<
   React.SetStateAction<Measurement[]>
 >;
 
+export type SetMeasurementAction = React.Dispatch<
+  React.SetStateAction<Measurement>
+>;
+
 export type HTMLSelectElementChange = (
   e: React.ChangeEvent<HTMLSelectElement>
 ) => Promise<void>;
@@ -134,7 +138,8 @@ export type MeasurementDropdownProps = {
   isDisabled: boolean;
   measurements?: Measurement[];
   setMeasurements?: SetMeasurementsAction;
-  targetType: "single" | "list";
+  setMeasurement?: SetMeasurementAction;
+  targetType: "object" | "list";
 };
 
 export type WorkoutRatingProps = {
