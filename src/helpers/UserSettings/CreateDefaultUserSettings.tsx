@@ -9,6 +9,7 @@ export const CreateDefaultUserSettings = async (
 
   const default_unit_weight: string = useMetricUnits ? "kg" : "lbs";
   const default_unit_distance: string = useMetricUnits ? "km" : "mi";
+  const default_unit_measurement: string = useMetricUnits ? "cm" : "in";
 
   const default_time_input: string = "hhmmss";
 
@@ -24,14 +25,16 @@ export const CreateDefaultUserSettings = async (
 
     const result = await db.execute(
       `INSERT into user_settings 
-      (show_timestamp_on_completed_set, active_routine_id, default_unit_weight, default_unit_distance, default_time_input) 
-      VALUES ($1, $2, $3, $4, $5)`,
+      (show_timestamp_on_completed_set, active_routine_id, default_unit_weight, 
+        default_unit_distance, default_time_input, default_unit_measurement) 
+      VALUES ($1, $2, $3, $4, $5, $6)`,
       [
         show_timestamp_on_completed_set,
         active_routine_id,
         default_unit_weight,
         default_unit_distance,
         default_time_input,
+        default_unit_measurement,
       ]
     );
 
@@ -44,6 +47,7 @@ export const CreateDefaultUserSettings = async (
       default_unit_weight: default_unit_weight,
       default_unit_distance: default_unit_distance,
       default_time_input: default_time_input,
+      default_unit_measurement: default_unit_measurement,
     };
 
     return defaultUserSettings;

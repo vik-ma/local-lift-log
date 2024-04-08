@@ -19,6 +19,7 @@ export type UserSettings = {
   default_unit_weight: string;
   default_unit_distance: string;
   default_time_input: string;
+  default_unit_measurement: string;
 };
 
 export type UserSettingsOptional = {
@@ -28,6 +29,7 @@ export type UserSettingsOptional = {
   default_unit_weight?: string;
   default_unit_distance?: string;
   default_time_input?: string;
+  default_unit_measurement?: string;
 };
 
 export type Exercise = {
