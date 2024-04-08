@@ -20,6 +20,7 @@ export default function MeasurementsListPage() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const deleteModal = useDisclosure();
+  const newMeasurementModal = useDisclosure();
 
   useEffect(() => {
     const getMeasurements = async () => {
@@ -69,6 +70,10 @@ export default function MeasurementsListPage() {
     deleteModal.onOpen();
   };
 
+  const handleAddButtonPressed = () => {
+    newMeasurementModal.onOpen();
+  };
+
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
@@ -95,6 +100,27 @@ export default function MeasurementsListPage() {
                 <Button color="danger" onPress={deleteMeasurement}>
                   Delete
                 </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
+      <Modal
+        isOpen={newMeasurementModal.isOpen}
+        onOpenChange={newMeasurementModal.onOpenChange}
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">
+                New Measurement
+              </ModalHeader>
+              <ModalBody></ModalBody>
+              <ModalFooter>
+                <Button color="success" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+                <Button color="success">Create</Button>
               </ModalFooter>
             </>
           )}
@@ -151,6 +177,11 @@ export default function MeasurementsListPage() {
             </div>
           </>
         )}
+        <div className="flex gap-1 justify-center">
+          <Button color="success" onPress={handleAddButtonPressed}>
+            Add Measurement
+          </Button>
+        </div>
       </div>
     </>
   );
