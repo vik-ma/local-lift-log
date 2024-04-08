@@ -132,8 +132,9 @@ export type UnitDropdownProps = {
 export type MeasurementDropdownProps = {
   measurement: Measurement;
   isDisabled: boolean;
-  measurements: Measurement[];
-  setMeasurements: SetMeasurementsAction;
+  measurements?: Measurement[];
+  setMeasurements?: SetMeasurementsAction;
+  targetType: "single" | "list";
 };
 
 export type WorkoutRatingProps = {

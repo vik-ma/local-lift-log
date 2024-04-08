@@ -9,6 +9,7 @@ export const MeasurementUnitDropdown = ({
   isDisabled,
   measurements,
   setMeasurements,
+  targetType,
 }: MeasurementDropdownProps) => {
   const value: string = measurement.default_unit;
 
@@ -16,15 +17,20 @@ export const MeasurementUnitDropdown = ({
 
   const handleChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value: string = e.target.value;
-
     if (!measurementUnits.includes(value)) return;
 
-    const updatedMeasurements = measurements.map((item) =>
-      item.id === measurement.id ? { ...item, default_unit: value } : item
-    );
+    if (
+      targetType === "list" &&
+      measurements !== undefined &&
+      setMeasurements !== undefined
+    ) {
+      const updatedMeasurements = measurements.map((item) =>
+        item.id === measurement.id ? { ...item, default_unit: value } : item
+      );
 
-    await updateMeasurementUnit(value);
-    setMeasurements(updatedMeasurements);
+      await updateMeasurementUnit(value);
+      setMeasurements(updatedMeasurements);
+    }
   };
 
   const updateMeasurementUnit = async (value: string) => {

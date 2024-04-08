@@ -11,8 +11,6 @@ import {
   ModalFooter,
   useDisclosure,
   Input,
-  Select,
-  SelectItem,
   Radio,
   RadioGroup,
 } from "@nextui-org/react";
@@ -219,6 +217,7 @@ export default function MeasurementListPage() {
                         setMeasurements={
                           setMeasurements as SetMeasurementsAction
                         }
+                        targetType="list"
                       />
                       <Button
                         color="danger"
