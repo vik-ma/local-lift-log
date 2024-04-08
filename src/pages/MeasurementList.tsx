@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { LoadingSpinner, MeasurementUnitDropdown } from "../components";
 import { Measurement, SetMeasurementsAction } from "../typings";
 import Database from "tauri-plugin-sql-api";
@@ -10,14 +10,24 @@ import {
   ModalBody,
   ModalFooter,
   useDisclosure,
+  Input,
 } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
 
 export default function MeasurementListPage() {
   const [measurements, setMeasurements] = useState<Measurement[]>([]);
-  const [operatingMeasurement, setOperatingMeasurement] =
-    useState<Measurement>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const defaultNewMeasurement: Measurement = {
+    id: 0,
+    name: "",
+    default_unit: "",
+    measurement_type: "Circumference",
+  };
+
+  const [newMeasurement, setNewMeasurement] = useState<Measurement>(
+    defaultNewMeasurement
+  );
 
   const deleteModal = useDisclosure();
   const newMeasurementModal = useDisclosure();
@@ -42,17 +52,15 @@ export default function MeasurementListPage() {
   }, []);
 
   const deleteMeasurement = async () => {
-    if (operatingMeasurement === undefined) return;
+    if (newMeasurement === undefined) return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
-      db.execute("DELETE from measurements WHERE id = $1", [
-        operatingMeasurement.id,
-      ]);
+      db.execute("DELETE from measurements WHERE id = $1", [newMeasurement.id]);
 
       const updatedMeasurements: Measurement[] = measurements.filter(
-        (item) => item.id !== operatingMeasurement?.id
+        (item) => item.id !== newMeasurement?.id
       );
       setMeasurements(updatedMeasurements);
 
@@ -61,18 +69,26 @@ export default function MeasurementListPage() {
       console.log(error);
     }
 
-    setOperatingMeasurement(undefined);
+    setNewMeasurement(undefined);
     deleteModal.onClose();
   };
 
   const handleDeleteButtonPress = (measurement: Measurement) => {
-    setOperatingMeasurement(measurement);
+    setNewMeasurement(measurement);
     deleteModal.onOpen();
   };
 
   const handleAddButtonPressed = () => {
     newMeasurementModal.onOpen();
   };
+
+  const isNewMeasurementNameInvalid = useMemo(() => {
+    return (
+      newMeasurement.name === null ||
+      newMeasurement.name === undefined ||
+      newMeasurement.name.trim().length === 0
+    );
+  }, [newMeasurement.name]);
 
   return (
     <>
@@ -90,7 +106,7 @@ export default function MeasurementListPage() {
               <ModalBody>
                 <p className="break-all">
                   Are you sure you want to permanently delete{" "}
-                  {operatingMeasurement?.name} measurement?
+                  {newMeasurement?.name} measurement?
                 </p>
               </ModalBody>
               <ModalFooter>
@@ -115,7 +131,25 @@ export default function MeasurementListPage() {
               <ModalHeader className="flex flex-col gap-1">
                 New Measurement
               </ModalHeader>
-              <ModalBody></ModalBody>
+              <ModalBody>
+                <Input
+                  value={newMeasurement.name}
+                  isInvalid={isNewMeasurementNameInvalid}
+                  label="Name"
+                  errorMessage={
+                    isNewMeasurementNameInvalid && "Name can't be empty"
+                  }
+                  variant="faded"
+                  onValueChange={(value) =>
+                    setNewMeasurement((prev) => ({
+                      ...prev,
+                      name: value,
+                    }))
+                  }
+                  isRequired
+                  isClearable
+                />
+              </ModalBody>
               <ModalFooter>
                 <Button color="success" variant="light" onPress={onClose}>
                   Close
