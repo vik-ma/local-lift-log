@@ -17,6 +17,7 @@ import toast, { Toaster } from "react-hot-toast";
 export default function MeasurementListPage() {
   const [measurements, setMeasurements] = useState<Measurement[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [measurementToDelete, setMeasurementToDelete] = useState<Measurement>();
 
   const defaultNewMeasurement: Measurement = {
     id: 0,
@@ -52,15 +53,17 @@ export default function MeasurementListPage() {
   }, []);
 
   const deleteMeasurement = async () => {
-    if (newMeasurement === undefined) return;
+    if (measurementToDelete === undefined) return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
-      db.execute("DELETE from measurements WHERE id = $1", [newMeasurement.id]);
+      db.execute("DELETE from measurements WHERE id = $1", [
+        measurementToDelete.id,
+      ]);
 
       const updatedMeasurements: Measurement[] = measurements.filter(
-        (item) => item.id !== newMeasurement?.id
+        (item) => item.id !== measurementToDelete?.id
       );
       setMeasurements(updatedMeasurements);
 
@@ -69,12 +72,12 @@ export default function MeasurementListPage() {
       console.log(error);
     }
 
-    setNewMeasurement(undefined);
+    setMeasurementToDelete(undefined);
     deleteModal.onClose();
   };
 
   const handleDeleteButtonPress = (measurement: Measurement) => {
-    setNewMeasurement(measurement);
+    setMeasurementToDelete(measurement);
     deleteModal.onOpen();
   };
 
@@ -106,7 +109,7 @@ export default function MeasurementListPage() {
               <ModalBody>
                 <p className="break-all">
                   Are you sure you want to permanently delete{" "}
-                  {newMeasurement?.name} measurement?
+                  {measurementToDelete?.name} measurement?
                 </p>
               </ModalBody>
               <ModalFooter>
