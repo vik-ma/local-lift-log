@@ -156,7 +156,7 @@ export default function WorkoutTemplateList() {
                 Delete Workout Template
               </ModalHeader>
               <ModalBody>
-                <p>
+                <p className="break-all">
                   Are you sure you want to permanently delete{" "}
                   {workoutTemplateToDelete?.name}?
                 </p>

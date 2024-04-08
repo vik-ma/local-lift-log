@@ -214,7 +214,7 @@ export default function EquipmentWeights() {
                 Delete Equipment Weight
               </ModalHeader>
               <ModalBody>
-                <p>
+                <p className="break-all">
                   Are you sure you want to permanently delete{" "}
                   {equipmentToDelete?.name}?
                 </p>

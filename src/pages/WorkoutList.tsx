@@ -98,7 +98,7 @@ export default function WorkoutList() {
                 Delete Workout
               </ModalHeader>
               <ModalBody>
-                <p>
+                <p className="break-all">
                   Are you sure you want to permanently delete Workout on{" "}
                   {workoutToDelete?.date}, including all Sets performed in the
                   Workout?

@@ -83,7 +83,7 @@ export default function MeasurementsListPage() {
                 Delete Measurement
               </ModalHeader>
               <ModalBody>
-                <p>
+                <p className="break-all">
                   Are you sure you want to permanently delete{" "}
                   {operatingMeasurement?.name} measurement?
                 </p>

@@ -237,7 +237,7 @@ export default function RoutineListPage() {
                 Delete Routine
               </ModalHeader>
               <ModalBody>
-                <p>
+                <p className="break-all">
                   Are you sure you want to permanently delete{" "}
                   {routineToDelete?.name}?
                 </p>

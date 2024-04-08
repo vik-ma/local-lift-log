@@ -220,7 +220,7 @@ export default function ExerciseListPage() {
                 Delete Exercise
               </ModalHeader>
               <ModalBody>
-                <p>
+                <p className="break-all">
                   Are you sure you want to permanently delete{" "}
                   {exerciseToDelete?.name}?
                 </p>

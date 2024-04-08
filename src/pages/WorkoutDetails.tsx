@@ -852,7 +852,7 @@ export default function WorkoutDetails() {
                 Delete Set
               </ModalHeader>
               <ModalBody>
-                <p>
+                <p className="break-all">
                   Are you sure you want to delete {setToDelete?.exercise_name}{" "}
                   Set from Workout?
                 </p>

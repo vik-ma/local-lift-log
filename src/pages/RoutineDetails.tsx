@@ -389,7 +389,7 @@ export default function RoutineDetailsPage() {
                 </h2>
               </ModalHeader>
               <ModalBody>
-                <p>
+                <p className="break-all">
                   Are you sure you want to remove{" "}
                   {workoutRoutineScheduleToRemove?.name}?
                 </p>

@@ -155,7 +155,7 @@ export default function UserWeightListPage() {
                 Delete Body Weight Record
               </ModalHeader>
               <ModalBody>
-                <p>
+                <p className="break-all">
                   Are you sure you want to permanently delete the Body Weight
                   record on {userWeightToDelete?.formattedDate}?
                 </p>
