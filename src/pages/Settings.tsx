@@ -6,6 +6,7 @@ import {
   UpdateDefaultUnitWeight,
   UpdateDefaultUnitDistance,
   UpdateDefaultTimeInput,
+  UpdateDefaultUnitMeasurement,
 } from "../helpers";
 import { Switch, Select, SelectItem } from "@nextui-org/react";
 import {
@@ -15,7 +16,6 @@ import {
   MeasurementUnitDropdown,
 } from "../components";
 import toast, { Toaster } from "react-hot-toast";
-import { UpdateDefaultUnitMeasurement } from "../helpers/UserSettings/UpdateDefaultUnitMeasurement";
 
 export default function SettingsPage() {
   const [userSettings, setUserSettings] = useState<UserSettings>();

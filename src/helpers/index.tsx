@@ -29,6 +29,8 @@ export { UpdateShowTimestamp } from "./UserSettings/UpdateShowTimestamp";
 export { ValidDistanceUnits } from "./UserSettings/ValidDistanceUnits";
 export { ValidWeightUnits } from "./UserSettings/ValidWeightUnits";
 export { UpdateDefaultTimeInput } from "./UserSettings/UpdateDefaultTimeInput";
+export { UpdateDefaultUnitMeasurement } from "./UserSettings/UpdateDefaultUnitMeasurement";
+export { GetDefaultUnitMeasurement } from "./UserSettings/GetDefaultUnitMeasurement";
 
 export { GenerateSetListOrderString } from "./Sets/GenerateSetListOrderString";
 export { OrderSetsBySetListOrderString } from "./Sets/OrderSetsBySetListOrderString";
