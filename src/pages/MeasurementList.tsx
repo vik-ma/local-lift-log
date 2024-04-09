@@ -75,6 +75,45 @@ export default function MeasurementListPage() {
     getMeasurements();
   }, []);
 
+  const addMeasurement = async () => {
+    if (newMeasurement === undefined || isNewMeasurementNameInvalid) return;
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      const result = await db.execute(
+        "INSERT into measurements (name, default_unit, measurement_type) VALUES ($1, $2, $3)",
+        [
+          newMeasurement.name,
+          newMeasurement.default_unit,
+          newMeasurement.measurement_type,
+        ]
+      );
+
+      const addedMeasurement: Measurement = {
+        id: result.lastInsertId,
+        name: newMeasurement.name,
+        default_unit: newMeasurement.default_unit,
+        measurement_type: newMeasurement.measurement_type,
+      };
+
+      setMeasurements([...measurements, addedMeasurement]);
+      setNewMeasurement({
+        ...defaultNewMeasurement,
+        default_unit: userSettings!.default_unit_measurement!,
+      });
+
+      newMeasurementModal.onClose();
+      toast.success("Measurement Added");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleSaveButtonPressed = async () => {
+    await addMeasurement();
+  };
+
   const deleteMeasurement = async () => {
     if (measurementToDelete === undefined) return;
 
@@ -215,7 +254,13 @@ export default function MeasurementListPage() {
                 <Button color="success" variant="light" onPress={onClose}>
                   Close
                 </Button>
-                <Button color="success">Create</Button>
+                <Button
+                  color="success"
+                  isDisabled={isNewMeasurementNameInvalid}
+                  onPress={handleSaveButtonPressed}
+                >
+                  Create
+                </Button>
               </ModalFooter>
             </>
           )}
