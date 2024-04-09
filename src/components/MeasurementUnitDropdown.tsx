@@ -49,6 +49,10 @@ export const MeasurementUnitDropdown = ({
         default_unit: value,
       }));
     }
+
+    if (targetType === "settings" && setUserSettings !== undefined) {
+      setUserSettings(e);
+    }
   };
 
   const updateMeasurementUnit = async (value: string) => {
@@ -81,7 +85,7 @@ export const MeasurementUnitDropdown = ({
             ? "md"
             : "sm"
         }
-        className={targetType === "settings" ? "max-w-[4.5rem]" : "w-20"}
+        className={targetType === "settings" ? "max-w-[5rem]" : "w-20"}
         labelPlacement={targetType === "modal" ? "outside" : "inside"}
         variant="faded"
         selectedKeys={[displayValue]}
