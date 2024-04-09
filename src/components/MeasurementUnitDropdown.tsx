@@ -1,5 +1,5 @@
 import { Select, SelectItem } from "@nextui-org/react";
-import { ValidMeasurementsUnits } from "../helpers";
+import { ValidMeasurementUnits } from "../helpers";
 import { MeasurementDropdownProps } from "../typings";
 import Database from "tauri-plugin-sql-api";
 import toast, { Toaster } from "react-hot-toast";
@@ -14,7 +14,7 @@ export const MeasurementUnitDropdown = ({
 }: MeasurementDropdownProps) => {
   const value: string = measurement.default_unit;
 
-  const measurementUnits: string[] = ValidMeasurementsUnits();
+  const measurementUnits: string[] = ValidMeasurementUnits();
 
   const handleChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value: string = e.target.value;
