@@ -109,7 +109,10 @@ export default function MeasurementListPage() {
   };
 
   const handleMeasurementTypeChange = (measurementType: string) => {
-    const newDefaultUnit: string = measurementType === "Caliper" ? "mm" : "cm";
+    const newDefaultUnit: string =
+      measurementType === "Caliper"
+        ? "mm"
+        : userSettings!.default_unit_measurement!;
 
     setNewMeasurement((prev) => ({
       ...prev,
