@@ -26,6 +26,7 @@ export default function MeasurementListPage() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [measurementToDelete, setMeasurementToDelete] = useState<Measurement>();
   const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
+  const [isEditing, setIsEditing] = useState<boolean>(false);
 
   const defaultNewMeasurement: Measurement = {
     id: 0,
@@ -98,10 +99,7 @@ export default function MeasurementListPage() {
       };
 
       setMeasurements([...measurements, addedMeasurement]);
-      setNewMeasurement({
-        ...defaultNewMeasurement,
-        default_unit: userSettings!.default_unit_measurement!,
-      });
+      resetMeasurementToDefault();
 
       newMeasurementModal.onClose();
       toast.success("Measurement Added");
@@ -110,8 +108,43 @@ export default function MeasurementListPage() {
     }
   };
 
-  const handleSaveButtonPressed = async () => {
-    await addMeasurement();
+  const updateMeasurement = async () => {
+    if (
+      newMeasurement === undefined ||
+      isNewMeasurementNameInvalid ||
+      isEditing === false
+    )
+      return;
+
+    const db = await Database.load(import.meta.env.VITE_DB);
+
+    await db.execute(
+      "UPDATE measurements SET name = $1, default_unit = $2, measurement_type = $3 WHERE id = $4",
+      [
+        newMeasurement.name,
+        newMeasurement.default_unit,
+        newMeasurement.measurement_type,
+        newMeasurement.id,
+      ]
+    );
+
+    const updatedMeasurement: Measurement = {
+      ...newMeasurement,
+      name: newMeasurement.name,
+      default_unit: newMeasurement.default_unit,
+      measurement_type: newMeasurement.measurement_type,
+    };
+
+    setMeasurements((prev) =>
+      prev.map((item) =>
+        item.id === newMeasurement.id ? updatedMeasurement : item
+      )
+    );
+
+    resetMeasurementToDefault();
+
+    newMeasurementModal.onClose();
+    toast.success("Measurement Updated");
   };
 
   const deleteMeasurement = async () => {
@@ -143,8 +176,33 @@ export default function MeasurementListPage() {
     deleteModal.onOpen();
   };
 
+  const handleSaveButtonPressed = async () => {
+    if (isEditing) {
+      await updateMeasurement();
+    } else {
+      await addMeasurement();
+    }
+  };
+
   const handleAddButtonPressed = () => {
+    if (isEditing) resetMeasurementToDefault();
+
     newMeasurementModal.onOpen();
+  };
+
+  const handleEditButtonPressed = (measurement: Measurement) => {
+    setNewMeasurement(measurement);
+    setIsEditing(true);
+
+    newMeasurementModal.onOpen();
+  };
+
+  const resetMeasurementToDefault = () => {
+    setIsEditing(false);
+    setNewMeasurement({
+      ...defaultNewMeasurement,
+      default_unit: userSettings!.default_unit_measurement!,
+    });
   };
 
   const handleMeasurementTypeChange = (measurementType: string) => {
@@ -259,7 +317,7 @@ export default function MeasurementListPage() {
                   isDisabled={isNewMeasurementNameInvalid}
                   onPress={handleSaveButtonPressed}
                 >
-                  Create
+                  {isEditing ? "Update" : "Create"}
                 </Button>
               </ModalFooter>
             </>
@@ -305,12 +363,24 @@ export default function MeasurementListPage() {
                         }
                         targetType="list"
                       />
-                      <Button
-                        color="danger"
-                        onPress={() => handleDeleteButtonPress(measurement)}
-                      >
-                        Delete
-                      </Button>
+                      <div className="flex flex-col gap-0.5">
+                        <Button
+                          className="h-6"
+                          size="sm"
+                          color="success"
+                          onPress={() => handleEditButtonPressed(measurement)}
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          className="h-6"
+                          size="sm"
+                          color="danger"
+                          onPress={() => handleDeleteButtonPress(measurement)}
+                        >
+                          Delete
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 ))}
