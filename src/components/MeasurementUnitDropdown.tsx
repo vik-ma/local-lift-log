@@ -6,7 +6,7 @@ import toast, { Toaster } from "react-hot-toast";
 
 export const MeasurementUnitDropdown = ({
   measurement,
-  isDisabled,
+  isDisabled = false,
   measurements,
   setMeasurements,
   setMeasurement,
