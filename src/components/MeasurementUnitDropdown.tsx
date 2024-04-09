@@ -10,11 +10,20 @@ export const MeasurementUnitDropdown = ({
   measurements,
   setMeasurements,
   setMeasurement,
+  value,
+  setUserSettings,
   targetType,
 }: MeasurementDropdownProps) => {
-  const value: string = measurement.default_unit;
-
   const measurementUnits: string[] = ValidMeasurementUnits();
+
+  const displayValue: string =
+    measurement !== undefined
+      ? // Set display value as measurement.default_unit if measurement is passed down
+        measurement.default_unit
+      : value !== undefined
+      ? // Set display value as value if value is passed down, but measurement is not
+        value
+      : measurementUnits[0];
 
   const handleChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value: string = e.target.value;
@@ -23,7 +32,8 @@ export const MeasurementUnitDropdown = ({
     if (
       targetType === "list" &&
       measurements !== undefined &&
-      setMeasurements !== undefined
+      setMeasurements !== undefined &&
+      measurement !== undefined
     ) {
       const updatedMeasurements = measurements.map((item) =>
         item.id === measurement.id ? { ...item, default_unit: value } : item
@@ -42,6 +52,8 @@ export const MeasurementUnitDropdown = ({
   };
 
   const updateMeasurementUnit = async (value: string) => {
+    if (measurement === undefined) return;
+
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -65,7 +77,7 @@ export const MeasurementUnitDropdown = ({
         className="w-20"
         labelPlacement={targetType === "modal" ? "outside" : "inside"}
         variant="faded"
-        selectedKeys={[value]}
+        selectedKeys={[displayValue]}
         onChange={(e) => handleChange(e)}
         isDisabled={isDisabled}
       >
