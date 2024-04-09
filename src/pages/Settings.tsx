@@ -4,6 +4,7 @@ import {
   GetUserSettings,
   UpdateShowTimestamp,
   UpdateDefaultUnitWeight,
+  UpdateDefaultUnitDistance,
   UpdateDefaultTimeInput,
 } from "../helpers";
 import { Switch, Select, SelectItem } from "@nextui-org/react";
@@ -11,8 +12,10 @@ import {
   LoadingSpinner,
   WeightUnitDropdown,
   DistanceUnitDropdown,
+  MeasurementUnitDropdown,
 } from "../components";
 import toast, { Toaster } from "react-hot-toast";
+import { UpdateDefaultUnitMeasurement } from "../helpers/UserSettings/UpdateDefaultUnitMeasurement";
 
 export default function SettingsPage() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
@@ -70,7 +73,7 @@ export default function SettingsPage() {
       default_unit_distance: distanceUnit,
     };
 
-    await UpdateDefaultUnitWeight(updatedSettings);
+    await UpdateDefaultUnitDistance(updatedSettings);
     setUserSettings((prev) => ({ ...prev!, ...updatedSettings }));
     showToast();
   };
@@ -88,6 +91,23 @@ export default function SettingsPage() {
     };
 
     await UpdateDefaultTimeInput(updatedSettings);
+    setUserSettings((prev) => ({ ...prev!, ...updatedSettings }));
+    showToast();
+  };
+
+  const handleDefaultUnitMeasurementChange = async (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    if (userSettings === undefined) return;
+
+    const measurementUnit: string = e.target.value;
+
+    const updatedSettings: UserSettingsOptional = {
+      id: userSettings.id,
+      default_unit_measurement: measurementUnit,
+    };
+
+    await UpdateDefaultUnitMeasurement(updatedSettings);
     setUserSettings((prev) => ({ ...prev!, ...updatedSettings }));
     showToast();
   };
@@ -155,6 +175,14 @@ export default function SettingsPage() {
                   Seconds
                 </SelectItem>
               </Select>
+            </div>
+            <div className="flex gap-3 items-center justify-between">
+              <span className="text-lg">Default Measurement Unit</span>
+              <MeasurementUnitDropdown
+                value={userSettings!.default_unit_weight}
+                setUserSettings={handleDefaultUnitMeasurementChange}
+                targetType="settings"
+              />
             </div>
           </div>
         )}

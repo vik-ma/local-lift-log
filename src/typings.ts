@@ -136,12 +136,14 @@ export type UnitDropdownProps = {
 };
 
 export type MeasurementDropdownProps = {
-  measurement: Measurement;
+  measurement?: Measurement;
   isDisabled?: boolean;
   measurements?: Measurement[];
   setMeasurements?: SetMeasurementsAction;
   setMeasurement?: SetMeasurementAction;
-  targetType: "modal" | "list";
+  value?: string;
+  setUserSettings?: HTMLSelectElementChange;
+  targetType: "modal" | "list" | "settings";
 };
 
 export type WorkoutRatingProps = {
