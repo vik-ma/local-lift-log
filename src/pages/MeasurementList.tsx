@@ -1,6 +1,10 @@
 import { useState, useEffect, useMemo } from "react";
 import { LoadingSpinner, MeasurementUnitDropdown } from "../components";
-import { Measurement, SetMeasurementsAction } from "../typings";
+import {
+  Measurement,
+  SetMeasurementsAction,
+  UserSettingsOptional,
+} from "../typings";
 import Database from "tauri-plugin-sql-api";
 import {
   Button,
@@ -15,16 +19,18 @@ import {
   RadioGroup,
 } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
+import { GetDefaultUnitMeasurement } from "../helpers";
 
 export default function MeasurementListPage() {
   const [measurements, setMeasurements] = useState<Measurement[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [measurementToDelete, setMeasurementToDelete] = useState<Measurement>();
+  const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
 
   const defaultNewMeasurement: Measurement = {
     id: 0,
     name: "",
-    default_unit: "cm",
+    default_unit: "",
     measurement_type: "Circumference",
   };
 
@@ -36,6 +42,20 @@ export default function MeasurementListPage() {
   const newMeasurementModal = useDisclosure();
 
   useEffect(() => {
+    const loadUserSettings = async () => {
+      try {
+        const userSettings = await GetDefaultUnitMeasurement();
+        if (userSettings === undefined) return;
+        setUserSettings(userSettings);
+        setNewMeasurement((prev) => ({
+          ...prev,
+          default_unit: userSettings.default_unit_measurement!,
+        }));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     const getMeasurements = async () => {
       try {
         const db = await Database.load(import.meta.env.VITE_DB);
@@ -51,6 +71,7 @@ export default function MeasurementListPage() {
       }
     };
 
+    loadUserSettings();
     getMeasurements();
   }, []);
 
