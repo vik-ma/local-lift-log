@@ -123,3 +123,13 @@ diesel::table! {
         measurement_type -> Text,
     }
 }
+
+diesel::table! {
+    user_measurements (id) {
+        id -> Integer,
+        measurement_id -> Integer,
+        value -> Float,
+        unit -> String,
+        date -> String,
+    }
+}

@@ -133,3 +133,14 @@ pub struct Measurement {
     pub default_unit: String,
     pub measurement_type: String,
 }
+
+#[derive(Queryable, Selectable)]
+#[diesel(table_name = crate::schema::user_measurements)]
+#[diesel(check_for_backend(diesel::sqlite::Sqlite))]
+pub struct UserMeasurement {
+    pub id: i32,
+    pub measurement_id: i32,
+    pub value: f32,
+    pub unit: String,
+    pub date: String,
+}
