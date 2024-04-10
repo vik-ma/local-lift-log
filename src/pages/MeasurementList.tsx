@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { LoadingSpinner, MeasurementUnitDropdown } from "../components";
 import {
   Measurement,
@@ -46,6 +46,20 @@ export default function MeasurementListPage() {
   const newMeasurementModal = useDisclosure();
   const setUnitsModal = useDisclosure();
 
+  const getMeasurements = useCallback(async () => {
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      const result = await db.select<Measurement[]>(
+        "SELECT * FROM measurements"
+      );
+
+      setMeasurements(result);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
   useEffect(() => {
     const loadUserSettings = async () => {
       try {
@@ -56,29 +70,15 @@ export default function MeasurementListPage() {
           ...prev,
           default_unit: userSettings.default_unit_measurement!,
         }));
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    const getMeasurements = async () => {
-      try {
-        const db = await Database.load(import.meta.env.VITE_DB);
-
-        const result = await db.select<Measurement[]>(
-          "SELECT * FROM measurements"
-        );
-
-        setMeasurements(result);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
       }
     };
 
-    loadUserSettings();
     getMeasurements();
-  }, []);
+    loadUserSettings();
+  }, [getMeasurements]);
 
   const addMeasurement = async () => {
     if (newMeasurement === undefined || isNewMeasurementNameInvalid) return;
@@ -232,6 +232,8 @@ export default function MeasurementListPage() {
 
   const createDefaultMeasurementList = async (useMetricUnits: boolean) => {
     await CreateDefaultMeasurementList(useMetricUnits);
+    await getMeasurements();
+    setUnitsModal.onClose();
   };
 
   return (
