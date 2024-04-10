@@ -41,6 +41,7 @@ export default function MeasurementListPage() {
 
   const deleteModal = useDisclosure();
   const newMeasurementModal = useDisclosure();
+  const setUnitsModal = useDisclosure();
 
   useEffect(() => {
     const loadUserSettings = async () => {
@@ -324,6 +325,41 @@ export default function MeasurementListPage() {
           )}
         </ModalContent>
       </Modal>
+      <Modal
+        isOpen={setUnitsModal.isOpen}
+        onOpenChange={setUnitsModal.onOpenChange}
+      >
+        <ModalContent>
+          {() => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">
+                Choose Unit Type
+              </ModalHeader>
+              <ModalBody>
+                <p>Use Metric or Imperial units?</p>
+              </ModalBody>
+              <ModalFooter className="flex justify-center gap-5">
+                <Button
+                  className="text-lg font-medium"
+                  size="lg"
+                  color="primary"
+                  onPress={() => {}}
+                >
+                  Metric
+                </Button>
+                <Button
+                  className="text-lg font-medium"
+                  size="lg"
+                  color="primary"
+                  onPress={() => {}}
+                >
+                  Imperial
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
       <div className="flex flex-col items-center gap-4">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">
           <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">
@@ -388,9 +424,12 @@ export default function MeasurementListPage() {
             </div>
           </>
         )}
-        <div className="flex gap-1 justify-center">
+        <div className="flex flex-col gap-1 justify-center">
           <Button color="success" onPress={handleAddButtonPressed}>
             Add New Measurement
+          </Button>
+          <Button color="success" onPress={() => setUnitsModal.onOpen()}>
+            Restore Default Measurements
           </Button>
         </div>
       </div>
