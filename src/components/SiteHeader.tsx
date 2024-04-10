@@ -76,7 +76,7 @@ export const SiteHeader = () => {
               Workout Templates
             </DropdownItem>
             <DropdownItem href="/measurements" key="measurements">
-              User Measurements
+              Body Measurements
             </DropdownItem>
             <DropdownItem href="/equipment-weights" key="equipment-weights">
               Equipment Weights

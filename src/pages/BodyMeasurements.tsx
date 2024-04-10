@@ -12,7 +12,7 @@ import Database from "tauri-plugin-sql-api";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
-export default function UserMeasurementsPage() {
+export default function BodyMeasurementsPage() {
   const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
   const [latestUserWeight, setLatestUserWeight] = useState<UserWeight>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
