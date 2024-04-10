@@ -26,8 +26,9 @@ export const CreateDefaultUserSettings = async (
     const result = await db.execute(
       `INSERT into user_settings 
       (show_timestamp_on_completed_set, active_routine_id, default_unit_weight, 
-        default_unit_distance, default_time_input, default_unit_measurement) 
-      VALUES ($1, $2, $3, $4, $5, $6)`,
+        default_unit_distance, default_time_input, default_unit_measurement,
+        active_tracking_measurements) 
+      VALUES ($1, $2, $3, $4, $5, $6, $7)`,
       [
         show_timestamp_on_completed_set,
         active_routine_id,
@@ -35,6 +36,7 @@ export const CreateDefaultUserSettings = async (
         default_unit_distance,
         default_time_input,
         default_unit_measurement,
+        "",
       ]
     );
 
