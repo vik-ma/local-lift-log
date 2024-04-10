@@ -19,7 +19,10 @@ import {
   RadioGroup,
 } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
-import { GetDefaultUnitMeasurement } from "../helpers";
+import {
+  CreateDefaultMeasurementList,
+  GetDefaultUnitMeasurement,
+} from "../helpers";
 
 export default function MeasurementListPage() {
   const [measurements, setMeasurements] = useState<Measurement[]>([]);
@@ -227,6 +230,10 @@ export default function MeasurementListPage() {
     );
   }, [newMeasurement.name]);
 
+  const createDefaultMeasurementList = async (useMetricUnits: boolean) => {
+    await CreateDefaultMeasurementList(useMetricUnits);
+  };
+
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
@@ -343,7 +350,9 @@ export default function MeasurementListPage() {
                   className="text-lg font-medium"
                   size="lg"
                   color="primary"
-                  onPress={() => {}}
+                  onPress={() => {
+                    createDefaultMeasurementList(true);
+                  }}
                 >
                   Metric
                 </Button>
@@ -351,7 +360,9 @@ export default function MeasurementListPage() {
                   className="text-lg font-medium"
                   size="lg"
                   color="primary"
-                  onPress={() => {}}
+                  onPress={() => {
+                    createDefaultMeasurementList(false);
+                  }}
                 >
                   Imperial
                 </Button>
