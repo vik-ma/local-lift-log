@@ -35,12 +35,16 @@ export const DefaultExerciseList = (): DefaultExercise[] => {
     exercise_group_set_string: "14",
   });
   defaultExerciseList.push({
-    name: "Stationary Bike",
+    name: "Neck Curl",
     exercise_group_set_string: "15",
   });
   defaultExerciseList.push({
-    name: "Other",
+    name: "Stationary Bike",
     exercise_group_set_string: "16",
+  });
+  defaultExerciseList.push({
+    name: "Other",
+    exercise_group_set_string: "17",
   });
 
   return defaultExerciseList;
