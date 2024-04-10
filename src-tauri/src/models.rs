@@ -23,6 +23,7 @@ pub struct UserSetting {
     pub default_unit_distance: String,
     pub default_time_input: String,
     pub default_unit_measurement: String,
+    pub active_tracking_measurements: String,
 }
 
 #[derive(Queryable, Selectable)]
