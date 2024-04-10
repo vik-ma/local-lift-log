@@ -12,7 +12,11 @@ import {
   useDisclosure,
   Input,
 } from "@nextui-org/react";
-import { GetDefaultUnitValues, IsStringInvalidNumberOr0 } from "../helpers";
+import {
+  CreateDefaultEquipmentWeights,
+  GetDefaultUnitValues,
+  IsStringInvalidNumberOr0,
+} from "../helpers";
 import toast, { Toaster } from "react-hot-toast";
 
 export default function EquipmentWeights() {
@@ -30,6 +34,7 @@ export default function EquipmentWeights() {
 
   const deleteModal = useDisclosure();
   const newEquipmentModal = useDisclosure();
+  const setUnitsModal = useDisclosure();
 
   useEffect(() => {
     const loadUserSettings = async () => {
@@ -288,6 +293,45 @@ export default function EquipmentWeights() {
                   isDisabled={isNewEquipmentInvalid}
                 >
                   {operatingEquipment === undefined ? "Create" : "Update"}
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
+      <Modal
+        isOpen={setUnitsModal.isOpen}
+        onOpenChange={setUnitsModal.onOpenChange}
+      >
+        <ModalContent>
+          {() => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">
+                Choose Unit Type
+              </ModalHeader>
+              <ModalBody>
+                <p>Use Metric or Imperial units?</p>
+              </ModalBody>
+              <ModalFooter className="flex justify-center gap-5">
+                <Button
+                  className="text-lg font-medium"
+                  size="lg"
+                  color="primary"
+                  onPress={() => {
+                    createDefaultEquipmentWeights(true);
+                  }}
+                >
+                  Metric
+                </Button>
+                <Button
+                  className="text-lg font-medium"
+                  size="lg"
+                  color="primary"
+                  onPress={() => {
+                    createDefaultEquipmentWeights(false);
+                  }}
+                >
+                  Imperial
                 </Button>
               </ModalFooter>
             </>
