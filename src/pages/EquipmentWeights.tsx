@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { LoadingSpinner, WeightUnitDropdown } from "../components";
 import Database from "tauri-plugin-sql-api";
 import { EquipmentWeight, UserSettingsOptional } from "../typings";
@@ -36,6 +36,27 @@ export default function EquipmentWeights() {
   const newEquipmentModal = useDisclosure();
   const setUnitsModal = useDisclosure();
 
+  const getEquipmentWeights = useCallback(async () => {
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      const result = await db.select<EquipmentWeight[]>(
+        "SELECT * FROM equipment_weights"
+      );
+
+      const equipmentWeights: EquipmentWeight[] = result.map((row) => ({
+        id: row.id,
+        name: row.name,
+        weight: row.weight,
+        weight_unit: row.weight_unit,
+      }));
+
+      setEquipmentWeights(equipmentWeights);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
   useEffect(() => {
     const loadUserSettings = async () => {
       const settings: UserSettingsOptional | undefined =
@@ -44,33 +65,12 @@ export default function EquipmentWeights() {
         setUserSettings(settings);
         setNewWeightUnit(settings.default_unit_weight!);
       }
+      setIsLoading(false);
     };
 
-    const getEquipmentWeights = async () => {
-      try {
-        const db = await Database.load(import.meta.env.VITE_DB);
-
-        const result = await db.select<EquipmentWeight[]>(
-          "SELECT * FROM equipment_weights"
-        );
-
-        const equipmentWeights: EquipmentWeight[] = result.map((row) => ({
-          id: row.id,
-          name: row.name,
-          weight: row.weight,
-          weight_unit: row.weight_unit,
-        }));
-
-        setEquipmentWeights(equipmentWeights);
-        setIsLoading(false);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    loadUserSettings();
     getEquipmentWeights();
-  }, []);
+    loadUserSettings();
+  }, [getEquipmentWeights]);
 
   const isNewEquipmentNameInvalid = useMemo(() => {
     return (
@@ -203,6 +203,12 @@ export default function EquipmentWeights() {
   const handleDeleteButtonPress = (equipment: EquipmentWeight) => {
     setEquipmentToDelete(equipment);
     deleteModal.onOpen();
+  };
+
+  const createDefaultEquipmentWeights = async (useMetricUnits: boolean) => {
+    await CreateDefaultEquipmentWeights(useMetricUnits);
+    await getEquipmentWeights();
+    setUnitsModal.onClose();
   };
 
   return (
@@ -379,12 +385,15 @@ export default function EquipmentWeights() {
                   </div>
                 </div>
               ))}
-              <div className="flex justify-center mt-1">
+              <div className="flex gap-1 flex-col justify-center mt-1">
                 <Button
                   color="success"
                   onPress={() => handleNewButtonPressed()}
                 >
                   Create New Equipment Weight
+                </Button>
+                <Button color="success" onPress={() => setUnitsModal.onOpen()}>
+                  Restore Default Equipment Weights
                 </Button>
               </div>
             </div>
