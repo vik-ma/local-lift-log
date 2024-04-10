@@ -209,6 +209,7 @@ export default function EquipmentWeights() {
     await CreateDefaultEquipmentWeights(useMetricUnits);
     await getEquipmentWeights();
     setUnitsModal.onClose();
+    toast.success("Default Equipments Weight Restored");
   };
 
   return (

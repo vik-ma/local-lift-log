@@ -234,6 +234,7 @@ export default function MeasurementListPage() {
     await CreateDefaultMeasurementList(useMetricUnits);
     await getMeasurements();
     setUnitsModal.onClose();
+    toast.success("Default Measurements Restored");
   };
 
   return (

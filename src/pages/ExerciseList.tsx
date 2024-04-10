@@ -202,6 +202,7 @@ export default function ExerciseListPage() {
   const restoreDefaultExerciseList = async () => {
     await CreateDefaultExerciseList();
     await getExercises();
+    toast.success("Default Exercises Restored");
   };
 
   const exerciseGroupDictionary = ExerciseGroupDictionary();
