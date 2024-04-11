@@ -200,6 +200,13 @@ export type EquipmentWeight = {
   weight_unit: string;
 };
 
+export type Distance = {
+  id: number;
+  name: string;
+  distance: number;
+  distance_unit: string;
+};
+
 export type Measurement = {
   id: number;
   name: string;

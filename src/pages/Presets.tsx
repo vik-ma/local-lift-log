@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { LoadingSpinner, WeightUnitDropdown } from "../components";
 import Database from "tauri-plugin-sql-api";
-import { EquipmentWeight, UserSettingsOptional } from "../typings";
+import { EquipmentWeight, UserSettingsOptional, Distance } from "../typings";
 import {
   Button,
   Modal,
@@ -24,12 +24,12 @@ export default function PresetsPage() {
   const [equipmentWeights, setEquipmentWeights] = useState<EquipmentWeight[]>(
     []
   );
+  const [distances, setDistances] = useState<Distance[]>([]);
   const [newEquipmentName, setNewEquipmentName] = useState<string>("");
   const [newWeightInput, setNewWeightInput] = useState<string>("");
   const [newWeightUnit, setNewWeightUnit] = useState<string>("");
   const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
-  const [operatingEquipment, setOperatingEquipment] =
-    useState<EquipmentWeight>();
+  const [newEquipment, setNewEquipment] = useState<EquipmentWeight>();
   const [equipmentToDelete, setEquipmentToDelete] = useState<EquipmentWeight>();
 
   const deleteModal = useDisclosure();
@@ -57,6 +57,25 @@ export default function PresetsPage() {
     }
   }, []);
 
+  const getDistances = useCallback(async () => {
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      const result = await db.select<Distance[]>("SELECT * FROM distances");
+
+      const distances: Distance[] = result.map((row) => ({
+        id: row.id,
+        name: row.name,
+        distance: row.distance,
+        distance_unit: row.distance_unit,
+      }));
+
+      setDistances(distances);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
   useEffect(() => {
     const loadUserSettings = async () => {
       const settings: UserSettingsOptional | undefined =
@@ -69,8 +88,9 @@ export default function PresetsPage() {
     };
 
     getEquipmentWeights();
+    getDistances();
     loadUserSettings();
-  }, [getEquipmentWeights]);
+  }, [getEquipmentWeights, getDistances]);
 
   const isNewEquipmentNameInvalid = useMemo(() => {
     return (
@@ -122,7 +142,7 @@ export default function PresetsPage() {
   };
 
   const updateEquipmentWeight = async () => {
-    if (operatingEquipment === undefined || isNewEquipmentInvalid) return;
+    if (newEquipment === undefined || isNewEquipmentInvalid) return;
 
     const weight = Number(newWeightInput);
 
@@ -131,11 +151,11 @@ export default function PresetsPage() {
 
       await db.execute(
         "UPDATE equipment_weights SET name = $1, weight = $2, weight_unit = $3 WHERE id = $4",
-        [newEquipmentName, weight, newWeightUnit, operatingEquipment.id]
+        [newEquipmentName, weight, newWeightUnit, newEquipment.id]
       );
 
       const updatedEquipment: EquipmentWeight = {
-        ...operatingEquipment,
+        ...newEquipment,
         name: newEquipmentName,
         weight: weight,
         weight_unit: newWeightUnit,
@@ -143,7 +163,7 @@ export default function PresetsPage() {
 
       setEquipmentWeights((prev) =>
         prev.map((item) =>
-          item.id === operatingEquipment.id ? updatedEquipment : item
+          item.id === newEquipment.id ? updatedEquipment : item
         )
       );
 
@@ -181,19 +201,19 @@ export default function PresetsPage() {
 
   const resetNewEquipment = () => {
     if (userSettings === undefined) return;
-    setOperatingEquipment(undefined);
+    setNewEquipment(undefined);
     setNewEquipmentName("");
     setNewWeightInput("");
     setNewWeightUnit(userSettings.default_unit_weight!);
   };
 
   const handleNewButtonPressed = () => {
-    if (operatingEquipment !== undefined) resetNewEquipment();
+    if (newEquipment !== undefined) resetNewEquipment();
     newEquipmentModal.onOpen();
   };
 
   const handleEditButtonPressed = (equipment: EquipmentWeight) => {
-    setOperatingEquipment(equipment);
+    setNewEquipment(equipment);
     setNewEquipmentName(equipment.name);
     setNewWeightInput(equipment.weight.toString());
     setNewWeightUnit(equipment.weight_unit);
@@ -293,13 +313,13 @@ export default function PresetsPage() {
                 <Button
                   color="success"
                   onPress={
-                    operatingEquipment === undefined
+                    newEquipment === undefined
                       ? addEquipmentWeight
                       : updateEquipmentWeight
                   }
                   isDisabled={isNewEquipmentInvalid}
                 >
-                  {operatingEquipment === undefined ? "Create" : "Update"}
+                  {newEquipment === undefined ? "Create" : "Update"}
                 </Button>
               </ModalFooter>
             </>
