@@ -31,6 +31,8 @@ export default function PresetsPage() {
   const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
   const [newEquipment, setNewEquipment] = useState<EquipmentWeight>();
   const [equipmentToDelete, setEquipmentToDelete] = useState<EquipmentWeight>();
+  const [distanceToDelete, setDistanceToDelete] = useState<Distance>();
+  const [operatingType, setOperatingType] = useState<string>("");
 
   const deleteModal = useDisclosure();
   const newEquipmentModal = useDisclosure();
@@ -177,7 +179,8 @@ export default function PresetsPage() {
   };
 
   const deleteEquipmentWeight = async () => {
-    if (equipmentToDelete === undefined) return;
+    if (equipmentToDelete === undefined || operatingType !== "equipment")
+      return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
@@ -196,6 +199,30 @@ export default function PresetsPage() {
     }
 
     setEquipmentToDelete(undefined);
+    setOperatingType("");
+    deleteModal.onClose();
+  };
+
+  const deleteDistance = async () => {
+    if (distanceToDelete === undefined || operatingType !== "distance") return;
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      db.execute("DELETE from distances WHERE id = $1", [distanceToDelete.id]);
+
+      const updatedDistances: Distance[] = distances.filter(
+        (item) => item.id !== distanceToDelete?.id
+      );
+      setDistances(updatedDistances);
+
+      toast.success("Distance Deleted");
+    } catch (error) {
+      console.log(error);
+    }
+
+    setDistanceToDelete(undefined);
+    setOperatingType("");
     deleteModal.onClose();
   };
 
@@ -222,6 +249,13 @@ export default function PresetsPage() {
 
   const handleDeleteEquipmentButtonPress = (equipment: EquipmentWeight) => {
     setEquipmentToDelete(equipment);
+    setOperatingType("equipment");
+    deleteModal.onOpen();
+  };
+
+  const handleDeleteDistanceButtonPress = (distance: Distance) => {
+    setDistanceToDelete(distance);
+    setOperatingType("distance");
     deleteModal.onOpen();
   };
 
@@ -243,19 +277,35 @@ export default function PresetsPage() {
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                Delete Equipment Weight
+                {operatingType === "equipment"
+                  ? "Delete Equipment Weight"
+                  : "Delete Distance"}
               </ModalHeader>
               <ModalBody>
-                <p className="break-all">
-                  Are you sure you want to permanently delete{" "}
-                  {equipmentToDelete?.name}?
-                </p>
+                {operatingType === "equipment" ? (
+                  <p className="break-all">
+                    Are you sure you want to permanently delete{" "}
+                    {equipmentToDelete?.name}?
+                  </p>
+                ) : (
+                  <p className="break-all">
+                    Are you sure you want to permanently delete{" "}
+                    {distanceToDelete?.name}?
+                  </p>
+                )}
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="light" onPress={onClose}>
                   Close
                 </Button>
-                <Button color="danger" onPress={deleteEquipmentWeight}>
+                <Button
+                  color="danger"
+                  onPress={
+                    operatingType === "equipment"
+                      ? deleteEquipmentWeight
+                      : deleteDistance
+                  }
+                >
                   Delete
                 </Button>
               </ModalFooter>
@@ -448,7 +498,13 @@ export default function PresetsPage() {
                       <Button color="primary" size="sm">
                         Edit
                       </Button>
-                      <Button color="danger" size="sm">
+                      <Button
+                        color="danger"
+                        size="sm"
+                        onPress={() =>
+                          handleDeleteDistanceButtonPress(distance)
+                        }
+                      >
                         Delete
                       </Button>
                     </div>
