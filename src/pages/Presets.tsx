@@ -130,7 +130,7 @@ export default function PresetsPage() {
   ]);
 
   const addEquipmentWeight = async () => {
-    if (isNewPresetInvalid) return;
+    if (isNewPresetInvalid || operatingType !== "equipment") return;
 
     const weight = Number(newWeightInput);
 
@@ -156,6 +156,38 @@ export default function PresetsPage() {
       newPresetModal.onClose();
 
       toast.success("Equipment Weight Added");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const addDistance = async () => {
+    if (isNewPresetInvalid || operatingType !== "distance") return;
+
+    const distance = Number(newDistanceInput);
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      const result = await db.execute(
+        "INSERT into distances (name, distance, distance_unit) VALUES ($1, $2, $3)",
+        [newName, distance, newDistanceUnit]
+      );
+
+      const newDistance: Distance = {
+        id: result.lastInsertId,
+        name: newName,
+        distance: distance,
+        distance_unit: newDistanceUnit,
+      };
+
+      setDistances([...distances, newDistance]);
+
+      resetNewDistance();
+      setOperatingType("");
+      newPresetModal.onClose();
+
+      toast.success("Distance Added");
     } catch (error) {
       console.log(error);
     }
@@ -310,8 +342,14 @@ export default function PresetsPage() {
   };
 
   const handleNewEquipmentButtonPressed = () => {
-    if (newEquipment !== undefined) resetNewEquipment();
+    if (isEditing) resetNewEquipment();
     setOperatingType("equipment");
+    newPresetModal.onOpen();
+  };
+
+  const handleNewDistanceButtonPressed = () => {
+    if (isEditing) resetNewDistance();
+    setOperatingType("distance");
     newPresetModal.onOpen();
   };
 
@@ -635,6 +673,15 @@ export default function PresetsPage() {
                     </div>
                   </div>
                 ))}
+              </div>
+              <div className="flex gap-1.5 flex-col justify-center items-center">
+                <Button
+                  color="success"
+                  onPress={() => handleNewDistanceButtonPressed()}
+                >
+                  Create New Distance
+                </Button>
+                <Button color="primary">Restore Default Distances</Button>
               </div>
             </div>
           </>
