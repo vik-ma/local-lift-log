@@ -499,7 +499,7 @@ export default function PresetsPage() {
                   isClearable
                 />
                 {operatingType === "equipment" && (
-                  <div className="flex justify-between gap-2">
+                  <div className="flex justify-between gap-2 items-center">
                     <Input
                       value={newWeightInput}
                       label="Weight"
@@ -518,7 +518,7 @@ export default function PresetsPage() {
                   </div>
                 )}
                 {operatingType === "distance" && (
-                  <div className="flex justify-between gap-2">
+                  <div className="flex justify-between gap-2 items-center">
                     <Input
                       value={newDistanceInput}
                       label="Distance"
