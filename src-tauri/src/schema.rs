@@ -116,6 +116,15 @@ diesel::table! {
 }
 
 diesel::table! {
+    distances (id) {
+        id -> Integer,
+        name -> Text,
+        distance -> Float,
+        distance_unit -> Text,
+    }
+}
+
+diesel::table! {
     measurements (id) {
         id -> Integer,
         name -> Text,

@@ -125,6 +125,16 @@ pub struct EquipmentWeight {
 }
 
 #[derive(Queryable, Selectable)]
+#[diesel(table_name = crate::schema::distances)]
+#[diesel(check_for_backend(diesel::sqlite::Sqlite))]
+pub struct Distance {
+    pub id: i32,
+    pub name: String,
+    pub distance: f32,
+    pub distance_unit: String,
+}
+
+#[derive(Queryable, Selectable)]
 #[diesel(table_name = crate::schema::measurements)]
 #[diesel(check_for_backend(diesel::sqlite::Sqlite))]
 pub struct Measurement {
