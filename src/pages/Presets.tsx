@@ -1,5 +1,9 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
-import { LoadingSpinner, WeightUnitDropdown } from "../components";
+import {
+  DistanceUnitDropdown,
+  LoadingSpinner,
+  WeightUnitDropdown,
+} from "../components";
 import Database from "tauri-plugin-sql-api";
 import { EquipmentWeight, UserSettingsOptional, Distance } from "../typings";
 import {
@@ -25,17 +29,21 @@ export default function PresetsPage() {
     []
   );
   const [distances, setDistances] = useState<Distance[]>([]);
-  const [newEquipmentName, setNewEquipmentName] = useState<string>("");
+  const [newName, setNewName] = useState<string>("");
   const [newWeightInput, setNewWeightInput] = useState<string>("");
   const [newWeightUnit, setNewWeightUnit] = useState<string>("");
   const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
   const [newEquipment, setNewEquipment] = useState<EquipmentWeight>();
   const [equipmentToDelete, setEquipmentToDelete] = useState<EquipmentWeight>();
+  const [newDistance, setNewDistance] = useState<Distance>();
+  const [newDistanceInput, setNewDistanceInput] = useState<string>("");
+  const [newDistanceUnit, setNewDistanceUnit] = useState<string>("");
   const [distanceToDelete, setDistanceToDelete] = useState<Distance>();
   const [operatingType, setOperatingType] = useState<string>("");
+  const [isEditing, setIsEditing] = useState<boolean>(false);
 
   const deleteModal = useDisclosure();
-  const newEquipmentModal = useDisclosure();
+  const newPresetModal = useDisclosure();
   const setUnitsModal = useDisclosure();
 
   const getEquipmentWeights = useCallback(async () => {
@@ -94,26 +102,34 @@ export default function PresetsPage() {
     loadUserSettings();
   }, [getEquipmentWeights, getDistances]);
 
-  const isNewEquipmentNameInvalid = useMemo(() => {
+  const isNewNameInvalid = useMemo(() => {
     return (
-      newEquipmentName === null ||
-      newEquipmentName === undefined ||
-      newEquipmentName.trim().length === 0
+      newName === null || newName === undefined || newName.trim().length === 0
     );
-  }, [newEquipmentName]);
+  }, [newName]);
 
   const isWeightInputInvalid = useMemo(() => {
     return IsStringInvalidNumberOr0(newWeightInput);
   }, [newWeightInput]);
 
-  const isNewEquipmentInvalid = useMemo(() => {
-    if (isNewEquipmentNameInvalid) return true;
-    if (isWeightInputInvalid) return true;
+  const isDistanceInputInvalid = useMemo(() => {
+    return IsStringInvalidNumberOr0(newDistanceInput);
+  }, [newDistanceInput]);
+
+  const isNewPresetInvalid = useMemo(() => {
+    if (isNewNameInvalid) return true;
+    if (isWeightInputInvalid && operatingType === "equipment") return true;
+    if (isDistanceInputInvalid && operatingType === "distance") return true;
     return false;
-  }, [isNewEquipmentNameInvalid, isWeightInputInvalid]);
+  }, [
+    isNewNameInvalid,
+    isWeightInputInvalid,
+    isDistanceInputInvalid,
+    operatingType,
+  ]);
 
   const addEquipmentWeight = async () => {
-    if (isNewEquipmentInvalid) return;
+    if (isNewPresetInvalid) return;
 
     const weight = Number(newWeightInput);
 
@@ -122,12 +138,12 @@ export default function PresetsPage() {
 
       const result = await db.execute(
         "INSERT into equipment_weights (name, weight, weight_unit) VALUES ($1, $2, $3)",
-        [newEquipmentName, weight, newWeightUnit]
+        [newName, weight, newWeightUnit]
       );
 
       const newEquipment: EquipmentWeight = {
         id: result.lastInsertId,
-        name: newEquipmentName,
+        name: newName,
         weight: weight,
         weight_unit: newWeightUnit,
       };
@@ -135,7 +151,7 @@ export default function PresetsPage() {
       setEquipmentWeights([...equipmentWeights, newEquipment]);
 
       resetNewEquipment();
-      newEquipmentModal.onClose();
+      newPresetModal.onClose();
 
       toast.success("Equipment Weight Added");
     } catch (error) {
@@ -144,7 +160,7 @@ export default function PresetsPage() {
   };
 
   const updateEquipmentWeight = async () => {
-    if (newEquipment === undefined || isNewEquipmentInvalid) return;
+    if (newEquipment === undefined || isNewPresetInvalid) return;
 
     const weight = Number(newWeightInput);
 
@@ -153,12 +169,12 @@ export default function PresetsPage() {
 
       await db.execute(
         "UPDATE equipment_weights SET name = $1, weight = $2, weight_unit = $3 WHERE id = $4",
-        [newEquipmentName, weight, newWeightUnit, newEquipment.id]
+        [newName, weight, newWeightUnit, newEquipment.id]
       );
 
       const updatedEquipment: EquipmentWeight = {
         ...newEquipment,
-        name: newEquipmentName,
+        name: newName,
         weight: weight,
         weight_unit: newWeightUnit,
       };
@@ -170,7 +186,7 @@ export default function PresetsPage() {
       );
 
       resetNewEquipment();
-      newEquipmentModal.onClose();
+      newPresetModal.onClose();
 
       toast.success("Equipment Weight Updated");
     } catch (error) {
@@ -229,22 +245,35 @@ export default function PresetsPage() {
   const resetNewEquipment = () => {
     if (userSettings === undefined) return;
     setNewEquipment(undefined);
-    setNewEquipmentName("");
+    setNewName("");
     setNewWeightInput("");
     setNewWeightUnit(userSettings.default_unit_weight!);
+    setIsEditing(false);
   };
 
   const handleNewEquipmentButtonPressed = () => {
     if (newEquipment !== undefined) resetNewEquipment();
-    newEquipmentModal.onOpen();
+    setOperatingType("equipment");
+    newPresetModal.onOpen();
   };
 
   const handleEditEquipmentButtonPressed = (equipment: EquipmentWeight) => {
     setNewEquipment(equipment);
-    setNewEquipmentName(equipment.name);
+    setNewName(equipment.name);
     setNewWeightInput(equipment.weight.toString());
     setNewWeightUnit(equipment.weight_unit);
-    newEquipmentModal.onOpen();
+    setOperatingType("equipment");
+    setIsEditing(true);
+    newPresetModal.onOpen();
+  };
+
+  const handleEditDistanceButtonPressed = (distance: Distance) => {
+    setNewDistance(distance);
+    setNewName(distance.name);
+    setNewDistanceInput(distance.distance.toString());
+    setNewDistanceUnit(distance.distance_unit);
+    setOperatingType("distance");
+    newPresetModal.onOpen();
   };
 
   const handleDeleteEquipmentButtonPress = (equipment: EquipmentWeight) => {
@@ -314,47 +343,68 @@ export default function PresetsPage() {
         </ModalContent>
       </Modal>
       <Modal
-        isOpen={newEquipmentModal.isOpen}
-        onOpenChange={newEquipmentModal.onOpenChange}
+        isOpen={newPresetModal.isOpen}
+        onOpenChange={newPresetModal.onOpenChange}
       >
         <ModalContent>
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                New Equipment Weight
+                {isEditing ? "Edit" : "New"}{" "}
+                {operatingType === "equipment"
+                  ? "Equipment Weight"
+                  : "Distance"}
               </ModalHeader>
               <ModalBody>
                 <Input
-                  value={newEquipmentName}
-                  isInvalid={isNewEquipmentNameInvalid}
+                  value={newName}
+                  isInvalid={isNewNameInvalid}
                   label="Name"
                   size="sm"
-                  errorMessage={
-                    isNewEquipmentNameInvalid && "Name can't be empty"
-                  }
+                  errorMessage={isNewNameInvalid && "Name can't be empty"}
                   variant="faded"
-                  onValueChange={(value) => setNewEquipmentName(value)}
+                  onValueChange={(value) => setNewName(value)}
                   isRequired
                   isClearable
                 />
-                <div className="flex justify-between gap-2">
-                  <Input
-                    value={newWeightInput}
-                    label="Weight"
-                    size="sm"
-                    variant="faded"
-                    onValueChange={(value) => setNewWeightInput(value)}
-                    isInvalid={isWeightInputInvalid}
-                    isRequired
-                    isClearable
-                  />
-                  <WeightUnitDropdown
-                    value={newWeightUnit}
-                    setState={setNewWeightUnit}
-                    targetType="state"
-                  />
-                </div>
-                <div className="flex justify-between items-center px-1 gap-4"></div>
+                {operatingType === "equipment" && (
+                  <div className="flex justify-between gap-2">
+                    <Input
+                      value={newWeightInput}
+                      label="Weight"
+                      size="sm"
+                      variant="faded"
+                      onValueChange={(value) => setNewWeightInput(value)}
+                      isInvalid={isWeightInputInvalid}
+                      isRequired
+                      isClearable
+                    />
+                    <WeightUnitDropdown
+                      value={newWeightUnit}
+                      setState={setNewWeightUnit}
+                      targetType="state"
+                    />
+                  </div>
+                )}
+                {operatingType === "distance" && (
+                  <div className="flex justify-between gap-2">
+                    <Input
+                      value={newDistanceInput}
+                      label="Distance"
+                      size="sm"
+                      variant="faded"
+                      onValueChange={(value) => setNewDistanceInput(value)}
+                      isInvalid={isDistanceInputInvalid}
+                      isRequired
+                      isClearable
+                    />
+                    <DistanceUnitDropdown
+                      value={newDistanceUnit}
+                      setState={setNewDistanceUnit}
+                      targetType="state"
+                    />
+                  </div>
+                )}
               </ModalBody>
               <ModalFooter>
                 <Button color="success" variant="light" onPress={onClose}>
@@ -363,13 +413,11 @@ export default function PresetsPage() {
                 <Button
                   color="success"
                   onPress={
-                    newEquipment === undefined
-                      ? addEquipmentWeight
-                      : updateEquipmentWeight
+                    isEditing ? addEquipmentWeight : updateEquipmentWeight
                   }
-                  isDisabled={isNewEquipmentInvalid}
+                  isDisabled={isNewPresetInvalid}
                 >
-                  {newEquipment === undefined ? "Create" : "Update"}
+                  {isEditing ? "Update" : "Create"}
                 </Button>
               </ModalFooter>
             </>
@@ -495,7 +543,13 @@ export default function PresetsPage() {
                       </span>
                     </div>
                     <div className="flex justify-end gap-1">
-                      <Button color="primary" size="sm">
+                      <Button
+                        color="primary"
+                        size="sm"
+                        onPress={() =>
+                          handleEditDistanceButtonPressed(distance)
+                        }
+                      >
                         Edit
                       </Button>
                       <Button
