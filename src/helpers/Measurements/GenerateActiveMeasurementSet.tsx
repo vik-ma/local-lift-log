@@ -6,13 +6,13 @@ export const GenerateActiveMeasurementSet = (
   const activeMeasurementStringList: string[] =
     activeTrackingMeasurementString.split(",");
 
-  const activeMeasurementIdList: Set<number> = new Set<number>();
+  const activeMeasurementSet: Set<number> = new Set<number>();
 
   activeMeasurementStringList.map((measurement) => {
     if (!IsStringInvalidNumber(measurement)) {
-      activeMeasurementIdList.add(Number(measurement));
+      activeMeasurementSet.add(Number(measurement));
     }
   });
 
-  return activeMeasurementIdList;
+  return activeMeasurementSet;
 };

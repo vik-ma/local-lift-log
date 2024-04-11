@@ -17,6 +17,7 @@ import {
 import toast, { Toaster } from "react-hot-toast";
 import {
   CreateDefaultMeasurementList,
+  GenerateActiveMeasurementSet,
   GetUserSettings,
 } from "../helpers";
 
@@ -26,6 +27,8 @@ export default function MeasurementListPage() {
   const [measurementToDelete, setMeasurementToDelete] = useState<Measurement>();
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [activeMeasurementSet, setActiveMeasurementSet] =
+    useState<Set<number>>();
 
   const defaultNewMeasurement: Measurement = {
     id: 0,
@@ -66,6 +69,11 @@ export default function MeasurementListPage() {
           ...prev,
           default_unit: userSettings.default_unit_measurement!,
         }));
+        setActiveMeasurementSet(
+          GenerateActiveMeasurementSet(
+            userSettings.active_tracking_measurements
+          )
+        );
         setIsLoading(false);
       } catch (error) {
         console.log(error);
