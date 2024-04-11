@@ -433,7 +433,7 @@ export default function PresetsPage() {
                 {equipmentWeights?.map((equipment) => (
                   <div
                     className="flex flex-row justify-between gap-4 bg-white rounded-xl py-2 px-2.5 items-center"
-                    key={`${equipment}`}
+                    key={`equipment-${equipment.id}`}
                   >
                     <div className="flex flex-row justify-between w-3/5">
                       <span className="truncate">{equipment.name}</span>
@@ -485,7 +485,7 @@ export default function PresetsPage() {
                 {distances?.map((distance) => (
                   <div
                     className="flex flex-row justify-between gap-4 bg-white rounded-xl py-2 px-2.5 items-center"
-                    key={`${distance}`}
+                    key={`distance-${distance.id}`}
                   >
                     <div className="flex flex-row justify-between w-3/5">
                       <span className="truncate">{distance.name}</span>

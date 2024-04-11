@@ -16,7 +16,7 @@ export const DefaultDistanceList = (isMetric: boolean): DefaultDistance[] => {
     });
     defaultDistanceList.push({
       name: "10 Kilometers",
-      distance: 5,
+      distance: 10,
       distance_unit: "km",
     });
   } else {
