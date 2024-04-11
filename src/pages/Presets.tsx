@@ -93,6 +93,7 @@ export default function PresetsPage() {
       if (settings !== undefined) {
         setUserSettings(settings);
         setNewWeightUnit(settings.default_unit_weight!);
+        setNewDistanceUnit(settings.default_unit_distance!);
       }
       setIsLoading(false);
     };
@@ -151,6 +152,7 @@ export default function PresetsPage() {
       setEquipmentWeights([...equipmentWeights, newEquipment]);
 
       resetNewEquipment();
+      setOperatingType("");
       newPresetModal.onClose();
 
       toast.success("Equipment Weight Added");
@@ -160,7 +162,12 @@ export default function PresetsPage() {
   };
 
   const updateEquipmentWeight = async () => {
-    if (newEquipment === undefined || isNewPresetInvalid) return;
+    if (
+      newEquipment === undefined ||
+      isNewPresetInvalid ||
+      operatingType !== "equipment"
+    )
+      return;
 
     const weight = Number(newWeightInput);
 
@@ -186,9 +193,51 @@ export default function PresetsPage() {
       );
 
       resetNewEquipment();
+      setOperatingType("");
       newPresetModal.onClose();
 
       toast.success("Equipment Weight Updated");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const updateDistance = async () => {
+    if (
+      newDistance === undefined ||
+      isNewPresetInvalid ||
+      operatingType !== "distance"
+    )
+      return;
+
+    const distance = Number(newDistanceInput);
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      await db.execute(
+        "UPDATE distances SET name = $1, distance = $2, distance_unit = $3 WHERE id = $4",
+        [newName, distance, newDistanceUnit, newDistance.id]
+      );
+
+      const updatedDistance: Distance = {
+        ...newDistance,
+        name: newName,
+        distance: distance,
+        distance_unit: newDistanceUnit,
+      };
+
+      setDistances((prev) =>
+        prev.map((item) =>
+          item.id === newDistance.id ? updatedDistance : item
+        )
+      );
+
+      resetNewDistance();
+      setOperatingType("");
+      newPresetModal.onClose();
+
+      toast.success("Distance Updated");
     } catch (error) {
       console.log(error);
     }
@@ -251,6 +300,15 @@ export default function PresetsPage() {
     setIsEditing(false);
   };
 
+  const resetNewDistance = () => {
+    if (userSettings === undefined) return;
+    setNewDistance(undefined);
+    setNewName("");
+    setNewDistanceInput("");
+    setNewDistanceUnit(userSettings.default_unit_distance!);
+    setIsEditing(false);
+  };
+
   const handleNewEquipmentButtonPressed = () => {
     if (newEquipment !== undefined) resetNewEquipment();
     setOperatingType("equipment");
@@ -273,6 +331,7 @@ export default function PresetsPage() {
     setNewDistanceInput(distance.distance.toString());
     setNewDistanceUnit(distance.distance_unit);
     setOperatingType("distance");
+    setIsEditing(true);
     newPresetModal.onOpen();
   };
 
@@ -286,6 +345,16 @@ export default function PresetsPage() {
     setDistanceToDelete(distance);
     setOperatingType("distance");
     deleteModal.onOpen();
+  };
+
+  const handleCreateButtonPress = async () => {
+    if (operatingType === "equipment") await addEquipmentWeight();
+    if (operatingType === "distance") await addDistance();
+  };
+
+  const handleUpdateButtonPress = async () => {
+    if (operatingType === "equipment") await updateEquipmentWeight();
+    if (operatingType === "distance") await updateDistance();
   };
 
   const createDefaultEquipmentWeights = async (useMetricUnits: boolean) => {
@@ -413,7 +482,9 @@ export default function PresetsPage() {
                 <Button
                   color="success"
                   onPress={
-                    isEditing ? addEquipmentWeight : updateEquipmentWeight
+                    isEditing
+                      ? handleUpdateButtonPress
+                      : handleCreateButtonPress
                   }
                   isDisabled={isNewPresetInvalid}
                 >

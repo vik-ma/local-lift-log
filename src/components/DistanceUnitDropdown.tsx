@@ -6,6 +6,7 @@ export const DistanceUnitDropdown = ({
   value,
   setSet,
   setUserSettings,
+  setState,
   targetType,
 }: UnitDropdownProps) => {
   const distanceUnits: string[] = ValidDistanceUnits();
@@ -20,6 +21,10 @@ export const DistanceUnitDropdown = ({
 
     if (targetType === "settings" && setUserSettings !== undefined) {
       setUserSettings(e);
+    }
+
+    if (targetType === "state" && setState !== undefined) {
+      setState(e.target.value);
     }
   };
 
