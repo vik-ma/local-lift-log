@@ -389,17 +389,17 @@ export default function MeasurementListPage() {
                 {measurements.map((measurement) => (
                   <div
                     key={measurement.id}
-                    className="flex flex-row justify-between items-center rounded-lg px-2 py-1 outline outline-2 outline-stone-300 bg-white hover:bg-stone-100"
+                    className="flex flex-col gap-0.5 rounded-lg px-2 py-1 outline outline-2 outline-stone-300 bg-white hover:bg-stone-100"
                   >
-                    <div className="flex flex-col">
-                      <div className="text-lg truncate w-56">
-                        {measurement.name}
-                      </div>
-                      <div className="text-xs text-stone-500">
-                        {measurement.measurement_type}
-                      </div>
-                    </div>
                     <div className="flex justify-between gap-1 items-center">
+                      <div className="flex flex-col">
+                        <div className="text-lg truncate w-56">
+                          {measurement.name}
+                        </div>
+                        <div className="text-xs text-stone-500">
+                          {measurement.measurement_type}
+                        </div>
+                      </div>
                       <MeasurementUnitDropdown
                         measurement={measurement}
                         isDisabled={
@@ -413,11 +413,13 @@ export default function MeasurementListPage() {
                         }
                         targetType="list"
                       />
-                      <div className="flex flex-col gap-0.5">
+                    </div>
+                    <div className="flex justify-between">
+                      <div className="flex gap-0.5">
                         <Button
                           className="h-6"
                           size="sm"
-                          color="success"
+                          color="primary"
                           onPress={() => handleEditButtonPressed(measurement)}
                         >
                           Edit
@@ -429,6 +431,16 @@ export default function MeasurementListPage() {
                           onPress={() => handleDeleteButtonPress(measurement)}
                         >
                           Delete
+                        </Button>
+                      </div>
+                      <div>
+                        <Button
+                          className="h-6"
+                          size="sm"
+                          color="success"
+                          onPress={() => handleDeleteButtonPress(measurement)}
+                        >
+                          Set Active
                         </Button>
                       </div>
                     </div>
