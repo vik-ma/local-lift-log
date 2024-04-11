@@ -241,6 +241,16 @@ export default function MeasurementListPage() {
     toast.success("Default Measurements Restored");
   };
 
+  const handleSetActiveButton = (measurement: Measurement) => {
+    if (activeMeasurementSet === undefined) return;
+
+    const updatedSet = new Set<number>([
+      ...activeMeasurementSet,
+      measurement.id,
+    ]);
+    setActiveMeasurementSet(updatedSet);
+  };
+
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
@@ -437,12 +447,17 @@ export default function MeasurementListPage() {
                           Delete
                         </Button>
                       </div>
-                      <div>
+                      <div className="flex gap-1.5 items-center">
+                        {activeMeasurementSet?.has(measurement.id) && (
+                          <span className="text-success font-medium">
+                            Tracking
+                          </span>
+                        )}
                         <Button
                           className="h-6"
                           size="sm"
                           color="success"
-                          onPress={() => handleDeleteButtonPress(measurement)}
+                          onPress={() => handleSetActiveButton(measurement)}
                         >
                           Set Active
                         </Button>
