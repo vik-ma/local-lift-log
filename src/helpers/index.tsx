@@ -53,5 +53,5 @@ export { ValidMeasurementUnits } from "./Measurements/ValidMeasurementUnits";
 export { DefaultMeasurementList } from "./Measurements/DefaultMeasurementList";
 export { CreateDefaultMeasurementList } from "./Measurements/CreateDefaultMeasurements";
 
-export { DefaultEquipmentWeightList } from "./Equipment/DefaultEquipmentWeightList";
-export { CreateDefaultEquipmentWeights } from "./Equipment/CreateDefaultEquipmentWeights";
+export { DefaultEquipmentWeightList } from "./Presets/DefaultEquipmentWeightList";
+export { CreateDefaultEquipmentWeights } from "./Presets/CreateDefaultEquipmentWeights";

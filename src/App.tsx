@@ -15,7 +15,7 @@ import {
   WorkoutDetailsPage,
   BodyMeasurementsPage,
   UserWeightListPage,
-  EquipmentWeightsPage,
+  PresetsPage,
   ExerciseHistoryPage,
   MeasurementListPage,
 } from "./pages";
@@ -64,10 +64,7 @@ function App() {
                   element={<UserWeightListPage />}
                 />
               </Route>
-              <Route
-                path="/equipment-weights"
-                element={<EquipmentWeightsPage />}
-              />
+              <Route path="/presets" element={<PresetsPage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </div>

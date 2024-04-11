@@ -19,7 +19,7 @@ import {
 } from "../helpers";
 import toast, { Toaster } from "react-hot-toast";
 
-export default function EquipmentWeights() {
+export default function PresetsPage() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [equipmentWeights, setEquipmentWeights] = useState<EquipmentWeight[]>(
     []
