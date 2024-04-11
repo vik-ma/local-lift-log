@@ -207,12 +207,12 @@ export default function PresetsPage() {
     setNewWeightUnit(userSettings.default_unit_weight!);
   };
 
-  const handleNewButtonPressed = () => {
+  const handleNewEquipmentButtonPressed = () => {
     if (newEquipment !== undefined) resetNewEquipment();
     newEquipmentModal.onOpen();
   };
 
-  const handleEditButtonPressed = (equipment: EquipmentWeight) => {
+  const handleEditEquipmentButtonPressed = (equipment: EquipmentWeight) => {
     setNewEquipment(equipment);
     setNewEquipmentName(equipment.name);
     setNewWeightInput(equipment.weight.toString());
@@ -220,7 +220,7 @@ export default function PresetsPage() {
     newEquipmentModal.onOpen();
   };
 
-  const handleDeleteButtonPress = (equipment: EquipmentWeight) => {
+  const handleDeleteEquipmentButtonPress = (equipment: EquipmentWeight) => {
     setEquipmentToDelete(equipment);
     deleteModal.onOpen();
   };
@@ -376,7 +376,7 @@ export default function PresetsPage() {
         ) : (
           <>
             <div className="flex flex-col gap-3 w-full">
-              <h2 className="flex justify-center text-3xl font-semibold ">
+              <h2 className="flex justify-center text-3xl font-semibold">
                 Equipment Weights
               </h2>
               <div className="flex flex-col gap-1">
@@ -396,14 +396,18 @@ export default function PresetsPage() {
                       <Button
                         color="primary"
                         size="sm"
-                        onPress={() => handleEditButtonPressed(equipment)}
+                        onPress={() =>
+                          handleEditEquipmentButtonPressed(equipment)
+                        }
                       >
                         Edit
                       </Button>
                       <Button
                         color="danger"
                         size="sm"
-                        onPress={() => handleDeleteButtonPress(equipment)}
+                        onPress={() =>
+                          handleDeleteEquipmentButtonPress(equipment)
+                        }
                       >
                         Delete
                       </Button>
@@ -414,13 +418,42 @@ export default function PresetsPage() {
               <div className="flex gap-1.5 flex-col justify-center items-center">
                 <Button
                   color="success"
-                  onPress={() => handleNewButtonPressed()}
+                  onPress={() => handleNewEquipmentButtonPressed()}
                 >
                   Create New Equipment Weight
                 </Button>
                 <Button color="primary" onPress={() => setUnitsModal.onOpen()}>
                   Restore Default Equipment Weights
                 </Button>
+              </div>
+            </div>
+            <div className="flex flex-col gap-3 w-full">
+              <h2 className="flex justify-center text-3xl font-semibold ">
+                Distances
+              </h2>
+              <div className="flex flex-col gap-1">
+                {distances?.map((distance) => (
+                  <div
+                    className="flex flex-row justify-between gap-4 bg-white rounded-xl py-2 px-2.5 items-center"
+                    key={`${distance}`}
+                  >
+                    <div className="flex flex-row justify-between w-3/5">
+                      <span className="truncate">{distance.name}</span>
+                      <span>
+                        {distance.distance}
+                        {distance.distance_unit}
+                      </span>
+                    </div>
+                    <div className="flex justify-end gap-1">
+                      <Button color="primary" size="sm">
+                        Edit
+                      </Button>
+                      <Button color="danger" size="sm">
+                        Delete
+                      </Button>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </>
