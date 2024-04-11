@@ -1,10 +1,6 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { LoadingSpinner, MeasurementUnitDropdown } from "../components";
-import {
-  Measurement,
-  SetMeasurementsAction,
-  UserSettingsOptional,
-} from "../typings";
+import { Measurement, SetMeasurementsAction, UserSettings } from "../typings";
 import Database from "tauri-plugin-sql-api";
 import {
   Button,
@@ -21,14 +17,14 @@ import {
 import toast, { Toaster } from "react-hot-toast";
 import {
   CreateDefaultMeasurementList,
-  GetDefaultUnitMeasurement,
+  GetUserSettings,
 } from "../helpers";
 
 export default function MeasurementListPage() {
   const [measurements, setMeasurements] = useState<Measurement[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [measurementToDelete, setMeasurementToDelete] = useState<Measurement>();
-  const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
+  const [userSettings, setUserSettings] = useState<UserSettings>();
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
   const defaultNewMeasurement: Measurement = {
@@ -63,7 +59,7 @@ export default function MeasurementListPage() {
   useEffect(() => {
     const loadUserSettings = async () => {
       try {
-        const userSettings = await GetDefaultUnitMeasurement();
+        const userSettings = await GetUserSettings();
         if (userSettings === undefined) return;
         setUserSettings(userSettings);
         setNewMeasurement((prev) => ({
