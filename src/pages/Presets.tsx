@@ -368,52 +368,57 @@ export default function PresetsPage() {
       <div className="flex flex-col items-center gap-4">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">
           <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">
-            Equipment
+            Presets
           </h1>
         </div>
         {isLoading ? (
           <LoadingSpinner />
         ) : (
           <>
-            <div className="flex flex-col gap-1 w-full">
-              {equipmentWeights?.map((equipment) => (
-                <div
-                  className="flex flex-row justify-between gap-4 bg-white rounded-xl py-2 px-2.5 items-center"
-                  key={`${equipment}`}
-                >
-                  <div className="flex flex-row justify-between w-3/5">
-                    <span className="truncate">{equipment.name}</span>
-                    <span>
-                      {equipment.weight}
-                      {equipment.weight_unit}
-                    </span>
+            <div className="flex flex-col gap-3 w-full">
+              <h2 className="flex justify-center text-3xl font-semibold ">
+                Equipment Weights
+              </h2>
+              <div className="flex flex-col gap-1">
+                {equipmentWeights?.map((equipment) => (
+                  <div
+                    className="flex flex-row justify-between gap-4 bg-white rounded-xl py-2 px-2.5 items-center"
+                    key={`${equipment}`}
+                  >
+                    <div className="flex flex-row justify-between w-3/5">
+                      <span className="truncate">{equipment.name}</span>
+                      <span>
+                        {equipment.weight}
+                        {equipment.weight_unit}
+                      </span>
+                    </div>
+                    <div className="flex justify-end gap-1">
+                      <Button
+                        color="primary"
+                        size="sm"
+                        onPress={() => handleEditButtonPressed(equipment)}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        color="danger"
+                        size="sm"
+                        onPress={() => handleDeleteButtonPress(equipment)}
+                      >
+                        Delete
+                      </Button>
+                    </div>
                   </div>
-                  <div className="flex justify-end gap-1">
-                    <Button
-                      color="primary"
-                      size="sm"
-                      onPress={() => handleEditButtonPressed(equipment)}
-                    >
-                      Edit
-                    </Button>
-                    <Button
-                      color="danger"
-                      size="sm"
-                      onPress={() => handleDeleteButtonPress(equipment)}
-                    >
-                      Delete
-                    </Button>
-                  </div>
-                </div>
-              ))}
-              <div className="flex gap-1 flex-col justify-center mt-1">
+                ))}
+              </div>
+              <div className="flex gap-1.5 flex-col justify-center items-center">
                 <Button
                   color="success"
                   onPress={() => handleNewButtonPressed()}
                 >
                   Create New Equipment Weight
                 </Button>
-                <Button color="success" onPress={() => setUnitsModal.onOpen()}>
+                <Button color="primary" onPress={() => setUnitsModal.onOpen()}>
                   Restore Default Equipment Weights
                 </Button>
               </div>

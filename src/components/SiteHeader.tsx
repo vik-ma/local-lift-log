@@ -79,7 +79,7 @@ export const SiteHeader = () => {
               Body Measurements
             </DropdownItem>
             <DropdownItem href="/presets" key="equipment-weights">
-              Equipment Weights
+              Presets 
             </DropdownItem>
             <DropdownItem href="/settings" key="settings">
               Settings
