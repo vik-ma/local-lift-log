@@ -56,3 +56,4 @@ export { CreateDefaultMeasurementList } from "./Measurements/CreateDefaultMeasur
 export { DefaultEquipmentWeightList } from "./Presets/DefaultEquipmentWeightList";
 export { CreateDefaultEquipmentWeights } from "./Presets/CreateDefaultEquipmentWeights";
 export { DefaultDistanceList } from "./Presets/DefaultDistanceList";
+export { CreateDefaultDistanceList } from "./Presets/CreateDefaultDistanceList";
