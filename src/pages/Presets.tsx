@@ -17,7 +17,7 @@ import {
   Input,
 } from "@nextui-org/react";
 import {
-  CreateDefaultDistanceList,
+  CreateDefaultDistances,
   CreateDefaultEquipmentWeights,
   GetDefaultUnitValues,
   IsStringInvalidNumberOr0,
@@ -419,7 +419,7 @@ export default function PresetsPage() {
   const createDefaultDistances = async (useMetricUnits: boolean) => {
     if (operatingType !== "distance") return;
 
-    await CreateDefaultDistanceList(useMetricUnits);
+    await CreateDefaultDistances(useMetricUnits);
     await getDistances();
     setUnitsModal.onClose();
     setOperatingType("");

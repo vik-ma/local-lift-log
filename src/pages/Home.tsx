@@ -18,7 +18,7 @@ import {
   CreateDefaultExerciseList,
   CreateDefaultEquipmentWeights,
   CreateDefaultMeasurementList,
-  CreateDefaultDistanceList,
+  CreateDefaultDistances,
 } from "../helpers";
 
 export default function HomePage() {
@@ -51,7 +51,7 @@ export default function HomePage() {
     await CreateDefaultMeasurementList(useMetricUnits);
 
     // Create Default Distance List
-    await CreateDefaultDistanceList(useMetricUnits);
+    await CreateDefaultDistances(useMetricUnits);
 
     setIsUserSettingsLoaded(true);
     setUnitsModal.onClose();
