@@ -17,6 +17,7 @@ import {
   Input,
 } from "@nextui-org/react";
 import {
+  CreateDefaultDistanceList,
   CreateDefaultEquipmentWeights,
   GetDefaultUnitValues,
   IsStringInvalidNumberOr0,
@@ -395,11 +396,34 @@ export default function PresetsPage() {
     if (operatingType === "distance") await updateDistance();
   };
 
+  const handleRestoreEquipmentButtonPress = async () => {
+    setOperatingType("equipment");
+    setUnitsModal.onOpen();
+  };
+
+  const handleRestoreDistanceButtonPress = async () => {
+    setOperatingType("distance");
+    setUnitsModal.onOpen();
+  };
+
   const createDefaultEquipmentWeights = async (useMetricUnits: boolean) => {
+    if (operatingType !== "equipment") return;
+
     await CreateDefaultEquipmentWeights(useMetricUnits);
     await getEquipmentWeights();
     setUnitsModal.onClose();
-    toast.success("Default Equipments Weight Restored");
+    setOperatingType("");
+    toast.success("Default Equipment Weights Restored");
+  };
+
+  const createDefaultDistances = async (useMetricUnits: boolean) => {
+    if (operatingType !== "distance") return;
+
+    await CreateDefaultDistanceList(useMetricUnits);
+    await getDistances();
+    setUnitsModal.onClose();
+    setOperatingType("");
+    toast.success("Default Distances Restored");
   };
 
   return (
@@ -551,9 +575,11 @@ export default function PresetsPage() {
                   className="text-lg font-medium"
                   size="lg"
                   color="primary"
-                  onPress={() => {
-                    createDefaultEquipmentWeights(true);
-                  }}
+                  onPress={
+                    operatingType === "equipment"
+                      ? () => createDefaultEquipmentWeights(true)
+                      : () => createDefaultDistances(true)
+                  }
                 >
                   Metric
                 </Button>
@@ -561,9 +587,11 @@ export default function PresetsPage() {
                   className="text-lg font-medium"
                   size="lg"
                   color="primary"
-                  onPress={() => {
-                    createDefaultEquipmentWeights(false);
-                  }}
+                  onPress={
+                    operatingType === "equipment"
+                      ? () => createDefaultEquipmentWeights(false)
+                      : () => createDefaultDistances(false)
+                  }
                 >
                   Imperial
                 </Button>
@@ -629,7 +657,10 @@ export default function PresetsPage() {
                 >
                   Create New Equipment Weight
                 </Button>
-                <Button color="primary" onPress={() => setUnitsModal.onOpen()}>
+                <Button
+                  color="primary"
+                  onPress={handleRestoreEquipmentButtonPress}
+                >
                   Restore Default Equipment Weights
                 </Button>
               </div>
@@ -681,7 +712,12 @@ export default function PresetsPage() {
                 >
                   Create New Distance
                 </Button>
-                <Button color="primary">Restore Default Distances</Button>
+                <Button
+                  color="primary"
+                  onPress={handleRestoreDistanceButtonPress}
+                >
+                  Restore Default Distances
+                </Button>
               </div>
             </div>
           </>
