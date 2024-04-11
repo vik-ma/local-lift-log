@@ -52,6 +52,7 @@ export { GetLatestUserWeight } from "./Measurements/GetLatestUserWeight";
 export { ValidMeasurementUnits } from "./Measurements/ValidMeasurementUnits";
 export { DefaultMeasurementList } from "./Measurements/DefaultMeasurementList";
 export { CreateDefaultMeasurementList } from "./Measurements/CreateDefaultMeasurements";
+export { GenerateActiveMeasurementSet } from "./Measurements/GenerateActiveMeasurementSet";
 
 export { DefaultEquipmentWeightList } from "./Presets/DefaultEquipmentWeightList";
 export { CreateDefaultEquipmentWeights } from "./Presets/CreateDefaultEquipmentWeights";

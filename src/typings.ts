@@ -20,6 +20,7 @@ export type UserSettings = {
   default_unit_distance: string;
   default_time_input: string;
   default_unit_measurement: string;
+  active_tracking_measurements: string;
 };
 
 export type UserSettingsOptional = {
@@ -30,6 +31,7 @@ export type UserSettingsOptional = {
   default_unit_distance?: string;
   default_time_input?: string;
   default_unit_measurement?: string;
+  active_tracking_measurements?: string;
 };
 
 export type Exercise = {
