@@ -19,6 +19,8 @@ import {
   CreateDefaultMeasurementList,
   GenerateActiveMeasurementSet,
   GetUserSettings,
+  UpdateActiveTrackingMeasurements,
+  GenerateActiveMeasurementString,
 } from "../helpers";
 
 export default function MeasurementListPage() {
@@ -241,14 +243,23 @@ export default function MeasurementListPage() {
     toast.success("Default Measurements Restored");
   };
 
-  const handleSetActiveButton = (measurement: Measurement) => {
-    if (activeMeasurementSet === undefined) return;
+  const handleSetActiveButton = async (measurement: Measurement) => {
+    if (activeMeasurementSet === undefined || userSettings === undefined)
+      return;
 
     const updatedSet = new Set<number>([
       ...activeMeasurementSet,
       measurement.id,
     ]);
     setActiveMeasurementSet(updatedSet);
+
+    const activeMeasurementTrackingString =
+      GenerateActiveMeasurementString(updatedSet);
+
+    await UpdateActiveTrackingMeasurements(
+      activeMeasurementTrackingString,
+      userSettings.id
+    );
   };
 
   return (
@@ -454,12 +465,12 @@ export default function MeasurementListPage() {
                           </span>
                         )}
                         <Button
-                          className="h-6"
+                          className="h-6 w-20"
                           size="sm"
                           color="success"
                           onPress={() => handleSetActiveButton(measurement)}
                         >
-                          Set Active
+                          Track
                         </Button>
                       </div>
                     </div>
