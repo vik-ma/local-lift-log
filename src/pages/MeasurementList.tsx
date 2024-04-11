@@ -474,12 +474,21 @@ export default function MeasurementListPage() {
                           Delete
                         </Button>
                       </div>
-                      <div className="flex gap-1.5 items-center">
-                        {activeMeasurementSet?.has(measurement.id) && (
+                      {activeMeasurementSet?.has(measurement.id) ? (
+                        <div className="flex gap-1.5 items-center">
                           <span className="text-success font-medium">
                             Tracking
                           </span>
-                        )}
+                          <Button
+                            className="h-6 w-20"
+                            size="sm"
+                            color="danger"
+                            onPress={() => handleUntrackButton(measurement)}
+                          >
+                            Untrack
+                          </Button>
+                        </div>
+                      ) : (
                         <Button
                           className="h-6 w-20"
                           size="sm"
@@ -488,7 +497,7 @@ export default function MeasurementListPage() {
                         >
                           Track
                         </Button>
-                      </div>
+                      )}
                     </div>
                   </div>
                 ))}
