@@ -243,9 +243,8 @@ export default function MeasurementListPage() {
     toast.success("Default Measurements Restored");
   };
 
-  const handleSetActiveButton = async (measurement: Measurement) => {
-    if (activeMeasurementSet === undefined || userSettings === undefined)
-      return;
+  const handleTrackButton = async (measurement: Measurement) => {
+    if (activeMeasurementSet === undefined) return;
 
     const updatedSet = new Set<number>([
       ...activeMeasurementSet,
@@ -253,8 +252,25 @@ export default function MeasurementListPage() {
     ]);
     setActiveMeasurementSet(updatedSet);
 
+    updateActiveMeasurementString(updatedSet);
+  };
+
+  const handleUntrackButton = async (measurement: Measurement) => {
+    if (activeMeasurementSet === undefined) return;
+
+    const updatedSet = new Set(
+      [...activeMeasurementSet].filter((number) => number !== measurement.id)
+    );
+    setActiveMeasurementSet(updatedSet);
+
+    updateActiveMeasurementString(updatedSet);
+  };
+
+  const updateActiveMeasurementString = async (set: Set<number>) => {
+    if (userSettings === undefined) return;
+
     const activeMeasurementTrackingString =
-      GenerateActiveMeasurementString(updatedSet);
+      GenerateActiveMeasurementString(set);
 
     await UpdateActiveTrackingMeasurements(
       activeMeasurementTrackingString,
@@ -468,7 +484,7 @@ export default function MeasurementListPage() {
                           className="h-6 w-20"
                           size="sm"
                           color="success"
-                          onPress={() => handleSetActiveButton(measurement)}
+                          onPress={() => handleTrackButton(measurement)}
                         >
                           Track
                         </Button>
