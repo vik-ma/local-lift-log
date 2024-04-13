@@ -102,6 +102,8 @@ export default function UserWeightListPage() {
 
   const handleEditButton = (userWeight: UserWeight) => {
     setOperatingUserWeight(userWeight);
+    setNewWeightInput(userWeight.weight.toString());
+    setNewWeightCommentInput(userWeight.comment ?? "");
     editWeightModal.onOpen();
   };
 
