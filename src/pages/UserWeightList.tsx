@@ -256,23 +256,30 @@ export default function UserWeightListPage() {
                       {userWeight.formattedDate}
                     </span>
                   </div>
-                  <div className="flex justify-end gap-1 w-full">
-                    <Button
-                      color="primary"
-                      variant="flat"
-                      size="sm"
-                      onClick={() => handleEditButton(userWeight)}
-                    >
-                      Edit
-                    </Button>
-                    <Button
-                      color="danger"
-                      variant="flat"
-                      size="sm"
-                      onClick={() => handleDeleteButton(userWeight)}
-                    >
-                      Delete
-                    </Button>
+                  <div className="flex justify-between gap-1 w-full items-end">
+                    <div className="break-all">
+                      <span className="text-stone-400">
+                        {userWeight.comment}
+                      </span>
+                    </div>
+                    <div className="flex gap-1">
+                      <Button
+                        color="primary"
+                        variant="flat"
+                        size="sm"
+                        onClick={() => handleEditButton(userWeight)}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        color="danger"
+                        variant="flat"
+                        size="sm"
+                        onClick={() => handleDeleteButton(userWeight)}
+                      >
+                        Delete
+                      </Button>
+                    </div>
                   </div>
                 </div>
               ))}
