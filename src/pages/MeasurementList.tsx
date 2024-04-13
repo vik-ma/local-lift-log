@@ -172,6 +172,18 @@ export default function MeasurementListPage() {
       );
       setMeasurements(updatedMeasurements);
 
+      if (activeMeasurementSet?.has(measurementToDelete.id)) {
+        // Modify active_tracking_measurements string in user_settings
+        // if measurementToDelete id is currently included
+        const updatedSet: Set<number> = new Set(
+          [...activeMeasurementSet].filter(
+            (item) => item !== measurementToDelete.id
+          )
+        );
+        setActiveMeasurementSet(updatedSet);
+        updateActiveMeasurementString(updatedSet);
+      }
+
       toast.success("Measurement Deleted");
     } catch (error) {
       console.log(error);
