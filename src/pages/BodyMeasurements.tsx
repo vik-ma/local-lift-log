@@ -59,9 +59,14 @@ export default function BodyMeasurementsPage() {
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
+      const commentToInsert: string | null =
+        newWeightCommentInput.trim().length === 0
+          ? null
+          : newWeightCommentInput;
+
       const result = await db.execute(
-        "INSERT into user_weights (weight, weight_unit, date) VALUES ($1, $2, $3)",
-        [newWeight, newWeightUnit, dateString]
+        "INSERT into user_weights (weight, weight_unit, date, comment) VALUES ($1, $2, $3, $4)",
+        [newWeight, newWeightUnit, dateString, commentToInsert]
       );
 
       const formattedDate: string = FormatDateTimeString(dateString);
@@ -76,6 +81,7 @@ export default function BodyMeasurementsPage() {
 
       setLatestUserWeight(newUserWeight);
       setNewWeightInput("");
+      setNewWeightCommentInput("");
 
       toast.success("Body Weight Added");
     } catch (error) {
