@@ -1,11 +1,12 @@
-import { useState, useEffect, useMemo } from "react";
-import { UserSettingsOptional, UserWeight } from "../typings";
+import { useState, useEffect, useMemo, useCallback } from "react";
+import { Measurement, UserSettings, UserWeight } from "../typings";
 import { LoadingSpinner, WeightUnitDropdown } from "../components";
 import {
   FormatDateTimeString,
-  GetDefaultUnitValues,
+  GenerateActiveMeasurementList,
   GetLatestUserWeight,
   IsStringInvalidNumber,
+  GetUserSettings,
 } from "../helpers";
 import { Button, Input } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
@@ -13,7 +14,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 export default function BodyMeasurementsPage() {
-  const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
+  const [userSettings, setUserSettings] = useState<UserSettings>();
   const [latestUserWeight, setLatestUserWeight] = useState<UserWeight>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [newWeightInput, setNewWeightInput] = useState<string>("");
@@ -21,16 +22,44 @@ export default function BodyMeasurementsPage() {
   const [newWeightCommentInput, setNewWeightCommentInput] =
     useState<string>("");
   const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [activeMeasurements, setActiveMeasurements] = useState<Measurement[]>(
+    []
+  );
 
   const navigate = useNavigate();
 
+  const getActiveMeasurements = useCallback(
+    async (activeMeasurementsString: string) => {
+      const activeMeasurements: Measurement[] = [];
+
+      try {
+        const db = await Database.load(import.meta.env.VITE_DB);
+        const activeMeasurementList = GenerateActiveMeasurementList(
+          activeMeasurementsString
+        );
+        for (let i = 0; i < activeMeasurementList.length; i++) {
+          const result = await db.select<Measurement[]>(
+            "SELECT * FROM measurements WHERE id = $1",
+            [activeMeasurementList[i]]
+          );
+          if (result.length === 0) continue;
+          activeMeasurements.push(result[0]);
+        }
+        setActiveMeasurements(activeMeasurements);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    []
+  );
+
   useEffect(() => {
     const loadUserSettings = async () => {
-      const settings: UserSettingsOptional | undefined =
-        await GetDefaultUnitValues();
+      const settings: UserSettings | undefined = await GetUserSettings();
       if (settings !== undefined) {
         setUserSettings(settings);
         setNewWeightUnit(settings.default_unit_weight!);
+        await getActiveMeasurements(settings.active_tracking_measurements!);
       }
     };
 
@@ -42,7 +71,7 @@ export default function BodyMeasurementsPage() {
 
     loadUserSettings();
     getLatestUserWeight();
-  }, []);
+  }, [getActiveMeasurements]);
 
   const isWeightInputInvalid = useMemo(() => {
     return IsStringInvalidNumber(newWeightInput);
