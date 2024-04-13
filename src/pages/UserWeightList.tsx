@@ -54,6 +54,7 @@ export default function UserWeightListPage() {
             weight_unit: row.weight_unit,
             date: row.date,
             formattedDate: formattedDate,
+            comment: row.comment,
           };
         });
 

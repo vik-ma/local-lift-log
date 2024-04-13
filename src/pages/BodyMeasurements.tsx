@@ -171,22 +171,34 @@ export default function BodyMeasurementsPage() {
                     View Full List
                   </Button>
                 </h3>
-                <div className="flex gap-2 font-medium items-center">
-                  <span>
-                    {latestUserWeight?.weight}
-                    {latestUserWeight?.weight_unit}
-                  </span>
-                  <span className="text-stone-400">
-                    {latestUserWeight?.formattedDate}
-                  </span>
-                  <Button
-                    color={isEditing ? "danger" : "success"}
-                    variant="flat"
-                    size="sm"
-                    onPress={isEditing ? handleCancelButton : handleEditButton}
-                  >
-                    {isEditing ? "Cancel" : "Edit"}
-                  </Button>
+                <div className="flex flex-col">
+                  <div className="flex gap-2 font-medium items-center">
+                    <span>
+                      {latestUserWeight?.weight}
+                      {latestUserWeight?.weight_unit}
+                    </span>
+                    <span className="text-stone-400">
+                      {latestUserWeight?.formattedDate}
+                    </span>
+                    <Button
+                      color={isEditing ? "danger" : "success"}
+                      variant="flat"
+                      size="sm"
+                      onPress={
+                        isEditing ? handleCancelButton : handleEditButton
+                      }
+                    >
+                      {isEditing ? "Cancel" : "Edit"}
+                    </Button>
+                  </div>
+                  {latestUserWeight?.comment !== null && (
+                    <div className="flex justify-center gap-2">
+                      <span className="font-medium">Comment</span>
+                      <span className="font-medium text-stone-400">
+                        {latestUserWeight?.comment}
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
               <div className="flex flex-col gap-1">
