@@ -112,6 +112,7 @@ pub struct UserWeight {
     pub weight: f32,
     pub weight_unit: String,
     pub date: String,
+    pub comment: Option<String>,
 }
 
 #[derive(Queryable, Selectable)]
@@ -153,4 +154,5 @@ pub struct UserMeasurement {
     pub value: f32,
     pub unit: String,
     pub date: String,
+    pub comment: Option<String>,
 }

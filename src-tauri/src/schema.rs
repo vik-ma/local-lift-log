@@ -103,6 +103,7 @@ diesel::table! {
         weight -> Float,
         weight_unit -> Text,
         date -> Text,
+        comment -> Nullable<Text>,
     }
 }
 
@@ -138,7 +139,8 @@ diesel::table! {
         id -> Integer,
         measurement_id -> Integer,
         value -> Float,
-        unit -> String,
-        date -> String,
+        unit -> Text,
+        date -> Text,
+        comment -> Nullable<Text>,
     }
 }
