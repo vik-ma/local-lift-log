@@ -1,7 +1,7 @@
 export const GenerateActiveMeasurementString = (
-  activeMeasurementSet: Set<number>
+  activeMeasurementList: number[]
 ) => {
-  const activeMeasurementString = Array.from(activeMeasurementSet).join(",");
+  const activeMeasurementString = activeMeasurementList.join(",");
 
   return activeMeasurementString;
 };

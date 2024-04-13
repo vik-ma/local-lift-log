@@ -1,18 +1,18 @@
 import { IsStringInvalidNumber } from "../Numbers/IsStringInvalidNumber";
 
-export const GenerateActiveMeasurementSet = (
+export const GenerateActiveMeasurementList = (
   activeTrackingMeasurementString: string
-): Set<number> => {
+): number[] => {
   const activeMeasurementStringList: string[] =
     activeTrackingMeasurementString.split(",");
 
-  const activeMeasurementSet: Set<number> = new Set<number>();
+  const activeMeasurementList: number[] = [];
 
   activeMeasurementStringList.map((measurement) => {
     if (!IsStringInvalidNumber(measurement)) {
-      activeMeasurementSet.add(Number(measurement));
+      activeMeasurementList.push(Number(measurement));
     }
   });
 
-  return activeMeasurementSet;
+  return activeMeasurementList;
 };

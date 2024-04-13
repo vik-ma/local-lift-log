@@ -17,7 +17,7 @@ import {
 import toast, { Toaster } from "react-hot-toast";
 import {
   CreateDefaultMeasurementList,
-  GenerateActiveMeasurementSet,
+  GenerateActiveMeasurementList,
   GetUserSettings,
   UpdateActiveTrackingMeasurements,
   GenerateActiveMeasurementString,
@@ -29,8 +29,8 @@ export default function MeasurementListPage() {
   const [measurementToDelete, setMeasurementToDelete] = useState<Measurement>();
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [activeMeasurementSet, setActiveMeasurementSet] =
-    useState<Set<number>>();
+  const [activeMeasurementList, setActiveMeasurementList] =
+    useState<number[]>();
 
   const defaultNewMeasurement: Measurement = {
     id: 0,
@@ -71,8 +71,8 @@ export default function MeasurementListPage() {
           ...prev,
           default_unit: userSettings.default_unit_measurement!,
         }));
-        setActiveMeasurementSet(
-          GenerateActiveMeasurementSet(
+        setActiveMeasurementList(
+          GenerateActiveMeasurementList(
             userSettings.active_tracking_measurements
           )
         );
@@ -172,16 +172,14 @@ export default function MeasurementListPage() {
       );
       setMeasurements(updatedMeasurements);
 
-      if (activeMeasurementSet?.has(measurementToDelete.id)) {
+      if (activeMeasurementList?.includes(measurementToDelete.id)) {
         // Modify active_tracking_measurements string in user_settings
         // if measurementToDelete id is currently included
-        const updatedSet: Set<number> = new Set(
-          [...activeMeasurementSet].filter(
-            (item) => item !== measurementToDelete.id
-          )
+        const updatedMeasurementList: number[] = activeMeasurementList.filter(
+          (item) => item !== measurementToDelete.id
         );
-        setActiveMeasurementSet(updatedSet);
-        updateActiveMeasurementString(updatedSet);
+        setActiveMeasurementList(updatedMeasurementList);
+        updateActiveMeasurementString(updatedMeasurementList);
       }
 
       toast.success("Measurement Deleted");
@@ -256,33 +254,34 @@ export default function MeasurementListPage() {
   };
 
   const handleTrackButton = async (measurement: Measurement) => {
-    if (activeMeasurementSet === undefined) return;
+    if (activeMeasurementList === undefined) return;
 
-    const updatedSet = new Set<number>([
-      ...activeMeasurementSet,
+    const updatedMeasurementList: number[] = [
+      ...activeMeasurementList,
       measurement.id,
-    ]);
-    setActiveMeasurementSet(updatedSet);
+    ];
+    setActiveMeasurementList(updatedMeasurementList);
 
-    updateActiveMeasurementString(updatedSet);
+    updateActiveMeasurementString(updatedMeasurementList);
   };
 
   const handleUntrackButton = async (measurement: Measurement) => {
-    if (activeMeasurementSet === undefined) return;
+    if (activeMeasurementList === undefined) return;
 
-    const updatedSet = new Set(
-      [...activeMeasurementSet].filter((number) => number !== measurement.id)
+    const updatedMeasurementList: number[] = activeMeasurementList.filter(
+      (number) => number !== measurement.id
     );
-    setActiveMeasurementSet(updatedSet);
 
-    updateActiveMeasurementString(updatedSet);
+    setActiveMeasurementList(updatedMeasurementList);
+
+    updateActiveMeasurementString(updatedMeasurementList);
   };
 
-  const updateActiveMeasurementString = async (set: Set<number>) => {
+  const updateActiveMeasurementString = async (numberList: number[]) => {
     if (userSettings === undefined) return;
 
     const activeMeasurementTrackingString =
-      GenerateActiveMeasurementString(set);
+      GenerateActiveMeasurementString(numberList);
 
     await UpdateActiveTrackingMeasurements(
       activeMeasurementTrackingString,
@@ -486,7 +485,7 @@ export default function MeasurementListPage() {
                           Delete
                         </Button>
                       </div>
-                      {activeMeasurementSet?.has(measurement.id) ? (
+                      {activeMeasurementList?.includes(measurement.id) ? (
                         <div className="flex gap-1.5 items-center">
                           <span className="text-success font-medium">
                             Tracking
