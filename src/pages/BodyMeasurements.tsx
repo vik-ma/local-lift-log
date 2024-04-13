@@ -112,7 +112,7 @@ export default function BodyMeasurementsPage() {
     }
   };
 
-  const handleEditButtonPress = () => {
+  const handleEditButton = () => {
     if (latestUserWeight === undefined) return;
 
     setNewWeightInput(latestUserWeight.weight.toString());
@@ -120,7 +120,7 @@ export default function BodyMeasurementsPage() {
     setIsEditing(true);
   };
 
-  const handleCancelButtonPress = () => {
+  const handleCancelButton = () => {
     if (userSettings === undefined) return;
 
     setNewWeightInput("");
@@ -168,8 +168,8 @@ export default function BodyMeasurementsPage() {
                     size="sm"
                     onPress={
                       isEditing
-                        ? handleCancelButtonPress
-                        : handleEditButtonPress
+                        ? handleCancelButton
+                        : handleEditButton
                     }
                   >
                     {isEditing ? "Cancel" : "Edit"}

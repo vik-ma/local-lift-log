@@ -209,7 +209,7 @@ export default function RoutineDetailsPage() {
     return true;
   };
 
-  const handleAddWorkoutButtonPress = (day: number) => {
+  const handleAddWorkoutButton = (day: number) => {
     setSelectedDay(day);
     workoutTemplatesModal.onOpen();
   };
@@ -264,7 +264,7 @@ export default function RoutineDetailsPage() {
     }
   };
 
-  const handleRemoveButtonPressed = (schedule: RoutineScheduleItem) => {
+  const handleRemoveButton = (schedule: RoutineScheduleItem) => {
     setSelectedDay(schedule.day);
     setworkoutRoutineScheduleToRemove(schedule);
     deleteModal.onOpen();
@@ -292,7 +292,7 @@ export default function RoutineDetailsPage() {
     setEditedRoutine((prev) => ({ ...prev!, num_days_in_schedule: numDays }));
   };
 
-  const handleSetActiveButtonPress = async () => {
+  const handleSetActiveButton = async () => {
     if (routine === undefined || userSettings === undefined) return;
 
     const updatedSettings: UserSettingsOptional = {
@@ -506,7 +506,7 @@ export default function RoutineDetailsPage() {
                   <Button
                     size="sm"
                     color="success"
-                    onPress={handleSetActiveButtonPress}
+                    onPress={handleSetActiveButton}
                   >
                     Set Active
                   </Button>
@@ -657,7 +657,7 @@ export default function RoutineDetailsPage() {
                             size="sm"
                             color="danger"
                             onPress={() => {
-                              handleRemoveButtonPressed(schedule);
+                              handleRemoveButton(schedule);
                             }}
                           >
                             Remove
@@ -671,7 +671,7 @@ export default function RoutineDetailsPage() {
                 </div>
                 <Button
                   color="success"
-                  onPress={() => handleAddWorkoutButtonPress(i)}
+                  onPress={() => handleAddWorkoutButton(i)}
                 >
                   Add Workout
                 </Button>

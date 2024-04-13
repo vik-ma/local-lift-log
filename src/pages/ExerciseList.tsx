@@ -116,7 +116,7 @@ export default function ExerciseListPage() {
     deleteModal.onClose();
   };
 
-  const handleDeleteButtonPress = (exercise: ExerciseListItem) => {
+  const handleDeleteButton = (exercise: ExerciseListItem) => {
     setExerciseToDelete(exercise);
     deleteModal.onOpen();
   };
@@ -358,7 +358,7 @@ export default function ExerciseListPage() {
                     <Button
                       className="font-medium"
                       color="danger"
-                      onPress={() => handleDeleteButtonPress(exercise)}
+                      onPress={() => handleDeleteButton(exercise)}
                     >
                       Delete
                     </Button>

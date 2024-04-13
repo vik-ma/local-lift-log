@@ -127,7 +127,7 @@ export default function WorkoutTemplateList() {
     deleteModal.onClose();
   };
 
-  const handleDeleteButtonPress = (
+  const handleDeleteButton = (
     workoutTemplate: WorkoutTemplateListItem
   ) => {
     setWorkoutTemplateToDelete(workoutTemplate);
@@ -253,7 +253,7 @@ export default function WorkoutTemplateList() {
                   </div>
                   <Button
                     color="danger"
-                    onPress={() => handleDeleteButtonPress(template)}
+                    onPress={() => handleDeleteButton(template)}
                   >
                     Delete
                   </Button>

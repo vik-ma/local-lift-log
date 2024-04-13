@@ -342,19 +342,19 @@ export default function PresetsPage() {
     setIsEditing(false);
   };
 
-  const handleNewEquipmentButtonPressed = () => {
+  const handleNewEquipmentButton = () => {
     if (isEditing) resetNewEquipment();
     setOperatingType("equipment");
     newPresetModal.onOpen();
   };
 
-  const handleNewDistanceButtonPressed = () => {
+  const handleNewDistanceButton = () => {
     if (isEditing) resetNewDistance();
     setOperatingType("distance");
     newPresetModal.onOpen();
   };
 
-  const handleEditEquipmentButtonPressed = (equipment: EquipmentWeight) => {
+  const handleEditEquipmentButton = (equipment: EquipmentWeight) => {
     setNewEquipment(equipment);
     setNewName(equipment.name);
     setNewWeightInput(equipment.weight.toString());
@@ -364,7 +364,7 @@ export default function PresetsPage() {
     newPresetModal.onOpen();
   };
 
-  const handleEditDistanceButtonPressed = (distance: Distance) => {
+  const handleEditDistanceButton = (distance: Distance) => {
     setNewDistance(distance);
     setNewName(distance.name);
     setNewDistanceInput(distance.distance.toString());
@@ -374,34 +374,34 @@ export default function PresetsPage() {
     newPresetModal.onOpen();
   };
 
-  const handleDeleteEquipmentButtonPress = (equipment: EquipmentWeight) => {
+  const handleDeleteEquipmentButton = (equipment: EquipmentWeight) => {
     setEquipmentToDelete(equipment);
     setOperatingType("equipment");
     deleteModal.onOpen();
   };
 
-  const handleDeleteDistanceButtonPress = (distance: Distance) => {
+  const handleDeleteDistanceButton = (distance: Distance) => {
     setDistanceToDelete(distance);
     setOperatingType("distance");
     deleteModal.onOpen();
   };
 
-  const handleCreateButtonPress = async () => {
+  const handleCreateButton = async () => {
     if (operatingType === "equipment") await addEquipmentWeight();
     if (operatingType === "distance") await addDistance();
   };
 
-  const handleUpdateButtonPress = async () => {
+  const handleUpdateButton = async () => {
     if (operatingType === "equipment") await updateEquipmentWeight();
     if (operatingType === "distance") await updateDistance();
   };
 
-  const handleRestoreEquipmentButtonPress = async () => {
+  const handleRestoreEquipmentButton = async () => {
     setOperatingType("equipment");
     setUnitsModal.onOpen();
   };
 
-  const handleRestoreDistanceButtonPress = async () => {
+  const handleRestoreDistanceButton = async () => {
     setOperatingType("distance");
     setUnitsModal.onOpen();
   };
@@ -545,8 +545,8 @@ export default function PresetsPage() {
                   color="success"
                   onPress={
                     isEditing
-                      ? handleUpdateButtonPress
-                      : handleCreateButtonPress
+                      ? handleUpdateButton
+                      : handleCreateButton
                   }
                   isDisabled={isNewPresetInvalid}
                 >
@@ -632,7 +632,7 @@ export default function PresetsPage() {
                         color="primary"
                         size="sm"
                         onPress={() =>
-                          handleEditEquipmentButtonPressed(equipment)
+                          handleEditEquipmentButton(equipment)
                         }
                       >
                         Edit
@@ -641,7 +641,7 @@ export default function PresetsPage() {
                         color="danger"
                         size="sm"
                         onPress={() =>
-                          handleDeleteEquipmentButtonPress(equipment)
+                          handleDeleteEquipmentButton(equipment)
                         }
                       >
                         Delete
@@ -653,13 +653,13 @@ export default function PresetsPage() {
               <div className="flex gap-1.5 flex-col justify-center items-center">
                 <Button
                   color="success"
-                  onPress={() => handleNewEquipmentButtonPressed()}
+                  onPress={() => handleNewEquipmentButton()}
                 >
                   Create New Equipment Weight
                 </Button>
                 <Button
                   color="primary"
-                  onPress={handleRestoreEquipmentButtonPress}
+                  onPress={handleRestoreEquipmentButton}
                 >
                   Restore Default Equipment Weights
                 </Button>
@@ -687,7 +687,7 @@ export default function PresetsPage() {
                         color="primary"
                         size="sm"
                         onPress={() =>
-                          handleEditDistanceButtonPressed(distance)
+                          handleEditDistanceButton(distance)
                         }
                       >
                         Edit
@@ -696,7 +696,7 @@ export default function PresetsPage() {
                         color="danger"
                         size="sm"
                         onPress={() =>
-                          handleDeleteDistanceButtonPress(distance)
+                          handleDeleteDistanceButton(distance)
                         }
                       >
                         Delete
@@ -708,13 +708,13 @@ export default function PresetsPage() {
               <div className="flex gap-1.5 flex-col justify-center items-center">
                 <Button
                   color="success"
-                  onPress={() => handleNewDistanceButtonPressed()}
+                  onPress={() => handleNewDistanceButton()}
                 >
                   Create New Distance
                 </Button>
                 <Button
                   color="primary"
-                  onPress={handleRestoreDistanceButtonPress}
+                  onPress={handleRestoreDistanceButton}
                 >
                   Restore Default Distances
                 </Button>

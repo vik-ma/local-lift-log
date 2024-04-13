@@ -181,12 +181,12 @@ export default function MeasurementListPage() {
     deleteModal.onClose();
   };
 
-  const handleDeleteButtonPress = (measurement: Measurement) => {
+  const handleDeleteButton = (measurement: Measurement) => {
     setMeasurementToDelete(measurement);
     deleteModal.onOpen();
   };
 
-  const handleSaveButtonPressed = async () => {
+  const handleSaveButton = async () => {
     if (isEditing) {
       await updateMeasurement();
     } else {
@@ -194,13 +194,13 @@ export default function MeasurementListPage() {
     }
   };
 
-  const handleAddButtonPressed = () => {
+  const handleAddButton = () => {
     if (isEditing) resetMeasurementToDefault();
 
     newMeasurementModal.onOpen();
   };
 
-  const handleEditButtonPressed = (measurement: Measurement) => {
+  const handleEditButton = (measurement: Measurement) => {
     setNewMeasurement(measurement);
     setIsEditing(true);
 
@@ -367,7 +367,7 @@ export default function MeasurementListPage() {
                 <Button
                   color="success"
                   isDisabled={isNewMeasurementNameInvalid}
-                  onPress={handleSaveButtonPressed}
+                  onPress={handleSaveButton}
                 >
                   {isEditing ? "Update" : "Create"}
                 </Button>
@@ -461,7 +461,7 @@ export default function MeasurementListPage() {
                           className="h-6"
                           size="sm"
                           color="primary"
-                          onPress={() => handleEditButtonPressed(measurement)}
+                          onPress={() => handleEditButton(measurement)}
                         >
                           Edit
                         </Button>
@@ -469,7 +469,7 @@ export default function MeasurementListPage() {
                           className="h-6"
                           size="sm"
                           color="danger"
-                          onPress={() => handleDeleteButtonPress(measurement)}
+                          onPress={() => handleDeleteButton(measurement)}
                         >
                           Delete
                         </Button>
@@ -506,7 +506,7 @@ export default function MeasurementListPage() {
           </>
         )}
         <div className="flex flex-col gap-1 justify-center">
-          <Button color="success" onPress={handleAddButtonPressed}>
+          <Button color="success" onPress={handleAddButton}>
             Add New Measurement
           </Button>
           <Button color="success" onPress={() => setUnitsModal.onOpen()}>

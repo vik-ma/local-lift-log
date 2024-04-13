@@ -68,7 +68,7 @@ export default function UserWeightListPage() {
     getUserWeights();
   }, []);
 
-  const handleDeleteButtonPress = (userWeight: UserWeight) => {
+  const handleDeleteButton = (userWeight: UserWeight) => {
     setUserWeightToDelete(userWeight);
     deleteModal.onOpen();
   };
@@ -97,7 +97,7 @@ export default function UserWeightListPage() {
     deleteModal.onClose();
   };
 
-  const handleEditButtonPress = (userWeight: UserWeight) => {
+  const handleEditButton = (userWeight: UserWeight) => {
     setOperatingUserWeight(userWeight);
     editWeightModal.onOpen();
   };
@@ -260,7 +260,7 @@ export default function UserWeightListPage() {
                       color="primary"
                       variant="flat"
                       size="sm"
-                      onClick={() => handleEditButtonPress(userWeight)}
+                      onClick={() => handleEditButton(userWeight)}
                     >
                       Edit
                     </Button>
@@ -268,7 +268,7 @@ export default function UserWeightListPage() {
                       color="danger"
                       variant="flat"
                       size="sm"
-                      onClick={() => handleDeleteButtonPress(userWeight)}
+                      onClick={() => handleDeleteButton(userWeight)}
                     >
                       Delete
                     </Button>

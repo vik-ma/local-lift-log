@@ -265,7 +265,7 @@ export default function WorkoutDetails() {
     deleteModal.onClose();
   };
 
-  const handleDeleteButtonPress = (set: WorkoutSet) => {
+  const handleDeleteButton = (set: WorkoutSet) => {
     setSetToDelete(set);
     deleteModal.onOpen();
   };
@@ -280,7 +280,7 @@ export default function WorkoutDetails() {
     });
   };
 
-  const handleAddSetButtonPressed = () => {
+  const handleAddSetButton = () => {
     if (isEditingSet) {
       resetSetToDefault();
     }
@@ -288,7 +288,7 @@ export default function WorkoutDetails() {
     newSetModal.onOpen();
   };
 
-  const handleExercisePressed = (exercise: ExerciseWithGroupString) => {
+  const handleClickExercise = (exercise: ExerciseWithGroupString) => {
     setSelectedExercise(exercise);
 
     if (isEditingSet) {
@@ -466,7 +466,7 @@ export default function WorkoutDetails() {
     }
   };
 
-  const handleSaveSetButtonPressed = async () => {
+  const handleSaveSetButton = async () => {
     if (isEditingSet) {
       await updateSet();
     } else {
@@ -474,7 +474,7 @@ export default function WorkoutDetails() {
     }
   };
 
-  const handleEditButtonPressed = (set: WorkoutSet) => {
+  const handleEditButton = (set: WorkoutSet) => {
     const exercise = exercises.find((item) => item.id === set.exercise_id);
 
     if (exercise === undefined) return;
@@ -486,7 +486,7 @@ export default function WorkoutDetails() {
     newSetModal.onOpen();
   };
 
-  const handleSaveNoteButtonPressed = async () => {
+  const handleSaveNoteButton = async () => {
     if (workout === undefined) return;
 
     const noteToInsert: string | null =
@@ -646,7 +646,7 @@ export default function WorkoutDetails() {
                         <button
                           key={exercise.id}
                           className="flex flex-col justify-start items-start bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:bg-default-200 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-                          onClick={() => handleExercisePressed(exercise)}
+                          onClick={() => handleClickExercise(exercise)}
                         >
                           <span className="text-md max-w-full truncate">
                             {exercise.name}
@@ -832,7 +832,7 @@ export default function WorkoutDetails() {
                 <Button
                   color="success"
                   isDisabled={selectedExercise === undefined}
-                  onPress={handleSaveSetButtonPressed}
+                  onPress={handleSaveSetButton}
                 >
                   {isEditingSet ? "Save" : "Add"}
                 </Button>
@@ -900,7 +900,7 @@ export default function WorkoutDetails() {
                   onValueChange={(value) => setWorkoutNote(value)}
                   isClearable
                 />
-                <Button color="success" onPress={handleSaveNoteButtonPressed}>
+                <Button color="success" onPress={handleSaveNoteButton}>
                   Save
                 </Button>
               </div>
@@ -1034,7 +1034,7 @@ export default function WorkoutDetails() {
                             <Button
                               size="sm"
                               color="danger"
-                              onPress={() => handleDeleteButtonPress(set)}
+                              onPress={() => handleDeleteButton(set)}
                             >
                               Delete
                             </Button>
@@ -1046,7 +1046,7 @@ export default function WorkoutDetails() {
                 </Reorder.Group>
               </div>
               <div className="flex justify-center">
-                <Button color="success" onPress={handleAddSetButtonPressed}>
+                <Button color="success" onPress={handleAddSetButton}>
                   Add Set
                 </Button>
               </div>
@@ -1262,7 +1262,7 @@ export default function WorkoutDetails() {
                           <Button
                             color="success"
                             variant="flat"
-                            onPress={() => handleEditButtonPressed(activeSet)}
+                            onPress={() => handleEditButton(activeSet)}
                           >
                             Edit
                           </Button>

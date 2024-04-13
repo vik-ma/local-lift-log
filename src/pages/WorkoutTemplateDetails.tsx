@@ -431,7 +431,7 @@ export default function WorkoutTemplateDetails() {
     });
   };
 
-  const handleSaveSetButtonPressed = async () => {
+  const handleSaveSetButton = async () => {
     if (isEditingSet) {
       await updateSet();
     } else {
@@ -439,7 +439,7 @@ export default function WorkoutTemplateDetails() {
     }
   };
 
-  const handleAddSetButtonPressed = () => {
+  const handleAddSetButton = () => {
     if (isEditingSet || isEditingDefaultValues) {
       resetSetToDefault();
     }
@@ -447,7 +447,7 @@ export default function WorkoutTemplateDetails() {
     newSetModal.onOpen();
   };
 
-  const handleEditButtonPressed = (set: WorkoutSet) => {
+  const handleEditButton = (set: WorkoutSet) => {
     const exercise = exercises.find((item) => item.id === set.exercise_id);
 
     if (exercise === undefined) return;
@@ -479,7 +479,7 @@ export default function WorkoutTemplateDetails() {
     setSetTrackingValuesInput(newSetTrackingValuesInput);
   };
 
-  const handleSetDefaultValuesButtonPressed = (set: WorkoutSet) => {
+  const handleSetDefaultValuesButton = (set: WorkoutSet) => {
     const exercise = exercises.find((item) => item.id === set.exercise_id);
 
     if (exercise === undefined) return;
@@ -493,7 +493,7 @@ export default function WorkoutTemplateDetails() {
     defaultValuesModal.onOpen();
   };
 
-  const handleExercisePressed = (exercise: ExerciseWithGroupString) => {
+  const handleClickExercise = (exercise: ExerciseWithGroupString) => {
     setSelectedExercise(exercise);
 
     if (isEditingSet) {
@@ -597,7 +597,7 @@ export default function WorkoutTemplateDetails() {
                         <button
                           key={exercise.id}
                           className="flex flex-col justify-start items-start bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:bg-default-200 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-                          onClick={() => handleExercisePressed(exercise)}
+                          onClick={() => handleClickExercise(exercise)}
                         >
                           <span className="text-md max-w-full truncate">
                             {exercise.name}
@@ -783,7 +783,7 @@ export default function WorkoutTemplateDetails() {
                 <Button
                   color="success"
                   isDisabled={selectedExercise === undefined}
-                  onPress={handleSaveSetButtonPressed}
+                  onPress={handleSaveSetButton}
                 >
                   {isEditingSet ? "Save" : "Add"}
                 </Button>
@@ -1088,7 +1088,7 @@ export default function WorkoutTemplateDetails() {
                             size="sm"
                             color="primary"
                             onPress={() =>
-                              handleSetDefaultValuesButtonPressed(set)
+                              handleSetDefaultValuesButton(set)
                             }
                           >
                             Set Default Values
@@ -1096,7 +1096,7 @@ export default function WorkoutTemplateDetails() {
                           <Button
                             size="sm"
                             color="primary"
-                            onPress={() => handleEditButtonPressed(set)}
+                            onPress={() => handleEditButton(set)}
                           >
                             Edit
                           </Button>
@@ -1114,7 +1114,7 @@ export default function WorkoutTemplateDetails() {
                 </Reorder.Group>
               </div>
               <div className="flex gap-1 justify-center">
-                <Button color="success" onPress={handleAddSetButtonPressed}>
+                <Button color="success" onPress={handleAddSetButton}>
                   Add Set
                 </Button>
                 <Button color="success" onPress={() => supersetModal.onOpen()}>

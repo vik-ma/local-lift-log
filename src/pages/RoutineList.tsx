@@ -80,7 +80,7 @@ export default function RoutineListPage() {
     getRoutines();
   }, []);
 
-  const handleSetActiveButtonPress = async (routine: RoutineListItem) => {
+  const handleSetActiveButton = async (routine: RoutineListItem) => {
     if (
       userSettings === undefined ||
       routine.id === userSettings.active_routine_id
@@ -100,7 +100,7 @@ export default function RoutineListPage() {
     setUserSettings(userSettings);
   };
 
-  const handleDeleteButtonPress = (routine: RoutineListItem) => {
+  const handleDeleteButton = (routine: RoutineListItem) => {
     setRoutineToDelete(routine);
     deleteModal.onOpen();
   };
@@ -369,13 +369,13 @@ export default function RoutineListPage() {
                         ? "flat"
                         : "light"
                     }
-                    onPress={() => handleSetActiveButtonPress(routine)}
+                    onPress={() => handleSetActiveButton(routine)}
                   >
                     Set Active
                   </Button>
                   <Button
                     color="danger"
-                    onPress={() => handleDeleteButtonPress(routine)}
+                    onPress={() => handleDeleteButton(routine)}
                   >
                     Delete
                   </Button>
