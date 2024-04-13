@@ -18,6 +18,8 @@ export default function BodyMeasurementsPage() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [newWeightInput, setNewWeightInput] = useState<string>("");
   const [newWeightUnit, setNewWeightUnit] = useState<string>("");
+  const [newWeightCommentInput, setNewWeightCommentInput] =
+    useState<string>("");
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
   const navigate = useNavigate();
@@ -166,41 +168,47 @@ export default function BodyMeasurementsPage() {
                     color={isEditing ? "danger" : "success"}
                     variant="flat"
                     size="sm"
-                    onPress={
-                      isEditing
-                        ? handleCancelButton
-                        : handleEditButton
-                    }
+                    onPress={isEditing ? handleCancelButton : handleEditButton}
                   >
                     {isEditing ? "Cancel" : "Edit"}
                   </Button>
                 </div>
               </div>
-              <div className="flex justify-between gap-2 items-center">
+              <div className="flex flex-col gap-1">
+                <div className="flex justify-between gap-2 items-center">
+                  <Input
+                    value={newWeightInput}
+                    label="Weight"
+                    size="sm"
+                    variant="faded"
+                    onValueChange={(value) => setNewWeightInput(value)}
+                    isInvalid={isWeightInputInvalid}
+                    isClearable
+                  />
+                  <WeightUnitDropdown
+                    value={newWeightUnit}
+                    setState={setNewWeightUnit}
+                    targetType="state"
+                  />
+                  <Button
+                    className="font-medium"
+                    color="success"
+                    onPress={isEditing ? updateUserWeight : addUserWeight}
+                    isDisabled={
+                      isWeightInputInvalid || newWeightInput.trim().length === 0
+                    }
+                  >
+                    {isEditing ? "Update" : "Add"}
+                  </Button>
+                </div>
                 <Input
-                  value={newWeightInput}
-                  label="Weight"
+                  value={newWeightCommentInput}
+                  label="Comment"
                   size="sm"
                   variant="faded"
-                  onValueChange={(value) => setNewWeightInput(value)}
-                  isInvalid={isWeightInputInvalid}
+                  onValueChange={(value) => setNewWeightCommentInput(value)}
                   isClearable
                 />
-                <WeightUnitDropdown
-                  value={newWeightUnit}
-                  setState={setNewWeightUnit}
-                  targetType="state"
-                />
-                <Button
-                  className="font-medium"
-                  color="success"
-                  onPress={isEditing ? updateUserWeight : addUserWeight}
-                  isDisabled={
-                    isWeightInputInvalid || newWeightInput.trim().length === 0
-                  }
-                >
-                  {isEditing ? "Update" : "Add"}
-                </Button>
               </div>
               <h2 className="flex text-3xl font-semibold">Body Measurements</h2>
               <div className="flex justify-center">
