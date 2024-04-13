@@ -193,6 +193,7 @@ export type UserWeight = {
   weight_unit: string;
   date: string;
   formattedDate: string;
+  comment: string | null;
 };
 
 export type EquipmentWeight = {

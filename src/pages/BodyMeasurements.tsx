@@ -77,6 +77,7 @@ export default function BodyMeasurementsPage() {
         weight_unit: newWeightUnit,
         date: dateString,
         formattedDate: formattedDate,
+        comment: commentToInsert,
       };
 
       setLatestUserWeight(newUserWeight);
@@ -99,20 +100,27 @@ export default function BodyMeasurementsPage() {
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
+      const commentToInsert: string | null =
+        newWeightCommentInput.trim().length === 0
+          ? null
+          : newWeightCommentInput;
+
       await db.execute(
-        "UPDATE user_weights SET weight = $1, weight_unit = $2 WHERE id = $3",
-        [newWeight, newWeightUnit, latestUserWeight.id]
+        "UPDATE user_weights SET weight = $1, weight_unit = $2, comment = $3 WHERE id = $4",
+        [newWeight, newWeightUnit, commentToInsert, latestUserWeight.id]
       );
 
       const updatedUserWeight: UserWeight = {
         ...latestUserWeight,
         weight: newWeight,
         weight_unit: newWeightUnit,
+        comment: commentToInsert,
       };
 
       setLatestUserWeight(updatedUserWeight);
       setNewWeightInput("");
       setIsEditing(false);
+      setNewWeightCommentInput("");
 
       toast.success("Body Weight Updated");
     } catch (error) {
@@ -125,6 +133,7 @@ export default function BodyMeasurementsPage() {
 
     setNewWeightInput(latestUserWeight.weight.toString());
     setNewWeightUnit(latestUserWeight.weight_unit);
+    setNewWeightCommentInput(latestUserWeight.comment ?? "");
     setIsEditing(true);
   };
 
