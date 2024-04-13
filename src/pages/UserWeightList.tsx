@@ -26,6 +26,8 @@ export default function UserWeightListPage() {
   const [operatingUserWeight, setOperatingUserWeight] = useState<UserWeight>();
   const [newWeightInput, setNewWeightInput] = useState<string>("");
   const [newWeightUnit, setNewWeightUnit] = useState<string>("");
+  const [newWeightCommentInput, setNewWeightCommentInput] =
+    useState<string>("");
 
   const deleteModal = useDisclosure();
   const editWeightModal = useDisclosure();
@@ -117,15 +119,21 @@ export default function UserWeightListPage() {
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
+      const commentToInsert: string | null =
+        newWeightCommentInput.trim().length === 0
+          ? null
+          : newWeightCommentInput;
+
       await db.execute(
-        "UPDATE user_weights SET weight = $1, weight_unit = $2 WHERE id = $3",
-        [newWeight, newWeightUnit, operatingUserWeight.id]
+        "UPDATE user_weights SET weight = $1, weight_unit = $2, comment = $3 WHERE id = $4",
+        [newWeight, newWeightUnit, commentToInsert, operatingUserWeight.id]
       );
 
       const updatedUserWeight: UserWeight = {
         ...operatingUserWeight,
         weight: newWeight,
         weight_unit: newWeightUnit,
+        comment: commentToInsert,
       };
 
       setUserWeights((prev) =>
@@ -135,6 +143,7 @@ export default function UserWeightListPage() {
       );
 
       setNewWeightInput("");
+      setNewWeightCommentInput("");
       toast.success("Body Weight Updated");
       editWeightModal.onClose();
     } catch (error) {
@@ -184,7 +193,7 @@ export default function UserWeightListPage() {
                 Edit Body Weight Record
               </ModalHeader>
               <ModalBody>
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-2">
                   <div className="flex gap-2 font-medium">
                     <span className="text-amber-400">Old Value:</span>
                     <span>
@@ -195,7 +204,7 @@ export default function UserWeightListPage() {
                       {operatingUserWeight?.formattedDate}
                     </span>
                   </div>
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 items-center">
                     <Input
                       value={newWeightInput}
                       label="Weight"
@@ -211,6 +220,14 @@ export default function UserWeightListPage() {
                       targetType="state"
                     />
                   </div>
+                  <Input
+                    value={newWeightCommentInput}
+                    label="Comment"
+                    size="sm"
+                    variant="faded"
+                    onValueChange={(value) => setNewWeightCommentInput(value)}
+                    isClearable
+                  />
                 </div>
               </ModalBody>
               <ModalFooter>
