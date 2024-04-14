@@ -193,6 +193,8 @@ export default function BodyMeasurementsPage() {
 
     const currentDate = new Date().toString();
 
+    let measurementWasAdded: boolean = false;
+
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -213,12 +215,21 @@ export default function BodyMeasurementsPage() {
           VALUES ($1, $2, $3, $4)`,
           [measurement.id, inputNumber, measurement.default_unit, currentDate]
         );
+
+        if (!measurementWasAdded) measurementWasAdded = true;
       }
     } catch (error) {
       console.log(error);
     }
 
-    toast.success("Measurements Added");
+    if (measurementWasAdded) {
+      const updatedInputs = activeMeasurements.map((measurement) => ({
+        ...measurement,
+        input: "",
+      }));
+      setActiveMeasurements(updatedInputs);
+      toast.success("Measurements Added");
+    }
   };
 
   return (
