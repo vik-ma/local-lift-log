@@ -53,6 +53,18 @@ export const MeasurementUnitDropdown = ({
     if (targetType === "settings" && setUserSettings !== undefined) {
       setUserSettings(e);
     }
+
+    if (
+      targetType === "active" &&
+      measurements !== undefined &&
+      setMeasurements !== undefined &&
+      measurement !== undefined
+    ) {
+      const updatedMeasurements = measurements.map((item) =>
+        item.id === measurement.id ? { ...item, default_unit: value } : item
+      );
+      setMeasurements(updatedMeasurements);
+    }
   };
 
   const updateMeasurementUnit = async (value: string) => {

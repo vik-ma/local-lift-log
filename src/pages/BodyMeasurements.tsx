@@ -312,7 +312,8 @@ export default function BodyMeasurementsPage() {
                       value={measurement.default_unit}
                       measurements={activeMeasurements}
                       setMeasurements={setActiveMeasurements}
-                      targetType="active" //TODO: FIX
+                      measurement={measurement}
+                      targetType="active"
                       isDisabled={measurement.measurement_type === "Caliper"}
                     />
                   </div>
