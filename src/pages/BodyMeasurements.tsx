@@ -166,6 +166,15 @@ export default function BodyMeasurementsPage() {
     setIsEditing(false);
   };
 
+  const handleActiveMeasurementInputChange = (
+    value: string,
+    index: number
+  ) => {
+    const updatedInputs = [...activeMeasurements];
+    updatedInputs[index] = { ...updatedInputs[index], input: value };
+    setActiveMeasurements(updatedInputs);
+  };
+
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
@@ -281,7 +290,7 @@ export default function BodyMeasurementsPage() {
                       label={measurement.name}
                       size="sm"
                       variant="faded"
-                      // onValueChange={}
+                      onValueChange={(value) => handleActiveMeasurementInputChange(value, index)}
                       // isInvalid={} //TODO: ADD
                       isClearable
                     />
