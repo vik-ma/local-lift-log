@@ -29,6 +29,9 @@ export default function BodyMeasurementsPage() {
   const [activeMeasurements, setActiveMeasurements] = useState<Measurement[]>(
     []
   );
+  const [invalidMeasurementInputs, setInvalidMeasurementInputs] = useState<
+    Set<number>
+  >(new Set<number>());
 
   const navigate = useNavigate();
 
@@ -166,13 +169,22 @@ export default function BodyMeasurementsPage() {
     setIsEditing(false);
   };
 
-  const handleActiveMeasurementInputChange = (
-    value: string,
-    index: number
-  ) => {
+  const handleActiveMeasurementInputChange = (value: string, index: number) => {
     const updatedInputs = [...activeMeasurements];
     updatedInputs[index] = { ...updatedInputs[index], input: value };
     setActiveMeasurements(updatedInputs);
+    validateActiveMeasurementInput(value, index);
+  };
+
+  const validateActiveMeasurementInput = (value: string, index: number) => {
+    const updatedSet = new Set(invalidMeasurementInputs);
+    if (IsStringInvalidNumber(value)) {
+      updatedSet.add(index);
+    } else {
+      updatedSet.delete(index);
+    }
+
+    setInvalidMeasurementInputs(updatedSet);
   };
 
   return (
@@ -290,8 +302,10 @@ export default function BodyMeasurementsPage() {
                       label={measurement.name}
                       size="sm"
                       variant="faded"
-                      onValueChange={(value) => handleActiveMeasurementInputChange(value, index)}
-                      // isInvalid={} //TODO: ADD
+                      onValueChange={(value) =>
+                        handleActiveMeasurementInputChange(value, index)
+                      }
+                      isInvalid={invalidMeasurementInputs.has(index)}
                       isClearable
                     />
                     <MeasurementUnitDropdown
