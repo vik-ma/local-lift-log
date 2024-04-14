@@ -271,12 +271,25 @@ export default function BodyMeasurementsPage() {
                 Active Measurements
               </h3>
               <div className="flex flex-col gap-1">
-                {activeMeasurements.map((measurement) => (
+                {activeMeasurements.map((measurement, index) => (
                   <div
                     className="flex justify-between gap-2 items-center"
                     key={`measurement-${measurement.id}`}
                   >
-                    {measurement.name}
+                    <Input
+                      value={measurement.input}
+                      label={measurement.name}
+                      size="sm"
+                      variant="faded"
+                      // onValueChange={}
+                      // isInvalid={} //TODO: ADD
+                      isClearable
+                    />
+                    <MeasurementUnitDropdown
+                      value={measurement.default_unit}
+                      targetType="settings" //TODO: FIX
+                      isDisabled={measurement.measurement_type === "Caliper"}
+                    />
                   </div>
                 ))}
               </div>
