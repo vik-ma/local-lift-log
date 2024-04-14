@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
-import { Measurement, UserSettings, UserWeight } from "../typings";
+import { ActiveMeasurementInput, UserSettings, UserWeight } from "../typings";
 import {
   LoadingSpinner,
   MeasurementUnitDropdown,
@@ -7,10 +7,10 @@ import {
 } from "../components";
 import {
   FormatDateTimeString,
-  GenerateActiveMeasurementList,
   GetLatestUserWeight,
   IsStringInvalidNumber,
   GetUserSettings,
+  CreateActiveMeasurementInputs,
 } from "../helpers";
 import { Button, Input } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
@@ -26,29 +26,18 @@ export default function BodyMeasurementsPage() {
   const [newWeightCommentInput, setNewWeightCommentInput] =
     useState<string>("");
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [activeMeasurements, setActiveMeasurements] = useState<Measurement[]>(
-    []
-  );
+  const [activeMeasurements, setActiveMeasurements] = useState<
+    ActiveMeasurementInput[]
+  >([]);
 
   const navigate = useNavigate();
 
   const getActiveMeasurements = useCallback(
     async (activeMeasurementsString: string) => {
-      const activeMeasurements: Measurement[] = [];
-
       try {
-        const db = await Database.load(import.meta.env.VITE_DB);
-        const activeMeasurementList = GenerateActiveMeasurementList(
+        const activeMeasurements = await CreateActiveMeasurementInputs(
           activeMeasurementsString
         );
-        for (let i = 0; i < activeMeasurementList.length; i++) {
-          const result = await db.select<Measurement[]>(
-            "SELECT * FROM measurements WHERE id = $1",
-            [activeMeasurementList[i]]
-          );
-          if (result.length === 0) continue;
-          activeMeasurements.push(result[0]);
-        }
         setActiveMeasurements(activeMeasurements);
       } catch (error) {
         console.log(error);
@@ -285,8 +274,10 @@ export default function BodyMeasurementsPage() {
                 {activeMeasurements.map((measurement) => (
                   <div
                     className="flex justify-between gap-2 items-center"
-                    key={`measurement-${measurement.id}`}
-                  ></div>
+                    key={`measurement-${measurement.measurement_id}`}
+                  >
+                    {measurement.measurement_name}
+                  </div>
                 ))}
               </div>
             </div>
