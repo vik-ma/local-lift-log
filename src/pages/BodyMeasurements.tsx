@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
-import { ActiveMeasurementInput, UserSettings, UserWeight } from "../typings";
+import { Measurement, UserSettings, UserWeight } from "../typings";
 import {
   LoadingSpinner,
   MeasurementUnitDropdown,
@@ -26,9 +26,9 @@ export default function BodyMeasurementsPage() {
   const [newWeightCommentInput, setNewWeightCommentInput] =
     useState<string>("");
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [activeMeasurements, setActiveMeasurements] = useState<
-    ActiveMeasurementInput[]
-  >([]);
+  const [activeMeasurements, setActiveMeasurements] = useState<Measurement[]>(
+    []
+  );
 
   const navigate = useNavigate();
 
@@ -274,9 +274,9 @@ export default function BodyMeasurementsPage() {
                 {activeMeasurements.map((measurement) => (
                   <div
                     className="flex justify-between gap-2 items-center"
-                    key={`measurement-${measurement.measurement_id}`}
+                    key={`measurement-${measurement.id}`}
                   >
-                    {measurement.measurement_name}
+                    {measurement.name}
                   </div>
                 ))}
               </div>

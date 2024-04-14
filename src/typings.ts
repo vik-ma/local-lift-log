@@ -215,12 +215,5 @@ export type Measurement = {
   name: string;
   default_unit: string;
   measurement_type: string;
+  input?: string;
 };
-
-export type ActiveMeasurementInput = {
-  measurement_id: number;
-  measurement_name: string;
-  default_unit: string;
-  measurement_type: string;
-  value: string;
-}
