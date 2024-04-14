@@ -1,6 +1,10 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { Measurement, UserSettings, UserWeight } from "../typings";
-import { LoadingSpinner, WeightUnitDropdown } from "../components";
+import {
+  LoadingSpinner,
+  MeasurementUnitDropdown,
+  WeightUnitDropdown,
+} from "../components";
 import {
   FormatDateTimeString,
   GenerateActiveMeasurementList,
@@ -267,14 +271,23 @@ export default function BodyMeasurementsPage() {
                 />
               </div>
               <h2 className="flex text-3xl font-semibold">Body Measurements</h2>
-              <div className="flex justify-center">
-                <Button
-                  color="success"
-                  variant="flat"
-                  onClick={() => navigate("/measurements/measurement-list")}
-                >
-                  List of Measurements
-                </Button>
+              <Button
+                color="success"
+                variant="flat"
+                onClick={() => navigate("/measurements/measurement-list")}
+              >
+                List of Measurements
+              </Button>
+              <h3 className="flex text-lg font-semibold items-center gap-3">
+                Active Measurements
+              </h3>
+              <div className="flex flex-col gap-1">
+                {activeMeasurements.map((measurement) => (
+                  <div
+                    className="flex justify-between gap-2 items-center"
+                    key={`measurement-${measurement.id}`}
+                  ></div>
+                ))}
               </div>
             </div>
           </>
