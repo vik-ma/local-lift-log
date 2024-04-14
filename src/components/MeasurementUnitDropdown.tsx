@@ -77,15 +77,23 @@ export const MeasurementUnitDropdown = ({
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
       <Select
         aria-label="Measurement Unit Dropdown Menu"
-        label={targetType === "settings" ? undefined : "Unit"}
+        label={
+          targetType === "settings" || targetType === "active"
+            ? undefined
+            : "Unit"
+        }
         size={
           targetType === "modal"
             ? "lg"
-            : targetType === "settings"
+            : targetType === "settings" || targetType === "active"
             ? "md"
             : "sm"
         }
-        className={targetType === "settings" ? "max-w-[5rem]" : "w-20"}
+        className={
+          targetType === "settings" || targetType === "active"
+            ? "max-w-[5rem]"
+            : "w-20"
+        }
         labelPlacement={targetType === "modal" ? "outside" : "inside"}
         variant="faded"
         selectedKeys={[displayValue]}

@@ -310,7 +310,9 @@ export default function BodyMeasurementsPage() {
                     />
                     <MeasurementUnitDropdown
                       value={measurement.default_unit}
-                      targetType="settings" //TODO: FIX
+                      measurements={activeMeasurements}
+                      setMeasurements={setActiveMeasurements}
+                      targetType="active" //TODO: FIX
                       isDisabled={measurement.measurement_type === "Caliper"}
                     />
                   </div>
