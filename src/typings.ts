@@ -216,3 +216,11 @@ export type Measurement = {
   default_unit: string;
   measurement_type: string;
 };
+
+export type ActiveMeasurementInput = {
+  measurement_id: number;
+  measurement_name: string;
+  default_unit: string;
+  measurement_type: string;
+  value: string;
+}
