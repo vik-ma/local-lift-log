@@ -32,6 +32,8 @@ export default function BodyMeasurementsPage() {
   const [invalidMeasurementInputs, setInvalidMeasurementInputs] = useState<
     Set<number>
   >(new Set<number>());
+  const [measurementsCommentInput, setMeasurementsCommentInput] =
+    useState<string>("");
 
   const navigate = useNavigate();
 
@@ -193,6 +195,11 @@ export default function BodyMeasurementsPage() {
 
     const currentDate = new Date().toString();
 
+    const commentToInsert: string | null =
+      measurementsCommentInput.trim().length === 0
+        ? null
+        : measurementsCommentInput;
+
     let measurementWasAdded: boolean = false;
 
     try {
@@ -211,9 +218,15 @@ export default function BodyMeasurementsPage() {
         const inputNumber: number = Number(measurement.input);
 
         db.execute(
-          `INSERT into user_measurements (measurement_id, value, unit, date) 
-          VALUES ($1, $2, $3, $4)`,
-          [measurement.id, inputNumber, measurement.default_unit, currentDate]
+          `INSERT into user_measurements (measurement_id, value, unit, date, comment) 
+          VALUES ($1, $2, $3, $4, $5)`,
+          [
+            measurement.id,
+            inputNumber,
+            measurement.default_unit,
+            currentDate,
+            commentToInsert,
+          ]
         );
 
         if (!measurementWasAdded) measurementWasAdded = true;
@@ -228,6 +241,7 @@ export default function BodyMeasurementsPage() {
         input: "",
       }));
       setActiveMeasurements(updatedInputs);
+      setMeasurementsCommentInput("");
       toast.success("Measurements Added");
     }
   };
@@ -363,6 +377,14 @@ export default function BodyMeasurementsPage() {
                     />
                   </div>
                 ))}
+                <Input
+                  value={measurementsCommentInput}
+                  label="Comment"
+                  size="sm"
+                  variant="faded"
+                  onValueChange={(value) => setMeasurementsCommentInput(value)}
+                  isClearable
+                />
               </div>
               <Button
                 className="font-medium"
