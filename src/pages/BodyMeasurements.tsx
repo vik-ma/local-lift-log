@@ -187,6 +187,40 @@ export default function BodyMeasurementsPage() {
     setInvalidMeasurementInputs(updatedSet);
   };
 
+  const addActiveMeasurements = async () => {
+    if (activeMeasurements.length < 1 || invalidMeasurementInputs.size > 0)
+      return;
+
+    const currentDate = new Date().toString();
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      for (let i = 0; i < activeMeasurements.length; i++) {
+        const measurement = activeMeasurements[i];
+
+        if (
+          measurement.input === undefined ||
+          measurement.input.trim().length === 0
+        ) {
+          continue;
+        }
+
+        const inputNumber: number = Number(measurement.input);
+
+        db.execute(
+          `INSERT into user_measurements (measurement_id, value, unit, date) 
+          VALUES ($1, $2, $3, $4)`,
+          [measurement.id, inputNumber, measurement.default_unit, currentDate]
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
+    toast.success("Measurements Added");
+  };
+
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
@@ -319,6 +353,14 @@ export default function BodyMeasurementsPage() {
                   </div>
                 ))}
               </div>
+              <Button
+                className="font-medium"
+                color="success"
+                onPress={addActiveMeasurements}
+                isDisabled={invalidMeasurementInputs.size > 0}
+              >
+                Add Measurements
+              </Button>
             </div>
           </>
         )}
