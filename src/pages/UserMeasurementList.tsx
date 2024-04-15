@@ -71,11 +71,17 @@ export default function UserMeasurementList() {
                   {entry.measurementList?.map((measurement) => (
                     <div className="grid grid-cols-2" key={measurement.id}>
                       <span className="font-semibold">{measurement.name}</span>
-                      <div className="flex gap-1">
+                      <div
+                        className={
+                          measurement.unit === "in" ? "flex" : "flex gap-1"
+                        }
+                      >
                         <span className="truncate max-w-36">
                           {measurement.value}
                         </span>
-                        <span>{measurement.unit}</span>
+                        <span>
+                          {measurement.unit === "in" ? `″` : measurement.unit}
+                        </span>
                       </div>
                     </div>
                   ))}
