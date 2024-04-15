@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { LoadingSpinner } from "../components";
 import Database from "tauri-plugin-sql-api";
 import { UserMeasurementEntry, Measurement } from "../typings";
+import { Accordion, AccordionItem } from "@nextui-org/react";
 
 export default function UserMeasurementList() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -45,6 +46,18 @@ export default function UserMeasurementList() {
           </h1>
         </div>
         {isLoading ? <LoadingSpinner /> : <></>}
+        <div>
+          <Accordion variant="splitted">
+            {userMeasurementEntries.map((entry, index) => (
+              <AccordionItem
+                key={`${index}`}
+                aria-label={`Accordion Item ${index}`}
+                subtitle={`${entry.measurementList?.length} Measurements`}
+                title={entry.date}
+              ></AccordionItem>
+            ))}
+          </Accordion>
+        </div>
       </div>
     </>
   );
