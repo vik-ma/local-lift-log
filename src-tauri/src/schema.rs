@@ -144,3 +144,11 @@ diesel::table! {
         comment -> Nullable<Text>,
     }
 }
+
+diesel::table! {
+    user_measurement_entries (id) {
+        id -> Integer,
+        date -> Text,
+        comment -> Nullable<Text>,
+    }
+}

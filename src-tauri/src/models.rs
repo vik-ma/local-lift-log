@@ -156,3 +156,12 @@ pub struct UserMeasurement {
     pub date: String,
     pub comment: Option<String>,
 }
+
+#[derive(Queryable, Selectable)]
+#[diesel(table_name = crate::schema::user_measurement_entries)]
+#[diesel(check_for_backend(diesel::sqlite::Sqlite))]
+pub struct UserMeasurementEntry {
+    pub id: i32,
+    pub date: String,
+    pub comment: Option<String>,
+}
