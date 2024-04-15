@@ -366,6 +366,16 @@ export default function BodyMeasurementsPage() {
               </Button>
               <h3 className="flex text-lg font-semibold items-center gap-3">
                 Active Measurements
+                <Button
+                  color="success"
+                  variant="flat"
+                  size="sm"
+                  onClick={() =>
+                    navigate("/measurements/user-measurement-list")
+                  }
+                >
+                  View Full List
+                </Button>
               </h3>
               <div className="flex flex-col gap-1">
                 {activeMeasurements.map((measurement, index) => (
