@@ -205,6 +205,14 @@ export default function BodyMeasurementsPage() {
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
+      const result = await db.execute(
+        `INSERT into user_measurement_entries (date, comment) 
+        VALUES ($1, $2)`,
+        [currentDate, commentToInsert]
+      );
+
+      const userMeasurementEntryId: number = result.lastInsertId;
+
       for (let i = 0; i < activeMeasurements.length; i++) {
         const measurement = activeMeasurements[i];
 
@@ -218,14 +226,13 @@ export default function BodyMeasurementsPage() {
         const inputNumber: number = Number(measurement.input);
 
         db.execute(
-          `INSERT into user_measurements (measurement_id, value, unit, date, comment) 
-          VALUES ($1, $2, $3, $4, $5)`,
+          `INSERT into user_measurements (measurement_id, value, unit, user_measurement_entry_id) 
+          VALUES ($1, $2, $3, $4)`,
           [
             measurement.id,
             inputNumber,
             measurement.default_unit,
-            currentDate,
-            commentToInsert,
+            userMeasurementEntryId,
           ]
         );
 
