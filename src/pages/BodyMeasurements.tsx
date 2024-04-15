@@ -190,7 +190,11 @@ export default function BodyMeasurementsPage() {
   };
 
   const addActiveMeasurements = async () => {
-    if (activeMeasurements.length < 1 || invalidMeasurementInputs.size > 0)
+    if (
+      activeMeasurements.length < 1 ||
+      invalidMeasurementInputs.size > 0 ||
+      areActiveMeasurementInputsEmpty
+    )
       return;
 
     const currentDate = new Date().toString();
@@ -199,8 +203,6 @@ export default function BodyMeasurementsPage() {
       measurementsCommentInput.trim().length === 0
         ? null
         : measurementsCommentInput;
-
-    let measurementWasAdded: boolean = false;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
@@ -235,23 +237,31 @@ export default function BodyMeasurementsPage() {
             userMeasurementEntryId,
           ]
         );
-
-        if (!measurementWasAdded) measurementWasAdded = true;
       }
     } catch (error) {
       console.log(error);
     }
 
-    if (measurementWasAdded) {
-      const updatedInputs = activeMeasurements.map((measurement) => ({
-        ...measurement,
-        input: "",
-      }));
-      setActiveMeasurements(updatedInputs);
-      setMeasurementsCommentInput("");
-      toast.success("Measurements Added");
-    }
+    const updatedInputs = activeMeasurements.map((measurement) => ({
+      ...measurement,
+      input: "",
+    }));
+    setActiveMeasurements(updatedInputs);
+    setMeasurementsCommentInput("");
+    toast.success("Measurements Added");
   };
+
+  const areActiveMeasurementInputsEmpty = useMemo(() => {
+    let isEmpty: boolean = true;
+
+    let i = 0;
+    while (isEmpty && i < activeMeasurements.length) {
+      if (activeMeasurements[i].input!.trim().length !== 0) isEmpty = false;
+      i++;
+    }
+
+    return isEmpty;
+  }, [activeMeasurements]);
 
   return (
     <>
@@ -397,7 +407,10 @@ export default function BodyMeasurementsPage() {
                 className="font-medium"
                 color="success"
                 onPress={addActiveMeasurements}
-                isDisabled={invalidMeasurementInputs.size > 0}
+                isDisabled={
+                  invalidMeasurementInputs.size > 0 ||
+                  areActiveMeasurementInputsEmpty
+                }
               >
                 Add Measurements
               </Button>
