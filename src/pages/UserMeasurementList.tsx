@@ -51,8 +51,12 @@ export default function UserMeasurementList() {
           </h1>
         </div>
         {isLoading ? <LoadingSpinner /> : <></>}
-        <div>
-          <Accordion variant="splitted" selectionMode="multiple">
+        <div className="w-full">
+          <Accordion
+            className="break-all"
+            variant="splitted"
+            selectionMode="multiple"
+          >
             {userMeasurementEntries.map((entry, index) => (
               <AccordionItem
                 key={`${index}`}
@@ -60,15 +64,22 @@ export default function UserMeasurementList() {
                 subtitle={`${entry.measurementList?.length} Measurements`}
                 title={FormatDateTimeString(entry.date)}
               >
-                {entry.measurementList?.map((measurement) => (
-                  <div className="grid grid-cols-2">
-                    <span className="font-semibold">{measurement.name}</span>
-                    <div className="flex gap-1">
-                      <span>{measurement.value}</span>
-                      <span>{measurement.unit}</span>
+                <div className="flex flex-col ">
+                  <span className="font-medium text-amber-500 ">
+                    {entry.comment}
+                  </span>
+                  {entry.measurementList?.map((measurement) => (
+                    <div className="grid grid-cols-2" key={measurement.id}>
+                      <span className="font-semibold">{measurement.name}</span>
+                      <div className="flex gap-1">
+                        <span className="truncate max-w-36">
+                          {measurement.value}
+                        </span>
+                        <span>{measurement.unit}</span>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </AccordionItem>
             ))}
           </Accordion>
