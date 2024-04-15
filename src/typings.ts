@@ -217,3 +217,18 @@ export type Measurement = {
   measurement_type: string;
   input?: string;
 };
+
+export type UserMeasurement = {
+  id: number;
+  measurement_id: number;
+  value: number;
+  unit: string;
+  user_measurement_entry_id: number;
+}
+
+export type UserMeasurementEntry = {
+  id: number;
+  date: string;
+  comment: string | null;
+  measurementList?: Measurement[];
+}
