@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { LoadingSpinner } from "../components";
 import Database from "tauri-plugin-sql-api";
-import { UserMeasurementEntry, UserMeasurement, Measurement } from "../typings";
+import { UserMeasurementEntry, UserMeasurement } from "../typings";
 import { Accordion, AccordionItem } from "@nextui-org/react";
 import { FormatDateTimeString } from "../helpers";
 
@@ -52,14 +52,24 @@ export default function UserMeasurementList() {
         </div>
         {isLoading ? <LoadingSpinner /> : <></>}
         <div>
-          <Accordion variant="splitted">
+          <Accordion variant="splitted" selectionMode="multiple">
             {userMeasurementEntries.map((entry, index) => (
               <AccordionItem
                 key={`${index}`}
                 aria-label={`Accordion Item ${index}`}
                 subtitle={`${entry.measurementList?.length} Measurements`}
                 title={FormatDateTimeString(entry.date)}
-              ></AccordionItem>
+              >
+                {entry.measurementList?.map((measurement) => (
+                  <div className="grid grid-cols-2">
+                    <span className="font-semibold">{measurement.name}</span>
+                    <div className="flex gap-1">
+                      <span>{measurement.value}</span>
+                      <span>{measurement.unit}</span>
+                    </div>
+                  </div>
+                ))}
+              </AccordionItem>
             ))}
           </Accordion>
         </div>
