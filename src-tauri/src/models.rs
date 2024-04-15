@@ -153,8 +153,7 @@ pub struct UserMeasurement {
     pub measurement_id: i32,
     pub value: f32,
     pub unit: String,
-    pub date: String,
-    pub comment: Option<String>,
+    pub user_measurement_entry_id: i32,
 }
 
 #[derive(Queryable, Selectable)]

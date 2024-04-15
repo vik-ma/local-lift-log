@@ -140,8 +140,7 @@ diesel::table! {
         measurement_id -> Integer,
         value -> Float,
         unit -> Text,
-        date -> Text,
-        comment -> Nullable<Text>,
+        user_measurement_entry_id -> Integer,
     }
 }
 
