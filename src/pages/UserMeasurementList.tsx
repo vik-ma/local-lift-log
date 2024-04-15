@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { LoadingSpinner } from "../components";
 import Database from "tauri-plugin-sql-api";
-import { UserMeasurementEntry, Measurement } from "../typings";
+import { UserMeasurementEntry, UserMeasurement, Measurement } from "../typings";
 import { Accordion, AccordionItem } from "@nextui-org/react";
+import { FormatDateTimeString } from "../helpers";
 
 export default function UserMeasurementList() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -20,8 +21,12 @@ export default function UserMeasurementList() {
         );
 
         for (let i = 0; i < result.length; i++) {
-          const measurementList = await db.select<Measurement[]>(
-            "SELECT * FROM user_measurements WHERE user_measurement_entry_id = $1",
+          const measurementList = await db.select<UserMeasurement[]>(
+            `SELECT user_measurements.*, 
+             measurements.name AS name, measurements.measurement_type AS type
+             FROM user_measurements 
+             JOIN measurements ON user_measurements.measurement_id = measurements.id 
+             WHERE user_measurement_entry_id = $1`,
             [result[i].id]
           );
           result[i].measurementList = measurementList;
@@ -53,7 +58,7 @@ export default function UserMeasurementList() {
                 key={`${index}`}
                 aria-label={`Accordion Item ${index}`}
                 subtitle={`${entry.measurementList?.length} Measurements`}
-                title={entry.date}
+                title={FormatDateTimeString(entry.date)}
               ></AccordionItem>
             ))}
           </Accordion>

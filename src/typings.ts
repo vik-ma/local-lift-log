@@ -224,11 +224,13 @@ export type UserMeasurement = {
   value: number;
   unit: string;
   user_measurement_entry_id: number;
-}
+  name?: string;
+  type?: string;
+};
 
 export type UserMeasurementEntry = {
   id: number;
   date: string;
   comment: string | null;
-  measurementList?: Measurement[];
-}
+  measurementList?: UserMeasurement[];
+};
