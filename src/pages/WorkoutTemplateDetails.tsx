@@ -535,7 +535,10 @@ export default function WorkoutTemplateDetails() {
     setSelectedExercise(undefined);
     setIsReassigningExercise(false);
 
+    getWorkoutTemplateAndSetList();
+
     newSetModal.onClose();
+    toast.success("Exercise Reassigned");
   };
 
   const isDefaultWeightInputInvalid = useMemo(() => {
