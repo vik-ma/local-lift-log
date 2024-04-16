@@ -233,4 +233,5 @@ export type UserMeasurementEntry = {
   date: string;
   comment: string | null;
   measurementList?: UserMeasurement[];
+  measurementListString?: string;
 };
