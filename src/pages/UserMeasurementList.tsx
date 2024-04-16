@@ -23,10 +23,11 @@ export default function UserMeasurementList() {
         for (let i = 0; i < result.length; i++) {
           const measurementList = await db.select<UserMeasurement[]>(
             `SELECT user_measurements.*, 
-             measurements.name AS name, measurements.measurement_type AS type
-             FROM user_measurements 
-             JOIN measurements ON user_measurements.measurement_id = measurements.id 
-             WHERE user_measurement_entry_id = $1`,
+            COALESCE(measurements.name, 'Unknown') AS name, 
+            COALESCE(measurements.measurement_type, 'Unknown') AS type
+            FROM user_measurements LEFT JOIN 
+            measurements ON user_measurements.measurement_id = measurements.id 
+            WHERE user_measurement_entry_id = $1;`,
             [result[i].id]
           );
           result[i].measurementList = measurementList;
