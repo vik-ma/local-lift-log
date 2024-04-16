@@ -3,7 +3,10 @@ import { LoadingSpinner } from "../components";
 import Database from "tauri-plugin-sql-api";
 import { UserMeasurementEntry, UserMeasurement } from "../typings";
 import { Accordion, AccordionItem } from "@nextui-org/react";
-import { FormatDateTimeString } from "../helpers";
+import {
+  FormatDateTimeString,
+  GenerateMeasurementListString,
+} from "../helpers";
 
 export default function UserMeasurementList() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -31,6 +34,8 @@ export default function UserMeasurementList() {
             [result[i].id]
           );
           result[i].measurementList = measurementList;
+          result[i].measurementListString =
+            GenerateMeasurementListString(measurementList);
         }
 
         setUserMeasurementEntries(result);
@@ -62,7 +67,7 @@ export default function UserMeasurementList() {
               <AccordionItem
                 key={`${index}`}
                 aria-label={`Accordion Item ${index}`}
-                subtitle={`${entry.measurementList?.length} Measurements`}
+                subtitle={entry.measurementListString}
                 title={FormatDateTimeString(entry.date)}
               >
                 <div className="flex flex-col ">
