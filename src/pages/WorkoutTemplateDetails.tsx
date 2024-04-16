@@ -1083,18 +1083,26 @@ export default function WorkoutTemplateDetails() {
                       onDragEnd={() => updateSetListOrder()}
                     >
                       <div className="flex gap-2 justify-between items-center">
-                        <span className="truncate">{set.exercise_name}</span>
+                        <span
+                          className={
+                            set.exercise_name === "Unknown"
+                              ? "text-red-500 truncate"
+                              : "truncate"
+                          }
+                        >
+                          {set.exercise_name}
+                        </span>
                         <div className="flex gap-1">
                           <Button
+                            isDisabled={set.exercise_name === "Unknown"}
                             size="sm"
                             color="primary"
-                            onPress={() =>
-                              handleSetDefaultValuesButton(set)
-                            }
+                            onPress={() => handleSetDefaultValuesButton(set)}
                           >
                             Set Default Values
                           </Button>
                           <Button
+                            isDisabled={set.exercise_name === "Unknown"}
                             size="sm"
                             color="primary"
                             onPress={() => handleEditButton(set)}
