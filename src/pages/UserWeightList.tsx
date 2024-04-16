@@ -45,7 +45,7 @@ export default function UserWeightListPage() {
         const db = await Database.load(import.meta.env.VITE_DB);
 
         const result = await db.select<UserWeight[]>(
-          "SELECT * FROM user_weights"
+          "SELECT * FROM user_weights ORDER BY id DESC"
         );
 
         const userWeights: UserWeight[] = result.map((row) => {

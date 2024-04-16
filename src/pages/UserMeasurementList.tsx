@@ -17,7 +17,7 @@ export default function UserMeasurementList() {
         const db = await Database.load(import.meta.env.VITE_DB);
 
         const result = await db.select<UserMeasurementEntry[]>(
-          "SELECT * FROM user_measurement_entries"
+          "SELECT * FROM user_measurement_entries ORDER BY id DESC"
         );
 
         for (let i = 0; i < result.length; i++) {
