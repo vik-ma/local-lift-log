@@ -39,6 +39,7 @@ export { CreateSetsFromWorkoutTemplate } from "./Sets/CreateSetsFromWorkoutTempl
 export { DefaultNewSet } from "./Sets/DefaultNewSet";
 export { ConvertSetInputValuesToNumbers } from "./Sets/ConvertSetInputValuesToNumbers";
 export { DefaultSetInputValues } from "./Sets/DefaultSetInputValues";
+export { ReassignExerciseIdForSets } from "./Sets/ReassignExerciseIdForSets";
 
 export { IsNumberNegativeOrInfinity } from "./Numbers/IsNumberNegativeOrInfinity";
 export { IsStringInvalidNumberOrAbove59 } from "./Numbers/IsStringInvalidNumberOrAbove59";
