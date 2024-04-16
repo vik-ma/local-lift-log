@@ -7,7 +7,7 @@ import {
   SetWorkoutSetAction,
   SetTrackingValuesInput,
 } from "../typings";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import {
   Button,
   Input,
@@ -110,44 +110,43 @@ export default function WorkoutTemplateDetails() {
     );
   }, [newWorkoutTemplateName]);
 
+  const getWorkoutTemplateAndSetList = useCallback(async () => {
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      const result = await db.select<WorkoutTemplate[]>(
+        "SELECT * FROM workout_templates WHERE id = $1",
+        [id]
+      );
+
+      if (result.length === 0) return;
+
+      const workoutTemplate: WorkoutTemplate = result[0];
+
+      const setList = await db.select<WorkoutSet[]>(
+        `SELECT sets.*, 
+        COALESCE(exercises.name, 'Unknown') AS exercise_name
+        FROM sets LEFT JOIN 
+        exercises ON sets.exercise_id = exercises.id 
+        WHERE workout_template_id = $1 AND is_template = 1`,
+        [id]
+      );
+
+      const orderedSetList: WorkoutSet[] = OrderSetsBySetListOrderString(
+        setList,
+        workoutTemplate.set_list_order
+      );
+
+      setWorkoutTemplate(workoutTemplate);
+      setNewWorkoutTemplateName(workoutTemplate.name);
+      setNewWorkoutTemplateNote(workoutTemplate.note ?? "");
+      setSets(orderedSetList);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [id]);
+
   useEffect(() => {
-    const getWorkoutTemplateAndSetList = async () => {
-      try {
-        const db = await Database.load(import.meta.env.VITE_DB);
-
-        const result = await db.select<WorkoutTemplate[]>(
-          "SELECT * FROM workout_templates WHERE id = $1",
-          [id]
-        );
-
-        if (result.length === 0) return;
-
-        const workoutTemplate: WorkoutTemplate = result[0];
-
-        const setList = await db.select<WorkoutSet[]>(
-          `SELECT sets.*, 
-          COALESCE(exercises.name, 'Unknown') AS exercise_name
-          FROM sets LEFT JOIN 
-          exercises ON sets.exercise_id = exercises.id 
-          WHERE workout_template_id = $1 AND is_template = 1`,
-          [id]
-        );
-
-        const orderedSetList: WorkoutSet[] = OrderSetsBySetListOrderString(
-          setList,
-          workoutTemplate.set_list_order
-        );
-
-        setWorkoutTemplate(workoutTemplate);
-        setNewWorkoutTemplateName(workoutTemplate.name);
-        setNewWorkoutTemplateNote(workoutTemplate.note ?? "");
-        setSets(orderedSetList);
-        setIsLoading(false);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
     const loadUserSettings = async () => {
       try {
         const userSettings = await GetUserSettings();
@@ -166,12 +165,13 @@ export default function WorkoutTemplateDetails() {
     const getExerciseList = async () => {
       const exercises = await GetExerciseListWithGroupStrings();
       if (exercises !== undefined) setExercises(exercises);
+      setIsLoading(false);
     };
 
     getWorkoutTemplateAndSetList();
     loadUserSettings();
     getExerciseList();
-  }, [id]);
+  }, [id, getWorkoutTemplateAndSetList]);
 
   const updateWorkoutTemplateNoteAndName = async () => {
     if (isNewWorkoutTemplateNameInvalid) return;
@@ -531,7 +531,7 @@ export default function WorkoutTemplateDetails() {
 
   const reassignExercise = async (exercise: ExerciseWithGroupString) => {
     await ReassignExerciseIdForSets(operatingSet.exercise_id, exercise.id);
-    
+
     setSelectedExercise(undefined);
     setIsReassigningExercise(false);
 
