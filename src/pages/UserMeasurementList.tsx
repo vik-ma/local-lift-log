@@ -69,8 +69,8 @@ export default function UserMeasurementList() {
                     {entry.comment}
                   </span>
                   {entry.measurementList?.map((measurement) => (
-                    <div className="grid grid-cols-2" key={measurement.id}>
-                      <span className="font-semibold">{measurement.name}</span>
+                    <div className="grid grid-cols-2 gap-4" key={measurement.id}>
+                      <span className="font-semibold truncate">{measurement.name}</span>
                       <div
                         className={
                           measurement.unit === "in" ? "flex" : "flex gap-1"
