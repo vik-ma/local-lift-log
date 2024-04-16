@@ -42,6 +42,7 @@ import {
   IsStringInvalidNumber,
   IsStringInvalidNumberOrAbove10,
   OrderSetsBySetListOrderString,
+  ReassignExerciseIdForSets,
 } from "../helpers";
 import { SearchIcon } from "../assets";
 import { Reorder } from "framer-motion";
@@ -66,6 +67,8 @@ export default function WorkoutTemplateDetails() {
   const [isEditingDefaultValues, setIsEditingDefaultValues] =
     useState<boolean>(false);
   const [isTimeInputInvalid, setIsTimeInputInvalid] = useState<boolean>(false);
+  const [isReassigningExercise, setIsReassigningExercise] =
+    useState<boolean>(false);
 
   const defaultSetTrackingValuesInput: SetTrackingValuesInput =
     DefaultSetInputValues();
@@ -497,6 +500,11 @@ export default function WorkoutTemplateDetails() {
   const handleClickExercise = (exercise: ExerciseWithGroupString) => {
     setSelectedExercise(exercise);
 
+    if (isReassigningExercise) {
+      reassignExercise(exercise);
+      return;
+    }
+
     if (isEditingSet) {
       setOperatingSet((prev) => ({ ...prev, exercise_id: exercise.id }));
       return;
@@ -519,6 +527,15 @@ export default function WorkoutTemplateDetails() {
         is_tracking_time: 0,
       }));
     }
+  };
+
+  const reassignExercise = async (exercise: ExerciseWithGroupString) => {
+    await ReassignExerciseIdForSets(operatingSet.exercise_id, exercise.id);
+    
+    setSelectedExercise(undefined);
+    setIsReassigningExercise(false);
+
+    newSetModal.onClose();
   };
 
   const isDefaultWeightInputInvalid = useMemo(() => {
@@ -563,6 +580,15 @@ export default function WorkoutTemplateDetails() {
     isDefaultRpeInputInvalid,
     isDefaultResistanceLevelInputInvalid,
   ]);
+
+  const handleReassignExercise = (set: WorkoutSet) => {
+    setSelectedExercise(undefined);
+    setIsReassigningExercise(true);
+    setIsEditingSet(false);
+    setOperatingSet(set);
+
+    newSetModal.onOpen();
+  };
 
   if (workoutTemplate === undefined) return NotFound();
 
@@ -1093,22 +1119,33 @@ export default function WorkoutTemplateDetails() {
                           {set.exercise_name}
                         </span>
                         <div className="flex gap-1">
-                          <Button
-                            isDisabled={set.exercise_name === "Unknown"}
-                            size="sm"
-                            color="primary"
-                            onPress={() => handleSetDefaultValuesButton(set)}
-                          >
-                            Set Default Values
-                          </Button>
-                          <Button
-                            isDisabled={set.exercise_name === "Unknown"}
-                            size="sm"
-                            color="primary"
-                            onPress={() => handleEditButton(set)}
-                          >
-                            Edit
-                          </Button>
+                          {set.exercise_name !== "Unknown" && (
+                            <Button
+                              size="sm"
+                              color="primary"
+                              onPress={() => handleSetDefaultValuesButton(set)}
+                            >
+                              Set Default Values
+                            </Button>
+                          )}
+                          {set.exercise_name !== "Unknown" && (
+                            <Button
+                              size="sm"
+                              color="primary"
+                              onPress={() => handleEditButton(set)}
+                            >
+                              Edit
+                            </Button>
+                          )}
+                          {set.exercise_name === "Unknown" && (
+                            <Button
+                              size="sm"
+                              color="primary"
+                              onPress={() => handleReassignExercise(set)}
+                            >
+                              Reassign Exercise
+                            </Button>
+                          )}
                           <Button
                             size="sm"
                             color="danger"
