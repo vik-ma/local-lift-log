@@ -448,6 +448,7 @@ export default function WorkoutTemplateDetails() {
       resetSetToDefault();
     }
 
+    setIsReassigningExercise(false);
     newSetModal.onOpen();
   };
 
@@ -459,6 +460,7 @@ export default function WorkoutTemplateDetails() {
     setOperatingSet(set);
     setIsEditingSet(true);
     setIsEditingDefaultValues(false);
+    setIsReassigningExercise(false);
     setSelectedExercise(exercise);
 
     newSetModal.onOpen();
@@ -491,6 +493,7 @@ export default function WorkoutTemplateDetails() {
     setOperatingSet(set);
     setIsEditingDefaultValues(true);
     setIsEditingSet(false);
+    setIsReassigningExercise(false);
     setSelectedExercise(exercise);
     setDefaultValuesInputStrings(set);
 
