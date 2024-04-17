@@ -47,6 +47,8 @@ import {
 import { SearchIcon } from "../assets";
 import { Reorder } from "framer-motion";
 
+type OperationType = "add" | "edit" | "setdefaults" | "reassign";
+
 export default function WorkoutTemplateDetails() {
   const { id } = useParams();
   const [workoutTemplate, setWorkoutTemplate] = useState<WorkoutTemplate>();
@@ -63,12 +65,8 @@ export default function WorkoutTemplateDetails() {
     useState<ExerciseWithGroupString>();
   const [sets, setSets] = useState<WorkoutSet[]>([]);
   const [numNewSets, setNumNewSets] = useState<string>("1");
-  const [isEditingSet, setIsEditingSet] = useState<boolean>(false);
-  const [isEditingDefaultValues, setIsEditingDefaultValues] =
-    useState<boolean>(false);
   const [isTimeInputInvalid, setIsTimeInputInvalid] = useState<boolean>(false);
-  const [isReassigningExercise, setIsReassigningExercise] =
-    useState<boolean>(false);
+  const [operationType, setOperationType] = useState<OperationType>("add");
 
   const defaultSetTrackingValuesInput: SetTrackingValuesInput =
     DefaultSetInputValues();
@@ -425,8 +423,7 @@ export default function WorkoutTemplateDetails() {
   };
 
   const resetSetToDefault = () => {
-    setIsEditingSet(false);
-    setIsEditingDefaultValues(false);
+    setOperationType("add");
     setSelectedExercise(undefined);
     setOperatingSet({
       ...defaultNewSet,
@@ -436,19 +433,20 @@ export default function WorkoutTemplateDetails() {
   };
 
   const handleSaveSetButton = async () => {
-    if (isEditingSet) {
-      await updateSet();
-    } else {
+    if (operationType === "add") {
       await addSet();
+    }
+    if (operationType === "edit") {
+      await updateSet();
     }
   };
 
   const handleAddSetButton = () => {
-    if (isEditingSet || isEditingDefaultValues) {
+    if (operationType !== "add") {
       resetSetToDefault();
     }
 
-    setIsReassigningExercise(false);
+    setOperationType("add");
     newSetModal.onOpen();
   };
 
@@ -458,9 +456,7 @@ export default function WorkoutTemplateDetails() {
     if (exercise === undefined) return;
 
     setOperatingSet(set);
-    setIsEditingSet(true);
-    setIsEditingDefaultValues(false);
-    setIsReassigningExercise(false);
+    setOperationType("edit");
     setSelectedExercise(exercise);
 
     newSetModal.onOpen();
@@ -491,9 +487,7 @@ export default function WorkoutTemplateDetails() {
     if (exercise === undefined) return;
 
     setOperatingSet(set);
-    setIsEditingDefaultValues(true);
-    setIsEditingSet(false);
-    setIsReassigningExercise(false);
+    setOperationType("setdefaults");
     setSelectedExercise(exercise);
     setDefaultValuesInputStrings(set);
 
@@ -503,12 +497,12 @@ export default function WorkoutTemplateDetails() {
   const handleClickExercise = (exercise: ExerciseWithGroupString) => {
     setSelectedExercise(exercise);
 
-    if (isReassigningExercise) {
+    if (operationType === "reassign") {
       reassignExercise(exercise);
       return;
     }
 
-    if (isEditingSet) {
+    if (operationType === "edit") {
       setOperatingSet((prev) => ({ ...prev, exercise_id: exercise.id }));
       return;
     }
@@ -536,7 +530,7 @@ export default function WorkoutTemplateDetails() {
     await ReassignExerciseIdForSets(operatingSet.exercise_id, exercise.id);
 
     setSelectedExercise(undefined);
-    setIsReassigningExercise(false);
+    setOperationType("add");
 
     getWorkoutTemplateAndSetList();
 
@@ -589,8 +583,7 @@ export default function WorkoutTemplateDetails() {
 
   const handleReassignExercise = (set: WorkoutSet) => {
     setSelectedExercise(undefined);
-    setIsReassigningExercise(true);
-    setIsEditingSet(false);
+    setOperationType("reassign");
     setOperatingSet(set);
 
     newSetModal.onOpen();
@@ -788,7 +781,7 @@ export default function WorkoutTemplateDetails() {
                           <span className="text-primary">Warmup Set</span>
                         </Checkbox>
                       </div>
-                      {!isEditingSet && (
+                      {operationType === "add" && (
                         <div className="flex flex-row justify-between">
                           <Select
                             label="Number Of Sets To Add"
@@ -818,7 +811,7 @@ export default function WorkoutTemplateDetails() {
                   isDisabled={selectedExercise === undefined}
                   onPress={handleSaveSetButton}
                 >
-                  {isEditingSet ? "Save" : "Add"}
+                  {operationType === "edit" ? "Save" : "Add"}
                 </Button>
               </ModalFooter>
             </>
