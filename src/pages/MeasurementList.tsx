@@ -454,7 +454,7 @@ export default function MeasurementListPage() {
         ) : (
           <>
             <div className="w-full">
-              <div className="flex flex-col gap-1.5">
+              <div className="flex flex-col gap-2">
                 {measurements.map((measurement) => (
                   <div
                     key={measurement.id}
@@ -469,7 +469,7 @@ export default function MeasurementListPage() {
                           {measurement.measurement_type}
                         </div>
                       </div>
-                      <div className="flex items-center gap-1.5">
+                      <div className="flex items-center gap-1">
                         <MeasurementUnitDropdown
                           measurement={measurement}
                           isDisabled={
@@ -515,40 +515,6 @@ export default function MeasurementListPage() {
                         </Dropdown>
                       </div>
                     </div>
-                    {/* <div className="flex justify-between">
-                      <div className="flex gap-0.5">
-                        <Button className="h-6" size="sm" color="primary">
-                          Edit
-                        </Button>
-                        <Button className="h-6" size="sm" color="danger">
-                          Delete
-                        </Button>
-                      </div>
-                      {activeMeasurementList?.includes(measurement.id) ? (
-                        <div className="flex gap-1.5 items-center">
-                          <span className="text-success font-medium">
-                            Tracking
-                          </span>
-                          <Button
-                            className="h-6 w-20"
-                            size="sm"
-                            color="danger"
-                            onPress={() => handleUntrackButton(measurement)}
-                          >
-                            Untrack
-                          </Button>
-                        </div>
-                      ) : (
-                        <Button
-                          className="h-6 w-20"
-                          size="sm"
-                          color="success"
-                          onPress={() => handleTrackButton(measurement)}
-                        >
-                          Track
-                        </Button>
-                      )}
-                    </div> */}
                   </div>
                 ))}
               </div>
