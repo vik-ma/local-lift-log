@@ -458,7 +458,12 @@ export default function MeasurementListPage() {
                 {measurements.map((measurement) => (
                   <div
                     key={measurement.id}
-                    className="flex flex-col gap-0.5 rounded-lg px-2 py-1 outline outline-2 outline-stone-300 bg-white hover:bg-stone-100"
+                    className="flex flex-col gap-0.5 cursor-pointer rounded-lg px-2 py-1 outline outline-2 outline-stone-300 bg-white hover:bg-stone-100"
+                    onClick={
+                      activeMeasurementList?.includes(measurement.id)
+                        ? () => untrackMeasurement(measurement)
+                        : () => trackMeasurement(measurement)
+                    }
                   >
                     <div className="flex justify-between items-center">
                       <CheckmarkIcon
