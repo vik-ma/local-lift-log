@@ -268,6 +268,7 @@ export default function MeasurementListPage() {
     setActiveMeasurementList(updatedMeasurementList);
 
     updateActiveMeasurementString(updatedMeasurementList);
+    toast.success("Measurement Tracked");
   };
 
   const untrackMeasurement = async (measurement: Measurement) => {
@@ -280,6 +281,7 @@ export default function MeasurementListPage() {
     setActiveMeasurementList(updatedMeasurementList);
 
     updateActiveMeasurementString(updatedMeasurementList);
+    toast.success("Measurement Untracked");
   };
 
   const updateActiveMeasurementString = async (numberList: number[]) => {
