@@ -294,6 +294,14 @@ export default function MeasurementListPage() {
     );
   };
 
+  const handleOptionSelection = (key: string, measurement: Measurement) => {
+    if (key === "edit") {
+      handleEditButton(measurement);
+    } else if (key === "delete") {
+      handleDeleteButton(measurement);
+    }
+  };
+
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
@@ -482,6 +490,9 @@ export default function MeasurementListPage() {
                             itemClasses={{
                               base: "hover:text-[#404040] gap-4",
                             }}
+                            onAction={(key) =>
+                              handleOptionSelection(key as string, measurement)
+                            }
                           >
                             <DropdownItem key="edit">Edit</DropdownItem>
                             <DropdownItem key="delete">Delete</DropdownItem>
@@ -489,22 +500,12 @@ export default function MeasurementListPage() {
                         </Dropdown>
                       </div>
                     </div>
-                    <div className="flex justify-between">
+                    {/* <div className="flex justify-between">
                       <div className="flex gap-0.5">
-                        <Button
-                          className="h-6"
-                          size="sm"
-                          color="primary"
-                          onPress={() => handleEditButton(measurement)}
-                        >
+                        <Button className="h-6" size="sm" color="primary">
                           Edit
                         </Button>
-                        <Button
-                          className="h-6"
-                          size="sm"
-                          color="danger"
-                          onPress={() => handleDeleteButton(measurement)}
-                        >
+                        <Button className="h-6" size="sm" color="danger">
                           Delete
                         </Button>
                       </div>
@@ -532,7 +533,7 @@ export default function MeasurementListPage() {
                           Track
                         </Button>
                       )}
-                    </div>
+                    </div> */}
                   </div>
                 ))}
               </div>
