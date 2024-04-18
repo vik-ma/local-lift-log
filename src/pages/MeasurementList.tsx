@@ -26,7 +26,7 @@ import {
   UpdateActiveTrackingMeasurements,
   GenerateActiveMeasurementString,
 } from "../helpers";
-import { VerticalMenuIcon } from "../assets";
+import { CheckmarkIcon, VerticalMenuIcon } from "../assets";
 
 export default function MeasurementListPage() {
   const [measurements, setMeasurements] = useState<Measurement[]>([]);
@@ -460,8 +460,9 @@ export default function MeasurementListPage() {
                     key={measurement.id}
                     className="flex flex-col gap-0.5 rounded-lg px-2 py-1 outline outline-2 outline-stone-300 bg-white hover:bg-stone-100"
                   >
-                    <div className="flex justify-between gap-1 items-center">
-                      <div className="flex flex-col">
+                    <div className="flex justify-between items-center">
+                      <CheckmarkIcon />
+                      <div className="flex flex-col ml-1.5">
                         <div className="text-lg truncate w-56">
                           {measurement.name}
                         </div>
