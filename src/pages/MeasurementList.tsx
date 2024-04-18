@@ -508,19 +508,15 @@ export default function MeasurementListPage() {
                               handleOptionSelection(key as string, measurement)
                             }
                           >
-                            <DropdownItem
-                              key={
-                                activeMeasurementList?.includes(measurement.id)
-                                  ? "untrack"
-                                  : "track"
-                              }
-                            >
-                              {activeMeasurementList?.includes(measurement.id)
-                                ? "Untrack"
-                                : "Track"}
-                            </DropdownItem>
+                            {activeMeasurementList?.includes(measurement.id) ? (
+                              <DropdownItem key="untrack">Untrack</DropdownItem>
+                            ) : (
+                              <DropdownItem key="track">Track</DropdownItem>
+                            )}
                             <DropdownItem key="edit">Edit</DropdownItem>
-                            <DropdownItem key="delete">Delete</DropdownItem>
+                            <DropdownItem className="text-danger" key="delete">
+                              Delete
+                            </DropdownItem>
                           </DropdownMenu>
                         </Dropdown>
                       </div>
