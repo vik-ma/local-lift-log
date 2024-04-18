@@ -13,6 +13,10 @@ import {
   Input,
   Radio,
   RadioGroup,
+  Dropdown,
+  DropdownMenu,
+  DropdownItem,
+  DropdownTrigger,
 } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
 import {
@@ -22,6 +26,7 @@ import {
   UpdateActiveTrackingMeasurements,
   GenerateActiveMeasurementString,
 } from "../helpers";
+import { VerticalMenuIcon } from "../assets";
 
 export default function MeasurementListPage() {
   const [measurements, setMeasurements] = useState<Measurement[]>([]);
@@ -452,19 +457,37 @@ export default function MeasurementListPage() {
                           {measurement.measurement_type}
                         </div>
                       </div>
-                      <MeasurementUnitDropdown
-                        measurement={measurement}
-                        isDisabled={
-                          measurement.measurement_type === "Caliper"
-                            ? true
-                            : false
-                        }
-                        measurements={measurements}
-                        setMeasurements={
-                          setMeasurements as SetMeasurementsAction
-                        }
-                        targetType="list"
-                      />
+                      <div className="flex items-center gap-1.5">
+                        <MeasurementUnitDropdown
+                          measurement={measurement}
+                          isDisabled={
+                            measurement.measurement_type === "Caliper"
+                              ? true
+                              : false
+                          }
+                          measurements={measurements}
+                          setMeasurements={
+                            setMeasurements as SetMeasurementsAction
+                          }
+                          targetType="list"
+                        />
+                        <Dropdown>
+                          <DropdownTrigger>
+                            <Button isIconOnly radius="lg" variant="light">
+                              <VerticalMenuIcon />
+                            </Button>
+                          </DropdownTrigger>
+                          <DropdownMenu
+                            aria-label={`Option Menu For ${measurement.name} Measurement`}
+                            itemClasses={{
+                              base: "hover:text-[#404040] gap-4",
+                            }}
+                          >
+                            <DropdownItem key="edit">Edit</DropdownItem>
+                            <DropdownItem key="delete">Delete</DropdownItem>
+                          </DropdownMenu>
+                        </Dropdown>
+                      </div>
                     </div>
                     <div className="flex justify-between">
                       <div className="flex gap-0.5">
