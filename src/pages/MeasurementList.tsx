@@ -258,7 +258,7 @@ export default function MeasurementListPage() {
     toast.success("Default Measurements Restored");
   };
 
-  const handleTrackButton = async (measurement: Measurement) => {
+  const trackMeasurement = async (measurement: Measurement) => {
     if (activeMeasurementList === undefined) return;
 
     const updatedMeasurementList: number[] = [
@@ -270,7 +270,7 @@ export default function MeasurementListPage() {
     updateActiveMeasurementString(updatedMeasurementList);
   };
 
-  const handleUntrackButton = async (measurement: Measurement) => {
+  const untrackMeasurement = async (measurement: Measurement) => {
     if (activeMeasurementList === undefined) return;
 
     const updatedMeasurementList: number[] = activeMeasurementList.filter(
@@ -299,6 +299,10 @@ export default function MeasurementListPage() {
       handleEditButton(measurement);
     } else if (key === "delete") {
       handleDeleteButton(measurement);
+    } else if (key === "track") {
+      trackMeasurement(measurement);
+    } else if (key === "untrack") {
+      untrackMeasurement(measurement);
     }
   };
 
@@ -494,6 +498,17 @@ export default function MeasurementListPage() {
                               handleOptionSelection(key as string, measurement)
                             }
                           >
+                            <DropdownItem
+                              key={
+                                activeMeasurementList?.includes(measurement.id)
+                                  ? "untrack"
+                                  : "track"
+                              }
+                            >
+                              {activeMeasurementList?.includes(measurement.id)
+                                ? "Untrack"
+                                : "Track"}
+                            </DropdownItem>
                             <DropdownItem key="edit">Edit</DropdownItem>
                             <DropdownItem key="delete">Delete</DropdownItem>
                           </DropdownMenu>
