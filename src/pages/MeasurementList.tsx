@@ -461,8 +461,12 @@ export default function MeasurementListPage() {
                     className="flex flex-col gap-0.5 rounded-lg px-2 py-1 outline outline-2 outline-stone-300 bg-white hover:bg-stone-100"
                   >
                     <div className="flex justify-between items-center">
-                      <CheckmarkIcon />
-                      <div className="flex flex-col ml-1.5">
+                      <CheckmarkIcon
+                        isChecked={activeMeasurementList?.includes(
+                          measurement.id
+                        )}
+                      />
+                      <div className="flex flex-col ml-2">
                         <div className="text-lg truncate w-56">
                           {measurement.name}
                         </div>
