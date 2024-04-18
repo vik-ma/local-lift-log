@@ -1,7 +1,7 @@
 export const VerticalMenuIcon = () => {
   return (
     <svg
-      fill="#707070"
+      fill="#808080"
       width="20px"
       height="20px"
       viewBox="0 0 1024 1024"
