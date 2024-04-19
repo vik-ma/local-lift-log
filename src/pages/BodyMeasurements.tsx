@@ -381,7 +381,7 @@ export default function BodyMeasurementsPage() {
                 Active Measurements
               </h3>
               {isReordering ? (
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-2.5">
                   <div className="flex justify-center gap-2">
                     <Button
                       className="font-medium"
@@ -412,7 +412,7 @@ export default function BodyMeasurementsPage() {
                           value={measurement}
                           onDragEnd={() => {}}
                         >
-                          <div className="bg-white px-2 py-1 rounded-lg outline outline-2 outline-stone-300">
+                          <div className="w-80 truncate cursor-pointer bg-white px-2 py-1 rounded-lg outline outline-2 outline-stone-300">
                             {measurement.name}
                           </div>
                         </Reorder.Item>
