@@ -401,7 +401,7 @@ export default function BodyMeasurementsPage() {
                 Active Measurements
               </h3>
               {isReordering ? (
-                <div className="flex flex-col gap-2.5">
+                <div className="flex flex-col gap-2.5 items-center">
                   <div className="flex justify-center gap-2">
                     <Button
                       className="font-medium"
@@ -409,7 +409,7 @@ export default function BodyMeasurementsPage() {
                       size="sm"
                       onPress={() => setIsReordering(false)}
                     >
-                      Cancel Reorder
+                      Cancel Reordering
                     </Button>
                     <Button
                       className="font-medium"
@@ -417,7 +417,7 @@ export default function BodyMeasurementsPage() {
                       size="sm"
                       onPress={() => updateActiveTrackingMeasurementOrder()}
                     >
-                      Save Reorder
+                      Save Order
                     </Button>
                   </div>
                   <div className="flex justify-center w-full">
@@ -428,8 +428,8 @@ export default function BodyMeasurementsPage() {
                     >
                       {activeMeasurements.map((measurement) => (
                         <Reorder.Item key={measurement.id} value={measurement}>
-                          <div className="w-80 truncate cursor-pointer bg-white px-2 py-1 rounded-lg outline outline-2 outline-stone-300">
-                            {measurement.name}
+                          <div className="w-80 h-11 truncate cursor-pointer bg-white px-2 py-1 rounded-lg outline outline-2 outline-stone-300">
+                            <span className="text-lg">{measurement.name}</span>
                           </div>
                         </Reorder.Item>
                       ))}
