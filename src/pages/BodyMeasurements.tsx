@@ -428,8 +428,10 @@ export default function BodyMeasurementsPage() {
                     >
                       {activeMeasurements.map((measurement) => (
                         <Reorder.Item key={measurement.id} value={measurement}>
-                          <div className="w-80 h-11 truncate cursor-pointer bg-white px-2 py-1 rounded-lg outline outline-2 outline-stone-300">
-                            <span className="text-lg">{measurement.name}</span>
+                          <div className="w-80 h-11 leading-9 truncate cursor-pointer bg-stone-100 hover:bg-white px-2 py-1 rounded outline outline-2 outline-stone-300">
+                            <span className="text-lg text-stone-700">
+                              {measurement.name}
+                            </span>
                           </div>
                         </Reorder.Item>
                       ))}
