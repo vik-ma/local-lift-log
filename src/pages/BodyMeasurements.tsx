@@ -287,7 +287,7 @@ export default function BodyMeasurementsPage() {
                     size="sm"
                     onClick={() => navigate("/measurements/body-weight-list")}
                   >
-                    View Full List
+                    View History
                   </Button>
                 </h3>
                 <div className="flex flex-col">
@@ -357,26 +357,29 @@ export default function BodyMeasurementsPage() {
                 />
               </div>
               <h2 className="flex text-3xl font-semibold">Body Measurements</h2>
-              <Button
-                color="success"
-                variant="flat"
-                onClick={() => navigate("/measurements/measurement-list")}
-              >
-                List of Measurements
-              </Button>
-              <h3 className="flex text-lg font-semibold items-center gap-3">
-                Active Measurements
+              <div className="flex justify-between gap-3">
                 <Button
                   color="success"
                   variant="flat"
                   size="sm"
-                  onClick={() =>
-                    navigate("/measurements/user-measurement-list")
-                  }
+                  onClick={() => navigate("/measurements/measurement-list")}
                 >
-                  View Full List
+                  List of Measurements
                 </Button>
+                <Button
+                  color="success"
+                  variant="flat"
+                  size="sm"
+                  onClick={() => navigate("/measurements/body-weight-list")}
+                >
+                  View History
+                </Button>
+              </div>
+
+              <h3 className="flex text-lg font-semibold">
+                Active Measurements
               </h3>
+
               <div className="flex flex-col gap-1">
                 {activeMeasurements.map((measurement, index) => (
                   <div
