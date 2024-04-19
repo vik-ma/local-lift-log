@@ -16,6 +16,7 @@ import { Button, Input } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { Reorder } from "framer-motion";
 
 export default function BodyMeasurementsPage() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
@@ -385,7 +386,6 @@ export default function BodyMeasurementsPage() {
                     <Button
                       className="font-medium"
                       color="danger"
-                      variant="flat"
                       size="sm"
                       onPress={() => setIsReordering(false)}
                     >
@@ -394,12 +394,30 @@ export default function BodyMeasurementsPage() {
                     <Button
                       className="font-medium"
                       color="success"
-                      variant="flat"
                       size="sm"
                       // onPress={}
                     >
                       Save Reorder
                     </Button>
+                  </div>
+                  <div className="flex justify-center w-full">
+                    <Reorder.Group
+                      className="flex flex-col gap-1.5 w-full"
+                      values={activeMeasurements}
+                      onReorder={setActiveMeasurements}
+                    >
+                      {activeMeasurements.map((measurement) => (
+                        <Reorder.Item
+                          key={measurement.id}
+                          value={measurement}
+                          onDragEnd={() => {}}
+                        >
+                          <div className="bg-white px-2 py-1 rounded-lg outline outline-2 outline-stone-300">
+                            {measurement.name}
+                          </div>
+                        </Reorder.Item>
+                      ))}
+                    </Reorder.Group>
                   </div>
                 </div>
               ) : (
