@@ -445,7 +445,7 @@ export default function MeasurementListPage() {
           )}
         </ModalContent>
       </Modal>
-      <div className="flex flex-col items-center gap-4">
+      <div className="flex flex-col items-center gap-3">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">
           <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">
             Measurements
@@ -455,8 +455,19 @@ export default function MeasurementListPage() {
           <LoadingSpinner />
         ) : (
           <>
-            <div className="w-full">
-              <div className="flex flex-col gap-2">
+            <div className="flex gap-1 justify-center">
+              <Button color="success" onPress={handleAddButton}>
+                Add New Measurement
+              </Button>
+              <Button color="success" onPress={() => setUnitsModal.onOpen()}>
+                Restore Default Measurements
+              </Button>
+            </div>
+            <div className="flex flex-col gap-1.5 w-full">
+              <span className="flex justify-center text-xs italic text-stone-500 font-normal">
+                Click on a Measurement to add to Active Measurements
+              </span>
+              <div className="flex flex-col gap-1.5">
                 {measurements.map((measurement) => (
                   <div
                     key={measurement.id}
@@ -529,14 +540,6 @@ export default function MeasurementListPage() {
             </div>
           </>
         )}
-        <div className="flex flex-col gap-1 justify-center">
-          <Button color="success" onPress={handleAddButton}>
-            Add New Measurement
-          </Button>
-          <Button color="success" onPress={() => setUnitsModal.onOpen()}>
-            Restore Default Measurements
-          </Button>
-        </div>
       </div>
     </>
   );
