@@ -1272,7 +1272,7 @@ export default function WorkoutDetails() {
                           isDisabled={isSetTrackingInputsInvalid}
                           onPress={saveActiveSet}
                         >
-                          {activeSet.is_completed === 1 ? "Update" : "Save"}
+                          {activeSet.is_completed ? "Update" : "Save"}
                         </Button>
                       </div>
                     </div>

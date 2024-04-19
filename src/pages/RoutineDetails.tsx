@@ -367,7 +367,7 @@ export default function RoutineDetailsPage() {
 
   const dayNameList: string[] = GetScheduleDayNames(
     routine?.num_days_in_schedule,
-    routine?.is_schedule_weekly === 1 ? true : false
+    !!routine?.is_schedule_weekly
   );
 
   return (
