@@ -34,6 +34,7 @@ export default function BodyMeasurementsPage() {
   >(new Set<number>());
   const [measurementsCommentInput, setMeasurementsCommentInput] =
     useState<string>("");
+  const [isReordering, setIsReordering] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -276,7 +277,7 @@ export default function BodyMeasurementsPage() {
           <LoadingSpinner />
         ) : (
           <>
-            <div className="flex flex-col gap-4 items-center">
+            <div className="flex flex-col gap-2.5 items-center">
               <h2 className="flex text-3xl font-semibold">Body Weight</h2>
               <div className="flex flex-col items-center text-stone-600 gap-2">
                 <h3 className="flex text-lg font-semibold items-center gap-3">
@@ -379,54 +380,68 @@ export default function BodyMeasurementsPage() {
               <h3 className="flex text-lg font-semibold">
                 Active Measurements
               </h3>
-
-              <div className="flex flex-col gap-1">
-                {activeMeasurements.map((measurement, index) => (
-                  <div
-                    className="flex justify-between gap-2 items-center"
-                    key={`measurement-${measurement.id}`}
+              <div className="flex flex-col gap-2">
+                <div className="flex justify-center">
+                  <Button
+                    className="font-medium"
+                    color="success"
+                    variant="flat"
+                    size="sm"
+                    // onPress={}
                   >
-                    <Input
-                      value={measurement.input}
-                      label={measurement.name}
-                      size="sm"
-                      variant="faded"
-                      onValueChange={(value) =>
-                        handleActiveMeasurementInputChange(value, index)
-                      }
-                      isInvalid={invalidMeasurementInputs.has(index)}
-                      isClearable
-                    />
-                    <MeasurementUnitDropdown
-                      value={measurement.default_unit}
-                      measurements={activeMeasurements}
-                      setMeasurements={setActiveMeasurements}
-                      measurement={measurement}
-                      targetType="active"
-                      isDisabled={measurement.measurement_type === "Caliper"}
-                    />
-                  </div>
-                ))}
-                <Input
-                  value={measurementsCommentInput}
-                  label="Comment"
-                  size="sm"
-                  variant="faded"
-                  onValueChange={(value) => setMeasurementsCommentInput(value)}
-                  isClearable
-                />
+                    Reorder Measurements
+                  </Button>
+                </div>
+                <div className="flex flex-col gap-1">
+                  {activeMeasurements.map((measurement, index) => (
+                    <div
+                      className="flex justify-between gap-2 items-center"
+                      key={`measurement-${measurement.id}`}
+                    >
+                      <Input
+                        value={measurement.input}
+                        label={measurement.name}
+                        size="sm"
+                        variant="faded"
+                        onValueChange={(value) =>
+                          handleActiveMeasurementInputChange(value, index)
+                        }
+                        isInvalid={invalidMeasurementInputs.has(index)}
+                        isClearable
+                      />
+                      <MeasurementUnitDropdown
+                        value={measurement.default_unit}
+                        measurements={activeMeasurements}
+                        setMeasurements={setActiveMeasurements}
+                        measurement={measurement}
+                        targetType="active"
+                        isDisabled={measurement.measurement_type === "Caliper"}
+                      />
+                    </div>
+                  ))}
+                  <Input
+                    value={measurementsCommentInput}
+                    label="Comment"
+                    size="sm"
+                    variant="faded"
+                    onValueChange={(value) =>
+                      setMeasurementsCommentInput(value)
+                    }
+                    isClearable
+                  />
+                </div>
+                <Button
+                  className="font-medium"
+                  color="success"
+                  onPress={addActiveMeasurements}
+                  isDisabled={
+                    invalidMeasurementInputs.size > 0 ||
+                    areActiveMeasurementInputsEmpty
+                  }
+                >
+                  Save Measurements
+                </Button>
               </div>
-              <Button
-                className="font-medium"
-                color="success"
-                onPress={addActiveMeasurements}
-                isDisabled={
-                  invalidMeasurementInputs.size > 0 ||
-                  areActiveMeasurementInputsEmpty
-                }
-              >
-                Add Measurements
-              </Button>
             </div>
           </>
         )}
