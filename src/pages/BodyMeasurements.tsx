@@ -376,72 +376,98 @@ export default function BodyMeasurementsPage() {
                   View History
                 </Button>
               </div>
-
               <h3 className="flex text-lg font-semibold">
                 Active Measurements
               </h3>
-              <div className="flex flex-col gap-2">
-                <div className="flex justify-center">
+              {isReordering ? (
+                <div className="flex flex-col gap-2">
+                  <div className="flex justify-center gap-2">
+                    <Button
+                      className="font-medium"
+                      color="danger"
+                      variant="flat"
+                      size="sm"
+                      onPress={() => setIsReordering(false)}
+                    >
+                      Cancel Reorder
+                    </Button>
+                    <Button
+                      className="font-medium"
+                      color="success"
+                      variant="flat"
+                      size="sm"
+                      // onPress={}
+                    >
+                      Save Reorder
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <div className="flex flex-col gap-2">
+                  <div className="flex justify-center">
+                    <Button
+                      className="font-medium"
+                      color="success"
+                      variant="flat"
+                      size="sm"
+                      onPress={() => setIsReordering(true)}
+                    >
+                      Reorder Measurements
+                    </Button>
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    {activeMeasurements.map((measurement, index) => (
+                      <div
+                        className="flex justify-between gap-2 items-center"
+                        key={`measurement-${measurement.id}`}
+                      >
+                        <Input
+                          value={measurement.input}
+                          label={measurement.name}
+                          size="sm"
+                          variant="faded"
+                          onValueChange={(value) =>
+                            handleActiveMeasurementInputChange(value, index)
+                          }
+                          isInvalid={invalidMeasurementInputs.has(index)}
+                          isClearable
+                        />
+                        <MeasurementUnitDropdown
+                          value={measurement.default_unit}
+                          measurements={activeMeasurements}
+                          setMeasurements={setActiveMeasurements}
+                          measurement={measurement}
+                          targetType="active"
+                          isDisabled={
+                            measurement.measurement_type === "Caliper"
+                          }
+                        />
+                      </div>
+                    ))}
+                    <Input
+                      value={measurementsCommentInput}
+                      label="Comment"
+                      size="sm"
+                      variant="faded"
+                      onValueChange={(value) =>
+                        setMeasurementsCommentInput(value)
+                      }
+                      isClearable
+                    />
+                  </div>
                   <Button
                     className="font-medium"
                     color="success"
-                    variant="flat"
-                    size="sm"
-                    // onPress={}
+                    onPress={addActiveMeasurements}
+                    isDisabled={
+                      invalidMeasurementInputs.size > 0 ||
+                      areActiveMeasurementInputsEmpty
+                    }
                   >
-                    Reorder Measurements
+                    Save Measurements
                   </Button>
                 </div>
-                <div className="flex flex-col gap-1">
-                  {activeMeasurements.map((measurement, index) => (
-                    <div
-                      className="flex justify-between gap-2 items-center"
-                      key={`measurement-${measurement.id}`}
-                    >
-                      <Input
-                        value={measurement.input}
-                        label={measurement.name}
-                        size="sm"
-                        variant="faded"
-                        onValueChange={(value) =>
-                          handleActiveMeasurementInputChange(value, index)
-                        }
-                        isInvalid={invalidMeasurementInputs.has(index)}
-                        isClearable
-                      />
-                      <MeasurementUnitDropdown
-                        value={measurement.default_unit}
-                        measurements={activeMeasurements}
-                        setMeasurements={setActiveMeasurements}
-                        measurement={measurement}
-                        targetType="active"
-                        isDisabled={measurement.measurement_type === "Caliper"}
-                      />
-                    </div>
-                  ))}
-                  <Input
-                    value={measurementsCommentInput}
-                    label="Comment"
-                    size="sm"
-                    variant="faded"
-                    onValueChange={(value) =>
-                      setMeasurementsCommentInput(value)
-                    }
-                    isClearable
-                  />
-                </div>
-                <Button
-                  className="font-medium"
-                  color="success"
-                  onPress={addActiveMeasurements}
-                  isDisabled={
-                    invalidMeasurementInputs.size > 0 ||
-                    areActiveMeasurementInputsEmpty
-                  }
-                >
-                  Save Measurements
-                </Button>
-              </div>
+              )}
             </div>
           </>
         )}
