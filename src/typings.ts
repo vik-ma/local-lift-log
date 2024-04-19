@@ -58,6 +58,7 @@ export type WorkoutTemplate = {
   id: number;
   name: string;
   set_list_order: string;
+  exercise_order: string;
   note: string | null;
 };
 
@@ -176,6 +177,7 @@ export type Workout = {
   workout_template_id: number;
   date: string;
   set_list_order: string;
+  exercise_order: string;
   note: string | null;
   is_loaded: number;
   rating: number;
