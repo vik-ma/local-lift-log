@@ -11,6 +11,8 @@ import {
   IsStringInvalidNumber,
   GetUserSettings,
   CreateActiveMeasurementInputs,
+  UpdateActiveTrackingMeasurements,
+  GenerateActiveMeasurementString,
 } from "../helpers";
 import { Button, Input } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
@@ -265,6 +267,24 @@ export default function BodyMeasurementsPage() {
     return isEmpty;
   }, [activeMeasurements]);
 
+  const updateActiveTrackingMeasurementOrder = async () => {
+    if (userSettings === undefined) return;
+
+    const activeTrackingMeasurementIdList: number[] = activeMeasurements.map(
+      (obj) => obj.id
+    );
+
+    const activeTrackinMeasurementString: string =
+      GenerateActiveMeasurementString(activeTrackingMeasurementIdList);
+
+    await UpdateActiveTrackingMeasurements(
+      activeTrackinMeasurementString,
+      userSettings.id
+    );
+
+    setIsReordering(false);
+  };
+
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
@@ -395,7 +415,7 @@ export default function BodyMeasurementsPage() {
                       className="font-medium"
                       color="success"
                       size="sm"
-                      // onPress={}
+                      onPress={() => updateActiveTrackingMeasurementOrder()}
                     >
                       Save Reorder
                     </Button>
@@ -407,11 +427,7 @@ export default function BodyMeasurementsPage() {
                       onReorder={setActiveMeasurements}
                     >
                       {activeMeasurements.map((measurement) => (
-                        <Reorder.Item
-                          key={measurement.id}
-                          value={measurement}
-                          onDragEnd={() => {}}
-                        >
+                        <Reorder.Item key={measurement.id} value={measurement}>
                           <div className="w-80 truncate cursor-pointer bg-white px-2 py-1 rounded-lg outline outline-2 outline-stone-300">
                             {measurement.name}
                           </div>
