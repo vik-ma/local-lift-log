@@ -123,7 +123,7 @@ export default function WorkoutTemplateDetails() {
 
       const setList = await db.select<WorkoutSet[]>(
         `SELECT sets.*, 
-        COALESCE(exercises.name, 'Unknown') AS exercise_name
+        COALESCE(exercises.name, 'Unknown Exercise') AS exercise_name
         FROM sets LEFT JOIN 
         exercises ON sets.exercise_id = exercises.id 
         WHERE workout_template_id = $1 AND is_template = 1`,
