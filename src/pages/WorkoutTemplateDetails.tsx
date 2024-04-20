@@ -6,6 +6,7 @@ import {
   WorkoutTemplate,
   SetWorkoutSetAction,
   SetTrackingValuesInput,
+  GroupedWorkoutSetList,
 } from "../typings";
 import { useState, useMemo, useEffect, useCallback } from "react";
 import {
@@ -33,6 +34,7 @@ import { NotFound } from ".";
 import toast, { Toaster } from "react-hot-toast";
 import {
   ConvertSetInputValuesToNumbers,
+  CreateGroupedWorkoutSetListByExerciseId,
   DefaultNewSet,
   DefaultSetInputValues,
   GenerateSetListOrderString,
@@ -64,6 +66,7 @@ export default function WorkoutTemplateDetails() {
   const [selectedExercise, setSelectedExercise] =
     useState<ExerciseWithGroupString>();
   const [sets, setSets] = useState<WorkoutSet[]>([]);
+  const [groupedSets, setGroupedSets] = useState<GroupedWorkoutSetList[]>([]);
   const [numNewSets, setNumNewSets] = useState<string>("1");
   const [isTimeInputInvalid, setIsTimeInputInvalid] = useState<boolean>(false);
   const [operationType, setOperationType] = useState<OperationType>("add");
@@ -135,10 +138,17 @@ export default function WorkoutTemplateDetails() {
         workoutTemplate.set_list_order
       );
 
+      const groupedSetList: GroupedWorkoutSetList[] =
+        CreateGroupedWorkoutSetListByExerciseId(
+          setList,
+          workoutTemplate.exercise_order
+        );
+
       setWorkoutTemplate(workoutTemplate);
       setNewWorkoutTemplateName(workoutTemplate.name);
       setNewWorkoutTemplateNote(workoutTemplate.note ?? "");
       setSets(orderedSetList);
+      setGroupedSets(groupedSetList);
     } catch (error) {
       console.log(error);
     }
@@ -1097,6 +1107,31 @@ export default function WorkoutTemplateDetails() {
 
               <div className="flex flex-col gap-1">
                 <Reorder.Group
+                  className="flex flex-col gap-1"
+                  values={groupedSets}
+                  onReorder={setGroupedSets}
+                >
+                  {groupedSets.map((exercise) => (
+                    <Reorder.Item
+                      key={exercise.exercise_id}
+                      value={exercise}
+                      // onDragEnd={() => updateSetListOrder()}
+                    >
+                      <div className="flex gap-2 justify-between items-center bg-white px-2 py-1 rounded-lg">
+                        <span
+                          className={
+                            exercise.exercise_name === "Unknown Exercise"
+                              ? "text-red-500 truncate"
+                              : "truncate"
+                          }
+                        >
+                          {exercise.exercise_name}
+                        </span>
+                      </div>
+                    </Reorder.Item>
+                  ))}
+                </Reorder.Group>
+                {/* <Reorder.Group
                   className="flex flex-col gap-1.5"
                   values={sets}
                   onReorder={setSets}
@@ -1156,7 +1191,7 @@ export default function WorkoutTemplateDetails() {
                       </div>
                     </Reorder.Item>
                   ))}
-                </Reorder.Group>
+                </Reorder.Group> */}
               </div>
               <div className="flex gap-1 justify-center">
                 <Button color="success" onPress={handleAddSetButton}>
