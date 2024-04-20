@@ -9,7 +9,8 @@ type GroupedWorkoutSets = {
 };
 
 export const CreateGroupedWorkoutSetListByExerciseId = (
-  setList: WorkoutSet[]
+  setList: WorkoutSet[],
+  exercise_order: string
 ): GroupedWorkoutSetList[] => {
   const groupedWorkoutSets: GroupedWorkoutSets = setList.reduce(
     (acc, workoutSet) => {
@@ -34,6 +35,15 @@ export const CreateGroupedWorkoutSetListByExerciseId = (
 
   const groupedWorkoutSetList: GroupedWorkoutSetList[] =
     Object.values(groupedWorkoutSets);
+
+  const orderArray: number[] = exercise_order.split(",").map(Number);
+
+  // Sort the groupedWorkoutSetList array based on the exercise_order string
+  groupedWorkoutSetList.sort((a, b) => {
+    const indexA = orderArray.indexOf(a.exercise_id);
+    const indexB = orderArray.indexOf(b.exercise_id);
+    return indexA - indexB;
+  });
 
   return groupedWorkoutSetList;
 };
