@@ -41,6 +41,7 @@ export { ConvertSetInputValuesToNumbers } from "./Sets/ConvertSetInputValuesToNu
 export { DefaultSetInputValues } from "./Sets/DefaultSetInputValues";
 export { ReassignExerciseIdForSets } from "./Sets/ReassignExerciseIdForSets";
 export { CreateGroupedWorkoutSetListByExerciseId } from "./Sets/CreateGroupedWorkoutSetListByExerciseId";
+export { GenerateExerciseOrderString } from "./Sets/GenerateExerciseOrderString";
 
 export { IsNumberNegativeOrInfinity } from "./Numbers/IsNumberNegativeOrInfinity";
 export { IsStringInvalidNumberOrAbove59 } from "./Numbers/IsStringInvalidNumberOrAbove59";
