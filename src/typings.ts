@@ -114,6 +114,10 @@ export type WorkoutSet = {
   exercise_name?: string;
 };
 
+export type GroupedWorkoutSetList = {
+  [exerciseName: string]: WorkoutSet[];
+};
+
 export type SetWorkoutSetAction = React.Dispatch<
   React.SetStateAction<WorkoutSet>
 >;

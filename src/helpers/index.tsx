@@ -40,6 +40,7 @@ export { DefaultNewSet } from "./Sets/DefaultNewSet";
 export { ConvertSetInputValuesToNumbers } from "./Sets/ConvertSetInputValuesToNumbers";
 export { DefaultSetInputValues } from "./Sets/DefaultSetInputValues";
 export { ReassignExerciseIdForSets } from "./Sets/ReassignExerciseIdForSets";
+export { CreateGroupedWorkoutSetListByExerciseId } from "./Sets/CreateGroupedWorkoutSetListByExerciseId";
 
 export { IsNumberNegativeOrInfinity } from "./Numbers/IsNumberNegativeOrInfinity";
 export { IsStringInvalidNumberOrAbove59 } from "./Numbers/IsStringInvalidNumberOrAbove59";
