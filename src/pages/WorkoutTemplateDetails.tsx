@@ -37,6 +37,7 @@ import {
   CreateGroupedWorkoutSetListByExerciseId,
   DefaultNewSet,
   DefaultSetInputValues,
+  GenerateExerciseOrderString,
   GenerateSetListOrderString,
   GetExerciseListWithGroupStrings,
   GetUserSettings,
@@ -374,6 +375,25 @@ export default function WorkoutTemplateDetails() {
       await db.execute(
         `UPDATE workout_templates SET set_list_order = $1 WHERE id = $2`,
         [setListOrderString, workoutTemplate.id]
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const updateExerciseOrder = async (
+    setList: GroupedWorkoutSetList[] = groupedSets
+  ) => {
+    if (workoutTemplate === undefined) return;
+
+    const exerciseOrderString: string = GenerateExerciseOrderString(setList);
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      await db.execute(
+        `UPDATE workout_templates SET exercise_order = $1 WHERE id = $2`,
+        [exerciseOrderString, workoutTemplate.id]
       );
     } catch (error) {
       console.log(error);
@@ -1115,7 +1135,7 @@ export default function WorkoutTemplateDetails() {
                     <Reorder.Item
                       key={exercise.exercise_id}
                       value={exercise}
-                      // onDragEnd={() => updateSetListOrder()}
+                      onDragEnd={() => updateExerciseOrder()}
                     >
                       <div className="flex gap-2 justify-between items-center bg-white px-2 py-1 rounded-lg">
                         <span
