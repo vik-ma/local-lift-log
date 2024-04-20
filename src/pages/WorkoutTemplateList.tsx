@@ -76,7 +76,7 @@ export default function WorkoutTemplateList() {
           : newWorkoutTemplate.note;
 
       const result = await db.execute(
-        "INSERT into workout_templates (name, set_list_order, exercise_order note) VALUES ($1, $2, $3, $4)",
+        "INSERT into workout_templates (name, set_list_order, exercise_order, note) VALUES ($1, $2, $3, $4)",
         [
           newWorkoutTemplate.name,
           newWorkoutTemplate.set_list_order,
