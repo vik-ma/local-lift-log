@@ -11,6 +11,7 @@ export const CheckmarkIcon = ({ isChecked = true }: CheckmarkIconProps) => {
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
+        className="transition-fill-animation"
         fill={isChecked ? "#6dc83c" : "#CCCCCC"}
         fillRule="evenodd"
         d={

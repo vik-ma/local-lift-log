@@ -166,3 +166,7 @@ body {
 .react-calendar--selectRange .react-calendar__tile--hover {
   background-color: #e7e5e4;
 }
+
+.transition-fill-animation {
+  transition: fill 0.3s;
+}
