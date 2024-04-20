@@ -19,6 +19,7 @@ import Database from "tauri-plugin-sql-api";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { Reorder } from "framer-motion";
+import { Link } from "react-router-dom";
 
 export default function BodyMeasurementsPage() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
@@ -384,17 +385,17 @@ export default function BodyMeasurementsPage() {
                   color="success"
                   variant="flat"
                   size="sm"
-                  onClick={() => navigate("/measurements/measurement-list")}
+                  onClick={() => navigate("/measurements/body-weight-list")}
                 >
-                  List of Measurements
+                  View History
                 </Button>
                 <Button
                   color="success"
                   variant="flat"
                   size="sm"
-                  onClick={() => navigate("/measurements/body-weight-list")}
+                  onClick={() => navigate("/measurements/measurement-list")}
                 >
-                  View History
+                  List of Measurements
                 </Button>
               </div>
               <h3 className="flex text-lg font-semibold">
@@ -417,7 +418,7 @@ export default function BodyMeasurementsPage() {
                       size="sm"
                       onPress={() => updateActiveTrackingMeasurementOrder()}
                     >
-                      Save Order
+                      Save Current Order
                     </Button>
                   </div>
                   <div className="flex justify-center w-full">
@@ -439,69 +440,84 @@ export default function BodyMeasurementsPage() {
                   </div>
                 </div>
               ) : (
-                <div className="flex flex-col gap-2">
-                  <div className="flex justify-center">
-                    <Button
-                      className="font-medium"
-                      color="success"
-                      variant="flat"
-                      size="sm"
-                      onPress={() => setIsReordering(true)}
-                    >
-                      Reorder Measurements
-                    </Button>
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    {activeMeasurements.map((measurement, index) => (
-                      <div
-                        className="flex justify-between gap-2 items-center"
-                        key={`measurement-${measurement.id}`}
-                      >
+                <div>
+                  {activeMeasurements.length > 0 ? (
+                    <div className="flex flex-col gap-2">
+                      {activeMeasurements.length > 1 && (
+                        <div className="flex justify-center">
+                          <Button
+                            className="font-medium"
+                            color="success"
+                            variant="flat"
+                            size="sm"
+                            onPress={() => setIsReordering(true)}
+                          >
+                            Reorder Measurements
+                          </Button>
+                        </div>
+                      )}
+                      <div className="flex flex-col gap-1">
+                        {activeMeasurements.map((measurement, index) => (
+                          <div
+                            className="flex justify-between gap-2 items-center"
+                            key={`measurement-${measurement.id}`}
+                          >
+                            <Input
+                              value={measurement.input}
+                              label={measurement.name}
+                              size="sm"
+                              variant="faded"
+                              onValueChange={(value) =>
+                                handleActiveMeasurementInputChange(value, index)
+                              }
+                              isInvalid={invalidMeasurementInputs.has(index)}
+                              isClearable
+                            />
+                            <MeasurementUnitDropdown
+                              value={measurement.default_unit}
+                              measurements={activeMeasurements}
+                              setMeasurements={setActiveMeasurements}
+                              measurement={measurement}
+                              targetType="active"
+                              isDisabled={
+                                measurement.measurement_type === "Caliper"
+                              }
+                            />
+                          </div>
+                        ))}
                         <Input
-                          value={measurement.input}
-                          label={measurement.name}
+                          value={measurementsCommentInput}
+                          label="Comment"
                           size="sm"
                           variant="faded"
                           onValueChange={(value) =>
-                            handleActiveMeasurementInputChange(value, index)
+                            setMeasurementsCommentInput(value)
                           }
-                          isInvalid={invalidMeasurementInputs.has(index)}
                           isClearable
                         />
-                        <MeasurementUnitDropdown
-                          value={measurement.default_unit}
-                          measurements={activeMeasurements}
-                          setMeasurements={setActiveMeasurements}
-                          measurement={measurement}
-                          targetType="active"
-                          isDisabled={
-                            measurement.measurement_type === "Caliper"
-                          }
-                        />
                       </div>
-                    ))}
-                    <Input
-                      value={measurementsCommentInput}
-                      label="Comment"
-                      size="sm"
-                      variant="faded"
-                      onValueChange={(value) =>
-                        setMeasurementsCommentInput(value)
-                      }
-                      isClearable
-                    />
-                  </div>
-                  <Button
-                    className="font-medium"
-                    color="success"
-                    onPress={addActiveMeasurements}
-                    isDisabled={
-                      invalidMeasurementInputs.size > 0 ||
-                      areActiveMeasurementInputsEmpty
-                    }
-                  >
-                    Save Measurements
-                  </Button>
+                      <Button
+                        className="font-medium"
+                        color="success"
+                        onPress={addActiveMeasurements}
+                        isDisabled={
+                          invalidMeasurementInputs.size > 0 ||
+                          areActiveMeasurementInputsEmpty
+                        }
+                      >
+                        Save Measurements
+                      </Button>
+                    </div>
+                  ) : (
+                    <div>
+                      <span className="text-xs text-stone-500 font-normal">
+                        Add Measurements to actively track in the{" "}
+                        <Link className="text-success" to={"measurement-list"}>
+                          List of Measurements
+                        </Link>
+                      </span>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
