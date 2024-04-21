@@ -1,4 +1,4 @@
-import { WorkoutSet, GroupedWorkoutSetList } from "../../typings";
+import { WorkoutSet, GroupedWorkoutSet } from "../../typings";
 
 type GroupedWorkoutSets = {
   [exerciseId: number]: {
@@ -11,7 +11,7 @@ type GroupedWorkoutSets = {
 export const CreateGroupedWorkoutSetListByExerciseId = (
   setList: WorkoutSet[],
   exercise_order: string
-): GroupedWorkoutSetList[] => {
+): GroupedWorkoutSet[] => {
   const groupedWorkoutSets: GroupedWorkoutSets = setList.reduce(
     (acc, workoutSet) => {
       const exercise_name: string =
@@ -33,7 +33,7 @@ export const CreateGroupedWorkoutSetListByExerciseId = (
     {} as GroupedWorkoutSets
   );
 
-  const groupedWorkoutSetList: GroupedWorkoutSetList[] =
+  const groupedWorkoutSetList: GroupedWorkoutSet[] =
     Object.values(groupedWorkoutSets);
 
   const orderArray: number[] = exercise_order.split(",").map(Number);

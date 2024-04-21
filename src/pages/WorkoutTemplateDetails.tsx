@@ -6,7 +6,7 @@ import {
   WorkoutTemplate,
   SetWorkoutSetAction,
   SetTrackingValuesInput,
-  GroupedWorkoutSetList,
+  GroupedWorkoutSet,
 } from "../typings";
 import { useState, useMemo, useEffect, useCallback } from "react";
 import {
@@ -67,7 +67,7 @@ export default function WorkoutTemplateDetails() {
   const [selectedExercise, setSelectedExercise] =
     useState<ExerciseWithGroupString>();
   const [sets, setSets] = useState<WorkoutSet[]>([]);
-  const [groupedSets, setGroupedSets] = useState<GroupedWorkoutSetList[]>([]);
+  const [groupedSets, setGroupedSets] = useState<GroupedWorkoutSet[]>([]);
   const [numNewSets, setNumNewSets] = useState<string>("1");
   const [isTimeInputInvalid, setIsTimeInputInvalid] = useState<boolean>(false);
   const [operationType, setOperationType] = useState<OperationType>("add");
@@ -139,7 +139,7 @@ export default function WorkoutTemplateDetails() {
         workoutTemplate.set_list_order
       );
 
-      const groupedSetList: GroupedWorkoutSetList[] =
+      const groupedSetList: GroupedWorkoutSet[] =
         CreateGroupedWorkoutSetListByExerciseId(
           setList,
           workoutTemplate.exercise_order
@@ -382,7 +382,7 @@ export default function WorkoutTemplateDetails() {
   };
 
   const updateExerciseOrder = async (
-    setList: GroupedWorkoutSetList[] = groupedSets
+    setList: GroupedWorkoutSet[] = groupedSets
   ) => {
     if (workoutTemplate === undefined) return;
 

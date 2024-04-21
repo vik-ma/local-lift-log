@@ -114,7 +114,7 @@ export type WorkoutSet = {
   exercise_name?: string;
 };
 
-export type GroupedWorkoutSetList = {
+export type GroupedWorkoutSet = {
   exercise_name: string;
   exercise_id: number;
   setList: WorkoutSet[];

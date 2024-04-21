@@ -1,7 +1,7 @@
-import { GroupedWorkoutSetList } from "../../typings";
+import { GroupedWorkoutSet } from "../../typings";
 
 export const GenerateExerciseOrderString = (
-  groupedSetList: GroupedWorkoutSetList[]
+  groupedSetList: GroupedWorkoutSet[]
 ): string => {
   const exerciseOrderString = groupedSetList
     .map((obj) => obj.exercise_id)
