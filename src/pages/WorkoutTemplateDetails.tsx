@@ -360,9 +360,21 @@ export default function WorkoutTemplateDetails() {
         exercise_name: selectedExercise.name,
       };
 
-      setSets((prev) =>
-        prev.map((item) => (item.id === operatingSet.id ? updatedSet : item))
+      const exerciseIndex: number = groupedSets.findIndex(
+        (obj) => obj.exercise_id === operatingSet.exercise_id
       );
+
+      const updatedSetList: WorkoutSet[] = groupedSets[
+        exerciseIndex
+      ].setList.map((item) =>
+        item.id === operatingSet.id ? updatedSet : item
+      );
+
+      setGroupedSets((prev) => {
+        const newList = [...prev];
+        newList[exerciseIndex].setList = updatedSetList;
+        return newList;
+      });
 
       resetSetToDefault();
 
@@ -422,7 +434,7 @@ export default function WorkoutTemplateDetails() {
         ]
       );
 
-      const newSet: WorkoutSet = {
+      const updatedSet: WorkoutSet = {
         ...operatingSet,
         weight: setTrackingValuesNumber.weight,
         reps: setTrackingValuesNumber.reps,
@@ -432,9 +444,21 @@ export default function WorkoutTemplateDetails() {
         resistance_level: setTrackingValuesNumber.resistance_level,
       };
 
-      setSets((prev) =>
-        prev.map((item) => (item.id === operatingSet.id ? newSet : item))
+      const exerciseIndex: number = groupedSets.findIndex(
+        (obj) => obj.exercise_id === operatingSet.exercise_id
       );
+
+      const updatedSetList: WorkoutSet[] = groupedSets[
+        exerciseIndex
+      ].setList.map((item) =>
+        item.id === operatingSet.id ? updatedSet : item
+      );
+
+      setGroupedSets((prev) => {
+        const newList = [...prev];
+        newList[exerciseIndex].setList = updatedSetList;
+        return newList;
+      });
 
       resetSetToDefault();
       defaultValuesModal.onClose();
