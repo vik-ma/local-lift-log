@@ -1118,13 +1118,12 @@ export default function WorkoutTemplateDetails() {
             <div className="flex flex-col gap-2">
               <h2 className="text-xl font-semibold flex items-center justify-between">
                 Set List{" "}
-                {sets.length > 1 && (
+                {groupedSets.length > 1 && (
                   <span className="text-xs italic text-stone-500 font-normal">
-                    Drag Sets To Reorder Set List
+                    Drag Exercises To Reorder Set List
                   </span>
                 )}
               </h2>
-
               <div className="flex flex-col gap-1">
                 <Reorder.Group
                   className="flex flex-col gap-1"
@@ -1137,7 +1136,7 @@ export default function WorkoutTemplateDetails() {
                       value={exercise}
                       onDragEnd={() => updateExerciseOrder()}
                     >
-                      <div className="flex gap-2 justify-between items-center bg-white px-2 py-1 rounded-lg">
+                      <div className="flex gap-2 justify-between items-center bg-white px-2 py-1 rounded-lg cursor-grab active:cursor-grabbing">
                         <span
                           className={
                             exercise.exercise_name === "Unknown Exercise"
