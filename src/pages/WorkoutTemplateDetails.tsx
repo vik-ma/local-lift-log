@@ -44,7 +44,6 @@ import {
   DefaultNewSet,
   DefaultSetInputValues,
   GenerateExerciseOrderString,
-  GenerateSetListOrderString,
   GetExerciseListWithGroupStrings,
   GetUserSettings,
   IsStringInvalidInteger,
@@ -309,13 +308,21 @@ export default function WorkoutTemplateDetails() {
         exerciseIndex
       ].setList.filter((item) => item.id !== set.id);
 
-      setGroupedSets((prev) => {
-        const newList = [...prev];
-        newList[exerciseIndex].setList = updatedSetList;
-        return newList;
-      });
+      if (updatedSetList.length === 0) {
+        // Remove Exercise from groupedSets if last Set in Exercise was deleted
+        const updatedGroupedSets: GroupedWorkoutSet[] = groupedSets.filter(
+          (_, index) => index !== exerciseIndex
+        );
 
-      //TODO: REMOVE EXERCISE FROM GROUPEDSETS + UPDATE ORDER IF LAST SET IN EXERCISE
+        setGroupedSets(updatedGroupedSets);
+        updateExerciseOrder(updatedGroupedSets);
+      } else {
+        setGroupedSets((prev) => {
+          const newList = [...prev];
+          newList[exerciseIndex].setList = updatedSetList;
+          return newList;
+        });
+      }
 
       toast.success("Set Removed");
     } catch (error) {
