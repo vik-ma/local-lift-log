@@ -22,6 +22,8 @@ import {
   SelectItem,
   ScrollShadow,
   Checkbox,
+  Accordion,
+  AccordionItem,
 } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -1136,17 +1138,21 @@ export default function WorkoutTemplateDetails() {
                       value={exercise}
                       onDragEnd={() => updateExerciseOrder()}
                     >
-                      <div className="flex gap-2 justify-between items-center bg-white px-2 py-1 rounded-lg cursor-grab active:cursor-grabbing">
-                        <span
-                          className={
-                            exercise.exercise_name === "Unknown Exercise"
-                              ? "text-red-500 truncate"
-                              : "truncate"
-                          }
-                        >
-                          {exercise.exercise_name}
-                        </span>
-                      </div>
+                      <Accordion variant="shadow">
+                        <AccordionItem
+                          classNames={{
+                            titleWrapper: "truncate",
+                            title:
+                              exercise.exercise_name === "Unknown Exercise"
+                                ? "text-red-500 truncate"
+                                : "truncate",
+                          }}
+                          key={exercise.exercise_id}
+                          aria-label={`Accordion ${exercise.exercise_name}`}
+                          title={exercise.exercise_name}
+                          subtitle={`${exercise.setList.length} Sets`}
+                        ></AccordionItem>
+                      </Accordion>
                     </Reorder.Item>
                   ))}
                 </Reorder.Group>
