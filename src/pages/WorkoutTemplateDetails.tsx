@@ -486,7 +486,7 @@ export default function WorkoutTemplateDetails() {
     newSetModal.onOpen();
   };
 
-  const handleEditButton = (set: WorkoutSet) => {
+  const handleEditSet = (set: WorkoutSet) => {
     const exercise = exercises.find((item) => item.id === set.exercise_id);
 
     if (exercise === undefined) return;
@@ -517,7 +517,7 @@ export default function WorkoutTemplateDetails() {
     setSetTrackingValuesInput(newSetTrackingValuesInput);
   };
 
-  const handleSetDefaultValuesButton = (set: WorkoutSet) => {
+  const handleSetDefaultValues = (set: WorkoutSet) => {
     const exercise = exercises.find((item) => item.id === set.exercise_id);
 
     if (exercise === undefined) return;
@@ -623,6 +623,16 @@ export default function WorkoutTemplateDetails() {
     setOperatingSet(set);
 
     newSetModal.onOpen();
+  };
+
+  const handleSetOptionSelection = (key: string, set: WorkoutSet) => {
+    if (key === "edit") {
+      handleEditSet(set);
+    } else if (key === "setdefaults") {
+      handleSetDefaultValues(set);
+    } else if (key === "remove") {
+      removeSet(set);
+    }
   };
 
   if (workoutTemplate === undefined) return NotFound();
@@ -1179,12 +1189,12 @@ export default function WorkoutTemplateDetails() {
                                     itemClasses={{
                                       base: "hover:text-[#404040] gap-4",
                                     }}
-                                    // onAction={(key) =>
-                                    //   handleOptionSelection(
-                                    //     key as string,
-                                    //     measurement
-                                    //   )
-                                    // }
+                                    onAction={(key) =>
+                                      handleSetOptionSelection(
+                                        key as string,
+                                        set
+                                      )
+                                    }
                                   >
                                     <DropdownItem key="edit">Edit</DropdownItem>
                                     <DropdownItem key="setdefaults">
