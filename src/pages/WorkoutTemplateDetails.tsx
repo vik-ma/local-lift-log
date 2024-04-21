@@ -50,7 +50,6 @@ import {
   IsStringInvalidInteger,
   IsStringInvalidNumber,
   IsStringInvalidNumberOrAbove10,
-  OrderSetsBySetListOrderString,
   ReassignExerciseIdForSets,
 } from "../helpers";
 import { SearchIcon, VerticalMenuIcon } from "../assets";
@@ -72,7 +71,6 @@ export default function WorkoutTemplateDetails() {
   const [filterQuery, setFilterQuery] = useState<string>("");
   const [selectedExercise, setSelectedExercise] =
     useState<ExerciseWithGroupString>();
-  const [sets, setSets] = useState<WorkoutSet[]>([]);
   const [groupedSets, setGroupedSets] = useState<GroupedWorkoutSet[]>([]);
   const [numNewSets, setNumNewSets] = useState<string>("1");
   const [isTimeInputInvalid, setIsTimeInputInvalid] = useState<boolean>(false);
@@ -140,11 +138,6 @@ export default function WorkoutTemplateDetails() {
         [id]
       );
 
-      const orderedSetList: WorkoutSet[] = OrderSetsBySetListOrderString(
-        setList,
-        workoutTemplate.set_list_order
-      );
-
       const groupedSetList: GroupedWorkoutSet[] =
         CreateGroupedWorkoutSetListByExerciseId(
           setList,
@@ -154,7 +147,6 @@ export default function WorkoutTemplateDetails() {
       setWorkoutTemplate(workoutTemplate);
       setNewWorkoutTemplateName(workoutTemplate.name);
       setNewWorkoutTemplateNote(workoutTemplate.note ?? "");
-      setSets(orderedSetList);
       setGroupedSets(groupedSetList);
     } catch (error) {
       console.log(error);
@@ -284,9 +276,10 @@ export default function WorkoutTemplateDetails() {
         newSets.push(newSet);
       }
 
-      const updatedSetList = [...sets, ...newSets];
-      setSets(updatedSetList);
-      await updateSetListOrder(updatedSetList);
+      // TODO: REPLACE WITH GROUPEDSETS
+      // const updatedSetList = [...sets, ...newSets];
+      // setSets(updatedSetList);
+      // await updateSetListOrder(updatedSetList);
 
       setOperatingSet({
         ...defaultNewSet,
@@ -308,11 +301,21 @@ export default function WorkoutTemplateDetails() {
 
       db.execute("DELETE from sets WHERE id = $1", [set.id]);
 
-      const updatedSetList: WorkoutSet[] = sets.filter(
-        (item) => item.id !== set.id
+      const exerciseIndex: number = groupedSets.findIndex(
+        (obj) => obj.exercise_id === set.exercise_id
       );
-      setSets(updatedSetList);
-      await updateSetListOrder(updatedSetList);
+
+      const updatedSetList: WorkoutSet[] = groupedSets[
+        exerciseIndex
+      ].setList.filter((item) => item.id !== set.id);
+
+      setGroupedSets((prev) => {
+        const newList = [...prev];
+        newList[exerciseIndex].setList = updatedSetList;
+        return newList;
+      });
+
+      //TODO: REMOVE EXERCISE FROM GROUPEDSETS + UPDATE ORDER IF LAST SET IN EXERCISE
 
       toast.success("Set Removed");
     } catch (error) {
@@ -365,23 +368,6 @@ export default function WorkoutTemplateDetails() {
 
       newSetModal.onClose();
       toast.success("Set Updated");
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const updateSetListOrder = async (setList: WorkoutSet[] = sets) => {
-    if (workoutTemplate === undefined) return;
-
-    const setListOrderString: string = GenerateSetListOrderString(setList);
-
-    try {
-      const db = await Database.load(import.meta.env.VITE_DB);
-
-      await db.execute(
-        `UPDATE workout_templates SET set_list_order = $1 WHERE id = $2`,
-        [setListOrderString, workoutTemplate.id]
-      );
     } catch (error) {
       console.log(error);
     }
