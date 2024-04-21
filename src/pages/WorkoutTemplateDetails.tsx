@@ -1167,10 +1167,11 @@ export default function WorkoutTemplateDetails() {
                                   <DropdownTrigger>
                                     <Button
                                       isIconOnly
+                                      size="sm"
                                       radius="lg"
                                       variant="light"
                                     >
-                                      <VerticalMenuIcon />
+                                      <VerticalMenuIcon size={17} />
                                     </Button>
                                   </DropdownTrigger>
                                   <DropdownMenu

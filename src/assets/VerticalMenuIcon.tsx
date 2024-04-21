@@ -1,9 +1,13 @@
-export const VerticalMenuIcon = () => {
+type VerticalMenuIconProps = {
+  size?: number;
+};
+
+export const VerticalMenuIcon = ({ size }: VerticalMenuIconProps) => {
   return (
     <svg
       fill="#808080"
-      width="20px"
-      height="20px"
+      width={size || 20}
+      height={size || 20}
       viewBox="0 0 1024 1024"
       xmlns="http://www.w3.org/2000/svg"
     >
