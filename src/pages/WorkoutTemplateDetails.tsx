@@ -1151,7 +1151,15 @@ export default function WorkoutTemplateDetails() {
                           aria-label={`Accordion ${exercise.exercise_name}`}
                           title={exercise.exercise_name}
                           subtitle={`${exercise.setList.length} Sets`}
-                        ></AccordionItem>
+                        >
+                          <div className="flex flex-col">
+                            {exercise.setList.map((set, index) => (
+                              <div key={`${set.exercise_id}-${index}`}>
+                                Set {index + 1}
+                              </div>
+                            ))}
+                          </div>
+                        </AccordionItem>
                       </Accordion>
                     </Reorder.Item>
                   ))}
