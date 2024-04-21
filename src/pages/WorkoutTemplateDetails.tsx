@@ -1156,10 +1156,10 @@ export default function WorkoutTemplateDetails() {
                           title={exercise.exercise_name}
                           subtitle={`${exercise.setList.length} Sets`}
                         >
-                          <div className="flex flex-col">
+                          <div className="flex flex-col divide-y divide-stone-200">
                             {exercise.setList.map((set, index) => (
                               <div
-                                className="flex justify-between items-center px-1.5 py-0.5 rounded hover:bg-amber-100"
+                                className="flex justify-between items-center px-1.5 py-0.5 rounded"
                                 key={`${set.exercise_id}-${index}`}
                               >
                                 <span>Set {index + 1}</span>
