@@ -24,6 +24,10 @@ import {
   Checkbox,
   Accordion,
   AccordionItem,
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
 } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -49,7 +53,7 @@ import {
   OrderSetsBySetListOrderString,
   ReassignExerciseIdForSets,
 } from "../helpers";
-import { SearchIcon } from "../assets";
+import { SearchIcon, VerticalMenuIcon } from "../assets";
 import { Reorder } from "framer-motion";
 
 type OperationType = "add" | "edit" | "setdefaults" | "reassign";
@@ -1159,6 +1163,40 @@ export default function WorkoutTemplateDetails() {
                                 key={`${set.exercise_id}-${index}`}
                               >
                                 <span>Set {index + 1}</span>
+                                <Dropdown>
+                                  <DropdownTrigger>
+                                    <Button
+                                      isIconOnly
+                                      radius="lg"
+                                      variant="light"
+                                    >
+                                      <VerticalMenuIcon />
+                                    </Button>
+                                  </DropdownTrigger>
+                                  <DropdownMenu
+                                    aria-label={`Option Menu For ${exercise.exercise_name} Set ${index}`}
+                                    itemClasses={{
+                                      base: "hover:text-[#404040] gap-4",
+                                    }}
+                                    // onAction={(key) =>
+                                    //   handleOptionSelection(
+                                    //     key as string,
+                                    //     measurement
+                                    //   )
+                                    // }
+                                  >
+                                    <DropdownItem key="edit">Edit</DropdownItem>
+                                    <DropdownItem key="setdefaults">
+                                      Set Default Values
+                                    </DropdownItem>
+                                    <DropdownItem
+                                      className="text-danger"
+                                      key="remove"
+                                    >
+                                      Remove
+                                    </DropdownItem>
+                                  </DropdownMenu>
+                                </Dropdown>
                               </div>
                             ))}
                           </div>
