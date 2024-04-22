@@ -5,6 +5,7 @@ type GroupedWorkoutSets = {
     exercise_name: string;
     exercise_id: number;
     setList: WorkoutSet[];
+    exercise_note: string | null;
   };
 };
 
@@ -17,12 +18,14 @@ export const CreateGroupedWorkoutSetListByExerciseId = (
       const exercise_name: string =
         workoutSet.exercise_name ?? "Unknown Exercise";
       const exercise_id: number = workoutSet.exercise_id;
+      const exercise_note: string | null = workoutSet.exercise_note ?? null;
 
       if (!acc[exercise_id]) {
         acc[exercise_id] = {
           setList: [],
           exercise_name: exercise_name,
           exercise_id: exercise_id,
+          exercise_note: exercise_note,
         };
       }
 

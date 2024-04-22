@@ -1213,8 +1213,9 @@ export default function WorkoutTemplateDetails() {
                         >
                           <div className="flex flex-col divide-y divide-stone-200">
                             <div className="flex justify-between items-center pb-1">
-                              {/* TODO: ADD NOTE */}
-                              <span className="text-stone-400">Note</span>
+                              <span className="text-stone-400 break-all max-w-60">
+                                {exercise.exercise_note}
+                              </span>
                               <Dropdown>
                                 <DropdownTrigger>
                                   <Button size="sm" variant="flat">
