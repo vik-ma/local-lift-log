@@ -54,7 +54,9 @@ import {
 import { SearchIcon, VerticalMenuIcon } from "../assets";
 import { Reorder } from "framer-motion";
 
-type OperationType = "add" | "edit" | "setdefaults" | "reassign";
+type OperationTypeSet = "add" | "edit" | "setdefaults";
+
+type OperationTypeExercise = "change" | "reassign" | "delete" | undefined;
 
 export default function WorkoutTemplateDetails() {
   const { id } = useParams();
@@ -73,7 +75,11 @@ export default function WorkoutTemplateDetails() {
   const [groupedSets, setGroupedSets] = useState<GroupedWorkoutSet[]>([]);
   const [numNewSets, setNumNewSets] = useState<string>("1");
   const [isTimeInputInvalid, setIsTimeInputInvalid] = useState<boolean>(false);
-  const [operationType, setOperationType] = useState<OperationType>("add");
+  const [operationTypeSet, setOperationTypeSet] =
+    useState<OperationTypeSet>("add");
+  const [operatingExerciseId, setOperatingExerciseId] = useState<number>(0);
+  const [operationTypeExercise, setOperationTypeExercise] =
+    useState<OperationTypeExercise>(undefined);
 
   const defaultSetTrackingValuesInput: SetTrackingValuesInput =
     DefaultSetInputValues();
@@ -505,7 +511,7 @@ export default function WorkoutTemplateDetails() {
   };
 
   const resetSetToDefault = () => {
-    setOperationType("add");
+    setOperationTypeSet("add");
     setSelectedExercise(undefined);
     setOperatingSet({
       ...defaultNewSet,
@@ -515,20 +521,20 @@ export default function WorkoutTemplateDetails() {
   };
 
   const handleSaveSetButton = async () => {
-    if (operationType === "add") {
+    if (operationTypeSet === "add") {
       await addSet();
     }
-    if (operationType === "edit") {
+    if (operationTypeSet === "edit") {
       await updateSet();
     }
   };
 
   const handleAddSetButton = () => {
-    if (operationType !== "add") {
+    if (operationTypeSet !== "add") {
       resetSetToDefault();
     }
 
-    setOperationType("add");
+    setOperationTypeSet("add");
     newSetModal.onOpen();
   };
 
@@ -538,7 +544,7 @@ export default function WorkoutTemplateDetails() {
     if (exercise === undefined) return;
 
     setOperatingSet(set);
-    setOperationType("edit");
+    setOperationTypeSet("edit");
     setSelectedExercise(exercise);
 
     newSetModal.onOpen();
@@ -569,7 +575,7 @@ export default function WorkoutTemplateDetails() {
     if (exercise === undefined) return;
 
     setOperatingSet(set);
-    setOperationType("setdefaults");
+    setOperationTypeSet("setdefaults");
     setSelectedExercise(exercise);
     setDefaultValuesInputStrings(set);
 
@@ -579,12 +585,12 @@ export default function WorkoutTemplateDetails() {
   const handleClickExercise = (exercise: ExerciseWithGroupString) => {
     setSelectedExercise(exercise);
 
-    if (operationType === "reassign") {
+    if (operationTypeExercise === "reassign") {
       reassignExercise(exercise);
       return;
     }
 
-    if (operationType === "edit") {
+    if (operationTypeSet === "edit") {
       setOperatingSet((prev) => ({ ...prev, exercise_id: exercise.id }));
       return;
     }
@@ -609,10 +615,13 @@ export default function WorkoutTemplateDetails() {
   };
 
   const reassignExercise = async (exercise: ExerciseWithGroupString) => {
-    await ReassignExerciseIdForSets(operatingSet.exercise_id, exercise.id);
+    if (operatingExerciseId === 0) return;
+
+    await ReassignExerciseIdForSets(operatingExerciseId, exercise.id);
 
     setSelectedExercise(undefined);
-    setOperationType("add");
+    setOperationTypeExercise(undefined);
+    setOperatingExerciseId(0);
 
     getWorkoutTemplateAndSetList();
 
@@ -663,10 +672,10 @@ export default function WorkoutTemplateDetails() {
     isDefaultResistanceLevelInputInvalid,
   ]);
 
-  const handleReassignExercise = (set: WorkoutSet) => {
+  const handleReassignExercise = (groupedWorkoutSet: GroupedWorkoutSet) => {
     setSelectedExercise(undefined);
-    setOperationType("reassign");
-    setOperatingSet(set);
+    setOperationTypeExercise("reassign");
+    setOperatingExerciseId(groupedWorkoutSet.exercise_id);
 
     newSetModal.onOpen();
   };
@@ -678,6 +687,15 @@ export default function WorkoutTemplateDetails() {
       handleSetDefaultValues(set);
     } else if (key === "remove") {
       removeSet(set);
+    }
+  };
+
+  const handleExerciseOptionSelection = (
+    key: string,
+    groupedWorkoutSet: GroupedWorkoutSet
+  ) => {
+    if (key === "reassign-exercise") {
+      handleReassignExercise(groupedWorkoutSet);
     }
   };
 
@@ -873,7 +891,7 @@ export default function WorkoutTemplateDetails() {
                           <span className="text-primary">Warmup Set</span>
                         </Checkbox>
                       </div>
-                      {operationType === "add" && (
+                      {operationTypeSet === "add" && (
                         <div className="flex flex-row justify-between">
                           <Select
                             label="Number Of Sets To Add"
@@ -903,7 +921,7 @@ export default function WorkoutTemplateDetails() {
                   isDisabled={selectedExercise === undefined}
                   onPress={handleSaveSetButton}
                 >
-                  {operationType === "edit" ? "Save" : "Add"}
+                  {operationTypeSet === "edit" ? "Save" : "Add"}
                 </Button>
               </ModalFooter>
             </>
@@ -1228,10 +1246,12 @@ export default function WorkoutTemplateDetails() {
                                   itemClasses={{
                                     base: "hover:text-[#404040] gap-4",
                                   }}
-                                  // TODO: ADD HANDLEFUNCTION
-                                  // onAction={(key) =>
-                                  //   handleSetOptionSelection(key as string, set)
-                                  // }
+                                  onAction={(key) =>
+                                    handleExerciseOptionSelection(
+                                      key as string,
+                                      exercise
+                                    )
+                                  }
                                 >
                                   {exercise.exercise_name ===
                                   "Unknown Exercise" ? (
