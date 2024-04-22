@@ -1196,7 +1196,7 @@ export default function WorkoutTemplateDetails() {
                       value={exercise}
                       onDragEnd={() => updateExerciseOrder()}
                     >
-                      <Accordion variant="shadow">
+                      <Accordion isCompact variant="shadow">
                         <AccordionItem
                           classNames={{
                             titleWrapper: "truncate",
@@ -1213,10 +1213,10 @@ export default function WorkoutTemplateDetails() {
                           <div className="flex flex-col divide-y divide-stone-200">
                             {exercise.setList.map((set, index) => (
                               <div
-                                className="flex justify-between items-center px-1.5 py-0.5 rounded"
+                                className="flex justify-between items-center px-0.5 rounded"
                                 key={`${set.exercise_id}-${index}`}
                               >
-                                <span>Set {index + 1}</span>
+                                <span className="text-sm font-medium">Set {index + 1}</span>
                                 <Dropdown>
                                   <DropdownTrigger>
                                     <Button
@@ -1225,7 +1225,7 @@ export default function WorkoutTemplateDetails() {
                                       radius="lg"
                                       variant="light"
                                     >
-                                      <VerticalMenuIcon size={17} />
+                                      <VerticalMenuIcon size={14} />
                                     </Button>
                                   </DropdownTrigger>
                                   <DropdownMenu
