@@ -1211,12 +1211,46 @@ export default function WorkoutTemplateDetails() {
                           subtitle={`${exercise.setList.length} Sets`}
                         >
                           <div className="flex flex-col divide-y divide-stone-200">
+                            <div className="flex justify-between items-center pb-1">
+                              {/* TODO: ADD NOTE */}
+                              <span className="text-stone-400">Note</span>
+                              <Dropdown>
+                                <DropdownTrigger>
+                                  <Button size="sm" variant="flat">
+                                    Exercise Options
+                                  </Button>
+                                </DropdownTrigger>
+                                <DropdownMenu
+                                  aria-label={`Option Menu For ${exercise.exercise_name}`}
+                                  itemClasses={{
+                                    base: "hover:text-[#404040] gap-4",
+                                  }}
+                                  // TODO: ADD HANDLEFUNCTION
+                                  // onAction={(key) =>
+                                  //   handleSetOptionSelection(key as string, set)
+                                  // }
+                                >
+                                  {/* TODO: ADD REASSIGN EXERCISE FOR UNKNOWN EXERCIES */}
+                                  <DropdownItem key="change-exercise">
+                                    Change Exercise
+                                  </DropdownItem>
+                                  <DropdownItem
+                                    className="text-danger"
+                                    key="remove"
+                                  >
+                                    Remove All Sets
+                                  </DropdownItem>
+                                </DropdownMenu>
+                              </Dropdown>
+                            </div>
                             {exercise.setList.map((set, index) => (
                               <div
-                                className="flex justify-between items-center px-0.5 rounded"
+                                className="flex justify-between items-center px-0.5"
                                 key={`${set.exercise_id}-${index}`}
                               >
-                                <span className="text-sm font-medium">Set {index + 1}</span>
+                                <span className="text-sm font-medium">
+                                  Set {index + 1}
+                                </span>
                                 <Dropdown>
                                   <DropdownTrigger>
                                     <Button
