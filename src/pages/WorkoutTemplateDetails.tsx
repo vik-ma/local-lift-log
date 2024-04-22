@@ -1260,67 +1260,6 @@ export default function WorkoutTemplateDetails() {
                     </Reorder.Item>
                   ))}
                 </Reorder.Group>
-                {/* <Reorder.Group
-                  className="flex flex-col gap-1.5"
-                  values={sets}
-                  onReorder={setSets}
-                >
-                  {sets.map((set) => (
-                    <Reorder.Item
-                      key={set.id}
-                      value={set}
-                      onDragEnd={() => updateSetListOrder()}
-                    >
-                      <div className="flex gap-2 justify-between items-center">
-                        <span
-                          className={
-                            set.exercise_name === "Unknown"
-                              ? "text-red-500 truncate"
-                              : "truncate"
-                          }
-                        >
-                          {set.exercise_name}
-                        </span>
-                        <div className="flex gap-1">
-                          {set.exercise_name !== "Unknown" && (
-                            <Button
-                              size="sm"
-                              color="primary"
-                              onPress={() => handleSetDefaultValuesButton(set)}
-                            >
-                              Set Default Values
-                            </Button>
-                          )}
-                          {set.exercise_name !== "Unknown" && (
-                            <Button
-                              size="sm"
-                              color="primary"
-                              onPress={() => handleEditButton(set)}
-                            >
-                              Edit
-                            </Button>
-                          )}
-                          {set.exercise_name === "Unknown" && (
-                            <Button
-                              size="sm"
-                              color="primary"
-                              onPress={() => handleReassignExercise(set)}
-                            >
-                              Reassign Exercise
-                            </Button>
-                          )}
-                          <Button
-                            size="sm"
-                            color="danger"
-                            onPress={() => removeSet(set)}
-                          >
-                            Remove
-                          </Button>
-                        </div>
-                      </div>
-                    </Reorder.Item>
-                  ))}
-                </Reorder.Group> */}
               </div>
               <div className="flex gap-1 justify-center">
                 <Button color="success" onPress={handleAddSetButton}>
