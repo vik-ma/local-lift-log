@@ -54,9 +54,13 @@ import {
 import { SearchIcon, VerticalMenuIcon } from "../assets";
 import { Reorder } from "framer-motion";
 
-type OperationTypeSet = "add" | "edit" | "setdefaults";
-
-type OperationTypeExercise = "change" | "reassign" | "delete" | undefined;
+type OperationType =
+  | "add"
+  | "edit"
+  | "set-defaults"
+  | "change-exercise"
+  | "reassign-exercise"
+  | "delete";
 
 export default function WorkoutTemplateDetails() {
   const { id } = useParams();
@@ -75,11 +79,8 @@ export default function WorkoutTemplateDetails() {
   const [groupedSets, setGroupedSets] = useState<GroupedWorkoutSet[]>([]);
   const [numNewSets, setNumNewSets] = useState<string>("1");
   const [isTimeInputInvalid, setIsTimeInputInvalid] = useState<boolean>(false);
-  const [operationTypeSet, setOperationTypeSet] =
-    useState<OperationTypeSet>("add");
+  const [operationType, setOperationType] = useState<OperationType>("add");
   const [operatingExerciseId, setOperatingExerciseId] = useState<number>(0);
-  const [operationTypeExercise, setOperationTypeExercise] =
-    useState<OperationTypeExercise>(undefined);
 
   const defaultSetTrackingValuesInput: SetTrackingValuesInput =
     DefaultSetInputValues();
@@ -511,7 +512,7 @@ export default function WorkoutTemplateDetails() {
   };
 
   const resetSetToDefault = () => {
-    setOperationTypeSet("add");
+    setOperationType("add");
     setSelectedExercise(undefined);
     setOperatingSet({
       ...defaultNewSet,
@@ -521,20 +522,20 @@ export default function WorkoutTemplateDetails() {
   };
 
   const handleSaveSetButton = async () => {
-    if (operationTypeSet === "add") {
+    if (operationType === "add") {
       await addSet();
     }
-    if (operationTypeSet === "edit") {
+    if (operationType === "edit") {
       await updateSet();
     }
   };
 
   const handleAddSetButton = () => {
-    if (operationTypeSet !== "add") {
+    if (operationType !== "add") {
       resetSetToDefault();
     }
 
-    setOperationTypeSet("add");
+    setOperationType("add");
     newSetModal.onOpen();
   };
 
@@ -544,7 +545,7 @@ export default function WorkoutTemplateDetails() {
     if (exercise === undefined) return;
 
     setOperatingSet(set);
-    setOperationTypeSet("edit");
+    setOperationType("edit");
     setSelectedExercise(exercise);
 
     newSetModal.onOpen();
@@ -575,7 +576,7 @@ export default function WorkoutTemplateDetails() {
     if (exercise === undefined) return;
 
     setOperatingSet(set);
-    setOperationTypeSet("setdefaults");
+    setOperationType("set-defaults");
     setSelectedExercise(exercise);
     setDefaultValuesInputStrings(set);
 
@@ -585,12 +586,12 @@ export default function WorkoutTemplateDetails() {
   const handleClickExercise = (exercise: ExerciseWithGroupString) => {
     setSelectedExercise(exercise);
 
-    if (operationTypeExercise === "reassign") {
+    if (operationType === "reassign-exercise") {
       reassignExercise(exercise);
       return;
     }
 
-    if (operationTypeSet === "edit") {
+    if (operationType === "edit") {
       setOperatingSet((prev) => ({ ...prev, exercise_id: exercise.id }));
       return;
     }
@@ -620,7 +621,7 @@ export default function WorkoutTemplateDetails() {
     await ReassignExerciseIdForSets(operatingExerciseId, exercise.id);
 
     setSelectedExercise(undefined);
-    setOperationTypeExercise(undefined);
+    setOperationType("add");
     setOperatingExerciseId(0);
 
     getWorkoutTemplateAndSetList();
@@ -674,7 +675,7 @@ export default function WorkoutTemplateDetails() {
 
   const handleReassignExercise = (groupedWorkoutSet: GroupedWorkoutSet) => {
     setSelectedExercise(undefined);
-    setOperationTypeExercise("reassign");
+    setOperationType("reassign-exercise");
     setOperatingExerciseId(groupedWorkoutSet.exercise_id);
 
     newSetModal.onOpen();
@@ -683,7 +684,7 @@ export default function WorkoutTemplateDetails() {
   const handleSetOptionSelection = (key: string, set: WorkoutSet) => {
     if (key === "edit") {
       handleEditSet(set);
-    } else if (key === "setdefaults") {
+    } else if (key === "set-defaults") {
       handleSetDefaultValues(set);
     } else if (key === "remove") {
       removeSet(set);
@@ -891,7 +892,7 @@ export default function WorkoutTemplateDetails() {
                           <span className="text-primary">Warmup Set</span>
                         </Checkbox>
                       </div>
-                      {operationTypeSet === "add" && (
+                      {operationType === "add" && (
                         <div className="flex flex-row justify-between">
                           <Select
                             label="Number Of Sets To Add"
@@ -921,7 +922,7 @@ export default function WorkoutTemplateDetails() {
                   isDisabled={selectedExercise === undefined}
                   onPress={handleSaveSetButton}
                 >
-                  {operationTypeSet === "edit" ? "Save" : "Add"}
+                  {operationType === "edit" ? "Save" : "Add"}
                 </Button>
               </ModalFooter>
             </>
@@ -1304,7 +1305,7 @@ export default function WorkoutTemplateDetails() {
                                     }
                                   >
                                     <DropdownItem key="edit">Edit</DropdownItem>
-                                    <DropdownItem key="setdefaults">
+                                    <DropdownItem key="set-defaults">
                                       Set Default Values
                                     </DropdownItem>
                                     <DropdownItem
