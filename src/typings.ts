@@ -112,6 +112,7 @@ export type WorkoutSet = {
   is_dropset: number;
   multiset_values: string | null;
   exercise_name?: string;
+  exercise_note?: string | null;
 };
 
 export type GroupedWorkoutSet = {

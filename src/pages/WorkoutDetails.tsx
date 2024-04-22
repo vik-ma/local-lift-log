@@ -148,7 +148,8 @@ export default function WorkoutDetails() {
 
         if (workout.is_loaded) {
           const setList = await db.select<WorkoutSet[]>(
-            `SELECT sets.*, exercises.name AS exercise_name
+            `SELECT sets.*, exercises.name AS exercise_name,
+            exercises.note AS exercise_note
             FROM sets 
             JOIN exercises ON sets.exercise_id = exercises.id 
             WHERE workout_id = $1 AND is_template = 0`,
