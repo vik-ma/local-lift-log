@@ -80,7 +80,8 @@ export default function WorkoutTemplateDetails() {
   const [numNewSets, setNumNewSets] = useState<string>("1");
   const [isTimeInputInvalid, setIsTimeInputInvalid] = useState<boolean>(false);
   const [operationType, setOperationType] = useState<OperationType>("add");
-  const [operatingExerciseId, setOperatingExerciseId] = useState<number>(0);
+  const [operatingGroupedSet, setOperatingGroupedSet] =
+    useState<GroupedWorkoutSet>();
 
   const defaultSetTrackingValuesInput: SetTrackingValuesInput =
     DefaultSetInputValues();
@@ -313,7 +314,6 @@ export default function WorkoutTemplateDetails() {
           ];
           return newList;
         });
-        console.log("test");
       }
 
       setOperatingSet({
@@ -584,8 +584,6 @@ export default function WorkoutTemplateDetails() {
   };
 
   const handleClickExercise = (exercise: ExerciseWithGroupString) => {
-    setSelectedExercise(exercise);
-
     if (operationType === "reassign-exercise") {
       reassignExercise(exercise);
       return;
@@ -615,16 +613,33 @@ export default function WorkoutTemplateDetails() {
     }
   };
 
-  const reassignExercise = async (exercise: ExerciseWithGroupString) => {
-    if (operatingExerciseId === 0) return;
+  const reassignExercise = async (newExercise: ExerciseWithGroupString) => {
+    if (operatingGroupedSet === undefined) return;
 
-    await ReassignExerciseIdForSets(operatingExerciseId, exercise.id);
+    const exerciseIndex: number = groupedSets.findIndex(
+      (obj) => obj.exercise_id === operatingGroupedSet.exercise_id
+    );
 
-    setSelectedExercise(undefined);
+    await ReassignExerciseIdForSets(
+      operatingGroupedSet.exercise_id,
+      newExercise.id
+    );
+
+    const newGroupedWorkoutSet: GroupedWorkoutSet = {
+      ...operatingGroupedSet,
+      exercise_name: newExercise.name,
+      exercise_id: newExercise.id,
+      exercise_note: newExercise.note,
+    };
+
+    const newGroupedSets = [...groupedSets];
+    newGroupedSets[exerciseIndex] = newGroupedWorkoutSet;
+
+    setGroupedSets(newGroupedSets);
+    await updateExerciseOrder(newGroupedSets);
+
     setOperationType("add");
-    setOperatingExerciseId(0);
-
-    getWorkoutTemplateAndSetList();
+    setOperatingGroupedSet(undefined);
 
     newSetModal.onClose();
     toast.success("Exercise Reassigned");
@@ -676,7 +691,7 @@ export default function WorkoutTemplateDetails() {
   const handleReassignExercise = (groupedWorkoutSet: GroupedWorkoutSet) => {
     setSelectedExercise(undefined);
     setOperationType("reassign-exercise");
-    setOperatingExerciseId(groupedWorkoutSet.exercise_id);
+    setOperatingGroupedSet(groupedWorkoutSet);
 
     newSetModal.onOpen();
   };
