@@ -1232,10 +1232,16 @@ export default function WorkoutTemplateDetails() {
                                   //   handleSetOptionSelection(key as string, set)
                                   // }
                                 >
-                                  {/* TODO: ADD REASSIGN EXERCISE FOR UNKNOWN EXERCIES */}
-                                  <DropdownItem key="change-exercise">
-                                    Change Exercise
-                                  </DropdownItem>
+                                  {exercise.exercise_name ===
+                                  "Unknown Exercise" ? (
+                                    <DropdownItem key="reassign-exercise">
+                                      Reassign Exercise
+                                    </DropdownItem>
+                                  ) : (
+                                    <DropdownItem key="change-exercise">
+                                      Change Exercise
+                                    </DropdownItem>
+                                  )}
                                   <DropdownItem
                                     className="text-danger"
                                     key="remove"
