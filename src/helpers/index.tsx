@@ -40,8 +40,6 @@ export { DefaultNewSet } from "./Sets/DefaultNewSet";
 export { ConvertSetInputValuesToNumbers } from "./Sets/ConvertSetInputValuesToNumbers";
 export { DefaultSetInputValues } from "./Sets/DefaultSetInputValues";
 export { ReassignExerciseIdForSets } from "./Sets/ReassignExerciseIdForSets";
-export { CreateGroupedWorkoutSetListByExerciseId } from "./Sets/CreateGroupedWorkoutSetListByExerciseId";
-export { GenerateExerciseOrderString } from "./Sets/GenerateExerciseOrderString";
 
 export { IsNumberNegativeOrInfinity } from "./Numbers/IsNumberNegativeOrInfinity";
 export { IsStringInvalidNumberOrAbove59 } from "./Numbers/IsStringInvalidNumberOrAbove59";
@@ -65,3 +63,6 @@ export { DefaultEquipmentWeightList } from "./Presets/DefaultEquipmentWeightList
 export { CreateDefaultEquipmentWeights } from "./Presets/CreateDefaultEquipmentWeights";
 export { DefaultDistanceList } from "./Presets/DefaultDistanceList";
 export { CreateDefaultDistances } from "./Presets/CreateDefaultDistances";
+
+export { CreateGroupedWorkoutSetListByExerciseId } from "./Workouts/CreateGroupedWorkoutSetListByExerciseId";
+export { GenerateExerciseOrderString } from "./Workouts/GenerateExerciseOrderString";
