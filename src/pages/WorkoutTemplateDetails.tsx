@@ -275,10 +275,37 @@ export default function WorkoutTemplateDetails() {
         newSets.push(newSet);
       }
 
-      // TODO: REPLACE WITH GROUPEDSETS
-      // const updatedSetList = [...sets, ...newSets];
-      // setSets(updatedSetList);
-      // await updateSetListOrder(updatedSetList);
+      const exerciseIndex: number = groupedSets.findIndex(
+        (obj) => obj.exercise_id === selectedExercise.id
+      );
+
+      if (exerciseIndex === -1) {
+        // Create new GroupedWorkoutSet if exercise_id does not exist in groupedSets
+        const newGroupedWorkoutSet: GroupedWorkoutSet = {
+          exercise_name: selectedExercise.name,
+          exercise_id: selectedExercise.id,
+          setList: newSets,
+        };
+
+        const newGroupedSets: GroupedWorkoutSet[] = [
+          ...groupedSets,
+          newGroupedWorkoutSet,
+        ];
+
+        setGroupedSets(newGroupedSets);
+        await updateExerciseOrder(newGroupedSets);
+      } else {
+        // Add new Sets to groupedSets Exercise Set List
+        setGroupedSets((prev) => {
+          const newList = [...prev];
+          newList[exerciseIndex].setList = [
+            ...newList[exerciseIndex].setList,
+            ...newSets,
+          ];
+          return newList;
+        });
+        console.log("test");
+      }
 
       setOperatingSet({
         ...defaultNewSet,
