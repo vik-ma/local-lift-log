@@ -286,6 +286,7 @@ export default function WorkoutTemplateDetails() {
           exercise_name: selectedExercise.name,
           exercise_id: selectedExercise.id,
           setList: newSets,
+          exercise_note: selectedExercise.note,
         };
 
         const newGroupedSets: GroupedWorkoutSet[] = [

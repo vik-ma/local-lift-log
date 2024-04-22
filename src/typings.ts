@@ -52,6 +52,7 @@ export type ExerciseWithGroupString = {
   id: number;
   name: string;
   exercise_group_string: string;
+  note: string | null;
 };
 
 export type WorkoutTemplate = {
