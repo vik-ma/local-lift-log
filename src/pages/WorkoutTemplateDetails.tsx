@@ -596,6 +596,8 @@ export default function WorkoutTemplateDetails() {
   };
 
   const handleClickExercise = (exercise: ExerciseWithGroupString) => {
+    setSelectedExercise(exercise);
+
     if (operationType === "reassign-exercise") {
       reassignExercise(exercise);
       return;
