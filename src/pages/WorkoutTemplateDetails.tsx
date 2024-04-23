@@ -723,11 +723,16 @@ export default function WorkoutTemplateDetails() {
     setOperationType("delete-exercise-sets");
     setOperatingGroupedSet(groupedWorkoutSet);
 
-    deleteAllSetsForExerciseId(groupedWorkoutSet.exercise_id);
+    deleteModal.onOpen();
   };
 
-  const deleteAllSetsForExerciseId = async (exerciseId: number) => {
-    if (workoutTemplate === undefined) return;
+  const deleteAllSetsForExerciseId = async () => {
+    if (
+      workoutTemplate === undefined ||
+      operatingGroupedSet === undefined ||
+      operationType !== "delete-exercise-sets"
+    )
+      return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
@@ -736,11 +741,11 @@ export default function WorkoutTemplateDetails() {
         `DELETE from sets WHERE exercise_id = $1 
          AND workout_template_id = $2 
          AND is_template = 1`,
-        [exerciseId, workoutTemplate.id]
+        [operatingGroupedSet.exercise_id, workoutTemplate.id]
       );
 
       const updatedSetList: GroupedWorkoutSet[] = groupedSets.filter(
-        (item) => item.exercise_id !== exerciseId
+        (item) => item.exercise_id !== operatingGroupedSet.exercise_id
       );
 
       setGroupedSets(updatedSetList);
@@ -749,9 +754,16 @@ export default function WorkoutTemplateDetails() {
 
       updateExerciseOrder(updatedSetList);
 
+      deleteModal.onClose();
       toast.success("Sets Removed");
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const handleDeleteModalButton = () => {
+    if (operationType === "delete-exercise-sets") {
+      deleteAllSetsForExerciseId();
     }
   };
 
