@@ -528,6 +528,11 @@ export default function WorkoutTemplateDetails() {
     });
   };
 
+  const resetGroupedSetToDefault = () => {
+    setOperationType("add");
+    setOperatingGroupedSet(undefined);
+  };
+
   const handleSaveSetButton = async () => {
     if (operationType === "add") {
       await addSet();
@@ -643,10 +648,9 @@ export default function WorkoutTemplateDetails() {
     newGroupedSets[exerciseIndex] = newGroupedWorkoutSet;
 
     setGroupedSets(newGroupedSets);
-    await updateExerciseOrder(newGroupedSets);
+    updateExerciseOrder(newGroupedSets);
 
-    setOperationType("add");
-    setOperatingGroupedSet(undefined);
+    resetGroupedSetToDefault();
 
     newSetModal.onClose();
     toast.success("Exercise Reassigned");
@@ -761,10 +765,10 @@ export default function WorkoutTemplateDetails() {
       );
 
       setGroupedSets(updatedSetList);
-      setOperationType("add");
-      setOperatingGroupedSet(undefined);
 
       updateExerciseOrder(updatedSetList);
+
+      resetGroupedSetToDefault();
 
       deleteModal.onClose();
       toast.success("Sets Removed");
