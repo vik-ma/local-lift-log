@@ -60,7 +60,6 @@ type OperationType =
   | "set-defaults"
   | "remove-set"
   | "change-exercise"
-  | "reassign-exercise"
   | "delete-exercise-sets";
 
 export default function WorkoutTemplateDetails() {
@@ -598,7 +597,7 @@ export default function WorkoutTemplateDetails() {
   const handleClickExercise = (exercise: ExerciseWithGroupString) => {
     setSelectedExercise(exercise);
 
-    if (operationType === "reassign-exercise") {
+    if (operationType === "change-exercise") {
       reassignExercise(exercise);
       return;
     }
@@ -655,7 +654,7 @@ export default function WorkoutTemplateDetails() {
     resetGroupedSetToDefault();
 
     newSetModal.onClose();
-    toast.success("Exercise Reassigned");
+    toast.success("Exercise Changed");
   };
 
   const isDefaultWeightInputInvalid = useMemo(() => {
@@ -703,7 +702,7 @@ export default function WorkoutTemplateDetails() {
 
   const handleReassignExercise = (groupedWorkoutSet: GroupedWorkoutSet) => {
     setSelectedExercise(undefined);
-    setOperationType("reassign-exercise");
+    setOperationType("change-exercise");
     setOperatingGroupedSet(groupedWorkoutSet);
 
     newSetModal.onOpen();
@@ -730,7 +729,7 @@ export default function WorkoutTemplateDetails() {
     key: string,
     groupedWorkoutSet: GroupedWorkoutSet
   ) => {
-    if (key === "reassign-exercise") {
+    if (key === "change-exercise") {
       handleReassignExercise(groupedWorkoutSet);
     } else if (key === "delete-exercise-sets") {
       handleDeleteExerciseSets(groupedWorkoutSet);
@@ -869,14 +868,6 @@ export default function WorkoutTemplateDetails() {
                         <h2 className="text-2xl font-semibold px-1 truncate w-4/6">
                           {selectedExercise.name}
                         </h2>
-                        <Button
-                          size="sm"
-                          variant="flat"
-                          color="danger"
-                          onPress={() => setSelectedExercise(undefined)}
-                        >
-                          Change Exercise
-                        </Button>
                       </div>
                       <Input
                         value={operatingSet.note ?? ""}
@@ -1370,16 +1361,9 @@ export default function WorkoutTemplateDetails() {
                                     )
                                   }
                                 >
-                                  {exercise.exercise_name ===
-                                  "Unknown Exercise" ? (
-                                    <DropdownItem key="reassign-exercise">
-                                      Reassign Exercise
-                                    </DropdownItem>
-                                  ) : (
-                                    <DropdownItem key="change-exercise">
-                                      Change Exercise
-                                    </DropdownItem>
-                                  )}
+                                  <DropdownItem key="change-exercise">
+                                    Change Exercise
+                                  </DropdownItem>
                                   <DropdownItem
                                     className="text-danger"
                                     key="delete-exercise-sets"
