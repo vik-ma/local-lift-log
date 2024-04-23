@@ -115,6 +115,7 @@ export default function WorkoutTemplateDetails() {
   const defaultValuesModal = useDisclosure();
   const supersetModal = useDisclosure();
   const dropsetModal = useDisclosure();
+  const deleteModal = useDisclosure();
 
   const isNewWorkoutTemplateNameInvalid = useMemo(() => {
     return (
@@ -759,6 +760,35 @@ export default function WorkoutTemplateDetails() {
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
+      <Modal
+        isOpen={deleteModal.isOpen}
+        onOpenChange={deleteModal.onOpenChange}
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">
+                Remove Set{operationType === "delete-exercise-sets" && "s"}
+              </ModalHeader>
+              <ModalBody>
+                <p className="break-all">
+                  {operationType === "delete-exercise-sets"
+                    ? `Are you sure you want to remove all ${operatingGroupedSet?.exercise_name} sets from Workout Template?`
+                    : `Are you sure you want to remove ${operatingSet.exercise_name}?`}
+                </p>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="danger" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+                <Button color="danger" onPress={handleDeleteModalButton}>
+                  Delete
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
       <Modal
         isOpen={newSetModal.isOpen}
         onOpenChange={newSetModal.onOpenChange}
