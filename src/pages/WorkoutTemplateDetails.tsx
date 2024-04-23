@@ -58,9 +58,10 @@ type OperationType =
   | "add"
   | "edit"
   | "set-defaults"
+  | "remove"
   | "change-exercise"
   | "reassign-exercise"
-  | "delete";
+  | "delete-exercise-sets";
 
 export default function WorkoutTemplateDetails() {
   const { id } = useParams();
@@ -712,6 +713,40 @@ export default function WorkoutTemplateDetails() {
   ) => {
     if (key === "reassign-exercise") {
       handleReassignExercise(groupedWorkoutSet);
+    } else if (key === "delete-exercise-sets") {
+      handleDeleteExerciseSets(groupedWorkoutSet);
+    }
+  };
+
+  const handleDeleteExerciseSets = (groupedWorkoutSet: GroupedWorkoutSet) => {
+    setOperationType("delete-exercise-sets");
+    setOperatingGroupedSet(groupedWorkoutSet);
+
+    deleteAllSetsForExerciseId(groupedWorkoutSet.exercise_id);
+  };
+
+  const deleteAllSetsForExerciseId = async (exerciseId: number) => {
+    if (exerciseId === 0) return;
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      db.execute(
+        "DELETE from sets WHERE exercise_id = $1 AND is_template = 1",
+        [exerciseId]
+      );
+
+      const updatedSetList: GroupedWorkoutSet[] = groupedSets.filter(
+        (item) => item.exercise_id !== exerciseId
+      );
+
+      setGroupedSets(updatedSetList);
+      setOperationType("add");
+      setOperatingGroupedSet(undefined);
+
+      toast.success("Sets Removed");
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -1281,7 +1316,7 @@ export default function WorkoutTemplateDetails() {
                                   )}
                                   <DropdownItem
                                     className="text-danger"
-                                    key="remove"
+                                    key="delete-exercise-sets"
                                   >
                                     Remove All Sets
                                   </DropdownItem>
