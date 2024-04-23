@@ -520,16 +520,12 @@ export default function WorkoutTemplateDetails() {
   const resetSetToDefault = () => {
     setOperationType("add");
     setSelectedExercise(undefined);
+    setOperatingGroupedSet(undefined);
     setOperatingSet({
       ...defaultNewSet,
       weight_unit: userSettings!.default_unit_weight!,
       distance_unit: userSettings!.default_unit_distance!,
     });
-  };
-
-  const resetGroupedSetToDefault = () => {
-    setOperationType("add");
-    setOperatingGroupedSet(undefined);
   };
 
   const handleSaveSetButton = async () => {
@@ -651,7 +647,7 @@ export default function WorkoutTemplateDetails() {
     setGroupedSets(newGroupedSets);
     updateExerciseOrder(newGroupedSets);
 
-    resetGroupedSetToDefault();
+    resetSetToDefault();
 
     newSetModal.onClose();
     toast.success("Exercise Changed");
@@ -769,7 +765,7 @@ export default function WorkoutTemplateDetails() {
 
       updateExerciseOrder(updatedSetList);
 
-      resetGroupedSetToDefault();
+      resetSetToDefault();
 
       deleteModal.onClose();
       toast.success("Sets Removed");
