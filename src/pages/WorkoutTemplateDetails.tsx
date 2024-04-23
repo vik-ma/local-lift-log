@@ -726,14 +726,16 @@ export default function WorkoutTemplateDetails() {
   };
 
   const deleteAllSetsForExerciseId = async (exerciseId: number) => {
-    if (exerciseId === 0) return;
+    if (workoutTemplate === undefined) return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
       db.execute(
-        "DELETE from sets WHERE exercise_id = $1 AND is_template = 1",
-        [exerciseId]
+        `DELETE from sets WHERE exercise_id = $1 
+         AND workout_template_id = $2 
+         AND is_template = 1`,
+        [exerciseId, workoutTemplate.id]
       );
 
       const updatedSetList: GroupedWorkoutSet[] = groupedSets.filter(
