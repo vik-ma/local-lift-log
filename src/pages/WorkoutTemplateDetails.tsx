@@ -306,7 +306,7 @@ export default function WorkoutTemplateDetails() {
         setGroupedSets(newGroupedSets);
         await updateExerciseOrder(newGroupedSets);
       } else {
-        // Add new Sets to groupedSets Exercise Set List
+        // Add new Sets to groupedSets' existing Exercise's Set List
         setGroupedSets((prev) => {
           const newList = [...prev];
           newList[exerciseIndex].setList = [
@@ -317,11 +317,6 @@ export default function WorkoutTemplateDetails() {
         });
       }
 
-      setOperatingSet({
-        ...defaultNewSet,
-        weight_unit: userSettings!.default_unit_weight!,
-        distance_unit: userSettings!.default_unit_distance!,
-      });
       resetSetToDefault();
 
       newSetModal.onClose();
@@ -625,7 +620,7 @@ export default function WorkoutTemplateDetails() {
   const reassignExercise = async (newExercise: ExerciseWithGroupString) => {
     if (operatingGroupedSet === undefined) return;
 
-    const exerciseIndex: number = groupedSets.findIndex(
+    const oldExerciseIndex: number = groupedSets.findIndex(
       (obj) => obj.exercise_id === operatingGroupedSet.exercise_id
     );
 
@@ -641,11 +636,31 @@ export default function WorkoutTemplateDetails() {
       exercise_note: newExercise.note,
     };
 
-    const newGroupedSets = [...groupedSets];
-    newGroupedSets[exerciseIndex] = newGroupedWorkoutSet;
+    const newExerciseIndex: number = groupedSets.findIndex(
+      (obj) => obj.exercise_id === newExercise.id
+    );
 
-    setGroupedSets(newGroupedSets);
-    updateExerciseOrder(newGroupedSets);
+    if (newExerciseIndex === -1) {
+      // Create new GroupedWorkoutSet if exercise_id does not exist in groupedSets
+      const newGroupedSets = [...groupedSets];
+      newGroupedSets[oldExerciseIndex] = newGroupedWorkoutSet;
+
+      setGroupedSets(newGroupedSets);
+      updateExerciseOrder(newGroupedSets);
+    } else {
+      // Add old Sets to groupedSets' existing Exercise's Set List
+      const newGroupedSets = [...groupedSets];
+
+      newGroupedSets[newExerciseIndex].setList = [
+        ...newGroupedSets[newExerciseIndex].setList,
+        ...newGroupedWorkoutSet.setList,
+      ];
+
+      newGroupedSets.splice(oldExerciseIndex, 1);
+
+      setGroupedSets(newGroupedSets);
+      updateExerciseOrder(newGroupedSets);
+    }
 
     resetSetToDefault();
 
