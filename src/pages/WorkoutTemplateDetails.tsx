@@ -744,6 +744,8 @@ export default function WorkoutTemplateDetails() {
       setOperationType("add");
       setOperatingGroupedSet(undefined);
 
+      updateExerciseOrder(updatedSetList);
+
       toast.success("Sets Removed");
     } catch (error) {
       console.log(error);
