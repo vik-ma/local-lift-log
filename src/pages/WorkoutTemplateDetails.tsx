@@ -60,6 +60,7 @@ type OperationType =
   | "set-defaults"
   | "remove-set"
   | "change-exercise"
+  | "reassign-exercise"
   | "delete-exercise-sets";
 
 export default function WorkoutTemplateDetails() {
@@ -588,7 +589,10 @@ export default function WorkoutTemplateDetails() {
   const handleClickExercise = (exercise: ExerciseWithGroupString) => {
     setSelectedExercise(exercise);
 
-    if (operationType === "change-exercise") {
+    if (
+      operationType === "change-exercise" ||
+      operationType === "reassign-exercise"
+    ) {
       reassignExercise(exercise);
       return;
     }
@@ -618,16 +622,28 @@ export default function WorkoutTemplateDetails() {
   };
 
   const reassignExercise = async (newExercise: ExerciseWithGroupString) => {
-    if (operatingGroupedSet === undefined) return;
+    if (operatingGroupedSet === undefined || workoutTemplate === undefined)
+      return;
 
     const oldExerciseIndex: number = groupedSets.findIndex(
       (obj) => obj.exercise_id === operatingGroupedSet.exercise_id
     );
 
-    await ReassignExerciseIdForSets(
-      operatingGroupedSet.exercise_id,
-      newExercise.id
-    );
+    if (operationType === "reassign-exercise") {
+      // Reassign ALL sets with old exercise_id to new exercise_id
+      await ReassignExerciseIdForSets(
+        operatingGroupedSet.exercise_id,
+        newExercise.id
+      );
+    } else if (operationType === "change-exercise") {
+      // Just change the sets with this specific workout_template_id
+      const db = await Database.load(import.meta.env.VITE_DB);
+      await db.execute(
+        `UPDATE sets SET exercise_id = $1 
+        WHERE exercise_id = $2 AND workout_template_id = $3 AND is_template = 1`,
+        [newExercise.id, operatingGroupedSet.exercise_id, workoutTemplate.id]
+      );
+    } else return;
 
     const newGroupedWorkoutSet: GroupedWorkoutSet = {
       ...operatingGroupedSet,
@@ -713,6 +729,14 @@ export default function WorkoutTemplateDetails() {
 
   const handleReassignExercise = (groupedWorkoutSet: GroupedWorkoutSet) => {
     setSelectedExercise(undefined);
+    setOperationType("reassign-exercise");
+    setOperatingGroupedSet(groupedWorkoutSet);
+
+    newSetModal.onOpen();
+  };
+
+  const handleChangeExercise = (groupedWorkoutSet: GroupedWorkoutSet) => {
+    setSelectedExercise(undefined);
     setOperationType("change-exercise");
     setOperatingGroupedSet(groupedWorkoutSet);
 
@@ -740,8 +764,10 @@ export default function WorkoutTemplateDetails() {
     key: string,
     groupedWorkoutSet: GroupedWorkoutSet
   ) => {
-    if (key === "change-exercise") {
+    if (key === "reassign-exercise") {
       handleReassignExercise(groupedWorkoutSet);
+    } else if (key === "change-exercise") {
+      handleChangeExercise(groupedWorkoutSet);
     } else if (key === "delete-exercise-sets") {
       handleDeleteExerciseSets(groupedWorkoutSet);
     }
@@ -1372,9 +1398,16 @@ export default function WorkoutTemplateDetails() {
                                     )
                                   }
                                 >
-                                  <DropdownItem key="change-exercise">
-                                    Change Exercise
-                                  </DropdownItem>
+                                  {exercise.exercise_name ===
+                                  "Unknown Exercise" ? (
+                                    <DropdownItem key="reassign-exercise">
+                                      Reassign Exercise
+                                    </DropdownItem>
+                                  ) : (
+                                    <DropdownItem key="change-exercise">
+                                      Change Exercise
+                                    </DropdownItem>
+                                  )}
                                   <DropdownItem
                                     className="text-danger"
                                     key="delete-exercise-sets"
