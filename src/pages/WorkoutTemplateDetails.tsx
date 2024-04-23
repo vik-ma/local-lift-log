@@ -58,7 +58,7 @@ type OperationType =
   | "add"
   | "edit"
   | "set-defaults"
-  | "remove"
+  | "remove-set"
   | "change-exercise"
   | "reassign-exercise"
   | "delete-exercise-sets";
@@ -332,19 +332,21 @@ export default function WorkoutTemplateDetails() {
     }
   };
 
-  const removeSet = async (set: WorkoutSet) => {
+  const removeSet = async () => {
+    if (operatingSet === undefined || operationType !== "remove-set") return;
+
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
-      db.execute("DELETE from sets WHERE id = $1", [set.id]);
+      db.execute("DELETE from sets WHERE id = $1", [operatingSet.id]);
 
       const exerciseIndex: number = groupedSets.findIndex(
-        (obj) => obj.exercise_id === set.exercise_id
+        (obj) => obj.exercise_id === operatingSet.exercise_id
       );
 
       const updatedSetList: WorkoutSet[] = groupedSets[
         exerciseIndex
-      ].setList.filter((item) => item.id !== set.id);
+      ].setList.filter((item) => item.id !== operatingSet.id);
 
       if (updatedSetList.length === 0) {
         // Remove Exercise from groupedSets if last Set in Exercise was deleted
@@ -362,7 +364,10 @@ export default function WorkoutTemplateDetails() {
         });
       }
 
+      resetSetToDefault();
+
       toast.success("Set Removed");
+      deleteModal.onClose();
     } catch (error) {
       console.log(error);
     }
@@ -703,9 +708,16 @@ export default function WorkoutTemplateDetails() {
       handleEditSet(set);
     } else if (key === "set-defaults") {
       handleSetDefaultValues(set);
-    } else if (key === "remove") {
-      removeSet(set);
+    } else if (key === "remove-set") {
+      handleRemoveSet(set);
     }
+  };
+
+  const handleRemoveSet = (set: WorkoutSet) => {
+    setOperatingSet(set);
+    setOperationType("remove-set");
+
+    deleteModal.onOpen();
   };
 
   const handleExerciseOptionSelection = (
@@ -764,6 +776,8 @@ export default function WorkoutTemplateDetails() {
   const handleDeleteModalButton = () => {
     if (operationType === "delete-exercise-sets") {
       deleteAllSetsForExerciseId();
+    } else if (operationType === "remove-set") {
+      removeSet();
     }
   };
 
@@ -1406,7 +1420,7 @@ export default function WorkoutTemplateDetails() {
                                     </DropdownItem>
                                     <DropdownItem
                                       className="text-danger"
-                                      key="remove"
+                                      key="remove-set"
                                     >
                                       Remove
                                     </DropdownItem>
