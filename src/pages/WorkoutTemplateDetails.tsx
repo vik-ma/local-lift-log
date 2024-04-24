@@ -61,7 +61,8 @@ type OperationType =
   | "remove-set"
   | "change-exercise"
   | "reassign-exercise"
-  | "delete-exercise-sets";
+  | "delete-exercise-sets"
+  | "add-set-to-exercise";
 
 export default function WorkoutTemplateDetails() {
   const { id } = useParams();
@@ -774,6 +775,40 @@ export default function WorkoutTemplateDetails() {
       handleChangeExercise(groupedWorkoutSet);
     } else if (key === "delete-exercise-sets") {
       handleDeleteExerciseSets(groupedWorkoutSet);
+    } else if (key === "add-set-to-exercise") {
+      handleAddSetToExercise(groupedWorkoutSet);
+    }
+  };
+
+  const handleAddSetToExercise = (groupedWorkoutSet: GroupedWorkoutSet) => {
+    const exercise = exercises.find(
+      (obj) => obj.id === groupedWorkoutSet.exercise_id
+    );
+
+    if (exercise === undefined) return;
+
+    if (exercise.exercise_group_string === "Cardio") {
+      setOperatingSet({
+        ...defaultNewSet,
+        exercise_id: exercise.id,
+        is_tracking_weight: 0,
+        is_tracking_reps: 0,
+        is_tracking_distance: 1,
+        is_tracking_time: 1,
+        weight_unit: userSettings!.default_unit_weight!,
+        distance_unit: userSettings!.default_unit_distance!,
+      });
+    } else {
+      setOperatingSet({
+        ...defaultNewSet,
+        exercise_id: exercise.id,
+        is_tracking_weight: 1,
+        is_tracking_reps: 1,
+        is_tracking_distance: 0,
+        is_tracking_time: 0,
+        weight_unit: userSettings!.default_unit_weight!,
+        distance_unit: userSettings!.default_unit_distance!,
+      });
     }
   };
 
@@ -1402,6 +1437,9 @@ export default function WorkoutTemplateDetails() {
                                     )
                                   }
                                 >
+                                  <DropdownItem key="add-set-to-exercise">
+                                    Add Set
+                                  </DropdownItem>
                                   {exercise.exercise_name ===
                                   "Unknown Exercise" ? (
                                     <DropdownItem key="reassign-exercise">
