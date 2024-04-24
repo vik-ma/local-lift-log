@@ -61,8 +61,7 @@ type OperationType =
   | "remove-set"
   | "change-exercise"
   | "reassign-exercise"
-  | "delete-exercise-sets"
-  | "add-set-to-exercise";
+  | "delete-exercise-sets";
 
 export default function WorkoutTemplateDetails() {
   const { id } = useParams();
@@ -792,36 +791,64 @@ export default function WorkoutTemplateDetails() {
     }
   };
 
-  const handleAddSetToExercise = (groupedWorkoutSet: GroupedWorkoutSet) => {
+  const handleAddSetToExercise = async (
+    groupedWorkoutSet: GroupedWorkoutSet
+  ) => {
     const exercise = exercises.find(
       (obj) => obj.id === groupedWorkoutSet.exercise_id
     );
 
-    if (exercise === undefined) return;
+    if (exercise === undefined || workoutTemplate === undefined) return;
+
+    let newSet: WorkoutSet = {
+      ...defaultNewSet,
+      exercise_id: exercise.id,
+      workout_template_id: workoutTemplate.id,
+      weight_unit: userSettings!.default_unit_weight!,
+      distance_unit: userSettings!.default_unit_distance!,
+      exercise_name: exercise.name,
+    };
 
     if (exercise.exercise_group_string === "Cardio") {
-      setOperatingSet({
-        ...defaultNewSet,
-        exercise_id: exercise.id,
+      newSet = {
+        ...newSet,
         is_tracking_weight: 0,
         is_tracking_reps: 0,
         is_tracking_distance: 1,
         is_tracking_time: 1,
-        weight_unit: userSettings!.default_unit_weight!,
-        distance_unit: userSettings!.default_unit_distance!,
-      });
+      };
     } else {
-      setOperatingSet({
-        ...defaultNewSet,
-        exercise_id: exercise.id,
+      newSet = {
+        ...newSet,
         is_tracking_weight: 1,
         is_tracking_reps: 1,
         is_tracking_distance: 0,
         is_tracking_time: 0,
-        weight_unit: userSettings!.default_unit_weight!,
-        distance_unit: userSettings!.default_unit_distance!,
-      });
+      };
     }
+
+    const setId: number = await insertSetIntoDb(newSet);
+    console.log(setId);
+    if (setId === 0) return;
+
+    newSet = { ...newSet, id: setId };
+    const newSets: WorkoutSet[] = [newSet];
+
+    const exerciseIndex: number = groupedSets.findIndex(
+      (obj) => obj.exercise_id === exercise.id
+    );
+
+    setGroupedSets((prev) => {
+      const newList = [...prev];
+      newList[exerciseIndex].setList = [
+        ...newList[exerciseIndex].setList,
+        ...newSets,
+      ];
+      return newList;
+    });
+
+    resetSetToDefault();
+    toast.success("Set Added");
   };
 
   const handleDeleteExerciseSets = (groupedWorkoutSet: GroupedWorkoutSet) => {
