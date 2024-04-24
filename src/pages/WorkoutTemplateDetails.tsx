@@ -681,7 +681,11 @@ export default function WorkoutTemplateDetails() {
     resetSetToDefault();
 
     newSetModal.onClose();
-    toast.success("Exercise Changed");
+    const toastMsg: string =
+      operationType === "reassign-exercise"
+        ? "Exercise Reassigned"
+        : "Exercise Changed";
+    toast.success(toastMsg);
   };
 
   const isDefaultWeightInputInvalid = useMemo(() => {
