@@ -52,7 +52,7 @@ import {
   IsStringInvalidNumberOrAbove10,
   ReassignExerciseIdForSets,
 } from "../helpers";
-import { SearchIcon, VerticalMenuIcon } from "../assets";
+import { CommentIcon, SearchIcon, VerticalMenuIcon } from "../assets";
 import { Reorder } from "framer-motion";
 
 type OperationType =
@@ -1463,41 +1463,55 @@ export default function WorkoutTemplateDetails() {
                                 <span className="text-sm font-medium">
                                   Set {index + 1}
                                 </span>
-                                <Dropdown>
-                                  <DropdownTrigger>
+                                <div className="flex gap-0.5">
+                                  {set.note !== null && (
                                     <Button
                                       isIconOnly
                                       size="sm"
                                       radius="lg"
                                       variant="light"
                                     >
-                                      <VerticalMenuIcon size={14} />
+                                      <CommentIcon size={20} />
                                     </Button>
-                                  </DropdownTrigger>
-                                  <DropdownMenu
-                                    aria-label={`Option Menu For ${exercise.exercise_name} Set ${index}`}
-                                    itemClasses={{
-                                      base: "hover:text-[#404040] gap-4",
-                                    }}
-                                    onAction={(key) =>
-                                      handleSetOptionSelection(
-                                        key as string,
-                                        set
-                                      )
-                                    }
-                                  >
-                                    <DropdownItem key="edit">Edit</DropdownItem>
-                                    <DropdownItem key="set-defaults">
-                                      Set Default Values
-                                    </DropdownItem>
-                                    <DropdownItem
-                                      className="text-danger"
-                                      key="remove-set"
+                                  )}
+                                  <Dropdown>
+                                    <DropdownTrigger>
+                                      <Button
+                                        isIconOnly
+                                        size="sm"
+                                        radius="lg"
+                                        variant="light"
+                                      >
+                                        <VerticalMenuIcon size={14} />
+                                      </Button>
+                                    </DropdownTrigger>
+                                    <DropdownMenu
+                                      aria-label={`Option Menu For ${exercise.exercise_name} Set ${index}`}
+                                      itemClasses={{
+                                        base: "hover:text-[#404040] gap-4",
+                                      }}
+                                      onAction={(key) =>
+                                        handleSetOptionSelection(
+                                          key as string,
+                                          set
+                                        )
+                                      }
                                     >
-                                      Remove
-                                    </DropdownItem>
-                                  </DropdownMenu>
-                                </Dropdown>
+                                      <DropdownItem key="edit">
+                                        Edit
+                                      </DropdownItem>
+                                      <DropdownItem key="set-defaults">
+                                        Set Default Values
+                                      </DropdownItem>
+                                      <DropdownItem
+                                        className="text-danger"
+                                        key="remove-set"
+                                      >
+                                        Remove
+                                      </DropdownItem>
+                                    </DropdownMenu>
+                                  </Dropdown>
+                                </div>
                               </div>
                             ))}
                           </div>
