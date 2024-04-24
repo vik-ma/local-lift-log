@@ -601,12 +601,17 @@ export default function WorkoutTemplateDetails() {
       );
     } else if (operationType === "change-exercise") {
       // Just change the sets with this specific workout_template_id
-      const db = await Database.load(import.meta.env.VITE_DB);
-      await db.execute(
-        `UPDATE sets SET exercise_id = $1 
-        WHERE exercise_id = $2 AND workout_template_id = $3 AND is_template = 1`,
-        [newExercise.id, operatingGroupedSet.exercise_id, workoutTemplate.id]
-      );
+      try {
+        const db = await Database.load(import.meta.env.VITE_DB);
+        await db.execute(
+          `UPDATE sets SET exercise_id = $1 
+          WHERE exercise_id = $2 AND workout_template_id = $3 AND is_template = 1`,
+          [newExercise.id, operatingGroupedSet.exercise_id, workoutTemplate.id]
+        );
+      } catch (error) {
+        console.log(error);
+        return;
+      }
     } else return;
 
     const newGroupedWorkoutSet: GroupedWorkoutSet = {
