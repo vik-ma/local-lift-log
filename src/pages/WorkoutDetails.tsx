@@ -114,12 +114,13 @@ export default function WorkoutDetails() {
 
       db.execute(
         `UPDATE workouts SET 
-        workout_template_id = $1, date = $2, exercise_order = $3 
-        note = $4, is_loaded = $5, rating = $6
-        WHERE id = $7`,
+        workout_template_id = $1, date = $2, set_list_order = $3,
+        exercise_order = $4, note = $5, is_loaded = $6, rating = $7
+        WHERE id = $8`,
         [
           workout.workout_template_id,
           workout.date,
+          workout.set_list_order,
           workout.exercise_order,
           workout.note,
           workout.is_loaded,
@@ -146,7 +147,7 @@ export default function WorkoutDetails() {
 
         const workout: Workout = result[0];
 
-        if (workout.is_loaded) {
+        if (workout.is_loaded === 1) {
           const setList = await db.select<WorkoutSet[]>(
             `SELECT sets.*, exercises.name AS exercise_name,
             exercises.note AS exercise_note
