@@ -1484,29 +1484,27 @@ export default function WorkoutTemplateDetails() {
                                 className="flex flex-col px-0.5 text-sm font-medium break-all"
                                 key={`${set.exercise_id}-${index}`}
                               >
-                                <div className="flex  justify-between items-center h-8">
+                                <div className="flex justify-between items-center h-8">
                                   <span>Set {index + 1}</span>
                                   {set.is_tracking_weight === 1 &&
                                     set.weight > 0 && (
-                                      <span>
-                                        {set.weight}
-                                        {set.weight_unit}
+                                      <span className="truncate max-w-16">
+                                        {set.weight} {set.weight_unit}
                                       </span>
                                     )}
                                   {set.is_tracking_reps === 1 &&
                                     set.reps > 0 && (
-                                      <span>
+                                      <span className="truncate max-w-16">
                                         {set.reps} Rep{set.reps > 1 && "s"}
                                       </span>
                                     )}
                                   {set.is_tracking_distance === 1 &&
                                     set.distance > 0 && (
-                                      <span>
-                                        {set.distance}
-                                        {set.distance_unit}
+                                      <span className="truncate max-w-16">
+                                        {set.distance} {set.distance_unit}
                                       </span>
                                     )}
-                                  <div className="flex gap-0.5">
+                                  <div className="flex w-12 justify-end">
                                     {set.note !== null && (
                                       <Button
                                         isIconOnly
