@@ -1481,67 +1481,76 @@ export default function WorkoutTemplateDetails() {
                             </div>
                             {exercise.setList.map((set, index) => (
                               <div
-                                className="flex justify-between items-center px-0.5"
+                                className="flex flex-col px-0.5"
                                 key={`${set.exercise_id}-${index}`}
                               >
-                                <span className="text-sm font-medium">
-                                  Set {index + 1}
-                                </span>
-                                <div className="flex gap-0.5">
-                                  {set.note !== null && (
-                                    <Button
-                                      isIconOnly
-                                      size="sm"
-                                      radius="lg"
-                                      variant="light"
-                                      onPress={() =>
-                                        handleSetListNoteButton(
-                                          exercise.exercise_id,
-                                          index
-                                        )
-                                      }
-                                    >
-                                      <CommentIcon size={20} />
-                                    </Button>
-                                  )}
-                                  <Dropdown>
-                                    <DropdownTrigger>
+                                <div className="flex justify-between items-center h-8">
+                                  <span className="text-sm font-medium">
+                                    Set {index + 1}
+                                  </span>
+                                  <div className="flex gap-0.5">
+                                    {set.note !== null && (
                                       <Button
                                         isIconOnly
                                         size="sm"
                                         radius="lg"
                                         variant="light"
+                                        onPress={() =>
+                                          handleSetListNoteButton(
+                                            exercise.exercise_id,
+                                            index
+                                          )
+                                        }
                                       >
-                                        <VerticalMenuIcon size={14} />
+                                        <CommentIcon size={20} />
                                       </Button>
-                                    </DropdownTrigger>
-                                    <DropdownMenu
-                                      aria-label={`Option Menu For ${exercise.exercise_name} Set ${index}`}
-                                      itemClasses={{
-                                        base: "hover:text-[#404040] gap-4",
-                                      }}
-                                      onAction={(key) =>
-                                        handleSetOptionSelection(
-                                          key as string,
-                                          set
-                                        )
-                                      }
-                                    >
-                                      <DropdownItem key="edit">
-                                        Edit
-                                      </DropdownItem>
-                                      <DropdownItem key="set-defaults">
-                                        Set Default Values
-                                      </DropdownItem>
-                                      <DropdownItem
-                                        className="text-danger"
-                                        key="remove-set"
+                                    )}
+                                    <Dropdown>
+                                      <DropdownTrigger>
+                                        <Button
+                                          isIconOnly
+                                          size="sm"
+                                          radius="lg"
+                                          variant="light"
+                                        >
+                                          <VerticalMenuIcon size={14} />
+                                        </Button>
+                                      </DropdownTrigger>
+                                      <DropdownMenu
+                                        aria-label={`Option Menu For ${exercise.exercise_name} Set ${index}`}
+                                        itemClasses={{
+                                          base: "hover:text-[#404040] gap-4",
+                                        }}
+                                        onAction={(key) =>
+                                          handleSetOptionSelection(
+                                            key as string,
+                                            set
+                                          )
+                                        }
                                       >
-                                        Remove
-                                      </DropdownItem>
-                                    </DropdownMenu>
-                                  </Dropdown>
+                                        <DropdownItem key="edit">
+                                          Edit
+                                        </DropdownItem>
+                                        <DropdownItem key="set-defaults">
+                                          Set Default Values
+                                        </DropdownItem>
+                                        <DropdownItem
+                                          className="text-danger"
+                                          key="remove-set"
+                                        >
+                                          Remove
+                                        </DropdownItem>
+                                      </DropdownMenu>
+                                    </Dropdown>
+                                  </div>
                                 </div>
+                                {shownSetListNotes[exercise.exercise_id]?.has(
+                                  index
+                                ) && (
+                                  <span className="text-sm font-medium text-stone-400 break-all pb-1">
+                                    {set.note}
+                                  </span>
+                                )}
                               </div>
                             ))}
                           </div>
