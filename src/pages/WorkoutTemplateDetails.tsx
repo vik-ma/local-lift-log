@@ -1481,13 +1481,11 @@ export default function WorkoutTemplateDetails() {
                             </div>
                             {exercise.setList.map((set, index) => (
                               <div
-                                className="flex flex-col px-0.5"
+                                className="flex flex-col px-0.5 text-sm font-medium break-all"
                                 key={`${set.exercise_id}-${index}`}
                               >
-                                <div className="flex justify-between items-center h-8">
-                                  <span className="text-sm font-medium">
-                                    Set {index + 1}
-                                  </span>
+                                <div className="flex  justify-between items-center h-8">
+                                  <span>Set {index + 1}</span>
                                   <div className="flex gap-0.5">
                                     {set.note !== null && (
                                       <Button
@@ -1547,7 +1545,7 @@ export default function WorkoutTemplateDetails() {
                                 {shownSetListNotes[exercise.exercise_id]?.has(
                                   index
                                 ) && (
-                                  <span className="text-sm font-medium text-stone-400 break-all pb-1">
+                                  <span className="text-stone-400 pb-1">
                                     {set.note}
                                   </span>
                                 )}
