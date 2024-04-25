@@ -246,3 +246,7 @@ export type UserMeasurementEntry = {
   measurementList?: UserMeasurement[];
   measurementListString?: string;
 };
+
+export type SetListNotes = {
+  [key: number]: Set<number>;
+};

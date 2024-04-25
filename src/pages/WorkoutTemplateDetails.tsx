@@ -7,6 +7,7 @@ import {
   SetWorkoutSetAction,
   SetTrackingValuesInput,
   GroupedWorkoutSet,
+  SetListNotes,
 } from "../typings";
 import { useState, useMemo, useEffect, useCallback } from "react";
 import {
@@ -84,6 +85,7 @@ export default function WorkoutTemplateDetails() {
   const [operationType, setOperationType] = useState<OperationType>("add");
   const [operatingGroupedSet, setOperatingGroupedSet] =
     useState<GroupedWorkoutSet>();
+  const [shownSetListNotes, setShownSetListNotes] = useState<SetListNotes>({});
 
   const defaultSetTrackingValuesInput: SetTrackingValuesInput =
     DefaultSetInputValues();
@@ -858,6 +860,28 @@ export default function WorkoutTemplateDetails() {
     }
   };
 
+  const handleSetListNoteButton = (exerciseId: number, index: number) => {
+    let updatedSet: Set<number> = new Set<number>();
+    if (Object.prototype.hasOwnProperty.call(shownSetListNotes, exerciseId)) {
+      // If shownSetListNotes HAS key for exerciseId
+      updatedSet = new Set(shownSetListNotes[exerciseId]);
+
+      if (shownSetListNotes[exerciseId].has(index)) {
+        updatedSet.delete(index);
+      } else {
+        updatedSet.add(index);
+      }
+    } else {
+      // If shownSetListNotes HAS NO key for exerciseId
+      updatedSet.add(index);
+    }
+
+    setShownSetListNotes((prev) => ({
+      ...prev,
+      [exerciseId]: updatedSet,
+    }));
+  };
+
   if (workoutTemplate === undefined) return NotFound();
 
   return (
@@ -1470,6 +1494,12 @@ export default function WorkoutTemplateDetails() {
                                       size="sm"
                                       radius="lg"
                                       variant="light"
+                                      onPress={() =>
+                                        handleSetListNoteButton(
+                                          exercise.exercise_id,
+                                          index
+                                        )
+                                      }
                                     >
                                       <CommentIcon size={20} />
                                     </Button>
