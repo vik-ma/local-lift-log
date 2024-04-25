@@ -1,6 +1,9 @@
-import { WorkoutSet } from "../../typings";
+import { GroupedWorkoutSet, WorkoutSet } from "../../typings";
 import Database from "tauri-plugin-sql-api";
-import { OrderSetsBySetListOrderString, InsertSetIntoDatabase } from "..";
+import {
+  CreateGroupedWorkoutSetListByExerciseId,
+  InsertSetIntoDatabase,
+} from "..";
 
 type ExerciseOrderQuery = {
   exercise_order: string;
@@ -9,8 +12,7 @@ type ExerciseOrderQuery = {
 export const CreateSetsFromWorkoutTemplate = async (
   workout_id: number,
   workout_template_id: number
-) => {
-  const setList: WorkoutSet[] = [];
+): Promise<GroupedWorkoutSet[]> => {
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -28,15 +30,13 @@ export const CreateSetsFromWorkoutTemplate = async (
       [workout_template_id]
     );
 
-    if (result.length === 0 || exerciseOrder.length === 0) return setList;
+    if (result.length === 0 || exerciseOrder.length === 0)
+      return [];
 
-    const orderedSetList: WorkoutSet[] = OrderSetsBySetListOrderString(
-      result,
-      exerciseOrder[0].exercise_order
-    );
+    const setList: WorkoutSet[] = [];
 
-    for (let i = 0; i < orderedSetList.length; i++) {
-      const set: WorkoutSet = orderedSetList[i];
+    for (let i = 0; i < result.length; i++) {
+      const set: WorkoutSet = result[i];
       set.is_template = 0;
       set.workout_id = workout_id;
 
@@ -47,8 +47,15 @@ export const CreateSetsFromWorkoutTemplate = async (
       set.id = setId;
       setList.push(set);
     }
+
+    const groupedSetList = CreateGroupedWorkoutSetListByExerciseId(
+      result,
+      exerciseOrder[0].exercise_order
+    );
+
+    return groupedSetList;
   } catch (error) {
     console.log(error);
+    return [];
   }
-  return setList;
 };
