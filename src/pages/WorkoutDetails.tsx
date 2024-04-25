@@ -50,10 +50,14 @@ import {
   Input,
   Accordion,
   AccordionItem,
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
 } from "@nextui-org/react";
 import { Reorder } from "framer-motion";
 import toast, { Toaster } from "react-hot-toast";
-import { SearchIcon } from "../assets";
+import { SearchIcon, CommentIcon, VerticalMenuIcon } from "../assets";
 
 export default function WorkoutDetails() {
   const [workout, setWorkout] = useState<Workout>();
@@ -884,6 +888,189 @@ export default function WorkoutDetails() {
                 </Button>
               </div>
             )}
+            <div className="flex flex-col gap-2">
+              <h2 className="text-xl font-semibold flex items-center justify-between">
+                Set List{" "}
+                {groupedSets.length > 1 && (
+                  <span className="text-xs italic text-stone-500 font-normal">
+                    Drag Exercises To Reorder Set List
+                  </span>
+                )}
+              </h2>
+              <div className="flex flex-col gap-1">
+                <Reorder.Group
+                  className="flex flex-col gap-1"
+                  values={groupedSets}
+                  onReorder={setGroupedSets}
+                >
+                  {groupedSets.map((exercise) => (
+                    <Reorder.Item
+                      key={exercise.exercise_id}
+                      value={exercise}
+                      // TODO: ADD FUNCTION
+                      // onDragEnd={() => updateExerciseOrder()}
+                    >
+                      <Accordion isCompact variant="shadow">
+                        <AccordionItem
+                          classNames={{
+                            titleWrapper: "truncate",
+                            title:
+                              exercise.exercise_name === "Unknown Exercise"
+                                ? "text-red-500 truncate"
+                                : "truncate",
+                          }}
+                          key={exercise.exercise_id}
+                          aria-label={`Accordion ${exercise.exercise_name}`}
+                          title={exercise.exercise_name}
+                          subtitle={`${exercise.setList.length} Sets`}
+                        >
+                          <div className="flex flex-col divide-y divide-stone-200">
+                            <div className="flex justify-between items-center pb-1">
+                              <span className="text-stone-400 break-all max-w-60">
+                                {exercise.exercise_note}
+                              </span>
+                              <Dropdown>
+                                <DropdownTrigger>
+                                  <Button size="sm" variant="flat">
+                                    Exercise Options
+                                  </Button>
+                                </DropdownTrigger>
+                                <DropdownMenu
+                                  aria-label={`Option Menu For ${exercise.exercise_name}`}
+                                  itemClasses={{
+                                    base: "hover:text-[#404040] gap-4",
+                                  }}
+                                  // TODO: ADD FUNCTION
+                                  // onAction={(key) =>
+                                  //   handleExerciseOptionSelection(
+                                  //     key as string,
+                                  //     exercise
+                                  //   )
+                                  // }
+                                >
+                                  <DropdownItem key="add-set-to-exercise">
+                                    Add Set
+                                  </DropdownItem>
+                                  {exercise.exercise_name ===
+                                  "Unknown Exercise" ? (
+                                    <DropdownItem key="reassign-exercise">
+                                      Reassign Exercise
+                                    </DropdownItem>
+                                  ) : (
+                                    <DropdownItem key="change-exercise">
+                                      Change Exercise
+                                    </DropdownItem>
+                                  )}
+                                  <DropdownItem
+                                    className="text-danger"
+                                    key="delete-exercise-sets"
+                                  >
+                                    Remove All Sets
+                                  </DropdownItem>
+                                </DropdownMenu>
+                              </Dropdown>
+                            </div>
+                            {exercise.setList.map((set, index) => (
+                              <div
+                                className="flex flex-col px-0.5 text-sm font-medium break-all"
+                                key={`${set.exercise_id}-${index}`}
+                              >
+                                <div className="flex justify-between items-center h-8">
+                                  <span>Set {index + 1}</span>
+                                  {set.is_tracking_weight === 1 &&
+                                    set.weight > 0 && (
+                                      <span className="truncate max-w-16">
+                                        {set.weight} {set.weight_unit}
+                                      </span>
+                                    )}
+                                  {set.is_tracking_reps === 1 &&
+                                    set.reps > 0 && (
+                                      <span className="truncate max-w-16">
+                                        {set.reps} Rep{set.reps > 1 && "s"}
+                                      </span>
+                                    )}
+                                  {set.is_tracking_distance === 1 &&
+                                    set.distance > 0 && (
+                                      <span className="truncate max-w-16">
+                                        {set.distance} {set.distance_unit}
+                                      </span>
+                                    )}
+                                  <div className="flex w-12 justify-end">
+                                    {set.note !== null && (
+                                      <Button
+                                        isIconOnly
+                                        size="sm"
+                                        radius="lg"
+                                        variant="light"
+                                        // TODO: ADD FUNCTION
+                                        // onPress={() =>
+                                        //   handleSetListNoteButton(
+                                        //     exercise.exercise_id,
+                                        //     index
+                                        //   )
+                                        // }
+                                      >
+                                        <CommentIcon size={20} />
+                                      </Button>
+                                    )}
+                                    <Dropdown>
+                                      <DropdownTrigger>
+                                        <Button
+                                          isIconOnly
+                                          size="sm"
+                                          radius="lg"
+                                          variant="light"
+                                        >
+                                          <VerticalMenuIcon size={14} />
+                                        </Button>
+                                      </DropdownTrigger>
+                                      <DropdownMenu
+                                        aria-label={`Option Menu For ${exercise.exercise_name} Set ${index}`}
+                                        itemClasses={{
+                                          base: "hover:text-[#404040] gap-4",
+                                        }}
+                                        // TODO: ADD FUNCTION
+                                        // onAction={(key) =>
+                                        //   handleSetOptionSelection(
+                                        //     key as string,
+                                        //     set
+                                        //   )
+                                        // }
+                                      >
+                                        <DropdownItem key="edit">
+                                          Edit
+                                        </DropdownItem>
+                                        <DropdownItem key="set-defaults">
+                                          Set Default Values
+                                        </DropdownItem>
+                                        <DropdownItem
+                                          className="text-danger"
+                                          key="remove-set"
+                                        >
+                                          Remove
+                                        </DropdownItem>
+                                      </DropdownMenu>
+                                    </Dropdown>
+                                  </div>
+                                </div>
+                                {/* TODO: ADD USESTATE */}
+                                {/* {shownSetListNotes[exercise.exercise_id]?.has(
+                                  index
+                                ) && (
+                                  <span className="text-stone-400 pb-1">
+                                    {set.note}
+                                  </span>
+                                )} */}
+                              </div>
+                            ))}
+                          </div>
+                        </AccordionItem>
+                      </Accordion>
+                    </Reorder.Item>
+                  ))}
+                </Reorder.Group>
+              </div>
+            </div>
 
             {/* <div className="flex flex-col gap-2">
               <h2 className="text-xl font-semibold flex items-center justify-between">
