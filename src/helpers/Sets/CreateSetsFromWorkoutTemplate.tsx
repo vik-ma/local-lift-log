@@ -1,9 +1,9 @@
 import { WorkoutSet } from "../../typings";
 import Database from "tauri-plugin-sql-api";
-import { OrderSetsBySetListOrderString } from "..";
+import { OrderSetsBySetListOrderString, InsertSetIntoDatabase } from "..";
 
-type SetListOrderQuery = {
-  set_list_order: string;
+type ExerciseOrderQuery = {
+  exercise_order: string;
 };
 
 export const CreateSetsFromWorkoutTemplate = async (
@@ -22,17 +22,17 @@ export const CreateSetsFromWorkoutTemplate = async (
       [workout_template_id]
     );
 
-    const setListOrder = await db.select<SetListOrderQuery[]>(
-      `SELECT set_list_order FROM workout_templates
+    const exerciseOrder = await db.select<ExerciseOrderQuery[]>(
+      `SELECT exercise_order FROM workout_templates
         WHERE id = $1`,
       [workout_template_id]
     );
 
-    if (result.length === 0 || setListOrder.length === 0) return setList;
+    if (result.length === 0 || exerciseOrder.length === 0) return setList;
 
     const orderedSetList: WorkoutSet[] = OrderSetsBySetListOrderString(
       result,
-      setListOrder[0].set_list_order
+      exerciseOrder[0].exercise_order
     );
 
     for (let i = 0; i < orderedSetList.length; i++) {
@@ -40,46 +40,11 @@ export const CreateSetsFromWorkoutTemplate = async (
       set.is_template = 0;
       set.workout_id = workout_id;
 
-      const result = await db.execute(
-        `INSERT into sets
-            (workout_id, exercise_id, is_template, workout_template_id, note, is_completed, is_warmup,
-              weight, reps, rir, rpe, time_in_seconds, distance, resistance_level, is_tracking_weight,
-              is_tracking_reps, is_tracking_rir, is_tracking_rpe, is_tracking_time, is_tracking_distance,
-              is_tracking_resistance_level, weight_unit, distance_unit, is_superset, is_dropset, multiset_values)
-            VALUES
-            ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, 
-              $21, $22, $23, $24, $25, $26)`,
-        [
-          set.workout_id,
-          set.exercise_id,
-          set.is_template,
-          set.workout_template_id,
-          set.note,
-          set.is_completed,
-          set.is_warmup,
-          set.weight,
-          set.reps,
-          set.rir,
-          set.rpe,
-          set.time_in_seconds,
-          set.distance,
-          set.resistance_level,
-          set.is_tracking_weight,
-          set.is_tracking_reps,
-          set.is_tracking_rir,
-          set.is_tracking_rpe,
-          set.is_tracking_time,
-          set.is_tracking_distance,
-          set.is_tracking_resistance_level,
-          set.weight_unit,
-          set.distance_unit,
-          set.is_superset,
-          set.is_dropset,
-          set.multiset_values
-        ]
-      );
+      const setId: number = await InsertSetIntoDatabase(set);
 
-      set.id = result.lastInsertId;
+      if (setId === 0) continue;
+
+      set.id = setId;
       setList.push(set);
     }
   } catch (error) {
