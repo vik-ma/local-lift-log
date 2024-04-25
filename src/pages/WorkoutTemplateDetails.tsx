@@ -1486,6 +1486,26 @@ export default function WorkoutTemplateDetails() {
                               >
                                 <div className="flex  justify-between items-center h-8">
                                   <span>Set {index + 1}</span>
+                                  {set.is_tracking_weight === 1 &&
+                                    set.weight > 0 && (
+                                      <span>
+                                        {set.weight}
+                                        {set.weight_unit}
+                                      </span>
+                                    )}
+                                  {set.is_tracking_reps === 1 &&
+                                    set.reps > 0 && (
+                                      <span>
+                                        {set.reps} Rep{set.reps > 1 && "s"}
+                                      </span>
+                                    )}
+                                  {set.is_tracking_distance === 1 &&
+                                    set.distance > 0 && (
+                                      <span>
+                                        {set.distance}
+                                        {set.distance_unit}
+                                      </span>
+                                    )}
                                   <div className="flex gap-0.5">
                                     {set.note !== null && (
                                       <Button
