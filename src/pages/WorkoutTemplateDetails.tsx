@@ -901,7 +901,7 @@ export default function WorkoutTemplateDetails() {
                 <p className="break-all">
                   {operationType === "delete-exercise-sets"
                     ? `Are you sure you want to remove all ${operatingGroupedSet?.exercise_name} sets from Workout Template?`
-                    : `Are you sure you want to remove ${operatingSet.exercise_name}?`}
+                    : `Are you sure you want to remove ${operatingSet.exercise_name} set?`}
                 </p>
               </ModalBody>
               <ModalFooter>
@@ -909,7 +909,7 @@ export default function WorkoutTemplateDetails() {
                   Close
                 </Button>
                 <Button color="danger" onPress={handleDeleteModalButton}>
-                  Delete
+                  Remove
                 </Button>
               </ModalFooter>
             </>
