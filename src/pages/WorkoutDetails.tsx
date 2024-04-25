@@ -7,6 +7,7 @@ import {
   ExerciseWithGroupString,
   SetTrackingValuesInput,
   SetWorkoutSetAction,
+  GroupedWorkoutSet,
 } from "../typings";
 import {
   LoadingSpinner,
@@ -20,7 +21,6 @@ import { NotFound } from ".";
 import {
   CreateSetsFromWorkoutTemplate,
   GenerateSetListOrderString,
-  OrderSetsBySetListOrderString,
   GetUserSettings,
   DefaultNewSet,
   GetExerciseListWithGroupStrings,
@@ -32,6 +32,8 @@ import {
   FormatDateString,
   FormatTimeInSecondsToHhmmssString,
   ConvertDateStringToTimeString,
+  CreateGroupedWorkoutSetListByExerciseId,
+  GenerateExerciseOrderString,
 } from "../helpers";
 import {
   Button,
@@ -58,6 +60,7 @@ export default function WorkoutDetails() {
   const [workoutDate, setWorkoutDate] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [sets, setSets] = useState<WorkoutSet[]>([]);
+  const [groupedSets, setGroupedSets] = useState<GroupedWorkoutSet[]>([]);
   const [setToDelete, setSetToDelete] = useState<WorkoutSet>();
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [exercises, setExercises] = useState<ExerciseWithGroupString[]>([]);
@@ -157,21 +160,23 @@ export default function WorkoutDetails() {
             [id]
           );
 
-          const orderedSetList: WorkoutSet[] = OrderSetsBySetListOrderString(
-            setList,
-            workout.set_list_order
-          );
-
-          setSets(orderedSetList);
-          setWorkoutNote(workout.note === null ? "" : workout.note);
-
-          if (orderedSetList.length > 0) {
-            const firstIncompleteIndex = orderedSetList.findIndex(
-              (obj) => obj.is_completed === 0
+          const groupedSetList: GroupedWorkoutSet[] =
+            CreateGroupedWorkoutSetListByExerciseId(
+              setList,
+              workout.exercise_order
             );
-            if (firstIncompleteIndex !== -1)
-              setActiveSet(orderedSetList[firstIncompleteIndex]);
-          }
+
+          setWorkoutNote(workout.note === null ? "" : workout.note);
+          setGroupedSets(groupedSetList);
+
+          // TODO: SET FIRST INCOMPLETE FOR GROUPEDSETS
+          // if (orderedSetList.length > 0) {
+          //   const firstIncompleteIndex = orderedSetList.findIndex(
+          //     (obj) => obj.is_completed === 0
+          //   );
+          //   if (firstIncompleteIndex !== -1)
+          //     setActiveSet(orderedSetList[firstIncompleteIndex]);
+          // }
         } else {
           // Stop useEffect running twice in dev
           if (!initialized.current) {
@@ -179,15 +184,16 @@ export default function WorkoutDetails() {
           } else return;
 
           if (workout.workout_template_id !== 0) {
-            const setList = await CreateSetsFromWorkoutTemplate(
+            const groupedSetList = await CreateSetsFromWorkoutTemplate(
               workout.id,
               workout.workout_template_id
             );
 
-            const setListOrder: string = GenerateSetListOrderString(setList);
-            workout.set_list_order = setListOrder;
+            const exerciseOrder: string =
+              GenerateExerciseOrderString(groupedSetList);
+            workout.exercise_order = exerciseOrder;
 
-            setSets(setList);
+            setGroupedSets(groupedSetList);
           }
 
           workout.is_loaded = 1;
