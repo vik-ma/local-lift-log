@@ -504,7 +504,6 @@ export default function WorkoutTemplateDetails() {
       resetSetToDefault();
     }
 
-    setOperationType("add");
     newSetModal.onOpen();
   };
 

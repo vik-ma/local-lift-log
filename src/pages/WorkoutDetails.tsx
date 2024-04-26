@@ -58,18 +58,23 @@ import { Reorder } from "framer-motion";
 import toast, { Toaster } from "react-hot-toast";
 import { SearchIcon, CommentIcon, VerticalMenuIcon } from "../assets";
 
+type OperationType =
+  | "add"
+  | "edit"
+  | "remove-set"
+  | "change-exercise"
+  | "delete-exercise-sets";
+
 export default function WorkoutDetails() {
   const [workout, setWorkout] = useState<Workout>();
   const [workoutDate, setWorkoutDate] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [groupedSets, setGroupedSets] = useState<GroupedWorkoutSet[]>([]);
-  const [setToDelete, setSetToDelete] = useState<WorkoutSet>();
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [exercises, setExercises] = useState<ExerciseWithGroupString[]>([]);
   const [filterQuery, setFilterQuery] = useState<string>("");
   const [selectedExercise, setSelectedExercise] =
     useState<ExerciseWithGroupString>();
-  const [isEditingSet, setIsEditingSet] = useState<boolean>(false);
   const [numNewSets, setNumNewSets] = useState<string>("1");
   const [workoutNote, setWorkoutNote] = useState<string>("");
   const [activeSet, setActiveSet] = useState<WorkoutSet>();
@@ -80,6 +85,9 @@ export default function WorkoutDetails() {
   const [selectedKeys, setSelectedKeys] = useState<Set<string>>(
     new Set(["active-set"])
   );
+  const [operationType, setOperationType] = useState<OperationType>("add");
+  const [operatingGroupedSet, setOperatingGroupedSet] =
+    useState<GroupedWorkoutSet>();
 
   const initialized = useRef(false);
 
@@ -277,13 +285,14 @@ export default function WorkoutDetails() {
   };
 
   const handleDeleteButton = (set: WorkoutSet) => {
-    setSetToDelete(set);
+    // TODO: FIX
     deleteModal.onOpen();
   };
 
   const resetSetToDefault = () => {
-    setIsEditingSet(false);
+    setOperationType("add");
     setSelectedExercise(undefined);
+    setOperatingGroupedSet(undefined);
     setOperatingSet({
       ...defaultNewSet,
       weight_unit: userSettings!.default_unit_weight!,
@@ -291,8 +300,17 @@ export default function WorkoutDetails() {
     });
   };
 
+  const handleSaveSetButton = async () => {
+    if (operationType === "add") {
+      await addSet();
+    }
+    if (operationType === "edit") {
+      await updateSet();
+    }
+  };
+
   const handleAddSetButton = () => {
-    if (isEditingSet) {
+    if (operationType !== "add") {
       resetSetToDefault();
     }
 
@@ -302,7 +320,7 @@ export default function WorkoutDetails() {
   const handleClickExercise = (exercise: ExerciseWithGroupString) => {
     setSelectedExercise(exercise);
 
-    if (isEditingSet) {
+    if (operationType === "edit") {
       setOperatingSet((prev) => ({ ...prev, exercise_id: exercise.id }));
       return;
     }
@@ -460,21 +478,13 @@ export default function WorkoutDetails() {
     // }
   };
 
-  const handleSaveSetButton = async () => {
-    if (isEditingSet) {
-      await updateSet();
-    } else {
-      await addSet();
-    }
-  };
-
-  const handleEditButton = (set: WorkoutSet) => {
+  const handleEditSet = (set: WorkoutSet) => {
     const exercise = exercises.find((item) => item.id === set.exercise_id);
 
     if (exercise === undefined) return;
 
     setOperatingSet(set);
-    setIsEditingSet(true);
+    setOperationType("edit");
     setSelectedExercise(exercise);
 
     newSetModal.onOpen();
@@ -1073,6 +1083,17 @@ export default function WorkoutDetails() {
                   ))}
                 </Reorder.Group>
               </div>
+            </div>
+            <div className="flex gap-1 justify-center">
+              <Button color="success" onPress={handleAddSetButton}>
+                Add Set
+              </Button>
+              {/* <Button color="success" onPress={() => supersetModal.onOpen()}>
+                Add Superset
+              </Button>
+              <Button color="success" onPress={() => dropsetModal.onOpen()}>
+                Add Dropset
+              </Button> */}
             </div>
 
             {/* <div className="flex flex-col gap-2">
