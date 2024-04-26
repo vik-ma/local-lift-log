@@ -605,6 +605,15 @@ export default function WorkoutDetails() {
     setSelectedKeys(new Set(["active-set"]));
   };
 
+  const handleSetOptionSelection = (key: string, set: WorkoutSet) => {
+    if (key === "edit") {
+      handleEditSet(set);
+    }
+    // else if (key === "remove-set") {
+    //   handleRemoveSet(set);
+    // }
+  };
+
   if (workout === undefined) return NotFound();
 
   return (
@@ -658,14 +667,6 @@ export default function WorkoutDetails() {
                         <h2 className="text-2xl font-semibold px-1 truncate w-4/6">
                           {selectedExercise.name}
                         </h2>
-                        <Button
-                          size="sm"
-                          variant="flat"
-                          color="danger"
-                          onPress={() => setSelectedExercise(undefined)}
-                        >
-                          Change Exercise
-                        </Button>
                       </div>
                       <Input
                         value={operatingSet.note ?? ""}
@@ -1039,19 +1040,15 @@ export default function WorkoutDetails() {
                                         itemClasses={{
                                           base: "hover:text-[#404040] gap-4",
                                         }}
-                                        // TODO: ADD FUNCTION
-                                        // onAction={(key) =>
-                                        //   handleSetOptionSelection(
-                                        //     key as string,
-                                        //     set
-                                        //   )
-                                        // }
+                                        onAction={(key) =>
+                                          handleSetOptionSelection(
+                                            key as string,
+                                            set
+                                          )
+                                        }
                                       >
                                         <DropdownItem key="edit">
                                           Edit
-                                        </DropdownItem>
-                                        <DropdownItem key="set-defaults">
-                                          Set Default Values
                                         </DropdownItem>
                                         <DropdownItem
                                           className="text-danger"
