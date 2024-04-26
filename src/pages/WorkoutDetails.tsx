@@ -918,8 +918,7 @@ export default function WorkoutDetails() {
                     <Reorder.Item
                       key={exercise.exercise_id}
                       value={exercise}
-                      // TODO: ADD FUNCTION
-                      // onDragEnd={() => updateExerciseOrder()}
+                      onDragEnd={() => updateExerciseOrder()}
                     >
                       <Accordion isCompact variant="shadow">
                         <AccordionItem
