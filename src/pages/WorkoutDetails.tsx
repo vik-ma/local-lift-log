@@ -20,7 +20,6 @@ import Database from "tauri-plugin-sql-api";
 import { NotFound } from ".";
 import {
   CreateSetsFromWorkoutTemplate,
-  GenerateSetListOrderString,
   GetUserSettings,
   DefaultNewSet,
   GetExerciseListWithGroupStrings,
@@ -239,20 +238,24 @@ export default function WorkoutDetails() {
     getExerciseList();
   }, [id, updateWorkout]);
 
-  // TODO: REPLACE WITH EXERCISEORDER
-  // const updateSetListOrder = async (setList: WorkoutSet[] = sets) => {
-  //   if (workout === undefined) return;
+  const updateExerciseOrder = async (
+    setList: GroupedWorkoutSet[] = groupedSets
+  ) => {
+    if (workout === undefined) return;
 
-  //   const setListOrderString: string = GenerateSetListOrderString(setList);
+    const exerciseOrderString: string = GenerateExerciseOrderString(setList);
 
-  //   const updatedWorkout: Workout = {
-  //     ...workout,
-  //     set_list_order: setListOrderString,
-  //   };
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
 
-  //   await updateWorkout(updatedWorkout);
-  //   setWorkout(updatedWorkout);
-  // };
+      await db.execute(
+        `UPDATE workouts SET exercise_order = $1 WHERE id = $2`,
+        [exerciseOrderString, workout.id]
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const deleteSet = async () => {
     // TODO: FIX
