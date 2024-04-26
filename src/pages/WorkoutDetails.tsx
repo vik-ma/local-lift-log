@@ -628,9 +628,23 @@ export default function WorkoutDetails() {
   const handleSetOptionSelection = (key: string, set: WorkoutSet) => {
     if (key === "edit") {
       handleEditSet(set);
+    } else if (key === "remove-set") {
+      handleRemoveSet(set);
     }
-    // else if (key === "remove-set") {
-    //   handleRemoveSet(set);
+  };
+
+  const handleRemoveSet = (set: WorkoutSet) => {
+    setOperatingSet(set);
+    setOperationType("remove-set");
+
+    deleteModal.onOpen();
+  };
+
+  const handleDeleteModalButton = () => {
+    // if (operationType === "delete-exercise-sets") {
+    //   deleteAllSetsForExerciseId();
+    // } else if (operationType === "remove-set") {
+    //   removeSet();
     // }
   };
 
@@ -639,6 +653,35 @@ export default function WorkoutDetails() {
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
+      <Modal
+        isOpen={deleteModal.isOpen}
+        onOpenChange={deleteModal.onOpenChange}
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">
+                Remove Set{operationType === "delete-exercise-sets" && "s"}
+              </ModalHeader>
+              <ModalBody>
+                <p className="break-all">
+                  {operationType === "delete-exercise-sets"
+                    ? `Are you sure you want to remove all ${operatingGroupedSet?.exercise_name} sets from Workout Template?`
+                    : `Are you sure you want to remove ${operatingSet.exercise_name} set?`}
+                </p>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="danger" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+                <Button color="danger" onPress={handleDeleteModalButton}>
+                  Remove
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
       <Modal
         isOpen={newSetModal.isOpen}
         onOpenChange={newSetModal.onOpenChange}
@@ -855,35 +898,6 @@ export default function WorkoutDetails() {
           )}
         </ModalContent>
       </Modal>
-      {/* TODO: FIX DELETEMODAL */}
-      {/* <Modal
-        isOpen={deleteModal.isOpen}
-        onOpenChange={deleteModal.onOpenChange}
-      >
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex flex-col gap-1">
-                Delete Set
-              </ModalHeader>
-              <ModalBody>
-                <p className="break-all">
-                  Are you sure you want to delete {setToDelete?.exercise_name}{" "}
-                  Set from Workout?
-                </p>
-              </ModalBody>
-              <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Close
-                </Button>
-                <Button color="danger" onPress={deleteSet}>
-                  Delete
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal> */}
       <div className="flex flex-col gap-4">
         {isLoading ? (
           <LoadingSpinner />
