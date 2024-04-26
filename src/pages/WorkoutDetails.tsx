@@ -736,7 +736,7 @@ export default function WorkoutDetails() {
               <ModalBody>
                 <p className="break-all">
                   {operationType === "delete-exercise-sets"
-                    ? `Are you sure you want to delete all ${operatingGroupedSet?.exercise_name} sets from Workout Template?`
+                    ? `Are you sure you want to delete all ${operatingGroupedSet?.exercise_name} sets from Workout?`
                     : `Are you sure you want to delete ${operatingSet.exercise_name} set?`}
                 </p>
               </ModalBody>
