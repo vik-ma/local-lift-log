@@ -335,7 +335,7 @@ export default function WorkoutTemplateDetails() {
   };
 
   const updateSet = async () => {
-    if (selectedExercise === undefined || workoutTemplate === undefined) return;
+    if (selectedExercise === undefined) return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
