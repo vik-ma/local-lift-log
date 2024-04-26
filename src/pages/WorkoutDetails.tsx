@@ -62,7 +62,7 @@ import { SearchIcon, CommentIcon, VerticalMenuIcon } from "../assets";
 type OperationType =
   | "add"
   | "edit"
-  | "remove-set"
+  | "delete-set"
   | "change-exercise"
   | "delete-exercise-sets";
 
@@ -337,27 +337,44 @@ export default function WorkoutDetails() {
   };
 
   const deleteSet = async () => {
-    // TODO: FIX
-    // if (setToDelete === undefined) return;
-    // try {
-    //   const db = await Database.load(import.meta.env.VITE_DB);
-    //   db.execute("DELETE from sets WHERE id = $1", [setToDelete.id]);
-    //   const updatedSetList: WorkoutSet[] = sets.filter(
-    //     (item) => item.id !== setToDelete.id
-    //   );
-    //   setSets(updatedSetList);
-    //   await updateSetListOrder(updatedSetList);
-    //   toast.success("Set Deleted");
-    // } catch (error) {
-    //   console.log(error);
-    // }
-    // setSetToDelete(undefined);
-    // deleteModal.onClose();
-  };
+    if (operatingSet === undefined || operationType !== "delete-set") return;
 
-  const handleDeleteButton = (set: WorkoutSet) => {
-    // TODO: FIX
-    deleteModal.onOpen();
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      db.execute("DELETE from sets WHERE id = $1", [operatingSet.id]);
+
+      const exerciseIndex: number = groupedSets.findIndex(
+        (obj) => obj.exercise_id === operatingSet.exercise_id
+      );
+
+      const updatedSetList: WorkoutSet[] = groupedSets[
+        exerciseIndex
+      ].setList.filter((item) => item.id !== operatingSet.id);
+
+      if (updatedSetList.length === 0) {
+        // Remove Exercise from groupedSets if last Set in Exercise was deleted
+        const updatedGroupedSets: GroupedWorkoutSet[] = groupedSets.filter(
+          (_, index) => index !== exerciseIndex
+        );
+
+        setGroupedSets(updatedGroupedSets);
+        updateExerciseOrder(updatedGroupedSets);
+      } else {
+        setGroupedSets((prev) => {
+          const newList = [...prev];
+          newList[exerciseIndex].setList = updatedSetList;
+          return newList;
+        });
+      }
+
+      resetSetToDefault();
+
+      toast.success("Set Deleted");
+      deleteModal.onClose();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const resetSetToDefault = () => {
@@ -628,24 +645,25 @@ export default function WorkoutDetails() {
   const handleSetOptionSelection = (key: string, set: WorkoutSet) => {
     if (key === "edit") {
       handleEditSet(set);
-    } else if (key === "remove-set") {
-      handleRemoveSet(set);
+    } else if (key === "delete-set") {
+      handleDeleteSet(set);
     }
   };
 
-  const handleRemoveSet = (set: WorkoutSet) => {
+  const handleDeleteSet = (set: WorkoutSet) => {
     setOperatingSet(set);
-    setOperationType("remove-set");
+    setOperationType("delete-set");
 
     deleteModal.onOpen();
   };
 
   const handleDeleteModalButton = () => {
-    // if (operationType === "delete-exercise-sets") {
-    //   deleteAllSetsForExerciseId();
-    // } else if (operationType === "remove-set") {
-    //   removeSet();
-    // }
+    if (operationType === "delete-exercise-sets") {
+      // TODO: FIX
+      // deleteAllSetsForExerciseId();
+    } else if (operationType === "delete-set") {
+      deleteSet();
+    }
   };
 
   if (workout === undefined) return NotFound();
@@ -661,13 +679,13 @@ export default function WorkoutDetails() {
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                Remove Set{operationType === "delete-exercise-sets" && "s"}
+                Delete Set{operationType === "delete-exercise-sets" && "s"}
               </ModalHeader>
               <ModalBody>
                 <p className="break-all">
                   {operationType === "delete-exercise-sets"
-                    ? `Are you sure you want to remove all ${operatingGroupedSet?.exercise_name} sets from Workout Template?`
-                    : `Are you sure you want to remove ${operatingSet.exercise_name} set?`}
+                    ? `Are you sure you want to delete all ${operatingGroupedSet?.exercise_name} sets from Workout Template?`
+                    : `Are you sure you want to delete ${operatingSet.exercise_name} set?`}
                 </p>
               </ModalBody>
               <ModalFooter>
@@ -675,7 +693,7 @@ export default function WorkoutDetails() {
                   Close
                 </Button>
                 <Button color="danger" onPress={handleDeleteModalButton}>
-                  Remove
+                  Delete
                 </Button>
               </ModalFooter>
             </>
@@ -1010,7 +1028,7 @@ export default function WorkoutDetails() {
                                     className="text-danger"
                                     key="delete-exercise-sets"
                                   >
-                                    Remove All Sets
+                                    Delete All Sets
                                   </DropdownItem>
                                 </DropdownMenu>
                               </Dropdown>
@@ -1086,9 +1104,9 @@ export default function WorkoutDetails() {
                                         </DropdownItem>
                                         <DropdownItem
                                           className="text-danger"
-                                          key="remove-set"
+                                          key="delete-set"
                                         >
-                                          Remove
+                                          Delete
                                         </DropdownItem>
                                       </DropdownMenu>
                                     </Dropdown>
