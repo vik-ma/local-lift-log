@@ -336,6 +336,66 @@ export default function WorkoutDetails() {
     }
   };
 
+  const handleAddSetToExercise = async (
+    groupedWorkoutSet: GroupedWorkoutSet
+  ) => {
+    const exercise = exercises.find(
+      (obj) => obj.id === groupedWorkoutSet.exercise_id
+    );
+
+    if (exercise === undefined || workout === undefined) return;
+
+    let newSet: WorkoutSet = {
+      ...defaultNewSet,
+      exercise_id: exercise.id,
+      workout_id: workout.id,
+      weight_unit: userSettings!.default_unit_weight!,
+      distance_unit: userSettings!.default_unit_distance!,
+      exercise_name: exercise.name,
+    };
+
+    if (exercise.exercise_group_string === "Cardio") {
+      newSet = {
+        ...newSet,
+        is_tracking_weight: 0,
+        is_tracking_reps: 0,
+        is_tracking_distance: 1,
+        is_tracking_time: 1,
+      };
+    } else {
+      newSet = {
+        ...newSet,
+        is_tracking_weight: 1,
+        is_tracking_reps: 1,
+        is_tracking_distance: 0,
+        is_tracking_time: 0,
+      };
+    }
+
+    const setId: number = await InsertSetIntoDatabase(newSet);
+    console.log(setId);
+    if (setId === 0) return;
+
+    newSet = { ...newSet, id: setId };
+    const newSets: WorkoutSet[] = [newSet];
+
+    const exerciseIndex: number = groupedSets.findIndex(
+      (obj) => obj.exercise_id === exercise.id
+    );
+
+    setGroupedSets((prev) => {
+      const newList = [...prev];
+      newList[exerciseIndex].setList = [
+        ...newList[exerciseIndex].setList,
+        ...newSets,
+      ];
+      return newList;
+    });
+
+    resetSetToDefault();
+    toast.success("Set Added");
+  };
+
   const deleteSet = async () => {
     if (operatingSet === undefined || operationType !== "delete-set") return;
 
@@ -712,10 +772,9 @@ export default function WorkoutDetails() {
   ) => {
     if (key === "delete-exercise-sets") {
       handleDeleteExerciseSets(groupedWorkoutSet);
-    } 
-    // else if (key === "add-set-to-exercise") {
-    //   handleAddSetToExercise(groupedWorkoutSet);
-    // }
+    } else if (key === "add-set-to-exercise") {
+      handleAddSetToExercise(groupedWorkoutSet);
+    }
   };
 
   if (workout === undefined) return NotFound();
