@@ -377,6 +377,40 @@ export default function WorkoutDetails() {
     }
   };
 
+  const deleteAllSetsForExerciseId = async () => {
+    if (
+      workout === undefined ||
+      operatingGroupedSet === undefined ||
+      operationType !== "delete-exercise-sets"
+    )
+      return;
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      db.execute(
+        `DELETE from sets 
+         WHERE exercise_id = $1 AND workout_id = $2`,
+        [operatingGroupedSet.exercise_id, workout.id]
+      );
+
+      const updatedSetList: GroupedWorkoutSet[] = groupedSets.filter(
+        (item) => item.exercise_id !== operatingGroupedSet.exercise_id
+      );
+
+      setGroupedSets(updatedSetList);
+
+      updateExerciseOrder(updatedSetList);
+
+      resetSetToDefault();
+
+      deleteModal.onClose();
+      toast.success("Sets Deleted");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const resetSetToDefault = () => {
     setOperationType("add");
     setSelectedExercise(undefined);
@@ -657,13 +691,31 @@ export default function WorkoutDetails() {
     deleteModal.onOpen();
   };
 
+  const handleDeleteExerciseSets = (groupedWorkoutSet: GroupedWorkoutSet) => {
+    setOperationType("delete-exercise-sets");
+    setOperatingGroupedSet(groupedWorkoutSet);
+
+    deleteModal.onOpen();
+  };
+
   const handleDeleteModalButton = () => {
     if (operationType === "delete-exercise-sets") {
-      // TODO: FIX
-      // deleteAllSetsForExerciseId();
+      deleteAllSetsForExerciseId();
     } else if (operationType === "delete-set") {
       deleteSet();
     }
+  };
+
+  const handleExerciseOptionSelection = (
+    key: string,
+    groupedWorkoutSet: GroupedWorkoutSet
+  ) => {
+    if (key === "delete-exercise-sets") {
+      handleDeleteExerciseSets(groupedWorkoutSet);
+    } 
+    // else if (key === "add-set-to-exercise") {
+    //   handleAddSetToExercise(groupedWorkoutSet);
+    // }
   };
 
   if (workout === undefined) return NotFound();
@@ -1003,13 +1055,12 @@ export default function WorkoutDetails() {
                                   itemClasses={{
                                     base: "hover:text-[#404040] gap-4",
                                   }}
-                                  // TODO: ADD FUNCTION
-                                  // onAction={(key) =>
-                                  //   handleExerciseOptionSelection(
-                                  //     key as string,
-                                  //     exercise
-                                  //   )
-                                  // }
+                                  onAction={(key) =>
+                                    handleExerciseOptionSelection(
+                                      key as string,
+                                      exercise
+                                    )
+                                  }
                                 >
                                   <DropdownItem key="add-set-to-exercise">
                                     Add Set
@@ -1065,7 +1116,7 @@ export default function WorkoutDetails() {
                                         size="sm"
                                         radius="lg"
                                         variant="light"
-                                        // TODO: ADD FUNCTION
+                                        // TODO: FIX
                                         // onPress={() =>
                                         //   handleSetListNoteButton(
                                         //     exercise.exercise_id,
