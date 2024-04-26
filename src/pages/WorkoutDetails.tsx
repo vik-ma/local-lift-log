@@ -502,6 +502,11 @@ export default function WorkoutDetails() {
   const handleClickExercise = (exercise: ExerciseWithGroupString) => {
     setSelectedExercise(exercise);
 
+    if (operationType === "change-exercise") {
+      changeExercise(exercise);
+      return;
+    }
+
     if (operationType === "edit") {
       setOperatingSet((prev) => ({ ...prev, exercise_id: exercise.id }));
       return;
@@ -524,6 +529,64 @@ export default function WorkoutDetails() {
         is_tracking_time: 0,
       }));
     }
+  };
+
+  const changeExercise = async (newExercise: ExerciseWithGroupString) => {
+    if (operatingGroupedSet === undefined || workout === undefined) return;
+
+    const oldExerciseIndex: number = groupedSets.findIndex(
+      (obj) => obj.exercise_id === operatingGroupedSet.exercise_id
+    );
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+      await db.execute(
+        `UPDATE sets SET exercise_id = $1 
+          WHERE exercise_id = $2 AND workout_id = $3`,
+        [newExercise.id, operatingGroupedSet.exercise_id, workout.id]
+      );
+    } catch (error) {
+      console.log(error);
+      return;
+    }
+
+    const newGroupedWorkoutSet: GroupedWorkoutSet = {
+      ...operatingGroupedSet,
+      exercise_name: newExercise.name,
+      exercise_id: newExercise.id,
+      exercise_note: newExercise.note,
+    };
+
+    const newExerciseIndex: number = groupedSets.findIndex(
+      (obj) => obj.exercise_id === newExercise.id
+    );
+
+    if (newExerciseIndex === -1) {
+      // Create new GroupedWorkoutSet if exercise_id does not exist in groupedSets
+      const newGroupedSets = [...groupedSets];
+      newGroupedSets[oldExerciseIndex] = newGroupedWorkoutSet;
+
+      setGroupedSets(newGroupedSets);
+      updateExerciseOrder(newGroupedSets);
+    } else {
+      // Add old Sets to groupedSets' existing Exercise's Set List
+      const newGroupedSets = [...groupedSets];
+
+      newGroupedSets[newExerciseIndex].setList = [
+        ...newGroupedSets[newExerciseIndex].setList,
+        ...newGroupedWorkoutSet.setList,
+      ];
+
+      newGroupedSets.splice(oldExerciseIndex, 1);
+
+      setGroupedSets(newGroupedSets);
+      updateExerciseOrder(newGroupedSets);
+    }
+
+    resetSetToDefault();
+
+    newSetModal.onClose();
+    toast.success("Exercise Changed");
   };
 
   const updateSet = async () => {
@@ -766,6 +829,14 @@ export default function WorkoutDetails() {
     }
   };
 
+  const handleChangeExercise = (groupedWorkoutSet: GroupedWorkoutSet) => {
+    setSelectedExercise(undefined);
+    setOperationType("change-exercise");
+    setOperatingGroupedSet(groupedWorkoutSet);
+
+    newSetModal.onOpen();
+  };
+
   const handleExerciseOptionSelection = (
     key: string,
     groupedWorkoutSet: GroupedWorkoutSet
@@ -774,6 +845,8 @@ export default function WorkoutDetails() {
       handleDeleteExerciseSets(groupedWorkoutSet);
     } else if (key === "add-set-to-exercise") {
       handleAddSetToExercise(groupedWorkoutSet);
+    } else if (key === "change-exercise") {
+      handleChangeExercise(groupedWorkoutSet);
     }
   };
 
