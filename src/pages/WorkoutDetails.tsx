@@ -33,6 +33,7 @@ import {
   ConvertDateStringToTimeString,
   CreateGroupedWorkoutSetListByExerciseId,
   GenerateExerciseOrderString,
+  InsertSetIntoDatabase,
 } from "../helpers";
 import {
   Button,
@@ -265,6 +266,76 @@ export default function WorkoutDetails() {
     }
   };
 
+  const addSet = async () => {
+    if (selectedExercise === undefined || workout === undefined) return;
+
+    if (!numSetsOptions.includes(numNewSets)) return;
+
+    try {
+      const noteToInsert: string | null =
+        operatingSet.note?.trim().length === 0 ? null : operatingSet.note;
+
+      const newSets: WorkoutSet[] = [];
+
+      const numSetsToAdd: number = parseInt(numNewSets);
+
+      for (let i = 0; i < numSetsToAdd; i++) {
+        const newSet: WorkoutSet = {
+          ...operatingSet,
+          exercise_id: selectedExercise.id,
+          workout_id: workout.id,
+          note: noteToInsert,
+          exercise_name: selectedExercise.name,
+        };
+
+        const setId: number = await InsertSetIntoDatabase(newSet);
+
+        if (setId === 0) return;
+
+        newSets.push({ ...newSet, id: setId });
+      }
+
+      const exerciseIndex: number = groupedSets.findIndex(
+        (obj) => obj.exercise_id === selectedExercise.id
+      );
+
+      if (exerciseIndex === -1) {
+        // Create new GroupedWorkoutSet if exercise_id does not exist in groupedSets
+        const newGroupedWorkoutSet: GroupedWorkoutSet = {
+          exercise_name: selectedExercise.name,
+          exercise_id: selectedExercise.id,
+          setList: newSets,
+          exercise_note: selectedExercise.note,
+        };
+
+        const newGroupedSets: GroupedWorkoutSet[] = [
+          ...groupedSets,
+          newGroupedWorkoutSet,
+        ];
+
+        setGroupedSets(newGroupedSets);
+        await updateExerciseOrder(newGroupedSets);
+      } else {
+        // Add new Sets to groupedSets' existing Exercise's Set List
+        setGroupedSets((prev) => {
+          const newList = [...prev];
+          newList[exerciseIndex].setList = [
+            ...newList[exerciseIndex].setList,
+            ...newSets,
+          ];
+          return newList;
+        });
+      }
+
+      resetSetToDefault();
+
+      newSetModal.onClose();
+      toast.success("Set Added");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const deleteSet = async () => {
     // TODO: FIX
     // if (setToDelete === undefined) return;
@@ -342,80 +413,6 @@ export default function WorkoutDetails() {
         is_tracking_time: 0,
       }));
     }
-  };
-
-  const addSet = async () => {
-    // TODO: FIX
-    // if (selectedExercise === undefined || workout === undefined) return;
-    // if (!numSetsOptions.includes(numNewSets)) return;
-    // try {
-    //   const db = await Database.load(import.meta.env.VITE_DB);
-    //   const noteToInsert: string | null =
-    //     operatingSet.note?.trim().length === 0 ? null : operatingSet.note;
-    //   const newSets: WorkoutSet[] = [];
-    //   const numSetsToAdd: number = parseInt(numNewSets);
-    //   for (let i = 0; i < numSetsToAdd; i++) {
-    //     const result = await db.execute(
-    //       `INSERT into sets
-    //       (workout_id, exercise_id, is_template, workout_template_id, note, is_completed, is_warmup,
-    //         weight, reps, rir, rpe, time_in_seconds, distance, resistance_level, is_tracking_weight,
-    //         is_tracking_reps, is_tracking_rir, is_tracking_rpe, is_tracking_time, is_tracking_distance,
-    //         is_tracking_resistance_level, weight_unit, distance_unit, is_superset, is_dropset)
-    //       VALUES
-    //       ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20,
-    //         $21, $22, $23, $24, $25)`,
-    //       [
-    //         workout.id,
-    //         selectedExercise.id,
-    //         operatingSet.is_template,
-    //         workout.workout_template_id,
-    //         noteToInsert,
-    //         operatingSet.is_completed,
-    //         operatingSet.is_warmup,
-    //         operatingSet.weight,
-    //         operatingSet.reps,
-    //         operatingSet.rir,
-    //         operatingSet.rpe,
-    //         operatingSet.time_in_seconds,
-    //         operatingSet.distance,
-    //         operatingSet.resistance_level,
-    //         operatingSet.is_tracking_weight,
-    //         operatingSet.is_tracking_reps,
-    //         operatingSet.is_tracking_rir,
-    //         operatingSet.is_tracking_rpe,
-    //         operatingSet.is_tracking_time,
-    //         operatingSet.is_tracking_distance,
-    //         operatingSet.is_tracking_resistance_level,
-    //         operatingSet.weight_unit,
-    //         operatingSet.distance_unit,
-    //         0,
-    //         0,
-    //       ]
-    //     );
-    //     const newSet: WorkoutSet = {
-    //       ...operatingSet,
-    //       id: result.lastInsertId,
-    //       exercise_id: selectedExercise.id,
-    //       workout_id: workout.id,
-    //       note: noteToInsert,
-    //       exercise_name: selectedExercise.name,
-    //     };
-    //     newSets.push(newSet);
-    //   }
-    //   const updatedSetList = [...sets, ...newSets];
-    //   setSets(updatedSetList);
-    //   await updateSetListOrder(updatedSetList);
-    //   setOperatingSet({
-    //     ...defaultNewSet,
-    //     weight_unit: userSettings!.default_unit_weight!,
-    //     distance_unit: userSettings!.default_unit_distance!,
-    //   });
-    //   resetSetToDefault();
-    //   newSetModal.onClose();
-    //   toast.success("Set Added");
-    // } catch (error) {
-    //   console.log(error);
-    // }
   };
 
   const updateSet = async () => {
@@ -800,7 +797,7 @@ export default function WorkoutDetails() {
                           <span className="text-primary">Warmup Set</span>
                         </Checkbox>
                       </div>
-                      {!isEditingSet && (
+                      {operationType === "add" && (
                         <div className="flex flex-row justify-between">
                           <Select
                             label="Number Of Sets To Add"
@@ -830,14 +827,15 @@ export default function WorkoutDetails() {
                   isDisabled={selectedExercise === undefined}
                   onPress={handleSaveSetButton}
                 >
-                  {isEditingSet ? "Save" : "Add"}
+                  {operationType === "edit" ? "Save" : "Add"}
                 </Button>
               </ModalFooter>
             </>
           )}
         </ModalContent>
       </Modal>
-      <Modal
+      {/* TODO: FIX DELETEMODAL */}
+      {/* <Modal
         isOpen={deleteModal.isOpen}
         onOpenChange={deleteModal.onOpenChange}
       >
@@ -864,7 +862,7 @@ export default function WorkoutDetails() {
             </>
           )}
         </ModalContent>
-      </Modal>
+      </Modal> */}
       <div className="flex flex-col gap-4">
         {isLoading ? (
           <LoadingSpinner />
