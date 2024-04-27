@@ -42,7 +42,6 @@ pub struct Exercise {
 pub struct WorkoutTemplate {
     pub id: i32,
     pub name: String,
-    pub set_list_order: String,
     pub exercise_order: String,
     pub note: Option<String>,
 }
@@ -99,7 +98,6 @@ pub struct Workout {
     pub id: i32,
     pub workout_template_id: i32,
     pub date: String,
-    pub set_list_order: String,
     pub exercise_order: String,
     pub note: Option<String>,
     pub is_loaded: i16,

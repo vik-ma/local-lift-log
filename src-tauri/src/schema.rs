@@ -37,7 +37,6 @@ diesel::table! {
     workout_templates (id) {
         id -> Integer,
         name -> Text,
-        set_list_order -> Text,
         exercise_order -> Text,
         note -> Nullable<Text>,
     }
@@ -91,7 +90,6 @@ diesel::table! {
         id -> Integer,
         workout_template_id -> Integer,
         date -> Text,
-        set_list_order -> Text,
         exercise_order -> Text,
         note -> Nullable<Text>,
         is_loaded -> SmallInt,
