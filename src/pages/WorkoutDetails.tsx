@@ -1217,8 +1217,9 @@ export default function WorkoutDetails() {
                             </div>
                             {exercise.setList.map((set, index) => (
                               <div
-                                className="flex flex-col px-0.5 text-sm font-medium break-words"
+                                className="flex flex-col px-0.5 text-sm font-medium break-words cursor-pointer"
                                 key={`${set.exercise_id}-${index}`}
+                                onClick={() => handleClickActiveSet(set)}
                               >
                                 <div className="flex justify-between items-center h-8">
                                   <span>Set {index + 1}</span>
