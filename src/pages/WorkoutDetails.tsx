@@ -793,8 +793,8 @@ export default function WorkoutDetails() {
     // }
   };
 
-  const handleClickActiveSet = (set: WorkoutSet) => {
-    setActiveSet(set);
+  const handleClickActiveSet = (set: WorkoutSet, index: number) => {
+    setActiveSet({ ...set, set_index: index + 1 });
     setSelectedKeys(new Set(["active-set"]));
   };
 
@@ -1219,7 +1219,7 @@ export default function WorkoutDetails() {
                               <div
                                 className="flex flex-col px-0.5 text-sm font-medium break-words cursor-pointer"
                                 key={`${set.exercise_id}-${index}`}
-                                onClick={() => handleClickActiveSet(set)}
+                                onClick={() => handleClickActiveSet(set, index)}
                               >
                                 <div className="flex justify-between items-center h-8">
                                   <span>Set {index + 1}</span>
@@ -1488,8 +1488,8 @@ export default function WorkoutDetails() {
                   aria-label="Active Set"
                   title={
                     activeSet.is_warmup
-                      ? `${activeSet.exercise_name} (Warmup)`
-                      : `${activeSet.exercise_name}`
+                      ? `${activeSet.exercise_name} - Set ${activeSet.set_index} (Warmup)`
+                      : `${activeSet.exercise_name} - Set ${activeSet.set_index}`
                   }
                 >
                   <div className="flex flex-col gap-4">
