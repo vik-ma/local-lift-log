@@ -1294,7 +1294,7 @@ export default function WorkoutDetails() {
                                     </Dropdown>
                                   </div>
                                 </div>
-                                {/* TODO: ADD USESTATE */}
+                                {/* TODO: ADD USESTATE/REPLACE WITH COMMENT */}
                                 {/* {shownSetListNotes[exercise.exercise_id]?.has(
                                   index
                                 ) && (
@@ -1316,6 +1316,7 @@ export default function WorkoutDetails() {
               <Button color="success" onPress={handleAddSetButton}>
                 Add Set
               </Button>
+              {/* TODO: ADD */}
               {/* <Button color="success" onPress={() => supersetModal.onOpen()}>
                 Add Superset
               </Button>
@@ -1468,235 +1469,234 @@ export default function WorkoutDetails() {
                   Add Set
                 </Button>
               </div> */}
-            {/* {activeSet !== undefined && (
-                <Accordion
-                  variant="splitted"
-                  className="fixed bottom-0 w-[400px]"
-                  selectedKeys={selectedKeys}
-                  onSelectionChange={(keys) =>
-                    setSelectedKeys(keys as Set<string>)
+            {activeSet !== undefined && (
+              <Accordion
+                variant="splitted"
+                className="fixed bottom-0 w-[400px]"
+                selectedKeys={selectedKeys}
+                onSelectionChange={(keys) =>
+                  setSelectedKeys(keys as Set<string>)
+                }
+              >
+                <AccordionItem
+                  classNames={{
+                    title: "text-2xl font-semibold text-yellow-500 break-words",
+                  }}
+                  className="border-2 border-yellow-300"
+                  key="active-set"
+                  aria-label="Active Set"
+                  title={
+                    activeSet.is_warmup
+                      ? `${activeSet.exercise_name} (Warmup)`
+                      : `${activeSet.exercise_name}`
                   }
                 >
-                  <AccordionItem
-                    classNames={{
-                      title: "text-2xl font-semibold text-yellow-500 break-words",
-                    }}
-                    className="border-2 border-yellow-300"
-                    key="active-set"
-                    aria-label="Active Set"
-                    title={
-                      activeSet.is_warmup
-                        ? `${activeSet.exercise_name} (Warmup)`
-                        : `${activeSet.exercise_name}`
-                    }
-                  >
-                    <div className="flex flex-col gap-4">
-                      {activeSet.note !== null && (
-                        <div className="text-stone-500 text-lg">
-                          <span className="font-semibold text-stone-600">
-                            Note:
-                          </span>{" "}
-                          {activeSet.note}
+                  <div className="flex flex-col gap-4">
+                    {activeSet.note !== null && (
+                      <div className="text-stone-500 text-lg">
+                        <span className="font-semibold text-stone-600">
+                          Note:
+                        </span>{" "}
+                        {activeSet.note}
+                      </div>
+                    )}
+                    {userSettings?.show_timestamp_on_completed_set === 1 &&
+                      activeSet.time_completed !== null && (
+                        <div className="text-lg text-success">
+                          Completed at{" "}
+                          <span className="font-semibold">
+                            {ConvertDateStringToTimeString(
+                              activeSet.time_completed
+                            )}
+                          </span>
                         </div>
                       )}
-                      {userSettings?.show_timestamp_on_completed_set === 1 &&
-                        activeSet.time_completed !== null && (
-                          <div className="text-lg text-success">
-                            Completed at{" "}
-                            <span className="font-semibold">
-                              {ConvertDateStringToTimeString(
-                                activeSet.time_completed
-                              )}
-                            </span>
-                          </div>
-                        )}
-                      <div className="flex flex-wrap gap-1.5 justify-evenly">
-                        {!!activeSet.is_tracking_weight && (
-                          <div className="flex justify-between gap-2 w-56">
-                            <Input
-                              value={setTrackingValuesInput.weight}
-                              label="Weight"
-                              variant="faded"
-                              labelPlacement="outside-left"
-                              onValueChange={(value) =>
-                                setSetTrackingValuesInput(
-                                  (prev: SetTrackingValuesInput) => ({
-                                    ...prev,
-                                    weight: value,
-                                  })
-                                )
-                              }
-                              isInvalid={isWeightInputInvalid}
-                              isClearable
-                            />
-                            <WeightUnitDropdown
-                              value={activeSet.weight_unit}
-                              setSet={setActiveSet as SetWorkoutSetAction}
-                              targetType="set"
-                            />
-                          </div>
-                        )}
-                        {!!activeSet.is_tracking_reps && (
+                    <div className="flex flex-wrap gap-1.5 justify-evenly">
+                      {!!activeSet.is_tracking_weight && (
+                        <div className="flex justify-between gap-2 w-56">
                           <Input
-                            className="w-28"
-                            value={setTrackingValuesInput.reps}
-                            label="Reps"
+                            value={setTrackingValuesInput.weight}
+                            label="Weight"
                             variant="faded"
                             labelPlacement="outside-left"
                             onValueChange={(value) =>
                               setSetTrackingValuesInput(
                                 (prev: SetTrackingValuesInput) => ({
                                   ...prev,
-                                  reps: value,
+                                  weight: value,
                                 })
                               )
                             }
-                            isInvalid={isRepsInputInvalid}
+                            isInvalid={isWeightInputInvalid}
                             isClearable
                           />
-                        )}
-                        {!!activeSet.is_tracking_distance && (
-                          <div className="flex justify-between gap-2 w-64">
-                            <Input
-                              value={setTrackingValuesInput.distance}
-                              label="Distance"
-                              variant="faded"
-                              labelPlacement="outside-left"
-                              onValueChange={(value) =>
-                                setSetTrackingValuesInput(
-                                  (prev: SetTrackingValuesInput) => ({
-                                    ...prev,
-                                    distance: value,
-                                  })
-                                )
-                              }
-                              isInvalid={isDistanceInputInvalid}
-                              isClearable
-                            />
-                            <DistanceUnitDropdown
-                              value={activeSet.distance_unit}
-                              setSet={setActiveSet as SetWorkoutSetAction}
-                              targetType="set"
-                            />
-                          </div>
-                        )}
-                        {!!activeSet.is_tracking_time && (
-                          <TimeInput
-                            value={activeSet}
-                            setValue={setActiveSet as SetWorkoutSetAction}
-                            defaultTimeInput={userSettings!.default_time_input!}
-                            setIsInvalid={setIsTimeInputInvalid}
+                          <WeightUnitDropdown
+                            value={activeSet.weight_unit}
+                            setSet={setActiveSet as SetWorkoutSetAction}
+                            targetType="set"
                           />
-                        )}
-                        {!!activeSet.is_tracking_rir && (
-                          <Input
-                            className="w-[6.5rem]"
-                            value={setTrackingValuesInput.rir}
-                            label="RIR"
-                            variant="faded"
-                            labelPlacement="outside-left"
-                            onValueChange={(value) =>
-                              setSetTrackingValuesInput(
-                                (prev: SetTrackingValuesInput) => ({
-                                  ...prev,
-                                  rir: value,
-                                })
-                              )
-                            }
-                            isInvalid={isRirInputInvalid}
-                            isClearable
-                          />
-                        )}
-                        {!!activeSet.is_tracking_rpe && (
-                          <Input
-                            className="w-[6.5rem]"
-                            value={setTrackingValuesInput.rpe}
-                            label="RPE"
-                            variant="faded"
-                            labelPlacement="outside-left"
-                            onValueChange={(value) =>
-                              setSetTrackingValuesInput(
-                                (prev: SetTrackingValuesInput) => ({
-                                  ...prev,
-                                  rpe: value,
-                                })
-                              )
-                            }
-                            isInvalid={isRpeInputInvalid}
-                            isClearable
-                          />
-                        )}
-                        {!!activeSet.is_tracking_resistance_level && (
-                          <Input
-                            className="w-auto"
-                            classNames={{
-                              label: "whitespace-nowrap",
-                              input: "w-16",
-                            }}
-                            value={setTrackingValuesInput.resistance_level}
-                            label="Resistance Level"
-                            variant="faded"
-                            labelPlacement="outside-left"
-                            onValueChange={(value) =>
-                              setSetTrackingValuesInput(
-                                (prev: SetTrackingValuesInput) => ({
-                                  ...prev,
-                                  resistance_level: value,
-                                })
-                              )
-                            }
-                            isInvalid={isResistanceLevelInputInvalid}
-                            isClearable
-                          />
-                        )}
-                        {showCommentInput && (
-                          <Input
-                            value={activeSet.comment ?? ""}
-                            label="Comment"
-                            size="sm"
-                            variant="faded"
-                            onValueChange={(value) =>
-                              setActiveSet((prev) => ({
-                                ...prev!,
-                                comment: value,
-                              }))
-                            }
-                            isInvalid={isResistanceLevelInputInvalid}
-                            isClearable
-                          />
-                        )}
-                      </div>
-                      <div className="flex justify-between">
-                        <div className="flex gap-1">
-                          <Button
-                            color="success"
-                            variant="flat"
-                            onPress={() =>
-                              setShowCommentInput(!showCommentInput)
-                            }
-                          >
-                            Comment
-                          </Button>
-                          <Button
-                            color="success"
-                            variant="flat"
-                            onPress={() => handleEditButton(activeSet)}
-                          >
-                            Edit
-                          </Button>
                         </div>
+                      )}
+                      {!!activeSet.is_tracking_reps && (
+                        <Input
+                          className="w-28"
+                          value={setTrackingValuesInput.reps}
+                          label="Reps"
+                          variant="faded"
+                          labelPlacement="outside-left"
+                          onValueChange={(value) =>
+                            setSetTrackingValuesInput(
+                              (prev: SetTrackingValuesInput) => ({
+                                ...prev,
+                                reps: value,
+                              })
+                            )
+                          }
+                          isInvalid={isRepsInputInvalid}
+                          isClearable
+                        />
+                      )}
+                      {!!activeSet.is_tracking_distance && (
+                        <div className="flex justify-between gap-2 w-64">
+                          <Input
+                            value={setTrackingValuesInput.distance}
+                            label="Distance"
+                            variant="faded"
+                            labelPlacement="outside-left"
+                            onValueChange={(value) =>
+                              setSetTrackingValuesInput(
+                                (prev: SetTrackingValuesInput) => ({
+                                  ...prev,
+                                  distance: value,
+                                })
+                              )
+                            }
+                            isInvalid={isDistanceInputInvalid}
+                            isClearable
+                          />
+                          <DistanceUnitDropdown
+                            value={activeSet.distance_unit}
+                            setSet={setActiveSet as SetWorkoutSetAction}
+                            targetType="set"
+                          />
+                        </div>
+                      )}
+                      {!!activeSet.is_tracking_time && (
+                        <TimeInput
+                          value={activeSet}
+                          setValue={setActiveSet as SetWorkoutSetAction}
+                          defaultTimeInput={userSettings!.default_time_input!}
+                          setIsInvalid={setIsTimeInputInvalid}
+                        />
+                      )}
+                      {!!activeSet.is_tracking_rir && (
+                        <Input
+                          className="w-[6.5rem]"
+                          value={setTrackingValuesInput.rir}
+                          label="RIR"
+                          variant="faded"
+                          labelPlacement="outside-left"
+                          onValueChange={(value) =>
+                            setSetTrackingValuesInput(
+                              (prev: SetTrackingValuesInput) => ({
+                                ...prev,
+                                rir: value,
+                              })
+                            )
+                          }
+                          isInvalid={isRirInputInvalid}
+                          isClearable
+                        />
+                      )}
+                      {!!activeSet.is_tracking_rpe && (
+                        <Input
+                          className="w-[6.5rem]"
+                          value={setTrackingValuesInput.rpe}
+                          label="RPE"
+                          variant="faded"
+                          labelPlacement="outside-left"
+                          onValueChange={(value) =>
+                            setSetTrackingValuesInput(
+                              (prev: SetTrackingValuesInput) => ({
+                                ...prev,
+                                rpe: value,
+                              })
+                            )
+                          }
+                          isInvalid={isRpeInputInvalid}
+                          isClearable
+                        />
+                      )}
+                      {!!activeSet.is_tracking_resistance_level && (
+                        <Input
+                          className="w-auto"
+                          classNames={{
+                            label: "whitespace-nowrap",
+                            input: "w-16",
+                          }}
+                          value={setTrackingValuesInput.resistance_level}
+                          label="Resistance Level"
+                          variant="faded"
+                          labelPlacement="outside-left"
+                          onValueChange={(value) =>
+                            setSetTrackingValuesInput(
+                              (prev: SetTrackingValuesInput) => ({
+                                ...prev,
+                                resistance_level: value,
+                              })
+                            )
+                          }
+                          isInvalid={isResistanceLevelInputInvalid}
+                          isClearable
+                        />
+                      )}
+                      {showCommentInput && (
+                        <Input
+                          value={activeSet.comment ?? ""}
+                          label="Comment"
+                          size="sm"
+                          variant="faded"
+                          onValueChange={(value) =>
+                            setActiveSet((prev) => ({
+                              ...prev!,
+                              comment: value,
+                            }))
+                          }
+                          isInvalid={isResistanceLevelInputInvalid}
+                          isClearable
+                        />
+                      )}
+                    </div>
+                    <div className="flex justify-between">
+                      <div className="flex gap-1">
+                        {/* TODO: REPLACE WITH VERTICAL MENU */}
+                        {/* <Button
+                          color="success"
+                          variant="flat"
+                          onPress={() => setShowCommentInput(!showCommentInput)}
+                        >
+                          Comment
+                        </Button>
                         <Button
                           color="success"
-                          isDisabled={isSetTrackingInputsInvalid}
-                          onPress={saveActiveSet}
+                          variant="flat"
+                          onPress={() => handleEditButton(activeSet)}
                         >
-                          {activeSet.is_completed ? "Update" : "Save"}
-                        </Button>
+                          Edit
+                        </Button> */}
                       </div>
+                      <Button
+                        color="success"
+                        isDisabled={isSetTrackingInputsInvalid}
+                        onPress={saveActiveSet}
+                      >
+                        {activeSet.is_completed ? "Update" : "Save"}
+                      </Button>
                     </div>
-                  </AccordionItem>
-                </Accordion>
-              )} */}
+                  </div>
+                </AccordionItem>
+              </Accordion>
+            )}
             {/* </div> */}
           </>
         )}
