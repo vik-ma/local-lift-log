@@ -1517,7 +1517,7 @@ export default function WorkoutDetails() {
                 >
                   <div className="flex flex-col gap-4">
                     {activeSet.note !== null && (
-                      <div className="text-stone-500 text-lg">
+                      <div className="text-stone-500 text-lg break-words">
                         <span className="font-semibold text-stone-600">
                           Note:
                         </span>{" "}
