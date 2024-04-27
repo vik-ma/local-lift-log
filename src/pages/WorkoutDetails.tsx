@@ -179,14 +179,17 @@ export default function WorkoutDetails() {
           setWorkoutNote(workout.note === null ? "" : workout.note);
           setGroupedSets(groupedSetList);
 
-          // TODO: SET FIRST INCOMPLETE FOR GROUPEDSETS
-          // if (orderedSetList.length > 0) {
-          //   const firstIncompleteIndex = orderedSetList.findIndex(
-          //     (obj) => obj.is_completed === 0
-          //   );
-          //   if (firstIncompleteIndex !== -1)
-          //     setActiveSet(orderedSetList[firstIncompleteIndex]);
-          // }
+          // Set first incomplete Set as activeSet
+          for (let i = 0; i < groupedSetList.length; i++) {
+            const firstIncompleteSet = groupedSetList[i].setList.find(
+              (set) => set.is_completed === 0
+            );
+            if (firstIncompleteSet) {
+              firstIncompleteSet.set_index = i + 1;
+              setActiveSet(firstIncompleteSet);
+              break;
+            }
+          }
         } else {
           // Stop useEffect running twice in dev
           if (!initialized.current) {
@@ -773,7 +776,7 @@ export default function WorkoutDetails() {
           activeSet.id,
         ]
       );
-      
+
       const updatedSet: WorkoutSet = {
         ...activeSet,
         weight: setTrackingValuesNumbers.weight,
