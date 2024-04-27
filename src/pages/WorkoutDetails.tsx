@@ -865,7 +865,7 @@ export default function WorkoutDetails() {
                 Delete Set{operationType === "delete-exercise-sets" && "s"}
               </ModalHeader>
               <ModalBody>
-                <p className="break-all">
+                <p className="break-words">
                   {operationType === "delete-exercise-sets"
                     ? `Are you sure you want to delete all ${operatingGroupedSet?.exercise_name} sets from Workout?`
                     : `Are you sure you want to delete ${operatingSet.exercise_name} set?`}
@@ -1172,7 +1172,7 @@ export default function WorkoutDetails() {
                         >
                           <div className="flex flex-col divide-y divide-stone-200">
                             <div className="flex justify-between items-center pb-1">
-                              <span className="text-stone-400 break-all max-w-60">
+                              <span className="text-stone-400 break-words max-w-60">
                                 {exercise.exercise_note}
                               </span>
                               <Dropdown>
@@ -1217,7 +1217,7 @@ export default function WorkoutDetails() {
                             </div>
                             {exercise.setList.map((set, index) => (
                               <div
-                                className="flex flex-col px-0.5 text-sm font-medium break-all"
+                                className="flex flex-col px-0.5 text-sm font-medium break-words"
                                 key={`${set.exercise_id}-${index}`}
                               >
                                 <div className="flex justify-between items-center h-8">
@@ -1479,7 +1479,7 @@ export default function WorkoutDetails() {
                 >
                   <AccordionItem
                     classNames={{
-                      title: "text-2xl font-semibold text-yellow-500 break-all",
+                      title: "text-2xl font-semibold text-yellow-500 break-words",
                     }}
                     className="border-2 border-yellow-300"
                     key="active-set"

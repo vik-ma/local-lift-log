@@ -897,7 +897,7 @@ export default function WorkoutTemplateDetails() {
                 Remove Set{operationType === "delete-exercise-sets" && "s"}
               </ModalHeader>
               <ModalBody>
-                <p className="break-all">
+                <p className="break-words">
                   {operationType === "delete-exercise-sets"
                     ? `Are you sure you want to remove all ${operatingGroupedSet?.exercise_name} sets from Workout Template?`
                     : `Are you sure you want to remove ${operatingSet.exercise_name} set?`}
@@ -1435,7 +1435,7 @@ export default function WorkoutTemplateDetails() {
                         >
                           <div className="flex flex-col divide-y divide-stone-200">
                             <div className="flex justify-between items-center pb-1">
-                              <span className="text-stone-400 break-all max-w-60">
+                              <span className="text-stone-400 break-words max-w-60">
                                 {exercise.exercise_note}
                               </span>
                               <Dropdown>
@@ -1480,7 +1480,7 @@ export default function WorkoutTemplateDetails() {
                             </div>
                             {exercise.setList.map((set, index) => (
                               <div
-                                className="flex flex-col px-0.5 text-sm font-medium break-all"
+                                className="flex flex-col px-0.5 text-sm font-medium break-words"
                                 key={`${set.exercise_id}-${index}`}
                               >
                                 <div className="flex justify-between items-center h-8">

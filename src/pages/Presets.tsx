@@ -443,12 +443,12 @@ export default function PresetsPage() {
               </ModalHeader>
               <ModalBody>
                 {operatingType === "equipment" ? (
-                  <p className="break-all">
+                  <p className="break-words">
                     Are you sure you want to permanently delete{" "}
                     {equipmentToDelete?.name}?
                   </p>
                 ) : (
-                  <p className="break-all">
+                  <p className="break-words">
                     Are you sure you want to permanently delete{" "}
                     {distanceToDelete?.name}?
                   </p>
@@ -543,11 +543,7 @@ export default function PresetsPage() {
                 </Button>
                 <Button
                   color="success"
-                  onPress={
-                    isEditing
-                      ? handleUpdateButton
-                      : handleCreateButton
-                  }
+                  onPress={isEditing ? handleUpdateButton : handleCreateButton}
                   isDisabled={isNewPresetInvalid}
                 >
                   {isEditing ? "Update" : "Create"}
@@ -631,18 +627,14 @@ export default function PresetsPage() {
                       <Button
                         color="primary"
                         size="sm"
-                        onPress={() =>
-                          handleEditEquipmentButton(equipment)
-                        }
+                        onPress={() => handleEditEquipmentButton(equipment)}
                       >
                         Edit
                       </Button>
                       <Button
                         color="danger"
                         size="sm"
-                        onPress={() =>
-                          handleDeleteEquipmentButton(equipment)
-                        }
+                        onPress={() => handleDeleteEquipmentButton(equipment)}
                       >
                         Delete
                       </Button>
@@ -657,10 +649,7 @@ export default function PresetsPage() {
                 >
                   Create New Equipment Weight
                 </Button>
-                <Button
-                  color="primary"
-                  onPress={handleRestoreEquipmentButton}
-                >
+                <Button color="primary" onPress={handleRestoreEquipmentButton}>
                   Restore Default Equipment Weights
                 </Button>
               </div>
@@ -686,18 +675,14 @@ export default function PresetsPage() {
                       <Button
                         color="primary"
                         size="sm"
-                        onPress={() =>
-                          handleEditDistanceButton(distance)
-                        }
+                        onPress={() => handleEditDistanceButton(distance)}
                       >
                         Edit
                       </Button>
                       <Button
                         color="danger"
                         size="sm"
-                        onPress={() =>
-                          handleDeleteDistanceButton(distance)
-                        }
+                        onPress={() => handleDeleteDistanceButton(distance)}
                       >
                         Delete
                       </Button>
@@ -712,10 +697,7 @@ export default function PresetsPage() {
                 >
                   Create New Distance
                 </Button>
-                <Button
-                  color="primary"
-                  onPress={handleRestoreDistanceButton}
-                >
+                <Button color="primary" onPress={handleRestoreDistanceButton}>
                   Restore Default Distances
                 </Button>
               </div>

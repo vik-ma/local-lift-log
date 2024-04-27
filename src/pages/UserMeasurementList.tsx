@@ -59,7 +59,7 @@ export default function UserMeasurementList() {
         {isLoading ? <LoadingSpinner /> : <></>}
         <div className="w-full">
           <Accordion
-            className="break-all"
+            className="break-words"
             variant="splitted"
             selectionMode="multiple"
           >

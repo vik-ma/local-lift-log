@@ -322,7 +322,7 @@ export default function MeasurementListPage() {
                 Delete Measurement
               </ModalHeader>
               <ModalBody>
-                <p className="break-all">
+                <p className="break-words">
                   Are you sure you want to permanently delete{" "}
                   {measurementToDelete?.name} measurement?
                 </p>

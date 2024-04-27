@@ -167,7 +167,7 @@ export default function UserWeightListPage() {
                 Delete Body Weight Record
               </ModalHeader>
               <ModalBody>
-                <p className="break-all">
+                <p className="break-words">
                   Are you sure you want to permanently delete the Body Weight
                   record on {userWeightToDelete?.formattedDate}?
                 </p>
@@ -276,7 +276,7 @@ export default function UserWeightListPage() {
                     </span>
                   </div>
                   <div className="flex justify-between gap-1 w-full items-end">
-                    <div className="break-all">
+                    <div className="break-words">
                       <span className="text-stone-400">
                         {userWeight.comment}
                       </span>

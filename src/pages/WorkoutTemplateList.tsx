@@ -127,9 +127,7 @@ export default function WorkoutTemplateList() {
     deleteModal.onClose();
   };
 
-  const handleDeleteButton = (
-    workoutTemplate: WorkoutTemplateListItem
-  ) => {
+  const handleDeleteButton = (workoutTemplate: WorkoutTemplateListItem) => {
     setWorkoutTemplateToDelete(workoutTemplate);
     deleteModal.onOpen();
   };
@@ -156,7 +154,7 @@ export default function WorkoutTemplateList() {
                 Delete Workout Template
               </ModalHeader>
               <ModalBody>
-                <p className="break-all">
+                <p className="break-words">
                   Are you sure you want to permanently delete{" "}
                   {workoutTemplateToDelete?.name}?
                 </p>
