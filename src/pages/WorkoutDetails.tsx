@@ -1239,7 +1239,11 @@ export default function WorkoutDetails() {
                             </div>
                             {exercise.setList.map((set, index) => (
                               <div
-                                className="flex flex-col px-0.5 text-sm font-medium break-words cursor-pointer"
+                                className={
+                                  set.id === activeSet?.id
+                                    ? "flex flex-col bg-yellow-100 text-yellow-600 px-0.5 text-sm font-medium break-words cursor-pointer"
+                                    : "flex flex-col px-0.5 text-sm font-medium break-words cursor-pointer hover:bg-stone-100"
+                                }
                                 key={`${set.exercise_id}-${index}`}
                                 onClick={() => handleClickActiveSet(set, index)}
                               >
