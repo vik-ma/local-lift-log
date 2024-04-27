@@ -773,6 +773,7 @@ export default function WorkoutDetails() {
           activeSet.id,
         ]
       );
+      
       const updatedSet: WorkoutSet = {
         ...activeSet,
         weight: setTrackingValuesNumbers.weight,
@@ -1281,6 +1282,7 @@ export default function WorkoutDetails() {
                                       <DropdownTrigger>
                                         <Button
                                           isIconOnly
+                                          className="z-1"
                                           size="sm"
                                           radius="lg"
                                           variant="light"
