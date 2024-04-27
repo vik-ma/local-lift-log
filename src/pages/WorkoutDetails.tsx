@@ -57,7 +57,12 @@ import {
 } from "@nextui-org/react";
 import { Reorder } from "framer-motion";
 import toast, { Toaster } from "react-hot-toast";
-import { SearchIcon, CommentIcon, VerticalMenuIcon } from "../assets";
+import {
+  SearchIcon,
+  CommentIcon,
+  CheckmarkIcon,
+  VerticalMenuIcon,
+} from "../assets";
 
 type OperationType =
   | "add"
@@ -1268,13 +1273,17 @@ export default function WorkoutDetails() {
                                       </span>
                                     )}
                                   <div className="flex w-12 justify-end">
-                                    {set.note !== null && (
+                                    <CheckmarkIcon
+                                      isChecked={set.is_completed === 1}
+                                    />
+                                    {/* TODO: REPLACE */}
+                                    {/* {set.note !== null && (
                                       <Button
                                         isIconOnly
                                         size="sm"
                                         radius="lg"
                                         variant="light"
-                                        // TODO: FIX
+                                        
                                         // onPress={() =>
                                         //   handleSetListNoteButton(
                                         //     exercise.exercise_id,
@@ -1284,7 +1293,7 @@ export default function WorkoutDetails() {
                                       >
                                         <CommentIcon size={20} />
                                       </Button>
-                                    )}
+                                    )} */}
                                     <Dropdown>
                                       <DropdownTrigger>
                                         <Button
