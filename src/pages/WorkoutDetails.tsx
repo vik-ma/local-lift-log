@@ -152,6 +152,21 @@ export default function WorkoutDetails() {
     }
   }, []);
 
+  const updateActiveSetTrackingValues = useCallback((activeSet: WorkoutSet) => {
+    const activeSetInputValues: SetTrackingValuesInput = {
+      weight: activeSet.weight > 0 ? activeSet.weight.toString() : "",
+      reps: activeSet.reps > 0 ? activeSet.reps.toString() : "",
+      rir: activeSet.rir > 0 ? activeSet.rir.toString() : "",
+      rpe: activeSet.rpe > 0 ? activeSet.rpe.toString() : "",
+      distance: activeSet.distance > 0 ? activeSet.distance.toString() : "",
+      resistance_level:
+        activeSet.resistance_level > 0
+          ? activeSet.resistance_level.toString()
+          : "",
+    };
+    setSetTrackingValuesInput(activeSetInputValues);
+  }, []);
+
   const populateIncompleteSets = useCallback(
     (groupedSetList: GroupedWorkoutSet[]) => {
       const incompleteSetIdList: number[] = [];
@@ -166,17 +181,19 @@ export default function WorkoutDetails() {
             if (firstSetIndex === -1) {
               // Set first incomplete Set as activeSet
               firstSetIndex = j + 1;
-              setActiveSet({
+              const activeSet = {
                 ...setList[j],
                 set_index: firstSetIndex,
-              });
+              };
+              setActiveSet(activeSet);
+              updateActiveSetTrackingValues(activeSet);
             }
           }
         }
       }
       setIncompleteSetIds(incompleteSetIdList);
     },
-    []
+    [updateActiveSetTrackingValues]
   );
 
   useEffect(() => {
