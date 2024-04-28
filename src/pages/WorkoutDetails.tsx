@@ -1281,7 +1281,11 @@ export default function WorkoutDetails() {
                               </span>
                               <Dropdown>
                                 <DropdownTrigger>
-                                  <Button size="sm" variant="flat">
+                                  <Button
+                                    className="z-1"
+                                    size="sm"
+                                    variant="flat"
+                                  >
                                     Exercise Options
                                   </Button>
                                 </DropdownTrigger>
