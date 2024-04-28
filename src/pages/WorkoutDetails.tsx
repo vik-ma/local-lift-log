@@ -152,6 +152,33 @@ export default function WorkoutDetails() {
     }
   }, []);
 
+  const populateIncompleteSets = useCallback(
+    (groupedSetList: GroupedWorkoutSet[]) => {
+      const incompleteSetIdList: number[] = [];
+      let firstSetIndex: number = -1;
+
+      // Add Set ids of all incomplete Sets to incompleteSetIds list
+      for (let i = 0; i < groupedSetList.length; i++) {
+        const setList: WorkoutSet[] = groupedSetList[i].setList;
+        for (let j = 0; j < setList.length; j++) {
+          if (setList[j].is_completed === 0) {
+            incompleteSetIdList.push(setList[j].id);
+            if (firstSetIndex === -1) {
+              // Set first incomplete Set as activeSet
+              firstSetIndex = j + 1;
+              setActiveSet({
+                ...setList[j],
+                set_index: firstSetIndex,
+              });
+            }
+          }
+        }
+      }
+      setIncompleteSetIds(incompleteSetIdList);
+    },
+    []
+  );
+
   useEffect(() => {
     const loadWorkout = async () => {
       try {
@@ -185,27 +212,7 @@ export default function WorkoutDetails() {
           setWorkoutNote(workout.note === null ? "" : workout.note);
           setGroupedSets(groupedSetList);
 
-          const incompleteSetIdList: number[] = [];
-          let firstSetIndex: number = -1;
-
-          // Add Set ids of all incomplete Sets to incompleteSetIds list
-          for (let i = 0; i < groupedSetList.length; i++) {
-            const setList: WorkoutSet[] = groupedSetList[i].setList;
-            for (let j = 0; j < setList.length; j++) {
-              if (setList[j].is_completed === 0) {
-                incompleteSetIdList.push(setList[j].id);
-                if (firstSetIndex === -1) {
-                  // Set first incomplete Set as activeSet
-                  firstSetIndex = j + 1;
-                  setActiveSet({
-                    ...setList[j],
-                    set_index: firstSetIndex,
-                  });
-                }
-              }
-            }
-          }
-          setIncompleteSetIds(incompleteSetIdList);
+          populateIncompleteSets(groupedSetList);
         } else {
           // Stop useEffect running twice in dev
           if (!initialized.current) {
@@ -223,6 +230,8 @@ export default function WorkoutDetails() {
             workout.exercise_order = exerciseOrder;
 
             setGroupedSets(groupedSetList);
+
+            // TODO: SET ACTIVE SET+INDEX AND POPULATE INCOMPLETE SETS
           }
 
           workout.is_loaded = 1;
