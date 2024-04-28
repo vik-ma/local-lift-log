@@ -231,7 +231,7 @@ export default function WorkoutDetails() {
 
             setGroupedSets(groupedSetList);
 
-            // TODO: SET ACTIVE SET+INDEX AND POPULATE INCOMPLETE SETS
+            populateIncompleteSets(groupedSetList);
           }
 
           workout.is_loaded = 1;
@@ -272,7 +272,7 @@ export default function WorkoutDetails() {
     loadWorkout();
     loadUserSettings();
     getExerciseList();
-  }, [id, updateWorkout]);
+  }, [id, updateWorkout, populateIncompleteSets]);
 
   const updateExerciseOrder = async (
     setList: GroupedWorkoutSet[] = groupedSets
