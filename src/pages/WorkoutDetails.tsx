@@ -94,6 +94,7 @@ export default function WorkoutDetails() {
   const [operationType, setOperationType] = useState<OperationType>("add");
   const [operatingGroupedSet, setOperatingGroupedSet] =
     useState<GroupedWorkoutSet>();
+  const [incompleteSetIds, setincompleteSetIds] = useState<number[]>([]);
 
   const initialized = useRef(false);
 
@@ -184,20 +185,27 @@ export default function WorkoutDetails() {
           setWorkoutNote(workout.note === null ? "" : workout.note);
           setGroupedSets(groupedSetList);
 
-          // Set first incomplete Set as activeSet
+          const incompleteSetIdList: number[] = [];
+          let firstSetIndex: number = -1;
+
+          // Add Set ids of all incomplete Sets to incompleteSetIds list
           for (let i = 0; i < groupedSetList.length; i++) {
-            const firstIncompleteSetIndex = groupedSetList[i].setList.findIndex(
-              (set) => set.is_completed === 0
-            );
-            if (firstIncompleteSetIndex !== -1) {
-              const firstIncompleteSet = {
-                ...groupedSetList[i].setList[firstIncompleteSetIndex],
-                set_index: firstIncompleteSetIndex + 1,
-              };
-              setActiveSet(firstIncompleteSet);
-              break;
+            const setList: WorkoutSet[] = groupedSetList[i].setList;
+            for (let j = 0; j < setList.length; j++) {
+              if (setList[j].is_completed === 0) {
+                incompleteSetIdList.push(setList[j].id);
+                if (firstSetIndex === -1) {
+                  // Set first incomplete Set as activeSet
+                  firstSetIndex = j + 1;
+                  setActiveSet({
+                    ...setList[j],
+                    set_index: firstSetIndex,
+                  });
+                }
+              }
             }
           }
+          setincompleteSetIds(incompleteSetIdList);
         } else {
           // Stop useEffect running twice in dev
           if (!initialized.current) {
