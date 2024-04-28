@@ -186,11 +186,14 @@ export default function WorkoutDetails() {
 
           // Set first incomplete Set as activeSet
           for (let i = 0; i < groupedSetList.length; i++) {
-            const firstIncompleteSet = groupedSetList[i].setList.find(
+            const firstIncompleteSetIndex = groupedSetList[i].setList.findIndex(
               (set) => set.is_completed === 0
             );
-            if (firstIncompleteSet) {
-              firstIncompleteSet.set_index = i + 1;
+            if (firstIncompleteSetIndex !== -1) {
+              const firstIncompleteSet = {
+                ...groupedSetList[i].setList[firstIncompleteSetIndex],
+                set_index: firstIncompleteSetIndex + 1,
+              };
               setActiveSet(firstIncompleteSet);
               break;
             }
