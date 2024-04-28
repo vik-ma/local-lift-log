@@ -94,7 +94,7 @@ export default function WorkoutDetails() {
   const [operationType, setOperationType] = useState<OperationType>("add");
   const [operatingGroupedSet, setOperatingGroupedSet] =
     useState<GroupedWorkoutSet>();
-  const [incompleteSetIds, setincompleteSetIds] = useState<number[]>([]);
+  const [incompleteSetIds, setIncompleteSetIds] = useState<number[]>([]);
 
   const initialized = useRef(false);
 
@@ -205,7 +205,7 @@ export default function WorkoutDetails() {
               }
             }
           }
-          setincompleteSetIds(incompleteSetIdList);
+          setIncompleteSetIds(incompleteSetIdList);
         } else {
           // Stop useEffect running twice in dev
           if (!initialized.current) {
@@ -819,16 +819,46 @@ export default function WorkoutDetails() {
         return newList;
       });
 
-      // TODO: SET NEXT SET
-      // const activeSetIndex: number = sets.indexOf(activeSet);
-      // if (activeSetIndex < sets.length - 1) {
-      //   setActiveSet(sets[activeSetIndex + 1]);
-      // }
+      goToNextIncompleteSet();
       setShowCommentInput(false);
       toast.success("Set Saved");
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const goToNextIncompleteSet = () => {
+    if (incompleteSetIds.length === 1) {
+      // If last incomplete Set
+      setIncompleteSetIds([]);
+      setActiveSet(undefined);
+      return;
+    }
+
+    const activeSetIndex: number = incompleteSetIds.findIndex(
+      (id) => id === activeSet?.id
+    );
+
+    let nextSetIndex = 0;
+
+    if (activeSetIndex + 1 !== incompleteSetIds.length) {
+      // Leave nextSetIndex at 0 if at end of list, but with incomplete Sets left
+      // Otherwise next index in list
+      nextSetIndex = activeSetIndex + 1;
+    }
+
+    for (const group of groupedSets) {
+      const nextSet = group.setList.find(
+        (set) => set.id === incompleteSetIds[nextSetIndex]
+      );
+      if (nextSet) {
+        setActiveSet(nextSet);
+        break;
+      }
+    }
+    setIncompleteSetIds((prev) => [...prev.splice(activeSetIndex, 1)]);
+
+    // TODO: FIX SET_INDEX
   };
 
   const handleClickActiveSet = (set: WorkoutSet, index: number) => {
