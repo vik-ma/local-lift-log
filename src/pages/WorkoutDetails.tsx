@@ -848,22 +848,23 @@ export default function WorkoutDetails() {
     }
 
     for (const group of groupedSets) {
-      const nextSet = group.setList.find(
-        (set) => set.id === incompleteSetIds[nextSetIndex]
-      );
-      if (nextSet) {
-        setActiveSet(nextSet);
-        break;
+      const setList: WorkoutSet[] = group.setList;
+      for (let i = 0; i < setList.length; i++) {
+        if (setList[i].id === incompleteSetIds[nextSetIndex]) {
+          setActiveSet({
+            ...setList[i],
+            set_index: i + 1,
+          });
+          break;
+        }
       }
     }
 
     const updatedIncompleteSetIds = incompleteSetIds.filter(
       (id) => id !== activeSet?.id
     );
-    
-    setIncompleteSetIds(updatedIncompleteSetIds);
 
-    // TODO: FIX SET_INDEX
+    setIncompleteSetIds(updatedIncompleteSetIds);
   };
 
   const handleClickActiveSet = (set: WorkoutSet, index: number) => {
