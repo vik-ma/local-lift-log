@@ -1,12 +1,16 @@
 type CheckmarkIconProps = {
   isChecked?: boolean;
+  size?: number;
 };
 
-export const CheckmarkIcon = ({ isChecked = true }: CheckmarkIconProps) => {
+export const CheckmarkIcon = ({
+  isChecked = true,
+  size,
+}: CheckmarkIconProps) => {
   return (
     <svg
-      width="26px"
-      height="26px"
+      width={size || 26}
+      height={size || 26}
       viewBox="0 0 60 60"
       xmlns="http://www.w3.org/2000/svg"
     >

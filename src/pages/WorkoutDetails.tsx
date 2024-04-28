@@ -1330,6 +1330,7 @@ export default function WorkoutDetails() {
                                   <div className="flex w-12 justify-end">
                                     <CheckmarkIcon
                                       isChecked={set.is_completed === 1}
+                                      size={31}
                                     />
                                     {/* TODO: REPLACE */}
                                     {/* {set.note !== null && (
