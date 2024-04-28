@@ -857,6 +857,7 @@ export default function WorkoutDetails() {
       // If last incomplete Set
       setIncompleteSetIds([]);
       setActiveSet(undefined);
+      setSetTrackingValuesInput(defaultSetInputValues);
       return;
     }
 
@@ -876,10 +877,12 @@ export default function WorkoutDetails() {
       const setList: WorkoutSet[] = group.setList;
       for (let i = 0; i < setList.length; i++) {
         if (setList[i].id === incompleteSetIds[nextSetIndex]) {
-          setActiveSet({
+          const activeSet = {
             ...setList[i],
             set_index: i + 1,
-          });
+          };
+          setActiveSet(activeSet);
+          updateActiveSetTrackingValues(activeSet);
           break;
         }
       }
@@ -893,7 +896,9 @@ export default function WorkoutDetails() {
   };
 
   const handleClickActiveSet = (set: WorkoutSet, index: number) => {
-    setActiveSet({ ...set, set_index: index + 1 });
+    const activeSet = { ...set, set_index: index + 1 };
+    setActiveSet(activeSet);
+    updateActiveSetTrackingValues(activeSet);
     setSelectedKeys(new Set(["active-set"]));
   };
 
