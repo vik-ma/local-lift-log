@@ -856,7 +856,12 @@ export default function WorkoutDetails() {
         break;
       }
     }
-    setIncompleteSetIds((prev) => [...prev.splice(activeSetIndex, 1)]);
+
+    const updatedIncompleteSetIds = incompleteSetIds.filter(
+      (id) => id !== activeSet?.id
+    );
+    
+    setIncompleteSetIds(updatedIncompleteSetIds);
 
     // TODO: FIX SET_INDEX
   };
