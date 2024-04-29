@@ -154,13 +154,28 @@ export default function WorkoutDetails() {
 
   const updateActiveSetTrackingValues = useCallback((activeSet: WorkoutSet) => {
     const activeSetInputValues: SetTrackingValuesInput = {
-      weight: activeSet.weight > 0 ? activeSet.weight.toString() : "",
-      reps: activeSet.reps > 0 ? activeSet.reps.toString() : "",
-      rir: activeSet.rir > 0 ? activeSet.rir.toString() : "",
-      rpe: activeSet.rpe > 0 ? activeSet.rpe.toString() : "",
-      distance: activeSet.distance > 0 ? activeSet.distance.toString() : "",
+      weight:
+        activeSet.weight > 0 && activeSet.is_tracking_weight
+          ? activeSet.weight.toString()
+          : "",
+      reps:
+        activeSet.reps > 0 && activeSet.is_tracking_reps
+          ? activeSet.reps.toString()
+          : "",
+      rir:
+        activeSet.rir > 0 && activeSet.is_tracking_rir
+          ? activeSet.rir.toString()
+          : "",
+      rpe:
+        activeSet.rpe > 0 && activeSet.is_tracking_rpe
+          ? activeSet.rpe.toString()
+          : "",
+      distance:
+        activeSet.distance > 0 && activeSet.is_tracking_distance
+          ? activeSet.distance.toString()
+          : "",
       resistance_level:
-        activeSet.resistance_level > 0
+        activeSet.resistance_level > 0 && activeSet.is_tracking_resistance_level
           ? activeSet.resistance_level.toString()
           : "",
     };
@@ -417,7 +432,7 @@ export default function WorkoutDetails() {
     }
 
     const setId: number = await InsertSetIntoDatabase(newSet);
-    console.log(setId);
+
     if (setId === 0) return;
 
     newSet = { ...newSet, id: setId };
