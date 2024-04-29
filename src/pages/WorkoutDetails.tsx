@@ -1883,13 +1883,24 @@ export default function WorkoutDetails() {
                           Edit
                         </Button> */}
                       </div>
-                      <Button
-                        color="success"
-                        isDisabled={isSetTrackingInputsInvalid}
-                        onPress={saveActiveSet}
-                      >
-                        {activeSet.is_completed ? "Update" : "Save"}
-                      </Button>
+                      <div className="flex gap-2">
+                        <Button
+                          color="success"
+                          variant="flat"
+                          onPress={() =>
+                            setSetTrackingValuesInput(defaultSetInputValues)
+                          }
+                        >
+                          Clear
+                        </Button>
+                        <Button
+                          color="success"
+                          isDisabled={isSetTrackingInputsInvalid}
+                          onPress={saveActiveSet}
+                        >
+                          {activeSet.is_completed ? "Update" : "Save"}
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 </AccordionItem>
