@@ -358,17 +358,17 @@ export default function WorkoutDetails() {
         ];
 
         setGroupedSets(newGroupedSets);
+        populateIncompleteSets(newGroupedSets);
         await updateExerciseOrder(newGroupedSets);
       } else {
         // Add new Sets to groupedSets' existing Exercise's Set List
-        setGroupedSets((prev) => {
-          const newList = [...prev];
-          newList[exerciseIndex].setList = [
-            ...newList[exerciseIndex].setList,
-            ...newSets,
-          ];
-          return newList;
-        });
+        const newList = [...groupedSets];
+        newList[exerciseIndex].setList = [
+          ...newList[exerciseIndex].setList,
+          ...newSets,
+        ];
+        setGroupedSets(newList);
+        populateIncompleteSets(newList);
       }
 
       resetSetToDefault();
