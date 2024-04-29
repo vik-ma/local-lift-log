@@ -95,6 +95,7 @@ export default function WorkoutDetails() {
   const [operatingGroupedSet, setOperatingGroupedSet] =
     useState<GroupedWorkoutSet>();
   const [incompleteSetIds, setIncompleteSetIds] = useState<number[]>([]);
+  const [activeSetNote, setActiveSetNote] = useState<string | undefined>();
 
   const initialized = useRef(false);
 
@@ -1689,15 +1690,7 @@ export default function WorkoutDetails() {
                       : `${activeSet.exercise_name} - Set ${activeSet.set_index}`
                   }
                 >
-                  <div className="flex flex-col gap-4">
-                    {activeSet.note !== null && (
-                      <div className="text-stone-500 text-lg break-words">
-                        <span className="font-semibold text-stone-600">
-                          Note:
-                        </span>{" "}
-                        {activeSet.note}
-                      </div>
-                    )}
+                  <div className="flex flex-col gap-1">
                     {userSettings?.show_timestamp_on_completed_set === 1 &&
                       activeSet.time_completed !== null && (
                         <div className="text-lg text-success">
@@ -1709,6 +1702,13 @@ export default function WorkoutDetails() {
                           </span>
                         </div>
                       )}
+                    <div className="flex flex-col">
+                      {activeSetNote !== undefined && (
+                        <div className="text-stone-500 text-lg break-words">
+                          {activeSetNote}
+                        </div>
+                      )}
+                    </div>
                     <div className="flex flex-wrap gap-1.5 justify-evenly">
                       {!!activeSet.is_tracking_weight && (
                         <div className="flex justify-between gap-2 w-56">
