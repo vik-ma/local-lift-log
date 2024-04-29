@@ -472,6 +472,10 @@ export default function WorkoutDetails() {
         });
       }
 
+      if (operatingSet.id === activeSet?.id) {
+        goToNextIncompleteSet();
+      }
+
       resetSetToDefault();
 
       toast.success("Set Deleted");
@@ -853,7 +857,7 @@ export default function WorkoutDetails() {
   };
 
   const goToNextIncompleteSet = () => {
-    if (incompleteSetIds.length === 1) {
+    if (incompleteSetIds.length < 2) {
       // If last incomplete Set
       setIncompleteSetIds([]);
       setActiveSet(undefined);
