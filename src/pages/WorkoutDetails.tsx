@@ -1691,17 +1691,58 @@ export default function WorkoutDetails() {
                   }
                 >
                   <div className="flex flex-col gap-1">
-                    {userSettings?.show_timestamp_on_completed_set === 1 &&
-                      activeSet.time_completed !== null && (
-                        <div className="text-lg text-success">
-                          Completed at{" "}
-                          <span className="font-semibold">
-                            {ConvertDateStringToTimeString(
-                              activeSet.time_completed
-                            )}
-                          </span>
-                        </div>
-                      )}
+                    <div className="flex justify-between items-center">
+                      <div>
+                        {userSettings?.show_timestamp_on_completed_set === 1 &&
+                          activeSet.time_completed !== null && (
+                            <div className="text-lg text-success">
+                              Completed at{" "}
+                              <span className="font-semibold">
+                                {ConvertDateStringToTimeString(
+                                  activeSet.time_completed
+                                )}
+                              </span>
+                            </div>
+                          )}
+                      </div>
+                      <Dropdown>
+                        <DropdownTrigger>
+                          <Button isIconOnly radius="lg" variant="light">
+                            <VerticalMenuIcon size={20} />
+                          </Button>
+                        </DropdownTrigger>
+                        <DropdownMenu
+                          aria-label="Active Set Option Menu"
+                          itemClasses={{
+                            base: "hover:text-[#404040] gap-4",
+                          }}
+                        >
+                          <DropdownItem
+                            className={activeSet.note === null ? "hidden" : ""}
+                            key="show-set-note"
+                          >
+                            Show Set Note
+                          </DropdownItem>
+                          <DropdownItem
+                            className={
+                              activeSet.exercise_note === null ? "hidden" : ""
+                            }
+                            key="show-exercise-note"
+                          >
+                            Show Exercise Note
+                          </DropdownItem>
+                          <DropdownItem
+                            className={
+                              activeSet.comment === null ? "hidden" : ""
+                            }
+                            key="show-set-comment"
+                          >
+                            Show Set Comment
+                          </DropdownItem>
+                          <DropdownItem key="edit">Edit Set</DropdownItem>
+                        </DropdownMenu>
+                      </Dropdown>
+                    </div>
                     <div className="flex flex-col">
                       {activeSetNote !== undefined && (
                         <div className="text-stone-500 text-lg break-words">
@@ -1865,7 +1906,7 @@ export default function WorkoutDetails() {
                         />
                       )}
                     </div>
-                    <div className="flex justify-between">
+                    <div className="flex justify-between pt-3">
                       <div className="flex gap-1">
                         <Button
                           color="success"
