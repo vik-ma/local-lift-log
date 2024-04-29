@@ -1033,6 +1033,20 @@ export default function WorkoutDetails() {
     }
   };
 
+  const handleActiveSetOptionSelection = (key: string) => {
+    if (activeSet === undefined) return;
+
+    if (key === "edit") {
+      handleEditSet(activeSet);
+    } else if (key === "show-set-note") {
+      setActiveSetNote(activeSet.note ?? undefined);
+    } else if (key === "show-exercise-note") {
+      setActiveSetNote(activeSet.exercise_note ?? undefined);
+    } else if (key === "show-set-comment") {
+      setActiveSetNote(activeSet.comment ?? undefined);
+    }
+  };
+
   if (workout === undefined) return NotFound();
 
   return (
@@ -1716,6 +1730,9 @@ export default function WorkoutDetails() {
                           itemClasses={{
                             base: "hover:text-[#404040] gap-4",
                           }}
+                          onAction={(key) =>
+                            handleActiveSetOptionSelection(key as string)
+                          }
                         >
                           <DropdownItem
                             className={activeSet.note === null ? "hidden" : ""}
