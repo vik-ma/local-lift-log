@@ -1867,23 +1867,15 @@ export default function WorkoutDetails() {
                     </div>
                     <div className="flex justify-between">
                       <div className="flex gap-1">
-                        {/* TODO: REPLACE WITH VERTICAL MENU */}
-                        {/* <Button
+                        <Button
                           color="success"
                           variant="flat"
                           onPress={() => setShowCommentInput(!showCommentInput)}
                         >
                           Comment
                         </Button>
-                        <Button
-                          color="success"
-                          variant="flat"
-                          onPress={() => handleEditButton(activeSet)}
-                        >
-                          Edit
-                        </Button> */}
                       </div>
-                      <div className="flex gap-2">
+                      <div className="flex gap-1.5">
                         <Button
                           color="success"
                           variant="flat"
