@@ -71,6 +71,11 @@ type OperationType =
   | "change-exercise"
   | "delete-exercise-sets";
 
+type ActiveSetNote = {
+  note: string;
+  note_type: "Set Note" | "Exercise Note" | "Comment";
+};
+
 export default function WorkoutDetails() {
   const [workout, setWorkout] = useState<Workout>();
   const [workoutDate, setWorkoutDate] = useState<string>("");
@@ -95,7 +100,9 @@ export default function WorkoutDetails() {
   const [operatingGroupedSet, setOperatingGroupedSet] =
     useState<GroupedWorkoutSet>();
   const [incompleteSetIds, setIncompleteSetIds] = useState<number[]>([]);
-  const [activeSetNote, setActiveSetNote] = useState<string | undefined>();
+  const [activeSetNote, setActiveSetNote] = useState<
+    ActiveSetNote | undefined
+  >();
 
   const initialized = useRef(false);
 
@@ -1038,12 +1045,24 @@ export default function WorkoutDetails() {
 
     if (key === "edit") {
       handleEditSet(activeSet);
-    } else if (key === "show-set-note") {
-      setActiveSetNote(activeSet.note ?? undefined);
-    } else if (key === "show-exercise-note") {
-      setActiveSetNote(activeSet.exercise_note ?? undefined);
-    } else if (key === "show-set-comment") {
-      setActiveSetNote(activeSet.comment ?? undefined);
+    } else if (key === "show-set-note" && activeSet.note) {
+      const note: ActiveSetNote = {
+        note: activeSet.note,
+        note_type: "Set Note",
+      };
+      setActiveSetNote(note);
+    } else if (key === "show-exercise-note" && activeSet.exercise_note) {
+      const note: ActiveSetNote = {
+        note: activeSet.exercise_note,
+        note_type: "Exercise Note",
+      };
+      setActiveSetNote(note);
+    } else if (key === "show-set-comment" && activeSet.comment) {
+      const note: ActiveSetNote = {
+        note: activeSet.comment,
+        note_type: "Comment",
+      };
+      setActiveSetNote(note);
     }
   };
 
@@ -1763,7 +1782,7 @@ export default function WorkoutDetails() {
                     <div className="flex flex-col">
                       {activeSetNote !== undefined && (
                         <div className="text-stone-500 text-lg break-words">
-                          {activeSetNote}
+                          {activeSetNote.note}
                         </div>
                       )}
                     </div>
