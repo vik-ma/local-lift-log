@@ -181,6 +181,57 @@ export default function WorkoutDetails() {
             ? activeSet.resistance_level.toString()
             : "",
       };
+
+      if (
+        lastSet !== undefined &&
+        activeSet.exercise_id === lastSet.exercise_id
+      ) {
+        // If same exercise, keep input values from last set, unless it already has values set
+        if (
+          activeSet.is_tracking_weight === 1 &&
+          activeSet.weight === 0 &&
+          lastSet.weight > 0
+        ) {
+          activeSetInputValues.weight = lastSet.weight.toString();
+        }
+        if (
+          activeSet.is_tracking_reps === 1 &&
+          activeSet.reps === 0 &&
+          lastSet.reps > 0
+        ) {
+          activeSetInputValues.reps = lastSet.reps.toString();
+        }
+        if (
+          activeSet.is_tracking_rir === 1 &&
+          activeSet.rir === 0 &&
+          lastSet.rir > 0
+        ) {
+          activeSetInputValues.rir = lastSet.rir.toString();
+        }
+        if (
+          activeSet.is_tracking_rpe === 1 &&
+          activeSet.rpe === 0 &&
+          lastSet.rpe > 0
+        ) {
+          activeSetInputValues.rpe = lastSet.rpe.toString();
+        }
+        if (
+          activeSet.is_tracking_distance === 1 &&
+          activeSet.distance === 0 &&
+          lastSet.distance > 0
+        ) {
+          activeSetInputValues.distance = lastSet.distance.toString();
+        }
+        if (
+          activeSet.is_tracking_resistance_level === 1 &&
+          activeSet.resistance_level === 0 &&
+          lastSet.resistance_level > 0
+        ) {
+          activeSetInputValues.resistance_level =
+            lastSet.resistance_level.toString();
+        }
+      }
+
       setSetTrackingValuesInput(activeSetInputValues);
     },
     []
