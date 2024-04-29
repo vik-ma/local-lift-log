@@ -474,6 +474,11 @@ export default function WorkoutDetails() {
 
       if (operatingSet.id === activeSet?.id) {
         goToNextIncompleteSet();
+      } else if (operatingSet.is_completed === 0) {
+        const updatedIncompleteSetIds = incompleteSetIds.filter(
+          (id) => id !== operatingSet.id
+        );
+        setIncompleteSetIds(updatedIncompleteSetIds);
       }
 
       resetSetToDefault();
