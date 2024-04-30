@@ -1723,7 +1723,7 @@ export default function WorkoutDetails() {
                       : `${activeSet.exercise_name} - Set ${activeSet.set_index}`
                   }
                 >
-                  <div className="flex flex-col gap-3">
+                  <div className="flex flex-col">
                     <div className="flex flex-col">
                       <div className="flex justify-between items-center">
                         {/* TODO: MOVE */}
@@ -1801,7 +1801,7 @@ export default function WorkoutDetails() {
                         </Dropdown>
                       </div>
                       {activeSetNote !== undefined && (
-                        <div className="flex flex-col">
+                        <div className="flex flex-col pb-2">
                           <div className="text-stone-500 break-words">
                             {activeSetNote.note}
                           </div>
@@ -1964,7 +1964,7 @@ export default function WorkoutDetails() {
                         />
                       )}
                     </div>
-                    <div className="flex justify-between">
+                    <div className="flex justify-between pt-3">
                       <div className="flex gap-1">
                         <Button
                           color="success"
