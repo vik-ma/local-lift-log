@@ -22,6 +22,11 @@ type HoursMinutesSecondsInput = {
   seconds: string;
 };
 
+type MinutesSecondsInput = {
+  minutes: string;
+  seconds: string;
+};
+
 export const TimeInput = ({
   value,
   setValue,
@@ -62,13 +67,33 @@ export const TimeInput = ({
     return hoursMinutesSecondsInput;
   };
 
+  const convertSecondsToMinutesSeconds = (
+    seconds: number
+  ): MinutesSecondsInput => {
+    if (seconds === 0) return { seconds: "", minutes: "" };
+
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = minutes % 60;
+
+    const minutesSecondsInput: MinutesSecondsInput = {
+      minutes: minutes === 0 ? "" : minutes.toString(),
+      seconds: remainingSeconds === 0 ? "" : remainingSeconds.toString(),
+    };
+    return minutesSecondsInput;
+  };
+
   const hoursMinutesSecondsDefaultValue: HoursMinutesSecondsInput =
     convertSecondsToHoursMinutesSeconds(value.time_in_seconds);
+
+  const minutesSecondsDefaultValue: MinutesSecondsInput =
+    convertSecondsToMinutesSeconds(value.time_in_seconds);
 
   const [secondsInput, setSecondsInput] = useState<string>(secondsDefaultValue);
   const [minutesInput, setMinutesInput] = useState<string>(minutesDefaultValue);
   const [hoursMinutesSecondsInput, setHoursMinutesSecondsInput] =
     useState<HoursMinutesSecondsInput>(hoursMinutesSecondsDefaultValue);
+  const [minutesSecondsInput, setMinutesSecondsInput] =
+    useState<MinutesSecondsInput>(minutesSecondsDefaultValue);
 
   const isSecondsInputInvalid = useMemo(() => {
     return IsStringInvalidInteger(secondsInput);
@@ -89,6 +114,14 @@ export const TimeInput = ({
   const isHhmmssHoursInputInvalid = useMemo(() => {
     return IsStringInvalidInteger(hoursMinutesSecondsInput.hours);
   }, [hoursMinutesSecondsInput.hours]);
+
+  const isMmssMinutessInputInvalid = useMemo(() => {
+    return IsStringInvalidInteger(minutesSecondsInput.minutes);
+  }, [minutesSecondsInput.minutes]);
+
+  const isMmssSecondsInputInvalid = useMemo(() => {
+    return IsStringInvalidNumberOrAbove59(minutesSecondsInput.seconds);
+  }, [minutesSecondsInput.seconds]);
 
   useEffect(() => {
     if (
@@ -122,6 +155,7 @@ export const TimeInput = ({
     setValue((prev) => ({ ...prev, time_in_seconds: seconds }));
     setMinutesInput(convertSecondsToMinutes(seconds));
     setHoursMinutesSecondsInput(convertSecondsToHoursMinutesSeconds(seconds));
+    setMinutesSecondsInput(convertSecondsToMinutesSeconds(seconds));
   };
 
   const handleMinutesInputChange = (value: string) => {
@@ -136,6 +170,7 @@ export const TimeInput = ({
     setValue((prev) => ({ ...prev, time_in_seconds: seconds }));
     setSecondsInput(seconds === 0 ? "" : seconds.toString());
     setHoursMinutesSecondsInput(convertSecondsToHoursMinutesSeconds(seconds));
+    setMinutesSecondsInput(convertSecondsToMinutesSeconds(seconds));
   };
 
   const convertMinutesToSeconds = (minutes: number): number => {
@@ -148,6 +183,14 @@ export const TimeInput = ({
     seconds: number
   ): number => {
     const timeInSeconds = hours * 3600 + minutes * 60 + seconds;
+    return timeInSeconds;
+  };
+
+  const convertMinutesSecondsToSeconds = (
+    minutes: number,
+    seconds: number
+  ): number => {
+    const timeInSeconds = minutes * 60 + seconds;
     return timeInSeconds;
   };
 
@@ -177,6 +220,30 @@ export const TimeInput = ({
     setValue((prev) => ({ ...prev, time_in_seconds: timeInSeconds }));
     setSecondsInput(timeInSeconds === 0 ? "" : timeInSeconds.toString());
     setMinutesInput(convertSecondsToMinutes(timeInSeconds));
+    setMinutesSecondsInput(convertSecondsToMinutesSeconds(timeInSeconds));
+  };
+
+  const handleMinutesSecondsInputChange = (value: MinutesSecondsInput) => {
+    setMinutesSecondsInput(value);
+    const minutes =
+      value.minutes.trim().length === 0 ? 0 : Number(value.minutes);
+    const seconds =
+      value.seconds.trim().length === 0 ? 0 : Number(value.seconds);
+
+    if (
+      IsNumberNegativeOrInfinity(minutes) ||
+      IsNumberNegativeOrInfinity(seconds)
+    )
+      return;
+
+    const timeInSeconds = convertMinutesSecondsToSeconds(minutes, seconds);
+
+    setValue((prev) => ({ ...prev, time_in_seconds: timeInSeconds }));
+    setSecondsInput(timeInSeconds === 0 ? "" : timeInSeconds.toString());
+    setMinutesInput(convertSecondsToMinutes(timeInSeconds));
+    setHoursMinutesSecondsInput(
+      convertSecondsToHoursMinutesSeconds(timeInSeconds)
+    );
   };
 
   return (
