@@ -16,13 +16,13 @@ type TimeInputProps = {
   setIsInvalid: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-type HoursMinutesSecondsInput = {
+type HhmmssInput = {
   hours: string;
   minutes: string;
   seconds: string;
 };
 
-type MinutesSecondsInput = {
+type MmssInput = {
   minutes: string;
   seconds: string;
 };
@@ -49,9 +49,7 @@ export const TimeInput = ({
     value.time_in_seconds
   );
 
-  const convertSecondsToHoursMinutesSeconds = (
-    seconds: number
-  ): HoursMinutesSecondsInput => {
+  const convertSecondsToHhmmss = (seconds: number): HhmmssInput => {
     if (seconds === 0) return { seconds: "", minutes: "", hours: "" };
 
     const hours = Math.floor(seconds / 3600);
@@ -59,41 +57,40 @@ export const TimeInput = ({
     const minutes = Math.floor(remainingSecondsAfterHours / 60);
     const remainingSeconds = remainingSecondsAfterHours % 60;
 
-    const hoursMinutesSecondsInput: HoursMinutesSecondsInput = {
+    const hhmmssInput: HhmmssInput = {
       hours: hours === 0 ? "" : hours.toString(),
       minutes: minutes === 0 ? "" : minutes.toString(),
       seconds: remainingSeconds === 0 ? "" : remainingSeconds.toString(),
     };
-    return hoursMinutesSecondsInput;
+    return hhmmssInput;
   };
 
-  const convertSecondsToMinutesSeconds = (
-    seconds: number
-  ): MinutesSecondsInput => {
+  const convertSecondsToMmss = (seconds: number): MmssInput => {
     if (seconds === 0) return { seconds: "", minutes: "" };
 
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
 
-    const minutesSecondsInput: MinutesSecondsInput = {
+    const mmssInput: MmssInput = {
       minutes: minutes === 0 ? "" : minutes.toString(),
       seconds: remainingSeconds === 0 ? "" : remainingSeconds.toString(),
     };
-    return minutesSecondsInput;
+    return mmssInput;
   };
 
-  const hoursMinutesSecondsDefaultValue: HoursMinutesSecondsInput =
-    convertSecondsToHoursMinutesSeconds(value.time_in_seconds);
+  const hhmmssDefaultValue: HhmmssInput = convertSecondsToHhmmss(
+    value.time_in_seconds
+  );
 
-  const minutesSecondsDefaultValue: MinutesSecondsInput =
-    convertSecondsToMinutesSeconds(value.time_in_seconds);
+  const mmssDefaultValue: MmssInput = convertSecondsToMmss(
+    value.time_in_seconds
+  );
 
   const [secondsInput, setSecondsInput] = useState<string>(secondsDefaultValue);
   const [minutesInput, setMinutesInput] = useState<string>(minutesDefaultValue);
-  const [hoursMinutesSecondsInput, setHoursMinutesSecondsInput] =
-    useState<HoursMinutesSecondsInput>(hoursMinutesSecondsDefaultValue);
-  const [minutesSecondsInput, setMinutesSecondsInput] =
-    useState<MinutesSecondsInput>(minutesSecondsDefaultValue);
+  const [hhmmssInput, setHhmmssInput] =
+    useState<HhmmssInput>(hhmmssDefaultValue);
+  const [mmssInput, setMmssInput] = useState<MmssInput>(mmssDefaultValue);
 
   const isSecondsInputInvalid = useMemo(() => {
     return IsStringInvalidInteger(secondsInput);
@@ -104,24 +101,24 @@ export const TimeInput = ({
   }, [minutesInput]);
 
   const isHhmmssSecondsInputInvalid = useMemo(() => {
-    return IsStringInvalidNumberOrAbove59(hoursMinutesSecondsInput.seconds);
-  }, [hoursMinutesSecondsInput.seconds]);
+    return IsStringInvalidNumberOrAbove59(hhmmssInput.seconds);
+  }, [hhmmssInput.seconds]);
 
   const isHhmmssMinutesInputInvalid = useMemo(() => {
-    return IsStringInvalidNumberOrAbove59(hoursMinutesSecondsInput.minutes);
-  }, [hoursMinutesSecondsInput.minutes]);
+    return IsStringInvalidNumberOrAbove59(hhmmssInput.minutes);
+  }, [hhmmssInput.minutes]);
 
   const isHhmmssHoursInputInvalid = useMemo(() => {
-    return IsStringInvalidInteger(hoursMinutesSecondsInput.hours);
-  }, [hoursMinutesSecondsInput.hours]);
+    return IsStringInvalidInteger(hhmmssInput.hours);
+  }, [hhmmssInput.hours]);
 
   const isMmssMinutesInputInvalid = useMemo(() => {
-    return IsStringInvalidInteger(minutesSecondsInput.minutes);
-  }, [minutesSecondsInput.minutes]);
+    return IsStringInvalidInteger(mmssInput.minutes);
+  }, [mmssInput.minutes]);
 
   const isMmssSecondsInputInvalid = useMemo(() => {
-    return IsStringInvalidNumberOrAbove59(minutesSecondsInput.seconds);
-  }, [minutesSecondsInput.seconds]);
+    return IsStringInvalidNumberOrAbove59(mmssInput.seconds);
+  }, [mmssInput.seconds]);
 
   useEffect(() => {
     if (
@@ -154,8 +151,8 @@ export const TimeInput = ({
 
     setValue((prev) => ({ ...prev, time_in_seconds: seconds }));
     setMinutesInput(convertSecondsToMinutes(seconds));
-    setHoursMinutesSecondsInput(convertSecondsToHoursMinutesSeconds(seconds));
-    setMinutesSecondsInput(convertSecondsToMinutesSeconds(seconds));
+    setHhmmssInput(convertSecondsToHhmmss(seconds));
+    setMmssInput(convertSecondsToMmss(seconds));
   };
 
   const handleMinutesInputChange = (value: string) => {
@@ -169,15 +166,15 @@ export const TimeInput = ({
 
     setValue((prev) => ({ ...prev, time_in_seconds: seconds }));
     setSecondsInput(seconds === 0 ? "" : seconds.toString());
-    setHoursMinutesSecondsInput(convertSecondsToHoursMinutesSeconds(seconds));
-    setMinutesSecondsInput(convertSecondsToMinutesSeconds(seconds));
+    setHhmmssInput(convertSecondsToHhmmss(seconds));
+    setMmssInput(convertSecondsToMmss(seconds));
   };
 
   const convertMinutesToSeconds = (minutes: number): number => {
     return Math.floor(minutes * 60);
   };
 
-  const convertHoursMinutesSecondsToSeconds = (
+  const convertHhmmssToSeconds = (
     hours: number,
     minutes: number,
     seconds: number
@@ -186,18 +183,13 @@ export const TimeInput = ({
     return timeInSeconds;
   };
 
-  const convertMinutesSecondsToSeconds = (
-    minutes: number,
-    seconds: number
-  ): number => {
+  const convertMmssToSeconds = (minutes: number, seconds: number): number => {
     const timeInSeconds = minutes * 60 + seconds;
     return timeInSeconds;
   };
 
-  const handleHoursMinutesSecondsInputChange = (
-    value: HoursMinutesSecondsInput
-  ) => {
-    setHoursMinutesSecondsInput(value);
+  const handleHhmmssInputChange = (value: HhmmssInput) => {
+    setHhmmssInput(value);
     const hours = value.hours.trim().length === 0 ? 0 : Number(value.hours);
     const minutes =
       value.minutes.trim().length === 0 ? 0 : Number(value.minutes);
@@ -211,20 +203,16 @@ export const TimeInput = ({
     )
       return;
 
-    const timeInSeconds = convertHoursMinutesSecondsToSeconds(
-      hours,
-      minutes,
-      seconds
-    );
+    const timeInSeconds = convertHhmmssToSeconds(hours, minutes, seconds);
 
     setValue((prev) => ({ ...prev, time_in_seconds: timeInSeconds }));
     setSecondsInput(timeInSeconds === 0 ? "" : timeInSeconds.toString());
     setMinutesInput(convertSecondsToMinutes(timeInSeconds));
-    setMinutesSecondsInput(convertSecondsToMinutesSeconds(timeInSeconds));
+    setMmssInput(convertSecondsToMmss(timeInSeconds));
   };
 
-  const handleMinutesSecondsInputChange = (value: MinutesSecondsInput) => {
-    setMinutesSecondsInput(value);
+  const handleMmssInputChange = (value: MmssInput) => {
+    setMmssInput(value);
     const minutes =
       value.minutes.trim().length === 0 ? 0 : Number(value.minutes);
     const seconds =
@@ -236,14 +224,12 @@ export const TimeInput = ({
     )
       return;
 
-    const timeInSeconds = convertMinutesSecondsToSeconds(minutes, seconds);
+    const timeInSeconds = convertMmssToSeconds(minutes, seconds);
 
     setValue((prev) => ({ ...prev, time_in_seconds: timeInSeconds }));
     setSecondsInput(timeInSeconds === 0 ? "" : timeInSeconds.toString());
     setMinutesInput(convertSecondsToMinutes(timeInSeconds));
-    setHoursMinutesSecondsInput(
-      convertSecondsToHoursMinutesSeconds(timeInSeconds)
-    );
+    setHhmmssInput(convertSecondsToHhmmss(timeInSeconds));
   };
 
   return (
@@ -255,10 +241,10 @@ export const TimeInput = ({
               aria-label="Hours Input Field"
               variant="faded"
               isClearable
-              value={hoursMinutesSecondsInput.hours}
+              value={hhmmssInput.hours}
               onValueChange={(value) =>
-                handleHoursMinutesSecondsInputChange({
-                  ...hoursMinutesSecondsInput,
+                handleHhmmssInputChange({
+                  ...hhmmssInput,
                   hours: value,
                 })
               }
@@ -268,10 +254,10 @@ export const TimeInput = ({
               aria-label="Minutes Input Field"
               variant="faded"
               isClearable
-              value={hoursMinutesSecondsInput.minutes}
+              value={hhmmssInput.minutes}
               onValueChange={(value) =>
-                handleHoursMinutesSecondsInputChange({
-                  ...hoursMinutesSecondsInput,
+                handleHhmmssInputChange({
+                  ...hhmmssInput,
                   minutes: value,
                 })
               }
@@ -281,10 +267,10 @@ export const TimeInput = ({
               aria-label="Seconds Input Field"
               variant="faded"
               isClearable
-              value={hoursMinutesSecondsInput.seconds}
+              value={hhmmssInput.seconds}
               onValueChange={(value) =>
-                handleHoursMinutesSecondsInputChange({
-                  ...hoursMinutesSecondsInput,
+                handleHhmmssInputChange({
+                  ...hhmmssInput,
                   seconds: value,
                 })
               }
@@ -298,10 +284,10 @@ export const TimeInput = ({
               aria-label="Minutes Input Field"
               variant="faded"
               isClearable
-              value={minutesSecondsInput.minutes}
+              value={mmssInput.minutes}
               onValueChange={(value) =>
-                handleMinutesSecondsInputChange({
-                  ...minutesSecondsInput,
+                handleMmssInputChange({
+                  ...mmssInput,
                   minutes: value,
                 })
               }
@@ -311,10 +297,10 @@ export const TimeInput = ({
               aria-label="Seconds Input Field"
               variant="faded"
               isClearable
-              value={minutesSecondsInput.seconds}
+              value={mmssInput.seconds}
               onValueChange={(value) =>
-                handleMinutesSecondsInputChange({
-                  ...minutesSecondsInput,
+                handleMmssInputChange({
+                  ...mmssInput,
                   seconds: value,
                 })
               }
@@ -352,16 +338,16 @@ export const TimeInput = ({
           disallowEmptySelection={true}
           onChange={(e) => setInputType(e.target.value)}
         >
-          <SelectItem key="hhmmss" value={"hhmmss"}>
+          <SelectItem key="hhmmss" value="hhmmss">
             HH:MM:SS
           </SelectItem>
-          <SelectItem key="mmss" value={"mmss"}>
+          <SelectItem key="mmss" value="mmss">
             MM:SS
           </SelectItem>
-          <SelectItem key="minutes" value={"minutes"}>
+          <SelectItem key="minutes" value="minutes">
             Minutes
           </SelectItem>
-          <SelectItem key="seconds" value={"seconds"}>
+          <SelectItem key="seconds" value="seconds">
             Seconds
           </SelectItem>
         </Select>
