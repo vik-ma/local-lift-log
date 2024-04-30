@@ -168,6 +168,9 @@ export default function SettingsPage() {
                 <SelectItem key="hhmmss" value="hhmmss">
                   HH:MM:SS
                 </SelectItem>
+                <SelectItem key="mmss" value="mmss">
+                  MM:SS
+                </SelectItem>
                 <SelectItem key="minutes" value="minutes">
                   Minutes
                 </SelectItem>

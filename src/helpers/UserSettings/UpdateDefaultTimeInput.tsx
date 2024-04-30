@@ -6,7 +6,7 @@ export const UpdateDefaultTimeInput = async (
 ) => {
   if (userSettings.default_time_input === undefined) return;
 
-  const validInputTypes: string[] = ["hhmmss", "minutes", "seconds"];
+  const validInputTypes: string[] = ["hhmmss", "mmss", "minutes", "seconds"];
 
   if (!validInputTypes.includes(userSettings.default_time_input)) return;
 
