@@ -73,7 +73,7 @@ export const TimeInput = ({
     if (seconds === 0) return { seconds: "", minutes: "" };
 
     const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = minutes % 60;
+    const remainingSeconds = seconds % 60;
 
     const minutesSecondsInput: MinutesSecondsInput = {
       minutes: minutes === 0 ? "" : minutes.toString(),
