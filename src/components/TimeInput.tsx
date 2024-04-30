@@ -115,7 +115,7 @@ export const TimeInput = ({
     return IsStringInvalidInteger(hoursMinutesSecondsInput.hours);
   }, [hoursMinutesSecondsInput.hours]);
 
-  const isMmssMinutessInputInvalid = useMemo(() => {
+  const isMmssMinutesInputInvalid = useMemo(() => {
     return IsStringInvalidInteger(minutesSecondsInput.minutes);
   }, [minutesSecondsInput.minutes]);
 
@@ -292,6 +292,36 @@ export const TimeInput = ({
             />
           </div>
         )}
+        {inputType === "mmss" && (
+          <div className="flex gap-1 w-full">
+            <Input
+              aria-label="Minutes Input Field"
+              variant="faded"
+              isClearable
+              value={minutesSecondsInput.minutes}
+              onValueChange={(value) =>
+                handleMinutesSecondsInputChange({
+                  ...minutesSecondsInput,
+                  minutes: value,
+                })
+              }
+              isInvalid={isMmssMinutesInputInvalid}
+            />
+            <Input
+              aria-label="Seconds Input Field"
+              variant="faded"
+              isClearable
+              value={minutesSecondsInput.seconds}
+              onValueChange={(value) =>
+                handleMinutesSecondsInputChange({
+                  ...minutesSecondsInput,
+                  seconds: value,
+                })
+              }
+              isInvalid={isMmssSecondsInputInvalid}
+            />
+          </div>
+        )}
         {inputType === "minutes" && (
           <Input
             aria-label="Minutes Input Field"
@@ -324,6 +354,9 @@ export const TimeInput = ({
         >
           <SelectItem key="hhmmss" value={"hhmmss"}>
             HH:MM:SS
+          </SelectItem>
+          <SelectItem key="mmss" value={"mmss"}>
+            MM:SS
           </SelectItem>
           <SelectItem key="minutes" value={"minutes"}>
             Minutes
