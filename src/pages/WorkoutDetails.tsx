@@ -1726,7 +1726,7 @@ export default function WorkoutDetails() {
                   }
                 >
                   <div className="flex flex-col">
-                    <div className="flex flex-col">
+                    <div className="flex flex-col gap-0.5 pb-1.5">
                       <div className="flex justify-between items-center">
                         {/* TODO: MOVE */}
                         {/* <div>
@@ -1749,7 +1749,6 @@ export default function WorkoutDetails() {
                                 {activeSetNote.note_type}
                               </h3>
                               <Button
-                                className="font-medium"
                                 size="sm"
                                 variant="flat"
                                 onPress={() => setActiveSetNote(undefined)}
@@ -1761,8 +1760,8 @@ export default function WorkoutDetails() {
                         </div>
                         <Dropdown>
                           <DropdownTrigger>
-                            <Button isIconOnly radius="lg" variant="light">
-                              <VerticalMenuIcon size={20} />
+                            <Button size="sm" variant="flat">
+                              Options
                             </Button>
                           </DropdownTrigger>
                           <DropdownMenu
@@ -1809,7 +1808,7 @@ export default function WorkoutDetails() {
                         </Dropdown>
                       </div>
                       {activeSetNote !== undefined && (
-                        <div className="flex flex-col pb-2">
+                        <div className="flex flex-col">
                           <div className="text-stone-500 break-words">
                             {activeSetNote.note}
                           </div>
