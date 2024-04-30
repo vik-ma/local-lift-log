@@ -1725,7 +1725,8 @@ export default function WorkoutDetails() {
                 >
                   <div className="flex flex-col gap-1">
                     <div className="flex justify-between items-center">
-                      <div>
+                      {/* TODO: MOVE */}
+                      {/* <div>
                         {userSettings?.show_timestamp_on_completed_set === 1 &&
                           activeSet.time_completed !== null && (
                             <div className="text-lg text-success">
@@ -1737,6 +1738,23 @@ export default function WorkoutDetails() {
                               </span>
                             </div>
                           )}
+                      </div> */}
+                      <div>
+                        {activeSetNote !== undefined && (
+                          <div className="flex gap-2 items-center">
+                            <h3 className="font-medium text-lg">
+                              {activeSetNote.note_type}
+                            </h3>
+                            <Button
+                              className="font-medium"
+                              size="sm"
+                              variant="flat"
+                              onPress={() => setActiveSetNote(undefined)}
+                            >
+                              Hide
+                            </Button>
+                          </div>
+                        )}
                       </div>
                       <Dropdown>
                         <DropdownTrigger>
@@ -1781,19 +1799,6 @@ export default function WorkoutDetails() {
                     </div>
                     {activeSetNote !== undefined && (
                       <div className="flex flex-col">
-                        <div className="flex gap-2 items-center">
-                          <h3 className="font-medium text-lg">
-                            {activeSetNote.note_type}
-                          </h3>
-                          <Button
-                            className="font-medium"
-                            size="sm"
-                            variant="flat"
-                            onPress={() => setActiveSetNote(undefined)}
-                          >
-                            Hide
-                          </Button>
-                        </div>
                         <div className="text-stone-500 break-words">
                           {activeSetNote.note}
                         </div>
