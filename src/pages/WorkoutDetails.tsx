@@ -1723,10 +1723,11 @@ export default function WorkoutDetails() {
                       : `${activeSet.exercise_name} - Set ${activeSet.set_index}`
                   }
                 >
-                  <div className="flex flex-col gap-1">
-                    <div className="flex justify-between items-center">
-                      {/* TODO: MOVE */}
-                      {/* <div>
+                  <div className="flex flex-col gap-3">
+                    <div className="flex flex-col">
+                      <div className="flex justify-between items-center">
+                        {/* TODO: MOVE */}
+                        {/* <div>
                         {userSettings?.show_timestamp_on_completed_set === 1 &&
                           activeSet.time_completed !== null && (
                             <div className="text-lg text-success">
@@ -1739,71 +1740,74 @@ export default function WorkoutDetails() {
                             </div>
                           )}
                       </div> */}
-                      <div>
-                        {activeSetNote !== undefined && (
-                          <div className="flex gap-2 items-center">
-                            <h3 className="font-medium text-lg">
-                              {activeSetNote.note_type}
-                            </h3>
-                            <Button
-                              className="font-medium"
-                              size="sm"
-                              variant="flat"
-                              onPress={() => setActiveSetNote(undefined)}
-                            >
-                              Hide
-                            </Button>
-                          </div>
-                        )}
-                      </div>
-                      <Dropdown>
-                        <DropdownTrigger>
-                          <Button isIconOnly radius="lg" variant="light">
-                            <VerticalMenuIcon size={20} />
-                          </Button>
-                        </DropdownTrigger>
-                        <DropdownMenu
-                          aria-label="Active Set Option Menu"
-                          itemClasses={{
-                            base: "hover:text-[#404040] gap-4",
-                          }}
-                          onAction={(key) =>
-                            handleActiveSetOptionSelection(key as string)
-                          }
-                        >
-                          <DropdownItem
-                            className={activeSet.note === null ? "hidden" : ""}
-                            key="show-set-note"
-                          >
-                            Show Set Note
-                          </DropdownItem>
-                          <DropdownItem
-                            className={
-                              activeSet.exercise_note === null ? "hidden" : ""
-                            }
-                            key="show-exercise-note"
-                          >
-                            Show Exercise Note
-                          </DropdownItem>
-                          <DropdownItem
-                            className={
-                              activeSet.comment === null ? "hidden" : ""
-                            }
-                            key="show-set-comment"
-                          >
-                            Show Set Comment
-                          </DropdownItem>
-                          <DropdownItem key="edit">Edit Set</DropdownItem>
-                        </DropdownMenu>
-                      </Dropdown>
-                    </div>
-                    {activeSetNote !== undefined && (
-                      <div className="flex flex-col">
-                        <div className="text-stone-500 break-words">
-                          {activeSetNote.note}
+                        <div>
+                          {activeSetNote !== undefined && (
+                            <div className="flex gap-2 items-center">
+                              <h3 className="font-medium text-lg">
+                                {activeSetNote.note_type}
+                              </h3>
+                              <Button
+                                className="font-medium"
+                                size="sm"
+                                variant="flat"
+                                onPress={() => setActiveSetNote(undefined)}
+                              >
+                                Hide
+                              </Button>
+                            </div>
+                          )}
                         </div>
+                        <Dropdown>
+                          <DropdownTrigger>
+                            <Button isIconOnly radius="lg" variant="light">
+                              <VerticalMenuIcon size={20} />
+                            </Button>
+                          </DropdownTrigger>
+                          <DropdownMenu
+                            aria-label="Active Set Option Menu"
+                            itemClasses={{
+                              base: "hover:text-[#404040] gap-4",
+                            }}
+                            onAction={(key) =>
+                              handleActiveSetOptionSelection(key as string)
+                            }
+                          >
+                            <DropdownItem
+                              className={
+                                activeSet.note === null ? "hidden" : ""
+                              }
+                              key="show-set-note"
+                            >
+                              Show Set Note
+                            </DropdownItem>
+                            <DropdownItem
+                              className={
+                                activeSet.exercise_note === null ? "hidden" : ""
+                              }
+                              key="show-exercise-note"
+                            >
+                              Show Exercise Note
+                            </DropdownItem>
+                            <DropdownItem
+                              className={
+                                activeSet.comment === null ? "hidden" : ""
+                              }
+                              key="show-set-comment"
+                            >
+                              Show Set Comment
+                            </DropdownItem>
+                            <DropdownItem key="edit">Edit Set</DropdownItem>
+                          </DropdownMenu>
+                        </Dropdown>
                       </div>
-                    )}
+                      {activeSetNote !== undefined && (
+                        <div className="flex flex-col">
+                          <div className="text-stone-500 break-words">
+                            {activeSetNote.note}
+                          </div>
+                        </div>
+                      )}
+                    </div>
                     <div className="flex flex-wrap gap-1.5 justify-evenly">
                       {!!activeSet.is_tracking_weight && (
                         <div className="flex justify-between gap-2 w-56">
@@ -1960,7 +1964,7 @@ export default function WorkoutDetails() {
                         />
                       )}
                     </div>
-                    <div className="flex justify-between pt-3">
+                    <div className="flex justify-between">
                       <div className="flex gap-1">
                         <Button
                           color="success"
