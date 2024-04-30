@@ -1063,6 +1063,8 @@ export default function WorkoutDetails() {
         note_type: "Comment",
       };
       setActiveSetNote(note);
+    } else if (key === "hide-note") {
+      setActiveSetNote(undefined);
     }
   };
 
@@ -1772,6 +1774,12 @@ export default function WorkoutDetails() {
                               handleActiveSetOptionSelection(key as string)
                             }
                           >
+                            <DropdownItem
+                              className={activeSetNote ? "" : "hidden"}
+                              key="hide-note"
+                            >
+                              Hide Note
+                            </DropdownItem>
                             <DropdownItem
                               className={
                                 activeSet.note === null ? "hidden" : ""
