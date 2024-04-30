@@ -1779,13 +1779,26 @@ export default function WorkoutDetails() {
                         </DropdownMenu>
                       </Dropdown>
                     </div>
-                    <div className="flex flex-col">
-                      {activeSetNote !== undefined && (
-                        <div className="text-stone-500 text-lg break-words">
+                    {activeSetNote !== undefined && (
+                      <div className="flex flex-col">
+                        <div className="flex gap-2 items-center">
+                          <h3 className="font-medium text-lg">
+                            {activeSetNote.note_type}
+                          </h3>
+                          <Button
+                            className="font-medium"
+                            size="sm"
+                            variant="flat"
+                            onPress={() => setActiveSetNote(undefined)}
+                          >
+                            Hide
+                          </Button>
+                        </div>
+                        <div className="text-stone-500 break-words">
                           {activeSetNote.note}
                         </div>
-                      )}
-                    </div>
+                      </div>
+                    )}
                     <div className="flex flex-wrap gap-1.5 justify-evenly">
                       {!!activeSet.is_tracking_weight && (
                         <div className="flex justify-between gap-2 w-56">
