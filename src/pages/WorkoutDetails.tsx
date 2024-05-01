@@ -1572,7 +1572,7 @@ export default function WorkoutDetails() {
                 >
                   <div className="flex flex-col">
                     <div className="flex flex-col gap-0.5 pb-1.5">
-                      <div className="flex justify-between">
+                      <div className="flex justify-between gap-1.5">
                         {/* TODO: MOVE */}
                         {/* <div>
                         {userSettings?.show_timestamp_on_completed_set === 1 &&
@@ -1590,9 +1590,9 @@ export default function WorkoutDetails() {
                         <div>
                           {showCommentInput && (
                             <Input
-                              className="pb-2"
                               value={activeSet.comment ?? ""}
                               label="Comment"
+                              labelPlacement="outside-left"
                               size="sm"
                               variant="faded"
                               onValueChange={(value) =>
@@ -1620,65 +1620,72 @@ export default function WorkoutDetails() {
                             </div>
                           )}
                         </div>
-                        <Dropdown>
-                          <DropdownTrigger>
-                            <Button isIconOnly variant="faded" size="lg">
-                              <CommentIcon size={29} />
-                            </Button>
-                          </DropdownTrigger>
-                          <DropdownMenu
-                            aria-label="Active Set Option Menu"
-                            itemClasses={{
-                              base: "hover:text-[#404040] gap-4",
-                            }}
-                            onAction={(key) =>
-                              handleActiveSetOptionSelection(key as string)
-                            }
-                          >
-                            <DropdownItem
-                              className={showCommentInput ? "hidden" : ""}
-                              key="add-comment"
-                            >
-                              Add Comment
-                            </DropdownItem>
-                            <DropdownItem
-                              className={showCommentInput ? "" : "hidden"}
-                              key="hide-comment-input"
-                            >
-                              Hide Comment Input
-                            </DropdownItem>
-                            <DropdownItem
-                              className={activeSetNote ? "" : "hidden"}
-                              key="hide-note"
-                            >
-                              Hide Note
-                            </DropdownItem>
-                            <DropdownItem
-                              className={
-                                activeSet.note === null ? "hidden" : ""
+                        <div className="flex">
+                          <Button isIconOnly variant="light" size="sm">
+                            <CommentIcon size={20} />
+                          </Button>
+                          <Dropdown>
+                            <DropdownTrigger>
+                              <Button isIconOnly variant="light" size="sm">
+                                <VerticalMenuIcon size={18} />
+                              </Button>
+                            </DropdownTrigger>
+                            <DropdownMenu
+                              aria-label="Active Set Option Menu"
+                              itemClasses={{
+                                base: "hover:text-[#404040] gap-4",
+                              }}
+                              onAction={(key) =>
+                                handleActiveSetOptionSelection(key as string)
                               }
-                              key="show-set-note"
                             >
-                              Show Set Note
-                            </DropdownItem>
-                            <DropdownItem
-                              className={
-                                activeSet.exercise_note === null ? "hidden" : ""
-                              }
-                              key="show-exercise-note"
-                            >
-                              Show Exercise Note
-                            </DropdownItem>
-                            <DropdownItem
-                              className={
-                                activeSet.comment === null ? "hidden" : ""
-                              }
-                              key="show-set-comment"
-                            >
-                              Show Set Comment
-                            </DropdownItem>
-                          </DropdownMenu>
-                        </Dropdown>
+                              <DropdownItem
+                                className={showCommentInput ? "hidden" : ""}
+                                key="add-comment"
+                              >
+                                Add Comment
+                              </DropdownItem>
+                              <DropdownItem
+                                className={showCommentInput ? "" : "hidden"}
+                                key="hide-comment-input"
+                              >
+                                Hide Comment Input
+                              </DropdownItem>
+                              <DropdownItem
+                                className={activeSetNote ? "" : "hidden"}
+                                key="hide-note"
+                              >
+                                Hide Note
+                              </DropdownItem>
+                              <DropdownItem
+                                className={
+                                  activeSet.note === null ? "hidden" : ""
+                                }
+                                key="show-set-note"
+                              >
+                                Show Set Note
+                              </DropdownItem>
+                              <DropdownItem
+                                className={
+                                  activeSet.exercise_note === null
+                                    ? "hidden"
+                                    : ""
+                                }
+                                key="show-exercise-note"
+                              >
+                                Show Exercise Note
+                              </DropdownItem>
+                              <DropdownItem
+                                className={
+                                  activeSet.comment === null ? "hidden" : ""
+                                }
+                                key="show-set-comment"
+                              >
+                                Show Set Comment
+                              </DropdownItem>
+                            </DropdownMenu>
+                          </Dropdown>
+                        </div>
                       </div>
                       {activeSetNote !== undefined && (
                         <div className="flex flex-col">
