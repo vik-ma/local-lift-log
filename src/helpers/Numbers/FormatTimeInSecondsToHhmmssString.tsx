@@ -13,5 +13,9 @@ export const FormatTimeInSecondsToHhmmssString = (
   const formattedMinutes = String(minutes).padStart(2, "0");
   const formattedSeconds = String(remainingSeconds).padStart(2, "0");
 
-  return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+  if (hours === 0) {
+    return `${formattedMinutes}:${formattedSeconds}`;
+  } else {
+    return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+  }
 };
