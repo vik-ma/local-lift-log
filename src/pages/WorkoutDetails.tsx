@@ -1628,7 +1628,16 @@ export default function WorkoutDetails() {
                           </Button>
                           <Dropdown>
                             <DropdownTrigger>
-                              <Button isIconOnly variant="light" size="sm">
+                              <Button
+                                isIconOnly
+                                variant="light"
+                                size="sm"
+                                isDisabled={
+                                  activeSet.comment === null &&
+                                  activeSet.exercise_note === null &&
+                                  activeSet.note === null
+                                }
+                              >
                                 <VerticalMenuIcon size={18} />
                               </Button>
                             </DropdownTrigger>
