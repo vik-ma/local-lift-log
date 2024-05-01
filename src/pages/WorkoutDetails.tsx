@@ -1043,8 +1043,10 @@ export default function WorkoutDetails() {
   const handleActiveSetOptionSelection = (key: string) => {
     if (activeSet === undefined) return;
 
-    if (key === "edit") {
-      handleEditSet(activeSet);
+    if (key === "add-comment") {
+      setShowCommentInput(true);
+    } else if (key === "hide-comment-input") {
+      setShowCommentInput(false);
     } else if (key === "show-set-note" && activeSet.note) {
       const note: ActiveSetNote = {
         note: activeSet.note,
@@ -1611,8 +1613,8 @@ export default function WorkoutDetails() {
                         </div>
                         <Dropdown>
                           <DropdownTrigger>
-                            <Button size="sm" variant="flat">
-                              Options
+                            <Button isIconOnly variant="faded">
+                              <CommentIcon size={23} />
                             </Button>
                           </DropdownTrigger>
                           <DropdownMenu
@@ -1624,6 +1626,18 @@ export default function WorkoutDetails() {
                               handleActiveSetOptionSelection(key as string)
                             }
                           >
+                            <DropdownItem
+                              className={showCommentInput ? "hidden" : ""}
+                              key="add-comment"
+                            >
+                              Add Comment
+                            </DropdownItem>
+                            <DropdownItem
+                              className={showCommentInput ? "" : "hidden"}
+                              key="hide-comment-input"
+                            >
+                              Hide Comment Input
+                            </DropdownItem>
                             <DropdownItem
                               className={activeSetNote ? "" : "hidden"}
                               key="hide-note"
@@ -1654,7 +1668,6 @@ export default function WorkoutDetails() {
                             >
                               Show Set Comment
                             </DropdownItem>
-                            <DropdownItem key="edit">Edit Set</DropdownItem>
                           </DropdownMenu>
                         </Dropdown>
                       </div>
