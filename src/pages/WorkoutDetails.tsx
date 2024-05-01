@@ -1468,6 +1468,14 @@ export default function WorkoutDetails() {
                                         {set.distance} {set.distance_unit}
                                       </span>
                                     )}
+                                  {set.is_tracking_time === 1 &&
+                                    set.time_in_seconds > 0 && (
+                                      <span className="truncate max-w-16">
+                                        {FormatTimeInSecondsToHhmmssString(
+                                          set.time_in_seconds
+                                        )}
+                                      </span>
+                                    )}
                                   <div className="flex w-12 justify-end">
                                     <CheckmarkIcon
                                       isChecked={set.is_completed === 1}
