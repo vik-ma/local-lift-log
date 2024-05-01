@@ -1572,7 +1572,7 @@ export default function WorkoutDetails() {
                 >
                   <div className="flex flex-col">
                     <div className="flex flex-col gap-0.5 pb-1.5">
-                      <div className="flex justify-between items-center">
+                      <div className="flex justify-between">
                         {/* TODO: MOVE */}
                         {/* <div>
                         {userSettings?.show_timestamp_on_completed_set === 1 &&
@@ -1588,6 +1588,23 @@ export default function WorkoutDetails() {
                           )}
                       </div> */}
                         <div>
+                          {showCommentInput && (
+                            <Input
+                              className="pb-2"
+                              value={activeSet.comment ?? ""}
+                              label="Comment"
+                              size="sm"
+                              variant="faded"
+                              onValueChange={(value) =>
+                                setActiveSet((prev) => ({
+                                  ...prev!,
+                                  comment: value,
+                                }))
+                              }
+                              isInvalid={isResistanceLevelInputInvalid}
+                              isClearable
+                            />
+                          )}
                           {activeSetNote !== undefined && (
                             <div className="flex gap-2 items-center">
                               <h3 className="font-medium text-lg">
@@ -1605,8 +1622,8 @@ export default function WorkoutDetails() {
                         </div>
                         <Dropdown>
                           <DropdownTrigger>
-                            <Button isIconOnly variant="faded">
-                              <CommentIcon size={23} />
+                            <Button isIconOnly variant="faded" size="lg">
+                              <CommentIcon size={29} />
                             </Button>
                           </DropdownTrigger>
                           <DropdownMenu
@@ -1805,22 +1822,6 @@ export default function WorkoutDetails() {
                                 resistance_level: value,
                               })
                             )
-                          }
-                          isInvalid={isResistanceLevelInputInvalid}
-                          isClearable
-                        />
-                      )}
-                      {showCommentInput && (
-                        <Input
-                          value={activeSet.comment ?? ""}
-                          label="Comment"
-                          size="sm"
-                          variant="faded"
-                          onValueChange={(value) =>
-                            setActiveSet((prev) => ({
-                              ...prev!,
-                              comment: value,
-                            }))
                           }
                           isInvalid={isResistanceLevelInputInvalid}
                           isClearable
