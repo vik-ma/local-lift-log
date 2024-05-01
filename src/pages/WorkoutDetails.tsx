@@ -1487,24 +1487,6 @@ export default function WorkoutDetails() {
                                       isChecked={set.is_completed === 1}
                                       size={31}
                                     />
-                                    {/* TODO: REPLACE */}
-                                    {/* {set.note !== null && (
-                                      <Button
-                                        isIconOnly
-                                        size="sm"
-                                        radius="lg"
-                                        variant="light"
-                                        
-                                        // onPress={() =>
-                                        //   handleSetListNoteButton(
-                                        //     exercise.exercise_id,
-                                        //     index
-                                        //   )
-                                        // }
-                                      >
-                                        <CommentIcon size={20} />
-                                      </Button>
-                                    )} */}
                                     <Dropdown>
                                       <DropdownTrigger>
                                         <Button
@@ -1844,16 +1826,16 @@ export default function WorkoutDetails() {
                       <div className="flex gap-1">
                         <Button
                           color="success"
-                          variant="flat"
-                          onPress={() => setShowCommentInput(!showCommentInput)}
+                          variant="light"
+                          onPress={() => handleEditSet(activeSet)}
                         >
-                          Comment
+                          Edit Set
                         </Button>
                       </div>
                       <div className="flex gap-1.5">
                         <Button
                           color="success"
-                          variant="flat"
+                          variant="light"
                           onPress={() =>
                             setSetTrackingValuesInput(defaultSetInputValues)
                           }
