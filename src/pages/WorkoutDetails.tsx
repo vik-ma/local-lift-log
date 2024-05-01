@@ -1526,14 +1526,6 @@ export default function WorkoutDetails() {
                                     </Dropdown>
                                   </div>
                                 </div>
-                                {/* TODO: ADD USESTATE/REPLACE WITH COMMENT */}
-                                {/* {shownSetListNotes[exercise.exercise_id]?.has(
-                                  index
-                                ) && (
-                                  <span className="text-stone-400 pb-1">
-                                    {set.note}
-                                  </span>
-                                )} */}
                               </div>
                             ))}
                           </div>
@@ -1868,7 +1860,6 @@ export default function WorkoutDetails() {
                 </AccordionItem>
               </Accordion>
             )}
-            {/* </div> */}
           </>
         )}
       </div>
