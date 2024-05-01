@@ -1375,7 +1375,11 @@ export default function WorkoutDetails() {
                       value={exercise}
                       onDragEnd={() => updateExerciseOrder()}
                     >
-                      <Accordion isCompact variant="shadow">
+                      <Accordion
+                        isCompact
+                        variant="shadow"
+                        defaultSelectedKeys="all"
+                      >
                         <AccordionItem
                           classNames={{
                             titleWrapper: "truncate",
