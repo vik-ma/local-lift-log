@@ -1450,32 +1450,34 @@ export default function WorkoutDetails() {
                               >
                                 <div className="flex justify-between items-center h-8">
                                   <span>Set {index + 1}</span>
-                                  {set.is_tracking_weight === 1 &&
-                                    set.weight > 0 && (
-                                      <span className="truncate max-w-16">
-                                        {set.weight} {set.weight_unit}
-                                      </span>
-                                    )}
-                                  {set.is_tracking_reps === 1 &&
-                                    set.reps > 0 && (
-                                      <span className="truncate max-w-16">
-                                        {set.reps} Rep{set.reps > 1 && "s"}
-                                      </span>
-                                    )}
-                                  {set.is_tracking_distance === 1 &&
-                                    set.distance > 0 && (
-                                      <span className="truncate max-w-16">
-                                        {set.distance} {set.distance_unit}
-                                      </span>
-                                    )}
-                                  {set.is_tracking_time === 1 &&
-                                    set.time_in_seconds > 0 && (
-                                      <span className="truncate max-w-16">
-                                        {FormatTimeInSecondsToHhmmssString(
-                                          set.time_in_seconds
-                                        )}
-                                      </span>
-                                    )}
+                                  <div className="flex justify-evenly items-center w-64">
+                                    {set.is_tracking_weight === 1 &&
+                                      set.weight > 0 && (
+                                        <span className="truncate max-w-16">
+                                          {set.weight} {set.weight_unit}
+                                        </span>
+                                      )}
+                                    {set.is_tracking_reps === 1 &&
+                                      set.reps > 0 && (
+                                        <span className="truncate max-w-16">
+                                          {set.reps} Rep{set.reps > 1 && "s"}
+                                        </span>
+                                      )}
+                                    {set.is_tracking_distance === 1 &&
+                                      set.distance > 0 && (
+                                        <span className="truncate max-w-16">
+                                          {set.distance} {set.distance_unit}
+                                        </span>
+                                      )}
+                                    {set.is_tracking_time === 1 &&
+                                      set.time_in_seconds > 0 && (
+                                        <span className="truncate max-w-16">
+                                          {FormatTimeInSecondsToHhmmssString(
+                                            set.time_in_seconds
+                                          )}
+                                        </span>
+                                      )}
+                                  </div>
                                   <div className="flex w-12 justify-end">
                                     <CheckmarkIcon
                                       isChecked={set.is_completed === 1}
