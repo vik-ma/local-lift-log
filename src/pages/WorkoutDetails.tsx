@@ -1043,11 +1043,7 @@ export default function WorkoutDetails() {
   const handleActiveSetOptionSelection = (key: string) => {
     if (activeSet === undefined) return;
 
-    if (key === "add-comment") {
-      setShowCommentInput(true);
-    } else if (key === "hide-comment-input") {
-      setShowCommentInput(false);
-    } else if (key === "show-set-note" && activeSet.note) {
+    if (key === "show-set-note" && activeSet.note) {
       const note: ActiveSetNote = {
         note: activeSet.note,
         note_type: "Set Note",
@@ -1621,7 +1617,12 @@ export default function WorkoutDetails() {
                           )}
                         </div>
                         <div className="flex">
-                          <Button isIconOnly variant="light" size="sm">
+                          <Button
+                            isIconOnly
+                            variant="light"
+                            size="sm"
+                            onPress={() => setShowCommentInput((prev) => !prev)}
+                          >
                             <CommentIcon size={20} />
                           </Button>
                           <Dropdown>
@@ -1639,18 +1640,6 @@ export default function WorkoutDetails() {
                                 handleActiveSetOptionSelection(key as string)
                               }
                             >
-                              <DropdownItem
-                                className={showCommentInput ? "hidden" : ""}
-                                key="add-comment"
-                              >
-                                Add Comment
-                              </DropdownItem>
-                              <DropdownItem
-                                className={showCommentInput ? "" : "hidden"}
-                                key="hide-comment-input"
-                              >
-                                Hide Comment Input
-                              </DropdownItem>
                               <DropdownItem
                                 className={activeSetNote ? "" : "hidden"}
                                 key="hide-note"
