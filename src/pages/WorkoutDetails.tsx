@@ -1567,7 +1567,7 @@ export default function WorkoutDetails() {
                   }
                 >
                   <div className="flex flex-col">
-                    <div className="flex flex-col gap-0.5 pb-1.5">
+                    <div className="flex flex-col">
                       <div className="flex justify-between gap-1.5">
                         {/* TODO: MOVE */}
                         {/* <div>
@@ -1602,11 +1602,12 @@ export default function WorkoutDetails() {
                             />
                           )}
                           {activeSetNote !== undefined && (
-                            <div className="flex gap-2 items-center">
+                            <div className="flex gap-2 items-center pt-1.5">
                               <h3 className="font-medium text-lg">
                                 {activeSetNote.note_type}
                               </h3>
                               <Button
+                                className="h-7"
                                 size="sm"
                                 variant="flat"
                                 onPress={() => setActiveSetNote(undefined)}
@@ -1684,7 +1685,7 @@ export default function WorkoutDetails() {
                         </div>
                       )}
                     </div>
-                    <div className="flex flex-wrap gap-1.5 justify-evenly">
+                    <div className="flex flex-wrap gap-1.5 justify-evenly pt-2">
                       {!!activeSet.is_tracking_weight && (
                         <div className="flex justify-between gap-2 w-56">
                           <Input
