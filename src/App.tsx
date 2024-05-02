@@ -18,6 +18,7 @@ import {
   PresetsPage,
   ExerciseHistoryPage,
   MeasurementListPage,
+  TestPage,
 } from "./pages";
 import { SiteHeader } from "./components";
 import UserMeasurementList from "./pages/UserMeasurementList";
@@ -70,6 +71,7 @@ function App() {
                 />
               </Route>
               <Route path="/presets" element={<PresetsPage />} />
+              <Route path="/test" element={<TestPage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </div>

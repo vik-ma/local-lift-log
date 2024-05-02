@@ -129,6 +129,16 @@ export default function HomePage() {
             Home
           </h1>
         </div>
+        <div className="flex justify-center">
+          <Button
+            className="font-medium"
+            size="lg"
+            color="primary"
+            onPress={() => navigate("/test")}
+          >
+            GO TO TEST PAGE
+          </Button>
+        </div>
         <div className="flex flex-col justify-center items-center gap-2">
           <p>Settings Id: {userSettings?.id}</p>
           <p>Active Routine Id: {userSettings?.active_routine_id}</p>

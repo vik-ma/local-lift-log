@@ -79,10 +79,13 @@ export const SiteHeader = () => {
               Body Measurements
             </DropdownItem>
             <DropdownItem href="/presets" key="equipment-weights">
-              Presets 
+              Presets
             </DropdownItem>
             <DropdownItem href="/settings" key="settings">
               Settings
+            </DropdownItem>
+            <DropdownItem className="text-primary" href="/test" key="test">
+              TEST PAGE
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>
