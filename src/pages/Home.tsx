@@ -8,7 +8,6 @@ import {
   ModalFooter,
   useDisclosure,
 } from "@nextui-org/react";
-import Database from "tauri-plugin-sql-api";
 import { useNavigate } from "react-router-dom";
 import { UserSettings } from "../typings";
 import {
@@ -85,31 +84,6 @@ export default function HomePage() {
     loadUserSettings();
   }, [setUnitsModal, isUserSettingsLoaded]);
 
-  const addRoutine = async () => {
-    const db = await Database.load(import.meta.env.VITE_DB);
-
-    try {
-      const result = await db.execute(
-        "INSERT into routines (name, is_schedule_weekly, num_days_in_schedule) VALUES ($1, $2, $3)",
-        ["test", true, 7]
-      );
-
-      console.log("Success:", result);
-    } catch (error) {
-      console.log("Error:", error);
-    }
-  };
-
-  const testFunction = async () => {
-    const updatedSettings: UserSettings = {
-      ...userSettings!,
-      active_routine_id: 33,
-    };
-
-    await UpdateAllUserSettings(updatedSettings);
-    setUserSettings(updatedSettings);
-  };
-
   return (
     <>
       <Modal
@@ -156,30 +130,6 @@ export default function HomePage() {
           </h1>
         </div>
         <div className="flex flex-col justify-center items-center gap-2">
-          <Button
-            className="text-lg"
-            size="lg"
-            color="primary"
-            onPress={addRoutine}
-          >
-            Add Routine
-          </Button>
-          <Button
-            className="text-lg"
-            size="lg"
-            color="primary"
-            onPress={() => navigate(`/asd`)}
-          >
-            Test Not Found
-          </Button>
-          <Button
-            className="text-lg"
-            size="lg"
-            color="primary"
-            onPress={testFunction}
-          >
-            Update Settings
-          </Button>
           <p>Settings Id: {userSettings?.id}</p>
           <p>Active Routine Id: {userSettings?.active_routine_id}</p>
         </div>
