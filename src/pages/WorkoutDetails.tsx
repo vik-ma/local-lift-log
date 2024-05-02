@@ -1316,261 +1316,267 @@ export default function WorkoutDetails() {
           )}
         </ModalContent>
       </Modal>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col">
         {isLoading ? (
           <LoadingSpinner />
         ) : (
           <>
-            <div className="flex justify-center items-center gap-5">
-              <h1 className="text-2xl font-semibold">{workoutDate}</h1>
-            </div>
-            <div className="flex justify-center items-center gap-5">
-              <Button
-                color="success"
-                variant="flat"
-                onClick={() => setShowWorkoutNoteInput(!showWorkoutNoteInput)}
-              >
-                Set Workout Note
-              </Button>
-              <WorkoutRatingDropdown
-                rating={workout.rating}
-                workout_id={workout.id}
-              />
-            </div>
-            {showWorkoutNoteInput && (
-              <div className="flex flex-row justify-between gap-2 items-center">
-                <Input
-                  value={workoutNote}
-                  label="Workout Note"
-                  variant="faded"
-                  size="sm"
-                  onValueChange={(value) => setWorkoutNote(value)}
-                  isClearable
-                />
-                <Button color="success" onPress={handleSaveNoteButton}>
-                  Save
-                </Button>
+            <div className="flex flex-col gap-4">
+              <div className="flex justify-center items-center gap-5">
+                <h1 className="text-2xl font-semibold">{workoutDate}</h1>
               </div>
-            )}
-            <div className="flex flex-col gap-2">
-              <h2 className="text-xl font-semibold flex items-center justify-between">
-                Set List{" "}
-                {groupedSets.length > 1 && (
-                  <span className="text-xs italic text-stone-500 font-normal">
-                    Drag Exercises To Reorder Set List
-                  </span>
-                )}
-              </h2>
-              <div className="flex flex-col gap-1">
-                <Reorder.Group
-                  className="flex flex-col gap-1"
-                  values={groupedSets}
-                  onReorder={setGroupedSets}
+              <div className="flex justify-center items-center gap-5">
+                <Button
+                  color="success"
+                  variant="flat"
+                  onClick={() => setShowWorkoutNoteInput(!showWorkoutNoteInput)}
                 >
-                  {groupedSets.map((exercise) => (
-                    <Reorder.Item
-                      key={exercise.exercise_id}
-                      value={exercise}
-                      onDragEnd={() => updateExerciseOrder()}
-                    >
-                      <Accordion
-                        isCompact
-                        variant="shadow"
-                        defaultSelectedKeys="all"
+                  Set Workout Note
+                </Button>
+                <WorkoutRatingDropdown
+                  rating={workout.rating}
+                  workout_id={workout.id}
+                />
+              </div>
+              {showWorkoutNoteInput && (
+                <div className="flex flex-row justify-between gap-2 items-center">
+                  <Input
+                    value={workoutNote}
+                    label="Workout Note"
+                    variant="faded"
+                    size="sm"
+                    onValueChange={(value) => setWorkoutNote(value)}
+                    isClearable
+                  />
+                  <Button color="success" onPress={handleSaveNoteButton}>
+                    Save
+                  </Button>
+                </div>
+              )}
+              <div className="flex flex-col gap-2">
+                <h2 className="text-xl font-semibold flex items-center justify-between">
+                  Set List{" "}
+                  {groupedSets.length > 1 && (
+                    <span className="text-xs italic text-stone-500 font-normal">
+                      Drag Exercises To Reorder Set List
+                    </span>
+                  )}
+                </h2>
+                <div className="flex flex-col gap-1">
+                  <Reorder.Group
+                    className="flex flex-col gap-1"
+                    values={groupedSets}
+                    onReorder={setGroupedSets}
+                  >
+                    {groupedSets.map((exercise) => (
+                      <Reorder.Item
+                        key={exercise.exercise_id}
+                        value={exercise}
+                        onDragEnd={() => updateExerciseOrder()}
                       >
-                        <AccordionItem
-                          classNames={{
-                            titleWrapper: "truncate",
-                            title:
-                              exercise.exercise_name === "Unknown Exercise"
-                                ? "text-red-500 truncate"
-                                : "truncate",
-                          }}
-                          key={exercise.exercise_id}
-                          aria-label={`Accordion ${exercise.exercise_name}`}
-                          title={exercise.exercise_name}
-                          subtitle={`${exercise.setList.length} Sets`}
+                        <Accordion
+                          isCompact
+                          variant="shadow"
+                          defaultSelectedKeys="all"
                         >
-                          <div className="flex flex-col divide-y divide-stone-200">
-                            <div className="flex justify-between items-center pb-1">
-                              <span className="text-stone-400 break-words max-w-60">
-                                {exercise.exercise_note}
-                              </span>
-                              <Dropdown>
-                                <DropdownTrigger>
-                                  <Button
-                                    className="z-1"
-                                    size="sm"
-                                    variant="flat"
+                          <AccordionItem
+                            classNames={{
+                              titleWrapper: "truncate",
+                              title:
+                                exercise.exercise_name === "Unknown Exercise"
+                                  ? "text-red-500 truncate"
+                                  : "truncate",
+                            }}
+                            key={exercise.exercise_id}
+                            aria-label={`Accordion ${exercise.exercise_name}`}
+                            title={exercise.exercise_name}
+                            subtitle={`${exercise.setList.length} Sets`}
+                          >
+                            <div className="flex flex-col divide-y divide-stone-200">
+                              <div className="flex justify-between items-center pb-1">
+                                <span className="text-stone-400 break-words max-w-60">
+                                  {exercise.exercise_note}
+                                </span>
+                                <Dropdown>
+                                  <DropdownTrigger>
+                                    <Button
+                                      className="z-1"
+                                      size="sm"
+                                      variant="flat"
+                                    >
+                                      Exercise Options
+                                    </Button>
+                                  </DropdownTrigger>
+                                  <DropdownMenu
+                                    aria-label={`Option Menu For ${exercise.exercise_name}`}
+                                    itemClasses={{
+                                      base: "hover:text-[#404040] gap-4",
+                                    }}
+                                    onAction={(key) =>
+                                      handleExerciseOptionSelection(
+                                        key as string,
+                                        exercise
+                                      )
+                                    }
                                   >
-                                    Exercise Options
-                                  </Button>
-                                </DropdownTrigger>
-                                <DropdownMenu
-                                  aria-label={`Option Menu For ${exercise.exercise_name}`}
-                                  itemClasses={{
-                                    base: "hover:text-[#404040] gap-4",
-                                  }}
-                                  onAction={(key) =>
-                                    handleExerciseOptionSelection(
-                                      key as string,
-                                      exercise
-                                    )
+                                    <DropdownItem key="add-set-to-exercise">
+                                      Add Set
+                                    </DropdownItem>
+                                    {exercise.exercise_name ===
+                                    "Unknown Exercise" ? (
+                                      <DropdownItem key="reassign-exercise">
+                                        Reassign Exercise
+                                      </DropdownItem>
+                                    ) : (
+                                      <DropdownItem key="change-exercise">
+                                        Change Exercise
+                                      </DropdownItem>
+                                    )}
+                                    <DropdownItem
+                                      className="text-danger"
+                                      key="delete-exercise-sets"
+                                    >
+                                      Delete All Sets
+                                    </DropdownItem>
+                                  </DropdownMenu>
+                                </Dropdown>
+                              </div>
+                              {exercise.setList.map((set, index) => (
+                                <div
+                                  className={
+                                    set.id === activeSet?.id
+                                      ? "flex flex-col bg-yellow-100 text-yellow-600 px-0.5 text-sm font-medium break-words cursor-pointer"
+                                      : "flex flex-col px-0.5 text-sm font-medium break-words cursor-pointer hover:bg-stone-100"
+                                  }
+                                  key={`${set.exercise_id}-${index}`}
+                                  onClick={() =>
+                                    handleClickActiveSet(set, index)
                                   }
                                 >
-                                  <DropdownItem key="add-set-to-exercise">
-                                    Add Set
-                                  </DropdownItem>
-                                  {exercise.exercise_name ===
-                                  "Unknown Exercise" ? (
-                                    <DropdownItem key="reassign-exercise">
-                                      Reassign Exercise
-                                    </DropdownItem>
-                                  ) : (
-                                    <DropdownItem key="change-exercise">
-                                      Change Exercise
-                                    </DropdownItem>
-                                  )}
-                                  <DropdownItem
-                                    className="text-danger"
-                                    key="delete-exercise-sets"
-                                  >
-                                    Delete All Sets
-                                  </DropdownItem>
-                                </DropdownMenu>
-                              </Dropdown>
-                            </div>
-                            {exercise.setList.map((set, index) => (
-                              <div
-                                className={
-                                  set.id === activeSet?.id
-                                    ? "flex flex-col bg-yellow-100 text-yellow-600 px-0.5 text-sm font-medium break-words cursor-pointer"
-                                    : "flex flex-col px-0.5 text-sm font-medium break-words cursor-pointer hover:bg-stone-100"
-                                }
-                                key={`${set.exercise_id}-${index}`}
-                                onClick={() => handleClickActiveSet(set, index)}
-                              >
-                                <div className="flex justify-between items-center h-8">
-                                  <span>Set {index + 1}</span>
-                                  <div className="flex justify-evenly items-center w-64">
-                                    {set.is_tracking_weight === 1 &&
-                                      set.weight > 0 && (
-                                        <span className="truncate max-w-16">
-                                          {set.weight} {set.weight_unit}
-                                        </span>
-                                      )}
-                                    {set.is_tracking_reps === 1 &&
-                                      set.reps > 0 && (
-                                        <span className="truncate max-w-16">
-                                          {set.reps} Rep{set.reps > 1 && "s"}
-                                        </span>
-                                      )}
-                                    {set.is_tracking_distance === 1 &&
-                                      set.distance > 0 && (
-                                        <span className="truncate max-w-16">
-                                          {set.distance} {set.distance_unit}
-                                        </span>
-                                      )}
-                                    {set.is_tracking_time === 1 &&
-                                      set.time_in_seconds > 0 && (
-                                        <span className="truncate max-w-16">
-                                          {FormatTimeInSecondsToHhmmssString(
-                                            set.time_in_seconds
-                                          )}
-                                        </span>
-                                      )}
-                                  </div>
-                                  <div className="flex w-12 justify-end">
-                                    <CheckmarkIcon
-                                      isChecked={set.is_completed === 1}
-                                      size={31}
-                                    />
-                                    <Dropdown>
-                                      <DropdownTrigger>
-                                        <Button
-                                          isIconOnly
-                                          className="z-1"
-                                          size="sm"
-                                          radius="lg"
-                                          variant="light"
+                                  <div className="flex justify-between items-center h-8">
+                                    <span>Set {index + 1}</span>
+                                    <div className="flex justify-evenly items-center w-64">
+                                      {set.is_tracking_weight === 1 &&
+                                        set.weight > 0 && (
+                                          <span className="truncate max-w-16">
+                                            {set.weight} {set.weight_unit}
+                                          </span>
+                                        )}
+                                      {set.is_tracking_reps === 1 &&
+                                        set.reps > 0 && (
+                                          <span className="truncate max-w-16">
+                                            {set.reps} Rep{set.reps > 1 && "s"}
+                                          </span>
+                                        )}
+                                      {set.is_tracking_distance === 1 &&
+                                        set.distance > 0 && (
+                                          <span className="truncate max-w-16">
+                                            {set.distance} {set.distance_unit}
+                                          </span>
+                                        )}
+                                      {set.is_tracking_time === 1 &&
+                                        set.time_in_seconds > 0 && (
+                                          <span className="truncate max-w-16">
+                                            {FormatTimeInSecondsToHhmmssString(
+                                              set.time_in_seconds
+                                            )}
+                                          </span>
+                                        )}
+                                    </div>
+                                    <div className="flex w-12 justify-end">
+                                      <CheckmarkIcon
+                                        isChecked={set.is_completed === 1}
+                                        size={31}
+                                      />
+                                      <Dropdown>
+                                        <DropdownTrigger>
+                                          <Button
+                                            isIconOnly
+                                            className="z-1"
+                                            size="sm"
+                                            radius="lg"
+                                            variant="light"
+                                          >
+                                            <VerticalMenuIcon size={14} />
+                                          </Button>
+                                        </DropdownTrigger>
+                                        <DropdownMenu
+                                          aria-label={`Option Menu For ${exercise.exercise_name} Set ${index}`}
+                                          itemClasses={{
+                                            base: "hover:text-[#404040] gap-4",
+                                          }}
+                                          onAction={(key) =>
+                                            handleSetOptionSelection(
+                                              key as string,
+                                              set
+                                            )
+                                          }
                                         >
-                                          <VerticalMenuIcon size={14} />
-                                        </Button>
-                                      </DropdownTrigger>
-                                      <DropdownMenu
-                                        aria-label={`Option Menu For ${exercise.exercise_name} Set ${index}`}
-                                        itemClasses={{
-                                          base: "hover:text-[#404040] gap-4",
-                                        }}
-                                        onAction={(key) =>
-                                          handleSetOptionSelection(
-                                            key as string,
-                                            set
-                                          )
-                                        }
-                                      >
-                                        <DropdownItem key="edit">
-                                          Edit
-                                        </DropdownItem>
-                                        <DropdownItem
-                                          className="text-danger"
-                                          key="delete-set"
-                                        >
-                                          Delete
-                                        </DropdownItem>
-                                      </DropdownMenu>
-                                    </Dropdown>
+                                          <DropdownItem key="edit">
+                                            Edit
+                                          </DropdownItem>
+                                          <DropdownItem
+                                            className="text-danger"
+                                            key="delete-set"
+                                          >
+                                            Delete
+                                          </DropdownItem>
+                                        </DropdownMenu>
+                                      </Dropdown>
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                            ))}
-                          </div>
-                        </AccordionItem>
-                      </Accordion>
-                    </Reorder.Item>
-                  ))}
-                </Reorder.Group>
+                              ))}
+                            </div>
+                          </AccordionItem>
+                        </Accordion>
+                      </Reorder.Item>
+                    ))}
+                  </Reorder.Group>
+                </div>
               </div>
-            </div>
-            <div className="flex gap-1 justify-center">
-              <Button color="success" onPress={handleAddSetButton}>
-                Add Set
-              </Button>
-              {/* TODO: ADD */}
-              {/* <Button color="success" onPress={() => supersetModal.onOpen()}>
+              <div className="flex gap-1 justify-center">
+                <Button color="success" onPress={handleAddSetButton}>
+                  Add Set
+                </Button>
+                {/* TODO: ADD */}
+                {/* <Button color="success" onPress={() => supersetModal.onOpen()}>
                 Add Superset
               </Button>
               <Button color="success" onPress={() => dropsetModal.onOpen()}>
                 Add Dropset
               </Button> */}
+              </div>
             </div>
-            {activeSet !== undefined && (
-              <Accordion
-                variant="splitted"
-                className="fixed bottom-0 w-[400px]"
-                selectedKeys={selectedKeys}
-                onSelectionChange={(keys) =>
-                  setSelectedKeys(keys as Set<string>)
-                }
-              >
-                <AccordionItem
-                  classNames={{
-                    title: "text-2xl font-semibold text-yellow-500 break-words",
-                  }}
-                  className="border-2 border-yellow-300"
-                  key="active-set"
-                  aria-label="Active Set"
-                  title={
-                    activeSet.is_warmup
-                      ? `${activeSet.exercise_name} - Set ${activeSet.set_index} (Warmup)`
-                      : `${activeSet.exercise_name} - Set ${activeSet.set_index}`
+            <div>
+              {activeSet !== undefined && (
+                <Accordion
+                  variant="splitted"
+                  className="fixed bottom-0 w-[400px]"
+                  selectedKeys={selectedKeys}
+                  onSelectionChange={(keys) =>
+                    setSelectedKeys(keys as Set<string>)
                   }
                 >
-                  <div className="flex flex-col">
+                  <AccordionItem
+                    classNames={{
+                      title:
+                        "text-2xl font-semibold text-yellow-500 break-words",
+                    }}
+                    className="border-2 border-yellow-300"
+                    key="active-set"
+                    aria-label="Active Set"
+                    title={
+                      activeSet.is_warmup
+                        ? `${activeSet.exercise_name} - Set ${activeSet.set_index} (Warmup)`
+                        : `${activeSet.exercise_name} - Set ${activeSet.set_index}`
+                    }
+                  >
                     <div className="flex flex-col">
-                      <div className="flex justify-between gap-1.5">
-                        {/* TODO: MOVE */}
-                        {/* <div>
+                      <div className="flex flex-col">
+                        <div className="flex justify-between gap-1.5">
+                          {/* TODO: MOVE */}
+                          {/* <div>
                         {userSettings?.show_timestamp_on_completed_set === 1 &&
                           activeSet.time_completed !== null && (
                             <div className="text-lg text-success">
@@ -1583,290 +1589,293 @@ export default function WorkoutDetails() {
                             </div>
                           )}
                       </div> */}
-                        <div>
-                          {showCommentInput && (
-                            <Input
-                              value={activeSet.comment ?? ""}
-                              label="Comment"
-                              labelPlacement="outside-left"
-                              size="sm"
-                              variant="faded"
-                              onValueChange={(value) =>
-                                setActiveSet((prev) => ({
-                                  ...prev!,
-                                  comment: value,
-                                }))
-                              }
-                              isInvalid={isResistanceLevelInputInvalid}
-                              isClearable
-                            />
-                          )}
-                          {activeSetNote !== undefined && (
-                            <div className="flex gap-2 items-center pt-1.5">
-                              <h3 className="font-medium text-lg">
-                                {activeSetNote.note_type}
-                              </h3>
-                              <Button
-                                className="h-7"
+                          <div>
+                            {showCommentInput && (
+                              <Input
+                                value={activeSet.comment ?? ""}
+                                label="Comment"
+                                labelPlacement="outside-left"
                                 size="sm"
-                                variant="flat"
-                                onPress={() => setActiveSetNote(undefined)}
-                              >
-                                Hide
-                              </Button>
-                            </div>
-                          )}
-                        </div>
-                        <div className="flex">
-                          <Button
-                            isIconOnly
-                            variant="light"
-                            size="sm"
-                            onPress={() => setShowCommentInput((prev) => !prev)}
-                          >
-                            <CommentIcon size={20} />
-                          </Button>
-                          <Dropdown>
-                            <DropdownTrigger>
-                              <Button
-                                isIconOnly
-                                variant="light"
-                                size="sm"
-                                isDisabled={
-                                  activeSet.comment === null &&
-                                  activeSet.exercise_note === null &&
-                                  activeSet.note === null
+                                variant="faded"
+                                onValueChange={(value) =>
+                                  setActiveSet((prev) => ({
+                                    ...prev!,
+                                    comment: value,
+                                  }))
                                 }
-                              >
-                                <VerticalMenuIcon size={18} />
-                              </Button>
-                            </DropdownTrigger>
-                            <DropdownMenu
-                              aria-label="Active Set Option Menu"
-                              itemClasses={{
-                                base: "hover:text-[#404040] gap-4",
-                              }}
-                              onAction={(key) =>
-                                handleActiveSetOptionSelection(key as string)
+                                isInvalid={isResistanceLevelInputInvalid}
+                                isClearable
+                              />
+                            )}
+                            {activeSetNote !== undefined && (
+                              <div className="flex gap-2 items-center pt-1.5">
+                                <h3 className="font-medium text-lg">
+                                  {activeSetNote.note_type}
+                                </h3>
+                                <Button
+                                  className="h-7"
+                                  size="sm"
+                                  variant="flat"
+                                  onPress={() => setActiveSetNote(undefined)}
+                                >
+                                  Hide
+                                </Button>
+                              </div>
+                            )}
+                          </div>
+                          <div className="flex">
+                            <Button
+                              isIconOnly
+                              variant="light"
+                              size="sm"
+                              onPress={() =>
+                                setShowCommentInput((prev) => !prev)
                               }
                             >
-                              <DropdownItem
-                                className={activeSetNote ? "" : "hidden"}
-                                key="hide-note"
-                              >
-                                Hide Note
-                              </DropdownItem>
-                              <DropdownItem
-                                className={
-                                  activeSet.note === null ? "hidden" : ""
+                              <CommentIcon size={20} />
+                            </Button>
+                            <Dropdown>
+                              <DropdownTrigger>
+                                <Button
+                                  isIconOnly
+                                  variant="light"
+                                  size="sm"
+                                  isDisabled={
+                                    activeSet.comment === null &&
+                                    activeSet.exercise_note === null &&
+                                    activeSet.note === null
+                                  }
+                                >
+                                  <VerticalMenuIcon size={18} />
+                                </Button>
+                              </DropdownTrigger>
+                              <DropdownMenu
+                                aria-label="Active Set Option Menu"
+                                itemClasses={{
+                                  base: "hover:text-[#404040] gap-4",
+                                }}
+                                onAction={(key) =>
+                                  handleActiveSetOptionSelection(key as string)
                                 }
-                                key="show-set-note"
                               >
-                                Show Set Note
-                              </DropdownItem>
-                              <DropdownItem
-                                className={
-                                  activeSet.exercise_note === null
-                                    ? "hidden"
-                                    : ""
-                                }
-                                key="show-exercise-note"
-                              >
-                                Show Exercise Note
-                              </DropdownItem>
-                              <DropdownItem
-                                className={
-                                  activeSet.comment === null ? "hidden" : ""
-                                }
-                                key="show-set-comment"
-                              >
-                                Show Set Comment
-                              </DropdownItem>
-                            </DropdownMenu>
-                          </Dropdown>
-                        </div>
-                      </div>
-                      {activeSetNote !== undefined && (
-                        <div className="flex flex-col">
-                          <div className="text-stone-500 break-words">
-                            {activeSetNote.note}
+                                <DropdownItem
+                                  className={activeSetNote ? "" : "hidden"}
+                                  key="hide-note"
+                                >
+                                  Hide Note
+                                </DropdownItem>
+                                <DropdownItem
+                                  className={
+                                    activeSet.note === null ? "hidden" : ""
+                                  }
+                                  key="show-set-note"
+                                >
+                                  Show Set Note
+                                </DropdownItem>
+                                <DropdownItem
+                                  className={
+                                    activeSet.exercise_note === null
+                                      ? "hidden"
+                                      : ""
+                                  }
+                                  key="show-exercise-note"
+                                >
+                                  Show Exercise Note
+                                </DropdownItem>
+                                <DropdownItem
+                                  className={
+                                    activeSet.comment === null ? "hidden" : ""
+                                  }
+                                  key="show-set-comment"
+                                >
+                                  Show Set Comment
+                                </DropdownItem>
+                              </DropdownMenu>
+                            </Dropdown>
                           </div>
                         </div>
-                      )}
-                    </div>
-                    <div className="flex flex-wrap gap-1.5 justify-evenly pt-2">
-                      {!!activeSet.is_tracking_weight && (
-                        <div className="flex justify-between gap-2 w-56">
+                        {activeSetNote !== undefined && (
+                          <div className="flex flex-col">
+                            <div className="text-stone-500 break-words">
+                              {activeSetNote.note}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                      <div className="flex flex-wrap gap-1.5 justify-evenly pt-2">
+                        {!!activeSet.is_tracking_weight && (
+                          <div className="flex justify-between gap-2 w-56">
+                            <Input
+                              value={setTrackingValuesInput.weight}
+                              label="Weight"
+                              variant="faded"
+                              labelPlacement="outside-left"
+                              onValueChange={(value) =>
+                                setSetTrackingValuesInput(
+                                  (prev: SetTrackingValuesInput) => ({
+                                    ...prev,
+                                    weight: value,
+                                  })
+                                )
+                              }
+                              isInvalid={isWeightInputInvalid}
+                              isClearable
+                            />
+                            <WeightUnitDropdown
+                              value={activeSet.weight_unit}
+                              setSet={setActiveSet as SetWorkoutSetAction}
+                              targetType="set"
+                            />
+                          </div>
+                        )}
+                        {!!activeSet.is_tracking_reps && (
                           <Input
-                            value={setTrackingValuesInput.weight}
-                            label="Weight"
+                            className="w-28"
+                            value={setTrackingValuesInput.reps}
+                            label="Reps"
                             variant="faded"
                             labelPlacement="outside-left"
                             onValueChange={(value) =>
                               setSetTrackingValuesInput(
                                 (prev: SetTrackingValuesInput) => ({
                                   ...prev,
-                                  weight: value,
+                                  reps: value,
                                 })
                               )
                             }
-                            isInvalid={isWeightInputInvalid}
+                            isInvalid={isRepsInputInvalid}
                             isClearable
                           />
-                          <WeightUnitDropdown
-                            value={activeSet.weight_unit}
-                            setSet={setActiveSet as SetWorkoutSetAction}
-                            targetType="set"
+                        )}
+                        {!!activeSet.is_tracking_distance && (
+                          <div className="flex justify-between gap-2 w-64">
+                            <Input
+                              value={setTrackingValuesInput.distance}
+                              label="Distance"
+                              variant="faded"
+                              labelPlacement="outside-left"
+                              onValueChange={(value) =>
+                                setSetTrackingValuesInput(
+                                  (prev: SetTrackingValuesInput) => ({
+                                    ...prev,
+                                    distance: value,
+                                  })
+                                )
+                              }
+                              isInvalid={isDistanceInputInvalid}
+                              isClearable
+                            />
+                            <DistanceUnitDropdown
+                              value={activeSet.distance_unit}
+                              setSet={setActiveSet as SetWorkoutSetAction}
+                              targetType="set"
+                            />
+                          </div>
+                        )}
+                        {!!activeSet.is_tracking_time && (
+                          <TimeInput
+                            value={activeSet}
+                            setValue={setActiveSet as SetWorkoutSetAction}
+                            defaultTimeInput={userSettings!.default_time_input!}
+                            setIsInvalid={setIsTimeInputInvalid}
                           />
-                        </div>
-                      )}
-                      {!!activeSet.is_tracking_reps && (
-                        <Input
-                          className="w-28"
-                          value={setTrackingValuesInput.reps}
-                          label="Reps"
-                          variant="faded"
-                          labelPlacement="outside-left"
-                          onValueChange={(value) =>
-                            setSetTrackingValuesInput(
-                              (prev: SetTrackingValuesInput) => ({
-                                ...prev,
-                                reps: value,
-                              })
-                            )
-                          }
-                          isInvalid={isRepsInputInvalid}
-                          isClearable
-                        />
-                      )}
-                      {!!activeSet.is_tracking_distance && (
-                        <div className="flex justify-between gap-2 w-64">
+                        )}
+                        {!!activeSet.is_tracking_rir && (
                           <Input
-                            value={setTrackingValuesInput.distance}
-                            label="Distance"
+                            className="w-[6.5rem]"
+                            value={setTrackingValuesInput.rir}
+                            label="RIR"
                             variant="faded"
                             labelPlacement="outside-left"
                             onValueChange={(value) =>
                               setSetTrackingValuesInput(
                                 (prev: SetTrackingValuesInput) => ({
                                   ...prev,
-                                  distance: value,
+                                  rir: value,
                                 })
                               )
                             }
-                            isInvalid={isDistanceInputInvalid}
+                            isInvalid={isRirInputInvalid}
                             isClearable
                           />
-                          <DistanceUnitDropdown
-                            value={activeSet.distance_unit}
-                            setSet={setActiveSet as SetWorkoutSetAction}
-                            targetType="set"
+                        )}
+                        {!!activeSet.is_tracking_rpe && (
+                          <Input
+                            className="w-[6.5rem]"
+                            value={setTrackingValuesInput.rpe}
+                            label="RPE"
+                            variant="faded"
+                            labelPlacement="outside-left"
+                            onValueChange={(value) =>
+                              setSetTrackingValuesInput(
+                                (prev: SetTrackingValuesInput) => ({
+                                  ...prev,
+                                  rpe: value,
+                                })
+                              )
+                            }
+                            isInvalid={isRpeInputInvalid}
+                            isClearable
                           />
+                        )}
+                        {!!activeSet.is_tracking_resistance_level && (
+                          <Input
+                            className="w-auto"
+                            classNames={{
+                              label: "whitespace-nowrap",
+                              input: "w-16",
+                            }}
+                            value={setTrackingValuesInput.resistance_level}
+                            label="Resistance Level"
+                            variant="faded"
+                            labelPlacement="outside-left"
+                            onValueChange={(value) =>
+                              setSetTrackingValuesInput(
+                                (prev: SetTrackingValuesInput) => ({
+                                  ...prev,
+                                  resistance_level: value,
+                                })
+                              )
+                            }
+                            isInvalid={isResistanceLevelInputInvalid}
+                            isClearable
+                          />
+                        )}
+                      </div>
+                      <div className="flex justify-between pt-3">
+                        <div className="flex gap-1">
+                          <Button
+                            color="success"
+                            variant="light"
+                            onPress={() => handleEditSet(activeSet)}
+                          >
+                            Edit Set
+                          </Button>
                         </div>
-                      )}
-                      {!!activeSet.is_tracking_time && (
-                        <TimeInput
-                          value={activeSet}
-                          setValue={setActiveSet as SetWorkoutSetAction}
-                          defaultTimeInput={userSettings!.default_time_input!}
-                          setIsInvalid={setIsTimeInputInvalid}
-                        />
-                      )}
-                      {!!activeSet.is_tracking_rir && (
-                        <Input
-                          className="w-[6.5rem]"
-                          value={setTrackingValuesInput.rir}
-                          label="RIR"
-                          variant="faded"
-                          labelPlacement="outside-left"
-                          onValueChange={(value) =>
-                            setSetTrackingValuesInput(
-                              (prev: SetTrackingValuesInput) => ({
-                                ...prev,
-                                rir: value,
-                              })
-                            )
-                          }
-                          isInvalid={isRirInputInvalid}
-                          isClearable
-                        />
-                      )}
-                      {!!activeSet.is_tracking_rpe && (
-                        <Input
-                          className="w-[6.5rem]"
-                          value={setTrackingValuesInput.rpe}
-                          label="RPE"
-                          variant="faded"
-                          labelPlacement="outside-left"
-                          onValueChange={(value) =>
-                            setSetTrackingValuesInput(
-                              (prev: SetTrackingValuesInput) => ({
-                                ...prev,
-                                rpe: value,
-                              })
-                            )
-                          }
-                          isInvalid={isRpeInputInvalid}
-                          isClearable
-                        />
-                      )}
-                      {!!activeSet.is_tracking_resistance_level && (
-                        <Input
-                          className="w-auto"
-                          classNames={{
-                            label: "whitespace-nowrap",
-                            input: "w-16",
-                          }}
-                          value={setTrackingValuesInput.resistance_level}
-                          label="Resistance Level"
-                          variant="faded"
-                          labelPlacement="outside-left"
-                          onValueChange={(value) =>
-                            setSetTrackingValuesInput(
-                              (prev: SetTrackingValuesInput) => ({
-                                ...prev,
-                                resistance_level: value,
-                              })
-                            )
-                          }
-                          isInvalid={isResistanceLevelInputInvalid}
-                          isClearable
-                        />
-                      )}
-                    </div>
-                    <div className="flex justify-between pt-3">
-                      <div className="flex gap-1">
-                        <Button
-                          color="success"
-                          variant="light"
-                          onPress={() => handleEditSet(activeSet)}
-                        >
-                          Edit Set
-                        </Button>
-                      </div>
-                      <div className="flex gap-1.5">
-                        <Button
-                          color="success"
-                          variant="light"
-                          onPress={() =>
-                            setSetTrackingValuesInput(defaultSetInputValues)
-                          }
-                        >
-                          Clear
-                        </Button>
-                        <Button
-                          color="success"
-                          isDisabled={isSetTrackingInputsInvalid}
-                          onPress={saveActiveSet}
-                        >
-                          {activeSet.is_completed ? "Update" : "Save"}
-                        </Button>
+                        <div className="flex gap-1.5">
+                          <Button
+                            color="success"
+                            variant="light"
+                            onPress={() =>
+                              setSetTrackingValuesInput(defaultSetInputValues)
+                            }
+                          >
+                            Clear
+                          </Button>
+                          <Button
+                            color="success"
+                            isDisabled={isSetTrackingInputsInvalid}
+                            onPress={saveActiveSet}
+                          >
+                            {activeSet.is_completed ? "Update" : "Save"}
+                          </Button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </AccordionItem>
-              </Accordion>
-            )}
+                  </AccordionItem>
+                </Accordion>
+              )}
+            </div>
           </>
         )}
       </div>
