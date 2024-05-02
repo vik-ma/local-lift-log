@@ -16,7 +16,7 @@ export const SiteHeader = () => {
   const navigate = useNavigate();
 
   return (
-    <Navbar isBordered>
+    <Navbar className="h-16" isBordered>
       <NavbarContent className="flex gap-1.5">
         <NavbarItem className="flex items-center justify-center">
           <Button

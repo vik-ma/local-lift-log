@@ -1,4 +1,7 @@
+import { useState } from "react";
+
 export default function TestPage() {
+  const [isExpanded, setIsExpanded] = useState<boolean>(false);
   return (
     <div className="flex flex-col gap-2">
       <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">
@@ -70,8 +73,17 @@ export default function TestPage() {
         Test
         <br />
       </div>
-      <div className="fixed bottom-0 bg-red-500 h-20 w-[400px]">
-        <button className="h-20 w-[400px] cursor-pointer" onClick={() => console.log("test")}></button>
+      <div
+        className={
+          isExpanded
+            ? "fixed bottom-0 top-16 bg-red-500 w-[400px]"
+            : "fixed bottom-0 bg-red-500 h-20 w-[400px]"
+        }
+      >
+        <button
+          className="h-20 w-[400px] cursor-pointer"
+          onClick={() => setIsExpanded(!isExpanded)}
+        ></button>
       </div>
     </div>
   );
