@@ -70,7 +70,9 @@ export default function TestPage() {
         Test
         <br />
       </div>
-      <div className="fixed bottom-0 bg-red-500 h-20 w-[400px]"></div>
+      <div className="fixed bottom-0 bg-red-500 h-20 w-[400px]">
+        <button className="h-20 w-[400px] cursor-pointer" onClick={() => console.log("test")}></button>
+      </div>
     </div>
   );
 }
