@@ -1320,7 +1320,7 @@ export default function WorkoutDetails() {
           <LoadingSpinner />
         ) : (
           <>
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 mb-20">
               <div className="flex justify-center items-center gap-5">
                 <h1 className="text-2xl font-semibold">{workoutDate}</h1>
               </div>
