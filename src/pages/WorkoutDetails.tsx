@@ -103,6 +103,8 @@ export default function WorkoutDetails() {
   const [activeSetNote, setActiveSetNote] = useState<
     ActiveSetNote | undefined
   >();
+  const [isActiveSetExpanded, setIsActiveSetExpanded] =
+    useState<boolean>(false);
 
   const initialized = useRef(false);
 
@@ -1550,45 +1552,31 @@ export default function WorkoutDetails() {
             </div>
             <div>
               {activeSet !== undefined && (
-                <Accordion
-                  variant="splitted"
-                  className="fixed bottom-0 w-[400px]"
-                  selectedKeys={selectedKeys}
-                  onSelectionChange={(keys) =>
-                    setSelectedKeys(keys as Set<string>)
-                  }
-                >
-                  <AccordionItem
-                    classNames={{
-                      title:
-                        "text-2xl font-semibold text-yellow-500 break-words",
-                    }}
-                    className="border-2 border-yellow-300"
-                    key="active-set"
-                    aria-label="Active Set"
-                    title={
-                      activeSet.is_warmup
-                        ? `${activeSet.exercise_name} - Set ${activeSet.set_index} (Warmup)`
-                        : `${activeSet.exercise_name} - Set ${activeSet.set_index}`
-                    }
-                  >
+                <div className="fixed bottom-0 p-3 h-20 w-[400px] rounded-lg bg-white border-3 border-yellow-300">
+                  {/*  TODO: TEST LONG TEXT */}
+                  <h2 className="text-2xl font-semibold text-yellow-500 truncate">
+                    {activeSet.is_warmup
+                      ? `${activeSet.exercise_name} - Set ${activeSet.set_index} (Warmup)`
+                      : `${activeSet.exercise_name} - Set ${activeSet.set_index}`}
+                  </h2>
+                  {isActiveSetExpanded ? (
                     <div className="flex flex-col">
                       <div className="flex flex-col">
                         <div className="flex justify-between gap-1.5">
                           {/* TODO: MOVE */}
                           {/* <div>
-                        {userSettings?.show_timestamp_on_completed_set === 1 &&
-                          activeSet.time_completed !== null && (
-                            <div className="text-lg text-success">
-                              Completed at{" "}
-                              <span className="font-semibold">
-                                {ConvertDateStringToTimeString(
-                                  activeSet.time_completed
-                                )}
-                              </span>
-                            </div>
-                          )}
-                      </div> */}
+                          {userSettings?.show_timestamp_on_completed_set === 1 &&
+                            activeSet.time_completed !== null && (
+                              <div className="text-lg text-success">
+                                Completed at{" "}
+                                <span className="font-semibold">
+                                  {ConvertDateStringToTimeString(
+                                    activeSet.time_completed
+                                  )}
+                                </span>
+                              </div>
+                            )}
+                        </div> */}
                           <div>
                             {showCommentInput && (
                               <Input
@@ -1872,8 +1860,8 @@ export default function WorkoutDetails() {
                         </div>
                       </div>
                     </div>
-                  </AccordionItem>
-                </Accordion>
+                  ) : null}
+                </div>
               )}
             </div>
           </>
