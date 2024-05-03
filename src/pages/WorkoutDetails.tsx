@@ -62,6 +62,7 @@ import {
   CommentIcon,
   CheckmarkIcon,
   VerticalMenuIcon,
+  ChevronIcon,
 } from "../assets";
 
 type OperationType =
@@ -1563,13 +1564,22 @@ export default function WorkoutDetails() {
                         setIsActiveSetExpanded(!isActiveSetExpanded)
                       }
                     >
-                      <div className="flex px-3 py-2 gap-2 text-2xl font-semibold text-yellow-500 truncate">
-                        <span className="truncate">
-                          {activeSet.exercise_name}
-                        </span>
-                        <span>-</span>
-                        <span>Set {activeSet.set_index}</span>
-                        {activeSet.is_warmup === 1 && <span>(Warmup)</span>}
+                      <div className="flex justify-between w-full px-3 py-2 gap-2 text-2xl font-semibold text-yellow-500 truncate">
+                        <div className="flex gap-2">
+                          <span className="truncate">
+                            {activeSet.exercise_name}
+                          </span>
+                          <span>-</span>
+                          <span>Set {activeSet.set_index}</span>
+                          {activeSet.is_warmup === 1 && <span>(Warmup)</span>}
+                        </div>
+                        <div className="flex items-center">
+                          <ChevronIcon
+                            size={26}
+                            color="#eab308"
+                            isPointingUp={!isActiveSetExpanded}
+                          />
+                        </div>
                       </div>
                     </button>
                     {isActiveSetExpanded ? (
