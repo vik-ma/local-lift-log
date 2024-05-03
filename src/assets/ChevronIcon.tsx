@@ -1,16 +1,18 @@
-type ChevronDownProps = {
+type ChevronIconProps = {
   color?: string;
   size?: number;
   height?: number;
   width?: number;
+  isPointingUp?: boolean;
 };
 
-export const ChevronDownIcon = ({
+export const ChevronIcon = ({
   color,
   size,
   height,
   width,
-}: ChevronDownProps) => {
+  isPointingUp,
+}: ChevronIconProps) => {
   return (
     <svg
       fill="none"
@@ -18,6 +20,7 @@ export const ChevronDownIcon = ({
       viewBox="0 0 24 24"
       width={size || width || 24}
       xmlns="http://www.w3.org/2000/svg"
+      style={{ transform: isPointingUp ? "rotate(180deg)" : undefined }}
     >
       <path
         d="m19.92 8.95-6.52 6.52c-.77.77-2.03.77-2.8 0L4.08 8.95"
@@ -31,4 +34,4 @@ export const ChevronDownIcon = ({
   );
 };
 
-export default ChevronDownIcon;
+export default ChevronIcon;

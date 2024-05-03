@@ -10,7 +10,7 @@ import {
   DropdownItem,
 } from "@nextui-org/react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { ArrowRightIcon, ArrowLeftIcon, ChevronDownIcon } from "../assets";
+import { ArrowRightIcon, ArrowLeftIcon, ChevronIcon } from "../assets";
 
 export const SiteHeader = () => {
   const navigate = useNavigate();
@@ -55,9 +55,7 @@ export const SiteHeader = () => {
               <Button
                 disableRipple
                 className="p-0 text-[#404040] text-md font-medium bg-transparent data-[hover=true]:bg-transparent"
-                endContent={
-                  <ChevronDownIcon color="currentColor" size={16} />
-                }
+                endContent={<ChevronIcon color="currentColor" size={16} />}
                 radius="sm"
                 variant="light"
               >
