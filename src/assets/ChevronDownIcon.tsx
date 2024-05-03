@@ -1,12 +1,12 @@
 type ChevronDownProps = {
-  fill?: string;
+  color?: string;
   size?: number;
   height?: number;
   width?: number;
 };
 
 export const ChevronDownIcon = ({
-  fill,
+  color,
   size,
   height,
   width,
@@ -21,7 +21,7 @@ export const ChevronDownIcon = ({
     >
       <path
         d="m19.92 8.95-6.52 6.52c-.77.77-2.03.77-2.8 0L4.08 8.95"
-        stroke={fill || "#999999"}
+        stroke={color || "#999999"}
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeMiterlimit={10}
