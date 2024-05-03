@@ -1564,11 +1564,13 @@ export default function WorkoutDetails() {
                         setIsActiveSetExpanded(!isActiveSetExpanded)
                       }
                     >
-                      <h2 className="text-2xl font-semibold text-yellow-500 truncate">
-                        {activeSet.is_warmup
-                          ? `${activeSet.exercise_name} - Set ${activeSet.set_index} (Warmup)`
-                          : `${activeSet.exercise_name} - Set ${activeSet.set_index}`}
-                      </h2>
+                      <div className="flex p-4 gap-2 text-2xl font-semibold text-yellow-500">
+                        <span className="max-w-[300px] truncate">
+                          {activeSet.exercise_name}
+                        </span>
+                        <span>- Set {activeSet.set_index}</span>
+                        <span>(Warmup)</span>
+                      </div>
                     </button>
                     {isActiveSetExpanded ? (
                       <div className="flex flex-col">
