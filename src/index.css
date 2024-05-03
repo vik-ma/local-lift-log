@@ -35,7 +35,6 @@ a.active {
 body {
   margin: 0;
   display: flex;
-  width: 100%;
   min-height: 100vh;
   color: var(--foreground-color);
   background-color: #ffffff;
@@ -46,6 +45,10 @@ body {
     )
     rgb(var(--background-start-rgb));
   background-attachment: fixed;
+  /* Center content regardless if vertical scrollbar appears or not */
+  width: 100vw;
+  margin-right: calc(100vw - 100%);
+  overflow-x: hidden;
 }
 
 #root {
