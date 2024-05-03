@@ -170,3 +170,33 @@ body {
 .transition-fill-animation {
   transition: fill 0.3s;
 }
+
+@keyframes expand-active-set {
+  from {
+    top: calc(100vh - 4rem);
+    height: 5rem;
+  }
+  to {
+    top: 4rem;
+    height: calc(100vh - 4rem);
+  }
+}
+
+@keyframes shrink-active-set {
+  from {
+    top: 4rem;
+    height: calc(100vh - 4rem);
+  }
+  to {
+    top: calc(100vh - 5rem);
+    height: 5rem;
+  }
+}
+
+.active-set-animation-expand {
+  animation: expand-active-set 0.15s;
+}
+
+.active-set-animation-shrink {
+  animation: shrink-active-set 0.15s;
+}

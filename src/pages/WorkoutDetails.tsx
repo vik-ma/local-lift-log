@@ -1552,8 +1552,8 @@ export default function WorkoutDetails() {
                 <div
                   className={
                     isActiveSetExpanded
-                      ? "fixed bottom-0 top-16 w-[400px] rounded-lg bg-white border-3 border-yellow-300"
-                      : "fixed bottom-0 h-20 w-[400px] rounded-lg bg-white border-3 border-yellow-300"
+                      ? "fixed bottom-0 top-16 w-[400px] rounded-lg bg-white border-3 border-yellow-300 active-set-animation-expand"
+                      : "fixed bottom-0 h-20 w-[400px] rounded-lg bg-white border-3 border-yellow-300 active-set-animation-shrink"
                   }
                 >
                   <div className="flex flex-col">
