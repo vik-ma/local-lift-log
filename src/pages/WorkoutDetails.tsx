@@ -1558,12 +1558,12 @@ export default function WorkoutDetails() {
                 >
                   <div className="flex flex-col">
                     <button
-                      className="h-20 w-[400px] cursor-pointer"
+                      className="flex h-[4.5rem] w-full cursor-pointer rounded hover:bg-amber-50"
                       onClick={() =>
                         setIsActiveSetExpanded(!isActiveSetExpanded)
                       }
                     >
-                      <div className="flex p-3.5 gap-2 text-2xl font-semibold text-yellow-500 truncate">
+                      <div className="flex px-3 py-2 gap-2 text-2xl font-semibold text-yellow-500 truncate">
                         <span className="truncate">
                           {activeSet.exercise_name}
                         </span>
@@ -1573,7 +1573,7 @@ export default function WorkoutDetails() {
                       </div>
                     </button>
                     {isActiveSetExpanded ? (
-                      <div className="flex flex-col">
+                      <div className="flex flex-col px-1.5">
                         <div className="flex flex-col">
                           <div className="flex justify-between gap-1.5">
                             {/* TODO: MOVE */}
