@@ -93,9 +93,6 @@ export default function WorkoutDetails() {
   const [showCommentInput, setShowCommentInput] = useState<boolean>(false);
   const [showWorkoutNoteInput, setShowWorkoutNoteInput] =
     useState<boolean>(false);
-  const [selectedKeys, setSelectedKeys] = useState<Set<string>>(
-    new Set(["active-set"])
-  );
   const [operationType, setOperationType] = useState<OperationType>("add");
   const [operatingGroupedSet, setOperatingGroupedSet] =
     useState<GroupedWorkoutSet>();
@@ -988,7 +985,7 @@ export default function WorkoutDetails() {
     const newActiveSet = { ...set, set_index: index + 1 };
     setActiveSet(newActiveSet);
     updateActiveSetTrackingValues(newActiveSet, activeSet);
-    setSelectedKeys(new Set(["active-set"]));
+    setIsActiveSetExpanded(true);
   };
 
   const handleSetOptionSelection = (key: string, set: WorkoutSet) => {
