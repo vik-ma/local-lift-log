@@ -1557,19 +1557,19 @@ export default function WorkoutDetails() {
                   }
                 >
                   <div className="flex flex-col">
-                    {/*  TODO: TEST LONG TEXT */}
                     <button
                       className="h-20 w-[400px] cursor-pointer"
                       onClick={() =>
                         setIsActiveSetExpanded(!isActiveSetExpanded)
                       }
                     >
-                      <div className="flex p-4 gap-2 text-2xl font-semibold text-yellow-500">
-                        <span className="max-w-[300px] truncate">
+                      <div className="flex p-3.5 gap-2 text-2xl font-semibold text-yellow-500 truncate">
+                        <span className="truncate">
                           {activeSet.exercise_name}
                         </span>
-                        <span>- Set {activeSet.set_index}</span>
-                        <span>(Warmup)</span>
+                        <span>-</span>
+                        <span>Set {activeSet.set_index}</span>
+                        {activeSet.is_warmup === 1 && <span>(Warmup)</span>}
                       </div>
                     </button>
                     {isActiveSetExpanded ? (
