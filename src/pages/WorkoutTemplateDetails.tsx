@@ -51,7 +51,12 @@ import {
   IsStringInvalidNumberOrAbove10,
   ReassignExerciseIdForSets,
 } from "../helpers";
-import { CommentIcon, SearchIcon, VerticalMenuIcon } from "../assets";
+import {
+  ChevronIcon,
+  CommentIcon,
+  SearchIcon,
+  VerticalMenuIcon,
+} from "../assets";
 import { Reorder } from "framer-motion";
 
 type OperationType =
@@ -1433,11 +1438,11 @@ export default function WorkoutTemplateDetails() {
                     >
                       <div className="bg-white rounded-lg">
                         <button
-                          className="flex px-2 py-1.5 h-16 w-full rounded-t-lg"
+                          className="flex justify-between px-2 py-1.5 h-16 w-full rounded-t-lg"
                           onClick={() => handleExerciseAccordionClick(exercise)}
                         >
                           <div className="flex flex-col items-start">
-                            <span
+                            <h3
                               className={
                                 exercise.exercise_name === "Unknown Exercise"
                                   ? "text-lg font-medium text-red-500 truncate"
@@ -1445,10 +1450,16 @@ export default function WorkoutTemplateDetails() {
                               }
                             >
                               {exercise.exercise_name}
-                            </span>
+                            </h3>
                             <span className="text-sm text-stone-500">
                               {exercise.setList.length} Sets
                             </span>
+                          </div>
+                          <div className="px-0.5 py-1.5">
+                            <ChevronIcon
+                              size={24}
+                              direction={exercise.isExpanded ? "down" : "left"}
+                            />
                           </div>
                         </button>
                         {/* <Accordion isCompact variant="shadow">
