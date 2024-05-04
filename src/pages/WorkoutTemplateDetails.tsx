@@ -1438,7 +1438,7 @@ export default function WorkoutTemplateDetails() {
                     >
                       <div className="bg-white rounded-lg border border-stone-300">
                         <button
-                          className="flex justify-between px-2 pt-1.5 h-16 w-full rounded-t-lg"
+                          className="flex justify-between px-2 py-1 h-14 w-full rounded-t-lg"
                           onClick={() => handleExerciseAccordionClick(exercise)}
                         >
                           <div className="flex flex-col items-start">
@@ -1459,7 +1459,7 @@ export default function WorkoutTemplateDetails() {
                             className={
                               exercise.isExpanded
                                 ? "px-0.5 py-1.5"
-                                : "px-0.5 py-3"
+                                : "px-0.5 py-2.5"
                             }
                           >
                             <ChevronIcon
@@ -1614,7 +1614,7 @@ export default function WorkoutTemplateDetails() {
                                 {shownSetListNotes[exercise.exercise_id]?.has(
                                   index
                                 ) && (
-                                  <span className="text-stone-400 pb-1">
+                                  <span className="text-stone-400 pb-1 pr-2">
                                     {set.note}
                                   </span>
                                 )}
