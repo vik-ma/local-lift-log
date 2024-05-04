@@ -1433,9 +1433,24 @@ export default function WorkoutTemplateDetails() {
                     >
                       <div className="bg-white rounded-lg">
                         <button
-                          className="h-16 w-full rounded-t-lg bg-red-500"
+                          className="flex px-2 py-1.5 h-16 w-full rounded-t-lg"
                           onClick={() => handleExerciseAccordionClick(exercise)}
-                        ></button>
+                        >
+                          <div className="flex flex-col items-start">
+                            <span
+                              className={
+                                exercise.exercise_name === "Unknown Exercise"
+                                  ? "text-lg font-medium text-red-500 truncate"
+                                  : "text-lg font-medium text-yellow-600 truncate"
+                              }
+                            >
+                              {exercise.exercise_name}
+                            </span>
+                            <span className="text-sm text-stone-500">
+                              {exercise.setList.length} Sets
+                            </span>
+                          </div>
+                        </button>
                         {/* <Accordion isCompact variant="shadow">
                         <AccordionItem
                           classNames={{
@@ -1499,7 +1514,7 @@ export default function WorkoutTemplateDetails() {
                             </div> */}
                             {exercise.setList.map((set, index) => (
                               <div
-                                className="flex flex-col pl-1.5 text-sm font-medium break-words"
+                                className="flex flex-col pl-2 text-sm font-medium break-words"
                                 key={`${set.exercise_id}-${index}`}
                               >
                                 <div className="flex justify-between items-center h-8">
