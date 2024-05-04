@@ -1435,7 +1435,8 @@ export default function WorkoutTemplateDetails() {
                         > */}
                         {exercise.isExpanded && (
                           <div className="flex flex-col divide-y divide-stone-200">
-                            <div className="flex justify-between items-center pb-1">
+                            {/* TODO: REPLACE WITH VERTICALMENUICON */}
+                            {/* <div className="flex justify-between items-center pb-1">
                               <span className="text-stone-400 break-words max-w-60">
                                 {exercise.exercise_note}
                               </span>
@@ -1478,10 +1479,10 @@ export default function WorkoutTemplateDetails() {
                                   </DropdownItem>
                                 </DropdownMenu>
                               </Dropdown>
-                            </div>
+                            </div> */}
                             {exercise.setList.map((set, index) => (
                               <div
-                                className="flex flex-col px-0.5 text-sm font-medium break-words"
+                                className="flex flex-col pl-1.5 text-sm font-medium break-words"
                                 key={`${set.exercise_id}-${index}`}
                               >
                                 <div className="flex justify-between items-center h-8">
