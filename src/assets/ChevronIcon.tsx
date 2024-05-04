@@ -7,9 +7,9 @@ type ChevronIconProps = {
 export const ChevronIcon = ({ color, size, direction }: ChevronIconProps) => {
   return (
     <svg
-      fill="none"
+      fill={color || "#999999"}
       height={size || 24}
-      viewBox="0 0 24 24"
+      viewBox="0 0 32 32"
       width={size || 24}
       xmlns="http://www.w3.org/2000/svg"
       style={{
@@ -22,12 +22,12 @@ export const ChevronIcon = ({ color, size, direction }: ChevronIconProps) => {
       }}
     >
       <path
-        d="m19.92 8.95-6.52 6.52c-.77.77-2.03.77-2.8 0L4.08 8.95"
+        d="M16.003 18.626l7.081-7.081L25 13.46l-8.997 8.998-9.003-9 1.917-1.916z"
         stroke={color || "#999999"}
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeMiterlimit={10}
-        strokeWidth={1.5}
+        strokeWidth={0}
       />
     </svg>
   );

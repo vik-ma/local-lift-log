@@ -55,7 +55,7 @@ export const SiteHeader = () => {
               <Button
                 disableRipple
                 className="p-0 text-[#404040] text-md font-medium bg-transparent data-[hover=true]:bg-transparent"
-                endContent={<ChevronIcon color="currentColor" size={16} />}
+                endContent={<ChevronIcon color="#404040" size={18} />}
                 radius="sm"
                 variant="light"
               >

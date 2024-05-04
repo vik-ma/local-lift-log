@@ -1576,7 +1576,7 @@ export default function WorkoutDetails() {
                         </div>
                         <div className="flex items-center">
                           <ChevronIcon
-                            size={28}
+                            size={34}
                             color="#eab308"
                             direction={isActiveSetExpanded ? "down" : "up"}
                           />
