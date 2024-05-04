@@ -1438,7 +1438,7 @@ export default function WorkoutTemplateDetails() {
                     >
                       <div className="bg-white rounded-lg">
                         <button
-                          className="flex justify-between px-2 py-1.5 h-16 w-full rounded-t-lg"
+                          className="flex justify-between px-2 pt-1.5 h-16 w-full rounded-t-lg"
                           onClick={() => handleExerciseAccordionClick(exercise)}
                         >
                           <div className="flex flex-col items-start">
@@ -1455,9 +1455,15 @@ export default function WorkoutTemplateDetails() {
                               {exercise.setList.length} Sets
                             </span>
                           </div>
-                          <div className="px-0.5 py-1.5">
+                          <div
+                            className={
+                              exercise.isExpanded
+                                ? "px-0.5 py-1.5"
+                                : "px-0.5 py-3"
+                            }
+                          >
                             <ChevronIcon
-                              size={24}
+                              size={26}
                               direction={exercise.isExpanded ? "down" : "left"}
                             />
                           </div>
