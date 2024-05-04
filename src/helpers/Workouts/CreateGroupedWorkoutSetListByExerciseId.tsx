@@ -6,6 +6,7 @@ type GroupedWorkoutSets = {
     exercise_id: number;
     setList: WorkoutSet[];
     exercise_note: string | null;
+    isExpanded: boolean;
   };
 };
 
@@ -26,6 +27,7 @@ export const CreateGroupedWorkoutSetListByExerciseId = (
           exercise_name: exercise_name,
           exercise_id: exercise_id,
           exercise_note: exercise_note,
+          isExpanded: true,
         };
       }
 

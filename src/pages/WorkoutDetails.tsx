@@ -428,6 +428,7 @@ export default function WorkoutDetails() {
           exercise_id: selectedExercise.id,
           setList: newSets,
           exercise_note: selectedExercise.note,
+          isExpanded: true
         };
 
         const newGroupedSets: GroupedWorkoutSet[] = [
