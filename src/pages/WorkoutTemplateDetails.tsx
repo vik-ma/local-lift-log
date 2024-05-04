@@ -880,6 +880,19 @@ export default function WorkoutTemplateDetails() {
     }));
   };
 
+  const handleExerciseAccordionClick = (groupedSet: GroupedWorkoutSet) => {
+    const updatedGroupedSet: GroupedWorkoutSet = {
+      ...groupedSet,
+      isExpanded: !groupedSet.isExpanded,
+    };
+
+    setGroupedSets((prev) =>
+      prev.map((item) =>
+        item.exercise_id === groupedSet.exercise_id ? updatedGroupedSet : item
+      )
+    );
+  };
+
   if (workoutTemplate === undefined) return NotFound();
 
   return (
@@ -1419,6 +1432,10 @@ export default function WorkoutTemplateDetails() {
                       onDragEnd={() => updateExerciseOrder()}
                     >
                       <div className="bg-white rounded-lg">
+                        <button
+                          className="h-16 w-full rounded-t-lg bg-red-500"
+                          onClick={() => handleExerciseAccordionClick(exercise)}
+                        ></button>
                         {/* <Accordion isCompact variant="shadow">
                         <AccordionItem
                           classNames={{
