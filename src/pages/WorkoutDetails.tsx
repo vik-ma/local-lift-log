@@ -428,7 +428,7 @@ export default function WorkoutDetails() {
           exercise_id: selectedExercise.id,
           setList: newSets,
           exercise_note: selectedExercise.note,
-          isExpanded: true
+          isExpanded: true,
         };
 
         const newGroupedSets: GroupedWorkoutSet[] = [
@@ -1576,9 +1576,9 @@ export default function WorkoutDetails() {
                         </div>
                         <div className="flex items-center">
                           <ChevronIcon
-                            size={26}
+                            size={28}
                             color="#eab308"
-                            isPointingUp={!isActiveSetExpanded}
+                            direction={isActiveSetExpanded ? "down" : "up"}
                           />
                         </div>
                       </div>
