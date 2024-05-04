@@ -23,8 +23,6 @@ import {
   SelectItem,
   ScrollShadow,
   Checkbox,
-  Accordion,
-  AccordionItem,
   Dropdown,
   DropdownTrigger,
   DropdownMenu,
@@ -1420,7 +1418,8 @@ export default function WorkoutTemplateDetails() {
                       value={exercise}
                       onDragEnd={() => updateExerciseOrder()}
                     >
-                      <Accordion isCompact variant="shadow">
+                      <div className="bg-white rounded-lg">
+                        {/* <Accordion isCompact variant="shadow">
                         <AccordionItem
                           classNames={{
                             titleWrapper: "truncate",
@@ -1433,7 +1432,8 @@ export default function WorkoutTemplateDetails() {
                           aria-label={`Accordion ${exercise.exercise_name}`}
                           title={exercise.exercise_name}
                           subtitle={`${exercise.setList.length} Sets`}
-                        >
+                        > */}
+                        {exercise.isExpanded && (
                           <div className="flex flex-col divide-y divide-stone-200">
                             <div className="flex justify-between items-center pb-1">
                               <span className="text-stone-400 break-words max-w-60">
@@ -1570,8 +1570,10 @@ export default function WorkoutTemplateDetails() {
                               </div>
                             ))}
                           </div>
-                        </AccordionItem>
-                      </Accordion>
+                        )}
+                      </div>
+                      {/* </AccordionItem>
+                      </Accordion> */}
                     </Reorder.Item>
                   ))}
                 </Reorder.Group>
