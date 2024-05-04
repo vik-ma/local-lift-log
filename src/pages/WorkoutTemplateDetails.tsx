@@ -1426,7 +1426,7 @@ export default function WorkoutTemplateDetails() {
               </h2>
               <div className="flex flex-col gap-1">
                 <Reorder.Group
-                  className="flex flex-col gap-1"
+                  className="flex flex-col gap-1.5"
                   values={groupedSets}
                   onReorder={setGroupedSets}
                 >
@@ -1436,7 +1436,7 @@ export default function WorkoutTemplateDetails() {
                       value={exercise}
                       onDragEnd={() => updateExerciseOrder()}
                     >
-                      <div className="bg-white rounded-lg">
+                      <div className="bg-white rounded-lg border border-stone-300">
                         <button
                           className="flex justify-between px-2 pt-1.5 h-16 w-full rounded-t-lg"
                           onClick={() => handleExerciseAccordionClick(exercise)}
@@ -1464,6 +1464,7 @@ export default function WorkoutTemplateDetails() {
                           >
                             <ChevronIcon
                               size={26}
+                              color="#a8a29e"
                               direction={exercise.isExpanded ? "down" : "left"}
                             />
                           </div>
