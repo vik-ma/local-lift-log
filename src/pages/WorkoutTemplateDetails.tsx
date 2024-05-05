@@ -802,6 +802,7 @@ export default function WorkoutTemplateDetails() {
 
     setGroupedSets((prev) => {
       const newList = [...prev];
+      newList[exerciseIndex].isExpanded = true;
       newList[exerciseIndex].setList = [
         ...newList[exerciseIndex].setList,
         ...newSets,
