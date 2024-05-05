@@ -1,11 +1,12 @@
 type VerticalMenuIconProps = {
   size?: number;
+  color?: string;
 };
 
-export const VerticalMenuIcon = ({ size }: VerticalMenuIconProps) => {
+export const VerticalMenuIcon = ({ size, color }: VerticalMenuIconProps) => {
   return (
     <svg
-      fill="#808080"
+      fill={color || "#808080"}
       width={size || 20}
       height={size || 20}
       viewBox="0 0 1024 1024"
