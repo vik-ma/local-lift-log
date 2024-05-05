@@ -1540,11 +1540,13 @@ export default function WorkoutTemplateDetails() {
                         </div>
                         {exercise.isExpanded && (
                           <div className="flex flex-col divide-y divide-stone-200">
-                            {/* <div className="flex justify-between items-center pb-1">
-                              <span className="text-stone-400 break-words max-w-60">
-                                {exercise.exercise_note}
-                              </span>
-                            </div> */}
+                            {exercise.showExerciseNote && (
+                              <div className="flex justify-between items-center px-2 pb-1">
+                                <span className="text-stone-400 break-words max-w-full">
+                                  {exercise.exercise_note}
+                                </span>
+                              </div>
+                            )}
                             {exercise.setList.map((set, index) => (
                               <div
                                 className="flex flex-col pl-2 text-sm font-medium break-words"
