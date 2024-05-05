@@ -1435,6 +1435,7 @@ export default function WorkoutTemplateDetails() {
                       key={exercise.exercise_id}
                       value={exercise}
                       onDragEnd={() => updateExerciseOrder()}
+                      transition={{ duration: 0.15 }}
                     >
                       <div className="bg-white rounded-lg border border-stone-300">
                         <button
