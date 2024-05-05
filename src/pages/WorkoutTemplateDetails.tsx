@@ -1459,10 +1459,49 @@ export default function WorkoutTemplateDetails() {
                           <div
                             className={
                               exercise.isExpanded
-                                ? "px-0.5 py-1.5"
-                                : "px-0.5 py-2.5"
+                                ? "flex gap-1 px-0.5 py-1.5"
+                                : "flex gap-1 px-0.5 py-2.5"
                             }
                           >
+                            <Dropdown>
+                              <DropdownTrigger>
+                                <Button size="sm" variant="flat">
+                                  Exercise Options
+                                </Button>
+                              </DropdownTrigger>
+                              <DropdownMenu
+                                aria-label={`Option Menu For ${exercise.exercise_name}`}
+                                itemClasses={{
+                                  base: "hover:text-[#404040] gap-4",
+                                }}
+                                onAction={(key) =>
+                                  handleExerciseOptionSelection(
+                                    key as string,
+                                    exercise
+                                  )
+                                }
+                              >
+                                <DropdownItem key="add-set-to-exercise">
+                                  Add Set
+                                </DropdownItem>
+                                {exercise.exercise_name ===
+                                "Unknown Exercise" ? (
+                                  <DropdownItem key="reassign-exercise">
+                                    Reassign Exercise
+                                  </DropdownItem>
+                                ) : (
+                                  <DropdownItem key="change-exercise">
+                                    Change Exercise
+                                  </DropdownItem>
+                                )}
+                                <DropdownItem
+                                  className="text-danger"
+                                  key="delete-exercise-sets"
+                                >
+                                  Remove All Sets
+                                </DropdownItem>
+                              </DropdownMenu>
+                            </Dropdown>
                             <ChevronIcon
                               size={26}
                               color="#a8a29e"
@@ -1470,66 +1509,12 @@ export default function WorkoutTemplateDetails() {
                             />
                           </div>
                         </button>
-                        {/* <Accordion isCompact variant="shadow">
-                        <AccordionItem
-                          classNames={{
-                            titleWrapper: "truncate",
-                            title:
-                              exercise.exercise_name === "Unknown Exercise"
-                                ? "text-red-500 truncate"
-                                : "truncate",
-                          }}
-                          key={exercise.exercise_id}
-                          aria-label={`Accordion ${exercise.exercise_name}`}
-                          title={exercise.exercise_name}
-                          subtitle={`${exercise.setList.length} Sets`}
-                        > */}
                         {exercise.isExpanded && (
                           <div className="flex flex-col divide-y divide-stone-200">
-                            {/* TODO: REPLACE WITH VERTICALMENUICON */}
                             {/* <div className="flex justify-between items-center pb-1">
                               <span className="text-stone-400 break-words max-w-60">
                                 {exercise.exercise_note}
                               </span>
-                              <Dropdown>
-                                <DropdownTrigger>
-                                  <Button size="sm" variant="flat">
-                                    Exercise Options
-                                  </Button>
-                                </DropdownTrigger>
-                                <DropdownMenu
-                                  aria-label={`Option Menu For ${exercise.exercise_name}`}
-                                  itemClasses={{
-                                    base: "hover:text-[#404040] gap-4",
-                                  }}
-                                  onAction={(key) =>
-                                    handleExerciseOptionSelection(
-                                      key as string,
-                                      exercise
-                                    )
-                                  }
-                                >
-                                  <DropdownItem key="add-set-to-exercise">
-                                    Add Set
-                                  </DropdownItem>
-                                  {exercise.exercise_name ===
-                                  "Unknown Exercise" ? (
-                                    <DropdownItem key="reassign-exercise">
-                                      Reassign Exercise
-                                    </DropdownItem>
-                                  ) : (
-                                    <DropdownItem key="change-exercise">
-                                      Change Exercise
-                                    </DropdownItem>
-                                  )}
-                                  <DropdownItem
-                                    className="text-danger"
-                                    key="delete-exercise-sets"
-                                  >
-                                    Remove All Sets
-                                  </DropdownItem>
-                                </DropdownMenu>
-                              </Dropdown>
                             </div> */}
                             {exercise.setList.map((set, index) => (
                               <div
