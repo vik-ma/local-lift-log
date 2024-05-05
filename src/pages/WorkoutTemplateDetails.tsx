@@ -1490,6 +1490,16 @@ export default function WorkoutTemplateDetails() {
                                 <DropdownItem key="add-set-to-exercise">
                                   Add Set
                                 </DropdownItem>
+                                <DropdownItem
+                                  className={
+                                    exercise.exercise_note === null
+                                      ? "hidden"
+                                      : ""
+                                  }
+                                  key="show-exercise-note"
+                                >
+                                  Show Exercise Note
+                                </DropdownItem>
                                 {exercise.exercise_name ===
                                 "Unknown Exercise" ? (
                                   <DropdownItem key="reassign-exercise">
