@@ -1461,8 +1461,8 @@ export default function WorkoutTemplateDetails() {
                       transition={{ duration: 0.15 }}
                     >
                       <div className="bg-white rounded-lg border border-stone-300">
-                        <button
-                          className="flex justify-between pl-2 py-1 h-14 w-full rounded-lg hover:bg-stone-100"
+                        <div
+                          className="flex justify-between pl-2 py-1 h-14 w-full rounded-lg cursor-pointer hover:bg-stone-100"
                           onClick={() => handleExerciseAccordionClick(exercise)}
                         >
                           <div className="flex flex-col items-start">
@@ -1482,12 +1482,12 @@ export default function WorkoutTemplateDetails() {
                           <div
                             className={
                               exercise.isExpanded
-                                ? "flex gap-1 px-0.5 pt-[7px] items-center"
-                                : "flex gap-1 px-0.5 pt-[7px] items-center"
+                                ? "flex gap-1 px-0.5 items-center"
+                                : "flex gap-1 px-0.5 items-center"
                             }
                           >
                             <ChevronIcon
-                              size={28}
+                              size={27}
                               color="#a8a29e"
                               direction={exercise.isExpanded ? "down" : "left"}
                             />
@@ -1543,7 +1543,7 @@ export default function WorkoutTemplateDetails() {
                               </DropdownMenu>
                             </Dropdown>
                           </div>
-                        </button>
+                        </div>
                         {exercise.isExpanded && (
                           <div className="flex flex-col divide-y divide-stone-200">
                             {/* <div className="flex justify-between items-center pb-1">
