@@ -1439,7 +1439,7 @@ export default function WorkoutTemplateDetails() {
                     >
                       <div className="bg-white rounded-lg border border-stone-300">
                         <button
-                          className="flex justify-between px-2 py-1 h-14 w-full rounded-lg hover:bg-stone-100"
+                          className="flex justify-between pl-2 py-1 h-14 w-full rounded-lg hover:bg-stone-100"
                           onClick={() => handleExerciseAccordionClick(exercise)}
                         >
                           <div className="flex flex-col items-start">
@@ -1459,14 +1459,19 @@ export default function WorkoutTemplateDetails() {
                           <div
                             className={
                               exercise.isExpanded
-                                ? "flex gap-1 px-0.5 py-1.5"
-                                : "flex gap-1 px-0.5 py-2.5"
+                                ? "flex gap-1 px-0.5 pt-[7px] items-center"
+                                : "flex gap-1 px-0.5 pt-[7px] items-center"
                             }
                           >
+                            <ChevronIcon
+                              size={28}
+                              color="#a8a29e"
+                              direction={exercise.isExpanded ? "down" : "left"}
+                            />
                             <Dropdown>
                               <DropdownTrigger>
-                                <Button size="sm" variant="flat">
-                                  Exercise Options
+                                <Button isIconOnly size="sm" variant="light">
+                                  <VerticalMenuIcon color="#a8a29e" size={17} />
                                 </Button>
                               </DropdownTrigger>
                               <DropdownMenu
@@ -1502,11 +1507,6 @@ export default function WorkoutTemplateDetails() {
                                 </DropdownItem>
                               </DropdownMenu>
                             </Dropdown>
-                            <ChevronIcon
-                              size={26}
-                              color="#a8a29e"
-                              direction={exercise.isExpanded ? "down" : "left"}
-                            />
                           </div>
                         </button>
                         {exercise.isExpanded && (
