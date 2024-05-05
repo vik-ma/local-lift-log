@@ -1479,13 +1479,7 @@ export default function WorkoutTemplateDetails() {
                               {exercise.setList.length} Sets
                             </span>
                           </div>
-                          <div
-                            className={
-                              exercise.isExpanded
-                                ? "flex gap-1 px-0.5 items-center"
-                                : "flex gap-1 px-0.5 items-center"
-                            }
-                          >
+                          <div className="flex gap-0.5 px-0.5 items-center">
                             <ChevronIcon
                               size={27}
                               color="#a8a29e"
