@@ -1438,7 +1438,7 @@ export default function WorkoutTemplateDetails() {
                     >
                       <div className="bg-white rounded-lg border border-stone-300">
                         <button
-                          className="flex justify-between px-2 py-1 h-14 w-full rounded-t-lg"
+                          className="flex justify-between px-2 py-1 h-14 w-full rounded-lg hover:bg-stone-100"
                           onClick={() => handleExerciseAccordionClick(exercise)}
                         >
                           <div className="flex flex-col items-start">
