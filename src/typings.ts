@@ -122,6 +122,7 @@ export type GroupedWorkoutSet = {
   setList: WorkoutSet[];
   exercise_note: string | null;
   isExpanded: boolean;
+  showExerciseNote?: boolean;
 };
 
 export type SetWorkoutSetAction = React.Dispatch<

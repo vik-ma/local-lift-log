@@ -160,6 +160,10 @@ export default function WorkoutTemplateDetails() {
           workoutTemplate.exercise_order
         );
 
+      for (let i = 0; i < groupedSetList.length; i++) {
+        groupedSetList[i].showExerciseNote = false;
+      }
+
       setWorkoutTemplate(workoutTemplate);
       setNewWorkoutTemplateName(workoutTemplate.name);
       setNewWorkoutTemplateNote(workoutTemplate.note ?? "");
@@ -267,6 +271,7 @@ export default function WorkoutTemplateDetails() {
           setList: newSets,
           exercise_note: selectedExercise.note,
           isExpanded: true,
+          showExerciseNote: false,
         };
 
         const newGroupedSets: GroupedWorkoutSet[] = [
@@ -1496,9 +1501,11 @@ export default function WorkoutTemplateDetails() {
                                       ? "hidden"
                                       : ""
                                   }
-                                  key="show-exercise-note"
+                                  key="toggle-exercise-note"
                                 >
-                                  Show Exercise Note
+                                  {exercise.showExerciseNote
+                                    ? "Hide Exercise Note"
+                                    : "Show Exercise Note"}
                                 </DropdownItem>
                                 {exercise.exercise_name ===
                                 "Unknown Exercise" ? (
