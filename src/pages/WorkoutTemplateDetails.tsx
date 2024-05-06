@@ -1640,8 +1640,6 @@ export default function WorkoutTemplateDetails() {
                           </div>
                         )}
                       </div>
-                      {/* </AccordionItem>
-                      </Accordion> */}
                     </Reorder.Item>
                   ))}
                 </Reorder.Group>
