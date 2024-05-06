@@ -1398,8 +1398,8 @@ export default function WorkoutDetails() {
                               <h3
                                 className={
                                   exercise.exercise_name === "Unknown Exercise"
-                                    ? "text-lg font-medium text-red-500 truncate"
-                                    : "text-lg font-medium text-yellow-600 truncate"
+                                    ? "text-lg font-medium truncate max-w-80 text-red-500"
+                                    : "text-lg font-medium truncate max-w-80 text-yellow-600"
                                 }
                               >
                                 {exercise.exercise_name}
