@@ -1400,13 +1400,7 @@ export default function WorkoutDetails() {
                             }
                           >
                             <div className="flex flex-col items-start">
-                              <h3
-                                className={
-                                  exercise.exercise_name === "Unknown Exercise"
-                                    ? "text-lg font-medium truncate max-w-80 text-red-500"
-                                    : "text-lg font-medium truncate max-w-80 text-yellow-600"
-                                }
-                              >
+                              <h3 className="text-lg font-medium truncate max-w-80 text-yellow-600">
                                 {exercise.exercise_name}
                               </h3>
                               <span className="text-sm text-stone-500">
@@ -1457,21 +1451,14 @@ export default function WorkoutDetails() {
                                       ? "Hide Exercise Note"
                                       : "Show Exercise Note"}
                                   </DropdownItem>
-                                  {exercise.exercise_name ===
-                                  "Unknown Exercise" ? (
-                                    <DropdownItem key="reassign-exercise">
-                                      Reassign Exercise
-                                    </DropdownItem>
-                                  ) : (
-                                    <DropdownItem key="change-exercise">
-                                      Change Exercise
-                                    </DropdownItem>
-                                  )}
+                                  <DropdownItem key="change-exercise">
+                                    Change Exercise
+                                  </DropdownItem>
                                   <DropdownItem
                                     className="text-danger"
                                     key="delete-exercise-sets"
                                   >
-                                    Remove All Sets
+                                    Delete All Sets
                                   </DropdownItem>
                                 </DropdownMenu>
                               </Dropdown>
