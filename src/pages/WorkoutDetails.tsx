@@ -1409,7 +1409,7 @@ export default function WorkoutDetails() {
                         onDragEnd={() => updateExerciseOrder()}
                         transition={{ duration: 0.15 }}
                       >
-                        <div className="bg-white rounded-lg border border-stone-300">
+                        <div className="bg-white rounded-lg border border-stone-300 overflow-hidden">
                           <div
                             className="flex justify-between pl-2 py-1 h-14 w-full rounded-lg cursor-pointer hover:bg-stone-100"
                             onClick={() =>
@@ -1497,8 +1497,15 @@ export default function WorkoutDetails() {
                               )}
                               {exercise.setList.map((set, index) => (
                                 <div
-                                  className="flex flex-col pl-2 text-sm font-medium break-words"
+                                  className={
+                                    set.id === activeSet?.id
+                                      ? "flex flex-col pl-2 bg-yellow-100 text-yellow-600 text-sm font-medium break-words cursor-pointer"
+                                      : "flex flex-col pl-2 text-sm font-medium break-words cursor-pointer hover:bg-stone-100"
+                                  }
                                   key={`${set.exercise_id}-${index}`}
+                                  onClick={() =>
+                                    handleClickActiveSet(set, index)
+                                  }
                                 >
                                   <div className="flex justify-between items-center h-8">
                                     <span>Set {index + 1}</span>
