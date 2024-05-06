@@ -1584,14 +1584,11 @@ export default function WorkoutDetails() {
                                           <DropdownItem key="edit">
                                             Edit
                                           </DropdownItem>
-                                          <DropdownItem key="set-defaults">
-                                            Set Default Values
-                                          </DropdownItem>
                                           <DropdownItem
                                             className="text-danger"
-                                            key="remove-set"
+                                            key="delete-set"
                                           >
-                                            Remove
+                                            Delete
                                           </DropdownItem>
                                         </DropdownMenu>
                                       </Dropdown>
