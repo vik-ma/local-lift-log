@@ -1434,7 +1434,12 @@ export default function WorkoutDetails() {
                               />
                               <Dropdown>
                                 <DropdownTrigger>
-                                  <Button isIconOnly size="sm" variant="light">
+                                  <Button
+                                    isIconOnly
+                                    className="z-1"
+                                    size="sm"
+                                    variant="light"
+                                  >
                                     <VerticalMenuIcon
                                       color="#a8a29e"
                                       size={17}
@@ -1545,6 +1550,7 @@ export default function WorkoutDetails() {
                                         <DropdownTrigger>
                                           <Button
                                             isIconOnly
+                                            className="z-1"
                                             size="sm"
                                             radius="lg"
                                             variant="light"
