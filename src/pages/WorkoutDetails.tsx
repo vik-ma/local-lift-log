@@ -302,6 +302,10 @@ export default function WorkoutDetails() {
               workout.exercise_order
             );
 
+          for (let i = 0; i < groupedSetList.length; i++) {
+            groupedSetList[i].showExerciseNote = true;
+          }
+
           setWorkoutNote(workout.note === null ? "" : workout.note);
           setGroupedSets(groupedSetList);
 
@@ -427,6 +431,7 @@ export default function WorkoutDetails() {
           setList: newSets,
           exercise_note: selectedExercise.note,
           isExpanded: true,
+          showExerciseNote: true,
         };
 
         const newGroupedSets: GroupedWorkoutSet[] = [

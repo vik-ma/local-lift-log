@@ -161,7 +161,7 @@ export default function WorkoutTemplateDetails() {
         );
 
       for (let i = 0; i < groupedSetList.length; i++) {
-        groupedSetList[i].showExerciseNote = false;
+        groupedSetList[i].showExerciseNote = true;
       }
 
       setWorkoutTemplate(workoutTemplate);
@@ -271,7 +271,7 @@ export default function WorkoutTemplateDetails() {
           setList: newSets,
           exercise_note: selectedExercise.note,
           isExpanded: true,
-          showExerciseNote: false,
+          showExerciseNote: true,
         };
 
         const newGroupedSets: GroupedWorkoutSet[] = [
