@@ -1065,6 +1065,19 @@ export default function WorkoutDetails() {
     }
   };
 
+  const handleExerciseAccordionClick = (groupedSet: GroupedWorkoutSet) => {
+    const updatedGroupedSet: GroupedWorkoutSet = {
+      ...groupedSet,
+      isExpanded: !groupedSet.isExpanded,
+    };
+
+    setGroupedSets((prev) =>
+      prev.map((item) =>
+        item.exercise_id === groupedSet.exercise_id ? updatedGroupedSet : item
+      )
+    );
+  };
+
   if (workout === undefined) return NotFound();
 
   return (
@@ -1377,9 +1390,9 @@ export default function WorkoutDetails() {
                         <div className="bg-white rounded-lg border border-stone-300">
                           <div
                             className="flex justify-between pl-2 py-1 h-14 w-full rounded-lg cursor-pointer hover:bg-stone-100"
-                            // onClick={() =>
-                            //   handleExerciseAccordionClick(exercise)
-                            // }
+                            onClick={() =>
+                              handleExerciseAccordionClick(exercise)
+                            }
                           >
                             <div className="flex flex-col items-start">
                               <h3
@@ -1459,7 +1472,107 @@ export default function WorkoutDetails() {
                               </Dropdown>
                             </div>
                           </div>
-                          {exercise.setList.map((set, index) => (
+                          {exercise.isExpanded && (
+                            <div className="flex flex-col divide-y divide-stone-200">
+                              {exercise.showExerciseNote && (
+                                <div className="flex justify-between items-center px-2 pb-1">
+                                  <span className="text-stone-400 break-words max-w-full">
+                                    {exercise.exercise_note}
+                                  </span>
+                                </div>
+                              )}
+                              {exercise.setList.map((set, index) => (
+                                <div
+                                  className="flex flex-col pl-2 text-sm font-medium break-words"
+                                  key={`${set.exercise_id}-${index}`}
+                                >
+                                  <div className="flex justify-between items-center h-8">
+                                    <span>Set {index + 1}</span>
+                                    {set.is_tracking_weight === 1 &&
+                                      set.weight > 0 && (
+                                        <span className="truncate max-w-16">
+                                          {set.weight} {set.weight_unit}
+                                        </span>
+                                      )}
+                                    {set.is_tracking_reps === 1 &&
+                                      set.reps > 0 && (
+                                        <span className="truncate max-w-16">
+                                          {set.reps} Rep{set.reps > 1 && "s"}
+                                        </span>
+                                      )}
+                                    {set.is_tracking_distance === 1 &&
+                                      set.distance > 0 && (
+                                        <span className="truncate max-w-16">
+                                          {set.distance} {set.distance_unit}
+                                        </span>
+                                      )}
+                                    <div className="flex w-12 justify-end">
+                                      {/* TODO: FIX */}
+                                      {/* {set.note !== null && (
+                                        <Button
+                                          isIconOnly
+                                          size="sm"
+                                          radius="lg"
+                                          variant="light"
+                                          onPress={() =>
+                                            handleSetListNoteButton(
+                                              exercise.exercise_id,
+                                              index
+                                            )
+                                          }
+                                        >
+                                          <CommentIcon size={20} />
+                                        </Button>
+                                      )} */}
+                                      <Dropdown>
+                                        <DropdownTrigger>
+                                          <Button
+                                            isIconOnly
+                                            size="sm"
+                                            radius="lg"
+                                            variant="light"
+                                          >
+                                            <VerticalMenuIcon size={14} />
+                                          </Button>
+                                        </DropdownTrigger>
+                                        <DropdownMenu
+                                          aria-label={`Option Menu For ${exercise.exercise_name} Set ${index}`}
+                                          itemClasses={{
+                                            base: "hover:text-[#404040] gap-4",
+                                          }}
+                                          onAction={(key) =>
+                                            handleSetOptionSelection(
+                                              key as string,
+                                              set
+                                            )
+                                          }
+                                        >
+                                          <DropdownItem key="edit">
+                                            Edit
+                                          </DropdownItem>
+                                          <DropdownItem key="set-defaults">
+                                            Set Default Values
+                                          </DropdownItem>
+                                          <DropdownItem
+                                            className="text-danger"
+                                            key="remove-set"
+                                          >
+                                            Remove
+                                          </DropdownItem>
+                                        </DropdownMenu>
+                                      </Dropdown>
+                                    </div>
+                                  </div>
+                                  {/* {shownSetListNotes[exercise.exercise_id]?.has(
+                                index
+                              ) && (
+                                <span className="text-stone-400 pb-1 pr-2">
+                                  {set.note}
+                                </span>
+                              )} */}
+                                </div>
+                              ))}
+                              {/* {exercise.setList.map((set, index) => (
                             <div
                               className={
                                 set.id === activeSet?.id
@@ -1542,7 +1655,9 @@ export default function WorkoutDetails() {
                                 </div>
                               </div>
                             </div>
-                          ))}
+                          ))} */}
+                            </div>
+                          )}
                         </div>
                       </Reorder.Item>
                     ))}
