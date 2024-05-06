@@ -48,8 +48,6 @@ import {
   ScrollShadow,
   Checkbox,
   Input,
-  Accordion,
-  AccordionItem,
   Dropdown,
   DropdownTrigger,
   DropdownMenu,
@@ -1365,7 +1363,7 @@ export default function WorkoutDetails() {
                 </h2>
                 <div className="flex flex-col gap-1">
                   <Reorder.Group
-                    className="flex flex-col gap-1"
+                    className="flex flex-col gap-1.5"
                     values={groupedSets}
                     onReorder={setGroupedSets}
                   >
@@ -1374,163 +1372,178 @@ export default function WorkoutDetails() {
                         key={exercise.exercise_id}
                         value={exercise}
                         onDragEnd={() => updateExerciseOrder()}
+                        transition={{ duration: 0.15 }}
                       >
-                        <Accordion
-                          isCompact
-                          variant="shadow"
-                          defaultSelectedKeys="all"
-                        >
-                          <AccordionItem
-                            classNames={{
-                              titleWrapper: "truncate",
-                              title:
-                                exercise.exercise_name === "Unknown Exercise"
-                                  ? "text-red-500 truncate"
-                                  : "truncate",
-                            }}
-                            key={exercise.exercise_id}
-                            aria-label={`Accordion ${exercise.exercise_name}`}
-                            title={exercise.exercise_name}
-                            subtitle={`${exercise.setList.length} Sets`}
+                        <div className="bg-white rounded-lg border border-stone-300">
+                          <div
+                            className="flex justify-between pl-2 py-1 h-14 w-full rounded-lg cursor-pointer hover:bg-stone-100"
+                            // onClick={() =>
+                            //   handleExerciseAccordionClick(exercise)
+                            // }
                           >
-                            <div className="flex flex-col divide-y divide-stone-200">
-                              <div className="flex justify-between items-center pb-1">
-                                <span className="text-stone-400 break-words max-w-60">
-                                  {exercise.exercise_note}
-                                </span>
-                                <Dropdown>
-                                  <DropdownTrigger>
-                                    <Button
-                                      className="z-1"
-                                      size="sm"
-                                      variant="flat"
-                                    >
-                                      Exercise Options
-                                    </Button>
-                                  </DropdownTrigger>
-                                  <DropdownMenu
-                                    aria-label={`Option Menu For ${exercise.exercise_name}`}
-                                    itemClasses={{
-                                      base: "hover:text-[#404040] gap-4",
-                                    }}
-                                    onAction={(key) =>
-                                      handleExerciseOptionSelection(
-                                        key as string,
-                                        exercise
-                                      )
-                                    }
-                                  >
-                                    <DropdownItem key="add-set-to-exercise">
-                                      Add Set
-                                    </DropdownItem>
-                                    {exercise.exercise_name ===
-                                    "Unknown Exercise" ? (
-                                      <DropdownItem key="reassign-exercise">
-                                        Reassign Exercise
-                                      </DropdownItem>
-                                    ) : (
-                                      <DropdownItem key="change-exercise">
-                                        Change Exercise
-                                      </DropdownItem>
-                                    )}
-                                    <DropdownItem
-                                      className="text-danger"
-                                      key="delete-exercise-sets"
-                                    >
-                                      Delete All Sets
-                                    </DropdownItem>
-                                  </DropdownMenu>
-                                </Dropdown>
-                              </div>
-                              {exercise.setList.map((set, index) => (
-                                <div
-                                  className={
-                                    set.id === activeSet?.id
-                                      ? "flex flex-col bg-yellow-100 text-yellow-600 px-0.5 text-sm font-medium break-words cursor-pointer"
-                                      : "flex flex-col px-0.5 text-sm font-medium break-words cursor-pointer hover:bg-stone-100"
-                                  }
-                                  key={`${set.exercise_id}-${index}`}
-                                  onClick={() =>
-                                    handleClickActiveSet(set, index)
+                            <div className="flex flex-col items-start">
+                              <h3
+                                className={
+                                  exercise.exercise_name === "Unknown Exercise"
+                                    ? "text-lg font-medium text-red-500 truncate"
+                                    : "text-lg font-medium text-yellow-600 truncate"
+                                }
+                              >
+                                {exercise.exercise_name}
+                              </h3>
+                              <span className="text-sm text-stone-500">
+                                {exercise.setList.length} Sets
+                              </span>
+                            </div>
+                            <div className="flex gap-0.5 px-0.5 items-center">
+                              <ChevronIcon
+                                size={27}
+                                color="#a8a29e"
+                                direction={
+                                  exercise.isExpanded ? "down" : "left"
+                                }
+                              />
+                              <Dropdown>
+                                <DropdownTrigger>
+                                  <Button isIconOnly size="sm" variant="light">
+                                    <VerticalMenuIcon
+                                      color="#a8a29e"
+                                      size={17}
+                                    />
+                                  </Button>
+                                </DropdownTrigger>
+                                <DropdownMenu
+                                  aria-label={`Option Menu For ${exercise.exercise_name}`}
+                                  itemClasses={{
+                                    base: "hover:text-[#404040] gap-4",
+                                  }}
+                                  onAction={(key) =>
+                                    handleExerciseOptionSelection(
+                                      key as string,
+                                      exercise
+                                    )
                                   }
                                 >
-                                  <div className="flex justify-between items-center h-8">
-                                    <span>Set {index + 1}</span>
-                                    <div className="flex justify-evenly items-center w-64">
-                                      {set.is_tracking_weight === 1 &&
-                                        set.weight > 0 && (
-                                          <span className="truncate max-w-16">
-                                            {set.weight} {set.weight_unit}
-                                          </span>
-                                        )}
-                                      {set.is_tracking_reps === 1 &&
-                                        set.reps > 0 && (
-                                          <span className="truncate max-w-16">
-                                            {set.reps} Rep{set.reps > 1 && "s"}
-                                          </span>
-                                        )}
-                                      {set.is_tracking_distance === 1 &&
-                                        set.distance > 0 && (
-                                          <span className="truncate max-w-16">
-                                            {set.distance} {set.distance_unit}
-                                          </span>
-                                        )}
-                                      {set.is_tracking_time === 1 &&
-                                        set.time_in_seconds > 0 && (
-                                          <span className="truncate max-w-16">
-                                            {FormatTimeInSecondsToHhmmssString(
-                                              set.time_in_seconds
-                                            )}
-                                          </span>
-                                        )}
-                                    </div>
-                                    <div className="flex w-12 justify-end">
-                                      <CheckmarkIcon
-                                        isChecked={set.is_completed === 1}
-                                        size={31}
-                                      />
-                                      <Dropdown>
-                                        <DropdownTrigger>
-                                          <Button
-                                            isIconOnly
-                                            className="z-1"
-                                            size="sm"
-                                            radius="lg"
-                                            variant="light"
-                                          >
-                                            <VerticalMenuIcon size={14} />
-                                          </Button>
-                                        </DropdownTrigger>
-                                        <DropdownMenu
-                                          aria-label={`Option Menu For ${exercise.exercise_name} Set ${index}`}
-                                          itemClasses={{
-                                            base: "hover:text-[#404040] gap-4",
-                                          }}
-                                          onAction={(key) =>
-                                            handleSetOptionSelection(
-                                              key as string,
-                                              set
-                                            )
-                                          }
-                                        >
-                                          <DropdownItem key="edit">
-                                            Edit
-                                          </DropdownItem>
-                                          <DropdownItem
-                                            className="text-danger"
-                                            key="delete-set"
-                                          >
-                                            Delete
-                                          </DropdownItem>
-                                        </DropdownMenu>
-                                      </Dropdown>
-                                    </div>
-                                  </div>
-                                </div>
-                              ))}
+                                  <DropdownItem key="add-set-to-exercise">
+                                    Add Set
+                                  </DropdownItem>
+                                  <DropdownItem
+                                    className={
+                                      exercise.exercise_note === null
+                                        ? "hidden"
+                                        : ""
+                                    }
+                                    key="toggle-exercise-note"
+                                  >
+                                    {exercise.showExerciseNote
+                                      ? "Hide Exercise Note"
+                                      : "Show Exercise Note"}
+                                  </DropdownItem>
+                                  {exercise.exercise_name ===
+                                  "Unknown Exercise" ? (
+                                    <DropdownItem key="reassign-exercise">
+                                      Reassign Exercise
+                                    </DropdownItem>
+                                  ) : (
+                                    <DropdownItem key="change-exercise">
+                                      Change Exercise
+                                    </DropdownItem>
+                                  )}
+                                  <DropdownItem
+                                    className="text-danger"
+                                    key="delete-exercise-sets"
+                                  >
+                                    Remove All Sets
+                                  </DropdownItem>
+                                </DropdownMenu>
+                              </Dropdown>
                             </div>
-                          </AccordionItem>
-                        </Accordion>
+                          </div>
+                          {exercise.setList.map((set, index) => (
+                            <div
+                              className={
+                                set.id === activeSet?.id
+                                  ? "flex flex-col bg-yellow-100 text-yellow-600 px-0.5 text-sm font-medium break-words cursor-pointer"
+                                  : "flex flex-col px-0.5 text-sm font-medium break-words cursor-pointer hover:bg-stone-100"
+                              }
+                              key={`${set.exercise_id}-${index}`}
+                              onClick={() => handleClickActiveSet(set, index)}
+                            >
+                              <div className="flex justify-between items-center h-8">
+                                <span>Set {index + 1}</span>
+                                <div className="flex justify-evenly items-center w-64">
+                                  {set.is_tracking_weight === 1 &&
+                                    set.weight > 0 && (
+                                      <span className="truncate max-w-16">
+                                        {set.weight} {set.weight_unit}
+                                      </span>
+                                    )}
+                                  {set.is_tracking_reps === 1 &&
+                                    set.reps > 0 && (
+                                      <span className="truncate max-w-16">
+                                        {set.reps} Rep{set.reps > 1 && "s"}
+                                      </span>
+                                    )}
+                                  {set.is_tracking_distance === 1 &&
+                                    set.distance > 0 && (
+                                      <span className="truncate max-w-16">
+                                        {set.distance} {set.distance_unit}
+                                      </span>
+                                    )}
+                                  {set.is_tracking_time === 1 &&
+                                    set.time_in_seconds > 0 && (
+                                      <span className="truncate max-w-16">
+                                        {FormatTimeInSecondsToHhmmssString(
+                                          set.time_in_seconds
+                                        )}
+                                      </span>
+                                    )}
+                                </div>
+                                <div className="flex w-12 justify-end">
+                                  <CheckmarkIcon
+                                    isChecked={set.is_completed === 1}
+                                    size={31}
+                                  />
+                                  <Dropdown>
+                                    <DropdownTrigger>
+                                      <Button
+                                        isIconOnly
+                                        className="z-1"
+                                        size="sm"
+                                        radius="lg"
+                                        variant="light"
+                                      >
+                                        <VerticalMenuIcon size={14} />
+                                      </Button>
+                                    </DropdownTrigger>
+                                    <DropdownMenu
+                                      aria-label={`Option Menu For ${exercise.exercise_name} Set ${index}`}
+                                      itemClasses={{
+                                        base: "hover:text-[#404040] gap-4",
+                                      }}
+                                      onAction={(key) =>
+                                        handleSetOptionSelection(
+                                          key as string,
+                                          set
+                                        )
+                                      }
+                                    >
+                                      <DropdownItem key="edit">
+                                        Edit
+                                      </DropdownItem>
+                                      <DropdownItem
+                                        className="text-danger"
+                                        key="delete-set"
+                                      >
+                                        Delete
+                                      </DropdownItem>
+                                    </DropdownMenu>
+                                  </Dropdown>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
                       </Reorder.Item>
                     ))}
                   </Reorder.Group>
