@@ -1546,6 +1546,10 @@ export default function WorkoutDetails() {
                                           <CommentIcon size={20} />
                                         </Button>
                                       )} */}
+                                      <CheckmarkIcon
+                                        isChecked={set.is_completed === 1}
+                                        size={31}
+                                      />
                                       <Dropdown>
                                         <DropdownTrigger>
                                           <Button
