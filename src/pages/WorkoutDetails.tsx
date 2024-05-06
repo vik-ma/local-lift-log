@@ -1041,6 +1041,8 @@ export default function WorkoutDetails() {
       handleAddSetToExercise(groupedWorkoutSet);
     } else if (key === "change-exercise") {
       handleChangeExercise(groupedWorkoutSet);
+    } else if (key === "toggle-exercise-note") {
+      handleToggleExerciseNote(groupedWorkoutSet);
     }
   };
 
@@ -1079,6 +1081,21 @@ export default function WorkoutDetails() {
     setGroupedSets((prev) =>
       prev.map((item) =>
         item.exercise_id === groupedSet.exercise_id ? updatedGroupedSet : item
+      )
+    );
+  };
+
+  const handleToggleExerciseNote = (groupedWorkoutSet: GroupedWorkoutSet) => {
+    const updatedGroupedSet: GroupedWorkoutSet = {
+      ...groupedWorkoutSet,
+      showExerciseNote: !groupedWorkoutSet.showExerciseNote,
+    };
+
+    setGroupedSets((prev) =>
+      prev.map((item) =>
+        item.exercise_id === groupedWorkoutSet.exercise_id
+          ? updatedGroupedSet
+          : item
       )
     );
   };
