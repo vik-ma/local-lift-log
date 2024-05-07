@@ -1668,14 +1668,19 @@ export default function WorkoutDetails() {
                         setIsActiveSetExpanded(!isActiveSetExpanded)
                       }
                     >
-                      <div className="flex justify-between w-full px-3 py-2 gap-2 text-2xl font-semibold text-yellow-500 truncate">
-                        <div className="flex gap-2">
-                          <span className="truncate">
-                            {activeSet.exercise_name}
+                      <div className="flex justify-between w-full px-3 py-2 gap-2 truncate items-center">
+                        <div className="flex flex-col items-start">
+                          <div className="flex gap-1.5 items-center text-2xl font-semibold">
+                            <span className="text-yellow-500 truncate">
+                              {activeSet.exercise_name}{" "}
+                            </span>
+                            {activeSet.is_warmup === 1 && (
+                              <span className="text-lime-300">(Warmup)</span>
+                            )}
+                          </div>
+                          <span className="text-lg text-stone-400 font-medium">
+                            Set {activeSet.set_index}
                           </span>
-                          <span>-</span>
-                          <span>Set {activeSet.set_index}</span>
-                          {activeSet.is_warmup === 1 && <span>(Warmup)</span>}
                         </div>
                         <div className="flex items-center">
                           <ChevronIcon
