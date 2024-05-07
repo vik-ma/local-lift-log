@@ -1668,10 +1668,10 @@ export default function WorkoutDetails() {
                         setIsActiveSetExpanded(!isActiveSetExpanded)
                       }
                     >
-                      <div className="flex justify-between w-full px-3 py-2 gap-2 truncate items-center">
+                      <div className="flex justify-between w-full px-3 py-2 gap-2 items-center">
                         <div className="flex flex-col items-start">
-                          <div className="flex gap-1.5 items-center text-2xl font-semibold">
-                            <span className="text-yellow-500 truncate">
+                          <div className="flex gap-1.5 text-2xl font-semibold">
+                            <span className="text-yellow-500 max-w-52 truncate">
                               {activeSet.exercise_name}{" "}
                             </span>
                             {activeSet.is_warmup === 1 && (
