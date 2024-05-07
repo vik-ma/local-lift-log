@@ -8,6 +8,7 @@ import {
   SetTrackingValuesInput,
   SetWorkoutSetAction,
   GroupedWorkoutSet,
+  SetListNotes,
 } from "../typings";
 import {
   LoadingSpinner,
@@ -101,6 +102,8 @@ export default function WorkoutDetails() {
   >();
   const [isActiveSetExpanded, setIsActiveSetExpanded] =
     useState<boolean>(false);
+  const [shownSetListComments, setShownSetListComments] =
+    useState<SetListNotes>({});
 
   const initialized = useRef(false);
 
@@ -1100,6 +1103,30 @@ export default function WorkoutDetails() {
     );
   };
 
+  const handleSetListCommentButton = (exerciseId: number, index: number) => {
+    let updatedSet: Set<number> = new Set<number>();
+    if (
+      Object.prototype.hasOwnProperty.call(shownSetListComments, exerciseId)
+    ) {
+      // If shownSetListNotes HAS key for exerciseId
+      updatedSet = new Set(shownSetListComments[exerciseId]);
+
+      if (shownSetListComments[exerciseId].has(index)) {
+        updatedSet.delete(index);
+      } else {
+        updatedSet.add(index);
+      }
+    } else {
+      // If shownSetListNotes HAS NO key for exerciseId
+      updatedSet.add(index);
+    }
+
+    setShownSetListComments((prev) => ({
+      ...prev,
+      [exerciseId]: updatedSet,
+    }));
+  };
+
   if (workout === undefined) return NotFound();
 
   return (
@@ -1516,12 +1543,12 @@ export default function WorkoutDetails() {
                                           size="sm"
                                           radius="lg"
                                           variant="light"
-                                          // onPress={() =>
-                                          //   handleSetListNoteButton(
-                                          //     exercise.exercise_id,
-                                          //     index
-                                          //   )
-                                          // }
+                                          onPress={() =>
+                                            handleSetListCommentButton(
+                                              exercise.exercise_id,
+                                              index
+                                            )
+                                          }
                                         >
                                           <CommentIcon size={20} />
                                         </Button>
