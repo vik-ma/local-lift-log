@@ -1508,7 +1508,26 @@ export default function WorkoutDetails() {
                                   }
                                 >
                                   <div className="flex justify-between items-center h-8">
-                                    <span>Set {index + 1}</span>
+                                    <div className="flex items-center gap-1.5 w-18">
+                                      <span>Set {index + 1}</span>
+                                      {set.comment !== null && (
+                                        <Button
+                                          isIconOnly
+                                          size="sm"
+                                          radius="lg"
+                                          variant="light"
+                                          // onPress={() =>
+                                          //   handleSetListNoteButton(
+                                          //     exercise.exercise_id,
+                                          //     index
+                                          //   )
+                                          // }
+                                        >
+                                          <CommentIcon size={20} />
+                                        </Button>
+                                      )}
+                                    </div>
+
                                     {set.is_tracking_weight === 1 &&
                                       set.weight > 0 && (
                                         <span className="truncate max-w-16">
