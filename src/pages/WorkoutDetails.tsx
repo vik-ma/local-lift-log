@@ -62,6 +62,7 @@ import {
   CheckmarkIcon,
   VerticalMenuIcon,
   ChevronIcon,
+  MinimizeIcon,
 } from "../assets";
 
 type OperationType =
@@ -1661,7 +1662,7 @@ export default function WorkoutDetails() {
                       : "fixed bottom-0 h-20 w-[400px] rounded-lg bg-white border-3 border-yellow-300 active-set-animation-shrink"
                   }
                 >
-                  <div className="flex flex-col">
+                  <div className="flex flex-col h-full">
                     <button
                       className="flex h-[4.5rem] w-full cursor-pointer rounded hover:bg-amber-50"
                       onClick={() =>
@@ -1706,7 +1707,7 @@ export default function WorkoutDetails() {
                       </div>
                     </button>
                     {isActiveSetExpanded ? (
-                      <div className="flex flex-col px-1.5">
+                      <div className="flex flex-col px-1.5 h-full">
                         <div className="flex flex-col">
                           <div className="flex justify-between gap-1.5">
                             <div>
@@ -1994,6 +1995,16 @@ export default function WorkoutDetails() {
                               {activeSet.is_completed ? "Update" : "Save"}
                             </Button>
                           </div>
+                        </div>
+                        <div className="flex h-full justify-end items-end">
+                          <Button
+                            isIconOnly
+                            size="lg"
+                            variant="light"
+                            onPress={() => setIsActiveSetExpanded(false)}
+                          >
+                            <MinimizeIcon color="#eab308" />
+                          </Button>
                         </div>
                       </div>
                     ) : null}
