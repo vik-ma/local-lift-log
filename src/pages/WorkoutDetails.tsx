@@ -1554,7 +1554,6 @@ export default function WorkoutDetails() {
                                         </Button>
                                       )}
                                     </div>
-
                                     {set.is_tracking_weight === 1 &&
                                       set.weight > 0 && (
                                         <span className="truncate max-w-16">
@@ -1640,13 +1639,13 @@ export default function WorkoutDetails() {
                                       </Dropdown>
                                     </div>
                                   </div>
-                                  {/* {shownSetListNotes[exercise.exercise_id]?.has(
-                                index
-                              ) && (
-                                <span className="text-stone-400 pb-1 pr-2">
-                                  {set.note}
-                                </span>
-                              )} */}
+                                  {shownSetListComments[
+                                    exercise.exercise_id
+                                  ]?.has(index) && (
+                                    <span className="text-stone-400 pb-1 pr-2">
+                                      {set.comment}
+                                    </span>
+                                  )}
                                 </div>
                               ))}
                               {/* {exercise.setList.map((set, index) => (
