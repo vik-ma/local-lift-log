@@ -1678,9 +1678,23 @@ export default function WorkoutDetails() {
                               <span className="text-lime-300">(Warmup)</span>
                             )}
                           </div>
-                          <span className="text-lg text-stone-400 font-medium">
-                            Set {activeSet.set_index}
-                          </span>
+                          <div className="flex gap-1.5 text-lg font-medium justify-between w-80">
+                            <span className="text-stone-500">
+                              Set {activeSet.set_index}
+                            </span>
+                            {userSettings?.show_timestamp_on_completed_set ===
+                              1 &&
+                              activeSet.time_completed !== null && (
+                                <div className="text-lg text-success">
+                                  Completed at{" "}
+                                  <span className="font-semibold">
+                                    {ConvertDateStringToTimeString(
+                                      activeSet.time_completed
+                                    )}
+                                  </span>
+                                </div>
+                              )}
+                          </div>
                         </div>
                         <div className="flex items-center">
                           <ChevronIcon
@@ -1695,20 +1709,6 @@ export default function WorkoutDetails() {
                       <div className="flex flex-col px-1.5">
                         <div className="flex flex-col">
                           <div className="flex justify-between gap-1.5">
-                            {/* TODO: MOVE */}
-                            {/* <div>
-                          {userSettings?.show_timestamp_on_completed_set === 1 &&
-                            activeSet.time_completed !== null && (
-                              <div className="text-lg text-success">
-                                Completed at{" "}
-                                <span className="font-semibold">
-                                  {ConvertDateStringToTimeString(
-                                    activeSet.time_completed
-                                  )}
-                                </span>
-                              </div>
-                            )}
-                        </div> */}
                             <div>
                               {showCommentInput && (
                                 <Input
