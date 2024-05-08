@@ -39,7 +39,6 @@ import {
 import toast, { Toaster } from "react-hot-toast";
 import { getLocalTimeZone, parseDate } from "@internationalized/date";
 import { I18nProvider } from "@react-aria/i18n";
-// import Calendar from "react-calendar";
 
 export default function RoutineDetailsPage() {
   const { id } = useParams();
@@ -70,7 +69,6 @@ export default function RoutineDetailsPage() {
 
   const deleteModal = useDisclosure();
   const workoutTemplatesModal = useDisclosure();
-  const calendarModal = useDisclosure();
 
   const getworkoutRoutineSchedules = useCallback(async () => {
     if (routine?.num_days_in_schedule === undefined) return;
@@ -336,7 +334,6 @@ export default function RoutineDetailsPage() {
         custom_schedule_start_date: dateString,
       }));
 
-      calendarModal.onClose();
       toast.success("Start Date Updated");
     } catch (error) {
       console.log(error);
@@ -359,9 +356,6 @@ export default function RoutineDetailsPage() {
         ...prev!,
         custom_schedule_start_date: null,
       }));
-
-      // TODO: FIX
-      // setNewCustomStartDate("");
 
       toast.success("Start Date Reset");
     } catch (error) {
@@ -453,42 +447,6 @@ export default function RoutineDetailsPage() {
           )}
         </ModalContent>
       </Modal>
-      {/* <Modal
-        isOpen={calendarModal.isOpen}
-        onOpenChange={calendarModal.onOpenChange}
-      >
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex flex-col gap-1">
-                Set Custom Schedule Start Date
-              </ModalHeader>
-              <ModalBody>
-                <Calendar
-                  value={newCustomStartDate}
-                  onClickDay={(value) => handleSelectCustomStartDate(value)}
-                />
-                <span className="font-medium text-lg">
-                  Start Date:{" "}
-                  <span className="text-success">{newCustomStartDate}</span>
-                </span>
-              </ModalBody>
-              <ModalFooter>
-                <Button color="success" variant="light" onPress={onClose}>
-                  Close
-                </Button>
-                <Button
-                  color="success"
-                  isDisabled={newCustomStartDate === ""}
-                  onPress={updateCustomStartDate}
-                >
-                  Select
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal> */}
       <div className="flex flex-col gap-4">
         {isLoading ? (
           <LoadingSpinner />
@@ -634,35 +592,6 @@ export default function RoutineDetailsPage() {
                   No Start Date Set
                 </span>
               )}
-
-              {/* {routine.custom_schedule_start_date === null ? (
-                  <span className="font-medium text-danger">
-                    No Start Date Selected
-                  </span>
-                ) : (
-                  <div className="flex w-full justify-between">
-                    <span className="font-medium">Start Date</span>
-                    <span className="font-medium text-success">
-                      {routine.custom_schedule_start_date}
-                    </span>
-                  </div>
-                )}
-                <div className="flex gap-1">
-                  <Button
-                    size="sm"
-                    color="success"
-                    onPress={() => calendarModal.onOpen()}
-                  >
-                    Set StartDate
-                  </Button>
-                  <Button
-                    size="sm"
-                    color="danger"
-                    onPress={resetCustomStartDate}
-                  >
-                    Reset
-                  </Button>
-                </div> */}
             </div>
           )}
           <h2 className="text-xl font-semibold pt-3 pb-1">
