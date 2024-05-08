@@ -11,7 +11,9 @@
     "tauri": "tauri"
   },
   "dependencies": {
+    "@internationalized/date": "^3.5.3",
     "@nextui-org/react": "^2.3.6",
+    "@react-aria/i18n": "^3.11.0",
     "@tauri-apps/api": "^1.5.4",
     "@types/react-router-dom": "^5.3.3",
     "framer-motion": "^11.1.9",
