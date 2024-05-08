@@ -56,7 +56,6 @@ export default function RoutineDetailsPage() {
   const [workoutRoutineScheduleToRemove, setworkoutRoutineScheduleToRemove] =
     useState<RoutineScheduleItem>();
   const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
-  const [newCustomStartDate, setNewCustomStartDate] = useState<string>("");
 
   const numDaysInScheduleOptions: number[] = NumDaysInScheduleOptions;
 
@@ -360,7 +359,8 @@ export default function RoutineDetailsPage() {
         custom_schedule_start_date: null,
       }));
 
-      setNewCustomStartDate("");
+      // TODO: FIX
+      // setNewCustomStartDate("");
 
       toast.success("Start Date Reset");
     } catch (error) {
@@ -609,15 +609,26 @@ export default function RoutineDetailsPage() {
                 : "Weekly Schedule"}
             </h2>
             {routine.is_schedule_weekly === 0 && (
-              <div className="flex gap-8 items-center justify-between">
+              <div className="flex gap-2 justify-between items-center">
                 <DatePicker
+                  className="max-w-40"
                   label="Start date"
                   variant="flat"
                   onChange={handleSelectCustomStartDate}
                 />
-                <Button color="danger" onPress={resetCustomStartDate}>
-                  Reset
-                </Button>
+                {routine.custom_schedule_start_date !== null ? (
+                  <Button
+                    className="w-20"
+                    color="danger"
+                    onPress={resetCustomStartDate}
+                  >
+                    Reset
+                  </Button>
+                ) : (
+                  <span className="font-medium text-stone-500">
+                    No Start Date Set
+                  </span>
+                )}
                 {/* {routine.custom_schedule_start_date === null ? (
                   <span className="font-medium text-danger">
                     No Start Date Selected
