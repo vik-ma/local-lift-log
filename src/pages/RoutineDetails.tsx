@@ -594,7 +594,11 @@ export default function RoutineDetailsPage() {
               </div>
             ) : (
               <div className="flex justify-center">
-                <Button color="success" onPress={() => setIsEditing(true)}>
+                <Button
+                  size="sm"
+                  color="success"
+                  onPress={() => setIsEditing(true)}
+                >
                   Edit
                 </Button>
               </div>
@@ -682,7 +686,6 @@ export default function RoutineDetailsPage() {
                         >
                           <span>{schedule.name}</span>
                           <Button
-                            className="text-sm"
                             size="sm"
                             color="danger"
                             onPress={() => {
@@ -699,6 +702,7 @@ export default function RoutineDetailsPage() {
                   )}
                 </div>
                 <Button
+                  size="sm"
                   color="success"
                   onPress={() => handleAddWorkoutButton(i)}
                 >
