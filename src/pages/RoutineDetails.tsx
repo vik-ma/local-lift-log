@@ -38,6 +38,7 @@ import {
 } from "../helpers";
 import toast, { Toaster } from "react-hot-toast";
 import { getLocalTimeZone, parseDate } from "@internationalized/date";
+import { I18nProvider } from "@react-aria/i18n";
 // import Calendar from "react-calendar";
 
 export default function RoutineDetailsPage() {
@@ -614,17 +615,19 @@ export default function RoutineDetailsPage() {
             </h2>
             {routine.is_schedule_weekly === 0 && (
               <div className="flex gap-2 justify-between items-center">
-                <DatePicker
-                  className="max-w-40"
-                  label="Start date"
-                  variant="flat"
-                  value={
-                    routine.custom_schedule_start_date
-                      ? parseDate(routine.custom_schedule_start_date)
-                      : null
-                  }
-                  onChange={handleSelectCustomStartDate}
-                />
+                <I18nProvider locale="en-GB">
+                  <DatePicker
+                    className="max-w-40"
+                    label="Start date"
+                    variant="flat"
+                    value={
+                      routine.custom_schedule_start_date
+                        ? parseDate(routine.custom_schedule_start_date)
+                        : null
+                    }
+                    onChange={handleSelectCustomStartDate}
+                  />
+                </I18nProvider>
                 {routine.custom_schedule_start_date !== null ? (
                   <Button
                     className="w-20"
@@ -688,6 +691,7 @@ export default function RoutineDetailsPage() {
                             {schedule.name}
                           </span>
                           <Button
+                            className="h-6 w-16"
                             size="sm"
                             color="danger"
                             onPress={() => {
