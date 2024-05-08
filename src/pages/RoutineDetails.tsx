@@ -606,42 +606,36 @@ export default function RoutineDetailsPage() {
             )}
           </>
         )}
-        <div>
-          <div className="flex flex-col gap-1">
-            <h2 className="text-xl font-semibold">
-              {routine.is_schedule_weekly === 0
-                ? `${routine.num_days_in_schedule} Day Schedule`
-                : "Weekly Schedule"}
-            </h2>
-            {routine.is_schedule_weekly === 0 && (
-              <div className="flex gap-2 justify-between items-center">
-                <I18nProvider locale="en-GB">
-                  <DatePicker
-                    className="max-w-40"
-                    label="Start date"
-                    variant="flat"
-                    value={
-                      routine.custom_schedule_start_date
-                        ? parseDate(routine.custom_schedule_start_date)
-                        : null
-                    }
-                    onChange={handleSelectCustomStartDate}
-                  />
-                </I18nProvider>
-                {routine.custom_schedule_start_date !== null ? (
-                  <Button
-                    className="w-20"
-                    color="danger"
-                    onPress={resetCustomStartDate}
-                  >
-                    Reset
-                  </Button>
-                ) : (
-                  <span className="font-medium text-stone-500">
-                    No Start Date Set
-                  </span>
-                )}
-                {/* {routine.custom_schedule_start_date === null ? (
+        <div className="flex flex-col">
+          {routine.is_schedule_weekly === 0 && (
+            <div className="flex gap-4 items-end">
+              <I18nProvider locale="en-GB">
+                <DatePicker
+                  className="w-40"
+                  classNames={{ base: "font-medium" }}
+                  label="Start date"
+                  labelPlacement="outside"
+                  variant="flat"
+                  value={
+                    routine.custom_schedule_start_date
+                      ? parseDate(routine.custom_schedule_start_date)
+                      : null
+                  }
+                  onChange={handleSelectCustomStartDate}
+                />
+              </I18nProvider>
+
+              {routine.custom_schedule_start_date !== null ? (
+                <Button size="sm" color="danger" onPress={resetCustomStartDate}>
+                  Reset
+                </Button>
+              ) : (
+                <span className="font-medium text-stone-500">
+                  No Start Date Set
+                </span>
+              )}
+
+              {/* {routine.custom_schedule_start_date === null ? (
                   <span className="font-medium text-danger">
                     No Start Date Selected
                   </span>
@@ -669,9 +663,13 @@ export default function RoutineDetailsPage() {
                     Reset
                   </Button>
                 </div> */}
-              </div>
-            )}
-          </div>
+            </div>
+          )}
+          <h2 className="text-xl font-semibold pt-3 pb-1">
+            {routine.is_schedule_weekly === 0
+              ? `${routine.num_days_in_schedule} Day Schedule`
+              : "Weekly Schedule"}
+          </h2>
           <div className="flex flex-col gap-0.5 py-1">
             {Array.from(Array(routine.num_days_in_schedule), (_, i) => (
               <div
