@@ -21,6 +21,7 @@ import {
   RadioGroup,
   Select,
   SelectItem,
+  DatePicker,
 } from "@nextui-org/react";
 import { NotFound } from ".";
 import Database from "tauri-plugin-sql-api";
@@ -35,7 +36,7 @@ import {
   IsYmdDateStringValid,
 } from "../helpers";
 import toast, { Toaster } from "react-hot-toast";
-import Calendar from "react-calendar";
+// import Calendar from "react-calendar";
 
 export default function RoutineDetailsPage() {
   const { id } = useParams();
@@ -447,7 +448,7 @@ export default function RoutineDetailsPage() {
           )}
         </ModalContent>
       </Modal>
-      <Modal
+      {/* <Modal
         isOpen={calendarModal.isOpen}
         onOpenChange={calendarModal.onOpenChange}
       >
@@ -482,7 +483,7 @@ export default function RoutineDetailsPage() {
             </>
           )}
         </ModalContent>
-      </Modal>
+      </Modal> */}
       <div className="flex flex-col gap-4">
         {isLoading ? (
           <LoadingSpinner />
@@ -605,7 +606,14 @@ export default function RoutineDetailsPage() {
             </h2>
             {routine.is_schedule_weekly === 0 && (
               <div className="flex gap-8 items-center justify-between">
-                {routine.custom_schedule_start_date === null ? (
+                <DatePicker
+                  label="Start date"
+                  variant="flat"
+                />
+                <Button color="danger" onPress={resetCustomStartDate}>
+                  Reset
+                </Button>
+                {/* {routine.custom_schedule_start_date === null ? (
                   <span className="font-medium text-danger">
                     No Start Date Selected
                   </span>
@@ -632,7 +640,7 @@ export default function RoutineDetailsPage() {
                   >
                     Reset
                   </Button>
-                </div>
+                </div> */}
               </div>
             )}
           </div>
