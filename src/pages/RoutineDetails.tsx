@@ -22,6 +22,7 @@ import {
   Select,
   SelectItem,
   DatePicker,
+  DateValue,
 } from "@nextui-org/react";
 import { NotFound } from ".";
 import Database from "tauri-plugin-sql-api";
@@ -36,6 +37,7 @@ import {
   IsYmdDateStringValid,
 } from "../helpers";
 import toast, { Toaster } from "react-hot-toast";
+import { getLocalTimeZone } from "@internationalized/date";
 // import Calendar from "react-calendar";
 
 export default function RoutineDetailsPage() {
@@ -306,30 +308,32 @@ export default function RoutineDetailsPage() {
     setUserSettings(updatedSettings);
   };
 
-  const handleSelectCustomStartDate = (selectedDate: Date) => {
+  const handleSelectCustomStartDate = (selectedDate: DateValue) => {
     if (routine === undefined) return;
 
-    const formattedDate = ConvertDateToYmdString(selectedDate);
+    const formattedDate = ConvertDateToYmdString(
+      selectedDate.toDate(getLocalTimeZone())
+    );
 
-    setNewCustomStartDate(formattedDate);
+    updateCustomStartDate(formattedDate);
   };
 
-  const updateCustomStartDate = async () => {
+  const updateCustomStartDate = async (dateString: string) => {
     if (routine === undefined || routine.is_schedule_weekly) return;
 
-    if (!IsYmdDateStringValid(newCustomStartDate)) return;
+    if (!IsYmdDateStringValid(dateString)) return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
       await db.execute(
         "UPDATE routines SET custom_schedule_start_date = $1 WHERE id = $2",
-        [newCustomStartDate, routine.id]
+        [dateString, routine.id]
       );
 
       setRoutine((prev) => ({
         ...prev!,
-        custom_schedule_start_date: newCustomStartDate,
+        custom_schedule_start_date: dateString,
       }));
 
       calendarModal.onClose();
@@ -609,6 +613,7 @@ export default function RoutineDetailsPage() {
                 <DatePicker
                   label="Start date"
                   variant="flat"
+                  onChange={handleSelectCustomStartDate}
                 />
                 <Button color="danger" onPress={resetCustomStartDate}>
                   Reset
