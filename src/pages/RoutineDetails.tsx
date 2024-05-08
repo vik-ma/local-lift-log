@@ -37,7 +37,7 @@ import {
   IsYmdDateStringValid,
 } from "../helpers";
 import toast, { Toaster } from "react-hot-toast";
-import { getLocalTimeZone } from "@internationalized/date";
+import { getLocalTimeZone, parseDate } from "@internationalized/date";
 // import Calendar from "react-calendar";
 
 export default function RoutineDetailsPage() {
@@ -614,6 +614,11 @@ export default function RoutineDetailsPage() {
                   className="max-w-40"
                   label="Start date"
                   variant="flat"
+                  value={
+                    routine.custom_schedule_start_date
+                      ? parseDate(routine.custom_schedule_start_date)
+                      : null
+                  }
                   onChange={handleSelectCustomStartDate}
                 />
                 {routine.custom_schedule_start_date !== null ? (
