@@ -675,7 +675,7 @@ export default function RoutineDetailsPage() {
                 key={`day-${i + 1}`}
                 className="flex items-center justify-between"
               >
-                <div className="flex flex-col w-48 gap-1">
+                <div className="flex flex-col w-64 gap-1">
                   <span className="font-medium">{dayNameList[i]}</span>
                   {scheduleValues[i]?.length > 0 ? (
                     scheduleValues[i].map((schedule) => {
@@ -684,7 +684,9 @@ export default function RoutineDetailsPage() {
                           key={`${schedule.id}`}
                           className="flex justify-between items-center"
                         >
-                          <span>{schedule.name}</span>
+                          <span className="truncate max-w-44">
+                            {schedule.name}
+                          </span>
                           <Button
                             size="sm"
                             color="danger"
