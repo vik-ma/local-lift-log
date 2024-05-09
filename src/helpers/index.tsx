@@ -33,6 +33,7 @@ export { UpdateDefaultUnitMeasurement } from "./UserSettings/UpdateDefaultUnitMe
 export { GetDefaultUnitMeasurement } from "./UserSettings/GetDefaultUnitMeasurement";
 export { UpdateActiveTrackingMeasurements } from "./UserSettings/UpdateActiveTrackingMeasurements";
 export { LocaleList } from "./UserSettings/LocaleList";
+export { UpdateLocale } from "./UserSettings/UpdateLocale";
 
 export { GenerateSetListOrderString } from "./Sets/GenerateSetListOrderString";
 export { OrderSetsBySetListOrderString } from "./Sets/OrderSetsBySetListOrderString";

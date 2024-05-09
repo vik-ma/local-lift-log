@@ -7,6 +7,7 @@ import {
   UpdateDefaultUnitDistance,
   UpdateDefaultTimeInput,
   UpdateDefaultUnitMeasurement,
+  UpdateLocale,
 } from "../helpers";
 import { Switch, Select, SelectItem } from "@nextui-org/react";
 import {
@@ -14,6 +15,7 @@ import {
   WeightUnitDropdown,
   DistanceUnitDropdown,
   MeasurementUnitDropdown,
+  LocaleDropdown,
 } from "../components";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -112,6 +114,23 @@ export default function SettingsPage() {
     showToast();
   };
 
+  const handleLocaleChange = async (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    if (userSettings === undefined) return;
+
+    const localeValue: string = e.target.value;
+
+    const updatedSettings: UserSettingsOptional = {
+      id: userSettings.id,
+      locale: localeValue,
+    };
+
+    await UpdateLocale(updatedSettings);
+    setUserSettings((prev) => ({ ...prev!, ...updatedSettings }));
+    showToast();
+  };
+
   const showToast = () => {
     toast.success("Setting Updated");
   };
@@ -185,6 +204,14 @@ export default function SettingsPage() {
                 value={userSettings!.default_unit_measurement}
                 setUserSettings={handleDefaultUnitMeasurementChange}
                 targetType="settings"
+              />
+            </div>
+            <div className="flex gap-3 items-center justify-between">
+              <span className="text-lg">Date Locale</span>
+              <LocaleDropdown
+                value={userSettings!.locale}
+                setUserSettings={handleLocaleChange}
+                targetType="locale"
               />
             </div>
           </div>
