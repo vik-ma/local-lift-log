@@ -13,6 +13,8 @@ export const CreateDefaultUserSettings = async (
 
   const default_time_input: string = "hhmmss";
 
+  const default_locale: string = "en-GB";
+
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -27,8 +29,8 @@ export const CreateDefaultUserSettings = async (
       `INSERT into user_settings 
       (show_timestamp_on_completed_set, active_routine_id, default_unit_weight, 
         default_unit_distance, default_time_input, default_unit_measurement,
-        active_tracking_measurements) 
-      VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+        active_tracking_measurements, locale) 
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
       [
         show_timestamp_on_completed_set,
         active_routine_id,
@@ -37,6 +39,7 @@ export const CreateDefaultUserSettings = async (
         default_time_input,
         default_unit_measurement,
         "",
+        default_locale,
       ]
     );
 
@@ -50,6 +53,8 @@ export const CreateDefaultUserSettings = async (
       default_unit_distance: default_unit_distance,
       default_time_input: default_time_input,
       default_unit_measurement: default_unit_measurement,
+      active_tracking_measurements: "",
+      locale: default_locale,
     };
 
     return defaultUserSettings;
