@@ -584,16 +584,21 @@ export default function RoutineDetailsPage() {
                   onChange={handleSelectCustomStartDate}
                 />
               </I18nProvider>
-
-              {routine.custom_schedule_start_date !== null ? (
-                <Button size="sm" color="danger" onPress={resetCustomStartDate}>
-                  Reset
-                </Button>
-              ) : (
-                <span className="font-medium text-stone-500">
-                  No Start Date Set
-                </span>
-              )}
+              <div className="pb-1">
+                {routine.custom_schedule_start_date !== null ? (
+                  <Button
+                    size="sm"
+                    color="danger"
+                    onPress={resetCustomStartDate}
+                  >
+                    Reset
+                  </Button>
+                ) : (
+                  <span className="font-medium text-stone-500">
+                    No Start Date Set
+                  </span>
+                )}
+              </div>
             </div>
           )}
           <h2 className="text-xl font-semibold pt-3 pb-1">
