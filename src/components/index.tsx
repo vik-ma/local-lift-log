@@ -5,3 +5,4 @@ export { WeightUnitDropdown } from "./WeightUnitDropdown";
 export { DistanceUnitDropdown } from "./DistanceUnitDropdown";
 export { WorkoutRatingDropdown } from "./WorkoutRatingDropdown";
 export { MeasurementUnitDropdown } from "./MeasurementUnitDropdown";
+export { LocaleDropdown } from "./LocaleDropdown";
