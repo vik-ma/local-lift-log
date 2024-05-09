@@ -32,7 +32,7 @@ export { UpdateDefaultTimeInput } from "./UserSettings/UpdateDefaultTimeInput";
 export { UpdateDefaultUnitMeasurement } from "./UserSettings/UpdateDefaultUnitMeasurement";
 export { GetDefaultUnitMeasurement } from "./UserSettings/GetDefaultUnitMeasurement";
 export { UpdateActiveTrackingMeasurements } from "./UserSettings/UpdateActiveTrackingMeasurements";
-export { LocaleMap } from "./UserSettings/LocaleMap";
+export { LocaleList } from "./UserSettings/LocaleList";
 
 export { GenerateSetListOrderString } from "./Sets/GenerateSetListOrderString";
 export { OrderSetsBySetListOrderString } from "./Sets/OrderSetsBySetListOrderString";
