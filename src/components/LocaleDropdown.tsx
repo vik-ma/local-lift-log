@@ -7,7 +7,7 @@ export const LocaleDropdown = () => {
   const localeArray: string[] = [...localeMap.keys()];
 
   return (
-    <Select aria-label="Locale Dropdown Menu" label="Locale" variant="faded">
+    <Select aria-label="Locale Dropdown Menu" className="w-64" variant="faded">
       {localeArray.map((unit) => (
         <SelectItem key={unit} value={unit}>
           {unit}
