@@ -381,17 +381,19 @@ export default function RoutineDetailsPage() {
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                <h2>
-                  Remove Workout Template from{" "}
-                  <span className="text-success">
-                    {dayNameList[selectedDay]}
-                  </span>
-                </h2>
+                <h2>Remove Workout Template</h2>
               </ModalHeader>
               <ModalBody>
                 <p className="break-words">
                   Are you sure you want to remove{" "}
-                  {workoutRoutineScheduleToRemove?.name}?
+                  <span className="font-medium text-yellow-500">
+                    {workoutRoutineScheduleToRemove?.name}
+                  </span>{" "}
+                  from{" "}
+                  <span className="font-medium text-yellow-500">
+                    {dayNameList[selectedDay]}
+                  </span>
+                  ?
                 </p>
               </ModalBody>
               <ModalFooter>
