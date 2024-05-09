@@ -24,6 +24,7 @@ pub struct UserSetting {
     pub default_time_input: String,
     pub default_unit_measurement: String,
     pub active_tracking_measurements: String,
+    pub locale: String,
 }
 
 #[derive(Queryable, Selectable)]
