@@ -32,7 +32,6 @@ import {
   GetScheduleDayValues,
   NumDaysInScheduleOptions,
   UpdateActiveRoutineId,
-  GetActiveRoutineId,
   ConvertDateToYmdString,
   IsYmdDateStringValid,
 } from "../helpers";
@@ -578,7 +577,7 @@ export default function RoutineDetailsPage() {
         <div className="flex flex-col">
           {routine.is_schedule_weekly === 0 && (
             <div className="flex gap-4 items-end">
-              <I18nProvider locale="en-GB">
+              <I18nProvider locale={userSettings?.locale}>
                 <DatePicker
                   className="w-40"
                   classNames={{ base: "font-medium" }}
