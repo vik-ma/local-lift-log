@@ -9,6 +9,7 @@ import {
   useDisclosure,
   Select,
   SelectItem,
+  DatePicker,
 } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import { UserSettings } from "../typings";
@@ -22,6 +23,7 @@ import {
   CreateDefaultDistances,
 } from "../helpers";
 import { LocaleDropdown } from "../components";
+import { I18nProvider } from "@react-aria/i18n";
 
 export default function HomePage() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
@@ -107,7 +109,7 @@ export default function HomePage() {
                 Select Units And Date Locale
               </ModalHeader>
               <ModalBody>
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-2">
                   <div className="flex gap-3 items-center justify-between">
                     <span className="text-lg">Unit Type</span>
                     <Select
@@ -132,6 +134,15 @@ export default function HomePage() {
                       setState={setLocale}
                       targetType="state"
                     />
+                  </div>
+                  <div className="">
+                    <I18nProvider locale={locale}>
+                      <DatePicker
+                        className="w-40"
+                        label="Date example"
+                        variant="faded"
+                      />
+                    </I18nProvider>
                   </div>
                 </div>
               </ModalBody>
