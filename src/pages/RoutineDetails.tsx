@@ -140,17 +140,26 @@ export default function RoutineDetailsPage() {
       }
     };
 
-    const getActiveRoutineId = async () => {
-      const userSettings: UserSettingsOptional | undefined =
-        await GetActiveRoutineId();
+    const getUserSettings = async () => {
+      try {
+        const db = await Database.load(import.meta.env.VITE_DB);
 
-      if (userSettings !== undefined) setUserSettings(userSettings);
+        const result = await db.select<UserSettingsOptional[]>(
+          "SELECT id, active_routine_id, locale FROM user_settings"
+        );
+
+        const userSettings: UserSettingsOptional = result[0];
+
+        if (userSettings !== undefined) setUserSettings(userSettings);
+      } catch (error) {
+        console.log(error);
+      }
     };
 
     getRoutine();
     getWorkoutTemplates();
     getworkoutRoutineSchedules();
-    getActiveRoutineId();
+    getUserSettings();
   }, [id, getworkoutRoutineSchedules]);
 
   const updateRoutine = async () => {
