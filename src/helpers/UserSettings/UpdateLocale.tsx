@@ -10,6 +10,7 @@ export const UpdateLocale = async (userSettings: UserSettingsOptional) => {
 
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
+    
     db.execute("UPDATE user_settings SET locale = $1 WHERE id = $2", [
       userSettings.locale,
       userSettings.id,
