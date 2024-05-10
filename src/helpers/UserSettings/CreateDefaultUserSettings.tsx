@@ -1,8 +1,10 @@
 import Database from "tauri-plugin-sql-api";
 import { UserSettings } from "../../typings";
+import { LocaleList } from "./LocaleList";
 
 export const CreateDefaultUserSettings = async (
-  useMetricUnits: boolean
+  useMetricUnits: boolean,
+  locale: string
 ): Promise<UserSettings | undefined> => {
   const show_timestamp_on_completed_set: number = 1;
   const active_routine_id: number = 0;
@@ -13,7 +15,11 @@ export const CreateDefaultUserSettings = async (
 
   const default_time_input: string = "hhmmss";
 
-  const default_locale: string = "en-GB";
+  const default_locale: string = LocaleList().some(
+    (item) => item.code === locale
+  )
+    ? locale
+    : "en-GB";
 
   try {
     const db = await Database.load(import.meta.env.VITE_DB);

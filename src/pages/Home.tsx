@@ -40,7 +40,7 @@ export default function HomePage() {
     const useMetricUnits: boolean = unitType === "metric" ? true : false;
 
     const defaultUserSettings: UserSettings | undefined =
-      await CreateDefaultUserSettings(useMetricUnits);
+      await CreateDefaultUserSettings(useMetricUnits, locale);
 
     // Create Default User Settings
     if (defaultUserSettings !== undefined) {
