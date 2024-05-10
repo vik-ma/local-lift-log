@@ -7,6 +7,8 @@ import {
   ModalBody,
   ModalFooter,
   useDisclosure,
+  Select,
+  SelectItem,
 } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import { UserSettings } from "../typings";
@@ -24,6 +26,7 @@ export default function HomePage() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [isUserSettingsLoaded, setIsUserSettingsLoaded] =
     useState<boolean>(false);
+  const [unitType, setUnitType] = useState<string>("metric");
   const navigate = useNavigate();
 
   const initialized = useRef(false);
@@ -96,27 +99,33 @@ export default function HomePage() {
           {() => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                Choose Units
+                Select Units And Date Locale
               </ModalHeader>
               <ModalBody>
-                <p>Do you want to use Metric or Imperial units?</p>
+                <div className="flex gap-3 items-center justify-between">
+                  <span className="text-lg">Type of Units</span>
+                  <Select
+                    aria-label="Unit Type Dropdown Menu"
+                    className="w-32"
+                    variant="faded"
+                    selectedKeys={[unitType]}
+                    onChange={(e) => setUnitType(e.target.value)}
+                  >
+                    <SelectItem key="metric" value="metric">
+                      Metric
+                    </SelectItem>
+                    <SelectItem key="imperial" value="imperial">
+                      Imperial
+                    </SelectItem>
+                  </Select>
+                </div>
               </ModalBody>
-              <ModalFooter className="flex justify-center gap-5">
+              <ModalFooter>
                 <Button
-                  className="text-lg font-medium"
-                  size="lg"
-                  color="primary"
-                  onPress={() => createDefaultUserSettings(true)}
+                  color="success"
+                  // onPress={() => createDefaultUserSettings(false)}
                 >
-                  Metric
-                </Button>
-                <Button
-                  className="text-lg font-medium"
-                  size="lg"
-                  color="primary"
-                  onPress={() => createDefaultUserSettings(false)}
-                >
-                  Imperial
+                  Done
                 </Button>
               </ModalFooter>
             </>
