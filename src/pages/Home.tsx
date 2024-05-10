@@ -33,7 +33,9 @@ export default function HomePage() {
 
   const setUnitsModal = useDisclosure();
 
-  const createDefaultUserSettings = async (useMetricUnits: boolean) => {
+  const createDefaultUserSettings = async () => {
+    const useMetricUnits: boolean = unitType === "metric" ? true : false;
+
     const defaultUserSettings: UserSettings | undefined =
       await CreateDefaultUserSettings(useMetricUnits);
 
@@ -123,7 +125,7 @@ export default function HomePage() {
               <ModalFooter>
                 <Button
                   color="success"
-                  // onPress={() => createDefaultUserSettings(false)}
+                  onPress={() => createDefaultUserSettings()}
                 >
                   Done
                 </Button>
