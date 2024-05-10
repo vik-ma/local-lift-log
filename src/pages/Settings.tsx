@@ -200,7 +200,9 @@ export default function SettingsPage() {
               </Select>
             </div>
             <div className="flex gap-3 items-center justify-between">
-              <span className="text-lg">Default Measurement Unit</span>
+              <span className="text-lg">
+                Default Measurement Unit (Circumference)
+              </span>
               <MeasurementUnitDropdown
                 value={userSettings!.default_unit_measurement}
                 setUserSettings={handleDefaultUnitMeasurementChange}
