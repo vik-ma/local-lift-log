@@ -21,12 +21,15 @@ import {
   CreateDefaultMeasurementList,
   CreateDefaultDistances,
 } from "../helpers";
+import { LocaleDropdown } from "../components";
 
 export default function HomePage() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [isUserSettingsLoaded, setIsUserSettingsLoaded] =
     useState<boolean>(false);
   const [unitType, setUnitType] = useState<string>("metric");
+  const [locale, setLocale] = useState<string>("en-GB");
+
   const navigate = useNavigate();
 
   const initialized = useRef(false);
@@ -104,22 +107,32 @@ export default function HomePage() {
                 Select Units And Date Locale
               </ModalHeader>
               <ModalBody>
-                <div className="flex gap-3 items-center justify-between">
-                  <span className="text-lg">Type of Units</span>
-                  <Select
-                    aria-label="Unit Type Dropdown List"
-                    className="w-32"
-                    variant="faded"
-                    selectedKeys={[unitType]}
-                    onChange={(e) => setUnitType(e.target.value)}
-                  >
-                    <SelectItem key="metric" value="metric">
-                      Metric
-                    </SelectItem>
-                    <SelectItem key="imperial" value="imperial">
-                      Imperial
-                    </SelectItem>
-                  </Select>
+                <div className="flex flex-col gap-1">
+                  <div className="flex gap-3 items-center justify-between">
+                    <span className="text-lg">Unit Type</span>
+                    <Select
+                      aria-label="Unit Type Dropdown List"
+                      className="w-32"
+                      variant="faded"
+                      selectedKeys={[unitType]}
+                      onChange={(e) => setUnitType(e.target.value)}
+                    >
+                      <SelectItem key="metric" value="metric">
+                        Metric
+                      </SelectItem>
+                      <SelectItem key="imperial" value="imperial">
+                        Imperial
+                      </SelectItem>
+                    </Select>
+                  </div>
+                  <div className="flex gap-3 items-center justify-between">
+                    <span className="text-lg">Date Locale</span>
+                    <LocaleDropdown
+                      value={locale}
+                      setState={setLocale}
+                      targetType="state"
+                    />
+                  </div>
                 </div>
               </ModalBody>
               <ModalFooter>
