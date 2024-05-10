@@ -17,7 +17,7 @@ export const LocaleDropdown = ({
 
   return (
     <Select
-      aria-label="Locale Dropdown Menu"
+      aria-label="Locale Dropdown List"
       className="w-64"
       variant="faded"
       selectedKeys={[value]}

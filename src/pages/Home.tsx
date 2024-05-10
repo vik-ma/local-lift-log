@@ -107,7 +107,7 @@ export default function HomePage() {
                 <div className="flex gap-3 items-center justify-between">
                   <span className="text-lg">Type of Units</span>
                   <Select
-                    aria-label="Unit Type Dropdown Menu"
+                    aria-label="Unit Type Dropdown List"
                     className="w-32"
                     variant="faded"
                     selectedKeys={[unitType]}

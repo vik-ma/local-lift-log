@@ -331,7 +331,7 @@ export const TimeInput = ({
       </div>
       <div>
         <Select
-          aria-label="Time Input Type Dropdown Menu"
+          aria-label="Time Input Type Dropdown List"
           className="w-32"
           variant="faded"
           selectedKeys={[inputType]}

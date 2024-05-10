@@ -30,7 +30,7 @@ export const DistanceUnitDropdown = ({
 
   return (
     <Select
-      aria-label="Distance Unit Dropdown Menu"
+      aria-label="Distance Unit Dropdown List"
       className="max-w-[4.5rem]"
       variant="faded"
       selectedKeys={[value]}

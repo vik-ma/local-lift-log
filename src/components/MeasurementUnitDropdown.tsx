@@ -88,7 +88,7 @@ export const MeasurementUnitDropdown = ({
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
       <Select
-        aria-label="Measurement Unit Dropdown Menu"
+        aria-label="Measurement Unit Dropdown List"
         label={
           targetType === "settings" || targetType === "active"
             ? undefined
