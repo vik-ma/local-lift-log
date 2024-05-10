@@ -5,13 +5,18 @@ import { UnitDropdownProps } from "../typings";
 export const LocaleDropdown = ({
   value,
   setUserSettings,
+  setState,
   targetType,
 }: UnitDropdownProps) => {
   const localeList = LocaleList();
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    if (targetType === "locale" && setUserSettings !== undefined) {
+    if (targetType === "settings" && setUserSettings !== undefined) {
       setUserSettings(e);
+    }
+
+    if (targetType === "state" && setState !== undefined) {
+      setState(e.target.value);
     }
   };
 

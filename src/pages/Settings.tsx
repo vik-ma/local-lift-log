@@ -214,7 +214,7 @@ export default function SettingsPage() {
               <LocaleDropdown
                 value={userSettings!.locale}
                 setUserSettings={handleLocaleChange}
-                targetType="locale"
+                targetType="settings"
               />
             </div>
             <div className="flex justify-end">

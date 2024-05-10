@@ -148,7 +148,7 @@ export type UnitDropdownProps = {
   setSet?: SetWorkoutSetAction;
   setUserSettings?: HTMLSelectElementChange;
   setState?: React.Dispatch<React.SetStateAction<string>>;
-  targetType: "set" | "settings" | "state" | "locale";
+  targetType: "set" | "settings" | "state";
 };
 
 export type MeasurementDropdownProps = {
