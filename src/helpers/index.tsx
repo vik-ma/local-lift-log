@@ -34,6 +34,7 @@ export { GetDefaultUnitMeasurement } from "./UserSettings/GetDefaultUnitMeasurem
 export { UpdateActiveTrackingMeasurements } from "./UserSettings/UpdateActiveTrackingMeasurements";
 export { LocaleList } from "./UserSettings/LocaleList";
 export { UpdateLocale } from "./UserSettings/UpdateLocale";
+export { GetLocale } from "./UserSettings/GetLocale";
 
 export { GenerateSetListOrderString } from "./Sets/GenerateSetListOrderString";
 export { OrderSetsBySetListOrderString } from "./Sets/OrderSetsBySetListOrderString";
