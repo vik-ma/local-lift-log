@@ -6,10 +6,21 @@ export const UpdateAllUserSettings = async (userSettings: UserSettings) => {
     const db = await Database.load(import.meta.env.VITE_DB);
 
     db.execute(
-      "UPDATE user_settings SET show_timestamp_on_completed_set = $1, active_routine_id = $2 WHERE id = $3",
+      `UPDATE user_settings 
+      SET show_timestamp_on_completed_set = $1, active_routine_id = $2, 
+      default_unit_weight = $3, default_unit_distance = $4, default_time_input = $5,
+      default_unit_measurement = $6, active_tracking_measurements = $7, locale = $8,
+      clock_style = $9 WHERE id = $10`,
       [
         userSettings.show_timestamp_on_completed_set,
         userSettings.active_routine_id,
+        userSettings.default_unit_weight,
+        userSettings.default_unit_distance,
+        userSettings.default_time_input,
+        userSettings.default_unit_measurement,
+        userSettings.active_tracking_measurements,
+        userSettings.locale,
+        userSettings.clock_style,
         userSettings.id,
       ]
     );
