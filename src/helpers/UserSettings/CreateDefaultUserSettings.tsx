@@ -66,6 +66,7 @@ export const CreateDefaultUserSettings = async (
       default_unit_measurement: default_unit_measurement,
       active_tracking_measurements: "",
       locale: default_locale,
+      clock_style: default_clock_style,
     };
 
     return defaultUserSettings;

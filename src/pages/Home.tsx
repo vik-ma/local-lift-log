@@ -21,7 +21,7 @@ import {
   CreateDefaultMeasurementList,
   CreateDefaultDistances,
 } from "../helpers";
-import { LocaleDropdown } from "../components";
+import { ClockStyleDropdown, LocaleDropdown } from "../components";
 
 export default function HomePage() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
@@ -29,6 +29,7 @@ export default function HomePage() {
     useState<boolean>(false);
   const [unitType, setUnitType] = useState<string>("metric");
   const [locale, setLocale] = useState<string>("en-GB");
+  const [clockStyle, setClockStyle] = useState<string>("24h");
 
   const navigate = useNavigate();
 
@@ -40,7 +41,7 @@ export default function HomePage() {
     const useMetricUnits: boolean = unitType === "metric" ? true : false;
 
     const defaultUserSettings: UserSettings | undefined =
-      await CreateDefaultUserSettings(useMetricUnits, locale);
+      await CreateDefaultUserSettings(useMetricUnits, locale, clockStyle);
 
     // Create Default User Settings
     if (defaultUserSettings !== undefined) {
@@ -131,6 +132,14 @@ export default function HomePage() {
                     <LocaleDropdown
                       value={locale}
                       setState={setLocale}
+                      targetType="state"
+                    />
+                  </div>
+                  <div className="flex gap-3 items-center justify-between">
+                    <span className="text-lg">Clock Style</span>
+                    <ClockStyleDropdown
+                      value={clockStyle}
+                      setState={setClockStyle}
                       targetType="state"
                     />
                   </div>

@@ -22,6 +22,7 @@ export type UserSettings = {
   default_unit_measurement: string;
   active_tracking_measurements: string;
   locale: string;
+  clock_style: string;
 };
 
 export type UserSettingsOptional = {
@@ -34,6 +35,7 @@ export type UserSettingsOptional = {
   default_unit_measurement?: string;
   active_tracking_measurements?: string;
   locale?: string;
+  clock_style?: string;
 };
 
 export type Exercise = {
