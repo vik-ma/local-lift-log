@@ -23,7 +23,7 @@ export const LocaleDropdown = ({
   return (
     <Select
       aria-label="Locale Dropdown List"
-      className="w-40"
+      className="w-[9.5rem]"
       variant="faded"
       selectedKeys={[value]}
       onChange={(e) => handleChange(e)}
