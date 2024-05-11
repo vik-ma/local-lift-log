@@ -1,14 +1,6 @@
 import { useState, useEffect } from "react";
-import { UserSettings, UserSettingsOptional } from "../typings";
-import {
-  GetUserSettings,
-  UpdateShowTimestamp,
-  UpdateDefaultUnitWeight,
-  UpdateDefaultUnitDistance,
-  UpdateDefaultTimeInput,
-  UpdateDefaultUnitMeasurement,
-  UpdateLocale,
-} from "../helpers";
+import { UserSettings } from "../typings";
+import { GetUserSettings, UpdateAllUserSettings } from "../helpers";
 import { Switch, Select, SelectItem } from "@nextui-org/react";
 import {
   LoadingSpinner,
@@ -16,6 +8,7 @@ import {
   DistanceUnitDropdown,
   MeasurementUnitDropdown,
   LocaleDropdown,
+  ClockStyleDropdown,
 } from "../components";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -33,17 +26,21 @@ export default function SettingsPage() {
     loadUserSettings();
   }, []);
 
+  const updateSettings = async (updatedSettings: UserSettings) => {
+    await UpdateAllUserSettings(updatedSettings);
+    setUserSettings(updatedSettings);
+    showToast();
+  };
+
   const handleSetShowTimestampChange = async (value: boolean) => {
     if (userSettings === undefined) return;
 
-    const updatedSettings: UserSettingsOptional = {
-      id: userSettings.id,
+    const updatedSettings: UserSettings = {
+      ...userSettings,
       show_timestamp_on_completed_set: value ? 1 : 0,
     };
 
-    await UpdateShowTimestamp(updatedSettings);
-    setUserSettings((prev) => ({ ...prev!, ...updatedSettings }));
-    showToast();
+    updateSettings(updatedSettings);
   };
 
   const handleDefaultUnitWeightChange = async (
@@ -53,14 +50,12 @@ export default function SettingsPage() {
 
     const weightUnit: string = e.target.value;
 
-    const updatedSettings: UserSettingsOptional = {
-      id: userSettings.id,
+    const updatedSettings: UserSettings = {
+      ...userSettings,
       default_unit_weight: weightUnit,
     };
 
-    await UpdateDefaultUnitWeight(updatedSettings);
-    setUserSettings((prev) => ({ ...prev!, ...updatedSettings }));
-    showToast();
+    updateSettings(updatedSettings);
   };
 
   const handleDefaultUnitDistanceChange = async (
@@ -70,14 +65,12 @@ export default function SettingsPage() {
 
     const distanceUnit: string = e.target.value;
 
-    const updatedSettings: UserSettingsOptional = {
-      id: userSettings.id,
+    const updatedSettings: UserSettings = {
+      ...userSettings,
       default_unit_distance: distanceUnit,
     };
 
-    await UpdateDefaultUnitDistance(updatedSettings);
-    setUserSettings((prev) => ({ ...prev!, ...updatedSettings }));
-    showToast();
+    updateSettings(updatedSettings);
   };
 
   const handleDefaultTimeInputChange = async (
@@ -87,14 +80,12 @@ export default function SettingsPage() {
 
     const timeInputType: string = e.target.value;
 
-    const updatedSettings: UserSettingsOptional = {
-      id: userSettings.id,
+    const updatedSettings: UserSettings = {
+      ...userSettings,
       default_time_input: timeInputType,
     };
 
-    await UpdateDefaultTimeInput(updatedSettings);
-    setUserSettings((prev) => ({ ...prev!, ...updatedSettings }));
-    showToast();
+    updateSettings(updatedSettings);
   };
 
   const handleDefaultUnitMeasurementChange = async (
@@ -104,14 +95,12 @@ export default function SettingsPage() {
 
     const measurementUnit: string = e.target.value;
 
-    const updatedSettings: UserSettingsOptional = {
-      id: userSettings.id,
+    const updatedSettings: UserSettings = {
+      ...userSettings,
       default_unit_measurement: measurementUnit,
     };
 
-    await UpdateDefaultUnitMeasurement(updatedSettings);
-    setUserSettings((prev) => ({ ...prev!, ...updatedSettings }));
-    showToast();
+    updateSettings(updatedSettings);
   };
 
   const handleLocaleChange = async (
@@ -121,14 +110,27 @@ export default function SettingsPage() {
 
     const localeValue: string = e.target.value;
 
-    const updatedSettings: UserSettingsOptional = {
-      id: userSettings.id,
+    const updatedSettings: UserSettings = {
+      ...userSettings,
       locale: localeValue,
     };
 
-    await UpdateLocale(updatedSettings);
-    setUserSettings((prev) => ({ ...prev!, ...updatedSettings }));
-    showToast();
+    updateSettings(updatedSettings);
+  };
+
+  const handleClockStyleChange = async (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    if (userSettings === undefined) return;
+
+    const clockStyleValue: string = e.target.value;
+
+    const updatedSettings: UserSettings = {
+      ...userSettings,
+      clock_style: clockStyleValue,
+    };
+
+    updateSettings(updatedSettings);
   };
 
   const showToast = () => {
@@ -214,6 +216,14 @@ export default function SettingsPage() {
               <LocaleDropdown
                 value={userSettings!.locale}
                 setUserSettings={handleLocaleChange}
+                targetType="settings"
+              />
+            </div>
+            <div className="flex gap-3 items-center justify-between">
+              <span className="text-lg">Date Style</span>
+              <ClockStyleDropdown
+                value={userSettings!.clock_style}
+                setUserSettings={handleClockStyleChange}
                 targetType="settings"
               />
             </div>
