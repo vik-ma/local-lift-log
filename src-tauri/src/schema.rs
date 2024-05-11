@@ -22,6 +22,7 @@ diesel::table! {
         default_unit_measurement -> Text,
         active_tracking_measurements -> Text,
         locale -> Text,
+        clock_style -> Text,
     }
 }
 

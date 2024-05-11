@@ -25,6 +25,7 @@ pub struct UserSetting {
     pub default_unit_measurement: String,
     pub active_tracking_measurements: String,
     pub locale: String,
+    pub clock_style: String,
 }
 
 #[derive(Queryable, Selectable)]
