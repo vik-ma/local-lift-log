@@ -1140,8 +1140,8 @@ export default function WorkoutTemplateDetails() {
                             label="Number Of Sets To Add"
                             variant="faded"
                             selectedKeys={[numNewSets]}
-                            disallowEmptySelection={true}
                             onChange={(e) => setNumNewSets(e.target.value)}
+                            disallowEmptySelection
                           >
                             {numSetsOptions.map((num) => (
                               <SelectItem key={num} value={num}>

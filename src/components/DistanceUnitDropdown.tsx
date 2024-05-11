@@ -35,6 +35,7 @@ export const DistanceUnitDropdown = ({
       variant="faded"
       selectedKeys={[value]}
       onChange={(e) => handleChange(e)}
+      disallowEmptySelection
     >
       {distanceUnits.map((unit) => (
         <SelectItem key={unit} value={unit}>

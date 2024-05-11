@@ -61,6 +61,7 @@ export const WorkoutRatingDropdown = ({
         variant="flat"
         selectedKeys={selectedKeys}
         onSelectionChange={(keys) => handleChange(keys as Set<string>)}
+        disallowEmptySelection
       >
         <SelectItem key="0" value="0">
           No Rating

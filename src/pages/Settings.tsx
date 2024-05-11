@@ -184,6 +184,7 @@ export default function SettingsPage() {
                 variant="faded"
                 selectedKeys={[userSettings!.default_time_input]}
                 onChange={(value) => handleDefaultTimeInputChange(value)}
+                disallowEmptySelection
               >
                 <SelectItem key="hhmmss" value="hhmmss">
                   HH:MM:SS

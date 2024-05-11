@@ -35,6 +35,7 @@ export const WeightUnitDropdown = ({
       variant="faded"
       selectedKeys={[value]}
       onChange={(e) => handleChange(e)}
+      disallowEmptySelection
     >
       {weightUnits.map((unit) => (
         <SelectItem key={unit} value={unit}>

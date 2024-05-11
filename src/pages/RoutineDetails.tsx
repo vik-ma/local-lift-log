@@ -544,6 +544,7 @@ export default function RoutineDetailsPage() {
                         ? "hidden max-w-[240px]"
                         : " max-w-[240px]"
                     }
+                    disallowEmptySelection
                   >
                     {numDaysInScheduleOptions.map((number) => (
                       <SelectItem key={number} value={number}>

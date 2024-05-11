@@ -111,6 +111,7 @@ export const MeasurementUnitDropdown = ({
         selectedKeys={[displayValue]}
         onChange={(e) => handleChange(e)}
         isDisabled={isDisabled}
+        disallowEmptySelection
       >
         {measurementUnits.map((unit) => (
           <SelectItem key={unit} value={unit}>

@@ -335,8 +335,8 @@ export const TimeInput = ({
           className="w-32"
           variant="faded"
           selectedKeys={[inputType]}
-          disallowEmptySelection={true}
           onChange={(e) => setInputType(e.target.value)}
+          disallowEmptySelection
         >
           <SelectItem key="hhmmss" value="hhmmss">
             HH:MM:SS

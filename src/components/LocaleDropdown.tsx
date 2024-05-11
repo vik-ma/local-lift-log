@@ -27,6 +27,7 @@ export const LocaleDropdown = ({
       variant="faded"
       selectedKeys={[value]}
       onChange={(e) => handleChange(e)}
+      disallowEmptySelection
     >
       {localeList.map((unit) => (
         <SelectItem key={unit.code} value={unit.code}>

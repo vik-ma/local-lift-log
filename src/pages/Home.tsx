@@ -118,6 +118,7 @@ export default function HomePage() {
                       variant="faded"
                       selectedKeys={[unitType]}
                       onChange={(e) => setUnitType(e.target.value)}
+                      disallowEmptySelection
                     >
                       <SelectItem key="metric" value="metric">
                         Metric
