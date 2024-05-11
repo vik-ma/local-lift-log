@@ -105,15 +105,15 @@ export default function HomePage() {
           {() => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                Select Units And Date Style
+                Choose Settings
               </ModalHeader>
               <ModalBody>
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-1.5">
                   <div className="flex gap-3 items-center justify-between">
                     <span className="text-lg">Unit Type</span>
                     <Select
                       aria-label="Unit Type Dropdown List"
-                      className="w-32"
+                      className="w-[9.5rem]"
                       variant="faded"
                       selectedKeys={[unitType]}
                       onChange={(e) => setUnitType(e.target.value)}
