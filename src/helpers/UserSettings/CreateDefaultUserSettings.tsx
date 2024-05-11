@@ -4,7 +4,8 @@ import { LocaleList } from "./LocaleList";
 
 export const CreateDefaultUserSettings = async (
   useMetricUnits: boolean,
-  locale: string
+  locale: string,
+  clockStyle: string
 ): Promise<UserSettings | undefined> => {
   const show_timestamp_on_completed_set: number = 1;
   const active_routine_id: number = 0;
@@ -21,6 +22,9 @@ export const CreateDefaultUserSettings = async (
     ? locale
     : "en-GB";
 
+  const default_clock_style: string =
+    clockStyle === "24h" || clockStyle === "12h" ? clockStyle : "24h";
+
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -35,8 +39,8 @@ export const CreateDefaultUserSettings = async (
       `INSERT into user_settings 
       (show_timestamp_on_completed_set, active_routine_id, default_unit_weight, 
         default_unit_distance, default_time_input, default_unit_measurement,
-        active_tracking_measurements, locale) 
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+        active_tracking_measurements, locale, clock_style) 
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
       [
         show_timestamp_on_completed_set,
         active_routine_id,
@@ -46,6 +50,7 @@ export const CreateDefaultUserSettings = async (
         default_unit_measurement,
         "",
         default_locale,
+        default_clock_style,
       ]
     );
 
