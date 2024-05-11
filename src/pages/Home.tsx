@@ -106,7 +106,7 @@ export default function HomePage() {
           {() => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                Select Units And Date Locale
+                Select Units And Date Style
               </ModalHeader>
               <ModalBody>
                 <div className="flex flex-col gap-2">
@@ -129,7 +129,7 @@ export default function HomePage() {
                     </Select>
                   </div>
                   <div className="flex gap-3 items-center justify-between">
-                    <span className="text-lg">Date Locale</span>
+                    <span className="text-lg">Date Style</span>
                     <LocaleDropdown
                       value={locale}
                       setState={setLocale}

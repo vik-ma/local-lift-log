@@ -211,7 +211,7 @@ export default function SettingsPage() {
               />
             </div>
             <div className="flex gap-3 items-center justify-between">
-              <span className="text-lg">Date Locale</span>
+              <span className="text-lg">Date Style</span>
               <LocaleDropdown
                 value={userSettings!.locale}
                 setUserSettings={handleLocaleChange}
