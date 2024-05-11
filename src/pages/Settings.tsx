@@ -9,7 +9,7 @@ import {
   UpdateDefaultUnitMeasurement,
   UpdateLocale,
 } from "../helpers";
-import { Switch, Select, SelectItem, DatePicker } from "@nextui-org/react";
+import { Switch, Select, SelectItem } from "@nextui-org/react";
 import {
   LoadingSpinner,
   WeightUnitDropdown,
@@ -18,7 +18,6 @@ import {
   LocaleDropdown,
 } from "../components";
 import toast, { Toaster } from "react-hot-toast";
-import { I18nProvider } from "@react-aria/i18n";
 
 export default function SettingsPage() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
@@ -217,15 +216,6 @@ export default function SettingsPage() {
                 setUserSettings={handleLocaleChange}
                 targetType="settings"
               />
-            </div>
-            <div className="flex justify-end">
-              <I18nProvider locale={userSettings!.locale}>
-                <DatePicker
-                  className="w-40"
-                  label="Date example"
-                  variant="faded"
-                />
-              </I18nProvider>
             </div>
           </div>
         )}
