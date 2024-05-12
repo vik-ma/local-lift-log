@@ -58,6 +58,7 @@ export { GenerateActiveMeasurementList } from "./Measurements/GenerateActiveMeas
 export { GenerateActiveMeasurementString } from "./Measurements/GenerateActiveMeasurementString";
 export { CreateActiveMeasurementInputs } from "./Measurements/CreateActiveMeasurementInputs";
 export { GenerateMeasurementListString } from "./Measurements/GenerateMeasurementListString";
+export { ValidateActiveMeasurementsString } from "./Measurements/ValidateActiveMeasurementsString";
 
 export { DefaultEquipmentWeightList } from "./Presets/DefaultEquipmentWeightList";
 export { CreateDefaultEquipmentWeights } from "./Presets/CreateDefaultEquipmentWeights";
