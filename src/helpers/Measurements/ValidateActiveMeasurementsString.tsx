@@ -1,4 +1,4 @@
-import { IsStringInvalidNumberOr0 } from "../Numbers/IsStringInvalidNumberOr0";
+import { IsStringInvalidNumberOr0 } from "..";
 
 export const ValidateActiveMeasurementsString = (
   activeMeasurementsString: string

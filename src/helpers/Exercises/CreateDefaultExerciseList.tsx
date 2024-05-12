@@ -1,5 +1,5 @@
 import Database from "tauri-plugin-sql-api";
-import { DefaultExerciseList } from "./DefaultExerciseList";
+import { DefaultExerciseList } from "..";
 
 export const CreateDefaultExerciseList = async () => {
   const defaultExerciseList = DefaultExerciseList();

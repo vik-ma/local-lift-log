@@ -1,4 +1,4 @@
-import { ExerciseGroupDictionary } from "./ExerciseGroupDictionary";
+import { ExerciseGroupDictionary } from "..";
 
 type ConvertedExerciseGroupSet = {
   list: string[];

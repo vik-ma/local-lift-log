@@ -1,5 +1,5 @@
 import Database from "tauri-plugin-sql-api";
-import { DefaultMeasurementList } from "./DefaultMeasurementList";
+import { DefaultMeasurementList } from "..";
 
 export const CreateDefaultMeasurementList = async (isMetric: boolean) => {
   const defaultMeasurementList = DefaultMeasurementList(isMetric);

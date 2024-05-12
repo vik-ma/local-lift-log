@@ -1,6 +1,6 @@
 import Database from "tauri-plugin-sql-api";
 import { UserSettings } from "../../typings";
-import { LocaleList } from "./LocaleList";
+import { LocaleList } from "..";
 
 export const CreateDefaultUserSettings = async (
   useMetricUnits: boolean,

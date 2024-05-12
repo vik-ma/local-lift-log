@@ -1,6 +1,6 @@
 import Database from "tauri-plugin-sql-api";
 import { UserSettings } from "../../typings";
-import { ValidateUserSettings } from "./ValidateUserSettings";
+import { ValidateUserSettings } from "..";
 
 export const UpdateAllUserSettings = async (userSettings: UserSettings) => {
   if (!ValidateUserSettings(userSettings)) return;

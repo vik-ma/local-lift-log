@@ -1,4 +1,4 @@
-import { IsStringInvalidNumber } from "../Numbers/IsStringInvalidNumber";
+import { IsStringInvalidNumber } from "..";
 
 export const GenerateActiveMeasurementList = (
   activeTrackingMeasurementString: string

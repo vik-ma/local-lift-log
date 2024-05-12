@@ -1,6 +1,6 @@
 import { Measurement } from "../../typings";
 import Database from "tauri-plugin-sql-api";
-import { GenerateActiveMeasurementList } from "./GenerateActiveMeasurementList";
+import { GenerateActiveMeasurementList } from "..";
 
 export const CreateActiveMeasurementInputs = async (
   activeMeasurementsString: string

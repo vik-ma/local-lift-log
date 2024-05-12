@@ -1,4 +1,4 @@
-import { ExerciseGroupDictionary } from "./ExerciseGroupDictionary";
+import { ExerciseGroupDictionary } from "..";
 
 export const ValidateExerciseGroupSetString = (
   exerciseGroupSetString: string
