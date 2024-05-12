@@ -23,18 +23,12 @@ export { GetDefaultUnitValues } from "./UserSettings/GetDefaultUnitValues";
 export { GetUserSettings } from "./UserSettings/GetUserSettings";
 export { UpdateActiveRoutineId } from "./UserSettings/UpdateActiveRoutineId";
 export { UpdateAllUserSettings } from "./UserSettings/UpdateAllUserSettings";
-export { UpdateDefaultUnitDistance } from "./UserSettings/UpdateDefaultUnitDistance";
-export { UpdateDefaultUnitWeight } from "./UserSettings/UpdateDefaultUnitWeight";
 export { UpdateShowTimestamp } from "./UserSettings/UpdateShowTimestamp";
 export { ValidDistanceUnits } from "./UserSettings/ValidDistanceUnits";
 export { ValidWeightUnits } from "./UserSettings/ValidWeightUnits";
-export { UpdateDefaultTimeInput } from "./UserSettings/UpdateDefaultTimeInput";
-export { UpdateDefaultUnitMeasurement } from "./UserSettings/UpdateDefaultUnitMeasurement";
 export { GetDefaultUnitMeasurement } from "./UserSettings/GetDefaultUnitMeasurement";
 export { UpdateActiveTrackingMeasurements } from "./UserSettings/UpdateActiveTrackingMeasurements";
 export { LocaleList } from "./UserSettings/LocaleList";
-export { UpdateLocale } from "./UserSettings/UpdateLocale";
-export { GetLocale } from "./UserSettings/GetLocale";
 
 export { GenerateSetListOrderString } from "./Sets/GenerateSetListOrderString";
 export { OrderSetsBySetListOrderString } from "./Sets/OrderSetsBySetListOrderString";
