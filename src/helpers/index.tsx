@@ -47,6 +47,7 @@ export { ConvertNumberToTwoDecimals } from "./Numbers/ConvertNumberToTwoDecimals
 export { IsStringInvalidNumberOrAbove10 } from "./Numbers/IsStringInvalidNumberOrAbove10";
 export { IsStringInvalidNumberOr0 } from "./Numbers/IsStringInvalidNumberOr0";
 export { FormatTimeInSecondsToHhmmssString } from "./Numbers/FormatTimeInSecondsToHhmmssString";
+export { IsNumberValidBinary } from "./Numbers/IsNumberValidBinary";
 
 export { GetLatestUserWeight } from "./Measurements/GetLatestUserWeight";
 export { ValidMeasurementUnits } from "./Measurements/ValidMeasurementUnits";
