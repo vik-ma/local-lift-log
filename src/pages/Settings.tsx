@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
 import { UserSettings } from "../typings";
-import { GetUserSettings, UpdateAllUserSettings } from "../helpers";
+import {
+  GetUserSettings,
+  UpdateAllUserSettings,
+  ValidateUserSettings,
+} from "../helpers";
 import { Switch, Select, SelectItem } from "@nextui-org/react";
 import {
   LoadingSpinner,
@@ -27,6 +31,8 @@ export default function SettingsPage() {
   }, []);
 
   const updateSettings = async (updatedSettings: UserSettings) => {
+    if (!ValidateUserSettings(updatedSettings)) return;
+
     await UpdateAllUserSettings(updatedSettings);
     setUserSettings(updatedSettings);
     showToast();

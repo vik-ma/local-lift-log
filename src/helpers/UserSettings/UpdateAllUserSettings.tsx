@@ -1,7 +1,10 @@
 import Database from "tauri-plugin-sql-api";
 import { UserSettings } from "../../typings";
+import { ValidateUserSettings } from "./ValidateUserSettings";
 
 export const UpdateAllUserSettings = async (userSettings: UserSettings) => {
+  if (!ValidateUserSettings(userSettings)) return;
+
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
 
