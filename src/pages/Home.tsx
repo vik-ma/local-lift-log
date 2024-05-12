@@ -13,7 +13,6 @@ import {
 import { useNavigate } from "react-router-dom";
 import { UserSettings } from "../typings";
 import {
-  UpdateAllUserSettings,
   GetUserSettings,
   CreateDefaultUserSettings,
   CreateDefaultExerciseList,
@@ -45,24 +44,23 @@ export default function HomePage() {
 
     // Create Default User Settings
     if (defaultUserSettings !== undefined) {
-      await UpdateAllUserSettings(defaultUserSettings);
       setUserSettings(defaultUserSettings);
+
+      // Create Default Exercise List
+      await CreateDefaultExerciseList();
+
+      // Create Default Equipment Weights
+      await CreateDefaultEquipmentWeights(useMetricUnits);
+
+      // Create Default Measurement List
+      await CreateDefaultMeasurementList(useMetricUnits);
+
+      // Create Default Distance List
+      await CreateDefaultDistances(useMetricUnits);
+
+      setIsUserSettingsLoaded(true);
+      setUnitsModal.onClose();
     }
-
-    // Create Default Exercise List
-    await CreateDefaultExerciseList();
-
-    // Create Default Equipment Weights
-    await CreateDefaultEquipmentWeights(useMetricUnits);
-
-    // Create Default Measurement List
-    await CreateDefaultMeasurementList(useMetricUnits);
-
-    // Create Default Distance List
-    await CreateDefaultDistances(useMetricUnits);
-
-    setIsUserSettingsLoaded(true);
-    setUnitsModal.onClose();
   };
 
   useEffect(() => {
