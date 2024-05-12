@@ -31,6 +31,7 @@ export { UpdateActiveTrackingMeasurements } from "./UserSettings/UpdateActiveTra
 export { LocaleList } from "./UserSettings/LocaleList";
 export { ValidTimeInputs } from "./UserSettings/ValidTimeInputs";
 export { ValidClockStyles } from "./UserSettings/ValidClockStyles";
+export { ValidateUserSettings } from "./UserSettings/ValidateUserSettings";
 
 export { GenerateSetListOrderString } from "./Sets/GenerateSetListOrderString";
 export { OrderSetsBySetListOrderString } from "./Sets/OrderSetsBySetListOrderString";
