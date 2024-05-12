@@ -29,6 +29,7 @@ export { ValidWeightUnits } from "./UserSettings/ValidWeightUnits";
 export { GetDefaultUnitMeasurement } from "./UserSettings/GetDefaultUnitMeasurement";
 export { UpdateActiveTrackingMeasurements } from "./UserSettings/UpdateActiveTrackingMeasurements";
 export { LocaleList } from "./UserSettings/LocaleList";
+export { ValidTimeInputs } from "./UserSettings/ValidTimeInputs";
 
 export { GenerateSetListOrderString } from "./Sets/GenerateSetListOrderString";
 export { OrderSetsBySetListOrderString } from "./Sets/OrderSetsBySetListOrderString";
