@@ -31,7 +31,7 @@ export default function SettingsPage() {
 
     if (success) {
       setUserSettings(updatedSettings);
-      showToast();
+      toast.success("Setting Updated");
     }
   };
 
@@ -134,10 +134,6 @@ export default function SettingsPage() {
     };
 
     updateSettings(updatedSettings);
-  };
-
-  const showToast = () => {
-    toast.success("Setting Updated");
   };
 
   return (
