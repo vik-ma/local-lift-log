@@ -1690,7 +1690,8 @@ export default function WorkoutDetails() {
                                   Completed at{" "}
                                   <span className="font-semibold">
                                     {ConvertDateStringToTimeString(
-                                      activeSet.time_completed
+                                      activeSet.time_completed,
+                                      userSettings.clock_style === "24h"
                                     )}
                                   </span>
                                 </div>
