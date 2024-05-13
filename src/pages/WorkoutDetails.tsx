@@ -1590,9 +1590,9 @@ export default function WorkoutDetails() {
                                           </span>
                                         )}
                                     </div>
-                                    <div className="flex w-32 items-center justify-end">
+                                    <div className="flex w-[8.5rem] items-center justify-end">
                                       {set.comment !== null && (
-                                        <div className="pr-0.5">
+                                        <div className="pr-1">
                                           <Button
                                             isIconOnly
                                             size="sm"
@@ -1605,7 +1605,7 @@ export default function WorkoutDetails() {
                                               )
                                             }
                                           >
-                                            <CommentIcon size={20} />
+                                            <CommentIcon size={21} />
                                           </Button>
                                         </div>
                                       )}
