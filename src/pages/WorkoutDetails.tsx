@@ -1598,7 +1598,7 @@ export default function WorkoutDetails() {
                                     {set.is_tracking_resistance_level === 1 &&
                                       (set.resistance_level > 0 ||
                                         set.is_completed === 1) && (
-                                        <span className="truncate max-w-16">
+                                        <span className="truncate max-w-40">
                                           Resistance Level{" "}
                                           {set.resistance_level}
                                         </span>
