@@ -1535,8 +1535,8 @@ export default function WorkoutDetails() {
                                     handleClickActiveSet(set, index)
                                   }
                                 >
-                                  <div className="flex justify-between items-center h-8">
-                                    <div className="flex items-center gap-1.5 w-18">
+                                  <div className="flex justify-between items-center">
+                                    <div className="flex items-center gap-0.5 w-24">
                                       <span>Set {index + 1}</span>
                                       {set.comment !== null && (
                                         <Button
@@ -1555,54 +1555,57 @@ export default function WorkoutDetails() {
                                         </Button>
                                       )}
                                     </div>
-                                    {set.is_tracking_weight === 1 &&
-                                      (set.weight > 0 ||
-                                        set.is_completed === 1) && (
+                                    <div className="flex flex-wrap justify-center w-full gap-x-5 px-1">
+                                      {set.is_tracking_weight === 1 &&
+                                        (set.weight > 0 ||
+                                          set.is_completed === 1) && (
+                                          <span className="truncate max-w-16">
+                                            {set.weight} {set.weight_unit}
+                                          </span>
+                                        )}
+                                      {set.is_tracking_reps === 1 &&
+                                        (set.reps > 0 ||
+                                          set.is_completed === 1) && (
+                                          <span className="truncate max-w-16">
+                                            {set.reps} Rep
+                                            {set.reps !== 1 && "s"}
+                                          </span>
+                                        )}
+                                      {set.is_tracking_distance === 1 &&
+                                        set.distance === 1 && (
+                                          <span className="truncate max-w-16">
+                                            {set.distance} {set.distance_unit}
+                                          </span>
+                                        )}
+                                      {set.is_tracking_time === 1 &&
+                                        (set.time_in_seconds > 0 ||
+                                          set.is_completed === 1) && (
+                                          <span className="truncate max-w-16">
+                                            {FormatTimeInSecondsToHhmmssString(
+                                              set.time_in_seconds
+                                            )}
+                                          </span>
+                                        )}
+                                      {set.is_tracking_rpe === 1 &&
+                                        set.is_completed === 1 && (
+                                          <span className="truncate max-w-16">
+                                            RPE {set.rpe}
+                                          </span>
+                                        )}
+                                      {set.is_tracking_rir === 1 && (
                                         <span className="truncate max-w-16">
-                                          {set.weight} {set.weight_unit}
+                                          {set.rir} RIR
                                         </span>
                                       )}
-                                    {set.is_tracking_reps === 1 &&
-                                      (set.reps > 0 ||
-                                        set.is_completed === 1) && (
-                                        <span className="truncate max-w-16">
-                                          {set.reps} Rep{set.reps !== 1 && "s"}
-                                        </span>
-                                      )}
-                                    {set.is_tracking_distance === 1 &&
-                                      set.distance === 1 && (
-                                        <span className="truncate max-w-16">
-                                          {set.distance} {set.distance_unit}
-                                        </span>
-                                      )}
-                                    {set.is_tracking_time === 1 &&
-                                      (set.time_in_seconds > 0 ||
-                                        set.is_completed === 1) && (
-                                        <span className="truncate max-w-16">
-                                          {FormatTimeInSecondsToHhmmssString(
-                                            set.time_in_seconds
-                                          )}
-                                        </span>
-                                      )}
-                                    {set.is_tracking_rpe === 1 &&
-                                      set.is_completed === 1 && (
-                                        <span className="truncate max-w-16">
-                                          RPE {set.rpe}
-                                        </span>
-                                      )}
-                                    {set.is_tracking_rir === 1 && (
-                                      <span className="truncate max-w-16">
-                                        {set.rir} RIR
-                                      </span>
-                                    )}
-                                    {set.is_tracking_resistance_level === 1 &&
-                                      (set.resistance_level > 0 ||
-                                        set.is_completed === 1) && (
-                                        <span className="truncate max-w-40">
-                                          Resistance Level{" "}
-                                          {set.resistance_level}
-                                        </span>
-                                      )}
+                                      {set.is_tracking_resistance_level === 1 &&
+                                        (set.resistance_level > 0 ||
+                                          set.is_completed === 1) && (
+                                          <span className="truncate max-w-40">
+                                            Resistance Level{" "}
+                                            {set.resistance_level}
+                                          </span>
+                                        )}
+                                    </div>
                                     <div className="flex w-12 justify-end">
                                       <CheckmarkIcon
                                         isChecked={set.is_completed === 1}
