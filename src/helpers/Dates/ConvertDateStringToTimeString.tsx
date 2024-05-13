@@ -11,6 +11,7 @@ export const ConvertDateStringToTimeString = (
   const timeString = date.toLocaleTimeString("en-US", {
     hour: "numeric",
     minute: "numeric",
+    second: "numeric",
     hour12: true,
   });
   return timeString;
