@@ -1543,23 +1543,35 @@ export default function WorkoutDetails() {
                                       {set.is_tracking_weight === 1 &&
                                         (set.weight > 0 ||
                                           set.is_completed === 1) && (
-                                          <span className="truncate max-w-16">
-                                            {set.weight} {set.weight_unit}
-                                          </span>
+                                          <div className="flex gap-1">
+                                            <span className="truncate max-w-12">
+                                              {set.weight}
+                                            </span>
+                                            <span>{set.weight_unit}</span>
+                                          </div>
                                         )}
                                       {set.is_tracking_reps === 1 &&
                                         (set.reps > 0 ||
                                           set.is_completed === 1) && (
-                                          <span className="truncate max-w-16">
-                                            {set.reps} Rep
-                                            {set.reps !== 1 && "s"}
-                                          </span>
+                                          <div className="flex gap-1">
+                                            <span className="truncate max-w-12">
+                                              {set.reps}
+                                            </span>
+                                            <span>
+                                              Rep
+                                              {set.reps !== 1 && "s"}
+                                            </span>
+                                          </div>
                                         )}
                                       {set.is_tracking_distance === 1 &&
-                                        set.distance === 1 && (
-                                          <span className="truncate max-w-16">
-                                            {set.distance} {set.distance_unit}
-                                          </span>
+                                        (set.distance > 0 ||
+                                          set.is_completed === 1) && (
+                                          <div className="flex gap-1">
+                                            <span className="truncate max-w-12">
+                                              {set.distance}
+                                            </span>
+                                            <span>{set.distance_unit}</span>
+                                          </div>
                                         )}
                                       {set.is_tracking_time === 1 &&
                                         (set.time_in_seconds > 0 ||
@@ -1572,22 +1584,30 @@ export default function WorkoutDetails() {
                                         )}
                                       {set.is_tracking_rpe === 1 &&
                                         set.is_completed === 1 && (
-                                          <span className="truncate max-w-16">
-                                            RPE {set.rpe}
-                                          </span>
+                                          <div className="flex gap-1">
+                                            <span>RPE</span>
+                                            <span className="truncate max-w-4">
+                                              {set.rpe}
+                                            </span>
+                                          </div>
                                         )}
                                       {set.is_tracking_rir === 1 && (
-                                        <span className="truncate max-w-16">
-                                          {set.rir} RIR
-                                        </span>
+                                        <div className="flex gap-1">
+                                          <span className="truncate max-w-10">
+                                            {set.rir}
+                                          </span>
+                                          <span>RIR</span>
+                                        </div>
                                       )}
                                       {set.is_tracking_resistance_level === 1 &&
                                         (set.resistance_level > 0 ||
                                           set.is_completed === 1) && (
-                                          <span className="truncate max-w-40">
-                                            Resistance Level{" "}
-                                            {set.resistance_level}
-                                          </span>
+                                          <div className="flex gap-1">
+                                            <span>Resistance Level</span>
+                                            <span className="truncate max-w-12">
+                                              {set.resistance_level}
+                                            </span>
+                                          </div>
                                         )}
                                     </div>
                                     <div className="flex w-[8.5rem] items-center justify-end">
