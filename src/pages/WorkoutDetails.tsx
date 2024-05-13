@@ -1536,24 +1536,8 @@ export default function WorkoutDetails() {
                                   }
                                 >
                                   <div className="flex justify-between items-center">
-                                    <div className="flex items-center gap-0.5 w-24">
+                                    <div className="flex items-center w-[4.5rem]">
                                       <span>Set {index + 1}</span>
-                                      {set.comment !== null && (
-                                        <Button
-                                          isIconOnly
-                                          size="sm"
-                                          radius="lg"
-                                          variant="light"
-                                          onPress={() =>
-                                            handleSetListCommentButton(
-                                              exercise.exercise_id,
-                                              index
-                                            )
-                                          }
-                                        >
-                                          <CommentIcon size={20} />
-                                        </Button>
-                                      )}
                                     </div>
                                     <div className="flex flex-wrap justify-center w-full gap-x-5 px-1">
                                       {set.is_tracking_weight === 1 &&
@@ -1606,10 +1590,28 @@ export default function WorkoutDetails() {
                                           </span>
                                         )}
                                     </div>
-                                    <div className="flex w-12 justify-end">
+                                    <div className="flex w-32 items-center justify-end">
+                                      {set.comment !== null && (
+                                        <div className="pr-0.5">
+                                          <Button
+                                            isIconOnly
+                                            size="sm"
+                                            radius="lg"
+                                            variant="light"
+                                            onPress={() =>
+                                              handleSetListCommentButton(
+                                                exercise.exercise_id,
+                                                index
+                                              )
+                                            }
+                                          >
+                                            <CommentIcon size={20} />
+                                          </Button>
+                                        </div>
+                                      )}
                                       <CheckmarkIcon
                                         isChecked={set.is_completed === 1}
-                                        size={31}
+                                        size={18}
                                       />
                                       <Dropdown>
                                         <DropdownTrigger>
