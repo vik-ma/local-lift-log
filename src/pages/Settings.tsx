@@ -211,7 +211,7 @@ export default function SettingsPage() {
               />
             </div>
             <div className="flex gap-3 items-center justify-between">
-              <span className="text-lg">Date Style</span>
+              <span className="text-lg">Date Format</span>
               <LocaleDropdown
                 value={userSettings!.locale}
                 setUserSettings={handleLocaleChange}
@@ -219,7 +219,7 @@ export default function SettingsPage() {
               />
             </div>
             <div className="flex gap-3 items-center justify-between">
-              <span className="text-lg">Date Style</span>
+              <span className="text-lg">Clock Format</span>
               <ClockStyleDropdown
                 value={userSettings!.clock_style}
                 setUserSettings={handleClockStyleChange}

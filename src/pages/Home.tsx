@@ -126,7 +126,7 @@ export default function HomePage() {
                     </Select>
                   </div>
                   <div className="flex gap-3 items-center justify-between">
-                    <span className="text-lg">Date Style</span>
+                    <span className="text-lg">Date Format</span>
                     <LocaleDropdown
                       value={locale}
                       setState={setLocale}
@@ -134,7 +134,7 @@ export default function HomePage() {
                     />
                   </div>
                   <div className="flex gap-3 items-center justify-between">
-                    <span className="text-lg">Clock Style</span>
+                    <span className="text-lg">Clock Format</span>
                     <ClockStyleDropdown
                       value={clockStyle}
                       setState={setClockStyle}
