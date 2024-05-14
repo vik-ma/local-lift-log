@@ -13,8 +13,8 @@ type SetListProps = {
   exercise: GroupedWorkoutSet;
   activeSetId: number;
   clickActiveSetAction?: (set: WorkoutSet, index: number) => void;
-  handleSetOptionSelection: (key: string, set: WorkoutSet) => void;
-  handleSetListCommentButton: (exerciseId: number, index: number) => void;
+  optionsSelectionAction: (key: string, set: WorkoutSet) => void;
+  clickCommentButtonAction: (exerciseId: number, index: number) => void;
   shownSetListComments: SetListNotes;
   isTemplate: boolean;
 };
@@ -23,8 +23,8 @@ export const SetList = ({
   exercise,
   activeSetId,
   clickActiveSetAction,
-  handleSetOptionSelection,
-  handleSetListCommentButton,
+  optionsSelectionAction,
+  clickCommentButtonAction,
   shownSetListComments,
   isTemplate,
 }: SetListProps) => {
@@ -112,7 +112,7 @@ export const SetList = ({
                     radius="lg"
                     variant="light"
                     onPress={() =>
-                      handleSetListCommentButton(exercise.exercise_id, index)
+                        clickCommentButtonAction(exercise.exercise_id, index)
                     }
                   >
                     <CommentIcon size={21} />
@@ -138,7 +138,7 @@ export const SetList = ({
                     base: "hover:text-[#404040] gap-4",
                   }}
                   onAction={(key) =>
-                    handleSetOptionSelection(key as string, set)
+                    optionsSelectionAction(key as string, set)
                   }
                 >
                   <DropdownItem key="edit">Edit</DropdownItem>

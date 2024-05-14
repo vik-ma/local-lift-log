@@ -1526,10 +1526,8 @@ export default function WorkoutDetails() {
                                 exercise={exercise}
                                 activeSetId={activeSet ? activeSet.id : 0}
                                 clickActiveSetAction={handleClickActiveSet}
-                                handleSetOptionSelection={
-                                  handleSetOptionSelection
-                                }
-                                handleSetListCommentButton={
+                                optionsSelectionAction={handleSetOptionSelection}
+                                clickCommentButtonAction={
                                   handleSetListCommentButton
                                 }
                                 shownSetListComments={shownSetListComments}
