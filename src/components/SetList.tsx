@@ -1,4 +1,9 @@
-import { GroupedWorkoutSet, SetListNotes, WorkoutSet } from "../typings";
+import {
+  GroupedWorkoutSet,
+  SetListNotes,
+  SetListOptionsItem,
+  WorkoutSet,
+} from "../typings";
 import {
   Button,
   Dropdown,
@@ -17,6 +22,7 @@ type SetListProps = {
   clickCommentButtonAction: (exerciseId: number, index: number) => void;
   shownSetListComments: SetListNotes;
   isTemplate: boolean;
+  setListOptionsMenu: SetListOptionsItem[];
 };
 
 export const SetList = ({
@@ -27,6 +33,7 @@ export const SetList = ({
   clickCommentButtonAction,
   shownSetListComments,
   isTemplate,
+  setListOptionsMenu,
 }: SetListProps) => {
   const handleClickActiveSet = (set: WorkoutSet, index: number) => {
     if (clickActiveSetAction === undefined || !isTemplate) return;
@@ -112,7 +119,7 @@ export const SetList = ({
                     radius="lg"
                     variant="light"
                     onPress={() =>
-                        clickCommentButtonAction(exercise.exercise_id, index)
+                      clickCommentButtonAction(exercise.exercise_id, index)
                     }
                   >
                     <CommentIcon size={21} />
@@ -137,14 +144,16 @@ export const SetList = ({
                   itemClasses={{
                     base: "hover:text-[#404040] gap-4",
                   }}
-                  onAction={(key) =>
-                    optionsSelectionAction(key as string, set)
-                  }
+                  onAction={(key) => optionsSelectionAction(key as string, set)}
                 >
-                  <DropdownItem key="edit">Edit</DropdownItem>
-                  <DropdownItem className="text-danger" key="delete-set">
-                    Delete
-                  </DropdownItem>
+                  {setListOptionsMenu.map((item) => (
+                    <DropdownItem
+                      key={item.key}
+                      className={item.className ?? item.className}
+                    >
+                      {item.label}
+                    </DropdownItem>
+                  ))}
                 </DropdownMenu>
               </Dropdown>
             </div>

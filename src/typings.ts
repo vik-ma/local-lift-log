@@ -255,3 +255,9 @@ export type UserMeasurementEntry = {
 export type SetListNotes = {
   [key: number]: Set<number>;
 };
+
+export type SetListOptionsItem = {
+  key: string;
+  label: string;
+  className?: string;
+};

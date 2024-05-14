@@ -9,6 +9,7 @@ import {
   SetWorkoutSetAction,
   GroupedWorkoutSet,
   SetListNotes,
+  SetListOptionsItem,
 } from "../typings";
 import {
   LoadingSpinner,
@@ -121,6 +122,11 @@ export default function WorkoutDetails() {
   const deleteModal = useDisclosure();
 
   const numSetsOptions: string[] = ["1", "2", "3", "4", "5", "6"];
+
+  const setListOptionsMenu: SetListOptionsItem[] = [
+    { key: "edit", label: "Edit" },
+    { key: "delete-set", label: "Delete", className: "text-danger" },
+  ];
 
   const filteredExercises = useMemo(() => {
     if (filterQuery !== "") {
@@ -1526,12 +1532,15 @@ export default function WorkoutDetails() {
                                 exercise={exercise}
                                 activeSetId={activeSet ? activeSet.id : 0}
                                 clickActiveSetAction={handleClickActiveSet}
-                                optionsSelectionAction={handleSetOptionSelection}
+                                optionsSelectionAction={
+                                  handleSetOptionSelection
+                                }
                                 clickCommentButtonAction={
                                   handleSetListCommentButton
                                 }
                                 shownSetListComments={shownSetListComments}
                                 isTemplate={false}
+                                setListOptionsMenu={setListOptionsMenu}
                               />
                             </div>
                           )}
