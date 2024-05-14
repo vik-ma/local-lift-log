@@ -384,11 +384,27 @@ export default function WorkoutTemplateDetails() {
         (obj) => obj.exercise_id === operatingSet.exercise_id
       );
 
-      const updatedSetList: WorkoutSet[] = groupedSets[
-        exerciseIndex
-      ].setList.map((item) =>
-        item.id === operatingSet.id ? updatedSet : item
-      );
+      const updatedSetList: WorkoutSet[] = [];
+
+      let setIndex: number = 0;
+
+      for (let i = 0; i < groupedSets[exerciseIndex].setList.length; i++) {
+        if (groupedSets[exerciseIndex].setList[i].id === operatingSet.id) {
+          updatedSetList.push(updatedSet);
+          setIndex = i;
+        } else {
+          updatedSetList.push(groupedSets[exerciseIndex].setList[i]);
+        }
+      }
+
+      // Close shownSetListNotes for Set if note was deleted
+      if (
+        noteToInsert === null &&
+        shownSetListNotes[operatingSet.exercise_id] &&
+        shownSetListNotes[operatingSet.exercise_id].has(setIndex)
+      ) {
+        updateShownSetListNotes(operatingSet.exercise_id, setIndex);
+      }
 
       setGroupedSets((prev) => {
         const newList = [...prev];
