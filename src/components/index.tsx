@@ -7,3 +7,4 @@ export { WorkoutRatingDropdown } from "./WorkoutRatingDropdown";
 export { MeasurementUnitDropdown } from "./MeasurementUnitDropdown";
 export { LocaleDropdown } from "./LocaleDropdown";
 export { ClockStyleDropdown } from "./ClockStyleDropdown";
+export { SetList } from "./SetList";
