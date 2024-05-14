@@ -1525,7 +1525,7 @@ export default function WorkoutDetails() {
                               <SetList
                                 exercise={exercise}
                                 activeSetId={activeSet ? activeSet.id : 0}
-                                handleClickActiveSet={handleClickActiveSet}
+                                clickActiveSetAction={handleClickActiveSet}
                                 handleSetOptionSelection={
                                   handleSetOptionSelection
                                 }
@@ -1533,6 +1533,7 @@ export default function WorkoutDetails() {
                                   handleSetListCommentButton
                                 }
                                 shownSetListComments={shownSetListComments}
+                                isTemplate={false}
                               />
                             </div>
                           )}

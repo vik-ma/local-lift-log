@@ -12,20 +12,28 @@ import { FormatTimeInSecondsToHhmmssString } from "../helpers";
 type SetListProps = {
   exercise: GroupedWorkoutSet;
   activeSetId: number;
-  handleClickActiveSet: (set: WorkoutSet, index: number) => void;
+  clickActiveSetAction?: (set: WorkoutSet, index: number) => void;
   handleSetOptionSelection: (key: string, set: WorkoutSet) => void;
   handleSetListCommentButton: (exerciseId: number, index: number) => void;
   shownSetListComments: SetListNotes;
+  isTemplate: boolean;
 };
 
 export const SetList = ({
   exercise,
   activeSetId,
-  handleClickActiveSet,
+  clickActiveSetAction,
   handleSetOptionSelection,
   handleSetListCommentButton,
   shownSetListComments,
+  isTemplate,
 }: SetListProps) => {
+  const handleClickActiveSet = (set: WorkoutSet, index: number) => {
+    if (clickActiveSetAction === undefined || !isTemplate) return;
+
+    clickActiveSetAction(set, index);
+  };
+
   return (
     <>
       {exercise.setList.map((set, index) => (
