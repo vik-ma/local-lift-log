@@ -31,7 +31,6 @@ import {
   ConvertSetInputValuesToNumbers,
   DefaultSetInputValues,
   FormatDateString,
-  FormatTimeInSecondsToHhmmssString,
   ConvertDateStringToTimeString,
   CreateGroupedWorkoutSetListByExerciseId,
   GenerateExerciseOrderString,
@@ -60,7 +59,6 @@ import toast, { Toaster } from "react-hot-toast";
 import {
   SearchIcon,
   CommentIcon,
-  CheckmarkIcon,
   VerticalMenuIcon,
   ChevronIcon,
   MinimizeIcon,
