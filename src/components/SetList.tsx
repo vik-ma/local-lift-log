@@ -105,7 +105,8 @@ export const SetList = ({
                 )}
             </div>
             <div className="flex w-[8.5rem] items-center justify-end">
-              {set.comment !== null && (
+              {((!isTemplate && set.comment !== null) ||
+                (isTemplate && set.note !== null)) && (
                 <div className="pr-1">
                   <Button
                     isIconOnly
@@ -120,7 +121,9 @@ export const SetList = ({
                   </Button>
                 </div>
               )}
-              <CheckmarkIcon isChecked={set.is_completed === 1} size={18} />
+              {!isTemplate && (
+                <CheckmarkIcon isChecked={set.is_completed === 1} size={18} />
+              )}
               <Dropdown>
                 <DropdownTrigger>
                   <Button
@@ -153,7 +156,9 @@ export const SetList = ({
             </div>
           </div>
           {shownSetListComments[exercise.exercise_id]?.has(index) && (
-            <span className="text-stone-400 pb-1 pr-2">{set.comment}</span>
+            <span className="text-stone-400 pb-1 pr-2">
+              {isTemplate ? `${set.note}` : `${set.comment}`}
+            </span>
           )}
         </div>
       ))}
