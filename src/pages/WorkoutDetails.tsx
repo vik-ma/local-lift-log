@@ -928,6 +928,7 @@ export default function WorkoutDetails() {
         resistance_level: setTrackingValuesNumbers.resistance_level,
         is_completed: 1,
         time_completed: currentDate,
+        comment: commentToInsert,
       };
 
       const exerciseIndex: number = groupedSets.findIndex(
