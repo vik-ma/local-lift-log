@@ -958,13 +958,7 @@ export default function WorkoutDetails() {
         shownSetListComments[exerciseId] &&
         shownSetListComments[exerciseId].has(setIndex)
       ) {
-        const updatedSet = new Set(shownSetListComments[exerciseId]);
-        updatedSet.delete(setIndex);
-
-        setShownSetListComments((prev) => ({
-          ...prev,
-          [exerciseId]: updatedSet,
-        }));
+        updateShownSetListComments(exerciseId, setIndex);
       }
 
       setGroupedSets((prev) => {
@@ -1138,11 +1132,9 @@ export default function WorkoutDetails() {
     );
   };
 
-  const handleSetListCommentButton = (exerciseId: number, index: number) => {
+  const updateShownSetListComments = (exerciseId: number, index: number) => {
     let updatedSet: Set<number> = new Set<number>();
-    if (
-      Object.prototype.hasOwnProperty.call(shownSetListComments, exerciseId)
-    ) {
+    if (shownSetListComments[exerciseId]) {
       // If shownSetListNotes HAS key for exerciseId
       updatedSet = new Set(shownSetListComments[exerciseId]);
 
@@ -1565,7 +1557,7 @@ export default function WorkoutDetails() {
                                   handleSetOptionSelection
                                 }
                                 clickCommentButtonAction={
-                                  handleSetListCommentButton
+                                  updateShownSetListComments
                                 }
                                 shownSetListComments={shownSetListComments}
                                 isTemplate={false}
