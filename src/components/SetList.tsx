@@ -17,7 +17,7 @@ import { FormatTimeInSecondsToHhmmssString } from "../helpers";
 type SetListProps = {
   exercise: GroupedWorkoutSet;
   activeSetId: number;
-  clickActiveSetAction?: (set: WorkoutSet, index: number) => void;
+  clickSetAction: (set: WorkoutSet, index: number) => void;
   optionsSelectionAction: (key: string, set: WorkoutSet) => void;
   clickCommentButtonAction: (exerciseId: number, index: number) => void;
   shownSetListComments: SetListNotes;
@@ -28,19 +28,13 @@ type SetListProps = {
 export const SetList = ({
   exercise,
   activeSetId,
-  clickActiveSetAction,
+  clickSetAction,
   optionsSelectionAction,
   clickCommentButtonAction,
   shownSetListComments,
   isTemplate,
   setListOptionsMenu,
 }: SetListProps) => {
-  const handleClickActiveSet = (set: WorkoutSet, index: number) => {
-    if (clickActiveSetAction === undefined || !isTemplate) return;
-
-    clickActiveSetAction(set, index);
-  };
-
   return (
     <>
       {exercise.setList.map((set, index) => (
@@ -51,7 +45,7 @@ export const SetList = ({
               : "flex flex-col pl-2 text-sm font-medium break-words cursor-pointer hover:bg-stone-100"
           }
           key={`${set.exercise_id}-${index}`}
-          onClick={() => handleClickActiveSet(set, index)}
+          onClick={() => clickSetAction(set, index)}
         >
           <div className="flex justify-between items-center">
             <div className="flex items-center w-[4.5rem]">

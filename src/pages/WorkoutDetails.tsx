@@ -995,7 +995,7 @@ export default function WorkoutDetails() {
     setIncompleteSetIds(updatedIncompleteSetIds);
   };
 
-  const handleClickActiveSet = (set: WorkoutSet, index: number) => {
+  const handleClickSet = (set: WorkoutSet, index: number) => {
     const newActiveSet = { ...set, set_index: index + 1 };
     setActiveSet(newActiveSet);
     updateActiveSetTrackingValues(newActiveSet, activeSet);
@@ -1531,7 +1531,7 @@ export default function WorkoutDetails() {
                               <SetList
                                 exercise={exercise}
                                 activeSetId={activeSet ? activeSet.id : 0}
-                                clickActiveSetAction={handleClickActiveSet}
+                                clickSetAction={handleClickSet}
                                 optionsSelectionAction={
                                   handleSetOptionSelection
                                 }
