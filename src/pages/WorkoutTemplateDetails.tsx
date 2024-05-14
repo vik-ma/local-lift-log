@@ -886,9 +886,9 @@ export default function WorkoutTemplateDetails() {
     );
   };
 
-  const handleSetListNoteButton = (exerciseId: number, index: number) => {
+  const updateShownSetListNotes = (exerciseId: number, index: number) => {
     let updatedSet: Set<number> = new Set<number>();
-    if (Object.prototype.hasOwnProperty.call(shownSetListNotes, exerciseId)) {
+    if (shownSetListNotes[exerciseId]) {
       // If shownSetListNotes HAS key for exerciseId
       updatedSet = new Set(shownSetListNotes[exerciseId]);
 
@@ -1580,7 +1580,7 @@ export default function WorkoutTemplateDetails() {
                                         radius="lg"
                                         variant="light"
                                         onPress={() =>
-                                          handleSetListNoteButton(
+                                          updateShownSetListNotes(
                                             exercise.exercise_id,
                                             index
                                           )
