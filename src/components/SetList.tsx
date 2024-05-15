@@ -104,10 +104,16 @@ export const SetList = ({
                   </div>
                 )}
             </div>
-            <div className="flex w-[8.5rem] items-center justify-end">
+            <div
+              className={
+                isTemplate
+                  ? "flex w-[6rem] items-center justify-end"
+                  : "flex w-[8.5rem] items-center justify-end"
+              }
+            >
               {((!isTemplate && set.comment !== null) ||
                 (isTemplate && set.note !== null)) && (
-                <div className="pr-1">
+                <div className={isTemplate ? "" : "pr-1"}>
                   <Button
                     isIconOnly
                     size="sm"
