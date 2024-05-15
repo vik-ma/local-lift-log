@@ -1027,8 +1027,15 @@ export default function WorkoutTemplateDetails() {
                   <div className="flex flex-col gap-3 h-[400px]">
                     <div className="flex flex-col gap-3">
                       <div className="flex flex-row items-center justify-between">
-                        <h2 className="text-2xl font-semibold px-1 truncate w-4/6">
-                          {selectedExercise.name}
+                        <h2 className="flex text-2xl font-semibold px-1 justify-between w-full items-end">
+                          <span className="text-yellow-600 truncate max-w-[21rem]">
+                            {selectedExercise.name}
+                          </span>{" "}
+                          {operationType === "edit" && (
+                            <span className="text-lg text-stone-500">
+                              Set {operatingSet.set_index}
+                            </span>
+                          )}
                         </h2>
                       </div>
                       <Input
