@@ -348,6 +348,12 @@ export default function WorkoutTemplateDetails() {
   const updateSet = async () => {
     if (selectedExercise === undefined) return;
 
+    if (isSetDefaultValuesInvalid) return;
+
+    const setTrackingValuesNumber = ConvertSetInputValuesToNumbers(
+      setTrackingValuesInput
+    );
+
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -358,8 +364,10 @@ export default function WorkoutTemplateDetails() {
         `UPDATE sets SET 
         exercise_id = $1, note = $2, is_warmup = $3, is_tracking_weight = $4,
         is_tracking_reps = $5, is_tracking_rir = $6, is_tracking_rpe = $7, 
-        is_tracking_time = $8, is_tracking_distance = $9, is_tracking_resistance_level = $10 
-        WHERE id = $11`,
+        is_tracking_time = $8, is_tracking_distance = $9, is_tracking_resistance_level = $10,
+        weight = $11, reps = $12, distance = $13, time_in_seconds = $14, rir = $15,
+        rpe = $16, resistance_level = $17, weight_unit = $18, distance_unit = $19 
+        WHERE id = $20`,
         [
           selectedExercise.id,
           noteToInsert,
@@ -371,6 +379,15 @@ export default function WorkoutTemplateDetails() {
           operatingSet.is_tracking_time,
           operatingSet.is_tracking_distance,
           operatingSet.is_tracking_resistance_level,
+          setTrackingValuesNumber.weight,
+          setTrackingValuesNumber.reps,
+          setTrackingValuesNumber.distance,
+          operatingSet.time_in_seconds,
+          setTrackingValuesNumber.rir,
+          setTrackingValuesNumber.rpe,
+          setTrackingValuesNumber.resistance_level,
+          operatingSet.weight_unit,
+          operatingSet.distance_unit,
           operatingSet.id,
         ]
       );
@@ -380,6 +397,12 @@ export default function WorkoutTemplateDetails() {
         exercise_id: selectedExercise.id,
         note: noteToInsert,
         exercise_name: selectedExercise.name,
+        weight: setTrackingValuesNumber.weight,
+        reps: setTrackingValuesNumber.reps,
+        distance: setTrackingValuesNumber.distance,
+        rir: setTrackingValuesNumber.rir,
+        rpe: setTrackingValuesNumber.rpe,
+        resistance_level: setTrackingValuesNumber.resistance_level,
       };
 
       const exerciseIndex: number = groupedSets.findIndex(
@@ -415,7 +438,6 @@ export default function WorkoutTemplateDetails() {
       });
 
       resetSetToDefault();
-
       newSetModal.onClose();
       toast.success("Set Updated");
     } catch (error) {
@@ -437,70 +459,6 @@ export default function WorkoutTemplateDetails() {
         `UPDATE workout_templates SET exercise_order = $1 WHERE id = $2`,
         [exerciseOrderString, workoutTemplate.id]
       );
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const updateSetDefaultValues = async () => {
-    if (workoutTemplate === undefined) return;
-
-    if (isSetDefaultValuesInvalid) return;
-
-    const setTrackingValuesNumber = ConvertSetInputValuesToNumbers(
-      setTrackingValuesInput
-    );
-
-    try {
-      const db = await Database.load(import.meta.env.VITE_DB);
-      await db.execute(
-        `UPDATE sets SET
-        weight = $1, reps = $2, distance = $3, time_in_seconds = $4, rir = $5,
-        rpe = $6, resistance_level = $7, weight_unit = $8, distance_unit = $9
-        WHERE id = $10`,
-        [
-          setTrackingValuesNumber.weight,
-          setTrackingValuesNumber.reps,
-          setTrackingValuesNumber.distance,
-          operatingSet.time_in_seconds,
-          setTrackingValuesNumber.rir,
-          setTrackingValuesNumber.rpe,
-          setTrackingValuesNumber.resistance_level,
-          operatingSet.weight_unit,
-          operatingSet.distance_unit,
-          operatingSet.id,
-        ]
-      );
-
-      const updatedSet: WorkoutSet = {
-        ...operatingSet,
-        weight: setTrackingValuesNumber.weight,
-        reps: setTrackingValuesNumber.reps,
-        distance: setTrackingValuesNumber.distance,
-        rir: setTrackingValuesNumber.rir,
-        rpe: setTrackingValuesNumber.rpe,
-        resistance_level: setTrackingValuesNumber.resistance_level,
-      };
-
-      const exerciseIndex: number = groupedSets.findIndex(
-        (obj) => obj.exercise_id === operatingSet.exercise_id
-      );
-
-      const updatedSetList: WorkoutSet[] = groupedSets[
-        exerciseIndex
-      ].setList.map((item) =>
-        item.id === operatingSet.id ? updatedSet : item
-      );
-
-      setGroupedSets((prev) => {
-        const newList = [...prev];
-        newList[exerciseIndex].setList = updatedSetList;
-        return newList;
-      });
-
-      resetSetToDefault();
-      defaultValuesModal.onClose();
-      toast.success("Default Values Updated");
     } catch (error) {
       console.log(error);
     }
