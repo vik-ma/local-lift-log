@@ -8,6 +8,7 @@ import {
   SetTrackingValuesInput,
   GroupedWorkoutSet,
   SetListNotes,
+  SetListOptionsItem,
 } from "../typings";
 import { useState, useMemo, useEffect, useCallback } from "react";
 import {
@@ -52,12 +53,7 @@ import {
   IsStringInvalidNumberOrAbove10,
   ReassignExerciseIdForSets,
 } from "../helpers";
-import {
-  ChevronIcon,
-  CommentIcon,
-  SearchIcon,
-  VerticalMenuIcon,
-} from "../assets";
+import { ChevronIcon, SearchIcon, VerticalMenuIcon } from "../assets";
 import { Reorder } from "framer-motion";
 
 type OperationType =
@@ -98,6 +94,12 @@ export default function WorkoutTemplateDetails() {
     useState<SetTrackingValuesInput>(defaultSetTrackingValuesInput);
 
   const numSetsOptions: string[] = ["1", "2", "3", "4", "5", "6"];
+
+  const setListOptionsMenu: SetListOptionsItem[] = [
+    { key: "edit", label: "Edit" },
+    { key: "set-defaults", label: "Set Default Values" },
+    { key: "remove-set", label: "Remove", className: "text-danger" },
+  ];
 
   const filteredExercises = useMemo(() => {
     if (filterQuery !== "") {
@@ -1572,7 +1574,7 @@ export default function WorkoutTemplateDetails() {
                               clickCommentButtonAction={updateShownSetListNotes}
                               shownSetListComments={shownSetListNotes}
                               isTemplate={true}
-                              setListOptionsMenu={[]}
+                              setListOptionsMenu={setListOptionsMenu}
                             />
                             {/* {exercise.setList.map((set, index) => (
                               <div
