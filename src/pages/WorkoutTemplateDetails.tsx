@@ -34,6 +34,7 @@ import {
   DistanceUnitDropdown,
   LoadingSpinner,
   TimeInput,
+  SetList,
 } from "../components";
 import { NotFound } from ".";
 import toast, { Toaster } from "react-hot-toast";
@@ -1563,7 +1564,17 @@ export default function WorkoutTemplateDetails() {
                                 </span>
                               </div>
                             )}
-                            {exercise.setList.map((set, index) => (
+                            <SetList
+                              exercise={exercise}
+                              activeSetId={0}
+                              clickSetAction={() => {}}
+                              optionsSelectionAction={handleSetOptionSelection}
+                              clickCommentButtonAction={updateShownSetListNotes}
+                              shownSetListComments={shownSetListNotes}
+                              isTemplate={true}
+                              setListOptionsMenu={[]}
+                            />
+                            {/* {exercise.setList.map((set, index) => (
                               <div
                                 className="flex flex-col pl-2 text-sm font-medium break-words"
                                 key={`${set.exercise_id}-${index}`}
@@ -1652,7 +1663,7 @@ export default function WorkoutTemplateDetails() {
                                   </span>
                                 )}
                               </div>
-                            ))}
+                            ))} */}
                           </div>
                         )}
                       </div>
