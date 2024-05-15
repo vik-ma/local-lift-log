@@ -1050,142 +1050,140 @@ export default function WorkoutTemplateDetails() {
                         }
                         isClearable
                       />
-                      <h3 className="text-xl font-semibold">Track</h3>
-                      <div className="flex flex-col gap-2">
-                        <div className="grid grid-cols-2 gap-1.5">
-                          <Checkbox
-                            color="success"
-                            isSelected={
-                              operatingSet.is_tracking_weight ? true : false
-                            }
-                            onValueChange={(value) =>
-                              setOperatingSet((prev) => ({
-                                ...prev,
-                                is_tracking_weight: value ? 1 : 0,
-                              }))
-                            }
-                          >
-                            Weight
-                          </Checkbox>
-                          <Checkbox
-                            color="success"
-                            isSelected={
-                              operatingSet.is_tracking_reps ? true : false
-                            }
-                            onValueChange={(value) =>
-                              setOperatingSet((prev) => ({
-                                ...prev,
-                                is_tracking_reps: value ? 1 : 0,
-                              }))
-                            }
-                          >
-                            Reps
-                          </Checkbox>
-                          <Checkbox
-                            color="success"
-                            isSelected={
-                              operatingSet.is_tracking_distance ? true : false
-                            }
-                            onValueChange={(value) =>
-                              setOperatingSet((prev) => ({
-                                ...prev,
-                                is_tracking_distance: value ? 1 : 0,
-                              }))
-                            }
-                          >
-                            Distance
-                          </Checkbox>
-                          <Checkbox
-                            color="success"
-                            isSelected={
-                              operatingSet.is_tracking_time ? true : false
-                            }
-                            onValueChange={(value) =>
-                              setOperatingSet((prev) => ({
-                                ...prev,
-                                is_tracking_time: value ? 1 : 0,
-                              }))
-                            }
-                          >
-                            Time
-                          </Checkbox>
-                          <Checkbox
-                            color="success"
-                            isSelected={
-                              operatingSet.is_tracking_rir ? true : false
-                            }
-                            onValueChange={(value) =>
-                              setOperatingSet((prev) => ({
-                                ...prev,
-                                is_tracking_rir: value ? 1 : 0,
-                              }))
-                            }
-                          >
-                            RIR
-                          </Checkbox>
-                          <Checkbox
-                            color="success"
-                            isSelected={
-                              operatingSet.is_tracking_rpe ? true : false
-                            }
-                            onValueChange={(value) =>
-                              setOperatingSet((prev) => ({
-                                ...prev,
-                                is_tracking_rpe: value ? 1 : 0,
-                              }))
-                            }
-                          >
-                            RPE
-                          </Checkbox>
-                          <Checkbox
-                            color="success"
-                            isSelected={
-                              operatingSet.is_tracking_resistance_level
-                                ? true
-                                : false
-                            }
-                            onValueChange={(value) =>
-                              setOperatingSet((prev) => ({
-                                ...prev,
-                                is_tracking_resistance_level: value ? 1 : 0,
-                              }))
-                            }
-                          >
-                            Resistance Level
-                          </Checkbox>
-                          <Checkbox
-                            color="success"
-                            isSelected={operatingSet.is_warmup ? true : false}
-                            onValueChange={(value) =>
-                              setOperatingSet((prev) => ({
-                                ...prev,
-                                is_warmup: value ? 1 : 0,
-                              }))
-                            }
-                          >
-                            <span className="text-primary">Warmup Set</span>
-                          </Checkbox>
-                        </div>
-                        {operationType === "add" && (
-                          <div className="flex flex-row justify-between">
-                            <Select
-                              label="Number Of Sets To Add"
-                              size="sm"
-                              variant="faded"
-                              selectedKeys={[numNewSets]}
-                              onChange={(e) => setNumNewSets(e.target.value)}
-                              disallowEmptySelection
-                            >
-                              {numSetsOptions.map((num) => (
-                                <SelectItem key={num} value={num}>
-                                  {num}
-                                </SelectItem>
-                              ))}
-                            </Select>
-                          </div>
-                        )}
+                      <h3 className="text-xl font-semibold px-0.5">Track</h3>
+                      <div className="grid grid-cols-2 gap-1.5 px-1">
+                        <Checkbox
+                          color="success"
+                          isSelected={
+                            operatingSet.is_tracking_weight ? true : false
+                          }
+                          onValueChange={(value) =>
+                            setOperatingSet((prev) => ({
+                              ...prev,
+                              is_tracking_weight: value ? 1 : 0,
+                            }))
+                          }
+                        >
+                          Weight
+                        </Checkbox>
+                        <Checkbox
+                          color="success"
+                          isSelected={
+                            operatingSet.is_tracking_reps ? true : false
+                          }
+                          onValueChange={(value) =>
+                            setOperatingSet((prev) => ({
+                              ...prev,
+                              is_tracking_reps: value ? 1 : 0,
+                            }))
+                          }
+                        >
+                          Reps
+                        </Checkbox>
+                        <Checkbox
+                          color="success"
+                          isSelected={
+                            operatingSet.is_tracking_distance ? true : false
+                          }
+                          onValueChange={(value) =>
+                            setOperatingSet((prev) => ({
+                              ...prev,
+                              is_tracking_distance: value ? 1 : 0,
+                            }))
+                          }
+                        >
+                          Distance
+                        </Checkbox>
+                        <Checkbox
+                          color="success"
+                          isSelected={
+                            operatingSet.is_tracking_time ? true : false
+                          }
+                          onValueChange={(value) =>
+                            setOperatingSet((prev) => ({
+                              ...prev,
+                              is_tracking_time: value ? 1 : 0,
+                            }))
+                          }
+                        >
+                          Time
+                        </Checkbox>
+                        <Checkbox
+                          color="success"
+                          isSelected={
+                            operatingSet.is_tracking_rir ? true : false
+                          }
+                          onValueChange={(value) =>
+                            setOperatingSet((prev) => ({
+                              ...prev,
+                              is_tracking_rir: value ? 1 : 0,
+                            }))
+                          }
+                        >
+                          RIR
+                        </Checkbox>
+                        <Checkbox
+                          color="success"
+                          isSelected={
+                            operatingSet.is_tracking_rpe ? true : false
+                          }
+                          onValueChange={(value) =>
+                            setOperatingSet((prev) => ({
+                              ...prev,
+                              is_tracking_rpe: value ? 1 : 0,
+                            }))
+                          }
+                        >
+                          RPE
+                        </Checkbox>
+                        <Checkbox
+                          color="success"
+                          isSelected={
+                            operatingSet.is_tracking_resistance_level
+                              ? true
+                              : false
+                          }
+                          onValueChange={(value) =>
+                            setOperatingSet((prev) => ({
+                              ...prev,
+                              is_tracking_resistance_level: value ? 1 : 0,
+                            }))
+                          }
+                        >
+                          Resistance Level
+                        </Checkbox>
+                        <Checkbox
+                          color="success"
+                          isSelected={operatingSet.is_warmup ? true : false}
+                          onValueChange={(value) =>
+                            setOperatingSet((prev) => ({
+                              ...prev,
+                              is_warmup: value ? 1 : 0,
+                            }))
+                          }
+                        >
+                          <span className="text-primary">Warmup Set</span>
+                        </Checkbox>
                       </div>
-                      <div className="flex gap-2.5 items-center">
+                      {operationType === "add" && (
+                        <div className="flex flex-row justify-between">
+                          <Select
+                            label="Number Of Sets To Add"
+                            size="sm"
+                            variant="faded"
+                            selectedKeys={[numNewSets]}
+                            onChange={(e) => setNumNewSets(e.target.value)}
+                            disallowEmptySelection
+                          >
+                            {numSetsOptions.map((num) => (
+                              <SelectItem key={num} value={num}>
+                                {num}
+                              </SelectItem>
+                            ))}
+                          </Select>
+                        </div>
+                      )}
+                      <div className="flex gap-2.5 items-center px-0.5">
                         <h3 className="text-xl font-semibold">
                           Default Values
                         </h3>
@@ -1200,7 +1198,7 @@ export default function WorkoutTemplateDetails() {
                         </Button>
                       </div>
                       {showDefaultValues && (
-                        <div className="flex flex-wrap gap-1.5 justify-evenly">
+                        <div className="flex flex-wrap gap-1.5 px-1 justify-evenly">
                           {!!operatingSet.is_tracking_weight && (
                             <div className="flex justify-between gap-2 w-56">
                               <Input
