@@ -97,7 +97,6 @@ export default function WorkoutTemplateDetails() {
 
   const setListOptionsMenu: SetListOptionsItem[] = [
     { key: "edit", label: "Edit" },
-    { key: "set-defaults", label: "Set Default Values" },
     { key: "remove-set", label: "Remove", className: "text-danger" },
   ];
 
@@ -438,6 +437,7 @@ export default function WorkoutTemplateDetails() {
       });
 
       resetSetToDefault();
+
       newSetModal.onClose();
       toast.success("Set Updated");
     } catch (error) {
@@ -473,6 +473,7 @@ export default function WorkoutTemplateDetails() {
       weight_unit: userSettings!.default_unit_weight!,
       distance_unit: userSettings!.default_unit_distance!,
     });
+    setSetTrackingValuesInput(defaultSetTrackingValuesInput);
   };
 
   const handleSaveSetButton = async () => {
@@ -500,6 +501,7 @@ export default function WorkoutTemplateDetails() {
     setOperatingSet({ ...set, set_index: index });
     setOperationType("edit");
     setSelectedExercise(exercise);
+    setDefaultValuesInputStrings(set);
 
     newSetModal.onOpen();
   };
@@ -521,19 +523,6 @@ export default function WorkoutTemplateDetails() {
           : "",
     };
     setSetTrackingValuesInput(newSetTrackingValuesInput);
-  };
-
-  const handleSetDefaultValues = (set: WorkoutSet) => {
-    const exercise = exercises.find((item) => item.id === set.exercise_id);
-
-    if (exercise === undefined) return;
-
-    setOperatingSet(set);
-    setOperationType("edit");
-    setSelectedExercise(exercise);
-    setDefaultValuesInputStrings(set);
-
-    newSetModal.onOpen();
   };
 
   const handleClickExercise = (exercise: ExerciseWithGroupString) => {
@@ -713,8 +702,6 @@ export default function WorkoutTemplateDetails() {
   ) => {
     if (key === "edit") {
       handleEditSet(set, index + 1);
-    } else if (key === "set-defaults") {
-      handleSetDefaultValues(set);
     } else if (key === "remove-set") {
       handleRemoveSet(set);
     }
