@@ -236,6 +236,12 @@ export default function WorkoutTemplateDetails() {
 
     if (!numSetsOptions.includes(numNewSets)) return;
 
+    if (isSetDefaultValuesInvalid) return;
+
+    const setTrackingValuesNumber = ConvertSetInputValuesToNumbers(
+      setTrackingValuesInput
+    );
+
     try {
       const noteToInsert: string | null =
         operatingSet.note?.trim().length === 0 ? null : operatingSet.note;
@@ -251,6 +257,12 @@ export default function WorkoutTemplateDetails() {
           workout_template_id: workoutTemplate.id,
           note: noteToInsert,
           exercise_name: selectedExercise.name,
+          weight: setTrackingValuesNumber.weight,
+          reps: setTrackingValuesNumber.reps,
+          distance: setTrackingValuesNumber.distance,
+          rir: setTrackingValuesNumber.rir,
+          rpe: setTrackingValuesNumber.rpe,
+          resistance_level: setTrackingValuesNumber.resistance_level,
         };
 
         const setId: number = await InsertSetIntoDatabase(newSet);
@@ -1597,7 +1609,7 @@ export default function WorkoutTemplateDetails() {
                       onDragEnd={() => updateExerciseOrder()}
                       transition={{ duration: 0.15 }}
                     >
-                      <div className="bg-white rounded-lg border border-stone-300">
+                      <div className="bg-white rounded-lg border border-stone-300 overflow-hidden">
                         <div
                           className="flex justify-between pl-2 py-1 h-14 w-full rounded-lg cursor-pointer hover:bg-stone-100"
                           onClick={() => handleExerciseAccordionClick(exercise)}
