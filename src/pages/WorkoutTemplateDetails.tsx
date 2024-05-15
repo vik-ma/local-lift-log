@@ -745,6 +745,10 @@ export default function WorkoutTemplateDetails() {
     newSetModal.onOpen();
   };
 
+  const handleClickSet = (set: WorkoutSet, index: number) => {
+    handleEditSet(set);
+  };
+
   const handleSetOptionSelection = (key: string, set: WorkoutSet) => {
     if (key === "edit") {
       handleEditSet(set);
@@ -1569,7 +1573,7 @@ export default function WorkoutTemplateDetails() {
                             <SetList
                               exercise={exercise}
                               activeSetId={0}
-                              clickSetAction={() => {}}
+                              clickSetAction={handleClickSet}
                               optionsSelectionAction={handleSetOptionSelection}
                               clickCommentButtonAction={updateShownSetListNotes}
                               shownSetListComments={shownSetListNotes}
