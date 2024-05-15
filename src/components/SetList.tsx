@@ -18,7 +18,7 @@ type SetListProps = {
   exercise: GroupedWorkoutSet;
   activeSetId: number;
   clickSetAction: (set: WorkoutSet, index: number) => void;
-  optionsSelectionAction: (key: string, set: WorkoutSet) => void;
+  optionsSelectionAction: (key: string, set: WorkoutSet, index: number) => void;
   clickCommentButtonAction: (exerciseId: number, index: number) => void;
   shownSetListComments: SetListNotes;
   isTemplate: boolean;
@@ -147,7 +147,7 @@ export const SetList = ({
                   itemClasses={{
                     base: "hover:text-[#404040] gap-4",
                   }}
-                  onAction={(key) => optionsSelectionAction(key as string, set)}
+                  onAction={(key) => optionsSelectionAction(key as string, set, index)}
                 >
                   {setListOptionsMenu.map((item) => (
                     <DropdownItem

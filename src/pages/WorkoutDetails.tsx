@@ -812,12 +812,12 @@ export default function WorkoutDetails() {
     }
   };
 
-  const handleEditSet = (set: WorkoutSet) => {
+  const handleEditSet = (set: WorkoutSet, index: number) => {
     const exercise = exercises.find((item) => item.id === set.exercise_id);
 
     if (exercise === undefined) return;
 
-    setOperatingSet(set);
+    setOperatingSet({ ...set, set_index: index });
     setOperationType("edit");
     setSelectedExercise(exercise);
 
@@ -1025,9 +1025,13 @@ export default function WorkoutDetails() {
     setIsActiveSetExpanded(true);
   };
 
-  const handleSetOptionSelection = (key: string, set: WorkoutSet) => {
+  const handleSetOptionSelection = (
+    key: string,
+    set: WorkoutSet,
+    index: number
+  ) => {
     if (key === "edit") {
-      handleEditSet(set);
+      handleEditSet(set, index + 1);
     } else if (key === "delete-set") {
       handleDeleteSet(set);
     }
@@ -1904,7 +1908,9 @@ export default function WorkoutDetails() {
                             <Button
                               color="success"
                               variant="light"
-                              onPress={() => handleEditSet(activeSet)}
+                              onPress={() =>
+                                handleEditSet(activeSet, activeSet.set_index!)
+                              }
                             >
                               Edit Set
                             </Button>

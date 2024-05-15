@@ -535,12 +535,12 @@ export default function WorkoutTemplateDetails() {
     newSetModal.onOpen();
   };
 
-  const handleEditSet = (set: WorkoutSet) => {
+  const handleEditSet = (set: WorkoutSet, index: number) => {
     const exercise = exercises.find((item) => item.id === set.exercise_id);
 
     if (exercise === undefined) return;
 
-    setOperatingSet(set);
+    setOperatingSet({ ...set, set_index: index });
     setOperationType("edit");
     setSelectedExercise(exercise);
 
@@ -746,12 +746,16 @@ export default function WorkoutTemplateDetails() {
   };
 
   const handleClickSet = (set: WorkoutSet, index: number) => {
-    handleEditSet(set);
+    handleEditSet(set, index + 1);
   };
 
-  const handleSetOptionSelection = (key: string, set: WorkoutSet) => {
+  const handleSetOptionSelection = (
+    key: string,
+    set: WorkoutSet,
+    index: number
+  ) => {
     if (key === "edit") {
-      handleEditSet(set);
+      handleEditSet(set, index + 1);
     } else if (key === "set-defaults") {
       handleSetDefaultValues(set);
     } else if (key === "remove-set") {
