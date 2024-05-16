@@ -742,7 +742,7 @@ export default function WorkoutTemplateDetails() {
     }
 
     const setId: number = await InsertSetIntoDatabase(newSet);
-    console.log(setId);
+
     if (setId === 0) return;
 
     newSet = { ...newSet, id: setId };
