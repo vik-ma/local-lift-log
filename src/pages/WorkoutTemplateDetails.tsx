@@ -52,6 +52,7 @@ import {
   IsStringInvalidNumber,
   IsStringInvalidNumberOrAbove10,
   ReassignExerciseIdForSets,
+  UpdateSet,
 } from "../helpers";
 import { ChevronIcon, SearchIcon, VerticalMenuIcon } from "../assets";
 import { Reorder } from "framer-motion";
@@ -365,96 +366,62 @@ export default function WorkoutTemplateDetails() {
       setTrackingValuesInput
     );
 
-    try {
-      const db = await Database.load(import.meta.env.VITE_DB);
+    const noteToInsert: string | null =
+      operatingSet.note?.trim().length === 0 ? null : operatingSet.note;
 
-      const noteToInsert: string | null =
-        operatingSet.note?.trim().length === 0 ? null : operatingSet.note;
+    const updatedSet: WorkoutSet = {
+      ...operatingSet,
+      exercise_id: selectedExercise.id,
+      note: noteToInsert,
+      exercise_name: selectedExercise.name,
+      weight: setTrackingValuesNumber.weight,
+      reps: setTrackingValuesNumber.reps,
+      distance: setTrackingValuesNumber.distance,
+      rir: setTrackingValuesNumber.rir,
+      rpe: setTrackingValuesNumber.rpe,
+      resistance_level: setTrackingValuesNumber.resistance_level,
+    };
 
-      await db.execute(
-        `UPDATE sets SET 
-        exercise_id = $1, note = $2, is_warmup = $3, is_tracking_weight = $4,
-        is_tracking_reps = $5, is_tracking_rir = $6, is_tracking_rpe = $7, 
-        is_tracking_time = $8, is_tracking_distance = $9, is_tracking_resistance_level = $10,
-        weight = $11, reps = $12, distance = $13, time_in_seconds = $14, rir = $15,
-        rpe = $16, resistance_level = $17, weight_unit = $18, distance_unit = $19 
-        WHERE id = $20`,
-        [
-          selectedExercise.id,
-          noteToInsert,
-          operatingSet.is_warmup,
-          operatingSet.is_tracking_weight,
-          operatingSet.is_tracking_reps,
-          operatingSet.is_tracking_rir,
-          operatingSet.is_tracking_rpe,
-          operatingSet.is_tracking_time,
-          operatingSet.is_tracking_distance,
-          operatingSet.is_tracking_resistance_level,
-          setTrackingValuesNumber.weight,
-          setTrackingValuesNumber.reps,
-          setTrackingValuesNumber.distance,
-          operatingSet.time_in_seconds,
-          setTrackingValuesNumber.rir,
-          setTrackingValuesNumber.rpe,
-          setTrackingValuesNumber.resistance_level,
-          operatingSet.weight_unit,
-          operatingSet.distance_unit,
-          operatingSet.id,
-        ]
-      );
+    const success = await UpdateSet(updatedSet);
 
-      const updatedSet: WorkoutSet = {
-        ...operatingSet,
-        exercise_id: selectedExercise.id,
-        note: noteToInsert,
-        exercise_name: selectedExercise.name,
-        weight: setTrackingValuesNumber.weight,
-        reps: setTrackingValuesNumber.reps,
-        distance: setTrackingValuesNumber.distance,
-        rir: setTrackingValuesNumber.rir,
-        rpe: setTrackingValuesNumber.rpe,
-        resistance_level: setTrackingValuesNumber.resistance_level,
-      };
+    if (!success) return;
 
-      const exerciseIndex: number = groupedSets.findIndex(
-        (obj) => obj.exercise_id === operatingSet.exercise_id
-      );
+    const exerciseIndex: number = groupedSets.findIndex(
+      (obj) => obj.exercise_id === operatingSet.exercise_id
+    );
 
-      const updatedSetList: WorkoutSet[] = [];
+    const updatedSetList: WorkoutSet[] = [];
 
-      let setIndex: number = 0;
+    let setIndex: number = 0;
 
-      for (let i = 0; i < groupedSets[exerciseIndex].setList.length; i++) {
-        if (groupedSets[exerciseIndex].setList[i].id === operatingSet.id) {
-          updatedSetList.push(updatedSet);
-          setIndex = i;
-        } else {
-          updatedSetList.push(groupedSets[exerciseIndex].setList[i]);
-        }
+    for (let i = 0; i < groupedSets[exerciseIndex].setList.length; i++) {
+      if (groupedSets[exerciseIndex].setList[i].id === operatingSet.id) {
+        updatedSetList.push(updatedSet);
+        setIndex = i;
+      } else {
+        updatedSetList.push(groupedSets[exerciseIndex].setList[i]);
       }
-
-      // Close shownSetListNotes for Set if note was deleted
-      if (
-        noteToInsert === null &&
-        shownSetListNotes[operatingSet.exercise_id] &&
-        shownSetListNotes[operatingSet.exercise_id].has(setIndex)
-      ) {
-        updateShownSetListNotes(operatingSet.exercise_id, setIndex);
-      }
-
-      setGroupedSets((prev) => {
-        const newList = [...prev];
-        newList[exerciseIndex].setList = updatedSetList;
-        return newList;
-      });
-
-      resetSetToDefault();
-
-      newSetModal.onClose();
-      toast.success("Set Updated");
-    } catch (error) {
-      console.log(error);
     }
+
+    // Close shownSetListNotes for Set if note was deleted
+    if (
+      noteToInsert === null &&
+      shownSetListNotes[operatingSet.exercise_id] &&
+      shownSetListNotes[operatingSet.exercise_id].has(setIndex)
+    ) {
+      updateShownSetListNotes(operatingSet.exercise_id, setIndex);
+    }
+
+    setGroupedSets((prev) => {
+      const newList = [...prev];
+      newList[exerciseIndex].setList = updatedSetList;
+      return newList;
+    });
+
+    resetSetToDefault();
+
+    newSetModal.onClose();
+    toast.success("Set Updated");
   };
 
   const updateExerciseOrder = async (
