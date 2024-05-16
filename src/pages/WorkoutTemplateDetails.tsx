@@ -85,7 +85,8 @@ export default function WorkoutTemplateDetails() {
   const [operationType, setOperationType] = useState<OperationType>("add");
   const [operatingGroupedSet, setOperatingGroupedSet] =
     useState<GroupedWorkoutSet>();
-  const [ShownSetListComments, setShownSetListComments] = useState<SetListNotes>({});
+  const [ShownSetListComments, setShownSetListComments] =
+    useState<SetListNotes>({});
   const [showDefaultValues, setShowDefaultValues] = useState<boolean>(false);
 
   const defaultSetTrackingValuesInput: SetTrackingValuesInput =
@@ -348,8 +349,8 @@ export default function WorkoutTemplateDetails() {
 
       const setIndex: number = operatingSet.set_index ?? -1;
 
-      // Close ShownSetListComments for Set if note was deleted
-      removeSetIndexFromShownSetListComments(operatingSet.exercise_id, setIndex);
+      // Close ShownSetListComments for Set if deleted Set note was shown
+      updateSetIndexInShownSetListComments(operatingSet.exercise_id, setIndex);
 
       resetSetToDefault();
 
@@ -393,29 +394,23 @@ export default function WorkoutTemplateDetails() {
       (obj) => obj.exercise_id === operatingSet.exercise_id
     );
 
-    const updatedSetList: WorkoutSet[] = [];
-
-    let setIndex: number = -1;
-
-    for (let i = 0; i < groupedSets[exerciseIndex].setList.length; i++) {
-      if (groupedSets[exerciseIndex].setList[i].id === operatingSet.id) {
-        updatedSetList.push(updatedSet);
-        setIndex = i;
-      } else {
-        updatedSetList.push(groupedSets[exerciseIndex].setList[i]);
-      }
-    }
-
-    // Close ShownSetListComments for Set if note was deleted
-    if (updatedSet.note === null) {
-      removeSetIndexFromShownSetListComments(operatingSet.exercise_id, setIndex);
-    }
+    const updatedSetList: WorkoutSet[] = groupedSets[exerciseIndex].setList.map(
+      (item) => (item.id === operatingSet.id ? updatedSet : item)
+    );
 
     setGroupedSets((prev) => {
       const newList = [...prev];
       newList[exerciseIndex].setList = updatedSetList;
       return newList;
     });
+
+    // Close ShownSetListComments for Set if note was deleted
+    if (updatedSet.note === null) {
+      updateSetIndexInShownSetListComments(
+        operatingSet.exercise_id,
+        operatingSet.set_index ?? -1
+      );
+    }
 
     resetSetToDefault();
 
@@ -857,7 +852,7 @@ export default function WorkoutTemplateDetails() {
     }));
   };
 
-  const removeSetIndexFromShownSetListComments = (
+  const updateSetIndexInShownSetListComments = (
     exerciseId: number,
     setIndex: number
   ) => {
@@ -1463,7 +1458,9 @@ export default function WorkoutTemplateDetails() {
                               activeSetId={0}
                               clickSetAction={handleClickSet}
                               optionsSelectionAction={handleSetOptionSelection}
-                              clickCommentButtonAction={updateShownSetListComments}
+                              clickCommentButtonAction={
+                                updateShownSetListComments
+                              }
                               shownSetListComments={ShownSetListComments}
                               isTemplate={true}
                               setListOptionsMenu={setListOptionsMenu}
