@@ -349,12 +349,7 @@ export default function WorkoutTemplateDetails() {
       const setIndex: number = operatingSet.set_index! - 1;
 
       // Close shownSetListNotes for Set if note was deleted
-      if (
-        shownSetListNotes[operatingSet.exercise_id] &&
-        shownSetListNotes[operatingSet.exercise_id].has(setIndex)
-      ) {
-        updateShownSetListNotes(operatingSet.exercise_id, setIndex);
-      }
+      removeNoteFromShownSetListNotes(operatingSet.exercise_id, setIndex);
 
       resetSetToDefault();
 
@@ -412,12 +407,8 @@ export default function WorkoutTemplateDetails() {
     }
 
     // Close shownSetListNotes for Set if note was deleted
-    if (
-      noteToInsert === null &&
-      shownSetListNotes[operatingSet.exercise_id] &&
-      shownSetListNotes[operatingSet.exercise_id].has(setIndex)
-    ) {
-      updateShownSetListNotes(operatingSet.exercise_id, setIndex);
+    if (noteToInsert === null) {
+      removeNoteFromShownSetListNotes(operatingSet.exercise_id, setIndex);
     }
 
     setGroupedSets((prev) => {
@@ -864,6 +855,18 @@ export default function WorkoutTemplateDetails() {
       ...prev,
       [exerciseId]: updatedSet,
     }));
+  };
+
+  const removeNoteFromShownSetListNotes = (
+    exercise_id: number,
+    setIndex: number
+  ) => {
+    if (
+      shownSetListNotes[exercise_id] &&
+      shownSetListNotes[exercise_id].has(setIndex)
+    ) {
+      updateShownSetListNotes(exercise_id, setIndex);
+    }
   };
 
   const handleExerciseAccordionClick = (groupedSet: GroupedWorkoutSet) => {
