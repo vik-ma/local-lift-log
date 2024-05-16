@@ -346,6 +346,16 @@ export default function WorkoutTemplateDetails() {
         });
       }
 
+      const setIndex: number = operatingSet.set_index! - 1;
+
+      // Close shownSetListNotes for Set if note was deleted
+      if (
+        shownSetListNotes[operatingSet.exercise_id] &&
+        shownSetListNotes[operatingSet.exercise_id].has(setIndex)
+      ) {
+        updateShownSetListNotes(operatingSet.exercise_id, setIndex);
+      }
+
       resetSetToDefault();
 
       toast.success("Set Removed");
@@ -903,10 +913,7 @@ export default function WorkoutTemplateDetails() {
           )}
         </ModalContent>
       </Modal>
-      <Modal
-        isOpen={setModal.isOpen}
-        onOpenChange={setModal.onOpenChange}
-      >
+      <Modal isOpen={setModal.isOpen} onOpenChange={setModal.onOpenChange}>
         <ModalContent>
           {(onClose) => (
             <>
