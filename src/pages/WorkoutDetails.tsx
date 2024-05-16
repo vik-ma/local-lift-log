@@ -572,6 +572,12 @@ export default function WorkoutDetails() {
         setIncompleteSetIds(updatedIncompleteSetIds);
       }
 
+      // Close ShownSetListComments for Set if deleted Set comment was shown
+      updateSetIndexInShownSetListComments(
+        operatingSet.exercise_id,
+        operatingSet.set_index ?? -1
+      );
+
       resetSetToDefault();
 
       toast.success("Set Deleted");
@@ -803,6 +809,14 @@ export default function WorkoutDetails() {
         });
       }
 
+      // Close ShownSetListComments for Set if note was deleted
+      if (updatedSet.note === null) {
+        updateSetIndexInShownSetListComments(
+          operatingSet.exercise_id,
+          operatingSet.set_index ?? -1
+        );
+      }
+
       resetSetToDefault();
 
       setModal.onClose();
@@ -935,37 +949,23 @@ export default function WorkoutDetails() {
         (obj) => obj.exercise_id === activeSet.exercise_id
       );
 
-      const updatedSetList: WorkoutSet[] = [];
-
-      // TODO: REPLACE WITH ACTIVEGROUPEDSET
-      let setIndex: number = 0;
-
-      for (let i = 0; i < groupedSets[exerciseIndex].setList.length; i++) {
-        if (groupedSets[exerciseIndex].setList[i].id === activeSet.id) {
-          updatedSetList.push(updatedSet);
-          setIndex = i;
-        } else {
-          updatedSetList.push(groupedSets[exerciseIndex].setList[i]);
-        }
-      }
-
-      // TODO: REPLACE WITH ACTIVEGROUPEDSET
-      const exerciseId = activeSet.exercise_id;
-
-      // Close shownSetListComments for Set if comment was deleted
-      if (
-        commentToInsert === null &&
-        shownSetListComments[exerciseId] &&
-        shownSetListComments[exerciseId].has(setIndex)
-      ) {
-        updateShownSetListComments(exerciseId, setIndex);
-      }
+      const updatedSetList: WorkoutSet[] = groupedSets[
+        exerciseIndex
+      ].setList.map((item) => (item.id === activeSet.id ? updatedSet : item));
 
       setGroupedSets((prev) => {
         const newList = [...prev];
         newList[exerciseIndex].setList = updatedSetList;
         return newList;
       });
+
+      // Close shownSetListComments for Set if comment was deleted
+      if (updatedSet.comment === null) {
+        updateSetIndexInShownSetListComments(
+          activeSet.exercise_id,
+          activeSet.set_index ?? -1
+        );
+      }
 
       goToNextIncompleteSet(updatedSet);
       setShowCommentInput(false);
@@ -1156,6 +1156,18 @@ export default function WorkoutDetails() {
       ...prev,
       [exerciseId]: updatedSet,
     }));
+  };
+
+  const updateSetIndexInShownSetListComments = (
+    exerciseId: number,
+    setIndex: number
+  ) => {
+    if (
+      shownSetListComments[exerciseId] &&
+      shownSetListComments[exerciseId].has(setIndex)
+    ) {
+      updateShownSetListComments(exerciseId, setIndex);
+    }
   };
 
   if (workout === undefined) return NotFound();

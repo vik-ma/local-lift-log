@@ -347,10 +347,11 @@ export default function WorkoutTemplateDetails() {
         });
       }
 
-      const setIndex: number = operatingSet.set_index ?? -1;
-
       // Close ShownSetListComments for Set if deleted Set note was shown
-      updateSetIndexInShownSetListComments(operatingSet.exercise_id, setIndex);
+      updateSetIndexInShownSetListComments(
+        operatingSet.exercise_id,
+        operatingSet.set_index ?? -1
+      );
 
       resetSetToDefault();
 
