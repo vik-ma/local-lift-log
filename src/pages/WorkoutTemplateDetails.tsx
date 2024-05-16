@@ -346,7 +346,7 @@ export default function WorkoutTemplateDetails() {
         });
       }
 
-      const setIndex: number = operatingSet.set_index! - 1;
+      const setIndex: number = operatingSet.set_index ?? -1;
 
       // Close shownSetListNotes for Set if note was deleted
       removeNoteFromShownSetListNotes(operatingSet.exercise_id, setIndex);
@@ -395,7 +395,7 @@ export default function WorkoutTemplateDetails() {
 
     const updatedSetList: WorkoutSet[] = [];
 
-    let setIndex: number = 0;
+    let setIndex: number = -1;
 
     for (let i = 0; i < groupedSets[exerciseIndex].setList.length; i++) {
       if (groupedSets[exerciseIndex].setList[i].id === operatingSet.id) {
@@ -670,7 +670,7 @@ export default function WorkoutTemplateDetails() {
   };
 
   const handleClickSet = (set: WorkoutSet, index: number) => {
-    handleEditSet(set, index + 1);
+    handleEditSet(set, index);
   };
 
   const handleSetOptionSelection = (
@@ -679,7 +679,7 @@ export default function WorkoutTemplateDetails() {
     index: number
   ) => {
     if (key === "edit") {
-      handleEditSet(set, index + 1);
+      handleEditSet(set, index);
     } else if (key === "remove-set") {
       handleRemoveSet(set);
     }
@@ -963,7 +963,7 @@ export default function WorkoutTemplateDetails() {
                         </span>{" "}
                         {operationType === "edit" && (
                           <span className="text-lg text-stone-500">
-                            Set {operatingSet.set_index}
+                            Set {operatingSet.set_index! + 1}
                           </span>
                         )}
                       </h2>

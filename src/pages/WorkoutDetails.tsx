@@ -265,7 +265,7 @@ export default function WorkoutDetails() {
             incompleteSetIdList.push(setList[j].id);
             if (firstSetIndex === -1) {
               // Set first incomplete Set as activeSet
-              firstSetIndex = j + 1;
+              firstSetIndex = j;
               const newActiveSet = {
                 ...setList[j],
                 set_index: firstSetIndex,
@@ -1002,7 +1002,7 @@ export default function WorkoutDetails() {
         if (setList[i].id === incompleteSetIds[nextSetIndex]) {
           const newActiveSet = {
             ...setList[i],
-            set_index: i + 1,
+            set_index: i,
           };
           setActiveSet(newActiveSet);
           updateActiveSetTrackingValues(newActiveSet, lastSet);
@@ -1019,7 +1019,7 @@ export default function WorkoutDetails() {
   };
 
   const handleClickSet = (set: WorkoutSet, index: number) => {
-    const newActiveSet = { ...set, set_index: index + 1 };
+    const newActiveSet = { ...set, set_index: index };
     setActiveSet(newActiveSet);
     updateActiveSetTrackingValues(newActiveSet, activeSet);
     setIsActiveSetExpanded(true);
@@ -1031,7 +1031,7 @@ export default function WorkoutDetails() {
     index: number
   ) => {
     if (key === "edit") {
-      handleEditSet(set, index + 1);
+      handleEditSet(set, index);
     } else if (key === "delete-set") {
       handleDeleteSet(set);
     }
@@ -1192,10 +1192,7 @@ export default function WorkoutDetails() {
           )}
         </ModalContent>
       </Modal>
-      <Modal
-        isOpen={setModal.isOpen}
-        onOpenChange={setModal.onOpenChange}
-      >
+      <Modal isOpen={setModal.isOpen} onOpenChange={setModal.onOpenChange}>
         <ModalContent>
           {(onClose) => (
             <>
@@ -1623,7 +1620,7 @@ export default function WorkoutDetails() {
                           </div>
                           <div className="flex gap-1.5 text-lg font-medium justify-between w-80">
                             <span className="text-stone-500">
-                              Set {activeSet.set_index}
+                              Set {activeSet.set_index! + 1}
                             </span>
                             {userSettings?.show_timestamp_on_completed_set ===
                               1 &&
