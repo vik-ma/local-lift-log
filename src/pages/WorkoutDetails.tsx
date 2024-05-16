@@ -118,7 +118,7 @@ export default function WorkoutDetails() {
   const [setTrackingValuesInput, setSetTrackingValuesInput] =
     useState<SetTrackingValuesInput>(defaultSetInputValues);
 
-  const newSetModal = useDisclosure();
+  const setModal = useDisclosure();
   const deleteModal = useDisclosure();
 
   const numSetsOptions: string[] = ["1", "2", "3", "4", "5", "6"];
@@ -464,7 +464,7 @@ export default function WorkoutDetails() {
 
       resetSetToDefault();
 
-      newSetModal.onClose();
+      setModal.onClose();
       toast.success("Set Added");
     } catch (error) {
       console.log(error);
@@ -640,7 +640,7 @@ export default function WorkoutDetails() {
       resetSetToDefault();
     }
 
-    newSetModal.onOpen();
+    setModal.onOpen();
   };
 
   const handleClickExercise = (exercise: ExerciseWithGroupString) => {
@@ -729,7 +729,7 @@ export default function WorkoutDetails() {
 
     resetSetToDefault();
 
-    newSetModal.onClose();
+    setModal.onClose();
     toast.success("Exercise Changed");
   };
 
@@ -805,7 +805,7 @@ export default function WorkoutDetails() {
 
       resetSetToDefault();
 
-      newSetModal.onClose();
+      setModal.onClose();
       toast.success("Set Updated");
     } catch (error) {
       console.log(error);
@@ -821,7 +821,7 @@ export default function WorkoutDetails() {
     setOperationType("edit");
     setSelectedExercise(exercise);
 
-    newSetModal.onOpen();
+    setModal.onOpen();
   };
 
   const handleSaveNoteButton = async () => {
@@ -1064,7 +1064,7 @@ export default function WorkoutDetails() {
     setOperationType("change-exercise");
     setOperatingGroupedSet(groupedWorkoutSet);
 
-    newSetModal.onOpen();
+    setModal.onOpen();
   };
 
   const handleExerciseOptionSelection = (
@@ -1193,8 +1193,8 @@ export default function WorkoutDetails() {
         </ModalContent>
       </Modal>
       <Modal
-        isOpen={newSetModal.isOpen}
-        onOpenChange={newSetModal.onOpenChange}
+        isOpen={setModal.isOpen}
+        onOpenChange={setModal.onOpenChange}
       >
         <ModalContent>
           {(onClose) => (

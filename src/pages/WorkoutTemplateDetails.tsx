@@ -120,7 +120,7 @@ export default function WorkoutTemplateDetails() {
 
   const [operatingSet, setOperatingSet] = useState<WorkoutSet>(defaultNewSet);
 
-  const newSetModal = useDisclosure();
+  const setModal = useDisclosure();
   const deleteModal = useDisclosure();
 
   const isNewWorkoutTemplateNameInvalid = useMemo(() => {
@@ -307,7 +307,7 @@ export default function WorkoutTemplateDetails() {
 
       resetSetToDefault();
 
-      newSetModal.onClose();
+      setModal.onClose();
       toast.success("Set Added");
     } catch (error) {
       console.log(error);
@@ -418,7 +418,7 @@ export default function WorkoutTemplateDetails() {
 
     resetSetToDefault();
 
-    newSetModal.onClose();
+    setModal.onClose();
     toast.success("Set Updated");
   };
 
@@ -467,7 +467,7 @@ export default function WorkoutTemplateDetails() {
       resetSetToDefault();
     }
 
-    newSetModal.onOpen();
+    setModal.onOpen();
   };
 
   const handleEditSet = (set: WorkoutSet, index: number) => {
@@ -480,7 +480,7 @@ export default function WorkoutTemplateDetails() {
     setSelectedExercise(exercise);
     setDefaultValuesInputStrings(set);
 
-    newSetModal.onOpen();
+    setModal.onOpen();
   };
 
   const setDefaultValuesInputStrings = (set: WorkoutSet) => {
@@ -601,7 +601,7 @@ export default function WorkoutTemplateDetails() {
 
     resetSetToDefault();
 
-    newSetModal.onClose();
+    setModal.onClose();
     const toastMsg: string =
       operationType === "reassign-exercise"
         ? "Exercise Reassigned"
@@ -657,7 +657,7 @@ export default function WorkoutTemplateDetails() {
     setOperationType("reassign-exercise");
     setOperatingGroupedSet(groupedWorkoutSet);
 
-    newSetModal.onOpen();
+    setModal.onOpen();
   };
 
   const handleChangeExercise = (groupedWorkoutSet: GroupedWorkoutSet) => {
@@ -665,7 +665,7 @@ export default function WorkoutTemplateDetails() {
     setOperationType("change-exercise");
     setOperatingGroupedSet(groupedWorkoutSet);
 
-    newSetModal.onOpen();
+    setModal.onOpen();
   };
 
   const handleClickSet = (set: WorkoutSet, index: number) => {
@@ -904,8 +904,8 @@ export default function WorkoutTemplateDetails() {
         </ModalContent>
       </Modal>
       <Modal
-        isOpen={newSetModal.isOpen}
-        onOpenChange={newSetModal.onOpenChange}
+        isOpen={setModal.isOpen}
+        onOpenChange={setModal.onOpenChange}
       >
         <ModalContent>
           {(onClose) => (
