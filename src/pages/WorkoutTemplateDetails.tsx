@@ -85,7 +85,7 @@ export default function WorkoutTemplateDetails() {
   const [operationType, setOperationType] = useState<OperationType>("add");
   const [operatingGroupedSet, setOperatingGroupedSet] =
     useState<GroupedWorkoutSet>();
-  const [shownSetListNotes, setShownSetListNotes] = useState<SetListNotes>({});
+  const [ShownSetListComments, setShownSetListComments] = useState<SetListNotes>({});
   const [showDefaultValues, setShowDefaultValues] = useState<boolean>(false);
 
   const defaultSetTrackingValuesInput: SetTrackingValuesInput =
@@ -348,8 +348,8 @@ export default function WorkoutTemplateDetails() {
 
       const setIndex: number = operatingSet.set_index ?? -1;
 
-      // Close shownSetListNotes for Set if note was deleted
-      removeNoteFromShownSetListNotes(operatingSet.exercise_id, setIndex);
+      // Close ShownSetListComments for Set if note was deleted
+      removeSetIndexFromShownSetListComments(operatingSet.exercise_id, setIndex);
 
       resetSetToDefault();
 
@@ -406,9 +406,9 @@ export default function WorkoutTemplateDetails() {
       }
     }
 
-    // Close shownSetListNotes for Set if note was deleted
-    if (noteToInsert === null) {
-      removeNoteFromShownSetListNotes(operatingSet.exercise_id, setIndex);
+    // Close ShownSetListComments for Set if note was deleted
+    if (updatedSet.note === null) {
+      removeSetIndexFromShownSetListComments(operatingSet.exercise_id, setIndex);
     }
 
     setGroupedSets((prev) => {
@@ -835,37 +835,37 @@ export default function WorkoutTemplateDetails() {
     );
   };
 
-  const updateShownSetListNotes = (exerciseId: number, index: number) => {
+  const updateShownSetListComments = (exerciseId: number, index: number) => {
     let updatedSet: Set<number> = new Set<number>();
-    if (shownSetListNotes[exerciseId]) {
-      // If shownSetListNotes HAS key for exerciseId
-      updatedSet = new Set(shownSetListNotes[exerciseId]);
+    if (ShownSetListComments[exerciseId]) {
+      // If ShownSetListComments HAS key for exerciseId
+      updatedSet = new Set(ShownSetListComments[exerciseId]);
 
-      if (shownSetListNotes[exerciseId].has(index)) {
+      if (ShownSetListComments[exerciseId].has(index)) {
         updatedSet.delete(index);
       } else {
         updatedSet.add(index);
       }
     } else {
-      // If shownSetListNotes HAS NO key for exerciseId
+      // If ShownSetListComments HAS NO key for exerciseId
       updatedSet.add(index);
     }
 
-    setShownSetListNotes((prev) => ({
+    setShownSetListComments((prev) => ({
       ...prev,
       [exerciseId]: updatedSet,
     }));
   };
 
-  const removeNoteFromShownSetListNotes = (
-    exercise_id: number,
+  const removeSetIndexFromShownSetListComments = (
+    exerciseId: number,
     setIndex: number
   ) => {
     if (
-      shownSetListNotes[exercise_id] &&
-      shownSetListNotes[exercise_id].has(setIndex)
+      ShownSetListComments[exerciseId] &&
+      ShownSetListComments[exerciseId].has(setIndex)
     ) {
-      updateShownSetListNotes(exercise_id, setIndex);
+      updateShownSetListComments(exerciseId, setIndex);
     }
   };
 
@@ -1463,8 +1463,8 @@ export default function WorkoutTemplateDetails() {
                               activeSetId={0}
                               clickSetAction={handleClickSet}
                               optionsSelectionAction={handleSetOptionSelection}
-                              clickCommentButtonAction={updateShownSetListNotes}
-                              shownSetListComments={shownSetListNotes}
+                              clickCommentButtonAction={updateShownSetListComments}
+                              shownSetListComments={ShownSetListComments}
                               isTemplate={true}
                               setListOptionsMenu={setListOptionsMenu}
                             />
