@@ -867,75 +867,51 @@ export default function WorkoutDetails() {
       setTrackingValuesInput
     );
 
-    try {
-      const db = await Database.load(import.meta.env.VITE_DB);
+    const commentToInsert: string | null =
+      activeSet.comment?.trim().length === 0 ? null : activeSet.comment;
 
-      const commentToInsert: string | null =
-        activeSet.comment?.trim().length === 0 ? null : activeSet.comment;
+    const updatedSet: WorkoutSet = {
+      ...activeSet,
+      weight: setTrackingValuesNumbers.weight,
+      reps: setTrackingValuesNumbers.reps,
+      distance: setTrackingValuesNumbers.distance,
+      rir: setTrackingValuesNumbers.rir,
+      rpe: setTrackingValuesNumbers.rpe,
+      resistance_level: setTrackingValuesNumbers.resistance_level,
+      is_completed: 1,
+      time_completed: currentDate,
+      comment: commentToInsert,
+    };
 
-      await db.execute(
-        `UPDATE sets SET
-        weight = $1, reps = $2, distance = $3, time_in_seconds = $4, rir = $5,
-        rpe = $6, resistance_level = $7, weight_unit = $8, distance_unit = $9,
-        comment = $10, time_completed = $11, is_completed = 1
-        WHERE id = $12`,
-        [
-          setTrackingValuesNumbers.weight,
-          setTrackingValuesNumbers.reps,
-          setTrackingValuesNumbers.distance,
-          activeSet.time_in_seconds,
-          setTrackingValuesNumbers.rir,
-          setTrackingValuesNumbers.rpe,
-          setTrackingValuesNumbers.resistance_level,
-          activeSet.weight_unit,
-          activeSet.distance_unit,
-          commentToInsert,
-          currentDate,
-          activeSet.id,
-        ]
+    const success = await UpdateSet(updatedSet);
+
+    if (!success) return;
+
+    const exerciseIndex: number = groupedSets.findIndex(
+      (obj) => obj.exercise_id === activeSet.exercise_id
+    );
+
+    const updatedSetList: WorkoutSet[] = groupedSets[exerciseIndex].setList.map(
+      (item) => (item.id === activeSet.id ? updatedSet : item)
+    );
+
+    setGroupedSets((prev) => {
+      const newList = [...prev];
+      newList[exerciseIndex].setList = updatedSetList;
+      return newList;
+    });
+
+    // Close shownSetListComments for Set if comment was deleted
+    if (updatedSet.comment === null) {
+      updateSetIndexInShownSetListComments(
+        activeSet.exercise_id,
+        activeSet.set_index ?? -1
       );
-
-      const updatedSet: WorkoutSet = {
-        ...activeSet,
-        weight: setTrackingValuesNumbers.weight,
-        reps: setTrackingValuesNumbers.reps,
-        distance: setTrackingValuesNumbers.distance,
-        rir: setTrackingValuesNumbers.rir,
-        rpe: setTrackingValuesNumbers.rpe,
-        resistance_level: setTrackingValuesNumbers.resistance_level,
-        is_completed: 1,
-        time_completed: currentDate,
-        comment: commentToInsert,
-      };
-
-      const exerciseIndex: number = groupedSets.findIndex(
-        (obj) => obj.exercise_id === activeSet.exercise_id
-      );
-
-      const updatedSetList: WorkoutSet[] = groupedSets[
-        exerciseIndex
-      ].setList.map((item) => (item.id === activeSet.id ? updatedSet : item));
-
-      setGroupedSets((prev) => {
-        const newList = [...prev];
-        newList[exerciseIndex].setList = updatedSetList;
-        return newList;
-      });
-
-      // Close shownSetListComments for Set if comment was deleted
-      if (updatedSet.comment === null) {
-        updateSetIndexInShownSetListComments(
-          activeSet.exercise_id,
-          activeSet.set_index ?? -1
-        );
-      }
-
-      goToNextIncompleteSet(updatedSet);
-      setShowCommentInput(false);
-      toast.success("Set Saved");
-    } catch (error) {
-      console.log(error);
     }
+
+    goToNextIncompleteSet(updatedSet);
+    setShowCommentInput(false);
+    toast.success("Set Saved");
   };
 
   const goToNextIncompleteSet = (lastSet: WorkoutSet) => {
@@ -1558,13 +1534,6 @@ export default function WorkoutDetails() {
                 <Button color="success" onPress={handleAddSetButton}>
                   Add Set
                 </Button>
-                {/* TODO: ADD */}
-                {/* <Button color="success" onPress={() => supersetModal.onOpen()}>
-                Add Superset
-              </Button>
-              <Button color="success" onPress={() => dropsetModal.onOpen()}>
-                Add Dropset
-              </Button> */}
               </div>
             </div>
             <div>
