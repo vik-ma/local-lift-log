@@ -1,11 +1,11 @@
 import Database from "tauri-plugin-sql-api";
-import { useState, useEffect, useMemo } from "react";
-import { UserWeight, UserSettingsOptional } from "../typings";
+import { useState, useEffect, useMemo, useCallback } from "react";
+import { UserWeight, UserSettings } from "../typings";
 import { LoadingSpinner, WeightUnitDropdown, DeleteModal } from "../components";
 import {
   FormatDateTimeString,
   IsStringInvalidNumber,
-  GetDefaultUnitValues,
+  GetUserSettings,
 } from "../helpers";
 import {
   Button,
@@ -32,44 +32,47 @@ export default function UserWeightListPage() {
   const deleteModal = useDisclosure();
   const editWeightModal = useDisclosure();
 
+  const getUserWeights = useCallback(async (clockStyle: string) => {
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      const result = await db.select<UserWeight[]>(
+        "SELECT * FROM user_weights ORDER BY id DESC"
+      );
+
+      const userWeights: UserWeight[] = result.map((row) => {
+        const formattedDate: string = FormatDateTimeString(
+          row.date,
+          clockStyle === "24h"
+        );
+        return {
+          id: row.id,
+          weight: row.weight,
+          weight_unit: row.weight_unit,
+          date: row.date,
+          formattedDate: formattedDate,
+          comment: row.comment,
+        };
+      });
+
+      setUserWeights(userWeights);
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
   useEffect(() => {
     const loadUserSettings = async () => {
-      const settings: UserSettingsOptional | undefined =
-        await GetDefaultUnitValues();
-      if (settings !== undefined)
+      const settings: UserSettings | undefined = await GetUserSettings();
+      if (settings !== undefined) {
         setNewWeightUnit(settings.default_unit_weight!);
-    };
-
-    const getUserWeights = async () => {
-      try {
-        const db = await Database.load(import.meta.env.VITE_DB);
-
-        const result = await db.select<UserWeight[]>(
-          "SELECT * FROM user_weights ORDER BY id DESC"
-        );
-
-        const userWeights: UserWeight[] = result.map((row) => {
-          const formattedDate: string = FormatDateTimeString(row.date);
-          return {
-            id: row.id,
-            weight: row.weight,
-            weight_unit: row.weight_unit,
-            date: row.date,
-            formattedDate: formattedDate,
-            comment: row.comment,
-          };
-        });
-
-        setUserWeights(userWeights);
-        setIsLoading(false);
-      } catch (error) {
-        console.log(error);
+        getUserWeights(settings.clock_style);
       }
     };
 
     loadUserSettings();
-    getUserWeights();
-  }, []);
+  }, [getUserWeights]);
 
   const handleDeleteButton = (userWeight: UserWeight) => {
     setUserWeightToDelete(userWeight);
