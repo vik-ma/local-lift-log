@@ -18,6 +18,7 @@ import {
   TimeInput,
   WorkoutRatingDropdown,
   SetList,
+  DeleteModal,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
 import { NotFound } from ".";
@@ -1114,35 +1115,20 @@ export default function WorkoutDetails() {
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
-      <Modal
-        isOpen={deleteModal.isOpen}
-        onOpenChange={deleteModal.onOpenChange}
-      >
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex flex-col gap-1">
-                Delete Set{operationType === "delete-exercise-sets" && "s"}
-              </ModalHeader>
-              <ModalBody>
-                <p className="break-words">
-                  {operationType === "delete-exercise-sets"
-                    ? `Are you sure you want to delete all ${operatingGroupedSet?.exercise_name} sets from Workout?`
-                    : `Are you sure you want to delete ${operatingSet.exercise_name} set?`}
-                </p>
-              </ModalBody>
-              <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Close
-                </Button>
-                <Button color="danger" onPress={handleDeleteModalButton}>
-                  Delete
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
+      <DeleteModal
+        deleteModal={deleteModal}
+        header={`Delete Set${
+          operationType === "delete-exercise-sets" ? "s" : ""
+        }`}
+        body={
+          <p className="break-words">
+            {operationType === "delete-exercise-sets"
+              ? `Are you sure you want to delete all ${operatingGroupedSet?.exercise_name} sets from Workout?`
+              : `Are you sure you want to delete ${operatingSet.exercise_name} set?`}
+          </p>
+        }
+        deleteButtonAction={handleDeleteModalButton}
+      />
       <Modal isOpen={setModal.isOpen} onOpenChange={setModal.onOpenChange}>
         <ModalContent>
           {(onClose) => (
