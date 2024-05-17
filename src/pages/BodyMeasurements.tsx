@@ -56,25 +56,27 @@ export default function BodyMeasurementsPage() {
     []
   );
 
+  const getLatestUserWeight = useCallback(async (clockStyle: string) => {
+    const userWeight: UserWeight | undefined = await GetLatestUserWeight(
+      clockStyle
+    );
+    if (userWeight !== undefined) setLatestUserWeight(userWeight);
+    setIsLoading(false);
+  }, []);
+
   useEffect(() => {
     const loadUserSettings = async () => {
       const settings: UserSettings | undefined = await GetUserSettings();
       if (settings !== undefined) {
         setUserSettings(settings);
         setNewWeightUnit(settings.default_unit_weight!);
-        await getActiveMeasurements(settings.active_tracking_measurements!);
+        getActiveMeasurements(settings.active_tracking_measurements!);
+        getLatestUserWeight(settings.clock_style!);
       }
     };
 
-    const getLatestUserWeight = async () => {
-      const userWeight: UserWeight | undefined = await GetLatestUserWeight();
-      if (userWeight !== undefined) setLatestUserWeight(userWeight);
-      setIsLoading(false);
-    };
-
     loadUserSettings();
-    getLatestUserWeight();
-  }, [getActiveMeasurements]);
+  }, [getActiveMeasurements, getLatestUserWeight]);
 
   const isWeightInputInvalid = useMemo(() => {
     return IsStringInvalidNumber(newWeightInput);
@@ -101,7 +103,10 @@ export default function BodyMeasurementsPage() {
         [newWeight, newWeightUnit, dateString, commentToInsert]
       );
 
-      const formattedDate: string = FormatDateTimeString(dateString);
+      const formattedDate: string = FormatDateTimeString(
+        dateString,
+        userSettings?.clock_style === "24h"
+      );
 
       const newUserWeight: UserWeight = {
         id: result.lastInsertId,

@@ -2,7 +2,7 @@ import Database from "tauri-plugin-sql-api";
 import { UserWeight } from "../../typings";
 import { FormatDateTimeString } from "..";
 
-export const GetLatestUserWeight = async () => {
+export const GetLatestUserWeight = async (clockStyle: string) => {
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -12,7 +12,10 @@ export const GetLatestUserWeight = async () => {
 
     const userWeight: UserWeight = result[0];
 
-    userWeight.formattedDate = FormatDateTimeString(userWeight.date);
+    userWeight.formattedDate = FormatDateTimeString(
+      userWeight.date,
+      clockStyle === "24h"
+    );
 
     return userWeight;
   } catch (error) {
