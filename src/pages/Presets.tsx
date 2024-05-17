@@ -3,6 +3,7 @@ import {
   DistanceUnitDropdown,
   LoadingSpinner,
   WeightUnitDropdown,
+  DeleteModal,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
 import { EquipmentWeight, UserSettingsOptional, Distance } from "../typings";
@@ -429,50 +430,26 @@ export default function PresetsPage() {
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
-      <Modal
-        isOpen={deleteModal.isOpen}
-        onOpenChange={deleteModal.onOpenChange}
-      >
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex flex-col gap-1">
-                {operatingType === "equipment"
-                  ? "Delete Equipment Weight"
-                  : "Delete Distance"}
-              </ModalHeader>
-              <ModalBody>
-                {operatingType === "equipment" ? (
-                  <p className="break-words">
-                    Are you sure you want to permanently delete{" "}
-                    {equipmentToDelete?.name}?
-                  </p>
-                ) : (
-                  <p className="break-words">
-                    Are you sure you want to permanently delete{" "}
-                    {distanceToDelete?.name}?
-                  </p>
-                )}
-              </ModalBody>
-              <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Close
-                </Button>
-                <Button
-                  color="danger"
-                  onPress={
-                    operatingType === "equipment"
-                      ? deleteEquipmentWeight
-                      : deleteDistance
-                  }
-                >
-                  Delete
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
+      <DeleteModal
+        deleteModal={deleteModal}
+        header={
+          operatingType === "equipment"
+            ? "Delete Equipment Weight"
+            : "Delete Distance"
+        }
+        body={
+          <p className="break-words">
+            {operatingType === "equipment"
+              ? `Are you sure you want to
+            permanently delete ${equipmentToDelete?.name}?`
+              : `Are you sure you
+            want to permanently delete ${distanceToDelete?.name}?`}
+          </p>
+        }
+        deleteButtonAction={
+          operatingType === "equipment" ? deleteEquipmentWeight : deleteDistance
+        }
+      />
       <Modal
         isOpen={newPresetModal.isOpen}
         onOpenChange={newPresetModal.onOpenChange}
