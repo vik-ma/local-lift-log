@@ -439,11 +439,11 @@ export default function PresetsPage() {
         }
         body={
           <p className="break-words">
+            Are you sure you want to permanently delete{" "}
             {operatingType === "equipment"
-              ? `Are you sure you want to
-            permanently delete ${equipmentToDelete?.name}?`
-              : `Are you sure you
-            want to permanently delete ${distanceToDelete?.name}?`}
+              ? equipmentToDelete?.name
+              : distanceToDelete?.name}
+            ?
           </p>
         }
         deleteButtonAction={
