@@ -5,7 +5,7 @@ export const FormatDateTimeString = (
   if (is24hFormat) {
     const formattedDate: string = new Date(dateString)
       .toString()
-      .substring(0, 24);
+      .substring(0, 21);
     return formattedDate;
   }
 
@@ -17,7 +17,6 @@ export const FormatDateTimeString = (
       year: "numeric",
       hour: "numeric",
       minute: "numeric",
-      second: "numeric",
       hour12: true,
     })
     .replace(/,/g, "");
