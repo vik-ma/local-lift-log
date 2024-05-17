@@ -26,7 +26,7 @@ import {
 } from "@nextui-org/react";
 import { NotFound } from ".";
 import Database from "tauri-plugin-sql-api";
-import { LoadingSpinner } from "../components";
+import { LoadingSpinner, DeleteModal } from "../components";
 import {
   GetScheduleDayNames,
   GetScheduleDayValues,
@@ -381,41 +381,25 @@ export default function RoutineDetailsPage() {
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
-      <Modal
-        isOpen={deleteModal.isOpen}
-        onOpenChange={deleteModal.onOpenChange}
-      >
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex flex-col gap-1">
-                <h2>Remove Workout Template</h2>
-              </ModalHeader>
-              <ModalBody>
-                <p className="break-words">
-                  Are you sure you want to remove{" "}
-                  <span className="font-medium text-yellow-500">
-                    {workoutRoutineScheduleToRemove?.name}
-                  </span>{" "}
-                  from{" "}
-                  <span className="font-medium text-yellow-500">
-                    {dayNameList[selectedDay]}
-                  </span>
-                  ?
-                </p>
-              </ModalBody>
-              <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Close
-                </Button>
-                <Button color="danger" onPress={removeWorkoutTemplateFromDay}>
-                  Remove
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
+      <DeleteModal
+        deleteModal={deleteModal}
+        header="Remove Workout Template"
+        body={
+          <p className="break-words">
+            Are you sure you want to remove{" "}
+            <span className="font-medium text-yellow-500">
+              {workoutRoutineScheduleToRemove?.name}
+            </span>{" "}
+            from{" "}
+            <span className="font-medium text-yellow-500">
+              {dayNameList[selectedDay]}
+            </span>
+            ?
+          </p>
+        }
+        deleteButtonAction={removeWorkoutTemplateFromDay}
+        deleteButtonText="Remove"
+      />
       <Modal
         isOpen={workoutTemplatesModal.isOpen}
         onOpenChange={workoutTemplatesModal.onOpenChange}

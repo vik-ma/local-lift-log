@@ -22,7 +22,7 @@ import {
   GetActiveRoutineId,
   NumDaysInScheduleOptions,
 } from "../helpers";
-import { LoadingSpinner } from "../components";
+import { LoadingSpinner, DeleteModal } from "../components";
 
 export default function RoutineListPage() {
   const [routines, setRoutines] = useState<RoutineListItem[]>([]);
@@ -226,34 +226,16 @@ export default function RoutineListPage() {
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
-      <Modal
-        isOpen={deleteModal.isOpen}
-        onOpenChange={deleteModal.onOpenChange}
-      >
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex flex-col gap-1">
-                Delete Routine
-              </ModalHeader>
-              <ModalBody>
-                <p className="break-words">
-                  Are you sure you want to permanently delete{" "}
-                  {routineToDelete?.name}?
-                </p>
-              </ModalBody>
-              <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Close
-                </Button>
-                <Button color="danger" onPress={deleteRoutine}>
-                  Delete
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
+      <DeleteModal
+        deleteModal={deleteModal}
+        header="Delete Routine"
+        body={
+          <p className="break-words">
+            Are you sure you want to permanently delete {routineToDelete?.name}?
+          </p>
+        }
+        deleteButtonAction={deleteRoutine}
+      />
       <Modal
         isOpen={newRoutineModal.isOpen}
         onOpenChange={newRoutineModal.onOpenChange}

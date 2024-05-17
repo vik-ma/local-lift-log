@@ -1,7 +1,7 @@
 import Database from "tauri-plugin-sql-api";
 import { useState, useEffect, useMemo } from "react";
 import { UserWeight, UserSettingsOptional } from "../typings";
-import { LoadingSpinner, WeightUnitDropdown } from "../components";
+import { LoadingSpinner, WeightUnitDropdown, DeleteModal } from "../components";
 import {
   FormatDateTimeString,
   IsStringInvalidNumber,
@@ -156,34 +156,17 @@ export default function UserWeightListPage() {
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
-      <Modal
-        isOpen={deleteModal.isOpen}
-        onOpenChange={deleteModal.onOpenChange}
-      >
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex flex-col gap-1">
-                Delete Body Weight Record
-              </ModalHeader>
-              <ModalBody>
-                <p className="break-words">
-                  Are you sure you want to permanently delete the Body Weight
-                  record on {userWeightToDelete?.formattedDate}?
-                </p>
-              </ModalBody>
-              <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Close
-                </Button>
-                <Button color="danger" onPress={deleteUserWeight}>
-                  Delete
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
+      <DeleteModal
+        deleteModal={deleteModal}
+        header="Delete Body Weight Record"
+        body={
+          <p className="break-words">
+            Are you sure you want to permanently delete the Body Weight record
+            on {userWeightToDelete?.formattedDate}?
+          </p>
+        }
+        deleteButtonAction={deleteUserWeight}
+      />
       <Modal
         isOpen={editWeightModal.isOpen}
         onOpenChange={editWeightModal.onOpenChange}

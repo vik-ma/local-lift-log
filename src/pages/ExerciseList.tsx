@@ -22,7 +22,7 @@ import {
 } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { LoadingSpinner } from "../components";
+import { DeleteModal, LoadingSpinner } from "../components";
 import { SearchIcon } from "../assets";
 
 export default function ExerciseListPage() {
@@ -210,34 +210,17 @@ export default function ExerciseListPage() {
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
-      <Modal
-        isOpen={deleteModal.isOpen}
-        onOpenChange={deleteModal.onOpenChange}
-      >
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex flex-col gap-1">
-                Delete Exercise
-              </ModalHeader>
-              <ModalBody>
-                <p className="break-words">
-                  Are you sure you want to permanently delete{" "}
-                  {exerciseToDelete?.name}?
-                </p>
-              </ModalBody>
-              <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Close
-                </Button>
-                <Button color="danger" onPress={deleteExercise}>
-                  Delete
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
+      <DeleteModal
+        deleteModal={deleteModal}
+        header="Delete Exercise"
+        body={
+          <p className="break-words">
+            Are you sure you want to permanently delete {exerciseToDelete?.name}
+            ?
+          </p>
+        }
+        deleteButtonAction={deleteExercise}
+      />
       <Modal
         isOpen={newExerciseModal.isOpen}
         onOpenChange={newExerciseModal.onOpenChange}

@@ -1,17 +1,13 @@
 import { useState, useEffect } from "react";
 import { WorkoutListItem } from "../typings";
 import { useNavigate } from "react-router-dom";
-import { LoadingSpinner, WorkoutRatingDropdown } from "../components";
-import Database from "tauri-plugin-sql-api";
 import {
-  Button,
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  useDisclosure,
-} from "@nextui-org/react";
+  LoadingSpinner,
+  WorkoutRatingDropdown,
+  DeleteModal,
+} from "../components";
+import Database from "tauri-plugin-sql-api";
+import { Button, useDisclosure } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
 import { FormatDateString } from "../helpers";
 
@@ -87,35 +83,18 @@ export default function WorkoutList() {
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
-      <Modal
-        isOpen={deleteModal.isOpen}
-        onOpenChange={deleteModal.onOpenChange}
-      >
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex flex-col gap-1">
-                Delete Workout
-              </ModalHeader>
-              <ModalBody>
-                <p className="break-words">
-                  Are you sure you want to permanently delete Workout on{" "}
-                  {workoutToDelete?.date}, including all Sets performed in the
-                  Workout?
-                </p>
-              </ModalBody>
-              <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Close
-                </Button>
-                <Button color="danger" onPress={deleteWorkout}>
-                  Delete
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
+      <DeleteModal
+        deleteModal={deleteModal}
+        header="Delete Workout"
+        body={
+          <p className="break-words">
+            Are you sure you want to permanently delete Workout on{" "}
+            {workoutToDelete?.date}, including all Sets performed in the
+            Workout?
+          </p>
+        }
+        deleteButtonAction={deleteWorkout}
+      />
       <div className="flex flex-col items-center gap-3">
         <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">
           <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">

@@ -1,5 +1,9 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
-import { LoadingSpinner, MeasurementUnitDropdown } from "../components";
+import {
+  LoadingSpinner,
+  MeasurementUnitDropdown,
+  DeleteModal,
+} from "../components";
 import { Measurement, SetMeasurementsAction, UserSettings } from "../typings";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -311,34 +315,17 @@ export default function MeasurementListPage() {
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
-      <Modal
-        isOpen={deleteModal.isOpen}
-        onOpenChange={deleteModal.onOpenChange}
-      >
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex flex-col gap-1">
-                Delete Measurement
-              </ModalHeader>
-              <ModalBody>
-                <p className="break-words">
-                  Are you sure you want to permanently delete{" "}
-                  {measurementToDelete?.name} measurement?
-                </p>
-              </ModalBody>
-              <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Close
-                </Button>
-                <Button color="danger" onPress={deleteMeasurement}>
-                  Delete
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
+      <DeleteModal
+        deleteModal={deleteModal}
+        header="Delete Measurement"
+        body={
+          <p className="break-words">
+            Are you sure you want to permanently delete{" "}
+            {measurementToDelete?.name} measurement?
+          </p>
+        }
+        deleteButtonAction={deleteMeasurement}
+      />
       <Modal
         isOpen={newMeasurementModal.isOpen}
         onOpenChange={newMeasurementModal.onOpenChange}

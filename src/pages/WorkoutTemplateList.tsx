@@ -11,7 +11,7 @@ import {
   Input,
 } from "@nextui-org/react";
 import { useState, useEffect, useMemo } from "react";
-import { LoadingSpinner } from "../components";
+import { LoadingSpinner, DeleteModal } from "../components";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -143,34 +143,17 @@ export default function WorkoutTemplateList() {
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
-      <Modal
-        isOpen={deleteModal.isOpen}
-        onOpenChange={deleteModal.onOpenChange}
-      >
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex flex-col gap-1">
-                Delete Workout Template
-              </ModalHeader>
-              <ModalBody>
-                <p className="break-words">
-                  Are you sure you want to permanently delete{" "}
-                  {workoutTemplateToDelete?.name}?
-                </p>
-              </ModalBody>
-              <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Close
-                </Button>
-                <Button color="danger" onPress={deleteWorkoutTemplate}>
-                  Delete
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
+      <DeleteModal
+        deleteModal={deleteModal}
+        header="Delete Workout Template"
+        body={
+          <p className="break-words">
+            Are you sure you want to permanently delete{" "}
+            {workoutTemplateToDelete?.name}?
+          </p>
+        }
+        deleteButtonAction={deleteWorkoutTemplate}
+      />
       <Modal
         isOpen={newWorkoutTemplateModal.isOpen}
         onOpenChange={newWorkoutTemplateModal.onOpenChange}
