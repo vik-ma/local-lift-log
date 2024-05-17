@@ -1,12 +1,8 @@
 import Database from "tauri-plugin-sql-api";
 import { useState, useEffect, useMemo, useCallback } from "react";
-import { UserWeight, UserSettings } from "../typings";
+import { UserWeight, UserSettingsOptional } from "../typings";
 import { LoadingSpinner, WeightUnitDropdown, DeleteModal } from "../components";
-import {
-  FormatDateTimeString,
-  IsStringInvalidNumber,
-  GetUserSettings,
-} from "../helpers";
+import { FormatDateTimeString, IsStringInvalidNumber } from "../helpers";
 import {
   Button,
   useDisclosure,
@@ -64,10 +60,19 @@ export default function UserWeightListPage() {
 
   useEffect(() => {
     const loadUserSettings = async () => {
-      const settings: UserSettings | undefined = await GetUserSettings();
-      if (settings !== undefined) {
-        setNewWeightUnit(settings.default_unit_weight!);
-        getUserWeights(settings.clock_style);
+      try {
+        const db = await Database.load(import.meta.env.VITE_DB);
+
+        const result = await db.select<UserSettingsOptional[]>(
+          "SELECT id, default_unit_weight, clock_style FROM user_settings"
+        );
+
+        const userSettings: UserSettingsOptional = result[0];
+
+        setNewWeightUnit(userSettings.default_unit_weight!);
+        getUserWeights(userSettings.clock_style!);
+      } catch (error) {
+        console.log(error);
       }
     };
 
