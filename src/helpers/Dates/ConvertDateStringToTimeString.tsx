@@ -9,7 +9,7 @@ export const ConvertDateStringToTimeString = (
 
   const date = new Date(dateString);
   const timeString = date.toLocaleTimeString("en-US", {
-    hour: "numeric",
+    hour: "2-digit",
     minute: "numeric",
     second: "numeric",
     hour12: true,

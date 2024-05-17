@@ -15,7 +15,7 @@ export const FormatDateTimeString = (
       month: "short",
       day: "2-digit",
       year: "numeric",
-      hour: "numeric",
+      hour: "2-digit",
       minute: "numeric",
       hour12: true,
     })
