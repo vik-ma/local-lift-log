@@ -35,7 +35,6 @@ export { DefaultSetInputValues } from "./Sets/DefaultSetInputValues";
 export { ReassignExerciseIdForSets } from "./Sets/ReassignExerciseIdForSets";
 export { InsertSetIntoDatabase } from "./Sets/InsertSetIntoDatabase";
 export { UpdateSet } from "./Sets/UpdateSet";
-export { NumNewSetsOptionList } from "./Sets/NumNewSetsOptionList";
 
 export { IsNumberNegativeOrInfinity } from "./Numbers/IsNumberNegativeOrInfinity";
 export { IsStringInvalidNumberOrAbove59 } from "./Numbers/IsStringInvalidNumberOrAbove59";
@@ -72,3 +71,4 @@ export { ValidMeasurementUnits } from "./Constants/ValidMeasurementUnits";
 export { DefaultMeasurementList } from "./Constants/DefaultMeasurementList";
 export { DefaultExerciseList } from "./Constants/DefaultExerciseList";
 export { ExerciseGroupDictionary } from "./Constants/ExerciseGroupDictionary";
+export { NumNewSetsOptionList } from "./Constants/NumNewSetsOptionList";

@@ -22,6 +22,7 @@ import {
   WorkoutSet,
 } from "../typings";
 import { useState } from "react";
+import { NumNewSetsOptionList } from "../helpers";
 
 type SetModalProps = {
   setModal: ReturnType<typeof useDisclosure>;
@@ -33,16 +34,13 @@ type SetModalProps = {
   operationType: string;
   operatingSet: WorkoutSet;
   setOperatingSet: React.Dispatch<React.SetStateAction<WorkoutSet>>;
-  numSetsOptions: string[];
-  numNewSets: string;
-  setNumNewSets: React.Dispatch<React.SetStateAction<string>>;
   setTrackingValuesInput: SetTrackingValuesInput;
   setSetTrackingValuesInput: React.Dispatch<
     React.SetStateAction<SetTrackingValuesInput>
   >;
   setInputsValidityMap: SetTrackingValuesValidity;
   isSetDefaultValuesInvalid: boolean;
-  handleSaveSetButton: () => void;
+  handleSaveSetButton: (numSets: string) => void;
   setIsTimeInputInvalid: React.Dispatch<React.SetStateAction<boolean>>;
   defaultTimeInput: string;
 };
@@ -57,9 +55,6 @@ export const SetModal = ({
   operationType,
   operatingSet,
   setOperatingSet,
-  numSetsOptions,
-  numNewSets,
-  setNumNewSets,
   setTrackingValuesInput,
   setSetTrackingValuesInput,
   setInputsValidityMap,
@@ -69,6 +64,10 @@ export const SetModal = ({
   defaultTimeInput,
 }: SetModalProps) => {
   const [showDefaultValues, setShowDefaultValues] = useState<boolean>(false);
+  const [numNewSets, setNumNewSets] = useState<string>("1");
+
+  const numSetsOptions = NumNewSetsOptionList();
+
   return (
     <Modal isOpen={setModal.isOpen} onOpenChange={setModal.onOpenChange}>
       <ModalContent>
@@ -418,7 +417,7 @@ export const SetModal = ({
                 isDisabled={
                   selectedExercise === undefined || isSetDefaultValuesInvalid
                 }
-                onPress={handleSaveSetButton}
+                onPress={() => handleSaveSetButton(numNewSets)}
               >
                 {operationType === "edit" ? "Save" : "Add"}
               </Button>

@@ -63,7 +63,6 @@ export default function WorkoutTemplateDetails() {
   const [selectedExercise, setSelectedExercise] =
     useState<ExerciseWithGroupString>();
   const [groupedSets, setGroupedSets] = useState<GroupedWorkoutSet[]>([]);
-  const [numNewSets, setNumNewSets] = useState<string>("1");
   const [operationType, setOperationType] = useState<OperationType>("add");
   const [operatingGroupedSet, setOperatingGroupedSet] =
     useState<GroupedWorkoutSet>();
@@ -218,10 +217,10 @@ export default function WorkoutTemplateDetails() {
     }
   };
 
-  const addSet = async () => {
+  const addSet = async (numSets: string) => {
     if (selectedExercise === undefined || workoutTemplate === undefined) return;
 
-    if (!numSetsOptions.includes(numNewSets)) return;
+    if (!numSetsOptions.includes(numSets)) return;
 
     if (isSetDefaultValuesInvalid) return;
 
@@ -235,7 +234,7 @@ export default function WorkoutTemplateDetails() {
 
       const newSets: WorkoutSet[] = [];
 
-      const numSetsToAdd: number = parseInt(numNewSets);
+      const numSetsToAdd: number = parseInt(numSets);
 
       for (let i = 0; i < numSetsToAdd; i++) {
         const newSet: WorkoutSet = {
@@ -437,9 +436,9 @@ export default function WorkoutTemplateDetails() {
     setSetTrackingValuesInput(defaultSetTrackingValuesInput);
   };
 
-  const handleSaveSetButton = async () => {
+  const handleSaveSetButton = async (numSets: string) => {
     if (operationType === "add") {
-      await addSet();
+      await addSet(numSets);
     }
     if (operationType === "edit") {
       await updateSet();
@@ -833,9 +832,6 @@ export default function WorkoutTemplateDetails() {
         operationType={operationType}
         operatingSet={operatingSet}
         setOperatingSet={setOperatingSet}
-        numSetsOptions={numSetsOptions}
-        numNewSets={numNewSets}
-        setNumNewSets={setNumNewSets}
         setTrackingValuesInput={setTrackingValuesInput}
         setSetTrackingValuesInput={setSetTrackingValuesInput}
         setInputsValidityMap={setInputsValidityMap}
