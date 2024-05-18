@@ -1,6 +1,6 @@
 import Database from "tauri-plugin-sql-api";
 import { useState, useEffect, useMemo, useCallback } from "react";
-import { Exercise, ExerciseListItem } from "../typings";
+import { Exercise } from "../typings";
 import {
   ConvertExerciseGroupSetString,
   ValidateExerciseGroupSetString,
@@ -26,8 +26,8 @@ import { DeleteModal, LoadingSpinner } from "../components";
 import { SearchIcon } from "../assets";
 
 export default function ExerciseListPage() {
-  const [exercises, setExercises] = useState<ExerciseListItem[]>([]);
-  const [exerciseToDelete, setExerciseToDelete] = useState<ExerciseListItem>();
+  const [exercises, setExercises] = useState<Exercise[]>([]);
+  const [exerciseToDelete, setExerciseToDelete] = useState<Exercise>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [filterQuery, setFilterQuery] = useState<string>("");
 
@@ -38,8 +38,8 @@ export default function ExerciseListPage() {
           item.name
             .toLocaleLowerCase()
             .includes(filterQuery.toLocaleLowerCase()) ||
-          item.exercise_group_string
-            .toLocaleLowerCase()
+          item
+            .exerciseGroupFormattedString!.toLocaleLowerCase()
             .includes(filterQuery.toLocaleLowerCase())
       );
     }
@@ -71,15 +71,17 @@ export default function ExerciseListPage() {
         "SELECT id, name, exercise_group_set_string FROM exercises"
       );
 
-      const exercises: ExerciseListItem[] = result.map((row) => {
+      const exercises: Exercise[] = result.map((row) => {
         const convertedValues = ConvertExerciseGroupSetString(
           row.exercise_group_set_string
         );
         return {
           id: row.id,
           name: row.name,
-          exercise_group_list: convertedValues.list,
-          exercise_group_string: convertedValues.formattedString,
+          exercise_group_set_string: row.exercise_group_set_string,
+          note: row.note,
+          exerciseGroupStringList: convertedValues.list,
+          exerciseGroupFormattedString: convertedValues.formattedString,
         };
       });
 
@@ -102,7 +104,7 @@ export default function ExerciseListPage() {
 
       db.execute("DELETE from exercises WHERE id = $1", [exerciseToDelete.id]);
 
-      const updatedExercises: ExerciseListItem[] = exercises.filter(
+      const updatedExercises: Exercise[] = exercises.filter(
         (item) => item.id !== exerciseToDelete?.id
       );
       setExercises(updatedExercises);
@@ -116,7 +118,7 @@ export default function ExerciseListPage() {
     deleteModal.onClose();
   };
 
-  const handleDeleteButton = (exercise: ExerciseListItem) => {
+  const handleDeleteButton = (exercise: Exercise) => {
     setExerciseToDelete(exercise);
     deleteModal.onOpen();
   };
@@ -139,11 +141,11 @@ export default function ExerciseListPage() {
         newExercise.exercise_group_set_string
       );
 
-      const newExerciseListItem: ExerciseListItem = {
+      const newExerciseListItem: Exercise = {
+        ...newExercise,
         id: result.lastInsertId,
-        name: newExercise.name,
-        exercise_group_list: convertedValues.list,
-        exercise_group_string: convertedValues.formattedString,
+        exerciseGroupStringList: convertedValues.list,
+        exerciseGroupFormattedString: convertedValues.formattedString,
       };
       setExercises([...exercises, newExerciseListItem]);
 
@@ -328,7 +330,7 @@ export default function ExerciseListPage() {
                   <div className="flex flex-col">
                     <div className="text-lg truncate w-56">{exercise.name}</div>
                     <div className="text-xs text-stone-500">
-                      {exercise.exercise_group_string}
+                      {exercise.exerciseGroupFormattedString}
                     </div>
                   </div>
                   <div className="flex items-center gap-1">

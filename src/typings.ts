@@ -43,13 +43,8 @@ export type Exercise = {
   name: string;
   exercise_group_set_string: string;
   note: string | null;
-};
-
-export type ExerciseListItem = {
-  id: number;
-  name: string;
-  exercise_group_list: string[];
-  exercise_group_string: string;
+  exerciseGroupStringList?: string[];
+  exerciseGroupFormattedString?: string;
 };
 
 export type ExerciseWithGroupString = {
