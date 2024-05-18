@@ -9,6 +9,7 @@ import {
   GroupedWorkoutSet,
   SetListNotes,
   SetListOptionsItem,
+  SetTrackingValuesValidity,
 } from "../typings";
 import { useState, useMemo, useEffect, useCallback } from "react";
 import {
@@ -607,47 +608,29 @@ export default function WorkoutTemplateDetails() {
     toast.success(toastMsg);
   };
 
-  const isDefaultWeightInputInvalid = useMemo(() => {
-    return IsStringInvalidNumber(setTrackingValuesInput.weight);
-  }, [setTrackingValuesInput.weight]);
-
-  const isDefaultRepsInputInvalid = useMemo(() => {
-    return IsStringInvalidInteger(setTrackingValuesInput.reps);
-  }, [setTrackingValuesInput.reps]);
-
-  const isDefaultDistanceInputInvalid = useMemo(() => {
-    return IsStringInvalidNumber(setTrackingValuesInput.distance);
-  }, [setTrackingValuesInput.distance]);
-
-  const isDefaultRirInputInvalid = useMemo(() => {
-    return IsStringInvalidInteger(setTrackingValuesInput.rir);
-  }, [setTrackingValuesInput.rir]);
-
-  const isDefaultRpeInputInvalid = useMemo(() => {
-    return IsStringInvalidNumberOrAbove10(setTrackingValuesInput.rpe);
-  }, [setTrackingValuesInput.rpe]);
-
-  const isDefaultResistanceLevelInputInvalid = useMemo(() => {
-    return IsStringInvalidNumber(setTrackingValuesInput.resistance_level);
-  }, [setTrackingValuesInput.resistance_level]);
+  const setInputsValidityMap = useMemo((): SetTrackingValuesValidity => {
+    const values: SetTrackingValuesValidity = {
+      weight: IsStringInvalidNumber(setTrackingValuesInput.weight),
+      reps: IsStringInvalidInteger(setTrackingValuesInput.reps),
+      rir: IsStringInvalidInteger(setTrackingValuesInput.rir),
+      rpe: IsStringInvalidNumberOrAbove10(setTrackingValuesInput.rpe),
+      distance: IsStringInvalidNumber(setTrackingValuesInput.distance),
+      resistance_level: IsStringInvalidNumber(
+        setTrackingValuesInput.resistance_level
+      ),
+    };
+    return values;
+  }, [setTrackingValuesInput]);
 
   const isSetDefaultValuesInvalid = useMemo(() => {
-    if (isDefaultWeightInputInvalid) return true;
-    if (isDefaultRepsInputInvalid) return true;
-    if (isDefaultDistanceInputInvalid) return true;
+    for (const value of Object.values(setInputsValidityMap)) {
+      if (value === true) return true;
+    }
     if (isTimeInputInvalid) return true;
-    if (isDefaultRirInputInvalid) return true;
-    if (isDefaultRpeInputInvalid) return true;
-    if (isDefaultResistanceLevelInputInvalid) return true;
     return false;
   }, [
-    isDefaultWeightInputInvalid,
-    isDefaultRepsInputInvalid,
-    isDefaultDistanceInputInvalid,
+    setInputsValidityMap,
     isTimeInputInvalid,
-    isDefaultRirInputInvalid,
-    isDefaultRpeInputInvalid,
-    isDefaultResistanceLevelInputInvalid,
   ]);
 
   const handleReassignExercise = (groupedWorkoutSet: GroupedWorkoutSet) => {
@@ -1129,7 +1112,7 @@ export default function WorkoutTemplateDetails() {
                                     })
                                   )
                                 }
-                                isInvalid={isDefaultWeightInputInvalid}
+                                isInvalid={setInputsValidityMap.weight}
                                 isClearable
                               />
                               <WeightUnitDropdown
@@ -1154,7 +1137,7 @@ export default function WorkoutTemplateDetails() {
                                   })
                                 )
                               }
-                              isInvalid={isDefaultRepsInputInvalid}
+                              isInvalid={setInputsValidityMap.reps}
                               isClearable
                             />
                           )}
@@ -1173,7 +1156,7 @@ export default function WorkoutTemplateDetails() {
                                     })
                                   )
                                 }
-                                isInvalid={isDefaultDistanceInputInvalid}
+                                isInvalid={setInputsValidityMap.distance}
                                 isClearable
                               />
                               <DistanceUnitDropdown
@@ -1208,7 +1191,7 @@ export default function WorkoutTemplateDetails() {
                                   })
                                 )
                               }
-                              isInvalid={isDefaultRirInputInvalid}
+                              isInvalid={setInputsValidityMap.rir}
                               isClearable
                             />
                           )}
@@ -1227,7 +1210,7 @@ export default function WorkoutTemplateDetails() {
                                   })
                                 )
                               }
-                              isInvalid={isDefaultRpeInputInvalid}
+                              isInvalid={setInputsValidityMap.rpe}
                               isClearable
                             />
                           )}
@@ -1250,7 +1233,7 @@ export default function WorkoutTemplateDetails() {
                                   })
                                 )
                               }
-                              isInvalid={isDefaultResistanceLevelInputInvalid}
+                              isInvalid={setInputsValidityMap.resistance_level}
                               isClearable
                             />
                           )}

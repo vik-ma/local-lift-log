@@ -187,6 +187,15 @@ export type SetTrackingValuesNumbers = {
   resistance_level: number;
 };
 
+export type SetTrackingValuesValidity = {
+  weight: boolean;
+  reps: boolean;
+  rir: boolean;
+  rpe: boolean;
+  distance: boolean;
+  resistance_level: boolean;
+};
+
 export type Workout = {
   id: number;
   workout_template_id: number;
@@ -261,3 +270,4 @@ export type SetListOptionsItem = {
   label: string;
   className?: string;
 };
+
