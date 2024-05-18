@@ -9,3 +9,4 @@ export { LocaleDropdown } from "./LocaleDropdown";
 export { ClockStyleDropdown } from "./ClockStyleDropdown";
 export { SetList } from "./SetList";
 export { DeleteModal } from "./DeleteModal";
+export { SetModal } from "./SetModal";
