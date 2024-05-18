@@ -19,14 +19,13 @@ import {
   SetTrackingValuesInput,
   SetTrackingValuesValidity,
   SetWorkoutSetAction,
-  UserSettings,
   WorkoutSet,
 } from "../typings";
 import { useState } from "react";
 
 type SetModalProps = {
   setModal: ReturnType<typeof useDisclosure>;
-  selectedExercise: ExerciseWithGroupString;
+  selectedExercise: ExerciseWithGroupString | undefined;
   filterQuery: string;
   setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
   filteredExercises: ExerciseWithGroupString[];
@@ -45,7 +44,7 @@ type SetModalProps = {
   isSetDefaultValuesInvalid: boolean;
   handleSaveSetButton: () => void;
   setIsTimeInputInvalid: React.Dispatch<React.SetStateAction<boolean>>;
-  userSettings: UserSettings;
+  defaultTimeInput: string;
 };
 
 export const SetModal = ({
@@ -67,7 +66,7 @@ export const SetModal = ({
   isSetDefaultValuesInvalid,
   handleSaveSetButton,
   setIsTimeInputInvalid,
-  userSettings,
+  defaultTimeInput,
 }: SetModalProps) => {
   const [showDefaultValues, setShowDefaultValues] = useState<boolean>(false);
   return (
@@ -345,7 +344,7 @@ export const SetModal = ({
                           <TimeInput
                             value={operatingSet}
                             setValue={setOperatingSet}
-                            defaultTimeInput={userSettings!.default_time_input!}
+                            defaultTimeInput={defaultTimeInput}
                             setIsInvalid={setIsTimeInputInvalid}
                           />
                         )}
