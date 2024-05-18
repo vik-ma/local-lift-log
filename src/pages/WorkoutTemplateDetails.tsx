@@ -4,7 +4,6 @@ import {
   UserSettings,
   WorkoutSet,
   WorkoutTemplate,
-  SetTrackingValuesInput,
   GroupedWorkoutSet,
   SetListNotes,
   SetListOptionsItem,
@@ -70,9 +69,6 @@ export default function WorkoutTemplateDetails() {
     useState<SetListNotes>({});
 
   const numSetsOptions = NumNewSetsOptionList();
-
-  const defaultSetTrackingValuesInput: SetTrackingValuesInput =
-    DefaultSetInputValues();
 
   const setListOptionsMenu: SetListOptionsItem[] = [
     { key: "edit", label: "Edit" },
@@ -433,7 +429,7 @@ export default function WorkoutTemplateDetails() {
       weight_unit: userSettings!.default_unit_weight!,
       distance_unit: userSettings!.default_unit_distance!,
     });
-    setSetTrackingValuesInput(defaultSetTrackingValuesInput);
+    setSetTrackingValuesInput(DefaultSetInputValues());
   };
 
   const handleSaveSetButton = async (numSets: string) => {
