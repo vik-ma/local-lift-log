@@ -5,7 +5,11 @@ import {
   IsStringInvalidNumber,
   IsStringInvalidNumberOrAbove10,
 } from "../helpers";
-import { SetTrackingValuesInput, SetTrackingValuesValidity } from "../typings";
+import {
+  SetTrackingValuesInput,
+  SetTrackingValuesValidity,
+  WorkoutSet,
+} from "../typings";
 
 type UseSetTrackingInputsReturnType = {
   isSetDefaultValuesInvalid: boolean;
@@ -15,6 +19,7 @@ type UseSetTrackingInputsReturnType = {
     React.SetStateAction<SetTrackingValuesInput>
   >;
   setIsTimeInputInvalid: React.Dispatch<React.SetStateAction<boolean>>;
+  setDefaultValuesInputStrings: (set: WorkoutSet) => void;
 };
 
 export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
@@ -46,12 +51,32 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
     return false;
   }, [setInputsValidityMap, isTimeInputInvalid]);
 
+  const setDefaultValuesInputStrings = (set: WorkoutSet) => {
+    const newSetTrackingValuesInput = {
+      weight:
+        set.is_tracking_weight && set.weight !== 0 ? set.weight.toString() : "",
+      reps: set.is_tracking_reps && set.reps !== 0 ? set.reps.toString() : "",
+      rir: set.is_tracking_rir && set.rir !== 0 ? set.rir.toString() : "",
+      rpe: set.is_tracking_rpe && set.rpe !== 0 ? set.rpe.toString() : "",
+      distance:
+        set.is_tracking_distance && set.distance !== 0
+          ? set.distance.toString()
+          : "",
+      resistance_level:
+        set.is_tracking_resistance_level && set.resistance_level !== 0
+          ? set.resistance_level.toString()
+          : "",
+    };
+    setSetTrackingValuesInput(newSetTrackingValuesInput);
+  };
+
   return {
     isSetDefaultValuesInvalid,
     setInputsValidityMap,
     setTrackingValuesInput,
     setSetTrackingValuesInput,
     setIsTimeInputInvalid,
+    setDefaultValuesInputStrings,
   };
 };
 
