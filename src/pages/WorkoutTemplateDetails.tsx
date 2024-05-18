@@ -9,7 +9,6 @@ import {
   GroupedWorkoutSet,
   SetListNotes,
   SetListOptionsItem,
-  SetTrackingValuesValidity,
 } from "../typings";
 import { useState, useMemo, useEffect, useCallback } from "react";
 import {
@@ -50,14 +49,12 @@ import {
   GetExerciseListWithGroupStrings,
   GetUserSettings,
   InsertSetIntoDatabase,
-  IsStringInvalidInteger,
-  IsStringInvalidNumber,
-  IsStringInvalidNumberOrAbove10,
   ReassignExerciseIdForSets,
   UpdateSet,
 } from "../helpers";
 import { ChevronIcon, SearchIcon, VerticalMenuIcon } from "../assets";
 import { Reorder } from "framer-motion";
+import { useSetTrackingInputs } from "../hooks";
 
 type OperationType =
   | "add"
@@ -83,7 +80,6 @@ export default function WorkoutTemplateDetails() {
     useState<ExerciseWithGroupString>();
   const [groupedSets, setGroupedSets] = useState<GroupedWorkoutSet[]>([]);
   const [numNewSets, setNumNewSets] = useState<string>("1");
-  const [isTimeInputInvalid, setIsTimeInputInvalid] = useState<boolean>(false);
   const [operationType, setOperationType] = useState<OperationType>("add");
   const [operatingGroupedSet, setOperatingGroupedSet] =
     useState<GroupedWorkoutSet>();
@@ -91,13 +87,10 @@ export default function WorkoutTemplateDetails() {
     useState<SetListNotes>({});
   const [showDefaultValues, setShowDefaultValues] = useState<boolean>(false);
 
+  const numSetsOptions: string[] = ["1", "2", "3", "4", "5", "6"];
+
   const defaultSetTrackingValuesInput: SetTrackingValuesInput =
     DefaultSetInputValues();
-
-  const [setTrackingValuesInput, setSetTrackingValuesInput] =
-    useState<SetTrackingValuesInput>(defaultSetTrackingValuesInput);
-
-  const numSetsOptions: string[] = ["1", "2", "3", "4", "5", "6"];
 
   const setListOptionsMenu: SetListOptionsItem[] = [
     { key: "edit", label: "Edit" },
@@ -133,6 +126,14 @@ export default function WorkoutTemplateDetails() {
       newWorkoutTemplateName.trim().length === 0
     );
   }, [newWorkoutTemplateName]);
+
+  const {
+    isSetDefaultValuesInvalid,
+    setInputsValidityMap,
+    setTrackingValuesInput,
+    setSetTrackingValuesInput,
+    setIsTimeInputInvalid,
+  } = useSetTrackingInputs();
 
   const getWorkoutTemplateAndSetList = useCallback(async () => {
     try {
@@ -607,31 +608,6 @@ export default function WorkoutTemplateDetails() {
         : "Exercise Changed";
     toast.success(toastMsg);
   };
-
-  const setInputsValidityMap = useMemo((): SetTrackingValuesValidity => {
-    const values: SetTrackingValuesValidity = {
-      weight: IsStringInvalidNumber(setTrackingValuesInput.weight),
-      reps: IsStringInvalidInteger(setTrackingValuesInput.reps),
-      rir: IsStringInvalidInteger(setTrackingValuesInput.rir),
-      rpe: IsStringInvalidNumberOrAbove10(setTrackingValuesInput.rpe),
-      distance: IsStringInvalidNumber(setTrackingValuesInput.distance),
-      resistance_level: IsStringInvalidNumber(
-        setTrackingValuesInput.resistance_level
-      ),
-    };
-    return values;
-  }, [setTrackingValuesInput]);
-
-  const isSetDefaultValuesInvalid = useMemo(() => {
-    for (const value of Object.values(setInputsValidityMap)) {
-      if (value === true) return true;
-    }
-    if (isTimeInputInvalid) return true;
-    return false;
-  }, [
-    setInputsValidityMap,
-    isTimeInputInvalid,
-  ]);
 
   const handleReassignExercise = (groupedWorkoutSet: GroupedWorkoutSet) => {
     setSelectedExercise(undefined);
