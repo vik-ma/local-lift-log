@@ -7,7 +7,17 @@ import {
 } from "../helpers";
 import { SetTrackingValuesInput, SetTrackingValuesValidity } from "../typings";
 
-export const useSetTrackingInputs = () => {
+type UseSetTrackingInputsReturnType = {
+  isSetDefaultValuesInvalid: boolean;
+  setInputsValidityMap: SetTrackingValuesValidity;
+  setTrackingValuesInput: SetTrackingValuesInput;
+  setSetTrackingValuesInput: React.Dispatch<
+    React.SetStateAction<SetTrackingValuesInput>
+  >;
+  setIsTimeInputInvalid: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
   const [isTimeInputInvalid, setIsTimeInputInvalid] = useState<boolean>(false);
   const defaultSetTrackingValuesInput: SetTrackingValuesInput =
     DefaultSetInputValues();
@@ -28,7 +38,7 @@ export const useSetTrackingInputs = () => {
     return values;
   }, [setTrackingValuesInput]);
 
-  const isSetDefaultValuesInvalid = useMemo(() => {
+  const isSetDefaultValuesInvalid = useMemo((): boolean => {
     for (const value of Object.values(setInputsValidityMap)) {
       if (value === true) return true;
     }
