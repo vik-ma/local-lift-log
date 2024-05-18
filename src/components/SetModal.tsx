@@ -15,7 +15,7 @@ import {
 import { WeightUnitDropdown, DistanceUnitDropdown, TimeInput } from ".";
 import { SearchIcon } from "../assets";
 import {
-  ExerciseWithGroupString,
+  Exercise,
   SetTrackingValuesInput,
   SetTrackingValuesValidity,
   SetWorkoutSetAction,
@@ -26,11 +26,11 @@ import { NumNewSetsOptionList } from "../helpers";
 
 type SetModalProps = {
   setModal: ReturnType<typeof useDisclosure>;
-  selectedExercise: ExerciseWithGroupString | undefined;
+  selectedExercise: Exercise | undefined;
   filterQuery: string;
   setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
-  filteredExercises: ExerciseWithGroupString[];
-  handleClickExercise: (exercise: ExerciseWithGroupString) => void;
+  filteredExercises: Exercise[];
+  handleClickExercise: (exercise: Exercise) => void;
   operationType: string;
   operatingSet: WorkoutSet;
   setOperatingSet: React.Dispatch<React.SetStateAction<WorkoutSet>>;
@@ -101,7 +101,7 @@ export const SetModal = ({
                           {exercise.name}
                         </span>
                         <span className="text-xs text-stone-500 text-left">
-                          {exercise.exercise_group_string}
+                          {exercise.formattedGroupString}
                         </span>
                       </button>
                     ))}

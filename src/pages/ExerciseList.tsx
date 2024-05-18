@@ -7,6 +7,7 @@ import {
   ExerciseGroupDictionary,
   ConvertExerciseGroupStringListToSetString,
   CreateDefaultExerciseList,
+  GetExerciseListWithGroupStrings,
 } from "../helpers";
 import {
   Button,
@@ -39,7 +40,7 @@ export default function ExerciseListPage() {
             .toLocaleLowerCase()
             .includes(filterQuery.toLocaleLowerCase()) ||
           item
-            .exerciseGroupFormattedString!.toLocaleLowerCase()
+            .formattedGroupString!.toLocaleLowerCase()
             .includes(filterQuery.toLocaleLowerCase())
       );
     }
@@ -64,32 +65,12 @@ export default function ExerciseListPage() {
   >([]);
 
   const getExercises = useCallback(async () => {
-    try {
-      const db = await Database.load(import.meta.env.VITE_DB);
+    const exercises = await GetExerciseListWithGroupStrings();
 
-      const result = await db.select<Exercise[]>(
-        "SELECT id, name, exercise_group_set_string FROM exercises"
-      );
+    if (exercises === undefined) return;
 
-      const exercises: Exercise[] = result.map((row) => {
-        const convertedValues = ConvertExerciseGroupSetString(
-          row.exercise_group_set_string
-        );
-        return {
-          id: row.id,
-          name: row.name,
-          exercise_group_set_string: row.exercise_group_set_string,
-          note: row.note,
-          exerciseGroupStringList: convertedValues.list,
-          exerciseGroupFormattedString: convertedValues.formattedString,
-        };
-      });
-
-      setExercises(exercises);
-      setIsLoading(false);
-    } catch (error) {
-      console.log(error);
-    }
+    setExercises(exercises);
+    setIsLoading(false);
   }, []);
 
   useEffect(() => {
@@ -145,7 +126,7 @@ export default function ExerciseListPage() {
         ...newExercise,
         id: result.lastInsertId,
         exerciseGroupStringList: convertedValues.list,
-        exerciseGroupFormattedString: convertedValues.formattedString,
+        formattedGroupString: convertedValues.formattedString,
       };
       setExercises([...exercises, newExerciseListItem]);
 
@@ -330,7 +311,7 @@ export default function ExerciseListPage() {
                   <div className="flex flex-col">
                     <div className="text-lg truncate w-56">{exercise.name}</div>
                     <div className="text-xs text-stone-500">
-                      {exercise.exerciseGroupFormattedString}
+                      {exercise.formattedGroupString}
                     </div>
                   </div>
                   <div className="flex items-center gap-1">

@@ -1,5 +1,5 @@
 import Database from "tauri-plugin-sql-api";
-import { Exercise, ExerciseWithGroupString } from "../../typings";
+import { Exercise } from "../../typings";
 import { ConvertExerciseGroupSetString } from "..";
 
 export const GetExerciseListWithGroupStrings = async () => {
@@ -8,15 +8,17 @@ export const GetExerciseListWithGroupStrings = async () => {
 
     const result: Exercise[] = await db.select("SELECT * FROM exercises");
 
-    const exercises: ExerciseWithGroupString[] = result.map((row) => {
+    const exercises: Exercise[] = result.map((row) => {
       const convertedValues = ConvertExerciseGroupSetString(
         row.exercise_group_set_string
       );
       return {
         id: row.id,
         name: row.name,
-        exercise_group_string: convertedValues.formattedString,
+        exercise_group_set_string: row.exercise_group_set_string,
         note: row.note,
+        exerciseGroupStringList: convertedValues.list,
+        formattedGroupString: convertedValues.formattedString,
       };
     });
 

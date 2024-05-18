@@ -44,14 +44,7 @@ export type Exercise = {
   exercise_group_set_string: string;
   note: string | null;
   exerciseGroupStringList?: string[];
-  exerciseGroupFormattedString?: string;
-};
-
-export type ExerciseWithGroupString = {
-  id: number;
-  name: string;
-  exercise_group_string: string;
-  note: string | null;
+  formattedGroupString?: string;
 };
 
 export type WorkoutTemplate = {
@@ -265,4 +258,3 @@ export type SetListOptionsItem = {
   label: string;
   className?: string;
 };
-

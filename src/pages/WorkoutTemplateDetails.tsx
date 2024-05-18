@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import {
-  ExerciseWithGroupString,
+  Exercise,
   UserSettings,
   WorkoutSet,
   WorkoutTemplate,
@@ -57,10 +57,9 @@ export default function WorkoutTemplateDetails() {
     useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [userSettings, setUserSettings] = useState<UserSettings>();
-  const [exercises, setExercises] = useState<ExerciseWithGroupString[]>([]);
+  const [exercises, setExercises] = useState<Exercise[]>([]);
   const [filterQuery, setFilterQuery] = useState<string>("");
-  const [selectedExercise, setSelectedExercise] =
-    useState<ExerciseWithGroupString>();
+  const [selectedExercise, setSelectedExercise] = useState<Exercise>();
   const [groupedSets, setGroupedSets] = useState<GroupedWorkoutSet[]>([]);
   const [operationType, setOperationType] = useState<OperationType>("add");
   const [operatingGroupedSet, setOperatingGroupedSet] =
@@ -82,8 +81,8 @@ export default function WorkoutTemplateDetails() {
           item.name
             .toLocaleLowerCase()
             .includes(filterQuery.toLocaleLowerCase()) ||
-          item.exercise_group_string
-            .toLocaleLowerCase()
+          item
+            .formattedGroupString!.toLocaleLowerCase()
             .includes(filterQuery.toLocaleLowerCase())
       );
     }
@@ -462,7 +461,7 @@ export default function WorkoutTemplateDetails() {
     setModal.onOpen();
   };
 
-  const handleClickExercise = (exercise: ExerciseWithGroupString) => {
+  const handleClickExercise = (exercise: Exercise) => {
     setSelectedExercise(exercise);
 
     if (
@@ -478,7 +477,7 @@ export default function WorkoutTemplateDetails() {
       return;
     }
 
-    if (exercise.exercise_group_string === "Cardio") {
+    if (exercise.formattedGroupString === "Cardio") {
       setOperatingSet((prev) => ({
         ...prev,
         is_tracking_weight: 0,
@@ -497,7 +496,7 @@ export default function WorkoutTemplateDetails() {
     }
   };
 
-  const reassignExercise = async (newExercise: ExerciseWithGroupString) => {
+  const reassignExercise = async (newExercise: Exercise) => {
     if (operatingGroupedSet === undefined || workoutTemplate === undefined)
       return;
 
@@ -643,7 +642,7 @@ export default function WorkoutTemplateDetails() {
       exercise_name: exercise.name,
     };
 
-    if (exercise.exercise_group_string === "Cardio") {
+    if (exercise.formattedGroupString === "Cardio") {
       newSet = {
         ...newSet,
         is_tracking_weight: 0,

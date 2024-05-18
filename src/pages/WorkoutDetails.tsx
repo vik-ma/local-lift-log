@@ -4,7 +4,7 @@ import {
   Workout,
   WorkoutSet,
   UserSettings,
-  ExerciseWithGroupString,
+  Exercise,
   SetTrackingValuesInput,
   SetWorkoutSetAction,
   GroupedWorkoutSet,
@@ -86,10 +86,9 @@ export default function WorkoutDetails() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [groupedSets, setGroupedSets] = useState<GroupedWorkoutSet[]>([]);
   const [userSettings, setUserSettings] = useState<UserSettings>();
-  const [exercises, setExercises] = useState<ExerciseWithGroupString[]>([]);
+  const [exercises, setExercises] = useState<Exercise[]>([]);
   const [filterQuery, setFilterQuery] = useState<string>("");
-  const [selectedExercise, setSelectedExercise] =
-    useState<ExerciseWithGroupString>();
+  const [selectedExercise, setSelectedExercise] = useState<Exercise>();
   const [numNewSets, setNumNewSets] = useState<string>("1");
   const [workoutNote, setWorkoutNote] = useState<string>("");
   const [activeSet, setActiveSet] = useState<WorkoutSet>();
@@ -138,8 +137,8 @@ export default function WorkoutDetails() {
           item.name
             .toLocaleLowerCase()
             .includes(filterQuery.toLocaleLowerCase()) ||
-          item.exercise_group_string
-            .toLocaleLowerCase()
+          item
+            .formattedGroupString!.toLocaleLowerCase()
             .includes(filterQuery.toLocaleLowerCase())
       );
     }
@@ -492,7 +491,7 @@ export default function WorkoutDetails() {
       exercise_name: exercise.name,
     };
 
-    if (exercise.exercise_group_string === "Cardio") {
+    if (exercise.formattedGroupString === "Cardio") {
       newSet = {
         ...newSet,
         is_tracking_weight: 0,
@@ -652,7 +651,7 @@ export default function WorkoutDetails() {
     setModal.onOpen();
   };
 
-  const handleClickExercise = (exercise: ExerciseWithGroupString) => {
+  const handleClickExercise = (exercise: Exercise) => {
     setSelectedExercise(exercise);
 
     if (operationType === "change-exercise") {
@@ -665,7 +664,7 @@ export default function WorkoutDetails() {
       return;
     }
 
-    if (exercise.exercise_group_string === "Cardio") {
+    if (exercise.formattedGroupString === "Cardio") {
       setOperatingSet((prev) => ({
         ...prev,
         is_tracking_weight: 0,
@@ -684,7 +683,7 @@ export default function WorkoutDetails() {
     }
   };
 
-  const changeExercise = async (newExercise: ExerciseWithGroupString) => {
+  const changeExercise = async (newExercise: Exercise) => {
     if (operatingGroupedSet === undefined || workout === undefined) return;
 
     const oldExerciseIndex: number = groupedSets.findIndex(
@@ -1162,7 +1161,7 @@ export default function WorkoutDetails() {
                             {exercise.name}
                           </span>
                           <span className="text-xs text-stone-500 text-left">
-                            {exercise.exercise_group_string}
+                            {exercise.formattedGroupString}
                           </span>
                         </button>
                       ))}
