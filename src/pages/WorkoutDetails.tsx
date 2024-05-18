@@ -38,6 +38,7 @@ import {
   GenerateExerciseOrderString,
   InsertSetIntoDatabase,
   UpdateSet,
+  NumNewSetsOptionList,
 } from "../helpers";
 import {
   Button,
@@ -123,7 +124,7 @@ export default function WorkoutDetails() {
   const setModal = useDisclosure();
   const deleteModal = useDisclosure();
 
-  const numSetsOptions: string[] = ["1", "2", "3", "4", "5", "6"];
+  const numSetsOptions = NumNewSetsOptionList();
 
   const setListOptionsMenu: SetListOptionsItem[] = [
     { key: "edit", label: "Edit" },

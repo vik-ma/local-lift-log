@@ -24,7 +24,6 @@ export { UpdateAllUserSettings } from "./UserSettings/UpdateAllUserSettings";
 export { UpdateShowTimestamp } from "./UserSettings/UpdateShowTimestamp";
 export { GetDefaultUnitMeasurement } from "./UserSettings/GetDefaultUnitMeasurement";
 export { UpdateActiveTrackingMeasurements } from "./UserSettings/UpdateActiveTrackingMeasurements";
-
 export { ValidateUserSettings } from "./UserSettings/ValidateUserSettings";
 
 export { GenerateSetListOrderString } from "./Sets/GenerateSetListOrderString";
@@ -36,6 +35,7 @@ export { DefaultSetInputValues } from "./Sets/DefaultSetInputValues";
 export { ReassignExerciseIdForSets } from "./Sets/ReassignExerciseIdForSets";
 export { InsertSetIntoDatabase } from "./Sets/InsertSetIntoDatabase";
 export { UpdateSet } from "./Sets/UpdateSet";
+export { NumNewSetsOptionList } from "./Sets/NumNewSetsOptionList";
 
 export { IsNumberNegativeOrInfinity } from "./Numbers/IsNumberNegativeOrInfinity";
 export { IsStringInvalidNumberOrAbove59 } from "./Numbers/IsStringInvalidNumberOrAbove59";

@@ -49,6 +49,7 @@ import {
   GetExerciseListWithGroupStrings,
   GetUserSettings,
   InsertSetIntoDatabase,
+  NumNewSetsOptionList,
   ReassignExerciseIdForSets,
   UpdateSet,
 } from "../helpers";
@@ -87,7 +88,7 @@ export default function WorkoutTemplateDetails() {
     useState<SetListNotes>({});
   const [showDefaultValues, setShowDefaultValues] = useState<boolean>(false);
 
-  const numSetsOptions: string[] = ["1", "2", "3", "4", "5", "6"];
+  const numSetsOptions = NumNewSetsOptionList();
 
   const defaultSetTrackingValuesInput: SetTrackingValuesInput =
     DefaultSetInputValues();
