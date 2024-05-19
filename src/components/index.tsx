@@ -10,3 +10,4 @@ export { ClockStyleDropdown } from "./ClockStyleDropdown";
 export { SetList } from "./SetList";
 export { DeleteModal } from "./DeleteModal";
 export { SetModal } from "./SetModal";
+export { WorkoutExerciseList } from "./WorkoutExerciseList";
