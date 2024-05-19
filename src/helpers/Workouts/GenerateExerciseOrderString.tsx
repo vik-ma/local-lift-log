@@ -4,7 +4,7 @@ export const GenerateExerciseOrderString = (
   groupedSetList: GroupedWorkoutSet[]
 ): string => {
   const exerciseOrderString = groupedSetList
-    .map((obj) => obj.exercise_id)
+    .map((obj) => obj.exercise.id)
     .join(",");
 
   return exerciseOrderString;
