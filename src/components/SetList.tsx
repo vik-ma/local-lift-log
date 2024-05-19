@@ -15,7 +15,7 @@ import { CheckmarkIcon, VerticalMenuIcon, CommentIcon } from "../assets";
 import { FormatTimeInSecondsToHhmmssString } from "../helpers";
 
 type SetListProps = {
-  exercise: GroupedWorkoutSet;
+  groupedSet: GroupedWorkoutSet;
   activeSetId: number;
   clickSetAction: (set: WorkoutSet, index: number) => void;
   optionsSelectionAction: (key: string, set: WorkoutSet, index: number) => void;
@@ -26,7 +26,7 @@ type SetListProps = {
 };
 
 export const SetList = ({
-  exercise,
+  groupedSet,
   activeSetId,
   clickSetAction,
   optionsSelectionAction,
@@ -37,7 +37,7 @@ export const SetList = ({
 }: SetListProps) => {
   return (
     <>
-      {exercise.setList.map((set, index) => (
+      {groupedSet.setList.map((set, index) => (
         <div
           className={
             set.id === activeSetId
@@ -120,7 +120,7 @@ export const SetList = ({
                     radius="lg"
                     variant="light"
                     onPress={() =>
-                      clickCommentButtonAction(exercise.exercise_id, index)
+                      clickCommentButtonAction(groupedSet.exercise.id, index)
                     }
                   >
                     <CommentIcon size={21} />
@@ -143,7 +143,7 @@ export const SetList = ({
                   </Button>
                 </DropdownTrigger>
                 <DropdownMenu
-                  aria-label={`Option Menu For ${exercise.exercise_name} Set ${index}`}
+                  aria-label={`Option Menu For ${groupedSet.exercise.name} Set ${index}`}
                   itemClasses={{
                     base: "hover:text-[#404040] gap-4",
                   }}
@@ -161,7 +161,7 @@ export const SetList = ({
               </Dropdown>
             </div>
           </div>
-          {shownSetListComments[exercise.exercise_id]?.has(index) && (
+          {shownSetListComments[groupedSet.exercise.id]?.has(index) && (
             <span className="text-stone-400 pb-1 pr-2">
               {isTemplate ? `${set.note}` : `${set.comment}`}
             </span>

@@ -136,7 +136,7 @@ export default function WorkoutTemplateDetails() {
         [id]
       );
 
-      const groupedSetList: GroupedWorkoutSet[] =
+      const groupedSetList: GroupedWorkoutSet[] = await
         CreateGroupedWorkoutSetListByExerciseId(
           setList,
           workoutTemplate.exercise_order
@@ -810,7 +810,7 @@ export default function WorkoutTemplateDetails() {
         body={
           <p className="break-words">
             {operationType === "delete-exercise-sets"
-              ? `Are you sure you want to remove all ${operatingGroupedSet?.exercise_name} sets from Workout Template?`
+              ? `Are you sure you want to remove all ${operatingGroupedSet?.exercise.name} sets from Workout Template?`
               : `Are you sure you want to remove ${operatingSet.exercise_name} set?`}
           </p>
         }
@@ -904,37 +904,37 @@ export default function WorkoutTemplateDetails() {
                   values={groupedSets}
                   onReorder={setGroupedSets}
                 >
-                  {groupedSets.map((exercise) => (
+                  {groupedSets.map((groupedSet) => (
                     <Reorder.Item
-                      key={exercise.exercise_id}
-                      value={exercise}
+                      key={groupedSet.exercise.id}
+                      value={groupedSet}
                       onDragEnd={() => updateExerciseOrder()}
                       transition={{ duration: 0.15 }}
                     >
                       <div className="bg-white rounded-lg border border-stone-300 overflow-hidden">
                         <div
                           className="flex justify-between pl-2 py-1 h-14 w-full rounded-lg cursor-pointer hover:bg-stone-100"
-                          onClick={() => handleExerciseAccordionClick(exercise)}
+                          onClick={() => handleExerciseAccordionClick(groupedSet)}
                         >
                           <div className="flex flex-col items-start">
                             <h3
                               className={
-                                exercise.exercise_name === "Unknown Exercise"
+                                groupedSet.exercise.name === "Unknown Exercise"
                                   ? "text-lg font-medium truncate max-w-80 text-red-500"
                                   : "text-lg font-medium truncate max-w-80 text-yellow-600"
                               }
                             >
-                              {exercise.exercise_name}
+                              {groupedSet.exercise.name}
                             </h3>
                             <span className="text-sm text-stone-500">
-                              {exercise.setList.length} Sets
+                              {groupedSet.setList.length} Sets
                             </span>
                           </div>
                           <div className="flex gap-0.5 px-0.5 items-center">
                             <ChevronIcon
                               size={27}
                               color="#a8a29e"
-                              direction={exercise.isExpanded ? "down" : "left"}
+                              direction={groupedSet.isExpanded ? "down" : "left"}
                             />
                             <Dropdown>
                               <DropdownTrigger>
@@ -943,14 +943,14 @@ export default function WorkoutTemplateDetails() {
                                 </Button>
                               </DropdownTrigger>
                               <DropdownMenu
-                                aria-label={`Option Menu For ${exercise.exercise_name}`}
+                                aria-label={`Option Menu For ${groupedSet.exercise.name}`}
                                 itemClasses={{
                                   base: "hover:text-[#404040] gap-4",
                                 }}
                                 onAction={(key) =>
                                   handleExerciseOptionSelection(
                                     key as string,
-                                    exercise
+                                    groupedSet
                                   )
                                 }
                               >
@@ -959,17 +959,17 @@ export default function WorkoutTemplateDetails() {
                                 </DropdownItem>
                                 <DropdownItem
                                   className={
-                                    exercise.exercise_note === null
+                                    groupedSet.exercise.note === null
                                       ? "hidden"
                                       : ""
                                   }
                                   key="toggle-exercise-note"
                                 >
-                                  {exercise.showExerciseNote
+                                  {groupedSet.showExerciseNote
                                     ? "Hide Exercise Note"
                                     : "Show Exercise Note"}
                                 </DropdownItem>
-                                {exercise.exercise_name ===
+                                {groupedSet.exercise.name ===
                                 "Unknown Exercise" ? (
                                   <DropdownItem key="reassign-exercise">
                                     Reassign Exercise
@@ -989,17 +989,17 @@ export default function WorkoutTemplateDetails() {
                             </Dropdown>
                           </div>
                         </div>
-                        {exercise.isExpanded && (
+                        {groupedSet.isExpanded && (
                           <div className="flex flex-col divide-y divide-stone-200">
-                            {exercise.showExerciseNote && (
+                            {groupedSet.showExerciseNote && (
                               <div className="flex justify-between items-center px-2 pb-1">
                                 <span className="text-stone-400 break-words max-w-full">
-                                  {exercise.exercise_note}
+                                  {groupedSet.exercise.note}
                                 </span>
                               </div>
                             )}
                             <SetList
-                              exercise={exercise}
+                              groupedSet={groupedSet}
                               activeSetId={0}
                               clickSetAction={handleClickSet}
                               optionsSelectionAction={handleSetOptionSelection}
