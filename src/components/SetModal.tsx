@@ -27,6 +27,9 @@ import { NumNewSetsOptionList } from "../helpers";
 type SetModalProps = {
   setModal: ReturnType<typeof useDisclosure>;
   selectedExercise: Exercise | undefined;
+  setSelectedExercise: React.Dispatch<
+    React.SetStateAction<Exercise | undefined>
+  >;
   filterQuery: string;
   setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
   filteredExercises: Exercise[];
@@ -48,6 +51,7 @@ type SetModalProps = {
 export const SetModal = ({
   setModal,
   selectedExercise,
+  setSelectedExercise,
   filterQuery,
   setFilterQuery,
   filteredExercises,
@@ -118,6 +122,16 @@ export const SetModal = ({
                         <span className="text-lg text-stone-500">
                           Set {operatingSet.set_index! + 1}
                         </span>
+                      )}
+                      {operationType === "add" && (
+                        <Button
+                          size="sm"
+                          variant="flat"
+                          color="danger"
+                          onPress={() => setSelectedExercise(undefined)}
+                        >
+                          Change Exercise
+                        </Button>
                       )}
                     </h2>
                   </div>

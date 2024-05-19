@@ -815,6 +815,7 @@ export default function WorkoutTemplateDetails() {
       <SetModal
         setModal={setModal}
         selectedExercise={selectedExercise}
+        setSelectedExercise={setSelectedExercise}
         filterQuery={filterQuery}
         setFilterQuery={setFilterQuery}
         filteredExercises={filteredExercises}
