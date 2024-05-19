@@ -45,6 +45,7 @@ export type Exercise = {
   note: string | null;
   exerciseGroupStringList?: string[];
   formattedGroupString?: string;
+  isInvalid?: boolean;
 };
 
 export type WorkoutTemplate = {
