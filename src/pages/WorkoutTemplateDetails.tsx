@@ -9,11 +9,7 @@ import {
   SetListOptionsItem,
 } from "../typings";
 import { useState, useMemo, useEffect, useCallback } from "react";
-import {
-  Button,
-  Input,
-  useDisclosure,
-} from "@nextui-org/react";
+import { Button, Input, useDisclosure } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
 import {
   LoadingSpinner,
@@ -36,8 +32,6 @@ import {
   ReassignExerciseIdForSets,
   UpdateSet,
 } from "../helpers";
-import { ChevronIcon, VerticalMenuIcon } from "../assets";
-import { Reorder } from "framer-motion";
 import { useSetTrackingInputs } from "../hooks";
 
 type OperationType =
@@ -65,7 +59,7 @@ export default function WorkoutTemplateDetails() {
   const [operationType, setOperationType] = useState<OperationType>("add");
   const [operatingGroupedSet, setOperatingGroupedSet] =
     useState<GroupedWorkoutSet>();
-  const [shownSetListComments, setshownSetListComments] =
+  const [shownSetListComments, setShownSetListComments] =
     useState<SetListNotes>({});
 
   const numSetsOptions = NumNewSetsOptionList();
@@ -327,7 +321,7 @@ export default function WorkoutTemplateDetails() {
       }
 
       // Close shownSetListComments for Set if deleted Set note was shown
-      updateSetIndexInshownSetListComments(
+      updateSetIndexInShownSetListComments(
         operatingSet.exercise_id,
         operatingSet.set_index ?? -1
       );
@@ -386,7 +380,7 @@ export default function WorkoutTemplateDetails() {
 
     // Close shownSetListComments for Set if note was deleted
     if (updatedSet.note === null) {
-      updateSetIndexInshownSetListComments(
+      updateSetIndexInShownSetListComments(
         operatingSet.exercise_id,
         operatingSet.set_index ?? -1
       );
@@ -746,7 +740,7 @@ export default function WorkoutTemplateDetails() {
     );
   };
 
-  const updateshownSetListComments = (exerciseId: number, index: number) => {
+  const updateShownSetListComments = (exerciseId: number, index: number) => {
     let updatedSet: Set<number> = new Set<number>();
     if (shownSetListComments[exerciseId]) {
       // If shownSetListComments HAS key for exerciseId
@@ -762,13 +756,13 @@ export default function WorkoutTemplateDetails() {
       updatedSet.add(index);
     }
 
-    setshownSetListComments((prev) => ({
+    setShownSetListComments((prev) => ({
       ...prev,
       [exerciseId]: updatedSet,
     }));
   };
 
-  const updateSetIndexInshownSetListComments = (
+  const updateSetIndexInShownSetListComments = (
     exerciseId: number,
     setIndex: number
   ) => {
@@ -776,7 +770,7 @@ export default function WorkoutTemplateDetails() {
       shownSetListComments[exerciseId] &&
       shownSetListComments[exerciseId].has(setIndex)
     ) {
-      updateshownSetListComments(exerciseId, setIndex);
+      updateShownSetListComments(exerciseId, setIndex);
     }
   };
 
@@ -894,7 +888,7 @@ export default function WorkoutTemplateDetails() {
               handleExerciseOptionSelection={handleExerciseOptionSelection}
               handleClickSet={handleClickSet}
               handleSetOptionSelection={handleSetOptionSelection}
-              updateshownSetListComments={updateshownSetListComments}
+              updateShownSetListComments={updateShownSetListComments}
               shownSetListComments={shownSetListComments}
               setListOptionsMenu={setListOptionsMenu}
               handleAddSetButton={handleAddSetButton}

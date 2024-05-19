@@ -8,6 +8,33 @@ import {
 } from "@nextui-org/react";
 import { SetList } from ".";
 import { VerticalMenuIcon, ChevronIcon } from "../assets";
+import {
+  GroupedWorkoutSet,
+  SetListNotes,
+  WorkoutSet,
+  SetListOptionsItem,
+} from "../typings";
+
+type WorkoutExerciseListProps = {
+  groupedSets: GroupedWorkoutSet[];
+  setGroupedSets: React.Dispatch<React.SetStateAction<GroupedWorkoutSet[]>>;
+  updateExerciseOrder: (setList?: GroupedWorkoutSet[]) => void;
+  handleExerciseAccordionClick: (groupedSet: GroupedWorkoutSet) => void;
+  handleExerciseOptionSelection: (
+    key: string,
+    groupedWorkoutSet: GroupedWorkoutSet
+  ) => void;
+  handleClickSet: (set: WorkoutSet, index: number) => void;
+  handleSetOptionSelection: (
+    key: string,
+    set: WorkoutSet,
+    index: number
+  ) => void;
+  updateShownSetListComments: (exerciseId: number, index: number) => void;
+  shownSetListComments: SetListNotes;
+  setListOptionsMenu: SetListOptionsItem[];
+  handleAddSetButton: () => void;
+};
 
 export const WorkoutExerciseList = ({
   groupedSets,
@@ -17,11 +44,11 @@ export const WorkoutExerciseList = ({
   handleExerciseOptionSelection,
   handleClickSet,
   handleSetOptionSelection,
-  updateshownSetListComments,
+  updateShownSetListComments,
   shownSetListComments,
   setListOptionsMenu,
   handleAddSetButton,
-}) => {
+}: WorkoutExerciseListProps) => {
   return (
     <div className="flex flex-col gap-2">
       <h2 className="text-xl font-semibold flex items-center justify-between">
@@ -134,7 +161,7 @@ export const WorkoutExerciseList = ({
                       activeSetId={0}
                       clickSetAction={handleClickSet}
                       optionsSelectionAction={handleSetOptionSelection}
-                      clickCommentButtonAction={updateshownSetListComments}
+                      clickCommentButtonAction={updateShownSetListComments}
                       shownSetListComments={shownSetListComments}
                       isTemplate={true}
                       setListOptionsMenu={setListOptionsMenu}
