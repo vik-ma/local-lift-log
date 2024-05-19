@@ -123,16 +123,6 @@ export const SetModal = ({
                           Set {operatingSet.set_index! + 1}
                         </span>
                       )}
-                      {operationType === "add" && (
-                        <Button
-                          size="sm"
-                          variant="flat"
-                          color="danger"
-                          onPress={() => setSelectedExercise(undefined)}
-                        >
-                          Change Exercise
-                        </Button>
-                      )}
                     </h2>
                   </div>
                   <ScrollShadow className="flex flex-col gap-2 h-full">
@@ -422,19 +412,32 @@ export const SetModal = ({
                 </div>
               )}
             </ModalBody>
-            <ModalFooter>
-              <Button color="success" variant="light" onPress={onClose}>
-                Close
-              </Button>
-              <Button
-                color="success"
-                isDisabled={
-                  selectedExercise === undefined || isSetDefaultValuesInvalid
-                }
-                onPress={() => handleSaveSetButton(numNewSets)}
-              >
-                {operationType === "edit" ? "Save" : "Add"}
-              </Button>
+            <ModalFooter className="flex justify-between">
+              <div>
+                {operationType === "add" && selectedExercise !== undefined && (
+                  <Button
+                    variant="flat"
+                    color="danger"
+                    onPress={() => setSelectedExercise(undefined)}
+                  >
+                    Change Exercise
+                  </Button>
+                )}
+              </div>
+              <div className="flex gap-2">
+                <Button color="success" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+                <Button
+                  color="success"
+                  isDisabled={
+                    selectedExercise === undefined || isSetDefaultValuesInvalid
+                  }
+                  onPress={() => handleSaveSetButton(numNewSets)}
+                >
+                  {operationType === "edit" ? "Save" : "Add"}
+                </Button>
+              </div>
             </ModalFooter>
           </>
         )}
