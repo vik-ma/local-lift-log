@@ -128,8 +128,7 @@ export default function WorkoutTemplateDetails() {
 
       const setList = await db.select<WorkoutSet[]>(
         `SELECT sets.*, 
-        COALESCE(exercises.name, 'Unknown Exercise') AS exercise_name,
-        COALESCE(exercises.note, NULL) AS exercise_note
+        COALESCE(exercises.name, 'Unknown Exercise') AS exercise_name
         FROM sets LEFT JOIN 
         exercises ON sets.exercise_id = exercises.id 
         WHERE workout_template_id = $1 AND is_template = 1`,
@@ -254,16 +253,14 @@ export default function WorkoutTemplateDetails() {
       }
 
       const exerciseIndex: number = groupedSets.findIndex(
-        (obj) => obj.exercise_id === selectedExercise.id
+        (obj) => obj.exercise.id === selectedExercise.id
       );
 
       if (exerciseIndex === -1) {
         // Create new GroupedWorkoutSet if exercise_id does not exist in groupedSets
         const newGroupedWorkoutSet: GroupedWorkoutSet = {
-          exercise_name: selectedExercise.name,
-          exercise_id: selectedExercise.id,
+          exercise: selectedExercise,
           setList: newSets,
-          exercise_note: selectedExercise.note,
           isExpanded: true,
           showExerciseNote: true,
         };
@@ -305,7 +302,7 @@ export default function WorkoutTemplateDetails() {
       db.execute("DELETE from sets WHERE id = $1", [operatingSet.id]);
 
       const exerciseIndex: number = groupedSets.findIndex(
-        (obj) => obj.exercise_id === operatingSet.exercise_id
+        (obj) => obj.exercise.id === operatingSet.exercise_id
       );
 
       const updatedSetList: WorkoutSet[] = groupedSets[
@@ -373,7 +370,7 @@ export default function WorkoutTemplateDetails() {
     if (!success) return;
 
     const exerciseIndex: number = groupedSets.findIndex(
-      (obj) => obj.exercise_id === operatingSet.exercise_id
+      (obj) => obj.exercise.id === operatingSet.exercise_id
     );
 
     const updatedSetList: WorkoutSet[] = groupedSets[exerciseIndex].setList.map(
@@ -501,13 +498,13 @@ export default function WorkoutTemplateDetails() {
       return;
 
     const oldExerciseIndex: number = groupedSets.findIndex(
-      (obj) => obj.exercise_id === operatingGroupedSet.exercise_id
+      (obj) => obj.exercise.id === operatingGroupedSet.exercise.id
     );
 
     if (operationType === "reassign-exercise") {
       // Reassign ALL sets with old exercise_id to new exercise_id
       await ReassignExerciseIdForSets(
-        operatingGroupedSet.exercise_id,
+        operatingGroupedSet.exercise.id,
         newExercise.id
       );
     } else if (operationType === "change-exercise") {
@@ -517,7 +514,7 @@ export default function WorkoutTemplateDetails() {
         await db.execute(
           `UPDATE sets SET exercise_id = $1 
           WHERE exercise_id = $2 AND workout_template_id = $3 AND is_template = 1`,
-          [newExercise.id, operatingGroupedSet.exercise_id, workoutTemplate.id]
+          [newExercise.id, operatingGroupedSet.exercise.id, workoutTemplate.id]
         );
       } catch (error) {
         console.log(error);
@@ -527,13 +524,11 @@ export default function WorkoutTemplateDetails() {
 
     const newGroupedWorkoutSet: GroupedWorkoutSet = {
       ...operatingGroupedSet,
-      exercise_name: newExercise.name,
-      exercise_id: newExercise.id,
-      exercise_note: newExercise.note,
+      exercise: newExercise,
     };
 
     const newExerciseIndex: number = groupedSets.findIndex(
-      (obj) => obj.exercise_id === newExercise.id
+      (obj) => obj.exercise.id === newExercise.id
     );
 
     if (newExerciseIndex === -1) {
@@ -628,7 +623,7 @@ export default function WorkoutTemplateDetails() {
     groupedWorkoutSet: GroupedWorkoutSet
   ) => {
     const exercise = exercises.find(
-      (obj) => obj.id === groupedWorkoutSet.exercise_id
+      (obj) => obj.id === groupedWorkoutSet.exercise.id
     );
 
     if (exercise === undefined || workoutTemplate === undefined) return;
@@ -668,7 +663,7 @@ export default function WorkoutTemplateDetails() {
     const newSets: WorkoutSet[] = [newSet];
 
     const exerciseIndex: number = groupedSets.findIndex(
-      (obj) => obj.exercise_id === exercise.id
+      (obj) => obj.exercise.id === exercise.id
     );
 
     setGroupedSets((prev) => {
@@ -707,11 +702,11 @@ export default function WorkoutTemplateDetails() {
         `DELETE from sets WHERE exercise_id = $1 
          AND workout_template_id = $2 
          AND is_template = 1`,
-        [operatingGroupedSet.exercise_id, workoutTemplate.id]
+        [operatingGroupedSet.exercise.id, workoutTemplate.id]
       );
 
       const updatedSetList: GroupedWorkoutSet[] = groupedSets.filter(
-        (item) => item.exercise_id !== operatingGroupedSet.exercise_id
+        (item) => item.exercise.id !== operatingGroupedSet.exercise.id
       );
 
       setGroupedSets(updatedSetList);
@@ -743,7 +738,7 @@ export default function WorkoutTemplateDetails() {
 
     setGroupedSets((prev) =>
       prev.map((item) =>
-        item.exercise_id === groupedWorkoutSet.exercise_id
+        item.exercise.id === groupedWorkoutSet.exercise.id
           ? updatedGroupedSet
           : item
       )
@@ -792,7 +787,7 @@ export default function WorkoutTemplateDetails() {
 
     setGroupedSets((prev) =>
       prev.map((item) =>
-        item.exercise_id === groupedSet.exercise_id ? updatedGroupedSet : item
+        item.exercise.id === groupedSet.exercise.id ? updatedGroupedSet : item
       )
     );
   };
