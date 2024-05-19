@@ -17,8 +17,8 @@ export const WorkoutExerciseList = ({
   handleExerciseOptionSelection,
   handleClickSet,
   handleSetOptionSelection,
-  updateShownSetListComments,
-  ShownSetListComments,
+  updateshownSetListComments,
+  shownSetListComments,
   setListOptionsMenu,
   handleAddSetButton,
 }) => {
@@ -134,8 +134,8 @@ export const WorkoutExerciseList = ({
                       activeSetId={0}
                       clickSetAction={handleClickSet}
                       optionsSelectionAction={handleSetOptionSelection}
-                      clickCommentButtonAction={updateShownSetListComments}
-                      shownSetListComments={ShownSetListComments}
+                      clickCommentButtonAction={updateshownSetListComments}
+                      shownSetListComments={shownSetListComments}
                       isTemplate={true}
                       setListOptionsMenu={setListOptionsMenu}
                     />
