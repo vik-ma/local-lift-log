@@ -10,6 +10,7 @@ export { ConvertExerciseGroupStringListToSetString } from "./Exercises/ConvertEx
 export { CreateDefaultExerciseList } from "./Exercises/CreateDefaultExerciseList";
 export { ValidateExerciseGroupSetString } from "./Exercises/ValidateExerciseGroupSetString";
 export { GetExerciseListWithGroupStrings } from "./Exercises/GetExerciseListWithGroupStrings";
+export { GetExerciseFromId } from "./Exercises/GetExerciseFromId";
 
 export { GetScheduleDayNames } from "./Routines/GetScheduleDayNames";
 export { GetScheduleDayValues } from "./Routines/GetScheduleValues";
