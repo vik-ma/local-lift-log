@@ -109,10 +109,8 @@ export type WorkoutSet = {
 };
 
 export type GroupedWorkoutSet = {
-  exercise_name: string;
-  exercise_id: number;
+  exercise: Exercise;
   setList: WorkoutSet[];
-  exercise_note: string | null;
   isExpanded: boolean;
   showExerciseNote?: boolean;
 };

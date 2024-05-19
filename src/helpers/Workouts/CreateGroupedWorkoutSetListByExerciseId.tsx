@@ -1,52 +1,52 @@
-import { WorkoutSet, GroupedWorkoutSet } from "../../typings";
+import { WorkoutSet, GroupedWorkoutSet, Exercise } from "../../typings";
+import { GetExerciseFromId } from "../Exercises/GetExerciseFromId";
+import { IsNumberValidId } from "../Numbers/IsNumberValidId";
 
 type GroupedWorkoutSets = {
   [exerciseId: number]: {
-    exercise_name: string;
-    exercise_id: number;
+    exercise: Exercise;
     setList: WorkoutSet[];
-    exercise_note: string | null;
     isExpanded: boolean;
   };
 };
 
-export const CreateGroupedWorkoutSetListByExerciseId = (
+export const CreateGroupedWorkoutSetListByExerciseId = async (
   setList: WorkoutSet[],
   exercise_order: string
-): GroupedWorkoutSet[] => {
-  const groupedWorkoutSets: GroupedWorkoutSets = setList.reduce(
-    (acc, workoutSet) => {
-      const exercise_name: string =
-        workoutSet.exercise_name ?? "Unknown Exercise";
-      const exercise_id: number = workoutSet.exercise_id;
-      const exercise_note: string | null = workoutSet.exercise_note ?? null;
-
-      if (!acc[exercise_id]) {
-        acc[exercise_id] = {
-          setList: [],
-          exercise_name: exercise_name,
-          exercise_id: exercise_id,
-          exercise_note: exercise_note,
-          isExpanded: true,
-        };
-      }
-
-      acc[exercise_id].setList.push(workoutSet);
-
-      return acc;
-    },
-    {} as GroupedWorkoutSets
-  );
-
-  const groupedWorkoutSetList: GroupedWorkoutSet[] =
-    Object.values(groupedWorkoutSets);
+) => {
+  const groupedWorkoutSets: GroupedWorkoutSets = {};
 
   const orderArray: number[] = exercise_order.split(",").map(Number);
 
+  for (let i = 0; i < orderArray.length; i++) {
+    const exerciseId: number = orderArray[i];
+
+    if (!IsNumberValidId(exerciseId)) continue;
+
+    const exercise = await GetExerciseFromId(exerciseId);
+    groupedWorkoutSets[exerciseId] = {
+      exercise: exercise,
+      setList: [],
+      isExpanded: true,
+    };
+  }
+
+  setList.map((set) => {
+    if (groupedWorkoutSets[set.exercise_id]) {
+      groupedWorkoutSets[set.exercise_id].setList.push(set);
+    }
+  });
+
+  // Remove any exercises that may exist in exercise_order, but have no sets in setList
+  // (exerciseId keys with an empty setList)
+  const groupedWorkoutSetList: GroupedWorkoutSet[] = Object.values(
+    groupedWorkoutSets
+  ).filter((value) => value.setList.length > 0);
+
   // Sort the groupedWorkoutSetList array based on the exercise_order string
   groupedWorkoutSetList.sort((a, b) => {
-    const indexA = orderArray.indexOf(a.exercise_id);
-    const indexB = orderArray.indexOf(b.exercise_id);
+    const indexA = orderArray.indexOf(a.exercise.id);
+    const indexB = orderArray.indexOf(b.exercise.id);
     return indexA - indexB;
   });
 
