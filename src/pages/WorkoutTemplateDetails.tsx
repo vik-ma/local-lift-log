@@ -24,13 +24,13 @@ import {
   CreateGroupedWorkoutSetListByExerciseId,
   DefaultNewSet,
   DefaultSetInputValues,
-  GenerateExerciseOrderString,
   GetExerciseListWithGroupStrings,
   GetUserSettings,
   InsertSetIntoDatabase,
   NumNewSetsOptionList,
   ReassignExerciseIdForSets,
   UpdateSet,
+  UpdateExerciseOrder,
 } from "../helpers";
 import { useSetTrackingInputs } from "../hooks";
 
@@ -397,18 +397,7 @@ export default function WorkoutTemplateDetails() {
   ) => {
     if (workoutTemplate === undefined) return;
 
-    const exerciseOrderString: string = GenerateExerciseOrderString(setList);
-
-    try {
-      const db = await Database.load(import.meta.env.VITE_DB);
-
-      await db.execute(
-        `UPDATE workout_templates SET exercise_order = $1 WHERE id = $2`,
-        [exerciseOrderString, workoutTemplate.id]
-      );
-    } catch (error) {
-      console.log(error);
-    }
+    await UpdateExerciseOrder(setList, workoutTemplate.id, true);
   };
 
   const resetSetToDefault = () => {
