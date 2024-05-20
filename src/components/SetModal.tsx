@@ -21,8 +21,11 @@ import {
   SetWorkoutSetAction,
   WorkoutSet,
 } from "../typings";
-import { useState } from "react";
-import { NumNewSetsOptionList } from "../helpers";
+import { useState, useMemo, useEffect } from "react";
+import {
+  NumNewSetsOptionList,
+  GetExerciseListWithGroupStrings,
+} from "../helpers";
 
 type SetModalProps = {
   setModal: ReturnType<typeof useDisclosure>;
@@ -30,9 +33,6 @@ type SetModalProps = {
   setSelectedExercise: React.Dispatch<
     React.SetStateAction<Exercise | undefined>
   >;
-  filterQuery: string;
-  setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
-  filteredExercises: Exercise[];
   handleClickExercise: (exercise: Exercise) => void;
   operationType: string;
   operatingSet: WorkoutSet;
@@ -52,9 +52,6 @@ export const SetModal = ({
   setModal,
   selectedExercise,
   setSelectedExercise,
-  filterQuery,
-  setFilterQuery,
-  filteredExercises,
   handleClickExercise,
   operationType,
   operatingSet,
@@ -69,8 +66,34 @@ export const SetModal = ({
 }: SetModalProps) => {
   const [showDefaultValues, setShowDefaultValues] = useState<boolean>(false);
   const [numNewSets, setNumNewSets] = useState<string>("1");
+  const [exercises, setExercises] = useState<Exercise[]>([]);
+  const [filterQuery, setFilterQuery] = useState<string>("");
+
+  const filteredExercises = useMemo(() => {
+    if (filterQuery !== "") {
+      return exercises.filter(
+        (item) =>
+          item.name
+            .toLocaleLowerCase()
+            .includes(filterQuery.toLocaleLowerCase()) ||
+          item
+            .formattedGroupString!.toLocaleLowerCase()
+            .includes(filterQuery.toLocaleLowerCase())
+      );
+    }
+    return exercises;
+  }, [exercises, filterQuery]);
 
   const numSetsOptions = NumNewSetsOptionList();
+
+  useEffect(() => {
+    const getExerciseList = async () => {
+      const exercises = await GetExerciseListWithGroupStrings();
+      if (exercises !== undefined) setExercises(exercises);
+    };
+
+    getExerciseList();
+  }, []);
 
   return (
     <Modal isOpen={setModal.isOpen} onOpenChange={setModal.onOpenChange}>

@@ -3,6 +3,7 @@ import {
   SetListNotes,
   SetListOptionsItem,
   WorkoutSet,
+  Exercise,
 } from "../typings";
 import {
   Button,
@@ -17,8 +18,13 @@ import { FormatTimeInSecondsToHhmmssString } from "../helpers";
 type SetListProps = {
   groupedSet: GroupedWorkoutSet;
   activeSetId: number;
-  clickSetAction: (set: WorkoutSet, index: number) => void;
-  optionsSelectionAction: (key: string, set: WorkoutSet, index: number) => void;
+  clickSetAction: (set: WorkoutSet, index: number, exercise: Exercise) => void;
+  optionsSelectionAction: (
+    key: string,
+    set: WorkoutSet,
+    index: number,
+    exercise: Exercise
+  ) => void;
   clickCommentButtonAction: (exerciseId: number, index: number) => void;
   shownSetListComments: SetListNotes;
   isTemplate: boolean;
@@ -45,7 +51,7 @@ export const SetList = ({
               : "flex flex-col pl-2 text-sm font-medium break-words cursor-pointer hover:bg-stone-100"
           }
           key={`${set.exercise_id}-${index}`}
-          onClick={() => clickSetAction(set, index)}
+          onClick={() => clickSetAction(set, index, groupedSet.exercise)}
         >
           <div className="flex justify-between items-center">
             <div className="flex items-center w-[4.5rem]">
@@ -147,7 +153,14 @@ export const SetList = ({
                   itemClasses={{
                     base: "hover:text-[#404040] gap-4",
                   }}
-                  onAction={(key) => optionsSelectionAction(key as string, set, index)}
+                  onAction={(key) =>
+                    optionsSelectionAction(
+                      key as string,
+                      set,
+                      index,
+                      groupedSet.exercise
+                    )
+                  }
                 >
                   {setListOptionsMenu.map((item) => (
                     <DropdownItem

@@ -24,7 +24,6 @@ import {
   CreateGroupedWorkoutSetListByExerciseId,
   DefaultNewSet,
   DefaultSetInputValues,
-  GetExerciseListWithGroupStrings,
   GetUserSettings,
   InsertSetIntoDatabase,
   NumNewSetsOptionList,
@@ -52,8 +51,6 @@ export default function WorkoutTemplateDetails() {
     useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [userSettings, setUserSettings] = useState<UserSettings>();
-  const [exercises, setExercises] = useState<Exercise[]>([]);
-  const [filterQuery, setFilterQuery] = useState<string>("");
   const [selectedExercise, setSelectedExercise] = useState<Exercise>();
   const [groupedSets, setGroupedSets] = useState<GroupedWorkoutSet[]>([]);
   const [operationType, setOperationType] = useState<OperationType>("add");
@@ -70,21 +67,6 @@ export default function WorkoutTemplateDetails() {
     { key: "edit", label: "Edit" },
     { key: "remove-set", label: "Remove", className: "text-danger" },
   ];
-
-  const filteredExercises = useMemo(() => {
-    if (filterQuery !== "") {
-      return exercises.filter(
-        (item) =>
-          item.name
-            .toLocaleLowerCase()
-            .includes(filterQuery.toLocaleLowerCase()) ||
-          item
-            .formattedGroupString!.toLocaleLowerCase()
-            .includes(filterQuery.toLocaleLowerCase())
-      );
-    }
-    return exercises;
-  }, [exercises, filterQuery]);
 
   const defaultNewSet: WorkoutSet = DefaultNewSet(true);
 
@@ -165,17 +147,11 @@ export default function WorkoutTemplateDetails() {
       } catch (error) {
         console.log(error);
       }
-    };
-
-    const getExerciseList = async () => {
-      const exercises = await GetExerciseListWithGroupStrings();
-      if (exercises !== undefined) setExercises(exercises);
       setIsLoading(false);
     };
 
     getWorkoutTemplateAndSetList();
     loadUserSettings();
-    getExerciseList();
   }, [id, getWorkoutTemplateAndSetList]);
 
   const updateWorkoutTemplateNoteAndName = async () => {
@@ -433,11 +409,11 @@ export default function WorkoutTemplateDetails() {
     setModal.onOpen();
   };
 
-  const handleEditSet = (set: WorkoutSet, index: number) => {
-    const exercise = exercises.find((item) => item.id === set.exercise_id);
-
-    if (exercise === undefined) return;
-
+  const handleEditSet = (
+    set: WorkoutSet,
+    index: number,
+    exercise: Exercise
+  ) => {
     setOperatingSet({ ...set, set_index: index });
     setOperationType("edit");
     setSelectedExercise(exercise);
@@ -567,17 +543,22 @@ export default function WorkoutTemplateDetails() {
     setModal.onOpen();
   };
 
-  const handleClickSet = (set: WorkoutSet, index: number) => {
-    handleEditSet(set, index);
+  const handleClickSet = (
+    set: WorkoutSet,
+    index: number,
+    exercise: Exercise
+  ) => {
+    handleEditSet(set, index, exercise);
   };
 
   const handleSetOptionSelection = (
     key: string,
     set: WorkoutSet,
-    index: number
+    index: number,
+    exercise: Exercise
   ) => {
     if (key === "edit") {
-      handleEditSet(set, index);
+      handleEditSet(set, index, exercise);
     } else if (key === "remove-set") {
       handleRemoveSet(set);
     }
@@ -610,11 +591,9 @@ export default function WorkoutTemplateDetails() {
   const handleAddSetToExercise = async (
     groupedWorkoutSet: GroupedWorkoutSet
   ) => {
-    const exercise = exercises.find(
-      (obj) => obj.id === groupedWorkoutSet.exercise.id
-    );
+    if (workoutTemplate === undefined) return;
 
-    if (exercise === undefined || workoutTemplate === undefined) return;
+    const exercise = groupedWorkoutSet.exercise;
 
     let newSet: WorkoutSet = {
       ...defaultNewSet,
@@ -806,9 +785,6 @@ export default function WorkoutTemplateDetails() {
         setModal={setModal}
         selectedExercise={selectedExercise}
         setSelectedExercise={setSelectedExercise}
-        filterQuery={filterQuery}
-        setFilterQuery={setFilterQuery}
-        filteredExercises={filteredExercises}
         handleClickExercise={handleClickExercise}
         operationType={operationType}
         operatingSet={operatingSet}

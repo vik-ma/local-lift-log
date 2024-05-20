@@ -13,6 +13,7 @@ import {
   SetListNotes,
   WorkoutSet,
   SetListOptionsItem,
+  Exercise,
 } from "../typings";
 
 type WorkoutExerciseListProps = {
@@ -24,11 +25,12 @@ type WorkoutExerciseListProps = {
     key: string,
     groupedWorkoutSet: GroupedWorkoutSet
   ) => void;
-  handleClickSet: (set: WorkoutSet, index: number) => void;
+  handleClickSet: (set: WorkoutSet, index: number, exercise: Exercise) => void;
   handleSetOptionSelection: (
     key: string,
     set: WorkoutSet,
-    index: number
+    index: number,
+    exercise: Exercise
   ) => void;
   updateShownSetListComments: (exerciseId: number, index: number) => void;
   shownSetListComments: SetListNotes;
