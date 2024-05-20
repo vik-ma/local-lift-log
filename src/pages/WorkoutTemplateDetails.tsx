@@ -8,7 +8,7 @@ import {
   SetListNotes,
   SetListOptionsItem,
 } from "../typings";
-import { useState, useMemo, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Button, Input, useDisclosure } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -31,7 +31,7 @@ import {
   UpdateSet,
   UpdateExerciseOrder,
 } from "../helpers";
-import { useSetTrackingInputs } from "../hooks";
+import { useSetTrackingInputs, useValidateName } from "../hooks";
 
 type OperationType =
   | "add"
@@ -75,13 +75,7 @@ export default function WorkoutTemplateDetails() {
   const setModal = useDisclosure();
   const deleteModal = useDisclosure();
 
-  const isNewWorkoutTemplateNameInvalid = useMemo(() => {
-    return (
-      newWorkoutTemplateName === null ||
-      newWorkoutTemplateName === undefined ||
-      newWorkoutTemplateName.trim().length === 0
-    );
-  }, [newWorkoutTemplateName]);
+  const isNewWorkoutTemplateNameValid = useValidateName(newWorkoutTemplateName);
 
   const {
     isSetDefaultValuesInvalid,
@@ -155,7 +149,7 @@ export default function WorkoutTemplateDetails() {
   }, [id, getWorkoutTemplateAndSetList]);
 
   const updateWorkoutTemplateNoteAndName = async () => {
-    if (isNewWorkoutTemplateNameInvalid) return;
+    if (!isNewWorkoutTemplateNameValid) return;
 
     try {
       if (workoutTemplate === undefined) return;
@@ -815,10 +809,10 @@ export default function WorkoutTemplateDetails() {
               <div className="flex flex-col justify-center gap-2">
                 <Input
                   value={newWorkoutTemplateName}
-                  isInvalid={isNewWorkoutTemplateNameInvalid}
+                  isInvalid={!isNewWorkoutTemplateNameValid}
                   label="Name"
                   errorMessage={
-                    isNewWorkoutTemplateNameInvalid && "Name can't be empty"
+                    !isNewWorkoutTemplateNameValid && "Name can't be empty"
                   }
                   variant="faded"
                   onValueChange={(value) => setNewWorkoutTemplateName(value)}
@@ -839,6 +833,7 @@ export default function WorkoutTemplateDetails() {
                   <Button
                     color="success"
                     onPress={updateWorkoutTemplateNoteAndName}
+                    isDisabled={!isNewWorkoutTemplateNameValid}
                   >
                     Save
                   </Button>

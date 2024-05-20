@@ -13,7 +13,7 @@ import {
   SelectItem,
 } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { Routine, RoutineListItem, UserSettingsOptional } from "../typings";
 import toast, { Toaster } from "react-hot-toast";
 import Database from "tauri-plugin-sql-api";
@@ -23,6 +23,7 @@ import {
   NumDaysInScheduleOptions,
 } from "../helpers";
 import { LoadingSpinner, DeleteModal } from "../components";
+import { useValidateName } from "../hooks";
 
 export default function RoutineListPage() {
   const [routines, setRoutines] = useState<RoutineListItem[]>([]);
@@ -177,17 +178,10 @@ export default function RoutineListPage() {
     deleteModal.onClose();
   };
 
-  const isNewRoutineNameInvalid = useMemo(() => {
-    return (
-      newRoutine.name === null ||
-      newRoutine.name === undefined ||
-      newRoutine.name.trim().length === 0
-    );
-  }, [newRoutine.name]);
+  const isNewRoutineNameValid = useValidateName(newRoutine.name);
 
   const isNewRoutineValid = (): boolean => {
-    if (newRoutine.name === null || newRoutine.name.trim().length === 0)
-      return false;
+    if (!isNewRoutineNameValid) return false;
 
     if (newRoutine.is_schedule_weekly && newRoutine.num_days_in_schedule !== 7)
       return false;
@@ -249,11 +243,9 @@ export default function RoutineListPage() {
               <ModalBody>
                 <Input
                   value={newRoutine.name}
-                  isInvalid={isNewRoutineNameInvalid}
+                  isInvalid={!isNewRoutineNameValid}
                   label="Name"
-                  errorMessage={
-                    isNewRoutineNameInvalid && "Name can't be empty"
-                  }
+                  errorMessage={!isNewRoutineNameValid && "Name can't be empty"}
                   variant="faded"
                   onValueChange={(value) =>
                     setNewRoutine((prev) => ({ ...prev, name: value }))
@@ -311,7 +303,7 @@ export default function RoutineListPage() {
                 <Button
                   color="success"
                   onPress={addRoutine}
-                  isDisabled={isNewRoutineNameInvalid}
+                  isDisabled={!isNewRoutineNameValid}
                 >
                   Create
                 </Button>

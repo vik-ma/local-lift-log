@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   LoadingSpinner,
   MeasurementUnitDropdown,
@@ -31,6 +31,7 @@ import {
   GenerateActiveMeasurementString,
 } from "../helpers";
 import { CheckmarkIcon, VerticalMenuIcon } from "../assets";
+import { useValidateName } from "../hooks";
 
 export default function MeasurementListPage() {
   const [measurements, setMeasurements] = useState<Measurement[]>([]);
@@ -96,7 +97,7 @@ export default function MeasurementListPage() {
   }, [getMeasurements]);
 
   const addMeasurement = async () => {
-    if (newMeasurement === undefined || isNewMeasurementNameInvalid) return;
+    if (newMeasurement === undefined || !isNewMeasurementNameValid) return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
@@ -128,12 +129,7 @@ export default function MeasurementListPage() {
   };
 
   const updateMeasurement = async () => {
-    if (
-      newMeasurement === undefined ||
-      isNewMeasurementNameInvalid ||
-      isEditing === false
-    )
-      return;
+    if (!isNewMeasurementNameValid) return;
 
     const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -247,13 +243,7 @@ export default function MeasurementListPage() {
     }));
   };
 
-  const isNewMeasurementNameInvalid = useMemo(() => {
-    return (
-      newMeasurement.name === null ||
-      newMeasurement.name === undefined ||
-      newMeasurement.name.trim().length === 0
-    );
-  }, [newMeasurement.name]);
+  const isNewMeasurementNameValid = useValidateName(newMeasurement.name);
 
   const createDefaultMeasurementList = async (useMetricUnits: boolean) => {
     await CreateDefaultMeasurementList(useMetricUnits);
@@ -339,10 +329,10 @@ export default function MeasurementListPage() {
               <ModalBody>
                 <Input
                   value={newMeasurement.name}
-                  isInvalid={isNewMeasurementNameInvalid}
+                  isInvalid={!isNewMeasurementNameValid}
                   label="Name"
                   errorMessage={
-                    isNewMeasurementNameInvalid && "Name can't be empty"
+                    !isNewMeasurementNameValid && "Name can't be empty"
                   }
                   variant="faded"
                   onValueChange={(value) =>
@@ -383,7 +373,7 @@ export default function MeasurementListPage() {
                 </Button>
                 <Button
                   color="success"
-                  isDisabled={isNewMeasurementNameInvalid}
+                  isDisabled={!isNewMeasurementNameValid}
                   onPress={handleSaveButton}
                 >
                   {isEditing ? "Update" : "Create"}

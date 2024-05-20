@@ -10,10 +10,11 @@ import {
   ModalFooter,
   Input,
 } from "@nextui-org/react";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { LoadingSpinner, DeleteModal } from "../components";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
+import { useValidateName } from "../hooks";
 
 export default function WorkoutTemplateList() {
   const [workoutTemplates, setWorkoutTemplates] = useState<
@@ -64,7 +65,7 @@ export default function WorkoutTemplateList() {
   }, []);
 
   const addWorkoutTemplate = async () => {
-    if (isNewWorkoutTemplateNameInvalid) return;
+    if (!isNewWorkoutTemplateNameValid) return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
@@ -132,13 +133,9 @@ export default function WorkoutTemplateList() {
     deleteModal.onOpen();
   };
 
-  const isNewWorkoutTemplateNameInvalid = useMemo(() => {
-    return (
-      newWorkoutTemplate.name === null ||
-      newWorkoutTemplate.name === undefined ||
-      newWorkoutTemplate.name.trim().length === 0
-    );
-  }, [newWorkoutTemplate.name]);
+  const isNewWorkoutTemplateNameValid = useValidateName(
+    newWorkoutTemplate.name
+  );
 
   return (
     <>
@@ -167,10 +164,10 @@ export default function WorkoutTemplateList() {
               <ModalBody>
                 <Input
                   value={newWorkoutTemplate.name}
-                  isInvalid={isNewWorkoutTemplateNameInvalid}
+                  isInvalid={!isNewWorkoutTemplateNameValid}
                   label="Name"
                   errorMessage={
-                    isNewWorkoutTemplateNameInvalid && "Name can't be empty"
+                    !isNewWorkoutTemplateNameValid && "Name can't be empty"
                   }
                   variant="faded"
                   onValueChange={(value) =>
@@ -196,7 +193,7 @@ export default function WorkoutTemplateList() {
                 <Button
                   color="success"
                   onPress={addWorkoutTemplate}
-                  isDisabled={isNewWorkoutTemplateNameInvalid}
+                  isDisabled={!isNewWorkoutTemplateNameValid}
                 >
                   Create
                 </Button>

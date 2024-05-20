@@ -24,6 +24,7 @@ import {
   IsStringInvalidNumberOr0,
 } from "../helpers";
 import toast, { Toaster } from "react-hot-toast";
+import { useValidateName } from "../hooks";
 
 export default function PresetsPage() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -105,11 +106,7 @@ export default function PresetsPage() {
     loadUserSettings();
   }, [getEquipmentWeights, getDistances]);
 
-  const isNewNameInvalid = useMemo(() => {
-    return (
-      newName === null || newName === undefined || newName.trim().length === 0
-    );
-  }, [newName]);
+  const isNewNameValid = useValidateName(newName);
 
   const isWeightInputInvalid = useMemo(() => {
     return IsStringInvalidNumberOr0(newWeightInput);
@@ -120,12 +117,12 @@ export default function PresetsPage() {
   }, [newDistanceInput]);
 
   const isNewPresetInvalid = useMemo(() => {
-    if (isNewNameInvalid) return true;
+    if (!isNewNameValid) return true;
     if (isWeightInputInvalid && operatingType === "equipment") return true;
     if (isDistanceInputInvalid && operatingType === "distance") return true;
     return false;
   }, [
-    isNewNameInvalid,
+    isNewNameValid,
     isWeightInputInvalid,
     isDistanceInputInvalid,
     operatingType,
@@ -466,10 +463,10 @@ export default function PresetsPage() {
               <ModalBody>
                 <Input
                   value={newName}
-                  isInvalid={isNewNameInvalid}
+                  isInvalid={!isNewNameValid}
                   label="Name"
                   size="sm"
-                  errorMessage={isNewNameInvalid && "Name can't be empty"}
+                  errorMessage={!isNewNameValid && "Name can't be empty"}
                   variant="faded"
                   onValueChange={(value) => setNewName(value)}
                   isRequired
