@@ -61,6 +61,7 @@ export { CreateDefaultDistances } from "./Presets/CreateDefaultDistances";
 
 export { CreateGroupedWorkoutSetListByExerciseId } from "./Workouts/CreateGroupedWorkoutSetListByExerciseId";
 export { GenerateExerciseOrderString } from "./Workouts/GenerateExerciseOrderString";
+export { UpdateExerciseOrder } from "./Workouts/UpdateExerciseOrder";
 
 export { LocaleList } from "./Constants/LocaleList";
 export { ValidTimeInputs } from "./Constants/ValidTimeInputs";
