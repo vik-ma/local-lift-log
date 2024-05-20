@@ -1,6 +1,6 @@
 import { Select, SelectItem } from "@nextui-org/react";
-import { ValidDistanceUnits } from "../helpers";
 import { UnitDropdownProps } from "../typings";
+import { useValidDistanceUnits } from "../hooks";
 
 export const DistanceUnitDropdown = ({
   value,
@@ -9,7 +9,7 @@ export const DistanceUnitDropdown = ({
   setState,
   targetType,
 }: UnitDropdownProps) => {
-  const DISTANCE_UNITS: string[] = ValidDistanceUnits();
+  const validDistaneUnits = useValidDistanceUnits();
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (targetType === "set" && setSet !== undefined) {
@@ -37,7 +37,7 @@ export const DistanceUnitDropdown = ({
       onChange={(e) => handleChange(e)}
       disallowEmptySelection
     >
-      {DISTANCE_UNITS.map((unit) => (
+      {validDistaneUnits.map((unit) => (
         <SelectItem key={unit} value={unit}>
           {unit}
         </SelectItem>

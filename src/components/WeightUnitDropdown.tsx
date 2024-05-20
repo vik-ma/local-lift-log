@@ -1,6 +1,6 @@
 import { Select, SelectItem } from "@nextui-org/react";
-import { ValidWeightUnits } from "../helpers";
 import { UnitDropdownProps } from "../typings";
+import { useValidWeightUnits } from "../hooks";
 
 export const WeightUnitDropdown = ({
   value,
@@ -9,7 +9,7 @@ export const WeightUnitDropdown = ({
   setState,
   targetType,
 }: UnitDropdownProps) => {
-  const WEIGHT_UNITS: string[] = ValidWeightUnits();
+  const validWeightUnits = useValidWeightUnits();
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (targetType === "set" && setSet !== undefined) {
@@ -37,7 +37,7 @@ export const WeightUnitDropdown = ({
       onChange={(e) => handleChange(e)}
       disallowEmptySelection
     >
-      {WEIGHT_UNITS.map((unit) => (
+      {validWeightUnits.map((unit) => (
         <SelectItem key={unit} value={unit}>
           {unit}
         </SelectItem>

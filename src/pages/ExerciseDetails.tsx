@@ -7,12 +7,15 @@ import { LoadingSpinner } from "../components";
 import {
   ConvertExerciseGroupSetString,
   ConvertExerciseGroupStringListToSetString,
-  ExerciseGroupDictionary,
   GetExerciseFromId,
   UpdateExercise,
   IsExerciseValid,
 } from "../helpers";
-import { useValidateExerciseGroupString, useValidateName } from "../hooks";
+import {
+  useExerciseGroupDictionary,
+  useValidateExerciseGroupString,
+  useValidateName,
+} from "../hooks";
 
 export default function ExerciseDetailsPage() {
   const { id } = useParams();
@@ -88,9 +91,9 @@ export default function ExerciseDetailsPage() {
     setIsEditing(false);
   };
 
-  if (exercise === undefined) return NotFound();
+  const exerciseGroupDictionary = useExerciseGroupDictionary();
 
-  const EXERCISE_GROUP_DICTIONARY = ExerciseGroupDictionary();
+  if (exercise === undefined) return NotFound();
 
   return (
     <div className="flex flex-col gap-4">
@@ -145,7 +148,7 @@ export default function ExerciseDetailsPage() {
                   }
                 >
                   <div className="grid grid-cols-2 gap-0.5">
-                    {Array.from(EXERCISE_GROUP_DICTIONARY).map(([key, value]) => (
+                    {Array.from(exerciseGroupDictionary).map(([key, value]) => (
                       <Checkbox key={key} color="success" value={key}>
                         {value}
                       </Checkbox>

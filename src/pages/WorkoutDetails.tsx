@@ -38,7 +38,6 @@ import {
   GenerateExerciseOrderString,
   InsertSetIntoDatabase,
   UpdateSet,
-  NumNewSetsOptionList,
 } from "../helpers";
 import {
   Button,
@@ -67,6 +66,7 @@ import {
   ChevronIcon,
   MinimizeIcon,
 } from "../assets";
+import { useNumSetsOptions } from "../hooks";
 
 type OperationType =
   | "add"
@@ -123,7 +123,7 @@ export default function WorkoutDetails() {
   const setModal = useDisclosure();
   const deleteModal = useDisclosure();
 
-  const NUM_SETS_OPTIONS = NumNewSetsOptionList();
+  const numSetsOptions = useNumSetsOptions();
 
   const setListOptionsMenu: SetListOptionsItem[] = [
     { key: "edit", label: "Edit" },
@@ -404,7 +404,7 @@ export default function WorkoutDetails() {
   const addSet = async () => {
     if (selectedExercise === undefined || workout === undefined) return;
 
-    if (!NUM_SETS_OPTIONS.includes(numNewSets)) return;
+    if (!numSetsOptions.includes(numNewSets)) return;
 
     try {
       const noteToInsert: string | null =
@@ -1321,7 +1321,7 @@ export default function WorkoutDetails() {
                             onChange={(e) => setNumNewSets(e.target.value)}
                             disallowEmptySelection
                           >
-                            {NUM_SETS_OPTIONS.map((num) => (
+                            {numSetsOptions.map((num) => (
                               <SelectItem key={num} value={num}>
                                 {num}
                               </SelectItem>

@@ -3,7 +3,6 @@ import { useState, useEffect, useMemo, useCallback } from "react";
 import { Exercise } from "../typings";
 import {
   ConvertExerciseGroupSetString,
-  ExerciseGroupDictionary,
   ConvertExerciseGroupStringListToSetString,
   CreateDefaultExercises,
   GetExerciseListWithGroupStrings,
@@ -25,7 +24,11 @@ import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { DeleteModal, LoadingSpinner } from "../components";
 import { SearchIcon } from "../assets";
-import { useValidateExerciseGroupString, useValidateName } from "../hooks";
+import {
+  useValidateExerciseGroupString,
+  useValidateName,
+  useExerciseGroupDictionary,
+} from "../hooks";
 
 export default function ExerciseListPage() {
   const [exercises, setExercises] = useState<Exercise[]>([]);
@@ -170,7 +173,7 @@ export default function ExerciseListPage() {
     toast.success("Default Exercises Restored");
   };
 
-  const EXERCISE_GROUP_DICTIONARY = ExerciseGroupDictionary();
+  const exerciseGroupDictionary = useExerciseGroupDictionary();
 
   return (
     <>
@@ -235,7 +238,7 @@ export default function ExerciseListPage() {
                     }
                   >
                     <div className="grid grid-cols-2 gap-0.5">
-                      {Array.from(EXERCISE_GROUP_DICTIONARY).map(
+                      {Array.from(exerciseGroupDictionary).map(
                         ([key, value]) => (
                           <Checkbox key={key} color="success" value={key}>
                             {value}

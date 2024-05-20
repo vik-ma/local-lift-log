@@ -26,12 +26,15 @@ import {
   DefaultSetInputValues,
   GetUserSettings,
   InsertSetIntoDatabase,
-  NumNewSetsOptionList,
   ReassignExerciseIdForSets,
   UpdateSet,
   UpdateExerciseOrder,
 } from "../helpers";
-import { useSetTrackingInputs, useValidateName } from "../hooks";
+import {
+  useNumSetsOptions,
+  useSetTrackingInputs,
+  useValidateName,
+} from "../hooks";
 
 type OperationType =
   | "add"
@@ -61,7 +64,7 @@ export default function WorkoutTemplateDetails() {
   const [isExerciseBeingDragged, setIsExerciseBeingDragged] =
     useState<boolean>(false);
 
-  const NUM_SETS_OPTIONS = NumNewSetsOptionList();
+  const numSetsOptions = useNumSetsOptions();
 
   const setListOptionsMenu: SetListOptionsItem[] = [
     { key: "edit", label: "Edit" },
@@ -181,7 +184,7 @@ export default function WorkoutTemplateDetails() {
   const addSet = async (numSets: string) => {
     if (selectedExercise === undefined || workoutTemplate === undefined) return;
 
-    if (!NUM_SETS_OPTIONS.includes(numSets)) return;
+    if (!numSetsOptions.includes(numSets)) return;
 
     if (isSetDefaultValuesInvalid) return;
 

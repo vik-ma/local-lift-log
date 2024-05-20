@@ -22,10 +22,8 @@ import {
   WorkoutSet,
 } from "../typings";
 import { useState, useMemo, useEffect } from "react";
-import {
-  NumNewSetsOptionList,
-  GetExerciseListWithGroupStrings,
-} from "../helpers";
+import { GetExerciseListWithGroupStrings } from "../helpers";
+import { useNumSetsOptions } from "../hooks";
 
 type SetModalProps = {
   setModal: ReturnType<typeof useDisclosure>;
@@ -84,7 +82,7 @@ export const SetModal = ({
     return exercises;
   }, [exercises, filterQuery]);
 
-  const NUM_SETS_OPTIONS = NumNewSetsOptionList();
+  const numSetsOptions = useNumSetsOptions();
 
   useEffect(() => {
     const getExerciseList = async () => {
@@ -283,7 +281,7 @@ export const SetModal = ({
                           onChange={(e) => setNumNewSets(e.target.value)}
                           disallowEmptySelection
                         >
-                          {NUM_SETS_OPTIONS.map((num) => (
+                          {numSetsOptions.map((num) => (
                             <SelectItem key={num} value={num}>
                               {num}
                             </SelectItem>

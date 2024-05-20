@@ -1,8 +1,8 @@
 import { Select, SelectItem } from "@nextui-org/react";
-import { ValidMeasurementUnits } from "../helpers";
 import { MeasurementDropdownProps } from "../typings";
 import Database from "tauri-plugin-sql-api";
 import toast, { Toaster } from "react-hot-toast";
+import { useValidMeasurementUnits } from "../hooks";
 
 export const MeasurementUnitDropdown = ({
   measurement,
@@ -14,7 +14,7 @@ export const MeasurementUnitDropdown = ({
   setUserSettings,
   targetType,
 }: MeasurementDropdownProps) => {
-  const MEASUREMENT_UNITS: string[] = ValidMeasurementUnits();
+  const validMeasurementUnits = useValidMeasurementUnits();
 
   const displayValue: string =
     measurement !== undefined
@@ -23,11 +23,11 @@ export const MeasurementUnitDropdown = ({
       : value !== undefined
       ? // Set display value as value if value is passed down, but measurement is not
         value
-      : MEASUREMENT_UNITS[0];
+      : validMeasurementUnits[0];
 
   const handleChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value: string = e.target.value;
-    if (!MEASUREMENT_UNITS.includes(value)) return;
+    if (!validMeasurementUnits.includes(value)) return;
 
     if (
       targetType === "list" &&
@@ -113,7 +113,7 @@ export const MeasurementUnitDropdown = ({
         isDisabled={isDisabled}
         disallowEmptySelection
       >
-        {MEASUREMENT_UNITS.map((unit) => (
+        {validMeasurementUnits.map((unit) => (
           <SelectItem key={unit} value={unit}>
             {unit}
           </SelectItem>
