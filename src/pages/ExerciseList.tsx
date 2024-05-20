@@ -3,7 +3,6 @@ import { useState, useEffect, useMemo, useCallback } from "react";
 import { Exercise } from "../typings";
 import {
   ConvertExerciseGroupSetString,
-  ValidateExerciseGroupSetString,
   ExerciseGroupDictionary,
   ConvertExerciseGroupStringListToSetString,
   CreateDefaultExerciseList,
@@ -25,6 +24,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { DeleteModal, LoadingSpinner } from "../components";
 import { SearchIcon } from "../assets";
+import { useValidateExerciseGroupString, useValidateName } from "../hooks";
 
 export default function ExerciseListPage() {
   const [exercises, setExercises] = useState<Exercise[]>([]);
@@ -140,19 +140,11 @@ export default function ExerciseListPage() {
     }
   };
 
-  const isNewExerciseNameInvalid = useMemo(() => {
-    return (
-      newExercise.name === null ||
-      newExercise.name === undefined ||
-      newExercise.name.trim().length === 0
-    );
-  }, [newExercise.name]);
+  const isNewExerciseNameValid = useValidateName(newExercise.name);
 
-  const isNewExerciseGroupSetStringInvalid = useMemo(() => {
-    return !ValidateExerciseGroupSetString(
-      newExercise.exercise_group_set_string
-    );
-  }, [newExercise.exercise_group_set_string]);
+  const isNewExerciseGroupSetStringValid = useValidateExerciseGroupString(
+    newExercise.exercise_group_set_string
+  );
 
   const handleExerciseGroupStringChange = (
     exerciseGroupStringList: string[]
@@ -169,15 +161,9 @@ export default function ExerciseListPage() {
   };
 
   const isNewExerciseValid = () => {
-    if (
-      newExercise.name === null ||
-      newExercise === undefined ||
-      newExercise.name.trim().length === 0
-    )
-      return false;
+    if (!isNewExerciseNameValid) return false;
 
-    if (!ValidateExerciseGroupSetString(newExercise.exercise_group_set_string))
-      return false;
+    if (!isNewExerciseGroupSetStringValid) return false;
 
     return true;
   };
@@ -217,10 +203,10 @@ export default function ExerciseListPage() {
               <ModalBody>
                 <Input
                   value={newExercise.name}
-                  isInvalid={isNewExerciseNameInvalid}
+                  isInvalid={!isNewExerciseNameValid}
                   label="Name"
                   errorMessage={
-                    isNewExerciseNameInvalid && "Name can't be empty"
+                    !isNewExerciseNameValid && "Name can't be empty"
                   }
                   variant="faded"
                   onValueChange={(value) =>
@@ -241,11 +227,11 @@ export default function ExerciseListPage() {
                 <div>
                   <CheckboxGroup
                     isRequired
-                    isInvalid={isNewExerciseGroupSetStringInvalid}
+                    isInvalid={!isNewExerciseGroupSetStringValid}
                     defaultValue={newExerciseGroupStringList}
                     label="Select Exercise Groups"
                     errorMessage={
-                      isNewExerciseGroupSetStringInvalid &&
+                      !isNewExerciseGroupSetStringValid &&
                       "At least one Exercise Group must be selected"
                     }
                     onValueChange={(value) =>
@@ -272,8 +258,7 @@ export default function ExerciseListPage() {
                   color="success"
                   onPress={addExercise}
                   isDisabled={
-                    isNewExerciseNameInvalid ||
-                    isNewExerciseGroupSetStringInvalid
+                    !isNewExerciseNameValid || !isNewExerciseGroupSetStringValid
                   }
                 >
                   Create
