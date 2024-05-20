@@ -10,6 +10,7 @@ import {
   ExerciseGroupDictionary,
   GetExerciseFromId,
   UpdateExercise,
+  IsExerciseValid,
 } from "../helpers";
 import { useValidateExerciseGroupString, useValidateName } from "../hooks";
 
@@ -56,7 +57,11 @@ export default function ExerciseDetailsPage() {
   };
 
   const updateExercise = async () => {
-    if (exercise === undefined || !isUpdateExerciseValid()) return;
+    if (
+      exercise === undefined ||
+      !IsExerciseValid(isNewExerciseNameValid, isNewExerciseGroupSetStringValid)
+    )
+      return;
 
     const noteToInsert: string | null =
       newExerciseNote.trim().length === 0 ? null : newExerciseNote;
@@ -81,14 +86,6 @@ export default function ExerciseDetailsPage() {
     setExercise(updatedExercise);
 
     setIsEditing(false);
-  };
-
-  const isUpdateExerciseValid = (): boolean => {
-    if (!isNewExerciseNameValid) return false;
-
-    if (!isNewExerciseGroupSetStringValid) return false;
-
-    return true;
   };
 
   if (exercise === undefined) return NotFound();

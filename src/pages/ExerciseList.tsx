@@ -7,6 +7,7 @@ import {
   ConvertExerciseGroupStringListToSetString,
   CreateDefaultExerciseList,
   GetExerciseListWithGroupStrings,
+  IsExerciseValid,
 } from "../helpers";
 import {
   Button,
@@ -105,7 +106,10 @@ export default function ExerciseListPage() {
   };
 
   const addExercise = async () => {
-    if (!isNewExerciseValid()) return;
+    if (
+      !IsExerciseValid(isNewExerciseNameValid, isNewExerciseGroupSetStringValid)
+    )
+      return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
@@ -158,14 +162,6 @@ export default function ExerciseListPage() {
       exercise_group_set_string: exerciseGroupSetString,
     }));
     setNewExerciseGroupStringList(exerciseGroupStringList);
-  };
-
-  const isNewExerciseValid = () => {
-    if (!isNewExerciseNameValid) return false;
-
-    if (!isNewExerciseGroupSetStringValid) return false;
-
-    return true;
   };
 
   const restoreDefaultExerciseList = async () => {
