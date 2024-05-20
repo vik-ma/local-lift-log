@@ -5,7 +5,7 @@ import {
   RoutineScheduleItem,
   UserSettingsOptional,
 } from "../typings";
-import { useState, useMemo, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import {
   Button,
   useDisclosure,
@@ -38,6 +38,7 @@ import {
 import toast, { Toaster } from "react-hot-toast";
 import { getLocalTimeZone, parseDate } from "@internationalized/date";
 import { I18nProvider } from "@react-aria/i18n";
+import { useValidateName } from "../hooks";
 
 export default function RoutineDetailsPage() {
   const { id } = useParams();
@@ -52,24 +53,18 @@ export default function RoutineDetailsPage() {
   const [scheduleValues, setScheduleValues] = useState<RoutineScheduleItem[][]>(
     []
   );
-  const [workoutRoutineScheduleToRemove, setworkoutRoutineScheduleToRemove] =
+  const [workoutRoutineScheduleToRemove, setWorkoutRoutineScheduleToRemove] =
     useState<RoutineScheduleItem>();
   const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
 
   const numDaysInScheduleOptions: number[] = NumDaysInScheduleOptions;
 
-  const isNewRoutineNameInvalid = useMemo(() => {
-    return (
-      editedRoutine?.name === null ||
-      editedRoutine?.name === undefined ||
-      editedRoutine?.name.trim().length === 0
-    );
-  }, [editedRoutine?.name]);
+  const isNewRoutineNameValid = useValidateName(editedRoutine?.name ?? "");
 
   const deleteModal = useDisclosure();
   const workoutTemplatesModal = useDisclosure();
 
-  const getworkoutRoutineSchedules = useCallback(async () => {
+  const getWorkoutRoutineSchedules = useCallback(async () => {
     if (routine?.num_days_in_schedule === undefined) return;
 
     try {
@@ -157,12 +152,12 @@ export default function RoutineDetailsPage() {
 
     getRoutine();
     getWorkoutTemplates();
-    getworkoutRoutineSchedules();
+    getWorkoutRoutineSchedules();
     getUserSettings();
-  }, [id, getworkoutRoutineSchedules]);
+  }, [id, getWorkoutRoutineSchedules]);
 
   const updateRoutine = async () => {
-    if (!isEditedRoutineValid()) return;
+    if (!isEditedRoutineValid) return;
 
     try {
       if (routine === undefined || editedRoutine === undefined) return;
@@ -197,11 +192,10 @@ export default function RoutineDetailsPage() {
     }
   };
 
-  const isEditedRoutineValid = (): boolean => {
+  const isEditedRoutineValid = useMemo(() => {
     if (editedRoutine === undefined) return false;
 
-    if (editedRoutine.name === null || editedRoutine.name.trim().length === 0)
-      return false;
+    if (!isNewRoutineNameValid) return false;
 
     if (
       editedRoutine.is_schedule_weekly &&
@@ -216,7 +210,7 @@ export default function RoutineDetailsPage() {
       return false;
 
     return true;
-  };
+  }, [editedRoutine, isNewRoutineNameValid]);
 
   const handleAddWorkoutButton = (day: number) => {
     setSelectedDay(day);
@@ -242,7 +236,7 @@ export default function RoutineDetailsPage() {
         [selectedDay, workoutTemplateId, routine.id]
       );
 
-      await getworkoutRoutineSchedules();
+      await getWorkoutRoutineSchedules();
 
       workoutTemplatesModal.onClose();
       toast.success(`Workout added to ${dayNameList[selectedDay]}`);
@@ -262,7 +256,7 @@ export default function RoutineDetailsPage() {
         workoutRoutineScheduleToRemove.id,
       ]);
 
-      await getworkoutRoutineSchedules();
+      await getWorkoutRoutineSchedules();
 
       deleteModal.onClose();
       toast.success(
@@ -275,7 +269,7 @@ export default function RoutineDetailsPage() {
 
   const handleRemoveButton = (schedule: RoutineScheduleItem) => {
     setSelectedDay(schedule.day);
-    setworkoutRoutineScheduleToRemove(schedule);
+    setWorkoutRoutineScheduleToRemove(schedule);
     deleteModal.onOpen();
   };
 
@@ -479,11 +473,9 @@ export default function RoutineDetailsPage() {
               <div className="flex flex-col justify-center gap-2">
                 <Input
                   value={editedRoutine?.name}
-                  isInvalid={isNewRoutineNameInvalid}
+                  isInvalid={!isNewRoutineNameValid}
                   label="Name"
-                  errorMessage={
-                    isNewRoutineNameInvalid && "Name can't be empty"
-                  }
+                  errorMessage={!isNewRoutineNameValid && "Name can't be empty"}
                   variant="faded"
                   onValueChange={(value) =>
                     setEditedRoutine((prev) => ({ ...prev!, name: value }))
@@ -541,7 +533,11 @@ export default function RoutineDetailsPage() {
                   <Button color="danger" onPress={() => setIsEditing(false)}>
                     Cancel
                   </Button>
-                  <Button color="success" onPress={updateRoutine}>
+                  <Button
+                    color="success"
+                    onPress={updateRoutine}
+                    isDisabled={!isEditedRoutineValid}
+                  >
                     Save
                   </Button>
                 </div>
