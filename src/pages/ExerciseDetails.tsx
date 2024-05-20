@@ -90,7 +90,7 @@ export default function ExerciseDetailsPage() {
 
   if (exercise === undefined) return NotFound();
 
-  const exerciseGroupDictionary = ExerciseGroupDictionary();
+  const EXERCISE_GROUP_DICTIONARY = ExerciseGroupDictionary();
 
   return (
     <div className="flex flex-col gap-4">
@@ -145,7 +145,7 @@ export default function ExerciseDetailsPage() {
                   }
                 >
                   <div className="grid grid-cols-2 gap-0.5">
-                    {Array.from(exerciseGroupDictionary).map(([key, value]) => (
+                    {Array.from(EXERCISE_GROUP_DICTIONARY).map(([key, value]) => (
                       <Checkbox key={key} color="success" value={key}>
                         {value}
                       </Checkbox>

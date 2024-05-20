@@ -1,5 +1,5 @@
 export const ValidDistanceUnits = (): string[] => {
-  const validDistanceUnits: string[] = ["km", "m", "mi", "ft", "yd"];
-  Object.freeze(validDistanceUnits);
-  return validDistanceUnits;
+  const VALID_DISTANCE_UNITS: string[] = ["km", "m", "mi", "ft", "yd"];
+  Object.freeze(VALID_DISTANCE_UNITS);
+  return VALID_DISTANCE_UNITS;
 };

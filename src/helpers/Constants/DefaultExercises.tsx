@@ -3,8 +3,8 @@ type DefaultExercise = {
   exercise_group_set_string: string;
 };
 
-export const DefaultExerciseList = (): DefaultExercise[] => {
-  const defaultExerciseList: DefaultExercise[] = [
+export const DefaultExercises = (): DefaultExercise[] => {
+  const DEFAULT_EXERCISES: DefaultExercise[] = [
     {
       name: "Bench Press",
       exercise_group_set_string: "0,1",
@@ -47,5 +47,7 @@ export const DefaultExerciseList = (): DefaultExercise[] => {
     },
   ];
 
-  return defaultExerciseList;
+  Object.freeze(DEFAULT_EXERCISES);
+
+  return DEFAULT_EXERCISES;
 };

@@ -61,7 +61,7 @@ export default function WorkoutTemplateDetails() {
   const [isExerciseBeingDragged, setIsExerciseBeingDragged] =
     useState<boolean>(false);
 
-  const numSetsOptions = NumNewSetsOptionList();
+  const NUM_SETS_OPTIONS = NumNewSetsOptionList();
 
   const setListOptionsMenu: SetListOptionsItem[] = [
     { key: "edit", label: "Edit" },
@@ -181,7 +181,7 @@ export default function WorkoutTemplateDetails() {
   const addSet = async (numSets: string) => {
     if (selectedExercise === undefined || workoutTemplate === undefined) return;
 
-    if (!numSetsOptions.includes(numSets)) return;
+    if (!NUM_SETS_OPTIONS.includes(numSets)) return;
 
     if (isSetDefaultValuesInvalid) return;
 

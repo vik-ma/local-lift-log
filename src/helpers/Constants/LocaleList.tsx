@@ -4,12 +4,12 @@ type LocaleMap = {
 };
 
 export const LocaleList = (): LocaleMap[] => {
-  const localeMapList: LocaleMap[] = [
+  const LOCALE_MAP: LocaleMap[] = [
     { label: "DD-MM-YYYY", code: "en-GB" },
     { label: "MM-DD-YYYY", code: "en-US" },
   ];
 
-  Object.freeze(localeMapList);
+  Object.freeze(LOCALE_MAP);
 
-  return localeMapList;
+  return LOCALE_MAP;
 };

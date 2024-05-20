@@ -8,7 +8,7 @@ export const LocaleDropdown = ({
   setState,
   targetType,
 }: UnitDropdownProps) => {
-  const localeList = LocaleList();
+  const LOCALE_LIST = LocaleList();
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (targetType === "settings" && setUserSettings !== undefined) {
@@ -29,7 +29,7 @@ export const LocaleDropdown = ({
       onChange={(e) => handleChange(e)}
       disallowEmptySelection
     >
-      {localeList.map((unit) => (
+      {LOCALE_LIST.map((unit) => (
         <SelectItem key={unit.code} value={unit.code}>
           {unit.label}
         </SelectItem>

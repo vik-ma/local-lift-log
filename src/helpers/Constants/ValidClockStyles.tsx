@@ -1,5 +1,5 @@
 export const ValidClockStyles = (): string[] => {
-  const validClockStyles: string[] = ["24h", "12h"];
-  Object.freeze(validClockStyles);
-  return validClockStyles;
+  const VALID_CLOCK_STYLES: string[] = ["24h", "12h"];
+  Object.freeze(VALID_CLOCK_STYLES);
+  return VALID_CLOCK_STYLES;
 };

@@ -9,7 +9,7 @@ export const WeightUnitDropdown = ({
   setState,
   targetType,
 }: UnitDropdownProps) => {
-  const weightUnits: string[] = ValidWeightUnits();
+  const WEIGHT_UNITS: string[] = ValidWeightUnits();
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (targetType === "set" && setSet !== undefined) {
@@ -37,7 +37,7 @@ export const WeightUnitDropdown = ({
       onChange={(e) => handleChange(e)}
       disallowEmptySelection
     >
-      {weightUnits.map((unit) => (
+      {WEIGHT_UNITS.map((unit) => (
         <SelectItem key={unit} value={unit}>
           {unit}
         </SelectItem>

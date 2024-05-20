@@ -14,7 +14,7 @@ export const MeasurementUnitDropdown = ({
   setUserSettings,
   targetType,
 }: MeasurementDropdownProps) => {
-  const measurementUnits: string[] = ValidMeasurementUnits();
+  const MEASUREMENT_UNITS: string[] = ValidMeasurementUnits();
 
   const displayValue: string =
     measurement !== undefined
@@ -23,11 +23,11 @@ export const MeasurementUnitDropdown = ({
       : value !== undefined
       ? // Set display value as value if value is passed down, but measurement is not
         value
-      : measurementUnits[0];
+      : MEASUREMENT_UNITS[0];
 
   const handleChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value: string = e.target.value;
-    if (!measurementUnits.includes(value)) return;
+    if (!MEASUREMENT_UNITS.includes(value)) return;
 
     if (
       targetType === "list" &&
@@ -113,7 +113,7 @@ export const MeasurementUnitDropdown = ({
         isDisabled={isDisabled}
         disallowEmptySelection
       >
-        {measurementUnits.map((unit) => (
+        {MEASUREMENT_UNITS.map((unit) => (
           <SelectItem key={unit} value={unit}>
             {unit}
           </SelectItem>

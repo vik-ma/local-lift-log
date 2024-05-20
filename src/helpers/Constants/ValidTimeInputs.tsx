@@ -1,5 +1,5 @@
 export const ValidTimeInputs = (): string[] => {
-  const validTimeInputs: string[] = ["hhmmss", "mmss", "minutes", "seconds"];
-  Object.freeze(validTimeInputs);
-  return validTimeInputs;
+  const VALID_TIME_INPUTS: string[] = ["hhmmss", "mmss", "minutes", "seconds"];
+  Object.freeze(VALID_TIME_INPUTS);
+  return VALID_TIME_INPUTS;
 };

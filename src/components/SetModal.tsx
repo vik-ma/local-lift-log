@@ -84,7 +84,7 @@ export const SetModal = ({
     return exercises;
   }, [exercises, filterQuery]);
 
-  const numSetsOptions = NumNewSetsOptionList();
+  const NUM_SETS_OPTIONS = NumNewSetsOptionList();
 
   useEffect(() => {
     const getExerciseList = async () => {
@@ -283,7 +283,7 @@ export const SetModal = ({
                           onChange={(e) => setNumNewSets(e.target.value)}
                           disallowEmptySelection
                         >
-                          {numSetsOptions.map((num) => (
+                          {NUM_SETS_OPTIONS.map((num) => (
                             <SelectItem key={num} value={num}>
                               {num}
                             </SelectItem>

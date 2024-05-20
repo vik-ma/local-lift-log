@@ -9,14 +9,14 @@ export const ConvertExerciseGroupSetString = (
   exerciseGroupSetString: string
 ): ConvertedExerciseGroupSet => {
   const exerciseGroups: string[] = exerciseGroupSetString.split(",");
-  const exerciseGroupDictionary = ExerciseGroupDictionary();
+  const EXERCISE_GROUP_DICTIONARY = ExerciseGroupDictionary();
 
   const exerciseGroupNumberList: string[] = [];
   const exerciseGroupNameList: string[] = [];
 
   exerciseGroups.map((group: string) => {
-    if (exerciseGroupDictionary.has(group)) {
-      exerciseGroupNameList.push(exerciseGroupDictionary.get(group)!);
+    if (EXERCISE_GROUP_DICTIONARY.has(group)) {
+      exerciseGroupNameList.push(EXERCISE_GROUP_DICTIONARY.get(group)!);
       exerciseGroupNumberList.push(group);
     }
   });

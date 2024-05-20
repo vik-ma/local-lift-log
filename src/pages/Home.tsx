@@ -15,9 +15,9 @@ import { UserSettings } from "../typings";
 import {
   GetUserSettings,
   CreateDefaultUserSettings,
-  CreateDefaultExerciseList,
+  CreateDefaultExercises,
   CreateDefaultEquipmentWeights,
-  CreateDefaultMeasurementList,
+  CreateDefaultMeasurements,
   CreateDefaultDistances,
 } from "../helpers";
 import { ClockStyleDropdown, LocaleDropdown } from "../components";
@@ -47,13 +47,13 @@ export default function HomePage() {
       setUserSettings(defaultUserSettings);
 
       // Create Default Exercise List
-      await CreateDefaultExerciseList();
+      await CreateDefaultExercises();
 
       // Create Default Equipment Weights
       await CreateDefaultEquipmentWeights(useMetricUnits);
 
       // Create Default Measurement List
-      await CreateDefaultMeasurementList(useMetricUnits);
+      await CreateDefaultMeasurements(useMetricUnits);
 
       // Create Default Distance List
       await CreateDefaultDistances(useMetricUnits);

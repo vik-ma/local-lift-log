@@ -7,7 +7,7 @@ export { ConvertDateStringToTimeString } from "./Dates/ConvertDateStringToTimeSt
 
 export { ConvertExerciseGroupSetString } from "./Exercises/ConvertExerciseGroupSetString";
 export { ConvertExerciseGroupStringListToSetString } from "./Exercises/ConvertExerciseGroupStringListToSetString";
-export { CreateDefaultExerciseList } from "./Exercises/CreateDefaultExerciseList";
+export { CreateDefaultExercises } from "./Exercises/CreateDefaultExercises";
 export { ValidateExerciseGroupSetString } from "./Exercises/ValidateExerciseGroupSetString";
 export { GetExerciseListWithGroupStrings } from "./Exercises/GetExerciseListWithGroupStrings";
 export { GetExerciseFromId } from "./Exercises/GetExerciseFromId";
@@ -51,7 +51,7 @@ export { IsNumberValidBinary } from "./Numbers/IsNumberValidBinary";
 export { IsNumberValidId } from "./Numbers/IsNumberValidId";
 
 export { GetLatestUserWeight } from "./Measurements/GetLatestUserWeight";
-export { CreateDefaultMeasurementList } from "./Measurements/CreateDefaultMeasurements";
+export { CreateDefaultMeasurements } from "./Measurements/CreateDefaultMeasurements";
 export { GenerateActiveMeasurementList } from "./Measurements/GenerateActiveMeasurementList";
 export { GenerateActiveMeasurementString } from "./Measurements/GenerateActiveMeasurementString";
 export { CreateActiveMeasurementInputs } from "./Measurements/CreateActiveMeasurementInputs";
@@ -70,10 +70,10 @@ export { ValidTimeInputs } from "./Constants/ValidTimeInputs";
 export { ValidClockStyles } from "./Constants/ValidClockStyles";
 export { ValidDistanceUnits } from "./Constants/ValidDistanceUnits";
 export { ValidWeightUnits } from "./Constants/ValidWeightUnits";
-export { DefaultDistanceList } from "./Constants/DefaultDistanceList";
-export { DefaultEquipmentWeightList } from "./Constants/DefaultEquipmentWeightList";
+export { DefaultDistances } from "./Constants/DefaultDistances";
+export { DefaultEquipmentWeights } from "./Constants/DefaultEquipmentWeights";
 export { ValidMeasurementUnits } from "./Constants/ValidMeasurementUnits";
-export { DefaultMeasurementList } from "./Constants/DefaultMeasurementList";
-export { DefaultExerciseList } from "./Constants/DefaultExerciseList";
+export { DefaultMeasurements } from "./Constants/DefaultMeasurements";
+export { DefaultExercises } from "./Constants/DefaultExercises";
 export { ExerciseGroupDictionary } from "./Constants/ExerciseGroupDictionary";
 export { NumNewSetsOptionList } from "./Constants/NumNewSetsOptionList";

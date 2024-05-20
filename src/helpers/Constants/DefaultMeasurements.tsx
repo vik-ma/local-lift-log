@@ -4,10 +4,10 @@ type DefaultMeasurement = {
   measurement_type: string;
 };
 
-export const DefaultMeasurementList = (
+export const DefaultMeasurements = (
   isMetric: boolean
 ): DefaultMeasurement[] => {
-  const defaultMeasurementList: DefaultMeasurement[] = [
+  const DEFAULT_MEASUREMENTS: DefaultMeasurement[] = [
     {
       name: "Neck",
       default_unit: isMetric ? "cm" : "in",
@@ -121,5 +121,7 @@ export const DefaultMeasurementList = (
     },
   ];
 
-  return defaultMeasurementList;
+  Object.freeze(DEFAULT_MEASUREMENTS);
+
+  return DEFAULT_MEASUREMENTS;
 };

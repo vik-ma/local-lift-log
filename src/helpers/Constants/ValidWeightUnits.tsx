@@ -1,5 +1,5 @@
 export const ValidWeightUnits = (): string[] => {
-  const validWeightUnits: string[] = ["kg", "lbs"];
-  Object.freeze(validWeightUnits);
-  return validWeightUnits;
+  const VALID_WEIGHT_UNITS: string[] = ["kg", "lbs"];
+  Object.freeze(VALID_WEIGHT_UNITS);
+  return VALID_WEIGHT_UNITS;
 };

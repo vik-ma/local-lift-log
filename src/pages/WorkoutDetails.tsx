@@ -123,7 +123,7 @@ export default function WorkoutDetails() {
   const setModal = useDisclosure();
   const deleteModal = useDisclosure();
 
-  const numSetsOptions = NumNewSetsOptionList();
+  const NUM_SETS_OPTIONS = NumNewSetsOptionList();
 
   const setListOptionsMenu: SetListOptionsItem[] = [
     { key: "edit", label: "Edit" },
@@ -404,7 +404,7 @@ export default function WorkoutDetails() {
   const addSet = async () => {
     if (selectedExercise === undefined || workout === undefined) return;
 
-    if (!numSetsOptions.includes(numNewSets)) return;
+    if (!NUM_SETS_OPTIONS.includes(numNewSets)) return;
 
     try {
       const noteToInsert: string | null =
@@ -1321,7 +1321,7 @@ export default function WorkoutDetails() {
                             onChange={(e) => setNumNewSets(e.target.value)}
                             disallowEmptySelection
                           >
-                            {numSetsOptions.map((num) => (
+                            {NUM_SETS_OPTIONS.map((num) => (
                               <SelectItem key={num} value={num}>
                                 {num}
                               </SelectItem>

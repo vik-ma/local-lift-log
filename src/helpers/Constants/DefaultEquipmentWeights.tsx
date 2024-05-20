@@ -4,10 +4,10 @@ type DefaultEquipmentWeight = {
   weight_unit: string;
 };
 
-export const DefaultEquipmentWeightList = (
+export const DefaultEquipmentWeights = (
   isMetric: boolean
 ): DefaultEquipmentWeight[] => {
-  const defaultEquipmentWeightList: DefaultEquipmentWeight[] = [
+  const DEFAULT_EQUIPMENT_WEIGHTS: DefaultEquipmentWeight[] = [
     {
       name: "Barbell",
       weight: isMetric ? 20 : 45,
@@ -20,5 +20,7 @@ export const DefaultEquipmentWeightList = (
     },
   ];
 
-  return defaultEquipmentWeightList;
+  Object.freeze(DEFAULT_EQUIPMENT_WEIGHTS);
+
+  return DEFAULT_EQUIPMENT_WEIGHTS;
 };

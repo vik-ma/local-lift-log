@@ -24,7 +24,7 @@ import {
 } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
 import {
-  CreateDefaultMeasurementList,
+  CreateDefaultMeasurements,
   GenerateActiveMeasurementList,
   GetUserSettings,
   UpdateActiveTrackingMeasurements,
@@ -245,8 +245,8 @@ export default function MeasurementListPage() {
 
   const isNewMeasurementNameValid = useValidateName(newMeasurement.name);
 
-  const createDefaultMeasurementList = async (useMetricUnits: boolean) => {
-    await CreateDefaultMeasurementList(useMetricUnits);
+  const createDefaultMeasurements = async (useMetricUnits: boolean) => {
+    await CreateDefaultMeasurements(useMetricUnits);
     await getMeasurements();
     setUnitsModal.onClose();
     toast.success("Default Measurements Restored");
@@ -402,7 +402,7 @@ export default function MeasurementListPage() {
                   size="lg"
                   color="primary"
                   onPress={() => {
-                    createDefaultMeasurementList(true);
+                    createDefaultMeasurements(true);
                   }}
                 >
                   Metric
@@ -412,7 +412,7 @@ export default function MeasurementListPage() {
                   size="lg"
                   color="primary"
                   onPress={() => {
-                    createDefaultMeasurementList(false);
+                    createDefaultMeasurements(false);
                   }}
                 >
                   Imperial

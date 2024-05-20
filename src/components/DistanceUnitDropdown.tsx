@@ -9,7 +9,7 @@ export const DistanceUnitDropdown = ({
   setState,
   targetType,
 }: UnitDropdownProps) => {
-  const distanceUnits: string[] = ValidDistanceUnits();
+  const DISTANCE_UNITS: string[] = ValidDistanceUnits();
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (targetType === "set" && setSet !== undefined) {
@@ -37,7 +37,7 @@ export const DistanceUnitDropdown = ({
       onChange={(e) => handleChange(e)}
       disallowEmptySelection
     >
-      {distanceUnits.map((unit) => (
+      {DISTANCE_UNITS.map((unit) => (
         <SelectItem key={unit} value={unit}>
           {unit}
         </SelectItem>

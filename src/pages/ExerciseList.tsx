@@ -5,7 +5,7 @@ import {
   ConvertExerciseGroupSetString,
   ExerciseGroupDictionary,
   ConvertExerciseGroupStringListToSetString,
-  CreateDefaultExerciseList,
+  CreateDefaultExercises,
   GetExerciseListWithGroupStrings,
   IsExerciseValid,
 } from "../helpers";
@@ -164,13 +164,13 @@ export default function ExerciseListPage() {
     setNewExerciseGroupStringList(exerciseGroupStringList);
   };
 
-  const restoreDefaultExerciseList = async () => {
-    await CreateDefaultExerciseList();
+  const restoreDefaultExercises = async () => {
+    await CreateDefaultExercises();
     await getExercises();
     toast.success("Default Exercises Restored");
   };
 
-  const exerciseGroupDictionary = ExerciseGroupDictionary();
+  const EXERCISE_GROUP_DICTIONARY = ExerciseGroupDictionary();
 
   return (
     <>
@@ -235,7 +235,7 @@ export default function ExerciseListPage() {
                     }
                   >
                     <div className="grid grid-cols-2 gap-0.5">
-                      {Array.from(exerciseGroupDictionary).map(
+                      {Array.from(EXERCISE_GROUP_DICTIONARY).map(
                         ([key, value]) => (
                           <Checkbox key={key} color="success" value={key}>
                             {value}
@@ -329,7 +329,7 @@ export default function ExerciseListPage() {
                   className="text-lg font-medium"
                   size="lg"
                   color="primary"
-                  onPress={restoreDefaultExerciseList}
+                  onPress={restoreDefaultExercises}
                 >
                   Restore Default Exercise List
                 </Button>
