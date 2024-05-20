@@ -61,6 +61,8 @@ export default function WorkoutTemplateDetails() {
     useState<GroupedWorkoutSet>();
   const [shownSetListComments, setShownSetListComments] =
     useState<SetListNotes>({});
+  const [isExerciseBeingDragged, setIsExerciseBeingDragged] =
+    useState<boolean>(false);
 
   const numSetsOptions = NumNewSetsOptionList();
 
@@ -398,6 +400,8 @@ export default function WorkoutTemplateDetails() {
     if (workoutTemplate === undefined) return;
 
     await UpdateExerciseOrder(setList, workoutTemplate.id, true);
+
+    if (isExerciseBeingDragged) setIsExerciseBeingDragged(false);
   };
 
   const resetSetToDefault = () => {
@@ -764,6 +768,8 @@ export default function WorkoutTemplateDetails() {
   };
 
   const handleExerciseAccordionClick = (groupedSet: GroupedWorkoutSet) => {
+    if (isExerciseBeingDragged) return;
+
     const updatedGroupedSet: GroupedWorkoutSet = {
       ...groupedSet,
       isExpanded: !groupedSet.isExpanded,
@@ -881,6 +887,7 @@ export default function WorkoutTemplateDetails() {
               shownSetListComments={shownSetListComments}
               setListOptionsMenu={setListOptionsMenu}
               handleAddSetButton={handleAddSetButton}
+              setIsExerciseBeingDragged={setIsExerciseBeingDragged}
             />
           </>
         )}

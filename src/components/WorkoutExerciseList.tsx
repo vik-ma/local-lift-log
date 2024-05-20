@@ -34,6 +34,7 @@ type WorkoutExerciseListProps = {
   shownSetListComments: SetListNotes;
   setListOptionsMenu: SetListOptionsItem[];
   handleAddSetButton: () => void;
+  setIsExerciseBeingDragged: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const WorkoutExerciseList = ({
@@ -48,6 +49,7 @@ export const WorkoutExerciseList = ({
   shownSetListComments,
   setListOptionsMenu,
   handleAddSetButton,
+  setIsExerciseBeingDragged,
 }: WorkoutExerciseListProps) => {
   return (
     <div className="flex flex-col gap-2">
@@ -69,6 +71,7 @@ export const WorkoutExerciseList = ({
             <Reorder.Item
               key={groupedSet.exercise.id}
               value={groupedSet}
+              onDragStart={() => setIsExerciseBeingDragged(true)}
               onDragEnd={() => updateExerciseOrder()}
               transition={{ duration: 0.15 }}
             >
