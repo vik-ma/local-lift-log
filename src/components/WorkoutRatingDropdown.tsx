@@ -2,7 +2,7 @@ import { Select, SelectItem } from "@nextui-org/react";
 import { WorkoutRatingProps } from "../typings";
 import Database from "tauri-plugin-sql-api";
 import toast, { Toaster } from "react-hot-toast";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 export const WorkoutRatingDropdown = ({
   rating,
@@ -11,9 +11,13 @@ export const WorkoutRatingDropdown = ({
   const [selectedKeys, setSelectedKeys] = useState<Set<string>>(
     new Set([rating.toString()])
   );
-  const selectedKey: string = Array.from(selectedKeys)[0];
+  const selectedKey: string = useMemo(() => {
+    return Array.from(selectedKeys)[0];
+  }, [selectedKeys]);
 
-  const validRatings: string[] = ["0", "1", "2"];
+  const validRatings: string[] = useMemo(() => {
+    return ["0", "1", "2"];
+  }, []);
 
   const handleChange = async (keys: Set<string>) => {
     const stringValue: string = Array.from(keys)[0];
