@@ -21,9 +21,8 @@ import {
   SetWorkoutSetAction,
   WorkoutSet,
 } from "../typings";
-import { useState, useMemo, useEffect } from "react";
-import { GetExerciseListWithGroupStrings } from "../helpers";
-import { useNumSetsOptions } from "../hooks";
+import { useState } from "react";
+import { useExerciseList, useNumSetsOptions } from "../hooks";
 
 type SetModalProps = {
   setModal: ReturnType<typeof useDisclosure>;
@@ -64,34 +63,10 @@ export const SetModal = ({
 }: SetModalProps) => {
   const [showDefaultValues, setShowDefaultValues] = useState<boolean>(false);
   const [numNewSets, setNumNewSets] = useState<string>("1");
-  const [exercises, setExercises] = useState<Exercise[]>([]);
-  const [filterQuery, setFilterQuery] = useState<string>("");
-
-  const filteredExercises = useMemo(() => {
-    if (filterQuery !== "") {
-      return exercises.filter(
-        (item) =>
-          item.name
-            .toLocaleLowerCase()
-            .includes(filterQuery.toLocaleLowerCase()) ||
-          item
-            .formattedGroupString!.toLocaleLowerCase()
-            .includes(filterQuery.toLocaleLowerCase())
-      );
-    }
-    return exercises;
-  }, [exercises, filterQuery]);
 
   const numSetsOptions = useNumSetsOptions();
 
-  useEffect(() => {
-    const getExerciseList = async () => {
-      const exercises = await GetExerciseListWithGroupStrings();
-      if (exercises !== undefined) setExercises(exercises);
-    };
-
-    getExerciseList();
-  }, []);
+  const { filterQuery, setFilterQuery, filteredExercises } = useExerciseList();
 
   return (
     <Modal isOpen={setModal.isOpen} onOpenChange={setModal.onOpenChange}>

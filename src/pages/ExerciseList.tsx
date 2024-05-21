@@ -1,11 +1,10 @@
 import Database from "tauri-plugin-sql-api";
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useMemo } from "react";
 import { Exercise } from "../typings";
 import {
   ConvertExerciseGroupSetString,
   ConvertExerciseGroupStringListToSetString,
   CreateDefaultExercises,
-  GetExerciseListWithGroupStrings,
   IsExerciseValid,
 } from "../helpers";
 import {
@@ -28,28 +27,21 @@ import {
   useValidateExerciseGroupString,
   useValidateName,
   useExerciseGroupDictionary,
+  useExerciseList,
 } from "../hooks";
 
 export default function ExerciseListPage() {
-  const [exercises, setExercises] = useState<Exercise[]>([]);
   const [exerciseToDelete, setExerciseToDelete] = useState<Exercise>();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [filterQuery, setFilterQuery] = useState<string>("");
 
-  const filteredExercises = useMemo(() => {
-    if (filterQuery !== "") {
-      return exercises.filter(
-        (item) =>
-          item.name
-            .toLocaleLowerCase()
-            .includes(filterQuery.toLocaleLowerCase()) ||
-          item
-            .formattedGroupString!.toLocaleLowerCase()
-            .includes(filterQuery.toLocaleLowerCase())
-      );
-    }
-    return exercises;
-  }, [exercises, filterQuery]);
+  const {
+    filterQuery,
+    setFilterQuery,
+    filteredExercises,
+    exercises,
+    setExercises,
+    getExercises,
+    isExercisesLoading,
+  } = useExerciseList();
 
   const deleteModal = useDisclosure();
   const newExerciseModal = useDisclosure();
@@ -77,19 +69,6 @@ export default function ExerciseListPage() {
   const isNewExerciseGroupSetStringValid = useValidateExerciseGroupString(
     newExercise.exercise_group_set_string
   );
-
-  const getExercises = useCallback(async () => {
-    const exercises = await GetExerciseListWithGroupStrings();
-
-    if (exercises === undefined) return;
-
-    setExercises(exercises);
-    setIsLoading(false);
-  }, []);
-
-  useEffect(() => {
-    getExercises();
-  }, [getExercises]);
 
   const deleteExercise = async () => {
     if (exerciseToDelete === undefined) return;
@@ -284,7 +263,7 @@ export default function ExerciseListPage() {
           onValueChange={setFilterQuery}
           startContent={<SearchIcon />}
         />
-        {isLoading ? (
+        {isExercisesLoading ? (
           <LoadingSpinner />
         ) : (
           <>
