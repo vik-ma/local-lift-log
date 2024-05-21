@@ -1,6 +1,6 @@
 import { Select, SelectItem } from "@nextui-org/react";
-import { LocaleList } from "../helpers";
 import { UnitDropdownProps } from "../typings";
+import { useLocaleList } from "../hooks";
 
 export const LocaleDropdown = ({
   value,
@@ -8,7 +8,7 @@ export const LocaleDropdown = ({
   setState,
   targetType,
 }: UnitDropdownProps) => {
-  const LOCALE_LIST = LocaleList();
+  const localeList = useLocaleList();
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (targetType === "settings" && setUserSettings !== undefined) {
@@ -29,7 +29,7 @@ export const LocaleDropdown = ({
       onChange={(e) => handleChange(e)}
       disallowEmptySelection
     >
-      {LOCALE_LIST.map((unit) => (
+      {localeList.map((unit) => (
         <SelectItem key={unit.code} value={unit.code}>
           {unit.label}
         </SelectItem>
