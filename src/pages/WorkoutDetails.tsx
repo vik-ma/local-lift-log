@@ -112,10 +112,15 @@ export default function WorkoutDetails() {
 
   const { id } = useParams();
 
-  const defaultNewSet: WorkoutSet = DefaultNewSet(false);
+  const defaultNewSet: WorkoutSet = useMemo(() => {
+    return DefaultNewSet(false);
+  }, []);
+  
   const [operatingSet, setOperatingSet] = useState<WorkoutSet>(defaultNewSet);
 
-  const defaultSetInputValues: SetTrackingValuesInput = DefaultSetInputValues();
+  const defaultSetInputValues: SetTrackingValuesInput = useMemo(() => {
+    return DefaultSetInputValues();
+  }, []);
 
   const [setTrackingValuesInput, setSetTrackingValuesInput] =
     useState<SetTrackingValuesInput>(defaultSetInputValues);
@@ -125,10 +130,12 @@ export default function WorkoutDetails() {
 
   const numSetsOptions = useNumSetsOptions();
 
-  const setListOptionsMenu: SetListOptionsItem[] = [
-    { key: "edit", label: "Edit" },
-    { key: "delete-set", label: "Delete", className: "text-danger" },
-  ];
+  const setListOptionsMenu: SetListOptionsItem[] = useMemo(() => {
+    return [
+      { key: "edit", label: "Edit" },
+      { key: "delete-set", label: "Delete", className: "text-danger" },
+    ];
+  }, []);
 
   const filteredExercises = useMemo(() => {
     if (filterQuery !== "") {

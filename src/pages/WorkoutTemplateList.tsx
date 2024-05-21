@@ -10,7 +10,7 @@ import {
   ModalFooter,
   Input,
 } from "@nextui-org/react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { LoadingSpinner, DeleteModal } from "../components";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
@@ -24,12 +24,14 @@ export default function WorkoutTemplateList() {
   const [workoutTemplateToDelete, setWorkoutTemplateToDelete] =
     useState<WorkoutTemplateListItem>();
 
-  const defaultNewWorkoutTemplate: WorkoutTemplate = {
-    id: 0,
-    name: "",
-    exercise_order: "",
-    note: "",
-  };
+  const defaultNewWorkoutTemplate: WorkoutTemplate = useMemo(() => {
+    return {
+      id: 0,
+      name: "",
+      exercise_order: "",
+      note: "",
+    };
+  }, []);
 
   const [newWorkoutTemplate, setNewWorkoutTemplate] = useState<WorkoutTemplate>(
     defaultNewWorkoutTemplate
@@ -39,6 +41,10 @@ export default function WorkoutTemplateList() {
 
   const deleteModal = useDisclosure();
   const newWorkoutTemplateModal = useDisclosure();
+
+  const isNewWorkoutTemplateNameValid = useValidateName(
+    newWorkoutTemplate.name
+  );
 
   useEffect(() => {
     const getWorkoutTemplates = async () => {
@@ -132,10 +138,6 @@ export default function WorkoutTemplateList() {
     setWorkoutTemplateToDelete(workoutTemplate);
     deleteModal.onOpen();
   };
-
-  const isNewWorkoutTemplateNameValid = useValidateName(
-    newWorkoutTemplate.name
-  );
 
   return (
     <>

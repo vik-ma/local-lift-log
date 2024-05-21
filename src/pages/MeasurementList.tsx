@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import {
   LoadingSpinner,
   MeasurementUnitDropdown,
@@ -42,12 +42,14 @@ export default function MeasurementListPage() {
   const [activeMeasurementList, setActiveMeasurementList] =
     useState<number[]>();
 
-  const defaultNewMeasurement: Measurement = {
-    id: 0,
-    name: "",
-    default_unit: "",
-    measurement_type: "Circumference",
-  };
+  const defaultNewMeasurement: Measurement = useMemo(() => {
+    return {
+      id: 0,
+      name: "",
+      default_unit: "",
+      measurement_type: "Circumference",
+    };
+  }, []);
 
   const [newMeasurement, setNewMeasurement] = useState<Measurement>(
     defaultNewMeasurement

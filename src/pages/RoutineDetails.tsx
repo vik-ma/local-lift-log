@@ -365,12 +365,14 @@ export default function RoutineDetailsPage() {
     }
   };
 
-  if (routine === undefined) return NotFound();
+  const dayNameList: string[] = useMemo(() => {
+    return GetScheduleDayNames(
+      routine?.num_days_in_schedule ?? 7,
+      !!routine?.is_schedule_weekly ?? true
+    );
+  }, [routine?.num_days_in_schedule, routine?.is_schedule_weekly]);
 
-  const dayNameList: string[] = GetScheduleDayNames(
-    routine?.num_days_in_schedule,
-    !!routine?.is_schedule_weekly
-  );
+  if (routine === undefined) return NotFound();
 
   return (
     <>

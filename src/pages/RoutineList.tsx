@@ -13,7 +13,7 @@ import {
   SelectItem,
 } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Routine, RoutineListItem, UserSettingsOptional } from "../typings";
 import toast, { Toaster } from "react-hot-toast";
 import Database from "tauri-plugin-sql-api";
@@ -33,14 +33,16 @@ export default function RoutineListPage() {
 
   const navigate = useNavigate();
 
-  const defaultNewRoutine: Routine = {
-    id: 0,
-    name: "",
-    note: "",
-    is_schedule_weekly: 1,
-    num_days_in_schedule: 7,
-    custom_schedule_start_date: null,
-  };
+  const defaultNewRoutine: Routine = useMemo(() => {
+    return {
+      id: 0,
+      name: "",
+      note: "",
+      is_schedule_weekly: 1,
+      num_days_in_schedule: 7,
+      custom_schedule_start_date: null,
+    };
+  }, []);
 
   const [newRoutine, setNewRoutine] = useState<Routine>(defaultNewRoutine);
 

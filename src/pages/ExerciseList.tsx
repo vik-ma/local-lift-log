@@ -56,17 +56,27 @@ export default function ExerciseListPage() {
 
   const navigate = useNavigate();
 
-  const defaultNewExercise: Exercise = {
-    id: 0,
-    name: "",
-    exercise_group_set_string: "",
-    note: "",
-  };
+  const defaultNewExercise: Exercise = useMemo(() => {
+    return {
+      id: 0,
+      name: "",
+      exercise_group_set_string: "",
+      note: "",
+    };
+  }, []);
+
+  const exerciseGroupDictionary = useExerciseGroupDictionary();
 
   const [newExercise, setNewExercise] = useState<Exercise>(defaultNewExercise);
   const [newExerciseGroupStringList, setNewExerciseGroupStringList] = useState<
     string[]
   >([]);
+
+  const isNewExerciseNameValid = useValidateName(newExercise.name);
+
+  const isNewExerciseGroupSetStringValid = useValidateExerciseGroupString(
+    newExercise.exercise_group_set_string
+  );
 
   const getExercises = useCallback(async () => {
     const exercises = await GetExerciseListWithGroupStrings();
@@ -147,12 +157,6 @@ export default function ExerciseListPage() {
     }
   };
 
-  const isNewExerciseNameValid = useValidateName(newExercise.name);
-
-  const isNewExerciseGroupSetStringValid = useValidateExerciseGroupString(
-    newExercise.exercise_group_set_string
-  );
-
   const handleExerciseGroupStringChange = (
     exerciseGroupStringList: string[]
   ) => {
@@ -172,8 +176,6 @@ export default function ExerciseListPage() {
     await getExercises();
     toast.success("Default Exercises Restored");
   };
-
-  const exerciseGroupDictionary = useExerciseGroupDictionary();
 
   return (
     <>
