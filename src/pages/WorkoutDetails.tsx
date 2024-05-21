@@ -9,7 +9,6 @@ import {
   SetWorkoutSetAction,
   GroupedWorkoutSet,
   SetListNotes,
-  SetListOptionsItem,
 } from "../typings";
 import {
   LoadingSpinner,
@@ -65,7 +64,11 @@ import {
   ChevronIcon,
   MinimizeIcon,
 } from "../assets";
-import { useNumSetsOptions, useDefaultSet } from "../hooks";
+import {
+  useNumSetsOptions,
+  useDefaultSet,
+  useSetListOptionsMenu,
+} from "../hooks";
 
 type OperationType =
   | "add"
@@ -127,12 +130,7 @@ export default function WorkoutDetails() {
 
   const numSetsOptions = useNumSetsOptions();
 
-  const setListOptionsMenu: SetListOptionsItem[] = useMemo(() => {
-    return [
-      { key: "edit", label: "Edit" },
-      { key: "delete-set", label: "Delete", className: "text-danger" },
-    ];
-  }, []);
+  const setListOptionsMenu = useSetListOptionsMenu(false);
 
   const filteredExercises = useMemo(() => {
     if (filterQuery !== "") {

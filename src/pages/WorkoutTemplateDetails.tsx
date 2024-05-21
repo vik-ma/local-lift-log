@@ -6,9 +6,8 @@ import {
   WorkoutTemplate,
   GroupedWorkoutSet,
   SetListNotes,
-  SetListOptionsItem,
 } from "../typings";
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Button, Input, useDisclosure } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -32,6 +31,7 @@ import {
 import {
   useDefaultSet,
   useNumSetsOptions,
+  useSetListOptionsMenu,
   useSetTrackingInputs,
   useValidateName,
 } from "../hooks";
@@ -66,12 +66,7 @@ export default function WorkoutTemplateDetails() {
 
   const numSetsOptions = useNumSetsOptions();
 
-  const setListOptionsMenu: SetListOptionsItem[] = useMemo(() => {
-    return [
-      { key: "edit", label: "Edit" },
-      { key: "remove-set", label: "Remove", className: "text-danger" },
-    ];
-  }, []);
+  const setListOptionsMenu = useSetListOptionsMenu(true);
 
   const defaultNewSet = useDefaultSet(true);
 

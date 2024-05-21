@@ -8,3 +8,4 @@ export { useValidWeightUnits } from "./useValidWeightUnits";
 export { useValidMeasurementUnits } from "./useValidMeasurementUnits";
 export { useLocaleList } from "./useLocaleList";
 export { useDefaultSet } from "./useDefaultSet";
+export { useSetListOptionsMenu } from "./useSetListOptionsMenu";
