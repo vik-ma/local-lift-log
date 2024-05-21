@@ -6,6 +6,7 @@ import { Accordion, AccordionItem } from "@nextui-org/react";
 import {
   FormatDateTimeString,
   GenerateMeasurementListString,
+  GetClockStyle,
 } from "../helpers";
 
 export default function UserMeasurementList() {
@@ -13,6 +14,7 @@ export default function UserMeasurementList() {
   const [userMeasurementEntries, setUserMeasurementEntries] = useState<
     UserMeasurementEntry[]
   >([]);
+  const [clockStyle, setClockStyle] = useState<string>("");
 
   useEffect(() => {
     const getUserMeasurements = async () => {
@@ -45,7 +47,14 @@ export default function UserMeasurementList() {
       }
     };
 
+    const getClockStyle = async () => {
+      const userSettings = await GetClockStyle();
+
+      if (userSettings?.clock_style) setClockStyle(userSettings.clock_style);
+    };
+
     getUserMeasurements();
+    getClockStyle();
   }, []);
 
   return (
@@ -68,7 +77,7 @@ export default function UserMeasurementList() {
                 key={`${index}`}
                 aria-label={`Accordion Item ${index}`}
                 subtitle={entry.measurementListString}
-                title={FormatDateTimeString(entry.date)}
+                title={FormatDateTimeString(entry.date, clockStyle === "24h")}
               >
                 <div className="flex flex-col ">
                   <span className="font-medium text-amber-500 ">
