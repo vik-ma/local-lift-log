@@ -280,11 +280,11 @@ export default function BodyMeasurementsPage() {
       (obj) => obj.id
     );
 
-    const activeTrackinMeasurementString: string =
+    const activeTrackingMeasurementString: string =
       GenerateActiveMeasurementString(activeTrackingMeasurementIdList);
 
     await UpdateActiveTrackingMeasurements(
-      activeTrackinMeasurementString,
+      activeTrackingMeasurementString,
       userSettings.id
     );
 
@@ -390,7 +390,9 @@ export default function BodyMeasurementsPage() {
                   color="success"
                   variant="flat"
                   size="sm"
-                  onClick={() => navigate("/measurements/body-weight-list")}
+                  onClick={() =>
+                    navigate("/measurements/user-measurement-list")
+                  }
                 >
                   View History
                 </Button>
