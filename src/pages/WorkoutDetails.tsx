@@ -25,7 +25,6 @@ import { NotFound } from ".";
 import {
   CreateSetsFromWorkoutTemplate,
   GetUserSettings,
-  DefaultNewSet,
   GetExerciseListWithGroupStrings,
   IsStringInvalidInteger,
   IsStringInvalidNumber,
@@ -66,7 +65,7 @@ import {
   ChevronIcon,
   MinimizeIcon,
 } from "../assets";
-import { useNumSetsOptions } from "../hooks";
+import { useNumSetsOptions, useDefaultSet } from "../hooks";
 
 type OperationType =
   | "add"
@@ -112,10 +111,8 @@ export default function WorkoutDetails() {
 
   const { id } = useParams();
 
-  const defaultNewSet: WorkoutSet = useMemo(() => {
-    return DefaultNewSet(false);
-  }, []);
-  
+  const defaultNewSet = useDefaultSet(false);
+
   const [operatingSet, setOperatingSet] = useState<WorkoutSet>(defaultNewSet);
 
   const defaultSetInputValues: SetTrackingValuesInput = useMemo(() => {

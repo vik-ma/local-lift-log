@@ -22,7 +22,6 @@ import toast, { Toaster } from "react-hot-toast";
 import {
   ConvertSetInputValuesToNumbers,
   CreateGroupedWorkoutSetListByExerciseId,
-  DefaultNewSet,
   DefaultSetInputValues,
   GetUserSettings,
   InsertSetIntoDatabase,
@@ -31,6 +30,7 @@ import {
   UpdateExerciseOrder,
 } from "../helpers";
 import {
+  useDefaultSet,
   useNumSetsOptions,
   useSetTrackingInputs,
   useValidateName,
@@ -73,9 +73,7 @@ export default function WorkoutTemplateDetails() {
     ];
   }, []);
 
-  const defaultNewSet: WorkoutSet = useMemo(() => {
-    return DefaultNewSet(true);
-  }, []);
+  const defaultNewSet = useDefaultSet(true);
 
   const [operatingSet, setOperatingSet] = useState<WorkoutSet>(defaultNewSet);
 
