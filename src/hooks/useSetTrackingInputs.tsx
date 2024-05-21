@@ -24,8 +24,11 @@ type UseSetTrackingInputsReturnType = {
 
 export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
   const [isTimeInputInvalid, setIsTimeInputInvalid] = useState<boolean>(false);
-  const defaultSetTrackingValuesInput: SetTrackingValuesInput =
-    DefaultSetInputValues();
+
+  const defaultSetTrackingValuesInput: SetTrackingValuesInput = useMemo(() => {
+    return DefaultSetInputValues();
+  }, []);
+
   const [setTrackingValuesInput, setSetTrackingValuesInput] =
     useState<SetTrackingValuesInput>(defaultSetTrackingValuesInput);
 

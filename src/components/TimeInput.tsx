@@ -35,19 +35,12 @@ export const TimeInput = ({
 }: TimeInputProps) => {
   const [inputType, setInputType] = useState<string>(defaultTimeInput);
 
-  const secondsDefaultValue: string =
-    value.time_in_seconds === 0 ? "" : value.time_in_seconds.toString();
-
   const convertSecondsToMinutes = (seconds: number): string => {
     if (seconds === 0) return "";
     const minutes = seconds / 60;
     const minutesTrimmed = ConvertNumberToTwoDecimals(minutes);
     return minutesTrimmed.toString();
   };
-
-  const minutesDefaultValue: string = convertSecondsToMinutes(
-    value.time_in_seconds
-  );
 
   const convertSecondsToHhmmss = (seconds: number): HhmmssInput => {
     if (seconds === 0) return { seconds: "", minutes: "", hours: "" };
@@ -78,13 +71,31 @@ export const TimeInput = ({
     return mmssInput;
   };
 
-  const hhmmssDefaultValue: HhmmssInput = convertSecondsToHhmmss(
-    value.time_in_seconds
-  );
+  const {
+    secondsDefaultValue,
+    minutesDefaultValue,
+    hhmmssDefaultValue,
+    mmssDefaultValue,
+  } = useMemo(() => {
+    const secondsDefaultValue: string =
+      value.time_in_seconds === 0 ? "" : value.time_in_seconds.toString();
+    const minutesDefaultValue: string = convertSecondsToMinutes(
+      value.time_in_seconds
+    );
+    const hhmmssDefaultValue: HhmmssInput = convertSecondsToHhmmss(
+      value.time_in_seconds
+    );
+    const mmssDefaultValue: MmssInput = convertSecondsToMmss(
+      value.time_in_seconds
+    );
 
-  const mmssDefaultValue: MmssInput = convertSecondsToMmss(
-    value.time_in_seconds
-  );
+    return {
+      secondsDefaultValue,
+      minutesDefaultValue,
+      hhmmssDefaultValue,
+      mmssDefaultValue,
+    };
+  }, [value.time_in_seconds]);
 
   const [secondsInput, setSecondsInput] = useState<string>(secondsDefaultValue);
   const [minutesInput, setMinutesInput] = useState<string>(minutesDefaultValue);
