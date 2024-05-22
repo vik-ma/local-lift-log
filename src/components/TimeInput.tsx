@@ -4,6 +4,7 @@ import { useState, useMemo, useEffect } from "react";
 import {
   ConvertNumberToTwoDecimals,
   IsNumberNegativeOrInfinity,
+  IsStringEmpty,
   IsStringInvalidInteger,
   IsStringInvalidNumber,
   IsStringInvalidNumberOrAbove59,
@@ -201,11 +202,9 @@ export const TimeInput = ({
 
   const handleHhmmssInputChange = (value: HhmmssInput) => {
     setHhmmssInput(value);
-    const hours = value.hours.trim().length === 0 ? 0 : Number(value.hours);
-    const minutes =
-      value.minutes.trim().length === 0 ? 0 : Number(value.minutes);
-    const seconds =
-      value.seconds.trim().length === 0 ? 0 : Number(value.seconds);
+    const hours = IsStringEmpty(value.hours) ? 0 : Number(value.hours);
+    const minutes = IsStringEmpty(value.minutes) ? 0 : Number(value.minutes);
+    const seconds = IsStringEmpty(value.seconds) ? 0 : Number(value.seconds);
 
     if (
       IsNumberNegativeOrInfinity(hours) ||
@@ -224,10 +223,8 @@ export const TimeInput = ({
 
   const handleMmssInputChange = (value: MmssInput) => {
     setMmssInput(value);
-    const minutes =
-      value.minutes.trim().length === 0 ? 0 : Number(value.minutes);
-    const seconds =
-      value.seconds.trim().length === 0 ? 0 : Number(value.seconds);
+    const minutes = IsStringEmpty(value.minutes) ? 0 : Number(value.minutes);
+    const seconds = IsStringEmpty(value.seconds) ? 0 : Number(value.seconds);
 
     if (
       IsNumberNegativeOrInfinity(minutes) ||

@@ -14,6 +14,7 @@ import {
   UpdateActiveTrackingMeasurements,
   GenerateActiveMeasurementString,
   ConvertEmptyStringToNull,
+  IsStringEmpty,
 } from "../helpers";
 import { Button, Input } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
@@ -84,7 +85,7 @@ export default function BodyMeasurementsPage() {
   }, [newWeightInput]);
 
   const addUserWeight = async () => {
-    if (isWeightInputInvalid || newWeightInput.trim().length === 0) return;
+    if (isWeightInputInvalid || IsStringEmpty(newWeightInput)) return;
 
     const newWeight = Number(newWeightInput);
 
@@ -128,7 +129,7 @@ export default function BodyMeasurementsPage() {
   const updateUserWeight = async () => {
     if (latestUserWeight === undefined) return;
 
-    if (isWeightInputInvalid || newWeightInput.trim().length === 0) return;
+    if (isWeightInputInvalid || IsStringEmpty(newWeightInput)) return;
 
     const newWeight = Number(newWeightInput);
 
@@ -222,7 +223,7 @@ export default function BodyMeasurementsPage() {
 
         if (
           measurement.input === undefined ||
-          measurement.input.trim().length === 0
+          IsStringEmpty(measurement.input)
         ) {
           continue;
         }
@@ -361,7 +362,7 @@ export default function BodyMeasurementsPage() {
                     color="success"
                     onPress={isEditing ? updateUserWeight : addUserWeight}
                     isDisabled={
-                      isWeightInputInvalid || newWeightInput.trim().length === 0
+                      isWeightInputInvalid || IsStringEmpty(newWeightInput)
                     }
                   >
                     {isEditing ? "Update" : "Add"}

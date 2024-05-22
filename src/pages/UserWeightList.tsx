@@ -5,6 +5,7 @@ import { LoadingSpinner, WeightUnitDropdown, DeleteModal } from "../components";
 import {
   ConvertEmptyStringToNull,
   FormatDateTimeString,
+  IsStringEmpty,
   IsStringInvalidNumber,
 } from "../helpers";
 import {
@@ -126,7 +127,7 @@ export default function UserWeightListPage() {
   const updateUserWeight = async () => {
     if (operatingUserWeight === undefined) return;
 
-    if (isWeightInputInvalid || newWeightInput.trim().length === 0) return;
+    if (isWeightInputInvalid || IsStringEmpty(newWeightInput)) return;
 
     const newWeight = Number(newWeightInput);
 
@@ -232,7 +233,7 @@ export default function UserWeightListPage() {
                   color="success"
                   onPress={updateUserWeight}
                   isDisabled={
-                    isWeightInputInvalid || newWeightInput.trim().length === 0
+                    isWeightInputInvalid || IsStringEmpty(newWeightInput)
                   }
                 >
                   Update
