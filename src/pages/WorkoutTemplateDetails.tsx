@@ -27,6 +27,7 @@ import {
   ReassignExerciseIdForSets,
   UpdateSet,
   UpdateExerciseOrder,
+  DeleteSetWithId,
 } from "../helpers";
 import {
   useDefaultSet,
@@ -263,48 +264,44 @@ export default function WorkoutTemplateDetails() {
   const removeSet = async () => {
     if (operatingSet === undefined || operationType !== "remove-set") return;
 
-    try {
-      const db = await Database.load(import.meta.env.VITE_DB);
+    const success = await DeleteSetWithId(operatingSet.id);
 
-      db.execute("DELETE from sets WHERE id = $1", [operatingSet.id]);
+    if (!success) return;
 
-      const exerciseIndex: number = groupedSets.findIndex(
-        (obj) => obj.exercise.id === operatingSet.exercise_id
+    const exerciseIndex: number = groupedSets.findIndex(
+      (obj) => obj.exercise.id === operatingSet.exercise_id
+    );
+
+    const updatedSetList: WorkoutSet[] = groupedSets[
+      exerciseIndex
+    ].setList.filter((item) => item.id !== operatingSet.id);
+
+    if (updatedSetList.length === 0) {
+      // Remove Exercise from groupedSets if last Set in Exercise was deleted
+      const updatedGroupedSets: GroupedWorkoutSet[] = groupedSets.filter(
+        (_, index) => index !== exerciseIndex
       );
 
-      const updatedSetList: WorkoutSet[] = groupedSets[
-        exerciseIndex
-      ].setList.filter((item) => item.id !== operatingSet.id);
-
-      if (updatedSetList.length === 0) {
-        // Remove Exercise from groupedSets if last Set in Exercise was deleted
-        const updatedGroupedSets: GroupedWorkoutSet[] = groupedSets.filter(
-          (_, index) => index !== exerciseIndex
-        );
-
-        setGroupedSets(updatedGroupedSets);
-        updateExerciseOrder(updatedGroupedSets);
-      } else {
-        setGroupedSets((prev) => {
-          const newList = [...prev];
-          newList[exerciseIndex].setList = updatedSetList;
-          return newList;
-        });
-      }
-
-      // Close shownSetListComments for Set if deleted Set note was shown
-      updateSetIndexInShownSetListComments(
-        operatingSet.exercise_id,
-        operatingSet.set_index ?? -1
-      );
-
-      resetSetToDefault();
-
-      toast.success("Set Removed");
-      deleteModal.onClose();
-    } catch (error) {
-      console.log(error);
+      setGroupedSets(updatedGroupedSets);
+      updateExerciseOrder(updatedGroupedSets);
+    } else {
+      setGroupedSets((prev) => {
+        const newList = [...prev];
+        newList[exerciseIndex].setList = updatedSetList;
+        return newList;
+      });
     }
+
+    // Close shownSetListComments for Set if deleted Set note was shown
+    updateSetIndexInShownSetListComments(
+      operatingSet.exercise_id,
+      operatingSet.set_index ?? -1
+    );
+
+    resetSetToDefault();
+
+    toast.success("Set Removed");
+    deleteModal.onClose();
   };
 
   const updateSet = async () => {
