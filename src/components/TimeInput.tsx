@@ -201,6 +201,9 @@ export const TimeInput = ({
   };
 
   const handleHhmmssInputChange = (value: HhmmssInput) => {
+    // Don't allow more than 2 characters in minutes and seconds input fields
+    if (value.minutes.length > 2 || value.seconds.length > 2) return;
+
     setHhmmssInput(value);
     const hours = IsStringEmpty(value.hours) ? 0 : Number(value.hours);
     const minutes = IsStringEmpty(value.minutes) ? 0 : Number(value.minutes);
@@ -241,6 +244,9 @@ export const TimeInput = ({
   };
 
   const handleMmssInputChange = (value: MmssInput) => {
+    // Don't allow more than 2 characters in seconds input field
+    if (value.seconds.length > 2) return;
+
     setMmssInput(value);
     const minutes = IsStringEmpty(value.minutes) ? 0 : Number(value.minutes);
     const seconds = IsStringEmpty(value.seconds) ? 0 : Number(value.seconds);
