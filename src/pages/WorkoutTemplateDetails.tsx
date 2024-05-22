@@ -28,6 +28,7 @@ import {
   UpdateSet,
   UpdateExerciseOrder,
   DeleteSetWithId,
+  ConvertEmptyStringToNull,
 } from "../helpers";
 import {
   useDefaultSet,
@@ -155,10 +156,7 @@ export default function WorkoutTemplateDetails() {
     try {
       if (workoutTemplate === undefined) return;
 
-      const noteToInsert: string | null =
-        newWorkoutTemplateNote.trim().length === 0
-          ? null
-          : newWorkoutTemplateNote;
+      const noteToInsert = ConvertEmptyStringToNull(newWorkoutTemplateNote);
 
       const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -191,8 +189,7 @@ export default function WorkoutTemplateDetails() {
     );
 
     try {
-      const noteToInsert: string | null =
-        operatingSet.note?.trim().length === 0 ? null : operatingSet.note;
+      const noteToInsert = ConvertEmptyStringToNull(operatingSet.note);
 
       const newSets: WorkoutSet[] = [];
 
@@ -313,8 +310,7 @@ export default function WorkoutTemplateDetails() {
       setTrackingValuesInput
     );
 
-    const noteToInsert: string | null =
-      operatingSet.note?.trim().length === 0 ? null : operatingSet.note;
+    const noteToInsert = ConvertEmptyStringToNull(operatingSet.note);
 
     const updatedSet: WorkoutSet = {
       ...operatingSet,

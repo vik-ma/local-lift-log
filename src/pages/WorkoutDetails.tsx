@@ -36,6 +36,7 @@ import {
   GenerateExerciseOrderString,
   InsertSetIntoDatabase,
   UpdateSet,
+  ConvertEmptyStringToNull,
 } from "../helpers";
 import {
   Button,
@@ -409,8 +410,7 @@ export default function WorkoutDetails() {
     if (!numSetsOptions.includes(numNewSets)) return;
 
     try {
-      const noteToInsert: string | null =
-        operatingSet.note?.trim().length === 0 ? null : operatingSet.note;
+      const noteToInsert = ConvertEmptyStringToNull(operatingSet.note);
 
       const newSets: WorkoutSet[] = [];
 
@@ -746,8 +746,7 @@ export default function WorkoutDetails() {
   const editSet = async () => {
     if (selectedExercise === undefined) return;
 
-    const noteToInsert: string | null =
-      operatingSet.note?.trim().length === 0 ? null : operatingSet.note;
+    const noteToInsert = ConvertEmptyStringToNull(operatingSet.note);
 
     const updatedSet: WorkoutSet = {
       ...operatingSet,
@@ -807,8 +806,7 @@ export default function WorkoutDetails() {
   const handleSaveNoteButton = async () => {
     if (workout === undefined) return;
 
-    const noteToInsert: string | null =
-      workoutNote.trim().length === 0 ? null : workoutNote;
+    const noteToInsert = ConvertEmptyStringToNull(workoutNote);
 
     const updatedWorkout: Workout = { ...workout, note: noteToInsert };
 
@@ -870,8 +868,7 @@ export default function WorkoutDetails() {
       setTrackingValuesInput
     );
 
-    const commentToInsert: string | null =
-      activeSet.comment?.trim().length === 0 ? null : activeSet.comment;
+    const commentToInsert = ConvertEmptyStringToNull(activeSet.comment);
 
     const updatedSet: WorkoutSet = {
       ...activeSet,

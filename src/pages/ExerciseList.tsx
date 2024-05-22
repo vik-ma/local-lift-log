@@ -2,6 +2,7 @@ import Database from "tauri-plugin-sql-api";
 import { useState, useMemo } from "react";
 import { Exercise } from "../typings";
 import {
+  ConvertEmptyStringToNull,
   ConvertExerciseGroupSetString,
   ConvertExerciseGroupStringListToSetString,
   CreateDefaultExercises,
@@ -106,8 +107,7 @@ export default function ExerciseListPage() {
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
-      const noteToInsert: string | null =
-        newExercise.note?.trim().length === 0 ? null : newExercise.note;
+      const noteToInsert = ConvertEmptyStringToNull(newExercise.note);
 
       const result = await db.execute(
         "INSERT into exercises (name, exercise_group_set_string, note) VALUES ($1, $2, $3)",

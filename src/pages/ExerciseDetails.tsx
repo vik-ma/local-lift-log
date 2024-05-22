@@ -10,6 +10,7 @@ import {
   GetExerciseFromId,
   UpdateExercise,
   IsExerciseValid,
+  ConvertEmptyStringToNull,
 } from "../helpers";
 import {
   useExerciseGroupDictionary,
@@ -66,8 +67,7 @@ export default function ExerciseDetailsPage() {
     )
       return;
 
-    const noteToInsert: string | null =
-      newExerciseNote.trim().length === 0 ? null : newExerciseNote;
+    const noteToInsert = ConvertEmptyStringToNull(newExerciseNote);
 
     const convertedValues = ConvertExerciseGroupSetString(
       exerciseGroupSetString

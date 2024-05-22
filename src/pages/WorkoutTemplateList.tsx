@@ -15,6 +15,7 @@ import { LoadingSpinner, DeleteModal } from "../components";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { useValidateName } from "../hooks";
+import { ConvertEmptyStringToNull } from "../helpers";
 
 export default function WorkoutTemplateList() {
   const [workoutTemplates, setWorkoutTemplates] = useState<
@@ -76,10 +77,7 @@ export default function WorkoutTemplateList() {
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
-      const noteToInsert: string | null =
-        newWorkoutTemplate.note?.trim().length === 0
-          ? null
-          : newWorkoutTemplate.note;
+      const noteToInsert = ConvertEmptyStringToNull(newWorkoutTemplate.note);
 
       const result = await db.execute(
         "INSERT into workout_templates (name, exercise_order, note) VALUES ($1, $2, $3)",

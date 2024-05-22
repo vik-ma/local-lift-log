@@ -34,6 +34,7 @@ import {
   UpdateActiveRoutineId,
   ConvertDateToYmdString,
   IsYmdDateStringValid,
+  ConvertEmptyStringToNull,
 } from "../helpers";
 import toast, { Toaster } from "react-hot-toast";
 import { getLocalTimeZone, parseDate } from "@internationalized/date";
@@ -162,8 +163,7 @@ export default function RoutineDetailsPage() {
     try {
       if (routine === undefined || editedRoutine === undefined) return;
 
-      const noteToInsert: string | null =
-        editedRoutine.note?.trim().length === 0 ? null : editedRoutine.note;
+      const noteToInsert = ConvertEmptyStringToNull(editedRoutine.note);
 
       const db = await Database.load(import.meta.env.VITE_DB);
 

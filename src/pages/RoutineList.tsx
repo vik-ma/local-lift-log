@@ -21,6 +21,7 @@ import {
   UpdateActiveRoutineId,
   GetActiveRoutineId,
   NumDaysInScheduleOptions,
+  ConvertEmptyStringToNull,
 } from "../helpers";
 import { LoadingSpinner, DeleteModal } from "../components";
 import { useValidateName } from "../hooks";
@@ -114,8 +115,7 @@ export default function RoutineListPage() {
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
-      const noteToInsert: string | null =
-        newRoutine.note?.trim().length === 0 ? null : newRoutine.note;
+      const noteToInsert = ConvertEmptyStringToNull(newRoutine.note);
 
       const result = await db.execute(
         "INSERT into routines (name, note, is_schedule_weekly, num_days_in_schedule, custom_schedule_start_date) VALUES ($1, $2, $3, $4, $5)",

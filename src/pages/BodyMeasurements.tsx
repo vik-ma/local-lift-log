@@ -13,6 +13,7 @@ import {
   CreateActiveMeasurementInputs,
   UpdateActiveTrackingMeasurements,
   GenerateActiveMeasurementString,
+  ConvertEmptyStringToNull,
 } from "../helpers";
 import { Button, Input } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
@@ -93,10 +94,7 @@ export default function BodyMeasurementsPage() {
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
-      const commentToInsert: string | null =
-        newWeightCommentInput.trim().length === 0
-          ? null
-          : newWeightCommentInput;
+      const commentToInsert = ConvertEmptyStringToNull(newWeightCommentInput);
 
       const result = await db.execute(
         "INSERT into user_weights (weight, weight_unit, date, comment) VALUES ($1, $2, $3, $4)",
@@ -137,10 +135,7 @@ export default function BodyMeasurementsPage() {
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
-      const commentToInsert: string | null =
-        newWeightCommentInput.trim().length === 0
-          ? null
-          : newWeightCommentInput;
+      const commentToInsert = ConvertEmptyStringToNull(newWeightCommentInput);
 
       await db.execute(
         "UPDATE user_weights SET weight = $1, weight_unit = $2, comment = $3 WHERE id = $4",
@@ -209,10 +204,7 @@ export default function BodyMeasurementsPage() {
 
     const currentDate = new Date().toString();
 
-    const commentToInsert: string | null =
-      measurementsCommentInput.trim().length === 0
-        ? null
-        : measurementsCommentInput;
+    const commentToInsert = ConvertEmptyStringToNull(measurementsCommentInput);
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);

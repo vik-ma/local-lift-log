@@ -2,7 +2,11 @@ import Database from "tauri-plugin-sql-api";
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { UserWeight, UserSettingsOptional } from "../typings";
 import { LoadingSpinner, WeightUnitDropdown, DeleteModal } from "../components";
-import { FormatDateTimeString, IsStringInvalidNumber } from "../helpers";
+import {
+  ConvertEmptyStringToNull,
+  FormatDateTimeString,
+  IsStringInvalidNumber,
+} from "../helpers";
 import {
   Button,
   useDisclosure,
@@ -129,10 +133,7 @@ export default function UserWeightListPage() {
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
-      const commentToInsert: string | null =
-        newWeightCommentInput.trim().length === 0
-          ? null
-          : newWeightCommentInput;
+      const commentToInsert = ConvertEmptyStringToNull(newWeightCommentInput);
 
       await db.execute(
         "UPDATE user_weights SET weight = $1, weight_unit = $2, comment = $3 WHERE id = $4",
