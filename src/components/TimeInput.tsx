@@ -155,8 +155,7 @@ export const TimeInput = ({
 
   const handleSecondsInputChange = (value: string) => {
     setSecondsInput(value);
-    const trimmedValue = value.trim();
-    const seconds = trimmedValue.length === 0 ? 0 : Number(trimmedValue);
+    const seconds = IsStringEmpty(value) ? 0 : Number(value);
 
     if (IsNumberNegativeOrInfinity(seconds) || !Number.isInteger(seconds))
       return;
@@ -169,8 +168,7 @@ export const TimeInput = ({
 
   const handleMinutesInputChange = (value: string) => {
     setMinutesInput(value);
-    const trimmedValue = value.trim();
-    const minutes = trimmedValue.length === 0 ? 0 : Number(trimmedValue);
+    const minutes = IsStringEmpty(value) ? 0 : Number(value);
 
     if (IsNumberNegativeOrInfinity(minutes)) return;
 
