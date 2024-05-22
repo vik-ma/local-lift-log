@@ -79,3 +79,5 @@ export { DefaultMeasurements } from "./Constants/DefaultMeasurements";
 export { DefaultExercises } from "./Constants/DefaultExercises";
 export { ExerciseGroupDictionary } from "./Constants/ExerciseGroupDictionary";
 export { NumNewSetsOptionList } from "./Constants/NumNewSetsOptionList";
+
+export { ConvertEmptyStringToNull } from "./Strings/ConvertEmptyStringToNull";
