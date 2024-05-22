@@ -81,3 +81,4 @@ export { ExerciseGroupDictionary } from "./Constants/ExerciseGroupDictionary";
 export { NumNewSetsOptionList } from "./Constants/NumNewSetsOptionList";
 
 export { ConvertEmptyStringToNull } from "./Strings/ConvertEmptyStringToNull";
+export { IsStringEmpty } from "./Strings/IsStringEmpty";
