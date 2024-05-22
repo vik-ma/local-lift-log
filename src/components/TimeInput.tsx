@@ -1,6 +1,6 @@
 import { Input, Select, SelectItem } from "@nextui-org/react";
 import { WorkoutSet } from "../typings";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import {
   ConvertNumberToTwoDecimals,
   IsNumberNegativeOrInfinity,
@@ -219,6 +219,25 @@ export const TimeInput = ({
     setSecondsInput(timeInSeconds === 0 ? "" : timeInSeconds.toString());
     setMinutesInput(convertSecondsToMinutes(timeInSeconds));
     setMmssInput(convertSecondsToMmss(timeInSeconds));
+
+    // Move focus to HH:MM:SS Minutes Input field after typing in a number in Hours field
+    if (
+      value.hours.length === 1 &&
+      hhmmssMinutesInput.current &&
+      document.activeElement === hhmmssHoursInput.current
+    ) {
+      hhmmssMinutesInput.current.focus();
+      return;
+    }
+
+    // Move focus to HH:MM:SS Seconds Input field after typing in 2 numbers in Minutes field
+    if (
+      value.minutes.length === 2 &&
+      hhmmssSecondsInput.current &&
+      document.activeElement === hhmmssMinutesInput.current
+    ) {
+      hhmmssSecondsInput.current.focus();
+    }
   };
 
   const handleMmssInputChange = (value: MmssInput) => {
@@ -238,7 +257,22 @@ export const TimeInput = ({
     setSecondsInput(timeInSeconds === 0 ? "" : timeInSeconds.toString());
     setMinutesInput(convertSecondsToMinutes(timeInSeconds));
     setHhmmssInput(convertSecondsToHhmmss(timeInSeconds));
+
+    // Move focus to MM:SS Seconds Input field after typing in 3 numbers in Minutes field
+    if (
+      value.minutes.length === 3 &&
+      mmssSecondsInput.current &&
+      document.activeElement === mmssMinutesInput.current
+    ) {
+      mmssSecondsInput.current.focus();
+    }
   };
+
+  const hhmmssHoursInput = useRef<HTMLInputElement>(null);
+  const hhmmssMinutesInput = useRef<HTMLInputElement>(null);
+  const hhmmssSecondsInput = useRef<HTMLInputElement>(null);
+  const mmssMinutesInput = useRef<HTMLInputElement>(null);
+  const mmssSecondsInput = useRef<HTMLInputElement>(null);
 
   return (
     <div className="flex justify-between gap-1">
@@ -257,6 +291,7 @@ export const TimeInput = ({
                 })
               }
               isInvalid={isHhmmssHoursInputInvalid}
+              ref={hhmmssHoursInput}
             />
             <Input
               aria-label="Minutes Input Field"
@@ -270,6 +305,7 @@ export const TimeInput = ({
                 })
               }
               isInvalid={isHhmmssMinutesInputInvalid}
+              ref={hhmmssMinutesInput}
             />
             <Input
               aria-label="Seconds Input Field"
@@ -283,6 +319,7 @@ export const TimeInput = ({
                 })
               }
               isInvalid={isHhmmssSecondsInputInvalid}
+              ref={hhmmssSecondsInput}
             />
           </div>
         )}
@@ -300,6 +337,7 @@ export const TimeInput = ({
                 })
               }
               isInvalid={isMmssMinutesInputInvalid}
+              ref={mmssMinutesInput}
             />
             <Input
               aria-label="Seconds Input Field"
@@ -313,6 +351,7 @@ export const TimeInput = ({
                 })
               }
               isInvalid={isMmssSecondsInputInvalid}
+              ref={mmssSecondsInput}
             />
           </div>
         )}
