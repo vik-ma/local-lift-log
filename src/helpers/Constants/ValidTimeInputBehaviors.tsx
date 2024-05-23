@@ -1,29 +1,14 @@
-import { TimeInputType } from "../../typings";
+export const ValidTimeInputBehaviors = (isHhmmss: boolean): string[] => {
+  const VALID_TIME_INPUT_BEHAVIORS: string[] = [
+    "first",
+    "second",
+    "third",
+    "never",
+  ];
 
-export const ValidTimeInputBehaviors = (type: TimeInputType): string[] => {
-  const VALID_TIME_INPUT_BEHAVIORS: string[] = [];
-
-  if (type === "hhmmss") {
-    VALID_TIME_INPUT_BEHAVIORS.push(
-      "Automatically skip after first digit in hours"
-    );
-    VALID_TIME_INPUT_BEHAVIORS.push(
-      "Automatically skip after second digit in hours"
-    );
-    VALID_TIME_INPUT_BEHAVIORS.push("Never automatically skip");
-  }
-
-  if (type === "mmss") {
-    VALID_TIME_INPUT_BEHAVIORS.push(
-      "Automatically skip after first digit in minutes"
-    );
-    VALID_TIME_INPUT_BEHAVIORS.push(
-      "Automatically skip after second digit in minutes"
-    );
-    VALID_TIME_INPUT_BEHAVIORS.push(
-      "Automatically skip after third digit in minutes"
-    );
-    VALID_TIME_INPUT_BEHAVIORS.push("Never automatically skip");
+  if (isHhmmss) {
+    // Don't include "third" option for HH:MM:SS
+    VALID_TIME_INPUT_BEHAVIORS.splice(2, 1);
   }
 
   Object.freeze(VALID_TIME_INPUT_BEHAVIORS);

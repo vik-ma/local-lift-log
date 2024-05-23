@@ -260,5 +260,3 @@ export type SetListOptionsItem = {
   label: string;
   className?: string;
 };
-
-export type TimeInputType = "hhmmss" | "mmss";
