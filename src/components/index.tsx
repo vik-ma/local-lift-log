@@ -11,3 +11,4 @@ export { SetList } from "./SetList";
 export { DeleteModal } from "./DeleteModal";
 export { SetModal } from "./SetModal";
 export { WorkoutExerciseList } from "./WorkoutExerciseList";
+export { TimeInputBehaviorDropdown } from "./TimeInputBehaviorDropdown";
