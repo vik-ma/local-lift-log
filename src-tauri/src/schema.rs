@@ -23,8 +23,8 @@ diesel::table! {
         active_tracking_measurements -> Text,
         locale -> Text,
         clock_style -> Text,
-        time_input_hhmmss_behavior -> Text,
-        time_input_mmss_behavior -> Text,
+        time_input_behavior_hhmmss -> Text,
+        time_input_behavior_mmss -> Text,
     }
 }
 

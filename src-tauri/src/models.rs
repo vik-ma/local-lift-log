@@ -26,8 +26,8 @@ pub struct UserSetting {
     pub active_tracking_measurements: String,
     pub locale: String,
     pub clock_style: String,
-    pub time_input_hhmmss_behavior: String,
-    pub time_input_mmss_behavior: String,
+    pub time_input_behavior_hhmmss: String,
+    pub time_input_behavior_mmss: String,
 }
 
 #[derive(Queryable, Selectable)]
