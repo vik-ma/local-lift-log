@@ -23,6 +23,8 @@ export type UserSettings = {
   active_tracking_measurements: string;
   locale: string;
   clock_style: string;
+  time_input_hhmmss_behavior: string;
+  time_input_mmss_behavior: string;
 };
 
 export type UserSettingsOptional = {
@@ -36,6 +38,8 @@ export type UserSettingsOptional = {
   active_tracking_measurements?: string;
   locale?: string;
   clock_style?: string;
+  time_input_hhmmss_behavior?: string;
+  time_input_mmss_behavior?: string;
 };
 
 export type Exercise = {

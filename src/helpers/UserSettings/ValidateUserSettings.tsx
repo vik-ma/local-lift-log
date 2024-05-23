@@ -9,6 +9,7 @@ import {
   ValidateActiveMeasurementsString,
   LocaleList,
   ValidClockStyles,
+  ValidTimeInputBehaviors,
 } from "..";
 
 export const ValidateUserSettings = (userSettings: UserSettings): boolean => {
@@ -38,6 +39,20 @@ export const ValidateUserSettings = (userSettings: UserSettings): boolean => {
     return false;
 
   if (!ValidClockStyles().includes(userSettings.clock_style)) return false;
+
+  if (
+    !ValidTimeInputBehaviors("hhmmss").includes(
+      userSettings.time_input_hhmmss_behavior
+    )
+  )
+    return false;
+
+  if (
+    !ValidTimeInputBehaviors("mmss").includes(
+      userSettings.time_input_mmss_behavior
+    )
+  )
+    return false;
 
   if (IsNumberNegativeOrInfinity(userSettings.id)) return false;
 
