@@ -42,14 +42,14 @@ export const ValidateUserSettings = (userSettings: UserSettings): boolean => {
 
   if (
     !ValidTimeInputBehaviors(true).includes(
-      userSettings.time_input_hhmmss_behavior
+      userSettings.time_input_behavior_hhmmss
     )
   )
     return false;
 
   if (
     !ValidTimeInputBehaviors(false).includes(
-      userSettings.time_input_mmss_behavior
+      userSettings.time_input_behavior_mmss
     )
   )
     return false;
