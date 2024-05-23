@@ -41,15 +41,15 @@ export const ValidateUserSettings = (userSettings: UserSettings): boolean => {
   if (!ValidClockStyles().includes(userSettings.clock_style)) return false;
 
   if (
-    !ValidTimeInputBehaviors(true).includes(
-      userSettings.time_input_behavior_hhmmss
+    !ValidTimeInputBehaviors(true).some(
+      (item) => item.key === userSettings.time_input_behavior_hhmmss
     )
   )
     return false;
 
   if (
-    !ValidTimeInputBehaviors(false).includes(
-      userSettings.time_input_behavior_mmss
+    !ValidTimeInputBehaviors(false).some(
+      (item) => item.key === userSettings.time_input_behavior_mmss
     )
   )
     return false;
