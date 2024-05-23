@@ -25,6 +25,10 @@ export const CreateDefaultUserSettings = async (
   const default_clock_style: string =
     clockStyle === "24h" || clockStyle === "12h" ? clockStyle : "24h";
 
+  const default_time_input_hhmmss_behavior: string = "first";
+
+  const default_time_input_mmss_behavior: string = "second";
+
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -38,9 +42,10 @@ export const CreateDefaultUserSettings = async (
     const result = await db.execute(
       `INSERT into user_settings 
       (show_timestamp_on_completed_set, active_routine_id, default_unit_weight, 
-        default_unit_distance, default_time_input, default_unit_measurement,
-        active_tracking_measurements, locale, clock_style) 
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+        default_unit_distance, default_time_input, default_unit_measurement, 
+        active_tracking_measurements, locale, clock_style, time_input_hhmmss_behavior, 
+        time_input_mmss_behavior) 
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
       [
         show_timestamp_on_completed_set,
         active_routine_id,
@@ -51,6 +56,8 @@ export const CreateDefaultUserSettings = async (
         "",
         default_locale,
         default_clock_style,
+        default_time_input_hhmmss_behavior,
+        default_time_input_mmss_behavior,
       ]
     );
 
@@ -67,6 +74,8 @@ export const CreateDefaultUserSettings = async (
       active_tracking_measurements: "",
       locale: default_locale,
       clock_style: default_clock_style,
+      time_input_hhmmss_behavior: default_time_input_hhmmss_behavior,
+      time_input_mmss_behavior: default_time_input_mmss_behavior,
     };
 
     return defaultUserSettings;
