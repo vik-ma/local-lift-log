@@ -1,9 +1,27 @@
-export const ValidTimeInputBehaviors = (isHhmmss: boolean): string[] => {
-  const VALID_TIME_INPUT_BEHAVIORS: string[] = [
-    "first",
-    "second",
-    "third",
-    "never",
+type TimeInputBehaviorType = {
+  key: string;
+  label: string;
+};
+
+export const ValidTimeInputBehaviors = (
+  isHhmmss: boolean
+): TimeInputBehaviorType[] => {
+  const timeType = isHhmmss ? "hours" : "minutes";
+
+  const VALID_TIME_INPUT_BEHAVIORS: TimeInputBehaviorType[] = [
+    {
+      key: "first",
+      label: `Hop after first digit in ${timeType}`,
+    },
+    {
+      key: "second",
+      label: `Hop after second digit in ${timeType}`,
+    },
+    {
+      key: "third",
+      label: `Hop after third digit in ${timeType}`,
+    },
+    { key: "never", label: "Never Hop" },
   ];
 
   if (isHhmmss) {
