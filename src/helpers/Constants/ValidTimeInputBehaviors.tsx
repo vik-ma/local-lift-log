@@ -1,4 +1,4 @@
-type TimeInputType = "hhmmss" | "mmss";
+import { TimeInputType } from "../../typings";
 
 export const ValidTimeInputBehaviors = (type: TimeInputType): string[] => {
   const VALID_TIME_INPUT_BEHAVIORS: string[] = [];
