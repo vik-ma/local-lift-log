@@ -55,7 +55,7 @@ export const SetList = ({
         >
           <div className="flex justify-between items-center">
             <div className="flex items-center w-[4.5rem]">
-              <span>Set {index + 1}</span>
+              <span className="text-stone-500">Set {index + 1}</span>
             </div>
             <div className="flex flex-wrap justify-evenly w-full gap-x-5 px-1 gap-y-0.5 py-0.5">
               {set.is_tracking_weight === 1 &&
