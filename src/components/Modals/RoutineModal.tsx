@@ -21,7 +21,7 @@ type RoutineModalProps = {
   routine: Routine;
   setRoutine: React.Dispatch<React.SetStateAction<Routine>>;
   isRoutineNameValid: boolean;
-  addRoutine: () => void;
+  buttonAction: () => void;
 };
 
 export const RoutineModal = ({
@@ -29,7 +29,7 @@ export const RoutineModal = ({
   routine,
   setRoutine,
   isRoutineNameValid,
-  addRoutine,
+  buttonAction,
 }: RoutineModalProps) => {
   const numDaysInScheduleOptions: number[] = useMemo(() => {
     return NumDaysInScheduleOptions();
@@ -130,7 +130,7 @@ export const RoutineModal = ({
               </Button>
               <Button
                 color="success"
-                onPress={addRoutine}
+                onPress={buttonAction}
                 isDisabled={!isRoutineNameValid}
               >
                 Create

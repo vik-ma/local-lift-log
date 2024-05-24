@@ -1,6 +1,6 @@
 import { Button, useDisclosure } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { Routine, RoutineListItem, UserSettingsOptional } from "../typings";
 import toast, { Toaster } from "react-hot-toast";
 import Database from "tauri-plugin-sql-api";
@@ -10,7 +10,7 @@ import {
   ConvertEmptyStringToNull,
 } from "../helpers";
 import { LoadingSpinner, DeleteModal, RoutineModal } from "../components";
-import { useValidateName } from "../hooks";
+import { useDefaultRoutine, useIsRoutineValid } from "../hooks";
 
 export default function RoutineListPage() {
   const [routines, setRoutines] = useState<RoutineListItem[]>([]);
@@ -20,21 +20,14 @@ export default function RoutineListPage() {
 
   const navigate = useNavigate();
 
-  const defaultNewRoutine: Routine = useMemo(() => {
-    return {
-      id: 0,
-      name: "",
-      note: "",
-      is_schedule_weekly: 1,
-      num_days_in_schedule: 7,
-      custom_schedule_start_date: null,
-    };
-  }, []);
+  const defaultNewRoutine = useDefaultRoutine();
 
   const [newRoutine, setNewRoutine] = useState<Routine>(defaultNewRoutine);
 
   const deleteModal = useDisclosure();
   const routineModal = useDisclosure();
+
+  const { isRoutineNameValid, isRoutineValid } = useIsRoutineValid(newRoutine);
 
   useEffect(() => {
     const getRoutines = async () => {
@@ -94,7 +87,7 @@ export default function RoutineListPage() {
   };
 
   const addRoutine = async () => {
-    if (!isNewRoutineValid()) return;
+    if (!isRoutineValid) return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
@@ -164,23 +157,6 @@ export default function RoutineListPage() {
     deleteModal.onClose();
   };
 
-  const isNewRoutineNameValid = useValidateName(newRoutine.name);
-
-  const isNewRoutineValid = (): boolean => {
-    if (!isNewRoutineNameValid) return false;
-
-    if (newRoutine.is_schedule_weekly && newRoutine.num_days_in_schedule !== 7)
-      return false;
-
-    if (
-      newRoutine.num_days_in_schedule < 2 ||
-      newRoutine.num_days_in_schedule > 14
-    )
-      return false;
-
-    return true;
-  };
-
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
@@ -188,8 +164,8 @@ export default function RoutineListPage() {
         routineModal={routineModal}
         routine={newRoutine}
         setRoutine={setNewRoutine}
-        isRoutineNameValid={isNewRoutineNameValid}
-        addRoutine={addRoutine}
+        isRoutineNameValid={isRoutineNameValid}
+        buttonAction={addRoutine}
       />
       <DeleteModal
         deleteModal={deleteModal}
