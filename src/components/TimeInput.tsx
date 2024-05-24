@@ -15,6 +15,8 @@ type TimeInputProps = {
   setValue: React.Dispatch<React.SetStateAction<WorkoutSet>>;
   defaultTimeInput: string;
   setIsInvalid: React.Dispatch<React.SetStateAction<boolean>>;
+  time_input_behavior_hhmmss: string;
+  time_input_behavior_mmss: string;
 };
 
 type HhmmssInput = {
@@ -28,13 +30,23 @@ type MmssInput = {
   seconds: string;
 };
 
+type TimeInputBehaviorMapType = {
+  [key: string]: number;
+};
+
 export const TimeInput = ({
   value,
   setValue,
   defaultTimeInput,
   setIsInvalid,
+  time_input_behavior_hhmmss,
+  time_input_behavior_mmss,
 }: TimeInputProps) => {
   const [inputType, setInputType] = useState<string>(defaultTimeInput);
+
+  const timeInputBehaviorMap: TimeInputBehaviorMapType = useMemo(() => {
+    return { first: 1, second: 2, third: 3, never: 0 };
+  }, []);
 
   const convertSecondsToMinutes = (seconds: number): string => {
     if (seconds === 0) return "";
@@ -221,9 +233,12 @@ export const TimeInput = ({
     setMinutesInput(convertSecondsToMinutes(timeInSeconds));
     setMmssInput(convertSecondsToMmss(timeInSeconds));
 
+    // Don't move focus
+    if (time_input_behavior_hhmmss === "never") return;
+
     // Move focus to HH:MM:SS Minutes Input field after typing in a number in Hours field
     if (
-      value.hours.length === 1 &&
+      value.hours.length === timeInputBehaviorMap[time_input_behavior_hhmmss] &&
       hhmmssMinutesInput.current &&
       document.activeElement === hhmmssHoursInput.current
     ) {
@@ -262,9 +277,12 @@ export const TimeInput = ({
     setMinutesInput(convertSecondsToMinutes(timeInSeconds));
     setHhmmssInput(convertSecondsToHhmmss(timeInSeconds));
 
+    // Don't move focus
+    if (time_input_behavior_mmss === "never") return;
+
     // Move focus to MM:SS Seconds Input field after typing in 3 numbers in Minutes field
     if (
-      value.minutes.length === 3 &&
+      value.minutes.length === timeInputBehaviorMap[time_input_behavior_mmss] &&
       mmssSecondsInput.current &&
       document.activeElement === mmssMinutesInput.current
     ) {

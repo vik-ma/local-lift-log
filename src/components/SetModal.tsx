@@ -43,6 +43,8 @@ type SetModalProps = {
   handleSaveSetButton: (numSets: string) => void;
   setIsTimeInputInvalid: React.Dispatch<React.SetStateAction<boolean>>;
   defaultTimeInput: string;
+  time_input_behavior_hhmmss: string;
+  time_input_behavior_mmss: string;
 };
 
 export const SetModal = ({
@@ -60,6 +62,8 @@ export const SetModal = ({
   handleSaveSetButton,
   setIsTimeInputInvalid,
   defaultTimeInput,
+  time_input_behavior_hhmmss,
+  time_input_behavior_mmss,
 }: SetModalProps) => {
   const [showDefaultValues, setShowDefaultValues] = useState<boolean>(false);
   const [numNewSets, setNumNewSets] = useState<string>("1");
@@ -345,6 +349,10 @@ export const SetModal = ({
                             setValue={setOperatingSet}
                             defaultTimeInput={defaultTimeInput}
                             setIsInvalid={setIsTimeInputInvalid}
+                            time_input_behavior_hhmmss={
+                              time_input_behavior_hhmmss
+                            }
+                            time_input_behavior_mmss={time_input_behavior_mmss}
                           />
                         )}
                         {!!operatingSet.is_tracking_rir && (

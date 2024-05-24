@@ -783,6 +783,8 @@ export default function WorkoutTemplateDetails() {
         handleSaveSetButton={handleSaveSetButton}
         setIsTimeInputInvalid={setIsTimeInputInvalid}
         defaultTimeInput={userSettings!.default_time_input!}
+        time_input_behavior_hhmmss={userSettings!.time_input_behavior_hhmmss}
+        time_input_behavior_mmss={userSettings!.time_input_behavior_mmss}
       />
       <div className="flex flex-col gap-4">
         {isLoading ? (
