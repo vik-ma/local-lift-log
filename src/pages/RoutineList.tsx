@@ -1,17 +1,4 @@
-import {
-  Button,
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  useDisclosure,
-  Input,
-  Radio,
-  RadioGroup,
-  Select,
-  SelectItem,
-} from "@nextui-org/react";
+import { Button, useDisclosure } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useMemo } from "react";
 import { Routine, RoutineListItem, UserSettingsOptional } from "../typings";
@@ -20,10 +7,9 @@ import Database from "tauri-plugin-sql-api";
 import {
   UpdateActiveRoutineId,
   GetActiveRoutineId,
-  NumDaysInScheduleOptions,
   ConvertEmptyStringToNull,
 } from "../helpers";
-import { LoadingSpinner, DeleteModal } from "../components";
+import { LoadingSpinner, DeleteModal, RoutineModal } from "../components";
 import { useValidateName } from "../hooks";
 
 export default function RoutineListPage() {
@@ -47,10 +33,8 @@ export default function RoutineListPage() {
 
   const [newRoutine, setNewRoutine] = useState<Routine>(defaultNewRoutine);
 
-  const numDaysInScheduleOptions: number[] = NumDaysInScheduleOptions;
-
   const deleteModal = useDisclosure();
-  const newRoutineModal = useDisclosure();
+  const routineModal = useDisclosure();
 
   useEffect(() => {
     const getRoutines = async () => {
@@ -134,7 +118,7 @@ export default function RoutineListPage() {
       };
       setRoutines([...routines, newRoutineListItem]);
 
-      newRoutineModal.onClose();
+      routineModal.onClose();
       setNewRoutine(defaultNewRoutine);
 
       toast.success("Routine Created");
@@ -197,31 +181,16 @@ export default function RoutineListPage() {
     return true;
   };
 
-  const handleScheduleTypeChange = (scheduleType: string) => {
-    if (scheduleType === "weekly") {
-      setNewRoutine((prev) => ({
-        ...prev,
-        is_schedule_weekly: 1,
-        num_days_in_schedule: 7,
-      }));
-    } else setNewRoutine((prev) => ({ ...prev, is_schedule_weekly: 0 }));
-  };
-
-  const handleNumDaysInScheduleChange = (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    if (newRoutine.is_schedule_weekly) return;
-
-    const numDays: number = parseInt(e.target.value);
-
-    if (isNaN(numDays) || numDays < 2 || numDays > 14) return;
-
-    setNewRoutine((prev) => ({ ...prev, num_days_in_schedule: numDays }));
-  };
-
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
+      <RoutineModal
+        routineModal={routineModal}
+        routine={newRoutine}
+        setRoutine={setNewRoutine}
+        isRoutineNameValid={isNewRoutineNameValid}
+        addRoutine={addRoutine}
+      />
       <DeleteModal
         deleteModal={deleteModal}
         header="Delete Routine"
@@ -232,88 +201,7 @@ export default function RoutineListPage() {
         }
         deleteButtonAction={deleteRoutine}
       />
-      <Modal
-        isOpen={newRoutineModal.isOpen}
-        onOpenChange={newRoutineModal.onOpenChange}
-      >
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex flex-col gap-1">
-                New Routine
-              </ModalHeader>
-              <ModalBody>
-                <Input
-                  value={newRoutine.name}
-                  isInvalid={!isNewRoutineNameValid}
-                  label="Name"
-                  errorMessage={!isNewRoutineNameValid && "Name can't be empty"}
-                  variant="faded"
-                  onValueChange={(value) =>
-                    setNewRoutine((prev) => ({ ...prev, name: value }))
-                  }
-                  isRequired
-                  isClearable
-                />
-                <Input
-                  value={newRoutine.note ?? ""}
-                  label="Note"
-                  variant="faded"
-                  onValueChange={(value) =>
-                    setNewRoutine((prev) => ({ ...prev, note: value }))
-                  }
-                  isClearable
-                />
-                <div className="flex justify-between items-center px-1 gap-4">
-                  <RadioGroup
-                    value={newRoutine.is_schedule_weekly ? "weekly" : "custom"}
-                    onValueChange={(value) => handleScheduleTypeChange(value)}
-                    defaultValue="weekly"
-                    label="Schedule Type"
-                  >
-                    <Radio value="weekly">Weekly</Radio>
-                    <Radio value="custom">Custom</Radio>
-                  </RadioGroup>
-                  <Select
-                    isRequired
-                    size="lg"
-                    variant="faded"
-                    label="Number of days in schedule"
-                    labelPlacement="outside"
-                    placeholder="Select number of days"
-                    selectedKeys={[newRoutine.num_days_in_schedule.toString()]}
-                    onChange={handleNumDaysInScheduleChange}
-                    className={
-                      newRoutine.is_schedule_weekly
-                        ? "hidden max-w-[240px]"
-                        : " max-w-[240px]"
-                    }
-                    disallowEmptySelection
-                  >
-                    {numDaysInScheduleOptions.map((number) => (
-                      <SelectItem key={number} value={number}>
-                        {number.toString()}
-                      </SelectItem>
-                    ))}
-                  </Select>
-                </div>
-              </ModalBody>
-              <ModalFooter>
-                <Button color="success" variant="light" onPress={onClose}>
-                  Close
-                </Button>
-                <Button
-                  color="success"
-                  onPress={addRoutine}
-                  isDisabled={!isNewRoutineNameValid}
-                >
-                  Create
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
+
       <div className="flex flex-col gap-4">
         <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">
           <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">
@@ -364,7 +252,7 @@ export default function RoutineListPage() {
                 className="text-lg font-medium"
                 size="lg"
                 color="success"
-                onPress={() => newRoutineModal.onOpen()}
+                onPress={() => routineModal.onOpen()}
               >
                 Create New Routine
               </Button>
