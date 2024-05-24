@@ -1,15 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import {
-  Button,
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  useDisclosure,
-  Select,
-  SelectItem,
-} from "@nextui-org/react";
+import { Button, useDisclosure } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import { UserSettings } from "../typings";
 import {
@@ -20,23 +10,24 @@ import {
   CreateDefaultMeasurements,
   CreateDefaultDistances,
 } from "../helpers";
-import { ClockStyleDropdown, LocaleDropdown } from "../components";
+import { SettingsModal } from "../components/SettingsModal";
 
 export default function HomePage() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [isUserSettingsLoaded, setIsUserSettingsLoaded] =
     useState<boolean>(false);
-  const [unitType, setUnitType] = useState<string>("metric");
-  const [locale, setLocale] = useState<string>("en-GB");
-  const [clockStyle, setClockStyle] = useState<string>("24h");
 
   const navigate = useNavigate();
 
   const initialized = useRef(false);
 
-  const setUnitsModal = useDisclosure();
+  const settingsModal = useDisclosure();
 
-  const createDefaultUserSettings = async () => {
+  const createDefaultUserSettings = async (
+    unitType: string,
+    locale: string,
+    clockStyle: string
+  ) => {
     const useMetricUnits: boolean = unitType === "metric" ? true : false;
 
     const defaultUserSettings: UserSettings | undefined =
@@ -59,7 +50,7 @@ export default function HomePage() {
       await CreateDefaultDistances(useMetricUnits);
 
       setIsUserSettingsLoaded(true);
-      setUnitsModal.onClose();
+      settingsModal.onClose();
     }
   };
 
@@ -81,7 +72,7 @@ export default function HomePage() {
             initialized.current = true;
           } else return;
 
-          setUnitsModal.onOpen();
+          settingsModal.onOpen();
         }
       } catch (error) {
         console.log(error);
@@ -89,72 +80,14 @@ export default function HomePage() {
     };
 
     loadUserSettings();
-  }, [setUnitsModal, isUserSettingsLoaded]);
+  }, [settingsModal, isUserSettingsLoaded]);
 
   return (
     <>
-      <Modal
-        isOpen={setUnitsModal.isOpen}
-        onOpenChange={setUnitsModal.onOpenChange}
-        isDismissable={false}
-        hideCloseButton={true}
-      >
-        <ModalContent>
-          {() => (
-            <>
-              <ModalHeader className="flex flex-col gap-1">
-                Choose Settings
-              </ModalHeader>
-              <ModalBody>
-                <div className="flex flex-col gap-1.5">
-                  <div className="flex gap-3 items-center justify-between">
-                    <span className="text-lg">Unit Type</span>
-                    <Select
-                      aria-label="Unit Type Dropdown List"
-                      className="w-[9.5rem]"
-                      variant="faded"
-                      selectedKeys={[unitType]}
-                      onChange={(e) => setUnitType(e.target.value)}
-                      disallowEmptySelection
-                    >
-                      <SelectItem key="metric" value="metric">
-                        Metric
-                      </SelectItem>
-                      <SelectItem key="imperial" value="imperial">
-                        Imperial
-                      </SelectItem>
-                    </Select>
-                  </div>
-                  <div className="flex gap-3 items-center justify-between">
-                    <span className="text-lg">Date Format</span>
-                    <LocaleDropdown
-                      value={locale}
-                      setState={setLocale}
-                      targetType="state"
-                    />
-                  </div>
-                  <div className="flex gap-3 items-center justify-between">
-                    <span className="text-lg">Clock Format</span>
-                    <ClockStyleDropdown
-                      value={clockStyle}
-                      setState={setClockStyle}
-                      targetType="state"
-                    />
-                  </div>
-                </div>
-              </ModalBody>
-              <ModalFooter>
-                <Button
-                  color="success"
-                  onPress={() => createDefaultUserSettings()}
-                >
-                  Done
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
+      <SettingsModal
+        settingsModal={settingsModal}
+        doneButtonAction={createDefaultUserSettings}
+      />
       <div className="flex flex-col gap-4">
         <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">
           <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">
