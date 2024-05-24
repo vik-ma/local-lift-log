@@ -23,15 +23,17 @@ type SettingsModalProps = {
   extraContent?: ReactNode;
   doneButtonText?: string;
   isDismissable?: boolean;
+  isRestoreSettings?: boolean;
 };
 
 export const SettingsModal = ({
   settingsModal,
   doneButtonAction,
-  header,
+  header = "Choose Settings",
   extraContent,
   doneButtonText = "Done",
   isDismissable = false,
+  isRestoreSettings = false,
 }: SettingsModalProps) => {
   const [unitType, setUnitType] = useState<string>("metric");
   const [locale, setLocale] = useState<string>("en-GB");
@@ -46,56 +48,60 @@ export const SettingsModal = ({
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalHeader className="flex flex-col gap-1">
-              {header ? `${header}` : "Choose Settings"}
-            </ModalHeader>
+            <ModalHeader className="flex flex-col gap-1">{header}</ModalHeader>
             <ModalBody>
-              <div className="flex flex-col gap-1.5">
+              <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-1.5">
+                  <div className="flex gap-3 items-center justify-between">
+                    <span className="text-lg">Unit Type</span>
+                    <Select
+                      aria-label="Unit Type Dropdown List"
+                      className="w-[9.5rem]"
+                      variant="faded"
+                      selectedKeys={[unitType]}
+                      onChange={(e) => setUnitType(e.target.value)}
+                      disallowEmptySelection
+                    >
+                      <SelectItem key="metric" value="metric">
+                        Metric
+                      </SelectItem>
+                      <SelectItem key="imperial" value="imperial">
+                        Imperial
+                      </SelectItem>
+                    </Select>
+                  </div>
+                  <div className="flex gap-3 items-center justify-between">
+                    <span className="text-lg">Date Format</span>
+                    <LocaleDropdown
+                      value={locale}
+                      setState={setLocale}
+                      targetType="state"
+                    />
+                  </div>
+                  <div className="flex gap-3 items-center justify-between">
+                    <span className="text-lg">Clock Format</span>
+                    <ClockStyleDropdown
+                      value={clockStyle}
+                      setState={setClockStyle}
+                      targetType="state"
+                    />
+                  </div>
+                </div>
                 {extraContent}
-                <div className="flex gap-3 items-center justify-between">
-                  <span className="text-lg">Unit Type</span>
-                  <Select
-                    aria-label="Unit Type Dropdown List"
-                    className="w-[9.5rem]"
-                    variant="faded"
-                    selectedKeys={[unitType]}
-                    onChange={(e) => setUnitType(e.target.value)}
-                    disallowEmptySelection
-                  >
-                    <SelectItem key="metric" value="metric">
-                      Metric
-                    </SelectItem>
-                    <SelectItem key="imperial" value="imperial">
-                      Imperial
-                    </SelectItem>
-                  </Select>
-                </div>
-                <div className="flex gap-3 items-center justify-between">
-                  <span className="text-lg">Date Format</span>
-                  <LocaleDropdown
-                    value={locale}
-                    setState={setLocale}
-                    targetType="state"
-                  />
-                </div>
-                <div className="flex gap-3 items-center justify-between">
-                  <span className="text-lg">Clock Format</span>
-                  <ClockStyleDropdown
-                    value={clockStyle}
-                    setState={setClockStyle}
-                    targetType="state"
-                  />
-                </div>
               </div>
             </ModalBody>
             <ModalFooter>
               {isDismissable && (
-                <Button color="success" variant="light" onPress={onClose}>
+                <Button
+                  color={isRestoreSettings ? "danger" : "success"}
+                  variant="light"
+                  onPress={onClose}
+                >
                   Close
                 </Button>
               )}
               <Button
-                color="success"
+                color={isRestoreSettings ? "danger" : "success"}
                 onPress={() => doneButtonAction(unitType, locale, clockStyle)}
               >
                 {doneButtonText}

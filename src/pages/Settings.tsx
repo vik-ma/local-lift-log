@@ -1,7 +1,13 @@
 import { useState, useEffect } from "react";
 import { UserSettings } from "../typings";
 import { GetUserSettings, UpdateAllUserSettings } from "../helpers";
-import { Switch, Select, SelectItem } from "@nextui-org/react";
+import {
+  Switch,
+  Select,
+  SelectItem,
+  Button,
+  useDisclosure,
+} from "@nextui-org/react";
 import {
   LoadingSpinner,
   WeightUnitDropdown,
@@ -12,10 +18,13 @@ import {
   TimeInputBehaviorDropdown,
 } from "../components";
 import toast, { Toaster } from "react-hot-toast";
+import { SettingsModal } from "../components/SettingsModal";
 
 export default function SettingsPage() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const settingsModal = useDisclosure();
 
   useEffect(() => {
     const loadUserSettings = async () => {
@@ -160,6 +169,21 @@ export default function SettingsPage() {
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
+      <SettingsModal
+        settingsModal={settingsModal}
+        doneButtonAction={() => {}}
+        header="Restore Default Settings"
+        extraContent={
+          <div>
+            <p className="text-xl font-semibold text-red-500">
+              Reset all settings to their default values?
+            </p>
+          </div>
+        }
+        doneButtonText="Reset"
+        isRestoreSettings={true}
+        isDismissable={true}
+      />
       <div className="flex flex-col items-center gap-4">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">
           <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">
@@ -248,7 +272,9 @@ export default function SettingsPage() {
               />
             </div>
             <div className="flex gap-3 items-center justify-between">
-              <span className="flex flex-1 text-lg">Time Input Behavior For HH:MM:SS</span>
+              <span className="flex flex-1 text-lg">
+                Time Input Behavior For HH:MM:SS
+              </span>
               <TimeInputBehaviorDropdown
                 value={userSettings!.time_input_behavior_hhmmss}
                 setUserSettings={handleTimeInputBehaviorChange}
@@ -256,12 +282,19 @@ export default function SettingsPage() {
               />
             </div>
             <div className="flex gap-3 items-center justify-between">
-              <span className="flex flex-1 text-lg">Time Input Behavior For MM:SS</span>
+              <span className="flex flex-1 text-lg">
+                Time Input Behavior For MM:SS
+              </span>
               <TimeInputBehaviorDropdown
                 value={userSettings!.time_input_behavior_mmss}
                 setUserSettings={handleTimeInputBehaviorChange}
                 isHhmmss={false}
               />
+            </div>
+            <div className="flex justify-center">
+              <Button variant="flat" onClick={() => settingsModal.onOpen()}>
+                Restore Default Settings
+              </Button>
             </div>
           </div>
         )}
