@@ -11,3 +11,4 @@ export { useDefaultSet } from "./useDefaultSet";
 export { useSetListOptionsMenu } from "./useSetListOptionsMenu";
 export { useExerciseList } from "./useExerciseList";
 export { useValidTimeInputBehaviors } from "./useValidTimeInputBehaviors";
+export { useDefaultRoutine } from "./useDefaultRoutine";

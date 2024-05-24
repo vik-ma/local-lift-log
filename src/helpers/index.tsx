@@ -17,6 +17,7 @@ export { IsExerciseValid } from "./Exercises/IsExerciseValid";
 export { GetScheduleDayNames } from "./Routines/GetScheduleDayNames";
 export { GetScheduleDayValues } from "./Routines/GetScheduleValues";
 export { NumDaysInScheduleOptions } from "./Routines/NumDaysInScheduleOptions";
+export { DefaultNewRoutine } from "./Routines/DefaultNewRoutine";
 
 export { CreateDefaultUserSettings } from "./UserSettings/CreateDefaultUserSettings";
 export { GetActiveRoutineId } from "./UserSettings/GetActiveRoutineId";
