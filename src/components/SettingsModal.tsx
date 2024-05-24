@@ -10,7 +10,7 @@ import {
   SelectItem,
 } from "@nextui-org/react";
 import { ClockStyleDropdown, LocaleDropdown } from "../components";
-import { useState } from "react";
+import { useState, ReactNode } from "react";
 
 type SettingsModalProps = {
   settingsModal: ReturnType<typeof useDisclosure>;
@@ -19,11 +19,19 @@ type SettingsModalProps = {
     locale: string,
     clockStyle: string
   ) => void;
+  header?: string;
+  extraContent?: ReactNode;
+  doneButtonText?: string;
+  isDismissable?: boolean;
 };
 
 export const SettingsModal = ({
   settingsModal,
   doneButtonAction,
+  header,
+  extraContent,
+  doneButtonText = "Done",
+  isDismissable = false,
 }: SettingsModalProps) => {
   const [unitType, setUnitType] = useState<string>("metric");
   const [locale, setLocale] = useState<string>("en-GB");
@@ -32,17 +40,18 @@ export const SettingsModal = ({
     <Modal
       isOpen={settingsModal.isOpen}
       onOpenChange={settingsModal.onOpenChange}
-      isDismissable={false}
-      hideCloseButton={true}
+      isDismissable={isDismissable}
+      hideCloseButton={isDismissable ? false : true}
     >
       <ModalContent>
-        {() => (
+        {(onClose) => (
           <>
             <ModalHeader className="flex flex-col gap-1">
-              Choose Settings
+              {header ? `${header}` : "Choose Settings"}
             </ModalHeader>
             <ModalBody>
               <div className="flex flex-col gap-1.5">
+                {extraContent}
                 <div className="flex gap-3 items-center justify-between">
                   <span className="text-lg">Unit Type</span>
                   <Select
@@ -80,11 +89,16 @@ export const SettingsModal = ({
               </div>
             </ModalBody>
             <ModalFooter>
+              {isDismissable && (
+                <Button color="success" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+              )}
               <Button
                 color="success"
                 onPress={() => doneButtonAction(unitType, locale, clockStyle)}
               >
-                Done
+                {doneButtonText}
               </Button>
             </ModalFooter>
           </>
