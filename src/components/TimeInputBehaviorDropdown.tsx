@@ -30,7 +30,7 @@ export const TimeInputBehaviorDropdown = ({
           ? "Time Input HH:MM:SS Behavior Dropdown List"
           : "Time Input MM:SS Behavior Dropdown List"
       }
-      // className="max-w-[4.5rem]"
+      className="w-[17rem]"
       variant="faded"
       selectedKeys={[value]}
       onChange={(e) => handleChange(e)}

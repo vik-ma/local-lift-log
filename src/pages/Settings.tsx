@@ -169,7 +169,7 @@ export default function SettingsPage() {
         {isLoading ? (
           <LoadingSpinner />
         ) : (
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-3 w-full">
             <div className="flex gap-3 items-center justify-between">
               <span className="text-lg">Default Weight Unit</span>
               <WeightUnitDropdown
@@ -248,7 +248,7 @@ export default function SettingsPage() {
               />
             </div>
             <div className="flex gap-3 items-center justify-between">
-              <span className="text-lg">HH:MM:SS</span>
+              <span className="flex flex-1 text-lg">Time Input Behavior For HH:MM:SS</span>
               <TimeInputBehaviorDropdown
                 value={userSettings!.time_input_behavior_hhmmss}
                 setUserSettings={handleTimeInputBehaviorChange}
@@ -256,7 +256,7 @@ export default function SettingsPage() {
               />
             </div>
             <div className="flex gap-3 items-center justify-between">
-              <span className="text-lg">MM:SS</span>
+              <span className="flex flex-1 text-lg">Time Input Behavior For MM:SS</span>
               <TimeInputBehaviorDropdown
                 value={userSettings!.time_input_behavior_mmss}
                 setUserSettings={handleTimeInputBehaviorChange}
