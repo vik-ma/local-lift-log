@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
 import { UserSettings } from "../typings";
-import { GetUserSettings, UpdateAllUserSettings } from "../helpers";
+import {
+  GetUserSettings,
+  UpdateAllUserSettings,
+  CreateDefaultUserSettings,
+} from "../helpers";
 import {
   Switch,
   Select,
@@ -19,6 +23,7 @@ import {
 } from "../components";
 import toast, { Toaster } from "react-hot-toast";
 import { SettingsModal } from "../components/SettingsModal";
+import Database from "tauri-plugin-sql-api";
 
 export default function SettingsPage() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
@@ -162,8 +167,36 @@ export default function SettingsPage() {
       updatedSettings.time_input_behavior_mmss = timeInputBehavior;
     }
 
-    console.log(updatedSettings);
     updateSettings(updatedSettings);
+  };
+
+  const restoreDefaultSettings = async (
+    unitType: string,
+    locale: string,
+    clockStyle: string
+  ) => {
+    if (userSettings === undefined) return;
+
+    const useMetricUnits: boolean = unitType === "metric" ? true : false;
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      await db.execute("DELETE from user_settings WHERE id = $1", [
+        userSettings.id,
+      ]);
+
+      const newUserSettings: UserSettings | undefined =
+        await CreateDefaultUserSettings(useMetricUnits, locale, clockStyle);
+
+      if (newUserSettings !== undefined) {
+        setUserSettings(newUserSettings);
+        settingsModal.onClose();
+        toast.success("Settings Restored To Defaults");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -171,7 +204,7 @@ export default function SettingsPage() {
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
       <SettingsModal
         settingsModal={settingsModal}
-        doneButtonAction={() => {}}
+        doneButtonAction={restoreDefaultSettings}
         header="Restore Default Settings"
         extraContent={
           <div>
