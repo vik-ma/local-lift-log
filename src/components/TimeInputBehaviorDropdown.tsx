@@ -1,11 +1,13 @@
 import { Select, SelectItem } from "@nextui-org/react";
-import { HTMLSelectElementChange } from "../typings";
 import { useValidTimeInputBehaviors } from "../hooks";
 
 type TimeInputBehaviorDropdownProps = {
   value: string;
   isHhmmss: boolean;
-  setUserSettings?: HTMLSelectElementChange;
+  setUserSettings?: (
+    e: React.ChangeEvent<HTMLSelectElement>,
+    isHhmmss: boolean
+  ) => Promise<void>;
 };
 
 export const TimeInputBehaviorDropdown = ({
@@ -17,7 +19,7 @@ export const TimeInputBehaviorDropdown = ({
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (setUserSettings !== undefined) {
-      setUserSettings(e);
+      setUserSettings(e, isHhmmss);
     }
   };
 

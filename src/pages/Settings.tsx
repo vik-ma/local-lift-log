@@ -9,6 +9,7 @@ import {
   MeasurementUnitDropdown,
   LocaleDropdown,
   ClockStyleDropdown,
+  TimeInputBehaviorDropdown,
 } from "../components";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -136,6 +137,26 @@ export default function SettingsPage() {
     updateSettings(updatedSettings);
   };
 
+  const handleTimeInputBehaviorChange = async (
+    e: React.ChangeEvent<HTMLSelectElement>,
+    isHhmmss: boolean
+  ) => {
+    if (userSettings === undefined) return;
+
+    const timeInputBehavior: string = e.target.value;
+
+    const updatedSettings: UserSettings = { ...userSettings };
+
+    if (isHhmmss) {
+      updatedSettings.time_input_behavior_hhmmss = timeInputBehavior;
+    } else {
+      updatedSettings.time_input_behavior_mmss = timeInputBehavior;
+    }
+
+    console.log(updatedSettings);
+    updateSettings(updatedSettings);
+  };
+
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
@@ -224,6 +245,22 @@ export default function SettingsPage() {
                 value={userSettings!.clock_style}
                 setUserSettings={handleClockStyleChange}
                 targetType="settings"
+              />
+            </div>
+            <div className="flex gap-3 items-center justify-between">
+              <span className="text-lg">HH:MM:SS</span>
+              <TimeInputBehaviorDropdown
+                value={userSettings!.time_input_behavior_hhmmss}
+                setUserSettings={handleTimeInputBehaviorChange}
+                isHhmmss={true}
+              />
+            </div>
+            <div className="flex gap-3 items-center justify-between">
+              <span className="text-lg">MM:SS</span>
+              <TimeInputBehaviorDropdown
+                value={userSettings!.time_input_behavior_mmss}
+                setUserSettings={handleTimeInputBehaviorChange}
+                isHhmmss={false}
               />
             </div>
           </div>
