@@ -9,7 +9,7 @@ import {
   Select,
   SelectItem,
 } from "@nextui-org/react";
-import { ClockStyleDropdown, LocaleDropdown } from "../components";
+import { ClockStyleDropdown, LocaleDropdown } from "../../components";
 import { useState, ReactNode } from "react";
 
 type SettingsModalProps = {

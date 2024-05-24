@@ -1,5 +1,5 @@
 import { Select, SelectItem } from "@nextui-org/react";
-import { useValidTimeInputBehaviors } from "../hooks";
+import { useValidTimeInputBehaviors } from "../../hooks";
 
 type TimeInputBehaviorDropdownProps = {
   value: string;

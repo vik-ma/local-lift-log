@@ -1,5 +1,5 @@
 import { Select, SelectItem } from "@nextui-org/react";
-import { UnitDropdownProps } from "../typings";
+import { UnitDropdownProps } from "../../typings";
 
 export const ClockStyleDropdown = ({
   value,

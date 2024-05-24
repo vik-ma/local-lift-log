@@ -1,8 +1,8 @@
 import { Select, SelectItem } from "@nextui-org/react";
-import { MeasurementDropdownProps } from "../typings";
+import { MeasurementDropdownProps } from "../../typings";
 import Database from "tauri-plugin-sql-api";
 import toast, { Toaster } from "react-hot-toast";
-import { useValidMeasurementUnits } from "../hooks";
+import { useValidMeasurementUnits } from "../../hooks";
 
 export const MeasurementUnitDropdown = ({
   measurement,

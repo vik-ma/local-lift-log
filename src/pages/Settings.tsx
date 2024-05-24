@@ -20,9 +20,9 @@ import {
   LocaleDropdown,
   ClockStyleDropdown,
   TimeInputBehaviorDropdown,
+  SettingsModal,
 } from "../components";
 import toast, { Toaster } from "react-hot-toast";
-import { SettingsModal } from "../components/SettingsModal";
 import Database from "tauri-plugin-sql-api";
 
 export default function SettingsPage() {

@@ -12,17 +12,17 @@ import {
   SelectItem,
   useDisclosure,
 } from "@nextui-org/react";
-import { WeightUnitDropdown, DistanceUnitDropdown, TimeInput } from ".";
-import { SearchIcon } from "../assets";
+import { WeightUnitDropdown, DistanceUnitDropdown, TimeInput } from "../";
+import { SearchIcon } from "../../assets";
 import {
   Exercise,
   SetTrackingValuesInput,
   SetTrackingValuesValidity,
   SetWorkoutSetAction,
   WorkoutSet,
-} from "../typings";
+} from "../../typings";
 import { useState } from "react";
-import { useExerciseList, useNumSetsOptions } from "../hooks";
+import { useExerciseList, useNumSetsOptions } from "../../hooks";
 
 type SetModalProps = {
   setModal: ReturnType<typeof useDisclosure>;

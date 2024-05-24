@@ -10,7 +10,7 @@ import {
   CreateDefaultMeasurements,
   CreateDefaultDistances,
 } from "../helpers";
-import { SettingsModal } from "../components/SettingsModal";
+import { SettingsModal } from "../components";
 
 export default function HomePage() {
   const [userSettings, setUserSettings] = useState<UserSettings>();

@@ -1,6 +1,6 @@
 import { Select, SelectItem } from "@nextui-org/react";
-import { UnitDropdownProps } from "../typings";
-import { useValidWeightUnits } from "../hooks";
+import { UnitDropdownProps } from "../../typings";
+import { useValidWeightUnits } from "../../hooks";
 
 export const WeightUnitDropdown = ({
   value,

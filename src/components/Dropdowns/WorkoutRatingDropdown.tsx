@@ -1,5 +1,5 @@
 import { Select, SelectItem } from "@nextui-org/react";
-import { WorkoutRatingProps } from "../typings";
+import { WorkoutRatingProps } from "../../typings";
 import Database from "tauri-plugin-sql-api";
 import toast, { Toaster } from "react-hot-toast";
 import { useMemo, useState } from "react";

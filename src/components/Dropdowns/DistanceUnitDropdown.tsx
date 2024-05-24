@@ -1,6 +1,6 @@
 import { Select, SelectItem } from "@nextui-org/react";
-import { UnitDropdownProps } from "../typings";
-import { useValidDistanceUnits } from "../hooks";
+import { UnitDropdownProps } from "../../typings";
+import { useValidDistanceUnits } from "../../hooks";
 
 export const DistanceUnitDropdown = ({
   value,

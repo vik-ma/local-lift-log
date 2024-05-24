@@ -1,6 +1,6 @@
 import { Select, SelectItem } from "@nextui-org/react";
-import { UnitDropdownProps } from "../typings";
-import { useLocaleList } from "../hooks";
+import { UnitDropdownProps } from "../../typings";
+import { useLocaleList } from "../../hooks";
 
 export const LocaleDropdown = ({
   value,

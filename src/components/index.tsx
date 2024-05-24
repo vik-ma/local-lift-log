@@ -1,15 +1,18 @@
 export { LoadingSpinner } from "./LoadingSpinner";
 export { SiteHeader } from "./SiteHeader";
 export { TimeInput } from "./TimeInput";
-export { WeightUnitDropdown } from "./WeightUnitDropdown";
-export { DistanceUnitDropdown } from "./DistanceUnitDropdown";
-export { WorkoutRatingDropdown } from "./WorkoutRatingDropdown";
-export { MeasurementUnitDropdown } from "./MeasurementUnitDropdown";
-export { LocaleDropdown } from "./LocaleDropdown";
-export { ClockStyleDropdown } from "./ClockStyleDropdown";
 export { SetList } from "./SetList";
-export { DeleteModal } from "./DeleteModal";
-export { SetModal } from "./SetModal";
 export { WorkoutExerciseList } from "./WorkoutExerciseList";
-export { TimeInputBehaviorDropdown } from "./TimeInputBehaviorDropdown";
-export { RoutineModal } from "./RoutineModal";
+
+export { WeightUnitDropdown } from "./Dropdowns/WeightUnitDropdown";
+export { DistanceUnitDropdown } from "./Dropdowns/DistanceUnitDropdown";
+export { WorkoutRatingDropdown } from "./Dropdowns/WorkoutRatingDropdown";
+export { MeasurementUnitDropdown } from "./Dropdowns/MeasurementUnitDropdown";
+export { LocaleDropdown } from "./Dropdowns/LocaleDropdown";
+export { ClockStyleDropdown } from "./Dropdowns/ClockStyleDropdown";
+export { TimeInputBehaviorDropdown } from "./Dropdowns/TimeInputBehaviorDropdown";
+
+export { DeleteModal } from "./Modals/DeleteModal";
+export { SetModal } from "./Modals/SetModal";
+export { RoutineModal } from "./Modals/RoutineModal";
+export { SettingsModal } from "./Modals/SettingsModal";
