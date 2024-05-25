@@ -30,22 +30,21 @@ import { LoadingSpinner, DeleteModal } from "../components";
 import {
   GetScheduleDayNames,
   GetScheduleDayValues,
-  NumDaysInScheduleOptions,
   UpdateActiveRoutineId,
   ConvertDateToYmdString,
   IsYmdDateStringValid,
   ConvertEmptyStringToNull,
+  DefaultNewRoutine,
 } from "../helpers";
 import toast, { Toaster } from "react-hot-toast";
 import { getLocalTimeZone, parseDate } from "@internationalized/date";
 import { I18nProvider } from "@react-aria/i18n";
-import { useValidateName } from "../hooks";
+import { useIsRoutineValid } from "../hooks";
 
 export default function RoutineDetailsPage() {
   const { id } = useParams();
-  const [routine, setRoutine] = useState<Routine>();
+  const [routine, setRoutine] = useState<Routine>(DefaultNewRoutine());
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [editedRoutine, setEditedRoutine] = useState<Routine>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [workoutTemplates, setWorkoutTemplates] = useState<
     WorkoutTemplateListItem[]
@@ -58,12 +57,10 @@ export default function RoutineDetailsPage() {
     useState<RoutineScheduleItem>();
   const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
 
-  const numDaysInScheduleOptions: number[] = NumDaysInScheduleOptions;
-
-  const isNewRoutineNameValid = useValidateName(editedRoutine?.name ?? "");
-
   const deleteModal = useDisclosure();
   const workoutTemplatesModal = useDisclosure();
+
+  const { isRoutineNameValid, isRoutineValid } = useIsRoutineValid(routine);
 
   const getWorkoutRoutineSchedules = useCallback(async () => {
     if (routine?.num_days_in_schedule === undefined) return;
@@ -109,7 +106,6 @@ export default function RoutineDetailsPage() {
 
         const currentRoutine: Routine = result[0];
         setRoutine(currentRoutine);
-        setEditedRoutine(currentRoutine);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -158,59 +154,36 @@ export default function RoutineDetailsPage() {
   }, [id, getWorkoutRoutineSchedules]);
 
   const updateRoutine = async () => {
-    if (!isEditedRoutineValid) return;
+    if (routine === undefined || !isRoutineValid) return;
+
+    const noteToInsert = ConvertEmptyStringToNull(routine.note);
+
+    const updatedRoutine: Routine = {
+      ...routine,
+      note: noteToInsert,
+    };
 
     try {
-      if (routine === undefined || editedRoutine === undefined) return;
-
-      const noteToInsert = ConvertEmptyStringToNull(editedRoutine.note);
-
       const db = await Database.load(import.meta.env.VITE_DB);
 
       await db.execute(
         "UPDATE routines SET name = $1, note = $2, is_schedule_weekly = $3, num_days_in_schedule = $4 WHERE id = $5",
         [
-          editedRoutine.name,
+          routine.name,
           noteToInsert,
-          editedRoutine.is_schedule_weekly,
-          editedRoutine.num_days_in_schedule,
+          routine.is_schedule_weekly,
+          routine.num_days_in_schedule,
           routine.id,
         ]
       );
 
-      setRoutine((prev) => ({
-        ...prev!,
-        name: editedRoutine.name,
-        note: editedRoutine.note,
-        is_schedule_weekly: editedRoutine.is_schedule_weekly,
-        num_days_in_schedule: editedRoutine.num_days_in_schedule,
-      }));
+      setRoutine(updatedRoutine);
 
       setIsEditing(false);
     } catch (error) {
       console.log(error);
     }
   };
-
-  const isEditedRoutineValid = useMemo(() => {
-    if (editedRoutine === undefined) return false;
-
-    if (!isNewRoutineNameValid) return false;
-
-    if (
-      editedRoutine.is_schedule_weekly &&
-      editedRoutine.num_days_in_schedule !== 7
-    )
-      return false;
-
-    if (
-      editedRoutine.num_days_in_schedule < 2 ||
-      editedRoutine.num_days_in_schedule > 14
-    )
-      return false;
-
-    return true;
-  }, [editedRoutine, isNewRoutineNameValid]);
 
   const handleAddWorkoutButton = (day: number) => {
     setSelectedDay(day);
@@ -275,24 +248,24 @@ export default function RoutineDetailsPage() {
 
   const handleScheduleTypeChange = (scheduleType: string) => {
     if (scheduleType === "weekly") {
-      setEditedRoutine((prev) => ({
+      setRoutine((prev) => ({
         ...prev!,
         is_schedule_weekly: 1,
         num_days_in_schedule: 7,
       }));
-    } else setEditedRoutine((prev) => ({ ...prev!, is_schedule_weekly: 0 }));
+    } else setRoutine((prev) => ({ ...prev!, is_schedule_weekly: 0 }));
   };
 
   const handleNumDaysInScheduleChange = (
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
-    if (editedRoutine?.is_schedule_weekly) return;
+    if (routine?.is_schedule_weekly) return;
 
     const numDays: number = parseInt(e.target.value);
 
     if (isNaN(numDays) || numDays < 2 || numDays > 14) return;
 
-    setEditedRoutine((prev) => ({ ...prev!, num_days_in_schedule: numDays }));
+    setRoutine((prev) => ({ ...prev!, num_days_in_schedule: numDays }));
   };
 
   const handleSetActiveButton = async () => {
@@ -474,31 +447,29 @@ export default function RoutineDetailsPage() {
             {isEditing ? (
               <div className="flex flex-col justify-center gap-2">
                 <Input
-                  value={editedRoutine?.name}
-                  isInvalid={!isNewRoutineNameValid}
+                  value={routine?.name}
+                  isInvalid={!isRoutineNameValid}
                   label="Name"
-                  errorMessage={!isNewRoutineNameValid && "Name can't be empty"}
+                  errorMessage={!isRoutineNameValid && "Name can't be empty"}
                   variant="faded"
                   onValueChange={(value) =>
-                    setEditedRoutine((prev) => ({ ...prev!, name: value }))
+                    setRoutine((prev) => ({ ...prev!, name: value }))
                   }
                   isRequired
                   isClearable
                 />
                 <Input
-                  value={editedRoutine?.note ?? ""}
+                  value={routine?.note ?? ""}
                   label="Note"
                   variant="faded"
                   onValueChange={(value) =>
-                    setEditedRoutine((prev) => ({ ...prev!, note: value }))
+                    setRoutine((prev) => ({ ...prev!, note: value }))
                   }
                   isClearable
                 />
                 <div className="flex justify-between items-center px-1 gap-4">
                   <RadioGroup
-                    value={
-                      editedRoutine?.is_schedule_weekly ? "weekly" : "custom"
-                    }
+                    value={routine?.is_schedule_weekly ? "weekly" : "custom"}
                     onValueChange={(value) => handleScheduleTypeChange(value)}
                     defaultValue="weekly"
                     label="Schedule Type"
@@ -513,12 +484,10 @@ export default function RoutineDetailsPage() {
                     label="Number of days in schedule"
                     labelPlacement="outside"
                     placeholder="Select number of days"
-                    selectedKeys={[
-                      editedRoutine!.num_days_in_schedule.toString(),
-                    ]}
+                    selectedKeys={[routine!.num_days_in_schedule.toString()]}
                     onChange={handleNumDaysInScheduleChange}
                     className={
-                      editedRoutine?.is_schedule_weekly
+                      routine?.is_schedule_weekly
                         ? "hidden max-w-[240px]"
                         : " max-w-[240px]"
                     }
@@ -538,7 +507,7 @@ export default function RoutineDetailsPage() {
                   <Button
                     color="success"
                     onPress={updateRoutine}
-                    isDisabled={!isEditedRoutineValid}
+                    isDisabled={!isRoutineValid}
                   >
                     Save
                   </Button>
