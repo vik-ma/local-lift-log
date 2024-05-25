@@ -461,55 +461,58 @@ export default function PresetsPage() {
                   : "Distance"}
               </ModalHeader>
               <ModalBody>
-                <Input
-                  value={newName}
-                  isInvalid={!isNewNameValid}
-                  label="Name"
-                  size="sm"
-                  errorMessage={!isNewNameValid && "Name can't be empty"}
-                  variant="faded"
-                  onValueChange={(value) => setNewName(value)}
-                  isRequired
-                  isClearable
-                />
-                {operatingType === "equipment" && (
-                  <div className="flex justify-between gap-2 items-center">
-                    <Input
-                      value={newWeightInput}
-                      label="Weight"
-                      size="sm"
-                      variant="faded"
-                      onValueChange={(value) => setNewWeightInput(value)}
-                      isInvalid={isWeightInputInvalid}
-                      isRequired
-                      isClearable
-                    />
-                    <WeightUnitDropdown
-                      value={newWeightUnit}
-                      setState={setNewWeightUnit}
-                      targetType="state"
-                    />
-                  </div>
-                )}
-                {operatingType === "distance" && (
-                  <div className="flex justify-between gap-2 items-center">
-                    <Input
-                      value={newDistanceInput}
-                      label="Distance"
-                      size="sm"
-                      variant="faded"
-                      onValueChange={(value) => setNewDistanceInput(value)}
-                      isInvalid={isDistanceInputInvalid}
-                      isRequired
-                      isClearable
-                    />
-                    <DistanceUnitDropdown
-                      value={newDistanceUnit}
-                      setState={setNewDistanceUnit}
-                      targetType="state"
-                    />
-                  </div>
-                )}
+                <div className="flex flex-col gap-0.5">
+                  <Input
+                    className="h-[5rem]"
+                    value={newName}
+                    isInvalid={!isNewNameValid}
+                    label="Name"
+                    size="sm"
+                    errorMessage={!isNewNameValid && "Name can't be empty"}
+                    variant="faded"
+                    onValueChange={(value) => setNewName(value)}
+                    isRequired
+                    isClearable
+                  />
+                  {operatingType === "equipment" && (
+                    <div className="flex justify-between gap-2 items-center">
+                      <Input
+                        value={newWeightInput}
+                        label="Weight"
+                        size="sm"
+                        variant="faded"
+                        onValueChange={(value) => setNewWeightInput(value)}
+                        isInvalid={isWeightInputInvalid}
+                        isRequired
+                        isClearable
+                      />
+                      <WeightUnitDropdown
+                        value={newWeightUnit}
+                        setState={setNewWeightUnit}
+                        targetType="state"
+                      />
+                    </div>
+                  )}
+                  {operatingType === "distance" && (
+                    <div className="flex justify-between gap-2 items-center">
+                      <Input
+                        value={newDistanceInput}
+                        label="Distance"
+                        size="sm"
+                        variant="faded"
+                        onValueChange={(value) => setNewDistanceInput(value)}
+                        isInvalid={isDistanceInputInvalid}
+                        isRequired
+                        isClearable
+                      />
+                      <DistanceUnitDropdown
+                        value={newDistanceUnit}
+                        setState={setNewDistanceUnit}
+                        targetType="state"
+                      />
+                    </div>
+                  )}
+                </div>
               </ModalBody>
               <ModalFooter>
                 <Button color="success" variant="light" onPress={onClose}>

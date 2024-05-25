@@ -329,44 +329,47 @@ export default function MeasurementListPage() {
                 New Measurement
               </ModalHeader>
               <ModalBody>
-                <Input
-                  value={newMeasurement.name}
-                  isInvalid={!isNewMeasurementNameValid}
-                  label="Name"
-                  errorMessage={
-                    !isNewMeasurementNameValid && "Name can't be empty"
-                  }
-                  variant="faded"
-                  onValueChange={(value) =>
-                    setNewMeasurement((prev) => ({
-                      ...prev,
-                      name: value,
-                    }))
-                  }
-                  isRequired
-                  isClearable
-                />
-                <div className="flex justify-around items-center px-1">
-                  <RadioGroup
-                    value={newMeasurement.measurement_type}
+                <div className="flex flex-col gap-0.5">
+                  <Input
+                    className="h-[5rem]"
+                    value={newMeasurement.name}
+                    isInvalid={!isNewMeasurementNameValid}
+                    label="Name"
+                    errorMessage={
+                      !isNewMeasurementNameValid && "Name can't be empty"
+                    }
+                    variant="faded"
                     onValueChange={(value) =>
-                      handleMeasurementTypeChange(value)
+                      setNewMeasurement((prev) => ({
+                        ...prev,
+                        name: value,
+                      }))
                     }
-                    label="Measurement Type"
-                  >
-                    <Radio value="Circumference">Circumference</Radio>
-                    <Radio value="Caliper">Caliper</Radio>
-                  </RadioGroup>
-                  <MeasurementUnitDropdown
-                    measurement={newMeasurement}
-                    isDisabled={
-                      newMeasurement.measurement_type === "Caliper"
-                        ? true
-                        : false
-                    }
-                    setMeasurement={setNewMeasurement}
-                    targetType="modal"
+                    isRequired
+                    isClearable
                   />
+                  <div className="flex justify-around items-center px-1">
+                    <RadioGroup
+                      value={newMeasurement.measurement_type}
+                      onValueChange={(value) =>
+                        handleMeasurementTypeChange(value)
+                      }
+                      label="Measurement Type"
+                    >
+                      <Radio value="Circumference">Circumference</Radio>
+                      <Radio value="Caliper">Caliper</Radio>
+                    </RadioGroup>
+                    <MeasurementUnitDropdown
+                      measurement={newMeasurement}
+                      isDisabled={
+                        newMeasurement.measurement_type === "Caliper"
+                          ? true
+                          : false
+                      }
+                      setMeasurement={setNewMeasurement}
+                      targetType="modal"
+                    />
+                  </div>
                 </div>
               </ModalBody>
               <ModalFooter>
