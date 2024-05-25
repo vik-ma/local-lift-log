@@ -8,13 +8,14 @@ import {
   SetListNotes,
 } from "../typings";
 import { useState, useEffect, useCallback } from "react";
-import { Button, Input, useDisclosure } from "@nextui-org/react";
+import { Button, useDisclosure } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
 import {
   LoadingSpinner,
   DeleteModal,
   SetModal,
   WorkoutExerciseList,
+  WorkoutTemplateModal,
 } from "../components";
 import { NotFound } from ".";
 import toast, { Toaster } from "react-hot-toast";
@@ -49,11 +50,6 @@ type OperationType =
 export default function WorkoutTemplateDetails() {
   const { id } = useParams();
   const [workoutTemplate, setWorkoutTemplate] = useState<WorkoutTemplate>();
-  const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [newWorkoutTemplateName, setNewWorkoutTemplateName] =
-    useState<string>("");
-  const [newWorkoutTemplateNote, setNewWorkoutTemplateNote] =
-    useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [selectedExercise, setSelectedExercise] = useState<Exercise>();
@@ -65,6 +61,13 @@ export default function WorkoutTemplateDetails() {
     useState<SetListNotes>({});
   const [isExerciseBeingDragged, setIsExerciseBeingDragged] =
     useState<boolean>(false);
+  const [editedWorkoutTemplate, setEditedWorkoutTemplate] =
+    useState<WorkoutTemplate>({
+      id: 0,
+      name: "",
+      exercise_order: "",
+      note: null,
+    });
 
   const numSetsOptions = useNumSetsOptions();
 
@@ -76,8 +79,11 @@ export default function WorkoutTemplateDetails() {
 
   const setModal = useDisclosure();
   const deleteModal = useDisclosure();
+  const workoutTemplateModal = useDisclosure();
 
-  const isNewWorkoutTemplateNameValid = useValidateName(newWorkoutTemplateName);
+  const isNewWorkoutTemplateNameValid = useValidateName(
+    editedWorkoutTemplate.name
+  );
 
   const {
     isSetDefaultValuesInvalid,
@@ -121,8 +127,7 @@ export default function WorkoutTemplateDetails() {
       }
 
       setWorkoutTemplate(workoutTemplate);
-      setNewWorkoutTemplateName(workoutTemplate.name);
-      setNewWorkoutTemplateNote(workoutTemplate.note ?? "");
+      setEditedWorkoutTemplate(workoutTemplate);
       setGroupedSets(groupedSetList);
     } catch (error) {
       console.log(error);
@@ -153,25 +158,30 @@ export default function WorkoutTemplateDetails() {
   const updateWorkoutTemplateNoteAndName = async () => {
     if (!isNewWorkoutTemplateNameValid) return;
 
+    const noteToInsert = ConvertEmptyStringToNull(editedWorkoutTemplate.note);
+
+    const updatedWorkoutTemplate: WorkoutTemplate = {
+      ...editedWorkoutTemplate,
+      note: noteToInsert,
+    };
+
     try {
       if (workoutTemplate === undefined) return;
-
-      const noteToInsert = ConvertEmptyStringToNull(newWorkoutTemplateNote);
 
       const db = await Database.load(import.meta.env.VITE_DB);
 
       await db.execute(
         "UPDATE workout_templates SET name = $1, note = $2 WHERE id = $3",
-        [newWorkoutTemplateName, noteToInsert, workoutTemplate.id]
+        [
+          updatedWorkoutTemplate.name,
+          updatedWorkoutTemplate.note,
+          updatedWorkoutTemplate.id,
+        ]
       );
 
-      setWorkoutTemplate((prev) => ({
-        ...prev!,
-        name: newWorkoutTemplateName,
-        note: newWorkoutTemplateNote,
-      }));
-
-      setIsEditing(false);
+      setWorkoutTemplate(updatedWorkoutTemplate);
+      setEditedWorkoutTemplate(updatedWorkoutTemplate);
+      workoutTemplateModal.onClose();
     } catch (error) {
       console.log(error);
     }
@@ -753,6 +763,13 @@ export default function WorkoutTemplateDetails() {
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
+      <WorkoutTemplateModal
+        workoutTemplateModal={workoutTemplateModal}
+        workoutTemplate={editedWorkoutTemplate}
+        setWorkoutTemplate={setEditedWorkoutTemplate}
+        isWorkoutTemplateNameValid={isNewWorkoutTemplateNameValid}
+        buttonAction={updateWorkoutTemplateNoteAndName}
+      />
       <DeleteModal
         deleteModal={deleteModal}
         header={`Remove Set${
@@ -800,47 +817,15 @@ export default function WorkoutTemplateDetails() {
               <h2 className="text-xl font-semibold">Note</h2>
               <span>{workoutTemplate?.note}</span>
             </div>
-            {isEditing ? (
-              <div className="flex flex-col justify-center gap-2">
-                <Input
-                  value={newWorkoutTemplateName}
-                  isInvalid={!isNewWorkoutTemplateNameValid}
-                  label="Name"
-                  errorMessage={
-                    !isNewWorkoutTemplateNameValid && "Name can't be empty"
-                  }
-                  variant="faded"
-                  onValueChange={(value) => setNewWorkoutTemplateName(value)}
-                  isRequired
-                  isClearable
-                />
-                <Input
-                  value={newWorkoutTemplateNote!}
-                  label="Note"
-                  variant="faded"
-                  onValueChange={(value) => setNewWorkoutTemplateNote(value)}
-                  isClearable
-                />
-                <div className="flex justify-center gap-4">
-                  <Button color="danger" onPress={() => setIsEditing(false)}>
-                    Cancel
-                  </Button>
-                  <Button
-                    color="success"
-                    onPress={updateWorkoutTemplateNoteAndName}
-                    isDisabled={!isNewWorkoutTemplateNameValid}
-                  >
-                    Save
-                  </Button>
-                </div>
-              </div>
-            ) : (
-              <div className="flex justify-center">
-                <Button color="primary" onPress={() => setIsEditing(true)}>
-                  Edit
-                </Button>
-              </div>
-            )}
+            <div className="flex justify-center">
+              <Button
+                size="sm"
+                color="success"
+                onPress={() => workoutTemplateModal.onOpen()}
+              >
+                Edit
+              </Button>
+            </div>
             <WorkoutExerciseList
               groupedSets={groupedSets}
               setGroupedSets={setGroupedSets}
