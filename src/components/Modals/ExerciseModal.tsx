@@ -48,29 +48,33 @@ export const ExerciseModal = ({
               New Exercise
             </ModalHeader>
             <ModalBody>
-              <Input
-                value={exercise.name}
-                isInvalid={!isExerciseNameValid}
-                label="Name"
-                errorMessage={!isExerciseNameValid && "Name can't be empty"}
-                variant="faded"
-                onValueChange={(value) =>
-                  setExercise((prev) => ({ ...prev, name: value }))
-                }
-                isRequired
-                isClearable
-              />
-              <Input
-                value={exercise.note ?? ""}
-                label="Note"
-                variant="faded"
-                onValueChange={(value) =>
-                  setExercise((prev) => ({ ...prev, note: value }))
-                }
-                isClearable
-              />
+              <div className="flex flex-col gap-0.5">
+                <Input
+                  className="h-[5rem]"
+                  value={exercise.name}
+                  isInvalid={!isExerciseNameValid}
+                  label="Name"
+                  errorMessage={!isExerciseNameValid && "Name can't be empty"}
+                  variant="faded"
+                  onValueChange={(value) =>
+                    setExercise((prev) => ({ ...prev, name: value }))
+                  }
+                  isRequired
+                  isClearable
+                />
+                <Input
+                  value={exercise.note ?? ""}
+                  label="Note"
+                  variant="faded"
+                  onValueChange={(value) =>
+                    setExercise((prev) => ({ ...prev, note: value }))
+                  }
+                  isClearable
+                />
+              </div>
               <div>
                 <CheckboxGroup
+                  className="h-[17rem]"
                   isRequired
                   isInvalid={!isExerciseGroupSetStringValid}
                   defaultValue={exerciseGroupStringList}

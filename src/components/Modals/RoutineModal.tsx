@@ -67,7 +67,7 @@ export const RoutineModal = ({
           <>
             <ModalHeader>New Routine</ModalHeader>
             <ModalBody>
-              <div>
+              <div className="flex flex-col gap-0.5">
                 <Input
                   className="h-[5rem]"
                   value={routine.name}
