@@ -52,6 +52,8 @@ export type Exercise = {
   isInvalid?: boolean;
 };
 
+export type ExerciseGroupMap = Map<string, string>;
+
 export type WorkoutTemplate = {
   id: number;
   name: string;

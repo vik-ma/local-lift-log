@@ -10,18 +10,20 @@ import {
   Checkbox,
   CheckboxGroup,
 } from "@nextui-org/react";
-import { Exercise } from "../../typings";
-import { ExerciseGroupMap } from "../../helpers/Constants/ExerciseGroupDictionary";
+import { Exercise, ExerciseGroupMap } from "../../typings";
+import {
+  ConvertExerciseGroupStringListToSetString,
+  ConvertExerciseGroupSetString,
+} from "../../helpers";
+import { useState } from "react";
 
 type ExerciseModalProps = {
   exerciseModal: ReturnType<typeof useDisclosure>;
   exercise: Exercise;
   setExercise: React.Dispatch<React.SetStateAction<Exercise>>;
   isExerciseNameValid: boolean;
-  exerciseGroupStringList: string[];
   isExerciseGroupSetStringValid: boolean;
   exerciseGroupDictionary: ExerciseGroupMap;
-  handleExerciseGroupStringChange: (exerciseGroupStringList: string[]) => void;
   buttonAction: () => void;
 };
 
@@ -30,12 +32,34 @@ export const ExerciseModal = ({
   exercise,
   setExercise,
   isExerciseNameValid,
-  exerciseGroupStringList,
   isExerciseGroupSetStringValid,
   exerciseGroupDictionary,
-  handleExerciseGroupStringChange,
   buttonAction,
 }: ExerciseModalProps) => {
+  const [exerciseGroupStringList, setExerciseGroupStringList] = useState<
+    string[]
+  >([]);
+
+  const handleExerciseGroupStringChange = (
+    exerciseGroupStringList: string[]
+  ) => {
+    const exerciseGroupSetString = ConvertExerciseGroupStringListToSetString(
+      exerciseGroupStringList
+    );
+
+    const convertedValues = ConvertExerciseGroupSetString(
+      exerciseGroupSetString
+    );
+
+    setExercise((prev) => ({
+      ...prev,
+      exercise_group_set_string: exerciseGroupSetString,
+      exerciseGroupStringList: exerciseGroupStringList,
+      formattedGroupString: convertedValues.formattedString,
+    }));
+    setExerciseGroupStringList(exerciseGroupStringList);
+  };
+
   return (
     <Modal
       isOpen={exerciseModal.isOpen}

@@ -4,7 +4,6 @@ import { Exercise } from "../typings";
 import {
   ConvertEmptyStringToNull,
   ConvertExerciseGroupSetString,
-  ConvertExerciseGroupStringListToSetString,
   CreateDefaultExercises,
   IsExerciseValid,
 } from "../helpers";
@@ -44,9 +43,6 @@ export default function ExerciseListPage() {
   const exerciseGroupDictionary = useExerciseGroupDictionary();
 
   const [newExercise, setNewExercise] = useState<Exercise>(defaultNewExercise);
-  const [newExerciseGroupStringList, setNewExerciseGroupStringList] = useState<
-    string[]
-  >([]);
 
   const isNewExerciseNameValid = useValidateName(newExercise.name);
 
@@ -111,26 +107,11 @@ export default function ExerciseListPage() {
 
       newExerciseModal.onClose();
       setNewExercise(defaultNewExercise);
-      setNewExerciseGroupStringList([]);
 
       toast.success("Exercise Created");
     } catch (error) {
       console.log(error);
     }
-  };
-
-  const handleExerciseGroupStringChange = (
-    exerciseGroupStringList: string[]
-  ) => {
-    const exerciseGroupSetString = ConvertExerciseGroupStringListToSetString(
-      exerciseGroupStringList
-    );
-
-    setNewExercise((prev) => ({
-      ...prev,
-      exercise_group_set_string: exerciseGroupSetString,
-    }));
-    setNewExerciseGroupStringList(exerciseGroupStringList);
   };
 
   const restoreDefaultExercises = async () => {
@@ -158,10 +139,8 @@ export default function ExerciseListPage() {
         exercise={newExercise}
         setExercise={setNewExercise}
         isExerciseNameValid={isNewExerciseNameValid}
-        exerciseGroupStringList={newExerciseGroupStringList}
         isExerciseGroupSetStringValid={isNewExerciseGroupSetStringValid}
         exerciseGroupDictionary={exerciseGroupDictionary}
-        handleExerciseGroupStringChange={handleExerciseGroupStringChange}
         buttonAction={addExercise}
       />
       <div className="flex flex-col items-center gap-2">
