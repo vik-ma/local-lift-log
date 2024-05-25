@@ -38,7 +38,7 @@ export const ExerciseModal = ({
 }: ExerciseModalProps) => {
   const [exerciseGroupStringList, setExerciseGroupStringList] = useState<
     string[]
-  >([]);
+  >(exercise.exerciseGroupStringList ?? []);
 
   const handleExerciseGroupStringChange = (
     exerciseGroupStringList: string[]
