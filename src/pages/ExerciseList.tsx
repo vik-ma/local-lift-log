@@ -6,6 +6,7 @@ import {
   ConvertExerciseGroupSetString,
   CreateDefaultExercises,
   IsExerciseValid,
+  UpdateExercise,
 } from "../helpers";
 import { Button, useDisclosure, Input } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
@@ -20,8 +21,10 @@ import {
   useDefaultExercise,
 } from "../hooks";
 
+type OperationType = "add" | "edit" | "delete";
+
 export default function ExerciseListPage() {
-  const [exerciseToDelete, setExerciseToDelete] = useState<Exercise>();
+  const [operationType, setOperationType] = useState<OperationType>("add");
 
   const {
     filterQuery,
@@ -34,7 +37,7 @@ export default function ExerciseListPage() {
   } = useExerciseList();
 
   const deleteModal = useDisclosure();
-  const newExerciseModal = useDisclosure();
+  const exerciseModal = useDisclosure();
 
   const navigate = useNavigate();
 
@@ -42,24 +45,25 @@ export default function ExerciseListPage() {
 
   const exerciseGroupDictionary = useExerciseGroupDictionary();
 
-  const [newExercise, setNewExercise] = useState<Exercise>(defaultNewExercise);
+  const [operatingExercise, setOperatingExercise] =
+    useState<Exercise>(defaultNewExercise);
 
-  const isNewExerciseNameValid = useValidateName(newExercise.name);
+  const isOperatingExerciseNameValid = useValidateName(operatingExercise.name);
 
-  const isNewExerciseGroupSetStringValid = useValidateExerciseGroupString(
-    newExercise.exercise_group_set_string
+  const isOperatingExerciseGroupSetStringValid = useValidateExerciseGroupString(
+    operatingExercise.exercise_group_set_string
   );
 
   const deleteExercise = async () => {
-    if (exerciseToDelete === undefined) return;
+    if (operatingExercise.id === 0 || operationType !== "delete") return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
-      db.execute("DELETE from exercises WHERE id = $1", [exerciseToDelete.id]);
+      db.execute("DELETE from exercises WHERE id = $1", [operatingExercise.id]);
 
       const updatedExercises: Exercise[] = exercises.filter(
-        (item) => item.id !== exerciseToDelete?.id
+        (item) => item.id !== operatingExercise.id
       );
       setExercises(updatedExercises);
 
@@ -68,47 +72,55 @@ export default function ExerciseListPage() {
       console.log(error);
     }
 
-    setExerciseToDelete(undefined);
+    resetExercise();
     deleteModal.onClose();
   };
 
   const handleDeleteButton = (exercise: Exercise) => {
-    setExerciseToDelete(exercise);
+    setOperationType("delete");
+    setOperatingExercise(exercise);
     deleteModal.onOpen();
   };
 
   const addExercise = async () => {
     if (
-      !IsExerciseValid(isNewExerciseNameValid, isNewExerciseGroupSetStringValid)
+      !IsExerciseValid(
+        isOperatingExerciseNameValid,
+        isOperatingExerciseGroupSetStringValid
+      ) ||
+      operationType !== "add"
     )
       return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
-      const noteToInsert = ConvertEmptyStringToNull(newExercise.note);
+      const noteToInsert = ConvertEmptyStringToNull(operatingExercise.note);
 
       const result = await db.execute(
         "INSERT into exercises (name, exercise_group_set_string, note) VALUES ($1, $2, $3)",
-        [newExercise.name, newExercise.exercise_group_set_string, noteToInsert]
+        [
+          operatingExercise.name,
+          operatingExercise.exercise_group_set_string,
+          noteToInsert,
+        ]
       );
 
       const convertedValues = ConvertExerciseGroupSetString(
-        newExercise.exercise_group_set_string
+        operatingExercise.exercise_group_set_string
       );
 
       const newExerciseListItem: Exercise = {
-        ...newExercise,
+        ...operatingExercise,
         id: result.lastInsertId,
         exerciseGroupStringList: convertedValues.list,
         formattedGroupString: convertedValues.formattedString,
       };
       setExercises([...exercises, newExerciseListItem]);
 
-      newExerciseModal.onClose();
-      setNewExercise(defaultNewExercise);
-
+      resetExercise();
       toast.success("Exercise Created");
+      exerciseModal.onClose();
     } catch (error) {
       console.log(error);
     }
@@ -120,6 +132,61 @@ export default function ExerciseListPage() {
     toast.success("Default Exercises Restored");
   };
 
+  const updateExercise = async () => {
+    if (
+      operatingExercise === undefined ||
+      !IsExerciseValid(
+        isOperatingExerciseNameValid,
+        isOperatingExerciseGroupSetStringValid
+      ) ||
+      operationType !== "edit"
+    )
+      return;
+
+    const noteToInsert = ConvertEmptyStringToNull(operatingExercise.note);
+
+    const convertedValues = ConvertExerciseGroupSetString(
+      operatingExercise.exercise_group_set_string
+    );
+
+    const updatedExercise: Exercise = {
+      ...operatingExercise,
+      note: noteToInsert,
+      formattedGroupString: convertedValues.formattedString,
+      exerciseGroupStringList: convertedValues.list,
+    };
+
+    const success = await UpdateExercise(updatedExercise);
+
+    if (!success) return;
+
+    const updatedExercises: Exercise[] = exercises.map((item) =>
+      item.id === operatingExercise.id ? updatedExercise : item
+    );
+
+    setExercises(updatedExercises);
+
+    resetExercise();
+    toast.success("Exercise Updated");
+    exerciseModal.onClose();
+  };
+
+  const handleEditButton = (exercise: Exercise) => {
+    setOperationType("edit");
+    setOperatingExercise(exercise);
+    exerciseModal.onOpen();
+  };
+
+  const handleCreateNewExerciseButton = () => {
+    resetExercise();
+    exerciseModal.onOpen();
+  };
+
+  const resetExercise = () => {
+    setOperationType("add");
+    setOperatingExercise(defaultNewExercise);
+  };
+
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
@@ -128,20 +195,20 @@ export default function ExerciseListPage() {
         header="Delete Exercise"
         body={
           <p className="break-words">
-            Are you sure you want to permanently delete {exerciseToDelete?.name}
-            ?
+            Are you sure you want to permanently delete{" "}
+            {operatingExercise?.name}?
           </p>
         }
         deleteButtonAction={deleteExercise}
       />
       <ExerciseModal
-        exerciseModal={newExerciseModal}
-        exercise={newExercise}
-        setExercise={setNewExercise}
-        isExerciseNameValid={isNewExerciseNameValid}
-        isExerciseGroupSetStringValid={isNewExerciseGroupSetStringValid}
+        exerciseModal={exerciseModal}
+        exercise={operatingExercise}
+        setExercise={setOperatingExercise}
+        isExerciseNameValid={isOperatingExerciseNameValid}
+        isExerciseGroupSetStringValid={isOperatingExerciseGroupSetStringValid}
         exerciseGroupDictionary={exerciseGroupDictionary}
-        buttonAction={addExercise}
+        buttonAction={operationType === "edit" ? updateExercise : addExercise}
       />
       <div className="flex flex-col items-center gap-2">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">
@@ -166,7 +233,8 @@ export default function ExerciseListPage() {
               {filteredExercises.map((exercise) => (
                 <div
                   key={exercise.id}
-                  className="flex flex-row justify-between rounded-lg px-2 hover:bg-amber-100 p-1"
+                  className="flex flex-row justify-between rounded-lg px-2 cursor-pointer hover:bg-amber-100 p-1"
+                  onClick={() => navigate(`/exercises/${exercise.id}`)}
                 >
                   <div className="flex flex-col">
                     <div className="text-lg truncate w-56">{exercise.name}</div>
@@ -176,12 +244,14 @@ export default function ExerciseListPage() {
                   </div>
                   <div className="flex items-center gap-1">
                     <Button
+                      size="sm"
                       className="font-medium"
-                      onPress={() => navigate(`/exercises/${exercise.id}`)}
+                      onPress={() => handleEditButton(exercise)}
                     >
                       Edit
                     </Button>
                     <Button
+                      size="sm"
                       className="font-medium"
                       color="danger"
                       onPress={() => handleDeleteButton(exercise)}
@@ -197,7 +267,7 @@ export default function ExerciseListPage() {
                 className="text-lg font-medium"
                 size="lg"
                 color="success"
-                onPress={() => newExerciseModal.onOpen()}
+                onPress={() => handleCreateNewExerciseButton()}
               >
                 Create New Exercise
               </Button>

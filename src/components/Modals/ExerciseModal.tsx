@@ -15,7 +15,6 @@ import {
   ConvertExerciseGroupStringListToSetString,
   ConvertExerciseGroupSetString,
 } from "../../helpers";
-import { useState } from "react";
 
 type ExerciseModalProps = {
   exerciseModal: ReturnType<typeof useDisclosure>;
@@ -36,10 +35,6 @@ export const ExerciseModal = ({
   exerciseGroupDictionary,
   buttonAction,
 }: ExerciseModalProps) => {
-  const [exerciseGroupStringList, setExerciseGroupStringList] = useState<
-    string[]
-  >(exercise.exerciseGroupStringList ?? []);
-
   const handleExerciseGroupStringChange = (
     exerciseGroupStringList: string[]
   ) => {
@@ -57,7 +52,6 @@ export const ExerciseModal = ({
       exerciseGroupStringList: exerciseGroupStringList,
       formattedGroupString: convertedValues.formattedString,
     }));
-    setExerciseGroupStringList(exerciseGroupStringList);
   };
 
   return (
@@ -101,7 +95,7 @@ export const ExerciseModal = ({
                   className="h-[17rem]"
                   isRequired
                   isInvalid={!isExerciseGroupSetStringValid}
-                  defaultValue={exerciseGroupStringList}
+                  defaultValue={exercise.exerciseGroupStringList}
                   label="Select Exercise Groups"
                   errorMessage={
                     !isExerciseGroupSetStringValid &&
