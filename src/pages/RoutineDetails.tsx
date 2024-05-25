@@ -62,8 +62,6 @@ export default function RoutineDetailsPage() {
     useIsRoutineValid(editedRoutine);
 
   const getWorkoutRoutineSchedules = useCallback(async () => {
-    if (routine?.num_days_in_schedule === undefined) return;
-
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -83,13 +81,13 @@ export default function RoutineDetailsPage() {
       }));
 
       const workoutScheduleStringList: RoutineScheduleItem[][] =
-        GetScheduleDayValues(routine?.num_days_in_schedule, schedules);
+        GetScheduleDayValues(routine.num_days_in_schedule, schedules);
 
       setScheduleValues(workoutScheduleStringList);
     } catch (error) {
       console.log(error);
     }
-  }, [id, routine?.num_days_in_schedule]);
+  }, [id, routine.num_days_in_schedule]);
 
   useEffect(() => {
     const getRoutine = async () => {
@@ -197,7 +195,7 @@ export default function RoutineDetailsPage() {
       routine === undefined ||
       isNaN(workoutTemplateId) ||
       selectedDay < 0 ||
-      selectedDay > routine?.num_days_in_schedule - 1
+      selectedDay > routine.num_days_in_schedule - 1
     )
       return;
 
@@ -318,10 +316,10 @@ export default function RoutineDetailsPage() {
 
   const dayNameList: string[] = useMemo(() => {
     return GetScheduleDayNames(
-      routine?.num_days_in_schedule ?? 7,
-      !!routine?.is_schedule_weekly ?? true
+      routine.num_days_in_schedule ?? 7,
+      !!routine.is_schedule_weekly ?? true
     );
-  }, [routine?.num_days_in_schedule, routine?.is_schedule_weekly]);
+  }, [routine.num_days_in_schedule, routine.is_schedule_weekly]);
 
   if (routine === undefined) return NotFound();
 
@@ -402,7 +400,7 @@ export default function RoutineDetailsPage() {
           <>
             <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">
               <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">
-                {routine?.name}
+                {routine.name}
               </h1>
             </div>
             <div className="flex justify-center">
@@ -427,7 +425,7 @@ export default function RoutineDetailsPage() {
             </div>
             <div>
               <h2 className="text-xl font-semibold ">Note</h2>
-              <span>{routine?.note}</span>
+              <span>{routine.note}</span>
             </div>
             <div className="flex justify-center">
               <Button

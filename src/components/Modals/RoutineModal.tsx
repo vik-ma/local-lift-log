@@ -65,31 +65,32 @@ export const RoutineModal = ({
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalHeader className="flex flex-col gap-1">
-              New Routine
-            </ModalHeader>
+            <ModalHeader>New Routine</ModalHeader>
             <ModalBody>
-              <Input
-                value={routine.name}
-                isInvalid={!isRoutineNameValid}
-                label="Name"
-                errorMessage={!isRoutineNameValid && "Name can't be empty"}
-                variant="faded"
-                onValueChange={(value) =>
-                  setRoutine((prev) => ({ ...prev, name: value }))
-                }
-                isRequired
-                isClearable
-              />
-              <Input
-                value={routine.note ?? ""}
-                label="Note"
-                variant="faded"
-                onValueChange={(value) =>
-                  setRoutine((prev) => ({ ...prev, note: value }))
-                }
-                isClearable
-              />
+              <div>
+                <Input
+                  className="h-[5rem]"
+                  value={routine.name}
+                  isInvalid={!isRoutineNameValid}
+                  label="Name"
+                  errorMessage={!isRoutineNameValid && "Name can't be empty"}
+                  variant="faded"
+                  onValueChange={(value) =>
+                    setRoutine((prev) => ({ ...prev, name: value }))
+                  }
+                  isRequired
+                  isClearable
+                />
+                <Input
+                  value={routine.note ?? ""}
+                  label="Note"
+                  variant="faded"
+                  onValueChange={(value) =>
+                    setRoutine((prev) => ({ ...prev, note: value }))
+                  }
+                  isClearable
+                />
+              </div>
               <div className="flex justify-between items-center px-1 gap-4">
                 <RadioGroup
                   value={routine.is_schedule_weekly ? "weekly" : "custom"}
