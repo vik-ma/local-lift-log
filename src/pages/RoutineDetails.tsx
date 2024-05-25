@@ -14,19 +14,14 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Input,
   Listbox,
   ListboxItem,
-  Radio,
-  RadioGroup,
-  Select,
-  SelectItem,
   DatePicker,
   DateValue,
 } from "@nextui-org/react";
 import { NotFound } from ".";
 import Database from "tauri-plugin-sql-api";
-import { LoadingSpinner, DeleteModal } from "../components";
+import { LoadingSpinner, DeleteModal, RoutineModal } from "../components";
 import {
   GetScheduleDayNames,
   GetScheduleDayValues,
@@ -44,7 +39,9 @@ import { useIsRoutineValid } from "../hooks";
 export default function RoutineDetailsPage() {
   const { id } = useParams();
   const [routine, setRoutine] = useState<Routine>(DefaultNewRoutine());
-  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [editedRoutine, setEditedRoutine] = useState<Routine>(
+    DefaultNewRoutine()
+  );
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [workoutTemplates, setWorkoutTemplates] = useState<
     WorkoutTemplateListItem[]
@@ -59,8 +56,10 @@ export default function RoutineDetailsPage() {
 
   const deleteModal = useDisclosure();
   const workoutTemplatesModal = useDisclosure();
+  const routineModal = useDisclosure();
 
-  const { isRoutineNameValid, isRoutineValid } = useIsRoutineValid(routine);
+  const { isRoutineNameValid, isRoutineValid } =
+    useIsRoutineValid(editedRoutine);
 
   const getWorkoutRoutineSchedules = useCallback(async () => {
     if (routine?.num_days_in_schedule === undefined) return;
@@ -106,6 +105,7 @@ export default function RoutineDetailsPage() {
 
         const currentRoutine: Routine = result[0];
         setRoutine(currentRoutine);
+        setEditedRoutine(currentRoutine);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -154,12 +154,12 @@ export default function RoutineDetailsPage() {
   }, [id, getWorkoutRoutineSchedules]);
 
   const updateRoutine = async () => {
-    if (routine === undefined || !isRoutineValid) return;
+    if (!isRoutineValid) return;
 
-    const noteToInsert = ConvertEmptyStringToNull(routine.note);
+    const noteToInsert = ConvertEmptyStringToNull(editedRoutine.note);
 
     const updatedRoutine: Routine = {
-      ...routine,
+      ...editedRoutine,
       note: noteToInsert,
     };
 
@@ -169,17 +169,17 @@ export default function RoutineDetailsPage() {
       await db.execute(
         "UPDATE routines SET name = $1, note = $2, is_schedule_weekly = $3, num_days_in_schedule = $4 WHERE id = $5",
         [
-          routine.name,
-          noteToInsert,
-          routine.is_schedule_weekly,
-          routine.num_days_in_schedule,
-          routine.id,
+          updatedRoutine.name,
+          updatedRoutine.note,
+          updatedRoutine.is_schedule_weekly,
+          updatedRoutine.num_days_in_schedule,
+          updatedRoutine.id,
         ]
       );
 
       setRoutine(updatedRoutine);
-
-      setIsEditing(false);
+      setEditedRoutine(updatedRoutine);
+      routineModal.onClose();
     } catch (error) {
       console.log(error);
     }
@@ -244,28 +244,6 @@ export default function RoutineDetailsPage() {
     setSelectedDay(schedule.day);
     setWorkoutRoutineScheduleToRemove(schedule);
     deleteModal.onOpen();
-  };
-
-  const handleScheduleTypeChange = (scheduleType: string) => {
-    if (scheduleType === "weekly") {
-      setRoutine((prev) => ({
-        ...prev!,
-        is_schedule_weekly: 1,
-        num_days_in_schedule: 7,
-      }));
-    } else setRoutine((prev) => ({ ...prev!, is_schedule_weekly: 0 }));
-  };
-
-  const handleNumDaysInScheduleChange = (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    if (routine?.is_schedule_weekly) return;
-
-    const numDays: number = parseInt(e.target.value);
-
-    if (isNaN(numDays) || numDays < 2 || numDays > 14) return;
-
-    setRoutine((prev) => ({ ...prev!, num_days_in_schedule: numDays }));
   };
 
   const handleSetActiveButton = async () => {
@@ -350,6 +328,13 @@ export default function RoutineDetailsPage() {
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
+      <RoutineModal
+        routineModal={routineModal}
+        routine={editedRoutine}
+        setRoutine={setEditedRoutine}
+        isRoutineNameValid={isRoutineNameValid}
+        buttonAction={updateRoutine}
+      />
       <DeleteModal
         deleteModal={deleteModal}
         header="Remove Workout Template"
@@ -444,86 +429,15 @@ export default function RoutineDetailsPage() {
               <h2 className="text-xl font-semibold ">Note</h2>
               <span>{routine?.note}</span>
             </div>
-            {isEditing ? (
-              <div className="flex flex-col justify-center gap-2">
-                <Input
-                  value={routine?.name}
-                  isInvalid={!isRoutineNameValid}
-                  label="Name"
-                  errorMessage={!isRoutineNameValid && "Name can't be empty"}
-                  variant="faded"
-                  onValueChange={(value) =>
-                    setRoutine((prev) => ({ ...prev!, name: value }))
-                  }
-                  isRequired
-                  isClearable
-                />
-                <Input
-                  value={routine?.note ?? ""}
-                  label="Note"
-                  variant="faded"
-                  onValueChange={(value) =>
-                    setRoutine((prev) => ({ ...prev!, note: value }))
-                  }
-                  isClearable
-                />
-                <div className="flex justify-between items-center px-1 gap-4">
-                  <RadioGroup
-                    value={routine?.is_schedule_weekly ? "weekly" : "custom"}
-                    onValueChange={(value) => handleScheduleTypeChange(value)}
-                    defaultValue="weekly"
-                    label="Schedule Type"
-                  >
-                    <Radio value="weekly">Weekly</Radio>
-                    <Radio value="custom">Custom</Radio>
-                  </RadioGroup>
-                  <Select
-                    isRequired
-                    size="lg"
-                    variant="faded"
-                    label="Number of days in schedule"
-                    labelPlacement="outside"
-                    placeholder="Select number of days"
-                    selectedKeys={[routine!.num_days_in_schedule.toString()]}
-                    onChange={handleNumDaysInScheduleChange}
-                    className={
-                      routine?.is_schedule_weekly
-                        ? "hidden max-w-[240px]"
-                        : " max-w-[240px]"
-                    }
-                    disallowEmptySelection
-                  >
-                    {numDaysInScheduleOptions.map((number) => (
-                      <SelectItem key={number} value={number}>
-                        {number.toString()}
-                      </SelectItem>
-                    ))}
-                  </Select>
-                </div>
-                <div className="flex justify-center gap-4">
-                  <Button color="danger" onPress={() => setIsEditing(false)}>
-                    Cancel
-                  </Button>
-                  <Button
-                    color="success"
-                    onPress={updateRoutine}
-                    isDisabled={!isRoutineValid}
-                  >
-                    Save
-                  </Button>
-                </div>
-              </div>
-            ) : (
-              <div className="flex justify-center">
-                <Button
-                  size="sm"
-                  color="success"
-                  onPress={() => setIsEditing(true)}
-                >
-                  Edit
-                </Button>
-              </div>
-            )}
+            <div className="flex justify-center">
+              <Button
+                size="sm"
+                color="success"
+                onPress={() => routineModal.onOpen()}
+              >
+                Edit
+              </Button>
+            </div>
           </>
         )}
         <div className="flex flex-col">
