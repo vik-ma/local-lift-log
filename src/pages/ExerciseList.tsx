@@ -8,21 +8,10 @@ import {
   CreateDefaultExercises,
   IsExerciseValid,
 } from "../helpers";
-import {
-  Button,
-  useDisclosure,
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Input,
-  Checkbox,
-  CheckboxGroup,
-} from "@nextui-org/react";
+import { Button, useDisclosure, Input } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { DeleteModal, LoadingSpinner } from "../components";
+import { DeleteModal, ExerciseModal, LoadingSpinner } from "../components";
 import { SearchIcon } from "../assets";
 import {
   useValidateExerciseGroupString,
@@ -170,84 +159,17 @@ export default function ExerciseListPage() {
         }
         deleteButtonAction={deleteExercise}
       />
-      <Modal
-        isOpen={newExerciseModal.isOpen}
-        onOpenChange={newExerciseModal.onOpenChange}
-      >
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex flex-col gap-1">
-                New Exercise
-              </ModalHeader>
-              <ModalBody>
-                <Input
-                  value={newExercise.name}
-                  isInvalid={!isNewExerciseNameValid}
-                  label="Name"
-                  errorMessage={
-                    !isNewExerciseNameValid && "Name can't be empty"
-                  }
-                  variant="faded"
-                  onValueChange={(value) =>
-                    setNewExercise((prev) => ({ ...prev, name: value }))
-                  }
-                  isRequired
-                  isClearable
-                />
-                <Input
-                  value={newExercise.note ?? ""}
-                  label="Note"
-                  variant="faded"
-                  onValueChange={(value) =>
-                    setNewExercise((prev) => ({ ...prev, note: value }))
-                  }
-                  isClearable
-                />
-                <div>
-                  <CheckboxGroup
-                    isRequired
-                    isInvalid={!isNewExerciseGroupSetStringValid}
-                    defaultValue={newExerciseGroupStringList}
-                    label="Select Exercise Groups"
-                    errorMessage={
-                      !isNewExerciseGroupSetStringValid &&
-                      "At least one Exercise Group must be selected"
-                    }
-                    onValueChange={(value) =>
-                      handleExerciseGroupStringChange(value)
-                    }
-                  >
-                    <div className="grid grid-cols-2 gap-0.5">
-                      {Array.from(exerciseGroupDictionary).map(
-                        ([key, value]) => (
-                          <Checkbox key={key} color="success" value={key}>
-                            {value}
-                          </Checkbox>
-                        )
-                      )}
-                    </div>
-                  </CheckboxGroup>
-                </div>
-              </ModalBody>
-              <ModalFooter>
-                <Button color="success" variant="light" onPress={onClose}>
-                  Close
-                </Button>
-                <Button
-                  color="success"
-                  onPress={addExercise}
-                  isDisabled={
-                    !isNewExerciseNameValid || !isNewExerciseGroupSetStringValid
-                  }
-                >
-                  Create
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
+      <ExerciseModal
+        exerciseModal={newExerciseModal}
+        exercise={newExercise}
+        setExercise={setNewExercise}
+        isExerciseNameValid={isNewExerciseNameValid}
+        exerciseGroupStringList={newExerciseGroupStringList}
+        isExerciseGroupSetStringValid={isNewExerciseGroupSetStringValid}
+        exerciseGroupDictionary={exerciseGroupDictionary}
+        handleExerciseGroupStringChange={handleExerciseGroupStringChange}
+        buttonAction={addExercise}
+      />
       <div className="flex flex-col items-center gap-2">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">
           <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">

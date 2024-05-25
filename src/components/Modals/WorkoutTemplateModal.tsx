@@ -86,5 +86,3 @@ export const WorkoutTemplateModal = ({
     </Modal>
   );
 };
-
-export default WorkoutTemplateModal;

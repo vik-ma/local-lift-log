@@ -17,3 +17,4 @@ export { SetModal } from "./Modals/SetModal";
 export { RoutineModal } from "./Modals/RoutineModal";
 export { SettingsModal } from "./Modals/SettingsModal";
 export { WorkoutTemplateModal } from "./Modals/WorkoutTemplateModal";
+export { ExerciseModal } from "./Modals/ExerciseModal";
