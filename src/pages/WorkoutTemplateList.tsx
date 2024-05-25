@@ -1,7 +1,7 @@
 import Database from "tauri-plugin-sql-api";
 import { WorkoutTemplate, WorkoutTemplateListItem } from "../typings";
 import { Button, useDisclosure } from "@nextui-org/react";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import {
   LoadingSpinner,
   DeleteModal,
@@ -9,7 +9,7 @@ import {
 } from "../components";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
-import { useValidateName } from "../hooks";
+import { useDefaultWorkoutTemplate, useValidateName } from "../hooks";
 import { ConvertEmptyStringToNull } from "../helpers";
 
 export default function WorkoutTemplateList() {
@@ -20,14 +20,7 @@ export default function WorkoutTemplateList() {
   const [workoutTemplateToDelete, setWorkoutTemplateToDelete] =
     useState<WorkoutTemplateListItem>();
 
-  const defaultNewWorkoutTemplate: WorkoutTemplate = useMemo(() => {
-    return {
-      id: 0,
-      name: "",
-      exercise_order: "",
-      note: "",
-    };
-  }, []);
+  const defaultNewWorkoutTemplate = useDefaultWorkoutTemplate();
 
   const [newWorkoutTemplate, setNewWorkoutTemplate] = useState<WorkoutTemplate>(
     defaultNewWorkoutTemplate

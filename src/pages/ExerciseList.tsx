@@ -1,5 +1,5 @@
 import Database from "tauri-plugin-sql-api";
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { Exercise } from "../typings";
 import {
   ConvertEmptyStringToNull,
@@ -18,6 +18,7 @@ import {
   useValidateName,
   useExerciseGroupDictionary,
   useExerciseList,
+  useDefaultExercise,
 } from "../hooks";
 
 export default function ExerciseListPage() {
@@ -38,14 +39,7 @@ export default function ExerciseListPage() {
 
   const navigate = useNavigate();
 
-  const defaultNewExercise: Exercise = useMemo(() => {
-    return {
-      id: 0,
-      name: "",
-      exercise_group_set_string: "",
-      note: "",
-    };
-  }, []);
+  const defaultNewExercise = useDefaultExercise();
 
   const exerciseGroupDictionary = useExerciseGroupDictionary();
 

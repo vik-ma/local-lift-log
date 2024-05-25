@@ -13,6 +13,7 @@ export { GetExerciseListWithGroupStrings } from "./Exercises/GetExerciseListWith
 export { GetExerciseFromId } from "./Exercises/GetExerciseFromId";
 export { UpdateExercise } from "./Exercises/UpdateExercise";
 export { IsExerciseValid } from "./Exercises/IsExerciseValid";
+export { DefaultNewExercise } from "./Exercises/DefaultNewExercise";
 
 export { GetScheduleDayNames } from "./Routines/GetScheduleDayNames";
 export { GetScheduleDayValues } from "./Routines/GetScheduleValues";
@@ -67,6 +68,7 @@ export { CreateDefaultDistances } from "./Presets/CreateDefaultDistances";
 export { CreateGroupedWorkoutSetListByExerciseId } from "./Workouts/CreateGroupedWorkoutSetListByExerciseId";
 export { GenerateExerciseOrderString } from "./Workouts/GenerateExerciseOrderString";
 export { UpdateExerciseOrder } from "./Workouts/UpdateExerciseOrder";
+export { DefaultNewWorkoutTemplate } from "./Workouts/DefaultNewWorkoutTemplate";
 
 export { LocaleList } from "./Constants/LocaleList";
 export { ValidTimeInputs } from "./Constants/ValidTimeInputs";

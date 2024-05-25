@@ -37,6 +37,7 @@ import {
   useSetListOptionsMenu,
   useSetTrackingInputs,
   useValidateName,
+  useDefaultWorkoutTemplate,
 } from "../hooks";
 
 type OperationType =
@@ -61,13 +62,11 @@ export default function WorkoutTemplateDetails() {
     useState<SetListNotes>({});
   const [isExerciseBeingDragged, setIsExerciseBeingDragged] =
     useState<boolean>(false);
+
+  const defaultNewWorkoutTemplate = useDefaultWorkoutTemplate();
+
   const [editedWorkoutTemplate, setEditedWorkoutTemplate] =
-    useState<WorkoutTemplate>({
-      id: 0,
-      name: "",
-      exercise_order: "",
-      note: null,
-    });
+    useState<WorkoutTemplate>(defaultNewWorkoutTemplate);
 
   const numSetsOptions = useNumSetsOptions();
 
