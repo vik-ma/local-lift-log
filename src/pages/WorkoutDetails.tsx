@@ -42,16 +42,7 @@ import {
 } from "../helpers";
 import {
   Button,
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
   useDisclosure,
-  Select,
-  SelectItem,
-  ScrollShadow,
-  Checkbox,
   Input,
   Dropdown,
   DropdownTrigger,
@@ -60,7 +51,6 @@ import {
 } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
 import {
-  SearchIcon,
   CommentIcon,
   VerticalMenuIcon,
   ChevronIcon,
@@ -91,10 +81,7 @@ export default function WorkoutDetails() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [groupedSets, setGroupedSets] = useState<GroupedWorkoutSet[]>([]);
   const [userSettings, setUserSettings] = useState<UserSettings>();
-  const [exercises, setExercises] = useState<Exercise[]>([]);
-  const [filterQuery, setFilterQuery] = useState<string>("");
   const [selectedExercise, setSelectedExercise] = useState<Exercise>();
-  const [numNewSets, setNumNewSets] = useState<string>("1");
   const [workoutNote, setWorkoutNote] = useState<string>("");
   const [activeSet, setActiveSet] = useState<WorkoutSet>();
   const [isActiveSetTimeInputInvalid, setIsActiveSetTimeInputInvalid] =
@@ -146,21 +133,6 @@ export default function WorkoutDetails() {
     setIsTimeInputInvalid,
     setDefaultValuesInputStrings,
   } = useSetTrackingInputs();
-
-  const filteredExercises = useMemo(() => {
-    if (filterQuery !== "") {
-      return exercises.filter(
-        (item) =>
-          item.name
-            .toLocaleLowerCase()
-            .includes(filterQuery.toLocaleLowerCase()) ||
-          item
-            .formattedGroupString!.toLocaleLowerCase()
-            .includes(filterQuery.toLocaleLowerCase())
-      );
-    }
-    return exercises;
-  }, [exercises, filterQuery]);
 
   const updateWorkout = useCallback(async (workout: Workout) => {
     try {
@@ -389,14 +361,8 @@ export default function WorkoutDetails() {
       }
     };
 
-    const getExerciseList = async () => {
-      const exercises = await GetExerciseListWithGroupStrings();
-      if (exercises !== undefined) setExercises(exercises);
-    };
-
     loadWorkout();
     loadUserSettings();
-    getExerciseList();
   }, [id, updateWorkout, populateIncompleteSets]);
 
   const updateExerciseOrder = async (
@@ -409,17 +375,23 @@ export default function WorkoutDetails() {
     if (isExerciseBeingDragged) setIsExerciseBeingDragged(false);
   };
 
-  const addSet = async () => {
+  const addSet = async (numSets: string) => {
     if (selectedExercise === undefined || workout === undefined) return;
 
-    if (!numSetsOptions.includes(numNewSets)) return;
+    if (!numSetsOptions.includes(numSets)) return;
+
+    if (isSetDefaultValuesInvalid) return;
+
+    const setTrackingValuesNumber = ConvertSetInputValuesToNumbers(
+      setTrackingValuesInput
+    );
 
     try {
       const noteToInsert = ConvertEmptyStringToNull(operatingSet.note);
 
       const newSets: WorkoutSet[] = [];
 
-      const numSetsToAdd: number = parseInt(numNewSets);
+      const numSetsToAdd: number = parseInt(numSets);
 
       for (let i = 0; i < numSetsToAdd; i++) {
         const newSet: WorkoutSet = {
@@ -428,6 +400,12 @@ export default function WorkoutDetails() {
           workout_id: workout.id,
           note: noteToInsert,
           exercise_name: selectedExercise.name,
+          weight: setTrackingValuesNumber.weight,
+          reps: setTrackingValuesNumber.reps,
+          distance: setTrackingValuesNumber.distance,
+          rir: setTrackingValuesNumber.rir,
+          rpe: setTrackingValuesNumber.rpe,
+          resistance_level: setTrackingValuesNumber.resistance_level,
         };
 
         const setId: number = await InsertSetIntoDatabase(newSet);
@@ -438,16 +416,14 @@ export default function WorkoutDetails() {
       }
 
       const exerciseIndex: number = groupedSets.findIndex(
-        (obj) => obj.exercise_id === selectedExercise.id
+        (obj) => obj.exercise.id === selectedExercise.id
       );
 
       if (exerciseIndex === -1) {
         // Create new GroupedWorkoutSet if exercise_id does not exist in groupedSets
         const newGroupedWorkoutSet: GroupedWorkoutSet = {
-          exercise_name: selectedExercise.name,
-          exercise_id: selectedExercise.id,
+          exercise: selectedExercise,
           setList: newSets,
-          exercise_note: selectedExercise.note,
           isExpanded: true,
           showExerciseNote: true,
         };
@@ -458,8 +434,9 @@ export default function WorkoutDetails() {
         ];
 
         setGroupedSets(newGroupedSets);
-        populateIncompleteSets(newGroupedSets);
         await updateExerciseOrder(newGroupedSets);
+
+        populateIncompleteSets(newGroupedSets);
       } else {
         // Add new Sets to groupedSets' existing Exercise's Set List
         const newList = [...groupedSets];
@@ -483,11 +460,9 @@ export default function WorkoutDetails() {
   const handleAddSetToExercise = async (
     groupedWorkoutSet: GroupedWorkoutSet
   ) => {
-    const exercise = exercises.find(
-      (obj) => obj.id === groupedWorkoutSet.exercise_id
-    );
+    if (workout === undefined) return;
 
-    if (exercise === undefined || workout === undefined) return;
+    const exercise = groupedWorkoutSet.exercise;
 
     let newSet: WorkoutSet = {
       ...defaultNewSet,
@@ -524,11 +499,12 @@ export default function WorkoutDetails() {
     const newSets: WorkoutSet[] = [newSet];
 
     const exerciseIndex: number = groupedSets.findIndex(
-      (obj) => obj.exercise_id === exercise.id
+      (obj) => obj.exercise.id === exercise.id
     );
 
     setGroupedSets((prev) => {
       const newList = [...prev];
+      newList[exerciseIndex].isExpanded = true;
       newList[exerciseIndex].setList = [
         ...newList[exerciseIndex].setList,
         ...newSets,
@@ -641,9 +617,9 @@ export default function WorkoutDetails() {
     });
   };
 
-  const handleSaveSetButton = async () => {
+  const handleSaveSetButton = async (numSets: string) => {
     if (operationType === "add") {
-      await addSet();
+      await addSet(numSets);
     }
     if (operationType === "edit") {
       await editSet();
