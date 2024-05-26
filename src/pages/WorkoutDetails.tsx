@@ -38,6 +38,7 @@ import {
   ConvertEmptyStringToNull,
   UpdateExerciseOrder,
   DeleteSetWithId,
+  ReassignExerciseIdForSets,
 } from "../helpers";
 import {
   Button,
@@ -68,6 +69,7 @@ type OperationType =
   | "edit"
   | "delete-set"
   | "change-exercise"
+  | "reassign-exercise"
   | "delete-exercise-sets";
 
 type ActiveSetNote = {
@@ -610,8 +612,11 @@ export default function WorkoutDetails() {
   const handleClickExercise = (exercise: Exercise) => {
     setSelectedExercise(exercise);
 
-    if (operationType === "change-exercise") {
-      changeExercise(exercise);
+    if (
+      operationType === "change-exercise" ||
+      operationType === "reassign-exercise"
+    ) {
+      reassignExercise(exercise);
       return;
     }
 
@@ -682,12 +687,14 @@ export default function WorkoutDetails() {
     key: string,
     groupedWorkoutSet: GroupedWorkoutSet
   ) => {
-    if (key === "delete-exercise-sets") {
+    if (key === "reassign-exercise") {
+      handleReassignExercise(groupedWorkoutSet);
+    } else if (key === "change-exercise") {
+      handleChangeExercise(groupedWorkoutSet);
+    } else if (key === "delete-exercise-sets") {
       handleDeleteExerciseSets(groupedWorkoutSet);
     } else if (key === "add-set-to-exercise") {
       handleAddSetToExercise(groupedWorkoutSet);
-    } else if (key === "change-exercise") {
-      handleChangeExercise(groupedWorkoutSet);
     } else if (key === "toggle-exercise-note") {
       handleToggleExerciseNote(groupedWorkoutSet);
     }
@@ -865,34 +872,41 @@ export default function WorkoutDetails() {
     );
   };
 
-  const changeExercise = async (newExercise: Exercise) => {
+  const reassignExercise = async (newExercise: Exercise) => {
     if (operatingGroupedSet === undefined || workout === undefined) return;
 
     const oldExerciseIndex: number = groupedSets.findIndex(
-      (obj) => obj.exercise_id === operatingGroupedSet.exercise_id
+      (obj) => obj.exercise.id === operatingGroupedSet.exercise.id
     );
 
-    try {
-      const db = await Database.load(import.meta.env.VITE_DB);
-      await db.execute(
-        `UPDATE sets SET exercise_id = $1 
-          WHERE exercise_id = $2 AND workout_id = $3`,
-        [newExercise.id, operatingGroupedSet.exercise_id, workout.id]
+    if (operationType === "reassign-exercise") {
+      // Reassign ALL sets with old exercise_id to new exercise_id
+      await ReassignExerciseIdForSets(
+        operatingGroupedSet.exercise.id,
+        newExercise.id
       );
-    } catch (error) {
-      console.log(error);
-      return;
-    }
+    } else if (operationType === "change-exercise") {
+      // Just change the sets with this specific workout_id
+      try {
+        const db = await Database.load(import.meta.env.VITE_DB);
+        await db.execute(
+          `UPDATE sets SET exercise_id = $1 
+          WHERE exercise_id = $2 AND workout_id = $3 AND is_template = 0`,
+          [newExercise.id, operatingGroupedSet.exercise.id, workout.id]
+        );
+      } catch (error) {
+        console.log(error);
+        return;
+      }
+    } else return;
 
     const newGroupedWorkoutSet: GroupedWorkoutSet = {
       ...operatingGroupedSet,
-      exercise_name: newExercise.name,
-      exercise_id: newExercise.id,
-      exercise_note: newExercise.note,
+      exercise: newExercise,
     };
 
     const newExerciseIndex: number = groupedSets.findIndex(
-      (obj) => obj.exercise_id === newExercise.id
+      (obj) => obj.exercise.id === newExercise.id
     );
 
     if (newExerciseIndex === -1) {
@@ -920,7 +934,19 @@ export default function WorkoutDetails() {
     resetSetToDefault();
 
     setModal.onClose();
-    toast.success("Exercise Changed");
+    const toastMsg: string =
+      operationType === "reassign-exercise"
+        ? "Exercise Reassigned"
+        : "Exercise Changed";
+    toast.success(toastMsg);
+  };
+
+  const handleReassignExercise = (groupedWorkoutSet: GroupedWorkoutSet) => {
+    setSelectedExercise(undefined);
+    setOperationType("reassign-exercise");
+    setOperatingGroupedSet(groupedWorkoutSet);
+
+    setModal.onOpen();
   };
 
   const isWeightInputInvalid = useMemo(() => {
