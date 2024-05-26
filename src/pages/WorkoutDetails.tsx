@@ -25,12 +25,10 @@ import { NotFound } from ".";
 import {
   CreateSetsFromWorkoutTemplate,
   GetUserSettings,
-  GetExerciseListWithGroupStrings,
   IsStringInvalidInteger,
   IsStringInvalidNumber,
   IsStringInvalidNumberOrAbove10,
   ConvertSetInputValuesToNumbers,
-  DefaultSetInputValues,
   FormatDateString,
   ConvertDateStringToTimeString,
   CreateGroupedWorkoutSetListByExerciseId,
@@ -39,6 +37,7 @@ import {
   UpdateSet,
   ConvertEmptyStringToNull,
   UpdateExerciseOrder,
+  DeleteSetWithId,
 } from "../helpers";
 import {
   Button,
@@ -61,6 +60,7 @@ import {
   useDefaultSet,
   useSetListOptionsMenu,
   useSetTrackingInputs,
+  useDefaultSetInputValues,
 } from "../hooks";
 
 type OperationType =
@@ -76,54 +76,25 @@ type ActiveSetNote = {
 };
 
 export default function WorkoutDetails() {
+  const { id } = useParams();
   const [workout, setWorkout] = useState<Workout>();
-  const [workoutDate, setWorkoutDate] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [groupedSets, setGroupedSets] = useState<GroupedWorkoutSet[]>([]);
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [selectedExercise, setSelectedExercise] = useState<Exercise>();
-  const [workoutNote, setWorkoutNote] = useState<string>("");
-  const [activeSet, setActiveSet] = useState<WorkoutSet>();
-  const [isActiveSetTimeInputInvalid, setIsActiveSetTimeInputInvalid] =
-    useState<boolean>(false);
-  const [showCommentInput, setShowCommentInput] = useState<boolean>(false);
-  const [showWorkoutNoteInput, setShowWorkoutNoteInput] =
-    useState<boolean>(false);
+  const [groupedSets, setGroupedSets] = useState<GroupedWorkoutSet[]>([]);
   const [operationType, setOperationType] = useState<OperationType>("add");
   const [operatingGroupedSet, setOperatingGroupedSet] =
     useState<GroupedWorkoutSet>();
-  const [incompleteSetIds, setIncompleteSetIds] = useState<number[]>([]);
-  const [activeSetNote, setActiveSetNote] = useState<
-    ActiveSetNote | undefined
-  >();
-  const [isActiveSetExpanded, setIsActiveSetExpanded] =
-    useState<boolean>(false);
   const [shownSetListComments, setShownSetListComments] =
     useState<SetListNotes>({});
   const [isExerciseBeingDragged, setIsExerciseBeingDragged] =
     useState<boolean>(false);
 
-  const initialized = useRef(false);
-
-  const { id } = useParams();
-
+  const numSetsOptions = useNumSetsOptions();
+  const setListOptionsMenu = useSetListOptionsMenu(false);
   const defaultNewSet = useDefaultSet(false);
 
   const [operatingSet, setOperatingSet] = useState<WorkoutSet>(defaultNewSet);
-
-  const defaultSetInputValues: SetTrackingValuesInput = useMemo(() => {
-    return DefaultSetInputValues();
-  }, []);
-
-  const [activeSetTrackingValuesInput, setActiveSetTrackingValuesInput] =
-    useState<SetTrackingValuesInput>(defaultSetInputValues);
-
-  const setModal = useDisclosure();
-  const deleteModal = useDisclosure();
-
-  const numSetsOptions = useNumSetsOptions();
-
-  const setListOptionsMenu = useSetListOptionsMenu(false);
 
   const {
     isSetDefaultValuesInvalid,
@@ -133,6 +104,31 @@ export default function WorkoutDetails() {
     setIsTimeInputInvalid,
     setDefaultValuesInputStrings,
   } = useSetTrackingInputs();
+
+  const defaultSetInputValues = useDefaultSetInputValues();
+
+  const setModal = useDisclosure();
+  const deleteModal = useDisclosure();
+
+  const [workoutDate, setWorkoutDate] = useState<string>("");
+  const [workoutNote, setWorkoutNote] = useState<string>("");
+  const [activeSet, setActiveSet] = useState<WorkoutSet>();
+  const [isActiveSetTimeInputInvalid, setIsActiveSetTimeInputInvalid] =
+    useState<boolean>(false);
+  const [showCommentInput, setShowCommentInput] = useState<boolean>(false);
+  const [showWorkoutNoteInput, setShowWorkoutNoteInput] =
+    useState<boolean>(false);
+  const [incompleteSetIds, setIncompleteSetIds] = useState<number[]>([]);
+  const [activeSetNote, setActiveSetNote] = useState<
+    ActiveSetNote | undefined
+  >();
+  const [isActiveSetExpanded, setIsActiveSetExpanded] =
+    useState<boolean>(false);
+
+  const initialized = useRef(false);
+
+  const [activeSetTrackingValuesInput, setActiveSetTrackingValuesInput] =
+    useState<SetTrackingValuesInput>(defaultSetInputValues);
 
   const updateWorkout = useCallback(async (workout: Workout) => {
     try {
@@ -365,16 +361,6 @@ export default function WorkoutDetails() {
     loadUserSettings();
   }, [id, updateWorkout, populateIncompleteSets]);
 
-  const updateExerciseOrder = async (
-    setList: GroupedWorkoutSet[] = groupedSets
-  ) => {
-    if (workout === undefined) return;
-
-    await UpdateExerciseOrder(setList, workout.id, false);
-
-    if (isExerciseBeingDragged) setIsExerciseBeingDragged(false);
-  };
-
   const addSet = async (numSets: string) => {
     if (selectedExercise === undefined || workout === undefined) return;
 
@@ -457,6 +443,256 @@ export default function WorkoutDetails() {
     }
   };
 
+  const deleteSet = async () => {
+    if (operatingSet === undefined || operationType !== "delete-set") return;
+
+    const success = await DeleteSetWithId(operatingSet.id);
+
+    if (!success) return;
+
+    const exerciseIndex: number = groupedSets.findIndex(
+      (obj) => obj.exercise.id === operatingSet.exercise_id
+    );
+
+    const updatedSetList: WorkoutSet[] = groupedSets[
+      exerciseIndex
+    ].setList.filter((item) => item.id !== operatingSet.id);
+
+    if (updatedSetList.length === 0) {
+      // Remove Exercise from groupedSets if last Set in Exercise was deleted
+      const updatedGroupedSets: GroupedWorkoutSet[] = groupedSets.filter(
+        (_, index) => index !== exerciseIndex
+      );
+
+      setGroupedSets(updatedGroupedSets);
+      updateExerciseOrder(updatedGroupedSets);
+    } else {
+      setGroupedSets((prev) => {
+        const newList = [...prev];
+        newList[exerciseIndex].setList = updatedSetList;
+        return newList;
+      });
+    }
+
+    // Close shownSetListComments for Set if deleted Set note was shown
+    updateSetIndexInShownSetListComments(
+      operatingSet.exercise_id,
+      operatingSet.set_index ?? -1
+    );
+
+    resetSetToDefault();
+
+    toast.success("Set Deleted");
+    deleteModal.onClose();
+
+    if (operatingSet.id === activeSet?.id) {
+      goToNextIncompleteSet(activeSet);
+    } else if (operatingSet.is_completed === 0) {
+      const updatedIncompleteSetIds = incompleteSetIds.filter(
+        (id) => id !== operatingSet.id
+      );
+      setIncompleteSetIds(updatedIncompleteSetIds);
+    }
+  };
+
+  const updateSet = async () => {
+    if (selectedExercise === undefined) return;
+
+    if (isSetDefaultValuesInvalid) return;
+
+    const setTrackingValuesNumber = ConvertSetInputValuesToNumbers(
+      setTrackingValuesInput
+    );
+
+    const noteToInsert = ConvertEmptyStringToNull(operatingSet.note);
+
+    const updatedSet: WorkoutSet = {
+      ...operatingSet,
+      exercise_id: selectedExercise.id,
+      note: noteToInsert,
+      exercise_name: selectedExercise.name,
+      weight: setTrackingValuesNumber.weight,
+      reps: setTrackingValuesNumber.reps,
+      distance: setTrackingValuesNumber.distance,
+      rir: setTrackingValuesNumber.rir,
+      rpe: setTrackingValuesNumber.rpe,
+      resistance_level: setTrackingValuesNumber.resistance_level,
+    };
+
+    const success = await UpdateSet(updatedSet);
+
+    if (!success) return;
+
+    const exerciseIndex: number = groupedSets.findIndex(
+      (obj) => obj.exercise.id === operatingSet.exercise_id
+    );
+
+    const updatedSetList: WorkoutSet[] = groupedSets[exerciseIndex].setList.map(
+      (item) => (item.id === operatingSet.id ? updatedSet : item)
+    );
+
+    setGroupedSets((prev) => {
+      const newList = [...prev];
+      newList[exerciseIndex].setList = updatedSetList;
+      return newList;
+    });
+
+    // Close ShownSetListComments for Set if note was deleted
+    if (updatedSet.note === null) {
+      updateSetIndexInShownSetListComments(
+        operatingSet.exercise_id,
+        operatingSet.set_index ?? -1
+      );
+    }
+
+    resetSetToDefault();
+
+    setModal.onClose();
+    toast.success("Set Updated");
+
+    if (activeSet?.id === updatedSet.id) {
+      setActiveSet(updatedSet);
+    }
+  };
+
+  const updateExerciseOrder = async (
+    setList: GroupedWorkoutSet[] = groupedSets
+  ) => {
+    if (workout === undefined) return;
+
+    await UpdateExerciseOrder(setList, workout.id, false);
+
+    if (isExerciseBeingDragged) setIsExerciseBeingDragged(false);
+  };
+
+  const resetSetToDefault = () => {
+    setOperationType("add");
+    setSelectedExercise(undefined);
+    setOperatingGroupedSet(undefined);
+    setOperatingSet({
+      ...defaultNewSet,
+      weight_unit: userSettings!.default_unit_weight!,
+      distance_unit: userSettings!.default_unit_distance!,
+    });
+    setSetTrackingValuesInput(defaultSetInputValues);
+  };
+
+  const handleSaveSetButton = async (numSets: string) => {
+    if (operationType === "add") {
+      await addSet(numSets);
+    }
+    if (operationType === "edit") {
+      await updateSet();
+    }
+  };
+
+  const handleAddSetButton = () => {
+    if (operationType !== "add") {
+      resetSetToDefault();
+    }
+
+    setModal.onOpen();
+  };
+
+  const handleEditSet = (
+    set: WorkoutSet,
+    index: number,
+    exercise: Exercise
+  ) => {
+    setOperatingSet({ ...set, set_index: index });
+    setOperationType("edit");
+    setSelectedExercise(exercise);
+    setDefaultValuesInputStrings(set);
+
+    setModal.onOpen();
+  };
+
+  const handleClickExercise = (exercise: Exercise) => {
+    setSelectedExercise(exercise);
+
+    if (operationType === "change-exercise") {
+      changeExercise(exercise);
+      return;
+    }
+
+    if (operationType === "edit") {
+      setOperatingSet((prev) => ({ ...prev, exercise_id: exercise.id }));
+      return;
+    }
+
+    if (exercise.formattedGroupString === "Cardio") {
+      setOperatingSet((prev) => ({
+        ...prev,
+        is_tracking_weight: 0,
+        is_tracking_reps: 0,
+        is_tracking_distance: 1,
+        is_tracking_time: 1,
+      }));
+    } else {
+      setOperatingSet((prev) => ({
+        ...prev,
+        is_tracking_weight: 1,
+        is_tracking_reps: 1,
+        is_tracking_distance: 0,
+        is_tracking_time: 0,
+      }));
+    }
+  };
+
+  const handleChangeExercise = (groupedWorkoutSet: GroupedWorkoutSet) => {
+    setSelectedExercise(undefined);
+    setOperationType("change-exercise");
+    setOperatingGroupedSet(groupedWorkoutSet);
+
+    setModal.onOpen();
+  };
+
+  const handleClickSet = (
+    set: WorkoutSet,
+    index: number,
+    exercise: Exercise
+  ) => {
+    const newActiveSet = { ...set, set_index: index };
+    setActiveSet(newActiveSet);
+    updateActiveSetTrackingValues(newActiveSet, activeSet);
+    setIsActiveSetExpanded(true);
+  };
+
+  const handleSetOptionSelection = (
+    key: string,
+    set: WorkoutSet,
+    index: number,
+    exercise: Exercise
+  ) => {
+    if (key === "edit") {
+      handleEditSet(set, index, exercise);
+    } else if (key === "delete-set") {
+      handleDeleteSet(set);
+    }
+  };
+
+  const handleDeleteSet = (set: WorkoutSet) => {
+    setOperatingSet(set);
+    setOperationType("delete-set");
+
+    deleteModal.onOpen();
+  };
+
+  const handleExerciseOptionSelection = (
+    key: string,
+    groupedWorkoutSet: GroupedWorkoutSet
+  ) => {
+    if (key === "delete-exercise-sets") {
+      handleDeleteExerciseSets(groupedWorkoutSet);
+    } else if (key === "add-set-to-exercise") {
+      handleAddSetToExercise(groupedWorkoutSet);
+    } else if (key === "change-exercise") {
+      handleChangeExercise(groupedWorkoutSet);
+    } else if (key === "toggle-exercise-note") {
+      handleToggleExerciseNote(groupedWorkoutSet);
+    }
+  };
+
   const handleAddSetToExercise = async (
     groupedWorkoutSet: GroupedWorkoutSet
   ) => {
@@ -516,60 +752,11 @@ export default function WorkoutDetails() {
     toast.success("Set Added");
   };
 
-  const deleteSet = async () => {
-    if (operatingSet === undefined || operationType !== "delete-set") return;
+  const handleDeleteExerciseSets = (groupedWorkoutSet: GroupedWorkoutSet) => {
+    setOperationType("delete-exercise-sets");
+    setOperatingGroupedSet(groupedWorkoutSet);
 
-    try {
-      const db = await Database.load(import.meta.env.VITE_DB);
-
-      db.execute("DELETE from sets WHERE id = $1", [operatingSet.id]);
-
-      const exerciseIndex: number = groupedSets.findIndex(
-        (obj) => obj.exercise_id === operatingSet.exercise_id
-      );
-
-      const updatedSetList: WorkoutSet[] = groupedSets[
-        exerciseIndex
-      ].setList.filter((item) => item.id !== operatingSet.id);
-
-      if (updatedSetList.length === 0) {
-        // Remove Exercise from groupedSets if last Set in Exercise was deleted
-        const updatedGroupedSets: GroupedWorkoutSet[] = groupedSets.filter(
-          (_, index) => index !== exerciseIndex
-        );
-
-        setGroupedSets(updatedGroupedSets);
-        updateExerciseOrder(updatedGroupedSets);
-      } else {
-        setGroupedSets((prev) => {
-          const newList = [...prev];
-          newList[exerciseIndex].setList = updatedSetList;
-          return newList;
-        });
-      }
-
-      if (operatingSet.id === activeSet?.id) {
-        goToNextIncompleteSet(activeSet);
-      } else if (operatingSet.is_completed === 0) {
-        const updatedIncompleteSetIds = incompleteSetIds.filter(
-          (id) => id !== operatingSet.id
-        );
-        setIncompleteSetIds(updatedIncompleteSetIds);
-      }
-
-      // Close ShownSetListComments for Set if deleted Set comment was shown
-      updateSetIndexInShownSetListComments(
-        operatingSet.exercise_id,
-        operatingSet.set_index ?? -1
-      );
-
-      resetSetToDefault();
-
-      toast.success("Set Deleted");
-      deleteModal.onClose();
-    } catch (error) {
-      console.log(error);
-    }
+    deleteModal.onOpen();
   };
 
   const deleteAllSetsForExerciseId = async () => {
@@ -586,11 +773,11 @@ export default function WorkoutDetails() {
       db.execute(
         `DELETE from sets 
          WHERE exercise_id = $1 AND workout_id = $2`,
-        [operatingGroupedSet.exercise_id, workout.id]
+        [operatingGroupedSet.exercise.id, workout.id]
       );
 
       const updatedSetList: GroupedWorkoutSet[] = groupedSets.filter(
-        (item) => item.exercise_id !== operatingGroupedSet.exercise_id
+        (item) => item.exercise.id !== operatingGroupedSet.exercise.id
       );
 
       setGroupedSets(updatedSetList);
@@ -606,64 +793,76 @@ export default function WorkoutDetails() {
     }
   };
 
-  const resetSetToDefault = () => {
-    setOperationType("add");
-    setSelectedExercise(undefined);
-    setOperatingGroupedSet(undefined);
-    setOperatingSet({
-      ...defaultNewSet,
-      weight_unit: userSettings!.default_unit_weight!,
-      distance_unit: userSettings!.default_unit_distance!,
-    });
-  };
-
-  const handleSaveSetButton = async (numSets: string) => {
-    if (operationType === "add") {
-      await addSet(numSets);
-    }
-    if (operationType === "edit") {
-      await editSet();
+  const handleDeleteModalButton = () => {
+    if (operationType === "delete-exercise-sets") {
+      deleteAllSetsForExerciseId();
+    } else if (operationType === "delete-set") {
+      deleteSet();
     }
   };
 
-  const handleAddSetButton = () => {
-    if (operationType !== "add") {
-      resetSetToDefault();
-    }
+  const handleToggleExerciseNote = (groupedWorkoutSet: GroupedWorkoutSet) => {
+    const updatedGroupedSet: GroupedWorkoutSet = {
+      ...groupedWorkoutSet,
+      showExerciseNote: !groupedWorkoutSet.showExerciseNote,
+    };
 
-    setModal.onOpen();
+    setGroupedSets((prev) =>
+      prev.map((item) =>
+        item.exercise.id === groupedWorkoutSet.exercise.id
+          ? updatedGroupedSet
+          : item
+      )
+    );
   };
 
-  const handleClickExercise = (exercise: Exercise) => {
-    setSelectedExercise(exercise);
+  const updateShownSetListComments = (exerciseId: number, index: number) => {
+    let updatedSet: Set<number> = new Set<number>();
+    if (shownSetListComments[exerciseId]) {
+      // If shownSetListComments HAS key for exerciseId
+      updatedSet = new Set(shownSetListComments[exerciseId]);
 
-    if (operationType === "change-exercise") {
-      changeExercise(exercise);
-      return;
-    }
-
-    if (operationType === "edit") {
-      setOperatingSet((prev) => ({ ...prev, exercise_id: exercise.id }));
-      return;
-    }
-
-    if (exercise.formattedGroupString === "Cardio") {
-      setOperatingSet((prev) => ({
-        ...prev,
-        is_tracking_weight: 0,
-        is_tracking_reps: 0,
-        is_tracking_distance: 1,
-        is_tracking_time: 1,
-      }));
+      if (shownSetListComments[exerciseId].has(index)) {
+        updatedSet.delete(index);
+      } else {
+        updatedSet.add(index);
+      }
     } else {
-      setOperatingSet((prev) => ({
-        ...prev,
-        is_tracking_weight: 1,
-        is_tracking_reps: 1,
-        is_tracking_distance: 0,
-        is_tracking_time: 0,
-      }));
+      // If shownSetListComments HAS NO key for exerciseId
+      updatedSet.add(index);
     }
+
+    setShownSetListComments((prev) => ({
+      ...prev,
+      [exerciseId]: updatedSet,
+    }));
+  };
+
+  const updateSetIndexInShownSetListComments = (
+    exerciseId: number,
+    setIndex: number
+  ) => {
+    if (
+      shownSetListComments[exerciseId] &&
+      shownSetListComments[exerciseId].has(setIndex)
+    ) {
+      updateShownSetListComments(exerciseId, setIndex);
+    }
+  };
+
+  const handleExerciseAccordionClick = (groupedSet: GroupedWorkoutSet) => {
+    if (isExerciseBeingDragged) return;
+
+    const updatedGroupedSet: GroupedWorkoutSet = {
+      ...groupedSet,
+      isExpanded: !groupedSet.isExpanded,
+    };
+
+    setGroupedSets((prev) =>
+      prev.map((item) =>
+        item.exercise.id === groupedSet.exercise.id ? updatedGroupedSet : item
+      )
+    );
   };
 
   const changeExercise = async (newExercise: Exercise) => {
@@ -722,77 +921,6 @@ export default function WorkoutDetails() {
 
     setModal.onClose();
     toast.success("Exercise Changed");
-  };
-
-  const editSet = async () => {
-    if (selectedExercise === undefined) return;
-
-    const noteToInsert = ConvertEmptyStringToNull(operatingSet.note);
-
-    const updatedSet: WorkoutSet = {
-      ...operatingSet,
-      exercise_id: selectedExercise.id,
-      note: noteToInsert,
-      exercise_name: selectedExercise.name,
-    };
-
-    const success = await UpdateSet(updatedSet);
-
-    if (!success) return;
-
-    const exerciseIndex: number = groupedSets.findIndex(
-      (obj) => obj.exercise_id === operatingSet.exercise_id
-    );
-
-    const updatedSetList: WorkoutSet[] = groupedSets[exerciseIndex].setList.map(
-      (item) => (item.id === operatingSet.id ? updatedSet : item)
-    );
-
-    setGroupedSets((prev) => {
-      const newList = [...prev];
-      newList[exerciseIndex].setList = updatedSetList;
-      return newList;
-    });
-
-    if (activeSet?.id === updatedSet.id) {
-      setActiveSet(updatedSet);
-    }
-
-    // Close ShownSetListComments for Set if note was deleted
-    if (updatedSet.note === null) {
-      updateSetIndexInShownSetListComments(
-        operatingSet.exercise_id,
-        operatingSet.set_index ?? -1
-      );
-    }
-
-    resetSetToDefault();
-
-    setModal.onClose();
-    toast.success("Set Updated");
-  };
-
-  const handleEditSet = (set: WorkoutSet, index: number) => {
-    const exercise = exercises.find((item) => item.id === set.exercise_id);
-
-    if (exercise === undefined) return;
-
-    setOperatingSet({ ...set, set_index: index });
-    setOperationType("edit");
-    setSelectedExercise(exercise);
-
-    setModal.onOpen();
-  };
-
-  const handleSaveNoteButton = async () => {
-    if (workout === undefined) return;
-
-    const noteToInsert = ConvertEmptyStringToNull(workoutNote);
-
-    const updatedWorkout: Workout = { ...workout, note: noteToInsert };
-
-    await updateWorkout(updatedWorkout);
-    setWorkout(updatedWorkout);
   };
 
   const isWeightInputInvalid = useMemo(() => {
@@ -938,70 +1066,6 @@ export default function WorkoutDetails() {
     setIncompleteSetIds(updatedIncompleteSetIds);
   };
 
-  const handleClickSet = (set: WorkoutSet, index: number) => {
-    const newActiveSet = { ...set, set_index: index };
-    setActiveSet(newActiveSet);
-    updateActiveSetTrackingValues(newActiveSet, activeSet);
-    setIsActiveSetExpanded(true);
-  };
-
-  const handleSetOptionSelection = (
-    key: string,
-    set: WorkoutSet,
-    index: number
-  ) => {
-    if (key === "edit") {
-      handleEditSet(set, index);
-    } else if (key === "delete-set") {
-      handleDeleteSet(set);
-    }
-  };
-
-  const handleDeleteSet = (set: WorkoutSet) => {
-    setOperatingSet(set);
-    setOperationType("delete-set");
-
-    deleteModal.onOpen();
-  };
-
-  const handleDeleteExerciseSets = (groupedWorkoutSet: GroupedWorkoutSet) => {
-    setOperationType("delete-exercise-sets");
-    setOperatingGroupedSet(groupedWorkoutSet);
-
-    deleteModal.onOpen();
-  };
-
-  const handleDeleteModalButton = () => {
-    if (operationType === "delete-exercise-sets") {
-      deleteAllSetsForExerciseId();
-    } else if (operationType === "delete-set") {
-      deleteSet();
-    }
-  };
-
-  const handleChangeExercise = (groupedWorkoutSet: GroupedWorkoutSet) => {
-    setSelectedExercise(undefined);
-    setOperationType("change-exercise");
-    setOperatingGroupedSet(groupedWorkoutSet);
-
-    setModal.onOpen();
-  };
-
-  const handleExerciseOptionSelection = (
-    key: string,
-    groupedWorkoutSet: GroupedWorkoutSet
-  ) => {
-    if (key === "delete-exercise-sets") {
-      handleDeleteExerciseSets(groupedWorkoutSet);
-    } else if (key === "add-set-to-exercise") {
-      handleAddSetToExercise(groupedWorkoutSet);
-    } else if (key === "change-exercise") {
-      handleChangeExercise(groupedWorkoutSet);
-    } else if (key === "toggle-exercise-note") {
-      handleToggleExerciseNote(groupedWorkoutSet);
-    }
-  };
-
   const handleActiveSetOptionSelection = (key: string) => {
     if (activeSet === undefined) return;
 
@@ -1028,66 +1092,15 @@ export default function WorkoutDetails() {
     }
   };
 
-  const handleExerciseAccordionClick = (groupedSet: GroupedWorkoutSet) => {
-    const updatedGroupedSet: GroupedWorkoutSet = {
-      ...groupedSet,
-      isExpanded: !groupedSet.isExpanded,
-    };
+  const handleSaveNoteButton = async () => {
+    if (workout === undefined) return;
 
-    setGroupedSets((prev) =>
-      prev.map((item) =>
-        item.exercise_id === groupedSet.exercise_id ? updatedGroupedSet : item
-      )
-    );
-  };
+    const noteToInsert = ConvertEmptyStringToNull(workoutNote);
 
-  const handleToggleExerciseNote = (groupedWorkoutSet: GroupedWorkoutSet) => {
-    const updatedGroupedSet: GroupedWorkoutSet = {
-      ...groupedWorkoutSet,
-      showExerciseNote: !groupedWorkoutSet.showExerciseNote,
-    };
+    const updatedWorkout: Workout = { ...workout, note: noteToInsert };
 
-    setGroupedSets((prev) =>
-      prev.map((item) =>
-        item.exercise_id === groupedWorkoutSet.exercise_id
-          ? updatedGroupedSet
-          : item
-      )
-    );
-  };
-
-  const updateShownSetListComments = (exerciseId: number, index: number) => {
-    let updatedSet: Set<number> = new Set<number>();
-    if (shownSetListComments[exerciseId]) {
-      // If shownSetListNotes HAS key for exerciseId
-      updatedSet = new Set(shownSetListComments[exerciseId]);
-
-      if (shownSetListComments[exerciseId].has(index)) {
-        updatedSet.delete(index);
-      } else {
-        updatedSet.add(index);
-      }
-    } else {
-      // If shownSetListNotes HAS NO key for exerciseId
-      updatedSet.add(index);
-    }
-
-    setShownSetListComments((prev) => ({
-      ...prev,
-      [exerciseId]: updatedSet,
-    }));
-  };
-
-  const updateSetIndexInShownSetListComments = (
-    exerciseId: number,
-    setIndex: number
-  ) => {
-    if (
-      shownSetListComments[exerciseId] &&
-      shownSetListComments[exerciseId].has(setIndex)
-    ) {
-      updateShownSetListComments(exerciseId, setIndex);
-    }
+    await updateWorkout(updatedWorkout);
+    setWorkout(updatedWorkout);
   };
 
   if (workout === undefined) return NotFound();
