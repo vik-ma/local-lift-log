@@ -144,10 +144,10 @@ export default function WorkoutTemplateDetails() {
           weight_unit: userSettings.default_unit_weight!,
           distance_unit: userSettings.default_unit_distance!,
         }));
+        setIsLoading(false);
       } catch (error) {
         console.log(error);
       }
-      setIsLoading(false);
     };
 
     getWorkoutTemplateAndSetList();

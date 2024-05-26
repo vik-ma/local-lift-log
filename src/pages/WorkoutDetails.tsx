@@ -356,7 +356,6 @@ export default function WorkoutDetails() {
 
         setWorkout(workout);
         setWorkoutDate(formattedDate);
-        setIsLoading(false);
       } catch (error) {
         console.log(error);
       }
@@ -372,6 +371,7 @@ export default function WorkoutDetails() {
           weight_unit: userSettings.default_unit_weight!,
           distance_unit: userSettings.default_unit_distance!,
         }));
+        setIsLoading(false);
       } catch (error) {
         console.log(error);
       }
