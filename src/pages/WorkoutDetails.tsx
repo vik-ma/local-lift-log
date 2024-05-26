@@ -16,7 +16,7 @@ import {
   DistanceUnitDropdown,
   TimeInput,
   WorkoutRatingDropdown,
-  SetList,
+  WorkoutExerciseList,
   DeleteModal,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
@@ -37,6 +37,7 @@ import {
   InsertSetIntoDatabase,
   UpdateSet,
   ConvertEmptyStringToNull,
+  UpdateExerciseOrder,
 } from "../helpers";
 import {
   Button,
@@ -56,7 +57,6 @@ import {
   DropdownMenu,
   DropdownItem,
 } from "@nextui-org/react";
-import { Reorder } from "framer-motion";
 import toast, { Toaster } from "react-hot-toast";
 import {
   SearchIcon,
@@ -110,6 +110,8 @@ export default function WorkoutDetails() {
     useState<boolean>(false);
   const [shownSetListComments, setShownSetListComments] =
     useState<SetListNotes>({});
+  const [isExerciseBeingDragged, setIsExerciseBeingDragged] =
+    useState<boolean>(false);
 
   const initialized = useRef(false);
 
@@ -390,18 +392,9 @@ export default function WorkoutDetails() {
   ) => {
     if (workout === undefined) return;
 
-    const exerciseOrderString: string = GenerateExerciseOrderString(setList);
+    await UpdateExerciseOrder(setList, workout.id, false);
 
-    try {
-      const db = await Database.load(import.meta.env.VITE_DB);
-
-      await db.execute(
-        `UPDATE workouts SET exercise_order = $1 WHERE id = $2`,
-        [exerciseOrderString, workout.id]
-      );
-    } catch (error) {
-      console.log(error);
-    }
+    if (isExerciseBeingDragged) setIsExerciseBeingDragged(false);
   };
 
   const addSet = async () => {
@@ -1385,142 +1378,21 @@ export default function WorkoutDetails() {
                   </Button>
                 </div>
               )}
-              <div className="flex flex-col gap-2">
-                <h2 className="text-xl font-semibold flex items-center justify-between">
-                  Set List{" "}
-                  {groupedSets.length > 1 && (
-                    <span className="text-xs italic text-stone-500 font-normal">
-                      Drag Exercises To Reorder Set List
-                    </span>
-                  )}
-                </h2>
-                <div className="flex flex-col gap-1">
-                  <Reorder.Group
-                    className="flex flex-col gap-1.5"
-                    values={groupedSets}
-                    onReorder={setGroupedSets}
-                  >
-                    {groupedSets.map((exercise) => (
-                      <Reorder.Item
-                        key={exercise.exercise_id}
-                        value={exercise}
-                        onDragEnd={() => updateExerciseOrder()}
-                        transition={{ duration: 0.15 }}
-                      >
-                        <div className="bg-white rounded-lg border border-stone-300 overflow-hidden">
-                          <div
-                            className="flex justify-between pl-2 py-1 h-14 w-full rounded-lg cursor-pointer hover:bg-stone-100"
-                            onClick={() =>
-                              handleExerciseAccordionClick(exercise)
-                            }
-                          >
-                            <div className="flex flex-col items-start">
-                              <h3 className="text-lg font-medium truncate max-w-80 text-yellow-600">
-                                {exercise.exercise_name}
-                              </h3>
-                              <span className="text-sm text-stone-500">
-                                {exercise.setList.length} Sets
-                              </span>
-                            </div>
-                            <div className="flex gap-0.5 px-0.5 items-center">
-                              <ChevronIcon
-                                size={27}
-                                color="#a8a29e"
-                                direction={
-                                  exercise.isExpanded ? "down" : "left"
-                                }
-                              />
-                              <Dropdown>
-                                <DropdownTrigger>
-                                  <Button
-                                    isIconOnly
-                                    className="z-1"
-                                    size="sm"
-                                    variant="light"
-                                  >
-                                    <VerticalMenuIcon
-                                      color="#a8a29e"
-                                      size={17}
-                                    />
-                                  </Button>
-                                </DropdownTrigger>
-                                <DropdownMenu
-                                  aria-label={`Option Menu For ${exercise.exercise_name}`}
-                                  itemClasses={{
-                                    base: "hover:text-[#404040] gap-4",
-                                  }}
-                                  onAction={(key) =>
-                                    handleExerciseOptionSelection(
-                                      key as string,
-                                      exercise
-                                    )
-                                  }
-                                >
-                                  <DropdownItem key="add-set-to-exercise">
-                                    Add Set
-                                  </DropdownItem>
-                                  <DropdownItem
-                                    className={
-                                      exercise.exercise_note === null
-                                        ? "hidden"
-                                        : ""
-                                    }
-                                    key="toggle-exercise-note"
-                                  >
-                                    {exercise.showExerciseNote
-                                      ? "Hide Exercise Note"
-                                      : "Show Exercise Note"}
-                                  </DropdownItem>
-                                  <DropdownItem key="change-exercise">
-                                    Change Exercise
-                                  </DropdownItem>
-                                  <DropdownItem
-                                    className="text-danger"
-                                    key="delete-exercise-sets"
-                                  >
-                                    Delete All Sets
-                                  </DropdownItem>
-                                </DropdownMenu>
-                              </Dropdown>
-                            </div>
-                          </div>
-                          {exercise.isExpanded && (
-                            <div className="flex flex-col divide-y divide-stone-200">
-                              {exercise.showExerciseNote && (
-                                <div className="flex justify-between items-center px-2 pb-1">
-                                  <span className="text-stone-400 break-words max-w-full">
-                                    {exercise.exercise_note}
-                                  </span>
-                                </div>
-                              )}
-                              <SetList
-                                exercise={exercise}
-                                activeSetId={activeSet ? activeSet.id : 0}
-                                clickSetAction={handleClickSet}
-                                optionsSelectionAction={
-                                  handleSetOptionSelection
-                                }
-                                clickCommentButtonAction={
-                                  updateShownSetListComments
-                                }
-                                shownSetListComments={shownSetListComments}
-                                isTemplate={false}
-                                setListOptionsMenu={setListOptionsMenu}
-                              />
-                            </div>
-                          )}
-                        </div>
-                      </Reorder.Item>
-                    ))}
-                  </Reorder.Group>
-                </div>
-              </div>
-              <div className="flex gap-1 justify-center">
-                <Button color="success" onPress={handleAddSetButton}>
-                  Add Set
-                </Button>
-              </div>
             </div>
+            <WorkoutExerciseList
+              groupedSets={groupedSets}
+              setGroupedSets={setGroupedSets}
+              updateExerciseOrder={updateExerciseOrder}
+              handleExerciseAccordionClick={handleExerciseAccordionClick}
+              handleExerciseOptionSelection={handleExerciseOptionSelection}
+              handleClickSet={handleClickSet}
+              handleSetOptionSelection={handleSetOptionSelection}
+              updateShownSetListComments={updateShownSetListComments}
+              shownSetListComments={shownSetListComments}
+              setListOptionsMenu={setListOptionsMenu}
+              handleAddSetButton={handleAddSetButton}
+              setIsExerciseBeingDragged={setIsExerciseBeingDragged}
+            />
             <div>
               {activeSet !== undefined && (
                 <div
