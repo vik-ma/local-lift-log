@@ -1023,7 +1023,7 @@ export default function WorkoutDetails() {
     if (!success) return;
 
     const exerciseIndex: number = groupedSets.findIndex(
-      (obj) => obj.exercise_id === activeSet.exercise_id
+      (obj) => obj.exercise.id === activeSet.exercise_id
     );
 
     const updatedSetList: WorkoutSet[] = groupedSets[exerciseIndex].setList.map(
@@ -1101,13 +1101,15 @@ export default function WorkoutDetails() {
         note_type: "Set Note",
       };
       setActiveSetNote(note);
-    } else if (key === "show-exercise-note" && activeSet.exercise_note) {
-      const note: ActiveSetNote = {
-        note: activeSet.exercise_note,
-        note_type: "Exercise Note",
-      };
-      setActiveSetNote(note);
-    } else if (key === "show-set-comment" && activeSet.comment) {
+    }
+    // else if (key === "show-exercise-note" && activeSet.exercise_note) {
+    //   const note: ActiveSetNote = {
+    //     note: activeSet.exercise_note,
+    //     note_type: "Exercise Note",
+    //   };
+    //   setActiveSetNote(note);
+    // }
+    else if (key === "show-set-comment" && activeSet.comment) {
       const note: ActiveSetNote = {
         note: activeSet.comment,
         note_type: "Comment",
@@ -1142,7 +1144,7 @@ export default function WorkoutDetails() {
         body={
           <p className="break-words">
             {operationType === "delete-exercise-sets"
-              ? `Are you sure you want to delete all ${operatingGroupedSet?.exercise_name} sets from Workout?`
+              ? `Are you sure you want to delete all ${operatingGroupedSet?.exercise.name} sets from Workout?`
               : `Are you sure you want to delete ${operatingSet.exercise_name} set?`}
           </p>
         }
@@ -1329,7 +1331,7 @@ export default function WorkoutDetails() {
                                     size="sm"
                                     isDisabled={
                                       activeSet.comment === null &&
-                                      activeSet.exercise_note === null &&
+                                      // activeSet.exercise_note === null &&
                                       activeSet.note === null
                                     }
                                   >
@@ -1361,7 +1363,7 @@ export default function WorkoutDetails() {
                                   >
                                     Show Set Note
                                   </DropdownItem>
-                                  <DropdownItem
+                                  {/* <DropdownItem
                                     className={
                                       activeSet.exercise_note === null
                                         ? "hidden"
@@ -1370,7 +1372,7 @@ export default function WorkoutDetails() {
                                     key="show-exercise-note"
                                   >
                                     Show Exercise Note
-                                  </DropdownItem>
+                                  </DropdownItem> */}
                                   <DropdownItem
                                     className={
                                       activeSet.comment === null ? "hidden" : ""
@@ -1469,6 +1471,12 @@ export default function WorkoutDetails() {
                                 userSettings!.default_time_input!
                               }
                               setIsInvalid={setIsActiveSetTimeInputInvalid}
+                              time_input_behavior_hhmmss={
+                                userSettings!.time_input_behavior_hhmmss!
+                              }
+                              time_input_behavior_mmss={
+                                userSettings!.time_input_behavior_mmss!
+                              }
                             />
                           )}
                           {!!activeSet.is_tracking_rir && (
@@ -1540,9 +1548,10 @@ export default function WorkoutDetails() {
                             <Button
                               color="success"
                               variant="light"
-                              onPress={() =>
-                                handleEditSet(activeSet, activeSet.set_index!)
-                              }
+                              // TODO: ADD EXERCISE TO ACTIVESET
+                              // onPress={() =>
+                              //   handleEditSet(activeSet, activeSet.set_index!)
+                              // }
                             >
                               Edit Set
                             </Button>
