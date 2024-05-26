@@ -304,16 +304,16 @@ export default function WorkoutDetails() {
 
         if (workout.is_loaded === 1) {
           const setList = await db.select<WorkoutSet[]>(
-            `SELECT sets.*, exercises.name AS exercise_name,
-            exercises.note AS exercise_note
-            FROM sets 
-            JOIN exercises ON sets.exercise_id = exercises.id 
+            `SELECT sets.*, 
+            COALESCE(exercises.name, 'Unknown Exercise') AS exercise_name
+            FROM sets LEFT JOIN 
+            exercises ON sets.exercise_id = exercises.id 
             WHERE workout_id = $1 AND is_template = 0`,
             [id]
           );
 
           const groupedSetList: GroupedWorkoutSet[] =
-            CreateGroupedWorkoutSetListByExerciseId(
+            await CreateGroupedWorkoutSetListByExerciseId(
               setList,
               workout.exercise_order
             );
