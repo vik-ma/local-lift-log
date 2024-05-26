@@ -453,84 +453,6 @@ export default function WorkoutTemplateDetails() {
     }
   };
 
-  const reassignExercise = async (newExercise: Exercise) => {
-    if (operatingGroupedSet === undefined || workoutTemplate === undefined)
-      return;
-
-    const oldExerciseIndex: number = groupedSets.findIndex(
-      (obj) => obj.exercise.id === operatingGroupedSet.exercise.id
-    );
-
-    if (operationType === "reassign-exercise") {
-      // Reassign ALL sets with old exercise_id to new exercise_id
-      await ReassignExerciseIdForSets(
-        operatingGroupedSet.exercise.id,
-        newExercise.id
-      );
-    } else if (operationType === "change-exercise") {
-      // Just change the sets with this specific workout_template_id
-      try {
-        const db = await Database.load(import.meta.env.VITE_DB);
-        await db.execute(
-          `UPDATE sets SET exercise_id = $1 
-          WHERE exercise_id = $2 AND workout_template_id = $3 AND is_template = 1`,
-          [newExercise.id, operatingGroupedSet.exercise.id, workoutTemplate.id]
-        );
-      } catch (error) {
-        console.log(error);
-        return;
-      }
-    } else return;
-
-    const newGroupedWorkoutSet: GroupedWorkoutSet = {
-      ...operatingGroupedSet,
-      exercise: newExercise,
-    };
-
-    const newExerciseIndex: number = groupedSets.findIndex(
-      (obj) => obj.exercise.id === newExercise.id
-    );
-
-    if (newExerciseIndex === -1) {
-      // Create new GroupedWorkoutSet if exercise_id does not exist in groupedSets
-      const newGroupedSets = [...groupedSets];
-      newGroupedSets[oldExerciseIndex] = newGroupedWorkoutSet;
-
-      setGroupedSets(newGroupedSets);
-      updateExerciseOrder(newGroupedSets);
-    } else {
-      // Add old Sets to groupedSets' existing Exercise's Set List
-      const newGroupedSets = [...groupedSets];
-
-      newGroupedSets[newExerciseIndex].setList = [
-        ...newGroupedSets[newExerciseIndex].setList,
-        ...newGroupedWorkoutSet.setList,
-      ];
-
-      newGroupedSets.splice(oldExerciseIndex, 1);
-
-      setGroupedSets(newGroupedSets);
-      updateExerciseOrder(newGroupedSets);
-    }
-
-    resetSetToDefault();
-
-    setModal.onClose();
-    const toastMsg: string =
-      operationType === "reassign-exercise"
-        ? "Exercise Reassigned"
-        : "Exercise Changed";
-    toast.success(toastMsg);
-  };
-
-  const handleReassignExercise = (groupedWorkoutSet: GroupedWorkoutSet) => {
-    setSelectedExercise(undefined);
-    setOperationType("reassign-exercise");
-    setOperatingGroupedSet(groupedWorkoutSet);
-
-    setModal.onOpen();
-  };
-
   const handleChangeExercise = (groupedWorkoutSet: GroupedWorkoutSet) => {
     setSelectedExercise(undefined);
     setOperationType("change-exercise");
@@ -755,6 +677,84 @@ export default function WorkoutTemplateDetails() {
         item.exercise.id === groupedSet.exercise.id ? updatedGroupedSet : item
       )
     );
+  };
+
+  const reassignExercise = async (newExercise: Exercise) => {
+    if (operatingGroupedSet === undefined || workoutTemplate === undefined)
+      return;
+
+    const oldExerciseIndex: number = groupedSets.findIndex(
+      (obj) => obj.exercise.id === operatingGroupedSet.exercise.id
+    );
+
+    if (operationType === "reassign-exercise") {
+      // Reassign ALL sets with old exercise_id to new exercise_id
+      await ReassignExerciseIdForSets(
+        operatingGroupedSet.exercise.id,
+        newExercise.id
+      );
+    } else if (operationType === "change-exercise") {
+      // Just change the sets with this specific workout_template_id
+      try {
+        const db = await Database.load(import.meta.env.VITE_DB);
+        await db.execute(
+          `UPDATE sets SET exercise_id = $1 
+          WHERE exercise_id = $2 AND workout_template_id = $3 AND is_template = 1`,
+          [newExercise.id, operatingGroupedSet.exercise.id, workoutTemplate.id]
+        );
+      } catch (error) {
+        console.log(error);
+        return;
+      }
+    } else return;
+
+    const newGroupedWorkoutSet: GroupedWorkoutSet = {
+      ...operatingGroupedSet,
+      exercise: newExercise,
+    };
+
+    const newExerciseIndex: number = groupedSets.findIndex(
+      (obj) => obj.exercise.id === newExercise.id
+    );
+
+    if (newExerciseIndex === -1) {
+      // Create new GroupedWorkoutSet if exercise_id does not exist in groupedSets
+      const newGroupedSets = [...groupedSets];
+      newGroupedSets[oldExerciseIndex] = newGroupedWorkoutSet;
+
+      setGroupedSets(newGroupedSets);
+      updateExerciseOrder(newGroupedSets);
+    } else {
+      // Add old Sets to groupedSets' existing Exercise's Set List
+      const newGroupedSets = [...groupedSets];
+
+      newGroupedSets[newExerciseIndex].setList = [
+        ...newGroupedSets[newExerciseIndex].setList,
+        ...newGroupedWorkoutSet.setList,
+      ];
+
+      newGroupedSets.splice(oldExerciseIndex, 1);
+
+      setGroupedSets(newGroupedSets);
+      updateExerciseOrder(newGroupedSets);
+    }
+
+    resetSetToDefault();
+
+    setModal.onClose();
+    const toastMsg: string =
+      operationType === "reassign-exercise"
+        ? "Exercise Reassigned"
+        : "Exercise Changed";
+    toast.success(toastMsg);
+  };
+
+  const handleReassignExercise = (groupedWorkoutSet: GroupedWorkoutSet) => {
+    setSelectedExercise(undefined);
+    setOperationType("reassign-exercise");
+    setOperatingGroupedSet(groupedWorkoutSet);
+
+    setModal.onOpen();
   };
 
   if (workoutTemplate === undefined) return NotFound();
