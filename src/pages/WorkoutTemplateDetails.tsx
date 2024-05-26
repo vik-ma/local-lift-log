@@ -22,7 +22,6 @@ import toast, { Toaster } from "react-hot-toast";
 import {
   ConvertSetInputValuesToNumbers,
   CreateGroupedWorkoutSetListByExerciseId,
-  DefaultSetInputValues,
   GetUserSettings,
   InsertSetIntoDatabase,
   ReassignExerciseIdForSets,
@@ -38,6 +37,7 @@ import {
   useSetTrackingInputs,
   useValidateName,
   useDefaultWorkoutTemplate,
+  useDefaultSetInputValues,
 } from "../hooks";
 
 type OperationType =
@@ -63,26 +63,11 @@ export default function WorkoutTemplateDetails() {
   const [isExerciseBeingDragged, setIsExerciseBeingDragged] =
     useState<boolean>(false);
 
-  const defaultNewWorkoutTemplate = useDefaultWorkoutTemplate();
-
-  const [editedWorkoutTemplate, setEditedWorkoutTemplate] =
-    useState<WorkoutTemplate>(defaultNewWorkoutTemplate);
-
   const numSetsOptions = useNumSetsOptions();
-
   const setListOptionsMenu = useSetListOptionsMenu(true);
-
   const defaultNewSet = useDefaultSet(true);
 
   const [operatingSet, setOperatingSet] = useState<WorkoutSet>(defaultNewSet);
-
-  const setModal = useDisclosure();
-  const deleteModal = useDisclosure();
-  const workoutTemplateModal = useDisclosure();
-
-  const isNewWorkoutTemplateNameValid = useValidateName(
-    editedWorkoutTemplate.name
-  );
 
   const {
     isSetDefaultValuesInvalid,
@@ -92,6 +77,21 @@ export default function WorkoutTemplateDetails() {
     setIsTimeInputInvalid,
     setDefaultValuesInputStrings,
   } = useSetTrackingInputs();
+
+  const defaultSetInputValues = useDefaultSetInputValues();
+
+  const setModal = useDisclosure();
+  const deleteModal = useDisclosure();
+  const workoutTemplateModal = useDisclosure();
+
+  const defaultNewWorkoutTemplate = useDefaultWorkoutTemplate();
+
+  const [editedWorkoutTemplate, setEditedWorkoutTemplate] =
+    useState<WorkoutTemplate>(defaultNewWorkoutTemplate);
+
+  const isNewWorkoutTemplateNameValid = useValidateName(
+    editedWorkoutTemplate.name
+  );
 
   const getWorkoutTemplateAndSetList = useCallback(async () => {
     try {
@@ -385,7 +385,7 @@ export default function WorkoutTemplateDetails() {
       weight_unit: userSettings!.default_unit_weight!,
       distance_unit: userSettings!.default_unit_distance!,
     });
-    setSetTrackingValuesInput(DefaultSetInputValues());
+    setSetTrackingValuesInput(defaultSetInputValues);
   };
 
   const handleSaveSetButton = async (numSets: string) => {
