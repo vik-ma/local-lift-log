@@ -1553,10 +1553,13 @@ export default function WorkoutDetails() {
                             <Button
                               color="success"
                               variant="light"
-                              // TODO: ADD EXERCISE TO ACTIVESET
-                              // onPress={() =>
-                              //   handleEditSet(activeSet, activeSet.set_index!)
-                              // }
+                              onPress={() =>
+                                handleEditSet(
+                                  activeSet,
+                                  activeSet.set_index!,
+                                  activeGroupedSet!.exercise
+                                )
+                              }
                             >
                               Edit Set
                             </Button>
