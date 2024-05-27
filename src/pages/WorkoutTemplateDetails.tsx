@@ -683,6 +683,13 @@ export default function WorkoutTemplateDetails() {
     if (operatingGroupedSet === undefined || workoutTemplate === undefined)
       return;
 
+    // Do nothing if trying to reassign the same Exercise
+    if (operatingGroupedSet.exercise.id === newExercise.id) {
+      resetSetToDefault();
+      setModal.onClose();
+      return;
+    }
+
     const oldExerciseIndex: number = groupedSets.findIndex(
       (obj) => obj.exercise.id === operatingGroupedSet.exercise.id
     );
@@ -838,6 +845,7 @@ export default function WorkoutTemplateDetails() {
               setListOptionsMenu={setListOptionsMenu}
               handleAddSetButton={handleAddSetButton}
               setIsExerciseBeingDragged={setIsExerciseBeingDragged}
+              handleReassignExercise={handleReassignExercise}
             />
           </>
         )}

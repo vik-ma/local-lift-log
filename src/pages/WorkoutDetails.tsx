@@ -883,6 +883,13 @@ export default function WorkoutDetails() {
   const reassignExercise = async (newExercise: Exercise) => {
     if (operatingGroupedSet === undefined || workout === undefined) return;
 
+    // Do nothing if trying to reassign the same Exercise
+    if (operatingGroupedSet.exercise.id === newExercise.id) {
+      resetSetToDefault();
+      setModal.onClose();
+      return;
+    }
+
     const oldExerciseIndex: number = groupedSets.findIndex(
       (obj) => obj.exercise.id === operatingGroupedSet.exercise.id
     );
