@@ -104,7 +104,12 @@ export const WorkoutExerciseList = ({
                     />
                     <Dropdown>
                       <DropdownTrigger>
-                        <Button isIconOnly size="sm" variant="light">
+                        <Button
+                          isIconOnly
+                          className="z-1"
+                          size="sm"
+                          variant="light"
+                        >
                           <VerticalMenuIcon color="#a8a29e" size={17} />
                         </Button>
                       </DropdownTrigger>
