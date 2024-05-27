@@ -126,6 +126,7 @@ export default function WorkoutDetails() {
   >();
   const [isActiveSetExpanded, setIsActiveSetExpanded] =
     useState<boolean>(false);
+  const [activeGroupedSet, setActiveGroupedSet] = useState<GroupedWorkoutSet>();
 
   const initialized = useRef(false);
 
@@ -260,6 +261,7 @@ export default function WorkoutDetails() {
                 set_index: firstSetIndex,
               };
               setActiveSet(newActiveSet);
+              setActiveGroupedSet(groupedSetList[i]);
               updateActiveSetTrackingValues(newActiveSet, undefined);
             }
           }
@@ -655,10 +657,11 @@ export default function WorkoutDetails() {
   const handleClickSet = (
     set: WorkoutSet,
     index: number,
-    exercise: Exercise
+    groupedSet: GroupedWorkoutSet
   ) => {
     const newActiveSet = { ...set, set_index: index };
     setActiveSet(newActiveSet);
+    setActiveGroupedSet(groupedSet);
     updateActiveSetTrackingValues(newActiveSet, activeSet);
     setIsActiveSetExpanded(true);
   };
@@ -1054,6 +1057,7 @@ export default function WorkoutDetails() {
       // If last incomplete Set
       setIncompleteSetIds([]);
       setActiveSet(undefined);
+      setActiveGroupedSet(undefined);
       setActiveSetTrackingValuesInput(defaultSetInputValues);
       return;
     }
@@ -1079,6 +1083,7 @@ export default function WorkoutDetails() {
             set_index: i,
           };
           setActiveSet(newActiveSet);
+          setActiveGroupedSet(group);
           updateActiveSetTrackingValues(newActiveSet, lastSet);
           break;
         }
