@@ -37,6 +37,7 @@ type WorkoutExerciseListProps = {
   setListOptionsMenu: SetListOptionsItem[];
   handleAddSetButton: () => void;
   setIsExerciseBeingDragged: React.Dispatch<React.SetStateAction<boolean>>;
+  handleReassignExercise: (groupedWorkoutSet: GroupedWorkoutSet) => void;
 };
 
 export const WorkoutExerciseList = ({
@@ -52,6 +53,7 @@ export const WorkoutExerciseList = ({
   setListOptionsMenu,
   handleAddSetButton,
   setIsExerciseBeingDragged,
+  handleReassignExercise,
 }: WorkoutExerciseListProps) => {
   return (
     <div className="flex flex-col gap-2">
@@ -83,15 +85,26 @@ export const WorkoutExerciseList = ({
                   onClick={() => handleExerciseAccordionClick(groupedSet)}
                 >
                   <div className="flex flex-col items-start">
-                    <h3
-                      className={
-                        groupedSet.exercise.isInvalid
-                          ? "text-lg font-medium truncate max-w-80 text-red-500"
-                          : "text-lg font-medium truncate max-w-80 text-yellow-600"
-                      }
-                    >
-                      {groupedSet.exercise.name}
-                    </h3>
+                    <div className="flex gap-3">
+                      <h3
+                        className={
+                          groupedSet.exercise.isInvalid
+                            ? "text-lg font-medium truncate max-w-80 text-red-500"
+                            : "text-lg font-medium truncate max-w-80 text-yellow-600"
+                        }
+                      >
+                        {groupedSet.exercise.name}
+                      </h3>
+                      {groupedSet.exercise.isInvalid && (
+                        <Button
+                          size="sm"
+                          variant="flat"
+                          onPress={() => handleReassignExercise(groupedSet)}
+                        >
+                          Reassign Exercise
+                        </Button>
+                      )}
+                    </div>
                     <span className="text-sm text-stone-500">
                       {groupedSet.setList.length} Sets
                     </span>

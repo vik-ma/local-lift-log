@@ -1227,6 +1227,7 @@ export default function WorkoutDetails() {
               setListOptionsMenu={setListOptionsMenu}
               handleAddSetButton={handleAddSetButton}
               setIsExerciseBeingDragged={setIsExerciseBeingDragged}
+              handleReassignExercise={handleReassignExercise}
             />
             <div>
               {activeSet !== undefined && (
