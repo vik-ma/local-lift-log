@@ -19,6 +19,7 @@ import {
   WorkoutExerciseList,
   DeleteModal,
   SetModal,
+  SetList,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
 import { NotFound } from ".";
@@ -1449,6 +1450,22 @@ export default function WorkoutDetails() {
                                   </div>
                                 </div>
                               )}
+                            </div>
+                            <div className="flex flex-col divide-y divide-stone-200">
+                              <SetList
+                                groupedSet={activeGroupedSet!}
+                                activeSetId={activeSet.id}
+                                clickSetAction={handleClickSet}
+                                optionsSelectionAction={
+                                  handleSetOptionSelection
+                                }
+                                clickCommentButtonAction={
+                                  updateShownSetListComments
+                                }
+                                shownSetListComments={shownSetListComments}
+                                isTemplate={true}
+                                setListOptionsMenu={setListOptionsMenu}
+                              />
                             </div>
                             <div className="flex flex-wrap gap-1.5 justify-evenly pt-2">
                               {!!activeSet.is_tracking_weight && (
