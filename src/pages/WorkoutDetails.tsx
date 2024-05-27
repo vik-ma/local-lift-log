@@ -947,6 +947,19 @@ export default function WorkoutDetails() {
         ? "Exercise Reassigned"
         : "Exercise Changed";
     toast.success(toastMsg);
+
+    if (
+      activeSet !== undefined &&
+      activeGroupedSet !== undefined &&
+      activeSet.exercise_id === operatingGroupedSet.exercise.id
+    ) {
+      setActiveSet({
+        ...activeSet,
+        exercise_id: newExercise.id,
+        exercise_name: newExercise.name,
+      });
+      setActiveGroupedSet({ ...activeGroupedSet, exercise: newExercise });
+    }
   };
 
   const handleReassignExercise = (groupedWorkoutSet: GroupedWorkoutSet) => {
