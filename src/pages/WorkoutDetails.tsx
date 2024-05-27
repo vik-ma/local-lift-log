@@ -657,11 +657,16 @@ export default function WorkoutDetails() {
   const handleClickSet = (
     set: WorkoutSet,
     index: number,
-    groupedSet: GroupedWorkoutSet
+    exercise: Exercise
   ) => {
     const newActiveSet = { ...set, set_index: index };
     setActiveSet(newActiveSet);
+
+    const groupedSet = groupedSets.find(
+      (obj) => obj.exercise.id === exercise.id
+    );
     setActiveGroupedSet(groupedSet);
+
     updateActiveSetTrackingValues(newActiveSet, activeSet);
     setIsActiveSetExpanded(true);
   };
