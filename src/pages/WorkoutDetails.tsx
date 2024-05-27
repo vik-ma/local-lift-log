@@ -1284,322 +1284,353 @@ export default function WorkoutDetails() {
                       </div>
                     </button>
                     {isActiveSetExpanded ? (
-                      <div className="flex flex-col px-1.5 h-full">
-                        <div className="flex flex-col">
-                          <div className="flex justify-between gap-1.5">
-                            <div>
-                              {showCommentInput && (
+                      <div className="px-1.5 h-full">
+                        {activeGroupedSet?.exercise.isInvalid ? (
+                          <div className="flex flex-col p-5 justify-center gap-3">
+                            <div className="flex justify-center text-lg text-center font-medium">
+                              This Set is referencing an Exercise that has been
+                              deleted.
+                            </div>
+                            <Button
+                              className="font-medium"
+                              variant="flat"
+                              onPress={() =>
+                                handleReassignExercise(activeGroupedSet)
+                              }
+                            >
+                              Reassign Exercise
+                            </Button>
+                          </div>
+                        ) : (
+                          <div className="flex flex-col">
+                            <div className="flex flex-col">
+                              <div className="flex justify-between gap-1.5">
+                                <div>
+                                  {showCommentInput && (
+                                    <Input
+                                      value={activeSet.comment ?? ""}
+                                      label="Comment"
+                                      labelPlacement="outside-left"
+                                      size="sm"
+                                      variant="faded"
+                                      onValueChange={(value) =>
+                                        setActiveSet((prev) => ({
+                                          ...prev!,
+                                          comment: value,
+                                        }))
+                                      }
+                                      isInvalid={isResistanceLevelInputInvalid}
+                                      isClearable
+                                    />
+                                  )}
+                                  {activeSetNote !== undefined && (
+                                    <div className="flex gap-2 items-center pt-1.5">
+                                      <h3 className="font-medium text-lg">
+                                        {activeSetNote.note_type}
+                                      </h3>
+                                      <Button
+                                        className="h-7"
+                                        size="sm"
+                                        variant="flat"
+                                        onPress={() =>
+                                          setActiveSetNote(undefined)
+                                        }
+                                      >
+                                        Hide
+                                      </Button>
+                                    </div>
+                                  )}
+                                </div>
+                                <div className="flex">
+                                  <Button
+                                    isIconOnly
+                                    variant="light"
+                                    size="sm"
+                                    onPress={() =>
+                                      setShowCommentInput((prev) => !prev)
+                                    }
+                                  >
+                                    <CommentIcon size={20} />
+                                  </Button>
+                                  <Dropdown>
+                                    <DropdownTrigger>
+                                      <Button
+                                        isIconOnly
+                                        variant="light"
+                                        size="sm"
+                                        isDisabled={
+                                          activeSet.comment === null &&
+                                          activeGroupedSet?.exercise.note ===
+                                            null &&
+                                          activeSet.note === null
+                                        }
+                                      >
+                                        <VerticalMenuIcon size={18} />
+                                      </Button>
+                                    </DropdownTrigger>
+                                    <DropdownMenu
+                                      aria-label="Active Set Option Menu"
+                                      itemClasses={{
+                                        base: "hover:text-[#404040] gap-4",
+                                      }}
+                                      onAction={(key) =>
+                                        handleActiveSetOptionSelection(
+                                          key as string
+                                        )
+                                      }
+                                    >
+                                      <DropdownItem
+                                        className={
+                                          activeSetNote ? "" : "hidden"
+                                        }
+                                        key="hide-note"
+                                      >
+                                        Hide Note
+                                      </DropdownItem>
+                                      <DropdownItem
+                                        className={
+                                          activeSet.note === null
+                                            ? "hidden"
+                                            : ""
+                                        }
+                                        key="show-set-note"
+                                      >
+                                        Show Set Note
+                                      </DropdownItem>
+                                      <DropdownItem
+                                        className={
+                                          activeGroupedSet?.exercise.note ===
+                                          null
+                                            ? "hidden"
+                                            : ""
+                                        }
+                                        key="show-exercise-note"
+                                      >
+                                        Show Exercise Note
+                                      </DropdownItem>
+                                      <DropdownItem
+                                        className={
+                                          activeSet.comment === null
+                                            ? "hidden"
+                                            : ""
+                                        }
+                                        key="show-set-comment"
+                                      >
+                                        Show Set Comment
+                                      </DropdownItem>
+                                    </DropdownMenu>
+                                  </Dropdown>
+                                </div>
+                              </div>
+                              {activeSetNote !== undefined && (
+                                <div className="flex flex-col">
+                                  <div className="text-stone-500 break-words">
+                                    {activeSetNote.note}
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                            <div className="flex flex-wrap gap-1.5 justify-evenly pt-2">
+                              {!!activeSet.is_tracking_weight && (
+                                <div className="flex justify-between gap-2 w-56">
+                                  <Input
+                                    value={activeSetTrackingValuesInput.weight}
+                                    label="Weight"
+                                    variant="faded"
+                                    labelPlacement="outside-left"
+                                    onValueChange={(value) =>
+                                      setActiveSetTrackingValuesInput(
+                                        (prev: SetTrackingValuesInput) => ({
+                                          ...prev,
+                                          weight: value,
+                                        })
+                                      )
+                                    }
+                                    isInvalid={isWeightInputInvalid}
+                                    isClearable
+                                  />
+                                  <WeightUnitDropdown
+                                    value={activeSet.weight_unit}
+                                    setSet={setActiveSet as SetWorkoutSetAction}
+                                    targetType="set"
+                                  />
+                                </div>
+                              )}
+                              {!!activeSet.is_tracking_reps && (
                                 <Input
-                                  value={activeSet.comment ?? ""}
-                                  label="Comment"
-                                  labelPlacement="outside-left"
-                                  size="sm"
+                                  className="w-28"
+                                  value={activeSetTrackingValuesInput.reps}
+                                  label="Reps"
                                   variant="faded"
+                                  labelPlacement="outside-left"
                                   onValueChange={(value) =>
-                                    setActiveSet((prev) => ({
-                                      ...prev!,
-                                      comment: value,
-                                    }))
+                                    setActiveSetTrackingValuesInput(
+                                      (prev: SetTrackingValuesInput) => ({
+                                        ...prev,
+                                        reps: value,
+                                      })
+                                    )
+                                  }
+                                  isInvalid={isRepsInputInvalid}
+                                  isClearable
+                                />
+                              )}
+                              {!!activeSet.is_tracking_distance && (
+                                <div className="flex justify-between gap-2 w-64">
+                                  <Input
+                                    value={
+                                      activeSetTrackingValuesInput.distance
+                                    }
+                                    label="Distance"
+                                    variant="faded"
+                                    labelPlacement="outside-left"
+                                    onValueChange={(value) =>
+                                      setActiveSetTrackingValuesInput(
+                                        (prev: SetTrackingValuesInput) => ({
+                                          ...prev,
+                                          distance: value,
+                                        })
+                                      )
+                                    }
+                                    isInvalid={isDistanceInputInvalid}
+                                    isClearable
+                                  />
+                                  <DistanceUnitDropdown
+                                    value={activeSet.distance_unit}
+                                    setSet={setActiveSet as SetWorkoutSetAction}
+                                    targetType="set"
+                                  />
+                                </div>
+                              )}
+                              {!!activeSet.is_tracking_time && (
+                                <TimeInput
+                                  value={activeSet}
+                                  setValue={setActiveSet as SetWorkoutSetAction}
+                                  defaultTimeInput={
+                                    userSettings!.default_time_input!
+                                  }
+                                  setIsInvalid={setIsActiveSetTimeInputInvalid}
+                                  time_input_behavior_hhmmss={
+                                    userSettings!.time_input_behavior_hhmmss!
+                                  }
+                                  time_input_behavior_mmss={
+                                    userSettings!.time_input_behavior_mmss!
+                                  }
+                                />
+                              )}
+                              {!!activeSet.is_tracking_rir && (
+                                <Input
+                                  className="w-[6.5rem]"
+                                  value={activeSetTrackingValuesInput.rir}
+                                  label="RIR"
+                                  variant="faded"
+                                  labelPlacement="outside-left"
+                                  onValueChange={(value) =>
+                                    setActiveSetTrackingValuesInput(
+                                      (prev: SetTrackingValuesInput) => ({
+                                        ...prev,
+                                        rir: value,
+                                      })
+                                    )
+                                  }
+                                  isInvalid={isRirInputInvalid}
+                                  isClearable
+                                />
+                              )}
+                              {!!activeSet.is_tracking_rpe && (
+                                <Input
+                                  className="w-[6.5rem]"
+                                  value={activeSetTrackingValuesInput.rpe}
+                                  label="RPE"
+                                  variant="faded"
+                                  labelPlacement="outside-left"
+                                  onValueChange={(value) =>
+                                    setActiveSetTrackingValuesInput(
+                                      (prev: SetTrackingValuesInput) => ({
+                                        ...prev,
+                                        rpe: value,
+                                      })
+                                    )
+                                  }
+                                  isInvalid={isRpeInputInvalid}
+                                  isClearable
+                                />
+                              )}
+                              {!!activeSet.is_tracking_resistance_level && (
+                                <Input
+                                  className="w-auto"
+                                  classNames={{
+                                    label: "whitespace-nowrap",
+                                    input: "w-16",
+                                  }}
+                                  value={
+                                    activeSetTrackingValuesInput.resistance_level
+                                  }
+                                  label="Resistance Level"
+                                  variant="faded"
+                                  labelPlacement="outside-left"
+                                  onValueChange={(value) =>
+                                    setActiveSetTrackingValuesInput(
+                                      (prev: SetTrackingValuesInput) => ({
+                                        ...prev,
+                                        resistance_level: value,
+                                      })
+                                    )
                                   }
                                   isInvalid={isResistanceLevelInputInvalid}
                                   isClearable
                                 />
                               )}
-                              {activeSetNote !== undefined && (
-                                <div className="flex gap-2 items-center pt-1.5">
-                                  <h3 className="font-medium text-lg">
-                                    {activeSetNote.note_type}
-                                  </h3>
-                                  <Button
-                                    className="h-7"
-                                    size="sm"
-                                    variant="flat"
-                                    onPress={() => setActiveSetNote(undefined)}
-                                  >
-                                    Hide
-                                  </Button>
-                                </div>
-                              )}
                             </div>
-                            <div className="flex">
-                              <Button
-                                isIconOnly
-                                variant="light"
-                                size="sm"
-                                onPress={() =>
-                                  setShowCommentInput((prev) => !prev)
-                                }
-                              >
-                                <CommentIcon size={20} />
-                              </Button>
-                              <Dropdown>
-                                <DropdownTrigger>
-                                  <Button
-                                    isIconOnly
-                                    variant="light"
-                                    size="sm"
-                                    isDisabled={
-                                      activeSet.comment === null &&
-                                      activeGroupedSet?.exercise.note ===
-                                        null &&
-                                      activeSet.note === null
-                                    }
-                                  >
-                                    <VerticalMenuIcon size={18} />
-                                  </Button>
-                                </DropdownTrigger>
-                                <DropdownMenu
-                                  aria-label="Active Set Option Menu"
-                                  itemClasses={{
-                                    base: "hover:text-[#404040] gap-4",
-                                  }}
-                                  onAction={(key) =>
-                                    handleActiveSetOptionSelection(
-                                      key as string
+                            <div className="flex justify-between pt-3">
+                              <div className="flex gap-1">
+                                <Button
+                                  color="success"
+                                  variant="light"
+                                  onPress={() =>
+                                    handleEditSet(
+                                      activeSet,
+                                      activeSet.set_index!,
+                                      activeGroupedSet!.exercise
                                     )
                                   }
                                 >
-                                  <DropdownItem
-                                    className={activeSetNote ? "" : "hidden"}
-                                    key="hide-note"
-                                  >
-                                    Hide Note
-                                  </DropdownItem>
-                                  <DropdownItem
-                                    className={
-                                      activeSet.note === null ? "hidden" : ""
-                                    }
-                                    key="show-set-note"
-                                  >
-                                    Show Set Note
-                                  </DropdownItem>
-                                  <DropdownItem
-                                    className={
-                                      activeGroupedSet?.exercise.note === null
-                                        ? "hidden"
-                                        : ""
-                                    }
-                                    key="show-exercise-note"
-                                  >
-                                    Show Exercise Note
-                                  </DropdownItem>
-                                  <DropdownItem
-                                    className={
-                                      activeSet.comment === null ? "hidden" : ""
-                                    }
-                                    key="show-set-comment"
-                                  >
-                                    Show Set Comment
-                                  </DropdownItem>
-                                </DropdownMenu>
-                              </Dropdown>
-                            </div>
-                          </div>
-                          {activeSetNote !== undefined && (
-                            <div className="flex flex-col">
-                              <div className="text-stone-500 break-words">
-                                {activeSetNote.note}
+                                  Edit Set
+                                </Button>
+                              </div>
+                              <div className="flex gap-1.5">
+                                <Button
+                                  color="success"
+                                  variant="light"
+                                  onPress={() =>
+                                    setActiveSetTrackingValuesInput(
+                                      defaultSetInputValues
+                                    )
+                                  }
+                                >
+                                  Clear
+                                </Button>
+                                <Button
+                                  color="success"
+                                  isDisabled={isSetTrackingInputsInvalid}
+                                  onPress={saveActiveSet}
+                                >
+                                  {activeSet.is_completed ? "Update" : "Save"}
+                                </Button>
                               </div>
                             </div>
-                          )}
-                        </div>
-                        <div className="flex flex-wrap gap-1.5 justify-evenly pt-2">
-                          {!!activeSet.is_tracking_weight && (
-                            <div className="flex justify-between gap-2 w-56">
-                              <Input
-                                value={activeSetTrackingValuesInput.weight}
-                                label="Weight"
-                                variant="faded"
-                                labelPlacement="outside-left"
-                                onValueChange={(value) =>
-                                  setActiveSetTrackingValuesInput(
-                                    (prev: SetTrackingValuesInput) => ({
-                                      ...prev,
-                                      weight: value,
-                                    })
-                                  )
-                                }
-                                isInvalid={isWeightInputInvalid}
-                                isClearable
-                              />
-                              <WeightUnitDropdown
-                                value={activeSet.weight_unit}
-                                setSet={setActiveSet as SetWorkoutSetAction}
-                                targetType="set"
-                              />
+                            <div className="flex h-full justify-end items-end">
+                              <Button
+                                isIconOnly
+                                size="lg"
+                                variant="light"
+                                onPress={() => setIsActiveSetExpanded(false)}
+                              >
+                                <MinimizeIcon color="#eab308" />
+                              </Button>
                             </div>
-                          )}
-                          {!!activeSet.is_tracking_reps && (
-                            <Input
-                              className="w-28"
-                              value={activeSetTrackingValuesInput.reps}
-                              label="Reps"
-                              variant="faded"
-                              labelPlacement="outside-left"
-                              onValueChange={(value) =>
-                                setActiveSetTrackingValuesInput(
-                                  (prev: SetTrackingValuesInput) => ({
-                                    ...prev,
-                                    reps: value,
-                                  })
-                                )
-                              }
-                              isInvalid={isRepsInputInvalid}
-                              isClearable
-                            />
-                          )}
-                          {!!activeSet.is_tracking_distance && (
-                            <div className="flex justify-between gap-2 w-64">
-                              <Input
-                                value={activeSetTrackingValuesInput.distance}
-                                label="Distance"
-                                variant="faded"
-                                labelPlacement="outside-left"
-                                onValueChange={(value) =>
-                                  setActiveSetTrackingValuesInput(
-                                    (prev: SetTrackingValuesInput) => ({
-                                      ...prev,
-                                      distance: value,
-                                    })
-                                  )
-                                }
-                                isInvalid={isDistanceInputInvalid}
-                                isClearable
-                              />
-                              <DistanceUnitDropdown
-                                value={activeSet.distance_unit}
-                                setSet={setActiveSet as SetWorkoutSetAction}
-                                targetType="set"
-                              />
-                            </div>
-                          )}
-                          {!!activeSet.is_tracking_time && (
-                            <TimeInput
-                              value={activeSet}
-                              setValue={setActiveSet as SetWorkoutSetAction}
-                              defaultTimeInput={
-                                userSettings!.default_time_input!
-                              }
-                              setIsInvalid={setIsActiveSetTimeInputInvalid}
-                              time_input_behavior_hhmmss={
-                                userSettings!.time_input_behavior_hhmmss!
-                              }
-                              time_input_behavior_mmss={
-                                userSettings!.time_input_behavior_mmss!
-                              }
-                            />
-                          )}
-                          {!!activeSet.is_tracking_rir && (
-                            <Input
-                              className="w-[6.5rem]"
-                              value={activeSetTrackingValuesInput.rir}
-                              label="RIR"
-                              variant="faded"
-                              labelPlacement="outside-left"
-                              onValueChange={(value) =>
-                                setActiveSetTrackingValuesInput(
-                                  (prev: SetTrackingValuesInput) => ({
-                                    ...prev,
-                                    rir: value,
-                                  })
-                                )
-                              }
-                              isInvalid={isRirInputInvalid}
-                              isClearable
-                            />
-                          )}
-                          {!!activeSet.is_tracking_rpe && (
-                            <Input
-                              className="w-[6.5rem]"
-                              value={activeSetTrackingValuesInput.rpe}
-                              label="RPE"
-                              variant="faded"
-                              labelPlacement="outside-left"
-                              onValueChange={(value) =>
-                                setActiveSetTrackingValuesInput(
-                                  (prev: SetTrackingValuesInput) => ({
-                                    ...prev,
-                                    rpe: value,
-                                  })
-                                )
-                              }
-                              isInvalid={isRpeInputInvalid}
-                              isClearable
-                            />
-                          )}
-                          {!!activeSet.is_tracking_resistance_level && (
-                            <Input
-                              className="w-auto"
-                              classNames={{
-                                label: "whitespace-nowrap",
-                                input: "w-16",
-                              }}
-                              value={
-                                activeSetTrackingValuesInput.resistance_level
-                              }
-                              label="Resistance Level"
-                              variant="faded"
-                              labelPlacement="outside-left"
-                              onValueChange={(value) =>
-                                setActiveSetTrackingValuesInput(
-                                  (prev: SetTrackingValuesInput) => ({
-                                    ...prev,
-                                    resistance_level: value,
-                                  })
-                                )
-                              }
-                              isInvalid={isResistanceLevelInputInvalid}
-                              isClearable
-                            />
-                          )}
-                        </div>
-                        <div className="flex justify-between pt-3">
-                          <div className="flex gap-1">
-                            <Button
-                              color="success"
-                              variant="light"
-                              onPress={() =>
-                                handleEditSet(
-                                  activeSet,
-                                  activeSet.set_index!,
-                                  activeGroupedSet!.exercise
-                                )
-                              }
-                            >
-                              Edit Set
-                            </Button>
                           </div>
-                          <div className="flex gap-1.5">
-                            <Button
-                              color="success"
-                              variant="light"
-                              onPress={() =>
-                                setActiveSetTrackingValuesInput(
-                                  defaultSetInputValues
-                                )
-                              }
-                            >
-                              Clear
-                            </Button>
-                            <Button
-                              color="success"
-                              isDisabled={isSetTrackingInputsInvalid}
-                              onPress={saveActiveSet}
-                            >
-                              {activeSet.is_completed ? "Update" : "Save"}
-                            </Button>
-                          </div>
-                        </div>
-                        <div className="flex h-full justify-end items-end">
-                          <Button
-                            isIconOnly
-                            size="lg"
-                            variant="light"
-                            onPress={() => setIsActiveSetExpanded(false)}
-                          >
-                            <MinimizeIcon color="#eab308" />
-                          </Button>
-                        </div>
+                        )}
                       </div>
                     ) : null}
                   </div>
