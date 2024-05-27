@@ -1284,7 +1284,7 @@ export default function WorkoutDetails() {
                       </div>
                     </button>
                     {isActiveSetExpanded ? (
-                      <div className="px-1.5 h-full">
+                      <div className="flex flex-col px-1.5 h-full">
                         {activeGroupedSet?.exercise.isInvalid ? (
                           <div className="flex flex-col p-5 justify-center gap-3">
                             <div className="flex justify-center text-lg text-center font-medium">
@@ -1619,18 +1619,18 @@ export default function WorkoutDetails() {
                                 </Button>
                               </div>
                             </div>
-                            <div className="flex h-full justify-end items-end">
-                              <Button
-                                isIconOnly
-                                size="lg"
-                                variant="light"
-                                onPress={() => setIsActiveSetExpanded(false)}
-                              >
-                                <MinimizeIcon color="#eab308" />
-                              </Button>
-                            </div>
                           </div>
                         )}
+                        <div className="flex h-full justify-end items-end">
+                          <Button
+                            isIconOnly
+                            size="lg"
+                            variant="light"
+                            onPress={() => setIsActiveSetExpanded(false)}
+                          >
+                            <MinimizeIcon color="#eab308" />
+                          </Button>
+                        </div>
                       </div>
                     ) : null}
                   </div>
