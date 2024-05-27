@@ -1103,7 +1103,7 @@ export default function WorkoutDetails() {
   };
 
   const handleActiveSetOptionSelection = (key: string) => {
-    if (activeSet === undefined) return;
+    if (activeSet === undefined || activeGroupedSet === undefined) return;
 
     if (key === "show-set-note" && activeSet.note) {
       const note: ActiveSetNote = {
@@ -1111,15 +1111,13 @@ export default function WorkoutDetails() {
         note_type: "Set Note",
       };
       setActiveSetNote(note);
-    }
-    // else if (key === "show-exercise-note" && activeSet.exercise_note) {
-    //   const note: ActiveSetNote = {
-    //     note: activeSet.exercise_note,
-    //     note_type: "Exercise Note",
-    //   };
-    //   setActiveSetNote(note);
-    // }
-    else if (key === "show-set-comment" && activeSet.comment) {
+    } else if (key === "show-exercise-note" && activeGroupedSet.exercise.note) {
+      const note: ActiveSetNote = {
+        note: activeGroupedSet.exercise.note,
+        note_type: "Exercise Note",
+      };
+      setActiveSetNote(note);
+    } else if (key === "show-set-comment" && activeSet.comment) {
       const note: ActiveSetNote = {
         note: activeSet.comment,
         note_type: "Comment",
@@ -1341,7 +1339,8 @@ export default function WorkoutDetails() {
                                     size="sm"
                                     isDisabled={
                                       activeSet.comment === null &&
-                                      // activeSet.exercise_note === null &&
+                                      activeGroupedSet?.exercise.note ===
+                                        null &&
                                       activeSet.note === null
                                     }
                                   >
@@ -1373,16 +1372,16 @@ export default function WorkoutDetails() {
                                   >
                                     Show Set Note
                                   </DropdownItem>
-                                  {/* <DropdownItem
+                                  <DropdownItem
                                     className={
-                                      activeSet.exercise_note === null
+                                      activeGroupedSet?.exercise.note === null
                                         ? "hidden"
                                         : ""
                                     }
                                     key="show-exercise-note"
                                   >
                                     Show Exercise Note
-                                  </DropdownItem> */}
+                                  </DropdownItem>
                                   <DropdownItem
                                     className={
                                       activeSet.comment === null ? "hidden" : ""
