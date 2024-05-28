@@ -262,3 +262,8 @@ export type SetListOptionsItem = {
   label: string;
   className?: string;
 };
+
+export type ActiveSetNote = {
+  note: string;
+  note_type: "Set Note" | "Exercise Note" | "Comment";
+};

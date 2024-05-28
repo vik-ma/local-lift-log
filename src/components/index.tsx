@@ -3,6 +3,7 @@ export { SiteHeader } from "./SiteHeader";
 export { TimeInput } from "./TimeInput";
 export { SetList } from "./SetList";
 export { WorkoutExerciseList } from "./WorkoutExerciseList";
+export { ActiveSet } from "./ActiveSet";
 
 export { WeightUnitDropdown } from "./Dropdowns/WeightUnitDropdown";
 export { DistanceUnitDropdown } from "./Dropdowns/DistanceUnitDropdown";
