@@ -29,6 +29,8 @@ export const CreateDefaultUserSettings = async (
 
   const default_time_input_behavior_mmss: string = "second";
 
+  const default_show_workout_rating: number = 1;
+
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -44,8 +46,8 @@ export const CreateDefaultUserSettings = async (
       (show_timestamp_on_completed_set, active_routine_id, default_unit_weight, 
         default_unit_distance, default_time_input, default_unit_measurement, 
         active_tracking_measurements, locale, clock_style, time_input_behavior_hhmmss, 
-        time_input_behavior_mmss) 
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
+        time_input_behavior_mmss, show_workout_rating) 
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)`,
       [
         show_timestamp_on_completed_set,
         active_routine_id,
@@ -58,6 +60,7 @@ export const CreateDefaultUserSettings = async (
         default_clock_style,
         default_time_input_behavior_hhmmss,
         default_time_input_behavior_mmss,
+        default_show_workout_rating,
       ]
     );
 
@@ -76,6 +79,7 @@ export const CreateDefaultUserSettings = async (
       clock_style: default_clock_style,
       time_input_behavior_hhmmss: default_time_input_behavior_hhmmss,
       time_input_behavior_mmss: default_time_input_behavior_mmss,
+      show_workout_rating: default_show_workout_rating,
     };
 
     return defaultUserSettings;
