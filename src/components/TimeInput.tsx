@@ -173,9 +173,6 @@ export const TimeInput = ({
       return;
 
     setValue((prev) => ({ ...prev, time_in_seconds: seconds }));
-    setMinutesInput(convertSecondsToMinutes(seconds));
-    setHhmmssInput(convertSecondsToHhmmss(seconds));
-    setMmssInput(convertSecondsToMmss(seconds));
   };
 
   const handleMinutesInputChange = (value: string) => {
@@ -187,9 +184,6 @@ export const TimeInput = ({
     const seconds: number = convertMinutesToSeconds(minutes);
 
     setValue((prev) => ({ ...prev, time_in_seconds: seconds }));
-    setSecondsInput(seconds === 0 ? "" : seconds.toString());
-    setHhmmssInput(convertSecondsToHhmmss(seconds));
-    setMmssInput(convertSecondsToMmss(seconds));
   };
 
   const convertMinutesToSeconds = (minutes: number): number => {
@@ -229,9 +223,6 @@ export const TimeInput = ({
     const timeInSeconds = convertHhmmssToSeconds(hours, minutes, seconds);
 
     setValue((prev) => ({ ...prev, time_in_seconds: timeInSeconds }));
-    setSecondsInput(timeInSeconds === 0 ? "" : timeInSeconds.toString());
-    setMinutesInput(convertSecondsToMinutes(timeInSeconds));
-    setMmssInput(convertSecondsToMmss(timeInSeconds));
 
     // Don't move focus
     if (time_input_behavior_hhmmss === "never") return;
@@ -273,9 +264,6 @@ export const TimeInput = ({
     const timeInSeconds = convertMmssToSeconds(minutes, seconds);
 
     setValue((prev) => ({ ...prev, time_in_seconds: timeInSeconds }));
-    setSecondsInput(timeInSeconds === 0 ? "" : timeInSeconds.toString());
-    setMinutesInput(convertSecondsToMinutes(timeInSeconds));
-    setHhmmssInput(convertSecondsToHhmmss(timeInSeconds));
 
     // Don't move focus
     if (time_input_behavior_mmss === "never") return;
@@ -289,6 +277,15 @@ export const TimeInput = ({
       mmssSecondsInput.current.focus();
     }
   };
+
+  useEffect(() => {
+    setSecondsInput(
+      value.time_in_seconds === 0 ? "" : value.time_in_seconds.toString()
+    );
+    setMinutesInput(convertSecondsToMinutes(value.time_in_seconds));
+    setMmssInput(convertSecondsToMmss(value.time_in_seconds));
+    setHhmmssInput(convertSecondsToHhmmss(value.time_in_seconds));
+  }, [value.time_in_seconds]);
 
   const hhmmssHoursInput = useRef<HTMLInputElement>(null);
   const hhmmssMinutesInput = useRef<HTMLInputElement>(null);

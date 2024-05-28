@@ -22,11 +22,7 @@ import {
   WorkoutSet,
 } from "../../typings";
 import { useState } from "react";
-import {
-  useExerciseList,
-  useNumSetsOptions,
-  useDefaultSetInputValues,
-} from "../../hooks";
+import { useExerciseList, useNumSetsOptions } from "../../hooks";
 
 type SetModalProps = {
   setModal: ReturnType<typeof useDisclosure>;
@@ -49,6 +45,7 @@ type SetModalProps = {
   defaultTimeInput: string;
   time_input_behavior_hhmmss: string;
   time_input_behavior_mmss: string;
+  clearSetInputValues: (isOperatingSet: boolean) => void;
 };
 
 export const SetModal = ({
@@ -68,11 +65,10 @@ export const SetModal = ({
   defaultTimeInput,
   time_input_behavior_hhmmss,
   time_input_behavior_mmss,
+  clearSetInputValues,
 }: SetModalProps) => {
   const [showDefaultValues, setShowDefaultValues] = useState<boolean>(false);
   const [numNewSets, setNumNewSets] = useState<string>("1");
-
-  const defaultSetInputValues = useDefaultSetInputValues();
 
   const numSetsOptions = useNumSetsOptions();
 
@@ -291,9 +287,7 @@ export const SetModal = ({
                             variant="light"
                             size="sm"
                             color="danger"
-                            onPress={() =>
-                              setSetTrackingValuesInput(defaultSetInputValues)
-                            }
+                            onPress={() => clearSetInputValues(true)}
                           >
                             Clear Default Values
                           </Button>

@@ -764,6 +764,16 @@ export default function WorkoutTemplateDetails() {
     setModal.onOpen();
   };
 
+  const clearSetInputValues = (isOperatingSet: boolean) => {
+    if (isOperatingSet) {
+      setSetTrackingValuesInput(defaultSetInputValues);
+      setOperatingSet({
+        ...operatingSet,
+        time_in_seconds: 0,
+      });
+    }
+  };
+
   if (workoutTemplate === undefined) return NotFound();
 
   return (
@@ -808,6 +818,7 @@ export default function WorkoutTemplateDetails() {
         defaultTimeInput={userSettings!.default_time_input!}
         time_input_behavior_hhmmss={userSettings!.time_input_behavior_hhmmss}
         time_input_behavior_mmss={userSettings!.time_input_behavior_mmss}
+        clearSetInputValues={clearSetInputValues}
       />
       <div className="flex flex-col gap-4">
         {isLoading ? (

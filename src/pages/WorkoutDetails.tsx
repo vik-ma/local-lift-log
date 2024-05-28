@@ -965,6 +965,24 @@ export default function WorkoutDetails() {
     setModal.onOpen();
   };
 
+  const clearSetInputValues = (isOperatingSet: boolean) => {
+    if (isOperatingSet) {
+      operatingSetInputs.setSetTrackingValuesInput(defaultSetInputValues);
+      setOperatingSet({
+        ...operatingSet,
+        time_in_seconds: 0,
+      });
+    } else {
+      if (activeSet === undefined) return;
+
+      activeSetInputs.setSetTrackingValuesInput(defaultSetInputValues);
+      setActiveSet({
+        ...activeSet,
+        time_in_seconds: 0,
+      });
+    }
+  };
+
   const saveActiveSet = async () => {
     if (activeSet === undefined || workout === undefined) return;
 
@@ -1142,6 +1160,7 @@ export default function WorkoutDetails() {
         defaultTimeInput={userSettings!.default_time_input!}
         time_input_behavior_hhmmss={userSettings!.time_input_behavior_hhmmss}
         time_input_behavior_mmss={userSettings!.time_input_behavior_mmss}
+        clearSetInputValues={clearSetInputValues}
       />
       <div className="flex flex-col">
         {isLoading ? (
@@ -1624,11 +1643,7 @@ export default function WorkoutDetails() {
                                   <Button
                                     color="success"
                                     variant="light"
-                                    onPress={() =>
-                                      activeSetInputs.setSetTrackingValuesInput(
-                                        defaultSetInputValues
-                                      )
-                                    }
+                                    onPress={() => clearSetInputValues(false)}
                                   >
                                     Clear
                                   </Button>
