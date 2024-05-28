@@ -100,12 +100,12 @@ export default function WorkoutDetails() {
   const [operatingSet, setOperatingSet] = useState<WorkoutSet>(defaultNewSet);
 
   const {
-    isSetDefaultValuesInvalid,
+    isSetTrackingValuesInvalid,
     setInputsValidityMap,
     setTrackingValuesInput,
     setSetTrackingValuesInput,
     setIsTimeInputInvalid,
-    setDefaultValuesInputStrings,
+    setTrackingValuesInputStrings,
   } = useSetTrackingInputs();
 
   const defaultSetInputValues = useDefaultSetInputValues();
@@ -371,7 +371,7 @@ export default function WorkoutDetails() {
 
     if (!numSetsOptions.includes(numSets)) return;
 
-    if (isSetDefaultValuesInvalid) return;
+    if (isSetTrackingValuesInvalid) return;
 
     const setTrackingValuesNumber = ConvertSetInputValuesToNumbers(
       setTrackingValuesInput
@@ -503,7 +503,7 @@ export default function WorkoutDetails() {
   const updateSet = async () => {
     if (selectedExercise === undefined) return;
 
-    if (isSetDefaultValuesInvalid) return;
+    if (isSetTrackingValuesInvalid) return;
 
     const setTrackingValuesNumber = ConvertSetInputValuesToNumbers(
       setTrackingValuesInput
@@ -607,7 +607,7 @@ export default function WorkoutDetails() {
     setOperatingSet({ ...set, set_index: index });
     setOperationType("edit");
     setSelectedExercise(exercise);
-    setDefaultValuesInputStrings(set);
+    setTrackingValuesInputStrings(set);
 
     setModal.onOpen();
   };
@@ -1190,7 +1190,7 @@ export default function WorkoutDetails() {
         setTrackingValuesInput={setTrackingValuesInput}
         setSetTrackingValuesInput={setSetTrackingValuesInput}
         setInputsValidityMap={setInputsValidityMap}
-        isSetDefaultValuesInvalid={isSetDefaultValuesInvalid}
+        isSetTrackingValuesInvalid={isSetTrackingValuesInvalid}
         handleSaveSetButton={handleSaveSetButton}
         setIsTimeInputInvalid={setIsTimeInputInvalid}
         defaultTimeInput={userSettings!.default_time_input!}

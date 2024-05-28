@@ -39,7 +39,7 @@ type SetModalProps = {
     React.SetStateAction<SetTrackingValuesInput>
   >;
   setInputsValidityMap: SetTrackingValuesValidity;
-  isSetDefaultValuesInvalid: boolean;
+  isSetTrackingValuesInvalid: boolean;
   handleSaveSetButton: (numSets: string) => void;
   setIsTimeInputInvalid: React.Dispatch<React.SetStateAction<boolean>>;
   defaultTimeInput: string;
@@ -58,7 +58,7 @@ export const SetModal = ({
   setTrackingValuesInput,
   setSetTrackingValuesInput,
   setInputsValidityMap,
-  isSetDefaultValuesInvalid,
+  isSetTrackingValuesInvalid,
   handleSaveSetButton,
   setIsTimeInputInvalid,
   defaultTimeInput,
@@ -435,7 +435,7 @@ export const SetModal = ({
                 <Button
                   color="success"
                   isDisabled={
-                    selectedExercise === undefined || isSetDefaultValuesInvalid
+                    selectedExercise === undefined || isSetTrackingValuesInvalid
                   }
                   onPress={() => handleSaveSetButton(numNewSets)}
                 >

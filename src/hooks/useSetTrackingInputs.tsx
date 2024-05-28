@@ -12,14 +12,14 @@ import {
 } from "../typings";
 
 type UseSetTrackingInputsReturnType = {
-  isSetDefaultValuesInvalid: boolean;
+  isSetTrackingValuesInvalid: boolean;
   setInputsValidityMap: SetTrackingValuesValidity;
   setTrackingValuesInput: SetTrackingValuesInput;
   setSetTrackingValuesInput: React.Dispatch<
     React.SetStateAction<SetTrackingValuesInput>
   >;
   setIsTimeInputInvalid: React.Dispatch<React.SetStateAction<boolean>>;
-  setDefaultValuesInputStrings: (set: WorkoutSet) => void;
+  setTrackingValuesInputStrings: (set: WorkoutSet) => void;
 };
 
 export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
@@ -46,7 +46,7 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
     return values;
   }, [setTrackingValuesInput]);
 
-  const isSetDefaultValuesInvalid = useMemo((): boolean => {
+  const isSetTrackingValuesInvalid = useMemo((): boolean => {
     for (const value of Object.values(setInputsValidityMap)) {
       if (value === true) return true;
     }
@@ -54,7 +54,7 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
     return false;
   }, [setInputsValidityMap, isTimeInputInvalid]);
 
-  const setDefaultValuesInputStrings = (set: WorkoutSet) => {
+  const setTrackingValuesInputStrings = (set: WorkoutSet) => {
     const newSetTrackingValuesInput = {
       weight:
         set.is_tracking_weight && set.weight !== 0 ? set.weight.toString() : "",
@@ -74,12 +74,12 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
   };
 
   return {
-    isSetDefaultValuesInvalid,
+    isSetTrackingValuesInvalid,
     setInputsValidityMap,
     setTrackingValuesInput,
     setSetTrackingValuesInput,
     setIsTimeInputInvalid,
-    setDefaultValuesInputStrings,
+    setTrackingValuesInputStrings,
   };
 };
 
