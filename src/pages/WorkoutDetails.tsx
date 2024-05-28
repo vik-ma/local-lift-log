@@ -1307,7 +1307,7 @@ export default function WorkoutDetails() {
                       </div>
                     </button>
                     {isActiveSetExpanded ? (
-                      <div className="flex flex-col h-full">
+                      <div className="flex flex-col h-full overflow-y-auto">
                         {activeGroupedSet?.exercise.isInvalid ? (
                           <div className="flex flex-col p-5 justify-center gap-3">
                             <div className="flex justify-center text-lg text-center font-medium">
@@ -1672,7 +1672,7 @@ export default function WorkoutDetails() {
                             </div>
                           </div>
                         )}
-                        <div className="flex h-full justify-end items-end">
+                        <div className="absolute bottom-1 right-1">
                           <Button
                             isIconOnly
                             size="lg"
