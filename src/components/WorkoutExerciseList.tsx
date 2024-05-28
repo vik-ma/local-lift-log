@@ -60,15 +60,17 @@ export const WorkoutExerciseList = ({
   activeSetId = 0,
 }: WorkoutExerciseListProps) => {
   return (
-    <div className="flex flex-col gap-2">
-      <h2 className="text-xl font-semibold flex items-center justify-between">
-        Set List{" "}
-        {groupedSets.length > 1 && (
-          <span className="text-xs italic text-stone-500 font-normal">
-            Drag Exercises To Reorder Set List
-          </span>
-        )}
-      </h2>
+    <div className="flex flex-col gap-1">
+      <div className="px-0.5">
+        <h2 className="text-xl font-semibold flex items-baseline justify-between">
+          Set List{" "}
+          {groupedSets.length > 1 && (
+            <span className="text-xs italic text-stone-500 font-normal">
+              Drag Exercises To Reorder Set List
+            </span>
+          )}
+        </h2>
+      </div>
       <div className="flex flex-col gap-1">
         <Reorder.Group
           className="flex flex-col gap-1.5"
