@@ -846,6 +846,7 @@ export default function WorkoutTemplateDetails() {
               handleAddSetButton={handleAddSetButton}
               setIsExerciseBeingDragged={setIsExerciseBeingDragged}
               handleReassignExercise={handleReassignExercise}
+              isTemplate={true}
             />
           </>
         )}

@@ -38,6 +38,8 @@ type WorkoutExerciseListProps = {
   handleAddSetButton: () => void;
   setIsExerciseBeingDragged: React.Dispatch<React.SetStateAction<boolean>>;
   handleReassignExercise: (groupedWorkoutSet: GroupedWorkoutSet) => void;
+  isTemplate: boolean;
+  activeSetId?: number;
 };
 
 export const WorkoutExerciseList = ({
@@ -54,6 +56,8 @@ export const WorkoutExerciseList = ({
   handleAddSetButton,
   setIsExerciseBeingDragged,
   handleReassignExercise,
+  isTemplate,
+  activeSetId = 0,
 }: WorkoutExerciseListProps) => {
   return (
     <div className="flex flex-col gap-2">
@@ -181,12 +185,12 @@ export const WorkoutExerciseList = ({
                     )}
                     <SetList
                       groupedSet={groupedSet}
-                      activeSetId={0}
+                      activeSetId={activeSetId}
                       clickSetAction={handleClickSet}
                       optionsSelectionAction={handleSetOptionSelection}
                       clickCommentButtonAction={updateShownSetListComments}
                       shownSetListComments={shownSetListComments}
-                      isTemplate={true}
+                      isTemplate={isTemplate}
                       setListOptionsMenu={setListOptionsMenu}
                     />
                   </div>

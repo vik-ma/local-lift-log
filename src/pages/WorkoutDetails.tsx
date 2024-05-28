@@ -1249,6 +1249,8 @@ export default function WorkoutDetails() {
               handleAddSetButton={handleAddSetButton}
               setIsExerciseBeingDragged={setIsExerciseBeingDragged}
               handleReassignExercise={handleReassignExercise}
+              isTemplate={false}
+              activeSetId={activeSet?.id}
             />
             <div>
               {activeSet !== undefined && (
@@ -1463,7 +1465,7 @@ export default function WorkoutDetails() {
                                   updateShownSetListComments
                                 }
                                 shownSetListComments={shownSetListComments}
-                                isTemplate={true}
+                                isTemplate={false}
                                 setListOptionsMenu={setListOptionsMenu}
                               />
                             </div>
