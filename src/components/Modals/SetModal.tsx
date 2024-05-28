@@ -22,7 +22,11 @@ import {
   WorkoutSet,
 } from "../../typings";
 import { useState } from "react";
-import { useExerciseList, useNumSetsOptions } from "../../hooks";
+import {
+  useExerciseList,
+  useNumSetsOptions,
+  useDefaultSetInputValues,
+} from "../../hooks";
 
 type SetModalProps = {
   setModal: ReturnType<typeof useDisclosure>;
@@ -67,6 +71,8 @@ export const SetModal = ({
 }: SetModalProps) => {
   const [showDefaultValues, setShowDefaultValues] = useState<boolean>(false);
   const [numNewSets, setNumNewSets] = useState<string>("1");
+
+  const defaultSetInputValues = useDefaultSetInputValues();
 
   const numSetsOptions = useNumSetsOptions();
 
@@ -270,13 +276,29 @@ export const SetModal = ({
                     )}
                     <div className="flex gap-2.5 items-center px-0.5">
                       <h3 className="text-xl font-semibold">Default Values</h3>
-                      <Button
-                        variant="flat"
-                        size="sm"
-                        onPress={() => setShowDefaultValues(!showDefaultValues)}
-                      >
-                        {showDefaultValues ? "Hide" : "Show"}
-                      </Button>
+                      <div className="flex flex-grow justify-between">
+                        <Button
+                          variant="flat"
+                          size="sm"
+                          onPress={() =>
+                            setShowDefaultValues(!showDefaultValues)
+                          }
+                        >
+                          {showDefaultValues ? "Hide" : "Show"}
+                        </Button>
+                        {showDefaultValues && (
+                          <Button
+                            variant="light"
+                            size="sm"
+                            color="danger"
+                            onPress={() =>
+                              setSetTrackingValuesInput(defaultSetInputValues)
+                            }
+                          >
+                            Clear Default Values
+                          </Button>
+                        )}
+                      </div>
                     </div>
                     {showDefaultValues && (
                       <div className="flex flex-wrap gap-1.5 px-1 justify-evenly">
