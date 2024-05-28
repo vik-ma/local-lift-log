@@ -99,14 +99,7 @@ export default function WorkoutDetails() {
 
   const [operatingSet, setOperatingSet] = useState<WorkoutSet>(defaultNewSet);
 
-  const {
-    isSetTrackingValuesInvalid,
-    setInputsValidityMap,
-    setTrackingValuesInput,
-    setSetTrackingValuesInput,
-    setIsTimeInputInvalid,
-    setTrackingValuesInputStrings,
-  } = useSetTrackingInputs();
+  const operatingSetInputs = useSetTrackingInputs();
 
   const defaultSetInputValues = useDefaultSetInputValues();
 
@@ -371,10 +364,10 @@ export default function WorkoutDetails() {
 
     if (!numSetsOptions.includes(numSets)) return;
 
-    if (isSetTrackingValuesInvalid) return;
+    if (operatingSetInputs.isSetTrackingValuesInvalid) return;
 
     const setTrackingValuesNumber = ConvertSetInputValuesToNumbers(
-      setTrackingValuesInput
+      operatingSetInputs.setTrackingValuesInput
     );
 
     try {
@@ -503,10 +496,10 @@ export default function WorkoutDetails() {
   const updateSet = async () => {
     if (selectedExercise === undefined) return;
 
-    if (isSetTrackingValuesInvalid) return;
+    if (operatingSetInputs.isSetTrackingValuesInvalid) return;
 
     const setTrackingValuesNumber = ConvertSetInputValuesToNumbers(
-      setTrackingValuesInput
+      operatingSetInputs.setTrackingValuesInput
     );
 
     const noteToInsert = ConvertEmptyStringToNull(operatingSet.note);
@@ -579,7 +572,7 @@ export default function WorkoutDetails() {
       weight_unit: userSettings!.default_unit_weight!,
       distance_unit: userSettings!.default_unit_distance!,
     });
-    setSetTrackingValuesInput(defaultSetInputValues);
+    operatingSetInputs.setSetTrackingValuesInput(defaultSetInputValues);
   };
 
   const handleSaveSetButton = async (numSets: string) => {
@@ -607,7 +600,7 @@ export default function WorkoutDetails() {
     setOperatingSet({ ...set, set_index: index });
     setOperationType("edit");
     setSelectedExercise(exercise);
-    setTrackingValuesInputStrings(set);
+    operatingSetInputs.setTrackingValuesInputStrings(set);
 
     setModal.onOpen();
   };
@@ -1187,12 +1180,14 @@ export default function WorkoutDetails() {
         operationType={operationType}
         operatingSet={operatingSet}
         setOperatingSet={setOperatingSet}
-        setTrackingValuesInput={setTrackingValuesInput}
-        setSetTrackingValuesInput={setSetTrackingValuesInput}
-        setInputsValidityMap={setInputsValidityMap}
-        isSetTrackingValuesInvalid={isSetTrackingValuesInvalid}
+        setTrackingValuesInput={operatingSetInputs.setTrackingValuesInput}
+        setSetTrackingValuesInput={operatingSetInputs.setSetTrackingValuesInput}
+        setInputsValidityMap={operatingSetInputs.setInputsValidityMap}
+        isSetTrackingValuesInvalid={
+          operatingSetInputs.isSetTrackingValuesInvalid
+        }
         handleSaveSetButton={handleSaveSetButton}
-        setIsTimeInputInvalid={setIsTimeInputInvalid}
+        setIsTimeInputInvalid={operatingSetInputs.setIsTimeInputInvalid}
         defaultTimeInput={userSettings!.default_time_input!}
         time_input_behavior_hhmmss={userSettings!.time_input_behavior_hhmmss}
         time_input_behavior_mmss={userSettings!.time_input_behavior_mmss}
