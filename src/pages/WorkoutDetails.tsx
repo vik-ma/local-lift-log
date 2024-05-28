@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef, useMemo } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useParams } from "react-router-dom";
 import {
   Workout,
@@ -26,9 +26,6 @@ import { NotFound } from ".";
 import {
   CreateSetsFromWorkoutTemplate,
   GetUserSettings,
-  IsStringInvalidInteger,
-  IsStringInvalidNumber,
-  IsStringInvalidNumberOrAbove10,
   ConvertSetInputValuesToNumbers,
   FormatDateString,
   ConvertDateStringToTimeString,
@@ -100,6 +97,7 @@ export default function WorkoutDetails() {
   const [operatingSet, setOperatingSet] = useState<WorkoutSet>(defaultNewSet);
 
   const operatingSetInputs = useSetTrackingInputs();
+  const activeSetInputs = useSetTrackingInputs();
 
   const defaultSetInputValues = useDefaultSetInputValues();
 
@@ -109,8 +107,6 @@ export default function WorkoutDetails() {
   const [workoutDate, setWorkoutDate] = useState<string>("");
   const [workoutNote, setWorkoutNote] = useState<string>("");
   const [activeSet, setActiveSet] = useState<WorkoutSet>();
-  const [isActiveSetTimeInputInvalid, setIsActiveSetTimeInputInvalid] =
-    useState<boolean>(false);
   const [showCommentInput, setShowCommentInput] = useState<boolean>(false);
   const [showWorkoutNoteInput, setShowWorkoutNoteInput] =
     useState<boolean>(false);
@@ -123,9 +119,6 @@ export default function WorkoutDetails() {
   const [activeGroupedSet, setActiveGroupedSet] = useState<GroupedWorkoutSet>();
 
   const initialized = useRef(false);
-
-  const [activeSetTrackingValuesInput, setActiveSetTrackingValuesInput] =
-    useState<SetTrackingValuesInput>(defaultSetInputValues);
 
   const updateWorkout = useCallback(async (workout: Workout) => {
     try {
@@ -231,7 +224,7 @@ export default function WorkoutDetails() {
         }
       }
 
-      setActiveSetTrackingValuesInput(activeSetInputValues);
+      activeSetInputs.setSetTrackingValuesInput(activeSetInputValues);
     },
     []
   );
@@ -971,58 +964,15 @@ export default function WorkoutDetails() {
     setModal.onOpen();
   };
 
-  const isWeightInputInvalid = useMemo(() => {
-    return IsStringInvalidNumber(activeSetTrackingValuesInput.weight);
-  }, [activeSetTrackingValuesInput.weight]);
-
-  const isRepsInputInvalid = useMemo(() => {
-    return IsStringInvalidInteger(activeSetTrackingValuesInput.reps);
-  }, [activeSetTrackingValuesInput.reps]);
-
-  const isDistanceInputInvalid = useMemo(() => {
-    return IsStringInvalidNumber(activeSetTrackingValuesInput.distance);
-  }, [activeSetTrackingValuesInput.distance]);
-
-  const isRirInputInvalid = useMemo(() => {
-    return IsStringInvalidInteger(activeSetTrackingValuesInput.rir);
-  }, [activeSetTrackingValuesInput.rir]);
-
-  const isRpeInputInvalid = useMemo(() => {
-    return IsStringInvalidNumberOrAbove10(activeSetTrackingValuesInput.rpe);
-  }, [activeSetTrackingValuesInput.rpe]);
-
-  const isResistanceLevelInputInvalid = useMemo(() => {
-    return IsStringInvalidNumber(activeSetTrackingValuesInput.resistance_level);
-  }, [activeSetTrackingValuesInput.resistance_level]);
-
-  const isSetTrackingInputsInvalid = useMemo(() => {
-    if (isWeightInputInvalid) return true;
-    if (isRepsInputInvalid) return true;
-    if (isDistanceInputInvalid) return true;
-    if (isActiveSetTimeInputInvalid) return true;
-    if (isRirInputInvalid) return true;
-    if (isRpeInputInvalid) return true;
-    if (isResistanceLevelInputInvalid) return true;
-    return false;
-  }, [
-    isWeightInputInvalid,
-    isRepsInputInvalid,
-    isDistanceInputInvalid,
-    isActiveSetTimeInputInvalid,
-    isRirInputInvalid,
-    isRpeInputInvalid,
-    isResistanceLevelInputInvalid,
-  ]);
-
   const saveActiveSet = async () => {
     if (activeSet === undefined || workout === undefined) return;
 
-    if (isSetTrackingInputsInvalid) return;
+    if (activeSetInputs.isSetTrackingValuesInvalid) return;
 
     const currentDate = new Date().toString();
 
     const setTrackingValuesNumbers = ConvertSetInputValuesToNumbers(
-      activeSetTrackingValuesInput
+      activeSetInputs.setTrackingValuesInput
     );
 
     const commentToInsert = ConvertEmptyStringToNull(activeSet.comment);
@@ -1077,7 +1027,7 @@ export default function WorkoutDetails() {
       setIncompleteSetIds([]);
       setActiveSet(undefined);
       setActiveGroupedSet(undefined);
-      setActiveSetTrackingValuesInput(defaultSetInputValues);
+      activeSetInputs.setSetTrackingValuesInput(defaultSetInputValues);
       return;
     }
 
@@ -1337,7 +1287,6 @@ export default function WorkoutDetails() {
                                           comment: value,
                                         }))
                                       }
-                                      isInvalid={isResistanceLevelInputInvalid}
                                       isClearable
                                     />
                                   )}
@@ -1470,20 +1419,24 @@ export default function WorkoutDetails() {
                                   <div className="flex justify-between gap-2 w-56">
                                     <Input
                                       value={
-                                        activeSetTrackingValuesInput.weight
+                                        activeSetInputs.setTrackingValuesInput
+                                          .weight
                                       }
                                       label="Weight"
                                       variant="faded"
                                       labelPlacement="outside-left"
                                       onValueChange={(value) =>
-                                        setActiveSetTrackingValuesInput(
+                                        activeSetInputs.setSetTrackingValuesInput(
                                           (prev: SetTrackingValuesInput) => ({
                                             ...prev,
                                             weight: value,
                                           })
                                         )
                                       }
-                                      isInvalid={isWeightInputInvalid}
+                                      isInvalid={
+                                        activeSetInputs.setInputsValidityMap
+                                          .weight
+                                      }
                                       isClearable
                                     />
                                     <WeightUnitDropdown
@@ -1498,19 +1451,24 @@ export default function WorkoutDetails() {
                                 {!!activeSet.is_tracking_reps && (
                                   <Input
                                     className="w-28"
-                                    value={activeSetTrackingValuesInput.reps}
+                                    value={
+                                      activeSetInputs.setTrackingValuesInput
+                                        .reps
+                                    }
                                     label="Reps"
                                     variant="faded"
                                     labelPlacement="outside-left"
                                     onValueChange={(value) =>
-                                      setActiveSetTrackingValuesInput(
+                                      activeSetInputs.setSetTrackingValuesInput(
                                         (prev: SetTrackingValuesInput) => ({
                                           ...prev,
                                           reps: value,
                                         })
                                       )
                                     }
-                                    isInvalid={isRepsInputInvalid}
+                                    isInvalid={
+                                      activeSetInputs.setInputsValidityMap.reps
+                                    }
                                     isClearable
                                   />
                                 )}
@@ -1518,20 +1476,24 @@ export default function WorkoutDetails() {
                                   <div className="flex justify-between gap-2 w-64">
                                     <Input
                                       value={
-                                        activeSetTrackingValuesInput.distance
+                                        activeSetInputs.setTrackingValuesInput
+                                          .distance
                                       }
                                       label="Distance"
                                       variant="faded"
                                       labelPlacement="outside-left"
                                       onValueChange={(value) =>
-                                        setActiveSetTrackingValuesInput(
+                                        activeSetInputs.setSetTrackingValuesInput(
                                           (prev: SetTrackingValuesInput) => ({
                                             ...prev,
                                             distance: value,
                                           })
                                         )
                                       }
-                                      isInvalid={isDistanceInputInvalid}
+                                      isInvalid={
+                                        activeSetInputs.setInputsValidityMap
+                                          .distance
+                                      }
                                       isClearable
                                     />
                                     <DistanceUnitDropdown
@@ -1553,7 +1515,7 @@ export default function WorkoutDetails() {
                                       userSettings!.default_time_input!
                                     }
                                     setIsInvalid={
-                                      setIsActiveSetTimeInputInvalid
+                                      activeSetInputs.setIsTimeInputInvalid
                                     }
                                     time_input_behavior_hhmmss={
                                       userSettings!.time_input_behavior_hhmmss!
@@ -1566,38 +1528,46 @@ export default function WorkoutDetails() {
                                 {!!activeSet.is_tracking_rir && (
                                   <Input
                                     className="w-[6.5rem]"
-                                    value={activeSetTrackingValuesInput.rir}
+                                    value={
+                                      activeSetInputs.setTrackingValuesInput.rir
+                                    }
                                     label="RIR"
                                     variant="faded"
                                     labelPlacement="outside-left"
                                     onValueChange={(value) =>
-                                      setActiveSetTrackingValuesInput(
+                                      activeSetInputs.setSetTrackingValuesInput(
                                         (prev: SetTrackingValuesInput) => ({
                                           ...prev,
                                           rir: value,
                                         })
                                       )
                                     }
-                                    isInvalid={isRirInputInvalid}
+                                    isInvalid={
+                                      activeSetInputs.setInputsValidityMap.rir
+                                    }
                                     isClearable
                                   />
                                 )}
                                 {!!activeSet.is_tracking_rpe && (
                                   <Input
                                     className="w-[6.5rem]"
-                                    value={activeSetTrackingValuesInput.rpe}
+                                    value={
+                                      activeSetInputs.setTrackingValuesInput.rpe
+                                    }
                                     label="RPE"
                                     variant="faded"
                                     labelPlacement="outside-left"
                                     onValueChange={(value) =>
-                                      setActiveSetTrackingValuesInput(
+                                      activeSetInputs.setSetTrackingValuesInput(
                                         (prev: SetTrackingValuesInput) => ({
                                           ...prev,
                                           rpe: value,
                                         })
                                       )
                                     }
-                                    isInvalid={isRpeInputInvalid}
+                                    isInvalid={
+                                      activeSetInputs.setInputsValidityMap.rpe
+                                    }
                                     isClearable
                                   />
                                 )}
@@ -1609,20 +1579,24 @@ export default function WorkoutDetails() {
                                       input: "w-16",
                                     }}
                                     value={
-                                      activeSetTrackingValuesInput.resistance_level
+                                      activeSetInputs.setTrackingValuesInput
+                                        .resistance_level
                                     }
                                     label="Resistance Level"
                                     variant="faded"
                                     labelPlacement="outside-left"
                                     onValueChange={(value) =>
-                                      setActiveSetTrackingValuesInput(
+                                      activeSetInputs.setSetTrackingValuesInput(
                                         (prev: SetTrackingValuesInput) => ({
                                           ...prev,
                                           resistance_level: value,
                                         })
                                       )
                                     }
-                                    isInvalid={isResistanceLevelInputInvalid}
+                                    isInvalid={
+                                      activeSetInputs.setInputsValidityMap
+                                        .resistance_level
+                                    }
                                     isClearable
                                   />
                                 )}
@@ -1648,7 +1622,7 @@ export default function WorkoutDetails() {
                                     color="success"
                                     variant="light"
                                     onPress={() =>
-                                      setActiveSetTrackingValuesInput(
+                                      activeSetInputs.setSetTrackingValuesInput(
                                         defaultSetInputValues
                                       )
                                     }
@@ -1657,7 +1631,9 @@ export default function WorkoutDetails() {
                                   </Button>
                                   <Button
                                     color="success"
-                                    isDisabled={isSetTrackingInputsInvalid}
+                                    isDisabled={
+                                      activeSetInputs.isSetTrackingValuesInvalid
+                                    }
                                     onPress={saveActiveSet}
                                   >
                                     {activeSet.is_completed ? "Update" : "Save"}
