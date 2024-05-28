@@ -1181,23 +1181,25 @@ export default function WorkoutDetails() {
                 </div>
               )}
             </div>
-            <WorkoutExerciseList
-              groupedSets={groupedSets}
-              setGroupedSets={setGroupedSets}
-              updateExerciseOrder={updateExerciseOrder}
-              handleExerciseAccordionClick={handleExerciseAccordionClick}
-              handleExerciseOptionSelection={handleExerciseOptionSelection}
-              handleClickSet={handleClickSet}
-              handleSetOptionSelection={handleSetOptionSelection}
-              updateShownSetListComments={updateShownSetListComments}
-              shownSetListComments={shownSetListComments}
-              setListOptionsMenu={setListOptionsMenu}
-              handleAddSetButton={handleAddSetButton}
-              setIsExerciseBeingDragged={setIsExerciseBeingDragged}
-              handleReassignExercise={handleReassignExercise}
-              isTemplate={false}
-              activeSetId={activeSet?.id}
-            />
+            <div className="mb-[4.5rem]">
+              <WorkoutExerciseList
+                groupedSets={groupedSets}
+                setGroupedSets={setGroupedSets}
+                updateExerciseOrder={updateExerciseOrder}
+                handleExerciseAccordionClick={handleExerciseAccordionClick}
+                handleExerciseOptionSelection={handleExerciseOptionSelection}
+                handleClickSet={handleClickSet}
+                handleSetOptionSelection={handleSetOptionSelection}
+                updateShownSetListComments={updateShownSetListComments}
+                shownSetListComments={shownSetListComments}
+                setListOptionsMenu={setListOptionsMenu}
+                handleAddSetButton={handleAddSetButton}
+                setIsExerciseBeingDragged={setIsExerciseBeingDragged}
+                handleReassignExercise={handleReassignExercise}
+                isTemplate={false}
+                activeSetId={activeSet?.id}
+              />
+            </div>
             <div>
               {activeSet !== undefined && (
                 <div
