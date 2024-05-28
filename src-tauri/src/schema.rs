@@ -25,6 +25,7 @@ diesel::table! {
         clock_style -> Text,
         time_input_behavior_hhmmss -> Text,
         time_input_behavior_mmss -> Text,
+        show_workout_rating -> SmallInt,
     }
 }
 

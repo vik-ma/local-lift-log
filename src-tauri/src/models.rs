@@ -28,6 +28,7 @@ pub struct UserSetting {
     pub clock_style: String,
     pub time_input_behavior_hhmmss: String,
     pub time_input_behavior_mmss: String,
+    pub show_workout_rating: i16,
 }
 
 #[derive(Queryable, Selectable)]
