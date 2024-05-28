@@ -544,6 +544,7 @@ export default function WorkoutDetails() {
 
     if (activeSet?.id === updatedSet.id) {
       setActiveSet(updatedSet);
+      activeSetInputs.setTrackingValuesInputStrings(updatedSet);
     }
   };
 
