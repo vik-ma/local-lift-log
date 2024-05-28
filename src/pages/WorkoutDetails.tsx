@@ -226,7 +226,8 @@ export default function WorkoutDetails() {
 
       activeSetInputs.setSetTrackingValuesInput(activeSetInputValues);
     },
-    []
+    // Including activeSetInputs in the dependency array causes constant re-renders
+    [] // eslint-disable-line react-hooks/exhaustive-deps
   );
 
   const populateIncompleteSets = useCallback(
