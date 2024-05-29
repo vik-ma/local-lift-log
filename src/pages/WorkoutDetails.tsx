@@ -1146,8 +1146,13 @@ export default function WorkoutDetails() {
         ) : (
           <>
             <div className="flex flex-col gap-4 pb-4">
-              <div className="flex justify-center items-center gap-5">
+              <div className="flex flex-col justify-center items-center gap-0.5">
                 <h1 className="text-2xl font-semibold">{workoutDate}</h1>
+                {workout.note !== null && (
+                  <h3 className="text-xl font-semibold text-stone-400">
+                    {workout.note}
+                  </h3>
+                )}
               </div>
               <div className="flex justify-center items-center gap-5">
                 <Button
