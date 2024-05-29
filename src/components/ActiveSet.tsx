@@ -115,18 +115,23 @@ export const ActiveSet = ({
                     <span className="text-stone-500">
                       Set {activeSet.set_index! + 1}
                     </span>
-                    {userSettings?.show_timestamp_on_completed_set === 1 &&
-                      activeSet.time_completed !== null && (
-                        <div className="text-lg text-success">
-                          Completed at{" "}
-                          <span className="font-semibold">
-                            {ConvertDateStringToTimeString(
-                              activeSet.time_completed,
-                              userSettings.clock_style === "24h"
-                            )}
-                          </span>
-                        </div>
-                      )}
+                    {activeSet.time_completed !== null && (
+                      <div className="text-lg text-success">
+                        {userSettings?.show_timestamp_on_completed_set === 1 ? (
+                          <>
+                            Completed at{" "}
+                            <span className="font-semibold">
+                              {ConvertDateStringToTimeString(
+                                activeSet.time_completed,
+                                userSettings.clock_style === "24h"
+                              )}
+                            </span>
+                          </>
+                        ) : (
+                          "Completed"
+                        )}
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className="flex items-center">
