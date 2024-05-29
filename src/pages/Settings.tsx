@@ -170,6 +170,17 @@ export default function SettingsPage() {
     updateSettings(updatedSettings);
   };
 
+  const handleSetShowWorkoutRatingChange = async (value: boolean) => {
+    if (userSettings === undefined) return;
+
+    const updatedSettings: UserSettings = {
+      ...userSettings,
+      show_workout_rating: value ? 1 : 0,
+    };
+
+    updateSettings(updatedSettings);
+  };
+
   const restoreDefaultSettings = async (
     unitType: string,
     locale: string,
@@ -323,6 +334,18 @@ export default function SettingsPage() {
                 value={userSettings!.time_input_behavior_mmss}
                 setUserSettings={handleTimeInputBehaviorChange}
                 isHhmmss={false}
+              />
+            </div>
+            <div className="flex gap-3 items-center justify-between">
+              <span className="text-lg">Show Workout Rating</span>
+              <Switch
+                className="flex-row-reverse gap-3"
+                color="success"
+                size="lg"
+                isSelected={userSettings?.show_workout_rating ? true : false}
+                onValueChange={(value) =>
+                  handleSetShowWorkoutRatingChange(value)
+                }
               />
             </div>
             <div className="flex justify-center">

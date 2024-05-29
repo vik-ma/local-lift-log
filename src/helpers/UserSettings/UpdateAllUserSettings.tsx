@@ -15,8 +15,9 @@ export const UpdateAllUserSettings = async (
       SET show_timestamp_on_completed_set = $1, active_routine_id = $2, 
       default_unit_weight = $3, default_unit_distance = $4, default_time_input = $5,
       default_unit_measurement = $6, active_tracking_measurements = $7, locale = $8,
-      clock_style = $9, time_input_behavior_hhmmss = $10, time_input_behavior_mmss = $11
-      WHERE id = $12`,
+      clock_style = $9, time_input_behavior_hhmmss = $10, time_input_behavior_mmss = $11,
+      show_workout_rating = $12
+      WHERE id = $13`,
       [
         userSettings.show_timestamp_on_completed_set,
         userSettings.active_routine_id,
@@ -29,6 +30,7 @@ export const UpdateAllUserSettings = async (
         userSettings.clock_style,
         userSettings.time_input_behavior_hhmmss,
         userSettings.time_input_behavior_mmss,
+        userSettings.show_workout_rating,
         userSettings.id,
       ]
     );
