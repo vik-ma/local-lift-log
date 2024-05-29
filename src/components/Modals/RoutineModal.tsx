@@ -65,7 +65,7 @@ export const RoutineModal = ({
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalHeader>New Routine</ModalHeader>
+            <ModalHeader>{routine.id === 0 ? "New" : "Edit"} Routine</ModalHeader>
             <ModalBody>
               <div className="flex flex-col gap-0.5">
                 <Input

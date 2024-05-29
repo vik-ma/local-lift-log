@@ -33,7 +33,9 @@ export const WorkoutTemplateModal = ({
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalHeader>New Workout Template</ModalHeader>
+            <ModalHeader>
+              {workoutTemplate.id === 0 ? "New" : "Edit"} Workout Template
+            </ModalHeader>
             <ModalBody>
               <div className="flex flex-col gap-0.5">
                 <Input
