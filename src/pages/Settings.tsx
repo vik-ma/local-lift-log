@@ -243,17 +243,18 @@ export default function SettingsPage() {
                 targetType="settings"
               />
             </div>
-            <Switch
-              className="flex-row-reverse gap-3"
-              color="success"
-              size="lg"
-              isSelected={
-                userSettings?.show_timestamp_on_completed_set ? true : false
-              }
-              onValueChange={(value) => handleSetShowTimestampChange(value)}
-            >
-              Show Timestamp On Completed Sets
-            </Switch>
+            <div className="flex gap-3 items-center justify-between">
+              <span className="text-lg">Show Timestamp On Completed Sets</span>
+              <Switch
+                className="flex-row-reverse gap-3"
+                color="success"
+                size="lg"
+                isSelected={
+                  userSettings?.show_timestamp_on_completed_set ? true : false
+                }
+                onValueChange={(value) => handleSetShowTimestampChange(value)}
+              />
+            </div>
             <div className="flex gap-3 items-center justify-between">
               <span className="text-lg">Default Time Input</span>
               <Select
