@@ -31,6 +31,7 @@ export { GetDefaultUnitMeasurement } from "./UserSettings/GetDefaultUnitMeasurem
 export { UpdateActiveTrackingMeasurements } from "./UserSettings/UpdateActiveTrackingMeasurements";
 export { ValidateUserSettings } from "./UserSettings/ValidateUserSettings";
 export { GetClockStyle } from "./UserSettings/GetClockStyle";
+export { GetShowWorkoutRating } from "./UserSettings/GetShowWorkoutRating";
 
 export { GenerateSetListOrderString } from "./Sets/GenerateSetListOrderString";
 export { OrderSetsBySetListOrderString } from "./Sets/OrderSetsBySetListOrderString";
