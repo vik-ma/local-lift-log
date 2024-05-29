@@ -12,11 +12,11 @@ import {
 } from "../typings";
 import {
   LoadingSpinner,
-  WorkoutRatingDropdown,
   WorkoutExerciseList,
   DeleteModal,
   SetModal,
   ActiveSet,
+  WorkoutModal,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
 import { NotFound } from ".";
@@ -34,7 +34,7 @@ import {
   DeleteSetWithId,
   ReassignExerciseIdForSets,
 } from "../helpers";
-import { Button, useDisclosure, Input } from "@nextui-org/react";
+import { Button, useDisclosure } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
 import {
   useNumSetsOptions,
@@ -43,6 +43,7 @@ import {
   useSetTrackingInputs,
   useDefaultSetInputValues,
 } from "../hooks";
+import { VerticalMenuIcon } from "../assets";
 
 type OperationType =
   | "add"
@@ -80,13 +81,12 @@ export default function WorkoutDetails() {
 
   const setModal = useDisclosure();
   const deleteModal = useDisclosure();
+  const workoutModal = useDisclosure();
 
   const [workoutDate, setWorkoutDate] = useState<string>("");
   const [workoutNote, setWorkoutNote] = useState<string>("");
   const [activeSet, setActiveSet] = useState<WorkoutSet>();
   const [showCommentInput, setShowCommentInput] = useState<boolean>(false);
-  const [showWorkoutNoteInput, setShowWorkoutNoteInput] =
-    useState<boolean>(false);
   const [incompleteSetIds, setIncompleteSetIds] = useState<number[]>([]);
   const [activeSetNote, setActiveSetNote] = useState<
     ActiveSetNote | undefined
@@ -1105,6 +1105,12 @@ export default function WorkoutDetails() {
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
+      <WorkoutModal
+        workoutModal={workoutModal}
+        workout={workout}
+        setWorkout={setWorkout}
+        buttonAction={handleSaveNoteButton}
+      />
       <DeleteModal
         deleteModal={deleteModal}
         header={`Delete Set${
@@ -1147,41 +1153,24 @@ export default function WorkoutDetails() {
           <>
             <div className="flex flex-col gap-4 pb-4">
               <div className="flex flex-col justify-center items-center gap-0.5">
-                <h1 className="text-2xl font-semibold">{workoutDate}</h1>
+                <div className="flex items-center gap-1.5">
+                  <h1 className="text-2xl font-semibold">{workoutDate}</h1>
+                  <Button
+                    isIconOnly
+                    className="z-1"
+                    size="sm"
+                    variant="light"
+                    onPress={() => workoutModal.onOpen()}
+                  >
+                    <VerticalMenuIcon size={20} color={"#666666"} />
+                  </Button>
+                </div>
                 {workout.note !== null && (
                   <h3 className="text-xl font-semibold text-stone-400">
                     {workout.note}
                   </h3>
                 )}
               </div>
-              <div className="flex justify-center items-center gap-5">
-                <Button
-                  color="success"
-                  variant="flat"
-                  onClick={() => setShowWorkoutNoteInput(!showWorkoutNoteInput)}
-                >
-                  Set Workout Note
-                </Button>
-                <WorkoutRatingDropdown
-                  rating={workout.rating}
-                  workout_id={workout.id}
-                />
-              </div>
-              {showWorkoutNoteInput && (
-                <div className="flex flex-row justify-between gap-2 items-center">
-                  <Input
-                    value={workoutNote}
-                    label="Workout Note"
-                    variant="faded"
-                    size="sm"
-                    onValueChange={(value) => setWorkoutNote(value)}
-                    isClearable
-                  />
-                  <Button color="success" onPress={handleSaveNoteButton}>
-                    Save
-                  </Button>
-                </div>
-              )}
             </div>
             <div className="mb-[4.5rem]">
               <WorkoutExerciseList

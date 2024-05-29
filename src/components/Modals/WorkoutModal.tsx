@@ -14,7 +14,7 @@ import { WorkoutRatingDropdown } from "../Dropdowns/WorkoutRatingDropdown";
 type WorkoutProps = {
   workoutModal: ReturnType<typeof useDisclosure>;
   workout: Workout;
-  setWorkout: React.Dispatch<React.SetStateAction<Workout>>;
+  setWorkout: React.Dispatch<React.SetStateAction<Workout | undefined>>;
   buttonAction: () => void;
 };
 
@@ -40,10 +40,10 @@ export const WorkoutModal = ({
                   label="Note"
                   variant="faded"
                   onValueChange={(value) =>
-                    setWorkout((prev) => ({
-                      ...prev,
+                    setWorkout({
+                      ...workout,
                       note: value,
-                    }))
+                    })
                   }
                   isClearable
                 />
