@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { WorkoutListItem } from "../typings";
+import { UserSettingsOptional, WorkoutListItem } from "../typings";
 import { useNavigate } from "react-router-dom";
 import {
   LoadingSpinner,
@@ -9,12 +9,13 @@ import {
 import Database from "tauri-plugin-sql-api";
 import { Button, useDisclosure } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
-import { FormatDateString } from "../helpers";
+import { FormatDateString, GetShowWorkoutRating } from "../helpers";
 
 export default function WorkoutList() {
   const [workouts, setWorkouts] = useState<WorkoutListItem[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [workoutToDelete, setWorkoutToDelete] = useState<WorkoutListItem>();
+  const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
 
   const navigate = useNavigate();
 
@@ -39,13 +40,20 @@ export default function WorkoutList() {
         });
 
         setWorkouts(workouts);
-        setIsLoading(false);
       } catch (error) {
         console.log(error);
       }
     };
 
+    const getUserSettings = async () => {
+      const settings = await GetShowWorkoutRating();
+
+      setUserSettings(settings);
+      setIsLoading(false);
+    };
+
     getWorkouts();
+    getUserSettings();
   }, []);
 
   const deleteWorkout = async () => {
@@ -117,10 +125,12 @@ export default function WorkoutList() {
                   {workout.date}
                 </Button>
                 <div className="flex gap-1 items-center">
-                  <WorkoutRatingDropdown
-                    rating={workout.rating}
-                    workout_id={workout.id}
-                  />
+                  {userSettings?.show_workout_rating === 1 && (
+                    <WorkoutRatingDropdown
+                      rating={workout.rating}
+                      workout_id={workout.id}
+                    />
+                  )}
                   <Button
                     color="danger"
                     onPress={() => handleDeleteButton(workout)}

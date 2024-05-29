@@ -41,6 +41,7 @@ export type UserSettingsOptional = {
   clock_style?: string;
   time_input_behavior_hhmmss?: string;
   time_input_behavior_mmss?: string;
+  show_workout_rating?: number;
 };
 
 export type Exercise = {
