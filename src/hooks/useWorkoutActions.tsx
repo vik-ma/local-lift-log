@@ -602,6 +602,10 @@ export const useWorkoutActions = () => {
       exercise: newExercise,
     };
 
+    newGroupedWorkoutSet.setList.forEach((item) => {
+      item.exercise_id = newExercise.id;
+    });
+
     const newExerciseIndex: number = groupedSets.findIndex(
       (obj) => obj.exercise.id === newExercise.id
     );
