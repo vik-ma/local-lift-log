@@ -1089,7 +1089,7 @@ export default function WorkoutDetails() {
     }
   };
 
-  const handleSaveNoteButton = async () => {
+  const handleWorkoutModalSaveButton = async () => {
     if (workout === undefined) return;
 
     const noteToInsert = ConvertEmptyStringToNull(workoutNote);
@@ -1098,6 +1098,9 @@ export default function WorkoutDetails() {
 
     await updateWorkout(updatedWorkout);
     setWorkout(updatedWorkout);
+
+    toast.success("Workout Details Updated");
+    workoutModal.onClose();
   };
 
   if (workout === undefined) return NotFound();
@@ -1109,7 +1112,9 @@ export default function WorkoutDetails() {
         workoutModal={workoutModal}
         workout={workout}
         setWorkout={setWorkout}
-        buttonAction={handleSaveNoteButton}
+        workoutNote={workoutNote}
+        setWorkoutNote={setWorkoutNote}
+        buttonAction={handleWorkoutModalSaveButton}
       />
       <DeleteModal
         deleteModal={deleteModal}
@@ -1162,7 +1167,7 @@ export default function WorkoutDetails() {
                     variant="light"
                     onPress={() => workoutModal.onOpen()}
                   >
-                    <VerticalMenuIcon size={20} color={"#666666"} />
+                    <VerticalMenuIcon size={20} color={"#606060"} />
                   </Button>
                 </div>
                 {workout.note !== null && (

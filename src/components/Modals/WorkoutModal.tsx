@@ -15,6 +15,8 @@ type WorkoutProps = {
   workoutModal: ReturnType<typeof useDisclosure>;
   workout: Workout;
   setWorkout: React.Dispatch<React.SetStateAction<Workout | undefined>>;
+  workoutNote: string;
+  setWorkoutNote: React.Dispatch<React.SetStateAction<string>>;
   buttonAction: () => void;
 };
 
@@ -22,6 +24,8 @@ export const WorkoutModal = ({
   workoutModal,
   workout,
   setWorkout,
+  workoutNote,
+  setWorkoutNote,
   buttonAction,
 }: WorkoutProps) => {
   return (
@@ -34,22 +38,23 @@ export const WorkoutModal = ({
           <>
             <ModalHeader>Workout Details</ModalHeader>
             <ModalBody>
-              <div className="flex flex-col gap-0.5">
+              <div className="flex flex-col gap-4">
+                <div className="flex items-center gap-6 justify-center">
+                  <span className="font-medium">Workout Rating</span>
+                  <WorkoutRatingDropdown
+                    rating={workout.rating}
+                    workout_id={workout.id}
+                    isInModal={true}
+                    setWorkout={setWorkout}
+                  />
+                </div>
                 <Input
-                  value={workout.note ?? ""}
+                  value={workoutNote}
+                  size="sm"
                   label="Note"
                   variant="faded"
-                  onValueChange={(value) =>
-                    setWorkout({
-                      ...workout,
-                      note: value,
-                    })
-                  }
+                  onValueChange={(value) => setWorkoutNote(value)}
                   isClearable
-                />
-                <WorkoutRatingDropdown
-                  rating={workout.rating}
-                  workout_id={workout.id}
                 />
               </div>
             </ModalBody>
