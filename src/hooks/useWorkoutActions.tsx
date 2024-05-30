@@ -59,24 +59,17 @@ export const useWorkoutActions = () => {
 
   const defaultSetInputValues = useDefaultSetInputValues();
 
-  const {
-    isSetTrackingValuesInvalid,
-    setInputsValidityMap,
-    setTrackingValuesInput,
-    setSetTrackingValuesInput,
-    setIsTimeInputInvalid,
-    setTrackingValuesInputStrings,
-  } = useSetTrackingInputs();
+  const operatingSetInputs = useSetTrackingInputs();
 
   const addSet = async (numSets: string) => {
     if (selectedExercise === undefined || workoutTemplate === undefined) return;
 
     if (!numSetsOptions.includes(numSets)) return;
 
-    if (isSetTrackingValuesInvalid) return;
+    if (operatingSetInputs.isSetTrackingValuesInvalid) return;
 
     const setTrackingValuesNumber = ConvertSetInputValuesToNumbers(
-      setTrackingValuesInput
+      operatingSetInputs.setTrackingValuesInput
     );
 
     try {
@@ -195,10 +188,10 @@ export const useWorkoutActions = () => {
   const updateSet = async () => {
     if (selectedExercise === undefined) return;
 
-    if (isSetTrackingValuesInvalid) return;
+    if (operatingSetInputs.isSetTrackingValuesInvalid) return;
 
     const setTrackingValuesNumber = ConvertSetInputValuesToNumbers(
-      setTrackingValuesInput
+      operatingSetInputs.setTrackingValuesInput
     );
 
     const noteToInsert = ConvertEmptyStringToNull(operatingSet.note);
@@ -267,7 +260,7 @@ export const useWorkoutActions = () => {
       weight_unit: userSettings!.default_unit_weight!,
       distance_unit: userSettings!.default_unit_distance!,
     });
-    setSetTrackingValuesInput(defaultSetInputValues);
+    operatingSetInputs.setSetTrackingValuesInput(defaultSetInputValues);
   };
 
   const handleSaveSetButton = async (numSets: string) => {
@@ -295,7 +288,7 @@ export const useWorkoutActions = () => {
     setOperatingSet({ ...set, set_index: index });
     setOperationType("edit");
     setSelectedExercise(exercise);
-    setTrackingValuesInputStrings(set);
+    operatingSetInputs.setTrackingValuesInputStrings(set);
 
     setModal.onOpen();
   };
@@ -652,7 +645,7 @@ export const useWorkoutActions = () => {
 
   const clearSetInputValues = (isOperatingSet: boolean) => {
     if (isOperatingSet) {
-      setSetTrackingValuesInput(defaultSetInputValues);
+      operatingSetInputs.setSetTrackingValuesInput(defaultSetInputValues);
       setOperatingSet({
         ...operatingSet,
         time_in_seconds: 0,
@@ -685,11 +678,7 @@ export const useWorkoutActions = () => {
     operationType,
     selectedExercise,
     setSelectedExercise,
-    setTrackingValuesInput,
-    setSetTrackingValuesInput,
-    setInputsValidityMap,
-    isSetTrackingValuesInvalid,
-    setIsTimeInputInvalid,
+    operatingSetInputs,
     shownSetListComments,
     setIsExerciseBeingDragged,
     workoutTemplate,

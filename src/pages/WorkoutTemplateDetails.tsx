@@ -64,11 +64,7 @@ export default function WorkoutTemplateDetails() {
     operationType,
     selectedExercise,
     setSelectedExercise,
-    setTrackingValuesInput,
-    setSetTrackingValuesInput,
-    setInputsValidityMap,
-    isSetTrackingValuesInvalid,
-    setIsTimeInputInvalid,
+    operatingSetInputs,
     shownSetListComments,
     setIsExerciseBeingDragged,
     workoutTemplate,
@@ -202,12 +198,14 @@ export default function WorkoutTemplateDetails() {
         operationType={operationType}
         operatingSet={operatingSet}
         setOperatingSet={setOperatingSet}
-        setTrackingValuesInput={setTrackingValuesInput}
-        setSetTrackingValuesInput={setSetTrackingValuesInput}
-        setInputsValidityMap={setInputsValidityMap}
-        isSetTrackingValuesInvalid={isSetTrackingValuesInvalid}
+        setTrackingValuesInput={operatingSetInputs.setTrackingValuesInput}
+        setSetTrackingValuesInput={operatingSetInputs.setSetTrackingValuesInput}
+        setInputsValidityMap={operatingSetInputs.setInputsValidityMap}
+        isSetTrackingValuesInvalid={
+          operatingSetInputs.isSetTrackingValuesInvalid
+        }
         handleSaveSetButton={handleSaveSetButton}
-        setIsTimeInputInvalid={setIsTimeInputInvalid}
+        setIsTimeInputInvalid={operatingSetInputs.setIsTimeInputInvalid}
         defaultTimeInput={userSettings!.default_time_input!}
         time_input_behavior_hhmmss={userSettings!.time_input_behavior_hhmmss}
         time_input_behavior_mmss={userSettings!.time_input_behavior_mmss}
