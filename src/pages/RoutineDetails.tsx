@@ -19,7 +19,6 @@ import {
   DatePicker,
   DateValue,
 } from "@nextui-org/react";
-import { NotFound } from ".";
 import Database from "tauri-plugin-sql-api";
 import { LoadingSpinner, DeleteModal, RoutineModal } from "../components";
 import {
@@ -42,7 +41,6 @@ export default function RoutineDetailsPage() {
   const [editedRoutine, setEditedRoutine] = useState<Routine>(
     DefaultNewRoutine()
   );
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [workoutTemplates, setWorkoutTemplates] = useState<
     WorkoutTemplateListItem[]
   >([]);
@@ -104,7 +102,6 @@ export default function RoutineDetailsPage() {
         const currentRoutine: Routine = result[0];
         setRoutine(currentRoutine);
         setEditedRoutine(currentRoutine);
-        setIsLoading(false);
       } catch (error) {
         console.log(error);
       }
@@ -321,7 +318,7 @@ export default function RoutineDetailsPage() {
     );
   }, [routine.num_days_in_schedule, routine.is_schedule_weekly]);
 
-  if (routine === undefined) return NotFound();
+  if (routine.id === 0) return <LoadingSpinner />;
 
   return (
     <>
@@ -394,50 +391,40 @@ export default function RoutineDetailsPage() {
         </ModalContent>
       </Modal>
       <div className="flex flex-col gap-4">
-        {isLoading ? (
-          <LoadingSpinner />
-        ) : (
-          <>
-            <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">
-              <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">
-                {routine.name}
-              </h1>
-            </div>
-            <div className="flex justify-center">
-              {userSettings?.active_routine_id === routine.id ? (
-                <span className="text-xl text-success font-semibold">
-                  Currently Active Routine
-                </span>
-              ) : (
-                <div className="flex flex-col items-center gap-0.5">
-                  <span className="text-lg text-danger font-semibold">
-                    Currently Not Active Routine
-                  </span>
-                  <Button
-                    size="sm"
-                    color="success"
-                    onPress={handleSetActiveButton}
-                  >
-                    Set Active
-                  </Button>
-                </div>
-              )}
-            </div>
-            <div>
-              <h2 className="text-xl font-semibold ">Note</h2>
-              <span>{routine.note}</span>
-            </div>
-            <div className="flex justify-center">
-              <Button
-                size="sm"
-                color="success"
-                onPress={() => routineModal.onOpen()}
-              >
-                Edit
+        <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">
+          <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">
+            {routine.name}
+          </h1>
+        </div>
+        <div className="flex justify-center">
+          {userSettings?.active_routine_id === routine.id ? (
+            <span className="text-xl text-success font-semibold">
+              Currently Active Routine
+            </span>
+          ) : (
+            <div className="flex flex-col items-center gap-0.5">
+              <span className="text-lg text-danger font-semibold">
+                Currently Not Active Routine
+              </span>
+              <Button size="sm" color="success" onPress={handleSetActiveButton}>
+                Set Active
               </Button>
             </div>
-          </>
-        )}
+          )}
+        </div>
+        <div>
+          <h2 className="text-xl font-semibold ">Note</h2>
+          <span>{routine.note}</span>
+        </div>
+        <div className="flex justify-center">
+          <Button
+            size="sm"
+            color="success"
+            onPress={() => routineModal.onOpen()}
+          >
+            Edit
+          </Button>
+        </div>
         <div className="flex flex-col">
           {routine.is_schedule_weekly === 0 && (
             <div className="flex gap-4 items-end">

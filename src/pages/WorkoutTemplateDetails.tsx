@@ -17,7 +17,6 @@ import {
   WorkoutExerciseList,
   WorkoutTemplateModal,
 } from "../components";
-import { NotFound } from ".";
 import toast, { Toaster } from "react-hot-toast";
 import {
   ConvertSetInputValuesToNumbers,
@@ -51,7 +50,6 @@ type OperationType =
 export default function WorkoutTemplateDetails() {
   const { id } = useParams();
   const [workoutTemplate, setWorkoutTemplate] = useState<WorkoutTemplate>();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [selectedExercise, setSelectedExercise] = useState<Exercise>();
   const [groupedSets, setGroupedSets] = useState<GroupedWorkoutSet[]>([]);
@@ -144,7 +142,6 @@ export default function WorkoutTemplateDetails() {
           weight_unit: userSettings.default_unit_weight!,
           distance_unit: userSettings.default_unit_distance!,
         }));
-        setIsLoading(false);
       } catch (error) {
         console.log(error);
       }
@@ -774,7 +771,7 @@ export default function WorkoutTemplateDetails() {
     }
   };
 
-  if (workoutTemplate === undefined) return NotFound();
+  if (workoutTemplate === undefined) return <LoadingSpinner />;
 
   return (
     <>
@@ -821,46 +818,40 @@ export default function WorkoutTemplateDetails() {
         clearSetInputValues={clearSetInputValues}
       />
       <div className="flex flex-col gap-4">
-        {isLoading ? (
-          <LoadingSpinner />
-        ) : (
-          <>
-            <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">
-              <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">
-                {workoutTemplate.name}
-              </h1>
-            </div>
-            <div>
-              <h2 className="text-xl font-semibold">Note</h2>
-              <span>{workoutTemplate?.note}</span>
-            </div>
-            <div className="flex justify-center">
-              <Button
-                size="sm"
-                color="success"
-                onPress={() => workoutTemplateModal.onOpen()}
-              >
-                Edit
-              </Button>
-            </div>
-            <WorkoutExerciseList
-              groupedSets={groupedSets}
-              setGroupedSets={setGroupedSets}
-              updateExerciseOrder={updateExerciseOrder}
-              handleExerciseAccordionClick={handleExerciseAccordionClick}
-              handleExerciseOptionSelection={handleExerciseOptionSelection}
-              handleClickSet={handleClickSet}
-              handleSetOptionSelection={handleSetOptionSelection}
-              updateShownSetListComments={updateShownSetListComments}
-              shownSetListComments={shownSetListComments}
-              setListOptionsMenu={setListOptionsMenu}
-              handleAddSetButton={handleAddSetButton}
-              setIsExerciseBeingDragged={setIsExerciseBeingDragged}
-              handleReassignExercise={handleReassignExercise}
-              isTemplate={true}
-            />
-          </>
-        )}
+        <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">
+          <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">
+            {workoutTemplate.name}
+          </h1>
+        </div>
+        <div>
+          <h2 className="text-xl font-semibold">Note</h2>
+          <span>{workoutTemplate?.note}</span>
+        </div>
+        <div className="flex justify-center">
+          <Button
+            size="sm"
+            color="success"
+            onPress={() => workoutTemplateModal.onOpen()}
+          >
+            Edit
+          </Button>
+        </div>
+        <WorkoutExerciseList
+          groupedSets={groupedSets}
+          setGroupedSets={setGroupedSets}
+          updateExerciseOrder={updateExerciseOrder}
+          handleExerciseAccordionClick={handleExerciseAccordionClick}
+          handleExerciseOptionSelection={handleExerciseOptionSelection}
+          handleClickSet={handleClickSet}
+          handleSetOptionSelection={handleSetOptionSelection}
+          updateShownSetListComments={updateShownSetListComments}
+          shownSetListComments={shownSetListComments}
+          setListOptionsMenu={setListOptionsMenu}
+          handleAddSetButton={handleAddSetButton}
+          setIsExerciseBeingDragged={setIsExerciseBeingDragged}
+          handleReassignExercise={handleReassignExercise}
+          isTemplate={true}
+        />
       </div>
     </>
   );

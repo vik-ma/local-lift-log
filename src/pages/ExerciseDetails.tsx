@@ -1,7 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { Exercise } from "../typings";
 import { useState, useEffect } from "react";
-import { NotFound } from ".";
 import { Button, useDisclosure } from "@nextui-org/react";
 import { LoadingSpinner, ExerciseModal } from "../components";
 import {
@@ -21,7 +20,6 @@ import {
 export default function ExerciseDetailsPage() {
   const { id } = useParams();
   const [exercise, setExercise] = useState<Exercise>();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const defaultExercise = useDefaultExercise();
 
@@ -38,7 +36,6 @@ export default function ExerciseDetailsPage() {
 
       setExercise(currentExercise);
       setEditedExercise(currentExercise);
-      setIsLoading(false);
     };
 
     getExercise();
@@ -84,7 +81,7 @@ export default function ExerciseDetailsPage() {
     exerciseModal.onClose();
   };
 
-  if (exercise === undefined) return NotFound();
+  if (exercise === undefined) return <LoadingSpinner />;
 
   return (
     <>
@@ -98,41 +95,35 @@ export default function ExerciseDetailsPage() {
         buttonAction={updateExercise}
       />
       <div className="flex flex-col gap-4">
-        {isLoading ? (
-          <LoadingSpinner />
-        ) : (
-          <>
-            <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">
-              <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">
-                {exercise.name}
-              </h1>
-            </div>
-            <div>
-              <h2 className="text-xl font-semibold ">Note</h2>
-              <span>{exercise.note}</span>
-            </div>
-            <div>
-              <h2 className="text-xl font-semibold">Exercise Groups</h2>
-              <span>{exercise.formattedGroupString}</span>
-            </div>
-            <div className="flex gap-2 justify-center">
-              <Button
-                size="sm"
-                color="success"
-                onPress={() => exerciseModal.onOpen()}
-              >
-                Edit
-              </Button>
-              <Button
-                size="sm"
-                color="success"
-                onPress={() => navigate(`/exercises/${id}/history`)}
-              >
-                History
-              </Button>
-            </div>
-          </>
-        )}
+        <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">
+          <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">
+            {exercise.name}
+          </h1>
+        </div>
+        <div>
+          <h2 className="text-xl font-semibold ">Note</h2>
+          <span>{exercise.note}</span>
+        </div>
+        <div>
+          <h2 className="text-xl font-semibold">Exercise Groups</h2>
+          <span>{exercise.formattedGroupString}</span>
+        </div>
+        <div className="flex gap-2 justify-center">
+          <Button
+            size="sm"
+            color="success"
+            onPress={() => exerciseModal.onOpen()}
+          >
+            Edit
+          </Button>
+          <Button
+            size="sm"
+            color="success"
+            onPress={() => navigate(`/exercises/${id}/history`)}
+          >
+            History
+          </Button>
+        </div>
       </div>
     </>
   );

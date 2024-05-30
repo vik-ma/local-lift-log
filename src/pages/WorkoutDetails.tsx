@@ -19,7 +19,6 @@ import {
   WorkoutModal,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
-import { NotFound } from ".";
 import {
   CreateSetsFromWorkoutTemplate,
   GetUserSettings,
@@ -56,7 +55,6 @@ type OperationType =
 export default function WorkoutDetails() {
   const { id } = useParams();
   const [workout, setWorkout] = useState<Workout>();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [selectedExercise, setSelectedExercise] = useState<Exercise>();
   const [groupedSets, setGroupedSets] = useState<GroupedWorkoutSet[]>([]);
@@ -320,7 +318,6 @@ export default function WorkoutDetails() {
           weight_unit: userSettings.default_unit_weight!,
           distance_unit: userSettings.default_unit_distance!,
         }));
-        setIsLoading(false);
       } catch (error) {
         console.log(error);
       }
@@ -1103,7 +1100,7 @@ export default function WorkoutDetails() {
     workoutModal.onClose();
   };
 
-  if (workout === undefined) return NotFound();
+  if (workout === undefined) return <LoadingSpinner />;
 
   return (
     <>
@@ -1152,75 +1149,69 @@ export default function WorkoutDetails() {
         clearSetInputValues={clearSetInputValues}
       />
       <div className="flex flex-col">
-        {isLoading ? (
-          <LoadingSpinner />
-        ) : (
-          <>
-            <div className="flex flex-col gap-4 pb-4">
-              <div className="flex flex-col justify-center items-center gap-0.5">
-                <div className="flex items-center gap-1.5">
-                  <h1 className="text-2xl font-semibold">{workoutDate}</h1>
-                  <Button
-                    isIconOnly
-                    className="z-1"
-                    size="sm"
-                    variant="light"
-                    onPress={() => workoutModal.onOpen()}
-                  >
-                    <VerticalMenuIcon size={20} color={"#606060"} />
-                  </Button>
-                </div>
-                {workout.note !== null && (
-                  <h3 className="text-xl font-semibold text-stone-400">
-                    {workout.note}
-                  </h3>
-                )}
-              </div>
+        <div className="flex flex-col gap-4 pb-4">
+          <div className="flex flex-col justify-center items-center gap-0.5">
+            <div className="flex items-center gap-1">
+              <h1 className="text-2xl font-semibold">{workoutDate}</h1>
+              <Button
+                isIconOnly
+                className="z-1"
+                size="sm"
+                variant="light"
+                onPress={() => workoutModal.onOpen()}
+              >
+                <VerticalMenuIcon size={20} color={"#606060"} />
+              </Button>
             </div>
-            <div className="mb-[4.5rem]">
-              <WorkoutExerciseList
-                groupedSets={groupedSets}
-                setGroupedSets={setGroupedSets}
-                updateExerciseOrder={updateExerciseOrder}
-                handleExerciseAccordionClick={handleExerciseAccordionClick}
-                handleExerciseOptionSelection={handleExerciseOptionSelection}
-                handleClickSet={handleClickSet}
-                handleSetOptionSelection={handleSetOptionSelection}
-                updateShownSetListComments={updateShownSetListComments}
-                shownSetListComments={shownSetListComments}
-                setListOptionsMenu={setListOptionsMenu}
-                handleAddSetButton={handleAddSetButton}
-                setIsExerciseBeingDragged={setIsExerciseBeingDragged}
-                handleReassignExercise={handleReassignExercise}
-                isTemplate={false}
-                activeSetId={activeSet?.id}
-              />
-            </div>
-            <ActiveSet
-              activeSet={activeSet}
-              setActiveSet={setActiveSet}
-              isActiveSetExpanded={isActiveSetExpanded}
-              setIsActiveSetExpanded={setIsActiveSetExpanded}
-              userSettings={userSettings!}
-              activeGroupedSet={activeGroupedSet}
-              handleReassignExercise={handleReassignExercise}
-              handleActiveSetOptionSelection={handleActiveSetOptionSelection}
-              showCommentInput={showCommentInput}
-              setShowCommentInput={setShowCommentInput}
-              activeSetNote={activeSetNote}
-              setActiveSetNote={setActiveSetNote}
-              handleClickSet={handleClickSet}
-              handleSetOptionSelection={handleSetOptionSelection}
-              updateShownSetListComments={updateShownSetListComments}
-              shownSetListComments={shownSetListComments}
-              setListOptionsMenu={setListOptionsMenu}
-              activeSetInputs={activeSetInputs}
-              handleEditSet={handleEditSet}
-              clearSetInputValues={clearSetInputValues}
-              saveActiveSet={saveActiveSet}
-            />
-          </>
-        )}
+            {workout.note !== null && (
+              <h3 className="text-xl font-semibold text-stone-400">
+                {workout.note}
+              </h3>
+            )}
+          </div>
+        </div>
+        <div className="mb-[4.5rem]">
+          <WorkoutExerciseList
+            groupedSets={groupedSets}
+            setGroupedSets={setGroupedSets}
+            updateExerciseOrder={updateExerciseOrder}
+            handleExerciseAccordionClick={handleExerciseAccordionClick}
+            handleExerciseOptionSelection={handleExerciseOptionSelection}
+            handleClickSet={handleClickSet}
+            handleSetOptionSelection={handleSetOptionSelection}
+            updateShownSetListComments={updateShownSetListComments}
+            shownSetListComments={shownSetListComments}
+            setListOptionsMenu={setListOptionsMenu}
+            handleAddSetButton={handleAddSetButton}
+            setIsExerciseBeingDragged={setIsExerciseBeingDragged}
+            handleReassignExercise={handleReassignExercise}
+            isTemplate={false}
+            activeSetId={activeSet?.id}
+          />
+        </div>
+        <ActiveSet
+          activeSet={activeSet}
+          setActiveSet={setActiveSet}
+          isActiveSetExpanded={isActiveSetExpanded}
+          setIsActiveSetExpanded={setIsActiveSetExpanded}
+          userSettings={userSettings!}
+          activeGroupedSet={activeGroupedSet}
+          handleReassignExercise={handleReassignExercise}
+          handleActiveSetOptionSelection={handleActiveSetOptionSelection}
+          showCommentInput={showCommentInput}
+          setShowCommentInput={setShowCommentInput}
+          activeSetNote={activeSetNote}
+          setActiveSetNote={setActiveSetNote}
+          handleClickSet={handleClickSet}
+          handleSetOptionSelection={handleSetOptionSelection}
+          updateShownSetListComments={updateShownSetListComments}
+          shownSetListComments={shownSetListComments}
+          setListOptionsMenu={setListOptionsMenu}
+          activeSetInputs={activeSetInputs}
+          handleEditSet={handleEditSet}
+          clearSetInputValues={clearSetInputValues}
+          saveActiveSet={saveActiveSet}
+        />
       </div>
     </>
   );
