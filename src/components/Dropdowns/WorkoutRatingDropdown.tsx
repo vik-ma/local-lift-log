@@ -7,6 +7,8 @@ import { useMemo, useState } from "react";
 export const WorkoutRatingDropdown = ({
   rating,
   workout_id,
+  isInModal = false,
+  setWorkout,
 }: WorkoutRatingProps) => {
   const [selectedKeys, setSelectedKeys] = useState<Set<string>>(
     new Set([rating.toString()])
@@ -26,8 +28,19 @@ export const WorkoutRatingDropdown = ({
 
     const numberValue: number = Number(stringValue);
 
-    await updateWorkoutRating(numberValue);
     setSelectedKeys(keys);
+
+    if (isInModal) {
+      updateWorkoutRatingInModal(numberValue);
+    } else {
+      await updateWorkoutRating(numberValue);
+    }
+  };
+
+  const updateWorkoutRatingInModal = (ratingValue: number) => {
+    if (setWorkout === undefined) return;
+
+    setWorkout((prev) => ({ ...prev!, rating: ratingValue }));
   };
 
   const updateWorkoutRating = async (ratingValue: number) => {

@@ -161,6 +161,8 @@ export type MeasurementDropdownProps = {
 export type WorkoutRatingProps = {
   rating: number;
   workout_id: number;
+  isInModal?: boolean;
+  setWorkout?: React.Dispatch<React.SetStateAction<Workout | undefined>>;
 };
 
 export type SetTrackingValuesInput = {
