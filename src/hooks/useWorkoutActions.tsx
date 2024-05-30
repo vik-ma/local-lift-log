@@ -692,5 +692,3 @@ export const useWorkoutActions = () => {
     setWorkoutTemplate,
   };
 };
-
-export default useWorkoutActions;

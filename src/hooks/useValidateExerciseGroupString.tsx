@@ -11,4 +11,3 @@ export const useValidateExerciseGroupString = (
   return isNewExerciseGroupSetStringInvalid;
 };
 
-export default useValidateExerciseGroupString;

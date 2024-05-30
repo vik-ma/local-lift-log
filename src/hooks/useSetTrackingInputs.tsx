@@ -83,4 +83,3 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
   };
 };
 
-export default useSetTrackingInputs;
