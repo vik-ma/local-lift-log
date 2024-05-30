@@ -52,6 +52,10 @@ type OperationType =
   | "reassign-exercise"
   | "delete-exercise-sets";
 
+type WorkoutTemplateNote = {
+  note: string | null;
+};
+
 export default function WorkoutDetails() {
   const { id } = useParams();
   const [workout, setWorkout] = useState<Workout>();
@@ -92,6 +96,9 @@ export default function WorkoutDetails() {
   const [isActiveSetExpanded, setIsActiveSetExpanded] =
     useState<boolean>(false);
   const [activeGroupedSet, setActiveGroupedSet] = useState<GroupedWorkoutSet>();
+  const [workoutTemplateNote, setWorkoutTemplateNote] = useState<string | null>(
+    null
+  );
 
   const initialized = useRef(false);
 
@@ -301,6 +308,10 @@ export default function WorkoutDetails() {
 
         const formattedDate: string = FormatDateString(workout.date);
 
+        if (workout.workout_template_id !== 0) {
+          await getWorkoutTemplateNote(workout.workout_template_id);
+        }
+
         setWorkout(workout);
         setWorkoutDate(formattedDate);
       } catch (error) {
@@ -318,6 +329,23 @@ export default function WorkoutDetails() {
           weight_unit: userSettings.default_unit_weight!,
           distance_unit: userSettings.default_unit_distance!,
         }));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const getWorkoutTemplateNote = async (workoutTemplateId: number) => {
+      try {
+        const db = await Database.load(import.meta.env.VITE_DB);
+
+        const result = await db.select<WorkoutTemplateNote[]>(
+          "SELECT note FROM workout_templates WHERE id = $1",
+          [workoutTemplateId]
+        );
+
+        const note = result[0].note;
+
+        if (note) setWorkoutTemplateNote(note);
       } catch (error) {
         console.log(error);
       }
@@ -1115,6 +1143,7 @@ export default function WorkoutDetails() {
         setWorkout={setWorkout}
         workoutNote={workoutNote}
         setWorkoutNote={setWorkoutNote}
+        workoutTemplateNote={workoutTemplateNote}
         buttonAction={handleWorkoutModalSaveButton}
       />
       <DeleteModal
@@ -1155,7 +1184,7 @@ export default function WorkoutDetails() {
       <div className="flex flex-col">
         <div className="flex flex-col gap-4 pb-4">
           <div className="flex flex-col justify-center items-center gap-0.5">
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-0.5">
               <h1 className="text-2xl font-semibold">{workoutDate}</h1>
               <Button
                 isIconOnly
@@ -1164,7 +1193,7 @@ export default function WorkoutDetails() {
                 variant="light"
                 onPress={() => workoutModal.onOpen()}
               >
-                <VerticalMenuIcon size={20} color={"#606060"} />
+                <VerticalMenuIcon size={18} color={"#606060"} />
               </Button>
             </div>
             {workout.note !== null && (

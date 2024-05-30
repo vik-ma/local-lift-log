@@ -17,6 +17,7 @@ type WorkoutProps = {
   setWorkout: React.Dispatch<React.SetStateAction<Workout | undefined>>;
   workoutNote: string;
   setWorkoutNote: React.Dispatch<React.SetStateAction<string>>;
+  workoutTemplateNote: string | null;
   buttonAction: () => void;
 };
 
@@ -26,6 +27,7 @@ export const WorkoutModal = ({
   setWorkout,
   workoutNote,
   setWorkoutNote,
+  workoutTemplateNote,
   buttonAction,
 }: WorkoutProps) => {
   return (
@@ -38,17 +40,28 @@ export const WorkoutModal = ({
           <>
             <ModalHeader>Workout Details</ModalHeader>
             <ModalBody>
-              <div className="flex flex-col gap-4">
-                <div className="flex items-center gap-6 justify-center">
-                  <span className="font-medium">Workout Rating</span>
-                  <WorkoutRatingDropdown
-                    rating={workout.rating}
-                    workout_id={workout.id}
-                    isInModal={true}
-                    setWorkout={setWorkout}
-                  />
-                </div>
+              <div className="grid grid-cols-2 gap-x-4 gap-y-2.5 items-center">
+                {workoutTemplateNote && (
+                  <>
+                    <span className="font-medium justify-self-end">
+                      Workout Template Note
+                    </span>
+                    <span className="text-yellow-600 break-all">
+                      {workoutTemplateNote}sfdsfddsffdsdsdsdsdsdsdsdsdsdsdsds
+                    </span>
+                  </>
+                )}
+                <span className="font-medium justify-self-end">
+                  Workout Rating
+                </span>
+                <WorkoutRatingDropdown
+                  rating={workout.rating}
+                  workout_id={workout.id}
+                  isInModal={true}
+                  setWorkout={setWorkout}
+                />
                 <Input
+                  className="col-span-2"
                   value={workoutNote}
                   size="sm"
                   label="Note"
