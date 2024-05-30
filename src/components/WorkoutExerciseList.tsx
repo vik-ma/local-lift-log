@@ -60,7 +60,7 @@ export const WorkoutExerciseList = ({
   activeSetId = 0,
 }: WorkoutExerciseListProps) => {
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-1.5">
       <div className="px-0.5">
         <h2 className="text-xl font-semibold flex items-baseline justify-between">
           Set List{" "}
@@ -71,7 +71,7 @@ export const WorkoutExerciseList = ({
           )}
         </h2>
       </div>
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col">
         <Reorder.Group
           className="flex flex-col gap-1.5"
           values={groupedSets}
@@ -202,7 +202,7 @@ export const WorkoutExerciseList = ({
           ))}
         </Reorder.Group>
       </div>
-      <div className="flex gap-1 justify-center">
+      <div className="flex justify-center">
         <Button color="success" onPress={handleAddSetButton}>
           Add Set
         </Button>
