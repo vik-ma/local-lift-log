@@ -40,16 +40,16 @@ export default function WorkoutTemplateList() {
       try {
         const db = await Database.load(import.meta.env.VITE_DB);
 
+        // Get id, name and how many Sets and Exercises every WorkoutTemplate contains
         const result = await db.select<WorkoutTemplateListItem[]>(
-          "SELECT id, name FROM workout_templates"
+          `SELECT workout_templates.id, workout_templates.name, 
+          COUNT(DISTINCT CASE WHEN is_template = 1 THEN sets.exercise_id END) AS numExercises,
+          SUM(CASE WHEN is_template = 1 THEN 1 ELSE 0 END) AS numSets
+          FROM workout_templates LEFT JOIN sets 
+          ON workout_templates.id = sets.workout_template_id`
         );
 
-        const templates: WorkoutTemplateListItem[] = result.map((row) => ({
-          id: row.id,
-          name: row.name,
-        }));
-
-        setWorkoutTemplates(templates);
+        setWorkoutTemplates(result);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
