@@ -30,7 +30,7 @@ import {
 type OperationType =
   | "add"
   | "edit"
-  | "remove-set"
+  | "delete-set"
   | "change-exercise"
   | "reassign-exercise"
   | "delete-exercise-sets";
@@ -142,8 +142,8 @@ export const useWorkoutActions = () => {
     }
   };
 
-  const removeSet = async () => {
-    if (operatingSet === undefined || operationType !== "remove-set") return;
+  const deleteSet = async () => {
+    if (operatingSet === undefined || operationType !== "delete-set") return;
 
     const success = await DeleteSetWithId(operatingSet.id);
 
@@ -352,14 +352,14 @@ export const useWorkoutActions = () => {
   ) => {
     if (key === "edit") {
       handleEditSet(set, index, exercise);
-    } else if (key === "remove-set") {
-      handleRemoveSet(set);
+    } else if (key === "delete-set") {
+      handleDeleteSet(set);
     }
   };
 
-  const handleRemoveSet = (set: WorkoutSet) => {
+  const handleDeleteSet = (set: WorkoutSet) => {
     setOperatingSet(set);
-    setOperationType("remove-set");
+    setOperationType("delete-set");
 
     deleteModal.onOpen();
   };
@@ -485,8 +485,8 @@ export const useWorkoutActions = () => {
   const handleDeleteModalButton = () => {
     if (operationType === "delete-exercise-sets") {
       deleteAllSetsForExerciseId();
-    } else if (operationType === "remove-set") {
-      removeSet();
+    } else if (operationType === "delete-set") {
+      deleteSet();
     }
   };
 
