@@ -208,6 +208,8 @@ export type WorkoutListItem = {
   id: number;
   date: string;
   rating: number;
+  numSets?: number;
+  numExercises?: number;
 };
 
 export type UserWeight = {

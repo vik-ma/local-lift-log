@@ -26,8 +26,14 @@ export default function WorkoutList() {
       try {
         const db = await Database.load(import.meta.env.VITE_DB);
 
+        // Get id, date, rating and how many Sets and Exercises every Workout contains
         const result = await db.select<WorkoutListItem[]>(
-          "SELECT id, date, rating FROM workouts"
+          `SELECT workouts.id, workouts.date, workouts.rating, 
+          COUNT(DISTINCT CASE WHEN is_template = 0 THEN sets.exercise_id END) AS numExercises,
+          SUM(CASE WHEN is_template = 0 THEN 1 ELSE 0 END) AS numSets
+          FROM workouts LEFT JOIN sets 
+          ON workouts.id = sets.workout_id 
+          GROUP BY workouts.id`
         );
 
         const workouts: WorkoutListItem[] = result.map((row) => {
@@ -36,6 +42,8 @@ export default function WorkoutList() {
             id: row.id,
             date: formattedDate,
             rating: row.rating,
+            numSets: row.numSets,
+            numExercises: row.numExercises,
           };
         });
 
