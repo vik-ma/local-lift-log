@@ -160,19 +160,22 @@ export default function WorkoutTemplateList() {
             <div className="flex flex-col gap-1.5">
               {workoutTemplates.map((template, index) => (
                 <div
-                  className="flex flex-row justify-stretch gap-1"
+                  className="flex flex-row items-center gap-1"
                   key={`workout-template-${index}`}
                 >
-                  <div className="w-full">
-                    <Button
-                      className="w-full text-lg font-medium"
-                      color="primary"
-                      onPress={() =>
+                  <div className="flex-grow">
+                    <button
+                      className="flex flex-col justify-start items-start bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:bg-default-200 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                      onClick={() =>
                         navigate(`/workout-templates/${template.id}`)
                       }
                     >
-                      {template.name}
-                    </Button>
+                      <span className="w-72 truncate">{template.name}</span>
+                      <span className="text-xs text-stone-500 text-left">
+                        {template.numExercises} Exercises - {template.numSets}{" "}
+                        Sets
+                      </span>
+                    </button>
                   </div>
                   <Button
                     color="danger"
