@@ -171,9 +171,11 @@ export default function WorkoutTemplateList() {
                         navigate(`/workout-templates/${template.id}`)
                       }
                     >
-                      <span className="w-72 truncate">{template.name}</span>
+                      <span className="w-72 truncate text-left">
+                        {template.name}
+                      </span>
                       <span className="text-xs text-stone-500 text-left">
-                        {template.numExercises} Exercises - {template.numSets}{" "}
+                        {template.numExercises} Exercises, {template.numSets}{" "}
                         Sets
                       </span>
                     </button>
