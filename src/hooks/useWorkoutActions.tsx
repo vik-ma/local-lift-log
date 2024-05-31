@@ -9,7 +9,7 @@ import {
   Workout,
   SetTrackingValuesInput,
 } from "../typings";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useDisclosure } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
 
@@ -22,6 +22,7 @@ import {
   UpdateExerciseOrder,
   DeleteSetWithId,
   ConvertEmptyStringToNull,
+  GetUserSettings,
 } from "../helpers";
 import {
   useDefaultSet,
@@ -75,6 +76,25 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
   const operatingSetInputs = useSetTrackingInputs();
   const activeSetInputs = useSetTrackingInputs();
+
+  useEffect(() => {
+    const loadUserSettings = async () => {
+      try {
+        const userSettings = await GetUserSettings();
+        if (userSettings === undefined) return;
+        setUserSettings(userSettings);
+        setOperatingSet((prev) => ({
+          ...prev,
+          weight_unit: userSettings.default_unit_weight!,
+          distance_unit: userSettings.default_unit_distance!,
+        }));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    loadUserSettings();
+  }, []);
 
   const addSet = async (numSets: string) => {
     if (selectedExercise === undefined) return;
@@ -1064,6 +1084,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     setShowCommentInput,
     activeSetNote,
     setActiveSetNote,
-    handleEditSet
+    handleEditSet,
   };
 };

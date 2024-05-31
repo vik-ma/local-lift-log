@@ -12,7 +12,6 @@ import {
 import Database from "tauri-plugin-sql-api";
 import {
   CreateSetsFromWorkoutTemplate,
-  GetUserSettings,
   FormatDateString,
   CreateGroupedWorkoutSetListByExerciseId,
   GenerateExerciseOrderString,
@@ -189,21 +188,6 @@ export default function WorkoutDetails() {
       }
     };
 
-    const loadUserSettings = async () => {
-      try {
-        const userSettings = await GetUserSettings();
-        if (userSettings === undefined) return;
-        setUserSettings(userSettings);
-        setOperatingSet((prev) => ({
-          ...prev,
-          weight_unit: userSettings.default_unit_weight!,
-          distance_unit: userSettings.default_unit_distance!,
-        }));
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
     const getWorkoutTemplateNote = async (workoutTemplateId: number) => {
       try {
         const db = await Database.load(import.meta.env.VITE_DB);
@@ -222,7 +206,6 @@ export default function WorkoutDetails() {
     };
 
     loadWorkout();
-    loadUserSettings();
   }, [
     id,
     updateWorkout,

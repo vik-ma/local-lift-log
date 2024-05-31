@@ -13,7 +13,6 @@ import {
 import { Toaster } from "react-hot-toast";
 import {
   CreateGroupedWorkoutSetListByExerciseId,
-  GetUserSettings,
   ConvertEmptyStringToNull,
 } from "../helpers";
 import {
@@ -55,7 +54,6 @@ export default function WorkoutTemplateDetails() {
     groupedSets,
     setGroupedSets,
     userSettings,
-    setUserSettings,
     operatingSet,
     setOperatingSet,
     operatingGroupedSet,
@@ -112,24 +110,8 @@ export default function WorkoutTemplateDetails() {
   }, [id, setGroupedSets, setWorkoutTemplate]);
 
   useEffect(() => {
-    const loadUserSettings = async () => {
-      try {
-        const userSettings = await GetUserSettings();
-        if (userSettings === undefined) return;
-        setUserSettings(userSettings);
-        setOperatingSet((prev) => ({
-          ...prev,
-          weight_unit: userSettings.default_unit_weight!,
-          distance_unit: userSettings.default_unit_distance!,
-        }));
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
     getWorkoutTemplateAndSetList();
-    loadUserSettings();
-  }, [id, getWorkoutTemplateAndSetList, setOperatingSet, setUserSettings]);
+  }, [id, getWorkoutTemplateAndSetList]);
 
   const updateWorkoutTemplateNoteAndName = async () => {
     if (!isNewWorkoutTemplateNameValid) return;
