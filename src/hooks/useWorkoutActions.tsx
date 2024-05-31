@@ -38,7 +38,7 @@ type OperationType =
   | "reassign-exercise"
   | "delete-exercise-sets";
 
-export const useWorkoutActions = () => {
+export const useWorkoutActions = (isTemplate: boolean) => {
   const [workoutTemplate, setWorkoutTemplate] = useState<WorkoutTemplate>();
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [selectedExercise, setSelectedExercise] = useState<Exercise>();
@@ -77,7 +77,7 @@ export const useWorkoutActions = () => {
   const activeSetInputs = useSetTrackingInputs();
 
   const addSet = async (numSets: string) => {
-    if (selectedExercise === undefined || workoutTemplate === undefined) return;
+    if (selectedExercise === undefined) return;
 
     if (!numSetsOptions.includes(numSets)) return;
 
@@ -98,7 +98,6 @@ export const useWorkoutActions = () => {
         const newSet: WorkoutSet = {
           ...operatingSet,
           exercise_id: selectedExercise.id,
-          workout_template_id: workoutTemplate.id,
           note: noteToInsert,
           exercise_name: selectedExercise.name,
           weight: setTrackingValuesNumber.weight,
@@ -108,6 +107,14 @@ export const useWorkoutActions = () => {
           rpe: setTrackingValuesNumber.rpe,
           resistance_level: setTrackingValuesNumber.resistance_level,
         };
+
+        if (isTemplate && workoutTemplate !== undefined) {
+          newSet.workout_template_id = workoutTemplate.id;
+        }
+
+        if (!isTemplate && workout !== undefined) {
+          newSet.workout_id = workout.id;
+        }
 
         const setId: number = await InsertSetIntoDatabase(newSet);
 
@@ -136,16 +143,18 @@ export const useWorkoutActions = () => {
 
         setGroupedSets(newGroupedSets);
         await updateExerciseOrder(newGroupedSets);
+
+        if (!isTemplate) populateIncompleteSets(newGroupedSets);
       } else {
         // Add new Sets to groupedSets' existing Exercise's Set List
-        setGroupedSets((prev) => {
-          const newList = [...prev];
-          newList[exerciseIndex].setList = [
-            ...newList[exerciseIndex].setList,
-            ...newSets,
-          ];
-          return newList;
-        });
+        const newList = [...groupedSets];
+        newList[exerciseIndex].setList = [
+          ...newList[exerciseIndex].setList,
+          ...newSets,
+        ];
+        setGroupedSets(newList);
+
+        if (!isTemplate) populateIncompleteSets(newList);
       }
 
       resetSetToDefault();
@@ -196,8 +205,19 @@ export const useWorkoutActions = () => {
 
     resetSetToDefault();
 
-    toast.success("Set Removed");
+    toast.success(isTemplate ? "Set Removed" : "Set Deleted");
     deleteModal.onClose();
+
+    if (!isTemplate) {
+      if (operatingSet.id === activeSet?.id) {
+        goToNextIncompleteSet(activeSet);
+      } else if (operatingSet.is_completed === 0) {
+        const updatedIncompleteSetIds = incompleteSetIds.filter(
+          (id) => id !== operatingSet.id
+        );
+        setIncompleteSetIds(updatedIncompleteSetIds);
+      }
+    }
   };
 
   const updateSet = async () => {
@@ -254,14 +274,23 @@ export const useWorkoutActions = () => {
 
     setModal.onClose();
     toast.success("Set Updated");
+
+    if (!isTemplate && activeSet?.id === updatedSet.id) {
+      setActiveSet(updatedSet);
+      activeSetInputs.setTrackingValuesInputStrings(updatedSet);
+    }
   };
 
   const updateExerciseOrder = async (
     setList: GroupedWorkoutSet[] = groupedSets
   ) => {
-    if (workoutTemplate === undefined) return;
+    if (isTemplate && workoutTemplate !== undefined) {
+      await UpdateExerciseOrder(setList, workoutTemplate.id, true);
+    }
 
-    await UpdateExerciseOrder(setList, workoutTemplate.id, true);
+    if (!isTemplate && workout !== undefined) {
+      await UpdateExerciseOrder(setList, workout.id, false);
+    }
 
     if (isExerciseBeingDragged) setIsExerciseBeingDragged(false);
   };
@@ -356,7 +385,20 @@ export const useWorkoutActions = () => {
     index: number,
     exercise: Exercise
   ) => {
-    handleEditSet(set, index, exercise);
+    if (isTemplate) {
+      handleEditSet(set, index, exercise);
+    } else {
+      const newActiveSet = { ...set, set_index: index };
+      setActiveSet(newActiveSet);
+
+      const groupedSet = groupedSets.find(
+        (obj) => obj.exercise.id === exercise.id
+      );
+      setActiveGroupedSet(groupedSet);
+
+      updateActiveSetTrackingValues(newActiveSet, activeSet);
+      setIsActiveSetExpanded(true);
+    }
   };
 
   const handleSetOptionSelection = (
@@ -399,18 +441,23 @@ export const useWorkoutActions = () => {
   const handleAddSetToExercise = async (
     groupedWorkoutSet: GroupedWorkoutSet
   ) => {
-    if (workoutTemplate === undefined) return;
-
     const exercise = groupedWorkoutSet.exercise;
 
     let newSet: WorkoutSet = {
       ...defaultNewSet,
       exercise_id: exercise.id,
-      workout_template_id: workoutTemplate.id,
       weight_unit: userSettings!.default_unit_weight!,
       distance_unit: userSettings!.default_unit_distance!,
       exercise_name: exercise.name,
     };
+
+    if (isTemplate && workoutTemplate !== undefined) {
+      newSet.workout_template_id = workoutTemplate.id;
+    }
+
+    if (!isTemplate && workout !== undefined) {
+      newSet.workout_id = workout.id;
+    }
 
     if (exercise.formattedGroupString === "Cardio") {
       newSet = {
@@ -464,21 +511,33 @@ export const useWorkoutActions = () => {
 
   const deleteAllSetsForExerciseId = async () => {
     if (
-      workoutTemplate === undefined ||
       operatingGroupedSet === undefined ||
       operationType !== "delete-exercise-sets"
     )
       return;
 
     try {
+      let statement = "";
+      let id = 0;
+
+      if (isTemplate && workoutTemplate !== undefined) {
+        statement = `DELETE from sets WHERE exercise_id = $1 
+                    AND workout_template_id = $2 
+                    AND is_template = 1`;
+        id = workoutTemplate.id;
+      }
+
+      if (!isTemplate && workout !== undefined) {
+        statement = `DELETE from sets 
+                    WHERE exercise_id = $1 AND workout_id = $2`;
+        id = workout.id;
+      }
+
+      if (id === 0) return;
+
       const db = await Database.load(import.meta.env.VITE_DB);
 
-      db.execute(
-        `DELETE from sets WHERE exercise_id = $1 
-             AND workout_template_id = $2 
-             AND is_template = 1`,
-        [operatingGroupedSet.exercise.id, workoutTemplate.id]
-      );
+      db.execute(statement, [operatingGroupedSet.exercise.id, id]);
 
       const updatedSetList: GroupedWorkoutSet[] = groupedSets.filter(
         (item) => item.exercise.id !== operatingGroupedSet.exercise.id
@@ -570,8 +629,7 @@ export const useWorkoutActions = () => {
   };
 
   const reassignExercise = async (newExercise: Exercise) => {
-    if (operatingGroupedSet === undefined || workoutTemplate === undefined)
-      return;
+    if (operatingGroupedSet === undefined) return;
 
     // Do nothing if trying to reassign the same Exercise
     if (operatingGroupedSet.exercise.id === newExercise.id) {
@@ -593,12 +651,36 @@ export const useWorkoutActions = () => {
     } else if (operationType === "change-exercise") {
       // Just change the sets with this specific workout_template_id
       try {
+        let statement = "";
+        let id = 0;
+
+        if (isTemplate && workoutTemplate !== undefined) {
+          statement = `UPDATE sets SET exercise_id = $1 
+                      WHERE exercise_id = $2 
+                      AND workout_template_id = $3 
+                      AND is_template = 1`;
+          id = workoutTemplate.id;
+        }
+
+        if (!isTemplate && workout !== undefined) {
+          statement = `UPDATE sets SET exercise_id = $1 
+                      WHERE exercise_id = $2 
+                      AND workout_id = $3 
+                      AND is_template = 0`;
+          id = workout.id;
+        }
+
+        if (id === 0) return;
+
         const db = await Database.load(import.meta.env.VITE_DB);
-        await db.execute(
-          `UPDATE sets SET exercise_id = $1 
-              WHERE exercise_id = $2 AND workout_template_id = $3 AND is_template = 1`,
-          [newExercise.id, operatingGroupedSet.exercise.id, workoutTemplate.id]
-        );
+
+        db.execute(statement, [operatingGroupedSet.exercise.id, id]);
+
+        await db.execute(statement, [
+          newExercise.id,
+          operatingGroupedSet.exercise.id,
+          id,
+        ]);
       } catch (error) {
         console.log(error);
         return;
@@ -643,11 +725,26 @@ export const useWorkoutActions = () => {
     resetSetToDefault();
 
     setModal.onClose();
-    const toastMsg: string =
+
+    toast.success(
       operationType === "reassign-exercise"
         ? "Exercise Reassigned"
-        : "Exercise Changed";
-    toast.success(toastMsg);
+        : "Exercise Changed"
+    );
+
+    if (
+      !isTemplate &&
+      activeSet !== undefined &&
+      activeGroupedSet !== undefined &&
+      activeSet.exercise_id === operatingGroupedSet.exercise.id
+    ) {
+      setActiveSet({
+        ...activeSet,
+        exercise_id: newExercise.id,
+        exercise_name: newExercise.name,
+      });
+      setActiveGroupedSet({ ...activeGroupedSet, exercise: newExercise });
+    }
   };
 
   const handleReassignExercise = (groupedWorkoutSet: GroupedWorkoutSet) => {
@@ -663,6 +760,12 @@ export const useWorkoutActions = () => {
       operatingSetInputs.setSetTrackingValuesInput(defaultSetInputValues);
       setOperatingSet({
         ...operatingSet,
+        time_in_seconds: 0,
+      });
+    } else if (!isTemplate && activeSet !== undefined) {
+      activeSetInputs.setSetTrackingValuesInput(defaultSetInputValues);
+      setActiveSet({
+        ...activeSet,
         time_in_seconds: 0,
       });
     }
@@ -961,5 +1064,6 @@ export const useWorkoutActions = () => {
     setShowCommentInput,
     activeSetNote,
     setActiveSetNote,
+    handleEditSet
   };
 };

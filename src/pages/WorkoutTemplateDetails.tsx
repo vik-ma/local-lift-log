@@ -69,7 +69,7 @@ export default function WorkoutTemplateDetails() {
     setIsExerciseBeingDragged,
     workoutTemplate,
     setWorkoutTemplate,
-  } = useWorkoutActions();
+  } = useWorkoutActions(true);
 
   const getWorkoutTemplateAndSetList = useCallback(async () => {
     try {
