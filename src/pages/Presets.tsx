@@ -424,6 +424,8 @@ export default function PresetsPage() {
     toast.success("Default Distances Restored");
   };
 
+  if (userSettings === undefined) return <LoadingSpinner />;
+
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />

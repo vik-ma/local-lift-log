@@ -157,6 +157,8 @@ export default function RoutineListPage() {
     deleteModal.onClose();
   };
 
+  if (userSettings === undefined) return <LoadingSpinner />;
+
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />

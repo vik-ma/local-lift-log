@@ -304,6 +304,8 @@ export default function MeasurementListPage() {
     }
   };
 
+  if (userSettings === undefined) return <LoadingSpinner />;
+
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />

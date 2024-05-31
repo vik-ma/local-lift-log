@@ -230,7 +230,8 @@ export default function WorkoutDetails() {
     workoutModal.onClose();
   };
 
-  if (workout === undefined) return <LoadingSpinner />;
+  if (workout === undefined || userSettings === undefined)
+    return <LoadingSpinner />;
 
   return (
     <>

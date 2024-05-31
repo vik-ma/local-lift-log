@@ -145,7 +145,8 @@ export default function WorkoutTemplateDetails() {
     }
   };
 
-  if (workoutTemplate === undefined) return <LoadingSpinner />;
+  if (workoutTemplate === undefined || userSettings === undefined)
+    return <LoadingSpinner />;
 
   return (
     <>

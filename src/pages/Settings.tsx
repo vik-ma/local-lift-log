@@ -210,6 +210,8 @@ export default function SettingsPage() {
     }
   };
 
+  if (userSettings === undefined) return <LoadingSpinner />;
+
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />

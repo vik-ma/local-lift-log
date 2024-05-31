@@ -318,7 +318,7 @@ export default function RoutineDetailsPage() {
     );
   }, [routine.num_days_in_schedule, routine.is_schedule_weekly]);
 
-  if (routine.id === 0) return <LoadingSpinner />;
+  if (routine.id === 0 || userSettings === undefined) return <LoadingSpinner />;
 
   return (
     <>

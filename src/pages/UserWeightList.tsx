@@ -57,7 +57,6 @@ export default function UserWeightListPage() {
       });
 
       setUserWeights(userWeights);
-      setIsLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -74,8 +73,11 @@ export default function UserWeightListPage() {
 
         const userSettings: UserSettingsOptional = result[0];
 
-        setNewWeightUnit(userSettings.default_unit_weight!);
-        getUserWeights(userSettings.clock_style!);
+        if (userSettings !== undefined) {
+          setNewWeightUnit(userSettings.default_unit_weight!);
+          getUserWeights(userSettings.clock_style!);
+          setIsLoading(false);
+        }
       } catch (error) {
         console.log(error);
       }

@@ -88,6 +88,8 @@ export default function WorkoutList() {
     deleteModal.onOpen();
   };
 
+  if (userSettings === undefined) return <LoadingSpinner />;
+
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />

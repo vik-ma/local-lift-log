@@ -41,7 +41,6 @@ export default function UserMeasurementList() {
         }
 
         setUserMeasurementEntries(result);
-        setIsLoading(false);
       } catch (error) {
         console.log(error);
       }
@@ -50,7 +49,10 @@ export default function UserMeasurementList() {
     const getClockStyle = async () => {
       const userSettings = await GetClockStyle();
 
-      if (userSettings?.clock_style) setClockStyle(userSettings.clock_style);
+      if (userSettings?.clock_style) {
+        setClockStyle(userSettings.clock_style);
+        setIsLoading(false);
+      }
     };
 
     getUserMeasurements();
