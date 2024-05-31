@@ -128,13 +128,18 @@ export default function WorkoutList() {
                 className="flex flex-row justify-between items-center gap-1"
                 key={`${workout.id}`}
               >
-                <Button
-                  className="w-full bg-white text-lg font-medium hover:bg-stone-100"
+                <button
+                  className="flex flex-col justify-start items-start bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:bg-default-200 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                   onClick={() => navigate(`/workouts/${workout.id}`)}
                 >
-                  {workout.date}
-                </Button>
-                <div className="flex gap-1 items-center">
+                  <span className="w-[10.5rem] truncate text-left">
+                    {workout.date}
+                  </span>
+                  <span className="text-xs text-stone-500 text-left">
+                    {workout.numExercises} Exercises, {workout.numSets} Sets
+                  </span>
+                </button>
+                <div className="flex gap-1.5 items-center">
                   {userSettings?.show_workout_rating === 1 && (
                     <WorkoutRatingDropdown
                       rating={workout.rating}
