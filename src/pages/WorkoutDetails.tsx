@@ -244,6 +244,7 @@ export default function WorkoutDetails() {
         setWorkoutNote={setWorkoutNote}
         workoutTemplateNote={workoutTemplateNote}
         buttonAction={handleWorkoutModalSaveButton}
+        showRating={userSettings.show_workout_rating === 1 ? true : false}
       />
       <DeleteModal
         deleteModal={deleteModal}

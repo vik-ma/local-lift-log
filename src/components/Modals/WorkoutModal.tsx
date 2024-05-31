@@ -19,6 +19,7 @@ type WorkoutProps = {
   setWorkoutNote: React.Dispatch<React.SetStateAction<string>>;
   workoutTemplateNote: string | null;
   buttonAction: () => void;
+  showRating: boolean;
 };
 
 export const WorkoutModal = ({
@@ -29,6 +30,7 @@ export const WorkoutModal = ({
   setWorkoutNote,
   workoutTemplateNote,
   buttonAction,
+  showRating,
 }: WorkoutProps) => {
   return (
     <Modal
@@ -51,15 +53,19 @@ export const WorkoutModal = ({
                     </span>
                   </>
                 )}
-                <span className="font-medium justify-self-end">
-                  Workout Rating
-                </span>
-                <WorkoutRatingDropdown
-                  rating={workout.rating}
-                  workout_id={workout.id}
-                  isInModal={true}
-                  setWorkout={setWorkout}
-                />
+                {showRating && (
+                  <>
+                    <span className="font-medium justify-self-end">
+                      Workout Rating
+                    </span>
+                    <WorkoutRatingDropdown
+                      rating={workout.rating}
+                      workout_id={workout.id}
+                      isInModal={true}
+                      setWorkout={setWorkout}
+                    />
+                  </>
+                )}
                 <Input
                   className="col-span-2"
                   value={workoutNote}
