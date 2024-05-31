@@ -5,8 +5,11 @@ import {
   WorkoutTemplate,
   GroupedWorkoutSet,
   SetListNotes,
+  ActiveSetNote,
+  Workout,
+  SetTrackingValuesInput,
 } from "../typings";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useDisclosure } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
 
@@ -48,6 +51,17 @@ export const useWorkoutActions = () => {
   const [isExerciseBeingDragged, setIsExerciseBeingDragged] =
     useState<boolean>(false);
 
+  const [workout, setWorkout] = useState<Workout>();
+  const [activeSet, setActiveSet] = useState<WorkoutSet>();
+  const [showCommentInput, setShowCommentInput] = useState<boolean>(false);
+  const [incompleteSetIds, setIncompleteSetIds] = useState<number[]>([]);
+  const [activeSetNote, setActiveSetNote] = useState<
+    ActiveSetNote | undefined
+  >();
+  const [isActiveSetExpanded, setIsActiveSetExpanded] =
+    useState<boolean>(false);
+  const [activeGroupedSet, setActiveGroupedSet] = useState<GroupedWorkoutSet>();
+
   const numSetsOptions = useNumSetsOptions();
 
   const defaultNewSet = useDefaultSet(true);
@@ -60,6 +74,7 @@ export const useWorkoutActions = () => {
   const defaultSetInputValues = useDefaultSetInputValues();
 
   const operatingSetInputs = useSetTrackingInputs();
+  const activeSetInputs = useSetTrackingInputs();
 
   const addSet = async (numSets: string) => {
     if (selectedExercise === undefined || workoutTemplate === undefined) return;
@@ -653,6 +668,250 @@ export const useWorkoutActions = () => {
     }
   };
 
+  const saveActiveSet = async () => {
+    if (activeSet === undefined || workout === undefined) return;
+
+    if (activeSetInputs.isSetTrackingValuesInvalid) return;
+
+    const currentDate = new Date().toString();
+
+    const setTrackingValuesNumbers = ConvertSetInputValuesToNumbers(
+      activeSetInputs.setTrackingValuesInput
+    );
+
+    const commentToInsert = ConvertEmptyStringToNull(activeSet.comment);
+
+    const updatedSet: WorkoutSet = {
+      ...activeSet,
+      weight: setTrackingValuesNumbers.weight,
+      reps: setTrackingValuesNumbers.reps,
+      distance: setTrackingValuesNumbers.distance,
+      rir: setTrackingValuesNumbers.rir,
+      rpe: setTrackingValuesNumbers.rpe,
+      resistance_level: setTrackingValuesNumbers.resistance_level,
+      is_completed: 1,
+      time_completed: currentDate,
+      comment: commentToInsert,
+    };
+
+    const success = await UpdateSet(updatedSet);
+
+    if (!success) return;
+
+    const exerciseIndex: number = groupedSets.findIndex(
+      (obj) => obj.exercise.id === activeSet.exercise_id
+    );
+
+    const updatedSetList: WorkoutSet[] = groupedSets[exerciseIndex].setList.map(
+      (item) => (item.id === activeSet.id ? updatedSet : item)
+    );
+
+    setGroupedSets((prev) => {
+      const newList = [...prev];
+      newList[exerciseIndex].setList = updatedSetList;
+      return newList;
+    });
+
+    // Close shownSetListComments for Set if comment was deleted
+    if (updatedSet.comment === null) {
+      updateSetIndexInShownSetListComments(
+        activeSet.exercise_id,
+        activeSet.set_index ?? -1
+      );
+    }
+
+    goToNextIncompleteSet(updatedSet);
+    setShowCommentInput(false);
+    toast.success("Set Saved");
+  };
+
+  const goToNextIncompleteSet = (lastSet: WorkoutSet) => {
+    if (incompleteSetIds.length < 2) {
+      // If last incomplete Set
+      setIncompleteSetIds([]);
+      setActiveSet(undefined);
+      setActiveGroupedSet(undefined);
+      activeSetInputs.setSetTrackingValuesInput(defaultSetInputValues);
+      return;
+    }
+
+    const lastSetIndex: number = incompleteSetIds.findIndex(
+      (id) => id === lastSet.id
+    );
+
+    let nextSetIndex = 0;
+
+    if (lastSetIndex + 1 !== incompleteSetIds.length) {
+      // Leave nextSetIndex at 0 if at end of list, but with incomplete Sets left
+      // Otherwise next index in list
+      nextSetIndex = lastSetIndex + 1;
+    }
+
+    for (const group of groupedSets) {
+      const setList: WorkoutSet[] = group.setList;
+      for (let i = 0; i < setList.length; i++) {
+        if (setList[i].id === incompleteSetIds[nextSetIndex]) {
+          const newActiveSet = {
+            ...setList[i],
+            set_index: i,
+          };
+          setActiveSet(newActiveSet);
+          setActiveGroupedSet(group);
+          updateActiveSetTrackingValues(newActiveSet, lastSet);
+          break;
+        }
+      }
+    }
+
+    const updatedIncompleteSetIds = incompleteSetIds.filter(
+      (id) => id !== lastSet.id
+    );
+
+    setIncompleteSetIds(updatedIncompleteSetIds);
+  };
+
+  const updateActiveSetTrackingValues = useCallback(
+    (activeSet: WorkoutSet, lastSet: WorkoutSet | undefined) => {
+      const activeSetInputValues: SetTrackingValuesInput = {
+        weight:
+          activeSet.weight > 0 && activeSet.is_tracking_weight
+            ? activeSet.weight.toString()
+            : "",
+        reps:
+          activeSet.reps > 0 && activeSet.is_tracking_reps
+            ? activeSet.reps.toString()
+            : "",
+        rir:
+          activeSet.rir > 0 && activeSet.is_tracking_rir
+            ? activeSet.rir.toString()
+            : "",
+        rpe:
+          activeSet.rpe > 0 && activeSet.is_tracking_rpe
+            ? activeSet.rpe.toString()
+            : "",
+        distance:
+          activeSet.distance > 0 && activeSet.is_tracking_distance
+            ? activeSet.distance.toString()
+            : "",
+        resistance_level:
+          activeSet.resistance_level > 0 &&
+          activeSet.is_tracking_resistance_level
+            ? activeSet.resistance_level.toString()
+            : "",
+      };
+
+      if (
+        lastSet !== undefined &&
+        activeSet.exercise_id === lastSet.exercise_id
+      ) {
+        // If same exercise, keep input values from last set, unless it already has values set
+        if (
+          activeSet.is_tracking_weight === 1 &&
+          activeSet.weight === 0 &&
+          lastSet.weight > 0
+        ) {
+          activeSetInputValues.weight = lastSet.weight.toString();
+        }
+        if (
+          activeSet.is_tracking_reps === 1 &&
+          activeSet.reps === 0 &&
+          lastSet.reps > 0
+        ) {
+          activeSetInputValues.reps = lastSet.reps.toString();
+        }
+        if (
+          activeSet.is_tracking_rir === 1 &&
+          activeSet.rir === 0 &&
+          lastSet.rir > 0
+        ) {
+          activeSetInputValues.rir = lastSet.rir.toString();
+        }
+        if (
+          activeSet.is_tracking_rpe === 1 &&
+          activeSet.rpe === 0 &&
+          lastSet.rpe > 0
+        ) {
+          activeSetInputValues.rpe = lastSet.rpe.toString();
+        }
+        if (
+          activeSet.is_tracking_distance === 1 &&
+          activeSet.distance === 0 &&
+          lastSet.distance > 0
+        ) {
+          activeSetInputValues.distance = lastSet.distance.toString();
+        }
+        if (
+          activeSet.is_tracking_resistance_level === 1 &&
+          activeSet.resistance_level === 0 &&
+          lastSet.resistance_level > 0
+        ) {
+          activeSetInputValues.resistance_level =
+            lastSet.resistance_level.toString();
+        }
+      }
+
+      activeSetInputs.setSetTrackingValuesInput(activeSetInputValues);
+    },
+    // Including activeSetInputs in the dependency array causes constant re-renders
+    [] // eslint-disable-line react-hooks/exhaustive-deps
+  );
+
+  const populateIncompleteSets = useCallback(
+    (groupedSetList: GroupedWorkoutSet[]) => {
+      const incompleteSetIdList: number[] = [];
+      let firstSetIndex: number = -1;
+
+      // Add Set ids of all incomplete Sets to incompleteSetIds list
+      for (let i = 0; i < groupedSetList.length; i++) {
+        const setList: WorkoutSet[] = groupedSetList[i].setList;
+        for (let j = 0; j < setList.length; j++) {
+          if (setList[j].is_completed === 0) {
+            incompleteSetIdList.push(setList[j].id);
+            if (firstSetIndex === -1) {
+              // Set first incomplete Set as activeSet
+              firstSetIndex = j;
+              const newActiveSet = {
+                ...setList[j],
+                set_index: firstSetIndex,
+              };
+              setActiveSet(newActiveSet);
+              setActiveGroupedSet(groupedSetList[i]);
+              updateActiveSetTrackingValues(newActiveSet, undefined);
+            }
+          }
+        }
+      }
+      setIncompleteSetIds(incompleteSetIdList);
+    },
+    [updateActiveSetTrackingValues]
+  );
+
+  const handleActiveSetOptionSelection = (key: string) => {
+    if (activeSet === undefined || activeGroupedSet === undefined) return;
+
+    if (key === "show-set-note" && activeSet.note) {
+      const note: ActiveSetNote = {
+        note: activeSet.note,
+        note_type: "Set Note",
+      };
+      setActiveSetNote(note);
+    } else if (key === "show-exercise-note" && activeGroupedSet.exercise.note) {
+      const note: ActiveSetNote = {
+        note: activeGroupedSet.exercise.note,
+        note_type: "Exercise Note",
+      };
+      setActiveSetNote(note);
+    } else if (key === "show-set-comment" && activeSet.comment) {
+      const note: ActiveSetNote = {
+        note: activeSet.comment,
+        note_type: "Comment",
+      };
+      setActiveSetNote(note);
+    } else if (key === "hide-note") {
+      setActiveSetNote(undefined);
+    }
+  };
+
   return {
     updateExerciseOrder,
     handleSaveSetButton,
@@ -683,5 +942,24 @@ export const useWorkoutActions = () => {
     setIsExerciseBeingDragged,
     workoutTemplate,
     setWorkoutTemplate,
+    workout,
+    setWorkout,
+    activeSet,
+    setActiveSet,
+    saveActiveSet,
+    goToNextIncompleteSet,
+    updateActiveSetTrackingValues,
+    populateIncompleteSets,
+    handleActiveSetOptionSelection,
+    incompleteSetIds,
+    setIncompleteSetIds,
+    activeSetInputs,
+    isActiveSetExpanded,
+    setIsActiveSetExpanded,
+    activeGroupedSet,
+    showCommentInput,
+    setShowCommentInput,
+    activeSetNote,
+    setActiveSetNote,
   };
 };
