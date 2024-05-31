@@ -46,7 +46,8 @@ export default function WorkoutTemplateList() {
           COUNT(DISTINCT CASE WHEN is_template = 1 THEN sets.exercise_id END) AS numExercises,
           SUM(CASE WHEN is_template = 1 THEN 1 ELSE 0 END) AS numSets
           FROM workout_templates LEFT JOIN sets 
-          ON workout_templates.id = sets.workout_template_id`
+          ON workout_templates.id = sets.workout_template_id 
+          GROUP BY workout_templates.id`
         );
 
         setWorkoutTemplates(result);
