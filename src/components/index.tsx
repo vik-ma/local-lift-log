@@ -20,3 +20,4 @@ export { SettingsModal } from "./Modals/SettingsModal";
 export { WorkoutTemplateModal } from "./Modals/WorkoutTemplateModal";
 export { ExerciseModal } from "./Modals/ExerciseModal";
 export { WorkoutModal } from "./Modals/WorkoutModal";
+export { TimeInputModal } from "./Modals/TimeInputModal";
