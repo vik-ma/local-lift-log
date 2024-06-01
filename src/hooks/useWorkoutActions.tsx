@@ -236,8 +236,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       operatingSet.is_completed === 1
     ) {
       // Lower the value for completedSetsMap key if deleted Set was completed
-      const value = operatingSet.exercise_id;
-      completedSetsMap.set(operatingSet.exercise_id, value - 1);
+      const value = completedSetsMap.get(operatingSet.exercise_id);
+      completedSetsMap.set(operatingSet.exercise_id, value! - 1);
     }
 
     if (!isTemplate) {
@@ -738,9 +738,9 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     if (completedSetsMap.has(operatingGroupedSet.exercise.id)) {
       // Change key to match new exercise id
-      const value = operatingGroupedSet.exercise.id;
+      const value = completedSetsMap.get(operatingGroupedSet.exercise.id);
       completedSetsMap.delete(operatingGroupedSet.exercise.id);
-      completedSetsMap.set(newExercise.id, value);
+      completedSetsMap.set(newExercise.id, value!);
     }
 
     if (newExerciseIndex === -1) {
@@ -851,6 +851,9 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     const updatedSetList: WorkoutSet[] = groupedSets[exerciseIndex].setList.map(
       (item) => (item.id === activeSet.id ? updatedSet : item)
     );
+
+    const completedSetsValue = completedSetsMap.get(activeSet.exercise_id) ?? 0;
+    completedSetsMap.set(activeSet.exercise_id, completedSetsValue + 1);
 
     setGroupedSets((prev) => {
       const newList = [...prev];
