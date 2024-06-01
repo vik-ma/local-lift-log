@@ -83,6 +83,7 @@ export default function WorkoutDetails() {
     activeSetNote,
     setActiveSetNote,
     handleEditSet,
+    completedSetsMap,
   } = useWorkoutActions(false);
 
   const initialized = useRef(false);
@@ -320,6 +321,7 @@ export default function WorkoutDetails() {
             handleReassignExercise={handleReassignExercise}
             isTemplate={false}
             activeSetId={activeSet?.id}
+            completedSetsMap={completedSetsMap}
           />
         </div>
         <ActiveSet

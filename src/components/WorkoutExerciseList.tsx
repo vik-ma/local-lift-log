@@ -40,6 +40,7 @@ type WorkoutExerciseListProps = {
   handleReassignExercise: (groupedWorkoutSet: GroupedWorkoutSet) => void;
   isTemplate: boolean;
   activeSetId?: number;
+  completedSetsMap?: Map<number, number>;
 };
 
 export const WorkoutExerciseList = ({
@@ -58,6 +59,7 @@ export const WorkoutExerciseList = ({
   handleReassignExercise,
   isTemplate,
   activeSetId = 0,
+  completedSetsMap,
 }: WorkoutExerciseListProps) => {
   return (
     <div className="flex flex-col gap-1.5">
@@ -111,8 +113,19 @@ export const WorkoutExerciseList = ({
                         </Button>
                       )}
                     </div>
-                    <span className="text-sm text-stone-500">
-                      {groupedSet.setList.length} Sets
+                    <span
+                      className={
+                        completedSetsMap?.get(groupedSet.exercise.id) ===
+                        groupedSet.setList.length
+                          ? "text-sm text-success"
+                          : "text-sm text-stone-500"
+                      }
+                    >
+                      {completedSetsMap
+                        ? `${completedSetsMap.get(groupedSet.exercise.id)}/${
+                            groupedSet.setList.length
+                          } Sets Completed`
+                        : `${groupedSet.setList.length} Sets`}
                     </span>
                   </div>
                   <div className="flex gap-0.5 px-0.5 items-center">
