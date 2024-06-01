@@ -4,6 +4,7 @@ export { GetCurrentYmdDateString } from "./Dates/GetCurrentYmdDateString";
 export { FormatDateString } from "./Dates/FormatDateString";
 export { FormatDateTimeString } from "./Dates/FormatDateTimeString";
 export { ConvertDateStringToTimeString } from "./Dates/ConvertDateStringToTimeString";
+export { ValidateDateString } from "./Dates/ValidateDateString";
 
 export { ConvertExerciseGroupSetString } from "./Exercises/ConvertExerciseGroupSetString";
 export { ConvertExerciseGroupStringListToSetString } from "./Exercises/ConvertExerciseGroupStringListToSetString";
