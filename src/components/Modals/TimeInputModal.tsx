@@ -9,14 +9,14 @@ import {
   TimeInput,
 } from "@nextui-org/react";
 import { Time, parseTime } from "@internationalized/date";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ConvertDateStringToTimeString } from "../../helpers";
 
 type TimeInputModalProps = {
   timeInputModal: ReturnType<typeof useDisclosure>;
   header: string;
   clockStyle: string;
-  value: string;
+  value: string | null;
   saveButtonAction: (newTime: Time) => void;
 };
 
@@ -27,11 +27,25 @@ export const TimeInputModal = ({
   value,
   saveButtonAction,
 }: TimeInputModalProps) => {
+  const [currentTime, setCurrentTime] = useState<Time>();
+  const [newTime, setNewTime] = useState<Time>();
 
+  useEffect(() => {
+    if (value === null) return;
 
-  const currentDateString = ConvertDateStringToTimeString(value, true);
-  const parsedCurrentTime = parseTime(currentDateString);
-  const [newTime, setNewTime] = useState<Time>(parsedCurrentTime);
+    const currentDateString = ConvertDateStringToTimeString(value, true);
+    const parsedCurrentTime = parseTime(currentDateString);
+    setNewTime(parsedCurrentTime);
+    setCurrentTime(parsedCurrentTime);
+  }, [value]);
+
+  const handleSaveButton = () => {
+    if (newTime === undefined) return;
+
+    saveButtonAction(newTime);
+  };
+
+  if (value === null) return <></>;
 
   return (
     <Modal
@@ -57,7 +71,7 @@ export const TimeInputModal = ({
                     }
                     hourCycle={clockStyle === "24h" ? 24 : 12}
                     granularity="second"
-                    value={parsedCurrentTime}
+                    value={currentTime}
                   />
                 </div>
                 <div className="flex gap-3 items-center justify-center">
@@ -80,7 +94,7 @@ export const TimeInputModal = ({
               <Button color="success" variant="light" onPress={onClose}>
                 Close
               </Button>
-              <Button color="success" onPress={() => saveButtonAction(newTime)}>
+              <Button color="success" onPress={() => handleSaveButton()}>
                 Save
               </Button>
             </ModalFooter>

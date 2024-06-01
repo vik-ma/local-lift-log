@@ -286,8 +286,8 @@ export default function WorkoutDetails() {
         timeInputModal={timeInputModal}
         header="Update Time Completed"
         clockStyle={userSettings.clock_style}
-        value={operatingSet.time_completed!}
-        saveButtonAction={() => {}}
+        value={operatingSet.time_completed}
+        saveButtonAction={(e) => console.log(e)}
       />
       <div className="flex flex-col">
         <div className="flex flex-col gap-4 pb-4">
