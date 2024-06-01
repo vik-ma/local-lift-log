@@ -6,8 +6,6 @@ export default function TestPage() {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const dateString = new Date().toString();
 
-  const [date, setDate] = useState<string>(dateString);
-
   const timeInputModal = useDisclosure();
 
   return (
@@ -16,8 +14,7 @@ export default function TestPage() {
         timeInputModal={timeInputModal}
         header="Test"
         clockStyle="12h"
-        value={date}
-        setValue={setDate}
+        value={dateString}
         saveButtonAction={() => {}}
       />
       <div className="flex flex-col gap-2">

@@ -1,7 +1,14 @@
+import { ValidateDateString } from "..";
+
 export const ConvertDateStringToTimeString = (
   dateString: string,
   is24hFormat: boolean
 ): string => {
+  if (!ValidateDateString(dateString)) {
+    // Current DateTime placeholder if dateString is invalid
+    dateString = new Date().toString();
+  }
+
   if (is24hFormat) {
     const timeString: string = dateString.substring(16, 24);
     return timeString;

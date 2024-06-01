@@ -445,7 +445,16 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       handleEditSet(set, index, exercise);
     } else if (key === "delete-set") {
       handleDeleteSet(set);
+    } else if (key === "update-completed-set-time") {
+      handleUpdateSetTimeCompleted(set);
     }
+  };
+
+  const handleUpdateSetTimeCompleted = (set: WorkoutSet) => {
+    setOperatingSet(set);
+    setOperationType("update-completed-set-time");
+
+    timeInputModal.onOpen();
   };
 
   const handleDeleteSet = (set: WorkoutSet) => {

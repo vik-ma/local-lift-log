@@ -17,7 +17,6 @@ type TimeInputModalProps = {
   header: string;
   clockStyle: string;
   value: string;
-  setValue: React.Dispatch<React.SetStateAction<string>>;
   saveButtonAction: (newTime: Time) => void;
 };
 
@@ -28,6 +27,8 @@ export const TimeInputModal = ({
   value,
   saveButtonAction,
 }: TimeInputModalProps) => {
+
+
   const currentDateString = ConvertDateStringToTimeString(value, true);
   const parsedCurrentTime = parseTime(currentDateString);
   const [newTime, setNewTime] = useState<Time>(parsedCurrentTime);

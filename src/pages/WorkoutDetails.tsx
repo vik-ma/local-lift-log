@@ -8,6 +8,7 @@ import {
   SetModal,
   ActiveSet,
   WorkoutModal,
+  TimeInputModal,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -82,6 +83,7 @@ export default function WorkoutDetails() {
     setActiveSetNote,
     handleEditSet,
     completedSetsMap,
+    timeInputModal,
   } = useWorkoutActions(false);
 
   const initialized = useRef(false);
@@ -279,6 +281,13 @@ export default function WorkoutDetails() {
         time_input_behavior_hhmmss={userSettings!.time_input_behavior_hhmmss}
         time_input_behavior_mmss={userSettings!.time_input_behavior_mmss}
         clearSetInputValues={clearSetInputValues}
+      />
+      <TimeInputModal
+        timeInputModal={timeInputModal}
+        header="Update Time Completed"
+        clockStyle={userSettings.clock_style}
+        value={operatingSet.time_completed!}
+        saveButtonAction={() => {}}
       />
       <div className="flex flex-col">
         <div className="flex flex-col gap-4 pb-4">
