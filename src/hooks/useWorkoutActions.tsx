@@ -575,6 +575,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         (item) => item.exercise.id !== operatingGroupedSet.exercise.id
       );
 
+      if (completedSetsMap.has(operatingGroupedSet.exercise.id)) {
+        completedSetsMap.delete(operatingGroupedSet.exercise.id);
+      }
+
       setGroupedSets(updatedSetList);
 
       updateExerciseOrder(updatedSetList);
@@ -1113,5 +1117,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     activeSetNote,
     setActiveSetNote,
     handleEditSet,
+    completedSetsMap,
   };
 };
