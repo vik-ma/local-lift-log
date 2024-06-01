@@ -16,7 +16,7 @@ export const CheckmarkIcon = ({
     >
       <path
         className="transition-fill-animation"
-        fill={isChecked ? "#6dc83c" : "#CCCCCC"}
+        fill={isChecked ? "#84cc16" : "#CCCCCC"}
         fillRule="evenodd"
         d={
           isChecked
