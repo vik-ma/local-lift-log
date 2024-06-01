@@ -65,7 +65,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
   const numSetsOptions = useNumSetsOptions();
 
-  const defaultNewSet = useDefaultSet(true);
+  const defaultNewSet = useDefaultSet(isTemplate);
 
   const [operatingSet, setOperatingSet] = useState<WorkoutSet>(defaultNewSet);
 
