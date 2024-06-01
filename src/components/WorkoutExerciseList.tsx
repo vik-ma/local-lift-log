@@ -12,7 +12,6 @@ import {
   GroupedWorkoutSet,
   SetListNotes,
   WorkoutSet,
-  SetListOptionsItem,
   Exercise,
 } from "../typings";
 
@@ -34,7 +33,6 @@ type WorkoutExerciseListProps = {
   ) => void;
   updateShownSetListComments: (exerciseId: number, index: number) => void;
   shownSetListComments: SetListNotes;
-  setListOptionsMenu: SetListOptionsItem[];
   handleAddSetButton: () => void;
   setIsExerciseBeingDragged: React.Dispatch<React.SetStateAction<boolean>>;
   handleReassignExercise: (groupedWorkoutSet: GroupedWorkoutSet) => void;
@@ -53,7 +51,6 @@ export const WorkoutExerciseList = ({
   handleSetOptionSelection,
   updateShownSetListComments,
   shownSetListComments,
-  setListOptionsMenu,
   handleAddSetButton,
   setIsExerciseBeingDragged,
   handleReassignExercise,
@@ -206,7 +203,6 @@ export const WorkoutExerciseList = ({
                       clickCommentButtonAction={updateShownSetListComments}
                       shownSetListComments={shownSetListComments}
                       isTemplate={isTemplate}
-                      setListOptionsMenu={setListOptionsMenu}
                     />
                   </div>
                 )}

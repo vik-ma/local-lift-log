@@ -1,7 +1,6 @@
 import {
   GroupedWorkoutSet,
   SetListNotes,
-  SetListOptionsItem,
   WorkoutSet,
   Exercise,
 } from "../typings";
@@ -28,7 +27,6 @@ type SetListProps = {
   clickCommentButtonAction: (exerciseId: number, index: number) => void;
   shownSetListComments: SetListNotes;
   isTemplate: boolean;
-  setListOptionsMenu: SetListOptionsItem[];
 };
 
 export const SetList = ({
@@ -39,7 +37,6 @@ export const SetList = ({
   clickCommentButtonAction,
   shownSetListComments,
   isTemplate,
-  setListOptionsMenu,
 }: SetListProps) => {
   return (
     <>
@@ -162,14 +159,16 @@ export const SetList = ({
                     )
                   }
                 >
-                  {setListOptionsMenu.map((item) => (
-                    <DropdownItem
-                      key={item.key}
-                      className={item.className ?? item.className}
-                    >
-                      {item.label}
-                    </DropdownItem>
-                  ))}
+                  <DropdownItem key="edit">Edit</DropdownItem>
+                  <DropdownItem
+                    className={set.is_completed === 0 ? "hidden" : ""}
+                    key="update-completed-set-time"
+                  >
+                    Change Time Completed
+                  </DropdownItem>
+                  <DropdownItem key="delete-set" className="text-danger">
+                    {isTemplate ? "Remove" : "Delete"}
+                  </DropdownItem>
                 </DropdownMenu>
               </Dropdown>
             </div>

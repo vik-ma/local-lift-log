@@ -19,7 +19,7 @@ import {
 } from "../helpers";
 import { Button, useDisclosure } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
-import { useSetListOptionsMenu, useWorkoutActions } from "../hooks";
+import { useWorkoutActions } from "../hooks";
 import { VerticalMenuIcon } from "../assets";
 
 type WorkoutTemplateNote = {
@@ -28,8 +28,6 @@ type WorkoutTemplateNote = {
 
 export default function WorkoutDetails() {
   const { id } = useParams();
-
-  const setListOptionsMenu = useSetListOptionsMenu(false);
 
   const workoutModal = useDisclosure();
 
@@ -315,7 +313,6 @@ export default function WorkoutDetails() {
             handleSetOptionSelection={handleSetOptionSelection}
             updateShownSetListComments={updateShownSetListComments}
             shownSetListComments={shownSetListComments}
-            setListOptionsMenu={setListOptionsMenu}
             handleAddSetButton={handleAddSetButton}
             setIsExerciseBeingDragged={setIsExerciseBeingDragged}
             handleReassignExercise={handleReassignExercise}
@@ -341,7 +338,6 @@ export default function WorkoutDetails() {
           handleSetOptionSelection={handleSetOptionSelection}
           updateShownSetListComments={updateShownSetListComments}
           shownSetListComments={shownSetListComments}
-          setListOptionsMenu={setListOptionsMenu}
           activeSetInputs={activeSetInputs}
           handleEditSet={handleEditSet}
           clearSetInputValues={clearSetInputValues}

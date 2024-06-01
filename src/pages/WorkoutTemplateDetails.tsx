@@ -16,7 +16,6 @@ import {
   ConvertEmptyStringToNull,
 } from "../helpers";
 import {
-  useSetListOptionsMenu,
   useValidateName,
   useDefaultWorkoutTemplate,
   useWorkoutActions,
@@ -24,8 +23,6 @@ import {
 
 export default function WorkoutTemplateDetails() {
   const { id } = useParams();
-
-  const setListOptionsMenu = useSetListOptionsMenu(true);
 
   const workoutTemplateModal = useDisclosure();
 
@@ -223,7 +220,6 @@ export default function WorkoutTemplateDetails() {
           handleSetOptionSelection={handleSetOptionSelection}
           updateShownSetListComments={updateShownSetListComments}
           shownSetListComments={shownSetListComments}
-          setListOptionsMenu={setListOptionsMenu}
           handleAddSetButton={handleAddSetButton}
           setIsExerciseBeingDragged={setIsExerciseBeingDragged}
           handleReassignExercise={handleReassignExercise}

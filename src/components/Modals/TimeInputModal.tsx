@@ -18,7 +18,7 @@ type TimeInputModalProps = {
   clockStyle: string;
   value: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
-  saveButtonAction: () => void;
+  saveButtonAction: (newTime: Time) => void;
 };
 
 export const TimeInputModal = ({
@@ -26,7 +26,6 @@ export const TimeInputModal = ({
   header,
   clockStyle,
   value,
-  setValue,
   saveButtonAction,
 }: TimeInputModalProps) => {
   const currentDateString = ConvertDateStringToTimeString(value, true);
@@ -80,7 +79,7 @@ export const TimeInputModal = ({
               <Button color="success" variant="light" onPress={onClose}>
                 Close
               </Button>
-              <Button color="success" onPress={saveButtonAction}>
+              <Button color="success" onPress={() => saveButtonAction(newTime)}>
                 Save
               </Button>
             </ModalFooter>

@@ -37,7 +37,8 @@ type OperationType =
   | "delete-set"
   | "change-exercise"
   | "reassign-exercise"
-  | "delete-exercise-sets";
+  | "delete-exercise-sets"
+  | "update-completed-set-time";
 
 export const useWorkoutActions = (isTemplate: boolean) => {
   const [workoutTemplate, setWorkoutTemplate] = useState<WorkoutTemplate>();
@@ -74,6 +75,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
   const setModal = useDisclosure();
   const deleteModal = useDisclosure();
+  const timeInputModal = useDisclosure();
 
   const defaultSetInputValues = useDefaultSetInputValues();
 
@@ -1121,5 +1123,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     setActiveSetNote,
     handleEditSet,
     completedSetsMap,
+    timeInputModal,
   };
 };

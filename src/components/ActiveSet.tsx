@@ -28,7 +28,6 @@ import {
   ActiveSetNote,
   Exercise,
   SetListNotes,
-  SetListOptionsItem,
 } from "../typings";
 import { useSetTrackingInputs } from "../hooks";
 
@@ -56,7 +55,6 @@ type ActiveSetProps = {
   ) => void;
   updateShownSetListComments: (exerciseId: number, index: number) => void;
   shownSetListComments: SetListNotes;
-  setListOptionsMenu: SetListOptionsItem[];
   activeSetInputs: ReturnType<typeof useSetTrackingInputs>;
   handleEditSet: (set: WorkoutSet, index: number, exercise: Exercise) => void;
   clearSetInputValues: (isOperatingSet: boolean) => void;
@@ -80,7 +78,6 @@ export const ActiveSet = ({
   handleSetOptionSelection,
   updateShownSetListComments,
   shownSetListComments,
-  setListOptionsMenu,
   activeSetInputs,
   handleEditSet,
   clearSetInputValues,
@@ -281,7 +278,6 @@ export const ActiveSet = ({
                         clickCommentButtonAction={updateShownSetListComments}
                         shownSetListComments={shownSetListComments}
                         isTemplate={false}
-                        setListOptionsMenu={setListOptionsMenu}
                       />
                     </div>
                     <div className="px-1.5">
