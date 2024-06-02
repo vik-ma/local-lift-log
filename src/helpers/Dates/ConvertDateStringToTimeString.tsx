@@ -1,18 +1,23 @@
+import { parseAbsoluteToLocal } from "@internationalized/date";
+
 export const ConvertDateStringToTimeString = (
-  dateString: string,
+  dateISOString: string,
   is24hFormat: boolean
 ): string => {
-  if (is24hFormat) {
-    const timeString: string = dateString.substring(16, 24);
-    return timeString;
-  }
+  try {
+    const locale: string = is24hFormat ? "en-GB" : "en-US";
 
-  const date = new Date(dateString);
-  const timeString = date.toLocaleTimeString("en-US", {
-    hour: "2-digit",
-    minute: "numeric",
-    second: "numeric",
-    hour12: true,
-  });
-  return timeString;
+    const timeString = parseAbsoluteToLocal(dateISOString)
+      .toDate()
+      .toLocaleTimeString(locale, {
+        hour: "2-digit",
+        minute: "numeric",
+        second: "numeric",
+        hour12: !is24hFormat,
+      });
+
+    return timeString;
+  } catch {
+    return "Invalid DateTime";
+  }
 };
