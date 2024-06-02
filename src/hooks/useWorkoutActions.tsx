@@ -23,6 +23,7 @@ import {
   DeleteSetWithId,
   ConvertEmptyStringToNull,
   GetUserSettings,
+  GetCurrentDateTimeISOString,
 } from "../helpers";
 import {
   useDefaultSet,
@@ -830,7 +831,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     if (activeSetInputs.isSetTrackingValuesInvalid) return;
 
-    const currentDate = new Date().toString();
+    const currentDateString = GetCurrentDateTimeISOString();
 
     const setTrackingValuesNumbers = ConvertSetInputValuesToNumbers(
       activeSetInputs.setTrackingValuesInput
@@ -847,7 +848,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       rpe: setTrackingValuesNumbers.rpe,
       resistance_level: setTrackingValuesNumbers.resistance_level,
       is_completed: 1,
-      time_completed: currentDate,
+      time_completed: currentDateString,
       comment: commentToInsert,
     };
 

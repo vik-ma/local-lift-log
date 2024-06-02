@@ -15,6 +15,7 @@ import {
   GenerateActiveMeasurementString,
   ConvertEmptyStringToNull,
   IsStringEmpty,
+  GetCurrentDateTimeISOString,
 } from "../helpers";
 import { Button, Input } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
@@ -89,8 +90,7 @@ export default function BodyMeasurementsPage() {
 
     const newWeight = Number(newWeightInput);
 
-    const currentDate = new Date();
-    const dateString = currentDate.toString();
+    const currentDateString = GetCurrentDateTimeISOString();
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
@@ -99,11 +99,11 @@ export default function BodyMeasurementsPage() {
 
       const result = await db.execute(
         "INSERT into user_weights (weight, weight_unit, date, comment) VALUES ($1, $2, $3, $4)",
-        [newWeight, newWeightUnit, dateString, commentToInsert]
+        [newWeight, newWeightUnit, currentDateString, commentToInsert]
       );
 
       const formattedDate: string = FormatDateTimeString(
-        dateString,
+        currentDateString,
         userSettings?.clock_style === "24h"
       );
 
@@ -111,7 +111,7 @@ export default function BodyMeasurementsPage() {
         id: result.lastInsertId,
         weight: newWeight,
         weight_unit: newWeightUnit,
-        date: dateString,
+        date: currentDateString,
         formattedDate: formattedDate,
         comment: commentToInsert,
       };
@@ -203,7 +203,7 @@ export default function BodyMeasurementsPage() {
     )
       return;
 
-    const currentDate = new Date().toString();
+    const currentDateString = GetCurrentDateTimeISOString();
 
     const commentToInsert = ConvertEmptyStringToNull(measurementsCommentInput);
 
@@ -213,7 +213,7 @@ export default function BodyMeasurementsPage() {
       const result = await db.execute(
         `INSERT into user_measurement_entries (date, comment) 
         VALUES ($1, $2)`,
-        [currentDate, commentToInsert]
+        [currentDateString, commentToInsert]
       );
 
       const userMeasurementEntryId: number = result.lastInsertId;
