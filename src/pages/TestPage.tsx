@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { TimeInputModal } from "../components";
 import { Button, useDisclosure } from "@nextui-org/react";
+import { GetCurrentDateTimeISOString } from "../helpers";
 
 export default function TestPage() {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
-  const dateString = new Date().toString();
+  const dateString = GetCurrentDateTimeISOString();
 
   const timeInputModal = useDisclosure();
 

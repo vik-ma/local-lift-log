@@ -10,7 +10,10 @@ import {
 } from "@nextui-org/react";
 import { Time, parseTime } from "@internationalized/date";
 import { useState, useEffect } from "react";
-import { ConvertDateStringToTimeString } from "../../helpers";
+import {
+  ConvertDateStringToTimeString,
+  ValidateISODateString,
+} from "../../helpers";
 
 type TimeInputModalProps = {
   timeInputModal: ReturnType<typeof useDisclosure>;
@@ -27,11 +30,11 @@ export const TimeInputModal = ({
   value,
   saveButtonAction,
 }: TimeInputModalProps) => {
-  const [currentTime, setCurrentTime] = useState<Time>();
-  const [newTime, setNewTime] = useState<Time>();
+  const [currentTime, setCurrentTime] = useState<Time | null>(null);
+  const [newTime, setNewTime] = useState<Time | null>(null);
 
   useEffect(() => {
-    if (value === null) return;
+    if (value === null || !ValidateISODateString(value)) return;
 
     const currentDateString = ConvertDateStringToTimeString(value, true);
     const parsedCurrentTime = parseTime(currentDateString);
@@ -40,12 +43,10 @@ export const TimeInputModal = ({
   }, [value]);
 
   const handleSaveButton = () => {
-    if (newTime === undefined) return;
+    if (newTime === undefined || newTime === null) return;
 
     saveButtonAction(newTime);
   };
-
-  if (value === null) return <></>;
 
   return (
     <Modal
