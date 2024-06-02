@@ -13,10 +13,10 @@ import {
 import Database from "tauri-plugin-sql-api";
 import {
   CreateSetsFromWorkoutTemplate,
-  FormatDateString,
   CreateGroupedWorkoutSetListByExerciseId,
   GenerateExerciseOrderString,
   ConvertEmptyStringToNull,
+  FormatYmdDateString,
 } from "../helpers";
 import { Button, useDisclosure } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
@@ -176,7 +176,7 @@ export default function WorkoutDetails() {
           await updateWorkout(workout);
         }
 
-        const formattedDate: string = FormatDateString(workout.date);
+        const formattedDate: string = FormatYmdDateString(workout.date);
 
         if (workout.workout_template_id !== 0) {
           await getWorkoutTemplateNote(workout.workout_template_id);

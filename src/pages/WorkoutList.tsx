@@ -9,7 +9,7 @@ import {
 import Database from "tauri-plugin-sql-api";
 import { Button, useDisclosure } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
-import { FormatDateString, GetShowWorkoutRating } from "../helpers";
+import { FormatYmdDateString, GetShowWorkoutRating } from "../helpers";
 
 export default function WorkoutList() {
   const [workouts, setWorkouts] = useState<WorkoutListItem[]>([]);
@@ -37,7 +37,7 @@ export default function WorkoutList() {
         );
 
         const workouts: WorkoutListItem[] = result.map((row) => {
-          const formattedDate: string = FormatDateString(row.date);
+          const formattedDate: string = FormatYmdDateString(row.date);
           return {
             id: row.id,
             date: formattedDate,
