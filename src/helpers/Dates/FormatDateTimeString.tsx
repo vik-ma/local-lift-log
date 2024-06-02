@@ -1,24 +1,27 @@
+import { parseAbsoluteToLocal } from "@internationalized/date";
+
 export const FormatDateTimeString = (
-  dateString: string,
+  dateISOString: string,
   is24hFormat: boolean
 ): string => {
-  if (is24hFormat) {
-    const formattedDate: string = new Date(dateString)
-      .toString()
-      .substring(0, 21);
-    return formattedDate;
-  }
+  try {
+    const locale: string = is24hFormat ? "en-GB" : "en-US";
 
-  const formattedDate = new Date(dateString)
-    .toLocaleDateString("en-US", {
-      weekday: "short",
-      month: "short",
-      day: "2-digit",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "numeric",
-      hour12: true,
-    })
-    .replace(/,/g, "");
-  return formattedDate;
+    const formattedDate = parseAbsoluteToLocal(dateISOString)
+      .toDate()
+      .toLocaleDateString(locale, {
+        weekday: "short",
+        month: "short",
+        day: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "numeric",
+        hour12: !is24hFormat,
+      })
+      .replace(/,/g, "");
+
+    return formattedDate;
+  } catch {
+    return "Invalid Date";
+  }
 };
