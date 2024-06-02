@@ -6,6 +6,7 @@ export { FormatDateTimeString } from "./Dates/FormatDateTimeString";
 export { ConvertDateStringToTimeString } from "./Dates/ConvertDateStringToTimeString";
 export { ValidateISODateString } from "./Dates/ValidateISODateString";
 export { GetCurrentDateTimeISOString } from "./Dates/GetCurrentDateTimeISOString";
+export { FormatYmdDateString } from "./Dates/FormatYmdDateString";
 
 export { ConvertExerciseGroupSetString } from "./Exercises/ConvertExerciseGroupSetString";
 export { ConvertExerciseGroupStringListToSetString } from "./Exercises/ConvertExerciseGroupStringListToSetString";
