@@ -2,6 +2,7 @@ import { useState } from "react";
 import { TimeInputModal } from "../components";
 import { Button, useDisclosure } from "@nextui-org/react";
 import { GetCurrentDateTimeISOString } from "../helpers";
+import { Time } from "@internationalized/date";
 
 export default function TestPage() {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
@@ -9,14 +10,19 @@ export default function TestPage() {
 
   const timeInputModal = useDisclosure();
 
+  const updateTime = (newTime: Time) => {
+    console.log(newTime);
+  };
+
   return (
     <>
       <TimeInputModal
         timeInputModal={timeInputModal}
         header="Test"
         clockStyle="12h"
+        locale="sv-SE"
         value={dateString}
-        saveButtonAction={() => {}}
+        saveButtonAction={updateTime}
       />
       <div className="flex flex-col gap-2">
         <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">

@@ -286,6 +286,7 @@ export default function WorkoutDetails() {
         timeInputModal={timeInputModal}
         header="Update Time Completed"
         clockStyle={userSettings.clock_style}
+        locale={userSettings.locale}
         value={operatingSet.time_completed}
         saveButtonAction={(e) => console.log(e)}
       />
