@@ -11,9 +11,11 @@ import {
 } from "@nextui-org/react";
 import {
   CalendarDate,
+  CalendarDateTime,
   Time,
   parseDate,
   parseTime,
+  getLocalTimeZone,
 } from "@internationalized/date";
 import { useState, useEffect } from "react";
 import {
@@ -29,7 +31,7 @@ type TimeInputModalProps = {
   clockStyle: string;
   locale: string;
   value: string | null;
-  saveButtonAction: (newTime: Time) => void;
+  saveButtonAction: (updatedDateTimeISOstring: string) => void;
 };
 
 export const TimeInputModal = ({
@@ -61,9 +63,20 @@ export const TimeInputModal = ({
   }, [value]);
 
   const handleSaveButton = () => {
-    if (newTime === undefined || newTime === null) return;
+    if (newTime === null || newDate === null) return;
 
-    saveButtonAction(newTime);
+    const date = new CalendarDateTime(
+      newDate.year,
+      newDate.month,
+      newDate.day,
+      newTime.hour,
+      newTime.minute,
+      newTime.second
+    );
+
+    const dateString = date.toDate(getLocalTimeZone()).toISOString();
+
+    saveButtonAction(dateString);
   };
 
   return (
@@ -122,7 +135,6 @@ export const TimeInputModal = ({
                       className="w-[10rem]"
                       value={newDate}
                       onChange={setNewDate}
-                      
                     />
                   </I18nProvider>
                 </div>
