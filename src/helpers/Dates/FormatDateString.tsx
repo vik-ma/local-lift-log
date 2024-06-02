@@ -1,4 +1,14 @@
-export const FormatDateString = (dateString: string): string => {
-  const formattedDate: string = new Date(dateString).toDateString();
-  return formattedDate;
+import {
+  parseAbsoluteToLocal,
+} from "@internationalized/date";
+
+export const FormatDateString = (dateISOString: string): string => {
+  try {
+    const formattedDate = parseAbsoluteToLocal(dateISOString)
+      .toDate()
+      .toDateString();
+    return formattedDate;
+  } catch {
+    return "Invalid Date";
+  }
 };
