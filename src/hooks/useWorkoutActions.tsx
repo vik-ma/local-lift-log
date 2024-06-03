@@ -25,6 +25,7 @@ import {
   GetUserSettings,
   GetCurrentDateTimeISOString,
   ValidateISODateString,
+  DefaultNewWorkout,
 } from "../helpers";
 import {
   useDefaultSet,
@@ -55,7 +56,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   const [isExerciseBeingDragged, setIsExerciseBeingDragged] =
     useState<boolean>(false);
 
-  const [workout, setWorkout] = useState<Workout>();
+  const [workout, setWorkout] = useState<Workout>(DefaultNewWorkout());
   const [activeSet, setActiveSet] = useState<WorkoutSet>();
   const [showCommentInput, setShowCommentInput] = useState<boolean>(false);
   const [incompleteSetIds, setIncompleteSetIds] = useState<number[]>([]);
@@ -828,7 +829,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   };
 
   const saveActiveSet = async () => {
-    if (activeSet === undefined || workout === undefined) return;
+    if (activeSet === undefined || workout.id === 0) return;
 
     if (activeSetInputs.isSetTrackingValuesInvalid) return;
 

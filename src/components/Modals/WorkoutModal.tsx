@@ -14,7 +14,7 @@ import { WorkoutRatingDropdown } from "../Dropdowns/WorkoutRatingDropdown";
 type WorkoutProps = {
   workoutModal: ReturnType<typeof useDisclosure>;
   workout: Workout;
-  setWorkout: React.Dispatch<React.SetStateAction<Workout | undefined>>;
+  setWorkout: React.Dispatch<React.SetStateAction<Workout>>;
   workoutNote: string;
   setWorkoutNote: React.Dispatch<React.SetStateAction<string>>;
   workoutTemplateNote: string | null;

@@ -219,7 +219,7 @@ export default function WorkoutDetails() {
   ]);
 
   const handleWorkoutModalSaveButton = async () => {
-    if (workout === undefined) return;
+    if (workout.id === 0) return;
 
     const noteToInsert = ConvertEmptyStringToNull(workoutNote);
 
@@ -232,7 +232,7 @@ export default function WorkoutDetails() {
     workoutModal.onClose();
   };
 
-  if (workout === undefined || userSettings === undefined)
+  if (workout.id === 0 || userSettings === undefined)
     return <LoadingSpinner />;
 
   return (

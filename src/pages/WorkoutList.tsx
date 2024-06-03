@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
-import { UserSettingsOptional, WorkoutListItem } from "../typings";
+import { useState, useEffect, useMemo } from "react";
+import { UserSettingsOptional, Workout } from "../typings";
 import { useNavigate } from "react-router-dom";
 import {
   LoadingSpinner,
   WorkoutRatingDropdown,
   DeleteModal,
+  WorkoutModal,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -22,15 +23,33 @@ import { VerticalMenuIcon } from "../assets";
 type OperationType = "edit" | "delete";
 
 export default function WorkoutList() {
-  const [workouts, setWorkouts] = useState<WorkoutListItem[]>([]);
+  const [workouts, setWorkouts] = useState<Workout[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [operatingWorkout, setOperatingWorkout] = useState<WorkoutListItem>();
   const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
   const [operationType, setOperationType] = useState<OperationType>("edit");
+  const [newWorkoutNote, setNewWorkoutNote] = useState<string>("");
+
+  const defaultWorkout: Workout = useMemo(() => {
+    return {
+      id: 0,
+      workout_template_id: 0,
+      date: "",
+      exercise_order: "",
+      note: null,
+      is_loaded: 0,
+      rating: 0,
+      numSets: 0,
+      numExercises: 0,
+    };
+  }, []);
+
+  const [operatingWorkout, setOperatingWorkout] =
+    useState<Workout>(defaultWorkout);
 
   const navigate = useNavigate();
 
   const deleteModal = useDisclosure();
+  const workoutModal = useDisclosure();
 
   useEffect(() => {
     const getWorkouts = async () => {
@@ -38,8 +57,8 @@ export default function WorkoutList() {
         const db = await Database.load(import.meta.env.VITE_DB);
 
         // Get id, date, rating and how many Sets and Exercises every Workout contains
-        const result = await db.select<WorkoutListItem[]>(
-          `SELECT workouts.id, workouts.date, workouts.rating, 
+        const result = await db.select<Workout[]>(
+          `SELECT workouts.*, 
           COUNT(DISTINCT CASE WHEN is_template = 0 THEN sets.exercise_id END) AS numExercises,
           SUM(CASE WHEN is_template = 0 THEN 1 ELSE 0 END) AS numSets
           FROM workouts LEFT JOIN sets 
@@ -47,11 +66,15 @@ export default function WorkoutList() {
           GROUP BY workouts.id`
         );
 
-        const workouts: WorkoutListItem[] = result.map((row) => {
+        const workouts: Workout[] = result.map((row) => {
           const formattedDate: string = FormatYmdDateString(row.date);
           return {
             id: row.id,
+            workout_template_id: row.workout_template_id,
             date: formattedDate,
+            exercise_order: row.exercise_order,
+            note: row.note,
+            is_loaded: row.is_loaded,
             rating: row.rating,
             numSets: row.numSets,
             numExercises: row.numExercises,
@@ -76,7 +99,7 @@ export default function WorkoutList() {
   }, []);
 
   const deleteWorkout = async () => {
-    if (operatingWorkout === undefined || operationType !== "delete") return;
+    if (operatingWorkout.id === 0 || operationType !== "delete") return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
@@ -88,7 +111,7 @@ export default function WorkoutList() {
         operatingWorkout.id,
       ]);
 
-      const updatedWorkouts: WorkoutListItem[] = workouts.filter(
+      const updatedWorkouts: Workout[] = workouts.filter(
         (item) => item.id !== operatingWorkout?.id
       );
       setWorkouts(updatedWorkouts);
@@ -103,17 +126,15 @@ export default function WorkoutList() {
   };
 
   const resetOperatingWorkout = () => {
-    setOperatingWorkout(undefined);
+    setOperatingWorkout(defaultWorkout);
     setOperationType("edit");
   };
 
-  const handleWorkoutOptionSelection = (
-    key: string,
-    workout: WorkoutListItem
-  ) => {
+  const handleWorkoutOptionSelection = (key: string, workout: Workout) => {
     if (key === "edit") {
       setOperationType("delete");
       setOperatingWorkout(workout);
+      workoutModal.onOpen();
     } else if (key === "delete") {
       setOperationType("delete");
       setOperatingWorkout(workout);
@@ -137,6 +158,16 @@ export default function WorkoutList() {
           </p>
         }
         deleteButtonAction={deleteWorkout}
+      />
+      <WorkoutModal
+        workoutModal={workoutModal}
+        workout={operatingWorkout}
+        setWorkout={setOperatingWorkout}
+        workoutNote={newWorkoutNote}
+        setWorkoutNote={setNewWorkoutNote}
+        workoutTemplateNote={null}
+        buttonAction={() => {}}
+        showRating={userSettings.show_workout_rating === 1 ? true : false}
       />
       <div className="flex flex-col items-center gap-3">
         <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">
