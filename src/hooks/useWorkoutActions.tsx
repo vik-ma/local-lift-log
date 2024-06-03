@@ -24,6 +24,7 @@ import {
   ConvertEmptyStringToNull,
   GetUserSettings,
   GetCurrentDateTimeISOString,
+  ValidateISODateString,
 } from "../helpers";
 import {
   useDefaultSet,
@@ -1082,6 +1083,29 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     }
   };
 
+  const updateSetTimeCompleted = async (newDateString: string) => {
+    if (
+      operationType !== "update-completed-set-time" ||
+      !ValidateISODateString(newDateString) ||
+      operatingSet.time_completed === null
+    )
+      return;
+
+    const updatedSet: WorkoutSet = {
+      ...operatingSet,
+      time_completed: newDateString,
+    };
+
+    const success = await UpdateSet(updatedSet);
+
+    if (!success) return;
+
+    resetSetToDefault();
+
+    toast.success("Time Updated");
+    timeInputModal.onClose();
+  };
+
   return {
     updateExerciseOrder,
     handleSaveSetButton,
@@ -1134,5 +1158,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     handleEditSet,
     completedSetsMap,
     timeInputModal,
+    updateSetTimeCompleted,
   };
 };

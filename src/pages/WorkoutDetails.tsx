@@ -84,6 +84,7 @@ export default function WorkoutDetails() {
     handleEditSet,
     completedSetsMap,
     timeInputModal,
+    updateSetTimeCompleted,
   } = useWorkoutActions(false);
 
   const initialized = useRef(false);
@@ -288,7 +289,7 @@ export default function WorkoutDetails() {
         clockStyle={userSettings.clock_style}
         locale={userSettings.locale}
         value={operatingSet.time_completed}
-        saveButtonAction={(e) => console.log(e)}
+        saveButtonAction={updateSetTimeCompleted}
       />
       <div className="flex flex-col">
         <div className="flex flex-col gap-4 pb-4">
