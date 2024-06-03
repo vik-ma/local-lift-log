@@ -19,11 +19,14 @@ import toast, { Toaster } from "react-hot-toast";
 import { FormatYmdDateString, GetShowWorkoutRating } from "../helpers";
 import { VerticalMenuIcon } from "../assets";
 
+type OperationType = "edit" | "delete";
+
 export default function WorkoutList() {
   const [workouts, setWorkouts] = useState<WorkoutListItem[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [workoutToDelete, setWorkoutToDelete] = useState<WorkoutListItem>();
+  const [operatingWorkout, setOperatingWorkout] = useState<WorkoutListItem>();
   const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
+  const [operationType, setOperationType] = useState<OperationType>("edit");
 
   const navigate = useNavigate();
 
@@ -73,20 +76,20 @@ export default function WorkoutList() {
   }, []);
 
   const deleteWorkout = async () => {
-    if (workoutToDelete === undefined) return;
+    if (operatingWorkout === undefined || operationType !== "delete") return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
-      db.execute("DELETE from workouts WHERE id = $1", [workoutToDelete.id]);
+      db.execute("DELETE from workouts WHERE id = $1", [operatingWorkout.id]);
 
       // Delete all sets referencing workout
       db.execute("DELETE from sets WHERE workout_id = $1", [
-        workoutToDelete.id,
+        operatingWorkout.id,
       ]);
 
       const updatedWorkouts: WorkoutListItem[] = workouts.filter(
-        (item) => item.id !== workoutToDelete?.id
+        (item) => item.id !== operatingWorkout?.id
       );
       setWorkouts(updatedWorkouts);
 
@@ -95,13 +98,27 @@ export default function WorkoutList() {
       console.log(error);
     }
 
-    setWorkoutToDelete(undefined);
+    resetOperatingWorkout();
     deleteModal.onClose();
   };
 
-  const handleDeleteButton = (workout: WorkoutListItem) => {
-    setWorkoutToDelete(workout);
-    deleteModal.onOpen();
+  const resetOperatingWorkout = () => {
+    setOperatingWorkout(undefined);
+    setOperationType("edit");
+  };
+
+  const handleWorkoutOptionSelection = (
+    key: string,
+    workout: WorkoutListItem
+  ) => {
+    if (key === "edit") {
+      setOperationType("delete");
+      setOperatingWorkout(workout);
+    } else if (key === "delete") {
+      setOperationType("delete");
+      setOperatingWorkout(workout);
+      deleteModal.onOpen();
+    }
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;
@@ -115,7 +132,7 @@ export default function WorkoutList() {
         body={
           <p className="break-words">
             Are you sure you want to permanently delete Workout on{" "}
-            {workoutToDelete?.date}, including all Sets performed in the
+            {operatingWorkout?.date}, including all Sets performed in the
             Workout?
           </p>
         }
@@ -131,7 +148,7 @@ export default function WorkoutList() {
           <LoadingSpinner />
         ) : (
           <div className="flex flex-col gap-1.5 w-full">
-            {workouts.map((workout, index) => (
+            {workouts.map((workout) => (
               <div
                 className="flex flex-row justify-between items-center gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                 key={`${workout.id}`}
@@ -168,13 +185,9 @@ export default function WorkoutList() {
                     </DropdownTrigger>
                     <DropdownMenu
                       aria-label={`Option Menu For Workout ${workout.date}`}
-                      // onAction={(key) =>
-                      //   handleWorkoutOptionSelection(
-                      //     key as string,
-                      //     workout,
-                      //     index
-                      //   )
-                      // }
+                      onAction={(key) =>
+                        handleWorkoutOptionSelection(key as string, workout)
+                      }
                     >
                       <DropdownItem key="edit">Edit</DropdownItem>
                       <DropdownItem key="delete" className="text-danger">
