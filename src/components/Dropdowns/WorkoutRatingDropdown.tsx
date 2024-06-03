@@ -1,14 +1,15 @@
 import { Select, SelectItem } from "@nextui-org/react";
-import { WorkoutRatingProps } from "../../typings";
+import { WorkoutRatingProps, Workout } from "../../typings";
 import Database from "tauri-plugin-sql-api";
 import toast, { Toaster } from "react-hot-toast";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export const WorkoutRatingDropdown = ({
   rating,
   workout_id,
   isInModal = false,
   setWorkout,
+  setWorkouts,
 }: WorkoutRatingProps) => {
   const [selectedKeys, setSelectedKeys] = useState<Set<string>>(
     new Set([rating.toString()])
@@ -20,6 +21,14 @@ export const WorkoutRatingDropdown = ({
   const validRatings: string[] = useMemo(() => {
     return ["0", "1", "2"];
   }, []);
+
+  useEffect(() => {
+    const ratingStr = rating.toString();
+
+    if (!validRatings.includes(ratingStr)) return;
+
+    setSelectedKeys(new Set([ratingStr]));
+  }, [rating, validRatings]);
 
   const handleChange = async (keys: Set<string>) => {
     const stringValue: string = Array.from(keys)[0];
@@ -55,6 +64,16 @@ export const WorkoutRatingDropdown = ({
       toast.success("Workout Rating Updated");
     } catch (error) {
       console.log(error);
+    }
+
+    if (setWorkouts !== undefined) {
+      // Update the rating of workout_id item in a list of Workouts
+      setWorkouts((prev) => {
+        const updatedWorkouts: Workout[] = prev.map((item) =>
+          item.id === workout_id ? { ...item, rating: ratingValue } : item
+        );
+        return updatedWorkouts;
+      });
     }
   };
 

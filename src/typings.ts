@@ -165,6 +165,7 @@ export type WorkoutRatingProps = {
   workout_id: number;
   isInModal?: boolean;
   setWorkout?: React.Dispatch<React.SetStateAction<Workout>>;
+  setWorkouts?: React.Dispatch<React.SetStateAction<Workout[]>>;
 };
 
 export type SetTrackingValuesInput = {

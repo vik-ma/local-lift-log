@@ -17,7 +17,11 @@ import {
   DropdownItem,
 } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
-import { FormatYmdDateString, GetShowWorkoutRating } from "../helpers";
+import {
+  FormatYmdDateString,
+  GetShowWorkoutRating,
+  UpdateWorkout,
+} from "../helpers";
 import { VerticalMenuIcon } from "../assets";
 
 type OperationType = "edit" | "delete";
@@ -128,11 +132,12 @@ export default function WorkoutList() {
   const resetOperatingWorkout = () => {
     setOperatingWorkout(defaultWorkout);
     setOperationType("edit");
+    setNewWorkoutNote("");
   };
 
   const handleWorkoutOptionSelection = (key: string, workout: Workout) => {
     if (key === "edit") {
-      setOperationType("delete");
+      setOperationType("edit");
       setOperatingWorkout(workout);
       workoutModal.onOpen();
     } else if (key === "delete") {
@@ -140,6 +145,24 @@ export default function WorkoutList() {
       setOperatingWorkout(workout);
       deleteModal.onOpen();
     }
+  };
+
+  const updateWorkout = async (updatedWorkout: Workout) => {
+    if (updatedWorkout.id === 0 || operationType !== "edit") return;
+
+    const success = await UpdateWorkout(updatedWorkout);
+
+    if (!success) return;
+
+    const updatedWorkouts: Workout[] = workouts.map((item) =>
+      item.id === operatingWorkout.id ? updatedWorkout : item
+    );
+
+    setWorkouts(updatedWorkouts);
+
+    resetOperatingWorkout();
+    toast.success("Workout Details Updated");
+    workoutModal.onClose();
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;
@@ -166,7 +189,7 @@ export default function WorkoutList() {
         workoutNote={newWorkoutNote}
         setWorkoutNote={setNewWorkoutNote}
         workoutTemplateNote={null}
-        buttonAction={() => {}}
+        buttonAction={updateWorkout}
         showRating={userSettings.show_workout_rating === 1 ? true : false}
         header={operatingWorkout.date}
       />
@@ -179,7 +202,7 @@ export default function WorkoutList() {
         {isLoading ? (
           <LoadingSpinner />
         ) : (
-          <div className="flex flex-col gap-1.5 w-full">
+          <div className="flex flex-col gap-1 w-full">
             {workouts.map((workout) => (
               <div
                 className="flex flex-row justify-between items-center gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
@@ -201,6 +224,7 @@ export default function WorkoutList() {
                     <WorkoutRatingDropdown
                       rating={workout.rating}
                       workout_id={workout.id}
+                      setWorkouts={setWorkouts}
                     />
                   )}
                   <Dropdown>

@@ -60,7 +60,7 @@ export const WorkoutModal = ({
                       Workout Template Note
                     </span>
                     <span className="text-yellow-600 break-all">
-                      {workoutTemplateNote}sfdsfddsffdsdsdsdsdsdsdsdsdsdsdsds
+                      {workoutTemplateNote}
                     </span>
                   </>
                 )}
