@@ -20,6 +20,7 @@ type WorkoutProps = {
   workoutTemplateNote: string | null;
   buttonAction: () => void;
   showRating: boolean;
+  header?: string;
 };
 
 export const WorkoutModal = ({
@@ -31,6 +32,7 @@ export const WorkoutModal = ({
   workoutTemplateNote,
   buttonAction,
   showRating,
+  header = "Workout Details",
 }: WorkoutProps) => {
   return (
     <Modal
@@ -40,7 +42,7 @@ export const WorkoutModal = ({
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalHeader>Workout Details</ModalHeader>
+            <ModalHeader>{header}</ModalHeader>
             <ModalBody>
               <div className="grid grid-cols-2 gap-x-4 gap-y-2.5 items-center">
                 {workoutTemplateNote && (

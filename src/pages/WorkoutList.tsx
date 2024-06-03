@@ -168,6 +168,7 @@ export default function WorkoutList() {
         workoutTemplateNote={null}
         buttonAction={() => {}}
         showRating={userSettings.show_workout_rating === 1 ? true : false}
+        header={operatingWorkout.date}
       />
       <div className="flex flex-col items-center gap-3">
         <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">
