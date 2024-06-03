@@ -1100,6 +1100,24 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     if (!success) return;
 
+    const exerciseIndex: number = groupedSets.findIndex(
+      (obj) => obj.exercise.id === operatingSet.exercise_id
+    );
+
+    const updatedSetList: WorkoutSet[] = groupedSets[exerciseIndex].setList.map(
+      (item) => (item.id === operatingSet.id ? updatedSet : item)
+    );
+
+    setGroupedSets((prev) => {
+      const newList = [...prev];
+      newList[exerciseIndex].setList = updatedSetList;
+      return newList;
+    });
+
+    if (activeSet?.id === updatedSet.id) {
+      setActiveSet(updatedSet);
+    }
+
     resetSetToDefault();
 
     toast.success("Time Updated");
