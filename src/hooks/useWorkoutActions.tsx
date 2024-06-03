@@ -140,7 +140,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
           newSet.workout_template_id = workoutTemplate.id;
         }
 
-        if (!isTemplate && workout !== undefined) {
+        if (!isTemplate && workout.id !== 0) {
           newSet.workout_id = workout.id;
         }
 
@@ -325,7 +325,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       await UpdateExerciseOrder(setList, workoutTemplate.id, true);
     }
 
-    if (!isTemplate && workout !== undefined) {
+    if (!isTemplate && workout.id !== 0) {
       await UpdateExerciseOrder(setList, workout.id, false);
     }
 
@@ -501,7 +501,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       newSet.workout_template_id = workoutTemplate.id;
     }
 
-    if (!isTemplate && workout !== undefined) {
+    if (!isTemplate && workout.id !== 0) {
       newSet.workout_id = workout.id;
     }
 
@@ -573,7 +573,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         id = workoutTemplate.id;
       }
 
-      if (!isTemplate && workout !== undefined) {
+      if (!isTemplate && workout.id !== 0) {
         statement = `DELETE from sets 
                     WHERE exercise_id = $1 AND workout_id = $2`;
         id = workout.id;
@@ -712,7 +712,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
           id = workoutTemplate.id;
         }
 
-        if (!isTemplate && workout !== undefined) {
+        if (!isTemplate && workout.id !== 0) {
           statement = `UPDATE sets SET exercise_id = $1 
                       WHERE exercise_id = $2 
                       AND workout_id = $3 
