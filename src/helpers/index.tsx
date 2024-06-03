@@ -73,6 +73,7 @@ export { CreateGroupedWorkoutSetListByExerciseId } from "./Workouts/CreateGroupe
 export { GenerateExerciseOrderString } from "./Workouts/GenerateExerciseOrderString";
 export { UpdateExerciseOrder } from "./Workouts/UpdateExerciseOrder";
 export { DefaultNewWorkoutTemplate } from "./Workouts/DefaultNewWorkoutTemplate";
+export { DefaultNewWorkout } from "./Workouts/DefaultNewWorkout";
 
 export { LocaleList } from "./Constants/LocaleList";
 export { ValidTimeInputs } from "./Constants/ValidTimeInputs";

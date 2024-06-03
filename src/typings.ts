@@ -202,12 +202,6 @@ export type Workout = {
   note: string | null;
   is_loaded: number;
   rating: number;
-};
-
-export type WorkoutListItem = {
-  id: number;
-  date: string;
-  rating: number;
   numSets?: number;
   numExercises?: number;
 };
