@@ -7,9 +7,17 @@ import {
   DeleteModal,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
-import { Button, useDisclosure } from "@nextui-org/react";
+import {
+  Button,
+  useDisclosure,
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+} from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
 import { FormatYmdDateString, GetShowWorkoutRating } from "../helpers";
+import { VerticalMenuIcon } from "../assets";
 
 export default function WorkoutList() {
   const [workouts, setWorkouts] = useState<WorkoutListItem[]>([]);
@@ -123,13 +131,13 @@ export default function WorkoutList() {
           <LoadingSpinner />
         ) : (
           <div className="flex flex-col gap-1.5 w-full">
-            {workouts.map((workout) => (
+            {workouts.map((workout, index) => (
               <div
-                className="flex flex-row justify-between items-center gap-1"
+                className="flex flex-row justify-between items-center gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                 key={`${workout.id}`}
               >
                 <button
-                  className="flex flex-col justify-start items-start bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:bg-default-200 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                  className="flex flex-col justify-start items-start"
                   onClick={() => navigate(`/workouts/${workout.id}`)}
                 >
                   <span className="w-[10.5rem] truncate text-left">
@@ -146,12 +154,37 @@ export default function WorkoutList() {
                       workout_id={workout.id}
                     />
                   )}
-                  <Button
-                    color="danger"
-                    onPress={() => handleDeleteButton(workout)}
-                  >
-                    Delete
-                  </Button>
+                  <Dropdown>
+                    <DropdownTrigger>
+                      <Button
+                        isIconOnly
+                        className="z-1"
+                        size="sm"
+                        radius="lg"
+                        variant="light"
+                      >
+                        <VerticalMenuIcon size={18} />
+                      </Button>
+                    </DropdownTrigger>
+                    <DropdownMenu
+                      aria-label={`Option Menu For Workout ${workout.date}`}
+                      itemClasses={{
+                        base: "hover:text-[#404040] gap-4",
+                      }}
+                      // onAction={(key) =>
+                      //   handleWorkoutOptionSelection(
+                      //     key as string,
+                      //     workout,
+                      //     index
+                      //   )
+                      // }
+                    >
+                      <DropdownItem key="edit">Edit</DropdownItem>
+                      <DropdownItem key="delete" className="text-danger">
+                        Delete
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
                 </div>
               </div>
             ))}
