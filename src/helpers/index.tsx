@@ -74,6 +74,7 @@ export { GenerateExerciseOrderString } from "./Workouts/GenerateExerciseOrderStr
 export { UpdateExerciseOrder } from "./Workouts/UpdateExerciseOrder";
 export { DefaultNewWorkoutTemplate } from "./Workouts/DefaultNewWorkoutTemplate";
 export { DefaultNewWorkout } from "./Workouts/DefaultNewWorkout";
+export { UpdateWorkout } from "./Workouts/UpdateWorkout";
 
 export { LocaleList } from "./Constants/LocaleList";
 export { ValidTimeInputs } from "./Constants/ValidTimeInputs";

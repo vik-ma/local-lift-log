@@ -10,6 +10,7 @@ import {
 } from "@nextui-org/react";
 import { Workout } from "../../typings";
 import { WorkoutRatingDropdown } from "../Dropdowns/WorkoutRatingDropdown";
+import { ConvertEmptyStringToNull } from "../../helpers";
 
 type WorkoutProps = {
   workoutModal: ReturnType<typeof useDisclosure>;
@@ -18,7 +19,7 @@ type WorkoutProps = {
   workoutNote: string;
   setWorkoutNote: React.Dispatch<React.SetStateAction<string>>;
   workoutTemplateNote: string | null;
-  buttonAction: () => void;
+  buttonAction: (updatedWorkout: Workout) => void;
   showRating: boolean;
   header?: string;
 };
@@ -34,6 +35,14 @@ export const WorkoutModal = ({
   showRating,
   header = "Workout Details",
 }: WorkoutProps) => {
+  const handleSaveButton = () => {
+    const noteToInsert = ConvertEmptyStringToNull(workoutNote);
+
+    const updatedWorkout: Workout = { ...workout, note: noteToInsert };
+
+    buttonAction(updatedWorkout);
+  };
+
   return (
     <Modal
       isOpen={workoutModal.isOpen}
@@ -83,7 +92,7 @@ export const WorkoutModal = ({
               <Button color="success" variant="light" onPress={onClose}>
                 Close
               </Button>
-              <Button color="success" onPress={buttonAction}>
+              <Button color="success" onPress={handleSaveButton}>
                 Save
               </Button>
             </ModalFooter>

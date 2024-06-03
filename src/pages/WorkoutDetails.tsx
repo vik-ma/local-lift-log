@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { Workout, WorkoutSet, GroupedWorkoutSet } from "../typings";
 import {
@@ -15,8 +15,8 @@ import {
   CreateSetsFromWorkoutTemplate,
   CreateGroupedWorkoutSetListByExerciseId,
   GenerateExerciseOrderString,
-  ConvertEmptyStringToNull,
   FormatYmdDateString,
+  UpdateWorkout,
 } from "../helpers";
 import { Button, useDisclosure } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
@@ -89,30 +89,6 @@ export default function WorkoutDetails() {
 
   const initialized = useRef(false);
 
-  const updateWorkout = useCallback(async (workout: Workout) => {
-    try {
-      const db = await Database.load(import.meta.env.VITE_DB);
-
-      db.execute(
-        `UPDATE workouts SET 
-        workout_template_id = $1, date = $2, exercise_order = $3, 
-        note = $4, is_loaded = $5, rating = $6
-        WHERE id = $7`,
-        [
-          workout.workout_template_id,
-          workout.date,
-          workout.exercise_order,
-          workout.note,
-          workout.is_loaded,
-          workout.rating,
-          workout.id,
-        ]
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
-
   useEffect(() => {
     const loadWorkout = async () => {
       try {
@@ -174,7 +150,9 @@ export default function WorkoutDetails() {
 
           workout.is_loaded = 1;
 
-          await updateWorkout(workout);
+          const success = await UpdateWorkout(workout);
+
+          if (!success) return;
         }
 
         const formattedDate: string = FormatYmdDateString(workout.date);
@@ -210,7 +188,6 @@ export default function WorkoutDetails() {
     loadWorkout();
   }, [
     id,
-    updateWorkout,
     populateIncompleteSets,
     setGroupedSets,
     setOperatingSet,
@@ -218,22 +195,20 @@ export default function WorkoutDetails() {
     setWorkout,
   ]);
 
-  const handleWorkoutModalSaveButton = async () => {
-    if (workout.id === 0) return;
+  const handleWorkoutModalSaveButton = async (updatedWorkout: Workout) => {
+    if (updatedWorkout.id === 0) return;
 
-    const noteToInsert = ConvertEmptyStringToNull(workoutNote);
+    const success = await UpdateWorkout(updatedWorkout);
 
-    const updatedWorkout: Workout = { ...workout, note: noteToInsert };
+    if (!success) return;
 
-    await updateWorkout(updatedWorkout);
     setWorkout(updatedWorkout);
 
     toast.success("Workout Details Updated");
     workoutModal.onClose();
   };
 
-  if (workout.id === 0 || userSettings === undefined)
-    return <LoadingSpinner />;
+  if (workout.id === 0 || userSettings === undefined) return <LoadingSpinner />;
 
   return (
     <>
