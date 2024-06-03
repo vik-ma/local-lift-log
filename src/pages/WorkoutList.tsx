@@ -168,9 +168,6 @@ export default function WorkoutList() {
                     </DropdownTrigger>
                     <DropdownMenu
                       aria-label={`Option Menu For Workout ${workout.date}`}
-                      itemClasses={{
-                        base: "hover:text-[#404040] gap-4",
-                      }}
                       // onAction={(key) =>
                       //   handleWorkoutOptionSelection(
                       //     key as string,

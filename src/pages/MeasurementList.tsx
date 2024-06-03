@@ -498,9 +498,6 @@ export default function MeasurementListPage() {
                           </DropdownTrigger>
                           <DropdownMenu
                             aria-label={`Option Menu For ${measurement.name} Measurement`}
-                            itemClasses={{
-                              base: "hover:text-[#404040] gap-4",
-                            }}
                             onAction={(key) =>
                               handleOptionSelection(key as string, measurement)
                             }

@@ -144,9 +144,6 @@ export const WorkoutExerciseList = ({
                       </DropdownTrigger>
                       <DropdownMenu
                         aria-label={`Option Menu For ${groupedSet.exercise.name}`}
-                        itemClasses={{
-                          base: "hover:text-[#404040] gap-4",
-                        }}
                         onAction={(key) =>
                           handleExerciseOptionSelection(
                             key as string,

@@ -218,9 +218,6 @@ export const ActiveSet = ({
                             </DropdownTrigger>
                             <DropdownMenu
                               aria-label="Active Set Option Menu"
-                              itemClasses={{
-                                base: "hover:text-[#404040] gap-4",
-                              }}
                               onAction={(key) =>
                                 handleActiveSetOptionSelection(key as string)
                               }

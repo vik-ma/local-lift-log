@@ -147,9 +147,6 @@ export const SetList = ({
                 </DropdownTrigger>
                 <DropdownMenu
                   aria-label={`Option Menu For ${groupedSet.exercise.name} Set ${index}`}
-                  itemClasses={{
-                    base: "hover:text-[#404040] gap-4",
-                  }}
                   onAction={(key) =>
                     optionsSelectionAction(
                       key as string,
