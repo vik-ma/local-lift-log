@@ -14,6 +14,7 @@ import { Workout, WorkoutTemplateListItem } from "../typings";
 import { GetCurrentYmdDateString } from "../helpers/Dates/GetCurrentYmdDateString";
 import Database from "tauri-plugin-sql-api";
 import { useState, useEffect } from "react";
+import { DefaultNewWorkout } from "../helpers";
 
 export default function WorkoutIndex() {
   const [workoutTemplates, setWorkoutTemplates] = useState<
@@ -51,13 +52,9 @@ export default function WorkoutIndex() {
     const currentDate: string = GetCurrentYmdDateString();
 
     const newWorkout: Workout = {
-      id: 0,
+      ...DefaultNewWorkout(),
       workout_template_id: workout_template_id,
       date: currentDate,
-      exercise_order: "",
-      note: null,
-      is_loaded: 0,
-      rating: 0,
     };
 
     try {
@@ -127,27 +124,25 @@ export default function WorkoutIndex() {
             Workouts
           </h1>
         </div>
-        <div className="flex flex-col justify-center gap-1.5">
+        <div className="flex flex-col items-center gap-10">
+          <div className="flex flex-col gap-1">
+            <Button
+              color="success"
+              className="font-medium text-lg w-72"
+              onPress={() => createWorkout(0)}
+            >
+              New Empty Workout
+            </Button>
+            <Button
+              color="success"
+              className="font-medium text-lg w-72"
+              onPress={() => workoutTemplatesModal.onOpen()}
+            >
+              New Workout From Template
+            </Button>
+          </div>
           <Button
-            size="lg"
-            color="success"
-            className="font-medium text-xl"
-            onPress={() => createWorkout(0)}
-          >
-            New Empty Workout
-          </Button>
-          <Button
-            size="lg"
-            color="success"
-            className="font-medium text-xl"
-            onPress={() => workoutTemplatesModal.onOpen()}
-          >
-            New Workout From Template
-          </Button>
-          <Button
-            size="lg"
-            color="primary"
-            className="font-medium text-xl"
+            className="font-medium text-lg w-72"
             onPress={() => navigate(`/workouts/list`)}
           >
             Workout List
