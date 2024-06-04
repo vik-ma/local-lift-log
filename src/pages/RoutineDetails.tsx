@@ -329,6 +329,7 @@ export default function RoutineDetailsPage() {
         setRoutine={setEditedRoutine}
         isRoutineNameValid={isRoutineNameValid}
         buttonAction={updateRoutine}
+        isEditing={true}
       />
       <DeleteModal
         deleteModal={deleteModal}

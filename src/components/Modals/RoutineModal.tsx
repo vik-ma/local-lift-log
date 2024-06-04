@@ -22,6 +22,7 @@ type RoutineModalProps = {
   setRoutine: React.Dispatch<React.SetStateAction<Routine>>;
   isRoutineNameValid: boolean;
   buttonAction: () => void;
+  isEditing: boolean;
 };
 
 export const RoutineModal = ({
@@ -30,6 +31,7 @@ export const RoutineModal = ({
   setRoutine,
   isRoutineNameValid,
   buttonAction,
+  isEditing,
 }: RoutineModalProps) => {
   const numDaysInScheduleOptions: number[] = useMemo(() => {
     return NumDaysInScheduleOptions();
@@ -65,7 +67,9 @@ export const RoutineModal = ({
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalHeader>{routine.id === 0 ? "New" : "Edit"} Routine</ModalHeader>
+            <ModalHeader>
+              {routine.id === 0 ? "New" : "Edit"} Routine
+            </ModalHeader>
             <ModalBody>
               <div className="flex flex-col gap-0.5">
                 <Input
@@ -134,7 +138,7 @@ export const RoutineModal = ({
                 onPress={buttonAction}
                 isDisabled={!isRoutineNameValid}
               >
-                Create
+                {isEditing ? "Save" : "Create"}
               </Button>
             </ModalFooter>
           </>

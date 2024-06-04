@@ -168,6 +168,7 @@ export default function RoutineListPage() {
         setRoutine={setNewRoutine}
         isRoutineNameValid={isRoutineNameValid}
         buttonAction={addRoutine}
+        isEditing={false}
       />
       <DeleteModal
         deleteModal={deleteModal}

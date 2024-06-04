@@ -93,6 +93,7 @@ export default function ExerciseDetailsPage() {
         isExerciseGroupSetStringValid={isEditedExerciseGroupSetStringValid}
         exerciseGroupDictionary={exerciseGroupDictionary}
         buttonAction={updateExercise}
+        isEditing={true}
       />
       <div className="flex flex-col gap-4">
         <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">

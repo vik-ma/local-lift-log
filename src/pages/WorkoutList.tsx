@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { UserSettingsOptional, Workout } from "../typings";
 import { useNavigate } from "react-router-dom";
 import {
@@ -23,6 +23,7 @@ import {
   UpdateWorkout,
 } from "../helpers";
 import { VerticalMenuIcon } from "../assets";
+import { useDefaultWorkout } from "../hooks";
 
 type OperationType = "edit" | "delete";
 
@@ -33,19 +34,7 @@ export default function WorkoutList() {
   const [operationType, setOperationType] = useState<OperationType>("edit");
   const [newWorkoutNote, setNewWorkoutNote] = useState<string>("");
 
-  const defaultWorkout: Workout = useMemo(() => {
-    return {
-      id: 0,
-      workout_template_id: 0,
-      date: "",
-      exercise_order: "",
-      note: null,
-      is_loaded: 0,
-      rating: 0,
-      numSets: 0,
-      numExercises: 0,
-    };
-  }, []);
+  const defaultWorkout: Workout = useDefaultWorkout();
 
   const [operatingWorkout, setOperatingWorkout] =
     useState<Workout>(defaultWorkout);

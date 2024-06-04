@@ -24,6 +24,7 @@ type ExerciseModalProps = {
   isExerciseGroupSetStringValid: boolean;
   exerciseGroupDictionary: ExerciseGroupMap;
   buttonAction: () => void;
+  isEditing: boolean;
 };
 
 export const ExerciseModal = ({
@@ -34,6 +35,7 @@ export const ExerciseModal = ({
   isExerciseGroupSetStringValid,
   exerciseGroupDictionary,
   buttonAction,
+  isEditing,
 }: ExerciseModalProps) => {
   const handleExerciseGroupStringChange = (
     exerciseGroupStringList: string[]
@@ -126,7 +128,7 @@ export const ExerciseModal = ({
                   !isExerciseNameValid || !isExerciseGroupSetStringValid
                 }
               >
-                Create
+                {isEditing ? "Save" : "Create"}
               </Button>
             </ModalFooter>
           </>
