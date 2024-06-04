@@ -214,7 +214,7 @@ export default function WorkoutTemplateList() {
                         radius="lg"
                         variant="light"
                       >
-                        <VerticalMenuIcon size={18} />
+                        <VerticalMenuIcon size={17} />
                       </Button>
                     </DropdownTrigger>
                     <DropdownMenu

@@ -225,7 +225,7 @@ export default function WorkoutList() {
                         radius="lg"
                         variant="light"
                       >
-                        <VerticalMenuIcon size={18} />
+                        <VerticalMenuIcon size={17} />
                       </Button>
                     </DropdownTrigger>
                     <DropdownMenu
