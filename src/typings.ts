@@ -61,11 +61,6 @@ export type WorkoutTemplate = {
   name: string;
   exercise_order: string;
   note: string | null;
-};
-
-export type WorkoutTemplateListItem = {
-  id: number;
-  name: string;
   numSets?: number;
   numExercises?: number;
 };

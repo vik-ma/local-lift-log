@@ -1,5 +1,5 @@
 import Database from "tauri-plugin-sql-api";
-import { WorkoutTemplate, WorkoutTemplateListItem } from "../typings";
+import { WorkoutTemplate } from "../typings";
 import { Button, useDisclosure } from "@nextui-org/react";
 import { useState, useEffect } from "react";
 import {
@@ -12,19 +12,19 @@ import toast, { Toaster } from "react-hot-toast";
 import { useDefaultWorkoutTemplate, useValidateName } from "../hooks";
 import { ConvertEmptyStringToNull } from "../helpers";
 
+type OperationType = "edit" | "delete";
+
 export default function WorkoutTemplateList() {
-  const [workoutTemplates, setWorkoutTemplates] = useState<
-    WorkoutTemplateListItem[]
-  >([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [workoutTemplateToDelete, setWorkoutTemplateToDelete] =
-    useState<WorkoutTemplateListItem>();
-
-  const defaultNewWorkoutTemplate = useDefaultWorkoutTemplate();
-
-  const [newWorkoutTemplate, setNewWorkoutTemplate] = useState<WorkoutTemplate>(
-    defaultNewWorkoutTemplate
+  const [workoutTemplates, setWorkoutTemplates] = useState<WorkoutTemplate[]>(
+    []
   );
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [operationType, setOperationType] = useState<OperationType>("edit");
+
+  const defaultWorkoutTemplate = useDefaultWorkoutTemplate();
+
+  const [operatingWorkoutTemplate, setOperatingWorkoutTemplate] =
+    useState<WorkoutTemplate>(defaultWorkoutTemplate);
 
   const navigate = useNavigate();
 
@@ -32,7 +32,7 @@ export default function WorkoutTemplateList() {
   const workoutTemplateModal = useDisclosure();
 
   const isNewWorkoutTemplateNameValid = useValidateName(
-    newWorkoutTemplate.name
+    operatingWorkoutTemplate.name
   );
 
   useEffect(() => {
@@ -41,8 +41,8 @@ export default function WorkoutTemplateList() {
         const db = await Database.load(import.meta.env.VITE_DB);
 
         // Get id, name and how many Sets and Exercises every WorkoutTemplate contains
-        const result = await db.select<WorkoutTemplateListItem[]>(
-          `SELECT workout_templates.id, workout_templates.name, 
+        const result = await db.select<WorkoutTemplate[]>(
+          `SELECT workout_templates.*, 
           COUNT(DISTINCT CASE WHEN is_template = 1 THEN sets.exercise_id END) AS numExercises,
           SUM(CASE WHEN is_template = 1 THEN 1 ELSE 0 END) AS numSets
           FROM workout_templates LEFT JOIN sets 
@@ -66,24 +66,28 @@ export default function WorkoutTemplateList() {
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
-      const noteToInsert = ConvertEmptyStringToNull(newWorkoutTemplate.note);
+      const noteToInsert = ConvertEmptyStringToNull(
+        operatingWorkoutTemplate.note
+      );
 
       const result = await db.execute(
         "INSERT into workout_templates (name, exercise_order, note) VALUES ($1, $2, $3)",
         [
-          newWorkoutTemplate.name,
-          newWorkoutTemplate.exercise_order,
+          operatingWorkoutTemplate.name,
+          operatingWorkoutTemplate.exercise_order,
           noteToInsert,
         ]
       );
 
-      const newTemplate: WorkoutTemplateListItem = {
+      const newTemplate: WorkoutTemplate = {
+        ...operatingWorkoutTemplate,
         id: result.lastInsertId,
-        name: newWorkoutTemplate.name,
       };
+
       setWorkoutTemplates([...workoutTemplates, newTemplate]);
 
       workoutTemplateModal.onClose();
+
       navigate(`/workout-templates/${result.lastInsertId}`);
     } catch (error) {
       console.log(error);
@@ -91,24 +95,24 @@ export default function WorkoutTemplateList() {
   };
 
   const deleteWorkoutTemplate = async () => {
-    if (workoutTemplateToDelete === undefined) return;
+    if (operatingWorkoutTemplate.id === 0 || operationType !== "delete") return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
       db.execute("DELETE from workout_templates WHERE id = $1", [
-        workoutTemplateToDelete.id,
+        operatingWorkoutTemplate.id,
       ]);
 
       // Delete all sets referencing workout_template
       db.execute(
         "DELETE from sets WHERE workout_template_id = $1 AND is_template = 1",
-        [workoutTemplateToDelete.id]
+        [operatingWorkoutTemplate.id]
       );
 
-      const updatedWorkoutTemplates: WorkoutTemplateListItem[] =
+      const updatedWorkoutTemplates: WorkoutTemplate[] =
         workoutTemplates.filter(
-          (item) => item.id !== workoutTemplateToDelete?.id
+          (item) => item.id !== operatingWorkoutTemplate?.id
         );
       setWorkoutTemplates(updatedWorkoutTemplates);
 
@@ -117,12 +121,18 @@ export default function WorkoutTemplateList() {
       console.log(error);
     }
 
-    setWorkoutTemplateToDelete(undefined);
+    resetOperatingWorkoutTemplate();
     deleteModal.onClose();
   };
 
-  const handleDeleteButton = (workoutTemplate: WorkoutTemplateListItem) => {
-    setWorkoutTemplateToDelete(workoutTemplate);
+  const resetOperatingWorkoutTemplate = () => {
+    setOperatingWorkoutTemplate(defaultWorkoutTemplate);
+    setOperationType("edit");
+  };
+
+  const handleDeleteButton = (workoutTemplate: WorkoutTemplate) => {
+    setOperatingWorkoutTemplate(workoutTemplate);
+    setOperationType("delete");
     deleteModal.onOpen();
   };
 
@@ -131,10 +141,11 @@ export default function WorkoutTemplateList() {
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
       <WorkoutTemplateModal
         workoutTemplateModal={workoutTemplateModal}
-        workoutTemplate={newWorkoutTemplate}
-        setWorkoutTemplate={setNewWorkoutTemplate}
+        workoutTemplate={operatingWorkoutTemplate}
+        setWorkoutTemplate={setOperatingWorkoutTemplate}
         isWorkoutTemplateNameValid={isNewWorkoutTemplateNameValid}
         buttonAction={addWorkoutTemplate}
+        isEditing={operationType === "edit"}
       />
       <DeleteModal
         deleteModal={deleteModal}
@@ -142,7 +153,7 @@ export default function WorkoutTemplateList() {
         body={
           <p className="break-words">
             Are you sure you want to permanently delete{" "}
-            {workoutTemplateToDelete?.name}?
+            {operatingWorkoutTemplate?.name}?
           </p>
         }
         deleteButtonAction={deleteWorkoutTemplate}
