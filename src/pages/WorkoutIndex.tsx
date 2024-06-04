@@ -1,20 +1,11 @@
-import {
-  Button,
-  useDisclosure,
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Listbox,
-  ListboxItem,
-} from "@nextui-org/react";
+import { Button, useDisclosure } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import { Workout, WorkoutTemplateListItem } from "../typings";
 import { GetCurrentYmdDateString } from "../helpers/Dates/GetCurrentYmdDateString";
 import Database from "tauri-plugin-sql-api";
 import { useState, useEffect } from "react";
 import { DefaultNewWorkout } from "../helpers";
+import { WorkoutTemplateListModal } from "../components";
 
 export default function WorkoutIndex() {
   const [workoutTemplates, setWorkoutTemplates] = useState<
@@ -82,42 +73,11 @@ export default function WorkoutIndex() {
 
   return (
     <>
-      <Modal
-        isOpen={workoutTemplatesModal.isOpen}
-        onOpenChange={workoutTemplatesModal.onOpenChange}
-      >
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex gap-1.5">
-                Load Workout Template
-              </ModalHeader>
-              <ModalBody>
-                <Listbox
-                  aria-label="Workout Template List"
-                  onAction={(key) => createWorkout(Number(key))}
-                >
-                  {workoutTemplates.map((template) => (
-                    <ListboxItem
-                      key={`${template.id}`}
-                      className="text-success"
-                      color="success"
-                      variant="faded"
-                    >
-                      {template.name}
-                    </ListboxItem>
-                  ))}
-                </Listbox>
-              </ModalBody>
-              <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Cancel
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
+      <WorkoutTemplateListModal
+        workoutTemplateListModal={workoutTemplatesModal}
+        workoutTemplates={workoutTemplates}
+        listboxOnActionFunction={createWorkout}
+      />
       <div className="flex flex-col gap-3">
         <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">
           <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">
