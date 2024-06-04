@@ -10,7 +10,7 @@ import {
 } from "@nextui-org/react";
 import { WorkoutTemplate } from "../../typings";
 
-type WorkoutTemplateProps = {
+type WorkoutTemplateModalProps = {
   workoutTemplateModal: ReturnType<typeof useDisclosure>;
   workoutTemplate: WorkoutTemplate;
   setWorkoutTemplate: React.Dispatch<React.SetStateAction<WorkoutTemplate>>;
@@ -26,7 +26,7 @@ export const WorkoutTemplateModal = ({
   isWorkoutTemplateNameValid,
   buttonAction,
   isEditing,
-}: WorkoutTemplateProps) => {
+}: WorkoutTemplateModalProps) => {
   return (
     <Modal
       isOpen={workoutTemplateModal.isOpen}

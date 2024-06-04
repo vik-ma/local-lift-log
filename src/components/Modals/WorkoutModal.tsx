@@ -12,7 +12,7 @@ import { Workout } from "../../typings";
 import { WorkoutRatingDropdown } from "../Dropdowns/WorkoutRatingDropdown";
 import { ConvertEmptyStringToNull } from "../../helpers";
 
-type WorkoutProps = {
+type WorkoutModalProps = {
   workoutModal: ReturnType<typeof useDisclosure>;
   workout: Workout;
   setWorkout: React.Dispatch<React.SetStateAction<Workout>>;
@@ -34,7 +34,7 @@ export const WorkoutModal = ({
   buttonAction,
   showRating,
   header = "Workout Details",
-}: WorkoutProps) => {
+}: WorkoutModalProps) => {
   const handleSaveButton = () => {
     const noteToInsert = ConvertEmptyStringToNull(workoutNote);
 
