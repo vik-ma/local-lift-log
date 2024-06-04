@@ -14,6 +14,7 @@ import { Toaster } from "react-hot-toast";
 import {
   CreateGroupedWorkoutSetListByExerciseId,
   ConvertEmptyStringToNull,
+  UpdateWorkoutTemplate,
 } from "../helpers";
 import {
   useValidateName,
@@ -110,7 +111,7 @@ export default function WorkoutTemplateDetails() {
     getWorkoutTemplateAndSetList();
   }, [id, getWorkoutTemplateAndSetList]);
 
-  const updateWorkoutTemplateNoteAndName = async () => {
+  const updateWorkoutTemplate = async () => {
     if (!isNewWorkoutTemplateNameValid) return;
 
     const noteToInsert = ConvertEmptyStringToNull(editedWorkoutTemplate.note);
@@ -120,26 +121,13 @@ export default function WorkoutTemplateDetails() {
       note: noteToInsert,
     };
 
-    try {
-      if (workoutTemplate === undefined) return;
+    const success = await UpdateWorkoutTemplate(updatedWorkoutTemplate);
 
-      const db = await Database.load(import.meta.env.VITE_DB);
+    if (!success) return;
 
-      await db.execute(
-        "UPDATE workout_templates SET name = $1, note = $2 WHERE id = $3",
-        [
-          updatedWorkoutTemplate.name,
-          updatedWorkoutTemplate.note,
-          updatedWorkoutTemplate.id,
-        ]
-      );
-
-      setWorkoutTemplate(updatedWorkoutTemplate);
-      setEditedWorkoutTemplate(updatedWorkoutTemplate);
-      workoutTemplateModal.onClose();
-    } catch (error) {
-      console.log(error);
-    }
+    setWorkoutTemplate(updatedWorkoutTemplate);
+    setEditedWorkoutTemplate(updatedWorkoutTemplate);
+    workoutTemplateModal.onClose();
   };
 
   if (workoutTemplate === undefined || userSettings === undefined)
@@ -153,7 +141,7 @@ export default function WorkoutTemplateDetails() {
         workoutTemplate={editedWorkoutTemplate}
         setWorkoutTemplate={setEditedWorkoutTemplate}
         isWorkoutTemplateNameValid={isNewWorkoutTemplateNameValid}
-        buttonAction={updateWorkoutTemplateNoteAndName}
+        buttonAction={updateWorkoutTemplate}
         isEditing={true}
       />
       <DeleteModal
