@@ -1,6 +1,13 @@
 import Database from "tauri-plugin-sql-api";
 import { WorkoutTemplate } from "../typings";
-import { Button, useDisclosure } from "@nextui-org/react";
+import {
+  Button,
+  useDisclosure,
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+} from "@nextui-org/react";
 import { useState, useEffect } from "react";
 import {
   LoadingSpinner,
@@ -11,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { useDefaultWorkoutTemplate, useValidateName } from "../hooks";
 import { ConvertEmptyStringToNull } from "../helpers";
+import { VerticalMenuIcon } from "../assets";
 
 type OperationType = "edit" | "delete";
 
@@ -40,7 +48,7 @@ export default function WorkoutTemplateList() {
       try {
         const db = await Database.load(import.meta.env.VITE_DB);
 
-        // Get id, name and how many Sets and Exercises every WorkoutTemplate contains
+        // Get all columns and how many Sets and Exercises every WorkoutTemplate contains
         const result = await db.select<WorkoutTemplate[]>(
           `SELECT workout_templates.*, 
           COUNT(DISTINCT CASE WHEN is_template = 1 THEN sets.exercise_id END) AS numExercises,
@@ -130,10 +138,19 @@ export default function WorkoutTemplateList() {
     setOperationType("edit");
   };
 
-  const handleDeleteButton = (workoutTemplate: WorkoutTemplate) => {
-    setOperatingWorkoutTemplate(workoutTemplate);
-    setOperationType("delete");
-    deleteModal.onOpen();
+  const handleWorkoutTemplateOptionSelection = (
+    key: string,
+    workoutTemplate: WorkoutTemplate
+  ) => {
+    if (key === "edit") {
+      setOperationType("edit");
+      setOperatingWorkoutTemplate(workoutTemplate);
+      workoutTemplateModal.onOpen();
+    } else if (key === "delete") {
+      setOperatingWorkoutTemplate(workoutTemplate);
+      setOperationType("delete");
+      deleteModal.onOpen();
+    }
   };
 
   return (
@@ -169,41 +186,58 @@ export default function WorkoutTemplateList() {
           <LoadingSpinner />
         ) : (
           <>
-            <div className="flex flex-col gap-1.5">
-              {workoutTemplates.map((template, index) => (
+            <div className="flex flex-col gap-1 w-full">
+              {workoutTemplates.map((template) => (
                 <div
-                  className="flex flex-row items-center gap-1"
-                  key={`workout-template-${index}`}
+                  className="flex flex-row justify-between items-center gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                  key={`${template.id}`}
                 >
-                  <div className="flex-grow">
-                    <button
-                      className="flex flex-col justify-start items-start bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:bg-default-200 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-                      onClick={() =>
-                        navigate(`/workout-templates/${template.id}`)
+                  <button
+                    className="flex flex-col justify-start items-start"
+                    onClick={() =>
+                      navigate(`/workout-templates/${template.id}`)
+                    }
+                  >
+                    <span className="w-[21rem] truncate text-left">
+                      {template.name}
+                    </span>
+                    <span className="text-xs text-stone-500 text-left">
+                      {template.numExercises} Exercises, {template.numSets} Sets
+                    </span>
+                  </button>
+                  <Dropdown>
+                    <DropdownTrigger>
+                      <Button
+                        isIconOnly
+                        className="z-1"
+                        size="sm"
+                        radius="lg"
+                        variant="light"
+                      >
+                        <VerticalMenuIcon size={18} />
+                      </Button>
+                    </DropdownTrigger>
+                    <DropdownMenu
+                      aria-label={`Option Menu For ${template.name}`}
+                      onAction={(key) =>
+                        handleWorkoutTemplateOptionSelection(
+                          key as string,
+                          template
+                        )
                       }
                     >
-                      <span className="w-72 truncate text-left">
-                        {template.name}
-                      </span>
-                      <span className="text-xs text-stone-500 text-left">
-                        {template.numExercises} Exercises, {template.numSets}{" "}
-                        Sets
-                      </span>
-                    </button>
-                  </div>
-                  <Button
-                    color="danger"
-                    onPress={() => handleDeleteButton(template)}
-                  >
-                    Delete
-                  </Button>
+                      <DropdownItem key="edit">Edit</DropdownItem>
+                      <DropdownItem key="delete" className="text-danger">
+                        Delete
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
                 </div>
               ))}
             </div>
             <div className="flex justify-center">
               <Button
                 className="text-lg font-medium"
-                size="lg"
                 color="success"
                 onPress={() => workoutTemplateModal.onOpen()}
               >
