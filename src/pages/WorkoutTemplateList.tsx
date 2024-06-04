@@ -17,7 +17,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { useDefaultWorkoutTemplate, useValidateName } from "../hooks";
-import { ConvertEmptyStringToNull } from "../helpers";
+import { ConvertEmptyStringToNull, UpdateWorkoutTemplate } from "../helpers";
 import { VerticalMenuIcon } from "../assets";
 
 type OperationType = "edit" | "delete";
@@ -133,6 +133,32 @@ export default function WorkoutTemplateList() {
     deleteModal.onClose();
   };
 
+  const updateWorkoutTemplate = async () => {
+    if (operatingWorkoutTemplate.id === 0 || operationType !== "edit") return;
+
+    const noteToInsert = ConvertEmptyStringToNull(
+      operatingWorkoutTemplate.note
+    );
+
+    const updatedWorkoutTemplate: WorkoutTemplate = {
+      ...operatingWorkoutTemplate,
+      note: noteToInsert,
+    };
+
+    const success = await UpdateWorkoutTemplate(updatedWorkoutTemplate);
+
+    if (!success) return;
+
+    const updatedWorkoutTemplates: WorkoutTemplate[] = workoutTemplates.map((item) =>
+      item.id === operatingWorkoutTemplate.id ? updatedWorkoutTemplate : item
+    );
+
+    setWorkoutTemplates(updatedWorkoutTemplates);
+
+    resetOperatingWorkoutTemplate();
+    workoutTemplateModal.onClose();
+  };
+
   const resetOperatingWorkoutTemplate = () => {
     setOperatingWorkoutTemplate(defaultWorkoutTemplate);
     setOperationType("edit");
@@ -161,7 +187,9 @@ export default function WorkoutTemplateList() {
         workoutTemplate={operatingWorkoutTemplate}
         setWorkoutTemplate={setOperatingWorkoutTemplate}
         isWorkoutTemplateNameValid={isNewWorkoutTemplateNameValid}
-        buttonAction={addWorkoutTemplate}
+        buttonAction={
+          operationType === "edit" ? updateWorkoutTemplate : addWorkoutTemplate
+        }
         isEditing={operationType === "edit"}
       />
       <DeleteModal
