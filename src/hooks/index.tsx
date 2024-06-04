@@ -17,3 +17,4 @@ export { useDefaultWorkoutTemplate } from "./useDefaultWorkoutTemplate";
 export { useDefaultSetInputValues } from "./useDefaultSetInputValues";
 export { useWorkoutActions } from "./useWorkoutActions";
 export { useDefaultWorkout } from "./useDefaultWorkout";
+export { useWorkoutTemplateList } from "./useWorkoutTemplateList";

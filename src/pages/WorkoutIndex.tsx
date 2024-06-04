@@ -1,75 +1,14 @@
-import { Button, useDisclosure } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
-import { Workout, WorkoutTemplateListItem } from "../typings";
-import { GetCurrentYmdDateString } from "../helpers/Dates/GetCurrentYmdDateString";
-import Database from "tauri-plugin-sql-api";
-import { useState, useEffect } from "react";
-import { DefaultNewWorkout } from "../helpers";
+
 import { WorkoutTemplateListModal } from "../components";
+import { useWorkoutTemplateList } from "../hooks";
 
 export default function WorkoutIndex() {
-  const [workoutTemplates, setWorkoutTemplates] = useState<
-    WorkoutTemplateListItem[]
-  >([]);
-
   const navigate = useNavigate();
 
-  const workoutTemplatesModal = useDisclosure();
-
-  useEffect(() => {
-    const getWorkoutTemplates = async () => {
-      try {
-        const db = await Database.load(import.meta.env.VITE_DB);
-
-        const result = await db.select<WorkoutTemplateListItem[]>(
-          "SELECT id, name FROM workout_templates"
-        );
-
-        const templates: WorkoutTemplateListItem[] = result.map((row) => ({
-          id: row.id,
-          name: row.name,
-        }));
-
-        setWorkoutTemplates(templates);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    getWorkoutTemplates();
-  }, []);
-
-  const createWorkout = async (workout_template_id: number) => {
-    const currentDate: string = GetCurrentYmdDateString();
-
-    const newWorkout: Workout = {
-      ...DefaultNewWorkout(),
-      workout_template_id: workout_template_id,
-      date: currentDate,
-    };
-
-    try {
-      const db = await Database.load(import.meta.env.VITE_DB);
-
-      const result = await db.execute(
-        `INSERT into workouts 
-        (workout_template_id, date, exercise_order, note, is_loaded, rating) 
-        VALUES ($1, $2, $3, $4, $5, $6)`,
-        [
-          newWorkout.workout_template_id,
-          newWorkout.date,
-          newWorkout.exercise_order,
-          newWorkout.note,
-          newWorkout.is_loaded,
-          newWorkout.rating,
-        ]
-      );
-
-      navigate(`/workouts/${result.lastInsertId}`);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const { workoutTemplatesModal, workoutTemplates, createWorkout } =
+    useWorkoutTemplateList();
 
   return (
     <>
