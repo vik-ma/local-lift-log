@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useDisclosure } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
 import { useDefaultWorkout } from "./useDefaultWorkout";
-import { GetCurrentYmdDateString } from "../helpers";
+import { GetCurrentYmdDateString, IsNumberValidId } from "../helpers";
 
 export const useWorkoutTemplateList = () => {
   const [workoutTemplates, setWorkoutTemplates] = useState<
@@ -26,12 +26,7 @@ export const useWorkoutTemplateList = () => {
           "SELECT id, name FROM workout_templates"
         );
 
-        const templates: WorkoutTemplateListItem[] = result.map((row) => ({
-          id: row.id,
-          name: row.name,
-        }));
-
-        setWorkoutTemplates(templates);
+        setWorkoutTemplates(result);
       } catch (error) {
         console.log(error);
       }
@@ -40,12 +35,14 @@ export const useWorkoutTemplateList = () => {
     getWorkoutTemplates();
   }, []);
 
-  const createWorkout = async (workout_template_id: number) => {
+  const createWorkout = async (workoutTemplateId: number) => {
+    if (!IsNumberValidId(workoutTemplateId)) return;
+
     const currentDate: string = GetCurrentYmdDateString();
 
     const newWorkout: Workout = {
       ...defaultWorkout,
-      workout_template_id: workout_template_id,
+      workout_template_id: workoutTemplateId,
       date: currentDate,
     };
 

@@ -1,26 +1,19 @@
 import { useParams } from "react-router-dom";
-import {
-  Routine,
-  WorkoutTemplateListItem,
-  RoutineScheduleItem,
-  UserSettingsOptional,
-} from "../typings";
+import { Routine, RoutineScheduleItem, UserSettingsOptional } from "../typings";
 import { useState, useEffect, useCallback, useMemo } from "react";
 import {
   Button,
   useDisclosure,
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Listbox,
-  ListboxItem,
   DatePicker,
   DateValue,
 } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
-import { LoadingSpinner, DeleteModal, RoutineModal } from "../components";
+import {
+  LoadingSpinner,
+  DeleteModal,
+  RoutineModal,
+  WorkoutTemplateListModal,
+} from "../components";
 import {
   GetScheduleDayNames,
   GetScheduleDayValues,
@@ -29,11 +22,12 @@ import {
   IsYmdDateStringValid,
   ConvertEmptyStringToNull,
   DefaultNewRoutine,
+  IsNumberValidId,
 } from "../helpers";
 import toast, { Toaster } from "react-hot-toast";
 import { getLocalTimeZone, parseDate } from "@internationalized/date";
 import { I18nProvider } from "@react-aria/i18n";
-import { useIsRoutineValid } from "../hooks";
+import { useIsRoutineValid, useWorkoutTemplateList } from "../hooks";
 
 export default function RoutineDetailsPage() {
   const { id } = useParams();
@@ -41,9 +35,6 @@ export default function RoutineDetailsPage() {
   const [editedRoutine, setEditedRoutine] = useState<Routine>(
     DefaultNewRoutine()
   );
-  const [workoutTemplates, setWorkoutTemplates] = useState<
-    WorkoutTemplateListItem[]
-  >([]);
   const [selectedDay, setSelectedDay] = useState<number>(0);
   const [scheduleValues, setScheduleValues] = useState<RoutineScheduleItem[][]>(
     []
@@ -53,11 +44,12 @@ export default function RoutineDetailsPage() {
   const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
 
   const deleteModal = useDisclosure();
-  const workoutTemplatesModal = useDisclosure();
   const routineModal = useDisclosure();
 
   const { isRoutineNameValid, isRoutineValid } =
     useIsRoutineValid(editedRoutine);
+
+  const { workoutTemplatesModal, workoutTemplates } = useWorkoutTemplateList();
 
   const getWorkoutRoutineSchedules = useCallback(async () => {
     try {
@@ -107,25 +99,6 @@ export default function RoutineDetailsPage() {
       }
     };
 
-    const getWorkoutTemplates = async () => {
-      try {
-        const db = await Database.load(import.meta.env.VITE_DB);
-
-        const result = await db.select<WorkoutTemplateListItem[]>(
-          "SELECT id, name FROM workout_templates"
-        );
-
-        const templates: WorkoutTemplateListItem[] = result.map((row) => ({
-          id: row.id,
-          name: row.name,
-        }));
-
-        setWorkoutTemplates(templates);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
     const getUserSettings = async () => {
       try {
         const db = await Database.load(import.meta.env.VITE_DB);
@@ -143,7 +116,6 @@ export default function RoutineDetailsPage() {
     };
 
     getRoutine();
-    getWorkoutTemplates();
     getWorkoutRoutineSchedules();
     getUserSettings();
   }, [id, getWorkoutRoutineSchedules]);
@@ -185,12 +157,11 @@ export default function RoutineDetailsPage() {
     workoutTemplatesModal.onOpen();
   };
 
-  const addWorkoutTemplateToDay = async (workoutTemplateIdString: string) => {
-    const workoutTemplateId: number = parseInt(workoutTemplateIdString);
+  const addWorkoutTemplateToDay = async (workoutTemplateId: number) => {
+    if (!IsNumberValidId(workoutTemplateId)) return;
 
     if (
       routine === undefined ||
-      isNaN(workoutTemplateId) ||
       selectedDay < 0 ||
       selectedDay > routine.num_days_in_schedule - 1
     )
@@ -350,47 +321,17 @@ export default function RoutineDetailsPage() {
         deleteButtonAction={removeWorkoutTemplateFromDay}
         deleteButtonText="Remove"
       />
-      <Modal
-        isOpen={workoutTemplatesModal.isOpen}
-        onOpenChange={workoutTemplatesModal.onOpenChange}
-      >
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex gap-1.5">
-                <h2>
-                  Add Workout Template to{" "}
-                  <span className="text-success">
-                    {dayNameList[selectedDay]}
-                  </span>
-                </h2>
-              </ModalHeader>
-              <ModalBody>
-                <Listbox
-                  aria-label="Workout Template List"
-                  onAction={(key) => addWorkoutTemplateToDay(key.toString())}
-                >
-                  {workoutTemplates.map((template) => (
-                    <ListboxItem
-                      key={`${template.id}`}
-                      className="text-success"
-                      color="success"
-                      variant="faded"
-                    >
-                      {template.name}
-                    </ListboxItem>
-                  ))}
-                </Listbox>
-              </ModalBody>
-              <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Cancel
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
+      <WorkoutTemplateListModal
+        workoutTemplateListModal={workoutTemplatesModal}
+        workoutTemplates={workoutTemplates}
+        listboxOnActionFunction={addWorkoutTemplateToDay}
+        header={
+          <>
+            Add Workout Template to{" "}
+            <span className="text-success">{dayNameList[selectedDay]}</span>
+          </>
+        }
+      />
       <div className="flex flex-col gap-4">
         <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">
           <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">

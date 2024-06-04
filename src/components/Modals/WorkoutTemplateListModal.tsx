@@ -10,17 +10,20 @@ import {
   ListboxItem,
 } from "@nextui-org/react";
 import { WorkoutTemplateListItem } from "../../typings";
+import { ReactNode } from "react";
 
 type WorkoutTemplateListModalProps = {
   workoutTemplateListModal: ReturnType<typeof useDisclosure>;
   workoutTemplates: WorkoutTemplateListItem[];
   listboxOnActionFunction: (workoutTemplateId: number) => void;
+  header: ReactNode;
 };
 
 export const WorkoutTemplateListModal = ({
   workoutTemplateListModal,
   workoutTemplates,
   listboxOnActionFunction,
+  header,
 }: WorkoutTemplateListModalProps) => {
   return (
     <Modal
@@ -30,9 +33,7 @@ export const WorkoutTemplateListModal = ({
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalHeader className="flex gap-1.5">
-              Load Workout Template
-            </ModalHeader>
+            <ModalHeader>{header}</ModalHeader>
             <ModalBody>
               <Listbox
                 aria-label="Workout Template List"
