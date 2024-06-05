@@ -15,6 +15,7 @@ import {
   UpdateActiveRoutineId,
   GetActiveRoutineId,
   ConvertEmptyStringToNull,
+  UpdateRoutine,
 } from "../helpers";
 import { LoadingSpinner, DeleteModal, RoutineModal } from "../components";
 import { useDefaultRoutine, useIsRoutineValid } from "../hooks";
@@ -172,6 +173,31 @@ export default function RoutineListPage() {
     deleteModal.onClose();
   };
 
+  const updateRoutine = async () => {
+    if (!isRoutineValid) return;
+
+    const noteToInsert = ConvertEmptyStringToNull(operatingRoutine.note);
+
+    const updatedRoutine: Routine = {
+      ...operatingRoutine,
+      note: noteToInsert,
+    };
+
+    const success = await UpdateRoutine(updatedRoutine);
+
+    if (!success) return;
+
+    const updatedRoutines: Routine[] = routines.map((item) =>
+      item.id === operatingRoutine.id ? updatedRoutine : item
+    );
+
+    setRoutines(updatedRoutines);
+
+    resetOperatingRoutine();
+    toast.success("Routine Updated");
+    routineModal.onClose();
+  };
+
   const resetOperatingRoutine = () => {
     setOperationType("add");
     setOperatingRoutine(defaultNewRoutine);
@@ -192,7 +218,7 @@ export default function RoutineListPage() {
         routine={operatingRoutine}
         setRoutine={setOperatingRoutine}
         isRoutineNameValid={isRoutineNameValid}
-        buttonAction={addRoutine}
+        buttonAction={operationType === "edit" ? updateRoutine : addRoutine}
         isEditing={operationType === "edit"}
       />
       <DeleteModal
