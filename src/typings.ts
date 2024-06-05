@@ -5,6 +5,7 @@ export type Routine = {
   is_schedule_weekly: number;
   num_days_in_schedule: number;
   custom_schedule_start_date: string | null;
+  numWorkoutTemplates?: number;
 };
 
 export type UserSettings = {

@@ -47,7 +47,14 @@ export default function RoutineListPage() {
       try {
         const db = await Database.load(import.meta.env.VITE_DB);
 
-        const result = await db.select<Routine[]>("SELECT * FROM routines");
+        // Get all columns and number of workout_routine_schedule entries for every Routine
+        const result = await db.select<Routine[]>(
+          `SELECT routines.*, 
+          COUNT(workout_routine_schedules.routine_id) AS numWorkoutTemplates 
+          FROM routines LEFT JOIN workout_routine_schedules
+          ON routines.id = workout_routine_schedules.routine_id 
+          GROUP BY routines.id`
+        );
 
         setRoutines(result);
         setIsLoading(false);
@@ -257,7 +264,10 @@ export default function RoutineListPage() {
                       {routine.name}
                     </span>
                     <span className="text-xs text-stone-500 text-left">
-                      {/* TODO: ADD NUM WORKOUTS/DAYS IN SCHEDULE */}
+                      {routine.is_schedule_weekly === 0
+                        ? `${routine.num_days_in_schedule} Day Schedule`
+                        : "Weekly Schedule"}
+                      , {routine.numWorkoutTemplates} Workouts
                     </span>
                   </button>
                   <div className="flex gap-1.5 items-center">
