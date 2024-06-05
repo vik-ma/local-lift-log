@@ -8,7 +8,7 @@ import {
 } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { Routine, RoutineListItem, UserSettingsOptional } from "../typings";
+import { Routine, UserSettingsOptional } from "../typings";
 import toast, { Toaster } from "react-hot-toast";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -20,40 +20,35 @@ import { LoadingSpinner, DeleteModal, RoutineModal } from "../components";
 import { useDefaultRoutine, useIsRoutineValid } from "../hooks";
 import { VerticalMenuIcon } from "../assets";
 
-type OperationType = "edit" | "delete";
+type OperationType = "add" | "edit" | "delete";
 
 export default function RoutineListPage() {
-  const [routines, setRoutines] = useState<RoutineListItem[]>([]);
-  const [routineToDelete, setRoutineToDelete] = useState<RoutineListItem>();
+  const [routines, setRoutines] = useState<Routine[]>([]);
   const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [operationType, setOperationType] = useState<OperationType>("add");
 
   const navigate = useNavigate();
 
   const defaultNewRoutine = useDefaultRoutine();
 
-  const [newRoutine, setNewRoutine] = useState<Routine>(defaultNewRoutine);
+  const [operatingRoutine, setOperatingRoutine] =
+    useState<Routine>(defaultNewRoutine);
 
   const deleteModal = useDisclosure();
   const routineModal = useDisclosure();
 
-  const { isRoutineNameValid, isRoutineValid } = useIsRoutineValid(newRoutine);
+  const { isRoutineNameValid, isRoutineValid } =
+    useIsRoutineValid(operatingRoutine);
 
   useEffect(() => {
     const getRoutines = async () => {
       try {
         const db = await Database.load(import.meta.env.VITE_DB);
 
-        const result = await db.select<Routine[]>(
-          "SELECT id, name FROM routines"
-        );
+        const result = await db.select<Routine[]>("SELECT * FROM routines");
 
-        const routines: RoutineListItem[] = result.map((row) => ({
-          id: row.id,
-          name: row.name,
-        }));
-
-        setRoutines(routines);
+        setRoutines(result);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -71,7 +66,7 @@ export default function RoutineListPage() {
     getRoutines();
   }, []);
 
-  const handleSetActiveButton = async (routine: RoutineListItem) => {
+  const handleSetActiveButton = async (routine: Routine) => {
     if (
       userSettings === undefined ||
       routine.id === userSettings.active_routine_id
@@ -91,44 +86,45 @@ export default function RoutineListPage() {
     setUserSettings(userSettings);
   };
 
-  const handleWorkoutOptionSelection = (key: string, routine: RoutineListItem) => {
+  const handleWorkoutOptionSelection = (key: string, routine: Routine) => {
     if (key === "edit") {
     } else if (key === "delete") {
-      setRoutineToDelete(routine);
+      setOperatingRoutine(routine);
       deleteModal.onOpen();
     } else if (key === "set-active") {
-
     }
   };
 
   const addRoutine = async () => {
-    if (!isRoutineValid) return;
+    if (!isRoutineValid || operationType !== "add") return;
+
+    const noteToInsert = ConvertEmptyStringToNull(operatingRoutine.note);
+
+    const newRoutine: Routine = {
+      ...operatingRoutine,
+      note: noteToInsert,
+    };
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
-
-      const noteToInsert = ConvertEmptyStringToNull(newRoutine.note);
 
       const result = await db.execute(
         "INSERT into routines (name, note, is_schedule_weekly, num_days_in_schedule, custom_schedule_start_date) VALUES ($1, $2, $3, $4, $5)",
         [
           newRoutine.name,
-          noteToInsert,
+          newRoutine.note,
           newRoutine.is_schedule_weekly,
           newRoutine.num_days_in_schedule,
           newRoutine.custom_schedule_start_date,
         ]
       );
 
-      const newRoutineListItem: RoutineListItem = {
-        id: result.lastInsertId,
-        name: newRoutine.name,
-      };
-      setRoutines([...routines, newRoutineListItem]);
+      newRoutine.id = result.lastInsertId;
 
+      setRoutines([...routines, newRoutine]);
+
+      resetOperatingRoutine();
       routineModal.onClose();
-      setNewRoutine(defaultNewRoutine);
-
       toast.success("Routine Created");
     } catch (error) {
       console.log(error);
@@ -136,25 +132,25 @@ export default function RoutineListPage() {
   };
 
   const deleteRoutine = async () => {
-    if (routineToDelete === undefined) return;
+    if (operatingRoutine.id === 0 || operationType !== "delete") return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
-      db.execute("DELETE from routines WHERE id = $1", [routineToDelete.id]);
+      db.execute("DELETE from routines WHERE id = $1", [operatingRoutine.id]);
 
       // Delete all workout_routine_schedules referencing routine
       db.execute(
         "DELETE from workout_routine_schedules WHERE routine_id = $1",
-        [routineToDelete.id]
+        [operatingRoutine.id]
       );
 
-      const updatedRoutines: RoutineListItem[] = routines.filter(
-        (item) => item.id !== routineToDelete?.id
+      const updatedRoutines: Routine[] = routines.filter(
+        (item) => item.id !== operatingRoutine?.id
       );
       setRoutines(updatedRoutines);
 
-      if (routineToDelete.id === userSettings?.active_routine_id) {
+      if (operatingRoutine.id === userSettings?.active_routine_id) {
         const updatedSettings: UserSettingsOptional = {
           ...userSettings,
           active_routine_id: 0,
@@ -168,8 +164,13 @@ export default function RoutineListPage() {
       console.log(error);
     }
 
-    setRoutineToDelete(undefined);
+    resetOperatingRoutine();
     deleteModal.onClose();
+  };
+
+  const resetOperatingRoutine = () => {
+    setOperationType("add");
+    setOperatingRoutine(defaultNewRoutine);
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;
@@ -179,8 +180,8 @@ export default function RoutineListPage() {
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
       <RoutineModal
         routineModal={routineModal}
-        routine={newRoutine}
-        setRoutine={setNewRoutine}
+        routine={operatingRoutine}
+        setRoutine={setOperatingRoutine}
         isRoutineNameValid={isRoutineNameValid}
         buttonAction={addRoutine}
         isEditing={false}
@@ -190,7 +191,8 @@ export default function RoutineListPage() {
         header="Delete Routine"
         body={
           <p className="break-words">
-            Are you sure you want to permanently delete {routineToDelete?.name}?
+            Are you sure you want to permanently delete {operatingRoutine?.name}
+            ?
           </p>
         }
         deleteButtonAction={deleteRoutine}
