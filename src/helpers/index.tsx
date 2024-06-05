@@ -22,6 +22,7 @@ export { GetScheduleDayNames } from "./Routines/GetScheduleDayNames";
 export { GetScheduleDayValues } from "./Routines/GetScheduleValues";
 export { NumDaysInScheduleOptions } from "./Routines/NumDaysInScheduleOptions";
 export { DefaultNewRoutine } from "./Routines/DefaultNewRoutine";
+export { UpdateRoutine } from "./Routines/UpdateRoutine";
 
 export { CreateDefaultUserSettings } from "./UserSettings/CreateDefaultUserSettings";
 export { GetActiveRoutineId } from "./UserSettings/GetActiveRoutineId";
