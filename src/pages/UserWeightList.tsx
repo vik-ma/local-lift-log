@@ -186,9 +186,7 @@ export default function UserWeightListPage() {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">
-                Edit Body Weight Record
-              </ModalHeader>
+              <ModalHeader>Edit Body Weight Record</ModalHeader>
               <ModalBody>
                 <div className="flex flex-col gap-2">
                   <div className="flex gap-2 font-medium">

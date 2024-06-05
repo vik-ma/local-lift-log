@@ -64,7 +64,7 @@ export const ExerciseModal = ({
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalHeader className="flex flex-col gap-1">
+            <ModalHeader>
               {exercise.id === 0 ? "New" : "Edit"} Exercise
             </ModalHeader>
             <ModalBody>

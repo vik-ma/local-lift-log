@@ -327,9 +327,7 @@ export default function MeasurementListPage() {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">
-                New Measurement
-              </ModalHeader>
+              <ModalHeader>New Measurement</ModalHeader>
               <ModalBody>
                 <div className="flex flex-col gap-0.5">
                   <Input
@@ -397,9 +395,7 @@ export default function MeasurementListPage() {
         <ModalContent>
           {() => (
             <>
-              <ModalHeader className="flex flex-col gap-1">
-                Choose Unit Type
-              </ModalHeader>
+              <ModalHeader>Choose Unit Type</ModalHeader>
               <ModalBody>
                 <p>Use Metric or Imperial units?</p>
               </ModalBody>

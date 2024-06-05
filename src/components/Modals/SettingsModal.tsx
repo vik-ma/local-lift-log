@@ -48,7 +48,7 @@ export const SettingsModal = ({
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalHeader className="flex flex-col gap-1">{header}</ModalHeader>
+            <ModalHeader>{header}</ModalHeader>
             <ModalBody>
               <div className="flex flex-col gap-4">
                 <div className="flex flex-col gap-1.5">

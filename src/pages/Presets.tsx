@@ -456,7 +456,7 @@ export default function PresetsPage() {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">
+              <ModalHeader>
                 {isEditing ? "Edit" : "New"}{" "}
                 {operatingType === "equipment"
                   ? "Equipment Weight"
@@ -539,9 +539,7 @@ export default function PresetsPage() {
         <ModalContent>
           {() => (
             <>
-              <ModalHeader className="flex flex-col gap-1">
-                Choose Unit Type
-              </ModalHeader>
+              <ModalHeader>Choose Unit Type</ModalHeader>
               <ModalBody>
                 <p>Use Metric or Imperial units?</p>
               </ModalBody>
