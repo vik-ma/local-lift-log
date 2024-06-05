@@ -88,7 +88,11 @@ export default function RoutineListPage() {
 
   const handleWorkoutOptionSelection = (key: string, routine: Routine) => {
     if (key === "edit") {
+      setOperationType("edit");
+      setOperatingRoutine(routine);
+      routineModal.onOpen();
     } else if (key === "delete") {
+      setOperationType("delete");
       setOperatingRoutine(routine);
       deleteModal.onOpen();
     } else if (key === "set-active") {
@@ -173,6 +177,11 @@ export default function RoutineListPage() {
     setOperatingRoutine(defaultNewRoutine);
   };
 
+  const handleCreateNewRoutineButton = () => {
+    resetOperatingRoutine();
+    routineModal.onOpen();
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -184,7 +193,7 @@ export default function RoutineListPage() {
         setRoutine={setOperatingRoutine}
         isRoutineNameValid={isRoutineNameValid}
         buttonAction={addRoutine}
-        isEditing={false}
+        isEditing={operationType === "edit"}
       />
       <DeleteModal
         deleteModal={deleteModal}
@@ -255,6 +264,18 @@ export default function RoutineListPage() {
                           handleWorkoutOptionSelection(key as string, routine)
                         }
                       >
+                        <DropdownItem
+                          key="set-active"
+                          className={
+                            userSettings.active_routine_id === routine.id
+                              ? "text-success"
+                              : ""
+                          }
+                        >
+                          {userSettings.active_routine_id === routine.id
+                            ? "Clear Active"
+                            : "Set Active"}
+                        </DropdownItem>
                         <DropdownItem key="edit">Edit</DropdownItem>
                         <DropdownItem key="delete" className="text-danger">
                           Delete
@@ -269,7 +290,7 @@ export default function RoutineListPage() {
               <Button
                 className=""
                 color="success"
-                onPress={() => routineModal.onOpen()}
+                onPress={handleCreateNewRoutineButton}
               >
                 Create New Routine
               </Button>
