@@ -67,15 +67,14 @@ export default function RoutineListPage() {
   }, []);
 
   const handleSetActiveButton = async (routine: Routine) => {
-    if (
-      userSettings === undefined ||
-      routine.id === userSettings.active_routine_id
-    )
-      return;
+    if (userSettings === undefined) return;
+
+    const newActiveRoutineId =
+      routine.id === userSettings.active_routine_id ? 0 : routine.id;
 
     const updatedSettings: UserSettingsOptional = {
       ...userSettings,
-      active_routine_id: routine.id,
+      active_routine_id: newActiveRoutineId,
     };
 
     await updateActiveRoutineId(updatedSettings);
@@ -96,6 +95,7 @@ export default function RoutineListPage() {
       setOperatingRoutine(routine);
       deleteModal.onOpen();
     } else if (key === "set-active") {
+      handleSetActiveButton(routine);
     }
   };
 
@@ -236,15 +236,18 @@ export default function RoutineListPage() {
                   </button>
                   <div className="flex gap-1.5 items-center">
                     <Button
-                      color="success"
-                      variant={
+                      className="w-24"
+                      color={
                         userSettings?.active_routine_id === routine.id
-                          ? "flat"
-                          : "light"
+                          ? "success"
+                          : "default"
                       }
+                      variant="flat"
                       onPress={() => handleSetActiveButton(routine)}
                     >
-                      Set Active
+                      {userSettings.active_routine_id === routine.id
+                        ? "Active"
+                        : "Set Active"}
                     </Button>
                     <Dropdown>
                       <DropdownTrigger>
@@ -268,8 +271,8 @@ export default function RoutineListPage() {
                           key="set-active"
                           className={
                             userSettings.active_routine_id === routine.id
-                              ? "text-success"
-                              : ""
+                              ? ""
+                              : "text-success"
                           }
                         >
                           {userSettings.active_routine_id === routine.id
