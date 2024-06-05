@@ -29,6 +29,7 @@ import {
   DefaultNewRoutine,
   IsNumberValidId,
   GetUserSettings,
+  UpdateRoutine,
 } from "../helpers";
 import toast, { Toaster } from "react-hot-toast";
 import { getLocalTimeZone, parseDate } from "@internationalized/date";
@@ -125,26 +126,13 @@ export default function RoutineDetailsPage() {
       note: noteToInsert,
     };
 
-    try {
-      const db = await Database.load(import.meta.env.VITE_DB);
+    const success = await UpdateRoutine(updatedRoutine);
 
-      await db.execute(
-        "UPDATE routines SET name = $1, note = $2, is_schedule_weekly = $3, num_days_in_schedule = $4 WHERE id = $5",
-        [
-          updatedRoutine.name,
-          updatedRoutine.note,
-          updatedRoutine.is_schedule_weekly,
-          updatedRoutine.num_days_in_schedule,
-          updatedRoutine.id,
-        ]
-      );
+    if (!success) return;
 
-      setRoutine(updatedRoutine);
-      setEditedRoutine(updatedRoutine);
-      routineModal.onClose();
-    } catch (error) {
-      console.log(error);
-    }
+    setRoutine(updatedRoutine);
+    setEditedRoutine(updatedRoutine);
+    routineModal.onClose();
   };
 
   const handleAddWorkoutButton = (day: number) => {
@@ -156,7 +144,7 @@ export default function RoutineDetailsPage() {
     if (!IsNumberValidId(workoutTemplateId)) return;
 
     if (
-      routine === undefined ||
+      routine.id === 0 ||
       selectedDay < 0 ||
       selectedDay > routine.num_days_in_schedule - 1
     )
@@ -180,7 +168,7 @@ export default function RoutineDetailsPage() {
   };
 
   const removeWorkoutTemplateFromDay = async () => {
-    if (routine === undefined || workoutRoutineScheduleToRemove === undefined)
+    if (routine.id === 0 || workoutRoutineScheduleToRemove === undefined)
       return;
 
     try {
@@ -208,7 +196,7 @@ export default function RoutineDetailsPage() {
   };
 
   const handleSetActiveButton = async () => {
-    if (routine === undefined || userSettings === undefined) return;
+    if (routine.id === 0 || userSettings === undefined) return;
 
     const updatedSettings: UserSettingsOptional = {
       ...userSettings,
@@ -221,7 +209,7 @@ export default function RoutineDetailsPage() {
   };
 
   const handleSelectCustomStartDate = (selectedDate: DateValue) => {
-    if (routine === undefined) return;
+    if (routine.id === 0) return;
 
     const formattedDate = ConvertDateToYmdString(
       selectedDate.toDate(getLocalTimeZone())
@@ -231,32 +219,25 @@ export default function RoutineDetailsPage() {
   };
 
   const updateCustomStartDate = async (dateString: string) => {
-    if (routine === undefined || routine.is_schedule_weekly) return;
+    if (routine.id === 0 || routine.is_schedule_weekly) return;
 
     if (!IsYmdDateStringValid(dateString)) return;
 
-    try {
-      const db = await Database.load(import.meta.env.VITE_DB);
+    const updatedRoutine = {
+      ...routine,
+      custom_schedule_start_date: dateString,
+    };
 
-      await db.execute(
-        "UPDATE routines SET custom_schedule_start_date = $1 WHERE id = $2",
-        [dateString, routine.id]
-      );
+    const success = await UpdateRoutine(updatedRoutine);
 
-      setRoutine((prev) => ({
-        ...prev!,
-        custom_schedule_start_date: dateString,
-      }));
+    if (!success) return;
 
-      toast.success("Start Date Updated");
-    } catch (error) {
-      console.log(error);
-    }
+    setRoutine(updatedRoutine);
+    toast.success("Start Date Updated");
   };
 
   const resetCustomStartDate = async () => {
-    if (routine === undefined || routine.custom_schedule_start_date === null)
-      return;
+    if (routine.id === 0 || routine.custom_schedule_start_date === null) return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
