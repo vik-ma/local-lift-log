@@ -1,5 +1,10 @@
 import { useParams } from "react-router-dom";
-import { Routine, RoutineScheduleItem, UserSettingsOptional } from "../typings";
+import {
+  Routine,
+  RoutineScheduleItem,
+  UserSettingsOptional,
+  UserSettings,
+} from "../typings";
 import { useState, useEffect, useCallback, useMemo } from "react";
 import {
   Button,
@@ -23,6 +28,7 @@ import {
   ConvertEmptyStringToNull,
   DefaultNewRoutine,
   IsNumberValidId,
+  GetUserSettings,
 } from "../helpers";
 import toast, { Toaster } from "react-hot-toast";
 import { getLocalTimeZone, parseDate } from "@internationalized/date";
@@ -100,19 +106,8 @@ export default function RoutineDetailsPage() {
     };
 
     const getUserSettings = async () => {
-      try {
-        const db = await Database.load(import.meta.env.VITE_DB);
-
-        const result = await db.select<UserSettingsOptional[]>(
-          "SELECT id, active_routine_id, locale FROM user_settings"
-        );
-
-        const userSettings: UserSettingsOptional = result[0];
-
-        if (userSettings !== undefined) setUserSettings(userSettings);
-      } catch (error) {
-        console.log(error);
-      }
+      const settings: UserSettings | undefined = await GetUserSettings();
+      if (settings !== undefined) setUserSettings(settings);
     };
 
     getRoutine();
