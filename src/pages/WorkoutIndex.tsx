@@ -16,7 +16,7 @@ export default function WorkoutIndex() {
         workoutTemplateListModal={workoutTemplatesModal}
         workoutTemplates={workoutTemplates}
         listboxOnActionFunction={createWorkout}
-        header={"Load Workout Template"}
+        header={<span>Load Workout Template</span>}
       />
       <div className="flex flex-col gap-3">
         <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">

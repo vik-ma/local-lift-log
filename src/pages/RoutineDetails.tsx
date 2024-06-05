@@ -326,10 +326,10 @@ export default function RoutineDetailsPage() {
         workoutTemplates={workoutTemplates}
         listboxOnActionFunction={addWorkoutTemplateToDay}
         header={
-          <>
+          <span>
             Add Workout Template to{" "}
             <span className="text-success">{dayNameList[selectedDay]}</span>
-          </>
+          </span>
         }
       />
       <div className="flex flex-col gap-4">
