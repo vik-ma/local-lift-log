@@ -1,4 +1,11 @@
-import { Button, useDisclosure } from "@nextui-org/react";
+import {
+  Button,
+  useDisclosure,
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+} from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Routine, RoutineListItem, UserSettingsOptional } from "../typings";
@@ -11,6 +18,9 @@ import {
 } from "../helpers";
 import { LoadingSpinner, DeleteModal, RoutineModal } from "../components";
 import { useDefaultRoutine, useIsRoutineValid } from "../hooks";
+import { VerticalMenuIcon } from "../assets";
+
+type OperationType = "edit" | "delete";
 
 export default function RoutineListPage() {
   const [routines, setRoutines] = useState<RoutineListItem[]>([]);
@@ -81,9 +91,14 @@ export default function RoutineListPage() {
     setUserSettings(userSettings);
   };
 
-  const handleDeleteButton = (routine: RoutineListItem) => {
-    setRoutineToDelete(routine);
-    deleteModal.onOpen();
+  const handleWorkoutOptionSelection = (key: string, routine: RoutineListItem) => {
+    if (key === "edit") {
+    } else if (key === "delete") {
+      setRoutineToDelete(routine);
+      deleteModal.onOpen();
+    } else if (key === "set-active") {
+
+    }
   };
 
   const addRoutine = async () => {
@@ -191,45 +206,66 @@ export default function RoutineListPage() {
           <LoadingSpinner />
         ) : (
           <>
-            <div className="flex flex-col gap-1.5">
-              {routines.map((routine, index) => (
+            <div className="flex flex-col gap-1 w-full">
+              {routines.map((routine) => (
                 <div
-                  className="flex flex-row justify-stretch gap-1"
-                  key={`routine-${index}`}
+                  className="flex flex-row justify-between items-center gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                  key={`${routine.id}`}
                 >
-                  <div className="w-[200px]">
-                    <Button
-                      className="w-full text-lg font-medium"
-                      color="primary"
-                      onPress={() => navigate(`/routines/${routine.id}`)}
-                    >
+                  <button
+                    className="flex flex-col justify-start items-start"
+                    onClick={() => navigate(`/routines/${routine.id}`)}
+                  >
+                    <span className="w-[14.5rem] truncate text-left">
                       {routine.name}
+                    </span>
+                    <span className="text-xs text-stone-500 text-left">
+                      {/* TODO: ADD NUM WORKOUTS/DAYS IN SCHEDULE */}
+                    </span>
+                  </button>
+                  <div className="flex gap-1.5 items-center">
+                    <Button
+                      color="success"
+                      variant={
+                        userSettings?.active_routine_id === routine.id
+                          ? "flat"
+                          : "light"
+                      }
+                      onPress={() => handleSetActiveButton(routine)}
+                    >
+                      Set Active
                     </Button>
+                    <Dropdown>
+                      <DropdownTrigger>
+                        <Button
+                          isIconOnly
+                          className="z-1"
+                          size="sm"
+                          radius="lg"
+                          variant="light"
+                        >
+                          <VerticalMenuIcon size={17} />
+                        </Button>
+                      </DropdownTrigger>
+                      <DropdownMenu
+                        aria-label={`Option Menu For Routine ${routine.name}`}
+                        onAction={(key) =>
+                          handleWorkoutOptionSelection(key as string, routine)
+                        }
+                      >
+                        <DropdownItem key="edit">Edit</DropdownItem>
+                        <DropdownItem key="delete" className="text-danger">
+                          Delete
+                        </DropdownItem>
+                      </DropdownMenu>
+                    </Dropdown>
                   </div>
-                  <Button
-                    color="success"
-                    variant={
-                      userSettings?.active_routine_id === routine.id
-                        ? "flat"
-                        : "light"
-                    }
-                    onPress={() => handleSetActiveButton(routine)}
-                  >
-                    Set Active
-                  </Button>
-                  <Button
-                    color="danger"
-                    onPress={() => handleDeleteButton(routine)}
-                  >
-                    Delete
-                  </Button>
                 </div>
               ))}
             </div>
             <div className="flex justify-center">
               <Button
-                className="text-lg font-medium"
-                size="lg"
+                className=""
                 color="success"
                 onPress={() => routineModal.onOpen()}
               >
