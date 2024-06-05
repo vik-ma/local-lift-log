@@ -130,9 +130,17 @@ export default function RoutineDetailsPage() {
 
     if (!success) return;
 
+    if (updatedRoutine.num_days_in_schedule < routine.num_days_in_schedule) {
+      deleteWorkoutTemplateSchedulesAboveDayNumber(
+        updatedRoutine.num_days_in_schedule
+      );
+    }
+
     setRoutine(updatedRoutine);
     setEditedRoutine(updatedRoutine);
+    
     routineModal.onClose();
+    toast.success("Routine Updated");
   };
 
   const handleAddWorkoutButton = (day: number) => {
@@ -143,11 +151,7 @@ export default function RoutineDetailsPage() {
   const addWorkoutTemplateToDay = async (workoutTemplateId: number) => {
     if (!IsNumberValidId(workoutTemplateId)) return;
 
-    if (
-      routine.id === 0 ||
-      selectedDay < 0 ||
-      selectedDay > routine.num_days_in_schedule - 1
-    )
+    if (selectedDay < 0 || selectedDay > routine.num_days_in_schedule - 1)
       return;
 
     try {
@@ -168,8 +172,7 @@ export default function RoutineDetailsPage() {
   };
 
   const removeWorkoutTemplateFromDay = async () => {
-    if (routine.id === 0 || workoutRoutineScheduleToRemove === undefined)
-      return;
+    if (workoutRoutineScheduleToRemove === undefined) return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
@@ -196,7 +199,7 @@ export default function RoutineDetailsPage() {
   };
 
   const handleSetActiveButton = async () => {
-    if (routine.id === 0 || userSettings === undefined) return;
+    if (userSettings === undefined) return;
 
     const updatedSettings: UserSettingsOptional = {
       ...userSettings,
@@ -209,8 +212,6 @@ export default function RoutineDetailsPage() {
   };
 
   const handleSelectCustomStartDate = (selectedDate: DateValue) => {
-    if (routine.id === 0) return;
-
     const formattedDate = ConvertDateToYmdString(
       selectedDate.toDate(getLocalTimeZone())
     );
@@ -219,7 +220,7 @@ export default function RoutineDetailsPage() {
   };
 
   const updateCustomStartDate = async (dateString: string) => {
-    if (routine.id === 0 || routine.is_schedule_weekly) return;
+    if (routine.is_schedule_weekly) return;
 
     if (!IsYmdDateStringValid(dateString)) return;
 
@@ -237,22 +238,34 @@ export default function RoutineDetailsPage() {
   };
 
   const resetCustomStartDate = async () => {
-    if (routine.id === 0 || routine.custom_schedule_start_date === null) return;
+    if (routine.custom_schedule_start_date === null) return;
 
+    const updatedRoutine = {
+      ...routine,
+      custom_schedule_start_date: null,
+    };
+
+    const success = await UpdateRoutine(updatedRoutine);
+
+    if (!success) return;
+
+    setRoutine(updatedRoutine);
+    toast.success("Start Date Reset");
+  };
+
+  const deleteWorkoutTemplateSchedulesAboveDayNumber = async (
+    numDaysInSchedule: number
+  ) => {
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
+      // Delete all workout_routine_schedules for routine_id
+      // that contains a day number that exceeds numDaysInSchedule
       await db.execute(
-        "UPDATE routines SET custom_schedule_start_date = $1 WHERE id = $2",
-        [null, routine.id]
+        `DELETE from workout_routine_schedules 
+        WHERE routine_id = $1 AND day >= $2`,
+        [routine.id, numDaysInSchedule]
       );
-
-      setRoutine((prev) => ({
-        ...prev!,
-        custom_schedule_start_date: null,
-      }));
-
-      toast.success("Start Date Reset");
     } catch (error) {
       console.log(error);
     }
