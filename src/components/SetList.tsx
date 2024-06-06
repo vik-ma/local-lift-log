@@ -47,7 +47,7 @@ export const SetList = ({
               ? "flex flex-col pl-2 bg-yellow-100 text-yellow-600 text-sm font-medium break-words cursor-pointer"
               : "flex flex-col pl-2 text-sm font-medium break-words cursor-pointer hover:bg-stone-100"
           }
-          key={`${set.exercise_id}-${index}`}
+          key={set.id}
           onClick={() => clickSetAction(set, index, groupedSet.exercise)}
         >
           <div className="flex justify-between items-center">

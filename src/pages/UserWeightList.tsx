@@ -257,7 +257,7 @@ export default function UserWeightListPage() {
               {userWeights.map((userWeight) => (
                 <div
                   className="flex flex-col gap-1 font-medium items-center bg-white px-2.5 py-1.5 rounded-xl"
-                  key={`${userWeight.id}`}
+                  key={userWeight.id}
                 >
                   <div className="flex justify-between gap-4 font-medium w-full">
                     <span>

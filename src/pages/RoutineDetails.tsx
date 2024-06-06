@@ -435,7 +435,7 @@ export default function RoutineDetailsPage() {
                     scheduleValues[i].map((schedule) => {
                       return (
                         <div
-                          key={`${schedule.id}`}
+                          key={schedule.id}
                           className="flex justify-between items-center"
                         >
                           <span className="truncate max-w-44">

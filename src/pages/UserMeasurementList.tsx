@@ -76,7 +76,7 @@ export default function UserMeasurementList() {
           >
             {userMeasurementEntries.map((entry, index) => (
               <AccordionItem
-                key={`${index}`}
+                key={index}
                 aria-label={`Accordion Item ${index}`}
                 subtitle={entry.measurementListString}
                 title={FormatDateTimeString(entry.date, clockStyle === "24h")}

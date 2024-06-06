@@ -41,7 +41,7 @@ export const WorkoutTemplateListModal = ({
               >
                 {workoutTemplates.map((template) => (
                   <ListboxItem
-                    key={`${template.id}`}
+                    key={template.id}
                     className="text-success"
                     color="success"
                     variant="faded"
