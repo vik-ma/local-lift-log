@@ -8,11 +8,19 @@ import {
   IsExerciseValid,
   UpdateExercise,
 } from "../helpers";
-import { Button, useDisclosure, Input } from "@nextui-org/react";
+import {
+  Button,
+  useDisclosure,
+  Input,
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+} from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { DeleteModal, ExerciseModal, LoadingSpinner } from "../components";
-import { SearchIcon } from "../assets";
+import { SearchIcon, VerticalMenuIcon } from "../assets";
 import {
   useValidateExerciseGroupString,
   useValidateName,
@@ -230,36 +238,50 @@ export default function ExerciseListPage() {
           <LoadingSpinner />
         ) : (
           <>
-            <div className="flex flex-col w-full">
+            <div className="flex flex-col gap-1 w-full">
               {filteredExercises.map((exercise) => (
                 <div
+                  className="flex flex-row justify-between items-center gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                   key={exercise.id}
-                  className="flex flex-row justify-between rounded-lg px-2 cursor-pointer hover:bg-amber-100 p-1"
-                  onClick={() => navigate(`/exercises/${exercise.id}`)}
                 >
-                  <div className="flex flex-col">
-                    <div className="text-lg truncate w-56">{exercise.name}</div>
-                    <div className="text-xs text-stone-500">
+                  <button
+                    className="flex flex-col justify-start items-start"
+                    onClick={() => navigate(`/exercises/${exercise.id}`)}
+                  >
+                    <span className="w-[21.5rem] truncate text-left">
+                      {exercise.name}
+                    </span>
+                    <span className="text-xs text-stone-500 text-left">
                       {exercise.formattedGroupString}
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Button
-                      size="sm"
-                      className="font-medium"
-                      onPress={() => handleEditButton(exercise)}
+                    </span>
+                  </button>
+                  <Dropdown>
+                    <DropdownTrigger>
+                      <Button
+                        isIconOnly
+                        className="z-1"
+                        size="sm"
+                        radius="lg"
+                        variant="light"
+                      >
+                        <VerticalMenuIcon size={17} />
+                      </Button>
+                    </DropdownTrigger>
+                    <DropdownMenu
+                      aria-label={`Option Menu For ${exercise.name}`}
+                      // onAction={(key) =>
+                      //   handleExerciseOptionSelection(
+                      //     key as string,
+                      //     exercise
+                      //   )
+                      // }
                     >
-                      Edit
-                    </Button>
-                    <Button
-                      size="sm"
-                      className="font-medium"
-                      color="danger"
-                      onPress={() => handleDeleteButton(exercise)}
-                    >
-                      Delete
-                    </Button>
-                  </div>
+                      <DropdownItem key="edit">Edit</DropdownItem>
+                      <DropdownItem key="delete" className="text-danger">
+                        Delete
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
                 </div>
               ))}
             </div>
