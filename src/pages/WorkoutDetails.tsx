@@ -119,6 +119,9 @@ export default function WorkoutDetails() {
               workout.exercise_order
             );
 
+          workout.numExercises = groupedSetList.length;
+          workout.numSets = setList.length;
+
           for (let i = 0; i < groupedSetList.length; i++) {
             groupedSetList[i].showExerciseNote = true;
           }
@@ -268,25 +271,28 @@ export default function WorkoutDetails() {
       />
       <div className="flex flex-col">
         <div className="flex flex-col gap-4 pb-4">
-          <div className="flex flex-col justify-center items-center gap-0.5">
-            <div className="flex items-center gap-0.5">
+          <div className="flex justify-center items-start gap-0.5">
+            <div className="flex flex-col items-center">
               <h1 className="text-2xl font-semibold">{workoutDate}</h1>
-              <Button
-                isIconOnly
-                className="z-1"
-                size="sm"
-                variant="light"
-                onPress={() => workoutModal.onOpen()}
-              >
-                <VerticalMenuIcon size={18} color={"#606060"} />
-              </Button>
+              <span className="flex justify-center text-stone-600 text-lg font-semibold">
+                {workout.numExercises} Exercises, {workout.numSets} Sets
+              </span>
             </div>
-            {workout.note !== null && (
-              <h3 className="text-xl font-semibold text-stone-400">
-                {workout.note}
-              </h3>
-            )}
+            <Button
+              isIconOnly
+              className="z-1"
+              size="sm"
+              variant="light"
+              onPress={() => workoutModal.onOpen()}
+            >
+              <VerticalMenuIcon size={18} color={"#606060"} />
+            </Button>
           </div>
+          {workout.note !== null && (
+            <h3 className="text-xl font-semibold text-stone-400">
+              {workout.note}
+            </h3>
+          )}
         </div>
         <div className="mb-[4.5rem]">
           <WorkoutExerciseList

@@ -95,6 +95,9 @@ export default function WorkoutTemplateDetails() {
           workoutTemplate.exercise_order
         );
 
+      workoutTemplate.numExercises = groupedSetList.length;
+      workoutTemplate.numSets = setList.length;
+
       for (let i = 0; i < groupedSetList.length; i++) {
         groupedSetList[i].showExerciseNote = true;
       }
@@ -185,6 +188,10 @@ export default function WorkoutTemplateDetails() {
           <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">
             {workoutTemplate.name}
           </h1>
+        </div>
+        <div className="flex justify-center text-xl font-semibold">
+          {workoutTemplate.numExercises} Exercises, {workoutTemplate.numSets}{" "}
+          Sets
         </div>
         <div>
           <h2 className="text-xl font-semibold">Note</h2>
