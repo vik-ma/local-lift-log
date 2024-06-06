@@ -39,8 +39,9 @@ export default function MeasurementListPage() {
   const [measurementToDelete, setMeasurementToDelete] = useState<Measurement>();
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [activeMeasurementList, setActiveMeasurementList] =
-    useState<number[]>();
+  const [activeMeasurementSet, setActiveMeasurementSet] = useState<Set<number>>(
+    new Set()
+  );
 
   const defaultNewMeasurement: Measurement = useMemo(() => {
     return {
@@ -83,9 +84,11 @@ export default function MeasurementListPage() {
           ...prev,
           default_unit: userSettings.default_unit_measurement!,
         }));
-        setActiveMeasurementList(
-          GenerateActiveMeasurementList(
-            userSettings.active_tracking_measurements
+        setActiveMeasurementSet(
+          new Set(
+            GenerateActiveMeasurementList(
+              userSettings.active_tracking_measurements
+            )
           )
         );
         setIsLoading(false);
@@ -179,14 +182,14 @@ export default function MeasurementListPage() {
       );
       setMeasurements(updatedMeasurements);
 
-      if (activeMeasurementList?.includes(measurementToDelete.id)) {
+      if (activeMeasurementSet.has(measurementToDelete.id)) {
         // Modify active_tracking_measurements string in user_settings
         // if measurementToDelete id is currently included
-        const updatedMeasurementList: number[] = activeMeasurementList.filter(
-          (item) => item !== measurementToDelete.id
-        );
-        setActiveMeasurementList(updatedMeasurementList);
-        updateActiveMeasurementString(updatedMeasurementList);
+        const updatedMeasurementSet = new Set(activeMeasurementSet);
+        updatedMeasurementSet.delete(measurementToDelete.id);
+
+        setActiveMeasurementSet(updatedMeasurementSet);
+        updateActiveMeasurementString([...updatedMeasurementSet]);
       }
 
       toast.success("Measurement Deleted");
@@ -254,29 +257,27 @@ export default function MeasurementListPage() {
     toast.success("Default Measurements Restored");
   };
 
-  const trackMeasurement = async (measurement: Measurement) => {
-    if (activeMeasurementList === undefined) return;
+  const trackMeasurement = async (measurementId: number) => {
+    if (activeMeasurementSet === undefined) return;
 
-    const updatedMeasurementList: number[] = [
-      ...activeMeasurementList,
-      measurement.id,
-    ];
-    setActiveMeasurementList(updatedMeasurementList);
+    const updatedMeasurementSet = new Set(activeMeasurementSet);
+    updatedMeasurementSet.add(measurementId);
 
-    updateActiveMeasurementString(updatedMeasurementList);
+    setActiveMeasurementSet(updatedMeasurementSet);
+    updateActiveMeasurementString([...updatedMeasurementSet]);
+
     toast.success("Measurement Tracked");
   };
 
-  const untrackMeasurement = async (measurement: Measurement) => {
-    if (activeMeasurementList === undefined) return;
+  const untrackMeasurement = async (measurementId: number) => {
+    if (activeMeasurementSet === undefined) return;
 
-    const updatedMeasurementList: number[] = activeMeasurementList.filter(
-      (number) => number !== measurement.id
-    );
+    const updatedMeasurementSet = new Set(activeMeasurementSet);
+    updatedMeasurementSet.delete(measurementId);
 
-    setActiveMeasurementList(updatedMeasurementList);
+    setActiveMeasurementSet(updatedMeasurementSet);
+    updateActiveMeasurementString([...updatedMeasurementSet]);
 
-    updateActiveMeasurementString(updatedMeasurementList);
     toast.success("Measurement Untracked");
   };
 
@@ -298,9 +299,17 @@ export default function MeasurementListPage() {
     } else if (key === "delete") {
       handleDeleteButton(measurement);
     } else if (key === "track") {
-      trackMeasurement(measurement);
+      trackMeasurement(measurement.id);
     } else if (key === "untrack") {
-      untrackMeasurement(measurement);
+      untrackMeasurement(measurement.id);
+    }
+  };
+
+  const handleMeasurementClick = (measurementId: number) => {
+    if (activeMeasurementSet.has(measurementId)) {
+      untrackMeasurement(measurementId);
+    } else {
+      trackMeasurement(measurementId);
     }
   };
 
@@ -452,18 +461,12 @@ export default function MeasurementListPage() {
                   <div
                     key={measurement.id}
                     className="flex flex-row cursor-pointer gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-                    onClick={
-                      activeMeasurementList?.includes(measurement.id)
-                        ? () => untrackMeasurement(measurement)
-                        : () => trackMeasurement(measurement)
-                    }
+                    onClick={() => handleMeasurementClick(measurement.id)}
                   >
                     <div className="flex justify-between w-full">
                       <div className="flex pl-0.5 gap-2.5 items-center">
                         <CheckmarkIcon
-                          isChecked={activeMeasurementList?.includes(
-                            measurement.id
-                          )}
+                          isChecked={activeMeasurementSet.has(measurement.id)}
                           size={29}
                         />
                         <div className="flex flex-col justify-start items-start">
@@ -505,9 +508,7 @@ export default function MeasurementListPage() {
                                 )
                               }
                             >
-                              {activeMeasurementList?.includes(
-                                measurement.id
-                              ) ? (
+                              {activeMeasurementSet.has(measurement.id) ? (
                                 <DropdownItem key="untrack">
                                   Untrack
                                 </DropdownItem>
