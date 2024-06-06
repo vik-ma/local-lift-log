@@ -84,12 +84,6 @@ export default function ExerciseListPage() {
     deleteModal.onClose();
   };
 
-  const handleDeleteButton = (exercise: Exercise) => {
-    setOperationType("delete");
-    setOperatingExercise(exercise);
-    deleteModal.onOpen();
-  };
-
   const addExercise = async () => {
     if (
       !IsExerciseValid(
@@ -179,12 +173,6 @@ export default function ExerciseListPage() {
     exerciseModal.onClose();
   };
 
-  const handleEditButton = (exercise: Exercise) => {
-    setOperationType("edit");
-    setOperatingExercise(exercise);
-    exerciseModal.onOpen();
-  };
-
   const handleCreateNewExerciseButton = () => {
     resetOperatingExercise();
     exerciseModal.onOpen();
@@ -193,6 +181,18 @@ export default function ExerciseListPage() {
   const resetOperatingExercise = () => {
     setOperationType("add");
     setOperatingExercise(defaultNewExercise);
+  };
+
+  const handleExerciseOptionSelection = (key: string, exercise: Exercise) => {
+    if (key === "edit") {
+      setOperationType("edit");
+      setOperatingExercise(exercise);
+      exerciseModal.onOpen();
+    } else if (key === "delete") {
+      setOperationType("delete");
+      setOperatingExercise(exercise);
+      deleteModal.onOpen();
+    }
   };
 
   return (
@@ -269,12 +269,9 @@ export default function ExerciseListPage() {
                     </DropdownTrigger>
                     <DropdownMenu
                       aria-label={`Option Menu For ${exercise.name}`}
-                      // onAction={(key) =>
-                      //   handleExerciseOptionSelection(
-                      //     key as string,
-                      //     exercise
-                      //   )
-                      // }
+                      onAction={(key) =>
+                        handleExerciseOptionSelection(key as string, exercise)
+                      }
                     >
                       <DropdownItem key="edit">Edit</DropdownItem>
                       <DropdownItem key="delete" className="text-danger">

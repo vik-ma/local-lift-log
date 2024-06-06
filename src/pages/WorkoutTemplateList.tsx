@@ -174,8 +174,8 @@ export default function WorkoutTemplateList() {
       setOperatingWorkoutTemplate(workoutTemplate);
       workoutTemplateModal.onOpen();
     } else if (key === "delete") {
-      setOperatingWorkoutTemplate(workoutTemplate);
       setOperationType("delete");
+      setOperatingWorkoutTemplate(workoutTemplate);
       deleteModal.onOpen();
     }
   };
