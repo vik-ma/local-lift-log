@@ -150,7 +150,7 @@ export default function PresetsPage() {
 
       setEquipmentWeights([...equipmentWeights, newEquipment]);
 
-      resetNewEquipment();
+      resetOperatingEquipment();
       setOperatingType("");
       newPresetModal.onClose();
 
@@ -182,7 +182,7 @@ export default function PresetsPage() {
 
       setDistances([...distances, newDistance]);
 
-      resetNewDistance();
+      resetOperatingDistance();
       setOperatingType("");
       newPresetModal.onClose();
 
@@ -223,7 +223,7 @@ export default function PresetsPage() {
         )
       );
 
-      resetNewEquipment();
+      resetOperatingEquipment();
       setOperatingType("");
       newPresetModal.onClose();
 
@@ -264,7 +264,7 @@ export default function PresetsPage() {
         )
       );
 
-      resetNewDistance();
+      resetOperatingDistance();
       setOperatingType("");
       newPresetModal.onClose();
 
@@ -322,7 +322,7 @@ export default function PresetsPage() {
     deleteModal.onClose();
   };
 
-  const resetNewEquipment = () => {
+  const resetOperatingEquipment = () => {
     if (userSettings === undefined) return;
     setNewEquipment(undefined);
     setNewName("");
@@ -331,7 +331,7 @@ export default function PresetsPage() {
     setIsEditing(false);
   };
 
-  const resetNewDistance = () => {
+  const resetOperatingDistance = () => {
     if (userSettings === undefined) return;
     setNewDistance(undefined);
     setNewName("");
@@ -341,13 +341,13 @@ export default function PresetsPage() {
   };
 
   const handleNewEquipmentButton = () => {
-    if (isEditing) resetNewEquipment();
+    if (isEditing) resetOperatingEquipment();
     setOperatingType("equipment");
     newPresetModal.onOpen();
   };
 
   const handleNewDistanceButton = () => {
-    if (isEditing) resetNewDistance();
+    if (isEditing) resetOperatingDistance();
     setOperatingType("distance");
     newPresetModal.onOpen();
   };

@@ -206,7 +206,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
       setWorkoutNumbers(updatedWorkoutNumbers);
 
-      resetSetToDefault();
+      resetOperatingSet();
 
       setModal.onClose();
       toast.success("Set Added");
@@ -261,7 +261,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     setWorkoutNumbers(updatedWorkoutNumbers);
 
-    resetSetToDefault();
+    resetOperatingSet();
 
     toast.success(isTemplate ? "Set Removed" : "Set Deleted");
     deleteModal.onClose();
@@ -337,7 +337,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       );
     }
 
-    resetSetToDefault();
+    resetOperatingSet();
 
     setModal.onClose();
     toast.success("Set Updated");
@@ -362,7 +362,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     if (isExerciseBeingDragged) setIsExerciseBeingDragged(false);
   };
 
-  const resetSetToDefault = () => {
+  const resetOperatingSet = () => {
     setOperationType("add");
     setSelectedExercise(undefined);
     setOperatingGroupedSet(undefined);
@@ -385,7 +385,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
   const handleAddSetButton = () => {
     if (operationType !== "add") {
-      resetSetToDefault();
+      resetOperatingSet();
     }
 
     setModal.onOpen();
@@ -581,7 +581,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     setWorkoutNumbers(updatedWorkoutNumbers);
 
-    resetSetToDefault();
+    resetOperatingSet();
     toast.success("Set Added");
   };
 
@@ -645,7 +645,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
       setWorkoutNumbers(updatedWorkoutNumbers);
 
-      resetSetToDefault();
+      resetOperatingSet();
 
       deleteModal.onClose();
       toast.success("Sets Removed");
@@ -731,7 +731,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     // Do nothing if trying to reassign the same Exercise
     if (operatingGroupedSet.exercise.id === newExercise.id) {
-      resetSetToDefault();
+      resetOperatingSet();
       setModal.onClose();
       return;
     }
@@ -834,7 +834,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       updateExerciseOrder(newGroupedSets);
     }
 
-    resetSetToDefault();
+    resetOperatingSet();
 
     setModal.onClose();
 
@@ -1174,7 +1174,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       setActiveSet(updatedSet);
     }
 
-    resetSetToDefault();
+    resetOperatingSet();
 
     toast.success("Time Updated");
     timeInputModal.onClose();

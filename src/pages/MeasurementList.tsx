@@ -121,7 +121,7 @@ export default function MeasurementListPage() {
       };
 
       setMeasurements([...measurements, addedMeasurement]);
-      resetMeasurementToDefault();
+      resetOperatingMeasurement();
 
       newMeasurementModal.onClose();
       toast.success("Measurement Added");
@@ -158,7 +158,7 @@ export default function MeasurementListPage() {
       )
     );
 
-    resetMeasurementToDefault();
+    resetOperatingMeasurement();
 
     newMeasurementModal.onClose();
     toast.success("Measurement Updated");
@@ -212,7 +212,7 @@ export default function MeasurementListPage() {
   };
 
   const handleAddButton = () => {
-    if (isEditing) resetMeasurementToDefault();
+    if (isEditing) resetOperatingMeasurement();
 
     newMeasurementModal.onOpen();
   };
@@ -224,7 +224,7 @@ export default function MeasurementListPage() {
     newMeasurementModal.onOpen();
   };
 
-  const resetMeasurementToDefault = () => {
+  const resetOperatingMeasurement = () => {
     setIsEditing(false);
     setNewMeasurement({
       ...defaultNewMeasurement,

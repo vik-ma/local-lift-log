@@ -149,8 +149,9 @@ export default function WorkoutTemplateList() {
 
     if (!success) return;
 
-    const updatedWorkoutTemplates: WorkoutTemplate[] = workoutTemplates.map((item) =>
-      item.id === operatingWorkoutTemplate.id ? updatedWorkoutTemplate : item
+    const updatedWorkoutTemplates: WorkoutTemplate[] = workoutTemplates.map(
+      (item) =>
+        item.id === operatingWorkoutTemplate.id ? updatedWorkoutTemplate : item
     );
 
     setWorkoutTemplates(updatedWorkoutTemplates);

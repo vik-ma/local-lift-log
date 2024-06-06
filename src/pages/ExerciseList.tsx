@@ -72,7 +72,7 @@ export default function ExerciseListPage() {
       console.log(error);
     }
 
-    resetExercise();
+    resetOperatingExercise();
     deleteModal.onClose();
   };
 
@@ -118,7 +118,7 @@ export default function ExerciseListPage() {
       };
       setExercises([...exercises, newExerciseListItem]);
 
-      resetExercise();
+      resetOperatingExercise();
       toast.success("Exercise Created");
       exerciseModal.onClose();
     } catch (error) {
@@ -166,7 +166,7 @@ export default function ExerciseListPage() {
 
     setExercises(updatedExercises);
 
-    resetExercise();
+    resetOperatingExercise();
     toast.success("Exercise Updated");
     exerciseModal.onClose();
   };
@@ -178,11 +178,11 @@ export default function ExerciseListPage() {
   };
 
   const handleCreateNewExerciseButton = () => {
-    resetExercise();
+    resetOperatingExercise();
     exerciseModal.onOpen();
   };
 
-  const resetExercise = () => {
+  const resetOperatingExercise = () => {
     setOperationType("add");
     setOperatingExercise(defaultNewExercise);
   };
