@@ -133,7 +133,7 @@ export default function WorkoutTemplateDetails() {
     workoutTemplateModal.onClose();
   };
 
-  if (workoutTemplate === undefined || userSettings === undefined)
+  if (workoutTemplate.id === 0 || userSettings === undefined)
     return <LoadingSpinner />;
 
   return (

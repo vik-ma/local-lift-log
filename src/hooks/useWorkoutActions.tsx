@@ -26,6 +26,7 @@ import {
   GetCurrentDateTimeISOString,
   ValidateISODateString,
   DefaultNewWorkout,
+  DefaultNewWorkoutTemplate,
 } from "../helpers";
 import {
   useDefaultSet,
@@ -44,7 +45,9 @@ type OperationType =
   | "update-completed-set-time";
 
 export const useWorkoutActions = (isTemplate: boolean) => {
-  const [workoutTemplate, setWorkoutTemplate] = useState<WorkoutTemplate>();
+  const [workoutTemplate, setWorkoutTemplate] = useState<WorkoutTemplate>(
+    DefaultNewWorkoutTemplate()
+  );
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [selectedExercise, setSelectedExercise] = useState<Exercise>();
   const [groupedSets, setGroupedSets] = useState<GroupedWorkoutSet[]>([]);
@@ -155,6 +158,16 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         (obj) => obj.exercise.id === selectedExercise.id
       );
 
+      const updatedWorkoutTemplate: WorkoutTemplate = {
+        ...workoutTemplate,
+        numSets: workoutTemplate.numSets! + numSetsToAdd,
+      };
+
+      const updatedWorkout: Workout = {
+        ...workout,
+        numSets: workout.numSets! + numSetsToAdd,
+      };
+
       if (exerciseIndex === -1) {
         // Create new GroupedWorkoutSet if exercise_id does not exist in groupedSets
         const newGroupedWorkoutSet: GroupedWorkoutSet = {
@@ -172,6 +185,9 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         setGroupedSets(newGroupedSets);
         await updateExerciseOrder(newGroupedSets);
 
+        updatedWorkout.numExercises = workout.numExercises! + 1;
+        updatedWorkoutTemplate.numExercises = workoutTemplate.numExercises! + 1;
+
         if (!isTemplate) populateIncompleteSets(newGroupedSets);
       } else {
         // Add new Sets to groupedSets' existing Exercise's Set List
@@ -183,6 +199,12 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         setGroupedSets(newList);
 
         if (!isTemplate) populateIncompleteSets(newList);
+      }
+
+      if (isTemplate) {
+        setWorkoutTemplate(updatedWorkoutTemplate);
+      } else {
+        setWorkout(updatedWorkout);
       }
 
       resetSetToDefault();
@@ -205,6 +227,16 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       (obj) => obj.exercise.id === operatingSet.exercise_id
     );
 
+    const updatedWorkoutTemplate: WorkoutTemplate = {
+      ...workoutTemplate,
+      numSets: workoutTemplate.numSets! - 1,
+    };
+
+    const updatedWorkout: Workout = {
+      ...workout,
+      numSets: workout.numSets! - 1,
+    };
+
     const updatedSetList: WorkoutSet[] = groupedSets[
       exerciseIndex
     ].setList.filter((item) => item.id !== operatingSet.id);
@@ -217,6 +249,9 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
       setGroupedSets(updatedGroupedSets);
       updateExerciseOrder(updatedGroupedSets);
+
+      updatedWorkout.numExercises = workout.numExercises! - 1;
+      updatedWorkoutTemplate.numExercises = workoutTemplate.numExercises! - 1;
     } else {
       setGroupedSets((prev) => {
         const newList = [...prev];
@@ -230,6 +265,12 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       operatingSet.exercise_id,
       operatingSet.set_index ?? -1
     );
+
+    if (isTemplate) {
+      setWorkoutTemplate(updatedWorkoutTemplate);
+    } else {
+      setWorkout(updatedWorkout);
+    }
 
     resetSetToDefault();
 
@@ -544,6 +585,22 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       return newList;
     });
 
+    const updatedWorkoutTemplate: WorkoutTemplate = {
+      ...workoutTemplate,
+      numSets: workoutTemplate.numSets! + 1,
+    };
+
+    const updatedWorkout: Workout = {
+      ...workout,
+      numSets: workout.numSets! + 1,
+    };
+
+    if (isTemplate) {
+      setWorkoutTemplate(updatedWorkoutTemplate);
+    } else {
+      setWorkout(updatedWorkout);
+    }
+
     resetSetToDefault();
     toast.success("Set Added");
   };
@@ -583,7 +640,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
       const db = await Database.load(import.meta.env.VITE_DB);
 
-      db.execute(statement, [operatingGroupedSet.exercise.id, id]);
+      const result = await db.execute(statement, [
+        operatingGroupedSet.exercise.id,
+        id,
+      ]);
 
       const updatedSetList: GroupedWorkoutSet[] = groupedSets.filter(
         (item) => item.exercise.id !== operatingGroupedSet.exercise.id
@@ -596,6 +656,24 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       setGroupedSets(updatedSetList);
 
       updateExerciseOrder(updatedSetList);
+
+      const updatedWorkoutTemplate: WorkoutTemplate = {
+        ...workoutTemplate,
+        numSets: workoutTemplate.numSets! - result.rowsAffected,
+        numExercises: workoutTemplate.numExercises! - 1,
+      };
+
+      const updatedWorkout: Workout = {
+        ...workout,
+        numSets: workout.numSets! - result.rowsAffected,
+        numExercises: workout.numExercises! - 1,
+      };
+
+      if (isTemplate) {
+        setWorkoutTemplate(updatedWorkoutTemplate);
+      } else {
+        setWorkout(updatedWorkout);
+      }
 
       resetSetToDefault();
 
@@ -757,10 +835,21 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       completedSetsMap.set(newExercise.id, value!);
     }
 
+    const updatedWorkoutTemplate: WorkoutTemplate = {
+      ...workoutTemplate,
+    };
+
+    const updatedWorkout: Workout = {
+      ...workout,
+    };
+
     if (newExerciseIndex === -1) {
       // Create new GroupedWorkoutSet if exercise_id does not exist in groupedSets
       const newGroupedSets = [...groupedSets];
       newGroupedSets[oldExerciseIndex] = newGroupedWorkoutSet;
+
+      updatedWorkoutTemplate.numExercises = newGroupedSets.length;
+      updatedWorkout.numExercises = newGroupedSets.length;
 
       setGroupedSets(newGroupedSets);
       updateExerciseOrder(newGroupedSets);
@@ -775,8 +864,17 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
       newGroupedSets.splice(oldExerciseIndex, 1);
 
+      updatedWorkoutTemplate.numExercises = newGroupedSets.length;
+      updatedWorkout.numExercises = newGroupedSets.length;
+
       setGroupedSets(newGroupedSets);
       updateExerciseOrder(newGroupedSets);
+    }
+
+    if (isTemplate) {
+      setWorkoutTemplate(updatedWorkoutTemplate);
+    } else {
+      setWorkout(updatedWorkout);
     }
 
     resetSetToDefault();
