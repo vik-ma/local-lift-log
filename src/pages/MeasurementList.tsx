@@ -4,7 +4,7 @@ import {
   MeasurementUnitDropdown,
   DeleteModal,
 } from "../components";
-import { Measurement, SetMeasurementsAction, UserSettings } from "../typings";
+import { Measurement, UserSettings } from "../typings";
 import Database from "tauri-plugin-sql-api";
 import {
   Button,
@@ -463,7 +463,7 @@ export default function MeasurementListPage() {
                     className="flex flex-row cursor-pointer gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                     onClick={() => handleMeasurementClick(measurement.id)}
                   >
-                    <div className="flex justify-between w-full">
+                    <div className="flex justify-between items-center w-full">
                       <div className="flex pl-0.5 gap-2.5 items-center">
                         <CheckmarkIcon
                           isChecked={activeMeasurementSet.has(measurement.id)}
@@ -478,54 +478,35 @@ export default function MeasurementListPage() {
                           </span>
                         </div>
                       </div>
-                      <div>
-                        <div className="flex items-center gap-1">
-                          <MeasurementUnitDropdown
-                            measurement={measurement}
-                            isDisabled={
-                              measurement.measurement_type === "Caliper"
-                                ? true
-                                : false
-                            }
-                            measurements={measurements}
-                            setMeasurements={
-                              setMeasurements as SetMeasurementsAction
-                            }
-                            targetType="list"
-                          />
-                          <Dropdown>
-                            <DropdownTrigger>
-                              <Button isIconOnly radius="lg" variant="light">
-                                <VerticalMenuIcon />
-                              </Button>
-                            </DropdownTrigger>
-                            <DropdownMenu
-                              aria-label={`Option Menu For ${measurement.name} Measurement`}
-                              onAction={(key) =>
-                                handleOptionSelection(
-                                  key as string,
-                                  measurement
-                                )
-                              }
-                            >
-                              {activeMeasurementSet.has(measurement.id) ? (
-                                <DropdownItem key="untrack">
-                                  Untrack
-                                </DropdownItem>
-                              ) : (
-                                <DropdownItem key="track">Track</DropdownItem>
-                              )}
-                              <DropdownItem key="edit">Edit</DropdownItem>
-                              <DropdownItem
-                                className="text-danger"
-                                key="delete"
-                              >
-                                Delete
-                              </DropdownItem>
-                            </DropdownMenu>
-                          </Dropdown>
-                        </div>
-                      </div>
+                      <Dropdown>
+                        <DropdownTrigger>
+                          <Button
+                            isIconOnly
+                            className="z-1"
+                            size="sm"
+                            radius="lg"
+                            variant="light"
+                          >
+                            <VerticalMenuIcon size={17} />
+                          </Button>
+                        </DropdownTrigger>
+                        <DropdownMenu
+                          aria-label={`Option Menu For ${measurement.name} Measurement`}
+                          onAction={(key) =>
+                            handleOptionSelection(key as string, measurement)
+                          }
+                        >
+                          {activeMeasurementSet.has(measurement.id) ? (
+                            <DropdownItem key="untrack">Untrack</DropdownItem>
+                          ) : (
+                            <DropdownItem key="track">Track</DropdownItem>
+                          )}
+                          <DropdownItem key="edit">Edit</DropdownItem>
+                          <DropdownItem className="text-danger" key="delete">
+                            Delete
+                          </DropdownItem>
+                        </DropdownMenu>
+                      </Dropdown>
                     </div>
                   </div>
                 ))}
