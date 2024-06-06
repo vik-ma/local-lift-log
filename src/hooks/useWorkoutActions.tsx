@@ -44,6 +44,11 @@ type OperationType =
   | "delete-exercise-sets"
   | "update-completed-set-time";
 
+type WorkoutNumbers = {
+  numExercises: number;
+  numSets: number;
+};
+
 export const useWorkoutActions = (isTemplate: boolean) => {
   const [workoutTemplate, setWorkoutTemplate] = useState<WorkoutTemplate>(
     DefaultNewWorkoutTemplate()
@@ -58,6 +63,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     useState<SetListNotes>({});
   const [isExerciseBeingDragged, setIsExerciseBeingDragged] =
     useState<boolean>(false);
+  const [workoutNumbers, setWorkoutNumbers] = useState<WorkoutNumbers>({
+    numExercises: 0,
+    numSets: 0,
+  });
 
   const [workout, setWorkout] = useState<Workout>(DefaultNewWorkout());
   const [activeSet, setActiveSet] = useState<WorkoutSet>();
@@ -158,14 +167,9 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         (obj) => obj.exercise.id === selectedExercise.id
       );
 
-      const updatedWorkoutTemplate: WorkoutTemplate = {
-        ...workoutTemplate,
-        numSets: workoutTemplate.numSets! + numSetsToAdd,
-      };
-
-      const updatedWorkout: Workout = {
-        ...workout,
-        numSets: workout.numSets! + numSetsToAdd,
+      const updatedWorkoutNumbers: WorkoutNumbers = {
+        ...workoutNumbers,
+        numSets: workoutNumbers.numSets + numSetsToAdd,
       };
 
       if (exerciseIndex === -1) {
@@ -185,8 +189,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         setGroupedSets(newGroupedSets);
         await updateExerciseOrder(newGroupedSets);
 
-        updatedWorkout.numExercises = workout.numExercises! + 1;
-        updatedWorkoutTemplate.numExercises = workoutTemplate.numExercises! + 1;
+        updatedWorkoutNumbers.numExercises = workoutNumbers.numExercises + 1;
 
         if (!isTemplate) populateIncompleteSets(newGroupedSets);
       } else {
@@ -201,11 +204,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         if (!isTemplate) populateIncompleteSets(newList);
       }
 
-      if (isTemplate) {
-        setWorkoutTemplate(updatedWorkoutTemplate);
-      } else {
-        setWorkout(updatedWorkout);
-      }
+      setWorkoutNumbers(updatedWorkoutNumbers);
 
       resetSetToDefault();
 
@@ -227,14 +226,9 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       (obj) => obj.exercise.id === operatingSet.exercise_id
     );
 
-    const updatedWorkoutTemplate: WorkoutTemplate = {
-      ...workoutTemplate,
-      numSets: workoutTemplate.numSets! - 1,
-    };
-
-    const updatedWorkout: Workout = {
-      ...workout,
-      numSets: workout.numSets! - 1,
+    const updatedWorkoutNumbers: WorkoutNumbers = {
+      ...workoutNumbers,
+      numSets: workoutNumbers.numSets - 1,
     };
 
     const updatedSetList: WorkoutSet[] = groupedSets[
@@ -250,8 +244,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       setGroupedSets(updatedGroupedSets);
       updateExerciseOrder(updatedGroupedSets);
 
-      updatedWorkout.numExercises = workout.numExercises! - 1;
-      updatedWorkoutTemplate.numExercises = workoutTemplate.numExercises! - 1;
+      updatedWorkoutNumbers.numExercises = workoutNumbers.numExercises - 1;
     } else {
       setGroupedSets((prev) => {
         const newList = [...prev];
@@ -266,11 +259,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       operatingSet.set_index ?? -1
     );
 
-    if (isTemplate) {
-      setWorkoutTemplate(updatedWorkoutTemplate);
-    } else {
-      setWorkout(updatedWorkout);
-    }
+    setWorkoutNumbers(updatedWorkoutNumbers);
 
     resetSetToDefault();
 
@@ -585,21 +574,12 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       return newList;
     });
 
-    const updatedWorkoutTemplate: WorkoutTemplate = {
-      ...workoutTemplate,
-      numSets: workoutTemplate.numSets! + 1,
+    const updatedWorkoutNumbers: WorkoutNumbers = {
+      ...workoutNumbers,
+      numSets: workoutNumbers.numSets + 1,
     };
 
-    const updatedWorkout: Workout = {
-      ...workout,
-      numSets: workout.numSets! + 1,
-    };
-
-    if (isTemplate) {
-      setWorkoutTemplate(updatedWorkoutTemplate);
-    } else {
-      setWorkout(updatedWorkout);
-    }
+    setWorkoutNumbers(updatedWorkoutNumbers);
 
     resetSetToDefault();
     toast.success("Set Added");
@@ -657,23 +637,13 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
       updateExerciseOrder(updatedSetList);
 
-      const updatedWorkoutTemplate: WorkoutTemplate = {
-        ...workoutTemplate,
-        numSets: workoutTemplate.numSets! - result.rowsAffected,
-        numExercises: workoutTemplate.numExercises! - 1,
+      const updatedWorkoutNumbers: WorkoutNumbers = {
+        ...workoutNumbers,
+        numSets: workoutNumbers.numSets - result.rowsAffected,
+        numExercises: workoutNumbers.numExercises - 1,
       };
 
-      const updatedWorkout: Workout = {
-        ...workout,
-        numSets: workout.numSets! - result.rowsAffected,
-        numExercises: workout.numExercises! - 1,
-      };
-
-      if (isTemplate) {
-        setWorkoutTemplate(updatedWorkoutTemplate);
-      } else {
-        setWorkout(updatedWorkout);
-      }
+      setWorkoutNumbers(updatedWorkoutNumbers);
 
       resetSetToDefault();
 
@@ -835,21 +805,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       completedSetsMap.set(newExercise.id, value!);
     }
 
-    const updatedWorkoutTemplate: WorkoutTemplate = {
-      ...workoutTemplate,
-    };
-
-    const updatedWorkout: Workout = {
-      ...workout,
-    };
-
     if (newExerciseIndex === -1) {
       // Create new GroupedWorkoutSet if exercise_id does not exist in groupedSets
       const newGroupedSets = [...groupedSets];
       newGroupedSets[oldExerciseIndex] = newGroupedWorkoutSet;
-
-      updatedWorkoutTemplate.numExercises = newGroupedSets.length;
-      updatedWorkout.numExercises = newGroupedSets.length;
 
       setGroupedSets(newGroupedSets);
       updateExerciseOrder(newGroupedSets);
@@ -864,17 +823,15 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
       newGroupedSets.splice(oldExerciseIndex, 1);
 
-      updatedWorkoutTemplate.numExercises = newGroupedSets.length;
-      updatedWorkout.numExercises = newGroupedSets.length;
+      const updatedWorkoutNumbers: WorkoutNumbers = {
+        ...workoutNumbers,
+        numExercises: newGroupedSets.length,
+      };
+
+      setWorkoutNumbers(updatedWorkoutNumbers);
 
       setGroupedSets(newGroupedSets);
       updateExerciseOrder(newGroupedSets);
-    }
-
-    if (isTemplate) {
-      setWorkoutTemplate(updatedWorkoutTemplate);
-    } else {
-      setWorkout(updatedWorkout);
     }
 
     resetSetToDefault();
@@ -1276,5 +1233,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     completedSetsMap,
     timeInputModal,
     updateSetTimeCompleted,
+    workoutNumbers,
   };
 };

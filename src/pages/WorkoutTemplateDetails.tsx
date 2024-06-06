@@ -65,6 +65,7 @@ export default function WorkoutTemplateDetails() {
     setIsExerciseBeingDragged,
     workoutTemplate,
     setWorkoutTemplate,
+    workoutNumbers,
   } = useWorkoutActions(true);
 
   const getWorkoutTemplateAndSetList = useCallback(async () => {
@@ -95,8 +96,8 @@ export default function WorkoutTemplateDetails() {
           workoutTemplate.exercise_order
         );
 
-      workoutTemplate.numExercises = groupedSetList.length;
-      workoutTemplate.numSets = setList.length;
+      workoutNumbers.numExercises = groupedSetList.length;
+      workoutNumbers.numSets = setList.length;
 
       for (let i = 0; i < groupedSetList.length; i++) {
         groupedSetList[i].showExerciseNote = true;
@@ -108,7 +109,7 @@ export default function WorkoutTemplateDetails() {
     } catch (error) {
       console.log(error);
     }
-  }, [id, setGroupedSets, setWorkoutTemplate]);
+  }, [id, setGroupedSets, setWorkoutTemplate, workoutNumbers]);
 
   useEffect(() => {
     getWorkoutTemplateAndSetList();
@@ -190,8 +191,7 @@ export default function WorkoutTemplateDetails() {
           </h1>
         </div>
         <div className="flex justify-center text-xl font-semibold">
-          {workoutTemplate.numExercises} Exercises, {workoutTemplate.numSets}{" "}
-          Sets
+          {workoutNumbers.numExercises} Exercises, {workoutNumbers.numSets} Sets
         </div>
         <div>
           <h2 className="text-xl font-semibold">Note</h2>

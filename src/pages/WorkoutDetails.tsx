@@ -85,6 +85,7 @@ export default function WorkoutDetails() {
     completedSetsMap,
     timeInputModal,
     updateSetTimeCompleted,
+    workoutNumbers,
   } = useWorkoutActions(false);
 
   const initialized = useRef(false);
@@ -119,8 +120,8 @@ export default function WorkoutDetails() {
               workout.exercise_order
             );
 
-          workout.numExercises = groupedSetList.length;
-          workout.numSets = setList.length;
+          workoutNumbers.numExercises = groupedSetList.length;
+          workoutNumbers.numSets = setList.length;
 
           for (let i = 0; i < groupedSetList.length; i++) {
             groupedSetList[i].showExerciseNote = true;
@@ -196,6 +197,7 @@ export default function WorkoutDetails() {
     setOperatingSet,
     setUserSettings,
     setWorkout,
+    workoutNumbers,
   ]);
 
   const handleWorkoutModalSaveButton = async (updatedWorkout: Workout) => {
@@ -275,7 +277,8 @@ export default function WorkoutDetails() {
             <div className="flex flex-col items-center">
               <h1 className="text-2xl font-semibold">{workoutDate}</h1>
               <span className="flex justify-center text-stone-600 text-lg font-semibold">
-                {workout.numExercises} Exercises, {workout.numSets} Sets
+                {workoutNumbers.numExercises} Exercises,{" "}
+                {workoutNumbers.numSets} Sets
               </span>
             </div>
             <Button
