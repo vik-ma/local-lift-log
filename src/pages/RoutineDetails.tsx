@@ -92,7 +92,10 @@ export default function RoutineDetailsPage() {
         const db = await Database.load(import.meta.env.VITE_DB);
 
         const result = await db.select<Routine[]>(
-          "SELECT * FROM routines WHERE id = $1",
+          `SELECT routines.*,
+          (SELECT COUNT(*) FROM workout_routine_schedules 
+          WHERE workout_routine_schedules.routine_id = routines.id) AS numWorkoutTemplates
+          FROM routines WHERE id = $1`,
           [id]
         );
 
@@ -138,7 +141,7 @@ export default function RoutineDetailsPage() {
 
     setRoutine(updatedRoutine);
     setEditedRoutine(updatedRoutine);
-    
+
     routineModal.onClose();
     toast.success("Routine Updated");
   };
@@ -164,6 +167,13 @@ export default function RoutineDetailsPage() {
 
       await getWorkoutRoutineSchedules();
 
+      const updatedRoutine: Routine = {
+        ...routine,
+        numWorkoutTemplates: routine.numWorkoutTemplates! + 1,
+      };
+
+      setRoutine(updatedRoutine);
+
       workoutTemplatesModal.onClose();
       toast.success(`Workout added to ${dayNameList[selectedDay]}`);
     } catch (error) {
@@ -182,6 +192,13 @@ export default function RoutineDetailsPage() {
       ]);
 
       await getWorkoutRoutineSchedules();
+
+      const updatedRoutine: Routine = {
+        ...routine,
+        numWorkoutTemplates: routine.numWorkoutTemplates! - 1,
+      };
+
+      setRoutine(updatedRoutine);
 
       deleteModal.onClose();
       toast.success(
@@ -326,6 +343,9 @@ export default function RoutineDetailsPage() {
           <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">
             {routine.name}
           </h1>
+        </div>
+        <div className="flex justify-center text-xl font-semibold">
+          {routine.numWorkoutTemplates} Workouts
         </div>
         <div className="flex justify-center">
           {userSettings?.active_routine_id === routine.id ? (
