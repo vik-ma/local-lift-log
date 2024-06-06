@@ -447,68 +447,83 @@ export default function MeasurementListPage() {
               <span className="flex justify-center text-xs italic text-stone-500 font-normal">
                 Click on a Measurement to add to Active Measurements
               </span>
-              <div className="flex flex-col gap-1.5">
+              <div className="flex flex-col gap-1">
                 {measurements.map((measurement) => (
                   <div
                     key={measurement.id}
-                    className="flex flex-col gap-0.5 cursor-pointer rounded-lg px-2 py-1 outline outline-2 outline-stone-300 bg-white hover:bg-stone-100"
+                    className="flex flex-row cursor-pointer gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                     onClick={
                       activeMeasurementList?.includes(measurement.id)
                         ? () => untrackMeasurement(measurement)
                         : () => trackMeasurement(measurement)
                     }
                   >
-                    <div className="flex justify-between items-center">
-                      <CheckmarkIcon
-                        isChecked={activeMeasurementList?.includes(
-                          measurement.id
-                        )}
-                      />
-                      <div className="flex flex-col ml-2">
-                        <div className="text-lg truncate w-56">
-                          {measurement.name}
-                        </div>
-                        <div className="text-xs text-stone-500">
-                          {measurement.measurement_type}
+                    <div className="flex justify-between w-full">
+                      <div className="flex pl-0.5 gap-2.5 items-center">
+                        <CheckmarkIcon
+                          isChecked={activeMeasurementList?.includes(
+                            measurement.id
+                          )}
+                          size={29}
+                        />
+                        <div className="flex flex-col justify-start items-start">
+                          <span className="w-[13rem] truncate text-left">
+                            {measurement.name}
+                          </span>
+                          <span className="text-xs text-stone-500 text-left">
+                            {measurement.measurement_type}
+                          </span>
                         </div>
                       </div>
-                      <div className="flex items-center gap-1">
-                        <MeasurementUnitDropdown
-                          measurement={measurement}
-                          isDisabled={
-                            measurement.measurement_type === "Caliper"
-                              ? true
-                              : false
-                          }
-                          measurements={measurements}
-                          setMeasurements={
-                            setMeasurements as SetMeasurementsAction
-                          }
-                          targetType="list"
-                        />
-                        <Dropdown>
-                          <DropdownTrigger>
-                            <Button isIconOnly radius="lg" variant="light">
-                              <VerticalMenuIcon />
-                            </Button>
-                          </DropdownTrigger>
-                          <DropdownMenu
-                            aria-label={`Option Menu For ${measurement.name} Measurement`}
-                            onAction={(key) =>
-                              handleOptionSelection(key as string, measurement)
+                      <div>
+                        <div className="flex items-center gap-1">
+                          <MeasurementUnitDropdown
+                            measurement={measurement}
+                            isDisabled={
+                              measurement.measurement_type === "Caliper"
+                                ? true
+                                : false
                             }
-                          >
-                            {activeMeasurementList?.includes(measurement.id) ? (
-                              <DropdownItem key="untrack">Untrack</DropdownItem>
-                            ) : (
-                              <DropdownItem key="track">Track</DropdownItem>
-                            )}
-                            <DropdownItem key="edit">Edit</DropdownItem>
-                            <DropdownItem className="text-danger" key="delete">
-                              Delete
-                            </DropdownItem>
-                          </DropdownMenu>
-                        </Dropdown>
+                            measurements={measurements}
+                            setMeasurements={
+                              setMeasurements as SetMeasurementsAction
+                            }
+                            targetType="list"
+                          />
+                          <Dropdown>
+                            <DropdownTrigger>
+                              <Button isIconOnly radius="lg" variant="light">
+                                <VerticalMenuIcon />
+                              </Button>
+                            </DropdownTrigger>
+                            <DropdownMenu
+                              aria-label={`Option Menu For ${measurement.name} Measurement`}
+                              onAction={(key) =>
+                                handleOptionSelection(
+                                  key as string,
+                                  measurement
+                                )
+                              }
+                            >
+                              {activeMeasurementList?.includes(
+                                measurement.id
+                              ) ? (
+                                <DropdownItem key="untrack">
+                                  Untrack
+                                </DropdownItem>
+                              ) : (
+                                <DropdownItem key="track">Track</DropdownItem>
+                              )}
+                              <DropdownItem key="edit">Edit</DropdownItem>
+                              <DropdownItem
+                                className="text-danger"
+                                key="delete"
+                              >
+                                Delete
+                              </DropdownItem>
+                            </DropdownMenu>
+                          </Dropdown>
+                        </div>
                       </div>
                     </div>
                   </div>
