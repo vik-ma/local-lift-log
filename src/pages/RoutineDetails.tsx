@@ -278,11 +278,18 @@ export default function RoutineDetailsPage() {
 
       // Delete all workout_routine_schedules for routine_id
       // that contains a day number that exceeds numDaysInSchedule
-      await db.execute(
+      const result = await db.execute(
         `DELETE from workout_routine_schedules 
         WHERE routine_id = $1 AND day >= $2`,
         [routine.id, numDaysInSchedule]
       );
+
+      const updatedRoutine: Routine = {
+        ...routine,
+        numWorkoutTemplates: routine.numWorkoutTemplates! - result.rowsAffected,
+      };
+
+      setRoutine(updatedRoutine);
     } catch (error) {
       console.log(error);
     }
