@@ -253,45 +253,22 @@ export default function UserWeightListPage() {
           <LoadingSpinner />
         ) : (
           <>
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-1 w-full">
               {userWeights.map((userWeight) => (
                 <div
-                  className="flex flex-col gap-1 font-medium items-center bg-white px-2.5 py-1.5 rounded-xl"
+                  className="flex flex-row justify-between items-center gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                   key={userWeight.id}
                 >
-                  <div className="flex justify-between gap-4 font-medium w-full">
-                    <span>
-                      {userWeight.weight}
-                      {userWeight.weight_unit}
+                  <div className="flex flex-col justify-start items-start">
+                    <span className="w-[22rem] truncate text-left">
+                      {userWeight.weight} {userWeight.weight_unit}
                     </span>
-                    <span className="text-stone-400">
+                    <span className="text-xs text-yellow-600 text-left">
                       {userWeight.formattedDate}
                     </span>
-                  </div>
-                  <div className="flex justify-between gap-1 w-full items-end">
-                    <div className="break-words">
-                      <span className="text-stone-400">
-                        {userWeight.comment}
-                      </span>
-                    </div>
-                    <div className="flex gap-1">
-                      <Button
-                        color="primary"
-                        variant="flat"
-                        size="sm"
-                        onClick={() => handleEditButton(userWeight)}
-                      >
-                        Edit
-                      </Button>
-                      <Button
-                        color="danger"
-                        variant="flat"
-                        size="sm"
-                        onClick={() => handleDeleteButton(userWeight)}
-                      >
-                        Delete
-                      </Button>
-                    </div>
+                    <span className="w-[22rem] break-all text-xs text-stone-500 text-left">
+                      {userWeight.comment}
+                    </span>
                   </div>
                 </div>
               ))}
