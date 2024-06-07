@@ -219,16 +219,6 @@ export default function UserWeightListPage() {
               <ModalHeader>Edit Body Weight Record</ModalHeader>
               <ModalBody>
                 <div className="flex flex-col gap-2">
-                  <div className="flex gap-2 font-medium">
-                    <span className="text-amber-400">Old Value:</span>
-                    <span>
-                      {operatingUserWeight?.weight}
-                      {operatingUserWeight?.weight_unit}
-                    </span>
-                    <span className="text-stone-400">
-                      {operatingUserWeight?.formattedDate}
-                    </span>
-                  </div>
                   <div className="flex gap-2 items-center">
                     <Input
                       value={userWeightInput}
