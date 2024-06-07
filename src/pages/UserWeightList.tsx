@@ -2,7 +2,11 @@ import Database from "tauri-plugin-sql-api";
 import { useState, useEffect, useCallback } from "react";
 import { UserWeight, UserSettingsOptional } from "../typings";
 import { LoadingSpinner, WeightUnitDropdown, DeleteModal } from "../components";
-import { ConvertEmptyStringToNull, FormatDateTimeString } from "../helpers";
+import {
+  ConvertEmptyStringToNull,
+  FormatDateTimeString,
+  UpdateUserWeight,
+} from "../helpers";
 import {
   Button,
   useDisclosure,
@@ -139,32 +143,20 @@ export default function UserWeightListPage() {
       comment: commentToInsert,
     };
 
-    try {
-      const db = await Database.load(import.meta.env.VITE_DB);
+    const success = await UpdateUserWeight(updatedUserWeight);
 
-      await db.execute(
-        "UPDATE user_weights SET weight = $1, weight_unit = $2, comment = $3 WHERE id = $4",
-        [
-          updatedUserWeight.weight,
-          updatedUserWeight.weight_unit,
-          updatedUserWeight.comment,
-          updatedUserWeight.id,
-        ]
-      );
+    if (!success) return;
 
-      setUserWeights((prev) =>
-        prev.map((item) =>
-          item.id === operatingUserWeight.id ? updatedUserWeight : item
-        )
-      );
+    setUserWeights((prev) =>
+      prev.map((item) =>
+        item.id === operatingUserWeight.id ? updatedUserWeight : item
+      )
+    );
 
-      resetUserWeight();
+    resetUserWeight();
 
-      toast.success("Body Weight Updated");
-      weightModal.onClose();
-    } catch (error) {
-      console.log(error);
-    }
+    toast.success("Body Weight Updated");
+    weightModal.onClose();
   };
 
   const handleUserWeightOptionSelection = (
