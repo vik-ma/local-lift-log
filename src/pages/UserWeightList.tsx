@@ -17,8 +17,13 @@ import {
   ModalBody,
   ModalFooter,
   Input,
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
 } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
+import { VerticalMenuIcon } from "../assets";
 
 export default function UserWeightListPage() {
   const [userWeights, setUserWeights] = useState<UserWeight[]>([]);
@@ -86,11 +91,6 @@ export default function UserWeightListPage() {
     loadUserSettings();
   }, [getUserWeights]);
 
-  const handleDeleteButton = (userWeight: UserWeight) => {
-    setUserWeightToDelete(userWeight);
-    deleteModal.onOpen();
-  };
-
   const deleteUserWeight = async () => {
     if (userWeightToDelete === undefined) return;
 
@@ -113,13 +113,6 @@ export default function UserWeightListPage() {
 
     setUserWeightToDelete(undefined);
     deleteModal.onClose();
-  };
-
-  const handleEditButton = (userWeight: UserWeight) => {
-    setOperatingUserWeight(userWeight);
-    setNewWeightInput(userWeight.weight.toString());
-    setNewWeightCommentInput(userWeight.comment ?? "");
-    editWeightModal.onOpen();
   };
 
   const isWeightInputInvalid = useMemo(() => {
@@ -162,6 +155,21 @@ export default function UserWeightListPage() {
       editWeightModal.onClose();
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const handleUserWeightOptionSelection = (
+    key: string,
+    userWeight: UserWeight
+  ) => {
+    if (key === "edit") {
+      setOperatingUserWeight(userWeight);
+      setNewWeightInput(userWeight.weight.toString());
+      setNewWeightCommentInput(userWeight.comment ?? "");
+      editWeightModal.onOpen();
+    } else if (key === "delete") {
+      setUserWeightToDelete(userWeight);
+      deleteModal.onOpen();
     }
   };
 
@@ -260,16 +268,43 @@ export default function UserWeightListPage() {
                   key={userWeight.id}
                 >
                   <div className="flex flex-col justify-start items-start">
-                    <span className="w-[22rem] truncate text-left">
+                    <span className="w-[21.5rem] truncate text-left">
                       {userWeight.weight} {userWeight.weight_unit}
                     </span>
                     <span className="text-xs text-yellow-600 text-left">
                       {userWeight.formattedDate}
                     </span>
-                    <span className="w-[22rem] break-all text-xs text-stone-500 text-left">
+                    <span className="w-[21.5rem] break-all text-xs text-stone-500 text-left">
                       {userWeight.comment}
                     </span>
                   </div>
+                  <Dropdown>
+                    <DropdownTrigger>
+                      <Button
+                        isIconOnly
+                        className="z-1"
+                        size="sm"
+                        radius="lg"
+                        variant="light"
+                      >
+                        <VerticalMenuIcon size={17} />
+                      </Button>
+                    </DropdownTrigger>
+                    <DropdownMenu
+                      aria-label={`Option Menu For ${userWeight.id}`}
+                      onAction={(key) =>
+                        handleUserWeightOptionSelection(
+                          key as string,
+                          userWeight
+                        )
+                      }
+                    >
+                      <DropdownItem key="edit">Edit</DropdownItem>
+                      <DropdownItem key="delete" className="text-danger">
+                        Delete
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
                 </div>
               ))}
             </div>
