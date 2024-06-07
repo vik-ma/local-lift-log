@@ -7,6 +7,7 @@ export const WeightUnitDropdown = ({
   setSet,
   setUserSettings,
   setState,
+  setUserWeight,
   targetType,
 }: UnitDropdownProps) => {
   const validWeightUnits = useValidWeightUnits();
@@ -17,6 +18,10 @@ export const WeightUnitDropdown = ({
         ...prev,
         weight_unit: e.target.value,
       }));
+    }
+
+    if (targetType === "weight" && setUserWeight !== undefined) {
+      setUserWeight((prev) => ({ ...prev, weight_unit: e.target.value }));
     }
 
     if (targetType === "settings" && setUserSettings !== undefined) {
