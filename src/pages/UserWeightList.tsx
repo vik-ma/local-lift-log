@@ -182,7 +182,11 @@ export default function UserWeightListPage() {
         body={
           <p className="break-words">
             Are you sure you want to permanently delete the Body Weight record
-            on {userWeightToDelete?.formattedDate}?
+            on{" "}
+            <span className="text-yellow-600">
+              {userWeightToDelete?.formattedDate}
+            </span>
+            ?
           </p>
         }
         deleteButtonAction={deleteUserWeight}
