@@ -16,23 +16,33 @@ import {
   ConvertEmptyStringToNull,
   IsStringEmpty,
   GetCurrentDateTimeISOString,
+  UpdateUserWeight,
 } from "../helpers";
-import { Button, Input } from "@nextui-org/react";
+import {
+  Button,
+  Input,
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+  useDisclosure,
+} from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { Reorder } from "framer-motion";
 import { Link } from "react-router-dom";
+import { useDefaultUserWeight, useIsStringValidNumber } from "../hooks";
+import { VerticalMenuIcon } from "../assets";
 
 export default function BodyMeasurementsPage() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
-  const [latestUserWeight, setLatestUserWeight] = useState<UserWeight>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [newWeightInput, setNewWeightInput] = useState<string>("");
-  const [newWeightUnit, setNewWeightUnit] = useState<string>("");
-  const [newWeightCommentInput, setNewWeightCommentInput] =
-    useState<string>("");
-  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [userWeightInput, setUserWeightInput] = useState<string>("");
+  const [weightUnit, setWeightUnit] = useState<string>("");
+  const [weightCommentInput, setWeightCommentInput] = useState<string>("");
+  const [isEditingWeight, setIsEditingWeight] = useState<boolean>(false);
+
   const [activeMeasurements, setActiveMeasurements] = useState<Measurement[]>(
     []
   );
@@ -43,7 +53,14 @@ export default function BodyMeasurementsPage() {
     useState<string>("");
   const [isReordering, setIsReordering] = useState<boolean>(false);
 
+  const defaultUserWeight = useDefaultUserWeight();
+
+  const [latestUserWeight, setLatestUserWeight] =
+    useState<UserWeight>(defaultUserWeight);
+
   const navigate = useNavigate();
+
+  const deleteModal = useDisclosure();
 
   const getActiveMeasurements = useCallback(
     async (activeMeasurementsString: string) => {
@@ -72,7 +89,7 @@ export default function BodyMeasurementsPage() {
       const settings: UserSettings | undefined = await GetUserSettings();
       if (settings !== undefined) {
         setUserSettings(settings);
-        setNewWeightUnit(settings.default_unit_weight!);
+        setWeightUnit(settings.default_unit_weight!);
         getActiveMeasurements(settings.active_tracking_measurements!);
         getLatestUserWeight(settings.clock_style!);
       }
@@ -81,25 +98,23 @@ export default function BodyMeasurementsPage() {
     loadUserSettings();
   }, [getActiveMeasurements, getLatestUserWeight]);
 
-  const isWeightInputInvalid = useMemo(() => {
-    return IsStringInvalidNumber(newWeightInput);
-  }, [newWeightInput]);
+  const isWeightInputValid = useIsStringValidNumber(userWeightInput);
 
   const addUserWeight = async () => {
-    if (isWeightInputInvalid || IsStringEmpty(newWeightInput)) return;
+    if (!isWeightInputValid) return;
 
-    const newWeight = Number(newWeightInput);
+    const newWeight = Number(userWeightInput);
+
+    const commentToInsert = ConvertEmptyStringToNull(weightCommentInput);
 
     const currentDateString = GetCurrentDateTimeISOString();
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
-      const commentToInsert = ConvertEmptyStringToNull(newWeightCommentInput);
-
       const result = await db.execute(
         "INSERT into user_weights (weight, weight_unit, date, comment) VALUES ($1, $2, $3, $4)",
-        [newWeight, newWeightUnit, currentDateString, commentToInsert]
+        [newWeight, weightUnit, currentDateString, commentToInsert]
       );
 
       const formattedDate: string = FormatDateTimeString(
@@ -110,15 +125,15 @@ export default function BodyMeasurementsPage() {
       const newUserWeight: UserWeight = {
         id: result.lastInsertId,
         weight: newWeight,
-        weight_unit: newWeightUnit,
+        weight_unit: weightUnit,
         date: currentDateString,
         formattedDate: formattedDate,
         comment: commentToInsert,
       };
 
       setLatestUserWeight(newUserWeight);
-      setNewWeightInput("");
-      setNewWeightCommentInput("");
+
+      resetWeightInput();
 
       toast.success("Body Weight Added");
     } catch (error) {
@@ -127,54 +142,45 @@ export default function BodyMeasurementsPage() {
   };
 
   const updateUserWeight = async () => {
-    if (latestUserWeight === undefined) return;
+    if (latestUserWeight.id === 0) return;
 
-    if (isWeightInputInvalid || IsStringEmpty(newWeightInput)) return;
+    if (!isWeightInputValid) return;
 
-    const newWeight = Number(newWeightInput);
+    const newWeight = Number(userWeightInput);
 
-    try {
-      const db = await Database.load(import.meta.env.VITE_DB);
+    const commentToInsert = ConvertEmptyStringToNull(weightCommentInput);
 
-      const commentToInsert = ConvertEmptyStringToNull(newWeightCommentInput);
+    const updatedUserWeight: UserWeight = {
+      ...latestUserWeight,
+      weight: newWeight,
+      comment: commentToInsert,
+    };
 
-      await db.execute(
-        "UPDATE user_weights SET weight = $1, weight_unit = $2, comment = $3 WHERE id = $4",
-        [newWeight, newWeightUnit, commentToInsert, latestUserWeight.id]
-      );
+    const success = await UpdateUserWeight(updatedUserWeight);
 
-      const updatedUserWeight: UserWeight = {
-        ...latestUserWeight,
-        weight: newWeight,
-        weight_unit: newWeightUnit,
-        comment: commentToInsert,
-      };
+    if (!success) return;
 
-      setLatestUserWeight(updatedUserWeight);
-      setNewWeightInput("");
-      setIsEditing(false);
-      setNewWeightCommentInput("");
+    setLatestUserWeight(updatedUserWeight);
 
-      toast.success("Body Weight Updated");
-    } catch (error) {
-      console.log(error);
+    resetWeightInput();
+
+    toast.success("Body Weight Updated");
+  };
+
+  const handleLatestUserWeightOptionSelection = (key: string) => {
+    if (key === "edit") {
+      setUserWeightInput(latestUserWeight.weight.toString());
+      setWeightCommentInput(latestUserWeight.comment ?? "");
+      setIsEditingWeight(true);
+    } else if (key === "delete") {
+      // TODO: ADD
     }
   };
 
-  const handleEditButton = () => {
-    if (latestUserWeight === undefined) return;
-
-    setNewWeightInput(latestUserWeight.weight.toString());
-    setNewWeightUnit(latestUserWeight.weight_unit);
-    setNewWeightCommentInput(latestUserWeight.comment ?? "");
-    setIsEditing(true);
-  };
-
-  const handleCancelButton = () => {
-    if (userSettings === undefined) return;
-
-    setNewWeightInput("");
-    setIsEditing(false);
+  const resetWeightInput = () => {
+    setUserWeightInput("");
+    setWeightCommentInput("");
+    setIsEditingWeight(false);
   };
 
   const handleActiveMeasurementInputChange = (value: string, index: number) => {
@@ -308,74 +314,96 @@ export default function BodyMeasurementsPage() {
                     color="success"
                     variant="flat"
                     size="sm"
-                    onClick={() => navigate("/measurements/body-weight-list")}
+                    onPress={() => navigate("/measurements/body-weight-list")}
                   >
                     View History
                   </Button>
                 </h3>
-                <div className="flex flex-col">
-                  <div className="flex gap-2 font-medium items-center">
-                    <span>
-                      {latestUserWeight?.weight}
-                      {latestUserWeight?.weight_unit}
-                    </span>
-                    <span className="text-stone-400">
-                      {latestUserWeight?.formattedDate}
-                    </span>
-                    <Button
-                      color={isEditing ? "danger" : "success"}
-                      variant="flat"
-                      size="sm"
-                      onPress={
-                        isEditing ? handleCancelButton : handleEditButton
-                      }
-                    >
-                      {isEditing ? "Cancel" : "Edit"}
-                    </Button>
-                  </div>
-                  {latestUserWeight?.comment !== null && (
-                    <div className="flex justify-center gap-2">
-                      <span className="font-medium">Comment</span>
-                      <span className="font-medium text-stone-400">
-                        {latestUserWeight?.comment}
+                {latestUserWeight.id !== 0 && (
+                  <div className="flex flex-row justify-between items-center gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400">
+                    <div className="flex flex-col justify-start items-start">
+                      <span className="w-[21.5rem] truncate text-left">
+                        {latestUserWeight.weight} {latestUserWeight.weight_unit}
+                      </span>
+                      <span className="text-xs text-yellow-600 text-left">
+                        {latestUserWeight.formattedDate}
+                      </span>
+                      <span className="w-[21.5rem] break-all text-xs text-stone-500 text-left">
+                        {latestUserWeight.comment}
                       </span>
                     </div>
-                  )}
-                </div>
+                    <Dropdown>
+                      <DropdownTrigger>
+                        <Button
+                          isIconOnly
+                          className="z-1"
+                          size="sm"
+                          radius="lg"
+                          variant="light"
+                        >
+                          <VerticalMenuIcon size={17} />
+                        </Button>
+                      </DropdownTrigger>
+                      <DropdownMenu
+                        aria-label={`Option Menu For ${latestUserWeight.id}`}
+                        onAction={(key) =>
+                          handleLatestUserWeightOptionSelection(key as string)
+                        }
+                      >
+                        <DropdownItem key="edit">Edit</DropdownItem>
+                        <DropdownItem key="delete" className="text-danger">
+                          Delete
+                        </DropdownItem>
+                      </DropdownMenu>
+                    </Dropdown>
+                  </div>
+                )}
               </div>
               <div className="flex flex-col gap-1">
+                <h3 className="flex h-8 justify-center text-lg font-semibold items-center gap-3">
+                  {isEditingWeight ? "Edit Weight" : "Add New Weight"}
+                  {isEditingWeight && (
+                    <Button
+                      color="danger"
+                      variant="flat"
+                      size="sm"
+                      onPress={() => resetWeightInput()}
+                    >
+                      Cancel
+                    </Button>
+                  )}
+                </h3>
                 <div className="flex justify-between gap-2 items-center">
                   <Input
-                    value={newWeightInput}
+                    value={userWeightInput}
                     label="Weight"
                     size="sm"
                     variant="faded"
-                    onValueChange={(value) => setNewWeightInput(value)}
-                    isInvalid={isWeightInputInvalid}
+                    onValueChange={(value) => setUserWeightInput(value)}
+                    isInvalid={!isWeightInputValid}
+                    isRequired
                     isClearable
                   />
                   <WeightUnitDropdown
-                    value={newWeightUnit}
-                    setState={setNewWeightUnit}
+                    value={weightUnit}
+                    setState={setWeightUnit}
                     targetType="state"
                   />
                   <Button
-                    className="font-medium"
+                    className="font-medium w-32"
                     color="success"
-                    onPress={isEditing ? updateUserWeight : addUserWeight}
-                    isDisabled={
-                      isWeightInputInvalid || IsStringEmpty(newWeightInput)
-                    }
+                    onPress={isEditingWeight ? updateUserWeight : addUserWeight}
+                    isDisabled={!isWeightInputValid}
                   >
-                    {isEditing ? "Update" : "Add"}
+                    {isEditingWeight ? "Update" : "Add"}
                   </Button>
                 </div>
                 <Input
-                  value={newWeightCommentInput}
+                  value={weightCommentInput}
                   label="Comment"
                   size="sm"
                   variant="faded"
-                  onValueChange={(value) => setNewWeightCommentInput(value)}
+                  onValueChange={(value) => setWeightCommentInput(value)}
                   isClearable
                 />
               </div>
@@ -385,7 +413,7 @@ export default function BodyMeasurementsPage() {
                   color="success"
                   variant="flat"
                   size="sm"
-                  onClick={() =>
+                  onPress={() =>
                     navigate("/measurements/user-measurement-list")
                   }
                 >
@@ -395,7 +423,7 @@ export default function BodyMeasurementsPage() {
                   color="success"
                   variant="flat"
                   size="sm"
-                  onClick={() => navigate("/measurements/measurement-list")}
+                  onPress={() => navigate("/measurements/measurement-list")}
                 >
                   List of Measurements
                 </Button>
