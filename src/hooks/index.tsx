@@ -19,3 +19,4 @@ export { useWorkoutActions } from "./useWorkoutActions";
 export { useDefaultWorkout } from "./useDefaultWorkout";
 export { useWorkoutTemplateList } from "./useWorkoutTemplateList";
 export { useDefaultUserWeight } from "./useDefaultUserWeight";
+export { useIsStringValidNumber } from "./useIsStringValidNumber";
