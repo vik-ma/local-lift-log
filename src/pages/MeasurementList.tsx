@@ -78,19 +78,23 @@ export default function MeasurementListPage() {
     const loadUserSettings = async () => {
       try {
         const userSettings = await GetUserSettings();
+
         if (userSettings === undefined) return;
+
         setUserSettings(userSettings);
         setNewMeasurement((prev) => ({
           ...prev,
           default_unit: userSettings.default_unit_measurement!,
         }));
-        setActiveMeasurementSet(
-          new Set(
-            GenerateActiveMeasurementList(
-              userSettings.active_tracking_measurements
-            )
-          )
+
+        const activeMeasurementList = GenerateActiveMeasurementList(
+          userSettings.active_tracking_measurements
         );
+
+        if (activeMeasurementList.length > 0) {
+          setActiveMeasurementSet(new Set(activeMeasurementList));
+        }
+
         setIsLoading(false);
       } catch (error) {
         console.log(error);

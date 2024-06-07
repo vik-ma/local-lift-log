@@ -1,12 +1,15 @@
-import { IsStringInvalidNumber } from "..";
+import { IsStringEmpty, IsStringInvalidNumber } from "..";
 
 export const GenerateActiveMeasurementList = (
   activeTrackingMeasurementString: string
 ): number[] => {
+  const activeMeasurementList: number[] = [];
+
+  if (IsStringEmpty(activeTrackingMeasurementString))
+    return activeMeasurementList;
+
   const activeMeasurementStringList: string[] =
     activeTrackingMeasurementString.split(",");
-
-  const activeMeasurementList: number[] = [];
 
   activeMeasurementStringList.map((measurement) => {
     if (!IsStringInvalidNumber(measurement)) {
