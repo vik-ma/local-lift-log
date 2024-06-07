@@ -1,13 +1,8 @@
 import Database from "tauri-plugin-sql-api";
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { UserWeight, UserSettingsOptional } from "../typings";
 import { LoadingSpinner, WeightUnitDropdown, DeleteModal } from "../components";
-import {
-  ConvertEmptyStringToNull,
-  FormatDateTimeString,
-  IsStringEmpty,
-  IsStringInvalidNumber,
-} from "../helpers";
+import { ConvertEmptyStringToNull, FormatDateTimeString } from "../helpers";
 import {
   Button,
   useDisclosure,
@@ -24,19 +19,24 @@ import {
 } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
 import { VerticalMenuIcon } from "../assets";
+import { useDefaultUserWeight, useIsStringValidNumber } from "../hooks";
+
+type OperationType = "edit" | "delete";
 
 export default function UserWeightListPage() {
   const [userWeights, setUserWeights] = useState<UserWeight[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [userWeightToDelete, setUserWeightToDelete] = useState<UserWeight>();
-  const [operatingUserWeight, setOperatingUserWeight] = useState<UserWeight>();
-  const [newWeightInput, setNewWeightInput] = useState<string>("");
-  const [newWeightUnit, setNewWeightUnit] = useState<string>("");
-  const [newWeightCommentInput, setNewWeightCommentInput] =
-    useState<string>("");
+  const [operationType, setOperationType] = useState<OperationType>("edit");
+  const [userWeightInput, setUserWeightInput] = useState<string>("");
+  const [commentInput, setCommentInput] = useState<string>("");
+
+  const defaultUserWeight = useDefaultUserWeight();
+
+  const [operatingUserWeight, setOperatingUserWeight] =
+    useState<UserWeight>(defaultUserWeight);
 
   const deleteModal = useDisclosure();
-  const editWeightModal = useDisclosure();
+  const weightModal = useDisclosure();
 
   const getUserWeights = useCallback(async (clockStyle: string) => {
     try {
@@ -79,7 +79,10 @@ export default function UserWeightListPage() {
         const userSettings: UserSettingsOptional = result[0];
 
         if (userSettings !== undefined) {
-          setNewWeightUnit(userSettings.default_unit_weight!);
+          setOperatingUserWeight((prev) => ({
+            ...prev,
+            weight_unit: userSettings.default_unit_weight!,
+          }));
           getUserWeights(userSettings.clock_style!);
           setIsLoading(false);
         }
@@ -92,18 +95,19 @@ export default function UserWeightListPage() {
   }, [getUserWeights]);
 
   const deleteUserWeight = async () => {
-    if (userWeightToDelete === undefined) return;
+    if (operatingUserWeight.id === 0 || operationType !== "delete") return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
       db.execute("DELETE from user_weights WHERE id = $1", [
-        userWeightToDelete.id,
+        operatingUserWeight.id,
       ]);
 
       const updatedUserWeights: UserWeight[] = userWeights.filter(
-        (item) => item.id !== userWeightToDelete?.id
+        (item) => item.id !== operatingUserWeight.id
       );
+
       setUserWeights(updatedUserWeights);
 
       toast.success("Body Weight Record Deleted");
@@ -111,37 +115,42 @@ export default function UserWeightListPage() {
       console.log(error);
     }
 
-    setUserWeightToDelete(undefined);
+    resetUserWeight();
     deleteModal.onClose();
   };
 
-  const isWeightInputInvalid = useMemo(() => {
-    return IsStringInvalidNumber(newWeightInput);
-  }, [newWeightInput]);
+  const isWeightInputValid = useIsStringValidNumber(userWeightInput);
 
   const updateUserWeight = async () => {
-    if (operatingUserWeight === undefined) return;
+    if (
+      operatingUserWeight.id === 0 ||
+      operationType !== "edit" ||
+      !isWeightInputValid
+    )
+      return;
 
-    if (isWeightInputInvalid || IsStringEmpty(newWeightInput)) return;
+    const newWeight = Number(userWeightInput);
 
-    const newWeight = Number(newWeightInput);
+    const commentToInsert = ConvertEmptyStringToNull(commentInput);
+
+    const updatedUserWeight: UserWeight = {
+      ...operatingUserWeight,
+      weight: newWeight,
+      comment: commentToInsert,
+    };
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
-      const commentToInsert = ConvertEmptyStringToNull(newWeightCommentInput);
-
       await db.execute(
         "UPDATE user_weights SET weight = $1, weight_unit = $2, comment = $3 WHERE id = $4",
-        [newWeight, newWeightUnit, commentToInsert, operatingUserWeight.id]
+        [
+          updatedUserWeight.weight,
+          updatedUserWeight.weight_unit,
+          updatedUserWeight.comment,
+          updatedUserWeight.id,
+        ]
       );
-
-      const updatedUserWeight: UserWeight = {
-        ...operatingUserWeight,
-        weight: newWeight,
-        weight_unit: newWeightUnit,
-        comment: commentToInsert,
-      };
 
       setUserWeights((prev) =>
         prev.map((item) =>
@@ -149,10 +158,10 @@ export default function UserWeightListPage() {
         )
       );
 
-      setNewWeightInput("");
-      setNewWeightCommentInput("");
+      resetUserWeight();
+
       toast.success("Body Weight Updated");
-      editWeightModal.onClose();
+      weightModal.onClose();
     } catch (error) {
       console.log(error);
     }
@@ -164,13 +173,22 @@ export default function UserWeightListPage() {
   ) => {
     if (key === "edit") {
       setOperatingUserWeight(userWeight);
-      setNewWeightInput(userWeight.weight.toString());
-      setNewWeightCommentInput(userWeight.comment ?? "");
-      editWeightModal.onOpen();
+      setUserWeightInput(userWeight.weight.toString());
+      setCommentInput(userWeight.comment ?? "");
+      setOperationType("edit");
+      weightModal.onOpen();
     } else if (key === "delete") {
-      setUserWeightToDelete(userWeight);
+      setOperatingUserWeight(userWeight);
+      setOperationType("delete");
       deleteModal.onOpen();
     }
+  };
+
+  const resetUserWeight = () => {
+    setOperatingUserWeight(defaultUserWeight);
+    setOperationType("edit");
+    setUserWeightInput("");
+    setCommentInput("");
   };
 
   return (
@@ -184,7 +202,7 @@ export default function UserWeightListPage() {
             Are you sure you want to permanently delete the Body Weight record
             on{" "}
             <span className="text-yellow-600">
-              {userWeightToDelete?.formattedDate}
+              {operatingUserWeight.formattedDate}
             </span>
             ?
           </p>
@@ -192,8 +210,8 @@ export default function UserWeightListPage() {
         deleteButtonAction={deleteUserWeight}
       />
       <Modal
-        isOpen={editWeightModal.isOpen}
-        onOpenChange={editWeightModal.onOpenChange}
+        isOpen={weightModal.isOpen}
+        onOpenChange={weightModal.onOpenChange}
       >
         <ModalContent>
           {(onClose) => (
@@ -213,26 +231,26 @@ export default function UserWeightListPage() {
                   </div>
                   <div className="flex gap-2 items-center">
                     <Input
-                      value={newWeightInput}
+                      value={userWeightInput}
                       label="Weight"
                       size="sm"
                       variant="faded"
-                      onValueChange={(value) => setNewWeightInput(value)}
-                      isInvalid={isWeightInputInvalid}
+                      onValueChange={(value) => setUserWeightInput(value)}
+                      isInvalid={!isWeightInputValid}
                       isClearable
                     />
                     <WeightUnitDropdown
-                      value={newWeightUnit}
-                      setState={setNewWeightUnit}
-                      targetType="state"
+                      value={operatingUserWeight.weight_unit}
+                      setUserWeight={setOperatingUserWeight}
+                      targetType="weight"
                     />
                   </div>
                   <Input
-                    value={newWeightCommentInput}
+                    value={commentInput}
                     label="Comment"
                     size="sm"
                     variant="faded"
-                    onValueChange={(value) => setNewWeightCommentInput(value)}
+                    onValueChange={(value) => setCommentInput(value)}
                     isClearable
                   />
                 </div>
@@ -244,9 +262,7 @@ export default function UserWeightListPage() {
                 <Button
                   color="success"
                   onPress={updateUserWeight}
-                  isDisabled={
-                    isWeightInputInvalid || IsStringEmpty(newWeightInput)
-                  }
+                  isDisabled={!isWeightInputValid}
                 >
                   Update
                 </Button>
