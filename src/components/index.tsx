@@ -22,3 +22,4 @@ export { ExerciseModal } from "./Modals/ExerciseModal";
 export { WorkoutModal } from "./Modals/WorkoutModal";
 export { TimeInputModal } from "./Modals/TimeInputModal";
 export { WorkoutTemplateListModal } from "./Modals/WorkoutTemplateListModal";
+export { UserWeightModal } from "./Modals/UserWeightModal";

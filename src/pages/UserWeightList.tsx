@@ -1,7 +1,7 @@
 import Database from "tauri-plugin-sql-api";
 import { useState, useEffect, useCallback } from "react";
 import { UserWeight, UserSettingsOptional } from "../typings";
-import { LoadingSpinner, WeightUnitDropdown, DeleteModal } from "../components";
+import { LoadingSpinner, DeleteModal, UserWeightModal } from "../components";
 import {
   ConvertEmptyStringToNull,
   FormatDateTimeString,
@@ -10,12 +10,6 @@ import {
 import {
   Button,
   useDisclosure,
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Input,
   Dropdown,
   DropdownTrigger,
   DropdownMenu,
@@ -40,7 +34,7 @@ export default function UserWeightListPage() {
     useState<UserWeight>(defaultUserWeight);
 
   const deleteModal = useDisclosure();
-  const weightModal = useDisclosure();
+  const userWeightModal = useDisclosure();
 
   const getUserWeights = useCallback(async (clockStyle: string) => {
     try {
@@ -156,7 +150,7 @@ export default function UserWeightListPage() {
     resetUserWeight();
 
     toast.success("Body Weight Updated");
-    weightModal.onClose();
+    userWeightModal.onClose();
   };
 
   const handleUserWeightOptionSelection = (
@@ -168,7 +162,7 @@ export default function UserWeightListPage() {
       setUserWeightInput(userWeight.weight.toString());
       setCommentInput(userWeight.comment ?? "");
       setOperationType("edit");
-      weightModal.onOpen();
+      userWeightModal.onOpen();
     } else if (key === "delete") {
       setOperatingUserWeight(userWeight);
       setOperationType("delete");
@@ -201,58 +195,17 @@ export default function UserWeightListPage() {
         }
         deleteButtonAction={deleteUserWeight}
       />
-      <Modal
-        isOpen={weightModal.isOpen}
-        onOpenChange={weightModal.onOpenChange}
-      >
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader>Edit Body Weight Record</ModalHeader>
-              <ModalBody>
-                <div className="flex flex-col gap-2">
-                  <div className="flex gap-2 items-center">
-                    <Input
-                      value={userWeightInput}
-                      label="Weight"
-                      size="sm"
-                      variant="faded"
-                      onValueChange={(value) => setUserWeightInput(value)}
-                      isInvalid={!isWeightInputValid}
-                      isClearable
-                    />
-                    <WeightUnitDropdown
-                      value={operatingUserWeight.weight_unit}
-                      setUserWeight={setOperatingUserWeight}
-                      targetType="weight"
-                    />
-                  </div>
-                  <Input
-                    value={commentInput}
-                    label="Comment"
-                    size="sm"
-                    variant="faded"
-                    onValueChange={(value) => setCommentInput(value)}
-                    isClearable
-                  />
-                </div>
-              </ModalBody>
-              <ModalFooter>
-                <Button color="success" variant="light" onPress={onClose}>
-                  Close
-                </Button>
-                <Button
-                  color="success"
-                  onPress={updateUserWeight}
-                  isDisabled={!isWeightInputValid}
-                >
-                  Update
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
+      <UserWeightModal
+        userWeightModal={userWeightModal}
+        userWeightInput={userWeightInput}
+        setUserWeightInput={setUserWeightInput}
+        isWeightInputValid={isWeightInputValid}
+        operatingUserWeight={operatingUserWeight}
+        setOperatingUserWeight={setOperatingUserWeight}
+        commentInput={commentInput}
+        setCommentInput={setCommentInput}
+        updateUserWeight={updateUserWeight}
+      />
       <div className="flex flex-col items-center gap-4">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">
           <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">
