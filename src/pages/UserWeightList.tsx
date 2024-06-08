@@ -27,6 +27,7 @@ export default function UserWeightListPage() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [operationType, setOperationType] = useState<OperationType>("edit");
   const [userWeightInput, setUserWeightInput] = useState<string>("");
+  const [weightUnit, setWeightUnit] = useState<string>("");
   const [commentInput, setCommentInput] = useState<string>("");
 
   const defaultUserWeight = useDefaultUserWeight();
@@ -129,6 +130,7 @@ export default function UserWeightListPage() {
     const updatedUserWeight: UserWeight = {
       ...operatingUserWeight,
       weight: newWeight,
+      weight_unit: weightUnit,
       comment: commentToInsert,
     };
 
@@ -155,6 +157,7 @@ export default function UserWeightListPage() {
     if (key === "edit") {
       setOperatingUserWeight(userWeight);
       setUserWeightInput(userWeight.weight.toString());
+      setWeightUnit(userWeight.weight_unit);
       setCommentInput(userWeight.comment ?? "");
       setOperationType("edit");
       userWeightModal.onOpen();
@@ -194,8 +197,8 @@ export default function UserWeightListPage() {
         userWeightInput={userWeightInput}
         setUserWeightInput={setUserWeightInput}
         isWeightInputValid={isWeightInputValid}
-        operatingUserWeight={operatingUserWeight}
-        setOperatingUserWeight={setOperatingUserWeight}
+        weightUnit={weightUnit}
+        setWeightUnit={setWeightUnit}
         commentInput={commentInput}
         setCommentInput={setCommentInput}
         buttonAction={updateUserWeight}

@@ -9,15 +9,14 @@ import {
   Input,
 } from "@nextui-org/react";
 import WeightUnitDropdown from "../Dropdowns/WeightUnitDropdown";
-import { UserWeight } from "../../typings";
 
 type UserWeightModalProps = {
   userWeightModal: ReturnType<typeof useDisclosure>;
   userWeightInput: string;
   setUserWeightInput: React.Dispatch<React.SetStateAction<string>>;
   isWeightInputValid: boolean;
-  operatingUserWeight: UserWeight;
-  setOperatingUserWeight: React.Dispatch<React.SetStateAction<UserWeight>>;
+  weightUnit: string;
+  setWeightUnit: React.Dispatch<React.SetStateAction<string>>;
   commentInput: string;
   setCommentInput: React.Dispatch<React.SetStateAction<string>>;
   buttonAction: () => void;
@@ -28,8 +27,8 @@ export const UserWeightModal = ({
   userWeightInput,
   setUserWeightInput,
   isWeightInputValid,
-  operatingUserWeight,
-  setOperatingUserWeight,
+  weightUnit,
+  setWeightUnit,
   commentInput,
   setCommentInput,
   buttonAction,
@@ -42,7 +41,7 @@ export const UserWeightModal = ({
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalHeader>Edit Body Weight Record</ModalHeader>
+            <ModalHeader>Edit Body Weight Entry</ModalHeader>
             <ModalBody>
               <div className="flex flex-col gap-2">
                 <div className="flex gap-2 items-center">
@@ -57,9 +56,9 @@ export const UserWeightModal = ({
                     isClearable
                   />
                   <WeightUnitDropdown
-                    value={operatingUserWeight.weight_unit}
-                    setUserWeight={setOperatingUserWeight}
-                    targetType="weight"
+                    value={weightUnit}
+                    setState={setWeightUnit}
+                    targetType="state"
                   />
                 </div>
                 <Input
