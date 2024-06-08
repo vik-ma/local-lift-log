@@ -2,12 +2,19 @@ import { useState, useEffect } from "react";
 import { LoadingSpinner } from "../components";
 import Database from "tauri-plugin-sql-api";
 import { UserMeasurementEntry, UserMeasurement } from "../typings";
-import { Accordion, AccordionItem } from "@nextui-org/react";
 import {
   FormatDateTimeString,
   GenerateMeasurementListString,
   GetClockStyle,
 } from "../helpers";
+import {
+  Button,
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+} from "@nextui-org/react";
+import { VerticalMenuIcon } from "../assets";
 
 export default function UserMeasurementList() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -67,51 +74,73 @@ export default function UserMeasurementList() {
             User Measurements
           </h1>
         </div>
-        {isLoading ? <LoadingSpinner /> : <></>}
-        <div className="w-full">
-          <Accordion
-            className="break-words"
-            variant="splitted"
-            selectionMode="multiple"
-          >
-            {userMeasurementEntries.map((entry, index) => (
-              <AccordionItem
-                key={index}
-                aria-label={`Accordion Item ${index}`}
-                subtitle={entry.measurementListString}
-                title={FormatDateTimeString(entry.date, clockStyle === "24h")}
-              >
-                <div className="flex flex-col ">
-                  <span className="font-medium text-amber-500 ">
-                    {entry.comment}
+        {isLoading ? (
+          <LoadingSpinner />
+        ) : (
+          <div className="flex flex-col gap-1 w-full">
+            {userMeasurementEntries.map((measurement) => (
+              <div className="flex flex-row justify-between items-center gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400">
+                <div className="flex flex-col justify-start items-start">
+                  <span className="w-[21.5rem] break-all text-left">
+                    {measurement.measurementListString}
                   </span>
-                  {entry.measurementList?.map((measurement) => (
-                    <div
-                      className="grid grid-cols-3 gap-4"
-                      key={measurement.id}
-                    >
-                      <span className="col-span-2 font-semibold truncate">
-                        {measurement.name}
-                      </span>
-                      <div
-                        className={
-                          measurement.unit === "in" ? "flex" : "flex gap-1"
-                        }
-                      >
-                        <span className="truncate max-w-16">
-                          {measurement.value}
-                        </span>
-                        <span>
-                          {measurement.unit === "in" ? `″` : measurement.unit}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
+                  <span className="text-xs text-yellow-600 text-left">
+                    {measurement.date}
+                  </span>
+                  <span className="w-[21.5rem] break-all text-xs text-stone-500 text-left">
+                    {measurement.comment}
+                  </span>
                 </div>
-              </AccordionItem>
+                <Dropdown>
+                  <DropdownTrigger>
+                    <Button
+                      isIconOnly
+                      className="z-1"
+                      size="sm"
+                      radius="lg"
+                      variant="light"
+                    >
+                      <VerticalMenuIcon size={17} />
+                    </Button>
+                  </DropdownTrigger>
+                  <DropdownMenu
+                    aria-label={`Option Menu For ${measurement.id}`}
+                    // onAction={(key) =>
+                    //   handleMeasurementOptionSelection(
+                    //     key as string,
+                    //     measurement
+                    //   )
+                    // }
+                  >
+                    <DropdownItem key="edit">Edit</DropdownItem>
+                    <DropdownItem key="delete" className="text-danger">
+                      Delete
+                    </DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+                {/* {entry.measurementList?.map((measurement) => (
+                  <div className="grid grid-cols-3 gap-4" key={measurement.id}>
+                    <span className="col-span-2 font-semibold truncate">
+                      {measurement.name}
+                    </span>
+                    <div
+                      className={
+                        measurement.unit === "in" ? "flex" : "flex gap-1"
+                      }
+                    >
+                      <span className="truncate max-w-16">
+                        {measurement.value}
+                      </span>
+                      <span>
+                        {measurement.unit === "in" ? `″` : measurement.unit}
+                      </span>
+                    </div>
+                  </div>
+                ))} */}
+              </div>
             ))}
-          </Accordion>
-        </div>
+          </div>
+        )}
       </div>
     </>
   );
