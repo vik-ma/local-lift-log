@@ -4,6 +4,7 @@ import { UserWeight, UserSettingsOptional } from "../typings";
 import { LoadingSpinner, DeleteModal, UserWeightModal } from "../components";
 import {
   ConvertEmptyStringToNull,
+  DeleteUserWeightById,
   FormatDateTimeString,
   UpdateUserWeight,
 } from "../helpers";
@@ -95,25 +96,19 @@ export default function UserWeightListPage() {
   const deleteUserWeight = async () => {
     if (operatingUserWeight.id === 0 || operationType !== "delete") return;
 
-    try {
-      const db = await Database.load(import.meta.env.VITE_DB);
+    const success = await DeleteUserWeightById(operatingUserWeight.id);
 
-      db.execute("DELETE from user_weights WHERE id = $1", [
-        operatingUserWeight.id,
-      ]);
+    if (!success) return;
 
-      const updatedUserWeights: UserWeight[] = userWeights.filter(
-        (item) => item.id !== operatingUserWeight.id
-      );
+    const updatedUserWeights: UserWeight[] = userWeights.filter(
+      (item) => item.id !== operatingUserWeight.id
+    );
 
-      setUserWeights(updatedUserWeights);
-
-      toast.success("Body Weight Record Deleted");
-    } catch (error) {
-      console.log(error);
-    }
+    setUserWeights(updatedUserWeights);
 
     resetUserWeight();
+
+    toast.success("Body Weight Entry Deleted");
     deleteModal.onClose();
   };
 
