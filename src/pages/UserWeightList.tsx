@@ -144,7 +144,7 @@ export default function UserWeightListPage() {
 
     resetUserWeight();
 
-    toast.success("Body Weight Updated");
+    toast.success("Body Weight Entry Updated");
     userWeightModal.onClose();
   };
 

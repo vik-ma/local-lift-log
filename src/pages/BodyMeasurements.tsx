@@ -18,6 +18,7 @@ import {
   IsStringEmpty,
   GetCurrentDateTimeISOString,
   UpdateUserWeight,
+  DeleteUserWeightById,
 } from "../helpers";
 import {
   Button,
@@ -140,7 +141,7 @@ export default function BodyMeasurementsPage() {
 
       resetWeightInput();
 
-      toast.success("Body Weight Added");
+      toast.success("Body Weight Entry Added");
     } catch (error) {
       console.log(error);
     }
@@ -169,7 +170,20 @@ export default function BodyMeasurementsPage() {
 
     resetWeightInput();
 
-    toast.success("Body Weight Updated");
+    toast.success("Body Weight Entry Updated");
+  };
+
+  const deleteLatestUserWeight = async () => {
+    if (latestUserWeight.id === 0 || userSettings === undefined) return;
+
+    const success = await DeleteUserWeightById(latestUserWeight.id);
+
+    if (!success) return;
+
+    getLatestUserWeight(userSettings.clock_style);
+
+    toast.success("Body Weight Entry Deleted");
+    deleteModal.onClose();
   };
 
   const handleLatestUserWeightOptionSelection = (key: string) => {
@@ -309,7 +323,7 @@ export default function BodyMeasurementsPage() {
             entry? ?
           </p>
         }
-        deleteButtonAction={() => {}}
+        deleteButtonAction={() => deleteLatestUserWeight()}
       />
       <div className="flex flex-col items-center gap-4">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">
