@@ -20,6 +20,7 @@ type UserWeightModalProps = {
   commentInput: string;
   setCommentInput: React.Dispatch<React.SetStateAction<string>>;
   buttonAction: () => void;
+  isEditing: boolean;
 };
 
 export const UserWeightModal = ({
@@ -32,6 +33,7 @@ export const UserWeightModal = ({
   commentInput,
   setCommentInput,
   buttonAction,
+  isEditing,
 }: UserWeightModalProps) => {
   return (
     <Modal
@@ -80,7 +82,7 @@ export const UserWeightModal = ({
                 onPress={buttonAction}
                 isDisabled={!isWeightInputValid}
               >
-                Update
+                {isEditing ? "Update" : "Add"}
               </Button>
             </ModalFooter>
           </>

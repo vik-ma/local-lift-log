@@ -350,6 +350,7 @@ export default function BodyMeasurementsPage() {
         buttonAction={
           operationType === "edit-weight" ? updateUserWeight : addUserWeight
         }
+        isEditing={operationType === "edit-weight"}
       />
       <div className="flex flex-col items-center gap-4">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">
