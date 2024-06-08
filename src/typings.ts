@@ -255,6 +255,7 @@ export type UserMeasurementEntry = {
   comment: string | null;
   measurementList?: UserMeasurement[];
   measurementListString?: string;
+  formattedDate: string;
 };
 
 export type SetListNotes = {

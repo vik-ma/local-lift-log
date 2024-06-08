@@ -24,7 +24,7 @@ export default function UserMeasurementList() {
   const [clockStyle, setClockStyle] = useState<string>("");
 
   useEffect(() => {
-    const getUserMeasurements = async () => {
+    const getUserMeasurements = async (clockStyle: string) => {
       try {
         const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -45,6 +45,10 @@ export default function UserMeasurementList() {
           result[i].measurementList = measurementList;
           result[i].measurementListString =
             GenerateMeasurementListString(measurementList);
+          result[i].formattedDate = FormatDateTimeString(
+            result[i].date,
+            clockStyle === "24h"
+          );
         }
 
         setUserMeasurementEntries(result);
@@ -53,17 +57,17 @@ export default function UserMeasurementList() {
       }
     };
 
-    const getClockStyle = async () => {
+    const loadUserSettings = async () => {
       const userSettings = await GetClockStyle();
 
       if (userSettings?.clock_style) {
         setClockStyle(userSettings.clock_style);
+        getUserMeasurements(userSettings.clock_style);
         setIsLoading(false);
       }
     };
 
-    getUserMeasurements();
-    getClockStyle();
+    loadUserSettings();
   }, []);
 
   return (
@@ -85,7 +89,7 @@ export default function UserMeasurementList() {
                     {measurement.measurementListString}
                   </span>
                   <span className="text-xs text-yellow-600 text-left">
-                    {measurement.date}
+                    {measurement.formattedDate}
                   </span>
                   <span className="w-[21.5rem] break-all text-xs text-stone-500 text-left">
                     {measurement.comment}
@@ -104,7 +108,7 @@ export default function UserMeasurementList() {
                     </Button>
                   </DropdownTrigger>
                   <DropdownMenu
-                    aria-label={`Option Menu For ${measurement.id}`}
+                    aria-label={`Option Menu For ${measurement.date}`}
                     // onAction={(key) =>
                     //   handleMeasurementOptionSelection(
                     //     key as string,
