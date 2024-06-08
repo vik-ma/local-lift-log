@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { Measurement, UserSettings, UserWeight } from "../typings";
 import {
+  DeleteModal,
   LoadingSpinner,
   MeasurementUnitDropdown,
   WeightUnitDropdown,
@@ -177,7 +178,7 @@ export default function BodyMeasurementsPage() {
       setWeightCommentInput(latestUserWeight.comment ?? "");
       setIsEditingWeight(true);
     } else if (key === "delete") {
-      // TODO: ADD
+      deleteModal.onOpen();
     }
   };
 
@@ -299,6 +300,17 @@ export default function BodyMeasurementsPage() {
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
+      <DeleteModal
+        deleteModal={deleteModal}
+        header="Delete Body Weight Entry"
+        body={
+          <p className="break-words">
+            Are you sure you want to permanently delete the latest Body Weight
+            entry? ?
+          </p>
+        }
+        deleteButtonAction={() => {}}
+      />
       <div className="flex flex-col items-center gap-4">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">
           <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">

@@ -182,11 +182,10 @@ export default function UserWeightListPage() {
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
       <DeleteModal
         deleteModal={deleteModal}
-        header="Delete Body Weight Record"
+        header="Delete Body Weight Entry"
         body={
           <p className="break-words">
-            Are you sure you want to permanently delete the Body Weight record
-            on{" "}
+            Are you sure you want to permanently delete the Body Weight entry on{" "}
             <span className="text-yellow-600">
               {operatingUserWeight.formattedDate}
             </span>
