@@ -20,7 +20,7 @@ type UserWeightModalProps = {
   setOperatingUserWeight: React.Dispatch<React.SetStateAction<UserWeight>>;
   commentInput: string;
   setCommentInput: React.Dispatch<React.SetStateAction<string>>;
-  updateUserWeight: () => void;
+  buttonAction: () => void;
 };
 
 export const UserWeightModal = ({
@@ -32,7 +32,7 @@ export const UserWeightModal = ({
   setOperatingUserWeight,
   commentInput,
   setCommentInput,
-  updateUserWeight,
+  buttonAction,
 }: UserWeightModalProps) => {
   return (
     <Modal
@@ -53,6 +53,7 @@ export const UserWeightModal = ({
                     variant="faded"
                     onValueChange={(value) => setUserWeightInput(value)}
                     isInvalid={!isWeightInputValid}
+                    isRequired
                     isClearable
                   />
                   <WeightUnitDropdown
@@ -77,7 +78,7 @@ export const UserWeightModal = ({
               </Button>
               <Button
                 color="success"
-                onPress={updateUserWeight}
+                onPress={buttonAction}
                 isDisabled={!isWeightInputValid}
               >
                 Update

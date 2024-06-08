@@ -198,7 +198,7 @@ export default function UserWeightListPage() {
         setOperatingUserWeight={setOperatingUserWeight}
         commentInput={commentInput}
         setCommentInput={setCommentInput}
-        updateUserWeight={updateUserWeight}
+        buttonAction={updateUserWeight}
       />
       <div className="flex flex-col items-center gap-4">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">
