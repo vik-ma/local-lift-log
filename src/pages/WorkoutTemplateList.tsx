@@ -247,7 +247,7 @@ export default function WorkoutTemplateList() {
                       </Button>
                     </DropdownTrigger>
                     <DropdownMenu
-                      aria-label={`Option Menu For ${template.name}`}
+                      aria-label={`Option Menu For ${template.name} Workout Template`}
                       onAction={(key) =>
                         handleWorkoutTemplateOptionSelection(
                           key as string,

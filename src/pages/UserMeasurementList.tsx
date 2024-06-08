@@ -108,7 +108,7 @@ export default function UserMeasurementList() {
                     </Button>
                   </DropdownTrigger>
                   <DropdownMenu
-                    aria-label={`Option Menu For ${measurement.date}`}
+                    aria-label={`Option Menu For ${measurement.formattedDate} Measurement Entry`}
                     // onAction={(key) =>
                     //   handleMeasurementOptionSelection(
                     //     key as string,

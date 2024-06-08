@@ -229,7 +229,7 @@ export default function WorkoutList() {
                       </Button>
                     </DropdownTrigger>
                     <DropdownMenu
-                      aria-label={`Option Menu For Workout ${workout.date}`}
+                      aria-label={`Option Menu For Workout On ${workout.date}`}
                       onAction={(key) =>
                         handleWorkoutOptionSelection(key as string, workout)
                       }

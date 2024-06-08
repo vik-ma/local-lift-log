@@ -143,7 +143,7 @@ export const WorkoutExerciseList = ({
                         </Button>
                       </DropdownTrigger>
                       <DropdownMenu
-                        aria-label={`Option Menu For ${groupedSet.exercise.name}`}
+                        aria-label={`Option Menu For ${groupedSet.exercise.name} Exercise`}
                         onAction={(key) =>
                           handleExerciseOptionSelection(
                             key as string,

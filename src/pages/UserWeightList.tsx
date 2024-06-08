@@ -244,7 +244,7 @@ export default function UserWeightListPage() {
                       </Button>
                     </DropdownTrigger>
                     <DropdownMenu
-                      aria-label={`Option Menu For ${userWeight.id}`}
+                      aria-label={`Option Menu For ${userWeight.id} Body Weight Entry`}
                       onAction={(key) =>
                         handleUserWeightOptionSelection(
                           key as string,

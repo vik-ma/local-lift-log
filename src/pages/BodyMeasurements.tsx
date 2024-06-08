@@ -412,7 +412,7 @@ export default function BodyMeasurementsPage() {
                         </Button>
                       </DropdownTrigger>
                       <DropdownMenu
-                        aria-label={`Option Menu For ${latestUserWeight.id}`}
+                        aria-label={`Option Menu For ${latestUserWeight.formattedDate} Body Weight Entry`}
                         onAction={(key) =>
                           handleLatestUserWeightOptionSelection(key as string)
                         }

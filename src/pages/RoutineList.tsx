@@ -298,7 +298,7 @@ export default function RoutineListPage() {
                         </Button>
                       </DropdownTrigger>
                       <DropdownMenu
-                        aria-label={`Option Menu For Routine ${routine.name}`}
+                        aria-label={`Option Menu For ${routine.name} Routine`}
                         onAction={(key) =>
                           handleWorkoutOptionSelection(key as string, routine)
                         }
