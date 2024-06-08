@@ -76,13 +76,16 @@ export default function BodyMeasurementsPage() {
     []
   );
 
-  const getLatestUserWeight = useCallback(async (clockStyle: string) => {
-    const userWeight: UserWeight | undefined = await GetLatestUserWeight(
-      clockStyle
-    );
-    if (userWeight !== undefined) setLatestUserWeight(userWeight);
-    setIsLoading(false);
-  }, []);
+  const getLatestUserWeight = useCallback(
+    async (clockStyle: string) => {
+      const userWeight: UserWeight | undefined = await GetLatestUserWeight(
+        clockStyle
+      );
+
+      setLatestUserWeight(userWeight ?? defaultUserWeight);
+    },
+    [defaultUserWeight]
+  );
 
   useEffect(() => {
     const loadUserSettings = async () => {
@@ -92,6 +95,7 @@ export default function BodyMeasurementsPage() {
         setWeightUnit(settings.default_unit_weight!);
         getActiveMeasurements(settings.active_tracking_measurements!);
         getLatestUserWeight(settings.clock_style!);
+        setIsLoading(false);
       }
     };
 
