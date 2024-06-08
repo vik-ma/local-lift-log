@@ -337,17 +337,27 @@ export default function BodyMeasurementsPage() {
           <>
             <div className="flex flex-col gap-2.5 items-center">
               <h2 className="flex text-3xl font-semibold">Body Weight</h2>
-              <div className="flex flex-col items-center text-stone-600 gap-2">
+              <div className="flex flex-col items-center gap-2">
                 <h3 className="flex text-lg font-semibold items-center gap-3">
-                  Latest Weight
-                  <Button
-                    color="success"
-                    variant="flat"
-                    size="sm"
-                    onPress={() => navigate("/measurements/body-weight-list")}
-                  >
-                    View History
-                  </Button>
+                  {latestUserWeight.id === 0 ? (
+                    <span className="text-stone-400">
+                      No Body Weight Entries Added
+                    </span>
+                  ) : (
+                    <>
+                      Latest Weight
+                      <Button
+                        color="success"
+                        variant="flat"
+                        size="sm"
+                        onPress={() =>
+                          navigate("/measurements/body-weight-list")
+                        }
+                      >
+                        View History
+                      </Button>
+                    </>
+                  )}
                 </h3>
                 {latestUserWeight.id !== 0 && (
                   <div className="flex flex-row justify-between items-center gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400">
