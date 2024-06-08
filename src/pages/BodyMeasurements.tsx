@@ -4,7 +4,7 @@ import {
   DeleteModal,
   LoadingSpinner,
   MeasurementUnitDropdown,
-  WeightUnitDropdown,
+  UserWeightModal,
 } from "../components";
 import {
   FormatDateTimeString,
@@ -37,13 +37,16 @@ import { Link } from "react-router-dom";
 import { useDefaultUserWeight, useIsStringValidNumber } from "../hooks";
 import { VerticalMenuIcon } from "../assets";
 
+type OperationType = "add-weight" | "edit-weight";
+
 export default function BodyMeasurementsPage() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [userWeightInput, setUserWeightInput] = useState<string>("");
   const [weightUnit, setWeightUnit] = useState<string>("");
   const [weightCommentInput, setWeightCommentInput] = useState<string>("");
-  const [isEditingWeight, setIsEditingWeight] = useState<boolean>(false);
+  const [operationType, setOperationType] =
+    useState<OperationType>("add-weight");
 
   const [activeMeasurements, setActiveMeasurements] = useState<Measurement[]>(
     []
@@ -63,6 +66,7 @@ export default function BodyMeasurementsPage() {
   const navigate = useNavigate();
 
   const deleteModal = useDisclosure();
+  const userWeightModal = useDisclosure();
 
   const getActiveMeasurements = useCallback(
     async (activeMeasurementsString: string) => {
@@ -141,6 +145,7 @@ export default function BodyMeasurementsPage() {
 
       resetWeightInput();
 
+      userWeightModal.onClose();
       toast.success("Body Weight Entry Added");
     } catch (error) {
       console.log(error);
@@ -170,6 +175,7 @@ export default function BodyMeasurementsPage() {
 
     resetWeightInput();
 
+    userWeightModal.onClose();
     toast.success("Body Weight Entry Updated");
   };
 
@@ -190,16 +196,23 @@ export default function BodyMeasurementsPage() {
     if (key === "edit") {
       setUserWeightInput(latestUserWeight.weight.toString());
       setWeightCommentInput(latestUserWeight.comment ?? "");
-      setIsEditingWeight(true);
+      setWeightUnit(latestUserWeight.weight_unit);
+      setOperationType("edit-weight");
+      userWeightModal.onOpen();
     } else if (key === "delete") {
       deleteModal.onOpen();
     }
   };
 
+  const handleAddWeightButton = () => {
+    resetWeightInput();
+    userWeightModal.onOpen();
+  };
+
   const resetWeightInput = () => {
     setUserWeightInput("");
     setWeightCommentInput("");
-    setIsEditingWeight(false);
+    setOperationType("add-weight");
   };
 
   const handleActiveMeasurementInputChange = (value: string, index: number) => {
@@ -325,6 +338,19 @@ export default function BodyMeasurementsPage() {
         }
         deleteButtonAction={() => deleteLatestUserWeight()}
       />
+      <UserWeightModal
+        userWeightModal={userWeightModal}
+        userWeightInput={userWeightInput}
+        setUserWeightInput={setUserWeightInput}
+        isWeightInputValid={isWeightInputValid}
+        weightUnit={weightUnit}
+        setWeightUnit={setWeightUnit}
+        commentInput={weightCommentInput}
+        setCommentInput={setWeightCommentInput}
+        buttonAction={
+          operationType === "edit-weight" ? updateUserWeight : addUserWeight
+        }
+      />
       <div className="flex flex-col items-center gap-4">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">
           <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">
@@ -399,54 +425,7 @@ export default function BodyMeasurementsPage() {
                   </div>
                 )}
               </div>
-              <div className="flex flex-col gap-1">
-                <h3 className="flex h-8 justify-center text-lg font-semibold items-center gap-3">
-                  {isEditingWeight ? "Edit Weight" : "Add New Weight"}
-                  {isEditingWeight && (
-                    <Button
-                      color="danger"
-                      variant="flat"
-                      size="sm"
-                      onPress={() => resetWeightInput()}
-                    >
-                      Cancel
-                    </Button>
-                  )}
-                </h3>
-                <div className="flex justify-between gap-2 items-center">
-                  <Input
-                    value={userWeightInput}
-                    label="Weight"
-                    size="sm"
-                    variant="faded"
-                    onValueChange={(value) => setUserWeightInput(value)}
-                    isInvalid={!isWeightInputValid}
-                    isRequired
-                    isClearable
-                  />
-                  <WeightUnitDropdown
-                    value={weightUnit}
-                    setState={setWeightUnit}
-                    targetType="state"
-                  />
-                  <Button
-                    className="font-medium w-32"
-                    color="success"
-                    onPress={isEditingWeight ? updateUserWeight : addUserWeight}
-                    isDisabled={!isWeightInputValid}
-                  >
-                    {isEditingWeight ? "Update" : "Add"}
-                  </Button>
-                </div>
-                <Input
-                  value={weightCommentInput}
-                  label="Comment"
-                  size="sm"
-                  variant="faded"
-                  onValueChange={(value) => setWeightCommentInput(value)}
-                  isClearable
-                />
-              </div>
+              <Button onPress={handleAddWeightButton}>Add Weight</Button>
               <h2 className="flex text-3xl font-semibold">Body Measurements</h2>
               <div className="flex justify-between gap-3">
                 <Button
