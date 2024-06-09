@@ -103,7 +103,7 @@ export default function UserMeasurementList() {
                   handleMeasurementAccordionClick(measurement, index)
                 }
               >
-                <div className="flex flex-row justify-between items-center">
+                <div className="flex flex-row justify-between w-full gap-2 items-center">
                   <div className="flex flex-col justify-start items-start">
                     <span className="w-[19rem] break-all text-left">
                       {measurement.measurementListString}
@@ -115,7 +115,7 @@ export default function UserMeasurementList() {
                       {measurement.comment}
                     </span>
                   </div>
-                  <div className="flex gap-0.5 px-0.5 items-center">
+                  <div className="flex gap-1 px-0.5 items-center">
                     <ChevronIcon
                       size={27}
                       color="#a8a29e"
@@ -127,6 +127,7 @@ export default function UserMeasurementList() {
                           isIconOnly
                           className="z-1"
                           size="sm"
+                          radius="lg"
                           variant="light"
                         >
                           <VerticalMenuIcon size={17} />
@@ -147,28 +148,34 @@ export default function UserMeasurementList() {
                         </DropdownItem>
                       </DropdownMenu>
                     </Dropdown>
-                    {/* {entry.measurementList?.map((measurement) => (
-                  <div className="grid grid-cols-3 gap-4" key={measurement.id}>
-                    <span className="col-span-2 font-semibold truncate">
-                      {measurement.name}
-                    </span>
-                    <div
-                      className={
-                        measurement.unit === "in" ? "flex" : "flex gap-1"
-                      }
-                    >
-                      <span className="truncate max-w-16">
-                        {measurement.value}
-                      </span>
-                      <span>
-                        {measurement.unit === "in" ? `″` : measurement.unit}
-                      </span>
-                    </div>
-                  </div>
-                ))} */}
                   </div>
                 </div>
-                {measurement.isExpanded && <div>Test</div>}
+                {measurement.isExpanded && (
+                  <div className="flex flex-col text-sm">
+                    {measurement.measurementList?.map((measurement) => (
+                      <div
+                        className="flex gap-2 text-left"
+                        key={measurement.id}
+                      >
+                        <span className="w-[9rem] truncate">
+                          {measurement.name}
+                        </span>
+                        <div
+                          className={
+                            measurement.unit === "in" ? "flex" : "flex gap-1"
+                          }
+                        >
+                          <span className="max-w-[4rem] truncate font-medium">
+                            {measurement.value}
+                          </span>
+                          <span>
+                            {measurement.unit === "in" ? `″` : measurement.unit}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </button>
             ))}
           </div>
