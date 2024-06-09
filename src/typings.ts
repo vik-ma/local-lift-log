@@ -256,6 +256,7 @@ export type UserMeasurementEntry = {
   measurementList?: UserMeasurement[];
   measurementListString?: string;
   formattedDate: string;
+  isExpanded: boolean;
 };
 
 export type SetListNotes = {

@@ -14,14 +14,13 @@ import {
   DropdownMenu,
   DropdownItem,
 } from "@nextui-org/react";
-import { VerticalMenuIcon } from "../assets";
+import { VerticalMenuIcon, ChevronIcon } from "../assets";
 
 export default function UserMeasurementList() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [userMeasurementEntries, setUserMeasurementEntries] = useState<
     UserMeasurementEntry[]
   >([]);
-  const [clockStyle, setClockStyle] = useState<string>("");
 
   useEffect(() => {
     const getUserMeasurements = async (clockStyle: string) => {
@@ -49,6 +48,7 @@ export default function UserMeasurementList() {
             result[i].date,
             clockStyle === "24h"
           );
+          result[i].isExpanded = false;
         }
 
         setUserMeasurementEntries(result);
@@ -61,7 +61,6 @@ export default function UserMeasurementList() {
       const userSettings = await GetClockStyle();
 
       if (userSettings?.clock_style) {
-        setClockStyle(userSettings.clock_style);
         getUserMeasurements(userSettings.clock_style);
         setIsLoading(false);
       }
@@ -69,6 +68,21 @@ export default function UserMeasurementList() {
 
     loadUserSettings();
   }, []);
+
+  const handleMeasurementAccordionClick = (
+    measurement: UserMeasurementEntry,
+    index: number
+  ) => {
+    const updatedMeasurement: UserMeasurementEntry = {
+      ...measurement,
+      isExpanded: !measurement.isExpanded,
+    };
+
+    const updatedMeasurementEntries = [...userMeasurementEntries];
+    updatedMeasurementEntries[index] = updatedMeasurement;
+
+    setUserMeasurementEntries(updatedMeasurementEntries);
+  };
 
   return (
     <>
@@ -82,47 +96,58 @@ export default function UserMeasurementList() {
           <LoadingSpinner />
         ) : (
           <div className="flex flex-col gap-1 w-full">
-            {userMeasurementEntries.map((measurement) => (
-              <div className="flex flex-row justify-between items-center gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400">
-                <div className="flex flex-col justify-start items-start">
-                  <span className="w-[21.5rem] break-all text-left">
-                    {measurement.measurementListString}
-                  </span>
-                  <span className="text-xs text-yellow-600 text-left">
-                    {measurement.formattedDate}
-                  </span>
-                  <span className="w-[21.5rem] break-all text-xs text-stone-500 text-left">
-                    {measurement.comment}
-                  </span>
-                </div>
-                <Dropdown>
-                  <DropdownTrigger>
-                    <Button
-                      isIconOnly
-                      className="z-1"
-                      size="sm"
-                      radius="lg"
-                      variant="light"
-                    >
-                      <VerticalMenuIcon size={17} />
-                    </Button>
-                  </DropdownTrigger>
-                  <DropdownMenu
-                    aria-label={`Option Menu For ${measurement.formattedDate} Measurement Entry`}
-                    // onAction={(key) =>
-                    //   handleMeasurementOptionSelection(
-                    //     key as string,
-                    //     measurement
-                    //   )
-                    // }
-                  >
-                    <DropdownItem key="edit">Edit</DropdownItem>
-                    <DropdownItem key="delete" className="text-danger">
-                      Delete
-                    </DropdownItem>
-                  </DropdownMenu>
-                </Dropdown>
-                {/* {entry.measurementList?.map((measurement) => (
+            {userMeasurementEntries.map((measurement, index) => (
+              <button
+                className="flex flex-col gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                onClick={() =>
+                  handleMeasurementAccordionClick(measurement, index)
+                }
+              >
+                <div className="flex flex-row justify-between items-center">
+                  <div className="flex flex-col justify-start items-start">
+                    <span className="w-[19rem] break-all text-left">
+                      {measurement.measurementListString}
+                    </span>
+                    <span className="text-xs text-yellow-600 text-left">
+                      {measurement.formattedDate}
+                    </span>
+                    <span className="w-[19rem] break-all text-xs text-stone-500 text-left">
+                      {measurement.comment}
+                    </span>
+                  </div>
+                  <div className="flex gap-0.5 px-0.5 items-center">
+                    <ChevronIcon
+                      size={27}
+                      color="#a8a29e"
+                      direction={measurement.isExpanded ? "down" : "left"}
+                    />
+                    <Dropdown>
+                      <DropdownTrigger>
+                        <Button
+                          isIconOnly
+                          className="z-1"
+                          size="sm"
+                          variant="light"
+                        >
+                          <VerticalMenuIcon size={17} />
+                        </Button>
+                      </DropdownTrigger>
+                      <DropdownMenu
+                        aria-label={`Option Menu For ${measurement.formattedDate} Measurement Entry`}
+                        // onAction={(key) =>
+                        //   handleMeasurementOptionSelection(
+                        //     key as string,
+                        //     measurement
+                        //   )
+                        // }
+                      >
+                        <DropdownItem key="edit">Edit</DropdownItem>
+                        <DropdownItem key="delete" className="text-danger">
+                          Delete
+                        </DropdownItem>
+                      </DropdownMenu>
+                    </Dropdown>
+                    {/* {entry.measurementList?.map((measurement) => (
                   <div className="grid grid-cols-3 gap-4" key={measurement.id}>
                     <span className="col-span-2 font-semibold truncate">
                       {measurement.name}
@@ -141,7 +166,10 @@ export default function UserMeasurementList() {
                     </div>
                   </div>
                 ))} */}
-              </div>
+                  </div>
+                </div>
+                {measurement.isExpanded && <div>Test</div>}
+              </button>
             ))}
           </div>
         )}
