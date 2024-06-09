@@ -426,9 +426,18 @@ export default function BodyMeasurementsPage() {
                   </div>
                 )}
               </div>
-              <Button onPress={handleAddWeightButton}>Add Weight</Button>
+              <Button className="font-medium" onPress={handleAddWeightButton}>
+                Add Weight
+              </Button>
               <h2 className="flex text-3xl font-semibold">Body Measurements</h2>
               <div className="flex justify-between gap-3">
+                <Button
+                  variant="flat"
+                  size="sm"
+                  onPress={() => navigate("/measurements/measurement-list")}
+                >
+                  List of Measurements
+                </Button>
                 <Button
                   color="success"
                   variant="flat"
@@ -438,14 +447,6 @@ export default function BodyMeasurementsPage() {
                   }
                 >
                   View History
-                </Button>
-                <Button
-                  color="success"
-                  variant="flat"
-                  size="sm"
-                  onPress={() => navigate("/measurements/measurement-list")}
-                >
-                  List of Measurements
                 </Button>
               </div>
               <h3 className="flex text-lg font-semibold">
@@ -497,7 +498,6 @@ export default function BodyMeasurementsPage() {
                         <div className="flex justify-center">
                           <Button
                             className="font-medium"
-                            color="success"
                             variant="flat"
                             size="sm"
                             onPress={() => setIsReordering(true)}
@@ -546,17 +546,18 @@ export default function BodyMeasurementsPage() {
                           isClearable
                         />
                       </div>
-                      <Button
-                        className="font-medium"
-                        color="success"
-                        onPress={addActiveMeasurements}
-                        isDisabled={
-                          invalidMeasurementInputs.size > 0 ||
-                          areActiveMeasurementInputsEmpty
-                        }
-                      >
-                        Save Measurements
-                      </Button>
+                      <div className="flex justify-center">
+                        <Button
+                          className="font-medium"
+                          onPress={addActiveMeasurements}
+                          isDisabled={
+                            invalidMeasurementInputs.size > 0 ||
+                            areActiveMeasurementInputsEmpty
+                          }
+                        >
+                          Save Measurements
+                        </Button>
+                      </div>
                     </div>
                   ) : (
                     <div>
