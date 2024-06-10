@@ -3,6 +3,7 @@ import { Measurement, UserSettings, UserWeight } from "../typings";
 import {
   DeleteModal,
   LoadingSpinner,
+  UserMeasurementModal,
   UserWeightModal,
 } from "../components";
 import {
@@ -60,6 +61,7 @@ export default function BodyMeasurementsPage() {
 
   const deleteModal = useDisclosure();
   const userWeightModal = useDisclosure();
+  const userMeasurementModal = useDisclosure();
 
   const getActiveMeasurements = useCallback(
     async (activeMeasurementsString: string) => {
@@ -326,6 +328,18 @@ export default function BodyMeasurementsPage() {
           operationType === "edit-weight" ? updateUserWeight : addUserWeight
         }
         isEditing={operationType === "edit-weight"}
+      />
+      <UserMeasurementModal
+        userMeasurementModal={userMeasurementModal}
+        activeMeasurements={activeMeasurements}
+        setActiveMeasurements={setActiveMeasurements}
+        userSettingsId={userSettings.id}
+        measurementsCommentInput={measurementsCommentInput}
+        setMeasurementsCommentInput={setMeasurementsCommentInput}
+        invalidMeasurementInputs={invalidMeasurementInputs}
+        handleActiveMeasurementInputChange={handleActiveMeasurementInputChange}
+        areActiveMeasurementInputsEmpty={areActiveMeasurementInputsEmpty}
+        buttonAction={addActiveMeasurements}
       />
       <div className="flex flex-col items-center gap-4">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">
