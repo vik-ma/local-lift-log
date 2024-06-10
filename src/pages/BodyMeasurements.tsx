@@ -31,6 +31,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useDefaultUserWeight, useIsStringValidNumber } from "../hooks";
 import { VerticalMenuIcon } from "../assets";
+import { Link } from "react-router-dom";
 
 type OperationType = "add-weight" | "edit-weight";
 
@@ -282,8 +283,11 @@ export default function BodyMeasurementsPage() {
       ...measurement,
       input: "",
     }));
+
     setActiveMeasurements(updatedInputs);
     setMeasurementsCommentInput("");
+
+    userMeasurementModal.onClose();
     toast.success("Measurements Added");
   };
 
@@ -441,6 +445,25 @@ export default function BodyMeasurementsPage() {
               <h3 className="flex text-lg font-semibold">
                 Active Measurements
               </h3>
+              {activeMeasurements.length === 0 ? (
+                <div>
+                  <span className="text-xs text-stone-500 font-normal">
+                    Add Measurements to actively track in the{" "}
+                    <Link className="text-success" to={"measurement-list"}>
+                      List of Measurements
+                    </Link>
+                  </span>
+                </div>
+              ) : (
+                <div>
+                  <Button
+                    className="font-medium"
+                    onPress={() => userMeasurementModal.onOpen()}
+                  >
+                    Add Measurements
+                  </Button>
+                </div>
+              )}
             </div>
           </>
         )}
