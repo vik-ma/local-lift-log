@@ -82,9 +82,9 @@ body {
 }
 
 .active-set-animation-expand {
-  animation: expand-active-set 0.15s;
+  animation: expand-active-set 0.1s;
 }
 
 .active-set-animation-shrink {
-  animation: shrink-active-set 0.15s;
+  animation: shrink-active-set 0.1s;
 }
