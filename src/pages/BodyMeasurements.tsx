@@ -3,7 +3,6 @@ import { Measurement, UserSettings, UserWeight } from "../typings";
 import {
   DeleteModal,
   LoadingSpinner,
-  MeasurementUnitDropdown,
   UserWeightModal,
 } from "../components";
 import {
@@ -12,8 +11,6 @@ import {
   IsStringInvalidNumber,
   GetUserSettings,
   CreateActiveMeasurementInputs,
-  UpdateActiveTrackingMeasurements,
-  GenerateActiveMeasurementString,
   ConvertEmptyStringToNull,
   IsStringEmpty,
   GetCurrentDateTimeISOString,
@@ -22,7 +19,6 @@ import {
 } from "../helpers";
 import {
   Button,
-  Input,
   Dropdown,
   DropdownTrigger,
   DropdownMenu,
@@ -32,8 +28,6 @@ import {
 import Database from "tauri-plugin-sql-api";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { Reorder } from "framer-motion";
-import { Link } from "react-router-dom";
 import { useDefaultUserWeight, useIsStringValidNumber } from "../hooks";
 import { VerticalMenuIcon } from "../assets";
 
@@ -56,7 +50,6 @@ export default function BodyMeasurementsPage() {
   >(new Set<number>());
   const [measurementsCommentInput, setMeasurementsCommentInput] =
     useState<string>("");
-  const [isReordering, setIsReordering] = useState<boolean>(false);
 
   const defaultUserWeight = useDefaultUserWeight();
 
@@ -304,24 +297,6 @@ export default function BodyMeasurementsPage() {
     return isEmpty;
   }, [activeMeasurements]);
 
-  const updateActiveTrackingMeasurementOrder = async () => {
-    if (userSettings === undefined) return;
-
-    const activeTrackingMeasurementIdList: number[] = activeMeasurements.map(
-      (obj) => obj.id
-    );
-
-    const activeTrackingMeasurementString: string =
-      GenerateActiveMeasurementString(activeTrackingMeasurementIdList);
-
-    await UpdateActiveTrackingMeasurements(
-      activeTrackingMeasurementString,
-      userSettings.id
-    );
-
-    setIsReordering(false);
-  };
-
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -452,125 +427,6 @@ export default function BodyMeasurementsPage() {
               <h3 className="flex text-lg font-semibold">
                 Active Measurements
               </h3>
-              {isReordering ? (
-                <div className="flex flex-col gap-2.5 items-center">
-                  <div className="flex justify-center gap-2">
-                    <Button
-                      className="font-medium"
-                      color="danger"
-                      size="sm"
-                      onPress={() => setIsReordering(false)}
-                    >
-                      Cancel Reordering
-                    </Button>
-                    <Button
-                      className="font-medium"
-                      color="success"
-                      size="sm"
-                      onPress={() => updateActiveTrackingMeasurementOrder()}
-                    >
-                      Save Current Order
-                    </Button>
-                  </div>
-                  <div className="flex justify-center w-full">
-                    <Reorder.Group
-                      className="flex flex-col gap-1.5 w-full"
-                      values={activeMeasurements}
-                      onReorder={setActiveMeasurements}
-                    >
-                      {activeMeasurements.map((measurement) => (
-                        <Reorder.Item key={measurement.id} value={measurement}>
-                          <div className="w-80 h-11 leading-9 truncate cursor-grab active:cursor-grabbing bg-stone-100 hover:bg-white px-2 py-1 rounded outline outline-2 outline-stone-300">
-                            <span className="text-lg text-stone-700">
-                              {measurement.name}
-                            </span>
-                          </div>
-                        </Reorder.Item>
-                      ))}
-                    </Reorder.Group>
-                  </div>
-                </div>
-              ) : (
-                <div>
-                  {activeMeasurements.length > 0 ? (
-                    <div className="flex flex-col gap-2">
-                      {activeMeasurements.length > 1 && (
-                        <div className="flex justify-center">
-                          <Button
-                            className="font-medium"
-                            variant="flat"
-                            size="sm"
-                            onPress={() => setIsReordering(true)}
-                          >
-                            Reorder Measurements
-                          </Button>
-                        </div>
-                      )}
-                      <div className="flex flex-col gap-1">
-                        {activeMeasurements.map((measurement, index) => (
-                          <div
-                            className="flex justify-between gap-2 items-center"
-                            key={`measurement-${measurement.id}`}
-                          >
-                            <Input
-                              value={measurement.input}
-                              label={measurement.name}
-                              size="sm"
-                              variant="faded"
-                              onValueChange={(value) =>
-                                handleActiveMeasurementInputChange(value, index)
-                              }
-                              isInvalid={invalidMeasurementInputs.has(index)}
-                              isClearable
-                            />
-                            <MeasurementUnitDropdown
-                              value={measurement.default_unit}
-                              measurements={activeMeasurements}
-                              setMeasurements={setActiveMeasurements}
-                              measurement={measurement}
-                              targetType="active"
-                              isDisabled={
-                                measurement.measurement_type === "Caliper"
-                              }
-                            />
-                          </div>
-                        ))}
-                        <Input
-                          value={measurementsCommentInput}
-                          label="Comment"
-                          size="sm"
-                          variant="faded"
-                          onValueChange={(value) =>
-                            setMeasurementsCommentInput(value)
-                          }
-                          isClearable
-                        />
-                      </div>
-                      <div className="flex justify-center">
-                        <Button
-                          className="font-medium"
-                          onPress={addActiveMeasurements}
-                          isDisabled={
-                            invalidMeasurementInputs.size > 0 ||
-                            areActiveMeasurementInputsEmpty
-                          }
-                        >
-                          Save Measurements
-                        </Button>
-                      </div>
-                    </div>
-                  ) : (
-                    <div>
-                      <span className="text-xs text-stone-500 font-normal">
-                        Add Measurements to actively track in the{" "}
-                        <Link className="text-success" to={"measurement-list"}>
-                          List of Measurements
-                        </Link>
-                      </span>
-                    </div>
-                  )}
-                </div>
-              )}
             </div>
           </>
         )}

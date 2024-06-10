@@ -8,7 +8,7 @@ import {
   ModalFooter,
   Input,
 } from "@nextui-org/react";
-import WeightUnitDropdown from "../Dropdowns/WeightUnitDropdown";
+import { WeightUnitDropdown } from "..";
 
 type UserWeightModalProps = {
   userWeightModal: ReturnType<typeof useDisclosure>;
