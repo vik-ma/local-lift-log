@@ -15,6 +15,7 @@ import {
   DropdownItem,
 } from "@nextui-org/react";
 import { VerticalMenuIcon, ChevronIcon } from "../assets";
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function UserMeasurementList() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -150,32 +151,48 @@ export default function UserMeasurementList() {
                     </Dropdown>
                   </div>
                 </div>
-                {measurement.isExpanded && (
-                  <div className="flex flex-col text-sm">
-                    {measurement.measurementList?.map((measurement) => (
-                      <div
-                        className="flex gap-2 text-left"
-                        key={measurement.id}
-                      >
-                        <span className="w-[9rem] truncate">
-                          {measurement.name}
-                        </span>
-                        <div
-                          className={
-                            measurement.unit === "in" ? "flex" : "flex gap-1"
-                          }
-                        >
-                          <span className="max-w-[4rem] truncate font-medium">
-                            {measurement.value}
-                          </span>
-                          <span>
-                            {measurement.unit === "in" ? `″` : measurement.unit}
-                          </span>
-                        </div>
+                <AnimatePresence>
+                  {measurement.isExpanded && (
+                    <motion.div
+                      initial={{ height: 0 }}
+                      animate={{ height: "auto" }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{
+                        height: { duration: 0.1 },
+                        opacity: { duration: 0.05 },
+                      }}
+                    >
+                      <div className="flex flex-col text-sm">
+                        {measurement.measurementList?.map((measurement) => (
+                          <div
+                            className="flex gap-2 text-left"
+                            key={measurement.id}
+                          >
+                            <span className="w-[9rem] truncate">
+                              {measurement.name}
+                            </span>
+                            <div
+                              className={
+                                measurement.unit === "in"
+                                  ? "flex"
+                                  : "flex gap-1"
+                              }
+                            >
+                              <span className="max-w-[4rem] truncate font-medium">
+                                {measurement.value}
+                              </span>
+                              <span>
+                                {measurement.unit === "in"
+                                  ? `″`
+                                  : measurement.unit}
+                              </span>
+                            </div>
+                          </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
-                )}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </button>
             ))}
           </div>
