@@ -79,8 +79,9 @@ export default function UserMeasurementList() {
         ) : (
           <div className="flex flex-col gap-1 w-full">
             {userMeasurementEntries.map((measurement, index) => (
-              <button
-                className="flex flex-col gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+              <div
+                key={measurement.id}
+                className="flex flex-col cursor-pointer gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                 onClick={() =>
                   handleMeasurementAccordionClick(measurement, index)
                 }
@@ -174,7 +175,7 @@ export default function UserMeasurementList() {
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </button>
+              </div>
             ))}
           </div>
         )}
