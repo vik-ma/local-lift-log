@@ -8,6 +8,7 @@ import {
 import {
   DeleteModal,
   LoadingSpinner,
+  UserMeasurementAccordion,
   UserMeasurementModal,
   UserWeightModal,
 } from "../components";
@@ -59,8 +60,9 @@ export default function BodyMeasurementsPage() {
   const [measurementsCommentInput, setMeasurementsCommentInput] =
     useState<string>("");
 
-  const [latestUserMeasurement, setLatestUserMeasurement] =
-    useState<UserMeasurementEntry>();
+  const [latestUserMeasurement, setLatestUserMeasurement] = useState<
+    UserMeasurementEntry[]
+  >([]);
 
   const defaultUserWeight = useDefaultUserWeight();
 
@@ -113,7 +115,7 @@ export default function BodyMeasurementsPage() {
       );
 
       if (userMeasurementEntries.length === 1) {
-        setLatestUserMeasurement(userMeasurementEntries[0]);
+        setLatestUserMeasurement(userMeasurementEntries);
       }
     } catch (error) {
       console.log(error);
@@ -335,6 +337,17 @@ export default function BodyMeasurementsPage() {
     return isEmpty;
   }, [activeMeasurements]);
 
+  const handleMeasurementAccordionClick = (
+    measurement: UserMeasurementEntry
+  ) => {
+    const updatedMeasurement: UserMeasurementEntry = {
+      ...measurement,
+      isExpanded: !measurement.isExpanded,
+    };
+
+    setLatestUserMeasurement([updatedMeasurement]);
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -479,6 +492,12 @@ export default function BodyMeasurementsPage() {
               </h3>
               {latestUserMeasurement ? (
                 <>
+                  <UserMeasurementAccordion
+                    userMeasurementEntries={latestUserMeasurement}
+                    handleMeasurementAccordionClick={
+                      handleMeasurementAccordionClick
+                    }
+                  />
                   <Button
                     className="font-medium"
                     onPress={() => userMeasurementModal.onOpen()}
