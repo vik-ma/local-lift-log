@@ -1,12 +1,8 @@
 import { useState, useEffect } from "react";
 import { LoadingSpinner } from "../components";
 import Database from "tauri-plugin-sql-api";
-import { UserMeasurementEntry, UserMeasurement } from "../typings";
-import {
-  FormatDateTimeString,
-  GenerateMeasurementListString,
-  GetClockStyle,
-} from "../helpers";
+import { UserMeasurementEntry } from "../typings";
+import { CreateMeasurementList, GetClockStyle } from "../helpers";
 import {
   Button,
   Dropdown,
@@ -32,27 +28,12 @@ export default function UserMeasurementList() {
           "SELECT * FROM user_measurement_entries ORDER BY id DESC"
         );
 
-        for (let i = 0; i < result.length; i++) {
-          const measurementList = await db.select<UserMeasurement[]>(
-            `SELECT user_measurements.*, 
-            COALESCE(measurements.name, 'Unknown') AS name, 
-            COALESCE(measurements.measurement_type, 'Unknown') AS type
-            FROM user_measurements LEFT JOIN 
-            measurements ON user_measurements.measurement_id = measurements.id 
-            WHERE user_measurement_entry_id = $1;`,
-            [result[i].id]
-          );
-          result[i].measurementList = measurementList;
-          result[i].measurementListString =
-            GenerateMeasurementListString(measurementList);
-          result[i].formattedDate = FormatDateTimeString(
-            result[i].date,
-            clockStyle === "24h"
-          );
-          result[i].isExpanded = false;
-        }
+        const userMeasurementEntries = await CreateMeasurementList(
+          result,
+          clockStyle
+        );
 
-        setUserMeasurementEntries(result);
+        setUserMeasurementEntries(userMeasurementEntries);
       } catch (error) {
         console.log(error);
       }
