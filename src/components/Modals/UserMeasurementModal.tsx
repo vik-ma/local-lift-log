@@ -71,24 +71,6 @@ export const UserMeasurementModal = ({
             <ModalBody>
               {isReordering ? (
                 <div className="flex flex-col gap-2.5 items-center">
-                  <div className="flex justify-center gap-2">
-                    <Button
-                      className="font-medium"
-                      color="danger"
-                      size="sm"
-                      onPress={() => setIsReordering(false)}
-                    >
-                      Cancel Reordering
-                    </Button>
-                    <Button
-                      className="font-medium"
-                      color="success"
-                      size="sm"
-                      onPress={() => updateActiveTrackingMeasurementOrder()}
-                    >
-                      Save Current Order
-                    </Button>
-                  </div>
                   <div className="flex justify-center w-full">
                     <Reorder.Group
                       className="flex flex-col gap-1.5 w-full"
@@ -108,72 +90,92 @@ export const UserMeasurementModal = ({
                   </div>
                 </div>
               ) : (
-                <div className="flex flex-col gap-2">
-                  <div className="flex justify-center">
-                    <Button
-                      className="font-medium"
-                      variant="flat"
-                      size="sm"
-                      onPress={() => setIsReordering(true)}
+                <div className="flex flex-col gap-1">
+                  {activeMeasurements.map((measurement, index) => (
+                    <div
+                      className="flex justify-between gap-2 items-center"
+                      key={`measurement-${measurement.id}`}
                     >
-                      Reorder Measurements
-                    </Button>
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    {activeMeasurements.map((measurement, index) => (
-                      <div
-                        className="flex justify-between gap-2 items-center"
-                        key={`measurement-${measurement.id}`}
-                      >
-                        <Input
-                          value={measurement.input}
-                          label={measurement.name}
-                          size="sm"
-                          variant="faded"
-                          onValueChange={(value) =>
-                            handleActiveMeasurementInputChange(value, index)
-                          }
-                          isInvalid={invalidMeasurementInputs.has(index)}
-                          isClearable
-                        />
-                        <MeasurementUnitDropdown
-                          value={measurement.default_unit}
-                          measurements={activeMeasurements}
-                          setMeasurements={setActiveMeasurements}
-                          measurement={measurement}
-                          targetType="active"
-                          isDisabled={
-                            measurement.measurement_type === "Caliper"
-                          }
-                        />
-                      </div>
-                    ))}
-                    <Input
-                      value={measurementsCommentInput}
-                      label="Comment"
-                      size="sm"
-                      variant="faded"
-                      onValueChange={(value) =>
-                        setMeasurementsCommentInput(value)
-                      }
-                      isClearable
-                    />
-                  </div>
-                  <div className="flex justify-center"></div>
+                      <Input
+                        value={measurement.input}
+                        label={measurement.name}
+                        size="sm"
+                        variant="faded"
+                        onValueChange={(value) =>
+                          handleActiveMeasurementInputChange(value, index)
+                        }
+                        isInvalid={invalidMeasurementInputs.has(index)}
+                        isClearable
+                      />
+                      <MeasurementUnitDropdown
+                        value={measurement.default_unit}
+                        measurements={activeMeasurements}
+                        setMeasurements={setActiveMeasurements}
+                        measurement={measurement}
+                        targetType="active"
+                        isDisabled={measurement.measurement_type === "Caliper"}
+                      />
+                    </div>
+                  ))}
+                  <Input
+                    value={measurementsCommentInput}
+                    label="Comment"
+                    size="sm"
+                    variant="faded"
+                    onValueChange={(value) =>
+                      setMeasurementsCommentInput(value)
+                    }
+                    isClearable
+                  />
                 </div>
               )}
             </ModalBody>
-            <ModalFooter>
-              <Button color="success" variant="light" onPress={onClose}>
-                Close
-              </Button>
-              <Button
-                color="success"
-                onPress={buttonAction}
-                isDisabled={areActiveMeasurementInputsEmpty}
-              >
-                Save Measurements
-              </Button>
+            <ModalFooter className="flex justify-between">
+              <div className="flex justify-center gap-2">
+                {!isReordering && (
+                  <Button
+                    className="font-medium"
+                    variant="flat"
+                    onPress={() => setIsReordering(true)}
+                  >
+                    Reorder Measurements
+                  </Button>
+                )}
+              </div>
+              <div className="flex gap-2">
+                {isReordering ? (
+                  <>
+                    <Button
+                      className="font-medium"
+                      variant="light"
+                      color="success"
+                      onPress={() => setIsReordering(false)}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      className="font-medium"
+                      color="success"
+                      onPress={() => updateActiveTrackingMeasurementOrder()}
+                    >
+                      Save Reorder
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button color="success" variant="light" onPress={onClose}>
+                      Close
+                    </Button>
+                    <Button
+                      color="success"
+                      onPress={buttonAction}
+                      isDisabled={areActiveMeasurementInputsEmpty}
+                    >
+                      Save
+                    </Button>
+                  </>
+                )}
+              </div>
             </ModalFooter>
           </>
         )}
