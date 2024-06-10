@@ -4,6 +4,7 @@ export { TimeInput } from "./TimeInput";
 export { SetList } from "./SetList";
 export { WorkoutExerciseList } from "./WorkoutExerciseList";
 export { ActiveSet } from "./ActiveSet";
+export { UserMeasurementAccordion } from "./UserMeasurementAccordion";
 
 export { WeightUnitDropdown } from "./Dropdowns/WeightUnitDropdown";
 export { DistanceUnitDropdown } from "./Dropdowns/DistanceUnitDropdown";
