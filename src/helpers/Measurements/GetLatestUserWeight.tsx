@@ -6,9 +6,10 @@ export const GetLatestUserWeight = async (clockStyle: string) => {
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
 
-    const result = await db.select<UserWeight[]>(`
-    SELECT * FROM user_weights
-    ORDER BY id DESC LIMIT 1`);
+    const result = await db.select<UserWeight[]>(
+      `SELECT * FROM user_weights
+      ORDER BY id DESC LIMIT 1`
+    );
 
     const userWeight: UserWeight = result[0];
 

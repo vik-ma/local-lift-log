@@ -1,5 +1,10 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
-import { Measurement, UserSettings, UserWeight } from "../typings";
+import {
+  Measurement,
+  UserMeasurementEntry,
+  UserSettings,
+  UserWeight,
+} from "../typings";
 import {
   DeleteModal,
   LoadingSpinner,
@@ -17,6 +22,7 @@ import {
   GetCurrentDateTimeISOString,
   UpdateUserWeight,
   DeleteUserWeightById,
+  CreateMeasurementList,
 } from "../helpers";
 import {
   Button,
@@ -52,6 +58,9 @@ export default function BodyMeasurementsPage() {
   >(new Set<number>());
   const [measurementsCommentInput, setMeasurementsCommentInput] =
     useState<string>("");
+
+  const [latestUserMeasurement, setLatestUserMeasurement] =
+    useState<UserMeasurementEntry>();
 
   const defaultUserWeight = useDefaultUserWeight();
 
@@ -89,6 +98,28 @@ export default function BodyMeasurementsPage() {
     [defaultUserWeight]
   );
 
+  const getLatestUserMeasurement = useCallback(async (clockStyle: string) => {
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      const result = await db.select<UserMeasurementEntry[]>(
+        `SELECT * FROM user_measurement_entries 
+        ORDER BY id DESC LIMIT 1`
+      );
+
+      const userMeasurementEntries = await CreateMeasurementList(
+        result,
+        clockStyle
+      );
+
+      if (userMeasurementEntries.length === 1) {
+        setLatestUserMeasurement(userMeasurementEntries[0]);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
   useEffect(() => {
     const loadUserSettings = async () => {
       const settings: UserSettings | undefined = await GetUserSettings();
@@ -97,12 +128,13 @@ export default function BodyMeasurementsPage() {
         setWeightUnit(settings.default_unit_weight!);
         getActiveMeasurements(settings.active_tracking_measurements!);
         getLatestUserWeight(settings.clock_style!);
+        getLatestUserMeasurement(settings.clock_style!);
         setIsLoading(false);
       }
     };
 
     loadUserSettings();
-  }, [getActiveMeasurements, getLatestUserWeight]);
+  }, [getActiveMeasurements, getLatestUserWeight, getLatestUserMeasurement]);
 
   const isWeightInputValid = useIsStringValidNumber(userWeightInput);
 
