@@ -483,7 +483,7 @@ export default function BodyMeasurementsPage() {
               <h3 className="flex text-lg font-semibold">
                 Latest Measurements
               </h3>
-              {latestUserMeasurement ? (
+              {latestUserMeasurement.length === 1 ? (
                 <>
                   <UserMeasurementAccordion
                     userMeasurementEntries={latestUserMeasurement}
