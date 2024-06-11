@@ -40,7 +40,7 @@ import { useDefaultUserWeight, useIsStringValidNumber } from "../hooks";
 import { VerticalMenuIcon } from "../assets";
 import { Link } from "react-router-dom";
 
-type OperationType = "add-weight" | "edit-weight";
+type OperationType = "add" | "edit";
 
 export default function BodyMeasurementsPage() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
@@ -48,8 +48,7 @@ export default function BodyMeasurementsPage() {
   const [userWeightInput, setUserWeightInput] = useState<string>("");
   const [weightUnit, setWeightUnit] = useState<string>("");
   const [weightCommentInput, setWeightCommentInput] = useState<string>("");
-  const [operationType, setOperationType] =
-    useState<OperationType>("add-weight");
+  const [operationType, setOperationType] = useState<OperationType>("add");
 
   const [activeMeasurements, setActiveMeasurements] = useState<Measurement[]>(
     []
@@ -227,7 +226,7 @@ export default function BodyMeasurementsPage() {
       setUserWeightInput(latestUserWeight.weight.toString());
       setWeightCommentInput(latestUserWeight.comment ?? "");
       setWeightUnit(latestUserWeight.weight_unit);
-      setOperationType("edit-weight");
+      setOperationType("edit");
       userWeightModal.onOpen();
     } else if (key === "delete") {
       deleteModal.onOpen();
@@ -242,7 +241,7 @@ export default function BodyMeasurementsPage() {
   const resetWeightInput = () => {
     setUserWeightInput("");
     setWeightCommentInput("");
-    setOperationType("add-weight");
+    setOperationType("add");
   };
 
   const handleActiveMeasurementInputChange = (value: string, index: number) => {
@@ -374,9 +373,9 @@ export default function BodyMeasurementsPage() {
         commentInput={weightCommentInput}
         setCommentInput={setWeightCommentInput}
         buttonAction={
-          operationType === "edit-weight" ? updateUserWeight : addUserWeight
+          operationType === "edit" ? updateUserWeight : addUserWeight
         }
-        isEditing={operationType === "edit-weight"}
+        isEditing={operationType === "edit"}
       />
       <UserMeasurementModal
         userMeasurementModal={userMeasurementModal}
@@ -389,6 +388,7 @@ export default function BodyMeasurementsPage() {
         handleActiveMeasurementInputChange={handleActiveMeasurementInputChange}
         areActiveMeasurementInputsEmpty={areActiveMeasurementInputsEmpty}
         buttonAction={addActiveMeasurements}
+        isEditing={operationType === "edit"}
       />
       <div className="flex flex-col items-center gap-4">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">
