@@ -2,6 +2,7 @@ import { Reorder, useDragControls } from "framer-motion";
 import { Measurement } from "../typings";
 import { Input } from "@nextui-org/react";
 import MeasurementUnitDropdown from "./Dropdowns/MeasurementUnitDropdown";
+import { ReorderIcon } from "../assets";
 
 type UserMeasurementReorderItemProps = {
   measurement: Measurement;
@@ -22,16 +23,16 @@ export const UserMeasurementReorderItem = ({
   handleActiveMeasurementInputChange,
   updateActiveTrackingMeasurementOrder,
 }: UserMeasurementReorderItemProps) => {
-  const controls = useDragControls();
+  const dragControls = useDragControls();
 
   return (
     <Reorder.Item
       value={measurement}
       dragListener={false}
-      dragControls={controls}
+      dragControls={dragControls}
       onDragEnd={() => updateActiveTrackingMeasurementOrder()}
     >
-      <div className="flex justify-between gap-2 items-center">
+      <div className="flex gap-2.5 items-center">
         <Input
           value={measurement.input}
           label={measurement.name}
@@ -51,10 +52,7 @@ export const UserMeasurementReorderItem = ({
           targetType="active"
           isDisabled={measurement.measurement_type === "Caliper"}
         />
-        <div
-          className="bg-red-500 w-5 h-5"
-          onPointerDown={(e) => controls.start(e)}
-        />
+        <ReorderIcon dragControls={dragControls} />
       </div>
     </Reorder.Item>
   );
