@@ -144,6 +144,6 @@ diesel::table! {
         id -> Integer,
         date -> Text,
         comment -> Nullable<Text>,
-        values -> Nullable<Text>,
+        measurement_values -> Text,
     }
 }

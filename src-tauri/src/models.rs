@@ -157,5 +157,5 @@ pub struct UserMeasurement {
     pub id: i32,
     pub date: String,
     pub comment: Option<String>,
-    pub values: Option<String>,
+    pub measurement_values: String,
 }
