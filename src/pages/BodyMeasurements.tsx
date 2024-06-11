@@ -15,7 +15,6 @@ import {
 import {
   FormatDateTimeString,
   GetLatestUserWeight,
-  IsStringInvalidNumber,
   GetUserSettings,
   CreateActiveMeasurementInputs,
   ConvertEmptyStringToNull,
@@ -36,7 +35,11 @@ import {
 import Database from "tauri-plugin-sql-api";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { useDefaultUserWeight, useIsStringValidNumber } from "../hooks";
+import {
+  useDefaultUserWeight,
+  useIsStringValidNumber,
+  useValidateMeasurementsInput,
+} from "../hooks";
 import { VerticalMenuIcon } from "../assets";
 import { Link } from "react-router-dom";
 
@@ -53,9 +56,7 @@ export default function BodyMeasurementsPage() {
   const [activeMeasurements, setActiveMeasurements] = useState<Measurement[]>(
     []
   );
-  const [invalidMeasurementInputs, setInvalidMeasurementInputs] = useState<
-    Set<number>
-  >(new Set<number>());
+
   const [measurementsCommentInput, setMeasurementsCommentInput] =
     useState<string>("");
 
@@ -73,6 +74,9 @@ export default function BodyMeasurementsPage() {
   const deleteModal = useDisclosure();
   const userWeightModal = useDisclosure();
   const userMeasurementModal = useDisclosure();
+
+  const { invalidMeasurementInputs, validateActiveMeasurementInput } =
+    useValidateMeasurementsInput();
 
   const getActiveMeasurements = useCallback(
     async (activeMeasurementsString: string) => {
@@ -249,17 +253,6 @@ export default function BodyMeasurementsPage() {
     updatedInputs[index] = { ...updatedInputs[index], input: value };
     setActiveMeasurements(updatedInputs);
     validateActiveMeasurementInput(value, index);
-  };
-
-  const validateActiveMeasurementInput = (value: string, index: number) => {
-    const updatedSet = new Set(invalidMeasurementInputs);
-    if (IsStringInvalidNumber(value)) {
-      updatedSet.add(index);
-    } else {
-      updatedSet.delete(index);
-    }
-
-    setInvalidMeasurementInputs(updatedSet);
   };
 
   const addActiveMeasurements = async () => {
