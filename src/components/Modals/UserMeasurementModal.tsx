@@ -27,6 +27,7 @@ type UserMeasurementModalProps = {
   handleActiveMeasurementInputChange: (value: string, index: number) => void;
   areActiveMeasurementInputsEmpty: boolean;
   buttonAction: () => void;
+  isEditing: boolean;
 };
 
 export const UserMeasurementModal = ({
@@ -40,6 +41,7 @@ export const UserMeasurementModal = ({
   handleActiveMeasurementInputChange,
   areActiveMeasurementInputsEmpty,
   buttonAction,
+  isEditing,
 }: UserMeasurementModalProps) => {
   const updateActiveTrackingMeasurementOrder = async () => {
     const activeTrackingMeasurementIdList: number[] = activeMeasurements.map(
@@ -81,6 +83,7 @@ export const UserMeasurementModal = ({
                       handleActiveMeasurementInputChange={
                         handleActiveMeasurementInputChange
                       }
+                      isEditing={isEditing}
                       updateActiveTrackingMeasurementOrder={
                         updateActiveTrackingMeasurementOrder
                       }

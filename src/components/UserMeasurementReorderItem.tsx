@@ -11,7 +11,8 @@ type UserMeasurementReorderItemProps = {
   setActiveMeasurements: React.Dispatch<React.SetStateAction<Measurement[]>>;
   invalidMeasurementInputs: Set<number>;
   handleActiveMeasurementInputChange: (value: string, index: number) => void;
-  updateActiveTrackingMeasurementOrder: () => void;
+  isEditing: boolean;
+  updateActiveTrackingMeasurementOrder?: () => void;
 };
 
 export const UserMeasurementReorderItem = ({
@@ -21,7 +22,8 @@ export const UserMeasurementReorderItem = ({
   setActiveMeasurements,
   invalidMeasurementInputs,
   handleActiveMeasurementInputChange,
-  updateActiveTrackingMeasurementOrder,
+  isEditing,
+  updateActiveTrackingMeasurementOrder = () => {},
 }: UserMeasurementReorderItemProps) => {
   const dragControls = useDragControls();
 
@@ -52,7 +54,7 @@ export const UserMeasurementReorderItem = ({
           targetType="active"
           isDisabled={measurement.measurement_type === "Caliper"}
         />
-        <ReorderIcon dragControls={dragControls} />
+        {!isEditing && <ReorderIcon dragControls={dragControls} />}
       </div>
     </Reorder.Item>
   );
