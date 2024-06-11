@@ -18,11 +18,11 @@ import {
   GetUserSettings,
   CreateActiveMeasurementInputs,
   ConvertEmptyStringToNull,
-  IsStringEmpty,
   GetCurrentDateTimeISOString,
   UpdateUserWeight,
   DeleteUserWeightById,
   CreateMeasurementList,
+  CreateUserMeasurementValues,
 } from "../helpers";
 import {
   Button,
@@ -267,40 +267,20 @@ export default function BodyMeasurementsPage() {
 
     const commentToInsert = ConvertEmptyStringToNull(measurementsCommentInput);
 
+    const userMeasurementValues =
+      CreateUserMeasurementValues(activeMeasurements);
+
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
       const result = await db.execute(
-        `INSERT into user_measurement_entries (date, comment) 
-        VALUES ($1, $2)`,
-        [currentDateString, commentToInsert]
+        `INSERT into user_measurements (date, comment, measurement_values) 
+        VALUES ($1, $2, $3)`,
+        [currentDateString, commentToInsert, userMeasurementValues]
       );
 
-      const userMeasurementEntryId: number = result.lastInsertId;
-
-      for (let i = 0; i < activeMeasurements.length; i++) {
-        const measurement = activeMeasurements[i];
-
-        if (
-          measurement.input === undefined ||
-          IsStringEmpty(measurement.input)
-        ) {
-          continue;
-        }
-
-        const inputNumber: number = Number(measurement.input);
-
-        db.execute(
-          `INSERT into user_measurements (measurement_id, value, unit, user_measurement_entry_id) 
-          VALUES ($1, $2, $3, $4)`,
-          [
-            measurement.id,
-            inputNumber,
-            measurement.default_unit,
-            userMeasurementEntryId,
-          ]
-        );
-      }
+      // TODO: UPDATE LATESTUSERMEASUREMENTS
+      // const userMeasurementEntryId: number = result.lastInsertId;
     } catch (error) {
       console.log(error);
     }
@@ -483,7 +463,7 @@ export default function BodyMeasurementsPage() {
               <h3 className="flex text-lg font-semibold">
                 Latest Measurements
               </h3>
-              {latestUserMeasurement.length === 1 ? (
+              {latestUserMeasurement.length === 0 ? (
                 <>
                   <UserMeasurementAccordion
                     userMeasurementEntries={latestUserMeasurement}
