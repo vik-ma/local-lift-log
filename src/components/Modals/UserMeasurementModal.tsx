@@ -13,7 +13,7 @@ import {
   GenerateActiveMeasurementString,
   UpdateActiveTrackingMeasurements,
 } from "../../helpers";
-import { MeasurementUnitDropdown } from "..";
+import { UserMeasurementReorderItem } from "..";
 import { Reorder } from "framer-motion";
 import { Measurement } from "../../typings";
 
@@ -91,32 +91,28 @@ export const UserMeasurementModal = ({
                 </div>
               ) : (
                 <div className="flex flex-col gap-1">
-                  {activeMeasurements.map((measurement, index) => (
-                    <div
-                      className="flex justify-between gap-2 items-center"
-                      key={`measurement-${measurement.id}`}
-                    >
-                      <Input
-                        value={measurement.input}
-                        label={measurement.name}
-                        size="sm"
-                        variant="faded"
-                        onValueChange={(value) =>
-                          handleActiveMeasurementInputChange(value, index)
-                        }
-                        isInvalid={invalidMeasurementInputs.has(index)}
-                        isClearable
-                      />
-                      <MeasurementUnitDropdown
-                        value={measurement.default_unit}
-                        measurements={activeMeasurements}
-                        setMeasurements={setActiveMeasurements}
+                  <Reorder.Group
+                    className="flex flex-col gap-1.5 w-full"
+                    values={activeMeasurements}
+                    onReorder={setActiveMeasurements}
+                  >
+                    {activeMeasurements.map((measurement, index) => (
+                      <UserMeasurementReorderItem
+                        key={measurement.id}
                         measurement={measurement}
-                        targetType="active"
-                        isDisabled={measurement.measurement_type === "Caliper"}
+                        index={index}
+                        activeMeasurements={activeMeasurements}
+                        setActiveMeasurements={setActiveMeasurements}
+                        invalidMeasurementInputs={invalidMeasurementInputs}
+                        handleActiveMeasurementInputChange={
+                          handleActiveMeasurementInputChange
+                        }
+                        updateActiveTrackingMeasurementOrder={
+                          updateActiveTrackingMeasurementOrder
+                        }
                       />
-                    </div>
-                  ))}
+                    ))}
+                  </Reorder.Group>
                   <Input
                     value={measurementsCommentInput}
                     label="Comment"
