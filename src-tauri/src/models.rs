@@ -155,17 +155,7 @@ pub struct Measurement {
 #[diesel(check_for_backend(diesel::sqlite::Sqlite))]
 pub struct UserMeasurement {
     pub id: i32,
-    pub measurement_id: i32,
-    pub value: f32,
-    pub unit: String,
-    pub user_measurement_entry_id: i32,
-}
-
-#[derive(Queryable, Selectable)]
-#[diesel(table_name = crate::schema::user_measurement_entries)]
-#[diesel(check_for_backend(diesel::sqlite::Sqlite))]
-pub struct UserMeasurementEntry {
-    pub id: i32,
     pub date: String,
     pub comment: Option<String>,
+    pub values: Option<String>,
 }
