@@ -107,9 +107,12 @@ export const UserMeasurementModal = ({
               <Button
                 color="success"
                 onPress={buttonAction}
-                isDisabled={areActiveMeasurementInputsEmpty}
+                isDisabled={
+                  areActiveMeasurementInputsEmpty ||
+                  invalidMeasurementInputs.size > 0
+                }
               >
-                Save
+                {isEditing ? "Update" : "Save"}
               </Button>
             </ModalFooter>
           </>
