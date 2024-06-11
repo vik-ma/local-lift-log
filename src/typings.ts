@@ -259,6 +259,13 @@ export type UserMeasurementEntry = {
   isExpanded: boolean;
 };
 
+export type UserMeasurementValues = {
+  [key: number]: {
+    unit: string;
+    value: number;
+  };
+};
+
 export type SetListNotes = {
   [key: number]: Set<number>;
 };
