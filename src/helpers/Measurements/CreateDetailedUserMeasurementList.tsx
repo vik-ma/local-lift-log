@@ -30,7 +30,7 @@ export const CreateDetailedUserMeasurementList = (
             return measurementMap[id].name;
           } else {
             containsInvalidMeasurement = true;
-            return "Unknown Measurement";
+            return "Unknown";
           }
         })
         .join(", ");

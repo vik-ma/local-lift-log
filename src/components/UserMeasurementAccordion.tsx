@@ -100,12 +100,12 @@ export const UserMeasurementAccordion = ({
                           <span
                             className={
                               values.isInvalid
-                                ? "w-[11rem] truncate text-red-500"
-                                : "w-[11rem] truncate"
+                                ? "w-[9rem] truncate text-red-700"
+                                : "w-[9rem] truncate"
                             }
                           >
                             {values.isInvalid
-                              ? "Unknown Measurement"
+                              ? "Unknown"
                               : measurementMap[key].name}
                           </span>
                           <div
@@ -113,7 +113,7 @@ export const UserMeasurementAccordion = ({
                               values.unit === "in" ? "flex" : "flex gap-1"
                             }
                           >
-                            <span className="max-w-[4rem] truncate font-medium">
+                            <span className="max-w-[3.5rem] truncate font-medium">
                               {values.value}
                             </span>
                             <span>
