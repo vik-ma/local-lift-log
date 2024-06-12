@@ -1,4 +1,5 @@
 import { Measurement, UserMeasurementValues } from "../../typings";
+import { ConvertNumberToTwoDecimals } from "../Numbers/ConvertNumberToTwoDecimals";
 import { IsStringInvalidNumber } from "../Numbers/IsStringInvalidNumber";
 import { IsStringEmpty } from "../Strings/IsStringEmpty";
 
@@ -18,7 +19,9 @@ export const CreateUserMeasurementValues = (
       continue;
     }
 
-    const inputNumber: number = Number(measurement.input);
+    const inputNumber: number = ConvertNumberToTwoDecimals(
+      Number(measurement.input)
+    );
 
     userMeasurementValues[measurement.id] = {
       value: inputNumber,

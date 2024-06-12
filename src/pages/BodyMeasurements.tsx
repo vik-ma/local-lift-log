@@ -25,6 +25,7 @@ import {
   CreateUserMeasurementValues,
   CreateDetailedUserMeasurementList,
   GetMeasurementsMap,
+  ConvertNumberToTwoDecimals,
 } from "../helpers";
 import {
   Button,
@@ -155,7 +156,7 @@ export default function BodyMeasurementsPage() {
   const addUserWeight = async () => {
     if (!isWeightInputValid) return;
 
-    const newWeight = Number(userWeightInput);
+    const newWeight = ConvertNumberToTwoDecimals(Number(userWeightInput));
 
     const commentToInsert = ConvertEmptyStringToNull(weightCommentInput);
 

@@ -18,6 +18,7 @@ import {
   Input,
 } from "@nextui-org/react";
 import {
+  ConvertNumberToTwoDecimals,
   CreateDefaultDistances,
   CreateDefaultEquipmentWeights,
   GetDefaultUnitValues,
@@ -131,7 +132,7 @@ export default function PresetsPage() {
   const addEquipmentWeight = async () => {
     if (isNewPresetInvalid || operatingType !== "equipment") return;
 
-    const weight = Number(newWeightInput);
+    const weight = ConvertNumberToTwoDecimals(Number(newWeightInput));
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
@@ -163,7 +164,7 @@ export default function PresetsPage() {
   const addDistance = async () => {
     if (isNewPresetInvalid || operatingType !== "distance") return;
 
-    const distance = Number(newDistanceInput);
+    const distance = ConvertNumberToTwoDecimals(Number(newDistanceInput));
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
