@@ -240,7 +240,7 @@ export type Measurement = {
 };
 
 export type MeasurementMap = {
-  [key: number]: {
+  [key: string]: {
     name: string;
     default_unit: string;
     measurement_type: string;
@@ -259,7 +259,7 @@ export type UserMeasurement = {
 };
 
 export type UserMeasurementValues = {
-  [key: number]: {
+  [key: string]: {
     unit: string;
     value: number;
   };
