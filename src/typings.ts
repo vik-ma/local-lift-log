@@ -239,24 +239,23 @@ export type Measurement = {
   input?: string;
 };
 
-export type UserMeasurement = {
-  id: number;
-  measurement_id: number;
-  value: number;
-  unit: string;
-  user_measurement_entry_id: number;
-  name?: string;
-  type?: string;
+export type MeasurementMap = {
+  [key: number]: {
+    name: string;
+    default_unit: string;
+    measurement_type: string;
+  };
 };
 
-export type UserMeasurementEntry = {
+export type UserMeasurement = {
   id: number;
   date: string;
   comment: string | null;
-  measurementList?: UserMeasurement[];
+  measurement_values: string;
   measurementListString?: string;
-  formattedDate: string;
-  isExpanded: boolean;
+  formattedDate?: string;
+  isExpanded?: boolean;
+  userMeasurementValues?: UserMeasurementValues;
 };
 
 export type UserMeasurementValues = {
