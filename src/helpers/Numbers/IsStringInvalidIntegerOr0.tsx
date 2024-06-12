@@ -1,9 +1,9 @@
 import { IsNumberNegativeOrInfinity } from "..";
 
-export const IsStringInvalidNumberOr0 = (inputString: string): boolean => {
+export const IsStringInvalidIntegerOr0 = (inputString: string): boolean => {
   const inputNumber = Number(inputString);
   if (
-    isNaN(inputNumber) ||
+    !Number.isInteger(inputNumber) ||
     IsNumberNegativeOrInfinity(inputNumber) ||
     inputNumber === 0
   )

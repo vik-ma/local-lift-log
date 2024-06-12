@@ -54,10 +54,11 @@ export { IsStringInvalidNumber } from "./Numbers/IsStringInvalidNumber";
 export { IsStringInvalidInteger } from "./Numbers/IsStringInvalidInteger";
 export { ConvertNumberToTwoDecimals } from "./Numbers/ConvertNumberToTwoDecimals";
 export { IsStringInvalidNumberOrAbove10 } from "./Numbers/IsStringInvalidNumberOrAbove10";
-export { IsStringInvalidNumberOr0 } from "./Numbers/IsStringInvalidNumberOr0";
+export { IsStringInvalidIntegerOr0 } from "./Numbers/IsStringInvalidIntegerOr0";
 export { FormatTimeInSecondsToHhmmssString } from "./Numbers/FormatTimeInSecondsToHhmmssString";
 export { IsNumberValidBinary } from "./Numbers/IsNumberValidBinary";
 export { IsNumberValidId } from "./Numbers/IsNumberValidId";
+export { IsStringInvalidNumberOr0 } from "./Numbers/IsStringInvalidNumberOr0";
 
 export { GetLatestUserWeight } from "./Measurements/GetLatestUserWeight";
 export { CreateDefaultMeasurements } from "./Measurements/CreateDefaultMeasurements";
