@@ -22,11 +22,14 @@ export const CreateDetailedUserMeasurementList = (
 
       const measurementIds: string[] = Object.keys(userMeasurementValues);
 
+      let containsInvalidMeasurement = false;
+
       const measurementListString = measurementIds
         .map((id) => {
           if (measurementMap[id]) {
             return measurementMap[id].name;
           } else {
+            containsInvalidMeasurement = true;
             return "Unknown Measurement";
           }
         })
@@ -43,6 +46,7 @@ export const CreateDetailedUserMeasurementList = (
         formattedDate: formattedDate,
         isExpanded: false,
         userMeasurementValues: userMeasurementValues,
+        isInvalid: containsInvalidMeasurement,
       };
 
       detailedUserMeasurementList.push(detailedUserMeasurement);

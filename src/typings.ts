@@ -256,12 +256,14 @@ export type UserMeasurement = {
   formattedDate?: string;
   isExpanded?: boolean;
   userMeasurementValues?: UserMeasurementValues;
+  isInvalid?: boolean;
 };
 
 export type UserMeasurementValues = {
   [key: string]: {
     unit: string;
     value: number;
+    isInvalid?: boolean;
   };
 };
 

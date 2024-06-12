@@ -91,27 +91,38 @@ export const UserMeasurementAccordion = ({
               >
                 <div className="flex flex-col text-sm">
                   {Object.entries(measurement.userMeasurementValues!).map(
-                    ([key, values]) => (
-                      <div className="flex gap-2 text-left" key={key}>
-                        <span className="w-[11rem] truncate">
-                          {measurementMap[key]
-                            ? measurementMap[key].name
-                            : "Unknown Measurement"}
-                        </span>
-                        <div
-                          className={
-                            values.unit === "in" ? "flex" : "flex gap-1"
-                          }
-                        >
-                          <span className="max-w-[4rem] truncate font-medium">
-                            {values.value}
+                    ([key, values]) => {
+                      if (measurementMap[key] === undefined) {
+                        values.isInvalid = true;
+                      }
+                      return (
+                        <div className="flex gap-2 text-left" key={key}>
+                          <span
+                            className={
+                              values.isInvalid
+                                ? "w-[11rem] truncate text-red-500"
+                                : "w-[11rem] truncate"
+                            }
+                          >
+                            {values.isInvalid
+                              ? "Unknown Measurement"
+                              : measurementMap[key].name}
                           </span>
-                          <span>
-                            {values.unit === "in" ? `″` : values.unit}
-                          </span>
+                          <div
+                            className={
+                              values.unit === "in" ? "flex" : "flex gap-1"
+                            }
+                          >
+                            <span className="max-w-[4rem] truncate font-medium">
+                              {values.value}
+                            </span>
+                            <span>
+                              {values.unit === "in" ? `″` : values.unit}
+                            </span>
+                          </div>
                         </div>
-                      </div>
-                    )
+                      );
+                    }
                   )}
                 </div>
               </motion.div>
