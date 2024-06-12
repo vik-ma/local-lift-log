@@ -53,6 +53,7 @@ export default function BodyMeasurementsPage() {
   const [userWeightInput, setUserWeightInput] = useState<string>("");
   const [weightUnit, setWeightUnit] = useState<string>("");
   const [weightCommentInput, setWeightCommentInput] = useState<string>("");
+  const [clockStyle, setClockStyle] = useState<string>("");
   const [operationType, setOperationType] = useState<OperationType>("add");
 
   const [activeMeasurements, setActiveMeasurements] = useState<Measurement[]>(
@@ -138,6 +139,7 @@ export default function BodyMeasurementsPage() {
       if (settings !== undefined) {
         setUserSettings(settings);
         setWeightUnit(settings.default_unit_weight!);
+        setClockStyle(settings.clock_style!);
         getActiveMeasurements(settings.active_tracking_measurements!);
         getLatestUserWeight(settings.clock_style!);
         getLatestUserMeasurement(settings.clock_style!);
@@ -286,8 +288,20 @@ export default function BodyMeasurementsPage() {
         [currentDateString, commentToInsert, userMeasurementValues]
       );
 
-      // TODO: UPDATE LATESTUSERMEASUREMENTS
-      // const userMeasurementEntryId: number = result.lastInsertId;
+      const activeMeasurement: UserMeasurement = {
+        id: result.lastInsertId,
+        date: currentDateString,
+        comment: commentToInsert,
+        measurement_values: userMeasurementValues,
+      };
+
+      const detailedActiveMeasurement = CreateDetailedUserMeasurementList(
+        [activeMeasurement],
+        measurementMap,
+        clockStyle
+      );
+
+      setLatestUserMeasurement(detailedActiveMeasurement[0]);
     } catch (error) {
       console.log(error);
     }
