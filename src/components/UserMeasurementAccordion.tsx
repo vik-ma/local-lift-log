@@ -93,8 +93,10 @@ export const UserMeasurementAccordion = ({
                   {Object.entries(measurement.userMeasurementValues!).map(
                     ([key, values]) => (
                       <div className="flex gap-2 text-left" key={key}>
-                        <span className="w-[9rem] truncate">
-                          {measurementMap[key].name}
+                        <span className="w-[11rem] truncate">
+                          {measurementMap[key]
+                            ? measurementMap[key].name
+                            : "Unknown Measurement"}
                         </span>
                         <div
                           className={
