@@ -1,9 +1,10 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import {
   Measurement,
-  UserMeasurementEntry,
   UserSettings,
   UserWeight,
+  UserMeasurement,
+  MeasurementMap,
 } from "../typings";
 import {
   DeleteModal,
@@ -21,8 +22,9 @@ import {
   GetCurrentDateTimeISOString,
   UpdateUserWeight,
   DeleteUserWeightById,
-  CreateMeasurementList,
   CreateUserMeasurementValues,
+  CreateDetailedUserMeasurementList,
+  GetMeasurementsMap,
 } from "../helpers";
 import {
   Button,
@@ -56,13 +58,13 @@ export default function BodyMeasurementsPage() {
   const [activeMeasurements, setActiveMeasurements] = useState<Measurement[]>(
     []
   );
+  const [measurementMap, setMeasurementMap] = useState<MeasurementMap>({});
 
   const [measurementsCommentInput, setMeasurementsCommentInput] =
     useState<string>("");
 
-  const [latestUserMeasurement, setLatestUserMeasurement] = useState<
-    UserMeasurementEntry[]
-  >([]);
+  const [latestUserMeasurement, setLatestUserMeasurement] =
+    useState<UserMeasurement>();
 
   const defaultUserWeight = useDefaultUserWeight();
 
@@ -104,21 +106,26 @@ export default function BodyMeasurementsPage() {
   );
 
   const getLatestUserMeasurement = useCallback(async (clockStyle: string) => {
+    const measurementMap = await GetMeasurementsMap();
+
+    setMeasurementMap(measurementMap);
+
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
-      const result = await db.select<UserMeasurementEntry[]>(
-        `SELECT * FROM user_measurement_entries 
+      const result = await db.select<UserMeasurement[]>(
+        `SELECT * FROM user_measurements 
         ORDER BY id DESC LIMIT 1`
       );
 
-      const userMeasurementEntries = await CreateMeasurementList(
+      const detailedUserMeasurement = CreateDetailedUserMeasurementList(
         result,
+        measurementMap,
         clockStyle
       );
 
-      if (userMeasurementEntries.length === 1) {
-        setLatestUserMeasurement(userMeasurementEntries);
+      if (detailedUserMeasurement.length === 1) {
+        setLatestUserMeasurement(detailedUserMeasurement[0]);
       }
     } catch (error) {
       console.log(error);
@@ -309,15 +316,13 @@ export default function BodyMeasurementsPage() {
     return isEmpty;
   }, [activeMeasurements]);
 
-  const handleMeasurementAccordionClick = (
-    measurement: UserMeasurementEntry
-  ) => {
-    const updatedMeasurement: UserMeasurementEntry = {
+  const handleMeasurementAccordionClick = (measurement: UserMeasurement) => {
+    const updatedMeasurement: UserMeasurement = {
       ...measurement,
       isExpanded: !measurement.isExpanded,
     };
 
-    setLatestUserMeasurement([updatedMeasurement]);
+    setLatestUserMeasurement(updatedMeasurement);
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;
@@ -463,13 +468,14 @@ export default function BodyMeasurementsPage() {
               <h3 className="flex text-lg font-semibold">
                 Latest Measurements
               </h3>
-              {latestUserMeasurement.length === 0 ? (
+              {latestUserMeasurement !== undefined ? (
                 <>
                   <UserMeasurementAccordion
-                    userMeasurementEntries={latestUserMeasurement}
+                    userMeasurementEntries={[latestUserMeasurement]}
                     handleMeasurementAccordionClick={
                       handleMeasurementAccordionClick
                     }
+                    measurementMap={measurementMap}
                   />
                   <Button
                     className="font-medium"
