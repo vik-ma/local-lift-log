@@ -1,30 +1,40 @@
 import { useState, useEffect } from "react";
 import { LoadingSpinner, UserMeasurementAccordion } from "../components";
 import Database from "tauri-plugin-sql-api";
-import { UserMeasurementEntry } from "../typings";
-import { CreateMeasurementList, GetClockStyle } from "../helpers";
+import { MeasurementMap, UserMeasurement } from "../typings";
+import {
+  CreateDetailedUserMeasurementList,
+  GetClockStyle,
+  GetMeasurementsMap,
+} from "../helpers";
 
 export default function UserMeasurementList() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [userMeasurementEntries, setUserMeasurementEntries] = useState<
-    UserMeasurementEntry[]
+    UserMeasurement[]
   >([]);
+  const [measurementMap, setMeasurementMap] = useState<MeasurementMap>({});
 
   useEffect(() => {
     const getUserMeasurements = async (clockStyle: string) => {
+      const measurementMap = await GetMeasurementsMap();
+
+      setMeasurementMap(measurementMap);
+
       try {
         const db = await Database.load(import.meta.env.VITE_DB);
 
-        const result = await db.select<UserMeasurementEntry[]>(
-          "SELECT * FROM user_measurement_entries ORDER BY id DESC"
+        const result = await db.select<UserMeasurement[]>(
+          "SELECT * FROM user_measurements ORDER BY id DESC"
         );
 
-        const userMeasurementEntries = await CreateMeasurementList(
+        const detailedUserMeasurements = CreateDetailedUserMeasurementList(
           result,
+          measurementMap,
           clockStyle
         );
 
-        setUserMeasurementEntries(userMeasurementEntries);
+        setUserMeasurementEntries(detailedUserMeasurements);
       } catch (error) {
         console.log(error);
       }
@@ -43,10 +53,10 @@ export default function UserMeasurementList() {
   }, []);
 
   const handleMeasurementAccordionClick = (
-    measurement: UserMeasurementEntry,
+    measurement: UserMeasurement,
     index: number
   ) => {
-    const updatedMeasurement: UserMeasurementEntry = {
+    const updatedMeasurement: UserMeasurement = {
       ...measurement,
       isExpanded: !measurement.isExpanded,
     };
@@ -71,6 +81,7 @@ export default function UserMeasurementList() {
           <UserMeasurementAccordion
             userMeasurementEntries={userMeasurementEntries}
             handleMeasurementAccordionClick={handleMeasurementAccordionClick}
+            measurementMap={measurementMap}
           />
         )}
       </div>

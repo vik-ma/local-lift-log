@@ -7,26 +7,28 @@ import {
 } from "@nextui-org/react";
 import { VerticalMenuIcon, ChevronIcon } from "../assets";
 import { AnimatePresence, motion } from "framer-motion";
-import { UserMeasurementEntry } from "../typings";
+import { MeasurementMap, UserMeasurement } from "../typings";
 
 type UserMeasurementAccordionProps = {
-  userMeasurementEntries: UserMeasurementEntry[];
+  userMeasurementEntries: UserMeasurement[];
   handleMeasurementAccordionClick: (
-    measurement: UserMeasurementEntry,
+    measurement: UserMeasurement,
     index: number
   ) => void;
+  measurementMap: MeasurementMap;
 };
 
 export const UserMeasurementAccordion = ({
   userMeasurementEntries,
   handleMeasurementAccordionClick,
+  measurementMap,
 }: UserMeasurementAccordionProps) => {
   return (
     <div className="flex flex-col gap-1 w-full">
       {userMeasurementEntries.map((measurement, index) => (
         <div
           key={measurement.id}
-          className="flex flex-col cursor-pointer gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+          className="flex flex-col select-none cursor-pointer gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
           onClick={() => handleMeasurementAccordionClick(measurement, index)}
         >
           <div className="flex flex-row justify-between w-full gap-2 items-center">
@@ -88,25 +90,27 @@ export const UserMeasurementAccordion = ({
                 }}
               >
                 <div className="flex flex-col text-sm">
-                  {measurement.measurementList?.map((measurement) => (
-                    <div className="flex gap-2 text-left" key={measurement.id}>
-                      <span className="w-[9rem] truncate">
-                        {measurement.name}
-                      </span>
-                      <div
-                        className={
-                          measurement.unit === "in" ? "flex" : "flex gap-1"
-                        }
-                      >
-                        <span className="max-w-[4rem] truncate font-medium">
-                          {measurement.value}
+                  {Object.entries(measurement.userMeasurementValues!).map(
+                    ([key, values]) => (
+                      <div className="flex gap-2 text-left" key={key}>
+                        <span className="w-[9rem] truncate">
+                          {measurementMap[key].name}
                         </span>
-                        <span>
-                          {measurement.unit === "in" ? `″` : measurement.unit}
-                        </span>
+                        <div
+                          className={
+                            values.unit === "in" ? "flex" : "flex gap-1"
+                          }
+                        >
+                          <span className="max-w-[4rem] truncate font-medium">
+                            {values.value}
+                          </span>
+                          <span>
+                            {values.unit === "in" ? `″` : values.unit}
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    )
+                  )}
                 </div>
               </motion.div>
             )}
