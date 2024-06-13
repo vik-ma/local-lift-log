@@ -125,6 +125,9 @@ export const UserMeasurementAccordion = ({
                               {values.unit === "in" ? `″` : values.unit}
                             </span>
                           </div>
+                          <span className="flex-grow text-right px-3.5">
+                            {values.measurement_type}
+                          </span>
                         </div>
                       );
                     }
