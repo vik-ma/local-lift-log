@@ -538,25 +538,26 @@ export default function BodyMeasurementsPage() {
                       handleUserMeasurementsOptionSelection
                     }
                   />
-                  <Button
-                    className="font-medium"
-                    onPress={() => userMeasurementModal.onOpen()}
-                  >
-                    Add Measurements
-                  </Button>
                 </>
               ) : (
-                <>
-                  <span className="flex justify-center text-stone-400">
-                    No Body Measurement Entries Added
-                  </span>
-                  <span className="text-xs text-stone-500 font-normal">
-                    Add Measurements to actively track in the{" "}
-                    <Link className="text-success" to={"measurement-list"}>
-                      List of Measurements
-                    </Link>
-                  </span>
-                </>
+                <span className="flex justify-center text-stone-400">
+                  No Body Measurement Entries Added
+                </span>
+              )}
+              {activeMeasurements.length === 0 ? (
+                <span className="text-xs text-stone-500 font-normal">
+                  Add Measurements to actively track in the{" "}
+                  <Link className="text-success" to={"measurement-list"}>
+                    List of Measurements
+                  </Link>
+                </span>
+              ) : (
+                <Button
+                  className="font-medium"
+                  onPress={() => userMeasurementModal.onOpen()}
+                >
+                  Add Measurements
+                </Button>
               )}
             </div>
           </>
