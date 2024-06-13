@@ -116,32 +116,40 @@ export default function BodyMeasurementsPage() {
     [defaultUserWeight]
   );
 
-  const getLatestUserMeasurement = useCallback(async (clockStyle: string) => {
-    const measurementMap = await GetMeasurementsMap();
+  const getLatestUserMeasurement = useCallback(
+    async (clockStyle: string) => {
+      const measurementMap = await GetMeasurementsMap();
 
-    setMeasurementMap(measurementMap);
+      setMeasurementMap(measurementMap);
 
-    try {
-      const db = await Database.load(import.meta.env.VITE_DB);
+      try {
+        const db = await Database.load(import.meta.env.VITE_DB);
 
-      const result = await db.select<UserMeasurement[]>(
-        `SELECT * FROM user_measurements 
-        ORDER BY id DESC LIMIT 1`
-      );
+        const result = await db.select<UserMeasurement[]>(
+          `SELECT * FROM user_measurements 
+          ORDER BY id DESC LIMIT 1`
+        );
 
-      const detailedUserMeasurement = CreateDetailedUserMeasurementList(
-        result,
-        measurementMap,
-        clockStyle
-      );
+        if (result.length === 0) {
+          setLatestUserMeasurements(defaultUserMeasurements);
+          return;
+        }
 
-      if (detailedUserMeasurement.length === 1) {
-        setLatestUserMeasurements(detailedUserMeasurement[0]);
+        const detailedUserMeasurement = CreateDetailedUserMeasurementList(
+          result,
+          measurementMap,
+          clockStyle
+        );
+
+        if (detailedUserMeasurement.length === 1) {
+          setLatestUserMeasurements(detailedUserMeasurement[0]);
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
+    },
+    [defaultUserMeasurements]
+  );
 
   useEffect(() => {
     const loadUserSettings = async () => {
