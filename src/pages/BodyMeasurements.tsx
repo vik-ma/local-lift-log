@@ -26,6 +26,7 @@ import {
   CreateDetailedUserMeasurementList,
   GetMeasurementsMap,
   ConvertNumberToTwoDecimals,
+  DeleteUserMeasurementById,
 } from "../helpers";
 import {
   Button,
@@ -328,6 +329,19 @@ export default function BodyMeasurementsPage() {
     toast.success("Measurements Added");
   };
 
+  const deleteLatestUserMeasurements = async () => {
+    if (latestUserMeasurements.id === 0 || userSettings === undefined) return;
+
+    const success = await DeleteUserMeasurementById(latestUserMeasurements.id);
+
+    if (!success) return;
+
+    getLatestUserMeasurement(userSettings.clock_style);
+
+    toast.success("Body Measurements Entry Deleted");
+    deleteModal.onClose();
+  };
+
   const areActiveMeasurementInputsEmpty = useMemo(() => {
     let isEmpty: boolean = true;
 
@@ -379,11 +393,10 @@ export default function BodyMeasurementsPage() {
             entry?
           </p>
         }
-        // TODO: FIX
         deleteButtonAction={
           operationType === "delete-weight"
             ? () => deleteLatestUserWeight()
-            : () => {}
+            : () => deleteLatestUserMeasurements()
         }
       />
       <UserWeightModal
@@ -513,7 +526,7 @@ export default function BodyMeasurementsPage() {
               <h3 className="flex text-lg font-semibold">
                 Latest Measurements
               </h3>
-              {latestUserMeasurements !== undefined ? (
+              {latestUserMeasurements.id !== 0 ? (
                 <>
                   <UserMeasurementAccordion
                     userMeasurementEntries={[latestUserMeasurements]}
