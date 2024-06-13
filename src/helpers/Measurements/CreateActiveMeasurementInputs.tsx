@@ -6,11 +6,14 @@ export const CreateActiveMeasurementInputs = async (
   activeMeasurementsString: string
 ): Promise<Measurement[]> => {
   const activeMeasurements: Measurement[] = [];
+
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
+
     const activeMeasurementList = GenerateActiveMeasurementList(
       activeMeasurementsString
     );
+
     for (let i = 0; i < activeMeasurementList.length; i++) {
       const result = await db.select<Measurement[]>(
         "SELECT * FROM measurements WHERE id = $1",
@@ -29,5 +32,6 @@ export const CreateActiveMeasurementInputs = async (
   } catch (error) {
     console.log(error);
   }
+  
   return activeMeasurements;
 };
