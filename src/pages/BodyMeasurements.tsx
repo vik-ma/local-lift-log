@@ -39,6 +39,7 @@ import Database from "tauri-plugin-sql-api";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import {
+  useDefaultUserMeasurements,
   useDefaultUserWeight,
   useIsStringValidNumber,
   useValidateMeasurementsInput,
@@ -46,7 +47,12 @@ import {
 import { VerticalMenuIcon } from "../assets";
 import { Link } from "react-router-dom";
 
-type OperationType = "add" | "edit";
+type OperationType =
+  | "add"
+  | "edit-weight"
+  | "delete-weight"
+  | "edit-measurements"
+  | "delete-measurements";
 
 export default function BodyMeasurementsPage() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
@@ -65,13 +71,15 @@ export default function BodyMeasurementsPage() {
   const [measurementsCommentInput, setMeasurementsCommentInput] =
     useState<string>("");
 
-  const [latestUserMeasurement, setLatestUserMeasurement] =
-    useState<UserMeasurement>();
-
   const defaultUserWeight = useDefaultUserWeight();
 
   const [latestUserWeight, setLatestUserWeight] =
     useState<UserWeight>(defaultUserWeight);
+
+  const defaultUserMeasurements = useDefaultUserMeasurements();
+
+  const [latestUserMeasurements, setLatestUserMeasurements] =
+    useState<UserMeasurement>(defaultUserMeasurements);
 
   const navigate = useNavigate();
 
@@ -127,7 +135,7 @@ export default function BodyMeasurementsPage() {
       );
 
       if (detailedUserMeasurement.length === 1) {
-        setLatestUserMeasurement(detailedUserMeasurement[0]);
+        setLatestUserMeasurements(detailedUserMeasurement[0]);
       }
     } catch (error) {
       console.log(error);
@@ -240,9 +248,10 @@ export default function BodyMeasurementsPage() {
       setUserWeightInput(latestUserWeight.weight.toString());
       setWeightCommentInput(latestUserWeight.comment ?? "");
       setWeightUnit(latestUserWeight.weight_unit);
-      setOperationType("edit");
+      setOperationType("edit-weight");
       userWeightModal.onOpen();
     } else if (key === "delete") {
+      setOperationType("delete-weight");
       deleteModal.onOpen();
     }
   };
@@ -302,7 +311,7 @@ export default function BodyMeasurementsPage() {
         clockStyle
       );
 
-      setLatestUserMeasurement(detailedActiveMeasurement[0]);
+      setLatestUserMeasurements(detailedActiveMeasurement[0]);
     } catch (error) {
       console.log(error);
     }
@@ -337,7 +346,16 @@ export default function BodyMeasurementsPage() {
       isExpanded: !measurement.isExpanded,
     };
 
-    setLatestUserMeasurement(updatedMeasurement);
+    setLatestUserMeasurements(updatedMeasurement);
+  };
+
+  const handleUserMeasurementsOptionSelection = (key: string) => {
+    if (key === "edit") {
+      // TODO: ADD
+    } else if (key === "delete") {
+      setOperationType("delete-measurements");
+      deleteModal.onOpen();
+    }
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;
@@ -347,14 +365,26 @@ export default function BodyMeasurementsPage() {
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
       <DeleteModal
         deleteModal={deleteModal}
-        header="Delete Body Weight Entry"
+        header={
+          operationType === "delete-weight"
+            ? "Delete Body Weight Entry"
+            : "Delete Body Measurement Entry"
+        }
         body={
           <p className="break-words">
-            Are you sure you want to permanently delete the latest Body Weight
-            entry? ?
+            Are you sure you want to permanently delete the latest{" "}
+            {operationType === "delete-weight"
+              ? "Body Weight"
+              : "Body Measurement"}{" "}
+            entry?
           </p>
         }
-        deleteButtonAction={() => deleteLatestUserWeight()}
+        // TODO: FIX
+        deleteButtonAction={
+          operationType === "delete-weight"
+            ? () => deleteLatestUserWeight()
+            : () => {}
+        }
       />
       <UserWeightModal
         userWeightModal={userWeightModal}
@@ -366,9 +396,9 @@ export default function BodyMeasurementsPage() {
         commentInput={weightCommentInput}
         setCommentInput={setWeightCommentInput}
         buttonAction={
-          operationType === "edit" ? updateUserWeight : addUserWeight
+          operationType === "edit-weight" ? updateUserWeight : addUserWeight
         }
-        isEditing={operationType === "edit"}
+        isEditing={operationType === "edit-weight"}
       />
       <UserMeasurementModal
         userMeasurementModal={userMeasurementModal}
@@ -381,7 +411,7 @@ export default function BodyMeasurementsPage() {
         handleActiveMeasurementInputChange={handleActiveMeasurementInputChange}
         areActiveMeasurementInputsEmpty={areActiveMeasurementInputsEmpty}
         buttonAction={addActiveMeasurements}
-        isEditing={operationType === "edit"}
+        isEditing={operationType === "edit-measurements"}
       />
       <div className="flex flex-col items-center gap-4">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">
@@ -483,14 +513,17 @@ export default function BodyMeasurementsPage() {
               <h3 className="flex text-lg font-semibold">
                 Latest Measurements
               </h3>
-              {latestUserMeasurement !== undefined ? (
+              {latestUserMeasurements !== undefined ? (
                 <>
                   <UserMeasurementAccordion
-                    userMeasurementEntries={[latestUserMeasurement]}
+                    userMeasurementEntries={[latestUserMeasurements]}
                     handleMeasurementAccordionClick={
                       handleMeasurementAccordionClick
                     }
                     measurementMap={measurementMap}
+                    handleUserMeasurementsOptionSelection={
+                      handleUserMeasurementsOptionSelection
+                    }
                   />
                   <Button
                     className="font-medium"
