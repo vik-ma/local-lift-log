@@ -263,6 +263,7 @@ export type UserMeasurementValues = {
   [key: string]: {
     unit: string;
     value: number;
+    measurement_type: string;
     isInvalid?: boolean;
   };
 };

@@ -26,6 +26,7 @@ export const CreateUserMeasurementValues = (
     userMeasurementValues[measurement.id] = {
       value: inputNumber,
       unit: measurement.default_unit,
+      measurement_type: measurement.measurement_type,
     };
   }
 
