@@ -74,6 +74,7 @@ export { GetMeasurementsMap } from "./Measurements/GetMeasurementsMap";
 export { CreateDetailedUserMeasurementList } from "./Measurements/CreateDetailedUserMeasurementList";
 export { DeleteUserMeasurementById } from "./Measurements/DeleteUserMeasurementById";
 export { DefaultNewUserMeasurements } from "./Measurements/DefaultNewUserMeasurements";
+export { UpdateUserMeasurements } from "./Measurements/UpdateUserMeasurements";
 
 export { CreateDefaultEquipmentWeights } from "./Presets/CreateDefaultEquipmentWeights";
 export { CreateDefaultDistances } from "./Presets/CreateDefaultDistances";
