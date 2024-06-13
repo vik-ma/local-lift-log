@@ -16,12 +16,17 @@ type UserMeasurementAccordionProps = {
     index: number
   ) => void;
   measurementMap: MeasurementMap;
+  handleUserMeasurementsOptionSelection: (
+    key: string,
+    userMeasurements: UserMeasurement
+  ) => void;
 };
 
 export const UserMeasurementAccordion = ({
   userMeasurementEntries,
   handleMeasurementAccordionClick,
   measurementMap,
+  handleUserMeasurementsOptionSelection,
 }: UserMeasurementAccordionProps) => {
   return (
     <div className="flex flex-col gap-1 w-full">
@@ -63,12 +68,12 @@ export const UserMeasurementAccordion = ({
                 </DropdownTrigger>
                 <DropdownMenu
                   aria-label={`Option Menu For ${measurement.formattedDate} Measurement Entry`}
-                  // onAction={(key) =>
-                  //   handleMeasurementOptionSelection(
-                  //     key as string,
-                  //     measurement
-                  //   )
-                  // }
+                  onAction={(key) =>
+                    handleUserMeasurementsOptionSelection(
+                      key as string,
+                      measurement
+                    )
+                  }
                 >
                   <DropdownItem key="edit">Edit</DropdownItem>
                   <DropdownItem key="delete" className="text-danger">
