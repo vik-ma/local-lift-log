@@ -64,7 +64,7 @@ export const UserMeasurementModal = ({
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalHeader>Edit Body Weight Entry</ModalHeader>
+            <ModalHeader>Edit Body Measurements Entry</ModalHeader>
             <ModalBody>
               <div className="flex flex-col gap-1">
                 <Reorder.Group
