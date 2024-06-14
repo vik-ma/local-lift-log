@@ -8,10 +8,6 @@ import {
   ModalFooter,
   Input,
 } from "@nextui-org/react";
-import {
-  GenerateActiveMeasurementString,
-  UpdateActiveTrackingMeasurements,
-} from "../../helpers";
 import { UserMeasurementReorderItem } from "..";
 import { Reorder } from "framer-motion";
 import { Measurement } from "../../typings";
@@ -20,7 +16,6 @@ type UserMeasurementModalProps = {
   userMeasurementModal: ReturnType<typeof useDisclosure>;
   activeMeasurements: Measurement[];
   setActiveMeasurements: React.Dispatch<React.SetStateAction<Measurement[]>>;
-  userSettingsId: number;
   measurementsCommentInput: string;
   setMeasurementsCommentInput: React.Dispatch<React.SetStateAction<string>>;
   invalidMeasurementInputs: Set<number>;
@@ -28,13 +23,13 @@ type UserMeasurementModalProps = {
   areActiveMeasurementsValid: boolean;
   buttonAction: () => void;
   isEditing: boolean;
+  updateActiveTrackingMeasurementOrder?: () => void;
 };
 
 export const UserMeasurementModal = ({
   userMeasurementModal,
   activeMeasurements,
   setActiveMeasurements,
-  userSettingsId,
   measurementsCommentInput,
   setMeasurementsCommentInput,
   invalidMeasurementInputs,
@@ -42,20 +37,8 @@ export const UserMeasurementModal = ({
   areActiveMeasurementsValid,
   buttonAction,
   isEditing,
+  updateActiveTrackingMeasurementOrder = () => {},
 }: UserMeasurementModalProps) => {
-  const updateActiveTrackingMeasurementOrder = async () => {
-    const activeTrackingMeasurementIdList: number[] = activeMeasurements.map(
-      (obj) => obj.id
-    );
-
-    const activeTrackingMeasurementString: string =
-      GenerateActiveMeasurementString(activeTrackingMeasurementIdList);
-
-    await UpdateActiveTrackingMeasurements(
-      activeTrackingMeasurementString,
-      userSettingsId
-    );
-  };
   return (
     <Modal
       isOpen={userMeasurementModal.isOpen}

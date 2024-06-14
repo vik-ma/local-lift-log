@@ -29,6 +29,8 @@ import {
   DeleteUserMeasurementById,
   ConvertUserMeasurementValuesToMeasurementInputs,
   UpdateUserMeasurements,
+  GenerateActiveMeasurementString,
+  UpdateActiveTrackingMeasurements,
 } from "../helpers";
 import {
   Button,
@@ -426,6 +428,24 @@ export default function BodyMeasurementsPage() {
     }
   };
 
+  const updateActiveTrackingMeasurementOrder = async () => {
+    if (userSettings === undefined) return;
+
+    const activeTrackingMeasurementIdList: number[] = activeMeasurements.map(
+      (obj) => obj.id
+    );
+
+    const activeTrackingMeasurementString: string =
+      GenerateActiveMeasurementString(activeTrackingMeasurementIdList);
+
+    await UpdateActiveTrackingMeasurements(
+      activeTrackingMeasurementString,
+      userSettings.id
+    );
+
+    activeMeasurementsValue.current = activeMeasurements;
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -471,7 +491,6 @@ export default function BodyMeasurementsPage() {
         userMeasurementModal={userMeasurementModal}
         activeMeasurements={activeMeasurements}
         setActiveMeasurements={setActiveMeasurements}
-        userSettingsId={userSettings.id}
         measurementsCommentInput={measurementsCommentInput}
         setMeasurementsCommentInput={setMeasurementsCommentInput}
         invalidMeasurementInputs={invalidMeasurementInputs}
@@ -483,6 +502,9 @@ export default function BodyMeasurementsPage() {
             : addActiveMeasurements
         }
         isEditing={operationType === "edit-measurements"}
+        updateActiveTrackingMeasurementOrder={
+          updateActiveTrackingMeasurementOrder
+        }
       />
       <div className="flex flex-col items-center gap-4">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">

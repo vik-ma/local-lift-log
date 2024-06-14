@@ -234,7 +234,6 @@ export default function UserMeasurementList() {
         userMeasurementModal={userMeasurementModal}
         activeMeasurements={activeMeasurements}
         setActiveMeasurements={setActiveMeasurements}
-        userSettingsId={userSettings.id}
         measurementsCommentInput={measurementsCommentInput}
         setMeasurementsCommentInput={setMeasurementsCommentInput}
         invalidMeasurementInputs={invalidMeasurementInputs}
