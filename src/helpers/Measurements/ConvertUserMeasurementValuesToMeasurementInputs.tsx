@@ -7,7 +7,7 @@ import {
 export const ConvertUserMeasurementValuesToMeasurementInputs = (
   userMeasurementValues: UserMeasurementValues,
   measurementMap: MeasurementMap
-) => {
+): Measurement[] => {
   const measurementInputs: Measurement[] = [];
 
   for (const [id, values] of Object.entries(userMeasurementValues)) {

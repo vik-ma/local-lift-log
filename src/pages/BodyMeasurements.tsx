@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   Measurement,
   UserSettings,
@@ -88,8 +88,11 @@ export default function BodyMeasurementsPage() {
   const userWeightModal = useDisclosure();
   const userMeasurementModal = useDisclosure();
 
-  const { invalidMeasurementInputs, validateActiveMeasurementInput } =
-    useValidateMeasurementsInput();
+  const {
+    invalidMeasurementInputs,
+    validateActiveMeasurementInput,
+    areActiveMeasurementsInputsEmpty,
+  } = useValidateMeasurementsInput(activeMeasurements);
 
   const getActiveMeasurements = useCallback(
     async (activeMeasurementsString: string) => {
@@ -287,7 +290,7 @@ export default function BodyMeasurementsPage() {
     if (
       activeMeasurements.length < 1 ||
       invalidMeasurementInputs.size > 0 ||
-      areActiveMeasurementInputsEmpty
+      areActiveMeasurementsInputsEmpty
     )
       return;
 
@@ -349,18 +352,6 @@ export default function BodyMeasurementsPage() {
     toast.success("Body Measurements Entry Deleted");
     deleteModal.onClose();
   };
-
-  const areActiveMeasurementInputsEmpty = useMemo(() => {
-    let isEmpty: boolean = true;
-
-    let i = 0;
-    while (isEmpty && i < activeMeasurements.length) {
-      if (activeMeasurements[i].input!.trim().length !== 0) isEmpty = false;
-      i++;
-    }
-
-    return isEmpty;
-  }, [activeMeasurements]);
 
   const handleMeasurementAccordionClick = (measurement: UserMeasurement) => {
     const updatedMeasurement: UserMeasurement = {
@@ -430,7 +421,7 @@ export default function BodyMeasurementsPage() {
         setMeasurementsCommentInput={setMeasurementsCommentInput}
         invalidMeasurementInputs={invalidMeasurementInputs}
         handleActiveMeasurementInputChange={handleActiveMeasurementInputChange}
-        areActiveMeasurementInputsEmpty={areActiveMeasurementInputsEmpty}
+        areActiveMeasurementInputsEmpty={areActiveMeasurementsInputsEmpty}
         buttonAction={addActiveMeasurements}
         isEditing={operationType === "edit-measurements"}
       />
