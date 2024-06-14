@@ -10,7 +10,8 @@ import {
 } from "@nextui-org/react";
 import { UserMeasurementReorderItem } from "..";
 import { Reorder } from "framer-motion";
-import { Measurement } from "../../typings";
+import { Measurement, MeasurementMap } from "../../typings";
+import { useState } from "react";
 
 type UserMeasurementModalProps = {
   userMeasurementModal: ReturnType<typeof useDisclosure>;
@@ -21,6 +22,7 @@ type UserMeasurementModalProps = {
   invalidMeasurementInputs: Set<number>;
   handleActiveMeasurementInputChange: (value: string, index: number) => void;
   areActiveMeasurementsValid: boolean;
+  measurementMap: MeasurementMap;
   buttonAction: () => void;
   isEditing: boolean;
   updateActiveTrackingMeasurementOrder?: () => void;
@@ -35,10 +37,20 @@ export const UserMeasurementModal = ({
   invalidMeasurementInputs,
   handleActiveMeasurementInputChange,
   areActiveMeasurementsValid,
+  measurementMap,
   buttonAction,
   isEditing,
   updateActiveTrackingMeasurementOrder = () => {},
 }: UserMeasurementModalProps) => {
+  const [showMeasurementList, setShowMeasurementList] =
+    useState<boolean>(false);
+  const [filteredMeasurements, setFilteredMeasurements] =
+    useState<MeasurementMap>(measurementMap);
+
+  const handleAddMeasurement = () => {
+    setShowMeasurementList(true);
+  };
+
   return (
     <Modal
       isOpen={userMeasurementModal.isOpen}
@@ -50,50 +62,69 @@ export const UserMeasurementModal = ({
             <ModalHeader>Edit Body Measurements Entry</ModalHeader>
             <ModalBody>
               <div className="h-[270px] flex flex-col gap-1 overflow-auto pr-3">
-                <Reorder.Group
-                  className="flex flex-col gap-1.5 w-full"
-                  values={activeMeasurements}
-                  onReorder={setActiveMeasurements}
-                >
-                  {activeMeasurements.map((measurement, index) => (
-                    <UserMeasurementReorderItem
-                      key={measurement.id}
-                      measurement={measurement}
-                      index={index}
-                      activeMeasurements={activeMeasurements}
-                      setActiveMeasurements={setActiveMeasurements}
-                      invalidMeasurementInputs={invalidMeasurementInputs}
-                      handleActiveMeasurementInputChange={
-                        handleActiveMeasurementInputChange
+                {showMeasurementList ? (
+                  <></>
+                ) : (
+                  <>
+                    <Reorder.Group
+                      className="flex flex-col gap-1.5 w-full"
+                      values={activeMeasurements}
+                      onReorder={setActiveMeasurements}
+                    >
+                      {activeMeasurements.map((measurement, index) => (
+                        <UserMeasurementReorderItem
+                          key={measurement.id}
+                          measurement={measurement}
+                          index={index}
+                          activeMeasurements={activeMeasurements}
+                          setActiveMeasurements={setActiveMeasurements}
+                          invalidMeasurementInputs={invalidMeasurementInputs}
+                          handleActiveMeasurementInputChange={
+                            handleActiveMeasurementInputChange
+                          }
+                          isEditing={isEditing}
+                          updateActiveTrackingMeasurementOrder={
+                            updateActiveTrackingMeasurementOrder
+                          }
+                        />
+                      ))}
+                    </Reorder.Group>
+                    <Input
+                      value={measurementsCommentInput}
+                      label="Comment"
+                      size="sm"
+                      variant="faded"
+                      onValueChange={(value) =>
+                        setMeasurementsCommentInput(value)
                       }
-                      isEditing={isEditing}
-                      updateActiveTrackingMeasurementOrder={
-                        updateActiveTrackingMeasurementOrder
-                      }
+                      isClearable
                     />
-                  ))}
-                </Reorder.Group>
-                <Input
-                  value={measurementsCommentInput}
-                  label="Comment"
-                  size="sm"
-                  variant="faded"
-                  onValueChange={(value) => setMeasurementsCommentInput(value)}
-                  isClearable
-                />
+                  </>
+                )}
               </div>
             </ModalBody>
-            <ModalFooter>
-              <Button color="success" variant="light" onPress={onClose}>
-                Close
-              </Button>
-              <Button
-                color="success"
-                onPress={buttonAction}
-                isDisabled={!areActiveMeasurementsValid}
-              >
-                {isEditing ? "Update" : "Save"}
-              </Button>
+            <ModalFooter className="flex justify-between">
+              <div>
+                <Button
+                  variant="flat"
+                  color="success"
+                  onPress={handleAddMeasurement}
+                >
+                  Add Measurement
+                </Button>
+              </div>
+              <div className="flex gap-2">
+                <Button color="success" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+                <Button
+                  color="success"
+                  onPress={buttonAction}
+                  isDisabled={!areActiveMeasurementsValid}
+                >
+                  {isEditing ? "Update" : "Save"}
+                </Button>
+              </div>
             </ModalFooter>
           </>
         )}

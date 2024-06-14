@@ -33,7 +33,9 @@ export default function UserMeasurementList() {
   const [userMeasurements, setUserMeasurements] = useState<UserMeasurement[]>(
     []
   );
-  const [measurementMap, setMeasurementMap] = useState<MeasurementMap>({});
+  const [measurementMap, setMeasurementMap] = useState<MeasurementMap>(
+    new Map<string, Measurement>()
+  );
   const [operationType, setOperationType] = useState<OperationType>("edit");
   const [activeMeasurements, setActiveMeasurements] = useState<Measurement[]>(
     []
@@ -239,6 +241,7 @@ export default function UserMeasurementList() {
         invalidMeasurementInputs={invalidMeasurementInputs}
         handleActiveMeasurementInputChange={handleActiveMeasurementInputChange}
         areActiveMeasurementsValid={areActiveMeasurementsValid}
+        measurementMap={measurementMap}
         buttonAction={updateUserMeasurements}
         isEditing={operationType === "edit"}
       />

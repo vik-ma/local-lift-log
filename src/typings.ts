@@ -239,13 +239,7 @@ export type Measurement = {
   input?: string;
 };
 
-export type MeasurementMap = {
-  [key: string]: {
-    name: string;
-    default_unit: string;
-    measurement_type: string;
-  };
-};
+export type MeasurementMap = Map<string, Measurement>;
 
 export type UserMeasurement = {
   id: number;

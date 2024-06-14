@@ -11,15 +11,17 @@ export const ConvertUserMeasurementValuesToMeasurementInputs = (
   const measurementInputs: Measurement[] = [];
 
   for (const [id, values] of Object.entries(userMeasurementValues)) {
-    const measurement: Measurement = {
+    const measurement = measurementMap.get(id);
+
+    const measurementInput: Measurement = {
       id: Number(id),
-      name: measurementMap[id] ? measurementMap[id].name : "Unknown",
+      name: measurement ? measurement.name : "Unknown",
       default_unit: values.unit,
       measurement_type: values.measurement_type,
       input: values.value.toString(),
     };
 
-    measurementInputs.push(measurement);
+    measurementInputs.push(measurementInput);
   }
 
   return measurementInputs;

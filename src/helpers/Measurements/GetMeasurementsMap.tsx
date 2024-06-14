@@ -8,17 +8,18 @@ export const GetMeasurementsMap = async (): Promise<MeasurementMap> => {
     const result: Measurement[] = await db.select("SELECT * FROM measurements");
 
     const measurementMap: MeasurementMap = result.reduce((acc, item) => {
-      acc[item.id] = {
+      acc.set(item.id.toString(), {
+        id: item.id,
         name: item.name,
         default_unit: item.default_unit,
         measurement_type: item.measurement_type,
-      };
+      });
       return acc;
-    }, {} as MeasurementMap);
+    }, new Map<string, Measurement>());
 
     return measurementMap;
   } catch (error) {
     console.log(error);
-    return {};
+    return new Map<string, Measurement>();
   }
 };

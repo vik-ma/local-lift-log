@@ -71,7 +71,9 @@ export default function BodyMeasurementsPage() {
   const [activeMeasurements, setActiveMeasurements] = useState<Measurement[]>(
     []
   );
-  const [measurementMap, setMeasurementMap] = useState<MeasurementMap>({});
+  const [measurementMap, setMeasurementMap] = useState<MeasurementMap>(
+    new Map<string, Measurement>()
+  );
 
   const activeMeasurementsValue = useRef<Measurement[]>([]);
 
@@ -496,6 +498,7 @@ export default function BodyMeasurementsPage() {
         invalidMeasurementInputs={invalidMeasurementInputs}
         handleActiveMeasurementInputChange={handleActiveMeasurementInputChange}
         areActiveMeasurementsValid={areActiveMeasurementsValid}
+        measurementMap={measurementMap}
         buttonAction={
           operationType === "edit-measurements"
             ? updateLatestUserMeasurements

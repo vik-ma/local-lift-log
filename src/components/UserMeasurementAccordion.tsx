@@ -97,9 +97,10 @@ export const UserMeasurementAccordion = ({
                 <div className="flex flex-col text-sm">
                   {Object.entries(measurement.userMeasurementValues!).map(
                     ([key, values]) => {
-                      if (measurementMap[key] === undefined) {
-                        values.isInvalid = true;
-                      }
+                      const item = measurementMap.get(key);
+                      const name = item ? item.name : "Unknown";
+                      values.isInvalid = item ? false : true;
+
                       return (
                         <div className="flex gap-2 text-left" key={key}>
                           <span
@@ -109,9 +110,7 @@ export const UserMeasurementAccordion = ({
                                 : "w-[9rem] truncate"
                             }
                           >
-                            {values.isInvalid
-                              ? "Unknown"
-                              : measurementMap[key].name}
+                            {values.isInvalid ? "Unknown" : name}
                           </span>
                           <div
                             className={

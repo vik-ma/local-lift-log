@@ -26,8 +26,9 @@ export const CreateDetailedUserMeasurementList = (
 
       const measurementListString = measurementIds
         .map((id) => {
-          if (measurementMap[id]) {
-            return measurementMap[id].name;
+          const measurement = measurementMap.get(id);
+          if (measurement) {
+            return measurement.name;
           } else {
             containsInvalidMeasurement = true;
             return "Unknown";
