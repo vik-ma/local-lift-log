@@ -43,7 +43,7 @@ import {
   useDefaultUserMeasurements,
   useDefaultUserWeight,
   useIsStringValidNumber,
-  useValidateMeasurementsInput,
+  useMeasurementsInputs,
 } from "../hooks";
 import { VerticalMenuIcon } from "../assets";
 import { Link } from "react-router-dom";
@@ -90,9 +90,9 @@ export default function BodyMeasurementsPage() {
 
   const {
     invalidMeasurementInputs,
-    validateActiveMeasurementInput,
     areActiveMeasurementsValid,
-  } = useValidateMeasurementsInput(activeMeasurements);
+    handleActiveMeasurementInputChange,
+  } = useMeasurementsInputs(activeMeasurements, setActiveMeasurements);
 
   const getActiveMeasurements = useCallback(
     async (activeMeasurementsString: string) => {
@@ -277,13 +277,6 @@ export default function BodyMeasurementsPage() {
     setUserWeightInput("");
     setWeightCommentInput("");
     setOperationType("add");
-  };
-
-  const handleActiveMeasurementInputChange = (value: string, index: number) => {
-    const updatedInputs = [...activeMeasurements];
-    updatedInputs[index] = { ...updatedInputs[index], input: value };
-    setActiveMeasurements(updatedInputs);
-    validateActiveMeasurementInput(value, index);
   };
 
   const addActiveMeasurements = async () => {

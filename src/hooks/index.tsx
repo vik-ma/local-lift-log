@@ -20,5 +20,5 @@ export { useDefaultWorkout } from "./useDefaultWorkout";
 export { useWorkoutTemplateList } from "./useWorkoutTemplateList";
 export { useDefaultUserWeight } from "./useDefaultUserWeight";
 export { useIsStringValidNumber } from "./useIsStringValidNumber";
-export { useValidateMeasurementsInput } from "./useValidateMeasurementsInput";
+export { useMeasurementsInputs } from "./useMeasurementsInputs";
 export { useDefaultUserMeasurements } from "./useDefaultUserMeasurements";

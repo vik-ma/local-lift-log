@@ -2,23 +2,13 @@ import { useState, useMemo } from "react";
 import { IsStringInvalidNumber } from "../helpers";
 import { Measurement } from "../typings";
 
-export const useValidateMeasurementsInput = (
-  activeMeasurements: Measurement[]
+export const useMeasurementsInputs = (
+  activeMeasurements: Measurement[],
+  setActiveMeasurements: React.Dispatch<React.SetStateAction<Measurement[]>>
 ) => {
   const [invalidMeasurementInputs, setInvalidMeasurementInputs] = useState<
     Set<number>
   >(new Set<number>());
-
-  const validateActiveMeasurementInput = (value: string, index: number) => {
-    const updatedSet = new Set(invalidMeasurementInputs);
-    if (IsStringInvalidNumber(value)) {
-      updatedSet.add(index);
-    } else {
-      updatedSet.delete(index);
-    }
-
-    setInvalidMeasurementInputs(updatedSet);
-  };
 
   const areActiveMeasurementsInputsEmpty = useMemo(() => {
     let isEmpty: boolean = true;
@@ -46,9 +36,27 @@ export const useValidateMeasurementsInput = (
     areActiveMeasurementsInputsEmpty,
   ]);
 
+  const validateActiveMeasurementInput = (value: string, index: number) => {
+    const updatedSet = new Set(invalidMeasurementInputs);
+    if (IsStringInvalidNumber(value)) {
+      updatedSet.add(index);
+    } else {
+      updatedSet.delete(index);
+    }
+
+    setInvalidMeasurementInputs(updatedSet);
+  };
+
+  const handleActiveMeasurementInputChange = (value: string, index: number) => {
+    const updatedInputs = [...activeMeasurements];
+    updatedInputs[index] = { ...updatedInputs[index], input: value };
+    setActiveMeasurements(updatedInputs);
+    validateActiveMeasurementInput(value, index);
+  };
+
   return {
     invalidMeasurementInputs,
-    validateActiveMeasurementInput,
     areActiveMeasurementsValid,
+    handleActiveMeasurementInputChange,
   };
 };
