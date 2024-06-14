@@ -9,7 +9,7 @@ export const DefaultNewUserMeasurements = () => {
     measurementListString: "",
     formattedDate: "",
     isExpanded: false,
-    userMeasurementValues: {},
+    userMeasurementValues: undefined,
     isInvalid: false,
   };
 

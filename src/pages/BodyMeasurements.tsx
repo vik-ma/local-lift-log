@@ -27,6 +27,8 @@ import {
   GetMeasurementsMap,
   ConvertNumberToTwoDecimals,
   DeleteUserMeasurementById,
+  ConvertUserMeasurementValuesToMeasurementInputs,
+  UpdateUserMeasurements,
 } from "../helpers";
 import {
   Button,
@@ -216,9 +218,7 @@ export default function BodyMeasurementsPage() {
   };
 
   const updateUserWeight = async () => {
-    if (latestUserWeight.id === 0) return;
-
-    if (!isWeightInputValid) return;
+    if (latestUserWeight.id === 0 || !isWeightInputValid) return;
 
     const newWeight = Number(userWeightInput);
 
@@ -298,7 +298,7 @@ export default function BodyMeasurementsPage() {
         [currentDateString, commentToInsert, userMeasurementValues]
       );
 
-      const activeMeasurement: UserMeasurement = {
+      const newUserMeasurements: UserMeasurement = {
         id: result.lastInsertId,
         date: currentDateString,
         comment: commentToInsert,
@@ -306,7 +306,7 @@ export default function BodyMeasurementsPage() {
       };
 
       const detailedActiveMeasurement = CreateDetailedUserMeasurementList(
-        [activeMeasurement],
+        [newUserMeasurements],
         measurementMap,
         clockStyle
       );
@@ -316,16 +316,10 @@ export default function BodyMeasurementsPage() {
       console.log(error);
     }
 
-    const updatedInputs = activeMeasurements.map((measurement) => ({
-      ...measurement,
-      input: "",
-    }));
-
-    setActiveMeasurements(updatedInputs);
-    setMeasurementsCommentInput("");
+    resetMeasurementsInput();
 
     userMeasurementModal.onClose();
-    toast.success("Measurements Added");
+    toast.success("Body Measurements Added");
   };
 
   const deleteLatestUserMeasurements = async () => {
@@ -341,6 +335,54 @@ export default function BodyMeasurementsPage() {
     deleteModal.onClose();
   };
 
+  const updateLatestUserMeasurements = async () => {
+    if (
+      latestUserMeasurements.id === 0 ||
+      !areActiveMeasurementsValid ||
+      userSettings === undefined
+    )
+      return;
+
+    const commentToInsert = ConvertEmptyStringToNull(measurementsCommentInput);
+
+    const userMeasurementValues =
+      CreateUserMeasurementValues(activeMeasurements);
+
+    const updatedUserMeasurements: UserMeasurement = {
+      ...latestUserMeasurements,
+      comment: commentToInsert,
+      measurement_values: userMeasurementValues,
+    };
+
+    const success = UpdateUserMeasurements(updatedUserMeasurements);
+
+    if (!success) return;
+
+    const detailedUpdatedUserMeasurement = CreateDetailedUserMeasurementList(
+      [updatedUserMeasurements],
+      measurementMap,
+      userSettings.clock_style
+    );
+
+    setLatestUserMeasurements(detailedUpdatedUserMeasurement[0]);
+
+    resetMeasurementsInput();
+
+    toast.success("Body Measurements Entry Updated");
+    userMeasurementModal.onClose();
+  };
+
+  const resetMeasurementsInput = () => {
+    const updatedInputs = activeMeasurements.map((measurement) => ({
+      ...measurement,
+      input: "",
+    }));
+
+    setActiveMeasurements(updatedInputs);
+    setMeasurementsCommentInput("");
+    setOperationType("add");
+  };
+
   const handleMeasurementAccordionClick = (measurement: UserMeasurement) => {
     const updatedMeasurement: UserMeasurement = {
       ...measurement,
@@ -350,9 +392,24 @@ export default function BodyMeasurementsPage() {
     setLatestUserMeasurements(updatedMeasurement);
   };
 
+  const handleEditUserMeasurements = () => {
+    if (latestUserMeasurements.userMeasurementValues === undefined) return;
+
+    const activeMeasurements = ConvertUserMeasurementValuesToMeasurementInputs(
+      latestUserMeasurements.userMeasurementValues,
+      measurementMap
+    );
+
+    setActiveMeasurements(activeMeasurements);
+    setMeasurementsCommentInput(latestUserMeasurements.comment ?? "");
+
+    setOperationType("edit-measurements");
+    userMeasurementModal.onOpen();
+  };
+
   const handleUserMeasurementsOptionSelection = (key: string) => {
     if (key === "edit") {
-      // TODO: ADD
+      handleEditUserMeasurements();
     } else if (key === "delete") {
       setOperationType("delete-measurements");
       deleteModal.onOpen();
@@ -410,7 +467,11 @@ export default function BodyMeasurementsPage() {
         invalidMeasurementInputs={invalidMeasurementInputs}
         handleActiveMeasurementInputChange={handleActiveMeasurementInputChange}
         areActiveMeasurementsValid={areActiveMeasurementsValid}
-        buttonAction={addActiveMeasurements}
+        buttonAction={
+          operationType === "edit-measurements"
+            ? updateLatestUserMeasurements
+            : addActiveMeasurements
+        }
         isEditing={operationType === "edit-measurements"}
       />
       <div className="flex flex-col items-center gap-4">
