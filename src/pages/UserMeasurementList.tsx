@@ -3,16 +3,22 @@ import {
   LoadingSpinner,
   UserMeasurementAccordion,
   DeleteModal,
+  UserMeasurementModal,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
-import { MeasurementMap, UserMeasurement } from "../typings";
+import {
+  Measurement,
+  MeasurementMap,
+  UserMeasurement,
+  UserSettings,
+} from "../typings";
 import {
   CreateDetailedUserMeasurementList,
   DeleteUserMeasurementById,
-  GetClockStyle,
   GetMeasurementsMap,
+  GetUserSettings,
 } from "../helpers";
-import { useDefaultUserMeasurements } from "../hooks";
+import { useDefaultUserMeasurements, useMeasurementsInputs } from "../hooks";
 import { useDisclosure } from "@nextui-org/react";
 import { toast, Toaster } from "react-hot-toast";
 
@@ -25,13 +31,26 @@ export default function UserMeasurementList() {
   );
   const [measurementMap, setMeasurementMap] = useState<MeasurementMap>({});
   const [operationType, setOperationType] = useState<OperationType>("edit");
+  const [activeMeasurements, setActiveMeasurements] = useState<Measurement[]>(
+    []
+  );
+  const [measurementsCommentInput, setMeasurementsCommentInput] =
+    useState<string>("");
+  const [userSettings, setUserSettings] = useState<UserSettings>();
 
   const defaultUserMeasurements = useDefaultUserMeasurements();
 
   const [operatingUserMeasurements, setOperatingUserMeasurements] =
     useState<UserMeasurement>(defaultUserMeasurements);
 
+  const {
+    invalidMeasurementInputs,
+    areActiveMeasurementsValid,
+    handleActiveMeasurementInputChange,
+  } = useMeasurementsInputs(activeMeasurements, setActiveMeasurements);
+
   const deleteModal = useDisclosure();
+  const userMeasurementModal = useDisclosure();
 
   useEffect(() => {
     const getUserMeasurements = async (clockStyle: string) => {
@@ -59,9 +78,10 @@ export default function UserMeasurementList() {
     };
 
     const loadUserSettings = async () => {
-      const userSettings = await GetClockStyle();
+      const userSettings = await GetUserSettings();
 
-      if (userSettings?.clock_style) {
+      if (userSettings) {
+        setUserSettings(userSettings);
         getUserMeasurements(userSettings.clock_style);
         setIsLoading(false);
       }
@@ -84,6 +104,8 @@ export default function UserMeasurementList() {
 
     setUserMeasurements(updatedMeasurementEntries);
   };
+
+  const editUserMeasurements = async () => {};
 
   const deleteUserMeasurements = async () => {
     if (operatingUserMeasurements.id === 0 || operationType !== "delete")
@@ -110,15 +132,18 @@ export default function UserMeasurementList() {
   const resetUserMeasurements = () => {
     setOperatingUserMeasurements(defaultUserMeasurements);
     setOperationType("edit");
-    // TODO: RESET INPUTS
+    setActiveMeasurements([]);
+    setMeasurementsCommentInput("");
   };
+
+  const handleEditUserMeasurements = (userMeasurements: UserMeasurement) => {};
 
   const handleUserMeasurementsOptionSelection = (
     key: string,
     userMeasurements: UserMeasurement
   ) => {
     if (key === "edit") {
-      // TODO: ADD
+      handleEditUserMeasurements(userMeasurements);
     } else if (key === "delete") {
       setOperatingUserMeasurements(userMeasurements);
       setOperationType("delete");
@@ -143,6 +168,19 @@ export default function UserMeasurementList() {
           </p>
         }
         deleteButtonAction={deleteUserMeasurements}
+      />
+      <UserMeasurementModal
+        userMeasurementModal={userMeasurementModal}
+        activeMeasurements={activeMeasurements}
+        setActiveMeasurements={setActiveMeasurements}
+        userSettingsId={userSettings!.id}
+        measurementsCommentInput={measurementsCommentInput}
+        setMeasurementsCommentInput={setMeasurementsCommentInput}
+        invalidMeasurementInputs={invalidMeasurementInputs}
+        handleActiveMeasurementInputChange={handleActiveMeasurementInputChange}
+        areActiveMeasurementsValid={areActiveMeasurementsValid}
+        buttonAction={editUserMeasurements}
+        isEditing={operationType === "edit"}
       />
       <div className="flex flex-col items-center gap-4">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">
