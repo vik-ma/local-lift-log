@@ -66,7 +66,7 @@ export const UserMeasurementModal = ({
           <>
             <ModalHeader>Edit Body Measurements Entry</ModalHeader>
             <ModalBody>
-              <div className="flex flex-col gap-1">
+              <div className="h-[270px] flex flex-col gap-1 overflow-auto pr-3">
                 <Reorder.Group
                   className="flex flex-col gap-1.5 w-full"
                   values={activeMeasurements}
