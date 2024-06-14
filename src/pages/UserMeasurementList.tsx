@@ -13,6 +13,7 @@ import {
   UserSettings,
 } from "../typings";
 import {
+  ConvertUserMeasurementValuesToMeasurementInputs,
   CreateDetailedUserMeasurementList,
   DeleteUserMeasurementById,
   GetMeasurementsMap,
@@ -136,7 +137,21 @@ export default function UserMeasurementList() {
     setMeasurementsCommentInput("");
   };
 
-  const handleEditUserMeasurements = (userMeasurements: UserMeasurement) => {};
+  const handleEditUserMeasurements = (userMeasurements: UserMeasurement) => {
+    if (userMeasurements.userMeasurementValues === undefined) return;
+
+    const activeMeasurements = ConvertUserMeasurementValuesToMeasurementInputs(
+      userMeasurements.userMeasurementValues,
+      measurementMap
+    );
+
+    setActiveMeasurements(activeMeasurements);
+    setMeasurementsCommentInput(userMeasurements.comment ?? "");
+
+    setOperatingUserMeasurements(userMeasurements);
+    setOperationType("edit");
+    userMeasurementModal.onOpen();
+  };
 
   const handleUserMeasurementsOptionSelection = (
     key: string,
@@ -150,6 +165,8 @@ export default function UserMeasurementList() {
       deleteModal.onOpen();
     }
   };
+
+  if (userSettings === undefined || isLoading) return <LoadingSpinner />;
 
   return (
     <>
@@ -173,7 +190,7 @@ export default function UserMeasurementList() {
         userMeasurementModal={userMeasurementModal}
         activeMeasurements={activeMeasurements}
         setActiveMeasurements={setActiveMeasurements}
-        userSettingsId={userSettings!.id}
+        userSettingsId={userSettings.id}
         measurementsCommentInput={measurementsCommentInput}
         setMeasurementsCommentInput={setMeasurementsCommentInput}
         invalidMeasurementInputs={invalidMeasurementInputs}
@@ -188,18 +205,14 @@ export default function UserMeasurementList() {
             User Measurements
           </h1>
         </div>
-        {isLoading ? (
-          <LoadingSpinner />
-        ) : (
-          <UserMeasurementAccordion
-            userMeasurementEntries={userMeasurements}
-            handleMeasurementAccordionClick={handleMeasurementAccordionClick}
-            measurementMap={measurementMap}
-            handleUserMeasurementsOptionSelection={
-              handleUserMeasurementsOptionSelection
-            }
-          />
-        )}
+        <UserMeasurementAccordion
+          userMeasurementEntries={userMeasurements}
+          handleMeasurementAccordionClick={handleMeasurementAccordionClick}
+          measurementMap={measurementMap}
+          handleUserMeasurementsOptionSelection={
+            handleUserMeasurementsOptionSelection
+          }
+        />
       </div>
     </>
   );
