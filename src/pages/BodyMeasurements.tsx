@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import {
   Measurement,
   UserSettings,
@@ -71,6 +71,8 @@ export default function BodyMeasurementsPage() {
   );
   const [measurementMap, setMeasurementMap] = useState<MeasurementMap>({});
 
+  const activeMeasurementsValue = useRef<Measurement[]>([]);
+
   const [measurementsCommentInput, setMeasurementsCommentInput] =
     useState<string>("");
 
@@ -103,6 +105,7 @@ export default function BodyMeasurementsPage() {
           activeMeasurementsString
         );
         setActiveMeasurements(activeMeasurements);
+        activeMeasurementsValue.current = activeMeasurements;
       } catch (error) {
         console.log(error);
       }
@@ -372,11 +375,18 @@ export default function BodyMeasurementsPage() {
     userMeasurementModal.onClose();
   };
 
+  const handleAddMeasurements = () => {
+    resetMeasurementsInput();
+    userMeasurementModal.onOpen();
+  };
+
   const resetMeasurementsInput = () => {
-    const updatedInputs = activeMeasurements.map((measurement) => ({
-      ...measurement,
-      input: "",
-    }));
+    const updatedInputs = activeMeasurementsValue.current.map(
+      (measurement) => ({
+        ...measurement,
+        input: "",
+      })
+    );
 
     setActiveMeasurements(updatedInputs);
     setMeasurementsCommentInput("");
@@ -600,10 +610,7 @@ export default function BodyMeasurementsPage() {
                   </Link>
                 </span>
               ) : (
-                <Button
-                  className="font-medium"
-                  onPress={() => userMeasurementModal.onOpen()}
-                >
+                <Button className="font-medium" onPress={handleAddMeasurements}>
                   Add Measurements
                 </Button>
               )}
