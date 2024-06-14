@@ -25,7 +25,7 @@ type UserMeasurementModalProps = {
   setMeasurementsCommentInput: React.Dispatch<React.SetStateAction<string>>;
   invalidMeasurementInputs: Set<number>;
   handleActiveMeasurementInputChange: (value: string, index: number) => void;
-  areActiveMeasurementInputsEmpty: boolean;
+  areActiveMeasurementsValid: boolean;
   buttonAction: () => void;
   isEditing: boolean;
 };
@@ -39,7 +39,7 @@ export const UserMeasurementModal = ({
   setMeasurementsCommentInput,
   invalidMeasurementInputs,
   handleActiveMeasurementInputChange,
-  areActiveMeasurementInputsEmpty,
+  areActiveMeasurementsValid,
   buttonAction,
   isEditing,
 }: UserMeasurementModalProps) => {
@@ -107,10 +107,7 @@ export const UserMeasurementModal = ({
               <Button
                 color="success"
                 onPress={buttonAction}
-                isDisabled={
-                  areActiveMeasurementInputsEmpty ||
-                  invalidMeasurementInputs.size > 0
-                }
+                isDisabled={!areActiveMeasurementsValid}
               >
                 {isEditing ? "Update" : "Save"}
               </Button>

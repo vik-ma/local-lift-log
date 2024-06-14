@@ -32,9 +32,23 @@ export const useValidateMeasurementsInput = (
     return isEmpty;
   }, [activeMeasurements]);
 
+  const areActiveMeasurementsValid = useMemo(() => {
+    if (
+      activeMeasurements.length < 1 ||
+      invalidMeasurementInputs.size > 0 ||
+      areActiveMeasurementsInputsEmpty
+    )
+      return false;
+    return true;
+  }, [
+    activeMeasurements,
+    invalidMeasurementInputs,
+    areActiveMeasurementsInputsEmpty,
+  ]);
+
   return {
     invalidMeasurementInputs,
     validateActiveMeasurementInput,
-    areActiveMeasurementsInputsEmpty,
+    areActiveMeasurementsValid,
   };
 };

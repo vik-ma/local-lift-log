@@ -91,7 +91,7 @@ export default function BodyMeasurementsPage() {
   const {
     invalidMeasurementInputs,
     validateActiveMeasurementInput,
-    areActiveMeasurementsInputsEmpty,
+    areActiveMeasurementsValid,
   } = useValidateMeasurementsInput(activeMeasurements);
 
   const getActiveMeasurements = useCallback(
@@ -287,12 +287,7 @@ export default function BodyMeasurementsPage() {
   };
 
   const addActiveMeasurements = async () => {
-    if (
-      activeMeasurements.length < 1 ||
-      invalidMeasurementInputs.size > 0 ||
-      areActiveMeasurementsInputsEmpty
-    )
-      return;
+    if (!areActiveMeasurementsValid) return;
 
     const currentDateString = GetCurrentDateTimeISOString();
 
@@ -421,7 +416,7 @@ export default function BodyMeasurementsPage() {
         setMeasurementsCommentInput={setMeasurementsCommentInput}
         invalidMeasurementInputs={invalidMeasurementInputs}
         handleActiveMeasurementInputChange={handleActiveMeasurementInputChange}
-        areActiveMeasurementInputsEmpty={areActiveMeasurementsInputsEmpty}
+        areActiveMeasurementsValid={areActiveMeasurementsValid}
         buttonAction={addActiveMeasurements}
         isEditing={operationType === "edit-measurements"}
       />
