@@ -18,6 +18,9 @@ import {
   DeleteUserMeasurementById,
   GetMeasurementsMap,
   GetUserSettings,
+  ConvertEmptyStringToNull,
+  CreateUserMeasurementValues,
+  UpdateUserMeasurements,
 } from "../helpers";
 import { useDefaultUserMeasurements, useMeasurementsInputs } from "../hooks";
 import { useDisclosure } from "@nextui-org/react";
@@ -106,7 +109,48 @@ export default function UserMeasurementList() {
     setUserMeasurements(updatedMeasurementEntries);
   };
 
-  const editUserMeasurements = async () => {};
+  const updateUserMeasurements = async () => {
+    if (
+      operatingUserMeasurements.id === 0 ||
+      !areActiveMeasurementsValid ||
+      userSettings === undefined
+    )
+      return;
+
+    const commentToInsert = ConvertEmptyStringToNull(measurementsCommentInput);
+
+    const userMeasurementValues =
+      CreateUserMeasurementValues(activeMeasurements);
+
+    const updatedUserMeasurements: UserMeasurement = {
+      ...operatingUserMeasurements,
+      comment: commentToInsert,
+      measurement_values: userMeasurementValues,
+    };
+
+    const success = UpdateUserMeasurements(updatedUserMeasurements);
+
+    if (!success) return;
+
+    const detailedUpdatedUserMeasurement = CreateDetailedUserMeasurementList(
+      [updatedUserMeasurements],
+      measurementMap,
+      userSettings.clock_style
+    );
+
+    setUserMeasurements((prev) =>
+      prev.map((item) =>
+        item.id === operatingUserMeasurements.id
+          ? detailedUpdatedUserMeasurement[0]
+          : item
+      )
+    );
+
+    resetUserMeasurements();
+
+    toast.success("Body Measurements Entry Updated");
+    userMeasurementModal.onClose();
+  };
 
   const deleteUserMeasurements = async () => {
     if (operatingUserMeasurements.id === 0 || operationType !== "delete")
@@ -196,7 +240,7 @@ export default function UserMeasurementList() {
         invalidMeasurementInputs={invalidMeasurementInputs}
         handleActiveMeasurementInputChange={handleActiveMeasurementInputChange}
         areActiveMeasurementsValid={areActiveMeasurementsValid}
-        buttonAction={editUserMeasurements}
+        buttonAction={updateUserMeasurements}
         isEditing={operationType === "edit"}
       />
       <div className="flex flex-col items-center gap-4">
