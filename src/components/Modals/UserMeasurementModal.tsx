@@ -87,8 +87,11 @@ export const UserMeasurementModal = ({
                   <Listbox aria-label="Add Measurement">
                     {Array.from(filteredMeasurements).map(([key, value]) => (
                       <ListboxItem
-                        classNames={{ base: "text-sm" }}
-                        endContent={value.measurement_type}
+                        endContent={
+                          <span className="text-sm font-light text-stone-400">
+                            {value.measurement_type}
+                          </span>
+                        }
                         key={key}
                         variant="faded"
                       >
