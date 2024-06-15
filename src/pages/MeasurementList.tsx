@@ -1,9 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
-import {
-  LoadingSpinner,
-  MeasurementUnitDropdown,
-  DeleteModal,
-} from "../components";
+import { LoadingSpinner, DeleteModal, MeasurementModal } from "../components";
 import { Measurement, UserSettings } from "../typings";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -14,9 +10,6 @@ import {
   ModalBody,
   ModalFooter,
   useDisclosure,
-  Input,
-  Radio,
-  RadioGroup,
   Dropdown,
   DropdownMenu,
   DropdownItem,
@@ -57,7 +50,7 @@ export default function MeasurementListPage() {
   );
 
   const deleteModal = useDisclosure();
-  const newMeasurementModal = useDisclosure();
+  const measurementModal = useDisclosure();
   const setUnitsModal = useDisclosure();
 
   const getMeasurements = useCallback(async () => {
@@ -130,7 +123,7 @@ export default function MeasurementListPage() {
       setMeasurements([...measurements, addedMeasurement]);
       resetOperatingMeasurement();
 
-      newMeasurementModal.onClose();
+      measurementModal.onClose();
       toast.success("Measurement Added");
     } catch (error) {
       console.log(error);
@@ -167,7 +160,7 @@ export default function MeasurementListPage() {
 
     resetOperatingMeasurement();
 
-    newMeasurementModal.onClose();
+    measurementModal.onClose();
     toast.success("Measurement Updated");
   };
 
@@ -221,14 +214,14 @@ export default function MeasurementListPage() {
   const handleAddButton = () => {
     if (isEditing) resetOperatingMeasurement();
 
-    newMeasurementModal.onOpen();
+    measurementModal.onOpen();
   };
 
   const handleEditButton = (measurement: Measurement) => {
     setNewMeasurement(measurement);
     setIsEditing(true);
 
-    newMeasurementModal.onOpen();
+    measurementModal.onOpen();
   };
 
   const resetOperatingMeasurement = () => {
@@ -333,74 +326,15 @@ export default function MeasurementListPage() {
         }
         deleteButtonAction={deleteMeasurement}
       />
-      <Modal
-        isOpen={newMeasurementModal.isOpen}
-        onOpenChange={newMeasurementModal.onOpenChange}
-      >
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader>New Measurement</ModalHeader>
-              <ModalBody>
-                <div className="flex flex-col gap-0.5">
-                  <Input
-                    className="h-[5rem]"
-                    value={newMeasurement.name}
-                    isInvalid={!isNewMeasurementNameValid}
-                    label="Name"
-                    errorMessage={
-                      !isNewMeasurementNameValid && "Name can't be empty"
-                    }
-                    variant="faded"
-                    onValueChange={(value) =>
-                      setNewMeasurement((prev) => ({
-                        ...prev,
-                        name: value,
-                      }))
-                    }
-                    isRequired
-                    isClearable
-                  />
-                  <div className="flex justify-around items-center px-1">
-                    <RadioGroup
-                      value={newMeasurement.measurement_type}
-                      onValueChange={(value) =>
-                        handleMeasurementTypeChange(value)
-                      }
-                      label="Measurement Type"
-                    >
-                      <Radio value="Circumference">Circumference</Radio>
-                      <Radio value="Caliper">Caliper</Radio>
-                    </RadioGroup>
-                    <MeasurementUnitDropdown
-                      measurement={newMeasurement}
-                      isDisabled={
-                        newMeasurement.measurement_type === "Caliper"
-                          ? true
-                          : false
-                      }
-                      setMeasurement={setNewMeasurement}
-                      targetType="modal"
-                    />
-                  </div>
-                </div>
-              </ModalBody>
-              <ModalFooter>
-                <Button color="success" variant="light" onPress={onClose}>
-                  Close
-                </Button>
-                <Button
-                  color="success"
-                  isDisabled={!isNewMeasurementNameValid}
-                  onPress={handleSaveButton}
-                >
-                  {isEditing ? "Update" : "Create"}
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
+      <MeasurementModal
+        measurementModal={measurementModal}
+        measurement={newMeasurement}
+        setMeasurement={setNewMeasurement}
+        isMeasurementNameValid={isNewMeasurementNameValid}
+        handleMeasurementTypeChange={handleMeasurementTypeChange}
+        buttonAction={handleSaveButton}
+        isEditing={isEditing}
+      />
       <Modal
         isOpen={setUnitsModal.isOpen}
         onOpenChange={setUnitsModal.onOpenChange}
