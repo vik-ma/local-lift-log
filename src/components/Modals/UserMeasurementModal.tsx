@@ -73,7 +73,10 @@ export const UserMeasurementModal = ({
 
     if (measurement === undefined) return;
 
-    const newMeasurements = [...activeMeasurements, measurement];
+    const newMeasurements = [
+      ...activeMeasurements,
+      { ...measurement, input: "" },
+    ];
 
     setActiveMeasurements(newMeasurements);
 
