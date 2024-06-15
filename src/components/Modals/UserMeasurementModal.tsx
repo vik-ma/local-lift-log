@@ -7,6 +7,8 @@ import {
   ModalBody,
   ModalFooter,
   Input,
+  Listbox,
+  ListboxItem,
 } from "@nextui-org/react";
 import { UserMeasurementReorderItem } from "..";
 import { Reorder } from "framer-motion";
@@ -45,7 +47,7 @@ export const UserMeasurementModal = ({
   const [showMeasurementList, setShowMeasurementList] =
     useState<boolean>(false);
   const [filteredMeasurements, setFilteredMeasurements] =
-    useState<MeasurementMap>(measurementMap);
+    useState<MeasurementMap>(new Map<string, Measurement>());
 
   const handleAddMeasurement = () => {
     setShowMeasurementList(true);
@@ -63,7 +65,16 @@ export const UserMeasurementModal = ({
             <ModalBody>
               <div className="h-[270px] flex flex-col gap-1 overflow-auto pr-3">
                 {showMeasurementList ? (
-                  <></>
+                  <Listbox label="Add Measurement">
+                    {Array.from(measurementMap).map(([key, value]) => (
+                      <ListboxItem
+                        key={key}
+                        variant="faded"
+                      >
+                        {value.name}
+                      </ListboxItem>
+                    ))}
+                  </Listbox>
                 ) : (
                   <>
                     <Reorder.Group
