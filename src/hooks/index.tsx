@@ -22,3 +22,4 @@ export { useDefaultUserWeight } from "./useDefaultUserWeight";
 export { useIsStringValidNumber } from "./useIsStringValidNumber";
 export { useMeasurementsInputs } from "./useMeasurementsInputs";
 export { useDefaultUserMeasurements } from "./useDefaultUserMeasurements";
+export { useDefaultMeasurement } from "./useDefaultMeasurement";

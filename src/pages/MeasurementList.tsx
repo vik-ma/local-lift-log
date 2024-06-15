@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { LoadingSpinner, DeleteModal, MeasurementModal } from "../components";
 import { Measurement, UserSettings } from "../typings";
 import Database from "tauri-plugin-sql-api";
@@ -24,7 +24,7 @@ import {
   GenerateActiveMeasurementString,
 } from "../helpers";
 import { CheckmarkIcon, VerticalMenuIcon } from "../assets";
-import { useValidateName } from "../hooks";
+import { useDefaultMeasurement, useValidateName } from "../hooks";
 
 export default function MeasurementListPage() {
   const [measurements, setMeasurements] = useState<Measurement[]>([]);
@@ -36,18 +36,10 @@ export default function MeasurementListPage() {
     new Set()
   );
 
-  const defaultNewMeasurement: Measurement = useMemo(() => {
-    return {
-      id: 0,
-      name: "",
-      default_unit: "",
-      measurement_type: "Circumference",
-    };
-  }, []);
+  const defaultMeasurement = useDefaultMeasurement();
 
-  const [newMeasurement, setNewMeasurement] = useState<Measurement>(
-    defaultNewMeasurement
-  );
+  const [newMeasurement, setNewMeasurement] =
+    useState<Measurement>(defaultMeasurement);
 
   const deleteModal = useDisclosure();
   const measurementModal = useDisclosure();
@@ -227,7 +219,7 @@ export default function MeasurementListPage() {
   const resetOperatingMeasurement = () => {
     setIsEditing(false);
     setNewMeasurement({
-      ...defaultNewMeasurement,
+      ...defaultMeasurement,
       default_unit: userSettings!.default_unit_measurement!,
     });
   };

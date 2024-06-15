@@ -76,6 +76,7 @@ export { DeleteUserMeasurementById } from "./Measurements/DeleteUserMeasurementB
 export { DefaultNewUserMeasurements } from "./Measurements/DefaultNewUserMeasurements";
 export { UpdateUserMeasurements } from "./Measurements/UpdateUserMeasurements";
 export { ConvertUserMeasurementValuesToMeasurementInputs } from "./Measurements/ConvertUserMeasurementValuesToMeasurementInputs";
+export { DefaultNewMeasurement } from "./Measurements/DefaultNewMeasurement";
 
 export { CreateDefaultEquipmentWeights } from "./Presets/CreateDefaultEquipmentWeights";
 export { CreateDefaultDistances } from "./Presets/CreateDefaultDistances";
