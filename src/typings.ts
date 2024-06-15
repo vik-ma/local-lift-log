@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export type Routine = {
   id: number;
   name: string;
@@ -246,7 +248,7 @@ export type UserMeasurement = {
   date: string;
   comment: string | null;
   measurement_values: string;
-  measurementListString?: string;
+  measurementListText?: ReactNode;
   formattedDate?: string;
   isExpanded?: boolean;
   userMeasurementValues?: UserMeasurementValues;

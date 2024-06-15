@@ -6,7 +6,7 @@ export const DefaultNewUserMeasurements = () => {
     date: "",
     comment: null,
     measurement_values: "{}",
-    measurementListString: "",
+    measurementListText: "",
     formattedDate: "",
     isExpanded: false,
     userMeasurementValues: undefined,

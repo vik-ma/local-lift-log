@@ -39,7 +39,7 @@ export const UserMeasurementAccordion = ({
           <div className="flex flex-row justify-between w-full gap-2 items-center">
             <div className="flex flex-col justify-start items-start">
               <span className="w-[19rem] break-all text-left">
-                {measurement.measurementListString}
+                {measurement.measurementListText}
               </span>
               <span className="text-xs text-yellow-600 text-left">
                 {measurement.formattedDate}
