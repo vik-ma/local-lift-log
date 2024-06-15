@@ -24,7 +24,11 @@ import {
   GenerateActiveMeasurementString,
 } from "../helpers";
 import { CheckmarkIcon, VerticalMenuIcon } from "../assets";
-import { useDefaultMeasurement, useValidateName } from "../hooks";
+import {
+  useDefaultMeasurement,
+  useValidateName,
+  useHandleMeasurementTypeChange,
+} from "../hooks";
 
 export default function MeasurementListPage() {
   const [measurements, setMeasurements] = useState<Measurement[]>([]);
@@ -224,18 +228,10 @@ export default function MeasurementListPage() {
     });
   };
 
-  const handleMeasurementTypeChange = (measurementType: string) => {
-    const newDefaultUnit: string =
-      measurementType === "Caliper"
-        ? "mm"
-        : userSettings!.default_unit_measurement!;
-
-    setNewMeasurement((prev) => ({
-      ...prev,
-      default_unit: newDefaultUnit,
-      measurement_type: measurementType,
-    }));
-  };
+  const handleMeasurementTypeChange = useHandleMeasurementTypeChange(
+    userSettings?.default_unit_measurement ?? "cm",
+    setNewMeasurement
+  );
 
   const isNewMeasurementNameValid = useValidateName(newMeasurement.name);
 
