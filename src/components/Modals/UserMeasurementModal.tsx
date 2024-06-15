@@ -55,6 +55,16 @@ export const UserMeasurementModal = ({
       return;
     }
 
+    const filteredMeasurements: MeasurementMap = new Map<string, Measurement>(
+      measurementMap
+    );
+
+    activeMeasurements.forEach((measurement) => {
+      filteredMeasurements.delete(measurement.id.toString());
+    });
+
+    setFilteredMeasurements(filteredMeasurements);
+
     setShowMeasurementList(true);
   };
 
@@ -75,7 +85,7 @@ export const UserMeasurementModal = ({
               <div className="h-[270px] flex flex-col gap-1 overflow-auto pr-3">
                 {showMeasurementList ? (
                   <Listbox aria-label="Add Measurement">
-                    {Array.from(measurementMap).map(([key, value]) => (
+                    {Array.from(filteredMeasurements).map(([key, value]) => (
                       <ListboxItem key={key} variant="faded">
                         {value.name}
                       </ListboxItem>
