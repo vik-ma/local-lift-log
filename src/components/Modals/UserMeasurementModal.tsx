@@ -68,6 +68,18 @@ export const UserMeasurementModal = ({
     setShowMeasurementList(true);
   };
 
+  const handleListboxClick = (key: string) => {
+    const measurement = measurementMap.get(key);
+
+    if (measurement === undefined) return;
+
+    const newMeasurements = [...activeMeasurements, measurement];
+
+    setActiveMeasurements(newMeasurements);
+
+    setShowMeasurementList(false);
+  };
+
   return (
     <Modal
       isOpen={userMeasurementModal.isOpen}
@@ -84,7 +96,10 @@ export const UserMeasurementModal = ({
             <ModalBody>
               <div className="h-[270px] flex flex-col gap-1 overflow-auto pr-3">
                 {showMeasurementList ? (
-                  <Listbox aria-label="Add Measurement">
+                  <Listbox
+                    aria-label="Add Measurement"
+                    onAction={(key) => handleListboxClick(key as string)}
+                  >
                     {Array.from(filteredMeasurements).map(([key, value]) => (
                       <ListboxItem
                         endContent={
