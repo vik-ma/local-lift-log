@@ -50,6 +50,11 @@ export const UserMeasurementModal = ({
     useState<MeasurementMap>(new Map<string, Measurement>());
 
   const handleAddMeasurement = () => {
+    if (showMeasurementList) {
+      setShowMeasurementList(false);
+      return;
+    }
+
     setShowMeasurementList(true);
   };
 
@@ -61,16 +66,17 @@ export const UserMeasurementModal = ({
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalHeader>Edit Body Measurements Entry</ModalHeader>
+            <ModalHeader>
+              {showMeasurementList
+                ? "Add Measurement"
+                : "Edit Body Measurements Entry"}
+            </ModalHeader>
             <ModalBody>
               <div className="h-[270px] flex flex-col gap-1 overflow-auto pr-3">
                 {showMeasurementList ? (
-                  <Listbox label="Add Measurement">
+                  <Listbox aria-label="Add Measurement">
                     {Array.from(measurementMap).map(([key, value]) => (
-                      <ListboxItem
-                        key={key}
-                        variant="faded"
-                      >
+                      <ListboxItem key={key} variant="faded">
                         {value.name}
                       </ListboxItem>
                     ))}
@@ -117,11 +123,11 @@ export const UserMeasurementModal = ({
             <ModalFooter className="flex justify-between">
               <div>
                 <Button
+                  className="w-40"
                   variant="flat"
-                  color="success"
                   onPress={handleAddMeasurement}
                 >
-                  Add Measurement
+                  {showMeasurementList ? "Cancel" : "Add Measurement"}
                 </Button>
               </div>
               <div className="flex gap-2">
@@ -131,7 +137,9 @@ export const UserMeasurementModal = ({
                 <Button
                   color="success"
                   onPress={buttonAction}
-                  isDisabled={!areActiveMeasurementsValid}
+                  isDisabled={
+                    !areActiveMeasurementsValid || showMeasurementList
+                  }
                 >
                   {isEditing ? "Update" : "Save"}
                 </Button>
