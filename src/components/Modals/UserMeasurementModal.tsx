@@ -27,7 +27,9 @@ type UserMeasurementModalProps = {
   measurementMap: MeasurementMap;
   buttonAction: () => void;
   isEditing: boolean;
-  updateActiveTrackingMeasurementOrder?: () => void;
+  updateActiveTrackingMeasurementOrder?: (
+    newActiveMeasurements?: Measurement[]
+  ) => void;
 };
 
 export const UserMeasurementModal = ({
@@ -79,6 +81,11 @@ export const UserMeasurementModal = ({
     ];
 
     setActiveMeasurements(newMeasurements);
+
+    if (!isEditing) {
+      // Update active_tracking_measurements string only if adding new Measurements
+      updateActiveTrackingMeasurementOrder(newMeasurements);
+    }
 
     setShowMeasurementList(false);
   };

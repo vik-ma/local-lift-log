@@ -430,18 +430,23 @@ export default function BodyMeasurementsPage() {
     }
   };
 
-  const updateActiveTrackingMeasurementOrder = async () => {
+  const updateActiveTrackingMeasurementOrder = async (
+    newActiveMeasurements?: Measurement[]
+  ) => {
     if (userSettings === undefined) return;
 
-    const activeTrackingMeasurementIdList: number[] = activeMeasurements.map(
-      (obj) => obj.id
-    );
+    // Use parameter value if passed, otherwise activeMeasurements
+    const updatedActiveMeasurements =
+      newActiveMeasurements ?? activeMeasurements;
 
-    const activeTrackingMeasurementString: string =
-      GenerateActiveMeasurementString(activeTrackingMeasurementIdList);
+    const newActiveTrackingMeasurementIdList: number[] =
+      updatedActiveMeasurements.map((obj) => obj.id);
+
+    const newActiveTrackingMeasurementString: string =
+      GenerateActiveMeasurementString(newActiveTrackingMeasurementIdList);
 
     await UpdateActiveTrackingMeasurements(
-      activeTrackingMeasurementString,
+      newActiveTrackingMeasurementString,
       userSettings.id
     );
 
