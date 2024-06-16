@@ -78,6 +78,7 @@ export { UpdateUserMeasurements } from "./Measurements/UpdateUserMeasurements";
 export { ConvertUserMeasurementValuesToMeasurementInputs } from "./Measurements/ConvertUserMeasurementValuesToMeasurementInputs";
 export { DefaultNewMeasurement } from "./Measurements/DefaultNewMeasurement";
 export { InsertMeasurementIntoDatabase } from "./Measurements/InsertMeasurementIntoDatabase";
+export { ReassignMeasurementIdForUserMeasurements } from "./Measurements/ReassignMeasurementIdForUserMeasurements";
 
 export { CreateDefaultEquipmentWeights } from "./Presets/CreateDefaultEquipmentWeights";
 export { CreateDefaultDistances } from "./Presets/CreateDefaultDistances";
