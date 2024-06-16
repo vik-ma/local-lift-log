@@ -27,3 +27,4 @@ export { WorkoutTemplateListModal } from "./Modals/WorkoutTemplateListModal";
 export { UserWeightModal } from "./Modals/UserWeightModal";
 export { UserMeasurementModal } from "./Modals/UserMeasurementModal";
 export { MeasurementModal } from "./Modals/MeasurementModal";
+export { NameInputModal } from "./Modals/NameInputModal";
