@@ -20,6 +20,7 @@ type UserMeasurementAccordionProps = {
     key: string,
     userMeasurements: UserMeasurement
   ) => void;
+  handleReassignMeasurement?: (measurementId: string) => void;
 };
 
 export const UserMeasurementAccordion = ({
@@ -27,6 +28,7 @@ export const UserMeasurementAccordion = ({
   handleMeasurementAccordionClick,
   measurementMap,
   handleUserMeasurementsOptionSelection,
+  handleReassignMeasurement = () => {},
 }: UserMeasurementAccordionProps) => {
   return (
     <div className="flex flex-col gap-1 w-full">
@@ -102,16 +104,29 @@ export const UserMeasurementAccordion = ({
                       values.isInvalid = item ? false : true;
 
                       return (
-                        <div className="flex gap-2 text-left" key={key}>
-                          <span
+                        <div
+                          className="flex gap-2 text-left items-center"
+                          key={key}
+                        >
+                          <div
                             className={
                               values.isInvalid
-                                ? "w-[9rem] truncate text-red-700"
+                                ? "flex gap-1.5 items-center w-[9rem] truncate text-red-700"
                                 : "w-[9rem] truncate"
                             }
                           >
-                            {values.isInvalid ? "Unknown" : name}
-                          </span>
+                            <span>{values.isInvalid ? "Unknown" : name}</span>
+                            {values.isInvalid && (
+                              <Button
+                                className="h-6"
+                                size="sm"
+                                variant="flat"
+                                onPress={() => handleReassignMeasurement(key)}
+                              >
+                                Reassign
+                              </Button>
+                            )}
+                          </div>
                           <div
                             className={
                               values.unit === "in" ? "flex" : "flex gap-1"
