@@ -4,7 +4,7 @@ import {
   UserMeasurementAccordion,
   DeleteModal,
   UserMeasurementModal,
-  MeasurementModal,
+  NameInputModal,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -27,13 +27,11 @@ import {
   useDefaultUserMeasurements,
   useMeasurementsInputs,
   useValidateName,
-  useDefaultMeasurement,
-  useHandleMeasurementTypeChange,
 } from "../hooks";
 import { useDisclosure } from "@nextui-org/react";
 import { toast, Toaster } from "react-hot-toast";
 
-type OperationType = "edit" | "delete";
+type OperationType = "edit" | "delete" | "reassign";
 
 export default function UserMeasurementList() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -56,12 +54,9 @@ export default function UserMeasurementList() {
   const [operatingUserMeasurements, setOperatingUserMeasurements] =
     useState<UserMeasurement>(defaultUserMeasurements);
 
-  const defaultMeasurement = useDefaultMeasurement();
+  const [newMeasurementName, setNewMeasurementName] = useState<string>("");
 
-  const [newMeasurement, setNewMeasurement] =
-    useState<Measurement>(defaultMeasurement);
-
-  const isNewMeasurementNameValid = useValidateName(newMeasurement.name);
+  const isNewMeasurementNameValid = useValidateName(newMeasurementName);
 
   const {
     invalidMeasurementInputs,
@@ -71,12 +66,7 @@ export default function UserMeasurementList() {
 
   const deleteModal = useDisclosure();
   const userMeasurementModal = useDisclosure();
-  const measurementModal = useDisclosure();
-
-  const handleMeasurementTypeChange = useHandleMeasurementTypeChange(
-    userSettings?.default_unit_measurement ?? "cm",
-    setNewMeasurement
-  );
+  const nameInputModal = useDisclosure();
 
   useEffect(() => {
     const getUserMeasurements = async (clockStyle: string) => {
@@ -232,8 +222,6 @@ export default function UserMeasurementList() {
     }
   };
 
-  const reassignMeasurement = () => {};
-
   if (userSettings === undefined || isLoading) return <LoadingSpinner />;
 
   return (
@@ -267,14 +255,13 @@ export default function UserMeasurementList() {
         buttonAction={updateUserMeasurements}
         isEditing={operationType === "edit"}
       />
-      <MeasurementModal
-        measurementModal={measurementModal}
-        measurement={newMeasurement}
-        setMeasurement={setNewMeasurement}
-        isMeasurementNameValid={isNewMeasurementNameValid}
-        handleMeasurementTypeChange={handleMeasurementTypeChange}
-        buttonAction={reassignMeasurement}
-        isEditing={false}
+      <NameInputModal
+        nameInputModal={nameInputModal}
+        name={newMeasurementName}
+        setName={setNewMeasurementName}
+        header="Enter Measurement Name"
+        isNameValid={isNewMeasurementNameValid}
+        buttonAction={() => {}}
       />
       <div className="flex flex-col items-center gap-4">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">
@@ -289,6 +276,7 @@ export default function UserMeasurementList() {
           handleUserMeasurementsOptionSelection={
             handleUserMeasurementsOptionSelection
           }
+          // handleReassignMeasurement={handleReassignMeasurement}
         />
       </div>
     </>
