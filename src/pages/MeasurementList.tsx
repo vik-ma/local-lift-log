@@ -22,6 +22,7 @@ import {
   GetUserSettings,
   UpdateActiveTrackingMeasurements,
   GenerateActiveMeasurementString,
+  InsertMeasurementIntoDatabase,
 } from "../helpers";
 import { CheckmarkIcon, VerticalMenuIcon } from "../assets";
 import {
@@ -97,33 +98,22 @@ export default function MeasurementListPage() {
   const addMeasurement = async () => {
     if (newMeasurement === undefined || !isNewMeasurementNameValid) return;
 
-    try {
-      const db = await Database.load(import.meta.env.VITE_DB);
+    const id = await InsertMeasurementIntoDatabase(newMeasurement);
 
-      const result = await db.execute(
-        "INSERT into measurements (name, default_unit, measurement_type) VALUES ($1, $2, $3)",
-        [
-          newMeasurement.name,
-          newMeasurement.default_unit,
-          newMeasurement.measurement_type,
-        ]
-      );
+    if (id === 0) return;
 
-      const addedMeasurement: Measurement = {
-        id: result.lastInsertId,
-        name: newMeasurement.name,
-        default_unit: newMeasurement.default_unit,
-        measurement_type: newMeasurement.measurement_type,
-      };
+    const addedMeasurement: Measurement = {
+      id: id,
+      name: newMeasurement.name,
+      default_unit: newMeasurement.default_unit,
+      measurement_type: newMeasurement.measurement_type,
+    };
 
-      setMeasurements([...measurements, addedMeasurement]);
-      resetOperatingMeasurement();
+    setMeasurements([...measurements, addedMeasurement]);
+    resetOperatingMeasurement();
 
-      measurementModal.onClose();
-      toast.success("Measurement Added");
-    } catch (error) {
-      console.log(error);
-    }
+    measurementModal.onClose();
+    toast.success("Measurement Added");
   };
 
   const updateMeasurement = async () => {
