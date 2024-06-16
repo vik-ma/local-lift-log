@@ -4,7 +4,7 @@ import {
   UserMeasurementValues,
 } from "../../typings";
 import { FormatDateTimeString } from "../Dates/FormatDateTimeString";
-import { Fragment, ReactNode } from "react";
+import { GenerateMeasurementListText } from "./GenerateMeasurementListText";
 
 export const CreateDetailedUserMeasurementList = (
   userMeasurementList: UserMeasurement[],
@@ -21,31 +21,8 @@ export const CreateDetailedUserMeasurementList = (
         userMeasurement.measurement_values
       );
 
-      const measurementIds: string[] = Object.keys(userMeasurementValues);
-
-      let containsInvalidMeasurement = false;
-
-      const measurementListText: ReactNode = measurementIds.map((id, index) => {
-        const measurement = measurementMap.get(id);
-        const isLastElement = index === measurementIds.length - 1;
-        
-        if (measurement) {
-          return (
-            <Fragment key={id}>
-              {measurement.name}
-              {!isLastElement && ", "}
-            </Fragment>
-          );
-        } else {
-          containsInvalidMeasurement = true;
-          return (
-            <Fragment key={id}>
-              <span className="text-red-700">Unknown</span>
-              {!isLastElement && ", "}
-            </Fragment>
-          );
-        }
-      });
+      const { measurementListText, containsInvalidMeasurement } =
+        GenerateMeasurementListText(userMeasurementValues, measurementMap);
 
       const formattedDate = FormatDateTimeString(
         userMeasurement.date,
