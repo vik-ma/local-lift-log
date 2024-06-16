@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   LoadingSpinner,
   UserMeasurementAccordion,
@@ -74,12 +74,8 @@ export default function UserMeasurementList() {
   const userMeasurementModal = useDisclosure();
   const nameInputModal = useDisclosure();
 
-  useEffect(() => {
-    const getUserMeasurements = async (clockStyle: string) => {
-      const measurementMap = await GetMeasurementsMap();
-
-      setMeasurementMap(measurementMap);
-
+  const getUserMeasurements = useCallback(
+    async (clockStyle: string, measurementMap: MeasurementMap) => {
       try {
         const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -97,6 +93,15 @@ export default function UserMeasurementList() {
       } catch (error) {
         console.log(error);
       }
+    },
+    []
+  );
+
+  useEffect(() => {
+    const getMeasurements = async (clockStyle: string) => {
+      const measurementMap = await GetMeasurementsMap();
+      setMeasurementMap(measurementMap);
+      getUserMeasurements(clockStyle, measurementMap);
     };
 
     const loadUserSettings = async () => {
@@ -104,13 +109,13 @@ export default function UserMeasurementList() {
 
       if (userSettings) {
         setUserSettings(userSettings);
-        getUserMeasurements(userSettings.clock_style);
+        getMeasurements(userSettings.clock_style);
         setIsLoading(false);
       }
     };
 
     loadUserSettings();
-  }, []);
+  }, [getUserMeasurements]);
 
   const handleMeasurementAccordionClick = (
     measurement: UserMeasurement,
@@ -238,7 +243,8 @@ export default function UserMeasurementList() {
     if (
       measurementToReassign === undefined ||
       !isNewMeasurementNameValid ||
-      operationType !== "reassign"
+      operationType !== "reassign" ||
+      userSettings === undefined
     )
       return;
 
@@ -263,6 +269,8 @@ export default function UserMeasurementList() {
     );
 
     if (!success) return;
+
+    await getUserMeasurements(userSettings?.clock_style, measurementMap);
 
     setMeasurementToReassign(undefined);
     setNewMeasurementName("");
