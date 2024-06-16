@@ -4,6 +4,7 @@ import {
   UserMeasurementAccordion,
   DeleteModal,
   UserMeasurementModal,
+  MeasurementModal,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -22,7 +23,13 @@ import {
   CreateUserMeasurementValues,
   UpdateUserMeasurements,
 } from "../helpers";
-import { useDefaultUserMeasurements, useMeasurementsInputs } from "../hooks";
+import {
+  useDefaultUserMeasurements,
+  useMeasurementsInputs,
+  useValidateName,
+  useDefaultMeasurement,
+  useHandleMeasurementTypeChange,
+} from "../hooks";
 import { useDisclosure } from "@nextui-org/react";
 import { toast, Toaster } from "react-hot-toast";
 
@@ -49,6 +56,13 @@ export default function UserMeasurementList() {
   const [operatingUserMeasurements, setOperatingUserMeasurements] =
     useState<UserMeasurement>(defaultUserMeasurements);
 
+  const defaultMeasurement = useDefaultMeasurement();
+
+  const [newMeasurement, setNewMeasurement] =
+    useState<Measurement>(defaultMeasurement);
+
+  const isNewMeasurementNameValid = useValidateName(newMeasurement.name);
+
   const {
     invalidMeasurementInputs,
     areActiveMeasurementsValid,
@@ -57,6 +71,12 @@ export default function UserMeasurementList() {
 
   const deleteModal = useDisclosure();
   const userMeasurementModal = useDisclosure();
+  const measurementModal = useDisclosure();
+
+  const handleMeasurementTypeChange = useHandleMeasurementTypeChange(
+    userSettings?.default_unit_measurement ?? "cm",
+    setNewMeasurement
+  );
 
   useEffect(() => {
     const getUserMeasurements = async (clockStyle: string) => {
@@ -212,6 +232,8 @@ export default function UserMeasurementList() {
     }
   };
 
+  const reassignMeasurement = () => {};
+
   if (userSettings === undefined || isLoading) return <LoadingSpinner />;
 
   return (
@@ -244,6 +266,15 @@ export default function UserMeasurementList() {
         measurementMap={measurementMap}
         buttonAction={updateUserMeasurements}
         isEditing={operationType === "edit"}
+      />
+      <MeasurementModal
+        measurementModal={measurementModal}
+        measurement={newMeasurement}
+        setMeasurement={setNewMeasurement}
+        isMeasurementNameValid={isNewMeasurementNameValid}
+        handleMeasurementTypeChange={handleMeasurementTypeChange}
+        buttonAction={reassignMeasurement}
+        isEditing={false}
       />
       <div className="flex flex-col items-center gap-4">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">
