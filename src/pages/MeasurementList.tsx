@@ -390,7 +390,7 @@ export default function MeasurementListPage() {
                     onClick={() => handleMeasurementClick(measurement.id)}
                   >
                     <div className="flex justify-between items-center w-full">
-                      <div className="flex pl-0.5 gap-2.5 items-center">
+                      <div className="flex pl-0.5 gap-2 items-center">
                         <CheckmarkIcon
                           isChecked={activeMeasurementSet.has(measurement.id)}
                           size={29}
@@ -403,6 +403,12 @@ export default function MeasurementListPage() {
                             {measurement.measurement_type}
                           </span>
                         </div>
+                      </div>
+                      <div className="text-sm text-stone-500 px-5 flex-grow">
+                        Unit:{" "}
+                        <span className="font-semibold">
+                          {measurement.default_unit}
+                        </span>
                       </div>
                       <Dropdown>
                         <DropdownTrigger>
