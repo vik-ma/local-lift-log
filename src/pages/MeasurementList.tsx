@@ -390,13 +390,13 @@ export default function MeasurementListPage() {
                     onClick={() => handleMeasurementClick(measurement.id)}
                   >
                     <div className="flex justify-between items-center w-full">
-                      <div className="flex pl-0.5 gap-2 items-center">
+                      <div className="flex pl-0.5 gap-2.5 items-center">
                         <CheckmarkIcon
                           isChecked={activeMeasurementSet.has(measurement.id)}
                           size={29}
                         />
                         <div className="flex flex-col justify-start items-start">
-                          <span className="w-[13rem] truncate text-left">
+                          <span className="w-[15.5rem] truncate text-left">
                             {measurement.name}
                           </span>
                           <span className="text-xs text-stone-500 text-left">
@@ -404,8 +404,8 @@ export default function MeasurementListPage() {
                           </span>
                         </div>
                       </div>
-                      <div className="text-sm text-stone-500 px-5 flex-grow">
-                        Unit:{" "}
+                      <div className="flex flex-col text-sm text-stone-500">
+                        <span>Unit</span>
                         <span className="font-semibold">
                           {measurement.default_unit}
                         </span>
