@@ -264,6 +264,12 @@ export type UserMeasurementValues = {
   };
 };
 
+export type ReassignMeasurementsProps = {
+  id: string;
+  unit: string;
+  measurement_type: string;
+};
+
 export type SetListNotes = {
   [key: number]: Set<number>;
 };

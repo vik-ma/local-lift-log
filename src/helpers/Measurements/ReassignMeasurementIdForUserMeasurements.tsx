@@ -3,7 +3,7 @@ import { UserMeasurement } from "../../typings";
 
 export const ReassignMeasurementIdForUserMeasurements = async (
   oldId: string,
-  newId: number,
+  newId: string,
   userMeasurementList: UserMeasurement[]
 ): Promise<boolean> => {
   try {
@@ -18,7 +18,7 @@ export const ReassignMeasurementIdForUserMeasurements = async (
 
       if (oldId in values) {
         // Reassign key with the old Id to new Id
-        values[newId.toString()] = values[oldId];
+        values[newId] = values[oldId];
         delete values[oldId];
       } else {
         // Move to next item in list if values does not contain key of old Id

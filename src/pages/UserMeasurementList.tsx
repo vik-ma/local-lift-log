@@ -12,6 +12,7 @@ import {
   MeasurementMap,
   UserMeasurement,
   UserSettings,
+  ReassignMeasurementsProps,
 } from "../typings";
 import {
   ConvertUserMeasurementValuesToMeasurementInputs,
@@ -22,6 +23,8 @@ import {
   ConvertEmptyStringToNull,
   CreateUserMeasurementValues,
   UpdateUserMeasurements,
+  InsertMeasurementIntoDatabase,
+  ReassignMeasurementIdForUserMeasurements,
 } from "../helpers";
 import {
   useDefaultUserMeasurements,
@@ -57,6 +60,9 @@ export default function UserMeasurementList() {
   const [newMeasurementName, setNewMeasurementName] = useState<string>("");
 
   const isNewMeasurementNameValid = useValidateName(newMeasurementName);
+
+  const [measurementToReassign, setMeasurementToReassign] =
+    useState<ReassignMeasurementsProps>();
 
   const {
     invalidMeasurementInputs,
@@ -222,6 +228,49 @@ export default function UserMeasurementList() {
     }
   };
 
+  const handleReassignMeasurement = (values: ReassignMeasurementsProps) => {
+    setMeasurementToReassign(values);
+    setOperationType("reassign");
+    nameInputModal.onOpen();
+  };
+
+  const reassignMeasurement = async () => {
+    if (
+      measurementToReassign === undefined ||
+      !isNewMeasurementNameValid ||
+      operationType !== "reassign"
+    )
+      return;
+
+    const newMeasurement: Measurement = {
+      id: 0,
+      name: newMeasurementName,
+      default_unit: measurementToReassign.unit,
+      measurement_type: measurementToReassign.measurement_type,
+    };
+
+    const newMeasurementId = await InsertMeasurementIntoDatabase(
+      newMeasurement
+    );
+
+    if (newMeasurementId === 0) return;
+
+    const success = await ReassignMeasurementIdForUserMeasurements(
+      measurementToReassign.id,
+      newMeasurementId.toString(),
+      userMeasurements
+    );
+
+    if (!success) return;
+
+    setMeasurementToReassign(undefined);
+    setNewMeasurementName("");
+    resetUserMeasurements();
+
+    nameInputModal.onClose();
+    toast.success("Measurement Reassigned");
+  };
+
   if (userSettings === undefined || isLoading) return <LoadingSpinner />;
 
   return (
@@ -261,7 +310,7 @@ export default function UserMeasurementList() {
         setName={setNewMeasurementName}
         header="Enter Measurement Name"
         isNameValid={isNewMeasurementNameValid}
-        buttonAction={() => {}}
+        buttonAction={reassignMeasurement}
       />
       <div className="flex flex-col items-center gap-4">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">
@@ -276,7 +325,7 @@ export default function UserMeasurementList() {
           handleUserMeasurementsOptionSelection={
             handleUserMeasurementsOptionSelection
           }
-          // handleReassignMeasurement={handleReassignMeasurement}
+          handleReassignMeasurement={handleReassignMeasurement}
         />
       </div>
     </>

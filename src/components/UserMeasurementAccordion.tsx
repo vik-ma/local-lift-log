@@ -7,7 +7,11 @@ import {
 } from "@nextui-org/react";
 import { VerticalMenuIcon, ChevronIcon } from "../assets";
 import { AnimatePresence, motion } from "framer-motion";
-import { MeasurementMap, UserMeasurement } from "../typings";
+import {
+  MeasurementMap,
+  UserMeasurement,
+  ReassignMeasurementsProps,
+} from "../typings";
 
 type UserMeasurementAccordionProps = {
   userMeasurementEntries: UserMeasurement[];
@@ -20,7 +24,7 @@ type UserMeasurementAccordionProps = {
     key: string,
     userMeasurements: UserMeasurement
   ) => void;
-  handleReassignMeasurement?: (measurementId: string) => void;
+  handleReassignMeasurement?: (values: ReassignMeasurementsProps) => void;
 };
 
 export const UserMeasurementAccordion = ({
@@ -121,7 +125,13 @@ export const UserMeasurementAccordion = ({
                                 className="h-6"
                                 size="sm"
                                 variant="flat"
-                                onPress={() => handleReassignMeasurement(key)}
+                                onPress={() =>
+                                  handleReassignMeasurement({
+                                    id: key,
+                                    unit: values.unit,
+                                    measurement_type: values.measurement_type,
+                                  })
+                                }
                               >
                                 Reassign
                               </Button>
