@@ -1,10 +1,12 @@
 import Database from "tauri-plugin-sql-api";
-import { UserMeasurement } from "../../typings";
+import { MeasurementMap, UserMeasurement } from "../../typings";
+import { GenerateMeasurementListText } from "./GenerateMeasurementListText";
 
 export const ReassignMeasurementIdForUserMeasurements = async (
   oldId: string,
   newId: string,
-  userMeasurementList: UserMeasurement[]
+  userMeasurementList: UserMeasurement[],
+  measurementMap: MeasurementMap
 ): Promise<boolean> => {
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
@@ -26,6 +28,13 @@ export const ReassignMeasurementIdForUserMeasurements = async (
       }
 
       const newValues = JSON.stringify(values);
+
+      const { measurementListText, containsInvalidMeasurement } =
+        GenerateMeasurementListText(values, measurementMap);
+
+      userMeasurement.measurement_values = newValues;
+      userMeasurement.measurementListText = measurementListText;
+      userMeasurement.isInvalid = containsInvalidMeasurement;
 
       db.execute(
         "UPDATE user_measurements SET measurement_values = $1 WHERE id = $2",
