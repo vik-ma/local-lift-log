@@ -25,7 +25,7 @@ import {
 import toast, { Toaster } from "react-hot-toast";
 import Database from "tauri-plugin-sql-api";
 
-export default function SettingsPage() {
+export default function Settings() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
 

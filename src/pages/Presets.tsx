@@ -27,7 +27,7 @@ import {
 import toast, { Toaster } from "react-hot-toast";
 import { useValidateName } from "../hooks";
 
-export default function PresetsPage() {
+export default function Presets() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [equipmentWeights, setEquipmentWeights] = useState<EquipmentWeight[]>(
     []

@@ -31,7 +31,7 @@ import {
   useHandleMeasurementTypeChange,
 } from "../hooks";
 
-export default function MeasurementListPage() {
+export default function MeasurementList() {
   const [measurements, setMeasurements] = useState<Measurement[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [measurementToDelete, setMeasurementToDelete] = useState<Measurement>();

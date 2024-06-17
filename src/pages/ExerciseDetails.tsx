@@ -17,7 +17,7 @@ import {
   useValidateName,
 } from "../hooks";
 
-export default function ExerciseDetailsPage() {
+export default function ExerciseDetails() {
   const { id } = useParams();
   const [exercise, setExercise] = useState<Exercise>();
 

@@ -23,7 +23,7 @@ import { VerticalMenuIcon } from "../assets";
 
 type OperationType = "add" | "edit" | "delete";
 
-export default function RoutineListPage() {
+export default function RoutineList() {
   const [routines, setRoutines] = useState<Routine[]>([]);
   const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
   const [isLoading, setIsLoading] = useState<boolean>(true);

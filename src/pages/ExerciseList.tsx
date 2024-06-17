@@ -31,7 +31,7 @@ import {
 
 type OperationType = "add" | "edit" | "delete";
 
-export default function ExerciseListPage() {
+export default function ExerciseList() {
   const [operationType, setOperationType] = useState<OperationType>("add");
 
   const {

@@ -36,7 +36,7 @@ import { getLocalTimeZone, parseDate } from "@internationalized/date";
 import { I18nProvider } from "@react-aria/i18n";
 import { useIsRoutineValid, useWorkoutTemplateList } from "../hooks";
 
-export default function RoutineDetailsPage() {
+export default function RoutineDetails() {
   const { id } = useParams();
   const [routine, setRoutine] = useState<Routine>(DefaultNewRoutine());
   const [editedRoutine, setEditedRoutine] = useState<Routine>(

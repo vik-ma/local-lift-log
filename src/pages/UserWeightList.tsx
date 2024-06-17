@@ -22,7 +22,7 @@ import { useDefaultUserWeight, useIsStringValidNumber } from "../hooks";
 
 type OperationType = "edit" | "delete";
 
-export default function UserWeightListPage() {
+export default function UserWeightList() {
   const [userWeights, setUserWeights] = useState<UserWeight[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [operationType, setOperationType] = useState<OperationType>("edit");

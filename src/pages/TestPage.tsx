@@ -3,7 +3,7 @@ import { TimeInputModal } from "../components";
 import { Button, useDisclosure } from "@nextui-org/react";
 import { GetCurrentDateTimeISOString } from "../helpers";
 
-export default function TestPage() {
+export default function Test() {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const dateString = GetCurrentDateTimeISOString();
 

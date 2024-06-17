@@ -59,7 +59,7 @@ type OperationType =
   | "edit-measurements"
   | "delete-measurements";
 
-export default function BodyMeasurementsPage() {
+export default function BodyMeasurements() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [userWeightInput, setUserWeightInput] = useState<string>("");

@@ -12,7 +12,7 @@ import {
 } from "../helpers";
 import { SettingsModal } from "../components";
 
-export default function HomePage() {
+export default function Home() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [isUserSettingsLoaded, setIsUserSettingsLoaded] =
     useState<boolean>(false);

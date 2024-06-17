@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Database from "tauri-plugin-sql-api";
 import { LoadingSpinner } from "../components";
 
-export default function ExerciseHistoryPage() {
+export default function ExerciseHistory() {
   const [exercise, setExercise] = useState<Exercise>();
   const [sets, setSets] = useState<WorkoutSet[]>([]);
 
