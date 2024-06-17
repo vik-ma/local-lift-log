@@ -258,8 +258,7 @@ export default function UserMeasurementList() {
     const success = await ReassignMeasurementIdForUserMeasurements(
       measurementToReassign.id,
       newMeasurementId.toString(),
-      userMeasurements,
-      measurementMap
+      userMeasurements
     );
 
     if (!success) return;
