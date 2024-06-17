@@ -12,6 +12,7 @@ import {
   UserMeasurementAccordion,
   UserMeasurementModal,
   UserWeightModal,
+  NameInputModal,
 } from "../components";
 import {
   FormatDateTimeString,
@@ -48,6 +49,7 @@ import {
   useDefaultUserWeight,
   useIsStringValidNumber,
   useMeasurementsInputs,
+  useValidateName,
 } from "../hooks";
 import { VerticalMenuIcon } from "../assets";
 import { Link } from "react-router-dom";
@@ -95,6 +97,11 @@ export default function BodyMeasurements() {
   const deleteModal = useDisclosure();
   const userWeightModal = useDisclosure();
   const userMeasurementModal = useDisclosure();
+  const nameInputModal = useDisclosure();
+
+  const [newMeasurementName, setNewMeasurementName] = useState<string>("");
+
+  const isNewMeasurementNameValid = useValidateName(newMeasurementName);
 
   const {
     invalidMeasurementInputs,
@@ -453,6 +460,11 @@ export default function BodyMeasurements() {
     activeMeasurementsValue.current = updatedActiveMeasurements;
   };
 
+  const reassignMeasurement = async () => {
+    nameInputModal.onClose();
+    toast.success("Measurement Reassigned");
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -513,6 +525,14 @@ export default function BodyMeasurements() {
         updateActiveTrackingMeasurementOrder={
           updateActiveTrackingMeasurementOrder
         }
+      />
+      <NameInputModal
+        nameInputModal={nameInputModal}
+        name={newMeasurementName}
+        setName={setNewMeasurementName}
+        header="Enter Measurement Name"
+        isNameValid={isNewMeasurementNameValid}
+        buttonAction={reassignMeasurement}
       />
       <div className="flex flex-col items-center gap-4">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">
