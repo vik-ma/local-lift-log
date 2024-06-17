@@ -74,42 +74,36 @@ export default function UserMeasurementList() {
   const userMeasurementModal = useDisclosure();
   const nameInputModal = useDisclosure();
 
-  const getUserMeasurements = useCallback(
-    async (clockStyle: string, measurementMap: MeasurementMap) => {
-      try {
-        const db = await Database.load(import.meta.env.VITE_DB);
+  const getUserMeasurements = useCallback(async (clockStyle: string) => {
+    const measurementMap = await GetMeasurementsMap();
+    setMeasurementMap(measurementMap);
 
-        const result = await db.select<UserMeasurement[]>(
-          "SELECT * FROM user_measurements ORDER BY id DESC"
-        );
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
 
-        const detailedUserMeasurements = CreateDetailedUserMeasurementList(
-          result,
-          measurementMap,
-          clockStyle
-        );
+      const result = await db.select<UserMeasurement[]>(
+        "SELECT * FROM user_measurements ORDER BY id DESC"
+      );
 
-        setUserMeasurements(detailedUserMeasurements);
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    []
-  );
+      const detailedUserMeasurements = CreateDetailedUserMeasurementList(
+        result,
+        measurementMap,
+        clockStyle
+      );
+
+      setUserMeasurements(detailedUserMeasurements);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
   useEffect(() => {
-    const getMeasurements = async (clockStyle: string) => {
-      const measurementMap = await GetMeasurementsMap();
-      setMeasurementMap(measurementMap);
-      getUserMeasurements(clockStyle, measurementMap);
-    };
-
     const loadUserSettings = async () => {
       const userSettings = await GetUserSettings();
 
       if (userSettings) {
         setUserSettings(userSettings);
-        getMeasurements(userSettings.clock_style);
+        getUserMeasurements(userSettings.clock_style);
         setIsLoading(false);
       }
     };
@@ -270,7 +264,7 @@ export default function UserMeasurementList() {
 
     if (!success) return;
 
-    await getUserMeasurements(userSettings?.clock_style, measurementMap);
+    await getUserMeasurements(userSettings.clock_style);
 
     setMeasurementToReassign(undefined);
     setNewMeasurementName("");
