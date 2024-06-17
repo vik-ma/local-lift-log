@@ -80,6 +80,7 @@ export { DefaultNewMeasurement } from "./Measurements/DefaultNewMeasurement";
 export { InsertMeasurementIntoDatabase } from "./Measurements/InsertMeasurementIntoDatabase";
 export { ReassignMeasurementIdForUserMeasurements } from "./Measurements/ReassignMeasurementIdForUserMeasurements";
 export { GenerateMeasurementListText } from "./Measurements/GenerateMeasurementListText";
+export { GetUserMeasurements } from "./Measurements/GetUserMeasurements";
 
 export { CreateDefaultEquipmentWeights } from "./Presets/CreateDefaultEquipmentWeights";
 export { CreateDefaultDistances } from "./Presets/CreateDefaultDistances";
