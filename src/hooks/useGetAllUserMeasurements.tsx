@@ -1,15 +1,19 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import {
   GetMeasurementsMap,
   CreateDetailedUserMeasurementList,
 } from "../helpers";
 import Database from "tauri-plugin-sql-api";
-import { MeasurementMap, UserMeasurement } from "../typings";
+import { MeasurementMap, UserMeasurement, Measurement } from "../typings";
 
-export const useGetAllUserMeasurements = (
-  setMeasurementMap: React.Dispatch<React.SetStateAction<MeasurementMap>>,
-  setUserMeasurements: React.Dispatch<React.SetStateAction<UserMeasurement[]>>
-) => {
+export const useGetAllUserMeasurements = () => {
+  const [measurementMap, setMeasurementMap] = useState<MeasurementMap>(
+    new Map<string, Measurement>()
+  );
+  const [userMeasurements, setUserMeasurements] = useState<UserMeasurement[]>(
+    []
+  );
+
   const getUserMeasurements = useCallback(
     async (clockStyle: string) => {
       const measurementMap = await GetMeasurementsMap();
@@ -36,5 +40,10 @@ export const useGetAllUserMeasurements = (
     [setMeasurementMap, setUserMeasurements]
   );
 
-  return getUserMeasurements;
+  return {
+    measurementMap,
+    userMeasurements,
+    getUserMeasurements,
+    setUserMeasurements,
+  };
 };

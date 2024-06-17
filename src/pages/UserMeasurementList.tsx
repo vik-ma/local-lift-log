@@ -6,12 +6,7 @@ import {
   UserMeasurementModal,
   NameInputModal,
 } from "../components";
-import {
-  Measurement,
-  MeasurementMap,
-  UserMeasurement,
-  UserSettings,
-} from "../typings";
+import { Measurement, UserMeasurement, UserSettings } from "../typings";
 import {
   ConvertUserMeasurementValuesToMeasurementInputs,
   CreateDetailedUserMeasurementList,
@@ -34,12 +29,6 @@ type OperationType = "edit" | "delete";
 
 export default function UserMeasurementList() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [userMeasurements, setUserMeasurements] = useState<UserMeasurement[]>(
-    []
-  );
-  const [measurementMap, setMeasurementMap] = useState<MeasurementMap>(
-    new Map<string, Measurement>()
-  );
   const [operationType, setOperationType] = useState<OperationType>("edit");
   const [activeMeasurements, setActiveMeasurements] = useState<Measurement[]>(
     []
@@ -62,10 +51,12 @@ export default function UserMeasurementList() {
   const deleteModal = useDisclosure();
   const userMeasurementModal = useDisclosure();
 
-  const getUserMeasurements = useGetAllUserMeasurements(
-    setMeasurementMap,
-    setUserMeasurements
-  );
+  const {
+    measurementMap,
+    userMeasurements,
+    getUserMeasurements,
+    setUserMeasurements,
+  } = useGetAllUserMeasurements();
 
   const {
     newMeasurementName,
