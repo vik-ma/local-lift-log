@@ -32,6 +32,7 @@ import {
   UpdateUserMeasurements,
   GenerateActiveMeasurementString,
   UpdateActiveTrackingMeasurements,
+  GetUserMeasurements,
 } from "../helpers";
 import {
   Button,
@@ -49,7 +50,7 @@ import {
   useDefaultUserWeight,
   useIsStringValidNumber,
   useMeasurementsInputs,
-  useValidateName,
+  useReassignMeasurement,
 } from "../hooks";
 import { VerticalMenuIcon } from "../assets";
 import { Link } from "react-router-dom";
@@ -97,11 +98,15 @@ export default function BodyMeasurements() {
   const deleteModal = useDisclosure();
   const userWeightModal = useDisclosure();
   const userMeasurementModal = useDisclosure();
-  const nameInputModal = useDisclosure();
 
-  const [newMeasurementName, setNewMeasurementName] = useState<string>("");
-
-  const isNewMeasurementNameValid = useValidateName(newMeasurementName);
+  const {
+    newMeasurementName,
+    setNewMeasurementName,
+    isNewMeasurementNameValid,
+    nameInputModal,
+    handleReassignMeasurement,
+    reassignMeasurement,
+  } = useReassignMeasurement();
 
   const {
     invalidMeasurementInputs,
@@ -460,7 +465,24 @@ export default function BodyMeasurements() {
     activeMeasurementsValue.current = updatedActiveMeasurements;
   };
 
-  const reassignMeasurement = async () => {
+  const reassignLatestMeasurement = async () => {
+    if (userSettings === undefined) return;
+
+    const updatedMeasurementMap = await GetMeasurementsMap();
+
+    setMeasurementMap(updatedMeasurementMap);
+
+    const userMeasurements = await GetUserMeasurements(
+      userSettings.clock_style,
+      updatedMeasurementMap
+    );
+
+    const success = await reassignMeasurement(userMeasurements);
+
+    if (!success) return;
+
+    await getLatestUserMeasurement(userSettings.clock_style);
+
     nameInputModal.onClose();
     toast.success("Measurement Reassigned");
   };
@@ -532,7 +554,7 @@ export default function BodyMeasurements() {
         setName={setNewMeasurementName}
         header="Enter Measurement Name"
         isNameValid={isNewMeasurementNameValid}
-        buttonAction={reassignMeasurement}
+        buttonAction={reassignLatestMeasurement}
       />
       <div className="flex flex-col items-center gap-4">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">
@@ -645,6 +667,7 @@ export default function BodyMeasurements() {
                     handleUserMeasurementsOptionSelection={
                       handleUserMeasurementsOptionSelection
                     }
+                    handleReassignMeasurement={handleReassignMeasurement}
                   />
                 </>
               ) : (
