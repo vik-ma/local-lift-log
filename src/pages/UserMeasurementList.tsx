@@ -12,7 +12,6 @@ import {
   MeasurementMap,
   UserMeasurement,
   UserSettings,
-  ReassignMeasurementsProps,
 } from "../typings";
 import {
   ConvertUserMeasurementValuesToMeasurementInputs,
@@ -23,18 +22,16 @@ import {
   ConvertEmptyStringToNull,
   CreateUserMeasurementValues,
   UpdateUserMeasurements,
-  InsertMeasurementIntoDatabase,
-  ReassignMeasurementIdForUserMeasurements,
 } from "../helpers";
 import {
   useDefaultUserMeasurements,
   useMeasurementsInputs,
-  useValidateName,
+  useReassignMeasurement,
 } from "../hooks";
 import { useDisclosure } from "@nextui-org/react";
 import { toast, Toaster } from "react-hot-toast";
 
-type OperationType = "edit" | "delete" | "reassign";
+type OperationType = "edit" | "delete";
 
 export default function UserMeasurementList() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -57,13 +54,6 @@ export default function UserMeasurementList() {
   const [operatingUserMeasurements, setOperatingUserMeasurements] =
     useState<UserMeasurement>(defaultUserMeasurements);
 
-  const [newMeasurementName, setNewMeasurementName] = useState<string>("");
-
-  const isNewMeasurementNameValid = useValidateName(newMeasurementName);
-
-  const [measurementToReassign, setMeasurementToReassign] =
-    useState<ReassignMeasurementsProps>();
-
   const {
     invalidMeasurementInputs,
     areActiveMeasurementsValid,
@@ -72,7 +62,15 @@ export default function UserMeasurementList() {
 
   const deleteModal = useDisclosure();
   const userMeasurementModal = useDisclosure();
-  const nameInputModal = useDisclosure();
+
+  const {
+    newMeasurementName,
+    setNewMeasurementName,
+    isNewMeasurementNameValid,
+    nameInputModal,
+    handleReassignMeasurement,
+    reassignMeasurement,
+  } = useReassignMeasurement();
 
   const getUserMeasurements = useCallback(async (clockStyle: string) => {
     const measurementMap = await GetMeasurementsMap();
@@ -227,46 +225,15 @@ export default function UserMeasurementList() {
     }
   };
 
-  const handleReassignMeasurement = (values: ReassignMeasurementsProps) => {
-    setMeasurementToReassign(values);
-    setOperationType("reassign");
-    nameInputModal.onOpen();
-  };
+  const reassignUserMeasurements = async () => {
+    if (userSettings === undefined) return;
 
-  const reassignMeasurement = async () => {
-    if (
-      measurementToReassign === undefined ||
-      !isNewMeasurementNameValid ||
-      operationType !== "reassign" ||
-      userSettings === undefined
-    )
-      return;
-
-    const newMeasurement: Measurement = {
-      id: 0,
-      name: newMeasurementName,
-      default_unit: measurementToReassign.unit,
-      measurement_type: measurementToReassign.measurement_type,
-    };
-
-    const newMeasurementId = await InsertMeasurementIntoDatabase(
-      newMeasurement
-    );
-
-    if (newMeasurementId === 0) return;
-
-    const success = await ReassignMeasurementIdForUserMeasurements(
-      measurementToReassign.id,
-      newMeasurementId.toString(),
-      userMeasurements
-    );
+    const success = await reassignMeasurement(userMeasurements);
 
     if (!success) return;
 
     await getUserMeasurements(userSettings.clock_style);
 
-    setMeasurementToReassign(undefined);
-    setNewMeasurementName("");
     resetUserMeasurements();
 
     nameInputModal.onClose();
@@ -312,7 +279,7 @@ export default function UserMeasurementList() {
         setName={setNewMeasurementName}
         header="Enter Measurement Name"
         isNameValid={isNewMeasurementNameValid}
-        buttonAction={reassignMeasurement}
+        buttonAction={reassignUserMeasurements}
       />
       <div className="flex flex-col items-center gap-4">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">
