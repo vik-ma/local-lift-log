@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import {
   LoadingSpinner,
   UserMeasurementAccordion,
@@ -6,7 +6,6 @@ import {
   UserMeasurementModal,
   NameInputModal,
 } from "../components";
-import Database from "tauri-plugin-sql-api";
 import {
   Measurement,
   MeasurementMap,
@@ -17,7 +16,6 @@ import {
   ConvertUserMeasurementValuesToMeasurementInputs,
   CreateDetailedUserMeasurementList,
   DeleteUserMeasurementById,
-  GetMeasurementsMap,
   GetUserSettings,
   ConvertEmptyStringToNull,
   CreateUserMeasurementValues,
@@ -25,6 +23,7 @@ import {
 } from "../helpers";
 import {
   useDefaultUserMeasurements,
+  useGetAllUserMeasurements,
   useMeasurementsInputs,
   useReassignMeasurement,
 } from "../hooks";
@@ -63,6 +62,11 @@ export default function UserMeasurementList() {
   const deleteModal = useDisclosure();
   const userMeasurementModal = useDisclosure();
 
+  const getUserMeasurements = useGetAllUserMeasurements(
+    setMeasurementMap,
+    setUserMeasurements
+  );
+
   const {
     newMeasurementName,
     setNewMeasurementName,
@@ -71,29 +75,6 @@ export default function UserMeasurementList() {
     handleReassignMeasurement,
     reassignMeasurement,
   } = useReassignMeasurement();
-
-  const getUserMeasurements = useCallback(async (clockStyle: string) => {
-    const measurementMap = await GetMeasurementsMap();
-    setMeasurementMap(measurementMap);
-
-    try {
-      const db = await Database.load(import.meta.env.VITE_DB);
-
-      const result = await db.select<UserMeasurement[]>(
-        "SELECT * FROM user_measurements ORDER BY id DESC"
-      );
-
-      const detailedUserMeasurements = CreateDetailedUserMeasurementList(
-        result,
-        measurementMap,
-        clockStyle
-      );
-
-      setUserMeasurements(detailedUserMeasurements);
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
 
   useEffect(() => {
     const loadUserSettings = async () => {
