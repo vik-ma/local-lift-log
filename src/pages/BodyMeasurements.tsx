@@ -450,7 +450,7 @@ export default function BodyMeasurementsPage() {
       userSettings.id
     );
 
-    activeMeasurementsValue.current = activeMeasurements;
+    activeMeasurementsValue.current = updatedActiveMeasurements;
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;
