@@ -53,7 +53,6 @@ import {
   useReassignMeasurement,
 } from "../hooks";
 import { VerticalMenuIcon } from "../assets";
-import { Link } from "react-router-dom";
 
 type OperationType =
   | "add"
@@ -569,7 +568,7 @@ export default function BodyMeasurements() {
             <div className="flex flex-col gap-2.5 items-center">
               <h2 className="flex text-3xl font-semibold">Body Weight</h2>
               <div className="flex flex-col items-center gap-2">
-                <h3 className="flex items-center gap-3">
+                <h3 className="flex items-center gap-2.5">
                   {latestUserWeight.id === 0 ? (
                     <span className="text-stone-400">
                       No Body Weight Entries Added
@@ -578,7 +577,7 @@ export default function BodyMeasurements() {
                     <>
                       <span className="font-semibold text-lg">
                         Latest Weight
-                      </span>{" "}
+                      </span>
                       <Button
                         color="success"
                         variant="flat"
@@ -636,7 +635,10 @@ export default function BodyMeasurements() {
                 Add Weight
               </Button>
               <h2 className="flex text-3xl font-semibold">Body Measurements</h2>
-              <div className="flex justify-between gap-3">
+              <div className="flex flex-col gap-1 items-center text-xs font-normal">
+                <span className="text-stone-500">
+                  Add or remove Measurements to actively track in the
+                </span>
                 <Button
                   variant="flat"
                   size="sm"
@@ -644,50 +646,46 @@ export default function BodyMeasurements() {
                 >
                   List of Measurements
                 </Button>
-                <Button
-                  color="success"
-                  variant="flat"
-                  size="sm"
-                  onPress={() =>
-                    navigate("/measurements/user-measurement-list")
-                  }
-                >
-                  View History
-                </Button>
               </div>
-              <h3 className="flex text-lg font-semibold">
-                Latest Measurements
+              <h3 className="flex items-center gap-2.5">
+                {latestUserMeasurements.id === 0 ? (
+                  <span className="flex justify-center text-stone-400">
+                    No Body Measurement Entries Added
+                  </span>
+                ) : (
+                  <>
+                    <span className="font-semibold text-lg">
+                      Latest Measurements
+                    </span>
+                    <Button
+                      color="success"
+                      variant="flat"
+                      size="sm"
+                      onPress={() =>
+                        navigate("/measurements/user-measurement-list")
+                      }
+                    >
+                      View History
+                    </Button>
+                  </>
+                )}
               </h3>
-              {latestUserMeasurements.id !== 0 ? (
-                <>
-                  <UserMeasurementAccordion
-                    userMeasurementEntries={[latestUserMeasurements]}
-                    handleMeasurementAccordionClick={
-                      handleMeasurementAccordionClick
-                    }
-                    measurementMap={measurementMap}
-                    handleUserMeasurementsOptionSelection={
-                      handleUserMeasurementsOptionSelection
-                    }
-                    handleReassignMeasurement={handleReassignMeasurement}
-                  />
-                </>
-              ) : (
-                <span className="flex justify-center text-stone-400">
-                  No Body Measurement Entries Added
-                </span>
+              {latestUserMeasurements.id !== 0 && (
+                <UserMeasurementAccordion
+                  userMeasurementEntries={[latestUserMeasurements]}
+                  handleMeasurementAccordionClick={
+                    handleMeasurementAccordionClick
+                  }
+                  measurementMap={measurementMap}
+                  handleUserMeasurementsOptionSelection={
+                    handleUserMeasurementsOptionSelection
+                  }
+                  handleReassignMeasurement={handleReassignMeasurement}
+                />
               )}
               <Button className="font-medium" onPress={handleAddMeasurements}>
                 Add Measurements
               </Button>
-              <div className="flex flex-col text-center text-xs font-normal">
-                <span className="text-stone-500">
-                  Add or remove Measurements to actively track in the
-                </span>
-                <Link className="text-success" to={"measurement-list"}>
-                  List of Measurements
-                </Link>
-              </div>
             </div>
           </>
         )}
