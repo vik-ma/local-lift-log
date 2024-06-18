@@ -569,14 +569,16 @@ export default function BodyMeasurements() {
             <div className="flex flex-col gap-2.5 items-center">
               <h2 className="flex text-3xl font-semibold">Body Weight</h2>
               <div className="flex flex-col items-center gap-2">
-                <h3 className="flex text-lg font-semibold items-center gap-3">
+                <h3 className="flex items-center gap-3">
                   {latestUserWeight.id === 0 ? (
                     <span className="text-stone-400">
                       No Body Weight Entries Added
                     </span>
                   ) : (
                     <>
-                      Latest Weight
+                      <span className="font-semibold text-lg">
+                        Latest Weight
+                      </span>{" "}
                       <Button
                         color="success"
                         variant="flat"
@@ -675,18 +677,17 @@ export default function BodyMeasurements() {
                   No Body Measurement Entries Added
                 </span>
               )}
-              {activeMeasurements.length === 0 ? (
-                <span className="text-xs text-stone-500 font-normal">
-                  Add Measurements to actively track in the{" "}
-                  <Link className="text-success" to={"measurement-list"}>
-                    List of Measurements
-                  </Link>
+              <Button className="font-medium" onPress={handleAddMeasurements}>
+                Add Measurements
+              </Button>
+              <div className="flex flex-col text-center text-xs font-normal">
+                <span className="text-stone-500">
+                  Add or remove Measurements to actively track in the
                 </span>
-              ) : (
-                <Button className="font-medium" onPress={handleAddMeasurements}>
-                  Add Measurements
-                </Button>
-              )}
+                <Link className="text-success" to={"measurement-list"}>
+                  List of Measurements
+                </Link>
+              </div>
             </div>
           </>
         )}
