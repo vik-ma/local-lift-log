@@ -108,6 +108,7 @@ export const UserMeasurementModal = ({
                 {showMeasurementList ? (
                   <Listbox
                     aria-label="Add Measurement"
+                    emptyContent="No Measurements Created"
                     onAction={(key) => handleListboxClick(key as string)}
                   >
                     {Array.from(filteredMeasurements).map(([key, value]) => (
