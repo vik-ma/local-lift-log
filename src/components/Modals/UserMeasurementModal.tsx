@@ -104,7 +104,7 @@ export const UserMeasurementModal = ({
                 : "Edit Body Measurements Entry"}
             </ModalHeader>
             <ModalBody>
-              <div className="h-[270px] flex flex-col gap-1 overflow-auto pr-3">
+              <div className="h-[270px] flex flex-col pr-1 overflow-auto scroll-gradient">
                 {showMeasurementList ? (
                   <Listbox
                     aria-label="Add Measurement"
