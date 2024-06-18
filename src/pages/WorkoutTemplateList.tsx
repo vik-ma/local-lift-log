@@ -20,7 +20,7 @@ import { useDefaultWorkoutTemplate, useValidateName } from "../hooks";
 import { ConvertEmptyStringToNull, UpdateWorkoutTemplate } from "../helpers";
 import { VerticalMenuIcon } from "../assets";
 
-type OperationType = "edit" | "delete";
+type OperationType = "add" | "edit" | "delete";
 
 export default function WorkoutTemplateList() {
   const [workoutTemplates, setWorkoutTemplates] = useState<WorkoutTemplate[]>(
@@ -162,7 +162,7 @@ export default function WorkoutTemplateList() {
 
   const resetOperatingWorkoutTemplate = () => {
     setOperatingWorkoutTemplate(defaultWorkoutTemplate);
-    setOperationType("edit");
+    setOperationType("add");
   };
 
   const handleWorkoutTemplateOptionSelection = (
@@ -178,6 +178,11 @@ export default function WorkoutTemplateList() {
       setOperatingWorkoutTemplate(workoutTemplate);
       deleteModal.onOpen();
     }
+  };
+
+  const handleCreateNewWorkoutTemplateButton = () => {
+    resetOperatingWorkoutTemplate();
+    workoutTemplateModal.onOpen();
   };
 
   return (
@@ -268,7 +273,7 @@ export default function WorkoutTemplateList() {
               <Button
                 className="text-lg font-medium"
                 color="success"
-                onPress={() => workoutTemplateModal.onOpen()}
+                onPress={handleCreateNewWorkoutTemplateButton}
               >
                 Create New Workout Template
               </Button>
