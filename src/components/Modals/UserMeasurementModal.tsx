@@ -13,7 +13,7 @@ import {
 import { UserMeasurementReorderItem } from "..";
 import { Reorder } from "framer-motion";
 import { Measurement, MeasurementMap } from "../../typings";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type UserMeasurementModalProps = {
   userMeasurementModal: ReturnType<typeof useDisclosure>;
@@ -46,14 +46,21 @@ export const UserMeasurementModal = ({
   isEditing,
   updateActiveTrackingMeasurementOrder = () => {},
 }: UserMeasurementModalProps) => {
-  const [showMeasurementList, setShowMeasurementList] =
+  const [isAddingMeasurement, setIsAddingMeasurement] =
     useState<boolean>(false);
   const [filteredMeasurements, setFilteredMeasurements] =
     useState<MeasurementMap>(new Map<string, Measurement>());
 
+  useEffect(() => {
+    setFilteredMeasurements(measurementMap);
+  }, [measurementMap]);
+
+  const showMeasurementList =
+    isAddingMeasurement || activeMeasurements.length === 0;
+
   const handleAddMeasurement = () => {
-    if (showMeasurementList) {
-      setShowMeasurementList(false);
+    if (isAddingMeasurement) {
+      setIsAddingMeasurement(false);
       return;
     }
 
@@ -67,7 +74,7 @@ export const UserMeasurementModal = ({
 
     setFilteredMeasurements(filteredMeasurements);
 
-    setShowMeasurementList(true);
+    setIsAddingMeasurement(true);
   };
 
   const handleListboxClick = (key: string) => {
@@ -87,7 +94,7 @@ export const UserMeasurementModal = ({
       updateActiveTrackingMeasurementOrder(newMeasurements);
     }
 
-    setShowMeasurementList(false);
+    setIsAddingMeasurement(false);
   };
 
   return (
@@ -166,13 +173,15 @@ export const UserMeasurementModal = ({
             </ModalBody>
             <ModalFooter className="flex justify-between">
               <div>
-                <Button
-                  className="w-40"
-                  variant="flat"
-                  onPress={handleAddMeasurement}
-                >
-                  {showMeasurementList ? "Cancel" : "Add Measurement"}
-                </Button>
+                {activeMeasurements.length > 0 && (
+                  <Button
+                    className="w-40"
+                    variant="flat"
+                    onPress={handleAddMeasurement}
+                  >
+                    {isAddingMeasurement ? "Cancel" : "Add Measurement"}
+                  </Button>
+                )}
               </div>
               <div className="flex gap-2">
                 <Button color="success" variant="light" onPress={onClose}>
@@ -182,7 +191,7 @@ export const UserMeasurementModal = ({
                   color="success"
                   onPress={buttonAction}
                   isDisabled={
-                    !areActiveMeasurementsValid || showMeasurementList
+                    !areActiveMeasurementsValid || isAddingMeasurement
                   }
                 >
                   {isEditing ? "Update" : "Save"}
