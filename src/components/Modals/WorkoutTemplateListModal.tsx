@@ -35,24 +35,26 @@ export const WorkoutTemplateListModal = ({
           <>
             <ModalHeader>{header}</ModalHeader>
             <ModalBody>
-              <Listbox
-                aria-label="Workout Template List"
-                onAction={(key) => listboxOnActionFunction(Number(key))}
-              >
-                {workoutTemplates.map((template) => (
-                  <ListboxItem
-                    key={template.id}
-                    className="text-success"
-                    color="success"
-                    variant="faded"
-                  >
-                    {template.name}
-                  </ListboxItem>
-                ))}
-              </Listbox>
+              <div className="h-[270px] pr-1 overflow-auto scroll-gradient">
+                <Listbox
+                  aria-label="Workout Template List"
+                  onAction={(key) => listboxOnActionFunction(Number(key))}
+                >
+                  {workoutTemplates.map((template) => (
+                    <ListboxItem
+                      key={template.id}
+                      className="text-success"
+                      color="success"
+                      variant="faded"
+                    >
+                      {template.name}
+                    </ListboxItem>
+                  ))}
+                </Listbox>
+              </div>
             </ModalBody>
             <ModalFooter>
-              <Button color="danger" variant="light" onPress={onClose}>
+              <Button variant="light" onPress={onClose}>
                 Cancel
               </Button>
             </ModalFooter>
