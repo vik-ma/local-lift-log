@@ -169,27 +169,28 @@ export default function Presets() {
     )
       return;
 
-    const weight = ConvertNumberToTwoDecimals(Number(newWeightInput));
+    const weight = ConvertNumberToTwoDecimals(
+      Number(operatingEquipmentWeight.input)
+    );
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
       const result = await db.execute(
         "INSERT into equipment_weights (name, weight, weight_unit) VALUES ($1, $2, $3)",
-        [newName, weight, newWeightUnit]
+        [nameInput, weight, operatingEquipmentWeight.weight_unit]
       );
 
       const newEquipment: EquipmentWeight = {
         id: result.lastInsertId,
-        name: newName,
+        name: nameInput,
         weight: weight,
-        weight_unit: newWeightUnit,
+        weight_unit: operatingEquipmentWeight.weight_unit,
       };
 
       setEquipmentWeights([...equipmentWeights, newEquipment]);
 
       resetOperatingEquipment();
-      setOperationType("");
       newPresetModal.onClose();
 
       toast.success("Equipment Weight Added");
@@ -206,27 +207,28 @@ export default function Presets() {
     )
       return;
 
-    const distance = ConvertNumberToTwoDecimals(Number(newDistanceInput));
+    const distance = ConvertNumberToTwoDecimals(
+      Number(operatingDistance.input)
+    );
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
       const result = await db.execute(
         "INSERT into distances (name, distance, distance_unit) VALUES ($1, $2, $3)",
-        [newName, distance, newDistanceUnit]
+        [nameInput, distance, operatingDistance.distance_unit]
       );
 
       const newDistance: Distance = {
         id: result.lastInsertId,
-        name: newName,
+        name: nameInput,
         distance: distance,
-        distance_unit: newDistanceUnit,
+        distance_unit: operatingDistance.distance_unit,
       };
 
       setDistances([...distances, newDistance]);
 
       resetOperatingDistance();
-      setOperationType("");
       newPresetModal.onClose();
 
       toast.success("Distance Added");
@@ -388,20 +390,26 @@ export default function Presets() {
 
   const resetOperatingEquipment = () => {
     if (userSettings === undefined) return;
-    setNewEquipment(undefined);
-    setNewName("");
-    setNewWeightInput("");
-    setNewWeightUnit(userSettings.default_unit_weight!);
-    setIsEditing(false);
+
+    setPresetType("equipment");
+    setOperationType("add");
+    setNameInput("");
+    setOperatingEquipmentWeight({
+      ...defaultEquipmentWeight,
+      weight_unit: userSettings.default_unit_weight!,
+    });
   };
 
   const resetOperatingDistance = () => {
     if (userSettings === undefined) return;
-    setNewDistance(undefined);
-    setNewName("");
-    setNewDistanceInput("");
-    setNewDistanceUnit(userSettings.default_unit_distance!);
-    setIsEditing(false);
+
+    setPresetType("distance");
+    setOperationType("add");
+    setNameInput("");
+    setOperatingDistance({
+      ...defaultDistance,
+      distance_unit: userSettings.default_unit_distance!,
+    });
   };
 
   const handleAddEquipmentWeightButton = () => {
