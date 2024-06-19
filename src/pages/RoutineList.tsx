@@ -31,10 +31,10 @@ export default function RoutineList() {
 
   const navigate = useNavigate();
 
-  const defaultNewRoutine = useDefaultRoutine();
+  const defaultRoutine = useDefaultRoutine();
 
   const [operatingRoutine, setOperatingRoutine] =
-    useState<Routine>(defaultNewRoutine);
+    useState<Routine>(defaultRoutine);
 
   const deleteModal = useDisclosure();
   const routineModal = useDisclosure();
@@ -207,7 +207,7 @@ export default function RoutineList() {
 
   const resetOperatingRoutine = () => {
     setOperationType("add");
-    setOperatingRoutine(defaultNewRoutine);
+    setOperatingRoutine(defaultRoutine);
   };
 
   const handleCreateNewRoutineButton = () => {

@@ -49,12 +49,12 @@ export default function ExerciseList() {
 
   const navigate = useNavigate();
 
-  const defaultNewExercise = useDefaultExercise();
+  const defaultExercise = useDefaultExercise();
 
   const exerciseGroupDictionary = useExerciseGroupDictionary();
 
   const [operatingExercise, setOperatingExercise] =
-    useState<Exercise>(defaultNewExercise);
+    useState<Exercise>(defaultExercise);
 
   const isOperatingExerciseNameValid = useValidateName(operatingExercise.name);
 
@@ -180,7 +180,7 @@ export default function ExerciseList() {
 
   const resetOperatingExercise = () => {
     setOperationType("add");
-    setOperatingExercise(defaultNewExercise);
+    setOperatingExercise(defaultExercise);
   };
 
   const handleExerciseOptionSelection = (key: string, exercise: Exercise) => {

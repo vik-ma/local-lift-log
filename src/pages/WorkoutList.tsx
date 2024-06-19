@@ -34,7 +34,7 @@ export default function WorkoutList() {
   const [operationType, setOperationType] = useState<OperationType>("edit");
   const [newWorkoutNote, setNewWorkoutNote] = useState<string>("");
 
-  const defaultWorkout: Workout = useDefaultWorkout();
+  const defaultWorkout = useDefaultWorkout();
 
   const [operatingWorkout, setOperatingWorkout] =
     useState<Workout>(defaultWorkout);
