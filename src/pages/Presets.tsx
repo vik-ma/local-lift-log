@@ -527,54 +527,31 @@ export default function Presets() {
                     isRequired
                     isClearable
                   />
-                  {presetType === "equipment" && (
-                    <div className="flex justify-between gap-2 items-center">
-                      <Input
-                        value={operatingEquipmentWeight.input}
-                        label="Weight"
-                        size="sm"
-                        variant="faded"
-                        onValueChange={(value) =>
-                          setOperatingEquipmentWeight((prev) => ({
-                            ...prev,
-                            input: value,
-                          }))
-                        }
-                        isInvalid={isWeightInputInvalid}
-                        isRequired
-                        isClearable
-                      />
+                  <div className="flex justify-between gap-2 items-center">
+                    <Input
+                      value={valueInput}
+                      label={presetType === "equipment" ? "Weight" : "Distance"}
+                      size="sm"
+                      variant="faded"
+                      onValueChange={(value) => setValueInput(value)}
+                      isInvalid={isValueInputInvalid}
+                      isRequired
+                      isClearable
+                    />
+                    {presetType === "equipment" ? (
                       <WeightUnitDropdown
                         value={operatingEquipmentWeight.weight_unit}
                         setEquipmentWeight={setOperatingEquipmentWeight}
                         targetType="equipment"
                       />
-                    </div>
-                  )}
-                  {presetType === "distance" && (
-                    <div className="flex justify-between gap-2 items-center">
-                      <Input
-                        value={operatingDistance.input}
-                        label="Distance"
-                        size="sm"
-                        variant="faded"
-                        onValueChange={(value) =>
-                          setOperatingDistance((prev) => ({
-                            ...prev,
-                            input: value,
-                          }))
-                        }
-                        isInvalid={isValueInputInvalid}
-                        isRequired
-                        isClearable
-                      />
+                    ) : (
                       <DistanceUnitDropdown
                         value={operatingDistance.distance_unit}
                         setDistance={setOperatingDistance}
                         targetType="distance"
                       />
-                    </div>
-                  )}
+                    )}
+                  </div>
                 </div>
               </ModalBody>
               <ModalFooter>

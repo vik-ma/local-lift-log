@@ -20,7 +20,7 @@ export const DistanceUnitDropdown = ({
       }));
     }
 
-    if (targetType === "equipment" && setDistance !== undefined) {
+    if (targetType === "distance" && setDistance !== undefined) {
       setDistance((prev) => ({ ...prev, distance_unit: e.target.value }));
     }
 
