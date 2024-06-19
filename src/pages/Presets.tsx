@@ -239,38 +239,43 @@ export default function Presets() {
 
   const updateEquipmentWeight = async () => {
     if (
-      newEquipment === undefined ||
+      operatingEquipmentWeight.id === 0 ||
       isNewPresetInvalid ||
       operationType !== "edit" ||
       presetType !== "equipment"
     )
       return;
 
-    const weight = Number(newWeightInput);
+    const weight = ConvertNumberToTwoDecimals(
+      Number(operatingEquipmentWeight.input)
+    );
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
       await db.execute(
         "UPDATE equipment_weights SET name = $1, weight = $2, weight_unit = $3 WHERE id = $4",
-        [newName, weight, newWeightUnit, newEquipment.id]
+        [
+          nameInput,
+          weight,
+          operatingEquipmentWeight.weight_unit,
+          operatingEquipmentWeight.id,
+        ]
       );
 
       const updatedEquipment: EquipmentWeight = {
-        ...newEquipment,
-        name: newName,
+        ...operatingEquipmentWeight,
+        name: nameInput,
         weight: weight,
-        weight_unit: newWeightUnit,
       };
 
       setEquipmentWeights((prev) =>
         prev.map((item) =>
-          item.id === newEquipment.id ? updatedEquipment : item
+          item.id === operatingEquipmentWeight.id ? updatedEquipment : item
         )
       );
 
       resetOperatingEquipment();
-      setOperationType("");
       newPresetModal.onClose();
 
       toast.success("Equipment Weight Updated");
@@ -281,38 +286,44 @@ export default function Presets() {
 
   const updateDistance = async () => {
     if (
-      newDistance === undefined ||
+      operatingDistance.id === 0 ||
       isNewPresetInvalid ||
       operationType !== "edit" ||
       presetType !== "distance"
     )
       return;
 
-    const distance = Number(newDistanceInput);
+    const distance = ConvertNumberToTwoDecimals(
+      Number(operatingDistance.input)
+    );
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
       await db.execute(
         "UPDATE distances SET name = $1, distance = $2, distance_unit = $3 WHERE id = $4",
-        [newName, distance, newDistanceUnit, newDistance.id]
+        [
+          nameInput,
+          distance,
+          operatingDistance.distance_unit,
+          operatingDistance.id,
+        ]
       );
 
       const updatedDistance: Distance = {
-        ...newDistance,
-        name: newName,
+        ...operatingDistance,
+        name: nameInput,
         distance: distance,
-        distance_unit: newDistanceUnit,
+        distance_unit: operatingDistance.distance_unit,
       };
 
       setDistances((prev) =>
         prev.map((item) =>
-          item.id === newDistance.id ? updatedDistance : item
+          item.id === operatingDistance.id ? updatedDistance : item
         )
       );
 
       resetOperatingDistance();
-      setOperationType("");
       newPresetModal.onClose();
 
       toast.success("Distance Updated");
@@ -323,7 +334,7 @@ export default function Presets() {
 
   const deleteEquipmentWeight = async () => {
     if (
-      equipmentToDelete === undefined ||
+      operatingEquipmentWeight.id === 0 ||
       operationType !== "delete" ||
       presetType !== "equipment"
     )
@@ -333,11 +344,13 @@ export default function Presets() {
       const db = await Database.load(import.meta.env.VITE_DB);
 
       db.execute("DELETE from equipment_weights WHERE id = $1", [
-        equipmentToDelete.id,
+        operatingEquipmentWeight.id,
       ]);
 
       const updatedEquipmentWeights: EquipmentWeight[] =
-        equipmentWeights.filter((item) => item.id !== equipmentToDelete?.id);
+        equipmentWeights.filter(
+          (item) => item.id !== operatingEquipmentWeight.id
+        );
       setEquipmentWeights(updatedEquipmentWeights);
 
       toast.success("Equipment Weight Deleted");
@@ -345,14 +358,13 @@ export default function Presets() {
       console.log(error);
     }
 
-    setEquipmentToDelete(undefined);
-    setOperationType("");
+    resetOperatingEquipment();
     deleteModal.onClose();
   };
 
   const deleteDistance = async () => {
     if (
-      distanceToDelete === undefined ||
+      operatingDistance.id === 0 ||
       operationType !== "delete" ||
       presetType !== "distance"
     )
@@ -361,10 +373,10 @@ export default function Presets() {
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
-      db.execute("DELETE from distances WHERE id = $1", [distanceToDelete.id]);
+      db.execute("DELETE from distances WHERE id = $1", [operatingDistance.id]);
 
       const updatedDistances: Distance[] = distances.filter(
-        (item) => item.id !== distanceToDelete?.id
+        (item) => item.id !== operatingDistance.id
       );
       setDistances(updatedDistances);
 
@@ -373,8 +385,7 @@ export default function Presets() {
       console.log(error);
     }
 
-    setDistanceToDelete(undefined);
-    setOperationType("");
+    resetOperatingDistance();
     deleteModal.onClose();
   };
 
@@ -413,14 +424,12 @@ export default function Presets() {
   };
 
   const handleAddEquipmentWeightButton = () => {
-    if (isEditing) resetOperatingEquipment();
-    setOperationType("equipment");
+    resetOperatingEquipment();
     newPresetModal.onOpen();
   };
 
   const handleAddDistanceButton = () => {
-    if (isEditing) resetOperatingDistance();
-    setOperationType("distance");
+    resetOperatingDistance();
     newPresetModal.onOpen();
   };
 
@@ -472,7 +481,6 @@ export default function Presets() {
     await CreateDefaultEquipmentWeights(useMetricUnits);
     await getEquipmentWeights();
     setUnitsModal.onClose();
-    setOperationType("");
     toast.success("Default Equipment Weights Restored");
   };
 
@@ -482,7 +490,6 @@ export default function Presets() {
     await CreateDefaultDistances(useMetricUnits);
     await getDistances();
     setUnitsModal.onClose();
-    setOperationType("");
     toast.success("Default Distances Restored");
   };
 
