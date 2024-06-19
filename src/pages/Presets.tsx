@@ -32,24 +32,48 @@ import toast, { Toaster } from "react-hot-toast";
 import { useValidateName } from "../hooks";
 import { VerticalMenuIcon } from "../assets";
 
+type OperationType =
+  | "add-equipment"
+  | "edit-equipment"
+  | "delete-equipment"
+  | "add-distance"
+  | "edit-distance"
+  | "delete-distance";
+
 export default function Presets() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [equipmentWeights, setEquipmentWeights] = useState<EquipmentWeight[]>(
     []
   );
   const [distances, setDistances] = useState<Distance[]>([]);
-  const [newName, setNewName] = useState<string>("");
-  const [newWeightInput, setNewWeightInput] = useState<string>("");
-  const [newWeightUnit, setNewWeightUnit] = useState<string>("");
   const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
-  const [newEquipment, setNewEquipment] = useState<EquipmentWeight>();
-  const [equipmentToDelete, setEquipmentToDelete] = useState<EquipmentWeight>();
-  const [newDistance, setNewDistance] = useState<Distance>();
-  const [newDistanceInput, setNewDistanceInput] = useState<string>("");
-  const [newDistanceUnit, setNewDistanceUnit] = useState<string>("");
-  const [distanceToDelete, setDistanceToDelete] = useState<Distance>();
-  const [operatingType, setOperatingType] = useState<string>("");
-  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [operationType, setOperationType] =
+    useState<OperationType>("add-equipment");
+
+  const defaultEquipmentWeight: EquipmentWeight = useMemo(() => {
+    return {
+      id: 0,
+      name: "",
+      weight: 0,
+      weight_unit: "kg",
+      input: "",
+    };
+  }, []);
+
+  const defaultDistance: Distance = useMemo(() => {
+    return {
+      id: 0,
+      name: "",
+      distance: 0,
+      distance_unit: "km",
+      input: "",
+    };
+  }, []);
+
+  const [operatingEquipmentWeight, setOperatingEquipmentWeight] =
+    useState<EquipmentWeight>(defaultEquipmentWeight);
+  const [operatingDistance, setOperatingDistance] =
+    useState<Distance>(defaultDistance);
 
   const deleteModal = useDisclosure();
   const newPresetModal = useDisclosure();
@@ -124,18 +148,18 @@ export default function Presets() {
 
   const isNewPresetInvalid = useMemo(() => {
     if (!isNewNameValid) return true;
-    if (isWeightInputInvalid && operatingType === "equipment") return true;
-    if (isDistanceInputInvalid && operatingType === "distance") return true;
+    if (isWeightInputInvalid && operationType === "equipment") return true;
+    if (isDistanceInputInvalid && operationType === "distance") return true;
     return false;
   }, [
     isNewNameValid,
     isWeightInputInvalid,
     isDistanceInputInvalid,
-    operatingType,
+    operationType,
   ]);
 
   const addEquipmentWeight = async () => {
-    if (isNewPresetInvalid || operatingType !== "equipment") return;
+    if (isNewPresetInvalid || operationType !== "equipment") return;
 
     const weight = ConvertNumberToTwoDecimals(Number(newWeightInput));
 
@@ -157,7 +181,7 @@ export default function Presets() {
       setEquipmentWeights([...equipmentWeights, newEquipment]);
 
       resetOperatingEquipment();
-      setOperatingType("");
+      setOperationType("");
       newPresetModal.onClose();
 
       toast.success("Equipment Weight Added");
@@ -167,7 +191,7 @@ export default function Presets() {
   };
 
   const addDistance = async () => {
-    if (isNewPresetInvalid || operatingType !== "distance") return;
+    if (isNewPresetInvalid || operationType !== "distance") return;
 
     const distance = ConvertNumberToTwoDecimals(Number(newDistanceInput));
 
@@ -189,7 +213,7 @@ export default function Presets() {
       setDistances([...distances, newDistance]);
 
       resetOperatingDistance();
-      setOperatingType("");
+      setOperationType("");
       newPresetModal.onClose();
 
       toast.success("Distance Added");
@@ -202,7 +226,7 @@ export default function Presets() {
     if (
       newEquipment === undefined ||
       isNewPresetInvalid ||
-      operatingType !== "equipment"
+      operationType !== "equipment"
     )
       return;
 
@@ -230,7 +254,7 @@ export default function Presets() {
       );
 
       resetOperatingEquipment();
-      setOperatingType("");
+      setOperationType("");
       newPresetModal.onClose();
 
       toast.success("Equipment Weight Updated");
@@ -243,7 +267,7 @@ export default function Presets() {
     if (
       newDistance === undefined ||
       isNewPresetInvalid ||
-      operatingType !== "distance"
+      operationType !== "distance"
     )
       return;
 
@@ -271,7 +295,7 @@ export default function Presets() {
       );
 
       resetOperatingDistance();
-      setOperatingType("");
+      setOperationType("");
       newPresetModal.onClose();
 
       toast.success("Distance Updated");
@@ -281,7 +305,7 @@ export default function Presets() {
   };
 
   const deleteEquipmentWeight = async () => {
-    if (equipmentToDelete === undefined || operatingType !== "equipment")
+    if (equipmentToDelete === undefined || operationType !== "equipment")
       return;
 
     try {
@@ -301,12 +325,12 @@ export default function Presets() {
     }
 
     setEquipmentToDelete(undefined);
-    setOperatingType("");
+    setOperationType("");
     deleteModal.onClose();
   };
 
   const deleteDistance = async () => {
-    if (distanceToDelete === undefined || operatingType !== "distance") return;
+    if (distanceToDelete === undefined || operationType !== "distance") return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
@@ -324,7 +348,7 @@ export default function Presets() {
     }
 
     setDistanceToDelete(undefined);
-    setOperatingType("");
+    setOperationType("");
     deleteModal.onClose();
   };
 
@@ -348,13 +372,13 @@ export default function Presets() {
 
   const handleAddEquipmentWeightButton = () => {
     if (isEditing) resetOperatingEquipment();
-    setOperatingType("equipment");
+    setOperationType("equipment");
     newPresetModal.onOpen();
   };
 
   const handleAddDistanceButton = () => {
     if (isEditing) resetOperatingDistance();
-    setOperatingType("distance");
+    setOperationType("distance");
     newPresetModal.onOpen();
   };
 
@@ -363,7 +387,7 @@ export default function Presets() {
     setNewName(equipment.name);
     setNewWeightInput(equipment.weight.toString());
     setNewWeightUnit(equipment.weight_unit);
-    setOperatingType("equipment");
+    setOperationType("equipment");
     setIsEditing(true);
     newPresetModal.onOpen();
   };
@@ -373,60 +397,60 @@ export default function Presets() {
     setNewName(distance.name);
     setNewDistanceInput(distance.distance.toString());
     setNewDistanceUnit(distance.distance_unit);
-    setOperatingType("distance");
+    setOperationType("distance");
     setIsEditing(true);
     newPresetModal.onOpen();
   };
 
   const handleDeleteEquipmentButton = (equipment: EquipmentWeight) => {
     setEquipmentToDelete(equipment);
-    setOperatingType("equipment");
+    setOperationType("equipment");
     deleteModal.onOpen();
   };
 
   const handleDeleteDistanceButton = (distance: Distance) => {
     setDistanceToDelete(distance);
-    setOperatingType("distance");
+    setOperationType("distance");
     deleteModal.onOpen();
   };
 
   const handleCreateButton = async () => {
-    if (operatingType === "equipment") await addEquipmentWeight();
-    if (operatingType === "distance") await addDistance();
+    if (operationType === "equipment") await addEquipmentWeight();
+    if (operationType === "distance") await addDistance();
   };
 
   const handleUpdateButton = async () => {
-    if (operatingType === "equipment") await updateEquipmentWeight();
-    if (operatingType === "distance") await updateDistance();
+    if (operationType === "equipment") await updateEquipmentWeight();
+    if (operationType === "distance") await updateDistance();
   };
 
   const handleRestoreEquipmentButton = async () => {
-    setOperatingType("equipment");
+    setOperationType("equipment");
     setUnitsModal.onOpen();
   };
 
   const handleRestoreDistanceButton = async () => {
-    setOperatingType("distance");
+    setOperationType("distance");
     setUnitsModal.onOpen();
   };
 
   const createDefaultEquipmentWeights = async (useMetricUnits: boolean) => {
-    if (operatingType !== "equipment") return;
+    if (operationType !== "equipment") return;
 
     await CreateDefaultEquipmentWeights(useMetricUnits);
     await getEquipmentWeights();
     setUnitsModal.onClose();
-    setOperatingType("");
+    setOperationType("");
     toast.success("Default Equipment Weights Restored");
   };
 
   const createDefaultDistances = async (useMetricUnits: boolean) => {
-    if (operatingType !== "distance") return;
+    if (operationType !== "distance") return;
 
     await CreateDefaultDistances(useMetricUnits);
     await getDistances();
     setUnitsModal.onClose();
-    setOperatingType("");
+    setOperationType("");
     toast.success("Default Distances Restored");
   };
 
@@ -438,21 +462,21 @@ export default function Presets() {
       <DeleteModal
         deleteModal={deleteModal}
         header={
-          operatingType === "equipment"
+          operationType === "equipment"
             ? "Delete Equipment Weight"
             : "Delete Distance"
         }
         body={
           <p className="break-words">
             Are you sure you want to permanently delete{" "}
-            {operatingType === "equipment"
+            {operationType === "equipment"
               ? equipmentToDelete?.name
               : distanceToDelete?.name}
             ?
           </p>
         }
         deleteButtonAction={
-          operatingType === "equipment" ? deleteEquipmentWeight : deleteDistance
+          operationType === "equipment" ? deleteEquipmentWeight : deleteDistance
         }
       />
       <Modal
@@ -464,7 +488,7 @@ export default function Presets() {
             <>
               <ModalHeader>
                 {isEditing ? "Edit" : "New"}{" "}
-                {operatingType === "equipment"
+                {operationType === "equipment"
                   ? "Equipment Weight"
                   : "Distance"}
               </ModalHeader>
@@ -482,7 +506,7 @@ export default function Presets() {
                     isRequired
                     isClearable
                   />
-                  {operatingType === "equipment" && (
+                  {operationType === "equipment" && (
                     <div className="flex justify-between gap-2 items-center">
                       <Input
                         value={newWeightInput}
@@ -501,7 +525,7 @@ export default function Presets() {
                       />
                     </div>
                   )}
-                  {operatingType === "distance" && (
+                  {operationType === "distance" && (
                     <div className="flex justify-between gap-2 items-center">
                       <Input
                         value={newDistanceInput}
@@ -555,7 +579,7 @@ export default function Presets() {
                   size="lg"
                   color="primary"
                   onPress={
-                    operatingType === "equipment"
+                    operationType === "equipment"
                       ? () => createDefaultEquipmentWeights(true)
                       : () => createDefaultDistances(true)
                   }
@@ -567,7 +591,7 @@ export default function Presets() {
                   size="lg"
                   color="primary"
                   onPress={
-                    operatingType === "equipment"
+                    operationType === "equipment"
                       ? () => createDefaultEquipmentWeights(false)
                       : () => createDefaultDistances(false)
                   }

@@ -224,6 +224,7 @@ export type EquipmentWeight = {
   name: string;
   weight: number;
   weight_unit: string;
+  input?: string;
 };
 
 export type Distance = {
@@ -231,6 +232,7 @@ export type Distance = {
   name: string;
   distance: number;
   distance_unit: string;
+  input?: string;
 };
 
 export type Measurement = {
