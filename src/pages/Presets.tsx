@@ -46,6 +46,7 @@ export default function Presets() {
   const [operationType, setOperationType] = useState<OperationType>("add");
   const [presetType, setPresetType] = useState<PresetType>("equipment");
   const [nameInput, setNameInput] = useState<string>("");
+  const [valueInput, setValueInput] = useState<string>("");
 
   const defaultEquipmentWeight: EquipmentWeight = useMemo(() => {
     return {
@@ -53,7 +54,6 @@ export default function Presets() {
       name: "",
       weight: 0,
       weight_unit: "kg",
-      input: "",
     };
   }, []);
 
@@ -63,7 +63,6 @@ export default function Presets() {
       name: "",
       distance: 0,
       distance_unit: "km",
-      input: "",
     };
   }, []);
 
@@ -73,7 +72,7 @@ export default function Presets() {
     useState<Distance>(defaultDistance);
 
   const deleteModal = useDisclosure();
-  const newPresetModal = useDisclosure();
+  const presetModal = useDisclosure();
   const setUnitsModal = useDisclosure();
 
   const getEquipmentWeights = useCallback(async () => {
@@ -141,25 +140,15 @@ export default function Presets() {
 
   const isNameInputValid = useValidateName(nameInput);
 
-  const isWeightInputInvalid = useMemo(() => {
-    return IsStringInvalidNumberOr0(operatingEquipmentWeight.input ?? "");
-  }, [operatingEquipmentWeight.input]);
-
-  const isDistanceInputInvalid = useMemo(() => {
-    return IsStringInvalidNumberOr0(operatingDistance.input ?? "");
-  }, [operatingDistance.input]);
+  const isValueInputInvalid = useMemo(() => {
+    return IsStringInvalidNumberOr0(valueInput);
+  }, [valueInput]);
 
   const isNewPresetInvalid = useMemo(() => {
     if (!isNameInputValid) return true;
-    if (isWeightInputInvalid && presetType === "equipment") return true;
-    if (isDistanceInputInvalid && presetType === "distance") return true;
+    if (isValueInputInvalid) return true;
     return false;
-  }, [
-    isNameInputValid,
-    isWeightInputInvalid,
-    isDistanceInputInvalid,
-    presetType,
-  ]);
+  }, [isNameInputValid, isValueInputInvalid]);
 
   const addEquipmentWeight = async () => {
     if (
@@ -169,9 +158,7 @@ export default function Presets() {
     )
       return;
 
-    const weight = ConvertNumberToTwoDecimals(
-      Number(operatingEquipmentWeight.input)
-    );
+    const weight = ConvertNumberToTwoDecimals(Number(valueInput));
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
@@ -191,7 +178,7 @@ export default function Presets() {
       setEquipmentWeights([...equipmentWeights, newEquipment]);
 
       resetOperatingEquipment();
-      newPresetModal.onClose();
+      presetModal.onClose();
 
       toast.success("Equipment Weight Added");
     } catch (error) {
@@ -207,9 +194,7 @@ export default function Presets() {
     )
       return;
 
-    const distance = ConvertNumberToTwoDecimals(
-      Number(operatingDistance.input)
-    );
+    const distance = ConvertNumberToTwoDecimals(Number(valueInput));
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
@@ -229,7 +214,7 @@ export default function Presets() {
       setDistances([...distances, newDistance]);
 
       resetOperatingDistance();
-      newPresetModal.onClose();
+      presetModal.onClose();
 
       toast.success("Distance Added");
     } catch (error) {
@@ -246,9 +231,7 @@ export default function Presets() {
     )
       return;
 
-    const weight = ConvertNumberToTwoDecimals(
-      Number(operatingEquipmentWeight.input)
-    );
+    const weight = ConvertNumberToTwoDecimals(Number(valueInput));
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
@@ -276,7 +259,7 @@ export default function Presets() {
       );
 
       resetOperatingEquipment();
-      newPresetModal.onClose();
+      presetModal.onClose();
 
       toast.success("Equipment Weight Updated");
     } catch (error) {
@@ -293,9 +276,7 @@ export default function Presets() {
     )
       return;
 
-    const distance = ConvertNumberToTwoDecimals(
-      Number(operatingDistance.input)
-    );
+    const distance = ConvertNumberToTwoDecimals(Number(valueInput));
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
@@ -324,7 +305,7 @@ export default function Presets() {
       );
 
       resetOperatingDistance();
-      newPresetModal.onClose();
+      presetModal.onClose();
 
       toast.success("Distance Updated");
     } catch (error) {
@@ -405,6 +386,7 @@ export default function Presets() {
     setPresetType("equipment");
     setOperationType("add");
     setNameInput("");
+    setValueInput("");
     setOperatingEquipmentWeight({
       ...defaultEquipmentWeight,
       weight_unit: userSettings.default_unit_weight!,
@@ -417,6 +399,7 @@ export default function Presets() {
     setPresetType("distance");
     setOperationType("add");
     setNameInput("");
+    setValueInput("");
     setOperatingDistance({
       ...defaultDistance,
       distance_unit: userSettings.default_unit_distance!,
@@ -425,45 +408,46 @@ export default function Presets() {
 
   const handleAddEquipmentWeightButton = () => {
     resetOperatingEquipment();
-    newPresetModal.onOpen();
+    presetModal.onOpen();
   };
 
   const handleAddDistanceButton = () => {
     resetOperatingDistance();
-    newPresetModal.onOpen();
+    presetModal.onOpen();
   };
 
-  // const handleEditEquipmentButton = (equipment: EquipmentWeight) => {
-  //   setNewEquipment(equipment);
-  //   setNewName(equipment.name);
-  //   setNewWeightInput(equipment.weight.toString());
-  //   setNewWeightUnit(equipment.weight_unit);
-  //   setOperationType("equipment");
-  //   setIsEditing(true);
-  //   newPresetModal.onOpen();
-  // };
+  const handleEquipmentWeightOptionSelection = (
+    key: string,
+    equipment: EquipmentWeight
+  ) => {
+    setPresetType("equipment");
+    setOperatingEquipmentWeight(equipment);
+    setValueInput(equipment.weight.toString());
 
-  // const handleEditDistanceButton = (distance: Distance) => {
-  //   setNewDistance(distance);
-  //   setNewName(distance.name);
-  //   setNewDistanceInput(distance.distance.toString());
-  //   setNewDistanceUnit(distance.distance_unit);
-  //   setOperationType("distance");
-  //   setIsEditing(true);
-  //   newPresetModal.onOpen();
-  // };
+    if (key === "edit") {
+      setOperationType("edit");
+      setNameInput(equipment.name);
+      presetModal.onOpen();
+    } else if (key === "delete") {
+      setOperationType("delete");
+      deleteModal.onOpen();
+    }
+  };
 
-  // const handleDeleteEquipmentButton = (equipment: EquipmentWeight) => {
-  //   setEquipmentToDelete(equipment);
-  //   setOperationType("equipment");
-  //   deleteModal.onOpen();
-  // };
+  const handleDistanceOptionSelection = (key: string, distance: Distance) => {
+    setPresetType("distance");
+    setOperatingDistance(distance);
+    setValueInput(distance.distance.toString());
 
-  // const handleDeleteDistanceButton = (distance: Distance) => {
-  //   setDistanceToDelete(distance);
-  //   setOperationType("distance");
-  //   deleteModal.onOpen();
-  // };
+    if (key === "edit") {
+      setOperationType("edit");
+      setNameInput(distance.name);
+      presetModal.onOpen();
+    } else if (key === "delete") {
+      setOperationType("delete");
+      deleteModal.onOpen();
+    }
+  };
 
   const handleRestoreEquipmentButton = async () => {
     setPresetType("equipment");
@@ -519,8 +503,8 @@ export default function Presets() {
         }
       />
       <Modal
-        isOpen={newPresetModal.isOpen}
-        onOpenChange={newPresetModal.onOpenChange}
+        isOpen={presetModal.isOpen}
+        onOpenChange={presetModal.onOpenChange}
       >
         <ModalContent>
           {(onClose) => (
@@ -580,7 +564,7 @@ export default function Presets() {
                             input: value,
                           }))
                         }
-                        isInvalid={isDistanceInputInvalid}
+                        isInvalid={isValueInputInvalid}
                         isRequired
                         isClearable
                       />
@@ -696,9 +680,12 @@ export default function Presets() {
                       </DropdownTrigger>
                       <DropdownMenu
                         aria-label={`Option Menu For ${equipment.name} Equipment Weight`}
-                        // onAction={(key) =>
-                        //   handleEquipmentWeightOptionSelection(key as string, equipment)
-                        // }
+                        onAction={(key) =>
+                          handleEquipmentWeightOptionSelection(
+                            key as string,
+                            equipment
+                          )
+                        }
                       >
                         <DropdownItem key="edit">Edit</DropdownItem>
                         <DropdownItem key="delete" className="text-danger">
@@ -754,9 +741,9 @@ export default function Presets() {
                       </DropdownTrigger>
                       <DropdownMenu
                         aria-label={`Option Menu For ${distance.name} Distance`}
-                        // onAction={(key) =>
-                        //   handleDistanceOptionSelection(key as string, distance)
-                        // }
+                        onAction={(key) =>
+                          handleDistanceOptionSelection(key as string, distance)
+                        }
                       >
                         <DropdownItem key="edit">Edit</DropdownItem>
                         <DropdownItem key="delete" className="text-danger">
