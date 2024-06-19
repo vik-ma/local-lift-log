@@ -341,13 +341,13 @@ export default function Presets() {
     setIsEditing(false);
   };
 
-  const handleNewEquipmentButton = () => {
+  const handleAddEquipmentWeightButton = () => {
     if (isEditing) resetOperatingEquipment();
     setOperatingType("equipment");
     newPresetModal.onOpen();
   };
 
-  const handleNewDistanceButton = () => {
+  const handleAddDistanceButton = () => {
     if (isEditing) resetOperatingDistance();
     setOperatingType("distance");
     newPresetModal.onOpen();
@@ -585,7 +585,7 @@ export default function Presets() {
         ) : (
           <>
             <div className="flex flex-col gap-3 w-full">
-              <h2 className="flex justify-center text-3xl font-semibold">
+              <h2 className="flex justify-center text-2xl font-semibold">
                 Equipment Weights
               </h2>
               <div className="flex flex-col gap-1">
@@ -620,20 +620,21 @@ export default function Presets() {
                   </div>
                 ))}
               </div>
-              <div className="flex gap-1.5 flex-col justify-center items-center">
+              <div className="flex gap-2 justify-center">
                 <Button
+                  size="sm"
                   color="success"
-                  onPress={() => handleNewEquipmentButton()}
+                  onPress={() => handleAddEquipmentWeightButton()}
                 >
-                  Create New Equipment Weight
+                  Add Equipment Weight
                 </Button>
-                <Button color="primary" onPress={handleRestoreEquipmentButton}>
+                <Button size="sm" onPress={handleRestoreEquipmentButton}>
                   Restore Default Equipment Weights
                 </Button>
               </div>
             </div>
             <div className="flex flex-col gap-3 w-full">
-              <h2 className="flex justify-center text-3xl font-semibold ">
+              <h2 className="flex justify-center text-2xl font-semibold ">
                 Distances
               </h2>
               <div className="flex flex-col gap-1">
@@ -668,14 +669,15 @@ export default function Presets() {
                   </div>
                 ))}
               </div>
-              <div className="flex gap-1.5 flex-col justify-center items-center">
+              <div className="flex gap-2 justify-center">
                 <Button
                   color="success"
-                  onPress={() => handleNewDistanceButton()}
+                  size="sm"
+                  onPress={() => handleAddDistanceButton()}
                 >
-                  Create New Distance
+                  Add Distance
                 </Button>
-                <Button color="primary" onPress={handleRestoreDistanceButton}>
+                <Button size="sm" onPress={handleRestoreDistanceButton}>
                   Restore Default Distances
                 </Button>
               </div>
