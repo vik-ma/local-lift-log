@@ -31,19 +31,20 @@ import {
   useHandleMeasurementTypeChange,
 } from "../hooks";
 
+type OperationType = "add" | "edit" | "delete";
+
 export default function MeasurementList() {
   const [measurements, setMeasurements] = useState<Measurement[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [measurementToDelete, setMeasurementToDelete] = useState<Measurement>();
   const [userSettings, setUserSettings] = useState<UserSettings>();
-  const [isEditing, setIsEditing] = useState<boolean>(false);
   const [activeMeasurementSet, setActiveMeasurementSet] = useState<Set<number>>(
     new Set()
   );
+  const [operationType, setOperationType] = useState<OperationType>("add");
 
   const defaultMeasurement = useDefaultMeasurement();
 
-  const [newMeasurement, setNewMeasurement] =
+  const [operatingMeasurement, setOperatingMeasurement] =
     useState<Measurement>(defaultMeasurement);
 
   const deleteModal = useDisclosure();
@@ -72,7 +73,7 @@ export default function MeasurementList() {
         if (userSettings === undefined) return;
 
         setUserSettings(userSettings);
-        setNewMeasurement((prev) => ({
+        setOperatingMeasurement((prev) => ({
           ...prev,
           default_unit: userSettings.default_unit_measurement!,
         }));
@@ -96,17 +97,17 @@ export default function MeasurementList() {
   }, [getMeasurements]);
 
   const addMeasurement = async () => {
-    if (newMeasurement === undefined || !isNewMeasurementNameValid) return;
+    if (operationType !== "add" || !isNewMeasurementNameValid) return;
 
-    const id = await InsertMeasurementIntoDatabase(newMeasurement);
+    const id = await InsertMeasurementIntoDatabase(operatingMeasurement);
 
     if (id === 0) return;
 
     const addedMeasurement: Measurement = {
       id: id,
-      name: newMeasurement.name,
-      default_unit: newMeasurement.default_unit,
-      measurement_type: newMeasurement.measurement_type,
+      name: operatingMeasurement.name,
+      default_unit: operatingMeasurement.default_unit,
+      measurement_type: operatingMeasurement.measurement_type,
     };
 
     setMeasurements([...measurements, addedMeasurement]);
@@ -117,30 +118,35 @@ export default function MeasurementList() {
   };
 
   const updateMeasurement = async () => {
-    if (!isNewMeasurementNameValid) return;
+    if (
+      !isNewMeasurementNameValid ||
+      operatingMeasurement.id === 0 ||
+      operationType !== "edit"
+    )
+      return;
 
     const db = await Database.load(import.meta.env.VITE_DB);
 
     await db.execute(
       "UPDATE measurements SET name = $1, default_unit = $2, measurement_type = $3 WHERE id = $4",
       [
-        newMeasurement.name,
-        newMeasurement.default_unit,
-        newMeasurement.measurement_type,
-        newMeasurement.id,
+        operatingMeasurement.name,
+        operatingMeasurement.default_unit,
+        operatingMeasurement.measurement_type,
+        operatingMeasurement.id,
       ]
     );
 
     const updatedMeasurement: Measurement = {
-      ...newMeasurement,
-      name: newMeasurement.name,
-      default_unit: newMeasurement.default_unit,
-      measurement_type: newMeasurement.measurement_type,
+      ...operatingMeasurement,
+      name: operatingMeasurement.name,
+      default_unit: operatingMeasurement.default_unit,
+      measurement_type: operatingMeasurement.measurement_type,
     };
 
     setMeasurements((prev) =>
       prev.map((item) =>
-        item.id === newMeasurement.id ? updatedMeasurement : item
+        item.id === operatingMeasurement.id ? updatedMeasurement : item
       )
     );
 
@@ -151,25 +157,25 @@ export default function MeasurementList() {
   };
 
   const deleteMeasurement = async () => {
-    if (measurementToDelete === undefined) return;
+    if (operatingMeasurement.id === 0 || operationType !== "delete") return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
       db.execute("DELETE from measurements WHERE id = $1", [
-        measurementToDelete.id,
+        operatingMeasurement.id,
       ]);
 
       const updatedMeasurements: Measurement[] = measurements.filter(
-        (item) => item.id !== measurementToDelete?.id
+        (item) => item.id !== operatingMeasurement?.id
       );
       setMeasurements(updatedMeasurements);
 
-      if (activeMeasurementSet.has(measurementToDelete.id)) {
+      if (activeMeasurementSet.has(operatingMeasurement.id)) {
         // Modify active_tracking_measurements string in user_settings
         // if measurementToDelete id is currently included
         const updatedMeasurementSet = new Set(activeMeasurementSet);
-        updatedMeasurementSet.delete(measurementToDelete.id);
+        updatedMeasurementSet.delete(operatingMeasurement.id);
 
         setActiveMeasurementSet(updatedMeasurementSet);
         updateActiveMeasurementString([...updatedMeasurementSet]);
@@ -180,39 +186,38 @@ export default function MeasurementList() {
       console.log(error);
     }
 
-    setMeasurementToDelete(undefined);
+    resetOperatingMeasurement();
     deleteModal.onClose();
   };
 
   const handleDeleteButton = (measurement: Measurement) => {
-    setMeasurementToDelete(measurement);
+    setOperatingMeasurement(measurement);
+    setOperationType("delete");
     deleteModal.onOpen();
   };
 
   const handleSaveButton = async () => {
-    if (isEditing) {
+    if (operationType === "edit") {
       await updateMeasurement();
-    } else {
+    } else if (operationType === "add") {
       await addMeasurement();
     }
   };
 
   const handleAddButton = () => {
-    if (isEditing) resetOperatingMeasurement();
-
+    resetOperatingMeasurement();
     measurementModal.onOpen();
   };
 
   const handleEditButton = (measurement: Measurement) => {
-    setNewMeasurement(measurement);
-    setIsEditing(true);
-
+    setOperatingMeasurement(measurement);
+    setOperationType("edit");
     measurementModal.onOpen();
   };
 
   const resetOperatingMeasurement = () => {
-    setIsEditing(false);
-    setNewMeasurement({
+    setOperationType("add");
+    setOperatingMeasurement({
       ...defaultMeasurement,
       default_unit: userSettings!.default_unit_measurement!,
     });
@@ -220,10 +225,10 @@ export default function MeasurementList() {
 
   const handleMeasurementTypeChange = useHandleMeasurementTypeChange(
     userSettings?.default_unit_measurement ?? "cm",
-    setNewMeasurement
+    setOperatingMeasurement
   );
 
-  const isNewMeasurementNameValid = useValidateName(newMeasurement.name);
+  const isNewMeasurementNameValid = useValidateName(operatingMeasurement.name);
 
   const createDefaultMeasurements = async (useMetricUnits: boolean) => {
     await CreateDefaultMeasurements(useMetricUnits);
@@ -299,19 +304,19 @@ export default function MeasurementList() {
         body={
           <p className="break-words">
             Are you sure you want to permanently delete{" "}
-            {measurementToDelete?.name} measurement?
+            {operatingMeasurement.name} measurement?
           </p>
         }
         deleteButtonAction={deleteMeasurement}
       />
       <MeasurementModal
         measurementModal={measurementModal}
-        measurement={newMeasurement}
-        setMeasurement={setNewMeasurement}
+        measurement={operatingMeasurement}
+        setMeasurement={setOperatingMeasurement}
         isMeasurementNameValid={isNewMeasurementNameValid}
         handleMeasurementTypeChange={handleMeasurementTypeChange}
         buttonAction={handleSaveButton}
-        isEditing={isEditing}
+        isEditing={operationType === "edit"}
       />
       <Modal
         isOpen={setUnitsModal.isOpen}
