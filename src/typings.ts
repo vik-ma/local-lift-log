@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
 
 export type Routine = {
   id: number;
@@ -148,8 +148,9 @@ export type UnitDropdownProps = {
   setSet?: SetWorkoutSetAction;
   setUserSettings?: HTMLSelectElementChange;
   setState?: React.Dispatch<React.SetStateAction<string>>;
-  setUserWeight?: SetUserWeightAction;
-  targetType: "set" | "settings" | "state" | "weight";
+  setEquipmentWeight?: React.Dispatch<React.SetStateAction<EquipmentWeight>>;
+  setDistance?: React.Dispatch<React.SetStateAction<Distance>>;
+  targetType: "set" | "settings" | "state" | "equipment" | "distance";
 };
 
 export type MeasurementDropdownProps = {

@@ -7,9 +7,10 @@ export const DistanceUnitDropdown = ({
   setSet,
   setUserSettings,
   setState,
+  setDistance,
   targetType,
 }: UnitDropdownProps) => {
-  const validDistaneUnits = useValidDistanceUnits();
+  const validDistanceUnits = useValidDistanceUnits();
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (targetType === "set" && setSet !== undefined) {
@@ -17,6 +18,10 @@ export const DistanceUnitDropdown = ({
         ...prev,
         distance_unit: e.target.value,
       }));
+    }
+
+    if (targetType === "equipment" && setDistance !== undefined) {
+      setDistance((prev) => ({ ...prev, distance_unit: e.target.value }));
     }
 
     if (targetType === "settings" && setUserSettings !== undefined) {
@@ -37,7 +42,7 @@ export const DistanceUnitDropdown = ({
       onChange={(e) => handleChange(e)}
       disallowEmptySelection
     >
-      {validDistaneUnits.map((unit) => (
+      {validDistanceUnits.map((unit) => (
         <SelectItem key={unit} value={unit}>
           {unit}
         </SelectItem>

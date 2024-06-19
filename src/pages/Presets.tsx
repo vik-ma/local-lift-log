@@ -433,37 +433,37 @@ export default function Presets() {
     newPresetModal.onOpen();
   };
 
-  const handleEditEquipmentButton = (equipment: EquipmentWeight) => {
-    setNewEquipment(equipment);
-    setNewName(equipment.name);
-    setNewWeightInput(equipment.weight.toString());
-    setNewWeightUnit(equipment.weight_unit);
-    setOperationType("equipment");
-    setIsEditing(true);
-    newPresetModal.onOpen();
-  };
+  // const handleEditEquipmentButton = (equipment: EquipmentWeight) => {
+  //   setNewEquipment(equipment);
+  //   setNewName(equipment.name);
+  //   setNewWeightInput(equipment.weight.toString());
+  //   setNewWeightUnit(equipment.weight_unit);
+  //   setOperationType("equipment");
+  //   setIsEditing(true);
+  //   newPresetModal.onOpen();
+  // };
 
-  const handleEditDistanceButton = (distance: Distance) => {
-    setNewDistance(distance);
-    setNewName(distance.name);
-    setNewDistanceInput(distance.distance.toString());
-    setNewDistanceUnit(distance.distance_unit);
-    setOperationType("distance");
-    setIsEditing(true);
-    newPresetModal.onOpen();
-  };
+  // const handleEditDistanceButton = (distance: Distance) => {
+  //   setNewDistance(distance);
+  //   setNewName(distance.name);
+  //   setNewDistanceInput(distance.distance.toString());
+  //   setNewDistanceUnit(distance.distance_unit);
+  //   setOperationType("distance");
+  //   setIsEditing(true);
+  //   newPresetModal.onOpen();
+  // };
 
-  const handleDeleteEquipmentButton = (equipment: EquipmentWeight) => {
-    setEquipmentToDelete(equipment);
-    setOperationType("equipment");
-    deleteModal.onOpen();
-  };
+  // const handleDeleteEquipmentButton = (equipment: EquipmentWeight) => {
+  //   setEquipmentToDelete(equipment);
+  //   setOperationType("equipment");
+  //   deleteModal.onOpen();
+  // };
 
-  const handleDeleteDistanceButton = (distance: Distance) => {
-    setDistanceToDelete(distance);
-    setOperationType("distance");
-    deleteModal.onOpen();
-  };
+  // const handleDeleteDistanceButton = (distance: Distance) => {
+  //   setDistanceToDelete(distance);
+  //   setOperationType("distance");
+  //   deleteModal.onOpen();
+  // };
 
   const handleRestoreEquipmentButton = async () => {
     setPresetType("equipment");
@@ -509,8 +509,8 @@ export default function Presets() {
           <p className="break-words">
             Are you sure you want to permanently delete{" "}
             {presetType === "equipment"
-              ? equipmentToDelete?.name
-              : distanceToDelete?.name}
+              ? operatingEquipmentWeight.name
+              : operatingDistance.name}
             ?
           </p>
         }
@@ -533,51 +533,61 @@ export default function Presets() {
                 <div className="flex flex-col gap-0.5">
                   <Input
                     className="h-[5rem]"
-                    value={newName}
+                    value={nameInput}
                     isInvalid={!isNameInputValid}
                     label="Name"
                     size="sm"
                     errorMessage={!isNameInputValid && "Name can't be empty"}
                     variant="faded"
-                    onValueChange={(value) => setNewName(value)}
+                    onValueChange={(value) => setNameInput(value)}
                     isRequired
                     isClearable
                   />
                   {presetType === "equipment" && (
                     <div className="flex justify-between gap-2 items-center">
                       <Input
-                        value={newWeightInput}
+                        value={operatingEquipmentWeight.input}
                         label="Weight"
                         size="sm"
                         variant="faded"
-                        onValueChange={(value) => setNewWeightInput(value)}
+                        onValueChange={(value) =>
+                          setOperatingEquipmentWeight((prev) => ({
+                            ...prev,
+                            input: value,
+                          }))
+                        }
                         isInvalid={isWeightInputInvalid}
                         isRequired
                         isClearable
                       />
                       <WeightUnitDropdown
-                        value={newWeightUnit}
-                        setState={setNewWeightUnit}
-                        targetType="state"
+                        value={operatingEquipmentWeight.weight_unit}
+                        setEquipmentWeight={setOperatingEquipmentWeight}
+                        targetType="equipment"
                       />
                     </div>
                   )}
                   {presetType === "distance" && (
                     <div className="flex justify-between gap-2 items-center">
                       <Input
-                        value={newDistanceInput}
+                        value={operatingDistance.input}
                         label="Distance"
                         size="sm"
                         variant="faded"
-                        onValueChange={(value) => setNewDistanceInput(value)}
+                        onValueChange={(value) =>
+                          setOperatingDistance((prev) => ({
+                            ...prev,
+                            input: value,
+                          }))
+                        }
                         isInvalid={isDistanceInputInvalid}
                         isRequired
                         isClearable
                       />
                       <DistanceUnitDropdown
-                        value={newDistanceUnit}
-                        setState={setNewDistanceUnit}
-                        targetType="state"
+                        value={operatingDistance.distance_unit}
+                        setDistance={setOperatingDistance}
+                        targetType="distance"
                       />
                     </div>
                   )}
