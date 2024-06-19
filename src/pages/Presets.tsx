@@ -16,6 +16,10 @@ import {
   ModalFooter,
   useDisclosure,
   Input,
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
 } from "@nextui-org/react";
 import {
   ConvertNumberToTwoDecimals,
@@ -26,6 +30,7 @@ import {
 } from "../helpers";
 import toast, { Toaster } from "react-hot-toast";
 import { useValidateName } from "../hooks";
+import { VerticalMenuIcon } from "../assets";
 
 export default function Presets() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -589,38 +594,47 @@ export default function Presets() {
                 Equipment Weights
               </h2>
               <div className="flex flex-col gap-1">
-                {equipmentWeights?.map((equipment) => (
+                {equipmentWeights.map((equipment) => (
                   <div
-                    className="flex flex-row justify-between gap-4 bg-white rounded-xl py-2 px-2.5 items-center"
+                    className="flex flex-row justify-between items-center gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                     key={`equipment-${equipment.id}`}
                   >
-                    <div className="flex flex-row justify-between w-3/5">
-                      <span className="truncate">{equipment.name}</span>
-                      <span>
-                        {equipment.weight}
-                        {equipment.weight_unit}
+                    <div className="flex flex-col justify-start items-start">
+                      <span className="w-[21.5rem] truncate text-left">
+                        {equipment.name}
+                      </span>
+                      <span className="text-xs text-stone-500 text-left">
+                        {equipment.weight} {equipment.weight_unit}
                       </span>
                     </div>
-                    <div className="flex justify-end gap-1">
-                      <Button
-                        color="primary"
-                        size="sm"
-                        onPress={() => handleEditEquipmentButton(equipment)}
+                    <Dropdown>
+                      <DropdownTrigger>
+                        <Button
+                          isIconOnly
+                          className="z-1"
+                          size="sm"
+                          radius="lg"
+                          variant="light"
+                        >
+                          <VerticalMenuIcon size={17} />
+                        </Button>
+                      </DropdownTrigger>
+                      <DropdownMenu
+                        aria-label={`Option Menu For ${equipment.name} Equipment Weight`}
+                        // onAction={(key) =>
+                        //   handleEquipmentWeightOptionSelection(key as string, equipment)
+                        // }
                       >
-                        Edit
-                      </Button>
-                      <Button
-                        color="danger"
-                        size="sm"
-                        onPress={() => handleDeleteEquipmentButton(equipment)}
-                      >
-                        Delete
-                      </Button>
-                    </div>
+                        <DropdownItem key="edit">Edit</DropdownItem>
+                        <DropdownItem key="delete" className="text-danger">
+                          Delete
+                        </DropdownItem>
+                      </DropdownMenu>
+                    </Dropdown>
                   </div>
                 ))}
               </div>
-              <div className="flex gap-2 justify-center">
+              <div className="flex gap-1.5 justify-center">
                 <Button
                   size="sm"
                   color="success"
@@ -638,38 +652,47 @@ export default function Presets() {
                 Distances
               </h2>
               <div className="flex flex-col gap-1">
-                {distances?.map((distance) => (
+                {distances.map((distance) => (
                   <div
-                    className="flex flex-row justify-between gap-4 bg-white rounded-xl py-2 px-2.5 items-center"
+                    className="flex flex-row justify-between items-center gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                     key={`distance-${distance.id}`}
                   >
-                    <div className="flex flex-row justify-between w-3/5">
-                      <span className="truncate">{distance.name}</span>
-                      <span>
-                        {distance.distance}
-                        {distance.distance_unit}
+                    <div className="flex flex-col justify-start items-start">
+                      <span className="w-[21.5rem] truncate text-left">
+                        {distance.name}
+                      </span>
+                      <span className="text-xs text-stone-500 text-left">
+                        {distance.distance} {distance.distance_unit}
                       </span>
                     </div>
-                    <div className="flex justify-end gap-1">
-                      <Button
-                        color="primary"
-                        size="sm"
-                        onPress={() => handleEditDistanceButton(distance)}
+                    <Dropdown>
+                      <DropdownTrigger>
+                        <Button
+                          isIconOnly
+                          className="z-1"
+                          size="sm"
+                          radius="lg"
+                          variant="light"
+                        >
+                          <VerticalMenuIcon size={17} />
+                        </Button>
+                      </DropdownTrigger>
+                      <DropdownMenu
+                        aria-label={`Option Menu For ${distance.name} Distance`}
+                        // onAction={(key) =>
+                        //   handleDistanceOptionSelection(key as string, distance)
+                        // }
                       >
-                        Edit
-                      </Button>
-                      <Button
-                        color="danger"
-                        size="sm"
-                        onPress={() => handleDeleteDistanceButton(distance)}
-                      >
-                        Delete
-                      </Button>
-                    </div>
+                        <DropdownItem key="edit">Edit</DropdownItem>
+                        <DropdownItem key="delete" className="text-danger">
+                          Delete
+                        </DropdownItem>
+                      </DropdownMenu>
+                    </Dropdown>
                   </div>
                 ))}
               </div>
-              <div className="flex gap-2 justify-center">
+              <div className="flex gap-1.5 justify-center">
                 <Button
                   color="success"
                   size="sm"
