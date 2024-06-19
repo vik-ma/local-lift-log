@@ -49,6 +49,7 @@ export default function Presets() {
   const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
   const [operationType, setOperationType] =
     useState<OperationType>("add-equipment");
+  const [nameInput, setNameInput] = useState<string>("");
 
   const defaultEquipmentWeight: EquipmentWeight = useMemo(() => {
     return {
@@ -121,12 +122,18 @@ export default function Presets() {
 
   useEffect(() => {
     const loadUserSettings = async () => {
-      const settings: UserSettingsOptional | undefined =
+      const userSettings: UserSettingsOptional | undefined =
         await GetDefaultUnitValues();
-      if (settings !== undefined) {
-        setUserSettings(settings);
-        setNewWeightUnit(settings.default_unit_weight!);
-        setNewDistanceUnit(settings.default_unit_distance!);
+      if (userSettings !== undefined) {
+        setUserSettings(userSettings);
+        setOperatingEquipmentWeight((prev) => ({
+          ...prev,
+          weight_unit: userSettings.default_unit_weight!,
+        }));
+        setOperatingDistance((prev) => ({
+          ...prev,
+          distance_unit: userSettings.default_unit_distance!,
+        }));
       }
       setIsLoading(false);
     };
@@ -136,7 +143,7 @@ export default function Presets() {
     loadUserSettings();
   }, [getEquipmentWeights, getDistances]);
 
-  const isNewNameValid = useValidateName(newName);
+  const isNameInputValid = useValidateName(nameInput);
 
   const isWeightInputInvalid = useMemo(() => {
     return IsStringInvalidNumberOr0(newWeightInput);
@@ -147,12 +154,12 @@ export default function Presets() {
   }, [newDistanceInput]);
 
   const isNewPresetInvalid = useMemo(() => {
-    if (!isNewNameValid) return true;
+    if (!isNameInputValid) return true;
     if (isWeightInputInvalid && operationType === "equipment") return true;
     if (isDistanceInputInvalid && operationType === "distance") return true;
     return false;
   }, [
-    isNewNameValid,
+    isNameInputValid,
     isWeightInputInvalid,
     isDistanceInputInvalid,
     operationType,
@@ -497,10 +504,10 @@ export default function Presets() {
                   <Input
                     className="h-[5rem]"
                     value={newName}
-                    isInvalid={!isNewNameValid}
+                    isInvalid={!isNameInputValid}
                     label="Name"
                     size="sm"
-                    errorMessage={!isNewNameValid && "Name can't be empty"}
+                    errorMessage={!isNameInputValid && "Name can't be empty"}
                     variant="faded"
                     onValueChange={(value) => setNewName(value)}
                     isRequired
