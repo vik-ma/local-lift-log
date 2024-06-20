@@ -204,8 +204,13 @@ export default function WorkoutList() {
                   <span className="w-[10.5rem] truncate text-left">
                     {workout.date}
                   </span>
-                  <span className="text-xs text-stone-500 text-left">
-                    {workout.numExercises} Exercises, {workout.numSets} Sets
+                  {workout.numSets! > 0 && (
+                    <span className="text-xs text-yellow-600 text-left">
+                      {workout.numExercises} Exercises, {workout.numSets} Sets
+                    </span>
+                  )}
+                  <span className="w-[13.5rem] break-all text-xs text-stone-500 text-left">
+                    {workout.note}
                   </span>
                 </button>
                 <div className="flex gap-1.5 items-center">
