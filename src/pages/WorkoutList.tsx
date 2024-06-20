@@ -128,6 +128,7 @@ export default function WorkoutList() {
     if (key === "edit") {
       setOperationType("edit");
       setOperatingWorkout(workout);
+      setNewWorkoutNote(workout.note ?? "");
       workoutModal.onOpen();
     } else if (key === "delete") {
       setOperationType("delete");
@@ -209,7 +210,7 @@ export default function WorkoutList() {
                       {workout.numExercises} Exercises, {workout.numSets} Sets
                     </span>
                   )}
-                  <span className="w-[13.5rem] break-all text-xs text-stone-500 text-left">
+                  <span className="w-[13rem] break-all text-xs text-stone-500 text-left">
                     {workout.note}
                   </span>
                 </button>
