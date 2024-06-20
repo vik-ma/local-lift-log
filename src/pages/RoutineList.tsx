@@ -251,79 +251,78 @@ export default function RoutineList() {
         ) : (
           <>
             <div className="flex flex-col gap-1 w-full">
-              {routines.map((routine) => (
-                <div
-                  className="flex flex-row justify-between items-center gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-                  key={routine.id}
-                >
-                  <button
-                    className="flex flex-col justify-start items-start"
-                    onClick={() => navigate(`/routines/${routine.id}`)}
+              {routines.map((routine) => {
+                const isActiveRoutine =
+                  userSettings.active_routine_id === routine.id;
+                const numWorkoutTemplates = routine.numWorkoutTemplates ?? 0;
+                return (
+                  <div
+                    className="flex flex-row justify-between items-center gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                    key={routine.id}
                   >
-                    <span className="w-[14.5rem] truncate text-left">
-                      {routine.name}
-                    </span>
-                    <span className="text-xs text-stone-500 text-left">
-                      {routine.is_schedule_weekly === 0
-                        ? `${routine.num_days_in_schedule} Day Schedule`
-                        : "Weekly Schedule"}
-                      , {routine.numWorkoutTemplates} Workouts
-                    </span>
-                  </button>
-                  <div className="flex gap-1.5 items-center">
-                    <Button
-                      className="w-24"
-                      color={
-                        userSettings?.active_routine_id === routine.id
-                          ? "success"
-                          : "default"
-                      }
-                      variant="flat"
-                      onPress={() => handleSetActiveButton(routine)}
+                    <button
+                      className="flex flex-col justify-start items-start"
+                      onClick={() => navigate(`/routines/${routine.id}`)}
                     >
-                      {userSettings.active_routine_id === routine.id
-                        ? "Active"
-                        : "Set Active"}
-                    </Button>
-                    <Dropdown>
-                      <DropdownTrigger>
-                        <Button
-                          isIconOnly
-                          className="z-1"
-                          size="sm"
-                          radius="lg"
-                          variant="light"
-                        >
-                          <VerticalMenuIcon size={17} />
-                        </Button>
-                      </DropdownTrigger>
-                      <DropdownMenu
-                        aria-label={`Option Menu For ${routine.name} Routine`}
-                        onAction={(key) =>
-                          handleWorkoutOptionSelection(key as string, routine)
-                        }
+                      <span className="w-[14.5rem] truncate text-left">
+                        {routine.name}
+                      </span>
+                      {numWorkoutTemplates > 0 && (
+                        <span className="text-xs text-yellow-600 text-left">
+                          {numWorkoutTemplates === 1
+                            ? "1 Workout"
+                            : `${numWorkoutTemplates} Workouts`}
+                        </span>
+                      )}
+                      <span className="text-xs text-stone-500 text-left">
+                        {routine.is_schedule_weekly === 0
+                          ? `${routine.num_days_in_schedule} Day Schedule`
+                          : "Weekly Schedule"}
+                      </span>
+                    </button>
+                    <div className="flex gap-1.5 items-center">
+                      <Button
+                        className="w-24"
+                        color={isActiveRoutine ? "success" : "default"}
+                        variant="flat"
+                        onPress={() => handleSetActiveButton(routine)}
                       >
-                        <DropdownItem
-                          key="set-active"
-                          className={
-                            userSettings.active_routine_id === routine.id
-                              ? ""
-                              : "text-success"
+                        {isActiveRoutine ? "Active" : "Set Active"}
+                      </Button>
+                      <Dropdown>
+                        <DropdownTrigger>
+                          <Button
+                            isIconOnly
+                            className="z-1"
+                            size="sm"
+                            radius="lg"
+                            variant="light"
+                          >
+                            <VerticalMenuIcon size={17} />
+                          </Button>
+                        </DropdownTrigger>
+                        <DropdownMenu
+                          aria-label={`Option Menu For ${routine.name} Routine`}
+                          onAction={(key) =>
+                            handleWorkoutOptionSelection(key as string, routine)
                           }
                         >
-                          {userSettings.active_routine_id === routine.id
-                            ? "Clear Active"
-                            : "Set Active"}
-                        </DropdownItem>
-                        <DropdownItem key="edit">Edit</DropdownItem>
-                        <DropdownItem key="delete" className="text-danger">
-                          Delete
-                        </DropdownItem>
-                      </DropdownMenu>
-                    </Dropdown>
+                          <DropdownItem
+                            key="set-active"
+                            className={isActiveRoutine ? "" : "text-success"}
+                          >
+                            {isActiveRoutine ? "Clear Active" : "Set Active"}
+                          </DropdownItem>
+                          <DropdownItem key="edit">Edit</DropdownItem>
+                          <DropdownItem key="delete" className="text-danger">
+                            Delete
+                          </DropdownItem>
+                        </DropdownMenu>
+                      </Dropdown>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
             <div className="flex justify-center">
               <Button
