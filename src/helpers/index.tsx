@@ -17,6 +17,7 @@ export { GetExerciseFromId } from "./Exercises/GetExerciseFromId";
 export { UpdateExercise } from "./Exercises/UpdateExercise";
 export { IsExerciseValid } from "./Exercises/IsExerciseValid";
 export { DefaultNewExercise } from "./Exercises/DefaultNewExercise";
+export { GetExerciseListWithGroupStringsAndTotalSets } from "./Exercises/GetExerciseListWithGroupStringsAndTotalSets";
 
 export { GetScheduleDayNames } from "./Routines/GetScheduleDayNames";
 export { GetScheduleDayValues } from "./Routines/GetScheduleValues";

@@ -50,6 +50,7 @@ export type Exercise = {
   exerciseGroupStringList?: string[];
   formattedGroupString?: string;
   isInvalid?: boolean;
+  set_count?: number;
 };
 
 export type ExerciseGroupMap = Map<string, string>;
