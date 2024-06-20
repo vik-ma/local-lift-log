@@ -1,12 +1,7 @@
 import { useState, useEffect } from "react";
 import { UserSettingsOptional, Workout } from "../typings";
 import { useNavigate } from "react-router-dom";
-import {
-  LoadingSpinner,
-  WorkoutRatingDropdown,
-  DeleteModal,
-  WorkoutModal,
-} from "../components";
+import { LoadingSpinner, DeleteModal, WorkoutModal } from "../components";
 import Database from "tauri-plugin-sql-api";
 import {
   Button,
@@ -195,32 +190,29 @@ export default function WorkoutList() {
           <div className="flex flex-col gap-1 w-full">
             {workouts.map((workout) => (
               <div
-                className="flex flex-row justify-between items-center gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                 key={workout.id}
+                className="flex flex-row cursor-pointer gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                onClick={() => navigate(`/workouts/${workout.id}`)}
               >
-                <button
-                  className="flex flex-col justify-start items-start"
-                  onClick={() => navigate(`/workouts/${workout.id}`)}
-                >
-                  <span className="w-[10.5rem] truncate text-left">
-                    {workout.date}
-                  </span>
-                  {workout.numSets! > 0 && (
-                    <span className="text-xs text-yellow-600 text-left">
-                      {workout.numExercises} Exercises, {workout.numSets} Sets
+                <div className="flex justify-between items-center w-full">
+                  <div className="flex flex-col justify-start items-start">
+                    <span className="w-[10.5rem] truncate text-left">
+                      {workout.date}
                     </span>
-                  )}
-                  <span className="w-[13rem] break-all text-xs text-stone-500 text-left">
-                    {workout.note}
-                  </span>
-                </button>
-                <div className="flex gap-1.5 items-center">
-                  {userSettings?.show_workout_rating === 1 && (
-                    <WorkoutRatingDropdown
-                      rating={workout.rating}
-                      workout_id={workout.id}
-                      setWorkouts={setWorkouts}
-                    />
+                    {workout.numSets! > 0 && (
+                      <span className="text-xs text-yellow-600 text-left">
+                        {workout.numExercises} Exercises, {workout.numSets} Sets
+                      </span>
+                    )}
+                    <span className="w-[16rem] break-all text-xs text-stone-500 text-left">
+                      {workout.note}
+                    </span>
+                  </div>
+                  {userSettings.show_workout_rating === 1 && (
+                    <div className="flex flex-col text-sm text-stone-500">
+                      <span>Rating</span>
+                      <span className="font-semibold">{workout.rating}</span>
+                    </div>
                   )}
                   <Dropdown>
                     <DropdownTrigger>
