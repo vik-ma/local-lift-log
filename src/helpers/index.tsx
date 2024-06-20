@@ -59,6 +59,7 @@ export { FormatTimeInSecondsToHhmmssString } from "./Numbers/FormatTimeInSeconds
 export { IsNumberValidBinary } from "./Numbers/IsNumberValidBinary";
 export { IsNumberValidId } from "./Numbers/IsNumberValidId";
 export { IsStringInvalidNumberOr0 } from "./Numbers/IsStringInvalidNumberOr0";
+export { IsNumberValidIdOr0 } from "./Numbers/IsNumberValidIdOr0";
 
 export { GetLatestUserWeight } from "./Measurements/GetLatestUserWeight";
 export { CreateDefaultMeasurements } from "./Measurements/CreateDefaultMeasurements";
