@@ -235,9 +235,12 @@ export default function WorkoutTemplateList() {
                     <span className="w-[21rem] truncate text-left">
                       {template.name}
                     </span>
-                    <span className="text-xs text-yellow-600 text-left">
-                      {template.numExercises} Exercises, {template.numSets} Sets
-                    </span>
+                    {template.numSets! > 0 && (
+                      <span className="text-xs text-yellow-600 text-left">
+                        {template.numExercises} Exercises, {template.numSets}{" "}
+                        Sets
+                      </span>
+                    )}
                     <span className="w-[21rem] break-all text-xs text-stone-500 text-left">
                       {template.note}
                     </span>
