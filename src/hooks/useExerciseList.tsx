@@ -1,8 +1,11 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
-import { GetExerciseListWithGroupStrings } from "../helpers";
+import {
+  GetExerciseListWithGroupStrings,
+  GetExerciseListWithGroupStringsAndTotalSets,
+} from "../helpers";
 import { Exercise } from "../typings";
 
-export const useExerciseList = () => {
+export const useExerciseList = (showTotalNumSets?: boolean) => {
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [filterQuery, setFilterQuery] = useState<string>("");
   const [isExercisesLoading, setIsExercisesLoading] = useState<boolean>(true);
@@ -23,13 +26,15 @@ export const useExerciseList = () => {
   }, [exercises, filterQuery]);
 
   const getExercises = useCallback(async () => {
-    const exercises = await GetExerciseListWithGroupStrings();
+    const exercises = showTotalNumSets
+      ? await GetExerciseListWithGroupStringsAndTotalSets()
+      : await GetExerciseListWithGroupStrings();
 
     if (exercises === undefined) return;
 
     setExercises(exercises);
     setIsExercisesLoading(false);
-  }, []);
+  }, [showTotalNumSets]);
 
   useEffect(() => {
     getExercises();

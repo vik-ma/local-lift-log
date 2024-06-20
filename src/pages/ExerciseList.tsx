@@ -42,7 +42,7 @@ export default function ExerciseList() {
     setExercises,
     getExercises,
     isExercisesLoading,
-  } = useExerciseList();
+  } = useExerciseList(true);
 
   const deleteModal = useDisclosure();
   const exerciseModal = useDisclosure();
@@ -251,7 +251,12 @@ export default function ExerciseList() {
                     <span className="w-[21.5rem] truncate text-left">
                       {exercise.name}
                     </span>
-                    <span className="text-xs text-stone-500 text-left">
+                    {exercise.set_count! > 0 && (
+                      <span className="text-xs text-yellow-600 text-left">
+                        {exercise.set_count} Sets Completed
+                      </span>
+                    )}
+                    <span className="text-xs text-stone-500  text-left">
                       {exercise.formattedGroupString}
                     </span>
                   </button>
