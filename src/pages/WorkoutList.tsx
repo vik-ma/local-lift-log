@@ -1,7 +1,12 @@
 import { useState, useEffect } from "react";
 import { UserSettingsOptional, Workout } from "../typings";
 import { useNavigate } from "react-router-dom";
-import { LoadingSpinner, DeleteModal, WorkoutModal } from "../components";
+import {
+  LoadingSpinner,
+  DeleteModal,
+  WorkoutModal,
+  WorkoutRatingSpan,
+} from "../components";
 import Database from "tauri-plugin-sql-api";
 import {
   Button,
@@ -191,10 +196,10 @@ export default function WorkoutList() {
             {workouts.map((workout) => (
               <div
                 key={workout.id}
-                className="flex flex-row cursor-pointer gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                className="flex cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                 onClick={() => navigate(`/workouts/${workout.id}`)}
               >
-                <div className="flex justify-between items-center w-full">
+                <div className="flex gap-1 justify-between items-center w-full">
                   <div className="flex flex-col justify-start items-start">
                     <span className="w-[10.5rem] truncate text-left">
                       {workout.date}
@@ -204,14 +209,16 @@ export default function WorkoutList() {
                         {workout.numExercises} Exercises, {workout.numSets} Sets
                       </span>
                     )}
-                    <span className="w-[16rem] break-all text-xs text-stone-500 text-left">
+                    <span className="w-[16.5rem] break-all text-xs text-stone-500 text-left">
                       {workout.note}
                     </span>
                   </div>
                   {userSettings.show_workout_rating === 1 && (
-                    <div className="flex flex-col text-sm text-stone-500">
+                    <div className="flex flex-col w-[4.5rem] text-center text-sm text-stone-500">
                       <span>Rating</span>
-                      <span className="font-semibold">{workout.rating}</span>
+                      <span className="font-semibold">
+                        <WorkoutRatingSpan rating={workout.rating} />
+                      </span>
                     </div>
                   )}
                   <Dropdown>
