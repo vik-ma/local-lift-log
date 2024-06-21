@@ -1,13 +1,15 @@
 import Database from "tauri-plugin-sql-api";
 import { UserSettingsOptional } from "../../typings";
-import { IsNumberNegativeOrInfinity } from "..";
+import { IsNumberValidId } from "..";
 
 export const UpdateActiveRoutineId = async (
   userSettings: UserSettingsOptional
 ) => {
-  if (userSettings.active_routine_id === undefined) return;
-
-  if (IsNumberNegativeOrInfinity(userSettings.active_routine_id)) return;
+  if (
+    userSettings.active_routine_id === undefined ||
+    !IsNumberValidId(userSettings.active_routine_id)
+  )
+    return;
 
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
