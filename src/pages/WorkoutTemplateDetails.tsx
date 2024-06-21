@@ -211,19 +211,13 @@ export default function WorkoutTemplateDetails() {
               <VerticalMenuIcon size={19} color={"#666666"} />
             </Button>
           </div>
-          <div>
-            <h2 className="text-xl font-semibold">Note</h2>
-            <span>{workoutTemplate?.note}</span>
-          </div>
-          <div className="flex justify-center">
-            <Button
-              size="sm"
-              color="success"
-              onPress={() => workoutTemplateModal.onOpen()}
-            >
-              Edit
-            </Button>
-          </div>
+          {workoutTemplate.note !== null && (
+            <div className="w-full">
+              <h3 className="break-all font-medium text-stone-500">
+                {workoutTemplate.note}
+              </h3>
+            </div>
+          )}
           <WorkoutExerciseList
             groupedSets={groupedSets}
             setGroupedSets={setGroupedSets}

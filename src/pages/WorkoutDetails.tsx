@@ -293,7 +293,7 @@ export default function WorkoutDetails() {
           </div>
           {workout.note !== null && (
             <div className="w-full">
-              <h3 className="text-xl break-all font-semibold text-stone-400">
+              <h3 className="break-all font-medium text-stone-500">
                 {workout.note}
               </h3>
             </div>
