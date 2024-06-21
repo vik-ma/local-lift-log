@@ -21,7 +21,7 @@ import {
   useDefaultWorkoutTemplate,
   useWorkoutActions,
 } from "../hooks";
-import { VerticalMenuIcon } from "../assets";
+import { GearIcon } from "../assets";
 
 export default function WorkoutTemplateDetails() {
   const { id } = useParams();
@@ -187,10 +187,10 @@ export default function WorkoutTemplateDetails() {
       />
       <div className="flex flex-col">
         <div className="flex flex-col gap-4 pb-4">
-          <div className="relative w-full">
+          <div className="relative w-full flex">
             <div className="flex flex-col w-full">
               <div className="flex justify-center">
-                <h1 className="text-2xl font-semibold w-[21rem] truncate text-center">
+                <h1 className="text-2xl font-semibold w-[20rem] truncate text-center">
                   {workoutTemplate.name}
                 </h1>
               </div>
@@ -203,12 +203,12 @@ export default function WorkoutTemplateDetails() {
             </div>
             <Button
               isIconOnly
-              className="z-1 absolute right-0 top-0.5"
+              className="z-1 absolute right-0 top-1"
               size="sm"
-              variant="light"
+              variant="solid"
               onPress={() => workoutTemplateModal.onOpen()}
             >
-              <VerticalMenuIcon size={19} color={"#666666"} />
+              <GearIcon size={18} color={"#666666"} />
             </Button>
           </div>
           {workoutTemplate.note !== null && (
