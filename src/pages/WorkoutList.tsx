@@ -240,7 +240,13 @@ export default function WorkoutList() {
                           Sets
                         </span>
                       )}
-                      <span className="w-[16.5rem] break-all text-xs text-stone-500 text-left">
+                      <span
+                        className={
+                          userSettings.show_workout_rating === 1
+                            ? "w-[16.5rem] break-all text-xs text-stone-500 text-left"
+                            : "w-[21.5rem] break-all text-xs text-stone-500 text-left"
+                        }
+                      >
                         {workout.note}
                       </span>
                     </div>
