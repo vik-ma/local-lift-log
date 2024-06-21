@@ -8,3 +8,4 @@ export { CommentIcon } from "./CommentIcon";
 export { MinimizeIcon } from "./MinimizeIcon";
 export { CloseIcon } from "./CloseIcon";
 export { ReorderIcon } from "./ReorderIcon";
+export { GearIcon } from "./GearIcon";
