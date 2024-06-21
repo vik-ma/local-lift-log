@@ -187,27 +187,29 @@ export default function WorkoutTemplateDetails() {
       />
       <div className="flex flex-col">
         <div className="flex flex-col gap-4 pb-4">
-          <div className="flex flex-col justify-center">
-            <div className="flex justify-center w-full gap-0.5">
-              <h1 className="text-2xl font-semibold truncate">
-                {workoutTemplate.name}
-              </h1>
-              <Button
-                isIconOnly
-                className="z-1"
-                size="sm"
-                variant="light"
-                onPress={() => workoutTemplateModal.onOpen()}
-              >
-                <VerticalMenuIcon size={18} color={"#606060"} />
-              </Button>
+          <div className="relative w-full">
+            <div className="flex flex-col w-full">
+              <div className="flex justify-center">
+                <h1 className="text-2xl font-semibold w-[21rem] truncate text-center">
+                  {workoutTemplate.name}
+                </h1>
+              </div>
+              <div className="flex justify-center w-full">
+                <span className="text-stone-600 font-semibold">
+                  {workoutNumbers.numExercises} Exercises,{" "}
+                  {workoutNumbers.numSets} Sets
+                </span>
+              </div>
             </div>
-            <div className="flex justify-center w-full">
-              <span className="text-stone-600 font-semibold">
-                {workoutNumbers.numExercises} Exercises,{" "}
-                {workoutNumbers.numSets} Sets
-              </span>
-            </div>
+            <Button
+              isIconOnly
+              className="z-1 absolute right-0 top-0.5"
+              size="sm"
+              variant="light"
+              onPress={() => workoutTemplateModal.onOpen()}
+            >
+              <VerticalMenuIcon size={19} color={"#666666"} />
+            </Button>
           </div>
           <div>
             <h2 className="text-xl font-semibold">Note</h2>
