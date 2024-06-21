@@ -20,6 +20,7 @@ import toast, { Toaster } from "react-hot-toast";
 import {
   FormatYmdDateString,
   GetShowWorkoutRating,
+  UpdateShowWorkoutRating,
   UpdateWorkout,
 } from "../helpers";
 import { VerticalMenuIcon } from "../assets";
@@ -155,6 +156,23 @@ export default function WorkoutList() {
     workoutModal.onClose();
   };
 
+  const toggleWorkoutRating = async () => {
+    if (userSettings === undefined) return;
+
+    const newValue = userSettings.show_workout_rating === 1 ? 0 : 1;
+
+    const updatedUserSettings: UserSettingsOptional = {
+      ...userSettings,
+      show_workout_rating: newValue,
+    };
+
+    const success = await UpdateShowWorkoutRating(updatedUserSettings);
+
+    if (!success) return;
+
+    setUserSettings(updatedUserSettings);
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -192,63 +210,77 @@ export default function WorkoutList() {
         {isLoading ? (
           <LoadingSpinner />
         ) : (
-          <div className="flex flex-col gap-1 w-full">
-            {workouts.map((workout) => (
-              <div
-                key={workout.id}
-                className="flex cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-                onClick={() => navigate(`/workouts/${workout.id}`)}
+          <>
+            <div className="flex justify-center">
+              <Button
+                className="w-36"
+                size="sm"
+                onPress={() => toggleWorkoutRating()}
               >
-                <div className="flex gap-1 justify-between items-center w-full">
-                  <div className="flex flex-col justify-start items-start">
-                    <span className="w-[10.5rem] truncate text-left">
-                      {workout.date}
-                    </span>
-                    {workout.numSets! > 0 && (
-                      <span className="text-xs text-yellow-600 text-left">
-                        {workout.numExercises} Exercises, {workout.numSets} Sets
+                {userSettings.show_workout_rating === 1
+                  ? "Show Workout Rating"
+                  : "Hide Workout Rating"}
+              </Button>
+            </div>
+            <div className="flex flex-col gap-1 w-full">
+              {workouts.map((workout) => (
+                <div
+                  key={workout.id}
+                  className="flex cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                  onClick={() => navigate(`/workouts/${workout.id}`)}
+                >
+                  <div className="flex gap-1 justify-between items-center w-full">
+                    <div className="flex flex-col justify-start items-start">
+                      <span className="w-[10.5rem] truncate text-left">
+                        {workout.date}
                       </span>
-                    )}
-                    <span className="w-[16.5rem] break-all text-xs text-stone-500 text-left">
-                      {workout.note}
-                    </span>
-                  </div>
-                  {userSettings.show_workout_rating === 1 && (
-                    <div className="flex flex-col w-[4.5rem] text-center text-sm text-stone-500">
-                      <span>Rating</span>
-                      <span className="font-semibold">
-                        <WorkoutRatingSpan rating={workout.rating} />
+                      {workout.numSets! > 0 && (
+                        <span className="text-xs text-yellow-600 text-left">
+                          {workout.numExercises} Exercises, {workout.numSets}{" "}
+                          Sets
+                        </span>
+                      )}
+                      <span className="w-[16.5rem] break-all text-xs text-stone-500 text-left">
+                        {workout.note}
                       </span>
                     </div>
-                  )}
-                  <Dropdown>
-                    <DropdownTrigger>
-                      <Button
-                        isIconOnly
-                        className="z-1"
-                        size="sm"
-                        radius="lg"
-                        variant="light"
+                    {userSettings.show_workout_rating === 1 && (
+                      <div className="flex flex-col w-[4.5rem] text-center text-sm text-stone-500">
+                        <span>Rating</span>
+                        <span className="font-semibold">
+                          <WorkoutRatingSpan rating={workout.rating} />
+                        </span>
+                      </div>
+                    )}
+                    <Dropdown>
+                      <DropdownTrigger>
+                        <Button
+                          isIconOnly
+                          className="z-1"
+                          size="sm"
+                          radius="lg"
+                          variant="light"
+                        >
+                          <VerticalMenuIcon size={17} />
+                        </Button>
+                      </DropdownTrigger>
+                      <DropdownMenu
+                        aria-label={`Option Menu For Workout On ${workout.date}`}
+                        onAction={(key) =>
+                          handleWorkoutOptionSelection(key as string, workout)
+                        }
                       >
-                        <VerticalMenuIcon size={17} />
-                      </Button>
-                    </DropdownTrigger>
-                    <DropdownMenu
-                      aria-label={`Option Menu For Workout On ${workout.date}`}
-                      onAction={(key) =>
-                        handleWorkoutOptionSelection(key as string, workout)
-                      }
-                    >
-                      <DropdownItem key="edit">Edit</DropdownItem>
-                      <DropdownItem key="delete" className="text-danger">
-                        Delete
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </Dropdown>
+                        <DropdownItem key="edit">Edit</DropdownItem>
+                        <DropdownItem key="delete" className="text-danger">
+                          Delete
+                        </DropdownItem>
+                      </DropdownMenu>
+                    </Dropdown>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          </>
         )}
       </div>
     </>
