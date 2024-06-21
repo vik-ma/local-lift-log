@@ -21,6 +21,7 @@ import {
   useDefaultWorkoutTemplate,
   useWorkoutActions,
 } from "../hooks";
+import { VerticalMenuIcon } from "../assets";
 
 export default function WorkoutTemplateDetails() {
   const { id } = useParams();
@@ -184,43 +185,59 @@ export default function WorkoutTemplateDetails() {
         time_input_behavior_mmss={userSettings!.time_input_behavior_mmss}
         clearSetInputValues={clearSetInputValues}
       />
-      <div className="flex flex-col gap-4">
-        <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">
-          <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">
-            {workoutTemplate.name}
-          </h1>
+      <div className="flex flex-col">
+        <div className="flex flex-col gap-4 pb-4">
+          <div className="flex flex-col justify-center">
+            <div className="flex justify-center w-full gap-0.5">
+              <h1 className="text-2xl font-semibold truncate">
+                {workoutTemplate.name}
+              </h1>
+              <Button
+                isIconOnly
+                className="z-1"
+                size="sm"
+                variant="light"
+                onPress={() => workoutTemplateModal.onOpen()}
+              >
+                <VerticalMenuIcon size={18} color={"#606060"} />
+              </Button>
+            </div>
+            <div className="flex justify-center w-full">
+              <span className="text-stone-600 font-semibold">
+                {workoutNumbers.numExercises} Exercises,{" "}
+                {workoutNumbers.numSets} Sets
+              </span>
+            </div>
+          </div>
+          <div>
+            <h2 className="text-xl font-semibold">Note</h2>
+            <span>{workoutTemplate?.note}</span>
+          </div>
+          <div className="flex justify-center">
+            <Button
+              size="sm"
+              color="success"
+              onPress={() => workoutTemplateModal.onOpen()}
+            >
+              Edit
+            </Button>
+          </div>
+          <WorkoutExerciseList
+            groupedSets={groupedSets}
+            setGroupedSets={setGroupedSets}
+            updateExerciseOrder={updateExerciseOrder}
+            handleExerciseAccordionClick={handleExerciseAccordionClick}
+            handleExerciseOptionSelection={handleExerciseOptionSelection}
+            handleClickSet={handleClickSet}
+            handleSetOptionSelection={handleSetOptionSelection}
+            updateShownSetListComments={updateShownSetListComments}
+            shownSetListComments={shownSetListComments}
+            handleAddSetButton={handleAddSetButton}
+            setIsExerciseBeingDragged={setIsExerciseBeingDragged}
+            handleReassignExercise={handleReassignExercise}
+            isTemplate={true}
+          />
         </div>
-        <div className="flex justify-center text-xl font-semibold">
-          {workoutNumbers.numExercises} Exercises, {workoutNumbers.numSets} Sets
-        </div>
-        <div>
-          <h2 className="text-xl font-semibold">Note</h2>
-          <span>{workoutTemplate?.note}</span>
-        </div>
-        <div className="flex justify-center">
-          <Button
-            size="sm"
-            color="success"
-            onPress={() => workoutTemplateModal.onOpen()}
-          >
-            Edit
-          </Button>
-        </div>
-        <WorkoutExerciseList
-          groupedSets={groupedSets}
-          setGroupedSets={setGroupedSets}
-          updateExerciseOrder={updateExerciseOrder}
-          handleExerciseAccordionClick={handleExerciseAccordionClick}
-          handleExerciseOptionSelection={handleExerciseOptionSelection}
-          handleClickSet={handleClickSet}
-          handleSetOptionSelection={handleSetOptionSelection}
-          updateShownSetListComments={updateShownSetListComments}
-          shownSetListComments={shownSetListComments}
-          handleAddSetButton={handleAddSetButton}
-          setIsExerciseBeingDragged={setIsExerciseBeingDragged}
-          handleReassignExercise={handleReassignExercise}
-          isTemplate={true}
-        />
       </div>
     </>
   );
