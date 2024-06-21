@@ -292,9 +292,11 @@ export default function WorkoutDetails() {
             </Button>
           </div>
           {workout.note !== null && (
-            <h3 className="text-xl font-semibold text-stone-400">
-              {workout.note}
-            </h3>
+            <div className="w-full">
+              <h3 className="text-xl break-all font-semibold text-stone-400">
+                {workout.note}
+              </h3>
+            </div>
           )}
         </div>
         <div className="mb-[4.5rem]">
