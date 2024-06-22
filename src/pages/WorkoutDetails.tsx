@@ -21,7 +21,7 @@ import {
 import { Button, useDisclosure } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
 import { useWorkoutActions } from "../hooks";
-import { GearIcon } from "../assets";
+import { CommentIcon, GearIcon } from "../assets";
 
 type WorkoutTemplateNote = {
   note: string | null;
@@ -37,6 +37,7 @@ export default function WorkoutDetails() {
   const [workoutTemplateNote, setWorkoutTemplateNote] = useState<string | null>(
     null
   );
+  const [showNote, setShowNote] = useState<boolean>(false);
 
   const {
     updateExerciseOrder,
@@ -286,17 +287,32 @@ export default function WorkoutDetails() {
                 </span>
               </div>
             </div>
-            <Button
-              isIconOnly
-              className="z-1 absolute right-0 top-0.5"
-              size="md"
-              variant="flat"
-              onPress={() => workoutModal.onOpen()}
-            >
-              <GearIcon size={22} color={"#707070"} />
-            </Button>
+            <div className="absolute right-0 top-0">
+              <div className="flex flex-col gap-0.5">
+                <Button
+                  isIconOnly
+                  className="z-1"
+                  size="sm"
+                  variant="flat"
+                  onPress={() => workoutModal.onOpen()}
+                >
+                  <GearIcon size={18} color={"#707070"} />
+                </Button>
+                {workout.note !== null && (
+                  <Button
+                    isIconOnly
+                    className="z-1"
+                    size="sm"
+                    variant="flat"
+                    onPress={() => setShowNote(!showNote)}
+                  >
+                    <CommentIcon size={20} />
+                  </Button>
+                )}
+              </div>
+            </div>
           </div>
-          {workout.note !== null && (
+          {showNote && (
             <div className="w-full">
               <h3 className="break-all font-medium text-stone-500">
                 {workout.note}
