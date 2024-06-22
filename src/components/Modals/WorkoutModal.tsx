@@ -20,7 +20,6 @@ type WorkoutModalProps = {
   setWorkoutNote: React.Dispatch<React.SetStateAction<string>>;
   workoutTemplateNote: string | null;
   buttonAction: (updatedWorkout: Workout) => void;
-  showRating: boolean;
   header?: string;
 };
 
@@ -32,7 +31,6 @@ export const WorkoutModal = ({
   setWorkoutNote,
   workoutTemplateNote,
   buttonAction,
-  showRating,
   header = "Workout Details",
 }: WorkoutModalProps) => {
   const handleSaveButton = () => {
@@ -64,19 +62,15 @@ export const WorkoutModal = ({
                     </span>
                   </>
                 )}
-                {showRating && (
-                  <>
-                    <span className="font-medium justify-self-end">
-                      Workout Rating
-                    </span>
-                    <WorkoutRatingDropdown
-                      rating={workout.rating}
-                      workout_id={workout.id}
-                      isInModal={true}
-                      setWorkout={setWorkout}
-                    />
-                  </>
-                )}
+                <span className="font-medium justify-self-end">
+                  Workout Rating
+                </span>
+                <WorkoutRatingDropdown
+                  rating={workout.rating}
+                  workout_id={workout.id}
+                  isInModal={true}
+                  setWorkout={setWorkout}
+                />
                 <Input
                   className="col-span-2"
                   value={workoutNote}

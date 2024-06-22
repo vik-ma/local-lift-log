@@ -198,7 +198,6 @@ export default function WorkoutList() {
         setWorkoutNote={setNewWorkoutNote}
         workoutTemplateNote={null}
         buttonAction={updateWorkout}
-        showRating={userSettings.show_workout_rating === 1 ? true : false}
         header={operatingWorkout.date}
       />
       <div className="flex flex-col items-center gap-3">
