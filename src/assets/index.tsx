@@ -10,3 +10,4 @@ export { CloseIcon } from "./CloseIcon";
 export { ReorderIcon } from "./ReorderIcon";
 export { GearIcon } from "./GearIcon";
 export { CrossIcon } from "./CrossIcon";
+export { CrossCircleIcon } from "./CrossCircleIcon";
