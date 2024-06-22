@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { WorkoutSet, WorkoutTemplate, GroupedWorkoutSet } from "../typings";
 import { useState, useEffect, useCallback } from "react";
-import { Button, useDisclosure } from "@nextui-org/react";
+import { useDisclosure } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
 import {
   LoadingSpinner,
@@ -9,6 +9,7 @@ import {
   SetModal,
   WorkoutExerciseList,
   WorkoutTemplateModal,
+  DetailsHeader,
 } from "../components";
 import { Toaster } from "react-hot-toast";
 import {
@@ -21,7 +22,6 @@ import {
   useDefaultWorkoutTemplate,
   useWorkoutActions,
 } from "../hooks";
-import { GearIcon } from "../assets";
 
 export default function WorkoutTemplateDetails() {
   const { id } = useParams();
@@ -186,54 +186,27 @@ export default function WorkoutTemplateDetails() {
         clearSetInputValues={clearSetInputValues}
       />
       <div className="flex flex-col">
-        <div className="flex flex-col gap-4 pb-4">
-          <div className="relative w-full flex">
-            <div className="flex flex-col w-full">
-              <div className="flex justify-center">
-                <h1 className="text-2xl font-semibold w-[20rem] truncate text-center">
-                  {workoutTemplate.name}
-                </h1>
-              </div>
-              <div className="flex justify-center w-full">
-                <span className="text-stone-600 font-semibold">
-                  {workoutNumbers.numExercises} Exercises,{" "}
-                  {workoutNumbers.numSets} Sets
-                </span>
-              </div>
-            </div>
-            <Button
-              isIconOnly
-              className="z-1 absolute right-0 top-0.5"
-              size="md"
-              variant="flat"
-              onPress={() => workoutTemplateModal.onOpen()}
-            >
-              <GearIcon size={22} color={"#707070"} />
-            </Button>
-          </div>
-          {workoutTemplate.note !== null && (
-            <div className="w-full">
-              <h3 className="break-all font-medium text-stone-500">
-                {workoutTemplate.note}
-              </h3>
-            </div>
-          )}
-          <WorkoutExerciseList
-            groupedSets={groupedSets}
-            setGroupedSets={setGroupedSets}
-            updateExerciseOrder={updateExerciseOrder}
-            handleExerciseAccordionClick={handleExerciseAccordionClick}
-            handleExerciseOptionSelection={handleExerciseOptionSelection}
-            handleClickSet={handleClickSet}
-            handleSetOptionSelection={handleSetOptionSelection}
-            updateShownSetListComments={updateShownSetListComments}
-            shownSetListComments={shownSetListComments}
-            handleAddSetButton={handleAddSetButton}
-            setIsExerciseBeingDragged={setIsExerciseBeingDragged}
-            handleReassignExercise={handleReassignExercise}
-            isTemplate={true}
-          />
-        </div>
+        <DetailsHeader
+          header={workoutTemplate.name}
+          subHeader={`${workoutNumbers.numExercises} Exercises, ${workoutNumbers.numSets} Sets`}
+          note={workoutTemplate.note}
+          editButtonAction={() => workoutTemplateModal.onOpen()}
+        />
+        <WorkoutExerciseList
+          groupedSets={groupedSets}
+          setGroupedSets={setGroupedSets}
+          updateExerciseOrder={updateExerciseOrder}
+          handleExerciseAccordionClick={handleExerciseAccordionClick}
+          handleExerciseOptionSelection={handleExerciseOptionSelection}
+          handleClickSet={handleClickSet}
+          handleSetOptionSelection={handleSetOptionSelection}
+          updateShownSetListComments={updateShownSetListComments}
+          shownSetListComments={shownSetListComments}
+          handleAddSetButton={handleAddSetButton}
+          setIsExerciseBeingDragged={setIsExerciseBeingDragged}
+          handleReassignExercise={handleReassignExercise}
+          isTemplate={true}
+        />
       </div>
     </>
   );
