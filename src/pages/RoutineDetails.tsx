@@ -18,6 +18,7 @@ import {
   DeleteModal,
   RoutineModal,
   WorkoutTemplateListModal,
+  DetailsHeader,
 } from "../components";
 import {
   GetScheduleDayNames,
@@ -346,42 +347,33 @@ export default function RoutineDetails() {
         }
       />
       <div className="flex flex-col gap-4">
-        <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">
-          <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">
-            {routine.name}
-          </h1>
-        </div>
-        <div className="flex justify-center text-xl font-semibold">
-          {routine.numWorkoutTemplates} Workouts
-        </div>
+        <DetailsHeader
+          header={routine.name}
+          subHeader={
+            routine.numWorkoutTemplates === 0
+              ? "No Workouts Added"
+              : routine.numWorkoutTemplates === 1
+              ? "1 Workout"
+              : `${routine.numWorkoutTemplates} Workouts`
+          }
+          note={routine.note}
+          editButtonAction={() => routineModal.onOpen()}
+        />
         <div className="flex justify-center">
           {userSettings?.active_routine_id === routine.id ? (
-            <span className="text-xl text-success font-semibold">
+            <span className="text-success font-semibold">
               Currently Active Routine
             </span>
           ) : (
             <div className="flex flex-col items-center gap-0.5">
-              <span className="text-lg text-danger font-semibold">
+              <span className="font-semibold text-stone-500">
                 Currently Not Active Routine
               </span>
-              <Button size="sm" color="success" onPress={handleSetActiveButton}>
+              <Button size="sm" onPress={handleSetActiveButton}>
                 Set Active
               </Button>
             </div>
           )}
-        </div>
-        <div>
-          <h2 className="text-xl font-semibold ">Note</h2>
-          <span>{routine.note}</span>
-        </div>
-        <div className="flex justify-center">
-          <Button
-            size="sm"
-            color="success"
-            onPress={() => routineModal.onOpen()}
-          >
-            Edit
-          </Button>
         </div>
         <div className="flex flex-col">
           {routine.is_schedule_weekly === 0 && (
@@ -445,6 +437,7 @@ export default function RoutineDetails() {
                             className="h-6 w-16"
                             size="sm"
                             color="danger"
+                            variant="flat"
                             onPress={() => {
                               handleRemoveButton(schedule);
                             }}
@@ -460,7 +453,7 @@ export default function RoutineDetails() {
                 </div>
                 <Button
                   size="sm"
-                  color="success"
+                  variant="flat"
                   onPress={() => handleAddWorkoutButton(i)}
                 >
                   Add Workout
