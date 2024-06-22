@@ -59,16 +59,26 @@ export const WorkoutExerciseList = ({
   completedSetsMap,
 }: WorkoutExerciseListProps) => {
   return (
-    <div className="flex flex-col gap-1.5">
-      <div className="px-0.5">
-        <h2 className="text-xl font-semibold flex items-baseline justify-between">
-          Set List{" "}
+    <div className="flex flex-col gap-1">
+      <div className="flex justify-between gap-3.5 items-end">
+        <div className="flex flex-grow justify-between items-baseline px-0.5">
+          <h2 className="text-xl font-semibold flex justify-between">
+            Set List
+          </h2>
           {groupedSets.length > 1 && (
             <span className="text-xs italic text-stone-500 font-normal">
               Drag Exercises To Reorder Set List
             </span>
           )}
-        </h2>
+        </div>
+        <Button
+          className="mb-0.5"
+          color="success"
+          size="sm"
+          onPress={handleAddSetButton}
+        >
+          Add Exercise
+        </Button>
       </div>
       <div className="flex flex-col">
         <Reorder.Group
@@ -207,11 +217,6 @@ export const WorkoutExerciseList = ({
             </Reorder.Item>
           ))}
         </Reorder.Group>
-      </div>
-      <div className="flex justify-center">
-        <Button color="success" onPress={handleAddSetButton}>
-          Add Set
-        </Button>
       </div>
     </div>
   );
