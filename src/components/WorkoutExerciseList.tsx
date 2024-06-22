@@ -72,8 +72,6 @@ export const WorkoutExerciseList = ({
           )}
         </div>
         <Button
-          className="mb-0.5"
-          color="success"
           size="sm"
           onPress={handleAddSetButton}
         >
