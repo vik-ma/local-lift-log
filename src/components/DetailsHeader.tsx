@@ -19,14 +19,14 @@ export const DetailsHeader = ({
   return (
     <div className="flex flex-col gap-4 pb-4">
       <div className="relative w-full flex">
-        <div className="flex flex-col w-full">
+        <div className="flex flex-col gap-0.5 w-full">
           <div className="flex justify-center">
-            <h1 className="text-2xl font-semibold w-[20rem] truncate text-center">
+            <h1 className="text-3xl text-yellow-600 font-semibold w-[20rem] truncate text-center">
               {header}
             </h1>
           </div>
           <div className="flex justify-center w-full">
-            <span className="flex justify-center text-stone-600 text-lg font-semibold">
+            <span className="flex justify-center text-stone-500 font-semibold">
               {subHeader}
             </span>
           </div>
@@ -40,7 +40,7 @@ export const DetailsHeader = ({
               variant="flat"
               onPress={editButtonAction}
             >
-              <GearIcon size={18} color={"#707070"} />
+              <GearIcon size={18} color={"#808080"} />
             </Button>
             {note !== null && (
               <Button
