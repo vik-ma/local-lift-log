@@ -51,7 +51,7 @@ export const WorkoutModal = ({
           <>
             <ModalHeader>{header}</ModalHeader>
             <ModalBody>
-              <div className="grid grid-cols-2 gap-x-4 gap-y-2.5 items-center">
+              <div className="grid grid-cols-2 gap-x-4 gap-y-4 items-center">
                 {workoutTemplateNote && (
                   <>
                     <span className="font-medium justify-self-end">
