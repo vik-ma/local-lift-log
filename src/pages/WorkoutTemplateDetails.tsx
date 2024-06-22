@@ -203,12 +203,12 @@ export default function WorkoutTemplateDetails() {
             </div>
             <Button
               isIconOnly
-              className="z-1 absolute right-0 top-1"
-              size="sm"
-              variant="solid"
+              className="z-1 absolute right-0 top-0.5"
+              size="md"
+              variant="flat"
               onPress={() => workoutTemplateModal.onOpen()}
             >
-              <GearIcon size={18} color={"#666666"} />
+              <GearIcon size={22} color={"#707070"} />
             </Button>
           </div>
           {workoutTemplate.note !== null && (
