@@ -21,7 +21,7 @@ import {
 import { Button, useDisclosure } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
 import { useWorkoutActions } from "../hooks";
-import { VerticalMenuIcon } from "../assets";
+import { GearIcon } from "../assets";
 
 type WorkoutTemplateNote = {
   note: string | null;
@@ -273,22 +273,28 @@ export default function WorkoutDetails() {
       />
       <div className="flex flex-col">
         <div className="flex flex-col gap-4 pb-4">
-          <div className="flex justify-center items-start gap-0.5">
-            <div className="flex flex-col items-center">
-              <h1 className="text-2xl font-semibold">{workoutDate}</h1>
-              <span className="flex justify-center text-stone-600 text-lg font-semibold">
-                {workoutNumbers.numExercises} Exercises,{" "}
-                {workoutNumbers.numSets} Sets
-              </span>
+          <div className="relative w-full flex">
+            <div className="flex flex-col w-full">
+              <div className="flex justify-center">
+                <h1 className="text-2xl font-semibold w-[20rem] truncate text-center">
+                  {workoutDate}
+                </h1>
+              </div>
+              <div className="flex justify-center w-full">
+                <span className="flex justify-center text-stone-600 text-lg font-semibold">
+                  {workoutNumbers.numExercises} Exercises,{" "}
+                  {workoutNumbers.numSets} Sets
+                </span>
+              </div>
             </div>
             <Button
               isIconOnly
-              className="z-1"
+              className="z-1 absolute right-0 top-1"
               size="sm"
-              variant="light"
+              variant="solid"
               onPress={() => workoutModal.onOpen()}
             >
-              <VerticalMenuIcon size={18} color={"#606060"} />
+              <GearIcon size={18} color={"#666666"} />
             </Button>
           </div>
           {workout.note !== null && (
