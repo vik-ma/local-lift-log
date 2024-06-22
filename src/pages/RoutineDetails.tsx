@@ -422,8 +422,16 @@ export default function RoutineDetails() {
                 className="flex items-center justify-between"
               >
                 <div className="flex flex-col w-64 gap-1">
-                  <span className="font-medium">{dayNameList[i]}</span>
-                  {scheduleValues[i]?.length > 0 ? (
+                  <span
+                    className={
+                      scheduleValues[i].length > 0
+                        ? "text-yellow-600 font-medium"
+                        : "font-medium"
+                    }
+                  >
+                    {dayNameList[i]}
+                  </span>
+                  {scheduleValues[i].length > 0 ? (
                     scheduleValues[i].map((schedule) => {
                       return (
                         <div
@@ -437,7 +445,6 @@ export default function RoutineDetails() {
                             className="h-6 w-16"
                             size="sm"
                             color="danger"
-                            variant="flat"
                             onPress={() => {
                               handleRemoveButton(schedule);
                             }}
