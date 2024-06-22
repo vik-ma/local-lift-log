@@ -217,8 +217,8 @@ export default function WorkoutList() {
                 onPress={() => toggleWorkoutRating()}
               >
                 {userSettings.show_workout_rating === 1
-                  ? "Show Workout Rating"
-                  : "Hide Workout Rating"}
+                  ? "Hide Workout Rating"
+                  : "Show Workout Rating"}
               </Button>
             </div>
             <div className="flex flex-col gap-1 w-full">
