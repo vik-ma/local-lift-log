@@ -9,6 +9,7 @@ import {
   ActiveSet,
   WorkoutModal,
   TimeInputModal,
+  DetailsHeader,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -18,10 +19,9 @@ import {
   FormatYmdDateString,
   UpdateWorkout,
 } from "../helpers";
-import { Button, useDisclosure } from "@nextui-org/react";
+import { useDisclosure } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
 import { useWorkoutActions } from "../hooks";
-import { CommentIcon, GearIcon } from "../assets";
 
 type WorkoutTemplateNote = {
   note: string | null;
@@ -37,7 +37,6 @@ export default function WorkoutDetails() {
   const [workoutTemplateNote, setWorkoutTemplateNote] = useState<string | null>(
     null
   );
-  const [showNote, setShowNote] = useState<boolean>(false);
 
   const {
     updateExerciseOrder,
@@ -272,54 +271,12 @@ export default function WorkoutDetails() {
         saveButtonAction={updateSetTimeCompleted}
       />
       <div className="flex flex-col">
-        <div className="flex flex-col gap-4 pb-4">
-          <div className="relative w-full flex">
-            <div className="flex flex-col w-full">
-              <div className="flex justify-center">
-                <h1 className="text-2xl font-semibold w-[20rem] truncate text-center">
-                  {workoutDate}
-                </h1>
-              </div>
-              <div className="flex justify-center w-full">
-                <span className="flex justify-center text-stone-600 text-lg font-semibold">
-                  {workoutNumbers.numExercises} Exercises,{" "}
-                  {workoutNumbers.numSets} Sets
-                </span>
-              </div>
-            </div>
-            <div className="absolute right-0 top-0">
-              <div className="flex flex-col gap-0.5">
-                <Button
-                  isIconOnly
-                  className="z-1"
-                  size="sm"
-                  variant="flat"
-                  onPress={() => workoutModal.onOpen()}
-                >
-                  <GearIcon size={18} color={"#707070"} />
-                </Button>
-                {workout.note !== null && (
-                  <Button
-                    isIconOnly
-                    className="z-1"
-                    size="sm"
-                    variant="flat"
-                    onPress={() => setShowNote(!showNote)}
-                  >
-                    <CommentIcon size={20} />
-                  </Button>
-                )}
-              </div>
-            </div>
-          </div>
-          {showNote && (
-            <div className="w-full">
-              <h3 className="break-all font-medium text-stone-500">
-                {workout.note}
-              </h3>
-            </div>
-          )}
-        </div>
+        <DetailsHeader
+          header={workoutDate}
+          subHeader={`${workoutNumbers.numExercises} Exercises, ${workoutNumbers.numSets} Sets`}
+          note={workout.note}
+          editButtonAction={() => workoutModal.onOpen()}
+        />
         <div className="mb-[4.5rem]">
           <WorkoutExerciseList
             groupedSets={groupedSets}
