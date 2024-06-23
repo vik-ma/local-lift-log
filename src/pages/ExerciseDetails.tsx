@@ -2,7 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Exercise } from "../typings";
 import { useState, useEffect } from "react";
 import { Button, useDisclosure } from "@nextui-org/react";
-import { LoadingSpinner, ExerciseModal } from "../components";
+import { LoadingSpinner, ExerciseModal, DetailsHeader } from "../components";
 import {
   ConvertExerciseGroupSetString,
   GetExerciseFromId,
@@ -96,30 +96,15 @@ export default function ExerciseDetails() {
         isEditing={true}
       />
       <div className="flex flex-col gap-4">
-        <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">
-          <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">
-            {exercise.name}
-          </h1>
-        </div>
-        <div>
-          <h2 className="text-xl font-semibold ">Note</h2>
-          <span>{exercise.note}</span>
-        </div>
-        <div>
-          <h2 className="text-xl font-semibold">Exercise Groups</h2>
-          <span>{exercise.formattedGroupString}</span>
-        </div>
-        <div className="flex gap-2 justify-center">
+        <DetailsHeader
+          header={exercise.name}
+          subHeader={exercise.formattedGroupString ?? ""}
+          note={exercise.note}
+          editButtonAction={() => exerciseModal.onOpen()}
+        />
+        <div className="flex justify-center">
           <Button
             size="sm"
-            color="success"
-            onPress={() => exerciseModal.onOpen()}
-          >
-            Edit
-          </Button>
-          <Button
-            size="sm"
-            color="success"
             onPress={() => navigate(`/exercises/${id}/history`)}
           >
             History
