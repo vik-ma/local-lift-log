@@ -36,6 +36,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { getLocalTimeZone, parseDate } from "@internationalized/date";
 import { I18nProvider } from "@react-aria/i18n";
 import { useIsRoutineValid, useWorkoutTemplateList } from "../hooks";
+import { CrossCircleIcon } from "../assets";
 
 export default function RoutineDetails() {
   const { id } = useParams();
@@ -398,6 +399,7 @@ export default function RoutineDetails() {
                   <Button
                     size="sm"
                     color="danger"
+                    variant="flat"
                     onPress={resetCustomStartDate}
                   >
                     Reset
@@ -424,14 +426,14 @@ export default function RoutineDetails() {
                 <div className="flex flex-col w-64 gap-1">
                   <span
                     className={
-                      scheduleValues[i].length > 0
+                      scheduleValues[i]?.length > 0
                         ? "text-yellow-600 font-medium"
                         : "font-medium"
                     }
                   >
                     {dayNameList[i]}
                   </span>
-                  {scheduleValues[i].length > 0 ? (
+                  {scheduleValues[i]?.length > 0 ? (
                     scheduleValues[i].map((schedule) => {
                       return (
                         <div
@@ -442,14 +444,15 @@ export default function RoutineDetails() {
                             {schedule.name}
                           </span>
                           <Button
-                            className="h-6 w-16"
                             size="sm"
                             color="danger"
+                            isIconOnly
+                            variant="light"
                             onPress={() => {
                               handleRemoveButton(schedule);
                             }}
                           >
-                            Remove
+                            <CrossCircleIcon size={18} />
                           </Button>
                         </div>
                       );
