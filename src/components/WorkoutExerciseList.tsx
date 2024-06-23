@@ -139,6 +139,7 @@ export const WorkoutExerciseList = ({
                     <Dropdown>
                       <DropdownTrigger>
                         <Button
+                          aria-label={`Toggle ${groupedSet.exercise.name} Options Menu`}
                           isIconOnly
                           className="z-1"
                           size="sm"

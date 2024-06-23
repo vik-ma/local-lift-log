@@ -260,6 +260,7 @@ export default function WorkoutList() {
                     <Dropdown>
                       <DropdownTrigger>
                         <Button
+                          aria-label={`Toggle Workout On ${workout.date} Options Menu`}
                           isIconOnly
                           className="z-1"
                           size="sm"

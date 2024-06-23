@@ -194,6 +194,7 @@ export const ActiveSet = ({
                         </div>
                         <div className="flex">
                           <Button
+                            aria-label="Toggle Active Set Comment"
                             isIconOnly
                             variant="light"
                             size="sm"
@@ -204,6 +205,7 @@ export const ActiveSet = ({
                           <Dropdown>
                             <DropdownTrigger>
                               <Button
+                                aria-label="Toggle Active Set Options Menu"
                                 isIconOnly
                                 variant="light"
                                 size="sm"
@@ -480,6 +482,7 @@ export const ActiveSet = ({
                 )}
                 <div className="absolute bottom-1 right-1">
                   <Button
+                    aria-label="Expand Or Shrink Active Set"
                     isIconOnly
                     size="lg"
                     variant="light"

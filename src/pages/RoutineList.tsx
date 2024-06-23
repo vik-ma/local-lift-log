@@ -292,6 +292,7 @@ export default function RoutineList() {
                       <Dropdown>
                         <DropdownTrigger>
                           <Button
+                            aria-label={`Toggle ${routine.name} Options Menu`}
                             isIconOnly
                             className="z-1"
                             size="sm"

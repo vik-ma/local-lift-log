@@ -408,6 +408,7 @@ export default function MeasurementList() {
                       <Dropdown>
                         <DropdownTrigger>
                           <Button
+                            aria-label={`Toggle ${measurement.name} Options Menu`}
                             isIconOnly
                             className="z-1"
                             size="sm"

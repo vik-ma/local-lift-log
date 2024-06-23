@@ -234,6 +234,7 @@ export default function UserWeightList() {
                   <Dropdown>
                     <DropdownTrigger>
                       <Button
+                        aria-label={`Toggle ${userWeight.formattedDate} Weight Entry Options Menu`}
                         isIconOnly
                         className="z-1"
                         size="sm"

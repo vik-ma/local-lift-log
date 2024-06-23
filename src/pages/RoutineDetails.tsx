@@ -444,6 +444,7 @@ export default function RoutineDetails() {
                             {schedule.name}
                           </span>
                           <Button
+                            aria-label={`Remove ${schedule.name} From ${dayNameList[i]}`}
                             size="sm"
                             color="danger"
                             isIconOnly

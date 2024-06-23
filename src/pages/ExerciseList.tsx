@@ -263,6 +263,7 @@ export default function ExerciseList() {
                   <Dropdown>
                     <DropdownTrigger>
                       <Button
+                        aria-label={`Toggle ${exercise.name} Options Menu`}
                         isIconOnly
                         className="z-1"
                         size="sm"

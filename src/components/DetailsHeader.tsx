@@ -34,6 +34,7 @@ export const DetailsHeader = ({
         <div className="absolute right-0 top-0">
           <div className="flex flex-col gap-0.5">
             <Button
+              aria-label="Edit Properties"
               isIconOnly
               className="z-1"
               size="sm"
@@ -44,6 +45,7 @@ export const DetailsHeader = ({
             </Button>
             {note !== null && (
               <Button
+                aria-label="Toggle Note"
                 isIconOnly
                 className="z-1"
                 size="sm"

@@ -118,6 +118,7 @@ export const SetList = ({
                 (isTemplate && set.note !== null)) && (
                 <div className={isTemplate ? "" : "pr-1"}>
                   <Button
+                    aria-label={`Toggle ${groupedSet.exercise.name} Set ${index} Comment`}
                     isIconOnly
                     size="sm"
                     radius="lg"
@@ -136,6 +137,7 @@ export const SetList = ({
               <Dropdown>
                 <DropdownTrigger>
                   <Button
+                    aria-label={`Toggle ${groupedSet.exercise.name} Set ${index} Options Menu`}
                     isIconOnly
                     className="z-1"
                     size="sm"

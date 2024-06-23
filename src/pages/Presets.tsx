@@ -646,6 +646,7 @@ export default function Presets() {
                     <Dropdown>
                       <DropdownTrigger>
                         <Button
+                          aria-label={`Toggle ${equipment.name} Options Menu`}
                           isIconOnly
                           className="z-1"
                           size="sm"
@@ -707,6 +708,7 @@ export default function Presets() {
                     <Dropdown>
                       <DropdownTrigger>
                         <Button
+                          aria-label={`Toggle ${distance.name} Options Menu`}
                           isIconOnly
                           className="z-1"
                           size="sm"

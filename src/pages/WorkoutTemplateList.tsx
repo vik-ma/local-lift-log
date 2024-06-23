@@ -248,6 +248,7 @@ export default function WorkoutTemplateList() {
                   <Dropdown>
                     <DropdownTrigger>
                       <Button
+                        aria-label={`Toggle ${template.name} Options Menu`}
                         isIconOnly
                         className="z-1"
                         size="sm"

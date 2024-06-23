@@ -63,6 +63,7 @@ export const UserMeasurementAccordion = ({
               <Dropdown>
                 <DropdownTrigger>
                   <Button
+                    aria-label={`Toggle ${measurement.formattedDate} Measurements Entry Options Menu`}
                     isIconOnly
                     className="z-1"
                     size="sm"

@@ -607,6 +607,7 @@ export default function BodyMeasurements() {
                     <Dropdown>
                       <DropdownTrigger>
                         <Button
+                          aria-label={`Toggle ${latestUserWeight.formattedDate} Weight Entry Options Menu`}
                           isIconOnly
                           className="z-1"
                           size="sm"
