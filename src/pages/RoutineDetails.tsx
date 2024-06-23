@@ -423,7 +423,7 @@ export default function RoutineDetails() {
                 key={`day-${i + 1}`}
                 className="flex items-center justify-between"
               >
-                <div className="flex flex-col w-64 gap-1">
+                <div className="flex flex-col flex-grow gap-0.5">
                   <span
                     className={
                       scheduleValues[i]?.length > 0
@@ -438,9 +438,9 @@ export default function RoutineDetails() {
                       return (
                         <div
                           key={schedule.id}
-                          className="flex justify-between items-center"
+                          className="flex gap-0.5 items-center"
                         >
-                          <span className="truncate max-w-44">
+                          <span className="truncate max-w-64">
                             {schedule.name}
                           </span>
                           <Button
@@ -463,6 +463,7 @@ export default function RoutineDetails() {
                   )}
                 </div>
                 <Button
+                  className="w-24"
                   size="sm"
                   variant="flat"
                   onPress={() => handleAddWorkoutButton(i)}
