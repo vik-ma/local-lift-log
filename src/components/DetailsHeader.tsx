@@ -25,8 +25,10 @@ export const DetailsHeader = ({
               {header}
             </h1>
           </div>
-          <div className="flex justify-center w-full">
-            <span className="text-stone-500 font-semibold">{subHeader}</span>
+          <div className="flex justify-center">
+            <span className="text-stone-500 text-center font-semibold w-[20rem] break-words">
+              {subHeader}
+            </span>
           </div>
         </div>
         <div className="absolute right-0 top-0">
