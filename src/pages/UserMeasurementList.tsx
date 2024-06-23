@@ -115,7 +115,7 @@ export default function UserMeasurementList() {
       measurement_values: userMeasurementValues,
     };
 
-    const success = UpdateUserMeasurements(updatedUserMeasurements);
+    const success = await UpdateUserMeasurements(updatedUserMeasurements);
 
     if (!success) return;
 
