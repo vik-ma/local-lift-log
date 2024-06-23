@@ -37,6 +37,7 @@ import { getLocalTimeZone, parseDate } from "@internationalized/date";
 import { I18nProvider } from "@react-aria/i18n";
 import { useIsRoutineValid, useWorkoutTemplateList } from "../hooks";
 import { CrossCircleIcon } from "../assets";
+import { Link } from "react-router-dom";
 
 export default function RoutineDetails() {
   const { id } = useParams();
@@ -440,9 +441,15 @@ export default function RoutineDetails() {
                           key={schedule.id}
                           className="flex gap-0.5 items-center"
                         >
-                          <span className="truncate max-w-64">
-                            {schedule.name}
-                          </span>
+                          <div className="truncate max-w-64">
+                            <Link
+                              className=""
+                              to={`../../workout-templates/${schedule.workout_template_id}`}
+                              relative="path"
+                            >
+                              {schedule.name}
+                            </Link>
+                          </div>
                           <Button
                             aria-label={`Remove ${schedule.name} From ${dayNameList[i]}`}
                             size="sm"
