@@ -26,9 +26,7 @@ export const DetailsHeader = ({
             </h1>
           </div>
           <div className="flex justify-center w-full">
-            <span className="flex justify-center text-stone-500 font-semibold">
-              {subHeader}
-            </span>
+            <span className="text-stone-500 font-semibold">{subHeader}</span>
           </div>
         </div>
         <div className="absolute right-0 top-0">
@@ -57,8 +55,8 @@ export const DetailsHeader = ({
         </div>
       </div>
       {showNote && (
-        <div className="w-full">
-          <h3 className="break-all font-medium text-stone-500">{note}</h3>
+        <div className="flex justify-center w-full">
+          <span className="break-all font-medium text-stone-500">{note}</span>
         </div>
       )}
     </div>
