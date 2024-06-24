@@ -13,8 +13,8 @@ export const UpdateSet = async (set: WorkoutSet): Promise<boolean> => {
         resistance_level = $16, is_tracking_weight = $17, is_tracking_reps = $18, 
         is_tracking_rir = $19, is_tracking_rpe = $20, is_tracking_time = $21, 
         is_tracking_distance = $22, is_tracking_resistance_level = $23, weight_unit = $24, 
-        distance_unit = $25, is_superset = $26, is_dropset = $27, multiset_values = $28 
-        WHERE id = $29`,
+        distance_unit = $25, multiset_id = $26 
+        WHERE id = $27`,
       [
         set.workout_id,
         set.exercise_id,
@@ -41,9 +41,7 @@ export const UpdateSet = async (set: WorkoutSet): Promise<boolean> => {
         set.is_tracking_resistance_level,
         set.weight_unit,
         set.distance_unit,
-        set.is_superset,
-        set.is_dropset,
-        set.multiset_values,
+        set.multiset_id,
         set.id,
       ]
     );

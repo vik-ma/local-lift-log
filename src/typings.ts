@@ -110,9 +110,7 @@ export type WorkoutSet = {
   is_tracking_resistance_level: number;
   weight_unit: string;
   distance_unit: string;
-  is_superset: number;
-  is_dropset: number;
-  multiset_values: string | null;
+  multiset_id: number;
   exercise_name?: string;
   set_index?: number;
 };
