@@ -84,9 +84,7 @@ diesel::table! {
         is_tracking_resistance_level -> SmallInt,
         weight_unit -> Nullable<Text>,
         distance_unit -> Nullable<Text>,
-        is_superset -> SmallInt,
-        is_dropset -> SmallInt,
-        multiset_values -> Nullable<Text>,
+        multiset_id -> Integer,
     }
 }
 
