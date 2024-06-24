@@ -418,13 +418,13 @@ export default function RoutineDetails() {
               ? `${routine.num_days_in_schedule} Day Schedule`
               : "Weekly Schedule"}
           </h2>
-          <div className="flex flex-col gap-0.5 py-1">
+          <div className="flex flex-col gap-1 py-1">
             {Array.from(Array(routine.num_days_in_schedule), (_, i) => (
               <div
                 key={`day-${i + 1}`}
                 className="flex items-center justify-between"
               >
-                <div className="flex flex-col flex-grow gap-0.5">
+                <div className="flex flex-col flex-grow">
                   <span
                     className={
                       scheduleValues[i]?.length > 0
@@ -443,7 +443,6 @@ export default function RoutineDetails() {
                         >
                           <div className="truncate max-w-64">
                             <Link
-                              className=""
                               to={`../../workout-templates/${schedule.workout_template_id}`}
                               relative="path"
                             >
