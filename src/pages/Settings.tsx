@@ -238,7 +238,7 @@ export default function Settings() {
           <div className="flex gap-3 items-center justify-between">
             <span className="text-lg">Default Weight Unit</span>
             <WeightUnitDropdown
-              value={userSettings!.default_unit_weight}
+              value={userSettings.default_unit_weight}
               setUserSettings={handleDefaultUnitWeightChange}
               targetType="settings"
             />
@@ -246,7 +246,7 @@ export default function Settings() {
           <div className="flex gap-3 items-center justify-between">
             <span className="text-lg">Default Distance Unit</span>
             <DistanceUnitDropdown
-              value={userSettings!.default_unit_distance}
+              value={userSettings.default_unit_distance}
               setUserSettings={handleDefaultUnitDistanceChange}
               targetType="settings"
             />
@@ -258,7 +258,7 @@ export default function Settings() {
               color="success"
               size="lg"
               isSelected={
-                userSettings?.show_timestamp_on_completed_set ? true : false
+                userSettings.show_timestamp_on_completed_set ? true : false
               }
               onValueChange={(value) => handleSetShowTimestampChange(value)}
             />
@@ -269,7 +269,7 @@ export default function Settings() {
               aria-label="Time Input Type Dropdown List"
               className="w-32"
               variant="faded"
-              selectedKeys={[userSettings!.default_time_input]}
+              selectedKeys={[userSettings.default_time_input]}
               onChange={(value) => handleDefaultTimeInputChange(value)}
               disallowEmptySelection
             >
@@ -292,7 +292,7 @@ export default function Settings() {
               Default Measurement Unit (Circumference)
             </span>
             <MeasurementUnitDropdown
-              value={userSettings!.default_unit_measurement}
+              value={userSettings.default_unit_measurement}
               setUserSettings={handleDefaultUnitMeasurementChange}
               targetType="settings"
             />
@@ -300,7 +300,7 @@ export default function Settings() {
           <div className="flex gap-3 items-center justify-between">
             <span className="text-lg">Date Format</span>
             <LocaleDropdown
-              value={userSettings!.locale}
+              value={userSettings.locale}
               setUserSettings={handleLocaleChange}
               targetType="settings"
             />
@@ -308,7 +308,7 @@ export default function Settings() {
           <div className="flex gap-3 items-center justify-between">
             <span className="text-lg">Clock Format</span>
             <ClockStyleDropdown
-              value={userSettings!.clock_style}
+              value={userSettings.clock_style}
               setUserSettings={handleClockStyleChange}
               targetType="settings"
             />
@@ -318,7 +318,7 @@ export default function Settings() {
               Time Input Behavior For HH:MM:SS
             </span>
             <TimeInputBehaviorDropdown
-              value={userSettings!.time_input_behavior_hhmmss}
+              value={userSettings.time_input_behavior_hhmmss}
               setUserSettings={handleTimeInputBehaviorChange}
               isHhmmss={true}
             />
@@ -328,7 +328,7 @@ export default function Settings() {
               Time Input Behavior For MM:SS
             </span>
             <TimeInputBehaviorDropdown
-              value={userSettings!.time_input_behavior_mmss}
+              value={userSettings.time_input_behavior_mmss}
               setUserSettings={handleTimeInputBehaviorChange}
               isHhmmss={false}
             />
@@ -339,7 +339,7 @@ export default function Settings() {
               className="flex-row-reverse gap-3"
               color="success"
               size="lg"
-              isSelected={userSettings?.show_workout_rating ? true : false}
+              isSelected={userSettings.show_workout_rating ? true : false}
               onValueChange={(value) => handleSetShowWorkoutRatingChange(value)}
             />
           </div>
