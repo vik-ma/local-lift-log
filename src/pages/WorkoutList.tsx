@@ -235,10 +235,14 @@ export default function WorkoutList() {
                       <span className="w-[10.5rem] truncate text-left">
                         {workout.date}
                       </span>
-                      {workout.numSets! > 0 && (
+                      {workout.numSets! > 0 ? (
                         <span className="text-xs text-yellow-600 text-left">
                           {workout.numExercises} Exercises, {workout.numSets}{" "}
                           Sets
+                        </span>
+                      ) : (
+                        <span className="text-xs text-stone-400 text-left">
+                          Empty
                         </span>
                       )}
                       <span
