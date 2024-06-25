@@ -50,42 +50,42 @@ export const SiteHeader = () => {
           <NavLink to="/workouts">Workouts</NavLink>
         </NavbarItem>
         <Dropdown>
-          <NavbarItem>
-            <DropdownTrigger>
-              <Button
-                disableRipple
-                className="p-0 text-[#404040] text-md font-medium bg-transparent data-[hover=true]:bg-transparent"
-                endContent={<ChevronIcon color="#404040" size={18} />}
-                radius="sm"
-                variant="light"
-              >
-                More
-              </Button>
-            </DropdownTrigger>
-          </NavbarItem>
+          <DropdownTrigger>
+            <Button
+              disableRipple
+              className="p-0 text-[#404040] text-md font-medium bg-transparent data-[hover=true]:bg-transparent"
+              endContent={<ChevronIcon color="#404040" size={18} />}
+              radius="sm"
+              variant="light"
+            >
+              More
+            </Button>
+          </DropdownTrigger>
           <DropdownMenu
             aria-label="Dropdown menu with navigation to more pages"
             itemClasses={{
               base: "hover:text-[#404040]",
             }}
           >
-            <DropdownItem href="/exercises" key="exercises">
-              Exercise List
+            <DropdownItem key="exercises">
+              <NavLink to="/exercises">Exercise List</NavLink>
             </DropdownItem>
-            <DropdownItem href="/workout-templates" key="workout-templates">
-              Workout Templates
+            <DropdownItem key="workout-templates">
+              <NavLink to="/workout-templates">Workout Templates</NavLink>
             </DropdownItem>
-            <DropdownItem href="/measurements" key="measurements">
-              Body Measurements
+            <DropdownItem key="measurements">
+              <NavLink to="/measurements">Body Measurements</NavLink>
             </DropdownItem>
-            <DropdownItem href="/presets" key="equipment-weights">
-              Presets
+            <DropdownItem key="presets">
+              <NavLink to="/presets">Presets</NavLink>
             </DropdownItem>
-            <DropdownItem href="/settings" key="settings">
-              Settings
+            <DropdownItem key="settings">
+              <NavLink to="/settings">Settings</NavLink>
             </DropdownItem>
-            <DropdownItem className="text-primary" href="/test" key="test">
-              TEST PAGE
+            <DropdownItem>
+              <NavLink className="text-yellow-600" to="/test">
+                TEST PAGE
+              </NavLink>
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>
