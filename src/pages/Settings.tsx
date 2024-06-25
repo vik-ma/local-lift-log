@@ -27,7 +27,6 @@ import Database from "tauri-plugin-sql-api";
 
 export default function Settings() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const settingsModal = useDisclosure();
 
@@ -35,7 +34,6 @@ export default function Settings() {
     const loadUserSettings = async () => {
       const settings: UserSettings | undefined = await GetUserSettings();
       if (settings !== undefined) setUserSettings(settings);
-      setIsLoading(false);
     };
 
     loadUserSettings();
@@ -236,127 +234,121 @@ export default function Settings() {
             Settings
           </h1>
         </div>
-        {isLoading ? (
-          <LoadingSpinner />
-        ) : (
-          <div className="flex flex-col gap-3 w-full">
-            <div className="flex gap-3 items-center justify-between">
-              <span className="text-lg">Default Weight Unit</span>
-              <WeightUnitDropdown
-                value={userSettings!.default_unit_weight}
-                setUserSettings={handleDefaultUnitWeightChange}
-                targetType="settings"
-              />
-            </div>
-            <div className="flex gap-3 items-center justify-between">
-              <span className="text-lg">Default Distance Unit</span>
-              <DistanceUnitDropdown
-                value={userSettings!.default_unit_distance}
-                setUserSettings={handleDefaultUnitDistanceChange}
-                targetType="settings"
-              />
-            </div>
-            <div className="flex gap-3 items-center justify-between">
-              <span className="text-lg">Show Timestamp On Completed Sets</span>
-              <Switch
-                className="flex-row-reverse gap-3"
-                color="success"
-                size="lg"
-                isSelected={
-                  userSettings?.show_timestamp_on_completed_set ? true : false
-                }
-                onValueChange={(value) => handleSetShowTimestampChange(value)}
-              />
-            </div>
-            <div className="flex gap-3 items-center justify-between">
-              <span className="text-lg">Default Time Input</span>
-              <Select
-                aria-label="Time Input Type Dropdown List"
-                className="w-32"
-                variant="faded"
-                selectedKeys={[userSettings!.default_time_input]}
-                onChange={(value) => handleDefaultTimeInputChange(value)}
-                disallowEmptySelection
-              >
-                <SelectItem key="hhmmss" value="hhmmss">
-                  HH:MM:SS
-                </SelectItem>
-                <SelectItem key="mmss" value="mmss">
-                  MM:SS
-                </SelectItem>
-                <SelectItem key="minutes" value="minutes">
-                  Minutes
-                </SelectItem>
-                <SelectItem key="seconds" value="seconds">
-                  Seconds
-                </SelectItem>
-              </Select>
-            </div>
-            <div className="flex gap-3 items-center justify-between">
-              <span className="text-lg">
-                Default Measurement Unit (Circumference)
-              </span>
-              <MeasurementUnitDropdown
-                value={userSettings!.default_unit_measurement}
-                setUserSettings={handleDefaultUnitMeasurementChange}
-                targetType="settings"
-              />
-            </div>
-            <div className="flex gap-3 items-center justify-between">
-              <span className="text-lg">Date Format</span>
-              <LocaleDropdown
-                value={userSettings!.locale}
-                setUserSettings={handleLocaleChange}
-                targetType="settings"
-              />
-            </div>
-            <div className="flex gap-3 items-center justify-between">
-              <span className="text-lg">Clock Format</span>
-              <ClockStyleDropdown
-                value={userSettings!.clock_style}
-                setUserSettings={handleClockStyleChange}
-                targetType="settings"
-              />
-            </div>
-            <div className="flex gap-3 items-center justify-between">
-              <span className="flex flex-1 text-lg">
-                Time Input Behavior For HH:MM:SS
-              </span>
-              <TimeInputBehaviorDropdown
-                value={userSettings!.time_input_behavior_hhmmss}
-                setUserSettings={handleTimeInputBehaviorChange}
-                isHhmmss={true}
-              />
-            </div>
-            <div className="flex gap-3 items-center justify-between">
-              <span className="flex flex-1 text-lg">
-                Time Input Behavior For MM:SS
-              </span>
-              <TimeInputBehaviorDropdown
-                value={userSettings!.time_input_behavior_mmss}
-                setUserSettings={handleTimeInputBehaviorChange}
-                isHhmmss={false}
-              />
-            </div>
-            <div className="flex gap-3 items-center justify-between">
-              <span className="text-lg">Show Workout Rating</span>
-              <Switch
-                className="flex-row-reverse gap-3"
-                color="success"
-                size="lg"
-                isSelected={userSettings?.show_workout_rating ? true : false}
-                onValueChange={(value) =>
-                  handleSetShowWorkoutRatingChange(value)
-                }
-              />
-            </div>
-            <div className="flex justify-center">
-              <Button variant="flat" onPress={() => settingsModal.onOpen()}>
-                Restore Default Settings
-              </Button>
-            </div>
+        <div className="flex flex-col gap-3 w-full">
+          <div className="flex gap-3 items-center justify-between">
+            <span className="text-lg">Default Weight Unit</span>
+            <WeightUnitDropdown
+              value={userSettings!.default_unit_weight}
+              setUserSettings={handleDefaultUnitWeightChange}
+              targetType="settings"
+            />
           </div>
-        )}
+          <div className="flex gap-3 items-center justify-between">
+            <span className="text-lg">Default Distance Unit</span>
+            <DistanceUnitDropdown
+              value={userSettings!.default_unit_distance}
+              setUserSettings={handleDefaultUnitDistanceChange}
+              targetType="settings"
+            />
+          </div>
+          <div className="flex gap-3 items-center justify-between">
+            <span className="text-lg">Show Timestamp On Completed Sets</span>
+            <Switch
+              className="flex-row-reverse gap-3"
+              color="success"
+              size="lg"
+              isSelected={
+                userSettings?.show_timestamp_on_completed_set ? true : false
+              }
+              onValueChange={(value) => handleSetShowTimestampChange(value)}
+            />
+          </div>
+          <div className="flex gap-3 items-center justify-between">
+            <span className="text-lg">Default Time Input</span>
+            <Select
+              aria-label="Time Input Type Dropdown List"
+              className="w-32"
+              variant="faded"
+              selectedKeys={[userSettings!.default_time_input]}
+              onChange={(value) => handleDefaultTimeInputChange(value)}
+              disallowEmptySelection
+            >
+              <SelectItem key="hhmmss" value="hhmmss">
+                HH:MM:SS
+              </SelectItem>
+              <SelectItem key="mmss" value="mmss">
+                MM:SS
+              </SelectItem>
+              <SelectItem key="minutes" value="minutes">
+                Minutes
+              </SelectItem>
+              <SelectItem key="seconds" value="seconds">
+                Seconds
+              </SelectItem>
+            </Select>
+          </div>
+          <div className="flex gap-3 items-center justify-between">
+            <span className="text-lg">
+              Default Measurement Unit (Circumference)
+            </span>
+            <MeasurementUnitDropdown
+              value={userSettings!.default_unit_measurement}
+              setUserSettings={handleDefaultUnitMeasurementChange}
+              targetType="settings"
+            />
+          </div>
+          <div className="flex gap-3 items-center justify-between">
+            <span className="text-lg">Date Format</span>
+            <LocaleDropdown
+              value={userSettings!.locale}
+              setUserSettings={handleLocaleChange}
+              targetType="settings"
+            />
+          </div>
+          <div className="flex gap-3 items-center justify-between">
+            <span className="text-lg">Clock Format</span>
+            <ClockStyleDropdown
+              value={userSettings!.clock_style}
+              setUserSettings={handleClockStyleChange}
+              targetType="settings"
+            />
+          </div>
+          <div className="flex gap-3 items-center justify-between">
+            <span className="flex flex-1 text-lg">
+              Time Input Behavior For HH:MM:SS
+            </span>
+            <TimeInputBehaviorDropdown
+              value={userSettings!.time_input_behavior_hhmmss}
+              setUserSettings={handleTimeInputBehaviorChange}
+              isHhmmss={true}
+            />
+          </div>
+          <div className="flex gap-3 items-center justify-between">
+            <span className="flex flex-1 text-lg">
+              Time Input Behavior For MM:SS
+            </span>
+            <TimeInputBehaviorDropdown
+              value={userSettings!.time_input_behavior_mmss}
+              setUserSettings={handleTimeInputBehaviorChange}
+              isHhmmss={false}
+            />
+          </div>
+          <div className="flex gap-3 items-center justify-between">
+            <span className="text-lg">Show Workout Rating</span>
+            <Switch
+              className="flex-row-reverse gap-3"
+              color="success"
+              size="lg"
+              isSelected={userSettings?.show_workout_rating ? true : false}
+              onValueChange={(value) => handleSetShowWorkoutRatingChange(value)}
+            />
+          </div>
+          <div className="flex justify-center">
+            <Button variant="flat" onPress={() => settingsModal.onOpen()}>
+              Restore Default Settings
+            </Button>
+          </div>
+        </div>
       </div>
     </>
   );
