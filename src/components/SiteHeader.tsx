@@ -62,32 +62,55 @@ export const SiteHeader = () => {
             </Button>
           </DropdownTrigger>
           <DropdownMenu aria-label="Dropdown Menu With Navigation To More Pages">
-            <DropdownItem textValue="Exercise List" key="exercises">
+            <DropdownItem
+              className="nav-menu-dropdown-item"
+              textValue="Exercise List"
+              key="exercises"
+            >
               <NavLink className="hover:text-[#404040]" to="/exercises">
                 Exercise List
               </NavLink>
             </DropdownItem>
-            <DropdownItem textValue="Workout Templates" key="workout-templates">
+            <DropdownItem
+              className="nav-menu-dropdown-item"
+              textValue="Workout Templates"
+              key="workout-templates"
+            >
               <NavLink className="hover:text-[#404040]" to="/workout-templates">
                 Workout Templates
               </NavLink>
             </DropdownItem>
-            <DropdownItem textValue="Body Measurements" key="measurements">
+            <DropdownItem
+              className="nav-menu-dropdown-item"
+              textValue="Body Measurements"
+              key="measurements"
+            >
               <NavLink className="hover:text-[#404040]" to="/measurements">
                 Body Measurements
               </NavLink>
             </DropdownItem>
-            <DropdownItem textValue="Presets" key="presets">
+            <DropdownItem
+              className="nav-menu-dropdown-item"
+              textValue="Presets"
+              key="presets"
+            >
               <NavLink className="hover:text-[#404040]" to="/presets">
                 Presets
               </NavLink>
             </DropdownItem>
-            <DropdownItem textValue="Settings" key="settings">
+            <DropdownItem
+              className="nav-menu-dropdown-item"
+              textValue="Settings"
+              key="settings"
+            >
               <NavLink className="hover:text-[#404040]" to="/settings">
                 Settings
               </NavLink>
             </DropdownItem>
-            <DropdownItem textValue="TEST PAGE">
+            <DropdownItem
+              className="nav-menu-dropdown-item"
+              textValue="TEST PAGE"
+            >
               <NavLink
                 className="text-yellow-600 hover:text-yellow-600"
                 to="/test"
