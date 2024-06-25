@@ -22,7 +22,7 @@ type SettingsModalProps = {
   header?: string;
   extraContent?: ReactNode;
   doneButtonText?: string;
-  isDismissable?: boolean;
+  isDismissible?: boolean;
   isRestoreSettings?: boolean;
 };
 
@@ -32,7 +32,7 @@ export const SettingsModal = ({
   header = "Choose Settings",
   extraContent,
   doneButtonText = "Done",
-  isDismissable = false,
+  isDismissible = false,
   isRestoreSettings = false,
 }: SettingsModalProps) => {
   const [unitType, setUnitType] = useState<string>("metric");
@@ -42,8 +42,8 @@ export const SettingsModal = ({
     <Modal
       isOpen={settingsModal.isOpen}
       onOpenChange={settingsModal.onOpenChange}
-      isDismissable={isDismissable}
-      hideCloseButton={isDismissable ? false : true}
+      isDismissible={isDismissible}
+      hideCloseButton={isDismissible ? false : true}
     >
       <ModalContent>
         {(onClose) => (
@@ -91,7 +91,7 @@ export const SettingsModal = ({
               </div>
             </ModalBody>
             <ModalFooter>
-              {isDismissable && (
+              {isDismissible && (
                 <Button
                   color={isRestoreSettings ? "danger" : "success"}
                   variant="light"
