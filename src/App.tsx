@@ -19,9 +19,9 @@ import {
   ExerciseHistoryPage,
   MeasurementListPage,
   TestPage,
+  UserMeasurementListPage,
 } from "./pages";
 import { SiteHeader } from "./components";
-import UserMeasurementList from "./pages/UserMeasurementList";
 
 function App() {
   const navigate = useNavigate();
@@ -67,7 +67,7 @@ function App() {
                 />
                 <Route
                   path="user-measurement-list"
-                  element={<UserMeasurementList />}
+                  element={<UserMeasurementListPage />}
                 />
               </Route>
               <Route path="/presets" element={<PresetsPage />} />
