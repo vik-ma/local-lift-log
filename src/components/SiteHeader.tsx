@@ -67,22 +67,22 @@ export const SiteHeader = () => {
               base: "hover:text-[#404040]",
             }}
           >
-            <DropdownItem key="exercises">
+            <DropdownItem textValue="Exercise List" key="exercises">
               <NavLink to="/exercises">Exercise List</NavLink>
             </DropdownItem>
-            <DropdownItem key="workout-templates">
+            <DropdownItem textValue="Workout Templates" key="workout-templates">
               <NavLink to="/workout-templates">Workout Templates</NavLink>
             </DropdownItem>
-            <DropdownItem key="measurements">
+            <DropdownItem textValue="Body Measurements" key="measurements">
               <NavLink to="/measurements">Body Measurements</NavLink>
             </DropdownItem>
-            <DropdownItem key="presets">
+            <DropdownItem textValue="Presets" key="presets">
               <NavLink to="/presets">Presets</NavLink>
             </DropdownItem>
-            <DropdownItem key="settings">
+            <DropdownItem textValue="Settings" key="settings">
               <NavLink to="/settings">Settings</NavLink>
             </DropdownItem>
-            <DropdownItem>
+            <DropdownItem textValue="TEST PAGE">
               <NavLink className="text-yellow-600" to="/test">
                 TEST PAGE
               </NavLink>
