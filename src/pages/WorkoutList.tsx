@@ -210,17 +210,19 @@ export default function WorkoutList() {
           <LoadingSpinner />
         ) : (
           <>
-            <div className="flex justify-center">
-              <Button
-                className="w-36"
-                size="sm"
-                onPress={() => toggleWorkoutRating()}
-              >
-                {userSettings.show_workout_rating === 1
-                  ? "Hide Workout Rating"
-                  : "Show Workout Rating"}
-              </Button>
-            </div>
+            {workouts.length > 0 && (
+              <div className="flex justify-center">
+                <Button
+                  className="w-36"
+                  size="sm"
+                  onPress={() => toggleWorkoutRating()}
+                >
+                  {userSettings.show_workout_rating === 1
+                    ? "Hide Workout Rating"
+                    : "Show Workout Rating"}
+                </Button>
+              </div>
+            )}
             <div className="flex flex-col gap-1 w-full">
               {workouts.map((workout) => (
                 <div
