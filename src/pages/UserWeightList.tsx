@@ -227,7 +227,7 @@ export default function UserWeightList() {
                     <span className="text-xs text-yellow-600 text-left">
                       {userWeight.formattedDate}
                     </span>
-                    <span className="w-[21.5rem] break-all text-xs text-stone-500 text-left">
+                    <span className="w-[21.5rem] break-all text-xs text-stone-400 text-left">
                       {userWeight.comment}
                     </span>
                   </div>

@@ -106,7 +106,7 @@ export const SetModal = ({
                         <span className="text-md max-w-full truncate">
                           {exercise.name}
                         </span>
-                        <span className="text-xs text-stone-500 text-left">
+                        <span className="text-xs text-stone-400 text-left">
                           {exercise.formattedGroupString}
                         </span>
                       </button>

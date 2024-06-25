@@ -394,7 +394,7 @@ export default function MeasurementList() {
                           <span className="w-[15.5rem] truncate text-left">
                             {measurement.name}
                           </span>
-                          <span className="text-xs text-stone-500 text-left">
+                          <span className="text-xs text-stone-400 text-left">
                             {measurement.measurement_type}
                           </span>
                         </div>

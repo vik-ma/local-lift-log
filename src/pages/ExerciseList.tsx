@@ -256,7 +256,7 @@ export default function ExerciseList() {
                         {exercise.set_count} Sets Completed
                       </span>
                     )}
-                    <span className="text-xs text-stone-500  text-left">
+                    <span className="text-xs text-stone-400  text-left">
                       {exercise.formattedGroupString}
                     </span>
                   </button>

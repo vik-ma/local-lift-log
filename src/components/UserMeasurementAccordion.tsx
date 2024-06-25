@@ -50,7 +50,7 @@ export const UserMeasurementAccordion = ({
               <span className="text-xs text-yellow-600 text-left">
                 {measurement.formattedDate}
               </span>
-              <span className="w-[19rem] break-all text-xs text-stone-500 text-left">
+              <span className="w-[19rem] break-all text-xs text-stone-400 text-left">
                 {measurement.comment}
               </span>
             </div>

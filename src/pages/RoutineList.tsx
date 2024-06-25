@@ -274,7 +274,7 @@ export default function RoutineList() {
                             : `${numWorkoutTemplates} Workouts`}
                         </span>
                       )}
-                      <span className="text-xs text-stone-500 text-left">
+                      <span className="text-xs text-stone-400 text-left">
                         {routine.is_schedule_weekly === 0
                           ? `${routine.num_days_in_schedule} Day Schedule`
                           : "Weekly Schedule"}
