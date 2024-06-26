@@ -44,6 +44,14 @@ a.active {
   transition-duration: 150ms;
 }
 
+.nav-menu-trigger-button {
+  transition: none !important;
+}
+
+.nav-menu-trigger-button:hover svg {
+  fill: var(--primary-color);
+}
+
 body {
   margin: 0;
   display: flex;
