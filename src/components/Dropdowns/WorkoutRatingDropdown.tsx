@@ -3,6 +3,7 @@ import { WorkoutRatingProps, Workout } from "../../typings";
 import Database from "tauri-plugin-sql-api";
 import toast, { Toaster } from "react-hot-toast";
 import { useEffect, useMemo, useState } from "react";
+import { useWorkoutRatingMap } from "../../hooks";
 
 export const WorkoutRatingDropdown = ({
   rating,
@@ -21,6 +22,8 @@ export const WorkoutRatingDropdown = ({
   const validRatings: string[] = useMemo(() => {
     return ["0", "1", "2"];
   }, []);
+
+  const workoutRatingMap = useWorkoutRatingMap();
 
   useEffect(() => {
     const ratingStr = rating.toString();
@@ -86,11 +89,11 @@ export const WorkoutRatingDropdown = ({
         classNames={
           selectedKey === "1"
             ? {
-                value: "group-data-[has-value=true]:text-success",
+                value: `group-data-[has-value=true]:${workoutRatingMap[1].textStyle}`,
               }
             : selectedKey === "2"
             ? {
-                value: "group-data-[has-value=true]:text-danger",
+                value: `group-data-[has-value=true]:${workoutRatingMap[2].textStyle}`,
               }
             : { value: "" }
         }
@@ -99,15 +102,15 @@ export const WorkoutRatingDropdown = ({
         onSelectionChange={(keys) => handleChange(keys as Set<string>)}
         disallowEmptySelection
       >
-        <SelectItem key="0" value="0">
-          No Rating
-        </SelectItem>
-        <SelectItem className="text-success" key="1" value="1">
-          Good
-        </SelectItem>
-        <SelectItem className="text-danger" key="2" value="2">
-          Bad
-        </SelectItem>
+        {Object.entries(workoutRatingMap).map(([key, value]) => (
+          <SelectItem
+            className={value.textStyle}
+            key={key.toString()}
+            value={key.toString()}
+          >
+            {value.text}
+          </SelectItem>
+        ))}
       </Select>
     </>
   );
