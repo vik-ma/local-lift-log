@@ -86,17 +86,9 @@ export const WorkoutRatingDropdown = ({
       <Select
         aria-label="Workout Rating"
         className="w-[7.5rem]"
-        classNames={
-          selectedKey === "1"
-            ? {
-                value: `group-data-[has-value=true]:${workoutRatingMap[1].textStyle}`,
-              }
-            : selectedKey === "2"
-            ? {
-                value: `group-data-[has-value=true]:${workoutRatingMap[2].textStyle}`,
-              }
-            : { value: "" }
-        }
+        classNames={{
+          value: workoutRatingMap[Number(selectedKey)].dropdownStyle,
+        }}
         variant="faded"
         selectedKeys={selectedKeys}
         onSelectionChange={(keys) => handleChange(keys as Set<string>)}
