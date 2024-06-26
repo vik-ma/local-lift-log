@@ -19,24 +19,20 @@ export const WorkoutRatingDropdown = ({
     return Array.from(selectedKeys)[0];
   }, [selectedKeys]);
 
-  const validRatings: string[] = useMemo(() => {
-    return ["0", "1", "2"];
-  }, []);
-
-  const workoutRatingMap = useWorkoutRatingMap();
+  const { workoutRatingMap, validDropdownRatingKeys } = useWorkoutRatingMap();
 
   useEffect(() => {
     const ratingStr = rating.toString();
 
-    if (!validRatings.includes(ratingStr)) return;
+    if (!validDropdownRatingKeys.includes(ratingStr)) return;
 
     setSelectedKeys(new Set([ratingStr]));
-  }, [rating, validRatings]);
+  }, [rating, validDropdownRatingKeys]);
 
   const handleChange = async (keys: Set<string>) => {
     const stringValue: string = Array.from(keys)[0];
 
-    if (!validRatings.includes(stringValue)) return;
+    if (!validDropdownRatingKeys.includes(stringValue)) return;
 
     const numberValue: number = Number(stringValue);
 

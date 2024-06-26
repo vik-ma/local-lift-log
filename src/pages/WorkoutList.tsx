@@ -40,7 +40,7 @@ export default function WorkoutList() {
   const deleteModal = useDisclosure();
   const workoutModal = useDisclosure();
 
-  const workoutRatingMap = useWorkoutRatingMap();
+  const { workoutRatingMap } = useWorkoutRatingMap();
 
   useEffect(() => {
     const getWorkouts = async () => {
