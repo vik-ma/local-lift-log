@@ -57,6 +57,7 @@ export const SiteHeader = () => {
               endContent={<ChevronIcon color="#404040" size={18} />}
               radius="sm"
               variant="light"
+              size="sm"
             >
               More
             </Button>
