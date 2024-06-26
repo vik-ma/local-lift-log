@@ -67,6 +67,7 @@ export const SiteHeader = () => {
               className="nav-menu-dropdown-item"
               textValue="Exercise List"
               key="exercises"
+              onPress={() => navigate("/exercises")}
             >
               <NavLink className="nav-menu-dropdown-item-link" to="/exercises">
                 Exercise List
@@ -76,6 +77,7 @@ export const SiteHeader = () => {
               className="nav-menu-dropdown-item"
               textValue="Workout Templates"
               key="workout-templates"
+              onPress={() => navigate("/workout-templates")}
             >
               <NavLink
                 className="nav-menu-dropdown-item-link"
@@ -88,6 +90,7 @@ export const SiteHeader = () => {
               className="nav-menu-dropdown-item"
               textValue="Body Measurements"
               key="measurements"
+              onPress={() => navigate("/measurements")}
             >
               <NavLink
                 className="nav-menu-dropdown-item-link"
@@ -100,6 +103,7 @@ export const SiteHeader = () => {
               className="nav-menu-dropdown-item"
               textValue="Presets"
               key="presets"
+              onPress={() => navigate("/presets")}
             >
               <NavLink className="nav-menu-dropdown-item-link" to="/presets">
                 Presets
@@ -109,6 +113,7 @@ export const SiteHeader = () => {
               className="nav-menu-dropdown-item"
               textValue="Settings"
               key="settings"
+              onPress={() => navigate("/settings")}
             >
               <NavLink className="nav-menu-dropdown-item-link" to="/settings">
                 Settings
@@ -117,6 +122,7 @@ export const SiteHeader = () => {
             <DropdownItem
               className="nav-menu-dropdown-item"
               textValue="TEST PAGE"
+              onPress={() => navigate("/test")}
             >
               <NavLink
                 className="text-yellow-600 hover:text-yellow-600"
