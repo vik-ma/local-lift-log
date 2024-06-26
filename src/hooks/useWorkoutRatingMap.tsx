@@ -36,8 +36,8 @@ export const useWorkoutRatingMap = () => {
   }, []);
 
   const validDropdownRatingKeys: string[] = useMemo(() => {
-    return ["0", "1", "2"];
-  }, []);
+    return Object.keys(workoutRatingMap);
+  }, [workoutRatingMap]);
 
   return { workoutRatingMap, validDropdownRatingKeys };
 };

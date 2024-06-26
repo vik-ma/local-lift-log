@@ -27,8 +27,8 @@ export const useMeasurementTypeMap = () => {
   }, []);
 
   const validDropdownTypeKeys: string[] = useMemo(() => {
-    return ["0", "1", "2", "3"];
-  }, []);
+    return Object.keys(measurementTypeMap);
+  }, [measurementTypeMap]);
 
   return { measurementTypeMap, validDropdownTypeKeys };
 };
