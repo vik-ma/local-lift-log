@@ -26,3 +26,4 @@ export { useDefaultMeasurement } from "./useDefaultMeasurement";
 export { useHandleMeasurementTypeChange } from "./useHandleMeasurementTypeChange";
 export { useReassignMeasurement } from "./useReassignMeasurement";
 export { useGetAllUserMeasurements } from "./useGetAllUserMeasurements";
+export { useWorkoutRatingMap } from "./useWorkoutRatingMap";
