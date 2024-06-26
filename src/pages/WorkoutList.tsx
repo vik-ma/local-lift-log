@@ -1,12 +1,7 @@
 import { useState, useEffect } from "react";
 import { UserSettingsOptional, Workout } from "../typings";
 import { useNavigate } from "react-router-dom";
-import {
-  LoadingSpinner,
-  DeleteModal,
-  WorkoutModal,
-  WorkoutRatingSpan,
-} from "../components";
+import { LoadingSpinner, DeleteModal, WorkoutModal } from "../components";
 import Database from "tauri-plugin-sql-api";
 import {
   Button,
@@ -24,7 +19,7 @@ import {
   UpdateWorkout,
 } from "../helpers";
 import { VerticalMenuIcon } from "../assets";
-import { useDefaultWorkout } from "../hooks";
+import { useDefaultWorkout, useWorkoutRatingMap } from "../hooks";
 
 type OperationType = "edit" | "delete";
 
@@ -44,6 +39,8 @@ export default function WorkoutList() {
 
   const deleteModal = useDisclosure();
   const workoutModal = useDisclosure();
+
+  const workoutRatingMap = useWorkoutRatingMap();
 
   useEffect(() => {
     const getWorkouts = async () => {
@@ -259,7 +256,7 @@ export default function WorkoutList() {
                       <div className="flex flex-col w-[4.5rem] text-center text-sm text-stone-500">
                         <span>Rating</span>
                         <span className="font-semibold">
-                          <WorkoutRatingSpan rating={workout.rating} />
+                          {workoutRatingMap[workout.rating].span}
                         </span>
                       </div>
                     )}

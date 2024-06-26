@@ -6,7 +6,6 @@ export { WorkoutExerciseList } from "./WorkoutExerciseList";
 export { ActiveSet } from "./ActiveSet";
 export { UserMeasurementAccordion } from "./UserMeasurementAccordion";
 export { UserMeasurementReorderItem } from "./UserMeasurementReorderItem";
-export { WorkoutRatingSpan } from "./WorkoutRatingSpan";
 export { DetailsHeader } from "./DetailsHeader";
 
 export { WeightUnitDropdown } from "./Dropdowns/WeightUnitDropdown";
