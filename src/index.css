@@ -31,8 +31,11 @@ a:hover {
 a.active {
   color: var(--primary-color);
 }
+.nav-menu-dropdown-item-link:hover {
+  color: #404040;
+}
 
-.nav-menu-dropdown-item:hover a.active {
+.nav-menu-dropdown-item:hover .nav-menu-dropdown-item-link {
   color: var(--foreground-color);
   /* Properties of Tailwind's 'transition-colors' class, which NextUI DropdownItem uses */
   transition-property: color, background-color, border-color,

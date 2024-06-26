@@ -67,7 +67,7 @@ export const SiteHeader = () => {
               textValue="Exercise List"
               key="exercises"
             >
-              <NavLink className="hover:text-[#404040]" to="/exercises">
+              <NavLink className="nav-menu-dropdown-item-link" to="/exercises">
                 Exercise List
               </NavLink>
             </DropdownItem>
@@ -76,7 +76,10 @@ export const SiteHeader = () => {
               textValue="Workout Templates"
               key="workout-templates"
             >
-              <NavLink className="hover:text-[#404040]" to="/workout-templates">
+              <NavLink
+                className="nav-menu-dropdown-item-link"
+                to="/workout-templates"
+              >
                 Workout Templates
               </NavLink>
             </DropdownItem>
@@ -85,7 +88,10 @@ export const SiteHeader = () => {
               textValue="Body Measurements"
               key="measurements"
             >
-              <NavLink className="hover:text-[#404040]" to="/measurements">
+              <NavLink
+                className="nav-menu-dropdown-item-link"
+                to="/measurements"
+              >
                 Body Measurements
               </NavLink>
             </DropdownItem>
@@ -94,7 +100,7 @@ export const SiteHeader = () => {
               textValue="Presets"
               key="presets"
             >
-              <NavLink className="hover:text-[#404040]" to="/presets">
+              <NavLink className="nav-menu-dropdown-item-link" to="/presets">
                 Presets
               </NavLink>
             </DropdownItem>
@@ -103,7 +109,7 @@ export const SiteHeader = () => {
               textValue="Settings"
               key="settings"
             >
-              <NavLink className="hover:text-[#404040]" to="/settings">
+              <NavLink className="nav-menu-dropdown-item-link" to="/settings">
                 Settings
               </NavLink>
             </DropdownItem>
