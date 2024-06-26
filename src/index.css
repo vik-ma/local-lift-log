@@ -14,10 +14,11 @@
 
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
-  --primary-color: #ffb34f;
-  --foreground-color: #404040;
-  --success-color: #84cc16;
-  --danger-color: #ef5844;
+  --primary-color: theme("colors.primary");
+  --foreground-color: theme("colors.neutral.700");
+  --success-color: theme("colors.success");
+  --danger-color: theme("colors.danger");
+  --foreground-hover-color: theme("colors.stone.400");
 }
 
 a {
@@ -26,13 +27,13 @@ a {
   text-decoration: inherit;
 }
 a:hover {
-  color: var(--primary-color);
+  color: var(--foreground-hover-color);
 }
 a.active {
   color: var(--primary-color);
 }
 .nav-menu-dropdown-item-link:hover {
-  color: #404040;
+  color: var(--foreground-color);
 }
 
 .nav-menu-dropdown-item:hover .nav-menu-dropdown-item-link {
@@ -49,7 +50,7 @@ a.active {
 }
 
 .nav-menu-trigger-button:hover svg {
-  fill: var(--primary-color);
+  fill: var(--foreground-hover-color);
 }
 
 body {
