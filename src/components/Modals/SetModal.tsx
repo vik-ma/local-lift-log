@@ -13,7 +13,7 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { WeightUnitDropdown, DistanceUnitDropdown, TimeInput } from "../";
-import { SearchIcon } from "../../assets";
+import { SearchIcon, CommentIcon } from "../../assets";
 import {
   Exercise,
   SetTrackingValuesInput,
@@ -69,6 +69,7 @@ export const SetModal = ({
 }: SetModalProps) => {
   const [showDefaultValues, setShowDefaultValues] = useState<boolean>(false);
   const [numNewSets, setNumNewSets] = useState<string>("1");
+  const [showNoteInput, setShowNoteInput] = useState<boolean>(false);
 
   const numSetsOptions = useNumSetsOptions();
 
@@ -117,9 +118,20 @@ export const SetModal = ({
                 <div className="flex flex-col gap-2 h-[400px]">
                   <div className="flex flex-row items-center justify-between">
                     <h2 className="flex text-2xl font-semibold justify-between w-full items-end">
-                      <span className="text-yellow-600 truncate max-w-[21rem]">
-                        {selectedExercise.name}
-                      </span>{" "}
+                      <div className="flex gap-1 max-w-[21rem]">
+                        <span className="text-yellow-600 truncate">
+                          {selectedExercise.name}
+                        </span>
+                        <Button
+                          aria-label="Toggle Set Note Input"
+                          isIconOnly
+                          variant="light"
+                          size="sm"
+                          onPress={() => setShowNoteInput((prev) => !prev)}
+                        >
+                          <CommentIcon size={21} />
+                        </Button>
+                      </div>
                       {operationType === "edit" && (
                         <span className="text-lg text-stone-500">
                           Set {operatingSet.set_index! + 1}
@@ -128,19 +140,21 @@ export const SetModal = ({
                     </h2>
                   </div>
                   <ScrollShadow className="flex flex-col gap-2 h-full">
-                    <Input
-                      value={operatingSet.note ?? ""}
-                      label="Note"
-                      variant="faded"
-                      size="sm"
-                      onValueChange={(value) =>
-                        setOperatingSet((prev) => ({
-                          ...prev,
-                          note: value,
-                        }))
-                      }
-                      isClearable
-                    />
+                    {showNoteInput && (
+                      <Input
+                        value={operatingSet.note ?? ""}
+                        label="Note"
+                        variant="faded"
+                        size="sm"
+                        onValueChange={(value) =>
+                          setOperatingSet((prev) => ({
+                            ...prev,
+                            note: value,
+                          }))
+                        }
+                        isClearable
+                      />
+                    )}
                     <h3 className="text-xl font-semibold px-0.5">Track</h3>
                     <div className="grid grid-cols-2 gap-1.5 px-1">
                       <Checkbox
