@@ -241,6 +241,20 @@ export const SetModal = ({
                       </Checkbox>
                       <Checkbox
                         color="success"
+                        isSelected={
+                          operatingSet.is_tracking_partial_reps ? true : false
+                        }
+                        onValueChange={(value) =>
+                          setOperatingSet((prev) => ({
+                            ...prev,
+                            is_tracking_partial_reps: value ? 1 : 0,
+                          }))
+                        }
+                      >
+                        Partial Reps
+                      </Checkbox>
+                      <Checkbox
+                        color="success"
                         isSelected={operatingSet.is_warmup ? true : false}
                         onValueChange={(value) =>
                           setOperatingSet((prev) => ({
@@ -423,6 +437,27 @@ export const SetModal = ({
                               }))
                             }
                             isInvalid={setInputsValidityMap.resistance_level}
+                            isClearable
+                          />
+                        )}
+                        {!!operatingSet.is_tracking_partial_reps && (
+                          <Input
+                            className="w-auto"
+                            classNames={{
+                              label: "whitespace-nowrap",
+                              input: "w-16",
+                            }}
+                            value={setTrackingValuesInput.partial_reps}
+                            label="Partial Reps"
+                            variant="faded"
+                            labelPlacement="outside-left"
+                            onValueChange={(value) =>
+                              setSetTrackingValuesInput((prev) => ({
+                                ...prev,
+                                partial_reps: value,
+                              }))
+                            }
+                            isInvalid={setInputsValidityMap.partial_reps}
                             isClearable
                           />
                         )}
