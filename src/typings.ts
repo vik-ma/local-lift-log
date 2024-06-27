@@ -101,6 +101,7 @@ export type WorkoutSet = {
   time_in_seconds: number;
   distance: number;
   resistance_level: number;
+  partial_reps: number;
   is_tracking_weight: number;
   is_tracking_reps: number;
   is_tracking_rir: number;
@@ -108,6 +109,7 @@ export type WorkoutSet = {
   is_tracking_time: number;
   is_tracking_distance: number;
   is_tracking_resistance_level: number;
+  is_tracking_partial_reps: number;
   weight_unit: string;
   distance_unit: string;
   multiset_id: number;
