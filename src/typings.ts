@@ -180,6 +180,7 @@ export type SetTrackingValuesInput = {
   rpe: string;
   distance: string;
   resistance_level: string;
+  partial_reps: string;
 };
 
 export type SetTrackingValuesNumbers = {
@@ -189,6 +190,7 @@ export type SetTrackingValuesNumbers = {
   rpe: number;
   distance: number;
   resistance_level: number;
+  partial_reps: number;
 };
 
 export type SetTrackingValuesValidity = {
@@ -198,6 +200,7 @@ export type SetTrackingValuesValidity = {
   rpe: boolean;
   distance: boolean;
   resistance_level: boolean;
+  partial_reps: boolean;
 };
 
 export type Workout = {

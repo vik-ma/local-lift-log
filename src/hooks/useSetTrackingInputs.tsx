@@ -42,6 +42,7 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
       resistance_level: IsStringInvalidNumber(
         setTrackingValuesInput.resistance_level
       ),
+      partial_reps: IsStringInvalidInteger(setTrackingValuesInput.partial_reps),
     };
     return values;
   }, [setTrackingValuesInput]);
@@ -69,6 +70,10 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
         set.is_tracking_resistance_level && set.resistance_level !== 0
           ? set.resistance_level.toString()
           : "",
+      partial_reps:
+        set.is_tracking_partial_reps && set.partial_reps !== 0
+          ? set.partial_reps.toString()
+          : "",
     };
     setSetTrackingValuesInput(newSetTrackingValuesInput);
   }, []);
@@ -82,4 +87,3 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
     setTrackingValuesInputStrings,
   };
 };
-
