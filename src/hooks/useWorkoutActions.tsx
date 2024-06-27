@@ -146,6 +146,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
           rir: setTrackingValuesNumber.rir,
           rpe: setTrackingValuesNumber.rpe,
           resistance_level: setTrackingValuesNumber.resistance_level,
+          partial_reps: setTrackingValuesNumber.partial_reps,
         };
 
         if (isTemplate && workoutTemplate !== undefined) {
@@ -309,6 +310,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       rir: setTrackingValuesNumber.rir,
       rpe: setTrackingValuesNumber.rpe,
       resistance_level: setTrackingValuesNumber.resistance_level,
+      partial_reps: setTrackingValuesNumber.partial_reps,
     };
 
     const success = await UpdateSet(updatedSet);
@@ -904,6 +906,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       rir: setTrackingValuesNumbers.rir,
       rpe: setTrackingValuesNumbers.rpe,
       resistance_level: setTrackingValuesNumbers.resistance_level,
+      partial_reps: setTrackingValuesNumbers.partial_reps,
       is_completed: 1,
       time_completed: currentDateString,
       comment: commentToInsert,
@@ -1016,6 +1019,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
           activeSet.is_tracking_resistance_level
             ? activeSet.resistance_level.toString()
             : "",
+        partial_reps:
+          activeSet.partial_reps > 0 && activeSet.is_tracking_partial_reps
+            ? activeSet.partial_reps.toString()
+            : "",
       };
 
       if (
@@ -1065,6 +1072,13 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         ) {
           activeSetInputValues.resistance_level =
             lastSet.resistance_level.toString();
+        }
+        if (
+          activeSet.is_tracking_partial_reps === 1 &&
+          activeSet.partial_reps === 0 &&
+          lastSet.partial_reps > 0
+        ) {
+          activeSetInputValues.partial_reps = lastSet.partial_reps.toString();
         }
       }
 

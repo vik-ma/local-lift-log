@@ -28,6 +28,9 @@ export const ConvertSetInputValuesToNumbers = (
       : ConvertNumberToTwoDecimals(
           Number(setTrackingValuesInput.resistance_level)
         ),
+    partial_reps: IsStringEmpty(setTrackingValuesInput.partial_reps)
+      ? 0
+      : Number(setTrackingValuesInput.partial_reps),
   };
   return setTrackingValuesNumber;
 };
