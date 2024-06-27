@@ -106,6 +106,18 @@ export const SetList = ({
                     </span>
                   </div>
                 )}
+              {set.is_tracking_partial_reps === 1 &&
+                (set.partial_reps > 0 || set.is_completed === 1) && (
+                  <div className="flex gap-1">
+                    <span className="truncate max-w-10">
+                      {set.partial_reps}
+                    </span>
+                    <span>
+                      Partial Rep
+                      {set.partial_reps !== 1 && "s"}
+                    </span>
+                  </div>
+                )}
             </div>
             <div
               className={
