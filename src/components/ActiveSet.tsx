@@ -441,6 +441,34 @@ export const ActiveSet = ({
                             isClearable
                           />
                         )}
+                        {!!activeSet.is_tracking_partial_reps && (
+                          <Input
+                            className="w-auto"
+                            classNames={{
+                              label: "whitespace-nowrap",
+                              input: "w-16",
+                            }}
+                            value={
+                              activeSetInputs.setTrackingValuesInput
+                                .partial_reps
+                            }
+                            label="Partial Reps"
+                            variant="faded"
+                            labelPlacement="outside-left"
+                            onValueChange={(value) =>
+                              activeSetInputs.setSetTrackingValuesInput(
+                                (prev: SetTrackingValuesInput) => ({
+                                  ...prev,
+                                  partial_reps: value,
+                                })
+                              )
+                            }
+                            isInvalid={
+                              activeSetInputs.setInputsValidityMap.partial_reps
+                            }
+                            isClearable
+                          />
+                        )}
                       </div>
                       <div className="flex justify-between pt-3">
                         <div className="flex gap-1">
