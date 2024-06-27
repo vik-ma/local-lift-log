@@ -298,7 +298,7 @@ export const SetModal = ({
                         </Select>
                       </div>
                     )}
-                    <div className="flex gap-2.5 items-center px-0.5">
+                    <div className="flex gap-4 items-center px-0.5">
                       <h3 className="text-xl font-semibold">Default Values</h3>
                       <div className="flex flex-grow justify-between">
                         <Button
@@ -312,7 +312,7 @@ export const SetModal = ({
                         </Button>
                         {showDefaultValues && (
                           <Button
-                            variant="light"
+                            variant="flat"
                             size="sm"
                             color="danger"
                             onPress={() => clearSetInputValues(true)}
