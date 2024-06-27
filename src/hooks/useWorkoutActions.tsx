@@ -925,7 +925,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     );
 
     const completedSetsValue = completedSetsMap.get(activeSet.exercise_id) ?? 0;
-    completedSetsMap.set(activeSet.exercise_id, completedSetsValue + 1);
+
+    if (activeSet.is_completed === 0) {
+      completedSetsMap.set(activeSet.exercise_id, completedSetsValue + 1);
+    }
 
     setGroupedSets((prev) => {
       const newList = [...prev];
