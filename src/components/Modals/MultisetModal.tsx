@@ -13,15 +13,12 @@ import { Multiset, Exercise } from "../../typings";
 import { useExerciseList } from "../../hooks";
 import { MultisetDropdown } from "../Dropdowns/MultisetDropdown";
 import { SearchIcon } from "../../assets";
+import { useState } from "react";
 
 type MultisetModalProps = {
   multisetModal: ReturnType<typeof useDisclosure>;
   multiset: Multiset;
   setMultiset: React.Dispatch<React.SetStateAction<Multiset>>;
-  selectedExercise: Exercise | undefined;
-  setSelectedExercise: React.Dispatch<
-    React.SetStateAction<Exercise | undefined>
-  >;
   operationType: string;
 };
 
@@ -29,10 +26,10 @@ export const MultisetModal = ({
   multisetModal,
   multiset,
   setMultiset,
-  selectedExercise,
-  setSelectedExercise,
   operationType,
 }: MultisetModalProps) => {
+  const [selectedExercise, setSelectedExercise] = useState<Exercise>();
+
   const { filterQuery, setFilterQuery, filteredExercises } = useExerciseList();
 
   return (
