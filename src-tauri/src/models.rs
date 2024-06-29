@@ -159,3 +159,12 @@ pub struct UserMeasurement {
     pub comment: Option<String>,
     pub measurement_values: String,
 }
+
+#[derive(Queryable, Selectable)]
+#[diesel(table_name = crate::schema::multisets)]
+#[diesel(check_for_backend(diesel::sqlite::Sqlite))]
+pub struct Multiset {
+    pub id: i32,
+    pub multiset_type: i16,
+    pub exercise_order: String,
+}

@@ -147,3 +147,11 @@ diesel::table! {
         measurement_values -> Text,
     }
 }
+
+diesel::table! {
+    multisets (id) {
+        id -> Integer,
+        multiset_type -> SmallInt,
+        exercise_order -> Text,
+    }
+}
