@@ -27,4 +27,4 @@ export { useHandleMeasurementTypeChange } from "./useHandleMeasurementTypeChange
 export { useReassignMeasurement } from "./useReassignMeasurement";
 export { useGetAllUserMeasurements } from "./useGetAllUserMeasurements";
 export { useWorkoutRatingMap } from "./useWorkoutRatingMap";
-export { useMeasurementTypeMap } from "./useMeasurementTypeMap";
+export { useMultisetTypeMap } from "./useMultisetTypeMap";

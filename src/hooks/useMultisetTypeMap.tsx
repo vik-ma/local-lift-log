@@ -1,14 +1,14 @@
 import { useMemo } from "react";
 
-type MeasurementTypeMap = {
+type MultisetTypeMap = {
   [key: number]: {
     text: string;
   };
 };
 
-export const useMeasurementTypeMap = () => {
-  const measurementTypeMap = useMemo(() => {
-    const measurementTypeMap: MeasurementTypeMap = {
+export const useMultisetTypeMap = () => {
+  const multisetTypeMap = useMemo(() => {
+    const multisetTypeMap: MultisetTypeMap = {
       0: {
         text: "Superset",
       },
@@ -23,12 +23,12 @@ export const useMeasurementTypeMap = () => {
       },
     };
 
-    return measurementTypeMap;
+    return multisetTypeMap;
   }, []);
 
   const validDropdownTypeKeys: string[] = useMemo(() => {
-    return Object.keys(measurementTypeMap);
-  }, [measurementTypeMap]);
+    return Object.keys(multisetTypeMap);
+  }, [multisetTypeMap]);
 
-  return { measurementTypeMap, validDropdownTypeKeys };
+  return { multisetTypeMap, validDropdownTypeKeys };
 };
