@@ -1,28 +1,20 @@
 import { useState } from "react";
-import { TimeInputModal } from "../components";
-import { Button, useDisclosure } from "@nextui-org/react";
-import { GetCurrentDateTimeISOString } from "../helpers";
+import { MultisetDropdown } from "../components";
+import { Multiset } from "../typings";
 
 export default function Test() {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
-  const dateString = GetCurrentDateTimeISOString();
 
-  const timeInputModal = useDisclosure();
-
-  const updateTime = (date: string) => {
-    console.log(date);
+  const defaultMultiset: Multiset = {
+    id: 0,
+    multiset_type: 0,
+    exercise_order: "",
   };
+
+  const [multiset, setMultiset] = useState<Multiset>(defaultMultiset);
 
   return (
     <>
-      <TimeInputModal
-        timeInputModal={timeInputModal}
-        header="Test"
-        clockStyle="12h"
-        locale="sv-SE"
-        value={dateString}
-        saveButtonAction={updateTime}
-      />
       <div className="flex flex-col gap-2">
         <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">
           <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">
@@ -30,7 +22,10 @@ export default function Test() {
           </h1>
         </div>
         <div className="flex flex-col bg-white border border-black overflow-auto mb-20">
-          <Button onPress={() => timeInputModal.onOpen()}>Open</Button>
+          <MultisetDropdown
+            multiset_type={multiset.multiset_type}
+            setMultiset={setMultiset}
+          />
           Test
           <br />
           Test
