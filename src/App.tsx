@@ -20,6 +20,7 @@ import {
   MeasurementListPage,
   TestPage,
   UserMeasurementListPage,
+  MultisetsPage,
 } from "./pages";
 import { SiteHeader } from "./components";
 
@@ -45,6 +46,7 @@ function App() {
                   <Route path="history" element={<ExerciseHistoryPage />} />
                 </Route>
               </Route>
+              <Route path="/multisets" element={<MultisetsPage />} />
               <Route path="/workout-templates">
                 <Route index element={<WorkoutTemplateListPage />} />
                 <Route path=":id" element={<WorkoutTemplateDetailsPage />} />

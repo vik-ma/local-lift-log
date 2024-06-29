@@ -75,6 +75,16 @@ export const SiteHeader = () => {
             </DropdownItem>
             <DropdownItem
               className="nav-menu-dropdown-item"
+              textValue="Multisets"
+              key="multisets"
+              onPress={() => navigate("/multisets")}
+            >
+              <NavLink className="nav-menu-dropdown-item-link" to="/multisets">
+                Multisets
+              </NavLink>
+            </DropdownItem>
+            <DropdownItem
+              className="nav-menu-dropdown-item"
               textValue="Workout Templates"
               key="workout-templates"
               onPress={() => navigate("/workout-templates")}

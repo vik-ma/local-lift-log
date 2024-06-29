@@ -17,3 +17,4 @@ export { default as UserWeightListPage } from "./UserWeightList";
 export { default as PresetsPage } from "./Presets";
 export { default as UserMeasurementListPage } from "./UserMeasurementList";
 export { default as TestPage } from "./TestPage";
+export { default as MultisetsPage } from "./Multisets";
