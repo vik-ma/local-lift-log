@@ -1,15 +1,12 @@
 import { useState } from "react";
 import { MultisetDropdown } from "../components";
 import { Multiset } from "../typings";
+import { useDefaultMultiset } from "../hooks";
 
 export default function Test() {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
 
-  const defaultMultiset: Multiset = {
-    id: 0,
-    multiset_type: 0,
-    exercise_order: "",
-  };
+  const defaultMultiset = useDefaultMultiset();
 
   const [multiset, setMultiset] = useState<Multiset>(defaultMultiset);
 

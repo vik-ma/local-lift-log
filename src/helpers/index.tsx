@@ -49,6 +49,7 @@ export { ReassignExerciseIdForSets } from "./Sets/ReassignExerciseIdForSets";
 export { InsertSetIntoDatabase } from "./Sets/InsertSetIntoDatabase";
 export { UpdateSet } from "./Sets/UpdateSet";
 export { DeleteSetWithId } from "./Sets/DeleteSetWithId";
+export { DefaultNewMultiset } from "./Sets/DefaultNewMultiset";
 
 export { IsNumberNegativeOrInfinity } from "./Numbers/IsNumberNegativeOrInfinity";
 export { IsStringInvalidNumberOrAbove59 } from "./Numbers/IsStringInvalidNumberOrAbove59";
