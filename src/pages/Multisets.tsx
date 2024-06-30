@@ -8,6 +8,8 @@ type OperationType = "add" | "edit" | "delete";
 
 export default function Multisets() {
   const [operationType, setOperationType] = useState<OperationType>("add");
+  const [isSelectingExercise, setIsSelectingExercise] =
+    useState<boolean>(false);
 
   const defaultMultiset = useDefaultMultiset();
 
@@ -27,11 +29,7 @@ export default function Multisets() {
   };
 
   const handleClickExercise = (exercise: Exercise) => {
-    if (
-      operatingMultiset.exerciseIdSet === undefined ||
-      operatingMultiset.exerciseIdSet.has(exercise.id)
-    )
-      return;
+    if (operatingMultiset.exerciseIdSet.has(exercise.id)) return;
 
     const newExerciseIdSet = operatingMultiset.exerciseIdSet.add(exercise.id);
 
@@ -41,6 +39,7 @@ export default function Multisets() {
     };
 
     setOperatingMultiset(updatedMultiSet);
+    setIsSelectingExercise(false);
   };
 
   return (
@@ -51,6 +50,8 @@ export default function Multisets() {
         setMultiset={setOperatingMultiset}
         operationType={operationType}
         handleClickExercise={handleClickExercise}
+        isSelectingExercise={isSelectingExercise}
+        setIsSelectingExercise={setIsSelectingExercise}
       />
       <div className="flex flex-col items-center gap-2">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">

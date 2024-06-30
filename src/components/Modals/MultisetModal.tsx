@@ -9,7 +9,6 @@ import {
 } from "@nextui-org/react";
 import { Multiset, Exercise } from "../../typings";
 import { MultisetDropdown } from "../Dropdowns/MultisetDropdown";
-import { useState } from "react";
 import { ExerciseModalList } from "../";
 
 type MultisetModalProps = {
@@ -18,6 +17,8 @@ type MultisetModalProps = {
   setMultiset: React.Dispatch<React.SetStateAction<Multiset>>;
   operationType: string;
   handleClickExercise: (exercise: Exercise) => void;
+  isSelectingExercise: boolean;
+  setIsSelectingExercise: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const MultisetModal = ({
@@ -26,9 +27,9 @@ export const MultisetModal = ({
   setMultiset,
   operationType,
   handleClickExercise,
+  isSelectingExercise,
+  setIsSelectingExercise,
 }: MultisetModalProps) => {
-  const [selectedExercise, setSelectedExercise] = useState<Exercise>();
-
   return (
     <Modal
       isOpen={multisetModal.isOpen}
@@ -38,14 +39,14 @@ export const MultisetModal = ({
         {(onClose) => (
           <>
             <ModalHeader>
-              {selectedExercise === undefined
+              {isSelectingExercise
                 ? "Select Exercise"
                 : operationType === "add"
                 ? "Create Multiset"
                 : "Edit Multiset"}
             </ModalHeader>
             <ModalBody>
-              {selectedExercise === undefined ? (
+              {isSelectingExercise ? (
                 <ExerciseModalList handleClickExercise={handleClickExercise} />
               ) : (
                 <div className="flex flex-col gap-2 h-[400px]">
@@ -58,15 +59,12 @@ export const MultisetModal = ({
             </ModalBody>
             <ModalFooter className="flex justify-between">
               <div>
-                {operationType === "add" && selectedExercise !== undefined && (
-                  <Button
-                    variant="flat"
-                    color="danger"
-                    onPress={() => setSelectedExercise(undefined)}
-                  >
-                    Change Exercise
-                  </Button>
-                )}
+                <Button
+                  variant="flat"
+                  onPress={() => setIsSelectingExercise(!isSelectingExercise)}
+                >
+                  {isSelectingExercise ? "Cancel" : "Add Exercise"}
+                </Button>
               </div>
               <div className="flex gap-2">
                 <Button color="success" variant="light" onPress={onClose}>
@@ -74,7 +72,7 @@ export const MultisetModal = ({
                 </Button>
                 <Button
                   color="success"
-                  isDisabled={selectedExercise === undefined}
+                  isDisabled={multiset.exerciseIdSet.size === 0}
                   onPress={() => {}}
                 >
                   {operationType === "edit" ? "Save" : "Create"}
