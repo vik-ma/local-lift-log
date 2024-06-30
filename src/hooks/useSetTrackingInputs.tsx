@@ -9,18 +9,8 @@ import {
   SetTrackingValuesInput,
   SetTrackingValuesValidity,
   WorkoutSet,
+  UseSetTrackingInputsReturnType,
 } from "../typings";
-
-type UseSetTrackingInputsReturnType = {
-  isSetTrackingValuesInvalid: boolean;
-  setInputsValidityMap: SetTrackingValuesValidity;
-  setTrackingValuesInput: SetTrackingValuesInput;
-  setSetTrackingValuesInput: React.Dispatch<
-    React.SetStateAction<SetTrackingValuesInput>
-  >;
-  setIsTimeInputInvalid: React.Dispatch<React.SetStateAction<boolean>>;
-  setTrackingValuesInputStrings: (set: WorkoutSet) => void;
-};
 
 export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
   const [isTimeInputInvalid, setIsTimeInputInvalid] = useState<boolean>(false);

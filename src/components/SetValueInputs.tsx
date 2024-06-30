@@ -1,8 +1,7 @@
 import {
-  SetTrackingValuesInput,
   WorkoutSet,
   SetWorkoutSetAction,
-  SetTrackingValuesValidity,
+  UseSetTrackingInputsReturnType,
   UserSettings,
 } from "../typings";
 import { WeightUnitDropdown, DistanceUnitDropdown, TimeInput } from ".";
@@ -11,24 +10,23 @@ import { Input } from "@nextui-org/react";
 type SetValueInputsProps = {
   operatingSet: WorkoutSet;
   setOperatingSet: SetWorkoutSetAction;
-  setTrackingValuesInput: SetTrackingValuesInput;
-  setInputsValidityMap: SetTrackingValuesValidity;
-  setSetTrackingValuesInput: React.Dispatch<
-    React.SetStateAction<SetTrackingValuesInput>
-  >;
-  setIsTimeInputInvalid: React.Dispatch<React.SetStateAction<boolean>>;
+  useSetTrackingInputs: UseSetTrackingInputsReturnType;
   userSettings: UserSettings;
 };
 
 export const SetValueInputs = ({
   operatingSet,
   setOperatingSet,
-  setTrackingValuesInput,
-  setSetTrackingValuesInput,
-  setInputsValidityMap,
-  setIsTimeInputInvalid,
-  userSettings
+  useSetTrackingInputs,
+  userSettings,
 }: SetValueInputsProps) => {
+  const {
+    setTrackingValuesInput,
+    setSetTrackingValuesInput,
+    setInputsValidityMap,
+    setIsTimeInputInvalid,
+  } = useSetTrackingInputs;
+
   return (
     <div className="flex flex-wrap gap-1.5 px-1 justify-evenly">
       {!!operatingSet.is_tracking_weight && (

@@ -288,4 +288,15 @@ export type Multiset = {
   id: number;
   multiset_type: number;
   exercise_order: string;
-}
+};
+
+export type UseSetTrackingInputsReturnType = {
+  isSetTrackingValuesInvalid: boolean;
+  setInputsValidityMap: SetTrackingValuesValidity;
+  setTrackingValuesInput: SetTrackingValuesInput;
+  setSetTrackingValuesInput: React.Dispatch<
+    React.SetStateAction<SetTrackingValuesInput>
+  >;
+  setIsTimeInputInvalid: React.Dispatch<React.SetStateAction<boolean>>;
+  setTrackingValuesInputStrings: (set: WorkoutSet) => void;
+};

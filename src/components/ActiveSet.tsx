@@ -280,18 +280,7 @@ export const ActiveSet = ({
                             React.SetStateAction<WorkoutSet>
                           >
                         }
-                        setTrackingValuesInput={
-                          activeSetInputs.setTrackingValuesInput
-                        }
-                        setSetTrackingValuesInput={
-                          activeSetInputs.setSetTrackingValuesInput
-                        }
-                        setInputsValidityMap={
-                          activeSetInputs.setInputsValidityMap
-                        }
-                        setIsTimeInputInvalid={
-                          activeSetInputs.setIsTimeInputInvalid
-                        }
+                        useSetTrackingInputs={activeSetInputs}
                         userSettings={userSettings}
                       />
                       <div className="flex justify-between pt-3">

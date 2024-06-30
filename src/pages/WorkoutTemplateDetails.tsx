@@ -172,14 +172,11 @@ export default function WorkoutTemplateDetails() {
         operationType={operationType}
         operatingSet={operatingSet}
         setOperatingSet={setOperatingSet}
-        setTrackingValuesInput={operatingSetInputs.setTrackingValuesInput}
-        setSetTrackingValuesInput={operatingSetInputs.setSetTrackingValuesInput}
-        setInputsValidityMap={operatingSetInputs.setInputsValidityMap}
+        useSetTrackingInputs={operatingSetInputs}
         isSetTrackingValuesInvalid={
           operatingSetInputs.isSetTrackingValuesInvalid
         }
         handleSaveSetButton={handleSaveSetButton}
-        setIsTimeInputInvalid={operatingSetInputs.setIsTimeInputInvalid}
         clearSetInputValues={clearSetInputValues}
         userSettings={userSettings}
       />

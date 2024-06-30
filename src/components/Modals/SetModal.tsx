@@ -16,10 +16,9 @@ import { SetValueInputs } from "../";
 import { SearchIcon, CommentIcon } from "../../assets";
 import {
   Exercise,
-  SetTrackingValuesInput,
-  SetTrackingValuesValidity,
   UserSettings,
   WorkoutSet,
+  UseSetTrackingInputsReturnType,
 } from "../../typings";
 import { useState } from "react";
 import { useExerciseList, useNumSetsOptions } from "../../hooks";
@@ -34,14 +33,9 @@ type SetModalProps = {
   operationType: string;
   operatingSet: WorkoutSet;
   setOperatingSet: React.Dispatch<React.SetStateAction<WorkoutSet>>;
-  setTrackingValuesInput: SetTrackingValuesInput;
-  setSetTrackingValuesInput: React.Dispatch<
-    React.SetStateAction<SetTrackingValuesInput>
-  >;
-  setInputsValidityMap: SetTrackingValuesValidity;
+  useSetTrackingInputs: UseSetTrackingInputsReturnType;
   isSetTrackingValuesInvalid: boolean;
   handleSaveSetButton: (numSets: string) => void;
-  setIsTimeInputInvalid: React.Dispatch<React.SetStateAction<boolean>>;
   clearSetInputValues: (isOperatingSet: boolean) => void;
   userSettings: UserSettings;
 };
@@ -54,12 +48,9 @@ export const SetModal = ({
   operationType,
   operatingSet,
   setOperatingSet,
-  setTrackingValuesInput,
-  setSetTrackingValuesInput,
-  setInputsValidityMap,
+  useSetTrackingInputs,
   isSetTrackingValuesInvalid,
   handleSaveSetButton,
-  setIsTimeInputInvalid,
   clearSetInputValues,
   userSettings,
 }: SetModalProps) => {
@@ -322,10 +313,7 @@ export const SetModal = ({
                       <SetValueInputs
                         operatingSet={operatingSet}
                         setOperatingSet={setOperatingSet}
-                        setTrackingValuesInput={setTrackingValuesInput}
-                        setSetTrackingValuesInput={setSetTrackingValuesInput}
-                        setInputsValidityMap={setInputsValidityMap}
-                        setIsTimeInputInvalid={setIsTimeInputInvalid}
+                        useSetTrackingInputs={useSetTrackingInputs}
                         userSettings={userSettings}
                       />
                     )}
