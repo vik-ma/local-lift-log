@@ -17,6 +17,7 @@ type MultisetModalProps = {
   multiset: Multiset;
   setMultiset: React.Dispatch<React.SetStateAction<Multiset>>;
   operationType: string;
+  handleClickExercise: (exercise: Exercise) => void;
 };
 
 export const MultisetModal = ({
@@ -24,6 +25,7 @@ export const MultisetModal = ({
   multiset,
   setMultiset,
   operationType,
+  handleClickExercise,
 }: MultisetModalProps) => {
   const [selectedExercise, setSelectedExercise] = useState<Exercise>();
 
@@ -44,7 +46,7 @@ export const MultisetModal = ({
             </ModalHeader>
             <ModalBody>
               {selectedExercise === undefined ? (
-                <ExerciseModalList handleClickExercise={() => {}} />
+                <ExerciseModalList handleClickExercise={handleClickExercise} />
               ) : (
                 <div className="flex flex-col gap-2 h-[400px]">
                   <MultisetDropdown
