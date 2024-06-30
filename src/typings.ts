@@ -288,6 +288,7 @@ export type Multiset = {
   id: number;
   multiset_type: number;
   exercise_order: string;
+  exerciseIdSet?: Set<number>;
 };
 
 export type UseSetTrackingInputsReturnType = {

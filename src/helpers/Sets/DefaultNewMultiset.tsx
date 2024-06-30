@@ -5,6 +5,7 @@ export const DefaultNewMultiset = () => {
     id: 0,
     multiset_type: 0,
     exercise_order: "",
+    exerciseIdSet: new Set<number>(),
   };
 
   return defaultNewMultiset;
