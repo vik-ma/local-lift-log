@@ -3,9 +3,11 @@ import {
   GetExerciseListWithGroupStrings,
   GetExerciseListWithGroupStringsAndTotalSets,
 } from "../helpers";
-import { Exercise } from "../typings";
+import { Exercise, UseExerciseListReturnType } from "../typings";
 
-export const useExerciseList = (showTotalNumSets?: boolean) => {
+export const useExerciseList = (
+  showTotalNumSets?: boolean
+): UseExerciseListReturnType => {
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [filterQuery, setFilterQuery] = useState<string>("");
   const [isExercisesLoading, setIsExercisesLoading] = useState<boolean>(true);

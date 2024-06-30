@@ -288,7 +288,7 @@ export type Multiset = {
   id: number;
   multiset_type: number;
   exercise_order: string;
-  exerciseIdSet?: Set<number>;
+  exerciseIdSet: Set<number>;
 };
 
 export type UseSetTrackingInputsReturnType = {
@@ -300,4 +300,14 @@ export type UseSetTrackingInputsReturnType = {
   >;
   setIsTimeInputInvalid: React.Dispatch<React.SetStateAction<boolean>>;
   setTrackingValuesInputStrings: (set: WorkoutSet) => void;
+};
+
+export type UseExerciseListReturnType = {
+  filterQuery: string;
+  setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
+  filteredExercises: Exercise[];
+  exercises: Exercise[];
+  setExercises: React.Dispatch<React.SetStateAction<Exercise[]>>;
+  getExercises: () => Promise<void>;
+  isExercisesLoading: boolean;
 };
