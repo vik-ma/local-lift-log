@@ -12,8 +12,8 @@ import {
   SelectItem,
   useDisclosure,
 } from "@nextui-org/react";
-import { SetValueInputs } from "../";
-import { SearchIcon, CommentIcon } from "../../assets";
+import { ExerciseModalList, SetValueInputs } from "../";
+import { CommentIcon } from "../../assets";
 import {
   Exercise,
   UserSettings,
@@ -21,7 +21,7 @@ import {
   UseSetTrackingInputsReturnType,
 } from "../../typings";
 import { useState } from "react";
-import { useExerciseList, useNumSetsOptions } from "../../hooks";
+import { useNumSetsOptions } from "../../hooks";
 
 type SetModalProps = {
   setModal: ReturnType<typeof useDisclosure>;
@@ -60,8 +60,6 @@ export const SetModal = ({
 
   const numSetsOptions = useNumSetsOptions();
 
-  const { filterQuery, setFilterQuery, filteredExercises } = useExerciseList();
-
   return (
     <Modal isOpen={setModal.isOpen} onOpenChange={setModal.onOpenChange}>
       <ModalContent>
@@ -74,33 +72,7 @@ export const SetModal = ({
             </ModalHeader>
             <ModalBody>
               {selectedExercise === undefined ? (
-                <div className="h-[400px] flex flex-col gap-2">
-                  <Input
-                    label="Search"
-                    variant="faded"
-                    placeholder="Type to search..."
-                    isClearable
-                    value={filterQuery}
-                    onValueChange={setFilterQuery}
-                    startContent={<SearchIcon />}
-                  />
-                  <ScrollShadow className="flex flex-col gap-1">
-                    {filteredExercises.map((exercise) => (
-                      <button
-                        key={exercise.id}
-                        className="flex flex-col justify-start items-start bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:bg-default-200 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-                        onClick={() => handleClickExercise(exercise)}
-                      >
-                        <span className="text-md max-w-full truncate">
-                          {exercise.name}
-                        </span>
-                        <span className="text-xs text-stone-400 text-left">
-                          {exercise.formattedGroupString}
-                        </span>
-                      </button>
-                    ))}
-                  </ScrollShadow>
-                </div>
+                <ExerciseModalList handleClickExercise={handleClickExercise} />
               ) : (
                 <div className="flex flex-col gap-2 h-[400px]">
                   <div className="flex flex-row items-center justify-between">

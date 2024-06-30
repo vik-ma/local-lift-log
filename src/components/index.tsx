@@ -8,6 +8,7 @@ export { UserMeasurementAccordion } from "./UserMeasurementAccordion";
 export { UserMeasurementReorderItem } from "./UserMeasurementReorderItem";
 export { DetailsHeader } from "./DetailsHeader";
 export { SetValueInputs } from "./SetValueInputs";
+export { ExerciseModalList } from "./ExerciseModalList";
 
 export { WeightUnitDropdown } from "./Dropdowns/WeightUnitDropdown";
 export { DistanceUnitDropdown } from "./Dropdowns/DistanceUnitDropdown";
