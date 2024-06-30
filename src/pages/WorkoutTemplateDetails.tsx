@@ -180,10 +180,8 @@ export default function WorkoutTemplateDetails() {
         }
         handleSaveSetButton={handleSaveSetButton}
         setIsTimeInputInvalid={operatingSetInputs.setIsTimeInputInvalid}
-        defaultTimeInput={userSettings!.default_time_input!}
-        time_input_behavior_hhmmss={userSettings!.time_input_behavior_hhmmss}
-        time_input_behavior_mmss={userSettings!.time_input_behavior_mmss}
         clearSetInputValues={clearSetInputValues}
+        userSettings={userSettings}
       />
       <div className="flex flex-col">
         <DetailsHeader
