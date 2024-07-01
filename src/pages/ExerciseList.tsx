@@ -174,7 +174,9 @@ export default function ExerciseList() {
   };
 
   const handleCreateNewExerciseButton = () => {
-    resetOperatingExercise();
+    if (operationType !== "add") {
+      resetOperatingExercise();
+    }
     exerciseModal.onOpen();
   };
 

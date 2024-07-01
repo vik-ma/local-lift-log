@@ -211,7 +211,9 @@ export default function RoutineList() {
   };
 
   const handleCreateNewRoutineButton = () => {
-    resetOperatingRoutine();
+    if (operationType !== "add") {
+      resetOperatingRoutine();
+    }
     routineModal.onOpen();
   };
 

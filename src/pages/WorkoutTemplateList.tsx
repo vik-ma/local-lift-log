@@ -181,7 +181,9 @@ export default function WorkoutTemplateList() {
   };
 
   const handleCreateNewWorkoutTemplateButton = () => {
-    resetOperatingWorkoutTemplate();
+    if (operationType !== "add") {
+      resetOperatingWorkoutTemplate();
+    }
     workoutTemplateModal.onOpen();
   };
 
