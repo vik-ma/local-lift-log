@@ -21,7 +21,7 @@ import {
 } from "../helpers";
 import { useDisclosure } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
-import { useWorkoutActions } from "../hooks";
+import { useWorkoutActions, useExerciseList } from "../hooks";
 
 type WorkoutTemplateNote = {
   note: string | null;
@@ -87,6 +87,8 @@ export default function WorkoutDetails() {
     updateSetTimeCompleted,
     workoutNumbers,
   } = useWorkoutActions(false);
+
+  const exerciseList = useExerciseList();
 
   const initialized = useRef(false);
 
@@ -256,6 +258,7 @@ export default function WorkoutDetails() {
         handleSaveSetButton={handleSaveSetButton}
         clearSetInputValues={clearSetInputValues}
         userSettings={userSettings}
+        exerciseList={exerciseList}
       />
       <TimeInputModal
         timeInputModal={timeInputModal}

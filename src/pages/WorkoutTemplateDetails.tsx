@@ -21,6 +21,7 @@ import {
   useValidateName,
   useDefaultWorkoutTemplate,
   useWorkoutActions,
+  useExerciseList,
 } from "../hooks";
 
 export default function WorkoutTemplateDetails() {
@@ -68,6 +69,8 @@ export default function WorkoutTemplateDetails() {
     setWorkoutTemplate,
     workoutNumbers,
   } = useWorkoutActions(true);
+
+  const exerciseList = useExerciseList();
 
   const getWorkoutTemplateAndSetList = useCallback(async () => {
     try {
@@ -179,6 +182,7 @@ export default function WorkoutTemplateDetails() {
         handleSaveSetButton={handleSaveSetButton}
         clearSetInputValues={clearSetInputValues}
         userSettings={userSettings}
+        exerciseList={exerciseList}
       />
       <div className="flex flex-col">
         <DetailsHeader

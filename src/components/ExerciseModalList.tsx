@@ -1,16 +1,18 @@
 import { Input, ScrollShadow } from "@nextui-org/react";
-import { useExerciseList } from "../hooks";
 import { SearchIcon } from "../assets";
-import { Exercise } from "../typings";
+import { Exercise, UseExerciseListReturnType } from "../typings";
 
 type ExerciseModalListProps = {
   handleClickExercise: (exercise: Exercise) => void;
+  exerciseList: UseExerciseListReturnType;
 };
 
 export const ExerciseModalList = ({
   handleClickExercise,
+  exerciseList,
 }: ExerciseModalListProps) => {
-  const { filterQuery, setFilterQuery, filteredExercises } = useExerciseList();
+  const { filterQuery, setFilterQuery, filteredExercises } = exerciseList;
+
   return (
     <div className="h-[400px] flex flex-col gap-2">
       <Input

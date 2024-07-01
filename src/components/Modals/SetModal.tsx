@@ -19,6 +19,7 @@ import {
   UserSettings,
   WorkoutSet,
   UseSetTrackingInputsReturnType,
+  UseExerciseListReturnType,
 } from "../../typings";
 import { useState } from "react";
 import { useNumSetsOptions } from "../../hooks";
@@ -38,6 +39,7 @@ type SetModalProps = {
   handleSaveSetButton: (numSets: string) => void;
   clearSetInputValues: (isOperatingSet: boolean) => void;
   userSettings: UserSettings;
+  exerciseList: UseExerciseListReturnType;
 };
 
 export const SetModal = ({
@@ -53,6 +55,7 @@ export const SetModal = ({
   handleSaveSetButton,
   clearSetInputValues,
   userSettings,
+  exerciseList,
 }: SetModalProps) => {
   const [showDefaultValues, setShowDefaultValues] = useState<boolean>(false);
   const [numNewSets, setNumNewSets] = useState<string>("1");
@@ -72,7 +75,10 @@ export const SetModal = ({
             </ModalHeader>
             <ModalBody>
               {selectedExercise === undefined ? (
-                <ExerciseModalList handleClickExercise={handleClickExercise} />
+                <ExerciseModalList
+                  handleClickExercise={handleClickExercise}
+                  exerciseList={exerciseList}
+                />
               ) : (
                 <div className="flex flex-col gap-2 h-[400px]">
                   <div className="flex flex-row items-center justify-between">

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Multiset, Exercise } from "../typings";
 import MultisetModal from "../components/Modals/MultisetModal";
-import { useDefaultMultiset } from "../hooks";
+import { useDefaultMultiset, useExerciseList } from "../hooks";
 import { Button, useDisclosure } from "@nextui-org/react";
 
 type OperationType = "add" | "edit" | "delete";
@@ -42,6 +42,8 @@ export default function Multisets() {
     setIsSelectingExercise(false);
   };
 
+  const exerciseList = useExerciseList();
+
   return (
     <>
       <MultisetModal
@@ -52,6 +54,7 @@ export default function Multisets() {
         handleClickExercise={handleClickExercise}
         isSelectingExercise={isSelectingExercise}
         setIsSelectingExercise={setIsSelectingExercise}
+        exerciseList={exerciseList}
       />
       <div className="flex flex-col items-center gap-2">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">

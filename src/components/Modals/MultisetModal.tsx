@@ -7,7 +7,7 @@ import {
   ModalFooter,
   useDisclosure,
 } from "@nextui-org/react";
-import { Multiset, Exercise } from "../../typings";
+import { Multiset, Exercise, UseExerciseListReturnType } from "../../typings";
 import { MultisetDropdown } from "../Dropdowns/MultisetDropdown";
 import { ExerciseModalList } from "../";
 
@@ -19,6 +19,7 @@ type MultisetModalProps = {
   handleClickExercise: (exercise: Exercise) => void;
   isSelectingExercise: boolean;
   setIsSelectingExercise: React.Dispatch<React.SetStateAction<boolean>>;
+  exerciseList: UseExerciseListReturnType;
 };
 
 export const MultisetModal = ({
@@ -29,6 +30,7 @@ export const MultisetModal = ({
   handleClickExercise,
   isSelectingExercise,
   setIsSelectingExercise,
+  exerciseList,
 }: MultisetModalProps) => {
   return (
     <Modal
@@ -47,7 +49,10 @@ export const MultisetModal = ({
             </ModalHeader>
             <ModalBody>
               {isSelectingExercise ? (
-                <ExerciseModalList handleClickExercise={handleClickExercise} />
+                <ExerciseModalList
+                  handleClickExercise={handleClickExercise}
+                  exerciseList={exerciseList}
+                />
               ) : (
                 <div className="flex flex-col gap-2 h-[400px]">
                   <MultisetDropdown
