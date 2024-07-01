@@ -21,7 +21,9 @@ export default function Multisets() {
   const defaultSet = useDefaultSet(true);
 
   const handleCreateNewMultisetButton = () => {
-    resetMultiset();
+    if (operationType !== "add") {
+      resetMultiset();
+    }
     multisetModal.onOpen();
   };
 
@@ -34,8 +36,6 @@ export default function Multisets() {
     const newSet = { ...defaultSet, exercise_id: exercise.id };
 
     const newSetList = [...operatingMultiset.setList, newSet];
-
-    console.log(newSetList);
 
     setOperatingMultiset((prev) => ({ ...prev, setList: newSetList }));
 

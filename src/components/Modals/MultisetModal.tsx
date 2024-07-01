@@ -77,8 +77,7 @@ export const MultisetModal = ({
                 </Button>
                 <Button
                   color="success"
-                  // TODO: CHANGE TO SET COLLECTION
-                  isDisabled={multiset.set_order === ""}
+                  isDisabled={multiset.setList.length === 0}
                   onPress={() => {}}
                 >
                   {operationType === "edit" ? "Save" : "Create"}
