@@ -166,5 +166,6 @@ pub struct UserMeasurement {
 pub struct Multiset {
     pub id: i32,
     pub multiset_type: i16,
-    pub exercise_order: String,
+    pub set_order: String,
+    pub is_template: i16,
 }

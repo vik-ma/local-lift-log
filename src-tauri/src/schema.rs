@@ -152,6 +152,7 @@ diesel::table! {
     multisets (id) {
         id -> Integer,
         multiset_type -> SmallInt,
-        exercise_order -> Text,
+        set_order -> Text,
+        is_template -> SmallInt,
     }
 }
