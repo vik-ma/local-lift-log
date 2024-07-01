@@ -54,7 +54,7 @@ export const MultisetModal = ({
                   exerciseList={exerciseList}
                 />
               ) : (
-                <div className="flex flex-col items-center gap-2 h-[400px]">
+                <div className="flex flex-col items-center gap-2.5 h-[400px] overflow-auto scroll-gradient">
                   <MultisetDropdown
                     multiset_type={multiset.multiset_type}
                     setMultiset={setMultiset}
