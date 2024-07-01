@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Multiset, Exercise } from "../typings";
 import MultisetModal from "../components/Modals/MultisetModal";
-import { useDefaultMultiset, useExerciseList } from "../hooks";
+import { useDefaultMultiset, useDefaultSet, useExerciseList } from "../hooks";
 import { Button, useDisclosure } from "@nextui-org/react";
 
 type OperationType = "add" | "edit" | "delete";
@@ -18,6 +18,8 @@ export default function Multisets() {
 
   const multisetModal = useDisclosure();
 
+  const defaultSet = useDefaultSet(true);
+
   const handleCreateNewMultisetButton = () => {
     resetMultiset();
     multisetModal.onOpen();
@@ -29,8 +31,14 @@ export default function Multisets() {
   };
 
   const handleClickExercise = (exercise: Exercise) => {
+    const newSet = { ...defaultSet, exercise_id: exercise.id };
 
-    
+    const newSetList = [...operatingMultiset.setList, newSet];
+
+    console.log(newSetList);
+
+    setOperatingMultiset((prev) => ({ ...prev, setList: newSetList }));
+
     setIsSelectingExercise(false);
   };
 
