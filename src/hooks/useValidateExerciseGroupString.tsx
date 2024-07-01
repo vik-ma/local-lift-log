@@ -4,10 +4,10 @@ import { ValidateExerciseGroupSetString } from "../helpers";
 export const useValidateExerciseGroupString = (
   exerciseGroupString: string
 ): boolean => {
-  const isNewExerciseGroupSetStringInvalid = useMemo(() => {
+  const isNewExerciseGroupSetStringValid = useMemo(() => {
     return ValidateExerciseGroupSetString(exerciseGroupString);
   }, [exerciseGroupString]);
 
-  return isNewExerciseGroupSetStringInvalid;
+  return isNewExerciseGroupSetStringValid;
 };
 
