@@ -29,16 +29,8 @@ export default function Multisets() {
   };
 
   const handleClickExercise = (exercise: Exercise) => {
-    if (operatingMultiset.exerciseIdSet.has(exercise.id)) return;
 
-    const newExerciseIdSet = operatingMultiset.exerciseIdSet.add(exercise.id);
-
-    const updatedMultiSet: Multiset = {
-      ...operatingMultiset,
-      exerciseIdSet: newExerciseIdSet,
-    };
-
-    setOperatingMultiset(updatedMultiSet);
+    
     setIsSelectingExercise(false);
   };
 
