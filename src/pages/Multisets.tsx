@@ -33,7 +33,7 @@ export default function Multisets() {
   };
 
   const handleClickExercise = (exercise: Exercise) => {
-    const newSet = { ...defaultSet, exercise_id: exercise.id };
+    const newSet = { ...defaultSet, exercise_id: exercise.id, exercise_name: exercise.name };
 
     const newSetList = [...operatingMultiset.setList, newSet];
 

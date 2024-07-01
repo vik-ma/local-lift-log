@@ -9,7 +9,7 @@ import {
 } from "@nextui-org/react";
 import { Multiset, Exercise, UseExerciseListReturnType } from "../../typings";
 import { MultisetDropdown } from "../Dropdowns/MultisetDropdown";
-import { ExerciseModalList } from "../";
+import { ExerciseModalList, MultisetSetList } from "../";
 
 type MultisetModalProps = {
   multisetModal: ReturnType<typeof useDisclosure>;
@@ -54,11 +54,12 @@ export const MultisetModal = ({
                   exerciseList={exerciseList}
                 />
               ) : (
-                <div className="flex flex-col gap-2 h-[400px]">
+                <div className="flex flex-col items-center gap-2 h-[400px]">
                   <MultisetDropdown
                     multiset_type={multiset.multiset_type}
                     setMultiset={setMultiset}
                   />
+                  <MultisetSetList multiset={multiset} />
                 </div>
               )}
             </ModalBody>

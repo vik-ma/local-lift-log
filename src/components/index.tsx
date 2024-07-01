@@ -9,6 +9,7 @@ export { UserMeasurementReorderItem } from "./UserMeasurementReorderItem";
 export { DetailsHeader } from "./DetailsHeader";
 export { SetValueInputs } from "./SetValueInputs";
 export { ExerciseModalList } from "./ExerciseModalList";
+export { MultisetSetList } from "./MultisetSetList";
 
 export { WeightUnitDropdown } from "./Dropdowns/WeightUnitDropdown";
 export { DistanceUnitDropdown } from "./Dropdowns/DistanceUnitDropdown";
