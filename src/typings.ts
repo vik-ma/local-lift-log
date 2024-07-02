@@ -115,6 +115,7 @@ export type WorkoutSet = {
   multiset_id: number;
   exercise_name?: string;
   set_index?: number;
+  hasInvalidExerciseId?: boolean;
 };
 
 export type GroupedWorkoutSet = {
