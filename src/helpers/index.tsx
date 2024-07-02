@@ -51,6 +51,7 @@ export { UpdateSet } from "./Sets/UpdateSet";
 export { DeleteSetWithId } from "./Sets/DeleteSetWithId";
 export { DefaultNewMultiset } from "./Sets/DefaultNewMultiset";
 export { InsertMultisetIntoDatabase } from "./Sets/InsertMultisetIntoDatabase";
+export { UpdateMultiset } from "./Sets/UpdateMultiset";
 
 export { IsNumberNegativeOrInfinity } from "./Numbers/IsNumberNegativeOrInfinity";
 export { IsStringInvalidNumberOrAbove59 } from "./Numbers/IsStringInvalidNumberOrAbove59";
