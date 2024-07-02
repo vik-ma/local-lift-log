@@ -20,6 +20,7 @@ type MultisetModalProps = {
   isSelectingExercise: boolean;
   setIsSelectingExercise: React.Dispatch<React.SetStateAction<boolean>>;
   exerciseList: UseExerciseListReturnType;
+  saveButtonAction: () => void;
 };
 
 export const MultisetModal = ({
@@ -31,6 +32,7 @@ export const MultisetModal = ({
   isSelectingExercise,
   setIsSelectingExercise,
   exerciseList,
+  saveButtonAction,
 }: MultisetModalProps) => {
   return (
     <Modal
@@ -79,7 +81,7 @@ export const MultisetModal = ({
                 <Button
                   color="success"
                   isDisabled={multiset.setList.length === 0}
-                  onPress={() => {}}
+                  onPress={saveButtonAction}
                 >
                   {operationType === "edit" ? "Save" : "Create"}
                 </Button>
