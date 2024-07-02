@@ -46,6 +46,11 @@ export const GetAllMultisets = async () => {
         await UpdateMultiset(multisets[i]);
       }
 
+      const setListString = setList
+        .map((item) => item.exercise_name)
+        .join(", ");
+
+      multisets[i].setListString = setListString;
       multisets[i].setList = setList;
     }
 

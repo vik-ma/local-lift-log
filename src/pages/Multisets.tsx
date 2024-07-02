@@ -93,8 +93,12 @@ export default function Multisets() {
     }
 
     const setOrder = setListIdOrder.join(",");
+    const setListString = operatingMultiset.setList
+      .map((item) => item.exercise_name)
+      .join(", ");
 
     operatingMultiset.set_order = setOrder;
+    operatingMultiset.setListString = setListString;
 
     const success = await UpdateMultiset(operatingMultiset);
 
@@ -128,6 +132,11 @@ export default function Multisets() {
           <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">
             Multisets
           </h1>
+        </div>
+        <div className="flex flex-col gap-1 w-full">
+          {multisets.map((multiset) => (
+            <span>{multiset.setListString}</span>
+          ))}
         </div>
         <Button className="font-medium" onPress={handleCreateNewMultisetButton}>
           Create New Multiset
