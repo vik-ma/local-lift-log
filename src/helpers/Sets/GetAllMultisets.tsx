@@ -2,6 +2,7 @@ import Database from "tauri-plugin-sql-api";
 import { Multiset, WorkoutSet } from "../../typings";
 import { GenerateSetOrderList } from "./GenerateSetOrderList";
 import { GetSetFromId } from "./GetSetFromId";
+import { UpdateMultiset } from "./UpdateMultiset";
 
 export const GetAllMultisets = async () => {
   try {
@@ -19,13 +20,30 @@ export const GetAllMultisets = async () => {
 
       const setList: WorkoutSet[] = [];
 
+      const setIdsToDelete: number[] = [];
+
       for (let i = 0; i < setOrderList.length; i++) {
         const set = await GetSetFromId(setOrderList[i]);
 
-        // TODO: UPDATE SET_ORDER IF UNDEFINED
-        if (set === undefined) continue;
+        if (set === undefined) {
+          setIdsToDelete.push(setOrderList[i]);
+          continue;
+        }
 
         setList.push(set);
+      }
+
+      if (setIdsToDelete.length > 0) {
+        // Remove set from current Multiset's set_order if a Set has been deleted
+        const newSetList = setOrderList.filter(
+          (item) => !setIdsToDelete.includes(item)
+        );
+
+        const newSetOrder = newSetList.join(",");
+
+        multisets[i].set_order = newSetOrder;
+
+        await UpdateMultiset(multisets[i]);
       }
 
       multisets[i].setList = setList;
