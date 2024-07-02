@@ -288,6 +288,7 @@ export type Multiset = {
   id: number;
   multiset_type: number;
   set_order: string;
+  is_template: number;
   setList: WorkoutSet[];
 };
 
