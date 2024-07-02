@@ -1,13 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Multiset, Exercise } from "../typings";
 import MultisetModal from "../components/Modals/MultisetModal";
 import { useDefaultMultiset, useDefaultSet, useExerciseList } from "../hooks";
 import { Button, useDisclosure } from "@nextui-org/react";
 import {
+  GetAllMultisets,
   InsertMultisetIntoDatabase,
   InsertSetIntoDatabase,
   UpdateMultiset,
 } from "../helpers";
+import { LoadingSpinner } from "../components";
+import toast, { Toaster } from "react-hot-toast";
 
 type OperationType = "add" | "edit" | "delete";
 
@@ -15,6 +18,8 @@ export default function Multisets() {
   const [operationType, setOperationType] = useState<OperationType>("add");
   const [isSelectingExercise, setIsSelectingExercise] =
     useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [multisets, setMultisets] = useState<Multiset[]>([]);
 
   const defaultMultiset = useDefaultMultiset();
 
@@ -24,6 +29,23 @@ export default function Multisets() {
   const multisetModal = useDisclosure();
 
   const defaultSet = useDefaultSet(true);
+
+  const exerciseList = useExerciseList();
+
+  useEffect(() => {
+    const loadMultisets = async () => {
+      try {
+        const multisets = await GetAllMultisets();
+
+        setMultisets(multisets);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    loadMultisets();
+  }, []);
 
   const handleCreateNewMultisetButton = () => {
     if (operationType !== "add") {
@@ -78,16 +100,18 @@ export default function Multisets() {
 
     if (!success) return;
 
-    //TODO: ADD TOAST AND ADD TO LIST
+    setMultisets([...multisets, operatingMultiset]);
 
     resetMultiset();
     multisetModal.onClose();
+    toast.success("Multiset Created");
   };
 
-  const exerciseList = useExerciseList();
+  if (isLoading) return <LoadingSpinner />;
 
   return (
     <>
+      <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
       <MultisetModal
         multisetModal={multisetModal}
         multiset={operatingMultiset}
