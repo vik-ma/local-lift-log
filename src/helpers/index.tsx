@@ -54,6 +54,7 @@ export { InsertMultisetIntoDatabase } from "./Sets/InsertMultisetIntoDatabase";
 export { UpdateMultiset } from "./Sets/UpdateMultiset";
 export { GenerateSetOrderList } from "./Sets/GenerateSetOrderList";
 export { GetSetFromId } from "./Sets/GetSetFromId";
+export { GetAllMultisets } from "./Sets/GetAllMultisets";
 
 export { IsNumberNegativeOrInfinity } from "./Numbers/IsNumberNegativeOrInfinity";
 export { IsStringInvalidNumberOrAbove59 } from "./Numbers/IsStringInvalidNumberOrAbove59";
