@@ -15,8 +15,9 @@ import {
   InsertSetIntoDatabase,
   UpdateMultiset,
 } from "../helpers";
-import { LoadingSpinner, MultisetAccordion } from "../components";
+import { DeleteModal, LoadingSpinner, MultisetAccordion } from "../components";
 import toast, { Toaster } from "react-hot-toast";
+import Database from "tauri-plugin-sql-api";
 
 type OperationType = "add" | "edit" | "delete";
 
@@ -33,6 +34,7 @@ export default function Multisets() {
     useState<Multiset>(defaultMultiset);
 
   const multisetModal = useDisclosure();
+  const deleteModal = useDisclosure();
 
   const defaultSet = useDefaultSet(true);
 
@@ -165,6 +167,28 @@ export default function Multisets() {
     toast.success("Multiset Updated");
   };
 
+  const deleteMultiset = async () => {
+    if (operatingMultiset.id === 0 || operationType !== "delete") return;
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      db.execute("DELETE from multisets WHERE id = $1", [operatingMultiset.id]);
+
+      const updatedMultisets: Multiset[] = multisets.filter(
+        (item) => item.id !== operatingMultiset.id
+      );
+
+      setMultisets(updatedMultisets);
+
+      resetMultiset();
+      toast.success("Multiset Deleted");
+      deleteModal.onClose();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleMultisetAccordionClick = (multiset: Multiset, index: number) => {
     const updatedMultiset: Multiset = {
       ...multiset,
@@ -183,9 +207,9 @@ export default function Multisets() {
       setOperationType("edit");
       multisetModal.onOpen();
     } else if (key === "delete") {
-      // setOperatingMultiset(multiset);
-      // setOperationType("delete");
-      // deleteModal.onOpen();
+      setOperatingMultiset(multiset);
+      setOperationType("delete");
+      deleteModal.onOpen();
     }
   };
 
@@ -194,6 +218,17 @@ export default function Multisets() {
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
+      <DeleteModal
+        deleteModal={deleteModal}
+        header="Delete Body Measurements Entry"
+        body={
+          <p className="break-words">
+            Are you sure you want to permanently delete the Multiset containing{" "}
+            {operatingMultiset.setListText}?
+          </p>
+        }
+        deleteButtonAction={deleteMultiset}
+      />
       <MultisetModal
         multisetModal={multisetModal}
         multiset={operatingMultiset}
