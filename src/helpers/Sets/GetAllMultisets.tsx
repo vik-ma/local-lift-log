@@ -3,6 +3,7 @@ import { Multiset, WorkoutSet } from "../../typings";
 import { GenerateSetOrderList } from "./GenerateSetOrderList";
 import { GetSetFromId } from "./GetSetFromId";
 import { UpdateMultiset } from "./UpdateMultiset";
+import { GenerateSetListText } from "./GenerateSetListText";
 
 export const GetAllMultisets = async () => {
   try {
@@ -46,12 +47,8 @@ export const GetAllMultisets = async () => {
         await UpdateMultiset(multisets[i]);
       }
 
-      const setListString = setList
-        .map((item) => item.exercise_name)
-        .join(", ");
-
-      multisets[i].setListString = setListString;
       multisets[i].setList = setList;
+      multisets[i].setListText = GenerateSetListText(setList);
     }
 
     return multisets;

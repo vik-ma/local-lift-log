@@ -27,7 +27,6 @@ export const GetSetFromId = async (
 
     if (exerciseName.length === 0) {
       set.hasInvalidExerciseId = true;
-      set.exercise_name = "Unknown Exercise";
     } else {
       set.exercise_name = exerciseName[0].name;
     }

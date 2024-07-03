@@ -291,7 +291,7 @@ export type Multiset = {
   set_order: string;
   is_template: number;
   setList: WorkoutSet[];
-  setListString: string;
+  setListText?: ReactNode;
 };
 
 export type UseSetTrackingInputsReturnType = {

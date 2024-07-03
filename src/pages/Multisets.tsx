@@ -4,6 +4,7 @@ import MultisetModal from "../components/Modals/MultisetModal";
 import { useDefaultMultiset, useDefaultSet, useExerciseList } from "../hooks";
 import { Button, useDisclosure } from "@nextui-org/react";
 import {
+  GenerateSetListText,
   GetAllMultisets,
   InsertMultisetIntoDatabase,
   InsertSetIntoDatabase,
@@ -93,12 +94,11 @@ export default function Multisets() {
     }
 
     const setOrder = setListIdOrder.join(",");
-    const setListString = operatingMultiset.setList
-      .map((item) => item.exercise_name)
-      .join(", ");
 
     operatingMultiset.set_order = setOrder;
-    operatingMultiset.setListString = setListString;
+    operatingMultiset.setListText = GenerateSetListText(
+      operatingMultiset.setList
+    );
 
     const success = await UpdateMultiset(operatingMultiset);
 
@@ -135,7 +135,7 @@ export default function Multisets() {
         </div>
         <div className="flex flex-col gap-1 w-full">
           {multisets.map((multiset) => (
-            <span>{multiset.setListString}</span>
+            <div>{multiset.setListText}</div>
           ))}
         </div>
         <Button className="font-medium" onPress={handleCreateNewMultisetButton}>
