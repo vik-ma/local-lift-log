@@ -295,6 +295,12 @@ export type Multiset = {
   isExpanded?: boolean;
 };
 
+export type MultisetTypeMap = {
+  [key: number]: {
+    text: string;
+  };
+};
+
 export type UseSetTrackingInputsReturnType = {
   isSetTrackingValuesInvalid: boolean;
   setInputsValidityMap: SetTrackingValuesValidity;

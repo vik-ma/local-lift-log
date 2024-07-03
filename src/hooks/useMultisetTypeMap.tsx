@@ -1,10 +1,6 @@
 import { useMemo } from "react";
+import { MultisetTypeMap } from "../typings";
 
-type MultisetTypeMap = {
-  [key: number]: {
-    text: string;
-  };
-};
 
 export const useMultisetTypeMap = () => {
   const multisetTypeMap = useMemo(() => {
