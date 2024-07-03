@@ -1,7 +1,7 @@
 import { ReactNode, Fragment } from "react";
 import { MeasurementMap, UserMeasurementValues } from "../../typings";
 
-type ReturnProps = {
+type GenerateMeasurementListTextReturnProps = {
   measurementListText: ReactNode;
   containsInvalidMeasurement: boolean;
 };
@@ -9,7 +9,7 @@ type ReturnProps = {
 export const GenerateMeasurementListText = (
   userMeasurementValues: UserMeasurementValues,
   measurementMap: MeasurementMap
-): ReturnProps => {
+): GenerateMeasurementListTextReturnProps => {
   const measurementIds: string[] = Object.keys(userMeasurementValues);
 
   let containsInvalidMeasurement = false;
