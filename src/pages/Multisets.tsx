@@ -118,6 +118,18 @@ export default function Multisets() {
     toast.success("Multiset Created");
   };
 
+  const handleMultisetAccordionClick = (multiset: Multiset, index: number) => {
+    const updatedMultiset: Multiset = {
+      ...multiset,
+      isExpanded: !multiset.isExpanded,
+    };
+
+    const updatedMultisets = [...multisets];
+    updatedMultisets[index] = updatedMultiset;
+
+    setMultisets(updatedMultisets);
+  };
+
   if (isLoading) return <LoadingSpinner />;
 
   return (
@@ -142,7 +154,7 @@ export default function Multisets() {
         </div>
         <MultisetAccordion
           multisets={multisets}
-          handleMultisetAccordionClick={() => {}}
+          handleMultisetAccordionClick={handleMultisetAccordionClick}
           handleMultisetOptionSelection={() => {}}
           multisetTypeMap={multisetTypeMap}
         />
