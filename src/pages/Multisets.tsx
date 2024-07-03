@@ -1,7 +1,12 @@
 import { useState, useEffect } from "react";
 import { Multiset, Exercise } from "../typings";
 import MultisetModal from "../components/Modals/MultisetModal";
-import { useDefaultMultiset, useDefaultSet, useExerciseList } from "../hooks";
+import {
+  useDefaultMultiset,
+  useDefaultSet,
+  useExerciseList,
+  useMultisetTypeMap,
+} from "../hooks";
 import { Button, useDisclosure } from "@nextui-org/react";
 import {
   GenerateSetListText,
@@ -32,6 +37,8 @@ export default function Multisets() {
   const defaultSet = useDefaultSet(true);
 
   const exerciseList = useExerciseList();
+
+  const { multisetTypeMap } = useMultisetTypeMap();
 
   useEffect(() => {
     const loadMultisets = async () => {
@@ -137,6 +144,7 @@ export default function Multisets() {
           multisets={multisets}
           handleMultisetAccordionClick={() => {}}
           handleMultisetOptionSelection={() => {}}
+          multisetTypeMap={multisetTypeMap}
         />
         <Button className="font-medium" onPress={handleCreateNewMultisetButton}>
           Create New Multiset
