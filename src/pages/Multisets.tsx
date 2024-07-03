@@ -81,7 +81,9 @@ export default function Multisets() {
     setIsSelectingExercise(false);
   };
 
-  const saveMultiset = async () => {
+  const createMultiset = async () => {
+    if (operationType !== "add") return;
+
     const multisetId = await InsertMultisetIntoDatabase(operatingMultiset);
 
     if (multisetId === 0) return;
@@ -118,6 +120,51 @@ export default function Multisets() {
     toast.success("Multiset Created");
   };
 
+  const updateMultiset = async () => {
+    if (operationType !== "edit" || operatingMultiset.id === 0) return;
+
+    const setListIdOrder: number[] = [];
+
+    for (let i = 0; i < operatingMultiset.setList.length; i++) {
+      let setId = operatingMultiset.setList[i].id;
+
+      if (setId === 0) {
+        operatingMultiset.setList[i].multiset_id = operatingMultiset.id;
+
+        const newSetId = await InsertSetIntoDatabase(
+          operatingMultiset.setList[i]
+        );
+
+        if (newSetId === 0) return;
+
+        setId = newSetId;
+      }
+
+      setListIdOrder.push(setId);
+    }
+
+    const setOrder = setListIdOrder.join(",");
+
+    operatingMultiset.set_order = setOrder;
+    operatingMultiset.setListText = GenerateSetListText(
+      operatingMultiset.setList
+    );
+
+    const success = await UpdateMultiset(operatingMultiset);
+
+    if (!success) return;
+
+    const updatedMultisets: Multiset[] = multisets.map((item) =>
+      item.id === operatingMultiset.id ? operatingMultiset : item
+    );
+
+    setMultisets(updatedMultisets);
+
+    resetMultiset();
+    multisetModal.onClose();
+    toast.success("Multiset Updated");
+  };
+
   const handleMultisetAccordionClick = (multiset: Multiset, index: number) => {
     const updatedMultiset: Multiset = {
       ...multiset,
@@ -128,6 +175,18 @@ export default function Multisets() {
     updatedMultisets[index] = updatedMultiset;
 
     setMultisets(updatedMultisets);
+  };
+
+  const handleMultisetOptionSelection = (key: string, multiset: Multiset) => {
+    if (key === "edit") {
+      setOperatingMultiset(multiset);
+      setOperationType("edit");
+      multisetModal.onOpen();
+    } else if (key === "delete") {
+      // setOperatingMultiset(multiset);
+      // setOperationType("delete");
+      // deleteModal.onOpen();
+    }
   };
 
   if (isLoading) return <LoadingSpinner />;
@@ -144,7 +203,9 @@ export default function Multisets() {
         isSelectingExercise={isSelectingExercise}
         setIsSelectingExercise={setIsSelectingExercise}
         exerciseList={exerciseList}
-        saveButtonAction={saveMultiset}
+        saveButtonAction={
+          operationType === "edit" ? updateMultiset : createMultiset
+        }
       />
       <div className="flex flex-col items-center gap-2">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">
@@ -155,7 +216,7 @@ export default function Multisets() {
         <MultisetAccordion
           multisets={multisets}
           handleMultisetAccordionClick={handleMultisetAccordionClick}
-          handleMultisetOptionSelection={() => {}}
+          handleMultisetOptionSelection={handleMultisetOptionSelection}
           multisetTypeMap={multisetTypeMap}
         />
         <Button className="font-medium" onPress={handleCreateNewMultisetButton}>
