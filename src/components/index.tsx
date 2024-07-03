@@ -10,6 +10,7 @@ export { DetailsHeader } from "./DetailsHeader";
 export { SetValueInputs } from "./SetValueInputs";
 export { ExerciseModalList } from "./ExerciseModalList";
 export { MultisetSetList } from "./MultisetSetList";
+export { MultisetAccordion } from "./MultisetAccordion";
 
 export { WeightUnitDropdown } from "./Dropdowns/WeightUnitDropdown";
 export { DistanceUnitDropdown } from "./Dropdowns/DistanceUnitDropdown";

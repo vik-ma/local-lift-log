@@ -10,7 +10,7 @@ import {
   InsertSetIntoDatabase,
   UpdateMultiset,
 } from "../helpers";
-import { LoadingSpinner } from "../components";
+import { LoadingSpinner, MultisetAccordion } from "../components";
 import toast, { Toaster } from "react-hot-toast";
 
 type OperationType = "add" | "edit" | "delete";
@@ -133,11 +133,11 @@ export default function Multisets() {
             Multisets
           </h1>
         </div>
-        <div className="flex flex-col gap-1 w-full">
-          {multisets.map((multiset) => (
-            <div>{multiset.setListText}</div>
-          ))}
-        </div>
+        <MultisetAccordion
+          multisets={multisets}
+          handleMultisetAccordionClick={() => {}}
+          handleMultisetOptionSelection={() => {}}
+        />
         <Button className="font-medium" onPress={handleCreateNewMultisetButton}>
           Create New Multiset
         </Button>

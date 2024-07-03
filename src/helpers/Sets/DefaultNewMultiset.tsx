@@ -7,6 +7,7 @@ export const DefaultNewMultiset = () => {
     set_order: "",
     is_template: 1,
     setList: [],
+    isExpanded: false,
   };
 
   return defaultNewMultiset;

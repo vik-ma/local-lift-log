@@ -292,6 +292,7 @@ export type Multiset = {
   is_template: number;
   setList: WorkoutSet[];
   setListText?: ReactNode;
+  isExpanded?: boolean;
 };
 
 export type UseSetTrackingInputsReturnType = {
