@@ -8,9 +8,13 @@ export const GetExerciseListWithGroupStringsAndTotalSets = async () => {
 
     const result: Exercise[] = await db.select(`
       SELECT e.*, COALESCE(s.set_count, 0) AS set_count 
-      FROM exercises e LEFT JOIN (
+      FROM exercises e 
+      LEFT JOIN (
       SELECT exercise_id, COUNT(*) AS set_count
-      FROM sets GROUP BY exercise_id) s ON e.id = s.exercise_id`);
+      FROM sets
+      WHERE is_completed = 1
+      GROUP BY exercise_id
+      ) s ON e.id = s.exercise_id;`);
 
     const exercises: Exercise[] = result.map((row) => {
       const convertedValues = ConvertExerciseGroupSetString(
