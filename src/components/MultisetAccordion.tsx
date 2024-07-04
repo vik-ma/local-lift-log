@@ -95,7 +95,10 @@ export const MultisetAccordion = ({
                 >
                   <div className="flex flex-col divide-y divide-stone-200 text-sm">
                     {multiset.setList.map((set) => (
-                      <div className="flex rounded hover:bg-stone-200">
+                      <div
+                        className="flex rounded hover:bg-stone-200"
+                        key={set.id}
+                      >
                         <span
                           className={
                             set.hasInvalidExerciseId
