@@ -224,7 +224,10 @@ export default function Multisets() {
         body={
           <p className="break-words">
             Are you sure you want to permanently delete the Multiset containing{" "}
-            {operatingMultiset.setListText}?
+            <span className="text-yellow-600">
+              {operatingMultiset.setListText}
+            </span>
+            ?
           </p>
         }
         deleteButtonAction={deleteMultiset}
