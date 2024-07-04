@@ -93,7 +93,21 @@ export const MultisetAccordion = ({
                     opacity: { duration: 0.05 },
                   }}
                 >
-                  <div className="flex flex-col text-sm">asd</div>
+                  <div className="flex flex-col divide-y divide-stone-200 text-sm">
+                    {multiset.setList.map((set) => (
+                      <div className="flex rounded hover:bg-stone-200">
+                        <span
+                          className={
+                            set.hasInvalidExerciseId
+                              ? "text-red-700"
+                              : "text-stone-600 truncate max-w-[22rem]"
+                          }
+                        >
+                          {set.exercise_name}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>
