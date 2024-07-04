@@ -21,7 +21,6 @@ type MultisetModalProps = {
   setIsSelectingExercise: React.Dispatch<React.SetStateAction<boolean>>;
   exerciseList: UseExerciseListReturnType;
   saveButtonAction: () => void;
-  updateSetOrder?: () => void;
 };
 
 export const MultisetModal = ({
@@ -34,7 +33,6 @@ export const MultisetModal = ({
   setIsSelectingExercise,
   exerciseList,
   saveButtonAction,
-  updateSetOrder,
 }: MultisetModalProps) => {
   return (
     <Modal
@@ -66,7 +64,6 @@ export const MultisetModal = ({
                   <MultisetSetList
                     multiset={multiset}
                     setMultiset={setMultiset}
-                    updateSetOrder={updateSetOrder}
                   />
                 </div>
               )}

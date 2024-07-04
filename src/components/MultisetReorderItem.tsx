@@ -4,22 +4,13 @@ import { ReorderIcon } from "../assets";
 
 type MultisetReorderItemProps = {
   set: WorkoutSet;
-  updateSetOrder?: () => void;
 };
 
-export const MultisetReorderItem = ({
-  set,
-  updateSetOrder = () => {},
-}: MultisetReorderItemProps) => {
+export const MultisetReorderItem = ({ set }: MultisetReorderItemProps) => {
   const dragControls = useDragControls();
 
   return (
-    <Reorder.Item
-      value={set}
-      dragListener={false}
-      dragControls={dragControls}
-      onDragEnd={updateSetOrder}
-    >
+    <Reorder.Item value={set} dragListener={false} dragControls={dragControls}>
       <div className="flex justify-between items-center px-2 py-1 font-medium hover:bg-stone-100">
         <span
           className={

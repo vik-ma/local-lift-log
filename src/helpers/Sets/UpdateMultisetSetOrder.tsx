@@ -10,7 +10,7 @@ export const UpdateMultisetSetOrder = async (
   multiset: Multiset,
   setListIdOrder: number[]
 ): Promise<UpdateMultisetSetOrderReturnProps> => {
-  const updatedMultiset = multiset;
+  const updatedMultiset = { ...multiset };
 
   const setOrder = setListIdOrder.join(",");
 

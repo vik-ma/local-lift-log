@@ -5,13 +5,11 @@ import { MultisetReorderItem } from "./MultisetReorderItem";
 type MultisetSetListProps = {
   multiset: Multiset;
   setMultiset: React.Dispatch<React.SetStateAction<Multiset>>;
-  updateSetOrder?: () => void;
 };
 
 export const MultisetSetList = ({
   multiset,
   setMultiset,
-  updateSetOrder,
 }: MultisetSetListProps) => {
   return (
     <Reorder.Group
@@ -26,11 +24,7 @@ export const MultisetSetList = ({
       }
     >
       {multiset.setList.map((set) => (
-        <MultisetReorderItem
-          set={set}
-          key={set.id}
-          updateSetOrder={updateSetOrder}
-        />
+        <MultisetReorderItem set={set} key={set.id} />
       ))}
     </Reorder.Group>
   );
