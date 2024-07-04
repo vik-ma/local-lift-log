@@ -2,15 +2,16 @@ import { DragControls } from "framer-motion";
 
 interface Props {
   dragControls: DragControls;
+  size?: number;
 }
 
-export function ReorderIcon({ dragControls }: Props) {
+export function ReorderIcon({ dragControls, size }: Props) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 39 39"
-      width="27"
-      height="27"
+      width={size || 27}
+      height={size || 27}
       className="cursor-grab active:cursor-grabbing select-none"
       onPointerDown={(event) => dragControls.start(event)}
     >

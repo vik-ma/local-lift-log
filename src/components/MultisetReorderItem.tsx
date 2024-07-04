@@ -30,7 +30,7 @@ export const MultisetReorderItem = ({
         >
           {set.exercise_name}
         </span>
-        <ReorderIcon dragControls={dragControls} />
+        <ReorderIcon dragControls={dragControls} size={18} />
       </div>
     </Reorder.Item>
   );
