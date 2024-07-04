@@ -8,7 +8,7 @@ export const GenerateSetListText = (setList: WorkoutSet[]) => {
     if (set.hasInvalidExerciseId) {
       return (
         <Fragment key={set.id}>
-          <span className="text-red-700">Unknown</span>
+          <span className="text-red-700">{set.exercise_name}</span>
           {!isLastElement && ", "}
         </Fragment>
       );
