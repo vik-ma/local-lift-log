@@ -11,6 +11,7 @@ export { SetValueInputs } from "./SetValueInputs";
 export { ExerciseModalList } from "./ExerciseModalList";
 export { MultisetSetList } from "./MultisetSetList";
 export { MultisetAccordion } from "./MultisetAccordion";
+export { MultisetReorderItem } from "./MultisetReorderItem";
 
 export { WeightUnitDropdown } from "./Dropdowns/WeightUnitDropdown";
 export { DistanceUnitDropdown } from "./Dropdowns/DistanceUnitDropdown";

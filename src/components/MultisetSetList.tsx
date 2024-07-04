@@ -1,34 +1,37 @@
+import { Reorder } from "framer-motion";
 import { Multiset } from "../typings";
+import { MultisetReorderItem } from "./MultisetReorderItem";
 
 type MultisetSetListProps = {
   multiset: Multiset;
+  setMultiset: React.Dispatch<React.SetStateAction<Multiset>>;
+  updateSetOrder?: () => void;
 };
 
-export const MultisetSetList = ({ multiset }: MultisetSetListProps) => {
+export const MultisetSetList = ({
+  multiset,
+  setMultiset,
+  updateSetOrder,
+}: MultisetSetListProps) => {
   return (
-    <div
+    <Reorder.Group
       className={
         multiset.setList.length > 0
           ? "flex flex-col w-full border rounded-lg divide-y divide-stone-200"
           : "flex flex-col w-full rounded-lg divide-y divide-stone-200"
       }
+      values={multiset.setList}
+      onReorder={(value) =>
+        setMultiset((prev) => ({ ...prev, setList: value }))
+      }
     >
-      {multiset.setList.map((set, index) => (
-        <div
-          className="flex justify-between items-center px-2 py-1 font-medium hover:bg-stone-100"
-          key={`multiset-set-${index}`}
-        >
-          <span
-            className={
-              set.hasInvalidExerciseId
-                ? "text-red-700"
-                : "text-stone-500 truncate w-[18rem]"
-            }
-          >
-            {set.exercise_name}
-          </span>
-        </div>
+      {multiset.setList.map((set) => (
+        <MultisetReorderItem
+          set={set}
+          key={set.id}
+          updateSetOrder={updateSetOrder}
+        />
       ))}
-    </div>
+    </Reorder.Group>
   );
 };
