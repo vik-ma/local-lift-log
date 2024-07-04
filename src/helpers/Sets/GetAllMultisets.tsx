@@ -9,13 +9,15 @@ export const GetAllMultisets = async () => {
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
 
-    const multisets = await db.select<Multiset[]>(`SELECT * FROM multisets`);
+    const result = await db.select<Multiset[]>(`SELECT * FROM multisets`);
 
-    for (let i = 0; i < multisets.length; i++) {
-      const setOrderList = GenerateSetOrderList(multisets[i].set_order);
+    const multisets: Multiset[] = [];
+
+    for (let i = 0; i < result.length; i++) {
+      const setOrderList = GenerateSetOrderList(result[i].set_order);
 
       if (setOrderList.length === 0) {
-        multisets[i].setList = [];
+        result[i].setList = [];
         continue;
       }
 
@@ -34,6 +36,12 @@ export const GetAllMultisets = async () => {
         setList.push(set);
       }
 
+      if (setList.length === 0) {
+        // Delete Multiset if no Sets has been found
+        await db.execute("DELETE from multisets WHERE id = $1", [result[i].id]);
+        continue;
+      }
+
       if (setIdsToDelete.length > 0) {
         // Remove set from current Multiset's set_order if a Set has been deleted
         const newSetList = setOrderList.filter(
@@ -42,13 +50,15 @@ export const GetAllMultisets = async () => {
 
         const newSetOrder = newSetList.join(",");
 
-        multisets[i].set_order = newSetOrder;
+        result[i].set_order = newSetOrder;
 
-        await UpdateMultiset(multisets[i]);
+        await UpdateMultiset(result[i]);
       }
 
-      multisets[i].setList = setList;
-      multisets[i].setListText = GenerateSetListText(setList);
+      result[i].setList = setList;
+      result[i].setListText = GenerateSetListText(setList);
+
+      multisets.push(result[i]);
     }
 
     return multisets;
