@@ -9,11 +9,10 @@ import {
 } from "../hooks";
 import { Button, useDisclosure } from "@nextui-org/react";
 import {
-  GenerateSetListText,
   GetAllMultisets,
   InsertMultisetIntoDatabase,
   InsertSetIntoDatabase,
-  UpdateMultiset,
+  UpdateMultisetSetOrder,
 } from "../helpers";
 import { DeleteModal, LoadingSpinner, MultisetAccordion } from "../components";
 import toast, { Toaster } from "react-hot-toast";
@@ -104,18 +103,14 @@ export default function Multisets() {
       setListIdOrder.push(setId);
     }
 
-    const setOrder = setListIdOrder.join(",");
-
-    operatingMultiset.set_order = setOrder;
-    operatingMultiset.setListText = GenerateSetListText(
-      operatingMultiset.setList
+    const { success, updatedMultiset } = await UpdateMultisetSetOrder(
+      operatingMultiset,
+      setListIdOrder
     );
-
-    const success = await UpdateMultiset(operatingMultiset);
 
     if (!success) return;
 
-    setMultisets([...multisets, operatingMultiset]);
+    setMultisets([...multisets, updatedMultiset]);
 
     resetMultiset();
     multisetModal.onClose();
@@ -145,19 +140,15 @@ export default function Multisets() {
       setListIdOrder.push(setId);
     }
 
-    const setOrder = setListIdOrder.join(",");
-
-    operatingMultiset.set_order = setOrder;
-    operatingMultiset.setListText = GenerateSetListText(
-      operatingMultiset.setList
+    const { success, updatedMultiset } = await UpdateMultisetSetOrder(
+      operatingMultiset,
+      setListIdOrder
     );
-
-    const success = await UpdateMultiset(operatingMultiset);
 
     if (!success) return;
 
     const updatedMultisets: Multiset[] = multisets.map((item) =>
-      item.id === operatingMultiset.id ? operatingMultiset : item
+      item.id === updatedMultiset.id ? updatedMultiset : item
     );
 
     setMultisets(updatedMultisets);

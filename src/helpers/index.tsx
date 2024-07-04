@@ -56,6 +56,7 @@ export { GenerateSetOrderList } from "./Sets/GenerateSetOrderList";
 export { GetSetFromId } from "./Sets/GetSetFromId";
 export { GetAllMultisets } from "./Sets/GetAllMultisets";
 export { GenerateSetListText } from "./Sets/GenerateSetListText";
+export { UpdateMultisetSetOrder } from "./Sets/UpdateMultisetSetOrder";
 
 export { IsNumberNegativeOrInfinity } from "./Numbers/IsNumberNegativeOrInfinity";
 export { IsStringInvalidNumberOrAbove59 } from "./Numbers/IsStringInvalidNumberOrAbove59";
