@@ -26,6 +26,7 @@ export default function Multisets() {
     useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [multisets, setMultisets] = useState<Multiset[]>([]);
+  const [numNewSets, setNumNewSets] = useState<number>(0);
 
   const defaultMultiset = useDefaultMultiset();
 
@@ -66,11 +67,15 @@ export default function Multisets() {
   const resetMultiset = () => {
     setOperationType("add");
     setOperatingMultiset(defaultMultiset);
+    setNumNewSets(0);
   };
 
   const handleClickExercise = (exercise: Exercise) => {
+    const setId = -numNewSets;
+
     const newSet = {
       ...defaultSet,
+      id: setId,
       exercise_id: exercise.id,
       exercise_name: exercise.name,
     };
@@ -80,6 +85,8 @@ export default function Multisets() {
     setOperatingMultiset((prev) => ({ ...prev, setList: newSetList }));
 
     setIsSelectingExercise(false);
+
+    setNumNewSets((prev) => prev + 1);
   };
 
   const createMultiset = async () => {
@@ -125,7 +132,7 @@ export default function Multisets() {
     for (let i = 0; i < operatingMultiset.setList.length; i++) {
       let setId = operatingMultiset.setList[i].id;
 
-      if (setId === 0) {
+      if (setId < 0) {
         operatingMultiset.setList[i].multiset_id = operatingMultiset.id;
 
         const newSetId = await InsertSetIntoDatabase(
@@ -196,6 +203,7 @@ export default function Multisets() {
     if (key === "edit") {
       setOperatingMultiset(multiset);
       setOperationType("edit");
+      setNumNewSets(0);
       multisetModal.onOpen();
     } else if (key === "delete") {
       setOperatingMultiset(multiset);
