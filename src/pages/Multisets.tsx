@@ -224,8 +224,27 @@ export default function Multisets() {
     }
   };
 
-  const handleMultisetSetOptionSelection = (key: string, set: WorkoutSet) => {
-
+  const handleMultisetSetOptionSelection = (
+    key: string,
+    set: WorkoutSet,
+    multiset: Multiset
+  ) => {
+    if (key === "edit-set") {
+      setOperatingSet(set);
+      setOperatingMultiset(multiset);
+      setOperationType("edit-set");
+    } else if (key === "delete-set") {
+      setOperatingSet(set);
+      setOperatingMultiset(multiset);
+      setOperationType("delete-set");
+      deleteModal.onOpen();
+    } else if (key === "change-exercise") {
+      setOperatingSet(set);
+      setOperationType("change-exercise");
+    } else if (key === "reassign-exercise") {
+      setOperatingSet(set);
+      setOperationType("reassign-exercise");
+    }
   };
 
   if (isLoading) return <LoadingSpinner />;

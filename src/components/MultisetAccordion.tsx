@@ -14,7 +14,11 @@ type MultisetAccordionProps = {
   handleMultisetAccordionClick: (multiset: Multiset, index: number) => void;
   handleMultisetOptionSelection: (key: string, multiset: Multiset) => void;
   multisetTypeMap: MultisetTypeMap;
-  handleMultisetSetOptionSelection: (key: string, set: WorkoutSet) => void;
+  handleMultisetSetOptionSelection: (
+    key: string,
+    set: WorkoutSet,
+    multiset: Multiset
+  ) => void;
 };
 
 export const MultisetAccordion = ({
@@ -129,7 +133,8 @@ export const MultisetAccordion = ({
                             onAction={(key) =>
                               handleMultisetSetOptionSelection(
                                 key as string,
-                                set
+                                set,
+                                multiset
                               )
                             }
                           >
