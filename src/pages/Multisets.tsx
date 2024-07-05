@@ -320,6 +320,15 @@ export default function Multisets() {
               </span>
               ?
             </p>
+          ) : operatingMultiset.setList.length === 1 ? (
+            // If trying to delete last Set in Multiset
+            <p className="break-words">
+              Are you sure you want to remove{" "}
+              <span className="text-yellow-600">
+                {operatingSet.exercise_name}
+              </span>{" "}
+              and permanently delete Multiset?
+            </p>
           ) : (
             <p className="break-words">
               Are you sure you want to remove{" "}
