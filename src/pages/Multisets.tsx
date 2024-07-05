@@ -209,6 +209,8 @@ export default function Multisets() {
     setMultisets(updatedMultisets);
   };
 
+  const removeSetFromMultiset = () => {};
+
   const handleMultisetOptionSelection = (key: string, multiset: Multiset) => {
     if (key === "edit") {
       setOperatingMultiset(multiset);
@@ -233,17 +235,38 @@ export default function Multisets() {
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
       <DeleteModal
         deleteModal={deleteModal}
-        header="Delete Body Measurements Entry"
-        body={
-          <p className="break-words">
-            Are you sure you want to permanently delete the Multiset containing{" "}
-            <span className="text-yellow-600">
-              {operatingMultiset.setListText}
-            </span>
-            ?
-          </p>
+        header={
+          operationType === "delete-multiset" ? "Delete Multiset" : "Remove Set"
         }
-        deleteButtonAction={deleteMultiset}
+        body={
+          operationType === "delete-multiset" ? (
+            <p className="break-words">
+              Are you sure you want to permanently delete the Multiset
+              containing{" "}
+              <span className="text-yellow-600">
+                {operatingMultiset.setListText}
+              </span>
+              ?
+            </p>
+          ) : (
+            <p className="break-words">
+              Are you sure you want to remove{" "}
+              <span className="text-yellow-600">
+                {operatingSet.exercise_name}
+              </span>{" "}
+              from{" "}
+              <span className="text-yellow-600">
+                {operatingMultiset.setListText}
+              </span>{" "}
+              Multiset?
+            </p>
+          )
+        }
+        deleteButtonAction={
+          operationType === "delete-multiset"
+            ? deleteMultiset
+            : removeSetFromMultiset
+        }
       />
       <MultisetModal
         multisetModal={multisetModal}
