@@ -7,14 +7,14 @@ import {
 } from "@nextui-org/react";
 import { VerticalMenuIcon, ChevronIcon } from "../assets";
 import { AnimatePresence, motion } from "framer-motion";
-import { Multiset, MultisetTypeMap } from "../typings";
+import { Multiset, MultisetTypeMap, WorkoutSet } from "../typings";
 
 type MultisetAccordionProps = {
   multisets: Multiset[];
   handleMultisetAccordionClick: (multiset: Multiset, index: number) => void;
   handleMultisetOptionSelection: (key: string, multiset: Multiset) => void;
   multisetTypeMap: MultisetTypeMap;
-  handleReassignExercise?: () => void;
+  handleMultisetSetOptionSelection: (key: string, set: WorkoutSet) => void;
 };
 
 export const MultisetAccordion = ({
@@ -22,7 +22,7 @@ export const MultisetAccordion = ({
   handleMultisetAccordionClick,
   handleMultisetOptionSelection,
   multisetTypeMap,
-  handleReassignExercise,
+  handleMultisetSetOptionSelection,
 }: MultisetAccordionProps) => {
   return (
     <div className="flex flex-col gap-1 w-full">
@@ -126,9 +126,12 @@ export const MultisetAccordion = ({
                             aria-label={`Option Menu For Number ${
                               index + 1
                             } Multiset ${set.exercise_name} Set`}
-                            // onAction={(key) =>
-
-                            // }
+                            onAction={(key) =>
+                              handleMultisetSetOptionSelection(
+                                key as string,
+                                set
+                              )
+                            }
                           >
                             <DropdownItem key="edit-set">Edit Set</DropdownItem>
                             {set.hasInvalidExerciseId ? (
