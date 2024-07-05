@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Multiset, Exercise } from "../typings";
+import { Multiset, Exercise, WorkoutSet } from "../typings";
 import MultisetModal from "../components/Modals/MultisetModal";
 import {
   useDefaultMultiset,
@@ -18,7 +18,14 @@ import { DeleteModal, LoadingSpinner, MultisetAccordion } from "../components";
 import toast, { Toaster } from "react-hot-toast";
 import Database from "tauri-plugin-sql-api";
 
-type OperationType = "add" | "edit" | "delete";
+type OperationType =
+  | "add"
+  | "edit-multiset"
+  | "delete-multiset"
+  | "edit-set"
+  | "delete-set"
+  | "reassign-exercise"
+  | "change-exercise";
 
 export default function Multisets() {
   const [operationType, setOperationType] = useState<OperationType>("add");
@@ -26,7 +33,7 @@ export default function Multisets() {
     useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [multisets, setMultisets] = useState<Multiset[]>([]);
-  const [newSetIndex, setNewSetIndex] = useState<number>(0);
+  const [newMultisetSetIndex, setNewMultisetSetIndex] = useState<number>(0);
 
   const defaultMultiset = useDefaultMultiset();
 
@@ -37,6 +44,8 @@ export default function Multisets() {
   const deleteModal = useDisclosure();
 
   const defaultSet = useDefaultSet(true);
+
+  const [operatingSet, setOperatingSet] = useState<WorkoutSet>(defaultSet);
 
   const exerciseList = useExerciseList();
 
@@ -67,11 +76,11 @@ export default function Multisets() {
   const resetMultiset = () => {
     setOperationType("add");
     setOperatingMultiset(defaultMultiset);
-    setNewSetIndex(0);
+    setNewMultisetSetIndex(0);
   };
 
   const handleClickExercise = (exercise: Exercise) => {
-    const setId = newSetIndex - 1;
+    const setId = newMultisetSetIndex - 1;
 
     const newSet = {
       ...defaultSet,
@@ -86,7 +95,7 @@ export default function Multisets() {
 
     setIsSelectingExercise(false);
 
-    setNewSetIndex((prev) => prev - 1);
+    setNewMultisetSetIndex((prev) => prev - 1);
   };
 
   const createMultiset = async () => {
@@ -125,7 +134,7 @@ export default function Multisets() {
   };
 
   const updateMultiset = async () => {
-    if (operationType !== "edit" || operatingMultiset.id === 0) return;
+    if (operationType !== "edit-multiset" || operatingMultiset.id === 0) return;
 
     const setListIdOrder: number[] = [];
 
@@ -166,7 +175,8 @@ export default function Multisets() {
   };
 
   const deleteMultiset = async () => {
-    if (operatingMultiset.id === 0 || operationType !== "delete") return;
+    if (operatingMultiset.id === 0 || operationType !== "delete-multiset")
+      return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
@@ -202,14 +212,18 @@ export default function Multisets() {
   const handleMultisetOptionSelection = (key: string, multiset: Multiset) => {
     if (key === "edit") {
       setOperatingMultiset(multiset);
-      setOperationType("edit");
-      setNewSetIndex(0);
+      setOperationType("edit-multiset");
+      setNewMultisetSetIndex(0);
       multisetModal.onOpen();
     } else if (key === "delete") {
       setOperatingMultiset(multiset);
-      setOperationType("delete");
+      setOperationType("delete-multiset");
       deleteModal.onOpen();
     }
+  };
+
+  const handleMultisetSetOptionSelection = (key: string, set: WorkoutSet) => {
+
   };
 
   if (isLoading) return <LoadingSpinner />;
@@ -241,7 +255,7 @@ export default function Multisets() {
         setIsSelectingExercise={setIsSelectingExercise}
         exerciseList={exerciseList}
         saveButtonAction={
-          operationType === "edit" ? updateMultiset : createMultiset
+          operationType === "edit-multiset" ? updateMultiset : createMultiset
         }
       />
       <div className="flex flex-col items-center gap-2">
@@ -255,6 +269,7 @@ export default function Multisets() {
           handleMultisetAccordionClick={handleMultisetAccordionClick}
           handleMultisetOptionSelection={handleMultisetOptionSelection}
           multisetTypeMap={multisetTypeMap}
+          handleMultisetSetOptionSelection={handleMultisetSetOptionSelection}
         />
         <Button className="font-medium" onPress={handleCreateNewMultisetButton}>
           Create New Multiset
