@@ -9,6 +9,7 @@ import {
 } from "../hooks";
 import { Button, useDisclosure } from "@nextui-org/react";
 import {
+  DeleteSetWithId,
   GetAllMultisets,
   InsertMultisetIntoDatabase,
   InsertSetIntoDatabase,
@@ -76,6 +77,7 @@ export default function Multisets() {
   const resetMultiset = () => {
     setOperationType("add");
     setOperatingMultiset(defaultMultiset);
+    setOperatingSet(defaultSet);
     setNewMultisetSetIndex(0);
   };
 
@@ -209,7 +211,43 @@ export default function Multisets() {
     setMultisets(updatedMultisets);
   };
 
-  const removeSetFromMultiset = () => {};
+  const removeSetFromMultiset = async () => {
+    if (
+      operationType !== "delete-set" ||
+      operatingSet.id === 0 ||
+      operatingMultiset.id === 0
+    )
+      return;
+
+    const deleteSetSuccess = await DeleteSetWithId(operatingSet.id);
+
+    if (!deleteSetSuccess) return;
+
+    const updatedSetList = operatingMultiset.setList.filter(
+      (obj) => obj.id !== operatingSet.id
+    );
+
+    operatingMultiset.setList = updatedSetList;
+
+    const setListIdOrder = updatedSetList.map((obj) => obj.id);
+
+    const { success, updatedMultiset } = await UpdateMultisetSetOrder(
+      operatingMultiset,
+      setListIdOrder
+    );
+
+    if (!success) return;
+
+    const updatedMultisets: Multiset[] = multisets.map((item) =>
+      item.id === updatedMultiset.id ? updatedMultiset : item
+    );
+
+    setMultisets(updatedMultisets);
+
+    resetMultiset();
+    deleteModal.onClose();
+    toast.success("Multiset Updated");
+  };
 
   const handleMultisetOptionSelection = (key: string, multiset: Multiset) => {
     if (key === "edit") {
