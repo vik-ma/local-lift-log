@@ -93,10 +93,10 @@ export const MultisetAccordion = ({
                     opacity: { duration: 0.05 },
                   }}
                 >
-                  <div className="flex flex-col divide-y divide-stone-200 text-sm">
+                  <div className="flex flex-col divide-y divide-stone-200">
                     {multiset.setList.map((set) => (
                       <div
-                        className="flex rounded hover:bg-stone-200"
+                        className="flex justify-between items-center"
                         key={set.id}
                       >
                         <span
@@ -108,6 +108,46 @@ export const MultisetAccordion = ({
                         >
                           {set.exercise_name}
                         </span>
+                        <Dropdown>
+                          <DropdownTrigger>
+                            <Button
+                              aria-label={`Toggle Number ${
+                                index + 1
+                              } Multiset ${set.exercise_name} Options Menu`}
+                              isIconOnly
+                              className="z-1"
+                              size="sm"
+                              variant="light"
+                            >
+                              <VerticalMenuIcon color="#a8a29e" size={14} />
+                            </Button>
+                          </DropdownTrigger>
+                          <DropdownMenu
+                            aria-label={`Option Menu For Number ${
+                              index + 1
+                            } Multiset ${set.exercise_name} Set`}
+                            // onAction={(key) =>
+
+                            // }
+                          >
+                            <DropdownItem key="edit-set">Edit Set</DropdownItem>
+                            {set.hasInvalidExerciseId ? (
+                              <DropdownItem key="reassign-exercise">
+                                Reassign Exercise
+                              </DropdownItem>
+                            ) : (
+                              <DropdownItem key="change-exercise">
+                                Change Exercise
+                              </DropdownItem>
+                            )}
+                            <DropdownItem
+                              className="text-danger"
+                              key="delete-set"
+                            >
+                              Remove Set
+                            </DropdownItem>
+                          </DropdownMenu>
+                        </Dropdown>
                       </div>
                     ))}
                   </div>
