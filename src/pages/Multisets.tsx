@@ -9,6 +9,7 @@ import {
 } from "../hooks";
 import { Button, useDisclosure } from "@nextui-org/react";
 import {
+  DeleteMultisetWithId,
   DeleteSetWithId,
   GetAllMultisets,
   InsertMultisetIntoDatabase,
@@ -17,7 +18,6 @@ import {
 } from "../helpers";
 import { DeleteModal, LoadingSpinner, MultisetAccordion } from "../components";
 import toast, { Toaster } from "react-hot-toast";
-import Database from "tauri-plugin-sql-api";
 
 type OperationType =
   | "add"
@@ -180,23 +180,19 @@ export default function Multisets() {
     if (operatingMultiset.id === 0 || operationType !== "delete-multiset")
       return;
 
-    try {
-      const db = await Database.load(import.meta.env.VITE_DB);
+    const success = await DeleteMultisetWithId(operatingMultiset.id);
 
-      db.execute("DELETE from multisets WHERE id = $1", [operatingMultiset.id]);
+    if (!success) return;
 
-      const updatedMultisets: Multiset[] = multisets.filter(
-        (item) => item.id !== operatingMultiset.id
-      );
+    const updatedMultisets: Multiset[] = multisets.filter(
+      (item) => item.id !== operatingMultiset.id
+    );
 
-      setMultisets(updatedMultisets);
+    setMultisets(updatedMultisets);
 
-      resetMultiset();
-      toast.success("Multiset Deleted");
-      deleteModal.onClose();
-    } catch (error) {
-      console.log(error);
-    }
+    resetMultiset();
+    toast.success("Multiset Deleted");
+    deleteModal.onClose();
   };
 
   const handleMultisetAccordionClick = (multiset: Multiset, index: number) => {
@@ -238,15 +234,34 @@ export default function Multisets() {
 
     if (!success) return;
 
-    const updatedMultisets: Multiset[] = multisets.map((item) =>
-      item.id === updatedMultiset.id ? updatedMultiset : item
-    );
+    let toastMsg = "Set Removed";
+
+    let updatedMultisets: Multiset[] = [];
+
+    if (updatedMultiset.setList.length === 0) {
+      // Delete Multiset if last set was deleted
+      const deleteMultisetSuccess = await DeleteMultisetWithId(
+        operatingMultiset.id
+      );
+
+      if (!deleteMultisetSuccess) return;
+
+      updatedMultisets = multisets.filter(
+        (item) => item.id !== operatingMultiset.id
+      );
+
+      toastMsg = "Multiset Deleted";
+    } else {
+      updatedMultisets = multisets.map((item) =>
+        item.id === updatedMultiset.id ? updatedMultiset : item
+      );
+    }
 
     setMultisets(updatedMultisets);
 
     resetMultiset();
     deleteModal.onClose();
-    toast.success("Multiset Updated");
+    toast.success(toastMsg);
   };
 
   const handleMultisetOptionSelection = (key: string, multiset: Multiset) => {
