@@ -267,6 +267,10 @@ export default function Multisets() {
       );
 
       toastMsg = "Multiset Deleted";
+
+      if (multisetModal.isOpen) {
+        multisetModal.onClose();
+      }
     } else {
       updatedMultisets = multisets.map((item) =>
         item.id === updatedMultiset.id ? updatedMultiset : item
@@ -275,7 +279,10 @@ export default function Multisets() {
 
     setMultisets(updatedMultisets);
 
-    resetMultiset();
+    if (!multisetModal.isOpen) {
+      resetMultiset();
+    }
+
     deleteModal.onClose();
     toast.success(toastMsg);
   };
