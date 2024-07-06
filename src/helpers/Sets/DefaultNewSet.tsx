@@ -14,7 +14,7 @@ export const DefaultNewSet = (isTemplate: boolean): WorkoutSet => {
     is_warmup: 0,
     weight: 0,
     reps: 0,
-    rir: 0,
+    rir: -1,
     rpe: 0,
     time_in_seconds: 0,
     distance: 0,

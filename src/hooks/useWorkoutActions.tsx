@@ -1006,7 +1006,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
             ? activeSet.reps.toString()
             : "",
         rir:
-          activeSet.rir > 0 && activeSet.is_tracking_rir
+          activeSet.rir > -1 && activeSet.is_tracking_rir
             ? activeSet.rir.toString()
             : "",
         rpe:
@@ -1049,8 +1049,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         }
         if (
           activeSet.is_tracking_rir === 1 &&
-          activeSet.rir === 0 &&
-          lastSet.rir > 0
+          activeSet.rir === -1 &&
+          lastSet.rir > -1
         ) {
           activeSetInputValues.rir = lastSet.rir.toString();
         }

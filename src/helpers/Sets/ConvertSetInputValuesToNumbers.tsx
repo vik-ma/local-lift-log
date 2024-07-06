@@ -15,7 +15,7 @@ export const ConvertSetInputValuesToNumbers = (
       ? 0
       : Number(setTrackingValuesInput.reps),
     rir: IsStringEmpty(setTrackingValuesInput.rir)
-      ? 0
+      ? -1
       : Number(setTrackingValuesInput.rir),
     rpe: IsStringEmpty(setTrackingValuesInput.rpe)
       ? 0

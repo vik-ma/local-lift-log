@@ -4,6 +4,7 @@ import {
   IsStringInvalidInteger,
   IsStringInvalidNumber,
   IsStringInvalidNumberOrAbove10,
+  IsStringInvalidIntegerOrBelowMinus1,
 } from "../helpers";
 import {
   SetTrackingValuesInput,
@@ -26,7 +27,7 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
     const values: SetTrackingValuesValidity = {
       weight: IsStringInvalidNumber(setTrackingValuesInput.weight),
       reps: IsStringInvalidInteger(setTrackingValuesInput.reps),
-      rir: IsStringInvalidInteger(setTrackingValuesInput.rir),
+      rir: IsStringInvalidIntegerOrBelowMinus1(setTrackingValuesInput.rir),
       rpe: IsStringInvalidNumberOrAbove10(setTrackingValuesInput.rpe),
       distance: IsStringInvalidNumber(setTrackingValuesInput.distance),
       resistance_level: IsStringInvalidNumber(
@@ -50,7 +51,7 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
       weight:
         set.is_tracking_weight && set.weight !== 0 ? set.weight.toString() : "",
       reps: set.is_tracking_reps && set.reps !== 0 ? set.reps.toString() : "",
-      rir: set.is_tracking_rir && set.rir !== 0 ? set.rir.toString() : "",
+      rir: set.is_tracking_rir && set.rir !== -1 ? set.rir.toString() : "",
       rpe: set.is_tracking_rpe && set.rpe !== 0 ? set.rpe.toString() : "",
       distance:
         set.is_tracking_distance && set.distance !== 0
