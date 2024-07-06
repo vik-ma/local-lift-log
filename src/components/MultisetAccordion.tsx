@@ -8,6 +8,7 @@ import {
 import { VerticalMenuIcon, ChevronIcon } from "../assets";
 import { AnimatePresence, motion } from "framer-motion";
 import { Multiset, MultisetTypeMap, WorkoutSet } from "../typings";
+import { MultisetSetMenu } from "./MultisetSetMenu";
 
 type MultisetAccordionProps = {
   multisets: Multiset[];
@@ -112,50 +113,15 @@ export const MultisetAccordion = ({
                         >
                           {set.exercise_name}
                         </span>
-                        <Dropdown>
-                          <DropdownTrigger>
-                            <Button
-                              aria-label={`Toggle Number ${
-                                index + 1
-                              } Multiset ${set.exercise_name} Options Menu`}
-                              isIconOnly
-                              className="z-1"
-                              size="sm"
-                              variant="light"
-                            >
-                              <VerticalMenuIcon color="#a8a29e" size={14} />
-                            </Button>
-                          </DropdownTrigger>
-                          <DropdownMenu
-                            aria-label={`Option Menu For Number ${
-                              index + 1
-                            } Multiset ${set.exercise_name} Set`}
-                            onAction={(key) =>
-                              handleMultisetSetOptionSelection(
-                                key as string,
-                                set,
-                                multiset
-                              )
-                            }
-                          >
-                            <DropdownItem key="edit-set">Edit Set</DropdownItem>
-                            {set.hasInvalidExerciseId ? (
-                              <DropdownItem key="reassign-exercise">
-                                Reassign Exercise
-                              </DropdownItem>
-                            ) : (
-                              <DropdownItem key="change-exercise">
-                                Change Exercise
-                              </DropdownItem>
-                            )}
-                            <DropdownItem
-                              className="text-danger"
-                              key="delete-set"
-                            >
-                              Remove Set
-                            </DropdownItem>
-                          </DropdownMenu>
-                        </Dropdown>
+                        <MultisetSetMenu
+                          multiset={multiset}
+                          set={set}
+                          index={index}
+                          handleMultisetSetOptionSelection={
+                            handleMultisetSetOptionSelection
+                          }
+                          verticalMenuIconSize={14}
+                        />
                       </div>
                     ))}
                   </div>
