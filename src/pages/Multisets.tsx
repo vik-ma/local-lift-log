@@ -4,6 +4,7 @@ import {
   Exercise,
   WorkoutSet,
   MultisetOperationType,
+  UserSettings,
 } from "../typings";
 import MultisetModal from "../components/Modals/MultisetModal";
 import {
@@ -18,6 +19,7 @@ import {
   DeleteMultisetWithId,
   DeleteSetWithId,
   GetAllMultisets,
+  GetUserSettings,
   InsertMultisetIntoDatabase,
   InsertSetIntoDatabase,
   UpdateMultisetSetOrder,
@@ -32,6 +34,7 @@ export default function Multisets() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [multisets, setMultisets] = useState<Multiset[]>([]);
   const [newMultisetSetIndex, setNewMultisetSetIndex] = useState<number>(0);
+  const [userSettings, setUserSettings] = useState<UserSettings>();
 
   const defaultMultiset = useDefaultMultiset();
 
@@ -62,13 +65,21 @@ export default function Multisets() {
         const multisets = await GetAllMultisets();
 
         setMultisets(multisets);
-        setIsLoading(false);
       } catch (error) {
         console.log(error);
       }
     };
 
+    const loadUserSettings = async () => {
+      const userSettings = await GetUserSettings();
+      if (userSettings !== undefined) {
+        setUserSettings(userSettings);
+        setIsLoading(false);
+      }
+    };
+
     loadMultisets();
+    loadUserSettings();
   }, []);
 
   const handleCreateNewMultisetButton = () => {
@@ -341,7 +352,7 @@ export default function Multisets() {
         selectedExercise={selectedExercise}
         setSelectedExercise={setSelectedExercise}
         exerciseList={exerciseList}
-        userSettings={userSettings}
+        userSettings={userSettings!}
         saveButtonAction={
           operationType === "edit-multiset" ? updateMultiset : createMultiset
         }
