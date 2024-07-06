@@ -91,7 +91,7 @@ export const SetList = ({
                   <span className="truncate max-w-4">{set.rpe}</span>
                 </div>
               )}
-              {set.is_tracking_rir === 1 && (
+              {set.is_tracking_rir === 1 && set.rir > -1 && (
                 <div className="flex gap-1">
                   <span className="truncate max-w-10">{set.rir}</span>
                   <span>RIR</span>
