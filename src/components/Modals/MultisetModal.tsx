@@ -17,7 +17,11 @@ import {
 import { MultisetDropdown } from "../Dropdowns/MultisetDropdown";
 import { ExerciseModalList, MultisetSetList, SetValueConfig } from "../";
 import { useState } from "react";
-import { useSetTrackingInputs, useDefaultSetInputValues } from "../../hooks";
+import {
+  useSetTrackingInputs,
+  useDefaultSetInputValues,
+  useDefaultExercise,
+} from "../../hooks";
 
 type MultisetModalProps = {
   multisetModal: ReturnType<typeof useDisclosure>;
@@ -27,10 +31,8 @@ type MultisetModalProps = {
   setOperatingSet: React.Dispatch<React.SetStateAction<WorkoutSet>>;
   operationType: string;
   handleClickExercise: (exercise: Exercise) => void;
-  selectedExercise: Exercise | undefined;
-  setSelectedExercise: React.Dispatch<
-    React.SetStateAction<Exercise | undefined>
-  >;
+  isSelectingExercise: boolean;
+  setIsSelectingExercise: React.Dispatch<React.SetStateAction<boolean>>;
   exerciseList: UseExerciseListReturnType;
   userSettings: UserSettings;
   saveButtonAction: () => void;
@@ -44,13 +46,18 @@ export const MultisetModal = ({
   setOperatingSet,
   operationType,
   handleClickExercise,
-  selectedExercise,
-  setSelectedExercise,
+  isSelectingExercise,
+  setIsSelectingExercise,
   exerciseList,
   userSettings,
   saveButtonAction,
 }: MultisetModalProps) => {
   const [isEditingSet, setIsEditingSet] = useState<boolean>(false);
+
+  const defaultExercise = useDefaultExercise();
+
+  const [selectedExercise, setSelectedExercise] =
+    useState<Exercise>(defaultExercise);
 
   const defaultSetInputValues = useDefaultSetInputValues();
 
@@ -64,6 +71,14 @@ export const MultisetModal = ({
     });
   };
 
+  const handleLeftButton = () => {
+    if (isSelectingExercise) setIsSelectingExercise(false);
+
+    if (isEditingSet) setIsEditingSet(false);
+
+    if (!isEditingSet && !isSelectingExercise) setIsSelectingExercise(true);
+  };
+
   return (
     <Modal
       isOpen={multisetModal.isOpen}
@@ -73,7 +88,7 @@ export const MultisetModal = ({
         {(onClose) => (
           <>
             <ModalHeader>
-              {selectedExercise === undefined
+              {isSelectingExercise
                 ? "Select Exercise"
                 : isEditingSet
                 ? "Edit Set"
@@ -82,7 +97,7 @@ export const MultisetModal = ({
                 : "Edit Multiset"}
             </ModalHeader>
             <ModalBody>
-              {selectedExercise === undefined ? (
+              {isSelectingExercise ? (
                 <ExerciseModalList
                   handleClickExercise={handleClickExercise}
                   exerciseList={exerciseList}
@@ -107,17 +122,20 @@ export const MultisetModal = ({
                     multiset={multiset}
                     setMultiset={setMultiset}
                   />
+                  <Button onClick={() => setIsEditingSet(true)}>test</Button>
                 </div>
               )}
             </ModalBody>
             <ModalFooter className="flex justify-between">
               <div>
                 <Button
+                  className="w-32"
                   variant="flat"
-                  // TODO: FIX
-                  onPress={() => setSelectedExercise(undefined)}
+                  onPress={() => handleLeftButton()}
                 >
-                  {selectedExercise === undefined ? "Cancel" : "Add Exercise"}
+                  {isSelectingExercise || isEditingSet
+                    ? "Cancel"
+                    : "Add Exercise"}
                 </Button>
               </div>
               <div className="flex gap-2">

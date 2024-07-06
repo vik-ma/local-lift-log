@@ -30,7 +30,8 @@ import toast, { Toaster } from "react-hot-toast";
 export default function Multisets() {
   const [operationType, setOperationType] =
     useState<MultisetOperationType>("add");
-  const [selectedExercise, setSelectedExercise] = useState<Exercise>();
+  const [isSelectingExercise, setIsSelectingExercise] =
+    useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [multisets, setMultisets] = useState<Multiset[]>([]);
   const [newMultisetSetIndex, setNewMultisetSetIndex] = useState<number>(0);
@@ -110,7 +111,7 @@ export default function Multisets() {
 
     setOperatingMultiset((prev) => ({ ...prev, setList: newSetList }));
 
-    setSelectedExercise(undefined);
+    setIsSelectingExercise(false);
 
     setNewMultisetSetIndex((prev) => prev - 1);
   };
@@ -349,8 +350,8 @@ export default function Multisets() {
         setOperatingSet={setOperatingSet}
         operationType={operationType}
         handleClickExercise={handleClickExercise}
-        selectedExercise={selectedExercise}
-        setSelectedExercise={setSelectedExercise}
+        isSelectingExercise={isSelectingExercise}
+        setIsSelectingExercise={setIsSelectingExercise}
         exerciseList={exerciseList}
         userSettings={userSettings!}
         saveButtonAction={
