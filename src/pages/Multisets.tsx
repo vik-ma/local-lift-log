@@ -1,11 +1,17 @@
 import { useState, useEffect } from "react";
-import { Multiset, Exercise, WorkoutSet } from "../typings";
+import {
+  Multiset,
+  Exercise,
+  WorkoutSet,
+  MultisetOperationType,
+} from "../typings";
 import MultisetModal from "../components/Modals/MultisetModal";
 import {
   useDefaultMultiset,
   useDefaultSet,
   useExerciseList,
   useMultisetTypeMap,
+  useMultisetActions,
 } from "../hooks";
 import { Button, useDisclosure } from "@nextui-org/react";
 import {
@@ -19,17 +25,9 @@ import {
 import { DeleteModal, LoadingSpinner, MultisetAccordion } from "../components";
 import toast, { Toaster } from "react-hot-toast";
 
-type OperationType =
-  | "add"
-  | "edit-multiset"
-  | "delete-multiset"
-  | "edit-set"
-  | "delete-set"
-  | "reassign-exercise"
-  | "change-exercise";
-
 export default function Multisets() {
-  const [operationType, setOperationType] = useState<OperationType>("add");
+  const [operationType, setOperationType] =
+    useState<MultisetOperationType>("add");
   const [isSelectingExercise, setIsSelectingExercise] =
     useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -51,6 +49,13 @@ export default function Multisets() {
   const exerciseList = useExerciseList();
 
   const { multisetTypeMap } = useMultisetTypeMap();
+
+  const { handleMultisetSetOptionSelection } = useMultisetActions({
+    setOperatingMultiset,
+    setOperatingSet,
+    setOperationType,
+    deleteModal,
+  });
 
   useEffect(() => {
     const loadMultisets = async () => {
@@ -274,29 +279,6 @@ export default function Multisets() {
       setOperatingMultiset(multiset);
       setOperationType("delete-multiset");
       deleteModal.onOpen();
-    }
-  };
-
-  const handleMultisetSetOptionSelection = (
-    key: string,
-    set: WorkoutSet,
-    multiset: Multiset
-  ) => {
-    if (key === "edit-set") {
-      setOperatingSet(set);
-      setOperatingMultiset(multiset);
-      setOperationType("edit-set");
-    } else if (key === "delete-set") {
-      setOperatingSet(set);
-      setOperatingMultiset(multiset);
-      setOperationType("delete-set");
-      deleteModal.onOpen();
-    } else if (key === "change-exercise") {
-      setOperatingSet(set);
-      setOperationType("change-exercise");
-    } else if (key === "reassign-exercise") {
-      setOperatingSet(set);
-      setOperationType("reassign-exercise");
     }
   };
 

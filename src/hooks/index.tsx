@@ -29,3 +29,4 @@ export { useGetAllUserMeasurements } from "./useGetAllUserMeasurements";
 export { useWorkoutRatingMap } from "./useWorkoutRatingMap";
 export { useMultisetTypeMap } from "./useMultisetTypeMap";
 export { useDefaultMultiset } from "./useDefaultMultiset";
+export { useMultisetActions } from "./useMultisetActions";
