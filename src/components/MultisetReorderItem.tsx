@@ -1,12 +1,25 @@
 import { Reorder, useDragControls } from "framer-motion";
-import { WorkoutSet } from "../typings";
+import { Multiset, WorkoutSet } from "../typings";
 import { ReorderIcon } from "../assets";
+import { MultisetSetMenu } from "./MultisetSetMenu";
 
 type MultisetReorderItemProps = {
+  multiset: Multiset;
   set: WorkoutSet;
+  index: number;
+  handleMultisetSetOptionSelection: (
+    key: string,
+    set: WorkoutSet,
+    multiset: Multiset
+  ) => void;
 };
 
-export const MultisetReorderItem = ({ set }: MultisetReorderItemProps) => {
+export const MultisetReorderItem = ({
+  multiset,
+  set,
+  index,
+  handleMultisetSetOptionSelection,
+}: MultisetReorderItemProps) => {
   const dragControls = useDragControls();
 
   return (
@@ -21,6 +34,13 @@ export const MultisetReorderItem = ({ set }: MultisetReorderItemProps) => {
         >
           {set.exercise_name}
         </span>
+        <MultisetSetMenu
+          multiset={multiset}
+          set={set}
+          index={index}
+          handleMultisetSetOptionSelection={handleMultisetSetOptionSelection}
+          verticalMenuIconSize={14}
+        />
         <ReorderIcon dragControls={dragControls} size={18} />
       </div>
     </Reorder.Item>

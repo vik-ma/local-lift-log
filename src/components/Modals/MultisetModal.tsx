@@ -36,6 +36,11 @@ type MultisetModalProps = {
   exerciseList: UseExerciseListReturnType;
   userSettings: UserSettings;
   saveButtonAction: () => void;
+  handleMultisetSetOptionSelection: (
+    key: string,
+    set: WorkoutSet,
+    multiset: Multiset
+  ) => void;
 };
 
 export const MultisetModal = ({
@@ -51,6 +56,7 @@ export const MultisetModal = ({
   exerciseList,
   userSettings,
   saveButtonAction,
+  handleMultisetSetOptionSelection,
 }: MultisetModalProps) => {
   const [isEditingSet, setIsEditingSet] = useState<boolean>(false);
 
@@ -121,6 +127,9 @@ export const MultisetModal = ({
                   <MultisetSetList
                     multiset={multiset}
                     setMultiset={setMultiset}
+                    handleMultisetSetOptionSelection={
+                      handleMultisetSetOptionSelection
+                    }
                   />
                   <Button onClick={() => setIsEditingSet(true)}>test</Button>
                 </div>

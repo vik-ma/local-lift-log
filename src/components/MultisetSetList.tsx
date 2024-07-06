@@ -1,15 +1,21 @@
 import { Reorder } from "framer-motion";
-import { Multiset } from "../typings";
+import { Multiset, WorkoutSet } from "../typings";
 import { MultisetReorderItem } from "./MultisetReorderItem";
 
 type MultisetSetListProps = {
   multiset: Multiset;
   setMultiset: React.Dispatch<React.SetStateAction<Multiset>>;
+  handleMultisetSetOptionSelection: (
+    key: string,
+    set: WorkoutSet,
+    multiset: Multiset
+  ) => void;
 };
 
 export const MultisetSetList = ({
   multiset,
   setMultiset,
+  handleMultisetSetOptionSelection,
 }: MultisetSetListProps) => {
   return (
     <Reorder.Group
@@ -23,8 +29,14 @@ export const MultisetSetList = ({
         setMultiset((prev) => ({ ...prev, setList: value }))
       }
     >
-      {multiset.setList.map((set) => (
-        <MultisetReorderItem set={set} key={set.id} />
+      {multiset.setList.map((set, index) => (
+        <MultisetReorderItem
+          key={set.id}
+          multiset={multiset}
+          set={set}
+          index={index}
+          handleMultisetSetOptionSelection={handleMultisetSetOptionSelection}
+        />
       ))}
     </Reorder.Group>
   );
