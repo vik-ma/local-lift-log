@@ -28,8 +28,7 @@ import toast, { Toaster } from "react-hot-toast";
 export default function Multisets() {
   const [operationType, setOperationType] =
     useState<MultisetOperationType>("add");
-  const [isSelectingExercise, setIsSelectingExercise] =
-    useState<boolean>(false);
+  const [selectedExercise, setSelectedExercise] = useState<Exercise>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [multisets, setMultisets] = useState<Multiset[]>([]);
   const [newMultisetSetIndex, setNewMultisetSetIndex] = useState<number>(0);
@@ -100,7 +99,7 @@ export default function Multisets() {
 
     setOperatingMultiset((prev) => ({ ...prev, setList: newSetList }));
 
-    setIsSelectingExercise(false);
+    setSelectedExercise(undefined);
 
     setNewMultisetSetIndex((prev) => prev - 1);
   };
@@ -335,11 +334,14 @@ export default function Multisets() {
         multisetModal={multisetModal}
         multiset={operatingMultiset}
         setMultiset={setOperatingMultiset}
+        operatingSet={operatingSet}
+        setOperatingSet={setOperatingSet}
         operationType={operationType}
         handleClickExercise={handleClickExercise}
-        isSelectingExercise={isSelectingExercise}
-        setIsSelectingExercise={setIsSelectingExercise}
+        selectedExercise={selectedExercise}
+        setSelectedExercise={setSelectedExercise}
         exerciseList={exerciseList}
+        userSettings={userSettings}
         saveButtonAction={
           operationType === "edit-multiset" ? updateMultiset : createMultiset
         }

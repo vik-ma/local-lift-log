@@ -7,19 +7,32 @@ import {
   ModalFooter,
   useDisclosure,
 } from "@nextui-org/react";
-import { Multiset, Exercise, UseExerciseListReturnType } from "../../typings";
+import {
+  Multiset,
+  Exercise,
+  UseExerciseListReturnType,
+  WorkoutSet,
+  UserSettings,
+} from "../../typings";
 import { MultisetDropdown } from "../Dropdowns/MultisetDropdown";
-import { ExerciseModalList, MultisetSetList } from "../";
+import { ExerciseModalList, MultisetSetList, SetValueConfig } from "../";
+import { useState } from "react";
+import { useSetTrackingInputs, useDefaultSetInputValues } from "../../hooks";
 
 type MultisetModalProps = {
   multisetModal: ReturnType<typeof useDisclosure>;
   multiset: Multiset;
   setMultiset: React.Dispatch<React.SetStateAction<Multiset>>;
+  operatingSet: WorkoutSet;
+  setOperatingSet: React.Dispatch<React.SetStateAction<WorkoutSet>>;
   operationType: string;
   handleClickExercise: (exercise: Exercise) => void;
-  isSelectingExercise: boolean;
-  setIsSelectingExercise: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedExercise: Exercise | undefined;
+  setSelectedExercise: React.Dispatch<
+    React.SetStateAction<Exercise | undefined>
+  >;
   exerciseList: UseExerciseListReturnType;
+  userSettings: UserSettings;
   saveButtonAction: () => void;
 };
 
@@ -27,13 +40,30 @@ export const MultisetModal = ({
   multisetModal,
   multiset,
   setMultiset,
+  operatingSet,
+  setOperatingSet,
   operationType,
   handleClickExercise,
-  isSelectingExercise,
-  setIsSelectingExercise,
+  selectedExercise,
+  setSelectedExercise,
   exerciseList,
+  userSettings,
   saveButtonAction,
 }: MultisetModalProps) => {
+  const [isEditingSet, setIsEditingSet] = useState<boolean>(false);
+
+  const defaultSetInputValues = useDefaultSetInputValues();
+
+  const operatingSetInputs = useSetTrackingInputs();
+
+  const clearSetInputValues = () => {
+    operatingSetInputs.setSetTrackingValuesInput(defaultSetInputValues);
+    setOperatingSet({
+      ...operatingSet,
+      time_in_seconds: 0,
+    });
+  };
+
   return (
     <Modal
       isOpen={multisetModal.isOpen}
@@ -43,17 +73,29 @@ export const MultisetModal = ({
         {(onClose) => (
           <>
             <ModalHeader>
-              {isSelectingExercise
+              {selectedExercise === undefined
                 ? "Select Exercise"
+                : isEditingSet
+                ? "Edit Set"
                 : operationType === "add"
                 ? "Create Multiset"
                 : "Edit Multiset"}
             </ModalHeader>
             <ModalBody>
-              {isSelectingExercise ? (
+              {selectedExercise === undefined ? (
                 <ExerciseModalList
                   handleClickExercise={handleClickExercise}
                   exerciseList={exerciseList}
+                />
+              ) : isEditingSet ? (
+                <SetValueConfig
+                  selectedExercise={selectedExercise}
+                  operatingSet={operatingSet}
+                  setOperatingSet={setOperatingSet}
+                  operationType={"edit"}
+                  useSetTrackingInputs={operatingSetInputs}
+                  userSettings={userSettings}
+                  clearSetInputValues={clearSetInputValues}
                 />
               ) : (
                 <div className="flex flex-col items-center gap-2.5 h-[400px] overflow-auto scroll-gradient">
@@ -72,9 +114,10 @@ export const MultisetModal = ({
               <div>
                 <Button
                   variant="flat"
-                  onPress={() => setIsSelectingExercise(!isSelectingExercise)}
+                  // TODO: FIX
+                  onPress={() => setSelectedExercise(undefined)}
                 >
-                  {isSelectingExercise ? "Cancel" : "Add Exercise"}
+                  {selectedExercise === undefined ? "Cancel" : "Add Exercise"}
                 </Button>
               </div>
               <div className="flex gap-2">
