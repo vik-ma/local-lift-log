@@ -128,6 +128,8 @@ export default function Multisets() {
 
       if (setId === 0) return;
 
+      operatingMultiset.setList[i].id = setId;
+
       setListIdOrder.push(setId);
     }
 
@@ -163,6 +165,7 @@ export default function Multisets() {
         if (newSetId === 0) return;
 
         setId = newSetId;
+        operatingMultiset.setList[i].id = newSetId;
       }
 
       setListIdOrder.push(setId);
@@ -218,6 +221,8 @@ export default function Multisets() {
 
   const removeSetFromMultiset = async () => {
     if (operatingSet.id === 0) return;
+
+    console.log(operatingSet.id);
 
     if (operatingSet.id < 0) {
       // If deleting non-saved Set
