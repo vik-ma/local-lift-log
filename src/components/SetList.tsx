@@ -48,7 +48,9 @@ export const SetList = ({
               : "flex flex-col pl-2 text-sm font-medium break-words cursor-pointer hover:bg-stone-100"
           }
           key={set.id}
-          onClick={() => clickSetAction(set, index, groupedSet.exercise)}
+          onClick={() =>
+            clickSetAction(set, index, groupedSet.exerciseList[index])
+          }
         >
           <div className="flex justify-between items-center">
             <div className="flex items-center w-[4.5rem]">
@@ -130,13 +132,16 @@ export const SetList = ({
                 (isTemplate && set.note !== null)) && (
                 <div className={isTemplate ? "" : "pr-1"}>
                   <Button
-                    aria-label={`Toggle ${groupedSet.exercise.name} Set ${index} Comment`}
+                    aria-label={`Toggle ${groupedSet.exerciseList[index].name} Set ${index} Comment`}
                     isIconOnly
                     size="sm"
                     radius="lg"
                     variant="light"
                     onPress={() =>
-                      clickCommentButtonAction(groupedSet.exercise.id, index)
+                      clickCommentButtonAction(
+                        groupedSet.exerciseList[index].id,
+                        index
+                      )
                     }
                   >
                     <CommentIcon size={21} />
@@ -149,7 +154,7 @@ export const SetList = ({
               <Dropdown>
                 <DropdownTrigger>
                   <Button
-                    aria-label={`Toggle ${groupedSet.exercise.name} Set ${index} Options Menu`}
+                    aria-label={`Toggle ${groupedSet.exerciseList[index].name} Set ${index} Options Menu`}
                     isIconOnly
                     className="z-1"
                     size="sm"
@@ -160,13 +165,13 @@ export const SetList = ({
                   </Button>
                 </DropdownTrigger>
                 <DropdownMenu
-                  aria-label={`Option Menu For ${groupedSet.exercise.name} Set ${index}`}
+                  aria-label={`Option Menu For ${groupedSet.exerciseList[index].name} Set ${index}`}
                   onAction={(key) =>
                     optionsSelectionAction(
                       key as string,
                       set,
                       index,
-                      groupedSet.exercise
+                      groupedSet.exerciseList[index]
                     )
                   }
                 >
@@ -184,7 +189,9 @@ export const SetList = ({
               </Dropdown>
             </div>
           </div>
-          {shownSetListComments[groupedSet.exercise.id]?.has(index) && (
+          {shownSetListComments[groupedSet.exerciseList[index].id]?.has(
+            index
+          ) && (
             <span className="text-stone-400 pb-1 pr-2">
               {isTemplate ? `${set.note}` : `${set.comment}`}
             </span>
