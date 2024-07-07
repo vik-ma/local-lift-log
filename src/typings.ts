@@ -321,3 +321,17 @@ export type UseExerciseListReturnType = {
   getExercises: () => Promise<void>;
   isExercisesLoading: boolean;
 };
+
+export type UseMultisetActionsReturnType = {
+  isSelectingExercise: boolean;
+  setIsSelectingExercise: React.Dispatch<React.SetStateAction<boolean>>;
+  isEditingSet: boolean;
+  setIsEditingSet: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedMultisetExercise: Exercise;
+  setSelectedMultisetExercise: React.Dispatch<React.SetStateAction<Exercise>>;
+  handleMultisetSetOptionSelection: (
+    key: string,
+    set: WorkoutSet,
+    multiset: Multiset
+  ) => void;
+};

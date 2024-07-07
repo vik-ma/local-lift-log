@@ -25,8 +25,6 @@ export type OperationType = "add" | "edit" | "delete";
 
 export default function Multisets() {
   const [operationType, setOperationType] = useState<OperationType>("add");
-  const [isSelectingExercise, setIsSelectingExercise] =
-    useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [multisets, setMultisets] = useState<Multiset[]>([]);
   const [newMultisetSetIndex, setNewMultisetSetIndex] = useState<number>(0);
@@ -48,7 +46,7 @@ export default function Multisets() {
 
   const { multisetTypeMap } = useMultisetTypeMap();
 
-  const { handleMultisetSetOptionSelection } = useMultisetActions({
+  const multisetActions = useMultisetActions({
     setOperatingMultiset,
     setOperatingSet,
     deleteModal,
@@ -105,7 +103,7 @@ export default function Multisets() {
 
     setOperatingMultiset((prev) => ({ ...prev, setList: newSetList }));
 
-    setIsSelectingExercise(false);
+    multisetActions.setIsSelectingExercise(false);
 
     setNewMultisetSetIndex((prev) => prev - 1);
   };
@@ -364,14 +362,12 @@ export default function Multisets() {
         setOperatingSet={setOperatingSet}
         operationType={operationType}
         handleClickExercise={handleClickExercise}
-        isSelectingExercise={isSelectingExercise}
-        setIsSelectingExercise={setIsSelectingExercise}
+        useMultisetActions={multisetActions}
         exerciseList={exerciseList}
         userSettings={userSettings!}
         saveButtonAction={
           operationType === "edit" ? updateMultiset : createMultiset
         }
-        handleMultisetSetOptionSelection={handleMultisetSetOptionSelection}
       />
       <div className="flex flex-col items-center gap-2">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">
@@ -384,7 +380,9 @@ export default function Multisets() {
           handleMultisetAccordionClick={handleMultisetAccordionClick}
           handleMultisetOptionSelection={handleMultisetOptionSelection}
           multisetTypeMap={multisetTypeMap}
-          handleMultisetSetOptionSelection={handleMultisetSetOptionSelection}
+          handleMultisetSetOptionSelection={
+            multisetActions.handleMultisetSetOptionSelection
+          }
         />
         <Button className="font-medium" onPress={handleCreateNewMultisetButton}>
           Create New Multiset

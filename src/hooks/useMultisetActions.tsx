@@ -1,5 +1,12 @@
 import { useDisclosure } from "@nextui-org/react";
-import { Multiset, WorkoutSet } from "../typings";
+import {
+  Multiset,
+  WorkoutSet,
+  Exercise,
+  UseMultisetActionsReturnType,
+} from "../typings";
+import { useState } from "react";
+import { useDefaultExercise } from ".";
 
 type UseMultisetActionsProps = {
   setOperatingMultiset: React.Dispatch<React.SetStateAction<Multiset>>;
@@ -11,7 +18,16 @@ export const useMultisetActions = ({
   setOperatingMultiset,
   setOperatingSet,
   deleteModal,
-}: UseMultisetActionsProps) => {
+}: UseMultisetActionsProps): UseMultisetActionsReturnType => {
+  const [isSelectingExercise, setIsSelectingExercise] =
+    useState<boolean>(false);
+  const [isEditingSet, setIsEditingSet] = useState<boolean>(false);
+
+  const defaultExercise = useDefaultExercise();
+
+  const [selectedMultisetExercise, setSelectedMultisetExercise] =
+    useState<Exercise>(defaultExercise);
+
   const handleMultisetSetOptionSelection = (
     key: string,
     set: WorkoutSet,
@@ -31,5 +47,13 @@ export const useMultisetActions = ({
     }
   };
 
-  return { handleMultisetSetOptionSelection };
+  return {
+    isSelectingExercise,
+    setIsSelectingExercise,
+    isEditingSet,
+    setIsEditingSet,
+    selectedMultisetExercise,
+    setSelectedMultisetExercise,
+    handleMultisetSetOptionSelection,
+  };
 };

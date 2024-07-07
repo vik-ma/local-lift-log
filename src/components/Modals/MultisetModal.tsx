@@ -13,15 +13,11 @@ import {
   UseExerciseListReturnType,
   WorkoutSet,
   UserSettings,
+  UseMultisetActionsReturnType,
 } from "../../typings";
 import { MultisetDropdown } from "../Dropdowns/MultisetDropdown";
 import { ExerciseModalList, MultisetSetList, SetValueConfig } from "../";
-import { useState } from "react";
-import {
-  useSetTrackingInputs,
-  useDefaultSetInputValues,
-  useDefaultExercise,
-} from "../../hooks";
+import { useSetTrackingInputs, useDefaultSetInputValues } from "../../hooks";
 
 type MultisetModalProps = {
   multisetModal: ReturnType<typeof useDisclosure>;
@@ -31,16 +27,10 @@ type MultisetModalProps = {
   setOperatingSet: React.Dispatch<React.SetStateAction<WorkoutSet>>;
   operationType: string;
   handleClickExercise: (exercise: Exercise) => void;
-  isSelectingExercise: boolean;
-  setIsSelectingExercise: React.Dispatch<React.SetStateAction<boolean>>;
+  useMultisetActions: UseMultisetActionsReturnType;
   exerciseList: UseExerciseListReturnType;
   userSettings: UserSettings;
   saveButtonAction: () => void;
-  handleMultisetSetOptionSelection: (
-    key: string,
-    set: WorkoutSet,
-    multiset: Multiset
-  ) => void;
 };
 
 export const MultisetModal = ({
@@ -51,20 +41,11 @@ export const MultisetModal = ({
   setOperatingSet,
   operationType,
   handleClickExercise,
-  isSelectingExercise,
-  setIsSelectingExercise,
+  useMultisetActions,
   exerciseList,
   userSettings,
   saveButtonAction,
-  handleMultisetSetOptionSelection,
 }: MultisetModalProps) => {
-  const [isEditingSet, setIsEditingSet] = useState<boolean>(false);
-
-  const defaultExercise = useDefaultExercise();
-
-  const [selectedExercise, setSelectedExercise] =
-    useState<Exercise>(defaultExercise);
-
   const defaultSetInputValues = useDefaultSetInputValues();
 
   const operatingSetInputs = useSetTrackingInputs();
@@ -76,6 +57,15 @@ export const MultisetModal = ({
       time_in_seconds: 0,
     });
   };
+
+  const {
+    isSelectingExercise,
+    setIsSelectingExercise,
+    isEditingSet,
+    setIsEditingSet,
+    selectedMultisetExercise,
+    handleMultisetSetOptionSelection,
+  } = useMultisetActions;
 
   const handleLeftButton = () => {
     if (isSelectingExercise) setIsSelectingExercise(false);
@@ -110,7 +100,7 @@ export const MultisetModal = ({
                 />
               ) : isEditingSet ? (
                 <SetValueConfig
-                  selectedExercise={selectedExercise}
+                  selectedExercise={selectedMultisetExercise}
                   operatingSet={operatingSet}
                   setOperatingSet={setOperatingSet}
                   operationType={"edit"}
