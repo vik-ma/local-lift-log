@@ -4,6 +4,7 @@ import {
   WorkoutSet,
   Exercise,
   UseMultisetActionsReturnType,
+  UseExerciseListReturnType,
 } from "../typings";
 import { useState } from "react";
 import { useDefaultExercise } from ".";
@@ -12,12 +13,14 @@ type UseMultisetActionsProps = {
   setOperatingMultiset: React.Dispatch<React.SetStateAction<Multiset>>;
   setOperatingSet: React.Dispatch<React.SetStateAction<WorkoutSet>>;
   deleteModal: ReturnType<typeof useDisclosure>;
+  exerciseList: UseExerciseListReturnType;
 };
 
 export const useMultisetActions = ({
   setOperatingMultiset,
   setOperatingSet,
   deleteModal,
+  exerciseList,
 }: UseMultisetActionsProps): UseMultisetActionsReturnType => {
   const [isSelectingExercise, setIsSelectingExercise] =
     useState<boolean>(false);
@@ -28,14 +31,29 @@ export const useMultisetActions = ({
   const [selectedMultisetExercise, setSelectedMultisetExercise] =
     useState<Exercise>(defaultExercise);
 
+  const { exercises } = exerciseList;
+
+  const handleEditSet = (set: WorkoutSet, multiset: Multiset) => {
+    setOperatingSet(set);
+    setOperatingMultiset(multiset);
+    setIsEditingSet(true);
+
+    const exercise = exercises.find((obj) => obj.id === set.exercise_id);
+
+    if (exercise === undefined) return;
+
+    // TODO: HANDLE UNKNOWN EXERCISES
+
+    setSelectedMultisetExercise(exercise);
+  };
+
   const handleMultisetSetOptionSelection = (
     key: string,
     set: WorkoutSet,
     multiset: Multiset
   ) => {
     if (key === "edit-set") {
-      setOperatingSet(set);
-      setOperatingMultiset(multiset);
+      handleEditSet(set, multiset);
     } else if (key === "delete-set") {
       setOperatingSet(set);
       setOperatingMultiset(multiset);

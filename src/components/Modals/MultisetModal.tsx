@@ -121,7 +121,6 @@ export const MultisetModal = ({
                       handleMultisetSetOptionSelection
                     }
                   />
-                  <Button onClick={() => setIsEditingSet(true)}>test</Button>
                 </div>
               )}
             </ModalBody>

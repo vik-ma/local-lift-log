@@ -50,6 +50,7 @@ export default function Multisets() {
     setOperatingMultiset,
     setOperatingSet,
     deleteModal,
+    exerciseList,
   });
 
   useEffect(() => {
@@ -219,8 +220,6 @@ export default function Multisets() {
 
   const removeSetFromMultiset = async () => {
     if (operatingSet.id === 0) return;
-
-    console.log(operatingSet.id);
 
     if (operatingSet.id < 0) {
       // If deleting non-saved Set
