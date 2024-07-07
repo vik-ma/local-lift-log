@@ -1,11 +1,5 @@
 import { useState, useEffect } from "react";
-import {
-  Multiset,
-  Exercise,
-  WorkoutSet,
-  MultisetOperationType,
-  UserSettings,
-} from "../typings";
+import { Multiset, Exercise, WorkoutSet, UserSettings } from "../typings";
 import MultisetModal from "../components/Modals/MultisetModal";
 import {
   useDefaultMultiset,
@@ -27,9 +21,10 @@ import {
 import { DeleteModal, LoadingSpinner, MultisetAccordion } from "../components";
 import toast, { Toaster } from "react-hot-toast";
 
+export type OperationType = "add" | "edit" | "delete";
+
 export default function Multisets() {
-  const [operationType, setOperationType] =
-    useState<MultisetOperationType>("add");
+  const [operationType, setOperationType] = useState<OperationType>("add");
   const [isSelectingExercise, setIsSelectingExercise] =
     useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -56,7 +51,6 @@ export default function Multisets() {
   const { handleMultisetSetOptionSelection } = useMultisetActions({
     setOperatingMultiset,
     setOperatingSet,
-    setOperationType,
     deleteModal,
   });
 
@@ -152,7 +146,7 @@ export default function Multisets() {
   };
 
   const updateMultiset = async () => {
-    if (operationType !== "edit-multiset" || operatingMultiset.id === 0) return;
+    if (operationType !== "edit" || operatingMultiset.id === 0) return;
 
     const setListIdOrder: number[] = [];
 
@@ -193,8 +187,7 @@ export default function Multisets() {
   };
 
   const deleteMultiset = async () => {
-    if (operatingMultiset.id === 0 || operationType !== "delete-multiset")
-      return;
+    if (operatingMultiset.id === 0 || operationType !== "delete") return;
 
     const success = await DeleteMultisetWithId(operatingMultiset.id);
 
@@ -225,7 +218,7 @@ export default function Multisets() {
 
   const removeSetFromMultiset = async () => {
     if (
-      operationType !== "delete-set" ||
+      operationType !== "delete" ||
       operatingSet.id === 0 ||
       operatingMultiset.id === 0
     )
@@ -290,12 +283,12 @@ export default function Multisets() {
   const handleMultisetOptionSelection = (key: string, multiset: Multiset) => {
     if (key === "edit") {
       setOperatingMultiset(multiset);
-      setOperationType("edit-multiset");
+      setOperationType("edit");
       setNewMultisetSetIndex(0);
       multisetModal.onOpen();
     } else if (key === "delete") {
       setOperatingMultiset(multiset);
-      setOperationType("delete-multiset");
+      setOperationType("delete");
       deleteModal.onOpen();
     }
   };
@@ -307,11 +300,9 @@ export default function Multisets() {
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
       <DeleteModal
         deleteModal={deleteModal}
-        header={
-          operationType === "delete-multiset" ? "Delete Multiset" : "Remove Set"
-        }
+        header={operationType === "delete" ? "Delete Multiset" : "Remove Set"}
         body={
-          operationType === "delete-multiset" ? (
+          operationType === "delete" ? (
             <p className="break-words">
               Are you sure you want to permanently delete the Multiset
               containing{" "}
@@ -344,9 +335,7 @@ export default function Multisets() {
           )
         }
         deleteButtonAction={
-          operationType === "delete-multiset"
-            ? deleteMultiset
-            : removeSetFromMultiset
+          operationType === "delete" ? deleteMultiset : removeSetFromMultiset
         }
       />
       <MultisetModal
@@ -362,7 +351,7 @@ export default function Multisets() {
         exerciseList={exerciseList}
         userSettings={userSettings!}
         saveButtonAction={
-          operationType === "edit-multiset" ? updateMultiset : createMultiset
+          operationType === "edit" ? updateMultiset : createMultiset
         }
         handleMultisetSetOptionSelection={handleMultisetSetOptionSelection}
       />

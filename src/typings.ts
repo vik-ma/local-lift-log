@@ -321,12 +321,3 @@ export type UseExerciseListReturnType = {
   getExercises: () => Promise<void>;
   isExercisesLoading: boolean;
 };
-
-export type MultisetOperationType =
-  | "add"
-  | "edit-multiset"
-  | "delete-multiset"
-  | "edit-set"
-  | "delete-set"
-  | "reassign-exercise"
-  | "change-exercise";
