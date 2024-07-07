@@ -34,15 +34,13 @@ export const useMultisetActions = ({
   const { exercises } = exerciseList;
 
   const handleEditSet = (set: WorkoutSet, multiset: Multiset) => {
-    setOperatingSet(set);
-    setOperatingMultiset(multiset);
-    setIsEditingSet(true);
-
     const exercise = exercises.find((obj) => obj.id === set.exercise_id);
 
     if (exercise === undefined) return;
 
-    // TODO: HANDLE UNKNOWN EXERCISES
+    setOperatingSet(set);
+    setOperatingMultiset(multiset);
+    setIsEditingSet(true);
 
     setSelectedMultisetExercise(exercise);
   };
