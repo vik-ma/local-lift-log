@@ -51,7 +51,12 @@ export const MultisetSetMenu = ({
           handleMultisetSetOptionSelection(key as string, set, multiset)
         }
       >
-        <DropdownItem key="edit-set">Edit Set</DropdownItem>
+        <DropdownItem
+          className={set.hasInvalidExerciseId ? "hidden" : ""}
+          key="edit-set"
+        >
+          Edit Set
+        </DropdownItem>
         {set.hasInvalidExerciseId ? (
           <DropdownItem key="reassign-exercise">Reassign Exercise</DropdownItem>
         ) : (
