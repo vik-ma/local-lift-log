@@ -217,12 +217,25 @@ export default function Multisets() {
   };
 
   const removeSetFromMultiset = async () => {
-    if (
-      operationType !== "delete" ||
-      operatingSet.id === 0 ||
-      operatingMultiset.id === 0
-    )
+    if (operatingSet.id === 0) return;
+
+    if (operatingSet.id < 0) {
+      // If deleting non-saved Set
+      const updatedSetList = operatingMultiset.setList.filter(
+        (obj) => obj.id !== operatingSet.id
+      );
+
+      operatingMultiset.setList = updatedSetList;
+
+      const updatedMultisets = multisets.filter(
+        (item) => item.id !== operatingMultiset.id
+      );
+
+      setMultisets(updatedMultisets);
+
+      deleteModal.onClose();
       return;
+    }
 
     const deleteSetSuccess = await DeleteSetWithId(operatingSet.id);
 
