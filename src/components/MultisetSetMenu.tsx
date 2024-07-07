@@ -40,7 +40,7 @@ export const MultisetSetMenu = ({
           size="sm"
           variant="light"
         >
-          <VerticalMenuIcon color="#bbb" size={verticalMenuIconSize} />
+          <VerticalMenuIcon color="#a8a29e" size={verticalMenuIconSize} />
         </Button>
       </DropdownTrigger>
       <DropdownMenu
