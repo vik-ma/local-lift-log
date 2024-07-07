@@ -29,19 +29,21 @@ export const MultisetReorderItem = ({
           className={
             set.hasInvalidExerciseId
               ? "text-red-700"
-              : "text-stone-500 truncate max-w-[18rem]"
+              : "text-stone-500 truncate max-w-[20rem]"
           }
         >
           {set.exercise_name}
         </span>
-        <MultisetSetMenu
-          multiset={multiset}
-          set={set}
-          index={index}
-          handleMultisetSetOptionSelection={handleMultisetSetOptionSelection}
-          verticalMenuIconSize={14}
-        />
-        <ReorderIcon dragControls={dragControls} size={18} />
+        <div className="flex gap-2 items-center">
+          <MultisetSetMenu
+            multiset={multiset}
+            set={set}
+            index={index}
+            handleMultisetSetOptionSelection={handleMultisetSetOptionSelection}
+            verticalMenuIconSize={18}
+          />
+          <ReorderIcon dragControls={dragControls} size={18} />
+        </div>
       </div>
     </Reorder.Item>
   );
