@@ -42,7 +42,7 @@ export const MultisetReorderItem = ({
             handleMultisetSetOptionSelection={handleMultisetSetOptionSelection}
             verticalMenuIconSize={18}
           />
-          <ReorderIcon dragControls={dragControls} size={18} />
+          <ReorderIcon dragControls={dragControls} size={18} color="#c4c4c4" />
         </div>
       </div>
     </Reorder.Item>
