@@ -83,7 +83,7 @@ export const WorkoutExerciseList = ({
         >
           {groupedSets.map((groupedSet) => (
             <Reorder.Item
-              key={groupedSet.exercise.id}
+              key={groupedSet.exerciseList[0].id}
               value={groupedSet}
               onDragStart={() => setIsExerciseBeingDragged(true)}
               onDragEnd={() => updateExerciseOrder()}
@@ -98,14 +98,14 @@ export const WorkoutExerciseList = ({
                     <div className="flex gap-3">
                       <h3
                         className={
-                          groupedSet.exercise.isInvalid
+                          groupedSet.exerciseList[0].isInvalid
                             ? "text-lg font-medium truncate max-w-80 text-red-500"
                             : "text-lg font-medium truncate max-w-80 text-yellow-600"
                         }
                       >
-                        {groupedSet.exercise.name}
+                        {groupedSet.exerciseList[0].name}
                       </h3>
-                      {groupedSet.exercise.isInvalid && (
+                      {groupedSet.exerciseList[0].isInvalid && (
                         <Button
                           size="sm"
                           variant="flat"
@@ -117,16 +117,16 @@ export const WorkoutExerciseList = ({
                     </div>
                     <span
                       className={
-                        completedSetsMap?.get(groupedSet.exercise.id) ===
+                        completedSetsMap?.get(groupedSet.exerciseList[0].id) ===
                         groupedSet.setList.length
                           ? "text-sm text-success"
                           : "text-sm text-stone-500"
                       }
                     >
                       {completedSetsMap
-                        ? `${completedSetsMap.get(groupedSet.exercise.id)}/${
-                            groupedSet.setList.length
-                          } Sets Completed`
+                        ? `${completedSetsMap.get(
+                            groupedSet.exerciseList[0].id
+                          )}/${groupedSet.setList.length} Sets Completed`
                         : `${groupedSet.setList.length} Sets`}
                     </span>
                   </div>
@@ -139,7 +139,7 @@ export const WorkoutExerciseList = ({
                     <Dropdown>
                       <DropdownTrigger>
                         <Button
-                          aria-label={`Toggle ${groupedSet.exercise.name} Options Menu`}
+                          aria-label={`Toggle ${groupedSet.exerciseList[0].name} Options Menu`}
                           isIconOnly
                           className="z-1"
                           size="sm"
@@ -149,7 +149,7 @@ export const WorkoutExerciseList = ({
                         </Button>
                       </DropdownTrigger>
                       <DropdownMenu
-                        aria-label={`Option Menu For ${groupedSet.exercise.name} Exercise`}
+                        aria-label={`Option Menu For ${groupedSet.exerciseList[0].name} Exercise`}
                         onAction={(key) =>
                           handleExerciseOptionSelection(
                             key as string,
@@ -162,7 +162,9 @@ export const WorkoutExerciseList = ({
                         </DropdownItem>
                         <DropdownItem
                           className={
-                            groupedSet.exercise.note === null ? "hidden" : ""
+                            groupedSet.exerciseList[0].note === null
+                              ? "hidden"
+                              : ""
                           }
                           key="toggle-exercise-note"
                         >
@@ -170,7 +172,7 @@ export const WorkoutExerciseList = ({
                             ? "Hide Exercise Note"
                             : "Show Exercise Note"}
                         </DropdownItem>
-                        {groupedSet.exercise.isInvalid ? (
+                        {groupedSet.exerciseList[0].isInvalid ? (
                           <DropdownItem key="reassign-exercise">
                             Reassign Exercise
                           </DropdownItem>
@@ -194,7 +196,7 @@ export const WorkoutExerciseList = ({
                     {groupedSet.showExerciseNote && (
                       <div className="flex justify-between items-center px-2 pb-1">
                         <span className="text-stone-400 break-words max-w-full">
-                          {groupedSet.exercise.note}
+                          {groupedSet.exerciseList[0].note}
                         </span>
                       </div>
                     )}

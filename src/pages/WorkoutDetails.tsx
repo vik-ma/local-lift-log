@@ -237,7 +237,7 @@ export default function WorkoutDetails() {
         body={
           <p className="break-words">
             {operationType === "delete-exercise-sets"
-              ? `Are you sure you want to delete all ${operatingGroupedSet?.exercise.name} sets from Workout?`
+              ? `Are you sure you want to delete all ${operatingGroupedSet?.exerciseList[0].name} sets from Workout?`
               : `Are you sure you want to delete ${operatingSet.exercise_name} set?`}
           </p>
         }
