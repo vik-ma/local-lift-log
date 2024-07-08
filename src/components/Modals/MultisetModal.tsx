@@ -31,7 +31,6 @@ type MultisetModalProps = {
   exerciseList: UseExerciseListReturnType;
   userSettings: UserSettings;
   saveButtonAction: () => void;
-  updateSet: () => void;
 };
 
 export const MultisetModal = ({
@@ -46,7 +45,6 @@ export const MultisetModal = ({
   exerciseList,
   userSettings,
   saveButtonAction,
-  updateSet,
 }: MultisetModalProps) => {
   const defaultSetInputValues = useDefaultSetInputValues();
 
@@ -129,12 +127,14 @@ export const MultisetModal = ({
             <ModalFooter className="flex justify-between">
               <div>
                 <Button
-                  className="w-32"
+                  className="w-[7.5rem]"
                   variant="flat"
                   onPress={() => handleLeftButton()}
                 >
-                  {isSelectingExercise || isEditingSet
+                  {isSelectingExercise
                     ? "Cancel"
+                    : isEditingSet
+                    ? "Back"
                     : "Add Exercise"}
                 </Button>
               </div>
@@ -143,18 +143,12 @@ export const MultisetModal = ({
                   Close
                 </Button>
                 <Button
-                className="w-24"
+                  className="w-24"
                   color="success"
-                  isDisabled={!isEditingSet && multiset.setList.length === 0}
-                  onPress={
-                    isEditingSet ? () => updateSet() : () => saveButtonAction()
-                  }
+                  isDisabled={isEditingSet || multiset.setList.length === 0}
+                  onPress={saveButtonAction}
                 >
-                  {isEditingSet
-                    ? "Save Set"
-                    : operationType === "edit"
-                    ? "Save"
-                    : "Create"}
+                  {operationType === "edit" ? "Save" : "Create"}
                 </Button>
               </div>
             </ModalFooter>
