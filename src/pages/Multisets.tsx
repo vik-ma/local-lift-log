@@ -38,7 +38,11 @@ export default function Multisets() {
   const multisetModal = useDisclosure();
   const deleteModal = useDisclosure();
 
-  const defaultSet = useDefaultSet(true);
+  const defaultSet: WorkoutSet = {
+    ...useDefaultSet(true),
+    is_tracking_weight: 1,
+    is_tracking_reps: 1,
+  };
 
   const [operatingSet, setOperatingSet] = useState<WorkoutSet>(defaultSet);
 
