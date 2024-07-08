@@ -4,7 +4,7 @@ import { IsNumberValidId } from "../Numbers/IsNumberValidId";
 
 type GroupedWorkoutSets = {
   [exerciseId: number]: {
-    exercise: Exercise;
+    exerciseList: Exercise[];
     setList: WorkoutSet[];
     isExpanded: boolean;
   };
@@ -25,7 +25,7 @@ export const CreateGroupedWorkoutSetListByExerciseId = async (
 
     const exercise = await GetExerciseFromId(exerciseId);
     groupedWorkoutSets[exerciseId] = {
-      exercise: exercise,
+      exerciseList: [exercise],
       setList: [],
       isExpanded: true,
     };
@@ -45,8 +45,8 @@ export const CreateGroupedWorkoutSetListByExerciseId = async (
 
   // Sort the groupedWorkoutSetList array based on the exercise_order string
   groupedWorkoutSetList.sort((a, b) => {
-    const indexA = orderArray.indexOf(a.exercise.id);
-    const indexB = orderArray.indexOf(b.exercise.id);
+    const indexA = orderArray.indexOf(a.exerciseList[0].id);
+    const indexB = orderArray.indexOf(b.exerciseList[0].id);
     return indexA - indexB;
   });
 
