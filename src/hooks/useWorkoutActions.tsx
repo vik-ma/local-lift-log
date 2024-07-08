@@ -895,6 +895,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     if (activeSetInputs.isSetTrackingValuesInvalid) return;
 
+    const isUpdatingActiveSet = activeSet.is_completed === 1 ? true : false;
+
     const currentDateString = GetCurrentDateTimeISOString();
 
     const setTrackingValuesNumbers = ConvertSetInputValuesToNumbers(
@@ -949,13 +951,16 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       );
     }
 
-    goToNextIncompleteSet(updatedSet);
+    goToNextIncompleteSet(updatedSet, isUpdatingActiveSet);
     setShowCommentInput(false);
     toast.success("Set Saved");
   };
 
-  const goToNextIncompleteSet = (lastSet: WorkoutSet) => {
-    if (incompleteSetIds.length < 2) {
+  const goToNextIncompleteSet = (
+    lastSet: WorkoutSet,
+    isUpdatingActiveSet?: boolean
+  ) => {
+    if (incompleteSetIds.length < 2 && !isUpdatingActiveSet) {
       // If last incomplete Set
       setIncompleteSetIds([]);
       setActiveSet(undefined);
