@@ -135,8 +135,7 @@ export const ActiveSet = ({
             </button>
             {isActiveSetExpanded ? (
               <div className="flex flex-col h-full overflow-y-auto">
-                {activeGroupedSet?.exerciseList[activeSet.set_index!]
-                  .isInvalid ? (
+                {activeGroupedSet?.exerciseList[0].isInvalid ? (
                   <div className="flex flex-col p-5 justify-center gap-3">
                     <div className="flex justify-center text-lg text-center font-medium">
                       This Set is referencing an Exercise that has been deleted.
@@ -205,9 +204,8 @@ export const ActiveSet = ({
                                 size="sm"
                                 isDisabled={
                                   activeSet.comment === null &&
-                                  activeGroupedSet?.exerciseList[
-                                    activeSet.set_index!
-                                  ].note === null &&
+                                  activeGroupedSet?.exerciseList[0].note ===
+                                    null &&
                                   activeSet.note === null
                                 }
                               >
@@ -236,9 +234,8 @@ export const ActiveSet = ({
                               </DropdownItem>
                               <DropdownItem
                                 className={
-                                  activeGroupedSet?.exerciseList[
-                                    activeSet.set_index!
-                                  ].note === null
+                                  activeGroupedSet?.exerciseList[0].note ===
+                                  null
                                     ? "hidden"
                                     : ""
                                 }
@@ -297,9 +294,7 @@ export const ActiveSet = ({
                               handleEditSet(
                                 activeSet,
                                 activeSet.set_index!,
-                                activeGroupedSet!.exerciseList[
-                                  activeSet.set_index!
-                                ]
+                                activeGroupedSet!.exerciseList[0]
                               )
                             }
                           >

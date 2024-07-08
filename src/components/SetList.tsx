@@ -49,7 +49,7 @@ export const SetList = ({
           }
           key={set.id}
           onClick={() =>
-            clickSetAction(set, index, groupedSet.exerciseList[index])
+            clickSetAction(set, index, groupedSet.exerciseList[0])
           }
         >
           <div className="flex justify-between items-center">
@@ -132,14 +132,14 @@ export const SetList = ({
                 (isTemplate && set.note !== null)) && (
                 <div className={isTemplate ? "" : "pr-1"}>
                   <Button
-                    aria-label={`Toggle ${groupedSet.exerciseList[index].name} Set ${index} Comment`}
+                    aria-label={`Toggle ${groupedSet.exerciseList[0].name} Set ${index} Comment`}
                     isIconOnly
                     size="sm"
                     radius="lg"
                     variant="light"
                     onPress={() =>
                       clickCommentButtonAction(
-                        groupedSet.exerciseList[index].id,
+                        groupedSet.exerciseList[0].id,
                         index
                       )
                     }
@@ -154,7 +154,7 @@ export const SetList = ({
               <Dropdown>
                 <DropdownTrigger>
                   <Button
-                    aria-label={`Toggle ${groupedSet.exerciseList[index].name} Set ${index} Options Menu`}
+                    aria-label={`Toggle ${groupedSet.exerciseList[0].name} Set ${index} Options Menu`}
                     isIconOnly
                     className="z-1"
                     size="sm"
@@ -165,13 +165,13 @@ export const SetList = ({
                   </Button>
                 </DropdownTrigger>
                 <DropdownMenu
-                  aria-label={`Option Menu For ${groupedSet.exerciseList[index].name} Set ${index}`}
+                  aria-label={`Option Menu For ${groupedSet.exerciseList[0].name} Set ${index}`}
                   onAction={(key) =>
                     optionsSelectionAction(
                       key as string,
                       set,
                       index,
-                      groupedSet.exerciseList[index]
+                      groupedSet.exerciseList[0]
                     )
                   }
                 >
@@ -189,7 +189,7 @@ export const SetList = ({
               </Dropdown>
             </div>
           </div>
-          {shownSetListComments[groupedSet.exerciseList[index].id]?.has(
+          {shownSetListComments[groupedSet.exerciseList[0].id]?.has(
             index
           ) && (
             <span className="text-stone-400 pb-1 pr-2">
