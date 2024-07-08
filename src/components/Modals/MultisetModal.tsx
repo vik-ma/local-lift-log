@@ -31,6 +31,7 @@ type MultisetModalProps = {
   exerciseList: UseExerciseListReturnType;
   userSettings: UserSettings;
   saveButtonAction: () => void;
+  updateSet: () => void;
 };
 
 export const MultisetModal = ({
@@ -45,6 +46,7 @@ export const MultisetModal = ({
   exerciseList,
   userSettings,
   saveButtonAction,
+  updateSet,
 }: MultisetModalProps) => {
   const defaultSetInputValues = useDefaultSetInputValues();
 
@@ -141,11 +143,18 @@ export const MultisetModal = ({
                   Close
                 </Button>
                 <Button
+                className="w-24"
                   color="success"
-                  isDisabled={multiset.setList.length === 0}
-                  onPress={saveButtonAction}
+                  isDisabled={!isEditingSet && multiset.setList.length === 0}
+                  onPress={
+                    isEditingSet ? () => updateSet() : () => saveButtonAction()
+                  }
                 >
-                  {operationType === "edit" ? "Save" : "Create"}
+                  {isEditingSet
+                    ? "Save Set"
+                    : operationType === "edit"
+                    ? "Save"
+                    : "Create"}
                 </Button>
               </div>
             </ModalFooter>

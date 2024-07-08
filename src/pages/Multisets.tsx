@@ -295,6 +295,8 @@ export default function Multisets() {
     toast.success(toastMsg);
   };
 
+  const updateSet = async () => {};
+
   const handleMultisetOptionSelection = (key: string, multiset: Multiset) => {
     if (key === "edit") {
       setOperatingMultiset(multiset);
@@ -367,6 +369,7 @@ export default function Multisets() {
         saveButtonAction={
           operationType === "edit" ? updateMultiset : createMultiset
         }
+        updateSet={updateSet}
       />
       <div className="flex flex-col items-center gap-2">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">
