@@ -165,7 +165,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       }
 
       const exerciseIndex: number = groupedSets.findIndex(
-        (obj) => obj.exercise.id === selectedExercise.id
+        (obj) => obj.exerciseList[0].id === selectedExercise.id
       );
 
       const updatedWorkoutNumbers: WorkoutNumbers = {
@@ -176,7 +176,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       if (exerciseIndex === -1) {
         // Create new GroupedWorkoutSet if exercise_id does not exist in groupedSets
         const newGroupedWorkoutSet: GroupedWorkoutSet = {
-          exercise: selectedExercise,
+          exerciseList: [selectedExercise],
           setList: newSets,
           isExpanded: true,
           showExerciseNote: true,
@@ -224,7 +224,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     if (!success) return;
 
     const exerciseIndex: number = groupedSets.findIndex(
-      (obj) => obj.exercise.id === operatingSet.exercise_id
+      (obj) => obj.exerciseList[0].id === operatingSet.exercise_id
     );
 
     const updatedWorkoutNumbers: WorkoutNumbers = {
@@ -318,7 +318,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     if (!success) return;
 
     const exerciseIndex: number = groupedSets.findIndex(
-      (obj) => obj.exercise.id === operatingSet.exercise_id
+      (obj) => obj.exerciseList[0].id === operatingSet.exercise_id
     );
 
     const updatedSetList: WorkoutSet[] = groupedSets[exerciseIndex].setList.map(
@@ -461,7 +461,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       setActiveSet(newActiveSet);
 
       const groupedSet = groupedSets.find(
-        (obj) => obj.exercise.id === exercise.id
+        (obj) => obj.exerciseList[0].id === exercise.id
       );
       setActiveGroupedSet(groupedSet);
 
@@ -519,7 +519,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   const handleAddSetToExercise = async (
     groupedWorkoutSet: GroupedWorkoutSet
   ) => {
-    const exercise = groupedWorkoutSet.exercise;
+    const exercise = groupedWorkoutSet.exerciseList[0];
 
     let newSet: WorkoutSet = {
       ...defaultNewSet,
@@ -563,7 +563,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     const newSets: WorkoutSet[] = [newSet];
 
     const exerciseIndex: number = groupedSets.findIndex(
-      (obj) => obj.exercise.id === exercise.id
+      (obj) => obj.exerciseList[0].id === exercise.id
     );
 
     setGroupedSets((prev) => {
@@ -623,16 +623,17 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       const db = await Database.load(import.meta.env.VITE_DB);
 
       const result = await db.execute(statement, [
-        operatingGroupedSet.exercise.id,
+        operatingGroupedSet.exerciseList[0].id,
         id,
       ]);
 
       const updatedSetList: GroupedWorkoutSet[] = groupedSets.filter(
-        (item) => item.exercise.id !== operatingGroupedSet.exercise.id
+        (item) =>
+          item.exerciseList[0].id !== operatingGroupedSet.exerciseList[0].id
       );
 
-      if (completedSetsMap.has(operatingGroupedSet.exercise.id)) {
-        completedSetsMap.delete(operatingGroupedSet.exercise.id);
+      if (completedSetsMap.has(operatingGroupedSet.exerciseList[0].id)) {
+        completedSetsMap.delete(operatingGroupedSet.exerciseList[0].id);
       }
 
       setGroupedSets(updatedSetList);
@@ -672,7 +673,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     setGroupedSets((prev) =>
       prev.map((item) =>
-        item.exercise.id === groupedWorkoutSet.exercise.id
+        item.exerciseList[0].id === groupedWorkoutSet.exerciseList[0].id
           ? updatedGroupedSet
           : item
       )
@@ -723,7 +724,9 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     setGroupedSets((prev) =>
       prev.map((item) =>
-        item.exercise.id === groupedSet.exercise.id ? updatedGroupedSet : item
+        item.exerciseList[0].id === groupedSet.exerciseList[0].id
+          ? updatedGroupedSet
+          : item
       )
     );
   };
@@ -732,20 +735,20 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     if (operatingGroupedSet === undefined) return;
 
     // Do nothing if trying to reassign the same Exercise
-    if (operatingGroupedSet.exercise.id === newExercise.id) {
+    if (operatingGroupedSet.exerciseList[0].id === newExercise.id) {
       resetOperatingSet();
       setModal.onClose();
       return;
     }
 
     const oldExerciseIndex: number = groupedSets.findIndex(
-      (obj) => obj.exercise.id === operatingGroupedSet.exercise.id
+      (obj) => obj.exerciseList[0].id === operatingGroupedSet.exerciseList[0].id
     );
 
     if (operationType === "reassign-exercise") {
       // Reassign ALL sets with old exercise_id to new exercise_id
       await ReassignExerciseIdForSets(
-        operatingGroupedSet.exercise.id,
+        operatingGroupedSet.exerciseList[0].id,
         newExercise.id
       );
     } else if (operationType === "change-exercise") {
@@ -774,11 +777,11 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
         const db = await Database.load(import.meta.env.VITE_DB);
 
-        db.execute(statement, [operatingGroupedSet.exercise.id, id]);
+        db.execute(statement, [operatingGroupedSet.exerciseList[0].id, id]);
 
         await db.execute(statement, [
           newExercise.id,
-          operatingGroupedSet.exercise.id,
+          operatingGroupedSet.exerciseList[0].id,
           id,
         ]);
       } catch (error) {
@@ -789,7 +792,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     const newGroupedWorkoutSet: GroupedWorkoutSet = {
       ...operatingGroupedSet,
-      exercise: newExercise,
+      exerciseList: [newExercise],
     };
 
     newGroupedWorkoutSet.setList.forEach((item) => {
@@ -797,13 +800,15 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     });
 
     const newExerciseIndex: number = groupedSets.findIndex(
-      (obj) => obj.exercise.id === newExercise.id
+      (obj) => obj.exerciseList[0].id === newExercise.id
     );
 
-    if (completedSetsMap.has(operatingGroupedSet.exercise.id)) {
+    if (completedSetsMap.has(operatingGroupedSet.exerciseList[0].id)) {
       // Change key to match new exercise id
-      const value = completedSetsMap.get(operatingGroupedSet.exercise.id);
-      completedSetsMap.delete(operatingGroupedSet.exercise.id);
+      const value = completedSetsMap.get(
+        operatingGroupedSet.exerciseList[0].id
+      );
+      completedSetsMap.delete(operatingGroupedSet.exerciseList[0].id);
       completedSetsMap.set(newExercise.id, value!);
     }
 
@@ -850,14 +855,14 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       !isTemplate &&
       activeSet !== undefined &&
       activeGroupedSet !== undefined &&
-      activeSet.exercise_id === operatingGroupedSet.exercise.id
+      activeSet.exercise_id === operatingGroupedSet.exerciseList[0].id
     ) {
       setActiveSet({
         ...activeSet,
         exercise_id: newExercise.id,
         exercise_name: newExercise.name,
       });
-      setActiveGroupedSet({ ...activeGroupedSet, exercise: newExercise });
+      setActiveGroupedSet({ ...activeGroupedSet, exerciseList: [newExercise] });
     }
   };
 
@@ -917,7 +922,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     if (!success) return;
 
     const exerciseIndex: number = groupedSets.findIndex(
-      (obj) => obj.exercise.id === activeSet.exercise_id
+      (obj) => obj.exerciseList[0].id === activeSet.exercise_id
     );
 
     const updatedSetList: WorkoutSet[] = groupedSets[exerciseIndex].setList.map(
@@ -1120,7 +1125,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
           }
         }
         newCompletedSetsMap.set(
-          groupedSetList[i].exercise.id,
+          groupedSetList[i].exerciseList[0].id,
           numCompletedSets
         );
       }
@@ -1139,9 +1144,12 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         note_type: "Set Note",
       };
       setActiveSetNote(note);
-    } else if (key === "show-exercise-note" && activeGroupedSet.exercise.note) {
+    } else if (
+      key === "show-exercise-note" &&
+      activeGroupedSet.exerciseList[0].note
+    ) {
       const note: ActiveSetNote = {
-        note: activeGroupedSet.exercise.note,
+        note: activeGroupedSet.exerciseList[0].note,
         note_type: "Exercise Note",
       };
       setActiveSetNote(note);
@@ -1174,7 +1182,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     if (!success) return;
 
     const exerciseIndex: number = groupedSets.findIndex(
-      (obj) => obj.exercise.id === operatingSet.exercise_id
+      (obj) => obj.exerciseList[0].id === operatingSet.exercise_id
     );
 
     const updatedSetList: WorkoutSet[] = groupedSets[exerciseIndex].setList.map(
