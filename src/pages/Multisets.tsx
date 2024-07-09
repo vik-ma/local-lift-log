@@ -94,6 +94,8 @@ export default function Multisets() {
     setOperatingMultiset(defaultMultiset);
     setOperatingSet(defaultSet);
     setNewMultisetSetIndex(0);
+    multisetActions.setIsEditingSet(false);
+    multisetActions.setIsSelectingExercise(false);
   };
 
   const handleClickExercise = (exercise: Exercise) => {
@@ -329,6 +331,8 @@ export default function Multisets() {
       setOperatingMultiset(multiset);
       setOperationType("edit");
       setNewMultisetSetIndex(0);
+      multisetActions.setIsEditingSet(false);
+      multisetActions.setIsSelectingExercise(false);
       multisetModal.onOpen();
     } else if (key === "delete") {
       setOperatingMultiset(multiset);
