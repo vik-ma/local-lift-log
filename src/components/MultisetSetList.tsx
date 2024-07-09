@@ -21,7 +21,7 @@ export const MultisetSetList = ({
     <Reorder.Group
       className={
         multiset.setList.length > 0
-          ? "flex flex-col w-full border rounded-lg divide-y divide-stone-200"
+          ? "flex flex-col w-full border rounded-lg divide-y overflow-hidden divide-stone-200"
           : "flex flex-col w-full rounded-lg divide-y divide-stone-200"
       }
       values={multiset.setList}
