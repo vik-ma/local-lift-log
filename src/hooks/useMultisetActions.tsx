@@ -47,8 +47,13 @@ export const useMultisetActions = ({
     setOperatingSet(set);
     setOperatingMultiset(multiset);
     setIsEditingSet(true);
+    setIsSelectingExercise(false);
 
     setSelectedMultisetExercise(exercise);
+
+    if (!multisetModal.isOpen) {
+      multisetModal.onOpen();
+    }
   };
 
   const handleMultisetSetOptionSelection = (
