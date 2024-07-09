@@ -294,7 +294,6 @@ export type Multiset = {
   setList: WorkoutSet[];
   setListText?: ReactNode;
   isExpanded?: boolean;
-  changedSetIds?: Set<number>;
 };
 
 export type MultisetTypeMap = {
