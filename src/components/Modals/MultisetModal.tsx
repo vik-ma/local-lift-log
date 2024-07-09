@@ -13,11 +13,14 @@ import {
   UseExerciseListReturnType,
   WorkoutSet,
   UserSettings,
-  UseMultisetActionsReturnType,
 } from "../../typings";
 import { MultisetDropdown } from "../Dropdowns/MultisetDropdown";
 import { ExerciseModalList, MultisetSetList, SetValueConfig } from "../";
-import { useSetTrackingInputs, useDefaultSetInputValues } from "../../hooks";
+import {
+  useSetTrackingInputs,
+  useDefaultSetInputValues,
+  useMultisetActions,
+} from "../../hooks";
 
 type MultisetModalProps = {
   multisetModal: ReturnType<typeof useDisclosure>;
@@ -27,7 +30,7 @@ type MultisetModalProps = {
   setOperatingSet: React.Dispatch<React.SetStateAction<WorkoutSet>>;
   operationType: string;
   handleClickExercise: (exercise: Exercise) => void;
-  useMultisetActions: UseMultisetActionsReturnType;
+  useMultisetActions: ReturnType<typeof useMultisetActions>;
   exerciseList: UseExerciseListReturnType;
   userSettings: UserSettings;
   saveButtonAction: () => void;

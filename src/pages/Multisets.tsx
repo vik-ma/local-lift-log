@@ -99,6 +99,11 @@ export default function Multisets() {
   };
 
   const handleClickExercise = (exercise: Exercise) => {
+    if (multisetActions.multisetSetOperationType === "change-exercise") {
+      console.log("asd")
+      return;
+    }
+
     const setId = newMultisetSetIndex - 1;
 
     const newSet = {

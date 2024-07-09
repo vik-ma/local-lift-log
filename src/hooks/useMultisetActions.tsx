@@ -3,7 +3,6 @@ import {
   Multiset,
   WorkoutSet,
   Exercise,
-  UseMultisetActionsReturnType,
   UseExerciseListReturnType,
 } from "../typings";
 import { useState } from "react";
@@ -25,7 +24,7 @@ export const useMultisetActions = ({
   deleteModal,
   multisetModal,
   exerciseList,
-}: UseMultisetActionsProps): UseMultisetActionsReturnType => {
+}: UseMultisetActionsProps) => {
   const [isSelectingExercise, setIsSelectingExercise] =
     useState<boolean>(false);
   const [isEditingSet, setIsEditingSet] = useState<boolean>(false);
