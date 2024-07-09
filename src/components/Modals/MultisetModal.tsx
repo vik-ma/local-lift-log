@@ -109,6 +109,7 @@ export const MultisetModal = ({
                   useSetTrackingInputs={operatingSetInputs}
                   userSettings={userSettings}
                   clearSetInputValues={clearSetInputValues}
+                  isMultiset={true}
                 />
               ) : (
                 <div className="flex flex-col items-center gap-2.5 h-[400px] overflow-auto scroll-gradient">

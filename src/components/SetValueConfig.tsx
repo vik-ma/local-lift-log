@@ -27,6 +27,7 @@ type SetValueConfigProps = {
   clearSetInputValues: (isOperatingSet: boolean) => void;
   numNewSets?: string;
   setNumNewSets?: React.Dispatch<React.SetStateAction<string>>;
+  isMultiset?: boolean;
 };
 
 export const SetValueConfig = ({
@@ -39,6 +40,7 @@ export const SetValueConfig = ({
   clearSetInputValues,
   numNewSets,
   setNumNewSets,
+  isMultiset,
 }: SetValueConfigProps) => {
   const [showDefaultValues, setShowDefaultValues] = useState<boolean>(false);
   const [showNoteInput, setShowNoteInput] = useState<boolean>(false);
@@ -62,7 +64,7 @@ export const SetValueConfig = ({
               <CommentIcon size={21} />
             </Button>
           </div>
-          {operationType === "edit" && (
+          {operationType === "edit" && !isMultiset && (
             <span className="text-lg text-stone-500">
               Set {operatingSet.set_index! + 1}
             </span>
