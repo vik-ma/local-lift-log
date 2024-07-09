@@ -8,6 +8,7 @@ export const DefaultNewMultiset = () => {
     is_template: 1,
     setList: [],
     isExpanded: false,
+    changedSetIds: new Set<number>(),
   };
 
   return defaultNewMultiset;
