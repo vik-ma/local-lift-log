@@ -17,6 +17,7 @@ import {
   InsertMultisetIntoDatabase,
   InsertSetIntoDatabase,
   UpdateMultisetSetOrder,
+  UpdateSet,
 } from "../helpers";
 import { DeleteModal, LoadingSpinner, MultisetAccordion } from "../components";
 import toast, { Toaster } from "react-hot-toast";
@@ -174,9 +175,6 @@ export default function Multisets() {
       setListIdOrder.push(setId);
     }
 
-    // TODO: CHECK IF SETS IN SETLIST HAS BEEN MODIFIED
-    // UPDATE SETS IN DB IF THEY HAVE
-
     const { success, updatedMultiset } = await UpdateMultisetSetOrder(
       operatingMultiset,
       setListIdOrder
@@ -213,7 +211,27 @@ export default function Multisets() {
     deleteModal.onClose();
   };
 
-  const updateOperatingSet = () => {
+  const updateOperatingSet = async () => {
+    if (operatingMultiset.id === 0 || operatingSet.id < 1) return;
+
+    const success = await UpdateSet(operatingSet);
+
+    if (!success) return;
+
+    const updatedSetList = operatingMultiset.setList.map((item) =>
+      item.id === operatingSet.id ? operatingSet : item
+    );
+
+    setOperatingMultiset((prev) => ({ ...prev, setList: updatedSetList }));
+
+    const updatedMultisets = multisets.map((item) =>
+      item.id === operatingMultiset.id ? operatingMultiset : item
+    );
+
+    setMultisets(updatedMultisets);
+
+    multisetActions.setIsEditingSet(false);
+    toast.success("Set Updated");
   };
 
   const handleMultisetAccordionClick = (multiset: Multiset, index: number) => {
