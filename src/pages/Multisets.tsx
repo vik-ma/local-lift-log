@@ -52,8 +52,12 @@ export default function Multisets() {
   const { multisetTypeMap } = useMultisetTypeMap();
 
   const multisetActions = useMultisetActions({
+    operatingMultiset,
     setOperatingMultiset,
+    operatingSet,
     setOperatingSet,
+    multisets,
+    setMultisets,
     deleteModal,
     multisetModal,
     exerciseList,
@@ -98,9 +102,14 @@ export default function Multisets() {
     multisetActions.setIsSelectingExercise(false);
   };
 
-  const handleClickExercise = (exercise: Exercise) => {
+  const handleClickExercise = async (exercise: Exercise) => {
     if (multisetActions.multisetSetOperationType === "change-exercise") {
-      console.log("asd")
+      const success = await multisetActions.changeExercise(exercise);
+
+      if (success) {
+        toast.success("Exercise Changed");
+      }
+
       return;
     }
 

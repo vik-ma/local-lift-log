@@ -157,11 +157,7 @@ export const MultisetModal = ({
                   }
                   onPress={isEditingSet ? updateOperatingSet : saveButtonAction}
                 >
-                  {isEditingSet
-                    ? "Update Set"
-                    : operationType === "edit"
-                    ? "Save"
-                    : "Create"}
+                  {isEditingSet ? "Update Set" : "Save"}
                 </Button>
               </div>
             </ModalFooter>
