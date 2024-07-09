@@ -52,7 +52,7 @@ export const MultisetSetMenu = ({
         }
       >
         <DropdownItem
-          className={set.hasInvalidExerciseId ? "hidden" : ""}
+          className={set.hasInvalidExerciseId || set.id < 0 ? "hidden" : ""}
           key="edit-set"
         >
           Edit Set
