@@ -336,4 +336,8 @@ export type UseMultisetActionsReturnType = {
     set: WorkoutSet,
     multiset: Multiset
   ) => void;
+  multisetSetOperationType: "" | "change-exercise" | "reassign-exercise";
+  setMultisetSetOperationType: React.Dispatch<
+    React.SetStateAction<"" | "change-exercise" | "reassign-exercise">
+  >;
 };

@@ -55,6 +55,7 @@ export default function Multisets() {
     setOperatingMultiset,
     setOperatingSet,
     deleteModal,
+    multisetModal,
     exerciseList,
   });
 

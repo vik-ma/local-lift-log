@@ -9,10 +9,13 @@ import {
 import { useState } from "react";
 import { useDefaultExercise } from ".";
 
+type OperationType = "" | "change-exercise" | "reassign-exercise";
+
 type UseMultisetActionsProps = {
   setOperatingMultiset: React.Dispatch<React.SetStateAction<Multiset>>;
   setOperatingSet: React.Dispatch<React.SetStateAction<WorkoutSet>>;
   deleteModal: ReturnType<typeof useDisclosure>;
+  multisetModal: ReturnType<typeof useDisclosure>;
   exerciseList: UseExerciseListReturnType;
 };
 
@@ -20,11 +23,14 @@ export const useMultisetActions = ({
   setOperatingMultiset,
   setOperatingSet,
   deleteModal,
+  multisetModal,
   exerciseList,
 }: UseMultisetActionsProps): UseMultisetActionsReturnType => {
   const [isSelectingExercise, setIsSelectingExercise] =
     useState<boolean>(false);
   const [isEditingSet, setIsEditingSet] = useState<boolean>(false);
+  const [multisetSetOperationType, setMultisetSetOperationType] =
+    useState<OperationType>("");
 
   const defaultExercise = useDefaultExercise();
 
@@ -58,8 +64,16 @@ export const useMultisetActions = ({
       deleteModal.onOpen();
     } else if (key === "change-exercise") {
       setOperatingSet(set);
+      setOperatingMultiset(multiset);
+      setMultisetSetOperationType("change-exercise");
+      setIsSelectingExercise(true);
+      multisetModal.onOpen();
     } else if (key === "reassign-exercise") {
       setOperatingSet(set);
+      setOperatingMultiset(multiset);
+      setMultisetSetOperationType("reassign-exercise");
+      setIsSelectingExercise(true);
+      multisetModal.onOpen();
     }
   };
 
@@ -71,5 +85,7 @@ export const useMultisetActions = ({
     selectedMultisetExercise,
     setSelectedMultisetExercise,
     handleMultisetSetOptionSelection,
+    multisetSetOperationType,
+    setMultisetSetOperationType,
   };
 };
