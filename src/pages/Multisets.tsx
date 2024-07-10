@@ -67,7 +67,6 @@ export default function Multisets() {
     const loadMultisets = async () => {
       try {
         const multisets = await GetAllMultisets();
-
         setMultisets(multisets);
       } catch (error) {
         console.log(error);
@@ -80,8 +79,8 @@ export default function Multisets() {
         setUserSettings(userSettings);
         setOperatingSet((prev) => ({
           ...prev,
-          weight_unit: userSettings.default_unit_weight!,
-          distance_unit: userSettings.default_unit_distance!,
+          weight_unit: userSettings.default_unit_weight,
+          distance_unit: userSettings.default_unit_distance,
         }));
         setIsLoading(false);
       }
@@ -130,10 +129,14 @@ export default function Multisets() {
       return;
     }
 
+    addSet(exercise);
+  };
+
+  const addSet = (exercise: Exercise) => {
     const setId = newMultisetSetIndex - 1;
 
     const newSet = {
-      ...defaultSet,
+      ...operatingSet,
       id: setId,
       exercise_id: exercise.id,
       exercise_name: exercise.name,
