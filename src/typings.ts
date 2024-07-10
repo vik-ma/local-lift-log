@@ -322,3 +322,10 @@ export type UseExerciseListReturnType = {
   getExercises: () => Promise<void>;
   isExercisesLoading: boolean;
 };
+
+export type HandleMultisetSetOptionSelectionProps = (
+  key: string,
+  set: WorkoutSet,
+  multiset: Multiset,
+  modalIsOpen: boolean
+) => void;

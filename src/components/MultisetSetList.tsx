@@ -1,15 +1,11 @@
 import { Reorder } from "framer-motion";
-import { Multiset, WorkoutSet } from "../typings";
+import { HandleMultisetSetOptionSelectionProps, Multiset } from "../typings";
 import { MultisetReorderItem } from "./MultisetReorderItem";
 
 type MultisetSetListProps = {
   multiset: Multiset;
   setMultiset: React.Dispatch<React.SetStateAction<Multiset>>;
-  handleMultisetSetOptionSelection: (
-    key: string,
-    set: WorkoutSet,
-    multiset: Multiset
-  ) => void;
+  handleMultisetSetOptionSelection: HandleMultisetSetOptionSelectionProps;
 };
 
 export const MultisetSetList = ({

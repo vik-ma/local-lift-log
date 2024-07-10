@@ -7,7 +7,11 @@ import {
 } from "@nextui-org/react";
 import { VerticalMenuIcon, ChevronIcon } from "../assets";
 import { AnimatePresence, motion } from "framer-motion";
-import { Multiset, MultisetTypeMap, WorkoutSet } from "../typings";
+import {
+  HandleMultisetSetOptionSelectionProps,
+  Multiset,
+  MultisetTypeMap,
+} from "../typings";
 import { MultisetSetMenu } from "./MultisetSetMenu";
 
 type MultisetAccordionProps = {
@@ -15,11 +19,7 @@ type MultisetAccordionProps = {
   handleMultisetAccordionClick: (multiset: Multiset, index: number) => void;
   handleMultisetOptionSelection: (key: string, multiset: Multiset) => void;
   multisetTypeMap: MultisetTypeMap;
-  handleMultisetSetOptionSelection: (
-    key: string,
-    set: WorkoutSet,
-    multiset: Multiset
-  ) => void;
+  handleMultisetSetOptionSelection: HandleMultisetSetOptionSelectionProps;
 };
 
 export const MultisetAccordion = ({
@@ -121,6 +121,7 @@ export const MultisetAccordion = ({
                             handleMultisetSetOptionSelection
                           }
                           verticalMenuIconSize={14}
+                          isInModal={false}
                         />
                       </div>
                     ))}

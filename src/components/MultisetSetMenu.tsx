@@ -6,18 +6,19 @@ import {
   DropdownItem,
 } from "@nextui-org/react";
 import { VerticalMenuIcon } from "../assets";
-import { Multiset, WorkoutSet } from "../typings";
+import {
+  HandleMultisetSetOptionSelectionProps,
+  Multiset,
+  WorkoutSet,
+} from "../typings";
 
 type MultisetMenuProps = {
   multiset: Multiset;
   set: WorkoutSet;
   index: number;
-  handleMultisetSetOptionSelection: (
-    key: string,
-    set: WorkoutSet,
-    multiset: Multiset
-  ) => void;
+  handleMultisetSetOptionSelection: HandleMultisetSetOptionSelectionProps;
   verticalMenuIconSize: number;
+  isInModal: boolean;
 };
 
 export const MultisetSetMenu = ({
@@ -26,6 +27,7 @@ export const MultisetSetMenu = ({
   index,
   handleMultisetSetOptionSelection,
   verticalMenuIconSize,
+  isInModal,
 }: MultisetMenuProps) => {
   return (
     <Dropdown>
@@ -48,7 +50,12 @@ export const MultisetSetMenu = ({
           set.exercise_name
         } Set`}
         onAction={(key) =>
-          handleMultisetSetOptionSelection(key as string, set, multiset)
+          handleMultisetSetOptionSelection(
+            key as string,
+            set,
+            multiset,
+            isInModal
+          )
         }
       >
         <DropdownItem

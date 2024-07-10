@@ -69,7 +69,8 @@ export const useMultisetActions = ({
   const handleMultisetSetOptionSelection = (
     key: string,
     set: WorkoutSet,
-    multiset: Multiset
+    multiset: Multiset,
+    modalIsOpen: boolean
   ) => {
     if (key === "edit-set") {
       handleEditSet(set, multiset);
