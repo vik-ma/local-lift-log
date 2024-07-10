@@ -106,9 +106,7 @@ export default function Multisets() {
     if (multisetActions.multisetSetOperationType === "change-exercise") {
       const success = await multisetActions.changeExercise(exercise);
 
-      if (success) {
-        toast.success("Exercise Changed");
-      }
+      if (success) toast.success("Exercise Changed");
 
       return;
     }

@@ -84,6 +84,7 @@ export const useMultisetActions = ({
       setMultisetSetOperationType("change-exercise");
       setIsSelectingExercise(true);
       setIsEditingSet(false);
+      setModalShouldClose(!modalIsOpen);
       multisetModal.onOpen();
     } else if (key === "reassign-exercise") {
       setOperatingSet(set);
@@ -91,6 +92,7 @@ export const useMultisetActions = ({
       setMultisetSetOperationType("reassign-exercise");
       setIsSelectingExercise(true);
       setIsEditingSet(false);
+      setModalShouldClose(!modalIsOpen);
       multisetModal.onOpen();
     }
   };
@@ -135,11 +137,20 @@ export const useMultisetActions = ({
 
       setIsSelectingExercise(false);
 
+      if (modalShouldClose) {
+        closeMultisetModal();
+      }
+
       return true;
     } catch (error) {
       console.log(error);
       return false;
     }
+  };
+
+  const closeMultisetModal = () => {
+    setModalShouldClose(false);
+    multisetModal.onClose();
   };
 
   return {
@@ -153,7 +164,6 @@ export const useMultisetActions = ({
     multisetSetOperationType,
     setMultisetSetOperationType,
     changeExercise,
-    modalShouldClose,
-    setModalShouldClose,
+    closeMultisetModal,
   };
 };

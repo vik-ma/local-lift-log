@@ -70,7 +70,7 @@ export const MultisetModal = ({
     setIsEditingSet,
     selectedMultisetExercise,
     handleMultisetSetOptionSelection,
-    setModalShouldClose,
+    closeMultisetModal,
   } = useMultisetActions;
 
   const handleLeftButton = () => {
@@ -81,13 +81,8 @@ export const MultisetModal = ({
     if (!isEditingSet && !isSelectingExercise) setIsSelectingExercise(true);
   };
 
-  const closeModal = () => {
-    setModalShouldClose(false);
-    multisetModal.onClose();
-  };
-
   return (
-    <Modal isOpen={multisetModal.isOpen} onOpenChange={closeModal}>
+    <Modal isOpen={multisetModal.isOpen} onOpenChange={closeMultisetModal}>
       <ModalContent>
         {(onClose) => (
           <>
