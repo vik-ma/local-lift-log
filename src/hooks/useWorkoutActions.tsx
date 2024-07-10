@@ -747,10 +747,12 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     if (operationType === "reassign-exercise") {
       // Reassign ALL sets with old exercise_id to new exercise_id
-      await ReassignExerciseIdForSets(
+      const success = await ReassignExerciseIdForSets(
         operatingGroupedSet.exerciseList[0].id,
         newExercise.id
       );
+
+      if (!success) return;
     } else if (operationType === "change-exercise") {
       // Just change the sets with this specific workout_template_id
       try {
