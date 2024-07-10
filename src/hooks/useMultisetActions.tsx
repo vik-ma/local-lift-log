@@ -8,7 +8,7 @@ import {
 import { useState } from "react";
 import { useDefaultExercise } from ".";
 import Database from "tauri-plugin-sql-api";
-import { GenerateSetListText } from "../helpers";
+import { GenerateSetListText, ReassignExerciseIdForSets } from "../helpers";
 
 type OperationType = "" | "change-exercise" | "reassign-exercise";
 
@@ -148,6 +148,59 @@ export const useMultisetActions = ({
     }
   };
 
+  const reassignExercise = async (exercise: Exercise): Promise<boolean> => {
+    const success = await ReassignExerciseIdForSets(
+      operatingSet.exercise_id,
+      exercise.id
+    );
+
+    if (!success) return false;
+
+    const updatedMultisets: Multiset[] = [];
+
+    for (let i = 0; i < multisets.length; i++) {
+      const setList = multisets[i].setList;
+
+      const updatedSetList: WorkoutSet[] = [];
+
+      for (let j = 0; j < setList.length; j++) {
+        const currentSet = { ...setList[j] };
+
+        if (currentSet.exercise_id === operatingSet.exercise_id) {
+          currentSet.exercise_id = exercise.id;
+          currentSet.exercise_name = exercise.name;
+          currentSet.hasInvalidExerciseId = false;
+        }
+
+        updatedSetList.push(currentSet);
+      }
+
+      const updatedSetListText = GenerateSetListText(updatedSetList);
+
+      const updatedMultiset = {
+        ...multisets[i],
+        setList: updatedSetList,
+        setListText: updatedSetListText,
+      };
+
+      updatedMultisets.push(updatedMultiset);
+
+      if (multisets[i].id === operatingMultiset.id) {
+        setOperatingMultiset(updatedMultiset);
+      }
+    }
+
+    setMultisets(updatedMultisets);
+
+    setIsSelectingExercise(false);
+
+    if (modalShouldClose) {
+      closeMultisetModal();
+    }
+
+    return true;
+  };
+
   const closeMultisetModal = () => {
     setModalShouldClose(false);
     multisetModal.onClose();
@@ -164,6 +217,7 @@ export const useMultisetActions = ({
     multisetSetOperationType,
     setMultisetSetOperationType,
     changeExercise,
+    reassignExercise,
     closeMultisetModal,
   };
 };
