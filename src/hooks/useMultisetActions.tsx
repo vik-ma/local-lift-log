@@ -40,6 +40,7 @@ export const useMultisetActions = ({
   const [isEditingSet, setIsEditingSet] = useState<boolean>(false);
   const [multisetSetOperationType, setMultisetSetOperationType] =
     useState<OperationType>("");
+  const [modalShouldClose, setModalShouldClose] = useState<boolean>(false);
 
   const defaultExercise = useDefaultExercise();
 
@@ -151,5 +152,7 @@ export const useMultisetActions = ({
     multisetSetOperationType,
     setMultisetSetOperationType,
     changeExercise,
+    modalShouldClose,
+    setModalShouldClose,
   };
 };
