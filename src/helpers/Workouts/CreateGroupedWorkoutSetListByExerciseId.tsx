@@ -1,9 +1,9 @@
 import { WorkoutSet, GroupedWorkoutSet, Exercise } from "../../typings";
 import { GetExerciseFromId } from "../Exercises/GetExerciseFromId";
-import { IsNumberValidId } from "../Numbers/IsNumberValidId";
+import { ValidateExerciseOrderEntry } from "./ValidateExerciseOrderEntry";
 
 type GroupedWorkoutSets = {
-  [exerciseId: number]: {
+  [exerciseId: string]: {
     exerciseList: Exercise[];
     setList: WorkoutSet[];
     isExpanded: boolean;
@@ -16,24 +16,33 @@ export const CreateGroupedWorkoutSetListByExerciseId = async (
 ) => {
   const groupedWorkoutSets: GroupedWorkoutSets = {};
 
-  const orderArray: number[] = exercise_order.split(",").map(Number);
+  const orderArray: string[] = exercise_order.split(",");
 
   for (let i = 0; i < orderArray.length; i++) {
-    const exerciseId: number = orderArray[i];
+    const entry: string = orderArray[i];
 
-    if (!IsNumberValidId(exerciseId)) continue;
+    const validatedEntry = ValidateExerciseOrderEntry(entry);
 
-    const exercise = await GetExerciseFromId(exerciseId);
-    groupedWorkoutSets[exerciseId] = {
-      exerciseList: [exercise],
+    if (!validatedEntry.isValid) continue;
+
+    const exerciseList: Exercise[] = [];
+
+    if (!validatedEntry.isMultiset) {
+      const exercise = await GetExerciseFromId(validatedEntry.id);
+      exerciseList.push(exercise);
+    }
+    // TODO: ADD SUPPORT FOR MULTISET
+
+    groupedWorkoutSets[entry] = {
+      exerciseList: exerciseList,
       setList: [],
       isExpanded: true,
     };
   }
 
   setList.map((set) => {
-    if (groupedWorkoutSets[set.exercise_id]) {
-      groupedWorkoutSets[set.exercise_id].setList.push(set);
+    if (groupedWorkoutSets[set.exercise_id.toString()]) {
+      groupedWorkoutSets[set.exercise_id.toString()].setList.push(set);
     }
   });
 
@@ -45,8 +54,8 @@ export const CreateGroupedWorkoutSetListByExerciseId = async (
 
   // Sort the groupedWorkoutSetList array based on the exercise_order string
   groupedWorkoutSetList.sort((a, b) => {
-    const indexA = orderArray.indexOf(a.exerciseList[0].id);
-    const indexB = orderArray.indexOf(b.exerciseList[0].id);
+    const indexA = orderArray.indexOf(a.exerciseList[0].id.toString());
+    const indexB = orderArray.indexOf(b.exerciseList[0].id.toString());
     return indexA - indexB;
   });
 
