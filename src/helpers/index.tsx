@@ -58,7 +58,7 @@ export { GetAllMultisets } from "./Sets/GetAllMultisets";
 export { GenerateSetListText } from "./Sets/GenerateSetListText";
 export { UpdateMultisetSetOrder } from "./Sets/UpdateMultisetSetOrder";
 export { DeleteMultisetWithId } from "./Sets/DeleteMultisetWithId";
-export { GetMultisetWithExerciseList } from "./Sets/GetMultisetWithExerciseList";
+export { GetMultisetGroupedSet } from "./Sets/GetMultisetGroupedSet";
 
 export { IsNumberNegativeOrInfinity } from "./Numbers/IsNumberNegativeOrInfinity";
 export { IsStringInvalidNumberOrAbove59 } from "./Numbers/IsStringInvalidNumberOrAbove59";
