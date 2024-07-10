@@ -1,5 +1,11 @@
-import { WorkoutSet, GroupedWorkoutSet, Exercise } from "../../typings";
+import {
+  WorkoutSet,
+  GroupedWorkoutSet,
+  Exercise,
+  Multiset,
+} from "../../typings";
 import { GetExerciseFromId } from "../Exercises/GetExerciseFromId";
+import { GetMultisetGroupedSet } from "../Sets/GetMultisetGroupedSet";
 import { ValidateExerciseOrderEntry } from "./ValidateExerciseOrderEntry";
 
 type GroupedWorkoutSets = {
@@ -7,8 +13,8 @@ type GroupedWorkoutSets = {
     exerciseList: Exercise[];
     setList: WorkoutSet[];
     isExpanded: boolean;
-    isMultiset: boolean;
-    multiset_type?: number;
+    isMultiset?: boolean;
+    multiset?: Multiset;
   };
 };
 
@@ -27,24 +33,39 @@ export const CreateGroupedWorkoutSetListByExerciseId = async (
 
     if (!validatedEntry.isValid) continue;
 
-    const exerciseList: Exercise[] = [];
-
     if (!validatedEntry.isMultiset) {
       const exercise = await GetExerciseFromId(validatedEntry.id);
-      exerciseList.push(exercise);
-    }
-    // TODO: ADD SUPPORT FOR MULTISET
 
-    groupedWorkoutSets[entry] = {
-      exerciseList: exerciseList,
-      setList: [],
-      isExpanded: true,
-      isMultiset: validatedEntry.isMultiset,
-    };
+      groupedWorkoutSets[entry] = {
+        exerciseList: [exercise],
+        setList: [],
+        isExpanded: true,
+      };
+    } else {
+      const multisetSetList = setList.filter(
+        (set) => set.multiset_id === validatedEntry.id
+      );
+
+      const multisetGroupedSet = await GetMultisetGroupedSet(
+        validatedEntry.id,
+        multisetSetList
+      );
+
+      groupedWorkoutSets[entry] = {
+        exerciseList: multisetGroupedSet.exerciseList,
+        setList: multisetGroupedSet.orderedSetList,
+        isExpanded: true,
+        isMultiset: true,
+        multiset: multisetGroupedSet.multiset,
+      };
+    }
   }
 
   setList.map((set) => {
-    if (groupedWorkoutSets[set.exercise_id.toString()]) {
+    if (
+      groupedWorkoutSets[set.exercise_id.toString()] &&
+      set.multiset_id === 0
+    ) {
       groupedWorkoutSets[set.exercise_id.toString()].setList.push(set);
     }
   });
