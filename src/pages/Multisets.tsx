@@ -78,6 +78,11 @@ export default function Multisets() {
       const userSettings = await GetUserSettings();
       if (userSettings !== undefined) {
         setUserSettings(userSettings);
+        setOperatingSet((prev) => ({
+          ...prev,
+          weight_unit: userSettings.default_unit_weight!,
+          distance_unit: userSettings.default_unit_distance!,
+        }));
         setIsLoading(false);
       }
     };
@@ -96,7 +101,11 @@ export default function Multisets() {
   const resetMultiset = () => {
     setOperationType("add");
     setOperatingMultiset(defaultMultiset);
-    setOperatingSet(defaultSet);
+    setOperatingSet({
+      ...defaultSet,
+      weight_unit: userSettings!.default_unit_weight!,
+      distance_unit: userSettings!.default_unit_distance!,
+    });
     setNewMultisetSetIndex(0);
     multisetActions.setIsEditingSet(false);
     multisetActions.setIsSelectingExercise(false);
