@@ -1,20 +1,18 @@
-import { Exercise, WorkoutSet, Multiset } from "../../typings";
+import { Exercise, Multiset } from "../../typings";
 import Database from "tauri-plugin-sql-api";
 import { GenerateSetOrderList, GetExerciseFromId, GetSetFromId } from "..";
 
-type MultisetExerciseAndSetList = {
+type MultisetWithExerciseList = {
+  multiset: Multiset | undefined;
   exerciseList: Exercise[];
-  setList: WorkoutSet[];
-  multiset_type: number;
 };
 
-export const GetMultisetExerciseAndSetList = async (
+export const GetMultisetWithExerciseList = async (
   multisetId: number
-): Promise<MultisetExerciseAndSetList> => {
-  const multisetExerciseAndSetList: MultisetExerciseAndSetList = {
+): Promise<MultisetWithExerciseList> => {
+  const multisetExerciseAndSetList: MultisetWithExerciseList = {
+    multiset: undefined,
     exerciseList: [],
-    setList: [],
-    multiset_type: 0,
   };
 
   try {
@@ -31,8 +29,6 @@ export const GetMultisetExerciseAndSetList = async (
 
     const setOrderList = GenerateSetOrderList(multiset.set_order);
 
-    multisetExerciseAndSetList.multiset_type = multiset.multiset_type;
-
     for (let i = 0; i < setOrderList.length; i++) {
       const set = await GetSetFromId(setOrderList[i]);
 
@@ -40,7 +36,6 @@ export const GetMultisetExerciseAndSetList = async (
 
       const exercise = await GetExerciseFromId(set.exercise_id);
 
-      multisetExerciseAndSetList.setList.push(set);
       multisetExerciseAndSetList.exerciseList.push(exercise);
     }
 
