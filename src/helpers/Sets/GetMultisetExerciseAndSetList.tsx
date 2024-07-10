@@ -5,6 +5,7 @@ import { GenerateSetOrderList, GetExerciseFromId, GetSetFromId } from "..";
 type MultisetExerciseAndSetList = {
   exerciseList: Exercise[];
   setList: WorkoutSet[];
+  multiset_type: number;
 };
 
 export const GetMultisetExerciseAndSetList = async (
@@ -13,6 +14,7 @@ export const GetMultisetExerciseAndSetList = async (
   const multisetExerciseAndSetList: MultisetExerciseAndSetList = {
     exerciseList: [],
     setList: [],
+    multiset_type: 0,
   };
 
   try {
@@ -29,6 +31,8 @@ export const GetMultisetExerciseAndSetList = async (
 
     const setOrderList = GenerateSetOrderList(multiset.set_order);
 
+    multisetExerciseAndSetList.multiset_type = multiset.multiset_type;
+
     for (let i = 0; i < setOrderList.length; i++) {
       const set = await GetSetFromId(setOrderList[i]);
 
@@ -43,9 +47,6 @@ export const GetMultisetExerciseAndSetList = async (
     return multisetExerciseAndSetList;
   } catch (error) {
     console.log(error);
-    return {
-      exerciseList: [],
-      setList: [],
-    };
+    return multisetExerciseAndSetList;
   }
 };

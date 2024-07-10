@@ -7,6 +7,8 @@ type GroupedWorkoutSets = {
     exerciseList: Exercise[];
     setList: WorkoutSet[];
     isExpanded: boolean;
+    isMultiset: boolean;
+    multiset_type?: number;
   };
 };
 
@@ -37,6 +39,7 @@ export const CreateGroupedWorkoutSetListByExerciseId = async (
       exerciseList: exerciseList,
       setList: [],
       isExpanded: true,
+      isMultiset: validatedEntry.isMultiset,
     };
   }
 
