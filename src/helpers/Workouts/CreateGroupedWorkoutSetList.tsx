@@ -8,8 +8,9 @@ import { GetExerciseFromId } from "../Exercises/GetExerciseFromId";
 import { GetMultisetGroupedSet } from "../Sets/GetMultisetGroupedSet";
 import { ValidateExerciseOrderEntry } from "./ValidateExerciseOrderEntry";
 
-type GroupedWorkoutSets = {
-  [exerciseId: string]: {
+type GroupedWorkoutSetsDictionary = {
+  [id: string]: {
+    id: string;
     exerciseList: Exercise[];
     setList: WorkoutSet[];
     isExpanded: boolean;
@@ -22,7 +23,7 @@ export const CreateGroupedWorkoutSetList = async (
   setList: WorkoutSet[],
   exercise_order: string
 ) => {
-  const groupedWorkoutSets: GroupedWorkoutSets = {};
+  const groupedWorkoutSetsDictionary: GroupedWorkoutSetsDictionary = {};
 
   const orderArray: string[] = exercise_order.split(",");
 
@@ -36,7 +37,8 @@ export const CreateGroupedWorkoutSetList = async (
     if (!validatedEntry.isMultiset) {
       const exercise = await GetExerciseFromId(validatedEntry.id);
 
-      groupedWorkoutSets[entry] = {
+      groupedWorkoutSetsDictionary[entry] = {
+        id: entry,
         exerciseList: [exercise],
         setList: [],
         isExpanded: true,
@@ -51,7 +53,8 @@ export const CreateGroupedWorkoutSetList = async (
         multisetSetList
       );
 
-      groupedWorkoutSets[entry] = {
+      groupedWorkoutSetsDictionary[entry] = {
+        id: entry,
         exerciseList: multisetGroupedSet.exerciseList,
         setList: multisetGroupedSet.orderedSetList,
         isExpanded: true,
@@ -63,23 +66,25 @@ export const CreateGroupedWorkoutSetList = async (
 
   setList.map((set) => {
     if (
-      groupedWorkoutSets[set.exercise_id.toString()] &&
+      groupedWorkoutSetsDictionary[set.exercise_id.toString()] &&
       set.multiset_id === 0
     ) {
-      groupedWorkoutSets[set.exercise_id.toString()].setList.push(set);
+      groupedWorkoutSetsDictionary[set.exercise_id.toString()].setList.push(
+        set
+      );
     }
   });
 
   // Remove any exercises that may exist in exercise_order, but have no sets in setList
   // (exerciseId keys with an empty setList)
   const groupedWorkoutSetList: GroupedWorkoutSet[] = Object.values(
-    groupedWorkoutSets
+    groupedWorkoutSetsDictionary
   ).filter((value) => value.setList.length > 0);
 
   // Sort the groupedWorkoutSetList array based on the exercise_order string
   groupedWorkoutSetList.sort((a, b) => {
-    const indexA = orderArray.indexOf(a.exerciseList[0].id.toString());
-    const indexB = orderArray.indexOf(b.exerciseList[0].id.toString());
+    const indexA = orderArray.indexOf(a.id);
+    const indexB = orderArray.indexOf(b.id);
     return indexA - indexB;
   });
 

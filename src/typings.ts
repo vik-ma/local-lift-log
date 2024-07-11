@@ -119,6 +119,7 @@ export type WorkoutSet = {
 };
 
 export type GroupedWorkoutSet = {
+  id: string;
   exerciseList: Exercise[];
   setList: WorkoutSet[];
   isExpanded: boolean;

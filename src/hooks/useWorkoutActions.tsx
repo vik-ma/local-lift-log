@@ -176,6 +176,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       if (exerciseIndex === -1) {
         // Create new GroupedWorkoutSet if exercise_id does not exist in groupedSets
         const newGroupedWorkoutSet: GroupedWorkoutSet = {
+          id: selectedExercise.id.toString(),
           exerciseList: [selectedExercise],
           setList: newSets,
           isExpanded: true,
