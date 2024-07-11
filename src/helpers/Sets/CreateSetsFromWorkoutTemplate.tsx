@@ -1,9 +1,6 @@
 import { GroupedWorkoutSet, WorkoutSet } from "../../typings";
 import Database from "tauri-plugin-sql-api";
-import {
-  CreateGroupedWorkoutSetListByExerciseId,
-  InsertSetIntoDatabase,
-} from "..";
+import { CreateGroupedWorkoutSetList, InsertSetIntoDatabase } from "..";
 
 type ExerciseOrderQuery = {
   exercise_order: string;
@@ -30,8 +27,7 @@ export const CreateSetsFromWorkoutTemplate = async (
       [workout_template_id]
     );
 
-    if (result.length === 0 || exerciseOrder.length === 0)
-      return [];
+    if (result.length === 0 || exerciseOrder.length === 0) return [];
 
     const setList: WorkoutSet[] = [];
 
@@ -48,7 +44,7 @@ export const CreateSetsFromWorkoutTemplate = async (
       setList.push(set);
     }
 
-    const groupedSetList = CreateGroupedWorkoutSetListByExerciseId(
+    const groupedSetList = CreateGroupedWorkoutSetList(
       result,
       exerciseOrder[0].exercise_order
     );

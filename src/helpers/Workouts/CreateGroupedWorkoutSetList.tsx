@@ -18,7 +18,7 @@ type GroupedWorkoutSets = {
   };
 };
 
-export const CreateGroupedWorkoutSetListByExerciseId = async (
+export const CreateGroupedWorkoutSetList = async (
   setList: WorkoutSet[],
   exercise_order: string
 ) => {

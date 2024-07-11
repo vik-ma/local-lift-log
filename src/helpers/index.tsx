@@ -99,7 +99,7 @@ export { GetUserMeasurements } from "./Measurements/GetUserMeasurements";
 export { CreateDefaultEquipmentWeights } from "./Presets/CreateDefaultEquipmentWeights";
 export { CreateDefaultDistances } from "./Presets/CreateDefaultDistances";
 
-export { CreateGroupedWorkoutSetListByExerciseId } from "./Workouts/CreateGroupedWorkoutSetListByExerciseId";
+export { CreateGroupedWorkoutSetList } from "./Workouts/CreateGroupedWorkoutSetList";
 export { GenerateExerciseOrderString } from "./Workouts/GenerateExerciseOrderString";
 export { UpdateExerciseOrder } from "./Workouts/UpdateExerciseOrder";
 export { DefaultNewWorkoutTemplate } from "./Workouts/DefaultNewWorkoutTemplate";

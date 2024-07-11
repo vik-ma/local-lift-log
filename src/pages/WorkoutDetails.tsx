@@ -14,7 +14,7 @@ import {
 import Database from "tauri-plugin-sql-api";
 import {
   CreateSetsFromWorkoutTemplate,
-  CreateGroupedWorkoutSetListByExerciseId,
+  CreateGroupedWorkoutSetList,
   GenerateExerciseOrderString,
   FormatYmdDateString,
   UpdateWorkout,
@@ -117,10 +117,7 @@ export default function WorkoutDetails() {
           );
 
           const groupedSetList: GroupedWorkoutSet[] =
-            await CreateGroupedWorkoutSetListByExerciseId(
-              setList,
-              workout.exercise_order
-            );
+            await CreateGroupedWorkoutSetList(setList, workout.exercise_order);
 
           workoutNumbers.numExercises = groupedSetList.length;
           workoutNumbers.numSets = setList.length;

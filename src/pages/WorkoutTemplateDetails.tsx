@@ -13,7 +13,7 @@ import {
 } from "../components";
 import { Toaster } from "react-hot-toast";
 import {
-  CreateGroupedWorkoutSetListByExerciseId,
+  CreateGroupedWorkoutSetList,
   ConvertEmptyStringToNull,
   UpdateWorkoutTemplate,
 } from "../helpers";
@@ -95,7 +95,7 @@ export default function WorkoutTemplateDetails() {
       );
 
       const groupedSetList: GroupedWorkoutSet[] =
-        await CreateGroupedWorkoutSetListByExerciseId(
+        await CreateGroupedWorkoutSetList(
           setList,
           workoutTemplate.exercise_order
         );
