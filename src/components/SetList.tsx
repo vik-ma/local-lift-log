@@ -41,7 +41,9 @@ export const SetList = ({
   return (
     <>
       {groupedSet.setList.map((set, index) => {
-        const exercise = groupedSet.isMultiset
+        const isMultiset = groupedSet.isMultiset ? true : false;
+
+        const exercise = isMultiset
           ? groupedSet.exerciseList[index]
           : groupedSet.exerciseList[0];
         return (
@@ -55,8 +57,14 @@ export const SetList = ({
             onClick={() => clickSetAction(set, index, exercise)}
           >
             <div className="flex justify-between items-center">
-              <div className="flex items-center w-[4.5rem]">
-                <span className="text-stone-500">Set {index + 1}</span>
+              <div className="flex items-center text-stone-500">
+                <span
+                  className={
+                    isMultiset ? "truncate w-[10rem]" : "truncate w-[3rem]"
+                  }
+                >
+                  {isMultiset ? exercise.name : `Set ${index + 1}`}
+                </span>
               </div>
               <div className="flex flex-wrap justify-evenly w-full gap-x-5 px-1 gap-y-0.5 py-0.5">
                 {set.is_tracking_weight === 1 &&
