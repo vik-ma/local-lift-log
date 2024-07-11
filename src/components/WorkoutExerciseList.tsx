@@ -13,6 +13,7 @@ import {
   SetListNotes,
   WorkoutSet,
   Exercise,
+  MultisetTypeMap,
 } from "../typings";
 
 type WorkoutExerciseListProps = {
@@ -39,6 +40,7 @@ type WorkoutExerciseListProps = {
   isTemplate: boolean;
   activeSetId?: number;
   completedSetsMap?: Map<number, number>;
+  multisetTypeMap: MultisetTypeMap;
 };
 
 export const WorkoutExerciseList = ({
@@ -57,6 +59,7 @@ export const WorkoutExerciseList = ({
   isTemplate,
   activeSetId = 0,
   completedSetsMap,
+  multisetTypeMap,
 }: WorkoutExerciseListProps) => {
   return (
     <div className="flex flex-col gap-1">
@@ -81,139 +84,150 @@ export const WorkoutExerciseList = ({
           values={groupedSets}
           onReorder={setGroupedSets}
         >
-          {groupedSets.map((groupedSet) => (
-            <Reorder.Item
-              key={groupedSet.exerciseList[0].id}
-              value={groupedSet}
-              onDragStart={() => setIsExerciseBeingDragged(true)}
-              onDragEnd={() => updateExerciseOrder()}
-              transition={{ duration: 0.15 }}
-            >
-              <div className="bg-white rounded-lg border border-stone-300 overflow-hidden">
-                <div
-                  className="flex justify-between pl-2 py-1 h-14 w-full rounded-lg cursor-pointer hover:bg-stone-100"
-                  onClick={() => handleExerciseAccordionClick(groupedSet)}
-                >
-                  <div className="flex flex-col items-start">
-                    <div className="flex gap-3">
-                      <h3
-                        className={
-                          groupedSet.exerciseList[0].isInvalid
-                            ? "text-lg font-medium truncate max-w-80 text-red-500"
-                            : "text-lg font-medium truncate max-w-80 text-yellow-600"
-                        }
-                      >
-                        {groupedSet.exerciseList[0].name}
-                      </h3>
-                      {groupedSet.exerciseList[0].isInvalid && (
-                        <Button
-                          size="sm"
-                          variant="flat"
-                          onPress={() => handleReassignExercise(groupedSet)}
-                        >
-                          Reassign Exercise
-                        </Button>
-                      )}
-                    </div>
-                    <span
-                      className={
-                        completedSetsMap?.get(groupedSet.exerciseList[0].id) ===
-                        groupedSet.setList.length
-                          ? "text-sm text-success"
-                          : "text-sm text-stone-500"
-                      }
-                    >
-                      {completedSetsMap
-                        ? `${completedSetsMap.get(
-                            groupedSet.exerciseList[0].id
-                          )}/${groupedSet.setList.length} Sets Completed`
-                        : `${groupedSet.setList.length} Sets`}
-                    </span>
-                  </div>
-                  <div className="flex gap-0.5 px-0.5 items-center">
-                    <ChevronIcon
-                      size={27}
-                      color="#a8a29e"
-                      direction={groupedSet.isExpanded ? "down" : "left"}
-                    />
-                    <Dropdown>
-                      <DropdownTrigger>
-                        <Button
-                          aria-label={`Toggle ${groupedSet.exerciseList[0].name} Options Menu`}
-                          isIconOnly
-                          className="z-1"
-                          size="sm"
-                          variant="light"
-                        >
-                          <VerticalMenuIcon color="#a8a29e" size={17} />
-                        </Button>
-                      </DropdownTrigger>
-                      <DropdownMenu
-                        aria-label={`Option Menu For ${groupedSet.exerciseList[0].name} Exercise`}
-                        onAction={(key) =>
-                          handleExerciseOptionSelection(
-                            key as string,
-                            groupedSet
-                          )
-                        }
-                      >
-                        <DropdownItem key="add-set-to-exercise">
-                          Add Set
-                        </DropdownItem>
-                        <DropdownItem
+          {groupedSets.map((groupedSet) => {
+            const isMultiset = groupedSet.isMultiset ? true : false;
+
+            // TODO: ADD ISINVALID FOR MULTISET
+            const isInvalid = groupedSet.exerciseList[0].isInvalid;
+
+            const title = isMultiset
+              ? multisetTypeMap[groupedSet.multiset!.multiset_type].text
+              : groupedSet.exerciseList[0].name;
+            return (
+              <Reorder.Item
+                key={groupedSet.id}
+                value={groupedSet}
+                onDragStart={() => setIsExerciseBeingDragged(true)}
+                onDragEnd={() => updateExerciseOrder()}
+                transition={{ duration: 0.15 }}
+              >
+                <div className="bg-white rounded-lg border border-stone-300 overflow-hidden">
+                  <div
+                    className="flex justify-between pl-2 py-1 h-14 w-full rounded-lg cursor-pointer hover:bg-stone-100"
+                    onClick={() => handleExerciseAccordionClick(groupedSet)}
+                  >
+                    <div className="flex flex-col items-start">
+                      <div className="flex gap-3">
+                        <h3
                           className={
-                            groupedSet.exerciseList[0].note === null
-                              ? "hidden"
-                              : ""
+                            isInvalid
+                              ? "text-lg font-medium truncate max-w-80 text-red-500"
+                              : "text-lg font-medium truncate max-w-80 text-yellow-600"
                           }
-                          key="toggle-exercise-note"
                         >
-                          {groupedSet.showExerciseNote
-                            ? "Hide Exercise Note"
-                            : "Show Exercise Note"}
-                        </DropdownItem>
-                        {groupedSet.exerciseList[0].isInvalid ? (
-                          <DropdownItem key="reassign-exercise">
+                          {title}
+                        </h3>
+                        {isInvalid && (
+                          <Button
+                            size="sm"
+                            variant="flat"
+                            onPress={() => handleReassignExercise(groupedSet)}
+                          >
                             Reassign Exercise
-                          </DropdownItem>
-                        ) : (
-                          <DropdownItem key="change-exercise">
-                            Change Exercise
-                          </DropdownItem>
+                          </Button>
                         )}
-                        <DropdownItem
-                          className="text-danger"
-                          key="delete-exercise-sets"
-                        >
-                          Remove All Sets
-                        </DropdownItem>
-                      </DropdownMenu>
-                    </Dropdown>
-                  </div>
-                </div>
-                {groupedSet.isExpanded && (
-                  <div className="flex flex-col divide-y divide-stone-200">
-                    {groupedSet.showExerciseNote && (
-                      <div className="flex justify-between items-center px-2 pb-1">
-                        <span className="text-stone-400 break-words max-w-full">
-                          {groupedSet.exerciseList[0].note}
-                        </span>
                       </div>
-                    )}
-                    <SetList
-                      groupedSet={groupedSet}
-                      activeSetId={activeSetId}
-                      clickSetAction={handleClickSet}
-                      optionsSelectionAction={handleSetOptionSelection}
-                      clickCommentButtonAction={updateShownSetListComments}
-                      shownSetListComments={shownSetListComments}
-                      isTemplate={isTemplate}
-                    />
+                      <span
+                        className={
+                          completedSetsMap?.get(
+                            groupedSet.exerciseList[0].id
+                          ) === groupedSet.setList.length
+                            ? "text-sm text-success"
+                            : "text-sm text-stone-500"
+                        }
+                      >
+                        {completedSetsMap
+                          ? `${completedSetsMap.get(
+                              groupedSet.exerciseList[0].id
+                            )}/${groupedSet.setList.length} Sets Completed`
+                          : `${groupedSet.setList.length} Sets`}
+                      </span>
+                    </div>
+                    <div className="flex gap-0.5 px-0.5 items-center">
+                      <ChevronIcon
+                        size={27}
+                        color="#a8a29e"
+                        direction={groupedSet.isExpanded ? "down" : "left"}
+                      />
+                      <Dropdown>
+                        <DropdownTrigger>
+                          <Button
+                            aria-label={`Toggle ${title} Options Menu`}
+                            isIconOnly
+                            className="z-1"
+                            size="sm"
+                            variant="light"
+                          >
+                            <VerticalMenuIcon color="#a8a29e" size={17} />
+                          </Button>
+                        </DropdownTrigger>
+                        <DropdownMenu
+                          aria-label={`Option Menu For ${title} Exercise`}
+                          onAction={(key) =>
+                            handleExerciseOptionSelection(
+                              key as string,
+                              groupedSet
+                            )
+                          }
+                        >
+                          <DropdownItem key="add-set-to-exercise">
+                            Add Set
+                          </DropdownItem>
+                          <DropdownItem
+                            className={
+                              groupedSet.exerciseList[0].note === null
+                                ? "hidden"
+                                : ""
+                            }
+                            key="toggle-exercise-note"
+                          >
+                            {groupedSet.showExerciseNote
+                              ? "Hide Exercise Note"
+                              : "Show Exercise Note"}
+                          </DropdownItem>
+                          {groupedSet.exerciseList[0].isInvalid ? (
+                            <DropdownItem key="reassign-exercise">
+                              Reassign Exercise
+                            </DropdownItem>
+                          ) : (
+                            <DropdownItem key="change-exercise">
+                              Change Exercise
+                            </DropdownItem>
+                          )}
+                          <DropdownItem
+                            className="text-danger"
+                            key="delete-exercise-sets"
+                          >
+                            Remove All Sets
+                          </DropdownItem>
+                        </DropdownMenu>
+                      </Dropdown>
+                    </div>
                   </div>
-                )}
-              </div>
-            </Reorder.Item>
-          ))}
+                  {groupedSet.isExpanded && (
+                    <div className="flex flex-col divide-y divide-stone-200">
+                      {groupedSet.showExerciseNote && (
+                        <div className="flex justify-between items-center px-2 pb-1">
+                          <span className="text-stone-400 break-words max-w-full">
+                            {groupedSet.exerciseList[0].note}
+                          </span>
+                        </div>
+                      )}
+                      <SetList
+                        groupedSet={groupedSet}
+                        activeSetId={activeSetId}
+                        clickSetAction={handleClickSet}
+                        optionsSelectionAction={handleSetOptionSelection}
+                        clickCommentButtonAction={updateShownSetListComments}
+                        shownSetListComments={shownSetListComments}
+                        isTemplate={isTemplate}
+                      />
+                    </div>
+                  )}
+                </div>
+              </Reorder.Item>
+            );
+          })}
         </Reorder.Group>
       </div>
     </div>

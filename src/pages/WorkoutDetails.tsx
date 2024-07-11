@@ -86,6 +86,7 @@ export default function WorkoutDetails() {
     timeInputModal,
     updateSetTimeCompleted,
     workoutNumbers,
+    multisetTypeMap,
   } = useWorkoutActions(false);
 
   const exerciseList = useExerciseList();
@@ -289,6 +290,7 @@ export default function WorkoutDetails() {
             isTemplate={false}
             activeSetId={activeSet?.id}
             completedSetsMap={completedSetsMap}
+            multisetTypeMap={multisetTypeMap}
           />
         </div>
         <ActiveSet

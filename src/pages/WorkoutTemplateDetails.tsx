@@ -68,6 +68,7 @@ export default function WorkoutTemplateDetails() {
     workoutTemplate,
     setWorkoutTemplate,
     workoutNumbers,
+    multisetTypeMap,
   } = useWorkoutActions(true);
 
   const exerciseList = useExerciseList();
@@ -205,6 +206,7 @@ export default function WorkoutTemplateDetails() {
           setIsExerciseBeingDragged={setIsExerciseBeingDragged}
           handleReassignExercise={handleReassignExercise}
           isTemplate={true}
+          multisetTypeMap={multisetTypeMap}
         />
       </div>
     </>

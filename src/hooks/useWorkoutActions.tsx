@@ -33,6 +33,7 @@ import {
   useNumSetsOptions,
   useSetTrackingInputs,
   useDefaultSetInputValues,
+  useMultisetTypeMap,
 } from "../hooks";
 
 type OperationType =
@@ -96,6 +97,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
   const operatingSetInputs = useSetTrackingInputs();
   const activeSetInputs = useSetTrackingInputs();
+
+  const { multisetTypeMap } = useMultisetTypeMap();
 
   useEffect(() => {
     const loadUserSettings = async () => {
@@ -1267,5 +1270,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     timeInputModal,
     updateSetTimeCompleted,
     workoutNumbers,
+    multisetTypeMap,
   };
 };
