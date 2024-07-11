@@ -321,17 +321,19 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     if (!success) return;
 
-    const exerciseIndex: number = groupedSets.findIndex(
-      (obj) => obj.exerciseList[0].id === operatingSet.exercise_id
+    const groupedSetIndex: number = groupedSets.findIndex((obj) =>
+      operatingSet.multiset_id > 0
+        ? obj.id === `m${operatingSet.multiset_id}`
+        : obj.id === operatingSet.exercise_id.toString()
     );
 
-    const updatedSetList: WorkoutSet[] = groupedSets[exerciseIndex].setList.map(
-      (item) => (item.id === operatingSet.id ? updatedSet : item)
-    );
+    const updatedSetList: WorkoutSet[] = groupedSets[
+      groupedSetIndex
+    ].setList.map((item) => (item.id === operatingSet.id ? updatedSet : item));
 
     setGroupedSets((prev) => {
       const newList = [...prev];
-      newList[exerciseIndex].setList = updatedSetList;
+      newList[groupedSetIndex].setList = updatedSetList;
       return newList;
     });
 
