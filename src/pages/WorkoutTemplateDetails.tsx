@@ -160,6 +160,7 @@ export default function WorkoutTemplateDetails() {
         }`}
         body={
           <p className="break-words">
+            {/* TODO: FIX FOR MULTISETS */}
             {operationType === "delete-exercise-sets"
               ? `Are you sure you want to remove all ${operatingGroupedSet?.exerciseList[0].name} sets from Workout Template?`
               : `Are you sure you want to remove ${operatingSet.exercise_name} set?`}

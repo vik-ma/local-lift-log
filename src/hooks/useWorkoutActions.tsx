@@ -120,6 +120,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   }, []);
 
   const addSet = async (numSets: string) => {
+    // TODO: FIX FOR MULTISETS
     if (selectedExercise === undefined) return;
 
     if (!numSetsOptions.includes(numSets)) return;
@@ -221,6 +222,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   };
 
   const deleteSet = async () => {
+    // TODO: FIX FOR MULTISETS
     if (
       operatingSet === undefined ||
       operationType !== "delete-set" ||
@@ -478,9 +480,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       const newActiveSet = { ...set, set_index: index };
       setActiveSet(newActiveSet);
 
-      const groupedSet = groupedSets.find(
-        (obj) => obj.exerciseList[0].id === exercise.id
-      );
       setActiveGroupedSet(groupedSet);
 
       updateActiveSetTrackingValues(newActiveSet, activeSet);
@@ -538,6 +537,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   const handleAddSetToExercise = async (
     groupedWorkoutSet: GroupedWorkoutSet
   ) => {
+    // TODO: FIX FOR MULTISETS
     const exercise = groupedWorkoutSet.exerciseList[0];
 
     let newSet: WorkoutSet = {
@@ -614,6 +614,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   };
 
   const deleteAllSetsForExerciseId = async () => {
+    // TODO: FIX FOR MULTISETS OR CREATE SEPARATE FUNCTION
     if (
       operatingGroupedSet === undefined ||
       operationType !== "delete-exercise-sets"
@@ -692,9 +693,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     setGroupedSets((prev) =>
       prev.map((item) =>
-        item.exerciseList[0].id === groupedWorkoutSet.exerciseList[0].id
-          ? updatedGroupedSet
-          : item
+        item.id === groupedWorkoutSet.id ? updatedGroupedSet : item
       )
     );
   };
@@ -742,11 +741,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     };
 
     setGroupedSets((prev) =>
-      prev.map((item) =>
-        item.exerciseList[0].id === groupedSet.exerciseList[0].id
-          ? updatedGroupedSet
-          : item
-      )
+      prev.map((item) => (item.id === groupedSet.id ? updatedGroupedSet : item))
     );
   };
 
@@ -754,21 +749,23 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     if (operatingGroupedSet === undefined || operatingGroupedSet.isMultiset)
       return;
 
+    const oldExercise = operatingGroupedSet.exerciseList[0];
+
     // Do nothing if trying to reassign the same Exercise
-    if (operatingGroupedSet.exerciseList[0].id === newExercise.id) {
+    if (oldExercise.id === newExercise.id) {
       resetOperatingSet();
       setModal.onClose();
       return;
     }
 
     const oldExerciseIndex: number = groupedSets.findIndex(
-      (obj) => obj.exerciseList[0].id === operatingGroupedSet.exerciseList[0].id
+      (obj) => obj.exerciseList[0].id === oldExercise.id
     );
 
     if (operationType === "reassign-exercise") {
       // Reassign ALL sets with old exercise_id to new exercise_id
       const success = await ReassignExerciseIdForSets(
-        operatingGroupedSet.exerciseList[0].id,
+        oldExercise.id,
         newExercise.id
       );
 
@@ -799,13 +796,9 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
         const db = await Database.load(import.meta.env.VITE_DB);
 
-        db.execute(statement, [operatingGroupedSet.exerciseList[0].id, id]);
+        db.execute(statement, [oldExercise.id, id]);
 
-        await db.execute(statement, [
-          newExercise.id,
-          operatingGroupedSet.exerciseList[0].id,
-          id,
-        ]);
+        await db.execute(statement, [newExercise.id, oldExercise.id, id]);
       } catch (error) {
         console.log(error);
         return;
@@ -875,7 +868,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       !isTemplate &&
       activeSet !== undefined &&
       activeGroupedSet !== undefined &&
-      activeSet.exercise_id === operatingGroupedSet.exerciseList[0].id
+      activeSet.exercise_id === oldExercise.id
     ) {
       setActiveSet({
         ...activeSet,
@@ -911,6 +904,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   };
 
   const saveActiveSet = async () => {
+    // TODO: FIX FOR MULTISETS
     if (
       activeSet === undefined ||
       workout.id === 0 ||
@@ -1163,6 +1157,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   );
 
   const handleActiveSetOptionSelection = (key: string) => {
+    // TODO: FIX FOR MULTISETS
     if (activeSet === undefined || activeGroupedSet === undefined) return;
 
     if (key === "show-set-note" && activeSet.note) {
@@ -1192,6 +1187,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   };
 
   const updateSetTimeCompleted = async (newDateString: string) => {
+    // TODO: FIX FOR MULTISETS
     if (
       operationType !== "update-completed-set-time" ||
       !ValidateISODateString(newDateString) ||

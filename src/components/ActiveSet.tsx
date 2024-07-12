@@ -146,6 +146,7 @@ export const ActiveSet = ({
             </button>
             {isActiveSetExpanded ? (
               <div className="flex flex-col h-full overflow-y-auto">
+                {/* TODO: FIX FOR MULTISETS */}
                 {activeGroupedSet?.exerciseList[0].isInvalid ? (
                   <div className="flex flex-col p-5 justify-center gap-3">
                     <div className="flex justify-center text-lg text-center font-medium">
@@ -208,6 +209,7 @@ export const ActiveSet = ({
                           </Button>
                           <Dropdown>
                             <DropdownTrigger>
+                              {/* TODO: FIX FOR MULTISETS */}
                               <Button
                                 aria-label="Toggle Active Set Options Menu"
                                 isIconOnly
@@ -244,6 +246,7 @@ export const ActiveSet = ({
                                 Show Set Note
                               </DropdownItem>
                               <DropdownItem
+                                // TODO: FIX FOR MULTISETS
                                 className={
                                   activeGroupedSet?.exerciseList[0].note ===
                                   null
@@ -301,6 +304,7 @@ export const ActiveSet = ({
                           <Button
                             color="success"
                             variant="light"
+                            // TODO: FIX FOR MULTISETS
                             onPress={() =>
                               handleEditSet(
                                 activeSet,

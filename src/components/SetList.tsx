@@ -203,9 +203,7 @@ export const SetList = ({
                 </Dropdown>
               </div>
             </div>
-            {shownSetListComments[groupedSet.exerciseList[0].id]?.has(
-              index
-            ) && (
+            {shownSetListComments[groupedSet.id]?.has(index) && (
               <span className="text-stone-400 pb-1 pr-2">
                 {isTemplate ? `${set.note}` : `${set.comment}`}
               </span>

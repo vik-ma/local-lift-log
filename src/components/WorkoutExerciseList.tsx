@@ -179,6 +179,7 @@ export const WorkoutExerciseList = ({
                             Add Set
                           </DropdownItem>
                           <DropdownItem
+                            // TODO: FIX FOR MULTISETS
                             className={
                               groupedSet.exerciseList[0].note === null
                                 ? "hidden"
@@ -218,6 +219,7 @@ export const WorkoutExerciseList = ({
                       {groupedSet.showExerciseNote && (
                         <div className="flex justify-between items-center px-2 pb-1">
                           <span className="text-stone-400 break-words max-w-full">
+                            {/* TODO: FIX FOR MULTISETS */}
                             {groupedSet.exerciseList[0].note}
                           </span>
                         </div>
