@@ -17,12 +17,18 @@ import { FormatTimeInSecondsToHhmmssString } from "../helpers";
 type SetListProps = {
   groupedSet: GroupedWorkoutSet;
   activeSetId: number;
-  clickSetAction: (set: WorkoutSet, index: number, exercise: Exercise) => void;
+  clickSetAction: (
+    set: WorkoutSet,
+    index: number,
+    exercise: Exercise,
+    groupedSet: GroupedWorkoutSet
+  ) => void;
   optionsSelectionAction: (
     key: string,
     set: WorkoutSet,
     index: number,
-    exercise: Exercise
+    exercise: Exercise,
+    groupedSet: GroupedWorkoutSet
   ) => void;
   clickCommentButtonAction: (groupedSetId: string, index: number) => void;
   shownSetListComments: SetListNotes;
@@ -54,7 +60,7 @@ export const SetList = ({
                 : "flex flex-col pl-2 text-sm font-medium break-words cursor-pointer hover:bg-stone-100"
             }
             key={set.id}
-            onClick={() => clickSetAction(set, index, exercise)}
+            onClick={() => clickSetAction(set, index, exercise, groupedSet)}
           >
             <div className="flex justify-between items-center">
               <div className="flex items-center text-stone-500">
@@ -178,7 +184,8 @@ export const SetList = ({
                         key as string,
                         set,
                         index,
-                        exercise
+                        exercise,
+                        groupedSet
                       )
                     }
                   >

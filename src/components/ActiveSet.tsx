@@ -39,17 +39,28 @@ type ActiveSetProps = {
   setActiveSetNote: React.Dispatch<
     React.SetStateAction<ActiveSetNote | undefined>
   >;
-  handleClickSet: (set: WorkoutSet, index: number, exercise: Exercise) => void;
+  handleClickSet: (
+    set: WorkoutSet,
+    index: number,
+    exercise: Exercise,
+    groupedSet: GroupedWorkoutSet
+  ) => void;
   handleSetOptionSelection: (
     key: string,
     set: WorkoutSet,
     index: number,
-    exercise: Exercise
+    exercise: Exercise,
+    groupedSet: GroupedWorkoutSet
   ) => void;
   updateShownSetListComments: (groupedSetId: string, index: number) => void;
   shownSetListComments: SetListNotes;
   activeSetInputs: ReturnType<typeof useSetTrackingInputs>;
-  handleEditSet: (set: WorkoutSet, index: number, exercise: Exercise) => void;
+  handleEditSet: (
+    set: WorkoutSet,
+    index: number,
+    exercise: Exercise,
+    groupedSet: GroupedWorkoutSet
+  ) => void;
   clearSetInputValues: (isOperatingSet: boolean) => void;
   saveActiveSet: () => void;
 };
@@ -294,7 +305,8 @@ export const ActiveSet = ({
                               handleEditSet(
                                 activeSet,
                                 activeSet.set_index!,
-                                activeGroupedSet!.exerciseList[0]
+                                activeGroupedSet!.exerciseList[0],
+                                activeGroupedSet!
                               )
                             }
                           >

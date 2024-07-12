@@ -25,12 +25,18 @@ type WorkoutExerciseListProps = {
     key: string,
     groupedWorkoutSet: GroupedWorkoutSet
   ) => void;
-  handleClickSet: (set: WorkoutSet, index: number, exercise: Exercise) => void;
+  handleClickSet: (
+    set: WorkoutSet,
+    index: number,
+    exercise: Exercise,
+    groupedSet: GroupedWorkoutSet
+  ) => void;
   handleSetOptionSelection: (
     key: string,
     set: WorkoutSet,
     index: number,
-    exercise: Exercise
+    exercise: Exercise,
+    groupedSet: GroupedWorkoutSet
   ) => void;
   updateShownSetListComments: (groupedSetId: string, index: number) => void;
   shownSetListComments: SetListNotes;

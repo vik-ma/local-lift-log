@@ -408,9 +408,11 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   const handleEditSet = (
     set: WorkoutSet,
     index: number,
-    exercise: Exercise
+    exercise: Exercise,
+    groupedSet: GroupedWorkoutSet
   ) => {
     setOperatingSet({ ...set, set_index: index });
+    setOperatingGroupedSet(groupedSet);
     setOperationType("edit");
     setSelectedExercise(exercise);
     operatingSetInputs.setTrackingValuesInputStrings(set);
@@ -464,10 +466,11 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   const handleClickSet = (
     set: WorkoutSet,
     index: number,
-    exercise: Exercise
+    exercise: Exercise,
+    groupedSet: GroupedWorkoutSet
   ) => {
     if (isTemplate) {
-      handleEditSet(set, index, exercise);
+      handleEditSet(set, index, exercise, groupedSet);
     } else {
       const newActiveSet = { ...set, set_index: index };
       setActiveSet(newActiveSet);
@@ -486,10 +489,11 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     key: string,
     set: WorkoutSet,
     index: number,
-    exercise: Exercise
+    exercise: Exercise,
+    groupedSet: GroupedWorkoutSet
   ) => {
     if (key === "edit") {
-      handleEditSet(set, index, exercise);
+      handleEditSet(set, index, exercise, groupedSet);
     } else if (key === "delete-set") {
       handleDeleteSet(set);
     } else if (key === "update-completed-set-time") {
