@@ -751,7 +751,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   };
 
   const reassignExercise = async (newExercise: Exercise) => {
-    if (operatingGroupedSet === undefined) return;
+    if (operatingGroupedSet === undefined || operatingGroupedSet.isMultiset)
+      return;
 
     // Do nothing if trying to reassign the same Exercise
     if (operatingGroupedSet.exerciseList[0].id === newExercise.id) {
@@ -828,7 +829,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       // Change key to match new exercise id
       const value = completedSetsMap.get(operatingGroupedSet.id);
       completedSetsMap.delete(operatingGroupedSet.id);
-      completedSetsMap.set(newExercise.id, value!);
+      completedSetsMap.set(newExercise.id.toString(), value!);
     }
 
     if (newExerciseIndex === -1) {
@@ -955,8 +956,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       (item) => (item.id === activeSet.id ? updatedSet : item)
     );
 
-    const completedSetsValue =
-      completedSetsMap.get(activeGroupedSet.id) ?? 0;
+    const completedSetsValue = completedSetsMap.get(activeGroupedSet.id) ?? 0;
 
     if (activeSet.is_completed === 0) {
       completedSetsMap.set(activeGroupedSet.id, completedSetsValue + 1);
@@ -1154,10 +1154,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
             numCompletedSets += 1;
           }
         }
-        newCompletedSetsMap.set(
-          groupedSetList[i].id,
-          numCompletedSets
-        );
+        newCompletedSetsMap.set(groupedSetList[i].id, numCompletedSets);
       }
       setIncompleteSetIds(incompleteSetIdList);
       setCompletedSetsMap(newCompletedSetsMap);
