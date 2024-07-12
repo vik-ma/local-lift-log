@@ -327,10 +327,13 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     if (!success) return;
 
-    const groupedSetIndex: number = groupedSets.findIndex((obj) =>
+    const groupedSetId: string =
       operatingSet.multiset_id > 0
-        ? obj.id === `m${operatingSet.multiset_id}`
-        : obj.id === operatingSet.exercise_id.toString()
+        ? `m${operatingSet.multiset_id}`
+        : operatingSet.exercise_id.toString();
+
+    const groupedSetIndex: number = groupedSets.findIndex(
+      (obj) => obj.id === groupedSetId
     );
 
     const updatedSetList: WorkoutSet[] = groupedSets[
