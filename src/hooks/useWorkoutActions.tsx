@@ -119,8 +119,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     loadUserSettings();
   }, []);
 
-  const addSet = async (numSets: string) => {
-    // TODO: FIX FOR MULTISETS
+  const addSetsToExercise = async (numSets: string) => {
     if (selectedExercise === undefined) return;
 
     if (!numSetsOptions.includes(numSets)) return;
@@ -169,7 +168,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       }
 
       const exerciseIndex: number = groupedSets.findIndex(
-        (obj) => obj.exerciseList[0].id === selectedExercise.id
+        (obj) => obj.id === selectedExercise.id.toString()
       );
 
       const updatedWorkoutNumbers: WorkoutNumbers = {
@@ -215,14 +214,13 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       resetOperatingSet();
 
       setModal.onClose();
-      toast.success("Set Added");
+      toast.success(`Set${numSetsToAdd > 1 ? "s" : ""} Added`);
     } catch (error) {
       console.log(error);
     }
   };
 
   const deleteSet = async () => {
-    // TODO: FIX FOR MULTISETS
     if (
       operatingSet === undefined ||
       operationType !== "delete-set" ||
@@ -234,8 +232,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     if (!success) return;
 
-    const exerciseIndex: number = groupedSets.findIndex(
-      (obj) => obj.exerciseList[0].id === operatingSet.exercise_id
+    const groupedSetIndex: number = groupedSets.findIndex(
+      (obj) => obj.id === operatingGroupedSet.id
     );
 
     const updatedWorkoutNumbers: WorkoutNumbers = {
@@ -244,13 +242,13 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     };
 
     const updatedSetList: WorkoutSet[] = groupedSets[
-      exerciseIndex
+      groupedSetIndex
     ].setList.filter((item) => item.id !== operatingSet.id);
 
     if (updatedSetList.length === 0) {
       // Remove Exercise from groupedSets if last Set in Exercise was deleted
       const updatedGroupedSets: GroupedWorkoutSet[] = groupedSets.filter(
-        (_, index) => index !== exerciseIndex
+        (_, index) => index !== groupedSetIndex
       );
 
       setGroupedSets(updatedGroupedSets);
@@ -260,7 +258,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     } else {
       setGroupedSets((prev) => {
         const newList = [...prev];
-        newList[exerciseIndex].setList = updatedSetList;
+        newList[groupedSetIndex].setList = updatedSetList;
         return newList;
       });
     }
@@ -395,7 +393,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
   const handleSaveSetButton = async (numSets: string) => {
     if (operationType === "add") {
-      await addSet(numSets);
+      await addSetsToExercise(numSets);
     }
     if (operationType === "edit") {
       await updateSet();
@@ -497,7 +495,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     if (key === "edit") {
       handleEditSet(set, index, exercise, groupedSet);
     } else if (key === "delete-set") {
-      handleDeleteSet(set);
+      handleDeleteSet(set, groupedSet);
     } else if (key === "update-completed-set-time") {
       handleUpdateSetTimeCompleted(set);
     }
@@ -510,8 +508,9 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     timeInputModal.onOpen();
   };
 
-  const handleDeleteSet = (set: WorkoutSet) => {
+  const handleDeleteSet = (set: WorkoutSet, groupedSet: GroupedWorkoutSet) => {
     setOperatingSet(set);
+    setOperatingGroupedSet(groupedSet);
     setOperationType("delete-set");
 
     deleteModal.onOpen();
@@ -537,7 +536,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   const handleAddSetToExercise = async (
     groupedWorkoutSet: GroupedWorkoutSet
   ) => {
-    // TODO: FIX FOR MULTISETS
     const exercise = groupedWorkoutSet.exerciseList[0];
 
     let newSet: WorkoutSet = {
