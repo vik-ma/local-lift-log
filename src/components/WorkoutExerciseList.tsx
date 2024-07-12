@@ -45,7 +45,7 @@ type WorkoutExerciseListProps = {
   handleReassignExercise: (groupedWorkoutSet: GroupedWorkoutSet) => void;
   isTemplate: boolean;
   activeSetId?: number;
-  completedSetsMap?: Map<number, number>;
+  completedSetsMap?: Map<string, number>;
   multisetTypeMap: MultisetTypeMap;
 };
 
@@ -135,17 +135,16 @@ export const WorkoutExerciseList = ({
                       </div>
                       <span
                         className={
-                          completedSetsMap?.get(
-                            groupedSet.exerciseList[0].id
-                          ) === groupedSet.setList.length
+                          completedSetsMap?.get(groupedSet.id) ===
+                          groupedSet.setList.length
                             ? "text-sm text-success"
                             : "text-sm text-stone-500"
                         }
                       >
                         {completedSetsMap
-                          ? `${completedSetsMap.get(
-                              groupedSet.exerciseList[0].id
-                            )}/${groupedSet.setList.length} Sets Completed`
+                          ? `${completedSetsMap.get(groupedSet.id)}/${
+                              groupedSet.setList.length
+                            } Sets Completed`
                           : `${groupedSet.setList.length} Sets`}
                       </span>
                     </div>

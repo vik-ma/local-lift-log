@@ -73,7 +73,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   const [activeSet, setActiveSet] = useState<WorkoutSet>();
   const [showCommentInput, setShowCommentInput] = useState<boolean>(false);
   const [incompleteSetIds, setIncompleteSetIds] = useState<number[]>([]);
-  const [completedSetsMap, setCompletedSetsMap] = useState<Map<number, number>>(
+  const [completedSetsMap, setCompletedSetsMap] = useState<Map<string, number>>(
     new Map()
   );
   const [activeSetNote, setActiveSetNote] = useState<
@@ -277,12 +277,12 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     deleteModal.onClose();
 
     if (
-      completedSetsMap.has(operatingSet.exercise_id) &&
+      completedSetsMap.has(operatingGroupedSet.id) &&
       operatingSet.is_completed === 1
     ) {
       // Lower the value for completedSetsMap key if deleted Set was completed
-      const value = completedSetsMap.get(operatingSet.exercise_id);
-      completedSetsMap.set(operatingSet.exercise_id, value! - 1);
+      const value = completedSetsMap.get(operatingGroupedSet.id);
+      completedSetsMap.set(operatingGroupedSet.id, value! - 1);
     }
 
     if (!isTemplate) {
@@ -651,8 +651,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
           item.exerciseList[0].id !== operatingGroupedSet.exerciseList[0].id
       );
 
-      if (completedSetsMap.has(operatingGroupedSet.exerciseList[0].id)) {
-        completedSetsMap.delete(operatingGroupedSet.exerciseList[0].id);
+      if (completedSetsMap.has(operatingGroupedSet.id)) {
+        completedSetsMap.delete(operatingGroupedSet.id);
       }
 
       setGroupedSets(updatedSetList);
@@ -824,12 +824,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       (obj) => obj.exerciseList[0].id === newExercise.id
     );
 
-    if (completedSetsMap.has(operatingGroupedSet.exerciseList[0].id)) {
+    if (completedSetsMap.has(operatingGroupedSet.id)) {
       // Change key to match new exercise id
-      const value = completedSetsMap.get(
-        operatingGroupedSet.exerciseList[0].id
-      );
-      completedSetsMap.delete(operatingGroupedSet.exerciseList[0].id);
+      const value = completedSetsMap.get(operatingGroupedSet.id);
+      completedSetsMap.delete(operatingGroupedSet.id);
       completedSetsMap.set(newExercise.id, value!);
     }
 
@@ -957,10 +955,11 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       (item) => (item.id === activeSet.id ? updatedSet : item)
     );
 
-    const completedSetsValue = completedSetsMap.get(activeSet.exercise_id) ?? 0;
+    const completedSetsValue =
+      completedSetsMap.get(activeGroupedSet.id) ?? 0;
 
     if (activeSet.is_completed === 0) {
-      completedSetsMap.set(activeSet.exercise_id, completedSetsValue + 1);
+      completedSetsMap.set(activeGroupedSet.id, completedSetsValue + 1);
     }
 
     setGroupedSets((prev) => {
@@ -1131,7 +1130,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     (groupedSetList: GroupedWorkoutSet[]) => {
       const incompleteSetIdList: number[] = [];
       let firstSetIndex: number = -1;
-      const newCompletedSetsMap: Map<number, number> = new Map();
+      const newCompletedSetsMap: Map<string, number> = new Map();
 
       // Add Set ids of all incomplete Sets to incompleteSetIds list
       for (let i = 0; i < groupedSetList.length; i++) {
@@ -1156,7 +1155,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
           }
         }
         newCompletedSetsMap.set(
-          groupedSetList[i].exerciseList[0].id,
+          groupedSetList[i].id,
           numCompletedSets
         );
       }
