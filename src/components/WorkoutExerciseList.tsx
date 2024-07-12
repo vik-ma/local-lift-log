@@ -32,7 +32,7 @@ type WorkoutExerciseListProps = {
     index: number,
     exercise: Exercise
   ) => void;
-  updateShownSetListComments: (exerciseId: number, index: number) => void;
+  updateShownSetListComments: (groupedSetId: string, index: number) => void;
   shownSetListComments: SetListNotes;
   handleAddSetButton: () => void;
   setIsExerciseBeingDragged: React.Dispatch<React.SetStateAction<boolean>>;

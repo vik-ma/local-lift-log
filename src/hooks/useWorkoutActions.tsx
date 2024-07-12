@@ -221,7 +221,12 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   };
 
   const deleteSet = async () => {
-    if (operatingSet === undefined || operationType !== "delete-set") return;
+    if (
+      operatingSet === undefined ||
+      operationType !== "delete-set" ||
+      operatingGroupedSet === undefined
+    )
+      return;
 
     const success = await DeleteSetWithId(operatingSet.id);
 
@@ -260,7 +265,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     // Close shownSetListComments for Set if deleted Set note was shown
     updateSetIndexInShownSetListComments(
-      operatingSet.exercise_id,
+      operatingGroupedSet.id,
       operatingSet.set_index ?? -1
     );
 
@@ -293,7 +298,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   };
 
   const updateSet = async () => {
-    if (selectedExercise === undefined) return;
+    if (selectedExercise === undefined || operatingGroupedSet === undefined)
+      return;
 
     if (operatingSetInputs.isSetTrackingValuesInvalid) return;
 
@@ -340,7 +346,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     // Close shownSetListComments for Set if note was deleted
     if (updatedSet.note === null) {
       updateSetIndexInShownSetListComments(
-        operatingSet.exercise_id,
+        operatingGroupedSet.id,
         operatingSet.set_index ?? -1
       );
     }
@@ -686,13 +692,13 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     );
   };
 
-  const updateShownSetListComments = (exerciseId: number, index: number) => {
+  const updateShownSetListComments = (groupedSetId: string, index: number) => {
     let updatedSet: Set<number> = new Set<number>();
-    if (shownSetListComments[exerciseId]) {
+    if (shownSetListComments[groupedSetId]) {
       // If shownSetListComments HAS key for exerciseId
-      updatedSet = new Set(shownSetListComments[exerciseId]);
+      updatedSet = new Set(shownSetListComments[groupedSetId]);
 
-      if (shownSetListComments[exerciseId].has(index)) {
+      if (shownSetListComments[groupedSetId].has(index)) {
         updatedSet.delete(index);
       } else {
         updatedSet.add(index);
@@ -704,19 +710,19 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     setShownSetListComments((prev) => ({
       ...prev,
-      [exerciseId]: updatedSet,
+      [groupedSetId]: updatedSet,
     }));
   };
 
   const updateSetIndexInShownSetListComments = (
-    exerciseId: number,
+    groupedSetId: string,
     setIndex: number
   ) => {
     if (
-      shownSetListComments[exerciseId] &&
-      shownSetListComments[exerciseId].has(setIndex)
+      shownSetListComments[groupedSetId] &&
+      shownSetListComments[groupedSetId].has(setIndex)
     ) {
-      updateShownSetListComments(exerciseId, setIndex);
+      updateShownSetListComments(groupedSetId, setIndex);
     }
   };
 
@@ -899,7 +905,12 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   };
 
   const saveActiveSet = async () => {
-    if (activeSet === undefined || workout.id === 0) return;
+    if (
+      activeSet === undefined ||
+      workout.id === 0 ||
+      activeGroupedSet === undefined
+    )
+      return;
 
     if (activeSetInputs.isSetTrackingValuesInvalid) return;
 
@@ -954,7 +965,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     // Close shownSetListComments for Set if comment was deleted
     if (updatedSet.comment === null) {
       updateSetIndexInShownSetListComments(
-        activeSet.exercise_id,
+        activeGroupedSet.id,
         activeSet.set_index ?? -1
       );
     }

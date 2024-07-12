@@ -24,7 +24,7 @@ type SetListProps = {
     index: number,
     exercise: Exercise
   ) => void;
-  clickCommentButtonAction: (exerciseId: number, index: number) => void;
+  clickCommentButtonAction: (groupedSetId: string, index: number) => void;
   shownSetListComments: SetListNotes;
   isTemplate: boolean;
 };
@@ -148,7 +148,7 @@ export const SetList = ({
                       radius="lg"
                       variant="light"
                       onPress={() =>
-                        clickCommentButtonAction(exercise.id, index)
+                        clickCommentButtonAction(groupedSet.id, index)
                       }
                     >
                       <CommentIcon size={21} />

@@ -280,7 +280,7 @@ export type ReassignMeasurementsProps = {
 };
 
 export type SetListNotes = {
-  [key: number]: Set<number>;
+  [key: string]: Set<number>;
 };
 
 export type ActiveSetNote = {

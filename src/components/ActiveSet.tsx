@@ -46,7 +46,7 @@ type ActiveSetProps = {
     index: number,
     exercise: Exercise
   ) => void;
-  updateShownSetListComments: (exerciseId: number, index: number) => void;
+  updateShownSetListComments: (groupedSetId: string, index: number) => void;
   shownSetListComments: SetListNotes;
   activeSetInputs: ReturnType<typeof useSetTrackingInputs>;
   handleEditSet: (set: WorkoutSet, index: number, exercise: Exercise) => void;
