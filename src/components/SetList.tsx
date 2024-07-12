@@ -56,86 +56,104 @@ export const SetList = ({
           <div
             className={
               set.id === activeSetId
-                ? "flex flex-col pl-2 bg-yellow-100 text-yellow-600 text-sm font-medium break-words cursor-pointer"
-                : "flex flex-col pl-2 text-sm font-medium break-words cursor-pointer hover:bg-stone-100"
+                ? "flex flex-col pl-1.5 bg-yellow-100 text-yellow-600 text-sm font-medium break-words cursor-pointer"
+                : "flex flex-col pl-1.5 text-sm font-medium break-words cursor-pointer hover:bg-stone-100"
             }
             key={set.id}
             onClick={() => clickSetAction(set, index, exercise, groupedSet)}
           >
-            <div className="flex justify-between items-center">
-              <div className="flex items-center text-stone-500">
-                <span
+            <div
+              className={
+                isMultiset
+                  ? "flex justify-between items-start"
+                  : "flex justify-between items-center"
+              }
+            >
+              <div className={isMultiset ? "flex flex-col" : "flex w-full"}>
+                <div
                   className={
-                    isMultiset ? "truncate w-[10rem]" : "truncate w-[3rem]"
+                    isMultiset
+                      ? "flex items-center w-[19rem]"
+                      : "flex items-center"
                   }
                 >
-                  {isMultiset ? exercise.name : `Set ${index + 1}`}
-                </span>
-              </div>
-              <div className="flex flex-wrap justify-evenly w-full gap-x-5 px-1 gap-y-0.5 py-0.5">
-                {set.is_tracking_weight === 1 &&
-                  (set.weight > 0 || set.is_completed === 1) && (
-                    <div className="flex gap-1">
-                      <span className="truncate max-w-12">{set.weight}</span>
-                      <span>{set.weight_unit}</span>
-                    </div>
-                  )}
-                {set.is_tracking_reps === 1 &&
-                  (set.reps > 0 || set.is_completed === 1) && (
-                    <div className="flex gap-1">
-                      <span className="truncate max-w-12">{set.reps}</span>
-                      <span>
-                        Rep
-                        {set.reps !== 1 && "s"}
+                  <span
+                    className={
+                      isMultiset
+                        ? "truncate text-yellow-600"
+                        : "truncate w-[3rem] text-stone-500"
+                    }
+                  >
+                    {isMultiset ? exercise.name : `Set ${index + 1}`}
+                  </span>
+                </div>
+                <div className="flex flex-wrap justify-evenly w-full gap-x-5 px-1 gap-y-0.5 py-0.5">
+                  {set.is_tracking_weight === 1 &&
+                    (set.weight > 0 || set.is_completed === 1) && (
+                      <div className="flex gap-1">
+                        <span className="truncate max-w-12">{set.weight}</span>
+                        <span>{set.weight_unit}</span>
+                      </div>
+                    )}
+                  {set.is_tracking_reps === 1 &&
+                    (set.reps > 0 || set.is_completed === 1) && (
+                      <div className="flex gap-1">
+                        <span className="truncate max-w-12">{set.reps}</span>
+                        <span>
+                          Rep
+                          {set.reps !== 1 && "s"}
+                        </span>
+                      </div>
+                    )}
+                  {set.is_tracking_distance === 1 &&
+                    (set.distance > 0 || set.is_completed === 1) && (
+                      <div className="flex gap-1">
+                        <span className="truncate max-w-12">
+                          {set.distance}
+                        </span>
+                        <span>{set.distance_unit}</span>
+                      </div>
+                    )}
+                  {set.is_tracking_time === 1 &&
+                    (set.time_in_seconds > 0 || set.is_completed === 1) && (
+                      <span className="truncate max-w-16">
+                        {FormatTimeInSecondsToHhmmssString(set.time_in_seconds)}
                       </span>
-                    </div>
-                  )}
-                {set.is_tracking_distance === 1 &&
-                  (set.distance > 0 || set.is_completed === 1) && (
+                    )}
+                  {set.is_tracking_rpe === 1 && set.rpe > 0 && (
                     <div className="flex gap-1">
-                      <span className="truncate max-w-12">{set.distance}</span>
-                      <span>{set.distance_unit}</span>
+                      <span>RPE</span>
+                      <span className="truncate max-w-4">{set.rpe}</span>
                     </div>
                   )}
-                {set.is_tracking_time === 1 &&
-                  (set.time_in_seconds > 0 || set.is_completed === 1) && (
-                    <span className="truncate max-w-16">
-                      {FormatTimeInSecondsToHhmmssString(set.time_in_seconds)}
-                    </span>
-                  )}
-                {set.is_tracking_rpe === 1 && set.rpe > 0 && (
-                  <div className="flex gap-1">
-                    <span>RPE</span>
-                    <span className="truncate max-w-4">{set.rpe}</span>
-                  </div>
-                )}
-                {set.is_tracking_rir === 1 && set.rir > -1 && (
-                  <div className="flex gap-1">
-                    <span className="truncate max-w-10">{set.rir}</span>
-                    <span>RIR</span>
-                  </div>
-                )}
-                {set.is_tracking_resistance_level === 1 &&
-                  (set.resistance_level > 0 || set.is_completed === 1) && (
+                  {set.is_tracking_rir === 1 && set.rir > -1 && (
                     <div className="flex gap-1">
-                      <span>Resistance Level</span>
-                      <span className="truncate max-w-12">
-                        {set.resistance_level}
-                      </span>
+                      <span className="truncate max-w-10">{set.rir}</span>
+                      <span>RIR</span>
                     </div>
                   )}
-                {set.is_tracking_partial_reps === 1 &&
-                  (set.partial_reps > 0 || set.is_completed === 1) && (
-                    <div className="flex gap-1">
-                      <span className="truncate max-w-10">
-                        {set.partial_reps}
-                      </span>
-                      <span>
-                        Partial Rep
-                        {set.partial_reps !== 1 && "s"}
-                      </span>
-                    </div>
-                  )}
+                  {set.is_tracking_resistance_level === 1 &&
+                    (set.resistance_level > 0 || set.is_completed === 1) && (
+                      <div className="flex gap-1">
+                        <span>Resistance Level</span>
+                        <span className="truncate max-w-12">
+                          {set.resistance_level}
+                        </span>
+                      </div>
+                    )}
+                  {set.is_tracking_partial_reps === 1 &&
+                    (set.partial_reps > 0 || set.is_completed === 1) && (
+                      <div className="flex gap-1">
+                        <span className="truncate max-w-10">
+                          {set.partial_reps}
+                        </span>
+                        <span>
+                          Partial Rep
+                          {set.partial_reps !== 1 && "s"}
+                        </span>
+                      </div>
+                    )}
+                </div>
               </div>
               <div
                 className={
