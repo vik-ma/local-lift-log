@@ -103,7 +103,7 @@ export const SetList = ({
                       {FormatTimeInSecondsToHhmmssString(set.time_in_seconds)}
                     </span>
                   )}
-                {set.is_tracking_rpe === 1 && set.is_completed === 1 && (
+                {set.is_tracking_rpe === 1 && set.rpe > 0 && (
                   <div className="flex gap-1">
                     <span>RPE</span>
                     <span className="truncate max-w-4">{set.rpe}</span>
