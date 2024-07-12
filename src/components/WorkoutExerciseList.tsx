@@ -206,7 +206,7 @@ export const WorkoutExerciseList = ({
                           )}
                           <DropdownItem
                             className="text-danger"
-                            key="delete-exercise-sets"
+                            key="delete-grouped_sets-sets"
                           >
                             {isMultiset ? `Remove ${title}` : "Remove All Sets"}
                           </DropdownItem>

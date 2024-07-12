@@ -156,12 +156,12 @@ export default function WorkoutTemplateDetails() {
       <DeleteModal
         deleteModal={deleteModal}
         header={`Remove Set${
-          operationType === "delete-exercise-sets" ? "s" : ""
+          operationType === "delete-grouped_sets-sets" ? "s" : ""
         }`}
         body={
           <p className="break-words">
             {/* TODO: FIX FOR MULTISETS */}
-            {operationType === "delete-exercise-sets"
+            {operationType === "delete-grouped_sets-sets"
               ? `Are you sure you want to remove all ${operatingGroupedSet?.exerciseList[0].name} sets from Workout Template?`
               : `Are you sure you want to remove ${operatingSet.exercise_name} set?`}
           </p>

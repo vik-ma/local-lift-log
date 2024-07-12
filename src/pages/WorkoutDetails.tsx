@@ -230,12 +230,12 @@ export default function WorkoutDetails() {
       <DeleteModal
         deleteModal={deleteModal}
         header={`Delete Set${
-          operationType === "delete-exercise-sets" ? "s" : ""
+          operationType === "delete-grouped_sets-sets" ? "s" : ""
         }`}
         body={
           <p className="break-words">
             {/* TODO: FIX FOR MULTISETS */}
-            {operationType === "delete-exercise-sets"
+            {operationType === "delete-grouped_sets-sets"
               ? `Are you sure you want to delete all ${operatingGroupedSet?.exerciseList[0].name} sets from Workout?`
               : `Are you sure you want to delete ${operatingSet.exercise_name} set?`}
           </p>
