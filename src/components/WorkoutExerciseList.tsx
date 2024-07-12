@@ -190,12 +190,16 @@ export const WorkoutExerciseList = ({
                               ? "Hide Exercise Note"
                               : "Show Exercise Note"}
                           </DropdownItem>
-                          {groupedSet.exerciseList[0].isInvalid ? (
+                          {!isMultiset &&
+                          groupedSet.exerciseList[0].isInvalid ? (
                             <DropdownItem key="reassign-exercise">
                               Reassign Exercise
                             </DropdownItem>
                           ) : (
-                            <DropdownItem key="change-exercise">
+                            <DropdownItem
+                              className={isMultiset ? "hidden" : ""}
+                              key="change-exercise"
+                            >
                               Change Exercise
                             </DropdownItem>
                           )}
@@ -203,7 +207,7 @@ export const WorkoutExerciseList = ({
                             className="text-danger"
                             key="delete-exercise-sets"
                           >
-                            Remove All Sets
+                            {isMultiset ? `Remove ${title}` : "Remove All Sets"}
                           </DropdownItem>
                         </DropdownMenu>
                       </Dropdown>
