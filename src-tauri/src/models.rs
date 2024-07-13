@@ -168,4 +168,5 @@ pub struct Multiset {
     pub multiset_type: i16,
     pub set_order: String,
     pub is_template: i16,
+    pub note: Option<String>,
 }

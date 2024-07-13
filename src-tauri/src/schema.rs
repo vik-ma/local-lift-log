@@ -154,5 +154,6 @@ diesel::table! {
         multiset_type -> SmallInt,
         set_order -> Text,
         is_template -> SmallInt,
+        note -> Nullable<Text>,
     }
 }
