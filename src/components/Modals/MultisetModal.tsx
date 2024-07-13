@@ -16,7 +16,12 @@ import {
   UserSettings,
 } from "../../typings";
 import { MultisetDropdown } from "../Dropdowns/MultisetDropdown";
-import { ExerciseModalList, MultisetSetList, SetValueConfig } from "../";
+import {
+  ExerciseModalList,
+  MultisetSetList,
+  MultisetTemplateModalList,
+  SetValueConfig,
+} from "../";
 import {
   useSetTrackingInputs,
   useDefaultSetInputValues,
@@ -70,6 +75,10 @@ export const MultisetModal = ({
     selectedMultisetExercise,
     handleMultisetSetOptionSelection,
     closeMultisetModal,
+    filterQuery,
+    setFilterQuery,
+    filteredMultisets,
+    multisetTypeMap,
   } = useMultisetActions;
 
   const handleLeftButton = () => {
@@ -112,6 +121,14 @@ export const MultisetModal = ({
                   clearSetInputValues={clearSetInputValues}
                   isMultiset={true}
                 />
+              ) : modalPage === "multiset-list" ? (
+                <MultisetTemplateModalList
+                  handleClickMultiset={() => {}}
+                  filterQuery={filterQuery}
+                  setFilterQuery={setFilterQuery}
+                  filteredMultisets={filteredMultisets}
+                  multisetTypeMap={multisetTypeMap}
+                />
               ) : (
                 <div className="flex flex-col items-center gap-2.5 h-[400px] overflow-auto scroll-gradient">
                   <div className="flex items-center gap-2">
@@ -145,39 +162,43 @@ export const MultisetModal = ({
               )}
             </ModalBody>
             <ModalFooter className="flex justify-between">
-              <div>
-                <Button
-                  className="w-[7.5rem]"
-                  variant="flat"
-                  onPress={() => handleLeftButton()}
-                >
-                  {modalPage === "exercise-list"
-                    ? "Cancel"
-                    : modalPage === "edit-set"
-                    ? "Back"
-                    : "Add Exercise"}
-                </Button>
+              <div className="flex">
+                {modalPage !== "multiset-list" && (
+                  <Button
+                    className="w-[7.5rem]"
+                    variant="flat"
+                    onPress={() => handleLeftButton()}
+                  >
+                    {modalPage === "exercise-list"
+                      ? "Cancel"
+                      : modalPage === "edit-set"
+                      ? "Back"
+                      : "Add Exercise"}
+                  </Button>
+                )}
               </div>
               <div className="flex gap-2">
                 <Button color="success" variant="light" onPress={onClose}>
                   Close
                 </Button>
-                <Button
-                  className="w-[6.5rem]"
-                  color="success"
-                  isDisabled={
-                    (modalPage !== "edit-set" &&
-                      multiset.setList.length === 0) ||
-                    (modalPage === "edit-set" && operatingSet.id < 1)
-                  }
-                  onPress={
-                    modalPage === "edit-set"
-                      ? updateOperatingSet
-                      : saveButtonAction
-                  }
-                >
-                  {modalPage === "edit-set" ? "Update Set" : "Save"}
-                </Button>
+                {modalPage !== "multiset-list" && (
+                  <Button
+                    className="w-[6.5rem]"
+                    color="success"
+                    isDisabled={
+                      (modalPage !== "edit-set" &&
+                        multiset.setList.length === 0) ||
+                      (modalPage === "edit-set" && operatingSet.id < 1)
+                    }
+                    onPress={
+                      modalPage === "edit-set"
+                        ? updateOperatingSet
+                        : saveButtonAction
+                    }
+                  >
+                    {modalPage === "edit-set" ? "Update Set" : "Save"}
+                  </Button>
+                )}
               </div>
             </ModalFooter>
           </>
