@@ -14,6 +14,7 @@ export { MultisetAccordion } from "./MultisetAccordion";
 export { MultisetReorderItem } from "./MultisetReorderItem";
 export { SetValueConfig } from "./SetValueConfig";
 export { MultisetSetMenu } from "./MultisetSetMenu";
+export { MultisetTemplateModalList } from "./MultisetTemplateModalList";
 
 export { WeightUnitDropdown } from "./Dropdowns/WeightUnitDropdown";
 export { DistanceUnitDropdown } from "./Dropdowns/DistanceUnitDropdown";
