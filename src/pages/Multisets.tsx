@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Multiset, Exercise, WorkoutSet, UserSettings } from "../typings";
-import MultisetModal from "../components/Modals/MultisetModal";
 import {
   useDefaultMultiset,
   useDefaultSet,
@@ -8,7 +7,7 @@ import {
   useMultisetTypeMap,
   useMultisetActions,
 } from "../hooks";
-import { Button, useDisclosure } from "@nextui-org/react";
+import { Button, useDisclosure, Input } from "@nextui-org/react";
 import {
   ConvertEmptyStringToNull,
   DeleteMultisetWithId,
@@ -19,8 +18,14 @@ import {
   UpdateMultisetSetOrder,
   UpdateSet,
 } from "../helpers";
-import { DeleteModal, LoadingSpinner, MultisetAccordion } from "../components";
+import {
+  DeleteModal,
+  LoadingSpinner,
+  MultisetAccordion,
+  MultisetModal,
+} from "../components";
 import toast, { Toaster } from "react-hot-toast";
+import { SearchIcon } from "../assets";
 
 export type OperationType = "add" | "edit" | "delete";
 
@@ -435,8 +440,17 @@ export default function Multisets() {
             Multisets
           </h1>
         </div>
+        <Input
+          label="Search"
+          variant="faded"
+          placeholder="Type to search..."
+          isClearable
+          value={multisetActions.filterQuery}
+          onValueChange={multisetActions.setFilterQuery}
+          startContent={<SearchIcon />}
+        />
         <MultisetAccordion
-          multisets={multisetActions.multisets}
+          multisets={multisetActions.filteredMultisets}
           handleMultisetAccordionClick={handleMultisetAccordionClick}
           handleMultisetOptionSelection={handleMultisetOptionSelection}
           multisetTypeMap={multisetTypeMap}
