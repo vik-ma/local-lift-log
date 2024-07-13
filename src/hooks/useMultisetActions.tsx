@@ -4,8 +4,9 @@ import {
   WorkoutSet,
   Exercise,
   UseExerciseListReturnType,
+  MultisetTypeMap,
 } from "../typings";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import { useDefaultExercise } from ".";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -26,6 +27,7 @@ type UseMultisetActionsProps = {
   deleteModal: ReturnType<typeof useDisclosure>;
   multisetModal: ReturnType<typeof useDisclosure>;
   exerciseList: UseExerciseListReturnType;
+  multisetTypeMap: MultisetTypeMap;
 };
 
 export const useMultisetActions = ({
@@ -36,12 +38,29 @@ export const useMultisetActions = ({
   deleteModal,
   multisetModal,
   exerciseList,
+  multisetTypeMap,
 }: UseMultisetActionsProps) => {
   const [modalPage, setModalPage] = useState<ModalPage>("base");
   const [multisetSetOperationType, setMultisetSetOperationType] =
     useState<OperationType>("");
   const [modalShouldClose, setModalShouldClose] = useState<boolean>(false);
   const [multisets, setMultisets] = useState<Multiset[]>([]);
+  const [filterQuery, setFilterQuery] = useState<string>("");
+
+  const filteredMultisets = useMemo(() => {
+    if (filterQuery !== "") {
+      return multisets.filter(
+        (item) =>
+          item
+            .setListTextString!.toLocaleLowerCase()
+            .includes(filterQuery.toLocaleLowerCase()) ||
+          multisetTypeMap[item.multiset_type].text
+            .toLocaleLowerCase()
+            .includes(filterQuery.toLocaleLowerCase())
+      );
+    }
+    return multisets;
+  }, [multisets, filterQuery, multisetTypeMap]);
 
   const defaultExercise = useDefaultExercise();
 
@@ -231,5 +250,8 @@ export const useMultisetActions = ({
     changeExercise,
     reassignExercise,
     closeMultisetModal,
+    filterQuery,
+    setFilterQuery,
+    filteredMultisets,
   };
 };

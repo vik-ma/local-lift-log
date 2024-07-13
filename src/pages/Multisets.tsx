@@ -58,6 +58,7 @@ export default function Multisets() {
     deleteModal,
     multisetModal,
     exerciseList,
+    multisetTypeMap,
   });
 
   useEffect(() => {
