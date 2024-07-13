@@ -54,7 +54,7 @@ export { InsertMultisetIntoDatabase } from "./Sets/InsertMultisetIntoDatabase";
 export { UpdateMultiset } from "./Sets/UpdateMultiset";
 export { GenerateSetOrderList } from "./Sets/GenerateSetOrderList";
 export { GetSetFromId } from "./Sets/GetSetFromId";
-export { GetAllMultisets } from "./Sets/GetAllMultisets";
+export { GetAllMultisetTemplates } from "./Sets/GetAllMultisetTemplates";
 export { GenerateSetListText } from "./Sets/GenerateSetListText";
 export { UpdateMultisetSetOrder } from "./Sets/UpdateMultisetSetOrder";
 export { DeleteMultisetWithId } from "./Sets/DeleteMultisetWithId";

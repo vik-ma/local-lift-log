@@ -5,11 +5,13 @@ import { GetSetFromId } from "./GetSetFromId";
 import { UpdateMultiset } from "./UpdateMultiset";
 import { GenerateSetListText } from "./GenerateSetListText";
 
-export const GetAllMultisets = async () => {
+export const GetAllMultisetTemplates = async () => {
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
 
-    const result = await db.select<Multiset[]>(`SELECT * FROM multisets`);
+    const result = await db.select<Multiset[]>(
+      `SELECT * FROM multisets WHERE is_template = 1`
+    );
 
     const multisets: Multiset[] = [];
 

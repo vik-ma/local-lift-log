@@ -11,7 +11,7 @@ import Database from "tauri-plugin-sql-api";
 import {
   GenerateSetListText,
   ReassignExerciseIdForSets,
-  GetAllMultisets,
+  GetAllMultisetTemplates,
 } from "../helpers";
 
 type OperationType = "" | "change-exercise" | "reassign-exercise";
@@ -209,7 +209,7 @@ export const useMultisetActions = ({
 
   const loadMultisets = useCallback(async () => {
     try {
-      const multisets = await GetAllMultisets();
+      const multisets = await GetAllMultisetTemplates();
       setMultisets(multisets);
     } catch (error) {
       console.log(error);
