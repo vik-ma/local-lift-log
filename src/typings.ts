@@ -296,6 +296,7 @@ export type Multiset = {
   note: string | null;
   setList: WorkoutSet[];
   setListText?: ReactNode;
+  setListTextString?: string;
   isExpanded?: boolean;
 };
 

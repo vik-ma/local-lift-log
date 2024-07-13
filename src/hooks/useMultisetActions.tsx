@@ -117,12 +117,12 @@ export const useMultisetActions = ({
         item.id === operatingSet.id ? updatedSet : item
       );
 
-      const updatedSetListText = GenerateSetListText(updatedSetList);
+      const updatedSetListValues = GenerateSetListText(updatedSetList);
 
       const updatedMultiset = {
         ...operatingMultiset,
-        setList: updatedSetList,
-        setListText: updatedSetListText,
+        setListText: updatedSetListValues.setListText,
+        setListTextString: updatedSetListValues.setListTextString,
       };
 
       setOperatingMultiset(updatedMultiset);
@@ -173,12 +173,13 @@ export const useMultisetActions = ({
         updatedSetList.push(currentSet);
       }
 
-      const updatedSetListText = GenerateSetListText(updatedSetList);
+      const updatedSetListValues = GenerateSetListText(updatedSetList);
 
       const updatedMultiset = {
         ...multisets[i],
         setList: updatedSetList,
-        setListText: updatedSetListText,
+        setListText: updatedSetListValues.setListText,
+        setListTextString: updatedSetListValues.setListTextString,
       };
 
       updatedMultisets.push(updatedMultiset);

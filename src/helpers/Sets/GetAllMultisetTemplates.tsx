@@ -58,7 +58,10 @@ export const GetAllMultisetTemplates = async () => {
       }
 
       result[i].setList = setList;
-      result[i].setListText = GenerateSetListText(setList);
+
+      const setListValues = GenerateSetListText(setList);
+      result[i].setListText = setListValues.setListText;
+      result[i].setListTextString = setListValues.setListTextString;
 
       multisets.push(result[i]);
     }

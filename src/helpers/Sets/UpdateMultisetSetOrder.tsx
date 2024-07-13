@@ -15,7 +15,10 @@ export const UpdateMultisetSetOrder = async (
   const setOrder = setListIdOrder.join(",");
 
   updatedMultiset.set_order = setOrder;
-  updatedMultiset.setListText = GenerateSetListText(updatedMultiset.setList);
+
+  const updatedSetListValues = GenerateSetListText(updatedMultiset.setList);
+  updatedMultiset.setListText = updatedSetListValues.setListText;
+  updatedMultiset.setListTextString = updatedSetListValues.setListTextString;
 
   const success = await UpdateMultiset(updatedMultiset);
 

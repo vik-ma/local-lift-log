@@ -1,9 +1,20 @@
 import { WorkoutSet } from "../../typings";
 import { ReactNode, Fragment } from "react";
 
-export const GenerateSetListText = (setList: WorkoutSet[]) => {
+type GenerateSetListTextReturnType = {
+  setListText: Iterable<ReactNode>;
+  setListTextString: string;
+};
+
+export const GenerateSetListText = (
+  setList: WorkoutSet[]
+): GenerateSetListTextReturnType => {
+  const setListStrings: string[] = [];
+
   const setListText: ReactNode = setList.map((set, index) => {
     const isLastElement = index === setList.length - 1;
+
+    setListStrings.push(set.exercise_name ?? "");
 
     if (set.hasInvalidExerciseId) {
       return (
@@ -22,5 +33,7 @@ export const GenerateSetListText = (setList: WorkoutSet[]) => {
     }
   });
 
-  return setListText;
+  const setListTextString = setListStrings.join(", ");
+
+  return { setListText, setListTextString };
 };
