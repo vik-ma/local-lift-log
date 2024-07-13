@@ -160,10 +160,37 @@ export default function WorkoutTemplateDetails() {
         }`}
         body={
           <p className="break-words">
-            {/* TODO: FIX FOR MULTISETS */}
-            {operationType === "delete-grouped_sets-sets"
-              ? `Are you sure you want to remove all ${operatingGroupedSet?.exerciseList[0].name} sets from Workout Template?`
-              : `Are you sure you want to remove ${operatingSet.exercise_name} set?`}
+            Are you sure you want to remove{" "}
+            {operationType === "delete-grouped_sets-sets" ? (
+              operatingGroupedSet?.isMultiset ? (
+                <>
+                  <span className="text-yellow-600">
+                    {
+                      multisetTypeMap[
+                        operatingGroupedSet.multiset!.multiset_type
+                      ].text
+                    }
+                  </span>{" "}
+                  from Workout Template
+                </>
+              ) : (
+                <>
+                  all{" "}
+                  <span className="text-yellow-600">
+                    {operatingGroupedSet?.exerciseList[0].name}
+                  </span>{" "}
+                  sets from Workout Template
+                </>
+              )
+            ) : (
+              <>
+                <span className="text-yellow-600">
+                  {operatingSet.exercise_name}
+                </span>{" "}
+                set
+              </>
+            )}
+            ?
           </p>
         }
         deleteButtonAction={handleDeleteModalButton}

@@ -215,7 +215,11 @@ export const WorkoutExerciseList = ({
                             className="text-danger"
                             key="delete-grouped_sets-sets"
                           >
-                            {isMultiset ? `Remove ${title}` : "Remove All Sets"}
+                            {isMultiset
+                              ? `Remove ${title}`
+                              : isTemplate
+                              ? "Remove All Sets"
+                              : "Delete All Sets"}
                           </DropdownItem>
                         </DropdownMenu>
                       </Dropdown>
