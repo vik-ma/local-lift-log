@@ -177,9 +177,15 @@ export const WorkoutExerciseList = ({
                             )
                           }
                         >
-                          <DropdownItem key="add-set-to-exercise">
-                            Add Set
-                          </DropdownItem>
+                          {isMultiset ? (
+                            <DropdownItem key="add-sets-to-multiset">
+                              Add Set
+                            </DropdownItem>
+                          ) : (
+                            <DropdownItem key="add-set-to-exercise">
+                              Add Set
+                            </DropdownItem>
+                          )}
                           <DropdownItem
                             className={
                               (isMultiset &&

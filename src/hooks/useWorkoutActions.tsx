@@ -43,7 +43,8 @@ type OperationType =
   | "change-exercise"
   | "reassign-exercise"
   | "delete-grouped_sets-sets"
-  | "update-completed-set-time";
+  | "update-completed-set-time"
+  | "add-sets-to-multiset";
 
 type WorkoutNumbers = {
   numExercises: number;
@@ -130,94 +131,90 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       operatingSetInputs.setTrackingValuesInput
     );
 
-    try {
-      const noteToInsert = ConvertEmptyStringToNull(operatingSet.note);
+    const noteToInsert = ConvertEmptyStringToNull(operatingSet.note);
 
-      const newSets: WorkoutSet[] = [];
+    const newSets: WorkoutSet[] = [];
 
-      const numSetsToAdd: number = parseInt(numSets);
+    const numSetsToAdd: number = parseInt(numSets);
 
-      for (let i = 0; i < numSetsToAdd; i++) {
-        const newSet: WorkoutSet = {
-          ...operatingSet,
-          exercise_id: selectedExercise.id,
-          note: noteToInsert,
-          exercise_name: selectedExercise.name,
-          weight: setTrackingValuesNumber.weight,
-          reps: setTrackingValuesNumber.reps,
-          distance: setTrackingValuesNumber.distance,
-          rir: setTrackingValuesNumber.rir,
-          rpe: setTrackingValuesNumber.rpe,
-          resistance_level: setTrackingValuesNumber.resistance_level,
-          partial_reps: setTrackingValuesNumber.partial_reps,
-        };
-
-        if (isTemplate && workoutTemplate !== undefined) {
-          newSet.workout_template_id = workoutTemplate.id;
-        }
-
-        if (!isTemplate && workout.id !== 0) {
-          newSet.workout_id = workout.id;
-        }
-
-        const setId: number = await InsertSetIntoDatabase(newSet);
-
-        if (setId === 0) return;
-
-        newSets.push({ ...newSet, id: setId });
-      }
-
-      const exerciseIndex: number = groupedSets.findIndex(
-        (obj) => obj.id === selectedExercise.id.toString()
-      );
-
-      const updatedWorkoutNumbers: WorkoutNumbers = {
-        ...workoutNumbers,
-        numSets: workoutNumbers.numSets + numSetsToAdd,
+    for (let i = 0; i < numSetsToAdd; i++) {
+      const newSet: WorkoutSet = {
+        ...operatingSet,
+        exercise_id: selectedExercise.id,
+        note: noteToInsert,
+        exercise_name: selectedExercise.name,
+        weight: setTrackingValuesNumber.weight,
+        reps: setTrackingValuesNumber.reps,
+        distance: setTrackingValuesNumber.distance,
+        rir: setTrackingValuesNumber.rir,
+        rpe: setTrackingValuesNumber.rpe,
+        resistance_level: setTrackingValuesNumber.resistance_level,
+        partial_reps: setTrackingValuesNumber.partial_reps,
       };
 
-      if (exerciseIndex === -1) {
-        // Create new GroupedWorkoutSet if exercise_id does not exist in groupedSets
-        const newGroupedWorkoutSet: GroupedWorkoutSet = {
-          id: selectedExercise.id.toString(),
-          exerciseList: [selectedExercise],
-          setList: newSets,
-          isExpanded: true,
-          showExerciseNote: true,
-        };
-
-        const newGroupedSets: GroupedWorkoutSet[] = [
-          ...groupedSets,
-          newGroupedWorkoutSet,
-        ];
-
-        setGroupedSets(newGroupedSets);
-        await updateExerciseOrder(newGroupedSets);
-
-        updatedWorkoutNumbers.numExercises = workoutNumbers.numExercises + 1;
-
-        if (!isTemplate) populateIncompleteSets(newGroupedSets);
-      } else {
-        // Add new Sets to groupedSets' existing Exercise's Set List
-        const newList = [...groupedSets];
-        newList[exerciseIndex].setList = [
-          ...newList[exerciseIndex].setList,
-          ...newSets,
-        ];
-        setGroupedSets(newList);
-
-        if (!isTemplate) populateIncompleteSets(newList);
+      if (isTemplate && workoutTemplate !== undefined) {
+        newSet.workout_template_id = workoutTemplate.id;
       }
 
-      setWorkoutNumbers(updatedWorkoutNumbers);
+      if (!isTemplate && workout.id !== 0) {
+        newSet.workout_id = workout.id;
+      }
 
-      resetOperatingSet();
+      const setId: number = await InsertSetIntoDatabase(newSet);
 
-      setModal.onClose();
-      toast.success(`Set${numSetsToAdd > 1 ? "s" : ""} Added`);
-    } catch (error) {
-      console.log(error);
+      if (setId === 0) return;
+
+      newSets.push({ ...newSet, id: setId });
     }
+
+    const exerciseIndex: number = groupedSets.findIndex(
+      (obj) => obj.id === selectedExercise.id.toString()
+    );
+
+    const updatedWorkoutNumbers: WorkoutNumbers = {
+      ...workoutNumbers,
+      numSets: workoutNumbers.numSets + numSetsToAdd,
+    };
+
+    if (exerciseIndex === -1) {
+      // Create new GroupedWorkoutSet if exercise_id does not exist in groupedSets
+      const newGroupedWorkoutSet: GroupedWorkoutSet = {
+        id: selectedExercise.id.toString(),
+        exerciseList: [selectedExercise],
+        setList: newSets,
+        isExpanded: true,
+        showExerciseNote: true,
+      };
+
+      const newGroupedSets: GroupedWorkoutSet[] = [
+        ...groupedSets,
+        newGroupedWorkoutSet,
+      ];
+
+      setGroupedSets(newGroupedSets);
+      await updateExerciseOrder(newGroupedSets);
+
+      updatedWorkoutNumbers.numExercises = workoutNumbers.numExercises + 1;
+
+      if (!isTemplate) populateIncompleteSets(newGroupedSets);
+    } else {
+      // Add new Sets to groupedSets' existing Exercise's Set List
+      const newList = [...groupedSets];
+      newList[exerciseIndex].setList = [
+        ...newList[exerciseIndex].setList,
+        ...newSets,
+      ];
+      setGroupedSets(newList);
+
+      if (!isTemplate) populateIncompleteSets(newList);
+    }
+
+    setWorkoutNumbers(updatedWorkoutNumbers);
+
+    resetOperatingSet();
+
+    setModal.onClose();
+    toast.success(`Set${numSetsToAdd > 1 ? "s" : ""} Added`);
   };
 
   const deleteSet = async () => {
@@ -398,6 +395,9 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     if (operationType === "edit") {
       await updateSet();
     }
+    if (operationType === "add-sets-to-multiset") {
+      await addSetToMultiset(numSets);
+    }
   };
 
   const handleAddSetButton = () => {
@@ -528,6 +528,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       handleDeleteExerciseSets(groupedWorkoutSet);
     } else if (key === "add-set-to-exercise") {
       handleAddSetToExercise(groupedWorkoutSet);
+    } else if (key === "add-sets-to-multiset") {
+      handleAddSetToMultiset(groupedWorkoutSet);
     } else if (key === "toggle-exercise-note") {
       handleToggleExerciseNote(groupedWorkoutSet);
     }
@@ -602,6 +604,97 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     resetOperatingSet();
     toast.success("Set Added");
+  };
+
+  const handleAddSetToMultiset = async (
+    groupedWorkoutSet: GroupedWorkoutSet
+  ) => {
+    resetOperatingSet();
+
+    setOperationType("add-sets-to-multiset");
+    setOperatingGroupedSet(groupedWorkoutSet);
+    setModal.onOpen();
+  };
+
+  const addSetToMultiset = async (numSets: string) => {
+    if (
+      selectedExercise === undefined ||
+      operatingGroupedSet === undefined ||
+      operatingGroupedSet.multiset === undefined
+    )
+      return;
+
+    if (!numSetsOptions.includes(numSets)) return;
+
+    if (operatingSetInputs.isSetTrackingValuesInvalid) return;
+
+    const setTrackingValuesNumber = ConvertSetInputValuesToNumbers(
+      operatingSetInputs.setTrackingValuesInput
+    );
+
+    const noteToInsert = ConvertEmptyStringToNull(operatingSet.note);
+
+    const newSets: WorkoutSet[] = [];
+
+    const numSetsToAdd: number = parseInt(numSets);
+
+    for (let i = 0; i < numSetsToAdd; i++) {
+      const newSet: WorkoutSet = {
+        ...operatingSet,
+        exercise_id: selectedExercise.id,
+        note: noteToInsert,
+        exercise_name: selectedExercise.name,
+        weight: setTrackingValuesNumber.weight,
+        reps: setTrackingValuesNumber.reps,
+        distance: setTrackingValuesNumber.distance,
+        rir: setTrackingValuesNumber.rir,
+        rpe: setTrackingValuesNumber.rpe,
+        resistance_level: setTrackingValuesNumber.resistance_level,
+        partial_reps: setTrackingValuesNumber.partial_reps,
+        multiset_id: operatingGroupedSet.multiset.id,
+      };
+
+      if (isTemplate && workoutTemplate !== undefined) {
+        newSet.workout_template_id = workoutTemplate.id;
+      }
+
+      if (!isTemplate && workout.id !== 0) {
+        newSet.workout_id = workout.id;
+      }
+
+      const setId: number = await InsertSetIntoDatabase(newSet);
+
+      if (setId === 0) return;
+
+      newSets.push({ ...newSet, id: setId });
+    }
+
+    const groupedSetIndex: number = groupedSets.findIndex(
+      (obj) => obj.id === operatingGroupedSet.id
+    );
+
+    // TODO: GET NEW NUMBER OF EXERCISES
+    const updatedWorkoutNumbers: WorkoutNumbers = {
+      ...workoutNumbers,
+      numSets: workoutNumbers.numSets + numSetsToAdd,
+    };
+
+    // TODO: SAVE NEW MULTISET ORDER
+    const newList = [...groupedSets];
+    newList[groupedSetIndex].setList = [
+      ...newList[groupedSetIndex].setList,
+      ...newSets,
+    ];
+    setGroupedSets(newList);
+
+    if (!isTemplate) populateIncompleteSets(newList);
+
+    setWorkoutNumbers(updatedWorkoutNumbers);
+
+    resetOperatingSet();
+
+    setModal.onClose();
+    toast.success(`Set${numSetsToAdd > 1 ? "s" : ""} Added To Multiset`);
   };
 
   const handleDeleteExerciseSets = (groupedWorkoutSet: GroupedWorkoutSet) => {
