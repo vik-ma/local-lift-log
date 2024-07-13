@@ -4,7 +4,6 @@ import {
   useDefaultMultiset,
   useDefaultSet,
   useExerciseList,
-  useMultisetTypeMap,
   useMultisetActions,
 } from "../hooks";
 import { Button, useDisclosure, Input } from "@nextui-org/react";
@@ -53,8 +52,6 @@ export default function Multisets() {
 
   const exerciseList = useExerciseList();
 
-  const { multisetTypeMap } = useMultisetTypeMap();
-
   const multisetActions = useMultisetActions({
     operatingMultiset,
     setOperatingMultiset,
@@ -63,7 +60,6 @@ export default function Multisets() {
     deleteModal,
     multisetModal,
     exerciseList,
-    multisetTypeMap,
   });
 
   useEffect(() => {
@@ -453,7 +449,7 @@ export default function Multisets() {
           multisets={multisetActions.filteredMultisets}
           handleMultisetAccordionClick={handleMultisetAccordionClick}
           handleMultisetOptionSelection={handleMultisetOptionSelection}
-          multisetTypeMap={multisetTypeMap}
+          multisetTypeMap={multisetActions.multisetTypeMap}
           handleMultisetSetOptionSelection={
             multisetActions.handleMultisetSetOptionSelection
           }

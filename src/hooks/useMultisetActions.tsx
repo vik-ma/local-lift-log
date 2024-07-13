@@ -4,7 +4,6 @@ import {
   WorkoutSet,
   Exercise,
   UseExerciseListReturnType,
-  MultisetTypeMap,
 } from "../typings";
 import { useEffect, useState, useCallback, useMemo } from "react";
 import { useDefaultExercise } from ".";
@@ -14,6 +13,7 @@ import {
   ReassignExerciseIdForSets,
   GetAllMultisetTemplates,
 } from "../helpers";
+import { useMultisetTypeMap } from ".";
 
 type OperationType = "" | "change-exercise" | "reassign-exercise";
 
@@ -27,7 +27,6 @@ type UseMultisetActionsProps = {
   deleteModal: ReturnType<typeof useDisclosure>;
   multisetModal: ReturnType<typeof useDisclosure>;
   exerciseList: UseExerciseListReturnType;
-  multisetTypeMap: MultisetTypeMap;
 };
 
 export const useMultisetActions = ({
@@ -38,7 +37,6 @@ export const useMultisetActions = ({
   deleteModal,
   multisetModal,
   exerciseList,
-  multisetTypeMap,
 }: UseMultisetActionsProps) => {
   const [modalPage, setModalPage] = useState<ModalPage>("base");
   const [multisetSetOperationType, setMultisetSetOperationType] =
@@ -46,6 +44,8 @@ export const useMultisetActions = ({
   const [modalShouldClose, setModalShouldClose] = useState<boolean>(false);
   const [multisets, setMultisets] = useState<Multiset[]>([]);
   const [filterQuery, setFilterQuery] = useState<string>("");
+
+  const { multisetTypeMap } = useMultisetTypeMap();
 
   const filteredMultisets = useMemo(() => {
     if (filterQuery !== "") {
@@ -253,5 +253,6 @@ export const useMultisetActions = ({
     filterQuery,
     setFilterQuery,
     filteredMultisets,
+    multisetTypeMap,
   };
 };
