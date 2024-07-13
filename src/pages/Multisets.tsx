@@ -387,7 +387,8 @@ export default function Multisets() {
               </span>
               ?
             </p>
-          ) : operatingMultiset.setList.length === 1 ? (
+          ) : operatingMultiset.setList.length === 1 &&
+            operationType === "edit" ? (
             // If trying to delete last Set in Multiset
             <p className="break-words">
               Are you sure you want to remove{" "}
