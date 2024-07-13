@@ -6,7 +6,7 @@ export const DefaultNewMultiset = () => {
     multiset_type: 0,
     set_order: "",
     is_template: 1,
-    note: null,
+    note: "",
     setList: [],
     isExpanded: false,
   };

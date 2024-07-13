@@ -6,6 +6,7 @@ import {
   ModalHeader,
   ModalFooter,
   useDisclosure,
+  Input,
 } from "@nextui-org/react";
 import {
   Multiset,
@@ -114,10 +115,26 @@ export const MultisetModal = ({
                 />
               ) : (
                 <div className="flex flex-col items-center gap-2.5 h-[400px] overflow-auto scroll-gradient">
-                  <MultisetDropdown
-                    multiset_type={multiset.multiset_type}
-                    setMultiset={setMultiset}
-                  />
+                  <div className="flex items-center gap-2">
+                    <MultisetDropdown
+                      multiset_type={multiset.multiset_type}
+                      setMultiset={setMultiset}
+                    />
+                    <Input
+                      value={multiset.note ?? ""}
+                      className="w-64"
+                      label="Note"
+                      labelPlacement="outside-left"
+                      variant="faded"
+                      onValueChange={(value) =>
+                        setMultiset((prev) => ({
+                          ...prev,
+                          note: value,
+                        }))
+                      }
+                      isClearable
+                    />
+                  </div>
                   <MultisetSetList
                     multiset={multiset}
                     setMultiset={setMultiset}

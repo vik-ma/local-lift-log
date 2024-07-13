@@ -10,6 +10,7 @@ import {
 } from "../hooks";
 import { Button, useDisclosure } from "@nextui-org/react";
 import {
+  ConvertEmptyStringToNull,
   DeleteMultisetWithId,
   DeleteSetWithId,
   GetAllMultisets,
@@ -153,6 +154,10 @@ export default function Multisets() {
 
   const createMultiset = async () => {
     if (operationType !== "add") return;
+
+    const noteToInsert = ConvertEmptyStringToNull(operatingMultiset.note);
+
+    operatingMultiset.note = noteToInsert;
 
     const multisetId = await InsertMultisetIntoDatabase(operatingMultiset);
 
