@@ -13,7 +13,6 @@ import {
   ConvertEmptyStringToNull,
   DeleteMultisetWithId,
   DeleteSetWithId,
-  GetAllMultisets,
   GetUserSettings,
   InsertMultisetIntoDatabase,
   InsertSetIntoDatabase,
@@ -28,7 +27,6 @@ export type OperationType = "add" | "edit" | "delete";
 export default function Multisets() {
   const [operationType, setOperationType] = useState<OperationType>("add");
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [multisets, setMultisets] = useState<Multiset[]>([]);
   const [newMultisetSetIndex, setNewMultisetSetIndex] = useState<number>(0);
   const [userSettings, setUserSettings] = useState<UserSettings>();
 
@@ -57,23 +55,12 @@ export default function Multisets() {
     setOperatingMultiset,
     operatingSet,
     setOperatingSet,
-    multisets,
-    setMultisets,
     deleteModal,
     multisetModal,
     exerciseList,
   });
 
   useEffect(() => {
-    const loadMultisets = async () => {
-      try {
-        const multisets = await GetAllMultisets();
-        setMultisets(multisets);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
     const loadUserSettings = async () => {
       const userSettings = await GetUserSettings();
       if (userSettings !== undefined) {
@@ -87,7 +74,6 @@ export default function Multisets() {
       }
     };
 
-    loadMultisets();
     loadUserSettings();
   }, []);
 
@@ -186,7 +172,10 @@ export default function Multisets() {
 
     if (!success) return;
 
-    setMultisets([...multisets, updatedMultiset]);
+    multisetActions.setMultisets([
+      ...multisetActions.multisets,
+      updatedMultiset,
+    ]);
 
     resetMultiset();
     multisetModal.onClose();
@@ -224,11 +213,11 @@ export default function Multisets() {
 
     if (!success) return;
 
-    const updatedMultisets: Multiset[] = multisets.map((item) =>
+    const updatedMultisets: Multiset[] = multisetActions.multisets.map((item) =>
       item.id === updatedMultiset.id ? updatedMultiset : item
     );
 
-    setMultisets(updatedMultisets);
+    multisetActions.setMultisets(updatedMultisets);
 
     resetMultiset();
     multisetModal.onClose();
@@ -242,11 +231,11 @@ export default function Multisets() {
 
     if (!success) return;
 
-    const updatedMultisets: Multiset[] = multisets.filter(
+    const updatedMultisets: Multiset[] = multisetActions.multisets.filter(
       (item) => item.id !== operatingMultiset.id
     );
 
-    setMultisets(updatedMultisets);
+    multisetActions.setMultisets(updatedMultisets);
 
     resetMultiset();
     toast.success("Multiset Deleted");
@@ -266,11 +255,11 @@ export default function Multisets() {
 
     setOperatingMultiset((prev) => ({ ...prev, setList: updatedSetList }));
 
-    const updatedMultisets = multisets.map((item) =>
+    const updatedMultisets = multisetActions.multisets.map((item) =>
       item.id === operatingMultiset.id ? operatingMultiset : item
     );
 
-    setMultisets(updatedMultisets);
+    multisetActions.setMultisets(updatedMultisets);
 
     multisetActions.setIsEditingSet(false);
     toast.success("Set Updated");
@@ -282,10 +271,10 @@ export default function Multisets() {
       isExpanded: !multiset.isExpanded,
     };
 
-    const updatedMultisets = [...multisets];
+    const updatedMultisets = [...multisetActions.multisets];
     updatedMultisets[index] = updatedMultiset;
 
-    setMultisets(updatedMultisets);
+    multisetActions.setMultisets(updatedMultisets);
   };
 
   const removeSetFromMultiset = async () => {
@@ -299,11 +288,11 @@ export default function Multisets() {
 
       operatingMultiset.setList = updatedSetList;
 
-      const updatedMultisets = multisets.filter(
+      const updatedMultisets = multisetActions.multisets.filter(
         (item) => item.id !== operatingMultiset.id
       );
 
-      setMultisets(updatedMultisets);
+      multisetActions.setMultisets(updatedMultisets);
 
       deleteModal.onClose();
       return;
@@ -340,7 +329,7 @@ export default function Multisets() {
 
       if (!deleteMultisetSuccess) return;
 
-      updatedMultisets = multisets.filter(
+      updatedMultisets = multisetActions.multisets.filter(
         (item) => item.id !== operatingMultiset.id
       );
 
@@ -350,12 +339,12 @@ export default function Multisets() {
         multisetModal.onClose();
       }
     } else {
-      updatedMultisets = multisets.map((item) =>
+      updatedMultisets = multisetActions.multisets.map((item) =>
         item.id === updatedMultiset.id ? updatedMultiset : item
       );
     }
 
-    setMultisets(updatedMultisets);
+    multisetActions.setMultisets(updatedMultisets);
 
     if (!multisetModal.isOpen) {
       resetMultiset();
@@ -448,7 +437,7 @@ export default function Multisets() {
           </h1>
         </div>
         <MultisetAccordion
-          multisets={multisets}
+          multisets={multisetActions.multisets}
           handleMultisetAccordionClick={handleMultisetAccordionClick}
           handleMultisetOptionSelection={handleMultisetOptionSelection}
           multisetTypeMap={multisetTypeMap}

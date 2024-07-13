@@ -5,10 +5,14 @@ import {
   Exercise,
   UseExerciseListReturnType,
 } from "../typings";
-import { useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useDefaultExercise } from ".";
 import Database from "tauri-plugin-sql-api";
-import { GenerateSetListText, ReassignExerciseIdForSets } from "../helpers";
+import {
+  GenerateSetListText,
+  ReassignExerciseIdForSets,
+  GetAllMultisets,
+} from "../helpers";
 
 type OperationType = "" | "change-exercise" | "reassign-exercise";
 
@@ -17,8 +21,6 @@ type UseMultisetActionsProps = {
   setOperatingMultiset: React.Dispatch<React.SetStateAction<Multiset>>;
   operatingSet: WorkoutSet;
   setOperatingSet: React.Dispatch<React.SetStateAction<WorkoutSet>>;
-  multisets: Multiset[];
-  setMultisets: React.Dispatch<React.SetStateAction<Multiset[]>>;
   deleteModal: ReturnType<typeof useDisclosure>;
   multisetModal: ReturnType<typeof useDisclosure>;
   exerciseList: UseExerciseListReturnType;
@@ -29,8 +31,6 @@ export const useMultisetActions = ({
   setOperatingMultiset,
   operatingSet,
   setOperatingSet,
-  multisets,
-  setMultisets,
   deleteModal,
   multisetModal,
   exerciseList,
@@ -41,6 +41,7 @@ export const useMultisetActions = ({
   const [multisetSetOperationType, setMultisetSetOperationType] =
     useState<OperationType>("");
   const [modalShouldClose, setModalShouldClose] = useState<boolean>(false);
+  const [multisets, setMultisets] = useState<Multiset[]>([]);
 
   const defaultExercise = useDefaultExercise();
 
@@ -206,7 +207,22 @@ export const useMultisetActions = ({
     multisetModal.onClose();
   };
 
+  const loadMultisets = useCallback(async () => {
+    try {
+      const multisets = await GetAllMultisets();
+      setMultisets(multisets);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [setMultisets]);
+
+  useEffect(() => {
+    loadMultisets();
+  }, [loadMultisets]);
+
   return {
+    multisets,
+    setMultisets,
     isSelectingExercise,
     setIsSelectingExercise,
     isEditingSet,
