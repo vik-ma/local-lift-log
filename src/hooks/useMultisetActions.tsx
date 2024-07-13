@@ -16,6 +16,8 @@ import {
 
 type OperationType = "" | "change-exercise" | "reassign-exercise";
 
+type ModalPage = "base" | "multiset-list" | "exercise-list" | "edit-set";
+
 type UseMultisetActionsProps = {
   operatingMultiset: Multiset;
   setOperatingMultiset: React.Dispatch<React.SetStateAction<Multiset>>;
@@ -35,9 +37,7 @@ export const useMultisetActions = ({
   multisetModal,
   exerciseList,
 }: UseMultisetActionsProps) => {
-  const [isSelectingExercise, setIsSelectingExercise] =
-    useState<boolean>(false);
-  const [isEditingSet, setIsEditingSet] = useState<boolean>(false);
+  const [modalPage, setModalPage] = useState<ModalPage>("base");
   const [multisetSetOperationType, setMultisetSetOperationType] =
     useState<OperationType>("");
   const [modalShouldClose, setModalShouldClose] = useState<boolean>(false);
@@ -57,8 +57,7 @@ export const useMultisetActions = ({
 
     setOperatingSet(set);
     setOperatingMultiset(multiset);
-    setIsEditingSet(true);
-    setIsSelectingExercise(false);
+    setModalPage("edit-set");
 
     setSelectedMultisetExercise(exercise);
 
@@ -83,16 +82,14 @@ export const useMultisetActions = ({
       setOperatingSet(set);
       setOperatingMultiset(multiset);
       setMultisetSetOperationType("change-exercise");
-      setIsSelectingExercise(true);
-      setIsEditingSet(false);
+      setModalPage("exercise-list");
       setModalShouldClose(!modalIsOpen);
       multisetModal.onOpen();
     } else if (key === "reassign-exercise") {
       setOperatingSet(set);
       setOperatingMultiset(multiset);
       setMultisetSetOperationType("reassign-exercise");
-      setIsSelectingExercise(true);
-      setIsEditingSet(false);
+      setModalPage("exercise-list");
       setModalShouldClose(!modalIsOpen);
       multisetModal.onOpen();
     }
@@ -136,7 +133,7 @@ export const useMultisetActions = ({
 
       setMultisets(updatedMultisets);
 
-      setIsSelectingExercise(false);
+      setModalPage("base");
 
       if (modalShouldClose) {
         closeMultisetModal();
@@ -193,7 +190,7 @@ export const useMultisetActions = ({
 
     setMultisets(updatedMultisets);
 
-    setIsSelectingExercise(false);
+    setModalPage("base");
 
     if (modalShouldClose) {
       closeMultisetModal();
@@ -223,10 +220,8 @@ export const useMultisetActions = ({
   return {
     multisets,
     setMultisets,
-    isSelectingExercise,
-    setIsSelectingExercise,
-    isEditingSet,
-    setIsEditingSet,
+    modalPage,
+    setModalPage,
     selectedMultisetExercise,
     setSelectedMultisetExercise,
     handleMultisetSetOptionSelection,

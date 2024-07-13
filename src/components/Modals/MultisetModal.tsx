@@ -65,21 +65,18 @@ export const MultisetModal = ({
   };
 
   const {
-    isSelectingExercise,
-    setIsSelectingExercise,
-    isEditingSet,
-    setIsEditingSet,
+    modalPage,
+    setModalPage,
     selectedMultisetExercise,
     handleMultisetSetOptionSelection,
     closeMultisetModal,
   } = useMultisetActions;
 
   const handleLeftButton = () => {
-    if (isSelectingExercise) setIsSelectingExercise(false);
+    if (modalPage === "exercise-list" || modalPage === "edit-set")
+      setModalPage("base");
 
-    if (isEditingSet) setIsEditingSet(false);
-
-    if (!isEditingSet && !isSelectingExercise) setIsSelectingExercise(true);
+    if (modalPage === "base") setModalPage("exercise-list");
   };
 
   return (
@@ -88,21 +85,23 @@ export const MultisetModal = ({
         {(onClose) => (
           <>
             <ModalHeader>
-              {isSelectingExercise
+              {modalPage === "multiset-list"
+                ? "Select Multiset"
+                : modalPage === "exercise-list"
                 ? "Select Exercise"
-                : isEditingSet
+                : modalPage === "edit-set"
                 ? "Edit Set"
                 : operationType === "add"
                 ? "Create Multiset"
                 : "Edit Multiset"}
             </ModalHeader>
             <ModalBody>
-              {isSelectingExercise ? (
+              {modalPage === "exercise-list" ? (
                 <ExerciseModalList
                   handleClickExercise={handleClickExercise}
                   exerciseList={exerciseList}
                 />
-              ) : isEditingSet ? (
+              ) : modalPage === "edit-set" ? (
                 <SetValueConfig
                   selectedExercise={selectedMultisetExercise}
                   operatingSet={operatingSet}
@@ -152,9 +151,9 @@ export const MultisetModal = ({
                   variant="flat"
                   onPress={() => handleLeftButton()}
                 >
-                  {isSelectingExercise
+                  {modalPage === "exercise-list"
                     ? "Cancel"
-                    : isEditingSet
+                    : modalPage === "edit-set"
                     ? "Back"
                     : "Add Exercise"}
                 </Button>
@@ -167,12 +166,17 @@ export const MultisetModal = ({
                   className="w-[6.5rem]"
                   color="success"
                   isDisabled={
-                    (!isEditingSet && multiset.setList.length === 0) ||
-                    (isEditingSet && operatingSet.id < 1)
+                    (modalPage !== "edit-set" &&
+                      multiset.setList.length === 0) ||
+                    (modalPage === "edit-set" && operatingSet.id < 1)
                   }
-                  onPress={isEditingSet ? updateOperatingSet : saveButtonAction}
+                  onPress={
+                    modalPage === "edit-set"
+                      ? updateOperatingSet
+                      : saveButtonAction
+                  }
                 >
-                  {isEditingSet ? "Update Set" : "Save"}
+                  {modalPage === "edit-set" ? "Update Set" : "Save"}
                 </Button>
               </div>
             </ModalFooter>

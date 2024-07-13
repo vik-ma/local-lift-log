@@ -93,8 +93,7 @@ export default function Multisets() {
       distance_unit: userSettings!.default_unit_distance!,
     });
     setNewMultisetSetIndex(0);
-    multisetActions.setIsEditingSet(false);
-    multisetActions.setIsSelectingExercise(false);
+    multisetActions.setModalPage("base");
   };
 
   const handleClickExercise = async (exercise: Exercise) => {
@@ -133,7 +132,7 @@ export default function Multisets() {
 
     setOperatingMultiset((prev) => ({ ...prev, setList: newSetList }));
 
-    multisetActions.setIsSelectingExercise(false);
+    multisetActions.setModalPage("base");
 
     setNewMultisetSetIndex((prev) => prev - 1);
   };
@@ -261,7 +260,7 @@ export default function Multisets() {
 
     multisetActions.setMultisets(updatedMultisets);
 
-    multisetActions.setIsEditingSet(false);
+    multisetActions.setModalPage("base");
     toast.success("Set Updated");
   };
 
@@ -359,8 +358,7 @@ export default function Multisets() {
       setOperatingMultiset(multiset);
       setOperationType("edit");
       setNewMultisetSetIndex(0);
-      multisetActions.setIsEditingSet(false);
-      multisetActions.setIsSelectingExercise(false);
+      multisetActions.setModalPage("base");
       multisetModal.onOpen();
     } else if (key === "delete") {
       setOperatingMultiset(multiset);
