@@ -51,6 +51,9 @@ export const MultisetAccordion = ({
                 <span className="text-xs text-yellow-600 text-left">
                   {multisetTypeText}
                 </span>
+                <span className="w-[19rem] break-all text-xs text-stone-400 text-left">
+                  {multiset.note}
+                </span>
               </div>
               <div className="flex gap-1 px-0.5 items-center">
                 <ChevronIcon
