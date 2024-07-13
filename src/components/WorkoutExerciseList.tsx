@@ -145,7 +145,9 @@ export const WorkoutExerciseList = ({
                           ? `${completedSetsMap.get(groupedSet.id)}/${
                               groupedSet.setList.length
                             } Sets Completed`
-                          : `${groupedSet.setList.length} Sets`}
+                          : `${groupedSet.setList.length} Set${
+                              groupedSet.setList.length > 1 ? "s" : ""
+                            }`}
                       </span>
                     </div>
                     <div className="flex gap-0.5 px-0.5 items-center">
@@ -179,8 +181,9 @@ export const WorkoutExerciseList = ({
                             Add Set
                           </DropdownItem>
                           <DropdownItem
-                            // TODO: FIX FOR MULTISETS
                             className={
+                              (isMultiset &&
+                                groupedSet.multiset?.note === null) ||
                               groupedSet.exerciseList[0].note === null
                                 ? "hidden"
                                 : ""
@@ -188,8 +191,12 @@ export const WorkoutExerciseList = ({
                             key="toggle-exercise-note"
                           >
                             {groupedSet.showExerciseNote
-                              ? "Hide Exercise Note"
-                              : "Show Exercise Note"}
+                              ? `Hide ${
+                                  isMultiset ? "Multiset" : "Exercise"
+                                } Note`
+                              : `Show ${
+                                  isMultiset ? "Multiset" : "Exercise"
+                                } Note`}
                           </DropdownItem>
                           {!isMultiset &&
                           groupedSet.exerciseList[0].isInvalid ? (
@@ -219,8 +226,9 @@ export const WorkoutExerciseList = ({
                       {groupedSet.showExerciseNote && (
                         <div className="flex justify-between items-center px-2 pb-1">
                           <span className="text-stone-400 break-words max-w-full">
-                            {/* TODO: FIX FOR MULTISETS */}
-                            {groupedSet.exerciseList[0].note}
+                            {isMultiset
+                              ? groupedSet.multiset?.note
+                              : groupedSet.exerciseList[0].note}
                           </span>
                         </div>
                       )}
