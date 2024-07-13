@@ -293,6 +293,7 @@ export type Multiset = {
   multiset_type: number;
   set_order: string;
   is_template: number;
+  note: string | null;
   setList: WorkoutSet[];
   setListText?: ReactNode;
   isExpanded?: boolean;

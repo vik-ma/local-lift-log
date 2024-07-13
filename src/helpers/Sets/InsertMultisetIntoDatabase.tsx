@@ -9,10 +9,15 @@ export const InsertMultisetIntoDatabase = async (
 
     const result = await db.execute(
       `INSERT into multisets 
-        (multiset_type, set_order, is_template) 
+        (multiset_type, set_order, is_template, note) 
         VALUES 
-        ($1, $2, $3)`,
-      [multiset.multiset_type, multiset.set_order, multiset.is_template]
+        ($1, $2, $3, $4)`,
+      [
+        multiset.multiset_type,
+        multiset.set_order,
+        multiset.is_template,
+        multiset.note,
+      ]
     );
     return result.lastInsertId;
   } catch (error) {

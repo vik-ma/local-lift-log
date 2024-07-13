@@ -7,12 +7,13 @@ export const UpdateMultiset = async (multiset: Multiset): Promise<boolean> => {
 
     await db.execute(
       `UPDATE multisets SET 
-        multiset_type = $1, set_order = $2, is_template = $3
-        WHERE id = $4`,
+        multiset_type = $1, set_order = $2, is_template = $3, note = $4 
+        WHERE id = $5`,
       [
         multiset.multiset_type,
         multiset.set_order,
         multiset.is_template,
+        multiset.note,
         multiset.id,
       ]
     );
