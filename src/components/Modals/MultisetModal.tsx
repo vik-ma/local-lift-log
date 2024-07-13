@@ -41,6 +41,7 @@ type MultisetModalProps = {
   userSettings: UserSettings;
   saveButtonAction: () => void;
   updateOperatingSet: () => void;
+  handleClickMultiset: (multiset: Multiset) => void;
 };
 
 export const MultisetModal = ({
@@ -56,6 +57,7 @@ export const MultisetModal = ({
   userSettings,
   saveButtonAction,
   updateOperatingSet,
+  handleClickMultiset,
 }: MultisetModalProps) => {
   const defaultSetInputValues = useDefaultSetInputValues();
 
@@ -123,7 +125,7 @@ export const MultisetModal = ({
                 />
               ) : modalPage === "multiset-list" ? (
                 <MultisetTemplateModalList
-                  handleClickMultiset={() => {}}
+                  handleClickMultiset={handleClickMultiset}
                   filterQuery={filterQuery}
                   setFilterQuery={setFilterQuery}
                   filteredMultisets={filteredMultisets}
