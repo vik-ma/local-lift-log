@@ -84,7 +84,11 @@ export const MultisetModal = ({
   } = useMultisetActions;
 
   const handleLeftButton = () => {
-    if (modalPage === "exercise-list" || modalPage === "edit-set")
+    if (
+      modalPage === "exercise-list" ||
+      modalPage === "edit-set" ||
+      modalPage === "multiset-list"
+    )
       setModalPage("base");
 
     if (modalPage === "base") setModalPage("exercise-list");
@@ -165,19 +169,21 @@ export const MultisetModal = ({
             </ModalBody>
             <ModalFooter className="flex justify-between">
               <div className="flex">
-                {modalPage !== "multiset-list" && (
-                  <Button
-                    className="w-[7.5rem]"
-                    variant="flat"
-                    onPress={() => handleLeftButton()}
-                  >
-                    {modalPage === "exercise-list"
-                      ? "Cancel"
-                      : modalPage === "edit-set"
-                      ? "Back"
-                      : "Add Exercise"}
-                  </Button>
-                )}
+                <Button
+                  className={
+                    modalPage === "multiset-list" ? "w-[10rem]" : "w-[7.5rem]"
+                  }
+                  variant="flat"
+                  onPress={() => handleLeftButton()}
+                >
+                  {modalPage === "multiset-list"
+                    ? "Create New Multiset"
+                    : modalPage === "exercise-list"
+                    ? "Cancel"
+                    : modalPage === "edit-set"
+                    ? "Back"
+                    : "Add Exercise"}
+                </Button>
               </div>
               <div className="flex gap-2">
                 <Button color="success" variant="light" onPress={onClose}>
