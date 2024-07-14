@@ -308,6 +308,7 @@ export default function WorkoutDetails() {
         saveButtonAction={handleSaveMultisetButton}
         updateOperatingSet={updateMultisetSet}
         handleClickMultiset={handleClickMultiset}
+        showMultisetList={true}
       />
       <TimeInputModal
         timeInputModal={timeInputModal}

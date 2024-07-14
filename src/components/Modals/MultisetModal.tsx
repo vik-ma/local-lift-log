@@ -42,6 +42,7 @@ type MultisetModalProps = {
   saveButtonAction: () => void;
   updateOperatingSet: () => void;
   handleClickMultiset: (multiset: Multiset) => void;
+  showMultisetList: boolean;
 };
 
 export const MultisetModal = ({
@@ -58,6 +59,7 @@ export const MultisetModal = ({
   saveButtonAction,
   updateOperatingSet,
   handleClickMultiset,
+  showMultisetList,
 }: MultisetModalProps) => {
   const defaultSetInputValues = useDefaultSetInputValues();
 
@@ -109,6 +111,16 @@ export const MultisetModal = ({
                 : operationType === "add"
                 ? "Create Multiset"
                 : "Edit Multiset"}
+              {modalPage === "base" && showMultisetList && (
+                <Button
+                  className="absolute right-10"
+                  variant="flat"
+                  size="sm"
+                  onPress={() => setModalPage("multiset-list")}
+                >
+                  Select Multiset Template
+                </Button>
+              )}
             </ModalHeader>
             <ModalBody>
               {modalPage === "exercise-list" ? (
