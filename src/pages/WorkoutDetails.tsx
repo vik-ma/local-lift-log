@@ -10,6 +10,7 @@ import {
   WorkoutModal,
   TimeInputModal,
   DetailsHeader,
+  MultisetModal,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -42,7 +43,6 @@ export default function WorkoutDetails() {
     updateExerciseOrder,
     handleSaveSetButton,
     handleAddSetButton,
-    handleAddMultisetButton,
     handleClickExercise,
     handleClickSet,
     handleSetOptionSelection,
@@ -89,6 +89,14 @@ export default function WorkoutDetails() {
     workoutNumbers,
     multisetActions,
     exerciseList,
+    multisetModal,
+    operatingMultiset,
+    setOperatingMultiset,
+    handleAddMultisetButton,
+    handleSaveMultisetButton,
+    updateMultisetSet,
+    handleClickExerciseMultiset,
+    handleClickMultiset,
   } = useWorkoutActions(false);
 
   const initialized = useRef(false);
@@ -285,6 +293,21 @@ export default function WorkoutDetails() {
         clearSetInputValues={clearSetInputValues}
         userSettings={userSettings}
         exerciseList={exerciseList}
+      />
+      <MultisetModal
+        multisetModal={multisetModal}
+        multiset={operatingMultiset}
+        setMultiset={setOperatingMultiset}
+        operatingSet={operatingSet}
+        setOperatingSet={setOperatingSet}
+        operationType={operationType}
+        handleClickExercise={handleClickExerciseMultiset}
+        useMultisetActions={multisetActions}
+        exerciseList={exerciseList}
+        userSettings={userSettings}
+        saveButtonAction={handleSaveMultisetButton}
+        updateOperatingSet={updateMultisetSet}
+        handleClickMultiset={handleClickMultiset}
       />
       <TimeInputModal
         timeInputModal={timeInputModal}

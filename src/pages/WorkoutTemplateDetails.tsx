@@ -10,6 +10,7 @@ import {
   WorkoutExerciseList,
   WorkoutTemplateModal,
   DetailsHeader,
+  MultisetModal,
 } from "../components";
 import { Toaster } from "react-hot-toast";
 import {
@@ -41,7 +42,6 @@ export default function WorkoutTemplateDetails() {
     updateExerciseOrder,
     handleSaveSetButton,
     handleAddSetButton,
-    handleAddMultisetButton,
     handleClickExercise,
     handleClickSet,
     handleSetOptionSelection,
@@ -70,6 +70,14 @@ export default function WorkoutTemplateDetails() {
     workoutNumbers,
     multisetActions,
     exerciseList,
+    multisetModal,
+    operatingMultiset,
+    setOperatingMultiset,
+    handleAddMultisetButton,
+    handleSaveMultisetButton,
+    updateMultisetSet,
+    handleClickExerciseMultiset,
+    handleClickMultiset,
   } = useWorkoutActions(true);
 
   const getWorkoutTemplateAndSetList = useCallback(async () => {
@@ -211,6 +219,21 @@ export default function WorkoutTemplateDetails() {
         clearSetInputValues={clearSetInputValues}
         userSettings={userSettings}
         exerciseList={exerciseList}
+      />
+      <MultisetModal
+        multisetModal={multisetModal}
+        multiset={operatingMultiset}
+        setMultiset={setOperatingMultiset}
+        operatingSet={operatingSet}
+        setOperatingSet={setOperatingSet}
+        operationType={operationType}
+        handleClickExercise={handleClickExerciseMultiset}
+        useMultisetActions={multisetActions}
+        exerciseList={exerciseList}
+        userSettings={userSettings}
+        saveButtonAction={handleSaveMultisetButton}
+        updateOperatingSet={updateMultisetSet}
+        handleClickMultiset={handleClickMultiset}
       />
       <div className="flex flex-col">
         <DetailsHeader

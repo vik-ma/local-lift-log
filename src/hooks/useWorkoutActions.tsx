@@ -427,15 +427,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     setModal.onOpen();
   };
 
-  const handleAddMultisetButton = () => {
-    if (operationType !== "add") {
-      resetOperatingSet();
-    }
-
-    console.log("test");
-    // TODO: OPEN MULTISETMODAL
-  };
-
   const handleEditSet = (
     set: WorkoutSet,
     index: number,
@@ -1364,11 +1355,32 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     timeInputModal.onClose();
   };
 
+  const handleAddMultisetButton = () => {
+    if (operationType !== "add") {
+      resetOperatingSet();
+    }
+
+    multisetModal.onOpen();
+  };
+
+  const handleSaveMultisetButton = () => {
+    // TODO: IMPLEMENT
+  };
+
+  const updateMultisetSet = () => {
+    // TODO: IMPLEMENT
+  };
+
+  const handleClickExerciseMultiset = () => {
+    // TODO: IMPLEMENT
+  };
+
+  const handleClickMultiset = () => {};
+
   return {
     updateExerciseOrder,
     handleSaveSetButton,
     handleAddSetButton,
-    handleAddMultisetButton,
     handleClickExercise,
     handleClickSet,
     handleSetOptionSelection,
@@ -1421,5 +1433,13 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     workoutNumbers,
     multisetActions,
     exerciseList,
+    multisetModal,
+    operatingMultiset,
+    setOperatingMultiset,
+    handleAddMultisetButton,
+    handleSaveMultisetButton,
+    updateMultisetSet,
+    handleClickExerciseMultiset,
+    handleClickMultiset,
   };
 };
