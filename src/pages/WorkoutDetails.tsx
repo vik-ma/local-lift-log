@@ -21,7 +21,7 @@ import {
 } from "../helpers";
 import { useDisclosure } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
-import { useWorkoutActions, useExerciseList } from "../hooks";
+import { useWorkoutActions } from "../hooks";
 
 type WorkoutTemplateNote = {
   note: string | null;
@@ -42,6 +42,7 @@ export default function WorkoutDetails() {
     updateExerciseOrder,
     handleSaveSetButton,
     handleAddSetButton,
+    handleAddMultisetButton,
     handleClickExercise,
     handleClickSet,
     handleSetOptionSelection,
@@ -86,10 +87,9 @@ export default function WorkoutDetails() {
     timeInputModal,
     updateSetTimeCompleted,
     workoutNumbers,
-    multisetTypeMap,
+    multisetActions,
+    exerciseList,
   } = useWorkoutActions(false);
-
-  const exerciseList = useExerciseList();
 
   const initialized = useRef(false);
 
@@ -240,7 +240,7 @@ export default function WorkoutDetails() {
                 <>
                   <span className="text-yellow-600">
                     {
-                      multisetTypeMap[
+                      multisetActions.multisetTypeMap[
                         operatingGroupedSet.multiset!.multiset_type
                       ].text
                     }
@@ -263,7 +263,8 @@ export default function WorkoutDetails() {
                 </span>{" "}
                 set
               </>
-            )}?
+            )}
+            ?
           </p>
         }
         deleteButtonAction={handleDeleteModalButton}
@@ -312,12 +313,13 @@ export default function WorkoutDetails() {
             updateShownSetListComments={updateShownSetListComments}
             shownSetListComments={shownSetListComments}
             handleAddSetButton={handleAddSetButton}
+            handleAddSetMultisetButton={handleAddMultisetButton}
             setIsExerciseBeingDragged={setIsExerciseBeingDragged}
             handleReassignExercise={handleReassignExercise}
             isTemplate={false}
             activeSetId={activeSet?.id}
             completedSetsMap={completedSetsMap}
-            multisetTypeMap={multisetTypeMap}
+            multisetTypeMap={multisetActions.multisetTypeMap}
           />
         </div>
         <ActiveSet

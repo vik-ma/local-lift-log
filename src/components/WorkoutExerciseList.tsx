@@ -41,6 +41,7 @@ type WorkoutExerciseListProps = {
   updateShownSetListComments: (groupedSetId: string, index: number) => void;
   shownSetListComments: SetListNotes;
   handleAddSetButton: () => void;
+  handleAddSetMultisetButton: () => void;
   setIsExerciseBeingDragged: React.Dispatch<React.SetStateAction<boolean>>;
   handleReassignExercise: (groupedWorkoutSet: GroupedWorkoutSet) => void;
   isTemplate: boolean;
@@ -60,6 +61,7 @@ export const WorkoutExerciseList = ({
   updateShownSetListComments,
   shownSetListComments,
   handleAddSetButton,
+  handleAddSetMultisetButton,
   setIsExerciseBeingDragged,
   handleReassignExercise,
   isTemplate,
@@ -69,6 +71,14 @@ export const WorkoutExerciseList = ({
 }: WorkoutExerciseListProps) => {
   return (
     <div className="flex flex-col gap-1">
+      <div className="flex justify-center gap-3">
+        <Button size="sm" onPress={handleAddSetButton}>
+          Add Exercise
+        </Button>
+        <Button size="sm" onPress={handleAddSetMultisetButton}>
+          Add Multiset
+        </Button>
+      </div>
       <div className="flex justify-between gap-3.5 items-end">
         <div className="flex flex-grow justify-between items-baseline px-0.5">
           <h2 className="text-xl font-semibold flex justify-between">
@@ -80,9 +90,6 @@ export const WorkoutExerciseList = ({
             </span>
           )}
         </div>
-        <Button size="sm" color="success" onPress={handleAddSetButton}>
-          Add Exercise
-        </Button>
       </div>
       <div className="flex flex-col">
         <Reorder.Group

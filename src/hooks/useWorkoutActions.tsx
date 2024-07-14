@@ -8,6 +8,7 @@ import {
   ActiveSetNote,
   Workout,
   SetTrackingValuesInput,
+  Multiset,
 } from "../typings";
 import { useState, useCallback, useEffect } from "react";
 import { useDisclosure } from "@nextui-org/react";
@@ -33,7 +34,9 @@ import {
   useNumSetsOptions,
   useSetTrackingInputs,
   useDefaultSetInputValues,
-  useMultisetTypeMap,
+  useMultisetActions,
+  useDefaultMultiset,
+  useExerciseList,
 } from "../hooks";
 
 type OperationType =
@@ -86,20 +89,36 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
   const numSetsOptions = useNumSetsOptions();
 
-  const defaultNewSet = useDefaultSet(isTemplate);
+  const defaultSet = useDefaultSet(isTemplate);
 
-  const [operatingSet, setOperatingSet] = useState<WorkoutSet>(defaultNewSet);
+  const [operatingSet, setOperatingSet] = useState<WorkoutSet>(defaultSet);
+
+  const defaultMultiset = useDefaultMultiset();
+
+  const [operatingMultiset, setOperatingMultiset] =
+    useState<Multiset>(defaultMultiset);
 
   const setModal = useDisclosure();
   const deleteModal = useDisclosure();
   const timeInputModal = useDisclosure();
+  const multisetModal = useDisclosure();
 
   const defaultSetInputValues = useDefaultSetInputValues();
 
   const operatingSetInputs = useSetTrackingInputs();
   const activeSetInputs = useSetTrackingInputs();
 
-  const { multisetTypeMap } = useMultisetTypeMap();
+  const exerciseList = useExerciseList();
+
+  const multisetActions = useMultisetActions({
+    operatingMultiset,
+    setOperatingMultiset,
+    operatingSet,
+    setOperatingSet,
+    deleteModal,
+    multisetModal,
+    exerciseList,
+  });
 
   useEffect(() => {
     const loadUserSettings = async () => {
@@ -381,7 +400,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     setSelectedExercise(undefined);
     setOperatingGroupedSet(undefined);
     setOperatingSet({
-      ...defaultNewSet,
+      ...defaultSet,
       weight_unit: userSettings!.default_unit_weight!,
       distance_unit: userSettings!.default_unit_distance!,
     });
@@ -406,6 +425,15 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     }
 
     setModal.onOpen();
+  };
+
+  const handleAddMultisetButton = () => {
+    if (operationType !== "add") {
+      resetOperatingSet();
+    }
+
+    console.log("test");
+    // TODO: OPEN MULTISETMODAL
   };
 
   const handleEditSet = (
@@ -541,7 +569,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     const exercise = groupedWorkoutSet.exerciseList[0];
 
     let newSet: WorkoutSet = {
-      ...defaultNewSet,
+      ...defaultSet,
       exercise_id: exercise.id,
       weight_unit: userSettings!.default_unit_weight!,
       distance_unit: userSettings!.default_unit_distance!,
@@ -1340,6 +1368,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     updateExerciseOrder,
     handleSaveSetButton,
     handleAddSetButton,
+    handleAddMultisetButton,
     handleClickExercise,
     handleClickSet,
     handleSetOptionSelection,
@@ -1390,6 +1419,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     timeInputModal,
     updateSetTimeCompleted,
     workoutNumbers,
-    multisetTypeMap,
+    multisetActions,
+    exerciseList,
   };
 };

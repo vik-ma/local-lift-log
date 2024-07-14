@@ -21,7 +21,6 @@ import {
   useValidateName,
   useDefaultWorkoutTemplate,
   useWorkoutActions,
-  useExerciseList,
 } from "../hooks";
 
 export default function WorkoutTemplateDetails() {
@@ -42,6 +41,7 @@ export default function WorkoutTemplateDetails() {
     updateExerciseOrder,
     handleSaveSetButton,
     handleAddSetButton,
+    handleAddMultisetButton,
     handleClickExercise,
     handleClickSet,
     handleSetOptionSelection,
@@ -68,10 +68,9 @@ export default function WorkoutTemplateDetails() {
     workoutTemplate,
     setWorkoutTemplate,
     workoutNumbers,
-    multisetTypeMap,
+    multisetActions,
+    exerciseList,
   } = useWorkoutActions(true);
-
-  const exerciseList = useExerciseList();
 
   const getWorkoutTemplateAndSetList = useCallback(async () => {
     try {
@@ -166,7 +165,7 @@ export default function WorkoutTemplateDetails() {
                 <>
                   <span className="text-yellow-600">
                     {
-                      multisetTypeMap[
+                      multisetActions.multisetTypeMap[
                         operatingGroupedSet.multiset!.multiset_type
                       ].text
                     }
@@ -231,10 +230,11 @@ export default function WorkoutTemplateDetails() {
           updateShownSetListComments={updateShownSetListComments}
           shownSetListComments={shownSetListComments}
           handleAddSetButton={handleAddSetButton}
+          handleAddSetMultisetButton={handleAddMultisetButton}
           setIsExerciseBeingDragged={setIsExerciseBeingDragged}
           handleReassignExercise={handleReassignExercise}
           isTemplate={true}
-          multisetTypeMap={multisetTypeMap}
+          multisetTypeMap={multisetActions.multisetTypeMap}
         />
       </div>
     </>
