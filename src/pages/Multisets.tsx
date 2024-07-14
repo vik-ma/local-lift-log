@@ -31,7 +31,6 @@ export type OperationType = "add" | "edit" | "delete";
 export default function Multisets() {
   const [operationType, setOperationType] = useState<OperationType>("add");
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [newMultisetSetIndex, setNewMultisetSetIndex] = useState<number>(0);
   const [userSettings, setUserSettings] = useState<UserSettings>();
 
   const defaultMultiset = useDefaultMultiset();
@@ -94,7 +93,7 @@ export default function Multisets() {
       weight_unit: userSettings!.default_unit_weight!,
       distance_unit: userSettings!.default_unit_distance!,
     });
-    setNewMultisetSetIndex(0);
+    multisetActions.setNewMultisetSetIndex(0);
     multisetActions.setModalPage("base");
   };
 
@@ -121,7 +120,7 @@ export default function Multisets() {
   };
 
   const addSet = (exercise: Exercise) => {
-    const setId = newMultisetSetIndex - 1;
+    const setId = multisetActions.newMultisetSetIndex - 1;
 
     const newSet = {
       ...operatingSet,
@@ -136,7 +135,7 @@ export default function Multisets() {
 
     multisetActions.setModalPage("base");
 
-    setNewMultisetSetIndex((prev) => prev - 1);
+    multisetActions.setNewMultisetSetIndex((prev) => prev - 1);
   };
 
   const createMultiset = async () => {
@@ -359,7 +358,7 @@ export default function Multisets() {
     if (key === "edit") {
       setOperatingMultiset(multiset);
       setOperationType("edit");
-      setNewMultisetSetIndex(0);
+      multisetActions.setNewMultisetSetIndex(0);
       multisetActions.setModalPage("base");
       multisetModal.onOpen();
     } else if (key === "delete") {

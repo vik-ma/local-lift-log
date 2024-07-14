@@ -44,6 +44,7 @@ export const useMultisetActions = ({
   const [modalShouldClose, setModalShouldClose] = useState<boolean>(false);
   const [multisets, setMultisets] = useState<Multiset[]>([]);
   const [filterQuery, setFilterQuery] = useState<string>("");
+  const [newMultisetSetIndex, setNewMultisetSetIndex] = useState<number>(0);
 
   const { multisetTypeMap } = useMultisetTypeMap();
 
@@ -254,5 +255,7 @@ export const useMultisetActions = ({
     setFilterQuery,
     filteredMultisets,
     multisetTypeMap,
+    newMultisetSetIndex,
+    setNewMultisetSetIndex,
   };
 };
