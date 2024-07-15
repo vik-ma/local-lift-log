@@ -81,12 +81,12 @@ export default function Multisets() {
 
   const handleCreateNewMultisetButton = () => {
     if (operationType !== "add") {
-      resetMultiset();
+      resetOperatingMultiset();
     }
     multisetModal.onOpen();
   };
 
-  const resetMultiset = () => {
+  const resetOperatingMultiset = () => {
     setOperationType("add");
     setOperatingMultiset(defaultMultiset);
     setOperatingSet({
@@ -183,7 +183,7 @@ export default function Multisets() {
       updatedMultiset,
     ]);
 
-    resetMultiset();
+    resetOperatingMultiset();
     multisetModal.onClose();
     toast.success("Multiset Created");
   };
@@ -229,7 +229,7 @@ export default function Multisets() {
 
     multisetActions.setMultisets(updatedMultisets);
 
-    resetMultiset();
+    resetOperatingMultiset();
     multisetModal.onClose();
     toast.success("Multiset Updated");
   };
@@ -247,7 +247,7 @@ export default function Multisets() {
 
     multisetActions.setMultisets(updatedMultisets);
 
-    resetMultiset();
+    resetOperatingMultiset();
     toast.success("Multiset Deleted");
     deleteModal.onClose();
   };
@@ -357,7 +357,7 @@ export default function Multisets() {
     multisetActions.setMultisets(updatedMultisets);
 
     if (!multisetModal.isOpen) {
-      resetMultiset();
+      resetOperatingMultiset();
     }
 
     deleteModal.onClose();
