@@ -177,7 +177,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         partial_reps: setTrackingValuesNumber.partial_reps,
       };
 
-      if (isTemplate && workoutTemplate !== undefined) {
+      if (isTemplate && workoutTemplate.id !== 0) {
         newSet.workout_template_id = workoutTemplate.id;
       }
 
@@ -392,7 +392,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   const updateExerciseOrder = async (
     setList: GroupedWorkoutSet[] = groupedSets
   ) => {
-    if (isTemplate && workoutTemplate !== undefined) {
+    if (isTemplate && workoutTemplate.id !== 0) {
       await UpdateExerciseOrder(setList, workoutTemplate.id, true);
     }
 
@@ -579,7 +579,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       exercise_name: exercise.name,
     };
 
-    if (isTemplate && workoutTemplate !== undefined) {
+    if (isTemplate && workoutTemplate.id !== 0) {
       newSet.workout_template_id = workoutTemplate.id;
     }
 
@@ -685,7 +685,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         multiset_id: operatingGroupedSet.multiset.id,
       };
 
-      if (isTemplate && workoutTemplate !== undefined) {
+      if (isTemplate && workoutTemplate.id !== 0) {
         newSet.workout_template_id = workoutTemplate.id;
       }
 
@@ -746,7 +746,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       let id = 0;
       let exerciseId = operatingGroupedSet.exerciseList[0].id;
 
-      if (isTemplate && workoutTemplate !== undefined) {
+      if (isTemplate && workoutTemplate.id !== 0) {
         if (
           operatingGroupedSet.isMultiset &&
           operatingGroupedSet.multiset !== undefined
@@ -915,7 +915,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         let statement = "";
         let id = 0;
 
-        if (isTemplate && workoutTemplate !== undefined) {
+        if (isTemplate && workoutTemplate.id !== 0) {
           statement = `UPDATE sets SET exercise_id = $1 
                       WHERE exercise_id = $2 
                       AND workout_template_id = $3 
