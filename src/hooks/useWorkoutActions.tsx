@@ -616,96 +616,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     toast.success("Set Added");
   };
 
-  const handleAddSetToMultiset = async (
-    groupedWorkoutSet: GroupedWorkoutSet
-  ) => {
-    resetOperatingSet();
-
-    setOperationType("add-sets-to-multiset");
-    setOperatingGroupedSet(groupedWorkoutSet);
-    setModal.onOpen();
-  };
-
-  const addSetToMultiset = async (numSets: string) => {
-    if (
-      selectedExercise === undefined ||
-      operatingGroupedSet === undefined ||
-      operatingGroupedSet.multiset === undefined
-    )
-      return;
-
-    if (!numSetsOptions.includes(numSets)) return;
-
-    if (operatingSetInputs.isSetTrackingValuesInvalid) return;
-
-    const setTrackingValuesNumber = ConvertSetInputValuesToNumbers(
-      operatingSetInputs.setTrackingValuesInput
-    );
-
-    const noteToInsert = ConvertEmptyStringToNull(operatingSet.note);
-
-    const newSets: WorkoutSet[] = [];
-
-    const numSetsToAdd: number = parseInt(numSets);
-
-    for (let i = 0; i < numSetsToAdd; i++) {
-      const newSet: WorkoutSet = {
-        ...operatingSet,
-        exercise_id: selectedExercise.id,
-        note: noteToInsert,
-        exercise_name: selectedExercise.name,
-        weight: setTrackingValuesNumber.weight,
-        reps: setTrackingValuesNumber.reps,
-        distance: setTrackingValuesNumber.distance,
-        rir: setTrackingValuesNumber.rir,
-        rpe: setTrackingValuesNumber.rpe,
-        resistance_level: setTrackingValuesNumber.resistance_level,
-        partial_reps: setTrackingValuesNumber.partial_reps,
-        multiset_id: operatingGroupedSet.multiset.id,
-      };
-
-      if (isTemplate && workoutTemplate.id !== 0) {
-        newSet.workout_template_id = workoutTemplate.id;
-      }
-
-      if (!isTemplate && workout.id !== 0) {
-        newSet.workout_id = workout.id;
-      }
-
-      const setId: number = await InsertSetIntoDatabase(newSet);
-
-      if (setId === 0) return;
-
-      newSets.push({ ...newSet, id: setId });
-    }
-
-    const groupedSetIndex: number = groupedSets.findIndex(
-      (obj) => obj.id === operatingGroupedSet.id
-    );
-
-    // TODO: SAVE NEW MULTISET ORDER
-    const updatedGroupedSets = [...groupedSets];
-    updatedGroupedSets[groupedSetIndex].setList = [
-      ...updatedGroupedSets[groupedSetIndex].setList,
-      ...newSets,
-    ];
-    setGroupedSets(updatedGroupedSets);
-
-    const updatedWorkoutNumbers: WorkoutNumbers = {
-      numSets: workoutNumbers.numSets + numSetsToAdd,
-      numExercises: GetNumberOfUniqueExercisesInGroupedSets(updatedGroupedSets),
-    };
-
-    if (!isTemplate) populateIncompleteSets(updatedGroupedSets);
-
-    setWorkoutNumbers(updatedWorkoutNumbers);
-
-    resetOperatingSet();
-
-    setModal.onClose();
-    toast.success(`Set${numSetsToAdd > 1 ? "s" : ""} Added To Multiset`);
-  };
-
   const handleDeleteExerciseSets = (groupedWorkoutSet: GroupedWorkoutSet) => {
     setOperationType("delete-grouped_sets-sets");
     setOperatingGroupedSet(groupedWorkoutSet);
@@ -1356,19 +1266,229 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   const resetOperatingMultiset = () => {
     multisetActions.setModalPage("multiset-list");
     multisetActions.setNewMultisetSetIndex(0);
+    multisetActions.setNewExerciseList([]);
     setOperatingMultiset(defaultMultiset);
   };
 
-  const handleSaveMultisetButton = () => {
-    // TODO: IMPLEMENT
+  const handleAddSetToMultiset = async (
+    groupedWorkoutSet: GroupedWorkoutSet
+  ) => {
+    resetOperatingSet();
+
+    setOperationType("add-sets-to-multiset");
+    setOperatingGroupedSet(groupedWorkoutSet);
+    setModal.onOpen();
+  };
+
+  const addSetToNewMultiset = async (exercise: Exercise) => {
+    const setId = multisetActions.newMultisetSetIndex - 1;
+
+    let newSet: WorkoutSet = {
+      ...operatingSet,
+      id: setId,
+      exercise_id: exercise.id,
+      exercise_name: exercise.name,
+    };
+
+    if (isTemplate && workoutTemplate.id !== 0) {
+      newSet.workout_template_id = workoutTemplate.id;
+    }
+
+    if (!isTemplate && workout.id !== 0) {
+      newSet.workout_id = workout.id;
+    }
+
+    newSet = AssignTrackingValuesIfCardio(
+      newSet,
+      exercise.formattedGroupString ?? ""
+    );
+
+    const newSetList = [...operatingMultiset.setList, newSet];
+
+    setOperatingMultiset((prev) => ({ ...prev, setList: newSetList }));
+
+    multisetActions.setNewExerciseList((prev) => [...prev, exercise]);
+    multisetActions.setNewMultisetSetIndex((prev) => prev - 1);
+
+    multisetActions.setModalPage("base");
+  };
+
+  const createMultiset = async () => {
+    if (operationType !== "add") return;
+
+    const noteToInsert = ConvertEmptyStringToNull(operatingMultiset.note);
+
+    operatingMultiset.note = noteToInsert;
+
+    const multisetId = await InsertMultisetIntoDatabase(operatingMultiset);
+
+    if (multisetId === 0) return;
+
+    operatingMultiset.id = multisetId;
+
+    const setListIdOrder: number[] = [];
+
+    for (let i = 0; i < operatingMultiset.setList.length; i++) {
+      operatingMultiset.setList[i].multiset_id = multisetId;
+      operatingMultiset.setList[i].is_template = 0;
+
+      if (isTemplate && workoutTemplate.id !== 0) {
+        operatingMultiset.setList[i].workout_template_id = workoutTemplate.id;
+      }
+
+      if (!isTemplate && workout.id !== 0) {
+        operatingMultiset.setList[i].workout_id = workout.id;
+      }
+
+      const setId = await InsertSetIntoDatabase(operatingMultiset.setList[i]);
+
+      if (setId === 0) return;
+
+      operatingMultiset.setList[i].id = setId;
+
+      setListIdOrder.push(setId);
+    }
+
+    const { success, updatedMultiset } = await UpdateMultisetSetOrder(
+      operatingMultiset,
+      setListIdOrder
+    );
+
+    if (!success) return;
+
+    // TODO: REFACTOR WITH handleClickMultiset
+
+    multisetActions.setMultisets([
+      ...multisetActions.multisets,
+      updatedMultiset,
+    ]);
+
+    const newGroupedSet: GroupedWorkoutSet = {
+      id: `m${updatedMultiset.id}`,
+      exerciseList: multisetActions.newExerciseList,
+      setList: updatedMultiset.setList,
+      isExpanded: true,
+      isMultiset: true,
+      multiset: updatedMultiset,
+    };
+
+    const newGroupedSets: GroupedWorkoutSet[] = [...groupedSets, newGroupedSet];
+
+    setGroupedSets(newGroupedSets);
+    await updateExerciseOrder(newGroupedSets);
+
+    if (!isTemplate) populateIncompleteSets(newGroupedSets);
+
+    const updatedWorkoutNumbers: WorkoutNumbers = {
+      numSets: workoutNumbers.numSets + newGroupedSet.setList.length,
+      numExercises: GetNumberOfUniqueExercisesInGroupedSets(newGroupedSets),
+    };
+
+    setWorkoutNumbers(updatedWorkoutNumbers);
+
+    resetOperatingMultiset();
+    resetOperatingSet();
+
+    multisetModal.onClose();
+    toast.success("Multiset Created");
+  };
+
+  const addSetToMultiset = async (numSets: string) => {
+    // TODO: REFACTOR WITH addSetToNewMultiset
+    if (
+      selectedExercise === undefined ||
+      operatingGroupedSet === undefined ||
+      operatingGroupedSet.multiset === undefined
+    )
+      return;
+
+    if (!numSetsOptions.includes(numSets)) return;
+
+    if (operatingSetInputs.isSetTrackingValuesInvalid) return;
+
+    const setTrackingValuesNumber = ConvertSetInputValuesToNumbers(
+      operatingSetInputs.setTrackingValuesInput
+    );
+
+    const noteToInsert = ConvertEmptyStringToNull(operatingSet.note);
+
+    const newSets: WorkoutSet[] = [];
+
+    const numSetsToAdd: number = parseInt(numSets);
+
+    for (let i = 0; i < numSetsToAdd; i++) {
+      const newSet: WorkoutSet = {
+        ...operatingSet,
+        exercise_id: selectedExercise.id,
+        note: noteToInsert,
+        exercise_name: selectedExercise.name,
+        weight: setTrackingValuesNumber.weight,
+        reps: setTrackingValuesNumber.reps,
+        distance: setTrackingValuesNumber.distance,
+        rir: setTrackingValuesNumber.rir,
+        rpe: setTrackingValuesNumber.rpe,
+        resistance_level: setTrackingValuesNumber.resistance_level,
+        partial_reps: setTrackingValuesNumber.partial_reps,
+        multiset_id: operatingGroupedSet.multiset.id,
+      };
+
+      if (isTemplate && workoutTemplate.id !== 0) {
+        newSet.workout_template_id = workoutTemplate.id;
+      }
+
+      if (!isTemplate && workout.id !== 0) {
+        newSet.workout_id = workout.id;
+      }
+
+      const setId: number = await InsertSetIntoDatabase(newSet);
+
+      if (setId === 0) return;
+
+      newSets.push({ ...newSet, id: setId });
+    }
+
+    const groupedSetIndex: number = groupedSets.findIndex(
+      (obj) => obj.id === operatingGroupedSet.id
+    );
+
+    // TODO: SAVE NEW MULTISET ORDER
+    const updatedGroupedSets = [...groupedSets];
+    updatedGroupedSets[groupedSetIndex].setList = [
+      ...updatedGroupedSets[groupedSetIndex].setList,
+      ...newSets,
+    ];
+    setGroupedSets(updatedGroupedSets);
+
+    const updatedWorkoutNumbers: WorkoutNumbers = {
+      numSets: workoutNumbers.numSets + numSetsToAdd,
+      numExercises: GetNumberOfUniqueExercisesInGroupedSets(updatedGroupedSets),
+    };
+
+    if (!isTemplate) populateIncompleteSets(updatedGroupedSets);
+
+    setWorkoutNumbers(updatedWorkoutNumbers);
+
+    resetOperatingSet();
+
+    setModal.onClose();
+    toast.success(`Set${numSetsToAdd > 1 ? "s" : ""} Added To Multiset`);
+  };
+
+  const handleSaveMultisetButton = async () => {
+    if (operationType === "add") {
+      await createMultiset();
+    }
+    if (operationType === "edit") {
+      //TODO: ADD
+    }
   };
 
   const updateMultisetSet = () => {
     // TODO: IMPLEMENT
   };
 
-  const handleClickExerciseMultiset = () => {
-    // TODO: IMPLEMENT
+  const handleClickExerciseMultiset = (exercise: Exercise) => {
+    addSetToNewMultiset(exercise);
   };
 
   const handleClickMultiset = async (multiset: Multiset) => {
@@ -1397,9 +1517,12 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
       set.is_template = isTemplate ? 1 : 0;
       set.multiset_id = multisetId;
-      if (isTemplate) {
+
+      if (isTemplate && workoutTemplate.id !== 0) {
         set.workout_template_id = workoutTemplate.id;
-      } else {
+      }
+
+      if (!isTemplate && workout.id !== 0) {
         set.workout_id = workout.id;
       }
 

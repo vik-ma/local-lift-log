@@ -45,6 +45,7 @@ export const useMultisetActions = ({
   const [multisets, setMultisets] = useState<Multiset[]>([]);
   const [filterQuery, setFilterQuery] = useState<string>("");
   const [newMultisetSetIndex, setNewMultisetSetIndex] = useState<number>(0);
+  const [newExerciseList, setNewExerciseList] = useState<Exercise[]>([]);
 
   const { multisetTypeMap } = useMultisetTypeMap();
 
@@ -257,5 +258,7 @@ export const useMultisetActions = ({
     multisetTypeMap,
     newMultisetSetIndex,
     setNewMultisetSetIndex,
+    newExerciseList,
+    setNewExerciseList,
   };
 };
