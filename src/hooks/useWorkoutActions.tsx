@@ -28,6 +28,11 @@ import {
   ValidateISODateString,
   DefaultNewWorkout,
   DefaultNewWorkoutTemplate,
+  InsertMultisetIntoDatabase,
+  GenerateSetOrderList,
+  GetSetFromId,
+  GetExerciseFromId,
+  UpdateMultisetSetOrder,
 } from "../helpers";
 import {
   useDefaultSet,
@@ -1356,11 +1361,16 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   };
 
   const handleAddMultisetButton = () => {
-    if (operationType !== "add") {
-      resetOperatingSet();
-    }
+    resetOperatingSet();
+    resetOperatingMultiset();
 
     multisetModal.onOpen();
+  };
+
+  const resetOperatingMultiset = () => {
+    multisetActions.setModalPage("multiset-list");
+    multisetActions.setNewMultisetSetIndex(0);
+    setOperatingMultiset(defaultMultiset);
   };
 
   const handleSaveMultisetButton = () => {
@@ -1375,7 +1385,80 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     // TODO: IMPLEMENT
   };
 
-  const handleClickMultiset = () => {};
+  const handleClickMultiset = async (multiset: Multiset) => {
+    if (operationType !== "add") return;
+
+    const newMultiset = { ...multiset, is_template: 0 };
+
+    const multisetId = await InsertMultisetIntoDatabase(newMultiset);
+
+    if (multisetId === 0) return;
+
+    newMultiset.id = multisetId;
+
+    const templateSetListIds = GenerateSetOrderList(multiset.set_order);
+
+    const newSetListIds: number[] = [];
+    const newSetList: WorkoutSet[] = [];
+    const newExerciseList: Exercise[] = [];
+
+    for (let i = 0; i < templateSetListIds.length; i++) {
+      const set = await GetSetFromId(templateSetListIds[i]);
+
+      if (set === undefined) continue;
+
+      const exercise = await GetExerciseFromId(set.exercise_id);
+
+      set.is_template = isTemplate ? 1 : 0;
+      set.multiset_id = multisetId;
+      if (isTemplate) {
+        set.workout_template_id = workoutTemplate.id;
+      } else {
+        set.workout_id = workout.id;
+      }
+
+      const setId = await InsertSetIntoDatabase(set);
+
+      if (setId === 0) return;
+
+      set.id = setId;
+
+      newSetListIds.push(setId);
+      newSetList.push(set);
+      newExerciseList.push(exercise);
+    }
+
+    const { success, updatedMultiset } = await UpdateMultisetSetOrder(
+      newMultiset,
+      newSetListIds
+    );
+
+    if (!success) return;
+
+    const newGroupedSet: GroupedWorkoutSet = {
+      id: `m${updatedMultiset.id}`,
+      exerciseList: newExerciseList,
+      setList: updatedMultiset.setList,
+      isExpanded: true,
+      isMultiset: true,
+      multiset: updatedMultiset,
+    };
+
+    const newGroupedSets: GroupedWorkoutSet[] = [...groupedSets, newGroupedSet];
+
+    setGroupedSets(newGroupedSets);
+    await updateExerciseOrder(newGroupedSets);
+
+    if (!isTemplate) populateIncompleteSets(newGroupedSets);
+
+    // TODO: ADD FUNCTION THAT CALCULATES AND UPDATES NUMBER OF EXERCISES
+
+    resetOperatingMultiset();
+    resetOperatingSet();
+
+    multisetModal.onClose();
+    toast.success("Multiset Added");
+  };
 
   return {
     updateExerciseOrder,
