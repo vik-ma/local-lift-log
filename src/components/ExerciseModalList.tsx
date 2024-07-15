@@ -1,6 +1,7 @@
 import { Input, ScrollShadow } from "@nextui-org/react";
 import { SearchIcon } from "../assets";
 import { Exercise, UseExerciseListReturnType } from "../typings";
+import { Link } from "react-router-dom";
 
 type ExerciseModalListProps = {
   handleClickExercise: (exercise: Exercise) => void;
@@ -37,6 +38,14 @@ export const ExerciseModalList = ({
             </span>
           </button>
         ))}
+        {filteredExercises.length === 0 && (
+          <div className="flex flex-col items-center justify-center text-stone-500 py-2">
+            <h2>No Exercises Created</h2>
+            <Link to={"/exercises/"}>
+              Create Or Restore Default Exercises Here
+            </Link>
+          </div>
+        )}
       </ScrollShadow>
     </div>
   );

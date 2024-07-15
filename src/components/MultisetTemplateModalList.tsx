@@ -1,6 +1,7 @@
 import { Input, ScrollShadow } from "@nextui-org/react";
 import { SearchIcon } from "../assets";
 import { Multiset, MultisetTypeMap } from "../typings";
+import { Link } from "react-router-dom";
 
 type MultisetTemplateModalListProps = {
   handleClickMultiset: (multiset: Multiset) => void;
@@ -49,6 +50,12 @@ export const MultisetTemplateModalList = ({
             </button>
           );
         })}
+        {filteredMultisets.length === 0 && (
+          <div className="flex flex-col items-center justify-center text-stone-500 py-2">
+            <h2>No Multiset Templates Created</h2>
+            <Link to={"/multisets/"}>Create Multiset Templates Here</Link>
+          </div>
+        )}
       </ScrollShadow>
     </div>
   );
