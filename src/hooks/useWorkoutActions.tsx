@@ -471,8 +471,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       operatingSet,
       exercise.formattedGroupString ?? ""
     );
-    
-    setOperatingSet(updatedSet)
+
+    setOperatingSet(updatedSet);
   };
 
   const handleChangeExercise = (groupedWorkoutSet: GroupedWorkoutSet) => {
@@ -496,6 +496,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       setActiveSet(newActiveSet);
 
       setActiveGroupedSet(groupedSet);
+
+      console.log(groupedSet);
 
       updateActiveSetTrackingValues(newActiveSet, activeSet);
       setIsActiveSetExpanded(true);
@@ -589,15 +591,15 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     newSet = { ...newSet, id: setId };
     const newSets: WorkoutSet[] = [newSet];
 
-    const exerciseIndex: number = groupedSets.findIndex(
-      (obj) => obj.exerciseList[0].id === exercise.id
+    const groupedSetIndex: number = groupedSets.findIndex(
+      (obj) => obj.id === exercise.id.toString()
     );
 
     setGroupedSets((prev) => {
       const newList = [...prev];
-      newList[exerciseIndex].isExpanded = true;
-      newList[exerciseIndex].setList = [
-        ...newList[exerciseIndex].setList,
+      newList[groupedSetIndex].isExpanded = true;
+      newList[groupedSetIndex].setList = [
+        ...newList[groupedSetIndex].setList,
         ...newSets,
       ];
       return newList;
