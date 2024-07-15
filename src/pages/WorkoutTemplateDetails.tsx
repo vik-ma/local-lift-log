@@ -17,6 +17,7 @@ import {
   CreateGroupedWorkoutSetList,
   ConvertEmptyStringToNull,
   UpdateWorkoutTemplate,
+  GetNumberOfUniqueExercisesInGroupedSets,
 } from "../helpers";
 import {
   useValidateName,
@@ -108,7 +109,8 @@ export default function WorkoutTemplateDetails() {
           workoutTemplate.exercise_order
         );
 
-      workoutNumbers.numExercises = groupedSetList.length;
+      workoutNumbers.numExercises =
+        GetNumberOfUniqueExercisesInGroupedSets(groupedSetList);
       workoutNumbers.numSets = setList.length;
 
       for (let i = 0; i < groupedSetList.length; i++) {

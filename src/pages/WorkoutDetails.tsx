@@ -19,6 +19,7 @@ import {
   GenerateExerciseOrderString,
   FormatYmdDateString,
   UpdateWorkout,
+  GetNumberOfUniqueExercisesInGroupedSets,
 } from "../helpers";
 import { useDisclosure } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
@@ -128,7 +129,8 @@ export default function WorkoutDetails() {
           const groupedSetList: GroupedWorkoutSet[] =
             await CreateGroupedWorkoutSetList(setList, workout.exercise_order);
 
-          workoutNumbers.numExercises = groupedSetList.length;
+          workoutNumbers.numExercises =
+            GetNumberOfUniqueExercisesInGroupedSets(groupedSetList);
           workoutNumbers.numSets = setList.length;
 
           for (let i = 0; i < groupedSetList.length; i++) {

@@ -33,6 +33,7 @@ import {
   GetSetFromId,
   GetExerciseFromId,
   UpdateMultisetSetOrder,
+  GetNumberOfUniqueExercisesInGroupedSets,
 } from "../helpers";
 import {
   useDefaultSet,
@@ -218,7 +219,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       setGroupedSets(newGroupedSets);
       await updateExerciseOrder(newGroupedSets);
 
-      updatedWorkoutNumbers.numExercises = workoutNumbers.numExercises + 1;
+      updatedWorkoutNumbers.numExercises =
+        GetNumberOfUniqueExercisesInGroupedSets(newGroupedSets);
 
       if (!isTemplate) populateIncompleteSets(newGroupedSets);
     } else {
@@ -275,7 +277,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       setGroupedSets(updatedGroupedSets);
       updateExerciseOrder(updatedGroupedSets);
 
-      updatedWorkoutNumbers.numExercises = workoutNumbers.numExercises - 1;
+      updatedWorkoutNumbers.numExercises =
+        GetNumberOfUniqueExercisesInGroupedSets(updatedGroupedSets);
     } else {
       setGroupedSets((prev) => {
         const newList = [...prev];
@@ -697,21 +700,20 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       (obj) => obj.id === operatingGroupedSet.id
     );
 
-    // TODO: GET NEW NUMBER OF EXERCISES
-    const updatedWorkoutNumbers: WorkoutNumbers = {
-      ...workoutNumbers,
-      numSets: workoutNumbers.numSets + numSetsToAdd,
-    };
-
     // TODO: SAVE NEW MULTISET ORDER
-    const newList = [...groupedSets];
-    newList[groupedSetIndex].setList = [
-      ...newList[groupedSetIndex].setList,
+    const updatedGroupedSets = [...groupedSets];
+    updatedGroupedSets[groupedSetIndex].setList = [
+      ...updatedGroupedSets[groupedSetIndex].setList,
       ...newSets,
     ];
-    setGroupedSets(newList);
+    setGroupedSets(updatedGroupedSets);
 
-    if (!isTemplate) populateIncompleteSets(newList);
+    const updatedWorkoutNumbers: WorkoutNumbers = {
+      numSets: workoutNumbers.numSets + numSetsToAdd,
+      numExercises: GetNumberOfUniqueExercisesInGroupedSets(updatedGroupedSets),
+    };
+
+    if (!isTemplate) populateIncompleteSets(updatedGroupedSets);
 
     setWorkoutNumbers(updatedWorkoutNumbers);
 
@@ -780,7 +782,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
       const result = await db.execute(statement, [exerciseId, id]);
 
-      const updatedSetList: GroupedWorkoutSet[] = groupedSets.filter(
+      const updatedGroupedSets: GroupedWorkoutSet[] = groupedSets.filter(
         (item) => item.id !== operatingGroupedSet.id
       );
 
@@ -788,14 +790,15 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         completedSetsMap.delete(operatingGroupedSet.id);
       }
 
-      setGroupedSets(updatedSetList);
+      setGroupedSets(updatedGroupedSets);
 
-      updateExerciseOrder(updatedSetList);
+      updateExerciseOrder(updatedGroupedSets);
 
       const updatedWorkoutNumbers: WorkoutNumbers = {
         ...workoutNumbers,
         numSets: workoutNumbers.numSets - result.rowsAffected,
-        numExercises: workoutNumbers.numExercises - 1,
+        numExercises:
+          GetNumberOfUniqueExercisesInGroupedSets(updatedGroupedSets),
       };
 
       setWorkoutNumbers(updatedWorkoutNumbers);
@@ -1451,7 +1454,12 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     if (!isTemplate) populateIncompleteSets(newGroupedSets);
 
-    // TODO: ADD FUNCTION THAT CALCULATES AND UPDATES NUMBER OF EXERCISES
+    const updatedWorkoutNumbers: WorkoutNumbers = {
+      numSets: workoutNumbers.numSets + newGroupedSet.setList.length,
+      numExercises: GetNumberOfUniqueExercisesInGroupedSets(newGroupedSets),
+    };
+
+    setWorkoutNumbers(updatedWorkoutNumbers);
 
     resetOperatingMultiset();
     resetOperatingSet();
