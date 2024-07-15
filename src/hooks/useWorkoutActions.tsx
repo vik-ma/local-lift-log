@@ -34,6 +34,7 @@ import {
   GetExerciseFromId,
   UpdateMultisetSetOrder,
   GetNumberOfUniqueExercisesInGroupedSets,
+  AssignTrackingValuesIfCardio,
 } from "../helpers";
 import {
   useDefaultSet,
@@ -466,23 +467,12 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       return;
     }
 
-    if (exercise.formattedGroupString === "Cardio") {
-      setOperatingSet((prev) => ({
-        ...prev,
-        is_tracking_weight: 0,
-        is_tracking_reps: 0,
-        is_tracking_distance: 1,
-        is_tracking_time: 1,
-      }));
-    } else {
-      setOperatingSet((prev) => ({
-        ...prev,
-        is_tracking_weight: 1,
-        is_tracking_reps: 1,
-        is_tracking_distance: 0,
-        is_tracking_time: 0,
-      }));
-    }
+    const updatedSet = AssignTrackingValuesIfCardio(
+      operatingSet,
+      exercise.formattedGroupString ?? ""
+    );
+    
+    setOperatingSet(updatedSet)
   };
 
   const handleChangeExercise = (groupedWorkoutSet: GroupedWorkoutSet) => {
@@ -587,23 +577,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       newSet.workout_id = workout.id;
     }
 
-    if (exercise.formattedGroupString === "Cardio") {
-      newSet = {
-        ...newSet,
-        is_tracking_weight: 0,
-        is_tracking_reps: 0,
-        is_tracking_distance: 1,
-        is_tracking_time: 1,
-      };
-    } else {
-      newSet = {
-        ...newSet,
-        is_tracking_weight: 1,
-        is_tracking_reps: 1,
-        is_tracking_distance: 0,
-        is_tracking_time: 0,
-      };
-    }
+    newSet = AssignTrackingValuesIfCardio(
+      newSet,
+      exercise.formattedGroupString ?? ""
+    );
 
     const setId: number = await InsertSetIntoDatabase(newSet);
 
