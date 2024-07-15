@@ -443,8 +443,7 @@ export default function RoutineDetails() {
                         >
                           <div className="truncate max-w-64">
                             <Link
-                              to={`../../workout-templates/${schedule.workout_template_id}`}
-                              relative="path"
+                              to={`/workout-templates/${schedule.workout_template_id}/`}
                             >
                               {schedule.name}
                             </Link>
