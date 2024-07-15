@@ -524,12 +524,16 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     } else if (key === "delete-set") {
       handleDeleteSet(set, groupedSet);
     } else if (key === "update-completed-set-time") {
-      handleUpdateSetTimeCompleted(set);
+      handleUpdateSetTimeCompleted(set, groupedSet);
     }
   };
 
-  const handleUpdateSetTimeCompleted = (set: WorkoutSet) => {
+  const handleUpdateSetTimeCompleted = (
+    set: WorkoutSet,
+    groupedSet: GroupedWorkoutSet
+  ) => {
     setOperatingSet(set);
+    setOperatingGroupedSet(groupedSet);
     setOperationType("update-completed-set-time");
 
     timeInputModal.onOpen();
@@ -1322,11 +1326,11 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   };
 
   const updateSetTimeCompleted = async (newDateString: string) => {
-    // TODO: FIX FOR MULTISETS
     if (
       operationType !== "update-completed-set-time" ||
       !ValidateISODateString(newDateString) ||
-      operatingSet.time_completed === null
+      operatingSet.time_completed === null ||
+      operatingGroupedSet === undefined
     )
       return;
 
@@ -1340,7 +1344,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     if (!success) return;
 
     const exerciseIndex: number = groupedSets.findIndex(
-      (obj) => obj.exerciseList[0].id === operatingSet.exercise_id
+      (obj) => obj.id === operatingGroupedSet.id
     );
 
     const updatedSetList: WorkoutSet[] = groupedSets[exerciseIndex].setList.map(
