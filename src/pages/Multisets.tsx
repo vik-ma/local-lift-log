@@ -8,6 +8,7 @@ import {
 } from "../hooks";
 import { Button, useDisclosure, Input } from "@nextui-org/react";
 import {
+  AssignTrackingValuesIfCardio,
   ConvertEmptyStringToNull,
   DeleteMultisetWithId,
   DeleteSetWithId,
@@ -122,12 +123,17 @@ export default function Multisets() {
   const addSet = (exercise: Exercise) => {
     const setId = multisetActions.newMultisetSetIndex - 1;
 
-    const newSet = {
+    let newSet: WorkoutSet = {
       ...operatingSet,
       id: setId,
       exercise_id: exercise.id,
       exercise_name: exercise.name,
     };
+
+    newSet = AssignTrackingValuesIfCardio(
+      newSet,
+      exercise.formattedGroupString ?? ""
+    );
 
     const newSetList = [...operatingMultiset.setList, newSet];
 
