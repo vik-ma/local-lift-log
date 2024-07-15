@@ -185,6 +185,10 @@ export default function Multisets() {
   const updateMultiset = async () => {
     if (operationType !== "edit" || operatingMultiset.id === 0) return;
 
+    const noteToInsert = ConvertEmptyStringToNull(operatingMultiset.note);
+
+    operatingMultiset.note = noteToInsert;
+
     const setListIdOrder: number[] = [];
 
     for (let i = 0; i < operatingMultiset.setList.length; i++) {
