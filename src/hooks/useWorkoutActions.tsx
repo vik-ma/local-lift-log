@@ -193,7 +193,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       newSets.push({ ...newSet, id: setId });
     }
 
-    const exerciseIndex: number = groupedSets.findIndex(
+    const groupedSetIndex: number = groupedSets.findIndex(
       (obj) => obj.id === selectedExercise.id.toString()
     );
 
@@ -202,7 +202,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       numSets: workoutNumbers.numSets + numSetsToAdd,
     };
 
-    if (exerciseIndex === -1) {
+    if (groupedSetIndex === -1) {
       // Create new GroupedWorkoutSet if exercise_id does not exist in groupedSets
       const newGroupedWorkoutSet: GroupedWorkoutSet = {
         id: selectedExercise.id.toString(),
@@ -227,8 +227,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     } else {
       // Add new Sets to groupedSets' existing Exercise's Set List
       const newList = [...groupedSets];
-      newList[exerciseIndex].setList = [
-        ...newList[exerciseIndex].setList,
+      newList[groupedSetIndex].setList = [
+        ...newList[groupedSetIndex].setList,
         ...newSets,
       ];
       setGroupedSets(newList);
@@ -786,8 +786,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       return;
     }
 
-    const oldExerciseIndex: number = groupedSets.findIndex(
-      (obj) => obj.exerciseList[0].id === oldExercise.id
+    const oldGroupedSetIndex: number = groupedSets.findIndex(
+      (obj) => obj.id === oldExercise.id.toString()
     );
 
     if (operationType === "reassign-exercise") {
@@ -842,8 +842,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       item.exercise_id = newExercise.id;
     });
 
-    const newExerciseIndex: number = groupedSets.findIndex(
-      (obj) => obj.exerciseList[0].id === newExercise.id
+    const newGroupedSetIndex: number = groupedSets.findIndex(
+      (obj) => obj.id === newExercise.id.toString()
     );
 
     if (completedSetsMap.has(operatingGroupedSet.id)) {
@@ -853,10 +853,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       completedSetsMap.set(newExercise.id.toString(), value!);
     }
 
-    if (newExerciseIndex === -1) {
+    if (newGroupedSetIndex === -1) {
       // Create new GroupedWorkoutSet if exercise_id does not exist in groupedSets
       const newGroupedSets = [...groupedSets];
-      newGroupedSets[oldExerciseIndex] = newGroupedWorkoutSet;
+      newGroupedSets[oldGroupedSetIndex] = newGroupedWorkoutSet;
 
       setGroupedSets(newGroupedSets);
       updateExerciseOrder(newGroupedSets);
@@ -864,12 +864,12 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       // Add old Sets to groupedSets' existing Exercise's Set List
       const newGroupedSets = [...groupedSets];
 
-      newGroupedSets[newExerciseIndex].setList = [
-        ...newGroupedSets[newExerciseIndex].setList,
+      newGroupedSets[newGroupedSetIndex].setList = [
+        ...newGroupedSets[newGroupedSetIndex].setList,
         ...newGroupedWorkoutSet.setList,
       ];
 
-      newGroupedSets.splice(oldExerciseIndex, 1);
+      newGroupedSets.splice(oldGroupedSetIndex, 1);
 
       const updatedWorkoutNumbers: WorkoutNumbers = {
         ...workoutNumbers,
@@ -970,6 +970,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     if (!success) return;
 
+    // TODO: RENAME
     const exerciseIndex: number = groupedSets.findIndex(
       (obj) => obj.exerciseList[0].id === activeSet.exercise_id
     );
@@ -1232,17 +1233,17 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     if (!success) return;
 
-    const exerciseIndex: number = groupedSets.findIndex(
+    const groupedSetIndex: number = groupedSets.findIndex(
       (obj) => obj.id === operatingGroupedSet.id
     );
 
-    const updatedSetList: WorkoutSet[] = groupedSets[exerciseIndex].setList.map(
-      (item) => (item.id === operatingSet.id ? updatedSet : item)
-    );
+    const updatedSetList: WorkoutSet[] = groupedSets[
+      groupedSetIndex
+    ].setList.map((item) => (item.id === operatingSet.id ? updatedSet : item));
 
     setGroupedSets((prev) => {
       const newList = [...prev];
-      newList[exerciseIndex].setList = updatedSetList;
+      newList[groupedSetIndex].setList = updatedSetList;
       return newList;
     });
 
