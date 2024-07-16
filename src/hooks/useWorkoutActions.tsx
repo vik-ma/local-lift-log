@@ -125,6 +125,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     deleteModal,
     multisetModal,
     exerciseList,
+    defaultMultiset,
   });
 
   useEffect(() => {

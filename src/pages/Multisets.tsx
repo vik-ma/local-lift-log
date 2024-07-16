@@ -60,6 +60,7 @@ export default function Multisets() {
     deleteModal,
     multisetModal,
     exerciseList,
+    defaultMultiset,
   });
 
   useEffect(() => {

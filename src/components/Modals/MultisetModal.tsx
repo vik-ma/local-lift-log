@@ -83,6 +83,7 @@ export const MultisetModal = ({
     setFilterQuery,
     filteredMultisets,
     multisetTypeMap,
+    clearMultiset,
   } = useMultisetActions;
 
   const handleLeftButton = () => {
@@ -176,6 +177,11 @@ export const MultisetModal = ({
                       handleMultisetSetOptionSelection
                     }
                   />
+                  {multiset.setList.length > 0 && (
+                    <Button size="sm" variant="flat" onClick={clearMultiset}>
+                      Clear All
+                    </Button>
+                  )}
                 </div>
               )}
             </ModalBody>

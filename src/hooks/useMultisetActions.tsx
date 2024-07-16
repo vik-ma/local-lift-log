@@ -27,6 +27,7 @@ type UseMultisetActionsProps = {
   deleteModal: ReturnType<typeof useDisclosure>;
   multisetModal: ReturnType<typeof useDisclosure>;
   exerciseList: UseExerciseListReturnType;
+  defaultMultiset: Multiset;
 };
 
 export const useMultisetActions = ({
@@ -37,6 +38,7 @@ export const useMultisetActions = ({
   deleteModal,
   multisetModal,
   exerciseList,
+  defaultMultiset,
 }: UseMultisetActionsProps) => {
   const [modalPage, setModalPage] = useState<ModalPage>("base");
   const [multisetSetOperationType, setMultisetSetOperationType] =
@@ -65,6 +67,8 @@ export const useMultisetActions = ({
   }, [multisets, filterQuery, multisetTypeMap]);
 
   const defaultExercise = useDefaultExercise();
+
+  console.log(operatingMultiset);
 
   const [selectedMultisetExercise, setSelectedMultisetExercise] =
     useState<Exercise>(defaultExercise);
@@ -226,6 +230,12 @@ export const useMultisetActions = ({
     multisetModal.onClose();
   };
 
+  const clearMultiset = () => {
+    setNewMultisetSetIndex(0);
+    setNewExerciseList([]);
+    setOperatingMultiset(defaultMultiset);
+  };
+
   const loadMultisets = useCallback(async () => {
     try {
       const multisets = await GetAllMultisetTemplates();
@@ -260,5 +270,6 @@ export const useMultisetActions = ({
     setNewMultisetSetIndex,
     newExerciseList,
     setNewExerciseList,
+    clearMultiset,
   };
 };
