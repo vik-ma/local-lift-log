@@ -126,4 +126,4 @@ export { ValidTimeInputBehaviors } from "./Constants/ValidTimeInputBehaviors";
 
 export { ConvertEmptyStringToNull } from "./Strings/ConvertEmptyStringToNull";
 export { IsStringEmpty } from "./Strings/IsStringEmpty";
-export { IsStringEnclosedInBrackets } from "./Strings/IsStringEnclosedInBrackets";
+export { ExtractTextFromInsideBrackets } from "./Strings/ExtractTextFromInsideBrackets";
