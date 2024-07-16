@@ -27,6 +27,7 @@ import {
   useDefaultSetInputValues,
   useMultisetActions,
 } from "../../hooks";
+import { useMemo } from "react";
 
 type MultisetModalProps = {
   multisetModal: ReturnType<typeof useDisclosure>;
@@ -72,6 +73,15 @@ export const MultisetModal = ({
       time_in_seconds: 0,
     });
   };
+
+  const showClearAllButton = useMemo(() => {
+    return (
+      multiset.id === 0 &&
+      (multiset.setList.length > 0 ||
+        multiset.note !== "" ||
+        multiset.multiset_type !== 0)
+    );
+  }, [multiset]);
 
   const {
     modalPage,
@@ -177,7 +187,7 @@ export const MultisetModal = ({
                       handleMultisetSetOptionSelection
                     }
                   />
-                  {multiset.setList.length > 0 && (
+                  {showClearAllButton && (
                     <Button size="sm" variant="flat" onClick={clearMultiset}>
                       Clear All
                     </Button>

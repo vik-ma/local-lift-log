@@ -68,8 +68,6 @@ export const useMultisetActions = ({
 
   const defaultExercise = useDefaultExercise();
 
-  console.log(operatingMultiset);
-
   const [selectedMultisetExercise, setSelectedMultisetExercise] =
     useState<Exercise>(defaultExercise);
 
