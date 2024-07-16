@@ -1322,17 +1322,45 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     operatingMultiset.note = noteToInsert;
 
-    const multisetId = await InsertMultisetIntoDatabase(operatingMultiset);
+    // Create Template Multiset
+    const templateMultiset: Multiset = {
+      id: 0,
+      multiset_type: operatingMultiset.multiset_type,
+      set_order: "",
+      is_template: 1,
+      note: noteToInsert,
+      setList: operatingMultiset.setList.map((item) => ({ ...item })),
+    };
 
-    if (multisetId === 0) return;
+    const templateMultisetId = await InsertMultisetIntoDatabase(
+      templateMultiset
+    );
 
-    operatingMultiset.id = multisetId;
+    if (templateMultisetId === 0) return;
 
-    const setListIdOrder: number[] = [];
+    templateMultiset.id = templateMultisetId;
+
+    // Create Multiset for Workout/WorkoutTemplate
+    operatingMultiset.is_template = 0;
+
+    const operatingMultisetId = await InsertMultisetIntoDatabase(
+      operatingMultiset
+    );
+
+    if (operatingMultisetId === 0) return;
+
+    operatingMultiset.id = operatingMultisetId;
+
+    const templateSetListIdOrder: number[] = [];
+    const operatingSetListIdOrder: number[] = [];
 
     for (let i = 0; i < operatingMultiset.setList.length; i++) {
-      operatingMultiset.setList[i].multiset_id = multisetId;
-      operatingMultiset.setList[i].is_template = 0;
+      templateMultiset.setList[i].multiset_id = templateMultisetId;
+      templateMultiset.setList[i].workout_id = 0;
+      templateMultiset.setList[i].workout_template_id = 0;
+
+      operatingMultiset.setList[i].multiset_id = operatingMultisetId;
+      operatingMultiset.setList[i].is_template = isTemplate ? 0 : 1;
 
       if (isTemplate && workoutTemplate.id !== 0) {
         operatingMultiset.setList[i].workout_template_id = workoutTemplate.id;
@@ -1342,36 +1370,55 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         operatingMultiset.setList[i].workout_id = workout.id;
       }
 
-      const setId = await InsertSetIntoDatabase(operatingMultiset.setList[i]);
+      const templateMultisetSetId = await InsertSetIntoDatabase(
+        templateMultiset.setList[i]
+      );
 
-      if (setId === 0) return;
+      const operatingMultisetSetId = await InsertSetIntoDatabase(
+        operatingMultiset.setList[i]
+      );
 
-      operatingMultiset.setList[i].id = setId;
+      if (templateMultisetSetId === 0 || operatingMultisetSetId === 0) return;
 
-      setListIdOrder.push(setId);
+      templateMultiset.setList[i].id = templateMultisetSetId;
+      operatingMultiset.setList[i].id = operatingMultisetSetId;
+
+      templateSetListIdOrder.push(templateMultisetSetId);
+      operatingSetListIdOrder.push(operatingMultisetSetId);
     }
 
-    const { success, updatedMultiset } = await UpdateMultisetSetOrder(
-      operatingMultiset,
-      setListIdOrder
+    const templateMultisetUpdate = await UpdateMultisetSetOrder(
+      templateMultiset,
+      templateSetListIdOrder
     );
 
-    if (!success) return;
+    const operatingMultisetUpdate = await UpdateMultisetSetOrder(
+      operatingMultiset,
+      operatingSetListIdOrder
+    );
 
-    // TODO: REFACTOR WITH handleClickMultiset
+    if (!templateMultisetUpdate.success || !operatingMultisetUpdate.success)
+      return;
 
+    const updatedTemplateMultiset = templateMultisetUpdate.updatedMultiset;
+
+    const updatedOperatingMultiset = operatingMultisetUpdate.updatedMultiset;
+
+    // Add Template Multiset to Multiset list in useMultisetActions
     multisetActions.setMultisets([
       ...multisetActions.multisets,
-      updatedMultiset,
+      updatedTemplateMultiset,
     ]);
 
+    // TODO: FIX GROUPEDSET NOT UPDATING
+
     const newGroupedSet: GroupedWorkoutSet = {
-      id: `m${updatedMultiset.id}`,
+      id: `m${updatedOperatingMultiset.id}`,
       exerciseList: multisetActions.newExerciseList,
-      setList: updatedMultiset.setList,
+      setList: updatedOperatingMultiset.setList,
       isExpanded: true,
       isMultiset: true,
-      multiset: updatedMultiset,
+      multiset: updatedOperatingMultiset,
     };
 
     const newGroupedSets: GroupedWorkoutSet[] = [...groupedSets, newGroupedSet];
