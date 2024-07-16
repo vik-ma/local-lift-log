@@ -40,7 +40,7 @@ export { GetClockStyle } from "./UserSettings/GetClockStyle";
 export { GetShowWorkoutRating } from "./UserSettings/GetShowWorkoutRating";
 export { UpdateShowWorkoutRating } from "./UserSettings/UpdateShowWorkoutRating";
 
-export { GenerateSetListOrderString } from "./Sets/GenerateSetListOrderString";
+export { GenerateMultisetSetOrderString } from "./Sets/GenerateMultisetSetOrderString";
 export { OrderSetsBySetListOrderString } from "./Sets/OrderSetsBySetListOrderString";
 export { CreateSetsFromWorkoutTemplate } from "./Sets/CreateSetsFromWorkoutTemplate";
 export { DefaultNewSet } from "./Sets/DefaultNewSet";
