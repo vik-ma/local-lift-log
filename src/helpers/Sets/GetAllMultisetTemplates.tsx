@@ -4,6 +4,7 @@ import { GenerateSetOrderList } from "./GenerateSetOrderList";
 import { GetSetFromId } from "./GetSetFromId";
 import { UpdateMultiset } from "./UpdateMultiset";
 import { GenerateSetListText } from "./GenerateSetListText";
+import { ExtractTextFromInsideBrackets } from "../Strings/ExtractTextFromInsideBrackets";
 
 export const GetAllMultisetTemplates = async () => {
   try {
@@ -16,12 +17,13 @@ export const GetAllMultisetTemplates = async () => {
     const multisets: Multiset[] = [];
 
     for (let i = 0; i < result.length; i++) {
-      const setOrderList = GenerateSetOrderList(result[i].set_order);
+      const extractedText = ExtractTextFromInsideBrackets(result[i].set_order);
 
-      if (setOrderList.length === 0) {
-        result[i].setList = [];
-        continue;
-      }
+      if (!extractedText.isValid) continue;
+
+      const setOrderList = GenerateSetOrderList(extractedText.text);
+
+      if (setOrderList.length === 0) continue;
 
       const setList: WorkoutSet[] = [];
 
