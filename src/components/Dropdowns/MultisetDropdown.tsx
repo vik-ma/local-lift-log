@@ -1,6 +1,6 @@
 import { useMultisetTypeMap } from "../../hooks";
 import { Multiset } from "../../typings";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Select, SelectItem } from "@nextui-org/react";
 
 type MultisetDropdownProps = {
@@ -17,6 +17,14 @@ export const MultisetDropdown = ({
   );
 
   const { multisetTypeMap, validDropdownTypeKeys } = useMultisetTypeMap();
+
+  useEffect(() => {
+    const stringValue = multiset_type.toString();
+
+    if (!validDropdownTypeKeys.includes(stringValue)) return;
+
+    setSelectedKeys(new Set([stringValue]));
+  }, [multiset_type, validDropdownTypeKeys]);
 
   const handleChange = async (keys: Set<string>) => {
     const stringValue: string = Array.from(keys)[0];
