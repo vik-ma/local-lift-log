@@ -28,6 +28,7 @@ type UseMultisetActionsProps = {
   multisetModal: ReturnType<typeof useDisclosure>;
   exerciseList: UseExerciseListReturnType;
   defaultMultiset: Multiset;
+  defaultPage?: ModalPage;
 };
 
 export const useMultisetActions = ({
@@ -39,8 +40,9 @@ export const useMultisetActions = ({
   multisetModal,
   exerciseList,
   defaultMultiset,
+  defaultPage,
 }: UseMultisetActionsProps) => {
-  const [modalPage, setModalPage] = useState<ModalPage>("base");
+  const [modalPage, setModalPage] = useState<ModalPage>(defaultPage ?? "base");
   const [multisetSetOperationType, setMultisetSetOperationType] =
     useState<OperationType>("");
   const [modalShouldClose, setModalShouldClose] = useState<boolean>(false);

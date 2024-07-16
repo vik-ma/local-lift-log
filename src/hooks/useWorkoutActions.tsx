@@ -126,6 +126,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     multisetModal,
     exerciseList,
     defaultMultiset,
+    defaultPage: "multiset-list",
   });
 
   useEffect(() => {
