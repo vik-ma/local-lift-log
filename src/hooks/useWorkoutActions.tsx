@@ -35,6 +35,7 @@ import {
   UpdateMultisetSetOrder,
   GetNumberOfUniqueExercisesInGroupedSets,
   AssignTrackingValuesIfCardio,
+  ExtractTextFromInsideBrackets,
 } from "../helpers";
 import {
   useDefaultSet,
@@ -1549,7 +1550,11 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     newMultiset.id = multisetId;
 
-    const templateSetListIds = GenerateMultisetSetOrderList(multiset.set_order);
+    const extractedText = ExtractTextFromInsideBrackets(multiset.set_order);
+
+    if (!extractedText.isValid) return;
+
+    const templateSetListIds = GenerateMultisetSetOrderList(extractedText.text);
 
     const newSetListIds: number[] = [];
     const newSetList: WorkoutSet[] = [];
