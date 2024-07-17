@@ -16,6 +16,7 @@ type GroupedWorkoutSetsDictionary = {
     isExpanded: boolean;
     isMultiset?: boolean;
     multiset?: Multiset;
+    setListIndexCutoffs?: Set<number>;
   };
 };
 
@@ -60,6 +61,7 @@ export const CreateGroupedWorkoutSetList = async (
         isExpanded: true,
         isMultiset: true,
         multiset: multisetGroupedSet.multiset,
+        setListIndexCutoffs: multisetGroupedSet.setListIndexCutoffs,
       };
     }
   }
