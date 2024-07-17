@@ -16,7 +16,7 @@ type GroupedWorkoutSetsDictionary = {
     isExpanded: boolean;
     isMultiset?: boolean;
     multiset?: Multiset;
-    setListIndexCutoffs?: Set<number>;
+    setListIndexCutoffs?: Map<number, number>;
   };
 };
 

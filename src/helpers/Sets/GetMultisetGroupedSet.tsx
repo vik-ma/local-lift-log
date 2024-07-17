@@ -10,7 +10,7 @@ type MultisetGroupedSet = {
   multiset: Multiset | undefined;
   exerciseList: Exercise[];
   orderedSetList: WorkoutSet[];
-  setListIndexCutoffs: Set<number>;
+  setListIndexCutoffs: Map<number, number>;
 };
 
 export const GetMultisetGroupedSet = async (
@@ -21,7 +21,7 @@ export const GetMultisetGroupedSet = async (
     multiset: undefined,
     exerciseList: [],
     orderedSetList: [],
-    setListIndexCutoffs: new Set(),
+    setListIndexCutoffs: new Map(),
   };
 
   try {
@@ -42,6 +42,7 @@ export const GetMultisetGroupedSet = async (
     const setOrderList: number[] = [];
 
     let indexCounter = 0;
+    let setCounter = 1;
 
     // Loop through every set in Multiset
     for (const multisetString of multisetStrings) {
@@ -57,7 +58,11 @@ export const GetMultisetGroupedSet = async (
 
       // Get the index where new Set starts
       indexCounter = indexCounter + currentSetOrderList.length;
-      multisetExerciseAndSetList.setListIndexCutoffs.add(indexCounter);
+      multisetExerciseAndSetList.setListIndexCutoffs.set(
+        indexCounter,
+        setCounter
+      );
+      setCounter++;
     }
 
     const orderedSetList = setList.sort((a, b) => {

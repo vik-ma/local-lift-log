@@ -126,7 +126,7 @@ export type GroupedWorkoutSet = {
   showExerciseNote?: boolean;
   isMultiset?: boolean;
   multiset?: Multiset;
-  setListIndexCutoffs?: Set<number>;
+  setListIndexCutoffs?: Map<number, number>;
 };
 
 export type SetWorkoutSetAction = React.Dispatch<
