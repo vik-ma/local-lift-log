@@ -52,6 +52,9 @@ export const SetList = ({
         const exercise = isMultiset
           ? groupedSet.exerciseList[index]
           : groupedSet.exerciseList[0];
+
+        const setNum = groupedSet.setListIndexCutoffs?.get(index);
+
         return (
           <div
             className={
@@ -75,14 +78,17 @@ export const SetList = ({
                 <div
                   className={
                     isMultiset
-                      ? "flex items-center w-[19rem]"
+                      ? "flex relative items-center w-[19rem]"
                       : "flex items-center"
                   }
                 >
+                  {isMultiset && setNum && (
+                    <span className="absolute right-0">Set {setNum}</span>
+                  )}
                   <span
                     className={
                       isMultiset
-                        ? "truncate text-stone-400"
+                        ? "truncate text-stone-400 max-w-[16rem]"
                         : "truncate text-stone-500 w-[3rem]"
                     }
                   >
