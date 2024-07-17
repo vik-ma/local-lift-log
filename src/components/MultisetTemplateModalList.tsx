@@ -1,7 +1,9 @@
-import { Input, ScrollShadow } from "@nextui-org/react";
+import { Input, ScrollShadow, Select, SelectItem } from "@nextui-org/react";
 import { SearchIcon } from "../assets";
 import { Multiset, MultisetTypeMap } from "../typings";
 import { Link } from "react-router-dom";
+import { useNumSetsOptions } from "../hooks";
+import { useState } from "react";
 
 type MultisetTemplateModalListProps = {
   handleClickMultiset: (multiset: Multiset) => void;
@@ -18,17 +20,38 @@ export const MultisetTemplateModalList = ({
   filteredMultisets,
   multisetTypeMap,
 }: MultisetTemplateModalListProps) => {
+  const [numNewSets, setNumNewSets] = useState<string>("3");
+
+  const numSetsOptions = useNumSetsOptions();
+
   return (
     <div className="h-[400px] flex flex-col gap-2">
-      <Input
-        label="Search"
-        variant="faded"
-        placeholder="Type to search..."
-        isClearable
-        value={filterQuery}
-        onValueChange={setFilterQuery}
-        startContent={<SearchIcon />}
-      />
+      <div className="flex gap-2">
+        <Input
+          label="Search"
+          variant="faded"
+          placeholder="Type to search..."
+          isClearable
+          value={filterQuery}
+          onValueChange={setFilterQuery}
+          startContent={<SearchIcon />}
+        />
+        <Select
+          label="Number Of Sets To Add"
+          variant="faded"
+          classNames={{ trigger: "bg-amber-100 border-amber-300" }}
+          selectedKeys={[numNewSets]}
+          onChange={(e) => setNumNewSets(e.target.value)}
+          disallowEmptySelection
+        >
+          {numSetsOptions.map((num) => (
+            <SelectItem key={num} value={num}>
+              {num}
+            </SelectItem>
+          ))}
+        </Select>
+      </div>
+
       <ScrollShadow className="flex flex-col gap-1">
         {filteredMultisets.map((multiset) => {
           const multisetTypeText = multisetTypeMap[multiset.multiset_type]
