@@ -1,11 +1,16 @@
 import { Exercise, Multiset, WorkoutSet } from "../../typings";
 import Database from "tauri-plugin-sql-api";
-import { GenerateMultisetSetOrderList, GetExerciseFromId } from "..";
+import {
+  GenerateMultisetSetOrderList,
+  GetExerciseFromId,
+  ExtractTextFromInsideBrackets,
+} from "..";
 
 type MultisetGroupedSet = {
   multiset: Multiset | undefined;
   exerciseList: Exercise[];
   orderedSetList: WorkoutSet[];
+  setListIndexCutoffs: number[];
 };
 
 export const GetMultisetGroupedSet = async (
@@ -16,6 +21,7 @@ export const GetMultisetGroupedSet = async (
     multiset: undefined,
     exerciseList: [],
     orderedSetList: [],
+    setListIndexCutoffs: [],
   };
 
   try {
@@ -30,7 +36,30 @@ export const GetMultisetGroupedSet = async (
 
     if (multiset === undefined) return multisetExerciseAndSetList;
 
-    const setOrderList = GenerateMultisetSetOrderList(multiset.set_order);
+    // Split sets of Multiset
+    const multisetStrings = multiset.set_order.split("-");
+
+    const setOrderList: number[] = [];
+
+    const indexCutoffs: number[] = [];
+    let indexCounter = 0;
+
+    // Loop through every set in Multiset
+    for (const multisetString of multisetStrings) {
+      const extractedText = ExtractTextFromInsideBrackets(multisetString);
+
+      if (!extractedText.isValid) return multisetExerciseAndSetList;
+
+      const currentSetOrderList = GenerateMultisetSetOrderList(
+        extractedText.text
+      );
+
+      setOrderList.push(...currentSetOrderList);
+
+      // Get the index where new Set starts
+      indexCounter = indexCounter + currentSetOrderList.length;
+      indexCutoffs.push(indexCounter);
+    }
 
     const orderedSetList = setList.sort((a, b) => {
       const indexA = setOrderList.indexOf(a.exercise_id);
@@ -46,6 +75,7 @@ export const GetMultisetGroupedSet = async (
 
     multisetExerciseAndSetList.orderedSetList = orderedSetList;
     multisetExerciseAndSetList.multiset = multiset;
+    multisetExerciseAndSetList.setListIndexCutoffs = indexCutoffs;
 
     return multisetExerciseAndSetList;
   } catch (error) {
