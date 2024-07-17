@@ -57,11 +57,12 @@ export const GetMultisetGroupedSet = async (
       setOrderList.push(...currentSetOrderList);
 
       // Get the index where new Set starts
-      indexCounter = indexCounter + currentSetOrderList.length;
       multisetExerciseAndSetList.setListIndexCutoffs.set(
         indexCounter,
         setCounter
       );
+
+      indexCounter = indexCounter + currentSetOrderList.length;
       setCounter++;
     }
 
