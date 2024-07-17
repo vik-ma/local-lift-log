@@ -1,6 +1,6 @@
 import { IsStringInvalidIntegerOr0 } from "../Numbers/IsStringInvalidIntegerOr0";
 
-export const GenerateSetOrderList = (setOrderString: string): number[] => {
+export const GenerateMultisetSetOrderList = (setOrderString: string): number[] => {
   const setIds = setOrderString.split(",");
   const setOrderList: number[] = [];
 

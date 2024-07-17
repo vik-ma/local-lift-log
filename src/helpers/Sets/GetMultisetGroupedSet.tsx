@@ -1,6 +1,6 @@
 import { Exercise, Multiset, WorkoutSet } from "../../typings";
 import Database from "tauri-plugin-sql-api";
-import { GenerateSetOrderList, GetExerciseFromId } from "..";
+import { GenerateMultisetSetOrderList, GetExerciseFromId } from "..";
 
 type MultisetGroupedSet = {
   multiset: Multiset | undefined;
@@ -30,7 +30,7 @@ export const GetMultisetGroupedSet = async (
 
     if (multiset === undefined) return multisetExerciseAndSetList;
 
-    const setOrderList = GenerateSetOrderList(multiset.set_order);
+    const setOrderList = GenerateMultisetSetOrderList(multiset.set_order);
 
     const orderedSetList = setList.sort((a, b) => {
       const indexA = setOrderList.indexOf(a.exercise_id);

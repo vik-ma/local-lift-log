@@ -53,7 +53,7 @@ export { DeleteSetWithId } from "./Sets/DeleteSetWithId";
 export { DefaultNewMultiset } from "./Sets/DefaultNewMultiset";
 export { InsertMultisetIntoDatabase } from "./Sets/InsertMultisetIntoDatabase";
 export { UpdateMultiset } from "./Sets/UpdateMultiset";
-export { GenerateSetOrderList } from "./Sets/GenerateSetOrderList";
+export { GenerateMultisetSetOrderList } from "./Sets/GenerateMultisetSetOrderList";
 export { GetSetFromId } from "./Sets/GetSetFromId";
 export { GetAllMultisetTemplates } from "./Sets/GetAllMultisetTemplates";
 export { GenerateSetListText } from "./Sets/GenerateSetListText";

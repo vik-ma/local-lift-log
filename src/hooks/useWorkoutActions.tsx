@@ -29,7 +29,7 @@ import {
   DefaultNewWorkout,
   DefaultNewWorkoutTemplate,
   InsertMultisetIntoDatabase,
-  GenerateSetOrderList,
+  GenerateMultisetSetOrderList,
   GetSetFromId,
   GetExerciseFromId,
   UpdateMultisetSetOrder,
@@ -1549,7 +1549,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     newMultiset.id = multisetId;
 
-    const templateSetListIds = GenerateSetOrderList(multiset.set_order);
+    const templateSetListIds = GenerateMultisetSetOrderList(multiset.set_order);
 
     const newSetListIds: number[] = [];
     const newSetList: WorkoutSet[] = [];

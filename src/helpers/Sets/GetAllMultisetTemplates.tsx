@@ -1,6 +1,6 @@
 import Database from "tauri-plugin-sql-api";
 import { Multiset, WorkoutSet } from "../../typings";
-import { GenerateSetOrderList } from "./GenerateSetOrderList";
+import { GenerateMultisetSetOrderList } from "..";
 import { GetSetFromId } from "./GetSetFromId";
 import { UpdateMultiset } from "./UpdateMultiset";
 import { GenerateSetListText } from "./GenerateSetListText";
@@ -21,7 +21,7 @@ export const GetAllMultisetTemplates = async () => {
 
       if (!extractedText.isValid) continue;
 
-      const setOrderList = GenerateSetOrderList(extractedText.text);
+      const setOrderList = GenerateMultisetSetOrderList(extractedText.text);
 
       if (setOrderList.length === 0) continue;
 
