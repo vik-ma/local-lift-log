@@ -4,7 +4,6 @@ import { GenerateMultisetSetOrderList } from "..";
 import { GetSetFromId } from "./GetSetFromId";
 import { UpdateMultiset } from "./UpdateMultiset";
 import { GenerateSetListText } from "./GenerateSetListText";
-import { ExtractTextFromInsideBrackets } from "../Strings/ExtractTextFromInsideBrackets";
 
 export const GetAllMultisetTemplates = async () => {
   try {
@@ -17,11 +16,7 @@ export const GetAllMultisetTemplates = async () => {
     const multisets: Multiset[] = [];
 
     for (let i = 0; i < result.length; i++) {
-      const extractedText = ExtractTextFromInsideBrackets(result[i].set_order);
-
-      if (!extractedText.isValid) continue;
-
-      const setOrderList = GenerateMultisetSetOrderList(extractedText.text);
+      const setOrderList = GenerateMultisetSetOrderList(result[i].set_order);
 
       if (setOrderList.length === 0) continue;
 

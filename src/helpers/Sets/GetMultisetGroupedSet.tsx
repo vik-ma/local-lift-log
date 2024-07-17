@@ -1,10 +1,6 @@
 import { Exercise, Multiset, WorkoutSet } from "../../typings";
 import Database from "tauri-plugin-sql-api";
-import {
-  GenerateMultisetSetOrderList,
-  GetExerciseFromId,
-  ExtractTextFromInsideBrackets,
-} from "..";
+import { GenerateMultisetSetOrderList, GetExerciseFromId } from "..";
 
 type MultisetGroupedSet = {
   multiset: Multiset | undefined;
@@ -46,13 +42,7 @@ export const GetMultisetGroupedSet = async (
 
     // Loop through every set in Multiset
     for (const multisetString of multisetStrings) {
-      const extractedText = ExtractTextFromInsideBrackets(multisetString);
-
-      if (!extractedText.isValid) return multisetExerciseAndSetList;
-
-      const currentSetOrderList = GenerateMultisetSetOrderList(
-        extractedText.text
-      );
+      const currentSetOrderList = GenerateMultisetSetOrderList(multisetString);
 
       setOrderList.push(...currentSetOrderList);
 
