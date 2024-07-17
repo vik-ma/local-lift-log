@@ -83,12 +83,12 @@ export const SetList = ({
                   }
                 >
                   {isMultiset && setNum && (
-                    <span className="absolute right-0">Set {setNum}</span>
+                    <span className="absolute right-0 text-stone-400">Set {setNum}</span>
                   )}
                   <span
                     className={
                       isMultiset
-                        ? "truncate text-stone-400 max-w-[16rem]"
+                        ? "truncate text-stone-500 max-w-[16rem]"
                         : "truncate text-stone-500 w-[3rem]"
                     }
                   >
