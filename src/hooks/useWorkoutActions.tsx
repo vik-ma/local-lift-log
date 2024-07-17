@@ -1360,7 +1360,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       templateMultiset.setList[i].workout_template_id = 0;
 
       operatingMultiset.setList[i].multiset_id = operatingMultisetId;
-      operatingMultiset.setList[i].is_template = isTemplate ? 0 : 1;
+      operatingMultiset.setList[i].is_template = isTemplate ? 1 : 0;
 
       if (isTemplate && workoutTemplate.id !== 0) {
         operatingMultiset.setList[i].workout_template_id = workoutTemplate.id;
@@ -1409,8 +1409,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       ...multisetActions.multisets,
       updatedTemplateMultiset,
     ]);
-
-    // TODO: FIX GROUPEDSET NOT UPDATING
 
     const newGroupedSet: GroupedWorkoutSet = {
       id: `m${updatedOperatingMultiset.id}`,
