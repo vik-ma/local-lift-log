@@ -50,7 +50,7 @@ export const SetModal = ({
   userSettings,
   exerciseList,
 }: SetModalProps) => {
-  const [numNewSets, setNumNewSets] = useState<string>("1");
+  const [numNewSets, setNumNewSets] = useState<string>("3");
 
   return (
     <Modal isOpen={setModal.isOpen} onOpenChange={setModal.onOpenChange}>

@@ -39,7 +39,9 @@ export const MultisetTemplateModalList = ({
         <Select
           label="Number Of Sets To Add"
           variant="faded"
-          classNames={{ trigger: "bg-amber-100 border-amber-300" }}
+          classNames={{
+            trigger: "bg-amber-50 border-amber-200",
+          }}
           selectedKeys={[numNewSets]}
           onChange={(e) => setNumNewSets(e.target.value)}
           disallowEmptySelection
