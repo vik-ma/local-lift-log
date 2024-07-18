@@ -1597,6 +1597,13 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       }
     }
 
+    const indexCutoffs = new Map<number, number>();
+
+    Array.from({ length: numSetsToAdd }).forEach((_, i) => {
+      const startIndex = i * templateSetListIds.length;
+      indexCutoffs.set(startIndex, i + 1);
+    });
+
     newMultiset.setList = setListList.flat();
 
     const newExerciseList = exerciseListList.flat();
@@ -1615,6 +1622,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       isExpanded: true,
       isMultiset: true,
       multiset: updatedMultiset,
+      setListIndexCutoffs: indexCutoffs,
     };
 
     const newGroupedSets: GroupedWorkoutSet[] = [...groupedSets, newGroupedSet];
