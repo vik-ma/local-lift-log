@@ -499,8 +499,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
       setActiveGroupedSet(groupedSet);
 
-      console.log(groupedSet);
-
       updateActiveSetTrackingValues(newActiveSet, activeSet);
       setIsActiveSetExpanded(true);
     }
@@ -1541,6 +1539,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   const handleClickMultiset = async (multiset: Multiset, numSets: string) => {
     if (operationType !== "add") return;
 
+    if (!numSetsOptions.includes(numSets)) return;
+
     const newMultiset = { ...multiset, is_template: 0 };
 
     const multisetId = await InsertMultisetIntoDatabase(newMultiset);
@@ -1551,9 +1551,20 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     const templateSetListIds = GenerateMultisetSetOrderList(multiset.set_order);
 
-    const newSetListIds: number[] = [];
-    const newSetList: WorkoutSet[] = [];
-    const newExerciseList: Exercise[] = [];
+    const numSetsToAdd: number = parseInt(numSets);
+
+    const setListIdList: number[][] = Array.from(
+      { length: numSetsToAdd },
+      () => []
+    );
+    const setListList: WorkoutSet[][] = Array.from(
+      { length: numSetsToAdd },
+      () => []
+    );
+    const exerciseListList: Exercise[][] = Array.from(
+      { length: numSetsToAdd },
+      () => []
+    );
 
     for (let i = 0; i < templateSetListIds.length; i++) {
       const set = await GetSetFromId(templateSetListIds[i]);
@@ -1573,20 +1584,26 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         set.workout_id = workout.id;
       }
 
-      const setId = await InsertSetIntoDatabase(set);
+      for (let j = 0; j < numSetsToAdd; j++) {
+        const setId = await InsertSetIntoDatabase(set);
 
-      if (setId === 0) return;
+        if (setId === 0) return;
 
-      set.id = setId;
+        set.id = setId;
 
-      newSetListIds.push(setId);
-      newSetList.push(set);
-      newExerciseList.push(exercise);
+        setListIdList[j].push(setId);
+        setListList[j].push(set);
+        exerciseListList[j].push(exercise);
+      }
     }
+
+    newMultiset.setList = setListList.flat();
+
+    const newExerciseList = exerciseListList.flat();
 
     const { success, updatedMultiset } = await UpdateMultisetSetOrder(
       newMultiset,
-      [newSetListIds]
+      setListIdList
     );
 
     if (!success) return;
