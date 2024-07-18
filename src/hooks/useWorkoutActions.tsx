@@ -835,6 +835,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     const newGroupedWorkoutSet: GroupedWorkoutSet = {
       ...operatingGroupedSet,
+      id: newExercise.id.toString(),
       exerciseList: [newExercise],
     };
 
@@ -848,9 +849,15 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     if (completedSetsMap.has(operatingGroupedSet.id)) {
       // Change key to match new exercise id
+      const newCompletedSetsMap: Map<string, number> = new Map(
+        completedSetsMap
+      );
+
       const value = completedSetsMap.get(operatingGroupedSet.id);
-      completedSetsMap.delete(operatingGroupedSet.id);
-      completedSetsMap.set(newExercise.id.toString(), value!);
+      newCompletedSetsMap.delete(operatingGroupedSet.id);
+      newCompletedSetsMap.set(newExercise.id.toString(), value!);
+
+      setCompletedSetsMap(newCompletedSetsMap);
     }
 
     if (newGroupedSetIndex === -1) {
