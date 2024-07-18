@@ -2,8 +2,6 @@ import { Input, ScrollShadow, Select, SelectItem } from "@nextui-org/react";
 import { SearchIcon } from "../assets";
 import { Multiset, MultisetTypeMap } from "../typings";
 import { Link } from "react-router-dom";
-import { useNumSetsOptions } from "../hooks";
-import { useState } from "react";
 
 type MultisetTemplateModalListProps = {
   handleClickMultiset: (multiset: Multiset, numSets: string) => void;
@@ -11,6 +9,9 @@ type MultisetTemplateModalListProps = {
   setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
   filteredMultisets: Multiset[];
   multisetTypeMap: MultisetTypeMap;
+  numNewSets: string;
+  setNumNewSets: React.Dispatch<React.SetStateAction<string>>;
+  numSetsOptions: string[];
 };
 
 export const MultisetTemplateModalList = ({
@@ -19,11 +20,10 @@ export const MultisetTemplateModalList = ({
   setFilterQuery,
   filteredMultisets,
   multisetTypeMap,
+  numNewSets,
+  setNumNewSets,
+  numSetsOptions,
 }: MultisetTemplateModalListProps) => {
-  const [numNewSets, setNumNewSets] = useState<string>("3");
-
-  const numSetsOptions = useNumSetsOptions();
-
   return (
     <div className="h-[400px] flex flex-col gap-2">
       <div className="flex gap-2">

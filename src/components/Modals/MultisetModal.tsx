@@ -26,8 +26,9 @@ import {
   useSetTrackingInputs,
   useDefaultSetInputValues,
   useMultisetActions,
+  useNumSetsOptions,
 } from "../../hooks";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
 type MultisetModalProps = {
   multisetModal: ReturnType<typeof useDisclosure>;
@@ -62,6 +63,10 @@ export const MultisetModal = ({
   handleClickMultiset,
   showMultisetList,
 }: MultisetModalProps) => {
+  const [numNewSets, setNumNewSets] = useState<string>("3");
+
+  const numSetsOptions = useNumSetsOptions();
+
   const defaultSetInputValues = useDefaultSetInputValues();
 
   const operatingSetInputs = useSetTrackingInputs();
@@ -157,6 +162,9 @@ export const MultisetModal = ({
                   setFilterQuery={setFilterQuery}
                   filteredMultisets={filteredMultisets}
                   multisetTypeMap={multisetTypeMap}
+                  numNewSets={numNewSets}
+                  setNumNewSets={setNumNewSets}
+                  numSetsOptions={numSetsOptions}
                 />
               ) : (
                 <div className="flex flex-col items-center gap-2.5 h-[400px] overflow-auto scroll-gradient">
