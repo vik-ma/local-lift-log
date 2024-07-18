@@ -1389,12 +1389,12 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     const templateMultisetUpdate = await UpdateMultisetSetOrder(
       templateMultiset,
-      templateSetListIdOrder
+      [templateSetListIdOrder]
     );
 
     const operatingMultisetUpdate = await UpdateMultisetSetOrder(
       operatingMultiset,
-      operatingSetListIdOrder
+      [operatingSetListIdOrder]
     );
 
     if (!templateMultisetUpdate.success || !operatingMultisetUpdate.success)
@@ -1586,7 +1586,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     const { success, updatedMultiset } = await UpdateMultisetSetOrder(
       newMultiset,
-      newSetListIds
+      [newSetListIds]
     );
 
     if (!success) return;

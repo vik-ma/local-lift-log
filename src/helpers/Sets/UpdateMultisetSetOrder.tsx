@@ -12,7 +12,7 @@ type UpdateMultisetSetOrderReturnProps = {
 
 export const UpdateMultisetSetOrder = async (
   multiset: Multiset,
-  setListIdOrder: number[]
+  setListIdOrder: number[][]
 ): Promise<UpdateMultisetSetOrderReturnProps> => {
   const updatedMultiset = { ...multiset };
 

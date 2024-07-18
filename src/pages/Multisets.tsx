@@ -174,7 +174,7 @@ export default function Multisets() {
 
     const { success, updatedMultiset } = await UpdateMultisetSetOrder(
       operatingMultiset,
-      setListIdOrder
+      [setListIdOrder]
     );
 
     if (!success) return;
@@ -219,7 +219,7 @@ export default function Multisets() {
 
     const { success, updatedMultiset } = await UpdateMultisetSetOrder(
       operatingMultiset,
-      setListIdOrder
+      [setListIdOrder]
     );
 
     if (!success) return;
@@ -323,7 +323,7 @@ export default function Multisets() {
 
     const { success, updatedMultiset } = await UpdateMultisetSetOrder(
       operatingMultiset,
-      setListIdOrder
+      [setListIdOrder]
     );
 
     if (!success) return;
