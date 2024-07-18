@@ -1,7 +1,15 @@
 export const GenerateMultisetSetOrderString = (
-  setListIdOrder: number[]
+  setListIdOrder: number[][]
 ): string => {
-  const setListOrderString = setListIdOrder.join(",");
+  const setListOrderStringList: string[] = [];
+
+  for (const setList of setListIdOrder) {
+    const setListOrderString = setList.join(",");
+
+    setListOrderStringList.push(setListOrderString);
+  }
+
+  const setListOrderString = setListOrderStringList.join("-");
 
   return setListOrderString;
 };
