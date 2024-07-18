@@ -88,7 +88,7 @@ export const SetList = ({
                   <span
                     className={
                       isMultiset
-                        ? "truncate text-stone-500 max-w-[16rem]"
+                        ? "truncate text-stone-500 max-w-[16rem] pt-0.5"
                         : "truncate text-stone-500 w-[3rem]"
                     }
                   >
@@ -98,8 +98,8 @@ export const SetList = ({
                 <div
                   className={
                     isMultiset
-                      ? "flex flex-wrap justify-start w-full gap-x-5 gap-y-0.5 py-0.5"
-                      : "flex flex-wrap justify-evenly w-full gap-x-5 px-1 gap-y-0.5 py-0.5"
+                      ? "flex flex-wrap justify-start w-full gap-x-5 pb-0.5"
+                      : "flex flex-wrap justify-evenly w-full gap-x-5 px-1 py-0.5"
                   }
                 >
                   {set.is_tracking_weight === 1 &&
