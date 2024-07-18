@@ -841,6 +841,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     newGroupedWorkoutSet.setList.forEach((item) => {
       item.exercise_id = newExercise.id;
+      item.exercise_name = newExercise.name;
     });
 
     const newGroupedSetIndex: number = groupedSets.findIndex(
@@ -899,18 +900,21 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         : "Exercise Changed"
     );
 
-    if (
-      !isTemplate &&
-      activeSet !== undefined &&
-      activeGroupedSet !== undefined &&
-      activeSet.exercise_id === oldExercise.id
-    ) {
+    if (isTemplate) return;
+
+    if (activeSet !== undefined && activeSet.exercise_id === oldExercise.id) {
       setActiveSet({
         ...activeSet,
         exercise_id: newExercise.id,
         exercise_name: newExercise.name,
       });
-      setActiveGroupedSet({ ...activeGroupedSet, exerciseList: [newExercise] });
+    }
+
+    if (
+      activeGroupedSet !== undefined &&
+      activeGroupedSet.id === oldExercise.id.toString()
+    ) {
+      setActiveGroupedSet(newGroupedWorkoutSet);
     }
   };
 
