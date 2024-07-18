@@ -1412,7 +1412,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       id: `m${updatedOperatingMultiset.id}`,
       exerciseList: multisetActions.newExerciseList,
       setList: updatedOperatingMultiset.setList,
-      isExpanded: true,
+      isExpanded: false,
       isMultiset: true,
       multiset: updatedOperatingMultiset,
     };
@@ -1619,7 +1619,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       id: `m${updatedMultiset.id}`,
       exerciseList: newExerciseList,
       setList: updatedMultiset.setList,
-      isExpanded: true,
+      isExpanded: false,
       isMultiset: true,
       multiset: updatedMultiset,
       setListIndexCutoffs: indexCutoffs,
