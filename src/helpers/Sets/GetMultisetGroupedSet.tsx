@@ -57,8 +57,8 @@ export const GetMultisetGroupedSet = async (
     }
 
     const orderedSetList = setList.sort((a, b) => {
-      const indexA = setOrderList.indexOf(a.exercise_id);
-      const indexB = setOrderList.indexOf(b.exercise_id);
+      const indexA = setOrderList.indexOf(a.id);
+      const indexB = setOrderList.indexOf(b.id);
       return indexA - indexB;
     });
 
