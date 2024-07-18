@@ -6,7 +6,7 @@ import { useNumSetsOptions } from "../hooks";
 import { useState } from "react";
 
 type MultisetTemplateModalListProps = {
-  handleClickMultiset: (multiset: Multiset) => void;
+  handleClickMultiset: (multiset: Multiset, numSets: string) => void;
   filterQuery: string;
   setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
   filteredMultisets: Multiset[];
@@ -64,7 +64,7 @@ export const MultisetTemplateModalList = ({
             <button
               key={multiset.id}
               className="flex flex-col justify-start items-start bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:bg-default-200 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-              onClick={() => handleClickMultiset(multiset)}
+              onClick={() => handleClickMultiset(multiset, numNewSets)}
             >
               <span className="text-md max-w-full break-words text-left">
                 {multiset.setListText}

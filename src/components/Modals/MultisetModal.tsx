@@ -42,7 +42,7 @@ type MultisetModalProps = {
   userSettings: UserSettings;
   saveButtonAction: () => void;
   updateOperatingSet: () => void;
-  handleClickMultiset: (multiset: Multiset) => void;
+  handleClickMultiset: (multiset: Multiset, numSets: string) => void;
   showMultisetList: boolean;
 };
 

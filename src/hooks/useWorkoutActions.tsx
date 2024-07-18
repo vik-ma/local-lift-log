@@ -1538,7 +1538,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     addSetToNewMultiset(exercise);
   };
 
-  const handleClickMultiset = async (multiset: Multiset) => {
+  const handleClickMultiset = async (multiset: Multiset, numSets: string) => {
     if (operationType !== "add") return;
 
     const newMultiset = { ...multiset, is_template: 0 };
