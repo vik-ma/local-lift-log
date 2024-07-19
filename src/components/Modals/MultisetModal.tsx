@@ -190,7 +190,7 @@ export const MultisetModal = ({
                       isClearable
                     />
                   </div>
-                  {showWorkoutItems && (
+                  {showWorkoutItems && operationType === "add" && (
                     <Select
                       label="Number Of Sets To Add"
                       size="sm"
