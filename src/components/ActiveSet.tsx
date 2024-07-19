@@ -63,6 +63,7 @@ type ActiveSetProps = {
   ) => void;
   clearSetInputValues: (isOperatingSet: boolean) => void;
   saveActiveSet: () => void;
+  handleActiveSetCommentButton: () => void;
 };
 
 export const ActiveSet = ({
@@ -86,6 +87,7 @@ export const ActiveSet = ({
   handleEditSet,
   clearSetInputValues,
   saveActiveSet,
+  handleActiveSetCommentButton,
 }: ActiveSetProps) => {
   return (
     <div>
@@ -203,7 +205,7 @@ export const ActiveSet = ({
                             isIconOnly
                             variant="light"
                             size="sm"
-                            onPress={() => setShowCommentInput((prev) => !prev)}
+                            onPress={handleActiveSetCommentButton}
                           >
                             <CommentIcon size={20} />
                           </Button>

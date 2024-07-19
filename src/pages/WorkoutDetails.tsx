@@ -103,6 +103,7 @@ export default function WorkoutDetails() {
     activeSetComment,
     setActiveSetComment,
     saveActiveSetComment,
+    handleActiveSetCommentButton,
   } = useWorkoutActions(false);
 
   const initialized = useRef(false);
@@ -382,6 +383,7 @@ export default function WorkoutDetails() {
           handleEditSet={handleEditSet}
           clearSetInputValues={clearSetInputValues}
           saveActiveSet={saveActiveSet}
+          handleActiveSetCommentButton={handleActiveSetCommentButton}
         />
       </div>
     </>

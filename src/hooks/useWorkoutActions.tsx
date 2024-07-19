@@ -1019,6 +1019,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
   const saveActiveSetComment = () => {};
 
+  const handleActiveSetCommentButton = () => {};
+
   const goToNextIncompleteSet = (
     lastSet: WorkoutSet,
     isUpdatingActiveSet?: boolean
@@ -1729,5 +1731,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     activeSetComment,
     setActiveSetComment,
     saveActiveSetComment,
+    handleActiveSetCommentButton,
   };
 };
