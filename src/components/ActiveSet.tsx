@@ -161,10 +161,10 @@ export const ActiveSet = ({
                   <div className="flex flex-col">
                     <div className="flex flex-col">
                       <div className="flex justify-between gap-1.5">
-                        <div>
+                        <div className="px-3">
                           {activeSetNote !== undefined && (
-                            <div className="flex gap-2 items-center pt-1.5">
-                              <h3 className="font-medium text-lg">
+                            <div className="flex gap-2.5 items-center pt-1.5">
+                              <h3 className="font-medium">
                                 {activeSetNote.note_type}
                               </h3>
                               <Button
@@ -251,8 +251,8 @@ export const ActiveSet = ({
                         </div>
                       </div>
                       {activeSetNote !== undefined && (
-                        <div className="flex flex-col">
-                          <div className="text-stone-500 break-words">
+                        <div className="flex flex-col px-3 pb-1.5">
+                          <div className="text-stone-500 break-words text-sm">
                             {activeSetNote.note}
                           </div>
                         </div>
