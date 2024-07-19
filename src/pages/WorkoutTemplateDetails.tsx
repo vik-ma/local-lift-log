@@ -236,7 +236,7 @@ export default function WorkoutTemplateDetails() {
         saveButtonAction={handleSaveMultisetButton}
         updateOperatingSet={updateMultisetSet}
         handleClickMultiset={handleClickMultiset}
-        showMultisetList={true}
+        showWorkoutItems={true}
       />
       <div className="flex flex-col">
         <DetailsHeader

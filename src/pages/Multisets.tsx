@@ -441,7 +441,7 @@ export default function Multisets() {
         }
         updateOperatingSet={updateOperatingSet}
         handleClickMultiset={() => {}}
-        showMultisetList={false}
+        showWorkoutItems={false}
       />
       <div className="flex flex-col items-center gap-2">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">

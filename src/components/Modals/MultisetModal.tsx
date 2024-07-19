@@ -46,7 +46,7 @@ type MultisetModalProps = {
   saveButtonAction: () => void;
   updateOperatingSet: () => void;
   handleClickMultiset: (multiset: Multiset, numSets: string) => void;
-  showMultisetList: boolean;
+  showWorkoutItems: boolean;
 };
 
 export const MultisetModal = ({
@@ -63,7 +63,7 @@ export const MultisetModal = ({
   saveButtonAction,
   updateOperatingSet,
   handleClickMultiset,
-  showMultisetList,
+  showWorkoutItems,
 }: MultisetModalProps) => {
   const [numNewSets, setNumNewSets] = useState<string>("3");
 
@@ -129,7 +129,7 @@ export const MultisetModal = ({
                 : operationType === "add"
                 ? "Create Multiset"
                 : "Edit Multiset"}
-              {modalPage === "base" && showMultisetList && (
+              {modalPage === "base" && showWorkoutItems && (
                 <Button
                   className="absolute right-10"
                   variant="flat"
@@ -190,23 +190,25 @@ export const MultisetModal = ({
                       isClearable
                     />
                   </div>
-                  <Select
-                    label="Number Of Sets To Add"
-                    size="sm"
-                    variant="faded"
-                    classNames={{
-                      trigger: "bg-amber-50 border-amber-200",
-                    }}
-                    selectedKeys={[numNewSets]}
-                    onChange={(e) => setNumNewSets(e.target.value)}
-                    disallowEmptySelection
-                  >
-                    {numSetsOptions.map((num) => (
-                      <SelectItem key={num} value={num}>
-                        {num}
-                      </SelectItem>
-                    ))}
-                  </Select>
+                  {showWorkoutItems && (
+                    <Select
+                      label="Number Of Sets To Add"
+                      size="sm"
+                      variant="faded"
+                      classNames={{
+                        trigger: "bg-amber-50 border-amber-200",
+                      }}
+                      selectedKeys={[numNewSets]}
+                      onChange={(e) => setNumNewSets(e.target.value)}
+                      disallowEmptySelection
+                    >
+                      {numSetsOptions.map((num) => (
+                        <SelectItem key={num} value={num}>
+                          {num}
+                        </SelectItem>
+                      ))}
+                    </Select>
+                  )}
                   <MultisetSetList
                     multiset={multiset}
                     setMultiset={setMultiset}
