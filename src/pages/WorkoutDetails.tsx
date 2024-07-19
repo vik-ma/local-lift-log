@@ -80,8 +80,6 @@ export default function WorkoutDetails() {
     isActiveSetExpanded,
     setIsActiveSetExpanded,
     activeGroupedSet,
-    showCommentInput,
-    setShowCommentInput,
     activeSetNote,
     setActiveSetNote,
     handleEditSet,
@@ -371,8 +369,6 @@ export default function WorkoutDetails() {
           activeGroupedSet={activeGroupedSet}
           handleReassignExercise={handleReassignExercise}
           handleActiveSetOptionSelection={handleActiveSetOptionSelection}
-          showCommentInput={showCommentInput}
-          setShowCommentInput={setShowCommentInput}
           activeSetNote={activeSetNote}
           setActiveSetNote={setActiveSetNote}
           handleClickSet={handleClickSet}

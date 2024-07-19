@@ -1,6 +1,5 @@
 import {
   Button,
-  Input,
   Dropdown,
   DropdownTrigger,
   DropdownMenu,
@@ -33,8 +32,6 @@ type ActiveSetProps = {
   activeGroupedSet: GroupedWorkoutSet | undefined;
   handleReassignExercise: (groupedWorkoutSet: GroupedWorkoutSet) => void;
   handleActiveSetOptionSelection: (key: string) => void;
-  showCommentInput: boolean;
-  setShowCommentInput: React.Dispatch<React.SetStateAction<boolean>>;
   activeSetNote: ActiveSetNote | undefined;
   setActiveSetNote: React.Dispatch<
     React.SetStateAction<ActiveSetNote | undefined>
@@ -75,8 +72,6 @@ export const ActiveSet = ({
   activeGroupedSet,
   handleReassignExercise,
   handleActiveSetOptionSelection,
-  showCommentInput,
-  setShowCommentInput,
   activeSetNote,
   setActiveSetNote,
   handleClickSet,
@@ -167,22 +162,6 @@ export const ActiveSet = ({
                     <div className="flex flex-col">
                       <div className="flex justify-between gap-1.5">
                         <div>
-                          {showCommentInput && (
-                            <Input
-                              value={activeSet.comment ?? ""}
-                              label="Comment"
-                              labelPlacement="outside-left"
-                              size="sm"
-                              variant="faded"
-                              onValueChange={(value) =>
-                                setActiveSet((prev) => ({
-                                  ...prev!,
-                                  comment: value,
-                                }))
-                              }
-                              isClearable
-                            />
-                          )}
                           {activeSetNote !== undefined && (
                             <div className="flex gap-2 items-center pt-1.5">
                               <h3 className="font-medium text-lg">

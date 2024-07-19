@@ -82,7 +82,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
   const [workout, setWorkout] = useState<Workout>(DefaultNewWorkout());
   const [activeSet, setActiveSet] = useState<WorkoutSet>();
-  const [showCommentInput, setShowCommentInput] = useState<boolean>(false);
   const [incompleteSetIds, setIncompleteSetIds] = useState<number[]>([]);
   const [completedSetsMap, setCompletedSetsMap] = useState<Map<string, number>>(
     new Map()
@@ -1013,7 +1012,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     }
 
     goToNextIncompleteSet(updatedSet, isUpdatingActiveSet);
-    setShowCommentInput(false);
     toast.success("Set Saved");
   };
 
@@ -1708,8 +1706,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     isActiveSetExpanded,
     setIsActiveSetExpanded,
     activeGroupedSet,
-    showCommentInput,
-    setShowCommentInput,
     activeSetNote,
     setActiveSetNote,
     handleEditSet,
