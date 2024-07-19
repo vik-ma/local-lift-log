@@ -43,7 +43,7 @@ type MultisetModalProps = {
   useMultisetActions: ReturnType<typeof useMultisetActions>;
   exerciseList: UseExerciseListReturnType;
   userSettings: UserSettings;
-  saveButtonAction: () => void;
+  saveButtonAction: (numSets?: string) => void;
   updateOperatingSet: () => void;
   handleClickMultiset: (multiset: Multiset, numSets: string) => void;
   showWorkoutItems: boolean;
@@ -258,7 +258,7 @@ export const MultisetModal = ({
                     onPress={
                       modalPage === "edit-set"
                         ? updateOperatingSet
-                        : saveButtonAction
+                        : () => saveButtonAction(numNewSets)
                     }
                   >
                     {modalPage === "edit-set" ? "Update Set" : "Save"}
