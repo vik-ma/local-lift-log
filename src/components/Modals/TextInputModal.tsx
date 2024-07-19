@@ -42,9 +42,9 @@ export const TextInputModal = ({
                 <Input
                   value={value}
                   label={label}
+                  size="sm"
                   variant="faded"
                   onValueChange={(value) => setValue(value)}
-                  isRequired
                   isClearable
                 />
               </div>
