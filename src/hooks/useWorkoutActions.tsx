@@ -35,6 +35,7 @@ import {
   UpdateMultisetSetOrder,
   GetNumberOfUniqueExercisesInGroupedSets,
   AssignTrackingValuesIfCardio,
+  UpdateSetComment,
 } from "../helpers";
 import {
   useDefaultSet,
@@ -1015,9 +1016,45 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     toast.success("Set Saved");
   };
 
-  const saveActiveSetComment = () => {};
+  const saveActiveSetComment = async () => {
+    if (activeSet === undefined || activeGroupedSet === undefined) return;
 
-  const handleActiveSetCommentButton = () => {};
+    const commentToInsert = ConvertEmptyStringToNull(activeSetComment);
+
+    const success = await UpdateSetComment(activeSetComment, activeSet.id);
+
+    if (!success) return;
+
+    const updatedSet = { ...activeSet, comment: commentToInsert };
+
+    setActiveSet(updatedSet);
+
+    const groupedSetIndex: number = groupedSets.findIndex(
+      (obj) => obj.id === activeGroupedSet.id
+    );
+
+    const updatedSetList: WorkoutSet[] = groupedSets[
+      groupedSetIndex
+    ].setList.map((item) => (item.id === activeSet.id ? updatedSet : item));
+
+    setGroupedSets((prev) => {
+      const newList = [...prev];
+      newList[groupedSetIndex].setList = updatedSetList;
+      return newList;
+    });
+
+    setActiveSetComment("");
+    toast.success("Comment Saved");
+    textInputModal.onClose();
+  };
+
+  const handleActiveSetCommentButton = () => {
+    if (activeSet === undefined) return;
+
+    setActiveSetComment(activeSet.comment ?? "");
+
+    textInputModal.onOpen();
+  };
 
   const goToNextIncompleteSet = (
     lastSet: WorkoutSet,
