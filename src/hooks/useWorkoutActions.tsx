@@ -93,6 +93,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   const [isActiveSetExpanded, setIsActiveSetExpanded] =
     useState<boolean>(false);
   const [activeGroupedSet, setActiveGroupedSet] = useState<GroupedWorkoutSet>();
+  const [activeSetComment, setActiveSetComment] = useState<string>("");
 
   const numSetsOptions = useNumSetsOptions();
 
@@ -109,6 +110,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   const deleteModal = useDisclosure();
   const timeInputModal = useDisclosure();
   const multisetModal = useDisclosure();
+  const textInputModal = useDisclosure();
 
   const defaultSetInputValues = useDefaultSetInputValues();
 
@@ -1015,6 +1017,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     toast.success("Set Saved");
   };
 
+  const saveActiveSetComment = () => {};
+
   const goToNextIncompleteSet = (
     lastSet: WorkoutSet,
     isUpdatingActiveSet?: boolean
@@ -1721,5 +1725,9 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     updateMultisetSet,
     handleClickExerciseMultiset,
     handleClickMultiset,
+    textInputModal,
+    activeSetComment,
+    setActiveSetComment,
+    saveActiveSetComment,
   };
 };

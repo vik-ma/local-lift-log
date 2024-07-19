@@ -11,6 +11,7 @@ import {
   TimeInputModal,
   DetailsHeader,
   MultisetModal,
+  TextInputModal,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -98,6 +99,10 @@ export default function WorkoutDetails() {
     updateMultisetSet,
     handleClickExerciseMultiset,
     handleClickMultiset,
+    textInputModal,
+    activeSetComment,
+    setActiveSetComment,
+    saveActiveSetComment,
   } = useWorkoutActions(false);
 
   const initialized = useRef(false);
@@ -319,6 +324,14 @@ export default function WorkoutDetails() {
         locale={userSettings.locale}
         value={operatingSet.time_completed}
         saveButtonAction={updateSetTimeCompleted}
+      />
+      <TextInputModal
+        textInputModal={textInputModal}
+        value={activeSetComment}
+        setValue={setActiveSetComment}
+        label="Comment"
+        header="Set Comment"
+        buttonAction={saveActiveSetComment}
       />
       <div className="flex flex-col">
         <DetailsHeader
