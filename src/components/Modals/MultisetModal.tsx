@@ -7,6 +7,8 @@ import {
   ModalFooter,
   useDisclosure,
   Input,
+  Select,
+  SelectItem,
 } from "@nextui-org/react";
 import {
   Multiset,
@@ -188,6 +190,23 @@ export const MultisetModal = ({
                       isClearable
                     />
                   </div>
+                  <Select
+                    label="Number Of Sets To Add"
+                    size="sm"
+                    variant="faded"
+                    classNames={{
+                      trigger: "bg-amber-50 border-amber-200",
+                    }}
+                    selectedKeys={[numNewSets]}
+                    onChange={(e) => setNumNewSets(e.target.value)}
+                    disallowEmptySelection
+                  >
+                    {numSetsOptions.map((num) => (
+                      <SelectItem key={num} value={num}>
+                        {num}
+                      </SelectItem>
+                    ))}
+                  </Select>
                   <MultisetSetList
                     multiset={multiset}
                     setMultiset={setMultiset}
