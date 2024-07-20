@@ -79,6 +79,7 @@ export default function WorkoutTemplateDetails() {
     updateMultisetSet,
     handleClickExerciseMultiset,
     handleClickMultiset,
+    handleToggleSetCommentButton,
   } = useWorkoutActions(true);
 
   const getWorkoutTemplateAndSetList = useCallback(async () => {
@@ -261,6 +262,7 @@ export default function WorkoutTemplateDetails() {
           handleReassignExercise={handleReassignExercise}
           isTemplate={true}
           multisetTypeMap={multisetActions.multisetTypeMap}
+          handleToggleSetCommentButton={handleToggleSetCommentButton}
         />
       </div>
     </>

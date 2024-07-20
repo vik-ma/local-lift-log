@@ -33,6 +33,11 @@ type SetListProps = {
   clickCommentButtonAction: (groupedSetId: string, index: number) => void;
   shownSetListComments: SetListNotes;
   isTemplate: boolean;
+  handleToggleSetCommentButton: (
+    set: WorkoutSet,
+    index: number,
+    groupedSet: GroupedWorkoutSet
+  ) => void;
 };
 
 export const SetList = ({
@@ -43,6 +48,7 @@ export const SetList = ({
   clickCommentButtonAction,
   shownSetListComments,
   isTemplate,
+  handleToggleSetCommentButton,
 }: SetListProps) => {
   return (
     <>
@@ -238,11 +244,19 @@ export const SetList = ({
               </div>
             </div>
             {shownSetListComments[groupedSet.id]?.has(index) && (
-              <div className="flex justify-between items-center pb-1 pr-2">
-                <span className="text-stone-400 max-w-[19.5rem]">
+              <div className="flex justify-between items-center pb-0.5 pr-2">
+                <span className="text-stone-400 max-w-[21.5rem]">
                   {isTemplate ? `${set.note}` : `${set.comment}`}
                 </span>
-                <Button className="h-7" size="sm" variant="flat">
+                <Button
+                  aria-label={`Toggle ${exercise.name} Set ${index} ${
+                    isTemplate ? "Note" : "Comment"
+                  } Input`}
+                  size="sm"
+                  variant="light"
+                  onPress={() => () =>
+                    handleToggleSetCommentButton(set, index, groupedSet)}
+                >
                   Edit
                 </Button>
               </div>

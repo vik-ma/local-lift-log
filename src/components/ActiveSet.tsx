@@ -60,7 +60,7 @@ type ActiveSetProps = {
   ) => void;
   clearSetInputValues: (isOperatingSet: boolean) => void;
   saveActiveSet: () => void;
-  handleActiveSetCommentButton: (
+  handleToggleSetCommentButton: (
     set: WorkoutSet,
     index: number,
     groupedSet: GroupedWorkoutSet
@@ -86,7 +86,7 @@ export const ActiveSet = ({
   handleEditSet,
   clearSetInputValues,
   saveActiveSet,
-  handleActiveSetCommentButton,
+  handleToggleSetCommentButton,
 }: ActiveSetProps) => {
   return (
     <div>
@@ -189,7 +189,7 @@ export const ActiveSet = ({
                             variant="light"
                             size="sm"
                             onPress={() =>
-                              handleActiveSetCommentButton(
+                              handleToggleSetCommentButton(
                                 activeSet,
                                 activeSet.set_index!,
                                 activeGroupedSet!
@@ -277,6 +277,9 @@ export const ActiveSet = ({
                         clickCommentButtonAction={updateShownSetListComments}
                         shownSetListComments={shownSetListComments}
                         isTemplate={false}
+                        handleToggleSetCommentButton={
+                          handleToggleSetCommentButton
+                        }
                       />
                     </div>
                     <div className="px-1.5">

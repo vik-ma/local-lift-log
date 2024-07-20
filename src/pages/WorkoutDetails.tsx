@@ -358,6 +358,7 @@ export default function WorkoutDetails() {
             activeSetId={activeSet?.id}
             completedSetsMap={completedSetsMap}
             multisetTypeMap={multisetActions.multisetTypeMap}
+            handleToggleSetCommentButton={handleToggleSetCommentButton}
           />
         </div>
         <ActiveSet
@@ -379,7 +380,7 @@ export default function WorkoutDetails() {
           handleEditSet={handleEditSet}
           clearSetInputValues={clearSetInputValues}
           saveActiveSet={saveActiveSet}
-          handleActiveSetCommentButton={handleToggleSetCommentButton}
+          handleToggleSetCommentButton={handleToggleSetCommentButton}
         />
       </div>
     </>

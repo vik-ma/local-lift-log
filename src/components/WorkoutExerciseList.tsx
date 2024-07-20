@@ -48,6 +48,11 @@ type WorkoutExerciseListProps = {
   activeSetId?: number;
   completedSetsMap?: Map<string, number>;
   multisetTypeMap: MultisetTypeMap;
+  handleToggleSetCommentButton: (
+    set: WorkoutSet,
+    index: number,
+    groupedSet: GroupedWorkoutSet
+  ) => void;
 };
 
 export const WorkoutExerciseList = ({
@@ -68,6 +73,7 @@ export const WorkoutExerciseList = ({
   activeSetId = 0,
   completedSetsMap,
   multisetTypeMap,
+  handleToggleSetCommentButton,
 }: WorkoutExerciseListProps) => {
   return (
     <div className="flex flex-col gap-1">
@@ -257,6 +263,9 @@ export const WorkoutExerciseList = ({
                         clickCommentButtonAction={updateShownSetListComments}
                         shownSetListComments={shownSetListComments}
                         isTemplate={isTemplate}
+                        handleToggleSetCommentButton={
+                          handleToggleSetCommentButton
+                        }
                       />
                     </div>
                   )}
