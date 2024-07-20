@@ -11,7 +11,12 @@ import {
   DropdownMenu,
   DropdownItem,
 } from "@nextui-org/react";
-import { CheckmarkIcon, VerticalMenuIcon, CommentIcon } from "../assets";
+import {
+  CheckmarkIcon,
+  VerticalMenuIcon,
+  CommentIcon,
+  EditIcon,
+} from "../assets";
 import { FormatTimeInSecondsToHhmmssString } from "../helpers";
 
 type SetListProps = {
@@ -252,12 +257,14 @@ export const SetList = ({
                   aria-label={`Toggle ${exercise.name} Set ${index} ${
                     isTemplate ? "Note" : "Comment"
                   } Input`}
+                  isIconOnly
+                  className="z-1 h-7 w-7"
                   size="sm"
                   variant="light"
                   onPress={() => () =>
                     handleToggleSetCommentButton(set, index, groupedSet)}
                 >
-                  Edit
+                  <EditIcon size={22} color="#808080" />
                 </Button>
               </div>
             )}
