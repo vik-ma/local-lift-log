@@ -11,6 +11,7 @@ import {
   WorkoutTemplateModal,
   DetailsHeader,
   MultisetModal,
+  TextInputModal,
 } from "../components";
 import { Toaster } from "react-hot-toast";
 import {
@@ -80,6 +81,10 @@ export default function WorkoutTemplateDetails() {
     handleClickExerciseMultiset,
     handleClickMultiset,
     handleToggleSetCommentButton,
+    textInputModal,
+    setCommentInput,
+    setSetCommentInput,
+    handleTextInputModalButton,
   } = useWorkoutActions(true);
 
   const getWorkoutTemplateAndSetList = useCallback(async () => {
@@ -238,6 +243,14 @@ export default function WorkoutTemplateDetails() {
         updateOperatingSet={updateMultisetSet}
         handleClickMultiset={handleClickMultiset}
         showWorkoutItems={true}
+      />
+      <TextInputModal
+        textInputModal={textInputModal}
+        value={setCommentInput}
+        setValue={setSetCommentInput}
+        label="Note"
+        header="Set Note"
+        buttonAction={handleTextInputModalButton}
       />
       <div className="flex flex-col">
         <DetailsHeader
