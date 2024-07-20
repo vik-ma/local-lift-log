@@ -36,6 +36,7 @@ import {
   GetNumberOfUniqueExercisesInGroupedSets,
   AssignTrackingValuesIfCardio,
   UpdateSetComment,
+  UpdateSetNote,
 } from "../helpers";
 import {
   useDefaultSet,
@@ -1018,10 +1019,49 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
   const handleTextInputModalButton = () => {
     if (isTemplate) {
-      // TODO: Implement
+      saveSetNote();
     } else {
       saveSetComment();
     }
+  };
+
+  const saveSetNote = async () => {
+    if (operatingSet.id === 0 || operatingGroupedSet === undefined) return;
+
+    const noteToInsert = ConvertEmptyStringToNull(setCommentInput);
+
+    const success = await UpdateSetNote(noteToInsert, operatingSet.id);
+
+    if (!success) return;
+
+    const updatedSet = { ...operatingSet, note: noteToInsert };
+
+    const groupedSetIndex: number = groupedSets.findIndex(
+      (obj) => obj.id === operatingGroupedSet.id
+    );
+
+    const updatedSetList: WorkoutSet[] = groupedSets[
+      groupedSetIndex
+    ].setList.map((item) => (item.id === operatingSet.id ? updatedSet : item));
+
+    setGroupedSets((prev) => {
+      const newList = [...prev];
+      newList[groupedSetIndex].setList = updatedSetList;
+      return newList;
+    });
+
+    // Close shownSetListComments for Set if comment was deleted
+    if (updatedSet.note === null) {
+      updateSetIndexInShownSetListComments(
+        operatingGroupedSet.id,
+        operatingSet.set_index ?? -1
+      );
+    }
+
+    setSetCommentInput("");
+    resetOperatingSet();
+    toast.success("Note Saved");
+    textInputModal.onClose();
   };
 
   const saveSetComment = async () => {
