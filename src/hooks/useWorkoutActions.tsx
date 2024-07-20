@@ -1123,7 +1123,11 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     setOperatingSet({ ...set, set_index: index });
     setOperatingGroupedSet(groupedSet);
 
-    setSetCommentInput(set.comment ?? "");
+    if (isTemplate) {
+      setSetCommentInput(set.note ?? "");
+    } else {
+      setSetCommentInput(set.comment ?? "");
+    }
 
     textInputModal.onOpen();
   };
