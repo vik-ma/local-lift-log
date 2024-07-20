@@ -83,7 +83,9 @@ export const SetList = ({
                   }
                 >
                   {isMultiset && setNum && (
-                    <span className="absolute right-0 text-stone-400">Set {setNum}</span>
+                    <span className="absolute right-0 text-stone-400">
+                      Set {setNum}
+                    </span>
                   )}
                   <span
                     className={
@@ -236,9 +238,14 @@ export const SetList = ({
               </div>
             </div>
             {shownSetListComments[groupedSet.id]?.has(index) && (
-              <span className="text-stone-400 pb-1 pr-2">
-                {isTemplate ? `${set.note}` : `${set.comment}`}
-              </span>
+              <div className="flex justify-between items-center pb-1 pr-2">
+                <span className="text-stone-400 max-w-[19.5rem]">
+                  {isTemplate ? `${set.note}` : `${set.comment}`}
+                </span>
+                <Button className="h-7" size="sm" variant="flat">
+                  Edit
+                </Button>
+              </div>
             )}
           </div>
         );
