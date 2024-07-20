@@ -100,8 +100,8 @@ export default function WorkoutDetails() {
     textInputModal,
     activeSetComment,
     setActiveSetComment,
-    saveActiveSetComment,
-    handleActiveSetCommentButton,
+    handleTextInputModalButton,
+    handleToggleSetCommentButton,
   } = useWorkoutActions(false);
 
   const initialized = useRef(false);
@@ -330,7 +330,7 @@ export default function WorkoutDetails() {
         setValue={setActiveSetComment}
         label="Comment"
         header="Set Comment"
-        buttonAction={saveActiveSetComment}
+        buttonAction={handleTextInputModalButton}
       />
       <div className="flex flex-col">
         <DetailsHeader
@@ -379,7 +379,7 @@ export default function WorkoutDetails() {
           handleEditSet={handleEditSet}
           clearSetInputValues={clearSetInputValues}
           saveActiveSet={saveActiveSet}
-          handleActiveSetCommentButton={handleActiveSetCommentButton}
+          handleActiveSetCommentButton={handleToggleSetCommentButton}
         />
       </div>
     </>

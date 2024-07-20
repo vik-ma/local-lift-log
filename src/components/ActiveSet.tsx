@@ -60,7 +60,11 @@ type ActiveSetProps = {
   ) => void;
   clearSetInputValues: (isOperatingSet: boolean) => void;
   saveActiveSet: () => void;
-  handleActiveSetCommentButton: () => void;
+  handleActiveSetCommentButton: (
+    set: WorkoutSet,
+    index: number,
+    groupedSet: GroupedWorkoutSet
+  ) => void;
 };
 
 export const ActiveSet = ({
@@ -184,7 +188,13 @@ export const ActiveSet = ({
                             isIconOnly
                             variant="light"
                             size="sm"
-                            onPress={handleActiveSetCommentButton}
+                            onPress={() =>
+                              handleActiveSetCommentButton(
+                                activeSet,
+                                activeSet.set_index!,
+                                activeGroupedSet!
+                              )
+                            }
                           >
                             <CommentIcon size={20} />
                           </Button>

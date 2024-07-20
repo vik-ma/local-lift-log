@@ -1016,26 +1016,36 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     toast.success("Set Saved");
   };
 
-  const saveActiveSetComment = async () => {
-    if (activeSet === undefined || activeGroupedSet === undefined) return;
+  const handleTextInputModalButton = () => {
+    if (isTemplate) {
+      // TODO: Implement
+    } else {
+      saveSetComment();
+    }
+  };
+
+  const saveSetComment = async () => {
+    if (operatingSet.id === 0 || operatingGroupedSet === undefined) return;
 
     const commentToInsert = ConvertEmptyStringToNull(activeSetComment);
 
-    const success = await UpdateSetComment(commentToInsert, activeSet.id);
+    const success = await UpdateSetComment(commentToInsert, operatingSet.id);
 
     if (!success) return;
 
-    const updatedSet = { ...activeSet, comment: commentToInsert };
+    const updatedSet = { ...operatingSet, comment: commentToInsert };
 
-    setActiveSet(updatedSet);
+    if (activeSet?.id === operatingSet.id) {
+      setActiveSet(updatedSet);
+    }
 
     const groupedSetIndex: number = groupedSets.findIndex(
-      (obj) => obj.id === activeGroupedSet.id
+      (obj) => obj.id === operatingGroupedSet.id
     );
 
     const updatedSetList: WorkoutSet[] = groupedSets[
       groupedSetIndex
-    ].setList.map((item) => (item.id === activeSet.id ? updatedSet : item));
+    ].setList.map((item) => (item.id === operatingSet.id ? updatedSet : item));
 
     setGroupedSets((prev) => {
       const newList = [...prev];
@@ -1043,23 +1053,37 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       return newList;
     });
 
+    if (activeGroupedSet?.id === operatingGroupedSet.id) {
+      const updatedGroupedSet = {
+        ...activeGroupedSet,
+        setList: updatedSetList,
+      };
+      setActiveGroupedSet(updatedGroupedSet);
+    }
+
     // Close shownSetListComments for Set if comment was deleted
     if (updatedSet.comment === null) {
       updateSetIndexInShownSetListComments(
-        activeGroupedSet.id,
-        activeSet.set_index ?? -1
+        operatingGroupedSet.id,
+        operatingSet.set_index ?? -1
       );
     }
 
     setActiveSetComment("");
+    resetOperatingSet();
     toast.success("Comment Saved");
     textInputModal.onClose();
   };
 
-  const handleActiveSetCommentButton = () => {
-    if (activeSet === undefined) return;
+  const handleToggleSetCommentButton = (
+    set: WorkoutSet,
+    index: number,
+    groupedSet: GroupedWorkoutSet
+  ) => {
+    setOperatingSet({ ...set, set_index: index });
+    setOperatingGroupedSet(groupedSet);
 
-    setActiveSetComment(activeSet.comment ?? "");
+    setActiveSetComment(set.comment ?? "");
 
     textInputModal.onOpen();
   };
@@ -1771,7 +1795,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     textInputModal,
     activeSetComment,
     setActiveSetComment,
-    saveActiveSetComment,
-    handleActiveSetCommentButton,
+    handleTextInputModalButton,
+    handleToggleSetCommentButton,
   };
 };
