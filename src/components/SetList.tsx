@@ -261,8 +261,9 @@ export const SetList = ({
                   className="z-1 h-7 w-7"
                   size="sm"
                   variant="light"
-                  onPress={() => () =>
-                    handleToggleSetCommentButton(set, index, groupedSet)}
+                  onPress={() =>
+                    handleToggleSetCommentButton(set, index, groupedSet)
+                  }
                 >
                   <EditIcon size={22} color="#808080" />
                 </Button>
