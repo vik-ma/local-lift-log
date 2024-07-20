@@ -1021,7 +1021,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     const commentToInsert = ConvertEmptyStringToNull(activeSetComment);
 
-    const success = await UpdateSetComment(activeSetComment, activeSet.id);
+    const success = await UpdateSetComment(commentToInsert, activeSet.id);
 
     if (!success) return;
 
@@ -1042,6 +1042,14 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       newList[groupedSetIndex].setList = updatedSetList;
       return newList;
     });
+
+    // Close shownSetListComments for Set if comment was deleted
+    if (updatedSet.comment === null) {
+      updateSetIndexInShownSetListComments(
+        activeGroupedSet.id,
+        activeSet.set_index ?? -1
+      );
+    }
 
     setActiveSetComment("");
     toast.success("Comment Saved");
