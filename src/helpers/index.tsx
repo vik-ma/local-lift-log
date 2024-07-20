@@ -62,6 +62,7 @@ export { DeleteMultisetWithId } from "./Sets/DeleteMultisetWithId";
 export { GetMultisetGroupedSet } from "./Sets/GetMultisetGroupedSet";
 export { AssignTrackingValuesIfCardio } from "./Sets/AssignTrackingValuesIfCardio";
 export { UpdateSetComment } from "./Sets/UpdateSetComment";
+export { UpdateSetNote } from "./Sets/UpdateSetNote";
 
 export { IsNumberNegativeOrInfinity } from "./Numbers/IsNumberNegativeOrInfinity";
 export { IsStringInvalidNumberOrAbove59 } from "./Numbers/IsStringInvalidNumberOrAbove59";
