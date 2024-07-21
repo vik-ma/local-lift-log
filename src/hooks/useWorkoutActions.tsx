@@ -96,6 +96,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   const [activeGroupedSet, setActiveGroupedSet] = useState<GroupedWorkoutSet>();
   const [setCommentInput, setSetCommentInput] = useState<string>("");
 
+  const [numMultisetSets, setNumMultisetSets] = useState<number>(1);
+
   const numSetsOptions = useNumSetsOptions();
 
   const defaultSet = useDefaultSet(isTemplate);
@@ -1391,6 +1393,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     resetOperatingSet();
 
     setOperationType("add-sets-to-multiset");
+    setNumMultisetSets(groupedWorkoutSet.setListIndexCutoffs?.size ?? 1);
     setOperatingGroupedSet(groupedWorkoutSet);
     setModal.onOpen();
   };
@@ -1872,5 +1875,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     setSetCommentInput,
     handleTextInputModalButton,
     handleToggleSetCommentButton,
+    numMultisetSets,
   };
 };

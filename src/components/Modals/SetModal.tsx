@@ -33,6 +33,7 @@ type SetModalProps = {
   clearSetInputValues: (isOperatingSet: boolean) => void;
   userSettings: UserSettings;
   exerciseList: UseExerciseListReturnType;
+  numMultisetSets?: number;
 };
 
 export const SetModal = ({
@@ -49,6 +50,7 @@ export const SetModal = ({
   clearSetInputValues,
   userSettings,
   exerciseList,
+  numMultisetSets,
 }: SetModalProps) => {
   const [numNewSets, setNumNewSets] = useState<string>("3");
 

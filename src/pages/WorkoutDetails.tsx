@@ -102,6 +102,7 @@ export default function WorkoutDetails() {
     setSetCommentInput,
     handleTextInputModalButton,
     handleToggleSetCommentButton,
+    numMultisetSets,
   } = useWorkoutActions(false);
 
   const initialized = useRef(false);
@@ -299,6 +300,7 @@ export default function WorkoutDetails() {
         clearSetInputValues={clearSetInputValues}
         userSettings={userSettings}
         exerciseList={exerciseList}
+        numMultisetSets={numMultisetSets}
       />
       <MultisetModal
         multisetModal={multisetModal}

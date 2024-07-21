@@ -85,6 +85,7 @@ export default function WorkoutTemplateDetails() {
     setCommentInput,
     setSetCommentInput,
     handleTextInputModalButton,
+    numMultisetSets,
   } = useWorkoutActions(true);
 
   const getWorkoutTemplateAndSetList = useCallback(async () => {
@@ -227,6 +228,7 @@ export default function WorkoutTemplateDetails() {
         clearSetInputValues={clearSetInputValues}
         userSettings={userSettings}
         exerciseList={exerciseList}
+        numMultisetSets={numMultisetSets}
       />
       <MultisetModal
         multisetModal={multisetModal}
