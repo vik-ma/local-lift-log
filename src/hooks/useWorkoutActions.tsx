@@ -946,7 +946,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   };
 
   const saveActiveSet = async () => {
-    // TODO: FIX FOR MULTISETS
     if (
       activeSet === undefined ||
       workout.id === 0 ||
@@ -964,8 +963,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       activeSetInputs.setTrackingValuesInput
     );
 
-    const commentToInsert = ConvertEmptyStringToNull(activeSet.comment);
-
     const updatedSet: WorkoutSet = {
       ...activeSet,
       weight: setTrackingValuesNumbers.weight,
@@ -977,21 +974,19 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       partial_reps: setTrackingValuesNumbers.partial_reps,
       is_completed: 1,
       time_completed: currentDateString,
-      comment: commentToInsert,
     };
 
     const success = await UpdateSet(updatedSet);
 
     if (!success) return;
 
-    // TODO: RENAME
-    const exerciseIndex: number = groupedSets.findIndex(
-      (obj) => obj.exerciseList[0].id === activeSet.exercise_id
+    const groupedSetIndex: number = groupedSets.findIndex(
+      (obj) => obj.id === activeGroupedSet.id
     );
 
-    const updatedSetList: WorkoutSet[] = groupedSets[exerciseIndex].setList.map(
-      (item) => (item.id === activeSet.id ? updatedSet : item)
-    );
+    const updatedSetList: WorkoutSet[] = groupedSets[
+      groupedSetIndex
+    ].setList.map((item) => (item.id === activeSet.id ? updatedSet : item));
 
     const completedSetsValue = completedSetsMap.get(activeGroupedSet.id) ?? 0;
 
@@ -1001,17 +996,9 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     setGroupedSets((prev) => {
       const newList = [...prev];
-      newList[exerciseIndex].setList = updatedSetList;
+      newList[groupedSetIndex].setList = updatedSetList;
       return newList;
     });
-
-    // Close shownSetListComments for Set if comment was deleted
-    if (updatedSet.comment === null) {
-      updateSetIndexInShownSetListComments(
-        activeGroupedSet.id,
-        activeSet.set_index ?? -1
-      );
-    }
 
     goToNextIncompleteSet(updatedSet, isUpdatingActiveSet);
     toast.success("Set Saved");
