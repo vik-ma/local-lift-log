@@ -28,6 +28,9 @@ type SetValueConfigProps = {
   numNewSets?: string;
   setNumNewSets?: React.Dispatch<React.SetStateAction<string>>;
   isMultiset?: boolean;
+  numMultisetSets?: number;
+  multisetSetTarget?: string;
+  setMultisetSetTarget?: React.Dispatch<React.SetStateAction<string>>;
 };
 
 export const SetValueConfig = ({
@@ -41,6 +44,9 @@ export const SetValueConfig = ({
   numNewSets,
   setNumNewSets,
   isMultiset,
+  numMultisetSets,
+  multisetSetTarget,
+  setMultisetSetTarget,
 }: SetValueConfigProps) => {
   const [showDefaultValues, setShowDefaultValues] = useState<boolean>(false);
   const [showNoteInput, setShowNoteInput] = useState<boolean>(false);
@@ -251,6 +257,27 @@ export const SetValueConfig = ({
             userSettings={userSettings}
           />
         )}
+        {operationType === "add-sets-to-multiset" &&
+          numMultisetSets &&
+          multisetSetTarget &&
+          setMultisetSetTarget && (
+            <Select
+              label="Add To Multiset Set"
+              size="sm"
+              variant="faded"
+              selectedKeys={[multisetSetTarget]}
+              onChange={(e) => setMultisetSetTarget(e.target.value)}
+              disallowEmptySelection
+            >
+              {Array.from({ length: numMultisetSets }, (_, i) =>
+                (i + 1).toString()
+              ).map((num) => (
+                <SelectItem key={num} value={num}>
+                  {num}
+                </SelectItem>
+              ))}
+            </Select>
+          )}
       </ScrollShadow>
     </div>
   );
