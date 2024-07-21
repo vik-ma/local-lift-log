@@ -6,6 +6,8 @@ import {
   ModalHeader,
   ModalFooter,
   useDisclosure,
+  Select,
+  SelectItem,
 } from "@nextui-org/react";
 import { ExerciseModalList, SetValueConfig } from "../";
 import {
@@ -53,6 +55,7 @@ export const SetModal = ({
   numMultisetSets,
 }: SetModalProps) => {
   const [numNewSets, setNumNewSets] = useState<string>("3");
+  const [multisetSetTarget, setMultisetSetTarget] = useState<string>("1");
 
   return (
     <Modal isOpen={setModal.isOpen} onOpenChange={setModal.onOpenChange}>
@@ -71,17 +74,38 @@ export const SetModal = ({
                   exerciseList={exerciseList}
                 />
               ) : (
-                <SetValueConfig
-                  selectedExercise={selectedExercise}
-                  operatingSet={operatingSet}
-                  setOperatingSet={setOperatingSet}
-                  operationType={operationType}
-                  useSetTrackingInputs={useSetTrackingInputs}
-                  userSettings={userSettings}
-                  clearSetInputValues={clearSetInputValues}
-                  numNewSets={numNewSets}
-                  setNumNewSets={setNumNewSets}
-                />
+                <>
+                  <SetValueConfig
+                    selectedExercise={selectedExercise}
+                    operatingSet={operatingSet}
+                    setOperatingSet={setOperatingSet}
+                    operationType={operationType}
+                    useSetTrackingInputs={useSetTrackingInputs}
+                    userSettings={userSettings}
+                    clearSetInputValues={clearSetInputValues}
+                    numNewSets={numNewSets}
+                    setNumNewSets={setNumNewSets}
+                  />
+                  {operationType === "add-sets-to-multiset" &&
+                    numMultisetSets && (
+                      <Select
+                        label="Add To Multiset Set"
+                        size="sm"
+                        variant="faded"
+                        selectedKeys={[multisetSetTarget]}
+                        onChange={(e) => setMultisetSetTarget(e.target.value)}
+                        disallowEmptySelection
+                      >
+                        {Array.from({ length: numMultisetSets }, (_, i) =>
+                          (i + 1).toString()
+                        ).map((num) => (
+                          <SelectItem key={num} value={num}>
+                            {num}
+                          </SelectItem>
+                        ))}
+                      </Select>
+                    )}
+                </>
               )}
             </ModalBody>
             <ModalFooter className="flex justify-between">
