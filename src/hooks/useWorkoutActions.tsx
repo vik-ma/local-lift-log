@@ -1429,7 +1429,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     multisetActions.setModalPage("base");
   };
 
-  const createMultiset = async (numSets: string) => {
+  const createNewMultiset = async (numSets: string) => {
     if (operationType !== "add") return;
 
     if (!numSetsOptions.includes(numSets)) return;
@@ -1520,9 +1520,9 @@ export const useWorkoutActions = (isTemplate: boolean) => {
           operatingMultisetSet.exercise_id
         );
 
-        operatingMultisetSet.id = operatingMultisetId;
+        operatingMultisetSet.id = operatingMultisetSetId;
 
-        operatingSetListIdList[j].push(operatingMultisetId);
+        operatingSetListIdList[j].push(operatingMultisetSetId);
         setListList[j].push(operatingMultisetSet);
         exerciseListList[j].push(exercise);
       }
@@ -1680,7 +1680,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
   const handleSaveMultisetButton = async (numSets?: string) => {
     if (operationType === "add" && numSets) {
-      await createMultiset(numSets);
+      await createNewMultiset(numSets);
     }
     if (operationType === "edit") {
       //TODO: ADD
