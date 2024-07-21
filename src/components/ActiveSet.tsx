@@ -88,6 +88,15 @@ export const ActiveSet = ({
   saveActiveSet,
   handleToggleSetCommentButton,
 }: ActiveSetProps) => {
+  let setCounter = 1;
+  // Assign Multiset Set number
+  if (activeGroupedSet?.isMultiset && activeSet) {
+    for (const [key, value] of activeGroupedSet.setListIndexCutoffs!) {
+      if (key > activeSet.set_index!) break;
+      setCounter = value;
+    }
+  }
+
   return (
     <div>
       {activeSet !== undefined && (
@@ -115,7 +124,9 @@ export const ActiveSet = ({
                   </div>
                   <div className="flex gap-1.5 text-lg font-medium justify-between w-80">
                     <span className="text-stone-500">
-                      Set {activeSet.set_index! + 1}
+                      {activeGroupedSet?.isMultiset
+                        ? `Superset Set ${setCounter}`
+                        : `Set ${activeSet.set_index! + 1}`}
                     </span>
                     {activeSet.time_completed !== null && (
                       <div className="text-lg text-success">
