@@ -71,6 +71,8 @@ export const SetList = ({
             className={
               set.id === activeSetId
                 ? "flex flex-col pl-1.5 bg-yellow-100 text-yellow-600 text-sm font-medium break-words cursor-pointer"
+                : setNum && setNum !== 1 && setNum % 1 === 0
+                ? "flex flex-col multiset-divider pl-1.5 text-sm font-medium break-words cursor-pointer hover:bg-stone-100"
                 : "flex flex-col pl-1.5 text-sm font-medium break-words cursor-pointer hover:bg-stone-100"
             }
             key={set.id}

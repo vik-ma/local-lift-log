@@ -130,3 +130,7 @@ body {
   background-attachment: local, local, scroll, scroll;
   background-size: 100% 54px, 100% 54px, 100% 18px, 100% 18px;
 }
+
+.multiset-divider {
+  border-top: 1px solid theme("colors.stone.400") !important;
+}
