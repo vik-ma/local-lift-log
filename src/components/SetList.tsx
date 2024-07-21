@@ -91,7 +91,7 @@ export const SetList = ({
                 <div
                   className={
                     isMultiset
-                      ? "flex relative items-center w-[19rem]"
+                      ? "flex relative items-end w-[19rem]"
                       : "flex items-center"
                   }
                 >
