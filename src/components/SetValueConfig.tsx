@@ -200,24 +200,27 @@ export const SetValueConfig = ({
             <span className="text-primary">Warmup Set</span>
           </Checkbox>
         </div>
-        {operationType === "add" && numNewSets && setNumNewSets && (
-          <div className="flex flex-row justify-between">
-            <Select
-              label="Number Of Sets To Add"
-              size="sm"
-              variant="faded"
-              selectedKeys={[numNewSets]}
-              onChange={(e) => setNumNewSets(e.target.value)}
-              disallowEmptySelection
-            >
-              {numSetsOptions.map((num) => (
-                <SelectItem key={num} value={num}>
-                  {num}
-                </SelectItem>
-              ))}
-            </Select>
-          </div>
-        )}
+        {(operationType === "add" ||
+          operationType === "add-sets-to-multiset") &&
+          numNewSets &&
+          setNumNewSets && (
+            <div className="flex flex-row justify-between">
+              <Select
+                label="Number Of Sets To Add"
+                size="sm"
+                variant="faded"
+                selectedKeys={[numNewSets]}
+                onChange={(e) => setNumNewSets(e.target.value)}
+                disallowEmptySelection
+              >
+                {numSetsOptions.map((num) => (
+                  <SelectItem key={num} value={num}>
+                    {num}
+                  </SelectItem>
+                ))}
+              </Select>
+            </div>
+          )}
         <div className="flex gap-4 items-center px-0.5">
           <h3 className="text-xl font-semibold">Default Values</h3>
           <div className="flex flex-grow justify-between">
