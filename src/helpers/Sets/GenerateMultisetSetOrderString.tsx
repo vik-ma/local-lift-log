@@ -9,7 +9,7 @@ export const GenerateMultisetSetOrderString = (
     setListOrderStringList.push(setListOrderString);
   }
 
-  const setListOrderString = setListOrderStringList.join("-");
+  const setListOrderString = setListOrderStringList.join("/");
 
   return setListOrderString;
 };

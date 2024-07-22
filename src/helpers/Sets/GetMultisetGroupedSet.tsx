@@ -33,7 +33,7 @@ export const GetMultisetGroupedSet = async (
     if (multiset === undefined) return multisetExerciseAndSetList;
 
     // Split sets of Multiset
-    const multisetStrings = multiset.set_order.split("-");
+    const multisetStrings = multiset.set_order.split("/");
 
     const setOrderList: number[] = [];
 
