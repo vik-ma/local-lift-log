@@ -29,7 +29,7 @@ type SetModalProps = {
   setOperatingSet: React.Dispatch<React.SetStateAction<WorkoutSet>>;
   useSetTrackingInputs: UseSetTrackingInputsReturnType;
   isSetTrackingValuesInvalid: boolean;
-  handleSaveSetButton: (numSets: string) => void;
+  handleSaveSetButton: (numSets: string, targetSet?: string) => void;
   clearSetInputValues: (isOperatingSet: boolean) => void;
   userSettings: UserSettings;
   exerciseList: UseExerciseListReturnType;
@@ -109,7 +109,11 @@ export const SetModal = ({
                   isDisabled={
                     selectedExercise === undefined || isSetTrackingValuesInvalid
                   }
-                  onPress={() => handleSaveSetButton(numNewSets)}
+                  onPress={
+                    operationType === "add-sets-to-multiset"
+                      ? () => handleSaveSetButton(numNewSets, multisetSetTarget)
+                      : () => handleSaveSetButton(numNewSets)
+                  }
                 >
                   {operationType === "edit" ? "Save" : "Add"}
                 </Button>

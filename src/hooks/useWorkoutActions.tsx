@@ -423,15 +423,15 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     operatingSetInputs.setSetTrackingValuesInput(defaultSetInputValues);
   };
 
-  const handleSaveSetButton = async (numSets: string) => {
+  const handleSaveSetButton = async (numSets: string, targetSet?: string) => {
     if (operationType === "add") {
       await addSetsToExercise(numSets);
     }
     if (operationType === "edit") {
       await updateSet();
     }
-    if (operationType === "add-sets-to-multiset") {
-      await addSetToMultiset(numSets);
+    if (operationType === "add-sets-to-multiset" && targetSet) {
+      await addSetToMultiset(numSets, targetSet);
     }
   };
 
@@ -1605,7 +1605,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     toast.success("Multiset Created");
   };
 
-  const addSetToMultiset = async (numSets: string) => {
+  const addSetToMultiset = async (numSets: string, targetSet: string) => {
     // TODO: REFACTOR WITH addSetToNewMultiset
     if (
       selectedExercise === undefined ||
