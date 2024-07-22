@@ -17,12 +17,12 @@ import {
   WorkoutSet,
   UserSettings,
 } from "../../typings";
-import { MultisetDropdown } from "../Dropdowns/MultisetDropdown";
 import {
   ExerciseModalList,
   MultisetSetList,
   MultisetTemplateModalList,
   SetValueConfig,
+  MultisetDropdown,
 } from "../";
 import {
   useSetTrackingInputs,

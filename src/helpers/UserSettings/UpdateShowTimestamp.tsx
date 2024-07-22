@@ -1,6 +1,6 @@
 import Database from "tauri-plugin-sql-api";
 import { UserSettingsOptional } from "../../typings";
-import { IsNumberValidBinary } from "../Numbers/IsNumberValidBinary";
+import { IsNumberValidBinary } from "..";
 
 export const UpdateShowTimestamp = async (
   userSettings: UserSettingsOptional

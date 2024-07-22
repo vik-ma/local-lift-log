@@ -4,9 +4,11 @@ import {
   Exercise,
   Multiset,
 } from "../../typings";
-import { GetExerciseFromId } from "../Exercises/GetExerciseFromId";
-import { GetMultisetGroupedSet } from "../Sets/GetMultisetGroupedSet";
-import { ValidateExerciseOrderEntry } from "./ValidateExerciseOrderEntry";
+import {
+  GetExerciseFromId,
+  GetMultisetGroupedSet,
+  ValidateExerciseOrderEntry,
+} from "..";
 
 type GroupedWorkoutSetsDictionary = {
   [id: string]: {

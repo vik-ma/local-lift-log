@@ -1,4 +1,4 @@
-import { IsNumberValidId } from "../Numbers/IsNumberValidId";
+import { IsNumberValidId } from "..";
 
 type ValidateExerciseOrderEntryReturnType = {
   isValid: boolean;

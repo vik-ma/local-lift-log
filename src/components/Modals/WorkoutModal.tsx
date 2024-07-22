@@ -9,7 +9,7 @@ import {
   Input,
 } from "@nextui-org/react";
 import { Workout } from "../../typings";
-import { WorkoutRatingDropdown } from "../Dropdowns/WorkoutRatingDropdown";
+import { WorkoutRatingDropdown } from "../";
 import { ConvertEmptyStringToNull } from "../../helpers";
 
 type WorkoutModalProps = {

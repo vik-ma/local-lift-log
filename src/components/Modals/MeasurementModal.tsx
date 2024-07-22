@@ -1,4 +1,4 @@
-import MeasurementUnitDropdown from "../Dropdowns/MeasurementUnitDropdown";
+import { MeasurementUnitDropdown } from "../";
 import {
   Button,
   Modal,

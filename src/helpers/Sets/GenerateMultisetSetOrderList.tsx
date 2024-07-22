@@ -1,4 +1,4 @@
-import { IsStringInvalidIntegerOr0 } from "../Numbers/IsStringInvalidIntegerOr0";
+import { IsStringInvalidIntegerOr0 } from "..";
 
 export const GenerateMultisetSetOrderList = (setOrderString: string): number[] => {
   const setIds = setOrderString.split(",");

@@ -3,8 +3,7 @@ import {
   UserMeasurement,
   UserMeasurementValues,
 } from "../../typings";
-import { FormatDateTimeString } from "../Dates/FormatDateTimeString";
-import { GenerateMeasurementListText } from "./GenerateMeasurementListText";
+import { FormatDateTimeString, GenerateMeasurementListText } from "..";
 
 export const CreateDetailedUserMeasurementList = (
   userMeasurementList: UserMeasurement[],
