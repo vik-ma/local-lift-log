@@ -1303,8 +1303,12 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   );
 
   const handleActiveSetOptionSelection = (key: string) => {
-    // TODO: FIX FOR MULTISETS
-    if (activeSet === undefined || activeGroupedSet === undefined) return;
+    if (
+      activeSet === undefined ||
+      activeGroupedSet === undefined ||
+      activeSet.set_index === undefined
+    )
+      return;
 
     if (key === "show-set-note" && activeSet.note) {
       const note: ActiveSetNote = {
@@ -1314,10 +1318,11 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       setActiveSetNote(note);
     } else if (
       key === "show-exercise-note" &&
-      activeGroupedSet.exerciseList[0].note
+      activeGroupedSet.exerciseList[activeSet.set_index] &&
+      activeGroupedSet.exerciseList[activeSet.set_index].note
     ) {
       const note: ActiveSetNote = {
-        note: activeGroupedSet.exerciseList[0].note,
+        note: activeGroupedSet.exerciseList[activeSet.set_index].note ?? "",
         note_type: "Exercise Note",
       };
       setActiveSetNote(note);
