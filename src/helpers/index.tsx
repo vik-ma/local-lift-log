@@ -63,6 +63,7 @@ export { GetMultisetGroupedSet } from "./Sets/GetMultisetGroupedSet";
 export { AssignTrackingValuesIfCardio } from "./Sets/AssignTrackingValuesIfCardio";
 export { UpdateSetComment } from "./Sets/UpdateSetComment";
 export { UpdateSetNote } from "./Sets/UpdateSetNote";
+export { GenerateMultisetSetListIdList } from "./Sets/GenerateMultisetSetListIdList";
 
 export { IsNumberNegativeOrInfinity } from "./Numbers/IsNumberNegativeOrInfinity";
 export { IsStringInvalidNumberOrAbove59 } from "./Numbers/IsStringInvalidNumberOrAbove59";
