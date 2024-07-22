@@ -157,6 +157,7 @@ export type UnitDropdownProps = {
   setEquipmentWeight?: React.Dispatch<React.SetStateAction<EquipmentWeight>>;
   setDistance?: React.Dispatch<React.SetStateAction<Distance>>;
   targetType: "set" | "settings" | "state" | "equipment" | "distance";
+  showLabel?: boolean;
 };
 
 export type MeasurementDropdownProps = {
