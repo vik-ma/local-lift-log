@@ -520,7 +520,6 @@ export default function Presets() {
                     value={nameInput}
                     isInvalid={!isNameInputValid}
                     label="Name"
-                    size="sm"
                     errorMessage={!isNameInputValid && "Name can't be empty"}
                     variant="faded"
                     onValueChange={(value) => setNameInput(value)}
@@ -531,7 +530,6 @@ export default function Presets() {
                     <Input
                       value={valueInput}
                       label={presetType === "equipment" ? "Weight" : "Distance"}
-                      size="sm"
                       variant="faded"
                       onValueChange={(value) => setValueInput(value)}
                       isInvalid={isValueInputInvalid}
@@ -543,12 +541,14 @@ export default function Presets() {
                         value={operatingEquipmentWeight.weight_unit}
                         setEquipmentWeight={setOperatingEquipmentWeight}
                         targetType="equipment"
+                        showLabel
                       />
                     ) : (
                       <DistanceUnitDropdown
                         value={operatingDistance.distance_unit}
                         setDistance={setOperatingDistance}
                         targetType="distance"
+                        showLabel
                       />
                     )}
                   </div>
