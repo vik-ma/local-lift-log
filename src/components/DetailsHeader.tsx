@@ -1,5 +1,5 @@
 import { Button } from "@nextui-org/react";
-import { GearIcon, CommentIcon } from "../assets";
+import { CommentIcon, EditIcon } from "../assets";
 import { useState } from "react";
 
 type DetailsHeaderProps = {
@@ -38,10 +38,10 @@ export const DetailsHeader = ({
               isIconOnly
               className="z-1"
               size="sm"
-              variant="flat"
+              variant="light"
               onPress={editButtonAction}
             >
-              <GearIcon size={18} color={"#808080"} />
+              <EditIcon size={22} color={"#808080"} />
             </Button>
             {note !== null && (
               <Button
@@ -49,7 +49,7 @@ export const DetailsHeader = ({
                 isIconOnly
                 className="z-1"
                 size="sm"
-                variant="flat"
+                variant="light"
                 onPress={() => setShowNote(!showNote)}
               >
                 <CommentIcon size={20} />
