@@ -1791,7 +1791,15 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   };
 
   const handleEditMultiset = async (groupedSet: GroupedWorkoutSet) => {
-    // TODO: IMPLEMENT
+    if (!groupedSet.multiset) return;
+
+    resetOperatingSet();
+
+    setOperationType("edit");
+    setOperatingMultiset(groupedSet.multiset);
+    multisetActions.setNewMultisetSetIndex(0);
+    multisetActions.setModalPage("base");
+    multisetModal.onOpen();
   };
 
   const handleClickExerciseMultiset = (exercise: Exercise) => {
