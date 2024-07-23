@@ -1,6 +1,7 @@
 import { Reorder } from "framer-motion";
 import { HandleMultisetSetOptionSelectionProps, Multiset } from "../typings";
 import { MultisetReorderItem } from "./MultisetReorderItem";
+import { useRef } from "react";
 
 type MultisetSetListProps = {
   multiset: Multiset;
@@ -13,6 +14,7 @@ export const MultisetSetList = ({
   setMultiset,
   handleMultisetSetOptionSelection,
 }: MultisetSetListProps) => {
+  const dragConstraintsRef = useRef(null);
   return (
     <Reorder.Group
       className={
@@ -20,6 +22,7 @@ export const MultisetSetList = ({
           ? "flex flex-col w-full border rounded-lg divide-y overflow-hidden divide-stone-200"
           : "flex flex-col w-full rounded-lg divide-y divide-stone-200"
       }
+      ref={dragConstraintsRef}
       values={multiset.setList}
       onReorder={(value) =>
         setMultiset((prev) => ({ ...prev, setList: value }))
@@ -32,6 +35,7 @@ export const MultisetSetList = ({
           set={set}
           index={index}
           handleMultisetSetOptionSelection={handleMultisetSetOptionSelection}
+          dragConstraintsRef={dragConstraintsRef}
         />
       ))}
       {multiset.setList.length === 0 && (

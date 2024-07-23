@@ -12,6 +12,7 @@ type MultisetReorderItemProps = {
   set: WorkoutSet;
   index: number;
   handleMultisetSetOptionSelection: HandleMultisetSetOptionSelectionProps;
+  dragConstraintsRef: React.MutableRefObject<null>;
 };
 
 export const MultisetReorderItem = ({
@@ -19,6 +20,7 @@ export const MultisetReorderItem = ({
   set,
   index,
   handleMultisetSetOptionSelection,
+  dragConstraintsRef,
 }: MultisetReorderItemProps) => {
   const dragControls = useDragControls();
 
@@ -47,6 +49,7 @@ export const MultisetReorderItem = ({
             className="w-[7rem] text-yellow-600"
             drag="y"
             dragSnapToOrigin
+            dragConstraints={dragConstraintsRef}
             dragControls={dragControls}
             dragElastic={0}
           >
