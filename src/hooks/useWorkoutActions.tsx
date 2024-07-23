@@ -280,7 +280,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     ].setList.filter((item) => item.id !== operatingSet.id);
 
     if (updatedSetList.length === 0) {
-      // Remove Exercise from groupedSets if last Set in Exercise was deleted
+      // Remove Exercise/Multiset from groupedSets if last Set in Exercise was deleted
       const updatedGroupedSets: GroupedWorkoutSet[] = groupedSets.filter(
         (_, index) => index !== groupedSetIndex
       );
@@ -291,11 +291,48 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       updatedWorkoutNumbers.numExercises =
         GetNumberOfUniqueExercisesInGroupedSets(updatedGroupedSets);
     } else {
-      setGroupedSets((prev) => {
-        const newList = [...prev];
-        newList[groupedSetIndex].setList = updatedSetList;
-        return newList;
-      });
+      const newGroupedSet = {
+        ...operatingGroupedSet,
+        setList: updatedSetList,
+      };
+
+      if (operatingGroupedSet.isMultiset && operatingGroupedSet.multiset) {
+        operatingGroupedSet.multiset.setList = updatedSetList;
+
+        const setListIdList = GenerateMultisetSetListIdList(
+          operatingGroupedSet.multiset.set_order
+        );
+
+        const updatedSetListIdList = setListIdList.map((setList) =>
+          setList.filter((item) => item !== operatingSet.id)
+        );
+
+        const { success, updatedMultiset } = await UpdateMultisetSetOrder(
+          operatingGroupedSet.multiset,
+          updatedSetListIdList
+        );
+
+        if (!success) return;
+
+        const updatedIndexCutoffs =
+          CreateMultisetIndexCutoffs(updatedSetListIdList);
+
+        const setIndex: number = operatingGroupedSet.setList.findIndex(
+          (obj) => obj.id === operatingSet.id
+        );
+
+        const updatedExerciseList = [...operatingGroupedSet.exerciseList];
+
+        updatedExerciseList.splice(setIndex, 1);
+
+        newGroupedSet.multiset = updatedMultiset;
+        newGroupedSet.setListIndexCutoffs = updatedIndexCutoffs;
+        newGroupedSet.exerciseList = updatedExerciseList;
+      }
+
+      const updatedGroupedSets = [...groupedSets];
+      updatedGroupedSets[groupedSetIndex] = newGroupedSet;
+      setGroupedSets(updatedGroupedSets);
     }
 
     // Close shownSetListComments for Set if deleted Set note was shown
