@@ -330,8 +330,9 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
         updatedExerciseList.splice(setIndex, 1);
 
+        updatedMultiset.setListIndexCutoffs = updatedIndexCutoffs;
+
         newGroupedSet.multiset = updatedMultiset;
-        newGroupedSet.setListIndexCutoffs = updatedIndexCutoffs;
         newGroupedSet.exerciseList = updatedExerciseList;
       }
 
@@ -1445,7 +1446,9 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     resetOperatingSet();
 
     setOperationType("add-sets-to-multiset");
-    setNumMultisetSets(groupedWorkoutSet.setListIndexCutoffs?.size ?? 1);
+    setNumMultisetSets(
+      groupedWorkoutSet.multiset?.setListIndexCutoffs?.size ?? 1
+    );
     setOperatingGroupedSet(groupedWorkoutSet);
     setModal.onOpen();
   };
@@ -1586,8 +1589,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       templateSetListIds.push(templateMultisetSetId);
     }
 
-    const indexCutoffs = CreateMultisetIndexCutoffs(operatingSetListIdList);
-
     operatingMultiset.setList = setListList.flat();
 
     const newExerciseList = exerciseListList.flat();
@@ -1609,6 +1610,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     const updatedOperatingMultiset = operatingMultisetUpdate.updatedMultiset;
 
+    const indexCutoffs = CreateMultisetIndexCutoffs(operatingSetListIdList);
+
+    updatedOperatingMultiset.setListIndexCutoffs = indexCutoffs;
+
     // Add Template Multiset to Multiset list in useMultisetActions
     multisetActions.setMultisets([
       ...multisetActions.multisets,
@@ -1622,7 +1627,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       isExpanded: false,
       isMultiset: true,
       multiset: updatedOperatingMultiset,
-      setListIndexCutoffs: indexCutoffs,
     };
 
     const newGroupedSets: GroupedWorkoutSet[] = [...groupedSets, newGroupedSet];
@@ -1651,7 +1655,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       selectedExercise === undefined ||
       operatingGroupedSet === undefined ||
       operatingGroupedSet.multiset === undefined ||
-      operatingGroupedSet.setListIndexCutoffs === undefined
+      operatingGroupedSet.multiset.setListIndexCutoffs === undefined
     )
       return;
 
@@ -1661,7 +1665,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     if (
       isNaN(targetSetNum) ||
-      targetSetNum > operatingGroupedSet.setListIndexCutoffs.size
+      targetSetNum > operatingGroupedSet.multiset.setListIndexCutoffs.size
     )
       return;
 
@@ -1718,11 +1722,14 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     newMultiset.setList = operatingGroupedSet.setList;
 
-    if (targetSetNum === operatingGroupedSet.setListIndexCutoffs.size) {
+    if (
+      targetSetNum === operatingGroupedSet.multiset.setListIndexCutoffs.size
+    ) {
       // Add new Sets to end of setList if last Set in Multiset
       newMultiset.setList.push(...newSets);
     } else {
-      for (const [key, value] of operatingGroupedSet.setListIndexCutoffs) {
+      for (const [key, value] of operatingGroupedSet.multiset
+        .setListIndexCutoffs) {
         // Insert new Sets at the index at which the next Multiset Set previously started
         if (value === targetSetNum + 1) {
           newMultiset.setList.splice(key, 0, ...newSets);
@@ -1746,6 +1753,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     if (!success) return;
 
+    updatedMultiset.setListIndexCutoffs = newIndexCutoffs;
+
     const groupedSetIndex: number = groupedSets.findIndex(
       (obj) => obj.id === operatingGroupedSet.id
     );
@@ -1755,7 +1764,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       exerciseList: newExerciseList,
       setList: updatedMultiset.setList,
       multiset: updatedMultiset,
-      setListIndexCutoffs: newIndexCutoffs,
     };
 
     const updatedGroupedSets = [...groupedSets];
@@ -1880,6 +1888,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     if (!success) return;
 
+    updatedMultiset.setListIndexCutoffs = indexCutoffs;
+
     const newGroupedSet: GroupedWorkoutSet = {
       id: `m${updatedMultiset.id}`,
       exerciseList: newExerciseList,
@@ -1887,7 +1897,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       isExpanded: false,
       isMultiset: true,
       multiset: updatedMultiset,
-      setListIndexCutoffs: indexCutoffs,
     };
 
     const newGroupedSets: GroupedWorkoutSet[] = [...groupedSets, newGroupedSet];

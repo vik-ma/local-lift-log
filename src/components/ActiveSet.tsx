@@ -91,7 +91,7 @@ export const ActiveSet = ({
   let setCounter = 1;
   // Assign Multiset Set number
   if (activeGroupedSet?.isMultiset && activeSet) {
-    for (const [key, value] of activeGroupedSet.setListIndexCutoffs!) {
+    for (const [key, value] of activeGroupedSet.multiset!.setListIndexCutoffs!) {
       if (key > activeSet.set_index!) break;
       setCounter = value;
     }

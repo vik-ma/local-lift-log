@@ -64,7 +64,7 @@ export const SetList = ({
           ? groupedSet.exerciseList[index]
           : groupedSet.exerciseList[0];
 
-        const setNum = groupedSet.setListIndexCutoffs?.get(index);
+        const setNum = groupedSet.multiset?.setListIndexCutoffs?.get(index);
 
         return (
           <div

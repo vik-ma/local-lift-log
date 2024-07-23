@@ -6,7 +6,6 @@ type MultisetGroupedSet = {
   multiset: Multiset | undefined;
   exerciseList: Exercise[];
   orderedSetList: WorkoutSet[];
-  setListIndexCutoffs: Map<number, number>;
 };
 
 export const GetMultisetGroupedSet = async (
@@ -17,8 +16,9 @@ export const GetMultisetGroupedSet = async (
     multiset: undefined,
     exerciseList: [],
     orderedSetList: [],
-    setListIndexCutoffs: new Map(),
   };
+
+  const setListIndexCutoffs = new Map<number, number>();
 
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
@@ -47,10 +47,7 @@ export const GetMultisetGroupedSet = async (
       setOrderList.push(...currentSetOrderList);
 
       // Get the index where new Set starts
-      multisetExerciseAndSetList.setListIndexCutoffs.set(
-        indexCounter,
-        setCounter
-      );
+      setListIndexCutoffs.set(indexCounter, setCounter);
 
       indexCounter = indexCounter + currentSetOrderList.length;
       setCounter++;
@@ -69,6 +66,7 @@ export const GetMultisetGroupedSet = async (
     }
 
     multiset.setList = orderedSetList;
+    multiset.setListIndexCutoffs = setListIndexCutoffs;
 
     multisetExerciseAndSetList.orderedSetList = orderedSetList;
     multisetExerciseAndSetList.multiset = multiset;
