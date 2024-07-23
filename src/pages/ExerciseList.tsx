@@ -185,7 +185,7 @@ export default function ExerciseList() {
     setOperatingExercise(defaultExercise);
   };
 
-  const handleExerciseOptionSelection = (key: string, exercise: Exercise) => {
+  const handleGroupedSetOptionSelection = (key: string, exercise: Exercise) => {
     if (key === "edit") {
       setOperationType("edit");
       setOperatingExercise(exercise);
@@ -278,7 +278,7 @@ export default function ExerciseList() {
                     <DropdownMenu
                       aria-label={`Option Menu For ${exercise.name} Exercise`}
                       onAction={(key) =>
-                        handleExerciseOptionSelection(key as string, exercise)
+                        handleGroupedSetOptionSelection(key as string, exercise)
                       }
                     >
                       <DropdownItem key="edit">Edit</DropdownItem>

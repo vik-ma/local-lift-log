@@ -590,7 +590,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     deleteModal.onOpen();
   };
 
-  const handleExerciseOptionSelection = (
+  const handleGroupedSetOptionSelection = (
     key: string,
     groupedWorkoutSet: GroupedWorkoutSet
   ) => {
@@ -813,7 +813,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     }
   };
 
-  const handleExerciseAccordionClick = (groupedSet: GroupedWorkoutSet) => {
+  const handleGroupedSetAccordionClick = (groupedSet: GroupedWorkoutSet) => {
     if (isExerciseBeingDragged) return;
 
     const updatedGroupedSet: GroupedWorkoutSet = {
@@ -1927,10 +1927,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     handleClickExercise,
     handleClickSet,
     handleSetOptionSelection,
-    handleExerciseOptionSelection,
+    handleGroupedSetOptionSelection,
     handleDeleteModalButton,
     updateShownSetListComments,
-    handleExerciseAccordionClick,
+    handleGroupedSetAccordionClick,
     handleReassignExercise,
     clearSetInputValues,
     groupedSets,

@@ -47,10 +47,10 @@ export default function WorkoutTemplateDetails() {
     handleClickExercise,
     handleClickSet,
     handleSetOptionSelection,
-    handleExerciseOptionSelection,
+    handleGroupedSetOptionSelection,
     handleDeleteModalButton,
     updateShownSetListComments,
-    handleExerciseAccordionClick,
+    handleGroupedSetAccordionClick,
     handleReassignExercise,
     clearSetInputValues,
     groupedSets,
@@ -265,8 +265,8 @@ export default function WorkoutTemplateDetails() {
           groupedSets={groupedSets}
           setGroupedSets={setGroupedSets}
           updateExerciseOrder={updateExerciseOrder}
-          handleExerciseAccordionClick={handleExerciseAccordionClick}
-          handleExerciseOptionSelection={handleExerciseOptionSelection}
+          handleGroupedSetAccordionClick={handleGroupedSetAccordionClick}
+          handleGroupedSetOptionSelection={handleGroupedSetOptionSelection}
           handleClickSet={handleClickSet}
           handleSetOptionSelection={handleSetOptionSelection}
           updateShownSetListComments={updateShownSetListComments}
