@@ -68,6 +68,8 @@ export const GetMultisetGroupedSet = async (
       multisetExerciseAndSetList.exerciseList.push(exercise);
     }
 
+    multiset.setList = orderedSetList;
+
     multisetExerciseAndSetList.orderedSetList = orderedSetList;
     multisetExerciseAndSetList.multiset = multiset;
 
