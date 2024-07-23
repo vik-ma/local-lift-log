@@ -433,7 +433,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       await updateSet();
     }
     if (operationType === "add-sets-to-multiset" && targetSet) {
-      await addSetToMultiset(numSets, targetSet);
+      await addSetsToMultiset(numSets, targetSet);
     }
   };
 
@@ -1602,16 +1602,24 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     toast.success("Multiset Created");
   };
 
-  const addSetToMultiset = async (numSets: string, targetSet: string) => {
-    // TODO: REFACTOR WITH addSetToNewMultiset
+  const addSetsToMultiset = async (numSets: string, targetSet: string) => {
     if (
       selectedExercise === undefined ||
       operatingGroupedSet === undefined ||
-      operatingGroupedSet.multiset === undefined
+      operatingGroupedSet.multiset === undefined ||
+      operatingGroupedSet.setListIndexCutoffs === undefined
     )
       return;
 
     if (!numSetsOptions.includes(numSets)) return;
+
+    const targetSetNum = parseInt(targetSet);
+
+    if (
+      isNaN(targetSetNum) ||
+      targetSetNum > operatingGroupedSet.setListIndexCutoffs.size
+    )
+      return;
 
     if (operatingSetInputs.isSetTrackingValuesInvalid) return;
 
@@ -1623,7 +1631,11 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     const newSets: WorkoutSet[] = [];
 
-    const numSetsToAdd: number = parseInt(numSets);
+    const numSetsToAdd = parseInt(numSets);
+
+    const newSetListIdList = GenerateMultisetSetListIdList(
+      operatingGroupedSet.multiset.set_order
+    );
 
     for (let i = 0; i < numSetsToAdd; i++) {
       const newSet: WorkoutSet = {
@@ -1654,18 +1666,56 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       if (setId === 0) return;
 
       newSets.push({ ...newSet, id: setId });
+
+      newSetListIdList[targetSetNum - 1].push(setId);
     }
+
+    const newMultiset = { ...operatingGroupedSet.multiset };
+
+    newMultiset.setList = operatingGroupedSet.setList;
+
+    if (targetSetNum === operatingGroupedSet.setListIndexCutoffs.size) {
+      // Add new Sets to end of setList if last Set in Multiset
+      newMultiset.setList.push(...newSets);
+    } else {
+      for (const [key, value] of operatingGroupedSet.setListIndexCutoffs) {
+        // Insert new Sets at the index at which the next Multiset Set previously started
+        if (value === targetSetNum + 1) {
+          newMultiset.setList.splice(key, 0, ...newSets);
+        }
+      }
+    }
+
+    const newIndexCutoffs = CreateMultisetIndexCutoffs(newSetListIdList);
+
+    const newExerciseList = [...operatingGroupedSet.exerciseList];
+    const newExercises = Array.from(
+      { length: numSetsToAdd },
+      () => selectedExercise
+    );
+    newExerciseList.push(...newExercises);
+
+    const { success, updatedMultiset } = await UpdateMultisetSetOrder(
+      newMultiset,
+      newSetListIdList
+    );
+
+    if (!success) return;
 
     const groupedSetIndex: number = groupedSets.findIndex(
       (obj) => obj.id === operatingGroupedSet.id
     );
 
-    // TODO: SAVE NEW MULTISET ORDER
+    const newGroupedSet: GroupedWorkoutSet = {
+      ...operatingGroupedSet,
+      exerciseList: newExerciseList,
+      setList: updatedMultiset.setList,
+      multiset: updatedMultiset,
+      setListIndexCutoffs: newIndexCutoffs,
+    };
+
     const updatedGroupedSets = [...groupedSets];
-    updatedGroupedSets[groupedSetIndex].setList = [
-      ...updatedGroupedSets[groupedSetIndex].setList,
-      ...newSets,
-    ];
+    updatedGroupedSets[groupedSetIndex] = newGroupedSet;
     setGroupedSets(updatedGroupedSets);
 
     const updatedWorkoutNumbers: WorkoutNumbers = {
