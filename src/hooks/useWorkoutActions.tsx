@@ -58,7 +58,8 @@ type OperationType =
   | "reassign-exercise"
   | "delete-grouped_sets-sets"
   | "update-completed-set-time"
-  | "add-sets-to-multiset";
+  | "add-sets-to-multiset"
+  | "edit-multiset";
 
 type WorkoutNumbers = {
   numExercises: number;
@@ -562,6 +563,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       handleAddSetToMultiset(groupedWorkoutSet);
     } else if (key === "toggle-exercise-note") {
       handleToggleExerciseNote(groupedWorkoutSet);
+    } else if (key === "edit-multiset") {
+      handleEditMultiset(groupedWorkoutSet);
     }
   };
 
@@ -1406,7 +1409,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   };
 
   const addSetToNewMultiset = async (exercise: Exercise) => {
-    // TODO: FIX
     const setId = multisetActions.newMultisetSetIndex - 1;
 
     let newSet: WorkoutSet = {
@@ -1738,11 +1740,15 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       await createNewMultiset(numSets);
     }
     if (operationType === "edit") {
-      //TODO: ADD
+      await updateMultisetSet();
     }
   };
 
-  const updateMultisetSet = () => {
+  const updateMultisetSet = async () => {
+    // TODO: IMPLEMENT
+  };
+
+  const handleEditMultiset = async (groupedSet: GroupedWorkoutSet) => {
     // TODO: IMPLEMENT
   };
 
