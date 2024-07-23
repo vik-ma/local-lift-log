@@ -37,6 +37,8 @@ import {
   AssignTrackingValuesIfCardio,
   UpdateSetComment,
   UpdateSetNote,
+  GenerateMultisetSetListIdList,
+  CreateMultisetIndexCutoffs,
 } from "../helpers";
 import {
   useDefaultSet,
@@ -1540,12 +1542,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       templateSetListIds.push(templateMultisetSetId);
     }
 
-    const indexCutoffs = new Map<number, number>();
-
-    Array.from({ length: numSetsToAdd }).forEach((_, i) => {
-      const startIndex = i * templateSetListIds.length;
-      indexCutoffs.set(startIndex, i + 1);
-    });
+    const indexCutoffs = CreateMultisetIndexCutoffs(operatingSetListIdList);
 
     operatingMultiset.setList = setListList.flat();
 
@@ -1764,12 +1761,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       }
     }
 
-    const indexCutoffs = new Map<number, number>();
-
-    Array.from({ length: numSetsToAdd }).forEach((_, i) => {
-      const startIndex = i * templateSetListIds.length;
-      indexCutoffs.set(startIndex, i + 1);
-    });
+    const indexCutoffs = CreateMultisetIndexCutoffs(setListIdList);
 
     newMultiset.setList = setListList.flat();
 
