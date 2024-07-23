@@ -303,8 +303,13 @@ export const useWorkoutActions = (isTemplate: boolean) => {
           operatingGroupedSet.multiset.set_order
         );
 
-        const updatedSetListIdList = setListIdList.map((setList) =>
+        let updatedSetListIdList = setListIdList.map((setList) =>
           setList.filter((item) => item !== operatingSet.id)
+        );
+
+        // Remove empty setLists
+        updatedSetListIdList = updatedSetListIdList.filter(
+          (setList) => setList.length > 0
         );
 
         const { success, updatedMultiset } = await UpdateMultisetSetOrder(
