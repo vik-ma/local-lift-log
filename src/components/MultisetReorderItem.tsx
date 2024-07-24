@@ -31,31 +31,33 @@ export const MultisetReorderItem = ({
       <div
         className={
           set.id < 0
-            ? "flex justify-between gap-1 items-center px-2 py-1 font-medium bg-yellow-50 hover:bg-stone-100"
-            : "flex justify-between gap-1 items-center px-2 py-1 font-medium hover:bg-stone-100"
+            ? "flex justify-between items-center px-2 py-1 font-medium bg-yellow-50 hover:bg-stone-100"
+            : "flex justify-between items-center px-2 py-1 font-medium hover:bg-stone-100"
         }
       >
-        <span
-          className={
-            set.hasInvalidExerciseId
-              ? "text-red-700"
-              : "text-stone-500 truncate"
-          }
-        >
-          {set.exercise_name}
-        </span>
-        {setNum && (
-          <motion.div
-            className="w-[7rem] text-yellow-600"
-            drag="y"
-            dragSnapToOrigin
-            dragConstraints={dragConstraintsRef}
-            dragControls={dragControls}
-            dragElastic={0}
+        <div className="flex justify-between max-w-[20rem]">
+          <span
+            className={
+              set.hasInvalidExerciseId
+                ? "text-red-700"
+                : "text-stone-500 truncate"
+            }
           >
-            Set {setNum}
-          </motion.div>
-        )}
+            {set.exercise_name}
+          </span>
+          {setNum && (
+            <motion.div
+              className="w-[7rem] text-right text-yellow-600"
+              drag="y"
+              dragSnapToOrigin
+              dragConstraints={dragConstraintsRef}
+              dragControls={dragControls}
+              dragElastic={0}
+            >
+              Set {setNum}
+            </motion.div>
+          )}
+        </div>
         <div className="flex gap-2 items-center">
           {set.id < 0 && (
             <span className="text-yellow-500 truncate">(NEW)</span>
