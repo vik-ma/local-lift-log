@@ -35,7 +35,7 @@ export const MultisetReorderItem = ({
             : "flex justify-between items-center px-2 py-1 font-medium hover:bg-stone-100"
         }
       >
-        <div className="flex justify-between max-w-[20rem]">
+        <div className="flex justify-between items-center max-w-[20rem]">
           <span
             className={
               set.hasInvalidExerciseId
@@ -47,7 +47,7 @@ export const MultisetReorderItem = ({
           </span>
           {setNum && (
             <motion.div
-              className="w-[7rem] text-right text-yellow-600"
+              className="w-[7rem] text-center py-0.5 text-yellow-600 bg-stone-100 rounded-lg cursor-grab hover:bg-stone-200 hover:text-stone-600 active:cursor-grabbing active:bg-stone-200 active:text-stone-600"
               drag="y"
               dragSnapToOrigin
               dragConstraints={dragConstraintsRef}
