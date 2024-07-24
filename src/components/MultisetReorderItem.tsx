@@ -45,23 +45,25 @@ export const MultisetReorderItem = ({
           >
             {set.exercise_name}
           </span>
-          {setNum && (
-            <motion.div
-              className="w-[7rem] text-center py-0.5 text-yellow-600 bg-stone-100 rounded-lg cursor-grab hover:bg-stone-200 hover:text-stone-600 active:cursor-grabbing active:bg-stone-200 active:text-stone-600"
-              drag="y"
-              dragSnapToOrigin
-              dragConstraints={dragConstraintsRef}
-              dragControls={dragControls}
-              dragElastic={0}
-            >
-              Set {setNum}
-            </motion.div>
-          )}
+          <div className="flex justify-between items-center gap-1">
+            {set.id < 0 && (
+              <span className="text-yellow-500 flex-grow">(NEW)</span>
+            )}
+            {setNum && (
+              <motion.div
+                className="w-[4rem] text-center py-0.5 text-yellow-600 bg-stone-100 rounded-lg cursor-grab hover:bg-stone-200 hover:text-stone-600 active:cursor-grabbing active:bg-stone-200 active:text-stone-600"
+                drag="y"
+                dragSnapToOrigin
+                dragConstraints={dragConstraintsRef}
+                dragControls={dragControls}
+                dragElastic={0}
+              >
+                Set {setNum}
+              </motion.div>
+            )}
+          </div>
         </div>
         <div className="flex gap-2 items-center">
-          {set.id < 0 && (
-            <span className="text-yellow-500 truncate">(NEW)</span>
-          )}
           <MultisetSetMenu
             multiset={multiset}
             set={set}
