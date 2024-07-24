@@ -16,6 +16,7 @@ import {
   UseExerciseListReturnType,
   WorkoutSet,
   UserSettings,
+  UseSetTrackingInputsReturnType,
 } from "../../typings";
 import {
   ExerciseModalList,
@@ -25,7 +26,6 @@ import {
   MultisetDropdown,
 } from "../";
 import {
-  useSetTrackingInputs,
   useDefaultSetInputValues,
   useMultisetActions,
   useNumSetsOptions,
@@ -47,6 +47,7 @@ type MultisetModalProps = {
   updateOperatingSet: () => void;
   handleClickMultiset: (multiset: Multiset, numSets: string) => void;
   showWorkoutItems: boolean;
+  operatingSetInputs: UseSetTrackingInputsReturnType;
 };
 
 export const MultisetModal = ({
@@ -64,14 +65,13 @@ export const MultisetModal = ({
   updateOperatingSet,
   handleClickMultiset,
   showWorkoutItems,
+  operatingSetInputs,
 }: MultisetModalProps) => {
   const [numNewSets, setNumNewSets] = useState<string>("3");
 
   const numSetsOptions = useNumSetsOptions();
 
   const defaultSetInputValues = useDefaultSetInputValues();
-
-  const operatingSetInputs = useSetTrackingInputs();
 
   const clearSetInputValues = () => {
     operatingSetInputs.setSetTrackingValuesInput(defaultSetInputValues);

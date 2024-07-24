@@ -245,6 +245,7 @@ export default function WorkoutTemplateDetails() {
         updateOperatingSet={updateMultisetSet}
         handleClickMultiset={handleClickMultiset}
         showWorkoutItems={true}
+        operatingSetInputs={operatingSetInputs}
       />
       <TextInputModal
         textInputModal={textInputModal}

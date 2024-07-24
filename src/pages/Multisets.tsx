@@ -5,6 +5,7 @@ import {
   useDefaultSet,
   useExerciseList,
   useMultisetActions,
+  useSetTrackingInputs,
 } from "../hooks";
 import { Button, useDisclosure, Input } from "@nextui-org/react";
 import {
@@ -49,6 +50,8 @@ export default function Multisets() {
   };
 
   const [operatingSet, setOperatingSet] = useState<WorkoutSet>(defaultSet);
+
+  const operatingSetInputs = useSetTrackingInputs();
 
   const exerciseList = useExerciseList();
 
@@ -442,6 +445,7 @@ export default function Multisets() {
         updateOperatingSet={updateOperatingSet}
         handleClickMultiset={() => {}}
         showWorkoutItems={false}
+        operatingSetInputs={operatingSetInputs}
       />
       <div className="flex flex-col items-center gap-2">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">
