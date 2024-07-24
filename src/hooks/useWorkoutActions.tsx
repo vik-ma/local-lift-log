@@ -1770,16 +1770,16 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       multiset: updatedMultiset,
     };
 
-    const updatedGroupedSets = [...groupedSets];
-    updatedGroupedSets[groupedSetIndex] = newGroupedSet;
-    setGroupedSets(updatedGroupedSets);
+    const newGroupedSets = [...groupedSets];
+    newGroupedSets[groupedSetIndex] = newGroupedSet;
+    setGroupedSets(newGroupedSets);
 
     const updatedWorkoutNumbers: WorkoutNumbers = {
       numSets: workoutNumbers.numSets + numSetsToAdd,
-      numExercises: GetNumberOfUniqueExercisesInGroupedSets(updatedGroupedSets),
+      numExercises: GetNumberOfUniqueExercisesInGroupedSets(newGroupedSets),
     };
 
-    if (!isTemplate) populateIncompleteSets(updatedGroupedSets);
+    if (!isTemplate) populateIncompleteSets(newGroupedSets);
 
     setWorkoutNumbers(updatedWorkoutNumbers);
 
@@ -1799,7 +1799,94 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   };
 
   const updateMultisetSet = async () => {
-    // TODO: IMPLEMENT
+    if (
+      operatingMultiset.id === 0 ||
+      operatingGroupedSet === undefined ||
+      operatingGroupedSet.multiset === undefined ||
+      operatingGroupedSet.multiset.setListIndexCutoffs === undefined
+    )
+      return;
+
+    const noteToInsert = ConvertEmptyStringToNull(operatingMultiset.note);
+
+    operatingMultiset.note = noteToInsert;
+
+    const setListIdList: number[][] = Array.from(
+      { length: operatingGroupedSet.multiset.setListIndexCutoffs.size },
+      () => []
+    );
+
+    const newExerciseList: Exercise[] = [];
+
+    let targetSet = -1;
+
+    for (let i = 0; i < operatingMultiset.setList.length; i++) {
+      if (operatingGroupedSet.multiset.setListIndexCutoffs.has(i)) {
+        targetSet++;
+      }
+
+      let setId = operatingMultiset.setList[i].id;
+
+      if (setId < 0) {
+        operatingMultiset.setList[i].multiset_id = operatingMultiset.id;
+
+        const newSetId = await InsertSetIntoDatabase(
+          operatingMultiset.setList[i]
+        );
+
+        if (newSetId === 0) return;
+
+        setId = newSetId;
+        operatingMultiset.setList[i].id = newSetId;
+      }
+
+      const exercise = await GetExerciseFromId(
+        operatingMultiset.setList[i].exercise_id
+      );
+
+      newExerciseList.push(exercise);
+
+      setListIdList[targetSet].push(setId);
+    }
+
+    const { success, updatedMultiset } = await UpdateMultisetSetOrder(
+      operatingMultiset,
+      setListIdList
+    );
+
+    if (!success) return;
+
+    const newGroupedSet: GroupedWorkoutSet = {
+      ...operatingGroupedSet,
+      exerciseList: newExerciseList,
+      setList: updatedMultiset.setList,
+      multiset: updatedMultiset,
+    };
+
+    //TODO: UPDATE CUTOFFS
+
+    const groupedSetIndex: number = groupedSets.findIndex(
+      (obj) => obj.id === operatingGroupedSet.id
+    );
+
+    const newGroupedSets = [...groupedSets];
+    newGroupedSets[groupedSetIndex] = newGroupedSet;
+    setGroupedSets(newGroupedSets);
+
+    if (!isTemplate) populateIncompleteSets(newGroupedSets);
+
+    const updatedWorkoutNumbers: WorkoutNumbers = {
+      numSets: workoutNumbers.numSets + newGroupedSet.setList.length,
+      numExercises: GetNumberOfUniqueExercisesInGroupedSets(newGroupedSets),
+    };
+
+    setWorkoutNumbers(updatedWorkoutNumbers);
+
+    resetOperatingSet();
+    resetOperatingMultiset();
+
+    multisetModal.onClose();
+    toast.success("Multiset Updated");
   };
 
   const handleEditMultiset = async (groupedSet: GroupedWorkoutSet) => {
@@ -1808,6 +1895,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     resetOperatingSet();
 
     setOperationType("edit");
+    setOperatingGroupedSet(groupedSet);
     setOperatingMultiset(groupedSet.multiset);
     multisetActions.setNewMultisetSetIndex(0);
     multisetActions.setModalPage("base");
