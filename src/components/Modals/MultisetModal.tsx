@@ -209,7 +209,7 @@ export const MultisetModal = ({
                       ))}
                     </Select>
                   )}
-                  <div className="overflow-auto scroll-gradient">
+                  <div className="w-full overflow-auto scroll-gradient">
                     <MultisetSetList
                       multiset={multiset}
                       setMultiset={setMultiset}
