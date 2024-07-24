@@ -1794,11 +1794,11 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       await createNewMultiset(numSets);
     }
     if (operationType === "edit") {
-      await updateMultisetSet();
+      await updateMultiset();
     }
   };
 
-  const updateMultisetSet = async () => {
+  const updateMultiset = async () => {
     if (
       operatingMultiset.id === 0 ||
       operatingGroupedSet === undefined ||
@@ -1888,6 +1888,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     multisetModal.onClose();
     toast.success("Multiset Updated");
   };
+
+  const updateMultisetSet = async () => {};
 
   const handleEditMultiset = async (groupedSet: GroupedWorkoutSet) => {
     if (!groupedSet.multiset) return;
