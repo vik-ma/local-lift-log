@@ -1428,6 +1428,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   };
 
   const handleAddMultisetButton = () => {
+    if (operationType === "edit") {
+      resetOperatingMultiset();
+    }
+
     resetOperatingSet();
 
     multisetModal.onOpen();
