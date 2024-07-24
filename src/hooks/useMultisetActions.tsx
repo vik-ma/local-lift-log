@@ -4,16 +4,16 @@ import {
   WorkoutSet,
   Exercise,
   UseExerciseListReturnType,
+  UseSetTrackingInputsReturnType,
 } from "../typings";
 import { useEffect, useState, useCallback, useMemo } from "react";
-import { useDefaultExercise } from ".";
+import { useDefaultExercise, useMultisetTypeMap } from ".";
 import Database from "tauri-plugin-sql-api";
 import {
   GenerateSetListText,
   ReassignExerciseIdForSets,
   GetAllMultisetTemplates,
 } from "../helpers";
-import { useMultisetTypeMap } from ".";
 
 type OperationType = "" | "change-exercise" | "reassign-exercise";
 
@@ -28,6 +28,7 @@ type UseMultisetActionsProps = {
   multisetModal: ReturnType<typeof useDisclosure>;
   exerciseList: UseExerciseListReturnType;
   defaultMultiset: Multiset;
+  operatingSetInputs: UseSetTrackingInputsReturnType;
   defaultPage?: ModalPage;
 };
 
@@ -40,6 +41,7 @@ export const useMultisetActions = ({
   multisetModal,
   exerciseList,
   defaultMultiset,
+  operatingSetInputs,
   defaultPage,
 }: UseMultisetActionsProps) => {
   const [modalPage, setModalPage] = useState<ModalPage>(defaultPage ?? "base");
@@ -84,6 +86,7 @@ export const useMultisetActions = ({
     setOperatingMultiset(multiset);
     setModalPage("edit-set");
 
+    operatingSetInputs.setTrackingValuesInputStrings(set);
     setSelectedMultisetExercise(exercise);
 
     if (!multisetModal.isOpen) {

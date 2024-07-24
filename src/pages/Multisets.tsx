@@ -18,6 +18,7 @@ import {
   InsertSetIntoDatabase,
   UpdateMultisetSetOrder,
   UpdateSet,
+  ConvertSetInputValuesToNumbers,
 } from "../helpers";
 import {
   DeleteModal,
@@ -64,6 +65,7 @@ export default function Multisets() {
     multisetModal,
     exerciseList,
     defaultMultiset,
+    operatingSetInputs,
   });
 
   useEffect(() => {
@@ -259,12 +261,32 @@ export default function Multisets() {
   const updateOperatingSet = async () => {
     if (operatingMultiset.id === 0 || operatingSet.id < 1) return;
 
-    const success = await UpdateSet(operatingSet);
+    if (operatingSetInputs.isSetTrackingValuesInvalid) return;
+
+    const setTrackingValuesNumber = ConvertSetInputValuesToNumbers(
+      operatingSetInputs.setTrackingValuesInput
+    );
+
+    const noteToInsert = ConvertEmptyStringToNull(operatingSet.note);
+
+    const updatedSet: WorkoutSet = {
+      ...operatingSet,
+      note: noteToInsert,
+      weight: setTrackingValuesNumber.weight,
+      reps: setTrackingValuesNumber.reps,
+      distance: setTrackingValuesNumber.distance,
+      rir: setTrackingValuesNumber.rir,
+      rpe: setTrackingValuesNumber.rpe,
+      resistance_level: setTrackingValuesNumber.resistance_level,
+      partial_reps: setTrackingValuesNumber.partial_reps,
+    };
+
+    const success = await UpdateSet(updatedSet);
 
     if (!success) return;
 
     const updatedSetList = operatingMultiset.setList.map((item) =>
-      item.id === operatingSet.id ? operatingSet : item
+      item.id === operatingSet.id ? updatedSet : item
     );
 
     setOperatingMultiset((prev) => ({ ...prev, setList: updatedSetList }));
