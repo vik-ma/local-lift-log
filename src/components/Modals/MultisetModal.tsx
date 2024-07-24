@@ -169,7 +169,7 @@ export const MultisetModal = ({
                   numSetsOptions={numSetsOptions}
                 />
               ) : (
-                <div className="flex flex-col items-center gap-2.5 h-[400px] overflow-auto scroll-gradient">
+                <div className="flex flex-col items-center gap-2.5 h-[400px]">
                   <div className="flex items-center gap-2">
                     <MultisetDropdown
                       multiset_type={multiset.multiset_type}
@@ -209,13 +209,15 @@ export const MultisetModal = ({
                       ))}
                     </Select>
                   )}
-                  <MultisetSetList
-                    multiset={multiset}
-                    setMultiset={setMultiset}
-                    handleMultisetSetOptionSelection={
-                      handleMultisetSetOptionSelection
-                    }
-                  />
+                  <div className="overflow-auto scroll-gradient">
+                    <MultisetSetList
+                      multiset={multiset}
+                      setMultiset={setMultiset}
+                      handleMultisetSetOptionSelection={
+                        handleMultisetSetOptionSelection
+                      }
+                    />
+                  </div>
                   {showClearAllButton && (
                     <Button size="sm" variant="flat" onClick={clearMultiset}>
                       Clear All
