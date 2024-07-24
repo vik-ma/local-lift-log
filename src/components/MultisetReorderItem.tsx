@@ -22,12 +22,17 @@ export const MultisetReorderItem = ({
   handleMultisetSetOptionSelection,
   dragConstraintsRef,
 }: MultisetReorderItemProps) => {
-  const dragControls = useDragControls();
+  const exerciseDragControls = useDragControls();
+  const setNumDragControls = useDragControls();
 
   const setNum = multiset?.setListIndexCutoffs?.get(index);
 
   return (
-    <Reorder.Item value={set} dragListener={false} dragControls={dragControls}>
+    <Reorder.Item
+      value={set}
+      dragListener={false}
+      dragControls={exerciseDragControls}
+    >
       <div
         className={
           set.id < 0
@@ -55,7 +60,7 @@ export const MultisetReorderItem = ({
                 drag="y"
                 dragSnapToOrigin
                 dragConstraints={dragConstraintsRef}
-                dragControls={dragControls}
+                dragControls={setNumDragControls}
                 dragElastic={0}
               >
                 Set {setNum}
@@ -72,7 +77,11 @@ export const MultisetReorderItem = ({
             verticalMenuIconSize={18}
             isInModal={true}
           />
-          <ReorderIcon dragControls={dragControls} size={18} color="#c4c4c4" />
+          <ReorderIcon
+            dragControls={exerciseDragControls}
+            size={18}
+            color="#c4c4c4"
+          />
         </div>
       </div>
     </Reorder.Item>
