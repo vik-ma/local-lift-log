@@ -41,7 +41,7 @@ export const MultisetReorderItem = ({
         }
         id={`multiset-${index}`}
       >
-        <div className="flex justify-between gap-1 items-center max-w-[19rem]">
+        <div className="flex justify-between gap-1 items-center w-full max-w-[19rem]">
           <span
             className={
               set.hasInvalidExerciseId
