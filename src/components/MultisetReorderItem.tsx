@@ -13,9 +13,6 @@ type MultisetReorderItemProps = {
   index: number;
   handleMultisetSetOptionSelection: HandleMultisetSetOptionSelectionProps;
   dragConstraintsRef: React.MutableRefObject<null>;
-  indexRef: () => {
-    index: number;
-  } | null;
 };
 
 export const MultisetReorderItem = ({
@@ -24,7 +21,6 @@ export const MultisetReorderItem = ({
   index,
   handleMultisetSetOptionSelection,
   dragConstraintsRef,
-  indexRef,
 }: MultisetReorderItemProps) => {
   const exerciseDragControls = useDragControls();
   const setNumDragControls = useDragControls();
@@ -36,7 +32,6 @@ export const MultisetReorderItem = ({
       value={set}
       dragListener={false}
       dragControls={exerciseDragControls}
-      ref={indexRef}
     >
       <div
         className={
@@ -44,6 +39,7 @@ export const MultisetReorderItem = ({
             ? "flex justify-between items-center px-2 py-1 font-medium bg-yellow-50 hover:bg-stone-100"
             : "flex justify-between items-center px-2 py-1 font-medium hover:bg-stone-100"
         }
+        id={`multiset-${index}`}
       >
         <div className="flex justify-between gap-1 items-center max-w-[19rem]">
           <span
