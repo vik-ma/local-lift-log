@@ -135,3 +135,4 @@ export { ExtractTextFromInsideBrackets } from "./Strings/ExtractTextFromInsideBr
 
 export { UpdateItemInList } from "./Lists/UpdateItemInList";
 export { DeleteItemFromList } from "./Lists/DeleteItemFromList";
+export { DeleteIdFromList } from "./Lists/DeleteIdFromList";
