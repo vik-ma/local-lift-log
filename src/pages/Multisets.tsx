@@ -19,6 +19,8 @@ import {
   UpdateMultisetSetOrder,
   UpdateSet,
   ConvertSetInputValuesToNumbers,
+  DeleteItemFromList,
+  UpdateItemInList,
 } from "../helpers";
 import {
   DeleteModal,
@@ -229,8 +231,9 @@ export default function Multisets() {
 
     if (!success) return;
 
-    const updatedMultisets: Multiset[] = multisetActions.multisets.map((item) =>
-      item.id === updatedMultiset.id ? updatedMultiset : item
+    const updatedMultisets = UpdateItemInList(
+      multisetActions.multisets,
+      updatedMultiset
     );
 
     multisetActions.setMultisets(updatedMultisets);
@@ -247,8 +250,9 @@ export default function Multisets() {
 
     if (!success) return;
 
-    const updatedMultisets: Multiset[] = multisetActions.multisets.filter(
-      (item) => item.id !== operatingMultiset.id
+    const updatedMultisets = DeleteItemFromList(
+      multisetActions.multisets,
+      operatingMultiset.id
     );
 
     multisetActions.setMultisets(updatedMultisets);
@@ -285,14 +289,18 @@ export default function Multisets() {
 
     if (!success) return;
 
-    const updatedSetList = operatingMultiset.setList.map((item) =>
-      item.id === operatingSet.id ? updatedSet : item
+    const updatedSetList = UpdateItemInList(
+      operatingMultiset.setList,
+      updatedSet
     );
 
-    setOperatingMultiset((prev) => ({ ...prev, setList: updatedSetList }));
+    const updatedMultiset = { ...operatingMultiset, setList: updatedSetList };
 
-    const updatedMultisets = multisetActions.multisets.map((item) =>
-      item.id === operatingMultiset.id ? operatingMultiset : item
+    setOperatingMultiset(updatedMultiset);
+
+    const updatedMultisets = UpdateItemInList(
+      multisetActions.multisets,
+      updatedMultiset
     );
 
     multisetActions.setMultisets(updatedMultisets);
@@ -318,14 +326,16 @@ export default function Multisets() {
 
     if (operatingSet.id < 0) {
       // If deleting non-saved Set
-      const updatedSetList = operatingMultiset.setList.filter(
-        (obj) => obj.id !== operatingSet.id
+      const updatedSetList = DeleteItemFromList(
+        operatingMultiset.setList,
+        operatingSet.id
       );
 
       operatingMultiset.setList = updatedSetList;
 
-      const updatedMultisets = multisetActions.multisets.filter(
-        (item) => item.id !== operatingMultiset.id
+      const updatedMultisets = DeleteItemFromList(
+        multisetActions.multisets,
+        operatingMultiset.id
       );
 
       multisetActions.setMultisets(updatedMultisets);
@@ -338,8 +348,9 @@ export default function Multisets() {
 
     if (!deleteSetSuccess) return;
 
-    const updatedSetList = operatingMultiset.setList.filter(
-      (obj) => obj.id !== operatingSet.id
+    const updatedSetList = DeleteItemFromList(
+      operatingMultiset.setList,
+      operatingSet.id
     );
 
     operatingMultiset.setList = updatedSetList;
@@ -365,8 +376,9 @@ export default function Multisets() {
 
       if (!deleteMultisetSuccess) return;
 
-      updatedMultisets = multisetActions.multisets.filter(
-        (item) => item.id !== operatingMultiset.id
+      updatedMultisets = DeleteItemFromList(
+        multisetActions.multisets,
+        operatingMultiset.id
       );
 
       toastMsg = "Multiset Deleted";
@@ -375,8 +387,9 @@ export default function Multisets() {
         multisetModal.onClose();
       }
     } else {
-      updatedMultisets = multisetActions.multisets.map((item) =>
-        item.id === updatedMultiset.id ? updatedMultiset : item
+      updatedMultisets = UpdateItemInList(
+        multisetActions.multisets,
+        updatedMultiset
       );
     }
 
