@@ -13,6 +13,9 @@ type MultisetReorderItemProps = {
   index: number;
   handleMultisetSetOptionSelection: HandleMultisetSetOptionSelectionProps;
   dragConstraintsRef: React.MutableRefObject<null>;
+  indexRef: () => {
+    index: number;
+  } | null;
 };
 
 export const MultisetReorderItem = ({
@@ -21,6 +24,7 @@ export const MultisetReorderItem = ({
   index,
   handleMultisetSetOptionSelection,
   dragConstraintsRef,
+  indexRef,
 }: MultisetReorderItemProps) => {
   const exerciseDragControls = useDragControls();
   const setNumDragControls = useDragControls();
@@ -32,6 +36,7 @@ export const MultisetReorderItem = ({
       value={set}
       dragListener={false}
       dragControls={exerciseDragControls}
+      ref={indexRef}
     >
       <div
         className={

@@ -15,6 +15,13 @@ export const MultisetSetList = ({
   handleMultisetSetOptionSelection,
 }: MultisetSetListProps) => {
   const dragConstraintsRef = useRef(null);
+
+  const indexRefs = useRef<Array<{ index: number } | null>>([]);
+
+  if (indexRefs.current.length !== multiset.setList.length) {
+    indexRefs.current = multiset.setList.map((_, index) => ({ index }));
+  }
+
   return (
     <Reorder.Group
       className={
@@ -36,6 +43,7 @@ export const MultisetSetList = ({
           index={index}
           handleMultisetSetOptionSelection={handleMultisetSetOptionSelection}
           dragConstraintsRef={dragConstraintsRef}
+          indexRef={() => indexRefs.current[index]}
         />
       ))}
       {multiset.setList.length === 0 && (
