@@ -13,6 +13,7 @@ import {
   GenerateSetListText,
   ReassignExerciseIdForSets,
   GetAllMultisetTemplates,
+  UpdateItemInList,
 } from "../helpers";
 
 type OperationType = "" | "change-exercise" | "reassign-exercise";
@@ -141,8 +142,9 @@ export const useMultisetActions = ({
         exercise_name: exercise.name,
       };
 
-      const updatedSetList = operatingMultiset.setList.map((item) =>
-        item.id === operatingSet.id ? updatedSet : item
+      const updatedSetList = UpdateItemInList(
+        operatingMultiset.setList,
+        updatedSet
       );
 
       const updatedSetListValues = GenerateSetListText(updatedSetList);
@@ -155,9 +157,7 @@ export const useMultisetActions = ({
 
       setOperatingMultiset(updatedMultiset);
 
-      const updatedMultisets: Multiset[] = multisets.map((item) =>
-        item.id === operatingMultiset.id ? updatedMultiset : item
-      );
+      const updatedMultisets = UpdateItemInList(multisets, updatedMultiset);
 
       setMultisets(updatedMultisets);
 

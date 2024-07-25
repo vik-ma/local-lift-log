@@ -39,6 +39,9 @@ import {
   UpdateSetNote,
   GenerateMultisetSetListIdList,
   CreateMultisetIndexCutoffs,
+  UpdateItemInList,
+  DeleteItemFromList,
+  DeleteIdFromList,
 } from "../helpers";
 import {
   useDefaultSet,
@@ -276,14 +279,16 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       numSets: workoutNumbers.numSets - 1,
     };
 
-    const updatedSetList: WorkoutSet[] = groupedSets[
-      groupedSetIndex
-    ].setList.filter((item) => item.id !== operatingSet.id);
+    const updatedSetList = DeleteItemFromList(
+      groupedSets[groupedSetIndex].setList,
+      operatingSet.id
+    );
 
     if (updatedSetList.length === 0) {
       // Remove Exercise/Multiset from groupedSets if last Set in Exercise was deleted
-      const updatedGroupedSets: GroupedWorkoutSet[] = groupedSets.filter(
-        (_, index) => index !== groupedSetIndex
+      const updatedGroupedSets = DeleteItemFromList(
+        groupedSets,
+        operatingGroupedSet.id
       );
 
       setGroupedSets(updatedGroupedSets);
@@ -305,7 +310,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         );
 
         let updatedSetListIdList = setListIdList.map((setList) =>
-          setList.filter((item) => item !== operatingSet.id)
+          DeleteIdFromList(setList, operatingSet.id)
         );
 
         // Remove empty setLists
@@ -368,9 +373,11 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       if (operatingSet.id === activeSet?.id) {
         goToNextIncompleteSet(activeSet);
       } else if (operatingSet.is_completed === 0) {
-        const updatedIncompleteSetIds = incompleteSetIds.filter(
-          (id) => id !== operatingSet.id
+        const updatedIncompleteSetIds = DeleteIdFromList(
+          incompleteSetIds,
+          operatingSet.id
         );
+
         setIncompleteSetIds(updatedIncompleteSetIds);
       }
     }
@@ -413,9 +420,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     const groupedSetIndex = getGroupedSetIndex(groupedSetId);
 
-    const updatedSetList: WorkoutSet[] = groupedSets[
-      groupedSetIndex
-    ].setList.map((item) => (item.id === operatingSet.id ? updatedSet : item));
+    const updatedSetList = UpdateItemInList(
+      groupedSets[groupedSetIndex].setList,
+      updatedSet
+    );
 
     setGroupedSets((prev) => {
       const newList = [...prev];
@@ -725,8 +733,9 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
       const result = await db.execute(statement, [exerciseId, id]);
 
-      const updatedGroupedSets: GroupedWorkoutSet[] = groupedSets.filter(
-        (item) => item.id !== operatingGroupedSet.id
+      const updatedGroupedSets = DeleteItemFromList(
+        groupedSets,
+        operatingGroupedSet.id
       );
 
       if (completedSetsMap.has(operatingGroupedSet.id)) {
@@ -769,11 +778,9 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       showExerciseNote: !groupedWorkoutSet.showExerciseNote,
     };
 
-    setGroupedSets((prev) =>
-      prev.map((item) =>
-        item.id === groupedWorkoutSet.id ? updatedGroupedSet : item
-      )
-    );
+    const updatedGroupedSets = UpdateItemInList(groupedSets, updatedGroupedSet);
+
+    setGroupedSets(updatedGroupedSets);
   };
 
   const updateShownSetListComments = (groupedSetId: string, index: number) => {
@@ -818,9 +825,9 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       isExpanded: !groupedSet.isExpanded,
     };
 
-    setGroupedSets((prev) =>
-      prev.map((item) => (item.id === groupedSet.id ? updatedGroupedSet : item))
-    );
+    const updatedGroupedSets = UpdateItemInList(groupedSets, updatedGroupedSet);
+
+    setGroupedSets(updatedGroupedSets);
   };
 
   const reassignExercise = async (newExercise: Exercise) => {
@@ -1025,9 +1032,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     const groupedSetIndex = getGroupedSetIndex(activeGroupedSet.id);
 
-    const updatedSetList: WorkoutSet[] = groupedSets[
-      groupedSetIndex
-    ].setList.map((item) => (item.id === activeSet.id ? updatedSet : item));
+    const updatedSetList = UpdateItemInList(
+      groupedSets[groupedSetIndex].setList,
+      updatedSet
+    );
 
     const completedSetsValue = completedSetsMap.get(activeGroupedSet.id) ?? 0;
 
@@ -1066,9 +1074,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     const groupedSetIndex = getGroupedSetIndex(operatingGroupedSet.id);
 
-    const updatedSetList: WorkoutSet[] = groupedSets[
-      groupedSetIndex
-    ].setList.map((item) => (item.id === operatingSet.id ? updatedSet : item));
+    const updatedSetList = UpdateItemInList(
+      groupedSets[groupedSetIndex].setList,
+      updatedSet
+    );
 
     setGroupedSets((prev) => {
       const newList = [...prev];
@@ -1107,9 +1116,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     const groupedSetIndex = getGroupedSetIndex(operatingGroupedSet.id);
 
-    const updatedSetList: WorkoutSet[] = groupedSets[
-      groupedSetIndex
-    ].setList.map((item) => (item.id === operatingSet.id ? updatedSet : item));
+    const updatedSetList = UpdateItemInList(
+      groupedSets[groupedSetIndex].setList,
+      updatedSet
+    );
 
     setGroupedSets((prev) => {
       const newList = [...prev];
@@ -1197,8 +1207,9 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       }
     }
 
-    const updatedIncompleteSetIds = incompleteSetIds.filter(
-      (id) => id !== lastSet.id
+    const updatedIncompleteSetIds = DeleteIdFromList(
+      incompleteSetIds,
+      lastSet.id
     );
 
     setIncompleteSetIds(updatedIncompleteSetIds);
@@ -1392,9 +1403,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     const groupedSetIndex = getGroupedSetIndex(operatingGroupedSet.id);
 
-    const updatedSetList: WorkoutSet[] = groupedSets[
-      groupedSetIndex
-    ].setList.map((item) => (item.id === operatingSet.id ? updatedSet : item));
+    const updatedSetList = UpdateItemInList(
+      groupedSets[groupedSetIndex].setList,
+      updatedSet
+    );
 
     setGroupedSets((prev) => {
       const newList = [...prev];
@@ -1902,8 +1914,9 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     if (!success) return;
 
-    const updatedSetList = operatingMultiset.setList.map((item) =>
-      item.id === operatingSet.id ? updatedSet : item
+    const updatedSetList = UpdateItemInList(
+      operatingMultiset.setList,
+      updatedSet
     );
 
     const updatedMultiset = { ...operatingMultiset, setList: updatedSetList };
