@@ -335,3 +335,7 @@ export type HandleMultisetSetOptionSelectionProps = (
   multiset: Multiset,
   modalIsOpen: boolean
 ) => void;
+
+export type Identifiable = {
+  id: string | number;
+};
