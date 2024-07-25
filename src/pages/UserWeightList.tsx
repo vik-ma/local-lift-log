@@ -4,8 +4,10 @@ import { UserWeight, UserSettingsOptional } from "../typings";
 import { LoadingSpinner, DeleteModal, UserWeightModal } from "../components";
 import {
   ConvertEmptyStringToNull,
+  DeleteItemFromList,
   DeleteUserWeightById,
   FormatDateTimeString,
+  UpdateItemInList,
   UpdateUserWeight,
 } from "../helpers";
 import {
@@ -101,8 +103,9 @@ export default function UserWeightList() {
 
     if (!success) return;
 
-    const updatedUserWeights: UserWeight[] = userWeights.filter(
-      (item) => item.id !== operatingUserWeight.id
+    const updatedUserWeights = DeleteItemFromList(
+      userWeights,
+      operatingUserWeight.id
     );
 
     setUserWeights(updatedUserWeights);
@@ -138,11 +141,9 @@ export default function UserWeightList() {
 
     if (!success) return;
 
-    setUserWeights((prev) =>
-      prev.map((item) =>
-        item.id === operatingUserWeight.id ? updatedUserWeight : item
-      )
-    );
+    const updatedUserWeights = UpdateItemInList(userWeights, updatedUserWeight);
+
+    setUserWeights(updatedUserWeights);
 
     resetUserWeight();
 

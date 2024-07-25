@@ -17,7 +17,12 @@ import {
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { useDefaultWorkoutTemplate, useValidateName } from "../hooks";
-import { ConvertEmptyStringToNull, UpdateWorkoutTemplate } from "../helpers";
+import {
+  ConvertEmptyStringToNull,
+  DeleteItemFromList,
+  UpdateItemInList,
+  UpdateWorkoutTemplate,
+} from "../helpers";
 import { VerticalMenuIcon } from "../assets";
 
 type OperationType = "add" | "edit" | "delete";
@@ -118,10 +123,11 @@ export default function WorkoutTemplateList() {
         [operatingWorkoutTemplate.id]
       );
 
-      const updatedWorkoutTemplates: WorkoutTemplate[] =
-        workoutTemplates.filter(
-          (item) => item.id !== operatingWorkoutTemplate?.id
-        );
+      const updatedWorkoutTemplates = DeleteItemFromList(
+        workoutTemplates,
+        operatingWorkoutTemplate.id
+      );
+
       setWorkoutTemplates(updatedWorkoutTemplates);
 
       toast.success("Workout Template Deleted");
@@ -149,9 +155,9 @@ export default function WorkoutTemplateList() {
 
     if (!success) return;
 
-    const updatedWorkoutTemplates: WorkoutTemplate[] = workoutTemplates.map(
-      (item) =>
-        item.id === operatingWorkoutTemplate.id ? updatedWorkoutTemplate : item
+    const updatedWorkoutTemplates = UpdateItemInList(
+      workoutTemplates,
+      updatedWorkoutTemplate
     );
 
     setWorkoutTemplates(updatedWorkoutTemplates);

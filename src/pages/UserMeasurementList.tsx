@@ -15,6 +15,8 @@ import {
   ConvertEmptyStringToNull,
   CreateUserMeasurementValues,
   UpdateUserMeasurements,
+  DeleteItemFromList,
+  UpdateItemInList,
 } from "../helpers";
 import {
   useDefaultUserMeasurements,
@@ -125,13 +127,12 @@ export default function UserMeasurementList() {
       userSettings.clock_style
     );
 
-    setUserMeasurements((prev) =>
-      prev.map((item) =>
-        item.id === operatingUserMeasurements.id
-          ? detailedUpdatedUserMeasurement[0]
-          : item
-      )
+    const updatedUserMeasurementList = UpdateItemInList(
+      userMeasurements,
+      detailedUpdatedUserMeasurement[0]
     );
+
+    setUserMeasurements(updatedUserMeasurementList);
 
     resetUserMeasurements();
 
@@ -149,8 +150,9 @@ export default function UserMeasurementList() {
 
     if (!success) return;
 
-    const updatedUserMeasurements: UserMeasurement[] = userMeasurements.filter(
-      (item) => item.id !== operatingUserMeasurements.id
+    const updatedUserMeasurements = DeleteItemFromList(
+      userMeasurements,
+      operatingUserMeasurements.id
     );
 
     setUserMeasurements(updatedUserMeasurements);

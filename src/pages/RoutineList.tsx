@@ -16,6 +16,8 @@ import {
   GetActiveRoutineId,
   ConvertEmptyStringToNull,
   UpdateRoutine,
+  DeleteItemFromList,
+  UpdateItemInList,
 } from "../helpers";
 import { LoadingSpinner, DeleteModal, RoutineModal } from "../components";
 import { useDefaultRoutine, useIsRoutineValid } from "../hooks";
@@ -157,9 +159,8 @@ export default function RoutineList() {
         [operatingRoutine.id]
       );
 
-      const updatedRoutines: Routine[] = routines.filter(
-        (item) => item.id !== operatingRoutine?.id
-      );
+      const updatedRoutines = DeleteItemFromList(routines, operatingRoutine.id);
+
       setRoutines(updatedRoutines);
 
       if (operatingRoutine.id === userSettings?.active_routine_id) {
@@ -194,9 +195,7 @@ export default function RoutineList() {
 
     if (!success) return;
 
-    const updatedRoutines: Routine[] = routines.map((item) =>
-      item.id === operatingRoutine.id ? updatedRoutine : item
-    );
+    const updatedRoutines = UpdateItemInList(routines, updatedRoutine);
 
     setRoutines(updatedRoutines);
 

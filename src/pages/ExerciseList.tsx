@@ -5,8 +5,10 @@ import {
   ConvertEmptyStringToNull,
   ConvertExerciseGroupSetString,
   CreateDefaultExercises,
+  DeleteItemFromList,
   IsExerciseValid,
   UpdateExercise,
+  UpdateItemInList,
 } from "../helpers";
 import {
   Button,
@@ -70,9 +72,11 @@ export default function ExerciseList() {
 
       db.execute("DELETE from exercises WHERE id = $1", [operatingExercise.id]);
 
-      const updatedExercises: Exercise[] = exercises.filter(
-        (item) => item.id !== operatingExercise.id
+      const updatedExercises = DeleteItemFromList(
+        exercises,
+        operatingExercise.id
       );
+
       setExercises(updatedExercises);
 
       toast.success("Exercise Deleted");
@@ -162,9 +166,7 @@ export default function ExerciseList() {
 
     if (!success) return;
 
-    const updatedExercises: Exercise[] = exercises.map((item) =>
-      item.id === operatingExercise.id ? updatedExercise : item
-    );
+    const updatedExercises = UpdateItemInList(exercises, updatedExercise);
 
     setExercises(updatedExercises);
 

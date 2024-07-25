@@ -25,8 +25,10 @@ import {
   ConvertNumberToTwoDecimals,
   CreateDefaultDistances,
   CreateDefaultEquipmentWeights,
+  DeleteItemFromList,
   GetDefaultUnitValues,
   IsStringInvalidNumberOr0,
+  UpdateItemInList,
 } from "../helpers";
 import toast, { Toaster } from "react-hot-toast";
 import { useValidateName } from "../hooks";
@@ -252,11 +254,12 @@ export default function Presets() {
         weight: weight,
       };
 
-      setEquipmentWeights((prev) =>
-        prev.map((item) =>
-          item.id === operatingEquipmentWeight.id ? updatedEquipment : item
-        )
+      const updatedEquipmentWeights = UpdateItemInList(
+        equipmentWeights,
+        updatedEquipment
       );
+
+      setEquipmentWeights(updatedEquipmentWeights);
 
       resetOperatingEquipment();
       presetModal.onClose();
@@ -298,11 +301,9 @@ export default function Presets() {
         distance_unit: operatingDistance.distance_unit,
       };
 
-      setDistances((prev) =>
-        prev.map((item) =>
-          item.id === operatingDistance.id ? updatedDistance : item
-        )
-      );
+      const updatedDistances = UpdateItemInList(distances, updatedDistance);
+
+      setDistances(updatedDistances);
 
       resetOperatingDistance();
       presetModal.onClose();
@@ -328,10 +329,11 @@ export default function Presets() {
         operatingEquipmentWeight.id,
       ]);
 
-      const updatedEquipmentWeights: EquipmentWeight[] =
-        equipmentWeights.filter(
-          (item) => item.id !== operatingEquipmentWeight.id
-        );
+      const updatedEquipmentWeights = DeleteItemFromList(
+        equipmentWeights,
+        operatingEquipmentWeight.id
+      );
+
       setEquipmentWeights(updatedEquipmentWeights);
 
       toast.success("Equipment Weight Deleted");
@@ -356,9 +358,11 @@ export default function Presets() {
 
       db.execute("DELETE from distances WHERE id = $1", [operatingDistance.id]);
 
-      const updatedDistances: Distance[] = distances.filter(
-        (item) => item.id !== operatingDistance.id
+      const updatedDistances = DeleteItemFromList(
+        distances,
+        operatingDistance.id
       );
+
       setDistances(updatedDistances);
 
       toast.success("Distance Deleted");

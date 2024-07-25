@@ -23,6 +23,8 @@ import {
   UpdateActiveTrackingMeasurements,
   GenerateActiveMeasurementString,
   InsertMeasurementIntoDatabase,
+  UpdateItemInList,
+  DeleteItemFromList,
 } from "../helpers";
 import { CheckmarkIcon, VerticalMenuIcon } from "../assets";
 import {
@@ -144,11 +146,12 @@ export default function MeasurementList() {
       measurement_type: operatingMeasurement.measurement_type,
     };
 
-    setMeasurements((prev) =>
-      prev.map((item) =>
-        item.id === operatingMeasurement.id ? updatedMeasurement : item
-      )
+    const updatedMeasurements = UpdateItemInList(
+      measurements,
+      updatedMeasurement
     );
+
+    setMeasurements(updatedMeasurements);
 
     resetOperatingMeasurement();
 
@@ -166,9 +169,11 @@ export default function MeasurementList() {
         operatingMeasurement.id,
       ]);
 
-      const updatedMeasurements: Measurement[] = measurements.filter(
-        (item) => item.id !== operatingMeasurement?.id
+      const updatedMeasurements = DeleteItemFromList(
+        measurements,
+        operatingMeasurement.id
       );
+
       setMeasurements(updatedMeasurements);
 
       if (activeMeasurementSet.has(operatingMeasurement.id)) {

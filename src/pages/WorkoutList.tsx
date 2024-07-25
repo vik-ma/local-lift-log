@@ -13,8 +13,10 @@ import {
 } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
 import {
+  DeleteItemFromList,
   FormatYmdDateString,
   GetShowWorkoutRating,
+  UpdateItemInList,
   UpdateShowWorkoutRating,
   UpdateWorkout,
 } from "../helpers";
@@ -102,9 +104,8 @@ export default function WorkoutList() {
         operatingWorkout.id,
       ]);
 
-      const updatedWorkouts: Workout[] = workouts.filter(
-        (item) => item.id !== operatingWorkout?.id
-      );
+      const updatedWorkouts = DeleteItemFromList(workouts, operatingWorkout.id);
+
       setWorkouts(updatedWorkouts);
 
       toast.success("Workout Deleted");
@@ -142,9 +143,7 @@ export default function WorkoutList() {
 
     if (!success) return;
 
-    const updatedWorkouts: Workout[] = workouts.map((item) =>
-      item.id === operatingWorkout.id ? updatedWorkout : item
-    );
+    const updatedWorkouts = UpdateItemInList(workouts, updatedWorkout);
 
     setWorkouts(updatedWorkouts);
 
