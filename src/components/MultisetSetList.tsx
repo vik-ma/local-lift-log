@@ -14,7 +14,7 @@ export const MultisetSetList = ({
   setMultiset,
   handleMultisetSetOptionSelection,
 }: MultisetSetListProps) => {
-  const dragConstraintsRef = useRef(null);
+  const dragConstraintsRef = useRef<HTMLDivElement>(null);
 
   return (
     <Reorder.Group
