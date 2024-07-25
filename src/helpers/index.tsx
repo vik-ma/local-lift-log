@@ -134,3 +134,4 @@ export { IsStringEmpty } from "./Strings/IsStringEmpty";
 export { ExtractTextFromInsideBrackets } from "./Strings/ExtractTextFromInsideBrackets";
 
 export { UpdateItemInList } from "./Lists/UpdateItemInList";
+export { DeleteItemFromList } from "./Lists/DeleteItemFromList";
