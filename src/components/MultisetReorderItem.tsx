@@ -60,10 +60,14 @@ export const MultisetReorderItem = ({
         if (!elementAtDropPoint) return;
 
         // Loop through nearest parent elements until id is found with multiset index
-        for (let i = 0; i < 3; i++) {
+        // Change number if changing layout of elements
+        for (let i = 0; i < 4; i++) {
           if (!elementAtDropPoint) break;
 
-          if (elementAtDropPoint.id) {
+          if (
+            elementAtDropPoint.id &&
+            elementAtDropPoint.id.startsWith("multiset-")
+          ) {
             console.log(elementAtDropPoint.id);
             break;
           }
@@ -90,6 +94,7 @@ export const MultisetReorderItem = ({
         }
         id={`multiset-${index}`}
       >
+        {/* Change number in handleSetNumDragEnd loop if editing layout */}
         <div className="flex justify-between gap-1 items-center w-full max-w-[19rem]">
           <span
             className={
