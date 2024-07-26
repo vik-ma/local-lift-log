@@ -30,7 +30,7 @@ export const MultisetReorderItem = ({
 
   const setNumDragRef = useRef<HTMLDivElement>(null);
 
-  const handleSetNumDragEnd = (info: PanInfo) => {
+  const handleSetNumDragEnd = (info: PanInfo, setNum: number) => {
     const x = info.point.x;
     const y = info.point.y;
 
@@ -57,8 +57,6 @@ export const MultisetReorderItem = ({
       requestAnimationFrame(() => {
         let elementAtDropPoint = document.elementFromPoint(x, y);
 
-        if (!elementAtDropPoint) return;
-
         // Loop through nearest parent elements until id is found with multiset index
         // Change number if changing layout of elements
         for (let i = 0; i < 4; i++) {
@@ -68,7 +66,7 @@ export const MultisetReorderItem = ({
             elementAtDropPoint.id &&
             elementAtDropPoint.id.startsWith("multiset-")
           ) {
-            console.log(elementAtDropPoint.id);
+            console.log(elementAtDropPoint.id, `Set ${setNum}`);
             break;
           }
 
@@ -118,7 +116,7 @@ export const MultisetReorderItem = ({
                 dragConstraints={dragConstraintsRef}
                 dragControls={setNumDragControls}
                 dragElastic={0}
-                onDragEnd={(_, info) => handleSetNumDragEnd(info)}
+                onDragEnd={(_, info) => handleSetNumDragEnd(info, setNum)}
               >
                 Set {setNum}
               </motion.div>
