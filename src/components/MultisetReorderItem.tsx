@@ -15,7 +15,11 @@ type MultisetReorderItemProps = {
   index: number;
   handleMultisetSetOptionSelection: HandleMultisetSetOptionSelectionProps;
   dragConstraintsRef: React.RefObject<HTMLDivElement>;
-  updateSetIndexCutoffs?: (targetIndex: number, setNum: number) => void;
+  updateSetIndexCutoffs?: (
+    oldTargetIndex: number,
+    newTargetIndex: number,
+    setNum: number
+  ) => void;
 };
 
 export const MultisetReorderItem = ({
@@ -88,26 +92,31 @@ export const MultisetReorderItem = ({
   };
 
   const setNewSetIndexCutoff = (id: string, setNum: number) => {
-    if (id === multisetId || multiset.setListIndexCutoffs === undefined) return;
+    if (
+      id === multisetId ||
+      multiset.setListIndexCutoffs === undefined ||
+      updateSetIndexCutoffs === undefined
+    )
+      return;
 
-    const idNum = Number(id.split("-")[1]);
+    const newTargetIndex = Number(id.split("-")[1]);
 
     if (
-      isNaN(idNum) ||
-      !IsNumberValidId(idNum) ||
-      idNum >= multiset.setList.length
+      isNaN(newTargetIndex) ||
+      !IsNumberValidId(newTargetIndex) ||
+      newTargetIndex >= multiset.setList.length
     )
       return;
 
     const isValid = ValidateNewSetIndexTarget(
-      idNum,
+      newTargetIndex,
       setNum,
       multiset.setListIndexCutoffs
     );
 
-    console.log(isValid);
+    if (!isValid) return;
 
-    // TODO: UPDATE INDEX
+    updateSetIndexCutoffs(index, newTargetIndex, setNum);
   };
 
   return (

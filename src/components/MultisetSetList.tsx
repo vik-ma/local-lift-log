@@ -7,7 +7,11 @@ type MultisetSetListProps = {
   multiset: Multiset;
   setMultiset: React.Dispatch<React.SetStateAction<Multiset>>;
   handleMultisetSetOptionSelection: HandleMultisetSetOptionSelectionProps;
-  updateSetIndexCutoffs?: (targetIndex: number, setNum: number) => void;
+  updateSetIndexCutoffs?: (
+    oldTargetIndex: number,
+    newTargetIndex: number,
+    setNum: number
+  ) => void;
 };
 
 export const MultisetSetList = ({
