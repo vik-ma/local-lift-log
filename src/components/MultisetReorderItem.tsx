@@ -65,6 +65,7 @@ export const MultisetReorderItem = ({
     // Temporarily disable pointer event for dragged setNum div
     if (draggedElement) {
       draggedElement.style.pointerEvents = "none";
+      draggedElement.style.opacity = "0";
 
       // Execute on next frame
       requestAnimationFrame(() => {
@@ -79,7 +80,7 @@ export const MultisetReorderItem = ({
             elementAtDropPoint.id &&
             elementAtDropPoint.id.startsWith("multiset-")
           ) {
-            setNewSetIndexCutoff(elementAtDropPoint.id, setNum);
+            setNewSetIndexCutoff(elementAtDropPoint.id, setNum, draggedElement);
             break;
           }
 
@@ -91,13 +92,19 @@ export const MultisetReorderItem = ({
     }
   };
 
-  const setNewSetIndexCutoff = (id: string, setNum: number) => {
+  const setNewSetIndexCutoff = (
+    id: string,
+    setNum: number,
+    draggedElement: HTMLDivElement
+  ) => {
     if (
       id === multisetId ||
       multiset.setListIndexCutoffs === undefined ||
       updateSetIndexCutoffs === undefined
-    )
+    ) {
+      resetDraggedElement(draggedElement);
       return;
+    }
 
     const newTargetIndex = Number(id.split("-")[1]);
 
@@ -105,8 +112,10 @@ export const MultisetReorderItem = ({
       isNaN(newTargetIndex) ||
       !IsNumberValidId(newTargetIndex) ||
       newTargetIndex >= multiset.setList.length
-    )
+    ) {
+      resetDraggedElement(draggedElement);
       return;
+    }
 
     const isValid = ValidateNewSetIndexTarget(
       newTargetIndex,
@@ -114,9 +123,16 @@ export const MultisetReorderItem = ({
       multiset.setListIndexCutoffs
     );
 
-    if (!isValid) return;
+    if (!isValid) {
+      resetDraggedElement(draggedElement);
+      return;
+    }
 
     updateSetIndexCutoffs(index, newTargetIndex, setNum);
+  };
+
+  const resetDraggedElement = (draggedElement: HTMLDivElement) => {
+    draggedElement.style.opacity = "1";
   };
 
   return (
