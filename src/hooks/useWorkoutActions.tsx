@@ -2073,7 +2073,27 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     newTargetIndex: number,
     setNum: number
   ) => {
-    console.log(oldTargetIndex, newTargetIndex, setNum);
+    if (
+      operatingMultiset === undefined ||
+      operatingMultiset.setListIndexCutoffs === undefined
+    )
+      return;
+
+    operatingMultiset.setListIndexCutoffs.delete(oldTargetIndex);
+    operatingMultiset.setListIndexCutoffs.set(newTargetIndex, setNum);
+
+    const indexCutoffsArray = Array.from(
+      operatingMultiset.setListIndexCutoffs.entries()
+    );
+
+    indexCutoffsArray.sort((a, b) => a[1] - b[1]);
+
+    const newIndexCutoffs = new Map(indexCutoffsArray);
+
+    setOperatingMultiset((prev) => ({
+      ...prev,
+      setListIndexCutoffs: newIndexCutoffs,
+    }));
   };
 
   return {
