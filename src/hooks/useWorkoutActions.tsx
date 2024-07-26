@@ -1796,9 +1796,9 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   const updateMultiset = async () => {
     if (
       operatingMultiset.id === 0 ||
+      operatingMultiset.setListIndexCutoffs === undefined ||
       operatingGroupedSet === undefined ||
-      operatingGroupedSet.multiset === undefined ||
-      operatingGroupedSet.multiset.setListIndexCutoffs === undefined
+      operatingGroupedSet.multiset === undefined
     )
       return;
 
@@ -1807,7 +1807,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     operatingMultiset.note = noteToInsert;
 
     const setListIdList: number[][] = Array.from(
-      { length: operatingGroupedSet.multiset.setListIndexCutoffs.size },
+      { length: operatingMultiset.setListIndexCutoffs.size },
       () => []
     );
 
@@ -1816,7 +1816,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     let targetSet = -1;
 
     for (let i = 0; i < operatingMultiset.setList.length; i++) {
-      if (operatingGroupedSet.multiset.setListIndexCutoffs.has(i)) {
+      if (operatingMultiset.setListIndexCutoffs.has(i)) {
         targetSet++;
       }
 
@@ -1857,8 +1857,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       setList: updatedMultiset.setList,
       multiset: updatedMultiset,
     };
-
-    //TODO: UPDATE CUTOFFS
 
     const groupedSetIndex = getGroupedSetIndex(operatingGroupedSet.id);
 
