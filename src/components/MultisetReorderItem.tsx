@@ -32,6 +32,8 @@ export const MultisetReorderItem = ({
 
   const setNumDragRef = useRef<HTMLDivElement>(null);
 
+  const multisetId = `multiset-${index}`;
+
   const handleSetNumDragEnd = (info: PanInfo, setNum: number) => {
     const x = info.point.x;
     const y = info.point.y;
@@ -94,7 +96,7 @@ export const MultisetReorderItem = ({
             ? "flex justify-between items-center px-2 py-1 font-medium bg-yellow-50 hover:bg-stone-100"
             : "flex justify-between items-center px-2 py-1 font-medium hover:bg-stone-100"
         }
-        id={`multiset-${index}`}
+        id={multisetId}
       >
         {/* Change number in handleSetNumDragEnd loop if editing layout */}
         <div className="flex justify-between gap-1 items-center w-full max-w-[19rem]">
