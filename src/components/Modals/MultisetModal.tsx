@@ -48,6 +48,7 @@ type MultisetModalProps = {
   handleClickMultiset: (multiset: Multiset, numSets: string) => void;
   showWorkoutItems: boolean;
   operatingSetInputs: UseSetTrackingInputsReturnType;
+  updateSetIndexCutoffs?: (targetIndex: number, setNum: number) => void;
 };
 
 export const MultisetModal = ({
@@ -66,6 +67,7 @@ export const MultisetModal = ({
   handleClickMultiset,
   showWorkoutItems,
   operatingSetInputs,
+  updateSetIndexCutoffs,
 }: MultisetModalProps) => {
   const [numNewSets, setNumNewSets] = useState<string>("3");
 
@@ -216,6 +218,7 @@ export const MultisetModal = ({
                       handleMultisetSetOptionSelection={
                         handleMultisetSetOptionSelection
                       }
+                      updateSetIndexCutoffs={updateSetIndexCutoffs}
                     />
                   </div>
                   {showClearAllButton && (

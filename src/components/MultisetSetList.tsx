@@ -7,12 +7,14 @@ type MultisetSetListProps = {
   multiset: Multiset;
   setMultiset: React.Dispatch<React.SetStateAction<Multiset>>;
   handleMultisetSetOptionSelection: HandleMultisetSetOptionSelectionProps;
+  updateSetIndexCutoffs?: (targetIndex: number, setNum: number) => void;
 };
 
 export const MultisetSetList = ({
   multiset,
   setMultiset,
   handleMultisetSetOptionSelection,
+  updateSetIndexCutoffs,
 }: MultisetSetListProps) => {
   const dragConstraintsRef = useRef<HTMLDivElement>(null);
 
@@ -37,6 +39,7 @@ export const MultisetSetList = ({
           index={index}
           handleMultisetSetOptionSelection={handleMultisetSetOptionSelection}
           dragConstraintsRef={dragConstraintsRef}
+          updateSetIndexCutoffs={updateSetIndexCutoffs}
         />
       ))}
       {multiset.setList.length === 0 && (

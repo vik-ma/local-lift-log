@@ -15,6 +15,7 @@ type MultisetReorderItemProps = {
   index: number;
   handleMultisetSetOptionSelection: HandleMultisetSetOptionSelectionProps;
   dragConstraintsRef: React.RefObject<HTMLDivElement>;
+  updateSetIndexCutoffs?: (targetIndex: number, setNum: number) => void;
 };
 
 export const MultisetReorderItem = ({
@@ -23,6 +24,7 @@ export const MultisetReorderItem = ({
   index,
   handleMultisetSetOptionSelection,
   dragConstraintsRef,
+  updateSetIndexCutoffs,
 }: MultisetReorderItemProps) => {
   const [isDraggingSetNum, setIsDraggingSetNum] = useState<boolean>(false);
 
@@ -73,7 +75,7 @@ export const MultisetReorderItem = ({
             elementAtDropPoint.id &&
             elementAtDropPoint.id.startsWith("multiset-")
           ) {
-            updateSetIndexCutoffs(elementAtDropPoint.id, setNum);
+            setNewSetIndexCutoff(elementAtDropPoint.id, setNum);
             break;
           }
 
@@ -85,7 +87,7 @@ export const MultisetReorderItem = ({
     }
   };
 
-  const updateSetIndexCutoffs = (id: string, setNum: number) => {
+  const setNewSetIndexCutoff = (id: string, setNum: number) => {
     if (id === multisetId || multiset.setListIndexCutoffs === undefined) return;
 
     const idNum = Number(id.split("-")[1]);

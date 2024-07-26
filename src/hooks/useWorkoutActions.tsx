@@ -2068,6 +2068,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     toast.success("Multiset Added");
   };
 
+  const updateSetIndexCutoffs = (targetIndex: number, setNum: number) => {};
+
   return {
     updateExerciseOrder,
     handleSaveSetButton,
@@ -2136,5 +2138,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     handleTextInputModalButton,
     handleToggleSetCommentButton,
     numMultisetSets,
+    updateSetIndexCutoffs,
   };
 };
