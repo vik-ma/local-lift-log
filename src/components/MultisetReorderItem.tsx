@@ -116,9 +116,10 @@ export const MultisetReorderItem = ({
             {setNum && (
               <motion.div
                 ref={setNumDragRef}
-                className={`w-[4rem] text-center py-0.5 text-yellow-600 bg-stone-100 rounded-lg cursor-grab hover:bg-stone-200 hover:text-stone-600 active:cursor-grabbing active:bg-stone-200 active:text-stone-600 ${
+                className={`w-[4rem] text-center py-0.5 select-none text-yellow-600 bg-stone-100 rounded-lg hover:bg-stone-200 hover:text-stone-600 active:bg-stone-200 active:text-stone-600 ${
                   isDraggingSetNum ? "pointer-events-none" : ""
-                }`}
+                } ${setNum !== 1 ? "cursor-grab active:cursor-grabbing" : ""}`}
+                dragListener={setNum === 1 ? false : true}
                 drag="y"
                 dragSnapToOrigin
                 dragConstraints={dragConstraintsRef}
