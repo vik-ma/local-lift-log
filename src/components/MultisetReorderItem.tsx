@@ -6,7 +6,7 @@ import {
 } from "../typings";
 import { ReorderIcon } from "../assets";
 import { MultisetSetMenu } from "./MultisetSetMenu";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 type MultisetReorderItemProps = {
   multiset: Multiset;
@@ -23,6 +23,8 @@ export const MultisetReorderItem = ({
   handleMultisetSetOptionSelection,
   dragConstraintsRef,
 }: MultisetReorderItemProps) => {
+  const [isDraggingSetNum, setIsDraggingSetNum] = useState<boolean>(false);
+
   const exerciseDragControls = useDragControls();
   const setNumDragControls = useDragControls();
 
@@ -33,6 +35,8 @@ export const MultisetReorderItem = ({
   const handleSetNumDragEnd = (info: PanInfo, setNum: number) => {
     const x = info.point.x;
     const y = info.point.y;
+
+    setIsDraggingSetNum(false);
 
     if (!dragConstraintsRef.current) return;
 
@@ -110,12 +114,15 @@ export const MultisetReorderItem = ({
             {setNum && (
               <motion.div
                 ref={setNumDragRef}
-                className="w-[4rem] text-center py-0.5 text-yellow-600 bg-stone-100 rounded-lg cursor-grab hover:bg-stone-200 hover:text-stone-600 active:cursor-grabbing active:bg-stone-200 active:text-stone-600"
+                className={`w-[4rem] text-center py-0.5 text-yellow-600 bg-stone-100 rounded-lg cursor-grab hover:bg-stone-200 hover:text-stone-600 active:cursor-grabbing active:bg-stone-200 active:text-stone-600 ${
+                  isDraggingSetNum ? "pointer-events-none" : ""
+                }`}
                 drag="y"
                 dragSnapToOrigin
                 dragConstraints={dragConstraintsRef}
                 dragControls={setNumDragControls}
                 dragElastic={0}
+                onDragStart={() => setIsDraggingSetNum(true)}
                 onDragEnd={(_, info) => handleSetNumDragEnd(info, setNum)}
               >
                 Set {setNum}
