@@ -7,6 +7,7 @@ import {
 import { ReorderIcon } from "../assets";
 import { MultisetSetMenu } from "./MultisetSetMenu";
 import { useRef, useState } from "react";
+import { IsNumberValidId, ValidateNewSetIndexTarget } from "../helpers";
 
 type MultisetReorderItemProps = {
   multiset: Multiset;
@@ -72,7 +73,7 @@ export const MultisetReorderItem = ({
             elementAtDropPoint.id &&
             elementAtDropPoint.id.startsWith("multiset-")
           ) {
-            console.log(elementAtDropPoint.id, `Set ${setNum}`);
+            updateSetIndexCutoffs(elementAtDropPoint.id, setNum);
             break;
           }
 
@@ -82,6 +83,29 @@ export const MultisetReorderItem = ({
         draggedElement.style.pointerEvents = "";
       });
     }
+  };
+
+  const updateSetIndexCutoffs = (id: string, setNum: number) => {
+    if (id === multisetId || multiset.setListIndexCutoffs === undefined) return;
+
+    const idNum = Number(id.split("-")[1]);
+
+    if (
+      isNaN(idNum) ||
+      !IsNumberValidId(idNum) ||
+      idNum >= multiset.setList.length
+    )
+      return;
+
+    const isValid = ValidateNewSetIndexTarget(
+      idNum,
+      setNum,
+      multiset.setListIndexCutoffs
+    );
+
+    console.log(isValid);
+
+    // TODO: UPDATE INDEX
   };
 
   return (
