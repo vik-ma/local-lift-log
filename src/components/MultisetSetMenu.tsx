@@ -71,14 +71,14 @@ export const MultisetSetMenu = ({
         </DropdownItem>
         {setNum ? (
           <DropdownItem
-            className={!hasSetNum ? "hidden" : ""}
+            className={!hasSetNum || setNum === 1 ? "hidden" : ""}
             key="remove-set-cutoff"
           >
             Remove Set Cutoff
           </DropdownItem>
         ) : (
           <DropdownItem
-            className={!hasSetNum ? "hidden" : ""}
+            className={!hasSetNum || setNum === 1 ? "hidden" : ""}
             key="add-set-cutoff"
           >
             Insert Set Cutoff
