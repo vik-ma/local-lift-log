@@ -14,6 +14,7 @@ import {
   ReassignExerciseIdForSets,
   GetAllMultisetTemplates,
   UpdateItemInList,
+  IsNumberValidId,
 } from "../helpers";
 
 type OperationType = "" | "change-exercise" | "reassign-exercise";
@@ -124,6 +125,8 @@ export const useMultisetActions = ({
       multisetModal.onOpen();
     } else if (key === "remove-set-cutoff") {
       handleRemoveSetCutoff(multiset, index);
+    } else if (key === "add-set-cutoff") {
+      handleInsertSetCutoff(multiset, index);
     }
   };
 
@@ -136,6 +139,38 @@ export const useMultisetActions = ({
       return;
 
     multiset.setListIndexCutoffs.delete(index);
+
+    setOperatingMultiset({ ...multiset });
+  };
+
+  const handleInsertSetCutoff = (multiset: Multiset, index: number) => {
+    if (
+      !IsNumberValidId(index) ||
+      index >= multiset.setList.length ||
+      multiset.setListIndexCutoffs === undefined ||
+      multiset.setListIndexCutoffs.has(index)
+    )
+      return;
+
+    const indexCutoffsArray = Array.from(
+      multiset.setListIndexCutoffs.entries()
+    ).sort((a, b) => a[0] - b[0]);
+
+    // Find the correct position to insert the new index
+    let newSetNum = indexCutoffsArray.findIndex(([key]) => key >= index);
+
+    // Append to end of list if larger than any existing index cutoff
+    if (newSetNum === -1) newSetNum = indexCutoffsArray.length;
+
+    // Increment the values of subsequent entries
+    for (let i = newSetNum; i < indexCutoffsArray.length; i++) {
+      indexCutoffsArray[i][1]++;
+    }
+
+    // Insert the new entry
+    indexCutoffsArray.splice(newSetNum, 0, [index, newSetNum + 1]);
+
+    multiset.setListIndexCutoffs = new Map(indexCutoffsArray);
 
     setOperatingMultiset({ ...multiset });
   };
