@@ -35,12 +35,11 @@ export const MultisetSetList = ({
         setMultiset((prev) => ({ ...prev, setList: value }))
       }
     >
-      {multiset.setList.map((set, index) => (
+      {multiset.setList.map((set) => (
         <MultisetReorderItem
           key={set.id}
           multiset={multiset}
           set={set}
-          index={index}
           handleMultisetSetOptionSelection={handleMultisetSetOptionSelection}
           dragConstraintsRef={dragConstraintsRef}
           updateSetIndexCutoffs={updateSetIndexCutoffs}

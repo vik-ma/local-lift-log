@@ -6,13 +6,12 @@ import {
 } from "../typings";
 import { ReorderIcon } from "../assets";
 import { MultisetSetMenu } from "./MultisetSetMenu";
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { IsNumberValidId, ValidateNewSetIndexTarget } from "../helpers";
 
 type MultisetReorderItemProps = {
   multiset: Multiset;
   set: WorkoutSet;
-  index: number;
   handleMultisetSetOptionSelection: HandleMultisetSetOptionSelectionProps;
   dragConstraintsRef: React.RefObject<HTMLDivElement>;
   updateSetIndexCutoffs?: (
@@ -25,7 +24,6 @@ type MultisetReorderItemProps = {
 export const MultisetReorderItem = ({
   multiset,
   set,
-  index,
   handleMultisetSetOptionSelection,
   dragConstraintsRef,
   updateSetIndexCutoffs,
@@ -34,6 +32,12 @@ export const MultisetReorderItem = ({
 
   const exerciseDragControls = useDragControls();
   const setNumDragControls = useDragControls();
+
+  const index = useMemo(() => {
+    return multiset.setList.findIndex(
+      (multisetSet) => multisetSet.id === set.id
+    );
+  }, [multiset.setList, set.id]);
 
   const setNum = multiset?.setListIndexCutoffs?.get(index);
 
