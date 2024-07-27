@@ -138,7 +138,22 @@ export const useMultisetActions = ({
     )
       return;
 
-    multiset.setListIndexCutoffs.delete(index);
+    const indexCutoffsArray = Array.from(
+      multiset.setListIndexCutoffs.entries()
+    ).sort((a, b) => a[0] - b[0]);
+
+    // Find the position of the index to remove
+    const pos = indexCutoffsArray.findIndex(([key]) => key === index);
+
+    // Remove the entry at the found position
+    indexCutoffsArray.splice(pos, 1);
+
+    // Decrement the values of subsequent entries
+    for (let i = pos; i < indexCutoffsArray.length; i++) {
+      indexCutoffsArray[i][1]--;
+    }
+
+    multiset.setListIndexCutoffs = new Map(indexCutoffsArray);
 
     setOperatingMultiset({ ...multiset });
   };
@@ -157,18 +172,18 @@ export const useMultisetActions = ({
     ).sort((a, b) => a[0] - b[0]);
 
     // Find the correct position to insert the new index
-    let newSetNum = indexCutoffsArray.findIndex(([key]) => key >= index);
+    let pos = indexCutoffsArray.findIndex(([key]) => key >= index);
 
     // Append to end of list if larger than any existing index cutoff
-    if (newSetNum === -1) newSetNum = indexCutoffsArray.length;
+    if (pos === -1) pos = indexCutoffsArray.length;
 
     // Increment the values of subsequent entries
-    for (let i = newSetNum; i < indexCutoffsArray.length; i++) {
+    for (let i = pos; i < indexCutoffsArray.length; i++) {
       indexCutoffsArray[i][1]++;
     }
 
     // Insert the new entry
-    indexCutoffsArray.splice(newSetNum, 0, [index, newSetNum + 1]);
+    indexCutoffsArray.splice(pos, 0, [index, pos + 1]);
 
     multiset.setListIndexCutoffs = new Map(indexCutoffsArray);
 
