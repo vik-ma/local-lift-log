@@ -99,7 +99,8 @@ export const useMultisetActions = ({
     key: string,
     set: WorkoutSet,
     multiset: Multiset,
-    modalIsOpen: boolean
+    modalIsOpen: boolean,
+    index: number
   ) => {
     if (key === "edit-set") {
       handleEditSet(set, multiset);

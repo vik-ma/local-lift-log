@@ -333,7 +333,8 @@ export type HandleMultisetSetOptionSelectionProps = (
   key: string,
   set: WorkoutSet,
   multiset: Multiset,
-  modalIsOpen: boolean
+  modalIsOpen: boolean,
+  index: number
 ) => void;
 
 export type Identifiable = {

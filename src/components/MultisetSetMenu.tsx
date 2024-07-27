@@ -58,7 +58,8 @@ export const MultisetSetMenu = ({
             key as string,
             set,
             multiset,
-            isInModal
+            isInModal,
+            index
           )
         }
       >
