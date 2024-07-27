@@ -615,6 +615,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       handleToggleExerciseNote(groupedWorkoutSet);
     } else if (key === "edit-multiset") {
       handleEditMultiset(groupedWorkoutSet);
+    } else if (key === "add-multiset") {
+      handleAddMultisetToMultiset(groupedWorkoutSet);
     }
   };
 
@@ -2065,6 +2067,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     multisetModal.onClose();
     toast.success("Multiset Added");
   };
+
+  const handleAddMultisetToMultiset = (groupedSet: GroupedWorkoutSet) => {};
 
   return {
     updateExerciseOrder,

@@ -201,6 +201,12 @@ export const WorkoutExerciseList = ({
                           )}
                           <DropdownItem
                             className={isMultiset ? "" : "hidden"}
+                            key="add-multiset"
+                          >
+                            Append Multiset
+                          </DropdownItem>
+                          <DropdownItem
+                            className={isMultiset ? "" : "hidden"}
                             key="edit-multiset"
                           >
                             Edit Multiset
