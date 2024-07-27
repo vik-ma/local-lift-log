@@ -122,7 +122,22 @@ export const useMultisetActions = ({
       setModalPage("exercise-list");
       setModalShouldClose(!modalIsOpen);
       multisetModal.onOpen();
+    } else if (key === "remove-set-cutoff") {
+      handleRemoveSetCutoff(multiset, index);
     }
+  };
+
+  const handleRemoveSetCutoff = (multiset: Multiset, index: number) => {
+    if (
+      index === 0 ||
+      multiset.setListIndexCutoffs === undefined ||
+      !multiset.setListIndexCutoffs.has(index)
+    )
+      return;
+
+    multiset.setListIndexCutoffs.delete(index);
+
+    setOperatingMultiset({ ...multiset });
   };
 
   const changeExercise = async (exercise: Exercise): Promise<boolean> => {
