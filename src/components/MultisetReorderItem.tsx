@@ -7,7 +7,7 @@ import {
 import { ReorderIcon } from "../assets";
 import { MultisetSetMenu } from "./MultisetSetMenu";
 import { useMemo, useRef, useState } from "react";
-import { IsNumberValidId, ValidateNewSetIndexTarget } from "../helpers";
+import { IsNumberValidId } from "../helpers";
 
 type MultisetReorderItemProps = {
   multiset: Multiset;
@@ -41,7 +41,7 @@ export const MultisetReorderItem = ({
 
   const multisetId = `multiset-${index}`;
 
-  const handleSetNumDragEnd = (info: PanInfo, setNum: number) => {
+  const handleSetNumDragEnd = (info: PanInfo, oldIndex: number) => {
     const x = info.point.x;
     const y = info.point.y;
 
@@ -80,7 +80,11 @@ export const MultisetReorderItem = ({
             elementAtDropPoint.id &&
             elementAtDropPoint.id.startsWith("multiset-")
           ) {
-            setNewSetIndexCutoff(elementAtDropPoint.id, setNum, draggedElement);
+            setNewSetIndexCutoff(
+              elementAtDropPoint.id,
+              oldIndex,
+              draggedElement
+            );
             break;
           }
 
@@ -94,7 +98,7 @@ export const MultisetReorderItem = ({
 
   const setNewSetIndexCutoff = (
     id: string,
-    setNum: number,
+    oldIndex: number,
     draggedElement: HTMLDivElement
   ) => {
     if (id === multisetId || multiset.setListIndexCutoffs === undefined) {
@@ -102,29 +106,65 @@ export const MultisetReorderItem = ({
       return;
     }
 
-    const newTargetIndex = Number(id.split("-")[1]);
+    const newIndex = Number(id.split("-")[1]);
 
     if (
-      isNaN(newTargetIndex) ||
-      !IsNumberValidId(newTargetIndex) ||
-      newTargetIndex >= multiset.setList.length
+      isNaN(newIndex) ||
+      !IsNumberValidId(newIndex) ||
+      newIndex === 0 ||
+      newIndex >= multiset.setList.length ||
+      multiset.setListIndexCutoffs.has(newIndex) ||
+      !multiset.setListIndexCutoffs.has(oldIndex)
     ) {
       resetDraggedElement(draggedElement);
       return;
     }
 
-    const isValid = ValidateNewSetIndexTarget(
-      newTargetIndex,
-      setNum,
-      multiset.setListIndexCutoffs
-    );
+    const indexCutoffsArray = Array.from(
+      multiset.setListIndexCutoffs.entries()
+    ).sort((a, b) => a[0] - b[0]);
 
-    if (!isValid) {
-      resetDraggedElement(draggedElement);
-      return;
+    const fromPos = indexCutoffsArray.findIndex(([key]) => key === oldIndex);
+
+    // Extract the entry to move
+    const [, movingValue] = indexCutoffsArray.splice(fromPos, 1)[0];
+
+    // Adjust values of the entries between oldIndex and newIndex
+    if (oldIndex < newIndex) {
+      for (
+        let i = fromPos;
+        i < indexCutoffsArray.length && indexCutoffsArray[i][0] <= newIndex;
+        i++
+      ) {
+        indexCutoffsArray[i][1]--;
+      }
+    } else {
+      for (
+        let i = 0;
+        i < indexCutoffsArray.length && indexCutoffsArray[i][0] < newIndex;
+        i++
+      ) {
+        indexCutoffsArray[i][1]++;
+      }
     }
 
-    // updateSetIndexCutoffs(index, newTargetIndex, setNum);
+    // Find the correct position to insert the moving index
+    let toPos = indexCutoffsArray.findIndex(([key]) => key >= newIndex);
+
+    // Append to end of list if larger than any existing index cutoff
+    if (toPos === -1) toPos = indexCutoffsArray.length;
+
+    // Insert the moving entry at the new position with adjusted value
+    indexCutoffsArray.splice(toPos, 0, [newIndex, movingValue]);
+
+    // Adjust values for all entries to be consecutive starting from 1
+    indexCutoffsArray.forEach((entry, index) => {
+      entry[1] = index + 1;
+    });
+
+    multiset.setListIndexCutoffs = new Map(indexCutoffsArray);
+
+    setMultiset({ ...multiset });
   };
 
   const resetDraggedElement = (draggedElement: HTMLDivElement) => {
@@ -173,7 +213,7 @@ export const MultisetReorderItem = ({
                 dragControls={setNumDragControls}
                 dragElastic={0}
                 onDragStart={() => setIsDraggingSetNum(true)}
-                onDragEnd={(_, info) => handleSetNumDragEnd(info, setNum)}
+                onDragEnd={(_, info) => handleSetNumDragEnd(info, index)}
               >
                 Set {setNum}
               </motion.div>
