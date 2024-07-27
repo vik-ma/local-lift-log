@@ -62,7 +62,8 @@ type OperationType =
   | "delete-grouped_sets-sets"
   | "update-completed-set-time"
   | "add-sets-to-multiset"
-  | "edit-multiset";
+  | "edit-multiset"
+  | "add-multiset-to-multiset";
 
 type WorkoutNumbers = {
   numExercises: number;
@@ -1963,6 +1964,11 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   };
 
   const handleClickMultiset = async (multiset: Multiset, numSets: string) => {
+    if (operationType === "add-multiset-to-multiset") {
+      await addMultisetToMultiset(multiset, numSets);
+      return;
+    }
+
     if (operationType !== "add") return;
 
     if (!numSetsOptions.includes(numSets)) return;
@@ -2068,7 +2074,24 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     toast.success("Multiset Added");
   };
 
-  const handleAddMultisetToMultiset = (groupedSet: GroupedWorkoutSet) => {};
+  const handleAddMultisetToMultiset = (groupedSet: GroupedWorkoutSet) => {
+    if (!groupedSet.multiset) return;
+
+    resetOperatingSet();
+
+    setOperationType("add-multiset-to-multiset");
+    setOperatingGroupedSet(groupedSet);
+    setOperatingMultiset(groupedSet.multiset);
+    multisetActions.setModalPage("multiset-list");
+    multisetModal.onOpen();
+  };
+
+  const addMultisetToMultiset = async (multiset: Multiset, numSets: string) => {
+    resetOperatingMultiset();
+
+    multisetModal.onClose();
+    toast.success("Multiset Added");
+  };
 
   return {
     updateExerciseOrder,
