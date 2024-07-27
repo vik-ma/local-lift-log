@@ -103,7 +103,6 @@ export default function WorkoutDetails() {
     handleTextInputModalButton,
     handleToggleSetCommentButton,
     numMultisetSets,
-    updateSetIndexCutoffs,
   } = useWorkoutActions(false);
 
   const initialized = useRef(false);
@@ -319,7 +318,6 @@ export default function WorkoutDetails() {
         handleClickMultiset={handleClickMultiset}
         showWorkoutItems={true}
         operatingSetInputs={operatingSetInputs}
-        updateSetIndexCutoffs={updateSetIndexCutoffs}
       />
       <TimeInputModal
         timeInputModal={timeInputModal}

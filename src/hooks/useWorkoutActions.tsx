@@ -2066,34 +2066,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     toast.success("Multiset Added");
   };
 
-  const updateSetIndexCutoffs = (
-    oldTargetIndex: number,
-    newTargetIndex: number,
-    setNum: number
-  ) => {
-    if (
-      operatingMultiset === undefined ||
-      operatingMultiset.setListIndexCutoffs === undefined
-    )
-      return;
-
-    operatingMultiset.setListIndexCutoffs.delete(oldTargetIndex);
-    operatingMultiset.setListIndexCutoffs.set(newTargetIndex, setNum);
-
-    const indexCutoffsArray = Array.from(
-      operatingMultiset.setListIndexCutoffs.entries()
-    );
-
-    indexCutoffsArray.sort((a, b) => a[1] - b[1]);
-
-    const newIndexCutoffs = new Map(indexCutoffsArray);
-
-    setOperatingMultiset((prev) => ({
-      ...prev,
-      setListIndexCutoffs: newIndexCutoffs,
-    }));
-  };
-
   return {
     updateExerciseOrder,
     handleSaveSetButton,
@@ -2162,6 +2134,5 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     handleTextInputModalButton,
     handleToggleSetCommentButton,
     numMultisetSets,
-    updateSetIndexCutoffs,
   };
 };

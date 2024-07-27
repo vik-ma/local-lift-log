@@ -11,22 +11,18 @@ import { IsNumberValidId, ValidateNewSetIndexTarget } from "../helpers";
 
 type MultisetReorderItemProps = {
   multiset: Multiset;
+  setMultiset: React.Dispatch<React.SetStateAction<Multiset>>;
   set: WorkoutSet;
   handleMultisetSetOptionSelection: HandleMultisetSetOptionSelectionProps;
   dragConstraintsRef: React.RefObject<HTMLDivElement>;
-  updateSetIndexCutoffs?: (
-    oldTargetIndex: number,
-    newTargetIndex: number,
-    setNum: number
-  ) => void;
 };
 
 export const MultisetReorderItem = ({
   multiset,
+  setMultiset,
   set,
   handleMultisetSetOptionSelection,
   dragConstraintsRef,
-  updateSetIndexCutoffs,
 }: MultisetReorderItemProps) => {
   const [isDraggingSetNum, setIsDraggingSetNum] = useState<boolean>(false);
 
@@ -101,11 +97,7 @@ export const MultisetReorderItem = ({
     setNum: number,
     draggedElement: HTMLDivElement
   ) => {
-    if (
-      id === multisetId ||
-      multiset.setListIndexCutoffs === undefined ||
-      updateSetIndexCutoffs === undefined
-    ) {
+    if (id === multisetId || multiset.setListIndexCutoffs === undefined) {
       resetDraggedElement(draggedElement);
       return;
     }
@@ -132,7 +124,7 @@ export const MultisetReorderItem = ({
       return;
     }
 
-    updateSetIndexCutoffs(index, newTargetIndex, setNum);
+    // updateSetIndexCutoffs(index, newTargetIndex, setNum);
   };
 
   const resetDraggedElement = (draggedElement: HTMLDivElement) => {
