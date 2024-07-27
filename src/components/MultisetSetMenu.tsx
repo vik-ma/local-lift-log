@@ -29,6 +29,10 @@ export const MultisetSetMenu = ({
   verticalMenuIconSize,
   isInModal,
 }: MultisetMenuProps) => {
+  const hasSetNum = multiset.setListIndexCutoffs ? true : false;
+
+  const setNum = multiset.setListIndexCutoffs?.get(index);
+
   return (
     <Dropdown>
       <DropdownTrigger>
@@ -64,6 +68,21 @@ export const MultisetSetMenu = ({
         >
           Edit Set
         </DropdownItem>
+        {setNum ? (
+          <DropdownItem
+            className={!hasSetNum ? "hidden" : ""}
+            key="remove-set-cutoff"
+          >
+            Remove Set Cutoff
+          </DropdownItem>
+        ) : (
+          <DropdownItem
+            className={!hasSetNum ? "hidden" : ""}
+            key="add-set-cutoff"
+          >
+            Insert Set Cutoff
+          </DropdownItem>
+        )}
         {set.hasInvalidExerciseId ? (
           <DropdownItem key="reassign-exercise">Reassign Exercise</DropdownItem>
         ) : (
