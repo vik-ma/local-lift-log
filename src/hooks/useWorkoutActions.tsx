@@ -2075,24 +2075,28 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     const multisetId = operatingGroupedSet.multiset.id;
 
-    const { setListIdList, exerciseListList } = await AddNewSetsToMultiset(
-      numSetsToAdd,
-      newSetListIds,
-      isTemplate,
-      multisetId,
-      isTemplate ? undefined : workout,
-      isTemplate ? workoutTemplate : undefined
-    );
+    const { setListIdList, setListList, exerciseListList } =
+      await AddNewSetsToMultiset(
+        numSetsToAdd,
+        newSetListIds,
+        isTemplate,
+        multisetId,
+        isTemplate ? undefined : workout,
+        isTemplate ? workoutTemplate : undefined
+      );
 
     setListIdList.map((list) => existingSetListIds.push(list));
-
-    const updatedIndexCutoffs = CreateMultisetIndexCutoffs(existingSetListIds);
 
     const newExerciseList = [...operatingGroupedSet.exerciseList];
     newExerciseList.push(...exerciseListList.flat());
 
-    const newMultiset = { ...operatingGroupedSet.multiset };
+    const newSetList = [...operatingGroupedSet.setList];
+    newSetList.push(...setListList.flat());
 
+    const newMultiset = { ...operatingGroupedSet.multiset };
+    newMultiset.setList = newSetList;
+
+    const updatedIndexCutoffs = CreateMultisetIndexCutoffs(existingSetListIds);
     newMultiset.setListIndexCutoffs = updatedIndexCutoffs;
 
     const { success, updatedMultiset } = await UpdateMultisetSetOrder(
@@ -2112,7 +2116,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     const newGroupedSets = UpdateItemInList(groupedSets, newGroupedSet);
 
     setGroupedSets(newGroupedSets);
-    await updateExerciseOrder(newGroupedSets);
 
     if (!isTemplate) populateIncompleteSets(newGroupedSets);
 
