@@ -1,20 +1,20 @@
 import { Exercise, Workout, WorkoutSet, WorkoutTemplate } from "../../typings";
 import { GetSetFromId, GetExerciseFromId, InsertSetIntoDatabase } from "..";
 
-type AddSetsToMultisetReturnType = {
+type AddNewSetsToMultisetReturnType = {
   setListIdList: number[][];
   setListList: WorkoutSet[][];
   exerciseListList: Exercise[][];
 };
 
-export const AddSetsToMultiset = async (
+export const AddNewSetsToMultiset = async (
   numSetsToAdd: number,
   setListIds: number[],
   isTemplate: boolean,
   multisetId: number,
   workout: Workout | undefined,
   workoutTemplate: WorkoutTemplate | undefined
-): Promise<AddSetsToMultisetReturnType> => {
+): Promise<AddNewSetsToMultisetReturnType> => {
   const setListIdList: number[][] = Array.from(
     { length: numSetsToAdd },
     () => []

@@ -41,7 +41,7 @@ import {
   UpdateItemInList,
   DeleteItemFromList,
   DeleteIdFromList,
-  AddSetsToMultiset,
+  AddNewSetsToMultiset,
 } from "../helpers";
 import {
   useDefaultSet,
@@ -1986,7 +1986,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     const numSetsToAdd: number = parseInt(numSets);
 
     const { setListIdList, setListList, exerciseListList } =
-      await AddSetsToMultiset(
+      await AddNewSetsToMultiset(
         numSetsToAdd,
         templateSetListIds,
         isTemplate,
@@ -2075,7 +2075,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     const multisetId = operatingGroupedSet.multiset.id;
 
-    const { setListIdList, exerciseListList } = await AddSetsToMultiset(
+    const { setListIdList, exerciseListList } = await AddNewSetsToMultiset(
       numSetsToAdd,
       newSetListIds,
       isTemplate,
