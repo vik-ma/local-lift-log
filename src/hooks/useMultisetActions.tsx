@@ -213,6 +213,8 @@ export const useMultisetActions = ({
         updatedSet
       );
 
+      operatingMultiset.setList = updatedSetList;
+
       const updatedSetListValues = GenerateSetListText(updatedSetList);
 
       const updatedMultiset = {
