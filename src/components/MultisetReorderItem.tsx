@@ -179,7 +179,7 @@ export const MultisetReorderItem = ({
     >
       <div
         className={
-          set.id < 0
+          set.id < 0 || set.isEditedInMultiset
             ? "flex justify-between items-center px-2 py-1 font-medium bg-yellow-50 hover:bg-stone-100"
             : "flex justify-between items-center px-2 py-1 font-medium hover:bg-stone-100"
         }
@@ -197,8 +197,11 @@ export const MultisetReorderItem = ({
             {set.exercise_name}
           </span>
           <div className="flex justify-between items-center gap-1">
+            {set.isEditedInMultiset && (
+              <span className="text-yellow-500 flex-grow">(Edited)</span>
+            )}
             {set.id < 0 && (
-              <span className="text-yellow-500 flex-grow">(NEW)</span>
+              <span className="text-yellow-500 flex-grow">(New)</span>
             )}
             {setNum && (
               <motion.div
