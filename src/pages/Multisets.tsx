@@ -289,11 +289,8 @@ export default function Multisets() {
       rpe: setTrackingValuesNumber.rpe,
       resistance_level: setTrackingValuesNumber.resistance_level,
       partial_reps: setTrackingValuesNumber.partial_reps,
+      isEditedInMultiset: true,
     };
-
-    const success = await UpdateSet(updatedSet);
-
-    if (!success) return;
 
     const updatedSetList = UpdateItemInList(
       operatingMultiset.setList,
@@ -312,7 +309,6 @@ export default function Multisets() {
     multisetActions.setMultisets(updatedMultisets);
 
     multisetActions.setModalPage("base");
-    toast.success("Set Updated");
   };
 
   const handleMultisetAccordionClick = (multiset: Multiset, index: number) => {
