@@ -30,7 +30,6 @@ import {
   DefaultNewWorkoutTemplate,
   InsertMultisetIntoDatabase,
   GenerateMultisetSetOrderList,
-  GetSetFromId,
   GetExerciseFromId,
   UpdateMultisetSetOrder,
   GetNumberOfUniqueExercisesInGroupedSets,
@@ -2076,56 +2075,21 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     const multisetId = operatingGroupedSet.multiset.id;
 
-    const newSetListIdList: number[][] = Array.from(
-      { length: numSetsToAdd },
-      () => []
-    );
-    const newSetListList: WorkoutSet[][] = Array.from(
-      { length: numSetsToAdd },
-      () => []
-    );
-    const newExerciseListList: Exercise[][] = Array.from(
-      { length: numSetsToAdd },
-      () => []
+    const { setListIdList, exerciseListList } = await AddSetsToMultiset(
+      numSetsToAdd,
+      newSetListIds,
+      isTemplate,
+      multisetId,
+      isTemplate ? undefined : workout,
+      isTemplate ? workoutTemplate : undefined
     );
 
-    for (let i = 0; i < newSetListIds.length; i++) {
-      const set = await GetSetFromId(newSetListIds[i]);
-
-      if (set === undefined) continue;
-
-      const exercise = await GetExerciseFromId(set.exercise_id);
-
-      set.is_template = isTemplate ? 1 : 0;
-      set.multiset_id = multisetId;
-
-      if (isTemplate && workoutTemplate.id !== 0) {
-        set.workout_template_id = workoutTemplate.id;
-      }
-
-      if (!isTemplate && workout.id !== 0) {
-        set.workout_id = workout.id;
-      }
-
-      for (let j = 0; j < numSetsToAdd; j++) {
-        const setId = await InsertSetIntoDatabase(set);
-
-        if (setId === 0) return;
-
-        set.id = setId;
-
-        newSetListIdList[j].push(setId);
-        newSetListList[j].push(set);
-        newExerciseListList[j].push(exercise);
-      }
-    }
-
-    newSetListIdList.map((list) => existingSetListIds.push(list));
+    setListIdList.map((list) => existingSetListIds.push(list));
 
     const updatedIndexCutoffs = CreateMultisetIndexCutoffs(existingSetListIds);
 
     const newExerciseList = [...operatingGroupedSet.exerciseList];
-    newExerciseList.push(...newExerciseListList.flat());
+    newExerciseList.push(...exerciseListList.flat());
 
     const newMultiset = { ...operatingGroupedSet.multiset };
 
