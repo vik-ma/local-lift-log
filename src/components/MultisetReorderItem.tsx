@@ -197,12 +197,12 @@ export const MultisetReorderItem = ({
             {set.exercise_name}
           </span>
           <div className="flex justify-between items-center gap-1">
-            {set.isEditedInMultiset && (
-              <span className="text-yellow-500 flex-grow">(Edited)</span>
-            )}
-            {set.id < 0 && (
-              <span className="text-yellow-500 flex-grow">(New)</span>
-            )}
+            {(set.id < 0 ||
+              set.isEditedInMultiset) && (
+                <span className="text-yellow-500 flex-grow">
+                  {set.id < 0 ? "(New)" : "(Edited)"}
+                </span>
+              )}
             {setNum && (
               <motion.div
                 ref={setNumDragRef}

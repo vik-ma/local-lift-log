@@ -269,7 +269,7 @@ export default function Multisets() {
   };
 
   const updateOperatingSet = async () => {
-    if (operatingMultiset.id === 0 || operatingSet.id < 1) return;
+    if (operatingMultiset.id === 0) return;
 
     if (operatingSetInputs.isSetTrackingValuesInvalid) return;
 

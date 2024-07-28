@@ -255,7 +255,7 @@ export const MultisetModal = ({
                     isDisabled={
                       (modalPage !== "edit-set" &&
                         multiset.setList.length === 0) ||
-                      (modalPage === "edit-set" && operatingSet.id < 1)
+                      (modalPage === "edit-set" && operatingSetInputs.isSetTrackingValuesInvalid)
                     }
                     onPress={
                       modalPage === "edit-set"
