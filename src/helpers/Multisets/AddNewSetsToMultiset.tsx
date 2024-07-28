@@ -51,10 +51,10 @@ export const AddNewSetsToMultiset = async (
 
       if (setId === 0) continue;
 
-      set.id = setId;
+      const newSet = { ...set, id: setId };
 
       setListIdList[j].push(setId);
-      setListList[j].push(set);
+      setListList[j].push(newSet);
       exerciseListList[j].push(exercise);
     }
   }

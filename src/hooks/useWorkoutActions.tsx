@@ -1582,10 +1582,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
           operatingMultisetSet.exercise_id
         );
 
-        operatingMultisetSet.id = operatingMultisetSetId;
+        const newSet = { ...operatingMultisetSet, id: operatingMultisetSetId };
 
         operatingSetListIdList[j].push(operatingMultisetSetId);
-        setListList[j].push(operatingMultisetSet);
+        setListList[j].push(newSet);
         exerciseListList[j].push(exercise);
       }
 
@@ -1629,7 +1629,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       id: `m${updatedOperatingMultiset.id}`,
       exerciseList: newExerciseList,
       setList: updatedOperatingMultiset.setList,
-      isExpanded: false,
+      isExpanded: true,
       isMultiset: true,
       multiset: updatedOperatingMultiset,
     };
@@ -2015,7 +2015,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       id: `m${updatedMultiset.id}`,
       exerciseList: newExerciseList,
       setList: updatedMultiset.setList,
-      isExpanded: false,
+      isExpanded: true,
       isMultiset: true,
       multiset: updatedMultiset,
     };
