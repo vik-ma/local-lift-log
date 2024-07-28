@@ -42,6 +42,7 @@ import {
   UpdateItemInList,
   DeleteItemFromList,
   DeleteIdFromList,
+  AddSetsToMultiset,
 } from "../helpers";
 import {
   useDefaultSet,
@@ -1985,49 +1986,15 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     const numSetsToAdd: number = parseInt(numSets);
 
-    const setListIdList: number[][] = Array.from(
-      { length: numSetsToAdd },
-      () => []
-    );
-    const setListList: WorkoutSet[][] = Array.from(
-      { length: numSetsToAdd },
-      () => []
-    );
-    const exerciseListList: Exercise[][] = Array.from(
-      { length: numSetsToAdd },
-      () => []
-    );
-
-    for (let i = 0; i < templateSetListIds.length; i++) {
-      const set = await GetSetFromId(templateSetListIds[i]);
-
-      if (set === undefined) continue;
-
-      const exercise = await GetExerciseFromId(set.exercise_id);
-
-      set.is_template = isTemplate ? 1 : 0;
-      set.multiset_id = multisetId;
-
-      if (isTemplate && workoutTemplate.id !== 0) {
-        set.workout_template_id = workoutTemplate.id;
-      }
-
-      if (!isTemplate && workout.id !== 0) {
-        set.workout_id = workout.id;
-      }
-
-      for (let j = 0; j < numSetsToAdd; j++) {
-        const setId = await InsertSetIntoDatabase(set);
-
-        if (setId === 0) return;
-
-        set.id = setId;
-
-        setListIdList[j].push(setId);
-        setListList[j].push(set);
-        exerciseListList[j].push(exercise);
-      }
-    }
+    const { setListIdList, setListList, exerciseListList } =
+      await AddSetsToMultiset(
+        numSetsToAdd,
+        templateSetListIds,
+        isTemplate,
+        multisetId,
+        isTemplate ? undefined : workout,
+        isTemplate ? workoutTemplate : undefined
+      );
 
     const indexCutoffs = CreateMultisetIndexCutoffs(setListIdList);
 
