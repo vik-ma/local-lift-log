@@ -57,7 +57,6 @@ export default function WorkoutDetails() {
     groupedSets,
     setGroupedSets,
     userSettings,
-    setUserSettings,
     operatingSet,
     setOperatingSet,
     operatingGroupedSet,
@@ -205,15 +204,9 @@ export default function WorkoutDetails() {
     };
 
     loadWorkout();
-  }, [
-    id,
-    populateIncompleteSets,
-    setGroupedSets,
-    setOperatingSet,
-    setUserSettings,
-    setWorkout,
-    workoutNumbers,
-  ]);
+    // Including useWorkoutActions-derived functions and setStates will cause useEffect to fire after initial load
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
 
   const handleWorkoutModalSaveButton = async (updatedWorkout: Workout) => {
     if (updatedWorkout.id === 0) return;
