@@ -352,13 +352,16 @@ export const useMultisetActions = ({
     multisetModal.onClose();
   };
 
-  const clearMultiset = (modalPage?: ModalPage) => {
+  const clearMultiset = (
+    newModalPage?: ModalPage,
+    newOperatingMultiset?: Multiset
+  ) => {
     setNewMultisetSetIndex(0);
     setNewExerciseList([]);
-    setOperatingMultiset(defaultMultiset);
+    setOperatingMultiset(newOperatingMultiset ?? defaultMultiset);
     setSetsToDelete(new Set());
 
-    if (modalPage) setModalPage(modalPage);
+    if (newModalPage) setModalPage(newModalPage);
   };
 
   const undoOperatingMultisetChanges = () => {
@@ -368,7 +371,7 @@ export const useMultisetActions = ({
     )
       return;
 
-    setOperatingMultiset(uneditedMultiset);
+    clearMultiset(undefined, uneditedMultiset);
   };
 
   const loadMultisets = useCallback(async () => {
