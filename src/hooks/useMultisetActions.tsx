@@ -15,6 +15,7 @@ import {
   GetAllMultisetTemplates,
   UpdateItemInList,
   IsNumberValidId,
+  DeleteItemFromList,
 } from "../helpers";
 
 type OperationType = "" | "change-exercise" | "reassign-exercise";
@@ -108,9 +109,13 @@ export const useMultisetActions = ({
     if (key === "edit-set") {
       handleEditSet(set, multiset);
     } else if (key === "delete-set") {
-      setOperatingSet(set);
       setOperatingMultiset(multiset);
-      deleteModal.onOpen();
+      if (modalIsOpen) {
+        removeSetFromOperatingMultiset(set);
+      } else {
+        setOperatingSet(set);
+        deleteModal.onOpen();
+      }
     } else if (key === "change-exercise") {
       setOperatingSet(set);
       setOperatingMultiset(multiset);
@@ -218,6 +223,19 @@ export const useMultisetActions = ({
 
     setMultisetSetOperationType("");
     setModalPage("base");
+  };
+
+  const removeSetFromOperatingMultiset = (set: WorkoutSet) => {
+    if (operatingMultiset.id === 0) return;
+
+    const updatedSetList = DeleteItemFromList(
+      operatingMultiset.setList,
+      set.id
+    );
+
+    const updatedMultiset = { ...operatingMultiset, setList: updatedSetList };
+
+    setOperatingMultiset(updatedMultiset);
   };
 
   const changeExerciseAndSave = async (

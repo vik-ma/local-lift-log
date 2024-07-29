@@ -309,13 +309,6 @@ export default function Multisets() {
 
     setOperatingMultiset(updatedMultiset);
 
-    const updatedMultisets = UpdateItemInList(
-      multisetActions.multisets,
-      updatedMultiset
-    );
-
-    multisetActions.setMultisets(updatedMultisets);
-
     multisetActions.setModalPage("base");
   };
 
@@ -334,6 +327,7 @@ export default function Multisets() {
   const removeSetFromMultiset = async () => {
     if (operatingSet.id === 0) return;
 
+    // TODO: FIX
     if (operatingSet.id < 0) {
       // If deleting non-saved Set
       const updatedSetList = DeleteItemFromList(
