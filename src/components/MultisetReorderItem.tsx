@@ -186,7 +186,7 @@ export const MultisetReorderItem = ({
         id={multisetId}
       >
         {/* Change number in handleSetNumDragEnd loop if editing layout */}
-        <div className="flex justify-between gap-1 items-center w-full max-w-[19rem]">
+        <div className="flex justify-between gap-1 items-center w-full max-w-[20rem]">
           <span
             className={
               set.hasInvalidExerciseId
