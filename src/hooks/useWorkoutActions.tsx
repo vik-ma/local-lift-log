@@ -1439,10 +1439,9 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   };
 
   const resetOperatingMultiset = () => {
-    multisetActions.setModalPage("multiset-list");
-    multisetActions.setNewMultisetSetIndex(0);
-    multisetActions.setNewExerciseList([]);
     setOperatingMultiset(defaultMultiset);
+
+    multisetActions.clearMultiset("multiset-list");
   };
 
   const handleAddSetToMultiset = async (

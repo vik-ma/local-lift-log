@@ -57,6 +57,7 @@ export const useMultisetActions = ({
   const [newExerciseList, setNewExerciseList] = useState<Exercise[]>([]);
   const [uneditedMultiset, setUneditedMultiset] =
     useState<Multiset>(defaultMultiset);
+  const [setsToDelete, setSetsToDelete] = useState<Set<number>>(new Set());
 
   const { multisetTypeMap } = useMultisetTypeMap();
 
@@ -351,10 +352,13 @@ export const useMultisetActions = ({
     multisetModal.onClose();
   };
 
-  const clearMultiset = () => {
+  const clearMultiset = (modalPage?: ModalPage) => {
     setNewMultisetSetIndex(0);
     setNewExerciseList([]);
     setOperatingMultiset(defaultMultiset);
+    setSetsToDelete(new Set());
+
+    if (modalPage) setModalPage(modalPage);
   };
 
   const undoOperatingMultisetChanges = () => {

@@ -102,9 +102,7 @@ export default function Multisets() {
       weight_unit: userSettings!.default_unit_weight!,
       distance_unit: userSettings!.default_unit_distance!,
     });
-    multisetActions.setNewMultisetSetIndex(0);
-    multisetActions.setModalPage("base");
-    multisetActions.setUneditedMultiset(defaultMultiset);
+    multisetActions.clearMultiset("base");
   };
 
   const handleClickExercise = async (exercise: Exercise) => {

@@ -231,7 +231,11 @@ export const MultisetModal = ({
                     />
                   </div>
                   {showClearAllButton && (
-                    <Button size="sm" variant="flat" onClick={clearMultiset}>
+                    <Button
+                      size="sm"
+                      variant="flat"
+                      onPress={() => clearMultiset()}
+                    >
                       Clear All
                     </Button>
                   )}
