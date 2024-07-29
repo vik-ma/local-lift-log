@@ -279,6 +279,7 @@ export const MultisetModal = ({
                     className="w-[6.5rem]"
                     color="success"
                     isDisabled={
+                      modalPage === "exercise-list" ||
                       (modalPage !== "edit-set" &&
                         multiset.setList.length === 0) ||
                       (modalPage === "edit-set" &&
