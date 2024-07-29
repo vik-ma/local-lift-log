@@ -117,6 +117,7 @@ export default function Multisets() {
         toast.success("Exercise Changed");
       } else {
         // Change exercise in operatingMultiset, but don't save to DB
+        multisetActions.updateExerciseInOperatingSet(exercise);
       }
 
       return;

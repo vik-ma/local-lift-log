@@ -190,6 +190,33 @@ export const useMultisetActions = ({
     setOperatingMultiset({ ...multiset });
   };
 
+  const updateExerciseInOperatingSet = (exercise: Exercise) => {
+    const updatedSet: WorkoutSet = {
+      ...operatingSet,
+      exercise_id: exercise.id,
+      exercise_name: exercise.name,
+      isEditedInMultiset: true,
+    };
+
+    const updatedSetList = UpdateItemInList(
+      operatingMultiset.setList,
+      updatedSet
+    );
+
+    const updatedSetListValues = GenerateSetListText(updatedSetList);
+
+    const updatedMultiset = {
+      ...operatingMultiset,
+      setList: updatedSetList,
+      setListText: updatedSetListValues.setListText,
+      setListTextString: updatedSetListValues.setListTextString,
+    };
+
+    setOperatingMultiset(updatedMultiset);
+
+    setModalPage("base");
+  };
+
   const changeExerciseAndSave = async (
     exercise: Exercise
   ): Promise<boolean> => {
@@ -343,5 +370,6 @@ export const useMultisetActions = ({
     setNewExerciseList,
     clearMultiset,
     calledOutsideModal,
+    updateExerciseInOperatingSet,
   };
 };
