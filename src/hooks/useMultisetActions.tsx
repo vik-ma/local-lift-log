@@ -216,6 +216,7 @@ export const useMultisetActions = ({
 
     setOperatingMultiset(updatedMultiset);
 
+    setMultisetSetOperationType("");
     setModalPage("base");
   };
 
@@ -260,6 +261,7 @@ export const useMultisetActions = ({
 
       setMultisets(updatedMultisets);
 
+      setMultisetSetOperationType("");
       setModalPage("base");
 
       closeMultisetModal();
@@ -316,6 +318,7 @@ export const useMultisetActions = ({
 
     setMultisets(updatedMultisets);
 
+    setMultisetSetOperationType("");
     setModalPage("base");
 
     if (calledOutsideModal) {
