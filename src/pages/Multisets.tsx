@@ -108,11 +108,17 @@ export default function Multisets() {
 
   const handleClickExercise = async (exercise: Exercise) => {
     if (multisetActions.multisetSetOperationType === "change-exercise") {
-      const success = await multisetActions.changeExercise(exercise);
+      if (multisetActions.calledOutsideModal) {
+        // Change exercise and save directly to DB
+        const success = await multisetActions.changeExerciseAndSave(exercise);
 
-      if (!success) return;
+        if (!success) return;
 
-      toast.success("Exercise Changed");
+        toast.success("Exercise Changed");
+      } else {
+        // Change exercise in operatingMultiset, but don't save to DB
+      }
+
       return;
     }
 

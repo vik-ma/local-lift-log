@@ -49,7 +49,7 @@ export const useMultisetActions = ({
   const [modalPage, setModalPage] = useState<ModalPage>(defaultPage ?? "base");
   const [multisetSetOperationType, setMultisetSetOperationType] =
     useState<OperationType>("");
-  const [modalShouldClose, setModalShouldClose] = useState<boolean>(false);
+  const [calledOutsideModal, setCalledOutsideModal] = useState<boolean>(false);
   const [multisets, setMultisets] = useState<Multiset[]>([]);
   const [filterQuery, setFilterQuery] = useState<string>("");
   const [newMultisetSetIndex, setNewMultisetSetIndex] = useState<number>(0);
@@ -114,14 +114,14 @@ export const useMultisetActions = ({
       setOperatingMultiset(multiset);
       setMultisetSetOperationType("change-exercise");
       setModalPage("exercise-list");
-      setModalShouldClose(!modalIsOpen);
+      setCalledOutsideModal(!modalIsOpen);
       multisetModal.onOpen();
     } else if (key === "reassign-exercise") {
       setOperatingSet(set);
       setOperatingMultiset(multiset);
       setMultisetSetOperationType("reassign-exercise");
       setModalPage("exercise-list");
-      setModalShouldClose(!modalIsOpen);
+      setCalledOutsideModal(!modalIsOpen);
       multisetModal.onOpen();
     } else if (key === "remove-set-cutoff") {
       handleRemoveSetCutoff(multiset, index);
@@ -190,7 +190,9 @@ export const useMultisetActions = ({
     setOperatingMultiset({ ...multiset });
   };
 
-  const changeExercise = async (exercise: Exercise): Promise<boolean> => {
+  const changeExerciseAndSave = async (
+    exercise: Exercise
+  ): Promise<boolean> => {
     // If trying to assign same exercise
     if (exercise.id === operatingSet.id) return false;
 
@@ -231,9 +233,7 @@ export const useMultisetActions = ({
 
       setModalPage("base");
 
-      if (modalShouldClose) {
-        closeMultisetModal();
-      }
+      closeMultisetModal();
 
       return true;
     } catch (error) {
@@ -289,7 +289,7 @@ export const useMultisetActions = ({
 
     setModalPage("base");
 
-    if (modalShouldClose) {
+    if (calledOutsideModal) {
       closeMultisetModal();
     }
 
@@ -297,7 +297,7 @@ export const useMultisetActions = ({
   };
 
   const closeMultisetModal = () => {
-    setModalShouldClose(false);
+    setCalledOutsideModal(false);
     multisetModal.onClose();
   };
 
@@ -330,7 +330,7 @@ export const useMultisetActions = ({
     handleMultisetSetOptionSelection,
     multisetSetOperationType,
     setMultisetSetOperationType,
-    changeExercise,
+    changeExerciseAndSave,
     reassignExercise,
     closeMultisetModal,
     filterQuery,
@@ -342,5 +342,6 @@ export const useMultisetActions = ({
     newExerciseList,
     setNewExerciseList,
     clearMultiset,
+    calledOutsideModal,
   };
 };
