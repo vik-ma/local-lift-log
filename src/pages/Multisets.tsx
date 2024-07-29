@@ -151,7 +151,11 @@ export default function Multisets() {
 
     const newSetList = [...operatingMultiset.setList, newSet];
 
-    setOperatingMultiset((prev) => ({ ...prev, setList: newSetList }));
+    setOperatingMultiset((prev) => ({
+      ...prev,
+      setList: newSetList,
+      isEditedInModal: true,
+    }));
 
     multisetActions.setModalPage("base");
 
@@ -303,7 +307,11 @@ export default function Multisets() {
       updatedSet
     );
 
-    const updatedMultiset = { ...operatingMultiset, setList: updatedSetList };
+    const updatedMultiset = {
+      ...operatingMultiset,
+      setList: updatedSetList,
+      isEditedInModal: true,
+    };
 
     setOperatingMultiset(updatedMultiset);
 

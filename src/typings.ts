@@ -301,6 +301,7 @@ export type Multiset = {
   setListTextString?: string;
   isExpanded?: boolean;
   setListIndexCutoffs?: Map<number, number>;
+  isEditedInModal?: boolean;
 };
 
 export type MultisetTypeMap = {

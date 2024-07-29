@@ -92,16 +92,6 @@ export const MultisetModal = ({
     );
   }, [multiset]);
 
-  const showResetButton = useMemo(() => {
-    if (multiset.id === 0) return false;
-
-    for (const set of multiset.setList) {
-      if (set.isEditedInMultiset) return true;
-    }
-
-    return false;
-  }, [multiset.id, multiset.setList]);
-
   const {
     modalPage,
     setModalPage,
@@ -239,7 +229,7 @@ export const MultisetModal = ({
                       Clear All
                     </Button>
                   )}
-                  {showResetButton && (
+                  {multiset.isEditedInModal && multiset.id !== 0 && (
                     <Button
                       size="sm"
                       color="danger"

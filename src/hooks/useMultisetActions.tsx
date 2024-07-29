@@ -218,6 +218,7 @@ export const useMultisetActions = ({
       setList: updatedSetList,
       setListText: updatedSetListValues.setListText,
       setListTextString: updatedSetListValues.setListTextString,
+      isEditedInModal: true,
     };
 
     setOperatingMultiset(updatedMultiset);
@@ -234,7 +235,11 @@ export const useMultisetActions = ({
       set.id
     );
 
-    const updatedMultiset = { ...operatingMultiset, setList: updatedSetList };
+    const updatedMultiset = {
+      ...operatingMultiset,
+      setList: updatedSetList,
+      isEditedInModal: true,
+    };
 
     setOperatingMultiset(updatedMultiset);
   };
