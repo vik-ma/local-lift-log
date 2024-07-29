@@ -54,6 +54,8 @@ export const useMultisetActions = ({
   const [filterQuery, setFilterQuery] = useState<string>("");
   const [newMultisetSetIndex, setNewMultisetSetIndex] = useState<number>(0);
   const [newExerciseList, setNewExerciseList] = useState<Exercise[]>([]);
+  const [uneditedMultiset, setUneditedMultiset] =
+    useState<Multiset>(defaultMultiset);
 
   const { multisetTypeMap } = useMultisetTypeMap();
 
@@ -334,6 +336,16 @@ export const useMultisetActions = ({
     setOperatingMultiset(defaultMultiset);
   };
 
+  const undoOperatingMultisetChanges = () => {
+    if (
+      uneditedMultiset.id === 0 ||
+      uneditedMultiset.id !== operatingMultiset.id
+    )
+      return;
+
+    setOperatingMultiset(uneditedMultiset);
+  };
+
   const loadMultisets = useCallback(async () => {
     try {
       const multisets = await GetAllMultisetTemplates();
@@ -371,5 +383,7 @@ export const useMultisetActions = ({
     clearMultiset,
     calledOutsideModal,
     updateExerciseInOperatingSet,
+    undoOperatingMultisetChanges,
+    setUneditedMultiset,
   };
 };

@@ -104,6 +104,7 @@ export default function Multisets() {
     });
     multisetActions.setNewMultisetSetIndex(0);
     multisetActions.setModalPage("base");
+    multisetActions.setUneditedMultiset(defaultMultiset);
   };
 
   const handleClickExercise = async (exercise: Exercise) => {
@@ -418,6 +419,7 @@ export default function Multisets() {
       setOperationType("edit");
       multisetActions.setNewMultisetSetIndex(0);
       multisetActions.setModalPage("base");
+      multisetActions.setUneditedMultiset({ ...multiset });
       multisetModal.onOpen();
     } else if (key === "delete") {
       setOperatingMultiset(multiset);
@@ -490,6 +492,9 @@ export default function Multisets() {
         handleClickMultiset={() => {}}
         showWorkoutItems={false}
         operatingSetInputs={operatingSetInputs}
+        undoOperatingMultisetChanges={
+          multisetActions.undoOperatingMultisetChanges
+        }
       />
       <div className="flex flex-col items-center gap-2">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">

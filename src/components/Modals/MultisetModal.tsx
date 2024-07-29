@@ -48,6 +48,7 @@ type MultisetModalProps = {
   handleClickMultiset: (multiset: Multiset, numSets: string) => void;
   showWorkoutItems: boolean;
   operatingSetInputs: UseSetTrackingInputsReturnType;
+  undoOperatingMultisetChanges: () => void;
 };
 
 export const MultisetModal = ({
@@ -66,6 +67,7 @@ export const MultisetModal = ({
   handleClickMultiset,
   showWorkoutItems,
   operatingSetInputs,
+  undoOperatingMultisetChanges,
 }: MultisetModalProps) => {
   const [numNewSets, setNumNewSets] = useState<string>("3");
 
@@ -238,9 +240,9 @@ export const MultisetModal = ({
                       size="sm"
                       color="danger"
                       variant="flat"
-                      onClick={() => console.log("test")}
+                      onClick={undoOperatingMultisetChanges}
                     >
-                      Reset
+                      Undo Changes
                     </Button>
                   )}
                 </div>
