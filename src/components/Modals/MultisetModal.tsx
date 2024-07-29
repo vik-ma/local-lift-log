@@ -90,6 +90,16 @@ export const MultisetModal = ({
     );
   }, [multiset]);
 
+  const showResetButton = useMemo(() => {
+    if (multiset.id === 0) return false;
+
+    for (const set of multiset.setList) {
+      if (set.isEditedInMultiset) return true;
+    }
+
+    return false;
+  }, [multiset.id, multiset.setList]);
+
   const {
     modalPage,
     setModalPage,
@@ -223,6 +233,16 @@ export const MultisetModal = ({
                       Clear All
                     </Button>
                   )}
+                  {showResetButton && (
+                    <Button
+                      size="sm"
+                      color="danger"
+                      variant="flat"
+                      onClick={() => console.log("test")}
+                    >
+                      Reset
+                    </Button>
+                  )}
                 </div>
               )}
             </ModalBody>
@@ -255,7 +275,8 @@ export const MultisetModal = ({
                     isDisabled={
                       (modalPage !== "edit-set" &&
                         multiset.setList.length === 0) ||
-                      (modalPage === "edit-set" && operatingSetInputs.isSetTrackingValuesInvalid)
+                      (modalPage === "edit-set" &&
+                        operatingSetInputs.isSetTrackingValuesInvalid)
                     }
                     onPress={
                       modalPage === "edit-set"
