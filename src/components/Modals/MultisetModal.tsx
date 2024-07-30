@@ -176,6 +176,7 @@ export const MultisetModal = ({
                     <MultisetDropdown
                       multiset_type={multiset.multiset_type}
                       setMultiset={setMultiset}
+                      isInModal={true}
                     />
                     <Input
                       value={multiset.note ?? ""}
@@ -187,6 +188,7 @@ export const MultisetModal = ({
                         setMultiset((prev) => ({
                           ...prev,
                           note: value,
+                          isEditedInModal: true,
                         }))
                       }
                       isClearable
