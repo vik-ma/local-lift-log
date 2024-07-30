@@ -408,10 +408,8 @@ export default function Multisets() {
 
   const handleMultisetOptionSelection = (key: string, multiset: Multiset) => {
     if (key === "edit") {
-      setOperatingMultiset(multiset);
       setOperationType("edit");
-      multisetActions.setNewMultisetSetIndex(0);
-      multisetActions.setModalPage("base");
+      multisetActions.clearMultiset("base", multiset);
       multisetActions.setUneditedMultiset({ ...multiset });
       multisetModal.onOpen();
     } else if (key === "delete") {
