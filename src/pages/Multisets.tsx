@@ -248,6 +248,10 @@ export default function Multisets() {
       setListIdOrder.push(operatingMultiset.setList[i].id);
     }
 
+    for (const setId of multisetActions.setsToDelete) {
+      await DeleteSetWithId(setId);
+    }
+
     const { success, updatedMultiset } = await UpdateMultisetSetOrder(
       operatingMultiset,
       [setListIdOrder]

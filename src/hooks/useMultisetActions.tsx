@@ -422,5 +422,6 @@ export const useMultisetActions = ({
     updateExerciseInOperatingSet,
     undoOperatingMultisetChanges,
     setUneditedMultiset,
+    setsToDelete,
   };
 };
