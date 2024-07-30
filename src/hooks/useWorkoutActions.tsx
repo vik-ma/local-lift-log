@@ -1960,6 +1960,11 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   };
 
   const handleClickExerciseMultiset = (exercise: Exercise) => {
+    if (multisetActions.multisetSetOperationType === "change-exercise") {
+      multisetActions.updateExerciseInOperatingSet(exercise);
+      return;
+    }
+
     addSetToNewMultiset(exercise);
   };
 
