@@ -228,8 +228,6 @@ export const useMultisetActions = ({
   };
 
   const removeSetFromOperatingMultiset = (set: WorkoutSet) => {
-    if (operatingMultiset.id === 0) return;
-
     const updatedSetList = DeleteItemFromList(
       operatingMultiset.setList,
       set.id
@@ -241,10 +239,13 @@ export const useMultisetActions = ({
       isEditedInModal: true,
     };
 
-    const updatedSetsToDelete = new Set(setsToDelete);
-    updatedSetsToDelete.add(set.id);
+    if (operatingMultiset.id !== 0) {
+      const updatedSetsToDelete = new Set(setsToDelete);
+      updatedSetsToDelete.add(set.id);
 
-    setSetsToDelete(updatedSetsToDelete);
+      setSetsToDelete(updatedSetsToDelete);
+    }
+
     setOperatingMultiset(updatedMultiset);
   };
 
