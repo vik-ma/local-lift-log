@@ -245,6 +245,8 @@ export default function Multisets() {
       [setListIdOrder]
     );
 
+    updatedMultiset.isEditedInModal = false;
+
     if (!success) return;
 
     const updatedMultisets = UpdateItemInList(
