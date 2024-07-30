@@ -241,6 +241,10 @@ export const useMultisetActions = ({
       isEditedInModal: true,
     };
 
+    const updatedSetsToDelete = new Set(setsToDelete);
+    updatedSetsToDelete.add(set.id);
+
+    setSetsToDelete(updatedSetsToDelete);
     setOperatingMultiset(updatedMultiset);
   };
 
