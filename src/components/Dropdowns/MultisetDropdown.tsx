@@ -6,11 +6,13 @@ import { Select, SelectItem } from "@nextui-org/react";
 type MultisetDropdownProps = {
   multiset_type: number;
   setMultiset: React.Dispatch<React.SetStateAction<Multiset>>;
+  isInModal?: boolean;
 };
 
 export const MultisetDropdown = ({
   multiset_type,
   setMultiset,
+  isInModal,
 }: MultisetDropdownProps) => {
   const [selectedKeys, setSelectedKeys] = useState<Set<string>>(
     new Set([multiset_type.toString()])
@@ -34,7 +36,16 @@ export const MultisetDropdown = ({
     const numberValue: number = Number(stringValue);
 
     setSelectedKeys(keys);
-    setMultiset((prev) => ({ ...prev, multiset_type: numberValue }));
+
+    if (isInModal) {
+      setMultiset((prev) => ({
+        ...prev,
+        multiset_type: numberValue,
+        isEditedInModal: true,
+      }));
+    } else {
+      setMultiset((prev) => ({ ...prev, multiset_type: numberValue }));
+    }
   };
 
   return (
