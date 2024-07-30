@@ -26,7 +26,11 @@ export const MultisetSetList = ({
       ref={dragConstraintsRef}
       values={multiset.setList}
       onReorder={(value) =>
-        setMultiset((prev) => ({ ...prev, setList: value }))
+        setMultiset((prev) => ({
+          ...prev,
+          setList: value,
+          isEditedInModal: true,
+        }))
       }
     >
       {multiset.setList.map((set) => (

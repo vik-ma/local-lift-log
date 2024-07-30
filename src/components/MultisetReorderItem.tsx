@@ -164,7 +164,7 @@ export const MultisetReorderItem = ({
 
     multiset.setListIndexCutoffs = new Map(indexCutoffsArray);
 
-    setMultiset({ ...multiset });
+    setMultiset({ ...multiset, isEditedInModal: true });
   };
 
   const resetDraggedElement = (draggedElement: HTMLDivElement) => {
@@ -197,12 +197,11 @@ export const MultisetReorderItem = ({
             {set.exercise_name}
           </span>
           <div className="flex justify-between items-center gap-1">
-            {(set.id < 0 ||
-              set.isEditedInMultiset) && (
-                <span className="text-yellow-500 flex-grow">
-                  {set.id < 0 ? "(New)" : "(Edited)"}
-                </span>
-              )}
+            {(set.id < 0 || set.isEditedInMultiset) && (
+              <span className="text-yellow-500 flex-grow">
+                {set.id < 0 ? "(New)" : "(Edited)"}
+              </span>
+            )}
             {setNum && (
               <motion.div
                 ref={setNumDragRef}
