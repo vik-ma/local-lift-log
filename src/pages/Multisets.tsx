@@ -209,6 +209,12 @@ export default function Multisets() {
   };
 
   const updateMultiset = async () => {
+    if (!operatingMultiset.isEditedInModal) {
+      resetOperatingMultiset();
+      multisetModal.onClose();
+      return;
+    }
+
     if (operationType !== "edit" || operatingMultiset.id === 0) return;
 
     const noteToInsert = ConvertEmptyStringToNull(operatingMultiset.note);
