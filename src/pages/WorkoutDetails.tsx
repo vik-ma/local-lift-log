@@ -311,6 +311,9 @@ export default function WorkoutDetails() {
         handleClickMultiset={handleClickMultiset}
         showWorkoutItems={true}
         operatingSetInputs={operatingSetInputs}
+        undoOperatingMultisetChanges={
+          multisetActions.undoOperatingMultisetChanges
+        }
       />
       <TimeInputModal
         timeInputModal={timeInputModal}

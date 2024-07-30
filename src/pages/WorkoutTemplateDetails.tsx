@@ -246,6 +246,9 @@ export default function WorkoutTemplateDetails() {
         handleClickMultiset={handleClickMultiset}
         showWorkoutItems={true}
         operatingSetInputs={operatingSetInputs}
+        undoOperatingMultisetChanges={
+          multisetActions.undoOperatingMultisetChanges
+        }
       />
       <TextInputModal
         textInputModal={textInputModal}
