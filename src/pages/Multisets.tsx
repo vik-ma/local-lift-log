@@ -196,6 +196,8 @@ export default function Multisets() {
 
     if (!success) return;
 
+    updatedMultiset.isEditedInModal = false;
+
     multisetActions.setMultisets([
       ...multisetActions.multisets,
       updatedMultiset,
