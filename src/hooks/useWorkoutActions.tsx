@@ -1482,7 +1482,11 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     const newSetList = [...operatingMultiset.setList, newSet];
 
-    setOperatingMultiset((prev) => ({ ...prev, setList: newSetList }));
+    setOperatingMultiset((prev) => ({
+      ...prev,
+      setList: newSetList,
+      isEditedInModal: true,
+    }));
 
     multisetActions.setNewExerciseList((prev) => [...prev, exercise]);
     multisetActions.setNewMultisetSetIndex((prev) => prev - 1);
