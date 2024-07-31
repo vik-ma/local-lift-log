@@ -1611,8 +1611,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       return;
 
     const updatedTemplateMultiset = templateMultisetUpdate.updatedMultiset;
+    updatedTemplateMultiset.isEditedInModal = false;
 
     const updatedOperatingMultiset = operatingMultisetUpdate.updatedMultiset;
+    updatedOperatingMultiset.isEditedInModal = false;
 
     const indexCutoffs = CreateMultisetIndexCutoffs(operatingSetListIdList);
 
@@ -1853,6 +1855,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     );
 
     if (!success) return;
+
+    updatedMultiset.isEditedInModal = false;
 
     const newGroupedSet: GroupedWorkoutSet = {
       ...operatingGroupedSet,
