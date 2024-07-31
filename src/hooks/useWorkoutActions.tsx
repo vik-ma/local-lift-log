@@ -1853,7 +1853,19 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
       newExerciseList.push(exercise);
 
+      if (operatingMultiset.setList[i].isEditedInMultiset) {
+        const success = await UpdateSet(operatingMultiset.setList[i]);
+
+        if (!success) continue;
+
+        operatingMultiset.setList[i].isEditedInMultiset = false;
+      }
+
       setListIdList[targetSet].push(setId);
+    }
+
+    for (const setId of multisetActions.setsToDelete) {
+      await DeleteSetWithId(setId);
     }
 
     const { success, updatedMultiset } = await UpdateMultisetSetOrder(
