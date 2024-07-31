@@ -1728,29 +1728,30 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     newMultiset.setList = operatingGroupedSet.setList;
 
+    const newExerciseList = [...operatingGroupedSet.exerciseList];
+    const newExercises = Array.from(
+      { length: numSetsToAdd },
+      () => selectedExercise
+    );
+
     if (
       targetSetNum === operatingGroupedSet.multiset.setListIndexCutoffs.size
     ) {
       // Add new Sets to end of setList if last Set in Multiset
       newMultiset.setList.push(...newSets);
+      newExerciseList.push(...newExercises);
     } else {
       for (const [key, value] of operatingGroupedSet.multiset
         .setListIndexCutoffs) {
         // Insert new Sets at the index at which the next Multiset Set previously started
         if (value === targetSetNum + 1) {
           newMultiset.setList.splice(key, 0, ...newSets);
+          newExerciseList.splice(key, 0, ...newExercises);
         }
       }
     }
 
     const newIndexCutoffs = CreateMultisetIndexCutoffs(newSetListIdList);
-
-    const newExerciseList = [...operatingGroupedSet.exerciseList];
-    const newExercises = Array.from(
-      { length: numSetsToAdd },
-      () => selectedExercise
-    );
-    newExerciseList.push(...newExercises);
 
     const { success, updatedMultiset } = await UpdateMultisetSetOrder(
       newMultiset,
