@@ -222,25 +222,27 @@ export const MultisetModal = ({
                       }
                     />
                   </div>
-                  {showClearAllButton && (
-                    <Button
-                      size="sm"
-                      variant="flat"
-                      onPress={() => clearMultiset()}
-                    >
-                      Clear All
-                    </Button>
-                  )}
-                  {multiset.isEditedInModal && multiset.id !== 0 && (
-                    <Button
-                      size="sm"
-                      color="danger"
-                      variant="flat"
-                      onClick={undoOperatingMultisetChanges}
-                    >
-                      Undo Changes
-                    </Button>
-                  )}
+                  <div>
+                    {showClearAllButton && (
+                      <Button
+                        size="sm"
+                        variant="flat"
+                        onPress={() => clearMultiset()}
+                      >
+                        Clear All
+                      </Button>
+                    )}
+                    {multiset.isEditedInModal && multiset.id !== 0 && (
+                      <Button
+                        size="sm"
+                        color="danger"
+                        variant="flat"
+                        onClick={undoOperatingMultisetChanges}
+                      >
+                        Undo Changes
+                      </Button>
+                    )}
+                  </div>
                 </div>
               )}
             </ModalBody>
