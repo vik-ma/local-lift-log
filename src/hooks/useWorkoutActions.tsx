@@ -1894,69 +1894,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     toast.success("Multiset Updated");
   };
 
-  const updateMultisetSet = async () => {
-    if (
-      operatingMultiset.id === 0 ||
-      operatingSet.id < 1 ||
-      operatingGroupedSet === undefined
-    )
-      return;
-
-    if (operatingSetInputs.isSetTrackingValuesInvalid) return;
-
-    const noteToInsert = ConvertEmptyStringToNull(operatingSet.note);
-
-    const setTrackingValuesNumber = ConvertSetInputValuesToNumbers(
-      operatingSetInputs.setTrackingValuesInput
-    );
-
-    const updatedSet: WorkoutSet = {
-      ...operatingSet,
-      note: noteToInsert,
-      weight: setTrackingValuesNumber.weight,
-      reps: setTrackingValuesNumber.reps,
-      distance: setTrackingValuesNumber.distance,
-      rir: setTrackingValuesNumber.rir,
-      rpe: setTrackingValuesNumber.rpe,
-      resistance_level: setTrackingValuesNumber.resistance_level,
-      partial_reps: setTrackingValuesNumber.partial_reps,
-    };
-
-    const success = await UpdateSet(updatedSet);
-
-    if (!success) return;
-
-    const updatedSetList = UpdateItemInList(
-      operatingMultiset.setList,
-      updatedSet
-    );
-
-    const updatedMultiset = { ...operatingMultiset, setList: updatedSetList };
-
-    const newGroupedWorkoutSet: GroupedWorkoutSet = {
-      ...operatingGroupedSet,
-      setList: updatedSetList,
-      multiset: updatedMultiset,
-    };
-
-    const groupedSetIndex = getGroupedSetIndex(operatingGroupedSet.id);
-
-    setOperatingMultiset(updatedMultiset);
-    setOperatingGroupedSet(newGroupedWorkoutSet);
-
-    const newGroupedSets = [...groupedSets];
-    newGroupedSets[groupedSetIndex] = newGroupedWorkoutSet;
-
-    setGroupedSets(newGroupedSets);
-
-    if (activeSet?.id === operatingSet.id) {
-      setActiveSet(updatedSet);
-    }
-
-    multisetActions.setModalPage("base");
-    toast.success("Set Updated");
-  };
-
   const handleEditMultiset = async (groupedSet: GroupedWorkoutSet) => {
     if (!groupedSet.multiset) return;
 
@@ -2207,7 +2144,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     setOperatingMultiset,
     handleAddMultisetButton,
     handleSaveMultisetButton,
-    updateMultisetSet,
     handleClickExerciseMultiset,
     handleClickMultiset,
     textInputModal,

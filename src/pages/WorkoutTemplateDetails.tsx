@@ -77,7 +77,6 @@ export default function WorkoutTemplateDetails() {
     setOperatingMultiset,
     handleAddMultisetButton,
     handleSaveMultisetButton,
-    updateMultisetSet,
     handleClickExerciseMultiset,
     handleClickMultiset,
     handleToggleSetCommentButton,
@@ -242,7 +241,7 @@ export default function WorkoutTemplateDetails() {
         exerciseList={exerciseList}
         userSettings={userSettings}
         saveButtonAction={handleSaveMultisetButton}
-        updateOperatingSet={updateMultisetSet}
+        updateOperatingSet={multisetActions.updateOperatingSet}
         handleClickMultiset={handleClickMultiset}
         showWorkoutItems={true}
         operatingSetInputs={operatingSetInputs}
