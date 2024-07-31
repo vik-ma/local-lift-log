@@ -381,7 +381,7 @@ export const useMultisetActions = ({
     )
       return;
 
-    clearMultiset(undefined, uneditedMultiset);
+    clearMultiset(undefined, { ...uneditedMultiset });
   };
 
   const loadMultisets = useCallback(async () => {
