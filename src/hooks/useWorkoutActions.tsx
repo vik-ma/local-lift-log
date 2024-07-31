@@ -1799,6 +1799,12 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   };
 
   const updateMultiset = async () => {
+    if (!operatingMultiset.isEditedInModal) {
+      resetOperatingMultiset();
+      multisetModal.onClose();
+      return;
+    }
+
     if (
       operatingMultiset.id === 0 ||
       operatingMultiset.setListIndexCutoffs === undefined ||
