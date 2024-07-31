@@ -1953,9 +1953,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     setOperationType("edit");
     setOperatingGroupedSet(groupedSet);
-    setOperatingMultiset(groupedSet.multiset);
-    multisetActions.setNewMultisetSetIndex(0);
-    multisetActions.setModalPage("base");
+    multisetActions.clearMultiset("base", { ...groupedSet.multiset });
+    multisetActions.setUneditedMultiset({ ...groupedSet.multiset });
     multisetModal.onOpen();
   };
 
