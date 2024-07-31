@@ -42,8 +42,8 @@ export const MultisetReorderItem = ({
   const multisetId = `multiset-${index}`;
 
   const handleSetNumDragEnd = (info: PanInfo, oldIndex: number) => {
-    const x = info.point.x;
-    const y = info.point.y;
+    const x = info.point.x - window.scrollX;
+    const y = info.point.y - window.scrollY;
 
     setIsDraggingSetNum(false);
 
