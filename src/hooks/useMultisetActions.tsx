@@ -163,7 +163,7 @@ export const useMultisetActions = ({
 
     multiset.setListIndexCutoffs = new Map(indexCutoffsArray);
 
-    setOperatingMultiset({ ...multiset });
+    setOperatingMultiset({ ...multiset, isEditedInModal: true });
   };
 
   const handleInsertSetCutoff = (multiset: Multiset, index: number) => {
@@ -195,7 +195,7 @@ export const useMultisetActions = ({
 
     multiset.setListIndexCutoffs = new Map(indexCutoffsArray);
 
-    setOperatingMultiset({ ...multiset });
+    setOperatingMultiset({ ...multiset, isEditedInModal: true });
   };
 
   const updateExerciseInOperatingSet = (exercise: Exercise) => {
