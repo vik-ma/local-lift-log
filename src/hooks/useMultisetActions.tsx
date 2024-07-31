@@ -16,6 +16,8 @@ import {
   UpdateItemInList,
   IsNumberValidId,
   DeleteItemFromList,
+  ConvertSetInputValuesToNumbers,
+  ConvertEmptyStringToNull,
 } from "../helpers";
 
 type OperationType = "" | "change-exercise" | "reassign-exercise";
@@ -384,6 +386,46 @@ export const useMultisetActions = ({
     clearMultiset(undefined, { ...uneditedMultiset });
   };
 
+  const updateOperatingSet = async () => {
+    if (operatingMultiset.id === 0) return;
+
+    if (operatingSetInputs.isSetTrackingValuesInvalid) return;
+
+    const setTrackingValuesNumber = ConvertSetInputValuesToNumbers(
+      operatingSetInputs.setTrackingValuesInput
+    );
+
+    const noteToInsert = ConvertEmptyStringToNull(operatingSet.note);
+
+    const updatedSet: WorkoutSet = {
+      ...operatingSet,
+      note: noteToInsert,
+      weight: setTrackingValuesNumber.weight,
+      reps: setTrackingValuesNumber.reps,
+      distance: setTrackingValuesNumber.distance,
+      rir: setTrackingValuesNumber.rir,
+      rpe: setTrackingValuesNumber.rpe,
+      resistance_level: setTrackingValuesNumber.resistance_level,
+      partial_reps: setTrackingValuesNumber.partial_reps,
+      isEditedInMultiset: true,
+    };
+
+    const updatedSetList = UpdateItemInList(
+      operatingMultiset.setList,
+      updatedSet
+    );
+
+    const updatedMultiset = {
+      ...operatingMultiset,
+      setList: updatedSetList,
+      isEditedInModal: true,
+    };
+
+    setOperatingMultiset(updatedMultiset);
+
+    setModalPage("base");
+  };
+
   const loadMultisets = useCallback(async () => {
     try {
       const multisets = await GetAllMultisetTemplates();
@@ -424,5 +466,6 @@ export const useMultisetActions = ({
     undoOperatingMultisetChanges,
     setUneditedMultiset,
     setsToDelete,
+    updateOperatingSet,
   };
 };
