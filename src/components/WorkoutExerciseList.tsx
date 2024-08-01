@@ -257,7 +257,7 @@ export const WorkoutExerciseList = ({
                     </div>
                   </div>
                   {groupedSet.isExpanded && (
-                    <div className="flex flex-col divide-y divide-stone-200">
+                    <div>
                       {groupedSet.showExerciseNote && (
                         <div className="flex justify-between items-center px-2 pb-1">
                           <span className="text-stone-400 break-words max-w-full">
@@ -267,18 +267,20 @@ export const WorkoutExerciseList = ({
                           </span>
                         </div>
                       )}
-                      <SetList
-                        groupedSet={groupedSet}
-                        activeSetId={activeSetId}
-                        clickSetAction={handleClickSet}
-                        optionsSelectionAction={handleSetOptionSelection}
-                        clickCommentButtonAction={updateShownSetListComments}
-                        shownSetListComments={shownSetListComments}
-                        isTemplate={isTemplate}
-                        handleToggleSetCommentButton={
-                          handleToggleSetCommentButton
-                        }
-                      />
+                      <div className="flex flex-col divide-y border-t border-t-stone-200 divide-stone-200">
+                        <SetList
+                          groupedSet={groupedSet}
+                          activeSetId={activeSetId}
+                          clickSetAction={handleClickSet}
+                          optionsSelectionAction={handleSetOptionSelection}
+                          clickCommentButtonAction={updateShownSetListComments}
+                          shownSetListComments={shownSetListComments}
+                          isTemplate={isTemplate}
+                          handleToggleSetCommentButton={
+                            handleToggleSetCommentButton
+                          }
+                        />
+                      </div>
                     </div>
                   )}
                 </div>
