@@ -42,7 +42,8 @@ export const SettingsModal = ({
     <Modal
       isOpen={settingsModal.isOpen}
       onOpenChange={settingsModal.onOpenChange}
-      isDismissible={isDismissible}
+      isDismissable={isDismissible}
+      isKeyboardDismissDisabled={isDismissible ? false : true}
       hideCloseButton={isDismissible ? false : true}
     >
       <ModalContent>
