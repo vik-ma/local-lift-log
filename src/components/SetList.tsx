@@ -105,7 +105,15 @@ export const SetList = ({
                         : "truncate text-stone-500 w-[3rem]"
                     }
                   >
-                    {isMultiset ? exercise.name : `Set ${index + 1}`}
+                    {isMultiset ? (
+                      <span
+                        className={exercise.isInvalid ? "text-red-600" : ""}
+                      >
+                        {exercise.name}
+                      </span>
+                    ) : (
+                      `Set ${index + 1}`
+                    )}
                   </span>
                 </div>
                 <div
