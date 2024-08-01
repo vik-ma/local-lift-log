@@ -219,7 +219,7 @@ export default function Settings() {
         header="Restore Default Settings"
         extraContent={
           <div>
-            <p className="text-xl font-semibold text-red-500">
+            <p className="text-lg text-center font-semibold text-danger">
               Reset all settings to their default values?
             </p>
           </div>

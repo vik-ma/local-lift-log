@@ -52,6 +52,7 @@ export const SettingsModal = ({
             <ModalHeader>{header}</ModalHeader>
             <ModalBody>
               <div className="flex flex-col gap-4">
+                {extraContent}
                 <div className="flex flex-col gap-1.5">
                   <div className="flex gap-3 items-center justify-between">
                     <span className="text-lg">Unit Type</span>
@@ -88,7 +89,6 @@ export const SettingsModal = ({
                     />
                   </div>
                 </div>
-                {extraContent}
               </div>
             </ModalBody>
             <ModalFooter>
