@@ -426,6 +426,13 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       updatedSet
     );
 
+    if (
+      groupedSets[groupedSetIndex].isMultiset &&
+      groupedSets[groupedSetIndex].multiset
+    ) {
+      groupedSets[groupedSetIndex].multiset.setList = updatedSetList;
+    }
+
     setGroupedSets((prev) => {
       const newList = [...prev];
       newList[groupedSetIndex].setList = updatedSetList;
