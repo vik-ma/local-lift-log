@@ -107,7 +107,7 @@ export const SetList = ({
                   >
                     {isMultiset ? (
                       <span
-                        className={exercise.isInvalid ? "text-red-600" : ""}
+                        className={exercise.isInvalid ? "text-red-700" : ""}
                       >
                         {exercise.name}
                       </span>

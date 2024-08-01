@@ -130,7 +130,7 @@ export const WorkoutExerciseList = ({
                         <h3
                           className={
                             isInvalid
-                              ? "text-lg font-medium truncate max-w-80 text-red-600"
+                              ? "text-lg font-medium truncate max-w-80 text-red-700"
                               : "text-lg font-medium truncate max-w-80 text-yellow-600"
                           }
                         >

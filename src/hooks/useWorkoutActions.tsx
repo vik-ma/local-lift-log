@@ -568,6 +568,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       updateActiveSetTrackingValues(newActiveSet, activeSet);
       setIsActiveSetExpanded(true);
     }
+    console.log(set)
   };
 
   const handleSetOptionSelection = (
