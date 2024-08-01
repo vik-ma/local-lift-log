@@ -163,138 +163,139 @@ export const ActiveSet = ({
             </button>
             {isActiveSetExpanded ? (
               <div className="flex flex-col h-full overflow-y-auto">
-                {activeGroupedSet?.exerciseList[exerciseIndex].isInvalid ? (
-                  <div className="flex flex-col p-5 justify-center gap-3">
-                    <div className="flex justify-center text-lg text-center font-medium">
-                      This Set is referencing an Exercise that has been deleted.
-                    </div>
-                    <Button
-                      className="font-medium"
-                      variant="flat"
-                      onPress={() => handleReassignExercise(activeGroupedSet)}
-                    >
-                      Reassign Exercise
-                    </Button>
-                  </div>
-                ) : (
+                <div className="flex flex-col">
                   <div className="flex flex-col">
-                    <div className="flex flex-col">
-                      <div className="flex justify-between gap-1.5">
-                        <div className="px-3">
-                          {activeSetNote !== undefined && (
-                            <div className="flex gap-2.5 items-center pt-1.5">
-                              <h3 className="font-medium">
-                                {activeSetNote.note_type}
-                              </h3>
-                              <Button
-                                className="h-7"
-                                size="sm"
-                                variant="flat"
-                                onPress={() => setActiveSetNote(undefined)}
-                              >
-                                Hide
-                              </Button>
-                            </div>
-                          )}
-                        </div>
-                        <div className="flex">
-                          <Button
-                            aria-label="Toggle Active Set Comment"
-                            isIconOnly
-                            variant="light"
-                            size="sm"
-                            onPress={() =>
-                              handleToggleSetCommentButton(
-                                activeSet,
-                                activeSet.set_index!,
-                                activeGroupedSet!
-                              )
-                            }
-                          >
-                            <CommentIcon size={20} />
-                          </Button>
-                          <Dropdown>
-                            <DropdownTrigger>
-                              <Button
-                                aria-label="Toggle Active Set Options Menu"
-                                isIconOnly
-                                variant="light"
-                                size="sm"
-                                isDisabled={
-                                  activeSet.comment === null &&
-                                  activeGroupedSet?.exerciseList[exerciseIndex]
-                                    .note === null &&
-                                  activeSet.note === null
-                                }
-                              >
-                                <VerticalMenuIcon size={18} />
-                              </Button>
-                            </DropdownTrigger>
-                            <DropdownMenu
-                              aria-label="Active Set Option Menu"
-                              onAction={(key) =>
-                                handleActiveSetOptionSelection(key as string)
+                    <div className="flex justify-between gap-1.5">
+                      <div className="px-3">
+                        {activeSetNote !== undefined && (
+                          <div className="flex gap-2.5 items-center pt-1.5">
+                            <h3 className="font-medium">
+                              {activeSetNote.note_type}
+                            </h3>
+                            <Button
+                              className="h-7"
+                              size="sm"
+                              variant="flat"
+                              onPress={() => setActiveSetNote(undefined)}
+                            >
+                              Hide
+                            </Button>
+                          </div>
+                        )}
+                      </div>
+                      <div className="flex">
+                        <Button
+                          aria-label="Toggle Active Set Comment"
+                          isIconOnly
+                          variant="light"
+                          size="sm"
+                          onPress={() =>
+                            handleToggleSetCommentButton(
+                              activeSet,
+                              activeSet.set_index!,
+                              activeGroupedSet!
+                            )
+                          }
+                        >
+                          <CommentIcon size={20} />
+                        </Button>
+                        <Dropdown>
+                          <DropdownTrigger>
+                            <Button
+                              aria-label="Toggle Active Set Options Menu"
+                              isIconOnly
+                              variant="light"
+                              size="sm"
+                              isDisabled={
+                                activeSet.comment === null &&
+                                activeGroupedSet?.exerciseList[exerciseIndex]
+                                  .note === null &&
+                                activeSet.note === null
                               }
                             >
-                              <DropdownItem
-                                className={activeSetNote ? "" : "hidden"}
-                                key="hide-note"
-                              >
-                                Hide Note
-                              </DropdownItem>
-                              <DropdownItem
-                                className={
-                                  activeSet.note === null ? "hidden" : ""
-                                }
-                                key="show-set-note"
-                              >
-                                Show Set Note
-                              </DropdownItem>
-                              <DropdownItem
-                                className={
-                                  activeGroupedSet?.exerciseList[exerciseIndex]
-                                    .note === null
-                                    ? "hidden"
-                                    : ""
-                                }
-                                key="show-exercise-note"
-                              >
-                                Show Exercise Note
-                              </DropdownItem>
-                              <DropdownItem
-                                className={
-                                  activeSet.comment === null ? "hidden" : ""
-                                }
-                                key="show-set-comment"
-                              >
-                                Show Set Comment
-                              </DropdownItem>
-                            </DropdownMenu>
-                          </Dropdown>
+                              <VerticalMenuIcon size={18} />
+                            </Button>
+                          </DropdownTrigger>
+                          <DropdownMenu
+                            aria-label="Active Set Option Menu"
+                            onAction={(key) =>
+                              handleActiveSetOptionSelection(key as string)
+                            }
+                          >
+                            <DropdownItem
+                              className={activeSetNote ? "" : "hidden"}
+                              key="hide-note"
+                            >
+                              Hide Note
+                            </DropdownItem>
+                            <DropdownItem
+                              className={
+                                activeSet.note === null ? "hidden" : ""
+                              }
+                              key="show-set-note"
+                            >
+                              Show Set Note
+                            </DropdownItem>
+                            <DropdownItem
+                              className={
+                                activeGroupedSet?.exerciseList[exerciseIndex]
+                                  .note === null
+                                  ? "hidden"
+                                  : ""
+                              }
+                              key="show-exercise-note"
+                            >
+                              Show Exercise Note
+                            </DropdownItem>
+                            <DropdownItem
+                              className={
+                                activeSet.comment === null ? "hidden" : ""
+                              }
+                              key="show-set-comment"
+                            >
+                              Show Set Comment
+                            </DropdownItem>
+                          </DropdownMenu>
+                        </Dropdown>
+                      </div>
+                    </div>
+                    {activeSetNote !== undefined && (
+                      <div className="flex flex-col px-3 pb-1.5">
+                        <div className="text-stone-500 break-words text-sm">
+                          {activeSetNote.note}
                         </div>
                       </div>
-                      {activeSetNote !== undefined && (
-                        <div className="flex flex-col px-3 pb-1.5">
-                          <div className="text-stone-500 break-words text-sm">
-                            {activeSetNote.note}
-                          </div>
-                        </div>
-                      )}
+                    )}
+                  </div>
+                  <div className="flex flex-col border-y divide-y divide-stone-200">
+                    <SetList
+                      groupedSet={activeGroupedSet!}
+                      activeSetId={activeSet.id}
+                      clickSetAction={handleClickSet}
+                      optionsSelectionAction={handleSetOptionSelection}
+                      clickCommentButtonAction={updateShownSetListComments}
+                      shownSetListComments={shownSetListComments}
+                      isTemplate={false}
+                      handleToggleSetCommentButton={
+                        handleToggleSetCommentButton
+                      }
+                    />
+                  </div>
+                  {activeGroupedSet?.exerciseList[exerciseIndex].isInvalid ? (
+                    <div className="flex flex-col p-5 justify-center gap-3">
+                      <div className="flex justify-center text-lg text-center font-medium">
+                        This Set is referencing an Exercise that has been
+                        deleted.
+                      </div>
+                      <Button
+                        className="font-medium"
+                        variant="flat"
+                        onPress={() => handleReassignExercise(activeGroupedSet)}
+                      >
+                        Reassign Exercise
+                      </Button>
                     </div>
-                    <div className="flex flex-col border-y divide-y divide-stone-200">
-                      <SetList
-                        groupedSet={activeGroupedSet!}
-                        activeSetId={activeSet.id}
-                        clickSetAction={handleClickSet}
-                        optionsSelectionAction={handleSetOptionSelection}
-                        clickCommentButtonAction={updateShownSetListComments}
-                        shownSetListComments={shownSetListComments}
-                        isTemplate={false}
-                        handleToggleSetCommentButton={
-                          handleToggleSetCommentButton
-                        }
-                      />
-                    </div>
+                  ) : (
                     <div className="px-1.5">
                       <SetValueInputs
                         operatingSet={activeSet}
@@ -343,8 +344,8 @@ export const ActiveSet = ({
                         </div>
                       </div>
                     </div>
-                  </div>
-                )}
+                  )}
+                </div>
                 <div className="absolute bottom-1 right-1">
                   <Button
                     aria-label="Expand Or Shrink Active Set"
