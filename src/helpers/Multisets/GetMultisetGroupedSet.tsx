@@ -62,6 +62,10 @@ export const GetMultisetGroupedSet = async (
     for (let i = 0; i < orderedSetList.length; i++) {
       const exercise = await GetExerciseFromId(orderedSetList[i].exercise_id);
 
+      if (exercise.isInvalid) {
+        orderedSetList[i].hasInvalidExerciseId = true;
+      }
+
       multisetExerciseAndSetList.exerciseList.push(exercise);
     }
 
