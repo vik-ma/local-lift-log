@@ -242,6 +242,16 @@ export const SetList = ({
                       )
                     }
                   >
+                    <DropdownItem
+                      className={
+                        groupedSet.isMultiset && exercise.isInvalid
+                          ? ""
+                          : "hidden"
+                      }
+                      key="reassign-exercise"
+                    >
+                      Reassign Exercise
+                    </DropdownItem>
                     <DropdownItem key="edit">Edit</DropdownItem>
                     <DropdownItem
                       className={set.is_completed === 0 ? "hidden" : ""}
