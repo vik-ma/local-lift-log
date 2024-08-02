@@ -249,7 +249,7 @@ export const SetList = ({
                           ? ""
                           : "hidden"
                       }
-                      key="reassign-exercise"
+                      key="reassign-exercise-multiset"
                     >
                       Reassign Exercise
                     </DropdownItem>
@@ -259,7 +259,7 @@ export const SetList = ({
                           ? ""
                           : "hidden"
                       }
-                      key="change-exercise"
+                      key="change-exercise-multiset"
                     >
                       Change Exercise
                     </DropdownItem>

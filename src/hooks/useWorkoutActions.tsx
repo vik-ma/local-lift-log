@@ -63,7 +63,9 @@ type OperationType =
   | "update-completed-set-time"
   | "add-sets-to-multiset"
   | "edit-multiset"
-  | "add-multiset-to-multiset";
+  | "add-multiset-to-multiset"
+  | "change-exercise-multiset"
+  | "reassign-exercise-multiset";
 
 type WorkoutNumbers = {
   numExercises: number;
@@ -584,8 +586,18 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       handleDeleteSet(set, groupedSet);
     } else if (key === "update-completed-set-time") {
       handleUpdateSetTimeCompleted(set, groupedSet);
+    } else if (key === "change-exercise-multiset") {
+      handleChangeExerciseMultiset(set, groupedSet, key);
+    } else if (key === "reassign-exercise-multiset") {
+      handleChangeExerciseMultiset(set, groupedSet, key);
     }
   };
+
+  const handleChangeExerciseMultiset = (
+    set: WorkoutSet,
+    groupedSet: GroupedWorkoutSet,
+    operationType: OperationType
+  ) => {};
 
   const handleUpdateSetTimeCompleted = (
     set: WorkoutSet,
