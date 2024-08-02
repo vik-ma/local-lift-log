@@ -133,7 +133,7 @@ export const WorkoutGroupedSetList = ({
                     }}
                   >
                     <div className="flex flex-col items-start">
-                      <div className="flex gap-3">
+                      <div className="flex items-center gap-2">
                         <h3
                           className={
                             isInvalid
@@ -145,6 +145,7 @@ export const WorkoutGroupedSetList = ({
                         </h3>
                         {isInvalid && (
                           <Button
+                            className="h-7"
                             size="sm"
                             variant="flat"
                             onPress={() => handleReassignExercise(groupedSet)}
