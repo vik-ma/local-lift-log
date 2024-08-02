@@ -1645,6 +1645,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       isExpanded: true,
       isMultiset: true,
       multiset: updatedOperatingMultiset,
+      showExerciseNote: updatedOperatingMultiset.note ? true : false,
     };
 
     const newGroupedSets: GroupedWorkoutSet[] = [...groupedSets, newGroupedSet];
@@ -1894,6 +1895,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       exerciseList: newExerciseList,
       setList: updatedMultiset.setList,
       multiset: updatedMultiset,
+      showExerciseNote: updatedMultiset.note ? true : false,
     };
 
     const groupedSetIndex = getGroupedSetIndex(operatingGroupedSet.id);
@@ -1993,6 +1995,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       isExpanded: true,
       isMultiset: true,
       multiset: updatedMultiset,
+      showExerciseNote: updatedMultiset.note ? true : false,
     };
 
     const newGroupedSets: GroupedWorkoutSet[] = [...groupedSets, newGroupedSet];
