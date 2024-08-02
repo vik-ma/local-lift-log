@@ -1,9 +1,13 @@
 import { Exercise, Multiset, WorkoutSet } from "../../typings";
 import Database from "tauri-plugin-sql-api";
-import { GenerateMultisetSetOrderList, GetExerciseFromId } from "..";
+import {
+  DefaultNewMultiset,
+  GenerateMultisetSetOrderList,
+  GetExerciseFromId,
+} from "..";
 
 type MultisetGroupedSet = {
-  multiset: Multiset | undefined;
+  multiset: Multiset;
   exerciseList: Exercise[];
   orderedSetList: WorkoutSet[];
 };
@@ -13,7 +17,7 @@ export const GetMultisetGroupedSet = async (
   setList: WorkoutSet[]
 ): Promise<MultisetGroupedSet> => {
   const multisetExerciseAndSetList: MultisetGroupedSet = {
-    multiset: undefined,
+    multiset: DefaultNewMultiset(),
     exerciseList: [],
     orderedSetList: [],
   };

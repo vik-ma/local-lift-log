@@ -59,12 +59,14 @@ export const CreateGroupedWorkoutSetList = async (
         multisetSetList
       );
 
+      if (multisetGroupedSet.multiset.id === 0) continue;
+
       groupedWorkoutSetsDictionary[entry] = {
         id: entry,
         exerciseList: multisetGroupedSet.exerciseList,
         setList: multisetGroupedSet.orderedSetList,
         isExpanded: true,
-        showGroupedSetNote: multisetGroupedSet.multiset?.note ? true : false,
+        showGroupedSetNote: multisetGroupedSet.multiset.note ? true : false,
         isMultiset: true,
         multiset: multisetGroupedSet.multiset,
       };
