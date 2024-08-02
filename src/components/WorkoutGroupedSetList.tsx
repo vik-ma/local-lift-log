@@ -122,7 +122,7 @@ export const WorkoutGroupedSetList = ({
               >
                 <div className="bg-white rounded-lg border border-stone-300 overflow-hidden">
                   <div
-                    className="flex justify-between pl-2 py-1 h-14 w-full rounded-lg cursor-pointer hover:bg-stone-100"
+                    className="flex justify-between pl-2 py-1 cursor-pointer hover:bg-stone-100"
                     onClick={() => handleGroupedSetAccordionClick(groupedSet)}
                   >
                     <div className="flex flex-col items-start">
@@ -259,8 +259,8 @@ export const WorkoutGroupedSetList = ({
                   {groupedSet.isExpanded && (
                     <div>
                       {groupedSet.showGroupedSetNote && (
-                        <div className="flex justify-between items-center px-2 pb-1">
-                          <span className="text-stone-400 break-words max-w-full">
+                        <div className="flex justify-between items-center px-2 py-0.5">
+                          <span className="text-stone-400 break-words text-sm max-w-full">
                             {isMultiset
                               ? groupedSet.multiset?.note
                               : groupedSet.exerciseList[0].note}
