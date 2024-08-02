@@ -106,8 +106,12 @@ export const WorkoutGroupedSetList = ({
           {groupedSets.map((groupedSet) => {
             const isMultiset = groupedSet.isMultiset ? true : false;
 
-            // TODO: ADD ISINVALID FOR MULTISET
+            // TODO: ADD INVALID FOR MULTISET
             const isInvalid = groupedSet.exerciseList[0].isInvalid;
+
+            const hasNote = isMultiset
+              ? groupedSet.multiset?.note !== null
+              : groupedSet.exerciseList[0].note !== null;
 
             const title = isMultiset
               ? multisetTypeMap[groupedSet.multiset!.multiset_type].text
@@ -123,7 +127,10 @@ export const WorkoutGroupedSetList = ({
                 <div className="bg-white rounded-lg border border-stone-300 overflow-hidden">
                   <div
                     className="flex justify-between pl-2 py-1 cursor-pointer hover:bg-stone-100"
-                    onClick={() => handleGroupedSetAccordionClick(groupedSet)}
+                    onClick={() => {
+                      console.log(groupedSet);
+                      handleGroupedSetAccordionClick(groupedSet);
+                    }}
                   >
                     <div className="flex flex-col items-start">
                       <div className="flex gap-3">
@@ -212,13 +219,7 @@ export const WorkoutGroupedSetList = ({
                             Edit Multiset
                           </DropdownItem>
                           <DropdownItem
-                            className={
-                              (isMultiset &&
-                                groupedSet.multiset?.note === null) ||
-                              groupedSet.exerciseList[0].note === null
-                                ? "hidden"
-                                : ""
-                            }
+                            className={hasNote ? "" : "hidden"}
                             key="toggle-exercise-note"
                           >
                             {groupedSet.showGroupedSetNote
@@ -229,6 +230,7 @@ export const WorkoutGroupedSetList = ({
                                   isMultiset ? "Multiset" : "Exercise"
                                 } Note`}
                           </DropdownItem>
+                          {/* TODO: FIX WITH ABOVE MULTISET INVALID */}
                           {!isMultiset &&
                           groupedSet.exerciseList[0].isInvalid ? (
                             <DropdownItem key="reassign-exercise">
