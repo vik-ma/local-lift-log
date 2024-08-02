@@ -106,8 +106,8 @@ export const WorkoutGroupedSetList = ({
           {groupedSets.map((groupedSet) => {
             const isMultiset = groupedSet.isMultiset ? true : false;
 
-            // TODO: ADD INVALID FOR MULTISET
-            const isInvalid = groupedSet.exerciseList[0].isInvalid;
+            const isExerciseInvalid =
+              !groupedSet.isMultiset && groupedSet.exerciseList[0].isInvalid;
 
             const hasNote = isMultiset
               ? groupedSet.multiset?.note !== null
@@ -136,14 +136,14 @@ export const WorkoutGroupedSetList = ({
                       <div className="flex items-center gap-2">
                         <h3
                           className={
-                            isInvalid
+                            isExerciseInvalid
                               ? "text-lg font-medium truncate max-w-80 text-red-700"
                               : "text-lg font-medium truncate max-w-80 text-yellow-600"
                           }
                         >
                           {title}
                         </h3>
-                        {isInvalid && (
+                        {isExerciseInvalid && (
                           <Button
                             className="h-7"
                             size="sm"
@@ -231,9 +231,7 @@ export const WorkoutGroupedSetList = ({
                                   isMultiset ? "Multiset" : "Exercise"
                                 } Note`}
                           </DropdownItem>
-                          {/* TODO: FIX WITH ABOVE MULTISET INVALID */}
-                          {!isMultiset &&
-                          groupedSet.exerciseList[0].isInvalid ? (
+                          {isExerciseInvalid ? (
                             <DropdownItem key="reassign-exercise">
                               Reassign Exercise
                             </DropdownItem>
