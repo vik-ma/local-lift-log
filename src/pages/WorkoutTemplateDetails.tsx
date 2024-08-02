@@ -119,10 +119,6 @@ export default function WorkoutTemplateDetails() {
         GetNumberOfUniqueExercisesInGroupedSets(groupedSetList);
       workoutNumbers.numSets = setList.length;
 
-      for (let i = 0; i < groupedSetList.length; i++) {
-        groupedSetList[i].showExerciseNote = true;
-      }
-
       setWorkoutTemplate(workoutTemplate);
       setEditedWorkoutTemplate(workoutTemplate);
       setGroupedSets(groupedSetList);

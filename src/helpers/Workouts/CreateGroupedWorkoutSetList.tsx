@@ -16,6 +16,7 @@ type GroupedWorkoutSetsDictionary = {
     exerciseList: Exercise[];
     setList: WorkoutSet[];
     isExpanded: boolean;
+    showExerciseNote: boolean;
     isMultiset?: boolean;
     multiset?: Multiset;
   };
@@ -37,6 +38,7 @@ export const CreateGroupedWorkoutSetList = async (
     if (!validatedEntry.isValid) continue;
 
     if (!validatedEntry.isMultiset) {
+      // If not Multiset
       const exercise = await GetExerciseFromId(validatedEntry.id);
 
       groupedWorkoutSetsDictionary[entry] = {
@@ -44,8 +46,10 @@ export const CreateGroupedWorkoutSetList = async (
         exerciseList: [exercise],
         setList: [],
         isExpanded: true,
+        showExerciseNote: exercise.note ? true : false,
       };
     } else {
+      // If Multiset
       const multisetSetList = setList.filter(
         (set) => set.multiset_id === validatedEntry.id
       );
@@ -60,6 +64,7 @@ export const CreateGroupedWorkoutSetList = async (
         exerciseList: multisetGroupedSet.exerciseList,
         setList: multisetGroupedSet.orderedSetList,
         isExpanded: true,
+        showExerciseNote: multisetGroupedSet.multiset?.note ? true : false,
         isMultiset: true,
         multiset: multisetGroupedSet.multiset,
       };

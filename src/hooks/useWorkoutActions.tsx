@@ -226,7 +226,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         exerciseList: [selectedExercise],
         setList: newSets,
         isExpanded: true,
-        showExerciseNote: true,
+        showExerciseNote: selectedExercise.note ? true : false,
       };
 
       const newGroupedSets: GroupedWorkoutSet[] = [
@@ -568,7 +568,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       updateActiveSetTrackingValues(newActiveSet, activeSet);
       setIsActiveSetExpanded(true);
     }
-    console.log(set)
+    console.log(set);
   };
 
   const handleSetOptionSelection = (

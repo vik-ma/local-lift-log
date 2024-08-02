@@ -136,10 +136,6 @@ export default function WorkoutDetails() {
             GetNumberOfUniqueExercisesInGroupedSets(groupedSetList);
           workoutNumbers.numSets = setList.length;
 
-          for (let i = 0; i < groupedSetList.length; i++) {
-            groupedSetList[i].showExerciseNote = true;
-          }
-
           setWorkoutNote(workout.note === null ? "" : workout.note);
           setGroupedSets(groupedSetList);
 
