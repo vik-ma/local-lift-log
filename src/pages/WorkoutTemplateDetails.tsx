@@ -7,7 +7,7 @@ import {
   LoadingSpinner,
   DeleteModal,
   SetModal,
-  WorkoutExerciseList,
+  WorkoutGroupedSetList,
   WorkoutTemplateModal,
   DetailsHeader,
   MultisetModal,
@@ -260,7 +260,7 @@ export default function WorkoutTemplateDetails() {
           note={workoutTemplate.note}
           editButtonAction={() => workoutTemplateModal.onOpen()}
         />
-        <WorkoutExerciseList
+        <WorkoutGroupedSetList
           groupedSets={groupedSets}
           setGroupedSets={setGroupedSets}
           updateExerciseOrder={updateExerciseOrder}

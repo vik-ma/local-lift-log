@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { Workout, WorkoutSet, GroupedWorkoutSet } from "../typings";
 import {
   LoadingSpinner,
-  WorkoutExerciseList,
+  WorkoutGroupedSetList,
   DeleteModal,
   SetModal,
   ActiveSet,
@@ -334,7 +334,7 @@ export default function WorkoutDetails() {
           editButtonAction={() => workoutModal.onOpen()}
         />
         <div className="mb-[4.5rem]">
-          <WorkoutExerciseList
+          <WorkoutGroupedSetList
             groupedSets={groupedSets}
             setGroupedSets={setGroupedSets}
             updateExerciseOrder={updateExerciseOrder}

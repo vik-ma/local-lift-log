@@ -2,7 +2,7 @@ export { LoadingSpinner } from "./LoadingSpinner";
 export { SiteHeader } from "./SiteHeader";
 export { TimeInput } from "./TimeInput";
 export { SetList } from "./SetList";
-export { WorkoutExerciseList } from "./WorkoutExerciseList";
+export { WorkoutGroupedSetList } from "./WorkoutGroupedSetList";
 export { ActiveSet } from "./ActiveSet";
 export { UserMeasurementAccordion } from "./UserMeasurementAccordion";
 export { UserMeasurementReorderItem } from "./UserMeasurementReorderItem";

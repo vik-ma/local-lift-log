@@ -16,7 +16,7 @@ import {
   MultisetTypeMap,
 } from "../typings";
 
-type WorkoutExerciseListProps = {
+type WorkoutGroupedSetListProps = {
   groupedSets: GroupedWorkoutSet[];
   setGroupedSets: React.Dispatch<React.SetStateAction<GroupedWorkoutSet[]>>;
   updateExerciseOrder: (setList?: GroupedWorkoutSet[]) => void;
@@ -55,7 +55,7 @@ type WorkoutExerciseListProps = {
   ) => void;
 };
 
-export const WorkoutExerciseList = ({
+export const WorkoutGroupedSetList = ({
   groupedSets,
   setGroupedSets,
   updateExerciseOrder,
@@ -74,7 +74,7 @@ export const WorkoutExerciseList = ({
   completedSetsMap,
   multisetTypeMap,
   handleToggleSetCommentButton,
-}: WorkoutExerciseListProps) => {
+}: WorkoutGroupedSetListProps) => {
   return (
     <div className="flex flex-col gap-1">
       <div className="flex justify-center gap-3">
