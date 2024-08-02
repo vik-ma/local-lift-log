@@ -116,6 +116,7 @@ export const WorkoutGroupedSetList = ({
             const title = isMultiset
               ? multisetTypeMap[groupedSet.multiset!.multiset_type].text
               : groupedSet.exerciseList[0].name;
+
             return (
               <Reorder.Item
                 key={groupedSet.id}
@@ -127,10 +128,7 @@ export const WorkoutGroupedSetList = ({
                 <div className="bg-white rounded-lg border border-stone-300 overflow-hidden">
                   <div
                     className="flex justify-between pl-2 py-1 cursor-pointer hover:bg-stone-100"
-                    onClick={() => {
-                      console.log(groupedSet);
-                      handleGroupedSetAccordionClick(groupedSet);
-                    }}
+                    onClick={() => handleGroupedSetAccordionClick(groupedSet)}
                   >
                     <div className="flex flex-col items-start">
                       <div className="flex items-center gap-2">
@@ -260,7 +258,7 @@ export const WorkoutGroupedSetList = ({
                   {groupedSet.isExpanded && (
                     <div>
                       {groupedSet.showGroupedSetNote && (
-                        <div className="flex justify-between items-center px-2 py-0.5">
+                        <div className="flex justify-between items-center px-2 pb-0.5">
                           <span className="text-stone-400 break-words text-sm max-w-full">
                             {isMultiset
                               ? groupedSet.multiset?.note
