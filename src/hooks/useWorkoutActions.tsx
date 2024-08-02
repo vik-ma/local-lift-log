@@ -226,7 +226,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         exerciseList: [selectedExercise],
         setList: newSets,
         isExpanded: true,
-        showExerciseNote: selectedExercise.note ? true : false,
+        showGroupedSetNote: selectedExercise.note ? true : false,
       };
 
       const newGroupedSets: GroupedWorkoutSet[] = [
@@ -786,7 +786,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   const handleToggleExerciseNote = (groupedWorkoutSet: GroupedWorkoutSet) => {
     const updatedGroupedSet: GroupedWorkoutSet = {
       ...groupedWorkoutSet,
-      showExerciseNote: !groupedWorkoutSet.showExerciseNote,
+      showGroupedSetNote: !groupedWorkoutSet.showGroupedSetNote,
     };
 
     const updatedGroupedSets = UpdateItemInList(groupedSets, updatedGroupedSet);
@@ -1645,7 +1645,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       isExpanded: true,
       isMultiset: true,
       multiset: updatedOperatingMultiset,
-      showExerciseNote: updatedOperatingMultiset.note ? true : false,
+      showGroupedSetNote: updatedOperatingMultiset.note ? true : false,
     };
 
     const newGroupedSets: GroupedWorkoutSet[] = [...groupedSets, newGroupedSet];
@@ -1895,7 +1895,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       exerciseList: newExerciseList,
       setList: updatedMultiset.setList,
       multiset: updatedMultiset,
-      showExerciseNote: updatedMultiset.note ? true : false,
+      showGroupedSetNote: updatedMultiset.note ? true : false,
     };
 
     const groupedSetIndex = getGroupedSetIndex(operatingGroupedSet.id);
@@ -1995,7 +1995,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       isExpanded: true,
       isMultiset: true,
       multiset: updatedMultiset,
-      showExerciseNote: updatedMultiset.note ? true : false,
+      showGroupedSetNote: updatedMultiset.note ? true : false,
     };
 
     const newGroupedSets: GroupedWorkoutSet[] = [...groupedSets, newGroupedSet];

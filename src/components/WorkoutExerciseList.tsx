@@ -221,7 +221,7 @@ export const WorkoutExerciseList = ({
                             }
                             key="toggle-exercise-note"
                           >
-                            {groupedSet.showExerciseNote
+                            {groupedSet.showGroupedSetNote
                               ? `Hide ${
                                   isMultiset ? "Multiset" : "Exercise"
                                 } Note`
@@ -258,7 +258,7 @@ export const WorkoutExerciseList = ({
                   </div>
                   {groupedSet.isExpanded && (
                     <div>
-                      {groupedSet.showExerciseNote && (
+                      {groupedSet.showGroupedSetNote && (
                         <div className="flex justify-between items-center px-2 pb-1">
                           <span className="text-stone-400 break-words max-w-full">
                             {isMultiset

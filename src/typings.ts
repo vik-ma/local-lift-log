@@ -124,7 +124,7 @@ export type GroupedWorkoutSet = {
   exerciseList: Exercise[];
   setList: WorkoutSet[];
   isExpanded: boolean;
-  showExerciseNote?: boolean;
+  showGroupedSetNote?: boolean;
   isMultiset?: boolean;
   multiset?: Multiset;
 };
