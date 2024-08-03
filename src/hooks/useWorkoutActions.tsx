@@ -587,15 +587,16 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     } else if (key === "update-completed-set-time") {
       handleUpdateSetTimeCompleted(set, groupedSet);
     } else if (key === "change-exercise-multiset") {
-      handleChangeExerciseMultiset(set, groupedSet, key);
+      handleChangeExerciseMultiset(set, groupedSet, index, key);
     } else if (key === "reassign-exercise-multiset") {
-      handleChangeExerciseMultiset(set, groupedSet, key);
+      handleChangeExerciseMultiset(set, groupedSet, index, key);
     }
   };
 
   const handleChangeExerciseMultiset = (
     set: WorkoutSet,
     groupedSet: GroupedWorkoutSet,
+    index: number,
     key: OperationType
   ) => {
     if (groupedSet.multiset === undefined) return;
@@ -605,7 +606,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         ? "reassign-exercise"
         : "change-exercise";
 
-    setOperatingSet(set);
+    setOperatingSet({ ...set, set_index: index });
     setOperatingGroupedSet(groupedSet);
     setOperatingMultiset(groupedSet.multiset);
     multisetActions.setMultisetSetOperationType(operationType);
@@ -1959,9 +1960,45 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     multisetModal.onOpen();
   };
 
-  const handleClickExerciseMultiset = (exercise: Exercise) => {
+  const handleClickExerciseMultiset = async (exercise: Exercise) => {
+    if (operatingGroupedSet === undefined) return;
+
     if (multisetActions.multisetSetOperationType === "change-exercise") {
-      multisetActions.updateExerciseInOperatingSet(exercise);
+      if (
+        multisetActions.calledOutsideModal &&
+        operatingSet.set_index !== undefined
+      ) {
+        // Change exercise and save directly to DB
+        const { success, updatedMultiset } =
+          await multisetActions.changeExerciseAndSave(exercise);
+
+        if (!success || updatedMultiset === undefined) return;
+
+        const updatedExerciseList = [...operatingGroupedSet.exerciseList];
+        updatedExerciseList[operatingSet.set_index] = exercise;
+
+        const updatedGroupedSet: GroupedWorkoutSet = {
+          ...operatingGroupedSet,
+          setList: updatedMultiset.setList,
+          multiset: updatedMultiset,
+          exerciseList: updatedExerciseList,
+        };
+
+        const updatedGroupedSets = UpdateItemInList(
+          groupedSets,
+          updatedGroupedSet
+        );
+
+        setGroupedSets(updatedGroupedSets);
+
+        resetOperatingSet();
+        resetOperatingMultiset();
+
+        toast.success("Exercise Changed");
+      } else {
+        // Change exercise in operatingMultiset, but don't save to DB
+        multisetActions.updateExerciseInOperatingSet(exercise);
+      }
       return;
     }
 
