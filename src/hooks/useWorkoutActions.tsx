@@ -596,8 +596,23 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   const handleChangeExerciseMultiset = (
     set: WorkoutSet,
     groupedSet: GroupedWorkoutSet,
-    operationType: OperationType
-  ) => {};
+    key: OperationType
+  ) => {
+    if (groupedSet.multiset === undefined) return;
+
+    const operationType =
+      key === "reassign-exercise-multiset"
+        ? "reassign-exercise"
+        : "change-exercise";
+
+    setOperatingSet(set);
+    setOperatingGroupedSet(groupedSet);
+    setOperatingMultiset(groupedSet.multiset);
+    multisetActions.setMultisetSetOperationType(operationType);
+    multisetActions.setModalPage("exercise-list");
+    multisetActions.setCalledOutsideModal(true);
+    multisetModal.onOpen();
+  };
 
   const handleUpdateSetTimeCompleted = (
     set: WorkoutSet,

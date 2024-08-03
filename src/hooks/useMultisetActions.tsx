@@ -467,5 +467,6 @@ export const useMultisetActions = ({
     setUneditedMultiset,
     setsToDelete,
     updateOperatingSet,
+    setCalledOutsideModal,
   };
 };
