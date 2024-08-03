@@ -528,7 +528,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       operationType === "change-exercise" ||
       operationType === "reassign-exercise"
     ) {
-      reassignExercise(exercise);
+      changeExercise(exercise);
       return;
     }
 
@@ -869,7 +869,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     setGroupedSets(updatedGroupedSets);
   };
 
-  const reassignExercise = async (newExercise: Exercise) => {
+  const changeExercise = async (newExercise: Exercise) => {
     if (operatingGroupedSet === undefined || operatingGroupedSet.isMultiset)
       return;
 
