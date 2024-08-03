@@ -1985,12 +1985,11 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   };
 
   const handleClickExerciseMultiset = async (exercise: Exercise) => {
-    if (operatingGroupedSet === undefined) return;
-
     if (multisetActions.multisetSetOperationType === "change-exercise") {
       if (
         multisetActions.calledOutsideModal &&
-        operatingSet.set_index !== undefined
+        operatingSet.set_index !== undefined &&
+        operatingGroupedSet !== undefined
       ) {
         // Change exercise and save directly to DB
         const { success, updatedMultiset } =
@@ -2036,7 +2035,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     if (
       multisetActions.multisetSetOperationType === "reassign-exercise" &&
-      operatingSet.set_index !== undefined
+      operatingSet.set_index !== undefined &&
+      operatingGroupedSet !== undefined
     ) {
       const success = await multisetActions.reassignExercise(exercise);
 
