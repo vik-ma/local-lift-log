@@ -2010,6 +2010,55 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       return;
     }
 
+    if (
+      multisetActions.multisetSetOperationType === "reassign-exercise" &&
+      operatingSet.set_index !== undefined
+    ) {
+      const success = await multisetActions.reassignExercise(exercise);
+
+      if (!success) return;
+
+      const oldExerciseId = operatingSet.exercise_id;
+
+      const groupedSetIndex = getGroupedSetIndex(operatingGroupedSet.id);
+
+      const updatedGroupedSets = [...groupedSets];
+
+      for (const groupedSet of updatedGroupedSets) {
+        if (!groupedSet.isMultiset || groupedSet.multiset === undefined)
+          continue;
+
+        for (let i = 0; i < groupedSet.setList.length; i++) {
+          if (groupedSet.setList[i].exercise_id === oldExerciseId) {
+            groupedSet.setList[i].exercise_id = exercise.id;
+            groupedSet.setList[i].exercise_name = exercise.name;
+            groupedSet.setList[i].hasInvalidExerciseId = false;
+            groupedSet.exerciseList[i] = exercise;
+          }
+        }
+
+        groupedSet.multiset.setList = groupedSet.setList;
+      }
+
+      setGroupedSets(updatedGroupedSets);
+
+      if (activeGroupedSet?.id == operatingGroupedSet.id) {
+        setActiveGroupedSet(updatedGroupedSets[groupedSetIndex]);
+      }
+
+      if (activeSet?.id === operatingSet.id) {
+        setActiveSet(
+          updatedGroupedSets[groupedSetIndex].setList[operatingSet.set_index]
+        );
+      }
+
+      resetOperatingSet();
+      resetOperatingMultiset();
+
+      toast.success("Exercise Reassigned");
+      return;
+    }
+
     addSetToNewMultiset(exercise);
   };
 
