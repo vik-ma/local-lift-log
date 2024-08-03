@@ -130,6 +130,7 @@ export default function Multisets() {
 
       if (!success) return;
 
+      resetOperatingMultiset();
       toast.success("Exercise Reassigned");
       return;
     }

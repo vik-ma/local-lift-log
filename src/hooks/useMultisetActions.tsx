@@ -354,10 +354,6 @@ export const useMultisetActions = ({
       };
 
       updatedMultisets.push(updatedMultiset);
-
-      if (multisets[i].id === operatingMultiset.id) {
-        setOperatingMultiset(updatedMultiset);
-      }
     }
 
     setMultisets(updatedMultisets);
