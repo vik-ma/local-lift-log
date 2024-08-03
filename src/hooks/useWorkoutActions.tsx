@@ -1991,6 +1991,14 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
         setGroupedSets(updatedGroupedSets);
 
+        if (activeGroupedSet?.id == operatingGroupedSet.id) {
+          setActiveGroupedSet(updatedGroupedSet);
+        }
+
+        if (activeSet?.id === operatingSet.id) {
+          setActiveSet(updatedGroupedSet.setList[operatingSet.set_index]);
+        }
+
         resetOperatingSet();
         resetOperatingMultiset();
 
