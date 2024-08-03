@@ -298,7 +298,6 @@ export const useMultisetActions = ({
       const updatedMultisets = UpdateItemInList(multisets, updatedMultiset);
 
       setMultisetSetOperationType("");
-      setModalPage("base");
 
       closeMultisetModal();
 
@@ -359,7 +358,6 @@ export const useMultisetActions = ({
     setMultisets(updatedMultisets);
 
     setMultisetSetOperationType("");
-    setModalPage("base");
 
     if (calledOutsideModal) {
       closeMultisetModal();
