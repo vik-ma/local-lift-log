@@ -108,16 +108,20 @@ export default function Multisets() {
     if (multisetActions.multisetSetOperationType === "change-exercise") {
       if (multisetActions.calledOutsideModal) {
         // Change exercise and save directly to DB
-        const success = await multisetActions.changeExerciseAndSave(exercise);
+        const { success, updatedMultisets } =
+          await multisetActions.changeExerciseAndSave(exercise);
 
-        if (!success) return;
+        if (!success || updatedMultisets === undefined) return;
+
+        multisetActions.setMultisets(updatedMultisets);
+
+        resetOperatingMultiset();
 
         toast.success("Exercise Changed");
       } else {
         // Change exercise in operatingMultiset, but don't save to DB
         multisetActions.updateExerciseInOperatingSet(exercise);
       }
-
       return;
     }
 

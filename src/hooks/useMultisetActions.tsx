@@ -253,9 +253,18 @@ export const useMultisetActions = ({
 
   const changeExerciseAndSave = async (
     exercise: Exercise
-  ): Promise<boolean> => {
+  ): Promise<{
+    success: boolean;
+    updatedMultiset: Multiset | undefined;
+    updatedMultisets: Multiset[] | undefined;
+  }> => {
     // If trying to assign same exercise
-    if (exercise.id === operatingSet.id) return false;
+    if (exercise.id === operatingSet.id)
+      return {
+        success: false,
+        updatedMultiset: undefined,
+        updatedMultisets: undefined,
+      };
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
@@ -286,21 +295,25 @@ export const useMultisetActions = ({
         setListTextString: updatedSetListValues.setListTextString,
       };
 
-      setOperatingMultiset(updatedMultiset);
-
       const updatedMultisets = UpdateItemInList(multisets, updatedMultiset);
-
-      setMultisets(updatedMultisets);
 
       setMultisetSetOperationType("");
       setModalPage("base");
 
       closeMultisetModal();
 
-      return true;
+      return {
+        success: true,
+        updatedMultiset: updatedMultiset,
+        updatedMultisets: updatedMultisets,
+      };
     } catch (error) {
       console.log(error);
-      return false;
+      return {
+        success: false,
+        updatedMultiset: undefined,
+        updatedMultisets: undefined,
+      };
     }
   };
 
