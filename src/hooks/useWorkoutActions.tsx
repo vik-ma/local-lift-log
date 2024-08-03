@@ -63,9 +63,7 @@ type OperationType =
   | "update-completed-set-time"
   | "add-sets-to-multiset"
   | "edit-multiset"
-  | "add-multiset-to-multiset"
-  | "change-exercise-multiset"
-  | "reassign-exercise-multiset";
+  | "add-multiset-to-multiset";
 
 type WorkoutNumbers = {
   numExercises: number;
@@ -586,9 +584,9 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       handleDeleteSet(set, groupedSet);
     } else if (key === "update-completed-set-time") {
       handleUpdateSetTimeCompleted(set, groupedSet);
-    } else if (key === "change-exercise-multiset") {
+    } else if (key === "change-exercise") {
       handleChangeExerciseMultiset(set, groupedSet, index, key);
-    } else if (key === "reassign-exercise-multiset") {
+    } else if (key === "reassign-exercise") {
       handleChangeExerciseMultiset(set, groupedSet, index, key);
     }
   };
@@ -597,19 +595,18 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     set: WorkoutSet,
     groupedSet: GroupedWorkoutSet,
     index: number,
-    key: OperationType
+    key: string
   ) => {
-    if (groupedSet.multiset === undefined) return;
-
-    const operationType =
-      key === "reassign-exercise-multiset"
-        ? "reassign-exercise"
-        : "change-exercise";
+    if (
+      groupedSet.multiset === undefined ||
+      (key !== "change-exercise" && key !== "reassign-exercise")
+    )
+      return;
 
     setOperatingSet({ ...set, set_index: index });
     setOperatingGroupedSet(groupedSet);
     setOperatingMultiset(groupedSet.multiset);
-    multisetActions.setMultisetSetOperationType(operationType);
+    multisetActions.setMultisetSetOperationType(key);
     multisetActions.setModalPage("exercise-list");
     multisetActions.setCalledOutsideModal(true);
     multisetModal.onOpen();
