@@ -454,7 +454,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     setModal.onClose();
     toast.success("Set Updated");
 
-    if (!isTemplate && activeSet?.id === updatedSet.id) {
+    if (activeSet?.id === updatedSet.id) {
       setActiveSet(updatedSet);
       activeSetInputs.setTrackingValuesInputStrings(updatedSet);
     }
@@ -992,9 +992,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         : "Exercise Changed"
     );
 
-    if (isTemplate) return;
-
-    if (activeSet !== undefined && activeSet.exercise_id === oldExercise.id) {
+    if (activeSet?.exercise_id === oldExercise.id) {
       setActiveSet({
         ...activeSet,
         exercise_id: newExercise.id,
@@ -1002,10 +1000,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       });
     }
 
-    if (
-      activeGroupedSet !== undefined &&
-      activeGroupedSet.id === oldExercise.id.toString()
-    ) {
+    if (activeGroupedSet?.id === oldExercise.id.toString()) {
       setActiveGroupedSet(newGroupedWorkoutSet);
     }
   };
@@ -1025,7 +1020,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         ...operatingSet,
         time_in_seconds: 0,
       });
-    } else if (!isTemplate && activeSet !== undefined) {
+    } else if (activeSet !== undefined) {
       activeSetInputs.setSetTrackingValuesInput(defaultSetInputValues);
       setActiveSet({
         ...activeSet,
