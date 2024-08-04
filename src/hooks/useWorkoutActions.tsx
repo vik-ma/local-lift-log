@@ -921,14 +921,14 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       }
     } else return;
 
-    const newGroupedWorkoutSet = updateExerciseInGroupedSet(
-      operatingGroupedSet,
-      newExercise
-    );
-
     const updatedGroupedSets = reassignExerciseForMultisetGroupedSets(
       newExercise,
       oldExercise
+    );
+
+    const newGroupedWorkoutSet = updateExerciseInGroupedSet(
+      operatingGroupedSet,
+      newExercise
     );
 
     updateGroupedSetsWithNewExercise(
@@ -940,6 +940,14 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     if (activeGroupedSet?.id === oldExercise.id.toString()) {
       setActiveGroupedSet(newGroupedWorkoutSet);
+    }
+
+    if (activeSet?.exercise_id === oldExercise.id) {
+      setActiveSet({
+        ...activeSet,
+        exercise_id: newExercise.id,
+        exercise_name: newExercise.name,
+      });
     }
 
     resetOperatingSet();
@@ -1047,14 +1055,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
       setGroupedSets(newGroupedSets);
       updateExerciseOrder(newGroupedSets);
-    }
-
-    if (activeSet?.exercise_id === oldExercise.id) {
-      setActiveSet({
-        ...activeSet,
-        exercise_id: newExercise.id,
-        exercise_name: newExercise.name,
-      });
     }
   };
 
@@ -2066,21 +2066,40 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
       if (!success) return;
 
-      const groupedSetIndex = getGroupedSetIndex(operatingGroupedSet.id);
+      const oldExercise =
+        operatingGroupedSet.exerciseList[operatingSet.set_index];
 
-      const updatedGroupedSets =
-        reassignExerciseForMultisetGroupedSets(exercise);
+      const updatedGroupedSets = reassignExerciseForMultisetGroupedSets(
+        exercise,
+        oldExercise
+      );
 
-      setGroupedSets(updatedGroupedSets);
+      const groupedSetWithExerciseIndex = getGroupedSetIndex(
+        oldExercise.id.toString()
+      );
 
-      if (activeGroupedSet?.id == operatingGroupedSet.id) {
-        setActiveGroupedSet(updatedGroupedSets[groupedSetIndex]);
+      if (groupedSetWithExerciseIndex !== -1) {
+        // Update non-Multiset groupedSet exist for reassigned Exercise if it exists
+
+        const newGroupedWorkoutSet = updateExerciseInGroupedSet(
+          groupedSets[groupedSetWithExerciseIndex],
+          exercise
+        );
+
+        updateGroupedSetsWithNewExercise(
+          oldExercise,
+          exercise,
+          newGroupedWorkoutSet,
+          updatedGroupedSets
+        );
       }
 
-      if (activeSet?.id === operatingSet.id) {
-        setActiveSet(
-          updatedGroupedSets[groupedSetIndex].setList[operatingSet.set_index]
-        );
+      if (activeSet?.exercise_id === oldExercise.id) {
+        setActiveSet({
+          ...activeSet,
+          exercise_id: exercise.id,
+          exercise_name: exercise.name,
+        });
       }
 
       resetOperatingSet();
