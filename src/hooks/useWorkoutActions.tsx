@@ -921,16 +921,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       }
     } else return;
 
-    const newGroupedWorkoutSet: GroupedWorkoutSet = {
-      ...operatingGroupedSet,
-      id: newExercise.id.toString(),
-      exerciseList: [newExercise],
-    };
-
-    newGroupedWorkoutSet.setList.forEach((item) => {
-      item.exercise_id = newExercise.id;
-      item.exercise_name = newExercise.name;
-    });
+    const newGroupedWorkoutSet = updateExerciseInGroupedSet(
+      operatingGroupedSet,
+      newExercise
+    );
 
     const updatedGroupedSets = reassignExerciseForMultisetGroupedSets(
       newExercise,
@@ -943,14 +937,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       newGroupedWorkoutSet,
       updatedGroupedSets
     );
-
-    if (activeSet?.exercise_id === oldExercise.id) {
-      setActiveSet({
-        ...activeSet,
-        exercise_id: newExercise.id,
-        exercise_name: newExercise.name,
-      });
-    }
 
     if (activeGroupedSet?.id === oldExercise.id.toString()) {
       setActiveGroupedSet(newGroupedWorkoutSet);
@@ -991,6 +977,24 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     }
 
     return updatedGroupedSets;
+  };
+
+  const updateExerciseInGroupedSet = (
+    groupedSet: GroupedWorkoutSet,
+    newExercise: Exercise
+  ): GroupedWorkoutSet => {
+    const newGroupedWorkoutSet: GroupedWorkoutSet = {
+      ...groupedSet,
+      id: newExercise.id.toString(),
+      exerciseList: [newExercise],
+    };
+
+    newGroupedWorkoutSet.setList.forEach((item) => {
+      item.exercise_id = newExercise.id;
+      item.exercise_name = newExercise.name;
+    });
+
+    return newGroupedWorkoutSet;
   };
 
   const updateGroupedSetsWithNewExercise = (
@@ -1043,6 +1047,14 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
       setGroupedSets(newGroupedSets);
       updateExerciseOrder(newGroupedSets);
+    }
+
+    if (activeSet?.exercise_id === oldExercise.id) {
+      setActiveSet({
+        ...activeSet,
+        exercise_id: newExercise.id,
+        exercise_name: newExercise.name,
+      });
     }
   };
 
