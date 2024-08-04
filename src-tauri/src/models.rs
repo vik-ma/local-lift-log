@@ -39,6 +39,7 @@ pub struct Exercise {
     pub name: String,
     pub exercise_group_set_string: String,
     pub note: Option<String>,
+    pub is_favorite: i16,
 }
 
 #[derive(Queryable, Selectable)]

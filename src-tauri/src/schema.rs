@@ -35,6 +35,7 @@ diesel::table! {
         name -> Text,
         exercise_group_set_string -> Text,
         note -> Nullable<Text>,
+        is_favorite -> SmallInt,
     }
 }
 
