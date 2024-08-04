@@ -120,24 +120,28 @@ export const useMultisetActions = ({
         deleteModal.onOpen();
       }
     } else if (key === "change-exercise") {
-      setOperatingSet(set);
-      setOperatingMultiset(multiset);
-      setMultisetSetOperationType("change-exercise");
-      setModalPage("exercise-list");
-      setCalledOutsideModal(!modalIsOpen);
-      multisetModal.onOpen();
+      handleChangeExercise(set, multiset, modalIsOpen, key);
     } else if (key === "reassign-exercise") {
-      setOperatingSet(set);
-      setOperatingMultiset(multiset);
-      setMultisetSetOperationType("reassign-exercise");
-      setModalPage("exercise-list");
-      setCalledOutsideModal(!modalIsOpen);
-      multisetModal.onOpen();
+      handleChangeExercise(set, multiset, modalIsOpen, key);
     } else if (key === "remove-set-cutoff") {
       handleRemoveSetCutoff(multiset, index);
     } else if (key === "add-set-cutoff") {
       handleInsertSetCutoff(multiset, index);
     }
+  };
+
+  const handleChangeExercise = (
+    set: WorkoutSet,
+    multiset: Multiset,
+    modalIsOpen: boolean,
+    operationType: "change-exercise" | "reassign-exercise"
+  ) => {
+    setOperatingSet(set);
+    setOperatingMultiset(multiset);
+    setMultisetSetOperationType(operationType);
+    setModalPage("exercise-list");
+    setCalledOutsideModal(!modalIsOpen);
+    multisetModal.onOpen();
   };
 
   const handleRemoveSetCutoff = (multiset: Multiset, index: number) => {
@@ -475,5 +479,6 @@ export const useMultisetActions = ({
     setsToDelete,
     updateOperatingSet,
     setCalledOutsideModal,
+    handleChangeExercise,
   };
 };
