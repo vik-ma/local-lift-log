@@ -47,6 +47,7 @@ export type Exercise = {
   name: string;
   exercise_group_set_string: string;
   note: string | null;
+  is_favorite: number;
   exerciseGroupStringList?: string[];
   formattedGroupString?: string;
   isInvalid?: boolean;

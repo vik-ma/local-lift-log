@@ -104,11 +104,13 @@ export default function ExerciseList() {
       const noteToInsert = ConvertEmptyStringToNull(operatingExercise.note);
 
       const result = await db.execute(
-        "INSERT into exercises (name, exercise_group_set_string, note) VALUES ($1, $2, $3)",
+        `INSERT into exercises (name, exercise_group_set_string, note, is_favorite) 
+         VALUES ($1, $2, $3, $4)`,
         [
           operatingExercise.name,
           operatingExercise.exercise_group_set_string,
           noteToInsert,
+          operatingExercise.is_favorite,
         ]
       );
 

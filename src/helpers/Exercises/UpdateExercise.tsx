@@ -6,11 +6,14 @@ export const UpdateExercise = async (exercise: Exercise) => {
     const db = await Database.load(import.meta.env.VITE_DB);
 
     await db.execute(
-      "UPDATE exercises SET name = $1, note = $2, exercise_group_set_string = $3 WHERE id = $4",
+      `UPDATE exercises SET name = $1, note = $2, 
+       exercise_group_set_string = $3, is_favorite = $4 
+       WHERE id = $5`,
       [
         exercise.name,
         exercise.note,
         exercise.exercise_group_set_string,
+        exercise.is_favorite,
         exercise.id,
       ]
     );

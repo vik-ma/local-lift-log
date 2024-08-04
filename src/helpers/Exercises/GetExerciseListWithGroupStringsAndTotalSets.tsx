@@ -25,6 +25,7 @@ export const GetExerciseListWithGroupStringsAndTotalSets = async () => {
         name: row.name,
         exercise_group_set_string: row.exercise_group_set_string,
         note: row.note,
+        is_favorite: row.is_favorite,
         exerciseGroupStringList: convertedValues.list,
         formattedGroupString: convertedValues.formattedString,
         set_count: row.set_count,

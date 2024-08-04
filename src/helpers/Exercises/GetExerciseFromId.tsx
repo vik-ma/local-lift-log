@@ -8,6 +8,7 @@ export const GetExerciseFromId = async (exerciseId: number) => {
     name: "Unknown Exercise",
     exercise_group_set_string: "",
     note: null,
+    is_favorite: 0,
     isInvalid: true,
   };
 

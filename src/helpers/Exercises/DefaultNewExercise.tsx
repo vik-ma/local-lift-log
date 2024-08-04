@@ -6,6 +6,7 @@ export const DefaultNewExercise = () => {
     name: "",
     exercise_group_set_string: "",
     note: "",
+    is_favorite: 0,
     exerciseGroupStringList: [],
     formattedGroupString: "",
   };
