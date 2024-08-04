@@ -942,13 +942,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       setActiveGroupedSet(newGroupedWorkoutSet);
     }
 
-    if (activeSet?.exercise_id === oldExercise.id) {
-      setActiveSet({
-        ...activeSet,
-        exercise_id: newExercise.id,
-        exercise_name: newExercise.name,
-      });
-    }
+    updateActiveSetExercise(oldExercise, newExercise);
 
     resetOperatingSet();
 
@@ -2021,6 +2015,9 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
         if (!success || updatedMultiset === undefined) return;
 
+        const oldExercise =
+          operatingGroupedSet.exerciseList[operatingSet.set_index];
+
         const updatedExerciseList = [...operatingGroupedSet.exerciseList];
         updatedExerciseList[operatingSet.set_index] = exercise;
 
@@ -2042,9 +2039,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
           setActiveGroupedSet(updatedGroupedSet);
         }
 
-        if (activeSet?.id === operatingSet.id) {
-          setActiveSet(updatedGroupedSet.setList[operatingSet.set_index]);
-        }
+        updateActiveSetExercise(oldExercise, exercise);
 
         resetOperatingSet();
         resetOperatingMultiset();
@@ -2094,13 +2089,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         );
       }
 
-      if (activeSet?.exercise_id === oldExercise.id) {
-        setActiveSet({
-          ...activeSet,
-          exercise_id: exercise.id,
-          exercise_name: exercise.name,
-        });
-      }
+      updateActiveSetExercise(oldExercise, exercise);
 
       resetOperatingSet();
       resetOperatingMultiset();
@@ -2281,6 +2270,19 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     multisetModal.onClose();
     toast.success("Multiset Added");
+  };
+
+  const updateActiveSetExercise = (
+    oldExercise: Exercise,
+    newExercise: Exercise
+  ) => {
+    if (activeSet?.exercise_id === oldExercise.id) {
+      setActiveSet({
+        ...activeSet,
+        exercise_id: newExercise.id,
+        exercise_name: newExercise.name,
+      });
+    }
   };
 
   return {
