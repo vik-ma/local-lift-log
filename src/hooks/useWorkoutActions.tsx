@@ -1052,10 +1052,15 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     }
   };
 
-  const handleReassignExercise = (groupedWorkoutSet: GroupedWorkoutSet) => {
+  const handleReassignExercise = (groupedSet: GroupedWorkoutSet, set?: WorkoutSet) => {
+    if (groupedSet.isMultiset && groupedSet.multiset !== undefined && set !== undefined) {
+      multisetActions.handleChangeExercise(set, groupedSet.multiset, false, "reassign-exercise")
+      return;
+    }
+
     setSelectedExercise(undefined);
     setOperationType("reassign-exercise");
-    setOperatingGroupedSet(groupedWorkoutSet);
+    setOperatingGroupedSet(groupedSet);
 
     setModal.onOpen();
   };
