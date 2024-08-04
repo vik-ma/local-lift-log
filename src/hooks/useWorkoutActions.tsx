@@ -1052,9 +1052,22 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     }
   };
 
-  const handleReassignExercise = (groupedSet: GroupedWorkoutSet, set?: WorkoutSet) => {
-    if (groupedSet.isMultiset && groupedSet.multiset !== undefined && set !== undefined) {
-      multisetActions.handleChangeExercise(set, groupedSet.multiset, false, "reassign-exercise")
+  const handleReassignExercise = (
+    groupedSet: GroupedWorkoutSet,
+    set?: WorkoutSet
+  ) => {
+    if (
+      groupedSet.isMultiset &&
+      groupedSet.multiset !== undefined &&
+      set !== undefined
+    ) {
+      setOperatingGroupedSet(groupedSet);
+      multisetActions.handleChangeExercise(
+        set,
+        groupedSet.multiset,
+        false,
+        "reassign-exercise"
+      );
       return;
     }
 

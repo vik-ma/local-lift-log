@@ -30,7 +30,7 @@ type ActiveSetProps = {
   setIsActiveSetExpanded: React.Dispatch<React.SetStateAction<boolean>>;
   userSettings: UserSettings;
   activeGroupedSet: GroupedWorkoutSet | undefined;
-  handleReassignExercise: (groupedWorkoutSet: GroupedWorkoutSet) => void;
+  handleReassignExercise: (groupedWorkoutSet: GroupedWorkoutSet, set?: WorkoutSet) => void;
   handleActiveSetOptionSelection: (key: string) => void;
   activeSetNote: ActiveSetNote | undefined;
   setActiveSetNote: React.Dispatch<
@@ -290,7 +290,9 @@ export const ActiveSet = ({
                       <Button
                         className="font-medium"
                         variant="flat"
-                        onPress={() => handleReassignExercise(activeGroupedSet)}
+                        onPress={() =>
+                          handleReassignExercise(activeGroupedSet, activeSet)
+                        }
                       >
                         Reassign Exercise
                       </Button>
