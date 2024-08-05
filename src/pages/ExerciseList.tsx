@@ -22,7 +22,7 @@ import {
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { DeleteModal, ExerciseModal, LoadingSpinner } from "../components";
-import { SearchIcon, VerticalMenuIcon } from "../assets";
+import { FavoriteIcon, SearchIcon, VerticalMenuIcon } from "../assets";
 import {
   useValidateExerciseGroupString,
   useValidateName,
@@ -254,7 +254,7 @@ export default function ExerciseList() {
                     className="flex flex-col justify-start items-start"
                     onClick={() => navigate(`/exercises/${exercise.id}`)}
                   >
-                    <span className="w-[21.5rem] truncate text-left">
+                    <span className="w-[19rem] truncate text-left">
                       {exercise.name}
                     </span>
                     {exercise.set_count! > 0 && (
@@ -262,35 +262,57 @@ export default function ExerciseList() {
                         {exercise.set_count} Sets Completed
                       </span>
                     )}
-                    <span className="text-xs text-stone-400  text-left">
+                    <span className="text-xs text-stone-400 text-left">
                       {exercise.formattedGroupString}
                     </span>
                   </button>
-                  <Dropdown>
-                    <DropdownTrigger>
-                      <Button
-                        aria-label={`Toggle ${exercise.name} Options Menu`}
-                        isIconOnly
-                        className="z-1"
-                        size="sm"
-                        radius="lg"
-                        variant="light"
-                      >
-                        <VerticalMenuIcon size={17} />
-                      </Button>
-                    </DropdownTrigger>
-                    <DropdownMenu
-                      aria-label={`Option Menu For ${exercise.name} Exercise`}
-                      onAction={(key) =>
-                        handleGroupedSetOptionSelection(key as string, exercise)
+                  <div className="flex items-center gap-0.5">
+                    <Button
+                      aria-label={
+                        exercise.is_favorite
+                          ? `Unset Favorite For ${exercise.name}`
+                          : `Set Favorite For ${exercise.name}`
                       }
+                      isIconOnly
+                      className="z-1"
+                      size="sm"
+                      radius="lg"
+                      variant="light"
                     >
-                      <DropdownItem key="edit">Edit</DropdownItem>
-                      <DropdownItem key="delete" className="text-danger">
-                        Delete
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </Dropdown>
+                      <FavoriteIcon
+                        isChecked={!!exercise.is_favorite}
+                        size={28}
+                      />
+                    </Button>
+                    <Dropdown>
+                      <DropdownTrigger>
+                        <Button
+                          aria-label={`Toggle ${exercise.name} Options Menu`}
+                          isIconOnly
+                          className="z-1"
+                          size="sm"
+                          radius="lg"
+                          variant="light"
+                        >
+                          <VerticalMenuIcon size={17} />
+                        </Button>
+                      </DropdownTrigger>
+                      <DropdownMenu
+                        aria-label={`Option Menu For ${exercise.name} Exercise`}
+                        onAction={(key) =>
+                          handleGroupedSetOptionSelection(
+                            key as string,
+                            exercise
+                          )
+                        }
+                      >
+                        <DropdownItem key="edit">Edit</DropdownItem>
+                        <DropdownItem key="delete" className="text-danger">
+                          Delete
+                        </DropdownItem>
+                      </DropdownMenu>
+                    </Dropdown>
+                  </div>
                 </div>
               ))}
             </div>
