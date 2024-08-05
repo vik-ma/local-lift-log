@@ -84,11 +84,18 @@ export const MultisetSetMenu = ({
             Insert Set Cutoff
           </DropdownItem>
         )}
-        {set.hasInvalidExerciseId ? (
-          <DropdownItem key="reassign-exercise">Reassign Exercise</DropdownItem>
-        ) : (
-          <DropdownItem key="change-exercise">Change Exercise</DropdownItem>
-        )}
+        <DropdownItem
+          className={set.hasInvalidExerciseId && !isInModal ? "" : "hidden"}
+          key="reassign-exercise"
+        >
+          Reassign Exercise
+        </DropdownItem>
+        <DropdownItem
+          className={!set.hasInvalidExerciseId ? "" : "hidden"}
+          key="change-exercise"
+        >
+          Change Exercise
+        </DropdownItem>
         <DropdownItem className="text-danger" key="delete-set">
           Remove Set
         </DropdownItem>
