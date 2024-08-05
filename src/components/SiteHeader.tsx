@@ -53,7 +53,7 @@ export const SiteHeader = () => {
           <DropdownTrigger>
             <Button
               disableRipple
-              className="nav-menu-trigger-button p-0 text-[#404040] text-md font-medium bg-transparent data-[hover=true]:text-stone-400 data-[hover=true]:bg-transparent"
+              className="nav-menu-trigger-button p-0 text-[#404040] text-base font-medium bg-transparent data-[hover=true]:text-stone-400 data-[hover=true]:bg-transparent"
               endContent={<ChevronIcon color="#404040" size={18} />}
               radius="sm"
               variant="light"

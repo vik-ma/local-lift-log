@@ -66,7 +66,7 @@ export const MultisetTemplateModalList = ({
               className="flex flex-col justify-start items-start bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:bg-default-200 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
               onClick={() => handleClickMultiset(multiset, numNewSets)}
             >
-              <span className="text-md max-w-full break-words text-left">
+              <span className="text-base max-w-full break-words text-left">
                 {multiset.setListText}
               </span>
               <span className="text-xs text-yellow-600 text-left">
