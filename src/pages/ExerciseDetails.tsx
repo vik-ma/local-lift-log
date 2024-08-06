@@ -16,6 +16,7 @@ import {
   useValidateExerciseGroupString,
   useValidateName,
 } from "../hooks";
+import { FavoriteIcon } from "../assets";
 
 export default function ExerciseDetails() {
   const { id } = useParams();
@@ -81,6 +82,23 @@ export default function ExerciseDetails() {
     exerciseModal.onClose();
   };
 
+  const toggleFavorite = async () => {
+    if (exercise === undefined) return;
+
+    const newFavoriteValue = exercise.is_favorite === 1 ? 0 : 1;
+
+    const updatedExercise: Exercise = {
+      ...exercise,
+      is_favorite: newFavoriteValue,
+    };
+
+    const success = await UpdateExercise(updatedExercise);
+
+    if (!success) return;
+
+    setExercise(updatedExercise);
+  };
+
   if (exercise === undefined) return <LoadingSpinner />;
 
   return (
@@ -102,9 +120,23 @@ export default function ExerciseDetails() {
           note={exercise.note}
           editButtonAction={() => exerciseModal.onOpen()}
         />
-        <div className="flex justify-center">
+        <div className="flex justify-center gap-2">
           <Button
-            size="sm"
+            aria-label={
+              exercise.is_favorite
+                ? `Unset Favorite For ${exercise.name}`
+                : `Set Favorite For ${exercise.name}`
+            }
+            className="z-1 w-[8rem]"
+            color={exercise.is_favorite ? "primary" : "default"}
+            startContent={
+              <FavoriteIcon isChecked={!!exercise.is_favorite} size={28} />
+            }
+            onPress={toggleFavorite}
+          >
+            {exercise.is_favorite ? "Favorited" : "Favorite"}
+          </Button>
+          <Button
             onPress={() => navigate(`/exercises/${id}/history`)}
           >
             History
