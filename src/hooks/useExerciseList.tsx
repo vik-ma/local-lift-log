@@ -27,6 +27,12 @@ export const useExerciseList = (
     return exercises;
   }, [exercises, filterQuery]);
 
+  const sortAndUpdateExercises = (exercises: Exercise[]) => {
+    exercises.sort((a, b) => b.is_favorite - a.is_favorite);
+
+    setExercises(exercises);
+  };
+
   const getExercises = useCallback(async () => {
     const exercises = showTotalNumSets
       ? await GetExerciseListWithGroupStringsAndTotalSets()
@@ -34,9 +40,7 @@ export const useExerciseList = (
 
     if (exercises === undefined) return;
 
-    exercises.sort((a, b) => b.is_favorite - a.is_favorite);
-
-    setExercises(exercises);
+    sortAndUpdateExercises(exercises);
     setIsExercisesLoading(false);
   }, [showTotalNumSets]);
 
@@ -52,5 +56,6 @@ export const useExerciseList = (
     setExercises,
     getExercises,
     isExercisesLoading,
+    sortAndUpdateExercises,
   };
 };

@@ -330,6 +330,7 @@ export type UseExerciseListReturnType = {
   setExercises: React.Dispatch<React.SetStateAction<Exercise[]>>;
   getExercises: () => Promise<void>;
   isExercisesLoading: boolean;
+  sortAndUpdateExercises: (exercises: Exercise[]) => void;
 };
 
 export type HandleMultisetSetOptionSelectionProps = (

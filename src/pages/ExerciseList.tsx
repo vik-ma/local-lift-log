@@ -44,6 +44,7 @@ export default function ExerciseList() {
     setExercises,
     getExercises,
     isExercisesLoading,
+    sortAndUpdateExercises,
   } = useExerciseList(true);
 
   const deleteModal = useDisclosure();
@@ -217,9 +218,7 @@ export default function ExerciseList() {
 
     const updatedExercises = UpdateItemInList(exercises, updatedExercise);
 
-    updatedExercises.sort((a, b) => b.is_favorite - a.is_favorite);
-
-    setExercises(updatedExercises);
+    sortAndUpdateExercises(updatedExercises);
   };
 
   return (
