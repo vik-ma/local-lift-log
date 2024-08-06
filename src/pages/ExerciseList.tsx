@@ -201,6 +201,23 @@ export default function ExerciseList() {
     }
   };
 
+  const toggleFavorite = async (exercise: Exercise) => {
+    const newFavoriteValue = exercise.is_favorite === 1 ? 0 : 1;
+
+    const updatedExercise: Exercise = {
+      ...exercise,
+      is_favorite: newFavoriteValue,
+    };
+
+    const success = await UpdateExercise(updatedExercise);
+
+    if (!success) return;
+
+    const updatedExercises = UpdateItemInList(exercises, updatedExercise);
+
+    setExercises(updatedExercises);
+  };
+
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
@@ -278,6 +295,7 @@ export default function ExerciseList() {
                       size="sm"
                       radius="lg"
                       variant="light"
+                      onPress={() => toggleFavorite(exercise)}
                     >
                       <FavoriteIcon
                         isChecked={!!exercise.is_favorite}
