@@ -283,7 +283,8 @@ export default function RoutineList() {
                     </button>
                     <div className="flex gap-1.5 items-center">
                       <Button
-                        className="w-24"
+                        className="w-20"
+                        size="sm"
                         color={isActiveRoutine ? "success" : "default"}
                         variant="flat"
                         onPress={() => handleSetActiveButton(routine)}
