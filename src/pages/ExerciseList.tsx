@@ -44,7 +44,7 @@ export default function ExerciseList() {
     setExercises,
     getExercises,
     isExercisesLoading,
-    sortAndUpdateExercises,
+    toggleFavorite,
   } = useExerciseList(true);
 
   const deleteModal = useDisclosure();
@@ -202,23 +202,6 @@ export default function ExerciseList() {
     } else if (key === "toggle-favorite") {
       toggleFavorite(exercise);
     }
-  };
-
-  const toggleFavorite = async (exercise: Exercise) => {
-    const newFavoriteValue = exercise.is_favorite === 1 ? 0 : 1;
-
-    const updatedExercise: Exercise = {
-      ...exercise,
-      is_favorite: newFavoriteValue,
-    };
-
-    const success = await UpdateExercise(updatedExercise);
-
-    if (!success) return;
-
-    const updatedExercises = UpdateItemInList(exercises, updatedExercise);
-
-    sortAndUpdateExercises(updatedExercises);
   };
 
   return (

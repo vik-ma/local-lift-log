@@ -2,6 +2,8 @@ import { useState, useEffect, useMemo, useCallback } from "react";
 import {
   GetExerciseListWithGroupStrings,
   GetExerciseListWithGroupStringsAndTotalSets,
+  UpdateExercise,
+  UpdateItemInList,
 } from "../helpers";
 import { Exercise, UseExerciseListReturnType } from "../typings";
 
@@ -33,6 +35,23 @@ export const useExerciseList = (
     setExercises(exercises);
   };
 
+  const toggleFavorite = async (exercise: Exercise) => {
+    const newFavoriteValue = exercise.is_favorite === 1 ? 0 : 1;
+
+    const updatedExercise: Exercise = {
+      ...exercise,
+      is_favorite: newFavoriteValue,
+    };
+
+    const success = await UpdateExercise(updatedExercise);
+
+    if (!success) return;
+
+    const updatedExercises = UpdateItemInList(exercises, updatedExercise);
+
+    sortAndUpdateExercises(updatedExercises);
+  };
+
   const getExercises = useCallback(async () => {
     const exercises = showTotalNumSets
       ? await GetExerciseListWithGroupStringsAndTotalSets()
@@ -56,6 +75,6 @@ export const useExerciseList = (
     setExercises,
     getExercises,
     isExercisesLoading,
-    sortAndUpdateExercises,
+    toggleFavorite,
   };
 };
