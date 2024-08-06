@@ -295,6 +295,7 @@ export default function ExerciseList() {
                       isIconOnly
                       className="z-1"
                       size="sm"
+                      color={exercise.is_favorite ? "primary" : "default"}
                       radius="lg"
                       variant="light"
                       onPress={() => toggleFavorite(exercise)}
