@@ -34,6 +34,8 @@ export const useExerciseList = (
 
     if (exercises === undefined) return;
 
+    exercises.sort((a, b) => b.is_favorite - a.is_favorite);
+
     setExercises(exercises);
     setIsExercisesLoading(false);
   }, [showTotalNumSets]);

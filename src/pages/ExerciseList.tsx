@@ -217,6 +217,8 @@ export default function ExerciseList() {
 
     const updatedExercises = UpdateItemInList(exercises, updatedExercise);
 
+    updatedExercises.sort((a, b) => b.is_favorite - a.is_favorite);
+
     setExercises(updatedExercises);
   };
 
