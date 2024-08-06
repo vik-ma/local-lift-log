@@ -127,18 +127,22 @@ export default function ExerciseDetails() {
                 ? `Unset Favorite For ${exercise.name}`
                 : `Set Favorite For ${exercise.name}`
             }
-            className="z-1 w-[8rem]"
+            className="z-1"
             color={exercise.is_favorite ? "primary" : "default"}
             startContent={
-              <FavoriteIcon isChecked={!!exercise.is_favorite} size={28} />
+              <FavoriteIcon
+                isChecked={!!exercise.is_favorite}
+                size={28}
+                isInPrimaryButton={true}
+              />
             }
             onPress={toggleFavorite}
           >
-            {exercise.is_favorite ? "Favorited" : "Favorite"}
+            <span className="w-[4rem]">
+              {exercise.is_favorite ? "Favorited" : "Favorite"}
+            </span>
           </Button>
-          <Button
-            onPress={() => navigate(`/exercises/${id}/history`)}
-          >
+          <Button onPress={() => navigate(`/exercises/${id}/history`)}>
             History
           </Button>
         </div>
