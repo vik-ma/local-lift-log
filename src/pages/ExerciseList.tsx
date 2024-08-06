@@ -198,6 +198,8 @@ export default function ExerciseList() {
       setOperationType("delete");
       setOperatingExercise(exercise);
       deleteModal.onOpen();
+    } else if (key === "toggle-favorite") {
+      toggleFavorite(exercise);
     }
   };
 
@@ -325,6 +327,11 @@ export default function ExerciseList() {
                         }
                       >
                         <DropdownItem key="edit">Edit</DropdownItem>
+                        <DropdownItem key="toggle-favorite">
+                          {exercise.is_favorite
+                            ? "Remove Favorite"
+                            : "Set Favorite"}
+                        </DropdownItem>
                         <DropdownItem key="delete" className="text-danger">
                           Delete
                         </DropdownItem>
