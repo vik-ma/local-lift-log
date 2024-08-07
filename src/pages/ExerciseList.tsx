@@ -244,6 +244,30 @@ export default function ExerciseList() {
           onValueChange={setFilterQuery}
           startContent={<SearchIcon />}
         />
+        <div className="flex justify-center gap-1 w-full items-center">
+          <Button
+            color="primary"
+            onPress={() => handleCreateNewExerciseButton()}
+          >
+            Create New Exercise
+          </Button>
+          <Dropdown>
+            <DropdownTrigger>
+              <Button className="z-1" variant="flat">
+                Sort By
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu
+            // onAction={(key) => handleSortOptionSelection(key as string)}
+            >
+              <DropdownItem key="name">Exercise Name (A-Z)</DropdownItem>
+              <DropdownItem key="group">Muscle Group (A-Z)</DropdownItem>
+              <DropdownItem key="num-sets">
+                Number Of Sets Completed
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        </div>
         {isExercisesLoading ? (
           <LoadingSpinner />
         ) : (
@@ -326,16 +350,6 @@ export default function ExerciseList() {
                   </div>
                 </div>
               ))}
-            </div>
-            <div className="flex justify-center">
-              <Button
-                className="text-lg font-medium"
-                size="lg"
-                color="success"
-                onPress={() => handleCreateNewExerciseButton()}
-              >
-                Create New Exercise
-              </Button>
             </div>
             {exercises.length === 0 && (
               <div className="flex justify-center">
