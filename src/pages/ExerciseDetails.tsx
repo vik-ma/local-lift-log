@@ -132,7 +132,7 @@ export default function ExerciseDetails() {
             startContent={
               <FavoriteIcon
                 isChecked={!!exercise.is_favorite}
-                size={28}
+                size={30}
                 isInPrimaryButton={true}
               />
             }
