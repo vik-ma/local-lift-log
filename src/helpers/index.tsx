@@ -134,6 +134,7 @@ export { ConvertEmptyStringToNull } from "./Strings/ConvertEmptyStringToNull";
 export { IsStringEmpty } from "./Strings/IsStringEmpty";
 export { ExtractTextFromInsideBrackets } from "./Strings/ExtractTextFromInsideBrackets";
 export { FormatSetsCompletedString } from "./Strings/FormatSetsCompletedString";
+export { FormatNumItemsString } from "./Strings/FormatNumItemsString";
 
 export { UpdateItemInList } from "./Lists/UpdateItemInList";
 export { DeleteItemFromList } from "./Lists/DeleteItemFromList";
