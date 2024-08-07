@@ -164,9 +164,7 @@ export const WorkoutGroupedSetList = ({
                           ? `${completedSetsMap.get(groupedSet.id)}/${
                               groupedSet.setList.length
                             } Sets Completed`
-                          : `${groupedSet.setList.length} Set${
-                              groupedSet.setList.length > 1 ? "s" : ""
-                            }`}
+                          : `${groupedSet.setList.length} `}
                       </span>
                     </div>
                     <div className="flex gap-0.5 px-0.5 items-center">

@@ -262,7 +262,8 @@ export default function ExerciseList() {
                     </span>
                     {exercise.set_count! > 0 && (
                       <span className="text-xs text-yellow-600 text-left">
-                        {exercise.set_count} Sets Completed
+                        {exercise.set_count} Set
+                        {exercise.set_count! > 1 ? "s" : ""} Completed
                       </span>
                     )}
                     <span className="text-xs text-stone-400 text-left">
