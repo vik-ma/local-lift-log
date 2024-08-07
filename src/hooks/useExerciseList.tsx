@@ -29,7 +29,7 @@ export const useExerciseList = (
     return exercises;
   }, [exercises, filterQuery]);
 
-  const sortAndUpdateExercises = (exercises: Exercise[]) => {
+  const sortExercisesByName = (exercises: Exercise[]) => {
     exercises.sort((a, b) => {
       if (b.is_favorite !== a.is_favorite) {
         return b.is_favorite - a.is_favorite;
@@ -38,7 +38,7 @@ export const useExerciseList = (
       }
     });
 
-    setExercises(exercises);
+    setExercises({ ...exercises });
   };
 
   const toggleFavorite = async (exercise: Exercise) => {
@@ -55,7 +55,15 @@ export const useExerciseList = (
 
     const updatedExercises = UpdateItemInList(exercises, updatedExercise);
 
-    sortAndUpdateExercises(updatedExercises);
+    sortExercisesByName(updatedExercises);
+  };
+
+  const handleSortOptionSelection = (key: string) => {
+    if (key === "name") {
+      sortExercisesByName(exercises);
+    } else if (key === "group") {
+    } else if (key === "num-sets") {
+    }
   };
 
   const getExercises = useCallback(async () => {
@@ -65,7 +73,7 @@ export const useExerciseList = (
 
     if (exercises === undefined) return;
 
-    sortAndUpdateExercises(exercises);
+    sortExercisesByName(exercises);
     setIsExercisesLoading(false);
   }, [showTotalNumSets]);
 
@@ -82,5 +90,6 @@ export const useExerciseList = (
     getExercises,
     isExercisesLoading,
     toggleFavorite,
+    handleSortOptionSelection,
   };
 };

@@ -46,6 +46,7 @@ export default function ExerciseList() {
     getExercises,
     isExercisesLoading,
     toggleFavorite,
+    handleSortOptionSelection,
   } = useExerciseList(true);
 
   const deleteModal = useDisclosure();
@@ -258,7 +259,7 @@ export default function ExerciseList() {
               </Button>
             </DropdownTrigger>
             <DropdownMenu
-            // onAction={(key) => handleSortOptionSelection(key as string)}
+              onAction={(key) => handleSortOptionSelection(key as string)}
             >
               <DropdownItem key="name">Exercise Name (A-Z)</DropdownItem>
               <DropdownItem key="group">Muscle Group (A-Z)</DropdownItem>
