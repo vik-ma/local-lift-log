@@ -19,6 +19,7 @@ import {
   ConvertEmptyStringToNull,
   UpdateWorkoutTemplate,
   GetNumberOfUniqueExercisesInGroupedSets,
+  FormatNumItemsString,
 } from "../helpers";
 import {
   useValidateName,
@@ -256,7 +257,10 @@ export default function WorkoutTemplateDetails() {
       <div className="flex flex-col">
         <DetailsHeader
           header={workoutTemplate.name}
-          subHeader={`${workoutNumbers.numExercises} Exercises, ${workoutNumbers.numSets} Sets`}
+          subHeader={`${FormatNumItemsString(
+            workoutNumbers.numExercises,
+            "Exercise"
+          )}, ${FormatNumItemsString(workoutNumbers.numExercises, "Set")}`}
           note={workoutTemplate.note}
           editButtonAction={() => workoutTemplateModal.onOpen()}
         />

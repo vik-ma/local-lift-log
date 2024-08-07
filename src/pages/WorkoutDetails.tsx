@@ -21,6 +21,7 @@ import {
   FormatYmdDateString,
   UpdateWorkout,
   GetNumberOfUniqueExercisesInGroupedSets,
+  FormatNumItemsString,
 } from "../helpers";
 import { useDisclosure } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
@@ -329,7 +330,10 @@ export default function WorkoutDetails() {
       <div className="flex flex-col">
         <DetailsHeader
           header={workoutDate}
-          subHeader={`${workoutNumbers.numExercises} Exercises, ${workoutNumbers.numSets} Sets`}
+          subHeader={`${FormatNumItemsString(
+            workoutNumbers.numExercises,
+            "Exercise"
+          )}, ${FormatNumItemsString(workoutNumbers.numExercises, "Set")}`}
           note={workout.note}
           editButtonAction={() => workoutModal.onOpen()}
         />

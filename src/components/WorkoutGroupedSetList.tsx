@@ -15,6 +15,7 @@ import {
   Exercise,
   MultisetTypeMap,
 } from "../typings";
+import { FormatNumItemsString, FormatSetsCompletedString } from "../helpers";
 
 type WorkoutGroupedSetListProps = {
   groupedSets: GroupedWorkoutSet[];
@@ -161,10 +162,15 @@ export const WorkoutGroupedSetList = ({
                         }
                       >
                         {completedSetsMap
-                          ? `${completedSetsMap.get(groupedSet.id)}/${
+                          ? `${completedSetsMap.get(
+                              groupedSet.id
+                            )}/${FormatSetsCompletedString(
                               groupedSet.setList.length
-                            } Sets Completed`
-                          : `${groupedSet.setList.length} `}
+                            )}`
+                          : `${FormatNumItemsString(
+                              groupedSet.setList.length,
+                              "Set"
+                            )}`}
                       </span>
                     </div>
                     <div className="flex gap-0.5 px-0.5 items-center">

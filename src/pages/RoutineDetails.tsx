@@ -31,6 +31,7 @@ import {
   IsNumberValidId,
   GetUserSettings,
   UpdateRoutine,
+  FormatNumItemsString,
 } from "../helpers";
 import toast, { Toaster } from "react-hot-toast";
 import { getLocalTimeZone, parseDate } from "@internationalized/date";
@@ -354,9 +355,7 @@ export default function RoutineDetails() {
           subHeader={
             routine.numWorkoutTemplates === 0
               ? "No Workouts Added"
-              : routine.numWorkoutTemplates === 1
-              ? "1 Workout"
-              : `${routine.numWorkoutTemplates} Workouts`
+              : FormatNumItemsString(routine.numWorkoutTemplates, "Workout")
           }
           note={routine.note}
           editButtonAction={() => routineModal.onOpen()}
