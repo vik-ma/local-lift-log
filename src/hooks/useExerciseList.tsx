@@ -38,7 +38,21 @@ export const useExerciseList = (
       }
     });
 
-    setExercises({ ...exercises });
+    setExercises(exercises);
+  };
+
+  const sortExercisesByNumSetsCompleted = (exercises: Exercise[]) => {
+    exercises.sort((a, b) => {
+      if (b.is_favorite !== a.is_favorite) {
+        return b.is_favorite - a.is_favorite;
+      } else {
+        const aCount = a.set_count !== undefined ? a.set_count : -Infinity;
+        const bCount = b.set_count !== undefined ? b.set_count : -Infinity;
+        return bCount - aCount;
+      }
+    });
+
+    setExercises(exercises);
   };
 
   const toggleFavorite = async (exercise: Exercise) => {
@@ -60,9 +74,11 @@ export const useExerciseList = (
 
   const handleSortOptionSelection = (key: string) => {
     if (key === "name") {
-      sortExercisesByName(exercises);
+      sortExercisesByName([...exercises]);
     } else if (key === "group") {
+      //
     } else if (key === "num-sets") {
+      sortExercisesByNumSetsCompleted([...exercises]);
     }
   };
 

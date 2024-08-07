@@ -331,6 +331,7 @@ export type UseExerciseListReturnType = {
   getExercises: () => Promise<void>;
   isExercisesLoading: boolean;
   toggleFavorite: (exercises: Exercise) => void;
+  handleSortOptionSelection: (key: string) => void;
 };
 
 export type HandleMultisetSetOptionSelectionProps = (
