@@ -30,7 +30,13 @@ export const useExerciseList = (
   }, [exercises, filterQuery]);
 
   const sortAndUpdateExercises = (exercises: Exercise[]) => {
-    exercises.sort((a, b) => b.is_favorite - a.is_favorite);
+    exercises.sort((a, b) => {
+      if (b.is_favorite !== a.is_favorite) {
+        return b.is_favorite - a.is_favorite;
+      } else {
+        return a.name.localeCompare(b.name);
+      }
+    });
 
     setExercises(exercises);
   };
