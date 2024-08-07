@@ -19,6 +19,7 @@ import {
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
+  Checkbox,
 } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
@@ -36,6 +37,7 @@ type OperationType = "add" | "edit" | "delete";
 
 export default function ExerciseList() {
   const [operationType, setOperationType] = useState<OperationType>("add");
+  const [listFavoritesFirst, setListFavoritesFirst] = useState<boolean>(true);
 
   const {
     filterQuery,
@@ -245,13 +247,19 @@ export default function ExerciseList() {
           onValueChange={setFilterQuery}
           startContent={<SearchIcon />}
         />
-        <div className="flex justify-center gap-1 w-full items-center">
+        <div className="flex justify-between gap-1 w-full items-center">
           <Button
             color="primary"
             onPress={() => handleCreateNewExerciseButton()}
           >
-            Create New Exercise
+            New Exercise
           </Button>
+          <Checkbox
+            isSelected={listFavoritesFirst}
+            onValueChange={setListFavoritesFirst}
+          >
+            List Favorites First
+          </Checkbox>
           <Dropdown>
             <DropdownTrigger>
               <Button className="z-1" variant="flat">
