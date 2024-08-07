@@ -37,7 +37,6 @@ type OperationType = "add" | "edit" | "delete";
 
 export default function ExerciseList() {
   const [operationType, setOperationType] = useState<OperationType>("add");
-  const [listFavoritesFirst, setListFavoritesFirst] = useState<boolean>(true);
 
   const {
     filterQuery,
@@ -49,6 +48,8 @@ export default function ExerciseList() {
     isExercisesLoading,
     toggleFavorite,
     handleSortOptionSelection,
+    favoritesCheckboxValue,
+    handleListFavoritesFirstChange,
   } = useExerciseList(true);
 
   const deleteModal = useDisclosure();
@@ -255,8 +256,8 @@ export default function ExerciseList() {
             New Exercise
           </Button>
           <Checkbox
-            isSelected={listFavoritesFirst}
-            onValueChange={setListFavoritesFirst}
+            isSelected={favoritesCheckboxValue}
+            onValueChange={handleListFavoritesFirstChange}
           >
             List Favorites First
           </Checkbox>

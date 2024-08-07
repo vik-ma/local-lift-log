@@ -13,6 +13,8 @@ export const useExerciseList = (
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [filterQuery, setFilterQuery] = useState<string>("");
   const [isExercisesLoading, setIsExercisesLoading] = useState<boolean>(true);
+  const [favoritesCheckboxValue, setFavoritesCheckboxValue] =
+    useState<boolean>(true);
 
   const filteredExercises = useMemo(() => {
     if (filterQuery !== "") {
@@ -29,9 +31,12 @@ export const useExerciseList = (
     return exercises;
   }, [exercises, filterQuery]);
 
-  const sortExercisesByName = (exercises: Exercise[]) => {
+  const sortExercisesByName = (
+    exercises: Exercise[],
+    listFavoritesFirst = true
+  ) => {
     exercises.sort((a, b) => {
-      if (b.is_favorite !== a.is_favorite) {
+      if (listFavoritesFirst && b.is_favorite !== a.is_favorite) {
         return b.is_favorite - a.is_favorite;
       } else {
         return a.name.localeCompare(b.name);
@@ -41,9 +46,12 @@ export const useExerciseList = (
     setExercises(exercises);
   };
 
-  const sortExercisesByNumSetsCompleted = (exercises: Exercise[]) => {
+  const sortExercisesByNumSetsCompleted = (
+    exercises: Exercise[],
+    listFavoritesFirst = true
+  ) => {
     exercises.sort((a, b) => {
-      if (b.is_favorite !== a.is_favorite) {
+      if (listFavoritesFirst && b.is_favorite !== a.is_favorite) {
         return b.is_favorite - a.is_favorite;
       } else {
         const aCount = a.set_count !== undefined ? a.set_count : -Infinity;
@@ -74,12 +82,17 @@ export const useExerciseList = (
 
   const handleSortOptionSelection = (key: string) => {
     if (key === "name") {
-      sortExercisesByName([...exercises]);
+      sortExercisesByName([...exercises], favoritesCheckboxValue);
     } else if (key === "group") {
       //
     } else if (key === "num-sets") {
-      sortExercisesByNumSetsCompleted([...exercises]);
+      sortExercisesByNumSetsCompleted([...exercises], favoritesCheckboxValue);
     }
+  };
+
+  const handleListFavoritesFirstChange = (value: boolean) => {
+    sortExercisesByName([...exercises], value);
+    setFavoritesCheckboxValue(value);
   };
 
   const getExercises = useCallback(async () => {
@@ -107,5 +120,7 @@ export const useExerciseList = (
     isExercisesLoading,
     toggleFavorite,
     handleSortOptionSelection,
+    favoritesCheckboxValue,
+    handleListFavoritesFirstChange,
   };
 };

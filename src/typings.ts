@@ -332,6 +332,8 @@ export type UseExerciseListReturnType = {
   isExercisesLoading: boolean;
   toggleFavorite: (exercises: Exercise) => void;
   handleSortOptionSelection: (key: string) => void;
+  favoritesCheckboxValue: boolean;
+  handleListFavoritesFirstChange: (value: boolean) => void;
 };
 
 export type HandleMultisetSetOptionSelectionProps = (
