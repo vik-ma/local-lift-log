@@ -133,6 +133,7 @@ export { ValidTimeInputBehaviors } from "./Constants/ValidTimeInputBehaviors";
 export { ConvertEmptyStringToNull } from "./Strings/ConvertEmptyStringToNull";
 export { IsStringEmpty } from "./Strings/IsStringEmpty";
 export { ExtractTextFromInsideBrackets } from "./Strings/ExtractTextFromInsideBrackets";
+export { FormatSetsCompletedString } from "./Strings/FormatSetsCompletedString";
 
 export { UpdateItemInList } from "./Lists/UpdateItemInList";
 export { DeleteItemFromList } from "./Lists/DeleteItemFromList";
