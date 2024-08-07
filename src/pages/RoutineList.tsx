@@ -18,6 +18,7 @@ import {
   UpdateRoutine,
   DeleteItemFromList,
   UpdateItemInList,
+  FormatNumItemsString,
 } from "../helpers";
 import { LoadingSpinner, DeleteModal, RoutineModal } from "../components";
 import { useDefaultRoutine, useIsRoutineValid } from "../hooks";
@@ -270,9 +271,7 @@ export default function RoutineList() {
                       </span>
                       {numWorkoutTemplates > 0 && (
                         <span className="text-xs text-yellow-600 text-left">
-                          {numWorkoutTemplates === 1
-                            ? "1 Workout"
-                            : `${numWorkoutTemplates} Workouts`}
+                          {FormatNumItemsString(numWorkoutTemplates, "Workout")}
                         </span>
                       )}
                       <span className="text-xs text-stone-400 text-left">

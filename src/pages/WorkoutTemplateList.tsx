@@ -22,6 +22,7 @@ import {
   DeleteItemFromList,
   UpdateItemInList,
   UpdateWorkoutTemplate,
+  FormatNumItemsString,
 } from "../helpers";
 import { VerticalMenuIcon } from "../assets";
 
@@ -245,8 +246,11 @@ export default function WorkoutTemplateList() {
                     </span>
                     {template.numSets! > 0 ? (
                       <span className="text-xs text-yellow-600 text-left">
-                        {template.numExercises} Exercises, {template.numSets}{" "}
-                        Sets
+                        {FormatNumItemsString(
+                          template.numExercises,
+                          "Exercise"
+                        )}
+                        , {FormatNumItemsString(template.numSets, "Set")}
                       </span>
                     ) : (
                       <span className="text-xs text-stone-400 text-left">

@@ -14,6 +14,7 @@ import {
 import toast, { Toaster } from "react-hot-toast";
 import {
   DeleteItemFromList,
+  FormatNumItemsString,
   FormatYmdDateString,
   GetShowWorkoutRating,
   UpdateItemInList,
@@ -233,8 +234,11 @@ export default function WorkoutList() {
                       </span>
                       {workout.numSets! > 0 ? (
                         <span className="text-xs text-yellow-600 text-left">
-                          {workout.numExercises} Exercises, {workout.numSets}{" "}
-                          Sets
+                          {FormatNumItemsString(
+                            workout.numExercises,
+                            "Exercise"
+                          )}
+                          , {FormatNumItemsString(workout.numSets, "Set")}
                         </span>
                       ) : (
                         <span className="text-xs text-stone-400 text-left">
