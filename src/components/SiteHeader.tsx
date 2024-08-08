@@ -10,7 +10,12 @@ import {
   DropdownItem,
 } from "@nextui-org/react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { ArrowRightIcon, ArrowLeftIcon, ChevronIcon } from "../assets";
+import {
+  ArrowRightIcon,
+  ArrowLeftIcon,
+  ChevronIcon,
+  RefreshIcon,
+} from "../assets";
 
 export const SiteHeader = () => {
   const navigate = useNavigate();
@@ -36,6 +41,16 @@ export const SiteHeader = () => {
             onPress={() => navigate(+1)}
           >
             <ArrowRightIcon />
+          </Button>
+        </NavbarItem>
+        <NavbarItem className="flex items-center justify-center">
+          <Button
+            size="sm"
+            variant="ghost"
+            as={Link}
+            onPress={() => navigate(0)}
+          >
+            <RefreshIcon />
           </Button>
         </NavbarItem>
       </NavbarContent>
