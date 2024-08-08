@@ -39,7 +39,7 @@ export const useExerciseList = (
 
   const sortExercisesByName = (
     exercises: Exercise[],
-    listFavoritesFirst = true
+    listFavoritesFirst: boolean
   ) => {
     exercises.sort((a, b) => {
       if (listFavoritesFirst && b.is_favorite !== a.is_favorite) {
@@ -54,7 +54,7 @@ export const useExerciseList = (
 
   const sortExercisesByNumSetsCompleted = (
     exercises: Exercise[],
-    listFavoritesFirst = true
+    listFavoritesFirst: boolean
   ) => {
     exercises.sort((a, b) => {
       if (listFavoritesFirst && b.is_favorite !== a.is_favorite) {
@@ -83,7 +83,7 @@ export const useExerciseList = (
 
     const updatedExercises = UpdateItemInList(exercises, updatedExercise);
 
-    sortExercisesByName(updatedExercises);
+    sortExercisesByName(updatedExercises, favoritesCheckboxValue);
   };
 
   const handleSortOptionSelection = (key: string) => {
@@ -97,8 +97,13 @@ export const useExerciseList = (
   };
 
   const handleListFavoritesFirstChange = (value: boolean) => {
-    sortExercisesByName([...exercises], value);
     setFavoritesCheckboxValue(value);
+
+    if (sortCategory === "name") {
+      sortExercisesByName([...exercises], value);
+    } else if (sortCategory === "num-sets") {
+      sortExercisesByNumSetsCompleted([...exercises], value);
+    }
   };
 
   const getExercises = useCallback(async () => {
@@ -108,7 +113,7 @@ export const useExerciseList = (
 
     if (exercises === undefined) return;
 
-    sortExercisesByName(exercises);
+    sortExercisesByName(exercises, true);
     setIsExercisesLoading(false);
   }, [showTotalNumSets]);
 
