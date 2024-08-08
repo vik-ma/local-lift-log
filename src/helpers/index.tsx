@@ -141,3 +141,4 @@ export { UpdateItemInList } from "./Lists/UpdateItemInList";
 export { DeleteItemFromList } from "./Lists/DeleteItemFromList";
 export { DeleteIdFromList } from "./Lists/DeleteIdFromList";
 export { FindIndexInList } from "./Lists/FindIndexInList";
+export { ReplaceNumberIn2DList } from "./Lists/ReplaceNumberIn2DList";
