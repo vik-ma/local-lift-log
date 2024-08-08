@@ -13,3 +13,4 @@ export { CrossIcon } from "./CrossIcon";
 export { CrossCircleIcon } from "./CrossCircleIcon";
 export { EditIcon } from "./EditIcon";
 export { FavoriteIcon } from "./FavoriteIcon";
+export { RefreshIcon } from "./RefreshIcon";
