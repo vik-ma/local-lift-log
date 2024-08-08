@@ -67,6 +67,7 @@ export { GetMultisetGroupedSet } from "./Multisets/GetMultisetGroupedSet";
 export { GenerateMultisetSetListIdList } from "./Multisets/GenerateMultisetSetListIdList";
 export { CreateMultisetIndexCutoffs } from "./Multisets/CreateMultisetIndexCutoffs";
 export { AddNewSetsToMultiset } from "./Multisets/AddNewSetsToMultiset";
+export { GetMultisetWithId } from "./Multisets/GetMultisetWithId";
 
 export { IsNumberNegativeOrInfinity } from "./Numbers/IsNumberNegativeOrInfinity";
 export { IsStringInvalidNumberOrAbove59 } from "./Numbers/IsStringInvalidNumberOrAbove59";
