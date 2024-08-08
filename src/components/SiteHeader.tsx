@@ -23,7 +23,7 @@ export const SiteHeader = () => {
   return (
     <Navbar className="h-16" isBordered>
       <NavbarContent className="flex gap-1.5">
-        <NavbarItem className="flex items-center justify-center">
+        <NavbarItem className="flex">
           <Button
             size="sm"
             variant="ghost"
@@ -33,7 +33,7 @@ export const SiteHeader = () => {
             <ArrowLeftIcon />
           </Button>
         </NavbarItem>
-        <NavbarItem className="flex items-center justify-center">
+        <NavbarItem className="flex">
           <Button
             size="sm"
             variant="ghost"
@@ -43,7 +43,7 @@ export const SiteHeader = () => {
             <ArrowRightIcon />
           </Button>
         </NavbarItem>
-        <NavbarItem className="flex items-center justify-center">
+        <NavbarItem className="flex">
           <Button
             size="sm"
             variant="ghost"
