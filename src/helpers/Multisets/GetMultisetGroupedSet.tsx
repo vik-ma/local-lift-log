@@ -1,9 +1,9 @@
 import { Exercise, Multiset, WorkoutSet } from "../../typings";
-import Database from "tauri-plugin-sql-api";
 import {
   DefaultNewMultiset,
   GenerateMultisetSetOrderList,
   GetExerciseFromId,
+  GetMultisetWithId,
 } from "..";
 
 type MultisetGroupedSet = {
@@ -24,64 +24,52 @@ export const GetMultisetGroupedSet = async (
 
   const setListIndexCutoffs = new Map<number, number>();
 
-  try {
-    const db = await Database.load(import.meta.env.VITE_DB);
+  const multiset = await GetMultisetWithId(multisetId);
 
-    const result = await db.select<Multiset[]>(
-      `SELECT * FROM multisets WHERE id = $1`,
-      [multisetId]
-    );
+  if (multiset === undefined) return multisetExerciseAndSetList;
 
-    const multiset = result[0];
+  // Split sets of Multiset
+  const multisetStrings = multiset.set_order.split("/");
 
-    if (multiset === undefined) return multisetExerciseAndSetList;
+  const setOrderList: number[] = [];
 
-    // Split sets of Multiset
-    const multisetStrings = multiset.set_order.split("/");
+  let indexCounter = 0;
+  let setCounter = 1;
 
-    const setOrderList: number[] = [];
+  // Loop through every set in Multiset
+  for (const multisetString of multisetStrings) {
+    const currentSetOrderList = GenerateMultisetSetOrderList(multisetString);
 
-    let indexCounter = 0;
-    let setCounter = 1;
+    setOrderList.push(...currentSetOrderList);
 
-    // Loop through every set in Multiset
-    for (const multisetString of multisetStrings) {
-      const currentSetOrderList = GenerateMultisetSetOrderList(multisetString);
+    // Get the index where new Set starts
+    setListIndexCutoffs.set(indexCounter, setCounter);
 
-      setOrderList.push(...currentSetOrderList);
-
-      // Get the index where new Set starts
-      setListIndexCutoffs.set(indexCounter, setCounter);
-
-      indexCounter = indexCounter + currentSetOrderList.length;
-      setCounter++;
-    }
-
-    const orderedSetList = setList.sort((a, b) => {
-      const indexA = setOrderList.indexOf(a.id);
-      const indexB = setOrderList.indexOf(b.id);
-      return indexA - indexB;
-    });
-
-    for (let i = 0; i < orderedSetList.length; i++) {
-      const exercise = await GetExerciseFromId(orderedSetList[i].exercise_id);
-
-      if (exercise.isInvalid) {
-        orderedSetList[i].hasInvalidExerciseId = true;
-      }
-
-      multisetExerciseAndSetList.exerciseList.push(exercise);
-    }
-
-    multiset.setList = orderedSetList;
-    multiset.setListIndexCutoffs = setListIndexCutoffs;
-
-    multisetExerciseAndSetList.orderedSetList = orderedSetList;
-    multisetExerciseAndSetList.multiset = multiset;
-
-    return multisetExerciseAndSetList;
-  } catch (error) {
-    console.log(error);
-    return multisetExerciseAndSetList;
+    indexCounter = indexCounter + currentSetOrderList.length;
+    setCounter++;
   }
+
+  const orderedSetList = setList.sort((a, b) => {
+    const indexA = setOrderList.indexOf(a.id);
+    const indexB = setOrderList.indexOf(b.id);
+    return indexA - indexB;
+  });
+
+  for (let i = 0; i < orderedSetList.length; i++) {
+    const exercise = await GetExerciseFromId(orderedSetList[i].exercise_id);
+
+    if (exercise.isInvalid) {
+      orderedSetList[i].hasInvalidExerciseId = true;
+    }
+
+    multisetExerciseAndSetList.exerciseList.push(exercise);
+  }
+
+  multiset.setList = orderedSetList;
+  multiset.setListIndexCutoffs = setListIndexCutoffs;
+
+  multisetExerciseAndSetList.orderedSetList = orderedSetList;
+  multisetExerciseAndSetList.multiset = multiset;
+
+  return multisetExerciseAndSetList;
 };
