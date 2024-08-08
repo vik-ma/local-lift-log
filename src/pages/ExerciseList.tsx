@@ -50,6 +50,7 @@ export default function ExerciseList() {
     handleSortOptionSelection,
     favoritesCheckboxValue,
     handleListFavoritesFirstChange,
+    sortCategory,
   } = useExerciseList(true);
 
   const deleteModal = useDisclosure();
@@ -268,10 +269,10 @@ export default function ExerciseList() {
               </Button>
             </DropdownTrigger>
             <DropdownMenu
+              selectedKeys={[sortCategory]}
               onAction={(key) => handleSortOptionSelection(key as string)}
             >
               <DropdownItem key="name">Exercise Name (A-Z)</DropdownItem>
-              <DropdownItem key="group">Muscle Group (A-Z)</DropdownItem>
               <DropdownItem key="num-sets">
                 Number Of Sets Completed
               </DropdownItem>

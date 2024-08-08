@@ -5,7 +5,11 @@ import {
   UpdateExercise,
   UpdateItemInList,
 } from "../helpers";
-import { Exercise, UseExerciseListReturnType } from "../typings";
+import {
+  Exercise,
+  UseExerciseListReturnType,
+  ExerciseSortCategory,
+} from "../typings";
 
 export const useExerciseList = (
   showTotalNumSets?: boolean
@@ -15,6 +19,8 @@ export const useExerciseList = (
   const [isExercisesLoading, setIsExercisesLoading] = useState<boolean>(true);
   const [favoritesCheckboxValue, setFavoritesCheckboxValue] =
     useState<boolean>(true);
+  const [sortCategory, setSortCategory] =
+    useState<ExerciseSortCategory>("name");
 
   const filteredExercises = useMemo(() => {
     if (filterQuery !== "") {
@@ -82,10 +88,10 @@ export const useExerciseList = (
 
   const handleSortOptionSelection = (key: string) => {
     if (key === "name") {
+      setSortCategory(key);
       sortExercisesByName([...exercises], favoritesCheckboxValue);
-    } else if (key === "group") {
-      //
     } else if (key === "num-sets") {
+      setSortCategory(key);
       sortExercisesByNumSetsCompleted([...exercises], favoritesCheckboxValue);
     }
   };
@@ -122,5 +128,7 @@ export const useExerciseList = (
     handleSortOptionSelection,
     favoritesCheckboxValue,
     handleListFavoritesFirstChange,
+    sortCategory,
+    setSortCategory,
   };
 };

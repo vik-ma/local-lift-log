@@ -322,6 +322,8 @@ export type UseSetTrackingInputsReturnType = {
   setTrackingValuesInputStrings: (set: WorkoutSet) => void;
 };
 
+export type ExerciseSortCategory = "name" | "num-sets";
+
 export type UseExerciseListReturnType = {
   filterQuery: string;
   setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
@@ -334,6 +336,8 @@ export type UseExerciseListReturnType = {
   handleSortOptionSelection: (key: string) => void;
   favoritesCheckboxValue: boolean;
   handleListFavoritesFirstChange: (value: boolean) => void;
+  sortCategory: ExerciseSortCategory;
+  setSortCategory: React.Dispatch<React.SetStateAction<ExerciseSortCategory>>;
 };
 
 export type HandleMultisetSetOptionSelectionProps = (
