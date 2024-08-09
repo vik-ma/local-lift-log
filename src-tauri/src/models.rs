@@ -92,9 +92,12 @@ pub struct Set {
     pub is_tracking_distance: i16,
     pub is_tracking_resistance_level: i16,
     pub is_tracking_partial_reps: i16,
+    pub is_tracking_user_weight: i16,
     pub weight_unit: Option<String>,
     pub distance_unit: Option<String>,
     pub multiset_id: i16,
+    pub user_weight: f32,
+    pub user_weight_unit: Option<String>,
 }
 
 #[derive(Queryable, Selectable)]

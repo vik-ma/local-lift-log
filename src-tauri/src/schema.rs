@@ -85,9 +85,12 @@ diesel::table! {
         is_tracking_distance -> SmallInt,
         is_tracking_resistance_level -> SmallInt,
         is_tracking_partial_reps -> SmallInt,
+        is_tracking_user_weight -> SmallInt,
         weight_unit -> Nullable<Text>,
         distance_unit -> Nullable<Text>,
         multiset_id -> Integer,
+        user_weight -> Float,
+        user_weight_unit -> Nullable<Text>,
     }
 }
 
