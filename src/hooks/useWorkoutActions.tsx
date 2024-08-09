@@ -9,6 +9,7 @@ import {
   Workout,
   SetTrackingValuesInput,
   Multiset,
+  UserWeight,
 } from "../typings";
 import { useState, useCallback, useEffect } from "react";
 import { useDisclosure } from "@nextui-org/react";
@@ -43,6 +44,7 @@ import {
   DeleteIdFromList,
   AddNewSetsToMultiset,
   FindIndexInList,
+  GetLatestUserWeight,
 } from "../helpers";
 import {
   useDefaultSet,
@@ -52,6 +54,7 @@ import {
   useMultisetActions,
   useDefaultMultiset,
   useExerciseList,
+  useDefaultUserWeight,
 } from "../hooks";
 
 type OperationType =
@@ -104,6 +107,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   const [activeGroupedSet, setActiveGroupedSet] = useState<GroupedWorkoutSet>();
   const [setCommentInput, setSetCommentInput] = useState<string>("");
 
+  const defaultUserWeight = useDefaultUserWeight();
+
+  const [userWeight, setUserWeight] = useState<UserWeight>(defaultUserWeight);
+
   const [numMultisetSets, setNumMultisetSets] = useState<number>(1);
 
   const numSetsOptions = useNumSetsOptions();
@@ -154,13 +161,23 @@ export const useWorkoutActions = (isTemplate: boolean) => {
           weight_unit: userSettings.default_unit_weight!,
           distance_unit: userSettings.default_unit_distance!,
         }));
+
+        if (!isTemplate) {
+          const userWeight = await GetLatestUserWeight(
+            userSettings.clock_style
+          );
+
+          if (userWeight !== undefined) {
+            setUserWeight(userWeight);
+          }
+        }
       } catch (error) {
         console.log(error);
       }
     };
 
     loadUserSettings();
-  }, []);
+  }, [isTemplate]);
 
   const addSetsToExercise = async (numSets: string) => {
     if (selectedExercise === undefined) return;
