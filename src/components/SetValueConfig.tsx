@@ -195,6 +195,18 @@ export const SetValueConfig = ({
           </Checkbox>
           <Checkbox
             color="success"
+            isSelected={operatingSet.is_tracking_user_weight ? true : false}
+            onValueChange={(value) =>
+              setOperatingSet((prev) => ({
+                ...prev,
+                is_tracking_user_weight: value ? 1 : 0,
+              }))
+            }
+          >
+            User Weight
+          </Checkbox>
+          <Checkbox
+            color="success"
             isSelected={operatingSet.is_warmup ? true : false}
             onValueChange={(value) =>
               setOperatingSet((prev) => ({
