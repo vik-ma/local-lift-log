@@ -5,7 +5,7 @@ import { Button, useDisclosure } from "@nextui-org/react";
 import { LoadingSpinner, ExerciseModal, DetailsHeader } from "../components";
 import {
   ConvertExerciseGroupSetString,
-  GetExerciseFromId,
+  GetExerciseWithId,
   UpdateExercise,
   IsExerciseValid,
   ConvertEmptyStringToNull,
@@ -33,7 +33,7 @@ export default function ExerciseDetails() {
 
   useEffect(() => {
     const getExercise = async () => {
-      const currentExercise = await GetExerciseFromId(Number(id));
+      const currentExercise = await GetExerciseWithId(Number(id));
 
       setExercise(currentExercise);
       setEditedExercise(currentExercise);

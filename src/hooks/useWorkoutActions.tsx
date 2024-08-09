@@ -30,7 +30,7 @@ import {
   DefaultNewWorkoutTemplate,
   InsertMultisetIntoDatabase,
   GenerateMultisetSetOrderList,
-  GetExerciseFromId,
+  GetExerciseWithId,
   UpdateMultisetSetOrder,
   GetNumberOfUniqueExercisesInGroupedSets,
   AssignTrackingValuesIfCardio,
@@ -1698,7 +1698,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
         if (operatingMultisetSetId === 0) return;
 
-        const exercise = await GetExerciseFromId(
+        const exercise = await GetExerciseWithId(
           operatingMultisetSet.exercise_id
         );
 
@@ -1972,7 +1972,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         operatingMultiset.setList[i].id = newSetId;
       }
 
-      const exercise = await GetExerciseFromId(
+      const exercise = await GetExerciseWithId(
         operatingMultiset.setList[i].exercise_id
       );
 

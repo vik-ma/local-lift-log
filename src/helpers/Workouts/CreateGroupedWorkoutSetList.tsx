@@ -5,7 +5,7 @@ import {
   Multiset,
 } from "../../typings";
 import {
-  GetExerciseFromId,
+  GetExerciseWithId,
   GetMultisetGroupedSet,
   ValidateExerciseOrderEntry,
 } from "..";
@@ -39,7 +39,7 @@ export const CreateGroupedWorkoutSetList = async (
 
     if (!validatedEntry.isMultiset) {
       // If not Multiset
-      const exercise = await GetExerciseFromId(validatedEntry.id);
+      const exercise = await GetExerciseWithId(validatedEntry.id);
 
       groupedWorkoutSetsDictionary[entry] = {
         id: entry,

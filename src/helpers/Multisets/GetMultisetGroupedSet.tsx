@@ -2,7 +2,7 @@ import { Exercise, Multiset, WorkoutSet } from "../../typings";
 import {
   DefaultNewMultiset,
   GenerateMultisetSetOrderList,
-  GetExerciseFromId,
+  GetExerciseWithId,
   GetMultisetWithId,
 } from "..";
 
@@ -56,7 +56,7 @@ export const GetMultisetGroupedSet = async (
   });
 
   for (let i = 0; i < orderedSetList.length; i++) {
-    const exercise = await GetExerciseFromId(orderedSetList[i].exercise_id);
+    const exercise = await GetExerciseWithId(orderedSetList[i].exercise_id);
 
     if (exercise.isInvalid) {
       orderedSetList[i].hasInvalidExerciseId = true;

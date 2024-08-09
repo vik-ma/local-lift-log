@@ -22,12 +22,12 @@ import {
   ConvertEmptyStringToNull,
   GetCurrentDateTimeISOString,
   UpdateUserWeight,
-  DeleteUserWeightById,
+  DeleteUserWeightWithId,
   CreateUserMeasurementValues,
   CreateDetailedUserMeasurementList,
   GetMeasurementsMap,
   ConvertNumberToTwoDecimals,
-  DeleteUserMeasurementById,
+  DeleteUserMeasurementWithId,
   ConvertUserMeasurementValuesToMeasurementInputs,
   UpdateUserMeasurements,
   GenerateActiveMeasurementString,
@@ -263,7 +263,7 @@ export default function BodyMeasurements() {
   const deleteLatestUserWeight = async () => {
     if (latestUserWeight.id === 0 || userSettings === undefined) return;
 
-    const success = await DeleteUserWeightById(latestUserWeight.id);
+    const success = await DeleteUserWeightWithId(latestUserWeight.id);
 
     if (!success) return;
 
@@ -343,7 +343,9 @@ export default function BodyMeasurements() {
   const deleteLatestUserMeasurements = async () => {
     if (latestUserMeasurements.id === 0 || userSettings === undefined) return;
 
-    const success = await DeleteUserMeasurementById(latestUserMeasurements.id);
+    const success = await DeleteUserMeasurementWithId(
+      latestUserMeasurements.id
+    );
 
     if (!success) return;
 

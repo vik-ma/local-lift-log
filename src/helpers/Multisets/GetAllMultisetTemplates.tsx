@@ -2,7 +2,7 @@ import Database from "tauri-plugin-sql-api";
 import { Multiset, WorkoutSet } from "../../typings";
 import {
   GenerateMultisetSetOrderList,
-  GetSetFromId,
+  GetSetWithId,
   UpdateMultiset,
   GenerateSetListText,
 } from "..";
@@ -27,7 +27,7 @@ export const GetAllMultisetTemplates = async () => {
       const setIdsToDelete: number[] = [];
 
       for (let i = 0; i < setOrderList.length; i++) {
-        const set = await GetSetFromId(setOrderList[i]);
+        const set = await GetSetWithId(setOrderList[i]);
 
         if (set === undefined) {
           setIdsToDelete.push(setOrderList[i]);

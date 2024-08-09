@@ -10,7 +10,7 @@ import { Measurement, UserMeasurement, UserSettings } from "../typings";
 import {
   ConvertUserMeasurementValuesToMeasurementInputs,
   CreateDetailedUserMeasurementList,
-  DeleteUserMeasurementById,
+  DeleteUserMeasurementWithId,
   GetUserSettings,
   ConvertEmptyStringToNull,
   CreateUserMeasurementValues,
@@ -144,7 +144,7 @@ export default function UserMeasurementList() {
     if (operatingUserMeasurements.id === 0 || operationType !== "delete")
       return;
 
-    const success = await DeleteUserMeasurementById(
+    const success = await DeleteUserMeasurementWithId(
       operatingUserMeasurements.id
     );
 

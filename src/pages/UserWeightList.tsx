@@ -5,7 +5,7 @@ import { LoadingSpinner, DeleteModal, UserWeightModal } from "../components";
 import {
   ConvertEmptyStringToNull,
   DeleteItemFromList,
-  DeleteUserWeightById,
+  DeleteUserWeightWithId,
   FormatDateTimeString,
   UpdateItemInList,
   UpdateUserWeight,
@@ -99,7 +99,7 @@ export default function UserWeightList() {
   const deleteUserWeight = async () => {
     if (operatingUserWeight.id === 0 || operationType !== "delete") return;
 
-    const success = await DeleteUserWeightById(operatingUserWeight.id);
+    const success = await DeleteUserWeightWithId(operatingUserWeight.id);
 
     if (!success) return;
 

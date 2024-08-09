@@ -1,5 +1,5 @@
 import { Exercise, Workout, WorkoutSet, WorkoutTemplate } from "../../typings";
-import { GetSetFromId, GetExerciseFromId, InsertSetIntoDatabase } from "..";
+import { GetSetWithId, GetExerciseWithId, InsertSetIntoDatabase } from "..";
 
 type AddNewSetsToMultisetReturnType = {
   setListIdList: number[][];
@@ -29,11 +29,11 @@ export const AddNewSetsToMultiset = async (
   );
 
   for (let i = 0; i < setListIds.length; i++) {
-    const set = await GetSetFromId(setListIds[i]);
+    const set = await GetSetWithId(setListIds[i]);
 
     if (set === undefined) continue;
 
-    const exercise = await GetExerciseFromId(set.exercise_id);
+    const exercise = await GetExerciseWithId(set.exercise_id);
 
     set.is_template = isTemplate ? 1 : 0;
     set.multiset_id = multisetId;
