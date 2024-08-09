@@ -116,6 +116,7 @@ export { DefaultNewWorkout } from "./Workouts/DefaultNewWorkout";
 export { UpdateWorkout } from "./Workouts/UpdateWorkout";
 export { UpdateWorkoutTemplate } from "./Workouts/UpdateWorkoutTemplate";
 export { ValidateExerciseOrderEntry } from "./Workouts/ValidateExerciseOrderEntry";
+export { GetTotalNumberOfSetsInGroupedSetList } from "./Workouts/GetTotalNumberOfSetsInGroupedSetList";
 
 export { LocaleList } from "./Constants/LocaleList";
 export { ValidTimeInputs } from "./Constants/ValidTimeInputs";
