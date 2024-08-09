@@ -22,6 +22,7 @@ import {
   UpdateWorkout,
   GetNumberOfUniqueExercisesInGroupedSets,
   FormatNumItemsString,
+  GetTotalNumberOfSetsInGroupedSetList,
 } from "../helpers";
 import { useDisclosure } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
@@ -87,6 +88,7 @@ export default function WorkoutDetails() {
     timeInputModal,
     updateSetTimeCompleted,
     workoutNumbers,
+    setWorkoutNumbers,
     multisetActions,
     exerciseList,
     multisetModal,
@@ -133,9 +135,12 @@ export default function WorkoutDetails() {
           const groupedSetList: GroupedWorkoutSet[] =
             await CreateGroupedWorkoutSetList(setList, workout.exercise_order);
 
-          workoutNumbers.numExercises =
-            GetNumberOfUniqueExercisesInGroupedSets(groupedSetList);
-          workoutNumbers.numSets = setList.length;
+          const workoutNumbers = {
+            numSets: setList.length,
+            numExercises:
+              GetNumberOfUniqueExercisesInGroupedSets(groupedSetList),
+          };
+          setWorkoutNumbers(workoutNumbers);
 
           setWorkoutNote(workout.note === null ? "" : workout.note);
           setGroupedSets(groupedSetList);
@@ -156,6 +161,13 @@ export default function WorkoutDetails() {
             const exerciseOrder: string =
               GenerateExerciseOrderString(groupedSetList);
             workout.exercise_order = exerciseOrder;
+
+            const workoutNumbers = {
+              numSets: GetTotalNumberOfSetsInGroupedSetList(groupedSetList),
+              numExercises:
+                GetNumberOfUniqueExercisesInGroupedSets(groupedSetList),
+            };
+            setWorkoutNumbers(workoutNumbers);
 
             setGroupedSets(groupedSetList);
 

@@ -209,7 +209,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       newSets.push({ ...newSet, id: setId });
     }
 
-    const groupedSetIndex = FindIndexInList(groupedSets, selectedExercise.id.toString());
+    const groupedSetIndex = FindIndexInList(
+      groupedSets,
+      selectedExercise.id.toString()
+    );
 
     const updatedWorkoutNumbers: WorkoutNumbers = {
       ...workoutNumbers,
@@ -270,7 +273,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     if (!success) return;
 
-    const groupedSetIndex = FindIndexInList(groupedSets, operatingGroupedSet.id);
+    const groupedSetIndex = FindIndexInList(
+      groupedSets,
+      operatingGroupedSet.id
+    );
 
     const updatedWorkoutNumbers: WorkoutNumbers = {
       ...workoutNumbers,
@@ -683,7 +689,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     newSet = { ...newSet, id: setId };
     const newSets: WorkoutSet[] = [newSet];
 
-    const groupedSetIndex = FindIndexInList(groupedSets, exercise.id.toString());
+    const groupedSetIndex = FindIndexInList(
+      groupedSets,
+      exercise.id.toString()
+    );
 
     setGroupedSets((prev) => {
       const newList = [...prev];
@@ -1002,9 +1011,15 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     newGroupedWorkoutSet: GroupedWorkoutSet,
     updatedGroupedSets: GroupedWorkoutSet[]
   ) => {
-    const oldGroupedSetIndex = FindIndexInList(groupedSets, oldExercise.id.toString());
+    const oldGroupedSetIndex = FindIndexInList(
+      groupedSets,
+      oldExercise.id.toString()
+    );
 
-    const newGroupedSetIndex = FindIndexInList(groupedSets, newExercise.id.toString());
+    const newGroupedSetIndex = FindIndexInList(
+      groupedSets,
+      newExercise.id.toString()
+    );
 
     if (completedSetsMap.has(oldExercise.id.toString())) {
       // Change key to match new exercise id
@@ -1168,7 +1183,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     const updatedSet = { ...operatingSet, note: noteToInsert };
 
-    const groupedSetIndex = FindIndexInList(groupedSets, operatingGroupedSet.id);
+    const groupedSetIndex = FindIndexInList(
+      groupedSets,
+      operatingGroupedSet.id
+    );
 
     const updatedSetList = UpdateItemInList(
       groupedSets[groupedSetIndex].setList,
@@ -1210,7 +1228,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       setActiveSet(updatedSet);
     }
 
-    const groupedSetIndex = FindIndexInList(groupedSets, operatingGroupedSet.id);
+    const groupedSetIndex = FindIndexInList(
+      groupedSets,
+      operatingGroupedSet.id
+    );
 
     const updatedSetList = UpdateItemInList(
       groupedSets[groupedSetIndex].setList,
@@ -1498,7 +1519,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     if (!success) return;
 
-    const groupedSetIndex = FindIndexInList(groupedSets, operatingGroupedSet.id);
+    const groupedSetIndex = FindIndexInList(
+      groupedSets,
+      operatingGroupedSet.id
+    );
 
     const updatedSetList = UpdateItemInList(
       groupedSets[groupedSetIndex].setList,
@@ -1860,7 +1884,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     updatedMultiset.setListIndexCutoffs = newIndexCutoffs;
 
-    const groupedSetIndex = FindIndexInList(groupedSets, operatingGroupedSet.id);
+    const groupedSetIndex = FindIndexInList(
+      groupedSets,
+      operatingGroupedSet.id
+    );
 
     const newGroupedSet: GroupedWorkoutSet = {
       ...operatingGroupedSet,
@@ -1983,7 +2010,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       showGroupedSetNote: updatedMultiset.note ? true : false,
     };
 
-    const groupedSetIndex = FindIndexInList(groupedSets, operatingGroupedSet.id);
+    const groupedSetIndex = FindIndexInList(
+      groupedSets,
+      operatingGroupedSet.id
+    );
 
     const newGroupedSets = [...groupedSets];
     newGroupedSets[groupedSetIndex] = newGroupedSet;
@@ -2278,7 +2308,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       oldExercise
     );
 
-    const groupedSetWithExerciseIndex = FindIndexInList(groupedSets, 
+    const groupedSetWithExerciseIndex = FindIndexInList(
+      groupedSets,
       oldExercise.id.toString()
     );
 
@@ -2358,6 +2389,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     timeInputModal,
     updateSetTimeCompleted,
     workoutNumbers,
+    setWorkoutNumbers,
     multisetActions,
     exerciseList,
     multisetModal,
