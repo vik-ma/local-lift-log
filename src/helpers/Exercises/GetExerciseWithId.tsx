@@ -2,7 +2,7 @@ import Database from "tauri-plugin-sql-api";
 import { Exercise } from "../../typings";
 import { ConvertExerciseGroupSetString } from "./ConvertExerciseGroupSetString";
 
-export const GetExerciseFromId = async (exerciseId: number) => {
+export const GetExerciseWithId = async (exerciseId: number) => {
   const invalidExercise: Exercise = {
     id: exerciseId,
     name: "Unknown Exercise",

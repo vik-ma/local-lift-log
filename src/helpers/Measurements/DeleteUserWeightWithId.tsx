@@ -1,6 +1,6 @@
 import Database from "tauri-plugin-sql-api";
 
-export const DeleteUserWeightById = async (
+export const DeleteUserWeightWithId = async (
   userWeightId: number
 ): Promise<boolean> => {
   try {

@@ -5,7 +5,7 @@ type ExerciseName = {
   name: string;
 };
 
-export const GetSetFromId = async (
+export const GetSetWithId = async (
   id: number
 ): Promise<WorkoutSet | undefined> => {
   try {
