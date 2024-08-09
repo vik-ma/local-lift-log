@@ -333,7 +333,7 @@ export default function WorkoutDetails() {
           subHeader={`${FormatNumItemsString(
             workoutNumbers.numExercises,
             "Exercise"
-          )}, ${FormatNumItemsString(workoutNumbers.numExercises, "Set")}`}
+          )}, ${FormatNumItemsString(workoutNumbers.numSets, "Set")}`}
           note={workout.note}
           editButtonAction={() => workoutModal.onOpen()}
         />
