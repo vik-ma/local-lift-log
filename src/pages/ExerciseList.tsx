@@ -219,7 +219,16 @@ export default function ExerciseList() {
         body={
           <p className="break-words">
             Are you sure you want to permanently delete{" "}
-            {operatingExercise?.name}?
+            <span className="text-yellow-600">{operatingExercise.name}</span>
+            {operatingExercise.set_count! > 0 && (
+              <>
+                , that has{" "}
+                <span className="text-yellow-600">
+                  {operatingExercise.set_count} Sets Completed
+                </span>
+              </>
+            )}
+            ?
           </p>
         }
         deleteButtonAction={deleteExercise}
