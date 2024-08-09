@@ -12,11 +12,11 @@ export const InsertSetIntoDatabase = async (
         (workout_id, exercise_id, is_template, workout_template_id, note, is_completed, is_warmup, 
           weight, reps, rir, rpe, time_in_seconds, distance, resistance_level, partial_reps, 
           is_tracking_weight, is_tracking_reps, is_tracking_rir, is_tracking_rpe, is_tracking_time, 
-          is_tracking_distance, is_tracking_resistance_level, is_tracking_partial_reps, weight_unit, 
-          distance_unit, multiset_id) 
+          is_tracking_distance, is_tracking_resistance_level, is_tracking_partial_reps, is_tracking_user_weight,
+          weight_unit, distance_unit, multiset_id, user_weight, user_weight_unit) 
         VALUES 
         ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, 
-          $21, $22, $23, $24, $25, $26)`,
+          $21, $22, $23, $24, $25, $26, $27, $28, $29)`,
       [
         set.workout_id,
         set.exercise_id,
@@ -41,9 +41,12 @@ export const InsertSetIntoDatabase = async (
         set.is_tracking_distance,
         set.is_tracking_resistance_level,
         set.is_tracking_partial_reps,
+        set.is_tracking_user_weight,
         set.weight_unit,
         set.distance_unit,
         set.multiset_id,
+        set.user_weight,
+        set.user_weight_unit,
       ]
     );
     return result.lastInsertId;

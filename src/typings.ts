@@ -111,9 +111,12 @@ export type WorkoutSet = {
   is_tracking_distance: number;
   is_tracking_resistance_level: number;
   is_tracking_partial_reps: number;
+  is_tracking_user_weight: number;
   weight_unit: string;
   distance_unit: string;
   multiset_id: number;
+  user_weight: number;
+  user_weight_unit: string | null;
   exercise_name?: string;
   set_index?: number;
   hasInvalidExerciseId?: boolean;

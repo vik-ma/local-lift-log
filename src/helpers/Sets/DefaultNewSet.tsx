@@ -28,9 +28,12 @@ export const DefaultNewSet = (isTemplate: boolean): WorkoutSet => {
     is_tracking_distance: 0,
     is_tracking_resistance_level: 0,
     is_tracking_partial_reps: 0,
+    is_tracking_user_weight: 0,
     weight_unit: "",
     distance_unit: "",
     multiset_id: 0,
+    user_weight: 0,
+    user_weight_unit: "",
   };
 
   return defaultNewSet;
