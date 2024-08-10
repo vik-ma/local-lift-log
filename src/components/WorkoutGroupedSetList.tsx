@@ -157,7 +157,7 @@ export const WorkoutGroupedSetList = ({
                         className={
                           completedSetsMap?.get(groupedSet.id) ===
                           groupedSet.setList.length
-                            ? "text-sm text-success"
+                            ? "text-sm text-secondary"
                             : "text-sm text-stone-500"
                         }
                       >

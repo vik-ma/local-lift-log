@@ -72,11 +72,11 @@ export const SetList = ({
             // Highlight activeSet in different color
             className={
               setNum && setNum !== 1 && set.id === activeSetId
-                ? "flex flex-col multiset-divider pl-1.5 bg-yellow-100 text-secondary text-sm font-medium break-words cursor-pointer"
+                ? "flex flex-col multiset-divider pl-1.5 bg-[#fffbd0] text-secondary text-sm font-medium break-words cursor-pointer"
                 : setNum && setNum !== 1
                 ? "flex flex-col multiset-divider pl-1.5 text-sm font-medium break-words cursor-pointer hover:bg-stone-100"
                 : set.id === activeSetId
-                ? "flex flex-col pl-1.5 bg-yellow-100 text-secondary text-sm font-medium break-words cursor-pointer"
+                ? "flex flex-col pl-1.5 bg-[#fffbd0] text-secondary text-sm font-medium break-words cursor-pointer"
                 : "flex flex-col pl-1.5 text-sm font-medium break-words cursor-pointer hover:bg-stone-100"
             }
             key={set.id}
@@ -191,7 +191,7 @@ export const SetList = ({
                   {set.is_tracking_user_weight === 1 &&
                     set.user_weight > 0 &&
                     set.is_completed === 1 && (
-                      <div className="flex gap-1 text-yellow-700">
+                      <div className="flex gap-1 text-stone-400">
                         <span>Body Weight</span>
                         <span className="truncate max-w-14">
                           {set.user_weight}
