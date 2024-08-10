@@ -328,8 +328,8 @@ export default function RoutineList() {
             </div>
             <div className="flex justify-center">
               <Button
-                className=""
-                color="primary"
+                className="font-medium"
+                variant="flat"
                 onPress={handleCreateNewRoutineButton}
               >
                 Create New Routine

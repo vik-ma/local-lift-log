@@ -294,8 +294,8 @@ export default function WorkoutTemplateList() {
             </div>
             <div className="flex justify-center">
               <Button
-                className="text-lg font-medium"
-                color="primary"
+                className="font-medium"
+                variant="flat"
                 onPress={handleCreateNewWorkoutTemplateButton}
               >
                 Create New Workout Template

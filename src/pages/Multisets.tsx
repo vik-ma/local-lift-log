@@ -475,7 +475,11 @@ export default function Multisets() {
             multisetActions.handleMultisetSetOptionSelection
           }
         />
-        <Button className="font-medium" onPress={handleCreateNewMultisetButton}>
+        <Button
+          className="font-medium"
+          variant="flat"
+          onPress={handleCreateNewMultisetButton}
+        >
           Create New Multiset
         </Button>
       </div>

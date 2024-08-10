@@ -27,26 +27,27 @@ export default function WorkoutIndex() {
         <div className="flex flex-col items-center gap-10">
           <div className="flex flex-col gap-1">
             <Button
+              className="font-medium text-base"
               color="primary"
-              className="font-medium text-lg w-72"
               onPress={() => createWorkout(0)}
             >
               New Empty Workout
             </Button>
             <Button
+              className="font-medium text-base"
               color="primary"
-              className="font-medium text-lg w-72"
               onPress={() => workoutTemplatesModal.onOpen()}
             >
               New Workout From Template
             </Button>
+            <Button
+              className="font-medium text-base mt-4"
+              variant="flat"
+              onPress={() => navigate(`/workouts/list`)}
+            >
+              Workout List
+            </Button>
           </div>
-          <Button
-            className="font-medium text-lg w-72"
-            onPress={() => navigate(`/workouts/list`)}
-          >
-            Workout List
-          </Button>
         </div>
       </div>
     </>

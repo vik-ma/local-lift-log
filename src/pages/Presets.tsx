@@ -680,13 +680,18 @@ export default function Presets() {
               </div>
               <div className="flex gap-1.5 justify-center">
                 <Button
+                  className="font-medium"
                   size="sm"
                   color="primary"
                   onPress={() => handleAddEquipmentWeightButton()}
                 >
                   Add Equipment Weight
                 </Button>
-                <Button size="sm" onPress={handleRestoreEquipmentButton}>
+                <Button
+                  size="sm"
+                  variant="flat"
+                  onPress={handleRestoreEquipmentButton}
+                >
                   Restore Default Equipment Weights
                 </Button>
               </div>
@@ -739,13 +744,18 @@ export default function Presets() {
               </div>
               <div className="flex gap-1.5 justify-center">
                 <Button
+                  className="font-medium"
                   color="primary"
                   size="sm"
                   onPress={() => handleAddDistanceButton()}
                 >
                   Add Distance
                 </Button>
-                <Button size="sm" onPress={handleRestoreDistanceButton}>
+                <Button
+                  size="sm"
+                  variant="flat"
+                  onPress={handleRestoreDistanceButton}
+                >
                   Restore Default Distances
                 </Button>
               </div>

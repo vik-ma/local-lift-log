@@ -344,7 +344,11 @@ export default function Settings() {
             />
           </div>
           <div className="flex justify-center">
-            <Button variant="flat" onPress={() => settingsModal.onOpen()}>
+            <Button
+              className="font-medium"
+              variant="flat"
+              onPress={() => settingsModal.onOpen()}
+            >
               Restore Default Settings
             </Button>
           </div>
