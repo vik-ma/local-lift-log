@@ -57,7 +57,7 @@ export const SetValueConfig = ({
       <div className="flex flex-row items-center justify-between">
         <h2 className="flex text-2xl font-semibold justify-between w-full items-end">
           <div className="flex gap-1 max-w-[21rem]">
-            <span className="text-secondary truncate">
+            <span className="text-yellow-500 truncate">
               {selectedExercise.name}
             </span>
             <Button
@@ -96,7 +96,7 @@ export const SetValueConfig = ({
         <h3 className="text-xl font-semibold px-0.5">Track</h3>
         <div className="grid grid-cols-2 gap-1.5 px-1">
           <Checkbox
-            color="success"
+            color="primary"
             isSelected={operatingSet.is_tracking_weight ? true : false}
             onValueChange={(value) =>
               setOperatingSet((prev) => ({
@@ -108,7 +108,7 @@ export const SetValueConfig = ({
             Weight
           </Checkbox>
           <Checkbox
-            color="success"
+            color="primary"
             isSelected={operatingSet.is_tracking_reps ? true : false}
             onValueChange={(value) =>
               setOperatingSet((prev) => ({
@@ -120,7 +120,7 @@ export const SetValueConfig = ({
             Reps
           </Checkbox>
           <Checkbox
-            color="success"
+            color="primary"
             isSelected={operatingSet.is_tracking_distance ? true : false}
             onValueChange={(value) =>
               setOperatingSet((prev) => ({
@@ -132,7 +132,7 @@ export const SetValueConfig = ({
             Distance
           </Checkbox>
           <Checkbox
-            color="success"
+            color="primary"
             isSelected={operatingSet.is_tracking_time ? true : false}
             onValueChange={(value) =>
               setOperatingSet((prev) => ({
@@ -144,7 +144,7 @@ export const SetValueConfig = ({
             Time
           </Checkbox>
           <Checkbox
-            color="success"
+            color="primary"
             isSelected={operatingSet.is_tracking_rir ? true : false}
             onValueChange={(value) =>
               setOperatingSet((prev) => ({
@@ -156,7 +156,7 @@ export const SetValueConfig = ({
             RIR
           </Checkbox>
           <Checkbox
-            color="success"
+            color="primary"
             isSelected={operatingSet.is_tracking_rpe ? true : false}
             onValueChange={(value) =>
               setOperatingSet((prev) => ({
@@ -168,7 +168,7 @@ export const SetValueConfig = ({
             RPE
           </Checkbox>
           <Checkbox
-            color="success"
+            color="primary"
             isSelected={
               operatingSet.is_tracking_resistance_level ? true : false
             }
@@ -182,7 +182,7 @@ export const SetValueConfig = ({
             Resistance Level
           </Checkbox>
           <Checkbox
-            color="success"
+            color="primary"
             isSelected={operatingSet.is_tracking_partial_reps ? true : false}
             onValueChange={(value) =>
               setOperatingSet((prev) => ({
@@ -194,7 +194,7 @@ export const SetValueConfig = ({
             Partial Reps
           </Checkbox>
           <Checkbox
-            color="success"
+            color="primary"
             isSelected={operatingSet.is_tracking_user_weight ? true : false}
             onValueChange={(value) =>
               setOperatingSet((prev) => ({
@@ -206,7 +206,7 @@ export const SetValueConfig = ({
             User Weight
           </Checkbox>
           <Checkbox
-            color="success"
+            color="primary"
             isSelected={operatingSet.is_warmup ? true : false}
             onValueChange={(value) =>
               setOperatingSet((prev) => ({
@@ -215,7 +215,7 @@ export const SetValueConfig = ({
               }))
             }
           >
-            <span className="text-primary">Warmup Set</span>
+            <span className="text-yellow-500">Warmup Set</span>
           </Checkbox>
         </div>
         {(operationType === "add" ||
