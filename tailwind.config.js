@@ -26,6 +26,9 @@ export default {
             primary: {
               DEFAULT: "#ffb34f",
             },
+            secondary: {
+              DEFAULT: "#d7a200",
+            },
             success: {
               DEFAULT: "#84cc16",
               foreground: "#fff",
