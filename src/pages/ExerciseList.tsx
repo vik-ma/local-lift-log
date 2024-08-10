@@ -295,11 +295,11 @@ export default function ExerciseList() {
             <div className="flex flex-col gap-1 w-full">
               {filteredExercises.map((exercise) => (
                 <div
-                  className="flex flex-row justify-between items-center gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                  className="flex flex-row justify-between items-center gap-1 bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                   key={exercise.id}
                 >
                   <button
-                    className="flex flex-col justify-start items-start"
+                    className="flex flex-col justify-start items-start pl-2 py-1"
                     onClick={() => navigate(`/exercises/${exercise.id}`)}
                   >
                     <span className="w-[19rem] truncate text-left">
@@ -314,7 +314,7 @@ export default function ExerciseList() {
                       {exercise.formattedGroupString}
                     </span>
                   </button>
-                  <div className="flex items-center gap-0.5">
+                  <div className="flex items-center gap-0.5 pr-2">
                     <Button
                       aria-label={
                         exercise.is_favorite

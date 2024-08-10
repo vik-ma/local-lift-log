@@ -30,10 +30,10 @@ export const ExerciseModalList = ({
         {filteredExercises.map((exercise) => (
           <div
             key={exercise.id}
-            className="flex flex-row justify-between items-center gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+            className="flex flex-row justify-between items-center gap-1 bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
           >
             <button
-              className="flex flex-col justify-start items-start"
+              className="flex flex-col justify-start items-start pl-2 py-1"
               onClick={() => handleClickExercise(exercise)}
             >
               <span className="w-[20.5rem] truncate text-left">
@@ -43,7 +43,7 @@ export const ExerciseModalList = ({
                 {exercise.formattedGroupString}
               </span>
             </button>
-            <div className="flex items-center">
+            <div className="flex items-center pr-2">
               <Button
                 aria-label={
                   exercise.is_favorite
