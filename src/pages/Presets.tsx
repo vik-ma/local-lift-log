@@ -559,11 +559,11 @@ export default function Presets() {
                 </div>
               </ModalBody>
               <ModalFooter>
-                <Button color="success" variant="light" onPress={onClose}>
+                <Button color="primary" variant="light" onPress={onClose}>
                   Close
                 </Button>
                 <Button
-                  color="success"
+                  color="primary"
                   onPress={
                     operationType === "edit"
                       ? handleUpdateButton
@@ -681,7 +681,7 @@ export default function Presets() {
               <div className="flex gap-1.5 justify-center">
                 <Button
                   size="sm"
-                  color="success"
+                  color="primary"
                   onPress={() => handleAddEquipmentWeightButton()}
                 >
                   Add Equipment Weight
@@ -739,7 +739,7 @@ export default function Presets() {
               </div>
               <div className="flex gap-1.5 justify-center">
                 <Button
-                  color="success"
+                  color="primary"
                   size="sm"
                   onPress={() => handleAddDistanceButton()}
                 >

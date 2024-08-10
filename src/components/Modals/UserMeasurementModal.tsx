@@ -184,11 +184,11 @@ export const UserMeasurementModal = ({
                 )}
               </div>
               <div className="flex gap-2">
-                <Button color="success" variant="light" onPress={onClose}>
+                <Button color="primary" variant="light" onPress={onClose}>
                   Close
                 </Button>
                 <Button
-                  color="success"
+                  color="primary"
                   onPress={buttonAction}
                   isDisabled={
                     !areActiveMeasurementsValid || isAddingMeasurement

@@ -74,11 +74,11 @@ export const UserWeightModal = ({
               </div>
             </ModalBody>
             <ModalFooter>
-              <Button color="success" variant="light" onPress={onClose}>
+              <Button color="primary" variant="light" onPress={onClose}>
                 Close
               </Button>
               <Button
-                color="success"
+                color="primary"
                 onPress={buttonAction}
                 isDisabled={!isWeightInputValid}
               >

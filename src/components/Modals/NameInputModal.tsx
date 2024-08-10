@@ -50,10 +50,10 @@ export const NameInputModal = ({
               </div>
             </ModalBody>
             <ModalFooter>
-              <Button color="success" variant="light" onPress={onClose}>
+              <Button color="primary" variant="light" onPress={onClose}>
                 Close
               </Button>
-              <Button color="success" onPress={() => buttonAction()}>
+              <Button color="primary" onPress={() => buttonAction()}>
                 Add
               </Button>
             </ModalFooter>

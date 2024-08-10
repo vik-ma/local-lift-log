@@ -84,11 +84,11 @@ export const MeasurementModal = ({
               </div>
             </ModalBody>
             <ModalFooter>
-              <Button color="success" variant="light" onPress={onClose}>
+              <Button color="primary" variant="light" onPress={onClose}>
                 Close
               </Button>
               <Button
-                color="success"
+                color="primary"
                 isDisabled={!isMeasurementNameValid}
                 onPress={buttonAction}
               >

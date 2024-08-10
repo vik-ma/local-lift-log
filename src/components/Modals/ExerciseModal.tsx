@@ -109,7 +109,7 @@ export const ExerciseModal = ({
                 >
                   <div className="grid grid-cols-2 gap-0.5">
                     {Array.from(exerciseGroupDictionary).map(([key, value]) => (
-                      <Checkbox key={key} color="success" value={key}>
+                      <Checkbox key={key} color="primary" value={key}>
                         {value}
                       </Checkbox>
                     ))}
@@ -118,11 +118,11 @@ export const ExerciseModal = ({
               </div>
             </ModalBody>
             <ModalFooter>
-              <Button color="success" variant="light" onPress={onClose}>
+              <Button color="primary" variant="light" onPress={onClose}>
                 Close
               </Button>
               <Button
-                color="success"
+                color="primary"
                 onPress={buttonAction}
                 isDisabled={
                   !isExerciseNameValid || !isExerciseGroupSetStringValid

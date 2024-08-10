@@ -83,10 +83,10 @@ export const WorkoutModal = ({
               </div>
             </ModalBody>
             <ModalFooter>
-              <Button color="success" variant="light" onPress={onClose}>
+              <Button color="primary" variant="light" onPress={onClose}>
                 Close
               </Button>
-              <Button color="success" onPress={handleSaveButton}>
+              <Button color="primary" onPress={handleSaveButton}>
                 Save
               </Button>
             </ModalFooter>

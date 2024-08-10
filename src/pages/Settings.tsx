@@ -255,7 +255,7 @@ export default function Settings() {
             <span className="text-lg">Show Timestamp On Completed Sets</span>
             <Switch
               className="flex-row-reverse gap-3"
-              color="success"
+              color="primary"
               size="lg"
               isSelected={
                 userSettings.show_timestamp_on_completed_set ? true : false
@@ -337,7 +337,7 @@ export default function Settings() {
             <span className="text-lg">Show Workout Rating</span>
             <Switch
               className="flex-row-reverse gap-3"
-              color="success"
+              color="primary"
               size="lg"
               isSelected={userSettings.show_workout_rating ? true : false}
               onValueChange={(value) => handleSetShowWorkoutRatingChange(value)}

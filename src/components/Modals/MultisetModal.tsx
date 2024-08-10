@@ -265,13 +265,13 @@ export const MultisetModal = ({
                 </Button>
               </div>
               <div className="flex gap-2">
-                <Button color="success" variant="light" onPress={onClose}>
+                <Button color="primary" variant="light" onPress={onClose}>
                   Close
                 </Button>
                 {modalPage !== "multiset-list" && (
                   <Button
                     className="w-[6.5rem]"
-                    color="success"
+                    color="primary"
                     isDisabled={
                       modalPage === "exercise-list" ||
                       (modalPage !== "edit-set" &&
