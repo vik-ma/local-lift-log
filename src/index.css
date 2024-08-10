@@ -14,7 +14,6 @@
 
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
-  --primary-color: theme("colors.primary");
   --foreground-color: theme("colors.neutral.700");
   --success-color: theme("colors.success");
   --danger-color: theme("colors.danger");
@@ -30,7 +29,7 @@ a:hover {
   color: var(--foreground-hover-color);
 }
 a.active {
-  color: var(--primary-color);
+  color: #ffb34f;
 }
 .nav-menu-dropdown-item-link:hover {
   color: var(--foreground-color);
