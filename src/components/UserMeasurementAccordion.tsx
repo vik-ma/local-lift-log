@@ -47,7 +47,7 @@ export const UserMeasurementAccordion = ({
               <span className="w-[19rem] break-all text-left">
                 {measurement.measurementListText}
               </span>
-              <span className="text-xs text-yellow-600 text-left">
+              <span className="text-xs text-secondary text-left">
                 {measurement.formattedDate}
               </span>
               <span className="w-[19rem] break-all text-xs text-stone-400 text-left">

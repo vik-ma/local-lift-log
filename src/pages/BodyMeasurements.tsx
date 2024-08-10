@@ -570,7 +570,7 @@ export default function BodyMeasurements() {
             <div className="flex flex-col gap-2.5 items-center">
               <h2 className="flex text-3xl font-semibold">Body Weight</h2>
               <div className="flex flex-col items-center gap-2">
-                <h3 className="flex items-center gap-2.5">
+                <h3 className="flex items-center gap-2">
                   {latestUserWeight.id === 0 ? (
                     <span className="text-stone-400">
                       No Body Weight Entries Added
@@ -581,7 +581,7 @@ export default function BodyMeasurements() {
                         Latest Weight
                       </span>
                       <Button
-                        color="success"
+                        color="secondary"
                         variant="flat"
                         size="sm"
                         onPress={() =>
@@ -599,7 +599,7 @@ export default function BodyMeasurements() {
                       <span className="w-[21.5rem] truncate text-left">
                         {latestUserWeight.weight} {latestUserWeight.weight_unit}
                       </span>
-                      <span className="text-xs text-yellow-600 text-left">
+                      <span className="text-xs text-secondary text-left">
                         {latestUserWeight.formattedDate}
                       </span>
                       <span className="w-[21.5rem] break-all text-xs text-stone-400 text-left">
@@ -634,7 +634,11 @@ export default function BodyMeasurements() {
                   </div>
                 )}
               </div>
-              <Button className="font-medium" onPress={handleAddWeightButton}>
+              <Button
+                className="font-medium"
+                variant="flat"
+                onPress={handleAddWeightButton}
+              >
                 Add Weight
               </Button>
               <h2 className="flex text-3xl font-semibold">Body Measurements</h2>
@@ -650,7 +654,7 @@ export default function BodyMeasurements() {
                   List of Measurements
                 </Button>
               </div>
-              <h3 className="flex items-center gap-2.5">
+              <h3 className="flex items-center gap-2">
                 {latestUserMeasurements.id === 0 ? (
                   <span className="flex justify-center text-stone-400">
                     No Body Measurement Entries Added
@@ -661,7 +665,7 @@ export default function BodyMeasurements() {
                       Latest Measurements
                     </span>
                     <Button
-                      color="success"
+                      color="secondary"
                       variant="flat"
                       size="sm"
                       onPress={() =>
@@ -686,7 +690,11 @@ export default function BodyMeasurements() {
                   handleReassignMeasurement={handleReassignMeasurement}
                 />
               )}
-              <Button className="font-medium" onPress={handleAddMeasurements}>
+              <Button
+                className="font-medium"
+                variant="flat"
+                onPress={handleAddMeasurements}
+              >
                 Add Measurements
               </Button>
             </div>

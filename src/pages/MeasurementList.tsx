@@ -371,10 +371,10 @@ export default function MeasurementList() {
         ) : (
           <>
             <div className="flex gap-1 justify-center">
-              <Button color="success" onPress={handleAddButton}>
+              <Button color="primary" onPress={handleAddButton}>
                 Add New Measurement
               </Button>
-              <Button color="success" onPress={() => setUnitsModal.onOpen()}>
+              <Button onPress={() => setUnitsModal.onOpen()}>
                 Restore Default Measurements
               </Button>
             </div>
