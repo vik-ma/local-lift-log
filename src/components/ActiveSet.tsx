@@ -127,7 +127,7 @@ export const ActiveSet = ({
                       {activeSet.exercise_name}{" "}
                     </span>
                     {activeSet.is_warmup === 1 && (
-                      <span className="text-lime-300">(Warmup)</span>
+                      <span className="text-stone-300">(Warmup)</span>
                     )}
                   </div>
                   <div className="flex gap-1.5 text-base font-medium justify-between w-80">
@@ -137,7 +137,7 @@ export const ActiveSet = ({
                         : `Set ${activeSet.set_index! + 1}`}
                     </span>
                     {activeSet.time_completed !== null && (
-                      <div className="text-base text-success">
+                      <div className="text-stone-500">
                         {userSettings?.show_timestamp_on_completed_set === 1 ? (
                           <>
                             Completed at{" "}
@@ -315,7 +315,7 @@ export const ActiveSet = ({
                       <div className="flex justify-between pt-3">
                         <div className="flex gap-1">
                           <Button
-                            color="success"
+                            color="primary"
                             variant="light"
                             onPress={() =>
                               handleEditSet(
@@ -331,14 +331,14 @@ export const ActiveSet = ({
                         </div>
                         <div className="flex gap-1.5">
                           <Button
-                            color="success"
+                            color="primary"
                             variant="light"
                             onPress={() => clearSetInputValues(false)}
                           >
                             Clear
                           </Button>
                           <Button
-                            color="success"
+                            color="primary"
                             isDisabled={
                               activeSetInputs.isSetTrackingValuesInvalid
                             }
