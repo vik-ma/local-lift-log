@@ -57,7 +57,7 @@ export const WorkoutModal = ({
                     <span className="font-medium justify-self-end">
                       Workout Template Note
                     </span>
-                    <span className="text-yellow-600 break-all">
+                    <span className="text-secondary break-all">
                       {workoutTemplateNote}
                     </span>
                   </>

@@ -21,7 +21,7 @@ export const DetailsHeader = ({
       <div className="relative w-full flex">
         <div className="flex flex-col gap-0.5 w-full">
           <div className="flex justify-center">
-            <h1 className="text-3xl text-yellow-600 font-semibold w-[20rem] truncate text-center">
+            <h1 className="text-3xl text-secondary font-semibold w-[20rem] truncate text-center">
               {header}
             </h1>
           </div>

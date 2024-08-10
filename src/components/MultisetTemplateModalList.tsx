@@ -69,7 +69,7 @@ export const MultisetTemplateModalList = ({
               <span className="text-base max-w-full break-words text-left">
                 {multiset.setListText}
               </span>
-              <span className="text-xs text-yellow-600 text-left">
+              <span className="text-xs text-secondary text-left">
                 {multisetTypeText}
               </span>
             </button>

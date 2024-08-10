@@ -219,11 +219,11 @@ export default function ExerciseList() {
         body={
           <p className="break-words">
             Are you sure you want to permanently delete{" "}
-            <span className="text-yellow-600">{operatingExercise.name}</span>
+            <span className="text-secondary">{operatingExercise.name}</span>
             {operatingExercise.set_count! > 0 && (
               <>
                 , that has{" "}
-                <span className="text-yellow-600">
+                <span className="text-secondary">
                   {operatingExercise.set_count} Sets Completed
                 </span>
               </>
@@ -306,7 +306,7 @@ export default function ExerciseList() {
                       {exercise.name}
                     </span>
                     {exercise.set_count! > 0 && (
-                      <span className="text-xs text-yellow-600 text-left">
+                      <span className="text-xs text-secondary text-left">
                         {FormatSetsCompletedString(exercise.set_count)}
                       </span>
                     )}

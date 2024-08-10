@@ -427,7 +427,7 @@ export default function RoutineDetails() {
                   <span
                     className={
                       scheduleValues[i]?.length > 0
-                        ? "text-yellow-600 font-medium"
+                        ? "text-secondary font-medium"
                         : "font-medium"
                     }
                   >

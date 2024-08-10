@@ -137,7 +137,7 @@ export const WorkoutGroupedSetList = ({
                           className={
                             isExerciseInvalid
                               ? "text-lg font-medium truncate max-w-80 text-red-700"
-                              : "text-lg font-medium truncate max-w-80 text-yellow-600"
+                              : "text-lg font-medium truncate max-w-80 text-secondary"
                           }
                         >
                           {title}

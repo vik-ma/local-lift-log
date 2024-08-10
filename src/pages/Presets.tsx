@@ -643,7 +643,7 @@ export default function Presets() {
                       <span className="w-[21.5rem] truncate text-left">
                         {equipment.name}
                       </span>
-                      <span className="text-xs text-yellow-600 text-left">
+                      <span className="text-xs text-secondary text-left">
                         {equipment.weight} {equipment.weight_unit}
                       </span>
                     </div>
@@ -705,7 +705,7 @@ export default function Presets() {
                       <span className="w-[21.5rem] truncate text-left">
                         {distance.name}
                       </span>
-                      <span className="text-xs text-yellow-600 text-left">
+                      <span className="text-xs text-secondary text-left">
                         {distance.distance} {distance.distance_unit}
                       </span>
                     </div>

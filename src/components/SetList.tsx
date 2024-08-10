@@ -72,11 +72,11 @@ export const SetList = ({
             // Highlight activeSet in different color
             className={
               setNum && setNum !== 1 && set.id === activeSetId
-                ? "flex flex-col multiset-divider pl-1.5 bg-yellow-100 text-yellow-600 text-sm font-medium break-words cursor-pointer"
+                ? "flex flex-col multiset-divider pl-1.5 bg-yellow-100 text-secondary text-sm font-medium break-words cursor-pointer"
                 : setNum && setNum !== 1
                 ? "flex flex-col multiset-divider pl-1.5 text-sm font-medium break-words cursor-pointer hover:bg-stone-100"
                 : set.id === activeSetId
-                ? "flex flex-col pl-1.5 bg-yellow-100 text-yellow-600 text-sm font-medium break-words cursor-pointer"
+                ? "flex flex-col pl-1.5 bg-yellow-100 text-secondary text-sm font-medium break-words cursor-pointer"
                 : "flex flex-col pl-1.5 text-sm font-medium break-words cursor-pointer hover:bg-stone-100"
             }
             key={set.id}

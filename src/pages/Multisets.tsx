@@ -396,7 +396,7 @@ export default function Multisets() {
             <p className="break-words">
               Are you sure you want to permanently delete the Multiset
               containing{" "}
-              <span className="text-yellow-600">
+              <span className="text-secondary">
                 {operatingMultiset.setListText}
               </span>
               ?
@@ -406,7 +406,7 @@ export default function Multisets() {
             // If trying to delete last Set in Multiset
             <p className="break-words">
               Are you sure you want to remove{" "}
-              <span className="text-yellow-600">
+              <span className="text-secondary">
                 {operatingSet.exercise_name}
               </span>{" "}
               and permanently delete Multiset?
@@ -414,11 +414,11 @@ export default function Multisets() {
           ) : (
             <p className="break-words">
               Are you sure you want to remove{" "}
-              <span className="text-yellow-600">
+              <span className="text-secondary">
                 {operatingSet.exercise_name}
               </span>{" "}
               from{" "}
-              <span className="text-yellow-600">
+              <span className="text-secondary">
                 {operatingMultiset.setListText}
               </span>{" "}
               Multiset?

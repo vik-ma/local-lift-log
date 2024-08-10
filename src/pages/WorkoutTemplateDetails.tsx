@@ -176,7 +176,7 @@ export default function WorkoutTemplateDetails() {
             {operationType === "delete-grouped_sets-sets" ? (
               operatingGroupedSet?.isMultiset ? (
                 <>
-                  <span className="text-yellow-600">
+                  <span className="text-secondary">
                     {
                       multisetActions.multisetTypeMap[
                         operatingGroupedSet.multiset!.multiset_type
@@ -188,7 +188,7 @@ export default function WorkoutTemplateDetails() {
               ) : (
                 <>
                   all{" "}
-                  <span className="text-yellow-600">
+                  <span className="text-secondary">
                     {operatingGroupedSet?.exerciseList[0].name}
                   </span>{" "}
                   sets from Workout Template
@@ -196,7 +196,7 @@ export default function WorkoutTemplateDetails() {
               )
             ) : (
               <>
-                <span className="text-yellow-600">
+                <span className="text-secondary">
                   {operatingSet.exercise_name}
                 </span>{" "}
                 set

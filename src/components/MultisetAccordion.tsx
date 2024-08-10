@@ -48,7 +48,7 @@ export const MultisetAccordion = ({
                 <span className="w-[19rem] break-words text-left">
                   {multiset.setListText}
                 </span>
-                <span className="text-xs text-yellow-600 text-left">
+                <span className="text-xs text-secondary text-left">
                   {multisetTypeText}
                 </span>
                 <span className="w-[19rem] break-all text-xs text-stone-400 text-left">

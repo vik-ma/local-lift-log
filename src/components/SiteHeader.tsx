@@ -150,7 +150,7 @@ export const SiteHeader = () => {
               onPress={() => navigate("/test")}
             >
               <NavLink
-                className="text-yellow-600 hover:text-yellow-600"
+                className="text-secondary hover:text-secondary"
                 to="/test"
               >
                 TEST PAGE

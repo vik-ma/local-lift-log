@@ -185,7 +185,7 @@ export default function UserWeightList() {
         body={
           <p className="break-words">
             Are you sure you want to permanently delete the Body Weight entry on{" "}
-            <span className="text-yellow-600">
+            <span className="text-secondary">
               {operatingUserWeight.formattedDate}
             </span>
             ?
@@ -225,7 +225,7 @@ export default function UserWeightList() {
                     <span className="w-[21.5rem] truncate text-left">
                       {userWeight.weight} {userWeight.weight_unit}
                     </span>
-                    <span className="text-xs text-yellow-600 text-left">
+                    <span className="text-xs text-secondary text-left">
                       {userWeight.formattedDate}
                     </span>
                     <span className="w-[21.5rem] break-all text-xs text-stone-400 text-left">

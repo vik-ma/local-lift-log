@@ -226,7 +226,7 @@ export default function UserMeasurementList() {
           <p className="break-words">
             Are you sure you want to permanently delete the Body Measurements
             entry on{" "}
-            <span className="text-yellow-600">
+            <span className="text-secondary">
               {operatingUserMeasurements.formattedDate}
             </span>
             ?

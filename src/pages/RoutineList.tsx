@@ -270,7 +270,7 @@ export default function RoutineList() {
                         {routine.name}
                       </span>
                       {numWorkoutTemplates > 0 && (
-                        <span className="text-xs text-yellow-600 text-left">
+                        <span className="text-xs text-secondary text-left">
                           {FormatNumItemsString(numWorkoutTemplates, "Workout")}
                         </span>
                       )}

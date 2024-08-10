@@ -245,7 +245,7 @@ export default function WorkoutTemplateList() {
                       {template.name}
                     </span>
                     {template.numSets! > 0 ? (
-                      <span className="text-xs text-yellow-600 text-left">
+                      <span className="text-xs text-secondary text-left">
                         {FormatNumItemsString(
                           template.numExercises,
                           "Exercise"

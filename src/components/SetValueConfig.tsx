@@ -57,7 +57,7 @@ export const SetValueConfig = ({
       <div className="flex flex-row items-center justify-between">
         <h2 className="flex text-2xl font-semibold justify-between w-full items-end">
           <div className="flex gap-1 max-w-[21rem]">
-            <span className="text-yellow-600 truncate">
+            <span className="text-secondary truncate">
               {selectedExercise.name}
             </span>
             <Button

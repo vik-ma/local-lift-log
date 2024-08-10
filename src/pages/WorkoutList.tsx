@@ -233,7 +233,7 @@ export default function WorkoutList() {
                         {workout.date}
                       </span>
                       {workout.numSets! > 0 ? (
-                        <span className="text-xs text-yellow-600 text-left">
+                        <span className="text-xs text-secondary text-left">
                           {FormatNumItemsString(
                             workout.numExercises,
                             "Exercise"
