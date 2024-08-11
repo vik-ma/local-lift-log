@@ -23,6 +23,7 @@ import {
   UserWeight,
 } from "../typings";
 import { useSetTrackingInputs } from "../hooks";
+import { useMemo } from "react";
 
 type ActiveSetProps = {
   activeSet: WorkoutSet | undefined;
@@ -69,7 +70,7 @@ type ActiveSetProps = {
     index: number,
     groupedSet: GroupedWorkoutSet
   ) => void;
-  userWeight: UserWeight | undefined;
+  userWeight: UserWeight;
 };
 
 export const ActiveSet = ({
@@ -107,6 +108,15 @@ export const ActiveSet = ({
   const exerciseIndex = activeGroupedSet?.isMultiset
     ? activeSet?.set_index ?? 0
     : 0;
+
+  const isUserWeightInvalid: boolean = useMemo(() => {
+    if (activeSet === undefined) return true;
+
+    if (activeSet.is_tracking_user_weight === 1 && userWeight.id === 0)
+      return true;
+
+    return false;
+  }, [activeSet, userWeight]);
 
   return (
     <div>
@@ -304,7 +314,7 @@ export const ActiveSet = ({
                       </Button>
                     </div>
                   ) : (
-                    <div className="px-1.5">
+                    <div className="flex flex-col gap-3 py-3 px-1.5">
                       <SetValueInputs
                         operatingSet={activeSet}
                         setOperatingSet={
@@ -315,7 +325,7 @@ export const ActiveSet = ({
                         useSetTrackingInputs={activeSetInputs}
                         userSettings={userSettings}
                       />
-                      <div className="flex justify-between pt-3">
+                      <div className="flex justify-between">
                         <div className="flex gap-1">
                           <Button
                             color="primary"
@@ -343,6 +353,7 @@ export const ActiveSet = ({
                           <Button
                             color="primary"
                             isDisabled={
+                              isUserWeightInvalid ||
                               activeSetInputs.isSetTrackingValuesInvalid
                             }
                             onPress={saveActiveSet}
