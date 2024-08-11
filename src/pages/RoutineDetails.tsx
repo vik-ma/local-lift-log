@@ -345,7 +345,7 @@ export default function RoutineDetails() {
         header={
           <span>
             Add Workout Template to{" "}
-            <span className="text-success">{dayNameList[selectedDay]}</span>
+            <span className="text-secondary">{dayNameList[selectedDay]}</span>
           </span>
         }
       />

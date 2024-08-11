@@ -38,16 +38,12 @@ export const WorkoutTemplateListModal = ({
               <div className="h-[270px] pr-1 overflow-auto scroll-gradient">
                 <Listbox
                   aria-label="Workout Template List"
+                  color="secondary"
                   emptyContent="No Workout Templates Created"
                   onAction={(key) => listboxOnActionFunction(Number(key))}
                 >
                   {workoutTemplates.map((template) => (
-                    <ListboxItem
-                      key={template.id}
-                      className="text-success"
-                      color="primary"
-                      variant="faded"
-                    >
+                    <ListboxItem key={template.id} variant="faded">
                       {template.name}
                     </ListboxItem>
                   ))}

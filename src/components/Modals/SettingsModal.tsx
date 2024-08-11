@@ -94,7 +94,7 @@ export const SettingsModal = ({
             <ModalFooter>
               {isDismissible && (
                 <Button
-                  color={isRestoreSettings ? "danger" : "success"}
+                  color={isRestoreSettings ? "danger" : "primary"}
                   variant="light"
                   onPress={onClose}
                 >
@@ -102,7 +102,7 @@ export const SettingsModal = ({
                 </Button>
               )}
               <Button
-                color={isRestoreSettings ? "danger" : "success"}
+                color={isRestoreSettings ? "danger" : "primary"}
                 onPress={() => doneButtonAction(unitType, locale, clockStyle)}
               >
                 {doneButtonText}
