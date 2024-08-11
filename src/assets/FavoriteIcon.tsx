@@ -27,7 +27,7 @@ export const FavoriteIcon = ({
           isChecked && isInPrimaryButton
             ? "#ffe57d"
             : isChecked
-            ? "#fbbf24"
+            ? "#f7bf24"
             : "#808080"
         }
       ></path>
