@@ -20,6 +20,7 @@ import {
   ActiveSetNote,
   Exercise,
   SetListNotes,
+  UserWeight,
 } from "../typings";
 import { useSetTrackingInputs } from "../hooks";
 
@@ -68,6 +69,7 @@ type ActiveSetProps = {
     index: number,
     groupedSet: GroupedWorkoutSet
   ) => void;
+  userWeight: UserWeight | undefined;
 };
 
 export const ActiveSet = ({
@@ -90,6 +92,7 @@ export const ActiveSet = ({
   clearSetInputValues,
   saveActiveSet,
   handleToggleSetCommentButton,
+  userWeight,
 }: ActiveSetProps) => {
   let setCounter = 1;
   // Assign Multiset Set number

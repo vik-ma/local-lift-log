@@ -104,6 +104,7 @@ export default function WorkoutDetails() {
     handleTextInputModalButton,
     handleToggleSetCommentButton,
     numMultisetSets,
+    userWeight,
   } = useWorkoutActions(false);
 
   const initialized = useRef(false);
@@ -391,6 +392,7 @@ export default function WorkoutDetails() {
           clearSetInputValues={clearSetInputValues}
           saveActiveSet={saveActiveSet}
           handleToggleSetCommentButton={handleToggleSetCommentButton}
+          userWeight={userWeight}
         />
       </div>
     </>
