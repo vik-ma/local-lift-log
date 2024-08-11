@@ -2423,5 +2423,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     handleToggleSetCommentButton,
     numMultisetSets,
     userWeight,
+    setUserWeight,
   };
 };

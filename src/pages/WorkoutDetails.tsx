@@ -12,6 +12,7 @@ import {
   DetailsHeader,
   MultisetModal,
   TextInputModal,
+  UserWeightModal,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -26,7 +27,7 @@ import {
 } from "../helpers";
 import { useDisclosure } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
-import { useWorkoutActions } from "../hooks";
+import { useUserWeightInput, useWorkoutActions } from "../hooks";
 
 type WorkoutTemplateNote = {
   note: string | null;
@@ -36,6 +37,7 @@ export default function WorkoutDetails() {
   const { id } = useParams();
 
   const workoutModal = useDisclosure();
+  const userWeightModal = useDisclosure();
 
   const [workoutDate, setWorkoutDate] = useState<string>("");
   const [workoutNote, setWorkoutNote] = useState<string>("");
@@ -105,7 +107,15 @@ export default function WorkoutDetails() {
     handleToggleSetCommentButton,
     numMultisetSets,
     userWeight,
+    setUserWeight,
   } = useWorkoutActions(false);
+
+  const userWeightInputs = useUserWeightInput(
+    userWeight,
+    setUserWeight,
+    userWeightModal,
+    userSettings
+  );
 
   const initialized = useRef(false);
 
@@ -339,6 +349,18 @@ export default function WorkoutDetails() {
         label="Comment"
         header="Set Comment"
         buttonAction={handleTextInputModalButton}
+      />
+      <UserWeightModal
+        userWeightModal={userWeightModal}
+        userWeightInput={userWeightInputs.userWeightInput}
+        setUserWeightInput={userWeightInputs.setUserWeightInput}
+        isWeightInputValid={userWeightInputs.isWeightInputValid}
+        weightUnit={userWeightInputs.weightUnit}
+        setWeightUnit={userWeightInputs.setWeightUnit}
+        commentInput={userWeightInputs.weightCommentInput}
+        setCommentInput={userWeightInputs.setWeightCommentInput}
+        buttonAction={userWeightInputs.addUserWeight}
+        isEditing={false}
       />
       <div className="flex flex-col">
         <DetailsHeader
