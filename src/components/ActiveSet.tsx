@@ -325,6 +325,23 @@ export const ActiveSet = ({
                         useSetTrackingInputs={activeSetInputs}
                         userSettings={userSettings}
                       />
+                      {isUserWeightInvalid && (
+                        <div className="flex flex-col gap-0.5 items-center justify-center">
+                          <span className="font-medium text-stone-500">
+                            No User Weight Is Added
+                          </span>
+                          <div className="flex gap-1">
+                            <Button size="sm" variant="flat">
+                              {/* TODO: ADD FUNCTION */}
+                              Remove User Weight Tracking
+                            </Button>
+                            <Button color="secondary" size="sm" variant="flat">
+                              Update User Weight
+                            </Button>
+                          </div>
+                        </div>
+                      )}
+                      {/* TODO: WARNING IF OLD */}
                       <div className="flex justify-between">
                         <div className="flex gap-1">
                           <Button
