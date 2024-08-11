@@ -12,7 +12,7 @@ import {
   UserWeight,
   BodyMeasurementsOperationType,
 } from "../typings";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useDisclosure } from "@nextui-org/react";
 
@@ -106,6 +106,12 @@ export const useUserWeightInput = (
       setOperationType("add");
     }
   };
+
+  useEffect(() => {
+    if (userSettings) {
+      setWeightUnit(userSettings.default_unit_weight);
+    }
+  }, [userSettings]);
 
   return {
     addUserWeight,

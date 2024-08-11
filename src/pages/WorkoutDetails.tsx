@@ -415,6 +415,7 @@ export default function WorkoutDetails() {
           saveActiveSet={saveActiveSet}
           handleToggleSetCommentButton={handleToggleSetCommentButton}
           userWeight={userWeight}
+          userWeightModal={userWeightModal}
         />
       </div>
     </>

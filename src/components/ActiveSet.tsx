@@ -4,6 +4,7 @@ import {
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
+  useDisclosure,
 } from "@nextui-org/react";
 import { ConvertDateStringToTimeString } from "../helpers";
 import {
@@ -71,6 +72,7 @@ type ActiveSetProps = {
     groupedSet: GroupedWorkoutSet
   ) => void;
   userWeight: UserWeight;
+  userWeightModal: ReturnType<typeof useDisclosure>;
 };
 
 export const ActiveSet = ({
@@ -94,6 +96,7 @@ export const ActiveSet = ({
   saveActiveSet,
   handleToggleSetCommentButton,
   userWeight,
+  userWeightModal,
 }: ActiveSetProps) => {
   let setCounter = 1;
   // Assign Multiset Set number
@@ -335,7 +338,12 @@ export const ActiveSet = ({
                               {/* TODO: ADD FUNCTION */}
                               Remove User Weight Tracking
                             </Button>
-                            <Button color="secondary" size="sm" variant="flat">
+                            <Button
+                              color="secondary"
+                              size="sm"
+                              variant="flat"
+                              onPress={() => userWeightModal.onOpen()}
+                            >
                               Update User Weight
                             </Button>
                           </div>
