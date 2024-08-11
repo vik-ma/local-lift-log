@@ -354,3 +354,10 @@ export type HandleMultisetSetOptionSelectionProps = (
 export type Identifiable = {
   id: string | number;
 };
+
+export type BodyMeasurementsOperationType =
+| "add"
+| "edit-weight"
+| "delete-weight"
+| "edit-measurements"
+| "delete-measurements";

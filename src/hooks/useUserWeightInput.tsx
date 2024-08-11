@@ -7,7 +7,11 @@ import {
   UpdateUserWeight,
 } from "../helpers";
 import Database from "tauri-plugin-sql-api";
-import { UserSettings, UserWeight } from "../typings";
+import {
+  UserSettings,
+  UserWeight,
+  BodyMeasurementsOperationType,
+} from "../typings";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useDisclosure } from "@nextui-org/react";
@@ -17,7 +21,9 @@ export const useUserWeightInput = (
   setLatestUserWeight: React.Dispatch<React.SetStateAction<UserWeight>>,
   userWeightModal: ReturnType<typeof useDisclosure>,
   userSettings: UserSettings | undefined,
-  resetWeightInput: () => void
+  setOperationType?: React.Dispatch<
+    React.SetStateAction<BodyMeasurementsOperationType>
+  >
 ) => {
   const [userWeightInput, setUserWeightInput] = useState<string>("");
   const [weightUnit, setWeightUnit] = useState<string>("");
@@ -92,6 +98,15 @@ export const useUserWeightInput = (
     toast.success("Body Weight Entry Updated");
   };
 
+  const resetWeightInput = () => {
+    setUserWeightInput("");
+    setWeightCommentInput("");
+
+    if (setOperationType) {
+      setOperationType("add");
+    }
+  };
+
   return {
     addUserWeight,
     updateUserWeight,
@@ -102,5 +117,6 @@ export const useUserWeightInput = (
     setWeightUnit,
     weightCommentInput,
     setWeightCommentInput,
+    resetWeightInput,
   };
 };

@@ -5,6 +5,7 @@ import {
   UserWeight,
   UserMeasurement,
   MeasurementMap,
+  BodyMeasurementsOperationType,
 } from "../typings";
 import {
   DeleteModal,
@@ -51,17 +52,11 @@ import {
 } from "../hooks";
 import { VerticalMenuIcon } from "../assets";
 
-type OperationType =
-  | "add"
-  | "edit-weight"
-  | "delete-weight"
-  | "edit-measurements"
-  | "delete-measurements";
-
 export default function BodyMeasurements() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [operationType, setOperationType] = useState<OperationType>("add");
+  const [operationType, setOperationType] =
+    useState<BodyMeasurementsOperationType>("add");
 
   const [activeMeasurements, setActiveMeasurements] = useState<Measurement[]>(
     []
@@ -91,12 +86,6 @@ export default function BodyMeasurements() {
   const userWeightModal = useDisclosure();
   const userMeasurementModal = useDisclosure();
 
-  const resetWeightInput = () => {
-    setUserWeightInput("");
-    setWeightCommentInput("");
-    setOperationType("add");
-  };
-
   const {
     addUserWeight,
     updateUserWeight,
@@ -107,12 +96,13 @@ export default function BodyMeasurements() {
     setWeightUnit,
     weightCommentInput,
     setWeightCommentInput,
+    resetWeightInput,
   } = useUserWeightInput(
     latestUserWeight,
     setLatestUserWeight,
     userWeightModal,
     userSettings,
-    resetWeightInput
+    setOperationType
   );
 
   const {
