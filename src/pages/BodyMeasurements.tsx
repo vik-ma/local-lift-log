@@ -15,18 +15,15 @@ import {
   NameInputModal,
 } from "../components";
 import {
-  FormatDateTimeString,
   GetLatestUserWeight,
   GetUserSettings,
   CreateActiveMeasurementInputs,
   ConvertEmptyStringToNull,
   GetCurrentDateTimeISOString,
-  UpdateUserWeight,
   DeleteUserWeightWithId,
   CreateUserMeasurementValues,
   CreateDetailedUserMeasurementList,
   GetMeasurementsMap,
-  ConvertNumberToTwoDecimals,
   DeleteUserMeasurementWithId,
   ConvertUserMeasurementValuesToMeasurementInputs,
   UpdateUserMeasurements,
@@ -48,9 +45,9 @@ import { useNavigate } from "react-router-dom";
 import {
   useDefaultUserMeasurements,
   useDefaultUserWeight,
-  useIsStringValidNumber,
   useMeasurementsInputs,
   useReassignMeasurement,
+  useUserWeightInput,
 } from "../hooks";
 import { VerticalMenuIcon } from "../assets";
 
@@ -64,9 +61,6 @@ type OperationType =
 export default function BodyMeasurements() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [userWeightInput, setUserWeightInput] = useState<string>("");
-  const [weightUnit, setWeightUnit] = useState<string>("");
-  const [weightCommentInput, setWeightCommentInput] = useState<string>("");
   const [clockStyle, setClockStyle] = useState<string>("");
   const [operationType, setOperationType] = useState<OperationType>("add");
 
@@ -97,6 +91,30 @@ export default function BodyMeasurements() {
   const deleteModal = useDisclosure();
   const userWeightModal = useDisclosure();
   const userMeasurementModal = useDisclosure();
+
+  const resetWeightInput = () => {
+    setUserWeightInput("");
+    setWeightCommentInput("");
+    setOperationType("add");
+  };
+
+  const {
+    addUserWeight,
+    updateUserWeight,
+    isWeightInputValid,
+    userWeightInput,
+    setUserWeightInput,
+    weightUnit,
+    setWeightUnit,
+    weightCommentInput,
+    setWeightCommentInput,
+  } = useUserWeightInput({
+    latestUserWeight,
+    setLatestUserWeight,
+    userWeightModal,
+    clockStyle,
+    resetWeightInput,
+  });
 
   const {
     newMeasurementName,
@@ -189,76 +207,12 @@ export default function BodyMeasurements() {
     };
 
     loadUserSettings();
-  }, [getActiveMeasurements, getLatestUserWeight, getLatestUserMeasurement]);
-
-  const isWeightInputValid = useIsStringValidNumber(userWeightInput);
-
-  const addUserWeight = async () => {
-    if (!isWeightInputValid) return;
-
-    const newWeight = ConvertNumberToTwoDecimals(Number(userWeightInput));
-
-    const commentToInsert = ConvertEmptyStringToNull(weightCommentInput);
-
-    const currentDateString = GetCurrentDateTimeISOString();
-
-    try {
-      const db = await Database.load(import.meta.env.VITE_DB);
-
-      const result = await db.execute(
-        "INSERT into user_weights (weight, weight_unit, date, comment) VALUES ($1, $2, $3, $4)",
-        [newWeight, weightUnit, currentDateString, commentToInsert]
-      );
-
-      const formattedDate: string = FormatDateTimeString(
-        currentDateString,
-        userSettings?.clock_style === "24h"
-      );
-
-      const newUserWeight: UserWeight = {
-        id: result.lastInsertId,
-        weight: newWeight,
-        weight_unit: weightUnit,
-        date: currentDateString,
-        formattedDate: formattedDate,
-        comment: commentToInsert,
-      };
-
-      setLatestUserWeight(newUserWeight);
-
-      resetWeightInput();
-
-      userWeightModal.onClose();
-      toast.success("Body Weight Entry Added");
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const updateUserWeight = async () => {
-    if (latestUserWeight.id === 0 || !isWeightInputValid) return;
-
-    const newWeight = Number(userWeightInput);
-
-    const commentToInsert = ConvertEmptyStringToNull(weightCommentInput);
-
-    const updatedUserWeight: UserWeight = {
-      ...latestUserWeight,
-      weight: newWeight,
-      comment: commentToInsert,
-    };
-
-    const success = await UpdateUserWeight(updatedUserWeight);
-
-    if (!success) return;
-
-    setLatestUserWeight(updatedUserWeight);
-
-    resetWeightInput();
-
-    userWeightModal.onClose();
-    toast.success("Body Weight Entry Updated");
-  };
+  }, [
+    getActiveMeasurements,
+    getLatestUserWeight,
+    getLatestUserMeasurement,
+    setWeightUnit,
+  ]);
 
   const deleteLatestUserWeight = async () => {
     if (latestUserWeight.id === 0 || userSettings === undefined) return;
@@ -289,12 +243,6 @@ export default function BodyMeasurements() {
   const handleAddWeightButton = () => {
     resetWeightInput();
     userWeightModal.onOpen();
-  };
-
-  const resetWeightInput = () => {
-    setUserWeightInput("");
-    setWeightCommentInput("");
-    setOperationType("add");
   };
 
   const addActiveMeasurements = async () => {
