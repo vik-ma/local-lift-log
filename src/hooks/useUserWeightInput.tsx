@@ -7,7 +7,7 @@ import {
   UpdateUserWeight,
 } from "../helpers";
 import Database from "tauri-plugin-sql-api";
-import { UserWeight } from "../typings";
+import { UserSettings, UserWeight } from "../typings";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useDisclosure } from "@nextui-org/react";
@@ -16,7 +16,7 @@ type UseUserWeightInputProps = {
   latestUserWeight: UserWeight;
   setLatestUserWeight: React.Dispatch<React.SetStateAction<UserWeight>>;
   userWeightModal: ReturnType<typeof useDisclosure>;
-  clockStyle: string;
+  userSettings: UserSettings | undefined;
   resetWeightInput: () => void;
 };
 
@@ -24,7 +24,7 @@ export const useUserWeightInput = ({
   latestUserWeight,
   setLatestUserWeight,
   userWeightModal,
-  clockStyle,
+  userSettings,
   resetWeightInput,
 }: UseUserWeightInputProps) => {
   const [userWeightInput, setUserWeightInput] = useState<string>("");
@@ -52,7 +52,7 @@ export const useUserWeightInput = ({
 
       const formattedDate: string = FormatDateTimeString(
         currentDateString,
-        clockStyle === "24h"
+        userSettings?.clock_style === "24h"
       );
 
       const newUserWeight: UserWeight = {

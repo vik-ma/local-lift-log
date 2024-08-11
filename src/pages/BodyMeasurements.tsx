@@ -61,7 +61,6 @@ type OperationType =
 export default function BodyMeasurements() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [clockStyle, setClockStyle] = useState<string>("");
   const [operationType, setOperationType] = useState<OperationType>("add");
 
   const [activeMeasurements, setActiveMeasurements] = useState<Measurement[]>(
@@ -112,7 +111,7 @@ export default function BodyMeasurements() {
     latestUserWeight,
     setLatestUserWeight,
     userWeightModal,
-    clockStyle,
+    userSettings,
     resetWeightInput,
   });
 
@@ -198,7 +197,6 @@ export default function BodyMeasurements() {
       if (settings !== undefined) {
         setUserSettings(settings);
         setWeightUnit(settings.default_unit_weight!);
-        setClockStyle(settings.clock_style!);
         getActiveMeasurements(settings.active_tracking_measurements!);
         getLatestUserWeight(settings.clock_style!);
         getLatestUserMeasurement(settings.clock_style!);
@@ -246,7 +244,7 @@ export default function BodyMeasurements() {
   };
 
   const addActiveMeasurements = async () => {
-    if (!areActiveMeasurementsValid) return;
+    if (!areActiveMeasurementsValid || userSettings === undefined) return;
 
     const currentDateString = GetCurrentDateTimeISOString();
 
@@ -274,7 +272,7 @@ export default function BodyMeasurements() {
       const detailedActiveMeasurement = CreateDetailedUserMeasurementList(
         [newUserMeasurements],
         measurementMap,
-        clockStyle
+        userSettings?.clock_style
       );
 
       setLatestUserMeasurements(detailedActiveMeasurement[0]);
