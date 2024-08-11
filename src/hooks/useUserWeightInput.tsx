@@ -12,21 +12,13 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { useDisclosure } from "@nextui-org/react";
 
-type UseUserWeightInputProps = {
-  latestUserWeight: UserWeight;
-  setLatestUserWeight: React.Dispatch<React.SetStateAction<UserWeight>>;
-  userWeightModal: ReturnType<typeof useDisclosure>;
-  userSettings: UserSettings | undefined;
-  resetWeightInput: () => void;
-};
-
-export const useUserWeightInput = ({
-  latestUserWeight,
-  setLatestUserWeight,
-  userWeightModal,
-  userSettings,
-  resetWeightInput,
-}: UseUserWeightInputProps) => {
+export const useUserWeightInput = (
+  latestUserWeight: UserWeight,
+  setLatestUserWeight: React.Dispatch<React.SetStateAction<UserWeight>>,
+  userWeightModal: ReturnType<typeof useDisclosure>,
+  userSettings: UserSettings | undefined,
+  resetWeightInput: () => void
+) => {
   const [userWeightInput, setUserWeightInput] = useState<string>("");
   const [weightUnit, setWeightUnit] = useState<string>("");
   const [weightCommentInput, setWeightCommentInput] = useState<string>("");

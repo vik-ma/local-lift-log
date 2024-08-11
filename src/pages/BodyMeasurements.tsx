@@ -107,13 +107,13 @@ export default function BodyMeasurements() {
     setWeightUnit,
     weightCommentInput,
     setWeightCommentInput,
-  } = useUserWeightInput({
+  } = useUserWeightInput(
     latestUserWeight,
     setLatestUserWeight,
     userWeightModal,
     userSettings,
-    resetWeightInput,
-  });
+    resetWeightInput
+  );
 
   const {
     newMeasurementName,
