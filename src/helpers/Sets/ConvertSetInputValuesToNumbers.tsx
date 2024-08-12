@@ -31,6 +31,9 @@ export const ConvertSetInputValuesToNumbers = (
     partial_reps: IsStringEmpty(setTrackingValuesInput.partial_reps)
       ? 0
       : Number(setTrackingValuesInput.partial_reps),
+    user_weight: IsStringEmpty(setTrackingValuesInput.user_weight)
+      ? 0
+      : Number(setTrackingValuesInput.user_weight),
   };
   return setTrackingValuesNumber;
 };

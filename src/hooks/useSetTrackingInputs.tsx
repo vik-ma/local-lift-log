@@ -33,6 +33,7 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
         setTrackingValuesInput.resistance_level
       ),
       partial_reps: IsStringInvalidInteger(setTrackingValuesInput.partial_reps),
+      user_weight: IsStringInvalidNumber(setTrackingValuesInput.user_weight),
     };
     return values;
   }, [setTrackingValuesInput]);
@@ -63,6 +64,10 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
       partial_reps:
         set.is_tracking_partial_reps && set.partial_reps !== 0
           ? set.partial_reps.toString()
+          : "",
+      user_weight:
+        set.is_tracking_user_weight && set.user_weight !== 0
+          ? set.user_weight.toString()
           : "",
     };
     setSetTrackingValuesInput(newSetTrackingValuesInput);

@@ -1384,6 +1384,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
           activeSet.partial_reps > 0 && activeSet.is_tracking_partial_reps
             ? activeSet.partial_reps.toString()
             : "",
+        user_weight:
+          activeSet.user_weight > 0 && activeSet.is_tracking_user_weight
+            ? activeSet.user_weight.toString()
+            : "",
       };
 
       if (

@@ -191,6 +191,7 @@ export type SetTrackingValuesInput = {
   distance: string;
   resistance_level: string;
   partial_reps: string;
+  user_weight: string;
 };
 
 export type SetTrackingValuesNumbers = {
@@ -201,6 +202,7 @@ export type SetTrackingValuesNumbers = {
   distance: number;
   resistance_level: number;
   partial_reps: number;
+  user_weight: number;
 };
 
 export type SetTrackingValuesValidity = {
@@ -211,6 +213,7 @@ export type SetTrackingValuesValidity = {
   distance: boolean;
   resistance_level: boolean;
   partial_reps: boolean;
+  user_weight: boolean;
 };
 
 export type Workout = {
