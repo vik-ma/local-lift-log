@@ -2354,6 +2354,43 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     toast.success("Exercise Reassigned");
   };
 
+  const disableTrackUserWeight = async () => {
+    if (
+      activeSet === undefined ||
+      !activeSet.is_tracking_user_weight ||
+      activeSet.set_index === undefined ||
+      activeGroupedSet === undefined
+    )
+      return;
+
+    const updatedSet = { ...activeSet, is_tracking_user_weight: 0 };
+
+    const success = await UpdateSet(updatedSet);
+
+    if (!success) return;
+
+    const updatedSetList = UpdateItemInList(
+      activeGroupedSet.setList,
+      updatedSet
+    );
+
+    const groupedSetIndex = FindIndexInList(groupedSets, activeGroupedSet.id);
+
+    const updatedGroupedSet = {
+      ...groupedSets[groupedSetIndex],
+      setList: updatedSetList,
+    };
+
+    const updatedGroupedSets = UpdateItemInList(groupedSets, updatedGroupedSet);
+
+    setGroupedSets(updatedGroupedSets);
+
+    setActiveSet(updatedSet);
+    setActiveGroupedSet(updatedGroupedSet);
+
+    toast.success("Body Weight Tracking Removed");
+  };
+
   return {
     updateExerciseOrder,
     handleSaveSetButton,
