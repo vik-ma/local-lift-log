@@ -683,7 +683,7 @@ export default function Presets() {
                   className="font-medium"
                   size="sm"
                   color="primary"
-                  onPress={() => handleAddEquipmentWeightButton()}
+                  onPress={handleAddEquipmentWeightButton}
                 >
                   Add Equipment Weight
                 </Button>
@@ -747,7 +747,7 @@ export default function Presets() {
                   className="font-medium"
                   color="primary"
                   size="sm"
-                  onPress={() => handleAddDistanceButton()}
+                  onPress={handleAddDistanceButton}
                 >
                   Add Distance
                 </Button>

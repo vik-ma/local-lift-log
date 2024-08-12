@@ -50,7 +50,6 @@ export const UserWeightModal = ({
                   <Input
                     value={userWeightInput}
                     label="Weight"
-                    size="sm"
                     variant="faded"
                     onValueChange={(value) => setUserWeightInput(value)}
                     isInvalid={!isWeightInputValid}
@@ -61,12 +60,12 @@ export const UserWeightModal = ({
                     value={weightUnit}
                     setState={setWeightUnit}
                     targetType="state"
+                    showLabel
                   />
                 </div>
                 <Input
                   value={commentInput}
                   label="Comment"
-                  size="sm"
                   variant="faded"
                   onValueChange={(value) => setCommentInput(value)}
                   isClearable
