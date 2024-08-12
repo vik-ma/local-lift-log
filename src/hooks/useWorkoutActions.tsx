@@ -160,6 +160,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
           ...prev,
           weight_unit: userSettings.default_unit_weight!,
           distance_unit: userSettings.default_unit_distance!,
+          user_weight_unit: userSettings.default_unit_weight!,
         }));
 
         if (!isTemplate) {
@@ -500,6 +501,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       ...defaultSet,
       weight_unit: userSettings!.default_unit_weight!,
       distance_unit: userSettings!.default_unit_distance!,
+      user_weight_unit: userSettings!.default_unit_weight!,
     });
     operatingSetInputs.setSetTrackingValuesInput(defaultSetInputValues);
   };
@@ -684,6 +686,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       weight_unit: userSettings!.default_unit_weight!,
       distance_unit: userSettings!.default_unit_distance!,
       exercise_name: exercise.name,
+      user_weight_unit: userSettings!.default_unit_weight!,
     };
 
     if (isTemplate && workoutTemplate.id !== 0) {
