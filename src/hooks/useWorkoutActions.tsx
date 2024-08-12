@@ -2461,5 +2461,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     numMultisetSets,
     userWeight,
     setUserWeight,
+    disableTrackUserWeight,
   };
 };

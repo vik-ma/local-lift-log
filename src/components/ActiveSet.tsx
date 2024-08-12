@@ -73,6 +73,7 @@ type ActiveSetProps = {
   ) => void;
   userWeight: UserWeight;
   userWeightModal: ReturnType<typeof useDisclosure>;
+  disableTrackUserWeight: () => void;
 };
 
 export const ActiveSet = ({
@@ -97,6 +98,7 @@ export const ActiveSet = ({
   handleToggleSetCommentButton,
   userWeight,
   userWeightModal,
+  disableTrackUserWeight,
 }: ActiveSetProps) => {
   let setCounter = 1;
   // Assign Multiset Set number
@@ -336,8 +338,11 @@ export const ActiveSet = ({
                                 No User Weight Is Added
                               </span>
                               <div className="flex gap-1">
-                                <Button size="sm" variant="flat">
-                                  {/* TODO: ADD FUNCTION */}
+                                <Button
+                                  size="sm"
+                                  variant="flat"
+                                  onPress={disableTrackUserWeight}
+                                >
                                   Remove User Weight Tracking
                                 </Button>
                                 <Button
