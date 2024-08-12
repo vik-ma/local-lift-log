@@ -7,6 +7,7 @@ export { ConvertDateStringToTimeString } from "./Dates/ConvertDateStringToTimeSt
 export { ValidateISODateString } from "./Dates/ValidateISODateString";
 export { GetCurrentDateTimeISOString } from "./Dates/GetCurrentDateTimeISOString";
 export { FormatYmdDateString } from "./Dates/FormatYmdDateString";
+export { IsDateStringOlderThanOneWeek } from "./Dates/IsDateStringOlderThanOneWeek";
 
 export { ConvertExerciseGroupSetString } from "./Exercises/ConvertExerciseGroupSetString";
 export { ConvertExerciseGroupStringListToSetString } from "./Exercises/ConvertExerciseGroupStringListToSetString";
