@@ -328,25 +328,36 @@ export const ActiveSet = ({
                         useSetTrackingInputs={activeSetInputs}
                         userSettings={userSettings}
                       />
-                      {isUserWeightInvalid && (
+                      {activeSet.is_tracking_user_weight === 1 && (
                         <div className="flex flex-col gap-0.5 items-center justify-center">
-                          <span className="font-medium text-stone-500">
-                            No User Weight Is Added
-                          </span>
-                          <div className="flex gap-1">
-                            <Button size="sm" variant="flat">
-                              {/* TODO: ADD FUNCTION */}
-                              Remove User Weight Tracking
-                            </Button>
-                            <Button
-                              color="secondary"
-                              size="sm"
-                              variant="flat"
-                              onPress={() => userWeightModal.onOpen()}
-                            >
-                              Update User Weight
-                            </Button>
-                          </div>
+                          {isUserWeightInvalid ? (
+                            <>
+                              <span className="font-medium text-stone-500">
+                                No User Weight Is Added
+                              </span>
+                              <div className="flex gap-1">
+                                <Button size="sm" variant="flat">
+                                  {/* TODO: ADD FUNCTION */}
+                                  Remove User Weight Tracking
+                                </Button>
+                                <Button
+                                  color="secondary"
+                                  size="sm"
+                                  variant="flat"
+                                  onPress={() => userWeightModal.onOpen()}
+                                >
+                                  Update User Weight
+                                </Button>
+                              </div>
+                            </>
+                          ) : (
+                            <div className="font-medium text-stone-400">
+                              Body Weight:{" "}
+                              <span className="text-stone-600">
+                                {userWeight.weight} {userWeight.weight_unit}
+                              </span>
+                            </div>
+                          )}
                         </div>
                       )}
                       {/* TODO: WARNING IF OLD */}
