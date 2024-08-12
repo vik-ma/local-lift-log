@@ -6,7 +6,10 @@ import {
   DropdownItem,
   useDisclosure,
 } from "@nextui-org/react";
-import { ConvertDateStringToTimeString } from "../helpers";
+import {
+  ConvertDateStringToTimeString,
+  IsDateStringOlderThanOneWeek,
+} from "../helpers";
 import {
   ChevronIcon,
   CommentIcon,
@@ -122,6 +125,10 @@ export const ActiveSet = ({
 
     return false;
   }, [activeSet, userWeight]);
+
+  const isUserWeightOlderThanOneWeek: boolean = useMemo(() => {
+    return IsDateStringOlderThanOneWeek(userWeight.date);
+  }, [userWeight]);
 
   return (
     <div>
@@ -351,21 +358,37 @@ export const ActiveSet = ({
                                   variant="flat"
                                   onPress={() => userWeightModal.onOpen()}
                                 >
-                                  Update User Weight
+                                  Add User Weight
                                 </Button>
                               </div>
                             </>
                           ) : (
-                            <div className="font-medium text-stone-400">
-                              Body Weight:{" "}
-                              <span className="text-stone-600">
-                                {userWeight.weight} {userWeight.weight_unit}
-                              </span>
-                            </div>
+                            <>
+                              <div className="font-medium text-stone-400">
+                                Body Weight:{" "}
+                                <span className="text-stone-600">
+                                  {userWeight.weight} {userWeight.weight_unit}
+                                </span>
+                              </div>
+                              {isUserWeightOlderThanOneWeek && (
+                                <div className="flex flex-col items-center gap-0.5">
+                                  <span className="font-medium text-danger">
+                                    Body Weight Entry Is Older Than One Week
+                                  </span>
+                                  <Button
+                                    color="secondary"
+                                    size="sm"
+                                    variant="flat"
+                                    onPress={() => userWeightModal.onOpen()}
+                                  >
+                                    Update User Weight
+                                  </Button>
+                                </div>
+                              )}
+                            </>
                           )}
                         </div>
                       )}
-                      {/* TODO: WARNING IF OLD */}
                       <div className="flex justify-between">
                         <div className="flex gap-1">
                           <Button
