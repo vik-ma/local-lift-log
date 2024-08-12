@@ -364,11 +364,14 @@ export const ActiveSet = ({
                             </>
                           ) : (
                             <>
-                              <div className="font-medium text-stone-400">
-                                Body Weight:{" "}
-                                <span className="text-stone-600">
-                                  {userWeight.weight} {userWeight.weight_unit}
+                              <div className="flex text-stone-600 font-medium gap-1">
+                                <span className="text-stone-400">
+                                  Body Weight:
                                 </span>
+                                <span className="truncate max-w-14">
+                                  {userWeight.weight}
+                                </span>
+                                <span>{userWeight.weight_unit}</span>
                               </div>
                               {isUserWeightOlderThanOneWeek && (
                                 <div className="flex flex-col items-center gap-0.5">
