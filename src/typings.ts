@@ -116,7 +116,7 @@ export type WorkoutSet = {
   distance_unit: string;
   multiset_id: number;
   user_weight: number;
-  user_weight_unit: string | null;
+  user_weight_unit: string;
   exercise_name?: string;
   set_index?: number;
   hasInvalidExerciseId?: boolean;

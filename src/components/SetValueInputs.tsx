@@ -178,6 +178,29 @@ export const SetValueInputs = ({
           isClearable
         />
       )}
+      {!!operatingSet.is_tracking_user_weight && (
+        <div className="flex justify-between gap-2 w-56">
+          <Input
+            value={setTrackingValuesInput.user_weight}
+            label="Body Weight"
+            variant="faded"
+            labelPlacement="outside-left"
+            onValueChange={(value) =>
+              setSetTrackingValuesInput((prev) => ({
+                ...prev,
+                user_weight: value,
+              }))
+            }
+            isInvalid={setInputsValidityMap.user_weight}
+            isClearable
+          />
+          <WeightUnitDropdown
+            value={operatingSet.user_weight_unit}
+            setSet={setOperatingSet as SetWorkoutSetAction}
+            targetType="set"
+          />
+        </div>
+      )}
     </div>
   );
 };
