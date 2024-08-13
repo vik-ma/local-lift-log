@@ -9,6 +9,7 @@ import {
   Input,
 } from "@nextui-org/react";
 import { WeightUnitDropdown } from "..";
+import { useState } from "react";
 
 type UserWeightModalProps = {
   userWeightModal: ReturnType<typeof useDisclosure>;
@@ -21,6 +22,7 @@ type UserWeightModalProps = {
   setCommentInput: React.Dispatch<React.SetStateAction<string>>;
   buttonAction: () => void;
   isEditing: boolean;
+  showErrorScreen?: boolean;
 };
 
 export const UserWeightModal = ({
@@ -34,7 +36,10 @@ export const UserWeightModal = ({
   setCommentInput,
   buttonAction,
   isEditing,
+  showErrorScreen = false,
 }: UserWeightModalProps) => {
+  const [showError, setShowError] = useState<boolean>(showErrorScreen);
+
   return (
     <Modal
       isOpen={userWeightModal.isOpen}
@@ -43,7 +48,11 @@ export const UserWeightModal = ({
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalHeader>Edit Body Weight Entry</ModalHeader>
+            <ModalHeader>
+              {showError
+                ? "No Body Weight Entry Found"
+                : `${isEditing ? "Edit" : "Add"} Body Weight Entry`}
+            </ModalHeader>
             <ModalBody>
               <div className="flex flex-col gap-2">
                 <div className="flex gap-2 items-center">
