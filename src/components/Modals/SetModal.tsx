@@ -14,6 +14,7 @@ import {
   WorkoutSet,
   UseSetTrackingInputsReturnType,
   UseExerciseListReturnType,
+  UserWeight,
 } from "../../typings";
 import { useState } from "react";
 
@@ -33,6 +34,7 @@ type SetModalProps = {
   clearSetInputValues: (isOperatingSet: boolean) => void;
   userSettings: UserSettings;
   exerciseList: UseExerciseListReturnType;
+  userWeight: UserWeight;
   numMultisetSets?: number;
 };
 
@@ -50,6 +52,7 @@ export const SetModal = ({
   clearSetInputValues,
   userSettings,
   exerciseList,
+  userWeight,
   numMultisetSets,
 }: SetModalProps) => {
   const [numNewSets, setNumNewSets] = useState<string>("3");
@@ -85,6 +88,7 @@ export const SetModal = ({
                   numMultisetSets={numMultisetSets}
                   multisetSetTarget={multisetSetTarget}
                   setMultisetSetTarget={setMultisetSetTarget}
+                  userWeight={userWeight}
                 />
               )}
             </ModalBody>

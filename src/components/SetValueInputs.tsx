@@ -3,6 +3,7 @@ import {
   SetWorkoutSetAction,
   UseSetTrackingInputsReturnType,
   UserSettings,
+  UserWeight,
 } from "../typings";
 import { WeightUnitDropdown, DistanceUnitDropdown, TimeInput } from ".";
 import { Button, Input } from "@nextui-org/react";
@@ -12,6 +13,7 @@ type SetValueInputsProps = {
   setOperatingSet: SetWorkoutSetAction;
   useSetTrackingInputs: UseSetTrackingInputsReturnType;
   userSettings: UserSettings;
+  userWeight: UserWeight;
 };
 
 export const SetValueInputs = ({
@@ -19,6 +21,7 @@ export const SetValueInputs = ({
   setOperatingSet,
   useSetTrackingInputs,
   userSettings,
+  userWeight,
 }: SetValueInputsProps) => {
   const {
     setTrackingValuesInput,

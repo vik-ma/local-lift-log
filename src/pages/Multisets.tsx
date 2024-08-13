@@ -450,6 +450,7 @@ export default function Multisets() {
         undoOperatingMultisetChanges={
           multisetActions.undoOperatingMultisetChanges
         }
+        userWeight={userWeight}
       />
       <div className="flex flex-col items-center gap-2">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">

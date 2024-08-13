@@ -314,6 +314,7 @@ export default function WorkoutDetails() {
         userSettings={userSettings}
         exerciseList={exerciseList}
         numMultisetSets={numMultisetSets}
+        userWeight={userWeight}
       />
       <MultisetModal
         multisetModal={multisetModal}
@@ -334,6 +335,7 @@ export default function WorkoutDetails() {
         undoOperatingMultisetChanges={
           multisetActions.undoOperatingMultisetChanges
         }
+        userWeight={userWeight}
       />
       <TimeInputModal
         timeInputModal={timeInputModal}

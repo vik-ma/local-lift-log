@@ -336,6 +336,7 @@ export const ActiveSet = ({
                         }
                         useSetTrackingInputs={activeSetInputs}
                         userSettings={userSettings}
+                        userWeight={userWeight}
                       />
                       {activeSet.is_tracking_user_weight === 1 &&
                         activeSet.is_completed === 0 && (

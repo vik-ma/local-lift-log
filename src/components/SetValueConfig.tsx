@@ -14,6 +14,7 @@ import {
   WorkoutSet,
   UseSetTrackingInputsReturnType,
   UserSettings,
+  UserWeight,
 } from "../typings";
 import { useNumSetsOptions } from "../hooks";
 
@@ -25,6 +26,7 @@ type SetValueConfigProps = {
   useSetTrackingInputs: UseSetTrackingInputsReturnType;
   userSettings: UserSettings;
   clearSetInputValues: (isOperatingSet: boolean) => void;
+  userWeight: UserWeight;
   numNewSets?: string;
   setNumNewSets?: React.Dispatch<React.SetStateAction<string>>;
   isMultiset?: boolean;
@@ -41,6 +43,7 @@ export const SetValueConfig = ({
   useSetTrackingInputs,
   userSettings,
   clearSetInputValues,
+  userWeight,
   numNewSets,
   setNumNewSets,
   isMultiset,
@@ -267,6 +270,7 @@ export const SetValueConfig = ({
             setOperatingSet={setOperatingSet}
             useSetTrackingInputs={useSetTrackingInputs}
             userSettings={userSettings}
+            userWeight={userWeight}
           />
         )}
         {operationType === "add-sets-to-multiset" &&
