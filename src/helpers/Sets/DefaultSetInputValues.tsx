@@ -9,6 +9,7 @@ export const DefaultSetInputValues = (): SetTrackingValuesInput => {
     distance: "",
     resistance_level: "",
     partial_reps: "",
+    user_weight: "",
   };
   return defaultSetInputValues;
 };
