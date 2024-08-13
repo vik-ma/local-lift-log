@@ -418,6 +418,7 @@ export const useMultisetActions = ({
       rpe: setTrackingValuesNumber.rpe,
       resistance_level: setTrackingValuesNumber.resistance_level,
       partial_reps: setTrackingValuesNumber.partial_reps,
+      user_weight: setTrackingValuesNumber.user_weight,
       isEditedInMultiset: true,
     };
 

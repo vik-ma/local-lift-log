@@ -210,6 +210,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         rpe: setTrackingValuesNumber.rpe,
         resistance_level: setTrackingValuesNumber.resistance_level,
         partial_reps: setTrackingValuesNumber.partial_reps,
+        user_weight: setTrackingValuesNumber.user_weight,
       };
 
       if (isTemplate && workoutTemplate.id !== 0) {
@@ -429,6 +430,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       rpe: setTrackingValuesNumber.rpe,
       resistance_level: setTrackingValuesNumber.resistance_level,
       partial_reps: setTrackingValuesNumber.partial_reps,
+      user_weight: setTrackingValuesNumber.user_weight,
     };
 
     const success = await UpdateSet(updatedSet);
@@ -1153,6 +1155,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       rpe: setTrackingValuesNumbers.rpe,
       resistance_level: setTrackingValuesNumbers.resistance_level,
       partial_reps: setTrackingValuesNumbers.partial_reps,
+      user_weight: setTrackingValuesNumbers.user_weight,
       is_completed: 1,
       time_completed: currentDateString,
     };
@@ -1444,6 +1447,13 @@ export const useWorkoutActions = (isTemplate: boolean) => {
           lastSet.partial_reps > 0
         ) {
           activeSetInputValues.partial_reps = lastSet.partial_reps.toString();
+        }
+        if (
+          activeSet.is_tracking_user_weight === 1 &&
+          activeSet.user_weight === 0 &&
+          lastSet.user_weight > 0
+        ) {
+          activeSetInputValues.user_weight = lastSet.user_weight.toString();
         }
       }
 
@@ -1850,6 +1860,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         rpe: setTrackingValuesNumber.rpe,
         resistance_level: setTrackingValuesNumber.resistance_level,
         partial_reps: setTrackingValuesNumber.partial_reps,
+        user_weight: setTrackingValuesNumber.user_weight,
         multiset_id: operatingGroupedSet.multiset.id,
       };
 
