@@ -5,7 +5,7 @@ import {
   UserSettings,
 } from "../typings";
 import { WeightUnitDropdown, DistanceUnitDropdown, TimeInput } from ".";
-import { Input } from "@nextui-org/react";
+import { Button, Input } from "@nextui-org/react";
 
 type SetValueInputsProps = {
   operatingSet: WorkoutSet;
@@ -179,26 +179,33 @@ export const SetValueInputs = ({
         />
       )}
       {!!operatingSet.is_tracking_user_weight && (
-        <div className="flex justify-between gap-2 w-56">
-          <Input
-            value={setTrackingValuesInput.user_weight}
-            label="Body Weight"
-            variant="faded"
-            labelPlacement="outside-left"
-            onValueChange={(value) =>
-              setSetTrackingValuesInput((prev) => ({
-                ...prev,
-                user_weight: value,
-              }))
-            }
-            isInvalid={setInputsValidityMap.user_weight}
-            isClearable
-          />
-          <WeightUnitDropdown
-            value={operatingSet.user_weight_unit}
-            setSet={setOperatingSet as SetWorkoutSetAction}
-            targetType="set-user-weight-unit"
-          />
+        <div className="flex flex-col gap-1.5 items-center">
+          <div className="flex justify-between gap-2 w-56">
+            <Input
+              value={setTrackingValuesInput.user_weight}
+              label="Body Weight"
+              variant="faded"
+              labelPlacement="outside-left"
+              onValueChange={(value) =>
+                setSetTrackingValuesInput((prev) => ({
+                  ...prev,
+                  user_weight: value,
+                }))
+              }
+              isInvalid={setInputsValidityMap.user_weight}
+              isClearable
+            />
+            <WeightUnitDropdown
+              value={operatingSet.user_weight_unit}
+              setSet={setOperatingSet as SetWorkoutSetAction}
+              targetType="set-user-weight-unit"
+            />
+          </div>
+          <div>
+            <Button color="secondary" variant="flat" size="sm">
+              Add Latest User Weight Entry
+            </Button>
+          </div>
         </div>
       )}
     </div>
