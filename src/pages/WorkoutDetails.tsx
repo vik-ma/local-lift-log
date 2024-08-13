@@ -314,7 +314,6 @@ export default function WorkoutDetails() {
         userSettings={userSettings}
         exerciseList={exerciseList}
         numMultisetSets={numMultisetSets}
-        userWeight={userWeight}
       />
       <MultisetModal
         multisetModal={multisetModal}
