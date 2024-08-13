@@ -247,7 +247,6 @@ export default function WorkoutTemplateDetails() {
         undoOperatingMultisetChanges={
           multisetActions.undoOperatingMultisetChanges
         }
-        userWeight={userWeight}
       />
       <TextInputModal
         textInputModal={textInputModal}

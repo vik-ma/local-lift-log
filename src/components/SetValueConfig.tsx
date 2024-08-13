@@ -26,13 +26,13 @@ type SetValueConfigProps = {
   useSetTrackingInputs: UseSetTrackingInputsReturnType;
   userSettings: UserSettings;
   clearSetInputValues: (isOperatingSet: boolean) => void;
-  userWeight: UserWeight;
   numNewSets?: string;
   setNumNewSets?: React.Dispatch<React.SetStateAction<string>>;
   isMultiset?: boolean;
   numMultisetSets?: number;
   multisetSetTarget?: string;
   setMultisetSetTarget?: React.Dispatch<React.SetStateAction<string>>;
+  userWeight?: UserWeight;
 };
 
 export const SetValueConfig = ({
@@ -43,13 +43,13 @@ export const SetValueConfig = ({
   useSetTrackingInputs,
   userSettings,
   clearSetInputValues,
-  userWeight,
   numNewSets,
   setNumNewSets,
   isMultiset,
   numMultisetSets,
   multisetSetTarget,
   setMultisetSetTarget,
+  userWeight,
 }: SetValueConfigProps) => {
   const [showDefaultValues, setShowDefaultValues] = useState<boolean>(false);
   const [showNoteInput, setShowNoteInput] = useState<boolean>(false);

@@ -335,7 +335,6 @@ export default function WorkoutDetails() {
         undoOperatingMultisetChanges={
           multisetActions.undoOperatingMultisetChanges
         }
-        userWeight={userWeight}
       />
       <TimeInputModal
         timeInputModal={timeInputModal}

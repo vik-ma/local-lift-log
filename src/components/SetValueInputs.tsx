@@ -13,7 +13,7 @@ type SetValueInputsProps = {
   setOperatingSet: SetWorkoutSetAction;
   useSetTrackingInputs: UseSetTrackingInputsReturnType;
   userSettings: UserSettings;
-  userWeight: UserWeight;
+  userWeight?: UserWeight;
 };
 
 export const SetValueInputs = ({
