@@ -160,7 +160,13 @@ export type UnitDropdownProps = {
   setState?: React.Dispatch<React.SetStateAction<string>>;
   setEquipmentWeight?: React.Dispatch<React.SetStateAction<EquipmentWeight>>;
   setDistance?: React.Dispatch<React.SetStateAction<Distance>>;
-  targetType: "set" | "settings" | "state" | "equipment" | "distance";
+  targetType:
+    | "set"
+    | "settings"
+    | "state"
+    | "equipment"
+    | "distance"
+    | "set-user-weight-unit";
   showLabel?: boolean;
 };
 
@@ -359,8 +365,8 @@ export type Identifiable = {
 };
 
 export type BodyMeasurementsOperationType =
-| "add"
-| "edit-weight"
-| "delete-weight"
-| "edit-measurements"
-| "delete-measurements";
+  | "add"
+  | "edit-weight"
+  | "delete-weight"
+  | "edit-measurements"
+  | "delete-measurements";

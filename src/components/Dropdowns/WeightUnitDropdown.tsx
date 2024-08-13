@@ -21,6 +21,13 @@ export const WeightUnitDropdown = ({
       }));
     }
 
+    if (targetType === "set-user-weight-unit" && setSet !== undefined) {
+      setSet((prev) => ({
+        ...prev,
+        user_weight_unit: e.target.value,
+      }));
+    }
+
     if (targetType === "equipment" && setEquipmentWeight !== undefined) {
       setEquipmentWeight((prev) => ({ ...prev, weight_unit: e.target.value }));
     }

@@ -197,7 +197,7 @@ export const SetValueInputs = ({
           <WeightUnitDropdown
             value={operatingSet.user_weight_unit}
             setSet={setOperatingSet as SetWorkoutSetAction}
-            targetType="set"
+            targetType="set-user-weight-unit"
           />
         </div>
       )}
