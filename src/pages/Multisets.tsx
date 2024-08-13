@@ -78,6 +78,7 @@ export default function Multisets() {
           ...prev,
           weight_unit: userSettings.default_unit_weight,
           distance_unit: userSettings.default_unit_distance,
+          user_weight_unit: userSettings.default_unit_weight,
         }));
         setIsLoading(false);
       }
@@ -100,6 +101,7 @@ export default function Multisets() {
       ...defaultSet,
       weight_unit: userSettings!.default_unit_weight!,
       distance_unit: userSettings!.default_unit_distance!,
+      user_weight_unit: userSettings!.default_unit_weight,
     });
     multisetActions.clearMultiset("base");
   };
@@ -383,7 +385,7 @@ export default function Multisets() {
     }
   };
 
-  if (isLoading) return <LoadingSpinner />;
+  if (isLoading || userSettings === undefined) return <LoadingSpinner />;
 
   return (
     <>
@@ -439,7 +441,7 @@ export default function Multisets() {
         handleClickExercise={handleClickExercise}
         useMultisetActions={multisetActions}
         exerciseList={exerciseList}
-        userSettings={userSettings!}
+        userSettings={userSettings}
         saveButtonAction={
           operationType === "edit" ? updateMultiset : createMultiset
         }
