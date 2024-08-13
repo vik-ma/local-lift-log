@@ -163,14 +163,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
           user_weight_unit: userSettings.default_unit_weight!,
         }));
 
-        if (!isTemplate) {
-          const userWeight = await GetLatestUserWeight(
-            userSettings.clock_style
-          );
+        const userWeight = await GetLatestUserWeight(userSettings.clock_style);
 
-          if (userWeight !== undefined) {
-            setUserWeight(userWeight);
-          }
+        if (userWeight !== undefined) {
+          setUserWeight(userWeight);
         }
       } catch (error) {
         console.log(error);
