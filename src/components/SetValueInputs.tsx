@@ -204,11 +204,16 @@ export const SetValueInputs = ({
               targetType="set-user-weight-unit"
             />
           </div>
-          <div>
-            <Button color="secondary" variant="flat" size="sm">
-              Add Latest User Weight Entry
-            </Button>
-          </div>
+          {userWeight && (
+            <div>
+              <Button color="secondary" variant="flat" size="sm">
+                {/* TODO: ADD FUNCTIONS */}
+                {userWeight.id === 0
+                  ? "Add User Weight"
+                  : "Add Latest User Weight Entry"}
+              </Button>
+            </div>
+          )}
         </div>
       )}
     </div>
