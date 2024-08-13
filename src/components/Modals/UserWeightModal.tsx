@@ -50,35 +50,45 @@ export const UserWeightModal = ({
           <>
             <ModalHeader>
               {showError
-                ? "No Body Weight Entry Found"
+                ? "No Body Weight Entry"
                 : `${isEditing ? "Edit" : "Add"} Body Weight Entry`}
             </ModalHeader>
             <ModalBody>
               <div className="flex flex-col gap-2">
-                <div className="flex gap-2 items-center">
-                  <Input
-                    value={userWeightInput}
-                    label="Weight"
-                    variant="faded"
-                    onValueChange={(value) => setUserWeightInput(value)}
-                    isInvalid={!isWeightInputValid}
-                    isRequired
-                    isClearable
-                  />
-                  <WeightUnitDropdown
-                    value={weightUnit}
-                    setState={setWeightUnit}
-                    targetType="state"
-                    showLabel
-                  />
-                </div>
-                <Input
-                  value={commentInput}
-                  label="Comment"
-                  variant="faded"
-                  onValueChange={(value) => setCommentInput(value)}
-                  isClearable
-                />
+                {showError ? (
+                  <p>
+                    No Body Weight entry was found.
+                    <br />
+                    Do you want to add one?
+                  </p>
+                ) : (
+                  <>
+                    <div className="flex gap-2 items-center">
+                      <Input
+                        value={userWeightInput}
+                        label="Weight"
+                        variant="faded"
+                        onValueChange={(value) => setUserWeightInput(value)}
+                        isInvalid={!isWeightInputValid}
+                        isRequired
+                        isClearable
+                      />
+                      <WeightUnitDropdown
+                        value={weightUnit}
+                        setState={setWeightUnit}
+                        targetType="state"
+                        showLabel
+                      />
+                    </div>
+                    <Input
+                      value={commentInput}
+                      label="Comment"
+                      variant="faded"
+                      onValueChange={(value) => setCommentInput(value)}
+                      isClearable
+                    />
+                  </>
+                )}
               </div>
             </ModalBody>
             <ModalFooter>
@@ -87,8 +97,8 @@ export const UserWeightModal = ({
               </Button>
               <Button
                 color="primary"
-                onPress={buttonAction}
-                isDisabled={!isWeightInputValid}
+                onPress={showError ? () => setShowError(false) : buttonAction}
+                isDisabled={!showError && !isWeightInputValid}
               >
                 {isEditing ? "Update" : "Add"}
               </Button>
