@@ -32,7 +32,14 @@ export const SetValueInputs = ({
     setIsTimeInputInvalid,
   } = useSetTrackingInputs;
 
-  const handleUserWeightButton = () => {};
+  const handleUserWeightButton = () => {
+    if (userWeight === undefined || userWeightModal === undefined) return;
+    
+    if (userWeight.id === 0) {
+      userWeightModal.onOpen();
+    } else {
+    }
+  };
 
   return (
     <div className="flex flex-wrap gap-1.5 px-1 justify-evenly">
@@ -216,7 +223,6 @@ export const SetValueInputs = ({
                 size="sm"
                 onPress={handleUserWeightButton}
               >
-                {/* TODO: ADD FUNCTIONS */}
                 {userWeight.id === 0
                   ? "Add User Weight"
                   : "Add Latest User Weight Entry"}
