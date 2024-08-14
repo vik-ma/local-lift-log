@@ -232,8 +232,8 @@ export const SetValueInputs = ({
                 onPress={handleUserWeightButton}
               >
                 {userWeight.id === 0
-                  ? "Add User Weight"
-                  : "Add Latest User Weight Entry"}
+                  ? "Enter New User Weight"
+                  : "Fill In Latest User Weight Entry"}
               </Button>
             </div>
           )}
