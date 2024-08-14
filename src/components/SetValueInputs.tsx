@@ -15,6 +15,7 @@ type SetValueInputsProps = {
   userSettings: UserSettings;
   userWeight?: UserWeight;
   userWeightModal?: ReturnType<typeof useDisclosure>;
+  populateUserWeightValues?: () => void;
 };
 
 export const SetValueInputs = ({
@@ -24,6 +25,7 @@ export const SetValueInputs = ({
   userSettings,
   userWeight,
   userWeightModal,
+  populateUserWeightValues,
 }: SetValueInputsProps) => {
   const {
     setTrackingValuesInput,
@@ -33,11 +35,17 @@ export const SetValueInputs = ({
   } = useSetTrackingInputs;
 
   const handleUserWeightButton = () => {
-    if (userWeight === undefined || userWeightModal === undefined) return;
-    
+    if (
+      userWeight === undefined ||
+      userWeightModal === undefined ||
+      populateUserWeightValues === undefined
+    )
+      return;
+
     if (userWeight.id === 0) {
       userWeightModal.onOpen();
     } else {
+      populateUserWeightValues();
     }
   };
 

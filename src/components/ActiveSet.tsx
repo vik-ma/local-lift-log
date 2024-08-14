@@ -77,6 +77,7 @@ type ActiveSetProps = {
   userWeight: UserWeight;
   userWeightModal: ReturnType<typeof useDisclosure>;
   disableTrackUserWeight: () => void;
+  populateUserWeightValues: () => void;
 };
 
 export const ActiveSet = ({
@@ -102,6 +103,7 @@ export const ActiveSet = ({
   userWeight,
   userWeightModal,
   disableTrackUserWeight,
+  populateUserWeightValues,
 }: ActiveSetProps) => {
   let setCounter = 1;
   // Assign Multiset Set number
@@ -338,6 +340,7 @@ export const ActiveSet = ({
                         userSettings={userSettings}
                         userWeight={userWeight}
                         userWeightModal={userWeightModal}
+                        populateUserWeightValues={populateUserWeightValues}
                       />
                       {activeSet.is_tracking_user_weight === 1 &&
                         activeSet.is_completed === 0 && (

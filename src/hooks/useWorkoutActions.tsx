@@ -2493,5 +2493,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     userWeight,
     setUserWeight,
     disableTrackUserWeight,
+    populateUserWeightValues,
   };
 };

@@ -109,6 +109,7 @@ export default function WorkoutDetails() {
     userWeight,
     setUserWeight,
     disableTrackUserWeight,
+    populateUserWeightValues,
   } = useWorkoutActions(false);
 
   const userWeightInputs = useUserWeightInput(
@@ -418,6 +419,7 @@ export default function WorkoutDetails() {
           userWeight={userWeight}
           userWeightModal={userWeightModal}
           disableTrackUserWeight={disableTrackUserWeight}
+          populateUserWeightValues={populateUserWeightValues}
         />
       </div>
     </>
