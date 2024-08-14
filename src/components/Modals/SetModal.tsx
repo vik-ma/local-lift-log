@@ -34,7 +34,6 @@ type SetModalProps = {
   userSettings: UserSettings;
   exerciseList: UseExerciseListReturnType;
   numMultisetSets?: number;
-  userWeightModal?: ReturnType<typeof useDisclosure>;
 };
 
 export const SetModal = ({
@@ -52,7 +51,6 @@ export const SetModal = ({
   userSettings,
   exerciseList,
   numMultisetSets,
-  userWeightModal,
 }: SetModalProps) => {
   const [numNewSets, setNumNewSets] = useState<string>("3");
   const [multisetSetTarget, setMultisetSetTarget] = useState<string>("1");
@@ -87,7 +85,6 @@ export const SetModal = ({
                   numMultisetSets={numMultisetSets}
                   multisetSetTarget={multisetSetTarget}
                   setMultisetSetTarget={setMultisetSetTarget}
-                  userWeightModal={userWeightModal}
                 />
               )}
             </ModalBody>
