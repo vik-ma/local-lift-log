@@ -76,7 +76,6 @@ type ActiveSetProps = {
   ) => void;
   userWeight: UserWeight;
   userWeightModal: ReturnType<typeof useDisclosure>;
-  disableTrackUserWeight: () => void;
   populateUserWeightValues: () => void;
 };
 
@@ -102,7 +101,6 @@ export const ActiveSet = ({
   handleToggleSetCommentButton,
   userWeight,
   userWeightModal,
-  disableTrackUserWeight,
   populateUserWeightValues,
 }: ActiveSetProps) => {
   let setCounter = 1;
@@ -345,48 +343,6 @@ export const ActiveSet = ({
                           isUserWeightOlderThanOneWeek
                         }
                       />
-                      {activeSet.is_tracking_user_weight === 1 &&
-                        activeSet.is_completed === 0 && (
-                          <div className="flex flex-col gap-0.5 items-center justify-center">
-                            {isUserWeightInvalid ? (
-                              <>
-                                <span className="font-medium text-stone-500">
-                                  No User Weight Is Added
-                                </span>
-                                <div className="flex gap-1">
-                                  <Button
-                                    size="sm"
-                                    variant="flat"
-                                    onPress={disableTrackUserWeight}
-                                  >
-                                    Remove User Weight Tracking
-                                  </Button>
-                                  <Button
-                                    color="secondary"
-                                    size="sm"
-                                    variant="flat"
-                                    onPress={() => userWeightModal.onOpen()}
-                                  >
-                                    Add User Weight
-                                  </Button>
-                                </div>
-                              </>
-                            ) : (
-                              <>
-                                <div className="flex text-stone-600 font-medium gap-1">
-                                  <span className="text-stone-400">
-                                    Body Weight:
-                                  </span>
-                                  <span className="truncate max-w-14">
-                                    {userWeight.weight}
-                                  </span>
-                                  <span>{userWeight.weight_unit}</span>
-                                </div>
-
-                              </>
-                            )}
-                          </div>
-                        )}
                       <div className="flex justify-between">
                         <div className="flex gap-1">
                           <Button

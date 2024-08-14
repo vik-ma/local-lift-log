@@ -108,7 +108,6 @@ export default function WorkoutDetails() {
     numMultisetSets,
     userWeight,
     setUserWeight,
-    disableTrackUserWeight,
     populateUserWeightValues,
   } = useWorkoutActions(false);
 
@@ -427,7 +426,6 @@ export default function WorkoutDetails() {
           handleToggleSetCommentButton={handleToggleSetCommentButton}
           userWeight={userWeight}
           userWeightModal={userWeightModal}
-          disableTrackUserWeight={disableTrackUserWeight}
           populateUserWeightValues={populateUserWeightValues}
         />
       </div>
