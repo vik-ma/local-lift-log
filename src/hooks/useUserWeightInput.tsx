@@ -31,8 +31,13 @@ export const useUserWeightInput = (
 
   const isWeightInputValid = useIsStringValidNumber(userWeightInput);
 
-  const addUserWeight = async () => {
-    if (!isWeightInputValid) return;
+  const addUserWeight = async (): Promise<{
+    success: boolean;
+    weight: number;
+    weight_unit: string;
+  }> => {
+    if (!isWeightInputValid)
+      return { success: false, weight: 0, weight_unit: "" };
 
     const newWeight = ConvertNumberToTwoDecimals(Number(userWeightInput));
 
@@ -68,8 +73,11 @@ export const useUserWeightInput = (
 
       userWeightModal.onClose();
       toast.success("Body Weight Entry Added");
+
+      return { success: true, weight: newWeight, weight_unit: weightUnit };
     } catch (error) {
       console.log(error);
+      return { success: false, weight: 0, weight_unit: "" };
     }
   };
 
