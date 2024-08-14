@@ -16,6 +16,7 @@ type SetValueInputsProps = {
   userWeight?: UserWeight;
   userWeightModal?: ReturnType<typeof useDisclosure>;
   populateUserWeightValues?: () => void;
+  isUserWeightOlderThanOneWeek?: boolean;
 };
 
 export const SetValueInputs = ({
@@ -26,6 +27,7 @@ export const SetValueInputs = ({
   userWeight,
   userWeightModal,
   populateUserWeightValues,
+  isUserWeightOlderThanOneWeek,
 }: SetValueInputsProps) => {
   const {
     setTrackingValuesInput,
@@ -223,8 +225,8 @@ export const SetValueInputs = ({
               targetType="set-user-weight-unit"
             />
           </div>
-          {userWeight && (
-            <div>
+          {userWeight && userWeightModal && (
+            <div className="flex flex-col items-center gap-0.5">
               <Button
                 color="secondary"
                 variant="flat"
@@ -235,6 +237,20 @@ export const SetValueInputs = ({
                   ? "Enter New User Weight"
                   : "Fill In Latest User Weight Entry"}
               </Button>
+              {isUserWeightOlderThanOneWeek && (
+                <>
+                  <span className="font-medium text-sm text-danger">
+                    Body Weight Entry Is Older Than One Week
+                  </span>
+                  <Button
+                    size="sm"
+                    variant="flat"
+                    onPress={() => userWeightModal.onOpen()}
+                  >
+                    Update User Weight
+                  </Button>
+                </>
+              )}
             </div>
           )}
         </div>

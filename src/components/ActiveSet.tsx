@@ -341,6 +341,9 @@ export const ActiveSet = ({
                         userWeight={userWeight}
                         userWeightModal={userWeightModal}
                         populateUserWeightValues={populateUserWeightValues}
+                        isUserWeightOlderThanOneWeek={
+                          isUserWeightOlderThanOneWeek
+                        }
                       />
                       {activeSet.is_tracking_user_weight === 1 &&
                         activeSet.is_completed === 0 && (
@@ -379,21 +382,7 @@ export const ActiveSet = ({
                                   </span>
                                   <span>{userWeight.weight_unit}</span>
                                 </div>
-                                {isUserWeightOlderThanOneWeek && (
-                                  <div className="flex flex-col items-center gap-0.5">
-                                    <span className="font-medium text-danger">
-                                      Body Weight Entry Is Older Than One Week
-                                    </span>
-                                    <Button
-                                      color="secondary"
-                                      size="sm"
-                                      variant="flat"
-                                      onPress={() => userWeightModal.onOpen()}
-                                    >
-                                      Update User Weight
-                                    </Button>
-                                  </div>
-                                )}
+
                               </>
                             )}
                           </div>
