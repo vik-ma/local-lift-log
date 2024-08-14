@@ -5,6 +5,7 @@ import {
   Checkbox,
   Select,
   SelectItem,
+  useDisclosure,
 } from "@nextui-org/react";
 import { useState } from "react";
 import { SetValueInputs } from ".";
@@ -33,6 +34,7 @@ type SetValueConfigProps = {
   multisetSetTarget?: string;
   setMultisetSetTarget?: React.Dispatch<React.SetStateAction<string>>;
   userWeight?: UserWeight;
+  userWeightModal?: ReturnType<typeof useDisclosure>;
 };
 
 export const SetValueConfig = ({
@@ -50,6 +52,7 @@ export const SetValueConfig = ({
   multisetSetTarget,
   setMultisetSetTarget,
   userWeight,
+  userWeightModal,
 }: SetValueConfigProps) => {
   const [showDefaultValues, setShowDefaultValues] = useState<boolean>(false);
   const [showNoteInput, setShowNoteInput] = useState<boolean>(false);
@@ -271,6 +274,7 @@ export const SetValueConfig = ({
             useSetTrackingInputs={useSetTrackingInputs}
             userSettings={userSettings}
             userWeight={userWeight}
+            userWeightModal={userWeightModal}
           />
         )}
         {operationType === "add-sets-to-multiset" &&

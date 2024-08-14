@@ -6,7 +6,7 @@ import {
   UserWeight,
 } from "../typings";
 import { WeightUnitDropdown, DistanceUnitDropdown, TimeInput } from ".";
-import { Button, Input } from "@nextui-org/react";
+import { Button, Input, useDisclosure } from "@nextui-org/react";
 
 type SetValueInputsProps = {
   operatingSet: WorkoutSet;
@@ -14,6 +14,7 @@ type SetValueInputsProps = {
   useSetTrackingInputs: UseSetTrackingInputsReturnType;
   userSettings: UserSettings;
   userWeight?: UserWeight;
+  userWeightModal?: ReturnType<typeof useDisclosure>;
 };
 
 export const SetValueInputs = ({
@@ -22,6 +23,7 @@ export const SetValueInputs = ({
   useSetTrackingInputs,
   userSettings,
   userWeight,
+  userWeightModal,
 }: SetValueInputsProps) => {
   const {
     setTrackingValuesInput,
@@ -29,6 +31,8 @@ export const SetValueInputs = ({
     setInputsValidityMap,
     setIsTimeInputInvalid,
   } = useSetTrackingInputs;
+
+  const handleUserWeightButton = () => {};
 
   return (
     <div className="flex flex-wrap gap-1.5 px-1 justify-evenly">
@@ -206,7 +210,12 @@ export const SetValueInputs = ({
           </div>
           {userWeight && (
             <div>
-              <Button color="secondary" variant="flat" size="sm">
+              <Button
+                color="secondary"
+                variant="flat"
+                size="sm"
+                onPress={handleUserWeightButton}
+              >
                 {/* TODO: ADD FUNCTIONS */}
                 {userWeight.id === 0
                   ? "Add User Weight"
