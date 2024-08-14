@@ -45,6 +45,7 @@ import {
   AddNewSetsToMultiset,
   FindIndexInList,
   GetLatestUserWeight,
+  IsDateStringOlderThanOneWeek,
 } from "../helpers";
 import {
   useDefaultSet,
@@ -149,6 +150,9 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     operatingSetInputs,
     defaultPage: "multiset-list",
   });
+
+  const [isUserWeightOlderThanOneWeek, setIsUserWeightOlderThanOneWeek] =
+    useState<boolean>(false);
 
   useEffect(() => {
     const loadUserSettings = async () => {
@@ -2387,6 +2391,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     setActiveSet(updatedSet);
     activeSetInputs.setTrackingValuesInputStrings(updatedSet);
+
+    setIsUserWeightOlderThanOneWeek(
+      IsDateStringOlderThanOneWeek(userWeight.date)
+    );
   };
 
   return {
@@ -2460,5 +2468,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     userWeight,
     setUserWeight,
     populateUserWeightValues,
+    isUserWeightOlderThanOneWeek,
+    setIsUserWeightOlderThanOneWeek,
   };
 };

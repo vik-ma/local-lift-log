@@ -6,10 +6,7 @@ import {
   DropdownItem,
   useDisclosure,
 } from "@nextui-org/react";
-import {
-  ConvertDateStringToTimeString,
-  IsDateStringOlderThanOneWeek,
-} from "../helpers";
+import { ConvertDateStringToTimeString } from "../helpers";
 import {
   ChevronIcon,
   CommentIcon,
@@ -77,6 +74,7 @@ type ActiveSetProps = {
   userWeight: UserWeight;
   userWeightModal: ReturnType<typeof useDisclosure>;
   populateUserWeightValues: () => void;
+  isUserWeightOlderThanOneWeek: boolean;
 };
 
 export const ActiveSet = ({
@@ -102,6 +100,7 @@ export const ActiveSet = ({
   userWeight,
   userWeightModal,
   populateUserWeightValues,
+  isUserWeightOlderThanOneWeek,
 }: ActiveSetProps) => {
   let setCounter = 1;
   // Assign Multiset Set number
@@ -125,10 +124,6 @@ export const ActiveSet = ({
 
     return false;
   }, [activeSet, userWeight]);
-
-  const isUserWeightOlderThanOneWeek: boolean = useMemo(() => {
-    return IsDateStringOlderThanOneWeek(userWeight.date);
-  }, [userWeight]);
 
   return (
     <div>

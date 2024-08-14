@@ -109,6 +109,8 @@ export default function WorkoutDetails() {
     userWeight,
     setUserWeight,
     populateUserWeightValues,
+    isUserWeightOlderThanOneWeek,
+    setIsUserWeightOlderThanOneWeek,
   } = useWorkoutActions(false);
 
   const userWeightInputs = useUserWeightInput(
@@ -125,6 +127,7 @@ export default function WorkoutDetails() {
     if (!success) return;
 
     populateUserWeightValues(weight, weight_unit);
+    setIsUserWeightOlderThanOneWeek(false);
   };
 
   const initialized = useRef(false);
@@ -427,6 +430,7 @@ export default function WorkoutDetails() {
           userWeight={userWeight}
           userWeightModal={userWeightModal}
           populateUserWeightValues={populateUserWeightValues}
+          isUserWeightOlderThanOneWeek={isUserWeightOlderThanOneWeek}
         />
       </div>
     </>
