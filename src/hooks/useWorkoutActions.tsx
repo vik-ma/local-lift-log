@@ -2409,13 +2409,17 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     toast.success("Body Weight Tracking Removed");
   };
 
-  const populateUserWeightValues = () => {
-    if (userWeight.id === 0 || activeSet === undefined) return;
+  const populateUserWeightValues = (weight?: number, weight_unit?: string) => {
+    if (
+      activeSet === undefined ||
+      (userWeight.id < 1 && weight === undefined && weight_unit === undefined)
+    )
+      return;
 
     const updatedSet = {
       ...activeSet,
-      user_weight: userWeight.weight,
-      user_weight_unit: userWeight.weight_unit,
+      user_weight: weight ?? userWeight.weight,
+      user_weight_unit: weight_unit ?? userWeight.weight_unit,
     };
 
     setActiveSet(updatedSet);

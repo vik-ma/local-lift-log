@@ -119,6 +119,15 @@ export default function WorkoutDetails() {
     userSettings
   );
 
+  const handleUserWeightModalAddButton = async () => {
+    const { success, weight, weight_unit } =
+      await userWeightInputs.addUserWeight();
+
+    if (!success) return;
+
+    populateUserWeightValues(weight, weight_unit);
+  };
+
   const initialized = useRef(false);
 
   useEffect(() => {
@@ -361,7 +370,7 @@ export default function WorkoutDetails() {
         setWeightUnit={userWeightInputs.setWeightUnit}
         commentInput={userWeightInputs.weightCommentInput}
         setCommentInput={userWeightInputs.setWeightCommentInput}
-        buttonAction={userWeightInputs.addUserWeight}
+        buttonAction={handleUserWeightModalAddButton}
         isEditing={false}
       />
       <div className="flex flex-col">
