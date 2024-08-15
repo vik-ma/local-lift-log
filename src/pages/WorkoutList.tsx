@@ -181,8 +181,8 @@ export default function WorkoutList() {
         body={
           <p className="break-words">
             Are you sure you want to permanently delete Workout on{" "}
-            {operatingWorkout?.date}, including all Sets performed in the
-            Workout?
+            <span className="text-secondary">{operatingWorkout.date}</span>,{" "}
+            <strong>including all Sets</strong> performed in the Workout?
           </p>
         }
         deleteButtonAction={deleteWorkout}
