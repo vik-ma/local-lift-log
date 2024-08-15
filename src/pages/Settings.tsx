@@ -11,6 +11,7 @@ import {
   SelectItem,
   Button,
   useDisclosure,
+  Input,
 } from "@nextui-org/react";
 import {
   LoadingSpinner,
@@ -341,6 +342,54 @@ export default function Settings() {
               size="lg"
               isSelected={userSettings.show_workout_rating ? true : false}
               onValueChange={(value) => handleSetShowWorkoutRatingChange(value)}
+            />
+          </div>
+          <div className="flex gap-3 items-center justify-between">
+            <span className="text-lg">Default Weight Increment</span>
+            <Input
+              aria-label="Default Weight Increment Input Field"
+              className="w-[5.5rem]"
+              // value={""}
+              variant="faded"
+              // onValueChange={(value) => {}}
+              isInvalid={false}
+              isClearable
+            />
+          </div>
+          <div className="flex gap-3 items-center justify-between">
+            <span className="text-lg">Default Distance Increment</span>
+            <Input
+              aria-label="Default Distance Increment Input Field"
+              className="w-[5.5rem]"
+              // value={""}
+              variant="faded"
+              // onValueChange={(value) => {}}
+              isInvalid={false}
+              isClearable
+            />
+          </div>
+          <div className="flex gap-3 items-center justify-between">
+            <span className="text-lg">Default Time Increment</span>
+            <Input
+              aria-label="Default Time Increment Input Field"
+              className="w-[5.5rem]"
+              // value={""}
+              variant="faded"
+              // onValueChange={(value) => {}}
+              isInvalid={false}
+              isClearable
+            />
+          </div>
+          <div className="flex gap-3 items-center justify-between">
+            <span className="text-lg">Default Resistance Level Increment</span>
+            <Input
+              aria-label="Default Resistance Level Increment Input Field"
+              className="w-[5.5rem]"
+              // value={""}
+              variant="faded"
+              // onValueChange={(value) => {}}
+              isInvalid={false}
+              isClearable
             />
           </div>
           <div className="flex justify-center">
