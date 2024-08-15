@@ -26,6 +26,10 @@ diesel::table! {
         time_input_behavior_hhmmss -> Text,
         time_input_behavior_mmss -> Text,
         show_workout_rating -> SmallInt,
+        default_increment_weight -> Integer,
+        default_increment_distance -> Integer,
+        default_increment_time -> Integer,
+        default_increment_resistance_level -> Integer,
     }
 }
 

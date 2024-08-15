@@ -29,6 +29,10 @@ pub struct UserSetting {
     pub time_input_behavior_hhmmss: String,
     pub time_input_behavior_mmss: String,
     pub show_workout_rating: i16,
+    pub default_increment_weight: i32,
+    pub default_increment_distance: i32,
+    pub default_increment_time: i32,
+    pub default_increment_resistance_level: i32,
 }
 
 #[derive(Queryable, Selectable)]
