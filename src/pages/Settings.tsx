@@ -46,32 +46,28 @@ export default function Settings() {
 
   const settingsModal = useDisclosure();
 
-  const defaultDefaultIncrementInputs: DefaultIncrementInputs = useMemo(() => {
-    return {
+  const [defaultIncrementInputValues, setDefaultIncrementInputValues] =
+    useState<DefaultIncrementInputs>({
       weight: "",
       distance: "",
       time: "",
       resistanceLevel: "",
-    };
-  }, []);
-
-  const [defaultIncrementInputValues, setDefaultIncrementInputValues] =
-    useState<DefaultIncrementInputs>(defaultDefaultIncrementInputs);
+    });
 
   const defaultIncrementInputsValidityMap =
     useMemo((): DefaultIncrementInputValidityMap => {
       const values: DefaultIncrementInputValidityMap = {
-        weight: IsStringInvalidNumberOr0(defaultDefaultIncrementInputs.weight),
+        weight: IsStringInvalidNumberOr0(defaultIncrementInputValues.weight),
         distance: IsStringInvalidNumberOr0(
-          defaultDefaultIncrementInputs.distance
+          defaultIncrementInputValues.distance
         ),
-        time: IsStringInvalidNumberOr0(defaultDefaultIncrementInputs.time),
+        time: IsStringInvalidNumberOr0(defaultIncrementInputValues.time),
         resistanceLevel: IsStringInvalidNumberOr0(
-          defaultDefaultIncrementInputs.resistanceLevel
+          defaultIncrementInputValues.resistanceLevel
         ),
       };
       return values;
-    }, [defaultDefaultIncrementInputs]);
+    }, [defaultIncrementInputValues]);
 
   useEffect(() => {
     const loadUserSettings = async () => {
