@@ -24,6 +24,10 @@ export type UserSettings = {
   time_input_behavior_hhmmss: string;
   time_input_behavior_mmss: string;
   show_workout_rating: number;
+  default_increment_weight: number;
+  default_increment_distance: number;
+  default_increment_time: number;
+  default_increment_resistance_level: number;
 };
 
 export type UserSettingsOptional = {

@@ -14,6 +14,8 @@ export const CreateDefaultUserSettings = async (
   const default_unit_distance: string = useMetricUnits ? "km" : "mi";
   const default_unit_measurement: string = useMetricUnits ? "cm" : "in";
 
+  const active_tracking_measurements: string = "";
+
   const default_time_input: string = "hhmmss";
 
   const default_locale: string = LocaleList().some(
@@ -31,6 +33,11 @@ export const CreateDefaultUserSettings = async (
 
   const default_show_workout_rating: number = 1;
 
+  const default_increment_weight = 1;
+  const default_increment_distance = 1;
+  const default_increment_time = 1;
+  const default_increment_resistance_level = 1;
+
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -46,8 +53,9 @@ export const CreateDefaultUserSettings = async (
       (show_timestamp_on_completed_set, active_routine_id, default_unit_weight, 
         default_unit_distance, default_time_input, default_unit_measurement, 
         active_tracking_measurements, locale, clock_style, time_input_behavior_hhmmss, 
-        time_input_behavior_mmss, show_workout_rating) 
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)`,
+        time_input_behavior_mmss, show_workout_rating, default_increment_weight, 
+        default_increment_distance, default_increment_time, default_increment_resistance_level) 
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)`,
       [
         show_timestamp_on_completed_set,
         active_routine_id,
@@ -55,12 +63,16 @@ export const CreateDefaultUserSettings = async (
         default_unit_distance,
         default_time_input,
         default_unit_measurement,
-        "",
+        active_tracking_measurements,
         default_locale,
         default_clock_style,
         default_time_input_behavior_hhmmss,
         default_time_input_behavior_mmss,
         default_show_workout_rating,
+        default_increment_weight,
+        default_increment_distance,
+        default_increment_time,
+        default_increment_resistance_level,
       ]
     );
 
@@ -68,18 +80,22 @@ export const CreateDefaultUserSettings = async (
 
     const defaultUserSettings: UserSettings = {
       id: id,
-      show_timestamp_on_completed_set: show_timestamp_on_completed_set,
-      active_routine_id: active_routine_id,
-      default_unit_weight: default_unit_weight,
-      default_unit_distance: default_unit_distance,
-      default_time_input: default_time_input,
-      default_unit_measurement: default_unit_measurement,
-      active_tracking_measurements: "",
+      show_timestamp_on_completed_set,
+      active_routine_id,
+      default_unit_weight,
+      default_unit_distance,
+      default_time_input,
+      default_unit_measurement,
+      active_tracking_measurements,
       locale: default_locale,
       clock_style: default_clock_style,
       time_input_behavior_hhmmss: default_time_input_behavior_hhmmss,
       time_input_behavior_mmss: default_time_input_behavior_mmss,
       show_workout_rating: default_show_workout_rating,
+      default_increment_weight,
+      default_increment_distance,
+      default_increment_time,
+      default_increment_resistance_level,
     };
 
     return defaultUserSettings;
