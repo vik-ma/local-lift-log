@@ -83,6 +83,7 @@ export { IsNumberValidId } from "./Numbers/IsNumberValidId";
 export { IsStringInvalidNumberOr0 } from "./Numbers/IsStringInvalidNumberOr0";
 export { IsNumberValidIdOr0 } from "./Numbers/IsNumberValidIdOr0";
 export { IsStringInvalidIntegerOrBelowMinus1 } from "./Numbers/IsStringInvalidIntegerOrBelowMinus1";
+export { IsNumberInfinityOrBelow1 } from "./Numbers/IsNumberInfinityOrBelow1";
 
 export { GetLatestUserWeight } from "./Measurements/GetLatestUserWeight";
 export { CreateDefaultMeasurements } from "./Measurements/CreateDefaultMeasurements";

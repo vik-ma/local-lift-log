@@ -58,5 +58,7 @@ export const ValidateUserSettings = (userSettings: UserSettings): boolean => {
 
   if (IsNumberNegativeOrInfinity(userSettings.id)) return false;
 
+  if (IsNumberNegativeOrInfinity(userSettings.default_increment_weight))
+
   return true;
 };
