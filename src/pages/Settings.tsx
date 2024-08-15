@@ -4,6 +4,7 @@ import {
   GetUserSettings,
   UpdateAllUserSettings,
   CreateDefaultUserSettings,
+  IsStringInvalidNumberOr0,
 } from "../helpers";
 import {
   Switch,
@@ -27,10 +28,13 @@ import toast, { Toaster } from "react-hot-toast";
 import Database from "tauri-plugin-sql-api";
 
 type DefaultIncrementInputs = {
-  weightInput: string;
-  distanceInput: string;
-  timeInput: string;
-  resistanceLevelInput: string;
+  weight: string;
+  distance: string;
+  time: string;
+  resistanceLevel: string;
+};
+
+type DefaultIncrementInputValidityMap = {
   isWeightInputValid: boolean;
   isDistanceInputValid: boolean;
   isTimeInputValid: boolean;
@@ -44,19 +48,34 @@ export default function Settings() {
 
   const defaultDefaultIncrementInputs: DefaultIncrementInputs = useMemo(() => {
     return {
-      weightInput: "",
-      distanceInput: "",
-      timeInput: "",
-      resistanceLevelInput: "",
-      isWeightInputValid: true,
-      isDistanceInputValid: true,
-      isTimeInputValid: true,
-      isResistanceLevelInputValid: true,
+      weight: "",
+      distance: "",
+      time: "",
+      resistanceLevel: "",
     };
   }, []);
 
   const [defaultIncrementInputValues, setDefaultIncrementInputValues] =
     useState<DefaultIncrementInputs>(defaultDefaultIncrementInputs);
+
+  const defaultIncrementInputsValidityMap =
+    useMemo((): DefaultIncrementInputValidityMap => {
+      const values: DefaultIncrementInputValidityMap = {
+        isWeightInputValid: IsStringInvalidNumberOr0(
+          defaultDefaultIncrementInputs.weight
+        ),
+        isDistanceInputValid: IsStringInvalidNumberOr0(
+          defaultDefaultIncrementInputs.distance
+        ),
+        isTimeInputValid: IsStringInvalidNumberOr0(
+          defaultDefaultIncrementInputs.time
+        ),
+        isResistanceLevelInputValid: IsStringInvalidNumberOr0(
+          defaultDefaultIncrementInputs.resistanceLevel
+        ),
+      };
+      return values;
+    }, [defaultDefaultIncrementInputs]);
 
   useEffect(() => {
     const loadUserSettings = async () => {
@@ -376,15 +395,15 @@ export default function Settings() {
             <Input
               aria-label="Default Weight Increment Input Field"
               className="w-[5.5rem]"
-              value={defaultDefaultIncrementInputs.weightInput}
+              value={defaultDefaultIncrementInputs.weight}
               variant="faded"
               onValueChange={(value) =>
                 setDefaultIncrementInputValues({
                   ...defaultIncrementInputValues,
-                  weightInput: value,
+                  weight: value,
                 })
               }
-              isInvalid={defaultDefaultIncrementInputs.isWeightInputValid}
+              isInvalid={defaultIncrementInputsValidityMap.isWeightInputValid}
               isClearable
             />
           </div>
@@ -393,15 +412,15 @@ export default function Settings() {
             <Input
               aria-label="Default Distance Increment Input Field"
               className="w-[5.5rem]"
-              value={defaultDefaultIncrementInputs.distanceInput}
+              value={defaultDefaultIncrementInputs.distance}
               variant="faded"
               onValueChange={(value) =>
                 setDefaultIncrementInputValues({
                   ...defaultIncrementInputValues,
-                  distanceInput: value,
+                  distance: value,
                 })
               }
-              isInvalid={defaultDefaultIncrementInputs.isDistanceInputValid}
+              isInvalid={defaultIncrementInputsValidityMap.isDistanceInputValid}
               isClearable
             />
           </div>
@@ -410,15 +429,15 @@ export default function Settings() {
             <Input
               aria-label="Default Time Increment Input Field"
               className="w-[5.5rem]"
-              value={defaultDefaultIncrementInputs.timeInput}
+              value={defaultDefaultIncrementInputs.time}
               variant="faded"
               onValueChange={(value) =>
                 setDefaultIncrementInputValues({
                   ...defaultIncrementInputValues,
-                  timeInput: value,
+                  time: value,
                 })
               }
-              isInvalid={defaultDefaultIncrementInputs.isTimeInputValid}
+              isInvalid={defaultIncrementInputsValidityMap.isTimeInputValid}
               isClearable
             />
           </div>
@@ -427,16 +446,16 @@ export default function Settings() {
             <Input
               aria-label="Default Resistance Level Increment Input Field"
               className="w-[5.5rem]"
-              value={defaultDefaultIncrementInputs.resistanceLevelInput}
+              value={defaultDefaultIncrementInputs.resistanceLevel}
               variant="faded"
               onValueChange={(value) =>
                 setDefaultIncrementInputValues({
                   ...defaultIncrementInputValues,
-                  resistanceLevelInput: value,
+                  resistanceLevel: value,
                 })
               }
               isInvalid={
-                defaultDefaultIncrementInputs.isResistanceLevelInputValid
+                defaultIncrementInputsValidityMap.isResistanceLevelInputValid
               }
               isClearable
             />
