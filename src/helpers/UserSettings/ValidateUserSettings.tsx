@@ -10,6 +10,7 @@ import {
   LocaleList,
   ValidClockStyles,
   ValidTimeInputBehaviors,
+  IsNumberInfinityOrBelow1,
 } from "..";
 
 export const ValidateUserSettings = (userSettings: UserSettings): boolean => {
@@ -58,7 +59,13 @@ export const ValidateUserSettings = (userSettings: UserSettings): boolean => {
 
   if (IsNumberNegativeOrInfinity(userSettings.id)) return false;
 
-  if (IsNumberNegativeOrInfinity(userSettings.default_increment_weight))
+  if (IsNumberInfinityOrBelow1(userSettings.default_increment_weight)) return false;
+
+  if (IsNumberInfinityOrBelow1(userSettings.default_increment_distance)) return false;
+
+  if (IsNumberInfinityOrBelow1(userSettings.default_increment_time)) return false;
+
+  if (IsNumberInfinityOrBelow1(userSettings.default_increment_resistance_level)) return false;
 
   return true;
 };
