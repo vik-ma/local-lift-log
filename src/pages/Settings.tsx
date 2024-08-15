@@ -72,7 +72,16 @@ export default function Settings() {
   useEffect(() => {
     const loadUserSettings = async () => {
       const settings: UserSettings | undefined = await GetUserSettings();
-      if (settings !== undefined) setUserSettings(settings);
+      if (settings !== undefined) {
+        setUserSettings(settings);
+        setDefaultIncrementInputValues({
+          weight: settings.default_increment_weight.toString(),
+          distance: settings.default_increment_distance.toString(),
+          time: settings.default_increment_time.toString(),
+          resistanceLevel:
+            settings.default_increment_resistance_level.toString(),
+        });
+      }
     };
 
     loadUserSettings();
