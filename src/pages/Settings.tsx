@@ -35,10 +35,10 @@ type DefaultIncrementInputs = {
 };
 
 type DefaultIncrementInputValidityMap = {
-  isWeightInputValid: boolean;
-  isDistanceInputValid: boolean;
-  isTimeInputValid: boolean;
-  isResistanceLevelInputValid: boolean;
+  weight: boolean;
+  distance: boolean;
+  time: boolean;
+  resistanceLevel: boolean;
 };
 
 export default function Settings() {
@@ -61,16 +61,12 @@ export default function Settings() {
   const defaultIncrementInputsValidityMap =
     useMemo((): DefaultIncrementInputValidityMap => {
       const values: DefaultIncrementInputValidityMap = {
-        isWeightInputValid: IsStringInvalidNumberOr0(
-          defaultDefaultIncrementInputs.weight
-        ),
-        isDistanceInputValid: IsStringInvalidNumberOr0(
+        weight: IsStringInvalidNumberOr0(defaultDefaultIncrementInputs.weight),
+        distance: IsStringInvalidNumberOr0(
           defaultDefaultIncrementInputs.distance
         ),
-        isTimeInputValid: IsStringInvalidNumberOr0(
-          defaultDefaultIncrementInputs.time
-        ),
-        isResistanceLevelInputValid: IsStringInvalidNumberOr0(
+        time: IsStringInvalidNumberOr0(defaultDefaultIncrementInputs.time),
+        resistanceLevel: IsStringInvalidNumberOr0(
           defaultDefaultIncrementInputs.resistanceLevel
         ),
       };
@@ -395,15 +391,15 @@ export default function Settings() {
             <Input
               aria-label="Default Weight Increment Input Field"
               className="w-[5.5rem]"
-              value={defaultDefaultIncrementInputs.weight}
+              value={defaultIncrementInputValues.weight}
               variant="faded"
               onValueChange={(value) =>
-                setDefaultIncrementInputValues({
-                  ...defaultIncrementInputValues,
+                setDefaultIncrementInputValues((prev) => ({
+                  ...prev,
                   weight: value,
-                })
+                }))
               }
-              isInvalid={defaultIncrementInputsValidityMap.isWeightInputValid}
+              isInvalid={defaultIncrementInputsValidityMap.weight}
               isClearable
             />
           </div>
@@ -412,7 +408,7 @@ export default function Settings() {
             <Input
               aria-label="Default Distance Increment Input Field"
               className="w-[5.5rem]"
-              value={defaultDefaultIncrementInputs.distance}
+              value={defaultIncrementInputValues.distance}
               variant="faded"
               onValueChange={(value) =>
                 setDefaultIncrementInputValues({
@@ -420,7 +416,7 @@ export default function Settings() {
                   distance: value,
                 })
               }
-              isInvalid={defaultIncrementInputsValidityMap.isDistanceInputValid}
+              isInvalid={defaultIncrementInputsValidityMap.distance}
               isClearable
             />
           </div>
@@ -429,7 +425,7 @@ export default function Settings() {
             <Input
               aria-label="Default Time Increment Input Field"
               className="w-[5.5rem]"
-              value={defaultDefaultIncrementInputs.time}
+              value={defaultIncrementInputValues.time}
               variant="faded"
               onValueChange={(value) =>
                 setDefaultIncrementInputValues({
@@ -437,7 +433,7 @@ export default function Settings() {
                   time: value,
                 })
               }
-              isInvalid={defaultIncrementInputsValidityMap.isTimeInputValid}
+              isInvalid={defaultIncrementInputsValidityMap.time}
               isClearable
             />
           </div>
@@ -446,7 +442,7 @@ export default function Settings() {
             <Input
               aria-label="Default Resistance Level Increment Input Field"
               className="w-[5.5rem]"
-              value={defaultDefaultIncrementInputs.resistanceLevel}
+              value={defaultIncrementInputValues.resistanceLevel}
               variant="faded"
               onValueChange={(value) =>
                 setDefaultIncrementInputValues({
@@ -454,9 +450,7 @@ export default function Settings() {
                   resistanceLevel: value,
                 })
               }
-              isInvalid={
-                defaultIncrementInputsValidityMap.isResistanceLevelInputValid
-              }
+              isInvalid={defaultIncrementInputsValidityMap.resistanceLevel}
               isClearable
             />
           </div>
