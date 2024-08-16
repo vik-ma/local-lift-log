@@ -24,6 +24,7 @@ import {
   ClockStyleDropdown,
   TimeInputBehaviorDropdown,
   SettingsModal,
+  TimeInput,
 } from "../components";
 import toast, { Toaster } from "react-hot-toast";
 import Database from "tauri-plugin-sql-api";
@@ -537,20 +538,17 @@ export default function Settings() {
           <div className="flex gap-3 items-center justify-between">
             <span className="text-lg">Time</span>
             <div className="flex gap-2 items-center">
-              {/* <Input
-                aria-label="Default Time Increment Input Field"
-                className="w-[3.5rem]"
-                size="sm"
-                value={defaultIncrementInputValues.time}
-                variant="faded"
-                onValueChange={(value) =>
-                  setDefaultIncrementInputValues({
-                    ...defaultIncrementInputValues,
-                    time: value,
-                  })
+              <TimeInput
+                defaultTimeInput={userSettings.default_time_input}
+                time_input_behavior_hhmmss={
+                  userSettings.time_input_behavior_hhmmss
                 }
-                isInvalid={defaultIncrementInputsValidityMap.time}
-              /> */}
+                time_input_behavior_mmss={userSettings.time_input_behavior_mmss}
+                defaultIncrementInputValues={defaultIncrementInputValues}
+                setDefaultIncrementInputValues={setDefaultIncrementInputValues}
+                isClearable={false}
+                isSmall={true}
+              />
               <Button
                 color="primary"
                 size="sm"

@@ -21,6 +21,8 @@ type TimeInputProps = {
   setDefaultIncrementInputValues?: React.Dispatch<
     React.SetStateAction<DefaultIncrementInputs>
   >;
+  isClearable?: boolean;
+  isSmall?: boolean;
 };
 
 type HhmmssInput = {
@@ -47,6 +49,8 @@ export const TimeInput = ({
   setIsInvalid,
   defaultIncrementInputValues,
   setDefaultIncrementInputValues,
+  isClearable = true,
+  isSmall = false,
 }: TimeInputProps) => {
   const [inputType, setInputType] = useState<string>(defaultTimeInput);
 
@@ -308,13 +312,14 @@ export const TimeInput = ({
 
   return (
     <div className="flex justify-between gap-1">
-      <div className="flex">
+      <div className="flex items-center">
         {inputType === "hhmmss" && (
-          <div className="flex gap-1 w-full">
+          <div className="flex items-center gap-1 w-full">
             <Input
               aria-label="Hours Input Field"
               variant="faded"
-              isClearable
+              size={isSmall ? "sm" : "md"}
+              isClearable={isClearable}
               value={hhmmssInput.hours}
               onValueChange={(value) =>
                 handleHhmmssInputChange({
@@ -328,7 +333,8 @@ export const TimeInput = ({
             <Input
               aria-label="Minutes Input Field"
               variant="faded"
-              isClearable
+              size={isSmall ? "sm" : "md"}
+              isClearable={isClearable}
               value={hhmmssInput.minutes}
               onValueChange={(value) =>
                 handleHhmmssInputChange({
@@ -342,7 +348,8 @@ export const TimeInput = ({
             <Input
               aria-label="Seconds Input Field"
               variant="faded"
-              isClearable
+              size={isSmall ? "sm" : "md"}
+              isClearable={isClearable}
               value={hhmmssInput.seconds}
               onValueChange={(value) =>
                 handleHhmmssInputChange({
@@ -356,11 +363,12 @@ export const TimeInput = ({
           </div>
         )}
         {inputType === "mmss" && (
-          <div className="flex gap-1 w-full">
+          <div className="flex items-center gap-1 w-full">
             <Input
               aria-label="Minutes Input Field"
               variant="faded"
-              isClearable
+              size={isSmall ? "sm" : "md"}
+              isClearable={isClearable}
               value={mmssInput.minutes}
               onValueChange={(value) =>
                 handleMmssInputChange({
@@ -374,7 +382,8 @@ export const TimeInput = ({
             <Input
               aria-label="Seconds Input Field"
               variant="faded"
-              isClearable
+              size={isSmall ? "sm" : "md"}
+              isClearable={isClearable}
               value={mmssInput.seconds}
               onValueChange={(value) =>
                 handleMmssInputChange({
@@ -391,7 +400,8 @@ export const TimeInput = ({
           <Input
             aria-label="Minutes Input Field"
             variant="faded"
-            isClearable
+            size={isSmall ? "sm" : "md"}
+            isClearable={isClearable}
             value={minutesInput}
             onValueChange={(value) => handleMinutesInputChange(value)}
             isInvalid={isMinutesInputInvalid}
@@ -401,7 +411,8 @@ export const TimeInput = ({
           <Input
             aria-label="Seconds Input Field"
             variant="faded"
-            isClearable
+            size={isSmall ? "sm" : "md"}
+            isClearable={isClearable}
             value={secondsInput}
             onValueChange={(value) => handleSecondsInputChange(value)}
             isInvalid={isSecondsInputInvalid}
@@ -412,6 +423,7 @@ export const TimeInput = ({
         <Select
           aria-label="Time Input Type Dropdown List"
           className="w-32"
+          size={isSmall ? "sm" : "md"}
           variant="faded"
           selectedKeys={[inputType]}
           onChange={(e) => setInputType(e.target.value)}
