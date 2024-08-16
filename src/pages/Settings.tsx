@@ -98,13 +98,18 @@ export default function Settings() {
     loadUserSettings();
   }, []);
 
-  const updateSettings = async (updatedSettings: UserSettings) => {
+  const updateSettings = async (
+    updatedSettings: UserSettings
+  ): Promise<boolean> => {
     const success = await UpdateAllUserSettings(updatedSettings);
 
     if (success) {
       setUserSettings(updatedSettings);
       toast.success("Setting Updated");
+      return true;
     }
+
+    return false;
   };
 
   const handleSetShowTimestampChange = async (value: boolean) => {
@@ -236,6 +241,74 @@ export default function Settings() {
     };
 
     updateSettings(updatedSettings);
+  };
+
+  const handleDefaultIncrementValueChange = async (key: string) => {
+    if (userSettings === undefined) return;
+
+    const updatedSettings = {
+      ...userSettings,
+    };
+
+    const updatedOriginalValues = { ...defaultIncrementOriginalValues };
+
+    if (key === "weight") {
+      if (
+        defaultIncrementInputsValidityMap.weight ||
+        defaultIncrementOriginalValues.weight ===
+          defaultIncrementInputValues.weight
+      )
+        return;
+
+      updatedSettings.default_increment_weight = Number(
+        defaultIncrementInputValues.weight
+      );
+
+      updatedOriginalValues.weight = defaultIncrementInputValues.weight;
+    } else if (key === "distance") {
+      if (
+        defaultIncrementInputsValidityMap.distance ||
+        defaultIncrementOriginalValues.distance ===
+          defaultIncrementInputValues.distance
+      )
+        return;
+
+      updatedSettings.default_increment_distance = Number(
+        defaultIncrementInputValues.distance
+      );
+
+      updatedOriginalValues.distance = defaultIncrementInputValues.distance;
+    } else if (key === "time") {
+      if (
+        defaultIncrementInputsValidityMap.time ||
+        defaultIncrementOriginalValues.time === defaultIncrementInputValues.time
+      )
+        return;
+
+      updatedSettings.default_increment_time = Number(
+        defaultIncrementInputValues.time
+      );
+
+      updatedOriginalValues.time = defaultIncrementInputValues.time;
+    } else if (key === "resistance-level") {
+      if (
+        defaultIncrementInputsValidityMap.resistanceLevel ||
+        defaultIncrementOriginalValues.resistanceLevel ===
+          defaultIncrementInputValues.resistanceLevel
+      )
+        return;
+
+      updatedSettings.default_increment_resistance_level = Number(
+        defaultIncrementInputValues.resistanceLevel
+      );
+
+      updatedOriginalValues.resistanceLevel =
+        defaultIncrementInputValues.resistanceLevel;
+    } else return;
+
+    const success = await updateSettings(updatedSettings);
+
+    if (success) setDefaultIncrementOriginalValues(updatedOriginalValues);
   };
 
   const restoreDefaultSettings = async (
@@ -429,6 +502,7 @@ export default function Settings() {
                   defaultIncrementOriginalValues.weight ===
                     defaultIncrementInputValues.weight
                 }
+                onPress={() => handleDefaultIncrementValueChange("weight")}
               >
                 Change
               </Button>
@@ -458,6 +532,7 @@ export default function Settings() {
                   defaultIncrementOriginalValues.distance ===
                     defaultIncrementInputValues.distance
                 }
+                onPress={() => handleDefaultIncrementValueChange("distance")}
               >
                 Change
               </Button>
@@ -487,6 +562,7 @@ export default function Settings() {
                   defaultIncrementOriginalValues.time ===
                     defaultIncrementInputValues.time
                 }
+                onPress={() => handleDefaultIncrementValueChange("time")}
               >
                 Change
               </Button>
@@ -515,6 +591,9 @@ export default function Settings() {
                   defaultIncrementInputsValidityMap.resistanceLevel ||
                   defaultIncrementOriginalValues.resistanceLevel ===
                     defaultIncrementInputValues.resistanceLevel
+                }
+                onPress={() =>
+                  handleDefaultIncrementValueChange("resistance-level")
                 }
               >
                 Change
