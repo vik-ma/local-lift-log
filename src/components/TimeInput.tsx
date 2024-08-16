@@ -172,7 +172,7 @@ export const TimeInput = ({
     if (IsNumberNegativeOrInfinity(seconds) || !Number.isInteger(seconds))
       return;
 
-    setSet((prev) => ({ ...prev, time_in_seconds: seconds }));
+    updateValue(seconds);
   };
 
   const handleMinutesInputChange = (value: string) => {
@@ -183,7 +183,7 @@ export const TimeInput = ({
 
     const seconds: number = convertMinutesToSeconds(minutes);
 
-    setSet((prev) => ({ ...prev, time_in_seconds: seconds }));
+    updateValue(seconds);
   };
 
   const convertMinutesToSeconds = (minutes: number): number => {
@@ -222,7 +222,7 @@ export const TimeInput = ({
 
     const timeInSeconds = convertHhmmssToSeconds(hours, minutes, seconds);
 
-    setSet((prev) => ({ ...prev, time_in_seconds: timeInSeconds }));
+    updateValue(timeInSeconds);
 
     // Don't move focus
     if (time_input_behavior_hhmmss === "never") return;
@@ -263,7 +263,7 @@ export const TimeInput = ({
 
     const timeInSeconds = convertMmssToSeconds(minutes, seconds);
 
-    setSet((prev) => ({ ...prev, time_in_seconds: timeInSeconds }));
+    updateValue(timeInSeconds);
 
     // Don't move focus
     if (time_input_behavior_mmss === "never") return;
@@ -276,6 +276,10 @@ export const TimeInput = ({
     ) {
       mmssSecondsInput.current.focus();
     }
+  };
+
+  const updateValue = (seconds: number) => {
+    setSet((prev) => ({ ...prev, time_in_seconds: seconds }));
   };
 
   useEffect(() => {
