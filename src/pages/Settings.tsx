@@ -391,73 +391,88 @@ export default function Settings() {
               onValueChange={(value) => handleSetShowWorkoutRatingChange(value)}
             />
           </div>
+          <h3 className="flex justify-center text-lg font-medium">
+            Default Increments
+          </h3>
           <div className="flex gap-3 items-center justify-between">
-            <span className="text-lg">Default Weight Increment</span>
-            <Input
-              aria-label="Default Weight Increment Input Field"
-              className="w-[5.5rem]"
-              value={defaultIncrementInputValues.weight}
-              variant="faded"
-              onValueChange={(value) =>
-                setDefaultIncrementInputValues((prev) => ({
-                  ...prev,
-                  weight: value,
-                }))
-              }
-              isInvalid={defaultIncrementInputsValidityMap.weight}
-              isClearable
-            />
+            <span className="text-lg">Weight</span>
+            <div className="flex gap-2">
+              <Input
+                aria-label="Default Weight Increment Input Field"
+                className="w-[5.5rem]"
+                value={defaultIncrementInputValues.weight}
+                variant="faded"
+                onValueChange={(value) =>
+                  setDefaultIncrementInputValues((prev) => ({
+                    ...prev,
+                    weight: value,
+                  }))
+                }
+                isInvalid={defaultIncrementInputsValidityMap.weight}
+                isClearable
+              />
+              <Button color="primary">Change</Button>
+            </div>
           </div>
           <div className="flex gap-3 items-center justify-between">
-            <span className="text-lg">Default Distance Increment</span>
-            <Input
-              aria-label="Default Distance Increment Input Field"
-              className="w-[5.5rem]"
-              value={defaultIncrementInputValues.distance}
-              variant="faded"
-              onValueChange={(value) =>
-                setDefaultIncrementInputValues({
-                  ...defaultIncrementInputValues,
-                  distance: value,
-                })
-              }
-              isInvalid={defaultIncrementInputsValidityMap.distance}
-              isClearable
-            />
+            <span className="text-lg">Distance</span>
+            <div className="flex gap-2">
+              <Input
+                aria-label="Default Distance Increment Input Field"
+                className="w-[5.5rem]"
+                value={defaultIncrementInputValues.distance}
+                variant="faded"
+                onValueChange={(value) =>
+                  setDefaultIncrementInputValues({
+                    ...defaultIncrementInputValues,
+                    distance: value,
+                  })
+                }
+                isInvalid={defaultIncrementInputsValidityMap.distance}
+                isClearable
+              />
+              <Button color="primary">Change</Button>
+            </div>
           </div>
           <div className="flex gap-3 items-center justify-between">
-            <span className="text-lg">Default Time Increment</span>
-            <Input
-              aria-label="Default Time Increment Input Field"
-              className="w-[5.5rem]"
-              value={defaultIncrementInputValues.time}
-              variant="faded"
-              onValueChange={(value) =>
-                setDefaultIncrementInputValues({
-                  ...defaultIncrementInputValues,
-                  time: value,
-                })
-              }
-              isInvalid={defaultIncrementInputsValidityMap.time}
-              isClearable
-            />
+            <span className="text-lg">Time</span>
+            <div className="flex gap-2">
+              <Input
+                aria-label="Default Time Increment Input Field"
+                className="w-[5.5rem]"
+                value={defaultIncrementInputValues.time}
+                variant="faded"
+                onValueChange={(value) =>
+                  setDefaultIncrementInputValues({
+                    ...defaultIncrementInputValues,
+                    time: value,
+                  })
+                }
+                isInvalid={defaultIncrementInputsValidityMap.time}
+                isClearable
+              />
+              <Button color="primary">Change</Button>
+            </div>
           </div>
           <div className="flex gap-3 items-center justify-between">
-            <span className="text-lg">Default Resistance Level Increment</span>
-            <Input
-              aria-label="Default Resistance Level Increment Input Field"
-              className="w-[5.5rem]"
-              value={defaultIncrementInputValues.resistanceLevel}
-              variant="faded"
-              onValueChange={(value) =>
-                setDefaultIncrementInputValues({
-                  ...defaultIncrementInputValues,
-                  resistanceLevel: value,
-                })
-              }
-              isInvalid={defaultIncrementInputsValidityMap.resistanceLevel}
-              isClearable
-            />
+            <span className="text-lg">Resistance Level</span>
+            <div className="flex gap-2">
+              <Input
+                aria-label="Default Resistance Level Increment Input Field"
+                className="w-[5.5rem]"
+                value={defaultIncrementInputValues.resistanceLevel}
+                variant="faded"
+                onValueChange={(value) =>
+                  setDefaultIncrementInputValues({
+                    ...defaultIncrementInputValues,
+                    resistanceLevel: value,
+                  })
+                }
+                isInvalid={defaultIncrementInputsValidityMap.resistanceLevel}
+                isClearable
+              />
+              <Button color="primary">Change</Button>
+            </div>
           </div>
           <div className="flex justify-center">
             <Button
