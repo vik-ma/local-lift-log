@@ -46,13 +46,20 @@ export default function Settings() {
 
   const settingsModal = useDisclosure();
 
-  const [defaultIncrementInputValues, setDefaultIncrementInputValues] =
-    useState<DefaultIncrementInputs>({
+  const emptyDefaultIncrementValues: DefaultIncrementInputs = useMemo(() => {
+    return {
       weight: "",
       distance: "",
       time: "",
       resistanceLevel: "",
-    });
+    };
+  }, []);
+
+  const [defaultIncrementInputValues, setDefaultIncrementInputValues] =
+    useState<DefaultIncrementInputs>(emptyDefaultIncrementValues);
+
+  const [defaultIncrementOriginalValues, setDefaultIncrementOriginalValues] =
+    useState<DefaultIncrementInputs>(emptyDefaultIncrementValues);
 
   const defaultIncrementInputsValidityMap =
     useMemo((): DefaultIncrementInputValidityMap => {
@@ -74,13 +81,17 @@ export default function Settings() {
       const settings: UserSettings | undefined = await GetUserSettings();
       if (settings !== undefined) {
         setUserSettings(settings);
-        setDefaultIncrementInputValues({
+
+        const defaultIncrementValues: DefaultIncrementInputs = {
           weight: settings.default_increment_weight.toString(),
           distance: settings.default_increment_distance.toString(),
           time: settings.default_increment_time.toString(),
           resistanceLevel:
             settings.default_increment_resistance_level.toString(),
-        });
+        };
+
+        setDefaultIncrementInputValues(defaultIncrementValues);
+        setDefaultIncrementOriginalValues({ ...defaultIncrementValues });
       }
     };
 
@@ -411,7 +422,16 @@ export default function Settings() {
                 isInvalid={defaultIncrementInputsValidityMap.weight}
                 isClearable
               />
-              <Button color="primary">Change</Button>
+              <Button
+                color="primary"
+                isDisabled={
+                  defaultIncrementInputsValidityMap.weight ||
+                  defaultIncrementOriginalValues.weight ===
+                    defaultIncrementInputValues.weight
+                }
+              >
+                Change
+              </Button>
             </div>
           </div>
           <div className="flex gap-3 items-center justify-between">
@@ -431,7 +451,16 @@ export default function Settings() {
                 isInvalid={defaultIncrementInputsValidityMap.distance}
                 isClearable
               />
-              <Button color="primary">Change</Button>
+              <Button
+                color="primary"
+                isDisabled={
+                  defaultIncrementInputsValidityMap.distance ||
+                  defaultIncrementOriginalValues.distance ===
+                    defaultIncrementInputValues.distance
+                }
+              >
+                Change
+              </Button>
             </div>
           </div>
           <div className="flex gap-3 items-center justify-between">
@@ -451,7 +480,16 @@ export default function Settings() {
                 isInvalid={defaultIncrementInputsValidityMap.time}
                 isClearable
               />
-              <Button color="primary">Change</Button>
+              <Button
+                color="primary"
+                isDisabled={
+                  defaultIncrementInputsValidityMap.time ||
+                  defaultIncrementOriginalValues.time ===
+                    defaultIncrementInputValues.time
+                }
+              >
+                Change
+              </Button>
             </div>
           </div>
           <div className="flex gap-3 items-center justify-between">
@@ -471,7 +509,16 @@ export default function Settings() {
                 isInvalid={defaultIncrementInputsValidityMap.resistanceLevel}
                 isClearable
               />
-              <Button color="primary">Change</Button>
+              <Button
+                color="primary"
+                isDisabled={
+                  defaultIncrementInputsValidityMap.resistanceLevel ||
+                  defaultIncrementOriginalValues.resistanceLevel ===
+                    defaultIncrementInputValues.resistanceLevel
+                }
+              >
+                Change
+              </Button>
             </div>
           </div>
           <div className="flex justify-center">
