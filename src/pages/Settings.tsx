@@ -483,7 +483,7 @@ export default function Settings() {
             <div className="flex gap-2">
               <Input
                 aria-label="Default Weight Increment Input Field"
-                className="w-[5.5rem]"
+                className="w-[4rem]"
                 value={defaultIncrementInputValues.weight}
                 variant="faded"
                 onValueChange={(value) =>
@@ -493,7 +493,6 @@ export default function Settings() {
                   }))
                 }
                 isInvalid={defaultIncrementInputsValidityMap.weight}
-                isClearable
               />
               <Button
                 color="primary"
@@ -513,7 +512,7 @@ export default function Settings() {
             <div className="flex gap-2">
               <Input
                 aria-label="Default Distance Increment Input Field"
-                className="w-[5.5rem]"
+                className="w-[4rem]"
                 value={defaultIncrementInputValues.distance}
                 variant="faded"
                 onValueChange={(value) =>
@@ -523,7 +522,6 @@ export default function Settings() {
                   })
                 }
                 isInvalid={defaultIncrementInputsValidityMap.distance}
-                isClearable
               />
               <Button
                 color="primary"
@@ -543,7 +541,7 @@ export default function Settings() {
             <div className="flex gap-2">
               <Input
                 aria-label="Default Time Increment Input Field"
-                className="w-[5.5rem]"
+                className="w-[4rem]"
                 value={defaultIncrementInputValues.time}
                 variant="faded"
                 onValueChange={(value) =>
@@ -553,7 +551,6 @@ export default function Settings() {
                   })
                 }
                 isInvalid={defaultIncrementInputsValidityMap.time}
-                isClearable
               />
               <Button
                 color="primary"
@@ -573,7 +570,7 @@ export default function Settings() {
             <div className="flex gap-2">
               <Input
                 aria-label="Default Resistance Level Increment Input Field"
-                className="w-[5.5rem]"
+                className="w-[4rem]"
                 value={defaultIncrementInputValues.resistanceLevel}
                 variant="faded"
                 onValueChange={(value) =>
@@ -583,7 +580,6 @@ export default function Settings() {
                   })
                 }
                 isInvalid={defaultIncrementInputsValidityMap.resistanceLevel}
-                isClearable
               />
               <Button
                 color="primary"
