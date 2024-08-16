@@ -480,10 +480,11 @@ export default function Settings() {
           </h3>
           <div className="flex gap-3 items-center justify-between">
             <span className="text-lg">Weight</span>
-            <div className="flex gap-2">
+            <div className="flex gap-2 items-center">
               <Input
                 aria-label="Default Weight Increment Input Field"
-                className="w-[4rem]"
+                className="w-[3.5rem]"
+                size="sm"
                 value={defaultIncrementInputValues.weight}
                 variant="faded"
                 onValueChange={(value) =>
@@ -496,6 +497,7 @@ export default function Settings() {
               />
               <Button
                 color="primary"
+                size="sm"
                 isDisabled={
                   defaultIncrementInputsValidityMap.weight ||
                   defaultIncrementOriginalValues.weight ===
@@ -509,10 +511,11 @@ export default function Settings() {
           </div>
           <div className="flex gap-3 items-center justify-between">
             <span className="text-lg">Distance</span>
-            <div className="flex gap-2">
+            <div className="flex gap-2 items-center">
               <Input
                 aria-label="Default Distance Increment Input Field"
-                className="w-[4rem]"
+                className="w-[3.5rem]"
+                size="sm"
                 value={defaultIncrementInputValues.distance}
                 variant="faded"
                 onValueChange={(value) =>
@@ -525,6 +528,7 @@ export default function Settings() {
               />
               <Button
                 color="primary"
+                size="sm"
                 isDisabled={
                   defaultIncrementInputsValidityMap.distance ||
                   defaultIncrementOriginalValues.distance ===
@@ -538,10 +542,11 @@ export default function Settings() {
           </div>
           <div className="flex gap-3 items-center justify-between">
             <span className="text-lg">Time</span>
-            <div className="flex gap-2">
+            <div className="flex gap-2 items-center">
               <Input
                 aria-label="Default Time Increment Input Field"
-                className="w-[4rem]"
+                className="w-[3.5rem]"
+                size="sm"
                 value={defaultIncrementInputValues.time}
                 variant="faded"
                 onValueChange={(value) =>
@@ -554,6 +559,7 @@ export default function Settings() {
               />
               <Button
                 color="primary"
+                size="sm"
                 isDisabled={
                   defaultIncrementInputsValidityMap.time ||
                   defaultIncrementOriginalValues.time ===
@@ -567,10 +573,11 @@ export default function Settings() {
           </div>
           <div className="flex gap-3 items-center justify-between">
             <span className="text-lg">Resistance Level</span>
-            <div className="flex gap-2">
+            <div className="flex gap-2 items-center">
               <Input
                 aria-label="Default Resistance Level Increment Input Field"
-                className="w-[4rem]"
+                className="w-[3.5rem]"
+                size="sm"
                 value={defaultIncrementInputValues.resistanceLevel}
                 variant="faded"
                 onValueChange={(value) =>
@@ -583,6 +590,7 @@ export default function Settings() {
               />
               <Button
                 color="primary"
+                size="sm"
                 isDisabled={
                   defaultIncrementInputsValidityMap.resistanceLevel ||
                   defaultIncrementOriginalValues.resistanceLevel ===
