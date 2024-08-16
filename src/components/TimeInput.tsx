@@ -1,5 +1,5 @@
 import { Input, Select, SelectItem } from "@nextui-org/react";
-import { WorkoutSet } from "../typings";
+import { WorkoutSet, DefaultIncrementInputs } from "../typings";
 import { useState, useMemo, useEffect, useRef } from "react";
 import {
   ConvertNumberToTwoDecimals,
@@ -17,6 +17,10 @@ type TimeInputProps = {
   set?: WorkoutSet;
   setSet?: React.Dispatch<React.SetStateAction<WorkoutSet>>;
   setIsInvalid?: React.Dispatch<React.SetStateAction<boolean>>;
+  defaultIncrementInputValues?: DefaultIncrementInputs;
+  setDefaultIncrementInputValues?: React.Dispatch<
+    React.SetStateAction<DefaultIncrementInputs>
+  >;
 };
 
 type HhmmssInput = {
@@ -35,12 +39,14 @@ type TimeInputBehaviorMapType = {
 };
 
 export const TimeInput = ({
-  set,
-  setSet,
   defaultTimeInput,
-  setIsInvalid,
   time_input_behavior_hhmmss,
   time_input_behavior_mmss,
+  set,
+  setSet,
+  setIsInvalid,
+  defaultIncrementInputValues,
+  setDefaultIncrementInputValues,
 }: TimeInputProps) => {
   const [inputType, setInputType] = useState<string>(defaultTimeInput);
 
@@ -268,13 +274,24 @@ export const TimeInput = ({
     if (setSet !== undefined) {
       setSet((prev) => ({ ...prev, time_in_seconds: seconds }));
     }
+
+    if (setDefaultIncrementInputValues !== undefined) {
+      setDefaultIncrementInputValues((prev) => ({
+        ...prev,
+        time: seconds,
+      }));
+    }
   };
 
   useEffect(() => {
     if (set !== undefined) {
       setTimeInSeconds(set.time_in_seconds);
     }
-  }, [set]);
+
+    if (defaultIncrementInputValues !== undefined) {
+      setTimeInSeconds(defaultIncrementInputValues.time);
+    }
+  }, [set, defaultIncrementInputValues]);
 
   useEffect(() => {
     setSecondsInput(timeInSeconds === 0 ? "" : timeInSeconds.toString());

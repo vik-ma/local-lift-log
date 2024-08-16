@@ -374,3 +374,10 @@ export type BodyMeasurementsOperationType =
   | "delete-weight"
   | "edit-measurements"
   | "delete-measurements";
+
+export type DefaultIncrementInputs = {
+  weight: string;
+  distance: string;
+  time: number;
+  resistanceLevel: string;
+};

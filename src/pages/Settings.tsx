@@ -1,10 +1,11 @@
 import { useState, useEffect, useMemo } from "react";
-import { UserSettings } from "../typings";
+import { UserSettings, DefaultIncrementInputs } from "../typings";
 import {
   GetUserSettings,
   UpdateAllUserSettings,
   CreateDefaultUserSettings,
   IsStringInvalidNumberOr0,
+  IsNumberInfinityOrBelow1,
 } from "../helpers";
 import {
   Switch,
@@ -27,13 +28,6 @@ import {
 import toast, { Toaster } from "react-hot-toast";
 import Database from "tauri-plugin-sql-api";
 
-type DefaultIncrementInputs = {
-  weight: string;
-  distance: string;
-  time: string;
-  resistanceLevel: string;
-};
-
 type DefaultIncrementInputValidityMap = {
   weight: boolean;
   distance: boolean;
@@ -50,7 +44,7 @@ export default function Settings() {
     return {
       weight: "",
       distance: "",
-      time: "",
+      time: 0,
       resistanceLevel: "",
     };
   }, []);
@@ -68,7 +62,7 @@ export default function Settings() {
         distance: IsStringInvalidNumberOr0(
           defaultIncrementInputValues.distance
         ),
-        time: IsStringInvalidNumberOr0(defaultIncrementInputValues.time),
+        time: IsNumberInfinityOrBelow1(defaultIncrementInputValues.time),
         resistanceLevel: IsStringInvalidNumberOr0(
           defaultIncrementInputValues.resistanceLevel
         ),
@@ -85,7 +79,7 @@ export default function Settings() {
         const defaultIncrementValues: DefaultIncrementInputs = {
           weight: settings.default_increment_weight.toString(),
           distance: settings.default_increment_distance.toString(),
-          time: settings.default_increment_time.toString(),
+          time: settings.default_increment_time,
           resistanceLevel:
             settings.default_increment_resistance_level.toString(),
         };
@@ -543,7 +537,7 @@ export default function Settings() {
           <div className="flex gap-3 items-center justify-between">
             <span className="text-lg">Time</span>
             <div className="flex gap-2 items-center">
-              <Input
+              {/* <Input
                 aria-label="Default Time Increment Input Field"
                 className="w-[3.5rem]"
                 size="sm"
@@ -556,7 +550,7 @@ export default function Settings() {
                   })
                 }
                 isInvalid={defaultIncrementInputsValidityMap.time}
-              />
+              /> */}
               <Button
                 color="primary"
                 size="sm"

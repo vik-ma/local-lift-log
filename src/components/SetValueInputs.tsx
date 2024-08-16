@@ -118,12 +118,12 @@ export const SetValueInputs = ({
       )}
       {!!operatingSet.is_tracking_time && (
         <TimeInput
-          set={operatingSet}
-          setSet={setOperatingSet}
           defaultTimeInput={userSettings.default_time_input}
-          setIsInvalid={setIsTimeInputInvalid}
           time_input_behavior_hhmmss={userSettings.time_input_behavior_hhmmss}
           time_input_behavior_mmss={userSettings.time_input_behavior_mmss}
+          set={operatingSet}
+          setSet={setOperatingSet}
+          setIsInvalid={setIsTimeInputInvalid}
         />
       )}
       {!!operatingSet.is_tracking_rir && (
