@@ -11,8 +11,8 @@ import {
 } from "../helpers";
 
 type TimeInputProps = {
-  value: WorkoutSet;
-  setValue: React.Dispatch<React.SetStateAction<WorkoutSet>>;
+  set: WorkoutSet;
+  setSet: React.Dispatch<React.SetStateAction<WorkoutSet>>;
   defaultTimeInput: string;
   setIsInvalid: React.Dispatch<React.SetStateAction<boolean>>;
   time_input_behavior_hhmmss: string;
@@ -35,8 +35,8 @@ type TimeInputBehaviorMapType = {
 };
 
 export const TimeInput = ({
-  value,
-  setValue,
+  set,
+  setSet,
   defaultTimeInput,
   setIsInvalid,
   time_input_behavior_hhmmss,
@@ -91,15 +91,15 @@ export const TimeInput = ({
     mmssDefaultValue,
   } = useMemo(() => {
     const secondsDefaultValue: string =
-      value.time_in_seconds === 0 ? "" : value.time_in_seconds.toString();
+      set.time_in_seconds === 0 ? "" : set.time_in_seconds.toString();
     const minutesDefaultValue: string = convertSecondsToMinutes(
-      value.time_in_seconds
+      set.time_in_seconds
     );
     const hhmmssDefaultValue: HhmmssInput = convertSecondsToHhmmss(
-      value.time_in_seconds
+      set.time_in_seconds
     );
     const mmssDefaultValue: MmssInput = convertSecondsToMmss(
-      value.time_in_seconds
+      set.time_in_seconds
     );
 
     return {
@@ -108,7 +108,7 @@ export const TimeInput = ({
       hhmmssDefaultValue,
       mmssDefaultValue,
     };
-  }, [value.time_in_seconds]);
+  }, [set.time_in_seconds]);
 
   const [secondsInput, setSecondsInput] = useState<string>(secondsDefaultValue);
   const [minutesInput, setMinutesInput] = useState<string>(minutesDefaultValue);
@@ -172,7 +172,7 @@ export const TimeInput = ({
     if (IsNumberNegativeOrInfinity(seconds) || !Number.isInteger(seconds))
       return;
 
-    setValue((prev) => ({ ...prev, time_in_seconds: seconds }));
+    setSet((prev) => ({ ...prev, time_in_seconds: seconds }));
   };
 
   const handleMinutesInputChange = (value: string) => {
@@ -183,7 +183,7 @@ export const TimeInput = ({
 
     const seconds: number = convertMinutesToSeconds(minutes);
 
-    setValue((prev) => ({ ...prev, time_in_seconds: seconds }));
+    setSet((prev) => ({ ...prev, time_in_seconds: seconds }));
   };
 
   const convertMinutesToSeconds = (minutes: number): number => {
@@ -222,7 +222,7 @@ export const TimeInput = ({
 
     const timeInSeconds = convertHhmmssToSeconds(hours, minutes, seconds);
 
-    setValue((prev) => ({ ...prev, time_in_seconds: timeInSeconds }));
+    setSet((prev) => ({ ...prev, time_in_seconds: timeInSeconds }));
 
     // Don't move focus
     if (time_input_behavior_hhmmss === "never") return;
@@ -263,7 +263,7 @@ export const TimeInput = ({
 
     const timeInSeconds = convertMmssToSeconds(minutes, seconds);
 
-    setValue((prev) => ({ ...prev, time_in_seconds: timeInSeconds }));
+    setSet((prev) => ({ ...prev, time_in_seconds: timeInSeconds }));
 
     // Don't move focus
     if (time_input_behavior_mmss === "never") return;
@@ -280,12 +280,12 @@ export const TimeInput = ({
 
   useEffect(() => {
     setSecondsInput(
-      value.time_in_seconds === 0 ? "" : value.time_in_seconds.toString()
+      set.time_in_seconds === 0 ? "" : set.time_in_seconds.toString()
     );
-    setMinutesInput(convertSecondsToMinutes(value.time_in_seconds));
-    setMmssInput(convertSecondsToMmss(value.time_in_seconds));
-    setHhmmssInput(convertSecondsToHhmmss(value.time_in_seconds));
-  }, [value.time_in_seconds]);
+    setMinutesInput(convertSecondsToMinutes(set.time_in_seconds));
+    setMmssInput(convertSecondsToMmss(set.time_in_seconds));
+    setHhmmssInput(convertSecondsToHhmmss(set.time_in_seconds));
+  }, [set.time_in_seconds]);
 
   const hhmmssHoursInput = useRef<HTMLInputElement>(null);
   const hhmmssMinutesInput = useRef<HTMLInputElement>(null);
