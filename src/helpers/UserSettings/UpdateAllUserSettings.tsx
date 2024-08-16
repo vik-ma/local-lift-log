@@ -16,8 +16,8 @@ export const UpdateAllUserSettings = async (
       default_unit_weight = $3, default_unit_distance = $4, default_time_input = $5,
       default_unit_measurement = $6, active_tracking_measurements = $7, locale = $8,
       clock_style = $9, time_input_behavior_hhmmss = $10, time_input_behavior_mmss = $11,
-      show_workout_rating = $12, default_increment_weight = $13, default_increment_weight = $14, 
-      default_increment_weight = $15, default_increment_weight = $16 
+      show_workout_rating = $12, default_increment_weight = $13, default_increment_distance = $14, 
+      default_increment_time = $15, default_increment_resistance_level = $16 
       WHERE id = $17`,
       [
         userSettings.show_timestamp_on_completed_set,
