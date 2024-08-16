@@ -88,32 +88,17 @@ export const TimeInput = ({
     return mmssInput;
   };
 
-  const {
-    secondsDefaultValue,
-    minutesDefaultValue,
-    hhmmssDefaultValue,
-    mmssDefaultValue,
-  } = useMemo(() => {
-    const secondsDefaultValue: string =
-      timeInSeconds === 0 ? "" : timeInSeconds.toString();
-    const minutesDefaultValue: string = convertSecondsToMinutes(timeInSeconds);
-    const hhmmssDefaultValue: HhmmssInput =
-      convertSecondsToHhmmss(timeInSeconds);
-    const mmssDefaultValue: MmssInput = convertSecondsToMmss(timeInSeconds);
-
-    return {
-      secondsDefaultValue,
-      minutesDefaultValue,
-      hhmmssDefaultValue,
-      mmssDefaultValue,
-    };
-  }, [timeInSeconds]);
-
-  const [secondsInput, setSecondsInput] = useState<string>(secondsDefaultValue);
-  const [minutesInput, setMinutesInput] = useState<string>(minutesDefaultValue);
-  const [hhmmssInput, setHhmmssInput] =
-    useState<HhmmssInput>(hhmmssDefaultValue);
-  const [mmssInput, setMmssInput] = useState<MmssInput>(mmssDefaultValue);
+  const [secondsInput, setSecondsInput] = useState<string>("");
+  const [minutesInput, setMinutesInput] = useState<string>("");
+  const [hhmmssInput, setHhmmssInput] = useState<HhmmssInput>({
+    hours: "",
+    minutes: "",
+    seconds: "",
+  });
+  const [mmssInput, setMmssInput] = useState<MmssInput>({
+    minutes: "",
+    seconds: "",
+  });
 
   const isSecondsInputInvalid = useMemo(() => {
     return IsStringInvalidInteger(secondsInput);
@@ -280,12 +265,16 @@ export const TimeInput = ({
   };
 
   const updateValue = (seconds: number) => {
-    setTimeInSeconds(seconds);
-
     if (setSet !== undefined) {
       setSet((prev) => ({ ...prev, time_in_seconds: seconds }));
     }
   };
+
+  useEffect(() => {
+    if (set !== undefined) {
+      setTimeInSeconds(set.time_in_seconds);
+    }
+  }, [set]);
 
   useEffect(() => {
     setSecondsInput(timeInSeconds === 0 ? "" : timeInSeconds.toString());
