@@ -10,6 +10,7 @@ export const DistanceUnitDropdown = ({
   setDistance,
   targetType,
   showLabel,
+  isSmall,
 }: UnitDropdownProps) => {
   const validDistanceUnits = useValidDistanceUnits();
 
@@ -39,6 +40,7 @@ export const DistanceUnitDropdown = ({
       aria-label="Distance Unit Dropdown List"
       label={showLabel ? "Unit" : null}
       className="max-w-[4.5rem]"
+      size={isSmall ? "sm" : "md"}
       variant="faded"
       selectedKeys={[value]}
       onChange={(e) => handleChange(e)}
