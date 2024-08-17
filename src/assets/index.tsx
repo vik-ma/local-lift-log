@@ -15,3 +15,4 @@ export { EditIcon } from "./EditIcon";
 export { FavoriteIcon } from "./FavoriteIcon";
 export { RefreshIcon } from "./RefreshIcon";
 export { PlusIcon } from "./PlusIcon";
+export { MinusIcon } from "./MinusIcon";
