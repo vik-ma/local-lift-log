@@ -5,7 +5,6 @@ import {
   UpdateAllUserSettings,
   CreateDefaultUserSettings,
   IsStringInvalidNumberOr0,
-  IsNumberInfinityOrBelow1,
 } from "../helpers";
 import {
   Switch,
@@ -32,12 +31,13 @@ import Database from "tauri-plugin-sql-api";
 type DefaultIncrementInputValidityMap = {
   weight: boolean;
   distance: boolean;
-  time: boolean;
   resistanceLevel: boolean;
 };
 
 export default function Settings() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
+
+  const [isTimeInputInvalid, setIsTimeInputInvalid] = useState<boolean>(false);
 
   const settingsModal = useDisclosure();
 
@@ -63,7 +63,6 @@ export default function Settings() {
         distance: IsStringInvalidNumberOr0(
           defaultIncrementInputValues.distance
         ),
-        time: IsNumberInfinityOrBelow1(defaultIncrementInputValues.time),
         resistanceLevel: IsStringInvalidNumberOr0(
           defaultIncrementInputValues.resistanceLevel
         ),
@@ -275,7 +274,7 @@ export default function Settings() {
       updatedOriginalValues.distance = defaultIncrementInputValues.distance;
     } else if (key === "time") {
       if (
-        defaultIncrementInputsValidityMap.time ||
+        isTimeInputInvalid ||
         defaultIncrementOriginalValues.time === defaultIncrementInputValues.time
       )
         return;
@@ -544,6 +543,7 @@ export default function Settings() {
                   userSettings.time_input_behavior_hhmmss
                 }
                 time_input_behavior_mmss={userSettings.time_input_behavior_mmss}
+                setIsTimeInputInvalid={setIsTimeInputInvalid}
                 defaultIncrementInputValues={defaultIncrementInputValues}
                 setDefaultIncrementInputValues={setDefaultIncrementInputValues}
                 isClearable={false}
@@ -553,7 +553,7 @@ export default function Settings() {
                 color="primary"
                 size="sm"
                 isDisabled={
-                  defaultIncrementInputsValidityMap.time ||
+                  isTimeInputInvalid ||
                   defaultIncrementOriginalValues.time ===
                     defaultIncrementInputValues.time
                 }

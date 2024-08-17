@@ -14,9 +14,9 @@ type TimeInputProps = {
   defaultTimeInput: string;
   time_input_behavior_hhmmss: string;
   time_input_behavior_mmss: string;
+  setIsTimeInputInvalid: React.Dispatch<React.SetStateAction<boolean>>;
   set?: WorkoutSet;
   setSet?: React.Dispatch<React.SetStateAction<WorkoutSet>>;
-  setIsInvalid?: React.Dispatch<React.SetStateAction<boolean>>;
   defaultIncrementInputValues?: DefaultIncrementInputs;
   setDefaultIncrementInputValues?: React.Dispatch<
     React.SetStateAction<DefaultIncrementInputs>
@@ -46,7 +46,7 @@ export const TimeInput = ({
   time_input_behavior_mmss,
   set,
   setSet,
-  setIsInvalid,
+  setIsTimeInputInvalid,
   defaultIncrementInputValues,
   setDefaultIncrementInputValues,
   isClearable = true,
@@ -139,7 +139,7 @@ export const TimeInput = ({
   }, [mmssInput.seconds]);
 
   useEffect(() => {
-    if (setIsInvalid === undefined) return;
+    if (setIsTimeInputInvalid === undefined) return;
 
     if (
       isSecondsInputInvalid ||
@@ -148,9 +148,9 @@ export const TimeInput = ({
       isHhmmssMinutesInputInvalid ||
       isHhmmssSecondsInputInvalid
     ) {
-      setIsInvalid(true);
+      setIsTimeInputInvalid(true);
     } else {
-      setIsInvalid(false);
+      setIsTimeInputInvalid(false);
     }
   }, [
     isSecondsInputInvalid,
@@ -158,7 +158,7 @@ export const TimeInput = ({
     isHhmmssHoursInputInvalid,
     isHhmmssMinutesInputInvalid,
     isHhmmssSecondsInputInvalid,
-    setIsInvalid,
+    setIsTimeInputInvalid,
   ]);
 
   const handleSecondsInputChange = (value: string) => {

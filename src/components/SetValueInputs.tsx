@@ -123,7 +123,7 @@ export const SetValueInputs = ({
           time_input_behavior_mmss={userSettings.time_input_behavior_mmss}
           set={operatingSet}
           setSet={setOperatingSet}
-          setIsInvalid={setIsTimeInputInvalid}
+          setIsTimeInputInvalid={setIsTimeInputInvalid}
         />
       )}
       {!!operatingSet.is_tracking_rir && (
