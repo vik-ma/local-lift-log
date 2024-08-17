@@ -10,6 +10,7 @@ export const WeightUnitDropdown = ({
   setEquipmentWeight,
   targetType,
   showLabel,
+  isSmall,
 }: UnitDropdownProps) => {
   const validWeightUnits = useValidWeightUnits();
 
@@ -46,6 +47,7 @@ export const WeightUnitDropdown = ({
       aria-label="Weight Unit Dropdown List"
       label={showLabel ? "Unit" : null}
       className="max-w-[4.5rem]"
+      size={isSmall ? "sm" : "md"}
       variant="faded"
       selectedKeys={[value]}
       onChange={(e) => handleChange(e)}

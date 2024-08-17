@@ -172,6 +172,7 @@ export type UnitDropdownProps = {
     | "distance"
     | "set-user-weight-unit";
   showLabel?: boolean;
+  isSmall?: boolean;
 };
 
 export type MeasurementDropdownProps = {
