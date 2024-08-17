@@ -316,6 +316,7 @@ export const TimeInput = ({
         {inputType === "hhmmss" && (
           <div className="flex items-center gap-1 w-full">
             <Input
+              className={isSmall ? "w-[2.5rem]" : ""}
               aria-label="Hours Input Field"
               variant="faded"
               size={isSmall ? "sm" : "md"}
@@ -331,6 +332,7 @@ export const TimeInput = ({
               ref={hhmmssHoursInput}
             />
             <Input
+              className={isSmall ? "w-[2.5rem]" : ""}
               aria-label="Minutes Input Field"
               variant="faded"
               size={isSmall ? "sm" : "md"}
@@ -346,6 +348,7 @@ export const TimeInput = ({
               ref={hhmmssMinutesInput}
             />
             <Input
+              className={isSmall ? "w-[2.5rem]" : ""}
               aria-label="Seconds Input Field"
               variant="faded"
               size={isSmall ? "sm" : "md"}
@@ -365,6 +368,7 @@ export const TimeInput = ({
         {inputType === "mmss" && (
           <div className="flex items-center gap-1 w-full">
             <Input
+              className={isSmall ? "w-[2.5rem]" : ""}
               aria-label="Minutes Input Field"
               variant="faded"
               size={isSmall ? "sm" : "md"}
@@ -380,6 +384,7 @@ export const TimeInput = ({
               ref={mmssMinutesInput}
             />
             <Input
+              className={isSmall ? "w-[2.5rem]" : ""}
               aria-label="Seconds Input Field"
               variant="faded"
               size={isSmall ? "sm" : "md"}
@@ -398,6 +403,7 @@ export const TimeInput = ({
         )}
         {inputType === "minutes" && (
           <Input
+            className={isSmall ? "w-[3.5rem]" : ""}
             aria-label="Minutes Input Field"
             variant="faded"
             size={isSmall ? "sm" : "md"}
@@ -409,6 +415,7 @@ export const TimeInput = ({
         )}
         {inputType === "seconds" && (
           <Input
+            className={isSmall ? "w-[3.5rem]" : ""}
             aria-label="Seconds Input Field"
             variant="faded"
             size={isSmall ? "sm" : "md"}
