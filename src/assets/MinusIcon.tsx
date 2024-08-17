@@ -10,8 +10,8 @@ export const MinusIcon = ({ color, size }: MinusIconProps) => {
       height={size || 36}
       viewBox="-4 -4 28.00 28.00"
       xmlns="http://www.w3.org/2000/svg"
-      fill={color || "#777777"}
-      stroke={color || "#777777"}
+      fill={color || "#808080"}
+      stroke={color || "#808080"}
       strokeWidth="1"
     >
       <path
