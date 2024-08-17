@@ -54,8 +54,9 @@ export const SetValueInputs = ({
   return (
     <div className="flex flex-wrap gap-1.5 px-1 justify-evenly">
       {!!operatingSet.is_tracking_weight && (
-        <div className="flex justify-between gap-2 w-56">
+        <div className="flex justify-between gap-2">
           <Input
+            className="w-[11rem]"
             value={setTrackingValuesInput.weight}
             label="Weight"
             size="sm"
@@ -80,7 +81,7 @@ export const SetValueInputs = ({
       )}
       {!!operatingSet.is_tracking_reps && (
         <Input
-          className="w-28"
+          className="w-[7rem]"
           value={setTrackingValuesInput.reps}
           label="Reps"
           size="sm"
@@ -97,8 +98,9 @@ export const SetValueInputs = ({
         />
       )}
       {!!operatingSet.is_tracking_distance && (
-        <div className="flex justify-between gap-2 w-64">
+        <div className="flex justify-between gap-2">
           <Input
+            className="w-[12rem]"
             value={setTrackingValuesInput.distance}
             label="Distance"
             size="sm"
@@ -134,7 +136,7 @@ export const SetValueInputs = ({
       )}
       {!!operatingSet.is_tracking_rir && (
         <Input
-          className="w-[6.5rem]"
+          className="w-[6rem]"
           value={setTrackingValuesInput.rir}
           label="RIR"
           size="sm"
@@ -152,7 +154,7 @@ export const SetValueInputs = ({
       )}
       {!!operatingSet.is_tracking_rpe && (
         <Input
-          className="w-[6.5rem]"
+          className="w-[6rem]"
           value={setTrackingValuesInput.rpe}
           label="RPE"
           size="sm"
@@ -173,7 +175,7 @@ export const SetValueInputs = ({
           className="w-auto"
           classNames={{
             label: "whitespace-nowrap",
-            input: "w-16",
+            input: "w-[3.5rem]",
           }}
           size="sm"
           value={setTrackingValuesInput.resistance_level}
@@ -195,7 +197,7 @@ export const SetValueInputs = ({
           className="w-auto"
           classNames={{
             label: "whitespace-nowrap",
-            input: "w-16",
+            input: "w-[3.5rem]",
           }}
           size="sm"
           value={setTrackingValuesInput.partial_reps}
@@ -214,8 +216,13 @@ export const SetValueInputs = ({
       )}
       {!!operatingSet.is_tracking_user_weight && (
         <div className="flex flex-col gap-1.5 items-center">
-          <div className="flex justify-between gap-2 w-56">
+          <div className="flex justify-between gap-2">
             <Input
+              className="w-auto"
+              classNames={{
+                label: "whitespace-nowrap",
+                input: "w-[4.5rem]",
+              }}
               value={setTrackingValuesInput.user_weight}
               label="Body Weight"
               size="sm"
