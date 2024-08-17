@@ -58,6 +58,7 @@ export const SetValueInputs = ({
           <Input
             value={setTrackingValuesInput.weight}
             label="Weight"
+            size="sm"
             variant="faded"
             labelPlacement="outside-left"
             onValueChange={(value) =>
@@ -73,6 +74,7 @@ export const SetValueInputs = ({
             value={operatingSet.weight_unit}
             setSet={setOperatingSet as SetWorkoutSetAction}
             targetType="set"
+            isSmall={true}
           />
         </div>
       )}
@@ -81,6 +83,7 @@ export const SetValueInputs = ({
           className="w-28"
           value={setTrackingValuesInput.reps}
           label="Reps"
+          size="sm"
           variant="faded"
           labelPlacement="outside-left"
           onValueChange={(value) =>
@@ -98,6 +101,7 @@ export const SetValueInputs = ({
           <Input
             value={setTrackingValuesInput.distance}
             label="Distance"
+            size="sm"
             variant="faded"
             labelPlacement="outside-left"
             onValueChange={(value) =>
@@ -113,6 +117,7 @@ export const SetValueInputs = ({
             value={operatingSet.distance_unit}
             setSet={setOperatingSet as SetWorkoutSetAction}
             targetType="set"
+            isSmall={true}
           />
         </div>
       )}
@@ -124,6 +129,7 @@ export const SetValueInputs = ({
           set={operatingSet}
           setSet={setOperatingSet}
           setIsTimeInputInvalid={setIsTimeInputInvalid}
+          isSmall={true}
         />
       )}
       {!!operatingSet.is_tracking_rir && (
@@ -131,6 +137,7 @@ export const SetValueInputs = ({
           className="w-[6.5rem]"
           value={setTrackingValuesInput.rir}
           label="RIR"
+          size="sm"
           variant="faded"
           labelPlacement="outside-left"
           onValueChange={(value) =>
@@ -148,6 +155,7 @@ export const SetValueInputs = ({
           className="w-[6.5rem]"
           value={setTrackingValuesInput.rpe}
           label="RPE"
+          size="sm"
           variant="faded"
           labelPlacement="outside-left"
           onValueChange={(value) =>
@@ -167,6 +175,7 @@ export const SetValueInputs = ({
             label: "whitespace-nowrap",
             input: "w-16",
           }}
+          size="sm"
           value={setTrackingValuesInput.resistance_level}
           label="Resistance Level"
           variant="faded"
@@ -188,6 +197,7 @@ export const SetValueInputs = ({
             label: "whitespace-nowrap",
             input: "w-16",
           }}
+          size="sm"
           value={setTrackingValuesInput.partial_reps}
           label="Partial Reps"
           variant="faded"
@@ -208,6 +218,7 @@ export const SetValueInputs = ({
             <Input
               value={setTrackingValuesInput.user_weight}
               label="Body Weight"
+              size="sm"
               variant="faded"
               labelPlacement="outside-left"
               onValueChange={(value) =>
@@ -223,6 +234,7 @@ export const SetValueInputs = ({
               value={operatingSet.user_weight_unit}
               setSet={setOperatingSet as SetWorkoutSetAction}
               targetType="set-user-weight-unit"
+              isSmall={true}
             />
           </div>
           {userWeight && userWeightModal && (
