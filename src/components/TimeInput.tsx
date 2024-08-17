@@ -311,7 +311,7 @@ export const TimeInput = ({
   const mmssSecondsInput = useRef<HTMLInputElement>(null);
 
   return (
-    <div className="flex justify-between gap-1">
+    <div className="flex justify-between gap-1 items-center">
       <div className="flex items-center">
         {inputType === "hhmmss" && (
           <div className="flex items-center gap-1 w-full">
@@ -433,7 +433,13 @@ export const TimeInput = ({
         )}
         {inputType === "minutes" && (
           <Input
-            className={isSmall ? "w-[3.5rem]" : ""}
+            className={
+              isSmall && isClearable
+                ? "w-[5.5rem]"
+                : isSmall
+                ? "w-[3.5rem]"
+                : ""
+            }
             aria-label="Minutes Input Field"
             variant="faded"
             size={isSmall ? "sm" : "md"}
@@ -445,7 +451,13 @@ export const TimeInput = ({
         )}
         {inputType === "seconds" && (
           <Input
-            className={isSmall ? "w-[3.5rem]" : ""}
+            className={
+              isSmall && isClearable
+                ? "w-[5.5rem]"
+                : isSmall
+                ? "w-[3.5rem]"
+                : ""
+            }
             aria-label="Seconds Input Field"
             variant="faded"
             size={isSmall ? "sm" : "md"}
