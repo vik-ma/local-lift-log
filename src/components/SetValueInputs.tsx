@@ -56,7 +56,7 @@ export const SetValueInputs = ({
       {!!operatingSet.is_tracking_weight && (
         <div className="flex justify-between gap-2">
           <Input
-            className="w-[11rem]"
+            className="w-[8.75rem]"
             value={setTrackingValuesInput.weight}
             label="Weight"
             size="sm"
@@ -100,7 +100,7 @@ export const SetValueInputs = ({
       {!!operatingSet.is_tracking_distance && (
         <div className="flex justify-between gap-2">
           <Input
-            className="w-[12rem]"
+            className="w-[10rem]"
             value={setTrackingValuesInput.distance}
             label="Distance"
             size="sm"
