@@ -8,15 +8,12 @@ export const MinusIcon = ({ color, size }: MinusIconProps) => {
     <svg
       width={size || 24}
       height={size || 24}
-      viewBox="-4 -4 28 28"
+      viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
-      fill={color || "#808080"}
-      stroke={color || "#808080"}
-      strokeWidth="1"
     >
       <path
-        fillRule="evenodd"
-        d="M18 10a1 1 0 01-1 1H3a1 1 0 110-2h14a1 1 0 011 1z"
+        fill={color || "#808080"}
+        d="M6 12C6 11.4477 6.44772 11 7 11H17C17.5523 11 18 11.4477 18 12C18 12.5523 17.5523 13 17 13H7C6.44772 13 6 12.5523 6 12Z"
       ></path>
     </svg>
   );

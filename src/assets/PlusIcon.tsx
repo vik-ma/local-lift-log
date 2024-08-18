@@ -8,15 +8,12 @@ export const PlusIcon = ({ color, size }: PlusIconProps) => {
     <svg
       width={size || 24}
       height={size || 24}
-      viewBox="-4 -4 28 28"
+      viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
-      fill={color || "#808080"}
-      stroke={color || "#808080"}
-      strokeWidth="1"
     >
       <path
-        fillRule="evenodd"
-        d="M9 17a1 1 0 102 0v-6h6a1 1 0 100-2h-6V3a1 1 0 10-2 0v6H3a1 1 0 000 2h6v6z"
+        fill={color || "#808080"}
+        d="M11 17C11 17.5523 11.4477 18 12 18C12.5523 18 13 17.5523 13 17V13H17C17.5523 13 18 12.5523 18 12C18 11.4477 17.5523 11 17 11H13V7C13 6.44771 12.5523 6 12 6C11.4477 6 11 6.44771 11 7V11H7C6.44772 11 6 11.4477 6 12C6 12.5523 6.44772 13 7 13H11V17Z"
       ></path>
     </svg>
   );
