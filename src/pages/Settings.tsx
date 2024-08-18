@@ -544,6 +544,7 @@ export default function Settings() {
                 setDefaultIncrementInputValues={setDefaultIncrementInputValues}
                 isClearable={false}
                 isSmall={true}
+                showTimeLabel={false}
               />
               <Button
                 color="primary"

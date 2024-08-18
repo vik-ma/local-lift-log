@@ -32,6 +32,7 @@ type TimeInputProps = {
   >;
   isClearable?: boolean;
   isSmall?: boolean;
+  showTimeLabel?: boolean;
 };
 
 type HhmmssInput = {
@@ -60,6 +61,7 @@ export const TimeInput = ({
   setDefaultIncrementInputValues,
   isClearable = true,
   isSmall = false,
+  showTimeLabel = true,
 }: TimeInputProps) => {
   const [inputType, setInputType] = useState<string>(defaultTimeInput);
 
@@ -323,7 +325,11 @@ export const TimeInput = ({
 
   return (
     <div className="flex justify-between gap-1 items-center">
-      <span className="text-xs pr-0.5">Time ({timeInputMap.get(inputType)})</span>
+      <span className="text-xs pr-0.5">
+        {showTimeLabel
+          ? `Time (${timeInputMap.get(inputType)})`
+          : timeInputMap.get(inputType)}
+      </span>
       <div className="flex items-center">
         {inputType === "hhmmss" && (
           <div className="flex items-center gap-1 w-full">
