@@ -552,7 +552,8 @@ export default function Settings() {
                 isDisabled={
                   isTimeInputInvalid ||
                   defaultIncrementOriginalValues.time ===
-                    defaultIncrementInputValues.time
+                    defaultIncrementInputValues.time ||
+                  defaultIncrementInputValues.time === 0
                 }
                 onPress={() => handleDefaultIncrementValueChange("time")}
               >
