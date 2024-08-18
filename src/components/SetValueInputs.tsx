@@ -7,6 +7,7 @@ import {
 } from "../typings";
 import { WeightUnitDropdown, DistanceUnitDropdown, TimeInput } from ".";
 import { Button, Input, useDisclosure } from "@nextui-org/react";
+import { MinusIcon, PlusIcon } from "../assets";
 
 type SetValueInputsProps = {
   operatingSet: WorkoutSet;
@@ -52,9 +53,9 @@ export const SetValueInputs = ({
   };
 
   return (
-    <div className="flex flex-wrap gap-1.5 px-1 justify-evenly">
+    <div className="flex flex-wrap gap-x-1 gap-y-1.5 px-1 justify-evenly">
       {!!operatingSet.is_tracking_weight && (
-        <div className="flex justify-between gap-2">
+        <div className="flex justify-between gap-1">
           <Input
             className="w-[8.75rem]"
             value={setTrackingValuesInput.weight}
@@ -71,6 +72,12 @@ export const SetValueInputs = ({
             isInvalid={setInputsValidityMap.weight}
             isClearable
           />
+          <Button isIconOnly variant="flat" size="sm">
+            <MinusIcon />
+          </Button>
+          <Button isIconOnly variant="flat" size="sm">
+            <PlusIcon />
+          </Button>
           <WeightUnitDropdown
             value={operatingSet.weight_unit}
             setSet={setOperatingSet as SetWorkoutSetAction}
@@ -80,25 +87,33 @@ export const SetValueInputs = ({
         </div>
       )}
       {!!operatingSet.is_tracking_reps && (
-        <Input
-          className="w-[7rem]"
-          value={setTrackingValuesInput.reps}
-          label="Reps"
-          size="sm"
-          variant="faded"
-          labelPlacement="outside-left"
-          onValueChange={(value) =>
-            setSetTrackingValuesInput((prev) => ({
-              ...prev,
-              reps: value,
-            }))
-          }
-          isInvalid={setInputsValidityMap.reps}
-          isClearable
-        />
+        <div className="flex justify-between gap-1">
+          <Input
+            className="w-[7rem]"
+            value={setTrackingValuesInput.reps}
+            label="Reps"
+            size="sm"
+            variant="faded"
+            labelPlacement="outside-left"
+            onValueChange={(value) =>
+              setSetTrackingValuesInput((prev) => ({
+                ...prev,
+                reps: value,
+              }))
+            }
+            isInvalid={setInputsValidityMap.reps}
+            isClearable
+          />
+          <Button isIconOnly variant="flat" size="sm">
+            <MinusIcon />
+          </Button>
+          <Button isIconOnly variant="flat" size="sm">
+            <PlusIcon />
+          </Button>
+        </div>
       )}
       {!!operatingSet.is_tracking_distance && (
-        <div className="flex justify-between gap-2">
+        <div className="flex justify-between gap-1">
           <Input
             className="w-[10rem]"
             value={setTrackingValuesInput.distance}
@@ -115,6 +130,12 @@ export const SetValueInputs = ({
             isInvalid={setInputsValidityMap.distance}
             isClearable
           />
+          <Button isIconOnly variant="flat" size="sm">
+            <MinusIcon />
+          </Button>
+          <Button isIconOnly variant="flat" size="sm">
+            <PlusIcon />
+          </Button>
           <DistanceUnitDropdown
             value={operatingSet.distance_unit}
             setSet={setOperatingSet as SetWorkoutSetAction}
@@ -135,88 +156,120 @@ export const SetValueInputs = ({
         />
       )}
       {!!operatingSet.is_tracking_rir && (
-        <Input
-          className="w-[6rem]"
-          value={setTrackingValuesInput.rir}
-          label="RIR"
-          size="sm"
-          variant="faded"
-          labelPlacement="outside-left"
-          onValueChange={(value) =>
-            setSetTrackingValuesInput((prev) => ({
-              ...prev,
-              rir: value,
-            }))
-          }
-          isInvalid={setInputsValidityMap.rir}
-          isClearable
-        />
+        <div className="flex justify-between gap-1">
+          <Input
+            className="w-[6rem]"
+            value={setTrackingValuesInput.rir}
+            label="RIR"
+            size="sm"
+            variant="faded"
+            labelPlacement="outside-left"
+            onValueChange={(value) =>
+              setSetTrackingValuesInput((prev) => ({
+                ...prev,
+                rir: value,
+              }))
+            }
+            isInvalid={setInputsValidityMap.rir}
+            isClearable
+          />
+          <Button isIconOnly variant="flat" size="sm">
+            <MinusIcon />
+          </Button>
+          <Button isIconOnly variant="flat" size="sm">
+            <PlusIcon />
+          </Button>
+        </div>
       )}
       {!!operatingSet.is_tracking_rpe && (
-        <Input
-          className="w-[6rem]"
-          value={setTrackingValuesInput.rpe}
-          label="RPE"
-          size="sm"
-          variant="faded"
-          labelPlacement="outside-left"
-          onValueChange={(value) =>
-            setSetTrackingValuesInput((prev) => ({
-              ...prev,
-              rpe: value,
-            }))
-          }
-          isInvalid={setInputsValidityMap.rpe}
-          isClearable
-        />
+        <div className="flex justify-between gap-1">
+          <Input
+            className="w-[6rem]"
+            value={setTrackingValuesInput.rpe}
+            label="RPE"
+            size="sm"
+            variant="faded"
+            labelPlacement="outside-left"
+            onValueChange={(value) =>
+              setSetTrackingValuesInput((prev) => ({
+                ...prev,
+                rpe: value,
+              }))
+            }
+            isInvalid={setInputsValidityMap.rpe}
+            isClearable
+          />
+          <Button isIconOnly variant="flat" size="sm">
+            <MinusIcon />
+          </Button>
+          <Button isIconOnly variant="flat" size="sm">
+            <PlusIcon />
+          </Button>
+        </div>
       )}
       {!!operatingSet.is_tracking_resistance_level && (
-        <Input
-          className="w-auto"
-          classNames={{
-            label: "whitespace-nowrap",
-            input: "w-[3.5rem]",
-          }}
-          size="sm"
-          value={setTrackingValuesInput.resistance_level}
-          label="Resistance Level"
-          variant="faded"
-          labelPlacement="outside-left"
-          onValueChange={(value) =>
-            setSetTrackingValuesInput((prev) => ({
-              ...prev,
-              resistance_level: value,
-            }))
-          }
-          isInvalid={setInputsValidityMap.resistance_level}
-          isClearable
-        />
+        <div className="flex justify-between gap-1">
+          <Input
+            className="w-auto"
+            classNames={{
+              label: "whitespace-nowrap",
+              input: "w-[3.5rem]",
+            }}
+            size="sm"
+            value={setTrackingValuesInput.resistance_level}
+            label="Resistance Level"
+            variant="faded"
+            labelPlacement="outside-left"
+            onValueChange={(value) =>
+              setSetTrackingValuesInput((prev) => ({
+                ...prev,
+                resistance_level: value,
+              }))
+            }
+            isInvalid={setInputsValidityMap.resistance_level}
+            isClearable
+          />
+          <Button isIconOnly variant="flat" size="sm">
+            <MinusIcon />
+          </Button>
+          <Button isIconOnly variant="flat" size="sm">
+            <PlusIcon />
+          </Button>
+        </div>
       )}
       {!!operatingSet.is_tracking_partial_reps && (
-        <Input
-          className="w-auto"
-          classNames={{
-            label: "whitespace-nowrap",
-            input: "w-[3.5rem]",
-          }}
-          size="sm"
-          value={setTrackingValuesInput.partial_reps}
-          label="Partial Reps"
-          variant="faded"
-          labelPlacement="outside-left"
-          onValueChange={(value) =>
-            setSetTrackingValuesInput((prev) => ({
-              ...prev,
-              partial_reps: value,
-            }))
-          }
-          isInvalid={setInputsValidityMap.partial_reps}
-          isClearable
-        />
+        <div className="flex justify-between gap-1">
+          <Input
+            className="w-auto"
+            classNames={{
+              label: "whitespace-nowrap",
+              input: "w-[3.5rem]",
+            }}
+            size="sm"
+            value={setTrackingValuesInput.partial_reps}
+            label="Partial Reps"
+            variant="faded"
+            labelPlacement="outside-left"
+            onValueChange={(value) =>
+              setSetTrackingValuesInput((prev) => ({
+                ...prev,
+                partial_reps: value,
+              }))
+            }
+            isInvalid={setInputsValidityMap.partial_reps}
+            isClearable
+          />{" "}
+          <Button isIconOnly variant="flat" size="sm">
+            <MinusIcon />
+          </Button>
+          <Button isIconOnly variant="flat" size="sm">
+            <PlusIcon />
+          </Button>
+        </div>
       )}
       {!!operatingSet.is_tracking_user_weight && (
         <div className="flex flex-col gap-1.5 items-center">
-          <div className="flex justify-between gap-2">
+          <div className="flex justify-between gap-1">
             <Input
               className="w-auto"
               classNames={{
@@ -237,6 +290,12 @@ export const SetValueInputs = ({
               isInvalid={setInputsValidityMap.user_weight}
               isClearable
             />
+            <Button isIconOnly variant="flat" size="sm">
+              <MinusIcon />
+            </Button>
+            <Button isIconOnly variant="flat" size="sm">
+              <PlusIcon />
+            </Button>
             <WeightUnitDropdown
               value={operatingSet.user_weight_unit}
               setSet={setOperatingSet as SetWorkoutSetAction}
