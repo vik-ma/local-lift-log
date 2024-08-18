@@ -6,9 +6,9 @@ type PlusIconProps = {
 export const PlusIcon = ({ color, size }: PlusIconProps) => {
   return (
     <svg
-      width={size || 36}
-      height={size || 36}
-      viewBox="-4 -4 28.00 28.00"
+      width={size || 24}
+      height={size || 24}
+      viewBox="-4 -4 28 28"
       xmlns="http://www.w3.org/2000/svg"
       fill={color || "#808080"}
       stroke={color || "#808080"}
