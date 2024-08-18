@@ -1,4 +1,11 @@
-import { Input, Select, SelectItem } from "@nextui-org/react";
+import {
+  Button,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  Input,
+} from "@nextui-org/react";
 import { WorkoutSet, DefaultIncrementInputs } from "../typings";
 import { useState, useMemo, useEffect, useRef } from "react";
 import {
@@ -9,6 +16,7 @@ import {
   IsStringInvalidNumber,
   IsStringInvalidNumberOrAbove59,
 } from "../helpers";
+import { ChevronIcon } from "../assets";
 
 type TimeInputProps = {
   defaultTimeInput: string;
@@ -468,30 +476,35 @@ export const TimeInput = ({
           />
         )}
       </div>
-      <div>
-        <Select
-          aria-label="Time Input Type Dropdown List"
-          className="w-32"
-          size={isSmall ? "sm" : "md"}
-          variant="faded"
-          selectedKeys={[inputType]}
-          onChange={(e) => setInputType(e.target.value)}
-          disallowEmptySelection
+      <Dropdown>
+        <DropdownTrigger>
+          <Button
+            aria-label="Toggle Time Input Style Menu"
+            isIconOnly
+            variant="flat"
+            size={isSmall ? "sm" : "md"}
+          >
+            <ChevronIcon size={22} color="#999" />
+          </Button>
+        </DropdownTrigger>
+        <DropdownMenu
+          aria-label="Time Input Style Menu"
+          onAction={(key) => setInputType(key as string)}
         >
-          <SelectItem key="hhmmss" value="hhmmss">
+          <DropdownItem key="hhmmss" value="hhmmss">
             HH:MM:SS
-          </SelectItem>
-          <SelectItem key="mmss" value="mmss">
+          </DropdownItem>
+          <DropdownItem key="mmss" value="mmss">
             MM:SS
-          </SelectItem>
-          <SelectItem key="minutes" value="minutes">
+          </DropdownItem>
+          <DropdownItem key="minutes" value="minutes">
             Minutes
-          </SelectItem>
-          <SelectItem key="seconds" value="seconds">
+          </DropdownItem>
+          <DropdownItem key="seconds" value="seconds">
             Seconds
-          </SelectItem>
-        </Select>
-      </div>
+          </DropdownItem>
+        </DropdownMenu>
+      </Dropdown>
     </div>
   );
 };
