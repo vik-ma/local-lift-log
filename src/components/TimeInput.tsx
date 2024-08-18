@@ -17,6 +17,7 @@ import {
   IsStringInvalidNumberOrAbove59,
 } from "../helpers";
 import { ChevronIcon } from "../assets";
+import { useTimeInputMap } from "../hooks";
 
 type TimeInputProps = {
   defaultTimeInput: string;
@@ -65,6 +66,8 @@ export const TimeInput = ({
   const timeInputBehaviorMap: TimeInputBehaviorMapType = useMemo(() => {
     return { first: 1, second: 2, third: 3, never: 0 };
   }, []);
+
+  const timeInputMap = useTimeInputMap();
 
   const [timeInSeconds, setTimeInSeconds] = useState<number>(
     set !== undefined ? set.time_in_seconds : 0
@@ -493,18 +496,11 @@ export const TimeInput = ({
           selectedKeys={[inputType]}
           onAction={(key) => setInputType(key as string)}
         >
-          <DropdownItem key="hhmmss" value="hhmmss">
-            HH:MM:SS
-          </DropdownItem>
-          <DropdownItem key="mmss" value="mmss">
-            MM:SS
-          </DropdownItem>
-          <DropdownItem key="minutes" value="minutes">
-            Minutes
-          </DropdownItem>
-          <DropdownItem key="seconds" value="seconds">
-            Seconds
-          </DropdownItem>
+          {Array.from(timeInputMap).map(([key, value]) => (
+            <DropdownItem key={key} value={key}>
+              {value}
+            </DropdownItem>
+          ))}
         </DropdownMenu>
       </Dropdown>
     </div>

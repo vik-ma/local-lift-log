@@ -27,6 +27,7 @@ import {
 } from "../components";
 import toast, { Toaster } from "react-hot-toast";
 import Database from "tauri-plugin-sql-api";
+import { useTimeInputMap } from "../hooks";
 
 type DefaultIncrementInputValidityMap = {
   weight: boolean;
@@ -69,6 +70,8 @@ export default function Settings() {
       };
       return values;
     }, [defaultIncrementInputValues]);
+
+  const timeInputMap = useTimeInputMap();
 
   useEffect(() => {
     const loadUserSettings = async () => {
@@ -399,18 +402,11 @@ export default function Settings() {
               onChange={(value) => handleDefaultTimeInputChange(value)}
               disallowEmptySelection
             >
-              <SelectItem key="hhmmss" value="hhmmss">
-                HH:MM:SS
-              </SelectItem>
-              <SelectItem key="mmss" value="mmss">
-                MM:SS
-              </SelectItem>
-              <SelectItem key="minutes" value="minutes">
-                Minutes
-              </SelectItem>
-              <SelectItem key="seconds" value="seconds">
-                Seconds
-              </SelectItem>
+              {Array.from(timeInputMap).map(([key, value]) => (
+                <SelectItem key={key} value={key}>
+                  {value}
+                </SelectItem>
+              ))}
             </Select>
           </div>
           <div className="flex gap-3 items-center justify-between">
