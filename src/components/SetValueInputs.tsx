@@ -52,6 +52,98 @@ export const SetValueInputs = ({
     }
   };
 
+  const increaseValue = (key: string) => {
+    // TODO: ADD LIMITS
+
+    const updatedSet = { ...operatingSet };
+
+    switch (key) {
+      case "weight":
+        updatedSet.weight =
+          updatedSet.weight + userSettings.default_increment_weight;
+        break;
+      case "reps":
+        updatedSet.reps = updatedSet.reps + 1;
+        break;
+      case "distance":
+        updatedSet.distance =
+          updatedSet.distance + userSettings.default_increment_distance;
+        break;
+      case "time":
+        updatedSet.time_in_seconds =
+          updatedSet.time_in_seconds + userSettings.default_increment_time;
+        break;
+      case "rir":
+        updatedSet.rir = updatedSet.rir + 1;
+        break;
+      case "rpe":
+        updatedSet.rpe = updatedSet.rpe + 1;
+        break;
+      case "resistance_level":
+        updatedSet.resistance_level =
+          updatedSet.resistance_level +
+          userSettings.default_increment_resistance_level;
+        break;
+      case "partial_reps":
+        updatedSet.partial_reps = updatedSet.partial_reps + 1;
+        break;
+      case "user_weight":
+        updatedSet.user_weight =
+          updatedSet.user_weight + userSettings.default_increment_weight;
+        break;
+      default:
+        break;
+    }
+
+    setOperatingSet(updatedSet);
+  };
+
+  const decreaseValue = (key: string) => {
+    // TODO: ADD LIMITS
+
+    const updatedSet = { ...operatingSet };
+
+    switch (key) {
+      case "weight":
+        updatedSet.weight =
+          updatedSet.weight - userSettings.default_increment_weight;
+        break;
+      case "reps":
+        updatedSet.reps = updatedSet.reps - 1;
+        break;
+      case "distance":
+        updatedSet.distance =
+          updatedSet.distance - userSettings.default_increment_distance;
+        break;
+      case "time":
+        updatedSet.time_in_seconds =
+          updatedSet.time_in_seconds - userSettings.default_increment_time;
+        break;
+      case "rir":
+        updatedSet.rir = updatedSet.rir - 1;
+        break;
+      case "rpe":
+        updatedSet.rpe = updatedSet.rpe - 1;
+        break;
+      case "resistance_level":
+        updatedSet.resistance_level =
+          updatedSet.resistance_level -
+          userSettings.default_increment_resistance_level;
+        break;
+      case "partial_reps":
+        updatedSet.partial_reps = updatedSet.partial_reps - 1;
+        break;
+      case "user_weight":
+        updatedSet.user_weight =
+          updatedSet.user_weight - userSettings.default_increment_weight;
+        break;
+      default:
+        break;
+    }
+
+    setOperatingSet(updatedSet);
+  };
+
   return (
     <div className="flex flex-wrap gap-x-1 gap-y-1.5 px-1 justify-evenly">
       {!!operatingSet.is_tracking_weight && (
@@ -72,10 +164,20 @@ export const SetValueInputs = ({
             isInvalid={setInputsValidityMap.weight}
             isClearable
           />
-          <Button isIconOnly variant="flat" size="sm">
+          <Button
+            isIconOnly
+            variant="flat"
+            size="sm"
+            onPress={() => decreaseValue("weight")}
+          >
             <MinusIcon />
           </Button>
-          <Button isIconOnly variant="flat" size="sm">
+          <Button
+            isIconOnly
+            variant="flat"
+            size="sm"
+            onPress={() => increaseValue("weight")}
+          >
             <PlusIcon />
           </Button>
           <WeightUnitDropdown
