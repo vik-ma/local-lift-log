@@ -489,6 +489,8 @@ export const TimeInput = ({
         </DropdownTrigger>
         <DropdownMenu
           aria-label="Time Input Style Menu"
+          selectionMode="single"
+          selectedKeys={[inputType]}
           onAction={(key) => setInputType(key as string)}
         >
           <DropdownItem key="hhmmss" value="hhmmss">
