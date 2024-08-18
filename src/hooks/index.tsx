@@ -31,3 +31,4 @@ export { useMultisetTypeMap } from "./useMultisetTypeMap";
 export { useDefaultMultiset } from "./useDefaultMultiset";
 export { useMultisetActions } from "./useMultisetActions";
 export { useUserWeightInput } from "./useUserWeightInput";
+export { useTimeInputMap } from "./useTimeInputMap";
