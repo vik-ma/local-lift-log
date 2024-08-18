@@ -323,6 +323,7 @@ export const TimeInput = ({
 
   return (
     <div className="flex justify-between gap-1 items-center">
+      <span className="text-xs pr-0.5">Time ({timeInputMap.get(inputType)})</span>
       <div className="flex items-center">
         {inputType === "hhmmss" && (
           <div className="flex items-center gap-1 w-full">
