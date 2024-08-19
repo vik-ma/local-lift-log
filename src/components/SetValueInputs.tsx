@@ -119,12 +119,16 @@ export const SetValueInputs = ({
           setTrackingValuesInput.rpe,
           setInputsInvalidityMap.rpe,
           false,
+          1,
+          10,
           1
         ),
         increase: ShouldSetTrackingValueButtonBeDisabled(
           setTrackingValuesInput.rpe,
           setInputsInvalidityMap.rpe,
           true,
+          1,
+          10,
           1
         ),
       },
@@ -331,6 +335,7 @@ export const SetValueInputs = ({
             variant="flat"
             size="sm"
             onPress={() => updateValue("weight", false)}
+            isDisabled={disableUpdateValueButtonsMap.weight.decrease}
           >
             <MinusIcon />
           </Button>
@@ -339,6 +344,7 @@ export const SetValueInputs = ({
             variant="flat"
             size="sm"
             onPress={() => updateValue("weight", true)}
+            isDisabled={disableUpdateValueButtonsMap.weight.increase}
           >
             <PlusIcon />
           </Button>
@@ -368,10 +374,22 @@ export const SetValueInputs = ({
             isInvalid={setInputsInvalidityMap.reps}
             isClearable
           />
-          <Button isIconOnly variant="flat" size="sm">
+          <Button
+            isIconOnly
+            variant="flat"
+            size="sm"
+            onPress={() => updateValue("reps", false)}
+            isDisabled={disableUpdateValueButtonsMap.reps.decrease}
+          >
             <MinusIcon />
           </Button>
-          <Button isIconOnly variant="flat" size="sm">
+          <Button
+            isIconOnly
+            variant="flat"
+            size="sm"
+            onPress={() => updateValue("reps", true)}
+            isDisabled={disableUpdateValueButtonsMap.reps.increase}
+          >
             <PlusIcon />
           </Button>
         </div>
@@ -394,10 +412,22 @@ export const SetValueInputs = ({
             isInvalid={setInputsInvalidityMap.distance}
             isClearable
           />
-          <Button isIconOnly variant="flat" size="sm">
+          <Button
+            isIconOnly
+            variant="flat"
+            size="sm"
+            onPress={() => updateValue("distance", false)}
+            isDisabled={disableUpdateValueButtonsMap.distance.decrease}
+          >
             <MinusIcon />
           </Button>
-          <Button isIconOnly variant="flat" size="sm">
+          <Button
+            isIconOnly
+            variant="flat"
+            size="sm"
+            onPress={() => updateValue("distance", true)}
+            isDisabled={disableUpdateValueButtonsMap.distance.increase}
+          >
             <PlusIcon />
           </Button>
           <DistanceUnitDropdown
@@ -424,6 +454,7 @@ export const SetValueInputs = ({
             variant="flat"
             size="sm"
             onPress={() => updateValue("time", false)}
+            // TODO: ADD isDisabled
           >
             <MinusIcon />
           </Button>
@@ -432,6 +463,7 @@ export const SetValueInputs = ({
             variant="flat"
             size="sm"
             onPress={() => updateValue("time", true)}
+            // TODO: ADD isDisabled
           >
             <PlusIcon />
           </Button>
@@ -455,10 +487,22 @@ export const SetValueInputs = ({
             isInvalid={setInputsInvalidityMap.rir}
             isClearable
           />
-          <Button isIconOnly variant="flat" size="sm">
+          <Button
+            isIconOnly
+            variant="flat"
+            size="sm"
+            onPress={() => updateValue("rir", false)}
+            isDisabled={disableUpdateValueButtonsMap.rir.decrease}
+          >
             <MinusIcon />
           </Button>
-          <Button isIconOnly variant="flat" size="sm">
+          <Button
+            isIconOnly
+            variant="flat"
+            size="sm"
+            onPress={() => updateValue("rir", true)}
+            isDisabled={disableUpdateValueButtonsMap.rir.increase}
+          >
             <PlusIcon />
           </Button>
         </div>
@@ -481,10 +525,22 @@ export const SetValueInputs = ({
             isInvalid={setInputsInvalidityMap.rpe}
             isClearable
           />
-          <Button isIconOnly variant="flat" size="sm">
+          <Button
+            isIconOnly
+            variant="flat"
+            size="sm"
+            onPress={() => updateValue("rpe", false)}
+            isDisabled={disableUpdateValueButtonsMap.rpe.decrease}
+          >
             <MinusIcon />
           </Button>
-          <Button isIconOnly variant="flat" size="sm">
+          <Button
+            isIconOnly
+            variant="flat"
+            size="sm"
+            onPress={() => updateValue("rpe", true)}
+            isDisabled={disableUpdateValueButtonsMap.rpe.increase}
+          >
             <PlusIcon />
           </Button>
         </div>
@@ -511,10 +567,22 @@ export const SetValueInputs = ({
             isInvalid={setInputsInvalidityMap.resistance_level}
             isClearable
           />
-          <Button isIconOnly variant="flat" size="sm">
+          <Button
+            isIconOnly
+            variant="flat"
+            size="sm"
+            onPress={() => updateValue("resistance_level", false)}
+            isDisabled={disableUpdateValueButtonsMap.resistance_level.decrease}
+          >
             <MinusIcon />
           </Button>
-          <Button isIconOnly variant="flat" size="sm">
+          <Button
+            isIconOnly
+            variant="flat"
+            size="sm"
+            onPress={() => updateValue("resistance_level", true)}
+            isDisabled={disableUpdateValueButtonsMap.resistance_level.increase}
+          >
             <PlusIcon />
           </Button>
         </div>
@@ -540,11 +608,23 @@ export const SetValueInputs = ({
             }
             isInvalid={setInputsInvalidityMap.partial_reps}
             isClearable
-          />{" "}
-          <Button isIconOnly variant="flat" size="sm">
+          />
+          <Button
+            isIconOnly
+            variant="flat"
+            size="sm"
+            onPress={() => updateValue("partial_reps", false)}
+            isDisabled={disableUpdateValueButtonsMap.partial_reps.decrease}
+          >
             <MinusIcon />
           </Button>
-          <Button isIconOnly variant="flat" size="sm">
+          <Button
+            isIconOnly
+            variant="flat"
+            size="sm"
+            onPress={() => updateValue("partial_reps", true)}
+            isDisabled={disableUpdateValueButtonsMap.partial_reps.increase}
+          >
             <PlusIcon />
           </Button>
         </div>
@@ -572,10 +652,22 @@ export const SetValueInputs = ({
               isInvalid={setInputsInvalidityMap.user_weight}
               isClearable
             />
-            <Button isIconOnly variant="flat" size="sm">
+            <Button
+              isIconOnly
+              variant="flat"
+              size="sm"
+              onPress={() => updateValue("user_weight", false)}
+              isDisabled={disableUpdateValueButtonsMap.user_weight.decrease}
+            >
               <MinusIcon />
             </Button>
-            <Button isIconOnly variant="flat" size="sm">
+            <Button
+              isIconOnly
+              variant="flat"
+              size="sm"
+              onPress={() => updateValue("user_weight", true)}
+              isDisabled={disableUpdateValueButtonsMap.user_weight.increase}
+            >
               <PlusIcon />
             </Button>
             <WeightUnitDropdown
