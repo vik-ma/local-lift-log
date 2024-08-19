@@ -4,6 +4,7 @@ import {
   UseSetTrackingInputsReturnType,
   UserSettings,
   UserWeight,
+  SetTrackingValues,
 } from "../typings";
 import { WeightUnitDropdown, DistanceUnitDropdown, TimeInput } from ".";
 import { Button, Input, useDisclosure } from "@nextui-org/react";
@@ -188,7 +189,7 @@ export const SetValueInputs = ({
     return values;
   }, [setInputsInvalidityMap, setTrackingValuesInput, userSettings]);
 
-  const updateValue = (key: string, isIncrease: boolean) => {
+  const updateValue = (key: SetTrackingValues, isIncrease: boolean) => {
     const updatedSet = { ...operatingSet };
     const updatedSetInputs = { ...setTrackingValuesInput };
     const modifier = isIncrease ? 1 : -1;

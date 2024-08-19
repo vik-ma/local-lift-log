@@ -383,3 +383,14 @@ export type DefaultIncrementInputs = {
   time: number;
   resistanceLevel: string;
 };
+
+export type SetTrackingValues =
+  | "weight"
+  | "reps"
+  | "rir"
+  | "rpe"
+  | "distance"
+  | "time"
+  | "resistance_level"
+  | "partial_reps"
+  | "user_weight";
