@@ -1,5 +1,7 @@
-export const ConvertInputStringToNumber = (str: string): number => {
-    if (str.trim().length === 0) return 0;
+import { IsStringEmpty } from "../Strings/IsStringEmpty";
 
-    return Number(str);
+export const ConvertInputStringToNumber = (str: string): number => {
+  if (IsStringEmpty(str)) return 0;
+
+  return Number(str);
 };

@@ -8,6 +8,7 @@ import {
 import { WeightUnitDropdown, DistanceUnitDropdown, TimeInput } from ".";
 import { Button, Input, useDisclosure } from "@nextui-org/react";
 import { MinusIcon, PlusIcon } from "../assets";
+import { ConvertInputStringToNumber } from "../helpers";
 
 type SetValueInputsProps = {
   operatingSet: WorkoutSet;
@@ -59,37 +60,102 @@ export const SetValueInputs = ({
     const modifier = isIncrease ? 1 : -1;
 
     switch (key) {
-      case "weight":
-        updatedSet.weight = modifier * userSettings.default_increment_weight;
-        break;
-      case "reps":
-        updatedSet.reps += modifier;
-        break;
-      case "distance":
-        updatedSet.distance +=
-          modifier * userSettings.default_increment_distance;
-        break;
-      case "time":
-        updatedSet.time_in_seconds +=
-          modifier * userSettings.default_increment_time;
-        break;
-      case "rir":
-        updatedSet.rir += modifier;
-        break;
-      case "rpe":
-        updatedSet.rpe += modifier;
-        break;
-      case "resistance_level":
-        updatedSet.resistance_level +=
-          modifier * userSettings.default_increment_resistance_level;
-        break;
-      case "partial_reps":
-        updatedSet.partial_reps += modifier;
-        break;
-      case "user_weight":
-        updatedSet.user_weight +=
+      case "weight": {
+        if (setInputsInvalidityMap.weight) return;
+
+        const newValue =
+          ConvertInputStringToNumber(updatedSetInputs.weight) +
           modifier * userSettings.default_increment_weight;
+
+        updatedSet.weight = newValue;
+        updatedSetInputs.weight = newValue.toString();
+
         break;
+      }
+      case "reps": {
+        if (setInputsInvalidityMap.reps) return;
+
+        const newValue =
+          ConvertInputStringToNumber(updatedSetInputs.reps) + modifier;
+
+        updatedSet.reps = newValue;
+        updatedSetInputs.reps = newValue.toString();
+
+        break;
+      }
+      case "distance": {
+        if (setInputsInvalidityMap.distance) return;
+
+        const newValue =
+          ConvertInputStringToNumber(updatedSetInputs.distance) +
+          modifier * userSettings.default_increment_distance;
+
+        updatedSet.distance = newValue;
+        updatedSetInputs.distance = newValue.toString();
+
+        break;
+      }
+      case "time": {
+        // TODO: FIX
+        break;
+      }
+      case "rir": {
+        if (setInputsInvalidityMap.rir) return;
+
+        const newValue =
+          ConvertInputStringToNumber(updatedSetInputs.rir) + modifier;
+
+        updatedSet.rir = newValue;
+        updatedSetInputs.rir = newValue.toString();
+
+        break;
+      }
+      case "rpe": {
+        if (setInputsInvalidityMap.rpe) return;
+
+        const newValue =
+          ConvertInputStringToNumber(updatedSetInputs.rpe) + modifier;
+
+        updatedSet.rpe = newValue;
+        updatedSetInputs.rpe = newValue.toString();
+
+        break;
+      }
+      case "resistance_level": {
+        if (setInputsInvalidityMap.resistance_level) return;
+
+        const newValue =
+          ConvertInputStringToNumber(updatedSetInputs.resistance_level) +
+          modifier * userSettings.default_increment_resistance_level;
+
+        updatedSet.resistance_level = newValue;
+        updatedSetInputs.resistance_level = newValue.toString();
+
+        break;
+      }
+      case "partial_reps": {
+        if (setInputsInvalidityMap.partial_reps) return;
+
+        const newValue =
+          ConvertInputStringToNumber(updatedSetInputs.partial_reps) + modifier;
+
+        updatedSet.partial_reps = newValue;
+        updatedSetInputs.partial_reps = newValue.toString();
+
+        break;
+      }
+      case "user_weight": {
+        if (setInputsInvalidityMap.user_weight) return;
+
+        const newValue =
+          ConvertInputStringToNumber(updatedSetInputs.user_weight) +
+          modifier * userSettings.default_increment_weight;
+
+        updatedSet.user_weight = newValue;
+        updatedSetInputs.user_weight = newValue.toString();
+
+        break;
+      }
       default:
         break;
     }
