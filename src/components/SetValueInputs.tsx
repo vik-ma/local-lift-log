@@ -8,7 +8,11 @@ import {
 import { WeightUnitDropdown, DistanceUnitDropdown, TimeInput } from ".";
 import { Button, Input, useDisclosure } from "@nextui-org/react";
 import { MinusIcon, PlusIcon } from "../assets";
-import { ConvertInputStringToNumber } from "../helpers";
+import {
+  ConvertInputStringToNumber,
+  ShouldSetTrackingValueButtonBeDisabled,
+} from "../helpers";
+import { useMemo } from "react";
 
 type SetValueInputsProps = {
   operatingSet: WorkoutSet;
@@ -19,6 +23,17 @@ type SetValueInputsProps = {
   userWeightModal?: ReturnType<typeof useDisclosure>;
   populateUserWeightValues?: () => void;
   isUserWeightOlderThanOneWeek?: boolean;
+};
+
+type DisableUpdateValueButtonsMapType = {
+  weight: { decrease: boolean; increase: boolean };
+  reps: { decrease: boolean; increase: boolean };
+  rir: { decrease: boolean; increase: boolean };
+  rpe: { decrease: boolean; increase: boolean };
+  distance: { decrease: boolean; increase: boolean };
+  resistance_level: { decrease: boolean; increase: boolean };
+  partial_reps: { decrease: boolean; increase: boolean };
+  user_weight: { decrease: boolean; increase: boolean };
 };
 
 export const SetValueInputs = ({
@@ -54,8 +69,126 @@ export const SetValueInputs = ({
     }
   };
 
+  const disableUpdateValueButtonsMap = useMemo(() => {
+    const values: DisableUpdateValueButtonsMapType = {
+      weight: {
+        decrease: ShouldSetTrackingValueButtonBeDisabled(
+          setTrackingValuesInput.weight,
+          setInputsInvalidityMap.weight,
+          false,
+          userSettings.default_increment_weight
+        ),
+        increase: ShouldSetTrackingValueButtonBeDisabled(
+          setTrackingValuesInput.weight,
+          setInputsInvalidityMap.weight,
+          true,
+          userSettings.default_increment_weight
+        ),
+      },
+      reps: {
+        decrease: ShouldSetTrackingValueButtonBeDisabled(
+          setTrackingValuesInput.reps,
+          setInputsInvalidityMap.reps,
+          false,
+          1
+        ),
+        increase: ShouldSetTrackingValueButtonBeDisabled(
+          setTrackingValuesInput.reps,
+          setInputsInvalidityMap.reps,
+          true,
+          1
+        ),
+      },
+      rir: {
+        decrease: ShouldSetTrackingValueButtonBeDisabled(
+          setTrackingValuesInput.rir,
+          setInputsInvalidityMap.rir,
+          false,
+          1
+        ),
+        increase: ShouldSetTrackingValueButtonBeDisabled(
+          setTrackingValuesInput.rir,
+          setInputsInvalidityMap.rir,
+          true,
+          1
+        ),
+      },
+      rpe: {
+        decrease: ShouldSetTrackingValueButtonBeDisabled(
+          setTrackingValuesInput.rpe,
+          setInputsInvalidityMap.rpe,
+          false,
+          1
+        ),
+        increase: ShouldSetTrackingValueButtonBeDisabled(
+          setTrackingValuesInput.rpe,
+          setInputsInvalidityMap.rpe,
+          true,
+          1
+        ),
+      },
+      distance: {
+        decrease: ShouldSetTrackingValueButtonBeDisabled(
+          setTrackingValuesInput.distance,
+          setInputsInvalidityMap.distance,
+          false,
+          userSettings.default_increment_distance
+        ),
+        increase: ShouldSetTrackingValueButtonBeDisabled(
+          setTrackingValuesInput.distance,
+          setInputsInvalidityMap.distance,
+          true,
+          userSettings.default_increment_distance
+        ),
+      },
+      resistance_level: {
+        decrease: ShouldSetTrackingValueButtonBeDisabled(
+          setTrackingValuesInput.resistance_level,
+          setInputsInvalidityMap.resistance_level,
+          false,
+          userSettings.default_increment_resistance_level
+        ),
+        increase: ShouldSetTrackingValueButtonBeDisabled(
+          setTrackingValuesInput.resistance_level,
+          setInputsInvalidityMap.resistance_level,
+          true,
+          userSettings.default_increment_resistance_level
+        ),
+      },
+      partial_reps: {
+        decrease: ShouldSetTrackingValueButtonBeDisabled(
+          setTrackingValuesInput.partial_reps,
+          setInputsInvalidityMap.partial_reps,
+          false,
+          1
+        ),
+        increase: ShouldSetTrackingValueButtonBeDisabled(
+          setTrackingValuesInput.partial_reps,
+          setInputsInvalidityMap.partial_reps,
+          true,
+          1
+        ),
+      },
+      user_weight: {
+        decrease: ShouldSetTrackingValueButtonBeDisabled(
+          setTrackingValuesInput.user_weight,
+          setInputsInvalidityMap.user_weight,
+          false,
+          userSettings.default_increment_weight
+        ),
+        increase: ShouldSetTrackingValueButtonBeDisabled(
+          setTrackingValuesInput.user_weight,
+          setInputsInvalidityMap.user_weight,
+          true,
+          userSettings.default_increment_weight
+        ),
+      },
+    };
+
+    return values;
+  }, [setInputsInvalidityMap, setTrackingValuesInput, userSettings]);
+
   const updateValue = (key: string, isIncrease: boolean) => {
-    // TODO: ADD LIMITS
     const updatedSet = { ...operatingSet };
     const updatedSetInputs = { ...setTrackingValuesInput };
     const modifier = isIncrease ? 1 : -1;
