@@ -35,6 +35,7 @@ export const SetValueInputs = ({
     setTrackingValuesInput,
     setSetTrackingValuesInput,
     setInputsInvalidityMap,
+    isTimeInputInvalid,
     setIsTimeInputInvalid,
   } = useSetTrackingInputs;
 
@@ -96,7 +97,14 @@ export const SetValueInputs = ({
         break;
       }
       case "time": {
-        // TODO: FIX
+        if (isTimeInputInvalid) return;
+
+        const newValue =
+          updatedSet.time_in_seconds +
+          modifier * userSettings.default_increment_time;
+
+        updatedSet.time_in_seconds = newValue;
+
         break;
       }
       case "rir": {
@@ -267,15 +275,33 @@ export const SetValueInputs = ({
         </div>
       )}
       {!!operatingSet.is_tracking_time && (
-        <TimeInput
-          defaultTimeInput={userSettings.default_time_input}
-          time_input_behavior_hhmmss={userSettings.time_input_behavior_hhmmss}
-          time_input_behavior_mmss={userSettings.time_input_behavior_mmss}
-          set={operatingSet}
-          setSet={setOperatingSet}
-          setIsTimeInputInvalid={setIsTimeInputInvalid}
-          isSmall={true}
-        />
+        <div className="flex justify-between gap-1">
+          <TimeInput
+            defaultTimeInput={userSettings.default_time_input}
+            time_input_behavior_hhmmss={userSettings.time_input_behavior_hhmmss}
+            time_input_behavior_mmss={userSettings.time_input_behavior_mmss}
+            set={operatingSet}
+            setSet={setOperatingSet}
+            setIsTimeInputInvalid={setIsTimeInputInvalid}
+            isSmall={true}
+          />
+          <Button
+            isIconOnly
+            variant="flat"
+            size="sm"
+            onPress={() => updateValue("time", false)}
+          >
+            <MinusIcon />
+          </Button>
+          <Button
+            isIconOnly
+            variant="flat"
+            size="sm"
+            onPress={() => updateValue("time", true)}
+          >
+            <PlusIcon />
+          </Button>
+        </div>
       )}
       {!!operatingSet.is_tracking_rir && (
         <div className="flex justify-between gap-1">

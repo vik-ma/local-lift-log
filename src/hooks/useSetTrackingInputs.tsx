@@ -93,6 +93,7 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
     setInputsInvalidityMap,
     setTrackingValuesInput,
     setSetTrackingValuesInput,
+    isTimeInputInvalid,
     setIsTimeInputInvalid,
     setTrackingValuesInputStrings,
   };
