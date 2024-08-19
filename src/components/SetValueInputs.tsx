@@ -52,90 +52,42 @@ export const SetValueInputs = ({
     }
   };
 
-  const increaseValue = (key: string) => {
+  const updateValue = (key: string, isIncrease: boolean) => {
     // TODO: ADD LIMITS
-
     const updatedSet = { ...operatingSet };
+    const modifier = isIncrease ? 1 : -1;
 
     switch (key) {
       case "weight":
-        updatedSet.weight =
-          updatedSet.weight + userSettings.default_increment_weight;
+        updatedSet.weight = modifier * userSettings.default_increment_weight;
         break;
       case "reps":
-        updatedSet.reps = updatedSet.reps + 1;
+        updatedSet.reps += modifier;
         break;
       case "distance":
-        updatedSet.distance =
-          updatedSet.distance + userSettings.default_increment_distance;
+        updatedSet.distance +=
+          modifier * userSettings.default_increment_distance;
         break;
       case "time":
-        updatedSet.time_in_seconds =
-          updatedSet.time_in_seconds + userSettings.default_increment_time;
+        updatedSet.time_in_seconds +=
+          modifier * userSettings.default_increment_time;
         break;
       case "rir":
-        updatedSet.rir = updatedSet.rir + 1;
+        updatedSet.rir += modifier;
         break;
       case "rpe":
-        updatedSet.rpe = updatedSet.rpe + 1;
+        updatedSet.rpe += modifier;
         break;
       case "resistance_level":
-        updatedSet.resistance_level =
-          updatedSet.resistance_level +
-          userSettings.default_increment_resistance_level;
+        updatedSet.resistance_level +=
+          modifier * userSettings.default_increment_resistance_level;
         break;
       case "partial_reps":
-        updatedSet.partial_reps = updatedSet.partial_reps + 1;
+        updatedSet.partial_reps += modifier;
         break;
       case "user_weight":
-        updatedSet.user_weight =
-          updatedSet.user_weight + userSettings.default_increment_weight;
-        break;
-      default:
-        break;
-    }
-
-    setOperatingSet(updatedSet);
-  };
-
-  const decreaseValue = (key: string) => {
-    // TODO: ADD LIMITS
-
-    const updatedSet = { ...operatingSet };
-
-    switch (key) {
-      case "weight":
-        updatedSet.weight =
-          updatedSet.weight - userSettings.default_increment_weight;
-        break;
-      case "reps":
-        updatedSet.reps = updatedSet.reps - 1;
-        break;
-      case "distance":
-        updatedSet.distance =
-          updatedSet.distance - userSettings.default_increment_distance;
-        break;
-      case "time":
-        updatedSet.time_in_seconds =
-          updatedSet.time_in_seconds - userSettings.default_increment_time;
-        break;
-      case "rir":
-        updatedSet.rir = updatedSet.rir - 1;
-        break;
-      case "rpe":
-        updatedSet.rpe = updatedSet.rpe - 1;
-        break;
-      case "resistance_level":
-        updatedSet.resistance_level =
-          updatedSet.resistance_level -
-          userSettings.default_increment_resistance_level;
-        break;
-      case "partial_reps":
-        updatedSet.partial_reps = updatedSet.partial_reps - 1;
-        break;
-      case "user_weight":
-        updatedSet.user_weight =
-          updatedSet.user_weight - userSettings.default_increment_weight;
+        updatedSet.user_weight +=
+          modifier * userSettings.default_increment_weight;
         break;
       default:
         break;
@@ -168,7 +120,7 @@ export const SetValueInputs = ({
             isIconOnly
             variant="flat"
             size="sm"
-            onPress={() => decreaseValue("weight")}
+            onPress={() => updateValue("weight", false)}
           >
             <MinusIcon />
           </Button>
@@ -176,7 +128,7 @@ export const SetValueInputs = ({
             isIconOnly
             variant="flat"
             size="sm"
-            onPress={() => increaseValue("weight")}
+            onPress={() => updateValue("weight", true)}
           >
             <PlusIcon />
           </Button>
