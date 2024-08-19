@@ -33,7 +33,7 @@ export const SetValueInputs = ({
   const {
     setTrackingValuesInput,
     setSetTrackingValuesInput,
-    setInputsValidityMap,
+    setInputsInvalidityMap,
     setIsTimeInputInvalid,
   } = useSetTrackingInputs;
 
@@ -55,6 +55,7 @@ export const SetValueInputs = ({
   const updateValue = (key: string, isIncrease: boolean) => {
     // TODO: ADD LIMITS
     const updatedSet = { ...operatingSet };
+    const updatedSetInputs = { ...setTrackingValuesInput };
     const modifier = isIncrease ? 1 : -1;
 
     switch (key) {
@@ -94,6 +95,7 @@ export const SetValueInputs = ({
     }
 
     setOperatingSet(updatedSet);
+    setSetTrackingValuesInput(updatedSetInputs);
   };
 
   return (
@@ -113,7 +115,7 @@ export const SetValueInputs = ({
                 weight: value,
               }))
             }
-            isInvalid={setInputsValidityMap.weight}
+            isInvalid={setInputsInvalidityMap.weight}
             isClearable
           />
           <Button
@@ -155,7 +157,7 @@ export const SetValueInputs = ({
                 reps: value,
               }))
             }
-            isInvalid={setInputsValidityMap.reps}
+            isInvalid={setInputsInvalidityMap.reps}
             isClearable
           />
           <Button isIconOnly variant="flat" size="sm">
@@ -181,7 +183,7 @@ export const SetValueInputs = ({
                 distance: value,
               }))
             }
-            isInvalid={setInputsValidityMap.distance}
+            isInvalid={setInputsInvalidityMap.distance}
             isClearable
           />
           <Button isIconOnly variant="flat" size="sm">
@@ -224,7 +226,7 @@ export const SetValueInputs = ({
                 rir: value,
               }))
             }
-            isInvalid={setInputsValidityMap.rir}
+            isInvalid={setInputsInvalidityMap.rir}
             isClearable
           />
           <Button isIconOnly variant="flat" size="sm">
@@ -250,7 +252,7 @@ export const SetValueInputs = ({
                 rpe: value,
               }))
             }
-            isInvalid={setInputsValidityMap.rpe}
+            isInvalid={setInputsInvalidityMap.rpe}
             isClearable
           />
           <Button isIconOnly variant="flat" size="sm">
@@ -280,7 +282,7 @@ export const SetValueInputs = ({
                 resistance_level: value,
               }))
             }
-            isInvalid={setInputsValidityMap.resistance_level}
+            isInvalid={setInputsInvalidityMap.resistance_level}
             isClearable
           />
           <Button isIconOnly variant="flat" size="sm">
@@ -310,7 +312,7 @@ export const SetValueInputs = ({
                 partial_reps: value,
               }))
             }
-            isInvalid={setInputsValidityMap.partial_reps}
+            isInvalid={setInputsInvalidityMap.partial_reps}
             isClearable
           />{" "}
           <Button isIconOnly variant="flat" size="sm">
@@ -341,7 +343,7 @@ export const SetValueInputs = ({
                   user_weight: value,
                 }))
               }
-              isInvalid={setInputsValidityMap.user_weight}
+              isInvalid={setInputsInvalidityMap.user_weight}
               isClearable
             />
             <Button isIconOnly variant="flat" size="sm">

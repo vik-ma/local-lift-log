@@ -22,7 +22,7 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
   const [setTrackingValuesInput, setSetTrackingValuesInput] =
     useState<SetTrackingValuesInput>(defaultSetTrackingValuesInput);
 
-  const setInputsValidityMap = useMemo((): SetTrackingValuesValidity => {
+  const setInputsInvalidityMap = useMemo((): SetTrackingValuesValidity => {
     const values: SetTrackingValuesValidity = {
       weight: IsStringInvalidNumber(setTrackingValuesInput.weight),
       reps: IsStringInvalidInteger(setTrackingValuesInput.reps),
@@ -39,12 +39,12 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
   }, [setTrackingValuesInput]);
 
   const isSetTrackingValuesInvalid = useMemo((): boolean => {
-    for (const value of Object.values(setInputsValidityMap)) {
+    for (const value of Object.values(setInputsInvalidityMap)) {
       if (value === true) return true;
     }
     if (isTimeInputInvalid) return true;
     return false;
-  }, [setInputsValidityMap, isTimeInputInvalid]);
+  }, [setInputsInvalidityMap, isTimeInputInvalid]);
 
   const setTrackingValuesInputStrings = useCallback((set: WorkoutSet) => {
     const newSetTrackingValuesInput = {
@@ -75,7 +75,7 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
 
   return {
     isSetTrackingValuesInvalid,
-    setInputsValidityMap,
+    setInputsInvalidityMap,
     setTrackingValuesInput,
     setSetTrackingValuesInput,
     setIsTimeInputInvalid,

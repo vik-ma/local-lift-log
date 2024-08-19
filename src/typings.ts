@@ -330,7 +330,7 @@ export type MultisetTypeMap = {
 
 export type UseSetTrackingInputsReturnType = {
   isSetTrackingValuesInvalid: boolean;
-  setInputsValidityMap: SetTrackingValuesValidity;
+  setInputsInvalidityMap: SetTrackingValuesValidity;
   setTrackingValuesInput: SetTrackingValuesInput;
   setSetTrackingValuesInput: React.Dispatch<
     React.SetStateAction<SetTrackingValuesInput>
