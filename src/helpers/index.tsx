@@ -55,6 +55,7 @@ export { GenerateSetListText } from "./Sets/GenerateSetListText";
 export { AssignTrackingValuesIfCardio } from "./Sets/AssignTrackingValuesIfCardio";
 export { UpdateSetComment } from "./Sets/UpdateSetComment";
 export { UpdateSetNote } from "./Sets/UpdateSetNote";
+export { ShouldSetTrackingValueButtonBeDisabled } from "./Sets/ShouldSetTrackingValueButtonBeDisabled";
 
 export { GenerateMultisetSetOrderString } from "./Multisets/GenerateMultisetSetOrderString";
 export { DefaultNewMultiset } from "./Multisets/DefaultNewMultiset";
