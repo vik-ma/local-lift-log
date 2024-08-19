@@ -5,7 +5,8 @@ export const ShouldSetTrackingValueButtonBeDisabled = (
   isSetTrackingInvalid: boolean,
   isIncrease: boolean,
   increment: number,
-  maxValue?: number
+  maxValue?: number,
+  minValue?: number
 ): boolean => {
   if (isSetTrackingInvalid) return true;
 
@@ -14,7 +15,9 @@ export const ShouldSetTrackingValueButtonBeDisabled = (
   const value =
     ConvertInputStringToNumber(setTrackingString) + modifier * increment;
 
-  if (value < 0) return true;
+  const min = minValue ?? 0;
+
+  if (value < min) return true;
 
   if (maxValue && value > maxValue) return true;
 
