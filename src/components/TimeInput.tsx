@@ -325,11 +325,35 @@ export const TimeInput = ({
 
   return (
     <div className="flex justify-between gap-1 items-center">
-      <span className="text-xs pr-0.5">
+      <span className="text-xs">
         {showTimeLabel
           ? `Time (${timeInputMap.get(inputType)})`
           : timeInputMap.get(inputType)}
       </span>
+      <Dropdown>
+        <DropdownTrigger>
+          <Button
+            aria-label="Toggle Time Input Style Menu"
+            isIconOnly
+            variant="flat"
+            size={isSmall ? "sm" : "md"}
+          >
+            <ChevronIcon size={22} color="#999" />
+          </Button>
+        </DropdownTrigger>
+        <DropdownMenu
+          aria-label="Time Input Style Menu"
+          selectionMode="single"
+          selectedKeys={[inputType]}
+          onAction={(key) => setInputType(key as string)}
+        >
+          {Array.from(timeInputMap).map(([key, value]) => (
+            <DropdownItem key={key} value={key}>
+              {value}
+            </DropdownItem>
+          ))}
+        </DropdownMenu>
+      </Dropdown>
       <div className="flex items-center">
         {inputType === "hhmmss" && (
           <div className="flex items-center gap-1 w-full">
@@ -486,30 +510,6 @@ export const TimeInput = ({
           />
         )}
       </div>
-      <Dropdown>
-        <DropdownTrigger>
-          <Button
-            aria-label="Toggle Time Input Style Menu"
-            isIconOnly
-            variant="flat"
-            size={isSmall ? "sm" : "md"}
-          >
-            <ChevronIcon size={22} color="#999" />
-          </Button>
-        </DropdownTrigger>
-        <DropdownMenu
-          aria-label="Time Input Style Menu"
-          selectionMode="single"
-          selectedKeys={[inputType]}
-          onAction={(key) => setInputType(key as string)}
-        >
-          {Array.from(timeInputMap).map(([key, value]) => (
-            <DropdownItem key={key} value={key}>
-              {value}
-            </DropdownItem>
-          ))}
-        </DropdownMenu>
-      </Dropdown>
     </div>
   );
 };
