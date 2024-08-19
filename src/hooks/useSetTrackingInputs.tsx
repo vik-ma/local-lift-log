@@ -1,13 +1,14 @@
 import { useState, useMemo, useCallback } from "react";
 import {
   DefaultSetInputValues,
+  IsStringEmpty,
   IsStringInvalidInteger,
   IsStringInvalidNumber,
   IsStringInvalidNumberOrAbove10,
 } from "../helpers";
 import {
   SetTrackingValuesInput,
-  SetTrackingValuesValidity,
+  SetTrackingValuesInvalidity,
   WorkoutSet,
   UseSetTrackingInputsReturnType,
 } from "../typings";
@@ -22,18 +23,32 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
   const [setTrackingValuesInput, setSetTrackingValuesInput] =
     useState<SetTrackingValuesInput>(defaultSetTrackingValuesInput);
 
-  const setInputsInvalidityMap = useMemo((): SetTrackingValuesValidity => {
-    const values: SetTrackingValuesValidity = {
-      weight: IsStringInvalidNumber(setTrackingValuesInput.weight),
-      reps: IsStringInvalidInteger(setTrackingValuesInput.reps),
-      rir: IsStringInvalidInteger(setTrackingValuesInput.rir),
-      rpe: IsStringInvalidNumberOrAbove10(setTrackingValuesInput.rpe),
-      distance: IsStringInvalidNumber(setTrackingValuesInput.distance),
-      resistance_level: IsStringInvalidNumber(
-        setTrackingValuesInput.resistance_level
-      ),
-      partial_reps: IsStringInvalidInteger(setTrackingValuesInput.partial_reps),
-      user_weight: IsStringInvalidNumber(setTrackingValuesInput.user_weight),
+  const setInputsInvalidityMap = useMemo((): SetTrackingValuesInvalidity => {
+    const values: SetTrackingValuesInvalidity = {
+      weight:
+        !IsStringEmpty(setTrackingValuesInput.weight) &&
+        IsStringInvalidNumber(setTrackingValuesInput.weight),
+      reps:
+        !IsStringEmpty(setTrackingValuesInput.reps) &&
+        IsStringInvalidInteger(setTrackingValuesInput.reps),
+      rir:
+        !IsStringEmpty(setTrackingValuesInput.rir) &&
+        IsStringInvalidInteger(setTrackingValuesInput.rir),
+      rpe:
+        !IsStringEmpty(setTrackingValuesInput.rpe) &&
+        IsStringInvalidNumberOrAbove10(setTrackingValuesInput.rpe),
+      distance:
+        !IsStringEmpty(setTrackingValuesInput.distance) &&
+        IsStringInvalidNumber(setTrackingValuesInput.distance),
+      resistance_level:
+        !IsStringEmpty(setTrackingValuesInput.resistance_level) &&
+        IsStringInvalidNumber(setTrackingValuesInput.resistance_level),
+      partial_reps:
+        !IsStringEmpty(setTrackingValuesInput.partial_reps) &&
+        IsStringInvalidInteger(setTrackingValuesInput.partial_reps),
+      user_weight:
+        !IsStringEmpty(setTrackingValuesInput.user_weight) &&
+        IsStringInvalidNumber(setTrackingValuesInput.user_weight),
     };
     return values;
   }, [setTrackingValuesInput]);

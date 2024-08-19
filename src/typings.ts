@@ -216,7 +216,7 @@ export type SetTrackingValuesNumbers = {
   user_weight: number;
 };
 
-export type SetTrackingValuesValidity = {
+export type SetTrackingValuesInvalidity = {
   weight: boolean;
   reps: boolean;
   rir: boolean;
@@ -330,7 +330,7 @@ export type MultisetTypeMap = {
 
 export type UseSetTrackingInputsReturnType = {
   isSetTrackingValuesInvalid: boolean;
-  setInputsInvalidityMap: SetTrackingValuesValidity;
+  setInputsInvalidityMap: SetTrackingValuesInvalidity;
   setTrackingValuesInput: SetTrackingValuesInput;
   setSetTrackingValuesInput: React.Dispatch<
     React.SetStateAction<SetTrackingValuesInput>
