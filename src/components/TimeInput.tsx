@@ -335,7 +335,7 @@ export const TimeInput = ({
           <Button
             aria-label="Toggle Time Input Style Menu"
             isIconOnly
-            variant="flat"
+            variant="light"
             size={isSmall ? "sm" : "md"}
           >
             <ChevronIcon size={22} color="#999" />
