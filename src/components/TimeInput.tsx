@@ -324,21 +324,20 @@ export const TimeInput = ({
   const mmssSecondsInput = useRef<HTMLInputElement>(null);
 
   return (
-    <div className="flex justify-between gap-1 items-center">
-      <span className="text-xs">
-        {showTimeLabel
-          ? `Time (${timeInputMap.get(inputType)})`
-          : timeInputMap.get(inputType)}
-      </span>
+    <div className="flex justify-between gap-0.5 items-center">
       <Dropdown>
         <DropdownTrigger>
           <Button
+            className="text-xs"
             aria-label="Toggle Time Input Style Menu"
-            isIconOnly
             variant="light"
             size={isSmall ? "sm" : "md"}
+            radius="lg"
+            endContent={<ChevronIcon size={18} color="#888" />}
           >
-            <ChevronIcon size={22} color="#999" />
+            {showTimeLabel
+              ? `Time (${timeInputMap.get(inputType)})`
+              : timeInputMap.get(inputType)}
           </Button>
         </DropdownTrigger>
         <DropdownMenu
@@ -476,11 +475,7 @@ export const TimeInput = ({
         {inputType === "minutes" && (
           <Input
             className={
-              isSmall && isClearable
-                ? "w-[5.5rem]"
-                : isSmall
-                ? "w-[4rem]"
-                : ""
+              isSmall && isClearable ? "w-[5.5rem]" : isSmall ? "w-[4rem]" : ""
             }
             aria-label="Minutes Input Field"
             variant="faded"
@@ -494,11 +489,7 @@ export const TimeInput = ({
         {inputType === "seconds" && (
           <Input
             className={
-              isSmall && isClearable
-                ? "w-[5.5rem]"
-                : isSmall
-                ? "w-[4rem]"
-                : ""
+              isSmall && isClearable ? "w-[5.5rem]" : isSmall ? "w-[4rem]" : ""
             }
             aria-label="Seconds Input Field"
             variant="faded"
