@@ -174,9 +174,12 @@ export const SetValueInputs = ({
       case "weight": {
         if (setInputsInvalidityMap.weight) return;
 
-        const newValue =
-          ConvertInputStringToNumber(updatedSetInputs.weight) +
-          modifier * userSettings.default_increment_weight;
+        const newValue = parseFloat(
+          (
+            ConvertInputStringToNumber(updatedSetInputs.weight) +
+            modifier * userSettings.default_increment_weight
+          ).toFixed(2)
+        );
 
         updatedSet.weight = newValue;
         updatedSetInputs.weight = newValue === 0 ? "" : newValue.toString();
@@ -197,9 +200,12 @@ export const SetValueInputs = ({
       case "distance": {
         if (setInputsInvalidityMap.distance) return;
 
-        const newValue =
-          ConvertInputStringToNumber(updatedSetInputs.distance) +
-          modifier * userSettings.default_increment_distance;
+        const newValue = parseFloat(
+          (
+            ConvertInputStringToNumber(updatedSetInputs.distance) +
+            modifier * userSettings.default_increment_distance
+          ).toFixed(2)
+        );
 
         updatedSet.distance = newValue;
         updatedSetInputs.distance = newValue === 0 ? "" : newValue.toString();
@@ -242,9 +248,12 @@ export const SetValueInputs = ({
       case "resistance_level": {
         if (setInputsInvalidityMap.resistance_level) return;
 
-        const newValue =
-          ConvertInputStringToNumber(updatedSetInputs.resistance_level) +
-          modifier * userSettings.default_increment_resistance_level;
+        const newValue = parseFloat(
+          (
+            ConvertInputStringToNumber(updatedSetInputs.resistance_level) +
+            modifier * userSettings.default_increment_resistance_level
+          ).toFixed(2)
+        );
 
         updatedSet.resistance_level = newValue;
         updatedSetInputs.resistance_level =
@@ -267,9 +276,12 @@ export const SetValueInputs = ({
       case "user_weight": {
         if (setInputsInvalidityMap.user_weight) return;
 
-        const newValue =
-          ConvertInputStringToNumber(updatedSetInputs.user_weight) +
-          modifier * userSettings.default_increment_weight;
+        const newValue = parseFloat(
+          (
+            ConvertInputStringToNumber(updatedSetInputs.user_weight) +
+            modifier * userSettings.default_increment_weight
+          ).toFixed(2)
+        );
 
         updatedSet.user_weight = newValue;
         updatedSetInputs.user_weight =
