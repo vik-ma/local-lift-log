@@ -479,7 +479,7 @@ export const TimeInput = ({
               isSmall && isClearable
                 ? "w-[5.5rem]"
                 : isSmall
-                ? "w-[3.5rem]"
+                ? "w-[4rem]"
                 : ""
             }
             aria-label="Minutes Input Field"
@@ -497,7 +497,7 @@ export const TimeInput = ({
               isSmall && isClearable
                 ? "w-[5.5rem]"
                 : isSmall
-                ? "w-[3.5rem]"
+                ? "w-[4rem]"
                 : ""
             }
             aria-label="Seconds Input Field"

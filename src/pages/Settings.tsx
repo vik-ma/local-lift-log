@@ -495,7 +495,7 @@ export default function Settings() {
             <div className="flex gap-2 items-center">
               <Input
                 aria-label="Default Weight Increment Input Field"
-                className="w-[3.5rem]"
+                className="w-[4rem]"
                 size="sm"
                 value={defaultIncrementInputValues.weight}
                 variant="faded"
@@ -526,7 +526,7 @@ export default function Settings() {
             <div className="flex gap-2 items-center">
               <Input
                 aria-label="Default Distance Increment Input Field"
-                className="w-[3.5rem]"
+                className="w-[4rem]"
                 size="sm"
                 value={defaultIncrementInputValues.distance}
                 variant="faded"
@@ -588,7 +588,7 @@ export default function Settings() {
             <div className="flex gap-2 items-center">
               <Input
                 aria-label="Default Resistance Level Increment Input Field"
-                className="w-[3.5rem]"
+                className="w-[4rem]"
                 size="sm"
                 value={defaultIncrementInputValues.resistanceLevel}
                 variant="faded"
