@@ -5,6 +5,7 @@ import {
   UpdateAllUserSettings,
   CreateDefaultUserSettings,
   IsStringInvalidNumberOr0,
+  ConvertNumberToTwoDecimals,
 } from "../helpers";
 import {
   Switch,
@@ -257,8 +258,8 @@ export default function Settings() {
       )
         return;
 
-      updatedSettings.default_increment_weight = Number(
-        defaultIncrementInputValues.weight
+      updatedSettings.default_increment_weight = ConvertNumberToTwoDecimals(
+        Number(defaultIncrementInputValues.weight)
       );
 
       updatedOriginalValues.weight = defaultIncrementInputValues.weight;
@@ -270,8 +271,8 @@ export default function Settings() {
       )
         return;
 
-      updatedSettings.default_increment_distance = Number(
-        defaultIncrementInputValues.distance
+      updatedSettings.default_increment_distance = ConvertNumberToTwoDecimals(
+        Number(defaultIncrementInputValues.distance)
       );
 
       updatedOriginalValues.distance = defaultIncrementInputValues.distance;
@@ -282,8 +283,8 @@ export default function Settings() {
       )
         return;
 
-      updatedSettings.default_increment_time = Number(
-        defaultIncrementInputValues.time
+      updatedSettings.default_increment_time = ConvertNumberToTwoDecimals(
+        Number(defaultIncrementInputValues.time)
       );
 
       updatedOriginalValues.time = defaultIncrementInputValues.time;
@@ -295,9 +296,10 @@ export default function Settings() {
       )
         return;
 
-      updatedSettings.default_increment_resistance_level = Number(
-        defaultIncrementInputValues.resistanceLevel
-      );
+      updatedSettings.default_increment_resistance_level =
+        ConvertNumberToTwoDecimals(
+          Number(defaultIncrementInputValues.resistanceLevel)
+        );
 
       updatedOriginalValues.resistanceLevel =
         defaultIncrementInputValues.resistanceLevel;
