@@ -6,9 +6,13 @@ import {
   UserWeight,
   SetTrackingValues,
 } from "../typings";
-import { WeightUnitDropdown, DistanceUnitDropdown, TimeInput } from ".";
+import {
+  WeightUnitDropdown,
+  DistanceUnitDropdown,
+  TimeInput,
+  SetValueUpdateButtons,
+} from ".";
 import { Button, Input, useDisclosure } from "@nextui-org/react";
-import { MinusIcon, PlusIcon } from "../assets";
 import {
   ConvertInputStringToNumber,
   ShouldSetTrackingValueButtonBeDisabled,
@@ -105,16 +109,14 @@ export const SetValueInputs = ({
           setInputsInvalidityMap.rpe,
           false,
           1,
-          10,
-          1
+          10
         ),
         increase: ShouldSetTrackingValueButtonBeDisabled(
           setTrackingValuesInput.rpe,
           setInputsInvalidityMap.rpe,
           true,
           1,
-          10,
-          1
+          10
         ),
       },
       distance: {
@@ -317,23 +319,11 @@ export const SetValueInputs = ({
             isInvalid={setInputsInvalidityMap.weight}
             isClearable
           />
-          <Button
-            isIconOnly
-            variant="flat"
-            size="sm"
-            onPress={() => updateValue("weight", false)}
-            isDisabled={disableUpdateValueButtonsMap.weight.decrease}
-          >
-            <MinusIcon />
-          </Button>
-          <Button
-            isIconOnly
-            variant="flat"
-            size="sm"
-            onPress={() => updateValue("weight", true)}
-          >
-            <PlusIcon />
-          </Button>
+          <SetValueUpdateButtons
+            trackingValue="weight"
+            updateValue={updateValue}
+            isDecreaseDisabled={disableUpdateValueButtonsMap.weight.decrease}
+          />
           <WeightUnitDropdown
             value={operatingSet.weight_unit}
             setSet={setOperatingSet as SetWorkoutSetAction}
@@ -360,23 +350,11 @@ export const SetValueInputs = ({
             isInvalid={setInputsInvalidityMap.reps}
             isClearable
           />
-          <Button
-            isIconOnly
-            variant="flat"
-            size="sm"
-            onPress={() => updateValue("reps", false)}
-            isDisabled={disableUpdateValueButtonsMap.reps.decrease}
-          >
-            <MinusIcon />
-          </Button>
-          <Button
-            isIconOnly
-            variant="flat"
-            size="sm"
-            onPress={() => updateValue("reps", true)}
-          >
-            <PlusIcon />
-          </Button>
+          <SetValueUpdateButtons
+            trackingValue="reps"
+            updateValue={updateValue}
+            isDecreaseDisabled={disableUpdateValueButtonsMap.reps.decrease}
+          />
         </div>
       )}
       {!!operatingSet.is_tracking_distance && (
@@ -397,23 +375,11 @@ export const SetValueInputs = ({
             isInvalid={setInputsInvalidityMap.distance}
             isClearable
           />
-          <Button
-            isIconOnly
-            variant="flat"
-            size="sm"
-            onPress={() => updateValue("distance", false)}
-            isDisabled={disableUpdateValueButtonsMap.distance.decrease}
-          >
-            <MinusIcon />
-          </Button>
-          <Button
-            isIconOnly
-            variant="flat"
-            size="sm"
-            onPress={() => updateValue("distance", true)}
-          >
-            <PlusIcon />
-          </Button>
+          <SetValueUpdateButtons
+            trackingValue="distance"
+            updateValue={updateValue}
+            isDecreaseDisabled={disableUpdateValueButtonsMap.distance.decrease}
+          />
           <DistanceUnitDropdown
             value={operatingSet.distance_unit}
             setSet={setOperatingSet as SetWorkoutSetAction}
@@ -434,23 +400,11 @@ export const SetValueInputs = ({
             isSmall={true}
           />
           <div className="flex gap-1">
-            <Button
-              isIconOnly
-              variant="flat"
-              size="sm"
-              onPress={() => updateValue("time", false)}
-              isDisabled={disableUpdateValueButtonsMap.time.decrease}
-            >
-              <MinusIcon />
-            </Button>
-            <Button
-              isIconOnly
-              variant="flat"
-              size="sm"
-              onPress={() => updateValue("time", true)}
-            >
-              <PlusIcon />
-            </Button>
+            <SetValueUpdateButtons
+              trackingValue="time"
+              updateValue={updateValue}
+              isDecreaseDisabled={disableUpdateValueButtonsMap.time.decrease}
+            />
           </div>
         </div>
       )}
@@ -472,23 +426,11 @@ export const SetValueInputs = ({
             isInvalid={setInputsInvalidityMap.rir}
             isClearable
           />
-          <Button
-            isIconOnly
-            variant="flat"
-            size="sm"
-            onPress={() => updateValue("rir", false)}
-            isDisabled={disableUpdateValueButtonsMap.rir.decrease}
-          >
-            <MinusIcon />
-          </Button>
-          <Button
-            isIconOnly
-            variant="flat"
-            size="sm"
-            onPress={() => updateValue("rir", true)}
-          >
-            <PlusIcon />
-          </Button>
+          <SetValueUpdateButtons
+            trackingValue="rir"
+            updateValue={updateValue}
+            isDecreaseDisabled={disableUpdateValueButtonsMap.rir.decrease}
+          />
         </div>
       )}
       {!!operatingSet.is_tracking_rpe && (
@@ -509,24 +451,12 @@ export const SetValueInputs = ({
             isInvalid={setInputsInvalidityMap.rpe}
             isClearable
           />
-          <Button
-            isIconOnly
-            variant="flat"
-            size="sm"
-            onPress={() => updateValue("rpe", false)}
-            isDisabled={disableUpdateValueButtonsMap.rpe.decrease}
-          >
-            <MinusIcon />
-          </Button>
-          <Button
-            isIconOnly
-            variant="flat"
-            size="sm"
-            onPress={() => updateValue("rpe", true)}
-            isDisabled={disableUpdateValueButtonsMap.rpe.increase}
-          >
-            <PlusIcon />
-          </Button>
+          <SetValueUpdateButtons
+            trackingValue="rpe"
+            updateValue={updateValue}
+            isDecreaseDisabled={disableUpdateValueButtonsMap.rpe.decrease}
+            isIncreaseDisabled={disableUpdateValueButtonsMap.rpe.increase}
+          />
         </div>
       )}
       {!!operatingSet.is_tracking_resistance_level && (
@@ -551,23 +481,13 @@ export const SetValueInputs = ({
             isInvalid={setInputsInvalidityMap.resistance_level}
             isClearable
           />
-          <Button
-            isIconOnly
-            variant="flat"
-            size="sm"
-            onPress={() => updateValue("resistance_level", false)}
-            isDisabled={disableUpdateValueButtonsMap.resistance_level.decrease}
-          >
-            <MinusIcon />
-          </Button>
-          <Button
-            isIconOnly
-            variant="flat"
-            size="sm"
-            onPress={() => updateValue("resistance_level", true)}
-          >
-            <PlusIcon />
-          </Button>
+          <SetValueUpdateButtons
+            trackingValue="resistance_level"
+            updateValue={updateValue}
+            isDecreaseDisabled={
+              disableUpdateValueButtonsMap.resistance_level.decrease
+            }
+          />
         </div>
       )}
       {!!operatingSet.is_tracking_partial_reps && (
@@ -592,23 +512,13 @@ export const SetValueInputs = ({
             isInvalid={setInputsInvalidityMap.partial_reps}
             isClearable
           />
-          <Button
-            isIconOnly
-            variant="flat"
-            size="sm"
-            onPress={() => updateValue("partial_reps", false)}
-            isDisabled={disableUpdateValueButtonsMap.partial_reps.decrease}
-          >
-            <MinusIcon />
-          </Button>
-          <Button
-            isIconOnly
-            variant="flat"
-            size="sm"
-            onPress={() => updateValue("partial_reps", true)}
-          >
-            <PlusIcon />
-          </Button>
+          <SetValueUpdateButtons
+            trackingValue="partial_reps"
+            updateValue={updateValue}
+            isDecreaseDisabled={
+              disableUpdateValueButtonsMap.partial_reps.decrease
+            }
+          />
         </div>
       )}
       {!!operatingSet.is_tracking_user_weight && (
@@ -634,23 +544,13 @@ export const SetValueInputs = ({
               isInvalid={setInputsInvalidityMap.user_weight}
               isClearable
             />
-            <Button
-              isIconOnly
-              variant="flat"
-              size="sm"
-              onPress={() => updateValue("user_weight", false)}
-              isDisabled={disableUpdateValueButtonsMap.user_weight.decrease}
-            >
-              <MinusIcon />
-            </Button>
-            <Button
-              isIconOnly
-              variant="flat"
-              size="sm"
-              onPress={() => updateValue("user_weight", true)}
-            >
-              <PlusIcon />
-            </Button>
+            <SetValueUpdateButtons
+              trackingValue="user_weight"
+              updateValue={updateValue}
+              isDecreaseDisabled={
+                disableUpdateValueButtonsMap.user_weight.decrease
+              }
+            />
             <WeightUnitDropdown
               value={operatingSet.user_weight_unit}
               setSet={setOperatingSet as SetWorkoutSetAction}
