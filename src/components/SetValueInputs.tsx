@@ -106,13 +106,17 @@ export const SetValueInputs = ({
           setTrackingValuesInput.rir,
           setInputsInvalidityMap.rir,
           false,
-          1
+          1,
+          undefined,
+          -1
         ),
         increase: ShouldSetTrackingValueButtonBeDisabled(
           setTrackingValuesInput.rir,
           setInputsInvalidityMap.rir,
           true,
-          1
+          1,
+          undefined,
+          -1
         ),
       },
       rpe: {
@@ -220,7 +224,7 @@ export const SetValueInputs = ({
           modifier * userSettings.default_increment_weight;
 
         updatedSet.weight = newValue;
-        updatedSetInputs.weight = newValue.toString();
+        updatedSetInputs.weight = newValue === 0 ? "" : newValue.toString();
 
         break;
       }
@@ -231,7 +235,7 @@ export const SetValueInputs = ({
           ConvertInputStringToNumber(updatedSetInputs.reps) + modifier;
 
         updatedSet.reps = newValue;
-        updatedSetInputs.reps = newValue.toString();
+        updatedSetInputs.reps = newValue === 0 ? "" : newValue.toString();
 
         break;
       }
@@ -243,7 +247,7 @@ export const SetValueInputs = ({
           modifier * userSettings.default_increment_distance;
 
         updatedSet.distance = newValue;
-        updatedSetInputs.distance = newValue.toString();
+        updatedSetInputs.distance = newValue === 0 ? "" : newValue.toString();
 
         break;
       }
@@ -262,10 +266,10 @@ export const SetValueInputs = ({
         if (setInputsInvalidityMap.rir) return;
 
         const newValue =
-          ConvertInputStringToNumber(updatedSetInputs.rir) + modifier;
+          ConvertInputStringToNumber(updatedSetInputs.rir, true) + modifier;
 
         updatedSet.rir = newValue;
-        updatedSetInputs.rir = newValue.toString();
+        updatedSetInputs.rir = newValue === -1 ? "" : newValue.toString();
 
         break;
       }
@@ -276,7 +280,7 @@ export const SetValueInputs = ({
           ConvertInputStringToNumber(updatedSetInputs.rpe) + modifier;
 
         updatedSet.rpe = newValue;
-        updatedSetInputs.rpe = newValue.toString();
+        updatedSetInputs.rpe = newValue === 0 ? "" : newValue.toString();
 
         break;
       }
@@ -288,7 +292,8 @@ export const SetValueInputs = ({
           modifier * userSettings.default_increment_resistance_level;
 
         updatedSet.resistance_level = newValue;
-        updatedSetInputs.resistance_level = newValue.toString();
+        updatedSetInputs.resistance_level =
+          newValue === 0 ? "" : newValue.toString();
 
         break;
       }
@@ -299,7 +304,8 @@ export const SetValueInputs = ({
           ConvertInputStringToNumber(updatedSetInputs.partial_reps) + modifier;
 
         updatedSet.partial_reps = newValue;
-        updatedSetInputs.partial_reps = newValue.toString();
+        updatedSetInputs.partial_reps =
+          newValue === 0 ? "" : newValue.toString();
 
         break;
       }
@@ -311,7 +317,8 @@ export const SetValueInputs = ({
           modifier * userSettings.default_increment_weight;
 
         updatedSet.user_weight = newValue;
-        updatedSetInputs.user_weight = newValue.toString();
+        updatedSetInputs.user_weight =
+          newValue === 0 ? "" : newValue.toString();
 
         break;
       }

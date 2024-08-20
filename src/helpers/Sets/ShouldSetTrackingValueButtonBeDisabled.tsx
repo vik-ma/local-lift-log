@@ -12,8 +12,11 @@ export const ShouldSetTrackingValueButtonBeDisabled = (
 
   const modifier = isIncrease ? 1 : -1;
 
+  const startAtMinusOne = minValue === -1;
+
   const value =
-    ConvertInputStringToNumber(setTrackingString) + modifier * increment;
+    ConvertInputStringToNumber(setTrackingString, startAtMinusOne) +
+    modifier * increment;
 
   const min = minValue ?? 0;
 
