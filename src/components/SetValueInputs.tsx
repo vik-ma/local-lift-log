@@ -27,15 +27,15 @@ type SetValueInputsProps = {
 };
 
 type DisableUpdateValueButtonsMapType = {
-  weight: { decrease: boolean; increase: boolean };
-  reps: { decrease: boolean; increase: boolean };
-  rir: { decrease: boolean; increase: boolean };
+  weight: { decrease: boolean };
+  reps: { decrease: boolean };
+  rir: { decrease: boolean };
   rpe: { decrease: boolean; increase: boolean };
-  distance: { decrease: boolean; increase: boolean };
-  time: { decrease: boolean; increase: boolean };
-  resistance_level: { decrease: boolean; increase: boolean };
-  partial_reps: { decrease: boolean; increase: boolean };
-  user_weight: { decrease: boolean; increase: boolean };
+  distance: { decrease: boolean };
+  time: { decrease: boolean };
+  resistance_level: { decrease: boolean };
+  partial_reps: { decrease: boolean };
+  user_weight: { decrease: boolean };
 };
 
 export const SetValueInputs = ({
@@ -80,12 +80,6 @@ export const SetValueInputs = ({
           false,
           userSettings.default_increment_weight
         ),
-        increase: ShouldSetTrackingValueButtonBeDisabled(
-          setTrackingValuesInput.weight,
-          setInputsInvalidityMap.weight,
-          true,
-          userSettings.default_increment_weight
-        ),
       },
       reps: {
         decrease: ShouldSetTrackingValueButtonBeDisabled(
@@ -94,26 +88,12 @@ export const SetValueInputs = ({
           false,
           1
         ),
-        increase: ShouldSetTrackingValueButtonBeDisabled(
-          setTrackingValuesInput.reps,
-          setInputsInvalidityMap.reps,
-          true,
-          1
-        ),
       },
       rir: {
         decrease: ShouldSetTrackingValueButtonBeDisabled(
           setTrackingValuesInput.rir,
           setInputsInvalidityMap.rir,
           false,
-          1,
-          undefined,
-          -1
-        ),
-        increase: ShouldSetTrackingValueButtonBeDisabled(
-          setTrackingValuesInput.rir,
-          setInputsInvalidityMap.rir,
-          true,
           1,
           undefined,
           -1
@@ -144,30 +124,17 @@ export const SetValueInputs = ({
           false,
           userSettings.default_increment_distance
         ),
-        increase: ShouldSetTrackingValueButtonBeDisabled(
-          setTrackingValuesInput.distance,
-          setInputsInvalidityMap.distance,
-          true,
-          userSettings.default_increment_distance
-        ),
       },
       time: {
         decrease:
           operatingSet.time_in_seconds - userSettings.default_increment_time <
             0 || isTimeInputInvalid,
-        increase: isTimeInputInvalid,
       },
       resistance_level: {
         decrease: ShouldSetTrackingValueButtonBeDisabled(
           setTrackingValuesInput.resistance_level,
           setInputsInvalidityMap.resistance_level,
           false,
-          userSettings.default_increment_resistance_level
-        ),
-        increase: ShouldSetTrackingValueButtonBeDisabled(
-          setTrackingValuesInput.resistance_level,
-          setInputsInvalidityMap.resistance_level,
-          true,
           userSettings.default_increment_resistance_level
         ),
       },
@@ -178,24 +145,12 @@ export const SetValueInputs = ({
           false,
           1
         ),
-        increase: ShouldSetTrackingValueButtonBeDisabled(
-          setTrackingValuesInput.partial_reps,
-          setInputsInvalidityMap.partial_reps,
-          true,
-          1
-        ),
       },
       user_weight: {
         decrease: ShouldSetTrackingValueButtonBeDisabled(
           setTrackingValuesInput.user_weight,
           setInputsInvalidityMap.user_weight,
           false,
-          userSettings.default_increment_weight
-        ),
-        increase: ShouldSetTrackingValueButtonBeDisabled(
-          setTrackingValuesInput.user_weight,
-          setInputsInvalidityMap.user_weight,
-          true,
           userSettings.default_increment_weight
         ),
       },
@@ -364,7 +319,6 @@ export const SetValueInputs = ({
             variant="flat"
             size="sm"
             onPress={() => updateValue("weight", true)}
-            isDisabled={disableUpdateValueButtonsMap.weight.increase}
           >
             <PlusIcon />
           </Button>
@@ -408,7 +362,6 @@ export const SetValueInputs = ({
             variant="flat"
             size="sm"
             onPress={() => updateValue("reps", true)}
-            isDisabled={disableUpdateValueButtonsMap.reps.increase}
           >
             <PlusIcon />
           </Button>
@@ -446,7 +399,6 @@ export const SetValueInputs = ({
             variant="flat"
             size="sm"
             onPress={() => updateValue("distance", true)}
-            isDisabled={disableUpdateValueButtonsMap.distance.increase}
           >
             <PlusIcon />
           </Button>
@@ -483,7 +435,6 @@ export const SetValueInputs = ({
             variant="flat"
             size="sm"
             onPress={() => updateValue("time", true)}
-            isDisabled={disableUpdateValueButtonsMap.time.increase}
           >
             <PlusIcon />
           </Button>
@@ -521,7 +472,6 @@ export const SetValueInputs = ({
             variant="flat"
             size="sm"
             onPress={() => updateValue("rir", true)}
-            isDisabled={disableUpdateValueButtonsMap.rir.increase}
           >
             <PlusIcon />
           </Button>
@@ -601,7 +551,6 @@ export const SetValueInputs = ({
             variant="flat"
             size="sm"
             onPress={() => updateValue("resistance_level", true)}
-            isDisabled={disableUpdateValueButtonsMap.resistance_level.increase}
           >
             <PlusIcon />
           </Button>
@@ -643,7 +592,6 @@ export const SetValueInputs = ({
             variant="flat"
             size="sm"
             onPress={() => updateValue("partial_reps", true)}
-            isDisabled={disableUpdateValueButtonsMap.partial_reps.increase}
           >
             <PlusIcon />
           </Button>
@@ -686,7 +634,6 @@ export const SetValueInputs = ({
               variant="flat"
               size="sm"
               onPress={() => updateValue("user_weight", true)}
-              isDisabled={disableUpdateValueButtonsMap.user_weight.increase}
             >
               <PlusIcon />
             </Button>
