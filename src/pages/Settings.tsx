@@ -258,11 +258,19 @@ export default function Settings() {
       )
         return;
 
-      updatedSettings.default_increment_weight = ConvertNumberToTwoDecimals(
+      const newValue = ConvertNumberToTwoDecimals(
         Number(defaultIncrementInputValues.weight)
       );
 
-      updatedOriginalValues.weight = defaultIncrementInputValues.weight;
+      const updatedInputString = newValue.toString();
+
+      updatedSettings.default_increment_weight = newValue;
+      setDefaultIncrementInputValues((prev) => ({
+        ...prev,
+        weight: updatedInputString,
+      }));
+
+      updatedOriginalValues.weight = updatedInputString;
     } else if (key === "distance") {
       if (
         defaultIncrementInputsValidityMap.distance ||
@@ -271,11 +279,19 @@ export default function Settings() {
       )
         return;
 
-      updatedSettings.default_increment_distance = ConvertNumberToTwoDecimals(
+      const newValue = ConvertNumberToTwoDecimals(
         Number(defaultIncrementInputValues.distance)
       );
 
-      updatedOriginalValues.distance = defaultIncrementInputValues.distance;
+      const updatedInputString = newValue.toString();
+
+      updatedSettings.default_increment_distance = newValue;
+      setDefaultIncrementInputValues((prev) => ({
+        ...prev,
+        distance: updatedInputString,
+      }));
+
+      updatedOriginalValues.distance = updatedInputString;
     } else if (key === "time") {
       if (
         isTimeInputInvalid ||
@@ -283,9 +299,7 @@ export default function Settings() {
       )
         return;
 
-      updatedSettings.default_increment_time = ConvertNumberToTwoDecimals(
-        Number(defaultIncrementInputValues.time)
-      );
+      updatedSettings.default_increment_time = defaultIncrementInputValues.time;
 
       updatedOriginalValues.time = defaultIncrementInputValues.time;
     } else if (key === "resistance-level") {
@@ -296,13 +310,19 @@ export default function Settings() {
       )
         return;
 
-      updatedSettings.default_increment_resistance_level =
-        ConvertNumberToTwoDecimals(
-          Number(defaultIncrementInputValues.resistanceLevel)
-        );
+      const newValue = ConvertNumberToTwoDecimals(
+        Number(defaultIncrementInputValues.resistanceLevel)
+      );
 
-      updatedOriginalValues.resistanceLevel =
-        defaultIncrementInputValues.resistanceLevel;
+      const updatedInputString = newValue.toString();
+
+      updatedSettings.default_increment_resistance_level = newValue;
+      setDefaultIncrementInputValues((prev) => ({
+        ...prev,
+        resistanceLevel: updatedInputString,
+      }));
+
+      updatedOriginalValues.resistanceLevel = updatedInputString;
     } else return;
 
     const success = await updateSettings(updatedSettings);
