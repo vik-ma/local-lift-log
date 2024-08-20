@@ -32,6 +32,7 @@ type DisableUpdateValueButtonsMapType = {
   rir: { decrease: boolean; increase: boolean };
   rpe: { decrease: boolean; increase: boolean };
   distance: { decrease: boolean; increase: boolean };
+  time: { decrease: boolean; increase: boolean };
   resistance_level: { decrease: boolean; increase: boolean };
   partial_reps: { decrease: boolean; increase: boolean };
   user_weight: { decrease: boolean; increase: boolean };
@@ -146,6 +147,12 @@ export const SetValueInputs = ({
           userSettings.default_increment_distance
         ),
       },
+      time: {
+        decrease:
+          operatingSet.time_in_seconds - userSettings.default_increment_time <
+            0 || isTimeInputInvalid,
+        increase: isTimeInputInvalid,
+      },
       resistance_level: {
         decrease: ShouldSetTrackingValueButtonBeDisabled(
           setTrackingValuesInput.resistance_level,
@@ -191,7 +198,13 @@ export const SetValueInputs = ({
     };
 
     return values;
-  }, [setInputsInvalidityMap, setTrackingValuesInput, userSettings]);
+  }, [
+    setInputsInvalidityMap,
+    setTrackingValuesInput,
+    userSettings,
+    isTimeInputInvalid,
+    operatingSet.time_in_seconds,
+  ]);
 
   const updateValue = (key: SetTrackingValues, isIncrease: boolean) => {
     const updatedSet = { ...operatingSet };
@@ -454,7 +467,7 @@ export const SetValueInputs = ({
             variant="flat"
             size="sm"
             onPress={() => updateValue("time", false)}
-            // TODO: ADD isDisabled
+            isDisabled={disableUpdateValueButtonsMap.time.decrease}
           >
             <MinusIcon />
           </Button>
@@ -463,7 +476,7 @@ export const SetValueInputs = ({
             variant="flat"
             size="sm"
             onPress={() => updateValue("time", true)}
-            // TODO: ADD isDisabled
+            isDisabled={disableUpdateValueButtonsMap.time.increase}
           >
             <PlusIcon />
           </Button>
