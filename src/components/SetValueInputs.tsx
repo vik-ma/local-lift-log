@@ -423,7 +423,7 @@ export const SetValueInputs = ({
         </div>
       )}
       {!!operatingSet.is_tracking_time && (
-        <div className="flex justify-between gap-1">
+        <div className="flex flex-wrap justify-center gap-1">
           <TimeInput
             defaultTimeInput={userSettings.default_time_input}
             time_input_behavior_hhmmss={userSettings.time_input_behavior_hhmmss}
@@ -433,23 +433,25 @@ export const SetValueInputs = ({
             setIsTimeInputInvalid={setIsTimeInputInvalid}
             isSmall={true}
           />
-          <Button
-            isIconOnly
-            variant="flat"
-            size="sm"
-            onPress={() => updateValue("time", false)}
-            isDisabled={disableUpdateValueButtonsMap.time.decrease}
-          >
-            <MinusIcon />
-          </Button>
-          <Button
-            isIconOnly
-            variant="flat"
-            size="sm"
-            onPress={() => updateValue("time", true)}
-          >
-            <PlusIcon />
-          </Button>
+          <div className="flex gap-1">
+            <Button
+              isIconOnly
+              variant="flat"
+              size="sm"
+              onPress={() => updateValue("time", false)}
+              isDisabled={disableUpdateValueButtonsMap.time.decrease}
+            >
+              <MinusIcon />
+            </Button>
+            <Button
+              isIconOnly
+              variant="flat"
+              size="sm"
+              onPress={() => updateValue("time", true)}
+            >
+              <PlusIcon />
+            </Button>
+          </div>
         </div>
       )}
       {!!operatingSet.is_tracking_rir && (
