@@ -57,6 +57,7 @@ export { UpdateSetComment } from "./Sets/UpdateSetComment";
 export { UpdateSetNote } from "./Sets/UpdateSetNote";
 export { ShouldSetTrackingValueButtonBeDisabled } from "./Sets/ShouldSetTrackingValueButtonBeDisabled";
 export { GetSetsOfLastCompletedExercise } from "./Sets/GetSetsOfLastCompletedExercise";
+export { CopySetTrackingValues } from "./Sets/CopySetTrackingValues";
 
 export { GenerateMultisetSetOrderString } from "./Multisets/GenerateMultisetSetOrderString";
 export { DefaultNewMultiset } from "./Multisets/DefaultNewMultiset";
