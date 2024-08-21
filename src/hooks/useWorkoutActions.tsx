@@ -678,6 +678,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       handleEditMultiset(groupedWorkoutSet);
     } else if (key === "add-multiset") {
       handleAddMultisetToMultiset(groupedWorkoutSet);
+    } else if (key === "fill-in-last-workout-set-values") {
+      handleFillInLastWorkoutSetValues(groupedWorkoutSet);
     }
   };
 
@@ -2395,6 +2397,12 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     setIsUserWeightOlderThanOneWeek(
       IsDateStringOlderThanOneWeek(userWeight.date)
     );
+  };
+
+  const handleFillInLastWorkoutSetValues = (groupedSet: GroupedWorkoutSet) => {
+    if (groupedSet.isMultiset || isTemplate) return;
+
+    
   };
 
   return {
