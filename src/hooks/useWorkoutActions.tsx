@@ -2414,7 +2414,11 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     const updatedGroupedSet = { ...groupedSet };
 
     for (let i = 0; i < updatedGroupedSet.setList.length; i++) {
-      if (lastWorkoutSetList[i] === undefined) continue;
+      if (
+        lastWorkoutSetList[i] === undefined ||
+        updatedGroupedSet.setList[i].is_completed === 1
+      )
+        continue;
 
       const updatedSet = CopySetTrackingValues(
         lastWorkoutSetList[i],
