@@ -617,6 +617,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       handleChangeExerciseMultiset(set, groupedSet, index, key);
     } else if (key === "reassign-exercise") {
       handleChangeExerciseMultiset(set, groupedSet, index, key);
+    } else if (key === "unset-warmup") {
+      handleChangeWarmupForSet(set, groupedSet, false);
+    } else if (key === "set-warmup") {
+      handleChangeWarmupForSet(set, groupedSet, true);
     }
   };
 
@@ -659,6 +663,12 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     deleteModal.onOpen();
   };
+
+  const handleChangeWarmupForSet = (
+    set: WorkoutSet,
+    groupedSet: GroupedWorkoutSet,
+    newValueIsWarmup: boolean
+  ) => {};
 
   const handleGroupedSetOptionSelection = (
     key: string,

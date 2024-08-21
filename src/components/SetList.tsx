@@ -274,6 +274,13 @@ export const SetList = ({
                     >
                       Change Exercise
                     </DropdownItem>
+                    {set.is_warmup === 1 ? (
+                      <DropdownItem key="unset-warmup">
+                        Unset Warmup
+                      </DropdownItem>
+                    ) : (
+                      <DropdownItem key="set-warmup">Set Warmup</DropdownItem>
+                    )}
                     <DropdownItem
                       className={set.is_completed === 0 ? "hidden" : ""}
                       key="update-completed-set-time"
