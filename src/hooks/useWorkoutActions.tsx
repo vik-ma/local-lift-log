@@ -2421,7 +2421,15 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         updatedGroupedSet.setList[i]
       );
 
+      updatedSet.set_index = i;
+
       updatedGroupedSet.setList[i] = updatedSet;
+
+      if (activeSet?.id === updatedSet.id) {
+        setActiveSet(updatedSet);
+        setActiveGroupedSet(updatedGroupedSet);
+        updateActiveSetTrackingValues(updatedSet, undefined);
+      }
     }
 
     const updatedGroupedSets = UpdateItemInList(groupedSets, updatedGroupedSet);
