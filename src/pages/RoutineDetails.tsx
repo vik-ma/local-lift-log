@@ -361,7 +361,7 @@ export default function RoutineDetails() {
           editButtonAction={() => routineModal.onOpen()}
         />
         <div className="flex justify-center">
-          {userSettings?.active_routine_id === routine.id ? (
+          {userSettings.active_routine_id === routine.id ? (
             <span className="text-success font-semibold">
               Currently Active Routine
             </span>
@@ -379,7 +379,7 @@ export default function RoutineDetails() {
         <div className="flex flex-col">
           {routine.is_schedule_weekly === 0 && (
             <div className="flex gap-4 items-end">
-              <I18nProvider locale={userSettings?.locale}>
+              <I18nProvider locale={userSettings.locale}>
                 <DatePicker
                   className="w-40"
                   classNames={{ base: "font-medium" }}
@@ -427,8 +427,8 @@ export default function RoutineDetails() {
                   <span
                     className={
                       scheduleValues[i]?.length > 0
-                        ? "text-secondary font-medium"
-                        : "font-medium"
+                        ? "text-yellow-600 font-medium"
+                        : "text-stone-500 font-medium"
                     }
                   >
                     {dayNameList[i]}
