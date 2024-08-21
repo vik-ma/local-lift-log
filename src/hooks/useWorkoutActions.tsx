@@ -2411,6 +2411,11 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       workout.id
     );
 
+    if (lastWorkoutSetList.length === 0) {
+      toast.error("No Sets Completed For Exercise");
+      return;
+    }
+
     const updatedGroupedSet = { ...groupedSet };
 
     for (let i = 0; i < updatedGroupedSet.setList.length; i++) {
