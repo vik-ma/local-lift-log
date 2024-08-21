@@ -262,7 +262,7 @@ export default function BodyMeasurements() {
       const detailedActiveMeasurement = CreateDetailedUserMeasurementList(
         [newUserMeasurements],
         measurementMap,
-        userSettings?.clock_style
+        userSettings.clock_style
       );
 
       setLatestUserMeasurements(detailedActiveMeasurement[0]);

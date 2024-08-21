@@ -36,7 +36,7 @@ export const useUserWeightInput = (
     weight: number;
     weight_unit: string;
   }> => {
-    if (!isWeightInputValid)
+    if (!isWeightInputValid || userSettings === undefined)
       return { success: false, weight: 0, weight_unit: "" };
 
     const newWeight = ConvertNumberToTwoDecimals(Number(userWeightInput));
@@ -55,7 +55,7 @@ export const useUserWeightInput = (
 
       const formattedDate: string = FormatDateTimeString(
         currentDateString,
-        userSettings?.clock_style === "24h"
+        userSettings.clock_style === "24h"
       );
 
       const newUserWeight: UserWeight = {

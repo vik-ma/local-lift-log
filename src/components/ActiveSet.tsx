@@ -158,7 +158,7 @@ export const ActiveSet = ({
                     </span>
                     {activeSet.time_completed !== null && (
                       <div className="text-stone-500">
-                        {userSettings?.show_timestamp_on_completed_set === 1 ? (
+                        {userSettings.show_timestamp_on_completed_set === 1 ? (
                           <>
                             Completed at{" "}
                             <span className="font-semibold">

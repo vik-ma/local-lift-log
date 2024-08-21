@@ -147,7 +147,12 @@ export default function RoutineList() {
   };
 
   const deleteRoutine = async () => {
-    if (operatingRoutine.id === 0 || operationType !== "delete") return;
+    if (
+      operatingRoutine.id === 0 ||
+      operationType !== "delete" ||
+      userSettings === undefined
+    )
+      return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
@@ -164,7 +169,7 @@ export default function RoutineList() {
 
       setRoutines(updatedRoutines);
 
-      if (operatingRoutine.id === userSettings?.active_routine_id) {
+      if (operatingRoutine.id === userSettings.active_routine_id) {
         const updatedSettings: UserSettingsOptional = {
           ...userSettings,
           active_routine_id: 0,
