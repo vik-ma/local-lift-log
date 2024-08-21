@@ -46,6 +46,8 @@ import {
   FindIndexInList,
   GetLatestUserWeight,
   IsDateStringOlderThanOneWeek,
+  GetSetsOfLastCompletedExercise,
+  CopySetTrackingValues,
 } from "../helpers";
 import {
   useDefaultSet,
@@ -2399,10 +2401,32 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     );
   };
 
-  const handleFillInLastWorkoutSetValues = (groupedSet: GroupedWorkoutSet) => {
-    if (groupedSet.isMultiset || isTemplate) return;
+  const handleFillInLastWorkoutSetValues = async (
+    groupedSet: GroupedWorkoutSet
+  ) => {
+    if (groupedSet.isMultiset || isTemplate || workout.id === 0) return;
 
-    
+    const lastWorkoutSetList = await GetSetsOfLastCompletedExercise(
+      Number(groupedSet.id),
+      workout.id
+    );
+
+    const updatedGroupedSet = { ...groupedSet };
+
+    for (let i = 0; i < updatedGroupedSet.setList.length; i++) {
+      if (lastWorkoutSetList[i] === undefined) continue;
+
+      const updatedSet = CopySetTrackingValues(
+        lastWorkoutSetList[i],
+        updatedGroupedSet.setList[i]
+      );
+
+      updatedGroupedSet.setList[i] = updatedSet;
+    }
+
+    const updatedGroupedSets = UpdateItemInList(groupedSets, updatedGroupedSet);
+
+    setGroupedSets(updatedGroupedSets);
   };
 
   return {
