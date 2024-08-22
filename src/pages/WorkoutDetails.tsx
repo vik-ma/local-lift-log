@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
-import { Workout, WorkoutSet, GroupedWorkoutSet, DetailHeaderOptionItem } from "../typings";
+import { Workout, WorkoutSet, GroupedWorkoutSet } from "../typings";
 import {
   LoadingSpinner,
   WorkoutGroupedSetList,
@@ -27,7 +27,11 @@ import {
 } from "../helpers";
 import { useDisclosure } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
-import { useUserWeightInput, useWorkoutActions } from "../hooks";
+import {
+  useDetailsHeaderOptionsMenu,
+  useUserWeightInput,
+  useWorkoutActions,
+} from "../hooks";
 
 type WorkoutTemplateNote = {
   note: string | null;
@@ -45,24 +49,8 @@ export default function WorkoutDetails() {
     null
   );
 
-  const [showNote, setShowNote] = useState<boolean>(false);
-
-  const menuItems = useMemo(() => {
-    const menuItems: DetailHeaderOptionItem = {
-      "toggle-note": {
-        text: "Toggle Note",
-        function: () => setShowNote(!showNote),
-      },
-    };
-
-    return menuItems;
-  }, [showNote]);
-
-  const handleOptionMenuSelection = (key: string) => {
-    if (menuItems[key] === undefined) return;
-
-    menuItems[key].function();
-  };
+  const { showNote, menuItems, handleOptionMenuSelection } =
+    useDetailsHeaderOptionsMenu();
 
   const {
     updateExerciseOrder,

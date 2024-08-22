@@ -32,3 +32,4 @@ export { useDefaultMultiset } from "./useDefaultMultiset";
 export { useMultisetActions } from "./useMultisetActions";
 export { useUserWeightInput } from "./useUserWeightInput";
 export { useTimeInputMap } from "./useTimeInputMap";
+export { useDetailsHeaderOptionsMenu } from "./useDetailsHeaderOptionsMenu";
