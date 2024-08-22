@@ -14,8 +14,8 @@ type DetailsHeaderProps = {
   showNote: boolean;
   detailsType: string;
   editButtonAction: () => void;
-  handleSetOptionSelection: (key: string) => void;
-  additionalMenuItems: Map<string, string>;
+  handleOptionMenuSelection: (key: string) => void;
+  menuItems: Map<string, string>;
 };
 
 export const DetailsHeader = ({
@@ -25,8 +25,8 @@ export const DetailsHeader = ({
   showNote,
   detailsType,
   editButtonAction,
-  handleSetOptionSelection,
-  additionalMenuItems,
+  handleOptionMenuSelection,
+  menuItems,
 }: DetailsHeaderProps) => {
   return (
     <div className="flex flex-col gap-4 pb-4">
@@ -69,19 +69,11 @@ export const DetailsHeader = ({
               </DropdownTrigger>
               <DropdownMenu
                 aria-label={`${detailsType} Option Menu`}
-                onAction={(key) => handleSetOptionSelection(key as string)}
+                onAction={(key) => handleOptionMenuSelection(key as string)}
               >
-                <DropdownItem
-                  className={note === null ? "hidden" : ""}
-                  key="hide-note"
-                >
-                  {showNote ? "Hide Note" : "Show Note"}
-                </DropdownItem>
-                <>
-                  {Array.from(additionalMenuItems).map(([key, value]) => (
-                    <DropdownItem key={key}>{value}</DropdownItem>
-                  ))}
-                </>
+                {Array.from(menuItems).map(([key, value]) => (
+                  <DropdownItem key={key}>{value}</DropdownItem>
+                ))}
               </DropdownMenu>
             </Dropdown>
           </div>
