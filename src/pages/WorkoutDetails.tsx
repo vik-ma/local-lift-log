@@ -1,6 +1,11 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { useParams } from "react-router-dom";
-import { Workout, WorkoutSet, GroupedWorkoutSet } from "../typings";
+import {
+  Workout,
+  WorkoutSet,
+  GroupedWorkoutSet,
+  DetailHeaderOptionItem,
+} from "../typings";
 import {
   LoadingSpinner,
   WorkoutGroupedSetList,
@@ -49,8 +54,22 @@ export default function WorkoutDetails() {
     null
   );
 
+  // TODO: ADD FUNCTIONS
+  const additionalMenuItems: DetailHeaderOptionItem = useMemo(() => {
+    return {
+      "load-workout-template": {
+        text: "Load Workout Template",
+        function: () => {},
+      },
+      "copy-workout": {
+        text: "Copy Previous Workout",
+        function: () => {},
+      },
+    };
+  }, []);
+
   const { showNote, menuItems, handleOptionMenuSelection } =
-    useDetailsHeaderOptionsMenu();
+    useDetailsHeaderOptionsMenu(additionalMenuItems);
 
   const {
     updateExerciseOrder,
