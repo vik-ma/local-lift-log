@@ -618,9 +618,9 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     } else if (key === "reassign-exercise") {
       handleChangeExerciseMultiset(set, groupedSet, index, key);
     } else if (key === "unset-warmup") {
-      handleChangeWarmupForSet(set, groupedSet, false);
+      handleChangeWarmupForSet(set, index, groupedSet, false);
     } else if (key === "set-warmup") {
-      handleChangeWarmupForSet(set, groupedSet, true);
+      handleChangeWarmupForSet(set, index, groupedSet, true);
     }
   };
 
@@ -664,11 +664,34 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     deleteModal.onOpen();
   };
 
-  const handleChangeWarmupForSet = (
+  const handleChangeWarmupForSet = async (
     set: WorkoutSet,
+    index: number,
     groupedSet: GroupedWorkoutSet,
     newValueIsWarmup: boolean
-  ) => {};
+  ) => {
+    const updatedSet = {
+      ...set,
+      is_warmup: newValueIsWarmup ? 1 : 0,
+      set_index: index,
+    };
+
+    const success = await UpdateSet(updatedSet);
+
+    if (!success) return;
+
+    groupedSet.setList[index] = updatedSet;
+
+    const updatedGroupedSets = UpdateItemInList(groupedSets, groupedSet);
+
+    setGroupedSets(updatedGroupedSets);
+
+    toast.success("Set Updated");
+
+    if (activeSet?.id === updatedSet.id) {
+      setActiveSet(updatedSet);
+    }
+  };
 
   const handleGroupedSetOptionSelection = (
     key: string,
