@@ -43,8 +43,7 @@ export default function ExerciseDetails() {
     getExercise();
   }, [id]);
 
-  const { showNote, menuItems, handleOptionMenuSelection } =
-    useDetailsHeaderOptionsMenu();
+  const useDetailsHeaderOptions = useDetailsHeaderOptionsMenu();
 
   const isEditedExerciseNameValid = useValidateName(editedExercise.name);
 
@@ -122,11 +121,9 @@ export default function ExerciseDetails() {
           header={exercise.name}
           subHeader={exercise.formattedGroupString ?? ""}
           note={exercise.note}
-          showNote={showNote}
           detailsType="Exercise"
           editButtonAction={() => exerciseModal.onOpen()}
-          handleOptionMenuSelection={handleOptionMenuSelection}
-          menuItems={menuItems}
+          useDetailsHeaderOptions={useDetailsHeaderOptions}
         />
         <div className="flex justify-center gap-2">
           <Button

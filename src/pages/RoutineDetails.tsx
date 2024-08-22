@@ -127,8 +127,7 @@ export default function RoutineDetails() {
     getUserSettings();
   }, [id, getWorkoutRoutineSchedules]);
 
-  const { showNote, menuItems, handleOptionMenuSelection } =
-    useDetailsHeaderOptionsMenu();
+  const useDetailsHeaderOptions = useDetailsHeaderOptionsMenu();
 
   const updateRoutine = async () => {
     if (!isRoutineValid) return;
@@ -365,11 +364,9 @@ export default function RoutineDetails() {
               : FormatNumItemsString(routine.numWorkoutTemplates, "Workout")
           }
           note={routine.note}
-          showNote={showNote}
           detailsType="Routine"
           editButtonAction={() => routineModal.onOpen()}
-          handleOptionMenuSelection={handleOptionMenuSelection}
-          menuItems={menuItems}
+          useDetailsHeaderOptions={useDetailsHeaderOptions}
         />
         <div className="flex justify-center">
           {userSettings.active_routine_id === routine.id ? (

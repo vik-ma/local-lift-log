@@ -6,29 +6,28 @@ import {
   DropdownItem,
 } from "@nextui-org/react";
 import { EditIcon, VerticalMenuIcon } from "../assets";
-import { DetailHeaderOptionItem } from "../typings";
+import { UseDetailsHeaderOptionsMenuReturnType } from "../typings";
 
 type DetailsHeaderProps = {
   header: string;
   subHeader: string;
   note: string | null;
-  showNote: boolean;
   detailsType: string;
   editButtonAction: () => void;
-  handleOptionMenuSelection: (key: string) => void;
-  menuItems: DetailHeaderOptionItem;
+  useDetailsHeaderOptions: UseDetailsHeaderOptionsMenuReturnType;
 };
 
 export const DetailsHeader = ({
   header,
   subHeader,
   note,
-  showNote,
   detailsType,
   editButtonAction,
-  handleOptionMenuSelection,
-  menuItems,
+  useDetailsHeaderOptions,
 }: DetailsHeaderProps) => {
+  const { showNote, menuItems, handleOptionMenuSelection } =
+  useDetailsHeaderOptions;
+
   return (
     <div className="flex flex-col gap-4 pb-4">
       <div className="relative w-full flex">

@@ -401,3 +401,9 @@ export type DetailHeaderOptionItem = {
     function: () => void;
   };
 };
+
+export type UseDetailsHeaderOptionsMenuReturnType = {
+  showNote: boolean;
+  menuItems: DetailHeaderOptionItem;
+  handleOptionMenuSelection: (key: string) => void;
+};

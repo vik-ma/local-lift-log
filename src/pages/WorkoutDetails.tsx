@@ -68,7 +68,7 @@ export default function WorkoutDetails() {
     };
   }, []);
 
-  const { showNote, menuItems, handleOptionMenuSelection } =
+  const useDetailsHeaderOptions =
     useDetailsHeaderOptionsMenu(additionalMenuItems);
 
   const {
@@ -409,11 +409,9 @@ export default function WorkoutDetails() {
             "Exercise"
           )}, ${FormatNumItemsString(workoutNumbers.numSets, "Set")}`}
           note={workout.note}
-          showNote={showNote}
           detailsType="Workout"
           editButtonAction={() => workoutModal.onOpen()}
-          handleOptionMenuSelection={handleOptionMenuSelection}
-          menuItems={menuItems}
+          useDetailsHeaderOptions={useDetailsHeaderOptions}
         />
         <div className="mb-[4.5rem]">
           <WorkoutGroupedSetList

@@ -1,9 +1,12 @@
 import { useState, useMemo } from "react";
-import { DetailHeaderOptionItem } from "../typings";
+import {
+  DetailHeaderOptionItem,
+  UseDetailsHeaderOptionsMenuReturnType,
+} from "../typings";
 
 export const useDetailsHeaderOptionsMenu = (
   additionalMenuItems?: DetailHeaderOptionItem
-) => {
+): UseDetailsHeaderOptionsMenuReturnType => {
   const [showNote, setShowNote] = useState<boolean>(false);
 
   const menuItems = useMemo(() => {
