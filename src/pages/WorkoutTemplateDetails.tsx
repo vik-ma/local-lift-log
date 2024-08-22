@@ -25,6 +25,7 @@ import {
   useValidateName,
   useDefaultWorkoutTemplate,
   useWorkoutActions,
+  useDetailsHeaderOptionsMenu,
 } from "../hooks";
 
 export default function WorkoutTemplateDetails() {
@@ -131,6 +132,9 @@ export default function WorkoutTemplateDetails() {
   useEffect(() => {
     getWorkoutTemplateAndSetList();
   }, [id, getWorkoutTemplateAndSetList]);
+
+  const { showNote, menuItems, handleOptionMenuSelection } =
+    useDetailsHeaderOptionsMenu();
 
   const updateWorkoutTemplate = async () => {
     if (!isNewWorkoutTemplateNameValid) return;
@@ -262,7 +266,11 @@ export default function WorkoutTemplateDetails() {
             "Exercise"
           )}, ${FormatNumItemsString(workoutNumbers.numSets, "Set")}`}
           note={workoutTemplate.note}
+          showNote={showNote}
+          detailsType="Workout Template"
           editButtonAction={() => workoutTemplateModal.onOpen()}
+          handleOptionMenuSelection={handleOptionMenuSelection}
+          menuItems={menuItems}
         />
         <WorkoutGroupedSetList
           groupedSets={groupedSets}

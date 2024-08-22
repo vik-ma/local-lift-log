@@ -36,7 +36,11 @@ import {
 import toast, { Toaster } from "react-hot-toast";
 import { getLocalTimeZone, parseDate } from "@internationalized/date";
 import { I18nProvider } from "@react-aria/i18n";
-import { useIsRoutineValid, useWorkoutTemplateList } from "../hooks";
+import {
+  useIsRoutineValid,
+  useWorkoutTemplateList,
+  useDetailsHeaderOptionsMenu,
+} from "../hooks";
 import { CrossCircleIcon } from "../assets";
 import { Link } from "react-router-dom";
 
@@ -122,6 +126,9 @@ export default function RoutineDetails() {
     getWorkoutRoutineSchedules();
     getUserSettings();
   }, [id, getWorkoutRoutineSchedules]);
+
+  const { showNote, menuItems, handleOptionMenuSelection } =
+    useDetailsHeaderOptionsMenu();
 
   const updateRoutine = async () => {
     if (!isRoutineValid) return;
@@ -358,7 +365,11 @@ export default function RoutineDetails() {
               : FormatNumItemsString(routine.numWorkoutTemplates, "Workout")
           }
           note={routine.note}
+          showNote={showNote}
+          detailsType="Routine"
           editButtonAction={() => routineModal.onOpen()}
+          handleOptionMenuSelection={handleOptionMenuSelection}
+          menuItems={menuItems}
         />
         <div className="flex justify-center">
           {userSettings.active_routine_id === routine.id ? (
