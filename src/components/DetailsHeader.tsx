@@ -6,6 +6,7 @@ import {
   DropdownItem,
 } from "@nextui-org/react";
 import { EditIcon, VerticalMenuIcon } from "../assets";
+import { DetailHeaderOptionItem } from "../typings";
 
 type DetailsHeaderProps = {
   header: string;
@@ -15,7 +16,7 @@ type DetailsHeaderProps = {
   detailsType: string;
   editButtonAction: () => void;
   handleOptionMenuSelection: (key: string) => void;
-  menuItems: Map<string, string>;
+  menuItems: DetailHeaderOptionItem;
 };
 
 export const DetailsHeader = ({
@@ -71,8 +72,8 @@ export const DetailsHeader = ({
                 aria-label={`${detailsType} Option Menu`}
                 onAction={(key) => handleOptionMenuSelection(key as string)}
               >
-                {Array.from(menuItems).map(([key, value]) => (
-                  <DropdownItem key={key}>{value}</DropdownItem>
+                {Object.entries(menuItems).map(([key, value]) => (
+                  <DropdownItem key={key}>{value.text}</DropdownItem>
                 ))}
               </DropdownMenu>
             </Dropdown>

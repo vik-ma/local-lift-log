@@ -394,3 +394,10 @@ export type SetTrackingValues =
   | "resistance_level"
   | "partial_reps"
   | "user_weight";
+
+export type DetailHeaderOptionItem = {
+  [key: string]: {
+    text: string;
+    function: () => void;
+  };
+};
