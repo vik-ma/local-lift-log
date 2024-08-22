@@ -1,21 +1,31 @@
-import { Button } from "@nextui-org/react";
-import { CommentIcon, EditIcon } from "../assets";
-import { useState } from "react";
+import {
+  Button,
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+} from "@nextui-org/react";
+import { EditIcon, VerticalMenuIcon } from "../assets";
 
 type DetailsHeaderProps = {
   header: string;
   subHeader: string;
   note: string | null;
+  showNote: boolean;
+  detailsType: string;
   editButtonAction: () => void;
+  handleSetOptionSelection: (key: string) => void;
 };
 
 export const DetailsHeader = ({
   header,
   subHeader,
   note,
+  showNote,
+  detailsType,
   editButtonAction,
+  handleSetOptionSelection,
 }: DetailsHeaderProps) => {
-  const [showNote, setShowNote] = useState<boolean>(false);
   return (
     <div className="flex flex-col gap-4 pb-4">
       <div className="relative w-full flex">
@@ -43,18 +53,30 @@ export const DetailsHeader = ({
             >
               <EditIcon size={22} color={"#808080"} />
             </Button>
-            {note !== null && (
-              <Button
-                aria-label="Toggle Note"
-                isIconOnly
-                className="z-1"
-                size="sm"
-                variant="light"
-                onPress={() => setShowNote(!showNote)}
+            <Dropdown>
+              <DropdownTrigger>
+                <Button
+                  aria-label={`Toggle ${detailsType} Options Menu`}
+                  isIconOnly
+                  className="z-1"
+                  size="sm"
+                  variant="light"
+                >
+                  <VerticalMenuIcon size={18} />
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu
+                aria-label={`${detailsType} Option Menu`}
+                onAction={(key) => handleSetOptionSelection(key as string)}
               >
-                <CommentIcon size={20} />
-              </Button>
-            )}
+                <DropdownItem
+                  className={note === null ? "hidden" : ""}
+                  key="hide-note"
+                >
+                  {showNote ? "Hide Note" : "Show Note"}
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
           </div>
         </div>
       </div>
