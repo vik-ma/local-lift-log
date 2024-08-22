@@ -237,7 +237,7 @@ export const WorkoutGroupedSetList = ({
                             className={isMultiset || isTemplate ? "hidden" : ""}
                             key="fill-in-last-workout-set-values"
                           >
-                            Copy Values From Last Time
+                            Copy Last Completed Values
                           </DropdownItem>
                           {isExerciseInvalid ? (
                             <DropdownItem key="reassign-exercise">
