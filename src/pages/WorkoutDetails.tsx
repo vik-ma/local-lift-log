@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { Workout, WorkoutSet, GroupedWorkoutSet } from "../typings";
 import {
@@ -44,6 +44,21 @@ export default function WorkoutDetails() {
   const [workoutTemplateNote, setWorkoutTemplateNote] = useState<string | null>(
     null
   );
+  const [showNote, setShowNote] = useState<boolean>(false);
+
+  const menuItems = useMemo(() => {
+    const menuItems = new Map<string, string>();
+
+    menuItems.set("toggle-note", "Toggle Note");
+
+    return menuItems;
+  }, []);
+
+  const handleOptionMenuSelection = (key: string) => {
+    if (key === "toggle-note") {
+      setShowNote(!showNote);
+    }
+  };
 
   const {
     updateExerciseOrder,
@@ -383,7 +398,11 @@ export default function WorkoutDetails() {
             "Exercise"
           )}, ${FormatNumItemsString(workoutNumbers.numSets, "Set")}`}
           note={workout.note}
+          showNote={showNote}
+          detailsType="Workout"
           editButtonAction={() => workoutModal.onOpen()}
+          handleOptionMenuSelection={handleOptionMenuSelection}
+          menuItems={menuItems}
         />
         <div className="mb-[4.5rem]">
           <WorkoutGroupedSetList
