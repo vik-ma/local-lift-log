@@ -15,6 +15,7 @@ type DetailsHeaderProps = {
   detailsType: string;
   editButtonAction: () => void;
   handleSetOptionSelection: (key: string) => void;
+  additionalMenuItems: Map<string, string>;
 };
 
 export const DetailsHeader = ({
@@ -25,6 +26,7 @@ export const DetailsHeader = ({
   detailsType,
   editButtonAction,
   handleSetOptionSelection,
+  additionalMenuItems,
 }: DetailsHeaderProps) => {
   return (
     <div className="flex flex-col gap-4 pb-4">
@@ -75,6 +77,11 @@ export const DetailsHeader = ({
                 >
                   {showNote ? "Hide Note" : "Show Note"}
                 </DropdownItem>
+                <>
+                  {Array.from(additionalMenuItems).map(([key, value]) => (
+                    <DropdownItem key={key}>{value}</DropdownItem>
+                  ))}
+                </>
               </DropdownMenu>
             </Dropdown>
           </div>
