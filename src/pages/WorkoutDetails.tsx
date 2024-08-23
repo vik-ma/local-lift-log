@@ -5,6 +5,7 @@ import {
   WorkoutSet,
   GroupedWorkoutSet,
   DetailHeaderOptionItem,
+  WorkoutTemplateListItem,
 } from "../typings";
 import {
   LoadingSpinner,
@@ -18,6 +19,7 @@ import {
   MultisetModal,
   TextInputModal,
   UserWeightModal,
+  WorkoutTemplateListModal,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -53,20 +55,25 @@ export default function WorkoutDetails() {
   const [workoutTemplateNote, setWorkoutTemplateNote] = useState<string | null>(
     null
   );
+  const [workoutTemplates, setWorkoutTemplates] = useState<
+    WorkoutTemplateListItem[]
+  >([]);
+
+  const workoutTemplatesModal = useDisclosure();
 
   // TODO: ADD FUNCTIONS
   const additionalMenuItems: DetailHeaderOptionItem = useMemo(() => {
     return {
       "load-workout-template": {
         text: "Load Workout Template",
-        function: () => {},
+        function: () => workoutTemplatesModal.onOpen(),
       },
       "copy-workout": {
         text: "Copy Previous Workout",
         function: () => {},
       },
     };
-  }, []);
+  }, [workoutTemplatesModal]);
 
   const useDetailsHeaderOptions =
     useDetailsHeaderOptionsMenu(additionalMenuItems);
@@ -292,6 +299,12 @@ export default function WorkoutDetails() {
         setWorkoutNote={setWorkoutNote}
         workoutTemplateNote={workoutTemplateNote}
         buttonAction={handleWorkoutModalSaveButton}
+      />
+      <WorkoutTemplateListModal
+        workoutTemplateListModal={workoutTemplatesModal}
+        workoutTemplates={workoutTemplates}
+        listboxOnActionFunction={() => {}}
+        header={<span>Load Workout Template</span>}
       />
       <DeleteModal
         deleteModal={deleteModal}
