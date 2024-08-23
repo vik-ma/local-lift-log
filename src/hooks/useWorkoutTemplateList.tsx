@@ -4,7 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { useDisclosure } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
 import { useDefaultWorkout } from "./useDefaultWorkout";
-import { GetCurrentYmdDateString, IsNumberValidIdOr0 } from "../helpers";
+import {
+  GetCurrentYmdDateString,
+  GetWorkoutTemplates,
+  IsNumberValidIdOr0,
+} from "../helpers";
 
 export const useWorkoutTemplateList = () => {
   const [workoutTemplates, setWorkoutTemplates] = useState<
@@ -19,17 +23,9 @@ export const useWorkoutTemplateList = () => {
 
   useEffect(() => {
     const getWorkoutTemplates = async () => {
-      try {
-        const db = await Database.load(import.meta.env.VITE_DB);
+      const workoutTemplates = await GetWorkoutTemplates();
 
-        const result = await db.select<WorkoutTemplateListItem[]>(
-          "SELECT id, name FROM workout_templates"
-        );
-
-        setWorkoutTemplates(result);
-      } catch (error) {
-        console.log(error);
-      }
+      setWorkoutTemplates(workoutTemplates);
     };
 
     getWorkoutTemplates();
