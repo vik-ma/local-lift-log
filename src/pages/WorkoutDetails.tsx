@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import {
   Workout,
@@ -31,6 +31,7 @@ import {
   GetNumberOfUniqueExercisesInGroupedSets,
   FormatNumItemsString,
   GetTotalNumberOfSetsInGroupedSetList,
+  GetWorkoutTemplates,
 } from "../helpers";
 import { useDisclosure } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
@@ -61,19 +62,28 @@ export default function WorkoutDetails() {
 
   const workoutTemplatesModal = useDisclosure();
 
+  const handleOpenWorkoutTemplatesModal = useCallback(async () => {
+    if (workoutTemplates.length === 0) {
+      const workoutTemplates = await GetWorkoutTemplates();
+      setWorkoutTemplates(workoutTemplates);
+    }
+
+    workoutTemplatesModal.onOpen();
+  }, [workoutTemplates, workoutTemplatesModal]);
+
   // TODO: ADD FUNCTIONS
   const additionalMenuItems: DetailHeaderOptionItem = useMemo(() => {
     return {
       "load-workout-template": {
         text: "Load Workout Template",
-        function: () => workoutTemplatesModal.onOpen(),
+        function: () => handleOpenWorkoutTemplatesModal(),
       },
       "copy-workout": {
         text: "Copy Previous Workout",
         function: () => {},
       },
     };
-  }, [workoutTemplatesModal]);
+  }, [handleOpenWorkoutTemplatesModal]);
 
   const useDetailsHeaderOptions =
     useDetailsHeaderOptionsMenu(additionalMenuItems);
