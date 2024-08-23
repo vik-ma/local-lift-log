@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Button, useDisclosure } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
-import { UserSettings } from "../typings";
+import { UserSettings, Workout } from "../typings";
 import {
   GetUserSettings,
   CreateDefaultUserSettings,
@@ -10,7 +10,7 @@ import {
   CreateDefaultMeasurements,
   CreateDefaultDistances,
 } from "../helpers";
-import { SettingsModal } from "../components";
+import { SettingsModal, WorkoutListModal } from "../components";
 
 export default function Home() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
@@ -82,8 +82,21 @@ export default function Home() {
     loadUserSettings();
   }, [settingsModal, isUserSettingsLoaded]);
 
+  const workoutListModal = useDisclosure();
+
+  const asd = (workout: Workout) => {
+    console.log(workout.id);
+  };
+
+  if (userSettings === undefined) return;
+
   return (
     <>
+      <WorkoutListModal
+        workoutListModal={workoutListModal}
+        userSettings={userSettings}
+        onClickAction={asd}
+      />
       <SettingsModal
         settingsModal={settingsModal}
         doneButtonAction={createDefaultUserSettings}
@@ -108,6 +121,7 @@ export default function Home() {
           <p>Settings Id: {userSettings?.id}</p>
           <p>Active Routine Id: {userSettings?.active_routine_id}</p>
         </div>
+        <Button onPress={() => workoutListModal.onOpen()}>Open</Button>
       </div>
     </>
   );
