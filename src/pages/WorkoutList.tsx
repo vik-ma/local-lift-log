@@ -33,6 +33,8 @@ export default function WorkoutList() {
   const [operationType, setOperationType] = useState<OperationType>("edit");
   const [newWorkoutNote, setNewWorkoutNote] = useState<string>("");
 
+  const [showNewestFirst, setShowNewestFirst] = useState<boolean>(false);
+
   const defaultWorkout = useDefaultWorkout();
 
   const [operatingWorkout, setOperatingWorkout] =
@@ -91,6 +93,14 @@ export default function WorkoutList() {
     getWorkouts();
     getUserSettings();
   }, []);
+
+  const reverseWorkoutList = () => {
+    const reversedWorkouts = [...workouts].reverse();
+
+    setWorkouts(reversedWorkouts);
+
+    setShowNewestFirst(!showNewestFirst);
+  };
 
   const deleteWorkout = async () => {
     if (operatingWorkout.id === 0 || operationType !== "delete") return;
@@ -208,7 +218,7 @@ export default function WorkoutList() {
         ) : (
           <>
             {workouts.length > 0 && (
-              <div className="flex justify-center">
+              <div className="flex gap-1.5 justify-center">
                 <Button
                   className="w-36"
                   size="sm"
@@ -217,6 +227,13 @@ export default function WorkoutList() {
                   {userSettings.show_workout_rating === 1
                     ? "Hide Workout Rating"
                     : "Show Workout Rating"}
+                </Button>
+                <Button
+                  className="w-32"
+                  size="sm"
+                  onPress={() => reverseWorkoutList()}
+                >
+                  {showNewestFirst ? "Show Oldest First" : "Show Newest First"}
                 </Button>
               </div>
             )}
