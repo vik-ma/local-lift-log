@@ -6,18 +6,20 @@ import {
   ModalBody,
   ModalFooter,
 } from "@nextui-org/react";
-import { UseDisclosureReturnType, UserSettings } from "../../typings";
+import { UseDisclosureReturnType, UserSettings, Workout } from "../../typings";
 import { useWorkoutList, useWorkoutRatingMap } from "../../hooks";
 import { FormatNumItemsString } from "../../helpers";
 
 type WorkoutListModalProps = {
   workoutListModal: UseDisclosureReturnType;
   userSettings: UserSettings;
+  onClickAction: (workout: Workout) => void;
 };
 
 export const WorkoutListModal = ({
   workoutListModal,
   userSettings,
+  onClickAction,
 }: WorkoutListModalProps) => {
   const { workoutRatingMap } = useWorkoutRatingMap();
 
@@ -38,8 +40,7 @@ export const WorkoutListModal = ({
                   <div
                     key={workout.id}
                     className="flex cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-                    // TODO: ADD FUNCTION
-                    onClick={() => {}}
+                    onClick={() => onClickAction(workout)}
                   >
                     <div className="flex gap-1 justify-between items-center w-full">
                       <div className="flex flex-col justify-start items-start">
