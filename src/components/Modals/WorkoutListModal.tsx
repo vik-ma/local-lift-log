@@ -24,7 +24,7 @@ export const WorkoutListModal = ({
 }: WorkoutListModalProps) => {
   const { workoutRatingMap } = useWorkoutRatingMap();
 
-  const { workouts, reverseWorkoutList } = useWorkoutList();
+  const { workouts, showNewestFirst, reverseWorkoutList } = useWorkoutList();
 
   return (
     <Modal
@@ -37,6 +37,20 @@ export const WorkoutListModal = ({
             <ModalHeader>Select Workout</ModalHeader>
             <ModalBody>
               <div className="h-[400px] flex flex-col gap-2">
+                {workouts.length > 0 && (
+                  <div className="flex justify-center">
+                    <Button
+                      className="w-32"
+                      size="sm"
+                      variant="flat"
+                      onPress={() => reverseWorkoutList()}
+                    >
+                      {showNewestFirst
+                        ? "List Oldest First"
+                        : "List Latest First"}
+                    </Button>
+                  </div>
+                )}
                 <ScrollShadow className="flex flex-col gap-1">
                   <div className="flex flex-col gap-1 w-full">
                     {workouts.map((workout) => (

@@ -192,7 +192,7 @@ export default function WorkoutList() {
                   size="sm"
                   onPress={() => reverseWorkoutList()}
                 >
-                  {showNewestFirst ? "Show Oldest First" : "Show Newest First"}
+                  {showNewestFirst ? "List Oldest First" : "List Latest First"}
                 </Button>
               </div>
             )}
