@@ -33,3 +33,4 @@ export { useMultisetActions } from "./useMultisetActions";
 export { useUserWeightInput } from "./useUserWeightInput";
 export { useTimeInputMap } from "./useTimeInputMap";
 export { useDetailsHeaderOptionsMenu } from "./useDetailsHeaderOptionsMenu";
+export { useWorkoutList } from "./useWorkoutList";

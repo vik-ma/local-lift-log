@@ -15,25 +15,25 @@ import toast, { Toaster } from "react-hot-toast";
 import {
   DeleteItemFromList,
   FormatNumItemsString,
-  FormatYmdDateString,
   GetShowWorkoutRating,
   UpdateItemInList,
   UpdateShowWorkoutRating,
   UpdateWorkout,
 } from "../helpers";
 import { VerticalMenuIcon } from "../assets";
-import { useDefaultWorkout, useWorkoutRatingMap } from "../hooks";
+import {
+  useDefaultWorkout,
+  useWorkoutList,
+  useWorkoutRatingMap,
+} from "../hooks";
 
 type OperationType = "edit" | "delete";
 
 export default function WorkoutList() {
-  const [workouts, setWorkouts] = useState<Workout[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
   const [operationType, setOperationType] = useState<OperationType>("edit");
   const [newWorkoutNote, setNewWorkoutNote] = useState<string>("");
-
-  const [showNewestFirst, setShowNewestFirst] = useState<boolean>(false);
 
   const defaultWorkout = useDefaultWorkout();
 
@@ -47,42 +47,10 @@ export default function WorkoutList() {
 
   const { workoutRatingMap } = useWorkoutRatingMap();
 
+  const { workouts, setWorkouts, showNewestFirst, reverseWorkoutList } =
+    useWorkoutList();
+
   useEffect(() => {
-    const getWorkouts = async () => {
-      try {
-        const db = await Database.load(import.meta.env.VITE_DB);
-
-        // Get id, date, rating and how many Sets and Exercises every Workout contains
-        const result = await db.select<Workout[]>(
-          `SELECT workouts.*, 
-          COUNT(DISTINCT CASE WHEN is_template = 0 THEN sets.exercise_id END) AS numExercises,
-          SUM(CASE WHEN is_template = 0 THEN 1 ELSE 0 END) AS numSets
-          FROM workouts LEFT JOIN sets 
-          ON workouts.id = sets.workout_id 
-          GROUP BY workouts.id`
-        );
-
-        const workouts: Workout[] = result.map((row) => {
-          const formattedDate: string = FormatYmdDateString(row.date);
-          return {
-            id: row.id,
-            workout_template_id: row.workout_template_id,
-            date: formattedDate,
-            exercise_order: row.exercise_order,
-            note: row.note,
-            is_loaded: row.is_loaded,
-            rating: row.rating,
-            numSets: row.numSets,
-            numExercises: row.numExercises,
-          };
-        });
-
-        setWorkouts(workouts);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
     const getUserSettings = async () => {
       const settings = await GetShowWorkoutRating();
 
@@ -90,17 +58,8 @@ export default function WorkoutList() {
       setIsLoading(false);
     };
 
-    getWorkouts();
     getUserSettings();
   }, []);
-
-  const reverseWorkoutList = () => {
-    const reversedWorkouts = [...workouts].reverse();
-
-    setWorkouts(reversedWorkouts);
-
-    setShowNewestFirst(!showNewestFirst);
-  };
 
   const deleteWorkout = async () => {
     if (operatingWorkout.id === 0 || operationType !== "delete") return;
