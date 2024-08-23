@@ -1,6 +1,5 @@
 import {
   Button,
-  useDisclosure,
   Modal,
   ModalContent,
   ModalHeader,
@@ -9,9 +8,10 @@ import {
   Input,
 } from "@nextui-org/react";
 import { WeightUnitDropdown } from "..";
+import { UseDisclosureReturnType } from "../../typings";
 
 type UserWeightModalProps = {
-  userWeightModal: ReturnType<typeof useDisclosure>;
+  userWeightModal: UseDisclosureReturnType;
   userWeightInput: string;
   setUserWeightInput: React.Dispatch<React.SetStateAction<string>>;
   isWeightInputValid: boolean;

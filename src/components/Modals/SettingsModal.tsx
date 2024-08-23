@@ -5,15 +5,15 @@ import {
   ModalBody,
   ModalHeader,
   ModalFooter,
-  useDisclosure,
   Select,
   SelectItem,
 } from "@nextui-org/react";
 import { ClockStyleDropdown, LocaleDropdown } from "../../components";
 import { useState, ReactNode } from "react";
+import { UseDisclosureReturnType } from "../../typings";
 
 type SettingsModalProps = {
-  settingsModal: ReturnType<typeof useDisclosure>;
+  settingsModal: UseDisclosureReturnType;
   doneButtonAction: (
     unitType: string,
     locale: string,

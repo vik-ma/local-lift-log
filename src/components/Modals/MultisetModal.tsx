@@ -5,7 +5,6 @@ import {
   ModalBody,
   ModalHeader,
   ModalFooter,
-  useDisclosure,
   Input,
   Select,
   SelectItem,
@@ -17,6 +16,7 @@ import {
   WorkoutSet,
   UserSettings,
   UseSetTrackingInputsReturnType,
+  UseDisclosureReturnType,
 } from "../../typings";
 import {
   ExerciseModalList,
@@ -33,7 +33,7 @@ import {
 import { useMemo, useState } from "react";
 
 type MultisetModalProps = {
-  multisetModal: ReturnType<typeof useDisclosure>;
+  multisetModal: UseDisclosureReturnType;
   multiset: Multiset;
   setMultiset: React.Dispatch<React.SetStateAction<Multiset>>;
   operatingSet: WorkoutSet;

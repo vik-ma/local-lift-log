@@ -6,15 +6,14 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  useDisclosure,
   Input,
   Radio,
   RadioGroup,
 } from "@nextui-org/react";
-import { Measurement } from "../../typings";
+import { Measurement, UseDisclosureReturnType } from "../../typings";
 
 type MeasurementModalProps = {
-  measurementModal: ReturnType<typeof useDisclosure>;
+  measurementModal: UseDisclosureReturnType;
   measurement: Measurement;
   setMeasurement: React.Dispatch<React.SetStateAction<Measurement>>;
   isMeasurementNameValid: boolean;

@@ -1,6 +1,5 @@
 import {
   Button,
-  useDisclosure,
   Modal,
   ModalContent,
   ModalHeader,
@@ -8,12 +7,12 @@ import {
   ModalFooter,
   Input,
 } from "@nextui-org/react";
-import { Workout } from "../../typings";
+import { UseDisclosureReturnType, Workout } from "../../typings";
 import { WorkoutRatingDropdown } from "../";
 import { ConvertEmptyStringToNull } from "../../helpers";
 
 type WorkoutModalProps = {
-  workoutModal: ReturnType<typeof useDisclosure>;
+  workoutModal: UseDisclosureReturnType;
   workout: Workout;
   setWorkout: React.Dispatch<React.SetStateAction<Workout>>;
   workoutNote: string;

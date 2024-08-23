@@ -5,12 +5,12 @@ import {
   ModalBody,
   ModalHeader,
   ModalFooter,
-  useDisclosure,
   Input,
 } from "@nextui-org/react";
+import { UseDisclosureReturnType } from "../../typings";
 
 type TextInputModalProps = {
-  textInputModal: ReturnType<typeof useDisclosure>;
+  textInputModal: UseDisclosureReturnType;
   value: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
   label: string;

@@ -1,4 +1,5 @@
 import React, { ReactNode } from "react";
+import { useDisclosure } from "@nextui-org/react";
 
 export type Routine = {
   id: number;
@@ -407,3 +408,5 @@ export type UseDetailsHeaderOptionsMenuReturnType = {
   menuItems: DetailHeaderOptionItem;
   handleOptionMenuSelection: (key: string) => void;
 };
+
+export type UseDisclosureReturnType = ReturnType<typeof useDisclosure>;

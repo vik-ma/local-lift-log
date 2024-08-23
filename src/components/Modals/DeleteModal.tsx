@@ -5,12 +5,12 @@ import {
   ModalBody,
   ModalHeader,
   ModalFooter,
-  useDisclosure,
 } from "@nextui-org/react";
 import { ReactNode } from "react";
+import { UseDisclosureReturnType } from "../../typings";
 
 type DeleteModalProps = {
-  deleteModal: ReturnType<typeof useDisclosure>;
+  deleteModal: UseDisclosureReturnType;
   header: string;
   body: ReactNode;
   deleteButtonAction: () => void;

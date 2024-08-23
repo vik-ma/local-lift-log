@@ -4,7 +4,6 @@ import {
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
-  useDisclosure,
 } from "@nextui-org/react";
 import { ConvertDateStringToTimeString } from "../helpers";
 import {
@@ -22,6 +21,7 @@ import {
   Exercise,
   SetListNotes,
   UserWeight,
+  UseDisclosureReturnType,
 } from "../typings";
 import { useSetTrackingInputs } from "../hooks";
 import { useMemo } from "react";
@@ -72,7 +72,7 @@ type ActiveSetProps = {
     groupedSet: GroupedWorkoutSet
   ) => void;
   userWeight: UserWeight;
-  userWeightModal: ReturnType<typeof useDisclosure>;
+  userWeightModal: UseDisclosureReturnType;
   populateUserWeightValues: () => void;
   isUserWeightOlderThanOneWeek: boolean;
 };

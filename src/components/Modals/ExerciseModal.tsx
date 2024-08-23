@@ -1,6 +1,5 @@
 import {
   Button,
-  useDisclosure,
   Modal,
   ModalContent,
   ModalHeader,
@@ -10,14 +9,18 @@ import {
   Checkbox,
   CheckboxGroup,
 } from "@nextui-org/react";
-import { Exercise, ExerciseGroupMap } from "../../typings";
+import {
+  Exercise,
+  ExerciseGroupMap,
+  UseDisclosureReturnType,
+} from "../../typings";
 import {
   ConvertExerciseGroupStringListToSetString,
   ConvertExerciseGroupSetString,
 } from "../../helpers";
 
 type ExerciseModalProps = {
-  exerciseModal: ReturnType<typeof useDisclosure>;
+  exerciseModal: UseDisclosureReturnType;
   exercise: Exercise;
   setExercise: React.Dispatch<React.SetStateAction<Exercise>>;
   isExerciseNameValid: boolean;

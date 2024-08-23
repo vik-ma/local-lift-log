@@ -1,6 +1,5 @@
 import {
   Button,
-  useDisclosure,
   Modal,
   ModalContent,
   ModalHeader,
@@ -9,11 +8,14 @@ import {
   Listbox,
   ListboxItem,
 } from "@nextui-org/react";
-import { WorkoutTemplateListItem } from "../../typings";
+import {
+  UseDisclosureReturnType,
+  WorkoutTemplateListItem,
+} from "../../typings";
 import { ReactNode } from "react";
 
 type WorkoutTemplateListModalProps = {
-  workoutTemplateListModal: ReturnType<typeof useDisclosure>;
+  workoutTemplateListModal: UseDisclosureReturnType;
   workoutTemplates: WorkoutTemplateListItem[];
   listboxOnActionFunction: (workoutTemplateId: number) => void;
   header: ReactNode;

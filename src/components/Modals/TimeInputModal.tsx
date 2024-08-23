@@ -5,7 +5,6 @@ import {
   ModalBody,
   ModalHeader,
   ModalFooter,
-  useDisclosure,
   TimeInput,
   DatePicker,
 } from "@nextui-org/react";
@@ -24,9 +23,10 @@ import {
   ValidateISODateString,
 } from "../../helpers";
 import { I18nProvider } from "@react-aria/i18n";
+import { UseDisclosureReturnType } from "../../typings";
 
 type TimeInputModalProps = {
-  timeInputModal: ReturnType<typeof useDisclosure>;
+  timeInputModal: UseDisclosureReturnType;
   header: string;
   clockStyle: string;
   locale: string;

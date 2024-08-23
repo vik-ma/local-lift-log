@@ -1,10 +1,10 @@
-import { useDisclosure } from "@nextui-org/react";
 import {
   Multiset,
   WorkoutSet,
   Exercise,
   UseExerciseListReturnType,
   UseSetTrackingInputsReturnType,
+  UseDisclosureReturnType,
 } from "../typings";
 import { useEffect, useState, useCallback, useMemo } from "react";
 import { useDefaultExercise, useMultisetTypeMap } from ".";
@@ -29,8 +29,8 @@ type UseMultisetActionsProps = {
   setOperatingMultiset: React.Dispatch<React.SetStateAction<Multiset>>;
   operatingSet: WorkoutSet;
   setOperatingSet: React.Dispatch<React.SetStateAction<WorkoutSet>>;
-  deleteModal: ReturnType<typeof useDisclosure>;
-  multisetModal: ReturnType<typeof useDisclosure>;
+  deleteModal: UseDisclosureReturnType;
+  multisetModal: UseDisclosureReturnType;
   exerciseList: UseExerciseListReturnType;
   defaultMultiset: Multiset;
   operatingSetInputs: UseSetTrackingInputsReturnType;

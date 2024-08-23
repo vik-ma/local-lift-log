@@ -5,7 +5,6 @@ import {
   ModalBody,
   ModalHeader,
   ModalFooter,
-  useDisclosure,
 } from "@nextui-org/react";
 import { ExerciseModalList, SetValueConfig } from "../";
 import {
@@ -14,11 +13,12 @@ import {
   WorkoutSet,
   UseSetTrackingInputsReturnType,
   UseExerciseListReturnType,
+  UseDisclosureReturnType,
 } from "../../typings";
 import { useState } from "react";
 
 type SetModalProps = {
-  setModal: ReturnType<typeof useDisclosure>;
+  setModal: UseDisclosureReturnType;
   selectedExercise: Exercise | undefined;
   setSelectedExercise: React.Dispatch<
     React.SetStateAction<Exercise | undefined>

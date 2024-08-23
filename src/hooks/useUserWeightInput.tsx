@@ -11,15 +11,15 @@ import {
   UserSettings,
   UserWeight,
   BodyMeasurementsOperationType,
+  UseDisclosureReturnType,
 } from "../typings";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { useDisclosure } from "@nextui-org/react";
 
 export const useUserWeightInput = (
   latestUserWeight: UserWeight,
   setLatestUserWeight: React.Dispatch<React.SetStateAction<UserWeight>>,
-  userWeightModal: ReturnType<typeof useDisclosure>,
+  userWeightModal: UseDisclosureReturnType,
   userSettings: UserSettings | undefined,
   setOperationType?: React.Dispatch<
     React.SetStateAction<BodyMeasurementsOperationType>

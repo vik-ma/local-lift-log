@@ -5,6 +5,7 @@ import {
   UserSettings,
   UserWeight,
   SetTrackingValues,
+  UseDisclosureReturnType,
 } from "../typings";
 import {
   WeightUnitDropdown,
@@ -12,7 +13,7 @@ import {
   TimeInput,
   SetValueUpdateButtons,
 } from ".";
-import { Button, Input, useDisclosure } from "@nextui-org/react";
+import { Button, Input } from "@nextui-org/react";
 import {
   ConvertInputStringToNumber,
   ShouldSetTrackingValueButtonBeDisabled,
@@ -25,7 +26,7 @@ type SetValueInputsProps = {
   useSetTrackingInputs: UseSetTrackingInputsReturnType;
   userSettings: UserSettings;
   userWeight?: UserWeight;
-  userWeightModal?: ReturnType<typeof useDisclosure>;
+  userWeightModal?: UseDisclosureReturnType;
   populateUserWeightValues?: () => void;
   isUserWeightOlderThanOneWeek?: boolean;
 };

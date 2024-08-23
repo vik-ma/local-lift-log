@@ -5,7 +5,6 @@ import {
   Checkbox,
   Select,
   SelectItem,
-  useDisclosure,
 } from "@nextui-org/react";
 import { useState } from "react";
 import { SetValueInputs } from ".";
@@ -16,6 +15,7 @@ import {
   UseSetTrackingInputsReturnType,
   UserSettings,
   UserWeight,
+  UseDisclosureReturnType,
 } from "../typings";
 import { useNumSetsOptions } from "../hooks";
 
@@ -34,7 +34,7 @@ type SetValueConfigProps = {
   multisetSetTarget?: string;
   setMultisetSetTarget?: React.Dispatch<React.SetStateAction<string>>;
   userWeight?: UserWeight;
-  userWeightModal?: ReturnType<typeof useDisclosure>;
+  userWeightModal?: UseDisclosureReturnType;
 };
 
 export const SetValueConfig = ({

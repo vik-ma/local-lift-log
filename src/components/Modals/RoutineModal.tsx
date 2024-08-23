@@ -5,19 +5,18 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  useDisclosure,
   Input,
   Radio,
   RadioGroup,
   Select,
   SelectItem,
 } from "@nextui-org/react";
-import { Routine } from "../../typings";
+import { Routine, UseDisclosureReturnType } from "../../typings";
 import { useMemo } from "react";
 import { NumDaysInScheduleOptions } from "../../helpers";
 
 type RoutineModalProps = {
-  routineModal: ReturnType<typeof useDisclosure>;
+  routineModal: UseDisclosureReturnType;
   routine: Routine;
   setRoutine: React.Dispatch<React.SetStateAction<Routine>>;
   isRoutineNameValid: boolean;

@@ -1,6 +1,5 @@
 import {
   Button,
-  useDisclosure,
   Modal,
   ModalContent,
   ModalHeader,
@@ -12,11 +11,15 @@ import {
 } from "@nextui-org/react";
 import { UserMeasurementReorderItem } from "..";
 import { Reorder } from "framer-motion";
-import { Measurement, MeasurementMap } from "../../typings";
+import {
+  Measurement,
+  MeasurementMap,
+  UseDisclosureReturnType,
+} from "../../typings";
 import { useEffect, useState } from "react";
 
 type UserMeasurementModalProps = {
-  userMeasurementModal: ReturnType<typeof useDisclosure>;
+  userMeasurementModal: UseDisclosureReturnType;
   activeMeasurements: Measurement[];
   setActiveMeasurements: React.Dispatch<React.SetStateAction<Measurement[]>>;
   measurementsCommentInput: string;
