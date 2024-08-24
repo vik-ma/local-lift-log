@@ -185,12 +185,21 @@ export default function WorkoutDetails() {
 
         const note = result[0].note;
 
-        if (note) setWorkoutTemplateNote(note);
+        if (!note) return;
+
+        if (workoutTemplateNote === null) {
+          setWorkoutTemplateNote(note);
+        } else {
+          // If a Workout Template note already exists, extend existing note
+          const newNote = workoutTemplateNote.concat(", ", note);
+
+          setWorkoutTemplateNote(newNote);
+        }
       } catch (error) {
         console.log(error);
       }
     },
-    []
+    [workoutTemplateNote]
   );
 
   const initialized = useRef(false);
@@ -348,6 +357,8 @@ export default function WorkoutDetails() {
     setGroupedSets(updatedGroupedSetList);
 
     populateIncompleteSets(updatedGroupedSetList);
+
+    await getWorkoutTemplateNote(workoutTemplateId);
 
     toast.success("Workout Template Loaded");
     workoutTemplatesModal.onClose();
