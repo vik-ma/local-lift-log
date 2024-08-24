@@ -71,9 +71,16 @@ export const DetailsHeader = ({
                 aria-label={`${detailsType} Option Menu`}
                 onAction={(key) => handleOptionMenuSelection(key as string)}
               >
-                {Object.entries(menuItems).map(([key, value]) => (
-                  <DropdownItem key={key}>{value.text}</DropdownItem>
-                ))}
+                {Object.entries(menuItems).map(([key, value]) => {
+                  const className =
+                    note === null && key === "toggle-note" ? "hidden" : "";
+
+                  return (
+                    <DropdownItem className={className} key={key}>
+                      {value.text}
+                    </DropdownItem>
+                  );
+                })}
               </DropdownMenu>
             </Dropdown>
           </div>
