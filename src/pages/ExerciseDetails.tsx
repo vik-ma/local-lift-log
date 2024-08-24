@@ -43,7 +43,7 @@ export default function ExerciseDetails() {
     getExercise();
   }, [id]);
 
-  const useDetailsHeaderOptions = useDetailsHeaderOptionsMenu();
+  const useDetailsHeaderOptions = useDetailsHeaderOptionsMenu("Exercise");
 
   const isEditedExerciseNameValid = useValidateName(editedExercise.name);
 

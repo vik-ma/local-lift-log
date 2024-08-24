@@ -96,8 +96,10 @@ export default function WorkoutDetails() {
     showWorkoutTemplateNote,
   ]);
 
-  const useDetailsHeaderOptions =
-    useDetailsHeaderOptionsMenu(additionalMenuItems);
+  const useDetailsHeaderOptions = useDetailsHeaderOptionsMenu(
+    "Workout",
+    additionalMenuItems
+  );
 
   const {
     updateExerciseOrder,

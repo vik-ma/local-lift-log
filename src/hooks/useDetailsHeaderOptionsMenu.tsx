@@ -5,6 +5,7 @@ import {
 } from "../typings";
 
 export const useDetailsHeaderOptionsMenu = (
+  detailsType: string,
   additionalMenuItems?: DetailHeaderOptionItem
 ): UseDetailsHeaderOptionsMenuReturnType => {
   const [showNote, setShowNote] = useState<boolean>(false);
@@ -12,14 +13,14 @@ export const useDetailsHeaderOptionsMenu = (
   const menuItems = useMemo(() => {
     const menuItems: DetailHeaderOptionItem = {
       "toggle-note": {
-        text: "Toggle Note",
+        text: `Toggle ${detailsType} Note`,
         function: () => setShowNote(!showNote),
       },
       ...additionalMenuItems,
     };
 
     return menuItems;
-  }, [showNote, additionalMenuItems]);
+  }, [showNote, additionalMenuItems, detailsType]);
 
   const handleOptionMenuSelection = (key: string) => {
     if (menuItems[key] === undefined) return;

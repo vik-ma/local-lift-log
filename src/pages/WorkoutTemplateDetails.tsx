@@ -133,7 +133,8 @@ export default function WorkoutTemplateDetails() {
     getWorkoutTemplateAndSetList();
   }, [id, getWorkoutTemplateAndSetList]);
 
-  const useDetailsHeaderOptions = useDetailsHeaderOptionsMenu();
+  const useDetailsHeaderOptions =
+    useDetailsHeaderOptionsMenu("Workout Template");
 
   const updateWorkoutTemplate = async () => {
     if (!isNewWorkoutTemplateNameValid) return;

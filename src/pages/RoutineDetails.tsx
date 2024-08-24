@@ -127,7 +127,7 @@ export default function RoutineDetails() {
     getUserSettings();
   }, [id, getWorkoutRoutineSchedules]);
 
-  const useDetailsHeaderOptions = useDetailsHeaderOptionsMenu();
+  const useDetailsHeaderOptions = useDetailsHeaderOptionsMenu("Routine");
 
   const updateRoutine = async () => {
     if (!isRoutineValid) return;
