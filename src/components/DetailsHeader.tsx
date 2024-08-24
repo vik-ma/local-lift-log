@@ -7,6 +7,7 @@ import {
 } from "@nextui-org/react";
 import { EditIcon, VerticalMenuIcon } from "../assets";
 import { UseDetailsHeaderOptionsMenuReturnType } from "../typings";
+import { ReactNode } from "react";
 
 type DetailsHeaderProps = {
   header: string;
@@ -15,6 +16,7 @@ type DetailsHeaderProps = {
   detailsType: string;
   editButtonAction: () => void;
   useDetailsHeaderOptions: UseDetailsHeaderOptionsMenuReturnType;
+  extraContent?: ReactNode;
 };
 
 export const DetailsHeader = ({
@@ -24,6 +26,7 @@ export const DetailsHeader = ({
   detailsType,
   editButtonAction,
   useDetailsHeaderOptions,
+  extraContent,
 }: DetailsHeaderProps) => {
   const { showNote, menuItems, handleOptionMenuSelection } =
     useDetailsHeaderOptions;
@@ -94,6 +97,7 @@ export const DetailsHeader = ({
           <span className="break-all font-medium text-stone-500">{note}</span>
         </div>
       )}
+      {extraContent}
     </div>
   );
 };

@@ -59,6 +59,8 @@ export default function WorkoutDetails() {
   const [workoutTemplates, setWorkoutTemplates] = useState<
     WorkoutTemplateListItem[]
   >([]);
+  const [showWorkoutTemplateNote, setShowWorkoutTemplateNote] =
+    useState<boolean>(false);
 
   const workoutTemplatesModal = useDisclosure();
 
@@ -76,7 +78,7 @@ export default function WorkoutDetails() {
     return {
       "toggle-workout-template-note": {
         text: "Toggle Workout Template Note",
-        function: () => {},
+        function: () => setShowWorkoutTemplateNote(!showWorkoutTemplateNote),
         className: workoutTemplateNote === null ? "hidden" : "",
       },
       "load-workout-template": {
@@ -88,7 +90,11 @@ export default function WorkoutDetails() {
         function: () => {},
       },
     };
-  }, [handleOpenWorkoutTemplatesModal, workoutTemplateNote]);
+  }, [
+    handleOpenWorkoutTemplatesModal,
+    workoutTemplateNote,
+    showWorkoutTemplateNote,
+  ]);
 
   const useDetailsHeaderOptions =
     useDetailsHeaderOptionsMenu(additionalMenuItems);
@@ -508,7 +514,17 @@ export default function WorkoutDetails() {
           detailsType="Workout"
           editButtonAction={() => workoutModal.onOpen()}
           useDetailsHeaderOptions={useDetailsHeaderOptions}
+          extraContent={
+            showWorkoutTemplateNote && (
+              <div className="flex justify-center w-full">
+                <span className="break-all font-medium text-stone-500">
+                  {workoutTemplateNote}
+                </span>
+              </div>
+            )
+          }
         />
+        <div></div>
         <div className="mb-[4.5rem]">
           <WorkoutGroupedSetList
             groupedSets={groupedSets}
