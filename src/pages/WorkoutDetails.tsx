@@ -20,6 +20,7 @@ import {
   TextInputModal,
   UserWeightModal,
   WorkoutTemplateListModal,
+  WorkoutListModal,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -50,6 +51,8 @@ export default function WorkoutDetails() {
 
   const workoutModal = useDisclosure();
   const userWeightModal = useDisclosure();
+  const workoutTemplatesModal = useDisclosure();
+  const workoutListModal = useDisclosure();
 
   const [workoutDate, setWorkoutDate] = useState<string>("");
   const [workoutNote, setWorkoutNote] = useState<string>("");
@@ -62,8 +65,6 @@ export default function WorkoutDetails() {
   const [showWorkoutTemplateNote, setShowWorkoutTemplateNote] =
     useState<boolean>(false);
 
-  const workoutTemplatesModal = useDisclosure();
-
   const handleOpenWorkoutTemplatesModal = useCallback(async () => {
     if (workoutTemplates.length === 0) {
       const workoutTemplates = await GetWorkoutTemplates();
@@ -73,7 +74,12 @@ export default function WorkoutDetails() {
     workoutTemplatesModal.onOpen();
   }, [workoutTemplates, workoutTemplatesModal]);
 
-  // TODO: ADD FUNCTIONS
+  const handleOpenWorkoutListModal = useCallback(() => {
+    // TODO: ADD
+
+    workoutListModal.onOpen();
+  }, [workoutListModal]);
+
   const additionalMenuItems: DetailHeaderOptionItem = useMemo(() => {
     return {
       "toggle-workout-template-note": {
@@ -87,13 +93,14 @@ export default function WorkoutDetails() {
       },
       "copy-workout": {
         text: "Copy Previous Workout",
-        function: () => {},
+        function: () => handleOpenWorkoutListModal(),
       },
     };
   }, [
     handleOpenWorkoutTemplatesModal,
     workoutTemplateNote,
     showWorkoutTemplateNote,
+    handleOpenWorkoutListModal,
   ]);
 
   const useDetailsHeaderOptions = useDetailsHeaderOptionsMenu(
@@ -396,6 +403,11 @@ export default function WorkoutDetails() {
         workoutTemplates={workoutTemplates}
         listboxOnActionFunction={handleSelectWorkoutTemplate}
         header={<span>Load Workout Template</span>}
+      />
+      <WorkoutListModal
+        workoutListModal={workoutListModal}
+        userSettings={userSettings}
+        onClickAction={() => {}}
       />
       <DeleteModal
         deleteModal={deleteModal}
