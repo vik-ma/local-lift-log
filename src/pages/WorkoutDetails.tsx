@@ -173,6 +173,26 @@ export default function WorkoutDetails() {
     setIsUserWeightOlderThanOneWeek(false);
   };
 
+  const getWorkoutTemplateNote = useCallback(
+    async (workoutTemplateId: number) => {
+      try {
+        const db = await Database.load(import.meta.env.VITE_DB);
+
+        const result = await db.select<WorkoutTemplateNote[]>(
+          "SELECT note FROM workout_templates WHERE id = $1",
+          [workoutTemplateId]
+        );
+
+        const note = result[0].note;
+
+        if (note) setWorkoutTemplateNote(note);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    []
+  );
+
   const initialized = useRef(false);
 
   useEffect(() => {
@@ -256,23 +276,6 @@ export default function WorkoutDetails() {
 
         setWorkout(workout);
         setWorkoutDate(formattedDate);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    const getWorkoutTemplateNote = async (workoutTemplateId: number) => {
-      try {
-        const db = await Database.load(import.meta.env.VITE_DB);
-
-        const result = await db.select<WorkoutTemplateNote[]>(
-          "SELECT note FROM workout_templates WHERE id = $1",
-          [workoutTemplateId]
-        );
-
-        const note = result[0].note;
-
-        if (note) setWorkoutTemplateNote(note);
       } catch (error) {
         console.log(error);
       }
