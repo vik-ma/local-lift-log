@@ -296,6 +296,37 @@ export default function WorkoutDetails() {
     workoutModal.onClose();
   };
 
+  const handleSelectWorkoutTemplate = async (workoutTemplateId: number) => {
+    const groupedSetList = await CreateSetsFromWorkoutTemplate(
+      workout.id,
+      workoutTemplateId
+    );
+
+    const updatedWorkout = { ...workout };
+
+    const exerciseOrder: string = GenerateExerciseOrderString(groupedSetList);
+    updatedWorkout.exercise_order = exerciseOrder;
+
+    const success = await UpdateWorkout(updatedWorkout);
+
+    if (!success) return;
+
+    setWorkout(updatedWorkout);
+
+    const workoutNumbers = {
+      numSets: GetTotalNumberOfSetsInGroupedSetList(groupedSetList),
+      numExercises: GetNumberOfUniqueExercisesInGroupedSets(groupedSetList),
+    };
+    setWorkoutNumbers(workoutNumbers);
+
+    setGroupedSets(groupedSetList);
+
+    populateIncompleteSets(groupedSetList);
+
+    toast.success("Workout Template Loaded");
+    workoutTemplatesModal.onClose();
+  };
+
   if (workout.id === 0 || userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -313,7 +344,7 @@ export default function WorkoutDetails() {
       <WorkoutTemplateListModal
         workoutTemplateListModal={workoutTemplatesModal}
         workoutTemplates={workoutTemplates}
-        listboxOnActionFunction={() => {}}
+        listboxOnActionFunction={handleSelectWorkoutTemplate}
         header={<span>Load Workout Template</span>}
       />
       <DeleteModal
