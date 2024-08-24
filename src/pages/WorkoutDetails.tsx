@@ -74,6 +74,11 @@ export default function WorkoutDetails() {
   // TODO: ADD FUNCTIONS
   const additionalMenuItems: DetailHeaderOptionItem = useMemo(() => {
     return {
+      "toggle-workout-template-note": {
+        text: "Toggle Workout Template Note",
+        function: () => {},
+        className: workoutTemplateNote === null ? "hidden" : "",
+      },
       "load-workout-template": {
         text: "Load Workout Template",
         function: () => handleOpenWorkoutTemplatesModal(),
@@ -83,7 +88,7 @@ export default function WorkoutDetails() {
         function: () => {},
       },
     };
-  }, [handleOpenWorkoutTemplatesModal]);
+  }, [handleOpenWorkoutTemplatesModal, workoutTemplateNote]);
 
   const useDetailsHeaderOptions =
     useDetailsHeaderOptionsMenu(additionalMenuItems);
