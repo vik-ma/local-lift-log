@@ -400,6 +400,7 @@ export type DetailHeaderOptionItem = {
   [key: string]: {
     text: string;
     function: () => void;
+    className?: string;
   };
 };
 

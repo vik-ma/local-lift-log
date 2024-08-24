@@ -72,8 +72,11 @@ export const DetailsHeader = ({
                 onAction={(key) => handleOptionMenuSelection(key as string)}
               >
                 {Object.entries(menuItems).map(([key, value]) => {
-                  const className =
-                    note === null && key === "toggle-note" ? "hidden" : "";
+                  let className = value.className ?? "";
+
+                  if (note === null && key === "toggle-note") {
+                    className = "hidden";
+                  }
 
                   return (
                     <DropdownItem className={className} key={key}>
