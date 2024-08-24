@@ -297,15 +297,36 @@ export default function WorkoutDetails() {
   };
 
   const handleSelectWorkoutTemplate = async (workoutTemplateId: number) => {
-    const groupedSetList = await CreateSetsFromWorkoutTemplate(
+    const templateGroupedSetList = await CreateSetsFromWorkoutTemplate(
       workout.id,
       workoutTemplateId
     );
 
-    const updatedWorkout = { ...workout };
+    const updatedGroupedSetList = [...groupedSets];
 
-    const exerciseOrder: string = GenerateExerciseOrderString(groupedSetList);
-    updatedWorkout.exercise_order = exerciseOrder;
+    const groupedSetMap = new Map<string, GroupedWorkoutSet>();
+
+    updatedGroupedSetList.forEach((item) => {
+      groupedSetMap.set(item.id, item);
+    });
+
+    templateGroupedSetList.forEach((item) => {
+      if (groupedSetMap.has(item.id)) {
+        // If a groupedSet with the same id exists, append the exerciseList and setList to that groupedSet
+        const existingGroupedSet = groupedSetMap.get(item.id)!;
+        existingGroupedSet.exerciseList.push(...item.exerciseList);
+        existingGroupedSet.setList.push(...item.setList);
+      } else {
+        // If a groupedSet with the same id doesn't exist, add the groupedSet to existing list
+        updatedGroupedSetList.push(item);
+      }
+    });
+
+    const exerciseOrder: string = GenerateExerciseOrderString(
+      updatedGroupedSetList
+    );
+
+    const updatedWorkout = { ...workout, exercise_order: exerciseOrder };
 
     const success = await UpdateWorkout(updatedWorkout);
 
@@ -314,14 +335,16 @@ export default function WorkoutDetails() {
     setWorkout(updatedWorkout);
 
     const workoutNumbers = {
-      numSets: GetTotalNumberOfSetsInGroupedSetList(groupedSetList),
-      numExercises: GetNumberOfUniqueExercisesInGroupedSets(groupedSetList),
+      numSets: GetTotalNumberOfSetsInGroupedSetList(updatedGroupedSetList),
+      numExercises: GetNumberOfUniqueExercisesInGroupedSets(
+        updatedGroupedSetList
+      ),
     };
     setWorkoutNumbers(workoutNumbers);
 
-    setGroupedSets(groupedSetList);
+    setGroupedSets(updatedGroupedSetList);
 
-    populateIncompleteSets(groupedSetList);
+    populateIncompleteSets(updatedGroupedSetList);
 
     toast.success("Workout Template Loaded");
     workoutTemplatesModal.onClose();
