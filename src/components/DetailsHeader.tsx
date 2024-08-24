@@ -26,7 +26,7 @@ export const DetailsHeader = ({
   useDetailsHeaderOptions,
 }: DetailsHeaderProps) => {
   const { showNote, menuItems, handleOptionMenuSelection } =
-  useDetailsHeaderOptions;
+    useDetailsHeaderOptions;
 
   return (
     <div className="flex flex-col gap-4 pb-4">
@@ -79,7 +79,7 @@ export const DetailsHeader = ({
           </div>
         </div>
       </div>
-      {showNote && (
+      {showNote && note !== null && (
         <div className="flex justify-center w-full">
           <span className="break-all font-medium text-stone-500">{note}</span>
         </div>
