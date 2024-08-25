@@ -22,7 +22,7 @@ type WorkoutListModalProps = {
   workoutListModal: UseDisclosureReturnType;
   userSettings: UserSettings;
   workoutList: UseWorkoutListReturnType;
-  onClickAction: (workout: Workout) => void;
+  onClickAction: (workout: Workout, keepSetValues: boolean) => void;
 };
 
 export const WorkoutListModal = ({
@@ -76,7 +76,7 @@ export const WorkoutListModal = ({
                         <div
                           key={workout.id}
                           className="flex cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-                          onClick={() => onClickAction(workout)}
+                          onClick={() => onClickAction(workout, keepSetValues)}
                         >
                           <div className="flex gap-1 justify-between items-center w-full">
                             <div className="flex flex-col justify-start items-start">

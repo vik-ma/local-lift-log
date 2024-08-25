@@ -2,7 +2,6 @@ import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import {
   Workout,
-  WorkoutSet,
   GroupedWorkoutSet,
   DetailHeaderOptionItem,
   WorkoutTemplateListItem,
@@ -33,6 +32,7 @@ import {
   FormatNumItemsString,
   GetTotalNumberOfSetsInGroupedSetList,
   GetWorkoutTemplates,
+  GetWorkoutSetList,
 } from "../helpers";
 import { useDisclosure } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
@@ -249,14 +249,7 @@ export default function WorkoutDetails() {
         const workout: Workout = result[0];
 
         if (workout.is_loaded === 1) {
-          const setList = await db.select<WorkoutSet[]>(
-            `SELECT sets.*, 
-            COALESCE(exercises.name, 'Unknown Exercise') AS exercise_name
-            FROM sets LEFT JOIN 
-            exercises ON sets.exercise_id = exercises.id 
-            WHERE workout_id = $1 AND is_template = 0`,
-            [id]
-          );
+          const setList = await GetWorkoutSetList(workout.id);
 
           const groupedSetList: GroupedWorkoutSet[] =
             await CreateGroupedWorkoutSetList(setList, workout.exercise_order);
@@ -394,6 +387,11 @@ export default function WorkoutDetails() {
     workoutTemplatesModal.onClose();
   };
 
+  const handleClickWorkout = async (
+    workout: Workout,
+    keepSetValues: boolean
+  ) => {};
+
   if (workout.id === 0 || userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -418,7 +416,7 @@ export default function WorkoutDetails() {
         workoutListModal={workoutListModal}
         userSettings={userSettings}
         workoutList={workoutList}
-        onClickAction={() => {}}
+        onClickAction={handleClickWorkout}
       />
       <DeleteModal
         deleteModal={deleteModal}
