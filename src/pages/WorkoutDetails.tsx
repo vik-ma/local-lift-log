@@ -40,6 +40,7 @@ import {
   useDetailsHeaderOptionsMenu,
   useUserWeightInput,
   useWorkoutActions,
+  useWorkoutList,
 } from "../hooks";
 
 type WorkoutTemplateNote = {
@@ -65,6 +66,8 @@ export default function WorkoutDetails() {
   const [showWorkoutTemplateNote, setShowWorkoutTemplateNote] =
     useState<boolean>(false);
 
+  const workoutListIsLoaded = useRef(false);
+
   const handleOpenWorkoutTemplatesModal = useCallback(async () => {
     if (workoutTemplates.length === 0) {
       const workoutTemplates = await GetWorkoutTemplates();
@@ -74,11 +77,16 @@ export default function WorkoutDetails() {
     workoutTemplatesModal.onOpen();
   }, [workoutTemplates, workoutTemplatesModal]);
 
+  const workoutList = useWorkoutList(false);
+
   const handleOpenWorkoutListModal = useCallback(() => {
-    // TODO: ADD
+    if (!workoutListIsLoaded.current) {
+      workoutList.getWorkouts();
+      workoutListIsLoaded.current = true;
+    }
 
     workoutListModal.onOpen();
-  }, [workoutListModal]);
+  }, [workoutListModal, workoutList]);
 
   const additionalMenuItems: DetailHeaderOptionItem = useMemo(() => {
     return {
@@ -407,6 +415,7 @@ export default function WorkoutDetails() {
       <WorkoutListModal
         workoutListModal={workoutListModal}
         userSettings={userSettings}
+        workoutList={workoutList}
         onClickAction={() => {}}
       />
       <DeleteModal
