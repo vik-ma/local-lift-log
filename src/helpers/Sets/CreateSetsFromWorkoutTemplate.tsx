@@ -4,16 +4,13 @@ import {
   CreateGroupedWorkoutSetList,
   GenerateMultisetSetListIdList,
   GenerateMultisetSetOrderString,
+  GetExerciseOrder,
   GetMultisetWithId,
   InsertMultisetIntoDatabase,
   InsertSetIntoDatabase,
   ReplaceNumberIn2DList,
   UpdateMultiset,
 } from "..";
-
-type ExerciseOrderQuery = {
-  exercise_order: string;
-};
 
 export const CreateSetsFromWorkoutTemplate = async (
   workout_id: number,
@@ -30,13 +27,9 @@ export const CreateSetsFromWorkoutTemplate = async (
       [workout_template_id]
     );
 
-    const exerciseOrder = await db.select<ExerciseOrderQuery[]>(
-      `SELECT exercise_order FROM workout_templates
-        WHERE id = $1`,
-      [workout_template_id]
-    );
+    const exerciseOrder = await GetExerciseOrder(workout_template_id, true);
 
-    if (result.length === 0 || exerciseOrder.length === 0) return [];
+    if (result.length === 0 || exerciseOrder === undefined) return [];
 
     const newMultisetsMap: Map<number, WorkoutSet[]> = new Map();
 
@@ -103,10 +96,10 @@ export const CreateSetsFromWorkoutTemplate = async (
       newMultisetIdMap.set(`m${newMultisetId}`, `m${multiset.id}`);
     }
 
-    let exerciseOrderString = exerciseOrder[0].exercise_order;
+    let exerciseOrderString = exerciseOrder;
 
     if (newMultisetIdMap.size > 0) {
-      const orderArray = exerciseOrder[0].exercise_order.split(",");
+      const orderArray = exerciseOrder.split(",");
 
       for (const [newId, oldId] of newMultisetIdMap) {
         const index = orderArray.indexOf(oldId);
