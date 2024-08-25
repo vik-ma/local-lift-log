@@ -48,7 +48,7 @@ export default function WorkoutList() {
   const { workoutRatingMap } = useWorkoutRatingMap();
 
   const { workouts, setWorkouts, showNewestFirst, reverseWorkoutList } =
-    useWorkoutList();
+    useWorkoutList(true);
 
   useEffect(() => {
     const getUserSettings = async () => {

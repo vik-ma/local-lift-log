@@ -3,7 +3,7 @@ import { Workout } from "../typings";
 import Database from "tauri-plugin-sql-api";
 import { FormatYmdDateString } from "../helpers";
 
-export const useWorkoutList = () => {
+export const useWorkoutList = (getWorkoutsOnLoad: boolean) => {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
   const [showNewestFirst, setShowNewestFirst] = useState<boolean>(false);
 
@@ -43,8 +43,10 @@ export const useWorkoutList = () => {
   }, []);
 
   useEffect(() => {
-    getWorkouts();
-  }, [getWorkouts]);
+    if (getWorkoutsOnLoad) {
+      getWorkouts();
+    }
+  }, [getWorkoutsOnLoad, getWorkouts]);
 
   const reverseWorkoutList = () => {
     const reversedWorkouts = [...workouts].reverse();
@@ -54,5 +56,11 @@ export const useWorkoutList = () => {
     setShowNewestFirst(!showNewestFirst);
   };
 
-  return { workouts, setWorkouts, showNewestFirst, reverseWorkoutList };
+  return {
+    workouts,
+    setWorkouts,
+    showNewestFirst,
+    reverseWorkoutList,
+    getWorkouts,
+  };
 };
