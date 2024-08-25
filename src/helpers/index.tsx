@@ -126,6 +126,7 @@ export { GetTotalNumberOfSetsInGroupedSetList } from "./Workouts/GetTotalNumberO
 export { GetWorkoutTemplates } from "./Workouts/GetWorkoutTemplates";
 export { GetWorkoutSetList } from "./Workouts/GetWorkoutSetList";
 export { GetExerciseOrder } from "./Workouts/GetExerciseOrder";
+export { CopyWorkoutSetList } from "./Workouts/CopyWorkoutSetList";
 
 export { LocaleList } from "./Constants/LocaleList";
 export { ValidTimeInputs } from "./Constants/ValidTimeInputs";
