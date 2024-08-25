@@ -7,24 +7,31 @@ import {
   ModalFooter,
   ScrollShadow,
 } from "@nextui-org/react";
-import { UseDisclosureReturnType, UserSettings, Workout } from "../../typings";
-import { useWorkoutList, useWorkoutRatingMap } from "../../hooks";
+import {
+  UseDisclosureReturnType,
+  UserSettings,
+  UseWorkoutListReturnType,
+  Workout,
+} from "../../typings";
+import { useWorkoutRatingMap } from "../../hooks";
 import { FormatNumItemsString } from "../../helpers";
 
 type WorkoutListModalProps = {
   workoutListModal: UseDisclosureReturnType;
   userSettings: UserSettings;
+  workoutList: UseWorkoutListReturnType;
   onClickAction: (workout: Workout) => void;
 };
 
 export const WorkoutListModal = ({
   workoutListModal,
   userSettings,
+  workoutList,
   onClickAction,
 }: WorkoutListModalProps) => {
   const { workoutRatingMap } = useWorkoutRatingMap();
 
-  const { workouts, showNewestFirst, reverseWorkoutList } = useWorkoutList();
+  const { workouts, showNewestFirst, reverseWorkoutList } = workoutList;
 
   return (
     <Modal
