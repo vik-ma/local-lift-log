@@ -66,16 +66,18 @@ export default function WorkoutDetails() {
   const [showWorkoutTemplateNote, setShowWorkoutTemplateNote] =
     useState<boolean>(false);
 
+  const workoutTemplateListIsLoaded = useRef(false);
   const workoutListIsLoaded = useRef(false);
 
   const handleOpenWorkoutTemplatesModal = useCallback(async () => {
-    if (workoutTemplates.length === 0) {
+    if (!workoutTemplateListIsLoaded.current) {
       const workoutTemplates = await GetWorkoutTemplates();
       setWorkoutTemplates(workoutTemplates);
+      workoutTemplateListIsLoaded.current = true;
     }
 
     workoutTemplatesModal.onOpen();
-  }, [workoutTemplates, workoutTemplatesModal]);
+  }, [workoutTemplatesModal]);
 
   const workoutList = useWorkoutList(false);
 
