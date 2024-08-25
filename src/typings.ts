@@ -411,3 +411,11 @@ export type UseDetailsHeaderOptionsMenuReturnType = {
 };
 
 export type UseDisclosureReturnType = ReturnType<typeof useDisclosure>;
+
+export type UseWorkoutListReturnType = {
+  workouts: Workout[];
+  setWorkouts: React.Dispatch<React.SetStateAction<Workout[]>>;
+  showNewestFirst: boolean;
+  reverseWorkoutList: () => void;
+  getWorkouts: () => void;
+};

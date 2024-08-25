@@ -1,9 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
-import { Workout } from "../typings";
+import { UseWorkoutListReturnType, Workout } from "../typings";
 import Database from "tauri-plugin-sql-api";
 import { FormatYmdDateString } from "../helpers";
 
-export const useWorkoutList = (getWorkoutsOnLoad: boolean) => {
+export const useWorkoutList = (
+  getWorkoutsOnLoad: boolean
+): UseWorkoutListReturnType => {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
   const [showNewestFirst, setShowNewestFirst] = useState<boolean>(false);
 
