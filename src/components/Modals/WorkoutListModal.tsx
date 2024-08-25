@@ -6,6 +6,7 @@ import {
   ModalBody,
   ModalFooter,
   ScrollShadow,
+  Checkbox,
 } from "@nextui-org/react";
 import {
   UseDisclosureReturnType,
@@ -15,6 +16,7 @@ import {
 } from "../../typings";
 import { useWorkoutRatingMap } from "../../hooks";
 import { FormatNumItemsString } from "../../helpers";
+import { useState } from "react";
 
 type WorkoutListModalProps = {
   workoutListModal: UseDisclosureReturnType;
@@ -29,6 +31,8 @@ export const WorkoutListModal = ({
   workoutList,
   onClickAction,
 }: WorkoutListModalProps) => {
+  const [keepSetValues, setKeepSetValues] = useState<boolean>(false);
+
   const { workoutRatingMap } = useWorkoutRatingMap();
 
   const { workouts, showNewestFirst, reverseWorkoutList } = workoutList;
@@ -45,7 +49,14 @@ export const WorkoutListModal = ({
             <ModalBody>
               <div className="h-[400px] flex flex-col gap-2">
                 {workouts.length > 0 && (
-                  <div className="flex justify-center">
+                  <div className="flex justify-between items-center px-1">
+                    <Checkbox
+                      color="primary"
+                      isSelected={keepSetValues}
+                      onValueChange={setKeepSetValues}
+                    >
+                      Keep Set Values
+                    </Checkbox>
                     <Button
                       className="w-32"
                       size="sm"
