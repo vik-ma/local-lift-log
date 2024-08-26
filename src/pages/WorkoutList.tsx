@@ -150,8 +150,10 @@ export default function WorkoutList() {
         body={
           <p className="break-words">
             Are you sure you want to permanently delete Workout on{" "}
-            <span className="text-secondary">{operatingWorkout.date}</span>,{" "}
-            <strong>including all Sets</strong> performed in the Workout?
+            <span className="text-secondary">
+              {operatingWorkout.formattedDate}
+            </span>
+            , <strong>including all Sets</strong> performed in the Workout?
           </p>
         }
         deleteButtonAction={deleteWorkout}
@@ -164,7 +166,7 @@ export default function WorkoutList() {
         setWorkoutNote={setNewWorkoutNote}
         workoutTemplateNote={null}
         buttonAction={updateWorkout}
-        header={operatingWorkout.date}
+        header={operatingWorkout.formattedDate}
       />
       <div className="flex flex-col items-center gap-3">
         <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">
@@ -242,7 +244,7 @@ export default function WorkoutList() {
                     <Dropdown>
                       <DropdownTrigger>
                         <Button
-                          aria-label={`Toggle Workout On ${workout.date} Options Menu`}
+                          aria-label={`Toggle Workout On ${workout.formattedDate} Options Menu`}
                           isIconOnly
                           className="z-1"
                           size="sm"
@@ -253,7 +255,7 @@ export default function WorkoutList() {
                         </Button>
                       </DropdownTrigger>
                       <DropdownMenu
-                        aria-label={`Option Menu For Workout On ${workout.date}`}
+                        aria-label={`Option Menu For Workout On ${workout.formattedDate}`}
                         onAction={(key) =>
                           handleWorkoutOptionSelection(key as string, workout)
                         }

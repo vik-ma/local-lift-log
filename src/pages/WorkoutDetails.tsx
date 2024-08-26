@@ -26,7 +26,6 @@ import {
   CreateSetsFromWorkoutTemplate,
   CreateGroupedWorkoutSetList,
   GenerateExerciseOrderString,
-  FormatYmdDateString,
   UpdateWorkout,
   GetNumberOfUniqueExercisesInGroupedSets,
   FormatNumItemsString,
@@ -37,6 +36,7 @@ import {
   MergeTwoGroupedSetLists,
   CopyWorkoutSetList,
   ReplaceIdsInOrderString,
+  FormatYmdDateString,
 } from "../helpers";
 import { useDisclosure } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
@@ -59,7 +59,6 @@ export default function WorkoutDetails() {
   const workoutTemplatesModal = useDisclosure();
   const workoutListModal = useDisclosure();
 
-  const [workoutDate, setWorkoutDate] = useState<string>("");
   const [workoutNote, setWorkoutNote] = useState<string>("");
   const [workoutTemplateNote, setWorkoutTemplateNote] = useState<string | null>(
     null
@@ -304,14 +303,13 @@ export default function WorkoutDetails() {
           if (!success) return;
         }
 
-        const formattedDate: string = FormatYmdDateString(workout.date);
+        workout.formattedDate = FormatYmdDateString(workout.date);
 
         if (workout.workout_template_id !== 0) {
           await getWorkoutTemplateNote(workout.workout_template_id);
         }
 
         setWorkout(workout);
-        setWorkoutDate(formattedDate);
       } catch (error) {
         console.log(error);
       }
@@ -577,7 +575,7 @@ export default function WorkoutDetails() {
       />
       <div className="flex flex-col">
         <DetailsHeader
-          header={workoutDate}
+          header={workout.formattedDate ?? workout.date}
           subHeader={`${FormatNumItemsString(
             workoutNumbers.numExercises,
             "Exercise"
