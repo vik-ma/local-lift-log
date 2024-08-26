@@ -77,6 +77,8 @@ export const CopyWorkoutSetList = async (
     }
   }
 
+  const newMultisetIdMap: Map<string, string> = new Map();
+
   for (const [oldMultisetId, newValues] of Object.entries(newMultisetValues)) {
     // Create new Multiset(s), if any should be created
 
@@ -100,6 +102,8 @@ export const CopyWorkoutSetList = async (
 
     if (!success) continue;
 
+    newMultisetIdMap.set(`m${oldMultisetId}`, `m${newMultisetId}`);
+
     for (const set of newValues.setList) {
       // Update multiset_id column for copied sets
       set.multiset_id = newMultisetId;
@@ -108,5 +112,5 @@ export const CopyWorkoutSetList = async (
     }
   }
 
-  return newSetList;
+  return { newSetList, newMultisetIdMap };
 };
