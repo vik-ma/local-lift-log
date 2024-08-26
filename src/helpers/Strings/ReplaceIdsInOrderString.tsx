@@ -7,14 +7,14 @@ export const ReplaceIdsInOrderString = (
     .split(",")
     .map((component) => {
       return component
-        .split("-")
+        .split("/")
         .map((oldId) => {
           // Replace old Id with new Id if it has an entry in the map
           return idReplacementMap.has(oldId)
             ? idReplacementMap.get(oldId)
             : oldId;
         })
-        .join("-");
+        .join("/");
     })
     .join(",");
 
