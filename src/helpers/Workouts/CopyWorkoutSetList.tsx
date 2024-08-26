@@ -1,6 +1,7 @@
+import { InsertSetIntoDatabase } from "..";
 import { UserSettings, WorkoutSet } from "../../typings";
 
-export const CopyWorkoutSetList = (
+export const CopyWorkoutSetList = async (
   setList: WorkoutSet[],
   newWorkoutId: number,
   keepSetValues: boolean,
@@ -29,6 +30,12 @@ export const CopyWorkoutSetList = (
       set.distance_unit = userSettings.default_unit_distance;
       set.user_weight_unit = userSettings.default_unit_weight;
     }
+
+    const setId = await InsertSetIntoDatabase(set);
+
+    if (setId === 0) continue;
+
+    set.id = setId;
   }
 
   return newSetList;
