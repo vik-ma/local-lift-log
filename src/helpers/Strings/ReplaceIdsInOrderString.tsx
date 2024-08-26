@@ -1,8 +1,9 @@
-export const ReplaceMultisetSetOrderStringIds = (
-  oldSetOrderString: string,
+export const ReplaceIdsInOrderString = (
+  oldOrderString: string,
   idReplacementMap: Map<string, string>
 ) => {
-  const newSetOrderString = oldSetOrderString
+  // Works with Workout/Workout Template exercise_order and Multiset set_order strings
+  const newOrderString = oldOrderString
     .split(",")
     .map((component) => {
       return component
@@ -17,5 +18,5 @@ export const ReplaceMultisetSetOrderStringIds = (
     })
     .join(",");
 
-  return newSetOrderString;
+  return newOrderString;
 };

@@ -2,7 +2,7 @@ import {
   GetMultisetWithId,
   InsertMultisetIntoDatabase,
   InsertSetIntoDatabase,
-  ReplaceMultisetSetOrderStringIds,
+  ReplaceIdsInOrderString,
   UpdateMultiset,
   UpdateSet,
 } from "..";
@@ -91,7 +91,7 @@ export const CopyWorkoutSetList = async (
     multiset.id = newMultisetId;
 
     // Replace the old Set ids in set_order with the new Set ids
-    const newSetOrder = ReplaceMultisetSetOrderStringIds(
+    const newSetOrder = ReplaceIdsInOrderString(
       multiset.set_order,
       newValues.idReplacementMap
     );
