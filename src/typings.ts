@@ -238,6 +238,7 @@ export type Workout = {
   rating: number;
   numSets?: number;
   numExercises?: number;
+  formattedDate?: string;
 };
 
 export type UserWeight = {

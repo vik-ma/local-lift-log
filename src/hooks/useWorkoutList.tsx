@@ -24,22 +24,28 @@ export const useWorkoutList = (
         GROUP BY workouts.id`
       );
 
-      const workouts: Workout[] = result
-        .filter((row) => row.id !== ignoreWorkoutId)
-        .map((row) => {
-          const formattedDate: string = FormatYmdDateString(row.date);
-          return {
-            id: row.id,
-            workout_template_id: row.workout_template_id,
-            date: formattedDate,
-            exercise_order: row.exercise_order,
-            note: row.note,
-            is_loaded: row.is_loaded,
-            rating: row.rating,
-            numSets: row.numSets,
-            numExercises: row.numExercises,
-          };
-        });
+      const workouts: Workout[] = [];
+
+      for (const row of result) {
+        if (row.id === ignoreWorkoutId) continue;
+
+        const formattedDate: string = FormatYmdDateString(row.date);
+
+        const workout: Workout = {
+          id: row.id,
+          workout_template_id: row.workout_template_id,
+          date: row.date,
+          exercise_order: row.exercise_order,
+          note: row.note,
+          is_loaded: row.is_loaded,
+          rating: row.rating,
+          numSets: row.numSets,
+          numExercises: row.numExercises,
+          formattedDate: formattedDate,
+        };
+
+        workouts.push(workout);
+      }
 
       setWorkouts(workouts);
     } catch (error) {

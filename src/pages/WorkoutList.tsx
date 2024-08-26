@@ -206,7 +206,7 @@ export default function WorkoutList() {
                   <div className="flex gap-1 justify-between items-center w-full">
                     <div className="flex flex-col justify-start items-start">
                       <span className="w-[10.5rem] truncate text-left">
-                        {workout.date}
+                        {workout.formattedDate}
                       </span>
                       {workout.numSets! > 0 ? (
                         <span className="text-xs text-secondary text-left">
