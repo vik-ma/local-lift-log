@@ -1,4 +1,10 @@
-import { InsertSetIntoDatabase } from "..";
+import {
+  GetMultisetWithId,
+  InsertMultisetIntoDatabase,
+  InsertSetIntoDatabase,
+  ReplaceMultisetSetOrderStringIds,
+  UpdateMultiset,
+} from "..";
 import { UserSettings, WorkoutSet } from "../../typings";
 
 export const CopyWorkoutSetList = async (
@@ -8,6 +14,8 @@ export const CopyWorkoutSetList = async (
   userSettings: UserSettings
 ) => {
   const newSetList = [...setList];
+
+  const multisetIdMap: Map<number, Map<string, string>> = new Map();
 
   for (const set of newSetList) {
     set.workout_id = newWorkoutId;
@@ -35,7 +43,43 @@ export const CopyWorkoutSetList = async (
 
     if (setId === 0) continue;
 
+    if (set.multiset_id !== 0) {
+      if (multisetIdMap.has(set.multiset_id)) {
+        // Add this Set's new id to existing multiset id entry's map
+        const idReplacementMap = multisetIdMap.get(set.multiset_id);
+        idReplacementMap!.set(set.id.toString(), setId.toString());
+      } else {
+        // Create new entry in multisetIdMap and add this Set's new id
+        const idReplacementMap: Map<string, string> = new Map();
+        idReplacementMap.set(set.id.toString(), setId.toString());
+
+        multisetIdMap.set(set.multiset_id, idReplacementMap);
+      }
+    }
+
     set.id = setId;
+  }
+
+  for (const [multisetId, idReplacementMap] of multisetIdMap) {
+    // Create new Multiset(s), if any should be created
+
+    const multiset = await GetMultisetWithId(multisetId);
+
+    if (multiset === undefined) continue;
+
+    const newMultisetId = await InsertMultisetIntoDatabase(multiset);
+
+    multiset.id = newMultisetId;
+
+    // Replace the set_order with new Set id's
+    const newSetOrder = ReplaceMultisetSetOrderStringIds(
+      multiset.set_order,
+      idReplacementMap
+    );
+
+    multiset.set_order = newSetOrder;
+
+    await UpdateMultiset(multiset);
   }
 
   return newSetList;
