@@ -4,7 +4,8 @@ import Database from "tauri-plugin-sql-api";
 import { FormatYmdDateString } from "../helpers";
 
 export const useWorkoutList = (
-  getWorkoutsOnLoad: boolean
+  getWorkoutsOnLoad: boolean,
+  ignoreWorkoutId?: number
 ): UseWorkoutListReturnType => {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
   const [showNewestFirst, setShowNewestFirst] = useState<boolean>(false);
@@ -23,26 +24,28 @@ export const useWorkoutList = (
         GROUP BY workouts.id`
       );
 
-      const workouts: Workout[] = result.map((row) => {
-        const formattedDate: string = FormatYmdDateString(row.date);
-        return {
-          id: row.id,
-          workout_template_id: row.workout_template_id,
-          date: formattedDate,
-          exercise_order: row.exercise_order,
-          note: row.note,
-          is_loaded: row.is_loaded,
-          rating: row.rating,
-          numSets: row.numSets,
-          numExercises: row.numExercises,
-        };
-      });
+      const workouts: Workout[] = result
+        .filter((row) => row.id !== ignoreWorkoutId)
+        .map((row) => {
+          const formattedDate: string = FormatYmdDateString(row.date);
+          return {
+            id: row.id,
+            workout_template_id: row.workout_template_id,
+            date: formattedDate,
+            exercise_order: row.exercise_order,
+            note: row.note,
+            is_loaded: row.is_loaded,
+            rating: row.rating,
+            numSets: row.numSets,
+            numExercises: row.numExercises,
+          };
+        });
 
       setWorkouts(workouts);
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  }, [ignoreWorkoutId]);
 
   useEffect(() => {
     if (getWorkoutsOnLoad) {

@@ -83,7 +83,7 @@ export default function WorkoutDetails() {
     workoutTemplatesModal.onOpen();
   }, [workoutTemplatesModal]);
 
-  const workoutList = useWorkoutList(false);
+  const workoutList = useWorkoutList(false, Number(id));
 
   const handleOpenWorkoutListModal = useCallback(() => {
     if (!workoutListIsLoaded.current) {
