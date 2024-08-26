@@ -22,7 +22,7 @@ type WorkoutListModalProps = {
   workoutListModal: UseDisclosureReturnType;
   userSettings: UserSettings;
   workoutList: UseWorkoutListReturnType;
-  onClickAction: (workout: Workout, keepSetValues: boolean) => void;
+  onClickAction: (workoutToCopy: Workout, keepSetValues: boolean) => void;
 };
 
 export const WorkoutListModal = ({

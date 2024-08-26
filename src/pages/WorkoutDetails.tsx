@@ -33,6 +33,10 @@ import {
   GetTotalNumberOfSetsInGroupedSetList,
   GetWorkoutTemplates,
   GetWorkoutSetList,
+  GetExerciseOrder,
+  MergeTwoGroupedSetLists,
+  CopyWorkoutSetList,
+  ReplaceIdsInOrderString,
 } from "../helpers";
 import { useDisclosure } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
@@ -337,25 +341,10 @@ export default function WorkoutDetails() {
       workoutTemplateId
     );
 
-    const updatedGroupedSetList = [...groupedSets];
-
-    const groupedSetMap = new Map<string, GroupedWorkoutSet>();
-
-    updatedGroupedSetList.forEach((item) => {
-      groupedSetMap.set(item.id, item);
-    });
-
-    templateGroupedSetList.forEach((item) => {
-      if (groupedSetMap.has(item.id)) {
-        // If a groupedSet with the same id exists, append the exerciseList and setList to that groupedSet
-        const existingGroupedSet = groupedSetMap.get(item.id)!;
-        existingGroupedSet.exerciseList.push(...item.exerciseList);
-        existingGroupedSet.setList.push(...item.setList);
-      } else {
-        // If a groupedSet with the same id doesn't exist, add the groupedSet to existing list
-        updatedGroupedSetList.push(item);
-      }
-    });
+    const updatedGroupedSetList = MergeTwoGroupedSetLists(
+      groupedSets,
+      templateGroupedSetList
+    );
 
     const exerciseOrder: string = GenerateExerciseOrderString(
       updatedGroupedSetList
@@ -388,9 +377,69 @@ export default function WorkoutDetails() {
   };
 
   const handleClickWorkout = async (
-    workout: Workout,
+    workoutToCopy: Workout,
     keepSetValues: boolean
-  ) => {};
+  ) => {
+    if (workout.id === 0 || userSettings === undefined) return;
+
+    let oldWorkoutExerciseOrder = await GetExerciseOrder(
+      workoutToCopy.id,
+      false
+    );
+
+    if (oldWorkoutExerciseOrder === undefined) return;
+
+    const oldWorkoutSetList = await GetWorkoutSetList(workoutToCopy.id);
+
+    const { newSetList, newMultisetIdMap } = await CopyWorkoutSetList(
+      oldWorkoutSetList,
+      workout.id,
+      keepSetValues,
+      userSettings
+    );
+
+    if (newMultisetIdMap.size > 0) {
+      oldWorkoutExerciseOrder = ReplaceIdsInOrderString(
+        oldWorkoutExerciseOrder,
+        newMultisetIdMap
+      );
+    }
+
+    const oldWorkoutGroupedSetList: GroupedWorkoutSet[] =
+      await CreateGroupedWorkoutSetList(newSetList, oldWorkoutExerciseOrder);
+
+    const updatedGroupedSetList = MergeTwoGroupedSetLists(
+      groupedSets,
+      oldWorkoutGroupedSetList
+    );
+
+    const exerciseOrder: string = GenerateExerciseOrderString(
+      updatedGroupedSetList
+    );
+
+    const updatedWorkout = { ...workout, exercise_order: exerciseOrder };
+
+    const success = await UpdateWorkout(updatedWorkout);
+
+    if (!success) return;
+
+    setWorkout(updatedWorkout);
+
+    const workoutNumbers = {
+      numSets: GetTotalNumberOfSetsInGroupedSetList(updatedGroupedSetList),
+      numExercises: GetNumberOfUniqueExercisesInGroupedSets(
+        updatedGroupedSetList
+      ),
+    };
+    setWorkoutNumbers(workoutNumbers);
+
+    setGroupedSets(updatedGroupedSetList);
+
+    populateIncompleteSets(updatedGroupedSetList);
+
+    toast.success("Workout Copied");
+    workoutListModal.onClose();
+  };
 
   if (workout.id === 0 || userSettings === undefined) return <LoadingSpinner />;
 
