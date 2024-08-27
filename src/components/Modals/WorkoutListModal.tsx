@@ -10,7 +10,6 @@ import {
 } from "@nextui-org/react";
 import {
   UseDisclosureReturnType,
-  UserSettings,
   UseWorkoutListReturnType,
   Workout,
 } from "../../typings";
@@ -20,14 +19,14 @@ import { useState } from "react";
 
 type WorkoutListModalProps = {
   workoutListModal: UseDisclosureReturnType;
-  userSettings: UserSettings;
+  showWorkoutRating: number;
   workoutList: UseWorkoutListReturnType;
   onClickAction: (workoutToCopy: Workout, keepSetValues: boolean) => void;
 };
 
 export const WorkoutListModal = ({
   workoutListModal,
-  userSettings,
+  showWorkoutRating,
   workoutList,
   onClickAction,
 }: WorkoutListModalProps) => {
@@ -99,7 +98,7 @@ export const WorkoutListModal = ({
                               )}
                               <span
                                 className={
-                                  userSettings.show_workout_rating === 1
+                                  showWorkoutRating === 1
                                     ? "w-[16.5rem] break-all text-xs text-stone-500 text-left"
                                     : "w-[21.5rem] break-all text-xs text-stone-500 text-left"
                                 }
@@ -107,7 +106,7 @@ export const WorkoutListModal = ({
                                 {workout.note}
                               </span>
                             </div>
-                            {userSettings.show_workout_rating === 1 && (
+                            {showWorkoutRating === 1 && (
                               <div className="flex flex-col w-[4.5rem] text-center text-sm text-stone-500">
                                 <span>Rating</span>
                                 <span className="font-semibold">

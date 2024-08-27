@@ -461,7 +461,7 @@ export default function WorkoutDetails() {
       />
       <WorkoutListModal
         workoutListModal={workoutListModal}
-        userSettings={userSettings}
+        showWorkoutRating={userSettings.show_workout_rating}
         workoutList={workoutList}
         onClickAction={handleClickWorkout}
       />
