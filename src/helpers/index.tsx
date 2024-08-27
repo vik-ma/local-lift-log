@@ -128,6 +128,7 @@ export { GetWorkoutSetList } from "./Workouts/GetWorkoutSetList";
 export { GetExerciseOrder } from "./Workouts/GetExerciseOrder";
 export { CopyWorkoutSetList } from "./Workouts/CopyWorkoutSetList";
 export { MergeTwoGroupedSetLists } from "./Workouts/MergeTwoGroupedSetLists";
+export { GetUniqueMultisetIds } from "./Workouts/GetUniqueMultisetIds";
 
 export { LocaleList } from "./Constants/LocaleList";
 export { ValidTimeInputs } from "./Constants/ValidTimeInputs";
