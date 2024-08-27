@@ -19,7 +19,8 @@ export const CopyWorkoutSetList = async (
   setList: WorkoutSet[],
   newWorkoutId: number,
   keepSetValues: boolean,
-  userSettings: UserSettings
+  userSettings: UserSettings,
+  workoutExerciseOrder: string
 ) => {
   const newSetList = [...setList];
 
@@ -112,5 +113,12 @@ export const CopyWorkoutSetList = async (
     }
   }
 
-  return { newSetList, newMultisetIdMap };
+  if (newMultisetIdMap.size > 0) {
+    workoutExerciseOrder = ReplaceIdsInOrderString(
+      workoutExerciseOrder,
+      newMultisetIdMap
+    );
+  }
+
+  return { newSetList, workoutExerciseOrder };
 };

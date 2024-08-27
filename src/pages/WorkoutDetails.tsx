@@ -35,7 +35,6 @@ import {
   GetExerciseOrder,
   MergeTwoGroupedSetLists,
   CopyWorkoutSetList,
-  ReplaceIdsInOrderString,
   FormatYmdDateString,
 } from "../helpers";
 import { useDisclosure } from "@nextui-org/react";
@@ -389,19 +388,15 @@ export default function WorkoutDetails() {
 
     const oldWorkoutSetList = await GetWorkoutSetList(workoutToCopy.id);
 
-    const { newSetList, newMultisetIdMap } = await CopyWorkoutSetList(
+    const { newSetList, workoutExerciseOrder } = await CopyWorkoutSetList(
       oldWorkoutSetList,
       workout.id,
       keepSetValues,
-      userSettings
+      userSettings,
+      oldWorkoutExerciseOrder
     );
 
-    if (newMultisetIdMap.size > 0) {
-      oldWorkoutExerciseOrder = ReplaceIdsInOrderString(
-        oldWorkoutExerciseOrder,
-        newMultisetIdMap
-      );
-    }
+    oldWorkoutExerciseOrder = workoutExerciseOrder;
 
     const oldWorkoutGroupedSetList: GroupedWorkoutSet[] =
       await CreateGroupedWorkoutSetList(newSetList, oldWorkoutExerciseOrder);
