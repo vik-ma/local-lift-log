@@ -1,7 +1,11 @@
 import { Button, useDisclosure } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import { WorkoutListModal, WorkoutTemplateListModal } from "../components";
-import { useWorkoutList, useWorkoutTemplateList } from "../hooks";
+import {
+  useCreateWorkout,
+  useWorkoutList,
+  useWorkoutTemplateList,
+} from "../hooks";
 import { useEffect, useState } from "react";
 import { GetShowWorkoutRating } from "../helpers";
 
@@ -12,8 +16,9 @@ export default function WorkoutIndex() {
 
   const workoutListModal = useDisclosure();
 
-  const { workoutTemplatesModal, workoutTemplates, createWorkout } =
-    useWorkoutTemplateList();
+  const { workoutTemplatesModal, workoutTemplates } = useWorkoutTemplateList();
+
+  const { createWorkout } = useCreateWorkout();
 
   const workoutList = useWorkoutList(false);
 
