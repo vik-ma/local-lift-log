@@ -30,7 +30,6 @@ import { toast, Toaster } from "react-hot-toast";
 type OperationType = "edit" | "delete";
 
 export default function UserMeasurementList() {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [operationType, setOperationType] = useState<OperationType>("edit");
   const [activeMeasurements, setActiveMeasurements] = useState<Measurement[]>(
     []
@@ -76,7 +75,6 @@ export default function UserMeasurementList() {
       if (userSettings) {
         setUserSettings(userSettings);
         getUserMeasurements(userSettings.clock_style);
-        setIsLoading(false);
       }
     };
 
@@ -214,7 +212,7 @@ export default function UserMeasurementList() {
     toast.success("Measurement Reassigned");
   };
 
-  if (userSettings === undefined || isLoading) return <LoadingSpinner />;
+  if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
     <>

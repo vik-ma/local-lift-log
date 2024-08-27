@@ -34,7 +34,6 @@ export type OperationType = "add" | "edit" | "delete";
 
 export default function Multisets() {
   const [operationType, setOperationType] = useState<OperationType>("add");
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [userSettings, setUserSettings] = useState<UserSettings>();
 
   const defaultMultiset = useDefaultMultiset();
@@ -80,7 +79,6 @@ export default function Multisets() {
           distance_unit: userSettings.default_unit_distance,
           user_weight_unit: userSettings.default_unit_weight,
         }));
-        setIsLoading(false);
       }
     };
 
@@ -385,7 +383,7 @@ export default function Multisets() {
     }
   };
 
-  if (isLoading || userSettings === undefined) return <LoadingSpinner />;
+  if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
     <>
