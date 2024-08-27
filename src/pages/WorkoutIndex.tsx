@@ -1,14 +1,32 @@
-import { Button } from "@nextui-org/react";
+import { Button, useDisclosure } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
-
-import { WorkoutTemplateListModal } from "../components";
-import { useWorkoutTemplateList } from "../hooks";
+import { WorkoutListModal, WorkoutTemplateListModal } from "../components";
+import { useWorkoutList, useWorkoutTemplateList } from "../hooks";
+import { useEffect, useState } from "react";
+import { GetShowWorkoutRating } from "../helpers";
 
 export default function WorkoutIndex() {
+  const [showWorkoutRating, setShowWorkoutRating] = useState<number>(0);
+
   const navigate = useNavigate();
+
+  const workoutListModal = useDisclosure();
 
   const { workoutTemplatesModal, workoutTemplates, createWorkout } =
     useWorkoutTemplateList();
+
+  const workoutList = useWorkoutList(false);
+
+  useEffect(() => {
+    const getShowWorkoutRating = async () => {
+      const settings = await GetShowWorkoutRating();
+      if (settings !== undefined) {
+        setShowWorkoutRating(settings.show_workout_rating!);
+      }
+    };
+
+    getShowWorkoutRating();
+  }, []);
 
   return (
     <>
@@ -17,6 +35,12 @@ export default function WorkoutIndex() {
         workoutTemplates={workoutTemplates}
         listboxOnActionFunction={createWorkout}
         header={<span>Load Workout Template</span>}
+      />
+      <WorkoutListModal
+        workoutListModal={workoutListModal}
+        showWorkoutRating={showWorkoutRating}
+        workoutList={workoutList}
+        onClickAction={() => {}}
       />
       <div className="flex flex-col gap-3">
         <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">
