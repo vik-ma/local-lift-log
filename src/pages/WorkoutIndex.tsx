@@ -1,20 +1,23 @@
-import { Button, useDisclosure } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
-import { WorkoutListModal, WorkoutTemplateListModal } from "../components";
+import {
+  LoadingSpinner,
+  WorkoutListModal,
+  WorkoutTemplateListModal,
+} from "../components";
 import {
   useCreateWorkout,
   useWorkoutList,
   useWorkoutTemplateList,
 } from "../hooks";
 import { useEffect, useState } from "react";
-import { GetShowWorkoutRating } from "../helpers";
+import { GetUserSettings } from "../helpers";
+import { UserSettings } from "../typings";
 
 export default function WorkoutIndex() {
-  const [showWorkoutRating, setShowWorkoutRating] = useState<number>(0);
+  const [userSettings, setUserSettings] = useState<UserSettings>();
 
   const navigate = useNavigate();
-
-  const workoutListModal = useDisclosure();
 
   const { workoutTemplatesModal, workoutTemplates } = useWorkoutTemplateList();
 
@@ -23,15 +26,15 @@ export default function WorkoutIndex() {
   const workoutList = useWorkoutList(false);
 
   useEffect(() => {
-    const getShowWorkoutRating = async () => {
-      const settings = await GetShowWorkoutRating();
-      if (settings !== undefined) {
-        setShowWorkoutRating(settings.show_workout_rating!);
-      }
+    const getUserSettings = async () => {
+      const settings = await GetUserSettings();
+      setUserSettings(settings);
     };
 
-    getShowWorkoutRating();
+    getUserSettings();
   }, []);
+
+  if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
     <>
@@ -42,8 +45,8 @@ export default function WorkoutIndex() {
         header={<span>Load Workout Template</span>}
       />
       <WorkoutListModal
-        workoutListModal={workoutListModal}
-        showWorkoutRating={showWorkoutRating}
+        workoutListModal={workoutList.workoutListModal}
+        showWorkoutRating={userSettings.show_workout_rating}
         workoutList={workoutList}
         onClickAction={() => {}}
       />
