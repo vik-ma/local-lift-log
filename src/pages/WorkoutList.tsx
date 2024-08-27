@@ -14,8 +14,10 @@ import {
 import toast, { Toaster } from "react-hot-toast";
 import {
   DeleteItemFromList,
+  DeleteMultisetWithId,
   FormatNumItemsString,
   GetShowWorkoutRating,
+  GetUniqueMultisetIds,
   UpdateItemInList,
   UpdateShowWorkoutRating,
   UpdateWorkout,
@@ -68,6 +70,16 @@ export default function WorkoutList() {
       const db = await Database.load(import.meta.env.VITE_DB);
 
       db.execute("DELETE from workouts WHERE id = $1", [operatingWorkout.id]);
+
+      const workoutMultisetIds = await GetUniqueMultisetIds(
+        operatingWorkout.id,
+        false
+      );
+
+      // Delete all multisets in workout
+      for (const multisetId of workoutMultisetIds) {
+        await DeleteMultisetWithId(multisetId);
+      }
 
       // Delete all sets referencing workout
       db.execute("DELETE from sets WHERE workout_id = $1", [

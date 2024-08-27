@@ -23,6 +23,8 @@ import {
   UpdateItemInList,
   UpdateWorkoutTemplate,
   FormatNumItemsString,
+  GetUniqueMultisetIds,
+  DeleteMultisetWithId,
 } from "../helpers";
 import { VerticalMenuIcon } from "../assets";
 
@@ -117,6 +119,16 @@ export default function WorkoutTemplateList() {
       db.execute("DELETE from workout_templates WHERE id = $1", [
         operatingWorkoutTemplate.id,
       ]);
+
+      const workoutTemplateMultisetIds = await GetUniqueMultisetIds(
+        operatingWorkoutTemplate.id,
+        true
+      );
+
+      // Delete all multisets in workout
+      for (const multisetId of workoutTemplateMultisetIds) {
+        await DeleteMultisetWithId(multisetId);
+      }
 
       // Delete all sets referencing workout_template
       db.execute(
