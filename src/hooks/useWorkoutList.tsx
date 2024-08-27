@@ -1,7 +1,8 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { UseWorkoutListReturnType, Workout } from "../typings";
 import Database from "tauri-plugin-sql-api";
 import { FormatYmdDateString } from "../helpers";
+import { useDisclosure } from "@nextui-org/react";
 
 export const useWorkoutList = (
   getWorkoutsOnLoad: boolean,
@@ -9,6 +10,10 @@ export const useWorkoutList = (
 ): UseWorkoutListReturnType => {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
   const [showNewestFirst, setShowNewestFirst] = useState<boolean>(false);
+
+  const workoutListIsLoaded = useRef(false);
+
+  const workoutListModal = useDisclosure();
 
   const getWorkouts = useCallback(async () => {
     try {
@@ -67,11 +72,22 @@ export const useWorkoutList = (
     setShowNewestFirst(!showNewestFirst);
   };
 
+  const handleOpenWorkoutListModal = useCallback(() => {
+    if (!workoutListIsLoaded.current) {
+      getWorkouts();
+      workoutListIsLoaded.current = true;
+    }
+
+    workoutListModal.onOpen();
+  }, [workoutListModal, getWorkouts]);
+
   return {
     workouts,
     setWorkouts,
     showNewestFirst,
     reverseWorkoutList,
     getWorkouts,
+    handleOpenWorkoutListModal,
+    workoutListModal,
   };
 };

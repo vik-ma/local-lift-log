@@ -56,7 +56,6 @@ export default function WorkoutDetails() {
   const workoutModal = useDisclosure();
   const userWeightModal = useDisclosure();
   const workoutTemplatesModal = useDisclosure();
-  const workoutListModal = useDisclosure();
 
   const [workoutNote, setWorkoutNote] = useState<string>("");
   const [workoutTemplateNote, setWorkoutTemplateNote] = useState<string | null>(
@@ -69,7 +68,6 @@ export default function WorkoutDetails() {
     useState<boolean>(false);
 
   const workoutTemplateListIsLoaded = useRef(false);
-  const workoutListIsLoaded = useRef(false);
 
   const handleOpenWorkoutTemplatesModal = useCallback(async () => {
     if (!workoutTemplateListIsLoaded.current) {
@@ -82,15 +80,6 @@ export default function WorkoutDetails() {
   }, [workoutTemplatesModal]);
 
   const workoutList = useWorkoutList(false, Number(id));
-
-  const handleOpenWorkoutListModal = useCallback(() => {
-    if (!workoutListIsLoaded.current) {
-      workoutList.getWorkouts();
-      workoutListIsLoaded.current = true;
-    }
-
-    workoutListModal.onOpen();
-  }, [workoutListModal, workoutList]);
 
   const additionalMenuItems: DetailHeaderOptionItem = useMemo(() => {
     return {
@@ -105,14 +94,14 @@ export default function WorkoutDetails() {
       },
       "copy-workout": {
         text: "Copy Previous Workout",
-        function: () => handleOpenWorkoutListModal(),
+        function: () => workoutList.handleOpenWorkoutListModal(),
       },
     };
   }, [
     handleOpenWorkoutTemplatesModal,
     workoutTemplateNote,
     showWorkoutTemplateNote,
-    handleOpenWorkoutListModal,
+    workoutList,
   ]);
 
   const useDetailsHeaderOptions = useDetailsHeaderOptionsMenu(
@@ -431,7 +420,7 @@ export default function WorkoutDetails() {
     populateIncompleteSets(updatedGroupedSetList);
 
     toast.success("Workout Copied");
-    workoutListModal.onClose();
+    workoutList.workoutListModal.onClose();
   };
 
   if (workout.id === 0 || userSettings === undefined) return <LoadingSpinner />;
@@ -455,7 +444,7 @@ export default function WorkoutDetails() {
         header={<span>Load Workout Template</span>}
       />
       <WorkoutListModal
-        workoutListModal={workoutListModal}
+        workoutListModal={workoutList.workoutListModal}
         showWorkoutRating={userSettings.show_workout_rating}
         workoutList={workoutList}
         onClickAction={handleClickWorkout}

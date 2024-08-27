@@ -419,4 +419,6 @@ export type UseWorkoutListReturnType = {
   showNewestFirst: boolean;
   reverseWorkoutList: () => void;
   getWorkouts: () => void;
+  handleOpenWorkoutListModal: () => void;
+  workoutListModal: UseDisclosureReturnType;
 };
