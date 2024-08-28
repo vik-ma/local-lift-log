@@ -52,7 +52,7 @@ export default function WorkoutTemplateList() {
   );
 
   const { workoutTemplates, setWorkoutTemplates, isLoading } =
-    useWorkoutTemplateList();
+    useWorkoutTemplateList(true);
 
   const addWorkoutTemplate = async () => {
     if (!isNewWorkoutTemplateNameValid) return;

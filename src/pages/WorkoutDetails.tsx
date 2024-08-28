@@ -1,11 +1,6 @@
-import { useState, useEffect, useRef, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { useParams } from "react-router-dom";
-import {
-  Workout,
-  GroupedWorkoutSet,
-  DetailHeaderOptionItem,
-  WorkoutTemplateListItem,
-} from "../typings";
+import { Workout, GroupedWorkoutSet, DetailHeaderOptionItem } from "../typings";
 import {
   LoadingSpinner,
   WorkoutGroupedSetList,
@@ -30,7 +25,6 @@ import {
   GetNumberOfUniqueExercisesInGroupedSets,
   FormatNumItemsString,
   GetTotalNumberOfSetsInGroupedSetList,
-  GetWorkoutTemplates,
   GetWorkoutSetList,
   GetExerciseOrder,
   MergeTwoGroupedSetLists,
@@ -44,6 +38,7 @@ import {
   useUserWeightInput,
   useWorkoutActions,
   useWorkoutList,
+  useWorkoutTemplateList,
 } from "../hooks";
 
 type WorkoutTemplateNote = {
@@ -55,31 +50,16 @@ export default function WorkoutDetails() {
 
   const workoutModal = useDisclosure();
   const userWeightModal = useDisclosure();
-  const workoutTemplatesModal = useDisclosure();
 
   const [workoutNote, setWorkoutNote] = useState<string>("");
   const [workoutTemplateNote, setWorkoutTemplateNote] = useState<string | null>(
     null
   );
-  const [workoutTemplates, setWorkoutTemplates] = useState<
-    WorkoutTemplateListItem[]
-  >([]);
   const [showWorkoutTemplateNote, setShowWorkoutTemplateNote] =
     useState<boolean>(false);
 
-  const workoutTemplateListIsLoaded = useRef(false);
-
-  const handleOpenWorkoutTemplatesModal = useCallback(async () => {
-    if (!workoutTemplateListIsLoaded.current) {
-      const workoutTemplates = await GetWorkoutTemplates();
-      setWorkoutTemplates(workoutTemplates);
-      workoutTemplateListIsLoaded.current = true;
-    }
-
-    workoutTemplatesModal.onOpen();
-  }, [workoutTemplatesModal]);
-
   const workoutList = useWorkoutList(false, true, Number(id));
+  const workoutTemplateList = useWorkoutTemplateList(false, true);
 
   const additionalMenuItems: DetailHeaderOptionItem = useMemo(() => {
     return {
@@ -90,7 +70,7 @@ export default function WorkoutDetails() {
       },
       "load-workout-template": {
         text: "Load Workout Template",
-        function: () => handleOpenWorkoutTemplatesModal(),
+        function: () => workoutTemplateList.handleOpenWorkoutTemplatesModal(),
       },
       "copy-workout": {
         text: "Copy Previous Workout",
@@ -98,10 +78,10 @@ export default function WorkoutDetails() {
       },
     };
   }, [
-    handleOpenWorkoutTemplatesModal,
     workoutTemplateNote,
     showWorkoutTemplateNote,
     workoutList,
+    workoutTemplateList,
   ]);
 
   const useDetailsHeaderOptions = useDetailsHeaderOptionsMenu(
@@ -321,7 +301,7 @@ export default function WorkoutDetails() {
     await getWorkoutTemplateNote(workoutTemplateId);
 
     toast.success("Workout Template Loaded");
-    workoutTemplatesModal.onClose();
+    workoutTemplateList.workoutTemplatesModal.onClose();
   };
 
   const handleClickWorkout = async (
@@ -400,8 +380,8 @@ export default function WorkoutDetails() {
         buttonAction={handleWorkoutModalSaveButton}
       />
       <WorkoutTemplateListModal
-        workoutTemplateListModal={workoutTemplatesModal}
-        workoutTemplates={workoutTemplates}
+        workoutTemplateListModal={workoutTemplateList.workoutTemplatesModal}
+        workoutTemplates={workoutTemplateList.workoutTemplates}
         listboxOnActionFunction={handleSelectWorkoutTemplate}
         header={<span>Load Workout Template</span>}
       />

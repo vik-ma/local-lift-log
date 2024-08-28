@@ -23,7 +23,10 @@ export default function WorkoutIndex() {
 
   const navigate = useNavigate();
 
-  const { workoutTemplatesModal, workoutTemplates } = useWorkoutTemplateList();
+  const { workoutTemplatesModal, workoutTemplates } = useWorkoutTemplateList(
+    true,
+    true
+  );
 
   const workoutList = useWorkoutList(false, true);
 
