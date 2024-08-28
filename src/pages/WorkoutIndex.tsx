@@ -65,7 +65,6 @@ export default function WorkoutIndex() {
     );
 
     newWorkout.exercise_order = workoutExerciseOrder;
-    newWorkout.is_loaded = 1;
 
     const success = await UpdateWorkout(newWorkout);
 
@@ -86,7 +85,6 @@ export default function WorkoutIndex() {
 
     const exerciseOrder = GenerateExerciseOrderString(groupedSetList);
     newWorkout.exercise_order = exerciseOrder;
-    newWorkout.is_loaded = 1;
 
     const success = await UpdateWorkout(newWorkout);
 
