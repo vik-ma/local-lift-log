@@ -41,7 +41,7 @@ export default function WorkoutIndex() {
 
     if (newWorkout === undefined) return;
 
-    navigate(`/workouts/${newWorkout}`);
+    navigate(`/workouts/${newWorkout.id}`);
   };
 
   const handleClickWorkout = async (
