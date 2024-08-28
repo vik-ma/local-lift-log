@@ -13,6 +13,8 @@ import {
   GetWorkoutSetList,
   CreateWorkout,
   UpdateWorkout,
+  CreateSetsFromWorkoutTemplate,
+  GenerateExerciseOrderString,
 } from "../helpers";
 import { UserSettings, Workout } from "../typings";
 
@@ -72,6 +74,27 @@ export default function WorkoutIndex() {
     navigate(`/workouts/${newWorkout.id}`);
   };
 
+  const handleClickWorkoutTemplate = async (workoutTemplateId: number) => {
+    const newWorkout = await CreateWorkout(workoutTemplateId);
+
+    if (newWorkout === undefined) return;
+
+    const groupedSetList = await CreateSetsFromWorkoutTemplate(
+      newWorkout.id,
+      workoutTemplateId
+    );
+
+    const exerciseOrder = GenerateExerciseOrderString(groupedSetList);
+    newWorkout.exercise_order = exerciseOrder;
+    newWorkout.is_loaded = 1;
+
+    const success = await UpdateWorkout(newWorkout);
+
+    if (!success) return;
+
+    navigate(`/workouts/${newWorkout.id}`);
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -79,7 +102,7 @@ export default function WorkoutIndex() {
       <WorkoutTemplateListModal
         workoutTemplateListModal={workoutTemplatesModal}
         workoutTemplates={workoutTemplates}
-        listboxOnActionFunction={CreateWorkout}
+        listboxOnActionFunction={handleClickWorkoutTemplate}
         header={<span>Load Workout Template</span>}
       />
       <WorkoutListModal
