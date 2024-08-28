@@ -6,6 +6,7 @@ import { useDisclosure } from "@nextui-org/react";
 
 export const useWorkoutList = (
   getWorkoutsOnLoad: boolean,
+  ignoreEmptyWorkouts?: boolean,
   ignoreWorkoutId?: number
 ): UseWorkoutListReturnType => {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
@@ -32,7 +33,11 @@ export const useWorkoutList = (
       const workouts: Workout[] = [];
 
       for (const row of result) {
-        if (row.id === ignoreWorkoutId) continue;
+        if (
+          row.id === ignoreWorkoutId ||
+          (ignoreEmptyWorkouts && row.numSets === 0)
+        )
+          continue;
 
         const formattedDate: string = FormatYmdDateString(row.date);
 
@@ -56,7 +61,7 @@ export const useWorkoutList = (
     } catch (error) {
       console.log(error);
     }
-  }, [ignoreWorkoutId]);
+  }, [ignoreEmptyWorkouts, ignoreWorkoutId]);
 
   useEffect(() => {
     if (getWorkoutsOnLoad) {

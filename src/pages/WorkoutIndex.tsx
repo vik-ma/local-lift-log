@@ -23,7 +23,7 @@ export default function WorkoutIndex() {
 
   const { workoutTemplatesModal, workoutTemplates } = useWorkoutTemplateList();
 
-  const workoutList = useWorkoutList(false);
+  const workoutList = useWorkoutList(false, true);
 
   useEffect(() => {
     const getShowWorkoutRating = async () => {

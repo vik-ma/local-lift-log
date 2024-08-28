@@ -79,7 +79,7 @@ export default function WorkoutDetails() {
     workoutTemplatesModal.onOpen();
   }, [workoutTemplatesModal]);
 
-  const workoutList = useWorkoutList(false, Number(id));
+  const workoutList = useWorkoutList(false, true, Number(id));
 
   const additionalMenuItems: DetailHeaderOptionItem = useMemo(() => {
     return {
