@@ -5,13 +5,9 @@ import {
   WorkoutListModal,
   WorkoutTemplateListModal,
 } from "../components";
-import {
-  useCreateWorkout,
-  useWorkoutList,
-  useWorkoutTemplateList,
-} from "../hooks";
+import { useWorkoutList, useWorkoutTemplateList } from "../hooks";
 import { useEffect, useState } from "react";
-import { GetUserSettings } from "../helpers";
+import { GetUserSettings, CreateWorkout } from "../helpers";
 import { UserSettings } from "../typings";
 
 export default function WorkoutIndex() {
@@ -21,18 +17,24 @@ export default function WorkoutIndex() {
 
   const { workoutTemplatesModal, workoutTemplates } = useWorkoutTemplateList();
 
-  const { createWorkout } = useCreateWorkout();
-
   const workoutList = useWorkoutList(false);
 
   useEffect(() => {
-    const getUserSettings = async () => {
+    const getShowWorkoutRating = async () => {
       const settings = await GetUserSettings();
       setUserSettings(settings);
     };
 
-    getUserSettings();
+    getShowWorkoutRating();
   }, []);
+
+  const handleCreateEmptyWorkout = async () => {
+    const newWorkoutId = await CreateWorkout(0);
+
+    if (newWorkoutId === 0) return;
+
+    navigate(`/workouts/${newWorkoutId}`);
+  };
 
   if (userSettings === undefined) return <LoadingSpinner />;
 
@@ -41,7 +43,7 @@ export default function WorkoutIndex() {
       <WorkoutTemplateListModal
         workoutTemplateListModal={workoutTemplatesModal}
         workoutTemplates={workoutTemplates}
-        listboxOnActionFunction={createWorkout}
+        listboxOnActionFunction={CreateWorkout}
         header={<span>Load Workout Template</span>}
       />
       <WorkoutListModal
@@ -61,7 +63,7 @@ export default function WorkoutIndex() {
             <Button
               className="font-medium text-base"
               color="primary"
-              onPress={() => createWorkout(0)}
+              onPress={handleCreateEmptyWorkout}
             >
               New Empty Workout
             </Button>
@@ -71,6 +73,13 @@ export default function WorkoutIndex() {
               onPress={() => workoutTemplatesModal.onOpen()}
             >
               New Workout From Template
+            </Button>
+            <Button
+              className="font-medium text-base"
+              color="primary"
+              onPress={workoutList.handleOpenWorkoutListModal}
+            >
+              Copy Previous Workout
             </Button>
             <Button
               className="font-medium text-base mt-4"
