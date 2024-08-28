@@ -113,7 +113,6 @@ pub struct Workout {
     pub date: String,
     pub exercise_order: String,
     pub note: Option<String>,
-    pub is_loaded: i16,
     pub rating: i16,
 }
 
