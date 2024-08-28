@@ -8,8 +8,8 @@ import {
 
 export const CreateWorkout = async (
   workoutTemplateId: number
-): Promise<number> => {
-  if (!IsNumberValidIdOr0(workoutTemplateId)) return 0;
+): Promise<Workout | undefined> => {
+  if (!IsNumberValidIdOr0(workoutTemplateId)) return undefined;
 
   const currentDate: string = GetCurrentYmdDateString();
 
@@ -36,9 +36,11 @@ export const CreateWorkout = async (
       ]
     );
 
-    return result.lastInsertId;
+    newWorkout.id = result.lastInsertId;
+
+    return newWorkout;
   } catch (error) {
     console.log(error);
-    return 0;
+    return undefined;
   }
 };
