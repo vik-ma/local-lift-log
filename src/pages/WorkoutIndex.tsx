@@ -7,8 +7,14 @@ import {
 } from "../components";
 import { useWorkoutList, useWorkoutTemplateList } from "../hooks";
 import { useEffect, useState } from "react";
-import { GetUserSettings, CreateWorkout } from "../helpers";
-import { UserSettings } from "../typings";
+import {
+  CopyWorkoutSetList,
+  GetUserSettings,
+  GetWorkoutSetList,
+  CreateWorkout,
+  UpdateWorkout,
+} from "../helpers";
+import { UserSettings, Workout } from "../typings";
 
 export default function WorkoutIndex() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
@@ -29,11 +35,41 @@ export default function WorkoutIndex() {
   }, []);
 
   const handleCreateEmptyWorkout = async () => {
-    const newWorkoutId = await CreateWorkout(0);
+    const newWorkout = await CreateWorkout(0);
 
-    if (newWorkoutId === 0) return;
+    if (newWorkout === undefined) return;
 
-    navigate(`/workouts/${newWorkoutId}`);
+    navigate(`/workouts/${newWorkout}`);
+  };
+
+  const handleClickWorkout = async (
+    workoutToCopy: Workout,
+    keepSetValues: boolean
+  ) => {
+    if (userSettings === undefined) return;
+
+    const newWorkout = await CreateWorkout(0);
+
+    if (newWorkout === undefined) return;
+
+    const oldWorkoutSetList = await GetWorkoutSetList(workoutToCopy.id);
+
+    const { workoutExerciseOrder } = await CopyWorkoutSetList(
+      oldWorkoutSetList,
+      newWorkout.id,
+      keepSetValues,
+      userSettings,
+      workoutToCopy.exercise_order
+    );
+
+    newWorkout.exercise_order = workoutExerciseOrder;
+    newWorkout.is_loaded = 1;
+
+    const success = await UpdateWorkout(newWorkout);
+
+    if (!success) return;
+
+    navigate(`/workouts/${newWorkout.id}`);
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;
@@ -50,7 +86,7 @@ export default function WorkoutIndex() {
         workoutListModal={workoutList.workoutListModal}
         showWorkoutRating={userSettings.show_workout_rating}
         workoutList={workoutList}
-        onClickAction={() => {}}
+        onClickAction={handleClickWorkout}
       />
       <div className="flex flex-col gap-3">
         <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">
