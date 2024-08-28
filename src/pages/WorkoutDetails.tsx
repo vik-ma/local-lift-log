@@ -223,8 +223,6 @@ export default function WorkoutDetails() {
     [workoutTemplateNote]
   );
 
-  const initialized = useRef(false);
-
   useEffect(() => {
     const loadWorkout = async () => {
       try {
@@ -239,57 +237,21 @@ export default function WorkoutDetails() {
 
         const workout: Workout = result[0];
 
-        if (workout.is_loaded === 1) {
-          const setList = await GetWorkoutSetList(workout.id);
+        const setList = await GetWorkoutSetList(workout.id);
 
-          const groupedSetList: GroupedWorkoutSet[] =
-            await CreateGroupedWorkoutSetList(setList, workout.exercise_order);
+        const groupedSetList: GroupedWorkoutSet[] =
+          await CreateGroupedWorkoutSetList(setList, workout.exercise_order);
 
-          const workoutNumbers = {
-            numSets: setList.length,
-            numExercises:
-              GetNumberOfUniqueExercisesInGroupedSets(groupedSetList),
-          };
-          setWorkoutNumbers(workoutNumbers);
+        const workoutNumbers = {
+          numSets: setList.length,
+          numExercises: GetNumberOfUniqueExercisesInGroupedSets(groupedSetList),
+        };
+        setWorkoutNumbers(workoutNumbers);
 
-          setWorkoutNote(workout.note === null ? "" : workout.note);
-          setGroupedSets(groupedSetList);
+        setWorkoutNote(workout.note === null ? "" : workout.note);
+        setGroupedSets(groupedSetList);
 
-          populateIncompleteSets(groupedSetList);
-        } else {
-          // Stop useEffect running twice in dev
-          if (!initialized.current) {
-            initialized.current = true;
-          } else return;
-
-          if (workout.workout_template_id !== 0) {
-            const groupedSetList = await CreateSetsFromWorkoutTemplate(
-              workout.id,
-              workout.workout_template_id
-            );
-
-            const exerciseOrder: string =
-              GenerateExerciseOrderString(groupedSetList);
-            workout.exercise_order = exerciseOrder;
-
-            const workoutNumbers = {
-              numSets: GetTotalNumberOfSetsInGroupedSetList(groupedSetList),
-              numExercises:
-                GetNumberOfUniqueExercisesInGroupedSets(groupedSetList),
-            };
-            setWorkoutNumbers(workoutNumbers);
-
-            setGroupedSets(groupedSetList);
-
-            populateIncompleteSets(groupedSetList);
-          }
-
-          workout.is_loaded = 1;
-
-          const success = await UpdateWorkout(workout);
-
-          if (!success) return;
-        }
+        populateIncompleteSets(groupedSetList);
 
         workout.formattedDate = FormatYmdDateString(workout.date);
 

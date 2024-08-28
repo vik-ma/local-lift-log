@@ -47,7 +47,6 @@ export const useWorkoutList = (
           date: row.date,
           exercise_order: row.exercise_order,
           note: row.note,
-          is_loaded: row.is_loaded,
           rating: row.rating,
           numSets: row.numSets,
           numExercises: row.numExercises,
