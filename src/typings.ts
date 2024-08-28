@@ -70,11 +70,6 @@ export type WorkoutTemplate = {
   numExercises?: number;
 };
 
-export type WorkoutTemplateListItem = {
-  id: number;
-  name: string;
-};
-
 export type WorkoutRoutineSchedule = {
   id: number;
   day: number;

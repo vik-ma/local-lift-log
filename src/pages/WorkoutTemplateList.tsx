@@ -8,7 +8,7 @@ import {
   DropdownMenu,
   DropdownItem,
 } from "@nextui-org/react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   LoadingSpinner,
   DeleteModal,
@@ -16,7 +16,11 @@ import {
 } from "../components";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
-import { useDefaultWorkoutTemplate, useValidateName } from "../hooks";
+import {
+  useDefaultWorkoutTemplate,
+  useValidateName,
+  useWorkoutTemplateList,
+} from "../hooks";
 import {
   ConvertEmptyStringToNull,
   DeleteItemFromList,
@@ -31,10 +35,6 @@ import { VerticalMenuIcon } from "../assets";
 type OperationType = "add" | "edit" | "delete";
 
 export default function WorkoutTemplateList() {
-  const [workoutTemplates, setWorkoutTemplates] = useState<WorkoutTemplate[]>(
-    []
-  );
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [operationType, setOperationType] = useState<OperationType>("edit");
 
   const defaultWorkoutTemplate = useDefaultWorkoutTemplate();
@@ -51,30 +51,8 @@ export default function WorkoutTemplateList() {
     operatingWorkoutTemplate.name
   );
 
-  useEffect(() => {
-    const getWorkoutTemplates = async () => {
-      try {
-        const db = await Database.load(import.meta.env.VITE_DB);
-
-        // Get all columns and how many Sets and Exercises every WorkoutTemplate contains
-        const result = await db.select<WorkoutTemplate[]>(
-          `SELECT workout_templates.*, 
-          COUNT(DISTINCT CASE WHEN is_template = 1 THEN sets.exercise_id END) AS numExercises,
-          SUM(CASE WHEN is_template = 1 THEN 1 ELSE 0 END) AS numSets
-          FROM workout_templates LEFT JOIN sets 
-          ON workout_templates.id = sets.workout_template_id 
-          GROUP BY workout_templates.id`
-        );
-
-        setWorkoutTemplates(result);
-        setIsLoading(false);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    getWorkoutTemplates();
-  }, []);
+  const { workoutTemplates, setWorkoutTemplates, isLoading } =
+    useWorkoutTemplateList();
 
   const addWorkoutTemplate = async () => {
     if (!isNewWorkoutTemplateNameValid) return;
