@@ -184,6 +184,10 @@ export default function WorkoutTemplateList() {
     workoutTemplateModal.onOpen();
   };
 
+  const handleClickWorkoutTemplate = (workoutTemplate: WorkoutTemplate) => {
+    navigate(`/workout-templates/${workoutTemplate.id}`);
+  };
+
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
@@ -227,9 +231,7 @@ export default function WorkoutTemplateList() {
                 >
                   <button
                     className="flex flex-col justify-start items-start"
-                    onClick={() =>
-                      navigate(`/workout-templates/${template.id}`)
-                    }
+                    onClick={() => handleClickWorkoutTemplate(template)}
                   >
                     <span className="w-[21rem] truncate text-left">
                       {template.name}
