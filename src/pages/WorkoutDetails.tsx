@@ -1,6 +1,11 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { useParams } from "react-router-dom";
-import { Workout, GroupedWorkoutSet, DetailHeaderOptionItem } from "../typings";
+import {
+  Workout,
+  GroupedWorkoutSet,
+  DetailHeaderOptionItem,
+  WorkoutTemplate,
+} from "../typings";
 import {
   LoadingSpinner,
   WorkoutGroupedSetList,
@@ -263,10 +268,12 @@ export default function WorkoutDetails() {
     workoutModal.onClose();
   };
 
-  const handleSelectWorkoutTemplate = async (workoutTemplateId: number) => {
+  const handleSelectWorkoutTemplate = async (
+    workoutTemplate: WorkoutTemplate
+  ) => {
     const templateGroupedSetList = await CreateSetsFromWorkoutTemplate(
       workout.id,
-      workoutTemplateId
+      workoutTemplate.id
     );
 
     const updatedGroupedSetList = MergeTwoGroupedSetLists(
@@ -298,7 +305,7 @@ export default function WorkoutDetails() {
 
     populateIncompleteSets(updatedGroupedSetList);
 
-    await getWorkoutTemplateNote(workoutTemplateId);
+    await getWorkoutTemplateNote(workoutTemplate.id);
 
     toast.success("Workout Template Loaded");
     workoutTemplateList.workoutTemplatesModal.onClose();
@@ -382,7 +389,7 @@ export default function WorkoutDetails() {
       <WorkoutTemplateListModal
         workoutTemplateListModal={workoutTemplateList.workoutTemplatesModal}
         workoutTemplates={workoutTemplateList.workoutTemplates}
-        listboxOnActionFunction={handleSelectWorkoutTemplate}
+        onClickAction={handleSelectWorkoutTemplate}
         header={<span>Load Workout Template</span>}
       />
       <WorkoutListModal

@@ -4,6 +4,7 @@ import {
   RoutineScheduleItem,
   UserSettingsOptional,
   UserSettings,
+  WorkoutTemplate,
 } from "../typings";
 import { useState, useEffect, useCallback, useMemo } from "react";
 import {
@@ -64,7 +65,8 @@ export default function RoutineDetails() {
   const { isRoutineNameValid, isRoutineValid } =
     useIsRoutineValid(editedRoutine);
 
-  const { workoutTemplatesModal, workoutTemplates } = useWorkoutTemplateList();
+  const { workoutTemplatesModal, workoutTemplates } =
+    useWorkoutTemplateList(true);
 
   const getWorkoutRoutineSchedules = useCallback(async () => {
     try {
@@ -161,8 +163,8 @@ export default function RoutineDetails() {
     workoutTemplatesModal.onOpen();
   };
 
-  const addWorkoutTemplateToDay = async (workoutTemplateId: number) => {
-    if (!IsNumberValidId(workoutTemplateId)) return;
+  const addWorkoutTemplateToDay = async (workoutTemplate: WorkoutTemplate) => {
+    if (!IsNumberValidId(workoutTemplate.id)) return;
 
     if (selectedDay < 0 || selectedDay > routine.num_days_in_schedule - 1)
       return;
@@ -172,7 +174,7 @@ export default function RoutineDetails() {
 
       await db.execute(
         "INSERT into workout_routine_schedules (day, workout_template_id, routine_id) VALUES ($1, $2, $3)",
-        [selectedDay, workoutTemplateId, routine.id]
+        [selectedDay, workoutTemplate.id, routine.id]
       );
 
       await getWorkoutRoutineSchedules();
@@ -347,7 +349,7 @@ export default function RoutineDetails() {
       <WorkoutTemplateListModal
         workoutTemplateListModal={workoutTemplatesModal}
         workoutTemplates={workoutTemplates}
-        listboxOnActionFunction={addWorkoutTemplateToDay}
+        onClickAction={addWorkoutTemplateToDay}
         header={
           <span>
             Add Workout Template to{" "}

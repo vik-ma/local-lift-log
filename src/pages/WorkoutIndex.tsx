@@ -16,7 +16,7 @@ import {
   CreateSetsFromWorkoutTemplate,
   GenerateExerciseOrderString,
 } from "../helpers";
-import { UserSettings, Workout } from "../typings";
+import { UserSettings, Workout, WorkoutTemplate } from "../typings";
 
 export default function WorkoutIndex() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
@@ -76,14 +76,16 @@ export default function WorkoutIndex() {
     navigate(`/workouts/${newWorkout.id}`);
   };
 
-  const handleClickWorkoutTemplate = async (workoutTemplateId: number) => {
-    const newWorkout = await CreateWorkout(workoutTemplateId);
+  const handleClickWorkoutTemplate = async (
+    workoutTemplate: WorkoutTemplate
+  ) => {
+    const newWorkout = await CreateWorkout(workoutTemplate.id);
 
     if (newWorkout === undefined) return;
 
     const groupedSetList = await CreateSetsFromWorkoutTemplate(
       newWorkout.id,
-      workoutTemplateId
+      workoutTemplate.id
     );
 
     const exerciseOrder = GenerateExerciseOrderString(groupedSetList);
@@ -103,7 +105,7 @@ export default function WorkoutIndex() {
       <WorkoutTemplateListModal
         workoutTemplateListModal={workoutTemplatesModal}
         workoutTemplates={workoutTemplates}
-        listboxOnActionFunction={handleClickWorkoutTemplate}
+        onClickAction={handleClickWorkoutTemplate}
         header={<span>Load Workout Template</span>}
       />
       <WorkoutListModal
