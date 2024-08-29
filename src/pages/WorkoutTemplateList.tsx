@@ -7,6 +7,7 @@ import {
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
+  Input,
 } from "@nextui-org/react";
 import { useState } from "react";
 import {
@@ -30,7 +31,7 @@ import {
   GetUniqueMultisetIds,
   DeleteMultisetWithId,
 } from "../helpers";
-import { VerticalMenuIcon } from "../assets";
+import { SearchIcon, VerticalMenuIcon } from "../assets";
 
 type OperationType = "add" | "edit" | "delete";
 
@@ -51,8 +52,14 @@ export default function WorkoutTemplateList() {
     operatingWorkoutTemplate.name
   );
 
-  const { workoutTemplates, setWorkoutTemplates, isLoading } =
-    useWorkoutTemplateList(true);
+  const {
+    workoutTemplates,
+    setWorkoutTemplates,
+    isLoading,
+    filterQuery,
+    setFilterQuery,
+    filteredWorkoutTemplates,
+  } = useWorkoutTemplateList(true);
 
   const addWorkoutTemplate = async () => {
     if (!isNewWorkoutTemplateNameValid) return;
@@ -213,18 +220,35 @@ export default function WorkoutTemplateList() {
         deleteButtonAction={deleteWorkoutTemplate}
       />
 
-      <div className="flex flex-col gap-4">
-        <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">
-          <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b">
-            Workout Templates
-          </h1>
+      <div className="flex flex-col items-center gap-1">
+        <div className="flex flex-col w-full gap-1.5 sticky top-16 z-30 bg-default-100 rounded-xl p-1.5 border-2 border-default-200">
+          <Input
+            label="Search"
+            variant="faded"
+            size="sm"
+            placeholder="Type to search..."
+            isClearable
+            value={filterQuery}
+            onValueChange={setFilterQuery}
+            startContent={<SearchIcon size={18} />}
+          />
+          <div className="flex justify-center">
+            <Button
+              color="secondary"
+              size="sm"
+              variant="flat"
+              onPress={handleCreateNewWorkoutTemplateButton}
+            >
+              Create New Workout Template
+            </Button>
+          </div>
         </div>
         {isLoading ? (
           <LoadingSpinner />
         ) : (
           <>
             <div className="flex flex-col gap-1 w-full">
-              {workoutTemplates.map((template) => (
+              {filteredWorkoutTemplates.map((template) => (
                 <div
                   className="flex flex-row justify-between items-center gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                   key={template.id}
@@ -283,15 +307,6 @@ export default function WorkoutTemplateList() {
                   </Dropdown>
                 </div>
               ))}
-            </div>
-            <div className="flex justify-center">
-              <Button
-                className="font-medium"
-                variant="flat"
-                onPress={handleCreateNewWorkoutTemplateButton}
-              >
-                Create New Workout Template
-              </Button>
             </div>
           </>
         )}
