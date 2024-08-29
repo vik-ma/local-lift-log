@@ -7,23 +7,26 @@ import {
   ModalFooter,
   ScrollShadow,
 } from "@nextui-org/react";
-import { UseDisclosureReturnType, WorkoutTemplate } from "../../typings";
+import {
+  UseWorkoutTemplateListReturnType,
+  WorkoutTemplate,
+} from "../../typings";
 import { ReactNode } from "react";
 import { FormatNumItemsString } from "../../helpers";
 
 type WorkoutTemplateListModalProps = {
-  workoutTemplateListModal: UseDisclosureReturnType;
-  workoutTemplates: WorkoutTemplate[];
+  workoutTemplateList: UseWorkoutTemplateListReturnType;
   onClickAction: (workoutTemplate: WorkoutTemplate) => void;
   header: ReactNode;
 };
 
 export const WorkoutTemplateListModal = ({
-  workoutTemplateListModal,
-  workoutTemplates,
+  workoutTemplateList,
   onClickAction,
   header,
 }: WorkoutTemplateListModalProps) => {
+  const { workoutTemplateListModal, workoutTemplates } = workoutTemplateList;
+
   return (
     <Modal
       isOpen={workoutTemplateListModal.isOpen}
