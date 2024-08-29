@@ -5,23 +5,23 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Listbox,
-  ListboxItem,
+  ScrollShadow,
 } from "@nextui-org/react";
 import { UseDisclosureReturnType, WorkoutTemplate } from "../../typings";
 import { ReactNode } from "react";
+import { FormatNumItemsString } from "../../helpers";
 
 type WorkoutTemplateListModalProps = {
   workoutTemplateListModal: UseDisclosureReturnType;
   workoutTemplates: WorkoutTemplate[];
-  listboxOnActionFunction: (workoutTemplateId: number) => void;
+  onClickAction: (workoutTemplate: WorkoutTemplate) => void;
   header: ReactNode;
 };
 
 export const WorkoutTemplateListModal = ({
   workoutTemplateListModal,
   workoutTemplates,
-  listboxOnActionFunction,
+  onClickAction,
   header,
 }: WorkoutTemplateListModalProps) => {
   return (
@@ -34,19 +34,38 @@ export const WorkoutTemplateListModal = ({
           <>
             <ModalHeader>{header}</ModalHeader>
             <ModalBody>
-              <div className="h-[270px] pr-1 overflow-auto scroll-gradient">
-                <Listbox
-                  aria-label="Workout Template List"
-                  color="secondary"
-                  emptyContent="No Workout Templates Created"
-                  onAction={(key) => listboxOnActionFunction(Number(key))}
-                >
+              <div className="h-[400px] flex">
+                <ScrollShadow className="flex flex-col gap-1">
                   {workoutTemplates.map((template) => (
-                    <ListboxItem key={template.id} variant="faded">
-                      {template.name}
-                    </ListboxItem>
+                    <button
+                      className="flex flex-col justify-start items-start gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                      key={template.id}
+                      onClick={() => onClickAction(template)}
+                    >
+                      <span className="w-full truncate text-left">
+                        {template.name}
+                      </span>
+                      {template.numSets! > 0 ? (
+                        <span className="text-xs text-secondary text-left">
+                          {FormatNumItemsString(
+                            template.numExercises,
+                            "Exercise"
+                          )}
+                          , {FormatNumItemsString(template.numSets, "Set")}
+                        </span>
+                      ) : (
+                        <span className="text-xs text-stone-400 text-left">
+                          Empty
+                        </span>
+                      )}
+                      {template.note !== null && (
+                        <span className="w-full break-all text-xs text-stone-500 text-left">
+                          {template.note}
+                        </span>
+                      )}
+                    </button>
                   ))}
-                </Listbox>
+                </ScrollShadow>
               </div>
             </ModalBody>
             <ModalFooter>
