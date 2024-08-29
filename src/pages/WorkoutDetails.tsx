@@ -387,8 +387,7 @@ export default function WorkoutDetails() {
         buttonAction={handleWorkoutModalSaveButton}
       />
       <WorkoutTemplateListModal
-        workoutTemplateListModal={workoutTemplateList.workoutTemplatesModal}
-        workoutTemplates={workoutTemplateList.workoutTemplates}
+        workoutTemplateList={workoutTemplateList}
         onClickAction={handleSelectWorkoutTemplate}
         header={<span>Load Workout Template</span>}
       />

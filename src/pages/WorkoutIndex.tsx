@@ -23,10 +23,7 @@ export default function WorkoutIndex() {
 
   const navigate = useNavigate();
 
-  const { workoutTemplatesModal, workoutTemplates } = useWorkoutTemplateList(
-    true,
-    true
-  );
+  const workoutTemplateList = useWorkoutTemplateList(true, true);
 
   const workoutList = useWorkoutList(false, true);
 
@@ -103,8 +100,7 @@ export default function WorkoutIndex() {
   return (
     <>
       <WorkoutTemplateListModal
-        workoutTemplateListModal={workoutTemplatesModal}
-        workoutTemplates={workoutTemplates}
+        workoutTemplateList={workoutTemplateList}
         onClickAction={handleClickWorkoutTemplate}
         header={<span>Load Workout Template</span>}
       />
@@ -132,7 +128,7 @@ export default function WorkoutIndex() {
             <Button
               className="font-medium text-base"
               color="primary"
-              onPress={() => workoutTemplatesModal.onOpen()}
+              onPress={() => workoutTemplateList.workoutTemplatesModal.onOpen()}
             >
               New Workout From Template
             </Button>

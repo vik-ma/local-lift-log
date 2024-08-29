@@ -65,8 +65,7 @@ export default function RoutineDetails() {
   const { isRoutineNameValid, isRoutineValid } =
     useIsRoutineValid(editedRoutine);
 
-  const { workoutTemplatesModal, workoutTemplates } =
-    useWorkoutTemplateList(true);
+  const workoutTemplateList = useWorkoutTemplateList(true);
 
   const getWorkoutRoutineSchedules = useCallback(async () => {
     try {
@@ -160,7 +159,7 @@ export default function RoutineDetails() {
 
   const handleAddWorkoutButton = (day: number) => {
     setSelectedDay(day);
-    workoutTemplatesModal.onOpen();
+    workoutTemplateList.workoutTemplatesModal.onOpen();
   };
 
   const addWorkoutTemplateToDay = async (workoutTemplate: WorkoutTemplate) => {
@@ -186,7 +185,7 @@ export default function RoutineDetails() {
 
       setRoutine(updatedRoutine);
 
-      workoutTemplatesModal.onClose();
+      workoutTemplateList.workoutTemplatesModal.onClose();
       toast.success(`Workout added to ${dayNameList[selectedDay]}`);
     } catch (error) {
       console.log(error);
@@ -347,8 +346,7 @@ export default function RoutineDetails() {
         deleteButtonText="Remove"
       />
       <WorkoutTemplateListModal
-        workoutTemplateListModal={workoutTemplatesModal}
-        workoutTemplates={workoutTemplates}
+        workoutTemplateList={workoutTemplateList}
         onClickAction={addWorkoutTemplateToDay}
         header={
           <span>
