@@ -6,6 +6,7 @@ import {
   ModalBody,
   ModalFooter,
   ScrollShadow,
+  Input,
 } from "@nextui-org/react";
 import {
   UseWorkoutTemplateListReturnType,
@@ -13,6 +14,7 @@ import {
 } from "../../typings";
 import { ReactNode } from "react";
 import { FormatNumItemsString } from "../../helpers";
+import { SearchIcon } from "../../assets";
 
 type WorkoutTemplateListModalProps = {
   workoutTemplateList: UseWorkoutTemplateListReturnType;
@@ -25,7 +27,12 @@ export const WorkoutTemplateListModal = ({
   onClickAction,
   header,
 }: WorkoutTemplateListModalProps) => {
-  const { workoutTemplatesModal, workoutTemplates } = workoutTemplateList;
+  const {
+    workoutTemplatesModal,
+    filteredWorkoutTemplates,
+    filterQuery,
+    setFilterQuery,
+  } = workoutTemplateList;
 
   return (
     <Modal
@@ -37,9 +44,18 @@ export const WorkoutTemplateListModal = ({
           <>
             <ModalHeader>{header}</ModalHeader>
             <ModalBody>
-              <div className="h-[400px] flex">
+              <div className="h-[400px] flex flex-col gap-2">
+                <Input
+                  label="Search"
+                  variant="faded"
+                  placeholder="Type to search..."
+                  isClearable
+                  value={filterQuery}
+                  onValueChange={setFilterQuery}
+                  startContent={<SearchIcon />}
+                />
                 <ScrollShadow className="flex flex-col gap-1">
-                  {workoutTemplates.map((template) => (
+                  {filteredWorkoutTemplates.map((template) => (
                     <button
                       className="flex flex-col justify-start items-start gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                       key={template.id}
