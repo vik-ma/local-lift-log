@@ -244,7 +244,7 @@ export default function ExerciseList() {
         isEditing={operationType === "edit"}
       />
       <div className="flex flex-col items-center gap-1">
-        <div className="flex flex-col w-full gap-1.5 sticky top-16 z-30 bg-default-100 rounded-xl p-1 border-2 border-default-200">
+        <div className="flex flex-col w-full gap-1.5 sticky top-16 z-30 bg-default-100 rounded-xl p-1.5 border-2 border-default-200">
           <Input
             label="Search"
             variant="faded"
@@ -253,7 +253,7 @@ export default function ExerciseList() {
             isClearable
             value={filterQuery}
             onValueChange={setFilterQuery}
-            startContent={<SearchIcon />}
+            startContent={<SearchIcon size={18} />}
           />
           <div className="flex justify-between gap-1 w-full items-center">
             <Button
