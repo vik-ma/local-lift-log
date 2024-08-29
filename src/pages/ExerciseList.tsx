@@ -243,50 +243,51 @@ export default function ExerciseList() {
         buttonAction={operationType === "edit" ? updateExercise : addExercise}
         isEditing={operationType === "edit"}
       />
-      <div className="flex flex-col items-center gap-2">
-        <div className="bg-neutral-900 px-6 py-4 rounded-xl">
-          <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">
-            Exercise List
-          </h1>
-        </div>
-        <Input
-          label="Search"
-          variant="faded"
-          placeholder="Type to search..."
-          isClearable
-          value={filterQuery}
-          onValueChange={setFilterQuery}
-          startContent={<SearchIcon />}
-        />
-        <div className="flex justify-between gap-1 w-full items-center">
-          <Button
-            color="primary"
-            onPress={() => handleCreateNewExerciseButton()}
-          >
-            New Exercise
-          </Button>
-          <Checkbox
-            isSelected={favoritesCheckboxValue}
-            onValueChange={handleListFavoritesFirstChange}
-          >
-            List Favorites First
-          </Checkbox>
-          <Dropdown>
-            <DropdownTrigger>
-              <Button className="z-1" variant="flat">
-                Sort By
-              </Button>
-            </DropdownTrigger>
-            <DropdownMenu
-              selectedKeys={[sortCategory]}
-              onAction={(key) => handleSortOptionSelection(key as string)}
+      <div className="flex flex-col items-center gap-1">
+        <div className="flex flex-col w-full gap-1.5 sticky top-16 z-30 bg-default-100 rounded-xl p-1 border-2 border-default-200">
+          <Input
+            label="Search"
+            variant="faded"
+            size="sm"
+            placeholder="Type to search..."
+            isClearable
+            value={filterQuery}
+            onValueChange={setFilterQuery}
+            startContent={<SearchIcon />}
+          />
+          <div className="flex justify-between gap-1 w-full items-center">
+            <Button
+              color="secondary"
+              variant="flat"
+              onPress={() => handleCreateNewExerciseButton()}
+              size="sm"
             >
-              <DropdownItem key="name">Exercise Name (A-Z)</DropdownItem>
-              <DropdownItem key="num-sets">
-                Number Of Sets Completed
-              </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
+              New Exercise
+            </Button>
+            <Checkbox
+              isSelected={favoritesCheckboxValue}
+              onValueChange={handleListFavoritesFirstChange}
+              size="sm"
+            >
+              List Favorites First
+            </Checkbox>
+            <Dropdown>
+              <DropdownTrigger>
+                <Button className="z-1" variant="flat" size="sm">
+                  Sort By
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu
+                selectedKeys={[sortCategory]}
+                onAction={(key) => handleSortOptionSelection(key as string)}
+              >
+                <DropdownItem key="name">Exercise Name (A-Z)</DropdownItem>
+                <DropdownItem key="num-sets">
+                  Number Of Sets Completed
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          </div>
         </div>
         {isExercisesLoading ? (
           <LoadingSpinner />
