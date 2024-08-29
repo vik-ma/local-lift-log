@@ -244,7 +244,10 @@ export default function ExerciseList() {
         isEditing={operationType === "edit"}
       />
       <div className="flex flex-col items-center gap-1">
-        <div className="flex flex-col w-full gap-1.5 sticky top-16 z-30 bg-default-100 rounded-xl p-1.5 border-2 border-default-200">
+        <div className="flex flex-col w-full gap-0.5 sticky top-16 z-30 bg-default-100 rounded-xl p-1.5 border-2 border-default-200">
+          <h1 className="px-0.5 font-bold from-[#FF705B] to-[#FFB457] text-3xl bg-clip-text text-transparent bg-gradient-to-tl truncate">
+            Exercise List
+          </h1>
           <Input
             label="Search"
             variant="faded"
@@ -255,7 +258,7 @@ export default function ExerciseList() {
             onValueChange={setFilterQuery}
             startContent={<SearchIcon size={18} />}
           />
-          <div className="flex justify-between gap-1 w-full items-center">
+          <div className="flex justify-between pt-1 gap-1 w-full items-center">
             <Button
               color="secondary"
               variant="flat"

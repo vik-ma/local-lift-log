@@ -219,9 +219,11 @@ export default function WorkoutTemplateList() {
         }
         deleteButtonAction={deleteWorkoutTemplate}
       />
-
       <div className="flex flex-col items-center gap-1">
-        <div className="flex flex-col w-full gap-1.5 sticky top-16 z-30 bg-default-100 rounded-xl p-1.5 border-2 border-default-200">
+        <div className="flex flex-col w-full gap-0.5 sticky top-16 z-30 bg-default-100 rounded-xl p-1.5 border-2 border-default-200">
+          <h1 className="px-0.5 font-bold from-[#FF705B] to-[#FFB457] text-3xl bg-clip-text text-transparent bg-gradient-to-tl truncate">
+            Workout Templates
+          </h1>
           <Input
             label="Search"
             variant="faded"
@@ -232,7 +234,8 @@ export default function WorkoutTemplateList() {
             onValueChange={setFilterQuery}
             startContent={<SearchIcon size={18} />}
           />
-          <div className="flex justify-center">
+
+          <div className="flex justify-center pt-1">
             <Button
               color="secondary"
               size="sm"
