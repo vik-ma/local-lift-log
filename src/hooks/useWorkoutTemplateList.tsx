@@ -1,5 +1,5 @@
 import { WorkoutTemplate } from "../typings";
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { useDisclosure } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
 
@@ -11,10 +11,27 @@ export const useWorkoutTemplateList = (
     []
   );
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [filterQuery, setFilterQuery] = useState<string>("");
 
   const workoutTemplateListIsLoaded = useRef(false);
 
   const workoutTemplatesModal = useDisclosure();
+
+  const filteredWorkoutTemplates = useMemo(() => {
+    if (filterQuery !== "") {
+      return workoutTemplates.filter(
+        (item) =>
+          item.name
+            .toLocaleLowerCase()
+            .includes(filterQuery.toLocaleLowerCase()) ||
+          (item.note !== null &&
+            item.note
+              .toLocaleLowerCase()
+              .includes(filterQuery.toLocaleLowerCase()))
+      );
+    }
+    return workoutTemplates;
+  }, [workoutTemplates, filterQuery]);
 
   const getWorkoutTemplates = useCallback(async () => {
     try {
@@ -75,5 +92,8 @@ export const useWorkoutTemplateList = (
     setWorkoutTemplates,
     isLoading,
     handleOpenWorkoutTemplatesModal,
+    filterQuery,
+    setFilterQuery,
+    filteredWorkoutTemplates,
   };
 };
