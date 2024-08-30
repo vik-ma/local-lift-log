@@ -20,7 +20,7 @@ import {
 } from "../helpers";
 import {
   useDefaultUserMeasurements,
-  useGetAllUserMeasurements,
+  useUserMeasurementList,
   useMeasurementsInputs,
   useReassignMeasurement,
 } from "../hooks";
@@ -57,7 +57,7 @@ export default function UserMeasurementList() {
     userMeasurements,
     getUserMeasurements,
     setUserMeasurements,
-  } = useGetAllUserMeasurements();
+  } = useUserMeasurementList();
 
   const {
     newMeasurementName,

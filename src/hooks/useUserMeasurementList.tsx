@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 import { GetMeasurementsMap, GetUserMeasurements } from "../helpers";
 import { MeasurementMap, UserMeasurement, Measurement } from "../typings";
 
-export const useGetAllUserMeasurements = () => {
+export const useUserMeasurementList = () => {
   const [measurementMap, setMeasurementMap] = useState<MeasurementMap>(
     new Map<string, Measurement>()
   );
