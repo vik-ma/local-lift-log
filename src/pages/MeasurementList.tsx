@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { LoadingSpinner, DeleteModal, MeasurementModal } from "../components";
 import { Measurement, UserSettings } from "../typings";
 import Database from "tauri-plugin-sql-api";
@@ -14,6 +14,7 @@ import {
   DropdownMenu,
   DropdownItem,
   DropdownTrigger,
+  Input,
 } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
 import {
@@ -26,18 +27,17 @@ import {
   UpdateItemInList,
   DeleteItemFromList,
 } from "../helpers";
-import { CheckmarkIcon, VerticalMenuIcon } from "../assets";
+import { CheckmarkIcon, SearchIcon, VerticalMenuIcon } from "../assets";
 import {
   useDefaultMeasurement,
   useValidateName,
   useHandleMeasurementTypeChange,
+  useMeasurementList,
 } from "../hooks";
 
 type OperationType = "add" | "edit" | "delete";
 
 export default function MeasurementList() {
-  const [measurements, setMeasurements] = useState<Measurement[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [activeMeasurementSet, setActiveMeasurementSet] = useState<Set<number>>(
     new Set()
@@ -52,20 +52,6 @@ export default function MeasurementList() {
   const deleteModal = useDisclosure();
   const measurementModal = useDisclosure();
   const setUnitsModal = useDisclosure();
-
-  const getMeasurements = useCallback(async () => {
-    try {
-      const db = await Database.load(import.meta.env.VITE_DB);
-
-      const result = await db.select<Measurement[]>(
-        "SELECT * FROM measurements"
-      );
-
-      setMeasurements(result);
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
 
   useEffect(() => {
     const loadUserSettings = async () => {
@@ -87,16 +73,22 @@ export default function MeasurementList() {
         if (activeMeasurementList.length > 0) {
           setActiveMeasurementSet(new Set(activeMeasurementList));
         }
-
-        setIsLoading(false);
       } catch (error) {
         console.log(error);
       }
     };
 
-    getMeasurements();
     loadUserSettings();
-  }, [getMeasurements]);
+  }, []);
+
+  const {
+    measurements,
+    setMeasurements,
+    isMeasurementsLoading,
+    filterQuery,
+    setFilterQuery,
+    filteredMeasurements,
+  } = useMeasurementList();
 
   const addMeasurement = async () => {
     if (operationType !== "add" || !isNewMeasurementNameValid) return;
@@ -209,8 +201,11 @@ export default function MeasurementList() {
     }
   };
 
-  const handleAddButton = () => {
-    resetOperatingMeasurement();
+  const handleCreateNewMeasurementButton = () => {
+    if (operationType !== "add") {
+      resetOperatingMeasurement();
+    }
+
     measurementModal.onOpen();
   };
 
@@ -235,7 +230,7 @@ export default function MeasurementList() {
 
   const isNewMeasurementNameValid = useValidateName(operatingMeasurement.name);
 
-  const createDefaultMeasurements = async (useMetricUnits: boolean) => {
+  const restoreDefaultMeasurements = async (useMetricUnits: boolean) => {
     const newMeasurements = await CreateDefaultMeasurements(useMetricUnits);
     setMeasurements(newMeasurements);
 
@@ -341,7 +336,7 @@ export default function MeasurementList() {
                   size="lg"
                   color="primary"
                   onPress={() => {
-                    createDefaultMeasurements(true);
+                    restoreDefaultMeasurements(true);
                   }}
                 >
                   Metric
@@ -351,7 +346,7 @@ export default function MeasurementList() {
                   size="lg"
                   color="primary"
                   onPress={() => {
-                    createDefaultMeasurements(false);
+                    restoreDefaultMeasurements(false);
                   }}
                 >
                   Imperial
@@ -361,94 +356,100 @@ export default function MeasurementList() {
           )}
         </ModalContent>
       </Modal>
-      <div className="flex flex-col items-center gap-3">
-        <div className="bg-neutral-900 px-6 py-4 rounded-xl">
-          <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">
-            Measurements
+      <div className="flex flex-col items-center gap-1">
+        <div className="flex flex-col w-full gap-0.5 sticky top-16 z-30 bg-default-100 rounded-xl p-1.5 border-2 border-default-200">
+          <h1 className="px-0.5 font-bold from-[#FF705B] to-[#FFB457] text-3xl bg-clip-text text-transparent bg-gradient-to-tl truncate">
+            Measurement List
           </h1>
+          <span className="px-0.5 pb-0.5 text-xs italic text-stone-500 font-normal">
+            Click on a Measurement to add to Active Measurements
+          </span>
+          <Input
+            label="Search"
+            variant="faded"
+            size="sm"
+            placeholder="Type to search..."
+            isClearable
+            value={filterQuery}
+            onValueChange={setFilterQuery}
+            startContent={<SearchIcon size={18} />}
+          />
+          <div className="flex justify-between pt-1 gap-1 w-full items-center">
+            <Button
+              color="secondary"
+              variant="flat"
+              onPress={handleCreateNewMeasurementButton}
+              size="sm"
+            >
+              New Measurement
+            </Button>
+          </div>
         </div>
-        {isLoading ? (
+        {isMeasurementsLoading ? (
           <LoadingSpinner />
         ) : (
           <>
-            <div className="flex gap-1 justify-center">
-              <Button
-                className="font-medium"
-                color="primary"
-                onPress={handleAddButton}
-              >
-                Add New Measurement
-              </Button>
-              <Button variant="flat" onPress={() => setUnitsModal.onOpen()}>
-                Restore Default Measurements
-              </Button>
-            </div>
-            <div className="flex flex-col gap-1.5 w-full">
-              <span className="flex justify-center text-xs italic text-stone-500 font-normal">
-                Click on a Measurement to add to Active Measurements
-              </span>
-              <div className="flex flex-col gap-1">
-                {measurements.map((measurement) => (
-                  <div
-                    key={measurement.id}
-                    className="flex flex-row cursor-pointer gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-                    onClick={() => handleMeasurementClick(measurement.id)}
-                  >
-                    <div className="flex justify-between items-center w-full">
-                      <div className="flex pl-0.5 gap-2.5 items-center">
-                        <CheckmarkIcon
-                          isChecked={activeMeasurementSet.has(measurement.id)}
-                          size={29}
-                        />
-                        <div className="flex flex-col justify-start items-start">
-                          <span className="w-[15.5rem] truncate text-left">
-                            {measurement.name}
-                          </span>
-                          <span className="text-xs text-stone-400 text-left">
-                            {measurement.measurement_type}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="flex flex-col text-sm text-stone-500">
-                        <span>Unit</span>
-                        <span className="font-semibold">
-                          {measurement.default_unit}
+            <div className="flex flex-col gap-1 w-full">
+              {filteredMeasurements.map((measurement) => (
+                <div
+                  key={measurement.id}
+                  className="flex flex-row cursor-pointer gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                  onClick={() => handleMeasurementClick(measurement.id)}
+                >
+                  <div className="flex justify-between items-center w-full">
+                    <div className="flex pl-0.5 gap-2.5 items-center">
+                      <CheckmarkIcon
+                        isChecked={activeMeasurementSet.has(measurement.id)}
+                        size={29}
+                      />
+                      <div className="flex flex-col justify-start items-start">
+                        <span className="w-[15.5rem] truncate text-left">
+                          {measurement.name}
+                        </span>
+                        <span className="text-xs text-stone-400 text-left">
+                          {measurement.measurement_type}
                         </span>
                       </div>
-                      <Dropdown>
-                        <DropdownTrigger>
-                          <Button
-                            aria-label={`Toggle ${measurement.name} Options Menu`}
-                            isIconOnly
-                            className="z-1"
-                            size="sm"
-                            radius="lg"
-                            variant="light"
-                          >
-                            <VerticalMenuIcon size={17} />
-                          </Button>
-                        </DropdownTrigger>
-                        <DropdownMenu
-                          aria-label={`Option Menu For ${measurement.name} Measurement`}
-                          onAction={(key) =>
-                            handleOptionSelection(key as string, measurement)
-                          }
-                        >
-                          {activeMeasurementSet.has(measurement.id) ? (
-                            <DropdownItem key="untrack">Untrack</DropdownItem>
-                          ) : (
-                            <DropdownItem key="track">Track</DropdownItem>
-                          )}
-                          <DropdownItem key="edit">Edit</DropdownItem>
-                          <DropdownItem className="text-danger" key="delete">
-                            Delete
-                          </DropdownItem>
-                        </DropdownMenu>
-                      </Dropdown>
                     </div>
+                    <div className="flex flex-col text-sm text-stone-500">
+                      <span>Unit</span>
+                      <span className="font-semibold">
+                        {measurement.default_unit}
+                      </span>
+                    </div>
+                    <Dropdown>
+                      <DropdownTrigger>
+                        <Button
+                          aria-label={`Toggle ${measurement.name} Options Menu`}
+                          isIconOnly
+                          className="z-1"
+                          size="sm"
+                          radius="lg"
+                          variant="light"
+                        >
+                          <VerticalMenuIcon size={17} />
+                        </Button>
+                      </DropdownTrigger>
+                      <DropdownMenu
+                        aria-label={`Option Menu For ${measurement.name} Measurement`}
+                        onAction={(key) =>
+                          handleOptionSelection(key as string, measurement)
+                        }
+                      >
+                        {activeMeasurementSet.has(measurement.id) ? (
+                          <DropdownItem key="untrack">Untrack</DropdownItem>
+                        ) : (
+                          <DropdownItem key="track">Track</DropdownItem>
+                        )}
+                        <DropdownItem key="edit">Edit</DropdownItem>
+                        <DropdownItem className="text-danger" key="delete">
+                          Delete
+                        </DropdownItem>
+                      </DropdownMenu>
+                    </Dropdown>
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
             </div>
           </>
         )}
