@@ -361,9 +361,6 @@ export default function MeasurementList() {
           <h1 className="px-0.5 font-bold from-[#FF705B] to-[#FFB457] text-3xl bg-clip-text text-transparent bg-gradient-to-tl truncate">
             Measurement List
           </h1>
-          <span className="px-0.5 pb-0.5 text-xs italic text-stone-500 font-normal">
-            Click on a Measurement to add to Active Measurements
-          </span>
           <Input
             label="Search"
             variant="faded"
@@ -383,6 +380,9 @@ export default function MeasurementList() {
             >
               New Measurement
             </Button>
+            <span className="w-[11rem] text-xs italic text-stone-500 font-normal">
+              Click on a Measurement to add to Active Measurements
+            </span>
           </div>
         </div>
         {isMeasurementsLoading ? (
