@@ -46,7 +46,7 @@ export const WeightUnitDropdown = ({
     <Select
       aria-label="Weight Unit Dropdown List"
       label={showLabel ? "Unit" : null}
-      className="w-[4.5rem]"
+      className={showLabel ? "w-[6rem]" : "w-[4.5rem]"}
       size={isSmall ? "sm" : "md"}
       variant="faded"
       selectedKeys={[value]}
