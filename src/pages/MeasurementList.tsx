@@ -236,8 +236,9 @@ export default function MeasurementList() {
   const isNewMeasurementNameValid = useValidateName(operatingMeasurement.name);
 
   const createDefaultMeasurements = async (useMetricUnits: boolean) => {
-    await CreateDefaultMeasurements(useMetricUnits);
-    await getMeasurements();
+    const newMeasurements = await CreateDefaultMeasurements(useMetricUnits);
+    setMeasurements(newMeasurements);
+
     setUnitsModal.onClose();
     toast.success("Default Measurements Restored");
   };
@@ -378,10 +379,7 @@ export default function MeasurementList() {
               >
                 Add New Measurement
               </Button>
-              <Button
-                variant="flat"
-                onPress={() => setUnitsModal.onOpen()}
-              >
+              <Button variant="flat" onPress={() => setUnitsModal.onOpen()}>
                 Restore Default Measurements
               </Button>
             </div>
