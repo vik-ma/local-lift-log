@@ -82,8 +82,6 @@ export default function Home() {
     loadUserSettings();
   }, [settingsModal, isUserSettingsLoaded]);
 
-  if (userSettings === undefined) return;
-
   return (
     <>
       <SettingsModal
