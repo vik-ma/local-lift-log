@@ -1,7 +1,6 @@
-import { Input, ScrollShadow, Select, SelectItem } from "@nextui-org/react";
-import { SearchIcon } from "../assets";
+import { ScrollShadow, Select, SelectItem } from "@nextui-org/react";
 import { Multiset, MultisetTypeMap } from "../typings";
-// import { Link } from "react-router-dom";
+import { SearchInput } from ".";
 
 type MultisetTemplateModalListProps = {
   handleClickMultiset: (multiset: Multiset, numSets: string) => void;
@@ -27,14 +26,9 @@ export const MultisetTemplateModalList = ({
   return (
     <div className="h-[400px] flex flex-col gap-2">
       <div className="flex gap-2">
-        <Input
-          label="Search"
-          variant="faded"
-          placeholder="Type to search..."
-          isClearable
-          value={filterQuery}
-          onValueChange={setFilterQuery}
-          startContent={<SearchIcon />}
+        <SearchInput
+          filterQuery={filterQuery}
+          setFilterQuery={setFilterQuery}
         />
         <Select
           label="Number Of Sets To Add"

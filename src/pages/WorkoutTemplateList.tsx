@@ -7,13 +7,13 @@ import {
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
-  Input,
 } from "@nextui-org/react";
 import { useState } from "react";
 import {
   LoadingSpinner,
   DeleteModal,
   WorkoutTemplateModal,
+  SearchInput,
 } from "../components";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
@@ -31,7 +31,7 @@ import {
   GetUniqueMultisetIds,
   DeleteMultisetWithId,
 } from "../helpers";
-import { SearchIcon, VerticalMenuIcon } from "../assets";
+import { VerticalMenuIcon } from "../assets";
 
 type OperationType = "add" | "edit" | "delete";
 
@@ -224,17 +224,11 @@ export default function WorkoutTemplateList() {
           <h1 className="px-0.5 font-bold from-[#FF705B] to-[#FFB457] text-3xl bg-clip-text text-transparent bg-gradient-to-tl truncate">
             Workout Templates
           </h1>
-          <Input
-            label="Search"
-            variant="faded"
-            size="sm"
-            placeholder="Type to search..."
-            isClearable
-            value={filterQuery}
-            onValueChange={setFilterQuery}
-            startContent={<SearchIcon size={18} />}
+          <SearchInput
+            filterQuery={filterQuery}
+            setFilterQuery={setFilterQuery}
+            isSmall
           />
-
           <div className="flex justify-center pt-1">
             <Button
               color="secondary"

@@ -7,7 +7,7 @@ import {
   useMultisetActions,
   useSetTrackingInputs,
 } from "../hooks";
-import { Button, useDisclosure, Input } from "@nextui-org/react";
+import { Button, useDisclosure } from "@nextui-org/react";
 import {
   AssignTrackingValuesIfCardio,
   ConvertEmptyStringToNull,
@@ -26,9 +26,9 @@ import {
   LoadingSpinner,
   MultisetAccordion,
   MultisetModal,
+  SearchInput,
 } from "../components";
 import toast, { Toaster } from "react-hot-toast";
-import { SearchIcon } from "../assets";
 
 export type OperationType = "add" | "edit" | "delete";
 
@@ -457,14 +457,9 @@ export default function Multisets() {
             Multisets
           </h1>
         </div>
-        <Input
-          label="Search"
-          variant="faded"
-          placeholder="Type to search..."
-          isClearable
-          value={multisetActions.filterQuery}
-          onValueChange={multisetActions.setFilterQuery}
-          startContent={<SearchIcon />}
+        <SearchInput
+          filterQuery={multisetActions.filterQuery}
+          setFilterQuery={multisetActions.setFilterQuery}
         />
         <MultisetAccordion
           multisets={multisetActions.filteredMultisets}

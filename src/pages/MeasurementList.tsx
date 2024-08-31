@@ -1,5 +1,10 @@
 import { useState, useEffect } from "react";
-import { LoadingSpinner, DeleteModal, MeasurementModal } from "../components";
+import {
+  LoadingSpinner,
+  DeleteModal,
+  MeasurementModal,
+  SearchInput,
+} from "../components";
 import { Measurement, UserSettings } from "../typings";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -14,7 +19,6 @@ import {
   DropdownMenu,
   DropdownItem,
   DropdownTrigger,
-  Input,
 } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
 import {
@@ -27,7 +31,7 @@ import {
   UpdateItemInList,
   DeleteItemFromList,
 } from "../helpers";
-import { CheckmarkIcon, SearchIcon, VerticalMenuIcon } from "../assets";
+import { CheckmarkIcon, VerticalMenuIcon } from "../assets";
 import {
   useDefaultMeasurement,
   useValidateName,
@@ -361,15 +365,10 @@ export default function MeasurementList() {
           <h1 className="px-0.5 font-bold from-[#FF705B] to-[#FFB457] text-3xl bg-clip-text text-transparent bg-gradient-to-tl truncate">
             Measurement List
           </h1>
-          <Input
-            label="Search"
-            variant="faded"
-            size="sm"
-            placeholder="Type to search..."
-            isClearable
-            value={filterQuery}
-            onValueChange={setFilterQuery}
-            startContent={<SearchIcon size={18} />}
+          <SearchInput
+            filterQuery={filterQuery}
+            setFilterQuery={setFilterQuery}
+            isSmall
           />
           <div className="flex justify-between pt-1 gap-1 w-full items-center">
             <Button

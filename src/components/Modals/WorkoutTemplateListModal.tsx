@@ -6,7 +6,6 @@ import {
   ModalBody,
   ModalFooter,
   ScrollShadow,
-  Input,
 } from "@nextui-org/react";
 import {
   UseWorkoutTemplateListReturnType,
@@ -14,7 +13,7 @@ import {
 } from "../../typings";
 import { ReactNode } from "react";
 import { FormatNumItemsString } from "../../helpers";
-import { SearchIcon } from "../../assets";
+import { SearchInput } from "..";
 
 type WorkoutTemplateListModalProps = {
   workoutTemplateList: UseWorkoutTemplateListReturnType;
@@ -45,14 +44,9 @@ export const WorkoutTemplateListModal = ({
             <ModalHeader>{header}</ModalHeader>
             <ModalBody>
               <div className="h-[400px] flex flex-col gap-2">
-                <Input
-                  label="Search"
-                  variant="faded"
-                  placeholder="Type to search..."
-                  isClearable
-                  value={filterQuery}
-                  onValueChange={setFilterQuery}
-                  startContent={<SearchIcon />}
+                <SearchInput
+                  filterQuery={filterQuery}
+                  setFilterQuery={setFilterQuery}
                 />
                 <ScrollShadow className="flex flex-col gap-1">
                   {filteredWorkoutTemplates.map((template) => (

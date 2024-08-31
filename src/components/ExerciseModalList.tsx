@@ -1,7 +1,8 @@
-import { Input, ScrollShadow, Button } from "@nextui-org/react";
-import { SearchIcon, FavoriteIcon } from "../assets";
+import { ScrollShadow, Button } from "@nextui-org/react";
+import { FavoriteIcon } from "../assets";
 import { Exercise, UseExerciseListReturnType } from "../typings";
 import { Link } from "react-router-dom";
+import { SearchInput } from ".";
 
 type ExerciseModalListProps = {
   handleClickExercise: (exercise: Exercise) => void;
@@ -17,15 +18,7 @@ export const ExerciseModalList = ({
 
   return (
     <div className="h-[400px] flex flex-col gap-2">
-      <Input
-        label="Search"
-        variant="faded"
-        placeholder="Type to search..."
-        isClearable
-        value={filterQuery}
-        onValueChange={setFilterQuery}
-        startContent={<SearchIcon />}
-      />
+      <SearchInput filterQuery={filterQuery} setFilterQuery={setFilterQuery} />
       <ScrollShadow className="flex flex-col gap-1">
         {filteredExercises.map((exercise) => (
           <div

@@ -14,7 +14,6 @@ import {
 import {
   Button,
   useDisclosure,
-  Input,
   Dropdown,
   DropdownTrigger,
   DropdownMenu,
@@ -23,8 +22,13 @@ import {
 } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { DeleteModal, ExerciseModal, LoadingSpinner } from "../components";
-import { FavoriteIcon, SearchIcon, VerticalMenuIcon } from "../assets";
+import {
+  DeleteModal,
+  ExerciseModal,
+  LoadingSpinner,
+  SearchInput,
+} from "../components";
+import { FavoriteIcon, VerticalMenuIcon } from "../assets";
 import {
   useValidateExerciseGroupString,
   useValidateName,
@@ -248,15 +252,10 @@ export default function ExerciseList() {
           <h1 className="px-0.5 font-bold from-[#FF705B] to-[#FFB457] text-3xl bg-clip-text text-transparent bg-gradient-to-tl truncate">
             Exercise List
           </h1>
-          <Input
-            label="Search"
-            variant="faded"
-            size="sm"
-            placeholder="Type to search..."
-            isClearable
-            value={filterQuery}
-            onValueChange={setFilterQuery}
-            startContent={<SearchIcon size={18} />}
+          <SearchInput
+            filterQuery={filterQuery}
+            setFilterQuery={setFilterQuery}
+            isSmall
           />
           <div className="flex justify-between pt-1 gap-1 w-full items-center">
             <Button

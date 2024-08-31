@@ -16,6 +16,7 @@ export { SetValueConfig } from "./SetValueConfig";
 export { MultisetSetMenu } from "./MultisetSetMenu";
 export { MultisetTemplateModalList } from "./MultisetTemplateModalList";
 export { SetValueUpdateButtons } from "./SetValueUpdateButtons";
+export { SearchInput } from "./SearchInput";
 
 export { WeightUnitDropdown } from "./Dropdowns/WeightUnitDropdown";
 export { DistanceUnitDropdown } from "./Dropdowns/DistanceUnitDropdown";
