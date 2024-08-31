@@ -167,7 +167,7 @@ export const UserMeasurementModal = ({
                     </ScrollShadow>
                   </>
                 ) : (
-                  <div className="flex flex-col gap-1.5 pr-2.5">
+                  <ScrollShadow className="flex flex-col gap-1.5 pr-2.5">
                     <Reorder.Group
                       className="flex flex-col gap-1.5 w-full"
                       values={activeMeasurements}
@@ -201,7 +201,7 @@ export const UserMeasurementModal = ({
                       }
                       isClearable
                     />
-                  </div>
+                  </ScrollShadow>
                 )}
               </div>
             </ModalBody>
