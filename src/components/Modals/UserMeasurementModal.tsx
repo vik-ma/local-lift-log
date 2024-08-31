@@ -16,6 +16,7 @@ import {
   UseDisclosureReturnType,
 } from "../../typings";
 import { useEffect, useMemo, useState } from "react";
+import { SearchIcon } from "../../assets";
 
 type UserMeasurementModalProps = {
   userMeasurementModal: UseDisclosureReturnType;
@@ -85,15 +86,15 @@ export const UserMeasurementModal = ({
       return;
     }
 
-    const filteredMeasurements: MeasurementMap = new Map<string, Measurement>(
+    const updatedMeasurements: MeasurementMap = new Map<string, Measurement>(
       measurementMap
     );
 
     activeMeasurements.forEach((measurement) => {
-      filteredMeasurements.delete(measurement.id.toString());
+      updatedMeasurements.delete(measurement.id.toString());
     });
 
-    setMeasurements(filteredMeasurements);
+    setMeasurements(updatedMeasurements);
 
     setIsAddingMeasurement(true);
   };
@@ -134,26 +135,37 @@ export const UserMeasurementModal = ({
             <ModalBody>
               <div className="h-[400px] flex flex-col gap-2">
                 {showMeasurementList ? (
-                  <ScrollShadow className="flex flex-col gap-1">
-                    {Array.from(filteredMeasurements).map(([key, value]) => (
-                      <div
-                        key={key}
-                        className="flex flex-row cursor-pointer gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-                        onClick={() => handleMeasurementClick(key)}
-                      >
-                        <div className="flex justify-between items-center w-full">
-                          <div className="flex flex-col justify-start items-start">
-                            <span className="w-[15.5rem] truncate text-left">
-                              {value.name}
-                            </span>
-                            <span className="text-xs text-stone-400 text-left">
-                              {value.measurement_type}
-                            </span>
+                  <>
+                    <Input
+                      label="Search"
+                      variant="faded"
+                      placeholder="Type to search..."
+                      isClearable
+                      value={filterQuery}
+                      onValueChange={setFilterQuery}
+                      startContent={<SearchIcon />}
+                    />
+                    <ScrollShadow className="flex flex-col gap-1">
+                      {Array.from(filteredMeasurements).map(([key, value]) => (
+                        <div
+                          key={key}
+                          className="flex flex-row cursor-pointer gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                          onClick={() => handleMeasurementClick(key)}
+                        >
+                          <div className="flex justify-between items-center w-full">
+                            <div className="flex flex-col justify-start items-start">
+                              <span className="w-[15.5rem] truncate text-left">
+                                {value.name}
+                              </span>
+                              <span className="text-xs text-stone-400 text-left">
+                                {value.measurement_type}
+                              </span>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    ))}
-                  </ScrollShadow>
+                      ))}
+                    </ScrollShadow>
+                  </>
                 ) : (
                   <div className="flex flex-col gap-1.5 pr-2.5">
                     <Reorder.Group
