@@ -375,18 +375,9 @@ export default function ExerciseList() {
                 </div>
               ))}
             </div>
-            {exercises.length === 0 && (
-              <div className="flex justify-center">
-                <Button
-                  className="text-lg font-medium"
-                  size="lg"
-                  color="primary"
-                  onPress={restoreDefaultExercises}
-                >
-                  Restore Default Exercise List
-                </Button>
-              </div>
-            )}
+            <Button variant="flat" onPress={restoreDefaultExercises}>
+              Restore Default Exercises
+            </Button>
           </>
         )}
       </div>

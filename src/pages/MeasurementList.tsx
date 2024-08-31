@@ -453,6 +453,9 @@ export default function MeasurementList() {
             </div>
           </>
         )}
+        <Button variant="flat" onPress={() => setUnitsModal.onOpen()}>
+          Restore Default Measurements
+        </Button>
       </div>
     </>
   );
