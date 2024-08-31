@@ -16,7 +16,7 @@ export const useMeasurementList = () => {
             .toLocaleLowerCase()
             .includes(filterQuery.toLocaleLowerCase()) ||
           item
-            .measurement_type!.toLocaleLowerCase()
+            .measurement_type.toLocaleLowerCase()
             .includes(filterQuery.toLocaleLowerCase())
       );
     }

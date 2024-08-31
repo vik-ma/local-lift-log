@@ -16,7 +16,7 @@ import {
   MeasurementMap,
   UseDisclosureReturnType,
 } from "../../typings";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 type UserMeasurementModalProps = {
   userMeasurementModal: UseDisclosureReturnType;
@@ -51,11 +51,28 @@ export const UserMeasurementModal = ({
 }: UserMeasurementModalProps) => {
   const [isAddingMeasurement, setIsAddingMeasurement] =
     useState<boolean>(false);
-  const [filteredMeasurements, setFilteredMeasurements] =
-    useState<MeasurementMap>(new Map<string, Measurement>());
+  const [measurements, setMeasurements] = useState<MeasurementMap>(
+    new Map<string, Measurement>()
+  );
+  const [filterQuery, setFilterQuery] = useState<string>("");
+
+  const filteredMeasurements = useMemo(() => {
+    if (filterQuery !== "") {
+      return new Map(
+        Array.from(measurements).filter(
+          ([key, value]) =>
+            key.toLocaleLowerCase().includes(filterQuery.toLocaleLowerCase()) ||
+            value.measurement_type
+              .toLocaleLowerCase()
+              .includes(filterQuery.toLocaleLowerCase())
+        )
+      );
+    }
+    return measurements;
+  }, [measurements, filterQuery]);
 
   useEffect(() => {
-    setFilteredMeasurements(measurementMap);
+    setMeasurements(measurementMap);
   }, [measurementMap]);
 
   const showMeasurementList =
@@ -75,7 +92,7 @@ export const UserMeasurementModal = ({
       filteredMeasurements.delete(measurement.id.toString());
     });
 
-    setFilteredMeasurements(filteredMeasurements);
+    setMeasurements(filteredMeasurements);
 
     setIsAddingMeasurement(true);
   };
