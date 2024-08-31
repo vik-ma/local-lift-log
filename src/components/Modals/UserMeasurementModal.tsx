@@ -6,8 +6,7 @@ import {
   ModalBody,
   ModalFooter,
   Input,
-  Listbox,
-  ListboxItem,
+  ScrollShadow,
 } from "@nextui-org/react";
 import { UserMeasurementReorderItem } from "..";
 import { Reorder } from "framer-motion";
@@ -60,8 +59,10 @@ export const UserMeasurementModal = ({
     if (filterQuery !== "") {
       return new Map(
         Array.from(measurements).filter(
-          ([key, value]) =>
-            key.toLocaleLowerCase().includes(filterQuery.toLocaleLowerCase()) ||
+          ([, value]) =>
+            value.name
+              .toLocaleLowerCase()
+              .includes(filterQuery.toLocaleLowerCase()) ||
             value.measurement_type
               .toLocaleLowerCase()
               .includes(filterQuery.toLocaleLowerCase())
@@ -97,7 +98,7 @@ export const UserMeasurementModal = ({
     setIsAddingMeasurement(true);
   };
 
-  const handleListboxClick = (key: string) => {
+  const handleMeasurementClick = (key: string) => {
     const measurement = measurementMap.get(key);
 
     if (measurement === undefined) return;
@@ -131,27 +132,28 @@ export const UserMeasurementModal = ({
                 : "Edit Body Measurements Entry"}
             </ModalHeader>
             <ModalBody>
-              <div className="h-[270px] overflow-auto scroll-gradient">
+              <div className="h-[400px] flex flex-col gap-2">
                 {showMeasurementList ? (
-                  <Listbox
-                    aria-label="Add Measurement"
-                    emptyContent="No Measurements Created"
-                    onAction={(key) => handleListboxClick(key as string)}
-                  >
+                  <ScrollShadow className="flex flex-col gap-1">
                     {Array.from(filteredMeasurements).map(([key, value]) => (
-                      <ListboxItem
-                        endContent={
-                          <span className="text-sm font-light text-stone-400">
-                            {value.measurement_type}
-                          </span>
-                        }
+                      <div
                         key={key}
-                        variant="faded"
+                        className="flex flex-row cursor-pointer gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                        onClick={() => handleMeasurementClick(key)}
                       >
-                        {value.name}
-                      </ListboxItem>
+                        <div className="flex justify-between items-center w-full">
+                          <div className="flex flex-col justify-start items-start">
+                            <span className="w-[15.5rem] truncate text-left">
+                              {value.name}
+                            </span>
+                            <span className="text-xs text-stone-400 text-left">
+                              {value.measurement_type}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
                     ))}
-                  </Listbox>
+                  </ScrollShadow>
                 ) : (
                   <div className="flex flex-col gap-1.5 pr-2.5">
                     <Reorder.Group
