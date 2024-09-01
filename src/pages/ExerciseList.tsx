@@ -25,8 +25,8 @@ import { useNavigate } from "react-router-dom";
 import {
   DeleteModal,
   ExerciseModal,
+  ListPageSearchInput,
   LoadingSpinner,
-  SearchInput,
 } from "../components";
 import { FavoriteIcon, VerticalMenuIcon } from "../assets";
 import {
@@ -248,49 +248,46 @@ export default function ExerciseList() {
         isEditing={operationType === "edit"}
       />
       <div className="flex flex-col items-center gap-1">
-        <div className="flex flex-col w-full gap-0.5 sticky top-16 z-30 bg-default-100 rounded-xl p-1.5 border-2 border-default-200">
-          <h1 className="px-0.5 font-bold from-[#FF705B] to-[#FFB457] text-3xl bg-clip-text text-transparent bg-gradient-to-tl truncate">
-            Exercise List
-          </h1>
-          <SearchInput
-            filterQuery={filterQuery}
-            setFilterQuery={setFilterQuery}
-            isSmall
-          />
-          <div className="flex justify-between pt-1 gap-1 w-full items-center">
-            <Button
-              color="secondary"
-              variant="flat"
-              onPress={() => handleCreateNewExerciseButton()}
-              size="sm"
-            >
-              New Exercise
-            </Button>
-            <Checkbox
-              isSelected={favoritesCheckboxValue}
-              onValueChange={handleListFavoritesFirstChange}
-              size="sm"
-            >
-              List Favorites First
-            </Checkbox>
-            <Dropdown>
-              <DropdownTrigger>
-                <Button className="z-1" variant="flat" size="sm">
-                  Sort By
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                selectedKeys={[sortCategory]}
-                onAction={(key) => handleSortOptionSelection(key as string)}
+        <ListPageSearchInput
+          header="Exercise List"
+          filterQuery={filterQuery}
+          setFilterQuery={setFilterQuery}
+          bottomContent={
+            <div className="flex justify-between gap-1 w-full items-center">
+              <Button
+                color="secondary"
+                variant="flat"
+                onPress={() => handleCreateNewExerciseButton()}
+                size="sm"
               >
-                <DropdownItem key="name">Exercise Name (A-Z)</DropdownItem>
-                <DropdownItem key="num-sets">
-                  Number Of Sets Completed
-                </DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-          </div>
-        </div>
+                New Exercise
+              </Button>
+              <Checkbox
+                isSelected={favoritesCheckboxValue}
+                onValueChange={handleListFavoritesFirstChange}
+                size="sm"
+              >
+                List Favorites First
+              </Checkbox>
+              <Dropdown>
+                <DropdownTrigger>
+                  <Button className="z-1" variant="flat" size="sm">
+                    Sort By
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu
+                  selectedKeys={[sortCategory]}
+                  onAction={(key) => handleSortOptionSelection(key as string)}
+                >
+                  <DropdownItem key="name">Exercise Name (A-Z)</DropdownItem>
+                  <DropdownItem key="num-sets">
+                    Number Of Sets Completed
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+            </div>
+          }
+        />
         {isExercisesLoading ? (
           <LoadingSpinner />
         ) : (

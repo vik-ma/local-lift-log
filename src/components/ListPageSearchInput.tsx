@@ -15,7 +15,7 @@ export const ListPageSearchInput = ({
   bottomContent,
 }: ListPageSearchInputProps) => {
   return (
-    <div className="flex flex-col w-full gap-0.5 sticky top-16 z-30 bg-default-100 rounded-xl p-1.5 border-2 border-default-200">
+    <div className="flex flex-col w-full gap-1 sticky top-16 z-30 bg-default-100 rounded-xl p-1.5 border-2 border-default-200">
       <h1 className="px-0.5 font-bold from-[#FF705B] to-[#FFB457] text-3xl bg-clip-text text-transparent bg-gradient-to-tl truncate">
         {header}
       </h1>
@@ -24,7 +24,7 @@ export const ListPageSearchInput = ({
         setFilterQuery={setFilterQuery}
         isSmall
       />
-      {bottomContent}
+      <div className="pt-0.5">{bottomContent}</div>
     </div>
   );
 };

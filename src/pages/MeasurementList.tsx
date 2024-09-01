@@ -3,7 +3,7 @@ import {
   LoadingSpinner,
   DeleteModal,
   MeasurementModal,
-  SearchInput,
+  ListPageSearchInput,
 } from "../components";
 import { Measurement, UserSettings } from "../typings";
 import Database from "tauri-plugin-sql-api";
@@ -361,29 +361,26 @@ export default function MeasurementList() {
         </ModalContent>
       </Modal>
       <div className="flex flex-col items-center gap-1">
-        <div className="flex flex-col w-full gap-0.5 sticky top-16 z-30 bg-default-100 rounded-xl p-1.5 border-2 border-default-200">
-          <h1 className="px-0.5 font-bold from-[#FF705B] to-[#FFB457] text-3xl bg-clip-text text-transparent bg-gradient-to-tl truncate">
-            Measurement List
-          </h1>
-          <SearchInput
-            filterQuery={filterQuery}
-            setFilterQuery={setFilterQuery}
-            isSmall
-          />
-          <div className="flex justify-between pt-1 gap-1 w-full items-center">
-            <Button
-              color="secondary"
-              variant="flat"
-              onPress={handleCreateNewMeasurementButton}
-              size="sm"
-            >
-              New Measurement
-            </Button>
-            <span className="w-[11rem] text-xs italic text-stone-500 font-normal">
-              Click on a Measurement to add to Active Measurements
-            </span>
-          </div>
-        </div>
+        <ListPageSearchInput
+          header="Measurement List"
+          filterQuery={filterQuery}
+          setFilterQuery={setFilterQuery}
+          bottomContent={
+            <div className="flex justify-between gap-1 w-full items-center">
+              <Button
+                color="secondary"
+                variant="flat"
+                onPress={handleCreateNewMeasurementButton}
+                size="sm"
+              >
+                New Measurement
+              </Button>
+              <span className="w-[11rem] text-xs italic text-stone-500 font-normal">
+                Click on a Measurement to add to Active Measurements
+              </span>
+            </div>
+          }
+        />
         {isMeasurementsLoading ? (
           <LoadingSpinner />
         ) : (
