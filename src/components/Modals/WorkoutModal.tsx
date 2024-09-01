@@ -66,8 +66,6 @@ export const WorkoutModal = ({
                 </span>
                 <WorkoutRatingDropdown
                   rating={workout.rating}
-                  workout_id={workout.id}
-                  isInModal={true}
                   setWorkout={setWorkout}
                 />
                 <Input
