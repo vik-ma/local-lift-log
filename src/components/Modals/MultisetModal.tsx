@@ -8,6 +8,7 @@ import {
   Input,
   Select,
   SelectItem,
+  ScrollShadow,
 } from "@nextui-org/react";
 import {
   Multiset,
@@ -213,7 +214,7 @@ export const MultisetModal = ({
                       ))}
                     </Select>
                   )}
-                  <div className="w-full overflow-auto">
+                  <ScrollShadow className="w-full">
                     <MultisetSetList
                       multiset={multiset}
                       setMultiset={setMultiset}
@@ -221,7 +222,7 @@ export const MultisetModal = ({
                         handleMultisetSetOptionSelection
                       }
                     />
-                  </div>
+                  </ScrollShadow>
                   <div>
                     {showClearAllButton && (
                       <Button
