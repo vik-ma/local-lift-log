@@ -5,7 +5,7 @@ type ListPageSearchInputProps = {
   header: string;
   filterQuery: string;
   setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
-  bottomContent: ReactNode;
+  bottomContent?: ReactNode;
 };
 
 export const ListPageSearchInput = ({
@@ -24,7 +24,9 @@ export const ListPageSearchInput = ({
         setFilterQuery={setFilterQuery}
         isSmall
       />
-      <div className="pt-0.5">{bottomContent}</div>
+      {bottomContent !== undefined && (
+        <div className="pt-0.5">{bottomContent}</div>
+      )}
     </div>
   );
 };
