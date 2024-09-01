@@ -17,7 +17,10 @@ export const useUserMeasurementList = () => {
         (item) =>
           (item.userMeasurementValues !== undefined &&
             Object.keys(item.userMeasurementValues).some((key) =>
-              key.includes(filterQuery)
+              measurementMap
+                .get(key)
+                ?.name.toLocaleLowerCase()
+                .includes(filterQuery.toLocaleLowerCase())
             )) ||
           (item.comment !== null &&
             item.comment
@@ -26,7 +29,7 @@ export const useUserMeasurementList = () => {
       );
     }
     return userMeasurements;
-  }, [userMeasurements, filterQuery]);
+  }, [userMeasurements, filterQuery, measurementMap]);
 
   const getUserMeasurements = useCallback(
     async (clockStyle: string) => {
