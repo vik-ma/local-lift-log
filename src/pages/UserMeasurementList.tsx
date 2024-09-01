@@ -5,6 +5,7 @@ import {
   DeleteModal,
   UserMeasurementModal,
   NameInputModal,
+  ListPageSearchInput,
 } from "../components";
 import { Measurement, UserMeasurement, UserSettings } from "../typings";
 import {
@@ -57,6 +58,9 @@ export default function UserMeasurementList() {
     userMeasurements,
     getUserMeasurements,
     setUserMeasurements,
+    filterQuery,
+    setFilterQuery,
+    filteredUserMeasurements,
   } = useUserMeasurementList();
 
   const {
@@ -253,14 +257,14 @@ export default function UserMeasurementList() {
         isNameValid={isNewMeasurementNameValid}
         buttonAction={reassignUserMeasurements}
       />
-      <div className="flex flex-col items-center gap-4">
-        <div className="bg-neutral-900 px-6 py-4 rounded-xl">
-          <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">
-            User Measurements
-          </h1>
-        </div>
+      <div className="flex flex-col items-center gap-1">
+        <ListPageSearchInput
+          header="User Measurement List"
+          filterQuery={filterQuery}
+          setFilterQuery={setFilterQuery}
+        />
         <UserMeasurementAccordion
-          userMeasurementEntries={userMeasurements}
+          userMeasurementEntries={filteredUserMeasurements}
           handleMeasurementAccordionClick={handleMeasurementAccordionClick}
           measurementMap={measurementMap}
           handleUserMeasurementsOptionSelection={
