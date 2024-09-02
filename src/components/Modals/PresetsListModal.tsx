@@ -19,7 +19,11 @@ type PresetsListModalProps = {
   equipmentWeights: EquipmentWeight[];
   distances: Distance[];
   presetsType: PresetsType;
-  onClickAction: () => void;
+  onClickAction: (
+    presetsType: PresetsType,
+    equipment?: EquipmentWeight,
+    distance?: Distance
+  ) => void;
 };
 
 export const PresetsListModal = ({
@@ -47,11 +51,12 @@ export const PresetsListModal = ({
                   {presetsType === "equipment"
                     ? equipmentWeights.map((equipment) => (
                         <div
-                          className="flex flex-row justify-between items-center gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                          className="flex flex-row justify-between items-center gap-1 cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                           key={`equipment-${equipment.id}`}
+                          onClick={() => onClickAction("equipment", equipment)}
                         >
                           <div className="flex flex-col justify-start items-start">
-                            <span className="w-[21.5rem] truncate text-left">
+                            <span className="w-[20.5rem] truncate text-left">
                               {equipment.name}
                             </span>
                             <span className="text-xs text-secondary text-left">
@@ -62,11 +67,14 @@ export const PresetsListModal = ({
                       ))
                     : distances.map((distance) => (
                         <div
-                          className="flex flex-row justify-between items-center gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                          className="flex flex-row justify-between items-center gap-1 cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                           key={`distance-${distance.id}`}
+                          onClick={() =>
+                            onClickAction("equipment", undefined, distance)
+                          }
                         >
                           <div className="flex flex-col justify-start items-start">
-                            <span className="w-[21.5rem] truncate text-left">
+                            <span className="w-[20.5rem] truncate text-left">
                               {distance.name}
                             </span>
                             <span className="text-xs text-secondary text-left">
