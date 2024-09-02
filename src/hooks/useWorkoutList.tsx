@@ -57,6 +57,7 @@ export const useWorkoutList = (
       }
 
       setWorkouts(workouts);
+      workoutListIsLoaded.current = true;
     } catch (error) {
       console.log(error);
     }
@@ -79,7 +80,6 @@ export const useWorkoutList = (
   const handleOpenWorkoutListModal = useCallback(() => {
     if (!workoutListIsLoaded.current) {
       getWorkouts();
-      workoutListIsLoaded.current = true;
     }
 
     workoutListModal.onOpen();
