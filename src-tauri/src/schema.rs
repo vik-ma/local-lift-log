@@ -55,7 +55,7 @@ diesel::table! {
 diesel::table! {
     workout_routine_schedules (id) {
         id -> Integer,
-        day -> Integer,
+        day -> SmallInt,
         workout_template_id -> Integer,
         routine_id -> Integer,
     }
@@ -125,6 +125,7 @@ diesel::table! {
         name -> Text,
         weight -> Float,
         weight_unit -> Text,
+        is_favorite: -> SmallInt,
     }
 }
 
@@ -134,6 +135,7 @@ diesel::table! {
         name -> Text,
         distance -> Float,
         distance_unit -> Text,
+        is_favorite: -> SmallInt,
     }
 }
 

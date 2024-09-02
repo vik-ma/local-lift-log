@@ -135,6 +135,7 @@ pub struct EquipmentWeight {
     pub name: String,
     pub weight: f32,
     pub weight_unit: String,
+    pub is_favorite: i16,
 }
 
 #[derive(Queryable, Selectable)]
@@ -145,6 +146,7 @@ pub struct Distance {
     pub name: String,
     pub distance: f32,
     pub distance_unit: String,
+    pub is_favorite: i16,
 }
 
 #[derive(Queryable, Selectable)]
