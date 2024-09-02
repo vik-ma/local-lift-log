@@ -424,3 +424,5 @@ export type UseWorkoutTemplateListReturnType = {
   setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
   filteredWorkoutTemplates: WorkoutTemplate[];
 };
+
+export type PresetsType = "equipment" | "distance";

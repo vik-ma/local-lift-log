@@ -44,3 +44,4 @@ export { NameInputModal } from "./Modals/NameInputModal";
 export { MultisetModal } from "./Modals/MultisetModal";
 export { TextInputModal } from "./Modals/TextInputModal";
 export { WorkoutListModal } from "./Modals/WorkoutListModal";
+export { PresetsListModal } from "./Modals/PresetsListModal";
