@@ -52,6 +52,7 @@ export default function Presets() {
       name: "",
       weight: 0,
       weight_unit: "kg",
+      is_favorite: 0,
     };
   }, []);
 
@@ -61,6 +62,7 @@ export default function Presets() {
       name: "",
       distance: 0,
       distance_unit: "km",
+      is_favorite: 0,
     };
   }, []);
 
@@ -129,15 +131,21 @@ export default function Presets() {
       const db = await Database.load(import.meta.env.VITE_DB);
 
       const result = await db.execute(
-        "INSERT into equipment_weights (name, weight, weight_unit) VALUES ($1, $2, $3)",
-        [nameInput, weight, operatingEquipmentWeight.weight_unit]
+        `INSERT into equipment_weights (name, weight, weight_unit, is_favorite) 
+         VALUES ($1, $2, $3, $4)`,
+        [
+          nameInput,
+          weight,
+          operatingEquipmentWeight.weight_unit,
+          operatingEquipmentWeight.is_favorite,
+        ]
       );
 
       const newEquipment: EquipmentWeight = {
+        ...operatingEquipmentWeight,
         id: result.lastInsertId,
         name: nameInput,
         weight: weight,
-        weight_unit: operatingEquipmentWeight.weight_unit,
       };
 
       setEquipmentWeights([...equipmentWeights, newEquipment]);
@@ -165,15 +173,21 @@ export default function Presets() {
       const db = await Database.load(import.meta.env.VITE_DB);
 
       const result = await db.execute(
-        "INSERT into distances (name, distance, distance_unit) VALUES ($1, $2, $3)",
-        [nameInput, distance, operatingDistance.distance_unit]
+        `INSERT into distances (name, distance, distance_unit, is_favorite) 
+         VALUES ($1, $2, $3, $4)`,
+        [
+          nameInput,
+          distance,
+          operatingDistance.distance_unit,
+          operatingDistance.is_favorite,
+        ]
       );
 
       const newDistance: Distance = {
+        ...operatingDistance,
         id: result.lastInsertId,
         name: nameInput,
         distance: distance,
-        distance_unit: operatingDistance.distance_unit,
       };
 
       setDistances([...distances, newDistance]);
@@ -202,11 +216,14 @@ export default function Presets() {
       const db = await Database.load(import.meta.env.VITE_DB);
 
       await db.execute(
-        "UPDATE equipment_weights SET name = $1, weight = $2, weight_unit = $3 WHERE id = $4",
+        `UPDATE equipment_weights 
+         SET name = $1, weight = $2, weight_unit = $3, is_favorite = $4 
+         WHERE id = $5`,
         [
           nameInput,
           weight,
           operatingEquipmentWeight.weight_unit,
+          operatingEquipmentWeight.is_favorite,
           operatingEquipmentWeight.id,
         ]
       );
@@ -248,11 +265,14 @@ export default function Presets() {
       const db = await Database.load(import.meta.env.VITE_DB);
 
       await db.execute(
-        "UPDATE distances SET name = $1, distance = $2, distance_unit = $3 WHERE id = $4",
+        `UPDATE distances 
+         SET name = $1, distance = $2, distance_unit = $3, is_favorite = $4 
+         WHERE id = $5`,
         [
           nameInput,
           distance,
           operatingDistance.distance_unit,
+          operatingDistance.is_favorite,
           operatingDistance.id,
         ]
       );
@@ -261,7 +281,6 @@ export default function Presets() {
         ...operatingDistance,
         name: nameInput,
         distance: distance,
-        distance_unit: operatingDistance.distance_unit,
       };
 
       const updatedDistances = UpdateItemInList(distances, updatedDistance);

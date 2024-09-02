@@ -29,14 +29,7 @@ export const usePresetsList = (
         "SELECT * FROM equipment_weights"
       );
 
-      const equipmentWeights: EquipmentWeight[] = result.map((row) => ({
-        id: row.id,
-        name: row.name,
-        weight: row.weight,
-        weight_unit: row.weight_unit,
-      }));
-
-      setEquipmentWeights(equipmentWeights);
+      setEquipmentWeights(result);
       equipmentWeightsAreLoaded.current = true;
     } catch (error) {
       console.log(error);
@@ -49,14 +42,7 @@ export const usePresetsList = (
 
       const result = await db.select<Distance[]>("SELECT * FROM distances");
 
-      const distances: Distance[] = result.map((row) => ({
-        id: row.id,
-        name: row.name,
-        distance: row.distance,
-        distance_unit: row.distance_unit,
-      }));
-
-      setDistances(distances);
+      setDistances(result);
       distancesAreLoaded.current = true;
     } catch (error) {
       console.log(error);
