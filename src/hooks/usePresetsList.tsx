@@ -1,18 +1,27 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Distance, EquipmentWeight } from "../typings";
 import Database from "tauri-plugin-sql-api";
+import { useDisclosure } from "@nextui-org/react";
+
+type PresetsType = "equipment" | "distance";
 
 export const usePresetsList = (
   getEquipmentWeightsOnLoad: boolean,
-  getDistancesOnLoad: boolean
+  getDistancesOnLoad: boolean,
+  defaultPresetType?: PresetsType
 ) => {
   const [equipmentWeights, setEquipmentWeights] = useState<EquipmentWeight[]>(
     []
   );
   const [distances, setDistances] = useState<Distance[]>([]);
+  const [presetsType, setPresetsType] = useState<PresetsType>(
+    defaultPresetType ?? "equipment"
+  );
 
   const equipmentWeightsAreLoaded = useRef(false);
   const distancesAreLoaded = useRef(false);
+
+  const presetsModal = useDisclosure();
 
   const getEquipmentWeights = useCallback(async () => {
     try {
@@ -71,6 +80,24 @@ export const usePresetsList = (
     getDistances,
   ]);
 
+  const handleOpenPresetsModal = useCallback(
+    (presetsType: PresetsType) => {
+      if (
+        presetsType === "equipment" &&
+        equipmentWeightsAreLoaded.current === false
+      ) {
+        getEquipmentWeights();
+      }
+
+      if (presetsType === "distance" && distancesAreLoaded.current === false) {
+        getDistances();
+      }
+
+      presetsModal.onOpen();
+    },
+    [presetsModal, getEquipmentWeights, getDistances]
+  );
+
   return {
     equipmentWeights,
     setEquipmentWeights,
@@ -78,5 +105,9 @@ export const usePresetsList = (
     setDistances,
     getEquipmentWeights,
     getDistances,
+    presetsType,
+    setPresetsType,
+    presetsModal,
+    handleOpenPresetsModal,
   };
 };
