@@ -71,5 +71,12 @@ export const usePresetsList = (
     getDistances,
   ]);
 
-  return { equipmentWeights, setEquipmentWeights, distances, setDistances };
+  return {
+    equipmentWeights,
+    setEquipmentWeights,
+    distances,
+    setDistances,
+    getEquipmentWeights,
+    getDistances,
+  };
 };

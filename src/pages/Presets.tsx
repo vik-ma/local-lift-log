@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo } from "react";
 import {
   DistanceUnitDropdown,
   LoadingSpinner,
@@ -31,7 +31,7 @@ import {
   UpdateItemInList,
 } from "../helpers";
 import toast, { Toaster } from "react-hot-toast";
-import { useValidateName } from "../hooks";
+import { usePresetsList, useValidateName } from "../hooks";
 import { VerticalMenuIcon } from "../assets";
 
 type OperationType = "add" | "edit" | "delete";
@@ -40,10 +40,6 @@ type PresetType = "equipment" | "distance";
 
 export default function Presets() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [equipmentWeights, setEquipmentWeights] = useState<EquipmentWeight[]>(
-    []
-  );
-  const [distances, setDistances] = useState<Distance[]>([]);
   const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
   const [operationType, setOperationType] = useState<OperationType>("add");
   const [presetType, setPresetType] = useState<PresetType>("equipment");
@@ -77,45 +73,14 @@ export default function Presets() {
   const presetModal = useDisclosure();
   const setUnitsModal = useDisclosure();
 
-  const getEquipmentWeights = useCallback(async () => {
-    try {
-      const db = await Database.load(import.meta.env.VITE_DB);
-
-      const result = await db.select<EquipmentWeight[]>(
-        "SELECT * FROM equipment_weights"
-      );
-
-      const equipmentWeights: EquipmentWeight[] = result.map((row) => ({
-        id: row.id,
-        name: row.name,
-        weight: row.weight,
-        weight_unit: row.weight_unit,
-      }));
-
-      setEquipmentWeights(equipmentWeights);
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
-
-  const getDistances = useCallback(async () => {
-    try {
-      const db = await Database.load(import.meta.env.VITE_DB);
-
-      const result = await db.select<Distance[]>("SELECT * FROM distances");
-
-      const distances: Distance[] = result.map((row) => ({
-        id: row.id,
-        name: row.name,
-        distance: row.distance,
-        distance_unit: row.distance_unit,
-      }));
-
-      setDistances(distances);
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
+  const {
+    equipmentWeights,
+    setEquipmentWeights,
+    distances,
+    setDistances,
+    getEquipmentWeights,
+    getDistances,
+  } = usePresetsList(true, true);
 
   useEffect(() => {
     const loadUserSettings = async () => {
@@ -135,10 +100,8 @@ export default function Presets() {
       setIsLoading(false);
     };
 
-    getEquipmentWeights();
-    getDistances();
     loadUserSettings();
-  }, [getEquipmentWeights, getDistances]);
+  }, []);
 
   const isNameInputValid = useValidateName(nameInput);
 
