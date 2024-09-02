@@ -9,8 +9,14 @@ export const CreateDefaultDistances = async (isMetric: boolean) => {
 
     DEFAULT_DISTANCES.forEach((distance) => {
       db.execute(
-        "INSERT into distances (name, distance, distance_unit) VALUES ($1, $2, $3)",
-        [distance.name, distance.distance, distance.distance_unit]
+        `INSERT into distances (name, distance, distance_unit, is_favorite) 
+         VALUES ($1, $2, $3, $4)`,
+        [
+          distance.name,
+          distance.distance,
+          distance.distance_unit,
+          distance.is_favorite,
+        ]
       );
     });
   } catch (error) {
