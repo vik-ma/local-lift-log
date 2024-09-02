@@ -1,8 +1,7 @@
-import { ScrollShadow, Button } from "@nextui-org/react";
-import { FavoriteIcon } from "../assets";
+import { ScrollShadow } from "@nextui-org/react";
 import { Exercise, UseExerciseListReturnType } from "../typings";
 import { Link } from "react-router-dom";
-import { SearchInput } from ".";
+import { FavoriteButton, SearchInput } from ".";
 
 type ExerciseModalListProps = {
   handleClickExercise: (exercise: Exercise) => void;
@@ -37,22 +36,12 @@ export const ExerciseModalList = ({
               </span>
             </button>
             <div className="flex items-center pr-2">
-              <Button
-                aria-label={
-                  exercise.is_favorite
-                    ? `Unset Favorite For ${exercise.name}`
-                    : `Set Favorite For ${exercise.name}`
-                }
-                isIconOnly
-                className="z-1"
-                size="sm"
-                color={exercise.is_favorite ? "primary" : "default"}
-                radius="lg"
-                variant="light"
-                onPress={() => toggleFavorite(exercise)}
-              >
-                <FavoriteIcon isChecked={!!exercise.is_favorite} size={28} />
-              </Button>
+              <FavoriteButton
+                name={exercise.name}
+                isFavorite={!!exercise.is_favorite}
+                item={exercise}
+                toggleFavorite={toggleFavorite}
+              />
             </div>
           </div>
         ))}

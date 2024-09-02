@@ -25,10 +25,11 @@ import { useNavigate } from "react-router-dom";
 import {
   DeleteModal,
   ExerciseModal,
+  FavoriteButton,
   ListPageSearchInput,
   LoadingSpinner,
 } from "../components";
-import { FavoriteIcon, VerticalMenuIcon } from "../assets";
+import { VerticalMenuIcon } from "../assets";
 import {
   useValidateExerciseGroupString,
   useValidateName,
@@ -315,25 +316,12 @@ export default function ExerciseList() {
                     </span>
                   </button>
                   <div className="flex items-center gap-0.5 pr-2">
-                    <Button
-                      aria-label={
-                        exercise.is_favorite
-                          ? `Unset Favorite For ${exercise.name}`
-                          : `Set Favorite For ${exercise.name}`
-                      }
-                      isIconOnly
-                      className="z-1"
-                      size="sm"
-                      color={exercise.is_favorite ? "primary" : "default"}
-                      radius="lg"
-                      variant="light"
-                      onPress={() => toggleFavorite(exercise)}
-                    >
-                      <FavoriteIcon
-                        isChecked={!!exercise.is_favorite}
-                        size={28}
-                      />
-                    </Button>
+                    <FavoriteButton
+                      name={exercise.name}
+                      isFavorite={!!exercise.is_favorite}
+                      item={exercise}
+                      toggleFavorite={toggleFavorite}
+                    />
                     <Dropdown>
                       <DropdownTrigger>
                         <Button

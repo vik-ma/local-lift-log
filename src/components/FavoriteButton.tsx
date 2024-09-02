@@ -5,7 +5,7 @@ type FavoriteButtonProps<T> = {
   name: string;
   isFavorite: boolean;
   item: T;
-  toggleFavorite: <T>(item: T) => void;
+  toggleFavorite: (item: T) => void;
 };
 
 export const FavoriteButton = <T,>({
