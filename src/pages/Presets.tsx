@@ -21,6 +21,7 @@ import {
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
+  Checkbox,
 } from "@nextui-org/react";
 import {
   ConvertNumberToTwoDecimals,
@@ -619,13 +620,32 @@ export default function Presets() {
           filteredListLength={filteredEquipmentWeights.length}
           totalListLength={equipmentWeights.length}
           bottomContent={
-            <div className="flex justify-between gap-1 w-full items-center"></div>
+            <div className="flex justify-between gap-1 w-full items-center">
+              <Button
+                color="secondary"
+                variant="flat"
+                onPress={handleAddEquipmentWeightButton}
+                size="sm"
+              >
+                New Equipment Weight
+              </Button>
+              <Checkbox
+                className="px-3"
+                isSelected={equipmentFavoritesCheckboxValue}
+                onValueChange={(value) =>
+                  handleListFavoritesFirstChange("equipment", value)
+                }
+                size="sm"
+              >
+                List Favorites First
+              </Checkbox>
+            </div>
           }
         />
         {isLoading ? (
           <LoadingSpinner />
         ) : (
-          <div className="flex flex-col gap-3 w-full">
+          <div className="flex flex-col gap-1.5 w-full">
             <div className="flex flex-col gap-1">
               {filteredEquipmentWeights.map((equipment) => (
                 <div
@@ -671,15 +691,7 @@ export default function Presets() {
                 </div>
               ))}
             </div>
-            <div className="flex gap-1.5 justify-center">
-              <Button
-                className="font-medium"
-                size="sm"
-                color="primary"
-                onPress={handleAddEquipmentWeightButton}
-              >
-                Add Equipment Weight
-              </Button>
+            <div className="flex justify-center">
               <Button
                 size="sm"
                 variant="flat"
@@ -697,13 +709,32 @@ export default function Presets() {
           filteredListLength={filteredDistances.length}
           totalListLength={distances.length}
           bottomContent={
-            <div className="flex justify-between gap-1 w-full items-center"></div>
+            <div className="flex justify-between gap-1 w-full items-center">
+              <Button
+                color="secondary"
+                variant="flat"
+                onPress={handleAddDistanceButton}
+                size="sm"
+              >
+                New Distance
+              </Button>
+              <Checkbox
+                className="px-3"
+                isSelected={distanceFavoritesCheckboxValue}
+                onValueChange={(value) =>
+                  handleListFavoritesFirstChange("distance", value)
+                }
+                size="sm"
+              >
+                List Favorites First
+              </Checkbox>
+            </div>
           }
         />
         {isLoading ? (
           <LoadingSpinner />
         ) : (
-          <div className="flex flex-col gap-3 w-full">
+          <div className="flex flex-col gap-1.5 w-full">
             <div className="flex flex-col gap-1">
               {filteredDistances.map((distance) => (
                 <div
@@ -746,15 +777,7 @@ export default function Presets() {
                 </div>
               ))}
             </div>
-            <div className="flex gap-1.5 justify-center">
-              <Button
-                className="font-medium"
-                color="primary"
-                size="sm"
-                onPress={handleAddDistanceButton}
-              >
-                Add Distance
-              </Button>
+            <div className="flex justify-center">
               <Button
                 size="sm"
                 variant="flat"
