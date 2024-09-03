@@ -57,7 +57,7 @@ export const ExerciseModalList = ({
         ))}
         {filteredExercises.length === 0 && (
           <div className="flex flex-col items-center justify-center text-stone-500 py-2">
-            <h2>No Exercises Created</h2>
+            <h2>No Exercises Found</h2>
             <Link to={"/exercises/"}>
               Create Or Restore Default Exercises Here
             </Link>
