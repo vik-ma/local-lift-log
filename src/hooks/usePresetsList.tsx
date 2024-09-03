@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Distance, EquipmentWeight, PresetsType } from "../typings";
 import Database from "tauri-plugin-sql-api";
 import { useDisclosure } from "@nextui-org/react";
@@ -17,11 +17,45 @@ export const usePresetsList = (
   );
   const [favoritesCheckboxValue, setFavoritesCheckboxValue] =
     useState<boolean>(true);
+  const [filterQueryEquipment, setFilterQueryEquipment] = useState<string>("");
+  const [filterQueryDistance, setFilterQueryDistance] = useState<string>("");
 
   const equipmentWeightsAreLoaded = useRef(false);
   const distancesAreLoaded = useRef(false);
 
   const presetsListModal = useDisclosure();
+
+  const filteredEquipmentWeights = useMemo(() => {
+    if (filterQueryEquipment !== "") {
+      return equipmentWeights.filter(
+        (item) =>
+          item.name
+            .toLocaleLowerCase()
+            .includes(filterQueryEquipment.toLocaleLowerCase()) ||
+          item.weight
+            .toString()
+            .toLocaleLowerCase()
+            .includes(filterQueryEquipment.toLocaleLowerCase())
+      );
+    }
+    return equipmentWeights;
+  }, [equipmentWeights, filterQueryEquipment]);
+
+  const filteredDistances = useMemo(() => {
+    if (filterQueryDistance !== "") {
+      return distances.filter(
+        (item) =>
+          item.name
+            .toLocaleLowerCase()
+            .includes(filterQueryDistance.toLocaleLowerCase()) ||
+          item.distance
+            .toString()
+            .toLocaleLowerCase()
+            .includes(filterQueryDistance.toLocaleLowerCase())
+      );
+    }
+    return distances;
+  }, [distances, filterQueryDistance]);
 
   const getEquipmentWeights = useCallback(async () => {
     try {
@@ -124,5 +158,11 @@ export const usePresetsList = (
     handleOpenPresetsModal,
     favoritesCheckboxValue,
     handleListFavoritesFirstChange,
+    filterQueryEquipment,
+    setFilterQueryEquipment,
+    filteredEquipmentWeights,
+    filterQueryDistance,
+    setFilterQueryDistance,
+    filteredDistances,
   };
 };
