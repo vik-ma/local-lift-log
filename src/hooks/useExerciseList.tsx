@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo, useCallback } from "react";
 import {
   GetExerciseListWithGroupStrings,
   GetExerciseListWithGroupStringsAndTotalSets,
-  UpdateExercise,
+  UpdateIsFavorite,
   UpdateItemInList,
 } from "../helpers";
 import {
@@ -72,14 +72,18 @@ export const useExerciseList = (
   const toggleFavorite = async (exercise: Exercise) => {
     const newFavoriteValue = exercise.is_favorite === 1 ? 0 : 1;
 
+    const success = await UpdateIsFavorite(
+      exercise.id,
+      "exercise",
+      newFavoriteValue
+    );
+
+    if (!success) return;
+
     const updatedExercise: Exercise = {
       ...exercise,
       is_favorite: newFavoriteValue,
     };
-
-    const success = await UpdateExercise(updatedExercise);
-
-    if (!success) return;
 
     const updatedExercises = UpdateItemInList(exercises, updatedExercise);
 

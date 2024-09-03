@@ -113,6 +113,7 @@ export { GetUserMeasurements } from "./Measurements/GetUserMeasurements";
 
 export { CreateDefaultEquipmentWeights } from "./Presets/CreateDefaultEquipmentWeights";
 export { CreateDefaultDistances } from "./Presets/CreateDefaultDistances";
+export { UpdateIsFavorite } from "./Presets/UpdateIsFavorite";
 
 export { CreateGroupedWorkoutSetList } from "./Workouts/CreateGroupedWorkoutSetList";
 export { GenerateExerciseOrderString } from "./Workouts/GenerateExerciseOrderString";
