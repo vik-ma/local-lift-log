@@ -5,6 +5,8 @@ type ListPageSearchInputProps = {
   header: string;
   filterQuery: string;
   setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
+  filteredListLength: number;
+  totalListLength: number;
   bottomContent?: ReactNode;
 };
 
@@ -12,6 +14,8 @@ export const ListPageSearchInput = ({
   header,
   filterQuery,
   setFilterQuery,
+  filteredListLength,
+  totalListLength,
   bottomContent,
 }: ListPageSearchInputProps) => {
   return (
@@ -22,6 +26,8 @@ export const ListPageSearchInput = ({
       <SearchInput
         filterQuery={filterQuery}
         setFilterQuery={setFilterQuery}
+        filteredListLength={filteredListLength}
+        totalListLength={totalListLength}
         isSmall
       />
       {bottomContent !== undefined && (
