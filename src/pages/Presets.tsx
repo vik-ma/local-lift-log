@@ -4,6 +4,7 @@ import {
   LoadingSpinner,
   WeightUnitDropdown,
   DeleteModal,
+  ListPageSearchInput,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
 import { EquipmentWeight, UserSettingsOptional, Distance } from "../typings";
@@ -82,6 +83,15 @@ export default function Presets() {
     setDistances,
     getEquipmentWeights,
     getDistances,
+    filterQueryEquipment,
+    setFilterQueryEquipment,
+    filteredEquipmentWeights,
+    filterQueryDistance,
+    setFilterQueryDistance,
+    filteredDistances,
+    handleListFavoritesFirstChange,
+    equipmentFavoritesCheckboxValue,
+    distanceFavoritesCheckboxValue,
   } = usePresetsList(true, true);
 
   useEffect(() => {
@@ -601,148 +611,159 @@ export default function Presets() {
           )}
         </ModalContent>
       </Modal>
-      <div className="flex flex-col items-center gap-4">
-        <div className="bg-neutral-900 px-6 py-4 rounded-xl">
-          <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">
-            Presets
-          </h1>
-        </div>
+      <div className="flex flex-col items-center gap-1">
+        <ListPageSearchInput
+          header="Equipment Weight List"
+          filterQuery={filterQueryEquipment}
+          setFilterQuery={setFilterQueryEquipment}
+          filteredListLength={filteredEquipmentWeights.length}
+          totalListLength={equipmentWeights.length}
+          bottomContent={
+            <div className="flex justify-between gap-1 w-full items-center"></div>
+          }
+        />
         {isLoading ? (
           <LoadingSpinner />
         ) : (
-          <>
-            <div className="flex flex-col gap-3 w-full">
-              <h2 className="flex justify-center text-2xl font-semibold">
-                Equipment Weights
-              </h2>
-              <div className="flex flex-col gap-1">
-                {equipmentWeights.map((equipment) => (
-                  <div
-                    className="flex flex-row justify-between items-center gap-1 cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-                    key={`equipment-${equipment.id}`}
-                  >
-                    <div className="flex flex-col justify-start items-start">
-                      <span className="w-[21.5rem] truncate text-left">
-                        {equipment.name}
-                      </span>
-                      <span className="text-xs text-secondary text-left">
-                        {equipment.weight} {equipment.weight_unit}
-                      </span>
-                    </div>
-                    <Dropdown>
-                      <DropdownTrigger>
-                        <Button
-                          aria-label={`Toggle ${equipment.name} Options Menu`}
-                          isIconOnly
-                          className="z-1"
-                          size="sm"
-                          radius="lg"
-                          variant="light"
-                        >
-                          <VerticalMenuIcon size={17} />
-                        </Button>
-                      </DropdownTrigger>
-                      <DropdownMenu
-                        aria-label={`Option Menu For ${equipment.name} Equipment Weight`}
-                        onAction={(key) =>
-                          handleEquipmentWeightOptionSelection(
-                            key as string,
-                            equipment
-                          )
-                        }
-                      >
-                        <DropdownItem key="edit">Edit</DropdownItem>
-                        <DropdownItem key="delete" className="text-danger">
-                          Delete
-                        </DropdownItem>
-                      </DropdownMenu>
-                    </Dropdown>
+          <div className="flex flex-col gap-3 w-full">
+            <div className="flex flex-col gap-1">
+              {filteredEquipmentWeights.map((equipment) => (
+                <div
+                  className="flex flex-row justify-between items-center gap-1 cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                  key={`equipment-${equipment.id}`}
+                >
+                  <div className="flex flex-col justify-start items-start">
+                    <span className="w-[21.5rem] truncate text-left">
+                      {equipment.name}
+                    </span>
+                    <span className="text-xs text-secondary text-left">
+                      {equipment.weight} {equipment.weight_unit}
+                    </span>
                   </div>
-                ))}
-              </div>
-              <div className="flex gap-1.5 justify-center">
-                <Button
-                  className="font-medium"
-                  size="sm"
-                  color="primary"
-                  onPress={handleAddEquipmentWeightButton}
-                >
-                  Add Equipment Weight
-                </Button>
-                <Button
-                  size="sm"
-                  variant="flat"
-                  onPress={handleRestoreEquipmentButton}
-                >
-                  Restore Default Equipment Weights
-                </Button>
-              </div>
-            </div>
-            <div className="flex flex-col gap-3 w-full">
-              <h2 className="flex justify-center text-2xl font-semibold ">
-                Distances
-              </h2>
-              <div className="flex flex-col gap-1">
-                {distances.map((distance) => (
-                  <div
-                    className="flex flex-row justify-between items-center gap-1 cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-                    key={`distance-${distance.id}`}
-                  >
-                    <div className="flex flex-col justify-start items-start">
-                      <span className="w-[21.5rem] truncate text-left">
-                        {distance.name}
-                      </span>
-                      <span className="text-xs text-secondary text-left">
-                        {distance.distance} {distance.distance_unit}
-                      </span>
-                    </div>
-                    <Dropdown>
-                      <DropdownTrigger>
-                        <Button
-                          aria-label={`Toggle ${distance.name} Options Menu`}
-                          isIconOnly
-                          className="z-1"
-                          size="sm"
-                          radius="lg"
-                          variant="light"
-                        >
-                          <VerticalMenuIcon size={17} />
-                        </Button>
-                      </DropdownTrigger>
-                      <DropdownMenu
-                        aria-label={`Option Menu For ${distance.name} Distance`}
-                        onAction={(key) =>
-                          handleDistanceOptionSelection(key as string, distance)
-                        }
+                  <Dropdown>
+                    <DropdownTrigger>
+                      <Button
+                        aria-label={`Toggle ${equipment.name} Options Menu`}
+                        isIconOnly
+                        className="z-1"
+                        size="sm"
+                        radius="lg"
+                        variant="light"
                       >
-                        <DropdownItem key="edit">Edit</DropdownItem>
-                        <DropdownItem key="delete" className="text-danger">
-                          Delete
-                        </DropdownItem>
-                      </DropdownMenu>
-                    </Dropdown>
-                  </div>
-                ))}
-              </div>
-              <div className="flex gap-1.5 justify-center">
-                <Button
-                  className="font-medium"
-                  color="primary"
-                  size="sm"
-                  onPress={handleAddDistanceButton}
-                >
-                  Add Distance
-                </Button>
-                <Button
-                  size="sm"
-                  variant="flat"
-                  onPress={handleRestoreDistanceButton}
-                >
-                  Restore Default Distances
-                </Button>
-              </div>
+                        <VerticalMenuIcon size={17} />
+                      </Button>
+                    </DropdownTrigger>
+                    <DropdownMenu
+                      aria-label={`Option Menu For ${equipment.name} Equipment Weight`}
+                      onAction={(key) =>
+                        handleEquipmentWeightOptionSelection(
+                          key as string,
+                          equipment
+                        )
+                      }
+                    >
+                      <DropdownItem key="edit">Edit</DropdownItem>
+                      <DropdownItem key="delete" className="text-danger">
+                        Delete
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </div>
+              ))}
             </div>
-          </>
+            <div className="flex gap-1.5 justify-center">
+              <Button
+                className="font-medium"
+                size="sm"
+                color="primary"
+                onPress={handleAddEquipmentWeightButton}
+              >
+                Add Equipment Weight
+              </Button>
+              <Button
+                size="sm"
+                variant="flat"
+                onPress={handleRestoreEquipmentButton}
+              >
+                Restore Default Equipment Weights
+              </Button>
+            </div>
+          </div>
+        )}
+        <ListPageSearchInput
+          header="Distance List"
+          filterQuery={filterQueryDistance}
+          setFilterQuery={setFilterQueryDistance}
+          filteredListLength={filteredDistances.length}
+          totalListLength={distances.length}
+          bottomContent={
+            <div className="flex justify-between gap-1 w-full items-center"></div>
+          }
+        />
+        {isLoading ? (
+          <LoadingSpinner />
+        ) : (
+          <div className="flex flex-col gap-3 w-full">
+            <div className="flex flex-col gap-1">
+              {filteredDistances.map((distance) => (
+                <div
+                  className="flex flex-row justify-between items-center gap-1 cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                  key={`distance-${distance.id}`}
+                >
+                  <div className="flex flex-col justify-start items-start">
+                    <span className="w-[21.5rem] truncate text-left">
+                      {distance.name}
+                    </span>
+                    <span className="text-xs text-secondary text-left">
+                      {distance.distance} {distance.distance_unit}
+                    </span>
+                  </div>
+                  <Dropdown>
+                    <DropdownTrigger>
+                      <Button
+                        aria-label={`Toggle ${distance.name} Options Menu`}
+                        isIconOnly
+                        className="z-1"
+                        size="sm"
+                        radius="lg"
+                        variant="light"
+                      >
+                        <VerticalMenuIcon size={17} />
+                      </Button>
+                    </DropdownTrigger>
+                    <DropdownMenu
+                      aria-label={`Option Menu For ${distance.name} Distance`}
+                      onAction={(key) =>
+                        handleDistanceOptionSelection(key as string, distance)
+                      }
+                    >
+                      <DropdownItem key="edit">Edit</DropdownItem>
+                      <DropdownItem key="delete" className="text-danger">
+                        Delete
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </div>
+              ))}
+            </div>
+            <div className="flex gap-1.5 justify-center">
+              <Button
+                className="font-medium"
+                color="primary"
+                size="sm"
+                onPress={handleAddDistanceButton}
+              >
+                Add Distance
+              </Button>
+              <Button
+                size="sm"
+                variant="flat"
+                onPress={handleRestoreDistanceButton}
+              >
+                Restore Default Distances
+              </Button>
+            </div>
+          </div>
         )}
       </div>
     </>
