@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Distance, EquipmentWeight, PresetsType } from "../typings";
 import Database from "tauri-plugin-sql-api";
 import { useDisclosure } from "@nextui-org/react";
+import { UpdateIsFavorite, UpdateItemInList } from "../helpers";
 
 export const usePresetsList = (
   getEquipmentWeightsOnLoad: boolean,
@@ -147,6 +148,53 @@ export const usePresetsList = (
     }
   };
 
+  const toggleFavoriteEquipmentWeight = async (
+    equipmentWeight: EquipmentWeight
+  ) => {
+    const newFavoriteValue = equipmentWeight.is_favorite === 1 ? 0 : 1;
+
+    const success = await UpdateIsFavorite(
+      equipmentWeight.id,
+      "equipment",
+      newFavoriteValue
+    );
+
+    if (!success) return;
+
+    const updatedEquipmentWeight: EquipmentWeight = {
+      ...equipmentWeight,
+      is_favorite: newFavoriteValue,
+    };
+
+    const updatedEquipmentWeights = UpdateItemInList(
+      equipmentWeights,
+      updatedEquipmentWeight
+    );
+
+    setEquipmentWeights(updatedEquipmentWeights);
+  };
+
+  const toggleFavoriteDistance = async (distance: Distance) => {
+    const newFavoriteValue = distance.is_favorite === 1 ? 0 : 1;
+
+    const success = await UpdateIsFavorite(
+      distance.id,
+      "distance",
+      newFavoriteValue
+    );
+
+    if (!success) return;
+
+    const updatedDistance: Distance = {
+      ...distance,
+      is_favorite: newFavoriteValue,
+    };
+
+    const updatedDistances = UpdateItemInList(distances, updatedDistance);
+
+    setDistances(updatedDistances);
+  };
+
   return {
     equipmentWeights,
     setEquipmentWeights,
@@ -167,5 +215,7 @@ export const usePresetsList = (
     handleListFavoritesFirstChange,
     equipmentFavoritesCheckboxValue,
     distanceFavoritesCheckboxValue,
+    toggleFavoriteEquipmentWeight,
+    toggleFavoriteDistance,
   };
 };
