@@ -262,6 +262,8 @@ export default function UserMeasurementList() {
           header="User Measurement List"
           filterQuery={filterQuery}
           setFilterQuery={setFilterQuery}
+          filteredListLength={filteredUserMeasurements.length}
+          totalListLength={userMeasurements.length}
         />
         <UserMeasurementAccordion
           userMeasurementEntries={filteredUserMeasurements}

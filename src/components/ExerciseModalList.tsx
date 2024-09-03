@@ -12,12 +12,22 @@ export const ExerciseModalList = ({
   handleClickExercise,
   exerciseList,
 }: ExerciseModalListProps) => {
-  const { filterQuery, setFilterQuery, filteredExercises, toggleFavorite } =
-    exerciseList;
+  const {
+    filterQuery,
+    setFilterQuery,
+    filteredExercises,
+    toggleFavorite,
+    exercises,
+  } = exerciseList;
 
   return (
     <div className="h-[400px] flex flex-col gap-2">
-      <SearchInput filterQuery={filterQuery} setFilterQuery={setFilterQuery} />
+      <SearchInput
+        filterQuery={filterQuery}
+        setFilterQuery={setFilterQuery}
+        filteredListLength={filteredExercises.length}
+        totalListLength={exercises.length}
+      />
       <ScrollShadow className="flex flex-col gap-1">
         {filteredExercises.map((exercise) => (
           <div

@@ -365,6 +365,8 @@ export default function MeasurementList() {
           header="Measurement List"
           filterQuery={filterQuery}
           setFilterQuery={setFilterQuery}
+          filteredListLength={filteredMeasurements.length}
+          totalListLength={measurements.length}
           bottomContent={
             <div className="flex justify-between gap-1 w-full items-center">
               <Button

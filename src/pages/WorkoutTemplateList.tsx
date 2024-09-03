@@ -224,6 +224,8 @@ export default function WorkoutTemplateList() {
           header="Workout Templates"
           filterQuery={filterQuery}
           setFilterQuery={setFilterQuery}
+          filteredListLength={filteredWorkoutTemplates.length}
+          totalListLength={workoutTemplates.length}
           bottomContent={
             <div className="flex justify-center">
               <Button

@@ -31,6 +31,7 @@ export const WorkoutTemplateListModal = ({
     filteredWorkoutTemplates,
     filterQuery,
     setFilterQuery,
+    workoutTemplates,
   } = workoutTemplateList;
 
   return (
@@ -47,6 +48,8 @@ export const WorkoutTemplateListModal = ({
                 <SearchInput
                   filterQuery={filterQuery}
                   setFilterQuery={setFilterQuery}
+                  filteredListLength={filteredWorkoutTemplates.length}
+                  totalListLength={workoutTemplates.length}
                 />
                 <ScrollShadow className="flex flex-col gap-1">
                   {filteredWorkoutTemplates.map((template) => (

@@ -460,6 +460,8 @@ export default function Multisets() {
         <SearchInput
           filterQuery={multisetActions.filterQuery}
           setFilterQuery={multisetActions.setFilterQuery}
+          filteredListLength={multisetActions.filteredMultisets.length}
+          totalListLength={multisetActions.multisets.length}
         />
         <MultisetAccordion
           multisets={multisetActions.filteredMultisets}

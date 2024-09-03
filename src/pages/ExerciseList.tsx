@@ -253,6 +253,8 @@ export default function ExerciseList() {
           header="Exercise List"
           filterQuery={filterQuery}
           setFilterQuery={setFilterQuery}
+          filteredListLength={filteredExercises.length}
+          totalListLength={exercises.length}
           bottomContent={
             <div className="flex justify-between gap-1 w-full items-center">
               <Button
