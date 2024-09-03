@@ -5,6 +5,7 @@ import {
   WeightUnitDropdown,
   DeleteModal,
   ListPageSearchInput,
+  FavoriteButton,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
 import { EquipmentWeight, UserSettingsOptional, Distance } from "../typings";
@@ -93,6 +94,8 @@ export default function Presets() {
     handleListFavoritesFirstChange,
     equipmentFavoritesCheckboxValue,
     distanceFavoritesCheckboxValue,
+    toggleFavoriteEquipmentWeight,
+    toggleFavoriteDistance,
   } = usePresetsList(true, true);
 
   useEffect(() => {
@@ -653,41 +656,49 @@ export default function Presets() {
                   key={`equipment-${equipment.id}`}
                 >
                   <div className="flex flex-col justify-start items-start">
-                    <span className="w-[21.5rem] truncate text-left">
+                    <span className="w-[19.5rem] truncate text-left">
                       {equipment.name}
                     </span>
                     <span className="text-xs text-secondary text-left">
                       {equipment.weight} {equipment.weight_unit}
                     </span>
                   </div>
-                  <Dropdown>
-                    <DropdownTrigger>
-                      <Button
-                        aria-label={`Toggle ${equipment.name} Options Menu`}
-                        isIconOnly
-                        className="z-1"
-                        size="sm"
-                        radius="lg"
-                        variant="light"
+                  <div className="flex items-center gap-0.5">
+                    <FavoriteButton
+                      name={equipment.name}
+                      isFavorite={!!equipment.is_favorite}
+                      item={equipment}
+                      toggleFavorite={toggleFavoriteEquipmentWeight}
+                    />
+                    <Dropdown>
+                      <DropdownTrigger>
+                        <Button
+                          aria-label={`Toggle ${equipment.name} Options Menu`}
+                          isIconOnly
+                          className="z-1"
+                          size="sm"
+                          radius="lg"
+                          variant="light"
+                        >
+                          <VerticalMenuIcon size={17} />
+                        </Button>
+                      </DropdownTrigger>
+                      <DropdownMenu
+                        aria-label={`Option Menu For ${equipment.name} Equipment Weight`}
+                        onAction={(key) =>
+                          handleEquipmentWeightOptionSelection(
+                            key as string,
+                            equipment
+                          )
+                        }
                       >
-                        <VerticalMenuIcon size={17} />
-                      </Button>
-                    </DropdownTrigger>
-                    <DropdownMenu
-                      aria-label={`Option Menu For ${equipment.name} Equipment Weight`}
-                      onAction={(key) =>
-                        handleEquipmentWeightOptionSelection(
-                          key as string,
-                          equipment
-                        )
-                      }
-                    >
-                      <DropdownItem key="edit">Edit</DropdownItem>
-                      <DropdownItem key="delete" className="text-danger">
-                        Delete
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </Dropdown>
+                        <DropdownItem key="edit">Edit</DropdownItem>
+                        <DropdownItem key="delete" className="text-danger">
+                          Delete
+                        </DropdownItem>
+                      </DropdownMenu>
+                    </Dropdown>
+                  </div>
                 </div>
               ))}
             </div>
@@ -742,38 +753,46 @@ export default function Presets() {
                   key={`distance-${distance.id}`}
                 >
                   <div className="flex flex-col justify-start items-start">
-                    <span className="w-[21.5rem] truncate text-left">
+                    <span className="w-[19.5rem] truncate text-left">
                       {distance.name}
                     </span>
                     <span className="text-xs text-secondary text-left">
                       {distance.distance} {distance.distance_unit}
                     </span>
                   </div>
-                  <Dropdown>
-                    <DropdownTrigger>
-                      <Button
-                        aria-label={`Toggle ${distance.name} Options Menu`}
-                        isIconOnly
-                        className="z-1"
-                        size="sm"
-                        radius="lg"
-                        variant="light"
+                  <div className="flex items-center gap-0.5">
+                    <FavoriteButton
+                      name={distance.name}
+                      isFavorite={!!distance.is_favorite}
+                      item={distance}
+                      toggleFavorite={toggleFavoriteDistance}
+                    />
+                    <Dropdown>
+                      <DropdownTrigger>
+                        <Button
+                          aria-label={`Toggle ${distance.name} Options Menu`}
+                          isIconOnly
+                          className="z-1"
+                          size="sm"
+                          radius="lg"
+                          variant="light"
+                        >
+                          <VerticalMenuIcon size={17} />
+                        </Button>
+                      </DropdownTrigger>
+                      <DropdownMenu
+                        aria-label={`Option Menu For ${distance.name} Distance`}
+                        onAction={(key) =>
+                          handleDistanceOptionSelection(key as string, distance)
+                        }
                       >
-                        <VerticalMenuIcon size={17} />
-                      </Button>
-                    </DropdownTrigger>
-                    <DropdownMenu
-                      aria-label={`Option Menu For ${distance.name} Distance`}
-                      onAction={(key) =>
-                        handleDistanceOptionSelection(key as string, distance)
-                      }
-                    >
-                      <DropdownItem key="edit">Edit</DropdownItem>
-                      <DropdownItem key="delete" className="text-danger">
-                        Delete
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </Dropdown>
+                        <DropdownItem key="edit">Edit</DropdownItem>
+                        <DropdownItem key="delete" className="text-danger">
+                          Delete
+                        </DropdownItem>
+                      </DropdownMenu>
+                    </Dropdown>
+                  </div>
                 </div>
               ))}
             </div>
