@@ -56,7 +56,7 @@ export const useExerciseList = (
     exercises: Exercise[],
     listFavoritesFirst: boolean
   ) => {
-    exercises.sort((a, b) => {
+    const sortedArray = [...exercises].sort((a, b) => {
       if (listFavoritesFirst && b.is_favorite !== a.is_favorite) {
         return b.is_favorite - a.is_favorite;
       } else {
@@ -66,7 +66,7 @@ export const useExerciseList = (
       }
     });
 
-    setExercises(exercises);
+    setExercises(sortedArray);
   };
 
   const toggleFavorite = async (exercise: Exercise) => {

@@ -15,6 +15,8 @@ export const usePresetsList = (
   const [presetsType, setPresetsType] = useState<PresetsType>(
     defaultPresetType ?? "equipment"
   );
+  const [favoritesCheckboxValue, setFavoritesCheckboxValue] =
+    useState<boolean>(true);
 
   const equipmentWeightsAreLoaded = useRef(false);
   const distancesAreLoaded = useRef(false);
@@ -82,6 +84,33 @@ export const usePresetsList = (
     [presetsListModal, getEquipmentWeights, getDistances]
   );
 
+  const handleListFavoritesFirstChange = (
+    presetsType: PresetsType,
+    listFavoritesFirst: boolean
+  ) => {
+    setFavoritesCheckboxValue(listFavoritesFirst);
+
+    if (presetsType === "equipment") {
+      const sortedArray = [...equipmentWeights].sort((a, b) => {
+        if (listFavoritesFirst && b.is_favorite !== a.is_favorite) {
+          return b.is_favorite - a.is_favorite;
+        } else {
+          return a.name.localeCompare(b.name);
+        }
+      });
+      setEquipmentWeights(sortedArray);
+    } else if (presetsType === "distance") {
+      const sortedArray = [...distances].sort((a, b) => {
+        if (listFavoritesFirst && b.is_favorite !== a.is_favorite) {
+          return b.is_favorite - a.is_favorite;
+        } else {
+          return a.name.localeCompare(b.name);
+        }
+      });
+      setDistances(sortedArray);
+    }
+  };
+
   return {
     equipmentWeights,
     setEquipmentWeights,
@@ -93,5 +122,7 @@ export const usePresetsList = (
     setPresetsType,
     presetsListModal,
     handleOpenPresetsModal,
+    favoritesCheckboxValue,
+    handleListFavoritesFirstChange,
   };
 };

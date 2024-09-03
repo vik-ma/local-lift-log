@@ -1,6 +1,6 @@
 import Database from "tauri-plugin-sql-api";
 
-type TargetType = "exercise" | "equipment-weight" | "distance";
+type TargetType = "exercise" | "equipment" | "distance";
 
 export const UpdateIsFavorite = async (
   id: number,
@@ -11,7 +11,7 @@ export const UpdateIsFavorite = async (
 
   if (targetType === "exercise") {
     queryString = "UPDATE exercises SET is_favorite = $1 WHERE id = $2";
-  } else if (targetType === "equipment-weight") {
+  } else if (targetType === "equipment") {
     queryString = "UPDATE equipment_weights SET is_favorite = $1 WHERE id = $2";
   } else if (targetType === "distance") {
     queryString = "UPDATE distances SET is_favorite = $1 WHERE id = $2";
