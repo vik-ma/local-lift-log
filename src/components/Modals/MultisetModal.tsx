@@ -104,6 +104,7 @@ export const MultisetModal = ({
     filteredMultisets,
     multisetTypeMap,
     clearMultiset,
+    multisets,
   } = useMultisetActions;
 
   const handleLeftButton = () => {
@@ -170,6 +171,7 @@ export const MultisetModal = ({
                   numNewSets={numNewSets}
                   setNumNewSets={setNumNewSets}
                   numSetsOptions={numSetsOptions}
+                  multisets={multisets}
                 />
               ) : (
                 <div className="flex flex-col items-center gap-2.5 h-[400px]">

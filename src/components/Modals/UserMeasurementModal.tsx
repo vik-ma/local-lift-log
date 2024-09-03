@@ -138,6 +138,8 @@ export const UserMeasurementModal = ({
                     <SearchInput
                       filterQuery={filterQuery}
                       setFilterQuery={setFilterQuery}
+                      filteredListLength={filteredMeasurements.size}
+                      totalListLength={measurements.size}
                     />
                     <ScrollShadow className="flex flex-col gap-1">
                       {Array.from(filteredMeasurements).map(([key, value]) => (

@@ -11,6 +11,7 @@ type MultisetTemplateModalListProps = {
   numNewSets: string;
   setNumNewSets: React.Dispatch<React.SetStateAction<string>>;
   numSetsOptions: string[];
+  multisets: Multiset[];
 };
 
 export const MultisetTemplateModalList = ({
@@ -22,6 +23,7 @@ export const MultisetTemplateModalList = ({
   numNewSets,
   setNumNewSets,
   numSetsOptions,
+  multisets,
 }: MultisetTemplateModalListProps) => {
   return (
     <div className="h-[400px] flex flex-col gap-2">
@@ -29,6 +31,8 @@ export const MultisetTemplateModalList = ({
         <SearchInput
           filterQuery={filterQuery}
           setFilterQuery={setFilterQuery}
+          filteredListLength={filteredMultisets.length}
+          totalListLength={multisets.length}
         />
         <Select
           label="Number Of Sets To Add"
