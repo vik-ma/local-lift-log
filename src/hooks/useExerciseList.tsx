@@ -38,10 +38,10 @@ export const useExerciseList = (
   }, [exercises, filterQuery]);
 
   const sortExercisesByName = (
-    exercises: Exercise[],
+    exerciseList: Exercise[],
     listFavoritesFirst: boolean
   ) => {
-    exercises.sort((a, b) => {
+    exerciseList.sort((a, b) => {
       if (listFavoritesFirst && b.is_favorite !== a.is_favorite) {
         return b.is_favorite - a.is_favorite;
       } else {
@@ -49,14 +49,14 @@ export const useExerciseList = (
       }
     });
 
-    setExercises(exercises);
+    setExercises(exerciseList);
   };
 
   const sortExercisesByNumSetsCompleted = (
-    exercises: Exercise[],
+    exerciseList: Exercise[],
     listFavoritesFirst: boolean
   ) => {
-    const sortedArray = [...exercises].sort((a, b) => {
+    const sortedArray = [...exerciseList].sort((a, b) => {
       if (listFavoritesFirst && b.is_favorite !== a.is_favorite) {
         return b.is_favorite - a.is_favorite;
       } else {

@@ -68,7 +68,7 @@ export const usePresetsList = (
         "SELECT * FROM equipment_weights"
       );
 
-      setEquipmentWeights(result);
+      sortEquipmentWeightsByName(result, true);
       equipmentWeightsAreLoaded.current = true;
     } catch (error) {
       console.log(error);
@@ -81,7 +81,7 @@ export const usePresetsList = (
 
       const result = await db.select<Distance[]>("SELECT * FROM distances");
 
-      setDistances(result);
+      sortDistancesByName(result, true);
       distancesAreLoaded.current = true;
     } catch (error) {
       console.log(error);
