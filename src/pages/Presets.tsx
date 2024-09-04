@@ -649,60 +649,62 @@ export default function Presets() {
         </ModalContent>
       </Modal>
       <div className="flex flex-col items-center gap-1">
-        {showEquipmentWeightStickyDiv && (
-          <ListPageSearchInput
-            header="Equipment Weight List"
-            filterQuery={filterQueryEquipment}
-            setFilterQuery={setFilterQueryEquipment}
-            filteredListLength={filteredEquipmentWeights.length}
-            totalListLength={equipmentWeights.length}
-            bottomContent={
-              <div className="flex justify-between gap-1 w-full items-center">
-                <Button
-                  color="secondary"
-                  variant="flat"
-                  onPress={handleAddEquipmentWeightButton}
-                  size="sm"
-                >
-                  New Equipment Weight
-                </Button>
-                <Checkbox
-                  className="px-3"
-                  isSelected={favoritesCheckboxValueEquipment}
-                  onValueChange={(value) =>
-                    handleListFavoritesFirstChange("equipment", value)
+        <ListPageSearchInput
+          className={
+            showEquipmentWeightStickyDiv
+              ? "opacity-1 duration-300"
+              : "opacity-0 duration-300"
+          }
+          header="Equipment Weight List"
+          filterQuery={filterQueryEquipment}
+          setFilterQuery={setFilterQueryEquipment}
+          filteredListLength={filteredEquipmentWeights.length}
+          totalListLength={equipmentWeights.length}
+          bottomContent={
+            <div className="flex justify-between gap-1 w-full items-center">
+              <Button
+                color="secondary"
+                variant="flat"
+                onPress={handleAddEquipmentWeightButton}
+                size="sm"
+              >
+                New Equipment Weight
+              </Button>
+              <Checkbox
+                className="px-3"
+                isSelected={favoritesCheckboxValueEquipment}
+                onValueChange={(value) =>
+                  handleListFavoritesFirstChange("equipment", value)
+                }
+                size="sm"
+              >
+                List Favorites First
+              </Checkbox>
+              <Dropdown>
+                <DropdownTrigger>
+                  <Button className="z-1" variant="flat" size="sm">
+                    Sort By
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu
+                  selectionMode="single"
+                  selectedKeys={[sortCategoryEquipment]}
+                  onAction={(key) =>
+                    handleSortOptionSelectionEquipment(key as string)
                   }
-                  size="sm"
                 >
-                  List Favorites First
-                </Checkbox>
-                <Dropdown>
-                  <DropdownTrigger>
-                    <Button className="z-1" variant="flat" size="sm">
-                      Sort By
-                    </Button>
-                  </DropdownTrigger>
-                  <DropdownMenu
-                    selectionMode="single"
-                    selectedKeys={[sortCategoryEquipment]}
-                    onAction={(key) =>
-                      handleSortOptionSelectionEquipment(key as string)
-                    }
-                  >
-                    <DropdownItem key="name">Name (A-Z)</DropdownItem>
-                    <DropdownItem key="weight-desc">
-                      Weight (High-Low)
-                    </DropdownItem>
-                    <DropdownItem key="weight-asc">
-                      Weight (Low-High)
-                    </DropdownItem>
-                  </DropdownMenu>
-                </Dropdown>
-              </div>
-            }
-          />
-        )}
-
+                  <DropdownItem key="name">Name (A-Z)</DropdownItem>
+                  <DropdownItem key="weight-desc">
+                    Weight (High-Low)
+                  </DropdownItem>
+                  <DropdownItem key="weight-asc">
+                    Weight (Low-High)
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+            </div>
+          }
+        />
         {isLoading ? (
           <LoadingSpinner />
         ) : (
@@ -760,7 +762,7 @@ export default function Presets() {
                 </div>
               ))}
             </div>
-            <div className="flex justify-center">
+            <div className="flex justify-center pb-1.5">
               <Button
                 id="equipment-weight-sticky-div-breakpoint"
                 size="sm"
