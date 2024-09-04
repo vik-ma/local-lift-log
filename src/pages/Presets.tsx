@@ -96,6 +96,10 @@ export default function Presets() {
     favoritesCheckboxValueDistance,
     toggleFavoriteEquipmentWeight,
     toggleFavoriteDistance,
+    sortCategoryEquipment,
+    sortCategoryDistance,
+    handleSortOptionSelectionEquipment,
+    handleSortOptionSelectionDistance,
   } = usePresetsList(true, true);
 
   useEffect(() => {
@@ -642,6 +646,28 @@ export default function Presets() {
               >
                 List Favorites First
               </Checkbox>
+              <Dropdown>
+                <DropdownTrigger>
+                  <Button className="z-1" variant="flat" size="sm">
+                    Sort By
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu
+                  selectionMode="single"
+                  selectedKeys={[sortCategoryEquipment]}
+                  onAction={(key) =>
+                    handleSortOptionSelectionEquipment(key as string)
+                  }
+                >
+                  <DropdownItem key="name">Name (A-Z)</DropdownItem>
+                  <DropdownItem key="weight-desc">
+                    Weight (High-Low)
+                  </DropdownItem>
+                  <DropdownItem key="weight-asc">
+                    Weight (Low-High)
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
             </div>
           }
         />
@@ -739,6 +765,28 @@ export default function Presets() {
               >
                 List Favorites First
               </Checkbox>
+              <Dropdown>
+                <DropdownTrigger>
+                  <Button className="z-1" variant="flat" size="sm">
+                    Sort By
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu
+                  selectionMode="single"
+                  selectedKeys={[sortCategoryDistance]}
+                  onAction={(key) =>
+                    handleSortOptionSelectionDistance(key as string)
+                  }
+                >
+                  <DropdownItem key="name">Name (A-Z)</DropdownItem>
+                  <DropdownItem key="distance-desc">
+                    Distance (High-Low)
+                  </DropdownItem>
+                  <DropdownItem key="distance-asc">
+                    Distance (Low-High)
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
             </div>
           }
         />

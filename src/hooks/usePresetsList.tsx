@@ -329,5 +329,9 @@ export const usePresetsList = (
     favoritesCheckboxValueDistance,
     toggleFavoriteEquipmentWeight,
     toggleFavoriteDistance,
+    sortCategoryEquipment,
+    sortCategoryDistance,
+    handleSortOptionSelectionEquipment,
+    handleSortOptionSelectionDistance,
   };
 };
