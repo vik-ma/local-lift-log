@@ -481,6 +481,35 @@ export default function Presets() {
     toast.success("Default Distances Restored");
   };
 
+  const [showEquipmentWeightStickyDiv, setShowEquipmentWeightStickyDiv] =
+    useState(true);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const breakpointElement = document.getElementById(
+        "equipment-weight-sticky-div-breakpoint"
+      );
+      if (breakpointElement) {
+        const rect = breakpointElement.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+
+        // Check if Restore Default Equipment Weights button is in the top 30% of the screen
+        if (rect.top <= windowHeight * 0.3 && rect.bottom >= 0) {
+          setShowEquipmentWeightStickyDiv(false);
+        } else {
+          setShowEquipmentWeightStickyDiv(true);
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    // Cleanup event listener on component unmount
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -620,57 +649,60 @@ export default function Presets() {
         </ModalContent>
       </Modal>
       <div className="flex flex-col items-center gap-1">
-        <ListPageSearchInput
-          header="Equipment Weight List"
-          filterQuery={filterQueryEquipment}
-          setFilterQuery={setFilterQueryEquipment}
-          filteredListLength={filteredEquipmentWeights.length}
-          totalListLength={equipmentWeights.length}
-          bottomContent={
-            <div className="flex justify-between gap-1 w-full items-center">
-              <Button
-                color="secondary"
-                variant="flat"
-                onPress={handleAddEquipmentWeightButton}
-                size="sm"
-              >
-                New Equipment Weight
-              </Button>
-              <Checkbox
-                className="px-3"
-                isSelected={favoritesCheckboxValueEquipment}
-                onValueChange={(value) =>
-                  handleListFavoritesFirstChange("equipment", value)
-                }
-                size="sm"
-              >
-                List Favorites First
-              </Checkbox>
-              <Dropdown>
-                <DropdownTrigger>
-                  <Button className="z-1" variant="flat" size="sm">
-                    Sort By
-                  </Button>
-                </DropdownTrigger>
-                <DropdownMenu
-                  selectionMode="single"
-                  selectedKeys={[sortCategoryEquipment]}
-                  onAction={(key) =>
-                    handleSortOptionSelectionEquipment(key as string)
-                  }
+        {showEquipmentWeightStickyDiv && (
+          <ListPageSearchInput
+            header="Equipment Weight List"
+            filterQuery={filterQueryEquipment}
+            setFilterQuery={setFilterQueryEquipment}
+            filteredListLength={filteredEquipmentWeights.length}
+            totalListLength={equipmentWeights.length}
+            bottomContent={
+              <div className="flex justify-between gap-1 w-full items-center">
+                <Button
+                  color="secondary"
+                  variant="flat"
+                  onPress={handleAddEquipmentWeightButton}
+                  size="sm"
                 >
-                  <DropdownItem key="name">Name (A-Z)</DropdownItem>
-                  <DropdownItem key="weight-desc">
-                    Weight (High-Low)
-                  </DropdownItem>
-                  <DropdownItem key="weight-asc">
-                    Weight (Low-High)
-                  </DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            </div>
-          }
-        />
+                  New Equipment Weight
+                </Button>
+                <Checkbox
+                  className="px-3"
+                  isSelected={favoritesCheckboxValueEquipment}
+                  onValueChange={(value) =>
+                    handleListFavoritesFirstChange("equipment", value)
+                  }
+                  size="sm"
+                >
+                  List Favorites First
+                </Checkbox>
+                <Dropdown>
+                  <DropdownTrigger>
+                    <Button className="z-1" variant="flat" size="sm">
+                      Sort By
+                    </Button>
+                  </DropdownTrigger>
+                  <DropdownMenu
+                    selectionMode="single"
+                    selectedKeys={[sortCategoryEquipment]}
+                    onAction={(key) =>
+                      handleSortOptionSelectionEquipment(key as string)
+                    }
+                  >
+                    <DropdownItem key="name">Name (A-Z)</DropdownItem>
+                    <DropdownItem key="weight-desc">
+                      Weight (High-Low)
+                    </DropdownItem>
+                    <DropdownItem key="weight-asc">
+                      Weight (Low-High)
+                    </DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+              </div>
+            }
+          />
+        )}
+
         {isLoading ? (
           <LoadingSpinner />
         ) : (
@@ -730,6 +762,7 @@ export default function Presets() {
             </div>
             <div className="flex justify-center">
               <Button
+                id="equipment-weight-sticky-div-breakpoint"
                 size="sm"
                 variant="flat"
                 onPress={handleRestoreEquipmentButton}
