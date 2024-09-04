@@ -4,6 +4,10 @@ import Database from "tauri-plugin-sql-api";
 import { useDisclosure } from "@nextui-org/react";
 import { UpdateIsFavorite, UpdateItemInList } from "../helpers";
 
+type EquipmentWeightSortCategory = "name" | "weight-desc" | "weight-asc";
+
+type DistanceSortCategory = "name" | "distance-desc" | "distance-asc";
+
 export const usePresetsList = (
   getEquipmentWeightsOnLoad: boolean,
   getDistancesOnLoad: boolean,
@@ -22,6 +26,10 @@ export const usePresetsList = (
     useState<boolean>(true);
   const [filterQueryEquipment, setFilterQueryEquipment] = useState<string>("");
   const [filterQueryDistance, setFilterQueryDistance] = useState<string>("");
+  const [sortCategoryEquipment, setSortCategoryEquipment] =
+    useState<EquipmentWeightSortCategory>("name");
+  const [sortCategoryDistance, setSortCategoryDistance] =
+    useState<DistanceSortCategory>("name");
 
   const equipmentWeightsAreLoaded = useRef(false);
   const distancesAreLoaded = useRef(false);
@@ -132,6 +140,7 @@ export const usePresetsList = (
         return a.name.localeCompare(b.name);
       }
     });
+
     setEquipmentWeights(equipmentWeightList);
   };
 
@@ -146,7 +155,48 @@ export const usePresetsList = (
         return a.name.localeCompare(b.name);
       }
     });
+
     setDistances(distanceList);
+  };
+
+  const sortEquipmentWeightsByWeight = (
+    equipmentWeightList: EquipmentWeight[],
+    listFavoritesFirst: boolean,
+    isAscending: boolean
+  ) => {
+    const sortedArray = equipmentWeightList.sort((a, b) => {
+      if (listFavoritesFirst && b.is_favorite !== a.is_favorite) {
+        return b.is_favorite - a.is_favorite;
+      } else {
+        if (isAscending) {
+          return a.weight - b.weight;
+        } else {
+          return b.weight - a.weight;
+        }
+      }
+    });
+
+    setEquipmentWeights(sortedArray);
+  };
+
+  const sortDistancesByDistance = (
+    distanceList: Distance[],
+    listFavoritesFirst: boolean,
+    isAscending: boolean
+  ) => {
+    const sortedArray = distanceList.sort((a, b) => {
+      if (listFavoritesFirst && b.is_favorite !== a.is_favorite) {
+        return b.is_favorite - a.is_favorite;
+      } else {
+        if (isAscending) {
+          return a.distance - b.distance;
+        } else {
+          return b.distance - a.distance;
+        }
+      }
+    });
+
+    setDistances(sortedArray);
   };
 
   const handleListFavoritesFirstChange = (

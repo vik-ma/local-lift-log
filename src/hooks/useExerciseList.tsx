@@ -56,7 +56,7 @@ export const useExerciseList = (
     exerciseList: Exercise[],
     listFavoritesFirst: boolean
   ) => {
-    const sortedArray = [...exerciseList].sort((a, b) => {
+    const sortedArray = exerciseList.sort((a, b) => {
       if (listFavoritesFirst && b.is_favorite !== a.is_favorite) {
         return b.is_favorite - a.is_favorite;
       } else {
