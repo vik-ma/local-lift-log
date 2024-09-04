@@ -87,7 +87,11 @@ export const useExerciseList = (
 
     const updatedExercises = UpdateItemInList(exercises, updatedExercise);
 
-    sortExercisesByName(updatedExercises, favoritesCheckboxValue);
+    if (sortCategory === "name") {
+      sortExercisesByName(updatedExercises, favoritesCheckboxValue);
+    } else if (sortCategory === "num-sets") {
+      sortExercisesByNumSetsCompleted(updatedExercises, favoritesCheckboxValue);
+    }
   };
 
   const handleSortOptionSelection = (key: string) => {

@@ -185,7 +185,10 @@ export const usePresetsList = (
       updatedEquipmentWeight
     );
 
-    setEquipmentWeights(updatedEquipmentWeights);
+    sortEquipmentWeightsByName(
+      updatedEquipmentWeights,
+      equipmentFavoritesCheckboxValue
+    );
   };
 
   const toggleFavoriteDistance = async (distance: Distance) => {
@@ -206,7 +209,7 @@ export const usePresetsList = (
 
     const updatedDistances = UpdateItemInList(distances, updatedDistance);
 
-    setDistances(updatedDistances);
+    sortDistancesByName(updatedDistances, distanceFavoritesCheckboxValue);
   };
 
   return {
