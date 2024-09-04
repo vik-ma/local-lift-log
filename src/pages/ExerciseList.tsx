@@ -279,6 +279,7 @@ export default function ExerciseList() {
                   </Button>
                 </DropdownTrigger>
                 <DropdownMenu
+                  selectionMode="single"
                   selectedKeys={[sortCategory]}
                   onAction={(key) => handleSortOptionSelection(key as string)}
                 >
