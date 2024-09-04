@@ -199,6 +199,51 @@ export const usePresetsList = (
     setDistances(sortedArray);
   };
 
+  const handleSortOptionSelectionEquipment = (key: string) => {
+    if (key === "name") {
+      setSortCategoryEquipment(key);
+      sortEquipmentWeightsByName(
+        [...equipmentWeights],
+        equipmentFavoritesCheckboxValue
+      );
+    } else if (key === "weight-desc") {
+      setSortCategoryEquipment(key);
+      sortEquipmentWeightsByWeight(
+        [...equipmentWeights],
+        equipmentFavoritesCheckboxValue,
+        false
+      );
+    } else if (key === "weight-asc") {
+      setSortCategoryEquipment(key);
+      sortEquipmentWeightsByWeight(
+        [...equipmentWeights],
+        equipmentFavoritesCheckboxValue,
+        true
+      );
+    }
+  };
+
+  const handleSortOptionSelectionDistance = (key: string) => {
+    if (key === "name") {
+      setSortCategoryDistance(key);
+      sortDistancesByName([...distances], distanceFavoritesCheckboxValue);
+    } else if (key === "distance-desc") {
+      setSortCategoryDistance(key);
+      sortDistancesByDistance(
+        [...distances],
+        distanceFavoritesCheckboxValue,
+        false
+      );
+    } else if (key === "distance-asc") {
+      setSortCategoryDistance(key);
+      sortDistancesByDistance(
+        [...distances],
+        distanceFavoritesCheckboxValue,
+        true
+      );
+    }
+  };
+
   const handleListFavoritesFirstChange = (
     presetsType: PresetsType,
     value: boolean
