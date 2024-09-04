@@ -92,8 +92,8 @@ export default function Presets() {
     setFilterQueryDistance,
     filteredDistances,
     handleListFavoritesFirstChange,
-    equipmentFavoritesCheckboxValue,
-    distanceFavoritesCheckboxValue,
+    favoritesCheckboxValueEquipment,
+    favoritesCheckboxValueDistance,
     toggleFavoriteEquipmentWeight,
     toggleFavoriteDistance,
   } = usePresetsList(true, true);
@@ -634,7 +634,7 @@ export default function Presets() {
               </Button>
               <Checkbox
                 className="px-3"
-                isSelected={equipmentFavoritesCheckboxValue}
+                isSelected={favoritesCheckboxValueEquipment}
                 onValueChange={(value) =>
                   handleListFavoritesFirstChange("equipment", value)
                 }
@@ -731,7 +731,7 @@ export default function Presets() {
               </Button>
               <Checkbox
                 className="px-3"
-                isSelected={distanceFavoritesCheckboxValue}
+                isSelected={favoritesCheckboxValueDistance}
                 onValueChange={(value) =>
                   handleListFavoritesFirstChange("distance", value)
                 }
