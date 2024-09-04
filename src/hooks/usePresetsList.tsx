@@ -121,30 +121,44 @@ export const usePresetsList = (
     [presetsListModal, getEquipmentWeights, getDistances]
   );
 
-  const handleListFavoritesFirstChange = (
-    presetsType: PresetsType,
+  const sortEquipmentWeightsByName = (
+    equipmentWeightList: EquipmentWeight[],
     listFavoritesFirst: boolean
   ) => {
+    equipmentWeightList.sort((a, b) => {
+      if (listFavoritesFirst && b.is_favorite !== a.is_favorite) {
+        return b.is_favorite - a.is_favorite;
+      } else {
+        return a.name.localeCompare(b.name);
+      }
+    });
+    setEquipmentWeights(equipmentWeightList);
+  };
+
+  const sortDistancesByName = (
+    distanceList: Distance[],
+    listFavoritesFirst: boolean
+  ) => {
+    distanceList.sort((a, b) => {
+      if (listFavoritesFirst && b.is_favorite !== a.is_favorite) {
+        return b.is_favorite - a.is_favorite;
+      } else {
+        return a.name.localeCompare(b.name);
+      }
+    });
+    setDistances(distanceList);
+  };
+
+  const handleListFavoritesFirstChange = (
+    presetsType: PresetsType,
+    value: boolean
+  ) => {
     if (presetsType === "equipment") {
-      const sortedArray = [...equipmentWeights].sort((a, b) => {
-        if (listFavoritesFirst && b.is_favorite !== a.is_favorite) {
-          return b.is_favorite - a.is_favorite;
-        } else {
-          return a.name.localeCompare(b.name);
-        }
-      });
-      setEquipmentWeights(sortedArray);
-      setEquipmentFavoritesCheckboxValue(listFavoritesFirst);
+      sortEquipmentWeightsByName([...equipmentWeights], value);
+      setEquipmentFavoritesCheckboxValue(value);
     } else if (presetsType === "distance") {
-      const sortedArray = [...distances].sort((a, b) => {
-        if (listFavoritesFirst && b.is_favorite !== a.is_favorite) {
-          return b.is_favorite - a.is_favorite;
-        } else {
-          return a.name.localeCompare(b.name);
-        }
-      });
-      setDistances(sortedArray);
-      setDistanceFavoritesCheckboxValue(listFavoritesFirst);
+      sortDistancesByName([...distances], value);
+      setDistanceFavoritesCheckboxValue(value);
     }
   };
 
