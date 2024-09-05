@@ -26,8 +26,8 @@ export const ListPageSearchInput = ({
     <div
       className={
         className !== undefined
-          ? `flex flex-col w-full gap-1 sticky top-16 z-30 bg-default-100 rounded-xl p-1.5 border-2 border-default-200 transition-opacity ${className}`
-          : "flex flex-col w-full gap-1 sticky top-16 z-30 bg-default-100 rounded-xl p-1.5 border-2 border-default-200 transition-opacity"
+          ? `flex flex-col w-full gap-1.5 sticky top-16 z-30 bg-default-100 rounded-xl p-1.5 border-2 border-default-200 transition-opacity ${className}`
+          : "flex flex-col w-full gap-1.5 sticky top-16 z-30 bg-default-100 rounded-xl p-1.5 border-2 border-default-200 transition-opacity"
       }
     >
       <h1 className="px-0.5 font-bold from-[#FF705B] to-[#FFB457] text-3xl bg-clip-text text-transparent bg-gradient-to-tl truncate">
