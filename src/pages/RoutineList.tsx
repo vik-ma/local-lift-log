@@ -7,7 +7,7 @@ import {
   DropdownItem,
 } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Routine, UserSettingsOptional } from "../typings";
 import toast, { Toaster } from "react-hot-toast";
 import Database from "tauri-plugin-sql-api";
@@ -20,7 +20,13 @@ import {
   UpdateItemInList,
   FormatNumItemsString,
 } from "../helpers";
-import { LoadingSpinner, DeleteModal, RoutineModal } from "../components";
+import {
+  LoadingSpinner,
+  DeleteModal,
+  RoutineModal,
+  ListPageSearchInput,
+  EmptyListLabel,
+} from "../components";
 import { useDefaultRoutine, useIsRoutineValid } from "../hooks";
 import { VerticalMenuIcon } from "../assets";
 
@@ -31,6 +37,16 @@ export default function RoutineList() {
   const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [operationType, setOperationType] = useState<OperationType>("add");
+  const [filterQuery, setFilterQuery] = useState<string>("");
+
+  const filteredRoutines = useMemo(() => {
+    if (filterQuery !== "") {
+      return routines.filter((item) =>
+        item.name.toLocaleLowerCase().includes(filterQuery.toLocaleLowerCase())
+      );
+    }
+    return routines;
+  }, [routines, filterQuery]);
 
   const navigate = useNavigate();
 
@@ -247,18 +263,32 @@ export default function RoutineList() {
         deleteButtonAction={deleteRoutine}
       />
 
-      <div className="flex flex-col gap-4">
-        <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">
-          <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">
-            Routines
-          </h1>
-        </div>
+      <div className="flex flex-col items-center gap-1">
+        <ListPageSearchInput
+          header="Routine List"
+          filterQuery={filterQuery}
+          setFilterQuery={setFilterQuery}
+          filteredListLength={filteredRoutines.length}
+          totalListLength={routines.length}
+          bottomContent={
+            <div className="flex justify-between gap-1 w-full items-center">
+              <Button
+                color="secondary"
+                variant="flat"
+                onPress={handleCreateNewRoutineButton}
+                size="sm"
+              >
+                New Routine
+              </Button>
+            </div>
+          }
+        />
         {isLoading ? (
           <LoadingSpinner />
         ) : (
           <>
             <div className="flex flex-col gap-1 w-full">
-              {routines.map((routine) => {
+              {filteredRoutines.map((routine) => {
                 const isActiveRoutine =
                   userSettings.active_routine_id === routine.id;
                 const numWorkoutTemplates = routine.numWorkoutTemplates ?? 0;
@@ -330,15 +360,9 @@ export default function RoutineList() {
                   </div>
                 );
               })}
-            </div>
-            <div className="flex justify-center">
-              <Button
-                className="font-medium"
-                variant="flat"
-                onPress={handleCreateNewRoutineButton}
-              >
-                Create New Routine
-              </Button>
+              {filteredRoutines.length === 0 && (
+                <EmptyListLabel itemName="Routines" />
+              )}
             </div>
           </>
         )}
