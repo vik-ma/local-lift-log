@@ -6,6 +6,7 @@ import {
   DeleteModal,
   ListPageSearchInput,
   FavoriteButton,
+  EmptyListLabel,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
 import { EquipmentWeight, UserSettingsOptional, Distance } from "../typings";
@@ -630,7 +631,11 @@ export default function Presets() {
           selectedKey={selectedTab}
           onSelectionChange={(key) => setSelectedTab(key as string)}
         >
-          <Tab key="equipment" title="Equipment Weights">
+          <Tab
+            className="w-full px-0"
+            key="equipment"
+            title="Equipment Weights"
+          >
             <>
               <ListPageSearchInput
                 header="Equipment Weight List"
@@ -687,7 +692,7 @@ export default function Presets() {
               {isLoading ? (
                 <LoadingSpinner />
               ) : (
-                <div className="flex flex-col gap-1.5 w-full">
+                <div className="flex flex-col gap-1.5">
                   <div className="flex flex-col gap-1">
                     {filteredEquipmentWeights.map((equipment) => (
                       <div
@@ -743,8 +748,11 @@ export default function Presets() {
                         </div>
                       </div>
                     ))}
+                    {filteredEquipmentWeights.length === 0 && (
+                      <EmptyListLabel itemName="Exercises" />
+                    )}
                   </div>
-                  <div className="flex justify-center pb-1.5">
+                  <div className="flex justify-center">
                     <Button
                       size="sm"
                       variant="flat"
@@ -757,7 +765,7 @@ export default function Presets() {
               )}
             </>
           </Tab>
-          <Tab key="distance" title="Distances">
+          <Tab className="w-full px-0" key="distance" title="Distances">
             <ListPageSearchInput
               header="Distance List"
               filterQuery={filterQueryDistance}
@@ -813,7 +821,7 @@ export default function Presets() {
             {isLoading ? (
               <LoadingSpinner />
             ) : (
-              <div className="flex flex-col gap-1.5 w-full">
+              <div className="flex flex-col gap-1.5">
                 <div className="flex flex-col gap-1">
                   {filteredDistances.map((distance) => (
                     <div
@@ -866,6 +874,9 @@ export default function Presets() {
                       </div>
                     </div>
                   ))}
+                  {filteredDistances.length === 0 && (
+                    <EmptyListLabel itemName="Distances" />
+                  )}
                 </div>
                 <div className="flex justify-center">
                   <Button
