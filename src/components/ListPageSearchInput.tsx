@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useMemo } from "react";
 import { SearchInput } from ".";
 
 type ListPageSearchInputProps = {
@@ -10,6 +10,7 @@ type ListPageSearchInputProps = {
   bottomContent?: ReactNode;
   className?: string;
   disableAutoFocus?: boolean;
+  extraTopSpace?: boolean;
 };
 
 export const ListPageSearchInput = ({
@@ -21,13 +22,18 @@ export const ListPageSearchInput = ({
   bottomContent,
   className,
   disableAutoFocus,
+  extraTopSpace,
 }: ListPageSearchInputProps) => {
+  const topSpace = useMemo(() => {
+    return extraTopSpace ? "top-[6.5rem]" : "top-16";
+  }, [extraTopSpace]);
+
   return (
     <div
       className={
         className !== undefined
-          ? `flex flex-col w-full gap-1.5 sticky top-16 z-30 bg-default-100 rounded-xl p-1.5 border-2 border-default-200 transition-opacity ${className}`
-          : "flex flex-col w-full gap-1.5 sticky top-16 z-30 bg-default-100 rounded-xl p-1.5 border-2 border-default-200 transition-opacity"
+          ? `flex flex-col w-full gap-1.5 sticky ${topSpace} z-30 bg-default-100 rounded-xl p-1.5 border-2 border-default-200 transition-opacity ${className}`
+          : `flex flex-col w-full gap-1.5 sticky ${topSpace} z-30 bg-default-100 rounded-xl p-1.5 border-2 border-default-200 transition-opacity`
       }
     >
       <h1 className="px-0.5 font-bold from-[#FF705B] to-[#FFB457] text-3xl bg-clip-text text-transparent bg-gradient-to-tl truncate">

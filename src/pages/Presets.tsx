@@ -651,7 +651,7 @@ export default function Presets() {
           )}
         </ModalContent>
       </Modal>
-      <div className="flex flex-col items-center gap-1">
+      <div className="flex flex-col items-center">
         <Tabs
           className="sticky top-16 z-30"
           aria-label="Preset Type"
@@ -672,6 +672,7 @@ export default function Presets() {
                 setFilterQuery={setFilterQueryEquipment}
                 filteredListLength={filteredEquipmentWeights.length}
                 totalListLength={equipmentWeights.length}
+                extraTopSpace={true}
                 bottomContent={
                   <div className="flex justify-between gap-1 w-full items-center">
                     <Button
@@ -798,6 +799,7 @@ export default function Presets() {
               setFilterQuery={setFilterQueryDistance}
               filteredListLength={filteredDistances.length}
               totalListLength={distances.length}
+              extraTopSpace={true}
               bottomContent={
                 <div className="flex justify-between gap-1 w-full items-center">
                   <Button
