@@ -484,35 +484,6 @@ export default function Presets() {
     toast.success("Default Distances Restored");
   };
 
-  const [showEquipmentWeightStickyDiv, setShowEquipmentWeightStickyDiv] =
-    useState(true);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const breakpointElement = document.getElementById(
-        "equipment-weight-sticky-div-breakpoint"
-      );
-      if (breakpointElement) {
-        const rect = breakpointElement.getBoundingClientRect();
-        const windowHeight = window.innerHeight;
-
-        // Check if Restore Default Equipment Weights button is in the top 30% of the screen
-        if (rect.top <= windowHeight * 0.3 && rect.bottom >= 0) {
-          setShowEquipmentWeightStickyDiv(false);
-        } else {
-          setShowEquipmentWeightStickyDiv(true);
-        }
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    // Cleanup event listener on component unmount
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -654,7 +625,7 @@ export default function Presets() {
       <div className="flex flex-col items-center">
         <Tabs
           className="sticky top-16 z-30"
-          aria-label="Preset Type"
+          aria-label="Preset Type Option"
           fullWidth
           selectedKey={selectedTab}
           onSelectionChange={(key) => setSelectedTab(key as string)}
@@ -662,11 +633,6 @@ export default function Presets() {
           <Tab key="equipment" title="Equipment Weights">
             <>
               <ListPageSearchInput
-                className={
-                  showEquipmentWeightStickyDiv
-                    ? "opacity-1 duration-300"
-                    : "opacity-0 duration-300"
-                }
                 header="Equipment Weight List"
                 filterQuery={filterQueryEquipment}
                 setFilterQuery={setFilterQueryEquipment}
@@ -780,7 +746,6 @@ export default function Presets() {
                   </div>
                   <div className="flex justify-center pb-1.5">
                     <Button
-                      id="equipment-weight-sticky-div-breakpoint"
                       size="sm"
                       variant="flat"
                       onPress={handleRestoreEquipmentButton}
