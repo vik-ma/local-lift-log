@@ -9,6 +9,7 @@ type ListPageSearchInputProps = {
   totalListLength: number;
   bottomContent?: ReactNode;
   className?: string;
+  disableAutoFocus?: boolean;
 };
 
 export const ListPageSearchInput = ({
@@ -19,6 +20,7 @@ export const ListPageSearchInput = ({
   totalListLength,
   bottomContent,
   className,
+  disableAutoFocus,
 }: ListPageSearchInputProps) => {
   return (
     <div
@@ -37,6 +39,7 @@ export const ListPageSearchInput = ({
         filteredListLength={filteredListLength}
         totalListLength={totalListLength}
         isSmall
+        disableAutoFocus={disableAutoFocus}
       />
       {bottomContent !== undefined && (
         <div className="pt-0.5">{bottomContent}</div>

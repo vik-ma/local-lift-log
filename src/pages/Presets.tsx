@@ -780,6 +780,7 @@ export default function Presets() {
           setFilterQuery={setFilterQueryDistance}
           filteredListLength={filteredDistances.length}
           totalListLength={distances.length}
+          disableAutoFocus={true}
           bottomContent={
             <div className="flex justify-between gap-1 w-full items-center">
               <Button

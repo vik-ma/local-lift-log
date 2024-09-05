@@ -7,6 +7,7 @@ type SearchInputProps = {
   filteredListLength: number;
   totalListLength: number;
   isSmall?: boolean;
+  disableAutoFocus?: boolean;
 };
 
 export const SearchInput = ({
@@ -15,6 +16,7 @@ export const SearchInput = ({
   filteredListLength,
   totalListLength,
   isSmall,
+  disableAutoFocus,
 }: SearchInputProps) => {
   return (
     <Input
@@ -30,6 +32,7 @@ export const SearchInput = ({
           "Search"
         )
       }
+      autoFocus={!disableAutoFocus}
       variant="faded"
       placeholder="Type to search..."
       isClearable
