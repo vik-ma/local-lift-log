@@ -23,6 +23,8 @@ import {
   DropdownMenu,
   DropdownItem,
   Checkbox,
+  Tabs,
+  Tab,
 } from "@nextui-org/react";
 import {
   ConvertNumberToTwoDecimals,
@@ -48,6 +50,7 @@ export default function Presets() {
   const [presetType, setPresetType] = useState<PresetType>("equipment");
   const [nameInput, setNameInput] = useState<string>("");
   const [valueInput, setValueInput] = useState<string>("");
+  const [selectedTab, setSelectedTab] = useState<string>("equipment");
 
   const defaultEquipmentWeight: EquipmentWeight = useMemo(() => {
     return {
@@ -649,248 +652,267 @@ export default function Presets() {
         </ModalContent>
       </Modal>
       <div className="flex flex-col items-center gap-1">
-        <ListPageSearchInput
-          className={
-            showEquipmentWeightStickyDiv
-              ? "opacity-1 duration-300"
-              : "opacity-0 duration-300"
-          }
-          header="Equipment Weight List"
-          filterQuery={filterQueryEquipment}
-          setFilterQuery={setFilterQueryEquipment}
-          filteredListLength={filteredEquipmentWeights.length}
-          totalListLength={equipmentWeights.length}
-          bottomContent={
-            <div className="flex justify-between gap-1 w-full items-center">
-              <Button
-                color="secondary"
-                variant="flat"
-                onPress={handleAddEquipmentWeightButton}
-                size="sm"
-              >
-                New Equipment Weight
-              </Button>
-              <Checkbox
-                className="px-3"
-                isSelected={favoritesCheckboxValueEquipment}
-                onValueChange={(value) =>
-                  handleListFavoritesFirstChange("equipment", value)
+        <Tabs
+          className="sticky top-16 z-30"
+          aria-label="Preset Type"
+          fullWidth
+          selectedKey={selectedTab}
+          onSelectionChange={(key) => setSelectedTab(key as string)}
+        >
+          <Tab key="equipment" title="Equipment Weights">
+            <>
+              <ListPageSearchInput
+                className={
+                  showEquipmentWeightStickyDiv
+                    ? "opacity-1 duration-300"
+                    : "opacity-0 duration-300"
                 }
-                size="sm"
-              >
-                List Favorites First
-              </Checkbox>
-              <Dropdown>
-                <DropdownTrigger>
-                  <Button className="z-1" variant="flat" size="sm">
-                    Sort By
-                  </Button>
-                </DropdownTrigger>
-                <DropdownMenu
-                  selectionMode="single"
-                  selectedKeys={[sortCategoryEquipment]}
-                  onAction={(key) =>
-                    handleSortOptionSelectionEquipment(key as string)
-                  }
-                >
-                  <DropdownItem key="name">Name (A-Z)</DropdownItem>
-                  <DropdownItem key="weight-desc">
-                    Weight (High-Low)
-                  </DropdownItem>
-                  <DropdownItem key="weight-asc">
-                    Weight (Low-High)
-                  </DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            </div>
-          }
-        />
-        {isLoading ? (
-          <LoadingSpinner />
-        ) : (
-          <div className="flex flex-col gap-1.5 w-full">
-            <div className="flex flex-col gap-1">
-              {filteredEquipmentWeights.map((equipment) => (
-                <div
-                  className="flex flex-row justify-between items-center gap-1 cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-                  key={`equipment-${equipment.id}`}
-                >
-                  <div className="flex flex-col justify-start items-start">
-                    <span className="w-[19.5rem] truncate text-left">
-                      {equipment.name}
-                    </span>
-                    <span className="text-xs text-secondary text-left">
-                      {equipment.weight} {equipment.weight_unit}
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-0.5">
-                    <FavoriteButton
-                      name={equipment.name}
-                      isFavorite={!!equipment.is_favorite}
-                      item={equipment}
-                      toggleFavorite={toggleFavoriteEquipmentWeight}
-                    />
+                header="Equipment Weight List"
+                filterQuery={filterQueryEquipment}
+                setFilterQuery={setFilterQueryEquipment}
+                filteredListLength={filteredEquipmentWeights.length}
+                totalListLength={equipmentWeights.length}
+                bottomContent={
+                  <div className="flex justify-between gap-1 w-full items-center">
+                    <Button
+                      color="secondary"
+                      variant="flat"
+                      onPress={handleAddEquipmentWeightButton}
+                      size="sm"
+                    >
+                      New Equipment Weight
+                    </Button>
+                    <Checkbox
+                      className="px-3"
+                      isSelected={favoritesCheckboxValueEquipment}
+                      onValueChange={(value) =>
+                        handleListFavoritesFirstChange("equipment", value)
+                      }
+                      size="sm"
+                    >
+                      List Favorites First
+                    </Checkbox>
                     <Dropdown>
                       <DropdownTrigger>
-                        <Button
-                          aria-label={`Toggle ${equipment.name} Options Menu`}
-                          isIconOnly
-                          className="z-1"
-                          size="sm"
-                          radius="lg"
-                          variant="light"
-                        >
-                          <VerticalMenuIcon size={17} />
+                        <Button className="z-1" variant="flat" size="sm">
+                          Sort By
                         </Button>
                       </DropdownTrigger>
                       <DropdownMenu
-                        aria-label={`Option Menu For ${equipment.name} Equipment Weight`}
+                        selectionMode="single"
+                        selectedKeys={[sortCategoryEquipment]}
                         onAction={(key) =>
-                          handleEquipmentWeightOptionSelection(
-                            key as string,
-                            equipment
-                          )
+                          handleSortOptionSelectionEquipment(key as string)
                         }
                       >
-                        <DropdownItem key="edit">Edit</DropdownItem>
-                        <DropdownItem key="delete" className="text-danger">
-                          Delete
+                        <DropdownItem key="name">Name (A-Z)</DropdownItem>
+                        <DropdownItem key="weight-desc">
+                          Weight (High-Low)
+                        </DropdownItem>
+                        <DropdownItem key="weight-asc">
+                          Weight (Low-High)
                         </DropdownItem>
                       </DropdownMenu>
                     </Dropdown>
                   </div>
-                </div>
-              ))}
-            </div>
-            <div className="flex justify-center pb-1.5">
-              <Button
-                id="equipment-weight-sticky-div-breakpoint"
-                size="sm"
-                variant="flat"
-                onPress={handleRestoreEquipmentButton}
-              >
-                Restore Default Equipment Weights
-              </Button>
-            </div>
-          </div>
-        )}
-        <ListPageSearchInput
-          header="Distance List"
-          filterQuery={filterQueryDistance}
-          setFilterQuery={setFilterQueryDistance}
-          filteredListLength={filteredDistances.length}
-          totalListLength={distances.length}
-          disableAutoFocus={true}
-          bottomContent={
-            <div className="flex justify-between gap-1 w-full items-center">
-              <Button
-                color="secondary"
-                variant="flat"
-                onPress={handleAddDistanceButton}
-                size="sm"
-              >
-                New Distance
-              </Button>
-              <Checkbox
-                className="px-3"
-                isSelected={favoritesCheckboxValueDistance}
-                onValueChange={(value) =>
-                  handleListFavoritesFirstChange("distance", value)
                 }
-                size="sm"
-              >
-                List Favorites First
-              </Checkbox>
-              <Dropdown>
-                <DropdownTrigger>
-                  <Button className="z-1" variant="flat" size="sm">
-                    Sort By
-                  </Button>
-                </DropdownTrigger>
-                <DropdownMenu
-                  selectionMode="single"
-                  selectedKeys={[sortCategoryDistance]}
-                  onAction={(key) =>
-                    handleSortOptionSelectionDistance(key as string)
-                  }
-                >
-                  <DropdownItem key="name">Name (A-Z)</DropdownItem>
-                  <DropdownItem key="distance-desc">
-                    Distance (High-Low)
-                  </DropdownItem>
-                  <DropdownItem key="distance-asc">
-                    Distance (Low-High)
-                  </DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            </div>
-          }
-        />
-        {isLoading ? (
-          <LoadingSpinner />
-        ) : (
-          <div className="flex flex-col gap-1.5 w-full">
-            <div className="flex flex-col gap-1">
-              {filteredDistances.map((distance) => (
-                <div
-                  className="flex flex-row justify-between items-center gap-1 cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-                  key={`distance-${distance.id}`}
-                >
-                  <div className="flex flex-col justify-start items-start">
-                    <span className="w-[19.5rem] truncate text-left">
-                      {distance.name}
-                    </span>
-                    <span className="text-xs text-secondary text-left">
-                      {distance.distance} {distance.distance_unit}
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-0.5">
-                    <FavoriteButton
-                      name={distance.name}
-                      isFavorite={!!distance.is_favorite}
-                      item={distance}
-                      toggleFavorite={toggleFavoriteDistance}
-                    />
-                    <Dropdown>
-                      <DropdownTrigger>
-                        <Button
-                          aria-label={`Toggle ${distance.name} Options Menu`}
-                          isIconOnly
-                          className="z-1"
-                          size="sm"
-                          radius="lg"
-                          variant="light"
-                        >
-                          <VerticalMenuIcon size={17} />
-                        </Button>
-                      </DropdownTrigger>
-                      <DropdownMenu
-                        aria-label={`Option Menu For ${distance.name} Distance`}
-                        onAction={(key) =>
-                          handleDistanceOptionSelection(key as string, distance)
-                        }
+              />
+              {isLoading ? (
+                <LoadingSpinner />
+              ) : (
+                <div className="flex flex-col gap-1.5 w-full">
+                  <div className="flex flex-col gap-1">
+                    {filteredEquipmentWeights.map((equipment) => (
+                      <div
+                        className="flex flex-row justify-between items-center gap-1 cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                        key={`equipment-${equipment.id}`}
                       >
-                        <DropdownItem key="edit">Edit</DropdownItem>
-                        <DropdownItem key="delete" className="text-danger">
-                          Delete
-                        </DropdownItem>
-                      </DropdownMenu>
-                    </Dropdown>
+                        <div className="flex flex-col justify-start items-start">
+                          <span className="w-[19.5rem] truncate text-left">
+                            {equipment.name}
+                          </span>
+                          <span className="text-xs text-secondary text-left">
+                            {equipment.weight} {equipment.weight_unit}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-0.5">
+                          <FavoriteButton
+                            name={equipment.name}
+                            isFavorite={!!equipment.is_favorite}
+                            item={equipment}
+                            toggleFavorite={toggleFavoriteEquipmentWeight}
+                          />
+                          <Dropdown>
+                            <DropdownTrigger>
+                              <Button
+                                aria-label={`Toggle ${equipment.name} Options Menu`}
+                                isIconOnly
+                                className="z-1"
+                                size="sm"
+                                radius="lg"
+                                variant="light"
+                              >
+                                <VerticalMenuIcon size={17} />
+                              </Button>
+                            </DropdownTrigger>
+                            <DropdownMenu
+                              aria-label={`Option Menu For ${equipment.name} Equipment Weight`}
+                              onAction={(key) =>
+                                handleEquipmentWeightOptionSelection(
+                                  key as string,
+                                  equipment
+                                )
+                              }
+                            >
+                              <DropdownItem key="edit">Edit</DropdownItem>
+                              <DropdownItem
+                                key="delete"
+                                className="text-danger"
+                              >
+                                Delete
+                              </DropdownItem>
+                            </DropdownMenu>
+                          </Dropdown>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="flex justify-center pb-1.5">
+                    <Button
+                      id="equipment-weight-sticky-div-breakpoint"
+                      size="sm"
+                      variant="flat"
+                      onPress={handleRestoreEquipmentButton}
+                    >
+                      Restore Default Equipment Weights
+                    </Button>
                   </div>
                 </div>
-              ))}
-            </div>
-            <div className="flex justify-center">
-              <Button
-                size="sm"
-                variant="flat"
-                onPress={handleRestoreDistanceButton}
-              >
-                Restore Default Distances
-              </Button>
-            </div>
-          </div>
-        )}
+              )}
+            </>
+          </Tab>
+          <Tab key="distance" title="Distances">
+            <ListPageSearchInput
+              header="Distance List"
+              filterQuery={filterQueryDistance}
+              setFilterQuery={setFilterQueryDistance}
+              filteredListLength={filteredDistances.length}
+              totalListLength={distances.length}
+              bottomContent={
+                <div className="flex justify-between gap-1 w-full items-center">
+                  <Button
+                    color="secondary"
+                    variant="flat"
+                    onPress={handleAddDistanceButton}
+                    size="sm"
+                  >
+                    New Distance
+                  </Button>
+                  <Checkbox
+                    className="px-3"
+                    isSelected={favoritesCheckboxValueDistance}
+                    onValueChange={(value) =>
+                      handleListFavoritesFirstChange("distance", value)
+                    }
+                    size="sm"
+                  >
+                    List Favorites First
+                  </Checkbox>
+                  <Dropdown>
+                    <DropdownTrigger>
+                      <Button className="z-1" variant="flat" size="sm">
+                        Sort By
+                      </Button>
+                    </DropdownTrigger>
+                    <DropdownMenu
+                      selectionMode="single"
+                      selectedKeys={[sortCategoryDistance]}
+                      onAction={(key) =>
+                        handleSortOptionSelectionDistance(key as string)
+                      }
+                    >
+                      <DropdownItem key="name">Name (A-Z)</DropdownItem>
+                      <DropdownItem key="distance-desc">
+                        Distance (High-Low)
+                      </DropdownItem>
+                      <DropdownItem key="distance-asc">
+                        Distance (Low-High)
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </div>
+              }
+            />
+            {isLoading ? (
+              <LoadingSpinner />
+            ) : (
+              <div className="flex flex-col gap-1.5 w-full">
+                <div className="flex flex-col gap-1">
+                  {filteredDistances.map((distance) => (
+                    <div
+                      className="flex flex-row justify-between items-center gap-1 cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                      key={`distance-${distance.id}`}
+                    >
+                      <div className="flex flex-col justify-start items-start">
+                        <span className="w-[19.5rem] truncate text-left">
+                          {distance.name}
+                        </span>
+                        <span className="text-xs text-secondary text-left">
+                          {distance.distance} {distance.distance_unit}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-0.5">
+                        <FavoriteButton
+                          name={distance.name}
+                          isFavorite={!!distance.is_favorite}
+                          item={distance}
+                          toggleFavorite={toggleFavoriteDistance}
+                        />
+                        <Dropdown>
+                          <DropdownTrigger>
+                            <Button
+                              aria-label={`Toggle ${distance.name} Options Menu`}
+                              isIconOnly
+                              className="z-1"
+                              size="sm"
+                              radius="lg"
+                              variant="light"
+                            >
+                              <VerticalMenuIcon size={17} />
+                            </Button>
+                          </DropdownTrigger>
+                          <DropdownMenu
+                            aria-label={`Option Menu For ${distance.name} Distance`}
+                            onAction={(key) =>
+                              handleDistanceOptionSelection(
+                                key as string,
+                                distance
+                              )
+                            }
+                          >
+                            <DropdownItem key="edit">Edit</DropdownItem>
+                            <DropdownItem key="delete" className="text-danger">
+                              Delete
+                            </DropdownItem>
+                          </DropdownMenu>
+                        </Dropdown>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex justify-center">
+                  <Button
+                    size="sm"
+                    variant="flat"
+                    onPress={handleRestoreDistanceButton}
+                  >
+                    Restore Default Distances
+                  </Button>
+                </div>
+              </div>
+            )}
+          </Tab>
+        </Tabs>
       </div>
     </>
   );
