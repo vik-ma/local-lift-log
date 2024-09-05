@@ -12,6 +12,7 @@ import {
   UserMeasurement,
   ReassignMeasurementsProps,
 } from "../typings";
+import { EmptyListLabel } from "./EmptyListLabel";
 
 type UserMeasurementAccordionProps = {
   userMeasurementEntries: UserMeasurement[];
@@ -163,6 +164,9 @@ export const UserMeasurementAccordion = ({
           </AnimatePresence>
         </div>
       ))}
+      {userMeasurementEntries.length === 0 && (
+        <EmptyListLabel itemName="User Measurements" />
+      )}
     </div>
   );
 };

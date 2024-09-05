@@ -16,6 +16,7 @@ import {
 import { useWorkoutRatingMap } from "../../hooks";
 import { FormatNumItemsString } from "../../helpers";
 import { useState } from "react";
+import { EmptyListLabel } from "..";
 
 type WorkoutListModalProps = {
   workoutListModal: UseDisclosureReturnType;
@@ -117,6 +118,9 @@ export const WorkoutListModal = ({
                           </div>
                         </div>
                       ))}
+                      {workouts.length === 0 && (
+                        <EmptyListLabel itemName="Workouts" />
+                      )}
                     </div>
                   </ScrollShadow>
                 ) : (

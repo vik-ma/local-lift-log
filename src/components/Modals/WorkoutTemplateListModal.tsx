@@ -13,7 +13,7 @@ import {
 } from "../../typings";
 import { ReactNode } from "react";
 import { FormatNumItemsString } from "../../helpers";
-import { SearchInput } from "..";
+import { EmptyListLabel, SearchInput } from "..";
 
 type WorkoutTemplateListModalProps = {
   workoutTemplateList: UseWorkoutTemplateListReturnType;
@@ -81,6 +81,9 @@ export const WorkoutTemplateListModal = ({
                       )}
                     </button>
                   ))}
+                  {filteredWorkoutTemplates.length === 0 && (
+                    <EmptyListLabel itemName="Workout Templates" />
+                  )}
                 </ScrollShadow>
               </div>
             </ModalBody>

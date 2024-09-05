@@ -8,7 +8,7 @@ import {
   Input,
   ScrollShadow,
 } from "@nextui-org/react";
-import { SearchInput, UserMeasurementReorderItem } from "..";
+import { EmptyListLabel, SearchInput, UserMeasurementReorderItem } from "..";
 import { Reorder } from "framer-motion";
 import {
   Measurement,
@@ -160,6 +160,9 @@ export const UserMeasurementModal = ({
                           </div>
                         </div>
                       ))}
+                      {filteredMeasurements.size === 0 && (
+                        <EmptyListLabel itemName="Measurements" />
+                      )}
                     </ScrollShadow>
                   </>
                 ) : (
