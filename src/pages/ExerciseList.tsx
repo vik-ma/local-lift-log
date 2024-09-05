@@ -24,6 +24,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import {
   DeleteModal,
+  EmptyListLabel,
   ExerciseModal,
   FavoriteButton,
   ListPageSearchInput,
@@ -361,6 +362,9 @@ export default function ExerciseList() {
                   </div>
                 </div>
               ))}
+              {filteredExercises.length === 0 && (
+                <EmptyListLabel itemName="Exercises" />
+              )}
             </div>
             <Button variant="flat" onPress={restoreDefaultExercises}>
               Restore Default Exercises

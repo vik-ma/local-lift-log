@@ -1,7 +1,12 @@
 import Database from "tauri-plugin-sql-api";
 import { useState, useEffect, useCallback } from "react";
 import { UserWeight, UserSettingsOptional } from "../typings";
-import { LoadingSpinner, DeleteModal, UserWeightModal } from "../components";
+import {
+  LoadingSpinner,
+  DeleteModal,
+  UserWeightModal,
+  EmptyListLabel,
+} from "../components";
 import {
   ConvertEmptyStringToNull,
   DeleteItemFromList,
@@ -262,6 +267,9 @@ export default function UserWeightList() {
                   </Dropdown>
                 </div>
               ))}
+              {userWeights.length === 0 && (
+                <EmptyListLabel itemName="User Weight Entries" />
+              )}
             </div>
           </>
         )}

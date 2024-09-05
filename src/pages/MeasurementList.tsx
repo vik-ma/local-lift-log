@@ -4,6 +4,7 @@ import {
   DeleteModal,
   MeasurementModal,
   ListPageSearchInput,
+  EmptyListLabel,
 } from "../components";
 import { Measurement, UserSettings } from "../typings";
 import Database from "tauri-plugin-sql-api";
@@ -448,6 +449,9 @@ export default function MeasurementList() {
                   </div>
                 </div>
               ))}
+              {filteredMeasurements.length === 0 && (
+                <EmptyListLabel itemName="Measurements" />
+              )}
             </div>
           </>
         )}

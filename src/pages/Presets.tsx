@@ -749,7 +749,7 @@ export default function Presets() {
                       </div>
                     ))}
                     {filteredEquipmentWeights.length === 0 && (
-                      <EmptyListLabel itemName="Exercises" />
+                      <EmptyListLabel itemName="Equipment Weights" />
                     )}
                   </div>
                   <div className="flex justify-center">

@@ -14,6 +14,7 @@ import {
   DeleteModal,
   WorkoutTemplateModal,
   ListPageSearchInput,
+  EmptyListLabel,
 } from "../components";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
@@ -227,7 +228,7 @@ export default function WorkoutTemplateList() {
           filteredListLength={filteredWorkoutTemplates.length}
           totalListLength={workoutTemplates.length}
           bottomContent={
-            <div className="flex justify-center">
+            <div className="flex justify-between w-full">
               <Button
                 color="secondary"
                 size="sm"
@@ -303,6 +304,9 @@ export default function WorkoutTemplateList() {
                   </Dropdown>
                 </div>
               ))}
+              {filteredWorkoutTemplates.length === 0 && (
+                <EmptyListLabel itemName="Workout Templates" />
+              )}
             </div>
           </>
         )}

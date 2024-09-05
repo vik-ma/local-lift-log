@@ -1,7 +1,12 @@
 import { useState, useEffect } from "react";
 import { UserSettingsOptional, Workout } from "../typings";
 import { useNavigate } from "react-router-dom";
-import { LoadingSpinner, DeleteModal, WorkoutModal } from "../components";
+import {
+  LoadingSpinner,
+  DeleteModal,
+  WorkoutModal,
+  EmptyListLabel,
+} from "../components";
 import Database from "tauri-plugin-sql-api";
 import {
   Button,
@@ -281,6 +286,7 @@ export default function WorkoutList() {
                   </div>
                 </div>
               ))}
+              {workouts.length === 0 && <EmptyListLabel itemName="Workouts" />}
             </div>
           </>
         )}
