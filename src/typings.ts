@@ -428,3 +428,38 @@ export type UseWorkoutTemplateListReturnType = {
 };
 
 export type PresetsType = "equipment" | "distance";
+
+export type EquipmentWeightSortCategory = "name" | "weight-desc" | "weight-asc";
+
+export type DistanceSortCategory = "name" | "distance-desc" | "distance-asc";
+
+export type UsePresetsListReturnType = {
+  equipmentWeights: EquipmentWeight[];
+  setEquipmentWeights: React.Dispatch<React.SetStateAction<EquipmentWeight[]>>;
+  distances: Distance[];
+  setDistances: React.Dispatch<React.SetStateAction<Distance[]>>;
+  getEquipmentWeights: () => void;
+  getDistances: () => void;
+  presetsType: PresetsType;
+  setPresetsType: React.Dispatch<React.SetStateAction<PresetsType>>;
+  calculationModal: UseDisclosureReturnType;
+  handleOpenCalculationModal: (presetsType: PresetsType) => void;
+  filterQueryEquipment: string;
+  setFilterQueryEquipment: React.Dispatch<React.SetStateAction<string>>;
+  filteredEquipmentWeights: EquipmentWeight[];
+  filterQueryDistance: string;
+  setFilterQueryDistance: React.Dispatch<React.SetStateAction<string>>;
+  filteredDistances: Distance[];
+  handleListFavoritesFirstChange: (
+    presetsType: PresetsType,
+    value: boolean
+  ) => void;
+  favoritesCheckboxValueEquipment: boolean;
+  favoritesCheckboxValueDistance: boolean;
+  toggleFavoriteEquipmentWeight: (equipmentWeight: EquipmentWeight) => void;
+  toggleFavoriteDistance: (distance: Distance) => void;
+  sortCategoryEquipment: EquipmentWeightSortCategory;
+  sortCategoryDistance: DistanceSortCategory;
+  handleSortOptionSelectionEquipment: (key: string) => void;
+  handleSortOptionSelectionDistance: (key: string) => void;
+};

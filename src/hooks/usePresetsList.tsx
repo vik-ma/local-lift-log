@@ -1,18 +1,21 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Distance, EquipmentWeight, PresetsType } from "../typings";
+import {
+  Distance,
+  EquipmentWeight,
+  PresetsType,
+  EquipmentWeightSortCategory,
+  DistanceSortCategory,
+  UsePresetsListReturnType,
+} from "../typings";
 import Database from "tauri-plugin-sql-api";
 import { useDisclosure } from "@nextui-org/react";
 import { UpdateIsFavorite, UpdateItemInList } from "../helpers";
-
-type EquipmentWeightSortCategory = "name" | "weight-desc" | "weight-asc";
-
-type DistanceSortCategory = "name" | "distance-desc" | "distance-asc";
 
 export const usePresetsList = (
   getEquipmentWeightsOnLoad: boolean,
   getDistancesOnLoad: boolean,
   defaultPresetType?: PresetsType
-) => {
+): UsePresetsListReturnType => {
   const [equipmentWeights, setEquipmentWeights] = useState<EquipmentWeight[]>(
     []
   );
@@ -34,7 +37,7 @@ export const usePresetsList = (
   const equipmentWeightsAreLoaded = useRef(false);
   const distancesAreLoaded = useRef(false);
 
-  const presetsListModal = useDisclosure();
+  const calculationModal = useDisclosure();
 
   const filteredEquipmentWeights = useMemo(() => {
     if (filterQueryEquipment !== "") {
@@ -111,7 +114,7 @@ export const usePresetsList = (
     getDistances,
   ]);
 
-  const handleOpenPresetsModal = useCallback(
+  const handleOpenCalculationModal = useCallback(
     (presetsType: PresetsType) => {
       if (
         presetsType === "equipment" &&
@@ -124,9 +127,9 @@ export const usePresetsList = (
         getDistances();
       }
 
-      presetsListModal.onOpen();
+      calculationModal.onOpen();
     },
-    [presetsListModal, getEquipmentWeights, getDistances]
+    [calculationModal, getEquipmentWeights, getDistances]
   );
 
   const sortEquipmentWeightsByName = (
@@ -316,8 +319,8 @@ export const usePresetsList = (
     getDistances,
     presetsType,
     setPresetsType,
-    presetsListModal,
-    handleOpenPresetsModal,
+    calculationModal,
+    handleOpenCalculationModal,
     filterQueryEquipment,
     setFilterQueryEquipment,
     filteredEquipmentWeights,
