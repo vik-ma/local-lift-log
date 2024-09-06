@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   Distance,
   EquipmentWeight,
@@ -6,17 +6,13 @@ import {
   EquipmentWeightSortCategory,
   DistanceSortCategory,
   UsePresetsListReturnType,
-  CalculationModalPage,
 } from "../typings";
 import Database from "tauri-plugin-sql-api";
 import { UpdateIsFavorite, UpdateItemInList } from "../helpers";
 
 export const usePresetsList = (
   getEquipmentWeightsOnLoad: boolean,
-  getDistancesOnLoad: boolean,
-  setCalculationModalPage?: React.Dispatch<
-    React.SetStateAction<CalculationModalPage>
-  >
+  getDistancesOnLoad: boolean
 ): UsePresetsListReturnType => {
   const [equipmentWeights, setEquipmentWeights] = useState<EquipmentWeight[]>(
     []
@@ -35,9 +31,6 @@ export const usePresetsList = (
     useState<DistanceSortCategory>("name");
   const [isLoadingEquipment, setIsLoadingEquipment] = useState<boolean>(true);
   const [isLoadingDistance, setIsLoadingDistance] = useState<boolean>(true);
-
-  const equipmentWeightsAreLoaded = useRef(false);
-  const distancesAreLoaded = useRef(false);
 
   const filteredEquipmentWeights = useMemo(() => {
     if (filterQueryEquipment !== "") {
@@ -80,7 +73,6 @@ export const usePresetsList = (
       );
 
       sortEquipmentWeightsByName(result, true);
-      equipmentWeightsAreLoaded.current = true;
       setIsLoadingEquipment(false);
     } catch (error) {
       console.log(error);
@@ -94,7 +86,6 @@ export const usePresetsList = (
       const result = await db.select<Distance[]>("SELECT * FROM distances");
 
       sortDistancesByName(result, true);
-      distancesAreLoaded.current = true;
       setIsLoadingDistance(false);
     } catch (error) {
       console.log(error);
@@ -115,26 +106,6 @@ export const usePresetsList = (
     getEquipmentWeights,
     getDistances,
   ]);
-
-  const handleOpenCalculationModal = useCallback(
-    (presetsType: PresetsType) => {
-      if (setCalculationModalPage === undefined) return;
-
-      if (
-        presetsType === "equipment" &&
-        equipmentWeightsAreLoaded.current === false
-      ) {
-        getEquipmentWeights();
-        setCalculationModalPage("equipment-list");
-      }
-
-      if (presetsType === "distance" && distancesAreLoaded.current === false) {
-        getDistances();
-        setCalculationModalPage("distance-list");
-      }
-    },
-    [getEquipmentWeights, getDistances, setCalculationModalPage]
-  );
 
   const sortEquipmentWeightsByName = (
     equipmentWeightList: EquipmentWeight[],
@@ -323,7 +294,6 @@ export const usePresetsList = (
     getDistances,
     presetsType,
     setPresetsType,
-    handleOpenCalculationModal,
     filterQueryEquipment,
     setFilterQueryEquipment,
     filteredEquipmentWeights,

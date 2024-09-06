@@ -438,11 +438,10 @@ export type UsePresetsListReturnType = {
   setEquipmentWeights: React.Dispatch<React.SetStateAction<EquipmentWeight[]>>;
   distances: Distance[];
   setDistances: React.Dispatch<React.SetStateAction<Distance[]>>;
-  getEquipmentWeights: () => void;
-  getDistances: () => void;
+  getEquipmentWeights: () => Promise<void>;
+  getDistances: () => Promise<void>;
   presetsType: PresetsType;
   setPresetsType: React.Dispatch<React.SetStateAction<PresetsType>>;
-  handleOpenCalculationModal: (presetsType: PresetsType) => void;
   filterQueryEquipment: string;
   setFilterQueryEquipment: React.Dispatch<React.SetStateAction<string>>;
   filteredEquipmentWeights: EquipmentWeight[];
