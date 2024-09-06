@@ -300,7 +300,7 @@ export default function ExerciseList() {
             <div className="flex flex-col gap-1 w-full">
               {filteredExercises.map((exercise) => (
                 <div
-                  className="flex flex-row justify-between items-center gap-1 bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                  className="flex flex-row justify-between items-center bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                   key={exercise.id}
                 >
                   <button

@@ -294,14 +294,14 @@ export default function RoutineList() {
                 const numWorkoutTemplates = routine.numWorkoutTemplates ?? 0;
                 return (
                   <div
-                    className="flex flex-row justify-between items-center gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                    className="flex flex-row justify-between items-center bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                     key={routine.id}
                   >
                     <button
                       className="flex flex-col justify-start items-start"
                       onClick={() => navigate(`/routines/${routine.id}`)}
                     >
-                      <span className="w-[14.5rem] truncate text-left">
+                      <span className="w-[16rem] truncate text-left">
                         {routine.name}
                       </span>
                       {numWorkoutTemplates > 0 && (
@@ -315,7 +315,7 @@ export default function RoutineList() {
                           : "Weekly Schedule"}
                       </span>
                     </button>
-                    <div className="flex gap-1.5 items-center">
+                    <div className="flex gap-1 items-center">
                       <Button
                         className="w-20"
                         size="sm"
