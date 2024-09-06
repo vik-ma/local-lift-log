@@ -6,7 +6,6 @@ import {
   EquipmentWeightSortCategory,
   DistanceSortCategory,
   UsePresetsListReturnType,
-  UseDisclosureReturnType,
   CalculationModalPage,
 } from "../typings";
 import Database from "tauri-plugin-sql-api";
@@ -17,8 +16,7 @@ export const usePresetsList = (
   getDistancesOnLoad: boolean,
   setCalculationModalPage?: React.Dispatch<
     React.SetStateAction<CalculationModalPage>
-  >,
-  calculationModal?: UseDisclosureReturnType
+  >
 ): UsePresetsListReturnType => {
   const [equipmentWeights, setEquipmentWeights] = useState<EquipmentWeight[]>(
     []
@@ -120,11 +118,7 @@ export const usePresetsList = (
 
   const handleOpenCalculationModal = useCallback(
     (presetsType: PresetsType) => {
-      if (
-        calculationModal === undefined ||
-        setCalculationModalPage === undefined
-      )
-        return;
+      if (setCalculationModalPage === undefined) return;
 
       if (
         presetsType === "equipment" &&
@@ -138,15 +132,8 @@ export const usePresetsList = (
         getDistances();
         setCalculationModalPage("distance-list");
       }
-
-      calculationModal.onOpen();
     },
-    [
-      calculationModal,
-      getEquipmentWeights,
-      getDistances,
-      setCalculationModalPage,
-    ]
+    [getEquipmentWeights, getDistances, setCalculationModalPage]
   );
 
   const sortEquipmentWeightsByName = (
