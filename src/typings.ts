@@ -464,3 +464,5 @@ export type UsePresetsListReturnType = {
   isLoadingEquipment: boolean;
   isLoadingDistance: boolean;
 };
+
+export type CalculationModalPage = "base" | "equipment-list" | "distance-list";

@@ -7,6 +7,7 @@ import {
   DistanceSortCategory,
   UsePresetsListReturnType,
   UseDisclosureReturnType,
+  CalculationModalPage,
 } from "../typings";
 import Database from "tauri-plugin-sql-api";
 import { UpdateIsFavorite, UpdateItemInList } from "../helpers";
@@ -14,16 +15,16 @@ import { UpdateIsFavorite, UpdateItemInList } from "../helpers";
 export const usePresetsList = (
   getEquipmentWeightsOnLoad: boolean,
   getDistancesOnLoad: boolean,
-  defaultPresetType?: PresetsType,
+  setCalculationModalPage?: React.Dispatch<
+    React.SetStateAction<CalculationModalPage>
+  >,
   calculationModal?: UseDisclosureReturnType
 ): UsePresetsListReturnType => {
   const [equipmentWeights, setEquipmentWeights] = useState<EquipmentWeight[]>(
     []
   );
   const [distances, setDistances] = useState<Distance[]>([]);
-  const [presetsType, setPresetsType] = useState<PresetsType>(
-    defaultPresetType ?? "equipment"
-  );
+  const [presetsType, setPresetsType] = useState<PresetsType>("equipment");
   const [favoritesCheckboxValueEquipment, setFavoritesCheckboxValueEquipment] =
     useState<boolean>(true);
   const [favoritesCheckboxValueDistance, setFavoritesCheckboxValueDistance] =
@@ -119,22 +120,33 @@ export const usePresetsList = (
 
   const handleOpenCalculationModal = useCallback(
     (presetsType: PresetsType) => {
-      if (calculationModal === undefined) return;
+      if (
+        calculationModal === undefined ||
+        setCalculationModalPage === undefined
+      )
+        return;
 
       if (
         presetsType === "equipment" &&
         equipmentWeightsAreLoaded.current === false
       ) {
         getEquipmentWeights();
+        setCalculationModalPage("equipment-list");
       }
 
       if (presetsType === "distance" && distancesAreLoaded.current === false) {
         getDistances();
+        setCalculationModalPage("distance-list");
       }
 
       calculationModal.onOpen();
     },
-    [calculationModal, getEquipmentWeights, getDistances]
+    [
+      calculationModal,
+      getEquipmentWeights,
+      getDistances,
+      setCalculationModalPage,
+    ]
   );
 
   const sortEquipmentWeightsByName = (
