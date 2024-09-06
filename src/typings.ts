@@ -464,7 +464,7 @@ export type UsePresetsListReturnType = {
   isLoadingDistance: boolean;
 };
 
-export type CalculationModalPage = "base" | "equipment-list" | "distance-list";
+export type CalculationModalPage = "base" | "list";
 
 export type UseCalculationModalReturnType = {
   calculationModal: UseDisclosureReturnType;

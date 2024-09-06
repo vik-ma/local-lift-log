@@ -1,28 +1,32 @@
 import { useState } from "react";
-import { MultisetDropdown } from "../components";
-import { Multiset } from "../typings";
-import { useDefaultMultiset } from "../hooks";
+import { useCalculationModal, usePresetsList } from "../hooks";
+import { Button } from "@nextui-org/react";
+import { CalculationModal } from "../components";
 
 export default function Test() {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
 
-  const defaultMultiset = useDefaultMultiset();
+  const calculationModal = useCalculationModal();
 
-  const [multiset, setMultiset] = useState<Multiset>(defaultMultiset);
+  const presetsList = usePresetsList(false, false);
 
   return (
     <>
+      <CalculationModal
+        useCalculationModal={calculationModal}
+        onClickAction={() => {}}
+        usePresetsList={presetsList}
+      />
       <div className="flex flex-col gap-2">
         <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">
           <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">
             TEST
           </h1>
         </div>
+        <Button onPress={() => calculationModal.calculationModal.onOpen()}>
+          Open
+        </Button>
         <div className="flex flex-col bg-white border border-black overflow-auto mb-20">
-          <MultisetDropdown
-            multiset_type={multiset.multiset_type}
-            setMultiset={setMultiset}
-          />
           Test
           <br />
           Test
