@@ -1,8 +1,11 @@
 import { useDisclosure } from "@nextui-org/react";
 import { useState } from "react";
-import { CalculationModalPage } from "../typings";
+import {
+  CalculationModalPage,
+  UseCalculationModalReturnType,
+} from "../typings";
 
-export const useCalculationModal = () => {
+export const useCalculationModal = (): UseCalculationModalReturnType => {
   const [calculationModalPage, setCalculationModalPage] =
     useState<CalculationModalPage>("base");
 

@@ -466,3 +466,11 @@ export type UsePresetsListReturnType = {
 };
 
 export type CalculationModalPage = "base" | "equipment-list" | "distance-list";
+
+export type UseCalculationModalReturnType = {
+  calculationModal: UseDisclosureReturnType;
+  calculationModalPage: CalculationModalPage;
+  setCalculationModalPage: React.Dispatch<
+    React.SetStateAction<CalculationModalPage>
+  >;
+};

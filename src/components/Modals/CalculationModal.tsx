@@ -11,14 +11,14 @@ import {
   Distance,
   EquipmentWeight,
   PresetsType,
-  UseDisclosureReturnType,
+  UseCalculationModalReturnType,
   UsePresetsListReturnType,
 } from "../../typings";
 import { FavoriteButton } from "../FavoriteButton";
 import { EmptyListLabel, LoadingSpinner, SearchInput } from "..";
 
 type CalculationModalProps = {
-  calculationModal: UseDisclosureReturnType;
+  useCalculationModal: UseCalculationModalReturnType;
   onClickAction: (
     presetsType: PresetsType,
     equipment?: EquipmentWeight,
@@ -28,7 +28,7 @@ type CalculationModalProps = {
 };
 
 export const CalculationModal = ({
-  calculationModal,
+  useCalculationModal,
   onClickAction,
   usePresetsList,
 }: CalculationModalProps) => {
@@ -47,6 +47,9 @@ export const CalculationModal = ({
     isLoadingEquipment,
     isLoadingDistance,
   } = usePresetsList;
+
+  const { calculationModal, calculationModalPage, setCalculationModalPage } =
+    useCalculationModal;
 
   return (
     <Modal
