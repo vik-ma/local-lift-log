@@ -461,4 +461,6 @@ export type UsePresetsListReturnType = {
   sortCategoryDistance: DistanceSortCategory;
   handleSortOptionSelectionEquipment: (key: string) => void;
   handleSortOptionSelectionDistance: (key: string) => void;
+  isLoadingEquipment: boolean;
+  isLoadingDistance: boolean;
 };

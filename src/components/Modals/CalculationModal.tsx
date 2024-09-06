@@ -15,7 +15,7 @@ import {
   UsePresetsListReturnType,
 } from "../../typings";
 import { FavoriteButton } from "../FavoriteButton";
-import { EmptyListLabel, SearchInput } from "..";
+import { EmptyListLabel, LoadingSpinner, SearchInput } from "..";
 
 type CalculationModalProps = {
   calculationModal: UseDisclosureReturnType;
@@ -44,6 +44,8 @@ export const CalculationModal = ({
     setFilterQueryDistance,
     filteredEquipmentWeights,
     filteredDistances,
+    isLoadingEquipment,
+    isLoadingDistance,
   } = usePresetsList;
 
   return (
@@ -84,35 +86,43 @@ export const CalculationModal = ({
                 />
                 <ScrollShadow className="flex flex-col gap-1 w-full">
                   {presetsType === "equipment" ? (
-                    <>
-                      {filteredEquipmentWeights.map((equipment) => (
-                        <div
-                          className="flex flex-row justify-between items-center gap-1 cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-                          key={`equipment-${equipment.id}`}
-                          onClick={() => onClickAction("equipment", equipment)}
-                        >
-                          <div className="flex flex-col justify-start items-start pl-2 py-1">
-                            <span className="w-[20.5rem] truncate text-left">
-                              {equipment.name}
-                            </span>
-                            <span className="text-xs text-secondary text-left">
-                              {equipment.weight} {equipment.weight_unit}
-                            </span>
+                    isLoadingEquipment ? (
+                      <LoadingSpinner />
+                    ) : (
+                      <>
+                        {filteredEquipmentWeights.map((equipment) => (
+                          <div
+                            className="flex flex-row justify-between items-center gap-1 cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                            key={`equipment-${equipment.id}`}
+                            onClick={() =>
+                              onClickAction("equipment", equipment)
+                            }
+                          >
+                            <div className="flex flex-col justify-start items-start pl-2 py-1">
+                              <span className="w-[20.5rem] truncate text-left">
+                                {equipment.name}
+                              </span>
+                              <span className="text-xs text-secondary text-left">
+                                {equipment.weight} {equipment.weight_unit}
+                              </span>
+                            </div>
+                            <div className="flex items-center pr-2">
+                              <FavoriteButton
+                                name={equipment.name}
+                                isFavorite={!!equipment.is_favorite}
+                                item={equipment}
+                                toggleFavorite={toggleFavoriteEquipmentWeight}
+                              />
+                            </div>
                           </div>
-                          <div className="flex items-center pr-2">
-                            <FavoriteButton
-                              name={equipment.name}
-                              isFavorite={!!equipment.is_favorite}
-                              item={equipment}
-                              toggleFavorite={toggleFavoriteEquipmentWeight}
-                            />
-                          </div>
-                        </div>
-                      ))}
-                      {filteredEquipmentWeights.length === 0 && (
-                        <EmptyListLabel itemName="Equipment Weights" />
-                      )}
-                    </>
+                        ))}
+                        {filteredEquipmentWeights.length === 0 && (
+                          <EmptyListLabel itemName="Equipment Weights" />
+                        )}
+                      </>
+                    )
+                  ) : isLoadingDistance ? (
+                    <LoadingSpinner />
                   ) : (
                     <>
                       {filteredDistances.map((distance) => (

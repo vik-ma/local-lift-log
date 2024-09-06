@@ -34,6 +34,8 @@ export const usePresetsList = (
     useState<EquipmentWeightSortCategory>("name");
   const [sortCategoryDistance, setSortCategoryDistance] =
     useState<DistanceSortCategory>("name");
+  const [isLoadingEquipment, setIsLoadingEquipment] = useState<boolean>(true);
+  const [isLoadingDistance, setIsLoadingDistance] = useState<boolean>(true);
 
   const equipmentWeightsAreLoaded = useRef(false);
   const distancesAreLoaded = useRef(false);
@@ -80,6 +82,7 @@ export const usePresetsList = (
 
       sortEquipmentWeightsByName(result, true);
       equipmentWeightsAreLoaded.current = true;
+      setIsLoadingEquipment(false);
     } catch (error) {
       console.log(error);
     }
@@ -93,6 +96,7 @@ export const usePresetsList = (
 
       sortDistancesByName(result, true);
       distancesAreLoaded.current = true;
+      setIsLoadingDistance(false);
     } catch (error) {
       console.log(error);
     }
@@ -336,5 +340,7 @@ export const usePresetsList = (
     sortCategoryDistance,
     handleSortOptionSelectionEquipment,
     handleSortOptionSelectionDistance,
+    isLoadingEquipment,
+    isLoadingDistance,
   };
 };
