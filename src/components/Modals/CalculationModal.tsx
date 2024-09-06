@@ -15,6 +15,7 @@ import {
   UsePresetsListReturnType,
 } from "../../typings";
 import { FavoriteButton } from "../FavoriteButton";
+import { SearchInput } from "..";
 
 type CalculationModalProps = {
   calculationModal: UseDisclosureReturnType;
@@ -37,6 +38,12 @@ export const CalculationModal = ({
     presetsType,
     toggleFavoriteEquipmentWeight,
     toggleFavoriteDistance,
+    filterQueryEquipment,
+    setFilterQueryEquipment,
+    filterQueryDistance,
+    setFilterQueryDistance,
+    filteredEquipmentWeights,
+    filteredDistances,
   } = usePresetsList;
 
   return (
@@ -53,9 +60,31 @@ export const CalculationModal = ({
             </ModalHeader>
             <ModalBody>
               <div className="h-[400px] flex flex-col gap-2">
+                <SearchInput
+                  filterQuery={
+                    presetsType === "equipment"
+                      ? filterQueryEquipment
+                      : filterQueryDistance
+                  }
+                  setFilterQuery={
+                    presetsType === "equipment"
+                      ? setFilterQueryEquipment
+                      : setFilterQueryDistance
+                  }
+                  filteredListLength={
+                    presetsType === "equipment"
+                      ? filteredEquipmentWeights.length
+                      : filteredDistances.length
+                  }
+                  totalListLength={
+                    presetsType === "equipment"
+                      ? equipmentWeights.length
+                      : distances.length
+                  }
+                />
                 <ScrollShadow className="flex flex-col gap-1 w-full">
                   {presetsType === "equipment"
-                    ? equipmentWeights.map((equipment) => (
+                    ? filteredEquipmentWeights.map((equipment) => (
                         <div
                           className="flex flex-row justify-between items-center gap-1 cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                           key={`equipment-${equipment.id}`}
@@ -79,7 +108,7 @@ export const CalculationModal = ({
                           </div>
                         </div>
                       ))
-                    : distances.map((distance) => (
+                    : filteredDistances.map((distance) => (
                         <div
                           className="flex flex-row justify-between items-center gap-1 cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                           key={`distance-${distance.id}`}
