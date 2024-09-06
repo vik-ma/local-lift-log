@@ -15,7 +15,7 @@ import {
   UsePresetsListReturnType,
 } from "../../typings";
 import { FavoriteButton } from "../FavoriteButton";
-import { SearchInput } from "..";
+import { EmptyListLabel, SearchInput } from "..";
 
 type CalculationModalProps = {
   calculationModal: UseDisclosureReturnType;
@@ -83,8 +83,9 @@ export const CalculationModal = ({
                   }
                 />
                 <ScrollShadow className="flex flex-col gap-1 w-full">
-                  {presetsType === "equipment"
-                    ? filteredEquipmentWeights.map((equipment) => (
+                  {presetsType === "equipment" ? (
+                    <>
+                      {filteredEquipmentWeights.map((equipment) => (
                         <div
                           className="flex flex-row justify-between items-center gap-1 cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                           key={`equipment-${equipment.id}`}
@@ -107,8 +108,14 @@ export const CalculationModal = ({
                             />
                           </div>
                         </div>
-                      ))
-                    : filteredDistances.map((distance) => (
+                      ))}
+                      {filteredEquipmentWeights.length === 0 && (
+                        <EmptyListLabel itemName="Equipment Weights" />
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      {filteredDistances.map((distance) => (
                         <div
                           className="flex flex-row justify-between items-center gap-1 cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                           key={`distance-${distance.id}`}
@@ -134,6 +141,11 @@ export const CalculationModal = ({
                           </div>
                         </div>
                       ))}
+                      {filteredDistances.length === 0 && (
+                        <EmptyListLabel itemName="Distances" />
+                      )}
+                    </>
+                  )}
                 </ScrollShadow>
               </div>
             </ModalBody>
