@@ -12,32 +12,33 @@ import {
   EquipmentWeight,
   PresetsType,
   UseDisclosureReturnType,
+  UsePresetsListReturnType,
 } from "../../typings";
 import { FavoriteButton } from "../FavoriteButton";
 
 type CalculationModalProps = {
   calculationModal: UseDisclosureReturnType;
-  equipmentWeights: EquipmentWeight[];
-  distances: Distance[];
-  presetsType: PresetsType;
   onClickAction: (
     presetsType: PresetsType,
     equipment?: EquipmentWeight,
     distance?: Distance
   ) => void;
-  toggleFavoriteEquipmentWeight: (equipmentWeight: EquipmentWeight) => void;
-  toggleFavoriteDistance: (distance: Distance) => void;
+  usePresetsList: UsePresetsListReturnType;
 };
 
 export const CalculationModal = ({
   calculationModal,
-  equipmentWeights,
-  distances,
-  presetsType,
   onClickAction,
-  toggleFavoriteEquipmentWeight,
-  toggleFavoriteDistance,
+  usePresetsList,
 }: CalculationModalProps) => {
+  const {
+    equipmentWeights,
+    distances,
+    presetsType,
+    toggleFavoriteEquipmentWeight,
+    toggleFavoriteDistance,
+  } = usePresetsList;
+
   return (
     <Modal
       isOpen={calculationModal.isOpen}

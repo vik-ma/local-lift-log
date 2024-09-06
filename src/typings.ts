@@ -442,7 +442,6 @@ export type UsePresetsListReturnType = {
   getDistances: () => void;
   presetsType: PresetsType;
   setPresetsType: React.Dispatch<React.SetStateAction<PresetsType>>;
-  calculationModal: UseDisclosureReturnType;
   handleOpenCalculationModal: (presetsType: PresetsType) => void;
   filterQueryEquipment: string;
   setFilterQueryEquipment: React.Dispatch<React.SetStateAction<string>>;

@@ -6,15 +6,16 @@ import {
   EquipmentWeightSortCategory,
   DistanceSortCategory,
   UsePresetsListReturnType,
+  UseDisclosureReturnType,
 } from "../typings";
 import Database from "tauri-plugin-sql-api";
-import { useDisclosure } from "@nextui-org/react";
 import { UpdateIsFavorite, UpdateItemInList } from "../helpers";
 
 export const usePresetsList = (
   getEquipmentWeightsOnLoad: boolean,
   getDistancesOnLoad: boolean,
-  defaultPresetType?: PresetsType
+  defaultPresetType?: PresetsType,
+  calculationModal?: UseDisclosureReturnType
 ): UsePresetsListReturnType => {
   const [equipmentWeights, setEquipmentWeights] = useState<EquipmentWeight[]>(
     []
@@ -36,8 +37,6 @@ export const usePresetsList = (
 
   const equipmentWeightsAreLoaded = useRef(false);
   const distancesAreLoaded = useRef(false);
-
-  const calculationModal = useDisclosure();
 
   const filteredEquipmentWeights = useMemo(() => {
     if (filterQueryEquipment !== "") {
@@ -116,6 +115,8 @@ export const usePresetsList = (
 
   const handleOpenCalculationModal = useCallback(
     (presetsType: PresetsType) => {
+      if (calculationModal === undefined) return;
+
       if (
         presetsType === "equipment" &&
         equipmentWeightsAreLoaded.current === false
@@ -319,7 +320,6 @@ export const usePresetsList = (
     getDistances,
     presetsType,
     setPresetsType,
-    calculationModal,
     handleOpenCalculationModal,
     filterQueryEquipment,
     setFilterQueryEquipment,
