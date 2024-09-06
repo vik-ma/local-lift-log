@@ -15,8 +15,8 @@ import {
 } from "../../typings";
 import { FavoriteButton } from "../FavoriteButton";
 
-type PresetsListModalProps = {
-  presetsListModal: UseDisclosureReturnType;
+type CalculationModalProps = {
+  calculationModal: UseDisclosureReturnType;
   equipmentWeights: EquipmentWeight[];
   distances: Distance[];
   presetsType: PresetsType;
@@ -29,19 +29,19 @@ type PresetsListModalProps = {
   toggleFavoriteDistance: (distance: Distance) => void;
 };
 
-export const PresetsListModal = ({
-  presetsListModal,
+export const CalculationModal = ({
+  calculationModal,
   equipmentWeights,
   distances,
   presetsType,
   onClickAction,
   toggleFavoriteEquipmentWeight,
   toggleFavoriteDistance,
-}: PresetsListModalProps) => {
+}: CalculationModalProps) => {
   return (
     <Modal
-      isOpen={presetsListModal.isOpen}
-      onOpenChange={presetsListModal.onOpenChange}
+      isOpen={calculationModal.isOpen}
+      onOpenChange={calculationModal.onOpenChange}
     >
       <ModalContent>
         {(onClose) => (
