@@ -23,6 +23,8 @@ type CalculationModalProps = {
   useCalculationModal: UseCalculationModalReturnType;
   usePresetsList: UsePresetsListReturnType;
   doneButtonAction: () => void;
+  weightUnit: string;
+  distanceUnit: string;
 };
 
 type CalculationItemWeight = {
@@ -43,6 +45,8 @@ export const CalculationModal = ({
   useCalculationModal,
   usePresetsList,
   doneButtonAction,
+  weightUnit,
+  distanceUnit,
 }: CalculationModalProps) => {
   const [calculationListWeight, setCalculationListWeight] = useState<
     CalculationItemWeight[]
@@ -183,7 +187,7 @@ export const CalculationModal = ({
                 {calculationModalPage === "base" ? (
                   presetsType === "equipment" ? (
                     <div className="flex flex-col gap-2 justify-between">
-                      <ScrollShadow className="flex flex-col h-[378px] gap-1.5">
+                      <ScrollShadow className="flex flex-col h-[356px] gap-1.5">
                         {calculationListWeight.map((weight, index) => (
                           <div
                             key={`calculation-list-weight-${index}`}
@@ -229,17 +233,30 @@ export const CalculationModal = ({
                           </div>
                         ))}
                       </ScrollShadow>
-                      <div className="flex justify-between">
-                        {!isListEmpty && (
-                          <Button
-                            variant="flat"
-                            color="danger"
-                            size="sm"
-                            onPress={handleClearAllButton}
-                          >
-                            Clear All
-                          </Button>
-                        )}
+                      <div className="flex justify-between items-end">
+                        <div>
+                          {!isListEmpty && (
+                            <Button
+                              variant="flat"
+                              color="danger"
+                              size="sm"
+                              onPress={handleClearAllButton}
+                            >
+                              Clear All
+                            </Button>
+                          )}
+                        </div>
+                        <div className="flex flex-col items-end">
+                          <span className="font-medium text-lg">Total</span>
+                          <div className="flex gap-1 text-secondary font-semibold text-xl">
+                            <span className="max-w-40 truncate">3333333</span>
+                            <span>
+                              {presetsType === "equipment"
+                                ? weightUnit
+                                : distanceUnit}
+                            </span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   ) : (

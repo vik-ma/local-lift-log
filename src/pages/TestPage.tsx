@@ -16,6 +16,8 @@ export default function Test() {
         useCalculationModal={calculationModal}
         usePresetsList={presetsList}
         doneButtonAction={() => {}}
+        weightUnit="kg"
+        distanceUnit="km"
       />
       <div className="flex flex-col gap-2">
         <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">
