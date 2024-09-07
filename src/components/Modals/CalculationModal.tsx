@@ -141,7 +141,15 @@ export const CalculationModal = ({
     }
   };
 
-  const handleClearAllButton = () => {};
+  const handleClearAllButton = () => {
+    if (presetsType === "equipment") {
+      setCalculationListWeight([]);
+    }
+
+    if (presetsType === "distance") {
+      setCalculationListDistance([]);
+    }
+  };
 
   const isListEmpty = useMemo(() => {
     if (presetsType === "equipment") {
@@ -174,8 +182,8 @@ export const CalculationModal = ({
               <div className="h-[400px] flex flex-col gap-2">
                 {calculationModalPage === "base" ? (
                   presetsType === "equipment" ? (
-                    <>
-                      <ScrollShadow className="flex flex-col h-[350px] gap-1.5">
+                    <div className="flex flex-col gap-2 justify-between">
+                      <ScrollShadow className="flex flex-col h-[378px] gap-1.5">
                         {calculationListWeight.map((weight, index) => (
                           <div
                             key={`calculation-list-weight-${index}`}
@@ -222,17 +230,18 @@ export const CalculationModal = ({
                         ))}
                       </ScrollShadow>
                       <div className="flex justify-between">
-                        {isListEmpty && (
+                        {!isListEmpty && (
                           <Button
                             variant="flat"
                             color="danger"
+                            size="sm"
                             onPress={handleClearAllButton}
                           >
                             Clear All
                           </Button>
                         )}
                       </div>
-                    </>
+                    </div>
                   ) : (
                     <></>
                   )
