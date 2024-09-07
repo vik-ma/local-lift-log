@@ -16,6 +16,7 @@ import {
 } from "../../typings";
 import { FavoriteButton } from "../FavoriteButton";
 import { EmptyListLabel, LoadingSpinner, SearchInput } from "..";
+import { useMemo } from "react";
 
 type CalculationModalProps = {
   useCalculationModal: UseCalculationModalReturnType;
@@ -65,6 +66,10 @@ export const CalculationModal = ({
     setCalculationModalPage("list");
   };
 
+  const presetText = useMemo(() => {
+    return presetsType === "equipment" ? "Weight" : "Distance";
+  }, [presetsType]);
+
   return (
     <Modal
       isOpen={calculationModal.isOpen}
@@ -75,17 +80,9 @@ export const CalculationModal = ({
           <>
             <ModalHeader>
               {calculationModalPage === "base" ? (
-                <>
-                  Calculate{" "}
-                  {presetsType === "equipment" ? "Weight" : "Distance"}
-                </>
+                <>Calculate {presetText}</>
               ) : (
-                <>
-                  Select{" "}
-                  {presetsType === "equipment"
-                    ? "Equipment Weight"
-                    : "Distance"}
-                </>
+                <>Select {presetText}</>
               )}
             </ModalHeader>
             <ModalBody>
@@ -206,7 +203,9 @@ export const CalculationModal = ({
                       : () => setCalculationModalPage("base")
                   }
                 >
-                  {calculationModalPage === "base" ? "Add Preset" : "Back"}
+                  {calculationModalPage === "base"
+                    ? `Add ${presetText}`
+                    : "Back"}
                 </Button>
               </div>
               <div className="flex gap-2">
