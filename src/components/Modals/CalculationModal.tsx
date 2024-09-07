@@ -6,6 +6,7 @@ import {
   ModalBody,
   ModalFooter,
   ScrollShadow,
+  Input,
 } from "@nextui-org/react";
 import {
   Distance,
@@ -16,6 +17,7 @@ import {
 import { FavoriteButton } from "../FavoriteButton";
 import { EmptyListLabel, LoadingSpinner, SearchInput } from "..";
 import { useMemo, useState } from "react";
+import { CrossCircleIcon } from "../../assets";
 
 type CalculationModalProps = {
   useCalculationModal: UseCalculationModalReturnType;
@@ -25,16 +27,14 @@ type CalculationModalProps = {
 
 type CalculationItemWeight = {
   isPreset: boolean;
-  weight: number;
-  weight_unit: string;
+  equipmentWeight: EquipmentWeight;
   multiplyInput: string;
   input: string;
 };
 
 type CalculationItemDistance = {
   isPreset: boolean;
-  distance: number;
-  distance_unit: string;
+  distance: Distance;
   multiplyInput: string;
   input: string;
 };
@@ -91,8 +91,7 @@ export const CalculationModal = ({
     if (equipment !== undefined) {
       const calculationItem: CalculationItemWeight = {
         isPreset: true,
-        weight: equipment.weight,
-        weight_unit: equipment.weight_unit,
+        equipmentWeight: equipment,
         multiplyInput: "",
         input: "",
       };
@@ -108,8 +107,7 @@ export const CalculationModal = ({
     if (distance !== undefined) {
       const calculationItem: CalculationItemDistance = {
         isPreset: true,
-        distance: distance.distance,
-        distance_unit: distance.distance_unit,
+        distance: distance,
         multiplyInput: "",
         input: "",
       };
@@ -121,6 +119,8 @@ export const CalculationModal = ({
 
       setCalculationListDistance(updatedCalculationListDistance);
     }
+
+    setCalculationModalPage("base");
   };
 
   const presetText = useMemo(() => {
@@ -145,7 +145,49 @@ export const CalculationModal = ({
             <ModalBody>
               <div className="h-[400px] flex flex-col gap-2">
                 {calculationModalPage === "base" ? (
-                  <></>
+                  presetsType === "equipment" ? (
+                    <>
+                      {calculationListWeight.map((weight, index) => (
+                        <div
+                          key={`calculation-list-weight-${index}`}
+                          className="flex gap-2 items-center"
+                        >
+                          {weight.isPreset ? (
+                            <>
+                              <div className="bg-default-100 px-1.5 py-0.5 border-2 rounded-lg w-64 truncate">
+                                {weight.equipmentWeight.name}{" "}
+                                {weight.equipmentWeight.weight}{" "}
+                                {weight.equipmentWeight.weight_unit}
+                              </div>
+                              <Input
+                                className="w-[4rem]"
+                                size="sm"
+                                variant="faded"
+                                // TODO: ADD ISINVALID
+                                // isInvalid={}
+                                isClearable
+                              />
+                              <Button
+                                aria-label={`Remove ${weight.equipmentWeight.name} From Calculation List`}
+                                size="sm"
+                                color="danger"
+                                isIconOnly
+                                variant="light"
+                                // TODO: ADD ONPRESS
+                                // onPress={}
+                              >
+                                <CrossCircleIcon size={20} />
+                              </Button>
+                            </>
+                          ) : (
+                            <></>
+                          )}
+                        </div>
+                      ))}
+                    </>
+                  ) : (
+                    <></>
+                  )
                 ) : (
                   <>
                     <SearchInput
