@@ -10,7 +10,6 @@ import {
 import {
   Distance,
   EquipmentWeight,
-  PresetsType,
   UseCalculationModalReturnType,
   UsePresetsListReturnType,
 } from "../../typings";
@@ -20,16 +19,12 @@ import { useMemo, useState } from "react";
 
 type CalculationModalProps = {
   useCalculationModal: UseCalculationModalReturnType;
-  onClickAction: (
-    presetsType: PresetsType,
-    equipment?: EquipmentWeight,
-    distance?: Distance
-  ) => void;
   usePresetsList: UsePresetsListReturnType;
+  doneButtonAction: () => void;
 };
 
 type CalculationItemWeight = {
-  presetsType: PresetsType;
+  isPreset: boolean;
   weight: number;
   weight_unit: string;
   multiplyInput: string;
@@ -37,7 +32,7 @@ type CalculationItemWeight = {
 };
 
 type CalculationItemDistance = {
-  presetsType: PresetsType;
+  isPreset: boolean;
   distance: number;
   distance_unit: string;
   multiplyInput: string;
@@ -46,8 +41,8 @@ type CalculationItemDistance = {
 
 export const CalculationModal = ({
   useCalculationModal,
-  onClickAction,
   usePresetsList,
+  doneButtonAction,
 }: CalculationModalProps) => {
   const [calculationListWeight, setCalculationListWeight] = useState<
     CalculationItemWeight[]
@@ -95,7 +90,7 @@ export const CalculationModal = ({
   ) => {
     if (equipment !== undefined) {
       const calculationItem: CalculationItemWeight = {
-        presetsType: presetsType,
+        isPreset: true,
         weight: equipment.weight,
         weight_unit: equipment.weight_unit,
         multiplyInput: "",
@@ -112,7 +107,7 @@ export const CalculationModal = ({
 
     if (distance !== undefined) {
       const calculationItem: CalculationItemDistance = {
-        presetsType: presetsType,
+        isPreset: true,
         distance: distance.distance,
         distance_unit: distance.distance_unit,
         multiplyInput: "",
@@ -186,7 +181,7 @@ export const CalculationModal = ({
                                 className="flex flex-row justify-between items-center gap-1 cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                                 key={`equipment-${equipment.id}`}
                                 onClick={() =>
-                                  onClickAction("equipment", equipment)
+                                  handlePresetClick(equipment, undefined)
                                 }
                               >
                                 <div className="flex flex-col justify-start items-start pl-2 py-1">
@@ -223,7 +218,7 @@ export const CalculationModal = ({
                               className="flex flex-row justify-between items-center gap-1 cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                               key={`distance-${distance.id}`}
                               onClick={() =>
-                                onClickAction("equipment", undefined, distance)
+                                handlePresetClick(undefined, distance)
                               }
                             >
                               <div className="flex flex-col justify-start items-start pl-2 py-1">
@@ -274,6 +269,14 @@ export const CalculationModal = ({
               <div className="flex gap-2">
                 <Button color="primary" variant="light" onPress={onClose}>
                   Close
+                </Button>
+                <Button
+                  color="primary"
+                  // TODO: ADD ISDISABLED
+                  // isDisabled={}
+                  onPress={doneButtonAction}
+                >
+                  Done
                 </Button>
               </div>
             </ModalFooter>
