@@ -16,7 +16,7 @@ import {
 } from "../../typings";
 import { FavoriteButton } from "../FavoriteButton";
 import { EmptyListLabel, LoadingSpinner, SearchInput } from "..";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
 type CalculationModalProps = {
   useCalculationModal: UseCalculationModalReturnType;
@@ -28,11 +28,34 @@ type CalculationModalProps = {
   usePresetsList: UsePresetsListReturnType;
 };
 
+type CalculationItemWeight = {
+  presetsType: PresetsType;
+  weight: number;
+  weight_unit: string;
+  multiplyInput: string;
+  input: string;
+};
+
+type CalculationItemDistance = {
+  presetsType: PresetsType;
+  distance: number;
+  distance_unit: string;
+  multiplyInput: string;
+  input: string;
+};
+
 export const CalculationModal = ({
   useCalculationModal,
   onClickAction,
   usePresetsList,
 }: CalculationModalProps) => {
+  const [calculationListWeight, setCalculationListWeight] = useState<
+    CalculationItemWeight[]
+  >([]);
+  const [calculationListDistance, setCalculationListDistance] = useState<
+    CalculationItemDistance[]
+  >([]);
+
   const {
     equipmentWeights,
     distances,
@@ -64,6 +87,45 @@ export const CalculationModal = ({
     }
 
     setCalculationModalPage("list");
+  };
+
+  const handlePresetClick = (
+    equipment?: EquipmentWeight,
+    distance?: Distance
+  ) => {
+    if (equipment !== undefined) {
+      const calculationItem: CalculationItemWeight = {
+        presetsType: presetsType,
+        weight: equipment.weight,
+        weight_unit: equipment.weight_unit,
+        multiplyInput: "",
+        input: "",
+      };
+
+      const updatedCalculationListWeight = [
+        ...calculationListWeight,
+        calculationItem,
+      ];
+
+      setCalculationListWeight(updatedCalculationListWeight);
+    }
+
+    if (distance !== undefined) {
+      const calculationItem: CalculationItemDistance = {
+        presetsType: presetsType,
+        distance: distance.distance,
+        distance_unit: distance.distance_unit,
+        multiplyInput: "",
+        input: "",
+      };
+
+      const updatedCalculationListDistance = [
+        ...calculationListDistance,
+        calculationItem,
+      ];
+
+      setCalculationListDistance(updatedCalculationListDistance);
+    }
   };
 
   const presetText = useMemo(() => {
