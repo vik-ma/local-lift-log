@@ -38,7 +38,6 @@ export const CalculationModal = ({
     getEquipmentWeights,
     getDistances,
     presetsType,
-    setPresetsType,
     toggleFavoriteEquipmentWeight,
     toggleFavoriteDistance,
     filterQueryEquipment,
@@ -54,19 +53,13 @@ export const CalculationModal = ({
   const { calculationModal, calculationModalPage, setCalculationModalPage } =
     useCalculationModal;
 
-  const handleGoToListButton = async (presetsType: PresetsType) => {
-    if (presetsType === "equipment") {
-      if (isLoadingEquipment) {
-        await getEquipmentWeights();
-      }
-      setPresetsType("equipment");
+  const handleGoToListButton = async () => {
+    if (presetsType === "equipment" && isLoadingEquipment) {
+      await getEquipmentWeights();
     }
 
-    if (presetsType === "distance") {
-      if (isLoadingDistance) {
-        await getDistances();
-      }
-      setPresetsType("distance");
+    if (presetsType === "distance" && isLoadingDistance) {
+      await getDistances();
     }
 
     setCalculationModalPage("list");
@@ -98,14 +91,7 @@ export const CalculationModal = ({
             <ModalBody>
               <div className="h-[400px] flex flex-col gap-2">
                 {calculationModalPage === "base" ? (
-                  <>
-                    <Button onPress={() => handleGoToListButton("equipment")}>
-                      Load Equipment Weights
-                    </Button>
-                    <Button onPress={() => handleGoToListButton("distance")}>
-                      Load Distances
-                    </Button>
-                  </>
+                  <></>
                 ) : (
                   <>
                     <SearchInput
@@ -209,10 +195,25 @@ export const CalculationModal = ({
                 )}
               </div>
             </ModalBody>
-            <ModalFooter>
-              <Button color="primary" variant="light" onPress={onClose}>
-                Close
-              </Button>
+            <ModalFooter className="flex justify-between">
+              <div className="flex gap-2">
+                <Button
+                  variant="flat"
+                  color="secondary"
+                  onPress={
+                    calculationModalPage === "base"
+                      ? handleGoToListButton
+                      : () => setCalculationModalPage("base")
+                  }
+                >
+                  {calculationModalPage === "base" ? "Add Preset" : "Back"}
+                </Button>
+              </div>
+              <div className="flex gap-2">
+                <Button color="primary" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+              </div>
             </ModalFooter>
           </>
         )}
