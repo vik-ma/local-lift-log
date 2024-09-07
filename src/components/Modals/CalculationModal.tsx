@@ -123,6 +123,24 @@ export const CalculationModal = ({
     setCalculationModalPage("base");
   };
 
+  const handleRemoveButton = (index: number) => {
+    if (presetsType === "equipment") {
+      const updatedCalculationListWeight = [...calculationListWeight];
+
+      updatedCalculationListWeight.splice(index, 1);
+
+      setCalculationListWeight(updatedCalculationListWeight);
+    }
+
+    if (presetsType === "distance") {
+      const updatedCalculationListDistance = [...calculationListDistance];
+
+      updatedCalculationListDistance.splice(index, 1);
+
+      setCalculationListDistance(updatedCalculationListDistance);
+    }
+  };
+
   const presetText = useMemo(() => {
     return presetsType === "equipment" ? "Weight" : "Distance";
   }, [presetsType]);
@@ -159,7 +177,9 @@ export const CalculationModal = ({
                                   {weight.equipmentWeight.name}
                                 </span>
                                 <div className="flex gap-1 text-secondary">
-                                  <span className="max-w-[3.5rem] truncate">{weight.equipmentWeight.weight}</span>
+                                  <span className="max-w-[3.5rem] truncate">
+                                    {weight.equipmentWeight.weight}
+                                  </span>
                                   <span>
                                     {weight.equipmentWeight.weight_unit}
                                   </span>
@@ -179,8 +199,7 @@ export const CalculationModal = ({
                                 color="danger"
                                 isIconOnly
                                 variant="light"
-                                // TODO: ADD ONPRESS
-                                // onPress={}
+                                onPress={() => handleRemoveButton(index)}
                               >
                                 <CrossCircleIcon size={22} />
                               </Button>
