@@ -165,50 +165,52 @@ export const CalculationModal = ({
                 {calculationModalPage === "base" ? (
                   presetsType === "equipment" ? (
                     <>
-                      {calculationListWeight.map((weight, index) => (
-                        <div
-                          key={`calculation-list-weight-${index}`}
-                          className="flex gap-1.5 items-center"
-                        >
-                          {weight.isPreset ? (
-                            <>
-                              <div className="flex justify-between w-full gap-1 bg-default-50 px-1.5 py-0.5 border-2 rounded-lg">
-                                <span className="max-w-[12rem] truncate">
-                                  {weight.equipmentWeight.name}
-                                </span>
-                                <div className="flex gap-1 text-secondary">
-                                  <span className="max-w-[3.5rem] truncate">
-                                    {weight.equipmentWeight.weight}
+                      <ScrollShadow className="flex flex-col gap-1.5">
+                        {calculationListWeight.map((weight, index) => (
+                          <div
+                            key={`calculation-list-weight-${index}`}
+                            className="flex gap-1.5 items-center"
+                          >
+                            {weight.isPreset ? (
+                              <>
+                                <div className="flex justify-between w-full gap-1 bg-default-50 px-1.5 py-0.5 border-2 rounded-lg">
+                                  <span className="max-w-[11rem] truncate">
+                                    {weight.equipmentWeight.name}
                                   </span>
-                                  <span>
-                                    {weight.equipmentWeight.weight_unit}
-                                  </span>
+                                  <div className="flex gap-1 text-secondary">
+                                    <span className="max-w-[3.5rem] truncate">
+                                      {weight.equipmentWeight.weight}
+                                    </span>
+                                    <span>
+                                      {weight.equipmentWeight.weight_unit}
+                                    </span>
+                                  </div>
                                 </div>
-                              </div>
-                              <Input
-                                className="w-[5.5rem]"
-                                size="sm"
-                                variant="faded"
-                                // TODO: ADD ISINVALID
-                                // isInvalid={}
-                                isClearable
-                              />
-                              <Button
-                                aria-label={`Remove ${weight.equipmentWeight.name} From Calculation List`}
-                                size="sm"
-                                color="danger"
-                                isIconOnly
-                                variant="light"
-                                onPress={() => handleRemoveButton(index)}
-                              >
-                                <CrossCircleIcon size={22} />
-                              </Button>
-                            </>
-                          ) : (
-                            <></>
-                          )}
-                        </div>
-                      ))}
+                                <Input
+                                  className="w-[5.5rem]"
+                                  size="sm"
+                                  variant="faded"
+                                  // TODO: ADD ISINVALID
+                                  // isInvalid={}
+                                  isClearable
+                                />
+                                <Button
+                                  aria-label={`Remove ${weight.equipmentWeight.name} From Calculation List`}
+                                  size="sm"
+                                  color="danger"
+                                  isIconOnly
+                                  variant="light"
+                                  onPress={() => handleRemoveButton(index)}
+                                >
+                                  <CrossCircleIcon size={22} />
+                                </Button>
+                              </>
+                            ) : (
+                              <></>
+                            )}
+                          </div>
+                        ))}
+                      </ScrollShadow>
                     </>
                   ) : (
                     <></>
