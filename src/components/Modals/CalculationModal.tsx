@@ -150,17 +150,23 @@ export const CalculationModal = ({
                       {calculationListWeight.map((weight, index) => (
                         <div
                           key={`calculation-list-weight-${index}`}
-                          className="flex gap-2 items-center"
+                          className="flex gap-1.5 items-center"
                         >
                           {weight.isPreset ? (
                             <>
-                              <div className="bg-default-100 px-1.5 py-0.5 border-2 rounded-lg w-64 truncate">
-                                {weight.equipmentWeight.name}{" "}
-                                {weight.equipmentWeight.weight}{" "}
-                                {weight.equipmentWeight.weight_unit}
+                              <div className="flex justify-between w-full gap-1 bg-default-50 px-1.5 py-0.5 border-2 rounded-lg">
+                                <span className="max-w-[12rem] truncate">
+                                  {weight.equipmentWeight.name}
+                                </span>
+                                <div className="flex gap-1 text-secondary">
+                                  <span className="max-w-[3.5rem] truncate">{weight.equipmentWeight.weight}</span>
+                                  <span>
+                                    {weight.equipmentWeight.weight_unit}
+                                  </span>
+                                </div>
                               </div>
                               <Input
-                                className="w-[4rem]"
+                                className="w-[5.5rem]"
                                 size="sm"
                                 variant="faded"
                                 // TODO: ADD ISINVALID
@@ -176,7 +182,7 @@ export const CalculationModal = ({
                                 // TODO: ADD ONPRESS
                                 // onPress={}
                               >
-                                <CrossCircleIcon size={20} />
+                                <CrossCircleIcon size={22} />
                               </Button>
                             </>
                           ) : (
