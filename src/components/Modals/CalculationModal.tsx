@@ -195,6 +195,7 @@ export const CalculationModal = ({
             <ModalFooter className="flex justify-between">
               <div className="flex gap-2">
                 <Button
+                  className="w-28"
                   variant="flat"
                   color="secondary"
                   onPress={
