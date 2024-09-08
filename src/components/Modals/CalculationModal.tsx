@@ -189,6 +189,13 @@ export const CalculationModal = ({
     return presetsType === "equipment" ? "Weight" : "Distance";
   }, [presetsType]);
 
+  const totalWeight = useMemo(() => {
+    return calculationListWeight.reduce(
+      (total, item) => total + item.equipmentWeight.weight,
+      0
+    );
+  }, [calculationListWeight]);
+
   return (
     <Modal
       isOpen={calculationModal.isOpen}
@@ -205,7 +212,7 @@ export const CalculationModal = ({
               )}
             </ModalHeader>
             <ModalBody>
-              <div className="h-[400px] flex flex-col gap-2">
+              <div className="h-[400px] flex flex-col gap-2 items-center">
                 {calculationModalPage === "base" ? (
                   presetsType === "equipment" ? (
                     <div className="flex flex-col gap-1">
@@ -276,7 +283,9 @@ export const CalculationModal = ({
                         <div className="flex flex-col items-end">
                           <span className="font-medium text-lg">Total</span>
                           <div className="flex gap-1 text-secondary font-semibold text-xl">
-                            <span className="max-w-40 truncate">3333333</span>
+                            <span className="max-w-40 truncate">
+                              {totalWeight}
+                            </span>
                             <span>
                               {presetsType === "equipment"
                                 ? weightUnit
