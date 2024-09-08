@@ -31,14 +31,18 @@ type CalculationItemWeight = {
   isPreset: boolean;
   equipmentWeight: EquipmentWeight;
   multiplyInput: string;
-  input: string;
+  multiplyFactor: number;
+  isMultiplyInputValid: boolean;
+  customInputString: string;
 };
 
 type CalculationItemDistance = {
   isPreset: boolean;
   distance: Distance;
   multiplyInput: string;
-  input: string;
+  multiplyFactor: number;
+  isMultiplyInputValid: boolean;
+  customInputString: string;
 };
 
 export const CalculationModal = ({
@@ -97,7 +101,9 @@ export const CalculationModal = ({
         isPreset: true,
         equipmentWeight: equipment,
         multiplyInput: "",
-        input: "",
+        multiplyFactor: 1,
+        isMultiplyInputValid: true,
+        customInputString: "",
       };
 
       const updatedCalculationListWeight = [
@@ -135,7 +141,9 @@ export const CalculationModal = ({
         isPreset: true,
         distance: distance,
         multiplyInput: "",
-        input: "",
+        multiplyFactor: 1,
+        isMultiplyInputValid: true,
+        customInputString: "",
       };
 
       const updatedCalculationListDistance = [
@@ -218,7 +226,7 @@ export const CalculationModal = ({
                     <div className="flex flex-col gap-1">
                       <div className="flex px-1 text-sm font-medium">
                         <span>Weight</span>
-                        <span className="pl-[13.5rem]">Multiply Factor</span>
+                        <span className="pl-[13.25rem]">Multiply Factor</span>
                       </div>
                       <ScrollShadow className="flex flex-col gap-1.5 h-[330px]">
                         {calculationListWeight.map((weight, index) => (
@@ -243,7 +251,6 @@ export const CalculationModal = ({
                                 </div>
                                 <div className="w-[4rem]">
                                   <Input
-                                    fullWidth
                                     size="sm"
                                     variant="faded"
                                     // TODO: ADD ISINVALID
