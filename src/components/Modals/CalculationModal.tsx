@@ -332,17 +332,96 @@ export const CalculationModal = ({
                             <span className="max-w-40 truncate">
                               {totalWeight}
                             </span>
-                            <span>
-                              {presetsType === "equipment"
-                                ? weightUnit
-                                : distanceUnit}
-                            </span>
+                            <span>{weightUnit}</span>
                           </div>
                         </div>
                       </div>
                     </div>
                   ) : (
-                    <></>
+                    <div className="flex flex-col gap-1">
+                      <div className="flex px-1 text-sm font-medium">
+                        <span>Distance</span>
+                        <span className="pl-[12.75rem]">Multiply Factor</span>
+                      </div>
+                      <ScrollShadow className="flex flex-col gap-1.5 h-[330px]">
+                        {calculationListDistance.map((distance, index) => (
+                          <div
+                            key={`calculation-list-distance-${index}`}
+                            className="flex gap-1.5 items-center"
+                          >
+                            {distance.isPreset ? (
+                              <>
+                                <div className="flex justify-between gap-1 bg-default-50 px-1.5 py-0.5 border-2 rounded-lg">
+                                  <span className="w-[11rem] truncate">
+                                    {distance.distance.name}
+                                  </span>
+                                  <div className="flex gap-1 text-secondary">
+                                    <span className="w-[3.5rem] truncate text-right">
+                                      {distance.distance.distance}
+                                    </span>
+                                    <span>
+                                      {distance.distance.distance_unit}
+                                    </span>
+                                  </div>
+                                </div>
+                                <div className="w-[4rem]">
+                                  <Input
+                                    size="sm"
+                                    variant="faded"
+                                    value={distance.multiplyInput}
+                                    isInvalid={distance.isMultiplyInputInvalid}
+                                    // TODO: ADD
+                                    // onValueChange={(value) =>
+                                    //   handleWeightMultiplyFactorChange(
+                                    //     value,
+                                    //     distance,
+                                    //     index
+                                    //   )
+                                    // }
+                                    isClearable
+                                  />
+                                </div>
+                                <Button
+                                  aria-label={`Remove ${distance.distance.name} From Calculation List`}
+                                  size="sm"
+                                  color="danger"
+                                  isIconOnly
+                                  variant="light"
+                                  onPress={() => handleRemoveButton(index)}
+                                >
+                                  <CrossCircleIcon size={22} />
+                                </Button>
+                              </>
+                            ) : (
+                              <></>
+                            )}
+                          </div>
+                        ))}
+                      </ScrollShadow>
+                      <div className="flex justify-between items-end">
+                        <div>
+                          {!isListEmpty && (
+                            <Button
+                              variant="flat"
+                              size="sm"
+                              onPress={handleClearAllButton}
+                            >
+                              Clear All
+                            </Button>
+                          )}
+                        </div>
+                        <div className="flex flex-col items-end">
+                          <span className="font-medium text-lg">Total</span>
+                          <div className="flex gap-1 text-secondary font-semibold text-xl">
+                            <span className="max-w-40 truncate">
+                              {/* TODO: ADD */}
+                              {/* {totalDistance} */}
+                            </span>
+                            <span>{distanceUnit}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   )
                 ) : (
                   <>
