@@ -20,6 +20,7 @@ import { useMemo, useState } from "react";
 import { CrossCircleIcon } from "../../assets";
 import {
   ConvertNumberToTwoDecimals,
+  IsStringEmpty,
   IsStringInvalidNumber,
 } from "../../helpers";
 
@@ -218,7 +219,8 @@ export const CalculationModal = ({
   ) => {
     const isInputInvalid = IsStringInvalidNumber(value);
 
-    const multiplyFactor = isInputInvalid ? 1 : Number(value);
+    const multiplyFactor =
+      isInputInvalid || IsStringEmpty(value) ? 1 : Number(value);
 
     const updatedCalculationItem = {
       ...weight,
