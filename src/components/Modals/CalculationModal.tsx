@@ -224,6 +224,30 @@ export const CalculationModal = ({
     setCalculationListWeight(updatedCalculationListWeight);
   };
 
+  const handleDistanceMultiplyFactorChange = (
+    value: string,
+    distance: CalculationItemDistance,
+    index: number
+  ) => {
+    const isInputInvalid = IsStringInvalidNumber(value);
+
+    const multiplyFactor =
+      isInputInvalid || IsStringEmpty(value) ? 1 : Number(value);
+
+    const updatedCalculationItem = {
+      ...distance,
+      multiplyInput: value,
+      multiplyFactor: multiplyFactor,
+      isMultiplyInputInvalid: isInputInvalid,
+    };
+
+    const updatedCalculationListDistance = [...calculationListDistance];
+
+    updatedCalculationListDistance[index] = updatedCalculationItem;
+
+    setCalculationListDistance(updatedCalculationListDistance);
+  };
+
   return (
     <Modal
       isOpen={calculationModal.isOpen}
@@ -358,14 +382,13 @@ export const CalculationModal = ({
                                     variant="faded"
                                     value={distance.multiplyInput}
                                     isInvalid={distance.isMultiplyInputInvalid}
-                                    // TODO: ADD
-                                    // onValueChange={(value) =>
-                                    //   handleWeightMultiplyFactorChange(
-                                    //     value,
-                                    //     distance,
-                                    //     index
-                                    //   )
-                                    // }
+                                    onValueChange={(value) =>
+                                      handleDistanceMultiplyFactorChange(
+                                        value,
+                                        distance,
+                                        index
+                                      )
+                                    }
                                     isClearable
                                   />
                                 </div>
