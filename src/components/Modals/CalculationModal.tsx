@@ -18,7 +18,7 @@ import { FavoriteButton } from "../FavoriteButton";
 import { EmptyListLabel, LoadingSpinner, SearchInput } from "..";
 import { useMemo, useState } from "react";
 import { CrossCircleIcon } from "../../assets";
-import { IsStringEmpty, IsStringInvalidNumber } from "../../helpers";
+import { IsStringInvalidNumber } from "../../helpers";
 
 type CalculationModalProps = {
   useCalculationModal: UseCalculationModalReturnType;
@@ -200,7 +200,8 @@ export const CalculationModal = ({
 
   const totalWeight = useMemo(() => {
     return calculationListWeight.reduce(
-      (total, item) => total + item.equipmentWeight.weight,
+      (total, item) =>
+        total + item.equipmentWeight.weight * item.multiplyFactor,
       0
     );
   }, [calculationListWeight]);
@@ -210,15 +211,15 @@ export const CalculationModal = ({
     weight: CalculationItemWeight,
     index: number
   ) => {
-    const isInputValid = !IsStringEmpty(value) && IsStringInvalidNumber(value);
+    const isInputInvalid = IsStringInvalidNumber(value);
 
-    const multiplyFactor = isInputValid ? Number(value) : 1;
+    const multiplyFactor = isInputInvalid ? 1 : Number(value);
 
     const updatedCalculationItem = {
       ...weight,
       multiplyInput: value,
       multiplyFactor: multiplyFactor,
-      isMultiplyInputInvalid: isInputValid,
+      isMultiplyInputInvalid: isInputInvalid,
     };
 
     const updatedCalculationListWeight = [...calculationListWeight];
