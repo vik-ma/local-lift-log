@@ -18,7 +18,10 @@ import { FavoriteButton } from "../FavoriteButton";
 import { EmptyListLabel, LoadingSpinner, SearchInput } from "..";
 import { useMemo, useState } from "react";
 import { CrossCircleIcon } from "../../assets";
-import { IsStringInvalidNumber } from "../../helpers";
+import {
+  ConvertNumberToTwoDecimals,
+  IsStringInvalidNumber,
+} from "../../helpers";
 
 type CalculationModalProps = {
   useCalculationModal: UseCalculationModalReturnType;
@@ -201,7 +204,9 @@ export const CalculationModal = ({
   const totalWeight = useMemo(() => {
     return calculationListWeight.reduce(
       (total, item) =>
-        total + item.equipmentWeight.weight * item.multiplyFactor,
+        ConvertNumberToTwoDecimals(
+          total + item.equipmentWeight.weight * item.multiplyFactor
+        ),
       0
     );
   }, [calculationListWeight]);
