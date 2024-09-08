@@ -105,6 +105,28 @@ export const CalculationModal = ({
         calculationItem,
       ];
 
+      // const updatedCalculationListWeight = [
+      //   ...calculationListWeight,
+      //   ...[
+      //     calculationItem,
+      //     calculationItem,
+      //     calculationItem,
+      //     calculationItem,
+      //     calculationItem,
+      //     calculationItem,
+      //     calculationItem,
+      //     calculationItem,
+      //     calculationItem,
+      //     calculationItem,
+      //     calculationItem,
+      //     calculationItem,
+      //     calculationItem,
+      //     calculationItem,
+      //     calculationItem,
+      //     calculationItem,
+      //   ],
+      // ];
+
       setCalculationListWeight(updatedCalculationListWeight);
     }
 
@@ -187,58 +209,56 @@ export const CalculationModal = ({
                 {calculationModalPage === "base" ? (
                   presetsType === "equipment" ? (
                     <div className="flex flex-col gap-1">
-                      <div className="flex px-1 gap-1 text-sm justify-between font-medium">
+                      <div className="flex px-1 gap-1 text-sm justify-between font-medium pr-5">
                         <span>Weight</span>
-                        <span className="px-3.5">Multiply Factor</span>
+                        <span>Multiply Factor</span>
                       </div>
-                      <div className="h-[330px]">
-                        <ScrollShadow className="flex flex-col gap-1.5">
-                          {calculationListWeight.map((weight, index) => (
-                            <div
-                              key={`calculation-list-weight-${index}`}
-                              className="flex gap-1.5 items-center"
-                            >
-                              {weight.isPreset ? (
-                                <>
-                                  <div className="flex justify-between w-full gap-1 bg-default-50 px-1.5 py-0.5 border-2 rounded-lg">
-                                    <span className="max-w-[11rem] truncate">
-                                      {weight.equipmentWeight.name}
+                      <ScrollShadow className="flex flex-col gap-1.5 h-[330px]">
+                        {calculationListWeight.map((weight, index) => (
+                          <div
+                            key={`calculation-list-weight-${index}`}
+                            className="flex gap-1.5 items-center"
+                          >
+                            {weight.isPreset ? (
+                              <>
+                                <div className="flex justify-between w-full gap-1 bg-default-50 px-1.5 py-0.5 border-2 rounded-lg">
+                                  <span className="max-w-[11rem] truncate">
+                                    {weight.equipmentWeight.name}
+                                  </span>
+                                  <div className="flex gap-1 text-secondary">
+                                    <span className="max-w-[3.5rem] truncate">
+                                      {weight.equipmentWeight.weight}
                                     </span>
-                                    <div className="flex gap-1 text-secondary">
-                                      <span className="max-w-[3.5rem] truncate">
-                                        {weight.equipmentWeight.weight}
-                                      </span>
-                                      <span>
-                                        {weight.equipmentWeight.weight_unit}
-                                      </span>
-                                    </div>
+                                    <span>
+                                      {weight.equipmentWeight.weight_unit}
+                                    </span>
                                   </div>
-                                  <Input
-                                    className="w-[5.5rem]"
-                                    size="sm"
-                                    variant="faded"
-                                    // TODO: ADD ISINVALID
-                                    // isInvalid={}
-                                    isClearable
-                                  />
-                                  <Button
-                                    aria-label={`Remove ${weight.equipmentWeight.name} From Calculation List`}
-                                    size="sm"
-                                    color="danger"
-                                    isIconOnly
-                                    variant="light"
-                                    onPress={() => handleRemoveButton(index)}
-                                  >
-                                    <CrossCircleIcon size={22} />
-                                  </Button>
-                                </>
-                              ) : (
-                                <></>
-                              )}
-                            </div>
-                          ))}
-                        </ScrollShadow>
-                      </div>
+                                </div>
+                                <Input
+                                  className="w-[5.5rem]"
+                                  size="sm"
+                                  variant="faded"
+                                  // TODO: ADD ISINVALID
+                                  // isInvalid={}
+                                  isClearable
+                                />
+                                <Button
+                                  aria-label={`Remove ${weight.equipmentWeight.name} From Calculation List`}
+                                  size="sm"
+                                  color="danger"
+                                  isIconOnly
+                                  variant="light"
+                                  onPress={() => handleRemoveButton(index)}
+                                >
+                                  <CrossCircleIcon size={22} />
+                                </Button>
+                              </>
+                            ) : (
+                              <></>
+                            )}
+                          </div>
+                        ))}
+                      </ScrollShadow>
                       <div className="flex justify-between items-end">
                         <div>
                           {!isListEmpty && (
