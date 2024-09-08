@@ -209,9 +209,9 @@ export const CalculationModal = ({
                 {calculationModalPage === "base" ? (
                   presetsType === "equipment" ? (
                     <div className="flex flex-col gap-1">
-                      <div className="flex px-1 gap-1 text-sm justify-between font-medium pr-5">
+                      <div className="flex px-1 text-sm font-medium">
                         <span>Weight</span>
-                        <span>Multiply Factor</span>
+                        <span className="pl-[13.5rem]">Multiply Factor</span>
                       </div>
                       <ScrollShadow className="flex flex-col gap-1.5 h-[330px]">
                         {calculationListWeight.map((weight, index) => (
@@ -221,12 +221,12 @@ export const CalculationModal = ({
                           >
                             {weight.isPreset ? (
                               <>
-                                <div className="flex justify-between w-full gap-1 bg-default-50 px-1.5 py-0.5 border-2 rounded-lg">
-                                  <span className="max-w-[11rem] truncate">
+                                <div className="flex justify-between gap-1 bg-default-50 px-1.5 py-0.5 border-2 rounded-lg">
+                                  <span className="w-[11rem] truncate">
                                     {weight.equipmentWeight.name}
                                   </span>
                                   <div className="flex gap-1 text-secondary">
-                                    <span className="max-w-[3.5rem] truncate">
+                                    <span className="w-[3.5rem] truncate text-right">
                                       {weight.equipmentWeight.weight}
                                     </span>
                                     <span>
@@ -234,14 +234,16 @@ export const CalculationModal = ({
                                     </span>
                                   </div>
                                 </div>
-                                <Input
-                                  className="w-[5.5rem]"
-                                  size="sm"
-                                  variant="faded"
-                                  // TODO: ADD ISINVALID
-                                  // isInvalid={}
-                                  isClearable
-                                />
+                                <div className="w-[4rem]">
+                                  <Input
+                                    fullWidth
+                                    size="sm"
+                                    variant="faded"
+                                    // TODO: ADD ISINVALID
+                                    // isInvalid={}
+                                    isClearable
+                                  />
+                                </div>
                                 <Button
                                   aria-label={`Remove ${weight.equipmentWeight.name} From Calculation List`}
                                   size="sm"
