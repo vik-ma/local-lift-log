@@ -116,28 +116,6 @@ export const CalculationModal = ({
         calculationItem,
       ];
 
-      // const updatedCalculationListWeight = [
-      //   ...calculationListWeight,
-      //   ...[
-      //     calculationItem,
-      //     calculationItem,
-      //     calculationItem,
-      //     calculationItem,
-      //     calculationItem,
-      //     calculationItem,
-      //     calculationItem,
-      //     calculationItem,
-      //     calculationItem,
-      //     calculationItem,
-      //     calculationItem,
-      //     calculationItem,
-      //     calculationItem,
-      //     calculationItem,
-      //     calculationItem,
-      //     calculationItem,
-      //   ],
-      // ];
-
       setCalculationListWeight(updatedCalculationListWeight);
     }
 
@@ -211,6 +189,16 @@ export const CalculationModal = ({
       0
     );
   }, [calculationListWeight]);
+
+  const totalDistance = useMemo(() => {
+    return calculationListDistance.reduce(
+      (total, item) =>
+        ConvertNumberToTwoDecimals(
+          total + item.distance.distance * item.multiplyFactor
+        ),
+      0
+    );
+  }, [calculationListDistance]);
 
   const handleWeightMultiplyFactorChange = (
     value: string,
@@ -414,8 +402,7 @@ export const CalculationModal = ({
                           <span className="font-medium text-lg">Total</span>
                           <div className="flex gap-1 text-secondary font-semibold text-xl">
                             <span className="max-w-40 truncate">
-                              {/* TODO: ADD */}
-                              {/* {totalDistance} */}
+                              {totalDistance}
                             </span>
                             <span>{distanceUnit}</span>
                           </div>
