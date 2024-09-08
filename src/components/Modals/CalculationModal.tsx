@@ -18,6 +18,7 @@ import { FavoriteButton } from "../FavoriteButton";
 import { EmptyListLabel, LoadingSpinner, SearchInput } from "..";
 import { useMemo, useState } from "react";
 import { CrossCircleIcon } from "../../assets";
+import { IsStringEmpty, IsStringInvalidNumber } from "../../helpers";
 
 type CalculationModalProps = {
   useCalculationModal: UseCalculationModalReturnType;
@@ -32,7 +33,7 @@ type CalculationItemWeight = {
   equipmentWeight: EquipmentWeight;
   multiplyInput: string;
   multiplyFactor: number;
-  isMultiplyInputValid: boolean;
+  isMultiplyInputInvalid: boolean;
   customInputString: string;
 };
 
@@ -41,7 +42,7 @@ type CalculationItemDistance = {
   distance: Distance;
   multiplyInput: string;
   multiplyFactor: number;
-  isMultiplyInputValid: boolean;
+  isMultiplyInputInvalid: boolean;
   customInputString: string;
 };
 
@@ -102,7 +103,7 @@ export const CalculationModal = ({
         equipmentWeight: equipment,
         multiplyInput: "",
         multiplyFactor: 1,
-        isMultiplyInputValid: true,
+        isMultiplyInputInvalid: false,
         customInputString: "",
       };
 
@@ -142,7 +143,7 @@ export const CalculationModal = ({
         distance: distance,
         multiplyInput: "",
         multiplyFactor: 1,
-        isMultiplyInputValid: true,
+        isMultiplyInputInvalid: false,
         customInputString: "",
       };
 
@@ -204,6 +205,29 @@ export const CalculationModal = ({
     );
   }, [calculationListWeight]);
 
+  const handleWeightMultiplyFactorChange = (
+    value: string,
+    weight: CalculationItemWeight,
+    index: number
+  ) => {
+    const isInputValid = !IsStringEmpty(value) && IsStringInvalidNumber(value);
+
+    const multiplyFactor = isInputValid ? Number(value) : 1;
+
+    const updatedCalculationItem = {
+      ...weight,
+      multiplyInput: value,
+      multiplyFactor: multiplyFactor,
+      isMultiplyInputInvalid: isInputValid,
+    };
+
+    const updatedCalculationListWeight = [...calculationListWeight];
+
+    updatedCalculationListWeight[index] = updatedCalculationItem;
+
+    setCalculationListWeight(updatedCalculationListWeight);
+  };
+
   return (
     <Modal
       isOpen={calculationModal.isOpen}
@@ -253,8 +277,15 @@ export const CalculationModal = ({
                                   <Input
                                     size="sm"
                                     variant="faded"
-                                    // TODO: ADD ISINVALID
-                                    // isInvalid={}
+                                    value={weight.multiplyInput}
+                                    isInvalid={weight.isMultiplyInputInvalid}
+                                    onValueChange={(value) =>
+                                      handleWeightMultiplyFactorChange(
+                                        value,
+                                        weight,
+                                        index
+                                      )
+                                    }
                                     isClearable
                                   />
                                 </div>
