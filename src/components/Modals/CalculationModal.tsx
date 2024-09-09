@@ -353,6 +353,13 @@ export const CalculationModal = ({
                               )}
                             </div>
                           ))}
+                          {calculationListWeight.length === 0 && (
+                            <EmptyListLabel
+                              itemName=""
+                              customLabel="Add Weight Or Custom Calculation"
+                              className="text-sm text-stone-400"
+                            />
+                          )}
                         </ScrollShadow>
                       </div>
                     ) : (
@@ -417,6 +424,13 @@ export const CalculationModal = ({
                               )}
                             </div>
                           ))}
+                          {calculationListDistance.length === 0 && (
+                            <EmptyListLabel
+                              itemName=""
+                              customLabel="Add Distance Or Custom Calculation"
+                              className="text-sm text-stone-400"
+                            />
+                          )}
                         </ScrollShadow>
                       </div>
                     )}
