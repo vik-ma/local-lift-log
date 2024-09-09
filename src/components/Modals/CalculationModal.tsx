@@ -63,6 +63,9 @@ export const CalculationModal = ({
   const [calculationListDistance, setCalculationListDistance] = useState<
     CalculationItemDistance[]
   >([]);
+  const [isTotalMultiplierInvalid, setIsTotalMultiplierInvalid] =
+    useState<boolean>(false);
+  const [totalMultiplierInput, setTotalMultiplierInput] = useState<string>("");
 
   const {
     equipmentWeights,
@@ -199,6 +202,36 @@ export const CalculationModal = ({
       0
     );
   }, [calculationListDistance]);
+
+  const resultWeight = useMemo(() => {
+    const isInputInvalid = IsStringInvalidNumber(totalMultiplierInput);
+
+    if (isInputInvalid) {
+      setIsTotalMultiplierInvalid(true);
+    }
+
+    const multiplyFactor =
+      isInputInvalid || IsStringEmpty(totalMultiplierInput)
+        ? 1
+        : Number(totalMultiplierInput);
+
+    return ConvertNumberToTwoDecimals(totalWeight * multiplyFactor);
+  }, [totalWeight, totalMultiplierInput]);
+
+  const resultDistance = useMemo(() => {
+    const isInputInvalid = IsStringInvalidNumber(totalMultiplierInput);
+
+    if (isInputInvalid) {
+      setIsTotalMultiplierInvalid(true);
+    }
+
+    const multiplyFactor =
+      isInputInvalid || IsStringEmpty(totalMultiplierInput)
+        ? 1
+        : Number(totalMultiplierInput);
+
+    return ConvertNumberToTwoDecimals(totalDistance * multiplyFactor);
+  }, [totalDistance, totalMultiplierInput]);
 
   const handleWeightMultiplyFactorChange = (
     value: string,
@@ -430,17 +463,17 @@ export const CalculationModal = ({
                           className="w-[4rem]"
                           size="sm"
                           variant="faded"
-                          // value={}
-                          // isInvalid={}
-                          // onValueChange={}
+                          value={totalMultiplierInput}
+                          isInvalid={isTotalMultiplierInvalid}
+                          onValueChange={setTotalMultiplierInput}
                           isClearable
                         />
                       </div>
                       <div className="flex gap-1 text-secondary font-semibold text-lg pt-0.5 justify-self-end">
                         <span className="max-w-[4rem] truncate">
                           {presetsType === "equipment"
-                            ? totalWeight
-                            : totalDistance}
+                            ? resultWeight
+                            : resultDistance}
                         </span>
                         <span>
                           {presetsType === "equipment"
