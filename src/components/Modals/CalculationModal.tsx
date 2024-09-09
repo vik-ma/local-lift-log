@@ -409,17 +409,17 @@ export const CalculationModal = ({
                           </div>
                         ))}
                       </ScrollShadow>
-                      <div className="grid grid-rows-2 grid-cols-4 items-baseline text-center">
-                        <div className="col-start-2 font-medium text-lg">
+                      <div className="grid grid-rows-2 grid-cols-4 gap-y-0.5">
+                        <div className="flex items-end col-start-2 font-medium text-lg leading-none">
                           List Total
                         </div>
-                        <div className="font-medium text-sm">
+                        <div className="flex items-end font-medium text-sm leading-none">
                           Multiply Factor
                         </div>
-                        <div className="font-medium text-lg text-right">
+                        <div className="flex items-end font-semibold text-xl leading-none justify-self-end">
                           Result
                         </div>
-                        <div>
+                        <div className="bg-red-100">
                           {!isListEmpty && (
                             <Button
                               variant="flat"
@@ -430,14 +430,14 @@ export const CalculationModal = ({
                             </Button>
                           )}
                         </div>
-                        <div className="flex gap-1 text-stone-400 font-semibold text-lg">
+                        <div className="flex gap-1 text-stone-400 font-semibold text-lg bg-blue-100">
                           <span className="max-w-[4rem] truncate">
                             {/* {totalDistance} */}
                             333.33
                           </span>
                           <span>{distanceUnit}</span>
                         </div>
-                        <div className="justify-self-center">
+                        <div className="justify-self-center bg-red-100">
                           <Input
                             className="w-[4rem]"
                             size="sm"
@@ -448,7 +448,7 @@ export const CalculationModal = ({
                             isClearable
                           />
                         </div>
-                        <div className="flex gap-1 text-secondary font-semibold text-lg text-right">
+                        <div className="flex gap-1 text-secondary font-semibold text-lg text-right bg-blue-100">
                           <span className="max-w-[4rem] truncate">
                             {/* {totalDistance} */}333.33
                           </span>
