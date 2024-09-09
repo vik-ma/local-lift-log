@@ -35,18 +35,18 @@ type CalculationModalProps = {
 type CalculationItemWeight = {
   isPreset: boolean;
   equipmentWeight: EquipmentWeight;
-  multiplyInput: string;
-  multiplyFactor: number;
-  isMultiplyInputInvalid: boolean;
+  multiplierInput: string;
+  multiplier: number;
+  isMultiplierInputInvalid: boolean;
   customInputString: string;
 };
 
 type CalculationItemDistance = {
   isPreset: boolean;
   distance: Distance;
-  multiplyInput: string;
-  multiplyFactor: number;
-  isMultiplyInputInvalid: boolean;
+  multiplierInput: string;
+  multiplier: number;
+  isMultiplierInputInvalid: boolean;
   customInputString: string;
 };
 
@@ -108,9 +108,9 @@ export const CalculationModal = ({
       const calculationItem: CalculationItemWeight = {
         isPreset: true,
         equipmentWeight: equipment,
-        multiplyInput: "",
-        multiplyFactor: 1,
-        isMultiplyInputInvalid: false,
+        multiplierInput: "",
+        multiplier: 1,
+        isMultiplierInputInvalid: false,
         customInputString: "",
       };
 
@@ -126,9 +126,9 @@ export const CalculationModal = ({
       const calculationItem: CalculationItemDistance = {
         isPreset: true,
         distance: distance,
-        multiplyInput: "",
-        multiplyFactor: 1,
-        isMultiplyInputInvalid: false,
+        multiplierInput: "",
+        multiplier: 1,
+        isMultiplierInputInvalid: false,
         customInputString: "",
       };
 
@@ -187,7 +187,7 @@ export const CalculationModal = ({
     return calculationListWeight.reduce(
       (total, item) =>
         ConvertNumberToTwoDecimals(
-          total + item.equipmentWeight.weight * item.multiplyFactor
+          total + item.equipmentWeight.weight * item.multiplier
         ),
       0
     );
@@ -197,48 +197,48 @@ export const CalculationModal = ({
     return calculationListDistance.reduce(
       (total, item) =>
         ConvertNumberToTwoDecimals(
-          total + item.distance.distance * item.multiplyFactor
+          total + item.distance.distance * item.multiplier
         ),
       0
     );
   }, [calculationListDistance]);
 
-  const totalMultiplyFactor = useMemo(() => {
+  const totalMultiplier = useMemo(() => {
     const isInputInvalid = IsStringInvalidNumber(totalMultiplierInput);
 
     setIsTotalMultiplierInvalid(isInputInvalid);
 
-    const multiplyFactor =
+    const multiplier =
       isInputInvalid || IsStringEmpty(totalMultiplierInput)
         ? 1
         : Number(totalMultiplierInput);
 
-    return multiplyFactor;
+    return multiplier;
   }, [totalMultiplierInput]);
 
   const resultWeight = useMemo(() => {
-    return ConvertNumberToTwoDecimals(totalWeight * totalMultiplyFactor);
-  }, [totalWeight, totalMultiplyFactor]);
+    return ConvertNumberToTwoDecimals(totalWeight * totalMultiplier);
+  }, [totalWeight, totalMultiplier]);
 
   const resultDistance = useMemo(() => {
-    return ConvertNumberToTwoDecimals(totalDistance * totalMultiplyFactor);
-  }, [totalDistance, totalMultiplyFactor]);
+    return ConvertNumberToTwoDecimals(totalDistance * totalMultiplier);
+  }, [totalDistance, totalMultiplier]);
 
-  const handleWeightMultiplyFactorChange = (
+  const handleWeightMultiplierChange = (
     value: string,
     weight: CalculationItemWeight,
     index: number
   ) => {
     const isInputInvalid = IsStringInvalidNumber(value);
 
-    const multiplyFactor =
+    const multiplier =
       isInputInvalid || IsStringEmpty(value) ? 1 : Number(value);
 
     const updatedCalculationItem = {
       ...weight,
-      multiplyInput: value,
-      multiplyFactor: multiplyFactor,
-      isMultiplyInputInvalid: isInputInvalid,
+      multiplierInput: value,
+      multiplier: multiplier,
+      isMultiplierInputInvalid: isInputInvalid,
     };
 
     const updatedCalculationListWeight = [...calculationListWeight];
@@ -248,21 +248,21 @@ export const CalculationModal = ({
     setCalculationListWeight(updatedCalculationListWeight);
   };
 
-  const handleDistanceMultiplyFactorChange = (
+  const handleDistanceMultiplierChange = (
     value: string,
     distance: CalculationItemDistance,
     index: number
   ) => {
     const isInputInvalid = IsStringInvalidNumber(value);
 
-    const multiplyFactor =
+    const multiplier =
       isInputInvalid || IsStringEmpty(value) ? 1 : Number(value);
 
     const updatedCalculationItem = {
       ...distance,
-      multiplyInput: value,
-      multiplyFactor: multiplyFactor,
-      isMultiplyInputInvalid: isInputInvalid,
+      multiplierInput: value,
+      multiplier: multiplier,
+      isMultiplierInputInvalid: isInputInvalid,
     };
 
     const updatedCalculationListDistance = [...calculationListDistance];
@@ -293,9 +293,9 @@ export const CalculationModal = ({
                   <>
                     {presetsType === "equipment" ? (
                       <div className="flex flex-col gap-1">
-                        <div className="flex px-1 text-sm font-medium">
+                        <div className="flex px-0.5 text-sm font-medium">
                           <span>Weight</span>
-                          <span className="pl-[13.25rem]">Multiply Factor</span>
+                          <span className="pl-[14.5rem]">Multiplier</span>
                         </div>
                         <ScrollShadow className="flex flex-col gap-1.5 h-[330px]">
                           {calculationListWeight.map((weight, index) => (
@@ -323,10 +323,12 @@ export const CalculationModal = ({
                                       aria-label={`${weight.equipmentWeight.name} Multiplier Input`}
                                       size="sm"
                                       variant="faded"
-                                      value={weight.multiplyInput}
-                                      isInvalid={weight.isMultiplyInputInvalid}
+                                      value={weight.multiplierInput}
+                                      isInvalid={
+                                        weight.isMultiplierInputInvalid
+                                      }
                                       onValueChange={(value) =>
-                                        handleWeightMultiplyFactorChange(
+                                        handleWeightMultiplierChange(
                                           value,
                                           weight,
                                           index
@@ -355,9 +357,9 @@ export const CalculationModal = ({
                       </div>
                     ) : (
                       <div className="flex flex-col gap-1">
-                        <div className="flex px-1 text-sm font-medium">
+                        <div className="flex px-0.5 text-sm font-medium">
                           <span>Distance</span>
-                          <span className="pl-[12.75rem]">Multiply Factor</span>
+                          <span className="pl-[14rem]">Multiplier</span>
                         </div>
                         <ScrollShadow className="flex flex-col gap-1.5 h-[330px]">
                           {calculationListDistance.map((distance, index) => (
@@ -385,12 +387,12 @@ export const CalculationModal = ({
                                       aria-label={`${distance.distance.name} Multiplier Input`}
                                       size="sm"
                                       variant="faded"
-                                      value={distance.multiplyInput}
+                                      value={distance.multiplierInput}
                                       isInvalid={
-                                        distance.isMultiplyInputInvalid
+                                        distance.isMultiplierInputInvalid
                                       }
                                       onValueChange={(value) =>
-                                        handleDistanceMultiplyFactorChange(
+                                        handleDistanceMultiplierChange(
                                           value,
                                           distance,
                                           index
@@ -433,8 +435,8 @@ export const CalculationModal = ({
                       <div className="flex items-end font-medium text-lg leading-none">
                         Total
                       </div>
-                      <div className="flex items-end font-medium text-sm leading-none pb-1">
-                        Multiply Factor
+                      <div className="flex items-end font-medium text-lg leading-none justify-self-center">
+                        Multiplier
                       </div>
                       <div className="flex items-end font-semibold text-lg leading-none justify-self-end">
                         Result

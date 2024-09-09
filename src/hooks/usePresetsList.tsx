@@ -18,7 +18,7 @@ export const usePresetsList = (
     []
   );
   const [distances, setDistances] = useState<Distance[]>([]);
-  const [presetsType, setPresetsType] = useState<PresetsType>("equipment");
+  const [presetsType, setPresetsType] = useState<PresetsType>("distance");
   const [favoritesCheckboxValueEquipment, setFavoritesCheckboxValueEquipment] =
     useState<boolean>(true);
   const [favoritesCheckboxValueDistance, setFavoritesCheckboxValueDistance] =
