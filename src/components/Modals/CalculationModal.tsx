@@ -409,17 +409,8 @@ export const CalculationModal = ({
                           </div>
                         ))}
                       </ScrollShadow>
-                      <div className="grid grid-rows-2 grid-cols-4 gap-y-0.5">
-                        <div className="flex items-end col-start-2 font-medium text-lg leading-none">
-                          List Total
-                        </div>
-                        <div className="flex items-end font-medium text-sm leading-none">
-                          Multiply Factor
-                        </div>
-                        <div className="flex items-end font-semibold text-xl leading-none justify-self-end">
-                          Result
-                        </div>
-                        <div className="bg-red-100">
+                      <div className="grid grid-rows-2 grid-cols-4 h-[3.75rem]">
+                        <div className="row-span-2 flex items-end">
                           {!isListEmpty && (
                             <Button
                               variant="flat"
@@ -430,14 +421,22 @@ export const CalculationModal = ({
                             </Button>
                           )}
                         </div>
-                        <div className="flex gap-1 text-stone-400 font-semibold text-lg bg-blue-100">
+                        <div className="flex items-end font-medium text-lg leading-none">
+                          Total
+                        </div>
+                        <div className="flex items-end font-medium text-sm leading-none pb-0.5">
+                          Multiply Factor
+                        </div>
+                        <div className="flex items-end font-semibold text-lg leading-none justify-self-end">
+                          Result
+                        </div>
+                        <div className="flex gap-1 text-stone-400 font-semibold text-lg pt-0.5">
                           <span className="max-w-[4rem] truncate">
-                            {/* {totalDistance} */}
-                            333.33
+                            {totalDistance}
                           </span>
                           <span>{distanceUnit}</span>
                         </div>
-                        <div className="justify-self-center bg-red-100">
+                        <div className="justify-self-center">
                           <Input
                             className="w-[4rem]"
                             size="sm"
@@ -448,9 +447,9 @@ export const CalculationModal = ({
                             isClearable
                           />
                         </div>
-                        <div className="flex gap-1 text-secondary font-semibold text-lg text-right bg-blue-100">
+                        <div className="flex gap-1 text-secondary font-semibold text-lg pt-0.5 justify-self-end">
                           <span className="max-w-[4rem] truncate">
-                            {/* {totalDistance} */}333.33
+                            {totalDistance}
                           </span>
                           <span>{distanceUnit}</span>
                         </div>
