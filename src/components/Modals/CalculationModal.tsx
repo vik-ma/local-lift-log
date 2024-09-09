@@ -320,6 +320,7 @@ export const CalculationModal = ({
                                   </div>
                                   <div className="w-[4rem]">
                                     <Input
+                                      aria-label={`${weight.equipmentWeight.name} Multiplier Input`}
                                       size="sm"
                                       variant="faded"
                                       value={weight.multiplyInput}
@@ -381,6 +382,7 @@ export const CalculationModal = ({
                                   </div>
                                   <div className="w-[4rem]">
                                     <Input
+                                      aria-label={`${distance.distance.name} Multiplier Input`}
                                       size="sm"
                                       variant="faded"
                                       value={distance.multiplyInput}
@@ -431,7 +433,7 @@ export const CalculationModal = ({
                       <div className="flex items-end font-medium text-lg leading-none">
                         Total
                       </div>
-                      <div className="flex items-end font-medium text-sm leading-none pb-0.5">
+                      <div className="flex items-end font-medium text-sm leading-none pb-1">
                         Multiply Factor
                       </div>
                       <div className="flex items-end font-semibold text-lg leading-none justify-self-end">
@@ -451,6 +453,7 @@ export const CalculationModal = ({
                       </div>
                       <div className="justify-self-center">
                         <Input
+                          aria-label={`Total ${presetText} Multiplier Input`}
                           className="w-[4rem]"
                           size="sm"
                           variant="faded"
