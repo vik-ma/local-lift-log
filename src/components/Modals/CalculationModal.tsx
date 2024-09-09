@@ -264,7 +264,7 @@ export const CalculationModal = ({
               )}
             </ModalHeader>
             <ModalBody>
-              <div className="h-[400px] flex flex-col gap-2 items-center">
+              <div className="h-[400px] flex flex-col gap-2">
                 {calculationModalPage === "base" ? (
                   <>
                     {presetsType === "equipment" ? (
