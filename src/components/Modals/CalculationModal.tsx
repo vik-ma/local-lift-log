@@ -203,35 +203,26 @@ export const CalculationModal = ({
     );
   }, [calculationListDistance]);
 
-  const resultWeight = useMemo(() => {
+  const totalMultiplyFactor = useMemo(() => {
     const isInputInvalid = IsStringInvalidNumber(totalMultiplierInput);
 
-    if (isInputInvalid) {
-      setIsTotalMultiplierInvalid(true);
-    }
+    setIsTotalMultiplierInvalid(isInputInvalid);
 
     const multiplyFactor =
       isInputInvalid || IsStringEmpty(totalMultiplierInput)
         ? 1
         : Number(totalMultiplierInput);
 
-    return ConvertNumberToTwoDecimals(totalWeight * multiplyFactor);
-  }, [totalWeight, totalMultiplierInput]);
+    return multiplyFactor;
+  }, [totalMultiplierInput]);
+
+  const resultWeight = useMemo(() => {
+    return ConvertNumberToTwoDecimals(totalWeight * totalMultiplyFactor);
+  }, [totalWeight, totalMultiplyFactor]);
 
   const resultDistance = useMemo(() => {
-    const isInputInvalid = IsStringInvalidNumber(totalMultiplierInput);
-
-    if (isInputInvalid) {
-      setIsTotalMultiplierInvalid(true);
-    }
-
-    const multiplyFactor =
-      isInputInvalid || IsStringEmpty(totalMultiplierInput)
-        ? 1
-        : Number(totalMultiplierInput);
-
-    return ConvertNumberToTwoDecimals(totalDistance * multiplyFactor);
-  }, [totalDistance, totalMultiplierInput]);
+    return ConvertNumberToTwoDecimals(totalDistance * totalMultiplyFactor);
+  }, [totalDistance, totalMultiplyFactor]);
 
   const handleWeightMultiplyFactorChange = (
     value: string,
