@@ -409,7 +409,16 @@ export const CalculationModal = ({
                           </div>
                         ))}
                       </ScrollShadow>
-                      <div className="flex justify-between items-end">
+                      <div className="grid grid-rows-2 grid-cols-4 items-baseline text-center">
+                        <div className="col-start-2 font-medium text-lg">
+                          List Total
+                        </div>
+                        <div className="font-medium text-sm">
+                          Multiply Factor
+                        </div>
+                        <div className="font-medium text-lg text-right">
+                          Result
+                        </div>
                         <div>
                           {!isListEmpty && (
                             <Button
@@ -421,14 +430,29 @@ export const CalculationModal = ({
                             </Button>
                           )}
                         </div>
-                        <div className="flex flex-col items-end">
-                          <span className="font-medium text-lg">Total</span>
-                          <div className="flex gap-1 text-secondary font-semibold text-xl">
-                            <span className="max-w-40 truncate">
-                              {totalDistance}
-                            </span>
-                            <span>{distanceUnit}</span>
-                          </div>
+                        <div className="flex gap-1 text-stone-400 font-semibold text-lg">
+                          <span className="max-w-[4rem] truncate">
+                            {/* {totalDistance} */}
+                            333.33
+                          </span>
+                          <span>{distanceUnit}</span>
+                        </div>
+                        <div className="justify-self-center">
+                          <Input
+                            className="w-[4rem]"
+                            size="sm"
+                            variant="faded"
+                            // value={}
+                            // isInvalid={}
+                            // onValueChange={}
+                            isClearable
+                          />
+                        </div>
+                        <div className="flex gap-1 text-secondary font-semibold text-lg text-right">
+                          <span className="max-w-[4rem] truncate">
+                            {/* {totalDistance} */}333.33
+                          </span>
+                          <span>{distanceUnit}</span>
                         </div>
                       </div>
                     </div>
