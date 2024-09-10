@@ -285,18 +285,18 @@ export const CalculationModal = ({
     setCalculationListDistance(updatedCalculationListDistance);
   };
 
-  const incrementTotalMultiplier = (key: string, isIncrease: boolean) => {
+  const incrementMultiplier = (key: string, isIncrease: boolean) => {
     const modifier = isIncrease ? 1 : -1;
 
     switch (key) {
       case "total": {
         if (isTotalMultiplierInvalid) return;
 
-        const newValue = parseFloat(
-          (ConvertInputStringToNumber(totalMultiplierInput) + modifier).toFixed(
-            2
-          )
-        );
+        const totalInputNum = IsStringEmpty(totalMultiplierInput)
+          ? 1
+          : ConvertInputStringToNumber(totalMultiplierInput);
+
+        const newValue = parseFloat((totalInputNum + modifier).toFixed(2));
 
         const updatedInput = newValue === 1 ? "" : newValue.toString();
         setTotalMultiplierInput(updatedInput);
@@ -518,7 +518,7 @@ export const CalculationModal = ({
                         />
                         <PlusAndMinusButtons
                           trackingValue="total"
-                          updateValue={incrementTotalMultiplier}
+                          updateValue={incrementMultiplier}
                           isDecreaseDisabled={
                             disableTotalMultiplierDecreaseButton
                           }
