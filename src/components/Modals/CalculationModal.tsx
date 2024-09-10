@@ -24,6 +24,7 @@ import {
 import { useMemo, useState } from "react";
 import { CrossCircleIcon } from "../../assets";
 import {
+  ConvertInputStringToNumber,
   ConvertNumberToTwoDecimals,
   IsStringEmpty,
   IsStringInvalidNumber,
@@ -284,6 +285,29 @@ export const CalculationModal = ({
     setCalculationListDistance(updatedCalculationListDistance);
   };
 
+  const incrementTotalMultiplier = (key: string, isIncrease: boolean) => {
+    const modifier = isIncrease ? 1 : -1;
+
+    switch (key) {
+      case "total": {
+        if (isTotalMultiplierInvalid) return;
+
+        const newValue = parseFloat(
+          (ConvertInputStringToNumber(totalMultiplierInput) + modifier).toFixed(
+            2
+          )
+        );
+
+        const updatedInput = newValue === 1 ? "" : newValue.toString();
+        setTotalMultiplierInput(updatedInput);
+
+        break;
+      }
+      default:
+        break;
+    }
+  };
+
   return (
     <Modal
       isOpen={calculationModal.isOpen}
@@ -493,8 +517,8 @@ export const CalculationModal = ({
                           isClearable
                         />
                         <PlusAndMinusButtons
-                          trackingValue="weight"
-                          updateValue={() => {}}
+                          trackingValue="total"
+                          updateValue={incrementTotalMultiplier}
                           isDecreaseDisabled={
                             disableTotalMultiplierDecreaseButton
                           }
