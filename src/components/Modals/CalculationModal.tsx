@@ -15,7 +15,12 @@ import {
   UsePresetsListReturnType,
 } from "../../typings";
 import { FavoriteButton } from "../FavoriteButton";
-import { EmptyListLabel, LoadingSpinner, SearchInput } from "..";
+import {
+  EmptyListLabel,
+  LoadingSpinner,
+  PlusAndMinusButtons,
+  SearchInput,
+} from "..";
 import { useMemo, useState } from "react";
 import { CrossCircleIcon } from "../../assets";
 import {
@@ -203,18 +208,25 @@ export const CalculationModal = ({
     );
   }, [calculationListDistance]);
 
-  const totalMultiplier = useMemo(() => {
-    const isInputInvalid = IsStringInvalidNumber(totalMultiplierInput);
+  const { totalMultiplier, disableTotalMultiplierDecreaseButton } =
+    useMemo(() => {
+      const isInputInvalid = IsStringInvalidNumber(totalMultiplierInput);
 
-    setIsTotalMultiplierInvalid(isInputInvalid);
+      setIsTotalMultiplierInvalid(isInputInvalid);
 
-    const multiplier =
-      isInputInvalid || IsStringEmpty(totalMultiplierInput)
-        ? 1
-        : Number(totalMultiplierInput);
+      const multiplier =
+        isInputInvalid || IsStringEmpty(totalMultiplierInput)
+          ? 1
+          : Number(totalMultiplierInput);
 
-    return multiplier;
-  }, [totalMultiplierInput]);
+      const disableButton =
+        isInputInvalid || Number(totalMultiplierInput) - 1 <= 0;
+
+      return {
+        totalMultiplier: multiplier,
+        disableTotalMultiplierDecreaseButton: disableButton,
+      };
+    }, [totalMultiplierInput]);
 
   const resultWeight = useMemo(() => {
     return ConvertNumberToTwoDecimals(totalWeight * totalMultiplier);
@@ -469,16 +481,24 @@ export const CalculationModal = ({
                             : distanceUnit}
                         </span>
                       </div>
-                      <div className="justify-self-center pt-0.5">
+                      <div className="flex justify-self-center gap-0.5 pt-0.5">
                         <Input
                           aria-label={`Total ${presetText} Multiplier Input`}
-                          className="w-[4rem]"
+                          className="w-[4rem] order-2"
                           size="sm"
                           variant="faded"
                           value={totalMultiplierInput}
                           isInvalid={isTotalMultiplierInvalid}
                           onValueChange={setTotalMultiplierInput}
                           isClearable
+                        />
+                        <PlusAndMinusButtons
+                          trackingValue="weight"
+                          updateValue={() => {}}
+                          isDecreaseDisabled={
+                            disableTotalMultiplierDecreaseButton
+                          }
+                          wrapAround
                         />
                       </div>
                       <div className="flex gap-1 text-secondary font-semibold text-lg pt-0.5 justify-self-end">
