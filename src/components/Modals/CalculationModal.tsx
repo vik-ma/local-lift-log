@@ -224,7 +224,9 @@ export const CalculationModal = ({
 
   const { totalMultiplier, disableTotalMultiplierDecreaseButton } =
     useMemo(() => {
-      const isInputInvalid = IsStringInvalidNumber(totalMultiplierInput);
+      const isInputInvalid =
+        IsStringInvalidNumber(totalMultiplierInput) ||
+        totalMultiplierInput === "0";
 
       setIsTotalMultiplierInvalid(isInputInvalid);
 
@@ -255,7 +257,7 @@ export const CalculationModal = ({
     weight: CalculationItemWeight,
     index: number
   ) => {
-    const isInputInvalid = IsStringInvalidNumber(value);
+    const isInputInvalid = IsStringInvalidNumber(value) || value === "0";
 
     const multiplier =
       isInputInvalid || IsStringEmpty(value) ? 1 : Number(value);
@@ -279,7 +281,7 @@ export const CalculationModal = ({
     distance: CalculationItemDistance,
     index: number
   ) => {
-    const isInputInvalid = IsStringInvalidNumber(value);
+    const isInputInvalid = IsStringInvalidNumber(value) || value === "0";
 
     const multiplier =
       isInputInvalid || IsStringEmpty(value) ? 1 : Number(value);
