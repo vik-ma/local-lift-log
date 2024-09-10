@@ -175,15 +175,28 @@ export const CalculationModal = ({
     if (presetsType === "distance") {
       setCalculationListDistance([]);
     }
+
+    setTotalMultiplierInput("");
   };
 
-  const isListEmpty = useMemo(() => {
+  const showClearAllButton = useMemo(() => {
     if (presetsType === "equipment") {
-      return calculationListWeight.length === 0;
+      return (
+        calculationListWeight.length !== 0 ||
+        !IsStringEmpty(totalMultiplierInput)
+      );
     } else {
-      return calculationListDistance.length === 0;
+      return (
+        calculationListDistance.length !== 0 ||
+        !IsStringEmpty(totalMultiplierInput)
+      );
     }
-  }, [presetsType, calculationListWeight, calculationListDistance]);
+  }, [
+    presetsType,
+    calculationListWeight,
+    calculationListDistance,
+    totalMultiplierInput,
+  ]);
 
   const presetText = useMemo(() => {
     return presetsType === "equipment" ? "Weight" : "Distance";
@@ -324,7 +337,7 @@ export const CalculationModal = ({
                   <>Select {presetText}</>
                 )}
               </div>
-              {!isListEmpty && (
+              {showClearAllButton && (
                 <Button
                   className="absolute right-10"
                   variant="flat"
