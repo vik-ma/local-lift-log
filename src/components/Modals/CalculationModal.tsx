@@ -680,8 +680,10 @@ export const CalculationModal = ({
                 </Button>
                 <Button
                   color="primary"
-                  // TODO: ADD ISDISABLED
-                  // isDisabled={}
+                  isDisabled={
+                    (presetsType === "equipment" && resultWeight === 0) ||
+                    (presetsType === "distance" && resultDistance === 0)
+                  }
                   onPress={doneButtonAction}
                 >
                   Done
