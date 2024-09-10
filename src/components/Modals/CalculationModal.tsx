@@ -281,10 +281,23 @@ export const CalculationModal = ({
         {(onClose) => (
           <>
             <ModalHeader>
-              {calculationModalPage === "base" ? (
-                <>Calculate {presetText}</>
-              ) : (
-                <>Select {presetText}</>
+              <div>
+                {calculationModalPage === "base" ? (
+                  <>Calculate {presetText}</>
+                ) : (
+                  <>Select {presetText}</>
+                )}
+              </div>
+              {!isListEmpty && (
+                <Button
+                  className="absolute right-10"
+                  variant="flat"
+                  size="sm"
+                  color="danger"
+                  onPress={handleClearAllButton}
+                >
+                  Clear All
+                </Button>
               )}
             </ModalHeader>
             <ModalBody>
@@ -435,17 +448,7 @@ export const CalculationModal = ({
                       </div>
                     )}
                     <div className="grid grid-rows-2 grid-cols-4 h-[3.5rem]">
-                      <div className="row-span-2 flex items-end">
-                        {!isListEmpty && (
-                          <Button
-                            variant="flat"
-                            size="sm"
-                            onPress={handleClearAllButton}
-                          >
-                            Clear All
-                          </Button>
-                        )}
-                      </div>
+                      <div className="row-span-2 flex items-end"></div>
                       <div className="flex items-end font-medium text-lg leading-none">
                         Total
                       </div>
