@@ -554,6 +554,8 @@ export const CalculationModal = ({
                       </div>
                     </div>
                   </>
+                ) : calculationModalPage === "calc" ? (
+                  <>Calculator</>
                 ) : (
                   <>
                     <SearchInput
@@ -658,7 +660,7 @@ export const CalculationModal = ({
               </div>
             </ModalBody>
             <ModalFooter className="flex justify-between">
-              <div className="flex gap-2">
+              <div className="flex gap-1">
                 <Button
                   className="w-28"
                   variant="flat"
@@ -673,6 +675,14 @@ export const CalculationModal = ({
                     ? `Add ${presetText}`
                     : "Back"}
                 </Button>
+                {calculationModalPage !== "calc" && (
+                  <Button
+                    variant="flat"
+                    onPress={() => setCalculationModalPage("calc")}
+                  >
+                    Calculator
+                  </Button>
+                )}
               </div>
               <div className="flex gap-2">
                 <Button color="primary" variant="light" onPress={onClose}>
