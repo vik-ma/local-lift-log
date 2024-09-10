@@ -310,7 +310,7 @@ export const CalculationModal = ({
                           <span>Weight</span>
                           <span className="pl-[14.5rem]">Multiplier</span>
                         </div>
-                        <ScrollShadow className="flex flex-col gap-1.5 h-[330px]">
+                        <ScrollShadow className="flex flex-col gap-1.5 h-[325px]">
                           {calculationListWeight.map((weight, index) => (
                             <div
                               key={`calculation-list-weight-${index}`}
@@ -381,7 +381,7 @@ export const CalculationModal = ({
                           <span>Distance</span>
                           <span className="pl-[14rem]">Multiplier</span>
                         </div>
-                        <ScrollShadow className="flex flex-col gap-1.5 h-[330px]">
+                        <ScrollShadow className="flex flex-col gap-1.5 h-[325px]">
                           {calculationListDistance.map((distance, index) => (
                             <div
                               key={`calculation-list-distance-${index}`}
@@ -447,15 +447,14 @@ export const CalculationModal = ({
                         </ScrollShadow>
                       </div>
                     )}
-                    <div className="grid grid-rows-2 grid-cols-4 h-[3.5rem]">
-                      <div className="row-span-2 flex items-end"></div>
+                    <div className="grid grid-rows-2 grid-cols-3 h-[3.5rem]">
                       <div className="flex items-end font-medium text-lg leading-none">
                         Total
                       </div>
                       <div className="flex items-end font-medium text-lg leading-none justify-self-center">
                         Multiplier
                       </div>
-                      <div className="flex items-end font-semibold text-lg leading-none justify-self-end">
+                      <div className="flex items-end font-medium text-lg leading-none justify-self-end">
                         Result
                       </div>
                       <div className="flex gap-1 text-stone-400 font-semibold text-lg pt-0.5">
@@ -470,7 +469,7 @@ export const CalculationModal = ({
                             : distanceUnit}
                         </span>
                       </div>
-                      <div className="justify-self-center">
+                      <div className="justify-self-center pt-0.5">
                         <Input
                           aria-label={`Total ${presetText} Multiplier Input`}
                           className="w-[4rem]"
