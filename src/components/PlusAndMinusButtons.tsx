@@ -7,6 +7,7 @@ type PlusAndMinusButtonsProps = {
   updateValue: (key: SetTrackingValues, isIncrease: boolean) => void;
   isDecreaseDisabled: boolean;
   isIncreaseDisabled?: boolean;
+  wrapAround?: boolean;
 };
 
 export const PlusAndMinusButtons = ({
@@ -14,10 +15,12 @@ export const PlusAndMinusButtons = ({
   updateValue,
   isDecreaseDisabled,
   isIncreaseDisabled,
+  wrapAround,
 }: PlusAndMinusButtonsProps) => {
   return (
     <>
       <Button
+        className={wrapAround ? "order-1" : ""}
         isIconOnly
         variant="flat"
         size="sm"
@@ -27,6 +30,7 @@ export const PlusAndMinusButtons = ({
         <MinusIcon />
       </Button>
       <Button
+        className={wrapAround ? "order-3" : ""}
         isIconOnly
         variant="flat"
         size="sm"
