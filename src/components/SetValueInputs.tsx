@@ -11,7 +11,7 @@ import {
   WeightUnitDropdown,
   DistanceUnitDropdown,
   TimeInput,
-  SetValueUpdateButtons,
+  PlusAndMinusButtons,
 } from ".";
 import { Button, Input } from "@nextui-org/react";
 import {
@@ -320,7 +320,7 @@ export const SetValueInputs = ({
             isInvalid={setInputsInvalidityMap.weight}
             isClearable
           />
-          <SetValueUpdateButtons
+          <PlusAndMinusButtons
             trackingValue="weight"
             updateValue={updateValue}
             isDecreaseDisabled={disableUpdateValueButtonsMap.weight.decrease}
@@ -351,7 +351,7 @@ export const SetValueInputs = ({
             isInvalid={setInputsInvalidityMap.reps}
             isClearable
           />
-          <SetValueUpdateButtons
+          <PlusAndMinusButtons
             trackingValue="reps"
             updateValue={updateValue}
             isDecreaseDisabled={disableUpdateValueButtonsMap.reps.decrease}
@@ -376,7 +376,7 @@ export const SetValueInputs = ({
             isInvalid={setInputsInvalidityMap.distance}
             isClearable
           />
-          <SetValueUpdateButtons
+          <PlusAndMinusButtons
             trackingValue="distance"
             updateValue={updateValue}
             isDecreaseDisabled={disableUpdateValueButtonsMap.distance.decrease}
@@ -401,7 +401,7 @@ export const SetValueInputs = ({
             isSmall={true}
           />
           <div className="flex gap-1">
-            <SetValueUpdateButtons
+            <PlusAndMinusButtons
               trackingValue="time"
               updateValue={updateValue}
               isDecreaseDisabled={disableUpdateValueButtonsMap.time.decrease}
@@ -427,7 +427,7 @@ export const SetValueInputs = ({
             isInvalid={setInputsInvalidityMap.rir}
             isClearable
           />
-          <SetValueUpdateButtons
+          <PlusAndMinusButtons
             trackingValue="rir"
             updateValue={updateValue}
             isDecreaseDisabled={disableUpdateValueButtonsMap.rir.decrease}
@@ -452,7 +452,7 @@ export const SetValueInputs = ({
             isInvalid={setInputsInvalidityMap.rpe}
             isClearable
           />
-          <SetValueUpdateButtons
+          <PlusAndMinusButtons
             trackingValue="rpe"
             updateValue={updateValue}
             isDecreaseDisabled={disableUpdateValueButtonsMap.rpe.decrease}
@@ -482,7 +482,7 @@ export const SetValueInputs = ({
             isInvalid={setInputsInvalidityMap.resistance_level}
             isClearable
           />
-          <SetValueUpdateButtons
+          <PlusAndMinusButtons
             trackingValue="resistance_level"
             updateValue={updateValue}
             isDecreaseDisabled={
@@ -513,7 +513,7 @@ export const SetValueInputs = ({
             isInvalid={setInputsInvalidityMap.partial_reps}
             isClearable
           />
-          <SetValueUpdateButtons
+          <PlusAndMinusButtons
             trackingValue="partial_reps"
             updateValue={updateValue}
             isDecreaseDisabled={
@@ -545,7 +545,7 @@ export const SetValueInputs = ({
               isInvalid={setInputsInvalidityMap.user_weight}
               isClearable
             />
-            <SetValueUpdateButtons
+            <PlusAndMinusButtons
               trackingValue="user_weight"
               updateValue={updateValue}
               isDecreaseDisabled={

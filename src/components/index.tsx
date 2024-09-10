@@ -15,7 +15,7 @@ export { MultisetReorderItem } from "./MultisetReorderItem";
 export { SetValueConfig } from "./SetValueConfig";
 export { MultisetSetMenu } from "./MultisetSetMenu";
 export { MultisetTemplateModalList } from "./MultisetTemplateModalList";
-export { SetValueUpdateButtons } from "./SetValueUpdateButtons";
+export { PlusAndMinusButtons } from "./PlusAndMinusButtons";
 export { SearchInput } from "./SearchInput";
 export { ListPageSearchInput } from "./ListPageSearchInput";
 export { FavoriteButton } from "./FavoriteButton";
