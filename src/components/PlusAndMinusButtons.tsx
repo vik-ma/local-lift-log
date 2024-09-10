@@ -1,10 +1,9 @@
 import { Button } from "@nextui-org/react";
 import { MinusIcon, PlusIcon } from "../assets";
-import { SetTrackingValues } from "../typings";
 
 type PlusAndMinusButtonsProps = {
-  trackingValue: SetTrackingValues;
-  updateValue: (key: SetTrackingValues, isIncrease: boolean) => void;
+  trackingValue: string;
+  updateValue: (key: string, isIncrease: boolean) => void;
   isDecreaseDisabled: boolean;
   isIncreaseDisabled?: boolean;
   wrapAround?: boolean;

@@ -4,7 +4,6 @@ import {
   UseSetTrackingInputsReturnType,
   UserSettings,
   UserWeight,
-  SetTrackingValues,
   UseDisclosureReturnType,
 } from "../typings";
 import {
@@ -168,7 +167,7 @@ export const SetValueInputs = ({
     operatingSet.time_in_seconds,
   ]);
 
-  const updateValue = (key: SetTrackingValues, isIncrease: boolean) => {
+  const updateValue = (key: string, isIncrease: boolean) => {
     const updatedSet = { ...operatingSet };
     const updatedSetInputs = { ...setTrackingValuesInput };
     const modifier = isIncrease ? 1 : -1;
