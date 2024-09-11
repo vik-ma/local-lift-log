@@ -20,6 +20,7 @@ export { SearchInput } from "./SearchInput";
 export { ListPageSearchInput } from "./ListPageSearchInput";
 export { FavoriteButton } from "./FavoriteButton";
 export { EmptyListLabel } from "./EmptyListLabel";
+export { Calculator } from "./Calculator";
 
 export { WeightUnitDropdown } from "./Dropdowns/WeightUnitDropdown";
 export { DistanceUnitDropdown } from "./Dropdowns/DistanceUnitDropdown";

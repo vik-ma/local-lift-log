@@ -16,6 +16,7 @@ import {
 } from "../../typings";
 import { FavoriteButton } from "../FavoriteButton";
 import {
+  Calculator,
   EmptyListLabel,
   LoadingSpinner,
   PlusAndMinusButtons,
@@ -577,7 +578,9 @@ export const CalculationModal = ({
                     </div>
                   </>
                 ) : calculationModalPage === "calc" ? (
-                  <>Calculator</>
+                  <>
+                    <Calculator />
+                  </>
                 ) : (
                   <>
                     <SearchInput
