@@ -18,3 +18,4 @@ export { PlusIcon } from "./PlusIcon";
 export { MinusIcon } from "./MinusIcon";
 export { DivideIcon } from "./DivideIcon";
 export { BackspaceIcon } from "./BackspaceIcon";
+export { EqualsIcon } from "./EqualsIcon";
