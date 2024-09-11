@@ -16,5 +16,3 @@ export const GearIcon = ({ color, size }: GearIconProps) => {
     </svg>
   );
 };
-
-export default GearIcon;

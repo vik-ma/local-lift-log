@@ -17,5 +17,3 @@ export const RefreshIcon = () => {
     </svg>
   );
 };
-
-export default RefreshIcon;

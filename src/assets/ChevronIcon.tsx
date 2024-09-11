@@ -32,5 +32,3 @@ export const ChevronIcon = ({ color, size, direction }: ChevronIconProps) => {
     </svg>
   );
 };
-
-export default ChevronIcon;

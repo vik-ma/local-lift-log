@@ -18,5 +18,3 @@ export const PlusIcon = ({ color, size }: PlusIconProps) => {
     </svg>
   );
 };
-
-export default PlusIcon;

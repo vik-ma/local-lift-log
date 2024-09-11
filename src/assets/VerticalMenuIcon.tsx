@@ -16,5 +16,3 @@ export const VerticalMenuIcon = ({ size, color }: VerticalMenuIconProps) => {
     </svg>
   );
 };
-
-export default VerticalMenuIcon;

@@ -29,5 +29,3 @@ export const CheckmarkIcon = ({
     </svg>
   );
 };
-
-export default CheckmarkIcon;

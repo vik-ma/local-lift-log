@@ -18,5 +18,3 @@ export const MinusIcon = ({ color, size }: MinusIconProps) => {
     </svg>
   );
 };
-
-export default MinusIcon;

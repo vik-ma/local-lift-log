@@ -21,5 +21,3 @@ export const MinimizeIcon = ({ color, size }: MinimizeIconProps) => {
     </svg>
   );
 };
-
-export default MinimizeIcon;

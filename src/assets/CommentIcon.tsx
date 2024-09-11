@@ -18,5 +18,3 @@ export const CommentIcon = ({ size }: CommentIconProps) => {
     </svg>
   );
 };
-
-export default CommentIcon;

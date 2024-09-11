@@ -22,5 +22,3 @@ export const CloseIcon = ({ color, size }: CloseIconProps) => {
     </svg>
   );
 };
-
-export default CloseIcon;
