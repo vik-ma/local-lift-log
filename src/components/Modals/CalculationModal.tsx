@@ -339,17 +339,6 @@ export const CalculationModal = ({
                   <>Select {presetText}</>
                 )}
               </div>
-              {showClearAllButton && (
-                <Button
-                  className="absolute right-10"
-                  variant="flat"
-                  size="sm"
-                  color="danger"
-                  onPress={handleClearAllButton}
-                >
-                  Clear All
-                </Button>
-              )}
             </ModalHeader>
             <ModalBody>
               <div className="h-[400px] flex flex-col gap-2">
@@ -357,6 +346,39 @@ export const CalculationModal = ({
                   <>
                     {presetsType === "equipment" ? (
                       <div className="flex flex-col gap-1">
+                        <div className="flex justify-between pb-1">
+                          <div className="flex gap-1">
+                            <Button
+                              size="sm"
+                              variant="flat"
+                              color="secondary"
+                              onPress={handleGoToListButton}
+                            >
+                              Add Preset
+                            </Button>
+                            <Button size="sm" variant="flat">
+                              Add {presetText}
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="flat"
+                              onPress={() => setCalculationModalPage("calc")}
+                            >
+                              Add Calculation
+                            </Button>
+                          </div>
+                          {showClearAllButton && (
+                            <Button
+                              className="absolute right-10"
+                              variant="flat"
+                              size="sm"
+                              color="danger"
+                              onPress={handleClearAllButton}
+                            >
+                              Clear All
+                            </Button>
+                          )}
+                        </div>
                         <div className="flex px-0.5 text-sm font-medium">
                           <span>Weight</span>
                           <span className="pl-[14.5rem]">Multiplier</span>
@@ -675,14 +697,6 @@ export const CalculationModal = ({
                     ? `Add ${presetText}`
                     : "Back"}
                 </Button>
-                {calculationModalPage !== "calc" && (
-                  <Button
-                    variant="flat"
-                    onPress={() => setCalculationModalPage("calc")}
-                  >
-                    Calculator
-                  </Button>
-                )}
               </div>
               <div className="flex gap-2">
                 <Button color="primary" variant="light" onPress={onClose}>
