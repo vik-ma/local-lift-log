@@ -346,7 +346,7 @@ export const CalculationModal = ({
                   <>
                     {presetsType === "equipment" ? (
                       <div className="flex flex-col gap-1">
-                        <div className="flex justify-between pb-1">
+                        <div className="flex justify-between pb-1.5">
                           <div className="flex gap-1">
                             <Button
                               size="sm"
@@ -383,7 +383,7 @@ export const CalculationModal = ({
                           <span>Weight</span>
                           <span className="pl-[14.5rem]">Multiplier</span>
                         </div>
-                        <ScrollShadow className="flex flex-col gap-1.5 h-[325px]">
+                        <ScrollShadow className="flex flex-col gap-1.5 h-[280px]">
                           {calculationListWeight.map((weight, index) => (
                             <div
                               key={`calculation-list-weight-${index}`}
@@ -683,20 +683,14 @@ export const CalculationModal = ({
             </ModalBody>
             <ModalFooter className="flex justify-between">
               <div className="flex gap-1">
-                <Button
-                  className="w-28"
-                  variant="flat"
-                  color="secondary"
-                  onPress={
-                    calculationModalPage === "base"
-                      ? handleGoToListButton
-                      : () => setCalculationModalPage("base")
-                  }
-                >
-                  {calculationModalPage === "base"
-                    ? `Add ${presetText}`
-                    : "Back"}
-                </Button>
+                {calculationModalPage !== "base" && (
+                  <Button
+                    variant="flat"
+                    onPress={() => setCalculationModalPage("base")}
+                  >
+                    Back
+                  </Button>
+                )}
               </div>
               <div className="flex gap-2">
                 <Button color="primary" variant="light" onPress={onClose}>
