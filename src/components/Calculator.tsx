@@ -17,6 +17,15 @@ export const Calculator = () => {
     setHistory("");
   };
 
+  const handleNumberButton = (num: string) => {
+    if (result === "0" && /[0-9]/.test(num)) {
+      // Replace 0 with first digit
+      setResult(num);
+    } else {
+      setResult((prev) => prev + num);
+    }
+  };
+
   return (
     <div className="flex flex-col gap-1.5 px-10">
       <div className="flex flex-col items-end p-2 border border-stone-400 rounded-lg">
@@ -39,7 +48,10 @@ export const Calculator = () => {
           <DivideIcon size={26} color="#848484" />
         </button>
         {["7", "8", "9"].map((num) => (
-          <button className="h-12 pt-0.5 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg hover:bg-default-100">
+          <button
+            className="h-12 pt-0.5 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg hover:bg-default-100"
+            onClick={() => handleNumberButton(num)}
+          >
             {num}
           </button>
         ))}
@@ -47,7 +59,10 @@ export const Calculator = () => {
           <CrossIcon size={24} color="#848484" />
         </button>
         {["4", "5", "6"].map((num) => (
-          <button className="h-12 pt-0.5 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg hover:bg-default-100">
+          <button
+            className="h-12 pt-0.5 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg hover:bg-default-100"
+            onClick={() => handleNumberButton(num)}
+          >
             {num}
           </button>
         ))}
@@ -55,18 +70,25 @@ export const Calculator = () => {
           <MinusIcon size={36} color="#848484" />
         </button>
         {["1", "2", "3"].map((num) => (
-          <button className="h-12 pt-0.5 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg hover:bg-default-100">
+          <button
+            className="h-12 pt-0.5 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg hover:bg-default-100"
+            onClick={() => handleNumberButton(num)}
+          >
             {num}
           </button>
         ))}
         <button className="flex justify-center items-center h-12 border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200">
           <PlusIcon size={36} color="#848484" />
         </button>
-        {[".", "0"].map((symbol) => (
-          <button className="h-12 pt-0.5 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg hover:bg-default-100">
-            {symbol}
-          </button>
-        ))}
+        <button className="h-12 pt-0.5 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg hover:bg-default-100">
+          .
+        </button>
+        <button
+          className="h-12 pt-0.5 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg hover:bg-default-100"
+          onClick={() => handleNumberButton("0")}
+        >
+          0
+        </button>
         <button className="flex justify-center items-center h-12 border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200">
           <BackspaceIcon size={28} color="#848484" />
         </button>
