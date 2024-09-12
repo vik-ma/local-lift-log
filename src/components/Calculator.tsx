@@ -23,13 +23,12 @@ export const Calculator = () => {
         <span className="h-6 text-stone-500">{history}</span>
         <span className="h-8 text-3xl font-semibold">{result}</span>
       </div>
-      <div className="grid grid-rows-5 grid-cols-4 gap-0.5 ">
-        <button className="h-12 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200">
-          (
-        </button>
-        <button className="h-12 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200">
-          )
-        </button>
+      <div className="grid grid-rows-5 grid-cols-4 gap-0.5">
+        {["(", ")"].map((bracket) => (
+          <button className="h-12 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200">
+            {bracket}
+          </button>
+        ))}
         <button
           className="h-12 pt-0.5 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200"
           onClick={() => handleClearButton()}
@@ -39,48 +38,35 @@ export const Calculator = () => {
         <button className="flex justify-center items-center h-12 border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200">
           <DivideIcon size={26} color="#848484" />
         </button>
-        <button className="h-12 pt-0.5 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg hover:bg-default-100">
-          7
-        </button>
-        <button className="h-12 pt-0.5 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg hover:bg-default-100">
-          8
-        </button>
-        <button className="h-12 pt-0.5 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg hover:bg-default-100">
-          9
-        </button>
+        {["7", "8", "9"].map((num) => (
+          <button className="h-12 pt-0.5 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg hover:bg-default-100">
+            {num}
+          </button>
+        ))}
         <button className="flex justify-center items-center h-12 border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200">
           <CrossIcon size={24} color="#848484" />
         </button>
-        <button className="h-12 pt-0.5 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg hover:bg-default-100">
-          4
-        </button>
-        <button className="h-12 pt-0.5 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg hover:bg-default-100">
-          5
-        </button>
-        <button className="h-12 pt-0.5 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg hover:bg-default-100">
-          6
-        </button>
+        {["4", "5", "6"].map((num) => (
+          <button className="h-12 pt-0.5 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg hover:bg-default-100">
+            {num}
+          </button>
+        ))}
         <button className="flex justify-center items-center h-12 border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200">
           <MinusIcon size={36} color="#848484" />
         </button>
-        <button className="h-12 pt-0.5 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg hover:bg-default-100">
-          1
-        </button>
-        <button className="h-12 pt-0.5 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg hover:bg-default-100">
-          2
-        </button>
-        <button className="h-12 pt-0.5 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg hover:bg-default-100">
-          3
-        </button>
+        {["1", "2", "3"].map((num) => (
+          <button className="h-12 pt-0.5 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg hover:bg-default-100">
+            {num}
+          </button>
+        ))}
         <button className="flex justify-center items-center h-12 border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200">
           <PlusIcon size={36} color="#848484" />
         </button>
-        <button className="flex pt-0.5 justify-center items-center h-12 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg hover:bg-default-100">
-          .
-        </button>
-        <button className="h-12 pt-0.5 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg hover:bg-default-100">
-          0
-        </button>
+        {[".", "0"].map((symbol) => (
+          <button className="h-12 pt-0.5 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg hover:bg-default-100">
+            {symbol}
+          </button>
+        ))}
         <button className="flex justify-center items-center h-12 border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200">
           <BackspaceIcon size={28} color="#848484" />
         </button>
