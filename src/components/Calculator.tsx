@@ -18,12 +18,18 @@ export const Calculator = () => {
   };
 
   const handleNumberButton = (num: string) => {
-    if (result === "0" && /[0-9]/.test(num)) {
+    if (!/[0-9]/.test(num)) return;
+
+    if (result === "0") {
       // Replace 0 with first digit
       setResult(num);
     } else {
       setResult((prev) => prev + num);
     }
+  };
+
+  const handleBackspaceButton = () => {
+    setResult((prev) => (prev.length > 1 ? prev.slice(0, -1) : "0"));
   };
 
   return (
@@ -89,7 +95,10 @@ export const Calculator = () => {
         >
           0
         </button>
-        <button className="flex justify-center items-center h-12 border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200">
+        <button
+          className="flex justify-center items-center h-12 border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200"
+          onClick={() => handleBackspaceButton()}
+        >
           <BackspaceIcon size={28} color="#848484" />
         </button>
         <button className="flex justify-center items-center h-12 border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200">
