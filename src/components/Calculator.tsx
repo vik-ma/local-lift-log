@@ -113,26 +113,24 @@ export const Calculator = () => {
     setIsPointAdded(false);
   };
 
-  const handleBracketsButton = (bracket: string) => {
-    if (bracket === "(") {
-      const newInput = isOperationActive ? " (" : "(";
+  const handleLeftBracketButton = () => {
+    const newInput = isOperationActive ? " (" : "(";
 
-      setInput(input + newInput);
-      setNumLeftBrackets(numLeftBrackets + 1);
-      setIsOperationActive(false);
-    }
+    setInput(input + newInput);
+    setNumLeftBrackets(numLeftBrackets + 1);
+    setIsOperationActive(false);
+  };
 
-    if (bracket === ")") {
-      if (isOperationActive || numLeftBrackets === 0) return;
+  const handleRightBracketButton = () => {
+    if (isOperationActive || numLeftBrackets === 0) return;
 
-      const lastSymbol = input.charAt(input.length - 1);
+    const lastSymbol = input.charAt(input.length - 1);
 
-      if (lastSymbol === "(") return;
+    if (lastSymbol === "(") return;
 
-      setInput(input + ")");
-      setNumLeftBrackets(numLeftBrackets - 1);
-      setIsOperationActive(false);
-    }
+    setInput(input + ")");
+    setNumLeftBrackets(numLeftBrackets - 1);
+    setIsOperationActive(false);
   };
 
   useEffect(() => {
@@ -162,15 +160,18 @@ export const Calculator = () => {
         </span>
       </div>
       <div className="grid grid-rows-5 grid-cols-4 gap-0.5 select-none">
-        {["(", ")"].map((bracket) => (
-          <button
-            className="h-12 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200"
-            onClick={() => handleBracketsButton(bracket)}
-            key={bracket}
-          >
-            {bracket}
-          </button>
-        ))}
+        <button
+          className="h-12 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200"
+          onClick={() => handleLeftBracketButton()}
+        >
+          (
+        </button>
+        <button
+          className="h-12 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200"
+          onClick={() => handleRightBracketButton()}
+        >
+          )
+        </button>
         <button
           className="h-12 pt-0.5 text-red-400 text-2xl font-medium border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200"
           onClick={() => handleClearButton()}
