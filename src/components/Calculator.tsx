@@ -9,8 +9,8 @@ import {
 } from "../assets";
 
 export const Calculator = () => {
-  const [result, setResult] = useState<string>("0");
-  const [calculation, setCalculation] = useState<string>("");
+  const [result, setResult] = useState<string>("");
+  const [input, setInput] = useState<string>("");
   const [isPointAdded, setIsPointAdded] = useState<boolean>(false);
   const [isOperationActive, setIsOperationActive] = useState<boolean>(false);
 
@@ -19,8 +19,8 @@ export const Calculator = () => {
   }, []);
 
   const handleClearButton = () => {
-    setResult("0");
-    setCalculation("");
+    setResult("");
+    setInput("");
     setIsPointAdded(false);
     setIsOperationActive(false);
   };
@@ -28,61 +28,61 @@ export const Calculator = () => {
   const handleNumberButton = (num: string) => {
     if (!/[0-9]/.test(num)) return;
 
-    if (isOperationActive) {
-      setResult(num);
-      setIsOperationActive(false);
-    } else {
-      const newResult = result === "0" ? num : result + num;
+    const newInput =
+      input === "0" ? num : isOperationActive ? `${input} ${num}` : input + num;
 
-      setResult(newResult);
-    }
+    setInput(newInput);
+    if (isOperationActive) setIsOperationActive(false);
   };
 
   const handleBackspaceButton = () => {
-    if (result.length === 0) return;
+    if (input.length === 0) return;
 
-    const lastSymbol = result.charAt(result.length - 1);
+    const lastSymbol = input.charAt(input.length - 1);
 
     if (lastSymbol === ".") setIsPointAdded(false);
 
-    setResult((prev) => (prev.length > 1 ? prev.slice(0, -1) : "0"));
+    let newInput = input.length > 1 ? input.slice(0, -1) : "";
+
+    if (isOperationActive) {
+      newInput = newInput.slice(0, -1);
+      setIsOperationActive(false);
+    } else {
+      const newLastSymbol = newInput.charAt(newInput.length - 1);
+      if (operationSymbols.includes(newLastSymbol)) setIsOperationActive(true);
+    }
+
+    setInput(newInput);
   };
 
   const handlePointButton = () => {
     if (isPointAdded) return;
 
-    const newResult = isOperationActive ? "0." : result + ".";
+    const newInput = isOperationActive ? " 0." : input === "" ? "0." : ".";
 
-    setResult(newResult);
+    setInput(`${input}${newInput}`);
     setIsPointAdded(true);
     setIsOperationActive(false);
   };
 
   const handleOperationButton = (symbol: string) => {
-    if (!operationSymbols.includes(symbol) || result.length === 0) return;
+    if (!operationSymbols.includes(symbol) || input.length === 0) return;
 
-    const lastSymbolRes = result.charAt(result.length - 1);
+    const lastSymbol = input.charAt(input.length - 1);
 
-    let newResult = result;
+    let newInput = input;
 
-    if (lastSymbolRes === ".") {
-      newResult = result.slice(0, -1);
-
-      setResult(newResult);
+    if (lastSymbol === ".") {
+      newInput = input.slice(0, -1);
     }
 
     if (isOperationActive) {
-      const updatedCalculation = calculation.slice(0, -1) + symbol;
-      setCalculation(updatedCalculation);
+      const updatedCalculation = input.slice(0, -1) + symbol;
+      setInput(updatedCalculation);
       return;
     }
 
-    const updatedCalculation =
-      calculation.length === 0
-        ? `${newResult} ${symbol}`
-        : `${calculation} ${newResult} ${symbol}`;
-
-    setCalculation(updatedCalculation);
+    setInput(`${newInput} ${symbol}`);
 
     setIsOperationActive(true);
     setIsPointAdded(false);
@@ -91,7 +91,7 @@ export const Calculator = () => {
   return (
     <div className="flex flex-col gap-1.5 px-10">
       <div className="flex flex-col items-end p-2 border border-stone-400 rounded-lg">
-        <span className="h-6 text-stone-500">{calculation}</span>
+        <span className="h-6 text-stone-500">{input}</span>
         <span className="h-8 text-3xl font-semibold">{result}</span>
       </div>
       <div className="grid grid-rows-5 grid-cols-4 gap-0.5 select-none">
