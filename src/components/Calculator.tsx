@@ -11,10 +11,12 @@ import {
 export const Calculator = () => {
   const [result, setResult] = useState<string>("0");
   const [history, setHistory] = useState<string>("");
+  const [pointIsAdded, setPointIsAdded] = useState<boolean>(false);
 
   const handleClearButton = () => {
     setResult("0");
     setHistory("");
+    setPointIsAdded(false);
   };
 
   const handleNumberButton = (num: string) => {
@@ -29,7 +31,20 @@ export const Calculator = () => {
   };
 
   const handleBackspaceButton = () => {
+    if (result.length === 0) return;
+
+    const lastSymbol = result.charAt(result.length - 1);
+
+    if (lastSymbol === ".") setPointIsAdded(false);
+
     setResult((prev) => (prev.length > 1 ? prev.slice(0, -1) : "0"));
+  };
+
+  const handlePointButton = () => {
+    if (pointIsAdded) return;
+
+    setPointIsAdded(true);
+    setResult((prev) => prev + ".");
   };
 
   return (
@@ -45,7 +60,7 @@ export const Calculator = () => {
           </button>
         ))}
         <button
-          className="h-12 pt-0.5 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200"
+          className="h-12 pt-0.5 text-red-400 text-2xl font-medium border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200"
           onClick={() => handleClearButton()}
         >
           C
@@ -89,7 +104,10 @@ export const Calculator = () => {
         <button className="flex justify-center items-center h-12 border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200">
           <MinusIcon size={36} color="#848484" />
         </button>
-        <button className="h-12 pt-0.5 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg hover:bg-default-100">
+        <button
+          className="h-12 pt-0.5 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg hover:bg-default-100"
+          onClick={() => handlePointButton()}
+        >
           .
         </button>
         <button
