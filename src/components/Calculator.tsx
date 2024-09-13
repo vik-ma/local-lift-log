@@ -14,6 +14,7 @@ export const Calculator = () => {
   const [input, setInput] = useState<string>("");
   const [isPointAdded, setIsPointAdded] = useState<boolean>(false);
   const [isOperationActive, setIsOperationActive] = useState<boolean>(false);
+  const [numLeftBrackets, setNumLeftBrackets] = useState<number>(0);
 
   const operationSymbols = useMemo(() => {
     return ["+", "-", "*", "/"];
@@ -24,6 +25,7 @@ export const Calculator = () => {
     setInput("");
     setIsPointAdded(false);
     setIsOperationActive(false);
+    setNumLeftBrackets(0);
   };
 
   const handleNumberButton = (num: string) => {
@@ -71,7 +73,15 @@ export const Calculator = () => {
   const handlePointButton = () => {
     if (isPointAdded) return;
 
-    const newInput = isOperationActive ? " 0." : input === "" ? "0." : ".";
+    let newInput = isOperationActive ? " 0." : input === "" ? "0." : ".";
+
+    if (input.length > 0) {
+      const lastSymbol = input.charAt(input.length - 1);
+
+      if (lastSymbol === "(") {
+        newInput = "0" + newInput;
+      }
+    }
 
     setInput(`${input}${newInput}`);
     setIsPointAdded(true);
@@ -82,6 +92,8 @@ export const Calculator = () => {
     if (!operationSymbols.includes(symbol) || input.length === 0) return;
 
     const lastSymbol = input.charAt(input.length - 1);
+
+    if (lastSymbol === "(") return;
 
     let newInput = input;
 
@@ -99,6 +111,28 @@ export const Calculator = () => {
 
     setIsOperationActive(true);
     setIsPointAdded(false);
+  };
+
+  const handleBracketsButton = (bracket: string) => {
+    if (bracket === "(") {
+      const newInput = isOperationActive ? " (" : "(";
+
+      setInput(input + newInput);
+      setNumLeftBrackets(numLeftBrackets + 1);
+      setIsOperationActive(false);
+    }
+
+    if (bracket === ")") {
+      if (isOperationActive || numLeftBrackets === 0) return;
+
+      const lastSymbol = input.charAt(input.length - 1);
+
+      if (lastSymbol === "(") return;
+
+      setInput(input + ")");
+      setNumLeftBrackets(numLeftBrackets - 1);
+      setIsOperationActive(false);
+    }
   };
 
   useEffect(() => {
@@ -131,6 +165,7 @@ export const Calculator = () => {
         {["(", ")"].map((bracket) => (
           <button
             className="h-12 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200"
+            onClick={() => handleBracketsButton(bracket)}
             key={bracket}
           >
             {bracket}
