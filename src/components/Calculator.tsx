@@ -102,9 +102,13 @@ export const Calculator = () => {
 
   return (
     <div className="flex flex-col gap-1.5 px-10">
-      <div className="flex flex-col items-end p-2 border border-stone-400 rounded-lg">
-        <span className="h-6 text-stone-500">{input}</span>
-        <span className="h-8 text-3xl font-semibold">{result}</span>
+      <div className="flex flex-col p-2 border border-stone-400 rounded-lg">
+        <span className="h-6 text-stone-500 w-full truncate text-right">
+          {input}
+        </span>
+        <span className="h-8 text-3xl font-semibold w-full truncate text-right">
+          {result}
+        </span>
       </div>
       <div className="grid grid-rows-5 grid-cols-4 gap-0.5 select-none">
         {["(", ")"].map((bracket) => (

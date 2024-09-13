@@ -333,15 +333,13 @@ export const CalculationModal = ({
         {(onClose) => (
           <>
             <ModalHeader>
-              <div>
-                {calculationModalPage === "base" ? (
-                  <>Calculate {presetText}</>
-                ) : calculationModalPage === "list" ? (
-                  <>Select {presetText}</>
-                ) : (
-                  <>Calculator</>
-                )}
-              </div>
+              {calculationModalPage === "base" ? (
+                <>Calculate {presetText}</>
+              ) : calculationModalPage === "list" ? (
+                <>Select {presetText}</>
+              ) : (
+                <>Calculator</>
+              )}
             </ModalHeader>
             <ModalBody>
               <div className="h-[400px] flex flex-col gap-2">
