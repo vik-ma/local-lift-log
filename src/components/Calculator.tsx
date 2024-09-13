@@ -28,8 +28,20 @@ export const Calculator = () => {
   const handleNumberButton = (num: string) => {
     if (!/[0-9]/.test(num)) return;
 
-    const newInput =
-      input === "0" ? num : isOperationActive ? `${input} ${num}` : input + num;
+    let existingInput = input;
+
+    if (input.length > 0) {
+      const lastSymbol = input.charAt(input.length - 1);
+      const secondLastSymbol = input.charAt(input.length - 3);
+
+      if (lastSymbol === "0" && operationSymbols.includes(secondLastSymbol)) {
+        existingInput = existingInput.slice(0, -1);
+      }
+    }
+
+    const newInput = isOperationActive
+      ? `${existingInput} ${num}`
+      : existingInput + num;
 
     setInput(newInput);
     if (isOperationActive) setIsOperationActive(false);
