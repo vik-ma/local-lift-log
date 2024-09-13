@@ -11,8 +11,8 @@ import {
 export const Calculator = () => {
   const [result, setResult] = useState<string>("0");
   const [calculation, setCalculation] = useState<string>("");
-  const [pointIsAdded, setPointIsAdded] = useState<boolean>(false);
-  const [operationIsActive, setOperationIsActive] = useState<boolean>(false);
+  const [isPointAdded, setIsPointAdded] = useState<boolean>(false);
+  const [isOperationActive, setIsOperationActive] = useState<boolean>(false);
 
   const operationSymbols = useMemo(() => {
     return ["+", "-", "*", "/"];
@@ -21,15 +21,16 @@ export const Calculator = () => {
   const handleClearButton = () => {
     setResult("0");
     setCalculation("");
-    setPointIsAdded(false);
+    setIsPointAdded(false);
+    setIsOperationActive(false);
   };
 
   const handleNumberButton = (num: string) => {
     if (!/[0-9]/.test(num)) return;
 
-    if (operationIsActive) {
+    if (isOperationActive) {
       setResult(num);
-      setOperationIsActive(false);
+      setIsOperationActive(false);
     } else {
       const newResult = result === "0" ? num : result + num;
 
@@ -42,16 +43,19 @@ export const Calculator = () => {
 
     const lastSymbol = result.charAt(result.length - 1);
 
-    if (lastSymbol === ".") setPointIsAdded(false);
+    if (lastSymbol === ".") setIsPointAdded(false);
 
     setResult((prev) => (prev.length > 1 ? prev.slice(0, -1) : "0"));
   };
 
   const handlePointButton = () => {
-    if (pointIsAdded) return;
+    if (isPointAdded) return;
 
-    setPointIsAdded(true);
-    setResult((prev) => prev + ".");
+    const newResult = isOperationActive ? "0." : result + ".";
+
+    setResult(newResult);
+    setIsPointAdded(true);
+    setIsOperationActive(false);
   };
 
   const handleOperationButton = (symbol: string) => {
@@ -59,22 +63,29 @@ export const Calculator = () => {
 
     const lastSymbolRes = result.charAt(result.length - 1);
 
-    if (lastSymbolRes === ".") setResult(result.slice(0, -1));
+    let newResult = result;
 
-    if (operationIsActive) {
-      const slicedCalculation = calculation.slice(0, -1);
-      setCalculation(`${slicedCalculation}${symbol}`);
+    if (lastSymbolRes === ".") {
+      newResult = result.slice(0, -1);
+
+      setResult(newResult);
+    }
+
+    if (isOperationActive) {
+      const updatedCalculation = calculation.slice(0, -1) + symbol;
+      setCalculation(updatedCalculation);
       return;
     }
 
     const updatedCalculation =
       calculation.length === 0
-        ? `${result} ${symbol}`
-        : `${calculation} ${result} ${symbol}`;
+        ? `${newResult} ${symbol}`
+        : `${calculation} ${newResult} ${symbol}`;
 
     setCalculation(updatedCalculation);
 
-    setOperationIsActive(true);
+    setIsOperationActive(true);
+    setIsPointAdded(false);
   };
 
   return (
