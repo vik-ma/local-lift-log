@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   BackspaceIcon,
   CrossIcon,
@@ -7,6 +7,7 @@ import {
   MinusIcon,
   PlusIcon,
 } from "../assets";
+import { evaluate } from "mathjs";
 
 export const Calculator = () => {
   const [result, setResult] = useState<string>("");
@@ -99,6 +100,22 @@ export const Calculator = () => {
     setIsOperationActive(true);
     setIsPointAdded(false);
   };
+
+  useEffect(() => {
+    if (!/[+\-*/]/.test(input)) return;
+
+    try {
+      const calculation = evaluate(input);
+
+      if (calculation !== undefined) {
+        setResult(calculation);
+      } else {
+        setResult("");
+      }
+    } catch {
+      setResult("");
+    }
+  }, [input]);
 
   return (
     <div className="flex flex-col gap-1.5 px-10">
