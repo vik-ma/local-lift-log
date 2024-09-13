@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   BackspaceIcon,
   CrossIcon,
@@ -10,23 +10,30 @@ import {
 
 export const Calculator = () => {
   const [result, setResult] = useState<string>("0");
-  const [history, setHistory] = useState<string>("");
+  const [calculation, setCalculation] = useState<string>("");
   const [pointIsAdded, setPointIsAdded] = useState<boolean>(false);
+  const [operationIsActive, setOperationIsActive] = useState<boolean>(false);
+
+  const operationSymbols = useMemo(() => {
+    return ["+", "-", "*", "/"];
+  }, []);
 
   const handleClearButton = () => {
     setResult("0");
-    setHistory("");
+    setCalculation("");
     setPointIsAdded(false);
   };
 
   const handleNumberButton = (num: string) => {
     if (!/[0-9]/.test(num)) return;
 
-    if (result === "0") {
-      // Replace 0 with first digit
+    if (operationIsActive) {
       setResult(num);
+      setOperationIsActive(false);
     } else {
-      setResult((prev) => prev + num);
+      const newResult = result === "0" ? num : result + num;
+
+      setResult(newResult);
     }
   };
 
@@ -47,10 +54,33 @@ export const Calculator = () => {
     setResult((prev) => prev + ".");
   };
 
+  const handleOperationButton = (symbol: string) => {
+    if (!operationSymbols.includes(symbol) || result.length === 0) return;
+
+    const lastSymbolRes = result.charAt(result.length - 1);
+
+    if (lastSymbolRes === ".") setResult(result.slice(0, -1));
+
+    if (operationIsActive) {
+      const slicedCalculation = calculation.slice(0, -1);
+      setCalculation(`${slicedCalculation}${symbol}`);
+      return;
+    }
+
+    const updatedCalculation =
+      calculation.length === 0
+        ? `${result} ${symbol}`
+        : `${calculation} ${result} ${symbol}`;
+
+    setCalculation(updatedCalculation);
+
+    setOperationIsActive(true);
+  };
+
   return (
     <div className="flex flex-col gap-1.5 px-10">
       <div className="flex flex-col items-end p-2 border border-stone-400 rounded-lg">
-        <span className="h-6 text-stone-500">{history}</span>
+        <span className="h-6 text-stone-500">{calculation}</span>
         <span className="h-8 text-3xl font-semibold">{result}</span>
       </div>
       <div className="grid grid-rows-5 grid-cols-4 gap-0.5 select-none">
@@ -79,7 +109,10 @@ export const Calculator = () => {
             {num}
           </button>
         ))}
-        <button className="flex justify-center items-center h-12 border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200">
+        <button
+          className="flex justify-center items-center h-12 border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200"
+          onClick={() => handleOperationButton("/")}
+        >
           <DivideIcon size={26} color="#848484" />
         </button>
         {["4", "5", "6"].map((num) => (
@@ -90,7 +123,10 @@ export const Calculator = () => {
             {num}
           </button>
         ))}
-        <button className="flex justify-center items-center h-12 border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200">
+        <button
+          className="flex justify-center items-center h-12 border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200"
+          onClick={() => handleOperationButton("*")}
+        >
           <CrossIcon size={24} color="#848484" />
         </button>
         {["1", "2", "3"].map((num) => (
@@ -101,7 +137,10 @@ export const Calculator = () => {
             {num}
           </button>
         ))}
-        <button className="flex justify-center items-center h-12 border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200">
+        <button
+          className="flex justify-center items-center h-12 border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200"
+          onClick={() => handleOperationButton("-")}
+        >
           <MinusIcon size={36} color="#848484" />
         </button>
         <button
@@ -119,7 +158,10 @@ export const Calculator = () => {
         <button className="flex justify-center items-center h-12 rounded-lg bg-primary hover:bg-[#ffd76a]">
           <EqualsIcon size={36} color="#fff" />
         </button>
-        <button className="flex justify-center items-center h-12 border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200">
+        <button
+          className="flex justify-center items-center h-12 border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200"
+          onClick={() => handleOperationButton("+")}
+        >
           <PlusIcon size={36} color="#848484" />
         </button>
       </div>
