@@ -38,7 +38,7 @@ export const Calculator = () => {
         <span className="h-6 text-stone-500">{history}</span>
         <span className="h-8 text-3xl font-semibold">{result}</span>
       </div>
-      <div className="grid grid-rows-5 grid-cols-4 gap-0.5">
+      <div className="grid grid-rows-5 grid-cols-4 gap-0.5 select-none">
         {["(", ")"].map((bracket) => (
           <button className="h-12 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200">
             {bracket}
@@ -50,8 +50,11 @@ export const Calculator = () => {
         >
           C
         </button>
-        <button className="flex justify-center items-center h-12 border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200">
-          <DivideIcon size={26} color="#848484" />
+        <button
+          className="flex justify-center items-center h-12 border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200"
+          onClick={() => handleBackspaceButton()}
+        >
+          <BackspaceIcon size={28} color="#848484" />
         </button>
         {["7", "8", "9"].map((num) => (
           <button
@@ -62,7 +65,7 @@ export const Calculator = () => {
           </button>
         ))}
         <button className="flex justify-center items-center h-12 border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200">
-          <CrossIcon size={24} color="#848484" />
+          <DivideIcon size={26} color="#848484" />
         </button>
         {["4", "5", "6"].map((num) => (
           <button
@@ -73,7 +76,7 @@ export const Calculator = () => {
           </button>
         ))}
         <button className="flex justify-center items-center h-12 border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200">
-          <MinusIcon size={36} color="#848484" />
+          <CrossIcon size={24} color="#848484" />
         </button>
         {["1", "2", "3"].map((num) => (
           <button
@@ -84,7 +87,7 @@ export const Calculator = () => {
           </button>
         ))}
         <button className="flex justify-center items-center h-12 border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200">
-          <PlusIcon size={36} color="#848484" />
+          <MinusIcon size={36} color="#848484" />
         </button>
         <button className="h-12 pt-0.5 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg hover:bg-default-100">
           .
@@ -95,14 +98,11 @@ export const Calculator = () => {
         >
           0
         </button>
-        <button
-          className="flex justify-center items-center h-12 border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200"
-          onClick={() => handleBackspaceButton()}
-        >
-          <BackspaceIcon size={28} color="#848484" />
+        <button className="flex justify-center items-center h-12 rounded-lg bg-primary hover:bg-[#ffd76a]">
+          <EqualsIcon size={36} color="#fff" />
         </button>
         <button className="flex justify-center items-center h-12 border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200">
-          <EqualsIcon size={36} color="#848484" />
+          <PlusIcon size={36} color="#848484" />
         </button>
       </div>
     </div>
