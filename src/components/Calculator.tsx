@@ -96,7 +96,10 @@ export const Calculator = () => {
       </div>
       <div className="grid grid-rows-5 grid-cols-4 gap-0.5 select-none">
         {["(", ")"].map((bracket) => (
-          <button className="h-12 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200">
+          <button
+            className="h-12 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200"
+            key={bracket}
+          >
             {bracket}
           </button>
         ))}
@@ -116,6 +119,7 @@ export const Calculator = () => {
           <button
             className="h-12 pt-0.5 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg hover:bg-default-100"
             onClick={() => handleNumberButton(num)}
+            key={num}
           >
             {num}
           </button>
@@ -130,6 +134,7 @@ export const Calculator = () => {
           <button
             className="h-12 pt-0.5 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg hover:bg-default-100"
             onClick={() => handleNumberButton(num)}
+            key={num}
           >
             {num}
           </button>
@@ -144,6 +149,7 @@ export const Calculator = () => {
           <button
             className="h-12 pt-0.5 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg hover:bg-default-100"
             onClick={() => handleNumberButton(num)}
+            key={num}
           >
             {num}
           </button>
