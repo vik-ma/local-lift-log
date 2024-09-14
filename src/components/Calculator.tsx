@@ -7,15 +7,18 @@ import {
   PlusIcon,
 } from "../assets";
 import { evaluate } from "mathjs";
+import { Button } from "@nextui-org/react";
 
 type CalculatorProps = {
   isCalculationInvalid: boolean;
   setIsCalculationInvalid: React.Dispatch<React.SetStateAction<boolean>>;
+  buttonAction: (calculationString: string) => void;
 };
 
 export const Calculator = ({
   isCalculationInvalid,
   setIsCalculationInvalid,
+  buttonAction,
 }: CalculatorProps) => {
   const [result, setResult] = useState<string>("");
   const [input, setInput] = useState<string>("");
@@ -37,6 +40,7 @@ export const Calculator = ({
     setIsPointAdded(false);
     setIsOperationActive(false);
     setNumLeftBrackets(0);
+    setIsCalculationInvalid(true);
   };
 
   const handleNumberButton = (num: string) => {
@@ -292,6 +296,16 @@ export const Calculator = ({
         >
           <PlusIcon size={36} color="#848484" />
         </button>
+      </div>
+      <div className="flex justify-end pt-1.5">
+        <Button
+          variant="flat"
+          color="secondary"
+          isDisabled={isCalculationInvalid}
+          onPress={() => buttonAction(input)}
+        >
+          Add Calculation
+        </Button>
       </div>
     </div>
   );
