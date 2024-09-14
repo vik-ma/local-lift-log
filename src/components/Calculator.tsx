@@ -10,7 +10,6 @@ import {
 import { evaluate } from "mathjs";
 
 export const Calculator = () => {
-  const [result, setResult] = useState<string>("");
   const [input, setInput] = useState<string>("");
   const [isPointAdded, setIsPointAdded] = useState<boolean>(false);
   const [isOperationActive, setIsOperationActive] = useState<boolean>(false);
@@ -21,7 +20,6 @@ export const Calculator = () => {
   }, []);
 
   const handleClearButton = () => {
-    setResult("");
     setInput("");
     setIsPointAdded(false);
     setIsOperationActive(false);
@@ -137,19 +135,23 @@ export const Calculator = () => {
     setIsOperationActive(false);
   };
 
-  useEffect(() => {
-    if (!(/[+\-*/]/.test(input) || /\(.*\)/.test(input))) return;
+  const { result, isCalculationInvalid } = useMemo((): {
+    result: string;
+    isCalculationInvalid: boolean;
+  } => {
+    if (!(/[+\-*/]/.test(input) || /\(.*\)/.test(input)))
+      return { result: "", isCalculationInvalid: true };
 
     try {
       const calculation = evaluate(input);
 
       if (calculation !== undefined) {
-        setResult(calculation);
+        return { result: calculation, isCalculationInvalid: false };
       } else {
-        setResult("");
+        return { result: "", isCalculationInvalid: true };
       }
     } catch {
-      setResult("");
+      return { result: "", isCalculationInvalid: true };
     }
   }, [input]);
 
