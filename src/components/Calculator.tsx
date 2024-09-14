@@ -68,14 +68,19 @@ export const Calculator = ({
 
     if (lastSymbol === ")") setNumLeftBrackets(numLeftBrackets + 1);
 
-    let newInput = input.length > 1 ? input.slice(0, -1) : "";
+    let newInput = input.length > 0 ? input.slice(0, -1) : "";
 
-    if (isOperationActive) {
-      newInput = newInput.slice(0, -1);
-      setIsOperationActive(false);
+    let newLastSymbol = newInput.charAt(newInput.length - 1);
+
+    if (newLastSymbol === " ") {
+      newLastSymbol = newInput.charAt(newInput.length - 2);
+      newInput = newInput.length > 0 ? newInput.slice(0, -1) : "";
+    }
+
+    if (operationSymbols.includes(newLastSymbol)) {
+      setIsOperationActive(true);
     } else {
-      const newLastSymbol = newInput.charAt(newInput.length - 1);
-      if (operationSymbols.includes(newLastSymbol)) setIsOperationActive(true);
+      setIsOperationActive(false);
     }
 
     setInput(newInput);
