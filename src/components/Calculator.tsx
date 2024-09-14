@@ -58,7 +58,7 @@ export const Calculator = () => {
     if (lastSymbol === ".") setIsPointAdded(false);
 
     if (lastSymbol === "(") setNumLeftBrackets(numLeftBrackets - 1);
-    
+
     if (lastSymbol === ")") setNumLeftBrackets(numLeftBrackets + 1);
 
     let newInput = input.length > 1 ? input.slice(0, -1) : "";
@@ -138,7 +138,7 @@ export const Calculator = () => {
   };
 
   useEffect(() => {
-    if (!/[+\-*/]/.test(input)) return;
+    if (!(/[+\-*/]/.test(input) || /\(.*\)/.test(input))) return;
 
     try {
       const calculation = evaluate(input);
