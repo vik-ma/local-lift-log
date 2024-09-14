@@ -144,11 +144,19 @@ export const Calculator = () => {
     try {
       const calculation = evaluate(input);
 
-      if (calculation !== undefined) {
-        return { result: calculation, isCalculationInvalid: false };
-      } else {
+      if (calculation === undefined) {
         return { result: "", isCalculationInvalid: true };
       }
+
+      if (calculation === Infinity) {
+        return { result: "Invalid", isCalculationInvalid: true };
+      }
+
+      if (calculation <= 0) {
+        return { result: calculation, isCalculationInvalid: true };
+      }
+
+      return { result: calculation, isCalculationInvalid: false };
     } catch {
       return { result: "", isCalculationInvalid: true };
     }
@@ -160,7 +168,13 @@ export const Calculator = () => {
         <span className="h-6 text-stone-500 w-full truncate text-right">
           {input}
         </span>
-        <span className="h-8 text-3xl font-semibold w-full truncate text-right">
+        <span
+          className={
+            isCalculationInvalid
+              ? "h-8 text-danger text-3xl font-semibold w-full truncate text-right"
+              : "h-8 text-3xl font-semibold w-full truncate text-right"
+          }
+        >
           {result}
         </span>
       </div>
