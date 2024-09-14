@@ -27,6 +27,7 @@ import { CrossCircleIcon } from "../../assets";
 import {
   ConvertInputStringToNumber,
   ConvertNumberToTwoDecimals,
+  IsCalculationStringValid,
   IsStringEmpty,
   IsStringInvalidNumber,
 } from "../../helpers";
@@ -39,8 +40,10 @@ type CalculationModalProps = {
   distanceUnit: string;
 };
 
+type CalculationItemType = "preset" | "calculation" | "number";
+
 type CalculationItemWeight = {
-  isPreset: boolean;
+  itemType: CalculationItemType;
   equipmentWeight: EquipmentWeight;
   multiplierInput: string;
   multiplier: number;
@@ -49,7 +52,7 @@ type CalculationItemWeight = {
 };
 
 type CalculationItemDistance = {
-  isPreset: boolean;
+  itemType: CalculationItemType;
   distance: Distance;
   multiplierInput: string;
   multiplier: number;
@@ -115,7 +118,7 @@ export const CalculationModal = ({
   ) => {
     if (equipment !== undefined) {
       const calculationItem: CalculationItemWeight = {
-        isPreset: true,
+        itemType: "preset",
         equipmentWeight: equipment,
         multiplierInput: "",
         multiplier: 1,
@@ -133,7 +136,7 @@ export const CalculationModal = ({
 
     if (distance !== undefined) {
       const calculationItem: CalculationItemDistance = {
-        isPreset: true,
+        itemType: "preset",
         distance: distance,
         multiplierInput: "",
         multiplier: 1,
@@ -326,6 +329,13 @@ export const CalculationModal = ({
     }
   };
 
+  const addCalculationString = (calculationString: string) => {
+    if (isCalculationInvalid || !IsCalculationStringValid(calculationString))
+      return;
+
+    
+  };
+
   return (
     <Modal
       isOpen={calculationModal.isOpen}
@@ -392,7 +402,7 @@ export const CalculationModal = ({
                               key={`calculation-list-weight-${index}`}
                               className="flex gap-1.5 items-center"
                             >
-                              {weight.isPreset ? (
+                              {weight.itemType === "preset" ? (
                                 <>
                                   <div className="flex justify-between gap-1 bg-default-50 px-1.5 py-0.5 border-2 rounded-lg">
                                     <span className="w-[11rem] truncate">
@@ -463,7 +473,7 @@ export const CalculationModal = ({
                               key={`calculation-list-distance-${index}`}
                               className="flex gap-1.5 items-center"
                             >
-                              {distance.isPreset ? (
+                              {distance.itemType === "preset" ? (
                                 <>
                                   <div className="flex justify-between gap-1 bg-default-50 px-1.5 py-0.5 border-2 rounded-lg">
                                     <span className="w-[11rem] truncate">
@@ -584,6 +594,7 @@ export const CalculationModal = ({
                     <Calculator
                       isCalculationInvalid={isCalculationInvalid}
                       setIsCalculationInvalid={setIsCalculationInvalid}
+                      buttonAction={addCalculationString}
                     />
                   </>
                 ) : (
