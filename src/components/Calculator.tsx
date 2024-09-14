@@ -27,6 +27,10 @@ export const Calculator = ({
     return ["+", "-", "*", "/"];
   }, []);
 
+  const isInputAtLimit = useMemo(() => {
+    return input.length >= 36;
+  }, [input]);
+
   const handleClearButton = () => {
     setResult("");
     setInput("");
@@ -36,7 +40,7 @@ export const Calculator = ({
   };
 
   const handleNumberButton = (num: string) => {
-    if (!/[0-9]/.test(num)) return;
+    if (!/[0-9]/.test(num) || isInputAtLimit) return;
 
     let existingInput = input;
 
@@ -87,7 +91,7 @@ export const Calculator = ({
   };
 
   const handlePointButton = () => {
-    if (isPointAdded) return;
+    if (isPointAdded || isInputAtLimit) return;
 
     let newInput = isOperationActive ? " 0." : input === "" ? "0." : ".";
 
@@ -105,7 +109,12 @@ export const Calculator = ({
   };
 
   const handleOperationButton = (symbol: string) => {
-    if (!operationSymbols.includes(symbol) || input.length === 0) return;
+    if (
+      !operationSymbols.includes(symbol) ||
+      input.length === 0 ||
+      isInputAtLimit
+    )
+      return;
 
     const lastSymbol = input.charAt(input.length - 1);
 
@@ -130,6 +139,8 @@ export const Calculator = ({
   };
 
   const handleLeftBracketButton = () => {
+    if (isInputAtLimit) return;
+
     const newInput = isOperationActive ? " (" : "(";
 
     setInput(input + newInput);
@@ -138,7 +149,7 @@ export const Calculator = ({
   };
 
   const handleRightBracketButton = () => {
-    if (isOperationActive || numLeftBrackets === 0) return;
+    if (isOperationActive || numLeftBrackets === 0 || isInputAtLimit) return;
 
     const lastSymbol = input.charAt(input.length - 1);
 
