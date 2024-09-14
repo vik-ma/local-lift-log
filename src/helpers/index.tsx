@@ -151,6 +151,7 @@ export { ExtractTextFromInsideBrackets } from "./Strings/ExtractTextFromInsideBr
 export { FormatSetsCompletedString } from "./Strings/FormatSetsCompletedString";
 export { FormatNumItemsString } from "./Strings/FormatNumItemsString";
 export { ReplaceIdsInOrderString } from "./Strings/ReplaceIdsInOrderString";
+export { IsCalculationStringValid } from "./Strings/IsCalculationStringValid";
 
 export { UpdateItemInList } from "./Lists/UpdateItemInList";
 export { DeleteItemFromList } from "./Lists/DeleteItemFromList";
