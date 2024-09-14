@@ -28,6 +28,7 @@ export const Calculator = ({
   }, []);
 
   const handleClearButton = () => {
+    setResult("");
     setInput("");
     setIsPointAdded(false);
     setIsOperationActive(false);
@@ -144,39 +145,30 @@ export const Calculator = ({
   };
 
   useEffect(() => {
-    if (!(/[+\-*/]/.test(input) || /\(.*\)/.test(input))) {
-      setIsCalculationInvalid(true);
-      setResult("");
-      return;
-    }
+    if (/[+\-*/]/.test(input) || /\(.*\)/.test(input)) {
+      try {
+        let result = "";
+        let isInvalid = true;
 
-    try {
-      const calculation = evaluate(input);
+        const calculation = evaluate(input);
 
-      if (calculation === undefined) {
-        setIsCalculationInvalid(true);
+        if (calculation === undefined) {
+          result = "";
+        } else if (calculation === Infinity) {
+          result = "Invalid";
+        } else if (calculation <= 0) {
+          result = calculation;
+        } else {
+          isInvalid = false;
+          result = calculation;
+        }
+
+        setResult(result);
+        setIsCalculationInvalid(isInvalid);
+      } catch {
         setResult("");
-        return;
-      }
-
-      if (calculation === Infinity) {
         setIsCalculationInvalid(true);
-        setResult("Invalid");
-        return;
       }
-
-      if (calculation <= 0) {
-        setIsCalculationInvalid(true);
-        setResult(calculation);
-        return;
-      }
-
-      setIsCalculationInvalid(false);
-      setResult(calculation);
-    } catch {
-      setIsCalculationInvalid(true);
-      setResult("");
-      return;
     }
   }, [input, setIsCalculationInvalid]);
 
