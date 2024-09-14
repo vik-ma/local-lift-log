@@ -1,9 +1,8 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   BackspaceIcon,
   CrossIcon,
   DivideIcon,
-  EqualsIcon,
   MinusIcon,
   PlusIcon,
 } from "../assets";
@@ -236,19 +235,16 @@ export const Calculator = () => {
           <MinusIcon size={36} color="#848484" />
         </button>
         <button
-          className="h-12 pt-0.5 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg hover:bg-default-100"
-          onClick={() => handlePointButton()}
-        >
-          .
-        </button>
-        <button
-          className="h-12 pt-0.5 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg hover:bg-default-100"
+          className="h-12 col-span-2 pt-0.5 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg hover:bg-default-100"
           onClick={() => handleNumberButton("0")}
         >
           0
         </button>
-        <button className="flex justify-center items-center h-12 rounded-lg bg-primary hover:bg-[#ffd76a]">
-          <EqualsIcon size={36} color="#fff" />
+        <button
+          className="h-12 pt-0.5 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg hover:bg-default-100"
+          onClick={() => handlePointButton()}
+        >
+          .
         </button>
         <button
           className="flex justify-center items-center h-12 border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200"
