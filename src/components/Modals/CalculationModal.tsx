@@ -73,6 +73,8 @@ export const CalculationModal = ({
   const [isTotalMultiplierInvalid, setIsTotalMultiplierInvalid] =
     useState<boolean>(false);
   const [totalMultiplierInput, setTotalMultiplierInput] = useState<string>("");
+  const [isCalculationInvalid, setIsCalculationInvalid] =
+    useState<boolean>(true);
 
   const {
     equipmentWeights,
@@ -579,7 +581,10 @@ export const CalculationModal = ({
                   </>
                 ) : calculationModalPage === "calc" ? (
                   <>
-                    <Calculator />
+                    <Calculator
+                      isCalculationInvalid={isCalculationInvalid}
+                      setIsCalculationInvalid={setIsCalculationInvalid}
+                    />
                   </>
                 ) : (
                   <>

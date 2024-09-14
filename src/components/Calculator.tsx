@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   BackspaceIcon,
   CrossIcon,
@@ -8,7 +8,16 @@ import {
 } from "../assets";
 import { evaluate } from "mathjs";
 
-export const Calculator = () => {
+type CalculatorProps = {
+  isCalculationInvalid: boolean;
+  setIsCalculationInvalid: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export const Calculator = ({
+  isCalculationInvalid,
+  setIsCalculationInvalid,
+}: CalculatorProps) => {
+  const [result, setResult] = useState<string>("");
   const [input, setInput] = useState<string>("");
   const [isPointAdded, setIsPointAdded] = useState<boolean>(false);
   const [isOperationActive, setIsOperationActive] = useState<boolean>(false);
@@ -134,33 +143,42 @@ export const Calculator = () => {
     setIsOperationActive(false);
   };
 
-  const { result, isCalculationInvalid } = useMemo((): {
-    result: string;
-    isCalculationInvalid: boolean;
-  } => {
-    if (!(/[+\-*/]/.test(input) || /\(.*\)/.test(input)))
-      return { result: "", isCalculationInvalid: true };
+  useEffect(() => {
+    if (!(/[+\-*/]/.test(input) || /\(.*\)/.test(input))) {
+      setIsCalculationInvalid(true);
+      setResult("");
+      return;
+    }
 
     try {
       const calculation = evaluate(input);
 
       if (calculation === undefined) {
-        return { result: "", isCalculationInvalid: true };
+        setIsCalculationInvalid(true);
+        setResult("");
+        return;
       }
 
       if (calculation === Infinity) {
-        return { result: "Invalid", isCalculationInvalid: true };
+        setIsCalculationInvalid(true);
+        setResult("Invalid");
+        return;
       }
 
       if (calculation <= 0) {
-        return { result: calculation, isCalculationInvalid: true };
+        setIsCalculationInvalid(true);
+        setResult(calculation);
+        return;
       }
 
-      return { result: calculation, isCalculationInvalid: false };
+      setIsCalculationInvalid(false);
+      setResult(calculation);
     } catch {
-      return { result: "", isCalculationInvalid: true };
+      setIsCalculationInvalid(true);
+      setResult("");
+      return;
     }
-  }, [input]);
+  }, [input, setIsCalculationInvalid]);
 
   return (
     <div className="flex flex-col gap-1.5 px-10">
