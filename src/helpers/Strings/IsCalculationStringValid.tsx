@@ -1,13 +1,20 @@
 import { evaluate } from "mathjs";
 
-export const IsCalculationStringValid = (str: string): boolean => {
+type IsCalculationStringValidReturnType = {
+  isCalculationValid: boolean;
+  result: number;
+};
+
+export const IsCalculationStringValid = (
+  str: string
+): IsCalculationStringValidReturnType => {
   // Test if string only contains:
   // numbers, operation symbols (+-*/), points, brackets and spaces
   const regex = /^[0-9+\-*/().\s]*$/;
 
   const containsValidCharacters = regex.test(str);
 
-  if (!containsValidCharacters) return false;
+  if (!containsValidCharacters) return { isCalculationValid: false, result: 0 };
 
   try {
     const calculation = evaluate(str);
@@ -19,10 +26,10 @@ export const IsCalculationStringValid = (str: string): boolean => {
       calculation === Infinity ||
       calculation <= 0
     )
-      return false;
-  } catch {
-    return false;
-  }
+      return { isCalculationValid: false, result: 0 };
 
-  return true;
+    return { isCalculationValid: true, result: calculation };
+  } catch {
+    return { isCalculationValid: false, result: 0 };
+  }
 };
