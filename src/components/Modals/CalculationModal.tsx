@@ -72,6 +72,7 @@ export const CalculationModal = ({
   const [totalMultiplierInput, setTotalMultiplierInput] = useState<string>("");
   const [isCalculationInvalid, setIsCalculationInvalid] =
     useState<boolean>(true);
+  const [showNumberInput, setShowNumberInput] = useState<boolean>(false);
 
   const {
     equipmentWeights,
@@ -393,7 +394,13 @@ export const CalculationModal = ({
                             >
                               Add Preset
                             </Button>
-                            <Button size="sm" variant="flat">
+                            <Button
+                              size="sm"
+                              variant="flat"
+                              onPress={() =>
+                                setShowNumberInput(!showNumberInput)
+                              }
+                            >
                               Add {presetText}
                             </Button>
                             <Button
@@ -416,6 +423,9 @@ export const CalculationModal = ({
                             </Button>
                           )}
                         </div>
+                        {showNumberInput && (
+                          <div className="flex gap-1">Test</div>
+                        )}
                         <div className="flex px-0.5 text-sm font-medium">
                           <span>Weight</span>
                           <span className="pl-[14.5rem]">Multiplier</span>
