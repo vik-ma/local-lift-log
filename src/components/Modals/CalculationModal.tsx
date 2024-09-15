@@ -100,6 +100,26 @@ export const CalculationModal = ({
   const { calculationModal, calculationModalPage, setCalculationModalPage } =
     useCalculationModal;
 
+  const addItemToCalculationList = (calculationItem: CalculationItem) => {
+    if (presetsType === "equipment") {
+      const updatedCalculationListWeight = [
+        ...calculationListWeight,
+        calculationItem,
+      ];
+
+      setCalculationListWeight(updatedCalculationListWeight);
+    }
+
+    if (presetsType === "distance") {
+      const updatedCalculationListDistance = [
+        ...calculationListDistance,
+        calculationItem,
+      ];
+
+      setCalculationListDistance(updatedCalculationListDistance);
+    }
+  };
+
   const handleGoToListButton = async () => {
     if (presetsType === "equipment" && isLoadingEquipment) {
       await getEquipmentWeights();
@@ -134,12 +154,7 @@ export const CalculationModal = ({
         equipmentWeight: equipment,
       };
 
-      const updatedCalculationListWeight = [
-        ...calculationListWeight,
-        calculationItem,
-      ];
-
-      setCalculationListWeight(updatedCalculationListWeight);
+      addItemToCalculationList(calculationItem);
     }
 
     if (distance !== undefined) {
@@ -154,12 +169,7 @@ export const CalculationModal = ({
         distance: distance,
       };
 
-      const updatedCalculationListDistance = [
-        ...calculationListDistance,
-        calculationItem,
-      ];
-
-      setCalculationListDistance(updatedCalculationListDistance);
+      addItemToCalculationList(calculationItem);
     }
 
     setCalculationModalPage("base");
@@ -351,23 +361,7 @@ export const CalculationModal = ({
       isMultiplierInputInvalid: false,
     };
 
-    if (presetsType === "equipment") {
-      const updatedCalculationListWeight = [
-        ...calculationListWeight,
-        calculationItem,
-      ];
-
-      setCalculationListWeight(updatedCalculationListWeight);
-    }
-
-    if (presetsType === "distance") {
-      const updatedCalculationListDistance = [
-        ...calculationListDistance,
-        calculationItem,
-      ];
-
-      setCalculationListDistance(updatedCalculationListDistance);
-    }
+    addItemToCalculationList(calculationItem);
 
     setCalculationModalPage("base");
   };
@@ -387,23 +381,7 @@ export const CalculationModal = ({
       isMultiplierInputInvalid: false,
     };
 
-    if (presetsType === "equipment") {
-      const updatedCalculationListWeight = [
-        ...calculationListWeight,
-        calculationItem,
-      ];
-
-      setCalculationListWeight(updatedCalculationListWeight);
-    }
-
-    if (presetsType === "distance") {
-      const updatedCalculationListDistance = [
-        ...calculationListDistance,
-        calculationItem,
-      ];
-
-      setCalculationListDistance(updatedCalculationListDistance);
-    }
+    addItemToCalculationList(calculationItem);
 
     setNumberInput("");
     setShowNumberInput(false);
