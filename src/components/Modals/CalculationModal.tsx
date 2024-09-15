@@ -426,52 +426,44 @@ export const CalculationModal = ({
                               key={`calculation-list-weight-${index}`}
                               className="flex gap-1.5 items-center"
                             >
-                              {weight.itemType === "preset" ? (
-                                <>
-                                  <div className="flex justify-between gap-1 bg-default-50 px-1.5 py-0.5 border-2 rounded-lg">
-                                    <span className="w-[11rem] truncate">
-                                      {weight.label}
-                                    </span>
-                                    <div className="flex gap-1 text-secondary">
-                                      <span className="w-[3.5rem] truncate text-right">
-                                        {weight.value}
-                                      </span>
-                                      <span>{weight.unit}</span>
-                                    </div>
-                                  </div>
-                                  <div className="w-[4rem]">
-                                    <Input
-                                      aria-label={`${weight.label} Multiplier Input`}
-                                      size="sm"
-                                      variant="faded"
-                                      value={weight.multiplierInput}
-                                      isInvalid={
-                                        weight.isMultiplierInputInvalid
-                                      }
-                                      onValueChange={(value) =>
-                                        handleWeightMultiplierChange(
-                                          value,
-                                          weight,
-                                          index
-                                        )
-                                      }
-                                      isClearable
-                                    />
-                                  </div>
-                                  <Button
-                                    aria-label={`Remove ${weight.label} From Calculation List`}
-                                    size="sm"
-                                    color="danger"
-                                    isIconOnly
-                                    variant="light"
-                                    onPress={() => handleRemoveButton(index)}
-                                  >
-                                    <CrossCircleIcon size={22} />
-                                  </Button>
-                                </>
-                              ) : (
-                                <></>
-                              )}
+                              <div className="flex justify-between gap-1 bg-default-50 px-1.5 py-0.5 border-2 rounded-lg">
+                                <span className="w-[11rem] truncate">
+                                  {weight.label}
+                                </span>
+                                <div className="flex gap-1 text-secondary">
+                                  <span className="w-[3.5rem] truncate text-right">
+                                    {weight.value}
+                                  </span>
+                                  <span>{weight.unit}</span>
+                                </div>
+                              </div>
+                              <div className="w-[4rem]">
+                                <Input
+                                  aria-label={`${weight.label} Multiplier Input`}
+                                  size="sm"
+                                  variant="faded"
+                                  value={weight.multiplierInput}
+                                  isInvalid={weight.isMultiplierInputInvalid}
+                                  onValueChange={(value) =>
+                                    handleWeightMultiplierChange(
+                                      value,
+                                      weight,
+                                      index
+                                    )
+                                  }
+                                  isClearable
+                                />
+                              </div>
+                              <Button
+                                aria-label={`Remove ${weight.label} From Calculation List`}
+                                size="sm"
+                                color="danger"
+                                isIconOnly
+                                variant="light"
+                                onPress={() => handleRemoveButton(index)}
+                              >
+                                <CrossCircleIcon size={22} />
+                              </Button>
                             </div>
                           ))}
                           {calculationListWeight.length === 0 && (
@@ -495,52 +487,44 @@ export const CalculationModal = ({
                               key={`calculation-list-distance-${index}`}
                               className="flex gap-1.5 items-center"
                             >
-                              {distance.itemType === "preset" ? (
-                                <>
-                                  <div className="flex justify-between gap-1 bg-default-50 px-1.5 py-0.5 border-2 rounded-lg">
-                                    <span className="w-[11rem] truncate">
-                                      {distance.label}
-                                    </span>
-                                    <div className="flex gap-1 text-secondary">
-                                      <span className="w-[3.5rem] truncate text-right">
-                                        {distance.value}
-                                      </span>
-                                      <span>{distance.unit}</span>
-                                    </div>
-                                  </div>
-                                  <div className="w-[4rem]">
-                                    <Input
-                                      aria-label={`${distance.label} Multiplier Input`}
-                                      size="sm"
-                                      variant="faded"
-                                      value={distance.multiplierInput}
-                                      isInvalid={
-                                        distance.isMultiplierInputInvalid
-                                      }
-                                      onValueChange={(value) =>
-                                        handleDistanceMultiplierChange(
-                                          value,
-                                          distance,
-                                          index
-                                        )
-                                      }
-                                      isClearable
-                                    />
-                                  </div>
-                                  <Button
-                                    aria-label={`Remove ${distance.label} From Calculation List`}
-                                    size="sm"
-                                    color="danger"
-                                    isIconOnly
-                                    variant="light"
-                                    onPress={() => handleRemoveButton(index)}
-                                  >
-                                    <CrossCircleIcon size={22} />
-                                  </Button>
-                                </>
-                              ) : (
-                                <></>
-                              )}
+                              <div className="flex justify-between gap-1 bg-default-50 px-1.5 py-0.5 border-2 rounded-lg">
+                                <span className="w-[11rem] truncate">
+                                  {distance.label}
+                                </span>
+                                <div className="flex gap-1 text-secondary">
+                                  <span className="w-[3.5rem] truncate text-right">
+                                    {distance.value}
+                                  </span>
+                                  <span>{distance.unit}</span>
+                                </div>
+                              </div>
+                              <div className="w-[4rem]">
+                                <Input
+                                  aria-label={`${distance.label} Multiplier Input`}
+                                  size="sm"
+                                  variant="faded"
+                                  value={distance.multiplierInput}
+                                  isInvalid={distance.isMultiplierInputInvalid}
+                                  onValueChange={(value) =>
+                                    handleDistanceMultiplierChange(
+                                      value,
+                                      distance,
+                                      index
+                                    )
+                                  }
+                                  isClearable
+                                />
+                              </div>
+                              <Button
+                                aria-label={`Remove ${distance.label} From Calculation List`}
+                                size="sm"
+                                color="danger"
+                                isIconOnly
+                                variant="light"
+                                onPress={() => handleRemoveButton(index)}
+                              >
+                                <CrossCircleIcon size={22} />
+                              </Button>
                             </div>
                           ))}
                           {calculationListDistance.length === 0 && (
