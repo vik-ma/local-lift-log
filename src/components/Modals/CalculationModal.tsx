@@ -372,6 +372,43 @@ export const CalculationModal = ({
     setCalculationModalPage("base");
   };
 
+  const handleAddNumberButton = () => {
+    if (isNumberInputInvalid) return;
+
+    const unit = presetsType === "equipment" ? weightUnit : distanceUnit;
+
+    const calculationItem: CalculationItem = {
+      itemType: "number",
+      label: `${numberInput} ${unit}`,
+      value: ConvertNumberToTwoDecimals(Number(numberInput)),
+      unit: unit,
+      multiplierInput: "",
+      multiplier: 1,
+      isMultiplierInputInvalid: false,
+    };
+
+    if (presetsType === "equipment") {
+      const updatedCalculationListWeight = [
+        ...calculationListWeight,
+        calculationItem,
+      ];
+
+      setCalculationListWeight(updatedCalculationListWeight);
+    }
+
+    if (presetsType === "distance") {
+      const updatedCalculationListDistance = [
+        ...calculationListDistance,
+        calculationItem,
+      ];
+
+      setCalculationListDistance(updatedCalculationListDistance);
+    }
+
+    setNumberInput("");
+    setShowNumberInput(false);
+  };
+
   return (
     <Modal
       isOpen={calculationModal.isOpen}
@@ -455,6 +492,7 @@ export const CalculationModal = ({
                                 variant="flat"
                                 size="sm"
                                 isDisabled={isNumberInputInvalid}
+                                onPress={handleAddNumberButton}
                               >
                                 Add {presetText}
                               </Button>
