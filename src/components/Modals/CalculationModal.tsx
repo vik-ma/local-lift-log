@@ -73,6 +73,11 @@ export const CalculationModal = ({
   const [isCalculationInvalid, setIsCalculationInvalid] =
     useState<boolean>(true);
   const [showNumberInput, setShowNumberInput] = useState<boolean>(false);
+  const [numberInput, setNumberInput] = useState<string>("");
+
+  const isNumberInputInvalid = useMemo(() => {
+    return IsStringEmpty(numberInput) || IsStringInvalidNumber(numberInput);
+  }, [numberInput]);
 
   const {
     equipmentWeights,
@@ -432,14 +437,16 @@ export const CalculationModal = ({
                                 aria-label={`Add ${presetText} Value Input Field`}
                                 size="sm"
                                 variant="faded"
-                                // TODO: ADD isInvalid
-                                // isInvalid={}
+                                isInvalid={isNumberInputInvalid}
                                 isClearable
+                                value={numberInput}
+                                onValueChange={setNumberInput}
                               />
                               <Button
                                 color="secondary"
                                 variant="flat"
                                 size="sm"
+                                isDisabled={isNumberInputInvalid}
                               >
                                 Add
                               </Button>
