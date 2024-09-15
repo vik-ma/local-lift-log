@@ -110,6 +110,12 @@ export const CalculationModal = ({
     }
 
     setCalculationModalPage("list");
+    setShowNumberInput(false);
+  };
+
+  const handleGoToCalculationButton = () => {
+    setCalculationModalPage("calc");
+    setShowNumberInput(false);
   };
 
   const handlePresetClick = (
@@ -411,7 +417,7 @@ export const CalculationModal = ({
                             <Button
                               size="sm"
                               variant="flat"
-                              onPress={() => setCalculationModalPage("calc")}
+                              onPress={handleGoToCalculationButton}
                             >
                               Add Calculation
                             </Button>
