@@ -42,22 +42,16 @@ type CalculationModalProps = {
 
 type CalculationItemType = "preset" | "calculation" | "number";
 
-type CalculationItemWeight = {
+type CalculationItem = {
   itemType: CalculationItemType;
-  equipmentWeight: EquipmentWeight;
+  label: string;
+  value: number;
+  unit: string;
   multiplierInput: string;
   multiplier: number;
   isMultiplierInputInvalid: boolean;
-  customInputString: string;
-};
-
-type CalculationItemDistance = {
-  itemType: CalculationItemType;
-  distance: Distance;
-  multiplierInput: string;
-  multiplier: number;
-  isMultiplierInputInvalid: boolean;
-  customInputString: string;
+  equipmentWeight?: EquipmentWeight;
+  distance?: Distance;
 };
 
 export const CalculationModal = ({
@@ -68,10 +62,10 @@ export const CalculationModal = ({
   distanceUnit,
 }: CalculationModalProps) => {
   const [calculationListWeight, setCalculationListWeight] = useState<
-    CalculationItemWeight[]
+    CalculationItem[]
   >([]);
   const [calculationListDistance, setCalculationListDistance] = useState<
-    CalculationItemDistance[]
+    CalculationItem[]
   >([]);
   const [isTotalMultiplierInvalid, setIsTotalMultiplierInvalid] =
     useState<boolean>(false);
@@ -117,13 +111,15 @@ export const CalculationModal = ({
     distance?: Distance
   ) => {
     if (equipment !== undefined) {
-      const calculationItem: CalculationItemWeight = {
+      const calculationItem: CalculationItem = {
         itemType: "preset",
-        equipmentWeight: equipment,
+        label: equipment.name,
+        value: equipment.weight,
+        unit: equipment.weight_unit,
         multiplierInput: "",
         multiplier: 1,
         isMultiplierInputInvalid: false,
-        customInputString: "",
+        equipmentWeight: equipment,
       };
 
       const updatedCalculationListWeight = [
@@ -135,13 +131,15 @@ export const CalculationModal = ({
     }
 
     if (distance !== undefined) {
-      const calculationItem: CalculationItemDistance = {
+      const calculationItem: CalculationItem = {
         itemType: "preset",
-        distance: distance,
+        label: distance.name,
+        value: distance.distance,
+        unit: distance.distance_unit,
         multiplierInput: "",
         multiplier: 1,
         isMultiplierInputInvalid: false,
-        customInputString: "",
+        distance: distance,
       };
 
       const updatedCalculationListDistance = [
@@ -211,9 +209,7 @@ export const CalculationModal = ({
   const totalWeight = useMemo(() => {
     return calculationListWeight.reduce(
       (total, item) =>
-        ConvertNumberToTwoDecimals(
-          total + item.equipmentWeight.weight * item.multiplier
-        ),
+        ConvertNumberToTwoDecimals(total + item.value * item.multiplier),
       0
     );
   }, [calculationListWeight]);
@@ -221,9 +217,7 @@ export const CalculationModal = ({
   const totalDistance = useMemo(() => {
     return calculationListDistance.reduce(
       (total, item) =>
-        ConvertNumberToTwoDecimals(
-          total + item.distance.distance * item.multiplier
-        ),
+        ConvertNumberToTwoDecimals(total + item.value * item.multiplier),
       0
     );
   }, [calculationListDistance]);
@@ -260,7 +254,7 @@ export const CalculationModal = ({
 
   const handleWeightMultiplierChange = (
     value: string,
-    weight: CalculationItemWeight,
+    weight: CalculationItem,
     index: number
   ) => {
     const isInputInvalid = IsStringInvalidNumber(value) || value === "0";
@@ -284,7 +278,7 @@ export const CalculationModal = ({
 
   const handleDistanceMultiplierChange = (
     value: string,
-    distance: CalculationItemDistance,
+    distance: CalculationItem,
     index: number
   ) => {
     const isInputInvalid = IsStringInvalidNumber(value) || value === "0";
@@ -332,8 +326,6 @@ export const CalculationModal = ({
   const addCalculationString = (calculationString: string) => {
     if (isCalculationInvalid || !IsCalculationStringValid(calculationString))
       return;
-
-    
   };
 
   return (
@@ -406,20 +398,18 @@ export const CalculationModal = ({
                                 <>
                                   <div className="flex justify-between gap-1 bg-default-50 px-1.5 py-0.5 border-2 rounded-lg">
                                     <span className="w-[11rem] truncate">
-                                      {weight.equipmentWeight.name}
+                                      {weight.label}
                                     </span>
                                     <div className="flex gap-1 text-secondary">
                                       <span className="w-[3.5rem] truncate text-right">
-                                        {weight.equipmentWeight.weight}
+                                        {weight.value}
                                       </span>
-                                      <span>
-                                        {weight.equipmentWeight.weight_unit}
-                                      </span>
+                                      <span>{weight.unit}</span>
                                     </div>
                                   </div>
                                   <div className="w-[4rem]">
                                     <Input
-                                      aria-label={`${weight.equipmentWeight.name} Multiplier Input`}
+                                      aria-label={`${weight.label} Multiplier Input`}
                                       size="sm"
                                       variant="faded"
                                       value={weight.multiplierInput}
@@ -437,7 +427,7 @@ export const CalculationModal = ({
                                     />
                                   </div>
                                   <Button
-                                    aria-label={`Remove ${weight.equipmentWeight.name} From Calculation List`}
+                                    aria-label={`Remove ${weight.label} From Calculation List`}
                                     size="sm"
                                     color="danger"
                                     isIconOnly
@@ -477,20 +467,18 @@ export const CalculationModal = ({
                                 <>
                                   <div className="flex justify-between gap-1 bg-default-50 px-1.5 py-0.5 border-2 rounded-lg">
                                     <span className="w-[11rem] truncate">
-                                      {distance.distance.name}
+                                      {distance.label}
                                     </span>
                                     <div className="flex gap-1 text-secondary">
                                       <span className="w-[3.5rem] truncate text-right">
-                                        {distance.distance.distance}
+                                        {distance.value}
                                       </span>
-                                      <span>
-                                        {distance.distance.distance_unit}
-                                      </span>
+                                      <span>{distance.unit}</span>
                                     </div>
                                   </div>
                                   <div className="w-[4rem]">
                                     <Input
-                                      aria-label={`${distance.distance.name} Multiplier Input`}
+                                      aria-label={`${distance.label} Multiplier Input`}
                                       size="sm"
                                       variant="faded"
                                       value={distance.multiplierInput}
@@ -508,7 +496,7 @@ export const CalculationModal = ({
                                     />
                                   </div>
                                   <Button
-                                    aria-label={`Remove ${distance.distance.name} From Calculation List`}
+                                    aria-label={`Remove ${distance.label} From Calculation List`}
                                     size="sm"
                                     color="danger"
                                     isIconOnly
