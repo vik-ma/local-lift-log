@@ -429,9 +429,11 @@ export const CalculationModal = ({
                           )}
                         </div>
                         {showNumberInput && (
-                          <div className="flex gap-1 items-center justify-between">
-                            <div className="flex gap-1.5 items-center">
-                              <span className="text-sm">Add {presetText}</span>
+                          <div className="flex gap-1 px-0.5 items-center justify-between">
+                            <div className="flex gap-2 items-center">
+                              <span className="text-sm font-medium text-stone-500">
+                                New {presetText}
+                              </span>
                               <Input
                                 className="w-[6rem]"
                                 aria-label={`Add ${presetText} Value Input Field`}
@@ -448,14 +450,13 @@ export const CalculationModal = ({
                                 size="sm"
                                 isDisabled={isNumberInputInvalid}
                               >
-                                Add
+                                Add {presetText}
                               </Button>
                             </div>
                             <div>
                               <Button
                                 variant="flat"
                                 size="sm"
-                                color="danger"
                                 onPress={() => setShowNumberInput(false)}
                               >
                                 Cancel
