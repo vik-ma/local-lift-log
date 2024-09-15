@@ -324,8 +324,40 @@ export const CalculationModal = ({
   };
 
   const addCalculationString = (calculationString: string) => {
-    if (isCalculationInvalid || !IsCalculationStringValid(calculationString))
-      return;
+    const { isCalculationValid, result } =
+      IsCalculationStringValid(calculationString);
+
+    if (isCalculationInvalid || !isCalculationValid) return;
+
+    const calculationItem: CalculationItem = {
+      itemType: "calculation",
+      label: calculationString,
+      value: result,
+      unit: presetsType === "equipment" ? weightUnit : distanceUnit,
+      multiplierInput: "",
+      multiplier: 1,
+      isMultiplierInputInvalid: false,
+    };
+
+    if (presetsType === "equipment") {
+      const updatedCalculationListWeight = [
+        ...calculationListWeight,
+        calculationItem,
+      ];
+
+      setCalculationListWeight(updatedCalculationListWeight);
+    }
+
+    if (presetsType === "distance") {
+      const updatedCalculationListDistance = [
+        ...calculationListDistance,
+        calculationItem,
+      ];
+
+      setCalculationListDistance(updatedCalculationListDistance);
+    }
+
+    setCalculationModalPage("base");
   };
 
   return (
