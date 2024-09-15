@@ -425,16 +425,35 @@ export const CalculationModal = ({
                         </div>
                         {showNumberInput && (
                           <div className="flex gap-1 items-center justify-between">
-                            <Input
-                              className="w-[12rem]"
-                              label={`Add ${presetText}`}
-                              labelPlacement="outside-left"
-                              size="sm"
-                              variant="faded"
-                            />
-                            <Button color="secondary" variant="flat" size="sm">
-                              Add
-                            </Button>
+                            <div className="flex gap-1.5 items-center">
+                              <span className="text-sm">Add {presetText}</span>
+                              <Input
+                                className="w-[6rem]"
+                                aria-label={`Add ${presetText} Value Input Field`}
+                                size="sm"
+                                variant="faded"
+                                // TODO: ADD isInvalid
+                                // isInvalid={}
+                                isClearable
+                              />
+                              <Button
+                                color="secondary"
+                                variant="flat"
+                                size="sm"
+                              >
+                                Add
+                              </Button>
+                            </div>
+                            <div>
+                              <Button
+                                variant="flat"
+                                size="sm"
+                                color="danger"
+                                onPress={() => setShowNumberInput(false)}
+                              >
+                                Cancel
+                              </Button>
+                            </div>
                           </div>
                         )}
                         <div className="flex px-0.5 text-sm font-medium">
