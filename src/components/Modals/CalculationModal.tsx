@@ -424,7 +424,18 @@ export const CalculationModal = ({
                           )}
                         </div>
                         {showNumberInput && (
-                          <div className="flex gap-1">Test</div>
+                          <div className="flex gap-1 items-center justify-between">
+                            <Input
+                              className="w-[12rem]"
+                              label={`Add ${presetText}`}
+                              labelPlacement="outside-left"
+                              size="sm"
+                              variant="faded"
+                            />
+                            <Button color="secondary" variant="flat" size="sm">
+                              Add
+                            </Button>
+                          </div>
                         )}
                         <div className="flex px-0.5 text-sm font-medium">
                           <span>Weight</span>
