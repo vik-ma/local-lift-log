@@ -1,12 +1,20 @@
 import { Button } from "@nextui-org/react";
 import { MinusIcon, PlusIcon } from "../assets";
+import { CalculationListItem } from "../typings";
 
 type PlusAndMinusButtonsProps = {
   trackingValue: string;
-  updateValue: (key: string, isIncrease: boolean) => void;
+  updateValue: (
+    key: string,
+    isIncrease: boolean,
+    calculationItem?: CalculationListItem,
+    index?: number
+  ) => void;
   isDecreaseDisabled: boolean;
   isIncreaseDisabled?: boolean;
   wrapAround?: boolean;
+  calculationItem?: CalculationListItem;
+  index?: number;
 };
 
 export const PlusAndMinusButtons = ({
@@ -15,6 +23,8 @@ export const PlusAndMinusButtons = ({
   isDecreaseDisabled,
   isIncreaseDisabled,
   wrapAround,
+  calculationItem,
+  index,
 }: PlusAndMinusButtonsProps) => {
   return (
     <>
@@ -23,7 +33,9 @@ export const PlusAndMinusButtons = ({
         isIconOnly
         variant="flat"
         size="sm"
-        onPress={() => updateValue(trackingValue, false)}
+        onPress={() =>
+          updateValue(trackingValue, false, calculationItem, index)
+        }
         isDisabled={isDecreaseDisabled}
       >
         <MinusIcon />
@@ -33,7 +45,7 @@ export const PlusAndMinusButtons = ({
         isIconOnly
         variant="flat"
         size="sm"
-        onPress={() => updateValue(trackingValue, true)}
+        onPress={() => updateValue(trackingValue, true, calculationItem, index)}
         isDisabled={isIncreaseDisabled}
       >
         <PlusIcon />
