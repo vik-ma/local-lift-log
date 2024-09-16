@@ -490,7 +490,13 @@ export const CalculationModal = ({
                           <span>Weight</span>
                           <span className="pl-[14.5rem]">Multiplier</span>
                         </div>
-                        <ScrollShadow className="flex flex-col gap-1.5 h-[280px]">
+                        <ScrollShadow
+                          className={
+                            showNumberInput
+                              ? "flex flex-col gap-1.5 h-[244px]"
+                              : "flex flex-col gap-1.5 h-[280px]"
+                          }
+                        >
                           {calculationListWeight.map((weight, index) => (
                             <div
                               key={`calculation-list-weight-${index}`}
