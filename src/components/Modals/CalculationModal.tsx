@@ -401,7 +401,7 @@ export const CalculationModal = ({
               ) : calculationModalPage === "list" ? (
                 <>Select {presetText}</>
               ) : (
-                <>Calculator</>
+                <>Calculation</>
               )}
             </ModalHeader>
             <ModalBody>
@@ -544,7 +544,7 @@ export const CalculationModal = ({
                           {calculationListWeight.length === 0 && (
                             <EmptyListLabel
                               itemName=""
-                              customLabel="Add Weight"
+                              customLabel="No Weights Added"
                               className="text-sm text-stone-400"
                             />
                           )}
@@ -605,7 +605,7 @@ export const CalculationModal = ({
                           {calculationListDistance.length === 0 && (
                             <EmptyListLabel
                               itemName=""
-                              customLabel="Add Distance"
+                              customLabel="No Distances Added"
                               className="text-sm text-stone-400"
                             />
                           )}
