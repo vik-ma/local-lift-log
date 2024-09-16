@@ -348,25 +348,10 @@ export const CalculationModal = ({
 
         const updatedInput = newValue === 1 ? "" : newValue.toString();
 
-        const updatedCalculationItem: CalculationListItem = {
-          ...calculationItem,
-          multiplierInput: updatedInput,
-        };
-
         if (presetsType === "equipment") {
-          const updatedCalculationListWeight = [...calculationListWeight];
-
-          updatedCalculationListWeight[index] = updatedCalculationItem;
-
-          setCalculationListWeight(updatedCalculationListWeight);
-        }
-
-        if (presetsType === "distance") {
-          const updatedCalculationListDistance = [...calculationListDistance];
-
-          updatedCalculationListDistance[index] = updatedCalculationItem;
-
-          setCalculationListDistance(updatedCalculationListDistance);
+          handleWeightMultiplierChange(updatedInput, calculationItem, index);
+        } else if (presetsType === "distance") {
+          handleDistanceMultiplierChange(updatedInput, calculationItem, index);
         }
 
         break;
