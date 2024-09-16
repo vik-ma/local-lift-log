@@ -487,7 +487,7 @@ export const CalculationModal = ({
                         )}
                         <div className="flex px-0.5 text-sm font-medium">
                           <span>Weight</span>
-                          <span className="pl-[14.5rem]">Multiplier</span>
+                          <span className="pl-[12.75rem]">Multiplier</span>
                         </div>
                         <ScrollShadow
                           className={
@@ -502,7 +502,7 @@ export const CalculationModal = ({
                               className="flex gap-1.5 items-center"
                             >
                               <div className="flex justify-between gap-1 bg-default-50 px-1.5 py-0.5 border-2 rounded-lg">
-                                <span className="w-[11rem] truncate">
+                                <span className="w-[7rem] truncate">
                                   {weight.label}
                                 </span>
                                 <div className="flex gap-1 text-secondary">
@@ -512,9 +512,10 @@ export const CalculationModal = ({
                                   <span>{weight.unit}</span>
                                 </div>
                               </div>
-                              <div className="w-[4rem]">
+                              <div className="flex gap-0.5">
                                 <Input
                                   aria-label={`${weight.label} Multiplier Input`}
+                                  className="w-[4rem] order-2"
                                   size="sm"
                                   variant="faded"
                                   value={weight.multiplierInput}
@@ -527,6 +528,12 @@ export const CalculationModal = ({
                                     )
                                   }
                                   isClearable
+                                />
+                                <PlusAndMinusButtons
+                                  trackingValue={weight.label}
+                                  updateValue={() => {}}
+                                  isDecreaseDisabled={false}
+                                  wrapAround
                                 />
                               </div>
                               <Button
@@ -554,7 +561,7 @@ export const CalculationModal = ({
                       <div className="flex flex-col gap-1">
                         <div className="flex px-0.5 text-sm font-medium">
                           <span>Distance</span>
-                          <span className="pl-[14rem]">Multiplier</span>
+                          <span className="pl-[12rem]">Multiplier</span>
                         </div>
                         <ScrollShadow className="flex flex-col gap-1.5 h-[325px]">
                           {calculationListDistance.map((distance, index) => (
@@ -563,7 +570,7 @@ export const CalculationModal = ({
                               className="flex gap-1.5 items-center"
                             >
                               <div className="flex justify-between gap-1 bg-default-50 px-1.5 py-0.5 border-2 rounded-lg">
-                                <span className="w-[11rem] truncate">
+                                <span className="w-[7rem] truncate">
                                   {distance.label}
                                 </span>
                                 <div className="flex gap-1 text-secondary">
@@ -573,9 +580,10 @@ export const CalculationModal = ({
                                   <span>{distance.unit}</span>
                                 </div>
                               </div>
-                              <div className="w-[4rem]">
+                              <div className="flex gap-0.5">
                                 <Input
                                   aria-label={`${distance.label} Multiplier Input`}
+                                  className="w-[4rem] order-2"
                                   size="sm"
                                   variant="faded"
                                   value={distance.multiplierInput}
@@ -588,6 +596,12 @@ export const CalculationModal = ({
                                     )
                                   }
                                   isClearable
+                                />
+                                <PlusAndMinusButtons
+                                  trackingValue={distance.label}
+                                  updateValue={() => {}}
+                                  isDecreaseDisabled={false}
+                                  wrapAround
                                 />
                               </div>
                               <Button
