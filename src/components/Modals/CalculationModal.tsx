@@ -410,17 +410,17 @@ export const CalculationModal = ({
                   <>
                     {presetsType === "equipment" ? (
                       <div className="flex flex-col gap-1">
-                        <div className="flex justify-between pb-1.5">
+                        <div className="flex justify-between pb-1">
                           <div className="flex gap-1">
                             <Button
                               size="sm"
                               variant="flat"
-                              color="secondary"
                               onPress={handleGoToListButton}
                             >
                               Add Preset
                             </Button>
                             <Button
+                              color={showNumberInput ? "secondary" : "default"}
                               size="sm"
                               variant="flat"
                               onPress={() =>
@@ -449,7 +449,7 @@ export const CalculationModal = ({
                           )}
                         </div>
                         {showNumberInput && (
-                          <div className="flex gap-1 items-center justify-between">
+                          <div className="flex gap-1 pb-0.5 items-center justify-between">
                             <div className="flex gap-2 items-center">
                               <span className="text-sm font-medium text-stone-500">
                                 New {presetText}
@@ -492,7 +492,7 @@ export const CalculationModal = ({
                         <ScrollShadow
                           className={
                             showNumberInput
-                              ? "flex flex-col gap-1.5 h-[244px]"
+                              ? "flex flex-col gap-1.5 h-[242px]"
                               : "flex flex-col gap-1.5 h-[280px]"
                           }
                         >
