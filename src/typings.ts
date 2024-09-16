@@ -474,6 +474,7 @@ export type CalculationListItem = {
   multiplier: number;
   isMultiplierInputInvalid: boolean;
   disableDecreaseMultiplierButton: boolean;
+  disableIncreaseMultiplierButton: boolean;
   equipmentWeight?: EquipmentWeight;
   distance?: Distance;
 };
