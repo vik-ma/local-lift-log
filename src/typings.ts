@@ -473,6 +473,7 @@ export type CalculationListItem = {
   multiplierInput: string;
   multiplier: number;
   isMultiplierInputInvalid: boolean;
+  disableDecreaseMultiplierButton: boolean;
   equipmentWeight?: EquipmentWeight;
   distance?: Distance;
 };

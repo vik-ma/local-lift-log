@@ -138,6 +138,7 @@ export const CalculationModal = ({
         multiplierInput: "",
         multiplier: 1,
         isMultiplierInputInvalid: false,
+        disableDecreaseMultiplierButton: true,
         equipmentWeight: equipment,
       };
 
@@ -153,6 +154,7 @@ export const CalculationModal = ({
         multiplierInput: "",
         multiplier: 1,
         isMultiplierInputInvalid: false,
+        disableDecreaseMultiplierButton: true,
         distance: distance,
       };
 
@@ -271,11 +273,14 @@ export const CalculationModal = ({
     const multiplier =
       isInputInvalid || IsStringEmpty(value) ? 1 : Number(value);
 
+    const disableButton = isInputInvalid || multiplier - 1 <= 0;
+
     const updatedCalculationItem = {
       ...weight,
       multiplierInput: value,
       multiplier: multiplier,
       isMultiplierInputInvalid: isInputInvalid,
+      disableDecreaseMultiplierButton: disableButton,
     };
 
     const updatedCalculationListWeight = [...calculationListWeight];
@@ -295,11 +300,14 @@ export const CalculationModal = ({
     const multiplier =
       isInputInvalid || IsStringEmpty(value) ? 1 : Number(value);
 
+    const disableButton = isInputInvalid || multiplier - 1 <= 0;
+
     const updatedCalculationItem = {
       ...distance,
       multiplierInput: value,
       multiplier: multiplier,
       isMultiplierInputInvalid: isInputInvalid,
+      disableDecreaseMultiplierButton: disableButton,
     };
 
     const updatedCalculationListDistance = [...calculationListDistance];
@@ -333,12 +341,7 @@ export const CalculationModal = ({
         break;
       }
       case "list": {
-        if (
-          calculationItem === undefined ||
-          index === undefined ||
-          calculationItem.isMultiplierInputInvalid
-        )
-          return;
+        if (calculationItem === undefined || index === undefined) return;
 
         const inputNum = IsStringEmpty(calculationItem.multiplierInput)
           ? 1
@@ -375,6 +378,7 @@ export const CalculationModal = ({
       multiplierInput: "",
       multiplier: 1,
       isMultiplierInputInvalid: false,
+      disableDecreaseMultiplierButton: true,
     };
 
     addItemToCalculationList(calculationItem);
@@ -395,6 +399,7 @@ export const CalculationModal = ({
       multiplierInput: "",
       multiplier: 1,
       isMultiplierInputInvalid: false,
+      disableDecreaseMultiplierButton: true,
     };
 
     addItemToCalculationList(calculationItem);
@@ -548,7 +553,9 @@ export const CalculationModal = ({
                                 <PlusAndMinusButtons
                                   trackingValue={"list"}
                                   updateValue={incrementMultiplier}
-                                  isDecreaseDisabled={false}
+                                  isDecreaseDisabled={
+                                    weight.disableDecreaseMultiplierButton
+                                  }
                                   calculationItem={weight}
                                   index={index}
                                   wrapAround
@@ -618,7 +625,9 @@ export const CalculationModal = ({
                                 <PlusAndMinusButtons
                                   trackingValue={"list"}
                                   updateValue={incrementMultiplier}
-                                  isDecreaseDisabled={false}
+                                  isDecreaseDisabled={
+                                    distance.disableDecreaseMultiplierButton
+                                  }
                                   calculationItem={distance}
                                   index={index}
                                   wrapAround
