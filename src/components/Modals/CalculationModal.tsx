@@ -439,7 +439,6 @@ export const CalculationModal = ({
                           </div>
                           {showClearAllButton && (
                             <Button
-                              className="absolute right-10"
                               variant="flat"
                               size="sm"
                               color="danger"
@@ -450,7 +449,7 @@ export const CalculationModal = ({
                           )}
                         </div>
                         {showNumberInput && (
-                          <div className="flex gap-1 px-0.5 items-center justify-between">
+                          <div className="flex gap-1 items-center justify-between">
                             <div className="flex gap-2 items-center">
                               <span className="text-sm font-medium text-stone-500">
                                 New {presetText}
