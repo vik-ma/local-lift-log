@@ -9,6 +9,7 @@ import {
   Input,
 } from "@nextui-org/react";
 import {
+  CalculationListItem,
   Distance,
   EquipmentWeight,
   UseCalculationModalReturnType,
@@ -40,20 +41,6 @@ type CalculationModalProps = {
   distanceUnit: string;
 };
 
-type CalculationItemType = "preset" | "calculation" | "number";
-
-type CalculationItem = {
-  itemType: CalculationItemType;
-  label: string;
-  value: number;
-  unit: string;
-  multiplierInput: string;
-  multiplier: number;
-  isMultiplierInputInvalid: boolean;
-  equipmentWeight?: EquipmentWeight;
-  distance?: Distance;
-};
-
 export const CalculationModal = ({
   useCalculationModal,
   usePresetsList,
@@ -62,10 +49,10 @@ export const CalculationModal = ({
   distanceUnit,
 }: CalculationModalProps) => {
   const [calculationListWeight, setCalculationListWeight] = useState<
-    CalculationItem[]
+    CalculationListItem[]
   >([]);
   const [calculationListDistance, setCalculationListDistance] = useState<
-    CalculationItem[]
+    CalculationListItem[]
   >([]);
   const [isTotalMultiplierInvalid, setIsTotalMultiplierInvalid] =
     useState<boolean>(false);
@@ -100,7 +87,7 @@ export const CalculationModal = ({
   const { calculationModal, calculationModalPage, setCalculationModalPage } =
     useCalculationModal;
 
-  const addItemToCalculationList = (calculationItem: CalculationItem) => {
+  const addItemToCalculationList = (calculationItem: CalculationListItem) => {
     if (presetsType === "equipment") {
       const updatedCalculationListWeight = [
         ...calculationListWeight,
@@ -143,7 +130,7 @@ export const CalculationModal = ({
     distance?: Distance
   ) => {
     if (equipment !== undefined) {
-      const calculationItem: CalculationItem = {
+      const calculationItem: CalculationListItem = {
         itemType: "preset",
         label: equipment.name,
         value: equipment.weight,
@@ -158,7 +145,7 @@ export const CalculationModal = ({
     }
 
     if (distance !== undefined) {
-      const calculationItem: CalculationItem = {
+      const calculationItem: CalculationListItem = {
         itemType: "preset",
         label: distance.name,
         value: distance.distance,
@@ -276,7 +263,7 @@ export const CalculationModal = ({
 
   const handleWeightMultiplierChange = (
     value: string,
-    weight: CalculationItem,
+    weight: CalculationListItem,
     index: number
   ) => {
     const isInputInvalid = IsStringInvalidNumber(value) || value === "0";
@@ -300,7 +287,7 @@ export const CalculationModal = ({
 
   const handleDistanceMultiplierChange = (
     value: string,
-    distance: CalculationItem,
+    distance: CalculationListItem,
     index: number
   ) => {
     const isInputInvalid = IsStringInvalidNumber(value) || value === "0";
@@ -351,7 +338,7 @@ export const CalculationModal = ({
 
     if (isCalculationInvalid || !isCalculationValid) return;
 
-    const calculationItem: CalculationItem = {
+    const calculationItem: CalculationListItem = {
       itemType: "calculation",
       label: calculationString,
       value: result,
@@ -371,7 +358,7 @@ export const CalculationModal = ({
 
     const unit = presetsType === "equipment" ? weightUnit : distanceUnit;
 
-    const calculationItem: CalculationItem = {
+    const calculationItem: CalculationListItem = {
       itemType: "number",
       label: `${numberInput} ${unit}`,
       value: ConvertNumberToTwoDecimals(Number(numberInput)),

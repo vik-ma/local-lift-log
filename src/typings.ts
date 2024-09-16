@@ -462,3 +462,17 @@ export type UseCalculationModalReturnType = {
     React.SetStateAction<CalculationModalPage>
   >;
 };
+
+export type CalculationItemType = "preset" | "calculation" | "number";
+
+export type CalculationListItem = {
+  itemType: CalculationItemType;
+  label: string;
+  value: number;
+  unit: string;
+  multiplierInput: string;
+  multiplier: number;
+  isMultiplierInputInvalid: boolean;
+  equipmentWeight?: EquipmentWeight;
+  distance?: Distance;
+};
