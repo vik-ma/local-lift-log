@@ -309,7 +309,12 @@ export const CalculationModal = ({
     setCalculationListDistance(updatedCalculationListDistance);
   };
 
-  const incrementMultiplier = (key: string, isIncrease: boolean) => {
+  const incrementMultiplier = (
+    key: string,
+    isIncrease: boolean,
+    calculationItem?: CalculationListItem,
+    index?: number
+  ) => {
     const modifier = isIncrease ? 1 : -1;
 
     switch (key) {
@@ -324,6 +329,45 @@ export const CalculationModal = ({
 
         const updatedInput = newValue === 1 ? "" : newValue.toString();
         setTotalMultiplierInput(updatedInput);
+
+        break;
+      }
+      case "list": {
+        if (
+          calculationItem === undefined ||
+          index === undefined ||
+          calculationItem.isMultiplierInputInvalid
+        )
+          return;
+
+        const inputNum = IsStringEmpty(calculationItem.multiplierInput)
+          ? 1
+          : ConvertInputStringToNumber(calculationItem.multiplierInput);
+
+        const newValue = parseFloat((inputNum + modifier).toFixed(2));
+
+        const updatedInput = newValue === 1 ? "" : newValue.toString();
+
+        const updatedCalculationItem: CalculationListItem = {
+          ...calculationItem,
+          multiplierInput: updatedInput,
+        };
+
+        if (presetsType === "equipment") {
+          const updatedCalculationListWeight = [...calculationListWeight];
+
+          updatedCalculationListWeight[index] = updatedCalculationItem;
+
+          setCalculationListWeight(updatedCalculationListWeight);
+        }
+
+        if (presetsType === "distance") {
+          const updatedCalculationListDistance = [...calculationListDistance];
+
+          updatedCalculationListDistance[index] = updatedCalculationItem;
+
+          setCalculationListDistance(updatedCalculationListDistance);
+        }
 
         break;
       }
@@ -517,9 +561,11 @@ export const CalculationModal = ({
                                   isClearable
                                 />
                                 <PlusAndMinusButtons
-                                  trackingValue={weight.label}
-                                  updateValue={() => {}}
+                                  trackingValue={"list"}
+                                  updateValue={incrementMultiplier}
                                   isDecreaseDisabled={false}
+                                  calculationItem={weight}
+                                  index={index}
                                   wrapAround
                                 />
                               </div>
@@ -585,9 +631,11 @@ export const CalculationModal = ({
                                   isClearable
                                 />
                                 <PlusAndMinusButtons
-                                  trackingValue={distance.label}
-                                  updateValue={() => {}}
+                                  trackingValue={"list"}
+                                  updateValue={incrementMultiplier}
                                   isDecreaseDisabled={false}
+                                  calculationItem={distance}
+                                  index={index}
                                   wrapAround
                                 />
                               </div>
