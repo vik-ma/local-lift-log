@@ -246,8 +246,7 @@ export const CalculationModal = ({
           ? 1
           : Number(totalMultiplierInput);
 
-      const disableButton =
-        isInputInvalid || Number(totalMultiplierInput) - 1 <= 0;
+      const disableButton = isInputInvalid || multiplier - 1 <= 0;
 
       return {
         totalMultiplier: multiplier,
