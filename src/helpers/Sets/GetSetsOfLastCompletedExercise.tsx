@@ -9,16 +9,17 @@ export const GetSetsOfLastCompletedExercise = async (
     const db = await Database.load(import.meta.env.VITE_DB);
 
     const result = await db.select<WorkoutSet[]>(
-      `SELECT *
+      `SELECT * 
       FROM sets
       WHERE exercise_id = $1
+      AND is_completed = 1
       AND workout_id = (
-      SELECT MAX(workout_id) 
-      FROM sets 
-      WHERE exercise_id = $1
-      AND workout_id != $2
-      )
-      AND is_completed = 1;`,
+        SELECT MAX(workout_id)
+        FROM sets
+        WHERE exercise_id = $1
+        AND workout_id != $2
+        AND is_completed = 1
+      )`,
       [exerciseId, currentWorkoutId]
     );
 
