@@ -26,8 +26,10 @@ import {
 import { useMemo, useState } from "react";
 import { CrossCircleIcon } from "../../assets";
 import {
+  ConvertDistanceValue,
   ConvertInputStringToNumber,
   ConvertNumberToTwoDecimals,
+  ConvertWeightValue,
   IsCalculationStringValid,
   IsStringEmpty,
   IsStringInvalidNumber,
@@ -143,6 +145,16 @@ export const CalculationModal = ({
         equipmentWeight: equipment,
       };
 
+      if (equipment.weight_unit !== weightUnit) {
+        const newValue = ConvertWeightValue(
+          equipment.weight,
+          equipment.weight_unit,
+          weightUnit
+        );
+        calculationItem.value = newValue;
+        calculationItem.unit = weightUnit;
+      }
+
       addItemToCalculationList(calculationItem);
     }
 
@@ -159,6 +171,16 @@ export const CalculationModal = ({
         disableIncreaseMultiplierButton: false,
         distance: distance,
       };
+
+      if (distance.distance_unit !== distanceUnit) {
+        const newValue = ConvertDistanceValue(
+          distance.distance,
+          distance.distance_unit,
+          distanceUnit
+        );
+        calculationItem.value = newValue;
+        calculationItem.unit = distanceUnit;
+      }
 
       addItemToCalculationList(calculationItem);
     }
