@@ -30,16 +30,21 @@ type SetValueInputsProps = {
   isUserWeightOlderThanOneWeek?: boolean;
 };
 
+type Increment = {
+  decrease: boolean;
+  increase: boolean;
+};
+
 type DisableUpdateValueButtonsMapType = {
-  weight: { decrease: boolean };
-  reps: { decrease: boolean };
-  rir: { decrease: boolean };
-  rpe: { decrease: boolean; increase: boolean };
-  distance: { decrease: boolean };
-  time: { decrease: boolean };
-  resistance_level: { decrease: boolean };
-  partial_reps: { decrease: boolean };
-  user_weight: { decrease: boolean };
+  weight: Increment;
+  reps: Increment;
+  rir: Increment;
+  rpe: Increment;
+  distance: Increment;
+  time: Increment;
+  resistance_level: Increment;
+  partial_reps: Increment;
+  user_weight: Increment;
 };
 
 export const SetValueInputs = ({
@@ -84,6 +89,7 @@ export const SetValueInputs = ({
           false,
           userSettings.default_increment_weight
         ),
+        increase: setInputsInvalidityMap.weight,
       },
       reps: {
         decrease: ShouldSetTrackingValueButtonBeDisabled(
@@ -92,6 +98,7 @@ export const SetValueInputs = ({
           false,
           1
         ),
+        increase: setInputsInvalidityMap.reps,
       },
       rir: {
         decrease: ShouldSetTrackingValueButtonBeDisabled(
@@ -102,6 +109,7 @@ export const SetValueInputs = ({
           undefined,
           -1
         ),
+        increase: setInputsInvalidityMap.rir,
       },
       rpe: {
         decrease: ShouldSetTrackingValueButtonBeDisabled(
@@ -126,11 +134,13 @@ export const SetValueInputs = ({
           false,
           userSettings.default_increment_distance
         ),
+        increase: setInputsInvalidityMap.distance,
       },
       time: {
         decrease:
           operatingSet.time_in_seconds - userSettings.default_increment_time <
             0 || isTimeInputInvalid,
+        increase: isTimeInputInvalid,
       },
       resistance_level: {
         decrease: ShouldSetTrackingValueButtonBeDisabled(
@@ -139,6 +149,7 @@ export const SetValueInputs = ({
           false,
           userSettings.default_increment_resistance_level
         ),
+        increase: setInputsInvalidityMap.resistance_level,
       },
       partial_reps: {
         decrease: ShouldSetTrackingValueButtonBeDisabled(
@@ -147,6 +158,7 @@ export const SetValueInputs = ({
           false,
           1
         ),
+        increase: setInputsInvalidityMap.partial_reps,
       },
       user_weight: {
         decrease: ShouldSetTrackingValueButtonBeDisabled(
@@ -155,6 +167,7 @@ export const SetValueInputs = ({
           false,
           userSettings.default_increment_weight
         ),
+        increase: setInputsInvalidityMap.user_weight,
       },
     };
 
@@ -323,6 +336,7 @@ export const SetValueInputs = ({
             trackingValue="weight"
             updateValue={updateValue}
             isDecreaseDisabled={disableUpdateValueButtonsMap.weight.decrease}
+            isIncreaseDisabled={disableUpdateValueButtonsMap.weight.increase}
           />
           <WeightUnitDropdown
             value={operatingSet.weight_unit}
@@ -354,6 +368,7 @@ export const SetValueInputs = ({
             trackingValue="reps"
             updateValue={updateValue}
             isDecreaseDisabled={disableUpdateValueButtonsMap.reps.decrease}
+            isIncreaseDisabled={disableUpdateValueButtonsMap.reps.increase}
           />
         </div>
       )}
@@ -379,6 +394,7 @@ export const SetValueInputs = ({
             trackingValue="distance"
             updateValue={updateValue}
             isDecreaseDisabled={disableUpdateValueButtonsMap.distance.decrease}
+            isIncreaseDisabled={disableUpdateValueButtonsMap.distance.increase}
           />
           <DistanceUnitDropdown
             value={operatingSet.distance_unit}
@@ -404,6 +420,7 @@ export const SetValueInputs = ({
               trackingValue="time"
               updateValue={updateValue}
               isDecreaseDisabled={disableUpdateValueButtonsMap.time.decrease}
+              isIncreaseDisabled={disableUpdateValueButtonsMap.time.increase}
             />
           </div>
         </div>
@@ -430,6 +447,7 @@ export const SetValueInputs = ({
             trackingValue="rir"
             updateValue={updateValue}
             isDecreaseDisabled={disableUpdateValueButtonsMap.rir.decrease}
+            isIncreaseDisabled={disableUpdateValueButtonsMap.rir.increase}
           />
         </div>
       )}
@@ -487,6 +505,9 @@ export const SetValueInputs = ({
             isDecreaseDisabled={
               disableUpdateValueButtonsMap.resistance_level.decrease
             }
+            isIncreaseDisabled={
+              disableUpdateValueButtonsMap.resistance_level.increase
+            }
           />
         </div>
       )}
@@ -517,6 +538,9 @@ export const SetValueInputs = ({
             updateValue={updateValue}
             isDecreaseDisabled={
               disableUpdateValueButtonsMap.partial_reps.decrease
+            }
+            isIncreaseDisabled={
+              disableUpdateValueButtonsMap.partial_reps.increase
             }
           />
         </div>
@@ -549,6 +573,9 @@ export const SetValueInputs = ({
               updateValue={updateValue}
               isDecreaseDisabled={
                 disableUpdateValueButtonsMap.user_weight.decrease
+              }
+              isIncreaseDisabled={
+                disableUpdateValueButtonsMap.user_weight.increase
               }
             />
             <WeightUnitDropdown
