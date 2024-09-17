@@ -1,36 +1,24 @@
-import { CalculationListItem, PresetsType } from "../../typings";
+import { CalculationListItem } from "../../typings";
 
 export const CreateCalculationString = (
-  calculationList: CalculationListItem[],
-  presetType: PresetsType
+  calculationList: CalculationListItem[]
 ) => {
   const stringList: string[] = [];
 
   for (const calculationItem of calculationList) {
-    if (calculationItem.itemType === "number") {
-      const string = `n${calculationItem.value}`;
-      stringList.push(string);
-    }
+    const itemString: string =
+      calculationItem.itemType === "preset" && calculationItem.equipmentWeight
+        ? `p${calculationItem.equipmentWeight.id}`
+        : calculationItem.itemType === "preset" && calculationItem.distance
+        ? `p${calculationItem.distance.id}`
+        : calculationItem.itemType === "calculation"
+        ? `c${calculationItem.label}`
+        : `n${calculationItem.value}`;
 
-    if (calculationItem.itemType === "calculation") {
-      const string = `c${calculationItem.label}`;
-      stringList.push(string);
-    }
-
-    if (calculationItem.itemType === "preset") {
-      if (calculationItem.equipmentWeight !== undefined) {
-        const string = `p${calculationItem.equipmentWeight.id}`;
-        stringList.push(string);
-      }
-
-      if (calculationItem.distance !== undefined) {
-        const string = `p${calculationItem.distance.id}`;
-        stringList.push(string);
-      }
-    }
-
-    const calculationString = stringList.join(",");
-
-    return calculationString;
+    stringList.push(itemString);
   }
+
+  const calculationString = stringList.join(",");
+
+  return calculationString;
 };
