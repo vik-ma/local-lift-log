@@ -1,7 +1,8 @@
-import { CalculationListItem } from "../../typings";
+import { CalculationListItem, PresetsType } from "../../typings";
 
 export const CreateCalculationString = (
-  calculationList: CalculationListItem[]
+  calculationList: CalculationListItem[],
+  presetsType: PresetsType
 ) => {
   const stringList: string[] = [];
 
@@ -12,13 +13,16 @@ export const CreateCalculationString = (
         : calculationItem.itemType === "preset" && calculationItem.distance
         ? `p${calculationItem.distance.id}`
         : calculationItem.itemType === "calculation"
-        ? `c${calculationItem.label}`
+        ? `c(${calculationItem.label})`
         : `n${calculationItem.value}`;
 
     stringList.push(itemString);
   }
 
-  const calculationString = stringList.join(",");
+  const listString = stringList.join(",");
+
+  const calculationString =
+    presetsType === "equipment" ? `ew[${listString}]` : `d[${listString}]`;
 
   return calculationString;
 };
