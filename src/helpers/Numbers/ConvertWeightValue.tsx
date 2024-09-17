@@ -1,4 +1,3 @@
-import { ConvertNumberToTwoDecimals } from "./ConvertNumberToTwoDecimals";
 import { IsNumberValidAndAbove0 } from "./IsNumberValidAndAbove0";
 
 export const ConvertWeightValue = (
@@ -12,9 +11,9 @@ export const ConvertWeightValue = (
   const lbsToKg = 1 / kgToLbs;
 
   if (currentUnit === "kg" && newUnit === "lbs") {
-    return ConvertNumberToTwoDecimals(value * kgToLbs);
+    return value * kgToLbs;
   } else if (currentUnit === "lbs" && newUnit === "kg") {
-    return ConvertNumberToTwoDecimals(value * lbsToKg);
+    return value * lbsToKg;
   } else {
     return value;
   }

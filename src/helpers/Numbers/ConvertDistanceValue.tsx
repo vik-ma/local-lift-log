@@ -1,8 +1,4 @@
-import {
-  ConvertNumberToTwoDecimals,
-  IsNumberValidAndAbove0,
-  ValidDistanceUnits,
-} from "..";
+import { IsNumberValidAndAbove0, ValidDistanceUnits } from "..";
 
 export const ConvertDistanceValue = (
   value: number,
@@ -34,7 +30,5 @@ export const ConvertDistanceValue = (
     yd: 1 / 0.9144,
   };
 
-  return ConvertNumberToTwoDecimals(
-    valueInMeters * conversionFromMeters[newUnit]
-  );
+  return valueInMeters * conversionFromMeters[newUnit];
 };
