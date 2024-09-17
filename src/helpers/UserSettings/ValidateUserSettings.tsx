@@ -11,6 +11,7 @@ import {
   ValidClockStyles,
   ValidTimeInputBehaviors,
   IsNumberValidAndAbove0,
+  IsNumberValidId,
 } from "..";
 
 export const ValidateUserSettings = (userSettings: UserSettings): boolean => {
@@ -65,7 +66,10 @@ export const ValidateUserSettings = (userSettings: UserSettings): boolean => {
   if (!IsNumberValidAndAbove0(userSettings.default_increment_distance))
     return false;
 
-  if (!IsNumberValidAndAbove0(userSettings.default_increment_time))
+  if (
+    !IsNumberValidAndAbove0(userSettings.default_increment_time) ||
+    !IsNumberValidId(userSettings.default_increment_time)
+  )
     return false;
 
   if (!IsNumberValidAndAbove0(userSettings.default_increment_resistance_level))
