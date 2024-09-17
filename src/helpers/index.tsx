@@ -20,6 +20,7 @@ export { IsExerciseValid } from "./Exercises/IsExerciseValid";
 export { DefaultNewExercise } from "./Exercises/DefaultNewExercise";
 export { GetExerciseListWithGroupStringsAndTotalSets } from "./Exercises/GetExerciseListWithGroupStringsAndTotalSets";
 export { GetNumberOfUniqueExercisesInGroupedSets } from "./Exercises/GetNumberOfUniqueExercisesInGroupedSets";
+export { CreateCalculationString } from "./Exercises/CreateCalculationString";
 
 export { GetScheduleDayNames } from "./Routines/GetScheduleDayNames";
 export { GetScheduleDayValues } from "./Routines/GetScheduleValues";
