@@ -517,6 +517,7 @@ export const CalculationModal = ({
                                 isClearable
                                 value={numberInput}
                                 onValueChange={setNumberInput}
+                                autoFocus
                               />
                               <Button
                                 color="secondary"
@@ -525,7 +526,7 @@ export const CalculationModal = ({
                                 isDisabled={isNumberInputInvalid}
                                 onPress={handleAddNumberButton}
                               >
-                                Add {presetText}
+                                Add
                               </Button>
                             </div>
                             <div>
