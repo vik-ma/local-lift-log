@@ -88,6 +88,7 @@ export { IsNumberValidIdOr0 } from "./Numbers/IsNumberValidIdOr0";
 export { IsStringInvalidIntegerOrBelowMinus1 } from "./Numbers/IsStringInvalidIntegerOrBelowMinus1";
 export { IsNumberValidAndAbove0 } from "./Numbers/IsNumberValidAndAbove0";
 export { ConvertInputStringToNumber } from "./Numbers/ConvertInputStringToNumber";
+export { ConvertWeightValue } from "./Numbers/ConvertWeightValue";
 
 export { GetLatestUserWeight } from "./Measurements/GetLatestUserWeight";
 export { CreateDefaultMeasurements } from "./Measurements/CreateDefaultMeasurements";
