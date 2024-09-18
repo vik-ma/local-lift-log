@@ -29,6 +29,7 @@ export type UserSettings = {
   default_increment_distance: number;
   default_increment_time: number;
   default_increment_resistance_level: number;
+  save_calculation_string: number;
 };
 
 export type UserSettingsOptional = {
