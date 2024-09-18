@@ -41,6 +41,7 @@ diesel::table! {
         exercise_group_set_string -> Text,
         note -> Nullable<Text>,
         is_favorite -> SmallInt,
+        calculation_string -> Nullable<Text>,
     }
 }
 
