@@ -7,13 +7,15 @@ export const UpdateExercise = async (exercise: Exercise) => {
 
     await db.execute(
       `UPDATE exercises SET name = $1, note = $2, 
-       exercise_group_set_string = $3, is_favorite = $4 
-       WHERE id = $5`,
+       exercise_group_set_string = $3, is_favorite = $4, 
+       calculation_string = $5 
+       WHERE id = $6`,
       [
         exercise.name,
         exercise.note,
         exercise.exercise_group_set_string,
         exercise.is_favorite,
+        exercise.calculation_string,
         exercise.id,
       ]
     );

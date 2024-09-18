@@ -54,6 +54,7 @@ export type Exercise = {
   exercise_group_set_string: string;
   note: string | null;
   is_favorite: number;
+  calculation_string: string | null;
   exerciseGroupStringList?: string[];
   formattedGroupString?: string;
   isInvalid?: boolean;
