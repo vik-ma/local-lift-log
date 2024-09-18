@@ -75,5 +75,7 @@ export const ValidateUserSettings = (userSettings: UserSettings): boolean => {
   if (!IsNumberValidAndAbove0(userSettings.default_increment_resistance_level))
     return false;
 
+  if (!IsNumberValidBinary(userSettings.save_calculation_string)) return false;
+
   return true;
 };

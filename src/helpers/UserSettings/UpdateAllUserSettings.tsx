@@ -17,8 +17,9 @@ export const UpdateAllUserSettings = async (
       default_unit_measurement = $6, active_tracking_measurements = $7, locale = $8,
       clock_style = $9, time_input_behavior_hhmmss = $10, time_input_behavior_mmss = $11,
       show_workout_rating = $12, default_increment_weight = $13, default_increment_distance = $14, 
-      default_increment_time = $15, default_increment_resistance_level = $16 
-      WHERE id = $17`,
+      default_increment_time = $15, default_increment_resistance_level = $16,
+      save_calculation_string = $17 
+      WHERE id = $18`,
       [
         userSettings.show_timestamp_on_completed_set,
         userSettings.active_routine_id,
@@ -36,6 +37,7 @@ export const UpdateAllUserSettings = async (
         userSettings.default_increment_distance,
         userSettings.default_increment_time,
         userSettings.default_increment_resistance_level,
+        userSettings.save_calculation_string,
         userSettings.id,
       ]
     );
