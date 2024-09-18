@@ -241,6 +241,17 @@ export default function Settings() {
     updateSettings(updatedSettings);
   };
 
+  const handleSaveCalculationStringChange = async (value: boolean) => {
+    if (userSettings === undefined) return;
+
+    const updatedSettings: UserSettings = {
+      ...userSettings,
+      save_calculation_string: value ? 1 : 0,
+    };
+
+    updateSettings(updatedSettings);
+  };
+
   const handleDefaultIncrementValueChange = async (key: string) => {
     if (userSettings === undefined) return;
 
@@ -487,6 +498,20 @@ export default function Settings() {
               onValueChange={(value) => handleSetShowWorkoutRatingChange(value)}
             />
           </div>
+          <div className="flex gap-3 items-center justify-between">
+            <span className="text-lg">
+              Automatically Save Latest Calculation String For Exercises
+            </span>
+            <Switch
+              className="flex-row-reverse gap-3"
+              color="primary"
+              size="lg"
+              isSelected={userSettings.save_calculation_string ? true : false}
+              onValueChange={(value) =>
+                handleSaveCalculationStringChange(value)
+              }
+            />
+          </div>
           <h3 className="flex justify-center text-lg font-medium">
             Default Increments
           </h3>
@@ -617,11 +642,7 @@ export default function Settings() {
             </div>
           </div>
           <div className="flex justify-center">
-            <Button
-              className="font-medium"
-              variant="flat"
-              onPress={() => settingsModal.onOpen()}
-            >
+            <Button variant="flat" onPress={() => settingsModal.onOpen()}>
               Restore Default Settings
             </Button>
           </div>
