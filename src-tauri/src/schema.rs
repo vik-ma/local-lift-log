@@ -30,6 +30,7 @@ diesel::table! {
         default_increment_distance -> Integer,
         default_increment_time -> Integer,
         default_increment_resistance_level -> Integer,
+        save_calculation_string -> SmallInt,
     }
 }
 
