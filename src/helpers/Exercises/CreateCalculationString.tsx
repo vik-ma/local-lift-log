@@ -13,7 +13,7 @@ export const CreateCalculationString = (
         : calculationItem.itemType === "preset" && calculationItem.distance
         ? `p${calculationItem.distance.id}`
         : calculationItem.itemType === "calculation"
-        ? `c(${calculationItem.label})`
+        ? `c(${calculationItem.label.replace(/\s+/g, "")})`
         : `n${calculationItem.value}`;
 
     stringList.push(itemString);
