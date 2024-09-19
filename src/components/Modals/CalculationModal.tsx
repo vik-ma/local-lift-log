@@ -31,6 +31,7 @@ import {
   ConvertNumberToTwoDecimals,
   ConvertWeightValue,
   CreateCalculationString,
+  CreateNewCalculationItem,
   IsCalculationStringValid,
   IsStringEmpty,
   IsStringInvalidNumber,
@@ -133,18 +134,15 @@ export const CalculationModal = ({
     distance?: Distance
   ) => {
     if (equipment !== undefined) {
-      const calculationItem: CalculationListItem = {
-        itemType: "preset",
-        label: equipment.name,
-        value: equipment.weight,
-        unit: equipment.weight_unit,
-        multiplierInput: "",
-        multiplier: 1,
-        isMultiplierInputInvalid: false,
-        disableDecreaseMultiplierButton: true,
-        disableIncreaseMultiplierButton: false,
-        equipmentWeight: equipment,
-      };
+      const calculationItem = CreateNewCalculationItem(
+        "preset",
+        weightUnit,
+        undefined,
+        undefined,
+        equipment
+      );
+
+      if (calculationItem === undefined) return;
 
       if (equipment.weight_unit !== weightUnit) {
         const newValue = ConvertWeightValue(
@@ -160,18 +158,16 @@ export const CalculationModal = ({
     }
 
     if (distance !== undefined) {
-      const calculationItem: CalculationListItem = {
-        itemType: "preset",
-        label: distance.name,
-        value: distance.distance,
-        unit: distance.distance_unit,
-        multiplierInput: "",
-        multiplier: 1,
-        isMultiplierInputInvalid: false,
-        disableDecreaseMultiplierButton: true,
-        disableIncreaseMultiplierButton: false,
-        distance: distance,
-      };
+      const calculationItem = CreateNewCalculationItem(
+        "preset",
+        distanceUnit,
+        undefined,
+        undefined,
+        undefined,
+        distance
+      );
+
+      if (calculationItem === undefined) return;
 
       if (distance.distance_unit !== distanceUnit) {
         const newValue = ConvertDistanceValue(
@@ -402,17 +398,16 @@ export const CalculationModal = ({
 
     if (isCalculationInvalid || !isCalculationValid) return;
 
-    const calculationItem: CalculationListItem = {
-      itemType: "calculation",
-      label: calculationString,
-      value: result,
-      unit: presetsType === "equipment" ? weightUnit : distanceUnit,
-      multiplierInput: "",
-      multiplier: 1,
-      isMultiplierInputInvalid: false,
-      disableDecreaseMultiplierButton: true,
-      disableIncreaseMultiplierButton: false,
-    };
+    const unit = presetsType === "equipment" ? weightUnit : distanceUnit;
+
+    const calculationItem = CreateNewCalculationItem(
+      "calculation",
+      unit,
+      result,
+      calculationString
+    );
+
+    if (calculationItem === undefined) return;
 
     addItemToCalculationList(calculationItem);
 
@@ -424,17 +419,11 @@ export const CalculationModal = ({
 
     const unit = presetsType === "equipment" ? weightUnit : distanceUnit;
 
-    const calculationItem: CalculationListItem = {
-      itemType: "number",
-      label: `${numberInput} ${unit}`,
-      value: ConvertNumberToTwoDecimals(Number(numberInput)),
-      unit: unit,
-      multiplierInput: "",
-      multiplier: 1,
-      isMultiplierInputInvalid: false,
-      disableDecreaseMultiplierButton: true,
-      disableIncreaseMultiplierButton: false,
-    };
+    const value = ConvertNumberToTwoDecimals(Number(numberInput));
+
+    const calculationItem = CreateNewCalculationItem("number", unit, value);
+
+    if (calculationItem === undefined) return;
 
     addItemToCalculationList(calculationItem);
 
