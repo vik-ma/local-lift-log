@@ -163,3 +163,4 @@ export { ReplaceNumberIn2DList } from "./Lists/ReplaceNumberIn2DList";
 
 export { CreateCalculationString } from "./CalculationItems/CreateCalculationString";
 export { UpdateCalculationString } from "./CalculationItems/UpdateCalculationString";
+export { CreateNewCalculationItem } from "./CalculationItems/CreateNewCalculationItem";
