@@ -20,8 +20,6 @@ export { IsExerciseValid } from "./Exercises/IsExerciseValid";
 export { DefaultNewExercise } from "./Exercises/DefaultNewExercise";
 export { GetExerciseListWithGroupStringsAndTotalSets } from "./Exercises/GetExerciseListWithGroupStringsAndTotalSets";
 export { GetNumberOfUniqueExercisesInGroupedSets } from "./Exercises/GetNumberOfUniqueExercisesInGroupedSets";
-export { CreateCalculationString } from "./Exercises/CreateCalculationString";
-export { UpdateCalculationString } from "./Exercises/UpdateCalculationString";
 
 export { GetScheduleDayNames } from "./Routines/GetScheduleDayNames";
 export { GetScheduleDayValues } from "./Routines/GetScheduleValues";
@@ -162,3 +160,6 @@ export { DeleteItemFromList } from "./Lists/DeleteItemFromList";
 export { DeleteIdFromList } from "./Lists/DeleteIdFromList";
 export { FindIndexInList } from "./Lists/FindIndexInList";
 export { ReplaceNumberIn2DList } from "./Lists/ReplaceNumberIn2DList";
+
+export { CreateCalculationString } from "./CalculationItems/CreateCalculationString";
+export { UpdateCalculationString } from "./CalculationItems/UpdateCalculationString";
