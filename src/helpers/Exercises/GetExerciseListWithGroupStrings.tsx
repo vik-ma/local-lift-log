@@ -18,6 +18,7 @@ export const GetExerciseListWithGroupStrings = async () => {
         exercise_group_set_string: row.exercise_group_set_string,
         note: row.note,
         is_favorite: row.is_favorite,
+        calculation_string: row.calculation_string,
         exerciseGroupStringList: convertedValues.list,
         formattedGroupString: convertedValues.formattedString,
       };

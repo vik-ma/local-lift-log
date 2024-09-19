@@ -10,6 +10,7 @@ export const GetExerciseWithId = async (exerciseId: number) => {
     note: null,
     is_favorite: 0,
     isInvalid: true,
+    calculation_string: null,
   };
 
   try {
