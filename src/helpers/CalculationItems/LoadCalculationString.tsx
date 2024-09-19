@@ -6,6 +6,53 @@ import {
 } from "../../typings";
 import { CreateNewCalculationItem } from "./CreateNewCalculationItem";
 
+const createCalculationItemNumber = (number: number, unit: string) => {
+  const calculationItem = CreateNewCalculationItem("number", unit, number);
+
+  return calculationItem;
+};
+
+const createCalculationItemEquipmentWeight = (
+  presetId: number,
+  unit: string,
+  equipmentWeights: EquipmentWeight[]
+) => {
+  const equipment = equipmentWeights.find((item) => item.id === presetId);
+
+  if (equipment !== undefined) {
+    const calculationItem = CreateNewCalculationItem(
+      "preset",
+      unit,
+      undefined,
+      undefined,
+      equipment
+    );
+
+    return calculationItem;
+  }
+};
+
+const createCalculationItemDistance = (
+  presetId: number,
+  unit: string,
+  distances: Distance[]
+) => {
+  const distance = distances.find((item) => item.id === presetId);
+
+  if (distance !== undefined) {
+    const calculationItem = CreateNewCalculationItem(
+      "preset",
+      unit,
+      undefined,
+      undefined,
+      undefined,
+      distance
+    );
+
+    return calculationItem;
+  }
+};
+
 export const LoadCalculationString = (
   calculationString: string,
   unit: string,
@@ -37,12 +84,7 @@ export const LoadCalculationString = (
 
         if (numberMatch && numberMatch[1]) {
           const number = parseFloat(numberMatch[1]);
-
-          const calculationItem = CreateNewCalculationItem(
-            "number",
-            unit,
-            number
-          );
+          const calculationItem = createCalculationItemNumber(number, unit);
 
           if (calculationItem !== undefined)
             calculationList.push(calculationItem);
@@ -54,42 +96,25 @@ export const LoadCalculationString = (
           const presetId = parseInt(presetMatch[1]);
 
           if (presetsType === "equipment") {
-            const equipment = equipmentWeights.find(
-              (item) => item.id === presetId
+            const calculationItem = createCalculationItemEquipmentWeight(
+              presetId,
+              unit,
+              equipmentWeights
             );
 
-            if (equipment !== undefined) {
-              const calculationItem = CreateNewCalculationItem(
-                "preset",
-                unit,
-                undefined,
-                undefined,
-                equipment
-              );
-
-              if (calculationItem !== undefined)
-                calculationList.push(calculationItem);
-            }
+            if (calculationItem !== undefined)
+              calculationList.push(calculationItem);
           }
 
           if (presetsType === "distance") {
-            const distance = distances.find(
-              (item) => item.id === presetId
+            const calculationItem = createCalculationItemDistance(
+              presetId,
+              unit,
+              distances
             );
 
-            if (distance !== undefined) {
-              const calculationItem = CreateNewCalculationItem(
-                "preset",
-                unit,
-                undefined,
-                undefined,
-                undefined,
-                distance
-              );
-
-              if (calculationItem !== undefined)
-                calculationList.push(calculationItem);
-            }
+            if (calculationItem !== undefined)
+              calculationList.push(calculationItem);
           }
         }
       }
