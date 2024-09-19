@@ -22,7 +22,7 @@ export const CreateCalculationString = (
   const listString = stringList.join(",");
 
   const calculationString =
-    presetsType === "equipment" ? `ew[${listString}]` : `d[${listString}]`;
+    presetsType === "equipment" ? `e[${listString}]` : `d[${listString}]`;
 
   return calculationString;
 };
