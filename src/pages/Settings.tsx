@@ -416,6 +416,7 @@ export default function Settings() {
           <div className="flex gap-3 items-center justify-between">
             <span className="text-lg">Show Timestamp On Completed Sets</span>
             <Switch
+              aria-label="Show Timestamp On Completed Sets Switch Element"
               className="flex-row-reverse gap-3"
               color="primary"
               size="lg"
@@ -491,6 +492,7 @@ export default function Settings() {
           <div className="flex gap-3 items-center justify-between">
             <span className="text-lg">Show Workout Rating</span>
             <Switch
+              aria-label="Show Workout Rating Switch Element"
               className="flex-row-reverse gap-3"
               color="primary"
               size="lg"
@@ -500,9 +502,10 @@ export default function Settings() {
           </div>
           <div className="flex gap-3 items-center justify-between">
             <span className="text-lg">
-              Automatically Save Latest Calculation String For Exercises
+              Automatically Save Last Calculation String For Exercises
             </span>
             <Switch
+              aria-label="Save Last Calculation String Switch Element"
               className="flex-row-reverse gap-3"
               color="primary"
               size="lg"
