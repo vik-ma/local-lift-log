@@ -21,6 +21,7 @@ export { DefaultNewExercise } from "./Exercises/DefaultNewExercise";
 export { GetExerciseListWithGroupStringsAndTotalSets } from "./Exercises/GetExerciseListWithGroupStringsAndTotalSets";
 export { GetNumberOfUniqueExercisesInGroupedSets } from "./Exercises/GetNumberOfUniqueExercisesInGroupedSets";
 export { CreateCalculationString } from "./Exercises/CreateCalculationString";
+export { UpdateCalculationString } from "./Exercises/UpdateCalculationString";
 
 export { GetScheduleDayNames } from "./Routines/GetScheduleDayNames";
 export { GetScheduleDayValues } from "./Routines/GetScheduleValues";
