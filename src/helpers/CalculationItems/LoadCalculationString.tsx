@@ -1,10 +1,17 @@
-import { CalculationListItem, PresetsType } from "../../typings";
+import {
+  CalculationListItem,
+  Distance,
+  EquipmentWeight,
+  PresetsType,
+} from "../../typings";
 import { CreateNewCalculationItem } from "./CreateNewCalculationItem";
 
 export const LoadCalculationString = (
   calculationString: string,
   unit: string,
-  presetsType: PresetsType
+  presetsType: PresetsType,
+  equipmentWeights: EquipmentWeight[],
+  distances: Distance[]
 ): CalculationListItem[] => {
   const calculationStrings = calculationString.split("/");
 
@@ -39,6 +46,51 @@ export const LoadCalculationString = (
 
           if (calculationItem !== undefined)
             calculationList.push(calculationItem);
+        }
+
+        const presetMatch = item.match(regexPreset);
+
+        if (presetMatch && presetMatch[1]) {
+          const presetId = parseInt(presetMatch[1]);
+
+          if (presetsType === "equipment") {
+            const equipment = equipmentWeights.find(
+              (item) => item.id === presetId
+            );
+
+            if (equipment !== undefined) {
+              const calculationItem = CreateNewCalculationItem(
+                "preset",
+                unit,
+                undefined,
+                undefined,
+                equipment
+              );
+
+              if (calculationItem !== undefined)
+                calculationList.push(calculationItem);
+            }
+          }
+
+          if (presetsType === "distance") {
+            const distance = distances.find(
+              (item) => item.id === presetId
+            );
+
+            if (distance !== undefined) {
+              const calculationItem = CreateNewCalculationItem(
+                "preset",
+                unit,
+                undefined,
+                undefined,
+                undefined,
+                distance
+              );
+
+              if (calculationItem !== undefined)
+                calculationList.push(calculationItem);
+            }
+          }
         }
       }
     }
