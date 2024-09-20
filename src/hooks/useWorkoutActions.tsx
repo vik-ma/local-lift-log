@@ -58,6 +58,8 @@ import {
   useDefaultMultiset,
   useExerciseList,
   useDefaultUserWeight,
+  useCalculationModal,
+  usePresetsList,
 } from "../hooks";
 
 type OperationType =
@@ -122,6 +124,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
   const [operatingSet, setOperatingSet] = useState<WorkoutSet>(defaultSet);
 
+  const [calculationString, setCalculationString] = useState<string | null>(
+    null
+  );
+
   const defaultMultiset = useDefaultMultiset();
 
   const [operatingMultiset, setOperatingMultiset] =
@@ -132,6 +138,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   const timeInputModal = useDisclosure();
   const multisetModal = useDisclosure();
   const textInputModal = useDisclosure();
+
+  const calculationModal = useCalculationModal();
+
+  const presetsList = usePresetsList(false, false);
 
   const defaultSetInputValues = useDefaultSetInputValues();
 
@@ -2552,5 +2562,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     populateUserWeightValues,
     isUserWeightOlderThanOneWeek,
     setIsUserWeightOlderThanOneWeek,
+    calculationString,
+    presetsList,
+    calculationModal,
   };
 };

@@ -20,6 +20,7 @@ import {
   UserWeightModal,
   WorkoutTemplateListModal,
   WorkoutListModal,
+  CalculationModal,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -160,6 +161,9 @@ export default function WorkoutDetails() {
     populateUserWeightValues,
     isUserWeightOlderThanOneWeek,
     setIsUserWeightOlderThanOneWeek,
+    calculationString,
+    presetsList,
+    calculationModal,
   } = useWorkoutActions(false);
 
   const userWeightInputs = useUserWeightInput(
@@ -504,6 +508,14 @@ export default function WorkoutDetails() {
         setCommentInput={userWeightInputs.setWeightCommentInput}
         buttonAction={handleUserWeightModalAddButton}
         isEditing={false}
+      />
+      <CalculationModal
+        useCalculationModal={calculationModal}
+        usePresetsList={presetsList}
+        doneButtonAction={() => {}}
+        weightUnit={operatingSet.weight_unit}
+        distanceUnit={operatingSet.distance_unit}
+        calculationString={calculationString}
       />
       <div className="flex flex-col">
         <DetailsHeader

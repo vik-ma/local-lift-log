@@ -12,6 +12,7 @@ import {
   DetailsHeader,
   MultisetModal,
   TextInputModal,
+  CalculationModal,
 } from "../components";
 import { Toaster } from "react-hot-toast";
 import {
@@ -87,6 +88,9 @@ export default function WorkoutTemplateDetails() {
     setSetCommentInput,
     handleTextInputModalButton,
     numMultisetSets,
+    calculationString,
+    presetsList,
+    calculationModal,
   } = useWorkoutActions(true);
 
   const getWorkoutTemplateAndSetList = useCallback(async () => {
@@ -257,6 +261,14 @@ export default function WorkoutTemplateDetails() {
         label="Note"
         header="Set Note"
         buttonAction={handleTextInputModalButton}
+      />
+      <CalculationModal
+        useCalculationModal={calculationModal}
+        usePresetsList={presetsList}
+        doneButtonAction={() => {}}
+        weightUnit={operatingSet.weight_unit}
+        distanceUnit={operatingSet.distance_unit}
+        calculationString={calculationString}
       />
       <div className="flex flex-col">
         <DetailsHeader
