@@ -80,17 +80,23 @@ export const LoadCalculationString = (
   equipmentWeights: EquipmentWeight[],
   distances: Distance[]
 ): CalculationListItem[] => {
+  // Split Equipment Weight calculation string with Distance
+  // calculation strings, if calculation string contains both
   const calculationStrings = calculationString.split("/");
 
   if (calculationStrings.length === 0) return [];
 
   const calculationList: CalculationListItem[] = [];
 
+  // Calculation strings must be of format "e[**]/d[**]", e[**] or d[**]
   const regexEquipment = /^e\[(.*)\]$/;
   const regexDistance = /^d\[(.*)\]$/;
 
+  // Number values must be of format "n**", where ** is a valid number above 0
   const regexNumber = /^n\d+(\.\d{1,2})?$/;
+  // Preset values must be of format "p**", where ** is a valid integer above 0
   const regexPreset = /^p([1-9]\d*)$/;
+  // Calculation values must be of format "c(**)", where ** is a valid calculation string
   const regexCalc = /^c\((.*)\)$/;
 
   for (const string of calculationStrings) {
@@ -101,21 +107,45 @@ export const LoadCalculationString = (
       presetsType === "equipment" && equipmentMatch;
     const isValidDistanceString = presetsType === "distance" && distanceMatch;
 
+    // Extract text from inside calculation string brackets (e[**] or d[**])
     const calculationListString = isValidEquipmentString
       ? equipmentMatch[1]
       : isValidDistanceString
       ? distanceMatch[1]
       : undefined;
 
-    if (calculationListString !== undefined) {
-      const calculationItems = calculationListString.split(",");
+    // Do nothing if calculation string is invalid
+    if (calculationListString === undefined) continue;
 
-      for (const item of calculationItems) {
-        const numberMatch = item.match(regexNumber);
+    const calculationItems = calculationListString.split(",");
 
-        if (numberMatch && numberMatch[1]) {
-          const number = parseFloat(numberMatch[1]);
-          const calculationItem = createCalculationItemNumber(number, unit);
+    // Loop through every item in the string
+    for (const item of calculationItems) {
+      // Check if itemType is number
+      const numberMatch = item.match(regexNumber);
+
+      if (numberMatch && numberMatch[1]) {
+        const number = parseFloat(numberMatch[1]);
+        const calculationItem = createCalculationItemNumber(number, unit);
+
+        if (calculationItem !== undefined) {
+          calculationList.push(calculationItem);
+          continue;
+        }
+      }
+
+      // Check if itemType is preset
+      const presetMatch = item.match(regexPreset);
+
+      if (presetMatch && presetMatch[1]) {
+        const presetId = parseInt(presetMatch[1]);
+
+        if (presetsType === "equipment") {
+          const calculationItem = createCalculationItemEquipmentWeight(
+            presetId,
+            unit,
+            equipmentWeights
+          );
 
           if (calculationItem !== undefined) {
             calculationList.push(calculationItem);
@@ -123,48 +153,30 @@ export const LoadCalculationString = (
           }
         }
 
-        const presetMatch = item.match(regexPreset);
+        if (presetsType === "distance") {
+          const calculationItem = createCalculationItemDistance(
+            presetId,
+            unit,
+            distances
+          );
 
-        if (presetMatch && presetMatch[1]) {
-          const presetId = parseInt(presetMatch[1]);
-
-          if (presetsType === "equipment") {
-            const calculationItem = createCalculationItemEquipmentWeight(
-              presetId,
-              unit,
-              equipmentWeights
-            );
-
-            if (calculationItem !== undefined) {
-              calculationList.push(calculationItem);
-              continue;
-            }
+          if (calculationItem !== undefined) {
+            calculationList.push(calculationItem);
+            continue;
           }
+        }
 
-          if (presetsType === "distance") {
-            const calculationItem = createCalculationItemDistance(
-              presetId,
-              unit,
-              distances
-            );
+        // Check if itemType is calculation
+        const calcMatch = item.match(regexCalc);
 
-            if (calculationItem !== undefined) {
-              calculationList.push(calculationItem);
-              continue;
-            }
-          }
+        if (calcMatch && calcMatch[1]) {
+          const calculationItem = createCalculationItemCalculation(
+            calcMatch[1],
+            unit
+          );
 
-          const calcMatch = item.match(regexCalc);
-
-          if (calcMatch && calcMatch[1]) {
-            const calculationItem = createCalculationItemCalculation(
-              calcMatch[1],
-              unit
-            );
-
-            if (calculationItem !== undefined) {
-              calculationList.push(calculationItem);
-            }
+          if (calculationItem !== undefined) {
+            calculationList.push(calculationItem);
           }
         }
       }
