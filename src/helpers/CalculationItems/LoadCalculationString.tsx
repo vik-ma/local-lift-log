@@ -4,6 +4,7 @@ import {
   EquipmentWeight,
   PresetsType,
 } from "../../typings";
+import { IsCalculationStringValid } from "../Strings/IsCalculationStringValid";
 import { CreateNewCalculationItem } from "./CreateNewCalculationItem";
 
 const createCalculationItemNumber = (number: number, unit: string) => {
@@ -53,6 +54,25 @@ const createCalculationItemDistance = (
   }
 };
 
+const createCalculationItemCalculation = (
+  calculationString: string,
+  unit: string
+) => {
+  const { isCalculationValid, result } =
+    IsCalculationStringValid(calculationString);
+
+  if (!isCalculationValid) return;
+
+  const calculationItem = CreateNewCalculationItem(
+    "calculation",
+    unit,
+    result,
+    calculationString
+  );
+
+  return calculationItem;
+};
+
 export const LoadCalculationString = (
   calculationString: string,
   unit: string,
@@ -71,6 +91,7 @@ export const LoadCalculationString = (
 
   const regexNumber = /^n\d+(\.\d{1,2})?$/;
   const regexPreset = /^p([1-9]\d*)$/;
+  const regexCalc = /^c\((.*)\)$/;
 
   for (const string of calculationStrings) {
     if (
@@ -86,8 +107,10 @@ export const LoadCalculationString = (
           const number = parseFloat(numberMatch[1]);
           const calculationItem = createCalculationItemNumber(number, unit);
 
-          if (calculationItem !== undefined)
+          if (calculationItem !== undefined) {
             calculationList.push(calculationItem);
+            continue;
+          }
         }
 
         const presetMatch = item.match(regexPreset);
@@ -102,8 +125,10 @@ export const LoadCalculationString = (
               equipmentWeights
             );
 
-            if (calculationItem !== undefined)
+            if (calculationItem !== undefined) {
               calculationList.push(calculationItem);
+              continue;
+            }
           }
 
           if (presetsType === "distance") {
@@ -113,8 +138,23 @@ export const LoadCalculationString = (
               distances
             );
 
-            if (calculationItem !== undefined)
+            if (calculationItem !== undefined) {
               calculationList.push(calculationItem);
+              continue;
+            }
+          }
+
+          const calcMatch = item.match(regexCalc);
+
+          if (calcMatch && calcMatch[1]) {
+            const calculationItem = createCalculationItemCalculation(
+              calcMatch[1],
+              unit
+            );
+
+            if (calculationItem !== undefined) {
+              calculationList.push(calculationItem);
+            }
           }
         }
       }
