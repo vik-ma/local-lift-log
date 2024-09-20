@@ -23,7 +23,7 @@ import {
   PlusAndMinusButtons,
   SearchInput,
 } from "..";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { CrossCircleIcon } from "../../assets";
 import {
   ConvertDistanceValue,
@@ -94,8 +94,26 @@ export const CalculationModal = ({
   const { calculationModal, calculationModalPage, setCalculationModalPage } =
     useCalculationModal;
 
+  const loadPresets = useCallback(async () => {
+    if (presetsType === "equipment" && isLoadingEquipment) {
+      await getEquipmentWeights();
+    }
+
+    if (presetsType === "distance" && isLoadingDistance) {
+      await getDistances();
+    }
+  }, [
+    presetsType,
+    isLoadingEquipment,
+    isLoadingDistance,
+    getEquipmentWeights,
+    getDistances,
+  ]);
+
   useEffect(() => {
     if (calculationString === null) return;
+
+    loadPresets();
 
     const unit = presetsType === "equipment" ? weightUnit : distanceUnit;
 
@@ -119,6 +137,7 @@ export const CalculationModal = ({
     distances,
     weightUnit,
     distanceUnit,
+    loadPresets,
   ]);
 
   const addItemToCalculationList = (calculationItem: CalculationListItem) => {
@@ -142,13 +161,7 @@ export const CalculationModal = ({
   };
 
   const handleGoToListButton = async () => {
-    if (presetsType === "equipment" && isLoadingEquipment) {
-      await getEquipmentWeights();
-    }
-
-    if (presetsType === "distance" && isLoadingDistance) {
-      await getDistances();
-    }
+    await loadPresets();
 
     setCalculationModalPage("list");
     setShowNumberInput(false);

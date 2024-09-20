@@ -18,7 +18,7 @@ export default function Test() {
         doneButtonAction={() => {}}
         weightUnit="kg"
         distanceUnit="km"
-        calculationString={"e[n33,n44]"}
+        calculationString={"e[c(9 + 9),p20,n54.4]"}
       />
       <div className="flex flex-col gap-2">
         <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">
