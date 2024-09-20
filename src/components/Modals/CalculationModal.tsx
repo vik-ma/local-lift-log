@@ -23,7 +23,7 @@ import {
   PlusAndMinusButtons,
   SearchInput,
 } from "..";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { CrossCircleIcon } from "../../assets";
 import {
   ConvertDistanceValue,
@@ -35,6 +35,7 @@ import {
   IsCalculationStringValid,
   IsStringEmpty,
   IsStringInvalidNumber,
+  LoadCalculationString,
 } from "../../helpers";
 
 type CalculationModalProps = {
@@ -43,6 +44,7 @@ type CalculationModalProps = {
   doneButtonAction: () => void;
   weightUnit: string;
   distanceUnit: string;
+  calculationString: string | null;
 };
 
 export const CalculationModal = ({
@@ -51,6 +53,7 @@ export const CalculationModal = ({
   doneButtonAction,
   weightUnit,
   distanceUnit,
+  calculationString,
 }: CalculationModalProps) => {
   const [calculationListWeight, setCalculationListWeight] = useState<
     CalculationListItem[]
@@ -90,6 +93,33 @@ export const CalculationModal = ({
 
   const { calculationModal, calculationModalPage, setCalculationModalPage } =
     useCalculationModal;
+
+  useEffect(() => {
+    if (calculationString === null) return;
+
+    const unit = presetsType === "equipment" ? weightUnit : distanceUnit;
+
+    const calculationList = LoadCalculationString(
+      calculationString,
+      unit,
+      presetsType,
+      equipmentWeights,
+      distances
+    );
+
+    if (presetsType === "equipment") {
+      setCalculationListWeight(calculationList);
+    } else {
+      setCalculationListDistance(calculationList);
+    }
+  }, [
+    calculationString,
+    presetsType,
+    equipmentWeights,
+    distances,
+    weightUnit,
+    distanceUnit,
+  ]);
 
   const addItemToCalculationList = (calculationItem: CalculationListItem) => {
     if (presetsType === "equipment") {
