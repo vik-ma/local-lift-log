@@ -12,17 +12,69 @@ export const UpdateCalculationString = async (
   presetsType: PresetsType,
   exercise: Exercise
 ): Promise<UpdateCalculationStringReturnType> => {
-  const calculationString = CreateCalculationString(
-    calculationList,
-    presetsType
-  );
+  let calculationString = "";
+
+  if (exercise.calculation_string === null) {
+    calculationString = CreateCalculationString(calculationList, presetsType);
+  } else {
+    // Split current calculation string between Equipment Weights
+    // and Distances, if calculation string contains both
+    const calculationStrings = exercise.calculation_string.split("/");
+
+    // Updated calculation string list
+    const newCalculationStrings: string[] = [];
+
+    // Calculation strings must be of format "e[**]/d[**]", e[**] or d[**]
+    const regexEquipment = /^e\[(.*)\]$/;
+    const regexDistance = /^d\[(.*)\]$/;
+
+    for (const string of calculationStrings) {
+      const equipmentMatch = string.match(regexEquipment);
+      const distanceMatch = string.match(regexDistance);
+
+      const isValidEquipmentString =
+        presetsType === "equipment" && equipmentMatch;
+      const isValidDistanceString = presetsType === "distance" && distanceMatch;
+
+      if (isValidEquipmentString || isValidDistanceString) {
+        // If updating current presetsType
+        calculationString = CreateCalculationString(
+          calculationList,
+          presetsType
+        );
+        newCalculationStrings.push(calculationString);
+      }
+
+      if (
+        (equipmentMatch && presetsType !== "equipment") ||
+        (distanceMatch && presetsType !== "distance")
+      ) {
+        // Add new calculationList for presetType that does not currently exist in string
+        calculationString = CreateCalculationString(
+          calculationList,
+          presetsType
+        );
+        newCalculationStrings.push(calculationString);
+
+        // Keep existing string for other presetsType
+        newCalculationStrings.push(string);
+      }
+    }
+
+    if (newCalculationStrings.length === 0) {
+      // If current string is invalid, replace string with new value
+      calculationString = CreateCalculationString(calculationList, presetsType);
+    } else {
+      calculationString = newCalculationStrings.join("/");
+    }
+  }
 
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
 
     await db.execute(
-      `UPDATE exercises 
-       SET calculation_string = $1 
+      `UPDATE exercises
+       SET calculation_string = $1
        WHERE id = $2`,
       [calculationString, exercise.id]
     );
