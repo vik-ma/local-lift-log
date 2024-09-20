@@ -6,7 +6,7 @@ import {
   Select,
   SelectItem,
 } from "@nextui-org/react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { SetValueInputs } from ".";
 import { CommentIcon } from "../assets";
 import {
@@ -58,6 +58,13 @@ export const SetValueConfig = ({
   const [showNoteInput, setShowNoteInput] = useState<boolean>(false);
 
   const numSetsOptions = useNumSetsOptions();
+
+  const isSetCompleted = useMemo(() => {
+    if (operatingSet.is_completed === 1) return true;
+
+    return false;
+  }, [operatingSet.is_completed]);
+
   return (
     <div className="flex flex-col gap-2 h-[400px]">
       <div className="flex flex-row items-center justify-between">
@@ -245,17 +252,12 @@ export const SetValueConfig = ({
               </Select>
             </div>
           )}
-        <div className="flex gap-4 items-center px-0.5">
-          <h3 className="text-xl font-semibold">Default Values</h3>
-          <div className="flex flex-grow justify-between">
-            <Button
-              variant="flat"
-              size="sm"
-              onPress={() => setShowDefaultValues(!showDefaultValues)}
-            >
-              {showDefaultValues ? "Hide" : "Show"}
-            </Button>
-            {showDefaultValues && (
+        <div className="flex items-center px-0.5">
+          <h3 className="text-xl font-semibold">
+            {isSetCompleted ? "Completed Values" : "Default Values"}
+          </h3>
+          <div className="flex flex-grow gap-2 justify-end">
+            {showDefaultValues && !isSetCompleted && (
               <Button
                 variant="flat"
                 size="sm"
@@ -265,6 +267,13 @@ export const SetValueConfig = ({
                 Clear Default Values
               </Button>
             )}
+            <Button
+              variant="flat"
+              size="sm"
+              onPress={() => setShowDefaultValues(!showDefaultValues)}
+            >
+              {showDefaultValues ? "Hide" : "Show"}
+            </Button>
           </div>
         </div>
         {showDefaultValues && (
