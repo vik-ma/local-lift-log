@@ -86,19 +86,29 @@ export const LoadCalculationString = (
 
   const calculationList: CalculationListItem[] = [];
 
-  const regexEquipment = /^e\[.*\]$/;
-  const regexDistance = /^d\[.*\]$/;
+  const regexEquipment = /^e\[(.*)\]$/;
+  const regexDistance = /^d\[(.*)\]$/;
 
   const regexNumber = /^n\d+(\.\d{1,2})?$/;
   const regexPreset = /^p([1-9]\d*)$/;
   const regexCalc = /^c\((.*)\)$/;
 
   for (const string of calculationStrings) {
-    if (
-      (presetsType === "equipment" && regexEquipment.test(string)) ||
-      (presetsType === "distance" && regexDistance.test(string))
-    ) {
-      const calculationItems = string.split(",");
+    const equipmentMatch = string.match(regexEquipment);
+    const distanceMatch = string.match(regexDistance);
+
+    const isValidEquipmentString =
+      presetsType === "equipment" && equipmentMatch;
+    const isValidDistanceString = presetsType === "distance" && distanceMatch;
+
+    const calculationListString = isValidEquipmentString
+      ? equipmentMatch[1]
+      : isValidDistanceString
+      ? distanceMatch[1]
+      : undefined;
+
+    if (calculationListString !== undefined) {
+      const calculationItems = calculationListString.split(",");
 
       for (const item of calculationItems) {
         const numberMatch = item.match(regexNumber);
