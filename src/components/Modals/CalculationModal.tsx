@@ -30,7 +30,6 @@ import {
   ConvertInputStringToNumber,
   ConvertNumberToTwoDecimals,
   ConvertWeightValue,
-  CreateCalculationString,
   CreateNewCalculationItem,
   IsCalculationStringValid,
   IsStringEmpty,
@@ -472,15 +471,6 @@ export const CalculationModal = ({
 
     setNumberInput("");
     setShowNumberInput(false);
-  };
-
-  const createCalculationString = () => {
-    const calculationString =
-      presetsType === "equipment"
-        ? CreateCalculationString(calculationListWeight, "equipment")
-        : CreateCalculationString(calculationListDistance, "distance");
-
-    console.log(calculationString);
   };
 
   return (
@@ -928,8 +918,7 @@ export const CalculationModal = ({
                     (presetsType === "equipment" && resultWeight === 0) ||
                     (presetsType === "distance" && resultDistance === 0)
                   }
-                  // TODO: REPLACE WITH doneButtonAction
-                  onPress={createCalculationString}
+                  onPress={doneButtonAction}
                 >
                   Done
                 </Button>
