@@ -93,7 +93,7 @@ export const LoadCalculationString = (
   const regexDistance = /^d\[(.*)\]$/;
 
   // Number values must be of format "n**", where ** is a valid number above 0
-  const regexNumber = /^n\d+(\.\d{1,2})?$/;
+  const regexNumber = /^n(\d+(\.\d{1,2})?)$/;
   // Preset values must be of format "p**", where ** is a valid integer above 0
   const regexPreset = /^p([1-9]\d*)$/;
   // Calculation values must be of format "c(**)", where ** is a valid calculation string
@@ -122,6 +122,7 @@ export const LoadCalculationString = (
     // Loop through every item in the string
     for (const item of calculationItems) {
       // Check if itemType is number
+
       const numberMatch = item.match(regexNumber);
 
       if (numberMatch && numberMatch[1]) {
@@ -165,19 +166,19 @@ export const LoadCalculationString = (
             continue;
           }
         }
+      }
 
-        // Check if itemType is calculation
-        const calcMatch = item.match(regexCalc);
+      // Check if itemType is calculation
+      const calcMatch = item.match(regexCalc);
 
-        if (calcMatch && calcMatch[1]) {
-          const calculationItem = createCalculationItemCalculation(
-            calcMatch[1],
-            unit
-          );
+      if (calcMatch && calcMatch[1]) {
+        const calculationItem = createCalculationItemCalculation(
+          calcMatch[1],
+          unit
+        );
 
-          if (calculationItem !== undefined) {
-            calculationList.push(calculationItem);
-          }
+        if (calculationItem !== undefined) {
+          calculationList.push(calculationItem);
         }
       }
     }
