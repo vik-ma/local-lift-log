@@ -1,24 +1,34 @@
 import { useState } from "react";
 import { useCalculationModal, usePresetsList } from "../hooks";
-import { Button } from "@nextui-org/react";
-import { CalculationModal } from "../components";
+import { Button, useDisclosure } from "@nextui-org/react";
+import { CalculationModal, TextInputModal } from "../components";
 
 export default function Test() {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
+  const [text, setText] = useState<string>("");
 
   const calculationModal = useCalculationModal();
+  const textInputModal = useDisclosure();
 
   const presetsList = usePresetsList(false, false);
 
   return (
     <>
+      <TextInputModal
+        textInputModal={textInputModal}
+        value={text}
+        setValue={setText}
+        label="Test"
+        header="TEST"
+        buttonAction={() => calculationModal.calculationModal.onOpen()}
+      />
       <CalculationModal
         useCalculationModal={calculationModal}
         usePresetsList={presetsList}
         doneButtonAction={() => {}}
         weightUnit="kg"
         distanceUnit="km"
-        calculationString={"e[c(9 + 9),p20,n54.4]"}
+        calculationString={"asd"}
       />
       <div className="flex flex-col gap-2">
         <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">
@@ -26,8 +36,9 @@ export default function Test() {
             TEST
           </h1>
         </div>
+        <Button onPress={() => textInputModal.onOpen()}>Open Text Modal</Button>
         <Button onPress={() => calculationModal.calculationModal.onOpen()}>
-          Open
+          Open Calculation Modal
         </Button>
         <div className="flex flex-col bg-white border border-black overflow-auto mb-20">
           Test
