@@ -588,7 +588,7 @@ export const CalculationModal = ({
                               key={`calculation-list-weight-${index}`}
                               className="flex gap-1.5 items-center"
                             >
-                              <div className="flex justify-between gap-1 bg-default-50 px-1.5 py-0.5 border-2 rounded-lg">
+                              <div className="flex w-[13.25rem] justify-between gap-1 bg-default-50 px-1.5 py-0.5 border-2 rounded-lg">
                                 <span className="w-[7rem] truncate">
                                   {weight.label}
                                 </span>
@@ -663,7 +663,7 @@ export const CalculationModal = ({
                               key={`calculation-list-distance-${index}`}
                               className="flex gap-1.5 items-center"
                             >
-                              <div className="flex justify-between gap-1 bg-default-50 px-1.5 py-0.5 border-2 rounded-lg">
+                              <div className="flex w-[13.25rem] justify-between gap-1 bg-default-50 px-1.5 py-0.5 border-2 rounded-lg">
                                 <span className="w-[7rem] truncate">
                                   {distance.label}
                                 </span>
