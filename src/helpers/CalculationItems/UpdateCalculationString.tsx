@@ -10,12 +10,17 @@ type UpdateCalculationStringReturnType = {
 export const UpdateCalculationString = async (
   calculationList: CalculationListItem[],
   presetsType: PresetsType,
-  exercise: Exercise
+  exercise: Exercise,
+  totalMultiplier: number
 ): Promise<UpdateCalculationStringReturnType> => {
   let calculationString = "";
 
   if (exercise.calculation_string === null) {
-    calculationString = CreateCalculationString(calculationList, presetsType);
+    calculationString = CreateCalculationString(
+      calculationList,
+      presetsType,
+      totalMultiplier
+    );
   } else {
     // Split current calculation string between Equipment Weights
     // and Distances, if calculation string contains both
@@ -40,7 +45,8 @@ export const UpdateCalculationString = async (
         // If updating current presetsType
         calculationString = CreateCalculationString(
           calculationList,
-          presetsType
+          presetsType,
+          totalMultiplier
         );
         newCalculationStrings.push(calculationString);
       }
@@ -52,7 +58,8 @@ export const UpdateCalculationString = async (
         // Add new calculationList for presetType that does not currently exist in string
         calculationString = CreateCalculationString(
           calculationList,
-          presetsType
+          presetsType,
+          totalMultiplier
         );
         newCalculationStrings.push(calculationString);
 
@@ -63,7 +70,11 @@ export const UpdateCalculationString = async (
 
     if (newCalculationStrings.length === 0) {
       // If current string is invalid, replace string with new value
-      calculationString = CreateCalculationString(calculationList, presetsType);
+      calculationString = CreateCalculationString(
+        calculationList,
+        presetsType,
+        totalMultiplier
+      );
     } else {
       calculationString = newCalculationStrings.join("/");
     }
