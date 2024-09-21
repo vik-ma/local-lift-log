@@ -1,6 +1,6 @@
 import Database from "tauri-plugin-sql-api";
 import { CalculationListItem, Exercise, PresetsType } from "../../typings";
-import { CreateCalculationString } from "./CreateCalculationString";
+import { CreateCalculationString, CalculationStringsRegex } from "..";
 
 type UpdateCalculationStringReturnType = {
   success: boolean;
@@ -30,8 +30,7 @@ export const UpdateCalculationString = async (
     const newCalculationStrings: string[] = [];
 
     // Calculation strings must be of format "e[**]/d[**]", e[**] or d[**]
-    const regexEquipment = /^e\[(.*)\]$/;
-    const regexDistance = /^d\[(.*)\]$/;
+    const { regexEquipment, regexDistance } = CalculationStringsRegex();
 
     for (const string of calculationStrings) {
       const equipmentMatch = string.match(regexEquipment);
