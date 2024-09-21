@@ -4,6 +4,7 @@ import {
   EquipmentWeight,
   CalculationListItem,
 } from "../../typings";
+import { ConvertDistanceValue, ConvertWeightValue } from "..";
 
 export const CreateNewCalculationItem = (
   itemType: CalculationItemType,
@@ -47,11 +48,21 @@ export const CreateNewCalculationItem = (
   }
 
   if (itemType === "preset" && equipmentWeight) {
+    // Convert weight value if unit prop does not match Preset unit
+    const weightValue =
+      equipmentWeight.weight_unit !== unit
+        ? ConvertWeightValue(
+            equipmentWeight.weight,
+            equipmentWeight.weight_unit,
+            unit
+          )
+        : equipmentWeight.weight;
+
     const calculationItem: CalculationListItem = {
       itemType: "preset",
       label: equipmentWeight.name,
-      value: equipmentWeight.weight,
-      unit: equipmentWeight.weight_unit,
+      value: weightValue,
+      unit: unit,
       multiplierInput: "",
       multiplier: multiplier ?? 1,
       isMultiplierInputInvalid: false,
@@ -64,11 +75,17 @@ export const CreateNewCalculationItem = (
   }
 
   if (itemType === "preset" && distance) {
+    // Convert distance value if unit prop does not match Preset unit
+    const distanceValue =
+      distance.distance_unit !== unit
+        ? ConvertDistanceValue(distance.distance, distance.distance_unit, unit)
+        : distance.distance;
+
     const calculationItem: CalculationListItem = {
       itemType: "preset",
       label: distance.name,
-      value: distance.distance,
-      unit: distance.distance_unit,
+      value: distanceValue,
+      unit: unit,
       multiplierInput: "",
       multiplier: multiplier ?? 1,
       isMultiplierInputInvalid: false,
