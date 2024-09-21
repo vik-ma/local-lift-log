@@ -24,7 +24,7 @@ export const CreateNewCalculationItem = (
       multiplierInput: multiplier === 1 ? "" : multiplier.toString(),
       multiplier: multiplier ?? 1,
       isMultiplierInputInvalid: false,
-      disableDecreaseMultiplierButton: true,
+      disableDecreaseMultiplierButton: multiplier > 1 ? false : true,
       disableIncreaseMultiplierButton: false,
     };
 
@@ -40,7 +40,7 @@ export const CreateNewCalculationItem = (
       multiplierInput: multiplier === 1 ? "" : multiplier.toString(),
       multiplier: multiplier ?? 1,
       isMultiplierInputInvalid: false,
-      disableDecreaseMultiplierButton: true,
+      disableDecreaseMultiplierButton: multiplier > 1 ? false : true,
       disableIncreaseMultiplierButton: false,
     };
 
@@ -66,7 +66,7 @@ export const CreateNewCalculationItem = (
       multiplierInput: multiplier === 1 ? "" : multiplier.toString(),
       multiplier: multiplier ?? 1,
       isMultiplierInputInvalid: false,
-      disableDecreaseMultiplierButton: true,
+      disableDecreaseMultiplierButton: multiplier > 1 ? false : true,
       disableIncreaseMultiplierButton: false,
       equipmentWeight: equipmentWeight,
     };
@@ -89,7 +89,7 @@ export const CreateNewCalculationItem = (
       multiplierInput: multiplier === 1 ? "" : multiplier.toString(),
       multiplier: multiplier ?? 1,
       isMultiplierInputInvalid: false,
-      disableDecreaseMultiplierButton: true,
+      disableDecreaseMultiplierButton: multiplier > 1 ? false : true,
       disableIncreaseMultiplierButton: false,
       distance: distance,
     };

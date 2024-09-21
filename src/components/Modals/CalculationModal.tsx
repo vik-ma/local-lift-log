@@ -184,6 +184,7 @@ export const CalculationModal = ({
       const calculationItem = CreateNewCalculationItem(
         "preset",
         weightUnit,
+        1,
         undefined,
         undefined,
         equipment
@@ -208,6 +209,7 @@ export const CalculationModal = ({
       const calculationItem = CreateNewCalculationItem(
         "preset",
         distanceUnit,
+        1,
         undefined,
         undefined,
         undefined,
@@ -450,6 +452,7 @@ export const CalculationModal = ({
     const calculationItem = CreateNewCalculationItem(
       "calculation",
       unit,
+      1,
       result,
       calculationString
     );
