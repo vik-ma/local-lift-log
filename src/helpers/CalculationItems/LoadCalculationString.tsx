@@ -10,8 +10,17 @@ import {
   CreateNewCalculationItem,
 } from "..";
 
-const createCalculationItemNumber = (number: number, unit: string) => {
-  const calculationItem = CreateNewCalculationItem("number", unit, number);
+const createCalculationItemNumber = (
+  number: number,
+  unit: string,
+  multiplier: number
+) => {
+  const calculationItem = CreateNewCalculationItem(
+    "number",
+    unit,
+    multiplier,
+    number
+  );
 
   return calculationItem;
 };
@@ -19,7 +28,8 @@ const createCalculationItemNumber = (number: number, unit: string) => {
 const createCalculationItemEquipmentWeight = (
   presetId: number,
   unit: string,
-  equipmentWeights: EquipmentWeight[]
+  equipmentWeights: EquipmentWeight[],
+  multiplier: number
 ) => {
   const equipment = equipmentWeights.find((item) => item.id === presetId);
 
@@ -27,6 +37,7 @@ const createCalculationItemEquipmentWeight = (
     const calculationItem = CreateNewCalculationItem(
       "preset",
       unit,
+      multiplier,
       undefined,
       undefined,
       equipment
@@ -39,7 +50,8 @@ const createCalculationItemEquipmentWeight = (
 const createCalculationItemDistance = (
   presetId: number,
   unit: string,
-  distances: Distance[]
+  distances: Distance[],
+  multiplier: number
 ) => {
   const distance = distances.find((item) => item.id === presetId);
 
@@ -47,6 +59,7 @@ const createCalculationItemDistance = (
     const calculationItem = CreateNewCalculationItem(
       "preset",
       unit,
+      multiplier,
       undefined,
       undefined,
       undefined,
@@ -59,7 +72,8 @@ const createCalculationItemDistance = (
 
 const createCalculationItemCalculation = (
   calculationString: string,
-  unit: string
+  unit: string,
+  multiplier: number
 ) => {
   const { isCalculationValid, result } =
     IsCalculationStringValid(calculationString);
@@ -69,6 +83,7 @@ const createCalculationItemCalculation = (
   const calculationItem = CreateNewCalculationItem(
     "calculation",
     unit,
+    multiplier,
     result,
     calculationString
   );
@@ -133,6 +148,9 @@ export const LoadCalculationString = (
 
     const calculationItems = calculationListString.split(",");
 
+    // TODO: REPLACE
+    const multiplier = 1;
+
     // Loop through every item in the string
     for (const item of calculationItems) {
       // Check if itemType is number
@@ -141,7 +159,11 @@ export const LoadCalculationString = (
 
       if (numberMatch && numberMatch[1]) {
         const number = parseFloat(numberMatch[1]);
-        const calculationItem = createCalculationItemNumber(number, unit);
+        const calculationItem = createCalculationItemNumber(
+          number,
+          unit,
+          multiplier
+        );
 
         if (calculationItem !== undefined) {
           calculationList.push(calculationItem);
@@ -159,7 +181,8 @@ export const LoadCalculationString = (
           const calculationItem = createCalculationItemEquipmentWeight(
             presetId,
             unit,
-            equipmentWeights
+            equipmentWeights,
+            multiplier
           );
 
           if (calculationItem !== undefined) {
@@ -172,7 +195,8 @@ export const LoadCalculationString = (
           const calculationItem = createCalculationItemDistance(
             presetId,
             unit,
-            distances
+            distances,
+            multiplier
           );
 
           if (calculationItem !== undefined) {
@@ -188,7 +212,8 @@ export const LoadCalculationString = (
       if (calcMatch && calcMatch[1]) {
         const calculationItem = createCalculationItemCalculation(
           calcMatch[1],
-          unit
+          unit,
+          multiplier
         );
 
         if (calculationItem !== undefined) {

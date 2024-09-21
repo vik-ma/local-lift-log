@@ -9,11 +9,11 @@ import { ConvertDistanceValue, ConvertWeightValue } from "..";
 export const CreateNewCalculationItem = (
   itemType: CalculationItemType,
   unit: string,
+  multiplier: number,
   number?: number,
   calculationString?: string,
   equipmentWeight?: EquipmentWeight,
-  distance?: Distance,
-  multiplier?: number
+  distance?: Distance
 ): CalculationListItem | undefined => {
   if (itemType === "number" && number) {
     const calculationItem: CalculationListItem = {
@@ -21,7 +21,7 @@ export const CreateNewCalculationItem = (
       label: `${number} ${unit}`,
       value: number,
       unit: unit,
-      multiplierInput: multiplier !== undefined ? multiplier.toString() : "",
+      multiplierInput: multiplier === 1 ? "" : multiplier.toString(),
       multiplier: multiplier ?? 1,
       isMultiplierInputInvalid: false,
       disableDecreaseMultiplierButton: true,
@@ -37,7 +37,7 @@ export const CreateNewCalculationItem = (
       label: calculationString,
       value: number,
       unit: unit,
-      multiplierInput: multiplier !== undefined ? multiplier.toString() : "",
+      multiplierInput: multiplier === 1 ? "" : multiplier.toString(),
       multiplier: multiplier ?? 1,
       isMultiplierInputInvalid: false,
       disableDecreaseMultiplierButton: true,
@@ -63,7 +63,7 @@ export const CreateNewCalculationItem = (
       label: equipmentWeight.name,
       value: weightValue,
       unit: unit,
-      multiplierInput: multiplier !== undefined ? multiplier.toString() : "",
+      multiplierInput: multiplier === 1 ? "" : multiplier.toString(),
       multiplier: multiplier ?? 1,
       isMultiplierInputInvalid: false,
       disableDecreaseMultiplierButton: true,
@@ -86,7 +86,7 @@ export const CreateNewCalculationItem = (
       label: distance.name,
       value: distanceValue,
       unit: unit,
-      multiplierInput: multiplier !== undefined ? multiplier.toString() : "",
+      multiplierInput: multiplier === 1 ? "" : multiplier.toString(),
       multiplier: multiplier ?? 1,
       isMultiplierInputInvalid: false,
       disableDecreaseMultiplierButton: true,
