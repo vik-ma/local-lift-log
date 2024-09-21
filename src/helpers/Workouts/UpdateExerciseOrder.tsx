@@ -1,4 +1,4 @@
-import { GenerateExerciseOrderString } from "./GenerateExerciseOrderString";
+import { GenerateExerciseOrderString } from "..";
 import Database from "tauri-plugin-sql-api";
 import { GroupedWorkoutSet } from "../../typings";
 

@@ -1,5 +1,5 @@
 import { MeasurementMap, UserMeasurement } from "../../typings";
-import { CreateDetailedUserMeasurementList } from "./CreateDetailedUserMeasurementList";
+import { CreateDetailedUserMeasurementList } from "..";
 import Database from "tauri-plugin-sql-api";
 
 export const GetUserMeasurements = async (

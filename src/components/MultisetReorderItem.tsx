@@ -5,7 +5,7 @@ import {
   WorkoutSet,
 } from "../typings";
 import { ReorderIcon } from "../assets";
-import { MultisetSetMenu } from "./MultisetSetMenu";
+import { MultisetSetMenu } from ".";
 import { useMemo, useRef, useState } from "react";
 import { IsNumberValidId } from "../helpers";
 

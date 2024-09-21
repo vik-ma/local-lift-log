@@ -1,8 +1,7 @@
 import { Reorder } from "framer-motion";
 import { HandleMultisetSetOptionSelectionProps, Multiset } from "../typings";
-import { MultisetReorderItem } from "./MultisetReorderItem";
+import { MultisetReorderItem, EmptyListLabel } from ".";
 import { useRef } from "react";
-import { EmptyListLabel } from "./EmptyListLabel";
 
 type MultisetSetListProps = {
   multiset: Multiset;

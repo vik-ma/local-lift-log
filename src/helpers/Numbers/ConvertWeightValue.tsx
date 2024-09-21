@@ -1,4 +1,4 @@
-import { IsNumberValidAndAbove0 } from "./IsNumberValidAndAbove0";
+import { IsNumberValidAndAbove0 } from "..";
 
 export const ConvertWeightValue = (
   value: number,

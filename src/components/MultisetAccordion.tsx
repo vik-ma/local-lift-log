@@ -12,7 +12,7 @@ import {
   Multiset,
   MultisetTypeMap,
 } from "../typings";
-import { MultisetSetMenu } from "./MultisetSetMenu";
+import { MultisetSetMenu } from ".";
 
 type MultisetAccordionProps = {
   multisets: Multiset[];

@@ -12,7 +12,7 @@ import {
   UserMeasurement,
   ReassignMeasurementsProps,
 } from "../typings";
-import { EmptyListLabel } from "./EmptyListLabel";
+import { EmptyListLabel } from ".";
 
 type UserMeasurementAccordionProps = {
   userMeasurementEntries: UserMeasurement[];
