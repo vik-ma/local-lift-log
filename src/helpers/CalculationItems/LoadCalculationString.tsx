@@ -118,11 +118,12 @@ export const LoadCalculationString = (
   const { regexEquipment, regexDistance } = CalculationStringsRegex();
 
   // Number values must be of format "n**", where ** is a valid number above 0
-  const regexNumber = /^n(\d+(\.\d{1,2})?)$/;
+  const regexNumber =
+    /^n(\d+(\.\d{1,2})?)x([1-9]\d*(?:\.\d{1,2})?|0\.\d{1,2})$/;
   // Preset values must be of format "p**", where ** is a valid integer above 0
-  const regexPreset = /^p([1-9]\d*)$/;
+  const regexPreset = /^p([1-9]\d*)x([1-9]\d*(?:\.\d{1,2})?|0\.\d{1,2})$/;
   // Calculation values must be of format "c(**)", where ** is a valid calculation string
-  const regexCalc = /^c\((.*)\)$/;
+  const regexCalc = /^c\((.*)\)x([1-9]\d*(?:\.\d{1,2})?|0\.\d{1,2})$/;
 
   for (const string of calculationStrings) {
     const equipmentMatch = string.match(regexEquipment);
@@ -148,17 +149,16 @@ export const LoadCalculationString = (
 
     const calculationItems = calculationListString.split(",");
 
-    // TODO: REPLACE
-    const multiplier = 1;
-
     // Loop through every item in the string
     for (const item of calculationItems) {
       // Check if itemType is number
 
       const numberMatch = item.match(regexNumber);
 
-      if (numberMatch && numberMatch[1]) {
+      if (numberMatch && numberMatch[1] && numberMatch[3]) {
         const number = parseFloat(numberMatch[1]);
+        const multiplier = parseFloat(numberMatch[3]);
+
         const calculationItem = createCalculationItemNumber(
           number,
           unit,
@@ -174,8 +174,9 @@ export const LoadCalculationString = (
       // Check if itemType is preset
       const presetMatch = item.match(regexPreset);
 
-      if (presetMatch && presetMatch[1]) {
+      if (presetMatch && presetMatch[1] && presetMatch[2]) {
         const presetId = parseInt(presetMatch[1]);
+        const multiplier = parseFloat(presetMatch[2]);
 
         if (presetsType === "equipment") {
           const calculationItem = createCalculationItemEquipmentWeight(
@@ -209,7 +210,9 @@ export const LoadCalculationString = (
       // Check if itemType is calculation
       const calcMatch = item.match(regexCalc);
 
-      if (calcMatch && calcMatch[1]) {
+      if (calcMatch && calcMatch[1] && calcMatch[2]) {
+        const multiplier = parseFloat(calcMatch[2]);
+
         const calculationItem = createCalculationItemCalculation(
           calcMatch[1],
           unit,
