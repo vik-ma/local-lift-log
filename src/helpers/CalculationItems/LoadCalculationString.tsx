@@ -76,20 +76,28 @@ const createCalculationItemCalculation = (
   return calculationItem;
 };
 
+type LoadCalculationStringReturnType = {
+  calculationList: CalculationListItem[];
+  totalMultiplier: number;
+};
+
 export const LoadCalculationString = (
   calculationString: string,
   unit: string,
   presetsType: PresetsType,
   equipmentWeights: EquipmentWeight[],
   distances: Distance[]
-): CalculationListItem[] => {
+): LoadCalculationStringReturnType => {
   // Split Equipment Weight calculation string with Distance
   // calculation strings, if calculation string contains both
   const calculationStrings = calculationString.split("/");
 
-  if (calculationStrings.length === 0) return [];
-
   const calculationList: CalculationListItem[] = [];
+
+  let totalMultiplier = 1;
+
+  if (calculationStrings.length === 0)
+    return { calculationList, totalMultiplier };
 
   // Calculation strings must be of format "e[**]/d[**]", e[**] or d[**]
   const { regexEquipment, regexDistance } = CalculationStringsRegex();
@@ -118,6 +126,10 @@ export const LoadCalculationString = (
 
     // Do nothing if calculation string is invalid
     if (calculationListString === undefined) continue;
+
+    if (equipmentMatch && equipmentMatch[2]) {
+      totalMultiplier = parseFloat(equipmentMatch[2]);
+    }
 
     const calculationItems = calculationListString.split(",");
 
@@ -186,5 +198,5 @@ export const LoadCalculationString = (
     }
   }
 
-  return calculationList;
+  return { calculationList, totalMultiplier };
 };

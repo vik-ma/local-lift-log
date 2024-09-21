@@ -116,13 +116,18 @@ export const CalculationModal = ({
 
     const unit = presetsType === "equipment" ? weightUnit : distanceUnit;
 
-    const calculationList = LoadCalculationString(
+    const { calculationList, totalMultiplier } = LoadCalculationString(
       calculationString,
       unit,
       presetsType,
       equipmentWeights,
       distances
     );
+
+    const totalMultiplierInput =
+      totalMultiplier === 1 ? "" : totalMultiplier.toString();
+
+    setTotalMultiplierInput(totalMultiplierInput);
 
     if (presetsType === "equipment") {
       setCalculationListWeight(calculationList);
