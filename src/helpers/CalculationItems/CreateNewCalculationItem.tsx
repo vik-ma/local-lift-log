@@ -11,7 +11,8 @@ export const CreateNewCalculationItem = (
   number?: number,
   calculationString?: string,
   equipmentWeight?: EquipmentWeight,
-  distance?: Distance
+  distance?: Distance,
+  multiplier?: number
 ): CalculationListItem | undefined => {
   if (itemType === "number" && number) {
     const calculationItem: CalculationListItem = {
@@ -20,7 +21,7 @@ export const CreateNewCalculationItem = (
       value: number,
       unit: unit,
       multiplierInput: "",
-      multiplier: 1,
+      multiplier: multiplier ?? 1,
       isMultiplierInputInvalid: false,
       disableDecreaseMultiplierButton: true,
       disableIncreaseMultiplierButton: false,
@@ -36,7 +37,7 @@ export const CreateNewCalculationItem = (
       value: number,
       unit: unit,
       multiplierInput: "",
-      multiplier: 1,
+      multiplier: multiplier ?? 1,
       isMultiplierInputInvalid: false,
       disableDecreaseMultiplierButton: true,
       disableIncreaseMultiplierButton: false,
@@ -52,7 +53,7 @@ export const CreateNewCalculationItem = (
       value: equipmentWeight.weight,
       unit: equipmentWeight.weight_unit,
       multiplierInput: "",
-      multiplier: 1,
+      multiplier: multiplier ?? 1,
       isMultiplierInputInvalid: false,
       disableDecreaseMultiplierButton: true,
       disableIncreaseMultiplierButton: false,
@@ -69,7 +70,7 @@ export const CreateNewCalculationItem = (
       value: distance.distance,
       unit: distance.distance_unit,
       multiplierInput: "",
-      multiplier: 1,
+      multiplier: multiplier ?? 1,
       isMultiplierInputInvalid: false,
       disableDecreaseMultiplierButton: true,
       disableIncreaseMultiplierButton: false,
