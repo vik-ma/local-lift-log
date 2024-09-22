@@ -9,7 +9,6 @@ type ListPageSearchInputProps = {
   totalListLength: number;
   bottomContent?: ReactNode;
   className?: string;
-  disableAutoFocus?: boolean;
   extraTopSpace?: boolean;
 };
 
@@ -21,7 +20,6 @@ export const ListPageSearchInput = ({
   totalListLength,
   bottomContent,
   className,
-  disableAutoFocus,
   extraTopSpace,
 }: ListPageSearchInputProps) => {
   const topSpace = useMemo(() => {
@@ -45,7 +43,6 @@ export const ListPageSearchInput = ({
         filteredListLength={filteredListLength}
         totalListLength={totalListLength}
         isSmall
-        disableAutoFocus={disableAutoFocus}
       />
       {bottomContent !== undefined && (
         <div className="pt-0.5">{bottomContent}</div>
