@@ -234,6 +234,14 @@ export default function ExerciseList() {
     }
   };
 
+  const handleToggleAllButton = () => {
+    if (shownExerciseGroups.length < exerciseGroupDictionary.size) {
+      setShownExerciseGroups(Array.from(exerciseGroupDictionary.keys()));
+    } else {
+      setShownExerciseGroups([]);
+    }
+  };
+
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
@@ -278,22 +286,29 @@ export default function ExerciseList() {
               <ModalBody>
                 <ExerciseGroupCheckboxes
                   isValid={shownExerciseGroups.length > 0}
-                  defaultValue={shownExerciseGroups}
+                  value={shownExerciseGroups}
                   handleChange={setShownExerciseGroups}
                   exerciseGroupDictionary={exerciseGroupDictionary}
                   hideLabel
                 />
               </ModalBody>
-              <ModalFooter>
-                <Button color="primary" variant="light" onPress={onClose}>
-                  Close
-                </Button>
-                <Button
-                  color="primary"
-                  isDisabled={shownExerciseGroups.length === 0}
-                >
-                  Filter
-                </Button>
+              <ModalFooter className="flex justify-between">
+                <div>
+                  <Button variant="flat" onPress={handleToggleAllButton}>
+                    Toggle All
+                  </Button>
+                </div>
+                <div className="flex gap-2">
+                  <Button color="primary" variant="light" onPress={onClose}>
+                    Close
+                  </Button>
+                  <Button
+                    color="primary"
+                    isDisabled={shownExerciseGroups.length === 0}
+                  >
+                    Filter
+                  </Button>
+                </div>
               </ModalFooter>
             </>
           )}

@@ -3,7 +3,7 @@ import { ExerciseGroupMap } from "../typings";
 
 type ExerciseGroupCheckboxesProps = {
   isValid: boolean;
-  defaultValue: string[];
+  value: string[];
   handleChange: (value: string[]) => void;
   exerciseGroupDictionary: ExerciseGroupMap;
   hideLabel?: boolean;
@@ -11,7 +11,7 @@ type ExerciseGroupCheckboxesProps = {
 
 export const ExerciseGroupCheckboxes = ({
   isValid,
-  defaultValue,
+  value,
   handleChange,
   exerciseGroupDictionary,
   hideLabel,
@@ -19,10 +19,10 @@ export const ExerciseGroupCheckboxes = ({
   return (
     <div>
       <CheckboxGroup
-        className="h-[17rem]"
+        className={hideLabel ? "h-[14.75rem]" : "h-[17rem]"}
         isRequired
         isInvalid={!isValid}
-        defaultValue={defaultValue}
+        value={value}
         label={hideLabel ? undefined : "Select Exercise Groups"}
         errorMessage={
           !isValid && "At least one Exercise Group must be selected"

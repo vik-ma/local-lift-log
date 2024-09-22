@@ -96,7 +96,7 @@ export const ExerciseModal = ({
               </div>
               <ExerciseGroupCheckboxes
                 isValid={isExerciseGroupSetStringValid}
-                defaultValue={exercise.exerciseGroupStringList ?? []}
+                value={exercise.exerciseGroupStringList ?? []}
                 handleChange={handleExerciseGroupStringChange}
                 exerciseGroupDictionary={exerciseGroupDictionary}
               />
