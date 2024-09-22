@@ -7,7 +7,7 @@ import {
 } from "@nextui-org/react";
 import { EditIcon, VerticalMenuIcon } from "../assets";
 import { UseDetailsHeaderOptionsMenuReturnType } from "../typings";
-import { ReactNode } from "react";
+import { ReactNode, useMemo } from "react";
 
 type DetailsHeaderProps = {
   header: string;
@@ -30,6 +30,17 @@ export const DetailsHeader = ({
 }: DetailsHeaderProps) => {
   const { showNote, menuItems, handleOptionMenuSelection } =
     useDetailsHeaderOptions;
+
+  const showMenuButton = useMemo(() => {
+    const keys = Object.keys(menuItems);
+
+    if (keys.length === 0) return false;
+
+    if (keys.length === 1 && keys[0] === "toggle-note" && note === null)
+      return false;
+
+    return true;
+  }, [menuItems, note]);
 
   return (
     <div className="flex flex-col gap-4 pb-4">
@@ -58,37 +69,39 @@ export const DetailsHeader = ({
             >
               <EditIcon size={22} color={"#808080"} />
             </Button>
-            <Dropdown>
-              <DropdownTrigger>
-                <Button
-                  aria-label={`Toggle ${detailsType} Options Menu`}
-                  isIconOnly
-                  className="z-1"
-                  size="sm"
-                  variant="light"
+            {showMenuButton && (
+              <Dropdown>
+                <DropdownTrigger>
+                  <Button
+                    aria-label={`Toggle ${detailsType} Options Menu`}
+                    isIconOnly
+                    className="z-1"
+                    size="sm"
+                    variant="light"
+                  >
+                    <VerticalMenuIcon size={18} />
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu
+                  aria-label={`${detailsType} Option Menu`}
+                  onAction={(key) => handleOptionMenuSelection(key as string)}
                 >
-                  <VerticalMenuIcon size={18} />
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                aria-label={`${detailsType} Option Menu`}
-                onAction={(key) => handleOptionMenuSelection(key as string)}
-              >
-                {Object.entries(menuItems).map(([key, value]) => {
-                  let className = value.className ?? "";
+                  {Object.entries(menuItems).map(([key, value]) => {
+                    let className = value.className ?? "";
 
-                  if (note === null && key === "toggle-note") {
-                    className = "hidden";
-                  }
+                    if (note === null && key === "toggle-note") {
+                      className = "hidden";
+                    }
 
-                  return (
-                    <DropdownItem className={className} key={key}>
-                      {value.text}
-                    </DropdownItem>
-                  );
-                })}
-              </DropdownMenu>
-            </Dropdown>
+                    return (
+                      <DropdownItem className={className} key={key}>
+                        {value.text}
+                      </DropdownItem>
+                    );
+                  })}
+                </DropdownMenu>
+              </Dropdown>
+            )}
           </div>
         </div>
       </div>
