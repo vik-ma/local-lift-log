@@ -19,12 +19,18 @@ import {
   DropdownMenu,
   DropdownItem,
   Checkbox,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
 } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import {
   DeleteModal,
   EmptyListLabel,
+  ExerciseGroupCheckboxes,
   ExerciseModal,
   FavoriteButton,
   ListPageSearchInput,
@@ -61,6 +67,7 @@ export default function ExerciseList() {
 
   const deleteModal = useDisclosure();
   const exerciseModal = useDisclosure();
+  const exerciseGroupModal = useDisclosure();
 
   const navigate = useNavigate();
 
@@ -75,6 +82,10 @@ export default function ExerciseList() {
 
   const isOperatingExerciseGroupSetStringValid = useValidateExerciseGroupString(
     operatingExercise.exercise_group_set_string
+  );
+
+  const [shownExerciseGroups, setShownExerciseGroups] = useState<string[]>(
+    Array.from(exerciseGroupDictionary.keys())
   );
 
   const deleteExercise = async () => {
@@ -219,7 +230,7 @@ export default function ExerciseList() {
 
   const handleExerciseListOptionSelection = (key: string) => {
     if (key === "filter-exercise-groups") {
-      
+      exerciseGroupModal.onOpen();
     }
   };
 
@@ -256,6 +267,37 @@ export default function ExerciseList() {
         buttonAction={operationType === "edit" ? updateExercise : addExercise}
         isEditing={operationType === "edit"}
       />
+      <Modal
+        isOpen={exerciseGroupModal.isOpen}
+        onOpenChange={exerciseGroupModal.onOpenChange}
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader>Filter Exercise Groups</ModalHeader>
+              <ModalBody>
+                <ExerciseGroupCheckboxes
+                  isValid={shownExerciseGroups.length > 0}
+                  defaultValue={shownExerciseGroups}
+                  handleChange={setShownExerciseGroups}
+                  exerciseGroupDictionary={exerciseGroupDictionary}
+                />
+              </ModalBody>
+              <ModalFooter>
+                <Button color="primary" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+                <Button
+                  color="primary"
+                  isDisabled={shownExerciseGroups.length === 0}
+                >
+                  Filter
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
       <div className="flex flex-col items-center gap-1">
         <ListPageSearchInput
           header="Exercise List"
