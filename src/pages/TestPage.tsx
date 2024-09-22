@@ -36,10 +36,23 @@ export default function Test() {
             TEST
           </h1>
         </div>
-        <Button onPress={() => textInputModal.onOpen()}>Open Text Modal</Button>
         <Button onPress={() => calculationModal.calculationModal.onOpen()}>
           Open Calculation Modal
         </Button>
+        <div className="flex gap-1 justify-center">
+          <Button color="primary" size="sm" variant="flat">
+            Primary
+          </Button>
+          <Button color="secondary" size="sm" variant="flat">
+            Secondary
+          </Button>
+          <Button color="danger" size="sm" variant="flat">
+            Danger
+          </Button>
+          <Button color="success" size="sm" variant="flat">
+            Success
+          </Button>
+        </div>
         <div className="flex flex-col bg-white border border-black overflow-auto mb-20">
           Test
           <br />
