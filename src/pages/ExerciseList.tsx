@@ -281,6 +281,7 @@ export default function ExerciseList() {
                   defaultValue={shownExerciseGroups}
                   handleChange={setShownExerciseGroups}
                   exerciseGroupDictionary={exerciseGroupDictionary}
+                  hideLabel
                 />
               </ModalBody>
               <ModalFooter>

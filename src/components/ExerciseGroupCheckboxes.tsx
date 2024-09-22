@@ -6,6 +6,7 @@ type ExerciseGroupCheckboxesProps = {
   defaultValue: string[];
   handleChange: (value: string[]) => void;
   exerciseGroupDictionary: ExerciseGroupMap;
+  hideLabel?: boolean;
 };
 
 export const ExerciseGroupCheckboxes = ({
@@ -13,6 +14,7 @@ export const ExerciseGroupCheckboxes = ({
   defaultValue,
   handleChange,
   exerciseGroupDictionary,
+  hideLabel,
 }: ExerciseGroupCheckboxesProps) => {
   return (
     <div>
@@ -21,7 +23,7 @@ export const ExerciseGroupCheckboxes = ({
         isRequired
         isInvalid={!isValid}
         defaultValue={defaultValue}
-        label="Select Exercise Groups"
+        label={hideLabel ? undefined : "Select Exercise Groups"}
         errorMessage={
           !isValid && "At least one Exercise Group must be selected"
         }
