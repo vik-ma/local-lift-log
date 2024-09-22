@@ -6,8 +6,6 @@ import {
   ModalBody,
   ModalFooter,
   Input,
-  Checkbox,
-  CheckboxGroup,
 } from "@nextui-org/react";
 import {
   Exercise,
@@ -18,6 +16,7 @@ import {
   ConvertExerciseGroupStringListToSetString,
   ConvertExerciseGroupSetString,
 } from "../../helpers";
+import { ExerciseGroupCheckboxes } from "..";
 
 type ExerciseModalProps = {
   exerciseModal: UseDisclosureReturnType;
@@ -95,30 +94,12 @@ export const ExerciseModal = ({
                   isClearable
                 />
               </div>
-              <div>
-                <CheckboxGroup
-                  className="h-[17rem]"
-                  isRequired
-                  isInvalid={!isExerciseGroupSetStringValid}
-                  defaultValue={exercise.exerciseGroupStringList}
-                  label="Select Exercise Groups"
-                  errorMessage={
-                    !isExerciseGroupSetStringValid &&
-                    "At least one Exercise Group must be selected"
-                  }
-                  onValueChange={(value) =>
-                    handleExerciseGroupStringChange(value)
-                  }
-                >
-                  <div className="grid grid-cols-2 gap-0.5">
-                    {Array.from(exerciseGroupDictionary).map(([key, value]) => (
-                      <Checkbox key={key} color="primary" value={key}>
-                        {value}
-                      </Checkbox>
-                    ))}
-                  </div>
-                </CheckboxGroup>
-              </div>
+              <ExerciseGroupCheckboxes
+                isValid={isExerciseGroupSetStringValid}
+                defaultValue={exercise.exerciseGroupStringList ?? []}
+                handleChange={handleExerciseGroupStringChange}
+                exerciseGroupDictionary={exerciseGroupDictionary}
+              />
             </ModalBody>
             <ModalFooter>
               <Button color="primary" variant="light" onPress={onClose}>
