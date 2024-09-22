@@ -23,7 +23,7 @@ import {
   PlusAndMinusButtons,
   SearchInput,
 } from "..";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { CrossCircleIcon } from "../../assets";
 import {
   ConvertDistanceValue,
@@ -71,6 +71,8 @@ export const CalculationModal = ({
   const isNumberInputInvalid = useMemo(() => {
     return IsStringEmpty(numberInput) || IsStringInvalidNumber(numberInput);
   }, [numberInput]);
+
+  const numberInputRef = useRef<HTMLInputElement>(null);
 
   const {
     equipmentWeights,
@@ -481,6 +483,12 @@ export const CalculationModal = ({
     setShowNumberInput(false);
   };
 
+  useEffect(() => {
+    if (showNumberInput && numberInputRef.current) {
+      numberInputRef.current.focus();
+    }
+  }, [showNumberInput]);
+
   return (
     <Modal
       isOpen={calculationModal.isOpen}
@@ -543,12 +551,13 @@ export const CalculationModal = ({
                           )}
                         </div>
                         {showNumberInput && (
-                          <div className="flex gap-1 pb-0.5 items-center justify-between">
+                          <div className="flex gap-1 items-center justify-between">
                             <div className="flex gap-2 items-center">
                               <span className="text-sm font-medium text-stone-500">
                                 New {presetText}
                               </span>
                               <Input
+                                ref={numberInputRef}
                                 className="w-[6rem]"
                                 aria-label={`Add ${presetText} Value Input Field`}
                                 size="sm"
@@ -557,7 +566,6 @@ export const CalculationModal = ({
                                 isClearable
                                 value={numberInput}
                                 onValueChange={setNumberInput}
-                                autoFocus
                               />
                               <Button
                                 color="secondary"
@@ -587,7 +595,7 @@ export const CalculationModal = ({
                         <ScrollShadow
                           className={
                             showNumberInput
-                              ? "flex flex-col gap-1.5 h-[242px]"
+                              ? "flex flex-col gap-1.5 h-[244px]"
                               : "flex flex-col gap-1.5 h-[280px]"
                           }
                         >
