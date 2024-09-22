@@ -23,10 +23,10 @@ import {
 } from "../helpers";
 import {
   DeleteModal,
+  ListPageSearchInput,
   LoadingSpinner,
   MultisetAccordion,
   MultisetModal,
-  SearchInput,
 } from "../components";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -451,17 +451,25 @@ export default function Multisets() {
           multisetActions.undoOperatingMultisetChanges
         }
       />
-      <div className="flex flex-col items-center gap-2">
-        <div className="bg-neutral-900 px-6 py-4 rounded-xl">
-          <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">
-            Multisets
-          </h1>
-        </div>
-        <SearchInput
+      <div className="flex flex-col items-center gap-1">
+        <ListPageSearchInput
+          header="Multiset Templates"
           filterQuery={multisetActions.filterQuery}
           setFilterQuery={multisetActions.setFilterQuery}
           filteredListLength={multisetActions.filteredMultisets.length}
           totalListLength={multisetActions.multisets.length}
+          bottomContent={
+            <div className="flex justify-between gap-1 w-full items-center">
+              <Button
+                color="secondary"
+                variant="flat"
+                onPress={handleCreateNewMultisetButton}
+                size="sm"
+              >
+                Create New Multiset
+              </Button>
+            </div>
+          }
         />
         <MultisetAccordion
           multisets={multisetActions.filteredMultisets}
@@ -472,13 +480,6 @@ export default function Multisets() {
             multisetActions.handleMultisetSetOptionSelection
           }
         />
-        <Button
-          className="font-medium"
-          variant="flat"
-          onPress={handleCreateNewMultisetButton}
-        >
-          Create New Multiset
-        </Button>
       </div>
     </>
   );
