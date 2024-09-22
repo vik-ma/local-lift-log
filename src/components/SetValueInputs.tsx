@@ -315,7 +315,7 @@ export const SetValueInputs = ({
   return (
     <div className="flex flex-wrap gap-x-1 gap-y-1.5 px-1 justify-evenly">
       {!!operatingSet.is_tracking_weight && (
-        <div className="flex justify-between gap-1">
+        <div className="flex justify-between gap-1 select-none">
           <Input
             className="w-[8.75rem]"
             value={setTrackingValuesInput.weight}
@@ -347,7 +347,7 @@ export const SetValueInputs = ({
         </div>
       )}
       {!!operatingSet.is_tracking_reps && (
-        <div className="flex justify-between gap-1">
+        <div className="flex justify-between gap-1 select-none">
           <Input
             className="w-[7rem]"
             value={setTrackingValuesInput.reps}
@@ -373,7 +373,7 @@ export const SetValueInputs = ({
         </div>
       )}
       {!!operatingSet.is_tracking_distance && (
-        <div className="flex justify-between gap-1">
+        <div className="flex justify-between gap-1 select-none">
           <Input
             className="w-[10rem]"
             value={setTrackingValuesInput.distance}
@@ -426,7 +426,7 @@ export const SetValueInputs = ({
         </div>
       )}
       {!!operatingSet.is_tracking_rir && (
-        <div className="flex justify-between gap-1">
+        <div className="flex justify-between gap-1 select-none">
           <Input
             className="w-[6rem]"
             value={setTrackingValuesInput.rir}
@@ -452,7 +452,7 @@ export const SetValueInputs = ({
         </div>
       )}
       {!!operatingSet.is_tracking_rpe && (
-        <div className="flex justify-between gap-1">
+        <div className="flex justify-between gap-1 select-none">
           <Input
             className="w-[6rem]"
             value={setTrackingValuesInput.rpe}
@@ -478,7 +478,7 @@ export const SetValueInputs = ({
         </div>
       )}
       {!!operatingSet.is_tracking_resistance_level && (
-        <div className="flex justify-between gap-1">
+        <div className="flex justify-between gap-1 select-none">
           <Input
             className="w-auto"
             classNames={{
@@ -512,7 +512,7 @@ export const SetValueInputs = ({
         </div>
       )}
       {!!operatingSet.is_tracking_partial_reps && (
-        <div className="flex justify-between gap-1">
+        <div className="flex justify-between gap-1 select-none">
           <Input
             className="w-auto"
             classNames={{
@@ -547,7 +547,7 @@ export const SetValueInputs = ({
       )}
       {!!operatingSet.is_tracking_user_weight && (
         <div className="flex flex-col gap-1.5 items-center">
-          <div className="flex justify-between gap-1">
+          <div className="flex justify-between gap-1 select-none">
             <Input
               className="w-auto"
               classNames={{

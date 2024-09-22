@@ -607,7 +607,7 @@ export const CalculationModal = ({
                                   <span>{weight.unit}</span>
                                 </div>
                               </div>
-                              <div className="flex gap-0.5">
+                              <div className="flex gap-0.5 select-none">
                                 <Input
                                   aria-label={`${weight.label} Multiplier Input`}
                                   className="w-[4rem] order-2"
@@ -682,7 +682,7 @@ export const CalculationModal = ({
                                   <span>{distance.unit}</span>
                                 </div>
                               </div>
-                              <div className="flex gap-0.5">
+                              <div className="flex gap-0.5 select-none">
                                 <Input
                                   aria-label={`${distance.label} Multiplier Input`}
                                   className="w-[4rem] order-2"
@@ -757,7 +757,7 @@ export const CalculationModal = ({
                             : distanceUnit}
                         </span>
                       </div>
-                      <div className="flex justify-self-center gap-0.5 pt-0.5">
+                      <div className="flex justify-self-center gap-0.5 pt-0.5 select-none">
                         <Input
                           aria-label={`Total ${presetText} Multiplier Input`}
                           className="w-[4rem] order-2"
