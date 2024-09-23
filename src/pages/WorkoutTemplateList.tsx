@@ -247,11 +247,11 @@ export default function WorkoutTemplateList() {
             <div className="flex flex-col gap-1 w-full">
               {filteredWorkoutTemplates.map((template) => (
                 <div
-                  className="flex flex-row justify-between items-center gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                  className="flex justify-between items-center bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                   key={template.id}
                 >
                   <button
-                    className="flex flex-col justify-start items-start"
+                    className="flex flex-col justify-start items-start pl-2 py-1"
                     onClick={() => handleClickWorkoutTemplate(template)}
                   >
                     <span className="w-[21rem] truncate text-left">
@@ -274,34 +274,35 @@ export default function WorkoutTemplateList() {
                       {template.note}
                     </span>
                   </button>
-                  <Dropdown>
-                    <DropdownTrigger>
-                      <Button
-                        aria-label={`Toggle ${template.name} Options Menu`}
-                        isIconOnly
-                        className="z-1"
-                        size="sm"
-                        radius="lg"
-                        variant="light"
+                  <div className="flex items-center gap-0.5 pr-1">
+                    <Dropdown>
+                      <DropdownTrigger>
+                        <Button
+                          aria-label={`Toggle ${template.name} Options Menu`}
+                          isIconOnly
+                          className="z-1"
+                          radius="lg"
+                          variant="light"
+                        >
+                          <VerticalMenuIcon size={19} />
+                        </Button>
+                      </DropdownTrigger>
+                      <DropdownMenu
+                        aria-label={`Option Menu For ${template.name} Workout Template`}
+                        onAction={(key) =>
+                          handleWorkoutTemplateOptionSelection(
+                            key as string,
+                            template
+                          )
+                        }
                       >
-                        <VerticalMenuIcon size={17} />
-                      </Button>
-                    </DropdownTrigger>
-                    <DropdownMenu
-                      aria-label={`Option Menu For ${template.name} Workout Template`}
-                      onAction={(key) =>
-                        handleWorkoutTemplateOptionSelection(
-                          key as string,
-                          template
-                        )
-                      }
-                    >
-                      <DropdownItem key="edit">Edit</DropdownItem>
-                      <DropdownItem key="delete" className="text-danger">
-                        Delete
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </Dropdown>
+                        <DropdownItem key="edit">Edit</DropdownItem>
+                        <DropdownItem key="delete" className="text-danger">
+                          Delete
+                        </DropdownItem>
+                      </DropdownMenu>
+                    </Dropdown>
+                  </div>
                 </div>
               ))}
               {filteredWorkoutTemplates.length === 0 && (

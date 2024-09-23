@@ -392,17 +392,17 @@ export default function MeasurementList() {
               {filteredMeasurements.map((measurement) => (
                 <div
                   key={measurement.id}
-                  className="flex flex-row cursor-pointer gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                  className="flex cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                   onClick={() => handleMeasurementClick(measurement.id)}
                 >
-                  <div className="flex justify-between items-center w-full">
-                    <div className="flex pl-0.5 gap-2.5 items-center">
+                  <div className="flex justify-between items-center py-1 pl-2 w-full">
+                    <div className="flex gap-2.5 items-center">
                       <CheckmarkIcon
                         isChecked={activeMeasurementSet.has(measurement.id)}
                         size={29}
                       />
                       <div className="flex flex-col justify-start items-start">
-                        <span className="w-[15.5rem] truncate text-left">
+                        <span className="w-[16rem] truncate text-left">
                           {measurement.name}
                         </span>
                         <span className="text-xs text-stone-400 text-left">
@@ -410,42 +410,43 @@ export default function MeasurementList() {
                         </span>
                       </div>
                     </div>
-                    <div className="flex flex-col text-sm text-stone-500">
-                      <span>Unit</span>
-                      <span className="font-semibold">
-                        {measurement.default_unit}
-                      </span>
-                    </div>
-                    <Dropdown>
-                      <DropdownTrigger>
-                        <Button
-                          aria-label={`Toggle ${measurement.name} Options Menu`}
-                          isIconOnly
-                          className="z-1"
-                          size="sm"
-                          radius="lg"
-                          variant="light"
+                    <div className="flex items-center gap-2 pr-1">
+                      <div className="flex flex-col items-center text-sm text-stone-500">
+                        <span>Unit</span>
+                        <span className="font-semibold">
+                          {measurement.default_unit}
+                        </span>
+                      </div>
+                      <Dropdown>
+                        <DropdownTrigger>
+                          <Button
+                            aria-label={`Toggle ${measurement.name} Options Menu`}
+                            isIconOnly
+                            className="z-1"
+                            radius="lg"
+                            variant="light"
+                          >
+                            <VerticalMenuIcon size={19} />
+                          </Button>
+                        </DropdownTrigger>
+                        <DropdownMenu
+                          aria-label={`Option Menu For ${measurement.name} Measurement`}
+                          onAction={(key) =>
+                            handleOptionSelection(key as string, measurement)
+                          }
                         >
-                          <VerticalMenuIcon size={17} />
-                        </Button>
-                      </DropdownTrigger>
-                      <DropdownMenu
-                        aria-label={`Option Menu For ${measurement.name} Measurement`}
-                        onAction={(key) =>
-                          handleOptionSelection(key as string, measurement)
-                        }
-                      >
-                        {activeMeasurementSet.has(measurement.id) ? (
-                          <DropdownItem key="untrack">Untrack</DropdownItem>
-                        ) : (
-                          <DropdownItem key="track">Track</DropdownItem>
-                        )}
-                        <DropdownItem key="edit">Edit</DropdownItem>
-                        <DropdownItem className="text-danger" key="delete">
-                          Delete
-                        </DropdownItem>
-                      </DropdownMenu>
-                    </Dropdown>
+                          {activeMeasurementSet.has(measurement.id) ? (
+                            <DropdownItem key="untrack">Untrack</DropdownItem>
+                          ) : (
+                            <DropdownItem key="track">Track</DropdownItem>
+                          )}
+                          <DropdownItem key="edit">Edit</DropdownItem>
+                          <DropdownItem className="text-danger" key="delete">
+                            Delete
+                          </DropdownItem>
+                        </DropdownMenu>
+                      </Dropdown>
+                    </div>
                   </div>
                 </div>
               ))}

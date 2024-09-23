@@ -219,37 +219,34 @@ export default function WorkoutList() {
               {workouts.map((workout) => (
                 <div
                   key={workout.id}
-                  className="flex cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                  className="flex justify-between items-center cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                   onClick={() => navigate(`/workouts/${workout.id}`)}
                 >
-                  <div className="flex gap-1 justify-between items-center w-full">
-                    <div className="flex flex-col justify-start items-start">
-                      <span className="w-[10.5rem] truncate text-left">
-                        {workout.formattedDate}
+                  <div className="flex flex-col justify-start items-start pl-2 py-1">
+                    <span className="w-[10.5rem] truncate text-left">
+                      {workout.formattedDate}
+                    </span>
+                    {workout.numSets! > 0 ? (
+                      <span className="text-xs text-secondary text-left">
+                        {FormatNumItemsString(workout.numExercises, "Exercise")}
+                        , {FormatNumItemsString(workout.numSets, "Set")}
                       </span>
-                      {workout.numSets! > 0 ? (
-                        <span className="text-xs text-secondary text-left">
-                          {FormatNumItemsString(
-                            workout.numExercises,
-                            "Exercise"
-                          )}
-                          , {FormatNumItemsString(workout.numSets, "Set")}
-                        </span>
-                      ) : (
-                        <span className="text-xs text-stone-400 text-left">
-                          Empty
-                        </span>
-                      )}
-                      <span
-                        className={
-                          userSettings.show_workout_rating === 1
-                            ? "w-[16.5rem] break-all text-xs text-stone-500 text-left"
-                            : "w-[21.5rem] break-all text-xs text-stone-500 text-left"
-                        }
-                      >
-                        {workout.note}
+                    ) : (
+                      <span className="text-xs text-stone-400 text-left">
+                        Empty
                       </span>
-                    </div>
+                    )}
+                    <span
+                      className={
+                        userSettings.show_workout_rating === 1
+                          ? "w-[16rem] break-all text-xs text-stone-500 text-left"
+                          : "w-[21rem] break-all text-xs text-stone-500 text-left"
+                      }
+                    >
+                      {workout.note}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1 pr-1">
                     {userSettings.show_workout_rating === 1 && (
                       <div className="flex flex-col w-[4.5rem] text-center text-sm text-stone-500">
                         <span>Rating</span>
@@ -264,11 +261,10 @@ export default function WorkoutList() {
                           aria-label={`Toggle Workout On ${workout.formattedDate} Options Menu`}
                           isIconOnly
                           className="z-1"
-                          size="sm"
                           radius="lg"
                           variant="light"
                         >
-                          <VerticalMenuIcon size={17} />
+                          <VerticalMenuIcon size={19} />
                         </Button>
                       </DropdownTrigger>
                       <DropdownMenu

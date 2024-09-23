@@ -530,15 +530,15 @@ export default function BodyMeasurements() {
                   )}
                 </h3>
                 {latestUserWeight.id !== 0 && (
-                  <div className="flex flex-row justify-between items-center gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400">
+                  <div className="flex justify-between items-center gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400">
                     <div className="flex flex-col justify-start items-start">
-                      <span className="w-[21.5rem] truncate text-left">
+                      <span className="w-[21rem] truncate text-left">
                         {latestUserWeight.weight} {latestUserWeight.weight_unit}
                       </span>
                       <span className="text-xs text-secondary text-left">
                         {latestUserWeight.formattedDate}
                       </span>
-                      <span className="w-[21.5rem] break-all text-xs text-stone-400 text-left">
+                      <span className="w-[21rem] break-all text-xs text-stone-400 text-left">
                         {latestUserWeight.comment}
                       </span>
                     </div>
@@ -548,11 +548,10 @@ export default function BodyMeasurements() {
                           aria-label={`Toggle ${latestUserWeight.formattedDate} Weight Entry Options Menu`}
                           isIconOnly
                           className="z-1"
-                          size="sm"
                           radius="lg"
                           variant="light"
                         >
-                          <VerticalMenuIcon size={17} />
+                          <VerticalMenuIcon size={19} />
                         </Button>
                       </DropdownTrigger>
                       <DropdownMenu

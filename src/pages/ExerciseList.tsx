@@ -391,14 +391,14 @@ export default function ExerciseList() {
             <div className="flex flex-col gap-1 w-full">
               {filteredExercises.map((exercise) => (
                 <div
-                  className="flex flex-row justify-between items-center bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                  className="flex justify-between items-center bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                   key={exercise.id}
                 >
                   <button
                     className="flex flex-col justify-start items-start pl-2 py-1"
                     onClick={() => navigate(`/exercises/${exercise.id}`)}
                   >
-                    <span className="w-[19rem] truncate text-left">
+                    <span className="w-[18.5rem] truncate text-left">
                       {exercise.name}
                     </span>
                     {exercise.set_count! > 0 && (
@@ -410,7 +410,7 @@ export default function ExerciseList() {
                       {exercise.formattedGroupString}
                     </span>
                   </button>
-                  <div className="flex items-center gap-0.5 pr-2">
+                  <div className="flex items-center gap-0.5 pr-1">
                     <FavoriteButton
                       name={exercise.name}
                       isFavorite={!!exercise.is_favorite}
@@ -423,11 +423,10 @@ export default function ExerciseList() {
                           aria-label={`Toggle ${exercise.name} Options Menu`}
                           isIconOnly
                           className="z-1"
-                          size="sm"
                           radius="lg"
                           variant="light"
                         >
-                          <VerticalMenuIcon size={17} />
+                          <VerticalMenuIcon size={19} />
                         </Button>
                       </DropdownTrigger>
                       <DropdownMenu

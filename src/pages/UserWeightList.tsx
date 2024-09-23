@@ -227,44 +227,45 @@ export default function UserWeightList() {
                   key={userWeight.id}
                 >
                   <div className="flex flex-col justify-start items-start">
-                    <span className="w-[21.5rem] truncate text-left">
+                    <span className="w-[21rem] truncate text-left">
                       {userWeight.weight} {userWeight.weight_unit}
                     </span>
                     <span className="text-xs text-secondary text-left">
                       {userWeight.formattedDate}
                     </span>
-                    <span className="w-[21.5rem] break-all text-xs text-stone-400 text-left">
+                    <span className="w-[21rem] break-all text-xs text-stone-400 text-left">
                       {userWeight.comment}
                     </span>
                   </div>
-                  <Dropdown>
-                    <DropdownTrigger>
-                      <Button
-                        aria-label={`Toggle ${userWeight.formattedDate} Weight Entry Options Menu`}
-                        isIconOnly
-                        className="z-1"
-                        size="sm"
-                        radius="lg"
-                        variant="light"
+                  <div className="flex items-center gap-0.5 pr-1">
+                    <Dropdown>
+                      <DropdownTrigger>
+                        <Button
+                          aria-label={`Toggle ${userWeight.formattedDate} Weight Entry Options Menu`}
+                          isIconOnly
+                          className="z-1"
+                          radius="lg"
+                          variant="light"
+                        >
+                          <VerticalMenuIcon size={19} />
+                        </Button>
+                      </DropdownTrigger>
+                      <DropdownMenu
+                        aria-label={`Option Menu For ${userWeight.id} Body Weight Entry`}
+                        onAction={(key) =>
+                          handleUserWeightOptionSelection(
+                            key as string,
+                            userWeight
+                          )
+                        }
                       >
-                        <VerticalMenuIcon size={17} />
-                      </Button>
-                    </DropdownTrigger>
-                    <DropdownMenu
-                      aria-label={`Option Menu For ${userWeight.id} Body Weight Entry`}
-                      onAction={(key) =>
-                        handleUserWeightOptionSelection(
-                          key as string,
-                          userWeight
-                        )
-                      }
-                    >
-                      <DropdownItem key="edit">Edit</DropdownItem>
-                      <DropdownItem key="delete" className="text-danger">
-                        Delete
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </Dropdown>
+                        <DropdownItem key="edit">Edit</DropdownItem>
+                        <DropdownItem key="delete" className="text-danger">
+                          Delete
+                        </DropdownItem>
+                      </DropdownMenu>
+                    </Dropdown>
+                  </div>
                 </div>
               ))}
               {userWeights.length === 0 && (
