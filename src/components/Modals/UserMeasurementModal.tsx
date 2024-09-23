@@ -145,7 +145,7 @@ export const UserMeasurementModal = ({
                       {Array.from(filteredMeasurements).map(([key, value]) => (
                         <div
                           key={key}
-                          className="flex flex-row cursor-pointer gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                          className="flex cursor-pointer gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                           onClick={() => handleMeasurementClick(key)}
                         >
                           <div className="flex justify-between items-center w-full">

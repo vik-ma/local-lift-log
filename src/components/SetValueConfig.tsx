@@ -67,7 +67,7 @@ export const SetValueConfig = ({
 
   return (
     <div className="flex flex-col gap-2 h-[400px]">
-      <div className="flex flex-row items-center justify-between">
+      <div className="flex items-center justify-between">
         <h2 className="flex text-2xl font-semibold justify-between w-full items-end">
           <div className="flex gap-1 max-w-[21rem]">
             <span className="text-yellow-500 truncate">
@@ -235,7 +235,7 @@ export const SetValueConfig = ({
           operationType === "add-sets-to-multiset") &&
           numNewSets &&
           setNumNewSets && (
-            <div className="flex flex-row justify-between">
+            <div className="flex">
               <Select
                 label="Number Of Sets To Add"
                 size="sm"
