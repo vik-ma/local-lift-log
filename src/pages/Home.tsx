@@ -11,6 +11,7 @@ import {
   CreateDefaultDistances,
 } from "../helpers";
 import { SettingsModal } from "../components";
+import { WeightPlatesIcon } from "../assets";
 
 export default function Home() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
@@ -108,6 +109,7 @@ export default function Home() {
           <p>Settings Id: {userSettings?.id}</p>
           <p>Active Routine Id: {userSettings?.active_routine_id}</p>
         </div>
+        <WeightPlatesIcon isChecked={true} />
       </div>
     </>
   );
