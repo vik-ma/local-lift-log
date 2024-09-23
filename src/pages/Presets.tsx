@@ -105,6 +105,7 @@ export default function Presets() {
     sortCategoryDistance,
     handleSortOptionSelectionEquipment,
     handleSortOptionSelectionDistance,
+    togglePlateCalculator,
   } = usePresetsList(true, true);
 
   useEffect(() => {
@@ -723,7 +724,7 @@ export default function Presets() {
                                 : "default"
                             }
                             variant="light"
-                            // onPress={() => togglePlateCalculator(item)}
+                            onPress={() => togglePlateCalculator(equipment)}
                           >
                             <WeightPlatesIcon
                               isChecked={equipment.is_in_plate_calculator === 1}

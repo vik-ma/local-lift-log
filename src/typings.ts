@@ -454,6 +454,7 @@ export type UsePresetsListReturnType = {
   handleSortOptionSelectionDistance: (key: string) => void;
   isLoadingEquipment: boolean;
   isLoadingDistance: boolean;
+  togglePlateCalculator: (equipmentWeight: EquipmentWeight) => void;
 };
 
 export type CalculationModalPage = "base" | "list" | "calc";

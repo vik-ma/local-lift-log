@@ -285,6 +285,39 @@ export const usePresetsList = (
     sortDistancesByName(updatedDistances, favoritesCheckboxValueDistance);
   };
 
+  const togglePlateCalculator = async (equipmentWeight: EquipmentWeight) => {
+    const newFavoriteValue =
+      equipmentWeight.is_in_plate_calculator === 1 ? 0 : 1;
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      await db.execute(
+        `UPDATE equipment_weights 
+         SET is_in_plate_calculator = $1 
+         WHERE id = $2`,
+        [newFavoriteValue, equipmentWeight.id]
+      );
+
+      const updatedEquipmentWeight: EquipmentWeight = {
+        ...equipmentWeight,
+        is_in_plate_calculator: newFavoriteValue,
+      };
+
+      const updatedEquipmentWeights = UpdateItemInList(
+        equipmentWeights,
+        updatedEquipmentWeight
+      );
+
+      sortEquipmentWeightsByName(
+        updatedEquipmentWeights,
+        favoritesCheckboxValueEquipment
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return {
     equipmentWeights,
     setEquipmentWeights,
@@ -311,5 +344,6 @@ export const usePresetsList = (
     handleSortOptionSelectionDistance,
     isLoadingEquipment,
     isLoadingDistance,
+    togglePlateCalculator,
   };
 };
