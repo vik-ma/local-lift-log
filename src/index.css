@@ -18,6 +18,7 @@
   --success-color: theme("colors.success");
   --danger-color: theme("colors.danger");
   --foreground-hover-color: theme("colors.stone.400");
+  --secondary-color: theme("colors.secondary");
 }
 
 a {
@@ -132,4 +133,8 @@ body {
 
 .multiset-divider {
   border-top: 1px solid theme("colors.stone.400") !important;
+}
+
+.test-page-link {
+  color: var(--secondary-color) !important;
 }

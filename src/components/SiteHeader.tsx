@@ -149,10 +149,7 @@ export const SiteHeader = () => {
               textValue="TEST PAGE"
               onPress={() => navigate("/test")}
             >
-              <NavLink
-                className="text-secondary hover:text-secondary"
-                to="/test"
-              >
+              <NavLink className="test-page-link" to="/test">
                 TEST PAGE
               </NavLink>
             </DropdownItem>
