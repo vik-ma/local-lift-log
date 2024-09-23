@@ -38,7 +38,7 @@ import {
 } from "../helpers";
 import toast, { Toaster } from "react-hot-toast";
 import { usePresetsList, useValidateName } from "../hooks";
-import { VerticalMenuIcon } from "../assets";
+import { VerticalMenuIcon, WeightPlatesIcon } from "../assets";
 
 type OperationType = "add" | "edit" | "delete";
 
@@ -697,18 +697,39 @@ export default function Presets() {
                   <div className="flex flex-col gap-1">
                     {filteredEquipmentWeights.map((equipment) => (
                       <div
-                        className="flex flex-row justify-between items-center gap-1 cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                        className="flex justify-between items-center cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                         key={`equipment-${equipment.id}`}
                       >
-                        <div className="flex flex-col justify-start items-start">
-                          <span className="w-[19.5rem] truncate text-left">
+                        <div className="flex flex-col justify-start items-start pl-2 py-1">
+                          <span className="w-[15.5rem] truncate text-left">
                             {equipment.name}
                           </span>
                           <span className="text-xs text-secondary text-left">
                             {equipment.weight} {equipment.weight_unit}
                           </span>
                         </div>
-                        <div className="flex items-center gap-0.5">
+                        <div className="flex items-center pr-1">
+                          <Button
+                            aria-label={
+                              equipment.is_in_plate_calculator === 1
+                                ? `Remove ${equipment.name} From Plate Calculator`
+                                : `Add ${equipment.name} To Plate Calculator`
+                            }
+                            isIconOnly
+                            className="z-1 w-[3.5rem]"
+                            color={
+                              equipment.is_in_plate_calculator === 1
+                                ? "success"
+                                : "default"
+                            }
+                            variant="light"
+                            // onPress={() => togglePlateCalculator(item)}
+                          >
+                            <WeightPlatesIcon
+                              isChecked={equipment.is_in_plate_calculator === 1}
+                              size={31}
+                            />
+                          </Button>
                           <FavoriteButton
                             name={equipment.name}
                             isFavorite={!!equipment.is_favorite}
@@ -721,11 +742,10 @@ export default function Presets() {
                                 aria-label={`Toggle ${equipment.name} Options Menu`}
                                 isIconOnly
                                 className="z-1"
-                                size="sm"
                                 radius="lg"
                                 variant="light"
                               >
-                                <VerticalMenuIcon size={17} />
+                                <VerticalMenuIcon size={19} />
                               </Button>
                             </DropdownTrigger>
                             <DropdownMenu
@@ -826,18 +846,18 @@ export default function Presets() {
                 <div className="flex flex-col gap-1">
                   {filteredDistances.map((distance) => (
                     <div
-                      className="flex flex-row justify-between items-center gap-1 cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                      className="flex justify-between items-center cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                       key={`distance-${distance.id}`}
                     >
-                      <div className="flex flex-col justify-start items-start">
-                        <span className="w-[19.5rem] truncate text-left">
+                      <div className="flex flex-col justify-start items-start pl-2 py-1">
+                        <span className="w-[18.5rem] truncate text-left">
                           {distance.name}
                         </span>
                         <span className="text-xs text-secondary text-left">
                           {distance.distance} {distance.distance_unit}
                         </span>
                       </div>
-                      <div className="flex items-center gap-0.5">
+                      <div className="flex items-center pr-1">
                         <FavoriteButton
                           name={distance.name}
                           isFavorite={!!distance.is_favorite}
@@ -850,11 +870,10 @@ export default function Presets() {
                               aria-label={`Toggle ${distance.name} Options Menu`}
                               isIconOnly
                               className="z-1"
-                              size="sm"
                               radius="lg"
                               variant="light"
                             >
-                              <VerticalMenuIcon size={17} />
+                              <VerticalMenuIcon size={19} />
                             </Button>
                           </DropdownTrigger>
                           <DropdownMenu
