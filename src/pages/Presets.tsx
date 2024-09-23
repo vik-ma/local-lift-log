@@ -60,6 +60,7 @@ export default function Presets() {
       weight: 0,
       weight_unit: "kg",
       is_favorite: 0,
+      is_in_plate_calculator: 0,
     };
   }, []);
 

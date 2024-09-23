@@ -249,6 +249,7 @@ export type EquipmentWeight = {
   weight: number;
   weight_unit: string;
   is_favorite: number;
+  is_in_plate_calculator: number;
 };
 
 export type Distance = {
