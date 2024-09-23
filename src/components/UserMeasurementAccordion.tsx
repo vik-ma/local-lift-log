@@ -40,11 +40,11 @@ export const UserMeasurementAccordion = ({
       {userMeasurementEntries.map((measurement, index) => (
         <div
           key={measurement.id}
-          className="flex flex-col select-none cursor-pointer gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+          className="flex flex-col select-none cursor-pointer gap-1 bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
           onClick={() => handleMeasurementAccordionClick(measurement, index)}
         >
-          <div className="flex flex-row justify-between w-full gap-2 items-center">
-            <div className="flex flex-col justify-start items-start">
+          <div className="flex justify-between items-center pl-2 py-1">
+            <div className="flex flex-col items-start">
               <span className="w-[19rem] break-all text-left">
                 {measurement.measurementListText}
               </span>
@@ -55,9 +55,9 @@ export const UserMeasurementAccordion = ({
                 {measurement.comment}
               </span>
             </div>
-            <div className="flex gap-1 px-0.5 items-center">
+            <div className="flex gap-0.5 pr-1 items-center">
               <ChevronIcon
-                size={27}
+                size={29}
                 color="#a8a29e"
                 direction={measurement.isExpanded ? "down" : "left"}
               />
@@ -67,11 +67,10 @@ export const UserMeasurementAccordion = ({
                     aria-label={`Toggle ${measurement.formattedDate} Measurements Entry Options Menu`}
                     isIconOnly
                     className="z-1"
-                    size="sm"
                     radius="lg"
                     variant="light"
                   >
-                    <VerticalMenuIcon size={17} />
+                    <VerticalMenuIcon size={19} />
                   </Button>
                 </DropdownTrigger>
                 <DropdownMenu
@@ -102,7 +101,7 @@ export const UserMeasurementAccordion = ({
                   opacity: { duration: 0.05 },
                 }}
               >
-                <div className="flex flex-col text-sm">
+                <div className="flex flex-col divide-y divide-stone-200 text-sm">
                   {Object.entries(measurement.userMeasurementValues!).map(
                     ([key, values]) => {
                       const item = measurementMap.get(key);
@@ -111,14 +110,14 @@ export const UserMeasurementAccordion = ({
 
                       return (
                         <div
-                          className="flex gap-2 text-left items-center"
+                          className="flex gap-2 text-left items-center px-2 py-0.5"
                           key={key}
                         >
                           <div
                             className={
                               values.isInvalid
-                                ? "flex gap-1.5 items-center w-[9rem] truncate text-red-700"
-                                : "w-[9rem] truncate"
+                                ? "flex gap-1.5 items-center w-[10rem] truncate text-red-700"
+                                : "w-[10rem] truncate"
                             }
                           >
                             <span>{values.isInvalid ? "Unknown" : name}</span>
@@ -151,7 +150,7 @@ export const UserMeasurementAccordion = ({
                               {values.unit === "in" ? `″` : values.unit}
                             </span>
                           </div>
-                          <span className="flex-grow text-right px-3.5">
+                          <span className="flex-grow text-right">
                             {values.measurement_type}
                           </span>
                         </div>
