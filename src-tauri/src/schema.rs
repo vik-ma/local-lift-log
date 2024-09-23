@@ -127,7 +127,8 @@ diesel::table! {
         name -> Text,
         weight -> Float,
         weight_unit -> Text,
-        is_favorite: -> SmallInt,
+        is_favorite -> SmallInt,
+        is_in_plate_calculator -> SmallInt,
     }
 }
 
@@ -137,7 +138,7 @@ diesel::table! {
         name -> Text,
         distance -> Float,
         distance_unit -> Text,
-        is_favorite: -> SmallInt,
+        is_favorite -> SmallInt,
     }
 }
 
