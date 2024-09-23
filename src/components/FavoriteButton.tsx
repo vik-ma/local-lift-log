@@ -21,13 +21,12 @@ export const FavoriteButton = <T,>({
       }
       isIconOnly
       className="z-1"
-      size="sm"
       color={isFavorite ? "primary" : "default"}
       radius="lg"
       variant="light"
       onPress={() => toggleFavorite(item)}
     >
-      <FavoriteIcon isChecked={isFavorite} size={28} />
+      <FavoriteIcon isChecked={isFavorite} size={32} />
     </Button>
   );
 };

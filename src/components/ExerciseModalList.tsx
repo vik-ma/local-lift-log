@@ -36,7 +36,7 @@ export const ExerciseModalList = ({
             onClick={() => handleClickExercise(exercise)}
           >
             <div className="flex flex-col justify-start items-start pl-2 py-1">
-              <span className="w-[20.5rem] truncate text-left">
+              <span className="w-[20rem] truncate text-left">
                 {exercise.name}
               </span>
               <span className="text-xs text-stone-500 text-left">

@@ -849,7 +849,7 @@ export const CalculationModal = ({
                                 }
                               >
                                 <div className="flex flex-col justify-start items-start pl-2 py-1">
-                                  <span className="w-[20.5rem] truncate text-left">
+                                  <span className="w-[20rem] truncate text-left">
                                     {equipment.name}
                                   </span>
                                   <span className="text-xs text-secondary text-left">
@@ -886,7 +886,7 @@ export const CalculationModal = ({
                               }
                             >
                               <div className="flex flex-col justify-start items-start pl-2 py-1">
-                                <span className="w-[20.5rem] truncate text-left">
+                                <span className="w-[20rem] truncate text-left">
                                   {distance.name}
                                 </span>
                                 <span className="text-xs text-secondary text-left">
