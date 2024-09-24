@@ -473,7 +473,7 @@ export const CalculationModal = ({
 
     const value = ConvertNumberToTwoDecimals(Number(numberInput));
 
-    const calculationItem = CreateNewCalculationItem("number", unit, value);
+    const calculationItem = CreateNewCalculationItem("number", unit, 1, value);
 
     if (calculationItem === undefined) return;
 
