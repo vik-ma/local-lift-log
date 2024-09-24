@@ -510,295 +510,303 @@ export const CalculationModal = ({
               <div className="h-[400px] flex flex-col gap-2">
                 {calculationModalPage === "base" ? (
                   <>
-                    {presetsType === "equipment" ? (
-                      <div className="flex flex-col gap-1">
-                        <div className="flex justify-between pb-1">
-                          <div className="flex gap-1">
-                            <Button
-                              size="sm"
-                              variant="flat"
-                              onPress={handleGoToListButton}
-                            >
-                              Add Preset
-                            </Button>
-                            <Button
-                              color={showNumberInput ? "secondary" : "default"}
-                              size="sm"
-                              variant="flat"
-                              onPress={() =>
-                                setShowNumberInput(!showNumberInput)
-                              }
-                            >
-                              Add {presetText}
-                            </Button>
-                            <Button
-                              size="sm"
-                              variant="flat"
-                              onPress={handleGoToCalculationButton}
-                            >
-                              Add Calculation
-                            </Button>
-                          </div>
-                          {showClearAllButton && (
-                            <Button
-                              variant="flat"
-                              size="sm"
-                              color="danger"
-                              onPress={handleClearAllButton}
-                            >
-                              Clear All
-                            </Button>
-                          )}
+                    <div className="flex flex-col gap-1">
+                      <div className="flex justify-between pb-1">
+                        <div className="flex gap-1">
+                          <Button
+                            size="sm"
+                            variant="flat"
+                            onPress={handleGoToListButton}
+                          >
+                            Add Preset
+                          </Button>
+                          <Button
+                            color={showNumberInput ? "secondary" : "default"}
+                            size="sm"
+                            variant="flat"
+                            onPress={() => setShowNumberInput(!showNumberInput)}
+                          >
+                            Add {presetText}
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="flat"
+                            onPress={handleGoToCalculationButton}
+                          >
+                            Add Calculation
+                          </Button>
                         </div>
-                        {showNumberInput && (
-                          <div className="flex gap-1 items-center justify-between">
-                            <div className="flex gap-2 items-center">
-                              <span className="text-sm font-medium text-stone-500">
-                                New {presetText}
-                              </span>
-                              <Input
-                                ref={numberInputRef}
-                                className="w-[6rem]"
-                                aria-label={`Add ${presetText} Value Input Field`}
-                                size="sm"
-                                variant="faded"
-                                isInvalid={isNumberInputInvalid}
-                                isClearable
-                                value={numberInput}
-                                onValueChange={setNumberInput}
-                              />
-                              <Button
-                                color="secondary"
-                                variant="flat"
-                                size="sm"
-                                isDisabled={isNumberInputInvalid}
-                                onPress={handleAddNumberButton}
-                              >
-                                Add
-                              </Button>
-                            </div>
-                            <div>
-                              <Button
-                                variant="flat"
-                                size="sm"
-                                onPress={() => setShowNumberInput(false)}
-                              >
-                                Cancel
-                              </Button>
-                            </div>
-                          </div>
+                        {showClearAllButton && (
+                          <Button
+                            variant="flat"
+                            size="sm"
+                            color="danger"
+                            onPress={handleClearAllButton}
+                          >
+                            Clear All
+                          </Button>
                         )}
-                        <div className="flex px-0.5 text-sm font-medium">
-                          <span>Weight</span>
-                          <span className="pl-[12.75rem]">Multiplier</span>
-                        </div>
-                        <ScrollShadow
-                          className={
-                            showNumberInput
-                              ? "flex flex-col gap-1.5 h-[244px]"
-                              : "flex flex-col gap-1.5 h-[280px]"
-                          }
-                        >
-                          {calculationListWeight.map((weight, index) => (
-                            <div
-                              key={`calculation-list-weight-${index}`}
-                              className="flex gap-1.5 items-center"
-                            >
-                              <div className="flex w-[13.25rem] justify-between gap-1 bg-default-50 px-1.5 py-0.5 border-2 rounded-lg">
-                                <span className="w-[7rem] truncate">
-                                  {weight.label}
-                                </span>
-                                <div className="flex gap-1 text-secondary">
-                                  <span className="w-[3.5rem] truncate text-right">
-                                    {weight.value}
-                                  </span>
-                                  <span>{weight.unit}</span>
-                                </div>
-                              </div>
-                              <div className="flex gap-0.5 select-none">
-                                <Input
-                                  aria-label={`${weight.label} Multiplier Input`}
-                                  className="w-[4rem] order-2"
-                                  size="sm"
-                                  variant="faded"
-                                  value={weight.multiplierInput}
-                                  isInvalid={weight.isMultiplierInputInvalid}
-                                  onValueChange={(value) =>
-                                    handleWeightMultiplierChange(
-                                      value,
-                                      weight,
-                                      index
-                                    )
-                                  }
-                                  isClearable
-                                />
-                                <PlusAndMinusButtons
-                                  trackingValue={"list"}
-                                  updateValue={incrementMultiplier}
-                                  isDecreaseDisabled={
-                                    weight.disableDecreaseMultiplierButton
-                                  }
-                                  isIncreaseDisabled={
-                                    weight.disableIncreaseMultiplierButton
-                                  }
-                                  calculationItem={weight}
-                                  index={index}
-                                  wrapAround
-                                />
-                              </div>
-                              <Button
-                                aria-label={`Remove ${weight.label} From Calculation List`}
-                                size="sm"
-                                color="danger"
-                                isIconOnly
-                                variant="light"
-                                onPress={() => handleRemoveButton(index)}
-                              >
-                                <CrossCircleIcon size={22} />
-                              </Button>
-                            </div>
-                          ))}
-                          {calculationListWeight.length === 0 && (
-                            <EmptyListLabel
-                              itemName=""
-                              customLabel="No Weights Added"
-                              className="text-sm text-stone-400"
+                      </div>
+                      {showNumberInput && (
+                        <div className="flex gap-1 items-center justify-between">
+                          <div className="flex gap-2 items-center">
+                            <span className="text-sm font-medium text-stone-500">
+                              New {presetText}
+                            </span>
+                            <Input
+                              ref={numberInputRef}
+                              className="w-[6rem]"
+                              aria-label={`Add ${presetText} Value Input Field`}
+                              size="sm"
+                              variant="faded"
+                              isInvalid={isNumberInputInvalid}
+                              isClearable
+                              value={numberInput}
+                              onValueChange={setNumberInput}
                             />
-                          )}
-                        </ScrollShadow>
-                      </div>
-                    ) : (
-                      <div className="flex flex-col gap-1">
-                        <div className="flex px-0.5 text-sm font-medium">
-                          <span>Distance</span>
-                          <span className="pl-[12rem]">Multiplier</span>
-                        </div>
-                        <ScrollShadow className="flex flex-col gap-1.5 h-[325px]">
-                          {calculationListDistance.map((distance, index) => (
-                            <div
-                              key={`calculation-list-distance-${index}`}
-                              className="flex gap-1.5 items-center"
+                            <Button
+                              color="secondary"
+                              variant="flat"
+                              size="sm"
+                              isDisabled={isNumberInputInvalid}
+                              onPress={handleAddNumberButton}
                             >
-                              <div className="flex w-[13.25rem] justify-between gap-1 bg-default-50 px-1.5 py-0.5 border-2 rounded-lg">
-                                <span className="w-[7rem] truncate">
-                                  {distance.label}
-                                </span>
-                                <div className="flex gap-1 text-secondary">
-                                  <span className="w-[3.5rem] truncate text-right">
-                                    {distance.value}
-                                  </span>
-                                  <span>{distance.unit}</span>
-                                </div>
-                              </div>
-                              <div className="flex gap-0.5 select-none">
-                                <Input
-                                  aria-label={`${distance.label} Multiplier Input`}
-                                  className="w-[4rem] order-2"
-                                  size="sm"
-                                  variant="faded"
-                                  value={distance.multiplierInput}
-                                  isInvalid={distance.isMultiplierInputInvalid}
-                                  onValueChange={(value) =>
-                                    handleDistanceMultiplierChange(
-                                      value,
-                                      distance,
-                                      index
-                                    )
-                                  }
-                                  isClearable
-                                />
-                                <PlusAndMinusButtons
-                                  trackingValue={"list"}
-                                  updateValue={incrementMultiplier}
-                                  isDecreaseDisabled={
-                                    distance.disableDecreaseMultiplierButton
-                                  }
-                                  isIncreaseDisabled={
-                                    distance.disableIncreaseMultiplierButton
-                                  }
-                                  calculationItem={distance}
-                                  index={index}
-                                  wrapAround
-                                />
-                              </div>
-                              <Button
-                                aria-label={`Remove ${distance.label} From Calculation List`}
-                                size="sm"
-                                color="danger"
-                                isIconOnly
-                                variant="light"
-                                onPress={() => handleRemoveButton(index)}
+                              Add
+                            </Button>
+                          </div>
+                          <div>
+                            <Button
+                              variant="flat"
+                              size="sm"
+                              onPress={() => setShowNumberInput(false)}
+                            >
+                              Cancel
+                            </Button>
+                          </div>
+                        </div>
+                      )}
+                      {presetsType === "equipment" ? (
+                        <>
+                          <div className="flex px-0.5 text-sm font-medium">
+                            <span>Weight</span>
+                            <span className="pl-[12.75rem]">Multiplier</span>
+                          </div>
+                          <ScrollShadow
+                            className={
+                              showNumberInput
+                                ? "flex flex-col gap-1.5 h-[244px]"
+                                : "flex flex-col gap-1.5 h-[280px]"
+                            }
+                          >
+                            {calculationListWeight.map((weight, index) => (
+                              <div
+                                key={`calculation-list-weight-${index}`}
+                                className="flex gap-1.5 items-center"
                               >
-                                <CrossCircleIcon size={22} />
-                              </Button>
-                            </div>
-                          ))}
-                          {calculationListDistance.length === 0 && (
-                            <EmptyListLabel
-                              itemName=""
-                              customLabel="No Distances Added"
-                              className="text-sm text-stone-400"
-                            />
-                          )}
-                        </ScrollShadow>
-                      </div>
-                    )}
-                    <div className="grid grid-rows-2 grid-cols-3 h-[3.5rem]">
-                      <div className="flex items-end font-medium text-lg leading-none">
-                        Total
-                      </div>
-                      <div className="flex items-end font-medium text-lg leading-none justify-self-center">
-                        Multiplier
-                      </div>
-                      <div className="flex items-end font-medium text-lg leading-none justify-self-end">
-                        Result
-                      </div>
-                      <div className="flex gap-1 text-stone-400 font-semibold text-lg pt-0.5">
-                        <span className="max-w-[4rem] truncate">
-                          {presetsType === "equipment"
-                            ? totalWeight
-                            : totalDistance}
-                        </span>
-                        <span>
-                          {presetsType === "equipment"
-                            ? weightUnit
-                            : distanceUnit}
-                        </span>
-                      </div>
-                      <div className="flex justify-self-center gap-0.5 pt-0.5 select-none">
-                        <Input
-                          aria-label={`Total ${presetText} Multiplier Input`}
-                          className="w-[4rem] order-2"
-                          size="sm"
-                          variant="faded"
-                          value={totalMultiplierInput}
-                          isInvalid={isTotalMultiplierInvalid}
-                          onValueChange={setTotalMultiplierInput}
-                          isClearable
-                        />
-                        <PlusAndMinusButtons
-                          trackingValue="total"
-                          updateValue={incrementMultiplier}
-                          isDecreaseDisabled={
-                            disableTotalMultiplierDecreaseButton
-                          }
-                          isIncreaseDisabled={
-                            disableTotalMultiplierIncreaseButton
-                          }
-                          wrapAround
-                        />
-                      </div>
-                      <div className="flex gap-1 text-secondary font-semibold text-lg pt-0.5 justify-self-end">
-                        <span className="max-w-[4rem] truncate">
-                          {presetsType === "equipment"
-                            ? resultWeight
-                            : resultDistance}
-                        </span>
-                        <span>
-                          {presetsType === "equipment"
-                            ? weightUnit
-                            : distanceUnit}
-                        </span>
+                                <div className="flex w-[13.25rem] justify-between gap-1 bg-default-50 px-1.5 py-0.5 border-2 rounded-lg">
+                                  <span className="w-[7rem] truncate">
+                                    {weight.label}
+                                  </span>
+                                  <div className="flex gap-1 text-secondary">
+                                    <span className="w-[3.5rem] truncate text-right">
+                                      {weight.value}
+                                    </span>
+                                    <span>{weight.unit}</span>
+                                  </div>
+                                </div>
+                                <div className="flex gap-0.5 select-none">
+                                  <Input
+                                    aria-label={`${weight.label} Multiplier Input`}
+                                    className="w-[4rem] order-2"
+                                    size="sm"
+                                    variant="faded"
+                                    value={weight.multiplierInput}
+                                    isInvalid={weight.isMultiplierInputInvalid}
+                                    onValueChange={(value) =>
+                                      handleWeightMultiplierChange(
+                                        value,
+                                        weight,
+                                        index
+                                      )
+                                    }
+                                    isClearable
+                                  />
+                                  <PlusAndMinusButtons
+                                    trackingValue={"list"}
+                                    updateValue={incrementMultiplier}
+                                    isDecreaseDisabled={
+                                      weight.disableDecreaseMultiplierButton
+                                    }
+                                    isIncreaseDisabled={
+                                      weight.disableIncreaseMultiplierButton
+                                    }
+                                    calculationItem={weight}
+                                    index={index}
+                                    wrapAround
+                                  />
+                                </div>
+                                <Button
+                                  aria-label={`Remove ${weight.label} From Calculation List`}
+                                  size="sm"
+                                  color="danger"
+                                  isIconOnly
+                                  variant="light"
+                                  onPress={() => handleRemoveButton(index)}
+                                >
+                                  <CrossCircleIcon size={22} />
+                                </Button>
+                              </div>
+                            ))}
+                            {calculationListWeight.length === 0 && (
+                              <EmptyListLabel
+                                itemName=""
+                                customLabel="No Weights Added"
+                                className="text-sm text-stone-400"
+                              />
+                            )}
+                          </ScrollShadow>
+                        </>
+                      ) : (
+                        <>
+                          <div className="flex px-0.5 text-sm font-medium">
+                            <span>Distance</span>
+                            <span className="pl-[12rem]">Multiplier</span>
+                          </div>
+                          <ScrollShadow
+                            className={
+                              showNumberInput
+                                ? "flex flex-col gap-1.5 h-[244px]"
+                                : "flex flex-col gap-1.5 h-[280px]"
+                            }
+                          >
+                            {calculationListDistance.map((distance, index) => (
+                              <div
+                                key={`calculation-list-distance-${index}`}
+                                className="flex gap-1.5 items-center"
+                              >
+                                <div className="flex w-[13.25rem] justify-between gap-1 bg-default-50 px-1.5 py-0.5 border-2 rounded-lg">
+                                  <span className="w-[7rem] truncate">
+                                    {distance.label}
+                                  </span>
+                                  <div className="flex gap-1 text-secondary">
+                                    <span className="w-[3.5rem] truncate text-right">
+                                      {distance.value}
+                                    </span>
+                                    <span>{distance.unit}</span>
+                                  </div>
+                                </div>
+                                <div className="flex gap-0.5 select-none">
+                                  <Input
+                                    aria-label={`${distance.label} Multiplier Input`}
+                                    className="w-[4rem] order-2"
+                                    size="sm"
+                                    variant="faded"
+                                    value={distance.multiplierInput}
+                                    isInvalid={
+                                      distance.isMultiplierInputInvalid
+                                    }
+                                    onValueChange={(value) =>
+                                      handleDistanceMultiplierChange(
+                                        value,
+                                        distance,
+                                        index
+                                      )
+                                    }
+                                    isClearable
+                                  />
+                                  <PlusAndMinusButtons
+                                    trackingValue={"list"}
+                                    updateValue={incrementMultiplier}
+                                    isDecreaseDisabled={
+                                      distance.disableDecreaseMultiplierButton
+                                    }
+                                    isIncreaseDisabled={
+                                      distance.disableIncreaseMultiplierButton
+                                    }
+                                    calculationItem={distance}
+                                    index={index}
+                                    wrapAround
+                                  />
+                                </div>
+                                <Button
+                                  aria-label={`Remove ${distance.label} From Calculation List`}
+                                  size="sm"
+                                  color="danger"
+                                  isIconOnly
+                                  variant="light"
+                                  onPress={() => handleRemoveButton(index)}
+                                >
+                                  <CrossCircleIcon size={22} />
+                                </Button>
+                              </div>
+                            ))}
+                            {calculationListDistance.length === 0 && (
+                              <EmptyListLabel
+                                itemName=""
+                                customLabel="No Distances Added"
+                                className="text-sm text-stone-400"
+                              />
+                            )}
+                          </ScrollShadow>
+                        </>
+                      )}
+                      <div className="grid grid-rows-2 grid-cols-3 h-[3.5rem]">
+                        <div className="flex items-end font-medium text-lg leading-none">
+                          Total
+                        </div>
+                        <div className="flex items-end font-medium text-lg leading-none justify-self-center">
+                          Multiplier
+                        </div>
+                        <div className="flex items-end font-medium text-lg leading-none justify-self-end">
+                          Result
+                        </div>
+                        <div className="flex gap-1 text-stone-400 font-semibold text-lg pt-0.5">
+                          <span className="max-w-[4rem] truncate">
+                            {presetsType === "equipment"
+                              ? totalWeight
+                              : totalDistance}
+                          </span>
+                          <span>
+                            {presetsType === "equipment"
+                              ? weightUnit
+                              : distanceUnit}
+                          </span>
+                        </div>
+                        <div className="flex justify-self-center gap-0.5 pt-0.5 select-none">
+                          <Input
+                            aria-label={`Total ${presetText} Multiplier Input`}
+                            className="w-[4rem] order-2"
+                            size="sm"
+                            variant="faded"
+                            value={totalMultiplierInput}
+                            isInvalid={isTotalMultiplierInvalid}
+                            onValueChange={setTotalMultiplierInput}
+                            isClearable
+                          />
+                          <PlusAndMinusButtons
+                            trackingValue="total"
+                            updateValue={incrementMultiplier}
+                            isDecreaseDisabled={
+                              disableTotalMultiplierDecreaseButton
+                            }
+                            isIncreaseDisabled={
+                              disableTotalMultiplierIncreaseButton
+                            }
+                            wrapAround
+                          />
+                        </div>
+                        <div className="flex gap-1 text-secondary font-semibold text-lg pt-0.5 justify-self-end">
+                          <span className="max-w-[4rem] truncate">
+                            {presetsType === "equipment"
+                              ? resultWeight
+                              : resultDistance}
+                          </span>
+                          <span>
+                            {presetsType === "equipment"
+                              ? weightUnit
+                              : distanceUnit}
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </>
