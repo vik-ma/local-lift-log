@@ -9,7 +9,8 @@ export const CreateDefaultEquipmentWeights = async (isMetric: boolean) => {
 
     DEFAULT_EQUIPMENT_WEIGHTS.forEach((equipment) => {
       db.execute(
-        `INSERT into equipment_weights (name, weight, weight_unit, is_favorite, is_in_plate_calculator) 
+        `INSERT into equipment_weights 
+         (name, weight, weight_unit, is_favorite, is_in_plate_calculator) 
          VALUES ($1, $2, $3, $4, $5)`,
         [
           equipment.name,

@@ -155,13 +155,15 @@ export default function Presets() {
       const db = await Database.load(import.meta.env.VITE_DB);
 
       const result = await db.execute(
-        `INSERT into equipment_weights (name, weight, weight_unit, is_favorite) 
-         VALUES ($1, $2, $3, $4)`,
+        `INSERT into equipment_weights 
+         (name, weight, weight_unit, is_favorite, is_in_plate_calculator) 
+         VALUES ($1, $2, $3, $4, $5)`,
         [
           nameInput,
           weight,
           operatingEquipmentWeight.weight_unit,
           operatingEquipmentWeight.is_favorite,
+          operatingEquipmentWeight.is_in_plate_calculator,
         ]
       );
 
@@ -241,13 +243,15 @@ export default function Presets() {
 
       await db.execute(
         `UPDATE equipment_weights 
-         SET name = $1, weight = $2, weight_unit = $3, is_favorite = $4 
-         WHERE id = $5`,
+         SET name = $1, weight = $2, weight_unit = $3, is_favorite = $4, 
+         is_in_plate_calculator = $5 
+         WHERE id = $6`,
         [
           nameInput,
           weight,
           operatingEquipmentWeight.weight_unit,
           operatingEquipmentWeight.is_favorite,
+          operatingEquipmentWeight.is_in_plate_calculator,
           operatingEquipmentWeight.id,
         ]
       );
