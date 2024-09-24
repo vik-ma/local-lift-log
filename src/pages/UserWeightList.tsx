@@ -9,6 +9,7 @@ import {
 } from "../components";
 import {
   ConvertEmptyStringToNull,
+  ConvertNumberToTwoDecimals,
   DeleteItemFromList,
   DeleteUserWeightWithId,
   FormatDateTimeString,
@@ -131,7 +132,7 @@ export default function UserWeightList() {
     )
       return;
 
-    const newWeight = Number(userWeightInput);
+    const newWeight = ConvertNumberToTwoDecimals(Number(userWeightInput));
 
     const commentToInsert = ConvertEmptyStringToNull(commentInput);
 

@@ -84,7 +84,7 @@ export const useUserWeightInput = (
   const updateUserWeight = async () => {
     if (latestUserWeight.id === 0 || !isWeightInputValid) return;
 
-    const newWeight = Number(userWeightInput);
+    const newWeight = ConvertNumberToTwoDecimals(Number(userWeightInput));
 
     const commentToInsert = ConvertEmptyStringToNull(weightCommentInput);
 
