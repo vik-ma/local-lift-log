@@ -15,7 +15,6 @@ import {
   UseExerciseListReturnType,
   UseDisclosureReturnType,
   PresetsType,
-  UseCalculationModalReturnType,
 } from "../../typings";
 import { useState } from "react";
 
@@ -36,7 +35,7 @@ type SetModalProps = {
   userSettings: UserSettings;
   exerciseList: UseExerciseListReturnType;
   setPresetsType: React.Dispatch<React.SetStateAction<PresetsType>>;
-  calculationModal: UseCalculationModalReturnType;
+  calculationModal: UseDisclosureReturnType;
   numMultisetSets?: number;
 };
 

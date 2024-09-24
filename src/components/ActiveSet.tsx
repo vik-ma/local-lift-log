@@ -23,7 +23,6 @@ import {
   UserWeight,
   UseDisclosureReturnType,
   PresetsType,
-  UseCalculationModalReturnType,
 } from "../typings";
 import { useSetTrackingInputs } from "../hooks";
 import { useMemo } from "react";
@@ -78,7 +77,7 @@ type ActiveSetProps = {
   populateUserWeightValues: () => void;
   isUserWeightOlderThanOneWeek: boolean;
   setPresetsType: React.Dispatch<React.SetStateAction<PresetsType>>;
-  calculationModal: UseCalculationModalReturnType;
+  calculationModal: UseDisclosureReturnType;
 };
 
 export const ActiveSet = ({

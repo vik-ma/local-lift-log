@@ -6,7 +6,6 @@ import {
   UserWeight,
   UseDisclosureReturnType,
   PresetsType,
-  UseCalculationModalReturnType,
 } from "../typings";
 import {
   WeightUnitDropdown,
@@ -32,7 +31,7 @@ type SetValueInputsProps = {
   populateUserWeightValues?: () => void;
   isUserWeightOlderThanOneWeek?: boolean;
   setPresetsType: React.Dispatch<React.SetStateAction<PresetsType>>;
-  calculationModal: UseCalculationModalReturnType;
+  calculationModal: UseDisclosureReturnType;
 };
 
 type Increment = {
@@ -319,6 +318,16 @@ export const SetValueInputs = ({
     setSetTrackingValuesInput(updatedSetInputs);
   };
 
+  const handleCalculatorButton = (isWeight: boolean) => {
+    if (isWeight) {
+      setPresetsType("equipment");
+    } else {
+      setPresetsType("distance");
+    }
+
+    calculationModal.onOpen();
+  };
+
   return (
     <div className="flex flex-wrap gap-x-1 gap-y-1.5 px-1 justify-evenly">
       {!!operatingSet.is_tracking_weight && (
@@ -351,7 +360,12 @@ export const SetValueInputs = ({
             targetType="set"
             isSmall={true}
           />
-          <Button variant="flat" size="sm" isIconOnly>
+          <Button
+            variant="flat"
+            size="sm"
+            isIconOnly
+            onPress={() => handleCalculatorButton(true)}
+          >
             <CalculateIcon />
           </Button>
         </div>
@@ -412,7 +426,12 @@ export const SetValueInputs = ({
             targetType="set"
             isSmall={true}
           />
-          <Button variant="flat" size="sm" isIconOnly>
+          <Button
+            variant="flat"
+            size="sm"
+            isIconOnly
+            onPress={() => handleCalculatorButton(false)}
+          >
             <CalculateIcon />
           </Button>
         </div>

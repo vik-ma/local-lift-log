@@ -17,7 +17,6 @@ import {
   UserWeight,
   UseDisclosureReturnType,
   PresetsType,
-  UseCalculationModalReturnType,
 } from "../typings";
 import { useNumSetsOptions } from "../hooks";
 
@@ -30,7 +29,7 @@ type SetValueConfigProps = {
   userSettings: UserSettings;
   clearSetInputValues: (isOperatingSet: boolean) => void;
   setPresetsType: React.Dispatch<React.SetStateAction<PresetsType>>;
-  calculationModal: UseCalculationModalReturnType;
+  calculationModal: UseDisclosureReturnType;
   numNewSets?: string;
   setNumNewSets?: React.Dispatch<React.SetStateAction<string>>;
   isMultiset?: boolean;
