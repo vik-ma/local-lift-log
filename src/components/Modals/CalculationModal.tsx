@@ -24,7 +24,7 @@ import {
   SearchInput,
 } from "..";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { CrossCircleIcon } from "../../assets";
+import { CrossCircleIcon, WeightPlatesIcon } from "../../assets";
 import {
   ConvertDistanceValue,
   ConvertInputStringToNumber,
@@ -90,6 +90,7 @@ export const CalculationModal = ({
     filteredDistances,
     isLoadingEquipment,
     isLoadingDistance,
+    togglePlateCalculator,
   } = usePresetsList;
 
   const { calculationModal, calculationModalPage, setCalculationModalPage } =
@@ -857,14 +858,39 @@ export const CalculationModal = ({
                                 }
                               >
                                 <div className="flex flex-col justify-start items-start pl-2 py-1">
-                                  <span className="w-[20rem] truncate text-left">
+                                  <span className="w-[16.25rem] truncate text-left">
                                     {equipment.name}
                                   </span>
                                   <span className="text-xs text-secondary text-left">
                                     {equipment.weight} {equipment.weight_unit}
                                   </span>
                                 </div>
-                                <div className="flex items-center pr-2">
+                                <div className="flex gap-1 items-center pr-2">
+                                  <Button
+                                    aria-label={
+                                      equipment.is_in_plate_calculator === 1
+                                        ? `Remove ${equipment.name} From Plate Calculator`
+                                        : `Add ${equipment.name} To Plate Calculator`
+                                    }
+                                    isIconOnly
+                                    className="z-1 w-[3.5rem]"
+                                    color={
+                                      equipment.is_in_plate_calculator === 1
+                                        ? "success"
+                                        : "default"
+                                    }
+                                    variant="light"
+                                    onPress={() =>
+                                      togglePlateCalculator(equipment)
+                                    }
+                                  >
+                                    <WeightPlatesIcon
+                                      isChecked={
+                                        equipment.is_in_plate_calculator === 1
+                                      }
+                                      size={31}
+                                    />
+                                  </Button>
                                   <FavoriteButton
                                     name={equipment.name}
                                     isFavorite={!!equipment.is_favorite}
