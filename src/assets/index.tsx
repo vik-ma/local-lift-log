@@ -20,3 +20,4 @@ export { DivideIcon } from "./DivideIcon";
 export { BackspaceIcon } from "./BackspaceIcon";
 export { EqualsIcon } from "./EqualsIcon";
 export { WeightPlatesIcon } from "./WeightPlatesIcon";
+export { CalculateIcon } from "./CalculateIcon";
