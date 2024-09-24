@@ -18,6 +18,7 @@ import {
   ShouldSetTrackingValueButtonBeDisabled,
 } from "../helpers";
 import { useMemo } from "react";
+import { CalculateIcon } from "../assets";
 
 type SetValueInputsProps = {
   operatingSet: WorkoutSet;
@@ -344,6 +345,9 @@ export const SetValueInputs = ({
             targetType="set"
             isSmall={true}
           />
+          <Button variant="flat" size="sm" isIconOnly>
+            <CalculateIcon />
+          </Button>
         </div>
       )}
       {!!operatingSet.is_tracking_reps && (
@@ -402,6 +406,9 @@ export const SetValueInputs = ({
             targetType="set"
             isSmall={true}
           />
+          <Button variant="flat" size="sm" isIconOnly>
+            <CalculateIcon />
+          </Button>
         </div>
       )}
       {!!operatingSet.is_tracking_time && (
