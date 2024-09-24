@@ -14,6 +14,8 @@ import {
   UseSetTrackingInputsReturnType,
   UseExerciseListReturnType,
   UseDisclosureReturnType,
+  PresetsType,
+  UseCalculationModalReturnType,
 } from "../../typings";
 import { useState } from "react";
 
@@ -33,6 +35,8 @@ type SetModalProps = {
   clearSetInputValues: (isOperatingSet: boolean) => void;
   userSettings: UserSettings;
   exerciseList: UseExerciseListReturnType;
+  setPresetsType: React.Dispatch<React.SetStateAction<PresetsType>>;
+  calculationModal: UseCalculationModalReturnType;
   numMultisetSets?: number;
 };
 
@@ -50,6 +54,8 @@ export const SetModal = ({
   clearSetInputValues,
   userSettings,
   exerciseList,
+  calculationModal,
+  setPresetsType,
   numMultisetSets,
 }: SetModalProps) => {
   const [numNewSets, setNumNewSets] = useState<string>("3");
@@ -85,6 +91,8 @@ export const SetModal = ({
                   numMultisetSets={numMultisetSets}
                   multisetSetTarget={multisetSetTarget}
                   setMultisetSetTarget={setMultisetSetTarget}
+                  setPresetsType={setPresetsType}
+                  calculationModal={calculationModal}
                 />
               )}
             </ModalBody>

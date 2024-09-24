@@ -5,6 +5,8 @@ import {
   UserSettings,
   UserWeight,
   UseDisclosureReturnType,
+  PresetsType,
+  UseCalculationModalReturnType,
 } from "../typings";
 import {
   WeightUnitDropdown,
@@ -29,6 +31,8 @@ type SetValueInputsProps = {
   userWeightModal?: UseDisclosureReturnType;
   populateUserWeightValues?: () => void;
   isUserWeightOlderThanOneWeek?: boolean;
+  setPresetsType: React.Dispatch<React.SetStateAction<PresetsType>>;
+  calculationModal: UseCalculationModalReturnType;
 };
 
 type Increment = {
@@ -57,6 +61,8 @@ export const SetValueInputs = ({
   userWeightModal,
   populateUserWeightValues,
   isUserWeightOlderThanOneWeek,
+  setPresetsType,
+  calculationModal,
 }: SetValueInputsProps) => {
   const {
     setTrackingValuesInput,

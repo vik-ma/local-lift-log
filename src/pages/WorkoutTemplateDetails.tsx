@@ -233,6 +233,8 @@ export default function WorkoutTemplateDetails() {
         userSettings={userSettings}
         exerciseList={exerciseList}
         numMultisetSets={numMultisetSets}
+        setPresetsType={presetsList.setPresetsType}
+        calculationModal={calculationModal}
       />
       <MultisetModal
         multisetModal={multisetModal}

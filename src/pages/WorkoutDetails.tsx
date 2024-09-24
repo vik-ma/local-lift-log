@@ -460,6 +460,8 @@ export default function WorkoutDetails() {
         userSettings={userSettings}
         exerciseList={exerciseList}
         numMultisetSets={numMultisetSets}
+        setPresetsType={presetsList.setPresetsType}
+        calculationModal={calculationModal}
       />
       <MultisetModal
         multisetModal={multisetModal}
@@ -585,6 +587,8 @@ export default function WorkoutDetails() {
           userWeightModal={userWeightModal}
           populateUserWeightValues={populateUserWeightValues}
           isUserWeightOlderThanOneWeek={isUserWeightOlderThanOneWeek}
+          setPresetsType={presetsList.setPresetsType}
+          calculationModal={calculationModal}
         />
       </div>
     </>
