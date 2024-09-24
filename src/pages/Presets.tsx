@@ -746,7 +746,7 @@ export default function Presets() {
                                 radius="lg"
                                 variant="light"
                               >
-                                <VerticalMenuIcon size={19} />
+                                <VerticalMenuIcon size={19} color="#888" />
                               </Button>
                             </DropdownTrigger>
                             <DropdownMenu
@@ -874,7 +874,7 @@ export default function Presets() {
                               radius="lg"
                               variant="light"
                             >
-                              <VerticalMenuIcon size={19} />
+                              <VerticalMenuIcon size={19} color="#888" />
                             </Button>
                           </DropdownTrigger>
                           <DropdownMenu

@@ -426,7 +426,7 @@ export default function ExerciseList() {
                           radius="lg"
                           variant="light"
                         >
-                          <VerticalMenuIcon size={19} />
+                          <VerticalMenuIcon size={19} color="#888" />
                         </Button>
                       </DropdownTrigger>
                       <DropdownMenu
