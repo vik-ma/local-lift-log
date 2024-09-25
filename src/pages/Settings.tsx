@@ -414,12 +414,15 @@ export default function Settings() {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader>Equipment Weights</ModalHeader>
+              <ModalHeader>Set Default Equipment Weight Handle</ModalHeader>
               <ModalBody>
                 <div className="h-[400px] flex flex-col gap-2">
                   <PresetsModalList
                     presetsList={presetsList}
                     handlePresetClick={() => {}}
+                    defaultEquipmentWeightId={
+                      userSettings.default_equipment_weight_id
+                    }
                   />
                 </div>
               </ModalBody>

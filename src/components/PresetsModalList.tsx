@@ -10,11 +10,13 @@ import {
 type PresetsModalListProps = {
   presetsList: UsePresetsListReturnType;
   handlePresetClick: (equipment?: EquipmentWeight, distance?: Distance) => void;
+  defaultEquipmentWeightId?: number;
 };
 
 export const PresetsModalList = ({
   presetsList,
   handlePresetClick,
+  defaultEquipmentWeightId,
 }: PresetsModalListProps) => {
   const {
     presetsType,
@@ -65,7 +67,11 @@ export const PresetsModalList = ({
             <>
               {filteredEquipmentWeights.map((equipment) => (
                 <div
-                  className="flex justify-between items-center gap-1 cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                  className={
+                    equipment.id === defaultEquipmentWeightId
+                      ? "flex justify-between items-center gap-1 cursor-pointer bg-lime-100 border-2 border-lime-300 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                      : "flex justify-between items-center gap-1 cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                  }
                   key={`equipment-${equipment.id}`}
                   onClick={() => handlePresetClick(equipment, undefined)}
                 >
