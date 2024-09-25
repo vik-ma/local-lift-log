@@ -14,6 +14,11 @@ import {
   Button,
   useDisclosure,
   Input,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
 } from "@nextui-org/react";
 import {
   LoadingSpinner,
@@ -28,7 +33,7 @@ import {
 } from "../components";
 import toast, { Toaster } from "react-hot-toast";
 import Database from "tauri-plugin-sql-api";
-import { useTimeInputMap } from "../hooks";
+import { usePresetsList, useTimeInputMap } from "../hooks";
 
 type DefaultIncrementInputValidityMap = {
   weight: boolean;
@@ -42,6 +47,7 @@ export default function Settings() {
   const [isTimeInputInvalid, setIsTimeInputInvalid] = useState<boolean>(false);
 
   const settingsModal = useDisclosure();
+  const presetModal = useDisclosure();
 
   const emptyDefaultIncrementValues: DefaultIncrementInputs = useMemo(() => {
     return {
@@ -51,6 +57,8 @@ export default function Settings() {
       resistanceLevel: "",
     };
   }, []);
+
+  const presetList = usePresetsList(false, false);
 
   const [defaultIncrementInputValues, setDefaultIncrementInputValues] =
     useState<DefaultIncrementInputs>(emptyDefaultIncrementValues);
@@ -390,6 +398,24 @@ export default function Settings() {
         isRestoreSettings={true}
         isDismissible={true}
       />
+      <Modal
+        isOpen={presetModal.isOpen}
+        onOpenChange={presetModal.onOpenChange}
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader>Equipment Weights</ModalHeader>
+              <ModalBody></ModalBody>
+              <ModalFooter>
+                <Button color="danger" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
       <div className="flex flex-col items-center gap-4">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">
           <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">
@@ -514,6 +540,12 @@ export default function Settings() {
                 handleSaveCalculationStringChange(value)
               }
             />
+          </div>
+          <div className="flex gap-3 items-center justify-between">
+            <span className="text-lg">Default Equipment Weight Handle</span>
+            <Button color="secondary" variant="flat" size="sm">
+              Set
+            </Button>
           </div>
           <h3 className="flex justify-center text-lg font-medium">
             Default Increments
