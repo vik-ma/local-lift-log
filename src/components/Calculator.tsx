@@ -297,10 +297,9 @@ export const Calculator = ({
           <PlusIcon size={36} color="#848484" />
         </button>
       </div>
-      <div className="flex justify-end pt-1.5">
+      <div className="flex justify-end pt-1">
         <Button
-          variant="flat"
-          color="secondary"
+          color="primary"
           isDisabled={isCalculationInvalid}
           onPress={() => buttonAction(input)}
         >

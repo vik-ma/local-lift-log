@@ -846,6 +846,7 @@ export const CalculationModal = ({
                 <Button
                   color="primary"
                   isDisabled={
+                    calculationModalPage !== "base" ||
                     (presetsType === "equipment" && resultWeight === 0) ||
                     (presetsType === "distance" && resultDistance === 0)
                   }
