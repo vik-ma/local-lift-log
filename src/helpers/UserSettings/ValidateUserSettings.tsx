@@ -77,5 +77,7 @@ export const ValidateUserSettings = (userSettings: UserSettings): boolean => {
 
   if (!IsNumberValidBinary(userSettings.save_calculation_string)) return false;
 
+  if (!IsNumberValidId(userSettings.default_equipment_weight_id)) return false;
+
   return true;
 };

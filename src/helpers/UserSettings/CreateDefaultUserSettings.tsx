@@ -40,6 +40,8 @@ export const CreateDefaultUserSettings = async (
 
   const save_calculation_string = 1;
 
+  const default_equipment_weight_id = 1;
+
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -57,8 +59,8 @@ export const CreateDefaultUserSettings = async (
         active_tracking_measurements, locale, clock_style, time_input_behavior_hhmmss, 
         time_input_behavior_mmss, show_workout_rating, default_increment_weight, 
         default_increment_distance, default_increment_time, default_increment_resistance_level,
-        save_calculation_string) 
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)`,
+        save_calculation_string, default_equipment_weight_id) 
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18)`,
       [
         show_timestamp_on_completed_set,
         active_routine_id,
@@ -77,6 +79,7 @@ export const CreateDefaultUserSettings = async (
         default_increment_time,
         default_increment_resistance_level,
         save_calculation_string,
+        default_equipment_weight_id,
       ]
     );
 
@@ -101,6 +104,7 @@ export const CreateDefaultUserSettings = async (
       default_increment_time,
       default_increment_resistance_level,
       save_calculation_string,
+      default_equipment_weight_id,
     };
 
     return defaultUserSettings;
