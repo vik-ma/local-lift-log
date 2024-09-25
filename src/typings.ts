@@ -31,9 +31,10 @@ export type UserSettings = {
   default_increment_resistance_level: number;
   save_calculation_string: number;
   default_equipment_weight_id: number;
+  show_calculation_buttons: number;
 };
 
-  export type UserSettingsOptional = {
+export type UserSettingsOptional = {
   id: number;
   show_timestamp_on_completed_set?: number;
   active_routine_id?: number;
