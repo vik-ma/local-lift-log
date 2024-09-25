@@ -1,5 +1,9 @@
 import { useState, useEffect, useMemo } from "react";
-import { UserSettings, DefaultIncrementInputs } from "../typings";
+import {
+  UserSettings,
+  DefaultIncrementInputs,
+  EquipmentWeight,
+} from "../typings";
 import {
   GetUserSettings,
   UpdateAllUserSettings,
@@ -350,6 +354,26 @@ export default function Settings() {
     if (success) setDefaultIncrementOriginalValues(updatedOriginalValues);
   };
 
+  const handleDefaultEquipmentWeightIdChange = async (
+    equipment?: EquipmentWeight
+  ) => {
+    if (
+      userSettings === undefined ||
+      equipment === undefined ||
+      userSettings?.default_equipment_weight_id === equipment.id
+    )
+      return;
+
+    const updatedSettings: UserSettings = {
+      ...userSettings,
+      default_equipment_weight_id: equipment.id,
+    };
+
+    updateSettings(updatedSettings);
+
+    presetModal.onClose();
+  };
+
   const restoreDefaultSettings = async (
     unitType: string,
     locale: string,
@@ -419,7 +443,7 @@ export default function Settings() {
                 <div className="h-[400px] flex flex-col gap-2">
                   <PresetsModalList
                     presetsList={presetsList}
-                    handlePresetClick={() => {}}
+                    handlePresetClick={handleDefaultEquipmentWeightIdChange}
                     defaultEquipmentWeightId={
                       userSettings.default_equipment_weight_id
                     }
