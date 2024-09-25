@@ -457,7 +457,7 @@ export type UsePresetsListReturnType = {
   togglePlateCalculator: (equipmentWeight: EquipmentWeight) => void;
 };
 
-export type CalculationModalPage = "base" | "list" | "calc";
+export type CalculationModalPage = "base" | "list" | "calc" | "plate-calc";
 
 export type UseCalculationModalReturnType = {
   calculationModal: UseDisclosureReturnType;

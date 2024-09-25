@@ -503,6 +503,8 @@ export const CalculationModal = ({
                 <>Calculate {presetText}</>
               ) : calculationModalPage === "list" ? (
                 <>Select {presetText}</>
+              ) : calculationModalPage === "plate-calc" ? (
+                <>Plate Calculator</>
               ) : (
                 <>Calculation</>
               )}
@@ -819,6 +821,8 @@ export const CalculationModal = ({
                       buttonAction={addCalculationString}
                     />
                   </>
+                ) : calculationModalPage === "plate-calc" ? (
+                  <></>
                 ) : (
                   <>
                     <SearchInput
@@ -949,12 +953,20 @@ export const CalculationModal = ({
             </ModalBody>
             <ModalFooter className="flex justify-between">
               <div className="flex gap-1">
-                {calculationModalPage !== "base" && (
+                {calculationModalPage !== "base" ? (
                   <Button
                     variant="flat"
                     onPress={() => setCalculationModalPage("base")}
                   >
                     Back
+                  </Button>
+                ) : (
+                  <Button
+                    color="secondary"
+                    variant="flat"
+                    onPress={() => setCalculationModalPage("plate-calc")}
+                  >
+                    Plate Calculator
                   </Button>
                 )}
               </div>
