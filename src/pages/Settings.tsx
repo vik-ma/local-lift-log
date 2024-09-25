@@ -30,6 +30,7 @@ import {
   TimeInputBehaviorDropdown,
   SettingsModal,
   TimeInput,
+  PresetsModalList,
 } from "../components";
 import toast, { Toaster } from "react-hot-toast";
 import Database from "tauri-plugin-sql-api";
@@ -58,7 +59,7 @@ export default function Settings() {
     };
   }, []);
 
-  const presetList = usePresetsList(false, false);
+  const presetsList = usePresetsList(false, false);
 
   const [defaultIncrementInputValues, setDefaultIncrementInputValues] =
     useState<DefaultIncrementInputs>(emptyDefaultIncrementValues);
@@ -378,6 +379,14 @@ export default function Settings() {
     }
   };
 
+  const handleSetDefaultEquipmentWeightButton = async () => {
+    if (presetsList.isLoadingEquipment) {
+      await presetsList.getEquipmentWeights();
+    }
+
+    presetModal.onOpen();
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -406,9 +415,16 @@ export default function Settings() {
           {(onClose) => (
             <>
               <ModalHeader>Equipment Weights</ModalHeader>
-              <ModalBody></ModalBody>
+              <ModalBody>
+                <div className="h-[400px] flex flex-col gap-2">
+                  <PresetsModalList
+                    presetsList={presetsList}
+                    handlePresetClick={() => {}}
+                  />
+                </div>
+              </ModalBody>
               <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
+                <Button color="primary" variant="light" onPress={onClose}>
                   Close
                 </Button>
               </ModalFooter>
@@ -543,7 +559,11 @@ export default function Settings() {
           </div>
           <div className="flex gap-3 items-center justify-between">
             <span className="text-lg">Default Equipment Weight Handle</span>
-            <Button color="secondary" variant="flat" size="sm">
+            <Button
+              color="primary"
+              size="sm"
+              onPress={handleSetDefaultEquipmentWeightButton}
+            >
               Set
             </Button>
           </div>
