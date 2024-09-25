@@ -32,6 +32,7 @@ diesel::table! {
         default_increment_resistance_level -> Integer,
         save_calculation_string -> SmallInt,
         default_equipment_weight_id -> SmallInt,
+        show_calculation_buttons -> SmallInt,
     }
 }
 

@@ -35,6 +35,7 @@ pub struct UserSetting {
     pub default_increment_resistance_level: i32,
     pub save_calculation_string: i16,
     pub default_equipment_weight_id: i16,
+    pub show_calculation_buttons: i16,
 }
 
 #[derive(Queryable, Selectable)]
