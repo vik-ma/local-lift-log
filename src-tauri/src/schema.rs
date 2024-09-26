@@ -33,6 +33,7 @@ diesel::table! {
         save_calculation_string -> SmallInt,
         default_equipment_weight_id -> SmallInt,
         show_calculation_buttons -> SmallInt,
+        default_increment_calculation_multiplier -> SmallInt,
     }
 }
 
