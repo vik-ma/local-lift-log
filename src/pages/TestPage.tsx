@@ -29,6 +29,7 @@ export default function Test() {
         weightUnit="kg"
         distanceUnit="km"
         calculationString={"e[p35x3,p36x1,c(9 + 9)x3]x1"}
+        multiplierIncrement={2}
       />
       <div className="flex flex-col gap-2">
         <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">

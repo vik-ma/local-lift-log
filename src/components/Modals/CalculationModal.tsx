@@ -42,6 +42,7 @@ type CalculationModalProps = {
   weightUnit: string;
   distanceUnit: string;
   calculationString: string | null;
+  multiplierIncrement: number;
 };
 
 export const CalculationModal = ({
@@ -51,6 +52,7 @@ export const CalculationModal = ({
   weightUnit,
   distanceUnit,
   calculationString,
+  multiplierIncrement,
 }: CalculationModalProps) => {
   const [calculationListWeight, setCalculationListWeight] = useState<
     CalculationListItem[]
@@ -311,14 +313,15 @@ export const CalculationModal = ({
         ? 1
         : Number(totalMultiplierInput);
 
-    const disableButton = isInputInvalid || multiplier - 1 <= 0;
+    const disableButton =
+      isInputInvalid || multiplier - multiplierIncrement <= 0;
 
     return {
       totalMultiplier: multiplier,
       disableTotalMultiplierDecreaseButton: disableButton,
       disableTotalMultiplierIncreaseButton: isInputInvalid,
     };
-  }, [totalMultiplierInput]);
+  }, [totalMultiplierInput, multiplierIncrement]);
 
   const resultWeight = useMemo(() => {
     return ConvertNumberToTwoDecimals(totalWeight * totalMultiplier);
@@ -338,7 +341,7 @@ export const CalculationModal = ({
     const multiplier =
       isInputInvalid || IsStringEmpty(value) ? 1 : Number(value);
 
-    const disableDecreaseButton = isInputInvalid || multiplier - 1 <= 0;
+    const disableDecreaseButton = isInputInvalid || multiplier - multiplierIncrement <= 0;
     const disableIncreaseButton = isInputInvalid;
 
     const updatedCalculationItem = {
@@ -367,7 +370,7 @@ export const CalculationModal = ({
     const multiplier =
       isInputInvalid || IsStringEmpty(value) ? 1 : Number(value);
 
-    const disableDecreaseButton = isInputInvalid || multiplier - 1 <= 0;
+    const disableDecreaseButton = isInputInvalid || multiplier - multiplierIncrement <= 0;
     const disableIncreaseButton = isInputInvalid;
 
     const updatedCalculationItem = {
@@ -402,7 +405,7 @@ export const CalculationModal = ({
           ? 1
           : ConvertInputStringToNumber(totalMultiplierInput);
 
-        const newValue = parseFloat((totalInputNum + modifier).toFixed(2));
+        const newValue = parseFloat((totalInputNum + modifier * multiplierIncrement).toFixed(2));
 
         const updatedInput = newValue === 1 ? "" : newValue.toString();
         setTotalMultiplierInput(updatedInput);
@@ -416,7 +419,7 @@ export const CalculationModal = ({
           ? 1
           : ConvertInputStringToNumber(calculationItem.multiplierInput);
 
-        const newValue = parseFloat((inputNum + modifier).toFixed(2));
+        const newValue = parseFloat((inputNum + modifier * multiplierIncrement).toFixed(2));
 
         const updatedInput = newValue === 1 ? "" : newValue.toString();
 

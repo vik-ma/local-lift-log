@@ -519,6 +519,9 @@ export default function WorkoutDetails() {
           weightUnit={operatingSet.weight_unit}
           distanceUnit={operatingSet.distance_unit}
           calculationString={calculationString}
+          multiplierIncrement={
+            userSettings.default_increment_calculation_multiplier
+          }
         />
       )}
       <div className="flex flex-col">
