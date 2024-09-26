@@ -234,7 +234,7 @@ export default function WorkoutTemplateDetails() {
         exerciseList={exerciseList}
         numMultisetSets={numMultisetSets}
         setPresetsType={presetsList.setPresetsType}
-        calculationModal={calculationModal}
+        calculationModal={calculationModal.calculationModal}
       />
       <MultisetModal
         multisetModal={multisetModal}
@@ -264,14 +264,16 @@ export default function WorkoutTemplateDetails() {
         header="Set Note"
         buttonAction={handleTextInputModalButton}
       />
-      <CalculationModal
-        useCalculationModal={calculationModal}
-        usePresetsList={presetsList}
-        doneButtonAction={() => {}}
-        weightUnit={operatingSet.weight_unit}
-        distanceUnit={operatingSet.distance_unit}
-        calculationString={calculationString}
-      />
+      {userSettings.show_calculation_buttons === 1 && (
+        <CalculationModal
+          useCalculationModal={calculationModal}
+          usePresetsList={presetsList}
+          doneButtonAction={() => {}}
+          weightUnit={operatingSet.weight_unit}
+          distanceUnit={operatingSet.distance_unit}
+          calculationString={calculationString}
+        />
+      )}
       <div className="flex flex-col">
         <DetailsHeader
           header={workoutTemplate.name}

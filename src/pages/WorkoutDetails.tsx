@@ -511,14 +511,16 @@ export default function WorkoutDetails() {
         buttonAction={handleUserWeightModalAddButton}
         isEditing={false}
       />
-      <CalculationModal
-        useCalculationModal={calculationModal}
-        usePresetsList={presetsList}
-        doneButtonAction={() => {}}
-        weightUnit={operatingSet.weight_unit}
-        distanceUnit={operatingSet.distance_unit}
-        calculationString={calculationString}
-      />
+      {userSettings.show_calculation_buttons === 1 && (
+        <CalculationModal
+          useCalculationModal={calculationModal}
+          usePresetsList={presetsList}
+          doneButtonAction={() => {}}
+          weightUnit={operatingSet.weight_unit}
+          distanceUnit={operatingSet.distance_unit}
+          calculationString={calculationString}
+        />
+      )}
       <div className="flex flex-col">
         <DetailsHeader
           header={workout.formattedDate ?? workout.date}
