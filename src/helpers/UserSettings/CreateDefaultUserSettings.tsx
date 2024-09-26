@@ -7,35 +7,33 @@ export const CreateDefaultUserSettings = async (
   locale: string,
   clockStyle: string
 ): Promise<UserSettings | undefined> => {
-  const show_timestamp_on_completed_set: number = 1;
-  const active_routine_id: number = 0;
+  const show_timestamp_on_completed_set = 1;
+  const active_routine_id = 0;
 
-  const default_unit_weight: string = useMetricUnits ? "kg" : "lbs";
-  const default_unit_distance: string = useMetricUnits ? "km" : "mi";
-  const default_unit_measurement: string = useMetricUnits ? "cm" : "in";
+  const default_unit_weight = useMetricUnits ? "kg" : "lbs";
+  const default_unit_distance = useMetricUnits ? "km" : "mi";
+  const default_unit_measurement = useMetricUnits ? "cm" : "in";
 
-  const active_tracking_measurements: string = "";
+  const active_tracking_measurements = "";
 
-  const default_time_input: string = "hhmmss";
+  const default_time_input = "hhmmss";
 
-  const default_locale: string = LocaleList().some(
-    (item) => item.code === locale
-  )
+  const default_locale = LocaleList().some((item) => item.code === locale)
     ? locale
     : "en-GB";
 
-  const default_clock_style: string =
+  const default_clock_style =
     clockStyle === "24h" || clockStyle === "12h" ? clockStyle : "24h";
 
-  const default_time_input_behavior_hhmmss: string = "first";
+  const default_time_input_behavior_hhmmss = "first";
 
-  const default_time_input_behavior_mmss: string = "second";
+  const default_time_input_behavior_mmss = "second";
 
-  const default_show_workout_rating: number = 1;
+  const default_show_workout_rating = 1;
 
   const default_increment_weight = 1;
   const default_increment_distance = 1;
-  const default_increment_time = 1;
+  const default_increment_time = 60;
   const default_increment_resistance_level = 1;
 
   const save_calculation_string = 1;
