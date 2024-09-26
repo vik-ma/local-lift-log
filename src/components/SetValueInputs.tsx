@@ -360,14 +360,16 @@ export const SetValueInputs = ({
             targetType="set"
             isSmall={true}
           />
-          <Button
-            variant="flat"
-            size="sm"
-            isIconOnly
-            onPress={() => handleCalculatorButton(true)}
-          >
-            <CalculateIcon />
-          </Button>
+          {userSettings.show_calculation_buttons === 1 && (
+            <Button
+              variant="flat"
+              size="sm"
+              isIconOnly
+              onPress={() => handleCalculatorButton(true)}
+            >
+              <CalculateIcon />
+            </Button>
+          )}
         </div>
       )}
       {!!operatingSet.is_tracking_reps && (
@@ -426,14 +428,16 @@ export const SetValueInputs = ({
             targetType="set"
             isSmall={true}
           />
-          <Button
-            variant="flat"
-            size="sm"
-            isIconOnly
-            onPress={() => handleCalculatorButton(false)}
-          >
-            <CalculateIcon />
-          </Button>
+          {userSettings.show_calculation_buttons === 1 && (
+            <Button
+              variant="flat"
+              size="sm"
+              isIconOnly
+              onPress={() => handleCalculatorButton(false)}
+            >
+              <CalculateIcon />
+            </Button>
+          )}
         </div>
       )}
       {!!operatingSet.is_tracking_time && (
