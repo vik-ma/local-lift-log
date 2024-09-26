@@ -81,5 +81,12 @@ export const ValidateUserSettings = (userSettings: UserSettings): boolean => {
 
   if (!IsNumberValidBinary(userSettings.show_calculation_buttons)) return false;
 
+  if (
+    !IsNumberValidAndAbove0(
+      userSettings.default_increment_calculation_multiplier
+    )
+  )
+    return false;
+
   return true;
 };
