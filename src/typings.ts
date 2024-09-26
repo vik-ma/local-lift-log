@@ -48,6 +48,13 @@ export type UserSettingsOptional = {
   time_input_behavior_hhmmss?: string;
   time_input_behavior_mmss?: string;
   show_workout_rating?: number;
+  default_increment_weight?: number;
+  default_increment_distance?: number;
+  default_increment_time?: number;
+  default_increment_resistance_level?: number;
+  save_calculation_string?: number;
+  default_equipment_weight_id?: number;
+  show_calculation_buttons?: number;
 };
 
 export type Exercise = {
