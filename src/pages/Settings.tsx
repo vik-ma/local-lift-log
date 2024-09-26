@@ -44,6 +44,7 @@ type DefaultIncrementInputValidityMap = {
   weight: boolean;
   distance: boolean;
   resistanceLevel: boolean;
+  calculationMultiplier: boolean;
 };
 
 export default function Settings() {
@@ -60,6 +61,7 @@ export default function Settings() {
       distance: "",
       time: 0,
       resistanceLevel: "",
+      calculationMultiplier: "",
     };
   }, []);
 
@@ -81,6 +83,9 @@ export default function Settings() {
         resistanceLevel: IsStringInvalidNumberOr0(
           defaultIncrementInputValues.resistanceLevel
         ),
+        calculationMultiplier: IsStringInvalidNumberOr0(
+          defaultIncrementInputValues.calculationMultiplier
+        ),
       };
       return values;
     }, [defaultIncrementInputValues]);
@@ -99,6 +104,8 @@ export default function Settings() {
           time: settings.default_increment_time,
           resistanceLevel:
             settings.default_increment_resistance_level.toString(),
+          calculationMultiplier:
+            settings.default_increment_calculation_multiplier.toString(),
         };
 
         setDefaultIncrementInputValues(defaultIncrementValues);
@@ -347,6 +354,27 @@ export default function Settings() {
       }));
 
       updatedOriginalValues.resistanceLevel = updatedInputString;
+    } else if (key === "calculation-multiplier") {
+      if (
+        defaultIncrementInputsValidityMap.calculationMultiplier ||
+        defaultIncrementOriginalValues.calculationMultiplier ===
+          defaultIncrementInputValues.calculationMultiplier
+      )
+        return;
+
+      const newValue = ConvertNumberToTwoDecimals(
+        Number(defaultIncrementInputValues.calculationMultiplier)
+      );
+
+      const updatedInputString = newValue.toString();
+
+      updatedSettings.default_increment_calculation_multiplier = newValue;
+      setDefaultIncrementInputValues((prev) => ({
+        ...prev,
+        calculationMultiplier: updatedInputString,
+      }));
+
+      updatedOriginalValues.calculationMultiplier = updatedInputString;
     } else return;
 
     const success = await updateSettings(updatedSettings);
@@ -746,6 +774,41 @@ export default function Settings() {
                 }
                 onPress={() =>
                   handleDefaultIncrementValueChange("resistance-level")
+                }
+              >
+                Change
+              </Button>
+            </div>
+          </div>
+          <div className="flex gap-3 items-center justify-between">
+            <span className="text-lg">Calculation Multiplier</span>
+            <div className="flex gap-2 items-center">
+              <Input
+                aria-label="Default Calculation Multiplier Increment Input Field"
+                className="w-[4rem]"
+                size="sm"
+                value={defaultIncrementInputValues.calculationMultiplier}
+                variant="faded"
+                onValueChange={(value) =>
+                  setDefaultIncrementInputValues((prev) => ({
+                    ...prev,
+                    calculationMultiplier: value,
+                  }))
+                }
+                isInvalid={
+                  defaultIncrementInputsValidityMap.calculationMultiplier
+                }
+              />
+              <Button
+                color="primary"
+                size="sm"
+                isDisabled={
+                  defaultIncrementInputsValidityMap.calculationMultiplier ||
+                  defaultIncrementOriginalValues.calculationMultiplier ===
+                    defaultIncrementInputValues.calculationMultiplier
+                }
+                onPress={() =>
+                  handleDefaultIncrementValueChange("calculation-multiplier")
                 }
               >
                 Change

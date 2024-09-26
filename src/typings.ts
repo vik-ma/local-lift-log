@@ -391,6 +391,7 @@ export type DefaultIncrementInputs = {
   distance: string;
   time: number;
   resistanceLevel: string;
+  calculationMultiplier: string;
 };
 
 export type DetailHeaderOptionItem = {
