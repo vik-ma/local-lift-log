@@ -123,7 +123,7 @@ export default function Settings() {
     return false;
   };
 
-  const handleSetShowTimestampChange = async (value: boolean) => {
+  const handleShowTimestampChange = async (value: boolean) => {
     if (userSettings === undefined) return;
 
     const updatedSettings: UserSettings = {
@@ -243,7 +243,7 @@ export default function Settings() {
     updateSettings(updatedSettings);
   };
 
-  const handleSetShowWorkoutRatingChange = async (value: boolean) => {
+  const handleShowWorkoutRatingChange = async (value: boolean) => {
     if (userSettings === undefined) return;
 
     const updatedSettings: UserSettings = {
@@ -503,7 +503,7 @@ export default function Settings() {
               isSelected={
                 userSettings.show_timestamp_on_completed_set ? true : false
               }
-              onValueChange={(value) => handleSetShowTimestampChange(value)}
+              onValueChange={(value) => handleShowTimestampChange(value)}
             />
           </div>
           <div className="flex gap-3 items-center justify-between">
@@ -577,7 +577,25 @@ export default function Settings() {
               color="primary"
               size="lg"
               isSelected={userSettings.show_workout_rating ? true : false}
-              onValueChange={(value) => handleSetShowWorkoutRatingChange(value)}
+              onValueChange={(value) => handleShowWorkoutRatingChange(value)}
+            />
+          </div>
+          <h3 className="flex justify-center text-lg font-medium">
+            Calculations
+          </h3>
+          <div className="flex gap-3 items-center justify-between">
+            <span className="text-lg">
+              Show Calculation Buttons Next To Weight And Distance Inputs
+            </span>
+            <Switch
+              aria-label="Show Calculation Buttons Switch Element"
+              className="flex-row-reverse gap-3"
+              color="primary"
+              size="lg"
+              isSelected={userSettings.show_calculation_buttons ? true : false}
+              onValueChange={(value) =>
+                handleShowCalculationButtonsChange(value)
+              }
             />
           </div>
           <div className="flex gap-3 items-center justify-between">
@@ -595,7 +613,7 @@ export default function Settings() {
               }
             />
           </div>
-          <div className="flex gap-3 items-center justify-between">
+          <div className="flex gap-3 items-center justify-between pr-1">
             <span className="text-lg">Default Equipment Weight Handle</span>
             <Button
               color="primary"
@@ -604,21 +622,6 @@ export default function Settings() {
             >
               Set
             </Button>
-          </div>
-          <div className="flex gap-3 items-center justify-between">
-            <span className="text-lg">
-              Show Calculation Buttons Next To Weight And Distance Inputs
-            </span>
-            <Switch
-              aria-label="Show Calculation Buttons Switch Element"
-              className="flex-row-reverse gap-3"
-              color="primary"
-              size="lg"
-              isSelected={userSettings.show_calculation_buttons ? true : false}
-              onValueChange={(value) =>
-                handleShowCalculationButtonsChange(value)
-              }
-            />
           </div>
           <h3 className="flex justify-center text-lg font-medium">
             Default Increments
