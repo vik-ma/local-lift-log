@@ -374,6 +374,17 @@ export default function Settings() {
     presetModal.onClose();
   };
 
+  const handleShowCalculationButtonsChange = async (value: boolean) => {
+    if (userSettings === undefined) return;
+
+    const updatedSettings: UserSettings = {
+      ...userSettings,
+      show_calculation_buttons: value ? 1 : 0,
+    };
+
+    updateSettings(updatedSettings);
+  };
+
   const restoreDefaultSettings = async (
     unitType: string,
     locale: string,
@@ -593,6 +604,21 @@ export default function Settings() {
             >
               Set
             </Button>
+          </div>
+          <div className="flex gap-3 items-center justify-between">
+            <span className="text-lg">
+              Show Calculation Buttons Next To Weight And Distance Inputs
+            </span>
+            <Switch
+              aria-label="Show Calculation Buttons Switch Element"
+              className="flex-row-reverse gap-3"
+              color="primary"
+              size="lg"
+              isSelected={userSettings.show_calculation_buttons ? true : false}
+              onValueChange={(value) =>
+                handleShowCalculationButtonsChange(value)
+              }
+            />
           </div>
           <h3 className="flex justify-center text-lg font-medium">
             Default Increments
