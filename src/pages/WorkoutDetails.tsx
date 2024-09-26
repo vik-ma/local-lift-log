@@ -482,6 +482,8 @@ export default function WorkoutDetails() {
         undoOperatingMultisetChanges={
           multisetActions.undoOperatingMultisetChanges
         }
+        setPresetsType={presetsList.setPresetsType}
+        calculationModal={calculationModal.calculationModal}
       />
       <TimeInputModal
         timeInputModal={timeInputModal}

@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { Multiset, Exercise, WorkoutSet, UserSettings } from "../typings";
 import {
+  useCalculationModal,
   useDefaultMultiset,
   useDefaultSet,
   useExerciseList,
   useMultisetActions,
+  usePresetsList,
   useSetTrackingInputs,
 } from "../hooks";
 import { Button, useDisclosure } from "@nextui-org/react";
@@ -22,6 +24,7 @@ import {
   UpdateItemInList,
 } from "../helpers";
 import {
+  CalculationModal,
   DeleteModal,
   ListPageSearchInput,
   LoadingSpinner,
@@ -35,6 +38,9 @@ export type OperationType = "add" | "edit" | "delete";
 export default function Multisets() {
   const [operationType, setOperationType] = useState<OperationType>("add");
   const [userSettings, setUserSettings] = useState<UserSettings>();
+  const [calculationString, setCalculationString] = useState<string | null>(
+    null
+  );
 
   const defaultMultiset = useDefaultMultiset();
 
@@ -67,6 +73,10 @@ export default function Multisets() {
     defaultMultiset,
     operatingSetInputs,
   });
+
+  const calculationModal = useCalculationModal();
+
+  const presetsList = usePresetsList(false, false);
 
   useEffect(() => {
     const loadUserSettings = async () => {
@@ -450,7 +460,22 @@ export default function Multisets() {
         undoOperatingMultisetChanges={
           multisetActions.undoOperatingMultisetChanges
         }
+        setPresetsType={presetsList.setPresetsType}
+        calculationModal={calculationModal.calculationModal}
       />
+      {userSettings.show_calculation_buttons === 1 && (
+        <CalculationModal
+          useCalculationModal={calculationModal}
+          usePresetsList={presetsList}
+          doneButtonAction={() => {}}
+          weightUnit={operatingSet.weight_unit}
+          distanceUnit={operatingSet.distance_unit}
+          calculationString={calculationString}
+          multiplierIncrement={
+            userSettings.default_increment_calculation_multiplier
+          }
+        />
+      )}
       <div className="flex flex-col items-center gap-1">
         <ListPageSearchInput
           header="Multiset Templates"

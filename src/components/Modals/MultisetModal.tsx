@@ -18,6 +18,7 @@ import {
   UserSettings,
   UseSetTrackingInputsReturnType,
   UseDisclosureReturnType,
+  PresetsType,
 } from "../../typings";
 import {
   ExerciseModalList,
@@ -50,6 +51,8 @@ type MultisetModalProps = {
   showWorkoutItems: boolean;
   operatingSetInputs: UseSetTrackingInputsReturnType;
   undoOperatingMultisetChanges: () => void;
+  setPresetsType: React.Dispatch<React.SetStateAction<PresetsType>>;
+  calculationModal: UseDisclosureReturnType;
 };
 
 export const MultisetModal = ({
@@ -69,6 +72,8 @@ export const MultisetModal = ({
   showWorkoutItems,
   operatingSetInputs,
   undoOperatingMultisetChanges,
+  setPresetsType,
+  calculationModal,
 }: MultisetModalProps) => {
   const [numNewSets, setNumNewSets] = useState<string>("3");
 
@@ -160,6 +165,8 @@ export const MultisetModal = ({
                   userSettings={userSettings}
                   clearSetInputValues={clearSetInputValues}
                   isMultiset={true}
+                  setPresetsType={setPresetsType}
+                  calculationModal={calculationModal}
                 />
               ) : modalPage === "multiset-list" ? (
                 <MultisetTemplateModalList
