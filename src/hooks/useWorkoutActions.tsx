@@ -124,10 +124,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
   const [operatingSet, setOperatingSet] = useState<WorkoutSet>(defaultSet);
 
-  const [calculationString, setCalculationString] = useState<string | null>(
-    null
-  );
-
   const defaultMultiset = useDefaultMultiset();
 
   const [operatingMultiset, setOperatingMultiset] =
@@ -2562,7 +2558,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     populateUserWeightValues,
     isUserWeightOlderThanOneWeek,
     setIsUserWeightOlderThanOneWeek,
-    calculationString,
     presetsList,
     calculationModal,
   };

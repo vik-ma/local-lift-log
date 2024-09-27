@@ -477,6 +477,8 @@ export type UseCalculationModalReturnType = {
   setCalculationModalPage: React.Dispatch<
     React.SetStateAction<CalculationModalPage>
   >;
+  calculationString: string | null;
+  setCalculationString: React.Dispatch<React.SetStateAction<string | null>>;
 };
 
 export type CalculationItemType = "preset" | "calculation" | "number";

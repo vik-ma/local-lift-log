@@ -161,7 +161,6 @@ export default function WorkoutDetails() {
     populateUserWeightValues,
     isUserWeightOlderThanOneWeek,
     setIsUserWeightOlderThanOneWeek,
-    calculationString,
     presetsList,
     calculationModal,
   } = useWorkoutActions(false);
@@ -520,7 +519,6 @@ export default function WorkoutDetails() {
           doneButtonAction={() => {}}
           weightUnit={operatingSet.weight_unit}
           distanceUnit={operatingSet.distance_unit}
-          calculationString={calculationString}
           multiplierIncrement={
             userSettings.default_increment_calculation_multiplier
           }

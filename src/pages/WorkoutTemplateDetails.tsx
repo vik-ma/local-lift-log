@@ -88,7 +88,6 @@ export default function WorkoutTemplateDetails() {
     setSetCommentInput,
     handleTextInputModalButton,
     numMultisetSets,
-    calculationString,
     presetsList,
     calculationModal,
   } = useWorkoutActions(true);
@@ -273,7 +272,6 @@ export default function WorkoutTemplateDetails() {
           doneButtonAction={() => {}}
           weightUnit={operatingSet.weight_unit}
           distanceUnit={operatingSet.distance_unit}
-          calculationString={calculationString}
           multiplierIncrement={
             userSettings.default_increment_calculation_multiplier
           }

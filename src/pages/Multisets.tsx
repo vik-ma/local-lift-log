@@ -38,9 +38,6 @@ export type OperationType = "add" | "edit" | "delete";
 export default function Multisets() {
   const [operationType, setOperationType] = useState<OperationType>("add");
   const [userSettings, setUserSettings] = useState<UserSettings>();
-  const [calculationString, setCalculationString] = useState<string | null>(
-    null
-  );
 
   const defaultMultiset = useDefaultMultiset();
 
@@ -470,7 +467,6 @@ export default function Multisets() {
           doneButtonAction={() => {}}
           weightUnit={operatingSet.weight_unit}
           distanceUnit={operatingSet.distance_unit}
-          calculationString={calculationString}
           multiplierIncrement={
             userSettings.default_increment_calculation_multiplier
           }

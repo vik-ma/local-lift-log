@@ -41,7 +41,6 @@ type CalculationModalProps = {
   doneButtonAction: () => void;
   weightUnit: string;
   distanceUnit: string;
-  calculationString: string | null;
   multiplierIncrement: number;
 };
 
@@ -51,7 +50,6 @@ export const CalculationModal = ({
   doneButtonAction,
   weightUnit,
   distanceUnit,
-  calculationString,
   multiplierIncrement,
 }: CalculationModalProps) => {
   const [calculationListWeight, setCalculationListWeight] = useState<
@@ -84,8 +82,12 @@ export const CalculationModal = ({
     isLoadingDistance,
   } = usePresetsList;
 
-  const { calculationModal, calculationModalPage, setCalculationModalPage } =
-    useCalculationModal;
+  const {
+    calculationModal,
+    calculationModalPage,
+    setCalculationModalPage,
+    calculationString,
+  } = useCalculationModal;
 
   const loadPresets = useCallback(async () => {
     if (presetsType === "equipment" && isLoadingEquipment) {
@@ -341,7 +343,8 @@ export const CalculationModal = ({
     const multiplier =
       isInputInvalid || IsStringEmpty(value) ? 1 : Number(value);
 
-    const disableDecreaseButton = isInputInvalid || multiplier - multiplierIncrement <= 0;
+    const disableDecreaseButton =
+      isInputInvalid || multiplier - multiplierIncrement <= 0;
     const disableIncreaseButton = isInputInvalid;
 
     const updatedCalculationItem = {
@@ -370,7 +373,8 @@ export const CalculationModal = ({
     const multiplier =
       isInputInvalid || IsStringEmpty(value) ? 1 : Number(value);
 
-    const disableDecreaseButton = isInputInvalid || multiplier - multiplierIncrement <= 0;
+    const disableDecreaseButton =
+      isInputInvalid || multiplier - multiplierIncrement <= 0;
     const disableIncreaseButton = isInputInvalid;
 
     const updatedCalculationItem = {
@@ -405,7 +409,9 @@ export const CalculationModal = ({
           ? 1
           : ConvertInputStringToNumber(totalMultiplierInput);
 
-        const newValue = parseFloat((totalInputNum + modifier * multiplierIncrement).toFixed(2));
+        const newValue = parseFloat(
+          (totalInputNum + modifier * multiplierIncrement).toFixed(2)
+        );
 
         const updatedInput = newValue === 1 ? "" : newValue.toString();
         setTotalMultiplierInput(updatedInput);
@@ -419,7 +425,9 @@ export const CalculationModal = ({
           ? 1
           : ConvertInputStringToNumber(calculationItem.multiplierInput);
 
-        const newValue = parseFloat((inputNum + modifier * multiplierIncrement).toFixed(2));
+        const newValue = parseFloat(
+          (inputNum + modifier * multiplierIncrement).toFixed(2)
+        );
 
         const updatedInput = newValue === 1 ? "" : newValue.toString();
 
