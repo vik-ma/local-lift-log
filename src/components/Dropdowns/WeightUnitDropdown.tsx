@@ -11,6 +11,8 @@ export const WeightUnitDropdown = ({
   targetType,
   showLabel,
   isSmall,
+  isSetEdited,
+  setIsSetEdited,
 }: UnitDropdownProps) => {
   const validWeightUnits = useValidWeightUnits();
 
@@ -20,6 +22,10 @@ export const WeightUnitDropdown = ({
         ...prev,
         weight_unit: e.target.value,
       }));
+
+      if (isSetEdited !== undefined && setIsSetEdited && !isSetEdited) {
+        setIsSetEdited(true);
+      }
     }
 
     if (targetType === "set-user-weight-unit" && setSet !== undefined) {

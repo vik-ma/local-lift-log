@@ -11,6 +11,8 @@ export const DistanceUnitDropdown = ({
   targetType,
   showLabel,
   isSmall,
+  isSetEdited,
+  setIsSetEdited,
 }: UnitDropdownProps) => {
   const validDistanceUnits = useValidDistanceUnits();
 
@@ -20,6 +22,10 @@ export const DistanceUnitDropdown = ({
         ...prev,
         distance_unit: e.target.value,
       }));
+
+      if (isSetEdited !== undefined && setIsSetEdited && !isSetEdited) {
+        setIsSetEdited(true);
+      }
     }
 
     if (targetType === "distance" && setDistance !== undefined) {

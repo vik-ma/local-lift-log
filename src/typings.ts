@@ -182,6 +182,8 @@ export type UnitDropdownProps = {
     | "set-user-weight-unit";
   showLabel?: boolean;
   isSmall?: boolean;
+  isSetEdited?: boolean;
+  setIsSetEdited?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export type MeasurementDropdownProps = {

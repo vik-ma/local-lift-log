@@ -421,6 +421,8 @@ export const SetValueInputs = ({
             setSet={setOperatingSet as SetWorkoutSetAction}
             targetType="set"
             isSmall={true}
+            isSetEdited={isSetEdited}
+            setIsSetEdited={setIsSetEdited}
           />
           {userSettings.show_calculation_buttons === 1 && (
             <Button
@@ -479,6 +481,8 @@ export const SetValueInputs = ({
             setSet={setOperatingSet as SetWorkoutSetAction}
             targetType="set"
             isSmall={true}
+            isSetEdited={isSetEdited}
+            setIsSetEdited={setIsSetEdited}
           />
           {userSettings.show_calculation_buttons === 1 && (
             <Button
