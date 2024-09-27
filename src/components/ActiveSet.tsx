@@ -23,6 +23,7 @@ import {
   UserWeight,
   UseDisclosureReturnType,
   PresetsType,
+  UseCalculationModalReturnType,
 } from "../typings";
 import { useSetTrackingInputs } from "../hooks";
 import { useMemo } from "react";
@@ -77,7 +78,7 @@ type ActiveSetProps = {
   populateUserWeightValues: () => void;
   isUserWeightOlderThanOneWeek: boolean;
   setPresetsType: React.Dispatch<React.SetStateAction<PresetsType>>;
-  calculationModal: UseDisclosureReturnType;
+  calculationModal: UseCalculationModalReturnType;
 };
 
 export const ActiveSet = ({
@@ -344,6 +345,7 @@ export const ActiveSet = ({
                         }
                         setPresetsType={setPresetsType}
                         calculationModal={calculationModal}
+                        exercise={activeGroupedSet?.exerciseList[exerciseIndex]}
                       />
                       <div className="flex justify-between">
                         <div className="flex gap-1">

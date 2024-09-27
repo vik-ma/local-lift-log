@@ -233,7 +233,7 @@ export default function WorkoutTemplateDetails() {
         exerciseList={exerciseList}
         numMultisetSets={numMultisetSets}
         setPresetsType={presetsList.setPresetsType}
-        calculationModal={calculationModal.calculationModal}
+        calculationModal={calculationModal}
       />
       <MultisetModal
         multisetModal={multisetModal}
@@ -255,7 +255,7 @@ export default function WorkoutTemplateDetails() {
           multisetActions.undoOperatingMultisetChanges
         }
         setPresetsType={presetsList.setPresetsType}
-        calculationModal={calculationModal.calculationModal}
+        calculationModal={calculationModal}
       />
       <TextInputModal
         textInputModal={textInputModal}

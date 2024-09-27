@@ -458,7 +458,7 @@ export default function Multisets() {
           multisetActions.undoOperatingMultisetChanges
         }
         setPresetsType={presetsList.setPresetsType}
-        calculationModal={calculationModal.calculationModal}
+        calculationModal={calculationModal}
       />
       {userSettings.show_calculation_buttons === 1 && (
         <CalculationModal

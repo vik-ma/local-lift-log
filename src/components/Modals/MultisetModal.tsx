@@ -19,6 +19,7 @@ import {
   UseSetTrackingInputsReturnType,
   UseDisclosureReturnType,
   PresetsType,
+  UseCalculationModalReturnType,
 } from "../../typings";
 import {
   ExerciseModalList,
@@ -52,7 +53,7 @@ type MultisetModalProps = {
   operatingSetInputs: UseSetTrackingInputsReturnType;
   undoOperatingMultisetChanges: () => void;
   setPresetsType: React.Dispatch<React.SetStateAction<PresetsType>>;
-  calculationModal: UseDisclosureReturnType;
+  calculationModal: UseCalculationModalReturnType;
 };
 
 export const MultisetModal = ({
