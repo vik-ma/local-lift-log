@@ -33,6 +33,8 @@ type TimeInputProps = {
   isClearable?: boolean;
   isSmall?: boolean;
   showTimeLabel?: boolean;
+  isSetEdited?: boolean;
+  setIsSetEdited?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 type HhmmssInput = {
@@ -62,6 +64,8 @@ export const TimeInput = ({
   isClearable = true,
   isSmall = false,
   showTimeLabel = true,
+  isSetEdited,
+  setIsSetEdited,
 }: TimeInputProps) => {
   const [inputType, setInputType] = useState<string>(defaultTimeInput);
 
@@ -297,6 +301,14 @@ export const TimeInput = ({
         ...prev,
         time: seconds,
       }));
+    }
+
+    if (
+      isSetEdited !== undefined &&
+      setIsSetEdited !== undefined &&
+      !isSetEdited
+    ) {
+      setIsSetEdited(true);
     }
   };
 

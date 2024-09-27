@@ -347,6 +347,8 @@ export type UseSetTrackingInputsReturnType = {
   isTimeInputInvalid: boolean;
   setIsTimeInputInvalid: React.Dispatch<React.SetStateAction<boolean>>;
   setTrackingValuesInputStrings: (set: WorkoutSet) => void;
+  isSetEdited: boolean;
+  setIsSetEdited: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export type ExerciseSortCategory = "name" | "num-sets";

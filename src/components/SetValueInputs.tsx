@@ -73,6 +73,8 @@ export const SetValueInputs = ({
     setInputsInvalidityMap,
     isTimeInputInvalid,
     setIsTimeInputInvalid,
+    isSetEdited,
+    setIsSetEdited,
   } = useSetTrackingInputs;
 
   const handleUserWeightButton = () => {
@@ -389,6 +391,8 @@ export const SetValueInputs = ({
       default:
         break;
     }
+
+    if (!isSetEdited) setIsSetEdited(true);
   };
 
   return (
@@ -498,6 +502,8 @@ export const SetValueInputs = ({
             setSet={setOperatingSet}
             setIsTimeInputInvalid={setIsTimeInputInvalid}
             isSmall={true}
+            isSetEdited={isSetEdited}
+            setIsSetEdited={setIsSetEdited}
           />
           <div className="flex gap-1">
             <PlusAndMinusButtons

@@ -15,6 +15,7 @@ import {
 
 export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
   const [isTimeInputInvalid, setIsTimeInputInvalid] = useState<boolean>(false);
+  const [isSetEdited, setIsSetEdited] = useState<boolean>(false);
 
   const defaultSetTrackingValuesInput: SetTrackingValuesInput = useMemo(() => {
     return DefaultSetInputValues();
@@ -96,5 +97,7 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
     isTimeInputInvalid,
     setIsTimeInputInvalid,
     setTrackingValuesInputStrings,
+    isSetEdited,
+    setIsSetEdited,
   };
 };
