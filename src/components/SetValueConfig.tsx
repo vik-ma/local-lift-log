@@ -263,14 +263,14 @@ export const SetValueConfig = ({
             {isSetCompleted ? "Completed Values" : "Default Values"}
           </h3>
           <div className="flex flex-grow gap-2 justify-end">
-            {showDefaultValues && !isSetCompleted && (
+            {showDefaultValues && (
               <Button
                 variant="flat"
                 size="sm"
                 color="danger"
                 onPress={() => clearSetInputValues(true)}
               >
-                Clear Default Values
+                Reset Values
               </Button>
             )}
             <Button
