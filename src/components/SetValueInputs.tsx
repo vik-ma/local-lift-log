@@ -190,7 +190,7 @@ export const SetValueInputs = ({
     operatingSet.time_in_seconds,
   ]);
 
-  const updateValue = (key: string, isIncrease: boolean) => {
+  const handleUpdateValueButton = (key: string, isIncrease: boolean) => {
     const updatedSet = { ...operatingSet };
     const updatedSetInputs = { ...setTrackingValuesInput };
     const modifier = isIncrease ? 1 : -1;
@@ -336,6 +336,61 @@ export const SetValueInputs = ({
     calculationModal.calculationModal.onOpen();
   };
 
+  const handleInputChange = (value: string, key: string) => {
+    switch (key) {
+      case "weight":
+        setSetTrackingValuesInput((prev) => ({
+          ...prev,
+          weight: value,
+        }));
+        break;
+      case "reps":
+        setSetTrackingValuesInput((prev) => ({
+          ...prev,
+          reps: value,
+        }));
+        break;
+      case "distance":
+        setSetTrackingValuesInput((prev) => ({
+          ...prev,
+          distance: value,
+        }));
+        break;
+      case "rir":
+        setSetTrackingValuesInput((prev) => ({
+          ...prev,
+          rir: value,
+        }));
+        break;
+      case "rpe":
+        setSetTrackingValuesInput((prev) => ({
+          ...prev,
+          rpe: value,
+        }));
+        break;
+      case "resistance_level":
+        setSetTrackingValuesInput((prev) => ({
+          ...prev,
+          resistance_level: value,
+        }));
+        break;
+      case "partial_reps":
+        setSetTrackingValuesInput((prev) => ({
+          ...prev,
+          partial_reps: value,
+        }));
+        break;
+      case "user_weight":
+        setSetTrackingValuesInput((prev) => ({
+          ...prev,
+          user_weight: value,
+        }));
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <div className="flex flex-wrap gap-x-1 gap-y-1.5 px-1 justify-evenly">
       {!!operatingSet.is_tracking_weight && (
@@ -347,18 +402,13 @@ export const SetValueInputs = ({
             size="sm"
             variant="faded"
             labelPlacement="outside-left"
-            onValueChange={(value) =>
-              setSetTrackingValuesInput((prev) => ({
-                ...prev,
-                weight: value,
-              }))
-            }
+            onValueChange={(value) => handleInputChange(value, "weight")}
             isInvalid={setInputsInvalidityMap.weight}
             isClearable
           />
           <PlusAndMinusButtons
             trackingValue="weight"
-            updateValue={updateValue}
+            updateValue={handleUpdateValueButton}
             isDecreaseDisabled={disableUpdateValueButtonsMap.weight.decrease}
             isIncreaseDisabled={disableUpdateValueButtonsMap.weight.increase}
           />
@@ -389,18 +439,13 @@ export const SetValueInputs = ({
             size="sm"
             variant="faded"
             labelPlacement="outside-left"
-            onValueChange={(value) =>
-              setSetTrackingValuesInput((prev) => ({
-                ...prev,
-                reps: value,
-              }))
-            }
+            onValueChange={(value) => handleInputChange(value, "reps")}
             isInvalid={setInputsInvalidityMap.reps}
             isClearable
           />
           <PlusAndMinusButtons
             trackingValue="reps"
-            updateValue={updateValue}
+            updateValue={handleUpdateValueButton}
             isDecreaseDisabled={disableUpdateValueButtonsMap.reps.decrease}
             isIncreaseDisabled={disableUpdateValueButtonsMap.reps.increase}
           />
@@ -415,18 +460,13 @@ export const SetValueInputs = ({
             size="sm"
             variant="faded"
             labelPlacement="outside-left"
-            onValueChange={(value) =>
-              setSetTrackingValuesInput((prev) => ({
-                ...prev,
-                distance: value,
-              }))
-            }
+            onValueChange={(value) => handleInputChange(value, "distance")}
             isInvalid={setInputsInvalidityMap.distance}
             isClearable
           />
           <PlusAndMinusButtons
             trackingValue="distance"
-            updateValue={updateValue}
+            updateValue={handleUpdateValueButton}
             isDecreaseDisabled={disableUpdateValueButtonsMap.distance.decrease}
             isIncreaseDisabled={disableUpdateValueButtonsMap.distance.increase}
           />
@@ -462,7 +502,7 @@ export const SetValueInputs = ({
           <div className="flex gap-1">
             <PlusAndMinusButtons
               trackingValue="time"
-              updateValue={updateValue}
+              updateValue={handleUpdateValueButton}
               isDecreaseDisabled={disableUpdateValueButtonsMap.time.decrease}
               isIncreaseDisabled={disableUpdateValueButtonsMap.time.increase}
             />
@@ -478,18 +518,13 @@ export const SetValueInputs = ({
             size="sm"
             variant="faded"
             labelPlacement="outside-left"
-            onValueChange={(value) =>
-              setSetTrackingValuesInput((prev) => ({
-                ...prev,
-                rir: value,
-              }))
-            }
+            onValueChange={(value) => handleInputChange(value, "rir")}
             isInvalid={setInputsInvalidityMap.rir}
             isClearable
           />
           <PlusAndMinusButtons
             trackingValue="rir"
-            updateValue={updateValue}
+            updateValue={handleUpdateValueButton}
             isDecreaseDisabled={disableUpdateValueButtonsMap.rir.decrease}
             isIncreaseDisabled={disableUpdateValueButtonsMap.rir.increase}
           />
@@ -504,18 +539,13 @@ export const SetValueInputs = ({
             size="sm"
             variant="faded"
             labelPlacement="outside-left"
-            onValueChange={(value) =>
-              setSetTrackingValuesInput((prev) => ({
-                ...prev,
-                rpe: value,
-              }))
-            }
+            onValueChange={(value) => handleInputChange(value, "rpe")}
             isInvalid={setInputsInvalidityMap.rpe}
             isClearable
           />
           <PlusAndMinusButtons
             trackingValue="rpe"
-            updateValue={updateValue}
+            updateValue={handleUpdateValueButton}
             isDecreaseDisabled={disableUpdateValueButtonsMap.rpe.decrease}
             isIncreaseDisabled={disableUpdateValueButtonsMap.rpe.increase}
           />
@@ -535,17 +565,14 @@ export const SetValueInputs = ({
             variant="faded"
             labelPlacement="outside-left"
             onValueChange={(value) =>
-              setSetTrackingValuesInput((prev) => ({
-                ...prev,
-                resistance_level: value,
-              }))
+              handleInputChange(value, "resistance_level")
             }
             isInvalid={setInputsInvalidityMap.resistance_level}
             isClearable
           />
           <PlusAndMinusButtons
             trackingValue="resistance_level"
-            updateValue={updateValue}
+            updateValue={handleUpdateValueButton}
             isDecreaseDisabled={
               disableUpdateValueButtonsMap.resistance_level.decrease
             }
@@ -568,18 +595,13 @@ export const SetValueInputs = ({
             label="Partial Reps"
             variant="faded"
             labelPlacement="outside-left"
-            onValueChange={(value) =>
-              setSetTrackingValuesInput((prev) => ({
-                ...prev,
-                partial_reps: value,
-              }))
-            }
+            onValueChange={(value) => handleInputChange(value, "partial_reps")}
             isInvalid={setInputsInvalidityMap.partial_reps}
             isClearable
           />
           <PlusAndMinusButtons
             trackingValue="partial_reps"
-            updateValue={updateValue}
+            updateValue={handleUpdateValueButton}
             isDecreaseDisabled={
               disableUpdateValueButtonsMap.partial_reps.decrease
             }
@@ -603,18 +625,13 @@ export const SetValueInputs = ({
               size="sm"
               variant="faded"
               labelPlacement="outside-left"
-              onValueChange={(value) =>
-                setSetTrackingValuesInput((prev) => ({
-                  ...prev,
-                  user_weight: value,
-                }))
-              }
+              onValueChange={(value) => handleInputChange(value, "user_weight")}
               isInvalid={setInputsInvalidityMap.user_weight}
               isClearable
             />
             <PlusAndMinusButtons
               trackingValue="user_weight"
-              updateValue={updateValue}
+              updateValue={handleUpdateValueButton}
               isDecreaseDisabled={
                 disableUpdateValueButtonsMap.user_weight.decrease
               }
