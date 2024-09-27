@@ -106,7 +106,17 @@ export const CalculationModal = ({
   ]);
 
   useEffect(() => {
-    if (calculationString === null) return;
+    if (calculationString === null) {
+      if (presetsType === "equipment") {
+        setCalculationListWeight([]);
+      } else {
+        setCalculationListDistance([]);
+      }
+
+      setTotalMultiplierInput("");
+
+      return;
+    }
 
     loadPresets();
 
