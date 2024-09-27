@@ -123,6 +123,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   const defaultSet = useDefaultSet(isTemplate);
 
   const [operatingSet, setOperatingSet] = useState<WorkoutSet>(defaultSet);
+  const [uneditedSet, setUneditedSet] = useState<WorkoutSet>();
 
   const defaultMultiset = useDefaultMultiset();
 
@@ -517,6 +518,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       distance_unit: userSettings!.default_unit_distance!,
       user_weight_unit: userSettings!.default_unit_weight!,
     });
+    setUneditedSet(undefined);
     operatingSetInputs.setSetTrackingValuesInput(defaultSetInputValues);
   };
 
@@ -547,6 +549,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     groupedSet: GroupedWorkoutSet
   ) => {
     setOperatingSet({ ...set, set_index: index });
+    setUneditedSet({ ...set, set_index: index });
     setOperatingGroupedSet(groupedSet);
     setOperationType("edit");
     setSelectedExercise(exercise);
@@ -1160,12 +1163,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   };
 
   const clearSetInputValues = (isOperatingSet: boolean) => {
-    if (isOperatingSet) {
-      operatingSetInputs.setSetTrackingValuesInput(defaultSetInputValues);
-      setOperatingSet({
-        ...operatingSet,
-        time_in_seconds: 0,
-      });
+    if (isOperatingSet && uneditedSet?.id === operatingSet.id) {
+      const oldSet = { ...uneditedSet };
+      setOperatingSet(oldSet);
+      operatingSetInputs.setTrackingValuesInputStrings(oldSet);
     } else if (activeSet !== undefined) {
       activeSetInputs.setSetTrackingValuesInput(defaultSetInputValues);
       setActiveSet({
