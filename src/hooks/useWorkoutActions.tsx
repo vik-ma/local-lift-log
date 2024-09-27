@@ -519,6 +519,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       user_weight_unit: userSettings!.default_unit_weight!,
     });
     setUneditedSet(undefined);
+    operatingSetInputs.setIsSetEdited(false);
     operatingSetInputs.setSetTrackingValuesInput(defaultSetInputValues);
   };
 
@@ -550,6 +551,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   ) => {
     setOperatingSet({ ...set, set_index: index });
     setUneditedSet({ ...set, set_index: index });
+    operatingSetInputs.setIsSetEdited(false);
     setOperatingGroupedSet(groupedSet);
     setOperationType("edit");
     setSelectedExercise(exercise);
@@ -1166,6 +1168,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     if (isOperatingSet && uneditedSet?.id === operatingSet.id) {
       const oldSet = { ...uneditedSet };
       setOperatingSet(oldSet);
+      operatingSetInputs.setIsSetEdited(false);
       operatingSetInputs.setTrackingValuesInputStrings(oldSet);
     } else if (activeSet !== undefined) {
       activeSetInputs.setSetTrackingValuesInput(defaultSetInputValues);

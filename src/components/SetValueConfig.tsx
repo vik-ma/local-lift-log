@@ -65,6 +65,8 @@ export const SetValueConfig = ({
 
   const numSetsOptions = useNumSetsOptions();
 
+  const { isSetEdited } = useSetTrackingInputs;
+
   const isSetCompleted = useMemo(() => {
     if (operatingSet.is_completed === 1) return true;
 
@@ -263,7 +265,7 @@ export const SetValueConfig = ({
             {isSetCompleted ? "Completed Values" : "Default Values"}
           </h3>
           <div className="flex flex-grow gap-2 justify-end">
-            {showDefaultValues && (
+            {showDefaultValues && isSetEdited && (
               <Button
                 variant="flat"
                 size="sm"
