@@ -367,13 +367,15 @@ export const ActiveSet = ({
                           </Button>
                         </div>
                         <div className="flex gap-1.5">
-                          <Button
-                            color="danger"
-                            variant="flat"
-                            onPress={() => resetSetInputValues(false)}
-                          >
-                            Reset
-                          </Button>
+                          {activeSetInputs.isSetEdited && (
+                            <Button
+                              color="danger"
+                              variant="flat"
+                              onPress={() => resetSetInputValues(false)}
+                            >
+                              Reset
+                            </Button>
+                          )}
                           <Button
                             color="secondary"
                             variant="flat"

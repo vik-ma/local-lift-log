@@ -1172,8 +1172,15 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       setOperatingSet(oldSet);
       operatingSetInputs.setIsSetEdited(false);
       operatingSetInputs.setTrackingValuesInputStrings(oldSet);
-    } else if (!isOperatingSet && activeSet !== undefined) {
-      // TODO: ADD
+    } else if (
+      !isOperatingSet &&
+      activeSet !== undefined &&
+      activeSetInputs.uneditedSet?.id === activeSet.id
+    ) {
+      const oldSet = { ...activeSetInputs.uneditedSet };
+      setActiveSet(oldSet);
+      activeSetInputs.setIsSetEdited(false);
+      activeSetInputs.setTrackingValuesInputStrings(oldSet);
     }
   };
 
