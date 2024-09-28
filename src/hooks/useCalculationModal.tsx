@@ -11,6 +11,7 @@ export const useCalculationModal = (): UseCalculationModalReturnType => {
   const [calculationString, setCalculationString] = useState<string | null>(
     null
   );
+  const [isActiveSet, setIsActiveSet] = useState<boolean>(false);
 
   const calculationModal = useDisclosure();
 
@@ -20,5 +21,7 @@ export const useCalculationModal = (): UseCalculationModalReturnType => {
     setCalculationModalPage,
     calculationString,
     setCalculationString,
+    isActiveSet,
+    setIsActiveSet,
   };
 };

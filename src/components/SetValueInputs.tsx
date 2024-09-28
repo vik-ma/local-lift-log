@@ -337,6 +337,7 @@ export const SetValueInputs = ({
       exercise !== undefined ? exercise.calculation_string : null;
 
     calculationModal.setCalculationString(calculationString);
+    calculationModal.setIsActiveSet(isActiveSet);
     calculationModal.calculationModal.onOpen();
   };
 
