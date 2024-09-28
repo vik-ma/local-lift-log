@@ -95,6 +95,8 @@ export const useMultisetActions = ({
     setModalPage("edit-set");
 
     operatingSetInputs.setTrackingValuesInputStrings(set);
+    operatingSetInputs.setUneditedSet({ ...set });
+    operatingSetInputs.setIsSetEdited(false);
     setSelectedMultisetExercise(exercise);
 
     if (!multisetModal.isOpen) {

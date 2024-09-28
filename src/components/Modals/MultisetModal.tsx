@@ -28,11 +28,7 @@ import {
   SetValueConfig,
   MultisetDropdown,
 } from "../";
-import {
-  useDefaultSetInputValues,
-  useMultisetActions,
-  useNumSetsOptions,
-} from "../../hooks";
+import { useMultisetActions, useNumSetsOptions } from "../../hooks";
 import { useMemo, useState } from "react";
 
 type MultisetModalProps = {
@@ -80,14 +76,13 @@ export const MultisetModal = ({
 
   const numSetsOptions = useNumSetsOptions();
 
-  const defaultSetInputValues = useDefaultSetInputValues();
-
   const resetSetInputValues = () => {
-    operatingSetInputs.setSetTrackingValuesInput(defaultSetInputValues);
-    setOperatingSet({
-      ...operatingSet,
-      time_in_seconds: 0,
-    });
+    if (operatingSetInputs.uneditedSet?.id !== operatingSet.id) return;
+
+    const oldSet = { ...operatingSetInputs.uneditedSet };
+    setOperatingSet(oldSet);
+    operatingSetInputs.setIsSetEdited(false);
+    operatingSetInputs.setTrackingValuesInputStrings(oldSet);
   };
 
   const showClearAllButton = useMemo(() => {
