@@ -12,6 +12,14 @@ export default function Test() {
 
   const presetsList = usePresetsList(false, false);
 
+  const doneButtonAction = async (
+    value: number,
+    isWeight: boolean,
+    isActiveSet: boolean
+  ) => {
+    console.log(value, isWeight, isActiveSet);
+  };
+
   return (
     <>
       <TextInputModal
@@ -25,7 +33,7 @@ export default function Test() {
       <CalculationModal
         useCalculationModal={calculationModal}
         usePresetsList={presetsList}
-        doneButtonAction={() => {}}
+        doneButtonAction={doneButtonAction}
         weightUnit="kg"
         distanceUnit="km"
         multiplierIncrement={2}

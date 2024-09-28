@@ -38,7 +38,11 @@ import {
 type CalculationModalProps = {
   useCalculationModal: UseCalculationModalReturnType;
   usePresetsList: UsePresetsListReturnType;
-  doneButtonAction: () => void;
+  doneButtonAction: (
+    value: number,
+    isWeight: boolean,
+    isActiveSet: boolean
+  ) => void;
   weightUnit: string;
   distanceUnit: string;
   multiplierIncrement: number;
@@ -87,6 +91,7 @@ export const CalculationModal = ({
     calculationModalPage,
     setCalculationModalPage,
     calculationString,
+    isActiveSet,
   } = useCalculationModal;
 
   const loadPresets = useCallback(async () => {
@@ -500,6 +505,14 @@ export const CalculationModal = ({
     }
   }, [showNumberInput]);
 
+  const handleDoneButton = () => {
+    const isWeight = presetsType === "equipment";
+
+    const result = isWeight ? resultWeight : resultDistance;
+
+    doneButtonAction(result, isWeight, isActiveSet);
+  };
+
   return (
     <Modal
       isOpen={calculationModal.isOpen}
@@ -871,7 +884,7 @@ export const CalculationModal = ({
                     (presetsType === "equipment" && resultWeight === 0) ||
                     (presetsType === "distance" && resultDistance === 0)
                   }
-                  onPress={doneButtonAction}
+                  onPress={handleDoneButton}
                 >
                   Done
                 </Button>
