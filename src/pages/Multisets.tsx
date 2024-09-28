@@ -390,6 +390,26 @@ export default function Multisets() {
     }
   };
 
+  const addCalculationResult = async (value: number, isWeight: boolean) => {
+    const updatedSet = { ...operatingSet };
+
+    if (isWeight) {
+      updatedSet.weight = value;
+    } else {
+      updatedSet.distance = value;
+    }
+
+    operatingSetInputs.setTrackingValuesInputStrings(updatedSet);
+    setOperatingSet(updatedSet);
+
+    if (!operatingSetInputs.isSetEdited)
+      operatingSetInputs.setIsSetEdited(true);
+
+    // TODO: SAVE CALCULATION STRING
+
+    calculationModal.calculationModal.onClose();
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -464,7 +484,7 @@ export default function Multisets() {
         <CalculationModal
           useCalculationModal={calculationModal}
           usePresetsList={presetsList}
-          doneButtonAction={() => {}}
+          doneButtonAction={addCalculationResult}
           weightUnit={operatingSet.weight_unit}
           distanceUnit={operatingSet.distance_unit}
           multiplierIncrement={
