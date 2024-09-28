@@ -351,6 +351,8 @@ export type UseSetTrackingInputsReturnType = {
   setTrackingValuesInputStrings: (set: WorkoutSet) => void;
   isSetEdited: boolean;
   setIsSetEdited: React.Dispatch<React.SetStateAction<boolean>>;
+  uneditedSet: WorkoutSet | undefined;
+  setUneditedSet: React.Dispatch<React.SetStateAction<WorkoutSet | undefined>>;
 };
 
 export type ExerciseSortCategory = "name" | "num-sets";
