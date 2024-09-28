@@ -1163,7 +1163,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     setModal.onOpen();
   };
 
-  const clearSetInputValues = (isOperatingSet: boolean) => {
+  const resetSetInputValues = (isOperatingSet: boolean) => {
     if (
       isOperatingSet &&
       operatingSetInputs.uneditedSet?.id === operatingSet.id
@@ -2503,7 +2503,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     updateShownSetListComments,
     handleGroupedSetAccordionClick,
     handleReassignExercise,
-    clearSetInputValues,
+    resetSetInputValues,
     groupedSets,
     setGroupedSets,
     userSettings,

@@ -28,7 +28,7 @@ type SetValueConfigProps = {
   operationType: string;
   useSetTrackingInputs: UseSetTrackingInputsReturnType;
   userSettings: UserSettings;
-  clearSetInputValues: (isOperatingSet: boolean) => void;
+  resetSetInputValues: (isOperatingSet: boolean) => void;
   setPresetsType: React.Dispatch<React.SetStateAction<PresetsType>>;
   calculationModal: UseCalculationModalReturnType;
   numNewSets?: string;
@@ -48,7 +48,7 @@ export const SetValueConfig = ({
   operationType,
   useSetTrackingInputs,
   userSettings,
-  clearSetInputValues,
+  resetSetInputValues,
   calculationModal,
   setPresetsType,
   numNewSets,
@@ -270,7 +270,7 @@ export const SetValueConfig = ({
                 variant="flat"
                 size="sm"
                 color="danger"
-                onPress={() => clearSetInputValues(true)}
+                onPress={() => resetSetInputValues(true)}
               >
                 Reset Values
               </Button>

@@ -55,7 +55,7 @@ export default function WorkoutTemplateDetails() {
     updateShownSetListComments,
     handleGroupedSetAccordionClick,
     handleReassignExercise,
-    clearSetInputValues,
+    resetSetInputValues,
     groupedSets,
     setGroupedSets,
     userSettings,
@@ -228,7 +228,7 @@ export default function WorkoutTemplateDetails() {
           operatingSetInputs.isSetTrackingValuesInvalid
         }
         handleSaveSetButton={handleSaveSetButton}
-        clearSetInputValues={clearSetInputValues}
+        resetSetInputValues={resetSetInputValues}
         userSettings={userSettings}
         exerciseList={exerciseList}
         numMultisetSets={numMultisetSets}

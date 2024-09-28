@@ -66,7 +66,7 @@ type ActiveSetProps = {
     exercise: Exercise,
     groupedSet: GroupedWorkoutSet
   ) => void;
-  clearSetInputValues: (isOperatingSet: boolean) => void;
+  resetSetInputValues: (isOperatingSet: boolean) => void;
   saveActiveSet: () => void;
   handleToggleSetCommentButton: (
     set: WorkoutSet,
@@ -98,7 +98,7 @@ export const ActiveSet = ({
   shownSetListComments,
   activeSetInputs,
   handleEditSet,
-  clearSetInputValues,
+  resetSetInputValues,
   saveActiveSet,
   handleToggleSetCommentButton,
   userWeight,
@@ -368,7 +368,7 @@ export const ActiveSet = ({
                           <Button
                             color="primary"
                             variant="light"
-                            onPress={() => clearSetInputValues(false)}
+                            onPress={() => resetSetInputValues(false)}
                           >
                             Clear
                           </Button>

@@ -82,7 +82,7 @@ export const MultisetModal = ({
 
   const defaultSetInputValues = useDefaultSetInputValues();
 
-  const clearSetInputValues = () => {
+  const resetSetInputValues = () => {
     operatingSetInputs.setSetTrackingValuesInput(defaultSetInputValues);
     setOperatingSet({
       ...operatingSet,
@@ -164,7 +164,7 @@ export const MultisetModal = ({
                   operationType={"edit"}
                   useSetTrackingInputs={operatingSetInputs}
                   userSettings={userSettings}
-                  clearSetInputValues={clearSetInputValues}
+                  resetSetInputValues={resetSetInputValues}
                   isMultiset={true}
                   setPresetsType={setPresetsType}
                   calculationModal={calculationModal}

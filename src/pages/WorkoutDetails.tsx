@@ -107,7 +107,7 @@ export default function WorkoutDetails() {
     updateShownSetListComments,
     handleGroupedSetAccordionClick,
     handleReassignExercise,
-    clearSetInputValues,
+    resetSetInputValues,
     groupedSets,
     setGroupedSets,
     userSettings,
@@ -455,7 +455,7 @@ export default function WorkoutDetails() {
           operatingSetInputs.isSetTrackingValuesInvalid
         }
         handleSaveSetButton={handleSaveSetButton}
-        clearSetInputValues={clearSetInputValues}
+        resetSetInputValues={resetSetInputValues}
         userSettings={userSettings}
         exerciseList={exerciseList}
         numMultisetSets={numMultisetSets}
@@ -585,7 +585,7 @@ export default function WorkoutDetails() {
           shownSetListComments={shownSetListComments}
           activeSetInputs={activeSetInputs}
           handleEditSet={handleEditSet}
-          clearSetInputValues={clearSetInputValues}
+          resetSetInputValues={resetSetInputValues}
           saveActiveSet={saveActiveSet}
           handleToggleSetCommentButton={handleToggleSetCommentButton}
           userWeight={userWeight}

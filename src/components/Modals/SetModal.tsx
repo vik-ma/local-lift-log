@@ -32,7 +32,7 @@ type SetModalProps = {
   useSetTrackingInputs: UseSetTrackingInputsReturnType;
   isSetTrackingValuesInvalid: boolean;
   handleSaveSetButton: (numSets: string, targetSet?: string) => void;
-  clearSetInputValues: (isOperatingSet: boolean) => void;
+  resetSetInputValues: (isOperatingSet: boolean) => void;
   userSettings: UserSettings;
   exerciseList: UseExerciseListReturnType;
   setPresetsType: React.Dispatch<React.SetStateAction<PresetsType>>;
@@ -51,7 +51,7 @@ export const SetModal = ({
   useSetTrackingInputs,
   isSetTrackingValuesInvalid,
   handleSaveSetButton,
-  clearSetInputValues,
+  resetSetInputValues,
   userSettings,
   exerciseList,
   calculationModal,
@@ -85,7 +85,7 @@ export const SetModal = ({
                   operationType={operationType}
                   useSetTrackingInputs={useSetTrackingInputs}
                   userSettings={userSettings}
-                  clearSetInputValues={clearSetInputValues}
+                  resetSetInputValues={resetSetInputValues}
                   numNewSets={numNewSets}
                   setNumNewSets={setNumNewSets}
                   numMultisetSets={numMultisetSets}
