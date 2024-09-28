@@ -90,6 +90,7 @@ export default function WorkoutTemplateDetails() {
     numMultisetSets,
     presetsList,
     calculationModal,
+    addCalculationResult,
   } = useWorkoutActions(true);
 
   const getWorkoutTemplateAndSetList = useCallback(async () => {
@@ -269,7 +270,7 @@ export default function WorkoutTemplateDetails() {
         <CalculationModal
           useCalculationModal={calculationModal}
           usePresetsList={presetsList}
-          doneButtonAction={() => {}}
+          doneButtonAction={addCalculationResult}
           weightUnit={operatingSet.weight_unit}
           distanceUnit={operatingSet.distance_unit}
           multiplierIncrement={

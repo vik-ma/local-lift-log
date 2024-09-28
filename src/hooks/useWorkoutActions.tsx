@@ -2512,6 +2512,40 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     setGroupedSets(updatedGroupedSets);
   };
 
+  const addCalculationResult = async (
+    value: number,
+    isWeight: boolean,
+    isActiveSet: boolean
+  ) => {
+    if (isActiveSet && activeSet === undefined) return;
+
+    const updatedSet =
+      isActiveSet && activeSet !== undefined
+        ? { ...activeSet }
+        : { ...operatingSet };
+
+    if (isWeight) {
+      updatedSet.weight = value;
+    } else {
+      updatedSet.distance = value;
+    }
+
+    if (isActiveSet) {
+      setActiveSet(updatedSet);
+      updateActiveSetTrackingValues(updatedSet, undefined);
+    } else {
+      operatingSetInputs.setTrackingValuesInputStrings(updatedSet);
+      setOperatingSet(updatedSet);
+
+      if (!operatingSetInputs.isSetEdited)
+        operatingSetInputs.setIsSetEdited(true);
+    }
+
+    // TODO: SAVE CALCULATION STRING
+
+    calculationModal.calculationModal.onClose();
+  };
+
   return {
     updateExerciseOrder,
     handleSaveSetButton,
@@ -2588,5 +2622,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     presetsList,
     calculationModal,
     clearActiveSetInputValues,
+    addCalculationResult,
   };
 };

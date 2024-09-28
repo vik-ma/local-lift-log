@@ -164,6 +164,7 @@ export default function WorkoutDetails() {
     presetsList,
     calculationModal,
     clearActiveSetInputValues,
+    addCalculationResult,
   } = useWorkoutActions(false);
 
   const userWeightInputs = useUserWeightInput(
@@ -517,7 +518,7 @@ export default function WorkoutDetails() {
         <CalculationModal
           useCalculationModal={calculationModal}
           usePresetsList={presetsList}
-          doneButtonAction={() => {}}
+          doneButtonAction={addCalculationResult}
           weightUnit={operatingSet.weight_unit}
           distanceUnit={operatingSet.distance_unit}
           multiplierIncrement={
