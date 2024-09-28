@@ -1382,6 +1382,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       setActiveSet(undefined);
       setActiveGroupedSet(undefined);
       activeSetInputs.setSetTrackingValuesInput(defaultSetInputValues);
+      activeSetInputs.setIsSetEdited(false);
+      activeSetInputs.setUneditedSet(undefined);
       return;
     }
 
@@ -1524,6 +1526,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       }
 
       activeSetInputs.setSetTrackingValuesInput(activeSetInputValues);
+      activeSetInputs.setUneditedSet({ ...activeSet });
+      activeSetInputs.setIsSetEdited(false);
     },
     // Including activeSetInputs in the dependency array causes constant re-renders
     // eslint-disable-next-line react-hooks/exhaustive-deps
