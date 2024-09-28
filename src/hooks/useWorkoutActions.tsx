@@ -1192,6 +1192,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       ...activeSet,
       time_in_seconds: 0,
     });
+
+    if (activeSet.is_completed === 1) {
+      activeSetInputs.setIsSetEdited(true);
+    }
   };
 
   const saveActiveSet = async () => {
