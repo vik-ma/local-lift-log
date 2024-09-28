@@ -295,6 +295,7 @@ export const SetValueConfig = ({
             setPresetsType={setPresetsType}
             calculationModal={calculationModal}
             exercise={selectedExercise}
+            isActiveSet={false}
           />
         )}
         {operationType === "add-sets-to-multiset" &&

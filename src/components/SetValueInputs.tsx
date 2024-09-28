@@ -35,6 +35,7 @@ type SetValueInputsProps = {
   setPresetsType: React.Dispatch<React.SetStateAction<PresetsType>>;
   calculationModal: UseCalculationModalReturnType;
   exercise: Exercise | undefined;
+  isActiveSet: boolean;
 };
 
 type Increment = {
@@ -66,6 +67,7 @@ export const SetValueInputs = ({
   setPresetsType,
   calculationModal,
   exercise,
+  isActiveSet,
 }: SetValueInputsProps) => {
   const {
     setTrackingValuesInput,

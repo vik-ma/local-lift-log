@@ -348,6 +348,7 @@ export const ActiveSet = ({
                         setPresetsType={setPresetsType}
                         calculationModal={calculationModal}
                         exercise={activeGroupedSet?.exerciseList[exerciseIndex]}
+                        isActiveSet={true}
                       />
                       <div className="flex justify-between">
                         <div className="flex gap-1">
