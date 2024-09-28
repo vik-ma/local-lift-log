@@ -1172,13 +1172,19 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       setOperatingSet(oldSet);
       operatingSetInputs.setIsSetEdited(false);
       operatingSetInputs.setTrackingValuesInputStrings(oldSet);
-    } else if (activeSet !== undefined) {
-      activeSetInputs.setSetTrackingValuesInput(defaultSetInputValues);
-      setActiveSet({
-        ...activeSet,
-        time_in_seconds: 0,
-      });
+    } else if (!isOperatingSet && activeSet !== undefined) {
+      // TODO: ADD
     }
+  };
+
+  const clearActiveSetInputValues = () => {
+    if (activeSet === undefined) return;
+
+    activeSetInputs.setSetTrackingValuesInput(defaultSetInputValues);
+    setActiveSet({
+      ...activeSet,
+      time_in_seconds: 0,
+    });
   };
 
   const saveActiveSet = async () => {
@@ -2566,5 +2572,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     setIsUserWeightOlderThanOneWeek,
     presetsList,
     calculationModal,
+    clearActiveSetInputValues,
   };
 };

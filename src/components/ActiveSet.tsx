@@ -79,6 +79,7 @@ type ActiveSetProps = {
   isUserWeightOlderThanOneWeek: boolean;
   setPresetsType: React.Dispatch<React.SetStateAction<PresetsType>>;
   calculationModal: UseCalculationModalReturnType;
+  clearActiveSetInputValues: () => void;
 };
 
 export const ActiveSet = ({
@@ -107,6 +108,7 @@ export const ActiveSet = ({
   isUserWeightOlderThanOneWeek,
   setPresetsType,
   calculationModal,
+  clearActiveSetInputValues,
 }: ActiveSetProps) => {
   let setCounter = 1;
   // Assign Multiset Set number
@@ -366,9 +368,16 @@ export const ActiveSet = ({
                         </div>
                         <div className="flex gap-1.5">
                           <Button
-                            color="primary"
-                            variant="light"
+                            color="danger"
+                            variant="flat"
                             onPress={() => resetSetInputValues(false)}
+                          >
+                            Reset
+                          </Button>
+                          <Button
+                            color="secondary"
+                            variant="flat"
+                            onPress={clearActiveSetInputValues}
                           >
                             Clear
                           </Button>

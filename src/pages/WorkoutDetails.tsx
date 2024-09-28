@@ -163,6 +163,7 @@ export default function WorkoutDetails() {
     setIsUserWeightOlderThanOneWeek,
     presetsList,
     calculationModal,
+    clearActiveSetInputValues,
   } = useWorkoutActions(false);
 
   const userWeightInputs = useUserWeightInput(
@@ -594,6 +595,7 @@ export default function WorkoutDetails() {
           isUserWeightOlderThanOneWeek={isUserWeightOlderThanOneWeek}
           setPresetsType={presetsList.setPresetsType}
           calculationModal={calculationModal}
+          clearActiveSetInputValues={clearActiveSetInputValues}
         />
       </div>
     </>
