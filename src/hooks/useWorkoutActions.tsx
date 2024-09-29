@@ -50,6 +50,7 @@ import {
   IsDateStringOlderThanOneWeek,
   GetSetsOfLastCompletedExercise,
   CopySetTrackingValues,
+  UpdateCalculationString,
 } from "../helpers";
 import {
   useDefaultSet,
@@ -2546,7 +2547,27 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         operatingSetInputs.setIsSetEdited(true);
     }
 
-    // TODO: SAVE CALCULATION STRING
+    if (userSettings?.save_calculation_string === 1) {
+      const { success, updatedExercise } = await UpdateCalculationString(
+        calculationList,
+        presetsType,
+        exercise,
+        totalMultiplier
+      );
+
+      if (!success) return;
+
+      const updatedExercises = UpdateItemInList(
+        exerciseList.exercises,
+        updatedExercise
+      );
+
+      exerciseList.setExercises(updatedExercises);
+
+      if (selectedExercise?.id === exercise.id) {
+        setSelectedExercise(updatedExercise);
+      }
+    }
 
     calculationModal.setCalculationExercise(undefined);
     calculationModal.calculationModal.onClose();

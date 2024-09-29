@@ -29,6 +29,7 @@ import {
   UpdateSet,
   DeleteItemFromList,
   UpdateItemInList,
+  UpdateCalculationString,
 } from "../helpers";
 import {
   CalculationModal,
@@ -419,7 +420,23 @@ export default function Multisets() {
     if (!operatingSetInputs.isSetEdited)
       operatingSetInputs.setIsSetEdited(true);
 
-    // TODO: SAVE CALCULATION STRING
+    if (userSettings?.save_calculation_string === 1) {
+      const { success, updatedExercise } = await UpdateCalculationString(
+        calculationList,
+        presetsType,
+        exercise,
+        totalMultiplier
+      );
+
+      if (!success) return;
+
+      const updatedExercises = UpdateItemInList(
+        exerciseList.exercises,
+        updatedExercise
+      );
+
+      exerciseList.setExercises(updatedExercises);
+    }
 
     calculationModal.calculationModal.onClose();
   };
