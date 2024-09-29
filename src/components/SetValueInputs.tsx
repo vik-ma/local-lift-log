@@ -324,6 +324,7 @@ export const SetValueInputs = ({
 
     setOperatingSet(updatedSet);
     setSetTrackingValuesInput(updatedSetInputs);
+    if (!isSetEdited) setIsSetEdited(true);
   };
 
   const handleCalculatorButton = (isWeight: boolean) => {
