@@ -32,6 +32,8 @@ export const UpdateCalculationString = async (
     // Calculation strings must be of format "e[**]/d[**]", e[**] or d[**]
     const { regexEquipment, regexDistance } = CalculationStringsRegex();
 
+    let hasUpdatedCurrentPreset = false;
+
     for (const string of calculationStrings) {
       const equipmentMatch = string.match(regexEquipment);
       const distanceMatch = string.match(regexDistance);
@@ -48,23 +50,26 @@ export const UpdateCalculationString = async (
           totalMultiplier
         );
         newCalculationStrings.push(calculationString);
+        hasUpdatedCurrentPreset = true;
       }
 
       if (
-        (equipmentMatch && presetsType !== "equipment") ||
-        (distanceMatch && presetsType !== "distance")
+        (equipmentMatch && presetsType === "distance") ||
+        (distanceMatch && presetsType === "equipment")
       ) {
-        // Add new calculationList for presetType that does not currently exist in string
-        calculationString = CreateCalculationString(
-          calculationList,
-          presetsType,
-          totalMultiplier
-        );
-        newCalculationStrings.push(calculationString);
-
         // Keep existing string for other presetsType
         newCalculationStrings.push(string);
       }
+    }
+
+    if (!hasUpdatedCurrentPreset) {
+      // Add new calculationList for presetType that does not currently exist in string
+      calculationString = CreateCalculationString(
+        calculationList,
+        presetsType,
+        totalMultiplier
+      );
+      newCalculationStrings.push(calculationString);
     }
 
     if (newCalculationStrings.length === 0) {
