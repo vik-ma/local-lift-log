@@ -111,7 +111,7 @@ export const CreateSetsFromWorkoutTemplate = async (
       exerciseOrderString = orderArray.join(",");
     }
 
-    const groupedSetList = CreateGroupedWorkoutSetList(
+    const { groupedSetList } = await CreateGroupedWorkoutSetList(
       result,
       exerciseOrderString
     );

@@ -22,11 +22,18 @@ type GroupedWorkoutSetsDictionary = {
   };
 };
 
+export type CreateGroupedWorkoutSetListReturnType = {
+  groupedSetList: GroupedWorkoutSet[];
+  shouldUpdateExerciseOrder?: boolean;
+};
+
 export const CreateGroupedWorkoutSetList = async (
   setList: WorkoutSet[],
   exercise_order: string
-) => {
+): Promise<CreateGroupedWorkoutSetListReturnType> => {
   const groupedWorkoutSetsDictionary: GroupedWorkoutSetsDictionary = {};
+
+  let shouldUpdateExerciseOrder = false;
 
   const orderArray: string[] = exercise_order.split(",");
 
@@ -107,7 +114,7 @@ export const CreateGroupedWorkoutSetList = async (
       };
     }
 
-    // TODO: UPDATE EXERCISE_ORDER STRING
+    shouldUpdateExerciseOrder = true;
   }
 
   // Remove any exercises that may exist in exercise_order, but have no sets in setList
@@ -123,5 +130,5 @@ export const CreateGroupedWorkoutSetList = async (
     return indexA - indexB;
   });
 
-  return groupedWorkoutSetList;
+  return { groupedSetList: groupedWorkoutSetList, shouldUpdateExerciseOrder };
 };

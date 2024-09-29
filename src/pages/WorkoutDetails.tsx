@@ -1,11 +1,6 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { useParams } from "react-router-dom";
-import {
-  Workout,
-  GroupedWorkoutSet,
-  DetailHeaderOptionItem,
-  WorkoutTemplate,
-} from "../typings";
+import { Workout, DetailHeaderOptionItem, WorkoutTemplate } from "../typings";
 import {
   LoadingSpinner,
   WorkoutGroupedSetList,
@@ -229,7 +224,7 @@ export default function WorkoutDetails() {
 
         const setList = await GetWorkoutSetList(workout.id);
 
-        const groupedSetList: GroupedWorkoutSet[] =
+        const { groupedSetList, shouldUpdateExerciseOrder } =
           await CreateGroupedWorkoutSetList(setList, workout.exercise_order);
 
         const workoutNumbers = {
@@ -341,12 +336,15 @@ export default function WorkoutDetails() {
 
     oldWorkoutExerciseOrder = workoutExerciseOrder;
 
-    const oldWorkoutGroupedSetList: GroupedWorkoutSet[] =
-      await CreateGroupedWorkoutSetList(newSetList, oldWorkoutExerciseOrder);
+    // Old workout GroupedSetList
+    const { groupedSetList } = await CreateGroupedWorkoutSetList(
+      newSetList,
+      oldWorkoutExerciseOrder
+    );
 
     const updatedGroupedSetList = MergeTwoGroupedSetLists(
       groupedSets,
-      oldWorkoutGroupedSetList
+      groupedSetList
     );
 
     const exerciseOrder: string = GenerateExerciseOrderString(

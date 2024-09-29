@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { WorkoutSet, WorkoutTemplate, GroupedWorkoutSet } from "../typings";
+import { WorkoutSet, WorkoutTemplate } from "../typings";
 import { useState, useEffect, useCallback } from "react";
 import { useDisclosure } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
@@ -115,7 +115,7 @@ export default function WorkoutTemplateDetails() {
         [id]
       );
 
-      const groupedSetList: GroupedWorkoutSet[] =
+      const { groupedSetList, shouldUpdateExerciseOrder } =
         await CreateGroupedWorkoutSetList(
           setList,
           workoutTemplate.exercise_order
