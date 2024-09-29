@@ -73,16 +73,42 @@ export const CreateGroupedWorkoutSetList = async (
     }
   }
 
-  setList.map((set) => {
-    if (
-      groupedWorkoutSetsDictionary[set.exercise_id.toString()] &&
-      set.multiset_id === 0
-    ) {
+  const unassignedSetMap = new Map<number, WorkoutSet[]>();
+
+  for (const set of setList) {
+    if (set.multiset_id !== 0) continue;
+
+    if (groupedWorkoutSetsDictionary[set.exercise_id.toString()]) {
       groupedWorkoutSetsDictionary[set.exercise_id.toString()].setList.push(
         set
       );
+    } else {
+      if (unassignedSetMap.has(set.exercise_id)) {
+        unassignedSetMap.get(set.exercise_id)!.push(set);
+      } else {
+        unassignedSetMap.set(set.exercise_id, [set]);
+      }
     }
-  });
+  }
+
+  if (unassignedSetMap.size > 0) {
+    // Add sets in setList that are not in exercise_order string
+    for (const [exerciseId, setList] of unassignedSetMap) {
+      const exercise = await GetExerciseWithId(exerciseId);
+
+      const entry = exerciseId.toString();
+
+      groupedWorkoutSetsDictionary[entry] = {
+        id: entry,
+        exerciseList: [exercise],
+        setList: setList,
+        isExpanded: true,
+        showGroupedSetNote: exercise.note ? true : false,
+      };
+    }
+
+    // TODO: UPDATE EXERCISE_ORDER STRING
+  }
 
   // Remove any exercises that may exist in exercise_order, but have no sets in setList
   // (exerciseId keys with an empty setList)
