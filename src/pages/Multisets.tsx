@@ -69,6 +69,7 @@ export default function Multisets() {
     exerciseList,
     defaultMultiset,
     operatingSetInputs,
+    setOperationType,
   });
 
   const calculationModal = useCalculationModal();

@@ -35,6 +35,9 @@ type UseMultisetActionsProps = {
   defaultMultiset: Multiset;
   operatingSetInputs: UseSetTrackingInputsReturnType;
   defaultPage?: ModalPage;
+  setOperationType?: React.Dispatch<
+    React.SetStateAction<"add" | "edit" | "delete">
+  >;
 };
 
 export const useMultisetActions = ({
@@ -48,6 +51,7 @@ export const useMultisetActions = ({
   defaultMultiset,
   operatingSetInputs,
   defaultPage,
+  setOperationType,
 }: UseMultisetActionsProps) => {
   const [modalPage, setModalPage] = useState<ModalPage>(defaultPage ?? "base");
   const [multisetSetOperationType, setMultisetSetOperationType] =
@@ -102,6 +106,8 @@ export const useMultisetActions = ({
     if (!multisetModal.isOpen) {
       multisetModal.onOpen();
     }
+
+    if (setOperationType !== undefined) setOperationType("edit");
   };
 
   const handleMultisetSetOptionSelection = (
