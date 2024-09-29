@@ -2567,6 +2567,33 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       if (selectedExercise?.id === exercise.id) {
         setSelectedExercise(updatedExercise);
       }
+
+      const updatedGroupedSet =
+        isActiveSet && activeGroupedSet !== undefined
+          ? { ...activeGroupedSet }
+          : !isActiveSet && operatingGroupedSet !== undefined
+          ? { ...operatingGroupedSet }
+          : undefined;
+
+      if (updatedGroupedSet === undefined) return;
+
+      const updatedExerciseList = updatedGroupedSet.exerciseList.map((obj) =>
+        obj.id === updatedExercise.id ? updatedExercise : obj
+      );
+
+      updatedGroupedSet.exerciseList = updatedExerciseList;
+
+      const newGroupedSets = UpdateItemInList(groupedSets, updatedGroupedSet);
+
+      setGroupedSets(newGroupedSets);
+
+      if (isActiveSet && activeGroupedSet !== undefined) {
+        setActiveGroupedSet(updatedGroupedSet);
+      }
+
+      if (!isActiveSet && operatingGroupedSet !== undefined) {
+        setOperatingGroupedSet(updatedGroupedSet);
+      }
     }
 
     calculationModal.setCalculationExercise(undefined);
