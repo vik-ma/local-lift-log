@@ -12,6 +12,7 @@ import {
   CalculationListItem,
   Distance,
   EquipmentWeight,
+  PresetsType,
   UseCalculationModalReturnType,
   UsePresetsListReturnType,
 } from "../../typings";
@@ -40,7 +41,8 @@ type CalculationModalProps = {
   usePresetsList: UsePresetsListReturnType;
   doneButtonAction: (
     value: number,
-    isWeight: boolean,
+    presetsType: PresetsType,
+    calculationList: CalculationListItem[],
     isActiveSet: boolean
   ) => void;
   weightUnit: string;
@@ -506,11 +508,14 @@ export const CalculationModal = ({
   }, [showNumberInput]);
 
   const handleDoneButton = () => {
-    const isWeight = presetsType === "equipment";
+    const result = presetsType === "equipment" ? resultWeight : resultDistance;
 
-    const result = isWeight ? resultWeight : resultDistance;
+    const calculationList =
+      presetsType === "equipment"
+        ? calculationListWeight
+        : calculationListDistance;
 
-    doneButtonAction(result, isWeight, isActiveSet);
+    doneButtonAction(result, presetsType, calculationList, isActiveSet);
   };
 
   return (

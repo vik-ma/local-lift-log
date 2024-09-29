@@ -10,6 +10,8 @@ import {
   SetTrackingValuesInput,
   Multiset,
   UserWeight,
+  CalculationListItem,
+  PresetsType,
 } from "../typings";
 import { useState, useCallback, useEffect } from "react";
 import { useDisclosure } from "@nextui-org/react";
@@ -2514,7 +2516,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
   const addCalculationResult = async (
     value: number,
-    isWeight: boolean,
+    presetsType: PresetsType,
+    calculationList: CalculationListItem[],
     isActiveSet: boolean
   ) => {
     if (isActiveSet && activeSet === undefined) return;
@@ -2524,7 +2527,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         ? { ...activeSet }
         : { ...operatingSet };
 
-    if (isWeight) {
+    if (presetsType === "equipment") {
       updatedSet.weight = value;
     } else {
       updatedSet.distance = value;

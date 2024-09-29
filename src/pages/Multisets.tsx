@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Multiset, Exercise, WorkoutSet, UserSettings } from "../typings";
+import { Multiset, Exercise, WorkoutSet, UserSettings, PresetsType, CalculationListItem } from "../typings";
 import {
   useCalculationModal,
   useDefaultMultiset,
@@ -391,10 +391,14 @@ export default function Multisets() {
     }
   };
 
-  const addCalculationResult = async (value: number, isWeight: boolean) => {
+  const addCalculationResult = async (
+    value: number,
+    presetsType: PresetsType,
+    calculationList: CalculationListItem[]
+  ) => {
     const updatedSet = { ...operatingSet };
 
-    if (isWeight) {
+    if (presetsType === "equipment") {
       updatedSet.weight = value;
     } else {
       updatedSet.distance = value;
