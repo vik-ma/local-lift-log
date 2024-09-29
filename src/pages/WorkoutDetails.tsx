@@ -31,6 +31,7 @@ import {
   MergeTwoGroupedSetLists,
   CopyWorkoutSetList,
   FormatYmdDateString,
+  UpdateExerciseOrder,
 } from "../helpers";
 import { useDisclosure } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
@@ -226,6 +227,18 @@ export default function WorkoutDetails() {
 
         const { groupedSetList, shouldUpdateExerciseOrder } =
           await CreateGroupedWorkoutSetList(setList, workout.exercise_order);
+
+        if (shouldUpdateExerciseOrder) {
+          const { success, exerciseOrderString } = await UpdateExerciseOrder(
+            groupedSetList,
+            Number(id),
+            false
+          );
+
+          if (!success) return;
+
+          workout.exercise_order = exerciseOrderString;
+        }
 
         const workoutNumbers = {
           numSets: setList.length,

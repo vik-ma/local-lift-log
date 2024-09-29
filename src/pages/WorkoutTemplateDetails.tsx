@@ -21,6 +21,7 @@ import {
   UpdateWorkoutTemplate,
   GetNumberOfUniqueExercisesInGroupedSets,
   FormatNumItemsString,
+  UpdateExerciseOrder,
 } from "../helpers";
 import {
   useValidateName,
@@ -120,6 +121,18 @@ export default function WorkoutTemplateDetails() {
           setList,
           workoutTemplate.exercise_order
         );
+
+      if (shouldUpdateExerciseOrder) {
+        const { success, exerciseOrderString } = await UpdateExerciseOrder(
+          groupedSetList,
+          Number(id),
+          true
+        );
+
+        if (!success) return;
+
+        workoutTemplate.exercise_order = exerciseOrderString;
+      }
 
       workoutNumbers.numExercises =
         GetNumberOfUniqueExercisesInGroupedSets(groupedSetList);
