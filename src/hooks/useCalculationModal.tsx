@@ -2,6 +2,7 @@ import { useDisclosure } from "@nextui-org/react";
 import { useState } from "react";
 import {
   CalculationModalPage,
+  Exercise,
   UseCalculationModalReturnType,
 } from "../typings";
 
@@ -12,6 +13,9 @@ export const useCalculationModal = (): UseCalculationModalReturnType => {
     null
   );
   const [isActiveSet, setIsActiveSet] = useState<boolean>(false);
+  const [calculationExercise, setCalculationExercise] = useState<
+    Exercise | undefined
+  >();
 
   const calculationModal = useDisclosure();
 
@@ -23,5 +27,7 @@ export const useCalculationModal = (): UseCalculationModalReturnType => {
     setCalculationString,
     isActiveSet,
     setIsActiveSet,
+    calculationExercise,
+    setCalculationExercise,
   };
 };

@@ -12,6 +12,7 @@ import {
   CalculationListItem,
   Distance,
   EquipmentWeight,
+  Exercise,
   PresetsType,
   UseCalculationModalReturnType,
   UsePresetsListReturnType,
@@ -43,6 +44,8 @@ type CalculationModalProps = {
     value: number,
     presetsType: PresetsType,
     calculationList: CalculationListItem[],
+    exercise: Exercise,
+    totalMultiplier: number,
     isActiveSet: boolean
   ) => void;
   weightUnit: string;
@@ -94,6 +97,7 @@ export const CalculationModal = ({
     setCalculationModalPage,
     calculationString,
     isActiveSet,
+    calculationExercise,
   } = useCalculationModal;
 
   const loadPresets = useCallback(async () => {
@@ -508,6 +512,8 @@ export const CalculationModal = ({
   }, [showNumberInput]);
 
   const handleDoneButton = () => {
+    if (calculationExercise === undefined) return;
+
     const result = presetsType === "equipment" ? resultWeight : resultDistance;
 
     const calculationList =
@@ -515,7 +521,14 @@ export const CalculationModal = ({
         ? calculationListWeight
         : calculationListDistance;
 
-    doneButtonAction(result, presetsType, calculationList, isActiveSet);
+    doneButtonAction(
+      result,
+      presetsType,
+      calculationList,
+      calculationExercise,
+      totalMultiplier,
+      isActiveSet
+    );
   };
 
   return (

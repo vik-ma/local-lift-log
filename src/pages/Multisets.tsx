@@ -1,5 +1,12 @@
 import { useState, useEffect } from "react";
-import { Multiset, Exercise, WorkoutSet, UserSettings, PresetsType, CalculationListItem } from "../typings";
+import {
+  Multiset,
+  Exercise,
+  WorkoutSet,
+  UserSettings,
+  PresetsType,
+  CalculationListItem,
+} from "../typings";
 import {
   useCalculationModal,
   useDefaultMultiset,
@@ -394,7 +401,9 @@ export default function Multisets() {
   const addCalculationResult = async (
     value: number,
     presetsType: PresetsType,
-    calculationList: CalculationListItem[]
+    calculationList: CalculationListItem[],
+    exercise: Exercise,
+    totalMultiplier: number
   ) => {
     const updatedSet = { ...operatingSet };
 

@@ -487,6 +487,10 @@ export type UseCalculationModalReturnType = {
   setCalculationString: React.Dispatch<React.SetStateAction<string | null>>;
   isActiveSet: boolean;
   setIsActiveSet: React.Dispatch<React.SetStateAction<boolean>>;
+  calculationExercise: Exercise | undefined;
+  setCalculationExercise: React.Dispatch<
+    React.SetStateAction<Exercise | undefined>
+  >;
 };
 
 export type CalculationItemType = "preset" | "calculation" | "number";

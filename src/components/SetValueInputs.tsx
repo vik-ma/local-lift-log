@@ -339,6 +339,7 @@ export const SetValueInputs = ({
 
     calculationModal.setCalculationString(calculationString);
     calculationModal.setIsActiveSet(isActiveSet);
+    calculationModal.setCalculationExercise(exercise);
     calculationModal.calculationModal.onOpen();
   };
 

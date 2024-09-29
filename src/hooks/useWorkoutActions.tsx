@@ -2518,6 +2518,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     value: number,
     presetsType: PresetsType,
     calculationList: CalculationListItem[],
+    exercise: Exercise,
+    totalMultiplier: number,
     isActiveSet: boolean
   ) => {
     if (isActiveSet && activeSet === undefined) return;
@@ -2546,6 +2548,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     // TODO: SAVE CALCULATION STRING
 
+    calculationModal.setCalculationExercise(undefined);
     calculationModal.calculationModal.onClose();
   };
 
