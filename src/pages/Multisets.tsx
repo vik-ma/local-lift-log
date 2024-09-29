@@ -436,6 +436,10 @@ export default function Multisets() {
       );
 
       exerciseList.setExercises(updatedExercises);
+
+      if (multisetActions.selectedMultisetExercise.id === exercise.id) {
+        multisetActions.setSelectedMultisetExercise(updatedExercise);
+      }
     }
 
     calculationModal.calculationModal.onClose();
