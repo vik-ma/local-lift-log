@@ -884,22 +884,24 @@ export const CalculationModal = ({
             </ModalBody>
             <ModalFooter className="flex justify-between">
               <div className="flex gap-1">
-                {calculationModalPage !== "base" ? (
+                {calculationModalPage !== "base" && (
                   <Button
                     variant="flat"
                     onPress={() => setCalculationModalPage("base")}
                   >
                     Back
                   </Button>
-                ) : (
-                  <Button
-                    color="secondary"
-                    variant="flat"
-                    onPress={handlePlateCalculatorButton}
-                  >
-                    Plate Calculator
-                  </Button>
                 )}
+                {presetsType === "equipment" &&
+                  calculationModalPage === "base" && (
+                    <Button
+                      color="secondary"
+                      variant="flat"
+                      onPress={handlePlateCalculatorButton}
+                    >
+                      Plate Calculator
+                    </Button>
+                  )}
               </div>
               <div className="flex gap-2">
                 <Button color="primary" variant="light" onPress={onClose}>
