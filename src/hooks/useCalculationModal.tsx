@@ -16,6 +16,8 @@ export const useCalculationModal = (): UseCalculationModalReturnType => {
   const [calculationExercise, setCalculationExercise] = useState<
     Exercise | undefined
   >();
+  const [weightUnit, setWeightUnit] = useState<string>("kg");
+  const [distanceUnit, setDistanceUnit] = useState<string>("km");
 
   const calculationModal = useDisclosure();
 
@@ -29,5 +31,9 @@ export const useCalculationModal = (): UseCalculationModalReturnType => {
     setIsActiveSet,
     calculationExercise,
     setCalculationExercise,
+    weightUnit,
+    setWeightUnit,
+    distanceUnit,
+    setDistanceUnit,
   };
 };
