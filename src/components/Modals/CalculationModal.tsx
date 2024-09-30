@@ -87,6 +87,7 @@ export const CalculationModal = ({
     presetsType,
     isLoadingEquipment,
     isLoadingDistance,
+    plateCalculatorHandle,
   } = usePresetsList;
 
   const {
@@ -102,7 +103,7 @@ export const CalculationModal = ({
 
   const loadPresets = useCallback(async () => {
     if (presetsType === "equipment" && isLoadingEquipment) {
-      await getEquipmentWeights();
+      await getEquipmentWeights(equipmentWeightHandleId);
     }
 
     if (presetsType === "distance" && isLoadingDistance) {
@@ -114,6 +115,7 @@ export const CalculationModal = ({
     isLoadingDistance,
     getEquipmentWeights,
     getDistances,
+    equipmentWeightHandleId,
   ]);
 
   useEffect(() => {
@@ -531,6 +533,14 @@ export const CalculationModal = ({
     );
   };
 
+  const handlePlateCalculatorButton = async () => {
+    if (isLoadingEquipment) {
+      await getEquipmentWeights(equipmentWeightHandleId);
+    }
+
+    setCalculationModalPage("plate-calc");
+  };
+
   return (
     <Modal
       isOpen={calculationModal.isOpen}
@@ -863,7 +873,7 @@ export const CalculationModal = ({
                     />
                   </>
                 ) : calculationModalPage === "plate-calc" ? (
-                  <></>
+                  <>{plateCalculatorHandle?.name}</>
                 ) : (
                   <PresetsModalList
                     presetsList={usePresetsList}
@@ -885,7 +895,7 @@ export const CalculationModal = ({
                   <Button
                     color="secondary"
                     variant="flat"
-                    onPress={() => setCalculationModalPage("plate-calc")}
+                    onPress={handlePlateCalculatorButton}
                   >
                     Plate Calculator
                   </Button>

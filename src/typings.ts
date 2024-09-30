@@ -448,7 +448,7 @@ export type UsePresetsListReturnType = {
   setEquipmentWeights: React.Dispatch<React.SetStateAction<EquipmentWeight[]>>;
   distances: Distance[];
   setDistances: React.Dispatch<React.SetStateAction<Distance[]>>;
-  getEquipmentWeights: () => Promise<void>;
+  getEquipmentWeights: (defaultEquipmentHandleId?: number) => Promise<void>;
   getDistances: () => Promise<void>;
   presetsType: PresetsType;
   setPresetsType: React.Dispatch<React.SetStateAction<PresetsType>>;

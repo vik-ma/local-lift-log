@@ -8,7 +8,11 @@ import {
   UsePresetsListReturnType,
 } from "../typings";
 import Database from "tauri-plugin-sql-api";
-import { UpdateIsFavorite, UpdateItemInList } from "../helpers";
+import {
+  IsNumberValidId,
+  UpdateIsFavorite,
+  UpdateItemInList,
+} from "../helpers";
 
 export const usePresetsList = (
   getEquipmentWeightsOnLoad: boolean,
@@ -78,7 +82,10 @@ export const usePresetsList = (
         sortEquipmentWeightsByName(result, true);
         setIsLoadingEquipment(false);
 
-        if (defaultEquipmentHandleId !== undefined) {
+        if (
+          defaultEquipmentHandleId !== undefined &&
+          IsNumberValidId(defaultEquipmentHandleId)
+        ) {
           const defaultHandle = result.find(
             (equipment) => equipment.id === defaultEquipmentHandleId
           );
