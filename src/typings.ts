@@ -473,6 +473,10 @@ export type UsePresetsListReturnType = {
   isLoadingEquipment: boolean;
   isLoadingDistance: boolean;
   togglePlateCalculator: (equipmentWeight: EquipmentWeight) => void;
+  plateCalculatorHandle: EquipmentWeight | undefined;
+  setPlateCalculatorHandle: React.Dispatch<
+    React.SetStateAction<EquipmentWeight | undefined>
+  >;
 };
 
 export type CalculationModalPage = "base" | "list" | "calc" | "plate-calc";

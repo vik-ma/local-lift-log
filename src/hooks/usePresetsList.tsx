@@ -31,6 +31,8 @@ export const usePresetsList = (
     useState<DistanceSortCategory>("name");
   const [isLoadingEquipment, setIsLoadingEquipment] = useState<boolean>(true);
   const [isLoadingDistance, setIsLoadingDistance] = useState<boolean>(true);
+  const [plateCalculatorHandle, setPlateCalculatorHandle] =
+    useState<EquipmentWeight>();
 
   const filteredEquipmentWeights = useMemo(() => {
     if (filterQueryEquipment !== "") {
@@ -64,20 +66,30 @@ export const usePresetsList = (
     return distances;
   }, [distances, filterQueryDistance]);
 
-  const getEquipmentWeights = useCallback(async () => {
-    try {
-      const db = await Database.load(import.meta.env.VITE_DB);
+  const getEquipmentWeights = useCallback(
+    async (defaultEquipmentHandleId?: number) => {
+      try {
+        const db = await Database.load(import.meta.env.VITE_DB);
 
-      const result = await db.select<EquipmentWeight[]>(
-        "SELECT * FROM equipment_weights"
-      );
+        const result = await db.select<EquipmentWeight[]>(
+          "SELECT * FROM equipment_weights"
+        );
 
-      sortEquipmentWeightsByName(result, true);
-      setIsLoadingEquipment(false);
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
+        sortEquipmentWeightsByName(result, true);
+        setIsLoadingEquipment(false);
+
+        if (defaultEquipmentHandleId !== undefined) {
+          const defaultHandle = result.find(
+            (equipment) => equipment.id === defaultEquipmentHandleId
+          );
+          setPlateCalculatorHandle(defaultHandle);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    []
+  );
 
   const getDistances = useCallback(async () => {
     try {
@@ -345,5 +357,7 @@ export const usePresetsList = (
     isLoadingEquipment,
     isLoadingDistance,
     togglePlateCalculator,
+    plateCalculatorHandle,
+    setPlateCalculatorHandle,
   };
 };
