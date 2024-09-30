@@ -330,8 +330,10 @@ export const SetValueInputs = ({
   const handleCalculatorButton = (isWeight: boolean) => {
     if (isWeight) {
       setPresetsType("equipment");
+      calculationModal.setWeightUnit(operatingSet.weight_unit);
     } else {
       setPresetsType("distance");
+      calculationModal.setDistanceUnit(operatingSet.distance_unit);
     }
 
     const calculationString =
