@@ -48,8 +48,6 @@ type CalculationModalProps = {
     totalMultiplier: number,
     isActiveSet: boolean
   ) => void;
-  weightUnit: string;
-  distanceUnit: string;
   multiplierIncrement: number;
 };
 
@@ -57,8 +55,6 @@ export const CalculationModal = ({
   useCalculationModal,
   usePresetsList,
   doneButtonAction,
-  weightUnit,
-  distanceUnit,
   multiplierIncrement,
 }: CalculationModalProps) => {
   const [calculationListWeight, setCalculationListWeight] = useState<
@@ -98,6 +94,8 @@ export const CalculationModal = ({
     calculationString,
     isActiveSet,
     calculationExercise,
+    weightUnit,
+    distanceUnit,
   } = useCalculationModal;
 
   const loadPresets = useCallback(async () => {

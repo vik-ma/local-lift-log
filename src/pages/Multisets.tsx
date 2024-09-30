@@ -520,8 +520,6 @@ export default function Multisets() {
           useCalculationModal={calculationModal}
           usePresetsList={presetsList}
           doneButtonAction={addCalculationResult}
-          weightUnit={operatingSet.weight_unit}
-          distanceUnit={operatingSet.distance_unit}
           multiplierIncrement={
             userSettings.default_increment_calculation_multiplier
           }

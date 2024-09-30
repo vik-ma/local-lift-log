@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useCalculationModal, usePresetsList } from "../hooks";
 import { Button, useDisclosure } from "@nextui-org/react";
 import { CalculationModal, TextInputModal } from "../components";
+import { CalculationListItem, Exercise, PresetsType } from "../typings";
 
 export default function Test() {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
@@ -14,10 +15,20 @@ export default function Test() {
 
   const doneButtonAction = async (
     value: number,
-    isWeight: boolean,
+    presetsType: PresetsType,
+    calculationList: CalculationListItem[],
+    exercise: Exercise,
+    totalMultiplier: number,
     isActiveSet: boolean
   ) => {
-    console.log(value, isWeight, isActiveSet);
+    console.log(
+      value,
+      presetsType,
+      calculationList,
+      exercise,
+      totalMultiplier,
+      isActiveSet
+    );
   };
 
   return (
@@ -34,8 +45,6 @@ export default function Test() {
         useCalculationModal={calculationModal}
         usePresetsList={presetsList}
         doneButtonAction={doneButtonAction}
-        weightUnit="kg"
-        distanceUnit="km"
         multiplierIncrement={2}
       />
       <div className="flex flex-col gap-2">
