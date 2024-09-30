@@ -37,6 +37,8 @@ export const usePresetsList = (
   const [isLoadingDistance, setIsLoadingDistance] = useState<boolean>(true);
   const [plateCalculatorHandle, setPlateCalculatorHandle] =
     useState<EquipmentWeight>();
+  const [isDefaultHandleIdInvalid, setIsDefaultHandleIdInvalid] =
+    useState<boolean>(false);
 
   const filteredEquipmentWeights = useMemo(() => {
     if (filterQueryEquipment !== "") {
@@ -89,7 +91,12 @@ export const usePresetsList = (
           const defaultHandle = result.find(
             (equipment) => equipment.id === defaultEquipmentHandleId
           );
-          setPlateCalculatorHandle(defaultHandle);
+
+          if (defaultHandle !== undefined) {
+            setPlateCalculatorHandle(defaultHandle);
+          } else {
+            setIsDefaultHandleIdInvalid(true);
+          }
         }
       } catch (error) {
         console.log(error);
