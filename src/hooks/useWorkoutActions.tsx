@@ -2530,6 +2530,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         ? { ...activeSet }
         : { ...operatingSet };
 
+    const uneditedSet = { ...updatedSet };
+
     if (presetsType === "equipment") {
       updatedSet.weight = value;
     } else {
@@ -2539,12 +2541,18 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     if (isActiveSet) {
       setActiveSet(updatedSet);
       updateActiveSetTrackingValues(updatedSet, undefined);
+
+      if (!activeSetInputs.isSetEdited) {
+        activeSetInputs.setUneditedSet(uneditedSet);
+        activeSetInputs.setIsSetEdited(true);
+      }
     } else {
       operatingSetInputs.setTrackingValuesInputStrings(updatedSet);
       setOperatingSet(updatedSet);
 
-      if (!operatingSetInputs.isSetEdited)
+      if (!operatingSetInputs.isSetEdited) {
         operatingSetInputs.setIsSetEdited(true);
+      }
     }
 
     if (userSettings?.save_calculation_string === 1) {
