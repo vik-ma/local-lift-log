@@ -2539,8 +2539,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     }
 
     if (isActiveSet) {
+      activeSetInputs.setTrackingValuesInputStrings(updatedSet);
       setActiveSet(updatedSet);
-      updateActiveSetTrackingValues(updatedSet, undefined);
 
       if (!activeSetInputs.isSetEdited) {
         activeSetInputs.setUneditedSet(uneditedSet);
@@ -2551,6 +2551,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       setOperatingSet(updatedSet);
 
       if (!operatingSetInputs.isSetEdited) {
+        operatingSetInputs.setUneditedSet(uneditedSet);
         operatingSetInputs.setIsSetEdited(true);
       }
     }
