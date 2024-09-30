@@ -52,6 +52,8 @@ type CalculationModalProps = {
   equipmentWeightHandleId: number;
 };
 
+type OperationType = "add-preset" | "set-handle" | "show-list";
+
 export const CalculationModal = ({
   useCalculationModal,
   usePresetsList,
@@ -72,6 +74,8 @@ export const CalculationModal = ({
     useState<boolean>(true);
   const [showNumberInput, setShowNumberInput] = useState<boolean>(false);
   const [numberInput, setNumberInput] = useState<string>("");
+  const [operationType, setOperationType] =
+    useState<OperationType>("add-preset");
 
   const isNumberInputInvalid = useMemo(() => {
     return IsStringEmpty(numberInput) || IsStringInvalidNumber(numberInput);
@@ -199,6 +203,12 @@ export const CalculationModal = ({
     equipment?: EquipmentWeight,
     distance?: Distance
   ) => {
+    if (operationType === "add-preset") {
+      addPreset(equipment, distance);
+    }
+  };
+
+  const addPreset = (equipment?: EquipmentWeight, distance?: Distance) => {
     if (equipment !== undefined) {
       const calculationItem = CreateNewCalculationItem(
         "preset",
