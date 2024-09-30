@@ -46,6 +46,7 @@ export default function Test() {
         usePresetsList={presetsList}
         doneButtonAction={doneButtonAction}
         multiplierIncrement={2}
+        equipmentWeightHandleId={45}
       />
       <div className="flex flex-col gap-2">
         <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">

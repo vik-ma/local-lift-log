@@ -287,6 +287,7 @@ export default function WorkoutTemplateDetails() {
           multiplierIncrement={
             userSettings.default_increment_calculation_multiplier
           }
+          equipmentWeightHandleId={userSettings.default_equipment_weight_id}
         />
       )}
       <div className="flex flex-col">

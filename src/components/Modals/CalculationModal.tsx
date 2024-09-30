@@ -49,6 +49,7 @@ type CalculationModalProps = {
     isActiveSet: boolean
   ) => void;
   multiplierIncrement: number;
+  equipmentWeightHandleId: number;
 };
 
 export const CalculationModal = ({
@@ -56,6 +57,7 @@ export const CalculationModal = ({
   usePresetsList,
   doneButtonAction,
   multiplierIncrement,
+  equipmentWeightHandleId,
 }: CalculationModalProps) => {
   const [calculationListWeight, setCalculationListWeight] = useState<
     CalculationListItem[]
