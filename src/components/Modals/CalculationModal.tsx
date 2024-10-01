@@ -544,7 +544,9 @@ export const CalculationModal = ({
 
   const handleAddNumberButton = () => {
     setShowNumberInput(!showNumberInput);
-    setOperatingCalculationItem(undefined);
+
+    if (operatingCalculationItem !== undefined)
+      setOperatingCalculationItem(undefined);
   };
 
   const addNumberCalculationItem = () => {
@@ -606,7 +608,10 @@ export const CalculationModal = ({
 
     if (calculationItem.itemType === "calculation") {
       setCalculationModalPage("calc");
-    } 
+    } else if (calculationItem.itemType === "number") {
+      setNumberInput(calculationItem.value.toString());
+      setShowNumberInput(true);
+    }
   };
 
   return (
@@ -673,7 +678,10 @@ export const CalculationModal = ({
                         <div className="flex gap-1 items-center justify-between">
                           <div className="flex gap-2 items-center">
                             <span className="text-sm font-medium text-stone-500">
-                              New {presetText}
+                              {operatingCalculationItem === undefined
+                                ? "New"
+                                : "Edit"}{" "}
+                              {presetText}
                             </span>
                             <Input
                               ref={numberInputRef}
@@ -693,7 +701,9 @@ export const CalculationModal = ({
                               isDisabled={isNumberInputInvalid}
                               onPress={addNumberCalculationItem}
                             >
-                              Add
+                              {operatingCalculationItem === undefined
+                                ? "Add"
+                                : "Save"}
                             </Button>
                           </div>
                           <div>
