@@ -240,6 +240,8 @@ export const CalculationModal = ({
   ) => {
     if (operationType === "add-preset") {
       addPreset(equipment, distance);
+    } else if (operationType === "change-preset") {
+      changePreset(equipment, distance);
     }
   };
 
@@ -295,6 +297,55 @@ export const CalculationModal = ({
       addItemToCalculationList(calculationItem);
     }
 
+    setCalculationModalPage("base");
+  };
+
+  const changePreset = (equipment?: EquipmentWeight, distance?: Distance) => {
+    if (operatingCalculationItem === undefined) return;
+
+    if (equipment !== undefined) {
+      const updatedCalculationItem: CalculationListItem = {
+        ...operatingCalculationItem.calculationItem,
+        value: equipment.weight,
+        label: equipment.name,
+        unit: equipment.weight_unit,
+      };
+
+      if (equipment.weight_unit !== weightUnit) {
+        const newValue = ConvertWeightValue(
+          equipment.weight,
+          equipment.weight_unit,
+          weightUnit
+        );
+        updatedCalculationItem.value = newValue;
+        updatedCalculationItem.unit = weightUnit;
+      }
+
+      editItemInCalculationList(updatedCalculationItem);
+    }
+
+    if (distance !== undefined) {
+      const updatedCalculationItem: CalculationListItem = {
+        ...operatingCalculationItem.calculationItem,
+        value: distance.distance,
+        label: distance.name,
+        unit: distance.distance_unit,
+      };
+
+      if (distance.distance_unit !== distanceUnit) {
+        const newValue = ConvertDistanceValue(
+          distance.distance,
+          distance.distance_unit,
+          distanceUnit
+        );
+        updatedCalculationItem.value = newValue;
+        updatedCalculationItem.unit = distanceUnit;
+      }
+
+      editItemInCalculationList(updatedCalculationItem);
+    }
+
+    setOperatingCalculationItem(undefined);
     setCalculationModalPage("base");
   };
 
@@ -640,6 +691,9 @@ export const CalculationModal = ({
     } else if (calculationItem.itemType === "number") {
       setNumberInput(calculationItem.value.toString());
       setShowNumberInput(true);
+    } else if (calculationItem.itemType === "preset") {
+      setCalculationModalPage("list");
+      setOperationType("change-preset");
     }
   };
 
@@ -654,8 +708,12 @@ export const CalculationModal = ({
             <ModalHeader>
               {calculationModalPage === "base" ? (
                 <>Calculate {presetText}</>
-              ) : calculationModalPage === "list" ? (
+              ) : calculationModalPage === "list" &&
+                operationType === "add-preset" ? (
                 <>Select {presetText}</>
+              ) : calculationModalPage === "list" &&
+                operationType === "change-preset" ? (
+                <>Change {presetText}</>
               ) : calculationModalPage === "plate-calc" ? (
                 <>Plate Calculator</>
               ) : (
