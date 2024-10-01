@@ -667,8 +667,8 @@ export const CalculationModal = ({
                                 key={`calculation-list-weight-${index}`}
                                 className="flex gap-1.5 items-center"
                               >
-                                <div className="flex w-[13.25rem] justify-between gap-1 bg-default-50 px-1.5 py-0.5 border-2 rounded-lg">
-                                  <span className="w-[7rem] truncate">
+                                <button className="flex w-[13.25rem] justify-between gap-1 bg-default-50 px-1.5 py-0.5 border-2 rounded-lg">
+                                  <span className="w-[7rem] truncate text-left">
                                     {weight.label}
                                   </span>
                                   <div className="flex gap-1 text-secondary">
@@ -677,7 +677,7 @@ export const CalculationModal = ({
                                     </span>
                                     <span>{weight.unit}</span>
                                   </div>
-                                </div>
+                                </button>
                                 <div className="flex gap-0.5 select-none">
                                   <Input
                                     aria-label={`${weight.label} Multiplier Input`}
@@ -748,8 +748,8 @@ export const CalculationModal = ({
                                 key={`calculation-list-distance-${index}`}
                                 className="flex gap-1.5 items-center"
                               >
-                                <div className="flex w-[13.25rem] justify-between gap-1 bg-default-50 px-1.5 py-0.5 border-2 rounded-lg">
-                                  <span className="w-[7rem] truncate">
+                                <button className="flex w-[13.25rem] justify-between gap-1 bg-default-50 px-1.5 py-0.5 border-2 rounded-lg">
+                                  <span className="w-[7rem] truncate text-left">
                                     {distance.label}
                                   </span>
                                   <div className="flex gap-1 text-secondary">
@@ -758,7 +758,7 @@ export const CalculationModal = ({
                                     </span>
                                     <span>{distance.unit}</span>
                                   </div>
-                                </div>
+                                </button>
                                 <div className="flex gap-0.5 select-none">
                                   <Input
                                     aria-label={`${distance.label} Multiplier Input`}
