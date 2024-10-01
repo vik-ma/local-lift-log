@@ -13,6 +13,7 @@ import {
   Distance,
   EquipmentWeight,
   Exercise,
+  OperatingCalculationItem,
   PresetsType,
   UseCalculationModalReturnType,
   UsePresetsListReturnType,
@@ -76,6 +77,8 @@ export const CalculationModal = ({
   const [numberInput, setNumberInput] = useState<string>("");
   const [operationType, setOperationType] =
     useState<OperationType>("add-preset");
+  const [operatingCalculationItem, setOperatingCalculationItem] =
+    useState<OperatingCalculationItem>();
 
   const isNumberInputInvalid = useMemo(() => {
     return IsStringEmpty(numberInput) || IsStringInvalidNumber(numberInput);
@@ -551,6 +554,16 @@ export const CalculationModal = ({
     setCalculationModalPage("plate-calc");
   };
 
+  const handleClickCalculationItem = (
+    calculationItem: CalculationListItem,
+    index: number
+  ) => {
+    if (calculationItem.itemType === "calculation") {
+      setOperatingCalculationItem({ calculationItem, index });
+      setCalculationModalPage("calc");
+    }
+  };
+
   return (
     <Modal
       isOpen={calculationModal.isOpen}
@@ -667,7 +680,12 @@ export const CalculationModal = ({
                                 key={`calculation-list-weight-${index}`}
                                 className="flex gap-1.5 items-center"
                               >
-                                <button className="flex w-[13.25rem] justify-between gap-1 bg-default-50 px-1.5 py-0.5 border-2 rounded-lg">
+                                <button
+                                  className="flex w-[13.25rem] justify-between gap-1 bg-default-50 px-1.5 py-0.5 border-2 rounded-lg"
+                                  onClick={() =>
+                                    handleClickCalculationItem(weight, index)
+                                  }
+                                >
                                   <span className="w-[7rem] truncate text-left">
                                     {weight.label}
                                   </span>
@@ -748,7 +766,12 @@ export const CalculationModal = ({
                                 key={`calculation-list-distance-${index}`}
                                 className="flex gap-1.5 items-center"
                               >
-                                <button className="flex w-[13.25rem] justify-between gap-1 bg-default-50 px-1.5 py-0.5 border-2 rounded-lg">
+                                <button
+                                  className="flex w-[13.25rem] justify-between gap-1 bg-default-50 px-1.5 py-0.5 border-2 rounded-lg"
+                                  onClick={() =>
+                                    handleClickCalculationItem(distance, index)
+                                  }
+                                >
                                   <span className="w-[7rem] truncate text-left">
                                     {distance.label}
                                   </span>
@@ -880,6 +903,7 @@ export const CalculationModal = ({
                       isCalculationInvalid={isCalculationInvalid}
                       setIsCalculationInvalid={setIsCalculationInvalid}
                       buttonAction={addCalculationString}
+                      operatingCalculationItem={operatingCalculationItem}
                     />
                   </>
                 ) : calculationModalPage === "plate-calc" ? (

@@ -8,17 +8,20 @@ import {
 } from "../assets";
 import { evaluate } from "mathjs";
 import { Button } from "@nextui-org/react";
+import { OperatingCalculationItem } from "../typings";
 
 type CalculatorProps = {
   isCalculationInvalid: boolean;
   setIsCalculationInvalid: React.Dispatch<React.SetStateAction<boolean>>;
   buttonAction: (calculationString: string) => void;
+  operatingCalculationItem: OperatingCalculationItem | undefined;
 };
 
 export const Calculator = ({
   isCalculationInvalid,
   setIsCalculationInvalid,
   buttonAction,
+  operatingCalculationItem,
 }: CalculatorProps) => {
   const [result, setResult] = useState<string>("");
   const [input, setInput] = useState<string>("");
@@ -191,6 +194,24 @@ export const Calculator = ({
       }
     }
   }, [input, setIsCalculationInvalid]);
+
+  useEffect(() => {
+    if (
+      operatingCalculationItem !== undefined &&
+      operatingCalculationItem.calculationItem.itemType === "calculation"
+    ) {
+      try {
+        const calculation = evaluate(
+          operatingCalculationItem.calculationItem.label
+        );
+
+        setResult(calculation);
+        setInput(operatingCalculationItem.calculationItem.label);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }, [operatingCalculationItem]);
 
   return (
     <div className="flex flex-col gap-1.5 px-10">

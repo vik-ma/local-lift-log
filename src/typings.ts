@@ -516,3 +516,8 @@ export type CalculationListItem = {
   equipmentWeight?: EquipmentWeight;
   distance?: Distance;
 };
+
+export type OperatingCalculationItem = {
+  calculationItem: CalculationListItem;
+  index: number;
+};
