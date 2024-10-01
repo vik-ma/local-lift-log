@@ -556,14 +556,55 @@ export const CalculationModal = ({
 
     const value = ConvertNumberToTwoDecimals(Number(numberInput));
 
-    const calculationItem = CreateNewCalculationItem("number", unit, 1, value);
+    if (operatingCalculationItem === undefined) {
+      // Add new calculationItem to list
+      const calculationItem = CreateNewCalculationItem(
+        "number",
+        unit,
+        1,
+        value
+      );
 
-    if (calculationItem === undefined) return;
+      if (calculationItem === undefined) return;
 
-    addItemToCalculationList(calculationItem);
+      addItemToCalculationList(calculationItem);
+    } else {
+      // Edit operatingCalculationItem
+
+      const updatedCalculationItem: CalculationListItem = {
+        ...operatingCalculationItem.calculationItem,
+        value: value,
+        label: `${value} ${unit}`,
+      };
+
+      if (presetsType === "equipment") {
+        if (calculationListWeight[operatingCalculationItem.index] === undefined)
+          return;
+
+        const updatedCalculationList = [...calculationListWeight];
+
+        updatedCalculationList[operatingCalculationItem.index] =
+          updatedCalculationItem;
+
+        setCalculationListWeight(updatedCalculationList);
+      } else {
+        if (
+          calculationListDistance[operatingCalculationItem.index] === undefined
+        )
+          return;
+
+        const updatedCalculationList = [...calculationListDistance];
+
+        updatedCalculationList[operatingCalculationItem.index] =
+          updatedCalculationItem;
+
+        setCalculationListDistance(updatedCalculationList);
+      }
+    }
 
     setNumberInput("");
     setShowNumberInput(false);
+    setOperatingCalculationItem(undefined);
   };
 
   const handleCancelNumberInputButton = () => {
