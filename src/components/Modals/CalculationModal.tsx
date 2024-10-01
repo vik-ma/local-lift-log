@@ -543,6 +543,11 @@ export const CalculationModal = ({
   };
 
   const handleAddNumberButton = () => {
+    setShowNumberInput(!showNumberInput);
+    setOperatingCalculationItem(undefined);
+  };
+
+  const addNumberCalculationItem = () => {
     if (isNumberInputInvalid) return;
 
     const unit = presetsType === "equipment" ? weightUnit : distanceUnit;
@@ -597,10 +602,11 @@ export const CalculationModal = ({
     calculationItem: CalculationListItem,
     index: number
   ) => {
+    setOperatingCalculationItem({ calculationItem, index });
+
     if (calculationItem.itemType === "calculation") {
-      setOperatingCalculationItem({ calculationItem, index });
       setCalculationModalPage("calc");
-    }
+    } 
   };
 
   return (
@@ -640,7 +646,7 @@ export const CalculationModal = ({
                             color={showNumberInput ? "secondary" : "default"}
                             size="sm"
                             variant="flat"
-                            onPress={() => setShowNumberInput(!showNumberInput)}
+                            onPress={handleAddNumberButton}
                           >
                             Add {presetText}
                           </Button>
@@ -685,7 +691,7 @@ export const CalculationModal = ({
                               variant="flat"
                               size="sm"
                               isDisabled={isNumberInputInvalid}
-                              onPress={handleAddNumberButton}
+                              onPress={addNumberCalculationItem}
                             >
                               Add
                             </Button>
