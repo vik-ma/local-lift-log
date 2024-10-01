@@ -222,16 +222,19 @@ export const CalculationModal = ({
     }
   };
 
-  const handleGoToListButton = async () => {
+  const handleAddPresetButton = async () => {
     await loadPresets();
 
     setCalculationModalPage("list");
     setShowNumberInput(false);
+    setOperatingCalculationItem(undefined);
+    setOperationType("add-preset");
   };
 
   const handleGoToCalculationButton = () => {
     setCalculationModalPage("calc");
     setShowNumberInput(false);
+    setOperatingCalculationItem(undefined);
   };
 
   const handlePresetClick = (
@@ -688,12 +691,14 @@ export const CalculationModal = ({
 
     if (calculationItem.itemType === "calculation") {
       setCalculationModalPage("calc");
+      setShowNumberInput(false);
     } else if (calculationItem.itemType === "number") {
       setNumberInput(calculationItem.value.toString());
       setShowNumberInput(true);
     } else if (calculationItem.itemType === "preset") {
       setCalculationModalPage("list");
       setOperationType("change-preset");
+      setShowNumberInput(false);
     }
   };
 
@@ -730,7 +735,7 @@ export const CalculationModal = ({
                           <Button
                             size="sm"
                             variant="flat"
-                            onPress={handleGoToListButton}
+                            onPress={handleAddPresetButton}
                           >
                             Add Preset
                           </Button>
