@@ -261,16 +261,6 @@ export const CalculationModal = ({
 
       if (calculationItem === undefined) return;
 
-      if (equipment.weight_unit !== weightUnit) {
-        const newValue = ConvertWeightValue(
-          equipment.weight,
-          equipment.weight_unit,
-          weightUnit
-        );
-        calculationItem.value = newValue;
-        calculationItem.unit = weightUnit;
-      }
-
       addItemToCalculationList(calculationItem);
     }
 
@@ -286,16 +276,6 @@ export const CalculationModal = ({
       );
 
       if (calculationItem === undefined) return;
-
-      if (distance.distance_unit !== distanceUnit) {
-        const newValue = ConvertDistanceValue(
-          distance.distance,
-          distance.distance_unit,
-          distanceUnit
-        );
-        calculationItem.value = newValue;
-        calculationItem.unit = distanceUnit;
-      }
 
       addItemToCalculationList(calculationItem);
     }
