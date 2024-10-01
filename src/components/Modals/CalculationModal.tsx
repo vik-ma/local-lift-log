@@ -566,6 +566,11 @@ export const CalculationModal = ({
     setShowNumberInput(false);
   };
 
+  const handleCancelNumberInputButton = () => {
+    setShowNumberInput(false);
+    setOperatingCalculationItem(undefined);
+  };
+
   useEffect(() => {
     if (showNumberInput && numberInputRef.current) {
       numberInputRef.current.focus();
@@ -710,7 +715,7 @@ export const CalculationModal = ({
                             <Button
                               variant="flat"
                               size="sm"
-                              onPress={() => setShowNumberInput(false)}
+                              onPress={handleCancelNumberInputButton}
                             >
                               Cancel
                             </Button>
