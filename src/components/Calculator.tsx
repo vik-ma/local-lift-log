@@ -324,7 +324,9 @@ export const Calculator = ({
           isDisabled={isCalculationInvalid}
           onPress={() => buttonAction(input)}
         >
-          Add Calculation
+          {operatingCalculationItem === undefined
+            ? "Add Calculation"
+            : "Save Calculation"}
         </Button>
       </div>
     </div>
