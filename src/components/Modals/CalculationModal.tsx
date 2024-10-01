@@ -53,7 +53,11 @@ type CalculationModalProps = {
   equipmentWeightHandleId: number;
 };
 
-type OperationType = "add-preset" | "set-handle" | "show-list";
+type OperationType =
+  | "add-preset"
+  | "change-preset"
+  | "set-handle"
+  | "show-list";
 
 export const CalculationModal = ({
   useCalculationModal,
@@ -486,20 +490,55 @@ export const CalculationModal = ({
 
     if (isCalculationInvalid || !isCalculationValid) return;
 
-    const unit = presetsType === "equipment" ? weightUnit : distanceUnit;
+    if (operatingCalculationItem === undefined) {
+      // Add new calculationItem to list
+      const unit = presetsType === "equipment" ? weightUnit : distanceUnit;
 
-    const calculationItem = CreateNewCalculationItem(
-      "calculation",
-      unit,
-      1,
-      result,
-      calculationString
-    );
+      const calculationItem = CreateNewCalculationItem(
+        "calculation",
+        unit,
+        1,
+        result,
+        calculationString
+      );
 
-    if (calculationItem === undefined) return;
+      if (calculationItem === undefined) return;
 
-    addItemToCalculationList(calculationItem);
+      addItemToCalculationList(calculationItem);
+    } else {
+      // Edit operatingCalculationItem
+      const updatedCalculationItem: CalculationListItem = {
+        ...operatingCalculationItem.calculationItem,
+        value: result,
+        label: calculationString,
+      };
 
+      if (presetsType === "equipment") {
+        if (calculationListWeight[operatingCalculationItem.index] === undefined)
+          return;
+
+        const updatedCalculationList = [...calculationListWeight];
+
+        updatedCalculationList[operatingCalculationItem.index] =
+          updatedCalculationItem;
+
+        setCalculationListWeight(updatedCalculationList);
+      } else {
+        if (
+          calculationListDistance[operatingCalculationItem.index] === undefined
+        )
+          return;
+
+        const updatedCalculationList = [...calculationListDistance];
+
+        updatedCalculationList[operatingCalculationItem.index] =
+          updatedCalculationItem;
+
+        setCalculationListDistance(updatedCalculationList);
+      }
+    }
+
+    setOperatingCalculationItem(undefined);
     setCalculationModalPage("base");
   };
 
