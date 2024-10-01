@@ -194,6 +194,34 @@ export const CalculationModal = ({
     }
   };
 
+  const editItemInCalculationList = (
+    updatedCalculationItem: CalculationListItem
+  ) => {
+    if (operatingCalculationItem === undefined) return;
+
+    if (presetsType === "equipment") {
+      if (calculationListWeight[operatingCalculationItem.index] === undefined)
+        return;
+
+      const updatedCalculationList = [...calculationListWeight];
+
+      updatedCalculationList[operatingCalculationItem.index] =
+        updatedCalculationItem;
+
+      setCalculationListWeight(updatedCalculationList);
+    } else {
+      if (calculationListDistance[operatingCalculationItem.index] === undefined)
+        return;
+
+      const updatedCalculationList = [...calculationListDistance];
+
+      updatedCalculationList[operatingCalculationItem.index] =
+        updatedCalculationItem;
+
+      setCalculationListDistance(updatedCalculationList);
+    }
+  };
+
   const handleGoToListButton = async () => {
     await loadPresets();
 
@@ -513,29 +541,7 @@ export const CalculationModal = ({
         label: calculationString,
       };
 
-      if (presetsType === "equipment") {
-        if (calculationListWeight[operatingCalculationItem.index] === undefined)
-          return;
-
-        const updatedCalculationList = [...calculationListWeight];
-
-        updatedCalculationList[operatingCalculationItem.index] =
-          updatedCalculationItem;
-
-        setCalculationListWeight(updatedCalculationList);
-      } else {
-        if (
-          calculationListDistance[operatingCalculationItem.index] === undefined
-        )
-          return;
-
-        const updatedCalculationList = [...calculationListDistance];
-
-        updatedCalculationList[operatingCalculationItem.index] =
-          updatedCalculationItem;
-
-        setCalculationListDistance(updatedCalculationList);
-      }
+      editItemInCalculationList(updatedCalculationItem);
     }
 
     setOperatingCalculationItem(undefined);
@@ -570,36 +576,13 @@ export const CalculationModal = ({
       addItemToCalculationList(calculationItem);
     } else {
       // Edit operatingCalculationItem
-
       const updatedCalculationItem: CalculationListItem = {
         ...operatingCalculationItem.calculationItem,
         value: value,
         label: `${value} ${unit}`,
       };
 
-      if (presetsType === "equipment") {
-        if (calculationListWeight[operatingCalculationItem.index] === undefined)
-          return;
-
-        const updatedCalculationList = [...calculationListWeight];
-
-        updatedCalculationList[operatingCalculationItem.index] =
-          updatedCalculationItem;
-
-        setCalculationListWeight(updatedCalculationList);
-      } else {
-        if (
-          calculationListDistance[operatingCalculationItem.index] === undefined
-        )
-          return;
-
-        const updatedCalculationList = [...calculationListDistance];
-
-        updatedCalculationList[operatingCalculationItem.index] =
-          updatedCalculationItem;
-
-        setCalculationListDistance(updatedCalculationList);
-      }
+      editItemInCalculationList(updatedCalculationItem);
     }
 
     setNumberInput("");
