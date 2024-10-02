@@ -101,6 +101,8 @@ export const CalculationModal = ({
     isLoadingDistance,
     plateCalculatorHandle,
     setPlateCalculatorHandle,
+    isDefaultHandleIdInvalid,
+    setIsDefaultHandleIdInvalid,
   } = usePresetsList;
 
   const {
@@ -693,7 +695,7 @@ export const CalculationModal = ({
     setOperationType("change-handle");
   };
 
-  const changeHandle = (equipment: EquipmentWeight) => {
+  const changeHandle = async (equipment: EquipmentWeight) => {
     setPlateCalculatorHandle(equipment);
 
     setCalculationModalPage("plate-calc");

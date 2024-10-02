@@ -373,5 +373,7 @@ export const usePresetsList = (
     togglePlateCalculator,
     plateCalculatorHandle,
     setPlateCalculatorHandle,
+    isDefaultHandleIdInvalid,
+    setIsDefaultHandleIdInvalid,
   };
 };

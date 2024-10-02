@@ -477,6 +477,8 @@ export type UsePresetsListReturnType = {
   setPlateCalculatorHandle: React.Dispatch<
     React.SetStateAction<EquipmentWeight | undefined>
   >;
+  isDefaultHandleIdInvalid: boolean;
+  setIsDefaultHandleIdInvalid: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export type CalculationModalPage = "base" | "list" | "calc" | "plate-calc";
