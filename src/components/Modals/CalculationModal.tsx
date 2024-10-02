@@ -100,6 +100,7 @@ export const CalculationModal = ({
   }, [targetWeightInput]);
 
   const numberInputRef = useRef<HTMLInputElement>(null);
+  const targetWeightInputRef = useRef<HTMLInputElement>(null);
 
   const {
     equipmentWeights,
@@ -651,6 +652,12 @@ export const CalculationModal = ({
     }
   }, [showNumberInput]);
 
+  useEffect(() => {
+    if (calculationModalPage === "plate-calc" && targetWeightInputRef.current) {
+      targetWeightInputRef.current.focus();
+    }
+  }, [calculationModalPage]);
+
   const handleDoneButton = () => {
     if (calculationExercise === undefined) return;
 
@@ -1142,6 +1149,7 @@ export const CalculationModal = ({
                     <div className="flex gap-2 items-center px-0.5">
                       <span className="font-medium">Target Weight</span>
                       <Input
+                        ref={targetWeightInputRef}
                         className="w-[6rem]"
                         aria-label="Target Weight Input Field"
                         size="sm"
