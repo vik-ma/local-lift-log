@@ -37,6 +37,7 @@ import {
   IsStringEmpty,
   IsStringInvalidNumber,
   LoadCalculationString,
+  UpdateDefaultEquipmentWeightId,
 } from "../../helpers";
 
 type CalculationModalProps = {
@@ -252,6 +253,8 @@ export const CalculationModal = ({
       changePreset(equipment, distance);
     } else if (operationType === "change-handle" && equipment !== undefined) {
       changeHandle(equipment);
+    } else if (operationType === "set-handle" && equipment !== undefined) {
+      setHandle(equipment);
     }
   };
 
@@ -696,12 +699,30 @@ export const CalculationModal = ({
     setOperationType("change-handle");
   };
 
-  const changeHandle = async (equipment: EquipmentWeight) => {
+  const handleSetHandleButton = () => {
+    setCalculationModalPage("list");
+    setOperationType("set-handle");
+  };
+
+  const changeHandle = (equipment: EquipmentWeight) => {
     setPlateCalculatorHandle(equipment);
 
     setCalculationModalPage("plate-calc");
     setOperationType("add-preset");
-    // TODO: SAVE TO DB
+  };
+
+  const setHandle = async (equipment: EquipmentWeight) => {
+    changeHandle(equipment);
+
+    if (isDefaultHandleIdInvalid) {
+      const updatedUserSettings: UserSettings = {
+        ...userSettings,
+        default_equipment_weight_id: equipment.id,
+      };
+
+      await UpdateDefaultEquipmentWeightId(updatedUserSettings);
+      setIsDefaultHandleIdInvalid(false);
+    }
   };
 
   return (
@@ -1087,7 +1108,12 @@ export const CalculationModal = ({
                         <span className="px-0.5 text-stone-400">
                           No Handle Set
                         </span>
-                        <Button size="sm" variant="flat" color="secondary">
+                        <Button
+                          size="sm"
+                          variant="flat"
+                          color="secondary"
+                          onPress={handleSetHandleButton}
+                        >
                           Set Handle
                         </Button>
                       </div>
