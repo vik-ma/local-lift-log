@@ -1,12 +1,24 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useCalculationModal, usePresetsList } from "../hooks";
 import { Button, useDisclosure } from "@nextui-org/react";
-import { CalculationModal, TextInputModal } from "../components";
-import { CalculationListItem, Exercise, PresetsType } from "../typings";
+import {
+  CalculationModal,
+  LoadingSpinner,
+  TextInputModal,
+} from "../components";
+import {
+  CalculationListItem,
+  Exercise,
+  PresetsType,
+  UserSettings,
+} from "../typings";
+import { GetUserSettings } from "../helpers";
 
 export default function Test() {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const [text, setText] = useState<string>("");
+
+  const [userSettings, setUserSettings] = useState<UserSettings>();
 
   const calculationModal = useCalculationModal();
   const textInputModal = useDisclosure();
@@ -31,6 +43,18 @@ export default function Test() {
     );
   };
 
+  useEffect(() => {
+    const loadUserSettings = async () => {
+      const userSettings = await GetUserSettings();
+      if (userSettings === undefined) return;
+      setUserSettings(userSettings);
+    };
+
+    loadUserSettings();
+  }, []);
+
+  if (userSettings === undefined) return <LoadingSpinner />;
+
   return (
     <>
       <TextInputModal
@@ -46,7 +70,7 @@ export default function Test() {
         usePresetsList={presetsList}
         doneButtonAction={doneButtonAction}
         multiplierIncrement={2}
-        equipmentWeightHandleId={45}
+        userSettings={userSettings}
       />
       <div className="flex flex-col gap-2">
         <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">
