@@ -57,6 +57,7 @@ type OperationType =
   | "add-preset"
   | "change-preset"
   | "set-handle"
+  | "change-handle"
   | "show-list";
 
 export const CalculationModal = ({
@@ -99,6 +100,7 @@ export const CalculationModal = ({
     isLoadingEquipment,
     isLoadingDistance,
     plateCalculatorHandle,
+    setPlateCalculatorHandle,
   } = usePresetsList;
 
   const {
@@ -245,6 +247,8 @@ export const CalculationModal = ({
       addPreset(equipment, distance);
     } else if (operationType === "change-preset") {
       changePreset(equipment, distance);
+    } else if (operationType === "change-handle" && equipment !== undefined) {
+      changeHandle(equipment);
     }
   };
 
@@ -684,6 +688,19 @@ export const CalculationModal = ({
     }
   };
 
+  const handleChangeHandleButton = () => {
+    setCalculationModalPage("list");
+    setOperationType("change-handle");
+  };
+
+  const changeHandle = (equipment: EquipmentWeight) => {
+    setPlateCalculatorHandle(equipment);
+
+    setCalculationModalPage("plate-calc");
+    setOperationType("add-preset");
+    // TODO: SAVE TO DB
+  };
+
   return (
     <Modal
       isOpen={calculationModal.isOpen}
@@ -701,6 +718,9 @@ export const CalculationModal = ({
               ) : calculationModalPage === "list" &&
                 operationType === "change-preset" ? (
                 <>Change {presetText}</>
+              ) : calculationModalPage === "list" &&
+                operationType === "change-handle" ? (
+                <>Change Handle</>
               ) : calculationModalPage === "plate-calc" ? (
                 <>Plate Calculator</>
               ) : (
@@ -1051,7 +1071,11 @@ export const CalculationModal = ({
                             <span>{plateCalculatorHandle.weight_unit}</span>
                           </div>
                         </div>
-                        <Button size="sm" variant="flat">
+                        <Button
+                          size="sm"
+                          variant="flat"
+                          onPress={handleChangeHandleButton}
+                        >
                           Change
                         </Button>
                       </div>
