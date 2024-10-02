@@ -661,6 +661,8 @@ export const CalculationModal = ({
     }
 
     setCalculationModalPage("plate-calc");
+    setShowNumberInput(false);
+    setOperatingCalculationItem(undefined);
   };
 
   const handleClickCalculationItem = (
