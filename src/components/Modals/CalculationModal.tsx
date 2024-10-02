@@ -86,10 +86,18 @@ export const CalculationModal = ({
     useState<OperationType>("add-preset");
   const [operatingCalculationItem, setOperatingCalculationItem] =
     useState<OperatingCalculationItem>();
+  const [targetWeightInput, setTargetWeightInput] = useState<string>("");
 
   const isNumberInputInvalid = useMemo(() => {
     return IsStringEmpty(numberInput) || IsStringInvalidNumberOr0(numberInput);
   }, [numberInput]);
+
+  const isTargetWeightInputInvalid = useMemo(() => {
+    return (
+      IsStringEmpty(targetWeightInput) ||
+      IsStringInvalidNumberOr0(targetWeightInput)
+    );
+  }, [targetWeightInput]);
 
   const numberInputRef = useRef<HTMLInputElement>(null);
 
@@ -1129,6 +1137,19 @@ export const CalculationModal = ({
                         </Button>
                       </div>
                     )}
+                    <div className="flex gap-2 items-center">
+                      <span className="font-medium px-0.5">Target Weight</span>
+                      <Input
+                        className="w-[6rem]"
+                        aria-label="Target Weight Input Field"
+                        size="sm"
+                        variant="faded"
+                        isInvalid={isTargetWeightInputInvalid}
+                        isClearable
+                        value={targetWeightInput}
+                        onValueChange={setTargetWeightInput}
+                      />
+                    </div>
                   </div>
                 ) : (
                   <PresetsModalList
