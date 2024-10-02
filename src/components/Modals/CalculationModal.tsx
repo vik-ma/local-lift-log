@@ -1099,46 +1099,48 @@ export const CalculationModal = ({
                     />
                   </>
                 ) : calculationModalPage === "plate-calc" ? (
-                  <div className="flex flex-col gap-1">
-                    <h3 className="font-medium px-0.5">Handle</h3>
-                    {plateCalculatorHandle !== undefined ? (
-                      <div className="flex gap-1.5 items-center">
-                        <div className="flex w-[20rem] justify-between gap-1 bg-default-50 px-1.5 py-0.5 border-2 rounded-lg">
-                          <span className="w-[16rem] truncate">
-                            {plateCalculatorHandle.name}
-                          </span>
-                          <div className="flex gap-1 text-secondary">
-                            <span className="w-[3.5rem] truncate text-right">
-                              {plateCalculatorHandle.weight}
+                  <div className="flex flex-col gap-2.5">
+                    <div className="flex flex-col gap-1">
+                      <h3 className="font-medium px-0.5">Handle</h3>
+                      {plateCalculatorHandle !== undefined ? (
+                        <div className="flex gap-1.5 items-center">
+                          <div className="flex w-[20rem] justify-between gap-1 bg-default-50 px-1.5 py-0.5 border-2 rounded-lg">
+                            <span className="w-[16rem] truncate">
+                              {plateCalculatorHandle.name}
                             </span>
-                            <span>{plateCalculatorHandle.weight_unit}</span>
+                            <div className="flex gap-1 text-secondary">
+                              <span className="w-[3.5rem] truncate text-right">
+                                {plateCalculatorHandle.weight}
+                              </span>
+                              <span>{plateCalculatorHandle.weight_unit}</span>
+                            </div>
                           </div>
+                          <Button
+                            size="sm"
+                            variant="flat"
+                            onPress={handleChangeHandleButton}
+                          >
+                            Change
+                          </Button>
                         </div>
-                        <Button
-                          size="sm"
-                          variant="flat"
-                          onPress={handleChangeHandleButton}
-                        >
-                          Change
-                        </Button>
-                      </div>
-                    ) : (
-                      <div className="flex justify-between">
-                        <span className="px-0.5 text-stone-400">
-                          No Handle Set
-                        </span>
-                        <Button
-                          size="sm"
-                          variant="flat"
-                          color="secondary"
-                          onPress={handleSetHandleButton}
-                        >
-                          Set Handle
-                        </Button>
-                      </div>
-                    )}
-                    <div className="flex gap-2 items-center">
-                      <span className="font-medium px-0.5">Target Weight</span>
+                      ) : (
+                        <div className="flex justify-between">
+                          <span className="px-0.5 text-stone-400">
+                            No Handle Set
+                          </span>
+                          <Button
+                            size="sm"
+                            variant="flat"
+                            color="secondary"
+                            onPress={handleSetHandleButton}
+                          >
+                            Set Handle
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex gap-2 items-center px-0.5">
+                      <span className="font-medium">Target Weight</span>
                       <Input
                         className="w-[6rem]"
                         aria-label="Target Weight Input Field"
