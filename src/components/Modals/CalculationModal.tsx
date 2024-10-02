@@ -725,6 +725,19 @@ export const CalculationModal = ({
     }
   };
 
+  const handleBackButton = () => {
+    if (operationType === "add-preset") {
+      setCalculationModalPage("base");
+    } else if (operationType === "change-preset") {
+      setOperationType("add-preset");
+      setCalculationModalPage("base");
+      setOperatingCalculationItem(undefined);
+    } else {
+      setCalculationModalPage("plate-calc");
+      setOperationType("add-preset");
+    }
+  };
+
   return (
     <Modal
       isOpen={calculationModal.isOpen}
@@ -1130,10 +1143,7 @@ export const CalculationModal = ({
             <ModalFooter className="flex justify-between">
               <div className="flex gap-1">
                 {calculationModalPage !== "base" && (
-                  <Button
-                    variant="flat"
-                    onPress={() => setCalculationModalPage("base")}
-                  >
+                  <Button variant="flat" onPress={handleBackButton}>
                     Back
                   </Button>
                 )}
