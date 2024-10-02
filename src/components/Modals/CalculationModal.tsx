@@ -35,7 +35,7 @@ import {
   CreateNewCalculationItem,
   IsCalculationStringValid,
   IsStringEmpty,
-  IsStringInvalidNumber,
+  IsStringInvalidNumberOr0,
   LoadCalculationString,
   UpdateDefaultEquipmentWeightId,
 } from "../../helpers";
@@ -88,7 +88,7 @@ export const CalculationModal = ({
     useState<OperatingCalculationItem>();
 
   const isNumberInputInvalid = useMemo(() => {
-    return IsStringEmpty(numberInput) || IsStringInvalidNumber(numberInput);
+    return IsStringEmpty(numberInput) || IsStringInvalidNumberOr0(numberInput);
   }, [numberInput]);
 
   const numberInputRef = useRef<HTMLInputElement>(null);
@@ -416,9 +416,7 @@ export const CalculationModal = ({
     disableTotalMultiplierDecreaseButton,
     disableTotalMultiplierIncreaseButton,
   } = useMemo(() => {
-    const isInputInvalid =
-      IsStringInvalidNumber(totalMultiplierInput) ||
-      totalMultiplierInput === "0";
+    const isInputInvalid = IsStringInvalidNumberOr0(totalMultiplierInput);
 
     setIsTotalMultiplierInvalid(isInputInvalid);
 
@@ -450,7 +448,7 @@ export const CalculationModal = ({
     weight: CalculationListItem,
     index: number
   ) => {
-    const isInputInvalid = IsStringInvalidNumber(value) || value === "0";
+    const isInputInvalid = IsStringInvalidNumberOr0(value);
 
     const multiplier =
       isInputInvalid || IsStringEmpty(value) ? 1 : Number(value);
@@ -480,7 +478,7 @@ export const CalculationModal = ({
     distance: CalculationListItem,
     index: number
   ) => {
-    const isInputInvalid = IsStringInvalidNumber(value) || value === "0";
+    const isInputInvalid = IsStringInvalidNumberOr0(value);
 
     const multiplier =
       isInputInvalid || IsStringEmpty(value) ? 1 : Number(value);
