@@ -17,6 +17,7 @@ import {
   PresetsType,
   UseCalculationModalReturnType,
   UsePresetsListReturnType,
+  UserSettings,
 } from "../../typings";
 import {
   Calculator,
@@ -50,7 +51,7 @@ type CalculationModalProps = {
     isActiveSet: boolean
   ) => void;
   multiplierIncrement: number;
-  equipmentWeightHandleId: number;
+  userSettings: UserSettings;
 };
 
 type OperationType =
@@ -65,7 +66,7 @@ export const CalculationModal = ({
   usePresetsList,
   doneButtonAction,
   multiplierIncrement,
-  equipmentWeightHandleId,
+  userSettings,
 }: CalculationModalProps) => {
   const [calculationListWeight, setCalculationListWeight] = useState<
     CalculationListItem[]
@@ -118,7 +119,7 @@ export const CalculationModal = ({
 
   const loadPresets = useCallback(async () => {
     if (presetsType === "equipment" && isLoadingEquipment) {
-      await getEquipmentWeights(equipmentWeightHandleId);
+      await getEquipmentWeights(userSettings.default_equipment_weight_id);
     }
 
     if (presetsType === "distance" && isLoadingDistance) {
@@ -130,7 +131,7 @@ export const CalculationModal = ({
     isLoadingDistance,
     getEquipmentWeights,
     getDistances,
-    equipmentWeightHandleId,
+    userSettings,
   ]);
 
   useEffect(() => {
@@ -663,7 +664,7 @@ export const CalculationModal = ({
 
   const handlePlateCalculatorButton = async () => {
     if (isLoadingEquipment) {
-      await getEquipmentWeights(equipmentWeightHandleId);
+      await getEquipmentWeights(userSettings.default_equipment_weight_id);
     }
 
     setCalculationModalPage("plate-calc");
