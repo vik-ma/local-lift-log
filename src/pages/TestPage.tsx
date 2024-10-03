@@ -71,6 +71,7 @@ export default function Test() {
         doneButtonAction={doneButtonAction}
         multiplierIncrement={2}
         userSettings={userSettings}
+        setUserSettings={setUserSettings}
       />
       <div className="flex flex-col gap-2">
         <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">

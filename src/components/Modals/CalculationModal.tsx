@@ -53,6 +53,9 @@ type CalculationModalProps = {
   ) => void;
   multiplierIncrement: number;
   userSettings: UserSettings;
+  setUserSettings: React.Dispatch<
+    React.SetStateAction<UserSettings | undefined>
+  >;
 };
 
 type OperationType =
@@ -68,6 +71,7 @@ export const CalculationModal = ({
   doneButtonAction,
   multiplierIncrement,
   userSettings,
+  setUserSettings,
 }: CalculationModalProps) => {
   const [calculationListWeight, setCalculationListWeight] = useState<
     CalculationListItem[]
