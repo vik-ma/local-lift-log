@@ -54,17 +54,9 @@ export const MeasurementUnitDropdown = ({
   return (
     <Select
       aria-label="Measurement Unit Dropdown List"
-      label={
-        targetType === "settings" || targetType === "active"
-          ? undefined
-          : "Unit"
-      }
+      label={targetType === "settings" ? undefined : "Unit"}
       size={
-        targetType === "modal"
-          ? "lg"
-          : targetType === "settings" || targetType === "active"
-          ? "md"
-          : "sm"
+        targetType === "modal" ? "lg" : targetType === "settings" ? "md" : "sm"
       }
       className={
         targetType === "settings" || targetType === "active"
