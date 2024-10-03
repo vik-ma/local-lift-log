@@ -39,6 +39,7 @@ import {
   LoadCalculationString,
   UpdateDefaultEquipmentWeightId,
 } from "../../helpers";
+import { useNavigate } from "react-router-dom";
 
 type CalculationModalProps = {
   useCalculationModal: UseCalculationModalReturnType;
@@ -105,6 +106,8 @@ export const CalculationModal = ({
 
   const numberInputRef = useRef<HTMLInputElement>(null);
   const targetWeightInputRef = useRef<HTMLInputElement>(null);
+
+  const navigate = useNavigate();
 
   const {
     equipmentWeights,
@@ -1167,7 +1170,15 @@ export const CalculationModal = ({
                         />
                       </div>
                     </div>
-                    <div className="flex">Bottom</div>
+                    <div className="flex justify-between">
+                      <Button
+                        variant="flat"
+                        size="sm"
+                        onPress={() => navigate("/presets")}
+                      >
+                        Edit Equipment Weights
+                      </Button>
+                    </div>
                   </div>
                 ) : (
                   <PresetsModalList
