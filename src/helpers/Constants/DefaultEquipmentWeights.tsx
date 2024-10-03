@@ -15,7 +15,7 @@ export const DefaultEquipmentWeights = (
       weight: isMetric ? 20 : 45,
       weight_unit: isMetric ? "kg" : "lbs",
       is_favorite: 0,
-      is_in_plate_calculator: 1,
+      is_in_plate_calculator: 0,
     },
     {
       name: "Dumbbell",
