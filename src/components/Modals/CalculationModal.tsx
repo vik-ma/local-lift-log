@@ -759,6 +759,11 @@ export const CalculationModal = ({
     }
   };
 
+  const handleShowEquipmentListButton = () => {
+    setOperationType("show-list");
+    setCalculationModalPage("list");
+  };
+
   return (
     <Modal
       isOpen={calculationModal.isOpen}
@@ -892,6 +897,7 @@ export const CalculationModal = ({
                                   onClick={() =>
                                     handleClickCalculationItem(weight, index)
                                   }
+                                  disabled={operationType === "show-list"}
                                 >
                                   <span className="w-[7rem] truncate text-left">
                                     {weight.label}
@@ -1171,6 +1177,14 @@ export const CalculationModal = ({
                       </div>
                     </div>
                     <div className="flex justify-between">
+                      <Button
+                        variant="flat"
+                        size="sm"
+                        color="secondary"
+                        onPress={handleShowEquipmentListButton}
+                      >
+                        Show Equipment Weight List
+                      </Button>
                       <Button
                         variant="flat"
                         size="sm"
