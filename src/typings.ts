@@ -278,6 +278,7 @@ export type Measurement = {
   name: string;
   default_unit: string;
   measurement_type: string;
+  is_favorite: number;
   input?: string;
 };
 

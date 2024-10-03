@@ -107,6 +107,7 @@ export default function MeasurementList() {
       name: operatingMeasurement.name,
       default_unit: operatingMeasurement.default_unit,
       measurement_type: operatingMeasurement.measurement_type,
+      is_favorite: 0,
     };
 
     setMeasurements([...measurements, addedMeasurement]);
@@ -127,11 +128,14 @@ export default function MeasurementList() {
     const db = await Database.load(import.meta.env.VITE_DB);
 
     await db.execute(
-      "UPDATE measurements SET name = $1, default_unit = $2, measurement_type = $3 WHERE id = $4",
+      `UPDATE measurements 
+      SET name = $1, default_unit = $2, measurement_type = $3, is_favorite = $4 
+      WHERE id = $5`,
       [
         operatingMeasurement.name,
         operatingMeasurement.default_unit,
         operatingMeasurement.measurement_type,
+        operatingMeasurement.is_favorite,
         operatingMeasurement.id,
       ]
     );

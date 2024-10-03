@@ -14,11 +14,13 @@ export const CreateDefaultMeasurements = async (
 
     for (let i = 0; i < DEFAULT_MEASUREMENTS.length; i++) {
       const result = await db.execute(
-        "INSERT into measurements (name, default_unit, measurement_type) VALUES ($1, $2, $3)",
+        `INSERT into measurements (name, default_unit, measurement_type, is_favorite) 
+        VALUES ($1, $2, $3, $4)`,
         [
           DEFAULT_MEASUREMENTS[i].name,
           DEFAULT_MEASUREMENTS[i].default_unit,
           DEFAULT_MEASUREMENTS[i].measurement_type,
+          0,
         ]
       );
 
@@ -27,6 +29,7 @@ export const CreateDefaultMeasurements = async (
         name: DEFAULT_MEASUREMENTS[i].name,
         default_unit: DEFAULT_MEASUREMENTS[i].default_unit,
         measurement_type: DEFAULT_MEASUREMENTS[i].measurement_type,
+        is_favorite: 0,
       };
 
       newMeasurementList.push(newMeasurement);
