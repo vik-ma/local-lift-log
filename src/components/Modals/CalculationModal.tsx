@@ -738,6 +738,7 @@ export const CalculationModal = ({
       };
 
       await UpdateDefaultEquipmentWeightId(updatedUserSettings);
+      setUserSettings(updatedUserSettings);
       setIsDefaultHandleIdInvalid(false);
     }
   };
