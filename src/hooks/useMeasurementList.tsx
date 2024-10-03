@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Measurement } from "../typings";
 import Database from "tauri-plugin-sql-api";
+import { UpdateIsFavorite, UpdateItemInList } from "../helpers";
 
 export const useMeasurementList = () => {
   const [isMeasurementsLoading, setIsMeasurementsLoading] =
@@ -15,8 +16,8 @@ export const useMeasurementList = () => {
           item.name
             .toLocaleLowerCase()
             .includes(filterQuery.toLocaleLowerCase()) ||
-          item
-            .measurement_type.toLocaleLowerCase()
+          item.measurement_type
+            .toLocaleLowerCase()
             .includes(filterQuery.toLocaleLowerCase())
       );
     }
@@ -42,6 +43,30 @@ export const useMeasurementList = () => {
     getMeasurements();
   }, [getMeasurements]);
 
+  const toggleFavorite = async (measurement: Measurement) => {
+    const newFavoriteValue = measurement.is_favorite === 1 ? 0 : 1;
+
+    const success = await UpdateIsFavorite(
+      measurement.id,
+      "measurement",
+      newFavoriteValue
+    );
+
+    if (!success) return;
+
+    const updatedMeasurement: Measurement = {
+      ...measurement,
+      is_favorite: newFavoriteValue,
+    };
+
+    const updatedMeasurements = UpdateItemInList(
+      measurements,
+      updatedMeasurement
+    );
+
+    setMeasurements(updatedMeasurements);
+  };
+
   return {
     measurements,
     setMeasurements,
@@ -49,5 +74,6 @@ export const useMeasurementList = () => {
     filterQuery,
     setFilterQuery,
     filteredMeasurements,
+    toggleFavorite,
   };
 };

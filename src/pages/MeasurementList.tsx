@@ -5,6 +5,7 @@ import {
   MeasurementModal,
   ListPageSearchInput,
   EmptyListLabel,
+  FavoriteButton,
 } from "../components";
 import { Measurement, UserSettings } from "../typings";
 import Database from "tauri-plugin-sql-api";
@@ -93,6 +94,7 @@ export default function MeasurementList() {
     filterQuery,
     setFilterQuery,
     filteredMeasurements,
+    toggleFavorite,
   } = useMeasurementList();
 
   const addMeasurement = async () => {
@@ -420,6 +422,14 @@ export default function MeasurementList() {
                         <span className="font-semibold">
                           {measurement.default_unit}
                         </span>
+                      </div>
+                      <div className="flex items-center pr-2">
+                        <FavoriteButton
+                          name={measurement.name}
+                          isFavorite={!!measurement.is_favorite}
+                          item={measurement}
+                          toggleFavorite={toggleFavorite}
+                        />
                       </div>
                       <Dropdown>
                         <DropdownTrigger>
