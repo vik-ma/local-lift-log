@@ -6,6 +6,7 @@ export const DefaultNewMeasurement = () => {
     name: "",
     default_unit: "",
     measurement_type: "Circumference",
+    is_favorite: 0,
   };
 
   return defaultNewMeasurement;

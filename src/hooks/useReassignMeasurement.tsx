@@ -37,6 +37,7 @@ export const useReassignMeasurement = () => {
       name: newMeasurementName,
       default_unit: measurementToReassign.unit,
       measurement_type: measurementToReassign.measurement_type,
+      is_favorite: 0,
     };
 
     const newMeasurementId = await InsertMeasurementIntoDatabase(

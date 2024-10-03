@@ -8,8 +8,14 @@ export const InsertMeasurementIntoDatabase = async (
     const db = await Database.load(import.meta.env.VITE_DB);
 
     const result = await db.execute(
-      "INSERT into measurements (name, default_unit, measurement_type) VALUES ($1, $2, $3)",
-      [measurement.name, measurement.default_unit, measurement.measurement_type]
+      `INSERT into measurements (name, default_unit, measurement_type, is_favorite) 
+      VALUES ($1, $2, $3, $4)`,
+      [
+        measurement.name,
+        measurement.default_unit,
+        measurement.measurement_type,
+        measurement.is_favorite,
+      ]
     );
 
     return result.lastInsertId;
