@@ -163,6 +163,7 @@ pub struct Measurement {
     pub name: String,
     pub default_unit: String,
     pub measurement_type: String,
+    pub is_favorite: SmallInt,
 }
 
 #[derive(Queryable, Selectable)]

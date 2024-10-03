@@ -151,6 +151,7 @@ diesel::table! {
         name -> Text,
         default_unit -> Text,
         measurement_type -> Text,
+        is_favorite -> SmallInt,
     }
 }
 
