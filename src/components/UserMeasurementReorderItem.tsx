@@ -34,7 +34,7 @@ export const UserMeasurementReorderItem = ({
       dragControls={dragControls}
       onDragEnd={() => updateActiveTrackingMeasurementOrder()}
     >
-      <div className="flex gap-2.5 items-center">
+      <div className="flex gap-1.5 items-center">
         <Input
           value={measurement.input}
           label={measurement.name}
@@ -54,7 +54,9 @@ export const UserMeasurementReorderItem = ({
           targetType="active"
           isDisabled={measurement.measurement_type === "Caliper"}
         />
-        {!isEditing && <ReorderIcon dragControls={dragControls} size={33} />}
+        {!isEditing && (
+          <ReorderIcon dragControls={dragControls} size={35} addPadding />
+        )}
       </div>
     </Reorder.Item>
   );

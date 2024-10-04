@@ -4,16 +4,26 @@ interface ReorderIconProps {
   dragControls: DragControls;
   size?: number;
   color?: string;
+  addPadding?: boolean;
 }
 
-export function ReorderIcon({ dragControls, size, color }: ReorderIconProps) {
+export function ReorderIcon({
+  dragControls,
+  size,
+  color,
+  addPadding,
+}: ReorderIconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 39 39"
       width={size || 27}
       height={size || 27}
-      className="cursor-grab active:cursor-grabbing select-none"
+      className={
+        addPadding
+          ? "cursor-grab active:cursor-grabbing select-none pl-0.5"
+          : "cursor-grab active:cursor-grabbing select-none"
+      }
       onPointerDown={(event) => dragControls.start(event)}
       fill={color || "#CCC"}
     >
