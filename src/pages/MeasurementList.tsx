@@ -21,6 +21,7 @@ import {
   DropdownMenu,
   DropdownItem,
   DropdownTrigger,
+  Checkbox,
 } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
 import {
@@ -95,6 +96,8 @@ export default function MeasurementList() {
     setFilterQuery,
     filteredMeasurements,
     toggleFavorite,
+    favoritesCheckboxValue,
+    handleListFavoritesFirstChange,
   } = useMeasurementList();
 
   const addMeasurement = async () => {
@@ -375,16 +378,24 @@ export default function MeasurementList() {
           filteredListLength={filteredMeasurements.length}
           totalListLength={measurements.length}
           bottomContent={
-            <div className="flex justify-between gap-1 w-full items-center">
-              <Button
-                color="secondary"
-                variant="flat"
-                onPress={handleCreateNewMeasurementButton}
-                size="sm"
-              >
-                New Measurement
-              </Button>
-              <span className="w-[11rem] text-xs italic text-stone-500 font-normal">
+            <div className="flex flex-col gap-1">
+              <div className="flex justify-between gap-1 w-full items-center pr-2">
+                <Button
+                  color="secondary"
+                  variant="flat"
+                  onPress={handleCreateNewMeasurementButton}
+                  size="sm"
+                >
+                  New Measurement
+                </Button>
+                <Checkbox
+                  isSelected={favoritesCheckboxValue}
+                  onValueChange={handleListFavoritesFirstChange}
+                >
+                  List Favorites First
+                </Checkbox>
+              </div>
+              <span className="px-1 text-xs italic text-stone-500 font-normal">
                 Click on a Measurement to add to Active Measurements
               </span>
             </div>
