@@ -68,7 +68,7 @@ export const useMeasurementList = () => {
       updatedMeasurement
     );
 
-    setMeasurements(updatedMeasurements);
+    sortMeasurementsByName(updatedMeasurements, favoritesCheckboxValue)
   };
 
   const sortMeasurementsByName = (
