@@ -408,7 +408,7 @@ export default function MeasurementList() {
                         size={29}
                       />
                       <div className="flex flex-col justify-start items-start">
-                        <span className="w-[16rem] truncate text-left">
+                        <span className="w-[13.5rem] truncate text-left">
                           {measurement.name}
                         </span>
                         <span className="text-xs text-stone-400 text-left">
@@ -416,20 +416,20 @@ export default function MeasurementList() {
                         </span>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2 pr-1">
-                      <div className="flex flex-col items-center text-sm text-stone-500">
-                        <span>Unit</span>
-                        <span className="font-semibold">
-                          {measurement.default_unit}
-                        </span>
-                      </div>
-                      <div className="flex items-center pr-2">
+                    <div className="flex items-center gap-1.5 pr-1">
+                      <div className="flex items-center pr-1">
                         <FavoriteButton
                           name={measurement.name}
                           isFavorite={!!measurement.is_favorite}
                           item={measurement}
                           toggleFavorite={toggleFavorite}
                         />
+                      </div>
+                      <div className="flex flex-col items-center text-sm text-stone-500">
+                        <span>Unit</span>
+                        <span className="font-semibold">
+                          {measurement.default_unit}
+                        </span>
                       </div>
                       <Dropdown>
                         <DropdownTrigger>
