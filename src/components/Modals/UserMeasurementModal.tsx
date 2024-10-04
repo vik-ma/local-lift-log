@@ -20,8 +20,8 @@ import {
   MeasurementMap,
   UseDisclosureReturnType,
 } from "../../typings";
-import { useEffect, useMemo, useState } from "react";
-import { UpdateIsFavorite } from "../../helpers";
+import { useMemo, useState } from "react";
+import { SortMeasurementMap, UpdateIsFavorite } from "../../helpers";
 
 type UserMeasurementModalProps = {
   userMeasurementModal: UseDisclosureReturnType;
@@ -59,7 +59,7 @@ export const UserMeasurementModal = ({
   const [isAddingMeasurement, setIsAddingMeasurement] =
     useState<boolean>(false);
   const [measurements, setMeasurements] = useState<MeasurementMap>(
-    new Map<string, Measurement>()
+    new Map<string, Measurement>(measurementMap)
   );
   const [filterQuery, setFilterQuery] = useState<string>("");
 
@@ -79,10 +79,6 @@ export const UserMeasurementModal = ({
     }
     return measurements;
   }, [measurements, filterQuery]);
-
-  useEffect(() => {
-    setMeasurements(measurementMap);
-  }, [measurementMap]);
 
   const showMeasurementList =
     isAddingMeasurement || activeMeasurements.length === 0;
@@ -146,7 +142,21 @@ export const UserMeasurementModal = ({
 
     updatedMeasurementMap.set(key, updatedMeasurement);
 
-    setMeasurementMap(updatedMeasurementMap);
+    const sortedUpdatedMeasurementMap = SortMeasurementMap(
+      updatedMeasurementMap
+    );
+
+    setMeasurementMap(sortedUpdatedMeasurementMap);
+
+    if (measurements.has(key)) {
+      const updatedMeasurements = new Map<string, Measurement>(measurements);
+
+      updatedMeasurements.set(key, updatedMeasurement);
+
+      const sortedUpdatedMeasurements = SortMeasurementMap(updatedMeasurements);
+
+      setMeasurements(sortedUpdatedMeasurements);
+    }
   };
 
   return (
