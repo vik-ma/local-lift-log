@@ -47,6 +47,7 @@ export const useUserMeasurementList = () => {
 
   return {
     measurementMap,
+    setMeasurementMap,
     userMeasurements,
     getUserMeasurements,
     setUserMeasurements,

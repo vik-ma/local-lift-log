@@ -31,7 +31,6 @@ import {
   GenerateActiveMeasurementString,
   UpdateActiveTrackingMeasurements,
   GetUserMeasurements,
-  UpdateIsFavorite,
 } from "../helpers";
 import {
   Button,
@@ -425,29 +424,6 @@ export default function BodyMeasurements() {
     toast.success("Measurement Reassigned");
   };
 
-  const toggleFavorite = async (measurement: Measurement, key: string) => {
-    const newFavoriteValue = measurement.is_favorite === 1 ? 0 : 1;
-
-    const success = await UpdateIsFavorite(
-      measurement.id,
-      "measurement",
-      newFavoriteValue
-    );
-
-    if (!success) return;
-
-    const updatedMeasurement: Measurement = {
-      ...measurement,
-      is_favorite: newFavoriteValue,
-    };
-
-    const updatedMeasurementMap = new Map<string, Measurement>(measurementMap);
-
-    updatedMeasurementMap.set(key, updatedMeasurement);
-
-    setMeasurementMap(updatedMeasurementMap);
-  };
-
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -499,6 +475,7 @@ export default function BodyMeasurements() {
         handleActiveMeasurementInputChange={handleActiveMeasurementInputChange}
         areActiveMeasurementsValid={areActiveMeasurementsValid}
         measurementMap={measurementMap}
+        setMeasurementMap={setMeasurementMap}
         buttonAction={
           operationType === "edit-measurements"
             ? updateLatestUserMeasurements
@@ -508,7 +485,6 @@ export default function BodyMeasurements() {
         updateActiveTrackingMeasurementOrder={
           updateActiveTrackingMeasurementOrder
         }
-        toggleFavorite={toggleFavorite}
       />
       <NameInputModal
         nameInputModal={nameInputModal}

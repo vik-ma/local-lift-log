@@ -21,6 +21,7 @@ import {
   UseDisclosureReturnType,
 } from "../../typings";
 import { useEffect, useMemo, useState } from "react";
+import { UpdateIsFavorite } from "../../helpers";
 
 type UserMeasurementModalProps = {
   userMeasurementModal: UseDisclosureReturnType;
@@ -32,12 +33,12 @@ type UserMeasurementModalProps = {
   handleActiveMeasurementInputChange: (value: string, index: number) => void;
   areActiveMeasurementsValid: boolean;
   measurementMap: MeasurementMap;
+  setMeasurementMap: React.Dispatch<React.SetStateAction<MeasurementMap>>;
   buttonAction: () => void;
   isEditing: boolean;
   updateActiveTrackingMeasurementOrder?: (
     newActiveMeasurements?: Measurement[]
   ) => void;
-  toggleFavorite: (measurement: Measurement, key: string) => void;
 };
 
 export const UserMeasurementModal = ({
@@ -50,10 +51,10 @@ export const UserMeasurementModal = ({
   handleActiveMeasurementInputChange,
   areActiveMeasurementsValid,
   measurementMap,
+  setMeasurementMap,
   buttonAction,
   isEditing,
   updateActiveTrackingMeasurementOrder = () => {},
-  toggleFavorite,
 }: UserMeasurementModalProps) => {
   const [isAddingMeasurement, setIsAddingMeasurement] =
     useState<boolean>(false);
@@ -123,6 +124,29 @@ export const UserMeasurementModal = ({
     }
 
     setIsAddingMeasurement(false);
+  };
+
+  const toggleFavorite = async (measurement: Measurement, key: string) => {
+    const newFavoriteValue = measurement.is_favorite === 1 ? 0 : 1;
+
+    const success = await UpdateIsFavorite(
+      measurement.id,
+      "measurement",
+      newFavoriteValue
+    );
+
+    if (!success) return;
+
+    const updatedMeasurement: Measurement = {
+      ...measurement,
+      is_favorite: newFavoriteValue,
+    };
+
+    const updatedMeasurementMap = new Map<string, Measurement>(measurementMap);
+
+    updatedMeasurementMap.set(key, updatedMeasurement);
+
+    setMeasurementMap(updatedMeasurementMap);
   };
 
   return (

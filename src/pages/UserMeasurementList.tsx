@@ -55,6 +55,7 @@ export default function UserMeasurementList() {
 
   const {
     measurementMap,
+    setMeasurementMap,
     userMeasurements,
     getUserMeasurements,
     setUserMeasurements,
@@ -246,6 +247,7 @@ export default function UserMeasurementList() {
         handleActiveMeasurementInputChange={handleActiveMeasurementInputChange}
         areActiveMeasurementsValid={areActiveMeasurementsValid}
         measurementMap={measurementMap}
+        setMeasurementMap={setMeasurementMap}
         buttonAction={updateUserMeasurements}
         isEditing={operationType === "edit"}
       />
