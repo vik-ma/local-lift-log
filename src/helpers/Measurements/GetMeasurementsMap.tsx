@@ -13,6 +13,7 @@ export const GetMeasurementsMap = async (): Promise<MeasurementMap> => {
         name: item.name,
         default_unit: item.default_unit,
         measurement_type: item.measurement_type,
+        is_favorite: item.is_favorite,
       });
       return acc;
     }, new Map<string, Measurement>());
