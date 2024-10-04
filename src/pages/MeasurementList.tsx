@@ -379,7 +379,7 @@ export default function MeasurementList() {
           totalListLength={measurements.length}
           bottomContent={
             <div className="flex flex-col gap-1">
-              <div className="flex justify-between gap-1 w-full items-center pr-2">
+              <div className="flex justify-between gap-1 w-full items-center pr-1">
                 <Button
                   color="secondary"
                   variant="flat"
@@ -391,6 +391,7 @@ export default function MeasurementList() {
                 <Checkbox
                   isSelected={favoritesCheckboxValue}
                   onValueChange={handleListFavoritesFirstChange}
+                  size="sm"
                 >
                   List Favorites First
                 </Checkbox>
