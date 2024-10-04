@@ -8,6 +8,8 @@ export const useMeasurementList = () => {
     useState<boolean>(true);
   const [measurements, setMeasurements] = useState<Measurement[]>([]);
   const [filterQuery, setFilterQuery] = useState<string>("");
+  const [favoritesCheckboxValue, setFavoritesCheckboxValue] =
+    useState<boolean>(true);
 
   const filteredMeasurements = useMemo(() => {
     if (filterQuery !== "") {
@@ -31,6 +33,8 @@ export const useMeasurementList = () => {
       const result = await db.select<Measurement[]>(
         "SELECT * FROM measurements"
       );
+
+      sortMeasurementsByName(result, true);
 
       setMeasurements(result);
       setIsMeasurementsLoading(false);
@@ -67,6 +71,27 @@ export const useMeasurementList = () => {
     setMeasurements(updatedMeasurements);
   };
 
+  const sortMeasurementsByName = (
+    measurements: Measurement[],
+    listFavoritesFirst: boolean
+  ) => {
+    measurements.sort((a, b) => {
+      if (listFavoritesFirst && b.is_favorite !== a.is_favorite) {
+        return b.is_favorite - a.is_favorite;
+      } else {
+        return a.name.localeCompare(b.name);
+      }
+    });
+
+    setMeasurements(measurements);
+  };
+
+  const handleListFavoritesFirstChange = (value: boolean) => {
+    setFavoritesCheckboxValue(value);
+
+    sortMeasurementsByName([...measurements], value);
+  };
+
   return {
     measurements,
     setMeasurements,
@@ -75,5 +100,8 @@ export const useMeasurementList = () => {
     setFilterQuery,
     filteredMeasurements,
     toggleFavorite,
+    sortMeasurementsByName,
+    favoritesCheckboxValue,
+    handleListFavoritesFirstChange,
   };
 };

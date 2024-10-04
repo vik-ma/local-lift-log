@@ -1,5 +1,6 @@
 import Database from "tauri-plugin-sql-api";
 import { Measurement, MeasurementMap } from "../../typings";
+import { SortMeasurementMap } from "..";
 
 export const GetMeasurementsMap = async (): Promise<MeasurementMap> => {
   try {
@@ -18,7 +19,9 @@ export const GetMeasurementsMap = async (): Promise<MeasurementMap> => {
       return acc;
     }, new Map<string, Measurement>());
 
-    return measurementMap;
+    const sortedMeasurementMap = SortMeasurementMap(measurementMap);
+
+    return sortedMeasurementMap;
   } catch (error) {
     console.log(error);
     return new Map<string, Measurement>();
