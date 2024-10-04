@@ -37,6 +37,7 @@ type UserMeasurementModalProps = {
   updateActiveTrackingMeasurementOrder?: (
     newActiveMeasurements?: Measurement[]
   ) => void;
+  toggleFavorite: (measurement: Measurement, key: string) => void;
 };
 
 export const UserMeasurementModal = ({
@@ -52,6 +53,7 @@ export const UserMeasurementModal = ({
   buttonAction,
   isEditing,
   updateActiveTrackingMeasurementOrder = () => {},
+  toggleFavorite,
 }: UserMeasurementModalProps) => {
   const [isAddingMeasurement, setIsAddingMeasurement] =
     useState<boolean>(false);
@@ -167,7 +169,9 @@ export const UserMeasurementModal = ({
                                 name={value.name}
                                 isFavorite={!!value.is_favorite}
                                 item={value}
-                                toggleFavorite={() => {}}
+                                toggleFavorite={() =>
+                                  toggleFavorite(value, key)
+                                }
                               />
                             </div>
                           </div>
