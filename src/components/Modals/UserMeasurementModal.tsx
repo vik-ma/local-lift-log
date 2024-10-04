@@ -8,7 +8,12 @@ import {
   Input,
   ScrollShadow,
 } from "@nextui-org/react";
-import { EmptyListLabel, SearchInput, UserMeasurementReorderItem } from "..";
+import {
+  EmptyListLabel,
+  FavoriteButton,
+  SearchInput,
+  UserMeasurementReorderItem,
+} from "..";
 import { Reorder } from "framer-motion";
 import {
   Measurement,
@@ -150,12 +155,20 @@ export const UserMeasurementModal = ({
                         >
                           <div className="flex justify-between items-center w-full">
                             <div className="flex flex-col justify-start items-start">
-                              <span className="w-[15.5rem] truncate text-left">
+                              <span className="w-[20rem] truncate text-left">
                                 {value.name}
                               </span>
                               <span className="text-xs text-stone-400 text-left">
                                 {value.measurement_type}
                               </span>
+                            </div>
+                            <div className="flex items-center pr-1">
+                              <FavoriteButton
+                                name={value.name}
+                                isFavorite={!!value.is_favorite}
+                                item={value}
+                                toggleFavorite={() => {}}
+                              />
                             </div>
                           </div>
                         </div>
