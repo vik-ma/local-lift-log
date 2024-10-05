@@ -26,11 +26,12 @@ export const useExerciseList = (
     ...exerciseGroupList,
   ]);
 
+  const areExerciseGroupsFiltered = useMemo(() => {
+    return shownExerciseGroups.length !== exerciseGroupList.length;
+  }, [shownExerciseGroups, exerciseGroupList]);
+
   const filteredExercises = useMemo(() => {
-    if (
-      filterQuery !== "" ||
-      shownExerciseGroups.length !== exerciseGroupList.length
-    ) {
+    if (filterQuery !== "" || areExerciseGroupsFiltered) {
       // Only show exercises whose name or Exercise Group is included in the filterQuery
       // and whose Exercise Group is included in shownExerciseGroups
       return exercises.filter(
@@ -47,7 +48,7 @@ export const useExerciseList = (
       );
     }
     return exercises;
-  }, [exercises, filterQuery, shownExerciseGroups, exerciseGroupList]);
+  }, [exercises, filterQuery, shownExerciseGroups, areExerciseGroupsFiltered]);
 
   const sortExercisesByName = (exerciseList: Exercise[]) => {
     exerciseList.sort((a, b) => {
@@ -152,5 +153,6 @@ export const useExerciseList = (
     exerciseGroupList,
     shownExerciseGroups,
     setShownExerciseGroups,
+    areExerciseGroupsFiltered,
   };
 };

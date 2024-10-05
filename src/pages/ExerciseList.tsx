@@ -62,6 +62,7 @@ export default function ExerciseList() {
     exerciseGroupList,
     shownExerciseGroups,
     setShownExerciseGroups,
+    areExerciseGroupsFiltered,
   } = useExerciseList(true);
 
   const deleteModal = useDisclosure();
@@ -226,7 +227,7 @@ export default function ExerciseList() {
   };
 
   const handleToggleAllButton = () => {
-    if (shownExerciseGroups.length < exerciseGroupList.length) {
+    if (areExerciseGroupsFiltered) {
       setShownExerciseGroups([...exerciseGroupList]);
     } else {
       setShownExerciseGroups([]);
@@ -276,7 +277,7 @@ export default function ExerciseList() {
               <ModalHeader>Filter Exercise Groups</ModalHeader>
               <ModalBody>
                 <ExerciseGroupCheckboxes
-                  isValid={shownExerciseGroups.length > 0}
+                  isValid={true}
                   value={shownExerciseGroups}
                   handleChange={setShownExerciseGroups}
                   exerciseGroupList={exerciseGroupList}
@@ -285,19 +286,17 @@ export default function ExerciseList() {
               </ModalBody>
               <ModalFooter className="flex justify-between">
                 <div>
-                  <Button variant="flat" onPress={handleToggleAllButton}>
+                  <Button
+                    color="secondary"
+                    variant="flat"
+                    onPress={handleToggleAllButton}
+                  >
                     Toggle All
                   </Button>
                 </div>
                 <div className="flex gap-2">
                   <Button color="primary" variant="light" onPress={onClose}>
                     Close
-                  </Button>
-                  <Button
-                    color="primary"
-                    isDisabled={shownExerciseGroups.length === 0}
-                  >
-                    Filter
                   </Button>
                 </div>
               </ModalFooter>
@@ -326,6 +325,7 @@ export default function ExerciseList() {
                 <Button
                   className="z-1"
                   variant="flat"
+                  color={areExerciseGroupsFiltered ? "secondary" : "default"}
                   size="sm"
                   onPress={handleFilterExerciseGroupsButton}
                 >
