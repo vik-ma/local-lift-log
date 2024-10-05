@@ -370,6 +370,9 @@ export type UseExerciseListReturnType = {
   handleSortOptionSelection: (key: string) => void;
   sortCategory: ExerciseSortCategory;
   setSortCategory: React.Dispatch<React.SetStateAction<ExerciseSortCategory>>;
+  exerciseGroupDictionary: ExerciseGroupMap;
+  shownExerciseGroups: string[];
+  setShownExerciseGroups: React.Dispatch<React.SetStateAction<string[]>>;
 };
 
 export type HandleMultisetSetOptionSelectionProps = (

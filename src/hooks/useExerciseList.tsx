@@ -10,6 +10,7 @@ import {
   UseExerciseListReturnType,
   ExerciseSortCategory,
 } from "../typings";
+import { useExerciseGroupDictionary } from ".";
 
 export const useExerciseList = (
   showTotalNumSets?: boolean
@@ -19,6 +20,11 @@ export const useExerciseList = (
   const [isExercisesLoading, setIsExercisesLoading] = useState<boolean>(true);
   const [sortCategory, setSortCategory] =
     useState<ExerciseSortCategory>("favorite");
+
+  const exerciseGroupDictionary = useExerciseGroupDictionary();
+  const [shownExerciseGroups, setShownExerciseGroups] = useState<string[]>(
+    Array.from(exerciseGroupDictionary.keys())
+  );
 
   const filteredExercises = useMemo(() => {
     if (filterQuery !== "") {
@@ -135,5 +141,8 @@ export const useExerciseList = (
     handleSortOptionSelection,
     sortCategory,
     setSortCategory,
+    exerciseGroupDictionary,
+    shownExerciseGroups,
+    setShownExerciseGroups,
   };
 };

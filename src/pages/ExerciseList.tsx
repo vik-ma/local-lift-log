@@ -39,7 +39,6 @@ import { VerticalMenuIcon } from "../assets";
 import {
   useValidateExerciseGroupString,
   useValidateName,
-  useExerciseGroupDictionary,
   useExerciseList,
   useDefaultExercise,
 } from "../hooks";
@@ -60,6 +59,9 @@ export default function ExerciseList() {
     toggleFavorite,
     handleSortOptionSelection,
     sortCategory,
+    exerciseGroupDictionary,
+    shownExerciseGroups,
+    setShownExerciseGroups,
   } = useExerciseList(true);
 
   const deleteModal = useDisclosure();
@@ -70,8 +72,6 @@ export default function ExerciseList() {
 
   const defaultExercise = useDefaultExercise();
 
-  const exerciseGroupDictionary = useExerciseGroupDictionary();
-
   const [operatingExercise, setOperatingExercise] =
     useState<Exercise>(defaultExercise);
 
@@ -79,10 +79,6 @@ export default function ExerciseList() {
 
   const isOperatingExerciseGroupSetStringValid = useValidateExerciseGroupString(
     operatingExercise.exercise_group_set_string
-  );
-
-  const [shownExerciseGroups, setShownExerciseGroups] = useState<string[]>(
-    Array.from(exerciseGroupDictionary.keys())
   );
 
   const deleteExercise = async () => {
