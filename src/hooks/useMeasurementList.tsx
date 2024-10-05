@@ -11,7 +11,7 @@ export const useMeasurementList = () => {
   const [measurements, setMeasurements] = useState<Measurement[]>([]);
   const [filterQuery, setFilterQuery] = useState<string>("");
   const [sortCategory, setSortCategory] =
-    useState<MeasurementSortCategory>("name");
+    useState<MeasurementSortCategory>("favorite");
 
   const filteredMeasurements = useMemo(() => {
     if (filterQuery !== "") {
@@ -36,14 +36,14 @@ export const useMeasurementList = () => {
         "SELECT * FROM measurements"
       );
 
-      sortMeasurementsByName(result, true);
+      sortMeasurements(result, sortCategory);
 
       setMeasurements(result);
       setIsMeasurementsLoading(false);
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  }, [sortCategory]);
 
   useEffect(() => {
     getMeasurements();
@@ -70,15 +70,15 @@ export const useMeasurementList = () => {
       updatedMeasurement
     );
 
-    sortMeasurementsByName(updatedMeasurements, true);
+    sortMeasurements(updatedMeasurements, sortCategory);
   };
 
-  const sortMeasurementsByName = (
+  const sortMeasurements = (
     measurements: Measurement[],
-    listFavoritesFirst: boolean
+    sortCategory: string
   ) => {
     measurements.sort((a, b) => {
-      if (listFavoritesFirst && b.is_favorite !== a.is_favorite) {
+      if (sortCategory === "favorite" && b.is_favorite !== a.is_favorite) {
         return b.is_favorite - a.is_favorite;
       } else {
         return a.name.localeCompare(b.name);
@@ -106,7 +106,7 @@ export const useMeasurementList = () => {
     setFilterQuery,
     filteredMeasurements,
     toggleFavorite,
-    sortMeasurementsByName,
+    sortMeasurementsByName: sortMeasurements,
     sortCategory,
     handleSortOptionSelection,
   };
