@@ -1,11 +1,10 @@
 import { Checkbox, CheckboxGroup } from "@nextui-org/react";
-import { ExerciseGroupMap } from "../typings";
 
 type ExerciseGroupCheckboxesProps = {
   isValid: boolean;
   value: string[];
   handleChange: (value: string[]) => void;
-  exerciseGroupDictionary: ExerciseGroupMap;
+  exerciseGroupList: string[];
   hideLabel?: boolean;
 };
 
@@ -13,7 +12,7 @@ export const ExerciseGroupCheckboxes = ({
   isValid,
   value,
   handleChange,
-  exerciseGroupDictionary,
+  exerciseGroupList,
   hideLabel,
 }: ExerciseGroupCheckboxesProps) => {
   return (
@@ -30,9 +29,9 @@ export const ExerciseGroupCheckboxes = ({
         onValueChange={(value) => handleChange(value)}
       >
         <div className="grid grid-cols-2 gap-0.5">
-          {Array.from(exerciseGroupDictionary).map(([key, value]) => (
-            <Checkbox key={key} color="primary" value={key}>
-              {value}
+          {exerciseGroupList.map((group) => (
+            <Checkbox key={group} color="primary" value={group}>
+              {group}
             </Checkbox>
           ))}
         </div>

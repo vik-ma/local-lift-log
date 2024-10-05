@@ -12,10 +12,10 @@ import {
 } from "../helpers";
 import {
   useDefaultExercise,
-  useExerciseGroupDictionary,
   useValidateExerciseGroupString,
   useValidateName,
   useDetailsHeaderOptionsMenu,
+  useExerciseGroupList,
 } from "../hooks";
 import { FavoriteIcon } from "../assets";
 
@@ -51,7 +51,7 @@ export default function ExerciseDetails() {
     editedExercise.exercise_group_set_string
   );
 
-  const exerciseGroupDictionary = useExerciseGroupDictionary();
+  const exerciseGroupList = useExerciseGroupList();
 
   const updateExercise = async () => {
     if (
@@ -112,7 +112,7 @@ export default function ExerciseDetails() {
         setExercise={setEditedExercise}
         isExerciseNameValid={isEditedExerciseNameValid}
         isExerciseGroupSetStringValid={isEditedExerciseGroupSetStringValid}
-        exerciseGroupDictionary={exerciseGroupDictionary}
+        exerciseGroupList={exerciseGroupList}
         buttonAction={updateExercise}
         isEditing={true}
       />

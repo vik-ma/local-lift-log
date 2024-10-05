@@ -59,7 +59,7 @@ export default function ExerciseList() {
     toggleFavorite,
     handleSortOptionSelection,
     sortCategory,
-    exerciseGroupDictionary,
+    exerciseGroupList,
     shownExerciseGroups,
     setShownExerciseGroups,
   } = useExerciseList(true);
@@ -226,8 +226,8 @@ export default function ExerciseList() {
   };
 
   const handleToggleAllButton = () => {
-    if (shownExerciseGroups.length < exerciseGroupDictionary.size) {
-      setShownExerciseGroups(Array.from(exerciseGroupDictionary.keys()));
+    if (shownExerciseGroups.length < exerciseGroupList.length) {
+      setShownExerciseGroups([...exerciseGroupList]);
     } else {
       setShownExerciseGroups([]);
     }
@@ -262,7 +262,7 @@ export default function ExerciseList() {
         setExercise={setOperatingExercise}
         isExerciseNameValid={isOperatingExerciseNameValid}
         isExerciseGroupSetStringValid={isOperatingExerciseGroupSetStringValid}
-        exerciseGroupDictionary={exerciseGroupDictionary}
+        exerciseGroupList={exerciseGroupList}
         buttonAction={operationType === "edit" ? updateExercise : addExercise}
         isEditing={operationType === "edit"}
       />
@@ -279,7 +279,7 @@ export default function ExerciseList() {
                   isValid={shownExerciseGroups.length > 0}
                   value={shownExerciseGroups}
                   handleChange={setShownExerciseGroups}
-                  exerciseGroupDictionary={exerciseGroupDictionary}
+                  exerciseGroupList={exerciseGroupList}
                   hideLabel
                 />
               </ModalBody>

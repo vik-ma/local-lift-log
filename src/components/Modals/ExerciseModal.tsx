@@ -7,11 +7,7 @@ import {
   ModalFooter,
   Input,
 } from "@nextui-org/react";
-import {
-  Exercise,
-  ExerciseGroupMap,
-  UseDisclosureReturnType,
-} from "../../typings";
+import { Exercise, UseDisclosureReturnType } from "../../typings";
 import {
   ConvertExerciseGroupStringListToSetString,
   ConvertExerciseGroupSetString,
@@ -24,7 +20,7 @@ type ExerciseModalProps = {
   setExercise: React.Dispatch<React.SetStateAction<Exercise>>;
   isExerciseNameValid: boolean;
   isExerciseGroupSetStringValid: boolean;
-  exerciseGroupDictionary: ExerciseGroupMap;
+  exerciseGroupList: string[];
   buttonAction: () => void;
   isEditing: boolean;
 };
@@ -35,7 +31,7 @@ export const ExerciseModal = ({
   setExercise,
   isExerciseNameValid,
   isExerciseGroupSetStringValid,
-  exerciseGroupDictionary,
+  exerciseGroupList,
   buttonAction,
   isEditing,
 }: ExerciseModalProps) => {
@@ -98,7 +94,7 @@ export const ExerciseModal = ({
                 isValid={isExerciseGroupSetStringValid}
                 value={exercise.exerciseGroupStringList ?? []}
                 handleChange={handleExerciseGroupStringChange}
-                exerciseGroupDictionary={exerciseGroupDictionary}
+                exerciseGroupList={exerciseGroupList}
               />
             </ModalBody>
             <ModalFooter>
