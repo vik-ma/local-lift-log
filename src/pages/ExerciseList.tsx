@@ -18,7 +18,6 @@ import {
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
-  Checkbox,
   Modal,
   ModalContent,
   ModalHeader,
@@ -60,8 +59,6 @@ export default function ExerciseList() {
     isExercisesLoading,
     toggleFavorite,
     handleSortOptionSelection,
-    favoritesCheckboxValue,
-    handleListFavoritesFirstChange,
     sortCategory,
   } = useExerciseList(true);
 
@@ -228,10 +225,8 @@ export default function ExerciseList() {
     }
   };
 
-  const handleExerciseListOptionSelection = (key: string) => {
-    if (key === "filter-exercise-groups") {
-      exerciseGroupModal.onOpen();
-    }
+  const handleFilterExerciseGroupsButton = () => {
+    exerciseGroupModal.onOpen();
   };
 
   const handleToggleAllButton = () => {
@@ -331,14 +326,15 @@ export default function ExerciseList() {
               >
                 New Exercise
               </Button>
-              <Checkbox
-                isSelected={favoritesCheckboxValue}
-                onValueChange={handleListFavoritesFirstChange}
-                size="sm"
-              >
-                List Favorites First
-              </Checkbox>
-              <div className="flex gap-1 px-0.5">
+              <div className="flex gap-1.5">
+                <Button
+                  className="z-1"
+                  variant="flat"
+                  size="sm"
+                  onPress={handleFilterExerciseGroupsButton}
+                >
+                  Filter Exercise Groups
+                </Button>
                 <Dropdown>
                   <DropdownTrigger>
                     <Button className="z-1" variant="flat" size="sm">
@@ -353,30 +349,6 @@ export default function ExerciseList() {
                     <DropdownItem key="name">Exercise Name (A-Z)</DropdownItem>
                     <DropdownItem key="num-sets">
                       Number Of Sets Completed
-                    </DropdownItem>
-                  </DropdownMenu>
-                </Dropdown>
-                <Dropdown>
-                  <DropdownTrigger>
-                    <Button
-                      aria-label={`Toggle Exercise List Options Menu`}
-                      isIconOnly
-                      className="z-1"
-                      size="sm"
-                      radius="lg"
-                      variant="light"
-                    >
-                      <VerticalMenuIcon size={17} />
-                    </Button>
-                  </DropdownTrigger>
-                  <DropdownMenu
-                    aria-label={`Option Menu For Exercise List`}
-                    onAction={(key) =>
-                      handleExerciseListOptionSelection(key as string)
-                    }
-                  >
-                    <DropdownItem key="filter-exercise-groups">
-                      Filter Exercise Groups
                     </DropdownItem>
                   </DropdownMenu>
                 </Dropdown>
