@@ -5,7 +5,7 @@ import { UpdateIsFavorite, UpdateItemInList } from "../helpers";
 
 type MeasurementSortCategory = "favorite" | "active" | "name";
 
-export const useMeasurementList = () => {
+export const useMeasurementList = (activeMeasurements: Set<number>) => {
   const [isMeasurementsLoading, setIsMeasurementsLoading] =
     useState<boolean>(true);
   const [measurements, setMeasurements] = useState<Measurement[]>([]);
@@ -36,14 +36,14 @@ export const useMeasurementList = () => {
         "SELECT * FROM measurements"
       );
 
-      sortMeasurements(result, sortCategory);
+      sortMeasurementsByFavoritesFirst(result);
 
       setMeasurements(result);
       setIsMeasurementsLoading(false);
     } catch (error) {
       console.log(error);
     }
-  }, [sortCategory]);
+  }, []);
 
   useEffect(() => {
     getMeasurements();
@@ -70,15 +70,20 @@ export const useMeasurementList = () => {
       updatedMeasurement
     );
 
-    sortMeasurements(updatedMeasurements, sortCategory);
+    sortMeasurementsByFavoritesFirst(updatedMeasurements);
   };
 
-  const sortMeasurements = (
-    measurements: Measurement[],
-    sortCategory: string
-  ) => {
+  const sortMeasurementsByName = (measurements: Measurement[]) => {
     measurements.sort((a, b) => {
-      if (sortCategory === "favorite" && b.is_favorite !== a.is_favorite) {
+      return a.name.localeCompare(b.name);
+    });
+
+    setMeasurements(measurements);
+  };
+
+  const sortMeasurementsByFavoritesFirst = (measurements: Measurement[]) => {
+    measurements.sort((a, b) => {
+      if (b.is_favorite !== a.is_favorite) {
         return b.is_favorite - a.is_favorite;
       } else {
         return a.name.localeCompare(b.name);
@@ -88,13 +93,31 @@ export const useMeasurementList = () => {
     setMeasurements(measurements);
   };
 
+  const sortMeasurementsByActiveFirst = (measurements: Measurement[]) => {
+    measurements.sort((a, b) => {
+      const aIsActive = activeMeasurements.has(a.id);
+      const bIsActive = activeMeasurements.has(b.id);
+
+      if (aIsActive && !bIsActive) return -1;
+
+      if (!aIsActive && bIsActive) return 1;
+
+      return a.name.localeCompare(b.name);
+    });
+
+    setMeasurements(measurements);
+  };
+
   const handleSortOptionSelection = (key: string) => {
     if (key === "name") {
       setSortCategory(key);
+      sortMeasurementsByName([...measurements]);
     } else if (key === "favorite") {
       setSortCategory(key);
+      sortMeasurementsByFavoritesFirst([...measurements]);
     } else if (key === "active") {
       setSortCategory(key);
+      sortMeasurementsByActiveFirst([...measurements]);
     }
   };
 
@@ -106,7 +129,6 @@ export const useMeasurementList = () => {
     setFilterQuery,
     filteredMeasurements,
     toggleFavorite,
-    sortMeasurementsByName: sortMeasurements,
     sortCategory,
     handleSortOptionSelection,
   };

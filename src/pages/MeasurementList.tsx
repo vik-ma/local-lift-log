@@ -97,7 +97,7 @@ export default function MeasurementList() {
     toggleFavorite,
     sortCategory,
     handleSortOptionSelection,
-  } = useMeasurementList();
+  } = useMeasurementList(activeMeasurementSet);
 
   const addMeasurement = async () => {
     if (operationType !== "add" || !isNewMeasurementNameValid) return;
