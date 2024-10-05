@@ -27,19 +27,27 @@ export const useExerciseList = (
   ]);
 
   const filteredExercises = useMemo(() => {
-    if (filterQuery !== "") {
+    if (
+      filterQuery !== "" ||
+      shownExerciseGroups.length !== exerciseGroupList.length
+    ) {
+      // Only show exercises whose name or Exercise Group is included in the filterQuery
+      // and whose Exercise Group is included in shownExerciseGroups
       return exercises.filter(
         (item) =>
-          item.name
+          (item.name
             .toLocaleLowerCase()
             .includes(filterQuery.toLocaleLowerCase()) ||
-          item
-            .formattedGroupString!.toLocaleLowerCase()
-            .includes(filterQuery.toLocaleLowerCase())
+            item
+              .formattedGroupString!.toLocaleLowerCase()
+              .includes(filterQuery.toLocaleLowerCase())) &&
+          shownExerciseGroups.some((group) =>
+            item.formattedGroupString!.includes(group)
+          )
       );
     }
     return exercises;
-  }, [exercises, filterQuery]);
+  }, [exercises, filterQuery, shownExerciseGroups, exerciseGroupList]);
 
   const sortExercisesByName = (exerciseList: Exercise[]) => {
     exerciseList.sort((a, b) => {
