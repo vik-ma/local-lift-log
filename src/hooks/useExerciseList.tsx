@@ -56,13 +56,16 @@ export const useExerciseList = (
   };
 
   const sortExercisesByNumSetsCompleted = (exerciseList: Exercise[]) => {
-    const sortedArray = exerciseList.sort((a, b) => {
+    exerciseList.sort((a, b) => {
       const aCount = a.set_count !== undefined ? a.set_count : -Infinity;
       const bCount = b.set_count !== undefined ? b.set_count : -Infinity;
-      return bCount - aCount;
+
+      if (bCount !== aCount) return bCount - aCount;
+
+      return a.name.localeCompare(b.name);
     });
 
-    setExercises(sortedArray);
+    setExercises(exerciseList);
   };
 
   const toggleFavorite = async (exercise: Exercise) => {
