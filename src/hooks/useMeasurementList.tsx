@@ -3,13 +3,15 @@ import { Measurement } from "../typings";
 import Database from "tauri-plugin-sql-api";
 import { UpdateIsFavorite, UpdateItemInList } from "../helpers";
 
+type MeasurementSortCategory = "favorite" | "active" | "name";
+
 export const useMeasurementList = () => {
   const [isMeasurementsLoading, setIsMeasurementsLoading] =
     useState<boolean>(true);
   const [measurements, setMeasurements] = useState<Measurement[]>([]);
   const [filterQuery, setFilterQuery] = useState<string>("");
-  const [favoritesCheckboxValue, setFavoritesCheckboxValue] =
-    useState<boolean>(true);
+  const [sortCategory, setSortCategory] =
+    useState<MeasurementSortCategory>("name");
 
   const filteredMeasurements = useMemo(() => {
     if (filterQuery !== "") {
@@ -68,7 +70,7 @@ export const useMeasurementList = () => {
       updatedMeasurement
     );
 
-    sortMeasurementsByName(updatedMeasurements, favoritesCheckboxValue)
+    sortMeasurementsByName(updatedMeasurements, true);
   };
 
   const sortMeasurementsByName = (
@@ -86,10 +88,14 @@ export const useMeasurementList = () => {
     setMeasurements(measurements);
   };
 
-  const handleListFavoritesFirstChange = (value: boolean) => {
-    setFavoritesCheckboxValue(value);
-
-    sortMeasurementsByName([...measurements], value);
+  const handleSortOptionSelection = (key: string) => {
+    if (key === "name") {
+      setSortCategory(key);
+    } else if (key === "favorite") {
+      setSortCategory(key);
+    } else if (key === "active") {
+      setSortCategory(key);
+    }
   };
 
   return {
@@ -101,7 +107,7 @@ export const useMeasurementList = () => {
     filteredMeasurements,
     toggleFavorite,
     sortMeasurementsByName,
-    favoritesCheckboxValue,
-    handleListFavoritesFirstChange,
+    sortCategory,
+    handleSortOptionSelection,
   };
 };

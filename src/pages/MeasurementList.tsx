@@ -21,7 +21,6 @@ import {
   DropdownMenu,
   DropdownItem,
   DropdownTrigger,
-  Checkbox,
 } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
 import {
@@ -96,8 +95,8 @@ export default function MeasurementList() {
     setFilterQuery,
     filteredMeasurements,
     toggleFavorite,
-    favoritesCheckboxValue,
-    handleListFavoritesFirstChange,
+    sortCategory,
+    handleSortOptionSelection,
   } = useMeasurementList();
 
   const addMeasurement = async () => {
@@ -379,7 +378,7 @@ export default function MeasurementList() {
           totalListLength={measurements.length}
           bottomContent={
             <div className="flex flex-col gap-1">
-              <div className="flex justify-between gap-1 w-full items-center pr-1">
+              <div className="flex justify-between gap-1 w-full items-center">
                 <Button
                   color="secondary"
                   variant="flat"
@@ -388,13 +387,22 @@ export default function MeasurementList() {
                 >
                   New Measurement
                 </Button>
-                <Checkbox
-                  isSelected={favoritesCheckboxValue}
-                  onValueChange={handleListFavoritesFirstChange}
-                  size="sm"
-                >
-                  List Favorites First
-                </Checkbox>
+                <Dropdown>
+                  <DropdownTrigger>
+                    <Button className="z-1" variant="flat" size="sm">
+                      Sort By
+                    </Button>
+                  </DropdownTrigger>
+                  <DropdownMenu
+                    selectionMode="single"
+                    selectedKeys={[sortCategory]}
+                    onAction={(key) => handleSortOptionSelection(key as string)}
+                  >
+                    <DropdownItem key="favorite">Favorites First</DropdownItem>
+                    <DropdownItem key="active">Active First</DropdownItem>
+                    <DropdownItem key="name">Name (A-Z)</DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
               </div>
               <span className="px-1 text-xs italic text-stone-500 font-normal">
                 Click on a Measurement to add to Active Measurements
