@@ -356,7 +356,11 @@ export type UseSetTrackingInputsReturnType = {
   setUneditedSet: React.Dispatch<React.SetStateAction<WorkoutSet | undefined>>;
 };
 
-export type ExerciseSortCategory = "name" | "num-sets";
+export type ExerciseSortCategory =
+  | "favorite"
+  | "name"
+  | "num-sets"
+  | "plate-calc";
 
 export type UseExerciseListReturnType = {
   filterQuery: string;
@@ -368,8 +372,6 @@ export type UseExerciseListReturnType = {
   isExercisesLoading: boolean;
   toggleFavorite: (exercises: Exercise) => void;
   handleSortOptionSelection: (key: string) => void;
-  favoritesCheckboxValue: boolean;
-  handleListFavoritesFirstChange: (value: boolean) => void;
   sortCategory: ExerciseSortCategory;
   setSortCategory: React.Dispatch<React.SetStateAction<ExerciseSortCategory>>;
 };
