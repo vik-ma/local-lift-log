@@ -346,6 +346,7 @@ export default function ExerciseList() {
                     selectedKeys={[sortCategory]}
                     onAction={(key) => handleSortOptionSelection(key as string)}
                   >
+                    <DropdownItem key="favorite">Favorites First</DropdownItem>
                     <DropdownItem key="name">Exercise Name (A-Z)</DropdownItem>
                     <DropdownItem key="num-sets">
                       Number Of Sets Completed

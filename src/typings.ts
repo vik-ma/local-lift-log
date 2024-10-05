@@ -356,11 +356,7 @@ export type UseSetTrackingInputsReturnType = {
   setUneditedSet: React.Dispatch<React.SetStateAction<WorkoutSet | undefined>>;
 };
 
-export type ExerciseSortCategory =
-  | "favorite"
-  | "name"
-  | "num-sets"
-  | "plate-calc";
+export type ExerciseSortCategory = "favorite" | "name" | "num-sets";
 
 export type UseExerciseListReturnType = {
   filterQuery: string;

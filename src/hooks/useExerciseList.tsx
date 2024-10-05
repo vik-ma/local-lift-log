@@ -43,6 +43,18 @@ export const useExerciseList = (
     setExercises(exerciseList);
   };
 
+  const sortExercisesByFavoritesFirst = (exerciseList: Exercise[]) => {
+    exerciseList.sort((a, b) => {
+      if (b.is_favorite !== a.is_favorite) {
+        return b.is_favorite - a.is_favorite;
+      } else {
+        return a.name.localeCompare(b.name);
+      }
+    });
+
+    setExercises(exerciseList);
+  };
+
   const sortExercisesByNumSetsCompleted = (exerciseList: Exercise[]) => {
     const sortedArray = exerciseList.sort((a, b) => {
       const aCount = a.set_count !== undefined ? a.set_count : -Infinity;
@@ -75,6 +87,8 @@ export const useExerciseList = (
       sortExercisesByName(updatedExercises);
     } else if (sortCategory === "num-sets") {
       sortExercisesByNumSetsCompleted(updatedExercises);
+    } else if (sortCategory === "favorite") {
+      sortExercisesByFavoritesFirst(updatedExercises);
     }
   };
 
@@ -85,6 +99,9 @@ export const useExerciseList = (
     } else if (key === "num-sets") {
       setSortCategory(key);
       sortExercisesByNumSetsCompleted([...exercises]);
+    } else if (key === "favorite") {
+      setSortCategory(key);
+      sortExercisesByFavoritesFirst([...exercises]);
     }
   };
 
@@ -95,7 +112,7 @@ export const useExerciseList = (
 
     if (exercises === undefined) return;
 
-    sortExercisesByName(exercises);
+    sortExercisesByFavoritesFirst(exercises);
     setIsExercisesLoading(false);
   }, [showTotalNumSets]);
 
