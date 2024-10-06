@@ -353,6 +353,49 @@ export const usePresetsList = (
     }
   };
 
+  const sortEquipmentWeightByActiveCategory = (
+    equipmentWeightList: EquipmentWeight[]
+  ) => {
+    switch (sortCategoryEquipment) {
+      case "favorite":
+        sortEquipmentWeightsByFavoritesFirst(equipmentWeightList);
+        break;
+      case "name":
+        sortEquipmentWeightsByName(equipmentWeightList);
+        break;
+      case "weight-asc":
+        sortEquipmentWeightsByWeight(equipmentWeightList, true);
+        break;
+      case "weight-desc":
+        sortEquipmentWeightsByWeight(equipmentWeightList, false);
+        break;
+      case "plate-calc":
+        sortEquipmentWeightsByPlateCalcFirst(equipmentWeightList);
+        break;
+      default:
+        break;
+    }
+  };
+
+  const sortDistancesByActiveCategory = (distanceList: Distance[]) => {
+    switch (sortCategoryDistance) {
+      case "favorite":
+        sortDistancesByFavoritesFirst(distanceList);
+        break;
+      case "name":
+        sortDistancesByName(distanceList);
+        break;
+      case "distance-asc":
+        sortDistancesByDistance(distanceList, true);
+        break;
+      case "distance-desc":
+        sortDistancesByDistance(distanceList, false);
+        break;
+      default:
+        break;
+    }
+  };
+
   return {
     equipmentWeights,
     setEquipmentWeights,
@@ -381,5 +424,7 @@ export const usePresetsList = (
     setPlateCalculatorHandle,
     isDefaultHandleIdInvalid,
     setIsDefaultHandleIdInvalid,
+    sortEquipmentWeightByActiveCategory,
+    sortDistancesByActiveCategory,
   };
 };

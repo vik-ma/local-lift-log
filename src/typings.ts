@@ -485,6 +485,10 @@ export type UsePresetsListReturnType = {
   >;
   isDefaultHandleIdInvalid: boolean;
   setIsDefaultHandleIdInvalid: React.Dispatch<React.SetStateAction<boolean>>;
+  sortEquipmentWeightByActiveCategory: (
+    equipmentWeightList: EquipmentWeight[]
+  ) => void;
+  sortDistancesByActiveCategory: (distanceList: Distance[]) => void;
 };
 
 export type CalculationModalPage = "base" | "list" | "calc" | "plate-calc";
