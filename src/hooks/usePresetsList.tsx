@@ -259,7 +259,9 @@ export const usePresetsList = (
       updatedEquipmentWeight
     );
 
-    sortEquipmentWeightsByFavoritesFirst(updatedEquipmentWeights);
+    if (sortCategoryEquipment === "favorite") {
+      sortEquipmentWeightsByFavoritesFirst(updatedEquipmentWeights);
+    }
   };
 
   const toggleFavoriteDistance = async (distance: Distance) => {
@@ -280,7 +282,9 @@ export const usePresetsList = (
 
     const updatedDistances = UpdateItemInList(distances, updatedDistance);
 
-    sortDistancesByFavoritesFirst(updatedDistances);
+    if (sortCategoryDistance === "favorite") {
+      sortDistancesByFavoritesFirst(updatedDistances);
+    }
   };
 
   const togglePlateCalculator = async (equipmentWeight: EquipmentWeight) => {
