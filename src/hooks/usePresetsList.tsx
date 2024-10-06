@@ -170,38 +170,30 @@ export const usePresetsList = (
     equipmentWeightList: EquipmentWeight[],
     isAscending: boolean
   ) => {
-    const sortedArray = equipmentWeightList.sort((a, b) => {
-      if (b.is_favorite !== a.is_favorite) {
-        return b.is_favorite - a.is_favorite;
+    equipmentWeightList.sort((a, b) => {
+      if (isAscending) {
+        return a.weight - b.weight;
       } else {
-        if (isAscending) {
-          return a.weight - b.weight;
-        } else {
-          return b.weight - a.weight;
-        }
+        return b.weight - a.weight;
       }
     });
 
-    setEquipmentWeights(sortedArray);
+    setEquipmentWeights(equipmentWeightList);
   };
 
   const sortDistancesByDistance = (
     distanceList: Distance[],
     isAscending: boolean
   ) => {
-    const sortedArray = distanceList.sort((a, b) => {
-      if (b.is_favorite !== a.is_favorite) {
-        return b.is_favorite - a.is_favorite;
+    distanceList.sort((a, b) => {
+      if (isAscending) {
+        return a.distance - b.distance;
       } else {
-        if (isAscending) {
-          return a.distance - b.distance;
-        } else {
-          return b.distance - a.distance;
-        }
+        return b.distance - a.distance;
       }
     });
 
-    setDistances(sortedArray);
+    setDistances(distanceList);
   };
 
   const handleSortOptionSelectionEquipment = (key: string) => {
