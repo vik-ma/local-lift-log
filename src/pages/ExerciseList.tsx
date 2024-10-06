@@ -63,6 +63,7 @@ export default function ExerciseList() {
     shownExerciseGroups,
     setShownExerciseGroups,
     areExerciseGroupsFiltered,
+    sortExercisesByActiveCategory,
   } = useExerciseList(true);
 
   const deleteModal = useDisclosure();
@@ -143,7 +144,8 @@ export default function ExerciseList() {
         exerciseGroupStringList: convertedValues.list,
         formattedGroupString: convertedValues.formattedString,
       };
-      setExercises([...exercises, newExerciseListItem]);
+
+      sortExercisesByActiveCategory([...exercises, newExerciseListItem]);
 
       resetOperatingExercise();
       toast.success("Exercise Created");
@@ -189,7 +191,7 @@ export default function ExerciseList() {
 
     const updatedExercises = UpdateItemInList(exercises, updatedExercise);
 
-    setExercises(updatedExercises);
+    sortExercisesByActiveCategory(updatedExercises);
 
     resetOperatingExercise();
     toast.success("Exercise Updated");
@@ -401,10 +403,7 @@ export default function ExerciseList() {
                       <DropdownMenu
                         aria-label={`Option Menu For ${exercise.name} Exercise`}
                         onAction={(key) =>
-                          handleExerciseOptionSelection(
-                            key as string,
-                            exercise
-                          )
+                          handleExerciseOptionSelection(key as string, exercise)
                         }
                       >
                         <DropdownItem key="edit">Edit</DropdownItem>

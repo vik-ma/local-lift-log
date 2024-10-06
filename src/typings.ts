@@ -374,6 +374,7 @@ export type UseExerciseListReturnType = {
   shownExerciseGroups: string[];
   setShownExerciseGroups: React.Dispatch<React.SetStateAction<string[]>>;
   areExerciseGroupsFiltered: boolean;
+  sortExercisesByActiveCategory: (exerciseList: Exercise[]) => void;
 };
 
 export type HandleMultisetSetOptionSelectionProps = (

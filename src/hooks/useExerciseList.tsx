@@ -101,13 +101,7 @@ export const useExerciseList = (
 
     const updatedExercises = UpdateItemInList(exercises, updatedExercise);
 
-    if (sortCategory === "name") {
-      sortExercisesByName(updatedExercises);
-    } else if (sortCategory === "num-sets") {
-      sortExercisesByNumSetsCompleted(updatedExercises);
-    } else if (sortCategory === "favorite") {
-      sortExercisesByFavoritesFirst(updatedExercises);
-    }
+    sortExercisesByActiveCategory(updatedExercises);
   };
 
   const handleSortOptionSelection = (key: string) => {
@@ -120,6 +114,22 @@ export const useExerciseList = (
     } else if (key === "favorite") {
       setSortCategory(key);
       sortExercisesByFavoritesFirst([...exercises]);
+    }
+  };
+
+  const sortExercisesByActiveCategory = (exerciseList: Exercise[]) => {
+    switch (sortCategory) {
+      case "favorite":
+        sortExercisesByFavoritesFirst(exerciseList);
+        break;
+      case "name":
+        sortExercisesByName(exerciseList);
+        break;
+      case "num-sets":
+        sortExercisesByNumSetsCompleted(exerciseList);
+        break;
+      default:
+        break;
     }
   };
 
@@ -154,5 +164,6 @@ export const useExerciseList = (
     shownExerciseGroups,
     setShownExerciseGroups,
     areExerciseGroupsFiltered,
+    sortExercisesByActiveCategory,
   };
 };
