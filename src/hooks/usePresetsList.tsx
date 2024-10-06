@@ -171,10 +171,14 @@ export const usePresetsList = (
     isAscending: boolean
   ) => {
     equipmentWeightList.sort((a, b) => {
-      if (isAscending) {
-        return a.weight - b.weight;
+      if (b.weight !== a.weight) {
+        if (isAscending) {
+          return a.weight - b.weight;
+        } else {
+          return b.weight - a.weight;
+        }
       } else {
-        return b.weight - a.weight;
+        return a.name.localeCompare(b.name);
       }
     });
 
@@ -186,10 +190,14 @@ export const usePresetsList = (
     isAscending: boolean
   ) => {
     distanceList.sort((a, b) => {
-      if (isAscending) {
-        return a.distance - b.distance;
+      if (b.distance !== a.distance) {
+        if (isAscending) {
+          return a.distance - b.distance;
+        } else {
+          return b.distance - a.distance;
+        }
       } else {
-        return b.distance - a.distance;
+        return a.name.localeCompare(b.name);
       }
     });
 
