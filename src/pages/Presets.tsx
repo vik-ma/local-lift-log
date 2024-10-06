@@ -679,6 +679,9 @@ export default function Presets() {
                         <DropdownItem key="weight-asc">
                           Weight (Low-High)
                         </DropdownItem>
+                        <DropdownItem key="plate-calc">
+                          Plate Calculator Items First
+                        </DropdownItem>
                       </DropdownMenu>
                     </Dropdown>
                   </div>

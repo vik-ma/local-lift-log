@@ -446,7 +446,8 @@ export type EquipmentWeightSortCategory =
   | "favorite"
   | "name"
   | "weight-desc"
-  | "weight-asc";
+  | "weight-asc"
+  | "plate-calc";
 
 export type DistanceSortCategory =
   | "favorite"

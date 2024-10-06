@@ -196,6 +196,20 @@ export const usePresetsList = (
     setDistances(distanceList);
   };
 
+  const sortEquipmentWeightsByPlateCalcFirst = (
+    equipmentWeightList: EquipmentWeight[]
+  ) => {
+    equipmentWeightList.sort((a, b) => {
+      if (b.is_in_plate_calculator !== a.is_in_plate_calculator) {
+        return b.is_in_plate_calculator - a.is_in_plate_calculator;
+      } else {
+        return a.name.localeCompare(b.name);
+      }
+    });
+
+    setEquipmentWeights(equipmentWeightList);
+  };
+
   const handleSortOptionSelectionEquipment = (key: string) => {
     if (key === "favorite") {
       setSortCategoryEquipment(key);
@@ -207,8 +221,11 @@ export const usePresetsList = (
       setSortCategoryEquipment(key);
       sortEquipmentWeightsByWeight([...equipmentWeights], true);
     } else if (key === "name") {
-      setSortCategoryDistance(key);
+      setSortCategoryEquipment(key);
       sortEquipmentWeightsByName([...equipmentWeights]);
+    } else if (key === "plate-calc") {
+      setSortCategoryEquipment(key);
+      sortEquipmentWeightsByPlateCalcFirst([...equipmentWeights]);
     }
   };
 
@@ -303,7 +320,9 @@ export const usePresetsList = (
         updatedEquipmentWeight
       );
 
-      sortEquipmentWeightsByFavoritesFirst(updatedEquipmentWeights);
+      if (sortCategoryEquipment === "plate-calc") {
+        sortEquipmentWeightsByPlateCalcFirst(updatedEquipmentWeights);
+      }
     } catch (error) {
       console.log(error);
     }
