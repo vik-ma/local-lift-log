@@ -91,6 +91,8 @@ export { IsNumberValidAndAbove0 } from "./Numbers/IsNumberValidAndAbove0";
 export { ConvertInputStringToNumber } from "./Numbers/ConvertInputStringToNumber";
 export { ConvertWeightValue } from "./Numbers/ConvertWeightValue";
 export { ConvertDistanceValue } from "./Numbers/ConvertDistanceValue";
+export { ConvertWeightToKg } from "./Numbers/ConvertWeightToKg";
+export { ConvertDistanceToMeter } from "./Numbers/ConvertDistanceToMeter";
 
 export { GetLatestUserWeight } from "./Measurements/GetLatestUserWeight";
 export { CreateDefaultMeasurements } from "./Measurements/CreateDefaultMeasurements";
