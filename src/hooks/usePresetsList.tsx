@@ -293,9 +293,7 @@ export const usePresetsList = (
       updatedEquipmentWeight
     );
 
-    if (sortCategoryEquipment === "favorite") {
-      sortEquipmentWeightsByFavoritesFirst(updatedEquipmentWeights);
-    }
+    sortEquipmentWeightByActiveCategory(updatedEquipmentWeights);
   };
 
   const toggleFavoriteDistance = async (distance: Distance) => {
@@ -316,9 +314,7 @@ export const usePresetsList = (
 
     const updatedDistances = UpdateItemInList(distances, updatedDistance);
 
-    if (sortCategoryDistance === "favorite") {
-      sortDistancesByFavoritesFirst(updatedDistances);
-    }
+    sortDistancesByActiveCategory(updatedDistances);
   };
 
   const togglePlateCalculator = async (equipmentWeight: EquipmentWeight) => {
@@ -345,9 +341,7 @@ export const usePresetsList = (
         updatedEquipmentWeight
       );
 
-      if (sortCategoryEquipment === "plate-calc") {
-        sortEquipmentWeightsByPlateCalcFirst(updatedEquipmentWeights);
-      }
+      sortEquipmentWeightByActiveCategory(updatedEquipmentWeights);
     } catch (error) {
       console.log(error);
     }

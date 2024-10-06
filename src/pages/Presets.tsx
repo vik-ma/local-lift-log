@@ -102,6 +102,8 @@ export default function Presets() {
     handleSortOptionSelectionEquipment,
     handleSortOptionSelectionDistance,
     togglePlateCalculator,
+    sortEquipmentWeightByActiveCategory,
+    sortDistancesByActiveCategory,
   } = usePresetsList(true, true);
 
   useEffect(() => {
@@ -170,7 +172,7 @@ export default function Presets() {
         weight: weight,
       };
 
-      setEquipmentWeights([...equipmentWeights, newEquipment]);
+      sortEquipmentWeightByActiveCategory([...equipmentWeights, newEquipment]);
 
       resetOperatingEquipment();
       presetModal.onClose();
@@ -212,7 +214,7 @@ export default function Presets() {
         distance: distance,
       };
 
-      setDistances([...distances, newDistance]);
+      sortDistancesByActiveCategory([...distances, newDistance]);
 
       resetOperatingDistance();
       presetModal.onClose();
@@ -263,7 +265,7 @@ export default function Presets() {
         updatedEquipment
       );
 
-      setEquipmentWeights(updatedEquipmentWeights);
+      sortEquipmentWeightByActiveCategory(updatedEquipmentWeights);
 
       resetOperatingEquipment();
       presetModal.onClose();
@@ -309,7 +311,7 @@ export default function Presets() {
 
       const updatedDistances = UpdateItemInList(distances, updatedDistance);
 
-      setDistances(updatedDistances);
+      sortDistancesByActiveCategory(updatedDistances);
 
       resetOperatingDistance();
       presetModal.onClose();
