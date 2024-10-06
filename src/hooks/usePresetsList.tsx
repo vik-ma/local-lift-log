@@ -8,7 +8,12 @@ import {
   UsePresetsListReturnType,
 } from "../typings";
 import Database from "tauri-plugin-sql-api";
-import { UpdateIsFavorite, UpdateItemInList } from "../helpers";
+import {
+  ConvertDistanceToMeter,
+  ConvertWeightToKg,
+  UpdateIsFavorite,
+  UpdateItemInList,
+} from "../helpers";
 
 export const usePresetsList = (
   getEquipmentWeightsOnLoad: boolean,
@@ -171,11 +176,14 @@ export const usePresetsList = (
     isAscending: boolean
   ) => {
     equipmentWeightList.sort((a, b) => {
-      if (b.weight !== a.weight) {
+      const weightAInKg = ConvertWeightToKg(a.weight, a.weight_unit);
+      const weightBInKg = ConvertWeightToKg(b.weight, b.weight_unit);
+
+      if (weightAInKg !== weightBInKg) {
         if (isAscending) {
-          return a.weight - b.weight;
+          return weightAInKg - weightBInKg;
         } else {
-          return b.weight - a.weight;
+          return weightBInKg - weightAInKg;
         }
       } else {
         return a.name.localeCompare(b.name);
@@ -190,11 +198,20 @@ export const usePresetsList = (
     isAscending: boolean
   ) => {
     distanceList.sort((a, b) => {
-      if (b.distance !== a.distance) {
+      const distanceAInMeters = ConvertDistanceToMeter(
+        a.distance,
+        a.distance_unit
+      );
+      const distanceBInMeters = ConvertDistanceToMeter(
+        b.distance,
+        b.distance_unit
+      );
+
+      if (distanceAInMeters !== distanceBInMeters) {
         if (isAscending) {
-          return a.distance - b.distance;
+          return distanceAInMeters - distanceBInMeters;
         } else {
-          return b.distance - a.distance;
+          return distanceBInMeters - distanceAInMeters;
         }
       } else {
         return a.name.localeCompare(b.name);
