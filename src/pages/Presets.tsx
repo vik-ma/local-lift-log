@@ -23,7 +23,6 @@ import {
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
-  Checkbox,
   Tabs,
   Tab,
 } from "@nextui-org/react";
@@ -96,9 +95,6 @@ export default function Presets() {
     filterQueryDistance,
     setFilterQueryDistance,
     filteredDistances,
-    handleListFavoritesFirstChange,
-    favoritesCheckboxValueEquipment,
-    favoritesCheckboxValueDistance,
     toggleFavoriteEquipmentWeight,
     toggleFavoriteDistance,
     sortCategoryEquipment,
@@ -660,16 +656,6 @@ export default function Presets() {
                     >
                       New Equipment Weight
                     </Button>
-                    <Checkbox
-                      className="px-3"
-                      isSelected={favoritesCheckboxValueEquipment}
-                      onValueChange={(value) =>
-                        handleListFavoritesFirstChange("equipment", value)
-                      }
-                      size="sm"
-                    >
-                      List Favorites First
-                    </Checkbox>
                     <Dropdown>
                       <DropdownTrigger>
                         <Button className="z-1" variant="flat" size="sm">
@@ -683,6 +669,9 @@ export default function Presets() {
                           handleSortOptionSelectionEquipment(key as string)
                         }
                       >
+                        <DropdownItem key="favorite">
+                          Favorites First
+                        </DropdownItem>
                         <DropdownItem key="name">Name (A-Z)</DropdownItem>
                         <DropdownItem key="weight-desc">
                           Weight (High-Low)
@@ -809,16 +798,6 @@ export default function Presets() {
                   >
                     New Distance
                   </Button>
-                  <Checkbox
-                    className="px-3"
-                    isSelected={favoritesCheckboxValueDistance}
-                    onValueChange={(value) =>
-                      handleListFavoritesFirstChange("distance", value)
-                    }
-                    size="sm"
-                  >
-                    List Favorites First
-                  </Checkbox>
                   <Dropdown>
                     <DropdownTrigger>
                       <Button className="z-1" variant="flat" size="sm">
@@ -832,6 +811,9 @@ export default function Presets() {
                         handleSortOptionSelectionDistance(key as string)
                       }
                     >
+                      <DropdownItem key="favorite">
+                        Favorites First
+                      </DropdownItem>
                       <DropdownItem key="name">Name (A-Z)</DropdownItem>
                       <DropdownItem key="distance-desc">
                         Distance (High-Low)

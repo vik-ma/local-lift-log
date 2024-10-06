@@ -22,9 +22,9 @@ export const usePresetsList = (
   const [filterQueryEquipment, setFilterQueryEquipment] = useState<string>("");
   const [filterQueryDistance, setFilterQueryDistance] = useState<string>("");
   const [sortCategoryEquipment, setSortCategoryEquipment] =
-    useState<EquipmentWeightSortCategory>("name");
+    useState<EquipmentWeightSortCategory>("favorite");
   const [sortCategoryDistance, setSortCategoryDistance] =
-    useState<DistanceSortCategory>("name");
+    useState<DistanceSortCategory>("favorite");
   const [isLoadingEquipment, setIsLoadingEquipment] = useState<boolean>(true);
   const [isLoadingDistance, setIsLoadingDistance] = useState<boolean>(true);
   const [plateCalculatorHandle, setPlateCalculatorHandle] =
@@ -73,7 +73,7 @@ export const usePresetsList = (
           "SELECT * FROM equipment_weights"
         );
 
-        sortEquipmentWeightsByName(result);
+        sortEquipmentWeightsByFavoritesFirst(result);
         setIsLoadingEquipment(false);
 
         if (defaultEquipmentHandleId !== undefined) {
@@ -100,7 +100,7 @@ export const usePresetsList = (
 
       const result = await db.select<Distance[]>("SELECT * FROM distances");
 
-      sortDistancesByName(result);
+      sortDistancesByFavoritesFirst(result);
       setIsLoadingDistance(false);
     } catch (error) {
       console.log(error);
@@ -126,6 +126,24 @@ export const usePresetsList = (
     equipmentWeightList: EquipmentWeight[]
   ) => {
     equipmentWeightList.sort((a, b) => {
+      return a.name.localeCompare(b.name);
+    });
+
+    setEquipmentWeights(equipmentWeightList);
+  };
+
+  const sortDistancesByName = (distanceList: Distance[]) => {
+    distanceList.sort((a, b) => {
+      return a.name.localeCompare(b.name);
+    });
+
+    setDistances(distanceList);
+  };
+
+  const sortEquipmentWeightsByFavoritesFirst = (
+    equipmentWeightList: EquipmentWeight[]
+  ) => {
+    equipmentWeightList.sort((a, b) => {
       if (b.is_favorite !== a.is_favorite) {
         return b.is_favorite - a.is_favorite;
       } else {
@@ -136,7 +154,7 @@ export const usePresetsList = (
     setEquipmentWeights(equipmentWeightList);
   };
 
-  const sortDistancesByName = (distanceList: Distance[]) => {
+  const sortDistancesByFavoritesFirst = (distanceList: Distance[]) => {
     distanceList.sort((a, b) => {
       if (b.is_favorite !== a.is_favorite) {
         return b.is_favorite - a.is_favorite;
@@ -187,28 +205,34 @@ export const usePresetsList = (
   };
 
   const handleSortOptionSelectionEquipment = (key: string) => {
-    if (key === "name") {
+    if (key === "favorite") {
       setSortCategoryEquipment(key);
-      sortEquipmentWeightsByName([...equipmentWeights]);
+      sortEquipmentWeightsByFavoritesFirst([...equipmentWeights]);
     } else if (key === "weight-desc") {
       setSortCategoryEquipment(key);
       sortEquipmentWeightsByWeight([...equipmentWeights], false);
     } else if (key === "weight-asc") {
       setSortCategoryEquipment(key);
       sortEquipmentWeightsByWeight([...equipmentWeights], true);
+    } else if (key === "name") {
+      setSortCategoryDistance(key);
+      sortEquipmentWeightsByName([...equipmentWeights]);
     }
   };
 
   const handleSortOptionSelectionDistance = (key: string) => {
-    if (key === "name") {
+    if (key === "favorite") {
       setSortCategoryDistance(key);
-      sortDistancesByName([...distances]);
+      sortDistancesByFavoritesFirst([...distances]);
     } else if (key === "distance-desc") {
       setSortCategoryDistance(key);
       sortDistancesByDistance([...distances], false);
     } else if (key === "distance-asc") {
       setSortCategoryDistance(key);
       sortDistancesByDistance([...distances], true);
+    } else if (key === "name") {
+      setSortCategoryDistance(key);
+      sortDistancesByName([...distances]);
     }
   };
 
@@ -235,7 +259,7 @@ export const usePresetsList = (
       updatedEquipmentWeight
     );
 
-    sortEquipmentWeightsByName(updatedEquipmentWeights);
+    sortEquipmentWeightsByFavoritesFirst(updatedEquipmentWeights);
   };
 
   const toggleFavoriteDistance = async (distance: Distance) => {
@@ -256,7 +280,7 @@ export const usePresetsList = (
 
     const updatedDistances = UpdateItemInList(distances, updatedDistance);
 
-    sortDistancesByName(updatedDistances);
+    sortDistancesByFavoritesFirst(updatedDistances);
   };
 
   const togglePlateCalculator = async (equipmentWeight: EquipmentWeight) => {
@@ -283,7 +307,7 @@ export const usePresetsList = (
         updatedEquipmentWeight
       );
 
-      sortEquipmentWeightsByName(updatedEquipmentWeights);
+      sortEquipmentWeightsByFavoritesFirst(updatedEquipmentWeights);
     } catch (error) {
       console.log(error);
     }

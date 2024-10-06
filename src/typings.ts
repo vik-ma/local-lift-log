@@ -442,9 +442,17 @@ export type UseWorkoutTemplateListReturnType = {
 
 export type PresetsType = "equipment" | "distance";
 
-export type EquipmentWeightSortCategory = "name" | "weight-desc" | "weight-asc";
+export type EquipmentWeightSortCategory =
+  | "favorite"
+  | "name"
+  | "weight-desc"
+  | "weight-asc";
 
-export type DistanceSortCategory = "name" | "distance-desc" | "distance-asc";
+export type DistanceSortCategory =
+  | "favorite"
+  | "name"
+  | "distance-desc"
+  | "distance-asc";
 
 export type UsePresetsListReturnType = {
   equipmentWeights: EquipmentWeight[];
