@@ -461,12 +461,6 @@ export type UsePresetsListReturnType = {
   filterQueryDistance: string;
   setFilterQueryDistance: React.Dispatch<React.SetStateAction<string>>;
   filteredDistances: Distance[];
-  handleListFavoritesFirstChange: (
-    presetsType: PresetsType,
-    value: boolean
-  ) => void;
-  favoritesCheckboxValueEquipment: boolean;
-  favoritesCheckboxValueDistance: boolean;
   toggleFavoriteEquipmentWeight: (equipmentWeight: EquipmentWeight) => void;
   toggleFavoriteDistance: (distance: Distance) => void;
   sortCategoryEquipment: EquipmentWeightSortCategory;
