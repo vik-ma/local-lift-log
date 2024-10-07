@@ -804,7 +804,30 @@ export const CalculationModal = ({
     if (disableCalculatePlatesButton || plateCalculatorHandle === undefined)
       return;
 
-    const plateCalculatorList = getPlateCalculatorList();
+    const sortedPlates = getPlateCalculatorList().sort((a, b) => b - a);
+
+    const targetWeight = Number(targetWeightInput);
+    const handleWeight = plateCalculatorHandle.weight;
+    const weightToLoad = targetWeight - handleWeight;
+
+    let weightPerSide = weightToLoad / 2;
+
+    const plateCounts: { [key: number]: number } = {};
+
+    for (const plate of sortedPlates) {
+      const plateCountForThisWeight = Math.floor(weightPerSide / plate);
+
+      if (plateCountForThisWeight > 0) {
+        plateCounts[plate] = plateCountForThisWeight * 2;
+        weightPerSide -= plateCountForThisWeight * plate;
+      }
+    }
+
+    console.log(plateCounts);
+
+    if (weightPerSide > 0) {
+      console.log(`Remaining Weight ${weightPerSide}`);
+    }
   };
 
   return (
