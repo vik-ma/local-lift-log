@@ -28,5 +28,5 @@ export const useDetailsHeaderOptionsMenu = (
     menuItems[key].function();
   };
 
-  return { showNote, menuItems, handleOptionMenuSelection };
+  return { showNote, setShowNote, menuItems, handleOptionMenuSelection };
 };

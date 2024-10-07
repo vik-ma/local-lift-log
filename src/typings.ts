@@ -414,6 +414,7 @@ export type DetailHeaderOptionItem = {
 
 export type UseDetailsHeaderOptionsMenuReturnType = {
   showNote: boolean;
+  setShowNote: React.Dispatch<React.SetStateAction<boolean>>;
   menuItems: DetailHeaderOptionItem;
   handleOptionMenuSelection: (key: string) => void;
 };
