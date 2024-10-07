@@ -68,6 +68,12 @@ type OperationType =
   | "change-handle"
   | "show-list";
 
+type PlateCalculation = {
+  plateCounts: { [key: number]: number };
+  remainingWeight: number;
+  singleSidePlateList: number[];
+};
+
 export const CalculationModal = ({
   useCalculationModal,
   usePresetsList,
@@ -95,6 +101,11 @@ export const CalculationModal = ({
     useState<OperatingCalculationItem>();
   const [targetWeightInput, setTargetWeightInput] = useState<string>("");
   const [numHandles, setNumHandles] = useState<string>("1");
+  const [plateCalculation, setPlateCalculation] = useState<PlateCalculation>({
+    plateCounts: {},
+    remainingWeight: 0,
+    singleSidePlateList: [],
+  });
 
   const isNumberInputInvalid = useMemo(() => {
     return IsStringEmpty(numberInput) || IsStringInvalidNumberOr0(numberInput);
@@ -828,6 +839,25 @@ export const CalculationModal = ({
     if (weightPerSide > 0) {
       console.log(`Remaining Weight ${weightPerSide}`);
     }
+
+    const singleSidePlateList: number[] = [];
+
+    Object.entries(plateCounts).forEach(([key, value]) => {
+      const plateWeight = Number(key);
+      const timesToPush = value / 2;
+
+      for (let i = 0; i < timesToPush; i++) {
+        singleSidePlateList.push(plateWeight);
+      }
+    });
+
+    const plateCalculation = {
+      plateCounts: plateCounts,
+      remainingWeight: weightPerSide,
+      singleSidePlateList: singleSidePlateList,
+    };
+
+    setPlateCalculation(plateCalculation);
   };
 
   return (
@@ -1274,6 +1304,18 @@ export const CalculationModal = ({
                         >
                           Calculate Plates
                         </Button>
+                      </div>
+                      <div className="flex flex-col">
+                        {Object.entries(plateCalculation.plateCounts).map(
+                          ([key, value]) => (
+                            <div className="flex gap-2 items-center" key={`Plate ${key}`}>
+                              <span className="font-medium">{key} kg</span>
+                              <span className="text-stone-500">
+                                {value} Plates
+                              </span>
+                            </div>
+                          )
+                        )}
                       </div>
                     </div>
                     <div className="flex justify-between">
