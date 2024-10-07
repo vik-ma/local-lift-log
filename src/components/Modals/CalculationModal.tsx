@@ -94,6 +94,7 @@ export const CalculationModal = ({
   const [operatingCalculationItem, setOperatingCalculationItem] =
     useState<OperatingCalculationItem>();
   const [targetWeightInput, setTargetWeightInput] = useState<string>("");
+  const [numHandles, setNumHandles] = useState<string>("1");
 
   const isNumberInputInvalid = useMemo(() => {
     return IsStringEmpty(numberInput) || IsStringInvalidNumberOr0(numberInput);
@@ -766,6 +767,10 @@ export const CalculationModal = ({
     setCalculationModalPage("list");
   };
 
+  const handleHandlesChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setNumHandles(e.target.value);
+  };
+
   return (
     <Modal
       isOpen={calculationModal.isOpen}
@@ -1185,6 +1190,8 @@ export const CalculationModal = ({
                             className="w-[4rem]"
                             size="sm"
                             variant="faded"
+                            selectedKeys={[numHandles]}
+                            onChange={(e) => handleHandlesChange(e)}
                             disallowEmptySelection
                           >
                             <SelectItem key="1" value="1">
