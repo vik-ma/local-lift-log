@@ -7,6 +7,8 @@ import {
   ModalFooter,
   ScrollShadow,
   Input,
+  Select,
+  SelectItem,
 } from "@nextui-org/react";
 import {
   CalculationListItem,
@@ -1161,19 +1163,38 @@ export const CalculationModal = ({
                           </div>
                         )}
                       </div>
-                      <div className="flex gap-2 items-center px-0.5">
-                        <span className="font-medium">Target Weight</span>
-                        <Input
-                          ref={targetWeightInputRef}
-                          className="w-[6rem]"
-                          aria-label="Target Weight Input Field"
-                          size="sm"
-                          variant="faded"
-                          isInvalid={isTargetWeightInputInvalid}
-                          isClearable
-                          value={targetWeightInput}
-                          onValueChange={setTargetWeightInput}
-                        />
+                      <div className="flex gap-[2.75rem] px-0.5">
+                        <div className="flex gap-2 items-center w-[13.25rem]">
+                          <span className="font-medium">Target Weight</span>
+                          <Input
+                            ref={targetWeightInputRef}
+                            className="w-[6rem]"
+                            aria-label="Target Weight Input Field"
+                            size="sm"
+                            variant="faded"
+                            isInvalid={isTargetWeightInputInvalid}
+                            isClearable
+                            value={targetWeightInput}
+                            onValueChange={setTargetWeightInput}
+                          />
+                        </div>
+                        <div className="flex gap-2 items-center">
+                          <span>Handles</span>
+                          <Select
+                            aria-label="Select Number Of Handles"
+                            className="w-[4rem]"
+                            size="sm"
+                            variant="faded"
+                            disallowEmptySelection
+                          >
+                            <SelectItem key="1" value="1">
+                              1
+                            </SelectItem>
+                            <SelectItem key="2" value="2">
+                              2
+                            </SelectItem>
+                          </Select>
+                        </div>
                       </div>
                     </div>
                     <div className="flex justify-between">
