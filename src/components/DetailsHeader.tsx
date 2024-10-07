@@ -43,7 +43,7 @@ export const DetailsHeader = ({
   }, [menuItems, note]);
 
   return (
-    <div className="flex flex-col gap-4 pb-4">
+    <div className="flex flex-col gap-3.5">
       <div className="relative w-full flex">
         <div className="flex flex-col gap-0.5 w-full">
           <div className="flex justify-center">
@@ -106,8 +106,11 @@ export const DetailsHeader = ({
         </div>
       </div>
       {showNote && note !== null && (
-        <div className="flex justify-center w-full">
-          <span className="break-all font-medium text-stone-500">{note}</span>
+        <div className="flex flex-col bg-stone-100 w-full px-2 py-1 border-2 border-stone-500 rounded">
+          <h3 className="break-all font-medium text-stone-700 text-lg">
+            {detailsType} Note
+          </h3>
+          <span className="break-words text-stone-500 text-sm">{note}</span>
         </div>
       )}
       {extraContent}
