@@ -771,9 +771,31 @@ export const CalculationModal = ({
     setNumHandles(e.target.value);
   };
 
+  const getPlateCalculatorList = () => {
+    const plateCalculatorList = equipmentWeights.reduce<number[]>(
+      (acc, equipment) => {
+        if (equipment.is_in_plate_calculator === 1) {
+          acc.push(equipment.weight);
+        }
+        return acc;
+      },
+      []
+    );
+
+    return plateCalculatorList;
+  };
+
   const handleCalculatePlatesButton = () => {
-    if (isTargetWeightInputInvalid || IsStringInvalidNumberOr0(numHandles))
+    if (
+      isTargetWeightInputInvalid ||
+      IsStringInvalidNumberOr0(numHandles) ||
+      plateCalculatorHandle === undefined
+    )
       return;
+
+    const plateCalculatorList = getPlateCalculatorList();
+
+    console.log(plateCalculatorList);
   };
 
   return (
@@ -1216,7 +1238,10 @@ export const CalculationModal = ({
                           color="primary"
                           variant="flat"
                           onPress={handleCalculatePlatesButton}
-                          isDisabled={isTargetWeightInputInvalid}
+                          isDisabled={
+                            isTargetWeightInputInvalid ||
+                            plateCalculatorHandle === undefined
+                          }
                         >
                           Calculate Plates
                         </Button>
