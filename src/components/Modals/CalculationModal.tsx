@@ -137,6 +137,21 @@ export const CalculationModal = ({
     distanceUnit,
   } = useCalculationModal;
 
+  const disableCalculatePlatesButton = useMemo(() => {
+    if (isTargetWeightInputInvalid) return true;
+    if (plateCalculatorHandle === undefined) return true;
+    if (Number(targetWeightInput) - plateCalculatorHandle.weight <= 0)
+      return true;
+    if (numHandles !== "1" && numHandles !== "2") return true;
+
+    return false;
+  }, [
+    isTargetWeightInputInvalid,
+    plateCalculatorHandle,
+    targetWeightInput,
+    numHandles,
+  ]);
+
   const loadPresets = useCallback(async () => {
     if (presetsType === "equipment" && isLoadingEquipment) {
       await getEquipmentWeights(userSettings.default_equipment_weight_id);
@@ -786,16 +801,10 @@ export const CalculationModal = ({
   };
 
   const handleCalculatePlatesButton = () => {
-    if (
-      isTargetWeightInputInvalid ||
-      IsStringInvalidNumberOr0(numHandles) ||
-      plateCalculatorHandle === undefined
-    )
+    if (disableCalculatePlatesButton || plateCalculatorHandle === undefined)
       return;
 
     const plateCalculatorList = getPlateCalculatorList();
-
-    console.log(plateCalculatorList);
   };
 
   return (
@@ -1238,10 +1247,7 @@ export const CalculationModal = ({
                           color="primary"
                           variant="flat"
                           onPress={handleCalculatePlatesButton}
-                          isDisabled={
-                            isTargetWeightInputInvalid ||
-                            plateCalculatorHandle === undefined
-                          }
+                          isDisabled={disableCalculatePlatesButton}
                         >
                           Calculate Plates
                         </Button>
