@@ -5,7 +5,7 @@ import {
   DropdownMenu,
   DropdownItem,
 } from "@nextui-org/react";
-import { EditIcon, VerticalMenuIcon } from "../assets";
+import { CrossIcon, EditIcon, VerticalMenuIcon } from "../assets";
 import { UseDetailsHeaderOptionsMenuReturnType } from "../typings";
 import { ReactNode, useMemo } from "react";
 
@@ -28,7 +28,7 @@ export const DetailsHeader = ({
   useDetailsHeaderOptions,
   extraContent,
 }: DetailsHeaderProps) => {
-  const { showNote, menuItems, handleOptionMenuSelection } =
+  const { showNote, setShowNote, menuItems, handleOptionMenuSelection } =
     useDetailsHeaderOptions;
 
   const showMenuButton = useMemo(() => {
@@ -106,10 +106,20 @@ export const DetailsHeader = ({
         </div>
       </div>
       {showNote && note !== null && (
-        <div className="flex flex-col bg-stone-100 w-full px-2 py-1 border-2 border-stone-500 rounded">
-          <h3 className="break-all font-medium text-stone-700 text-lg">
-            {detailsType} Note
-          </h3>
+        <div className="flex flex-col bg-stone-100 w-full px-2 pt-1 pb-1.5 border-2 border-stone-500 rounded">
+          <div className="flex justify-between items-center">
+            <h3 className="break-all font-medium text-stone-700 text-lg">
+              {detailsType} Note
+            </h3>
+            <Button
+              isIconOnly
+              size="sm"
+              variant="light"
+              onPress={() => setShowNote(false)}
+            >
+              <CrossIcon color="#606060" size={20} />
+            </Button>
+          </div>
           <span className="break-words text-stone-500 text-sm">{note}</span>
         </div>
       )}
