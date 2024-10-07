@@ -771,6 +771,11 @@ export const CalculationModal = ({
     setNumHandles(e.target.value);
   };
 
+  const handleCalculatePlatesButton = () => {
+    if (isTargetWeightInputInvalid || IsStringInvalidNumberOr0(numHandles))
+      return;
+  };
+
   return (
     <Modal
       isOpen={calculationModal.isOpen}
@@ -1168,20 +1173,23 @@ export const CalculationModal = ({
                           </div>
                         )}
                       </div>
-                      <div className="flex gap-[2.75rem] px-0.5">
-                        <div className="flex gap-2 items-center w-[13.25rem]">
+                      <div className="flex gap-1.5 px-0.5">
+                        <div className="flex gap-2 items-center w-[15.5rem]">
                           <span className="font-medium">Target Weight</span>
-                          <Input
-                            ref={targetWeightInputRef}
-                            className="w-[6rem]"
-                            aria-label="Target Weight Input Field"
-                            size="sm"
-                            variant="faded"
-                            isInvalid={isTargetWeightInputInvalid}
-                            isClearable
-                            value={targetWeightInput}
-                            onValueChange={setTargetWeightInput}
-                          />
+                          <div className="flex gap-1.5 items-center">
+                            <Input
+                              ref={targetWeightInputRef}
+                              className="w-[6rem]"
+                              aria-label="Target Weight Input Field"
+                              size="sm"
+                              variant="faded"
+                              isInvalid={isTargetWeightInputInvalid}
+                              isClearable
+                              value={targetWeightInput}
+                              onValueChange={setTargetWeightInput}
+                            />
+                            <span className="text-stone-500">{weightUnit}</span>
+                          </div>
                         </div>
                         <div className="flex gap-2 items-center">
                           <span>Handles</span>
@@ -1202,6 +1210,16 @@ export const CalculationModal = ({
                             </SelectItem>
                           </Select>
                         </div>
+                      </div>
+                      <div className="flex justify-center">
+                        <Button
+                          color="primary"
+                          variant="flat"
+                          onPress={handleCalculatePlatesButton}
+                          isDisabled={isTargetWeightInputInvalid}
+                        >
+                          Calculate Plates
+                        </Button>
                       </div>
                     </div>
                     <div className="flex justify-between">
