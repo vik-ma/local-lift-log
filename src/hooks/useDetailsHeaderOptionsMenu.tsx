@@ -13,7 +13,7 @@ export const useDetailsHeaderOptionsMenu = (
   const menuItems = useMemo(() => {
     const menuItems: DetailHeaderOptionItem = {
       "toggle-note": {
-        text: `Toggle ${detailsType} Note`,
+        text: `${showNote ? "Hide" : "Show"} ${detailsType} Note`,
         function: () => setShowNote(!showNote),
       },
       ...additionalMenuItems,
