@@ -70,7 +70,7 @@ export const useMeasurementList = (activeMeasurements: Set<number>) => {
       updatedMeasurement
     );
 
-    sortMeasurementsByFavoritesFirst(updatedMeasurements);
+    sortMeasurementsByActiveCategory(updatedMeasurements);
   };
 
   const sortMeasurementsByName = (measurements: Measurement[]) => {
@@ -121,6 +121,22 @@ export const useMeasurementList = (activeMeasurements: Set<number>) => {
     }
   };
 
+  const sortMeasurementsByActiveCategory = (measurements: Measurement[]) => {
+    switch (sortCategory) {
+      case "favorite":
+        sortMeasurementsByFavoritesFirst(measurements);
+        break;
+      case "name":
+        sortMeasurementsByName(measurements);
+        break;
+      case "active":
+        sortMeasurementsByActiveFirst(measurements);
+        break;
+      default:
+        break;
+    }
+  };
+
   return {
     measurements,
     setMeasurements,
@@ -131,5 +147,6 @@ export const useMeasurementList = (activeMeasurements: Set<number>) => {
     toggleFavorite,
     sortCategory,
     handleSortOptionSelection,
+    sortMeasurementsByActiveCategory,
   };
 };

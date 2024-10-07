@@ -97,6 +97,7 @@ export default function MeasurementList() {
     toggleFavorite,
     sortCategory,
     handleSortOptionSelection,
+    sortMeasurementsByActiveCategory,
   } = useMeasurementList(activeMeasurementSet);
 
   const addMeasurement = async () => {
@@ -114,7 +115,7 @@ export default function MeasurementList() {
       is_favorite: 0,
     };
 
-    setMeasurements([...measurements, addedMeasurement]);
+    sortMeasurementsByActiveCategory([...measurements, addedMeasurement]);
     resetOperatingMeasurement();
 
     measurementModal.onClose();
@@ -156,7 +157,7 @@ export default function MeasurementList() {
       updatedMeasurement
     );
 
-    setMeasurements(updatedMeasurements);
+    sortMeasurementsByActiveCategory(updatedMeasurements);
 
     resetOperatingMeasurement();
 
