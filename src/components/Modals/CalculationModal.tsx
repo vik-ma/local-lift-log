@@ -69,9 +69,8 @@ type OperationType =
   | "show-list";
 
 type PlateCalculation = {
-  plateCounts: { [key: number]: number };
+  plateMap: Map<number, number>;
   remainingWeight: number;
-  singleSidePlateList: number[];
 };
 
 export const CalculationModal = ({
@@ -102,9 +101,8 @@ export const CalculationModal = ({
   const [targetWeightInput, setTargetWeightInput] = useState<string>("");
   const [numHandles, setNumHandles] = useState<string>("1");
   const [plateCalculation, setPlateCalculation] = useState<PlateCalculation>({
-    plateCounts: {},
+    plateMap: new Map(),
     remainingWeight: 0,
-    singleSidePlateList: [],
   });
 
   const isNumberInputInvalid = useMemo(() => {
@@ -834,27 +832,17 @@ export const CalculationModal = ({
       }
     }
 
-    console.log(plateCounts);
+    const plateMap = new Map<number, number>(
+      Object.entries(plateCounts).map(([key, value]) => [Number(key), value])
+    );
 
-    if (weightPerSide > 0) {
-      console.log(`Remaining Weight ${weightPerSide}`);
-    }
-
-    const singleSidePlateList: number[] = [];
-
-    Object.entries(plateCounts).forEach(([key, value]) => {
-      const plateWeight = Number(key);
-      const timesToPush = value / 2;
-
-      for (let i = 0; i < timesToPush; i++) {
-        singleSidePlateList.push(plateWeight);
-      }
-    });
+    const sortedPlateMap = new Map(
+      [...plateMap.entries()].sort((a, b) => b[0] - a[0])
+    );
 
     const plateCalculation = {
-      plateCounts: plateCounts,
+      plateMap: sortedPlateMap,
       remainingWeight: weightPerSide,
-      singleSidePlateList: singleSidePlateList,
     };
 
     setPlateCalculation(plateCalculation);
@@ -1306,9 +1294,12 @@ export const CalculationModal = ({
                         </Button>
                       </div>
                       <div className="flex flex-col">
-                        {Object.entries(plateCalculation.plateCounts).map(
+                        {[...plateCalculation.plateMap.entries()].map(
                           ([key, value]) => (
-                            <div className="flex gap-2 items-center" key={`Plate ${key}`}>
+                            <div
+                              className="flex gap-2 items-center"
+                              key={`plate-${key}`}
+                            >
                               <span className="font-medium">{key} kg</span>
                               <span className="text-stone-500">
                                 {value} Plates
