@@ -413,6 +413,21 @@ export default function Settings() {
     updateSettings(updatedSettings);
   };
 
+  const handleDefaultNumHandlesChange = async (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    if (userSettings === undefined) return;
+
+    const numHandles = Number(e.target.value);
+
+    const updatedSettings: UserSettings = {
+      ...userSettings,
+      default_num_handles: numHandles,
+    };
+
+    updateSettings(updatedSettings);
+  };
+
   const restoreDefaultSettings = async (
     unitType: string,
     locale: string,
@@ -650,6 +665,24 @@ export default function Settings() {
             >
               Set
             </Button>
+          </div>
+          <div className="flex gap-3 items-center justify-between">
+            <span className="text-lg">Default Number Of Handles</span>
+            <Select
+              aria-label="Default Number Of Handles"
+              className="w-[4rem]"
+              variant="faded"
+              selectedKeys={userSettings.default_num_handles.toString()}
+              onChange={(e) => handleDefaultNumHandlesChange(e)}
+              disallowEmptySelection
+            >
+              <SelectItem key="1" value="1">
+                1
+              </SelectItem>
+              <SelectItem key="2" value="2">
+                2
+              </SelectItem>
+            </Select>
           </div>
           <h3 className="flex justify-center text-lg font-medium">
             Default Increments
