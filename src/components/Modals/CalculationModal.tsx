@@ -842,7 +842,7 @@ export const CalculationModal = ({
 
     const plateCalculation = {
       plateMap: sortedPlateMap,
-      remainingWeight: weightPerSide,
+      remainingWeight: weightPerSide * 2,
     };
 
     setPlateCalculation(plateCalculation);
@@ -1298,7 +1298,7 @@ export const CalculationModal = ({
                           {plateCalculation.remainingWeight > 0 && (
                             <div className="flex flex-col items-center">
                               <span className="font-medium text-danger">
-                                Can not reach target weight with available
+                                Could not reach target weight with available
                                 plates
                               </span>
                               <div className="font-medium">
