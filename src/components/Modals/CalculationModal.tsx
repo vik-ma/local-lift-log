@@ -102,12 +102,21 @@ export const CalculationModal = ({
     useState<OperatingCalculationItem>();
   const [targetWeightInput, setTargetWeightInput] = useState<string>("");
   const [numHandles, setNumHandles] = useState<string>("1");
-  const [plateCalculation, setPlateCalculation] = useState<PlateCalculation>({
-    plateMap: new Map(),
-    targetWeight: 0,
-    remainingWeight: 0,
-    isOneHandle: true,
-  });
+  const [showResetPlateCalculationButton, setShowResetPlateCalculationButton] =
+    useState<boolean>(false);
+
+  const defaultPlateCalculation: PlateCalculation = useMemo(() => {
+    return {
+      plateMap: new Map(),
+      targetWeight: 0,
+      remainingWeight: 0,
+      isOneHandle: true,
+    };
+  }, []);
+
+  const [plateCalculation, setPlateCalculation] = useState<PlateCalculation>(
+    defaultPlateCalculation
+  );
 
   const isNumberInputInvalid = useMemo(() => {
     return IsStringEmpty(numberInput) || IsStringInvalidNumberOr0(numberInput);
@@ -858,6 +867,12 @@ export const CalculationModal = ({
     };
 
     setPlateCalculation(plateCalculation);
+    setShowResetPlateCalculationButton(true);
+  };
+
+  const resetPlateCalculation = () => {
+    setPlateCalculation(defaultPlateCalculation);
+    setShowResetPlateCalculationButton(false);
   };
 
   return (
@@ -1304,6 +1319,16 @@ export const CalculationModal = ({
                         >
                           Calculate Plates
                         </Button>
+                        {showResetPlateCalculationButton && (
+                          <Button
+                            className="absolute right-8"
+                            color="danger"
+                            variant="flat"
+                            onPress={resetPlateCalculation}
+                          >
+                            Reset
+                          </Button>
+                        )}
                       </div>
                       <div className="flex flex-col">
                         {plateCalculation.remainingWeight > 0 && (
