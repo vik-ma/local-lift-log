@@ -1293,21 +1293,43 @@ export const CalculationModal = ({
                           Calculate Plates
                         </Button>
                       </div>
-                      <div className="flex flex-col">
-                        {[...plateCalculation.plateMap.entries()].map(
-                          ([key, value]) => (
-                            <div
-                              className="flex gap-2 items-center"
-                              key={`plate-${key}`}
-                            >
-                              <span className="font-medium">{key} kg</span>
-                              <span className="text-stone-500">
-                                {value} Plates
-                              </span>
-                            </div>
-                          )
-                        )}
-                      </div>
+                      {plateCalculation.plateMap.size > 0 && (
+                        <div className="flex flex-col">
+                          <div className="flex justify-between">
+                            <h4 className="font-semibold text-lg">
+                              Total Plates
+                            </h4>
+                            <h4 className="font-semibold text-lg">
+                              Single Side
+                            </h4>
+                          </div>
+                          {[...plateCalculation.plateMap.entries()].map(
+                            ([key, value]) => (
+                              <div
+                                className="flex justify-between"
+                                key={`plate-${key}`}
+                              >
+                                <div className="flex gap-2">
+                                  <span className="font-medium w-16">
+                                    {key} {weightUnit}
+                                  </span>
+                                  <span className="text-stone-500">
+                                    {value}
+                                  </span>
+                                </div>
+                                <div className="flex gap-2">
+                                  <span className="font-medium w-16">
+                                    {key} {weightUnit}
+                                  </span>
+                                  <span className="text-stone-500">
+                                    {value / 2}
+                                  </span>
+                                </div>
+                              </div>
+                            )
+                          )}
+                        </div>
+                      )}
                     </div>
                     <div className="flex justify-between">
                       <Button
