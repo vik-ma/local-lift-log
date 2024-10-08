@@ -33,6 +33,7 @@ export type UserSettings = {
   default_equipment_weight_id: number;
   show_calculation_buttons: number;
   default_increment_calculation_multiplier: number;
+  default_num_handles: number;
 };
 
 export type UserSettingsOptional = {

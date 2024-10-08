@@ -88,5 +88,11 @@ export const ValidateUserSettings = (userSettings: UserSettings): boolean => {
   )
     return false;
 
+  if (
+    userSettings.default_num_handles !== 1 &&
+    userSettings.default_num_handles !== 2
+  )
+    return false;
+
   return true;
 };
