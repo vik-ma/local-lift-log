@@ -70,6 +70,7 @@ type OperationType =
 
 type PlateCalculation = {
   plateMap: Map<number, number>;
+  targetWeight: number;
   remainingWeight: number;
 };
 
@@ -102,6 +103,7 @@ export const CalculationModal = ({
   const [numHandles, setNumHandles] = useState<string>("1");
   const [plateCalculation, setPlateCalculation] = useState<PlateCalculation>({
     plateMap: new Map(),
+    targetWeight: 0,
     remainingWeight: 0,
   });
 
@@ -842,6 +844,7 @@ export const CalculationModal = ({
 
     const plateCalculation = {
       plateMap: sortedPlateMap,
+      targetWeight: targetWeight,
       remainingWeight: weightPerSide * 2,
     };
 
@@ -1304,7 +1307,7 @@ export const CalculationModal = ({
                               <div className="font-medium">
                                 Showing plates for{" "}
                                 <span className="text-secondary">
-                                  {Number(targetWeightInput) -
+                                  {plateCalculation.targetWeight -
                                     plateCalculation.remainingWeight}{" "}
                                   {weightUnit}
                                 </span>
