@@ -1295,6 +1295,22 @@ export const CalculationModal = ({
                       </div>
                       {plateCalculation.plateMap.size > 0 && (
                         <div className="flex flex-col">
+                          {plateCalculation.remainingWeight > 0 && (
+                            <div className="flex flex-col items-center">
+                              <span className="font-medium text-danger">
+                                Can not reach target weight with available
+                                plates
+                              </span>
+                              <div className="font-medium">
+                                Showing plates for{" "}
+                                <span className="text-secondary">
+                                  {Number(targetWeightInput) -
+                                    plateCalculation.remainingWeight}{" "}
+                                  {weightUnit}
+                                </span>
+                              </div>
+                            </div>
+                          )}
                           <div className="flex justify-between">
                             <h4 className="font-semibold text-lg">
                               Total Plates
