@@ -72,6 +72,7 @@ type PlateCalculation = {
   plateMap: Map<number, number>;
   targetWeight: number;
   remainingWeight: number;
+  isOneHandle: boolean;
 };
 
 export const CalculationModal = ({
@@ -105,6 +106,7 @@ export const CalculationModal = ({
     plateMap: new Map(),
     targetWeight: 0,
     remainingWeight: 0,
+    isOneHandle: true,
   });
 
   const isNumberInputInvalid = useMemo(() => {
@@ -852,6 +854,7 @@ export const CalculationModal = ({
       targetWeight: targetWeight,
       remainingWeight:
         plateMap.size === 0 ? targetWeight : weightPerSide * plateFactor,
+      isOneHandle: isOneHandle,
     };
 
     setPlateCalculation(plateCalculation);
@@ -1327,35 +1330,53 @@ export const CalculationModal = ({
                               <h4 className="font-semibold text-lg">
                                 Total Plates
                               </h4>
+                              {!plateCalculation.isOneHandle && (
+                                <h4 className="font-semibold text-lg">
+                                  Per Handle
+                                </h4>
+                              )}
                               <h4 className="font-semibold text-lg">
                                 Single Side
                               </h4>
                             </div>
-
                             {[...plateCalculation.plateMap.entries()].map(
-                              ([key, value]) => (
-                                <div
-                                  className="flex justify-between"
-                                  key={`plate-${key}`}
-                                >
-                                  <div className="flex gap-2">
-                                    <span className="font-medium w-16">
-                                      {key} {weightUnit}
-                                    </span>
-                                    <span className="text-stone-500">
-                                      {value}
-                                    </span>
+                              ([key, value]) => {
+                                const handleFactor =
+                                  plateCalculation.isOneHandle ? 2 : 4;
+                                return (
+                                  <div
+                                    className="flex justify-between"
+                                    key={`plate-${key}`}
+                                  >
+                                    <div className="flex gap-2">
+                                      <span className="font-medium w-16">
+                                        {key} {weightUnit}
+                                      </span>
+                                      <span className="text-stone-500">
+                                        {value}
+                                      </span>
+                                    </div>
+                                    {!plateCalculation.isOneHandle && (
+                                      <div className="flex gap-2">
+                                        <span className="font-medium w-16">
+                                          {key} {weightUnit}
+                                        </span>
+                                        <span className="text-stone-500">
+                                          {value / 2}
+                                        </span>
+                                      </div>
+                                    )}
+                                    <div className="flex gap-2">
+                                      <span className="font-medium w-16">
+                                        {key} {weightUnit}
+                                      </span>
+                                      <span className="text-stone-500">
+                                        {value / handleFactor}
+                                      </span>
+                                    </div>
                                   </div>
-                                  <div className="flex gap-2">
-                                    <span className="font-medium w-16">
-                                      {key} {weightUnit}
-                                    </span>
-                                    <span className="text-stone-500">
-                                      {value / 2}
-                                    </span>
-                                  </div>
-                                </div>
-                              )
+                                );
+                              }
                             )}
                           </>
                         )}
