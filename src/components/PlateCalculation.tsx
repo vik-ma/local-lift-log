@@ -158,11 +158,11 @@ export const PlateCalculation = ({
     setShowClearPlateCalculationButton(false);
   };
 
-  //   useEffect(() => {
-  //     if (calculationModalPage === "plate-calc" && targetWeightInputRef.current) {
-  //       targetWeightInputRef.current.focus();
-  //     }
-  //   }, [calculationModalPage]);
+  useEffect(() => {
+    if (targetWeightInputRef.current) {
+      targetWeightInputRef.current.focus();
+    }
+  }, []);
 
   return (
     <div className="flex flex-col h-full justify-between">
