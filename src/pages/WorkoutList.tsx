@@ -58,11 +58,11 @@ export default function WorkoutList() {
   const {
     workouts,
     setWorkouts,
-    showNewestFirst,
-    reverseWorkoutList,
     filterQuery,
     setFilterQuery,
     filteredWorkouts,
+    sortCategory,
+    handleSortOptionSelection,
   } = useWorkoutList(true);
 
   useEffect(() => {
@@ -207,21 +207,34 @@ export default function WorkoutList() {
                   <Button
                     className="w-36"
                     size="sm"
+                    variant="flat"
                     onPress={() => toggleWorkoutRating()}
                   >
                     {userSettings.show_workout_rating === 1
                       ? "Hide Workout Rating"
                       : "Show Workout Rating"}
                   </Button>
-                  <Button
-                    className="w-32"
-                    size="sm"
-                    onPress={() => reverseWorkoutList()}
-                  >
-                    {showNewestFirst
-                      ? "List Oldest First"
-                      : "List Latest First"}
-                  </Button>
+                  <Dropdown>
+                    <DropdownTrigger>
+                      <Button className="z-1" variant="flat" size="sm">
+                        Sort By
+                      </Button>
+                    </DropdownTrigger>
+                    <DropdownMenu
+                      selectionMode="single"
+                      selectedKeys={[sortCategory]}
+                      onAction={(key) =>
+                        handleSortOptionSelection(key as string)
+                      }
+                    >
+                      <DropdownItem key="date-desc">
+                        Date (Newest First)
+                      </DropdownItem>
+                      <DropdownItem key="date-asc">
+                        Date (Oldest First)
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
                 </div>
               )}
             </div>

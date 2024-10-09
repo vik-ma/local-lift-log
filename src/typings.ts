@@ -434,6 +434,7 @@ export type UseWorkoutListReturnType = {
   sortWorkoutsByDate: (workoutList: Workout[], isAscending: boolean) => void;
   sortCategory: WorkoutSortCategory;
   setSortCategory: React.Dispatch<React.SetStateAction<WorkoutSortCategory>>;
+  handleSortOptionSelection: (key: string) => void;
 };
 
 export type UseWorkoutTemplateListReturnType = {

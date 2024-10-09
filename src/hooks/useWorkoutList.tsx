@@ -108,6 +108,16 @@ export const useWorkoutList = (
     workoutListModal.onOpen();
   }, [workoutListModal, getWorkouts]);
 
+  const handleSortOptionSelection = (key: string) => {
+    if (key === "date-desc") {
+      setSortCategory(key);
+      sortWorkoutsByDate([...workouts], false);
+    } else if (key === "date-asc") {
+      setSortCategory(key);
+      sortWorkoutsByDate([...workouts], true);
+    }
+  };
+
   return {
     workouts,
     setWorkouts,
@@ -120,5 +130,6 @@ export const useWorkoutList = (
     sortWorkoutsByDate,
     sortCategory,
     setSortCategory,
+    handleSortOptionSelection,
   };
 };
