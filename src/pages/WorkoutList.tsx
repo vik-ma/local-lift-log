@@ -6,6 +6,7 @@ import {
   DeleteModal,
   WorkoutModal,
   EmptyListLabel,
+  ListPageSearchInput,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -54,8 +55,15 @@ export default function WorkoutList() {
 
   const { workoutRatingMap } = useWorkoutRatingMap();
 
-  const { workouts, setWorkouts, showNewestFirst, reverseWorkoutList } =
-    useWorkoutList(true);
+  const {
+    workouts,
+    setWorkouts,
+    showNewestFirst,
+    reverseWorkoutList,
+    filterQuery,
+    setFilterQuery,
+    filteredWorkouts,
+  } = useWorkoutList(true);
 
   useEffect(() => {
     const getUserSettings = async () => {
@@ -185,106 +193,112 @@ export default function WorkoutList() {
         buttonAction={updateWorkout}
         header={operatingWorkout.formattedDate}
       />
-      <div className="flex flex-col items-center gap-3">
-        <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">
-          <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">
-            Workout List
-          </h1>
-        </div>
+      <div className="flex flex-col items-center gap-1">
+        <ListPageSearchInput
+          header="Workout List"
+          filterQuery={filterQuery}
+          setFilterQuery={setFilterQuery}
+          filteredListLength={filteredWorkouts.length}
+          totalListLength={workouts.length}
+          bottomContent={
+            <div>
+              {workouts.length > 0 && (
+                <div className="flex justify-between">
+                  <Button
+                    className="w-36"
+                    size="sm"
+                    onPress={() => toggleWorkoutRating()}
+                  >
+                    {userSettings.show_workout_rating === 1
+                      ? "Hide Workout Rating"
+                      : "Show Workout Rating"}
+                  </Button>
+                  <Button
+                    className="w-32"
+                    size="sm"
+                    onPress={() => reverseWorkoutList()}
+                  >
+                    {showNewestFirst
+                      ? "List Oldest First"
+                      : "List Latest First"}
+                  </Button>
+                </div>
+              )}
+            </div>
+          }
+        />
         {isLoading ? (
           <LoadingSpinner />
         ) : (
-          <>
-            {workouts.length > 0 && (
-              <div className="flex gap-1.5 justify-center">
-                <Button
-                  className="w-36"
-                  size="sm"
-                  onPress={() => toggleWorkoutRating()}
-                >
-                  {userSettings.show_workout_rating === 1
-                    ? "Hide Workout Rating"
-                    : "Show Workout Rating"}
-                </Button>
-                <Button
-                  className="w-32"
-                  size="sm"
-                  onPress={() => reverseWorkoutList()}
-                >
-                  {showNewestFirst ? "List Oldest First" : "List Latest First"}
-                </Button>
-              </div>
-            )}
-            <div className="flex flex-col gap-1 w-full">
-              {workouts.map((workout) => (
-                <div
-                  key={workout.id}
-                  className="flex justify-between items-center cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-                  onClick={() => navigate(`/workouts/${workout.id}`)}
-                >
-                  <div className="flex flex-col justify-start items-start pl-2 py-1">
-                    <span className="w-[10.5rem] truncate text-left">
-                      {workout.formattedDate}
+          <div className="flex flex-col gap-1 w-full">
+            {filteredWorkouts.map((workout) => (
+              <div
+                key={workout.id}
+                className="flex justify-between items-center cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                onClick={() => navigate(`/workouts/${workout.id}`)}
+              >
+                <div className="flex flex-col justify-start items-start pl-2 py-1">
+                  <span className="w-[10.5rem] truncate text-left">
+                    {workout.formattedDate}
+                  </span>
+                  {workout.numSets! > 0 ? (
+                    <span className="text-xs text-secondary text-left">
+                      {FormatNumItemsString(workout.numExercises, "Exercise")},{" "}
+                      {FormatNumItemsString(workout.numSets, "Set")}
                     </span>
-                    {workout.numSets! > 0 ? (
-                      <span className="text-xs text-secondary text-left">
-                        {FormatNumItemsString(workout.numExercises, "Exercise")}
-                        , {FormatNumItemsString(workout.numSets, "Set")}
+                  ) : (
+                    <span className="text-xs text-stone-400 text-left">
+                      Empty
+                    </span>
+                  )}
+                  <span
+                    className={
+                      userSettings.show_workout_rating === 1
+                        ? "w-[16rem] break-all text-xs text-stone-500 text-left"
+                        : "w-[21rem] break-all text-xs text-stone-500 text-left"
+                    }
+                  >
+                    {workout.note}
+                  </span>
+                </div>
+                <div className="flex items-center gap-1 pr-1">
+                  {userSettings.show_workout_rating === 1 && (
+                    <div className="flex flex-col w-[4.5rem] text-center text-sm text-stone-500">
+                      <span>Rating</span>
+                      <span className="font-semibold">
+                        {workoutRatingMap[workout.rating].span}
                       </span>
-                    ) : (
-                      <span className="text-xs text-stone-400 text-left">
-                        Empty
-                      </span>
-                    )}
-                    <span
-                      className={
-                        userSettings.show_workout_rating === 1
-                          ? "w-[16rem] break-all text-xs text-stone-500 text-left"
-                          : "w-[21rem] break-all text-xs text-stone-500 text-left"
+                    </div>
+                  )}
+                  <Dropdown>
+                    <DropdownTrigger>
+                      <Button
+                        aria-label={`Toggle Workout On ${workout.formattedDate} Options Menu`}
+                        isIconOnly
+                        className="z-1"
+                        radius="lg"
+                        variant="light"
+                      >
+                        <VerticalMenuIcon size={19} color="#888" />
+                      </Button>
+                    </DropdownTrigger>
+                    <DropdownMenu
+                      aria-label={`Option Menu For Workout On ${workout.formattedDate}`}
+                      onAction={(key) =>
+                        handleWorkoutOptionSelection(key as string, workout)
                       }
                     >
-                      {workout.note}
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-1 pr-1">
-                    {userSettings.show_workout_rating === 1 && (
-                      <div className="flex flex-col w-[4.5rem] text-center text-sm text-stone-500">
-                        <span>Rating</span>
-                        <span className="font-semibold">
-                          {workoutRatingMap[workout.rating].span}
-                        </span>
-                      </div>
-                    )}
-                    <Dropdown>
-                      <DropdownTrigger>
-                        <Button
-                          aria-label={`Toggle Workout On ${workout.formattedDate} Options Menu`}
-                          isIconOnly
-                          className="z-1"
-                          radius="lg"
-                          variant="light"
-                        >
-                          <VerticalMenuIcon size={19} color="#888" />
-                        </Button>
-                      </DropdownTrigger>
-                      <DropdownMenu
-                        aria-label={`Option Menu For Workout On ${workout.formattedDate}`}
-                        onAction={(key) =>
-                          handleWorkoutOptionSelection(key as string, workout)
-                        }
-                      >
-                        <DropdownItem key="edit">Edit</DropdownItem>
-                        <DropdownItem key="delete" className="text-danger">
-                          Delete
-                        </DropdownItem>
-                      </DropdownMenu>
-                    </Dropdown>
-                  </div>
+                      <DropdownItem key="edit">Edit</DropdownItem>
+                      <DropdownItem key="delete" className="text-danger">
+                        Delete
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
                 </div>
-              ))}
-              {workouts.length === 0 && <EmptyListLabel itemName="Workouts" />}
-            </div>
-          </>
+              </div>
+            ))}
+            {workouts.length === 0 && <EmptyListLabel itemName="Workouts" />}
+          </div>
         )}
       </div>
     </>
