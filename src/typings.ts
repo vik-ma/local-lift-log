@@ -430,6 +430,9 @@ export type UseWorkoutListReturnType = {
   getWorkouts: () => void;
   handleOpenWorkoutListModal: () => void;
   workoutListModal: UseDisclosureReturnType;
+  filteredWorkouts: Workout[];
+  filterQuery: string;
+  setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
 };
 
 export type UseWorkoutTemplateListReturnType = {

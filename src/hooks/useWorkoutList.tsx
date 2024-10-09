@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { UseWorkoutListReturnType, Workout } from "../typings";
 import Database from "tauri-plugin-sql-api";
 import { FormatYmdDateString } from "../helpers";
@@ -11,10 +11,26 @@ export const useWorkoutList = (
 ): UseWorkoutListReturnType => {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
   const [showNewestFirst, setShowNewestFirst] = useState<boolean>(false);
+  const [filterQuery, setFilterQuery] = useState<string>("");
 
   const workoutListIsLoaded = useRef(false);
 
   const workoutListModal = useDisclosure();
+
+  const filteredWorkouts = useMemo(() => {
+    if (filterQuery !== "") {
+      return workouts.filter(
+        (item) =>
+          item.formattedDate
+            ?.toLocaleLowerCase()
+            .includes(filterQuery.toLocaleLowerCase()) ||
+          item.note
+            ?.toLocaleLowerCase()
+            .includes(filterQuery.toLocaleLowerCase())
+      );
+    }
+    return workouts;
+  }, [workouts, filterQuery]);
 
   const getWorkouts = useCallback(async () => {
     try {
@@ -93,5 +109,8 @@ export const useWorkoutList = (
     getWorkouts,
     handleOpenWorkoutListModal,
     workoutListModal,
+    filteredWorkouts,
+    filterQuery,
+    setFilterQuery,
   };
 };
