@@ -104,7 +104,7 @@ export const CalculationModal = ({
   const [numHandles, setNumHandles] = useState<string>(
     userSettings.default_num_handles.toString()
   );
-  const [showResetPlateCalculationButton, setShowResetPlateCalculationButton] =
+  const [showClearPlateCalculationButton, setShowClearPlateCalculationButton] =
     useState<boolean>(false);
 
   const defaultPlateCalculation: PlateCalculation = useMemo(() => {
@@ -869,12 +869,12 @@ export const CalculationModal = ({
     };
 
     setPlateCalculation(plateCalculation);
-    setShowResetPlateCalculationButton(true);
+    setShowClearPlateCalculationButton(true);
   };
 
-  const resetPlateCalculation = () => {
+  const clearPlateCalculation = () => {
     setPlateCalculation(defaultPlateCalculation);
-    setShowResetPlateCalculationButton(false);
+    setShowClearPlateCalculationButton(false);
   };
 
   return (
@@ -1312,7 +1312,7 @@ export const CalculationModal = ({
                           </Select>
                         </div>
                       </div>
-                      <div className="flex justify-center">
+                      <div className="flex justify-center items-center">
                         <Button
                           color="primary"
                           variant="flat"
@@ -1321,14 +1321,15 @@ export const CalculationModal = ({
                         >
                           Calculate Plates
                         </Button>
-                        {showResetPlateCalculationButton && (
+                        {showClearPlateCalculationButton && (
                           <Button
                             className="absolute right-8"
                             color="danger"
                             variant="flat"
-                            onPress={resetPlateCalculation}
+                            size="sm"
+                            onPress={clearPlateCalculation}
                           >
-                            Reset
+                            Clear
                           </Button>
                         )}
                       </div>
