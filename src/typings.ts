@@ -536,3 +536,10 @@ export type OperatingCalculationItem = {
   calculationItem: CalculationListItem;
   index: number;
 };
+
+export type CalculationModalOperationType =
+  | "add-preset"
+  | "change-preset"
+  | "set-handle"
+  | "change-handle"
+  | "show-list";
