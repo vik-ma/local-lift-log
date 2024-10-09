@@ -1312,28 +1312,28 @@ export const CalculationModal = ({
                           </Select>
                         </div>
                       </div>
-                      <div className="flex justify-center items-center">
-                        <Button
-                          color="primary"
-                          variant="flat"
-                          onPress={handleCalculatePlatesButton}
-                          isDisabled={disableCalculatePlatesButton}
-                        >
-                          Calculate Plates
-                        </Button>
-                        {showClearPlateCalculationButton && (
+                      <div className="flex flex-col gap-1.5">
+                        <div className="flex justify-center items-center">
                           <Button
-                            className="absolute right-8"
-                            color="danger"
+                            color="primary"
                             variant="flat"
-                            size="sm"
-                            onPress={clearPlateCalculation}
+                            onPress={handleCalculatePlatesButton}
+                            isDisabled={disableCalculatePlatesButton}
                           >
-                            Clear
+                            Calculate Plates
                           </Button>
-                        )}
-                      </div>
-                      <div className="flex flex-col">
+                          {showClearPlateCalculationButton && (
+                            <Button
+                              className="absolute right-8"
+                              color="danger"
+                              variant="flat"
+                              size="sm"
+                              onPress={clearPlateCalculation}
+                            >
+                              Clear
+                            </Button>
+                          )}
+                        </div>
                         {plateCalculation.remainingWeight > 0 && (
                           <div className="flex flex-col items-center">
                             <span className="font-medium text-danger">
@@ -1352,6 +1352,8 @@ export const CalculationModal = ({
                             )}
                           </div>
                         )}
+                      </div>
+                      <div className="flex flex-col">
                         {plateCalculation.plateMap.size > 0 && (
                           <>
                             <div className="flex justify-between">
@@ -1377,7 +1379,7 @@ export const CalculationModal = ({
                                     key={`plate-${key}`}
                                   >
                                     <div className="flex gap-2">
-                                      <span className="font-medium w-16">
+                                      <span className="font-medium w-[4.5rem]">
                                         {key} {weightUnit}
                                       </span>
                                       <span className="text-stone-500">
@@ -1386,7 +1388,7 @@ export const CalculationModal = ({
                                     </div>
                                     {!plateCalculation.isOneHandle && (
                                       <div className="flex gap-2">
-                                        <span className="font-medium w-16">
+                                        <span className="font-medium w-[4.5rem]">
                                           {key} {weightUnit}
                                         </span>
                                         <span className="text-stone-500">
@@ -1395,7 +1397,7 @@ export const CalculationModal = ({
                                       </div>
                                     )}
                                     <div className="flex gap-2">
-                                      <span className="font-medium w-16">
+                                      <span className="font-medium w-[4.5rem]">
                                         {key} {weightUnit}
                                       </span>
                                       <span className="text-stone-500">
