@@ -164,6 +164,12 @@ export default function WorkoutList() {
     setUserSettings(updatedUserSettings);
   };
 
+  const handleOptionMenuSelection = (key: string) => {
+    if (key === "toggle-rating") {
+      toggleWorkoutRating();
+    }
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -204,37 +210,55 @@ export default function WorkoutList() {
             <div>
               {workouts.length > 0 && (
                 <div className="flex justify-between">
-                  <Button
-                    className="w-36"
-                    size="sm"
-                    variant="flat"
-                    onPress={() => toggleWorkoutRating()}
-                  >
-                    {userSettings.show_workout_rating === 1
-                      ? "Hide Workout Rating"
-                      : "Show Workout Rating"}
-                  </Button>
-                  <Dropdown>
-                    <DropdownTrigger>
-                      <Button className="z-1" variant="flat" size="sm">
-                        Sort By
-                      </Button>
-                    </DropdownTrigger>
-                    <DropdownMenu
-                      selectionMode="single"
-                      selectedKeys={[sortCategory]}
-                      onAction={(key) =>
-                        handleSortOptionSelection(key as string)
-                      }
-                    >
-                      <DropdownItem key="date-desc">
-                        Date (Newest First)
-                      </DropdownItem>
-                      <DropdownItem key="date-asc">
-                        Date (Oldest First)
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </Dropdown>
+                  <div></div>
+                  <div className="flex gap-1 pr-0.5">
+                    <Dropdown>
+                      <DropdownTrigger>
+                        <Button className="z-1" variant="flat" size="sm">
+                          Sort By
+                        </Button>
+                      </DropdownTrigger>
+                      <DropdownMenu
+                        selectionMode="single"
+                        selectedKeys={[sortCategory]}
+                        onAction={(key) =>
+                          handleSortOptionSelection(key as string)
+                        }
+                      >
+                        <DropdownItem key="date-desc">
+                          Date (Newest First)
+                        </DropdownItem>
+                        <DropdownItem key="date-asc">
+                          Date (Oldest First)
+                        </DropdownItem>
+                      </DropdownMenu>
+                    </Dropdown>
+                    <Dropdown>
+                      <DropdownTrigger>
+                        <Button
+                          aria-label={`Toggle Workout List Options Menu`}
+                          isIconOnly
+                          className="z-1"
+                          size="sm"
+                          variant="light"
+                        >
+                          <VerticalMenuIcon size={19} />
+                        </Button>
+                      </DropdownTrigger>
+                      <DropdownMenu
+                        aria-label="Workout List Option Menu"
+                        onAction={(key) =>
+                          handleOptionMenuSelection(key as string)
+                        }
+                      >
+                        <DropdownItem key={"toggle-rating"}>
+                          {userSettings.show_workout_rating === 1
+                            ? "Hide Workout Rating"
+                            : "Show Workout Rating"}
+                        </DropdownItem>
+                      </DropdownMenu>
+                    </Dropdown>
+                  </div>
                 </div>
               )}
             </div>
