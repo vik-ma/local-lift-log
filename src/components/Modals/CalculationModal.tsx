@@ -101,7 +101,9 @@ export const CalculationModal = ({
   const [operatingCalculationItem, setOperatingCalculationItem] =
     useState<OperatingCalculationItem>();
   const [targetWeightInput, setTargetWeightInput] = useState<string>("");
-  const [numHandles, setNumHandles] = useState<string>("1");
+  const [numHandles, setNumHandles] = useState<string>(
+    userSettings.default_num_handles.toString()
+  );
   const [showResetPlateCalculationButton, setShowResetPlateCalculationButton] =
     useState<boolean>(false);
 
