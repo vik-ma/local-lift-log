@@ -1412,23 +1412,6 @@ export const CalculationModal = ({
                         )}
                       </div>
                     </div>
-                    <div className="flex justify-between">
-                      <Button
-                        variant="flat"
-                        size="sm"
-                        color="secondary"
-                        onPress={handleShowEquipmentListButton}
-                      >
-                        Show Equipment Weight List
-                      </Button>
-                      <Button
-                        variant="flat"
-                        size="sm"
-                        onPress={() => navigate("/presets")}
-                      >
-                        Edit Equipment Weights
-                      </Button>
-                    </div>
                   </div>
                 ) : (
                   <PresetsModalList
@@ -1439,11 +1422,22 @@ export const CalculationModal = ({
               </div>
             </ModalBody>
             <ModalFooter className="flex justify-between">
-              <div className="flex gap-1">
+              <div className="flex gap-2">
                 {calculationModalPage !== "base" && (
-                  <Button variant="flat" onPress={handleBackButton}>
-                    Back
-                  </Button>
+                  <>
+                    <Button variant="flat" onPress={handleBackButton}>
+                      Back
+                    </Button>
+                    {calculationModalPage === "plate-calc" && (
+                      <Button
+                        variant="flat"
+                        color="secondary"
+                        onPress={handleShowEquipmentListButton}
+                      >
+                        Show List
+                      </Button>
+                    )}
+                  </>
                 )}
                 {presetsType === "equipment" &&
                   calculationModalPage === "base" && (
