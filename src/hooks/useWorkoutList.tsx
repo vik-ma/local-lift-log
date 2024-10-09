@@ -1,5 +1,9 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
-import { UseWorkoutListReturnType, Workout } from "../typings";
+import {
+  UseWorkoutListReturnType,
+  Workout,
+  WorkoutSortCategory,
+} from "../typings";
 import Database from "tauri-plugin-sql-api";
 import { FormatYmdDateString } from "../helpers";
 import { useDisclosure } from "@nextui-org/react";
@@ -10,8 +14,9 @@ export const useWorkoutList = (
   ignoreWorkoutId?: number
 ): UseWorkoutListReturnType => {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
-  const [showNewestFirst, setShowNewestFirst] = useState<boolean>(false);
   const [filterQuery, setFilterQuery] = useState<string>("");
+  const [sortCategory, setSortCategory] =
+    useState<WorkoutSortCategory>("date-desc");
 
   const workoutListIsLoaded = useRef(false);
 
@@ -72,7 +77,7 @@ export const useWorkoutList = (
         workouts.push(workout);
       }
 
-      setWorkouts(workouts);
+      sortWorkoutsByDate(workouts, false);
       workoutListIsLoaded.current = true;
     } catch (error) {
       console.log(error);
@@ -85,12 +90,14 @@ export const useWorkoutList = (
     }
   }, [getWorkoutsOnLoad, getWorkouts]);
 
-  const reverseWorkoutList = () => {
-    const reversedWorkouts = [...workouts].reverse();
+  const sortWorkoutsByDate = (workoutList: Workout[], isAscending: boolean) => {
+    if (isAscending) {
+      workoutList.sort((a, b) => a.date.localeCompare(b.date));
+    } else {
+      workoutList.sort((a, b) => b.date.localeCompare(a.date));
+    }
 
-    setWorkouts(reversedWorkouts);
-
-    setShowNewestFirst(!showNewestFirst);
+    setWorkouts(workoutList);
   };
 
   const handleOpenWorkoutListModal = useCallback(() => {
@@ -104,13 +111,14 @@ export const useWorkoutList = (
   return {
     workouts,
     setWorkouts,
-    showNewestFirst,
-    reverseWorkoutList,
     getWorkouts,
     handleOpenWorkoutListModal,
     workoutListModal,
     filteredWorkouts,
     filterQuery,
     setFilterQuery,
+    sortWorkoutsByDate,
+    sortCategory,
+    setSortCategory,
   };
 };

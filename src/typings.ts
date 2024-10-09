@@ -425,14 +425,15 @@ export type UseDisclosureReturnType = ReturnType<typeof useDisclosure>;
 export type UseWorkoutListReturnType = {
   workouts: Workout[];
   setWorkouts: React.Dispatch<React.SetStateAction<Workout[]>>;
-  showNewestFirst: boolean;
-  reverseWorkoutList: () => void;
   getWorkouts: () => void;
   handleOpenWorkoutListModal: () => void;
   workoutListModal: UseDisclosureReturnType;
   filteredWorkouts: Workout[];
   filterQuery: string;
   setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
+  sortWorkoutsByDate: (workoutList: Workout[], isAscending: boolean) => void;
+  sortCategory: WorkoutSortCategory;
+  setSortCategory: React.Dispatch<React.SetStateAction<WorkoutSortCategory>>;
 };
 
 export type UseWorkoutTemplateListReturnType = {
@@ -546,3 +547,5 @@ export type CalculationModalOperationType =
   | "set-handle"
   | "change-handle"
   | "show-list";
+
+export type WorkoutSortCategory = "date-asc" | "date-desc";
