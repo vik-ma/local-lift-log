@@ -6,17 +6,20 @@ import {
   EquipmentWeight,
   UsePresetsListReturnType,
 } from "../typings";
+import { useNavigate } from "react-router-dom";
 
 type PresetsModalListProps = {
   presetsList: UsePresetsListReturnType;
   handlePresetClick: (equipment?: EquipmentWeight, distance?: Distance) => void;
   defaultEquipmentWeightId?: number;
+  showLinkToPresetsPage?: boolean;
 };
 
 export const PresetsModalList = ({
   presetsList,
   handlePresetClick,
   defaultEquipmentWeightId,
+  showLinkToPresetsPage,
 }: PresetsModalListProps) => {
   const {
     presetsType,
@@ -34,6 +37,8 @@ export const PresetsModalList = ({
     toggleFavoriteDistance,
     togglePlateCalculator,
   } = presetsList;
+
+  const navigate = useNavigate();
 
   return (
     <>
@@ -153,6 +158,19 @@ export const PresetsModalList = ({
           </>
         )}
       </ScrollShadow>
+      {showLinkToPresetsPage && (
+        <div className="flex justify-center">
+          <Button
+            variant="flat"
+            size="sm"
+            color="secondary"
+            onPress={() => navigate("/presets")}
+          >
+            Modify{" "}
+            {presetsType === "equipment" ? "Equipment Weights" : "Distances"}
+          </Button>
+        </div>
+      )}
     </>
   );
 };
