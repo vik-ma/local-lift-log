@@ -66,35 +66,6 @@ export const PlateCalculation = ({
 
   const targetWeightInputRef = useRef<HTMLInputElement>(null);
 
-  const disableCalculatePlatesButton = useMemo(() => {
-    if (isTargetWeightInputInvalid) return true;
-    if (plateCalculatorHandle === undefined) return true;
-    if (Number(targetWeightInput) - plateCalculatorHandle.weight <= 0)
-      return true;
-    if (numHandles !== "1" && numHandles !== "2") return true;
-
-    return false;
-  }, [
-    isTargetWeightInputInvalid,
-    plateCalculatorHandle,
-    targetWeightInput,
-    numHandles,
-  ]);
-
-  const handleChangeHandleButton = () => {
-    setCalculationModalPage("list");
-    setOperationType("change-handle");
-  };
-
-  const handleSetHandleButton = () => {
-    setCalculationModalPage("list");
-    setOperationType("set-handle");
-  };
-
-  const handleHandlesChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setNumHandles(e.target.value);
-  };
-
   const plateCalculatorList = useMemo(() => {
     const plateCalculatorList = equipmentWeights.reduce<number[]>(
       (acc, equipment) => {
@@ -110,6 +81,37 @@ export const PlateCalculation = ({
 
     return plateCalculatorList;
   }, [equipmentWeights]);
+
+  const disableCalculatePlatesButton = useMemo(() => {
+    if (isTargetWeightInputInvalid) return true;
+    if (plateCalculatorList.length === 0) return true;
+    if (plateCalculatorHandle === undefined) return true;
+    if (Number(targetWeightInput) - plateCalculatorHandle.weight <= 0)
+      return true;
+    if (numHandles !== "1" && numHandles !== "2") return true;
+
+    return false;
+  }, [
+    isTargetWeightInputInvalid,
+    plateCalculatorHandle,
+    targetWeightInput,
+    numHandles,
+    plateCalculatorList,
+  ]);
+
+  const handleChangeHandleButton = () => {
+    setCalculationModalPage("list");
+    setOperationType("change-handle");
+  };
+
+  const handleSetHandleButton = () => {
+    setCalculationModalPage("list");
+    setOperationType("set-handle");
+  };
+
+  const handleHandlesChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setNumHandles(e.target.value);
+  };
 
   const handleCalculatePlatesButton = () => {
     if (disableCalculatePlatesButton || plateCalculatorHandle === undefined)
