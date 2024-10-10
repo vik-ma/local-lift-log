@@ -1,6 +1,10 @@
 import { Button, Input, Select, SelectItem } from "@nextui-org/react";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { IsStringEmpty, IsStringInvalidNumberOr0 } from "../helpers";
+import {
+  ConvertNumberToTwoDecimals,
+  IsStringEmpty,
+  IsStringInvalidNumberOr0,
+} from "../helpers";
 import {
   CalculationModalOperationType,
   CalculationModalPage,
@@ -275,8 +279,10 @@ export const PlateCalculation = ({
                 <div className="font-medium">
                   Showing plates for{" "}
                   <span className="text-secondary">
-                    {plateCalculation.targetWeight -
-                      plateCalculation.remainingWeight}{" "}
+                    {ConvertNumberToTwoDecimals(
+                      plateCalculation.targetWeight -
+                        plateCalculation.remainingWeight
+                    )}{" "}
                     {weightUnit}
                   </span>
                 </div>
