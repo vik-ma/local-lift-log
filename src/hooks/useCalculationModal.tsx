@@ -18,6 +18,7 @@ export const useCalculationModal = (): UseCalculationModalReturnType => {
   >();
   const [weightUnit, setWeightUnit] = useState<string>("kg");
   const [distanceUnit, setDistanceUnit] = useState<string>("km");
+  const [targetWeight, setTargetWeight] = useState<number>(0);
 
   const calculationModal = useDisclosure();
 
@@ -35,5 +36,7 @@ export const useCalculationModal = (): UseCalculationModalReturnType => {
     setWeightUnit,
     distanceUnit,
     setDistanceUnit,
+    targetWeight,
+    setTargetWeight,
   };
 };

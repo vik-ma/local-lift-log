@@ -331,6 +331,7 @@ export const SetValueInputs = ({
     if (isWeight) {
       setPresetsType("equipment");
       calculationModal.setWeightUnit(operatingSet.weight_unit);
+      calculationModal.setTargetWeight(operatingSet.weight);
     } else {
       setPresetsType("distance");
       calculationModal.setDistanceUnit(operatingSet.distance_unit);
