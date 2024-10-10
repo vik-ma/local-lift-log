@@ -1,5 +1,5 @@
 import { Button, Input, Select, SelectItem } from "@nextui-org/react";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ConvertNumberToTwoDecimals,
   IsStringEmpty,
@@ -115,7 +115,7 @@ export const PlateCalculation = ({
     setNumHandles(e.target.value);
   };
 
-  const handleCalculatePlatesButton = useCallback(() => {
+  const handleCalculatePlatesButton = () => {
     if (disableCalculatePlatesButton || plateCalculatorHandle === undefined)
       return;
 
@@ -161,13 +161,7 @@ export const PlateCalculation = ({
 
     setPlateCalculation(plateCalculation);
     setShowClearPlateCalculationButton(true);
-  }, [
-    disableCalculatePlatesButton,
-    numHandles,
-    plateCalculatorHandle,
-    plateCalculatorList,
-    targetWeightInput,
-  ]);
+  };
 
   const clearPlateCalculation = () => {
     setPlateCalculation(defaultPlateCalculation);
@@ -183,9 +177,8 @@ export const PlateCalculation = ({
   useEffect(() => {
     if (defaultTargetWeightInput !== "") {
       setTargetWeightInput(defaultTargetWeightInput);
-      handleCalculatePlatesButton();
     }
-  }, [defaultTargetWeightInput, handleCalculatePlatesButton]);
+  }, [defaultTargetWeightInput]);
 
   return (
     <div className="flex flex-col h-full justify-between">
@@ -293,25 +286,25 @@ export const PlateCalculation = ({
               </Button>
             )}
           </div>
-          {plateCalculation.remainingWeight > 0 && (
-            <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center">
+            {plateCalculation.remainingWeight > 0 && (
               <span className="font-medium text-danger">
                 Could not reach target weight with available plates
               </span>
-              {plateCalculation.plateMap.size > 0 && (
-                <div className="font-medium">
-                  Showing plates for{" "}
-                  <span className="text-secondary">
-                    {ConvertNumberToTwoDecimals(
-                      plateCalculation.targetWeight -
-                        plateCalculation.remainingWeight
-                    )}{" "}
-                    {weightUnit}
-                  </span>
-                </div>
-              )}
-            </div>
-          )}
+            )}
+            {plateCalculation.plateMap.size > 0 && (
+              <div className="font-medium">
+                Showing plates for{" "}
+                <span className="text-secondary">
+                  {ConvertNumberToTwoDecimals(
+                    plateCalculation.targetWeight -
+                      plateCalculation.remainingWeight
+                  )}{" "}
+                  {weightUnit}
+                </span>
+              </div>
+            )}
+          </div>
         </div>
         <div className="flex flex-col">
           {plateCalculation.plateMap.size > 0 && (
