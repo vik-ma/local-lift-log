@@ -22,6 +22,7 @@ type PlateCalculationProps = {
   setOperationType: React.Dispatch<
     React.SetStateAction<CalculationModalOperationType>
   >;
+  defaultTargetWeightInput: string;
 };
 
 type PlateCalculation = {
@@ -38,6 +39,7 @@ export const PlateCalculation = ({
   plateCalculatorHandle,
   setCalculationModalPage,
   setOperationType,
+  defaultTargetWeightInput,
 }: PlateCalculationProps) => {
   const [targetWeightInput, setTargetWeightInput] = useState<string>("");
   const [numHandles, setNumHandles] = useState<string>(numHandlesDefaultValue);
@@ -171,6 +173,12 @@ export const PlateCalculation = ({
       targetWeightInputRef.current.focus();
     }
   }, []);
+
+  useEffect(() => {
+    if (defaultTargetWeightInput !== "") {
+      setTargetWeightInput(defaultTargetWeightInput);
+    }
+  }, [defaultTargetWeightInput]);
 
   return (
     <div className="flex flex-col h-full justify-between">

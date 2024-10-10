@@ -115,6 +115,7 @@ export const CalculationModal = ({
     calculationExercise,
     weightUnit,
     distanceUnit,
+    targetWeight,
   } = useCalculationModal;
 
   const loadPresets = useCallback(async () => {
@@ -1094,6 +1095,7 @@ export const CalculationModal = ({
                     plateCalculatorHandle={plateCalculatorHandle}
                     setCalculationModalPage={setCalculationModalPage}
                     setOperationType={setOperationType}
+                    defaultTargetWeightInput={targetWeight}
                   />
                 ) : (
                   <PresetsModalList
