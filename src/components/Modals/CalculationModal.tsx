@@ -1117,7 +1117,7 @@ export const CalculationModal = ({
                         color="secondary"
                         onPress={handleShowEquipmentListButton}
                       >
-                        Show List
+                        Select Available Plates
                       </Button>
                     )}
                   </>
@@ -1137,17 +1137,18 @@ export const CalculationModal = ({
                 <Button color="primary" variant="light" onPress={onClose}>
                   Close
                 </Button>
-                <Button
-                  color="primary"
-                  isDisabled={
-                    calculationModalPage !== "base" ||
-                    (presetsType === "equipment" && resultWeight === 0) ||
-                    (presetsType === "distance" && resultDistance === 0)
-                  }
-                  onPress={handleDoneButton}
-                >
-                  Done
-                </Button>
+                {calculationModalPage === "base" && (
+                  <Button
+                    color="primary"
+                    isDisabled={
+                      (presetsType === "equipment" && resultWeight === 0) ||
+                      (presetsType === "distance" && resultDistance === 0)
+                    }
+                    onPress={handleDoneButton}
+                  >
+                    Done
+                  </Button>
+                )}
               </div>
             </ModalFooter>
           </>
