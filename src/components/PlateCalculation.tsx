@@ -1,5 +1,5 @@
 import { Button, Input, Select, SelectItem } from "@nextui-org/react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   ConvertNumberToTwoDecimals,
   IsStringEmpty,
@@ -115,7 +115,7 @@ export const PlateCalculation = ({
     setNumHandles(e.target.value);
   };
 
-  const handleCalculatePlatesButton = () => {
+  const handleCalculatePlatesButton = useCallback(() => {
     if (disableCalculatePlatesButton || plateCalculatorHandle === undefined)
       return;
 
@@ -161,7 +161,13 @@ export const PlateCalculation = ({
 
     setPlateCalculation(plateCalculation);
     setShowClearPlateCalculationButton(true);
-  };
+  }, [
+    disableCalculatePlatesButton,
+    numHandles,
+    plateCalculatorHandle,
+    plateCalculatorList,
+    targetWeightInput,
+  ]);
 
   const clearPlateCalculation = () => {
     setPlateCalculation(defaultPlateCalculation);
@@ -177,8 +183,9 @@ export const PlateCalculation = ({
   useEffect(() => {
     if (defaultTargetWeightInput !== "") {
       setTargetWeightInput(defaultTargetWeightInput);
+      handleCalculatePlatesButton();
     }
-  }, [defaultTargetWeightInput]);
+  }, [defaultTargetWeightInput, handleCalculatePlatesButton]);
 
   return (
     <div className="flex flex-col h-full justify-between">
