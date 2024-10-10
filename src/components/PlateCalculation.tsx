@@ -88,9 +88,14 @@ export const PlateCalculation = ({
     if (isTargetWeightInputInvalid) return true;
     if (plateCalculatorList.length === 0) return true;
     if (plateCalculatorHandle === undefined) return true;
-    if (Number(targetWeightInput) - plateCalculatorHandle.weight <= 0)
-      return true;
     if (numHandles !== "1" && numHandles !== "2") return true;
+    const handleMultiplier = numHandles === "1" ? 1 : 2;
+    if (
+      Number(targetWeightInput) -
+        plateCalculatorHandle.weight * handleMultiplier <=
+      0
+    )
+      return true;
 
     return false;
   }, [
