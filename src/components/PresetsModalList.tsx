@@ -1,5 +1,11 @@
 import { Button, ScrollShadow } from "@nextui-org/react";
-import { EmptyListLabel, FavoriteButton, LoadingSpinner, SearchInput } from ".";
+import {
+  EmptyListLabel,
+  FavoriteButton,
+  LoadingSpinner,
+  PresetsSortByMenu,
+  SearchInput,
+} from ".";
 import { WeightPlatesIcon } from "../assets";
 import {
   Distance,
@@ -36,6 +42,8 @@ export const PresetsModalList = ({
     toggleFavoriteEquipmentWeight,
     toggleFavoriteDistance,
     togglePlateCalculator,
+    sortCategoryEquipment,
+    handleSortOptionSelectionEquipment,
   } = presetsList;
 
   const navigate = useNavigate();
@@ -75,6 +83,12 @@ export const PresetsModalList = ({
             Modify{" "}
             {presetsType === "equipment" ? "Equipment Weights" : "Distances"}
           </Button>
+          <PresetsSortByMenu
+            sortCategoryEquipment={sortCategoryEquipment}
+            handleSortOptionSelectionEquipment={
+              handleSortOptionSelectionEquipment
+            }
+          />
         </div>
       )}
       <ScrollShadow className="flex flex-col gap-1 w-full">
