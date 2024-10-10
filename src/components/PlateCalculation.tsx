@@ -248,6 +248,12 @@ export const PlateCalculation = ({
             </Select>
           </div>
         </div>
+        <div className="flex gap-2 items-start">
+          <span className="font-medium w-[7.5rem]">Available Plates</span>
+          <span className="text-secondary w-[16.5rem] truncate">
+            {plateCalculatorList.join(", ")}
+          </span>
+        </div>
         <div className="flex flex-col gap-1.5">
           <div className="flex justify-center items-center">
             <Button
