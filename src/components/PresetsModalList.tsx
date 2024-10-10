@@ -12,14 +12,14 @@ type PresetsModalListProps = {
   presetsList: UsePresetsListReturnType;
   handlePresetClick: (equipment?: EquipmentWeight, distance?: Distance) => void;
   defaultEquipmentWeightId?: number;
-  showLinkToPresetsPage?: boolean;
+  showExtraMenu?: boolean;
 };
 
 export const PresetsModalList = ({
   presetsList,
   handlePresetClick,
   defaultEquipmentWeightId,
-  showLinkToPresetsPage,
+  showExtraMenu,
 }: PresetsModalListProps) => {
   const {
     presetsType,
@@ -64,6 +64,19 @@ export const PresetsModalList = ({
             : distances.length
         }
       />
+      {showExtraMenu && (
+        <div className="flex justify-between">
+          <Button
+            variant="flat"
+            size="sm"
+            color="secondary"
+            onPress={() => navigate("/presets")}
+          >
+            Modify{" "}
+            {presetsType === "equipment" ? "Equipment Weights" : "Distances"}
+          </Button>
+        </div>
+      )}
       <ScrollShadow className="flex flex-col gap-1 w-full">
         {presetsType === "equipment" ? (
           isLoadingEquipment ? (
@@ -158,19 +171,6 @@ export const PresetsModalList = ({
           </>
         )}
       </ScrollShadow>
-      {showLinkToPresetsPage && (
-        <div className="flex justify-center">
-          <Button
-            variant="flat"
-            size="sm"
-            color="secondary"
-            onPress={() => navigate("/presets")}
-          >
-            Modify{" "}
-            {presetsType === "equipment" ? "Equipment Weights" : "Distances"}
-          </Button>
-        </div>
-      )}
     </>
   );
 };

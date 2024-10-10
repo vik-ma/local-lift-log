@@ -1099,7 +1099,7 @@ export const CalculationModal = ({
                   <PresetsModalList
                     presetsList={usePresetsList}
                     handlePresetClick={handlePresetClick}
-                    showLinkToPresetsPage
+                    showExtraMenu
                   />
                 )}
               </div>
