@@ -7,6 +7,7 @@ import {
   ListPageSearchInput,
   FavoriteButton,
   EmptyListLabel,
+  PresetsSortByMenu,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
 import { EquipmentWeight, UserSettingsOptional, Distance } from "../typings";
@@ -658,34 +659,12 @@ export default function Presets() {
                     >
                       New Equipment Weight
                     </Button>
-                    <Dropdown>
-                      <DropdownTrigger>
-                        <Button className="z-1" variant="flat" size="sm">
-                          Sort By
-                        </Button>
-                      </DropdownTrigger>
-                      <DropdownMenu
-                        selectionMode="single"
-                        selectedKeys={[sortCategoryEquipment]}
-                        onAction={(key) =>
-                          handleSortOptionSelectionEquipment(key as string)
-                        }
-                      >
-                        <DropdownItem key="favorite">
-                          Favorites First
-                        </DropdownItem>
-                        <DropdownItem key="name">Name (A-Z)</DropdownItem>
-                        <DropdownItem key="weight-desc">
-                          Weight (High-Low)
-                        </DropdownItem>
-                        <DropdownItem key="weight-asc">
-                          Weight (Low-High)
-                        </DropdownItem>
-                        <DropdownItem key="plate-calc">
-                          Plate Calculator Items First
-                        </DropdownItem>
-                      </DropdownMenu>
-                    </Dropdown>
+                    <PresetsSortByMenu
+                      sortCategoryEquipment={sortCategoryEquipment}
+                      handleSortOptionSelectionEquipment={
+                        handleSortOptionSelectionEquipment
+                      }
+                    />
                   </div>
                 }
               />
