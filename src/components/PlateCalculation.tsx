@@ -91,7 +91,7 @@ export const PlateCalculation = ({
     setNumHandles(e.target.value);
   };
 
-  const getPlateCalculatorList = () => {
+  const plateCalculatorList = useMemo(() => {
     const plateCalculatorList = equipmentWeights.reduce<number[]>(
       (acc, equipment) => {
         if (equipment.is_in_plate_calculator === 1) {
@@ -102,8 +102,10 @@ export const PlateCalculation = ({
       []
     );
 
+    plateCalculatorList.sort((a, b) => b - a);
+
     return plateCalculatorList;
-  };
+  }, [equipmentWeights]);
 
   const handleCalculatePlatesButton = () => {
     if (disableCalculatePlatesButton || plateCalculatorHandle === undefined)
@@ -112,7 +114,7 @@ export const PlateCalculation = ({
     const isOneHandle = numHandles === "1";
     const plateFactor = isOneHandle ? 2 : 4;
 
-    const sortedPlates = getPlateCalculatorList().sort((a, b) => b - a);
+    const sortedPlates = plateCalculatorList;
 
     const targetWeight = Number(targetWeightInput);
     const handleWeight = isOneHandle
