@@ -251,10 +251,16 @@ export default function WorkoutList() {
                           handleOptionMenuSelection(key as string)
                         }
                       >
-                        <DropdownItem key={"toggle-rating"}>
+                        <DropdownItem key="toggle-rating">
                           {userSettings.show_workout_rating === 1
                             ? "Hide Workout Rating"
                             : "Show Workout Rating"}
+                        </DropdownItem>
+                        <DropdownItem
+                          className="text-danger"
+                          key="delete-empty-workouts"
+                        >
+                          Delete All Empty Workouts
                         </DropdownItem>
                       </DropdownMenu>
                     </Dropdown>
