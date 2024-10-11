@@ -593,7 +593,7 @@ export const WeightCalculation = ({
     <>
       {weightCalculatorPage === "base" ? (
         <div className="flex flex-col gap-1">
-          <div className="flex justify-between pb-1">
+          <div className="flex justify-between pb-0.5">
             <div className="flex gap-1">
               <Button size="sm" variant="flat" onPress={handleAddPresetButton}>
                 Add Preset
@@ -875,20 +875,20 @@ export const WeightCalculation = ({
           </div>
         </div>
       ) : weightCalculatorPage === "calc" ? (
-        <>
+        <div className="flex flex-col justify-center h-[420px]">
           <Calculator
             isCalculationInvalid={isCalculationInvalid}
             setIsCalculationInvalid={setIsCalculationInvalid}
             buttonAction={addCalculationString}
             operatingCalculationItem={operatingCalculationItem}
           />
-        </>
+        </div>
       ) : (
         <PresetsModalList
           presetsList={usePresetsList}
           handlePresetClick={handlePresetClick}
           showExtraMenu
-          heightString="h-[360px]"
+          heightString="h-[410px]"
         />
       )}
     </>

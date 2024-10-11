@@ -51,7 +51,7 @@ export const PresetsModalList = ({
   const navigate = useNavigate();
 
   return (
-    <div className={`flex flex-col gap-2 ${heightString}`}>
+    <div className={`flex flex-col gap-1.5 ${heightString}`}>
       <SearchInput
         filterQuery={
           presetsType === "equipment"

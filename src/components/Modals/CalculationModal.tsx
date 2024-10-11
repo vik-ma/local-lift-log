@@ -255,10 +255,12 @@ export const CalculationModal = ({
   };
 
   const showBackButton = useMemo(() => {
+    if (calculationModalTab === "weight" && weightCalculatorPage !== "base")
+      return true;
     if (calculationModalTab === "plate" && plateCalculatorPage !== "base")
       return true;
     return false;
-  }, [calculationModalTab, plateCalculatorPage]);
+  }, [calculationModalTab, weightCalculatorPage, plateCalculatorPage]);
 
   return (
     <Modal
@@ -288,10 +290,10 @@ export const CalculationModal = ({
               )} */}
             </ModalHeader>
             <ModalBody>
-              <div className="h-[400px]">
+              <div className="h-[450px]">
                 <Tabs
                   aria-label="Calculator Option"
-                  classNames={{panel: "px-0"}}
+                  classNames={{ panel: "px-0 py-1.5" }}
                   selectedKey={calculationModalTab}
                   onSelectionChange={(key) =>
                     setCalculationModalTab(key as CalculationModalTab)
@@ -373,18 +375,19 @@ export const CalculationModal = ({
                 <Button color="primary" variant="light" onPress={onClose}>
                   Close
                 </Button>
-                {calculationModalTab === "weight" && (
-                  <Button
-                    color="primary"
-                    isDisabled={
-                      (presetsType === "equipment" && resultWeight === 0) ||
-                      (presetsType === "distance" && resultDistance === 0)
-                    }
-                    onPress={handleDoneButton}
-                  >
-                    Done
-                  </Button>
-                )}
+                {calculationModalTab === "weight" &&
+                  weightCalculatorPage === "base" && (
+                    <Button
+                      color="primary"
+                      isDisabled={
+                        (presetsType === "equipment" && resultWeight === 0) ||
+                        (presetsType === "distance" && resultDistance === 0)
+                      }
+                      onPress={handleDoneButton}
+                    >
+                      Add Result
+                    </Button>
+                  )}
               </div>
             </ModalFooter>
           </>
