@@ -38,7 +38,7 @@ type WeightCalculationProps = {
   setWeightCalculatorPage: React.Dispatch<
     React.SetStateAction<WeightCalculatorPage>
   >;
-  calculationString: string;
+  calculationString: string | null;
   calculationListWeight: CalculationListItem[];
   setCalculationListWeight: React.Dispatch<
     React.SetStateAction<CalculationListItem[]>
@@ -63,6 +63,10 @@ type WeightCalculationProps = {
   operationTypeWeightCalc: OperationTypeWeightCalc;
   setOperationTypeWeightCalc: React.Dispatch<
     React.SetStateAction<OperationTypeWeightCalc>
+  >;
+  operatingCalculationItem: OperatingCalculationItem | undefined;
+  setOperatingCalculationItem: React.Dispatch<
+    React.SetStateAction<OperatingCalculationItem | undefined>
   >;
 };
 
@@ -93,13 +97,13 @@ export const WeightCalculation = ({
   usePresetsList,
   operationTypeWeightCalc,
   setOperationTypeWeightCalc,
+  operatingCalculationItem,
+  setOperatingCalculationItem,
 }: WeightCalculationProps) => {
   const [isCalculationInvalid, setIsCalculationInvalid] =
     useState<boolean>(true);
   const [showNumberInput, setShowNumberInput] = useState<boolean>(false);
   const [numberInput, setNumberInput] = useState<string>("");
-  const [operatingCalculationItem, setOperatingCalculationItem] =
-    useState<OperatingCalculationItem>();
 
   const isNumberInputInvalid = useMemo(() => {
     return IsStringEmpty(numberInput) || IsStringInvalidNumberOr0(numberInput);
