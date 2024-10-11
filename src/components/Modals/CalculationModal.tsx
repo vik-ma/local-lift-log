@@ -10,16 +10,18 @@ import {
 } from "@nextui-org/react";
 import {
   CalculationListItem,
-  CalculationModalOperationType,
+  OperationTypeWeightCalc,
   Distance,
   EquipmentWeight,
   Exercise,
   OperatingCalculationItem,
+  OperationTypePlateCalc,
   PlateCalculatorPage,
   PresetsType,
   UseCalculationModalReturnType,
   UsePresetsListReturnType,
   UserSettings,
+  WeightCalculatorPage,
 } from "../../typings";
 import {
   Calculator,
@@ -82,13 +84,18 @@ export const CalculationModal = ({
     useState<boolean>(true);
   const [showNumberInput, setShowNumberInput] = useState<boolean>(false);
   const [numberInput, setNumberInput] = useState<string>("");
-  const [operationType, setOperationType] =
-    useState<CalculationModalOperationType>("add-preset");
+
+  const [weightCalculatorPage, setWeightCalculatorPage] =
+    useState<WeightCalculatorPage>("base");
+  const [operationTypeWeightCalc, setOperationTypeWeightCalc] =
+    useState<OperationTypeWeightCalc>("add-preset");
   const [operatingCalculationItem, setOperatingCalculationItem] =
     useState<OperatingCalculationItem>();
 
   const [plateCalculatorPage, setPlateCalculatorPage] =
     useState<PlateCalculatorPage>("base");
+  const [operationTypePlateCalc, setOperationTypePlateCalc] =
+    useState<OperationTypePlateCalc>("show-list");
 
   const isNumberInputInvalid = useMemo(() => {
     return IsStringEmpty(numberInput) || IsStringInvalidNumberOr0(numberInput);
@@ -112,8 +119,8 @@ export const CalculationModal = ({
 
   const {
     calculationModal,
-    calculationModalPage,
-    setCalculationModalPage,
+    calculationModalTab,
+    setCalculationModalTab,
     calculationString,
     isActiveSet,
     calculationExercise,
@@ -235,14 +242,16 @@ export const CalculationModal = ({
   const handleAddPresetButton = async () => {
     await loadPresets();
 
-    setCalculationModalPage("list");
+    // TODO: FIX
+    // setCalculationModalPage("list");
     setShowNumberInput(false);
     setOperatingCalculationItem(undefined);
-    setOperationType("add-preset");
+    setOperationTypeWeightCalc("add-preset");
   };
 
   const handleGoToCalculationButton = () => {
-    setCalculationModalPage("calc");
+    // TODO: FIX
+    // setCalculationModalPage("calc");
     setShowNumberInput(false);
     setOperatingCalculationItem(undefined);
   };
@@ -251,13 +260,19 @@ export const CalculationModal = ({
     equipment?: EquipmentWeight,
     distance?: Distance
   ) => {
-    if (operationType === "add-preset") {
+    if (operationTypeWeightCalc === "add-preset") {
       addPreset(equipment, distance);
-    } else if (operationType === "change-preset") {
+    } else if (operationTypeWeightCalc === "change-preset") {
       changePreset(equipment, distance);
-    } else if (operationType === "change-handle" && equipment !== undefined) {
+    } else if (
+      operationTypeWeightCalc === "change-handle" &&
+      equipment !== undefined
+    ) {
       changeHandle(equipment);
-    } else if (operationType === "set-handle" && equipment !== undefined) {
+    } else if (
+      operationTypeWeightCalc === "set-handle" &&
+      equipment !== undefined
+    ) {
       setHandle(equipment);
     }
   };
@@ -294,7 +309,8 @@ export const CalculationModal = ({
       addItemToCalculationList(calculationItem);
     }
 
-    setCalculationModalPage("base");
+    // TODO: FIX
+    // setCalculationModalPage("base");
   };
 
   const changePreset = (equipment?: EquipmentWeight, distance?: Distance) => {
@@ -343,7 +359,8 @@ export const CalculationModal = ({
     }
 
     setOperatingCalculationItem(undefined);
-    setCalculationModalPage("base");
+    // TODO: FIX
+    // setCalculationModalPage("base");
   };
 
   const handleRemoveButton = (index: number) => {
@@ -591,7 +608,8 @@ export const CalculationModal = ({
     }
 
     setOperatingCalculationItem(undefined);
-    setCalculationModalPage("base");
+    // TODO: FIX
+    // setCalculationModalPage("base");
   };
 
   const handleAddNumberButton = () => {
@@ -668,11 +686,12 @@ export const CalculationModal = ({
   };
 
   const handlePlateCalculatorButton = async () => {
+    // TODO: FIX AND REMOVE
     if (isLoadingEquipment) {
       await getEquipmentWeights(userSettings.default_equipment_weight_id);
     }
 
-    setCalculationModalPage("plate-calc");
+    // setCalculationModalPage("plate-calc");
     setShowNumberInput(false);
     setOperatingCalculationItem(undefined);
   };
@@ -683,24 +702,25 @@ export const CalculationModal = ({
   ) => {
     setOperatingCalculationItem({ calculationItem, index });
 
-    if (calculationItem.itemType === "calculation") {
-      setCalculationModalPage("calc");
-      setShowNumberInput(false);
-    } else if (calculationItem.itemType === "number") {
-      setNumberInput(calculationItem.value.toString());
-      setShowNumberInput(true);
-    } else if (calculationItem.itemType === "preset") {
-      setCalculationModalPage("list");
-      setOperationType("change-preset");
-      setShowNumberInput(false);
-    }
+    // TODO: FIX
+    // if (calculationItem.itemType === "calculation") {
+    //   setCalculationModalPage("calc");
+    //   setShowNumberInput(false);
+    // } else if (calculationItem.itemType === "number") {
+    //   setNumberInput(calculationItem.value.toString());
+    //   setShowNumberInput(true);
+    // } else if (calculationItem.itemType === "preset") {
+    //   setCalculationModalPage("list");
+    //   setOperationTypeWeightCalc("change-preset");
+    //   setShowNumberInput(false);
+    // }
   };
 
   const changeHandle = (equipment: EquipmentWeight) => {
     setPlateCalculatorHandle(equipment);
 
-    setCalculationModalPage("plate-calc");
-    setOperationType("add-preset");
+    setPlateCalculatorPage("base");
+    setOperationTypeWeightCalc("add-preset");
   };
 
   const setHandle = async (equipment: EquipmentWeight) => {
@@ -718,18 +738,33 @@ export const CalculationModal = ({
     }
   };
 
+  const handleBackButtonWeightCalc = () => {
+    // TODO: FIX
+    // if (operationTypeWeightCalc === "add-preset") {
+    //   setCalculationModalPage("base");
+    // } else if (operationTypeWeightCalc === "change-preset") {
+    //   setOperationTypeWeightCalc("add-preset");
+    //   setCalculationModalPage("base");
+    //   setOperatingCalculationItem(undefined);
+    // }
+  };
+
+  const handleBackButtonPlateCalc = () => {
+    setPlateCalculatorPage("base");
+  };
+
   const handleBackButton = () => {
-    if (operationType === "add-preset") {
-      setCalculationModalPage("base");
-    } else if (operationType === "change-preset") {
-      setOperationType("add-preset");
-      setCalculationModalPage("base");
-      setOperatingCalculationItem(undefined);
-    } else {
-      setCalculationModalPage("plate-calc");
-      setOperationType("add-preset");
+    if (calculationModalTab === "weight") {
+    } else if (calculationModalTab === "plate") {
+      handleBackButtonPlateCalc();
     }
   };
+
+  const showBackButton = useMemo(() => {
+    if (calculationModalTab === "plate" && plateCalculatorPage !== "base")
+      return true;
+    return false;
+  }, [calculationModalTab, plateCalculatorPage]);
 
   return (
     <Modal
@@ -740,26 +775,27 @@ export const CalculationModal = ({
         {(onClose) => (
           <>
             <ModalHeader>
-              {calculationModalPage === "base" ? (
+              {/* TODO: FIX */}
+              {/* {calculationModalPage === "base" ? (
                 <>Calculate {presetText}</>
               ) : calculationModalPage === "list" &&
-                operationType === "add-preset" ? (
+                operationTypeWeightCalc === "add-preset" ? (
                 <>Select {presetText}</>
               ) : calculationModalPage === "list" &&
-                operationType === "change-preset" ? (
+                operationTypeWeightCalc === "change-preset" ? (
                 <>Change {presetText}</>
               ) : calculationModalPage === "list" &&
-                operationType === "change-handle" ? (
+                operationTypeWeightCalc === "change-handle" ? (
                 <>Change Handle</>
               ) : calculationModalPage === "plate-calc" ? (
                 <>Plate Calculator</>
               ) : (
                 <>Calculation</>
-              )}
+              )} */}
             </ModalHeader>
             <ModalBody>
               <div className="h-[400px] flex flex-col gap-2">
-                {calculationModalPage === "base" ? (
+                {weightCalculatorPage === "base" ? (
                   <>
                     <div className="flex flex-col gap-1">
                       <div className="flex justify-between pb-1">
@@ -1076,7 +1112,7 @@ export const CalculationModal = ({
                       </div>
                     </div>
                   </>
-                ) : calculationModalPage === "calc" ? (
+                ) : weightCalculatorPage === "calc" ? (
                   <>
                     <Calculator
                       isCalculationInvalid={isCalculationInvalid}
@@ -1085,18 +1121,6 @@ export const CalculationModal = ({
                       operatingCalculationItem={operatingCalculationItem}
                     />
                   </>
-                ) : calculationModalPage === "plate-calc" ? (
-                  <PlateCalculation
-                    equipmentWeights={equipmentWeights}
-                    weightUnit={weightUnit}
-                    numHandlesDefaultValue={userSettings.default_num_handles.toString()}
-                    plateCalculatorHandle={plateCalculatorHandle}
-                    setCalculationModalPage={setCalculationModalPage}
-                    setOperationType={setOperationType}
-                    defaultTargetWeightInput={targetWeight}
-                    plateCalculatorPage={plateCalculatorPage}
-                    usePresetsList={usePresetsList}
-                  />
                 ) : (
                   <PresetsModalList
                     presetsList={usePresetsList}
@@ -1108,24 +1132,23 @@ export const CalculationModal = ({
             </ModalBody>
             <ModalFooter className="flex justify-between">
               <div className="flex gap-2">
-                {calculationModalPage !== "base" && (
-                  <>
-                    <Button variant="flat" onPress={handleBackButton}>
-                      Back
-                    </Button>
-                    {calculationModalPage === "plate-calc" && (
-                      <Button
-                        variant="flat"
-                        color="secondary"
-                        onPress={() => setPlateCalculatorPage("list")}
-                      >
-                        Select Available Plates
-                      </Button>
-                    )}
-                  </>
+                {showBackButton && (
+                  <Button variant="flat" onPress={handleBackButton}>
+                    Back
+                  </Button>
+                )}
+                {/* TODO: ADD CHECK FOR TAB */}
+                {plateCalculatorPage === "base" && (
+                  <Button
+                    variant="flat"
+                    color="secondary"
+                    onPress={() => setPlateCalculatorPage("list")}
+                  >
+                    Select Available Plates
+                  </Button>
                 )}
                 {presetsType === "equipment" &&
-                  calculationModalPage === "base" && (
+                  calculationModalTab === "weight" && (
                     <Button
                       color="secondary"
                       variant="flat"
@@ -1139,7 +1162,7 @@ export const CalculationModal = ({
                 <Button color="primary" variant="light" onPress={onClose}>
                   Close
                 </Button>
-                {calculationModalPage === "base" && (
+                {calculationModalTab === "weight" && (
                   <Button
                     color="primary"
                     isDisabled={

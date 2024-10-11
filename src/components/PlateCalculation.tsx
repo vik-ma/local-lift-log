@@ -6,9 +6,8 @@ import {
   IsStringInvalidNumberOr0,
 } from "../helpers";
 import {
-  CalculationModalOperationType,
-  CalculationModalPage,
   EquipmentWeight,
+  OperationTypePlateCalc,
   PlateCalculatorPage,
   UsePresetsListReturnType,
 } from "../typings";
@@ -19,15 +18,15 @@ type PlateCalculationProps = {
   weightUnit: string;
   numHandlesDefaultValue: string;
   plateCalculatorHandle: EquipmentWeight | undefined;
-  setCalculationModalPage: React.Dispatch<
-    React.SetStateAction<CalculationModalPage>
-  >;
-  setOperationType: React.Dispatch<
-    React.SetStateAction<CalculationModalOperationType>
-  >;
   defaultTargetWeightInput: string;
   plateCalculatorPage: PlateCalculatorPage;
   usePresetsList: UsePresetsListReturnType;
+  setPlateCalculatorPage: React.Dispatch<
+    React.SetStateAction<PlateCalculatorPage>
+  >;
+  setOperationTypePlateCalc: React.Dispatch<
+    React.SetStateAction<OperationTypePlateCalc>
+  >;
 };
 
 type PlateCalculation = {
@@ -42,11 +41,11 @@ export const PlateCalculation = ({
   weightUnit,
   numHandlesDefaultValue,
   plateCalculatorHandle,
-  setCalculationModalPage,
-  setOperationType,
   defaultTargetWeightInput,
   plateCalculatorPage,
   usePresetsList,
+  setPlateCalculatorPage,
+  setOperationTypePlateCalc,
 }: PlateCalculationProps) => {
   const [targetWeightInput, setTargetWeightInput] = useState<string>("");
   const [numHandles, setNumHandles] = useState<string>(numHandlesDefaultValue);
@@ -114,13 +113,13 @@ export const PlateCalculation = ({
   ]);
 
   const handleChangeHandleButton = () => {
-    setCalculationModalPage("list");
-    setOperationType("change-handle");
+    setPlateCalculatorPage("list");
+    setOperationTypePlateCalc("change-handle");
   };
 
   const handleSetHandleButton = () => {
-    setCalculationModalPage("list");
-    setOperationType("set-handle");
+    setPlateCalculatorPage("list");
+    setOperationTypePlateCalc("set-handle");
   };
 
   const handleHandlesChange = (e: React.ChangeEvent<HTMLSelectElement>) => {

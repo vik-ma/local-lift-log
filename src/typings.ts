@@ -499,13 +499,13 @@ export type UsePresetsListReturnType = {
   sortDistancesByActiveCategory: (distanceList: Distance[]) => void;
 };
 
-export type CalculationModalPage = "base" | "list" | "calc" | "plate-calc";
+export type CalculationModalTab = "weight" | "plate";
 
 export type UseCalculationModalReturnType = {
   calculationModal: UseDisclosureReturnType;
-  calculationModalPage: CalculationModalPage;
-  setCalculationModalPage: React.Dispatch<
-    React.SetStateAction<CalculationModalPage>
+  calculationModalTab: CalculationModalTab;
+  setCalculationModalTab: React.Dispatch<
+    React.SetStateAction<CalculationModalTab>
   >;
   calculationString: string | null;
   setCalculationString: React.Dispatch<React.SetStateAction<string | null>>;
@@ -544,12 +544,15 @@ export type OperatingCalculationItem = {
   index: number;
 };
 
-export type CalculationModalOperationType =
-  | "add-preset"
-  | "change-preset"
-  | "set-handle"
-  | "change-handle";
-
 export type WorkoutSortCategory = "date-asc" | "date-desc";
 
+export type WeightCalculatorPage = "base" | "list" | "calc";
+
 export type PlateCalculatorPage = "base" | "list";
+
+export type OperationTypeWeightCalc = "add-preset" | "change-preset";
+
+export type OperationTypePlateCalc =
+  | "set-handle"
+  | "change-handle"
+  | "show-list";
