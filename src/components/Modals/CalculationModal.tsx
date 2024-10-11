@@ -262,6 +262,34 @@ export const CalculationModal = ({
     return false;
   }, [calculationModalTab, weightCalculatorPage, plateCalculatorPage]);
 
+  const modalHeader = useMemo(() => {
+    if (calculationModalTab === "weight") {
+      if (weightCalculatorPage === "base") return "Weight Calculator";
+      else if (weightCalculatorPage === "calc") return "Calculator";
+      else {
+        return operationTypeWeightCalc === "add-preset"
+          ? "Add Equipment Weight"
+          : "Change Equipment Weight";
+      }
+    } else {
+      if (plateCalculatorPage === "base") {
+        return "Plate Calculator";
+      } else {
+        return operationTypePlateCalc === "set-handle"
+          ? "Set Handle"
+          : operationTypePlateCalc === "change-handle"
+          ? "Change Handle"
+          : "Equipment Weight List";
+      }
+    }
+  }, [
+    calculationModalTab,
+    weightCalculatorPage,
+    plateCalculatorPage,
+    operationTypeWeightCalc,
+    operationTypePlateCalc,
+  ]);
+
   return (
     <Modal
       isOpen={calculationModal.isOpen}
@@ -270,25 +298,7 @@ export const CalculationModal = ({
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalHeader>
-              {/* TODO: FIX */}
-              {/* {calculationModalPage === "base" ? (
-                <>Calculate {presetText}</>
-              ) : calculationModalPage === "list" &&
-                operationTypeWeightCalc === "add-preset" ? (
-                <>Select {presetText}</>
-              ) : calculationModalPage === "list" &&
-                operationTypeWeightCalc === "change-preset" ? (
-                <>Change {presetText}</>
-              ) : calculationModalPage === "list" &&
-                operationTypeWeightCalc === "change-handle" ? (
-                <>Change Handle</>
-              ) : calculationModalPage === "plate-calc" ? (
-                <>Plate Calculator</>
-              ) : (
-                <>Calculation</>
-              )} */}
-            </ModalHeader>
+            <ModalHeader>{modalHeader}</ModalHeader>
             <ModalBody>
               <div className="h-[450px]">
                 <Tabs
