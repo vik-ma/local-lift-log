@@ -49,7 +49,7 @@ export const PresetsModalList = ({
   const navigate = useNavigate();
 
   return (
-    <>
+    <div className="flex flex-col gap-2">
       <SearchInput
         filterQuery={
           presetsType === "equipment"
@@ -185,6 +185,6 @@ export const PresetsModalList = ({
           </>
         )}
       </ScrollShadow>
-    </>
+    </div>
   );
 };

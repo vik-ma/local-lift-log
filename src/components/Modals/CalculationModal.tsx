@@ -5,6 +5,8 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
+  Tabs,
+  Tab,
 } from "@nextui-org/react";
 import {
   CalculationListItem,
@@ -19,6 +21,7 @@ import {
   UsePresetsListReturnType,
   UserSettings,
   WeightCalculatorPage,
+  CalculationModalTab,
 } from "../../typings";
 import { useCallback, useMemo, useState } from "react";
 import {
@@ -188,15 +191,6 @@ export const CalculationModal = ({
     );
   };
 
-  const handlePlateCalculatorButton = async () => {
-    // REMOVE
-    if (isLoadingEquipment) {
-      await getEquipmentWeights(userSettings.default_equipment_weight_id);
-    }
-
-    setCalculationModalTab("plate");
-  };
-
   const changeHandle = (equipment: EquipmentWeight) => {
     setPlateCalculatorHandle(equipment);
 
@@ -294,56 +288,66 @@ export const CalculationModal = ({
               )} */}
             </ModalHeader>
             <ModalBody>
-              <div className="h-[400px] flex flex-col gap-2">
-                {calculationModalTab === "weight" ? (
-                  <WeightCalculation
-                    equipmentWeights={equipmentWeights}
-                    distances={distances}
-                    weightUnit={weightUnit}
-                    distanceUnit={distanceUnit}
-                    weightCalculatorPage={weightCalculatorPage}
-                    setWeightCalculatorPage={setWeightCalculatorPage}
-                    calculationString={calculationString}
-                    calculationListWeight={calculationListWeight}
-                    setCalculationListWeight={setCalculationListWeight}
-                    calculationListDistance={calculationListDistance}
-                    setCalculationListDistance={setCalculationListDistance}
-                    presetsType={presetsType}
-                    multiplierIncrement={multiplierIncrement}
-                    totalMultiplierInput={totalMultiplierInput}
-                    setTotalMultiplierInput={setTotalMultiplierInput}
-                    isTotalMultiplierInvalid={isTotalMultiplierInvalid}
-                    totalWeight={totalWeight}
-                    totalDistance={totalDistance}
-                    resultWeight={resultWeight}
-                    resultDistance={resultDistance}
-                    disableTotalMultiplierDecreaseButton={
-                      disableTotalMultiplierDecreaseButton
-                    }
-                    disableTotalMultiplierIncreaseButton={
-                      disableTotalMultiplierIncreaseButton
-                    }
-                    loadPresets={loadPresets}
-                    usePresetsList={usePresetsList}
-                    operationTypeWeightCalc={operationTypeWeightCalc}
-                    setOperationTypeWeightCalc={setOperationTypeWeightCalc}
-                    operatingCalculationItem={operatingCalculationItem}
-                    setOperatingCalculationItem={setOperatingCalculationItem}
-                  />
-                ) : (
-                  <PlateCalculation
-                    equipmentWeights={equipmentWeights}
-                    weightUnit={weightUnit}
-                    numHandlesDefaultValue={userSettings.default_num_handles.toString()}
-                    plateCalculatorHandle={plateCalculatorHandle}
-                    defaultTargetWeightInput={targetWeight}
-                    plateCalculatorPage={plateCalculatorPage}
-                    usePresetsList={usePresetsList}
-                    setPlateCalculatorPage={setPlateCalculatorPage}
-                    setOperationTypePlateCalc={setOperationTypePlateCalc}
-                    handlePresetClickPlateCalc={handlePresetClickPlateCalc}
-                  />
-                )}
+              <div className="h-[400px]">
+                <Tabs
+                  aria-label="Calculator Option"
+                  selectedKey={calculationModalTab}
+                  onSelectionChange={(key) =>
+                    setCalculationModalTab(key as CalculationModalTab)
+                  }
+                  fullWidth
+                >
+                  <Tab key="weight" title="Weight Calculator">
+                    <WeightCalculation
+                      equipmentWeights={equipmentWeights}
+                      distances={distances}
+                      weightUnit={weightUnit}
+                      distanceUnit={distanceUnit}
+                      weightCalculatorPage={weightCalculatorPage}
+                      setWeightCalculatorPage={setWeightCalculatorPage}
+                      calculationString={calculationString}
+                      calculationListWeight={calculationListWeight}
+                      setCalculationListWeight={setCalculationListWeight}
+                      calculationListDistance={calculationListDistance}
+                      setCalculationListDistance={setCalculationListDistance}
+                      presetsType={presetsType}
+                      multiplierIncrement={multiplierIncrement}
+                      totalMultiplierInput={totalMultiplierInput}
+                      setTotalMultiplierInput={setTotalMultiplierInput}
+                      isTotalMultiplierInvalid={isTotalMultiplierInvalid}
+                      totalWeight={totalWeight}
+                      totalDistance={totalDistance}
+                      resultWeight={resultWeight}
+                      resultDistance={resultDistance}
+                      disableTotalMultiplierDecreaseButton={
+                        disableTotalMultiplierDecreaseButton
+                      }
+                      disableTotalMultiplierIncreaseButton={
+                        disableTotalMultiplierIncreaseButton
+                      }
+                      loadPresets={loadPresets}
+                      usePresetsList={usePresetsList}
+                      operationTypeWeightCalc={operationTypeWeightCalc}
+                      setOperationTypeWeightCalc={setOperationTypeWeightCalc}
+                      operatingCalculationItem={operatingCalculationItem}
+                      setOperatingCalculationItem={setOperatingCalculationItem}
+                    />
+                  </Tab>
+                  <Tab key="plate" title="Plate Calculator">
+                    <PlateCalculation
+                      equipmentWeights={equipmentWeights}
+                      weightUnit={weightUnit}
+                      numHandlesDefaultValue={userSettings.default_num_handles.toString()}
+                      plateCalculatorHandle={plateCalculatorHandle}
+                      defaultTargetWeightInput={targetWeight}
+                      plateCalculatorPage={plateCalculatorPage}
+                      usePresetsList={usePresetsList}
+                      setPlateCalculatorPage={setPlateCalculatorPage}
+                      setOperationTypePlateCalc={setOperationTypePlateCalc}
+                      handlePresetClickPlateCalc={handlePresetClickPlateCalc}
+                    />
+                  </Tab>
+                </Tabs>
               </div>
             </ModalBody>
             <ModalFooter className="flex justify-between">
@@ -361,16 +365,6 @@ export const CalculationModal = ({
                       onPress={handleShowPresetListPlateCalcButton}
                     >
                       Select Available Plates
-                    </Button>
-                  )}
-                {presetsType === "equipment" &&
-                  calculationModalTab === "weight" && (
-                    <Button
-                      color="secondary"
-                      variant="flat"
-                      onPress={handlePlateCalculatorButton}
-                    >
-                      Plate Calculator
                     </Button>
                   )}
               </div>
