@@ -15,6 +15,7 @@ import {
   EquipmentWeight,
   Exercise,
   OperatingCalculationItem,
+  PlateCalculatorPage,
   PresetsType,
   UseCalculationModalReturnType,
   UsePresetsListReturnType,
@@ -85,6 +86,9 @@ export const CalculationModal = ({
     useState<CalculationModalOperationType>("add-preset");
   const [operatingCalculationItem, setOperatingCalculationItem] =
     useState<OperatingCalculationItem>();
+
+  const [plateCalculatorPage, setPlateCalculatorPage] =
+    useState<PlateCalculatorPage>("base");
 
   const isNumberInputInvalid = useMemo(() => {
     return IsStringEmpty(numberInput) || IsStringInvalidNumberOr0(numberInput);
@@ -727,11 +731,6 @@ export const CalculationModal = ({
     }
   };
 
-  const handleShowEquipmentListButton = () => {
-    setOperationType("show-list");
-    setCalculationModalPage("list");
-  };
-
   return (
     <Modal
       isOpen={calculationModal.isOpen}
@@ -865,7 +864,6 @@ export const CalculationModal = ({
                                   onClick={() =>
                                     handleClickCalculationItem(weight, index)
                                   }
-                                  disabled={operationType === "show-list"}
                                 >
                                   <span className="w-[7rem] truncate text-left">
                                     {weight.label}
@@ -1096,6 +1094,8 @@ export const CalculationModal = ({
                     setCalculationModalPage={setCalculationModalPage}
                     setOperationType={setOperationType}
                     defaultTargetWeightInput={targetWeight}
+                    plateCalculatorPage={plateCalculatorPage}
+                    usePresetsList={usePresetsList}
                   />
                 ) : (
                   <PresetsModalList
@@ -1117,7 +1117,7 @@ export const CalculationModal = ({
                       <Button
                         variant="flat"
                         color="secondary"
-                        onPress={handleShowEquipmentListButton}
+                        onPress={() => setPlateCalculatorPage("list")}
                       >
                         Select Available Plates
                       </Button>

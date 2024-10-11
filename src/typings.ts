@@ -548,7 +548,8 @@ export type CalculationModalOperationType =
   | "add-preset"
   | "change-preset"
   | "set-handle"
-  | "change-handle"
-  | "show-list";
+  | "change-handle";
 
 export type WorkoutSortCategory = "date-asc" | "date-desc";
+
+export type PlateCalculatorPage = "base" | "list";
