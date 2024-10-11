@@ -252,6 +252,14 @@ export const CalculationModal = ({
     }
   };
 
+  const handleShowPresetListPlateCalcButton = async () => {
+    if (isLoadingEquipment) {
+      loadPresets();
+    }
+
+    setPlateCalculatorPage("list");
+  };
+
   const showBackButton = useMemo(() => {
     if (calculationModalTab === "plate" && plateCalculatorPage !== "base")
       return true;
@@ -350,7 +358,7 @@ export const CalculationModal = ({
                     <Button
                       variant="flat"
                       color="secondary"
-                      onPress={() => setPlateCalculatorPage("list")}
+                      onPress={handleShowPresetListPlateCalcButton}
                     >
                       Select Available Plates
                     </Button>
