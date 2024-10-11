@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 type PresetsModalListProps = {
   presetsList: UsePresetsListReturnType;
   handlePresetClick: (equipment?: EquipmentWeight, distance?: Distance) => void;
+  heightString: string;
   defaultEquipmentWeightId?: number;
   showExtraMenu?: boolean;
 };
@@ -24,6 +25,7 @@ type PresetsModalListProps = {
 export const PresetsModalList = ({
   presetsList,
   handlePresetClick,
+  heightString,
   defaultEquipmentWeightId,
   showExtraMenu,
 }: PresetsModalListProps) => {
@@ -49,7 +51,7 @@ export const PresetsModalList = ({
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className={`flex flex-col gap-2 ${heightString}`}>
       <SearchInput
         filterQuery={
           presetsType === "equipment"

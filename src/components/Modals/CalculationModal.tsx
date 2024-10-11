@@ -291,6 +291,7 @@ export const CalculationModal = ({
               <div className="h-[400px]">
                 <Tabs
                   aria-label="Calculator Option"
+                  classNames={{panel: "px-0"}}
                   selectedKey={calculationModalTab}
                   onSelectionChange={(key) =>
                     setCalculationModalTab(key as CalculationModalTab)

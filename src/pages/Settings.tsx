@@ -501,6 +501,7 @@ export default function Settings() {
                     defaultEquipmentWeightId={
                       userSettings.default_equipment_weight_id
                     }
+                    heightString="h-[400px]"
                   />
                 </div>
               </ModalBody>

@@ -377,6 +377,7 @@ export const PlateCalculation = ({
           presetsList={usePresetsList}
           handlePresetClick={handlePresetClickPlateCalc}
           showExtraMenu
+          heightString="h-[360px]"
         />
       )}
     </>

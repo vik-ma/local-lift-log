@@ -888,6 +888,7 @@ export const WeightCalculation = ({
           presetsList={usePresetsList}
           handlePresetClick={handlePresetClick}
           showExtraMenu
+          heightString="h-[360px]"
         />
       )}
     </>
