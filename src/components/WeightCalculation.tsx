@@ -35,6 +35,9 @@ type WeightCalculationProps = {
   weightUnit: string;
   distanceUnit: string;
   weightCalculatorPage: WeightCalculatorPage;
+  setWeightCalculatorPage: React.Dispatch<
+    React.SetStateAction<WeightCalculatorPage>
+  >;
   calculationString: string;
   calculationListWeight: CalculationListItem[];
   setCalculationListWeight: React.Dispatch<
@@ -69,6 +72,7 @@ export const WeightCalculation = ({
   weightUnit,
   distanceUnit,
   weightCalculatorPage,
+  setWeightCalculatorPage,
   calculationString,
   calculationListWeight,
   setCalculationListWeight,
@@ -202,16 +206,14 @@ export const WeightCalculation = ({
   const handleAddPresetButton = async () => {
     await loadPresets();
 
-    // TODO: FIX
-    // setCalculationModalPage("list");
+    setWeightCalculatorPage("list");
     setShowNumberInput(false);
     setOperatingCalculationItem(undefined);
     setOperationTypeWeightCalc("add-preset");
   };
 
   const handleGoToCalculationButton = () => {
-    // TODO: FIX
-    // setCalculationModalPage("calc");
+    setWeightCalculatorPage("calc");
     setShowNumberInput(false);
     setOperatingCalculationItem(undefined);
   };
@@ -259,8 +261,7 @@ export const WeightCalculation = ({
       addItemToCalculationList(calculationItem);
     }
 
-    // TODO: FIX
-    // setCalculationModalPage("base");
+    setWeightCalculatorPage("base");
   };
 
   const changePreset = (equipment?: EquipmentWeight, distance?: Distance) => {
@@ -309,8 +310,7 @@ export const WeightCalculation = ({
     }
 
     setOperatingCalculationItem(undefined);
-    // TODO: FIX
-    // setCalculationModalPage("base");
+    setWeightCalculatorPage("base");
   };
 
   const handleRemoveButton = (index: number) => {
@@ -510,8 +510,7 @@ export const WeightCalculation = ({
     }
 
     setOperatingCalculationItem(undefined);
-    // TODO: FIX
-    // setCalculationModalPage("base");
+    setWeightCalculatorPage("base");
   };
 
   const handleAddNumberButton = () => {
@@ -567,18 +566,17 @@ export const WeightCalculation = ({
   ) => {
     setOperatingCalculationItem({ calculationItem, index });
 
-    // TODO: FIX
-    // if (calculationItem.itemType === "calculation") {
-    //   setCalculationModalPage("calc");
-    //   setShowNumberInput(false);
-    // } else if (calculationItem.itemType === "number") {
-    //   setNumberInput(calculationItem.value.toString());
-    //   setShowNumberInput(true);
-    // } else if (calculationItem.itemType === "preset") {
-    //   setCalculationModalPage("list");
-    //   setOperationTypeWeightCalc("change-preset");
-    //   setShowNumberInput(false);
-    // }
+    if (calculationItem.itemType === "calculation") {
+      setWeightCalculatorPage("calc");
+      setShowNumberInput(false);
+    } else if (calculationItem.itemType === "number") {
+      setNumberInput(calculationItem.value.toString());
+      setShowNumberInput(true);
+    } else if (calculationItem.itemType === "preset") {
+      setWeightCalculatorPage("list");
+      setOperationTypeWeightCalc("change-preset");
+      setShowNumberInput(false);
+    }
   };
 
   useEffect(() => {
