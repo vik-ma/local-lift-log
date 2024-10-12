@@ -16,9 +16,7 @@ import { PresetsModalList } from "./PresetsModalList";
 type PlateCalculationProps = {
   equipmentWeights: EquipmentWeight[];
   weightUnit: string;
-  numHandlesDefaultValue: string;
   plateCalculatorHandle: EquipmentWeight | undefined;
-  defaultTargetWeightInput: string;
   plateCalculatorPage: PlateCalculatorPage;
   usePresetsList: UsePresetsListReturnType;
   setPlateCalculatorPage: React.Dispatch<
@@ -28,6 +26,10 @@ type PlateCalculationProps = {
     React.SetStateAction<OperationTypePlateCalc>
   >;
   handlePresetClickPlateCalc: (equipment?: EquipmentWeight) => void;
+  targetWeightInput: string;
+  setTargetWeightInput: React.Dispatch<React.SetStateAction<string>>;
+  numHandles: string;
+  setNumHandles: React.Dispatch<React.SetStateAction<string>>;
 };
 
 type PlateCalculation = {
@@ -40,18 +42,17 @@ type PlateCalculation = {
 export const PlateCalculation = ({
   equipmentWeights,
   weightUnit,
-  numHandlesDefaultValue,
   plateCalculatorHandle,
-  defaultTargetWeightInput,
   plateCalculatorPage,
   usePresetsList,
   setPlateCalculatorPage,
   setOperationTypePlateCalc,
   handlePresetClickPlateCalc,
+  targetWeightInput,
+  setTargetWeightInput,
+  numHandles,
+  setNumHandles,
 }: PlateCalculationProps) => {
-  const [targetWeightInput, setTargetWeightInput] = useState<string>("");
-  const [numHandles, setNumHandles] = useState<string>(numHandlesDefaultValue);
-
   const defaultPlateCalculation: PlateCalculation = useMemo(() => {
     return {
       plateMap: new Map(),
@@ -185,12 +186,6 @@ export const PlateCalculation = ({
 
     calculatePlates();
   }, [calculatePlates]);
-
-  useEffect(() => {
-    if (defaultTargetWeightInput !== "") {
-      setTargetWeightInput(defaultTargetWeightInput);
-    }
-  }, [defaultTargetWeightInput]);
 
   return (
     <>

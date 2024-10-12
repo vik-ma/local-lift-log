@@ -75,6 +75,9 @@ export const CalculationModal = ({
   const [operationTypeSumCalc, setOperationTypeSumCalc] =
     useState<OperationTypeSumCalc>("add-preset");
 
+  const [numHandles, setNumHandles] = useState<string>(
+    userSettings.default_num_handles.toString()
+  );
   const [plateCalculatorPage, setPlateCalculatorPage] =
     useState<PlateCalculatorPage>("base");
   const [operationTypePlateCalc, setOperationTypePlateCalc] =
@@ -103,7 +106,8 @@ export const CalculationModal = ({
     calculationExercise,
     weightUnit,
     distanceUnit,
-    targetWeight,
+    targetWeightInput,
+    setTargetWeightInput,
   } = useCalculationModal;
 
   const loadPresets = useCallback(async () => {
@@ -351,14 +355,16 @@ export const CalculationModal = ({
                     <PlateCalculation
                       equipmentWeights={equipmentWeights}
                       weightUnit={weightUnit}
-                      numHandlesDefaultValue={userSettings.default_num_handles.toString()}
                       plateCalculatorHandle={plateCalculatorHandle}
-                      defaultTargetWeightInput={targetWeight}
                       plateCalculatorPage={plateCalculatorPage}
                       usePresetsList={usePresetsList}
                       setPlateCalculatorPage={setPlateCalculatorPage}
                       setOperationTypePlateCalc={setOperationTypePlateCalc}
                       handlePresetClickPlateCalc={handlePresetClickPlateCalc}
+                      targetWeightInput={targetWeightInput}
+                      setTargetWeightInput={setTargetWeightInput}
+                      numHandles={numHandles}
+                      setNumHandles={setNumHandles}
                     />
                   </Tab>
                 </Tabs>

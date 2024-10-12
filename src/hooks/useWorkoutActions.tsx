@@ -2643,7 +2643,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         : operatingSetInputs.setTrackingValuesInput.weight;
 
       if (!isWeightValid) {
-        calculationModal.setTargetWeight(weight);
+        calculationModal.setTargetWeightInput(weight);
       }
     } else {
       presetsList.setPresetsType("distance");

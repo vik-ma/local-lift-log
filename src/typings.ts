@@ -519,8 +519,8 @@ export type UseCalculationModalReturnType = {
   setWeightUnit: React.Dispatch<React.SetStateAction<string>>;
   distanceUnit: string;
   setDistanceUnit: React.Dispatch<React.SetStateAction<string>>;
-  targetWeight: string;
-  setTargetWeight: React.Dispatch<React.SetStateAction<string>>;
+  targetWeightInput: string;
+  setTargetWeightInput: React.Dispatch<React.SetStateAction<string>>;
 };
 
 export type CalculationItemType = "preset" | "calculation" | "number";

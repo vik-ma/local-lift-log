@@ -465,7 +465,7 @@ export default function Multisets() {
       calculationModal.setWeightUnit(operatingSet.weight_unit);
 
       if (!operatingSetInputs.setInputsInvalidityMap.weight) {
-        calculationModal.setTargetWeight(
+        calculationModal.setTargetWeightInput(
           operatingSetInputs.setTrackingValuesInput.weight
         );
       }
