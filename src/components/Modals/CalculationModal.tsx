@@ -308,6 +308,7 @@ export const CalculationModal = ({
                   onSelectionChange={(key) =>
                     setCalculationModalTab(key as CalculationModalTab)
                   }
+                  disabledKeys={presetsType === "distance" ? ["plate"] : []}
                   fullWidth
                 >
                   <Tab key="sum" title="Sum">
