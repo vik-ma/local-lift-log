@@ -269,8 +269,7 @@ export default function WorkoutTemplateDetails() {
         undoOperatingMultisetChanges={
           multisetActions.undoOperatingMultisetChanges
         }
-        setPresetsType={presetsList.setPresetsType}
-        calculationModal={calculationModal}
+        openCalculationModal={openCalculationModal}
       />
       <TextInputModal
         textInputModal={textInputModal}

@@ -29,8 +29,8 @@ type SetValueConfigProps = {
   resetSetInputValues: (isOperatingSet: boolean) => void;
   openCalculationModal: (
     isWeight: boolean,
-    isActiveSet: boolean,
-    exercise: Exercise
+    exercise: Exercise,
+    isActiveSet: boolean
   ) => Promise<void>;
   numNewSets?: string;
   setNumNewSets?: React.Dispatch<React.SetStateAction<string>>;

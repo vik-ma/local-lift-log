@@ -34,8 +34,8 @@ type SetValueInputsProps = {
   isActiveSet: boolean;
   openCalculationModal: (
     isWeight: boolean,
-    isActiveSet: boolean,
-    exercise: Exercise
+    exercise: Exercise,
+    isActiveSet: boolean
   ) => Promise<void>;
 };
 
@@ -330,7 +330,7 @@ export const SetValueInputs = ({
   const handleCalculatorButton = (isWeight: boolean) => {
     if (exercise === undefined) return;
 
-    openCalculationModal(isWeight, isActiveSet, exercise);
+    openCalculationModal(isWeight, exercise, isActiveSet);
   };
 
   const handleInputChange = (value: string, key: string) => {

@@ -2611,8 +2611,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
   const openCalculationModal = async (
     isWeight: boolean,
-    isActiveSet: boolean,
-    exercise: Exercise
+    exercise: Exercise,
+    isActiveSet: boolean
   ) => {
     if (userSettings === undefined) return;
 

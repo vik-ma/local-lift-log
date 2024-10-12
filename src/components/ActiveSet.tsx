@@ -78,8 +78,8 @@ type ActiveSetProps = {
   clearActiveSetInputValues: () => void;
   openCalculationModal: (
     isWeight: boolean,
-    isActiveSet: boolean,
-    exercise: Exercise
+    exercise: Exercise,
+    isActiveSet: boolean
   ) => Promise<void>;
 };
 

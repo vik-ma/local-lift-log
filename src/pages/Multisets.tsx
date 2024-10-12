@@ -445,6 +445,42 @@ export default function Multisets() {
     calculationModal.calculationModal.onClose();
   };
 
+  const openCalculationModal = async (
+    isWeight: boolean,
+    exercise: Exercise
+  ) => {
+    if (userSettings === undefined) return;
+
+    if (isWeight && presetsList.isLoadingEquipment) {
+      await presetsList.getEquipmentWeights(
+        userSettings.default_equipment_weight_id
+      );
+    } else if (!isWeight && presetsList.isLoadingDistance) {
+      await presetsList.getDistances();
+    }
+
+    if (isWeight) {
+      presetsList.setPresetsType("equipment");
+
+      calculationModal.setWeightUnit(operatingSet.weight_unit);
+
+      if (!operatingSetInputs.setInputsInvalidityMap.weight) {
+        calculationModal.setTargetWeight(
+          operatingSetInputs.setTrackingValuesInput.weight
+        );
+      }
+    } else {
+      presetsList.setPresetsType("distance");
+
+      calculationModal.setCalculationModalTab("sum");
+      calculationModal.setDistanceUnit(operatingSet.distance_unit);
+    }
+
+    calculationModal.setCalculationString(exercise.calculation_string);
+    calculationModal.setCalculationExercise(exercise);
+    calculationModal.calculationModal.onOpen();
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -512,8 +548,7 @@ export default function Multisets() {
         undoOperatingMultisetChanges={
           multisetActions.undoOperatingMultisetChanges
         }
-        setPresetsType={presetsList.setPresetsType}
-        calculationModal={calculationModal}
+        openCalculationModal={openCalculationModal}
       />
       {userSettings.show_calculation_buttons === 1 && (
         <CalculationModal
