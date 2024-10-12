@@ -2643,9 +2643,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
           ? activeSet.distance_unit
           : operatingSet.distance_unit;
 
+      calculationModal.setCalculationModalTab("sum");
       calculationModal.setDistanceUnit(distanceUnit);
     }
-    
+
     calculationModal.setCalculationString(exercise.calculation_string);
     calculationModal.setIsActiveSet(isActiveSet);
     calculationModal.setCalculationExercise(exercise);

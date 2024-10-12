@@ -499,7 +499,7 @@ export type UsePresetsListReturnType = {
   sortDistancesByActiveCategory: (distanceList: Distance[]) => void;
 };
 
-export type CalculationModalTab = "weight" | "plate";
+export type CalculationModalTab = "sum" | "plate";
 
 export type UseCalculationModalReturnType = {
   calculationModal: UseDisclosureReturnType;
@@ -546,11 +546,11 @@ export type OperatingCalculationItem = {
 
 export type WorkoutSortCategory = "date-asc" | "date-desc";
 
-export type WeightCalculatorPage = "base" | "list" | "calc";
+export type SumCalculatorPage = "base" | "list" | "calc";
 
 export type PlateCalculatorPage = "base" | "list";
 
-export type OperationTypeWeightCalc = "add-preset" | "change-preset";
+export type OperationTypeSumCalc = "add-preset" | "change-preset";
 
 export type OperationTypePlateCalc =
   | "set-handle"

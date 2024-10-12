@@ -25,7 +25,7 @@ export { ExerciseGroupCheckboxes } from "./ExerciseGroupCheckboxes";
 export { PresetsModalList } from "./PresetsModalList";
 export { PlateCalculation } from "./PlateCalculation";
 export { PresetsSortByMenu } from "./PresetsSortByMenu";
-export { WeightCalculation } from "./WeightCalculation";
+export { SumCalculation } from "./SumCalculation";
 
 export { WeightUnitDropdown } from "./Dropdowns/WeightUnitDropdown";
 export { DistanceUnitDropdown } from "./Dropdowns/DistanceUnitDropdown";

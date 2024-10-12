@@ -23,21 +23,19 @@ import {
   Distance,
   EquipmentWeight,
   OperatingCalculationItem,
-  OperationTypeWeightCalc,
+  OperationTypeSumCalc,
   PresetsType,
   UsePresetsListReturnType,
-  WeightCalculatorPage,
+  SumCalculatorPage,
 } from "../typings";
 
-type WeightCalculationProps = {
+type SumCalculationProps = {
   equipmentWeights: EquipmentWeight[];
   distances: Distance[];
   weightUnit: string;
   distanceUnit: string;
-  weightCalculatorPage: WeightCalculatorPage;
-  setWeightCalculatorPage: React.Dispatch<
-    React.SetStateAction<WeightCalculatorPage>
-  >;
+  sumCalculatorPage: SumCalculatorPage;
+  setSumCalculatorPage: React.Dispatch<React.SetStateAction<SumCalculatorPage>>;
   calculationString: string | null;
   calculationListWeight: CalculationListItem[];
   setCalculationListWeight: React.Dispatch<
@@ -60,9 +58,9 @@ type WeightCalculationProps = {
   disableTotalMultiplierIncreaseButton: boolean;
   loadPresets: () => Promise<void>;
   usePresetsList: UsePresetsListReturnType;
-  operationTypeWeightCalc: OperationTypeWeightCalc;
-  setOperationTypeWeightCalc: React.Dispatch<
-    React.SetStateAction<OperationTypeWeightCalc>
+  OperationTypeSumCalc: OperationTypeSumCalc;
+  setOperationTypeSumCalc: React.Dispatch<
+    React.SetStateAction<OperationTypeSumCalc>
   >;
   operatingCalculationItem: OperatingCalculationItem | undefined;
   setOperatingCalculationItem: React.Dispatch<
@@ -70,13 +68,13 @@ type WeightCalculationProps = {
   >;
 };
 
-export const WeightCalculation = ({
+export const SumCalculation = ({
   equipmentWeights,
   distances,
   weightUnit,
   distanceUnit,
-  weightCalculatorPage,
-  setWeightCalculatorPage,
+  sumCalculatorPage,
+  setSumCalculatorPage,
   calculationString,
   calculationListWeight,
   setCalculationListWeight,
@@ -95,11 +93,11 @@ export const WeightCalculation = ({
   disableTotalMultiplierIncreaseButton,
   loadPresets,
   usePresetsList,
-  operationTypeWeightCalc,
-  setOperationTypeWeightCalc,
+  OperationTypeSumCalc,
+  setOperationTypeSumCalc,
   operatingCalculationItem,
   setOperatingCalculationItem,
-}: WeightCalculationProps) => {
+}: SumCalculationProps) => {
   const [isCalculationInvalid, setIsCalculationInvalid] =
     useState<boolean>(true);
   const [showNumberInput, setShowNumberInput] = useState<boolean>(false);
@@ -210,14 +208,14 @@ export const WeightCalculation = ({
   const handleAddPresetButton = async () => {
     await loadPresets();
 
-    setWeightCalculatorPage("list");
+    setSumCalculatorPage("list");
     setShowNumberInput(false);
     setOperatingCalculationItem(undefined);
-    setOperationTypeWeightCalc("add-preset");
+    setOperationTypeSumCalc("add-preset");
   };
 
   const handleGoToCalculationButton = () => {
-    setWeightCalculatorPage("calc");
+    setSumCalculatorPage("calc");
     setShowNumberInput(false);
     setOperatingCalculationItem(undefined);
   };
@@ -226,9 +224,9 @@ export const WeightCalculation = ({
     equipment?: EquipmentWeight,
     distance?: Distance
   ) => {
-    if (operationTypeWeightCalc === "add-preset") {
+    if (OperationTypeSumCalc === "add-preset") {
       addPreset(equipment, distance);
-    } else if (operationTypeWeightCalc === "change-preset") {
+    } else if (OperationTypeSumCalc === "change-preset") {
       changePreset(equipment, distance);
     }
   };
@@ -265,7 +263,7 @@ export const WeightCalculation = ({
       addItemToCalculationList(calculationItem);
     }
 
-    setWeightCalculatorPage("base");
+    setSumCalculatorPage("base");
   };
 
   const changePreset = (equipment?: EquipmentWeight, distance?: Distance) => {
@@ -314,7 +312,7 @@ export const WeightCalculation = ({
     }
 
     setOperatingCalculationItem(undefined);
-    setWeightCalculatorPage("base");
+    setSumCalculatorPage("base");
   };
 
   const handleRemoveButton = (index: number) => {
@@ -514,7 +512,7 @@ export const WeightCalculation = ({
     }
 
     setOperatingCalculationItem(undefined);
-    setWeightCalculatorPage("base");
+    setSumCalculatorPage("base");
   };
 
   const handleAddNumberButton = () => {
@@ -571,14 +569,14 @@ export const WeightCalculation = ({
     setOperatingCalculationItem({ calculationItem, index });
 
     if (calculationItem.itemType === "calculation") {
-      setWeightCalculatorPage("calc");
+      setSumCalculatorPage("calc");
       setShowNumberInput(false);
     } else if (calculationItem.itemType === "number") {
       setNumberInput(calculationItem.value.toString());
       setShowNumberInput(true);
     } else if (calculationItem.itemType === "preset") {
-      setWeightCalculatorPage("list");
-      setOperationTypeWeightCalc("change-preset");
+      setSumCalculatorPage("list");
+      setOperationTypeSumCalc("change-preset");
       setShowNumberInput(false);
     }
   };
@@ -591,7 +589,7 @@ export const WeightCalculation = ({
 
   return (
     <>
-      {weightCalculatorPage === "base" ? (
+      {sumCalculatorPage === "base" ? (
         <div className="flex flex-col gap-1">
           <div className="flex justify-between pb-0.5">
             <div className="flex gap-1">
@@ -604,7 +602,7 @@ export const WeightCalculation = ({
                 variant="flat"
                 onPress={handleAddNumberButton}
               >
-                Add {presetText}
+                Add Number
               </Button>
               <Button
                 size="sm"
@@ -874,7 +872,7 @@ export const WeightCalculation = ({
             </div>
           </div>
         </div>
-      ) : weightCalculatorPage === "calc" ? (
+      ) : sumCalculatorPage === "calc" ? (
         <div className="flex flex-col justify-center h-[420px]">
           <Calculator
             isCalculationInvalid={isCalculationInvalid}

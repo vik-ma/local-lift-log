@@ -10,7 +10,7 @@ import {
 } from "@nextui-org/react";
 import {
   CalculationListItem,
-  OperationTypeWeightCalc,
+  OperationTypeSumCalc,
   EquipmentWeight,
   Exercise,
   OperatingCalculationItem,
@@ -20,7 +20,7 @@ import {
   UseCalculationModalReturnType,
   UsePresetsListReturnType,
   UserSettings,
-  WeightCalculatorPage,
+  SumCalculatorPage,
   CalculationModalTab,
 } from "../../typings";
 import { useCallback, useMemo, useState } from "react";
@@ -31,7 +31,7 @@ import {
   UpdateDefaultEquipmentWeightId,
 } from "../../helpers";
 import { PlateCalculation } from "../PlateCalculation";
-import { WeightCalculation } from "../WeightCalculation";
+import { SumCalculation } from "../SumCalculation";
 
 type CalculationModalProps = {
   useCalculationModal: UseCalculationModalReturnType;
@@ -70,10 +70,10 @@ export const CalculationModal = ({
     useState<boolean>(false);
   const [operatingCalculationItem, setOperatingCalculationItem] =
     useState<OperatingCalculationItem>();
-  const [weightCalculatorPage, setWeightCalculatorPage] =
-    useState<WeightCalculatorPage>("base");
-  const [operationTypeWeightCalc, setOperationTypeWeightCalc] =
-    useState<OperationTypeWeightCalc>("add-preset");
+  const [sumCalculatorPage, setSumCalculatorPage] =
+    useState<SumCalculatorPage>("base");
+  const [operationTypeSumCalc, setOperationTypeSumCalc] =
+    useState<OperationTypeSumCalc>("add-preset");
 
   const [plateCalculatorPage, setPlateCalculatorPage] =
     useState<PlateCalculatorPage>("base");
@@ -195,7 +195,7 @@ export const CalculationModal = ({
     setPlateCalculatorHandle(equipment);
 
     setPlateCalculatorPage("base");
-    setOperationTypeWeightCalc("add-preset");
+    setOperationTypeSumCalc("add-preset");
   };
 
   const setHandle = async (equipment: EquipmentWeight) => {
@@ -225,11 +225,11 @@ export const CalculationModal = ({
   };
 
   const handleBackButtonWeightCalc = () => {
-    if (operationTypeWeightCalc === "add-preset") {
-      setWeightCalculatorPage("base");
-    } else if (operationTypeWeightCalc === "change-preset") {
-      setOperationTypeWeightCalc("add-preset");
-      setWeightCalculatorPage("base");
+    if (operationTypeSumCalc === "add-preset") {
+      setSumCalculatorPage("base");
+    } else if (operationTypeSumCalc === "change-preset") {
+      setOperationTypeSumCalc("add-preset");
+      setSumCalculatorPage("base");
       setOperatingCalculationItem(undefined);
     }
   };
@@ -239,7 +239,7 @@ export const CalculationModal = ({
   };
 
   const handleBackButton = () => {
-    if (calculationModalTab === "weight") {
+    if (calculationModalTab === "sum") {
       handleBackButtonWeightCalc();
     } else if (calculationModalTab === "plate") {
       handleBackButtonPlateCalc();
@@ -255,19 +255,19 @@ export const CalculationModal = ({
   };
 
   const showBackButton = useMemo(() => {
-    if (calculationModalTab === "weight" && weightCalculatorPage !== "base")
+    if (calculationModalTab === "sum" && sumCalculatorPage !== "base")
       return true;
     if (calculationModalTab === "plate" && plateCalculatorPage !== "base")
       return true;
     return false;
-  }, [calculationModalTab, weightCalculatorPage, plateCalculatorPage]);
+  }, [calculationModalTab, sumCalculatorPage, plateCalculatorPage]);
 
   const modalHeader = useMemo(() => {
-    if (calculationModalTab === "weight") {
-      if (weightCalculatorPage === "base") return "Weight Calculator";
-      else if (weightCalculatorPage === "calc") return "Calculator";
+    if (calculationModalTab === "sum") {
+      if (sumCalculatorPage === "base") return "Sum Calculator";
+      else if (sumCalculatorPage === "calc") return "Calculator";
       else {
-        return operationTypeWeightCalc === "add-preset"
+        return operationTypeSumCalc === "add-preset"
           ? "Add Equipment Weight"
           : "Change Equipment Weight";
       }
@@ -284,9 +284,9 @@ export const CalculationModal = ({
     }
   }, [
     calculationModalTab,
-    weightCalculatorPage,
+    sumCalculatorPage,
     plateCalculatorPage,
-    operationTypeWeightCalc,
+    operationTypeSumCalc,
     operationTypePlateCalc,
   ]);
 
@@ -310,14 +310,14 @@ export const CalculationModal = ({
                   }
                   fullWidth
                 >
-                  <Tab key="weight" title="Weight Calculator">
-                    <WeightCalculation
+                  <Tab key="sum" title="Sum">
+                    <SumCalculation
                       equipmentWeights={equipmentWeights}
                       distances={distances}
                       weightUnit={weightUnit}
                       distanceUnit={distanceUnit}
-                      weightCalculatorPage={weightCalculatorPage}
-                      setWeightCalculatorPage={setWeightCalculatorPage}
+                      sumCalculatorPage={sumCalculatorPage}
+                      setSumCalculatorPage={setSumCalculatorPage}
                       calculationString={calculationString}
                       calculationListWeight={calculationListWeight}
                       setCalculationListWeight={setCalculationListWeight}
@@ -340,13 +340,13 @@ export const CalculationModal = ({
                       }
                       loadPresets={loadPresets}
                       usePresetsList={usePresetsList}
-                      operationTypeWeightCalc={operationTypeWeightCalc}
-                      setOperationTypeWeightCalc={setOperationTypeWeightCalc}
+                      OperationTypeSumCalc={operationTypeSumCalc}
+                      setOperationTypeSumCalc={setOperationTypeSumCalc}
                       operatingCalculationItem={operatingCalculationItem}
                       setOperatingCalculationItem={setOperatingCalculationItem}
                     />
                   </Tab>
-                  <Tab key="plate" title="Plate Calculator">
+                  <Tab key="plate" title="Plates">
                     <PlateCalculation
                       equipmentWeights={equipmentWeights}
                       weightUnit={weightUnit}
@@ -385,8 +385,8 @@ export const CalculationModal = ({
                 <Button color="primary" variant="light" onPress={onClose}>
                   Close
                 </Button>
-                {calculationModalTab === "weight" &&
-                  weightCalculatorPage === "base" && (
+                {calculationModalTab === "sum" &&
+                  sumCalculatorPage === "base" && (
                     <Button
                       color="primary"
                       isDisabled={
