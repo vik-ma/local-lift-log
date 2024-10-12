@@ -16,8 +16,6 @@ import {
   UserSettings,
   UserWeight,
   UseDisclosureReturnType,
-  PresetsType,
-  UseCalculationModalReturnType,
 } from "../typings";
 import { useNumSetsOptions } from "../hooks";
 
@@ -29,8 +27,11 @@ type SetValueConfigProps = {
   useSetTrackingInputs: UseSetTrackingInputsReturnType;
   userSettings: UserSettings;
   resetSetInputValues: (isOperatingSet: boolean) => void;
-  setPresetsType: React.Dispatch<React.SetStateAction<PresetsType>>;
-  calculationModal: UseCalculationModalReturnType;
+  openCalculationModal: (
+    isWeight: boolean,
+    isActiveSet: boolean,
+    exercise: Exercise
+  ) => Promise<void>;
   numNewSets?: string;
   setNumNewSets?: React.Dispatch<React.SetStateAction<string>>;
   isMultiset?: boolean;
@@ -49,8 +50,7 @@ export const SetValueConfig = ({
   useSetTrackingInputs,
   userSettings,
   resetSetInputValues,
-  calculationModal,
-  setPresetsType,
+  openCalculationModal,
   numNewSets,
   setNumNewSets,
   isMultiset,
@@ -292,10 +292,9 @@ export const SetValueConfig = ({
             userSettings={userSettings}
             userWeight={userWeight}
             userWeightModal={userWeightModal}
-            setPresetsType={setPresetsType}
-            calculationModal={calculationModal}
             exercise={selectedExercise}
             isActiveSet={false}
+            openCalculationModal={openCalculationModal}
           />
         )}
         {operationType === "add-sets-to-multiset" &&

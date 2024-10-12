@@ -162,6 +162,7 @@ export default function WorkoutDetails() {
     calculationModal,
     clearActiveSetInputValues,
     addCalculationResult,
+    openCalculationModal,
   } = useWorkoutActions(false);
 
   const userWeightInputs = useUserWeightInput(
@@ -473,8 +474,7 @@ export default function WorkoutDetails() {
         userSettings={userSettings}
         exerciseList={exerciseList}
         numMultisetSets={numMultisetSets}
-        setPresetsType={presetsList.setPresetsType}
-        calculationModal={calculationModal}
+        openCalculationModal={openCalculationModal}
       />
       <MultisetModal
         multisetModal={multisetModal}
@@ -606,9 +606,8 @@ export default function WorkoutDetails() {
           userWeightModal={userWeightModal}
           populateUserWeightValues={populateUserWeightValues}
           isUserWeightOlderThanOneWeek={isUserWeightOlderThanOneWeek}
-          setPresetsType={presetsList.setPresetsType}
-          calculationModal={calculationModal}
           clearActiveSetInputValues={clearActiveSetInputValues}
+          openCalculationModal={openCalculationModal}
         />
       </div>
     </>

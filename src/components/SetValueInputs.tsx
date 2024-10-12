@@ -5,9 +5,7 @@ import {
   UserSettings,
   UserWeight,
   UseDisclosureReturnType,
-  PresetsType,
   Exercise,
-  UseCalculationModalReturnType,
 } from "../typings";
 import {
   WeightUnitDropdown,
@@ -32,10 +30,13 @@ type SetValueInputsProps = {
   userWeightModal?: UseDisclosureReturnType;
   populateUserWeightValues?: () => void;
   isUserWeightOlderThanOneWeek?: boolean;
-  setPresetsType: React.Dispatch<React.SetStateAction<PresetsType>>;
-  calculationModal: UseCalculationModalReturnType;
   exercise: Exercise | undefined;
   isActiveSet: boolean;
+  openCalculationModal: (
+    isWeight: boolean,
+    isActiveSet: boolean,
+    exercise: Exercise
+  ) => Promise<void>;
 };
 
 type Increment = {
@@ -64,10 +65,9 @@ export const SetValueInputs = ({
   userWeightModal,
   populateUserWeightValues,
   isUserWeightOlderThanOneWeek,
-  setPresetsType,
-  calculationModal,
   exercise,
   isActiveSet,
+  openCalculationModal,
 }: SetValueInputsProps) => {
   const {
     setTrackingValuesInput,
@@ -328,24 +328,9 @@ export const SetValueInputs = ({
   };
 
   const handleCalculatorButton = (isWeight: boolean) => {
-    if (isWeight) {
-      setPresetsType("equipment");
-      calculationModal.setWeightUnit(operatingSet.weight_unit);
-      if (!setInputsInvalidityMap.weight) {
-        calculationModal.setTargetWeight(setTrackingValuesInput.weight);
-      }
-    } else {
-      setPresetsType("distance");
-      calculationModal.setDistanceUnit(operatingSet.distance_unit);
-    }
+    if (exercise === undefined) return;
 
-    const calculationString =
-      exercise !== undefined ? exercise.calculation_string : null;
-
-    calculationModal.setCalculationString(calculationString);
-    calculationModal.setIsActiveSet(isActiveSet);
-    calculationModal.setCalculationExercise(exercise);
-    calculationModal.calculationModal.onOpen();
+    openCalculationModal(isWeight, isActiveSet, exercise);
   };
 
   const handleInputChange = (value: string, key: string) => {

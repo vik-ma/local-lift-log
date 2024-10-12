@@ -22,8 +22,6 @@ import {
   SetListNotes,
   UserWeight,
   UseDisclosureReturnType,
-  PresetsType,
-  UseCalculationModalReturnType,
 } from "../typings";
 import { useSetTrackingInputs } from "../hooks";
 import { useMemo } from "react";
@@ -77,9 +75,12 @@ type ActiveSetProps = {
   userWeightModal: UseDisclosureReturnType;
   populateUserWeightValues: () => void;
   isUserWeightOlderThanOneWeek: boolean;
-  setPresetsType: React.Dispatch<React.SetStateAction<PresetsType>>;
-  calculationModal: UseCalculationModalReturnType;
   clearActiveSetInputValues: () => void;
+  openCalculationModal: (
+    isWeight: boolean,
+    isActiveSet: boolean,
+    exercise: Exercise
+  ) => Promise<void>;
 };
 
 export const ActiveSet = ({
@@ -106,9 +107,8 @@ export const ActiveSet = ({
   userWeightModal,
   populateUserWeightValues,
   isUserWeightOlderThanOneWeek,
-  setPresetsType,
-  calculationModal,
   clearActiveSetInputValues,
+  openCalculationModal,
 }: ActiveSetProps) => {
   let setCounter = 1;
   // Assign Multiset Set number
@@ -345,10 +345,9 @@ export const ActiveSet = ({
                         isUserWeightOlderThanOneWeek={
                           isUserWeightOlderThanOneWeek
                         }
-                        setPresetsType={setPresetsType}
-                        calculationModal={calculationModal}
                         exercise={activeGroupedSet?.exerciseList[exerciseIndex]}
                         isActiveSet={true}
+                        openCalculationModal={openCalculationModal}
                       />
                       <div className="flex justify-between">
                         <div className="flex gap-1">

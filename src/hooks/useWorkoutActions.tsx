@@ -2609,6 +2609,27 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     calculationModal.calculationModal.onClose();
   };
 
+  const openCalculationModal = async (
+    isWeight: boolean,
+    isActiveSet: boolean,
+    exercise: Exercise
+  ) => {
+    // if (isWeight) {
+    //   setPresetsType("equipment");
+    //   calculationModal.setWeightUnit(operatingSet.weight_unit);
+    //   if (!setInputsInvalidityMap.weight) {
+    //     calculationModal.setTargetWeight(setTrackingValuesInput.weight);
+    //   }
+    // } else {
+    //   setPresetsType("distance");
+    //   calculationModal.setDistanceUnit(operatingSet.distance_unit);
+    // }
+    // calculationModal.setCalculationString(exercise.calculation_string);
+    // calculationModal.setIsActiveSet(isActiveSet);
+    // calculationModal.setCalculationExercise(exercise);
+    // calculationModal.calculationModal.onOpen();
+  };
+
   return {
     updateExerciseOrder,
     handleSaveSetButton,
@@ -2686,5 +2707,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     calculationModal,
     clearActiveSetInputValues,
     addCalculationResult,
+    openCalculationModal,
   };
 };

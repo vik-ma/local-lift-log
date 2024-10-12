@@ -93,6 +93,7 @@ export default function WorkoutTemplateDetails() {
     presetsList,
     calculationModal,
     addCalculationResult,
+    openCalculationModal,
   } = useWorkoutActions(true);
 
   const getWorkoutTemplateAndSetList = useCallback(async () => {
@@ -247,8 +248,7 @@ export default function WorkoutTemplateDetails() {
         userSettings={userSettings}
         exerciseList={exerciseList}
         numMultisetSets={numMultisetSets}
-        setPresetsType={presetsList.setPresetsType}
-        calculationModal={calculationModal}
+        openCalculationModal={openCalculationModal}
       />
       <MultisetModal
         multisetModal={multisetModal}
