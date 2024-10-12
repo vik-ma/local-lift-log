@@ -2614,6 +2614,16 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     isActiveSet: boolean,
     exercise: Exercise
   ) => {
+    if (userSettings === undefined) return;
+
+    if (isWeight && presetsList.isLoadingEquipment) {
+      await presetsList.getEquipmentWeights(
+        userSettings.default_equipment_weight_id
+      );
+    } else if (!isWeight && presetsList.isLoadingDistance) {
+      await presetsList.getDistances();
+    }
+
     if (isWeight) {
       presetsList.setPresetsType("equipment");
 
