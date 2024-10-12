@@ -1,5 +1,5 @@
 import { Button, Input, Select, SelectItem } from "@nextui-org/react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   ConvertNumberToTwoDecimals,
   IsStringEmpty,
@@ -51,8 +51,6 @@ export const PlateCalculation = ({
 }: PlateCalculationProps) => {
   const [targetWeightInput, setTargetWeightInput] = useState<string>("");
   const [numHandles, setNumHandles] = useState<string>(numHandlesDefaultValue);
-  const [showClearPlateCalculationButton, setShowClearPlateCalculationButton] =
-    useState<boolean>(false);
 
   const defaultPlateCalculation: PlateCalculation = useMemo(() => {
     return {
@@ -92,7 +90,7 @@ export const PlateCalculation = ({
     return plateCalculatorList;
   }, [equipmentWeights]);
 
-  const disableCalculatePlatesButton = useMemo(() => {
+  const disableCalculatePlates = useMemo(() => {
     if (isTargetWeightInputInvalid) return true;
     if (plateCalculatorList.length === 0) return true;
     if (plateCalculatorHandle === undefined) return true;
@@ -128,9 +126,8 @@ export const PlateCalculation = ({
     setNumHandles(e.target.value);
   };
 
-  const handleCalculatePlatesButton = () => {
-    if (disableCalculatePlatesButton || plateCalculatorHandle === undefined)
-      return;
+  const calculatePlates = useCallback(() => {
+    if (disableCalculatePlates || plateCalculatorHandle === undefined) return;
 
     const isOneHandle = numHandles === "1";
     const plateFactor = isOneHandle ? 2 : 4;
@@ -173,19 +170,21 @@ export const PlateCalculation = ({
     };
 
     setPlateCalculation(plateCalculation);
-    setShowClearPlateCalculationButton(true);
-  };
-
-  const clearPlateCalculation = () => {
-    setPlateCalculation(defaultPlateCalculation);
-    setShowClearPlateCalculationButton(false);
-  };
+  }, [
+    disableCalculatePlates,
+    numHandles,
+    plateCalculatorHandle,
+    plateCalculatorList,
+    targetWeightInput,
+  ]);
 
   useEffect(() => {
     if (targetWeightInputRef.current) {
       targetWeightInputRef.current.focus();
     }
-  }, []);
+
+    calculatePlates();
+  }, [calculatePlates]);
 
   useEffect(() => {
     if (defaultTargetWeightInput !== "") {
@@ -280,27 +279,6 @@ export const PlateCalculation = ({
               </span>
             </div>
             <div className="flex flex-col gap-1.5">
-              <div className="flex justify-center items-center">
-                <Button
-                  color="primary"
-                  variant="flat"
-                  onPress={handleCalculatePlatesButton}
-                  isDisabled={disableCalculatePlatesButton}
-                >
-                  Calculate Plates
-                </Button>
-                {showClearPlateCalculationButton && (
-                  <Button
-                    className="absolute right-8"
-                    color="danger"
-                    variant="flat"
-                    size="sm"
-                    onPress={clearPlateCalculation}
-                  >
-                    Clear
-                  </Button>
-                )}
-              </div>
               <div className="flex flex-col items-center">
                 {plateCalculation.remainingWeight > 0 && (
                   <span className="font-medium text-danger">
