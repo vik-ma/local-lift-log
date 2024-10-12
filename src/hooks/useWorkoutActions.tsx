@@ -12,6 +12,7 @@ import {
   UserWeight,
   CalculationListItem,
   PresetsType,
+  CalculationModalTab,
 } from "../typings";
 import { useState, useCallback, useEffect } from "react";
 import { useDisclosure } from "@nextui-org/react";
@@ -51,6 +52,7 @@ import {
   GetSetsOfLastCompletedExercise,
   CopySetTrackingValues,
   UpdateCalculationString,
+  ValidCalculationModalTabs,
 } from "../helpers";
 import {
   useDefaultSet,
@@ -2644,6 +2646,16 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
       if (!isWeightValid) {
         calculationModal.setTargetWeightInput(weight);
+      }
+
+      if (
+        ValidCalculationModalTabs().includes(
+          userSettings.default_calculation_tab
+        )
+      ) {
+        calculationModal.setCalculationModalTab(
+          userSettings.default_calculation_tab as CalculationModalTab
+        );
       }
     } else {
       presetsList.setPresetsType("distance");

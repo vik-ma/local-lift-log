@@ -8,7 +8,7 @@ import {
 
 export const useCalculationModal = (): UseCalculationModalReturnType => {
   const [calculationModalTab, setCalculationModalTab] =
-    useState<CalculationModalTab>("plate");
+    useState<CalculationModalTab>("sum");
   const [calculationString, setCalculationString] = useState<string | null>(
     null
   );

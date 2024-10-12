@@ -6,6 +6,7 @@ import {
   UserSettings,
   PresetsType,
   CalculationListItem,
+  CalculationModalTab,
 } from "../typings";
 import {
   useCalculationModal,
@@ -30,6 +31,7 @@ import {
   DeleteItemFromList,
   UpdateItemInList,
   UpdateCalculationString,
+  ValidCalculationModalTabs,
 } from "../helpers";
 import {
   CalculationModal,
@@ -467,6 +469,16 @@ export default function Multisets() {
       if (!operatingSetInputs.setInputsInvalidityMap.weight) {
         calculationModal.setTargetWeightInput(
           operatingSetInputs.setTrackingValuesInput.weight
+        );
+      }
+
+      if (
+        ValidCalculationModalTabs().includes(
+          userSettings.default_calculation_tab
+        )
+      ) {
+        calculationModal.setCalculationModalTab(
+          userSettings.default_calculation_tab as CalculationModalTab
         );
       }
     } else {

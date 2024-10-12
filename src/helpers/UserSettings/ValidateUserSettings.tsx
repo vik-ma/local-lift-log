@@ -12,6 +12,7 @@ import {
   ValidTimeInputBehaviors,
   IsNumberValidAndAbove0,
   IsNumberValidId,
+  ValidCalculationModalTabs,
 } from "..";
 
 export const ValidateUserSettings = (userSettings: UserSettings): boolean => {
@@ -95,8 +96,7 @@ export const ValidateUserSettings = (userSettings: UserSettings): boolean => {
     return false;
 
   if (
-    userSettings.default_calculation_tab !== "plate" &&
-    userSettings.default_calculation_tab !== "sum"
+    !ValidCalculationModalTabs().includes(userSettings.default_calculation_tab)
   )
     return false;
 
