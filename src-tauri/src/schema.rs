@@ -35,6 +35,7 @@ diesel::table! {
         show_calculation_buttons -> SmallInt,
         default_increment_calculation_multiplier -> SmallInt,
         default_num_handles -> SmallInt,
+        default_calculation_tab -> Text,
     }
 }
 

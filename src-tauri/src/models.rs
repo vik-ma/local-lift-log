@@ -38,6 +38,7 @@ pub struct UserSetting {
     pub show_calculation_buttons: i16,
     pub default_increment_calculation_multiplier: i16,
     pub default_num_handles: i16,
+    pub default_calculation_tab: String,
 }
 
 #[derive(Queryable, Selectable)]
