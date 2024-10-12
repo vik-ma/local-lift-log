@@ -94,5 +94,11 @@ export const ValidateUserSettings = (userSettings: UserSettings): boolean => {
   )
     return false;
 
+  if (
+    userSettings.default_calculation_tab !== "plate" &&
+    userSettings.default_calculation_tab !== "sum"
+  )
+    return false;
+
   return true;
 };

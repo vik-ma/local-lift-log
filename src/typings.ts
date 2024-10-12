@@ -34,6 +34,7 @@ export type UserSettings = {
   show_calculation_buttons: number;
   default_increment_calculation_multiplier: number;
   default_num_handles: number;
+  default_calculation_tab: string;
 };
 
 export type UserSettingsOptional = {
