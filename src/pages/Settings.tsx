@@ -428,6 +428,19 @@ export default function Settings() {
     updateSettings(updatedSettings);
   };
 
+  const handleDefaultCalculationTabChange = async (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    if (userSettings === undefined) return;
+
+    const updatedSettings: UserSettings = {
+      ...userSettings,
+      default_calculation_tab: e.target.value,
+    };
+
+    updateSettings(updatedSettings);
+  };
+
   const restoreDefaultSettings = async (
     unitType: string,
     locale: string,
@@ -670,7 +683,7 @@ export default function Settings() {
           <div className="flex gap-3 items-center justify-between">
             <span className="text-lg">Default Number Of Handles</span>
             <Select
-              aria-label="Default Number Of Handles"
+              aria-label="Default Number Of Handles Dropdown List"
               className="w-[4rem]"
               variant="faded"
               selectedKeys={userSettings.default_num_handles.toString()}
@@ -682,6 +695,24 @@ export default function Settings() {
               </SelectItem>
               <SelectItem key="2" value="2">
                 2
+              </SelectItem>
+            </Select>
+          </div>
+          <div className="flex gap-3 items-center justify-between">
+            <span className="text-lg">Default Weight Calculation Tab</span>
+            <Select
+              aria-label="Default Weight Calculation Tab Dropdown List"
+              className="w-[6rem]"
+              variant="faded"
+              selectedKeys={[userSettings.default_calculation_tab]}
+              onChange={(e) => handleDefaultCalculationTabChange(e)}
+              disallowEmptySelection
+            >
+              <SelectItem key="plate" value="plate">
+                Plate
+              </SelectItem>
+              <SelectItem key="sum" value="sum">
+                Sum
               </SelectItem>
             </Select>
           </div>
