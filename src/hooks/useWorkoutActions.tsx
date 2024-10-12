@@ -2614,20 +2614,42 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     isActiveSet: boolean,
     exercise: Exercise
   ) => {
-    // if (isWeight) {
-    //   setPresetsType("equipment");
-    //   calculationModal.setWeightUnit(operatingSet.weight_unit);
-    //   if (!setInputsInvalidityMap.weight) {
-    //     calculationModal.setTargetWeight(setTrackingValuesInput.weight);
-    //   }
-    // } else {
-    //   setPresetsType("distance");
-    //   calculationModal.setDistanceUnit(operatingSet.distance_unit);
-    // }
-    // calculationModal.setCalculationString(exercise.calculation_string);
-    // calculationModal.setIsActiveSet(isActiveSet);
-    // calculationModal.setCalculationExercise(exercise);
-    // calculationModal.calculationModal.onOpen();
+    if (isWeight) {
+      presetsList.setPresetsType("equipment");
+
+      const weightUnit =
+        isActiveSet && activeSet !== undefined
+          ? activeSet.weight_unit
+          : operatingSet.weight_unit;
+
+      calculationModal.setWeightUnit(weightUnit);
+
+      const isWeightValid = isActiveSet
+        ? activeSetInputs.setInputsInvalidityMap.weight
+        : operatingSetInputs.setInputsInvalidityMap.weight;
+
+      const weight = isActiveSet
+        ? activeSetInputs.setTrackingValuesInput.weight
+        : operatingSetInputs.setTrackingValuesInput.weight;
+
+      if (!isWeightValid) {
+        calculationModal.setTargetWeight(weight);
+      }
+    } else {
+      presetsList.setPresetsType("distance");
+
+      const distanceUnit =
+        isActiveSet && activeSet !== undefined
+          ? activeSet.distance_unit
+          : operatingSet.distance_unit;
+
+      calculationModal.setDistanceUnit(distanceUnit);
+    }
+    
+    calculationModal.setCalculationString(exercise.calculation_string);
+    calculationModal.setIsActiveSet(isActiveSet);
+    calculationModal.setCalculationExercise(exercise);
+    calculationModal.calculationModal.onOpen();
   };
 
   return {
