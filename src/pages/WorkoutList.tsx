@@ -343,7 +343,7 @@ export default function WorkoutList() {
                     {workout.formattedDate}
                   </span>
                   {workout.workoutTemplateName !== null && (
-                    <span className="w-[16rem] truncate text-sm text-stone-500">
+                    <span className="w-[16rem] truncate text-sm text-indigo-500">
                       {workout.workoutTemplateName}
                     </span>
                   )}
