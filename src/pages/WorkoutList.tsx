@@ -259,7 +259,16 @@ export default function WorkoutList() {
             <div>
               {workouts.length > 0 && (
                 <div className="flex justify-between">
-                  <div></div>
+                  <div>
+                    <Button
+                      size="sm"
+                      variant="flat"
+                      color="secondary"
+                      onPress={() => navigate("/workouts")}
+                    >
+                      New Workout
+                    </Button>
+                  </div>
                   <div className="flex gap-1 pr-0.5">
                     <Dropdown>
                       <DropdownTrigger>
