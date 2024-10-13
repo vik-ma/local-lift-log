@@ -296,11 +296,13 @@ export default function WorkoutDetails() {
       templateGroupedSetList
     );
 
-    const exerciseOrder: string = GenerateExerciseOrderString(
-      updatedGroupedSetList
-    );
+    const exerciseOrder = GenerateExerciseOrderString(updatedGroupedSetList);
 
-    const updatedWorkout = { ...workout, exercise_order: exerciseOrder };
+    const updatedWorkout: Workout = {
+      ...workout,
+      workout_template_id: workoutTemplate.id,
+      exercise_order: exerciseOrder,
+    };
 
     const success = await UpdateWorkout(updatedWorkout);
 
