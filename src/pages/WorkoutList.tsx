@@ -338,19 +338,27 @@ export default function WorkoutList() {
                 className="flex justify-between items-center cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                 onClick={() => navigate(`/workouts/${workout.id}`)}
               >
-                <div className="flex flex-col justify-start items-start pl-2 py-1">
-                  <span className="w-[10.5rem] truncate text-left">
+                <div className="flex flex-col pl-2 py-1">
+                  <span className="w-[10.5rem] truncate">
                     {workout.formattedDate}
                   </span>
+                  {workout.workoutTemplateName !== null && (
+                    <span className="w-[16rem] truncate text-sm text-stone-500">
+                      {workout.workoutTemplateName}
+                    </span>
+                  )}
+                  {workout.hasInvalidWorkoutTemplate && (
+                    <span className="w-[16rem] truncate text-sm text-red-700">
+                      Unknown Workout Template
+                    </span>
+                  )}
                   {workout.numSets! > 0 ? (
-                    <span className="text-xs text-secondary text-left">
+                    <span className="text-xs text-secondary">
                       {FormatNumItemsString(workout.numExercises, "Exercise")},{" "}
                       {FormatNumItemsString(workout.numSets, "Set")}
                     </span>
                   ) : (
-                    <span className="text-xs text-stone-400 text-left">
-                      Empty
-                    </span>
+                    <span className="text-xs text-stone-400">Empty</span>
                   )}
                   <span
                     className={
