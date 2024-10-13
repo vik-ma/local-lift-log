@@ -43,12 +43,19 @@ export const useWorkoutList = (
 
       // Get id, date, rating and how many Sets and Exercises every Workout contains
       const result = await db.select<Workout[]>(
-        `SELECT workouts.*, 
-        COUNT(DISTINCT CASE WHEN is_template = 0 THEN sets.exercise_id END) AS numExercises,
-        SUM(CASE WHEN is_template = 0 THEN 1 ELSE 0 END) AS numSets
-        FROM workouts LEFT JOIN sets 
-        ON workouts.id = sets.workout_id 
-        GROUP BY workouts.id`
+        `SELECT 
+          workouts.*, 
+          workout_templates.name AS workoutTemplateName,
+          COUNT(DISTINCT CASE WHEN is_template = 0 THEN sets.exercise_id END) AS numExercises,
+          SUM(CASE WHEN is_template = 0 THEN 1 ELSE 0 END) AS numSets
+        FROM 
+          workouts
+        LEFT JOIN 
+          sets ON workouts.id = sets.workout_id
+        LEFT JOIN 
+          workout_templates ON workouts.workout_template_id = workout_templates.id
+        GROUP BY 
+          workouts.id`
       );
 
       const workouts: Workout[] = [];
@@ -60,7 +67,7 @@ export const useWorkoutList = (
         )
           continue;
 
-        const formattedDate: string = FormatYmdDateString(row.date);
+        const formattedDate = FormatYmdDateString(row.date);
 
         const workout: Workout = {
           id: row.id,
@@ -72,6 +79,7 @@ export const useWorkoutList = (
           numSets: row.numSets,
           numExercises: row.numExercises,
           formattedDate: formattedDate,
+          workoutTemplateName: row.workoutTemplateName,
         };
 
         workouts.push(workout);

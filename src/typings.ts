@@ -247,6 +247,7 @@ export type Workout = {
   numSets?: number;
   numExercises?: number;
   formattedDate?: string;
+  workoutTemplateName?: string | null;
 };
 
 export type UserWeight = {
