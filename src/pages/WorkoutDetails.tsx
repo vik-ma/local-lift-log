@@ -30,7 +30,7 @@ import {
   GetExerciseOrder,
   MergeTwoGroupedSetLists,
   CopyWorkoutSetList,
-  FormatYmdDateString,
+  FormatDateString,
   UpdateExerciseOrder,
 } from "../helpers";
 import { useDisclosure } from "@nextui-org/react";
@@ -253,7 +253,7 @@ export default function WorkoutDetails() {
 
         populateIncompleteSets(groupedSetList);
 
-        workout.formattedDate = FormatYmdDateString(workout.date);
+        workout.formattedDate = FormatDateString(workout.date);
 
         if (workout.workout_template_id !== 0) {
           await getWorkoutTemplateNote(workout.workout_template_id);

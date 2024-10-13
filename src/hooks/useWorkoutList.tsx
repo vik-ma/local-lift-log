@@ -5,7 +5,7 @@ import {
   WorkoutSortCategory,
 } from "../typings";
 import Database from "tauri-plugin-sql-api";
-import { FormatYmdDateString } from "../helpers";
+import { FormatDateString } from "../helpers";
 import { useDisclosure } from "@nextui-org/react";
 
 export const useWorkoutList = (
@@ -67,7 +67,7 @@ export const useWorkoutList = (
         )
           continue;
 
-        const formattedDate = FormatYmdDateString(row.date);
+        const formattedDate = FormatDateString(row.date);
 
         const workout: Workout = {
           id: row.id,
