@@ -80,6 +80,8 @@ export const useWorkoutList = (
           numExercises: row.numExercises,
           formattedDate: formattedDate,
           workoutTemplateName: row.workoutTemplateName,
+          hasInvalidWorkoutTemplate:
+            row.workout_template_id > 0 && row.workoutTemplateName === null,
         };
 
         workouts.push(workout);

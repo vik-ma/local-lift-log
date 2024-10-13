@@ -248,6 +248,7 @@ export type Workout = {
   numExercises?: number;
   formattedDate?: string;
   workoutTemplateName?: string | null;
+  hasInvalidWorkoutTemplate?: boolean;
 };
 
 export type UserWeight = {

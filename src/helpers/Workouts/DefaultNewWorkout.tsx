@@ -10,7 +10,6 @@ export const DefaultNewWorkout = () => {
     rating: 0,
     numSets: 0,
     numExercises: 0,
-    workoutTemplateName: null,
   };
 
   return defaultNewWorkout;
