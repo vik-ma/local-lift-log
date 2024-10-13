@@ -35,7 +35,7 @@ import {
   useWorkoutRatingMap,
 } from "../hooks";
 
-type OperationType = "edit" | "delete";
+type OperationType = "edit" | "delete" | "delete-empty-workouts";
 
 export default function WorkoutList() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -167,6 +167,16 @@ export default function WorkoutList() {
   const handleOptionMenuSelection = (key: string) => {
     if (key === "toggle-rating") {
       toggleWorkoutRating();
+    } else if (key === "delete-empty-workouts") {
+      setOperationType("delete-empty-workouts");
+      deleteModal.onOpen();
+    }
+  };
+
+  const handleDeleteButton = async () => {
+    if (operationType === "delete") {
+      await deleteWorkout();
+    } else if (operationType === "delete-empty-workouts") {
     }
   };
 
@@ -177,17 +187,28 @@ export default function WorkoutList() {
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
       <DeleteModal
         deleteModal={deleteModal}
-        header="Delete Workout"
-        body={
-          <p className="break-words">
-            Are you sure you want to permanently delete Workout on{" "}
-            <span className="text-secondary">
-              {operatingWorkout.formattedDate}
-            </span>
-            , <strong>including all Sets</strong> performed in the Workout?
-          </p>
+        header={
+          operationType === "delete-empty-workouts"
+            ? "Delete All Empty Workouts"
+            : "Delete Workout"
         }
-        deleteButtonAction={deleteWorkout}
+        body={
+          operationType === "delete-empty-workouts" ? (
+            <p>
+              Are you sure you want to permanently delete{" "}
+              <strong className="text-secondary">all empty</strong> Workouts?
+            </p>
+          ) : (
+            <p className="break-words">
+              Are you sure you want to permanently delete Workout on{" "}
+              <span className="text-secondary">
+                {operatingWorkout.formattedDate}
+              </span>
+              , <strong>including all Sets</strong> performed in the Workout?
+            </p>
+          )
+        }
+        deleteButtonAction={handleDeleteButton}
       />
       <WorkoutModal
         workoutModal={workoutModal}
