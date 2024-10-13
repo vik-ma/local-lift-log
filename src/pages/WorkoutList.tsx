@@ -21,6 +21,7 @@ import toast, { Toaster } from "react-hot-toast";
 import {
   DeleteItemFromList,
   DeleteMultisetWithId,
+  DeleteWorkoutWithId,
   FormatNumItemsString,
   GetShowWorkoutRating,
   GetUniqueMultisetIds,
@@ -82,7 +83,9 @@ export default function WorkoutList() {
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
-      db.execute("DELETE from workouts WHERE id = $1", [operatingWorkout.id]);
+      const success = await DeleteWorkoutWithId(operatingWorkout.id);
+
+      if (!success) return;
 
       const workoutMultisetIds = await GetUniqueMultisetIds(
         operatingWorkout.id,
@@ -173,10 +176,35 @@ export default function WorkoutList() {
     }
   };
 
+  const deleteAllEmptyWorkouts = async () => {
+    if (operationType !== "delete-empty-workouts") return;
+
+    const updatedWorkouts: Workout[] = [];
+
+    for (let i = 0; i < workouts.length; i++) {
+      if (workouts[i].numSets === 0) {
+        await DeleteWorkoutWithId(workouts[i].id);
+      } else {
+        updatedWorkouts.push(workouts[i]);
+      }
+    }
+
+    if (workouts.length !== updatedWorkouts.length) {
+      setWorkouts(updatedWorkouts);
+      toast.success("Empty Workouts Deleted");
+    } else {
+      toast.error("No Empty Workouts In List");
+    }
+
+    resetOperatingWorkout();
+    deleteModal.onClose();
+  };
+
   const handleDeleteButton = async () => {
     if (operationType === "delete") {
       await deleteWorkout();
     } else if (operationType === "delete-empty-workouts") {
+      await deleteAllEmptyWorkouts();
     }
   };
 
