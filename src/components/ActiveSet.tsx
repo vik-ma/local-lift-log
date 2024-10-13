@@ -22,6 +22,7 @@ import {
   SetListNotes,
   UserWeight,
   UseDisclosureReturnType,
+  UseSetTrackingInputsReturnType,
 } from "../typings";
 import { useSetTrackingInputs } from "../hooks";
 import { useMemo } from "react";
@@ -79,7 +80,9 @@ type ActiveSetProps = {
   openCalculationModal: (
     isWeight: boolean,
     exercise: Exercise,
-    isActiveSet: boolean
+    isActiveSet: boolean,
+    setInputs: UseSetTrackingInputsReturnType,
+    set: WorkoutSet
   ) => Promise<void>;
 };
 

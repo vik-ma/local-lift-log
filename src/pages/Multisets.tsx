@@ -6,7 +6,7 @@ import {
   UserSettings,
   PresetsType,
   CalculationListItem,
-  CalculationModalTab,
+  UseSetTrackingInputsReturnType,
 } from "../typings";
 import {
   useCalculationModal,
@@ -31,7 +31,6 @@ import {
   DeleteItemFromList,
   UpdateItemInList,
   UpdateCalculationString,
-  ValidCalculationModalTabs,
 } from "../helpers";
 import {
   CalculationModal,
@@ -449,48 +448,22 @@ export default function Multisets() {
 
   const openCalculationModal = async (
     isWeight: boolean,
-    exercise: Exercise
+    exercise: Exercise,
+    isActiveSet: boolean,
+    setInputs: UseSetTrackingInputsReturnType,
+    set: WorkoutSet
   ) => {
     if (userSettings === undefined) return;
 
-    if (isWeight && presetsList.isLoadingEquipment) {
-      await presetsList.getEquipmentWeights(
-        userSettings.default_equipment_weight_id
-      );
-    } else if (!isWeight && presetsList.isLoadingDistance) {
-      await presetsList.getDistances();
-    }
-
-    if (isWeight) {
-      presetsList.setPresetsType("equipment");
-
-      calculationModal.setWeightUnit(operatingSet.weight_unit);
-
-      if (!operatingSetInputs.setInputsInvalidityMap.weight) {
-        calculationModal.setTargetWeightInput(
-          operatingSetInputs.setTrackingValuesInput.weight
-        );
-      }
-
-      if (
-        ValidCalculationModalTabs().includes(
-          userSettings.default_calculation_tab
-        )
-      ) {
-        calculationModal.setCalculationModalTab(
-          userSettings.default_calculation_tab as CalculationModalTab
-        );
-      }
-    } else {
-      presetsList.setPresetsType("distance");
-
-      calculationModal.setCalculationModalTab("sum");
-      calculationModal.setDistanceUnit(operatingSet.distance_unit);
-    }
-
-    calculationModal.setCalculationString(exercise.calculation_string);
-    calculationModal.setCalculationExercise(exercise);
-    calculationModal.calculationModal.onOpen();
+    await calculationModal.openCalculationModal(
+      isWeight,
+      exercise,
+      isActiveSet,
+      setInputs,
+      set,
+      presetsList,
+      userSettings
+    );
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;

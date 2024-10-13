@@ -37,7 +37,9 @@ type SetModalProps = {
   openCalculationModal: (
     isWeight: boolean,
     exercise: Exercise,
-    isActiveSet: boolean
+    isActiveSet: boolean,
+    setInputs: UseSetTrackingInputsReturnType,
+    set: WorkoutSet
   ) => Promise<void>;
 };
 

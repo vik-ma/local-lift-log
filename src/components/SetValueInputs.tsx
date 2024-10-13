@@ -35,7 +35,9 @@ type SetValueInputsProps = {
   openCalculationModal: (
     isWeight: boolean,
     exercise: Exercise,
-    isActiveSet: boolean
+    isActiveSet: boolean,
+    setInputs: UseSetTrackingInputsReturnType,
+    set: WorkoutSet
   ) => Promise<void>;
 };
 
@@ -327,10 +329,16 @@ export const SetValueInputs = ({
     if (!isSetEdited) setIsSetEdited(true);
   };
 
-  const handleCalculatorButton = (isWeight: boolean) => {
+  const handleCalculatorButton = async (isWeight: boolean) => {
     if (exercise === undefined) return;
 
-    openCalculationModal(isWeight, exercise, isActiveSet);
+    await openCalculationModal(
+      isWeight,
+      exercise,
+      isActiveSet,
+      useSetTrackingInputs,
+      operatingSet
+    );
   };
 
   const handleInputChange = (value: string, key: string) => {

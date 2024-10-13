@@ -12,7 +12,7 @@ import {
   UserWeight,
   CalculationListItem,
   PresetsType,
-  CalculationModalTab,
+  UseSetTrackingInputsReturnType,
 } from "../typings";
 import { useState, useCallback, useEffect } from "react";
 import { useDisclosure } from "@nextui-org/react";
@@ -52,7 +52,6 @@ import {
   GetSetsOfLastCompletedExercise,
   CopySetTrackingValues,
   UpdateCalculationString,
-  ValidCalculationModalTabs,
 } from "../helpers";
 import {
   useDefaultSet,
@@ -2614,65 +2613,21 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   const openCalculationModal = async (
     isWeight: boolean,
     exercise: Exercise,
-    isActiveSet: boolean
+    isActiveSet: boolean,
+    setInputs: UseSetTrackingInputsReturnType,
+    set: WorkoutSet
   ) => {
     if (userSettings === undefined) return;
 
-    if (isWeight && presetsList.isLoadingEquipment) {
-      await presetsList.getEquipmentWeights(
-        userSettings.default_equipment_weight_id
-      );
-    } else if (!isWeight && presetsList.isLoadingDistance) {
-      await presetsList.getDistances();
-    }
-
-    if (isWeight) {
-      presetsList.setPresetsType("equipment");
-
-      const weightUnit =
-        isActiveSet && activeSet !== undefined
-          ? activeSet.weight_unit
-          : operatingSet.weight_unit;
-
-      calculationModal.setWeightUnit(weightUnit);
-
-      const isWeightValid = isActiveSet
-        ? activeSetInputs.setInputsInvalidityMap.weight
-        : operatingSetInputs.setInputsInvalidityMap.weight;
-
-      const weight = isActiveSet
-        ? activeSetInputs.setTrackingValuesInput.weight
-        : operatingSetInputs.setTrackingValuesInput.weight;
-
-      if (!isWeightValid) {
-        calculationModal.setTargetWeightInput(weight);
-      }
-
-      if (
-        ValidCalculationModalTabs().includes(
-          userSettings.default_calculation_tab
-        )
-      ) {
-        calculationModal.setCalculationModalTab(
-          userSettings.default_calculation_tab as CalculationModalTab
-        );
-      }
-    } else {
-      presetsList.setPresetsType("distance");
-
-      const distanceUnit =
-        isActiveSet && activeSet !== undefined
-          ? activeSet.distance_unit
-          : operatingSet.distance_unit;
-
-      calculationModal.setCalculationModalTab("sum");
-      calculationModal.setDistanceUnit(distanceUnit);
-    }
-
-    calculationModal.setCalculationString(exercise.calculation_string);
-    calculationModal.setIsActiveSet(isActiveSet);
-    calculationModal.setCalculationExercise(exercise);
-    calculationModal.calculationModal.onOpen();
+    await calculationModal.openCalculationModal(
+      isWeight,
+      exercise,
+      isActiveSet,
+      setInputs,
+      set,
+      presetsList,
+      userSettings
+    );
   };
 
   return {

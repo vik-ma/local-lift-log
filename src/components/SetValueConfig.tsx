@@ -30,7 +30,9 @@ type SetValueConfigProps = {
   openCalculationModal: (
     isWeight: boolean,
     exercise: Exercise,
-    isActiveSet: boolean
+    isActiveSet: boolean,
+    setInputs: UseSetTrackingInputsReturnType,
+    set: WorkoutSet
   ) => Promise<void>;
   numNewSets?: string;
   setNumNewSets?: React.Dispatch<React.SetStateAction<string>>;

@@ -522,6 +522,15 @@ export type UseCalculationModalReturnType = {
   setDistanceUnit: React.Dispatch<React.SetStateAction<string>>;
   targetWeightInput: string;
   setTargetWeightInput: React.Dispatch<React.SetStateAction<string>>;
+  openCalculationModal: (
+    isWeight: boolean,
+    exercise: Exercise,
+    isActiveSet: boolean,
+    setInputs: UseSetTrackingInputsReturnType,
+    set: WorkoutSet,
+    presetsList: UsePresetsListReturnType,
+    userSettings: UserSettings
+  ) => Promise<void>;
 };
 
 export type CalculationItemType = "preset" | "calculation" | "number";
