@@ -7,6 +7,7 @@ import {
   WorkoutModal,
   EmptyListLabel,
   ListPageSearchInput,
+  WorkoutTemplateListModal,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -34,9 +35,14 @@ import {
   useDefaultWorkout,
   useWorkoutList,
   useWorkoutRatingMap,
+  useWorkoutTemplateList,
 } from "../hooks";
 
-type OperationType = "edit" | "delete" | "delete-empty-workouts";
+type OperationType =
+  | "edit"
+  | "delete"
+  | "delete-empty-workouts"
+  | "reassign-workout-template";
 
 export default function WorkoutList() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -65,6 +71,8 @@ export default function WorkoutList() {
     sortCategory,
     handleSortOptionSelection,
   } = useWorkoutList(true);
+
+  const workoutTemplateList = useWorkoutTemplateList(false, true);
 
   useEffect(() => {
     const getUserSettings = async () => {
@@ -131,6 +139,10 @@ export default function WorkoutList() {
       setOperationType("delete");
       setOperatingWorkout(workout);
       deleteModal.onOpen();
+    } else if (key === "reassign-workout-template") {
+      setOperationType("reassign-workout-template");
+      setOperatingWorkout(workout);
+      workoutTemplateList.handleOpenWorkoutTemplatesModal();
     }
   };
 
@@ -247,6 +259,11 @@ export default function WorkoutList() {
         workoutTemplateNote={null}
         buttonAction={updateWorkout}
         header={operatingWorkout.formattedDate}
+      />
+      <WorkoutTemplateListModal
+        workoutTemplateList={workoutTemplateList}
+        onClickAction={() => {}}
+        header={<span>Reassign Workout Template</span>}
       />
       <div className="flex flex-col items-center gap-1">
         <ListPageSearchInput
@@ -397,6 +414,14 @@ export default function WorkoutList() {
                         handleWorkoutOptionSelection(key as string, workout)
                       }
                     >
+                      <DropdownItem
+                        className={
+                          workout.hasInvalidWorkoutTemplate ? "" : "hidden"
+                        }
+                        key="reassign-workout-template"
+                      >
+                        Reassign Workout Template
+                      </DropdownItem>
                       <DropdownItem key="edit">Edit</DropdownItem>
                       <DropdownItem key="delete" className="text-danger">
                         Delete
