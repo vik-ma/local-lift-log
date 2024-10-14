@@ -35,6 +35,7 @@ export type UserSettings = {
   default_increment_calculation_multiplier: number;
   default_num_handles: number;
   default_calculation_tab: string;
+  shown_workout_properties: string;
 };
 
 export type UserSettingsOptional = {
@@ -59,6 +60,9 @@ export type UserSettingsOptional = {
   default_equipment_weight_id?: number;
   show_calculation_buttons?: number;
   default_increment_calculation_multiplier?: number;
+  default_num_handles?: number;
+  default_calculation_tab?: string;
+  shown_workout_properties?: string;
 };
 
 export type Exercise = {

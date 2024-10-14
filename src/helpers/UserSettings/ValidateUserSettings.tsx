@@ -13,6 +13,7 @@ import {
   IsNumberValidAndAbove0,
   IsNumberValidId,
   ValidCalculationModalTabs,
+  ValidateShownWorkoutPropertiesString,
 } from "..";
 
 export const ValidateUserSettings = (userSettings: UserSettings): boolean => {
@@ -97,6 +98,11 @@ export const ValidateUserSettings = (userSettings: UserSettings): boolean => {
 
   if (
     !ValidCalculationModalTabs().includes(userSettings.default_calculation_tab)
+  )
+    return false;
+
+  if (
+    !ValidateShownWorkoutPropertiesString(userSettings.shown_workout_properties)
   )
     return false;
 
