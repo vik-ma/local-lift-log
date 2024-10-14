@@ -52,21 +52,19 @@ export const WorkoutModal = ({
           <>
             <ModalHeader>{header}</ModalHeader>
             <ModalBody>
-              <div className="flex flex-col gap-1.5">
+              <div className="flex flex-col gap-2">
                 {workoutTemplateNote && (
-                  <>
+                  <div className="flex flex-col gap-0.5">
                     <span className="font-medium">Workout Template Note</span>
                     <span className="break-all">{workoutTemplateNote}</span>
-                  </>
+                  </div>
                 )}
                 {workout.workoutTemplateName &&
                   handleChangeWorkoutTemplateButton && (
-                    <>
-                      <span className="font-medium">
-                        Workout Template
-                      </span>
+                    <div className="flex flex-col gap-0.5">
+                      <span className="font-medium">Workout Template</span>
                       <div className="flex gap-1 items-center">
-                        <span className="truncate w-[21rem] text-stone-500">
+                        <span className="truncate w-[21rem] text-secondary">
                           {workout.workoutTemplateName}
                         </span>
                         <Button
@@ -77,23 +75,27 @@ export const WorkoutModal = ({
                           Change
                         </Button>
                       </div>
-                    </>
+                    </div>
                   )}
-                <span className="font-medium">Workout Rating</span>
-                <WorkoutRatingDropdown
-                  rating={workout.rating}
-                  setWorkout={setWorkout}
-                />
-                <span className="font-medium">Workout Note</span>
-                <Input
-                  className="col-span-2"
-                  value={workoutNote}
-                  size="sm"
-                  label="Note"
-                  variant="faded"
-                  onValueChange={(value) => setWorkoutNote(value)}
-                  isClearable
-                />
+                <div className="flex flex-col gap-0.5">
+                  <span className="font-medium">Workout Rating</span>
+                  <WorkoutRatingDropdown
+                    rating={workout.rating}
+                    setWorkout={setWorkout}
+                  />
+                </div>
+                <div className="flex flex-col gap-0.5">
+                  <span className="font-medium">Workout Note</span>
+                  <Input
+                    className="col-span-2"
+                    value={workoutNote}
+                    size="sm"
+                    label="Note"
+                    variant="faded"
+                    onValueChange={(value) => setWorkoutNote(value)}
+                    isClearable
+                  />
+                </div>
               </div>
             </ModalBody>
             <ModalFooter>
