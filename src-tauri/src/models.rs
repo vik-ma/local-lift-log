@@ -39,6 +39,7 @@ pub struct UserSetting {
     pub default_increment_calculation_multiplier: i16,
     pub default_num_handles: i16,
     pub default_calculation_tab: String,
+    pub shown_workout_properties: String,
 }
 
 #[derive(Queryable, Selectable)]
