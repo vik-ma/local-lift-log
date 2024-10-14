@@ -453,16 +453,18 @@ export default function WorkoutList() {
                   <span className="w-[10.5rem] truncate">
                     {workout.formattedDate}
                   </span>
-                  {workout.workoutTemplateName !== null && (
-                    <span className="w-[16rem] truncate text-sm text-indigo-500">
-                      {workout.workoutTemplateName}
-                    </span>
-                  )}
-                  {workout.hasInvalidWorkoutTemplate && (
-                    <span className="w-[16rem] truncate text-sm text-red-700">
-                      Unknown Workout Template
-                    </span>
-                  )}
+                  {workout.workoutTemplateName !== null &&
+                    selectedWorkoutProperties.has("template") && (
+                      <span className="w-[16rem] truncate text-sm text-indigo-500">
+                        {workout.workoutTemplateName}
+                      </span>
+                    )}
+                  {workout.hasInvalidWorkoutTemplate &&
+                    selectedWorkoutProperties.has("template") && (
+                      <span className="w-[16rem] truncate text-sm text-red-700">
+                        Unknown Workout Template
+                      </span>
+                    )}
                   {workout.numSets! > 0 ? (
                     <span className="text-xs text-secondary">
                       {FormatNumItemsString(workout.numExercises, "Exercise")},{" "}
@@ -471,15 +473,17 @@ export default function WorkoutList() {
                   ) : (
                     <span className="text-xs text-stone-400">Empty</span>
                   )}
-                  <span
-                    className={
-                      userSettings.show_workout_rating === 1
-                        ? "w-[16rem] break-all text-xs text-stone-500 text-left"
-                        : "w-[21rem] break-all text-xs text-stone-500 text-left"
-                    }
-                  >
-                    {workout.note}
-                  </span>
+                  {selectedWorkoutProperties.has("note") && (
+                    <span
+                      className={
+                        userSettings.show_workout_rating === 1
+                          ? "w-[16rem] break-all text-xs text-stone-500 text-left"
+                          : "w-[21rem] break-all text-xs text-stone-500 text-left"
+                      }
+                    >
+                      {workout.note}
+                    </span>
+                  )}
                 </div>
                 <div className="flex items-center gap-1 pr-1">
                   {userSettings.show_workout_rating === 1 && (
