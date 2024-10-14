@@ -256,6 +256,20 @@ export default function WorkoutList() {
     workoutTemplateList.workoutTemplatesModal.onClose();
   };
 
+  const changeWorkoutTemplate = async (workoutTemplate: WorkoutTemplate) => {
+    if (operatingWorkout.id === 0) return;
+
+    const updatedOperatingWorkout: Workout = {
+      ...operatingWorkout,
+      workout_template_id: workoutTemplate.id,
+      workoutTemplateName: workoutTemplate.name,
+    };
+
+    setOperatingWorkout(updatedOperatingWorkout);
+
+    workoutTemplateList.workoutTemplatesModal.onClose();
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -295,11 +309,24 @@ export default function WorkoutList() {
         workoutTemplateNote={null}
         buttonAction={updateWorkout}
         header={operatingWorkout.formattedDate}
+        handleChangeWorkoutTemplateButton={
+          workoutTemplateList.handleOpenWorkoutTemplatesModal
+        }
       />
       <WorkoutTemplateListModal
         workoutTemplateList={workoutTemplateList}
-        onClickAction={reassignWorkoutTemplate}
-        header={<span>Reassign Workout Template</span>}
+        onClickAction={
+          operationType === "reassign-workout-template"
+            ? reassignWorkoutTemplate
+            : changeWorkoutTemplate
+        }
+        header={
+          <span>
+            {operationType === "reassign-workout-template"
+              ? "Reassign Workout Template"
+              : "Change Workout Template"}
+          </span>
+        }
       />
       <div className="flex flex-col items-center gap-1">
         <ListPageSearchInput
