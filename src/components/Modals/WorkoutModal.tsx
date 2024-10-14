@@ -20,6 +20,7 @@ type WorkoutModalProps = {
   workoutTemplateNote: string | null;
   buttonAction: (updatedWorkout: Workout) => void;
   header?: string;
+  handleChangeWorkoutTemplateButton?: () => void;
 };
 
 export const WorkoutModal = ({
@@ -31,6 +32,7 @@ export const WorkoutModal = ({
   workoutTemplateNote,
   buttonAction,
   header = "Workout Details",
+  handleChangeWorkoutTemplateButton,
 }: WorkoutModalProps) => {
   const handleSaveButton = () => {
     const noteToInsert = ConvertEmptyStringToNull(workoutNote);
@@ -61,6 +63,27 @@ export const WorkoutModal = ({
                     </span>
                   </>
                 )}
+                {workout.workoutTemplateName &&
+                  handleChangeWorkoutTemplateButton && (
+                    <>
+                      <span className="font-medium justify-self-end">
+                        Workout Template
+                      </span>
+                      <div className="flex gap-1 items-center">
+                        <span className="truncate w-32 text-stone-500">
+                          {workout.workoutTemplateName}
+                        </span>
+                        <Button
+                          variant="flat"
+                          size="sm"
+                          color="danger"
+                          onPress={handleChangeWorkoutTemplateButton}
+                        >
+                          Change
+                        </Button>
+                      </div>
+                    </>
+                  )}
                 <span className="font-medium justify-self-end">
                   Workout Rating
                 </span>
