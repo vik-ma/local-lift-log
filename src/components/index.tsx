@@ -35,6 +35,7 @@ export { LocaleDropdown } from "./Dropdowns/LocaleDropdown";
 export { ClockStyleDropdown } from "./Dropdowns/ClockStyleDropdown";
 export { TimeInputBehaviorDropdown } from "./Dropdowns/TimeInputBehaviorDropdown";
 export { MultisetDropdown } from "./Dropdowns/MultisetDropdown";
+export { WorkoutPropertyDropdown } from "./Dropdowns/WorkoutPropertyDropdown";
 
 export { DeleteModal } from "./Modals/DeleteModal";
 export { SetModal } from "./Modals/SetModal";

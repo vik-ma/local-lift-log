@@ -8,6 +8,7 @@ import {
   EmptyListLabel,
   ListPageSearchInput,
   WorkoutTemplateListModal,
+  WorkoutPropertyDropdown,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -353,34 +354,12 @@ export default function WorkoutList() {
                     </Button>
                   </div>
                   <div className="flex gap-1 pr-0.5">
-                    <Dropdown>
-                      <DropdownTrigger>
-                        <Button
-                          aria-label="Toggle Display Workout Properties Options Menu"
-                          className="z-1"
-                          variant="flat"
-                          size="sm"
-                        >
-                          Display
-                        </Button>
-                      </DropdownTrigger>
-                      <DropdownMenu
-                        aria-label="Display Workout Properties Menu"
-                        closeOnSelect={false}
-                        disallowEmptySelection
-                        selectionMode="multiple"
-                        selectedKeys={selectedWorkoutProperties}
-                        onSelectionChange={(keys) =>
-                          setSelectedWorkoutProperties(keys as Set<string>)
-                        }
-                      >
-                        <DropdownItem key="template">
-                          Workout Template
-                        </DropdownItem>
-                        <DropdownItem key="routine">Routine</DropdownItem>
-                        <DropdownItem key="note">Note</DropdownItem>
-                      </DropdownMenu>
-                    </Dropdown>
+                    <WorkoutPropertyDropdown
+                      selectedWorkoutProperties={selectedWorkoutProperties}
+                      setSelectedWorkoutProperties={
+                        setSelectedWorkoutProperties
+                      }
+                    />
                     <Dropdown>
                       <DropdownTrigger>
                         <Button className="z-1" variant="flat" size="sm">
