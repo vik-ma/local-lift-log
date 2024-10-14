@@ -41,6 +41,7 @@ export { GetClockStyle } from "./UserSettings/GetClockStyle";
 export { GetShowWorkoutRating } from "./UserSettings/GetShowWorkoutRating";
 export { UpdateShowWorkoutRating } from "./UserSettings/UpdateShowWorkoutRating";
 export { UpdateDefaultEquipmentWeightId } from "./UserSettings/UpdateDefaultEquipmentWeightId";
+export { ValidateShownWorkoutPropertiesString } from "./UserSettings/ValidateShownWorkoutPropertiesString";
 
 export { OrderSetsBySetListOrderString } from "./Sets/OrderSetsBySetListOrderString";
 export { CreateSetsFromWorkoutTemplate } from "./Sets/CreateSetsFromWorkoutTemplate";
