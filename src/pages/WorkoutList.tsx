@@ -49,6 +49,9 @@ export default function WorkoutList() {
   const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
   const [operationType, setOperationType] = useState<OperationType>("edit");
   const [newWorkoutNote, setNewWorkoutNote] = useState<string>("");
+  const [selectedWorkoutProperties, setSelectedWorkoutProperties] = useState<
+    Set<string>
+  >(new Set(["template", "routine", "note"]));
 
   const defaultWorkout = useDefaultWorkout();
 
@@ -352,6 +355,34 @@ export default function WorkoutList() {
                   <div className="flex gap-1 pr-0.5">
                     <Dropdown>
                       <DropdownTrigger>
+                        <Button
+                          aria-label="Toggle Display Workout Properties Options Menu"
+                          className="z-1"
+                          variant="flat"
+                          size="sm"
+                        >
+                          Display
+                        </Button>
+                      </DropdownTrigger>
+                      <DropdownMenu
+                        aria-label="Display Workout Properties Menu"
+                        closeOnSelect={false}
+                        disallowEmptySelection
+                        selectionMode="multiple"
+                        selectedKeys={selectedWorkoutProperties}
+                        onSelectionChange={(keys) =>
+                          setSelectedWorkoutProperties(keys as Set<string>)
+                        }
+                      >
+                        <DropdownItem key="template">
+                          Workout Template
+                        </DropdownItem>
+                        <DropdownItem key="routine">Routine</DropdownItem>
+                        <DropdownItem key="note">Note</DropdownItem>
+                      </DropdownMenu>
+                    </Dropdown>
+                    <Dropdown>
+                      <DropdownTrigger>
                         <Button className="z-1" variant="flat" size="sm">
                           Sort By
                         </Button>
@@ -374,7 +405,7 @@ export default function WorkoutList() {
                     <Dropdown>
                       <DropdownTrigger>
                         <Button
-                          aria-label={`Toggle Workout List Options Menu`}
+                          aria-label="Toggle Workout List Options Menu"
                           isIconOnly
                           className="z-1"
                           size="sm"
