@@ -52,31 +52,26 @@ export const WorkoutModal = ({
           <>
             <ModalHeader>{header}</ModalHeader>
             <ModalBody>
-              <div className="grid grid-cols-2 gap-x-4 gap-y-4 items-center">
+              <div className="flex flex-col gap-1.5">
                 {workoutTemplateNote && (
                   <>
-                    <span className="font-medium justify-self-end">
-                      Workout Template Note
-                    </span>
-                    <span className="text-secondary break-all">
-                      {workoutTemplateNote}
-                    </span>
+                    <span className="font-medium">Workout Template Note</span>
+                    <span className="break-all">{workoutTemplateNote}</span>
                   </>
                 )}
                 {workout.workoutTemplateName &&
                   handleChangeWorkoutTemplateButton && (
                     <>
-                      <span className="font-medium justify-self-end">
+                      <span className="font-medium">
                         Workout Template
                       </span>
                       <div className="flex gap-1 items-center">
-                        <span className="truncate w-32 text-stone-500">
+                        <span className="truncate w-[21rem] text-stone-500">
                           {workout.workoutTemplateName}
                         </span>
                         <Button
                           variant="flat"
                           size="sm"
-                          color="danger"
                           onPress={handleChangeWorkoutTemplateButton}
                         >
                           Change
@@ -84,13 +79,12 @@ export const WorkoutModal = ({
                       </div>
                     </>
                   )}
-                <span className="font-medium justify-self-end">
-                  Workout Rating
-                </span>
+                <span className="font-medium">Workout Rating</span>
                 <WorkoutRatingDropdown
                   rating={workout.rating}
                   setWorkout={setWorkout}
                 />
+                <span className="font-medium">Workout Note</span>
                 <Input
                   className="col-span-2"
                   value={workoutNote}
