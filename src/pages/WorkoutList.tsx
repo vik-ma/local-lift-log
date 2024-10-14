@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { UserSettingsOptional, Workout } from "../typings";
+import { UserSettingsOptional, Workout, WorkoutTemplate } from "../typings";
 import { useNavigate } from "react-router-dom";
 import {
   LoadingSpinner,
@@ -220,6 +220,42 @@ export default function WorkoutList() {
     }
   };
 
+  const reassignWorkoutTemplate = async (workoutTemplate: WorkoutTemplate) => {
+    if (
+      operatingWorkout.id === 0 ||
+      operationType !== "reassign-workout-template"
+    )
+      return;
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+      // Reassign ALL workouts with old workout_template_id to new workout_template_id
+      db.execute(
+        "UPDATE workouts SET workout_template_id = $1 WHERE workout_template_id = $2",
+        [workoutTemplate.id, operatingWorkout.workout_template_id]
+      );
+
+      const updatedWorkouts = workouts.map((item) =>
+        item.workout_template_id === operatingWorkout.workout_template_id
+          ? {
+              ...item,
+              workout_template_id: workoutTemplate.id,
+              hasInvalidWorkoutTemplate: false,
+            }
+          : item
+      );
+
+      setWorkouts(updatedWorkouts);
+
+      toast.success("Workout Template Reassigned");
+    } catch (error) {
+      console.log(error);
+    }
+
+    resetOperatingWorkout();
+    workoutTemplateList.workoutTemplatesModal.onClose();
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -262,7 +298,7 @@ export default function WorkoutList() {
       />
       <WorkoutTemplateListModal
         workoutTemplateList={workoutTemplateList}
-        onClickAction={() => {}}
+        onClickAction={reassignWorkoutTemplate}
         header={<span>Reassign Workout Template</span>}
       />
       <div className="flex flex-col items-center gap-1">
