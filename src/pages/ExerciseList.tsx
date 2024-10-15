@@ -340,6 +340,7 @@ export default function ExerciseList() {
                     </Button>
                   </DropdownTrigger>
                   <DropdownMenu
+                    aria-label="Sort Exercises Dropdown Menu"
                     selectionMode="single"
                     selectedKeys={[sortCategory]}
                     onAction={(key) => handleSortOptionSelection(key as string)}

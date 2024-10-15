@@ -395,6 +395,7 @@ export default function MeasurementList() {
                     </Button>
                   </DropdownTrigger>
                   <DropdownMenu
+                    aria-label="Sort Measurements Dropdown Menu"
                     selectionMode="single"
                     selectedKeys={[sortCategory]}
                     onAction={(key) => handleSortOptionSelection(key as string)}

@@ -789,6 +789,7 @@ export default function Presets() {
                       </Button>
                     </DropdownTrigger>
                     <DropdownMenu
+                      aria-label="Sort Distances Dropdown Menu"
                       selectionMode="single"
                       selectedKeys={[sortCategoryDistance]}
                       onAction={(key) =>

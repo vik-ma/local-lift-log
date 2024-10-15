@@ -24,6 +24,7 @@ export const PresetsSortByMenu = ({
         </Button>
       </DropdownTrigger>
       <DropdownMenu
+        aria-label="Sort Equipment Weights Dropdown Menu"
         selectionMode="single"
         selectedKeys={[sortCategoryEquipment]}
         onAction={(key) => handleSortOptionSelectionEquipment(key as string)}

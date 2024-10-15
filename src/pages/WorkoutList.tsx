@@ -367,6 +367,7 @@ export default function WorkoutList() {
                         </Button>
                       </DropdownTrigger>
                       <DropdownMenu
+                        aria-label="Sort Workouts Dropdown Menu"
                         selectionMode="single"
                         selectedKeys={[sortCategory]}
                         onAction={(key) =>
