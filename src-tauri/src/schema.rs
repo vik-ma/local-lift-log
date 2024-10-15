@@ -25,7 +25,6 @@ diesel::table! {
         clock_style -> Text,
         time_input_behavior_hhmmss -> Text,
         time_input_behavior_mmss -> Text,
-        show_workout_rating -> SmallInt,
         default_increment_weight -> Integer,
         default_increment_distance -> Integer,
         default_increment_time -> Integer,
@@ -113,7 +112,6 @@ diesel::table! {
         date -> Text,
         exercise_order -> Text,
         note -> Nullable<Text>,
-        rating -> SmallInt,
     }
 }
 

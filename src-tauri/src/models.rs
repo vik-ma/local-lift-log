@@ -28,7 +28,6 @@ pub struct UserSetting {
     pub clock_style: String,
     pub time_input_behavior_hhmmss: String,
     pub time_input_behavior_mmss: String,
-    pub show_workout_rating: i16,
     pub default_increment_weight: i32,
     pub default_increment_distance: i32,
     pub default_increment_time: i32,
@@ -121,7 +120,6 @@ pub struct Workout {
     pub date: String,
     pub exercise_order: String,
     pub note: Option<String>,
-    pub rating: i16,
 }
 
 #[derive(Queryable, Selectable)]
