@@ -58,8 +58,6 @@ export const ValidateUserSettings = (userSettings: UserSettings): boolean => {
   )
     return false;
 
-  if (!IsNumberValidBinary(userSettings.show_workout_rating)) return false;
-
   if (IsNumberNegativeOrInfinity(userSettings.id)) return false;
 
   if (!IsNumberValidAndAbove0(userSettings.default_increment_weight))

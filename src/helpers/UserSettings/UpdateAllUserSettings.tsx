@@ -16,12 +16,12 @@ export const UpdateAllUserSettings = async (
       default_unit_weight = $3, default_unit_distance = $4, default_time_input = $5,
       default_unit_measurement = $6, active_tracking_measurements = $7, locale = $8,
       clock_style = $9, time_input_behavior_hhmmss = $10, time_input_behavior_mmss = $11,
-      show_workout_rating = $12, default_increment_weight = $13, default_increment_distance = $14, 
-      default_increment_time = $15, default_increment_resistance_level = $16,
-      save_calculation_string = $17, default_equipment_weight_id = $18, show_calculation_buttons = $19, 
-      default_increment_calculation_multiplier = $20, default_num_handles = $21,
-      default_calculation_tab = $22, shown_workout_properties = $23 
-      WHERE id = $24`,
+      default_increment_weight = $12, default_increment_distance = $13, 
+      default_increment_time = $14, default_increment_resistance_level = $15,
+      save_calculation_string = $16, default_equipment_weight_id = $17, 
+      show_calculation_buttons = $18, default_increment_calculation_multiplier = $19, 
+      default_num_handles = $20, default_calculation_tab = $21, shown_workout_properties = $22  
+      WHERE id = $23`,
       [
         userSettings.show_timestamp_on_completed_set,
         userSettings.active_routine_id,
@@ -34,7 +34,6 @@ export const UpdateAllUserSettings = async (
         userSettings.clock_style,
         userSettings.time_input_behavior_hhmmss,
         userSettings.time_input_behavior_mmss,
-        userSettings.show_workout_rating,
         userSettings.default_increment_weight,
         userSettings.default_increment_distance,
         userSettings.default_increment_time,
