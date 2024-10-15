@@ -29,7 +29,6 @@ export { SumCalculation } from "./SumCalculation";
 
 export { WeightUnitDropdown } from "./Dropdowns/WeightUnitDropdown";
 export { DistanceUnitDropdown } from "./Dropdowns/DistanceUnitDropdown";
-export { WorkoutRatingDropdown } from "./Dropdowns/WorkoutRatingDropdown";
 export { MeasurementUnitDropdown } from "./Dropdowns/MeasurementUnitDropdown";
 export { LocaleDropdown } from "./Dropdowns/LocaleDropdown";
 export { ClockStyleDropdown } from "./Dropdowns/ClockStyleDropdown";

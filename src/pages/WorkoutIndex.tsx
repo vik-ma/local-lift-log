@@ -28,12 +28,12 @@ export default function WorkoutIndex() {
   const workoutList = useWorkoutList(false, true);
 
   useEffect(() => {
-    const getShowWorkoutRating = async () => {
+    const getUserSettings = async () => {
       const settings = await GetUserSettings();
       setUserSettings(settings);
     };
 
-    getShowWorkoutRating();
+    getUserSettings();
   }, []);
 
   const handleCreateEmptyWorkout = async () => {
@@ -106,7 +106,6 @@ export default function WorkoutIndex() {
       />
       <WorkoutListModal
         workoutListModal={workoutList.workoutListModal}
-        showWorkoutRating={userSettings.show_workout_rating}
         workoutList={workoutList}
         onClickAction={handleClickWorkout}
       />

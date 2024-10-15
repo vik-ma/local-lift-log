@@ -201,11 +201,6 @@ export type MeasurementDropdownProps = {
   targetType: "modal" | "settings" | "active";
 };
 
-export type WorkoutRatingProps = {
-  rating: number;
-  setWorkout: React.Dispatch<React.SetStateAction<Workout>>;
-};
-
 export type SetTrackingValuesInput = {
   weight: string;
   reps: string;
