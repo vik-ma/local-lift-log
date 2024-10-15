@@ -29,14 +29,12 @@ import {
   GetUniqueMultisetIds,
   GetUserSettings,
   UpdateItemInList,
-  UpdateShowWorkoutRating,
   UpdateWorkout,
 } from "../helpers";
 import { VerticalMenuIcon } from "../assets";
 import {
   useDefaultWorkout,
   useWorkoutList,
-  useWorkoutRatingMap,
   useWorkoutTemplateList,
 } from "../hooks";
 
@@ -64,8 +62,6 @@ export default function WorkoutList() {
 
   const deleteModal = useDisclosure();
   const workoutModal = useDisclosure();
-
-  const { workoutRatingMap } = useWorkoutRatingMap();
 
   const {
     workouts,
@@ -173,27 +169,8 @@ export default function WorkoutList() {
     workoutModal.onClose();
   };
 
-  const toggleWorkoutRating = async () => {
-    if (userSettings === undefined) return;
-
-    const newValue = userSettings.show_workout_rating === 1 ? 0 : 1;
-
-    const updatedUserSettings: UserSettings = {
-      ...userSettings,
-      show_workout_rating: newValue,
-    };
-
-    const success = await UpdateShowWorkoutRating(updatedUserSettings);
-
-    if (!success) return;
-
-    setUserSettings(updatedUserSettings);
-  };
-
   const handleOptionMenuSelection = (key: string) => {
-    if (key === "toggle-rating") {
-      toggleWorkoutRating();
-    } else if (key === "delete-empty-workouts") {
+    if (key === "delete-empty-workouts") {
       setOperationType("delete-empty-workouts");
       deleteModal.onOpen();
     }
@@ -314,7 +291,6 @@ export default function WorkoutList() {
       <WorkoutModal
         workoutModal={workoutModal}
         workout={operatingWorkout}
-        setWorkout={setOperatingWorkout}
         workoutNote={newWorkoutNote}
         setWorkoutNote={setNewWorkoutNote}
         workoutTemplateNote={null}
@@ -409,11 +385,6 @@ export default function WorkoutList() {
                           handleOptionMenuSelection(key as string)
                         }
                       >
-                        <DropdownItem key="toggle-rating">
-                          {userSettings.show_workout_rating === 1
-                            ? "Hide Workout Rating"
-                            : "Show Workout Rating"}
-                        </DropdownItem>
                         <DropdownItem
                           className="text-danger"
                           key="delete-empty-workouts"
@@ -463,26 +434,12 @@ export default function WorkoutList() {
                     <span className="text-xs text-stone-400">Empty</span>
                   )}
                   {selectedWorkoutProperties.has("note") && (
-                    <span
-                      className={
-                        userSettings.show_workout_rating === 1
-                          ? "w-[16rem] break-all text-xs text-stone-500 text-left"
-                          : "w-[21rem] break-all text-xs text-stone-500 text-left"
-                      }
-                    >
+                    <span className="w-[21rem] break-all text-xs text-stone-500 text-left">
                       {workout.note}
                     </span>
                   )}
                 </div>
                 <div className="flex items-center gap-1 pr-1">
-                  {userSettings.show_workout_rating === 1 && (
-                    <div className="flex flex-col w-[4.5rem] text-center text-sm text-stone-500">
-                      <span>Rating</span>
-                      <span className="font-semibold">
-                        {workoutRatingMap[workout.rating].span}
-                      </span>
-                    </div>
-                  )}
                   <Dropdown>
                     <DropdownTrigger>
                       <Button

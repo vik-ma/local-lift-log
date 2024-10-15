@@ -25,13 +25,12 @@ export const CreateWorkout = async (
     const result = await db.execute(
       `INSERT into workouts 
       (workout_template_id, date, exercise_order, note, rating) 
-      VALUES ($1, $2, $3, $4, $5)`,
+      VALUES ($1, $2, $3, $4)`,
       [
         newWorkout.workout_template_id,
         newWorkout.date,
         newWorkout.exercise_order,
         newWorkout.note,
-        newWorkout.rating,
       ]
     );
 

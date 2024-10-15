@@ -13,29 +13,24 @@ import {
   UseWorkoutListReturnType,
   Workout,
 } from "../../typings";
-import { useWorkoutRatingMap } from "../../hooks";
 import { FormatNumItemsString } from "../../helpers";
 import { useState } from "react";
 import { EmptyListLabel } from "..";
 
 type WorkoutListModalProps = {
   workoutListModal: UseDisclosureReturnType;
-  showWorkoutRating: number;
   workoutList: UseWorkoutListReturnType;
   onClickAction: (workoutToCopy: Workout, keepSetValues: boolean) => void;
 };
 
 export const WorkoutListModal = ({
   workoutListModal,
-  showWorkoutRating,
   workoutList,
   onClickAction,
 }: WorkoutListModalProps) => {
   const [keepSetValues, setKeepSetValues] = useState<boolean>(false);
 
-  const { workoutRatingMap } = useWorkoutRatingMap();
-
-  const { workouts, showNewestFirst, reverseWorkoutList } = workoutList;
+  const { workouts } = workoutList;
 
   return (
     <Modal
@@ -57,16 +52,7 @@ export const WorkoutListModal = ({
                     >
                       Keep Set Values
                     </Checkbox>
-                    <Button
-                      className="w-32"
-                      size="sm"
-                      variant="flat"
-                      onPress={() => reverseWorkoutList()}
-                    >
-                      {showNewestFirst
-                        ? "List Oldest First"
-                        : "List Latest First"}
-                    </Button>
+                    {/* TODO: ADD SORT AND SEARCH INPUTS */}
                   </div>
                 )}
                 {workouts.length > 0 ? (
@@ -97,24 +83,10 @@ export const WorkoutListModal = ({
                                   Empty
                                 </span>
                               )}
-                              <span
-                                className={
-                                  showWorkoutRating === 1
-                                    ? "w-[16.5rem] break-all text-xs text-stone-500 text-left"
-                                    : "w-[21.5rem] break-all text-xs text-stone-500 text-left"
-                                }
-                              >
+                              <span className="w-[21.5rem] break-all text-xs text-stone-500 text-left">
                                 {workout.note}
                               </span>
                             </div>
-                            {showWorkoutRating === 1 && (
-                              <div className="flex flex-col w-[4.5rem] text-center text-sm text-stone-500">
-                                <span>Rating</span>
-                                <span className="font-semibold">
-                                  {workoutRatingMap[workout.rating].span}
-                                </span>
-                              </div>
-                            )}
                           </div>
                         </div>
                       ))}

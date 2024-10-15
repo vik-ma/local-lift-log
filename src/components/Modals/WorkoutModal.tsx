@@ -8,13 +8,11 @@ import {
   Input,
 } from "@nextui-org/react";
 import { UseDisclosureReturnType, Workout } from "../../typings";
-import { WorkoutRatingDropdown } from "../";
 import { ConvertEmptyStringToNull } from "../../helpers";
 
 type WorkoutModalProps = {
   workoutModal: UseDisclosureReturnType;
   workout: Workout;
-  setWorkout: React.Dispatch<React.SetStateAction<Workout>>;
   workoutNote: string;
   setWorkoutNote: React.Dispatch<React.SetStateAction<string>>;
   workoutTemplateNote: string | null;
@@ -26,7 +24,6 @@ type WorkoutModalProps = {
 export const WorkoutModal = ({
   workoutModal,
   workout,
-  setWorkout,
   workoutNote,
   setWorkoutNote,
   workoutTemplateNote,
@@ -77,13 +74,6 @@ export const WorkoutModal = ({
                       </div>
                     </div>
                   )}
-                <div className="flex flex-col gap-0.5">
-                  <span className="font-medium">Workout Rating</span>
-                  <WorkoutRatingDropdown
-                    rating={workout.rating}
-                    setWorkout={setWorkout}
-                  />
-                </div>
                 <div className="flex flex-col gap-0.5">
                   <span className="font-medium">Workout Note</span>
                   <Input

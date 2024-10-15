@@ -400,7 +400,6 @@ export default function WorkoutDetails() {
       <WorkoutModal
         workoutModal={workoutModal}
         workout={workout}
-        setWorkout={setWorkout}
         workoutNote={workoutNote}
         setWorkoutNote={setWorkoutNote}
         workoutTemplateNote={workoutTemplateNote}
@@ -413,7 +412,6 @@ export default function WorkoutDetails() {
       />
       <WorkoutListModal
         workoutListModal={workoutList.workoutListModal}
-        showWorkoutRating={userSettings.show_workout_rating}
         workoutList={workoutList}
         onClickAction={handleClickWorkout}
       />

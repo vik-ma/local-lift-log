@@ -259,17 +259,6 @@ export default function Settings() {
     updateSettings(updatedSettings);
   };
 
-  const handleShowWorkoutRatingChange = async (value: boolean) => {
-    if (userSettings === undefined) return;
-
-    const updatedSettings: UserSettings = {
-      ...userSettings,
-      show_workout_rating: value ? 1 : 0,
-    };
-
-    updateSettings(updatedSettings);
-  };
-
   const handleSaveCalculationStringChange = async (value: boolean) => {
     if (userSettings === undefined) return;
 
@@ -633,17 +622,6 @@ export default function Settings() {
               value={userSettings.time_input_behavior_mmss}
               setUserSettings={handleTimeInputBehaviorChange}
               isHhmmss={false}
-            />
-          </div>
-          <div className="flex gap-3 items-center justify-between">
-            <span className="text-lg">Show Workout Rating</span>
-            <Switch
-              aria-label="Show Workout Rating Switch Element"
-              className="flex-row-reverse gap-3"
-              color="primary"
-              size="lg"
-              isSelected={userSettings.show_workout_rating ? true : false}
-              onValueChange={(value) => handleShowWorkoutRatingChange(value)}
             />
           </div>
           <div className="flex gap-3 items-center justify-between">

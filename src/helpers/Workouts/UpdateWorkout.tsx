@@ -7,15 +7,14 @@ export const UpdateWorkout = async (workout: Workout): Promise<boolean> => {
 
     db.execute(
       `UPDATE workouts SET 
-        workout_template_id = $1, date = $2, exercise_order = $3, 
-        note = $4, rating = $5
-        WHERE id = $6`,
+        workout_template_id = $1, date = $2, 
+        exercise_order = $3, note = $4
+        WHERE id = $5`,
       [
         workout.workout_template_id,
         workout.date,
         workout.exercise_order,
         workout.note,
-        workout.rating,
         workout.id,
       ]
     );

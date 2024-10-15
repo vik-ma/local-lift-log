@@ -245,7 +245,6 @@ export type Workout = {
   date: string;
   exercise_order: string;
   note: string | null;
-  rating: number;
   numSets?: number;
   numExercises?: number;
   formattedDate?: string;

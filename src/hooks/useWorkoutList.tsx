@@ -44,7 +44,8 @@ export const useWorkoutList = (
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
-      // Get id, date, rating and how many Sets and Exercises every Workout contains
+      // Get id, date and how many Sets and Exercises every Workout contains
+      // Also get name of Workout Template from workout_template_id
       const result = await db.select<Workout[]>(
         `SELECT 
           workouts.*, 
@@ -78,7 +79,6 @@ export const useWorkoutList = (
           date: row.date,
           exercise_order: row.exercise_order,
           note: row.note,
-          rating: row.rating,
           numSets: row.numSets,
           numExercises: row.numExercises,
           formattedDate: formattedDate,
