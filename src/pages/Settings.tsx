@@ -654,6 +654,7 @@ export default function Settings() {
               selectedWorkoutProperties={selectedWorkoutProperties}
               setSelectedWorkoutProperties={setSelectedWorkoutProperties}
               userSettings={userSettings}
+              setUserSettings={setUserSettings}
               isInSettingsPage
             />
           </div>

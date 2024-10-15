@@ -15,6 +15,9 @@ type WorkoutPropertyDropdownProps = {
     React.SetStateAction<Set<string>>
   >;
   userSettings: UserSettings;
+  setUserSettings: React.Dispatch<
+    React.SetStateAction<UserSettings | undefined>
+  >;
   isInSettingsPage?: boolean;
 };
 
@@ -22,6 +25,7 @@ export const WorkoutPropertyDropdown = ({
   selectedWorkoutProperties,
   setSelectedWorkoutProperties,
   userSettings,
+  setUserSettings,
   isInSettingsPage,
 }: WorkoutPropertyDropdownProps) => {
   const handleChange = async (keys: Set<string>) => {
@@ -36,6 +40,13 @@ export const WorkoutPropertyDropdown = ({
       );
 
       setSelectedWorkoutProperties(keys);
+
+      const updatedUserSettings = {
+        ...userSettings,
+        shown_workout_properties: workoutPropertyString,
+      };
+
+      setUserSettings(updatedUserSettings);
 
       if (isInSettingsPage) {
         toast.success("Setting Updated");

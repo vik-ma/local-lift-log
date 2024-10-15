@@ -367,6 +367,7 @@ export default function WorkoutList() {
                         setSelectedWorkoutProperties
                       }
                       userSettings={userSettings}
+                      setUserSettings={setUserSettings}
                     />
                     <Dropdown>
                       <DropdownTrigger>
