@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { UserSettingsOptional, Workout, WorkoutTemplate } from "../typings";
+import { UserSettings, Workout, WorkoutTemplate } from "../typings";
 import { useNavigate } from "react-router-dom";
 import {
   LoadingSpinner,
@@ -21,12 +21,13 @@ import {
 } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
 import {
+  CreateWorkoutPropertySet,
   DeleteItemFromList,
   DeleteMultisetWithId,
   DeleteWorkoutWithId,
   FormatNumItemsString,
-  GetShowWorkoutRating,
   GetUniqueMultisetIds,
+  GetUserSettings,
   UpdateItemInList,
   UpdateShowWorkoutRating,
   UpdateWorkout,
@@ -47,12 +48,12 @@ type OperationType =
 
 export default function WorkoutList() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
+  const [userSettings, setUserSettings] = useState<UserSettings>();
   const [operationType, setOperationType] = useState<OperationType>("edit");
   const [newWorkoutNote, setNewWorkoutNote] = useState<string>("");
   const [selectedWorkoutProperties, setSelectedWorkoutProperties] = useState<
     Set<string>
-  >(new Set(["template", "routine", "note"]));
+  >(new Set());
 
   const defaultWorkout = useDefaultWorkout();
 
@@ -80,10 +81,16 @@ export default function WorkoutList() {
 
   useEffect(() => {
     const getUserSettings = async () => {
-      const settings = await GetShowWorkoutRating();
+      const settings = await GetUserSettings();
 
-      setUserSettings(settings);
-      setIsLoading(false);
+      if (settings !== undefined) {
+        setUserSettings(settings);
+        const workoutPropertySet = CreateWorkoutPropertySet(
+          settings.shown_workout_properties
+        );
+        setSelectedWorkoutProperties(workoutPropertySet);
+        setIsLoading(false);
+      }
     };
 
     getUserSettings();
@@ -171,7 +178,7 @@ export default function WorkoutList() {
 
     const newValue = userSettings.show_workout_rating === 1 ? 0 : 1;
 
-    const updatedUserSettings: UserSettingsOptional = {
+    const updatedUserSettings: UserSettings = {
       ...userSettings,
       show_workout_rating: newValue,
     };
@@ -359,6 +366,7 @@ export default function WorkoutList() {
                       setSelectedWorkoutProperties={
                         setSelectedWorkoutProperties
                       }
+                      userSettings={userSettings}
                     />
                     <Dropdown>
                       <DropdownTrigger>
