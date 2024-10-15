@@ -5,18 +5,39 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from "@nextui-org/react";
+import Database from "tauri-plugin-sql-api";
+import { UserSettings } from "../../typings";
 
 type WorkoutPropertyDropdownProps = {
   selectedWorkoutProperties: Set<string>;
   setSelectedWorkoutProperties: React.Dispatch<
     React.SetStateAction<Set<string>>
   >;
+  userSettings: UserSettings;
 };
 
 export const WorkoutPropertyDropdown = ({
   selectedWorkoutProperties,
   setSelectedWorkoutProperties,
+  userSettings,
 }: WorkoutPropertyDropdownProps) => {
+  const handleChange = async (keys: Set<string>) => {
+    const workoutPropertyString = Array.from(keys).join(",");
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      await db.execute(
+        "UPDATE user_settings SET shown_workout_properties = $1 WHERE id = $2",
+        [workoutPropertyString, userSettings.id]
+      );
+
+      setSelectedWorkoutProperties(keys);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Dropdown>
       <DropdownTrigger>
@@ -35,9 +56,7 @@ export const WorkoutPropertyDropdown = ({
         disallowEmptySelection
         selectionMode="multiple"
         selectedKeys={selectedWorkoutProperties}
-        onSelectionChange={(keys) =>
-          setSelectedWorkoutProperties(keys as Set<string>)
-        }
+        onSelectionChange={(keys) => handleChange(keys as Set<string>)}
       >
         <DropdownItem key="template">Workout Template</DropdownItem>
         <DropdownItem key="routine">Routine</DropdownItem>
