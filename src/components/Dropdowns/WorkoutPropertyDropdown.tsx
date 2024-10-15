@@ -7,6 +7,7 @@ import {
 } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
 import { UserSettings } from "../../typings";
+import toast from "react-hot-toast";
 
 type WorkoutPropertyDropdownProps = {
   selectedWorkoutProperties: Set<string>;
@@ -14,12 +15,14 @@ type WorkoutPropertyDropdownProps = {
     React.SetStateAction<Set<string>>
   >;
   userSettings: UserSettings;
+  isInSettingsPage?: boolean;
 };
 
 export const WorkoutPropertyDropdown = ({
   selectedWorkoutProperties,
   setSelectedWorkoutProperties,
   userSettings,
+  isInSettingsPage,
 }: WorkoutPropertyDropdownProps) => {
   const handleChange = async (keys: Set<string>) => {
     const workoutPropertyString = Array.from(keys).join(",");
@@ -33,6 +36,10 @@ export const WorkoutPropertyDropdown = ({
       );
 
       setSelectedWorkoutProperties(keys);
+
+      if (isInSettingsPage) {
+        toast.success("Setting Updated");
+      }
     } catch (error) {
       console.log(error);
     }
@@ -44,10 +51,11 @@ export const WorkoutPropertyDropdown = ({
         <Button
           aria-label="Toggle Display Workout Properties Options Menu"
           className="z-1"
-          variant="flat"
+          variant={isInSettingsPage ? "solid" : "flat"}
+          color={isInSettingsPage ? "primary" : "default"}
           size="sm"
         >
-          Display
+          {isInSettingsPage ? "Select" : "Display"}
         </Button>
       </DropdownTrigger>
       <DropdownMenu

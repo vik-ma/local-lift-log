@@ -654,6 +654,7 @@ export default function Settings() {
               selectedWorkoutProperties={selectedWorkoutProperties}
               setSelectedWorkoutProperties={setSelectedWorkoutProperties}
               userSettings={userSettings}
+              isInSettingsPage
             />
           </div>
           <h3 className="flex justify-center text-lg font-medium">
