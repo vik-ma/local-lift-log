@@ -10,6 +10,7 @@ import {
   CreateDefaultUserSettings,
   IsStringInvalidNumberOr0,
   ConvertNumberToTwoDecimals,
+  CreateWorkoutPropertySet,
 } from "../helpers";
 import {
   Switch,
@@ -35,6 +36,7 @@ import {
   SettingsModal,
   TimeInput,
   PresetsModalList,
+  WorkoutPropertyDropdown,
 } from "../components";
 import toast, { Toaster } from "react-hot-toast";
 import Database from "tauri-plugin-sql-api";
@@ -49,7 +51,9 @@ type DefaultIncrementInputValidityMap = {
 
 export default function Settings() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
-
+  const [selectedWorkoutProperties, setSelectedWorkoutProperties] = useState<
+    Set<string>
+  >(new Set());
   const [isTimeInputInvalid, setIsTimeInputInvalid] = useState<boolean>(false);
 
   const settingsModal = useDisclosure();
@@ -110,6 +114,11 @@ export default function Settings() {
 
         setDefaultIncrementInputValues(defaultIncrementValues);
         setDefaultIncrementOriginalValues({ ...defaultIncrementValues });
+
+        const workoutPropertySet = CreateWorkoutPropertySet(
+          settings.shown_workout_properties
+        );
+        setSelectedWorkoutProperties(workoutPropertySet);
       }
     };
 
@@ -635,6 +644,16 @@ export default function Settings() {
               size="lg"
               isSelected={userSettings.show_workout_rating ? true : false}
               onValueChange={(value) => handleShowWorkoutRatingChange(value)}
+            />
+          </div>
+          <div className="flex gap-3 items-center justify-between">
+            <span className="text-lg">
+              Properties To Display In Workout List
+            </span>
+            <WorkoutPropertyDropdown
+              selectedWorkoutProperties={selectedWorkoutProperties}
+              setSelectedWorkoutProperties={setSelectedWorkoutProperties}
+              userSettings={userSettings}
             />
           </div>
           <h3 className="flex justify-center text-lg font-medium">
