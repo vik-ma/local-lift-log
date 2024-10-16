@@ -6,6 +6,7 @@ import {
   EquipmentWeightSortCategory,
   DistanceSortCategory,
   UsePresetsListReturnType,
+  PlateCalculation,
 } from "../typings";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -36,6 +37,12 @@ export const usePresetsList = (
     useState<EquipmentWeight>();
   const [isDefaultHandleIdInvalid, setIsDefaultHandleIdInvalid] =
     useState<boolean>(false);
+
+  const [plateCalculations, setPlateCalculations] = useState<
+    PlateCalculation[]
+  >([]);
+  const [selectedPlateCalculation, setSelectedPlateCalculation] =
+    useState<PlateCalculation>();
 
   const filteredEquipmentWeights = useMemo(() => {
     if (filterQueryEquipment !== "") {
@@ -70,19 +77,41 @@ export const usePresetsList = (
   }, [distances, filterQueryDistance]);
 
   const getEquipmentWeights = useCallback(
-    async (defaultEquipmentHandleId?: number) => {
+    async (
+      defaultEquipmentHandleId?: number,
+      defaultPlateCalculationId?: number
+    ) => {
       try {
         const db = await Database.load(import.meta.env.VITE_DB);
 
-        const result = await db.select<EquipmentWeight[]>(
+        const equipmentWeights = await db.select<EquipmentWeight[]>(
           "SELECT * FROM equipment_weights"
         );
 
-        sortEquipmentWeightsByFavoritesFirst(result);
+        const plateCalculations = await db.select<PlateCalculation[]>(
+          "SELECT * FROM plate_calculations"
+        );
+
+        sortEquipmentWeightsByFavoritesFirst(equipmentWeights);
+        setPlateCalculations(plateCalculations);
         setIsLoadingEquipment(false);
 
+        if (defaultPlateCalculationId !== undefined) {
+          const defaultPlateCalculation = plateCalculations.find(
+            (plateCalculation) =>
+              plateCalculation.id === defaultPlateCalculationId
+          );
+
+          if (defaultPlateCalculation !== undefined) {
+            setSelectedPlateCalculation(defaultPlateCalculation);
+          } else {
+            setIsDefaultHandleIdInvalid(true);
+          }
+        }
+
+        // TODO: REMOVE
         if (defaultEquipmentHandleId !== undefined) {
-          const defaultHandle = result.find(
+          const defaultHandle = equipmentWeights.find(
             (equipment) => equipment.id === defaultEquipmentHandleId
           );
 
@@ -420,5 +449,9 @@ export const usePresetsList = (
     setIsDefaultHandleIdInvalid,
     sortEquipmentWeightByActiveCategory,
     sortDistancesByActiveCategory,
+    plateCalculations,
+    setPlateCalculations,
+    selectedPlateCalculation,
+    setSelectedPlateCalculation,
   };
 };

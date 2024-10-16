@@ -469,7 +469,10 @@ export type UsePresetsListReturnType = {
   setEquipmentWeights: React.Dispatch<React.SetStateAction<EquipmentWeight[]>>;
   distances: Distance[];
   setDistances: React.Dispatch<React.SetStateAction<Distance[]>>;
-  getEquipmentWeights: (defaultEquipmentHandleId?: number) => Promise<void>;
+  getEquipmentWeights: (
+    defaultEquipmentHandleId?: number,
+    defaultPlateCalculationId?: number
+  ) => Promise<void>;
   getDistances: () => Promise<void>;
   presetsType: PresetsType;
   setPresetsType: React.Dispatch<React.SetStateAction<PresetsType>>;
@@ -498,6 +501,14 @@ export type UsePresetsListReturnType = {
     equipmentWeightList: EquipmentWeight[]
   ) => void;
   sortDistancesByActiveCategory: (distanceList: Distance[]) => void;
+  plateCalculations: PlateCalculation[];
+  setPlateCalculations: React.Dispatch<
+    React.SetStateAction<PlateCalculation[]>
+  >;
+  selectedPlateCalculation: PlateCalculation | undefined;
+  setSelectedPlateCalculation: React.Dispatch<
+    React.SetStateAction<PlateCalculation | undefined>
+  >;
 };
 
 export type CalculationModalTab = "sum" | "plate";
