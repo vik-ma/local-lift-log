@@ -4,11 +4,15 @@ import { DefaultEquipmentWeights } from "..";
 export const CreateDefaultEquipmentWeights = async (isMetric: boolean) => {
   const DEFAULT_EQUIPMENT_WEIGHTS = DefaultEquipmentWeights(isMetric);
 
+  let barbellId = 0;
+
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
 
-    DEFAULT_EQUIPMENT_WEIGHTS.forEach((equipment) => {
-      db.execute(
+    for (let i = 0; i < DEFAULT_EQUIPMENT_WEIGHTS.length; i++) {
+      const equipment = DEFAULT_EQUIPMENT_WEIGHTS[i];
+
+      const result = await db.execute(
         `INSERT into equipment_weights 
          (name, weight, weight_unit, is_favorite, is_in_plate_calculator) 
          VALUES ($1, $2, $3, $4, $5)`,
@@ -20,8 +24,14 @@ export const CreateDefaultEquipmentWeights = async (isMetric: boolean) => {
           equipment.is_in_plate_calculator,
         ]
       );
-    });
+
+      if (equipment.name === "Barbell") {
+        barbellId = result.lastInsertId;
+      }
+    }
   } catch (error) {
     console.log(error);
   }
+
+  return barbellId;
 };
