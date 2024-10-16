@@ -10,7 +10,7 @@ import {
   PresetsSortByMenu,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
-import { EquipmentWeight, UserSettingsOptional, Distance } from "../typings";
+import { EquipmentWeight, Distance, UserSettings } from "../typings";
 import {
   Button,
   Modal,
@@ -32,7 +32,7 @@ import {
   CreateDefaultDistances,
   CreateDefaultEquipmentWeights,
   DeleteItemFromList,
-  GetDefaultUnitValues,
+  GetUserSettings,
   IsStringInvalidNumberOr0,
   UpdateItemInList,
 } from "../helpers";
@@ -47,7 +47,7 @@ type PresetType = "equipment" | "distance";
 
 export default function Presets() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
+  const [userSettings, setUserSettings] = useState<UserSettings>();
   const [operationType, setOperationType] = useState<OperationType>("add");
   const [presetType, setPresetType] = useState<PresetType>("equipment");
   const [nameInput, setNameInput] = useState<string>("");
@@ -116,17 +116,16 @@ export default function Presets() {
 
   useEffect(() => {
     const loadUserSettings = async () => {
-      const userSettings: UserSettingsOptional | undefined =
-        await GetDefaultUnitValues();
+      const userSettings = await GetUserSettings();
       if (userSettings !== undefined) {
         setUserSettings(userSettings);
         setOperatingEquipmentWeight((prev) => ({
           ...prev,
-          weight_unit: userSettings.default_unit_weight!,
+          weight_unit: userSettings.default_unit_weight,
         }));
         setOperatingDistance((prev) => ({
           ...prev,
-          distance_unit: userSettings.default_unit_distance!,
+          distance_unit: userSettings.default_unit_distance,
         }));
       }
       setIsLoading(false);
