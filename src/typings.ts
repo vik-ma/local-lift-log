@@ -564,3 +564,16 @@ export type OperationTypePlateCalc =
   | "set-handle"
   | "change-handle"
   | "show-list";
+
+export type PlateCalculation = {
+  id: number;
+  name: string;
+  handle_id: number;
+  available_plates_string: string;
+  num_handles: number;
+};
+
+export type AvailablePlates = {
+  equipmentWeightId: number;
+  numAvailable: number;
+};

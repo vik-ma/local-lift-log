@@ -1,13 +1,14 @@
 import Database from "tauri-plugin-sql-api";
-import { DefaultEquipmentWeights } from "..";
+import { CreateDefaultPlateCalculations, DefaultEquipmentWeights } from "..";
 
 export const CreateDefaultEquipmentWeights = async (isMetric: boolean) => {
   const DEFAULT_EQUIPMENT_WEIGHTS = DefaultEquipmentWeights(isMetric);
 
-  let barbellId = 0;
-
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
+
+    const weightIdList: number[] = [];
+    let handleId = 0;
 
     for (let i = 0; i < DEFAULT_EQUIPMENT_WEIGHTS.length; i++) {
       const equipment = DEFAULT_EQUIPMENT_WEIGHTS[i];
@@ -26,12 +27,14 @@ export const CreateDefaultEquipmentWeights = async (isMetric: boolean) => {
       );
 
       if (equipment.name === "Barbell") {
-        barbellId = result.lastInsertId;
+        handleId = result.lastInsertId;
+      } else {
+        weightIdList.push(result.lastInsertId);
       }
     }
+
+    await CreateDefaultPlateCalculations(weightIdList, handleId);
   } catch (error) {
     console.log(error);
   }
-
-  return barbellId;
 };
