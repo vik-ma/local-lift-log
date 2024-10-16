@@ -12,6 +12,7 @@ export const UpdateActiveTrackingMeasurements = async (
     return false;
 
   if (IsNumberNegativeOrInfinity(userSettingsId)) return false;
+
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -19,7 +20,10 @@ export const UpdateActiveTrackingMeasurements = async (
       "UPDATE user_settings SET active_tracking_measurements = $1 WHERE id = $2",
       [activeTrackingMeasurementString, userSettingsId]
     );
+
+    return true;
   } catch (error) {
     console.log(error);
+    return false;
   }
 };
