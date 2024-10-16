@@ -509,6 +509,9 @@ export type UsePresetsListReturnType = {
   setSelectedPlateCalculation: React.Dispatch<
     React.SetStateAction<PlateCalculation | undefined>
   >;
+  filteredPlateCalculations: PlateCalculation[];
+  filterQueryPlateCalculation: string;
+  setFilterQueryPlateCalculation: React.Dispatch<React.SetStateAction<string>>;
 };
 
 export type CalculationModalTab = "sum" | "plate";

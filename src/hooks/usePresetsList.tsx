@@ -27,6 +27,8 @@ export const usePresetsList = (
   const [presetsType, setPresetsType] = useState<PresetsType>("equipment");
   const [filterQueryEquipment, setFilterQueryEquipment] = useState<string>("");
   const [filterQueryDistance, setFilterQueryDistance] = useState<string>("");
+  const [filterQueryPlateCalculation, setFilterQueryPlateCalculation] =
+    useState<string>("");
   const [sortCategoryEquipment, setSortCategoryEquipment] =
     useState<EquipmentWeightSortCategory>("favorite");
   const [sortCategoryDistance, setSortCategoryDistance] =
@@ -75,6 +77,17 @@ export const usePresetsList = (
     }
     return distances;
   }, [distances, filterQueryDistance]);
+
+  const filteredPlateCalculations = useMemo(() => {
+    if (filterQueryPlateCalculation !== "") {
+      return plateCalculations.filter((item) =>
+        item.name
+          .toLocaleLowerCase()
+          .includes(filterQueryPlateCalculation.toLocaleLowerCase())
+      );
+    }
+    return plateCalculations;
+  }, [plateCalculations, filterQueryPlateCalculation]);
 
   const getEquipmentWeights = useCallback(
     async (
@@ -453,5 +466,8 @@ export const usePresetsList = (
     setPlateCalculations,
     selectedPlateCalculation,
     setSelectedPlateCalculation,
+    filteredPlateCalculations,
+    filterQueryPlateCalculation,
+    setFilterQueryPlateCalculation,
   };
 };
