@@ -1,3 +1,5 @@
+import { DefaultPlateWeights } from "./DefaultPlateWeights";
+
 type DefaultEquipmentWeight = {
   name: string;
   weight: number;
@@ -26,8 +28,10 @@ export const DefaultEquipmentWeights = (
     },
   ];
 
-  const metricWeights = [1.25, 2.5, 5, 10, 15, 20, 25];
-  const imperialWeights = [2.5, 5, 10, 25, 35, 45];
+  const defaultPlateWeights = DefaultPlateWeights();
+
+  const metricWeights = defaultPlateWeights.metric;
+  const imperialWeights = defaultPlateWeights.imperial;
 
   if (isMetric) {
     for (const weight of metricWeights) {

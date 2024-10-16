@@ -154,6 +154,7 @@ export { ValidTimeInputBehaviors } from "./Constants/ValidTimeInputBehaviors";
 export { CalculationStringsRegex } from "./Constants/CalculationStringsRegex";
 export { ValidCalculationModalTabs } from "./Constants/ValidCalculationModalTabs";
 export { ValidWorkoutPropertyKeys } from "./Constants/ValidWorkoutPropertyKeys";
+export { DefaultPlateWeights } from "./Constants/DefaultPlateWeights";
 
 export { ConvertEmptyStringToNull } from "./Strings/ConvertEmptyStringToNull";
 export { IsStringEmpty } from "./Strings/IsStringEmpty";
