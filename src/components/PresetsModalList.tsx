@@ -80,7 +80,7 @@ export const PresetsModalList = ({
             variant="flat"
             size="sm"
             color="secondary"
-            onPress={() => navigate("/presets")}
+            onPress={() => navigate(`/presets?tab=${presetsType}`)}
           >
             Modify{" "}
             {presetsType === "equipment" ? "Equipment Weights" : "Distances"}

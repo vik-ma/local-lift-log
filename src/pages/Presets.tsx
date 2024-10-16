@@ -39,6 +39,7 @@ import {
 import toast, { Toaster } from "react-hot-toast";
 import { usePresetsList, useValidateName } from "../hooks";
 import { VerticalMenuIcon, WeightPlatesIcon } from "../assets";
+import { useSearchParams } from "react-router-dom";
 
 type OperationType = "add" | "edit" | "delete";
 
@@ -52,6 +53,8 @@ export default function Presets() {
   const [nameInput, setNameInput] = useState<string>("");
   const [valueInput, setValueInput] = useState<string>("");
   const [selectedTab, setSelectedTab] = useState<string>("equipment");
+
+  const [searchParams] = useSearchParams();
 
   const defaultEquipmentWeight: EquipmentWeight = useMemo(() => {
     return {
@@ -125,8 +128,12 @@ export default function Presets() {
       setIsLoading(false);
     };
 
+    if (searchParams.get("tab") === "distance") {
+      setSelectedTab("distance");
+    }
+
     loadUserSettings();
-  }, []);
+  }, [searchParams]);
 
   const isNameInputValid = useValidateName(nameInput);
 
