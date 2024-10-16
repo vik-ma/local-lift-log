@@ -39,6 +39,7 @@ pub struct UserSetting {
     pub default_num_handles: i16,
     pub default_calculation_tab: String,
     pub shown_workout_properties: String,
+    pub default_plate_calculation_id: i32,
 }
 
 #[derive(Queryable, Selectable)]

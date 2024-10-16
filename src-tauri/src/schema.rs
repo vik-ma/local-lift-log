@@ -36,6 +36,7 @@ diesel::table! {
         default_num_handles -> SmallInt,
         default_calculation_tab -> Text,
         shown_workout_properties -> Text,
+        default_plate_calculation_id -> Integer,
     }
 }
 
