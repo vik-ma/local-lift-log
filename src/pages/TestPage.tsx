@@ -12,7 +12,13 @@ import {
   PresetsType,
   UserSettings,
 } from "../typings";
-import { GetUserSettings } from "../helpers";
+import {
+  CreateDefaultDistances,
+  CreateDefaultEquipmentWeights,
+  CreateDefaultExercises,
+  CreateDefaultMeasurements,
+  GetUserSettings,
+} from "../helpers";
 
 export default function Test() {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
@@ -24,6 +30,20 @@ export default function Test() {
   const textInputModal = useDisclosure();
 
   const presetsList = usePresetsList(false, false);
+
+  const isMetric = true;
+
+  const handleCreateDefaultsButton = async (key: string) => {
+    if (key === "exercises") {
+      await CreateDefaultExercises();
+    } else if (key === "measurements") {
+      await CreateDefaultMeasurements(isMetric);
+    } else if (key === "equipment-weights") {
+      await CreateDefaultEquipmentWeights(isMetric);
+    } else if (key === "distances") {
+      await CreateDefaultDistances(isMetric);
+    }
+  };
 
   const doneButtonAction = async (
     value: number,
@@ -94,6 +114,39 @@ export default function Test() {
           </Button>
           <Button color="success" size="sm" variant="flat">
             Success
+          </Button>
+        </div>
+        <h2 className="flex justify-center text-xl font-semibold">
+          CREATE DEFAULTS
+        </h2>
+        <div className="flex gap-1 justify-center">
+          <Button
+            size="sm"
+            variant="flat"
+            onPress={() => handleCreateDefaultsButton("exercises")}
+          >
+            Exercises
+          </Button>
+          <Button
+            size="sm"
+            variant="flat"
+            onPress={() => handleCreateDefaultsButton("measurements")}
+          >
+            Measurements
+          </Button>
+          <Button
+            size="sm"
+            variant="flat"
+            onPress={() => handleCreateDefaultsButton("equipment-weights")}
+          >
+            Equipment Weights
+          </Button>
+          <Button
+            size="sm"
+            variant="flat"
+            onPress={() => handleCreateDefaultsButton("distances")}
+          >
+            Distances
           </Button>
         </div>
         <div className="flex flex-col bg-white border border-black overflow-auto mb-20">
