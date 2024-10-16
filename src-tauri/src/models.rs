@@ -187,3 +187,14 @@ pub struct Multiset {
     pub is_template: i16,
     pub note: Option<String>,
 }
+
+#[derive(Queryable, Selectable)]
+#[diesel(table_name = crate::schema::plate_calculations)]
+#[diesel(check_for_backend(diesel::sqlite::Sqlite))]
+pub struct PlateCalculation {
+    pub id: i32,
+    pub name: String,
+    pub handle_id: i32,
+    pub available_plates_string: String,
+    pub num_handles: i16,
+}

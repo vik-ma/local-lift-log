@@ -174,3 +174,13 @@ diesel::table! {
         note -> Nullable<Text>,
     }
 }
+
+diesel::table! {
+    plate_calculations (id) {
+        id -> Integer,
+        name -> Text,
+        handle_id -> Integer,
+        available_plates_string -> Text,
+        num_handles -> SmallInt,
+    }
+}
