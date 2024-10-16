@@ -104,5 +104,7 @@ export const ValidateUserSettings = (userSettings: UserSettings): boolean => {
   )
     return false;
 
+  if (!IsNumberValidId(userSettings.default_plate_calculation_id)) return false;
+
   return true;
 };

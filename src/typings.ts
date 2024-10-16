@@ -35,6 +35,7 @@ export type UserSettings = {
   default_num_handles: number;
   default_calculation_tab: string;
   shown_workout_properties: string;
+  default_plate_calculation_id: number;
 };
 
 export type UserSettingsOptional = {
@@ -61,6 +62,7 @@ export type UserSettingsOptional = {
   default_num_handles?: number;
   default_calculation_tab?: string;
   shown_workout_properties?: string;
+  default_plate_calculation_id?: number;
 };
 
 export type Exercise = {
