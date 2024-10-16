@@ -45,7 +45,15 @@ export default function Test() {
     }
   };
 
-  const doneButtonAction = async (
+  const changePresetType = () => {
+    if (presetsList.presetsType === "equipment") {
+      presetsList.setPresetsType("distance");
+    } else {
+      presetsList.setPresetsType("equipment");
+    }
+  };
+
+  const calculationModalDoneButtonAction = async (
     value: number,
     presetsType: PresetsType,
     calculationList: CalculationListItem[],
@@ -88,7 +96,7 @@ export default function Test() {
       <CalculationModal
         useCalculationModal={calculationModal}
         usePresetsList={presetsList}
-        doneButtonAction={doneButtonAction}
+        doneButtonAction={calculationModalDoneButtonAction}
         multiplierIncrement={2}
         userSettings={userSettings}
         setUserSettings={setUserSettings}
@@ -98,6 +106,17 @@ export default function Test() {
           <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">
             TEST
           </h1>
+        </div>
+        <div className="flex gap-5 justify-center items-center">
+          <span>Presets Type: {presetsList.presetsType}</span>
+          <Button
+            color="secondary"
+            size="sm"
+            variant="flat"
+            onPress={changePresetType}
+          >
+            Change
+          </Button>
         </div>
         <Button onPress={() => calculationModal.calculationModal.onOpen()}>
           Open Calculation Modal
