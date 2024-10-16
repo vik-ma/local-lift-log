@@ -108,6 +108,10 @@ export default function Presets() {
     togglePlateCalculator,
     sortEquipmentWeightByActiveCategory,
     sortDistancesByActiveCategory,
+    plateCalculations,
+    filterQueryPlateCalculation,
+    setFilterQueryPlateCalculation,
+    filteredPlateCalculations,
   } = usePresetsList(true, true);
 
   useEffect(() => {
@@ -130,6 +134,8 @@ export default function Presets() {
 
     if (searchParams.get("tab") === "distance") {
       setSelectedTab("distance");
+    } else if (searchParams.get("tab") === "plate") {
+      setSelectedTab("plate");
     }
 
     loadUserSettings();
@@ -639,6 +645,7 @@ export default function Presets() {
         <Tabs
           className="sticky top-16 z-30"
           aria-label="Preset Type Option"
+          size="sm"
           fullWidth
           selectedKey={selectedTab}
           onSelectionChange={(key) => setSelectedTab(key as string)}
@@ -888,6 +895,106 @@ export default function Presets() {
                 </div>
               </div>
             )}
+          </Tab>
+          <Tab className="w-full px-0" key="plate" title="Plate Calculations">
+            <>
+              <ListPageSearchInput
+                header="Plate Calculation List"
+                filterQuery={filterQueryPlateCalculation}
+                setFilterQuery={setFilterQueryPlateCalculation}
+                filteredListLength={filteredPlateCalculations.length}
+                totalListLength={plateCalculations.length}
+                extraTopSpace={true}
+                bottomContent={
+                  <div className="flex justify-between gap-1 w-full items-center">
+                    <Button
+                      color="secondary"
+                      variant="flat"
+                      // TODO: ADD handleAddPlateCalculationButton
+                      onPress={() => {}}
+                      size="sm"
+                    >
+                      New Plate Calculation
+                    </Button>
+                    {/* TODO: FIX */}
+                    {/* <PresetsSortByMenu
+                      sortCategoryEquipment={sortCategoryEquipment}
+                      handleSortOptionSelectionEquipment={
+                        handleSortOptionSelectionEquipment
+                      }
+                    /> */}
+                  </div>
+                }
+              />
+              {isLoading ? (
+                <LoadingSpinner />
+              ) : (
+                <div className="flex flex-col gap-1.5">
+                  <div className="flex flex-col gap-1">
+                    {filteredPlateCalculations.map((plate) => (
+                      <div
+                        className="flex justify-between items-center cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                        key={`plate-calculation-${plate.id}`}
+                      >
+                        <div className="flex flex-col justify-start items-start pl-2 py-1">
+                          <span className="w-[15.5rem] truncate text-left">
+                            {plate.name}
+                          </span>
+                          <span className="text-xs text-secondary text-left">
+                            {/* TODO: ADD AVAILABLE PLATES AND HANDLE NAME*/}
+                          </span>
+                          <span className="text-xs text-stone-400 text-left">
+                            {plate.num_handles === 1 ? "1 Handle" : "2 Handles"}
+                          </span>
+                        </div>
+                        <div className="flex items-center pr-1">
+                          <Dropdown>
+                            <DropdownTrigger>
+                              <Button
+                                aria-label={`Toggle ${plate.name} Options Menu`}
+                                isIconOnly
+                                className="z-1"
+                                radius="lg"
+                                variant="light"
+                              >
+                                <VerticalMenuIcon size={19} color="#888" />
+                              </Button>
+                            </DropdownTrigger>
+                            <DropdownMenu
+                              aria-label={`Option Menu For ${plate.name} Plate Calculation`}
+                              // TODO: ADD handlePlateCalculationOptionSelection
+                              // onAction={(key) =>
+                              //   handlePlateCalculationOptionSelection(
+                              //     key as string,
+                              //     plate
+                              //   )
+                              // }
+                            >
+                              <DropdownItem key="edit">Edit</DropdownItem>
+                              <DropdownItem
+                                key="delete"
+                                className="text-danger"
+                              >
+                                Delete
+                              </DropdownItem>
+                            </DropdownMenu>
+                          </Dropdown>
+                        </div>
+                      </div>
+                    ))}
+                    {filteredPlateCalculations.length === 0 && (
+                      <EmptyListLabel itemName="Plate Calculation" />
+                    )}
+                  </div>
+                  {/* TODO: ADD FUNCTION? */}
+                  {/* <div className="flex justify-center">
+                    <Button size="sm" variant="flat" onPress={() => {}}>
+                      Restore Default Plate Calculations
+                    </Button>
+                  </div> */}
+                </div>
+              )}
+            </>
           </Tab>
         </Tabs>
       </div>
