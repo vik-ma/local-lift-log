@@ -10,7 +10,12 @@ import {
   PresetsSortByMenu,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
-import { EquipmentWeight, Distance, UserSettings } from "../typings";
+import {
+  EquipmentWeight,
+  Distance,
+  UserSettings,
+  PlateCalculation,
+} from "../typings";
 import {
   Button,
   Modal,
@@ -34,6 +39,7 @@ import {
   DeleteItemFromList,
   GetUserSettings,
   IsStringInvalidNumberOr0,
+  UpdateDefaultPlateCalculationId,
   UpdateItemInList,
 } from "../helpers";
 import toast, { Toaster } from "react-hot-toast";
@@ -502,6 +508,31 @@ export default function Presets() {
     toast.success("Default Distances Restored");
   };
 
+  const handleSetDefaultPlateCalculationButton = async (
+    plateCalculation: PlateCalculation
+  ) => {
+    if (
+      userSettings === undefined ||
+      plateCalculation.id === userSettings.default_plate_calculation_id ||
+      plateCalculation.id === 0
+    )
+      return;
+
+    const success = UpdateDefaultPlateCalculationId(
+      plateCalculation.id,
+      userSettings.id
+    );
+
+    if (!success) return;
+
+    const updatedSettings: UserSettings = {
+      ...userSettings,
+      active_routine_id: plateCalculation.id,
+    };
+
+    setUserSettings(updatedSettings);
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -947,6 +978,29 @@ export default function Presets() {
                           </span>
                         </div>
                         <div className="flex items-center pr-1">
+                          <Button
+                            aria-label="Set Plate Calculation As Default"
+                            isIconOnly
+                            className="z-1 w-[3.5rem]"
+                            color={
+                              userSettings.default_plate_calculation_id ===
+                              plate.id
+                                ? "success"
+                                : "default"
+                            }
+                            variant="light"
+                            onPress={() =>
+                              handleSetDefaultPlateCalculationButton(plate)
+                            }
+                          >
+                            <WeightPlatesIcon
+                              isChecked={
+                                userSettings.default_plate_calculation_id ===
+                                plate.id
+                              }
+                              size={31}
+                            />
+                          </Button>
                           <Dropdown>
                             <DropdownTrigger>
                               <Button
