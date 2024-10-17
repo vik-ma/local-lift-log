@@ -94,6 +94,7 @@ export { ConvertWeightValue } from "./Numbers/ConvertWeightValue";
 export { ConvertDistanceValue } from "./Numbers/ConvertDistanceValue";
 export { ConvertWeightToKg } from "./Numbers/ConvertWeightToKg";
 export { ConvertDistanceToMeter } from "./Numbers/ConvertDistanceToMeter";
+export { IsNumberDivisibleBy2 } from "./Numbers/IsNumberDivisibleBy2";
 
 export { GetLatestUserWeight } from "./Measurements/GetLatestUserWeight";
 export { CreateDefaultMeasurements } from "./Measurements/CreateDefaultMeasurements";
