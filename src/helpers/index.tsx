@@ -124,6 +124,7 @@ export { CreateDefaultDistances } from "./Presets/CreateDefaultDistances";
 export { UpdateIsFavorite } from "./Presets/UpdateIsFavorite";
 export { CreateDefaultPlateCalculations } from "./Presets/CreateDefaultPlateCalculations";
 export { GenerateAvailablePlatesString } from "./Presets/GenerateAvailablePlatesString";
+export { CreatePlateCalculationList } from "./Presets/CreatePlateCalculationList";
 
 export { CreateGroupedWorkoutSetList } from "./Workouts/CreateGroupedWorkoutSetList";
 export { GenerateExerciseOrderString } from "./Workouts/GenerateExerciseOrderString";
