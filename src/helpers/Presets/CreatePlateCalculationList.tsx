@@ -37,15 +37,25 @@ export const CreatePlateCalculationList = (
       }
     }
 
-    const formattedAvailablePlatesString = Array.from(availablePlatesMap)
-      .map(([key, value]) => `${key.weight}: ${value}`)
-      .join(", ");
+    const availablePlatesWeightStrings: string[] = [];
+    const availablePlatesMapStrings: string[] = [];
+
+    for (const [key, value] of availablePlatesMap) {
+      availablePlatesWeightStrings.push(key.weight.toString());
+      availablePlatesMapStrings.push(`${key.weight}: ${value}`);
+    }
+
+    const formattedAvailablePlatesString =
+      availablePlatesWeightStrings.join(", ");
+    const formattedAvailablePlatesMapString =
+      availablePlatesMapStrings.join(", ");
 
     const plateCalculation: PlateCalculation = {
       ...plate,
       handle,
       availablePlatesMap,
       formattedAvailablePlatesString,
+      formattedAvailablePlatesMapString,
     };
 
     plateCalculationList.push(plateCalculation);
