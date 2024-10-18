@@ -183,5 +183,6 @@ diesel::table! {
         handle_id -> Integer,
         available_plates_string -> Text,
         num_handles -> SmallInt,
+        weight_unit -> Text,
     }
 }

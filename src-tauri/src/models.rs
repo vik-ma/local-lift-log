@@ -198,4 +198,5 @@ pub struct PlateCalculation {
     pub handle_id: i32,
     pub available_plates_string: String,
     pub num_handles: i16,
+    pub weight_unit: String,
 }
