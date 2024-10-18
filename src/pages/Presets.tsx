@@ -975,6 +975,8 @@ export default function Presets() {
                           </span>
                           <span className="text-xs text-stone-400 text-left">
                             {plate.num_handles === 1 ? "1 Handle" : "2 Handles"}
+                            {plate.handle !== undefined &&
+                              ` (${plate.handle.name}: ${plate.handle.weight} ${plate.handle.weight_unit})`}
                           </span>
                         </div>
                         <div className="flex items-center pr-1">
