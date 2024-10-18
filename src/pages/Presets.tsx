@@ -527,7 +527,7 @@ export default function Presets() {
 
     const updatedSettings: UserSettings = {
       ...userSettings,
-      active_routine_id: plateCalculation.id,
+      default_plate_calculation_id: plateCalculation.id,
     };
 
     setUserSettings(updatedSettings);
