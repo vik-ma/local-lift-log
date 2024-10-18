@@ -971,7 +971,7 @@ export default function Presets() {
                             {plate.name}
                           </span>
                           <span className="text-xs text-secondary text-left">
-                            {/* TODO: ADD AVAILABLE PLATES AND HANDLE NAME*/}
+                            {plate.formattedAvailablePlatesString} kg
                           </span>
                           <span className="text-xs text-stone-400 text-left">
                             {plate.num_handles === 1 ? "1 Handle" : "2 Handles"}

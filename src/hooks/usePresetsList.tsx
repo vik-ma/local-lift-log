@@ -12,6 +12,7 @@ import Database from "tauri-plugin-sql-api";
 import {
   ConvertDistanceToMeter,
   ConvertWeightToKg,
+  CreatePlateCalculationList,
   UpdateIsFavorite,
   UpdateItemInList,
 } from "../helpers";
@@ -106,7 +107,13 @@ export const usePresetsList = (
         );
 
         sortEquipmentWeightsByFavoritesFirst(equipmentWeights);
-        setPlateCalculations(plateCalculations);
+
+        const plateCalculationList = CreatePlateCalculationList(
+          plateCalculations,
+          equipmentWeights
+        );
+
+        setPlateCalculations(plateCalculationList);
         setIsLoadingEquipment(false);
 
         if (defaultPlateCalculationId !== undefined) {
