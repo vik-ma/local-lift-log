@@ -14,6 +14,8 @@ export const CreatePlateCalculationList = (
   const plateCalculationList: PlateCalculation[] = [];
 
   for (const plate of plateCalculations) {
+    const weightUnit = plate.weight_unit;
+
     const availablePlatesMap = new Map<EquipmentWeight, number>();
 
     const handle = equipmentWeightMap.get(plate.handle_id.toString());
@@ -31,7 +33,8 @@ export const CreatePlateCalculationList = (
         id !== undefined &&
         plate !== undefined &&
         numAvailable !== undefined &&
-        IsNumberDivisibleBy2(Number(numAvailable))
+        IsNumberDivisibleBy2(Number(numAvailable)) &&
+        plate.weight_unit === weightUnit
       ) {
         availablePlatesMap.set(plate, Number(numAvailable));
       }
@@ -52,7 +55,11 @@ export const CreatePlateCalculationList = (
 
     const plateCalculation: PlateCalculation = {
       ...plate,
-      handle,
+      // Don't add handle if handle's weight_unit doesn't match current Plate Calculation's weight_unit
+      handle:
+        handle !== undefined && handle.weight_unit === weightUnit
+          ? handle
+          : undefined,
       availablePlatesMap,
       formattedAvailablePlatesString,
       formattedAvailablePlatesMapString,

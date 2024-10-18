@@ -971,12 +971,19 @@ export default function Presets() {
                             {plate.name}
                           </span>
                           <span className="text-xs text-secondary text-left">
-                            {plate.formattedAvailablePlatesString} kg
+                            {plate.formattedAvailablePlatesString}{" "}
+                            {plate.weight_unit}
                           </span>
                           <span className="text-xs text-stone-400 text-left">
                             {plate.num_handles === 1 ? "1 Handle" : "2 Handles"}
-                            {plate.handle !== undefined &&
-                              ` (${plate.handle.name}: ${plate.handle.weight} ${plate.handle.weight_unit})`}
+                            {plate.handle !== undefined ? (
+                              ` (${plate.handle.name}: ${plate.handle.weight} ${plate.handle.weight_unit})`
+                            ) : (
+                              <span className="text-red-700">
+                                {" "}
+                                (Invalid Handle)
+                              </span>
+                            )}
                           </span>
                         </div>
                         <div className="flex items-center pr-1">
