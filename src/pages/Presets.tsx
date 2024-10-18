@@ -685,128 +685,123 @@ export default function Presets() {
             key="equipment"
             title="Equipment Weights"
           >
-            <>
-              <ListPageSearchInput
-                header="Equipment Weight List"
-                filterQuery={filterQueryEquipment}
-                setFilterQuery={setFilterQueryEquipment}
-                filteredListLength={filteredEquipmentWeights.length}
-                totalListLength={equipmentWeights.length}
-                extraTopSpace={true}
-                bottomContent={
-                  <div className="flex justify-between gap-1 w-full items-center">
-                    <Button
-                      color="secondary"
-                      variant="flat"
-                      onPress={handleAddEquipmentWeightButton}
-                      size="sm"
-                    >
-                      New Equipment Weight
-                    </Button>
-                    <PresetsSortByMenu
-                      sortCategoryEquipment={sortCategoryEquipment}
-                      handleSortOptionSelectionEquipment={
-                        handleSortOptionSelectionEquipment
-                      }
-                    />
-                  </div>
-                }
-              />
-              {isLoading ? (
-                <LoadingSpinner />
-              ) : (
-                <div className="flex flex-col gap-1.5">
-                  <div className="flex flex-col gap-1">
-                    {filteredEquipmentWeights.map((equipment) => (
-                      <div
-                        className="flex justify-between items-center cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-                        key={`equipment-${equipment.id}`}
-                      >
-                        <div className="flex flex-col justify-start items-start pl-2 py-1">
-                          <span className="w-[15.5rem] truncate text-left">
-                            {equipment.name}
-                          </span>
-                          <span className="text-xs text-secondary text-left">
-                            {equipment.weight} {equipment.weight_unit}
-                          </span>
-                        </div>
-                        <div className="flex items-center pr-1">
-                          <Button
-                            aria-label={
-                              equipment.is_in_plate_calculator === 1
-                                ? `Remove ${equipment.name} From Plate Calculator`
-                                : `Add ${equipment.name} To Plate Calculator`
-                            }
-                            isIconOnly
-                            className="z-1 w-[3.5rem]"
-                            color={
-                              equipment.is_in_plate_calculator === 1
-                                ? "success"
-                                : "default"
-                            }
-                            variant="light"
-                            onPress={() => togglePlateCalculator(equipment)}
-                          >
-                            <WeightPlatesIcon
-                              isChecked={equipment.is_in_plate_calculator === 1}
-                              size={31}
-                            />
-                          </Button>
-                          <FavoriteButton
-                            name={equipment.name}
-                            isFavorite={!!equipment.is_favorite}
-                            item={equipment}
-                            toggleFavorite={toggleFavoriteEquipmentWeight}
-                          />
-                          <Dropdown>
-                            <DropdownTrigger>
-                              <Button
-                                aria-label={`Toggle ${equipment.name} Options Menu`}
-                                isIconOnly
-                                className="z-1"
-                                radius="lg"
-                                variant="light"
-                              >
-                                <VerticalMenuIcon size={19} color="#888" />
-                              </Button>
-                            </DropdownTrigger>
-                            <DropdownMenu
-                              aria-label={`Option Menu For ${equipment.name} Equipment Weight`}
-                              onAction={(key) =>
-                                handleEquipmentWeightOptionSelection(
-                                  key as string,
-                                  equipment
-                                )
-                              }
-                            >
-                              <DropdownItem key="edit">Edit</DropdownItem>
-                              <DropdownItem
-                                key="delete"
-                                className="text-danger"
-                              >
-                                Delete
-                              </DropdownItem>
-                            </DropdownMenu>
-                          </Dropdown>
-                        </div>
-                      </div>
-                    ))}
-                    {filteredEquipmentWeights.length === 0 && (
-                      <EmptyListLabel itemName="Equipment Weights" />
-                    )}
-                  </div>
-                  <div className="flex justify-center">
-                    <Button
-                      size="sm"
-                      variant="flat"
-                      onPress={handleRestoreEquipmentButton}
-                    >
-                      Restore Default Equipment Weights
-                    </Button>
-                  </div>
+            <ListPageSearchInput
+              header="Equipment Weight List"
+              filterQuery={filterQueryEquipment}
+              setFilterQuery={setFilterQueryEquipment}
+              filteredListLength={filteredEquipmentWeights.length}
+              totalListLength={equipmentWeights.length}
+              extraTopSpace={true}
+              bottomContent={
+                <div className="flex justify-between gap-1 w-full items-center">
+                  <Button
+                    color="secondary"
+                    variant="flat"
+                    onPress={handleAddEquipmentWeightButton}
+                    size="sm"
+                  >
+                    New Equipment Weight
+                  </Button>
+                  <PresetsSortByMenu
+                    sortCategoryEquipment={sortCategoryEquipment}
+                    handleSortOptionSelectionEquipment={
+                      handleSortOptionSelectionEquipment
+                    }
+                  />
                 </div>
-              )}
-            </>
+              }
+            />
+            {isLoading ? (
+              <LoadingSpinner />
+            ) : (
+              <div className="flex flex-col gap-1.5">
+                <div className="flex flex-col gap-1">
+                  {filteredEquipmentWeights.map((equipment) => (
+                    <div
+                      className="flex justify-between items-center cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                      key={`equipment-${equipment.id}`}
+                    >
+                      <div className="flex flex-col justify-start items-start pl-2 py-1">
+                        <span className="w-[15.5rem] truncate text-left">
+                          {equipment.name}
+                        </span>
+                        <span className="text-xs text-secondary text-left">
+                          {equipment.weight} {equipment.weight_unit}
+                        </span>
+                      </div>
+                      <div className="flex items-center pr-1">
+                        <Button
+                          aria-label={
+                            equipment.is_in_plate_calculator === 1
+                              ? `Remove ${equipment.name} From Plate Calculator`
+                              : `Add ${equipment.name} To Plate Calculator`
+                          }
+                          isIconOnly
+                          className="z-1 w-[3.5rem]"
+                          color={
+                            equipment.is_in_plate_calculator === 1
+                              ? "success"
+                              : "default"
+                          }
+                          variant="light"
+                          onPress={() => togglePlateCalculator(equipment)}
+                        >
+                          <WeightPlatesIcon
+                            isChecked={equipment.is_in_plate_calculator === 1}
+                            size={31}
+                          />
+                        </Button>
+                        <FavoriteButton
+                          name={equipment.name}
+                          isFavorite={!!equipment.is_favorite}
+                          item={equipment}
+                          toggleFavorite={toggleFavoriteEquipmentWeight}
+                        />
+                        <Dropdown>
+                          <DropdownTrigger>
+                            <Button
+                              aria-label={`Toggle ${equipment.name} Options Menu`}
+                              isIconOnly
+                              className="z-1"
+                              radius="lg"
+                              variant="light"
+                            >
+                              <VerticalMenuIcon size={19} color="#888" />
+                            </Button>
+                          </DropdownTrigger>
+                          <DropdownMenu
+                            aria-label={`Option Menu For ${equipment.name} Equipment Weight`}
+                            onAction={(key) =>
+                              handleEquipmentWeightOptionSelection(
+                                key as string,
+                                equipment
+                              )
+                            }
+                          >
+                            <DropdownItem key="edit">Edit</DropdownItem>
+                            <DropdownItem key="delete" className="text-danger">
+                              Delete
+                            </DropdownItem>
+                          </DropdownMenu>
+                        </Dropdown>
+                      </div>
+                    </div>
+                  ))}
+                  {filteredEquipmentWeights.length === 0 && (
+                    <EmptyListLabel itemName="Equipment Weights" />
+                  )}
+                </div>
+                <div className="flex justify-center">
+                  <Button
+                    size="sm"
+                    variant="flat"
+                    onPress={handleRestoreEquipmentButton}
+                  >
+                    Restore Default Equipment Weights
+                  </Button>
+                </div>
+              </div>
+            )}
           </Tab>
           <Tab className="w-full px-0" key="distance" title="Distances">
             <ListPageSearchInput
@@ -927,136 +922,131 @@ export default function Presets() {
             )}
           </Tab>
           <Tab className="w-full px-0" key="plate" title="Plate Calculations">
-            <>
-              <ListPageSearchInput
-                header="Plate Calculation List"
-                filterQuery={filterQueryPlateCalculation}
-                setFilterQuery={setFilterQueryPlateCalculation}
-                filteredListLength={filteredPlateCalculations.length}
-                totalListLength={plateCalculations.length}
-                extraTopSpace={true}
-                bottomContent={
-                  <div className="flex justify-between gap-1 w-full items-center">
-                    <Button
-                      color="secondary"
-                      variant="flat"
-                      // TODO: ADD handleAddPlateCalculationButton
-                      onPress={() => {}}
-                      size="sm"
-                    >
-                      New Plate Calculation
-                    </Button>
-                    {/* TODO: FIX */}
-                    {/* <PresetsSortByMenu
+            <ListPageSearchInput
+              header="Plate Calculation List"
+              filterQuery={filterQueryPlateCalculation}
+              setFilterQuery={setFilterQueryPlateCalculation}
+              filteredListLength={filteredPlateCalculations.length}
+              totalListLength={plateCalculations.length}
+              extraTopSpace={true}
+              bottomContent={
+                <div className="flex justify-between gap-1 w-full items-center">
+                  <Button
+                    color="secondary"
+                    variant="flat"
+                    // TODO: ADD handleAddPlateCalculationButton
+                    onPress={() => {}}
+                    size="sm"
+                  >
+                    New Plate Calculation
+                  </Button>
+                  {/* TODO: FIX */}
+                  {/* <PresetsSortByMenu
                       sortCategoryEquipment={sortCategoryEquipment}
                       handleSortOptionSelectionEquipment={
                         handleSortOptionSelectionEquipment
                       }
                     /> */}
-                  </div>
-                }
-              />
-              {isLoading ? (
-                <LoadingSpinner />
-              ) : (
-                <div className="flex flex-col gap-1.5">
-                  <div className="flex flex-col gap-1">
-                    {filteredPlateCalculations.map((plate) => (
-                      <div
-                        className="flex justify-between items-center cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-                        key={`plate-calculation-${plate.id}`}
-                      >
-                        <div className="flex flex-col justify-start items-start pl-2 py-1">
-                          <span className="w-[15.5rem] truncate text-left">
-                            {plate.name}
-                          </span>
-                          <span className="text-xs text-secondary text-left">
-                            {plate.formattedAvailablePlatesString}{" "}
-                            {plate.weight_unit}
-                          </span>
-                          <span className="text-xs text-stone-400 text-left">
-                            {plate.num_handles === 1 ? "1 Handle" : "2 Handles"}
-                            {plate.handle !== undefined ? (
-                              ` (${plate.handle.name}: ${plate.handle.weight} ${plate.handle.weight_unit})`
-                            ) : (
-                              <span className="text-red-700">
-                                {" "}
-                                (Invalid Handle)
-                              </span>
-                            )}
-                          </span>
-                        </div>
-                        <div className="flex items-center pr-1">
-                          <Button
-                            aria-label="Set Plate Calculation As Default"
-                            isIconOnly
-                            className="z-1 w-[3.5rem]"
-                            color={
+                </div>
+              }
+            />
+            {isLoading ? (
+              <LoadingSpinner />
+            ) : (
+              <div className="flex flex-col gap-1.5">
+                <div className="flex flex-col gap-1">
+                  {filteredPlateCalculations.map((plate) => (
+                    <div
+                      className="flex justify-between items-center cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                      key={`plate-calculation-${plate.id}`}
+                    >
+                      <div className="flex flex-col justify-start items-start pl-2 py-1">
+                        <span className="w-[15.5rem] truncate text-left">
+                          {plate.name}
+                        </span>
+                        <span className="text-xs text-secondary text-left">
+                          {plate.formattedAvailablePlatesString}{" "}
+                          {plate.weight_unit}
+                        </span>
+                        <span className="text-xs text-stone-400 text-left">
+                          {plate.num_handles === 1 ? "1 Handle" : "2 Handles"}
+                          {plate.handle !== undefined ? (
+                            ` (${plate.handle.name}: ${plate.handle.weight} ${plate.handle.weight_unit})`
+                          ) : (
+                            <span className="text-red-700">
+                              {" "}
+                              (Invalid Handle)
+                            </span>
+                          )}
+                        </span>
+                      </div>
+                      <div className="flex items-center pr-1">
+                        <Button
+                          aria-label="Set Plate Calculation As Default"
+                          isIconOnly
+                          className="z-1 w-[3.5rem]"
+                          color={
+                            userSettings.default_plate_calculation_id ===
+                            plate.id
+                              ? "success"
+                              : "default"
+                          }
+                          variant="light"
+                          onPress={() =>
+                            handleSetDefaultPlateCalculationButton(plate)
+                          }
+                        >
+                          <WeightPlatesIcon
+                            isChecked={
                               userSettings.default_plate_calculation_id ===
                               plate.id
-                                ? "success"
-                                : "default"
                             }
-                            variant="light"
-                            onPress={() =>
-                              handleSetDefaultPlateCalculationButton(plate)
-                            }
-                          >
-                            <WeightPlatesIcon
-                              isChecked={
-                                userSettings.default_plate_calculation_id ===
-                                plate.id
-                              }
-                              size={31}
-                            />
-                          </Button>
-                          <Dropdown>
-                            <DropdownTrigger>
-                              <Button
-                                aria-label={`Toggle ${plate.name} Options Menu`}
-                                isIconOnly
-                                className="z-1"
-                                radius="lg"
-                                variant="light"
-                              >
-                                <VerticalMenuIcon size={19} color="#888" />
-                              </Button>
-                            </DropdownTrigger>
-                            <DropdownMenu
-                              aria-label={`Option Menu For ${plate.name} Plate Calculation`}
-                              // TODO: ADD handlePlateCalculationOptionSelection
-                              // onAction={(key) =>
-                              //   handlePlateCalculationOptionSelection(
-                              //     key as string,
-                              //     plate
-                              //   )
-                              // }
+                            size={31}
+                          />
+                        </Button>
+                        <Dropdown>
+                          <DropdownTrigger>
+                            <Button
+                              aria-label={`Toggle ${plate.name} Options Menu`}
+                              isIconOnly
+                              className="z-1"
+                              radius="lg"
+                              variant="light"
                             >
-                              <DropdownItem key="edit">Edit</DropdownItem>
-                              <DropdownItem
-                                key="delete"
-                                className="text-danger"
-                              >
-                                Delete
-                              </DropdownItem>
-                            </DropdownMenu>
-                          </Dropdown>
-                        </div>
+                              <VerticalMenuIcon size={19} color="#888" />
+                            </Button>
+                          </DropdownTrigger>
+                          <DropdownMenu
+                            aria-label={`Option Menu For ${plate.name} Plate Calculation`}
+                            // TODO: ADD handlePlateCalculationOptionSelection
+                            // onAction={(key) =>
+                            //   handlePlateCalculationOptionSelection(
+                            //     key as string,
+                            //     plate
+                            //   )
+                            // }
+                          >
+                            <DropdownItem key="edit">Edit</DropdownItem>
+                            <DropdownItem key="delete" className="text-danger">
+                              Delete
+                            </DropdownItem>
+                          </DropdownMenu>
+                        </Dropdown>
                       </div>
-                    ))}
-                    {filteredPlateCalculations.length === 0 && (
-                      <EmptyListLabel itemName="Plate Calculation" />
-                    )}
-                  </div>
-                  {/* TODO: ADD FUNCTION? */}
-                  {/* <div className="flex justify-center">
+                    </div>
+                  ))}
+                  {filteredPlateCalculations.length === 0 && (
+                    <EmptyListLabel itemName="Plate Calculation" />
+                  )}
+                </div>
+                {/* TODO: ADD FUNCTION? */}
+                {/* <div className="flex justify-center">
                     <Button size="sm" variant="flat" onPress={() => {}}>
                       Restore Default Plate Calculations
                     </Button>
                   </div> */}
-                </div>
-              )}
-            </>
+              </div>
+            )}
           </Tab>
         </Tabs>
       </div>
