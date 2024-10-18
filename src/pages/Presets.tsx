@@ -130,6 +130,7 @@ export default function Presets() {
     sortEquipmentWeightByActiveCategory,
     sortDistancesByActiveCategory,
     plateCalculations,
+    setPlateCalculations,
     filterQueryPlateCalculation,
     setFilterQueryPlateCalculation,
     filteredPlateCalculations,
@@ -360,7 +361,8 @@ export default function Presets() {
     if (
       operatingEquipmentWeight.id === 0 ||
       operationType !== "delete" ||
-      presetType !== "equipment"
+      presetType !== "equipment" ||
+      isOperatingPlateCalculation
     )
       return;
 
@@ -391,7 +393,8 @@ export default function Presets() {
     if (
       operatingDistance.id === 0 ||
       operationType !== "delete" ||
-      presetType !== "distance"
+      presetType !== "distance" ||
+      isOperatingPlateCalculation
     )
       return;
 
@@ -413,6 +416,37 @@ export default function Presets() {
     }
 
     resetOperatingDistance();
+    deleteModal.onClose();
+  };
+
+  const deletePlateCalculation = async () => {
+    if (
+      operatingPlateCalculation.id === 0 ||
+      operationType !== "delete" ||
+      !isOperatingPlateCalculation
+    )
+      return;
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      db.execute("DELETE from plate_calculations WHERE id = $1", [
+        operatingPlateCalculation.id,
+      ]);
+
+      const updatedPlateCalculations = DeleteItemFromList(
+        plateCalculations,
+        operatingPlateCalculation.id
+      );
+
+      setPlateCalculations(updatedPlateCalculations);
+
+      toast.success("Plate Calculation Deleted");
+    } catch (error) {
+      console.log(error);
+    }
+
+    resetOperatingPlateCalculation();
     deleteModal.onClose();
   };
 
@@ -579,6 +613,18 @@ export default function Presets() {
     setUserSettings(updatedSettings);
   };
 
+  const handleDeleteButton = async () => {
+    if (isOperatingPlateCalculation) {
+      await deletePlateCalculation();
+    } else {
+      if (presetType === "equipment") {
+        await deleteEquipmentWeight();
+      } else {
+        await deleteDistance();
+      }
+    }
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -587,22 +633,26 @@ export default function Presets() {
       <DeleteModal
         deleteModal={deleteModal}
         header={
-          presetType === "equipment"
+          isOperatingPlateCalculation
+            ? "Delete Plate Calculation"
+            : presetType === "equipment"
             ? "Delete Equipment Weight"
             : "Delete Distance"
         }
         body={
           <p className="break-words">
             Are you sure you want to permanently delete{" "}
-            {presetType === "equipment"
-              ? operatingEquipmentWeight.name
-              : operatingDistance.name}
+            <span className="font-medium text-secondary">
+              {isOperatingPlateCalculation
+                ? operatingPlateCalculation.name
+                : presetType === "equipment"
+                ? operatingEquipmentWeight.name
+                : operatingDistance.name}
+            </span>
             ?
           </p>
         }
-        deleteButtonAction={
-          presetType === "equipment" ? deleteEquipmentWeight : deleteDistance
-        }
+        deleteButtonAction={handleDeleteButton}
       />
       <Modal
         isOpen={presetModal.isOpen}
