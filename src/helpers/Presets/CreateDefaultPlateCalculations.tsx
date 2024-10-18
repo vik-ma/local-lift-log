@@ -8,11 +8,13 @@ type DefaultPlateCalculation = {
   handle_id: number;
   available_plates_string: string;
   num_handles: number;
+  weight_unit: string;
 };
 
 export const CreateDefaultPlateCalculations = async (
   weightIdList: number[],
-  handleId: number
+  handleId: number,
+  isMetric: boolean
 ) => {
   if (!IsNumberValidId(handleId) || weightIdList.length < 1) return;
 
@@ -36,6 +38,7 @@ export const CreateDefaultPlateCalculations = async (
       handle_id: handleId,
       available_plates_string: availablePlatesString,
       num_handles: defaultNumHandles,
+      weight_unit: isMetric ? "kg" : "lbs",
     },
   ];
 
@@ -47,13 +50,14 @@ export const CreateDefaultPlateCalculations = async (
 
       await db.execute(
         `INSERT into plate_calculations 
-         (name, handle_id, available_plates_string, num_handles) 
-         VALUES ($1, $2, $3, $4)`,
+         (name, handle_id, available_plates_string, num_handles, weight_unit) 
+         VALUES ($1, $2, $3, $4, $5)`,
         [
           plateCalculation.name,
           plateCalculation.handle_id,
           plateCalculation.available_plates_string,
           plateCalculation.num_handles,
+          plateCalculation.weight_unit,
         ]
       );
     }

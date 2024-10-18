@@ -33,7 +33,7 @@ export const CreateDefaultEquipmentWeights = async (isMetric: boolean) => {
       }
     }
 
-    await CreateDefaultPlateCalculations(weightIdList, handleId);
+    await CreateDefaultPlateCalculations(weightIdList, handleId, isMetric);
   } catch (error) {
     console.log(error);
   }
