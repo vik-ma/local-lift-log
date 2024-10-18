@@ -8,7 +8,7 @@ export const CreatePlateCalculationList = (
   const equipmentWeightMap: Map<string, EquipmentWeight> =
     equipmentWeights.reduce(
       (map, equipment) => map.set(equipment.id.toString(), equipment),
-      {} as Map<string, EquipmentWeight>
+      new Map<string, EquipmentWeight>()
     );
 
   const plateCalculationList: PlateCalculation[] = [];
