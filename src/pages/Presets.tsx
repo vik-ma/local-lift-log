@@ -59,6 +59,8 @@ export default function Presets() {
   const [nameInput, setNameInput] = useState<string>("");
   const [valueInput, setValueInput] = useState<string>("");
   const [selectedTab, setSelectedTab] = useState<string>("equipment");
+  const [isOperatingPlateCalculation, setIsOperatingPlateCalculation] =
+    useState<boolean>(false);
 
   const [searchParams] = useSearchParams();
 
@@ -83,10 +85,23 @@ export default function Presets() {
     };
   }, []);
 
+  const defaultPlateCalculation: PlateCalculation = useMemo(() => {
+    return {
+      id: 0,
+      name: "",
+      handle_id: 0,
+      available_plates_string: "",
+      num_handles: 1,
+      weight_unit: "kg",
+    };
+  }, []);
+
   const [operatingEquipmentWeight, setOperatingEquipmentWeight] =
     useState<EquipmentWeight>(defaultEquipmentWeight);
   const [operatingDistance, setOperatingDistance] =
     useState<Distance>(defaultDistance);
+  const [operatingPlateCalculation, setOperatingPlateCalculation] =
+    useState<PlateCalculation>(defaultPlateCalculation);
 
   const deleteModal = useDisclosure();
   const presetModal = useDisclosure();
@@ -422,6 +437,7 @@ export default function Presets() {
       ...defaultEquipmentWeight,
       weight_unit: userSettings.default_unit_weight!,
     });
+    setIsOperatingPlateCalculation(false);
   };
 
   const resetOperatingDistance = () => {
@@ -435,6 +451,18 @@ export default function Presets() {
       ...defaultDistance,
       distance_unit: userSettings.default_unit_distance!,
     });
+    setIsOperatingPlateCalculation(false);
+  };
+
+  const resetOperatingPlateCalculation = () => {
+    if (userSettings === undefined) return;
+
+    setOperationType("add");
+    setOperatingPlateCalculation({
+      ...defaultPlateCalculation,
+      weight_unit: userSettings.default_unit_weight!,
+    });
+    setIsOperatingPlateCalculation(false);
   };
 
   const handleAddEquipmentWeightButton = () => {
@@ -454,6 +482,7 @@ export default function Presets() {
     setPresetType("equipment");
     setOperatingEquipmentWeight(equipment);
     setValueInput(equipment.weight.toString());
+    setIsOperatingPlateCalculation(false);
 
     if (key === "edit") {
       setOperationType("edit");
@@ -469,11 +498,28 @@ export default function Presets() {
     setPresetType("distance");
     setOperatingDistance(distance);
     setValueInput(distance.distance.toString());
+    setIsOperatingPlateCalculation(false);
 
     if (key === "edit") {
       setOperationType("edit");
       setNameInput(distance.name);
       presetModal.onOpen();
+    } else if (key === "delete") {
+      setOperationType("delete");
+      deleteModal.onOpen();
+    }
+  };
+
+  const handlePlateCalculationOptionSelection = (
+    key: string,
+    plateCalculation: PlateCalculation
+  ) => {
+    setOperatingPlateCalculation(plateCalculation);
+    setIsOperatingPlateCalculation(true);
+
+    if (key === "edit") {
+      setOperationType("edit");
+      // TODO: ADD MODAL
     } else if (key === "delete") {
       setOperationType("delete");
       deleteModal.onOpen();
@@ -1018,13 +1064,12 @@ export default function Presets() {
                           </DropdownTrigger>
                           <DropdownMenu
                             aria-label={`Option Menu For ${plate.name} Plate Calculation`}
-                            // TODO: ADD handlePlateCalculationOptionSelection
-                            // onAction={(key) =>
-                            //   handlePlateCalculationOptionSelection(
-                            //     key as string,
-                            //     plate
-                            //   )
-                            // }
+                            onAction={(key) =>
+                              handlePlateCalculationOptionSelection(
+                                key as string,
+                                plate
+                              )
+                            }
                           >
                             <DropdownItem key="edit">Edit</DropdownItem>
                             <DropdownItem key="delete" className="text-danger">
