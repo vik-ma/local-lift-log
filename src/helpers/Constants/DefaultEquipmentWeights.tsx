@@ -5,7 +5,6 @@ type DefaultEquipmentWeight = {
   weight: number;
   weight_unit: string;
   is_favorite: number;
-  is_in_plate_calculator: number;
 };
 
 export const DefaultEquipmentWeights = (
@@ -17,14 +16,12 @@ export const DefaultEquipmentWeights = (
       weight: isMetric ? 20 : 45,
       weight_unit: isMetric ? "kg" : "lbs",
       is_favorite: 0,
-      is_in_plate_calculator: 0,
     },
     {
       name: "Dumbbell",
       weight: isMetric ? 2 : 5,
       weight_unit: isMetric ? "kg" : "lbs",
       is_favorite: 0,
-      is_in_plate_calculator: 0,
     },
   ];
 
@@ -40,7 +37,6 @@ export const DefaultEquipmentWeights = (
         weight: weight,
         weight_unit: "kg",
         is_favorite: 0,
-        is_in_plate_calculator: 1,
       };
       DEFAULT_EQUIPMENT_WEIGHTS.push(equipmentWeight);
     }
@@ -51,7 +47,6 @@ export const DefaultEquipmentWeights = (
         weight: weight,
         weight_unit: "lbs",
         is_favorite: 0,
-        is_in_plate_calculator: 1,
       };
       DEFAULT_EQUIPMENT_WEIGHTS.push(equipmentWeight);
     }

@@ -264,7 +264,6 @@ export type EquipmentWeight = {
   weight: number;
   weight_unit: string;
   is_favorite: number;
-  is_in_plate_calculator: number;
 };
 
 export type Distance = {
@@ -490,7 +489,6 @@ export type UsePresetsListReturnType = {
   handleSortOptionSelectionDistance: (key: string) => void;
   isLoadingEquipment: boolean;
   isLoadingDistance: boolean;
-  togglePlateCalculator: (equipmentWeight: EquipmentWeight) => void;
   plateCalculatorHandle: EquipmentWeight | undefined;
   setPlateCalculatorHandle: React.Dispatch<
     React.SetStateAction<EquipmentWeight | undefined>

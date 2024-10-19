@@ -75,21 +75,22 @@ export const PlateCalculator = ({
 
   const targetWeightInputRef = useRef<HTMLInputElement>(null);
 
-  const plateCalculatorList = useMemo(() => {
-    const plateCalculatorList = equipmentWeights.reduce<number[]>(
-      (acc, equipment) => {
-        if (equipment.is_in_plate_calculator === 1) {
-          acc.push(equipment.weight);
-        }
-        return acc;
-      },
-      []
-    );
+  // TODO: UPDATE
+  // const plateCalculatorList = useMemo(() => {
+  //   const plateCalculatorList = equipmentWeights.reduce<number[]>(
+  //     (acc, equipment) => {
+  //       if (equipment.is_in_plate_calculator === 1) {
+  //         acc.push(equipment.weight);
+  //       }
+  //       return acc;
+  //     },
+  //     []
+  //   );
 
-    plateCalculatorList.sort((a, b) => b - a);
+  //   plateCalculatorList.sort((a, b) => b - a);
 
-    return plateCalculatorList;
-  }, [equipmentWeights]);
+  //   return plateCalculatorList;
+  // }, [equipmentWeights]);
 
   const disableCalculatePlates = useMemo(() => {
     if (isTargetWeightInputInvalid) return true;

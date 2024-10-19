@@ -270,20 +270,6 @@ export const usePresetsList = (
     setDistances(distanceList);
   };
 
-  const sortEquipmentWeightsByPlateCalcFirst = (
-    equipmentWeightList: EquipmentWeight[]
-  ) => {
-    equipmentWeightList.sort((a, b) => {
-      if (b.is_in_plate_calculator !== a.is_in_plate_calculator) {
-        return b.is_in_plate_calculator - a.is_in_plate_calculator;
-      } else {
-        return a.name.localeCompare(b.name);
-      }
-    });
-
-    setEquipmentWeights(equipmentWeightList);
-  };
-
   const handleSortOptionSelectionEquipment = (key: string) => {
     if (key === "favorite") {
       setSortCategoryEquipment(key);
@@ -297,9 +283,6 @@ export const usePresetsList = (
     } else if (key === "name") {
       setSortCategoryEquipment(key);
       sortEquipmentWeightsByName([...equipmentWeights]);
-    } else if (key === "plate-calc") {
-      setSortCategoryEquipment(key);
-      sortEquipmentWeightsByPlateCalcFirst([...equipmentWeights]);
     }
   };
 
@@ -366,36 +349,6 @@ export const usePresetsList = (
     sortDistancesByActiveCategory(updatedDistances);
   };
 
-  const togglePlateCalculator = async (equipmentWeight: EquipmentWeight) => {
-    const newFavoriteValue =
-      equipmentWeight.is_in_plate_calculator === 1 ? 0 : 1;
-
-    try {
-      const db = await Database.load(import.meta.env.VITE_DB);
-
-      await db.execute(
-        `UPDATE equipment_weights 
-         SET is_in_plate_calculator = $1 
-         WHERE id = $2`,
-        [newFavoriteValue, equipmentWeight.id]
-      );
-
-      const updatedEquipmentWeight: EquipmentWeight = {
-        ...equipmentWeight,
-        is_in_plate_calculator: newFavoriteValue,
-      };
-
-      const updatedEquipmentWeights = UpdateItemInList(
-        equipmentWeights,
-        updatedEquipmentWeight
-      );
-
-      sortEquipmentWeightByActiveCategory(updatedEquipmentWeights);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const sortEquipmentWeightByActiveCategory = (
     equipmentWeightList: EquipmentWeight[]
   ) => {
@@ -411,9 +364,6 @@ export const usePresetsList = (
         break;
       case "weight-desc":
         sortEquipmentWeightsByWeight(equipmentWeightList, false);
-        break;
-      case "plate-calc":
-        sortEquipmentWeightsByPlateCalcFirst(equipmentWeightList);
         break;
       default:
         break;
@@ -462,7 +412,6 @@ export const usePresetsList = (
     handleSortOptionSelectionDistance,
     isLoadingEquipment,
     isLoadingDistance,
-    togglePlateCalculator,
     plateCalculatorHandle,
     setPlateCalculatorHandle,
     isDefaultHandleIdInvalid,

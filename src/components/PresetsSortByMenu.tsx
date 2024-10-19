@@ -33,9 +33,6 @@ export const PresetsSortByMenu = ({
         <DropdownItem key="name">Name (A-Z)</DropdownItem>
         <DropdownItem key="weight-desc">Weight (High-Low)</DropdownItem>
         <DropdownItem key="weight-asc">Weight (Low-High)</DropdownItem>
-        <DropdownItem key="plate-calc">
-          Plate Calculator Items First
-        </DropdownItem>
       </DropdownMenu>
     </Dropdown>
   );

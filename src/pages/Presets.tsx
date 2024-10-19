@@ -72,7 +72,6 @@ export default function Presets() {
       weight: 0,
       weight_unit: "kg",
       is_favorite: 0,
-      is_in_plate_calculator: 0,
     };
   }, []);
 
@@ -191,14 +190,13 @@ export default function Presets() {
 
       const result = await db.execute(
         `INSERT into equipment_weights 
-         (name, weight, weight_unit, is_favorite, is_in_plate_calculator) 
-         VALUES ($1, $2, $3, $4, $5)`,
+         (name, weight, weight_unit, is_favorite) 
+         VALUES ($1, $2, $3, $4)`,
         [
           nameInput,
           weight,
           operatingEquipmentWeight.weight_unit,
           operatingEquipmentWeight.is_favorite,
-          operatingEquipmentWeight.is_in_plate_calculator,
         ]
       );
 
@@ -279,14 +277,12 @@ export default function Presets() {
       await db.execute(
         `UPDATE equipment_weights 
          SET name = $1, weight = $2, weight_unit = $3, is_favorite = $4, 
-         is_in_plate_calculator = $5 
-         WHERE id = $6`,
+         WHERE id = $5`,
         [
           nameInput,
           weight,
           operatingEquipmentWeight.weight_unit,
           operatingEquipmentWeight.is_favorite,
-          operatingEquipmentWeight.is_in_plate_calculator,
           operatingEquipmentWeight.id,
         ]
       );
@@ -839,27 +835,6 @@ export default function Presets() {
                         </span>
                       </div>
                       <div className="flex items-center pr-1">
-                        <Button
-                          aria-label={
-                            equipment.is_in_plate_calculator === 1
-                              ? `Remove ${equipment.name} From Plate Calculator`
-                              : `Add ${equipment.name} To Plate Calculator`
-                          }
-                          isIconOnly
-                          className="z-1 w-[3.5rem]"
-                          color={
-                            equipment.is_in_plate_calculator === 1
-                              ? "success"
-                              : "default"
-                          }
-                          variant="light"
-                          onPress={() => togglePlateCalculator(equipment)}
-                        >
-                          <WeightPlatesIcon
-                            isChecked={equipment.is_in_plate_calculator === 1}
-                            size={31}
-                          />
-                        </Button>
                         <FavoriteButton
                           name={equipment.name}
                           isFavorite={!!equipment.is_favorite}

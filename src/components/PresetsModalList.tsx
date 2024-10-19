@@ -119,7 +119,8 @@ export const PresetsModalList = ({
                     </span>
                   </div>
                   <div className="flex gap-1 items-center pr-2">
-                    <Button
+                    {/* TODO: REMOVE AFTER COPYING */}
+                    {/* <Button
                       aria-label={
                         equipment.is_in_plate_calculator === 1
                           ? `Remove ${equipment.name} From Plate Calculator`
@@ -139,7 +140,7 @@ export const PresetsModalList = ({
                         isChecked={equipment.is_in_plate_calculator === 1}
                         size={31}
                       />
-                    </Button>
+                    </Button> */}
                     <FavoriteButton
                       name={equipment.name}
                       isFavorite={!!equipment.is_favorite}

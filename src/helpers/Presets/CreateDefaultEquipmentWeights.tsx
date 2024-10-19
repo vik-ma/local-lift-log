@@ -15,14 +15,13 @@ export const CreateDefaultEquipmentWeights = async (isMetric: boolean) => {
 
       const result = await db.execute(
         `INSERT into equipment_weights 
-         (name, weight, weight_unit, is_favorite, is_in_plate_calculator) 
-         VALUES ($1, $2, $3, $4, $5)`,
+         (name, weight, weight_unit, is_favorite) 
+         VALUES ($1, $2, $3, $4)`,
         [
           equipment.name,
           equipment.weight,
           equipment.weight_unit,
           equipment.is_favorite,
-          equipment.is_in_plate_calculator,
         ]
       );
 
