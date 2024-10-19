@@ -8,6 +8,7 @@ import {
   FavoriteButton,
   EmptyListLabel,
   PresetsSortByMenu,
+  PlateCalculationModal,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -106,6 +107,7 @@ export default function Presets() {
   const deleteModal = useDisclosure();
   const presetModal = useDisclosure();
   const setUnitsModal = useDisclosure();
+  const plateCalculationModal = useDisclosure();
 
   const {
     equipmentWeights,
@@ -553,7 +555,7 @@ export default function Presets() {
 
     if (key === "edit") {
       setOperationType("edit");
-      // TODO: ADD MODAL
+      plateCalculationModal.onOpen();
     } else if (key === "delete") {
       setOperationType("delete");
       deleteModal.onOpen();
@@ -653,6 +655,12 @@ export default function Presets() {
           </p>
         }
         deleteButtonAction={handleDeleteButton}
+      />
+      <PlateCalculationModal
+        plateCalculationModal={plateCalculationModal}
+        plateCalculation={operatingPlateCalculation}
+        setPlateCalculation={setOperatingPlateCalculation}
+        buttonAction={() => {}}
       />
       <Modal
         isOpen={presetModal.isOpen}
