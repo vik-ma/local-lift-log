@@ -309,7 +309,7 @@ export default function RoutineDetails() {
   const dayNameList: string[] = useMemo(() => {
     return GetScheduleDayNames(
       routine.num_days_in_schedule ?? 7,
-      !!routine.is_schedule_weekly ?? true
+      !!routine.is_schedule_weekly
     );
   }, [routine.num_days_in_schedule, routine.is_schedule_weekly]);
 
@@ -324,7 +324,6 @@ export default function RoutineDetails() {
         setRoutine={setEditedRoutine}
         isRoutineNameValid={isRoutineNameValid}
         buttonAction={updateRoutine}
-        isEditing={true}
       />
       <DeleteModal
         deleteModal={deleteModal}

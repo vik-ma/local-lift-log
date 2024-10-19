@@ -267,7 +267,6 @@ export default function ExerciseList() {
         isExerciseGroupSetStringValid={isOperatingExerciseGroupSetStringValid}
         exerciseGroupList={exerciseGroupList}
         buttonAction={operationType === "edit" ? updateExercise : addExercise}
-        isEditing={operationType === "edit"}
       />
       <Modal
         isOpen={exerciseGroupModal.isOpen}

@@ -15,7 +15,6 @@ type WorkoutTemplateModalProps = {
   setWorkoutTemplate: React.Dispatch<React.SetStateAction<WorkoutTemplate>>;
   isWorkoutTemplateNameValid: boolean;
   buttonAction: () => void;
-  isEditing: boolean;
 };
 
 export const WorkoutTemplateModal = ({
@@ -24,7 +23,6 @@ export const WorkoutTemplateModal = ({
   setWorkoutTemplate,
   isWorkoutTemplateNameValid,
   buttonAction,
-  isEditing,
 }: WorkoutTemplateModalProps) => {
   return (
     <Modal
@@ -80,7 +78,7 @@ export const WorkoutTemplateModal = ({
                 onPress={buttonAction}
                 isDisabled={!isWorkoutTemplateNameValid}
               >
-                {isEditing ? "Save" : "Create"}
+                {workoutTemplate.id !== 0 ? "Save" : "Create"}
               </Button>
             </ModalFooter>
           </>

@@ -207,7 +207,6 @@ export default function WorkoutTemplateList() {
         buttonAction={
           operationType === "edit" ? updateWorkoutTemplate : addWorkoutTemplate
         }
-        isEditing={operationType === "edit"}
       />
       <DeleteModal
         deleteModal={deleteModal}

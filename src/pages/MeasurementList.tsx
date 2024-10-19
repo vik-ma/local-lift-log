@@ -331,7 +331,6 @@ export default function MeasurementList() {
         isMeasurementNameValid={isNewMeasurementNameValid}
         handleMeasurementTypeChange={handleMeasurementTypeChange}
         buttonAction={handleSaveButton}
-        isEditing={operationType === "edit"}
       />
       <Modal
         isOpen={setUnitsModal.isOpen}

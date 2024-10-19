@@ -186,7 +186,6 @@ export default function WorkoutTemplateDetails() {
         setWorkoutTemplate={setEditedWorkoutTemplate}
         isWorkoutTemplateNameValid={isNewWorkoutTemplateNameValid}
         buttonAction={updateWorkoutTemplate}
-        isEditing={true}
       />
       <DeleteModal
         deleteModal={deleteModal}

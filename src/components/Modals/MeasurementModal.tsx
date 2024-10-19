@@ -19,7 +19,6 @@ type MeasurementModalProps = {
   isMeasurementNameValid: boolean;
   handleMeasurementTypeChange: (measurementType: string) => void;
   buttonAction: () => void;
-  isEditing: boolean;
 };
 
 export const MeasurementModal = ({
@@ -29,7 +28,6 @@ export const MeasurementModal = ({
   isMeasurementNameValid,
   handleMeasurementTypeChange,
   buttonAction,
-  isEditing,
 }: MeasurementModalProps) => {
   return (
     <Modal
@@ -91,7 +89,7 @@ export const MeasurementModal = ({
                 isDisabled={!isMeasurementNameValid}
                 onPress={buttonAction}
               >
-                {isEditing ? "Update" : "Create"}
+                {measurement.id !== 0 ? "Update" : "Create"}
               </Button>
             </ModalFooter>
           </>

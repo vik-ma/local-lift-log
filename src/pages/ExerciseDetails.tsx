@@ -114,7 +114,6 @@ export default function ExerciseDetails() {
         isExerciseGroupSetStringValid={isEditedExerciseGroupSetStringValid}
         exerciseGroupList={exerciseGroupList}
         buttonAction={updateExercise}
-        isEditing={true}
       />
       <div className="flex flex-col gap-4">
         <DetailsHeader

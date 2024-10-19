@@ -249,7 +249,6 @@ export default function RoutineList() {
         setRoutine={setOperatingRoutine}
         isRoutineNameValid={isRoutineNameValid}
         buttonAction={operationType === "edit" ? updateRoutine : addRoutine}
-        isEditing={operationType === "edit"}
       />
       <DeleteModal
         deleteModal={deleteModal}
