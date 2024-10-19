@@ -37,3 +37,4 @@ export { useMeasurementList } from "./useMeasurementList";
 export { usePresetsList } from "./usePresetsList";
 export { useCalculationModal } from "./useCalculationModal";
 export { useExerciseGroupList } from "./useExerciseGroupList";
+export { usePlateCalculationModal } from "./usePlateCalculationModal";

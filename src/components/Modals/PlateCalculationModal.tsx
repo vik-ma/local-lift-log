@@ -7,11 +7,14 @@ import {
   ModalFooter,
   Input,
 } from "@nextui-org/react";
-import { PlateCalculation, UseDisclosureReturnType } from "../../typings";
+import {
+  PlateCalculation,
+  UsePlateCalculationModalReturnType,
+} from "../../typings";
 import { useValidateName } from "../../hooks";
 
 type PlateCalculationModalProps = {
-  plateCalculationModal: UseDisclosureReturnType;
+  plateCalculationModal: UsePlateCalculationModalReturnType;
   plateCalculation: PlateCalculation;
   setPlateCalculation: React.Dispatch<React.SetStateAction<PlateCalculation>>;
   buttonAction: () => void;
@@ -27,8 +30,8 @@ export const PlateCalculationModal = ({
 
   return (
     <Modal
-      isOpen={plateCalculationModal.isOpen}
-      onOpenChange={plateCalculationModal.onOpenChange}
+      isOpen={plateCalculationModal.plateCalculationModal.isOpen}
+      onOpenChange={plateCalculationModal.plateCalculationModal.onOpenChange}
     >
       <ModalContent>
         {(onClose) => (

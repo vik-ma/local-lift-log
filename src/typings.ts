@@ -596,3 +596,13 @@ export type AvailablePlates = {
   equipmentWeightId: number;
   numAvailable: number;
 };
+
+export type PlateCalculationPage = "base" | "equipment-list";
+
+export type UsePlateCalculationModalReturnType = {
+  plateCalculatorPage: PlateCalculationPage;
+  setPlateCalculatorPage: React.Dispatch<
+    React.SetStateAction<PlateCalculationPage>
+  >;
+  plateCalculationModal: UseDisclosureReturnType;
+};
