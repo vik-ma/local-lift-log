@@ -605,4 +605,5 @@ export type UsePlateCalculationModalReturnType = {
     React.SetStateAction<PlateCalculationPage>
   >;
   plateCalculationModal: UseDisclosureReturnType;
+  resetAndOpenPlateCalculationModal: () => void;
 };

@@ -44,7 +44,11 @@ import {
   UpdateItemInList,
 } from "../helpers";
 import toast, { Toaster } from "react-hot-toast";
-import { usePlateCalculationModal, usePresetsList, useValidateName } from "../hooks";
+import {
+  usePlateCalculationModal,
+  usePresetsList,
+  useValidateName,
+} from "../hooks";
 import { VerticalMenuIcon, WeightPlatesIcon } from "../assets";
 import { useSearchParams } from "react-router-dom";
 
@@ -508,7 +512,7 @@ export default function Presets() {
 
   const handleAddPlateCalculationButton = () => {
     resetOperatingPlateCalculation();
-    plateCalculationModal.plateCalculationModal.onOpen();
+    plateCalculationModal.resetAndOpenPlateCalculationModal();
   };
 
   const handleEquipmentWeightOptionSelection = (
@@ -555,7 +559,7 @@ export default function Presets() {
 
     if (key === "edit") {
       setOperationType("edit");
-      plateCalculationModal.plateCalculationModal.onOpen();
+      plateCalculationModal.resetAndOpenPlateCalculationModal();
     } else if (key === "delete") {
       setOperationType("delete");
       deleteModal.onOpen();

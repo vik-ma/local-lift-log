@@ -8,5 +8,15 @@ export const usePlateCalculationModal = () => {
 
   const plateCalculationModal = useDisclosure();
 
-  return { plateCalculatorPage, setPlateCalculatorPage, plateCalculationModal };
+  const resetAndOpenPlateCalculationModal = () => {
+    setPlateCalculatorPage("base");
+    plateCalculationModal.onOpen();
+  };
+
+  return {
+    plateCalculatorPage,
+    setPlateCalculatorPage,
+    plateCalculationModal,
+    resetAndOpenPlateCalculationModal,
+  };
 };
