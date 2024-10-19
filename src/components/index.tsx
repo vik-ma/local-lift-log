@@ -53,3 +53,4 @@ export { MultisetModal } from "./Modals/MultisetModal";
 export { TextInputModal } from "./Modals/TextInputModal";
 export { WorkoutListModal } from "./Modals/WorkoutListModal";
 export { CalculationModal } from "./Modals/CalculationModal";
+export { PlateCalculationModal } from "./Modals/PlateCalculationModal";
