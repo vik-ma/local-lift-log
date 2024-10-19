@@ -29,7 +29,7 @@ import {
   SumCalculatorPage,
 } from "../typings";
 
-type SumCalculationProps = {
+type SumCalculatorProps = {
   equipmentWeights: EquipmentWeight[];
   distances: Distance[];
   weightUnit: string;
@@ -68,7 +68,7 @@ type SumCalculationProps = {
   >;
 };
 
-export const SumCalculation = ({
+export const SumCalculator = ({
   equipmentWeights,
   distances,
   weightUnit,
@@ -97,7 +97,7 @@ export const SumCalculation = ({
   setOperationTypeSumCalc,
   operatingCalculationItem,
   setOperatingCalculationItem,
-}: SumCalculationProps) => {
+}: SumCalculatorProps) => {
   const [isCalculationInvalid, setIsCalculationInvalid] =
     useState<boolean>(true);
   const [showNumberInput, setShowNumberInput] = useState<boolean>(false);

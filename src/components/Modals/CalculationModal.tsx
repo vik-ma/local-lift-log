@@ -30,8 +30,7 @@ import {
   IsStringInvalidNumberOr0,
   UpdateDefaultEquipmentWeightId,
 } from "../../helpers";
-import { PlateCalculation } from "../PlateCalculation";
-import { SumCalculation } from "../SumCalculation";
+import { PlateCalculator, SumCalculator } from "..";
 
 type CalculationModalProps = {
   useCalculationModal: UseCalculationModalReturnType;
@@ -316,7 +315,7 @@ export const CalculationModal = ({
                   fullWidth
                 >
                   <Tab key="sum" title="Sum">
-                    <SumCalculation
+                    <SumCalculator
                       equipmentWeights={equipmentWeights}
                       distances={distances}
                       weightUnit={weightUnit}
@@ -352,7 +351,7 @@ export const CalculationModal = ({
                     />
                   </Tab>
                   <Tab key="plate" title="Plates">
-                    <PlateCalculation
+                    <PlateCalculator
                       equipmentWeights={equipmentWeights}
                       weightUnit={weightUnit}
                       plateCalculatorHandle={plateCalculatorHandle}

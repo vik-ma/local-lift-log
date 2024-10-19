@@ -13,7 +13,7 @@ import {
 } from "../typings";
 import { PresetsModalList } from "./PresetsModalList";
 
-type PlateCalculationProps = {
+type PlateCalculatorProps = {
   equipmentWeights: EquipmentWeight[];
   weightUnit: string;
   plateCalculatorHandle: EquipmentWeight | undefined;
@@ -32,14 +32,14 @@ type PlateCalculationProps = {
   setNumHandles: React.Dispatch<React.SetStateAction<string>>;
 };
 
-type PlateCalculation = {
+type PlateCalculatorItems = {
   plateMap: Map<number, number>;
   targetWeight: number;
   remainingWeight: number;
   isOneHandle: boolean;
 };
 
-export const PlateCalculation = ({
+export const PlateCalculator = ({
   equipmentWeights,
   weightUnit,
   plateCalculatorHandle,
@@ -52,8 +52,8 @@ export const PlateCalculation = ({
   setTargetWeightInput,
   numHandles,
   setNumHandles,
-}: PlateCalculationProps) => {
-  const defaultPlateCalculation: PlateCalculation = useMemo(() => {
+}: PlateCalculatorProps) => {
+  const defaultPlateCalculation: PlateCalculatorItems = useMemo(() => {
     return {
       plateMap: new Map(),
       targetWeight: 0,
@@ -62,7 +62,7 @@ export const PlateCalculation = ({
     };
   }, []);
 
-  const [plateCalculation, setPlateCalculation] = useState<PlateCalculation>(
+  const [plateCalculation, setPlateCalculation] = useState<PlateCalculatorItems>(
     defaultPlateCalculation
   );
 

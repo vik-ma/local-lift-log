@@ -23,9 +23,9 @@ export { EmptyListLabel } from "./EmptyListLabel";
 export { Calculator } from "./Calculator";
 export { ExerciseGroupCheckboxes } from "./ExerciseGroupCheckboxes";
 export { PresetsModalList } from "./PresetsModalList";
-export { PlateCalculation } from "./PlateCalculation";
+export { PlateCalculator } from "./PlateCalculator";
 export { PresetsSortByMenu } from "./PresetsSortByMenu";
-export { SumCalculation } from "./SumCalculation";
+export { SumCalculator } from "./SumCalculator";
 
 export { WeightUnitDropdown } from "./Dropdowns/WeightUnitDropdown";
 export { DistanceUnitDropdown } from "./Dropdowns/DistanceUnitDropdown";
