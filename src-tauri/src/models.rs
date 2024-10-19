@@ -143,7 +143,6 @@ pub struct EquipmentWeight {
     pub weight: f32,
     pub weight_unit: String,
     pub is_favorite: i16,
-    pub is_in_plate_calculator: i16,
 }
 
 #[derive(Queryable, Selectable)]

@@ -133,7 +133,6 @@ diesel::table! {
         weight -> Float,
         weight_unit -> Text,
         is_favorite -> SmallInt,
-        is_in_plate_calculator -> SmallInt,
     }
 }
 
