@@ -511,6 +511,11 @@ export default function Presets() {
     presetModal.onOpen();
   };
 
+  const handleAddPlateCalculationButton = () => {
+    resetOperatingPlateCalculation();
+    plateCalculationModal.onOpen();
+  };
+
   const handleEquipmentWeightOptionSelection = (
     key: string,
     equipment: EquipmentWeight
@@ -1038,8 +1043,7 @@ export default function Presets() {
                   <Button
                     color="secondary"
                     variant="flat"
-                    // TODO: ADD handleAddPlateCalculationButton
-                    onPress={() => {}}
+                    onPress={handleAddPlateCalculationButton}
                     size="sm"
                   >
                     New Plate Calculation
