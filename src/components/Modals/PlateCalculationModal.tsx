@@ -10,13 +10,16 @@ import {
 import {
   PlateCalculation,
   UsePlateCalculationModalReturnType,
+  UsePresetsListReturnType,
 } from "../../typings";
 import { useValidateName } from "../../hooks";
+import { PresetsModalList } from "../PresetsModalList";
 
 type PlateCalculationModalProps = {
   plateCalculationModal: UsePlateCalculationModalReturnType;
   plateCalculation: PlateCalculation;
   setPlateCalculation: React.Dispatch<React.SetStateAction<PlateCalculation>>;
+  presetsList: UsePresetsListReturnType;
   buttonAction: () => void;
 };
 
@@ -24,6 +27,7 @@ export const PlateCalculationModal = ({
   plateCalculationModal,
   plateCalculation,
   setPlateCalculation,
+  presetsList,
   buttonAction,
 }: PlateCalculationModalProps) => {
   const isNameInputValid = useValidateName(plateCalculation.name);
@@ -48,30 +52,41 @@ export const PlateCalculationModal = ({
               {plateCalculation.id === 0 ? "New" : "Edit"} Plate Calculation
             </ModalHeader>
             <ModalBody>
-              {plateCalculationModal.plateCalculatorPage === "base" ? (
-                <div className="flex flex-col gap-5">
-                  <div className="flex flex-col gap-0.5">
-                    <Input
-                      className="h-[5rem]"
-                      value={plateCalculation.name}
-                      isInvalid={!isNameInputValid}
-                      label="Name"
-                      errorMessage={!isNameInputValid && "Name can't be empty"}
-                      variant="faded"
-                      onValueChange={(value) =>
-                        setPlateCalculation((prev) => ({
-                          ...prev,
-                          name: value,
-                        }))
-                      }
-                      isRequired
-                      isClearable
+              <div className="h-[450px]">
+                {plateCalculationModal.plateCalculatorPage === "base" ? (
+                  <div className="flex flex-col gap-5">
+                    <div className="flex flex-col gap-0.5">
+                      <Input
+                        className="h-[5rem]"
+                        value={plateCalculation.name}
+                        isInvalid={!isNameInputValid}
+                        label="Name"
+                        errorMessage={
+                          !isNameInputValid && "Name can't be empty"
+                        }
+                        variant="faded"
+                        onValueChange={(value) =>
+                          setPlateCalculation((prev) => ({
+                            ...prev,
+                            name: value,
+                          }))
+                        }
+                        isRequired
+                        isClearable
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    <PresetsModalList
+                      presetsList={presetsList}
+                      handlePresetClick={() => {}}
+                      showExtraMenu
+                      heightString="h-[410px]"
                     />
                   </div>
-                </div>
-              ) : (
-                <div>test</div>
-              )}
+                )}
+              </div>
             </ModalBody>
             <ModalFooter className="flex justify-between">
               <div className="flex gap-2">

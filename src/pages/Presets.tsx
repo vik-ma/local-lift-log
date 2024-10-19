@@ -112,6 +112,8 @@ export default function Presets() {
   const setUnitsModal = useDisclosure();
   const plateCalculationModal = usePlateCalculationModal();
 
+  const presetsList = usePresetsList(true, true);
+
   const {
     equipmentWeights,
     setEquipmentWeights,
@@ -138,7 +140,7 @@ export default function Presets() {
     filterQueryPlateCalculation,
     setFilterQueryPlateCalculation,
     filteredPlateCalculations,
-  } = usePresetsList(true, true);
+  } = presetsList;
 
   useEffect(() => {
     const loadUserSettings = async () => {
@@ -664,6 +666,7 @@ export default function Presets() {
         plateCalculationModal={plateCalculationModal}
         plateCalculation={operatingPlateCalculation}
         setPlateCalculation={setOperatingPlateCalculation}
+        presetsList={presetsList}
         buttonAction={() => {}}
       />
       <Modal
