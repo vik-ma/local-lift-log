@@ -36,13 +36,9 @@ export const CreateDefaultUserSettings = async (
 
   const save_calculation_string = 1;
 
-  const default_equipment_weight_id = 1;
-
   const show_calculation_buttons = 1;
 
   const default_increment_calculation_multiplier = 1;
-
-  const default_num_handles = 1;
 
   const default_calculation_tab = "plate";
 
@@ -66,12 +62,12 @@ export const CreateDefaultUserSettings = async (
         default_unit_distance, default_time_input, default_unit_measurement, 
         active_tracking_measurements, locale, clock_style, time_input_behavior_hhmmss, 
         time_input_behavior_mmss, default_increment_weight, default_increment_distance, 
-        default_increment_time, default_increment_resistance_level,
-        save_calculation_string, default_equipment_weight_id, show_calculation_buttons, 
-        default_increment_calculation_multiplier, default_num_handles, default_calculation_tab,
+        default_increment_time, default_increment_resistance_level, 
+        save_calculation_string, show_calculation_buttons, 
+        default_increment_calculation_multiplier, default_calculation_tab, 
         shown_workout_properties, default_plate_calculation_id) 
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, 
-        $17, $18, $19, $20, $21, $22, $23)`,
+        $17, $18, $19, $20, $21)`,
       [
         show_timestamp_on_completed_set,
         active_routine_id,
@@ -89,10 +85,8 @@ export const CreateDefaultUserSettings = async (
         default_increment_time,
         default_increment_resistance_level,
         save_calculation_string,
-        default_equipment_weight_id,
         show_calculation_buttons,
         default_increment_calculation_multiplier,
-        default_num_handles,
         default_calculation_tab,
         shown_workout_properties,
         default_plate_calculation_id,
@@ -119,10 +113,8 @@ export const CreateDefaultUserSettings = async (
       default_increment_time,
       default_increment_resistance_level,
       save_calculation_string,
-      default_equipment_weight_id,
       show_calculation_buttons,
       default_increment_calculation_multiplier,
-      default_num_handles,
       default_calculation_tab,
       shown_workout_properties,
       default_plate_calculation_id,

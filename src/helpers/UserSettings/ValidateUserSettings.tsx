@@ -77,20 +77,12 @@ export const ValidateUserSettings = (userSettings: UserSettings): boolean => {
 
   if (!IsNumberValidBinary(userSettings.save_calculation_string)) return false;
 
-  if (!IsNumberValidId(userSettings.default_equipment_weight_id)) return false;
-
   if (!IsNumberValidBinary(userSettings.show_calculation_buttons)) return false;
 
   if (
     !IsNumberValidAndAbove0(
       userSettings.default_increment_calculation_multiplier
     )
-  )
-    return false;
-
-  if (
-    userSettings.default_num_handles !== 1 &&
-    userSettings.default_num_handles !== 2
   )
     return false;
 

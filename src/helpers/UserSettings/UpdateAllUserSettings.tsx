@@ -18,11 +18,10 @@ export const UpdateAllUserSettings = async (
       clock_style = $9, time_input_behavior_hhmmss = $10, time_input_behavior_mmss = $11,
       default_increment_weight = $12, default_increment_distance = $13, 
       default_increment_time = $14, default_increment_resistance_level = $15,
-      save_calculation_string = $16, default_equipment_weight_id = $17, 
-      show_calculation_buttons = $18, default_increment_calculation_multiplier = $19, 
-      default_num_handles = $20, default_calculation_tab = $21, shown_workout_properties = $22,  
-      default_plate_calculation_id = $23
-      WHERE id = $24`,
+      save_calculation_string = $16, show_calculation_buttons = $17,
+      default_increment_calculation_multiplier = $18, default_calculation_tab = $19,
+      shown_workout_properties = $20, default_plate_calculation_id = $21
+      WHERE id = $22`,
       [
         userSettings.show_timestamp_on_completed_set,
         userSettings.active_routine_id,
@@ -40,10 +39,8 @@ export const UpdateAllUserSettings = async (
         userSettings.default_increment_time,
         userSettings.default_increment_resistance_level,
         userSettings.save_calculation_string,
-        userSettings.default_equipment_weight_id,
         userSettings.show_calculation_buttons,
         userSettings.default_increment_calculation_multiplier,
-        userSettings.default_num_handles,
         userSettings.default_calculation_tab,
         userSettings.shown_workout_properties,
         userSettings.default_plate_calculation_id,

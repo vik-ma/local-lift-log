@@ -29,10 +29,8 @@ export type UserSettings = {
   default_increment_time: number;
   default_increment_resistance_level: number;
   save_calculation_string: number;
-  default_equipment_weight_id: number;
   show_calculation_buttons: number;
   default_increment_calculation_multiplier: number;
-  default_num_handles: number;
   default_calculation_tab: string;
   shown_workout_properties: string;
   default_plate_calculation_id: number;
