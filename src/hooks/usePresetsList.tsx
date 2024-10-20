@@ -52,6 +52,7 @@ export const usePresetsList = (
       available_plates_string: "",
       num_handles: 1,
       weight_unit: "kg",
+      availablePlatesMap: new Map(),
     };
   }, []);
 

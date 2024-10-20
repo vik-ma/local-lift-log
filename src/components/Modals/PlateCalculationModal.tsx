@@ -8,12 +8,14 @@ import {
   Input,
 } from "@nextui-org/react";
 import {
+  EquipmentWeight,
   PlateCalculation,
   UsePlateCalculationModalReturnType,
   UsePresetsListReturnType,
 } from "../../typings";
 import { useValidateName } from "../../hooks";
 import { PresetsModalList } from "../PresetsModalList";
+import { GenerateFormattedAvailablePlatesString } from "../../helpers";
 
 type PlateCalculationModalProps = {
   plateCalculationModal: UsePlateCalculationModalReturnType;
@@ -32,12 +34,42 @@ export const PlateCalculationModal = ({
 }: PlateCalculationModalProps) => {
   const isNameInputValid = useValidateName(plateCalculation.name);
 
+  const { operatingPlateCalculation, setOperatingPlateCalculation } =
+    presetsList;
+
   const changePlateCalculatorPage = () => {
     if (plateCalculationModal.plateCalculatorPage === "base") {
       plateCalculationModal.setPlateCalculatorPage("equipment-list");
     } else {
       plateCalculationModal.setPlateCalculatorPage("base");
     }
+  };
+
+  const updateAvailablePlatesMap = (equipmentWeight: EquipmentWeight) => {
+    if (operatingPlateCalculation.availablePlatesMap === undefined) return;
+
+    const updatedAvailablePlatesMap = new Map(
+      operatingPlateCalculation.availablePlatesMap
+    );
+
+    updatedAvailablePlatesMap.set(equipmentWeight, 12);
+
+    const {
+      available_plates_string,
+      formattedAvailablePlatesString,
+      formattedAvailablePlatesMapString,
+    } = GenerateFormattedAvailablePlatesString(updatedAvailablePlatesMap);
+
+    const updatedPlateCalculation = {
+      ...operatingPlateCalculation,
+      available_plates_string,
+      availablePlatesMap: updatedAvailablePlatesMap,
+      formattedAvailablePlatesString,
+      formattedAvailablePlatesMapString,
+    };
+
+    setOperatingPlateCalculation(updatedPlateCalculation);
+    plateCalculationModal.setPlateCalculatorPage("base");
   };
 
   return (
@@ -84,6 +116,7 @@ export const PlateCalculationModal = ({
                       showSortButton
                       heightString="h-[410px]"
                       validWeightUnit={plateCalculation.weight_unit}
+                      updateAvailablePlatesMap={updateAvailablePlatesMap}
                     />
                   </div>
                 )}

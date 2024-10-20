@@ -1,5 +1,8 @@
 import { EquipmentWeight, PlateCalculation } from "../../typings";
-import { IsNumberDivisibleBy2 } from "..";
+import {
+  GenerateFormattedAvailablePlatesString,
+  IsNumberDivisibleBy2,
+} from "..";
 
 export const CreatePlateCalculationList = (
   plateCalculations: PlateCalculation[],
@@ -40,18 +43,10 @@ export const CreatePlateCalculationList = (
       }
     }
 
-    const availablePlatesWeightStrings: string[] = [];
-    const availablePlatesMapStrings: string[] = [];
-
-    for (const [key, value] of availablePlatesMap) {
-      availablePlatesWeightStrings.push(key.weight.toString());
-      availablePlatesMapStrings.push(`${key.weight}: ${value}`);
-    }
-
-    const formattedAvailablePlatesString =
-      availablePlatesWeightStrings.join(", ");
-    const formattedAvailablePlatesMapString =
-      availablePlatesMapStrings.join(", ");
+    const {
+      formattedAvailablePlatesString,
+      formattedAvailablePlatesMapString,
+    } = GenerateFormattedAvailablePlatesString(availablePlatesMap);
 
     const plateCalculation: PlateCalculation = {
       ...plate,

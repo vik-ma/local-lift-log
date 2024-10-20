@@ -21,6 +21,7 @@ type PresetsModalListProps = {
   showModifyButton?: boolean;
   showSortButton?: boolean;
   validWeightUnit?: string;
+  updateAvailablePlatesMap?: (equipmentWeight: EquipmentWeight) => void;
 };
 
 export const PresetsModalList = ({
@@ -30,6 +31,7 @@ export const PresetsModalList = ({
   showModifyButton,
   showSortButton,
   validWeightUnit,
+  updateAvailablePlatesMap,
 }: PresetsModalListProps) => {
   const {
     presetsType,
@@ -48,12 +50,15 @@ export const PresetsModalList = ({
     sortCategoryEquipment,
     handleSortOptionSelectionEquipment,
     operatingPlateCalculation,
-    setOperatingPlateCalculation,
   } = presetsList;
 
   const navigate = useNavigate();
 
-  const handlePlateCalculatorButton = (equipmentWeight: EquipmentWeight) => {};
+  const handlePlateCalculatorButton = (equipmentWeight: EquipmentWeight) => {
+    if (updateAvailablePlatesMap !== undefined) {
+      updateAvailablePlatesMap(equipmentWeight);
+    }
+  };
 
   return (
     <div className={`flex flex-col gap-1.5 ${heightString}`}>
