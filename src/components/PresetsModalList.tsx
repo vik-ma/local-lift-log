@@ -21,6 +21,7 @@ type PresetsModalListProps = {
   showModifyButton?: boolean;
   showSortButton?: boolean;
   validWeightUnit?: string;
+  availablePlatesMap?: Map<EquipmentWeight, number>;
 };
 
 export const PresetsModalList = ({
@@ -30,6 +31,7 @@ export const PresetsModalList = ({
   showModifyButton,
   showSortButton,
   validWeightUnit,
+  availablePlatesMap,
 }: PresetsModalListProps) => {
   const {
     presetsType,
@@ -125,27 +127,28 @@ export const PresetsModalList = ({
                   </div>
                   <div className="flex gap-1 items-center pr-2">
                     {/* TODO: REMOVE AFTER COPYING */}
-                    {/* <Button
+                    <Button
                       aria-label={
-                        equipment.is_in_plate_calculator === 1
-                          ? `Remove ${equipment.name} From Plate Calculator`
-                          : `Add ${equipment.name} To Plate Calculator`
+                        availablePlatesMap?.has(equipment)
+                          ? `Remove ${equipment.name} From Plate Calculation`
+                          : `Add ${equipment.name} To Plate Calculation`
                       }
                       isIconOnly
                       className="z-1 w-[3.5rem]"
                       color={
-                        equipment.is_in_plate_calculator === 1
+                        availablePlatesMap?.has(equipment)
                           ? "success"
                           : "default"
                       }
                       variant="light"
-                      onPress={() => togglePlateCalculator(equipment)}
+                      // TODO: FIX
+                      // onPress={() => togglePlateCalculator(equipment)}
                     >
                       <WeightPlatesIcon
-                        isChecked={equipment.is_in_plate_calculator === 1}
+                        isChecked={availablePlatesMap?.has(equipment) ?? false}
                         size={31}
                       />
-                    </Button> */}
+                    </Button>
                     <FavoriteButton
                       name={equipment.name}
                       isFavorite={!!equipment.is_favorite}

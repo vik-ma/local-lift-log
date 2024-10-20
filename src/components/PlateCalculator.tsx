@@ -352,6 +352,7 @@ export const PlateCalculator = ({
           showModifyButton
           showSortButton
           heightString="h-[410px]"
+          validWeightUnit={weightUnit}
         />
       )}
     </>

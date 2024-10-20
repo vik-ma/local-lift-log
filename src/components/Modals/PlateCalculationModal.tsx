@@ -83,6 +83,8 @@ export const PlateCalculationModal = ({
                       handlePresetClick={() => {}}
                       showSortButton
                       heightString="h-[410px]"
+                      validWeightUnit={plateCalculation.weight_unit}
+                      availablePlatesMap={plateCalculation.availablePlatesMap}
                     />
                   </div>
                 )}
