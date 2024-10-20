@@ -69,7 +69,6 @@ export const PlateCalculationModal = ({
     };
 
     setOperatingPlateCalculation(updatedPlateCalculation);
-    plateCalculationModal.setPlateCalculatorPage("base");
   };
 
   return (
