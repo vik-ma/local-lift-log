@@ -52,7 +52,11 @@ export const PlateCalculationModal = ({
       operatingPlateCalculation.availablePlatesMap
     );
 
-    updatedAvailablePlatesMap.set(equipmentWeight, 12);
+    if (updatedAvailablePlatesMap.has(equipmentWeight)) {
+      updatedAvailablePlatesMap.delete(equipmentWeight);
+    } else {
+      updatedAvailablePlatesMap.set(equipmentWeight, 12);
+    }
 
     const {
       available_plates_string,
