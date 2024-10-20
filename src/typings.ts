@@ -580,6 +580,8 @@ export type OperationTypePlateCalc =
   | "change-handle"
   | "show-list";
 
+export type AvailablePlatesMap = Map<EquipmentWeight, number>;
+
 export type PlateCalculation = {
   id: number;
   name: string;
@@ -588,7 +590,7 @@ export type PlateCalculation = {
   num_handles: number;
   weight_unit: string;
   handle?: EquipmentWeight | undefined;
-  availablePlatesMap?: Map<EquipmentWeight, number>;
+  availablePlatesMap?: AvailablePlatesMap;
   formattedAvailablePlatesString?: string;
   formattedAvailablePlatesMapString?: string;
 };
