@@ -26,6 +26,7 @@ export { PresetsModalList } from "./PresetsModalList";
 export { PlateCalculator } from "./PlateCalculator";
 export { PresetsSortByMenu } from "./PresetsSortByMenu";
 export { SumCalculator } from "./SumCalculator";
+export { PlateCalculationModalList } from "./PlateCalculationModalList";
 
 export { WeightUnitDropdown } from "./Dropdowns/WeightUnitDropdown";
 export { DistanceUnitDropdown } from "./Dropdowns/DistanceUnitDropdown";
