@@ -89,23 +89,10 @@ export default function Presets() {
     };
   }, []);
 
-  const defaultPlateCalculation: PlateCalculation = useMemo(() => {
-    return {
-      id: 0,
-      name: "",
-      handle_id: 0,
-      available_plates_string: "",
-      num_handles: 1,
-      weight_unit: "kg",
-    };
-  }, []);
-
   const [operatingEquipmentWeight, setOperatingEquipmentWeight] =
     useState<EquipmentWeight>(defaultEquipmentWeight);
   const [operatingDistance, setOperatingDistance] =
     useState<Distance>(defaultDistance);
-  const [operatingPlateCalculation, setOperatingPlateCalculation] =
-    useState<PlateCalculation>(defaultPlateCalculation);
 
   const deleteModal = useDisclosure();
   const presetModal = useDisclosure();
@@ -140,6 +127,9 @@ export default function Presets() {
     filterQueryPlateCalculation,
     setFilterQueryPlateCalculation,
     filteredPlateCalculations,
+    operatingPlateCalculation,
+    setOperatingPlateCalculation,
+    defaultPlateCalculation,
   } = presetsList;
 
   useEffect(() => {

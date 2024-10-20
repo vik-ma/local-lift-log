@@ -40,12 +40,23 @@ export const usePresetsList = (
     useState<EquipmentWeight>();
   const [isDefaultHandleIdInvalid, setIsDefaultHandleIdInvalid] =
     useState<boolean>(false);
-
   const [plateCalculations, setPlateCalculations] = useState<
     PlateCalculation[]
   >([]);
-  const [selectedPlateCalculation, setSelectedPlateCalculation] =
-    useState<PlateCalculation>();
+
+  const defaultPlateCalculation: PlateCalculation = useMemo(() => {
+    return {
+      id: 0,
+      name: "",
+      handle_id: 0,
+      available_plates_string: "",
+      num_handles: 1,
+      weight_unit: "kg",
+    };
+  }, []);
+
+  const [operatingPlateCalculation, setOperatingPlateCalculation] =
+    useState<PlateCalculation>(defaultPlateCalculation);
 
   const filteredEquipmentWeights = useMemo(() => {
     if (filterQueryEquipment !== "") {
@@ -123,7 +134,7 @@ export const usePresetsList = (
           );
 
           if (defaultPlateCalculation !== undefined) {
-            setSelectedPlateCalculation(defaultPlateCalculation);
+            setOperatingPlateCalculation(defaultPlateCalculation);
           } else {
             setIsDefaultHandleIdInvalid(true);
           }
@@ -420,10 +431,11 @@ export const usePresetsList = (
     sortDistancesByActiveCategory,
     plateCalculations,
     setPlateCalculations,
-    selectedPlateCalculation,
-    setSelectedPlateCalculation,
+    operatingPlateCalculation,
+    setOperatingPlateCalculation,
     filteredPlateCalculations,
     filterQueryPlateCalculation,
     setFilterQueryPlateCalculation,
+    defaultPlateCalculation,
   };
 };

@@ -21,7 +21,6 @@ type PresetsModalListProps = {
   showModifyButton?: boolean;
   showSortButton?: boolean;
   validWeightUnit?: string;
-  availablePlatesMap?: Map<EquipmentWeight, number>;
 };
 
 export const PresetsModalList = ({
@@ -31,7 +30,6 @@ export const PresetsModalList = ({
   showModifyButton,
   showSortButton,
   validWeightUnit,
-  availablePlatesMap,
 }: PresetsModalListProps) => {
   const {
     presetsType,
@@ -49,9 +47,13 @@ export const PresetsModalList = ({
     toggleFavoriteDistance,
     sortCategoryEquipment,
     handleSortOptionSelectionEquipment,
+    operatingPlateCalculation,
+    setOperatingPlateCalculation,
   } = presetsList;
 
   const navigate = useNavigate();
+
+  const handlePlateCalculatorButton = (equipmentWeight: EquipmentWeight) => {};
 
   return (
     <div className={`flex flex-col gap-1.5 ${heightString}`}>
@@ -126,26 +128,32 @@ export const PresetsModalList = ({
                     </span>
                   </div>
                   <div className="flex gap-1 items-center pr-2">
-                    {/* TODO: REMOVE AFTER COPYING */}
                     <Button
                       aria-label={
-                        availablePlatesMap?.has(equipment)
+                        operatingPlateCalculation?.availablePlatesMap?.has(
+                          equipment
+                        )
                           ? `Remove ${equipment.name} From Plate Calculation`
                           : `Add ${equipment.name} To Plate Calculation`
                       }
                       isIconOnly
                       className="z-1 w-[3.5rem]"
                       color={
-                        availablePlatesMap?.has(equipment)
+                        operatingPlateCalculation?.availablePlatesMap?.has(
+                          equipment
+                        )
                           ? "success"
                           : "default"
                       }
                       variant="light"
-                      // TODO: FIX
-                      // onPress={() => togglePlateCalculator(equipment)}
+                      onPress={() => handlePlateCalculatorButton(equipment)}
                     >
                       <WeightPlatesIcon
-                        isChecked={availablePlatesMap?.has(equipment) ?? false}
+                        isChecked={
+                          operatingPlateCalculation?.availablePlatesMap?.has(
+                            equipment
+                          ) ?? false
+                        }
                         size={31}
                       />
                     </Button>
