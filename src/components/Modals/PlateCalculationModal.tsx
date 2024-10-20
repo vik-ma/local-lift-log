@@ -81,7 +81,7 @@ export const PlateCalculationModal = ({
                     <PresetsModalList
                       presetsList={presetsList}
                       handlePresetClick={() => {}}
-                      showExtraMenu
+                      showSortButton
                       heightString="h-[410px]"
                     />
                   </div>

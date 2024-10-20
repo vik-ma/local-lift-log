@@ -885,7 +885,8 @@ export const SumCalculator = ({
         <PresetsModalList
           presetsList={usePresetsList}
           handlePresetClick={handlePresetClick}
-          showExtraMenu
+          showModifyButton
+          showSortButton
           heightString="h-[410px]"
         />
       )}

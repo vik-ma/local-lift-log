@@ -62,9 +62,8 @@ export const PlateCalculator = ({
     };
   }, []);
 
-  const [plateCalculation, setPlateCalculation] = useState<PlateCalculatorItems>(
-    defaultPlateCalculation
-  );
+  const [plateCalculation, setPlateCalculation] =
+    useState<PlateCalculatorItems>(defaultPlateCalculation);
 
   const isTargetWeightInputInvalid = useMemo(() => {
     return (
@@ -350,7 +349,8 @@ export const PlateCalculator = ({
         <PresetsModalList
           presetsList={usePresetsList}
           handlePresetClick={handlePresetClickPlateCalc}
-          showExtraMenu
+          showModifyButton
+          showSortButton
           heightString="h-[410px]"
         />
       )}

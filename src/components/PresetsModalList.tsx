@@ -18,7 +18,8 @@ type PresetsModalListProps = {
   presetsList: UsePresetsListReturnType;
   handlePresetClick: (equipment?: EquipmentWeight, distance?: Distance) => void;
   heightString: string;
-  showExtraMenu?: boolean;
+  showModifyButton?: boolean;
+  showSortButton?: boolean;
   validWeightUnit?: string;
 };
 
@@ -26,7 +27,8 @@ export const PresetsModalList = ({
   presetsList,
   handlePresetClick,
   heightString,
-  showExtraMenu,
+  showModifyButton,
+  showSortButton,
   validWeightUnit,
 }: PresetsModalListProps) => {
   const {
@@ -43,7 +45,6 @@ export const PresetsModalList = ({
     isLoadingDistance,
     toggleFavoriteEquipmentWeight,
     toggleFavoriteDistance,
-    togglePlateCalculator,
     sortCategoryEquipment,
     handleSortOptionSelectionEquipment,
   } = presetsList;
@@ -74,25 +75,29 @@ export const PresetsModalList = ({
             : distances.length
         }
       />
-      {showExtraMenu && (
-        <div className="flex justify-between">
-          <Button
-            variant="flat"
-            size="sm"
-            color="secondary"
-            onPress={() => navigate(`/presets?tab=${presetsType}`)}
-          >
-            Modify{" "}
-            {presetsType === "equipment" ? "Equipment Weights" : "Distances"}
-          </Button>
+      <div className="flex justify-between">
+        <div>
+          {showModifyButton && (
+            <Button
+              variant="flat"
+              size="sm"
+              color="secondary"
+              onPress={() => navigate(`/presets?tab=${presetsType}`)}
+            >
+              Modify{" "}
+              {presetsType === "equipment" ? "Equipment Weights" : "Distances"}
+            </Button>
+          )}
+        </div>
+        {showSortButton && (
           <PresetsSortByMenu
             sortCategoryEquipment={sortCategoryEquipment}
             handleSortOptionSelectionEquipment={
               handleSortOptionSelectionEquipment
             }
           />
-        </div>
-      )}
+        )}
+      </div>
       <ScrollShadow className="flex flex-col gap-1 w-full">
         {presetsType === "equipment" ? (
           isLoadingEquipment ? (
