@@ -2,7 +2,6 @@ import { useState, useEffect, useMemo } from "react";
 import {
   UserSettings,
   DefaultIncrementInputs,
-  EquipmentWeight,
   PlateCalculation,
 } from "../typings";
 import {
@@ -381,47 +380,12 @@ export default function Settings() {
     if (success) setDefaultIncrementOriginalValues(updatedOriginalValues);
   };
 
-  const handleDefaultEquipmentWeightIdChange = async (
-    equipment?: EquipmentWeight
-  ) => {
-    if (
-      userSettings === undefined ||
-      equipment === undefined ||
-      userSettings?.default_equipment_weight_id === equipment.id
-    )
-      return;
-
-    const updatedSettings: UserSettings = {
-      ...userSettings,
-      default_equipment_weight_id: equipment.id,
-    };
-
-    updateSettings(updatedSettings);
-
-    plateCalculationsModal.onClose();
-  };
-
   const handleShowCalculationButtonsChange = async (value: boolean) => {
     if (userSettings === undefined) return;
 
     const updatedSettings: UserSettings = {
       ...userSettings,
       show_calculation_buttons: value ? 1 : 0,
-    };
-
-    updateSettings(updatedSettings);
-  };
-
-  const handleDefaultNumHandlesChange = async (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    if (userSettings === undefined) return;
-
-    const numHandles = Number(e.target.value);
-
-    const updatedSettings: UserSettings = {
-      ...userSettings,
-      default_num_handles: numHandles,
     };
 
     updateSettings(updatedSettings);
@@ -689,34 +653,6 @@ export default function Settings() {
                 handleSaveCalculationStringChange(value)
               }
             />
-          </div>
-          <div className="flex gap-3 items-center justify-between pr-1">
-            <span className="text-lg">Default Equipment Weight Handle</span>
-            <Button
-              color="primary"
-              size="sm"
-              onPress={handleSetDefaultPlateCalculationButton}
-            >
-              Set
-            </Button>
-          </div>
-          <div className="flex gap-3 items-center justify-between">
-            <span className="text-lg">Default Number Of Handles</span>
-            <Select
-              aria-label="Default Number Of Handles Dropdown List"
-              className="w-[4rem]"
-              variant="faded"
-              selectedKeys={userSettings.default_num_handles.toString()}
-              onChange={(e) => handleDefaultNumHandlesChange(e)}
-              disallowEmptySelection
-            >
-              <SelectItem key="1" value="1">
-                1
-              </SelectItem>
-              <SelectItem key="2" value="2">
-                2
-              </SelectItem>
-            </Select>
           </div>
           <div className="flex gap-3 items-center justify-between">
             <span className="text-lg">Default Weight Calculation Tab</span>
