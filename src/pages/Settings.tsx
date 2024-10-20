@@ -3,6 +3,7 @@ import {
   UserSettings,
   DefaultIncrementInputs,
   EquipmentWeight,
+  PlateCalculation,
 } from "../typings";
 import {
   GetUserSettings,
@@ -35,8 +36,8 @@ import {
   TimeInputBehaviorDropdown,
   SettingsModal,
   TimeInput,
-  PresetsModalList,
   WorkoutPropertyDropdown,
+  PlateCalculationModalList,
 } from "../components";
 import toast, { Toaster } from "react-hot-toast";
 import Database from "tauri-plugin-sql-api";
@@ -57,7 +58,7 @@ export default function Settings() {
   const [isTimeInputInvalid, setIsTimeInputInvalid] = useState<boolean>(false);
 
   const settingsModal = useDisclosure();
-  const presetModal = useDisclosure();
+  const plateCalculationsModal = useDisclosure();
 
   const emptyDefaultIncrementValues: DefaultIncrementInputs = useMemo(() => {
     return {
@@ -397,7 +398,7 @@ export default function Settings() {
 
     updateSettings(updatedSettings);
 
-    presetModal.onClose();
+    plateCalculationsModal.onClose();
   };
 
   const handleShowCalculationButtonsChange = async (value: boolean) => {
@@ -439,6 +440,25 @@ export default function Settings() {
     updateSettings(updatedSettings);
   };
 
+  const handleDefaultPlateCalculationIdChange = async (
+    plateCalculation: PlateCalculation
+  ) => {
+    if (
+      userSettings === undefined ||
+      userSettings.default_plate_calculation_id === plateCalculation.id
+    )
+      return;
+
+    const updatedSettings: UserSettings = {
+      ...userSettings,
+      default_plate_calculation_id: plateCalculation.id,
+    };
+
+    updateSettings(updatedSettings);
+
+    plateCalculationsModal.onClose();
+  };
+
   const restoreDefaultSettings = async (
     unitType: string,
     locale: string,
@@ -468,12 +488,12 @@ export default function Settings() {
     }
   };
 
-  const handleSetDefaultEquipmentWeightButton = async () => {
+  const handleSetDefaultPlateCalculationButton = async () => {
     if (presetsList.isLoadingEquipment) {
       await presetsList.getEquipmentWeights();
     }
 
-    presetModal.onOpen();
+    plateCalculationsModal.onOpen();
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;
@@ -497,22 +517,23 @@ export default function Settings() {
         isDismissible={true}
       />
       <Modal
-        isOpen={presetModal.isOpen}
-        onOpenChange={presetModal.onOpenChange}
+        isOpen={plateCalculationsModal.isOpen}
+        onOpenChange={plateCalculationsModal.onOpenChange}
       >
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader>Set Default Equipment Weight Handle</ModalHeader>
+              <ModalHeader>Set Default Plate Calculation</ModalHeader>
               <ModalBody>
                 <div className="h-[400px] flex flex-col gap-2">
-                  <PresetsModalList
+                  <PlateCalculationModalList
                     presetsList={presetsList}
-                    handlePresetClick={handleDefaultEquipmentWeightIdChange}
-                    defaultEquipmentWeightId={
-                      userSettings.default_equipment_weight_id
+                    handlePlateCalculationClick={
+                      handleDefaultPlateCalculationIdChange
                     }
-                    heightString="h-[400px]"
+                    defaultPlateCalculationId={
+                      userSettings.default_plate_calculation_id
+                    }
                   />
                 </div>
               </ModalBody>
@@ -674,7 +695,7 @@ export default function Settings() {
             <Button
               color="primary"
               size="sm"
-              onPress={handleSetDefaultEquipmentWeightButton}
+              onPress={handleSetDefaultPlateCalculationButton}
             >
               Set
             </Button>
@@ -714,6 +735,16 @@ export default function Settings() {
                 Sum
               </SelectItem>
             </Select>
+          </div>
+          <div className="flex gap-3 items-center justify-between pr-1">
+            <span className="text-lg">Default Plate Calculation</span>
+            <Button
+              color="primary"
+              size="sm"
+              onPress={handleSetDefaultPlateCalculationButton}
+            >
+              Set
+            </Button>
           </div>
           <h3 className="flex justify-center text-lg font-medium">
             Default Increments

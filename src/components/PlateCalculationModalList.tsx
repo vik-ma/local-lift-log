@@ -5,13 +5,15 @@ import { EmptyListLabel, LoadingSpinner, SearchInput } from ".";
 
 type PlateCalculationModalListProps = {
   presetsList: UsePresetsListReturnType;
-  handlePresetClick: (plateCalculation: PlateCalculation) => void;
+  handlePlateCalculationClick: (
+    plateCalculation: PlateCalculation
+  ) => Promise<void>;
   defaultPlateCalculationId: number;
 };
 
 export const PlateCalculationModalList = ({
   presetsList,
-  handlePresetClick,
+  handlePlateCalculationClick,
   defaultPlateCalculationId,
 }: PlateCalculationModalListProps) => {
   const {
@@ -58,11 +60,11 @@ export const PlateCalculationModalList = ({
               <div
                 className={
                   plate.id === defaultPlateCalculationId
-                    ? "flex justify-between items-center gap-1 cursor-pointer bg-lime-100 border-2 border-lime-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                    ? "flex justify-between items-center gap-1 cursor-pointer bg-lime-100 border-2 border-lime-300 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                     : "flex justify-between items-center gap-1 cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                 }
                 key={`plate-calculation-${plate.id}`}
-                onClick={() => handlePresetClick(plate)}
+                onClick={() => handlePlateCalculationClick(plate)}
               >
                 <div className="flex flex-col justify-start items-start pl-2 py-1">
                   <span className="w-[15.5rem] truncate text-left">
