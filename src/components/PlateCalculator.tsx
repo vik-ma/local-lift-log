@@ -8,6 +8,7 @@ import {
 import {
   EquipmentWeight,
   OperationTypePlateCalc,
+  PlateCalculation,
   PlateCalculatorPage,
   UsePresetsListReturnType,
 } from "../typings";
@@ -16,7 +17,7 @@ import { PresetsModalList } from "./PresetsModalList";
 type PlateCalculatorProps = {
   equipmentWeights: EquipmentWeight[];
   weightUnit: string;
-  plateCalculatorHandle: EquipmentWeight | undefined;
+  operatingPlateCalculation: PlateCalculation;
   plateCalculatorPage: PlateCalculatorPage;
   usePresetsList: UsePresetsListReturnType;
   setPlateCalculatorPage: React.Dispatch<
@@ -42,7 +43,7 @@ type PlateCalculatorItems = {
 export const PlateCalculator = ({
   equipmentWeights,
   weightUnit,
-  plateCalculatorHandle,
+  operatingPlateCalculation,
   plateCalculatorPage,
   usePresetsList,
   setPlateCalculatorPage,
@@ -74,7 +75,6 @@ export const PlateCalculator = ({
 
   const targetWeightInputRef = useRef<HTMLInputElement>(null);
 
-  // TODO: UPDATE
   // const plateCalculatorList = useMemo(() => {
   //   const plateCalculatorList = equipmentWeights.reduce<number[]>(
   //     (acc, equipment) => {
@@ -93,13 +93,14 @@ export const PlateCalculator = ({
 
   const disableCalculatePlates = useMemo(() => {
     if (isTargetWeightInputInvalid) return true;
-    if (plateCalculatorList.length === 0) return true;
-    if (plateCalculatorHandle === undefined) return true;
+    if (operatingPlateCalculation.availablePlatesMap === undefined) return true;
+    if (operatingPlateCalculation.availablePlatesMap.size === 0) return true;
+    if (operatingPlateCalculation.handle === undefined) return true;
     if (numHandles !== "1" && numHandles !== "2") return true;
     const handleMultiplier = numHandles === "1" ? 1 : 2;
     if (
       Number(targetWeightInput) -
-        plateCalculatorHandle.weight * handleMultiplier <=
+        operatingPlateCalculation.handle.weight * handleMultiplier <=
       0
     )
       return true;
@@ -107,10 +108,9 @@ export const PlateCalculator = ({
     return false;
   }, [
     isTargetWeightInputInvalid,
-    plateCalculatorHandle,
+    operatingPlateCalculation,
     targetWeightInput,
     numHandles,
-    plateCalculatorList,
   ]);
 
   const handleChangeHandleButton = () => {
@@ -128,17 +128,26 @@ export const PlateCalculator = ({
   };
 
   const calculatePlates = useCallback(() => {
-    if (disableCalculatePlates || plateCalculatorHandle === undefined) return;
+    if (
+      disableCalculatePlates ||
+      operatingPlateCalculation.availablePlatesMap === undefined ||
+      operatingPlateCalculation.handle === undefined
+    )
+      return;
 
     const isOneHandle = numHandles === "1";
     const plateFactor = isOneHandle ? 2 : 4;
 
-    const sortedPlates = plateCalculatorList;
+    const sortedPlates = Array.from(
+      operatingPlateCalculation.availablePlatesMap.keys()
+    )
+      .map((weight) => weight.weight)
+      .sort((a, b) => b - a);
 
     const targetWeight = Number(targetWeightInput);
     const handleWeight = isOneHandle
-      ? plateCalculatorHandle.weight
-      : plateCalculatorHandle.weight * 2;
+      ? operatingPlateCalculation.handle.weight
+      : operatingPlateCalculation.handle.weight * 2;
     const weightToLoad = targetWeight - handleWeight;
 
     let weightPerSide = weightToLoad / plateFactor;
@@ -174,8 +183,7 @@ export const PlateCalculator = ({
   }, [
     disableCalculatePlates,
     numHandles,
-    plateCalculatorHandle,
-    plateCalculatorList,
+    operatingPlateCalculation,
     targetWeightInput,
   ]);
 
@@ -194,17 +202,19 @@ export const PlateCalculator = ({
           <div className="flex flex-col gap-2.5">
             <div className="flex flex-col gap-1">
               <h3 className="font-medium px-0.5">Handle</h3>
-              {plateCalculatorHandle !== undefined ? (
+              {operatingPlateCalculation.handle !== undefined ? (
                 <div className="flex gap-1.5 items-center">
                   <div className="flex w-[20rem] justify-between gap-1 bg-default-50 px-1.5 py-0.5 border-2 rounded-lg">
                     <span className="w-[16rem] truncate">
-                      {plateCalculatorHandle.name}
+                      {operatingPlateCalculation.handle.name}
                     </span>
                     <div className="flex gap-1 text-secondary">
                       <span className="w-[3.5rem] truncate text-right">
-                        {plateCalculatorHandle.weight}
+                        {operatingPlateCalculation.handle.weight}
                       </span>
-                      <span>{plateCalculatorHandle.weight_unit}</span>
+                      <span>
+                        {operatingPlateCalculation.handle.weight_unit}
+                      </span>
                     </div>
                   </div>
                   <Button
@@ -270,7 +280,7 @@ export const PlateCalculator = ({
             <div className="flex gap-2 items-start">
               <span className="font-medium w-[7.5rem]">Available Plates</span>
               <span className="text-secondary w-[16.5rem] truncate">
-                {plateCalculatorList.join(", ")}
+                {operatingPlateCalculation.formattedAvailablePlatesMapString}
               </span>
             </div>
             <div className="flex flex-col gap-1.5">

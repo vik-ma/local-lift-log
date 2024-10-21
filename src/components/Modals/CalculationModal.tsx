@@ -83,10 +83,7 @@ export const CalculationModal = ({
     presetsType,
     isLoadingEquipment,
     isLoadingDistance,
-    plateCalculatorHandle,
-    setPlateCalculatorHandle,
-    isDefaultHandleIdInvalid,
-    setIsDefaultHandleIdInvalid,
+    operatingPlateCalculation,
   } = usePresetsList;
 
   const {
@@ -188,27 +185,16 @@ export const CalculationModal = ({
   };
 
   const changeHandle = (equipment: EquipmentWeight) => {
-    setPlateCalculatorHandle(equipment);
+    // TODO: FIX
+    // setPlateCalculatorHandle(equipment);
 
     setPlateCalculatorPage("base");
     setOperationTypeSumCalc("add-preset");
   };
 
   const setHandle = async (equipment: EquipmentWeight) => {
+    // TODO: REMOVE?
     changeHandle(equipment);
-
-    // TODO: REPLACE
-
-    // if (isDefaultHandleIdInvalid) {
-    //   const updatedUserSettings: UserSettings = {
-    //     ...userSettings,
-    //     default_equipment_weight_id: equipment.id,
-    //   };
-
-    //   await UpdateDefaultEquipmentWeightId(updatedUserSettings);
-    //   setUserSettings(updatedUserSettings);
-    //   setIsDefaultHandleIdInvalid(false);
-    // }
   };
 
   const handlePresetClickPlateCalc = (equipment?: EquipmentWeight) => {
@@ -349,7 +335,7 @@ export const CalculationModal = ({
                     <PlateCalculator
                       equipmentWeights={equipmentWeights}
                       weightUnit={weightUnit}
-                      plateCalculatorHandle={plateCalculatorHandle}
+                      operatingPlateCalculation={operatingPlateCalculation}
                       plateCalculatorPage={plateCalculatorPage}
                       usePresetsList={usePresetsList}
                       setPlateCalculatorPage={setPlateCalculatorPage}
