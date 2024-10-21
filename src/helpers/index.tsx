@@ -38,7 +38,6 @@ export { GetDefaultUnitMeasurement } from "./UserSettings/GetDefaultUnitMeasurem
 export { UpdateActiveTrackingMeasurements } from "./UserSettings/UpdateActiveTrackingMeasurements";
 export { ValidateUserSettings } from "./UserSettings/ValidateUserSettings";
 export { GetClockStyle } from "./UserSettings/GetClockStyle";
-export { UpdateDefaultEquipmentWeightId } from "./UserSettings/UpdateDefaultEquipmentWeightId";
 export { ValidateShownWorkoutPropertiesString } from "./UserSettings/ValidateShownWorkoutPropertiesString";
 export { CreateWorkoutPropertySet } from "./UserSettings/CreateWorkoutPropertySet";
 export { UpdateDefaultPlateCalculationId } from "./UserSettings/UpdateDefaultPlateCalculationId";
