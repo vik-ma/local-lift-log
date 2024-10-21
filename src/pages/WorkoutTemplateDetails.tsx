@@ -60,7 +60,6 @@ export default function WorkoutTemplateDetails() {
     groupedSets,
     setGroupedSets,
     userSettings,
-    setUserSettings,
     operatingSet,
     setOperatingSet,
     operatingGroupedSet,
@@ -287,7 +286,6 @@ export default function WorkoutTemplateDetails() {
             userSettings.default_increment_calculation_multiplier
           }
           userSettings={userSettings}
-          setUserSettings={setUserSettings}
         />
       )}
       <div className="flex flex-col">

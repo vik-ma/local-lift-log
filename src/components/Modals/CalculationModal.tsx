@@ -28,7 +28,6 @@ import {
   ConvertNumberToTwoDecimals,
   IsStringEmpty,
   IsStringInvalidNumberOr0,
-  UpdateDefaultEquipmentWeightId,
 } from "../../helpers";
 import { PlateCalculator, SumCalculator } from "..";
 
@@ -45,9 +44,6 @@ type CalculationModalProps = {
   ) => void;
   multiplierIncrement: number;
   userSettings: UserSettings;
-  setUserSettings: React.Dispatch<
-    React.SetStateAction<UserSettings | undefined>
-  >;
 };
 
 export const CalculationModal = ({
@@ -56,7 +52,6 @@ export const CalculationModal = ({
   doneButtonAction,
   multiplierIncrement,
   userSettings,
-  setUserSettings,
 }: CalculationModalProps) => {
   const [calculationListWeight, setCalculationListWeight] = useState<
     CalculationListItem[]
@@ -74,9 +69,7 @@ export const CalculationModal = ({
   const [operationTypeSumCalc, setOperationTypeSumCalc] =
     useState<OperationTypeSumCalc>("add-preset");
 
-  const [numHandles, setNumHandles] = useState<string>(
-    userSettings.default_num_handles.toString()
-  );
+  const [numHandles, setNumHandles] = useState<string>("1");
   const [plateCalculatorPage, setPlateCalculatorPage] =
     useState<PlateCalculatorPage>("base");
   const [operationTypePlateCalc, setOperationTypePlateCalc] =
@@ -111,7 +104,7 @@ export const CalculationModal = ({
 
   const loadPresets = useCallback(async () => {
     if (presetsType === "equipment" && isLoadingEquipment) {
-      await getEquipmentWeights(userSettings.default_equipment_weight_id);
+      await getEquipmentWeights(userSettings.default_plate_calculation_id);
     }
 
     if (presetsType === "distance" && isLoadingDistance) {
@@ -204,16 +197,18 @@ export const CalculationModal = ({
   const setHandle = async (equipment: EquipmentWeight) => {
     changeHandle(equipment);
 
-    if (isDefaultHandleIdInvalid) {
-      const updatedUserSettings: UserSettings = {
-        ...userSettings,
-        default_equipment_weight_id: equipment.id,
-      };
+    // TODO: REPLACE
 
-      await UpdateDefaultEquipmentWeightId(updatedUserSettings);
-      setUserSettings(updatedUserSettings);
-      setIsDefaultHandleIdInvalid(false);
-    }
+    // if (isDefaultHandleIdInvalid) {
+    //   const updatedUserSettings: UserSettings = {
+    //     ...userSettings,
+    //     default_equipment_weight_id: equipment.id,
+    //   };
+
+    //   await UpdateDefaultEquipmentWeightId(updatedUserSettings);
+    //   setUserSettings(updatedUserSettings);
+    //   setIsDefaultHandleIdInvalid(false);
+    // }
   };
 
   const handlePresetClickPlateCalc = (equipment?: EquipmentWeight) => {
