@@ -84,6 +84,7 @@ export const CalculationModal = ({
     isLoadingEquipment,
     isLoadingDistance,
     operatingPlateCalculation,
+    setOperatingPlateCalculation,
   } = usePresetsList;
 
   const {
@@ -336,6 +337,7 @@ export const CalculationModal = ({
                       equipmentWeights={equipmentWeights}
                       weightUnit={weightUnit}
                       operatingPlateCalculation={operatingPlateCalculation}
+                      setOperatingPlateCalculation={setOperatingPlateCalculation}
                       plateCalculatorPage={plateCalculatorPage}
                       usePresetsList={usePresetsList}
                       setPlateCalculatorPage={setPlateCalculatorPage}

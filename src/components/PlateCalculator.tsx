@@ -18,6 +18,9 @@ type PlateCalculatorProps = {
   equipmentWeights: EquipmentWeight[];
   weightUnit: string;
   operatingPlateCalculation: PlateCalculation;
+  setOperatingPlateCalculation: React.Dispatch<
+    React.SetStateAction<PlateCalculation>
+  >;
   plateCalculatorPage: PlateCalculatorPage;
   usePresetsList: UsePresetsListReturnType;
   setPlateCalculatorPage: React.Dispatch<
@@ -44,6 +47,7 @@ export const PlateCalculator = ({
   equipmentWeights,
   weightUnit,
   operatingPlateCalculation,
+  setOperatingPlateCalculation,
   plateCalculatorPage,
   usePresetsList,
   setPlateCalculatorPage,
@@ -51,8 +55,6 @@ export const PlateCalculator = ({
   handlePresetClickPlateCalc,
   targetWeightInput,
   setTargetWeightInput,
-  numHandles,
-  setNumHandles,
 }: PlateCalculatorProps) => {
   const defaultPlateCalculation: PlateCalculatorItems = useMemo(() => {
     return {
@@ -96,8 +98,13 @@ export const PlateCalculator = ({
     if (operatingPlateCalculation.availablePlatesMap === undefined) return true;
     if (operatingPlateCalculation.availablePlatesMap.size === 0) return true;
     if (operatingPlateCalculation.handle === undefined) return true;
-    if (numHandles !== "1" && numHandles !== "2") return true;
-    const handleMultiplier = numHandles === "1" ? 1 : 2;
+    if (
+      operatingPlateCalculation.num_handles !== 1 &&
+      operatingPlateCalculation.num_handles !== 2
+    )
+      return true;
+    const handleMultiplier =
+      operatingPlateCalculation.num_handles === 1 ? 1 : 2;
     if (
       Number(targetWeightInput) -
         operatingPlateCalculation.handle.weight * handleMultiplier <=
@@ -110,7 +117,6 @@ export const PlateCalculator = ({
     isTargetWeightInputInvalid,
     operatingPlateCalculation,
     targetWeightInput,
-    numHandles,
   ]);
 
   const handleChangeHandleButton = () => {
@@ -124,7 +130,12 @@ export const PlateCalculator = ({
   };
 
   const handleHandlesChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setNumHandles(e.target.value);
+    const updatedOperatingPlateCalculation: PlateCalculation = {
+      ...operatingPlateCalculation,
+      num_handles: Number(e.target.value),
+    };
+
+    setOperatingPlateCalculation(updatedOperatingPlateCalculation);
   };
 
   const calculatePlates = useCallback(() => {
@@ -135,7 +146,7 @@ export const PlateCalculator = ({
     )
       return;
 
-    const isOneHandle = numHandles === "1";
+    const isOneHandle = operatingPlateCalculation.num_handles === 1;
     const plateFactor = isOneHandle ? 2 : 4;
 
     const sortedPlates = Array.from(
@@ -180,12 +191,7 @@ export const PlateCalculator = ({
     };
 
     setPlateCalculation(plateCalculation);
-  }, [
-    disableCalculatePlates,
-    numHandles,
-    operatingPlateCalculation,
-    targetWeightInput,
-  ]);
+  }, [disableCalculatePlates, operatingPlateCalculation, targetWeightInput]);
 
   useEffect(() => {
     if (targetWeightInputRef.current) {
@@ -264,7 +270,9 @@ export const PlateCalculator = ({
                   className="w-[4rem]"
                   size="sm"
                   variant="faded"
-                  selectedKeys={[numHandles]}
+                  selectedKeys={[
+                    operatingPlateCalculation.num_handles.toString(),
+                  ]}
                   onChange={(e) => handleHandlesChange(e)}
                   disallowEmptySelection
                 >
