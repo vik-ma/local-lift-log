@@ -32,8 +32,6 @@ type PlateCalculatorProps = {
   handlePresetClickPlateCalc: (equipment?: EquipmentWeight) => void;
   targetWeightInput: string;
   setTargetWeightInput: React.Dispatch<React.SetStateAction<string>>;
-  numHandles: string;
-  setNumHandles: React.Dispatch<React.SetStateAction<string>>;
 };
 
 type PlateCalculatorItems = {

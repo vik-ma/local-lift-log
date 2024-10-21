@@ -68,8 +68,6 @@ export const CalculationModal = ({
     useState<SumCalculatorPage>("base");
   const [operationTypeSumCalc, setOperationTypeSumCalc] =
     useState<OperationTypeSumCalc>("add-preset");
-
-  const [numHandles, setNumHandles] = useState<string>("1");
   const [plateCalculatorPage, setPlateCalculatorPage] =
     useState<PlateCalculatorPage>("base");
   const [operationTypePlateCalc, setOperationTypePlateCalc] =
@@ -345,8 +343,6 @@ export const CalculationModal = ({
                       handlePresetClickPlateCalc={handlePresetClickPlateCalc}
                       targetWeightInput={targetWeightInput}
                       setTargetWeightInput={setTargetWeightInput}
-                      numHandles={numHandles}
-                      setNumHandles={setNumHandles}
                     />
                   </Tab>
                 </Tabs>
