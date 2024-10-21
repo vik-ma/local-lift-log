@@ -22,6 +22,7 @@ import {
   UserSettings,
   SumCalculatorPage,
   CalculationModalTab,
+  PlateCalculation,
 } from "../../typings";
 import { useCallback, useMemo, useState } from "react";
 import {
@@ -184,26 +185,20 @@ export const CalculationModal = ({
   };
 
   const changeHandle = (equipment: EquipmentWeight) => {
-    // TODO: FIX
-    // setPlateCalculatorHandle(equipment);
+    const updatedOperatingPlateCalculation: PlateCalculation = {
+      ...operatingPlateCalculation,
+      handle: equipment,
+    };
+
+    setOperatingPlateCalculation(updatedOperatingPlateCalculation);
 
     setPlateCalculatorPage("base");
     setOperationTypeSumCalc("add-preset");
   };
 
-  const setHandle = async (equipment: EquipmentWeight) => {
-    // TODO: REMOVE?
-    changeHandle(equipment);
-  };
-
   const handlePresetClickPlateCalc = (equipment?: EquipmentWeight) => {
-    if (operationTypePlateCalc === "change-handle" && equipment !== undefined) {
+    if (equipment !== undefined) {
       changeHandle(equipment);
-    } else if (
-      operationTypePlateCalc === "set-handle" &&
-      equipment !== undefined
-    ) {
-      setHandle(equipment);
     }
   };
 
@@ -219,6 +214,7 @@ export const CalculationModal = ({
 
   const handleBackButtonPlateCalc = () => {
     setPlateCalculatorPage("base");
+    setOperationTypePlateCalc("show-list");
   };
 
   const handleBackButton = () => {
@@ -229,10 +225,8 @@ export const CalculationModal = ({
     }
   };
 
-  const handleShowPresetListPlateCalcButton = async () => {
-    if (isLoadingEquipment) {
-      loadPresets();
-    }
+  const showPresetList = async () => {
+    loadPresets();
 
     setPlateCalculatorPage("list");
   };
@@ -260,8 +254,6 @@ export const CalculationModal = ({
       } else {
         return operationTypePlateCalc === "set-handle"
           ? "Set Handle"
-          : operationTypePlateCalc === "change-handle"
-          ? "Change Handle"
           : "Equipment Weight List";
       }
     }
@@ -335,7 +327,9 @@ export const CalculationModal = ({
                       equipmentWeights={equipmentWeights}
                       weightUnit={weightUnit}
                       operatingPlateCalculation={operatingPlateCalculation}
-                      setOperatingPlateCalculation={setOperatingPlateCalculation}
+                      setOperatingPlateCalculation={
+                        setOperatingPlateCalculation
+                      }
                       plateCalculatorPage={plateCalculatorPage}
                       usePresetsList={usePresetsList}
                       setPlateCalculatorPage={setPlateCalculatorPage}
@@ -343,6 +337,7 @@ export const CalculationModal = ({
                       handlePresetClickPlateCalc={handlePresetClickPlateCalc}
                       targetWeightInput={targetWeightInput}
                       setTargetWeightInput={setTargetWeightInput}
+                      showPresetList={showPresetList}
                     />
                   </Tab>
                 </Tabs>
@@ -360,7 +355,7 @@ export const CalculationModal = ({
                     <Button
                       variant="flat"
                       color="secondary"
-                      onPress={handleShowPresetListPlateCalcButton}
+                      onPress={showPresetList}
                     >
                       Select Available Plates
                     </Button>

@@ -567,10 +567,7 @@ export type PlateCalculatorPage = "base" | "list";
 
 export type OperationTypeSumCalc = "add-preset" | "change-preset";
 
-export type OperationTypePlateCalc =
-  | "set-handle"
-  | "change-handle"
-  | "show-list";
+export type OperationTypePlateCalc = "set-handle" | "show-list";
 
 export type AvailablePlatesMap = Map<EquipmentWeight, number>;
 
