@@ -487,12 +487,6 @@ export type UsePresetsListReturnType = {
   handleSortOptionSelectionDistance: (key: string) => void;
   isLoadingEquipment: boolean;
   isLoadingDistance: boolean;
-  plateCalculatorHandle: EquipmentWeight | undefined;
-  setPlateCalculatorHandle: React.Dispatch<
-    React.SetStateAction<EquipmentWeight | undefined>
-  >;
-  isDefaultHandleIdInvalid: boolean;
-  setIsDefaultHandleIdInvalid: React.Dispatch<React.SetStateAction<boolean>>;
   sortEquipmentWeightByActiveCategory: (
     equipmentWeightList: EquipmentWeight[]
   ) => void;

@@ -36,10 +36,6 @@ export const usePresetsList = (
     useState<DistanceSortCategory>("favorite");
   const [isLoadingEquipment, setIsLoadingEquipment] = useState<boolean>(true);
   const [isLoadingDistance, setIsLoadingDistance] = useState<boolean>(true);
-  const [plateCalculatorHandle, setPlateCalculatorHandle] =
-    useState<EquipmentWeight>();
-  const [isDefaultHandleIdInvalid, setIsDefaultHandleIdInvalid] =
-    useState<boolean>(false);
   const [plateCalculations, setPlateCalculations] = useState<
     PlateCalculation[]
   >([]);
@@ -133,8 +129,6 @@ export const usePresetsList = (
 
           if (defaultPlateCalculation !== undefined) {
             setOperatingPlateCalculation(defaultPlateCalculation);
-          } else {
-            setIsDefaultHandleIdInvalid(true);
           }
         }
       } catch (error) {
@@ -408,10 +402,6 @@ export const usePresetsList = (
     handleSortOptionSelectionDistance,
     isLoadingEquipment,
     isLoadingDistance,
-    plateCalculatorHandle,
-    setPlateCalculatorHandle,
-    isDefaultHandleIdInvalid,
-    setIsDefaultHandleIdInvalid,
     sortEquipmentWeightByActiveCategory,
     sortDistancesByActiveCategory,
     plateCalculations,
