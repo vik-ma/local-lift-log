@@ -23,9 +23,6 @@ type PlateCalculatorProps = {
   >;
   plateCalculatorPage: PlateCalculatorPage;
   usePresetsList: UsePresetsListReturnType;
-  setPlateCalculatorPage: React.Dispatch<
-    React.SetStateAction<PlateCalculatorPage>
-  >;
   setOperationTypePlateCalc: React.Dispatch<
     React.SetStateAction<OperationTypePlateCalc>
   >;
@@ -48,7 +45,6 @@ export const PlateCalculator = ({
   setOperatingPlateCalculation,
   plateCalculatorPage,
   usePresetsList,
-  setPlateCalculatorPage,
   setOperationTypePlateCalc,
   handlePresetClickPlateCalc,
   targetWeightInput,
@@ -75,22 +71,6 @@ export const PlateCalculator = ({
   }, [targetWeightInput]);
 
   const targetWeightInputRef = useRef<HTMLInputElement>(null);
-
-  // const plateCalculatorList = useMemo(() => {
-  //   const plateCalculatorList = equipmentWeights.reduce<number[]>(
-  //     (acc, equipment) => {
-  //       if (equipment.is_in_plate_calculator === 1) {
-  //         acc.push(equipment.weight);
-  //       }
-  //       return acc;
-  //     },
-  //     []
-  //   );
-
-  //   plateCalculatorList.sort((a, b) => b - a);
-
-  //   return plateCalculatorList;
-  // }, [equipmentWeights]);
 
   const disableCalculatePlates = useMemo(() => {
     if (isTargetWeightInputInvalid) return true;

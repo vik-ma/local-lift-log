@@ -332,7 +332,6 @@ export const CalculationModal = ({
                       }
                       plateCalculatorPage={plateCalculatorPage}
                       usePresetsList={usePresetsList}
-                      setPlateCalculatorPage={setPlateCalculatorPage}
                       setOperationTypePlateCalc={setOperationTypePlateCalc}
                       handlePresetClickPlateCalc={handlePresetClickPlateCalc}
                       targetWeightInput={targetWeightInput}
