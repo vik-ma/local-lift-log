@@ -103,10 +103,7 @@ export const usePresetsList = (
   }, [plateCalculations, filterQueryPlateCalculation]);
 
   const getEquipmentWeights = useCallback(
-    async (
-      defaultEquipmentHandleId?: number,
-      defaultPlateCalculationId?: number
-    ) => {
+    async (defaultPlateCalculationId?: number) => {
       try {
         const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -136,19 +133,6 @@ export const usePresetsList = (
 
           if (defaultPlateCalculation !== undefined) {
             setOperatingPlateCalculation(defaultPlateCalculation);
-          } else {
-            setIsDefaultHandleIdInvalid(true);
-          }
-        }
-
-        // TODO: REMOVE
-        if (defaultEquipmentHandleId !== undefined) {
-          const defaultHandle = equipmentWeights.find(
-            (equipment) => equipment.id === defaultEquipmentHandleId
-          );
-
-          if (defaultHandle !== undefined) {
-            setPlateCalculatorHandle(defaultHandle);
           } else {
             setIsDefaultHandleIdInvalid(true);
           }
