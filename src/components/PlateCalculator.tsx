@@ -181,8 +181,31 @@ export const PlateCalculator = ({
       {plateCalculatorPage === "base" ? (
         <div className="flex flex-col h-full justify-between">
           <div className="flex flex-col gap-2.5">
-            <div className="flex flex-col gap-1">
-              <h3 className="font-medium px-0.5">Handle</h3>
+            <div className="flex flex-col gap-1.5">
+              <div className="flex justify-between items-center pl-0.5">
+                <h3 className="text-xl font-medium">Handle</h3>
+                <div className="flex gap-2 items-center pr-2">
+                  <span className="text-stone-500">Number Of Handles</span>
+                  <Select
+                    aria-label="Select Number Of Handles"
+                    className="w-[4rem]"
+                    size="sm"
+                    variant="faded"
+                    selectedKeys={[
+                      operatingPlateCalculation.num_handles.toString(),
+                    ]}
+                    onChange={(e) => handleHandlesChange(e)}
+                    disallowEmptySelection
+                  >
+                    <SelectItem key="1" value="1">
+                      1
+                    </SelectItem>
+                    <SelectItem key="2" value="2">
+                      2
+                    </SelectItem>
+                  </Select>
+                </div>
+              </div>
               {operatingPlateCalculation.handle !== undefined ? (
                 <div className="flex gap-1.5 items-center">
                   <div className="flex w-[20rem] justify-between gap-1 bg-default-50 px-1.5 py-0.5 border-2 rounded-lg">
@@ -237,27 +260,6 @@ export const PlateCalculator = ({
                   />
                   <span className="text-stone-500">{weightUnit}</span>
                 </div>
-              </div>
-              <div className="flex gap-2 items-center">
-                <span>Handles</span>
-                <Select
-                  aria-label="Select Number Of Handles"
-                  className="w-[4rem]"
-                  size="sm"
-                  variant="faded"
-                  selectedKeys={[
-                    operatingPlateCalculation.num_handles.toString(),
-                  ]}
-                  onChange={(e) => handleHandlesChange(e)}
-                  disallowEmptySelection
-                >
-                  <SelectItem key="1" value="1">
-                    1
-                  </SelectItem>
-                  <SelectItem key="2" value="2">
-                    2
-                  </SelectItem>
-                </Select>
               </div>
             </div>
             <div className="flex gap-2 items-start">
