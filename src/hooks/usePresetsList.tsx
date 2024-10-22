@@ -13,6 +13,7 @@ import {
   ConvertDistanceToMeter,
   ConvertWeightToKg,
   CreatePlateCalculationList,
+  GenerateFormattedAvailablePlatesString,
   UpdateIsFavorite,
   UpdateItemInList,
 } from "../helpers";
@@ -379,6 +380,36 @@ export const usePresetsList = (
     }
   };
 
+  const updateAvailablePlatesMap = (equipmentWeight: EquipmentWeight) => {
+    if (operatingPlateCalculation.availablePlatesMap === undefined) return;
+
+    const updatedAvailablePlatesMap = new Map(
+      operatingPlateCalculation.availablePlatesMap
+    );
+
+    if (updatedAvailablePlatesMap.has(equipmentWeight)) {
+      updatedAvailablePlatesMap.delete(equipmentWeight);
+    } else {
+      updatedAvailablePlatesMap.set(equipmentWeight, 12);
+    }
+
+    const {
+      available_plates_string,
+      formattedAvailablePlatesString,
+      formattedAvailablePlatesMapString,
+    } = GenerateFormattedAvailablePlatesString(updatedAvailablePlatesMap);
+
+    const updatedPlateCalculation = {
+      ...operatingPlateCalculation,
+      available_plates_string,
+      availablePlatesMap: updatedAvailablePlatesMap,
+      formattedAvailablePlatesString,
+      formattedAvailablePlatesMapString,
+    };
+
+    setOperatingPlateCalculation(updatedPlateCalculation);
+  };
+
   return {
     equipmentWeights,
     setEquipmentWeights,
@@ -412,5 +443,6 @@ export const usePresetsList = (
     filterQueryPlateCalculation,
     setFilterQueryPlateCalculation,
     defaultPlateCalculation,
+    updateAvailablePlatesMap,
   };
 };
