@@ -24,7 +24,7 @@ import {
   CalculationModalTab,
   PlateCalculation,
 } from "../../typings";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   ConvertNumberToTwoDecimals,
   IsStringEmpty,
@@ -226,10 +226,16 @@ export const CalculationModal = ({
   };
 
   const showPresetList = async () => {
-    loadPresets();
+    await loadPresets();
 
     setPlateCalculatorPage("list");
   };
+
+  useEffect(() => {
+    if (calculationModal.isOpen && calculationModalTab === "plate") {
+      loadPresets();
+    }
+  }, [calculationModal.isOpen, calculationModalTab, loadPresets]);
 
   const showBackButton = useMemo(() => {
     if (calculationModalTab === "sum" && sumCalculatorPage !== "base")
