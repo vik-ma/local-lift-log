@@ -13,6 +13,7 @@ import {
   UsePresetsListReturnType,
 } from "../typings";
 import { PresetsModalList } from "./PresetsModalList";
+import WeightUnitDropdown from "./Dropdowns/WeightUnitDropdown";
 
 type PlateCalculatorProps = {
   equipmentWeights: EquipmentWeight[];
@@ -180,12 +181,14 @@ export const PlateCalculator = ({
     <>
       {plateCalculatorPage === "base" ? (
         <div className="flex flex-col h-full justify-between">
-          <div className="flex flex-col gap-2.5">
+          <div className="flex flex-col gap-3">
             <div className="flex flex-col gap-1.5">
               <div className="flex justify-between items-center pl-0.5">
-                <h3 className="text-xl font-medium">Handle</h3>
+                <h3 className="text-lg font-medium">Handle</h3>
                 <div className="flex gap-2 items-center pr-2">
-                  <span className="text-stone-500">Number Of Handles</span>
+                  <span className="text-sm text-stone-500">
+                    Number Of Handles
+                  </span>
                   <Select
                     aria-label="Select Number Of Handles"
                     className="w-[4rem]"
@@ -244,8 +247,8 @@ export const PlateCalculator = ({
               )}
             </div>
             <div className="flex gap-2 px-0.5">
-              <div className="flex gap-2 items-center w-[15.5rem]">
-                <span className="font-medium">Target Weight</span>
+              <div className="flex gap-3 items-center">
+                <span className="text-lg font-medium">Target Weight</span>
                 <div className="flex gap-1.5 items-center">
                   <Input
                     ref={targetWeightInputRef}
@@ -258,7 +261,9 @@ export const PlateCalculator = ({
                     value={targetWeightInput}
                     onValueChange={setTargetWeightInput}
                   />
-                  <span className="text-stone-500">{weightUnit}</span>
+                  {/* <span className="text-stone-500">{weightUnit}</span>
+                   */}
+                  <WeightUnitDropdown />
                 </div>
               </div>
             </div>

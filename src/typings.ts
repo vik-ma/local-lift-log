@@ -183,11 +183,13 @@ export type UnitDropdownProps = {
     | "state"
     | "equipment"
     | "distance"
-    | "set-user-weight-unit";
+    | "set-user-weight-unit"
+    | "plate-calculation";
   showLabel?: boolean;
   isSmall?: boolean;
   isSetEdited?: boolean;
   setIsSetEdited?: React.Dispatch<React.SetStateAction<boolean>>;
+  setPlateCalculation?: React.Dispatch<React.SetStateAction<PlateCalculation>>;
 };
 
 export type MeasurementDropdownProps = {
