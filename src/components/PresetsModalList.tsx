@@ -21,6 +21,7 @@ type PresetsModalListProps = {
   showModifyButton?: boolean;
   showSortButton?: boolean;
   validWeightUnit?: string;
+  showPlateCalculatorButton?: boolean;
 };
 
 export const PresetsModalList = ({
@@ -30,6 +31,7 @@ export const PresetsModalList = ({
   showModifyButton,
   showSortButton,
   validWeightUnit,
+  showPlateCalculatorButton,
 }: PresetsModalListProps) => {
   const {
     presetsType,
@@ -126,35 +128,37 @@ export const PresetsModalList = ({
                     </span>
                   </div>
                   <div className="flex gap-1 items-center pr-2">
-                    <Button
-                      aria-label={
-                        operatingPlateCalculation?.availablePlatesMap?.has(
-                          equipment
-                        )
-                          ? `Remove ${equipment.name} From Plate Calculation`
-                          : `Add ${equipment.name} To Plate Calculation`
-                      }
-                      isIconOnly
-                      className="z-1 w-[3.5rem]"
-                      color={
-                        operatingPlateCalculation?.availablePlatesMap?.has(
-                          equipment
-                        )
-                          ? "success"
-                          : "default"
-                      }
-                      variant="light"
-                      onPress={() => updateAvailablePlatesMap(equipment)}
-                    >
-                      <WeightPlatesIcon
-                        isChecked={
+                    {showPlateCalculatorButton && (
+                      <Button
+                        aria-label={
                           operatingPlateCalculation?.availablePlatesMap?.has(
                             equipment
-                          ) ?? false
+                          )
+                            ? `Remove ${equipment.name} From Plate Calculation`
+                            : `Add ${equipment.name} To Plate Calculation`
                         }
-                        size={31}
-                      />
-                    </Button>
+                        isIconOnly
+                        className="z-1 w-[3.5rem]"
+                        color={
+                          operatingPlateCalculation?.availablePlatesMap?.has(
+                            equipment
+                          )
+                            ? "success"
+                            : "default"
+                        }
+                        variant="light"
+                        onPress={() => updateAvailablePlatesMap(equipment)}
+                      >
+                        <WeightPlatesIcon
+                          isChecked={
+                            operatingPlateCalculation?.availablePlatesMap?.has(
+                              equipment
+                            ) ?? false
+                          }
+                          size={31}
+                        />
+                      </Button>
+                    )}
                     <FavoriteButton
                       name={equipment.name}
                       isFavorite={!!equipment.is_favorite}

@@ -268,11 +268,18 @@ export const PlateCalculator = ({
                   </div>
                 </div>
               </div>
-              <div className="flex gap-4 items-start px-0.5">
+              <div className="flex gap-4 items-center px-0.5">
                 <span className="font-medium">Available Plates</span>
                 <span className="text-secondary w-[15.5rem] truncate">
                   {operatingPlateCalculation.formattedAvailablePlatesString}
                 </span>
+                {/* <Button
+                  size="sm"
+                  variant="flat"
+                  onPress={handleSetHandleButton}
+                >
+                  Edit
+                </Button> */}
               </div>
             </div>
             <div className="flex flex-col gap-1.5">
@@ -357,6 +364,7 @@ export const PlateCalculator = ({
           showSortButton
           heightString="h-[410px]"
           validWeightUnit={operatingPlateCalculation.weight_unit}
+          showPlateCalculatorButton
         />
       )}
     </>

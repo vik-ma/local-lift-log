@@ -260,7 +260,7 @@ export const CalculationModal = ({
       } else {
         return operationTypePlateCalc === "set-handle"
           ? "Set Handle"
-          : "Equipment Weight List";
+          : "Set Available Plates";
       }
     }
   }, [
@@ -358,9 +358,9 @@ export const CalculationModal = ({
                     <Button
                       variant="flat"
                       color="secondary"
-                      onPress={showPresetList}
+                      onPress={() => {}}
                     >
-                      Select Available Plates
+                      Load Plate Calculation
                     </Button>
                   )}
               </div>
