@@ -16,8 +16,6 @@ import { PresetsModalList } from "./PresetsModalList";
 import WeightUnitDropdown from "./Dropdowns/WeightUnitDropdown";
 
 type PlateCalculatorProps = {
-  equipmentWeights: EquipmentWeight[];
-  weightUnit: string;
   operatingPlateCalculation: PlateCalculation;
   setOperatingPlateCalculation: React.Dispatch<
     React.SetStateAction<PlateCalculation>
@@ -41,7 +39,6 @@ type PlateCalculatorItems = {
 };
 
 export const PlateCalculator = ({
-  weightUnit,
   operatingPlateCalculation,
   setOperatingPlateCalculation,
   plateCalculatorPage,
@@ -293,7 +290,7 @@ export const PlateCalculator = ({
                         plateCalculation.targetWeight -
                           plateCalculation.remainingWeight
                       )}{" "}
-                      {weightUnit}
+                      {operatingPlateCalculation.weight_unit}
                     </span>
                   </div>
                 )}
@@ -320,14 +317,14 @@ export const PlateCalculator = ({
                           >
                             <div className="flex gap-2">
                               <span className="font-medium w-[4.5rem]">
-                                {key} {weightUnit}
+                                {key} {operatingPlateCalculation.weight_unit}
                               </span>
                               <span className="text-stone-500">{value}</span>
                             </div>
                             {!plateCalculation.isOneHandle && (
                               <div className="flex gap-2">
                                 <span className="font-medium w-[4.5rem]">
-                                  {key} {weightUnit}
+                                  {key} {operatingPlateCalculation.weight_unit}
                                 </span>
                                 <span className="text-stone-500">
                                   {value / 2}
@@ -336,7 +333,7 @@ export const PlateCalculator = ({
                             )}
                             <div className="flex gap-2">
                               <span className="font-medium w-[4.5rem]">
-                                {key} {weightUnit}
+                                {key} {operatingPlateCalculation.weight_unit}
                               </span>
                               <span className="text-stone-500">
                                 {value / handleFactor}
@@ -359,7 +356,7 @@ export const PlateCalculator = ({
           showModifyButton
           showSortButton
           heightString="h-[410px]"
-          validWeightUnit={weightUnit}
+          validWeightUnit={operatingPlateCalculation.weight_unit}
         />
       )}
     </>

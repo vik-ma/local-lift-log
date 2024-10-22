@@ -330,8 +330,6 @@ export const CalculationModal = ({
                   </Tab>
                   <Tab key="plate" title="Plates">
                     <PlateCalculator
-                      equipmentWeights={equipmentWeights}
-                      weightUnit={weightUnit}
                       operatingPlateCalculation={operatingPlateCalculation}
                       setOperatingPlateCalculation={
                         setOperatingPlateCalculation
