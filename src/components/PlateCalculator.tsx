@@ -181,97 +181,102 @@ export const PlateCalculator = ({
     <>
       {plateCalculatorPage === "base" ? (
         <div className="flex flex-col h-full justify-between">
-          <div className="flex flex-col gap-3">
-            <div className="flex flex-col gap-1.5">
-              <div className="flex justify-between items-center pl-0.5">
-                <h3 className="text-lg font-medium">Handle</h3>
-                <div className="flex gap-2 items-center pr-2">
-                  <span className="text-sm text-stone-500">
-                    Number Of Handles
-                  </span>
-                  <Select
-                    aria-label="Select Number Of Handles"
-                    className="w-[4rem]"
-                    size="sm"
-                    variant="faded"
-                    selectedKeys={[
-                      operatingPlateCalculation.num_handles.toString(),
-                    ]}
-                    onChange={(e) => handleHandlesChange(e)}
-                    disallowEmptySelection
-                  >
-                    <SelectItem key="1" value="1">
-                      1
-                    </SelectItem>
-                    <SelectItem key="2" value="2">
-                      2
-                    </SelectItem>
-                  </Select>
-                </div>
-              </div>
-              {operatingPlateCalculation.handle !== undefined ? (
-                <div className="flex gap-1.5 items-center">
-                  <div className="flex w-[20rem] justify-between gap-1 bg-default-50 px-1.5 py-0.5 border-2 rounded-lg">
-                    <span className="w-[16rem] truncate">
-                      {operatingPlateCalculation.handle.name}
+          <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2.5">
+              <div className="flex flex-col gap-1.5">
+                <div className="flex justify-between items-center pl-0.5">
+                  <h3 className="text-lg font-medium">Handle</h3>
+                  <div className="flex gap-2 items-center pr-2">
+                    <span className="text-sm text-stone-500">
+                      Number Of Handles
                     </span>
-                    <div className="flex gap-1 text-secondary">
-                      <span className="w-[3.5rem] truncate text-right">
-                        {operatingPlateCalculation.handle.weight}
-                      </span>
-                      <span>
-                        {operatingPlateCalculation.handle.weight_unit}
-                      </span>
-                    </div>
+                    <Select
+                      aria-label="Select Number Of Handles"
+                      className="w-[4rem]"
+                      size="sm"
+                      variant="faded"
+                      selectedKeys={[
+                        operatingPlateCalculation.num_handles.toString(),
+                      ]}
+                      onChange={(e) => handleHandlesChange(e)}
+                      disallowEmptySelection
+                    >
+                      <SelectItem key="1" value="1">
+                        1
+                      </SelectItem>
+                      <SelectItem key="2" value="2">
+                        2
+                      </SelectItem>
+                    </Select>
                   </div>
-                  <Button
-                    size="sm"
-                    variant="flat"
-                    onPress={handleSetHandleButton}
-                  >
-                    Change
-                  </Button>
                 </div>
-              ) : (
-                <div className="flex justify-between">
-                  <span className="px-0.5 text-stone-400">No Handle Set</span>
-                  <Button
-                    size="sm"
-                    variant="flat"
-                    color="secondary"
-                    onPress={handleSetHandleButton}
-                  >
-                    Set Handle
-                  </Button>
-                </div>
-              )}
-            </div>
-            <div className="flex gap-2 px-0.5">
-              <div className="flex gap-3 items-center">
-                <span className="text-lg font-medium">Target Weight</span>
-                <div className="flex gap-1.5 items-center">
-                  <Input
-                    ref={targetWeightInputRef}
-                    className="w-[6rem]"
-                    aria-label="Target Weight Input Field"
-                    size="sm"
-                    variant="faded"
-                    isInvalid={isTargetWeightInputInvalid}
-                    isClearable
-                    value={targetWeightInput}
-                    onValueChange={setTargetWeightInput}
-                  />
-                  {/* <span className="text-stone-500">{weightUnit}</span>
-                   */}
-                  <WeightUnitDropdown />
+                {operatingPlateCalculation.handle !== undefined ? (
+                  <div className="flex gap-1.5 items-center">
+                    <div className="flex w-[20rem] justify-between gap-1 bg-default-50 px-1.5 py-0.5 border-2 rounded-lg">
+                      <span className="w-[16rem] truncate">
+                        {operatingPlateCalculation.handle.name}
+                      </span>
+                      <div className="flex gap-1 text-secondary">
+                        <span className="w-[3.5rem] truncate text-right">
+                          {operatingPlateCalculation.handle.weight}
+                        </span>
+                        <span>
+                          {operatingPlateCalculation.handle.weight_unit}
+                        </span>
+                      </div>
+                    </div>
+                    <Button
+                      size="sm"
+                      variant="flat"
+                      onPress={handleSetHandleButton}
+                    >
+                      Change
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="flex justify-between">
+                    <span className="px-0.5 text-stone-400">No Handle Set</span>
+                    <Button
+                      size="sm"
+                      variant="flat"
+                      color="secondary"
+                      onPress={handleSetHandleButton}
+                    >
+                      Set Handle
+                    </Button>
+                  </div>
+                )}
+              </div>
+              <div className="flex gap-2 px-0.5">
+                <div className="flex gap-3.5 items-center">
+                  <span className="text-lg font-medium">Target Weight</span>
+                  <div className="flex gap-1.5 items-center">
+                    <Input
+                      ref={targetWeightInputRef}
+                      className="w-[6rem]"
+                      aria-label="Target Weight Input Field"
+                      size="sm"
+                      variant="faded"
+                      isInvalid={isTargetWeightInputInvalid}
+                      isClearable
+                      value={targetWeightInput}
+                      onValueChange={setTargetWeightInput}
+                    />
+                    <WeightUnitDropdown
+                      value={operatingPlateCalculation.weight_unit}
+                      targetType="plate-calculation"
+                      setPlateCalculation={setOperatingPlateCalculation}
+                      isSmall
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="flex gap-2 items-start">
-              <span className="font-medium w-[7.5rem]">Available Plates</span>
-              <span className="text-secondary w-[16.5rem] truncate">
-                {operatingPlateCalculation.formattedAvailablePlatesString}
-              </span>
+              <div className="flex gap-4 items-start px-0.5">
+                <span className="font-medium">Available Plates</span>
+                <span className="text-secondary w-[15.5rem] truncate">
+                  {operatingPlateCalculation.formattedAvailablePlatesString}
+                </span>
+              </div>
             </div>
             <div className="flex flex-col gap-1.5">
               <div className="flex flex-col items-center">
@@ -281,7 +286,7 @@ export const PlateCalculator = ({
                   </span>
                 )}
                 {plateCalculation.plateMap.size > 0 && (
-                  <div className="font-medium">
+                  <div className="font-medium text-lg">
                     Showing plates for{" "}
                     <span className="text-secondary">
                       {ConvertNumberToTwoDecimals(
@@ -293,55 +298,57 @@ export const PlateCalculator = ({
                   </div>
                 )}
               </div>
-            </div>
-            <div className="flex flex-col">
-              {plateCalculation.plateMap.size > 0 && (
-                <>
-                  <div className="flex justify-between">
-                    <h4 className="font-semibold text-lg">Total Plates</h4>
-                    {!plateCalculation.isOneHandle && (
-                      <h4 className="font-semibold text-lg">Per Handle</h4>
-                    )}
-                    <h4 className="font-semibold text-lg">Single Side</h4>
-                  </div>
-                  {[...plateCalculation.plateMap.entries()].map(
-                    ([key, value]) => {
-                      const handleFactor = plateCalculation.isOneHandle ? 2 : 4;
-                      return (
-                        <div
-                          className="flex justify-between"
-                          key={`plate-${key}`}
-                        >
-                          <div className="flex gap-2">
-                            <span className="font-medium w-[4.5rem]">
-                              {key} {weightUnit}
-                            </span>
-                            <span className="text-stone-500">{value}</span>
-                          </div>
-                          {!plateCalculation.isOneHandle && (
+              <div className="flex flex-col">
+                {plateCalculation.plateMap.size > 0 && (
+                  <>
+                    <div className="flex justify-between">
+                      <h4 className="font-semibold text-lg">Total Plates</h4>
+                      {!plateCalculation.isOneHandle && (
+                        <h4 className="font-semibold text-lg">Per Handle</h4>
+                      )}
+                      <h4 className="font-semibold text-lg">Single Side</h4>
+                    </div>
+                    {[...plateCalculation.plateMap.entries()].map(
+                      ([key, value]) => {
+                        const handleFactor = plateCalculation.isOneHandle
+                          ? 2
+                          : 4;
+                        return (
+                          <div
+                            className="flex justify-between"
+                            key={`plate-${key}`}
+                          >
+                            <div className="flex gap-2">
+                              <span className="font-medium w-[4.5rem]">
+                                {key} {weightUnit}
+                              </span>
+                              <span className="text-stone-500">{value}</span>
+                            </div>
+                            {!plateCalculation.isOneHandle && (
+                              <div className="flex gap-2">
+                                <span className="font-medium w-[4.5rem]">
+                                  {key} {weightUnit}
+                                </span>
+                                <span className="text-stone-500">
+                                  {value / 2}
+                                </span>
+                              </div>
+                            )}
                             <div className="flex gap-2">
                               <span className="font-medium w-[4.5rem]">
                                 {key} {weightUnit}
                               </span>
                               <span className="text-stone-500">
-                                {value / 2}
+                                {value / handleFactor}
                               </span>
                             </div>
-                          )}
-                          <div className="flex gap-2">
-                            <span className="font-medium w-[4.5rem]">
-                              {key} {weightUnit}
-                            </span>
-                            <span className="text-stone-500">
-                              {value / handleFactor}
-                            </span>
                           </div>
-                        </div>
-                      );
-                    }
-                  )}
-                </>
-              )}
+                        );
+                      }
+                    )}
+                  </>
+                )}
+              </div>
             </div>
           </div>
         </div>

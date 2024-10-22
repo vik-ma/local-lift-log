@@ -13,6 +13,7 @@ export const WeightUnitDropdown = ({
   isSmall,
   isSetEdited,
   setIsSetEdited,
+  setPlateCalculation,
 }: UnitDropdownProps) => {
   const validWeightUnits = useValidWeightUnits();
 
@@ -45,6 +46,13 @@ export const WeightUnitDropdown = ({
 
     if (targetType === "state" && setState !== undefined) {
       setState(e.target.value);
+    }
+
+    if (
+      targetType === "plate-calculation" &&
+      setPlateCalculation !== undefined
+    ) {
+      setPlateCalculation((prev) => ({ ...prev, weight_unit: e.target.value }));
     }
   };
 
