@@ -220,7 +220,7 @@ export const PlateCalculator = ({
                 </div>
               )}
             </div>
-            <div className="flex gap-1.5 px-0.5">
+            <div className="flex gap-2 px-0.5">
               <div className="flex gap-2 items-center w-[15.5rem]">
                 <span className="font-medium">Target Weight</span>
                 <div className="flex gap-1.5 items-center">
@@ -263,7 +263,7 @@ export const PlateCalculator = ({
             <div className="flex gap-2 items-start">
               <span className="font-medium w-[7.5rem]">Available Plates</span>
               <span className="text-secondary w-[16.5rem] truncate">
-                {operatingPlateCalculation.formattedAvailablePlatesMapString}
+                {operatingPlateCalculation.formattedAvailablePlatesString}
               </span>
             </div>
             <div className="flex flex-col gap-1.5">

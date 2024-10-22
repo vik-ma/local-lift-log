@@ -122,7 +122,7 @@ export const usePresetsList = (
         setIsLoadingEquipment(false);
 
         if (defaultPlateCalculationId !== undefined) {
-          const defaultPlateCalculation = plateCalculations.find(
+          const defaultPlateCalculation = plateCalculationList.find(
             (plateCalculation) =>
               plateCalculation.id === defaultPlateCalculationId
           );
