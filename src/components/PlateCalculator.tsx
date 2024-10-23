@@ -22,6 +22,7 @@ type PlateCalculatorProps = {
   >;
   plateCalculatorPage: PlateCalculatorPage;
   usePresetsList: UsePresetsListReturnType;
+  operationTypePlateCalc: OperationTypePlateCalc;
   setOperationTypePlateCalc: React.Dispatch<
     React.SetStateAction<OperationTypePlateCalc>
   >;
@@ -43,6 +44,7 @@ export const PlateCalculator = ({
   setOperatingPlateCalculation,
   plateCalculatorPage,
   usePresetsList,
+  operationTypePlateCalc,
   setOperationTypePlateCalc,
   handlePresetClickPlateCalc,
   targetWeightInput,
@@ -98,6 +100,12 @@ export const PlateCalculator = ({
 
   const handleSetHandleButton = async () => {
     setOperationTypePlateCalc("set-handle");
+
+    await showPresetList();
+  };
+
+  const handleEditAvailablePlatesButton = async () => {
+    setOperationTypePlateCalc("show-list");
 
     await showPresetList();
   };
@@ -223,6 +231,7 @@ export const PlateCalculator = ({
                       </div>
                     </div>
                     <Button
+                      aria-label="Change Plates Handle"
                       className="w-[4rem]"
                       size="sm"
                       variant="flat"
@@ -235,6 +244,7 @@ export const PlateCalculator = ({
                   <div className="flex justify-between">
                     <span className="px-0.5 text-stone-400">No Handle Set</span>
                     <Button
+                      aria-label="Set Plates Handle"
                       size="sm"
                       variant="flat"
                       color="secondary"
@@ -253,9 +263,10 @@ export const PlateCalculator = ({
                       Available Plates
                     </span>
                     <Button
+                      aria-label="Edit Available Plates"
                       size="sm"
                       variant="flat"
-                      onPress={handleSetHandleButton}
+                      onPress={handleEditAvailablePlatesButton}
                     >
                       Edit
                     </Button>
@@ -369,7 +380,7 @@ export const PlateCalculator = ({
           showSortButton
           heightString="h-[410px]"
           validWeightUnit={operatingPlateCalculation.weight_unit}
-          showPlateCalculatorButton
+          showPlateCalculatorButton={operationTypePlateCalc === "show-list"}
         />
       )}
     </>

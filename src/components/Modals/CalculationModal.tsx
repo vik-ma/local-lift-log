@@ -336,6 +336,7 @@ export const CalculationModal = ({
                       }
                       plateCalculatorPage={plateCalculatorPage}
                       usePresetsList={usePresetsList}
+                      operationTypePlateCalc={operationTypePlateCalc}
                       setOperationTypePlateCalc={setOperationTypePlateCalc}
                       handlePresetClickPlateCalc={handlePresetClickPlateCalc}
                       targetWeightInput={targetWeightInput}
@@ -355,11 +356,7 @@ export const CalculationModal = ({
                 )}
                 {calculationModalTab === "plate" &&
                   plateCalculatorPage === "base" && (
-                    <Button
-                      variant="flat"
-                      color="secondary"
-                      onPress={() => {}}
-                    >
+                    <Button variant="flat" color="secondary" onPress={() => {}}>
                       Load Plate Calculation
                     </Button>
                   )}
