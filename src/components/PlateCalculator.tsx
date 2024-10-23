@@ -1,4 +1,10 @@
-import { Button, Input, Select, SelectItem } from "@nextui-org/react";
+import {
+  Button,
+  Input,
+  ScrollShadow,
+  Select,
+  SelectItem,
+} from "@nextui-org/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   ConvertNumberToTwoDecimals,
@@ -294,20 +300,25 @@ export const PlateCalculator = ({
                   </div>
                   {operatingPlateCalculation.availablePlatesMap !==
                     undefined && (
-                    <div className="flex divide-x divide-solid">
-                      {Array.from(
-                        operatingPlateCalculation.availablePlatesMap
-                      ).map(([key, value]) => (
-                        <div className="flex flex-col px-1.5 justify-center items-center">
-                          <span className="text-secondary font-medium max-w-[3rem] truncate">
-                            {key.weight}
-                          </span>
-                          <span className="text-xs text-stone-500">
-                            x{value}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
+                    <ScrollShadow className="w-[13rem]">
+                      <div className="flex divide-x divide-solid">
+                        {Array.from(
+                          operatingPlateCalculation.availablePlatesMap
+                        ).map(([key, value]) => (
+                          <div
+                            key={key.id}
+                            className="flex flex-col px-1.5 justify-center items-center"
+                          >
+                            <span className="text-secondary font-medium max-w-[3rem] truncate">
+                              {key.weight}
+                            </span>
+                            <span className="text-xs text-stone-500">
+                              x{value}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </ScrollShadow>
                   )}
                 </div>
               </div>
