@@ -255,7 +255,7 @@ export const PlateCalculator = ({
                   </div>
                 )}
               </div>
-              <div className="flex flex-col gap-0.5 px-0.5">
+              <div className="flex flex-col px-0.5">
                 <div className="flex gap-[4.25rem] items-center">
                   <span className="text-lg font-medium">Target Weight</span>
                   <div className="flex items-center gap-[7px]">

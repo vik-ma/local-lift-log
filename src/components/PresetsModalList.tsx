@@ -99,6 +99,7 @@ export const PresetsModalList = ({
             handleSortOptionSelectionEquipment={
               handleSortOptionSelectionEquipment
             }
+            showPlateCalculatorOption={showPlateCalculatorButton}
           />
         )}
       </div>
