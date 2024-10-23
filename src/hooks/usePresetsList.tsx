@@ -383,14 +383,25 @@ export const usePresetsList = (
   const updateAvailablePlatesMap = (equipmentWeight: EquipmentWeight) => {
     if (operatingPlateCalculation.availablePlatesMap === undefined) return;
 
-    const updatedAvailablePlatesMap = new Map(
-      operatingPlateCalculation.availablePlatesMap
+    const availablePlatesMap = operatingPlateCalculation.availablePlatesMap;
+
+    if (availablePlatesMap.has(equipmentWeight)) {
+      availablePlatesMap.delete(equipmentWeight);
+    } else {
+      availablePlatesMap.set(equipmentWeight, 12);
+    }
+
+    const sortedPlates = Array.from(availablePlatesMap.keys()).sort(
+      (a, b) => a.weight - b.weight
     );
 
-    if (updatedAvailablePlatesMap.has(equipmentWeight)) {
-      updatedAvailablePlatesMap.delete(equipmentWeight);
-    } else {
-      updatedAvailablePlatesMap.set(equipmentWeight, 12);
+    const updatedAvailablePlatesMap = new Map<EquipmentWeight, number>();
+
+    for (const key of sortedPlates) {
+      const value = availablePlatesMap.get(key);
+      if (value !== undefined) {
+        updatedAvailablePlatesMap.set(key, value);
+      }
     }
 
     const {
