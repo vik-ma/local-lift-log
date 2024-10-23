@@ -179,11 +179,11 @@ export const PlateCalculator = ({
       {plateCalculatorPage === "base" ? (
         <div className="flex flex-col h-full justify-between">
           <div className="flex flex-col gap-2">
-            <div className="flex flex-col gap-1.5">
+            <div className="flex flex-col gap-3">
               <div className="flex flex-col gap-1.5">
                 <div className="flex justify-between items-center pl-0.5">
                   <h3 className="text-lg font-medium">Handle</h3>
-                  <div className="flex gap-1 items-center pr-1">
+                  <div className="flex gap-1.5 items-center pr-1">
                     <span className="text-sm text-stone-500">
                       Number Of Handles
                     </span>
@@ -248,7 +248,7 @@ export const PlateCalculator = ({
               <div className="flex flex-col gap-0.5 px-0.5">
                 <div className="flex gap-[4.25rem] items-center">
                   <span className="text-lg font-medium">Target Weight</span>
-                  <div className="flex items-center gap-1.5">
+                  <div className="flex items-center gap-[7px]">
                     <span className="text-lg font-medium">
                       Available Plates
                     </span>
