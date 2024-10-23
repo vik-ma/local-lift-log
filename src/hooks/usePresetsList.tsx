@@ -261,6 +261,27 @@ export const usePresetsList = (
     setDistances(distanceList);
   };
 
+  const sortEquipmentWeightsByPlateCalcFirst = (
+    equipmentWeightList: EquipmentWeight[]
+  ) => {
+    if (operatingPlateCalculation.availablePlatesMap === undefined) return;
+
+    const platesMap = operatingPlateCalculation.availablePlatesMap;
+
+    equipmentWeightList.sort((a, b) => {
+      const aInMap = platesMap.has(a) ? 1 : 0;
+      const bInMap = platesMap.has(b) ? 1 : 0;
+
+      if (platesMap.has(b) !== platesMap.has(a)) {
+        return bInMap - aInMap;
+      } else {
+        return a.name.localeCompare(b.name);
+      }
+    });
+
+    setEquipmentWeights(equipmentWeightList);
+  };
+
   const handleSortOptionSelectionEquipment = (key: string) => {
     if (key === "favorite") {
       setSortCategoryEquipment(key);
@@ -274,6 +295,9 @@ export const usePresetsList = (
     } else if (key === "name") {
       setSortCategoryEquipment(key);
       sortEquipmentWeightsByName([...equipmentWeights]);
+    } else if (key === "plate-calc") {
+      setSortCategoryEquipment(key);
+      sortEquipmentWeightsByPlateCalcFirst([...equipmentWeights]);
     }
   };
 
