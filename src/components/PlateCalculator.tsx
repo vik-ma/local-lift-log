@@ -179,11 +179,11 @@ export const PlateCalculator = ({
       {plateCalculatorPage === "base" ? (
         <div className="flex flex-col h-full justify-between">
           <div className="flex flex-col gap-2">
-            <div className="flex flex-col gap-2.5">
+            <div className="flex flex-col gap-1.5">
               <div className="flex flex-col gap-1.5">
                 <div className="flex justify-between items-center pl-0.5">
                   <h3 className="text-lg font-medium">Handle</h3>
-                  <div className="flex gap-2 items-center pr-2">
+                  <div className="flex gap-1 items-center pr-1">
                     <span className="text-sm text-stone-500">
                       Number Of Handles
                     </span>
@@ -208,8 +208,8 @@ export const PlateCalculator = ({
                   </div>
                 </div>
                 {operatingPlateCalculation.handle !== undefined ? (
-                  <div className="flex gap-1.5 items-center">
-                    <div className="flex w-[20rem] justify-between gap-1 bg-default-50 px-1.5 py-0.5 border-2 rounded-lg">
+                  <div className="flex gap-1 items-center">
+                    <div className="flex w-[20.5rem] justify-between gap-1 bg-default-50 px-1.5 py-0.5 border-2 rounded-lg">
                       <span className="w-[16rem] truncate">
                         {operatingPlateCalculation.handle.name}
                       </span>
@@ -223,6 +223,7 @@ export const PlateCalculator = ({
                       </div>
                     </div>
                     <Button
+                      className="w-[4rem]"
                       size="sm"
                       variant="flat"
                       onPress={handleSetHandleButton}
@@ -244,9 +245,23 @@ export const PlateCalculator = ({
                   </div>
                 )}
               </div>
-              <div className="flex gap-2 px-0.5">
-                <div className="flex gap-3.5 items-center">
+              <div className="flex flex-col gap-0.5 px-0.5">
+                <div className="flex gap-[4.25rem] items-center">
                   <span className="text-lg font-medium">Target Weight</span>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-lg font-medium">
+                      Available Plates
+                    </span>
+                    <Button
+                      size="sm"
+                      variant="flat"
+                      onPress={handleSetHandleButton}
+                    >
+                      Edit
+                    </Button>
+                  </div>
+                </div>
+                <div className="flex gap-4 items-center">
                   <div className="flex gap-1.5 items-center">
                     <Input
                       ref={targetWeightInputRef}
@@ -266,20 +281,10 @@ export const PlateCalculator = ({
                       isSmall
                     />
                   </div>
+                  <span className="text-secondary w-[15.5rem] truncate">
+                    {operatingPlateCalculation.formattedAvailablePlatesString}
+                  </span>
                 </div>
-              </div>
-              <div className="flex gap-4 items-center px-0.5">
-                <span className="font-medium">Available Plates</span>
-                <span className="text-secondary w-[15.5rem] truncate">
-                  {operatingPlateCalculation.formattedAvailablePlatesString}
-                </span>
-                {/* <Button
-                  size="sm"
-                  variant="flat"
-                  onPress={handleSetHandleButton}
-                >
-                  Edit
-                </Button> */}
               </div>
             </div>
             <div className="flex flex-col gap-1.5">
