@@ -186,7 +186,7 @@ export const PlateCalculator = ({
     <>
       {plateCalculatorPage === "base" ? (
         <div className="flex flex-col h-full justify-between">
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-1.5">
             <div className="flex flex-col gap-2.5">
               <div className="flex flex-col gap-1.5">
                 <div className="flex justify-between items-center pl-0.5">
@@ -312,7 +312,7 @@ export const PlateCalculator = ({
                 </div>
               </div>
             </div>
-            <div className="flex flex-col gap-1.5">
+            <div className="flex flex-col gap-0.5">
               <div className="flex flex-col items-center">
                 {plateCalculation.remainingWeight > 0 && (
                   <span className="font-medium text-danger">
@@ -336,11 +336,17 @@ export const PlateCalculator = ({
                 {plateCalculation.plateMap.size > 0 && (
                   <>
                     <div className="flex justify-between">
-                      <h4 className="font-semibold text-lg">Total Plates</h4>
+                      <h4 className="font-semibold text-lg w-[6.5rem]">
+                        Total Plates
+                      </h4>
                       {!plateCalculation.isOneHandle && (
-                        <h4 className="font-semibold text-lg">Per Handle</h4>
+                        <h4 className="font-semibold text-lg w-[6.5rem]">
+                          Per Handle
+                        </h4>
                       )}
-                      <h4 className="font-semibold text-lg">Single Side</h4>
+                      <h4 className="font-semibold text-lg w-[6.5rem]">
+                        Single Side
+                      </h4>
                     </div>
                     {[...plateCalculation.plateMap.entries()].map(
                       ([key, value]) => {
@@ -352,27 +358,29 @@ export const PlateCalculator = ({
                             className="flex justify-between"
                             key={`plate-${key}`}
                           >
-                            <div className="flex gap-2">
+                            <div className="flex gap-[0.25rem] justify-between w-[6.5rem]">
                               <span className="font-medium w-[4.5rem]">
                                 {key} {operatingPlateCalculation.weight_unit}
                               </span>
-                              <span className="text-stone-500">{value}</span>
+                              <span className="max-w-[1.75rem] truncate text-stone-500">
+                                {value}
+                              </span>
                             </div>
                             {!plateCalculation.isOneHandle && (
-                              <div className="flex gap-2">
+                              <div className="flex gap-[0.25rem] justify-between w-[6.5rem]">
                                 <span className="font-medium w-[4.5rem]">
                                   {key} {operatingPlateCalculation.weight_unit}
                                 </span>
-                                <span className="text-stone-500">
+                                <span className="max-w-[1.75rem] truncate text-stone-500">
                                   {value / 2}
                                 </span>
                               </div>
                             )}
-                            <div className="flex gap-2">
+                            <div className="flex gap-[0.25rem] justify-between w-[6.5rem]">
                               <span className="font-medium w-[4.5rem]">
                                 {key} {operatingPlateCalculation.weight_unit}
                               </span>
-                              <span className="text-stone-500">
+                              <span className="max-w-[1.75rem] truncate text-stone-500">
                                 {value / handleFactor}
                               </span>
                             </div>
