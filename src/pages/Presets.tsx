@@ -271,7 +271,7 @@ export default function Presets() {
 
       await db.execute(
         `UPDATE equipment_weights 
-         SET name = $1, weight = $2, weight_unit = $3, is_favorite = $4, 
+         SET name = $1, weight = $2, weight_unit = $3, is_favorite = $4 
          WHERE id = $5`,
         [
           nameInput,
