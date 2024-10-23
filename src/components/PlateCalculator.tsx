@@ -272,7 +272,7 @@ export const PlateCalculator = ({
                     </Button>
                   </div>
                 </div>
-                <div className="flex gap-4 items-center">
+                <div className="flex gap-2.5 items-center">
                   <div className="flex gap-1.5 items-center">
                     <Input
                       ref={targetWeightInputRef}
@@ -292,9 +292,23 @@ export const PlateCalculator = ({
                       isSmall
                     />
                   </div>
-                  <span className="text-secondary w-[15.5rem] truncate">
-                    {operatingPlateCalculation.formattedAvailablePlatesString}
-                  </span>
+                  {operatingPlateCalculation.availablePlatesMap !==
+                    undefined && (
+                    <div className="flex divide-x divide-solid">
+                      {Array.from(
+                        operatingPlateCalculation.availablePlatesMap
+                      ).map(([key, value]) => (
+                        <div className="flex flex-col px-1.5 justify-center items-center">
+                          <span className="text-secondary font-medium max-w-[3rem] truncate">
+                            {key.weight}
+                          </span>
+                          <span className="text-xs text-stone-500">
+                            x{value}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
