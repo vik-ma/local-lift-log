@@ -23,6 +23,7 @@ import {
 export default function Test() {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const [text, setText] = useState<string>("");
+  const [isMetric, setIsMetric] = useState<boolean>(true);
 
   const [userSettings, setUserSettings] = useState<UserSettings>();
 
@@ -30,8 +31,6 @@ export default function Test() {
   const textInputModal = useDisclosure();
 
   const presetsList = usePresetsList(false, false);
-
-  const isMetric = true;
 
   const handleCreateDefaultsButton = async (key: string) => {
     if (key === "exercises") {
@@ -106,20 +105,28 @@ export default function Test() {
             TEST
           </h1>
         </div>
-        <div className="flex gap-5 justify-center items-center">
-          <span>Presets Type: {presetsList.presetsType}</span>
+        <Button onPress={() => calculationModal.calculationModal.onOpen()}>
+          Open Calculation Modal
+        </Button>
+        <div className="flex gap-2 justify-center items-center">
+          <span className="font-medium">Presets Type:</span>
+          <span>{presetsList.presetsType}</span>
+          <Button size="sm" variant="flat" onPress={changePresetType}>
+            Change
+          </Button>
+        </div>
+        <div className="flex gap-2 justify-center items-center">
+          <span className="font-medium">Metric Units:</span>
+          <span>{isMetric ? "True" : "False"}</span>
           <Button
-            color="secondary"
             size="sm"
             variant="flat"
-            onPress={changePresetType}
+            onPress={() => setIsMetric(!isMetric)}
           >
             Change
           </Button>
         </div>
-        <Button onPress={() => calculationModal.calculationModal.onOpen()}>
-          Open Calculation Modal
-        </Button>
+
         <div className="flex gap-1 justify-center">
           <Button color="primary" size="sm" variant="flat">
             Primary
