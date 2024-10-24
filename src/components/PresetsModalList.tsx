@@ -13,6 +13,7 @@ import {
   UsePresetsListReturnType,
 } from "../typings";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 type PresetsModalListProps = {
   presetsList: UsePresetsListReturnType;
@@ -52,6 +53,9 @@ export const PresetsModalList = ({
     operatingPlateCalculation,
     updateAvailablePlatesMap,
   } = presetsList;
+
+  const [hideInvalidUnitItems, setHideInvalidUnitItems] =
+    useState<boolean>(true);
 
   const navigate = useNavigate();
 
@@ -113,7 +117,11 @@ export const PresetsModalList = ({
                 <div
                   className={
                     validWeightUnit !== undefined &&
-                    equipment.weight_unit !== validWeightUnit
+                    equipment.weight_unit !== validWeightUnit &&
+                    hideInvalidUnitItems
+                      ? "hidden"
+                      : validWeightUnit !== undefined &&
+                        equipment.weight_unit !== validWeightUnit
                       ? "flex justify-between items-center gap-1 opacity-40 cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                       : "flex justify-between items-center gap-1 cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                   }
