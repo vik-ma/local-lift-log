@@ -346,7 +346,7 @@ export const PlateCalculator = ({
                   </span>
                 )}
                 {plateCalculatorResult.plateMap.size > 0 && (
-                  <div className="flex justify-end gap-5 items-center font-medium text-lg w-full">
+                  <div className="flex justify-end py-0.5 gap-5 items-center font-medium text-lg w-full">
                     <div className="flex gap-1">
                       <span>Showing plates for</span>
                       <span className="max-w-[4rem] truncate text-secondary">
