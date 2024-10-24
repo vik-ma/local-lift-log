@@ -57,7 +57,7 @@ export const PlateCalculator = ({
   setTargetWeightInput,
   showPresetList,
 }: PlateCalculatorProps) => {
-  const defaultPlateCalculation: PlateCalculatorItems = useMemo(() => {
+  const defaultPlateCalculatorItems: PlateCalculatorItems = useMemo(() => {
     return {
       plateMap: new Map(),
       targetWeight: 0,
@@ -66,8 +66,8 @@ export const PlateCalculator = ({
     };
   }, []);
 
-  const [plateCalculation, setPlateCalculation] =
-    useState<PlateCalculatorItems>(defaultPlateCalculation);
+  const [plateCalculatorResult, setPlateCalculatorResult] =
+    useState<PlateCalculatorItems>(defaultPlateCalculatorItems);
 
   const isTargetWeightInputInvalid = useMemo(() => {
     return (
@@ -177,8 +177,13 @@ export const PlateCalculator = ({
       isOneHandle: isOneHandle,
     };
 
-    setPlateCalculation(plateCalculation);
+    setPlateCalculatorResult(plateCalculation);
   }, [disableCalculatePlates, operatingPlateCalculation, targetWeightInput]);
+
+  const resetPlateCalculatorResult = () => {
+    setTargetWeightInput("");
+    setPlateCalculatorResult(defaultPlateCalculatorItems);
+  };
 
   useEffect(() => {
     if (targetWeightInputRef.current) {
@@ -325,32 +330,41 @@ export const PlateCalculator = ({
             </div>
             <div className="flex flex-col gap-0.5">
               <div className="flex flex-col items-center">
-                {plateCalculation.remainingWeight > 0 && (
+                {plateCalculatorResult.remainingWeight > 0 && (
                   <span className="font-medium text-danger">
                     Could not reach target weight with available plates
                   </span>
                 )}
-                {plateCalculation.plateMap.size > 0 && (
-                  <div className="font-medium text-lg">
-                    Showing plates for{" "}
-                    <span className="text-secondary">
-                      {ConvertNumberToTwoDecimals(
-                        plateCalculation.targetWeight -
-                          plateCalculation.remainingWeight
-                      )}{" "}
-                      {operatingPlateCalculation.weight_unit}
-                    </span>
+                {plateCalculatorResult.plateMap.size > 0 && (
+                  <div className="flex justify-end gap-5 items-center font-medium text-lg w-full">
+                    <div className="flex gap-1">
+                      <span>Showing plates for</span>
+                      <span className="max-w-[4rem] truncate text-secondary">
+                        {ConvertNumberToTwoDecimals(
+                          plateCalculatorResult.targetWeight -
+                            plateCalculatorResult.remainingWeight
+                        )}
+                      </span>
+                      <span className="text-secondary">{operatingPlateCalculation.weight_unit}</span>
+                    </div>
+                    <Button
+                      variant="flat"
+                      size="sm"
+                      onPress={resetPlateCalculatorResult}
+                    >
+                      Clear
+                    </Button>
                   </div>
                 )}
               </div>
               <div className="flex flex-col">
-                {plateCalculation.plateMap.size > 0 && (
+                {plateCalculatorResult.plateMap.size > 0 && (
                   <>
                     <div className="flex justify-between">
                       <h4 className="font-semibold text-lg w-[6.5rem]">
                         Total Plates
                       </h4>
-                      {!plateCalculation.isOneHandle && (
+                      {!plateCalculatorResult.isOneHandle && (
                         <h4 className="font-semibold text-lg w-[6.5rem]">
                           Per Handle
                         </h4>
@@ -359,9 +373,9 @@ export const PlateCalculator = ({
                         Single Side
                       </h4>
                     </div>
-                    {[...plateCalculation.plateMap.entries()].map(
+                    {Array.from(plateCalculatorResult.plateMap.entries()).map(
                       ([key, value]) => {
-                        const handleFactor = plateCalculation.isOneHandle
+                        const handleFactor = plateCalculatorResult.isOneHandle
                           ? 2
                           : 4;
                         return (
@@ -377,7 +391,7 @@ export const PlateCalculator = ({
                                 {value}
                               </span>
                             </div>
-                            {!plateCalculation.isOneHandle && (
+                            {!plateCalculatorResult.isOneHandle && (
                               <div className="flex gap-[0.25rem] justify-between w-[6.5rem]">
                                 <span className="font-medium w-[4.5rem]">
                                   {key} {operatingPlateCalculation.weight_unit}
