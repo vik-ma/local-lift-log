@@ -9,6 +9,7 @@ import {
   EmptyListLabel,
   PresetsSortByMenu,
   PlateCalculationModal,
+  PlateCalculationButton,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -40,7 +41,6 @@ import {
   DeleteItemFromList,
   GetUserSettings,
   IsStringInvalidNumberOr0,
-  UpdateDefaultPlateCalculationId,
   UpdateItemInList,
 } from "../helpers";
 import toast, { Toaster } from "react-hot-toast";
@@ -49,7 +49,7 @@ import {
   usePresetsList,
   useValidateName,
 } from "../hooks";
-import { VerticalMenuIcon, WeightPlatesIcon } from "../assets";
+import { VerticalMenuIcon } from "../assets";
 import { useSearchParams } from "react-router-dom";
 
 type OperationType = "add" | "edit" | "delete";
@@ -586,31 +586,6 @@ export default function Presets() {
     toast.success("Default Distances Restored");
   };
 
-  const handleSetDefaultPlateCalculationButton = async (
-    plateCalculation: PlateCalculation
-  ) => {
-    if (
-      userSettings === undefined ||
-      plateCalculation.id === userSettings.default_plate_calculation_id ||
-      plateCalculation.id === 0
-    )
-      return;
-
-    const success = UpdateDefaultPlateCalculationId(
-      plateCalculation.id,
-      userSettings.id
-    );
-
-    if (!success) return;
-
-    const updatedSettings: UserSettings = {
-      ...userSettings,
-      default_plate_calculation_id: plateCalculation.id,
-    };
-
-    setUserSettings(updatedSettings);
-  };
-
   const handleDeleteButton = async () => {
     if (isOperatingPlateCalculation) {
       await deletePlateCalculation();
@@ -1060,29 +1035,11 @@ export default function Presets() {
                         </span>
                       </div>
                       <div className="flex items-center pr-1">
-                        <Button
-                          aria-label="Set Plate Calculation As Default"
-                          isIconOnly
-                          className="z-1 w-[3.5rem]"
-                          color={
-                            userSettings.default_plate_calculation_id ===
-                            plate.id
-                              ? "success"
-                              : "default"
-                          }
-                          variant="light"
-                          onPress={() =>
-                            handleSetDefaultPlateCalculationButton(plate)
-                          }
-                        >
-                          <WeightPlatesIcon
-                            isChecked={
-                              userSettings.default_plate_calculation_id ===
-                              plate.id
-                            }
-                            size={31}
-                          />
-                        </Button>
+                        <PlateCalculationButton
+                          userSettings={userSettings}
+                          setUserSettings={setUserSettings}
+                          plateCalculation={plate}
+                        />
                         <Dropdown>
                           <DropdownTrigger>
                             <Button
