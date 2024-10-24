@@ -567,7 +567,7 @@ export type WorkoutSortCategory = "date-asc" | "date-desc";
 
 export type SumCalculatorPage = "base" | "list" | "calc";
 
-export type PlateCalculatorPage = "base" | "list";
+export type PlateCalculatorPage = "base" | "equipment-list" | "plate-calc-list";
 
 export type OperationTypeSumCalc = "add-preset" | "change-preset";
 

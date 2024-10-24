@@ -225,12 +225,6 @@ export const CalculationModal = ({
     }
   };
 
-  const showPresetList = async () => {
-    await loadPresets();
-
-    setPlateCalculatorPage("list");
-  };
-
   useEffect(() => {
     if (calculationModal.isOpen && calculationModalTab === "plate") {
       loadPresets();
@@ -341,7 +335,7 @@ export const CalculationModal = ({
                       handlePresetClickPlateCalc={handlePresetClickPlateCalc}
                       targetWeightInput={targetWeightInput}
                       setTargetWeightInput={setTargetWeightInput}
-                      showPresetList={showPresetList}
+                      setPlateCalculatorPage={setPlateCalculatorPage}
                     />
                   </Tab>
                 </Tabs>
@@ -356,7 +350,11 @@ export const CalculationModal = ({
                 )}
                 {calculationModalTab === "plate" &&
                   plateCalculatorPage === "base" && (
-                    <Button variant="flat" color="secondary" onPress={() => {}}>
+                    <Button
+                      variant="flat"
+                      color="secondary"
+                      onPress={() => setPlateCalculatorPage("plate-calc-list")}
+                    >
                       Load Plate Calculation
                     </Button>
                   )}

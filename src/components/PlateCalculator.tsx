@@ -35,7 +35,9 @@ type PlateCalculatorProps = {
   handlePresetClickPlateCalc: (equipment?: EquipmentWeight) => void;
   targetWeightInput: string;
   setTargetWeightInput: React.Dispatch<React.SetStateAction<string>>;
-  showPresetList: () => Promise<void>;
+  setPlateCalculatorPage: React.Dispatch<
+    React.SetStateAction<PlateCalculatorPage>
+  >;
 };
 
 type PlateCalculatorItems = {
@@ -55,7 +57,7 @@ export const PlateCalculator = ({
   handlePresetClickPlateCalc,
   targetWeightInput,
   setTargetWeightInput,
-  showPresetList,
+  setPlateCalculatorPage,
 }: PlateCalculatorProps) => {
   const defaultPlateCalculatorItems: PlateCalculatorItems = useMemo(() => {
     return {
@@ -110,14 +112,12 @@ export const PlateCalculator = ({
 
   const handleSetHandleButton = async () => {
     setOperationTypePlateCalc("set-handle");
-
-    await showPresetList();
+    setPlateCalculatorPage("equipment-list");
   };
 
   const handleEditAvailablePlatesButton = async () => {
     setOperationTypePlateCalc("show-list");
-
-    await showPresetList();
+    setPlateCalculatorPage("equipment-list");
   };
 
   const handleHandlesChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
