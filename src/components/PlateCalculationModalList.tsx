@@ -82,13 +82,13 @@ export const PlateCalculationModalList = ({
                 onClick={() => handlePlateCalculationClick(plate)}
               >
                 <div className="flex flex-col justify-start items-start pl-2 py-1">
-                  <span className="w-[15.5rem] truncate text-left">
+                  <span className="w-[19rem] truncate">
                     {plate.name}
                   </span>
-                  <span className="text-xs text-secondary text-left">
+                  <span className="w-[19rem] truncate text-xs text-secondary">
                     {plate.formattedAvailablePlatesString} {plate.weight_unit}
                   </span>
-                  <span className="text-xs text-stone-400 text-left">
+                  <span className="text-xs text-stone-400">
                     {plate.num_handles === 1 ? "1 Handle" : "2 Handles"}
                     {plate.handle !== undefined ? (
                       ` (${plate.handle.name}: ${plate.handle.weight} ${plate.handle.weight_unit})`
