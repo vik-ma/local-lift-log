@@ -8,7 +8,7 @@ type PlateCalculationModalListProps = {
   handlePlateCalculationClick: (
     plateCalculation: PlateCalculation
   ) => Promise<void>;
-  defaultPlateCalculationId: number;
+  defaultPlateCalculationId?: number;
 };
 
 export const PlateCalculationModalList = ({

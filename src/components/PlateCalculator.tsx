@@ -20,6 +20,7 @@ import {
 } from "../typings";
 import { PresetsModalList } from "./PresetsModalList";
 import WeightUnitDropdown from "./Dropdowns/WeightUnitDropdown";
+import { PlateCalculationModalList } from "./PlateCalculationModalList";
 
 type PlateCalculatorProps = {
   operatingPlateCalculation: PlateCalculation;
@@ -431,15 +432,20 @@ export const PlateCalculator = ({
             </div>
           </div>
         </div>
-      ) : (
+      ) : plateCalculatorPage === "equipment-list" ? (
         <PresetsModalList
           presetsList={usePresetsList}
           handlePresetClick={handlePresetClickPlateCalc}
           showModifyButton
           showSortButton
-          heightString="h-[410px]"
+          heightString="h-[400px]"
           validWeightUnit={operatingPlateCalculation.weight_unit}
           showPlateCalculatorButton={operationTypePlateCalc === "show-list"}
+        />
+      ) : (
+        <PlateCalculationModalList
+          presetsList={usePresetsList}
+          handlePlateCalculationClick={async () => {}}
         />
       )}
     </>
