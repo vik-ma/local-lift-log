@@ -190,6 +190,7 @@ export type UnitDropdownProps = {
   isSetEdited?: boolean;
   setIsSetEdited?: React.Dispatch<React.SetStateAction<boolean>>;
   setPlateCalculation?: React.Dispatch<React.SetStateAction<PlateCalculation>>;
+  switchWeightUnit?: () => void;
 };
 
 export type MeasurementDropdownProps = {

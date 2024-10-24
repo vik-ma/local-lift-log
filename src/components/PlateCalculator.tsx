@@ -66,8 +66,12 @@ export const PlateCalculator = ({
     };
   }, []);
 
+  const { defaultPlateCalculation } = usePresetsList;
+
   const [plateCalculatorResult, setPlateCalculatorResult] =
     useState<PlateCalculatorItems>(defaultPlateCalculatorItems);
+  const [otherUnitPlateCalculation, setOtherUnitPlateCalculation] =
+    useState<PlateCalculation>(defaultPlateCalculation);
 
   const isTargetWeightInputInvalid = useMemo(() => {
     return (
@@ -183,6 +187,11 @@ export const PlateCalculator = ({
   const resetPlateCalculatorResult = () => {
     setTargetWeightInput("");
     setPlateCalculatorResult(defaultPlateCalculatorItems);
+  };
+
+  const switchWeightUnit = () => {
+    setOtherUnitPlateCalculation(operatingPlateCalculation);
+    setOperatingPlateCalculation(otherUnitPlateCalculation);
   };
 
   useEffect(() => {
@@ -301,6 +310,7 @@ export const PlateCalculator = ({
                       targetType="plate-calculation"
                       setPlateCalculation={setOperatingPlateCalculation}
                       isSmall
+                      switchWeightUnit={switchWeightUnit}
                     />
                   </div>
                   {operatingPlateCalculation.availablePlatesMap !==
@@ -345,7 +355,9 @@ export const PlateCalculator = ({
                             plateCalculatorResult.remainingWeight
                         )}
                       </span>
-                      <span className="text-secondary">{operatingPlateCalculation.weight_unit}</span>
+                      <span className="text-secondary">
+                        {operatingPlateCalculation.weight_unit}
+                      </span>
                     </div>
                     <Button
                       variant="flat"
