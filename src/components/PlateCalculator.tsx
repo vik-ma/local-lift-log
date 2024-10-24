@@ -202,6 +202,12 @@ export const PlateCalculator = ({
     setOperatingPlateCalculation(otherUnitPlateCalculation);
   };
 
+  const handlePlateCalculationClick = (plateCalculation: PlateCalculation) => {
+    setOperatingPlateCalculation(plateCalculation);
+    resetPlateCalculatorResult();
+    setPlateCalculatorPage("base");
+  };
+
   useEffect(() => {
     if (targetWeightInputRef.current) {
       targetWeightInputRef.current.focus();
@@ -452,7 +458,7 @@ export const PlateCalculator = ({
       ) : (
         <PlateCalculationModalList
           presetsList={usePresetsList}
-          handlePlateCalculationClick={async () => {}}
+          handlePlateCalculationClick={handlePlateCalculationClick}
           userSettings={userSettings}
           setUserSettings={setUserSettings}
         />

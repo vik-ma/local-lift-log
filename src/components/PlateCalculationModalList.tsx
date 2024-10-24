@@ -14,9 +14,7 @@ import {
 
 type PlateCalculationModalListProps = {
   presetsList: UsePresetsListReturnType;
-  handlePlateCalculationClick: (
-    plateCalculation: PlateCalculation
-  ) => Promise<void>;
+  handlePlateCalculationClick: (plateCalculation: PlateCalculation) => void;
   userSettings?: UserSettings;
   setUserSettings?: React.Dispatch<
     React.SetStateAction<UserSettings | undefined>
@@ -82,9 +80,7 @@ export const PlateCalculationModalList = ({
                 onClick={() => handlePlateCalculationClick(plate)}
               >
                 <div className="flex flex-col justify-start items-start pl-2 py-1">
-                  <span className="w-[19rem] truncate">
-                    {plate.name}
-                  </span>
+                  <span className="w-[19rem] truncate">{plate.name}</span>
                   <span className="w-[19rem] truncate text-xs text-secondary">
                     {plate.formattedAvailablePlatesString} {plate.weight_unit}
                   </span>
