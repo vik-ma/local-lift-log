@@ -97,15 +97,26 @@ export const PresetsModalList = ({
             </Button>
           )}
         </div>
-        {showSortButton && (
-          <PresetsSortByMenu
-            sortCategoryEquipment={sortCategoryEquipment}
-            handleSortOptionSelectionEquipment={
-              handleSortOptionSelectionEquipment
-            }
-            showPlateCalculatorOption={showPlateCalculatorButton}
-          />
-        )}
+        <div className="flex gap-1">
+          {validWeightUnit !== undefined && (
+            <Button
+              variant="flat"
+              size="sm"
+              onPress={() => setHideInvalidUnitItems(!hideInvalidUnitItems)}
+            >
+              {hideInvalidUnitItems ? "Show" : "Hide"} Invalid Units
+            </Button>
+          )}
+          {showSortButton && (
+            <PresetsSortByMenu
+              sortCategoryEquipment={sortCategoryEquipment}
+              handleSortOptionSelectionEquipment={
+                handleSortOptionSelectionEquipment
+              }
+              showPlateCalculatorOption={showPlateCalculatorButton}
+            />
+          )}
+        </div>
       </div>
       <ScrollShadow className="flex flex-col gap-1 w-full">
         {presetsType === "equipment" ? (
