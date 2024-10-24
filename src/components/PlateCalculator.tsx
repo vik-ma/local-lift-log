@@ -17,6 +17,7 @@ import {
   PlateCalculation,
   PlateCalculatorPage,
   UsePresetsListReturnType,
+  UserSettings,
 } from "../typings";
 import { PresetsModalList } from "./PresetsModalList";
 import WeightUnitDropdown from "./Dropdowns/WeightUnitDropdown";
@@ -39,6 +40,10 @@ type PlateCalculatorProps = {
   setPlateCalculatorPage: React.Dispatch<
     React.SetStateAction<PlateCalculatorPage>
   >;
+  userSettings: UserSettings;
+  setUserSettings: React.Dispatch<
+    React.SetStateAction<UserSettings | undefined>
+  >;
 };
 
 type PlateCalculatorItems = {
@@ -59,6 +64,8 @@ export const PlateCalculator = ({
   targetWeightInput,
   setTargetWeightInput,
   setPlateCalculatorPage,
+  userSettings,
+  setUserSettings,
 }: PlateCalculatorProps) => {
   const defaultPlateCalculatorItems: PlateCalculatorItems = useMemo(() => {
     return {
@@ -446,6 +453,8 @@ export const PlateCalculator = ({
         <PlateCalculationModalList
           presetsList={usePresetsList}
           handlePlateCalculationClick={async () => {}}
+          userSettings={userSettings}
+          setUserSettings={setUserSettings}
         />
       )}
     </>

@@ -45,6 +45,9 @@ type CalculationModalProps = {
   ) => void;
   multiplierIncrement: number;
   userSettings: UserSettings;
+  setUserSettings: React.Dispatch<
+    React.SetStateAction<UserSettings | undefined>
+  >;
 };
 
 export const CalculationModal = ({
@@ -53,6 +56,7 @@ export const CalculationModal = ({
   doneButtonAction,
   multiplierIncrement,
   userSettings,
+  setUserSettings,
 }: CalculationModalProps) => {
   const [calculationListWeight, setCalculationListWeight] = useState<
     CalculationListItem[]
@@ -336,6 +340,8 @@ export const CalculationModal = ({
                       targetWeightInput={targetWeightInput}
                       setTargetWeightInput={setTargetWeightInput}
                       setPlateCalculatorPage={setPlateCalculatorPage}
+                      userSettings={userSettings}
+                      setUserSettings={setUserSettings}
                     />
                   </Tab>
                 </Tabs>

@@ -1,19 +1,34 @@
 import { useNavigate } from "react-router-dom";
-import { PlateCalculation, UsePresetsListReturnType } from "../typings";
+import {
+  PlateCalculation,
+  UsePresetsListReturnType,
+  UserSettings,
+} from "../typings";
 import { Button, ScrollShadow } from "@nextui-org/react";
-import { EmptyListLabel, LoadingSpinner, SearchInput } from ".";
+import {
+  EmptyListLabel,
+  LoadingSpinner,
+  PlateCalculationButton,
+  SearchInput,
+} from ".";
 
 type PlateCalculationModalListProps = {
   presetsList: UsePresetsListReturnType;
   handlePlateCalculationClick: (
     plateCalculation: PlateCalculation
   ) => Promise<void>;
+  userSettings?: UserSettings;
+  setUserSettings?: React.Dispatch<
+    React.SetStateAction<UserSettings | undefined>
+  >;
   defaultPlateCalculationId?: number;
 };
 
 export const PlateCalculationModalList = ({
   presetsList,
   handlePlateCalculationClick,
+  userSettings,
+  setUserSettings,
   defaultPlateCalculationId,
 }: PlateCalculationModalListProps) => {
   const {
@@ -82,6 +97,16 @@ export const PlateCalculationModalList = ({
                     )}
                   </span>
                 </div>
+                {userSettings !== undefined &&
+                  setUserSettings !== undefined && (
+                    <div className="flex items-center pr-1">
+                      <PlateCalculationButton
+                        userSettings={userSettings}
+                        setUserSettings={setUserSettings}
+                        plateCalculation={plate}
+                      />
+                    </div>
+                  )}
               </div>
             ))}
             {filteredPlateCalculations.length === 0 && (
