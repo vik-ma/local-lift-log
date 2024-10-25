@@ -406,7 +406,7 @@ export const usePresetsList = (
     }
   };
 
-  const updateAvailablePlatesMap = (equipmentWeight: EquipmentWeight) => {
+  const updateAvailablePlatesMapKeys = (equipmentWeight: EquipmentWeight) => {
     if (operatingPlateCalculation.availablePlatesMap === undefined) return;
 
     const availablePlatesMap = operatingPlateCalculation.availablePlatesMap;
@@ -429,6 +429,35 @@ export const usePresetsList = (
         updatedAvailablePlatesMap.set(key, value);
       }
     }
+
+    const {
+      available_plates_string,
+      formattedAvailablePlatesString,
+      formattedAvailablePlatesMapString,
+    } = GenerateFormattedAvailablePlatesString(updatedAvailablePlatesMap);
+
+    const updatedPlateCalculation = {
+      ...operatingPlateCalculation,
+      available_plates_string,
+      availablePlatesMap: updatedAvailablePlatesMap,
+      formattedAvailablePlatesString,
+      formattedAvailablePlatesMapString,
+    };
+
+    setOperatingPlateCalculation(updatedPlateCalculation);
+  };
+
+  const updateAvailablePlatesMapValue = (
+    equipmentWeight: EquipmentWeight,
+    newValue: number
+  ) => {
+    if (operatingPlateCalculation.availablePlatesMap === undefined) return;
+
+    const updatedAvailablePlatesMap = new Map(
+      operatingPlateCalculation.availablePlatesMap
+    );
+
+    updatedAvailablePlatesMap.set(equipmentWeight, newValue);
 
     const {
       available_plates_string,
@@ -479,9 +508,10 @@ export const usePresetsList = (
     filteredPlateCalculations,
     filterQueryPlateCalculation,
     setFilterQueryPlateCalculation,
-    updateAvailablePlatesMap,
+    updateAvailablePlatesMapKeys,
     otherUnitPlateCalculation,
     setOtherUnitPlateCalculation,
     defaultPlateCalculation,
+    updateAvailablePlatesMapValue
   };
 };

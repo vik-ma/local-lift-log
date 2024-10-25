@@ -505,12 +505,16 @@ export type UsePresetsListReturnType = {
   filteredPlateCalculations: PlateCalculation[];
   filterQueryPlateCalculation: string;
   setFilterQueryPlateCalculation: React.Dispatch<React.SetStateAction<string>>;
-  updateAvailablePlatesMap: (equipmentWeight: EquipmentWeight) => void;
+  updateAvailablePlatesMapKeys: (equipmentWeight: EquipmentWeight) => void;
   otherUnitPlateCalculation: PlateCalculation;
   setOtherUnitPlateCalculation: React.Dispatch<
     React.SetStateAction<PlateCalculation>
   >;
   defaultPlateCalculation: PlateCalculation;
+  updateAvailablePlatesMapValue: (
+    equipmentWeight: EquipmentWeight,
+    newValue: number
+  ) => void;
 };
 
 export type CalculationModalTab = "sum" | "plate";

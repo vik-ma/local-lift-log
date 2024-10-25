@@ -53,7 +53,7 @@ export const PresetsModalList = ({
     sortCategoryEquipment,
     handleSortOptionSelectionEquipment,
     operatingPlateCalculation,
-    updateAvailablePlatesMap,
+    updateAvailablePlatesMapKeys,
   } = presetsList;
 
   const [hideInvalidUnitItems, setHideInvalidUnitItems] =
@@ -173,7 +173,7 @@ export const PresetsModalList = ({
                             : "default"
                         }
                         variant="light"
-                        onPress={() => updateAvailablePlatesMap(equipment)}
+                        onPress={() => updateAvailablePlatesMapKeys(equipment)}
                       >
                         <WeightPlatesIcon
                           isChecked={
