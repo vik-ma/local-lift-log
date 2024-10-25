@@ -11,6 +11,7 @@ import {
   PlateCalculationButton,
   SearchInput,
 } from ".";
+import { GoToArrowIcon } from "../assets";
 
 type PlateCalculationModalListProps = {
   presetsList: UsePresetsListReturnType;
@@ -53,6 +54,7 @@ export const PlateCalculationModalList = ({
           size="sm"
           color="secondary"
           onPress={() => navigate("/presets?tab=plate")}
+          endContent={<GoToArrowIcon />}
         >
           Modify Plate Calculation
         </Button>

@@ -6,10 +6,10 @@ type GoToArrowIconProps = {
 export const GoToArrowIcon = ({ color, size }: GoToArrowIconProps) => {
   return (
     <svg
-      fill={color || "#ccc"}
+      fill={color || "#d4a927"}
       xmlns="http://www.w3.org/2000/svg"
-      width={size || 20}
-      height={size || 20}
+      width={size || 16}
+      height={size || 16}
       viewBox="0 0 299.021 299.021"
       transform="scale(-1, 1)"
     >

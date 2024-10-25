@@ -6,7 +6,7 @@ import {
   PresetsSortByMenu,
   SearchInput,
 } from ".";
-import { WeightPlatesIcon } from "../assets";
+import { GoToArrowIcon, WeightPlatesIcon } from "../assets";
 import {
   Distance,
   EquipmentWeight,
@@ -91,6 +91,7 @@ export const PresetsModalList = ({
               size="sm"
               color="secondary"
               onPress={() => navigate(`/presets?tab=${presetsType}`)}
+              endContent={<GoToArrowIcon />}
             >
               Modify{" "}
               {presetsType === "equipment" ? "Equipment Weights" : "Distances"}
