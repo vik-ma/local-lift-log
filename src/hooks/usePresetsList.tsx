@@ -482,5 +482,6 @@ export const usePresetsList = (
     updateAvailablePlatesMap,
     otherUnitPlateCalculation,
     setOtherUnitPlateCalculation,
+    defaultPlateCalculation,
   };
 };

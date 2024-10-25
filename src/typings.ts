@@ -510,6 +510,7 @@ export type UsePresetsListReturnType = {
   setOtherUnitPlateCalculation: React.Dispatch<
     React.SetStateAction<PlateCalculation>
   >;
+  defaultPlateCalculation: PlateCalculation;
 };
 
 export type CalculationModalTab = "sum" | "plate";

@@ -62,6 +62,8 @@ export const useCalculationModal = (): UseCalculationModalReturnType => {
           userSettings.default_calculation_tab as CalculationModalTab
         );
       }
+
+      setUpPlateCalculationValues(set, presetsList);
     } else {
       presetsList.setPresetsType("distance");
 
@@ -73,6 +75,29 @@ export const useCalculationModal = (): UseCalculationModalReturnType => {
     setIsActiveSet(isActiveSet);
     setCalculationExercise(exercise);
     calculationModal.onOpen();
+  };
+
+  const setUpPlateCalculationValues = (
+    set: WorkoutSet,
+    presetsList: UsePresetsListReturnType
+  ) => {
+    if (
+      presetsList.operatingPlateCalculation.id !== 0 &&
+      presetsList.operatingPlateCalculation.weight_unit !== set.weight_unit
+    ) {
+      // Reset operatingPlateCalculation if Set unit doesn't match operatingPlateCalculation
+      // if operatingPlateCalculation is not defaultPlateCalculation
+      presetsList.setOperatingPlateCalculation({
+        ...presetsList.defaultPlateCalculation,
+        weight_unit: set.weight_unit,
+      });
+    }
+
+    // Add opposite weight unit to otherUnitPlateCalculation
+    presetsList.setOtherUnitPlateCalculation({
+      ...presetsList.defaultPlateCalculation,
+      weight_unit: set.weight_unit === "kg" ? "lbs" : "kg",
+    });
   };
 
   return {
