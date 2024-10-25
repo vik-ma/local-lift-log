@@ -199,6 +199,7 @@ export const PlateCalculator = ({
   const switchWeightUnit = () => {
     setOtherUnitPlateCalculation(operatingPlateCalculation);
     setOperatingPlateCalculation(otherUnitPlateCalculation);
+    resetPlateCalculatorResult();
   };
 
   const handlePlateCalculationClick = (plateCalculation: PlateCalculation) => {
