@@ -200,7 +200,7 @@ export const CalculationModal = ({
     setOperationTypeSumCalc("add-preset");
   };
 
-  const handlePresetClickPlateCalc = (equipment?: EquipmentWeight) => {
+  const handlePresetClickSetHandle = (equipment?: EquipmentWeight) => {
     if (equipment !== undefined) {
       changeHandle(equipment);
     }
@@ -336,7 +336,7 @@ export const CalculationModal = ({
                       usePresetsList={usePresetsList}
                       operationTypePlateCalc={operationTypePlateCalc}
                       setOperationTypePlateCalc={setOperationTypePlateCalc}
-                      handlePresetClickPlateCalc={handlePresetClickPlateCalc}
+                      handlePresetClickSetHandle={handlePresetClickSetHandle}
                       targetWeightInput={targetWeightInput}
                       setTargetWeightInput={setTargetWeightInput}
                       setPlateCalculatorPage={setPlateCalculatorPage}

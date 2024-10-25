@@ -34,7 +34,7 @@ type PlateCalculatorProps = {
   setOperationTypePlateCalc: React.Dispatch<
     React.SetStateAction<OperationTypePlateCalc>
   >;
-  handlePresetClickPlateCalc: (equipment?: EquipmentWeight) => void;
+  handlePresetClickSetHandle: (equipment?: EquipmentWeight) => void;
   targetWeightInput: string;
   setTargetWeightInput: React.Dispatch<React.SetStateAction<string>>;
   setPlateCalculatorPage: React.Dispatch<
@@ -60,7 +60,7 @@ export const PlateCalculator = ({
   usePresetsList,
   operationTypePlateCalc,
   setOperationTypePlateCalc,
-  handlePresetClickPlateCalc,
+  handlePresetClickSetHandle,
   targetWeightInput,
   setTargetWeightInput,
   setPlateCalculatorPage,
@@ -452,7 +452,7 @@ export const PlateCalculator = ({
       ) : plateCalculatorPage === "equipment-list" ? (
         <PresetsModalList
           presetsList={usePresetsList}
-          handlePresetClick={handlePresetClickPlateCalc}
+          handlePresetClick={handlePresetClickSetHandle}
           showModifyButton
           showSortButton
           heightString="h-[400px]"
