@@ -149,9 +149,16 @@ export const PlateCalculator = ({
 
     const sortedPlates = Array.from(
       operatingPlateCalculation.availablePlatesMap.keys()
-    )
-      .map((weight) => weight.weight)
-      .sort((a, b) => b - a);
+    ).sort((a, b) => b.weight - a.weight);
+
+    const sortedPlatesMap = new Map<number, number>();
+
+    for (const key of sortedPlates) {
+      const value = operatingPlateCalculation.availablePlatesMap.get(key);
+      if (value !== undefined) {
+        sortedPlatesMap.set(key.weight, value);
+      }
+    }
 
     const targetWeight = Number(targetWeightInput);
     const handleWeight = isOneHandle
@@ -163,13 +170,18 @@ export const PlateCalculator = ({
 
     const plateCounts: { [key: number]: number } = {};
 
-    for (const plate of sortedPlates) {
-      const plateCountForThisWeight = Math.floor(weightPerSide / plate);
+    for (const [plate, numAvailable] of sortedPlatesMap) {
+      const plateCountForThisWeight = Math.min(
+        Math.floor(weightPerSide / plate),
+        numAvailable / plateFactor
+      );
 
       if (plateCountForThisWeight > 0) {
         plateCounts[plate] = plateCountForThisWeight * plateFactor;
         weightPerSide -= plateCountForThisWeight * plate;
       }
+
+      if (weightPerSide <= 0) break;
     }
 
     const plateMap = new Map<number, number>(
