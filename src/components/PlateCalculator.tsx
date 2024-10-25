@@ -203,6 +203,10 @@ export const PlateCalculator = ({
 
   const handlePlateCalculationClick = (plateCalculation: PlateCalculation) => {
     setOperatingPlateCalculation(plateCalculation);
+    setOtherUnitPlateCalculation((prev) => ({
+      ...prev,
+      weight_unit: plateCalculation.weight_unit === "kg" ? "lbs" : "kg",
+    }));
     resetPlateCalculatorResult();
     setPlateCalculatorPage("base");
   };
