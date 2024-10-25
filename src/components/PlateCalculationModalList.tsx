@@ -56,13 +56,6 @@ export const PlateCalculationModalList = ({
         >
           Modify Plate Calculation
         </Button>
-        {/* TODO: FIX */}
-        {/* <PresetsSortByMenu
-          sortCategoryEquipment={sortCategoryEquipment}
-          handleSortOptionSelectionEquipment={
-            handleSortOptionSelectionEquipment
-          }
-        /> */}
       </div>
       <ScrollShadow className="flex flex-col gap-1 w-full">
         {isLoadingEquipment ? (

@@ -994,13 +994,6 @@ export default function Presets() {
                   >
                     New Plate Calculation
                   </Button>
-                  {/* TODO: FIX */}
-                  {/* <PresetsSortByMenu
-                      sortCategoryEquipment={sortCategoryEquipment}
-                      handleSortOptionSelectionEquipment={
-                        handleSortOptionSelectionEquipment
-                      }
-                    /> */}
                 </div>
               }
             />
@@ -1074,12 +1067,6 @@ export default function Presets() {
                     <EmptyListLabel itemName="Plate Calculation" />
                   )}
                 </div>
-                {/* TODO: ADD FUNCTION? */}
-                {/* <div className="flex justify-center">
-                    <Button size="sm" variant="flat" onPress={() => {}}>
-                      Restore Default Plate Calculations
-                    </Button>
-                  </div> */}
               </div>
             )}
           </Tab>
