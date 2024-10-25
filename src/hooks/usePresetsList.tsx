@@ -55,6 +55,8 @@ export const usePresetsList = (
 
   const [operatingPlateCalculation, setOperatingPlateCalculation] =
     useState<PlateCalculation>(defaultPlateCalculation);
+  const [otherUnitPlateCalculation, setOtherUnitPlateCalculation] =
+    useState<PlateCalculation>(defaultPlateCalculation);
 
   const filteredEquipmentWeights = useMemo(() => {
     if (filterQueryEquipment !== "") {
@@ -477,7 +479,8 @@ export const usePresetsList = (
     filteredPlateCalculations,
     filterQueryPlateCalculation,
     setFilterQueryPlateCalculation,
-    defaultPlateCalculation,
     updateAvailablePlatesMap,
+    otherUnitPlateCalculation,
+    setOtherUnitPlateCalculation,
   };
 };

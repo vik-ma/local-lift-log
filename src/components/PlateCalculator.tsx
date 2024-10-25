@@ -76,12 +76,11 @@ export const PlateCalculator = ({
     };
   }, []);
 
-  const { defaultPlateCalculation } = usePresetsList;
+  const { otherUnitPlateCalculation, setOtherUnitPlateCalculation } =
+    usePresetsList;
 
   const [plateCalculatorResult, setPlateCalculatorResult] =
     useState<PlateCalculatorItems>(defaultPlateCalculatorItems);
-  const [otherUnitPlateCalculation, setOtherUnitPlateCalculation] =
-    useState<PlateCalculation>(defaultPlateCalculation);
 
   const isTargetWeightInputInvalid = useMemo(() => {
     return (
