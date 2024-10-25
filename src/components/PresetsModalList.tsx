@@ -23,6 +23,7 @@ type PresetsModalListProps = {
   showSortButton?: boolean;
   validWeightUnit?: string;
   showPlateCalculatorButton?: boolean;
+  disableCursorPointer?: boolean;
 };
 
 export const PresetsModalList = ({
@@ -33,6 +34,7 @@ export const PresetsModalList = ({
   showSortButton,
   validWeightUnit,
   showPlateCalculatorButton,
+  disableCursorPointer,
 }: PresetsModalListProps) => {
   const {
     presetsType,
@@ -101,6 +103,7 @@ export const PresetsModalList = ({
         <div className="flex gap-1">
           {validWeightUnit !== undefined && (
             <Button
+              className="w-[8rem]"
               variant="flat"
               size="sm"
               onPress={() => setHideInvalidUnitItems(!hideInvalidUnitItems)}
@@ -135,6 +138,8 @@ export const PresetsModalList = ({
                       : validWeightUnit !== undefined &&
                         equipment.weight_unit !== validWeightUnit
                       ? "flex justify-between items-center gap-1 opacity-40 cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                      : disableCursorPointer
+                      ? "flex justify-between items-center gap-1 bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                       : "flex justify-between items-center gap-1 cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                   }
                   key={`equipment-${equipment.id}`}

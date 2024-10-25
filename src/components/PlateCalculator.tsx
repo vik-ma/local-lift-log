@@ -464,12 +464,17 @@ export const PlateCalculator = ({
       ) : plateCalculatorPage === "equipment-list" ? (
         <PresetsModalList
           presetsList={usePresetsList}
-          handlePresetClick={handlePresetClickSetHandle}
+          handlePresetClick={
+            operationTypePlateCalc === "set-handle"
+              ? handlePresetClickSetHandle
+              : () => {}
+          }
           showModifyButton
           showSortButton
           heightString="h-[400px]"
           validWeightUnit={operatingPlateCalculation.weight_unit}
           showPlateCalculatorButton={operationTypePlateCalc === "show-list"}
+          disableCursorPointer={operationTypePlateCalc !== "set-handle"}
         />
       ) : (
         <PlateCalculationModalList
