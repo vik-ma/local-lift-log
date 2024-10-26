@@ -174,7 +174,13 @@ export const PlateCalculator = ({
     for (const key of sortedPlates) {
       const value = operatingPlateCalculation.availablePlatesMap.get(key);
       if (value !== undefined) {
-        sortedPlatesMap.set(key.weight, value);
+        if (sortedPlatesMap.has(key.weight)) {
+          // If different Equipment Weights has same weight value, add up values
+          const addedValue = sortedPlatesMap.get(key.weight)! + value;
+          sortedPlatesMap.set(key.weight, addedValue);
+        } else {
+          sortedPlatesMap.set(key.weight, value);
+        }
       }
     }
 
@@ -223,11 +229,12 @@ export const PlateCalculator = ({
       }
 
       if (weightPerSide > 0) {
-        const firstPlate = sortedPlatesMap.keys().next().value;
-        if (firstPlate !== undefined) {
-          sortedPlatesMap.delete(firstPlate);
-          calculatePlateCounts(sortedPlatesMap);
-        }
+        // Remove heaviest plate and redo calculation if Target Weight could not be hit
+        const newPlatesList = Array.from(sortedPlatesMap);
+        newPlatesList.shift();
+        const newPlatesMap = new Map(newPlatesList);
+
+        if (newPlatesMap.size > 0) calculatePlateCounts(newPlatesMap);
       }
     };
 
