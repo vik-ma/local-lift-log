@@ -145,8 +145,10 @@ export const PlateCalculator = ({
       disableCalculatePlates ||
       operatingPlateCalculation.availablePlatesMap === undefined ||
       operatingPlateCalculation.handle === undefined
-    )
+    ) {
+      setPlateCalculatorResult(defaultPlateCalculatorItems);
       return;
+    }
 
     const isOneHandle = operatingPlateCalculation.num_handles === 1;
     const plateFactor = isOneHandle ? 2 : 4;
@@ -240,7 +242,12 @@ export const PlateCalculator = ({
     };
 
     setPlateCalculatorResult(plateCalculatorResult);
-  }, [disableCalculatePlates, operatingPlateCalculation, targetWeightInput]);
+  }, [
+    disableCalculatePlates,
+    operatingPlateCalculation,
+    targetWeightInput,
+    defaultPlateCalculatorItems,
+  ]);
 
   const resetPlateCalculatorResult = () => {
     setTargetWeightInput("");
