@@ -382,6 +382,9 @@ export const usePresetsList = (
       case "weight-desc":
         sortEquipmentWeightsByWeight(equipmentWeightList, false);
         break;
+      case "plate-calc":
+        sortEquipmentWeightsByPlateCalcFirst(equipmentWeightList);
+        break;
       default:
         break;
     }

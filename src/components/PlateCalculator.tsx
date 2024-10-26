@@ -80,8 +80,12 @@ export const PlateCalculator = ({
     };
   }, []);
 
-  const { otherUnitPlateCalculation, setOtherUnitPlateCalculation } =
-    usePresetsList;
+  const {
+    otherUnitPlateCalculation,
+    setOtherUnitPlateCalculation,
+    sortCategoryEquipment,
+    handleSortOptionSelectionEquipment,
+  } = usePresetsList;
 
   const [plateCalculatorResult, setPlateCalculatorResult] =
     useState<PlateCalculatorItems>(defaultPlateCalculatorItems);
@@ -122,11 +126,19 @@ export const PlateCalculator = ({
   ]);
 
   const handleSetHandleButton = async () => {
+    if (sortCategoryEquipment !== "favorite") {
+      handleSortOptionSelectionEquipment("favorite");
+    }
+
     setOperationTypePlateCalc("set-handle");
     setPlateCalculatorPage("equipment-list");
   };
 
   const handleEditAvailablePlatesButton = async () => {
+    if (sortCategoryEquipment !== "plate-calc") {
+      handleSortOptionSelectionEquipment("plate-calc");
+    }
+
     setOperationTypePlateCalc("show-list");
     setPlateCalculatorPage("equipment-list");
   };
