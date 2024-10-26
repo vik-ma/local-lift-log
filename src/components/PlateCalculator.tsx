@@ -216,8 +216,8 @@ export const PlateCalculator = ({
 
       if (Object.keys(plateCounts).length > 0) {
         plateCountResult = plateCounts;
-        if (weightPerSide * plateFactor > maxInvalidWeight) {
-          remainingWeight = weightPerSide * plateFactor;
+        remainingWeight = weightPerSide * plateFactor;
+        if (targetWeight - remainingWeight > maxInvalidWeight) {
           maxInvalidWeight = targetWeight - remainingWeight;
         }
       }
