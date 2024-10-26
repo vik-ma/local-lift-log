@@ -41,7 +41,7 @@ export const PlateCalculationModalList = ({
   const navigate = useNavigate();
 
   return (
-    <div className={`flex flex-col gap-1.5 h-[400px]`}>
+    <div className="flex flex-col gap-1.5 h-[400px]">
       <SearchInput
         filterQuery={filterQueryPlateCalculation}
         setFilterQuery={setFilterQueryPlateCalculation}

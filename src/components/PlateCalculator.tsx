@@ -464,7 +464,7 @@ export const PlateCalculator = ({
                     </div>
                   )}
                 </div>
-                <div className="flex flex-col">
+                <ScrollShadow className="flex flex-col h-[170px]">
                   {plateCalculatorResult.plateMap.size > 0 && (
                     <>
                       <div className="flex justify-between">
@@ -523,7 +523,7 @@ export const PlateCalculator = ({
                       )}
                     </>
                   )}
-                </div>
+                </ScrollShadow>
               </div>
             )}
           </div>
