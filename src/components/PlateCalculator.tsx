@@ -191,7 +191,6 @@ export const PlateCalculator = ({
     const weightToLoad = targetWeight - handleWeight;
 
     let plateCountResult: { [key: number]: number } = {};
-    let remainingWeight = weightToLoad;
     let maxInvalidWeight = 0;
     let success = false;
 
@@ -203,7 +202,7 @@ export const PlateCalculator = ({
       for (const [plate, numAvailable] of sortedPlatesMap) {
         const plateCountForThisWeight = Math.min(
           Math.floor(weightPerSide / plate),
-          numAvailable / plateFactor
+          Math.floor(numAvailable / plateFactor)
         );
 
         if (plateCountForThisWeight > 0) {
@@ -220,12 +219,14 @@ export const PlateCalculator = ({
         return;
       }
 
-      if (Object.keys(plateCounts).length > 0) {
+      const remainingWeight = weightPerSide * plateFactor;
+
+      if (
+        Object.keys(plateCounts).length > 0 &&
+        targetWeight - remainingWeight > maxInvalidWeight
+      ) {
         plateCountResult = plateCounts;
-        remainingWeight = weightPerSide * plateFactor;
-        if (targetWeight - remainingWeight > maxInvalidWeight) {
-          maxInvalidWeight = targetWeight - remainingWeight;
-        }
+        maxInvalidWeight = targetWeight - remainingWeight;
       }
 
       if (weightPerSide > 0) {
