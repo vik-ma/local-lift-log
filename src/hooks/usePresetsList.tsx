@@ -412,24 +412,26 @@ export const usePresetsList = (
   const updateAvailablePlatesMapKeys = (equipmentWeight: EquipmentWeight) => {
     if (operatingPlateCalculation.availablePlatesMap === undefined) return;
 
-    const availablePlatesMap = operatingPlateCalculation.availablePlatesMap;
+    const updatedAvailablePlatesMap = new Map(
+      operatingPlateCalculation.availablePlatesMap
+    );
 
-    if (availablePlatesMap.has(equipmentWeight)) {
-      availablePlatesMap.delete(equipmentWeight);
+    if (updatedAvailablePlatesMap.has(equipmentWeight)) {
+      updatedAvailablePlatesMap.delete(equipmentWeight);
     } else {
-      availablePlatesMap.set(equipmentWeight, 12);
+      updatedAvailablePlatesMap.set(equipmentWeight, 12);
     }
 
-    const sortedPlates = Array.from(availablePlatesMap.keys()).sort(
+    const sortedPlates = Array.from(updatedAvailablePlatesMap.keys()).sort(
       (a, b) => a.weight - b.weight
     );
 
-    const updatedAvailablePlatesMap = new Map<EquipmentWeight, number>();
+    const sortedAvailablePlatesMap = new Map<EquipmentWeight, number>();
 
     for (const key of sortedPlates) {
-      const value = availablePlatesMap.get(key);
+      const value = updatedAvailablePlatesMap.get(key);
       if (value !== undefined) {
-        updatedAvailablePlatesMap.set(key, value);
+        sortedAvailablePlatesMap.set(key, value);
       }
     }
 
@@ -437,12 +439,12 @@ export const usePresetsList = (
       available_plates_string,
       formattedAvailablePlatesString,
       formattedAvailablePlatesMapString,
-    } = GenerateFormattedAvailablePlatesString(updatedAvailablePlatesMap);
+    } = GenerateFormattedAvailablePlatesString(sortedAvailablePlatesMap);
 
     const updatedPlateCalculation = {
       ...operatingPlateCalculation,
       available_plates_string,
-      availablePlatesMap: updatedAvailablePlatesMap,
+      availablePlatesMap: sortedAvailablePlatesMap,
       formattedAvailablePlatesString,
       formattedAvailablePlatesMapString,
     };
@@ -515,6 +517,6 @@ export const usePresetsList = (
     otherUnitPlateCalculation,
     setOtherUnitPlateCalculation,
     defaultPlateCalculation,
-    updateAvailablePlatesMapValue
+    updateAvailablePlatesMapValue,
   };
 };
