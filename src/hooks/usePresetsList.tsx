@@ -40,6 +40,10 @@ export const usePresetsList = (
   const [plateCalculations, setPlateCalculations] = useState<
     PlateCalculation[]
   >([]);
+  const [
+    isDefaultPlateCalculationInvalid,
+    setIsDefaultPlateCalculationInvalid,
+  ] = useState<boolean>(false);
 
   const defaultPlateCalculation: PlateCalculation = useMemo(() => {
     return {
@@ -133,6 +137,8 @@ export const usePresetsList = (
           if (defaultPlateCalculation !== undefined) {
             setOperatingPlateCalculation(defaultPlateCalculation);
           }
+        } else {
+          setIsDefaultPlateCalculationInvalid(true);
         }
       } catch (error) {
         console.log(error);
@@ -518,5 +524,7 @@ export const usePresetsList = (
     setOtherUnitPlateCalculation,
     defaultPlateCalculation,
     updateAvailablePlatesMapValue,
+    isDefaultPlateCalculationInvalid,
+    setIsDefaultPlateCalculationInvalid,
   };
 };

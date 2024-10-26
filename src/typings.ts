@@ -515,6 +515,10 @@ export type UsePresetsListReturnType = {
     equipmentWeight: EquipmentWeight,
     newValue: number
   ) => void;
+  isDefaultPlateCalculationInvalid: boolean;
+  setIsDefaultPlateCalculationInvalid: React.Dispatch<
+    React.SetStateAction<boolean>
+  >;
 };
 
 export type CalculationModalTab = "sum" | "plate";
