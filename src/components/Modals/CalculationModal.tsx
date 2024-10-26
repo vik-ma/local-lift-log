@@ -279,7 +279,7 @@ export const CalculationModal = ({
           <>
             <ModalHeader>{modalHeader}</ModalHeader>
             <ModalBody>
-              <div className="h-[450px]">
+              <div className="h-[440px]">
                 <Tabs
                   aria-label="Calculator Option"
                   classNames={{ panel: "px-0 py-1.5" }}

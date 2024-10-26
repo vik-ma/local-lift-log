@@ -681,7 +681,7 @@ export const SumCalculator = ({
                     className="flex gap-1.5 items-center"
                   >
                     <button
-                      className="flex w-[13.25rem] justify-between gap-1 bg-default-50 px-1.5 py-0.5 border-2 rounded-lg"
+                      className="flex w-[13rem] justify-between gap-1 bg-default-50 px-1.5 py-0.5 border-2 rounded-lg"
                       onClick={() => handleClickCalculationItem(weight, index)}
                     >
                       <span className="w-[7rem] truncate text-left">
