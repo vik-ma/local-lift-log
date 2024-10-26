@@ -522,7 +522,6 @@ export const PlateCalculator = ({
           heightString="h-[400px]"
           validWeightUnit={operatingPlateCalculation.weight_unit}
           showPlateCalculatorButton={operationTypePlateCalc === "show-list"}
-          disableCursorPointer={operationTypePlateCalc !== "set-handle"}
         />
       ) : (
         <PlateCalculationModalList

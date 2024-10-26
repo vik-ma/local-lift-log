@@ -23,7 +23,6 @@ type PresetsModalListProps = {
   showSortButton?: boolean;
   validWeightUnit?: string;
   showPlateCalculatorButton?: boolean;
-  disableCursorPointer?: boolean;
 };
 
 export const PresetsModalList = ({
@@ -34,7 +33,6 @@ export const PresetsModalList = ({
   showSortButton,
   validWeightUnit,
   showPlateCalculatorButton,
-  disableCursorPointer,
 }: PresetsModalListProps) => {
   const {
     presetsType,
@@ -138,7 +136,7 @@ export const PresetsModalList = ({
                       : validWeightUnit !== undefined &&
                         equipment.weight_unit !== validWeightUnit
                       ? "flex justify-between items-center gap-1 opacity-40 cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-                      : disableCursorPointer
+                      : showPlateCalculatorButton
                       ? "flex justify-between items-center gap-1 bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                       : "flex justify-between items-center gap-1 cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                   }
