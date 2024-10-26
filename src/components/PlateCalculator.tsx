@@ -49,8 +49,10 @@ type PlateCalculatorProps = {
 type PlateCalculatorItems = {
   plateMap: Map<number, number>;
   targetWeight: number;
-  remainingWeight: number;
+  finalWeight: number;
+  success: boolean;
   isOneHandle: boolean;
+  showResult: boolean;
 };
 
 export const PlateCalculator = ({
@@ -71,8 +73,10 @@ export const PlateCalculator = ({
     return {
       plateMap: new Map(),
       targetWeight: 0,
-      remainingWeight: 0,
+      finalWeight: 0,
+      success: false,
       isOneHandle: true,
+      showResult: false,
     };
   }, []);
 
@@ -166,41 +170,76 @@ export const PlateCalculator = ({
       : operatingPlateCalculation.handle.weight * 2;
     const weightToLoad = targetWeight - handleWeight;
 
-    let weightPerSide = weightToLoad / plateFactor;
+    let plateCountResult: { [key: number]: number } = {};
+    let remainingWeight = weightToLoad;
+    let maxInvalidWeight = 0;
+    let success = false;
 
-    const plateCounts: { [key: number]: number } = {};
+    const calculatePlateCounts = (sortedPlatesMap: Map<number, number>) => {
+      let weightPerSide = weightToLoad / plateFactor;
 
-    for (const [plate, numAvailable] of sortedPlatesMap) {
-      const plateCountForThisWeight = Math.min(
-        Math.floor(weightPerSide / plate),
-        numAvailable / plateFactor
-      );
+      const plateCounts: { [key: number]: number } = {};
 
-      if (plateCountForThisWeight > 0) {
-        plateCounts[plate] = plateCountForThisWeight * plateFactor;
-        weightPerSide -= plateCountForThisWeight * plate;
+      for (const [plate, numAvailable] of sortedPlatesMap) {
+        const plateCountForThisWeight = Math.min(
+          Math.floor(weightPerSide / plate),
+          numAvailable / plateFactor
+        );
+
+        if (plateCountForThisWeight > 0) {
+          plateCounts[plate] = plateCountForThisWeight * plateFactor;
+          weightPerSide -= plateCountForThisWeight * plate;
+        }
+
+        if (weightPerSide <= 0) break;
       }
 
-      if (weightPerSide <= 0) break;
-    }
+      if (weightPerSide === 0) {
+        plateCountResult = plateCounts;
+        success = true;
+        return;
+      }
+
+      if (Object.keys(plateCounts).length > 0) {
+        plateCountResult = plateCounts;
+        if (weightPerSide * plateFactor > maxInvalidWeight) {
+          remainingWeight = weightPerSide * plateFactor;
+          maxInvalidWeight = targetWeight - remainingWeight;
+        }
+      }
+
+      if (weightPerSide > 0) {
+        const firstPlate = sortedPlatesMap.keys().next().value;
+        if (firstPlate !== undefined) {
+          sortedPlatesMap.delete(firstPlate);
+          calculatePlateCounts(sortedPlatesMap);
+        }
+      }
+    };
+
+    calculatePlateCounts(sortedPlatesMap);
 
     const plateMap = new Map<number, number>(
-      Object.entries(plateCounts).map(([key, value]) => [Number(key), value])
+      Object.entries(plateCountResult).map(([key, value]) => [
+        Number(key),
+        value,
+      ])
     );
 
     const sortedPlateMap = new Map(
       [...plateMap.entries()].sort((a, b) => b[0] - a[0])
     );
 
-    const plateCalculation = {
+    const plateCalculatorResult: PlateCalculatorItems = {
       plateMap: sortedPlateMap,
       targetWeight: targetWeight,
-      remainingWeight:
-        plateMap.size === 0 ? targetWeight : weightPerSide * plateFactor,
+      finalWeight: success ? targetWeight : maxInvalidWeight,
+      success: success,
       isOneHandle: isOneHandle,
+      showResult: true,
     };
 
-    setPlateCalculatorResult(plateCalculation);
+    setPlateCalculatorResult(plateCalculatorResult);
   }, [disableCalculatePlates, operatingPlateCalculation, targetWeightInput]);
 
   const resetPlateCalculatorResult = () => {
@@ -368,97 +407,99 @@ export const PlateCalculator = ({
                 </div>
               </div>
             </div>
-            <div className="flex flex-col gap-0.5">
-              <div className="flex flex-col items-center">
-                {plateCalculatorResult.remainingWeight > 0 && (
-                  <span className="font-medium text-danger">
-                    Could not reach target weight with available plates
-                  </span>
-                )}
-                {plateCalculatorResult.plateMap.size > 0 && (
-                  <div className="flex justify-end py-0.5 gap-5 items-center font-medium text-lg w-full">
-                    <div className="flex gap-1">
-                      <span>Showing plates for</span>
-                      <span className="max-w-[4rem] truncate text-secondary">
-                        {ConvertNumberToTwoDecimals(
-                          plateCalculatorResult.targetWeight -
-                            plateCalculatorResult.remainingWeight
-                        )}
-                      </span>
-                      <span className="text-secondary">
-                        {operatingPlateCalculation.weight_unit}
-                      </span>
+            {plateCalculatorResult.showResult && (
+              <div className="flex flex-col gap-0.5">
+                <div className="flex flex-col items-center">
+                  {!plateCalculatorResult.success && (
+                    <span className="font-medium text-danger">
+                      Could not reach target weight with available plates
+                    </span>
+                  )}
+                  {plateCalculatorResult.plateMap.size > 0 && (
+                    <div className="flex justify-end py-0.5 gap-5 items-center font-medium text-lg w-full">
+                      <div className="flex gap-1">
+                        <span>Showing plates for</span>
+                        <span className="max-w-[4rem] truncate text-secondary">
+                          {ConvertNumberToTwoDecimals(
+                            plateCalculatorResult.finalWeight
+                          )}
+                        </span>
+                        <span className="text-secondary">
+                          {operatingPlateCalculation.weight_unit}
+                        </span>
+                      </div>
+                      <Button
+                        variant="flat"
+                        size="sm"
+                        onPress={resetPlateCalculatorResult}
+                      >
+                        Clear
+                      </Button>
                     </div>
-                    <Button
-                      variant="flat"
-                      size="sm"
-                      onPress={resetPlateCalculatorResult}
-                    >
-                      Clear
-                    </Button>
-                  </div>
-                )}
-              </div>
-              <div className="flex flex-col">
-                {plateCalculatorResult.plateMap.size > 0 && (
-                  <>
-                    <div className="flex justify-between">
-                      <h4 className="font-semibold text-lg w-[6.5rem]">
-                        Total Plates
-                      </h4>
-                      {!plateCalculatorResult.isOneHandle && (
+                  )}
+                </div>
+                <div className="flex flex-col">
+                  {plateCalculatorResult.plateMap.size > 0 && (
+                    <>
+                      <div className="flex justify-between">
                         <h4 className="font-semibold text-lg w-[6.5rem]">
-                          Per Handle
+                          Total Plates
                         </h4>
-                      )}
-                      <h4 className="font-semibold text-lg w-[6.5rem]">
-                        Single Side
-                      </h4>
-                    </div>
-                    {Array.from(plateCalculatorResult.plateMap.entries()).map(
-                      ([key, value]) => {
-                        const handleFactor = plateCalculatorResult.isOneHandle
-                          ? 2
-                          : 4;
-                        return (
-                          <div
-                            className="flex justify-between"
-                            key={`plate-${key}`}
-                          >
-                            <div className="flex gap-[0.25rem] justify-between w-[6.5rem]">
-                              <span className="font-medium w-[4.5rem]">
-                                {key} {operatingPlateCalculation.weight_unit}
-                              </span>
-                              <span className="max-w-[1.75rem] truncate text-stone-500">
-                                {value}
-                              </span>
-                            </div>
-                            {!plateCalculatorResult.isOneHandle && (
+                        {!plateCalculatorResult.isOneHandle && (
+                          <h4 className="font-semibold text-lg w-[6.5rem]">
+                            Per Handle
+                          </h4>
+                        )}
+                        <h4 className="font-semibold text-lg w-[6.5rem]">
+                          Single Side
+                        </h4>
+                      </div>
+                      {Array.from(plateCalculatorResult.plateMap.entries()).map(
+                        ([key, value]) => {
+                          const handleFactor = plateCalculatorResult.isOneHandle
+                            ? 2
+                            : 4;
+                          return (
+                            <div
+                              className="flex justify-between"
+                              key={`plate-${key}`}
+                            >
                               <div className="flex gap-[0.25rem] justify-between w-[6.5rem]">
                                 <span className="font-medium w-[4.5rem]">
                                   {key} {operatingPlateCalculation.weight_unit}
                                 </span>
                                 <span className="max-w-[1.75rem] truncate text-stone-500">
-                                  {value / 2}
+                                  {value}
                                 </span>
                               </div>
-                            )}
-                            <div className="flex gap-[0.25rem] justify-between w-[6.5rem]">
-                              <span className="font-medium w-[4.5rem]">
-                                {key} {operatingPlateCalculation.weight_unit}
-                              </span>
-                              <span className="max-w-[1.75rem] truncate text-stone-500">
-                                {value / handleFactor}
-                              </span>
+                              {!plateCalculatorResult.isOneHandle && (
+                                <div className="flex gap-[0.25rem] justify-between w-[6.5rem]">
+                                  <span className="font-medium w-[4.5rem]">
+                                    {key}{" "}
+                                    {operatingPlateCalculation.weight_unit}
+                                  </span>
+                                  <span className="max-w-[1.75rem] truncate text-stone-500">
+                                    {value / 2}
+                                  </span>
+                                </div>
+                              )}
+                              <div className="flex gap-[0.25rem] justify-between w-[6.5rem]">
+                                <span className="font-medium w-[4.5rem]">
+                                  {key} {operatingPlateCalculation.weight_unit}
+                                </span>
+                                <span className="max-w-[1.75rem] truncate text-stone-500">
+                                  {value / handleFactor}
+                                </span>
+                              </div>
                             </div>
-                          </div>
-                        );
-                      }
-                    )}
-                  </>
-                )}
+                          );
+                        }
+                      )}
+                    </>
+                  )}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       ) : plateCalculatorPage === "equipment-list" ? (
