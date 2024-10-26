@@ -136,9 +136,9 @@ export const usePresetsList = (
 
           if (defaultPlateCalculation !== undefined) {
             setOperatingPlateCalculation(defaultPlateCalculation);
+          } else {
+            setIsDefaultPlateCalculationInvalid(true);
           }
-        } else {
-          setIsDefaultPlateCalculationInvalid(true);
         }
       } catch (error) {
         console.log(error);

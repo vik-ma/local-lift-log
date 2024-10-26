@@ -10,6 +10,7 @@ import {
   ConvertNumberToTwoDecimals,
   IsStringEmpty,
   IsStringInvalidNumberOr0,
+  UpdateDefaultPlateCalculationId,
 } from "../helpers";
 import {
   EquipmentWeight,
@@ -85,6 +86,8 @@ export const PlateCalculator = ({
     setOtherUnitPlateCalculation,
     sortCategoryEquipment,
     handleSortOptionSelectionEquipment,
+    isDefaultPlateCalculationInvalid,
+    setIsDefaultPlateCalculationInvalid,
   } = usePresetsList;
 
   const [plateCalculatorResult, setPlateCalculatorResult] =
@@ -280,12 +283,30 @@ export const PlateCalculator = ({
     resetPlateCalculatorResult();
   };
 
-  const handlePlateCalculationClick = (plateCalculation: PlateCalculation) => {
+  const handlePlateCalculationClick = async (
+    plateCalculation: PlateCalculation
+  ) => {
     setOperatingPlateCalculation(plateCalculation);
     setOtherUnitPlateCalculation((prev) => ({
       ...prev,
       weight_unit: plateCalculation.weight_unit === "kg" ? "lbs" : "kg",
     }));
+
+    if (isDefaultPlateCalculationInvalid) {
+      await UpdateDefaultPlateCalculationId(
+        plateCalculation.id,
+        userSettings.id
+      );
+
+      const updatedSettings: UserSettings = {
+        ...userSettings,
+        default_plate_calculation_id: plateCalculation.id,
+      };
+
+      setUserSettings(updatedSettings);
+      setIsDefaultPlateCalculationInvalid(false);
+    }
+
     resetPlateCalculatorResult();
     setPlateCalculatorPage("base");
   };

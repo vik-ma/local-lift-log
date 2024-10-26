@@ -25,7 +25,7 @@ export const PlateCalculationButton = ({
     )
       return;
 
-    const success = UpdateDefaultPlateCalculationId(
+    const success = await UpdateDefaultPlateCalculationId(
       plateCalculation.id,
       userSettings.id
     );
