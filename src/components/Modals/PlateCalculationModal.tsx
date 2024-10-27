@@ -14,7 +14,7 @@ import {
   UsePresetsListReturnType,
 } from "../../typings";
 import { useValidateName } from "../../hooks";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   PlateCalculationHandleConfig,
   PresetsModalList,
@@ -90,6 +90,14 @@ export const PlateCalculationModal = ({
     setOtherUnitPlateCalculation(plateCalculation);
     setPlateCalculation(otherUnitPlateCalculation);
   };
+
+  const disableDoneButton = useMemo(() => {
+    if (!isNameInputValid) return true;
+    if (plateCalculation.handle === undefined) return true;
+    if (plateCalculation.availablePlatesMap === undefined) return true;
+    if (plateCalculation.availablePlatesMap.size === 0) return true;
+    return false;
+  }, [isNameInputValid, plateCalculation]);
 
   return (
     <Modal
@@ -183,7 +191,7 @@ export const PlateCalculationModal = ({
                 <Button
                   color="primary"
                   onPress={buttonAction}
-                  isDisabled={!isNameInputValid}
+                  isDisabled={disableDoneButton}
                 >
                   {plateCalculation.id !== 0 ? "Save" : "Create"}
                 </Button>
