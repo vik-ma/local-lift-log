@@ -19,7 +19,7 @@ type PlateCalculationModalProps = {
   usePlateCalculationModal: UsePlateCalculationModalReturnType;
   plateCalculation: PlateCalculation;
   setPlateCalculation: React.Dispatch<React.SetStateAction<PlateCalculation>>;
-  presetsList: UsePresetsListReturnType;
+  usePresetsList: UsePresetsListReturnType;
   buttonAction: () => void;
 };
 
@@ -27,16 +27,19 @@ export const PlateCalculationModal = ({
   usePlateCalculationModal,
   plateCalculation,
   setPlateCalculation,
-  presetsList,
+  usePresetsList,
   buttonAction,
 }: PlateCalculationModalProps) => {
   const isNameInputValid = useValidateName(plateCalculation.name);
+
+  const { handleSortOptionSelectionEquipment } = usePresetsList;
 
   const { plateCalculationModal, plateCalculatorPage, setPlateCalculatorPage } =
     usePlateCalculationModal;
 
   const changePlateCalculatorPage = () => {
     if (plateCalculatorPage === "base") {
+      handleSortOptionSelectionEquipment("plate-calc");
       setPlateCalculatorPage("equipment-list");
     } else {
       setPlateCalculatorPage("base");
@@ -85,7 +88,7 @@ export const PlateCalculationModal = ({
                   </div>
                 ) : (
                   <PresetsModalList
-                    presetsList={presetsList}
+                    presetsList={usePresetsList}
                     handlePresetClick={() => {}}
                     showSortButton
                     heightString="h-[450px]"

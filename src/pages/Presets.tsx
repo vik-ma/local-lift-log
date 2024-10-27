@@ -631,7 +631,7 @@ export default function Presets() {
         usePlateCalculationModal={plateCalculationModal}
         plateCalculation={operatingPlateCalculation}
         setPlateCalculation={setOperatingPlateCalculation}
-        presetsList={presetsList}
+        usePresetsList={presetsList}
         buttonAction={() => {}}
       />
       <Modal
