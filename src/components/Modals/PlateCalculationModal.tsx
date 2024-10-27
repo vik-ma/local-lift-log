@@ -52,7 +52,7 @@ export const PlateCalculationModal = ({
               {plateCalculation.id === 0 ? "New" : "Edit"} Plate Calculation
             </ModalHeader>
             <ModalBody>
-              <div className="h-[450px]">
+              <div className="h-[440px]">
                 {plateCalculationModal.plateCalculatorPage === "base" ? (
                   <div className="flex flex-col gap-5">
                     <div className="flex flex-col gap-0.5">
@@ -82,7 +82,7 @@ export const PlateCalculationModal = ({
                       presetsList={presetsList}
                       handlePresetClick={() => {}}
                       showSortButton
-                      heightString="h-[410px]"
+                      heightString="h-[450px]"
                       validWeightUnit={plateCalculation.weight_unit}
                     />
                   </div>
@@ -92,13 +92,17 @@ export const PlateCalculationModal = ({
             <ModalFooter className="flex justify-between">
               <div className="flex gap-2">
                 <Button
-                  className="w-[7rem]"
-                  color="secondary"
+                  className="w-[11rem]"
+                  color={
+                    plateCalculationModal.plateCalculatorPage === "base"
+                      ? "secondary"
+                      : "default"
+                  }
                   variant="flat"
                   onPress={changePlateCalculatorPage}
                 >
                   {plateCalculationModal.plateCalculatorPage === "base"
-                    ? "Add Weight"
+                    ? "Set Available Weights"
                     : "Back"}
                 </Button>
               </div>
