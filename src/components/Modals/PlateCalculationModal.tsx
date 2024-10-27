@@ -8,13 +8,14 @@ import {
   Input,
 } from "@nextui-org/react";
 import {
+  EquipmentWeight,
   PlateCalculation,
   UsePlateCalculationModalReturnType,
   UsePresetsListReturnType,
 } from "../../typings";
 import { useValidateName } from "../../hooks";
-import { PresetsModalList } from "../PresetsModalList";
 import { useState } from "react";
+import { PlateCalculationHandleConfig, PresetsModalList } from "..";
 
 type PlateCalculationModalProps = {
   usePlateCalculationModal: UsePlateCalculationModalReturnType;
@@ -63,6 +64,20 @@ export const PlateCalculationModal = ({
     setPlateCalculatorPage("base");
   };
 
+  const setHandle = (equipment?: EquipmentWeight) => {
+    if (equipment === undefined) return;
+
+    const updatedPlateCalculation: PlateCalculation = {
+      ...plateCalculation,
+      handle: equipment,
+    };
+
+    setPlateCalculation(updatedPlateCalculation);
+
+    setPlateCalculatorPage("base");
+    setOperationType("set-handle");
+  };
+
   return (
     <Modal
       isOpen={plateCalculationModal.isOpen}
@@ -81,32 +96,35 @@ export const PlateCalculationModal = ({
             <ModalBody>
               <div className="h-[440px]">
                 {plateCalculatorPage === "base" ? (
-                  <div className="flex flex-col gap-5">
-                    <div className="flex flex-col gap-0.5">
-                      <Input
-                        className="h-[5rem]"
-                        value={plateCalculation.name}
-                        isInvalid={!isNameInputValid}
-                        label="Name"
-                        errorMessage={
-                          !isNameInputValid && "Name can't be empty"
-                        }
-                        variant="faded"
-                        onValueChange={(value) =>
-                          setPlateCalculation((prev) => ({
-                            ...prev,
-                            name: value,
-                          }))
-                        }
-                        isRequired
-                        isClearable
-                      />
-                    </div>
+                  <div className="flex flex-col gap-2.5">
+                    <Input
+                      className="h-[5rem]"
+                      value={plateCalculation.name}
+                      isInvalid={!isNameInputValid}
+                      label="Name"
+                      errorMessage={!isNameInputValid && "Name can't be empty"}
+                      variant="faded"
+                      onValueChange={(value) =>
+                        setPlateCalculation((prev) => ({
+                          ...prev,
+                          name: value,
+                        }))
+                      }
+                      isRequired
+                      isClearable
+                    />
+                    <PlateCalculationHandleConfig
+                      plateCalculation={plateCalculation}
+                      setPlateCalculation={setPlateCalculation}
+                      handleSetHandleButton={handleSetHandleButton}
+                    />
                   </div>
                 ) : (
                   <PresetsModalList
                     presetsList={usePresetsList}
-                    handlePresetClick={() => {}}
+                    handlePresetClick={
+                      operationType === "set-handle" ? setHandle : () => {}
+                    }
                     showSortButton
                     heightString="h-[450px]"
                     validWeightUnit={plateCalculation.weight_unit}
