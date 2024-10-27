@@ -52,7 +52,11 @@ export const PlateCalculationModal = ({
         {(onClose) => (
           <>
             <ModalHeader>
-              {plateCalculation.id === 0 ? "New" : "Edit"} Plate Calculation
+              {plateCalculatorPage === "equipment-list"
+                ? "Select Available Plates"
+                : plateCalculation.id === 0
+                ? "New Plate Calculation"
+                : "Edit Plate Calculation"}
             </ModalHeader>
             <ModalBody>
               <div className="h-[440px]">
@@ -80,15 +84,14 @@ export const PlateCalculationModal = ({
                     </div>
                   </div>
                 ) : (
-                  <div>
-                    <PresetsModalList
-                      presetsList={presetsList}
-                      handlePresetClick={() => {}}
-                      showSortButton
-                      heightString="h-[450px]"
-                      validWeightUnit={plateCalculation.weight_unit}
-                    />
-                  </div>
+                  <PresetsModalList
+                    presetsList={presetsList}
+                    handlePresetClick={() => {}}
+                    showSortButton
+                    heightString="h-[450px]"
+                    validWeightUnit={plateCalculation.weight_unit}
+                    showPlateCalculatorButton
+                  />
                 )}
               </div>
             </ModalBody>
