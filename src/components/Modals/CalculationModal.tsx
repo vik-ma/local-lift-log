@@ -188,7 +188,9 @@ export const CalculationModal = ({
     );
   };
 
-  const changeHandle = (equipment: EquipmentWeight) => {
+  const handlePresetClickSetHandle = (equipment?: EquipmentWeight) => {
+    if (equipment === undefined) return;
+
     const updatedOperatingPlateCalculation: PlateCalculation = {
       ...operatingPlateCalculation,
       handle: equipment,
@@ -198,12 +200,6 @@ export const CalculationModal = ({
 
     setPlateCalculatorPage("base");
     setOperationTypeSumCalc("add-preset");
-  };
-
-  const handlePresetClickSetHandle = (equipment?: EquipmentWeight) => {
-    if (equipment !== undefined) {
-      changeHandle(equipment);
-    }
   };
 
   const handleBackButtonWeightCalc = () => {
