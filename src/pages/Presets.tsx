@@ -628,7 +628,7 @@ export default function Presets() {
         deleteButtonAction={handleDeleteButton}
       />
       <PlateCalculationModal
-        plateCalculationModal={plateCalculationModal}
+        usePlateCalculationModal={plateCalculationModal}
         plateCalculation={operatingPlateCalculation}
         setPlateCalculation={setOperatingPlateCalculation}
         presetsList={presetsList}

@@ -16,7 +16,7 @@ import { useValidateName } from "../../hooks";
 import { PresetsModalList } from "../PresetsModalList";
 
 type PlateCalculationModalProps = {
-  plateCalculationModal: UsePlateCalculationModalReturnType;
+  usePlateCalculationModal: UsePlateCalculationModalReturnType;
   plateCalculation: PlateCalculation;
   setPlateCalculation: React.Dispatch<React.SetStateAction<PlateCalculation>>;
   presetsList: UsePresetsListReturnType;
@@ -24,7 +24,7 @@ type PlateCalculationModalProps = {
 };
 
 export const PlateCalculationModal = ({
-  plateCalculationModal,
+  usePlateCalculationModal,
   plateCalculation,
   setPlateCalculation,
   presetsList,
@@ -32,18 +32,21 @@ export const PlateCalculationModal = ({
 }: PlateCalculationModalProps) => {
   const isNameInputValid = useValidateName(plateCalculation.name);
 
+  const { plateCalculationModal, plateCalculatorPage, setPlateCalculatorPage } =
+    usePlateCalculationModal;
+
   const changePlateCalculatorPage = () => {
-    if (plateCalculationModal.plateCalculatorPage === "base") {
-      plateCalculationModal.setPlateCalculatorPage("equipment-list");
+    if (plateCalculatorPage === "base") {
+      setPlateCalculatorPage("equipment-list");
     } else {
-      plateCalculationModal.setPlateCalculatorPage("base");
+      setPlateCalculatorPage("base");
     }
   };
 
   return (
     <Modal
-      isOpen={plateCalculationModal.plateCalculationModal.isOpen}
-      onOpenChange={plateCalculationModal.plateCalculationModal.onOpenChange}
+      isOpen={plateCalculationModal.isOpen}
+      onOpenChange={plateCalculationModal.onOpenChange}
     >
       <ModalContent>
         {(onClose) => (
@@ -53,7 +56,7 @@ export const PlateCalculationModal = ({
             </ModalHeader>
             <ModalBody>
               <div className="h-[440px]">
-                {plateCalculationModal.plateCalculatorPage === "base" ? (
+                {plateCalculatorPage === "base" ? (
                   <div className="flex flex-col gap-5">
                     <div className="flex flex-col gap-0.5">
                       <Input
@@ -94,14 +97,12 @@ export const PlateCalculationModal = ({
                 <Button
                   className="w-[11rem]"
                   color={
-                    plateCalculationModal.plateCalculatorPage === "base"
-                      ? "secondary"
-                      : "default"
+                    plateCalculatorPage === "base" ? "secondary" : "default"
                   }
                   variant="flat"
                   onPress={changePlateCalculatorPage}
                 >
-                  {plateCalculationModal.plateCalculatorPage === "base"
+                  {plateCalculatorPage === "base"
                     ? "Set Available Weights"
                     : "Back"}
                 </Button>
