@@ -15,7 +15,11 @@ import {
 } from "../../typings";
 import { useValidateName } from "../../hooks";
 import { useState } from "react";
-import { PlateCalculationHandleConfig, PresetsModalList } from "..";
+import {
+  PlateCalculationHandleConfig,
+  PresetsModalList,
+  WeightUnitDropdown,
+} from "..";
 
 type PlateCalculationModalProps = {
   usePlateCalculationModal: UsePlateCalculationModalReturnType;
@@ -39,8 +43,12 @@ export const PlateCalculationModal = ({
 
   const isNameInputValid = useValidateName(plateCalculation.name);
 
-  const { sortCategoryEquipment, handleSortOptionSelectionEquipment } =
-    usePresetsList;
+  const {
+    sortCategoryEquipment,
+    handleSortOptionSelectionEquipment,
+    otherUnitPlateCalculation,
+    setOtherUnitPlateCalculation,
+  } = usePresetsList;
 
   const { plateCalculationModal, plateCalculatorPage, setPlateCalculatorPage } =
     usePlateCalculationModal;
@@ -78,6 +86,11 @@ export const PlateCalculationModal = ({
     setOperationType("set-handle");
   };
 
+  const switchWeightUnit = () => {
+    setOtherUnitPlateCalculation(plateCalculation);
+    setPlateCalculation(otherUnitPlateCalculation);
+  };
+
   return (
     <Modal
       isOpen={plateCalculationModal.isOpen}
@@ -97,22 +110,33 @@ export const PlateCalculationModal = ({
               <div className="h-[440px]">
                 {plateCalculatorPage === "base" ? (
                   <div className="flex flex-col gap-2.5">
-                    <Input
-                      className="h-[5rem]"
-                      value={plateCalculation.name}
-                      isInvalid={!isNameInputValid}
-                      label="Name"
-                      errorMessage={!isNameInputValid && "Name can't be empty"}
-                      variant="faded"
-                      onValueChange={(value) =>
-                        setPlateCalculation((prev) => ({
-                          ...prev,
-                          name: value,
-                        }))
-                      }
-                      isRequired
-                      isClearable
-                    />
+                    <div className="flex gap-2.5 items-start">
+                      <Input
+                        className="h-[5rem]"
+                        value={plateCalculation.name}
+                        isInvalid={!isNameInputValid}
+                        label="Name"
+                        errorMessage={
+                          !isNameInputValid && "Name can't be empty"
+                        }
+                        variant="faded"
+                        onValueChange={(value) =>
+                          setPlateCalculation((prev) => ({
+                            ...prev,
+                            name: value,
+                          }))
+                        }
+                        isRequired
+                        isClearable
+                      />
+                      <WeightUnitDropdown
+                        value={plateCalculation.weight_unit}
+                        targetType="plate-calculation"
+                        setPlateCalculation={setPlateCalculation}
+                        showLabel
+                        switchWeightUnit={switchWeightUnit}
+                      />
+                    </div>
                     <PlateCalculationHandleConfig
                       plateCalculation={plateCalculation}
                       setPlateCalculation={setPlateCalculation}

@@ -130,6 +130,7 @@ export default function Presets() {
     operatingPlateCalculation,
     setOperatingPlateCalculation,
     defaultPlateCalculation,
+    setOtherUnitPlateCalculation,
   } = presetsList;
 
   useEffect(() => {
@@ -489,6 +490,10 @@ export default function Presets() {
       ...defaultPlateCalculation,
       weight_unit: userSettings.default_unit_weight!,
     });
+    setOtherUnitPlateCalculation({
+      ...defaultPlateCalculation,
+      weight_unit: userSettings.default_unit_weight! === "kg" ? "lbs" : "kg",
+    });
     setIsOperatingPlateCalculation(false);
   };
 
@@ -547,6 +552,10 @@ export default function Presets() {
     plateCalculation: PlateCalculation
   ) => {
     setOperatingPlateCalculation(plateCalculation);
+    setOtherUnitPlateCalculation({
+      ...defaultPlateCalculation,
+      weight_unit: plateCalculation.weight_unit === "kg" ? "lbs" : "kg",
+    });
     setIsOperatingPlateCalculation(true);
 
     if (key === "edit") {
