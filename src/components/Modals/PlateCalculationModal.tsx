@@ -14,6 +14,7 @@ import {
 } from "../../typings";
 import { useValidateName } from "../../hooks";
 import { PresetsModalList } from "../PresetsModalList";
+import { useState } from "react";
 
 type PlateCalculationModalProps = {
   usePlateCalculationModal: UsePlateCalculationModalReturnType;
@@ -23,6 +24,8 @@ type PlateCalculationModalProps = {
   buttonAction: () => void;
 };
 
+type OperationType = "set-handle" | "set-plates";
+
 export const PlateCalculationModal = ({
   usePlateCalculationModal,
   plateCalculation,
@@ -30,20 +33,34 @@ export const PlateCalculationModal = ({
   usePresetsList,
   buttonAction,
 }: PlateCalculationModalProps) => {
+  const [operationType, setOperationType] =
+    useState<OperationType>("set-handle");
+
   const isNameInputValid = useValidateName(plateCalculation.name);
 
-  const { handleSortOptionSelectionEquipment } = usePresetsList;
+  const { sortCategoryEquipment, handleSortOptionSelectionEquipment } =
+    usePresetsList;
 
   const { plateCalculationModal, plateCalculatorPage, setPlateCalculatorPage } =
     usePlateCalculationModal;
 
-  const changePlateCalculatorPage = () => {
-    if (plateCalculatorPage === "base") {
-      handleSortOptionSelectionEquipment("plate-calc");
-      setPlateCalculatorPage("equipment-list");
-    } else {
-      setPlateCalculatorPage("base");
+  const handleSetHandleButton = () => {
+    if (sortCategoryEquipment !== "favorite") {
+      handleSortOptionSelectionEquipment("favorite");
     }
+    setOperationType("set-handle");
+    setPlateCalculatorPage("equipment-list");
+  };
+
+  const handleSetAvailablePlatesButton = () => {
+    setOperationType("set-plates");
+    handleSortOptionSelectionEquipment("plate-calc");
+    setPlateCalculatorPage("equipment-list");
+  };
+
+  const handleBackButton = () => {
+    setOperationType("set-handle");
+    setPlateCalculatorPage("base");
   };
 
   return (
@@ -93,7 +110,7 @@ export const PlateCalculationModal = ({
                     showSortButton
                     heightString="h-[450px]"
                     validWeightUnit={plateCalculation.weight_unit}
-                    showPlateCalculatorButton
+                    showPlateCalculatorButton={operationType === "set-plates"}
                   />
                 )}
               </div>
@@ -106,7 +123,11 @@ export const PlateCalculationModal = ({
                     plateCalculatorPage === "base" ? "secondary" : "default"
                   }
                   variant="flat"
-                  onPress={changePlateCalculatorPage}
+                  onPress={
+                    plateCalculatorPage === "base"
+                      ? handleSetAvailablePlatesButton
+                      : handleBackButton
+                  }
                 >
                   {plateCalculatorPage === "base"
                     ? "Set Available Weights"
