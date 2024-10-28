@@ -6,6 +6,7 @@ import {
   ModalBody,
   ModalFooter,
   Input,
+  ScrollShadow,
 } from "@nextui-org/react";
 import {
   EquipmentWeight,
@@ -16,6 +17,7 @@ import {
 import { useValidateName } from "../../hooks";
 import { useMemo, useState } from "react";
 import {
+  AvailablePlatesDropdown,
   PlateCalculationHandleConfig,
   PresetsModalList,
   WeightUnitDropdown,
@@ -151,11 +153,11 @@ export const PlateCalculationModal = ({
                       setPlateCalculation={setPlateCalculation}
                       handleSetHandleButton={handleSetHandleButton}
                     />
-                    <div className="flex flex-col gap-1">
+                    <div className="flex flex-col gap-0.5">
                       <h3 className="text-lg font-medium pl-0.5">
                         Available Plates
                       </h3>
-                      <div className="flex flex-col gap-1">
+                      <ScrollShadow className="flex flex-col gap-1 h-[250px]">
                         {Array.from(
                           plateCalculation.availablePlatesMap!.entries()
                         ).map(([key, value]) => (
@@ -167,13 +169,20 @@ export const PlateCalculationModal = ({
                               className="flex pl-1.5 py-0.5 bg-default-50 border-2 border-default-200 rounded-lg hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                               onClick={() => {}}
                             >
-                              <div className="flex gap-1 w-[12rem] text-secondary">
+                              <div className="flex gap-1 w-[17.5rem] text-secondary">
                                 <span className="truncate max-w-[5rem]">
                                   {key.weight}
                                 </span>
                                 <span>{key.weight_unit}</span>
                               </div>
                             </div>
+                            <AvailablePlatesDropdown
+                              value={value}
+                              equipmentWeight={key}
+                              operatingPlateCalculation={plateCalculation}
+                              setOperatingPlateCalculation={setPlateCalculation}
+                              isSmall
+                            />
                             <Button
                               aria-label={`Remove ${key.name} From Available Plates`}
                               size="sm"
@@ -186,7 +195,7 @@ export const PlateCalculationModal = ({
                             </Button>
                           </div>
                         ))}
-                      </div>
+                      </ScrollShadow>
                     </div>
                   </div>
                 ) : (
