@@ -114,11 +114,12 @@ export const PlateCalculationModal = ({
 
   const disableDoneButton = useMemo(() => {
     if (!isNameInputValid) return true;
+    if (plateCalculatorPage === "equipment-list") return true;
     if (plateCalculation.handle === undefined) return true;
     if (plateCalculation.availablePlatesMap === undefined) return true;
     if (plateCalculation.availablePlatesMap.size === 0) return true;
     return false;
-  }, [isNameInputValid, plateCalculation]);
+  }, [isNameInputValid, plateCalculation, plateCalculatorPage]);
 
   return (
     <Modal
