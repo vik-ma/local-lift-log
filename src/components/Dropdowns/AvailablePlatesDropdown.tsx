@@ -10,6 +10,7 @@ type AvailablePlatesDropdownProps = {
   setOperatingPlateCalculation: React.Dispatch<
     React.SetStateAction<PlateCalculation>
   >;
+  isSmall?: boolean;
 };
 
 export const AvailablePlatesDropdown = ({
@@ -17,6 +18,7 @@ export const AvailablePlatesDropdown = ({
   equipmentWeight,
   operatingPlateCalculation,
   setOperatingPlateCalculation,
+  isSmall,
 }: AvailablePlatesDropdownProps) => {
   const availableNumbers = useMemo(() => {
     return ["2", "4", "6", "8", "10", "12", "16", "18", "20"];
@@ -61,7 +63,8 @@ export const AvailablePlatesDropdown = ({
   return (
     <Select
       aria-label="Available Plates Dropdown List"
-      className="w-[4.5rem]"
+      className={isSmall ? "w-[4rem]" : "w-[4.5rem]"}
+      size={isSmall ? "sm" : "md"}
       variant="faded"
       selectedKeys={[value.toString()]}
       onChange={(e) => handleChange(e)}
