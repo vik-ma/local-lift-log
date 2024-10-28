@@ -20,6 +20,7 @@ import {
   PresetsModalList,
   WeightUnitDropdown,
 } from "..";
+import { CrossCircleIcon } from "../../assets";
 
 type PlateCalculationModalProps = {
   usePlateCalculationModal: UsePlateCalculationModalReturnType;
@@ -150,6 +151,43 @@ export const PlateCalculationModal = ({
                       setPlateCalculation={setPlateCalculation}
                       handleSetHandleButton={handleSetHandleButton}
                     />
+                    <div className="flex flex-col gap-1">
+                      <h3 className="text-lg font-medium pl-0.5">
+                        Available Plates
+                      </h3>
+                      <div className="flex flex-col gap-1">
+                        {Array.from(
+                          plateCalculation.availablePlatesMap!.entries()
+                        ).map(([key, value]) => (
+                          <div
+                            key={`plate-${key.id}`}
+                            className="flex gap-1.5 items-center"
+                          >
+                            <div
+                              className="flex pl-1.5 py-0.5 bg-default-50 border-2 border-default-200 rounded-lg hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                              onClick={() => {}}
+                            >
+                              <div className="flex gap-1 w-[12rem] text-secondary">
+                                <span className="truncate max-w-[5rem]">
+                                  {key.weight}
+                                </span>
+                                <span>{key.weight_unit}</span>
+                              </div>
+                            </div>
+                            <Button
+                              aria-label={`Remove ${key.name} From Available Plates`}
+                              size="sm"
+                              color="danger"
+                              isIconOnly
+                              variant="light"
+                              onPress={() => {}}
+                            >
+                              <CrossCircleIcon size={22} />
+                            </Button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 ) : (
                   <PresetsModalList
