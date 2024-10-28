@@ -256,6 +256,46 @@ export default function Presets() {
     }
   };
 
+  const addPlateCalculation = async () => {
+    if (operationType !== "add" && operatingPlateCalculation.id !== 0) return;
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      const result = await db.execute(
+        `INSERT into plate_calculations 
+         (name, handle_id, available_plates_string, num_handles, weight_unit) 
+         VALUES ($1, $2, $3, $4, $5)`,
+        [
+          operatingPlateCalculation.name,
+          operatingPlateCalculation.handle_id,
+          operatingPlateCalculation.available_plates_string,
+          operatingPlateCalculation.num_handles,
+          operatingPlateCalculation.weight_unit,
+        ]
+      );
+
+      const newPlateCalculation: PlateCalculation = {
+        ...operatingPlateCalculation,
+        id: result.lastInsertId,
+      };
+
+      const updatedPlateCalculations = [
+        ...plateCalculations,
+        newPlateCalculation,
+      ];
+
+      setPlateCalculations(updatedPlateCalculations);
+
+      resetOperatingPlateCalculation();
+      plateCalculationModal.plateCalculationModal.onClose();
+
+      toast.success("Plate Calculation Added");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const updateEquipmentWeight = async () => {
     if (
       operatingEquipmentWeight.id === 0 ||
@@ -641,7 +681,7 @@ export default function Presets() {
         plateCalculation={operatingPlateCalculation}
         setPlateCalculation={setOperatingPlateCalculation}
         usePresetsList={presetsList}
-        buttonAction={() => {}}
+        buttonAction={operationType === "edit" ? () => {} : addPlateCalculation}
       />
       <Modal
         isOpen={presetModal.isOpen}
