@@ -23,6 +23,7 @@ import {
   WeightUnitDropdown,
 } from "..";
 import { CrossCircleIcon } from "../../assets";
+import { GenerateFormattedAvailablePlatesString } from "../../helpers";
 
 type PlateCalculationModalProps = {
   usePlateCalculationModal: UsePlateCalculationModalReturnType;
@@ -92,6 +93,32 @@ export const PlateCalculationModal = ({
   const switchWeightUnit = () => {
     setOtherUnitPlateCalculation(plateCalculation);
     setPlateCalculation(otherUnitPlateCalculation);
+  };
+
+  const removePlate = (equipmentWeight: EquipmentWeight) => {
+    if (plateCalculation.availablePlatesMap === undefined) return;
+
+    const updatedAvailablePlatesMap = new Map(
+      plateCalculation.availablePlatesMap
+    );
+
+    updatedAvailablePlatesMap.delete(equipmentWeight);
+
+    const {
+      available_plates_string,
+      formattedAvailablePlatesString,
+      formattedAvailablePlatesMapString,
+    } = GenerateFormattedAvailablePlatesString(updatedAvailablePlatesMap);
+
+    const updatedPlateCalculation = {
+      ...plateCalculation,
+      available_plates_string,
+      availablePlatesMap: updatedAvailablePlatesMap,
+      formattedAvailablePlatesString,
+      formattedAvailablePlatesMapString,
+    };
+
+    setPlateCalculation(updatedPlateCalculation);
   };
 
   const disableDoneButton = useMemo(() => {
@@ -193,7 +220,7 @@ export const PlateCalculationModal = ({
                               color="danger"
                               isIconOnly
                               variant="light"
-                              onPress={() => {}}
+                              onPress={() => removePlate(key)}
                             >
                               <CrossCircleIcon size={22} />
                             </Button>
