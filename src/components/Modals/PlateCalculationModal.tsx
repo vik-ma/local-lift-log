@@ -81,6 +81,7 @@ export const PlateCalculationModal = ({
 
     const updatedPlateCalculation: PlateCalculation = {
       ...plateCalculation,
+      handle_id: equipment.id,
       handle: equipment,
     };
 
