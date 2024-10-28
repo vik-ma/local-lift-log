@@ -1,7 +1,7 @@
 import { Select, SelectItem } from "@nextui-org/react";
 import { useMemo } from "react";
 import { EquipmentWeight, PlateCalculation } from "../../typings";
-import { GenerateFormattedAvailablePlatesString } from "../../helpers";
+import { UpdateAvailablePlatesInPlateCalculation } from "../../helpers";
 
 type AvailablePlatesDropdownProps = {
   value: number;
@@ -43,19 +43,10 @@ export const AvailablePlatesDropdown = ({
 
     updatedAvailablePlatesMap.set(equipmentWeight, numValue);
 
-    const {
-      available_plates_string,
-      formattedAvailablePlatesString,
-      formattedAvailablePlatesMapString,
-    } = GenerateFormattedAvailablePlatesString(updatedAvailablePlatesMap);
-
-    const updatedPlateCalculation = {
-      ...operatingPlateCalculation,
-      available_plates_string,
-      availablePlatesMap: updatedAvailablePlatesMap,
-      formattedAvailablePlatesString,
-      formattedAvailablePlatesMapString,
-    };
+    const updatedPlateCalculation = UpdateAvailablePlatesInPlateCalculation(
+      operatingPlateCalculation,
+      updatedAvailablePlatesMap
+    );
 
     setOperatingPlateCalculation(updatedPlateCalculation);
   };

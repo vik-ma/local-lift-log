@@ -13,7 +13,7 @@ import {
   ConvertDistanceToMeter,
   ConvertWeightToKg,
   CreatePlateCalculationList,
-  GenerateFormattedAvailablePlatesString,
+  UpdateAvailablePlatesInPlateCalculation,
   UpdateIsFavorite,
   UpdateItemInList,
 } from "../helpers";
@@ -441,19 +441,10 @@ export const usePresetsList = (
       }
     }
 
-    const {
-      available_plates_string,
-      formattedAvailablePlatesString,
-      formattedAvailablePlatesMapString,
-    } = GenerateFormattedAvailablePlatesString(sortedAvailablePlatesMap);
-
-    const updatedPlateCalculation = {
-      ...operatingPlateCalculation,
-      available_plates_string,
-      availablePlatesMap: sortedAvailablePlatesMap,
-      formattedAvailablePlatesString,
-      formattedAvailablePlatesMapString,
-    };
+    const updatedPlateCalculation = UpdateAvailablePlatesInPlateCalculation(
+      operatingPlateCalculation,
+      sortedAvailablePlatesMap
+    );
 
     setOperatingPlateCalculation(updatedPlateCalculation);
   };
@@ -470,19 +461,10 @@ export const usePresetsList = (
 
     updatedAvailablePlatesMap.set(equipmentWeight, newValue);
 
-    const {
-      available_plates_string,
-      formattedAvailablePlatesString,
-      formattedAvailablePlatesMapString,
-    } = GenerateFormattedAvailablePlatesString(updatedAvailablePlatesMap);
-
-    const updatedPlateCalculation = {
-      ...operatingPlateCalculation,
-      available_plates_string,
-      availablePlatesMap: updatedAvailablePlatesMap,
-      formattedAvailablePlatesString,
-      formattedAvailablePlatesMapString,
-    };
+    const updatedPlateCalculation = UpdateAvailablePlatesInPlateCalculation(
+      operatingPlateCalculation,
+      updatedAvailablePlatesMap
+    );
 
     setOperatingPlateCalculation(updatedPlateCalculation);
   };

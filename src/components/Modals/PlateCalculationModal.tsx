@@ -23,7 +23,7 @@ import {
   WeightUnitDropdown,
 } from "..";
 import { CrossCircleIcon } from "../../assets";
-import { GenerateFormattedAvailablePlatesString } from "../../helpers";
+import { UpdateAvailablePlatesInPlateCalculation } from "../../helpers";
 
 type PlateCalculationModalProps = {
   usePlateCalculationModal: UsePlateCalculationModalReturnType;
@@ -104,19 +104,10 @@ export const PlateCalculationModal = ({
 
     updatedAvailablePlatesMap.delete(equipmentWeight);
 
-    const {
-      available_plates_string,
-      formattedAvailablePlatesString,
-      formattedAvailablePlatesMapString,
-    } = GenerateFormattedAvailablePlatesString(updatedAvailablePlatesMap);
-
-    const updatedPlateCalculation = {
-      ...plateCalculation,
-      available_plates_string,
-      availablePlatesMap: updatedAvailablePlatesMap,
-      formattedAvailablePlatesString,
-      formattedAvailablePlatesMapString,
-    };
+    const updatedPlateCalculation = UpdateAvailablePlatesInPlateCalculation(
+      plateCalculation,
+      updatedAvailablePlatesMap
+    );
 
     setPlateCalculation(updatedPlateCalculation);
   };

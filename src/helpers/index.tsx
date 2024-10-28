@@ -125,6 +125,7 @@ export { CreateDefaultPlateCalculations } from "./Presets/CreateDefaultPlateCalc
 export { GenerateAvailablePlatesString } from "./Presets/GenerateAvailablePlatesString";
 export { CreatePlateCalculationList } from "./Presets/CreatePlateCalculationList";
 export { GenerateFormattedAvailablePlatesString } from "./Presets/GenerateFormattedAvailablePlatesString";
+export { UpdateAvailablePlatesInPlateCalculation } from "./Presets/UpdateAvailablePlatesInPlateCalculation";
 
 export { CreateGroupedWorkoutSetList } from "./Workouts/CreateGroupedWorkoutSetList";
 export { GenerateExerciseOrderString } from "./Workouts/GenerateExerciseOrderString";
