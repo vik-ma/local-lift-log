@@ -23,7 +23,7 @@ export const PlateCalculationHandleConfig = ({
 
   return (
     <div className="flex flex-col gap-1.5">
-      <div className="flex justify-between items-center pl-0.5">
+      <div className="flex justify-between items-end pl-0.5">
         <h3 className="text-lg font-medium">Handle</h3>
         <div className="flex gap-1.5 items-center pr-1">
           <span className="text-sm text-stone-500">Number Of Handles</span>
@@ -69,7 +69,7 @@ export const PlateCalculationHandleConfig = ({
           </Button>
         </div>
       ) : (
-        <div className="flex justify-between">
+        <div className="flex justify-between pr-1">
           <span className="px-0.5 text-stone-400">No Handle Set</span>
           <Button
             aria-label="Set Plate Calculation Handle"

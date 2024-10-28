@@ -310,7 +310,7 @@ export const PlateCalculator = ({
       {plateCalculatorPage === "base" ? (
         <div className="flex flex-col h-full justify-between">
           <div className="flex flex-col gap-1.5">
-            <div className="flex flex-col gap-2.5">
+            <div className="flex flex-col gap-1.5">
               <PlateCalculationHandleConfig
                 plateCalculation={operatingPlateCalculation}
                 setPlateCalculation={setOperatingPlateCalculation}
@@ -319,7 +319,7 @@ export const PlateCalculator = ({
               <div className="flex flex-col gap-1 px-0.5">
                 <div className="flex gap-[4.25rem] items-end">
                   <span className="text-lg font-medium">Target Weight</span>
-                  <div className="flex items-end gap-[7px]">
+                  <div className="flex items-end gap-1.5">
                     <span className="text-lg font-medium">
                       Available Plates
                     </span>
@@ -410,7 +410,7 @@ export const PlateCalculator = ({
                     </div>
                   )}
                 </div>
-                <ScrollShadow className="flex flex-col h-[170px]">
+                <ScrollShadow className="flex flex-col h-[190px]">
                   {plateCalculatorResult.plateMap.size > 0 && (
                     <>
                       <div className="flex justify-between">
