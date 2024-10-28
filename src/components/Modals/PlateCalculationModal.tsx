@@ -158,9 +158,11 @@ export const PlateCalculationModal = ({
                         <h3 className="text-lg font-medium pl-0.5">
                           Available Plates
                         </h3>
-                        <span className="text-sm text-stone-500 pr-7">
-                          Number Of Plates
-                        </span>
+                        {plateCalculation.availablePlatesMap!.size > 0 && (
+                          <span className="text-sm text-stone-500 pr-7">
+                            Number Of Plates
+                          </span>
+                        )}
                       </div>
                       <ScrollShadow className="flex flex-col gap-1 h-[250px]">
                         {Array.from(
