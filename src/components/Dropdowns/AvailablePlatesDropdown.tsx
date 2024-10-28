@@ -62,7 +62,7 @@ export const AvailablePlatesDropdown = ({
 
   return (
     <Select
-      aria-label="Available Plates Dropdown List"
+      aria-label="Number Of Available Plates Dropdown List"
       className={isSmall ? "w-[4rem]" : "w-[4.5rem]"}
       size={isSmall ? "sm" : "md"}
       variant="faded"

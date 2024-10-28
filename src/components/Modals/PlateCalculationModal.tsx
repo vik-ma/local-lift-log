@@ -154,9 +154,14 @@ export const PlateCalculationModal = ({
                       handleSetHandleButton={handleSetHandleButton}
                     />
                     <div className="flex flex-col gap-0.5">
-                      <h3 className="text-lg font-medium pl-0.5">
-                        Available Plates
-                      </h3>
+                      <div className="flex justify-between items-end">
+                        <h3 className="text-lg font-medium pl-0.5">
+                          Available Plates
+                        </h3>
+                        <span className="text-sm text-stone-500 pr-7">
+                          Number Of Plates
+                        </span>
+                      </div>
                       <ScrollShadow className="flex flex-col gap-1 h-[250px]">
                         {Array.from(
                           plateCalculation.availablePlatesMap!.entries()
@@ -165,11 +170,8 @@ export const PlateCalculationModal = ({
                             key={`plate-${key.id}`}
                             className="flex gap-1.5 items-center"
                           >
-                            <div
-                              className="flex pl-1.5 py-0.5 bg-default-50 border-2 border-default-200 rounded-lg hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-                              onClick={() => {}}
-                            >
-                              <div className="flex gap-1 w-[17.5rem] text-secondary">
+                            <div className="flex pl-1.5 py-0.5 bg-default-50 border-2 border-default-200 rounded-lg hover:border-default-400 focus:bg-default-200 focus:border-default-400">
+                              <div className="flex gap-1 w-[16.5rem]">
                                 <span className="truncate max-w-[5rem]">
                                   {key.weight}
                                 </span>
