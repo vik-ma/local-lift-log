@@ -9,8 +9,16 @@ export const CreateDefaultExercises = async () => {
 
     DEFAULT_EXERCISES.forEach((exercise) => {
       db.execute(
-        "INSERT into exercises (name, exercise_group_set_string, is_favorite) VALUES ($1, $2, $3)",
-        [exercise.name, exercise.exercise_group_set_string, 0]
+        `INSERT into exercises 
+         (name, exercise_group_set_string_primary, 
+         exercise_group_set_string_secondary, is_favorite) 
+         VALUES ($1, $2, $3, $4)`,
+        [
+          exercise.name,
+          exercise.exercise_group_set_string_primary,
+          exercise.exercise_group_set_string_secondary,
+          0,
+        ]
       );
     });
   } catch (error) {

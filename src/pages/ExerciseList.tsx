@@ -79,9 +79,10 @@ export default function ExerciseList() {
 
   const isOperatingExerciseNameValid = useValidateName(operatingExercise.name);
 
-  const isOperatingExerciseGroupSetStringValid = useValidateExerciseGroupString(
-    operatingExercise.exercise_group_set_string
-  );
+  const isOperatingExerciseGroupSetStringPrimaryValid =
+    useValidateExerciseGroupString(
+      operatingExercise.exercise_group_set_string_primary
+    );
 
   const deleteExercise = async () => {
     if (operatingExercise.id === 0 || operationType !== "delete") return;
@@ -111,7 +112,7 @@ export default function ExerciseList() {
     if (
       !IsExerciseValid(
         isOperatingExerciseNameValid,
-        isOperatingExerciseGroupSetStringValid
+        isOperatingExerciseGroupSetStringPrimaryValid
       ) ||
       operationType !== "add"
     )
@@ -124,19 +125,23 @@ export default function ExerciseList() {
 
       const result = await db.execute(
         `INSERT into exercises 
-        (name, exercise_group_set_string, note, is_favorite) 
-        VALUES ($1, $2, $3, $4)`,
+        (name, exercise_group_set_string_primary, 
+        exercise_group_set_string_secondary, note, is_favorite) 
+        VALUES ($1, $2, $3, $4, $5)`,
         [
           operatingExercise.name,
-          operatingExercise.exercise_group_set_string,
+          operatingExercise.exercise_group_set_string_primary,
+          operatingExercise.exercise_group_set_string_secondary,
           noteToInsert,
           operatingExercise.is_favorite,
         ]
       );
 
       const convertedValues = ConvertExerciseGroupSetStringPrimary(
-        operatingExercise.exercise_group_set_string
+        operatingExercise.exercise_group_set_string_primary
       );
+
+      // TODO: ADD SECONDARY
 
       const newExerciseListItem: Exercise = {
         ...operatingExercise,
@@ -166,7 +171,7 @@ export default function ExerciseList() {
       operatingExercise === undefined ||
       !IsExerciseValid(
         isOperatingExerciseNameValid,
-        isOperatingExerciseGroupSetStringValid
+        isOperatingExerciseGroupSetStringPrimaryValid
       ) ||
       operationType !== "edit"
     )
@@ -174,15 +179,17 @@ export default function ExerciseList() {
 
     const noteToInsert = ConvertEmptyStringToNull(operatingExercise.note);
 
-    const convertedValues = ConvertExerciseGroupSetStringPrimary(
-      operatingExercise.exercise_group_set_string
+    const convertedValuesPrimary = ConvertExerciseGroupSetStringPrimary(
+      operatingExercise.exercise_group_set_string_primary
     );
+
+    // TODO: ADD SECONDARY
 
     const updatedExercise: Exercise = {
       ...operatingExercise,
       note: noteToInsert,
-      formattedGroupString: convertedValues.formattedString,
-      exerciseGroupStringList: convertedValues.list,
+      formattedGroupString: convertedValuesPrimary.formattedString,
+      exerciseGroupStringList: convertedValuesPrimary.list,
     };
 
     const success = await UpdateExercise(updatedExercise);
@@ -264,7 +271,9 @@ export default function ExerciseList() {
         exercise={operatingExercise}
         setExercise={setOperatingExercise}
         isExerciseNameValid={isOperatingExerciseNameValid}
-        isExerciseGroupSetStringValid={isOperatingExerciseGroupSetStringValid}
+        isExerciseGroupSetStringValid={
+          isOperatingExerciseGroupSetStringPrimaryValid
+        }
         exerciseGroupList={exerciseGroupList}
         buttonAction={operationType === "edit" ? updateExercise : addExercise}
       />
