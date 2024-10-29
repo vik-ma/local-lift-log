@@ -886,6 +886,9 @@ export default function Presets() {
                     <div
                       className="flex justify-between items-center cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                       key={`equipment-${equipment.id}`}
+                      onClick={() =>
+                        handleEquipmentWeightOptionSelection("edit", equipment)
+                      }
                     >
                       <div className="flex flex-col justify-start items-start pl-2 py-1">
                         <span className="w-[15.5rem] truncate text-left">
@@ -1004,6 +1007,9 @@ export default function Presets() {
                     <div
                       className="flex justify-between items-center cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                       key={`distance-${distance.id}`}
+                      onClick={() =>
+                        handleDistanceOptionSelection("edit", distance)
+                      }
                     >
                       <div className="flex flex-col justify-start items-start pl-2 py-1">
                         <span className="w-[18.5rem] truncate text-left">
@@ -1096,6 +1102,9 @@ export default function Presets() {
                     <div
                       className="flex justify-between items-center cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                       key={`plate-calculation-${plate.id}`}
+                      onClick={() =>
+                        handlePlateCalculationOptionSelection("edit", plate)
+                      }
                     >
                       <div className="flex flex-col justify-start items-start pl-2 py-1">
                         <span className="w-[17.5rem] truncate">
