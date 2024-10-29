@@ -9,18 +9,24 @@ export const GetExerciseListWithGroupStrings = async () => {
     const result: Exercise[] = await db.select("SELECT * FROM exercises");
 
     const exercises: Exercise[] = result.map((row) => {
-      const convertedValues = ConvertExerciseGroupSetStringPrimary(
-        row.exercise_group_set_string
+      const convertedValuesPrimary = ConvertExerciseGroupSetStringPrimary(
+        row.exercise_group_set_string_primary
       );
+
+      // TODO: ADD SECONDARY
+
       return {
         id: row.id,
         name: row.name,
-        exercise_group_set_string: row.exercise_group_set_string,
+        exercise_group_set_string_primary:
+          row.exercise_group_set_string_primary,
+        exercise_group_set_string_secondary:
+          row.exercise_group_set_string_secondary,
         note: row.note,
         is_favorite: row.is_favorite,
         calculation_string: row.calculation_string,
-        exerciseGroupStringList: convertedValues.list,
-        formattedGroupString: convertedValues.formattedString,
+        exerciseGroupStringList: convertedValuesPrimary.list,
+        formattedGroupString: convertedValuesPrimary.formattedString,
       };
     });
 

@@ -40,15 +40,17 @@ export const ExerciseModal = ({
       exerciseGroupStringList
     );
 
-    const convertedValues = ConvertExerciseGroupSetStringPrimary(
+    const convertedValuesPrimary = ConvertExerciseGroupSetStringPrimary(
       exerciseGroupSetString
     );
 
+    // TODO: ADD SECONDARY
+
     setExercise((prev) => ({
       ...prev,
-      exercise_group_set_string: exerciseGroupSetString,
+      exercise_group_set_string_primary: exerciseGroupSetString,
       exerciseGroupStringList: exerciseGroupStringList,
-      formattedGroupString: convertedValues.formattedString,
+      formattedGroupString: convertedValuesPrimary.formattedString,
     }));
   };
 

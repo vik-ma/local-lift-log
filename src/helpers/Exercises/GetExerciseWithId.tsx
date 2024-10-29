@@ -6,7 +6,8 @@ export const GetExerciseWithId = async (exerciseId: number) => {
   const invalidExercise: Exercise = {
     id: exerciseId,
     name: "Unknown Exercise",
-    exercise_group_set_string: "",
+    exercise_group_set_string_primary: "",
+    exercise_group_set_string_secondary: "",
     note: null,
     is_favorite: 0,
     isInvalid: true,
@@ -25,12 +26,14 @@ export const GetExerciseWithId = async (exerciseId: number) => {
 
     if (!exercise) return invalidExercise;
 
-    const convertedValues = ConvertExerciseGroupSetStringPrimary(
-      exercise.exercise_group_set_string
+    const convertedValuesPrimary = ConvertExerciseGroupSetStringPrimary(
+      exercise.exercise_group_set_string_primary
     );
 
-    exercise.exerciseGroupStringList = convertedValues.list;
-    exercise.formattedGroupString = convertedValues.formattedString;
+    // TODO: ADD SECONDARY
+
+    exercise.exerciseGroupStringList = convertedValuesPrimary.list;
+    exercise.formattedGroupString = convertedValuesPrimary.formattedString;
 
     return exercise;
   } catch (error) {

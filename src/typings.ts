@@ -66,7 +66,8 @@ export type UserSettingsOptional = {
 export type Exercise = {
   id: number;
   name: string;
-  exercise_group_set_string: string;
+  exercise_group_set_string_primary: string;
+  exercise_group_set_string_secondary: string;
   note: string | null;
   is_favorite: number;
   calculation_string: string | null;
