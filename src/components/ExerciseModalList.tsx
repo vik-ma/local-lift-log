@@ -40,7 +40,7 @@ export const ExerciseModalList = ({
                 {exercise.name}
               </span>
               <span className="text-xs text-stone-500 text-left">
-                {exercise.formattedGroupString}
+                {exercise.formattedGroupStringPrimary}
               </span>
             </div>
             <div className="flex items-center pr-2">

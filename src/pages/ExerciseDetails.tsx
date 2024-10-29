@@ -73,8 +73,8 @@ export default function ExerciseDetails() {
     const updatedExercise: Exercise = {
       ...editedExercise,
       note: noteToInsert,
-      formattedGroupString: convertedValues.formattedString,
-      exerciseGroupStringList: convertedValues.list,
+      formattedGroupStringPrimary: convertedValues.formattedString,
+      exerciseGroupStringListPrimary: convertedValues.list,
     };
 
     const success = await UpdateExercise(updatedExercise);
@@ -119,7 +119,7 @@ export default function ExerciseDetails() {
       <div className="flex flex-col gap-4">
         <DetailsHeader
           header={exercise.name}
-          subHeader={exercise.formattedGroupString ?? ""}
+          subHeader={exercise.formattedGroupStringPrimary ?? ""}
           note={exercise.note}
           detailsType="Exercise"
           editButtonAction={() => exerciseModal.onOpen()}

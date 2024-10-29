@@ -167,7 +167,7 @@ export default function Multisets() {
 
     newSet = AssignTrackingValuesIfCardio(
       newSet,
-      exercise.formattedGroupString ?? ""
+      exercise.formattedGroupStringPrimary ?? ""
     );
 
     const newSetList = [...operatingMultiset.setList, newSet];

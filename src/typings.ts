@@ -71,8 +71,8 @@ export type Exercise = {
   note: string | null;
   is_favorite: number;
   calculation_string: string | null;
-  exerciseGroupStringList?: string[];
-  formattedGroupString?: string;
+  exerciseGroupStringListPrimary?: string[];
+  formattedGroupStringPrimary?: string;
   isInvalid?: boolean;
   set_count?: number;
 };

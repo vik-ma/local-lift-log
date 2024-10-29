@@ -146,8 +146,8 @@ export default function ExerciseList() {
       const newExerciseListItem: Exercise = {
         ...operatingExercise,
         id: result.lastInsertId,
-        exerciseGroupStringList: convertedValues.list,
-        formattedGroupString: convertedValues.formattedString,
+        exerciseGroupStringListPrimary: convertedValues.list,
+        formattedGroupStringPrimary: convertedValues.formattedString,
       };
 
       sortExercisesByActiveCategory([...exercises, newExerciseListItem]);
@@ -188,8 +188,8 @@ export default function ExerciseList() {
     const updatedExercise: Exercise = {
       ...operatingExercise,
       note: noteToInsert,
-      formattedGroupString: convertedValuesPrimary.formattedString,
-      exerciseGroupStringList: convertedValuesPrimary.list,
+      formattedGroupStringPrimary: convertedValuesPrimary.formattedString,
+      exerciseGroupStringListPrimary: convertedValuesPrimary.list,
     };
 
     const success = await UpdateExercise(updatedExercise);
@@ -387,7 +387,7 @@ export default function ExerciseList() {
                       </span>
                     )}
                     <span className="text-xs text-stone-400 text-left">
-                      {exercise.formattedGroupString}
+                      {exercise.formattedGroupStringPrimary}
                     </span>
                   </button>
                   <div className="flex items-center gap-0.5 pr-1">

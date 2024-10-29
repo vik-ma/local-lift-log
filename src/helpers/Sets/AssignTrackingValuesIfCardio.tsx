@@ -2,9 +2,9 @@ import { WorkoutSet } from "../../typings";
 
 export const AssignTrackingValuesIfCardio = (
   set: WorkoutSet,
-  formattedGroupString: string
+  formattedGroupStringPrimary: string
 ) => {
-  if (formattedGroupString === "Cardio") {
+  if (formattedGroupStringPrimary === "Cardio") {
     set = {
       ...set,
       is_tracking_weight: 0,

@@ -40,10 +40,10 @@ export const useExerciseList = (
             .toLocaleLowerCase()
             .includes(filterQuery.toLocaleLowerCase()) ||
             item
-              .formattedGroupString!.toLocaleLowerCase()
+              .formattedGroupStringPrimary!.toLocaleLowerCase()
               .includes(filterQuery.toLocaleLowerCase())) &&
           shownExerciseGroups.some((group) =>
-            item.formattedGroupString!.includes(group)
+            item.formattedGroupStringPrimary!.includes(group)
           )
       );
     }

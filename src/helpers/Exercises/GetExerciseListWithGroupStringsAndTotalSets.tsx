@@ -33,8 +33,8 @@ export const GetExerciseListWithGroupStringsAndTotalSets = async () => {
         note: row.note,
         is_favorite: row.is_favorite,
         calculation_string: row.calculation_string,
-        exerciseGroupStringList: convertedValuesPrimary.list,
-        formattedGroupString: convertedValuesPrimary.formattedString,
+        exerciseGroupStringListPrimary: convertedValuesPrimary.list,
+        formattedGroupStringPrimary: convertedValuesPrimary.formattedString,
         set_count: row.set_count,
       };
     });

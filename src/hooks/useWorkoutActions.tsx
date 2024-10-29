@@ -581,7 +581,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     const updatedSet = AssignTrackingValuesIfCardio(
       operatingSet,
-      exercise.formattedGroupString ?? ""
+      exercise.formattedGroupStringPrimary ?? ""
     );
 
     setOperatingSet(updatedSet);
@@ -756,7 +756,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     newSet = AssignTrackingValuesIfCardio(
       newSet,
-      exercise.formattedGroupString ?? ""
+      exercise.formattedGroupStringPrimary ?? ""
     );
 
     const setId: number = await InsertSetIntoDatabase(newSet);
@@ -1706,7 +1706,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     newSet = AssignTrackingValuesIfCardio(
       newSet,
-      exercise.formattedGroupString ?? ""
+      exercise.formattedGroupStringPrimary ?? ""
     );
 
     const newSetList = [...operatingMultiset.setList, newSet];

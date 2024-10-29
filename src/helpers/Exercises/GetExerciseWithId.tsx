@@ -32,8 +32,9 @@ export const GetExerciseWithId = async (exerciseId: number) => {
 
     // TODO: ADD SECONDARY
 
-    exercise.exerciseGroupStringList = convertedValuesPrimary.list;
-    exercise.formattedGroupString = convertedValuesPrimary.formattedString;
+    exercise.exerciseGroupStringListPrimary = convertedValuesPrimary.list;
+    exercise.formattedGroupStringPrimary =
+      convertedValuesPrimary.formattedString;
 
     return exercise;
   } catch (error) {

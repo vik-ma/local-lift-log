@@ -9,8 +9,8 @@ export const DefaultNewExercise = () => {
     note: "",
     is_favorite: 0,
     calculation_string: null,
-    exerciseGroupStringList: [],
-    formattedGroupString: "",
+    exerciseGroupStringListPrimary: [],
+    formattedGroupStringPrimary: "",
   };
 
   return defaultNewExercise;
