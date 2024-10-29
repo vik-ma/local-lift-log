@@ -46,7 +46,8 @@ pub struct UserSetting {
 pub struct Exercise {
     pub id: i32,
     pub name: String,
-    pub exercise_group_set_string: String,
+    pub exercise_group_set_string_primary: String,
+    pub exercise_group_set_string_secondary: String,
     pub note: Option<String>,
     pub is_favorite: i16,
     pub calculation_string: String,

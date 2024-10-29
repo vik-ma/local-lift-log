@@ -42,7 +42,8 @@ diesel::table! {
     exercises (id) {
         id -> Integer,
         name -> Text,
-        exercise_group_set_string -> Text,
+        exercise_group_set_string_primary -> Text,
+        exercise_group_set_string_secondary -> Text,
         note -> Nullable<Text>,
         is_favorite -> SmallInt,
         calculation_string -> Nullable<Text>,
