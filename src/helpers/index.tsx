@@ -9,7 +9,7 @@ export { GetCurrentDateTimeISOString } from "./Dates/GetCurrentDateTimeISOString
 export { FormatYmdDateString } from "./Dates/FormatYmdDateString";
 export { IsDateStringOlderThanOneWeek } from "./Dates/IsDateStringOlderThanOneWeek";
 
-export { ConvertExerciseGroupSetString } from "./Exercises/ConvertExerciseGroupSetString";
+export { ConvertExerciseGroupSetStringPrimary } from "./Exercises/ConvertExerciseGroupSetStringPrimary";
 export { ConvertExerciseGroupStringListToSetString } from "./Exercises/ConvertExerciseGroupStringListToSetString";
 export { CreateDefaultExercises } from "./Exercises/CreateDefaultExercises";
 export { ValidateExerciseGroupSetString } from "./Exercises/ValidateExerciseGroupSetString";

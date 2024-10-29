@@ -5,7 +5,7 @@ type ConvertedExerciseGroupSet = {
   formattedString: string;
 };
 
-export const ConvertExerciseGroupSetString = (
+export const ConvertExerciseGroupSetStringPrimary = (
   exerciseGroupSetString: string
 ): ConvertedExerciseGroupSet => {
   const exerciseGroups: string[] = exerciseGroupSetString.split(",");

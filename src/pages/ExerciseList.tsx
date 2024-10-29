@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Exercise } from "../typings";
 import {
   ConvertEmptyStringToNull,
-  ConvertExerciseGroupSetString,
+  ConvertExerciseGroupSetStringPrimary,
   CreateDefaultExercises,
   DeleteItemFromList,
   IsExerciseValid,
@@ -134,7 +134,7 @@ export default function ExerciseList() {
         ]
       );
 
-      const convertedValues = ConvertExerciseGroupSetString(
+      const convertedValues = ConvertExerciseGroupSetStringPrimary(
         operatingExercise.exercise_group_set_string
       );
 
@@ -174,7 +174,7 @@ export default function ExerciseList() {
 
     const noteToInsert = ConvertEmptyStringToNull(operatingExercise.note);
 
-    const convertedValues = ConvertExerciseGroupSetString(
+    const convertedValues = ConvertExerciseGroupSetStringPrimary(
       operatingExercise.exercise_group_set_string
     );
 

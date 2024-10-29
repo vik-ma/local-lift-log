@@ -1,6 +1,6 @@
 import Database from "tauri-plugin-sql-api";
 import { Exercise } from "../../typings";
-import { ConvertExerciseGroupSetString } from "..";
+import { ConvertExerciseGroupSetStringPrimary } from "..";
 
 export const GetExerciseListWithGroupStrings = async () => {
   try {
@@ -9,7 +9,7 @@ export const GetExerciseListWithGroupStrings = async () => {
     const result: Exercise[] = await db.select("SELECT * FROM exercises");
 
     const exercises: Exercise[] = result.map((row) => {
-      const convertedValues = ConvertExerciseGroupSetString(
+      const convertedValues = ConvertExerciseGroupSetStringPrimary(
         row.exercise_group_set_string
       );
       return {

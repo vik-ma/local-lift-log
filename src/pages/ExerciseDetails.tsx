@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Button, useDisclosure } from "@nextui-org/react";
 import { LoadingSpinner, ExerciseModal, DetailsHeader } from "../components";
 import {
-  ConvertExerciseGroupSetString,
+  ConvertExerciseGroupSetStringPrimary,
   GetExerciseWithId,
   UpdateExercise,
   IsExerciseValid,
@@ -65,7 +65,7 @@ export default function ExerciseDetails() {
 
     const noteToInsert = ConvertEmptyStringToNull(editedExercise.note);
 
-    const convertedValues = ConvertExerciseGroupSetString(
+    const convertedValues = ConvertExerciseGroupSetStringPrimary(
       editedExercise.exercise_group_set_string
     );
 

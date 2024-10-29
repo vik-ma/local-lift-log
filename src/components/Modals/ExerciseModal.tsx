@@ -10,7 +10,7 @@ import {
 import { Exercise, UseDisclosureReturnType } from "../../typings";
 import {
   ConvertExerciseGroupStringListToSetString,
-  ConvertExerciseGroupSetString,
+  ConvertExerciseGroupSetStringPrimary,
 } from "../../helpers";
 import { ExerciseGroupCheckboxes } from "..";
 
@@ -40,7 +40,7 @@ export const ExerciseModal = ({
       exerciseGroupStringList
     );
 
-    const convertedValues = ConvertExerciseGroupSetString(
+    const convertedValues = ConvertExerciseGroupSetStringPrimary(
       exerciseGroupSetString
     );
 
