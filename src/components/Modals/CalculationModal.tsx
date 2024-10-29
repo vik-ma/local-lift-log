@@ -286,6 +286,24 @@ export const CalculationModal = ({
                   disabledKeys={presetsType === "distance" ? ["plate"] : []}
                   fullWidth
                 >
+                  <Tab key="plate" title="Plates">
+                    <PlateCalculator
+                      operatingPlateCalculation={operatingPlateCalculation}
+                      setOperatingPlateCalculation={
+                        setOperatingPlateCalculation
+                      }
+                      plateCalculatorPage={plateCalculatorPage}
+                      usePresetsList={usePresetsList}
+                      operationTypePlateCalc={operationTypePlateCalc}
+                      setOperationTypePlateCalc={setOperationTypePlateCalc}
+                      handlePresetClickSetHandle={handlePresetClickSetHandle}
+                      targetWeightInput={targetWeightInput}
+                      setTargetWeightInput={setTargetWeightInput}
+                      setPlateCalculatorPage={setPlateCalculatorPage}
+                      userSettings={userSettings}
+                      setUserSettings={setUserSettings}
+                    />
+                  </Tab>
                   <Tab key="sum" title="Sum">
                     <SumCalculator
                       equipmentWeights={equipmentWeights}
@@ -320,24 +338,6 @@ export const CalculationModal = ({
                       setOperationTypeSumCalc={setOperationTypeSumCalc}
                       operatingCalculationItem={operatingCalculationItem}
                       setOperatingCalculationItem={setOperatingCalculationItem}
-                    />
-                  </Tab>
-                  <Tab key="plate" title="Plates">
-                    <PlateCalculator
-                      operatingPlateCalculation={operatingPlateCalculation}
-                      setOperatingPlateCalculation={
-                        setOperatingPlateCalculation
-                      }
-                      plateCalculatorPage={plateCalculatorPage}
-                      usePresetsList={usePresetsList}
-                      operationTypePlateCalc={operationTypePlateCalc}
-                      setOperationTypePlateCalc={setOperationTypePlateCalc}
-                      handlePresetClickSetHandle={handlePresetClickSetHandle}
-                      targetWeightInput={targetWeightInput}
-                      setTargetWeightInput={setTargetWeightInput}
-                      setPlateCalculatorPage={setPlateCalculatorPage}
-                      userSettings={userSettings}
-                      setUserSettings={setUserSettings}
                     />
                   </Tab>
                 </Tabs>
