@@ -14,6 +14,7 @@ import {
   UserMeasurementModal,
   UserWeightModal,
   NameInputModal,
+  UserWeightListItem,
 } from "../components";
 import {
   GetLatestUserWeight,
@@ -32,14 +33,7 @@ import {
   UpdateActiveTrackingMeasurements,
   GetUserMeasurements,
 } from "../helpers";
-import {
-  Button,
-  Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownItem,
-  useDisclosure,
-} from "@nextui-org/react";
+import { Button, useDisclosure } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
@@ -50,7 +44,6 @@ import {
   useReassignMeasurement,
   useUserWeightInput,
 } from "../hooks";
-import { VerticalMenuIcon } from "../assets";
 
 export default function BodyMeasurements() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
@@ -531,43 +524,12 @@ export default function BodyMeasurements() {
                   )}
                 </h3>
                 {latestUserWeight.id !== 0 && (
-                  <div className="flex justify-between items-center gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400">
-                    <div className="flex flex-col justify-start items-start">
-                      <span className="w-[21rem] truncate text-left">
-                        {latestUserWeight.weight} {latestUserWeight.weight_unit}
-                      </span>
-                      <span className="text-xs text-secondary text-left">
-                        {latestUserWeight.formattedDate}
-                      </span>
-                      <span className="w-[21rem] break-all text-xs text-stone-400 text-left">
-                        {latestUserWeight.comment}
-                      </span>
-                    </div>
-                    <Dropdown>
-                      <DropdownTrigger>
-                        <Button
-                          aria-label={`Toggle ${latestUserWeight.formattedDate} Weight Entry Options Menu`}
-                          isIconOnly
-                          className="z-1"
-                          radius="lg"
-                          variant="light"
-                        >
-                          <VerticalMenuIcon size={19} color="#888" />
-                        </Button>
-                      </DropdownTrigger>
-                      <DropdownMenu
-                        aria-label={`Option Menu For ${latestUserWeight.formattedDate} Body Weight Entry`}
-                        onAction={(key) =>
-                          handleLatestUserWeightOptionSelection(key as string)
-                        }
-                      >
-                        <DropdownItem key="edit">Edit</DropdownItem>
-                        <DropdownItem key="delete" className="text-danger">
-                          Delete
-                        </DropdownItem>
-                      </DropdownMenu>
-                    </Dropdown>
-                  </div>
+                  <UserWeightListItem
+                    userWeight={latestUserWeight}
+                    handleUserWeightOptionSelection={
+                      handleLatestUserWeightOptionSelection
+                    }
+                  />
                 )}
               </div>
               <Button

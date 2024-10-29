@@ -29,6 +29,7 @@ export { SumCalculator } from "./SumCalculator";
 export { PlateCalculationModalList } from "./PlateCalculationModalList";
 export { PlateCalculationButton } from "./PlateCalculationButton";
 export { PlateCalculationHandleConfig } from "./PlateCalculationHandleConfig";
+export { UserWeightListItem } from "./UserWeightListItem";
 
 export { WeightUnitDropdown } from "./Dropdowns/WeightUnitDropdown";
 export { DistanceUnitDropdown } from "./Dropdowns/DistanceUnitDropdown";
