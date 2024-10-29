@@ -20,6 +20,7 @@ export { IsExerciseValid } from "./Exercises/IsExerciseValid";
 export { DefaultNewExercise } from "./Exercises/DefaultNewExercise";
 export { GetExerciseListWithGroupStringsAndTotalSets } from "./Exercises/GetExerciseListWithGroupStringsAndTotalSets";
 export { GetNumberOfUniqueExercisesInGroupedSets } from "./Exercises/GetNumberOfUniqueExercisesInGroupedSets";
+export { ValidateExerciseGroupSetStringSecondary } from "./Exercises/ValidateExerciseGroupSetStringSecondary";
 
 export { GetScheduleDayNames } from "./Routines/GetScheduleDayNames";
 export { GetScheduleDayValues } from "./Routines/GetScheduleValues";
@@ -94,6 +95,7 @@ export { ConvertDistanceValue } from "./Numbers/ConvertDistanceValue";
 export { ConvertWeightToKg } from "./Numbers/ConvertWeightToKg";
 export { ConvertDistanceToMeter } from "./Numbers/ConvertDistanceToMeter";
 export { IsNumberDivisibleBy2 } from "./Numbers/IsNumberDivisibleBy2";
+export { IsStringValidNumberBetween0And1 } from "./Numbers/IsStringValidNumberBetween0And1";
 
 export { GetLatestUserWeight } from "./Measurements/GetLatestUserWeight";
 export { CreateDefaultMeasurements } from "./Measurements/CreateDefaultMeasurements";
