@@ -1,6 +1,6 @@
 import { ExerciseGroupDictionary } from "..";
 
-export const ValidateExerciseGroupSetString = (
+export const ValidateExerciseGroupSetStringPrimary = (
   exerciseGroupSetString: string
 ): boolean => {
   const exerciseGroupStrings = exerciseGroupSetString.split(",");

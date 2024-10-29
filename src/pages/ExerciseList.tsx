@@ -37,7 +37,7 @@ import {
 } from "../components";
 import { VerticalMenuIcon } from "../assets";
 import {
-  useValidateExerciseGroupString,
+  useValidateExerciseGroupStringPrimary,
   useValidateName,
   useExerciseList,
   useDefaultExercise,
@@ -80,7 +80,7 @@ export default function ExerciseList() {
   const isOperatingExerciseNameValid = useValidateName(operatingExercise.name);
 
   const isOperatingExerciseGroupSetStringPrimaryValid =
-    useValidateExerciseGroupString(
+    useValidateExerciseGroupStringPrimary(
       operatingExercise.exercise_group_set_string_primary
     );
 

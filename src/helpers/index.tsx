@@ -12,7 +12,7 @@ export { IsDateStringOlderThanOneWeek } from "./Dates/IsDateStringOlderThanOneWe
 export { ConvertExerciseGroupSetStringPrimary } from "./Exercises/ConvertExerciseGroupSetStringPrimary";
 export { ConvertExerciseGroupStringListToSetString } from "./Exercises/ConvertExerciseGroupStringListToSetString";
 export { CreateDefaultExercises } from "./Exercises/CreateDefaultExercises";
-export { ValidateExerciseGroupSetString } from "./Exercises/ValidateExerciseGroupSetString";
+export { ValidateExerciseGroupSetStringPrimary } from "./Exercises/ValidateExerciseGroupSetStringPrimary";
 export { GetExerciseListWithGroupStrings } from "./Exercises/GetExerciseListWithGroupStrings";
 export { GetExerciseWithId } from "./Exercises/GetExerciseWithId";
 export { UpdateExercise } from "./Exercises/UpdateExercise";

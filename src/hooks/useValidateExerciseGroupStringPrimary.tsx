@@ -1,13 +1,12 @@
 import { useMemo } from "react";
-import { ValidateExerciseGroupSetString } from "../helpers";
+import { ValidateExerciseGroupSetStringPrimary } from "../helpers";
 
-export const useValidateExerciseGroupString = (
+export const useValidateExerciseGroupStringPrimary = (
   exerciseGroupString: string
 ): boolean => {
   const isNewExerciseGroupSetStringValid = useMemo(() => {
-    return ValidateExerciseGroupSetString(exerciseGroupString);
+    return ValidateExerciseGroupSetStringPrimary(exerciseGroupString);
   }, [exerciseGroupString]);
 
   return isNewExerciseGroupSetStringValid;
 };
-

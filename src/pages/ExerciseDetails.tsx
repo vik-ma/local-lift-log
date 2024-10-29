@@ -12,7 +12,7 @@ import {
 } from "../helpers";
 import {
   useDefaultExercise,
-  useValidateExerciseGroupString,
+  useValidateExerciseGroupStringPrimary,
   useValidateName,
   useDetailsHeaderOptionsMenu,
   useExerciseGroupList,
@@ -47,9 +47,10 @@ export default function ExerciseDetails() {
 
   const isEditedExerciseNameValid = useValidateName(editedExercise.name);
 
-  const isEditedExerciseGroupSetStringValid = useValidateExerciseGroupString(
-    editedExercise.exercise_group_set_string
-  );
+  const isEditedExerciseGroupSetStringValid =
+    useValidateExerciseGroupStringPrimary(
+      editedExercise.exercise_group_set_string
+    );
 
   const exerciseGroupList = useExerciseGroupList();
 

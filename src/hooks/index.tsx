@@ -1,6 +1,6 @@
 export { useSetTrackingInputs } from "./useSetTrackingInputs";
 export { useValidateName } from "./useValidateName";
-export { useValidateExerciseGroupString } from "./useValidateExerciseGroupString";
+export { useValidateExerciseGroupStringPrimary } from "./useValidateExerciseGroupStringPrimary";
 export { useExerciseGroupDictionary } from "./useExerciseGroupDictionary";
 export { useNumSetsOptions } from "./useNumSetsOptions";
 export { useValidDistanceUnits } from "./useValidDistanceUnits";
