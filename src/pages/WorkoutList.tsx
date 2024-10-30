@@ -323,79 +323,67 @@ export default function WorkoutList() {
           filteredListLength={filteredWorkouts.length}
           totalListLength={workouts.length}
           bottomContent={
-            <div>
-              {workouts.length > 0 && (
-                <div className="flex justify-between">
-                  <div>
-                    <Button
-                      size="sm"
-                      variant="flat"
-                      color="secondary"
-                      onPress={() => navigate("/workouts")}
-                    >
-                      New Workout
+            <div className="flex justify-between">
+              <Button
+                size="sm"
+                variant="flat"
+                color="secondary"
+                onPress={() => navigate("/workouts")}
+              >
+                New Workout
+              </Button>
+              <div className="flex gap-1 pr-0.5">
+                <WorkoutPropertyDropdown
+                  selectedWorkoutProperties={selectedWorkoutProperties}
+                  setSelectedWorkoutProperties={setSelectedWorkoutProperties}
+                  userSettings={userSettings}
+                  setUserSettings={setUserSettings}
+                />
+                <Dropdown>
+                  <DropdownTrigger>
+                    <Button className="z-1" variant="flat" size="sm">
+                      Sort By
                     </Button>
-                  </div>
-                  <div className="flex gap-1 pr-0.5">
-                    <WorkoutPropertyDropdown
-                      selectedWorkoutProperties={selectedWorkoutProperties}
-                      setSelectedWorkoutProperties={
-                        setSelectedWorkoutProperties
-                      }
-                      userSettings={userSettings}
-                      setUserSettings={setUserSettings}
-                    />
-                    <Dropdown>
-                      <DropdownTrigger>
-                        <Button className="z-1" variant="flat" size="sm">
-                          Sort By
-                        </Button>
-                      </DropdownTrigger>
-                      <DropdownMenu
-                        aria-label="Sort Workouts Dropdown Menu"
-                        selectionMode="single"
-                        selectedKeys={[sortCategory]}
-                        onAction={(key) =>
-                          handleSortOptionSelection(key as string)
-                        }
-                      >
-                        <DropdownItem key="date-desc">
-                          Date (Newest First)
-                        </DropdownItem>
-                        <DropdownItem key="date-asc">
-                          Date (Oldest First)
-                        </DropdownItem>
-                      </DropdownMenu>
-                    </Dropdown>
-                    <Dropdown>
-                      <DropdownTrigger>
-                        <Button
-                          aria-label="Toggle Workout List Options Menu"
-                          isIconOnly
-                          className="z-1"
-                          size="sm"
-                          variant="light"
-                        >
-                          <VerticalMenuIcon size={19} />
-                        </Button>
-                      </DropdownTrigger>
-                      <DropdownMenu
-                        aria-label="Workout List Option Menu"
-                        onAction={(key) =>
-                          handleOptionMenuSelection(key as string)
-                        }
-                      >
-                        <DropdownItem
-                          className="text-danger"
-                          key="delete-empty-workouts"
-                        >
-                          Delete All Empty Workouts
-                        </DropdownItem>
-                      </DropdownMenu>
-                    </Dropdown>
-                  </div>
-                </div>
-              )}
+                  </DropdownTrigger>
+                  <DropdownMenu
+                    aria-label="Sort Workouts Dropdown Menu"
+                    selectionMode="single"
+                    selectedKeys={[sortCategory]}
+                    onAction={(key) => handleSortOptionSelection(key as string)}
+                  >
+                    <DropdownItem key="date-desc">
+                      Date (Newest First)
+                    </DropdownItem>
+                    <DropdownItem key="date-asc">
+                      Date (Oldest First)
+                    </DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+                <Dropdown>
+                  <DropdownTrigger>
+                    <Button
+                      aria-label="Toggle Workout List Options Menu"
+                      isIconOnly
+                      className="z-1"
+                      size="sm"
+                      variant="light"
+                    >
+                      <VerticalMenuIcon size={19} />
+                    </Button>
+                  </DropdownTrigger>
+                  <DropdownMenu
+                    aria-label="Workout List Option Menu"
+                    onAction={(key) => handleOptionMenuSelection(key as string)}
+                  >
+                    <DropdownItem
+                      className="text-danger"
+                      key="delete-empty-workouts"
+                    >
+                      Delete All Empty Workouts
+                    </DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+              </div>
             </div>
           }
         />
