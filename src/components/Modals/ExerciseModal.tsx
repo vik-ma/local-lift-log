@@ -33,7 +33,7 @@ export const ExerciseModal = ({
   exerciseGroupList,
   buttonAction,
 }: ExerciseModalProps) => {
-  const handleExerciseGroupStringChange = (
+  const handleExerciseGroupStringPrimaryChange = (
     exerciseGroupStringListPrimary: string[]
   ) => {
     const exerciseGroupSetString =
@@ -45,8 +45,6 @@ export const ExerciseModal = ({
       exerciseGroupSetString
     );
 
-    // TODO: ADD SECONDARY
-
     setExercise((prev) => ({
       ...prev,
       exercise_group_set_string_primary: exerciseGroupSetString,
@@ -54,6 +52,8 @@ export const ExerciseModal = ({
       formattedGroupStringPrimary: convertedValuesPrimary.formattedString,
     }));
   };
+
+  // TODO: ADD SECONDARY
 
   return (
     <Modal
@@ -94,7 +94,7 @@ export const ExerciseModal = ({
               <ExerciseGroupCheckboxes
                 isValid={isExerciseGroupSetStringValid}
                 value={exercise.exerciseGroupStringListPrimary ?? []}
-                handleChange={handleExerciseGroupStringChange}
+                handleChange={handleExerciseGroupStringPrimaryChange}
                 exerciseGroupList={exerciseGroupList}
               />
             </ModalBody>

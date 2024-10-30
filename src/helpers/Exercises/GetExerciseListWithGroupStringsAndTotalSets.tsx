@@ -1,6 +1,9 @@
 import Database from "tauri-plugin-sql-api";
 import { Exercise } from "../../typings";
-import { ConvertExerciseGroupSetStringPrimary } from "..";
+import {
+  ConvertExerciseGroupSetStringPrimary,
+  ConvertExerciseGroupSetStringSecondary,
+} from "..";
 
 export const GetExerciseListWithGroupStringsAndTotalSets = async () => {
   try {
@@ -16,14 +19,14 @@ export const GetExerciseListWithGroupStringsAndTotalSets = async () => {
       GROUP BY exercise_id
       ) s ON e.id = s.exercise_id;`);
 
-    const exercises: Exercise[] = result.map((row) => {
+    const exercises: Exercise[] = [];
+
+    result.map((row) => {
       const convertedValuesPrimary = ConvertExerciseGroupSetStringPrimary(
         row.exercise_group_set_string_primary
       );
 
-      // TODO: ADD SECONDARY
-
-      return {
+      const exercise: Exercise = {
         id: row.id,
         name: row.name,
         exercise_group_set_string_primary:
@@ -37,6 +40,17 @@ export const GetExerciseListWithGroupStringsAndTotalSets = async () => {
         formattedGroupStringPrimary: convertedValuesPrimary.formattedString,
         set_count: row.set_count,
       };
+
+      if (row.exercise_group_set_string_secondary !== null) {
+        const convertedValuesSecondary = ConvertExerciseGroupSetStringSecondary(
+          row.exercise_group_set_string_secondary
+        );
+        exercise.exerciseGroupStringMapSecondary = convertedValuesSecondary.map;
+        exercise.formattedGroupStringSecondary =
+          convertedValuesSecondary.formattedString;
+      }
+
+      exercises.push(exercise);
     });
 
     return exercises;

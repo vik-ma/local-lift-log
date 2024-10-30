@@ -73,6 +73,8 @@ export type Exercise = {
   calculation_string: string | null;
   exerciseGroupStringListPrimary?: string[];
   formattedGroupStringPrimary?: string;
+  exerciseGroupStringMapSecondary?: Map<string, string>;
+  formattedGroupStringSecondary?: string;
   isInvalid?: boolean;
   set_count?: number;
 };
