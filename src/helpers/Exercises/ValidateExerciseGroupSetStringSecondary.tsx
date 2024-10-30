@@ -1,8 +1,10 @@
 import { ExerciseGroupDictionary, IsStringValidNumberBetween0And1 } from "..";
 
 export const ValidateExerciseGroupSetStringSecondary = (
-  exerciseGroupSetString: string
+  exerciseGroupSetString: string | null
 ): boolean => {
+  if (exerciseGroupSetString === null) return true;
+
   const exerciseGroups = exerciseGroupSetString.split(",");
   const EXERCISE_GROUP_DICTIONARY = ExerciseGroupDictionary();
 
