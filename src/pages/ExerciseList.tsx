@@ -23,6 +23,7 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
+  Checkbox,
 } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
@@ -288,19 +289,30 @@ export default function ExerciseList() {
             <>
               <ModalHeader>Filter Exercise Groups</ModalHeader>
               <ModalBody>
-                <ExerciseGroupCheckboxes
-                  isValid={true}
-                  value={shownExerciseGroups}
-                  handleChange={setShownExerciseGroups}
-                  exerciseGroupList={exerciseGroupList}
-                  hideLabel
-                />
+                <div className="flex flex-col gap-5">
+                  <div>
+                    <Checkbox
+                      isSelected={showSecondaryExerciseGroups}
+                      onValueChange={setShowSecondaryExerciseGroups}
+                      color="default"
+                    >
+                      Include Secondary Exercise Groups
+                    </Checkbox>
+                  </div>
+                  <ExerciseGroupCheckboxes
+                    isValid={true}
+                    value={shownExerciseGroups}
+                    handleChange={setShownExerciseGroups}
+                    exerciseGroupList={exerciseGroupList}
+                    hideLabel
+                  />
+                </div>
               </ModalBody>
               <ModalFooter className="flex justify-between">
-                <div>
+                <div className="flex gap-2">
                   <Button
-                    color="secondary"
                     variant="flat"
+                    color="secondary"
                     onPress={handleToggleAllButton}
                   >
                     Toggle All
@@ -333,9 +345,9 @@ export default function ExerciseList() {
               >
                 New Exercise
               </Button>
-              <div className="flex gap-1.5">
+              <div className="flex gap-1">
                 <Button
-                  className="z-1"
+                  className="z-1 w-[7.5rem]"
                   variant="flat"
                   color={showSecondaryExerciseGroups ? "secondary" : "default"}
                   size="sm"
@@ -343,7 +355,7 @@ export default function ExerciseList() {
                     setShowSecondaryExerciseGroups(!showSecondaryExerciseGroups)
                   }
                 >
-                  Show Secondary
+                  {showSecondaryExerciseGroups ? "Hide" : "Show"} Secondary
                 </Button>
                 <Button
                   className="z-1"
