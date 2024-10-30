@@ -44,13 +44,23 @@ export const useExerciseList = (
             item
               .formattedGroupStringPrimary!.toLocaleLowerCase()
               .includes(filterQuery.toLocaleLowerCase())) &&
-          shownExerciseGroups.some((group) =>
-            item.formattedGroupStringPrimary!.includes(group)
+          shownExerciseGroups.some(
+            (group) =>
+              item.formattedGroupStringPrimary!.includes(group) ||
+              (showSecondaryExerciseGroups &&
+                item.formattedGroupStringSecondary !== undefined &&
+                item.formattedGroupStringSecondary.includes(group))
           )
       );
     }
     return exercises;
-  }, [exercises, filterQuery, shownExerciseGroups, areExerciseGroupsFiltered]);
+  }, [
+    exercises,
+    filterQuery,
+    shownExerciseGroups,
+    areExerciseGroupsFiltered,
+    showSecondaryExerciseGroups,
+  ]);
 
   const sortExercisesByName = (exerciseList: Exercise[]) => {
     exerciseList.sort((a, b) => {
