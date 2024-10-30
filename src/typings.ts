@@ -67,7 +67,7 @@ export type Exercise = {
   id: number;
   name: string;
   exercise_group_set_string_primary: string;
-  exercise_group_set_string_secondary: string;
+  exercise_group_set_string_secondary: string | null;
   note: string | null;
   is_favorite: number;
   calculation_string: string | null;
