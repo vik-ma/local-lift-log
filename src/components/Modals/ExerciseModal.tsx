@@ -9,7 +9,7 @@ import {
 } from "@nextui-org/react";
 import { Exercise, UseDisclosureReturnType } from "../../typings";
 import {
-  ConvertExerciseGroupStringListToSetString,
+  ConvertExerciseGroupStringListPrimaryToString,
   ConvertExerciseGroupSetStringPrimary,
 } from "../../helpers";
 import { ExerciseGroupCheckboxes } from "..";
@@ -36,9 +36,10 @@ export const ExerciseModal = ({
   const handleExerciseGroupStringChange = (
     exerciseGroupStringListPrimary: string[]
   ) => {
-    const exerciseGroupSetString = ConvertExerciseGroupStringListToSetString(
-      exerciseGroupStringListPrimary
-    );
+    const exerciseGroupSetString =
+      ConvertExerciseGroupStringListPrimaryToString(
+        exerciseGroupStringListPrimary
+      );
 
     const convertedValuesPrimary = ConvertExerciseGroupSetStringPrimary(
       exerciseGroupSetString

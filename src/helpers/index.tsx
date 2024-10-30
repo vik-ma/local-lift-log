@@ -10,7 +10,7 @@ export { FormatYmdDateString } from "./Dates/FormatYmdDateString";
 export { IsDateStringOlderThanOneWeek } from "./Dates/IsDateStringOlderThanOneWeek";
 
 export { ConvertExerciseGroupSetStringPrimary } from "./Exercises/ConvertExerciseGroupSetStringPrimary";
-export { ConvertExerciseGroupStringListToSetString } from "./Exercises/ConvertExerciseGroupStringListToSetString";
+export { ConvertExerciseGroupStringListPrimaryToString } from "./Exercises/ConvertExerciseGroupStringListPrimaryToString";
 export { CreateDefaultExercises } from "./Exercises/CreateDefaultExercises";
 export { ValidateExerciseGroupSetStringPrimary } from "./Exercises/ValidateExerciseGroupSetStringPrimary";
 export { GetExerciseListWithGroupStrings } from "./Exercises/GetExerciseListWithGroupStrings";
