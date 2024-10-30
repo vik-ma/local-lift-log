@@ -64,6 +64,8 @@ export default function ExerciseList() {
     setShownExerciseGroups,
     areExerciseGroupsFiltered,
     sortExercisesByActiveCategory,
+    showSecondaryExerciseGroups,
+    setShowSecondaryExerciseGroups,
   } = useExerciseList(true);
 
   const deleteModal = useDisclosure();
@@ -335,11 +337,22 @@ export default function ExerciseList() {
                 <Button
                   className="z-1"
                   variant="flat"
+                  color={showSecondaryExerciseGroups ? "secondary" : "default"}
+                  size="sm"
+                  onPress={() =>
+                    setShowSecondaryExerciseGroups(!showSecondaryExerciseGroups)
+                  }
+                >
+                  Show Secondary
+                </Button>
+                <Button
+                  className="z-1"
+                  variant="flat"
                   color={areExerciseGroupsFiltered ? "secondary" : "default"}
                   size="sm"
                   onPress={handleFilterExerciseGroupsButton}
                 >
-                  Filter Exercise Groups
+                  Filter
                 </Button>
                 <Dropdown>
                   <DropdownTrigger>
@@ -386,9 +399,29 @@ export default function ExerciseList() {
                         {FormatSetsCompletedString(exercise.set_count)}
                       </span>
                     )}
-                    <span className="text-xs text-stone-400 text-left">
-                      {exercise.formattedGroupStringPrimary}
-                    </span>
+                    {!showSecondaryExerciseGroups ? (
+                      <span className="text-xs text-stone-400 text-left">
+                        {exercise.formattedGroupStringPrimary}
+                      </span>
+                    ) : (
+                      <>
+                        <span className="text-xs text-stone-400 text-left">
+                          <span className="font-medium text-stone-600">
+                            Primary:
+                          </span>{" "}
+                          {exercise.formattedGroupStringPrimary}
+                        </span>
+                        {exercise.formattedGroupStringSecondary !==
+                          undefined && (
+                          <span className="text-xs text-stone-400 text-left">
+                            <span className="font-medium text-stone-600">
+                              Secondary:
+                            </span>{" "}
+                            {exercise.formattedGroupStringSecondary}
+                          </span>
+                        )}
+                      </>
+                    )}
                   </button>
                   <div className="flex items-center gap-0.5 pr-1">
                     <FavoriteButton

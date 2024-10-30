@@ -20,6 +20,8 @@ export const useExerciseList = (
   const [isExercisesLoading, setIsExercisesLoading] = useState<boolean>(true);
   const [sortCategory, setSortCategory] =
     useState<ExerciseSortCategory>("favorite");
+  const [showSecondaryExerciseGroups, setShowSecondaryExerciseGroups] =
+    useState<boolean>(false);
 
   const exerciseGroupList = useExerciseGroupList();
   const [shownExerciseGroups, setShownExerciseGroups] = useState<string[]>([
@@ -165,5 +167,7 @@ export const useExerciseList = (
     setShownExerciseGroups,
     areExerciseGroupsFiltered,
     sortExercisesByActiveCategory,
+    showSecondaryExerciseGroups,
+    setShowSecondaryExerciseGroups,
   };
 };
