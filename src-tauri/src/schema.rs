@@ -43,7 +43,7 @@ diesel::table! {
         id -> Integer,
         name -> Text,
         exercise_group_set_string_primary -> Text,
-        exercise_group_set_string_secondary -> Text,
+        exercise_group_set_string_secondary -> Nullable<Text>,
         note -> Nullable<Text>,
         is_favorite -> SmallInt,
         calculation_string -> Nullable<Text>,
