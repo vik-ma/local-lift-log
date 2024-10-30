@@ -49,8 +49,10 @@ export default function ExerciseDetails() {
 
   const isEditedExerciseGroupSetStringValid =
     useValidateExerciseGroupStringPrimary(
-      editedExercise.exercise_group_set_string
+      editedExercise.exercise_group_set_string_primary
     );
+
+  // TODO: ADD SECONDARY
 
   const exerciseGroupList = useExerciseGroupList();
 
@@ -67,8 +69,10 @@ export default function ExerciseDetails() {
     const noteToInsert = ConvertEmptyStringToNull(editedExercise.note);
 
     const convertedValues = ConvertExerciseGroupSetStringPrimary(
-      editedExercise.exercise_group_set_string
+      editedExercise.exercise_group_set_string_primary
     );
+
+    // TODO: ADD SECONDARY
 
     const updatedExercise: Exercise = {
       ...editedExercise,
