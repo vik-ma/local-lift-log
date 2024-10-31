@@ -277,7 +277,6 @@ export default function ExerciseList() {
         isExerciseGroupSetStringValid={
           isOperatingExerciseGroupSetStringPrimaryValid
         }
-        exerciseGroupList={exerciseGroupList}
         buttonAction={operationType === "edit" ? updateExercise : addExercise}
       />
       <Modal
@@ -303,7 +302,6 @@ export default function ExerciseList() {
                     isValid={true}
                     value={shownExerciseGroups}
                     handleChange={setShownExerciseGroups}
-                    exerciseGroupList={exerciseGroupList}
                   />
                 </div>
               </ModalBody>

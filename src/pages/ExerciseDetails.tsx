@@ -15,7 +15,6 @@ import {
   useValidateExerciseGroupStringPrimary,
   useValidateName,
   useDetailsHeaderOptionsMenu,
-  useExerciseGroupList,
 } from "../hooks";
 import { FavoriteIcon } from "../assets";
 
@@ -53,8 +52,6 @@ export default function ExerciseDetails() {
     );
 
   // TODO: ADD SECONDARY
-
-  const exerciseGroupList = useExerciseGroupList();
 
   const updateExercise = async () => {
     if (
@@ -117,7 +114,6 @@ export default function ExerciseDetails() {
         setExercise={setEditedExercise}
         isExerciseNameValid={isEditedExerciseNameValid}
         isExerciseGroupSetStringValid={isEditedExerciseGroupSetStringValid}
-        exerciseGroupList={exerciseGroupList}
         buttonAction={updateExercise}
       />
       <div className="flex flex-col gap-4">

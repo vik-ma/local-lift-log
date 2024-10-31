@@ -24,7 +24,6 @@ type ExerciseModalProps = {
   setExercise: React.Dispatch<React.SetStateAction<Exercise>>;
   isExerciseNameValid: boolean;
   isExerciseGroupSetStringValid: boolean;
-  exerciseGroupList: string[];
   buttonAction: () => void;
 };
 
@@ -34,7 +33,6 @@ export const ExerciseModal = ({
   setExercise,
   isExerciseNameValid,
   isExerciseGroupSetStringValid,
-  exerciseGroupList,
   buttonAction,
 }: ExerciseModalProps) => {
   const [isPrimaryAccordionExpanded, setIsPrimaryAccordionExpanded] =
@@ -132,7 +130,6 @@ export const ExerciseModal = ({
                           isValid={isExerciseGroupSetStringValid}
                           value={exercise.exerciseGroupStringListPrimary ?? []}
                           handleChange={handleExerciseGroupStringPrimaryChange}
-                          exerciseGroupList={exerciseGroupList}
                         />
                       </motion.div>
                     )}
