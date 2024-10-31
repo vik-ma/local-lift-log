@@ -17,7 +17,6 @@ export const ExerciseGroupCheckboxes = ({
 }: ExerciseGroupCheckboxesProps) => {
   return (
     <CheckboxGroup
-      className="h-[14.75rem]"
       isRequired
       isInvalid={!isValid}
       value={value}
@@ -26,7 +25,7 @@ export const ExerciseGroupCheckboxes = ({
           ? "Select Secondary Exercise Groups"
           : "Select Primary Exercise Groups"
       }
-      errorMessage={!isValid && "At least one Exercise Group must be selected"}
+      errorMessage={!isValid && "At least one Primary Exercise Group must be selected"}
       onValueChange={(value) => handleChange(value)}
     >
       <div className="grid grid-cols-2 gap-0.5">
