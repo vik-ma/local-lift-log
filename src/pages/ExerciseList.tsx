@@ -274,7 +274,7 @@ export default function ExerciseList() {
         exercise={operatingExercise}
         setExercise={setOperatingExercise}
         isExerciseNameValid={isOperatingExerciseNameValid}
-        isExerciseGroupSetStringValid={
+        isExerciseGroupSetPrimaryStringValid={
           isOperatingExerciseGroupSetStringPrimaryValid
         }
         buttonAction={operationType === "edit" ? updateExercise : addExercise}

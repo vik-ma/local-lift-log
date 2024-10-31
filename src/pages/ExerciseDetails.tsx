@@ -46,7 +46,7 @@ export default function ExerciseDetails() {
 
   const isEditedExerciseNameValid = useValidateName(editedExercise.name);
 
-  const isEditedExerciseGroupSetStringValid =
+  const isExerciseGroupSetPrimaryStringValid =
     useValidateExerciseGroupStringPrimary(
       editedExercise.exercise_group_set_string_primary
     );
@@ -58,7 +58,7 @@ export default function ExerciseDetails() {
       editedExercise === undefined ||
       !IsExerciseValid(
         isEditedExerciseNameValid,
-        isEditedExerciseGroupSetStringValid
+        isExerciseGroupSetPrimaryStringValid
       )
     )
       return;
@@ -113,7 +113,9 @@ export default function ExerciseDetails() {
         exercise={editedExercise}
         setExercise={setEditedExercise}
         isExerciseNameValid={isEditedExerciseNameValid}
-        isExerciseGroupSetStringValid={isEditedExerciseGroupSetStringValid}
+        isExerciseGroupSetPrimaryStringValid={
+          isExerciseGroupSetPrimaryStringValid
+        }
         buttonAction={updateExercise}
       />
       <div className="flex flex-col gap-4">

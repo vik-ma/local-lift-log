@@ -23,7 +23,7 @@ type ExerciseModalProps = {
   exercise: Exercise;
   setExercise: React.Dispatch<React.SetStateAction<Exercise>>;
   isExerciseNameValid: boolean;
-  isExerciseGroupSetStringValid: boolean;
+  isExerciseGroupSetPrimaryStringValid: boolean;
   buttonAction: () => void;
 };
 
@@ -32,7 +32,7 @@ export const ExerciseModal = ({
   exercise,
   setExercise,
   isExerciseNameValid,
-  isExerciseGroupSetStringValid,
+  isExerciseGroupSetPrimaryStringValid,
   buttonAction,
 }: ExerciseModalProps) => {
   const [isPrimaryAccordionExpanded, setIsPrimaryAccordionExpanded] =
@@ -107,7 +107,18 @@ export const ExerciseModal = ({
                   }
                 >
                   <div className="flex justify-between items-center pl-1 pb-1">
-                    <span className="font-medium">Primary Exercise Groups</span>
+                    <span
+                      className={
+                        isExerciseGroupSetPrimaryStringValid
+                          ? "flex items-start font-medium"
+                          : "flex items-start text-danger font-medium"
+                      }
+                    >
+                      Primary Exercise Groups
+                      <span className="text-sm text-danger pt-[1px] pl-0.5">
+                        *
+                      </span>
+                    </span>
                     <ChevronIcon
                       size={25}
                       color="#a8a29e"
@@ -127,7 +138,7 @@ export const ExerciseModal = ({
                         }}
                       >
                         <ExerciseGroupCheckboxes
-                          isValid={isExerciseGroupSetStringValid}
+                          isValid={isExerciseGroupSetPrimaryStringValid}
                           value={exercise.exerciseGroupStringListPrimary ?? []}
                           handleChange={handleExerciseGroupStringPrimaryChange}
                         />
@@ -145,7 +156,7 @@ export const ExerciseModal = ({
                 color="primary"
                 onPress={buttonAction}
                 isDisabled={
-                  !isExerciseNameValid || !isExerciseGroupSetStringValid
+                  !isExerciseNameValid || !isExerciseGroupSetPrimaryStringValid
                 }
               >
                 {exercise.id !== 0 ? "Save" : "Create"}
