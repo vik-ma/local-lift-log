@@ -1,9 +1,7 @@
 export const ConvertExerciseGroupStringMapSecondaryToString = (
   exerciseGroupStringListSecondary: string[],
   exerciseGroupStringMap: Map<string, string>
-): string | null => {
-  if (exerciseGroupStringMap.size === 0) return null;
-
+): string  => {
   const exerciseGroupStrings: string[] = [];
 
   for (const group of exerciseGroupStringListSecondary) {

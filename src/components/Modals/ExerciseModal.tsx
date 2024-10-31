@@ -12,6 +12,8 @@ import { Exercise, UseDisclosureReturnType } from "../../typings";
 import {
   ConvertExerciseGroupStringListPrimaryToString,
   ConvertExerciseGroupSetStringPrimary,
+  ConvertExerciseGroupSetStringSecondary,
+  ConvertExerciseGroupStringMapSecondaryToString,
 } from "../../helpers";
 import { ExerciseGroupCheckboxes } from "..";
 import { useState } from "react";
@@ -60,7 +62,39 @@ export const ExerciseModal = ({
     }));
   };
 
-  // TODO: ADD SECONDARY
+  const handleExerciseGroupStringSecondaryChange = (
+    exerciseGroupStringListSecondary: string[]
+  ) => {
+    if (exerciseGroupStringListSecondary.length === 0) {
+      setExercise((prev) => ({
+        ...prev,
+        exercise_group_set_string_secondary: null,
+        exerciseGroupStringMapSecondary: undefined,
+        formattedGroupStringSecondary: undefined,
+      }));
+    } else {
+      const exerciseGroupMapSecondary = new Map<string, string>(
+        exercise.exerciseGroupStringMapSecondary ?? []
+      );
+
+      const exerciseGroupSetString =
+        ConvertExerciseGroupStringMapSecondaryToString(
+          exerciseGroupStringListSecondary,
+          exerciseGroupMapSecondary
+        );
+
+      const convertedValuesSecondary = ConvertExerciseGroupSetStringSecondary(
+        exerciseGroupSetString
+      );
+
+      setExercise((prev) => ({
+        ...prev,
+        exercise_group_set_string_secondary: exerciseGroupSetString,
+        exerciseGroupStringMapSecondary: convertedValuesSecondary.map,
+        formattedGroupStringSecondary: convertedValuesSecondary.formattedString,
+      }));
+    }
+  };
 
   return (
     <Modal
@@ -192,7 +226,9 @@ export const ExerciseModal = ({
                               exercise.exerciseGroupStringMapSecondary?.keys() ??
                                 []
                             )}
-                            handleChange={() => {}}
+                            handleChange={
+                              handleExerciseGroupStringSecondaryChange
+                            }
                           />
                         </motion.div>
                       )}
