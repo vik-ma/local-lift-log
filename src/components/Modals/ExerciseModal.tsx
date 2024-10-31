@@ -60,6 +60,20 @@ export const ExerciseModal = ({
       exerciseGroupStringListPrimary: exerciseGroupStringListPrimary,
       formattedGroupStringPrimary: convertedValuesPrimary.formattedString,
     }));
+
+    if (exercise.exerciseGroupStringMapSecondary !== undefined) {
+      for (const group of exerciseGroupStringListPrimary) {
+        if (exercise.exerciseGroupStringMapSecondary.has(group)) {
+          // Remove Primary Exercise Group from Secondary Exercise Groups if it exists
+          handleExerciseGroupStringSecondaryChange(
+            Array.from(exercise.exerciseGroupStringMapSecondary.keys()).filter(
+              (item) => item !== group
+            )
+          );
+          break;
+        }
+      }
+    }
   };
 
   const handleExerciseGroupStringSecondaryChange = (
