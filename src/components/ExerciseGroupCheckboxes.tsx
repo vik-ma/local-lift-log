@@ -1,5 +1,6 @@
 import { Checkbox, CheckboxGroup } from "@nextui-org/react";
 import { useExerciseGroupDictionary } from "../hooks";
+import { useMemo } from "react";
 
 type ExerciseGroupCheckboxesProps = {
   isValid: boolean;
@@ -7,6 +8,7 @@ type ExerciseGroupCheckboxesProps = {
   handleChange: (value: string[]) => void;
   isSecondary?: boolean;
   useValueAsValue?: boolean;
+  disabledKeys?: string[];
 };
 
 export const ExerciseGroupCheckboxes = ({
@@ -15,8 +17,13 @@ export const ExerciseGroupCheckboxes = ({
   handleChange,
   isSecondary,
   useValueAsValue,
+  disabledKeys,
 }: ExerciseGroupCheckboxesProps) => {
   const exerciseGroupDictionary = useExerciseGroupDictionary();
+
+  const disabledKeysSet = useMemo(() => {
+    return new Set(disabledKeys);
+  }, [disabledKeys]);
 
   return (
     <CheckboxGroup
@@ -39,6 +46,7 @@ export const ExerciseGroupCheckboxes = ({
             key={useValueAsValue ? value : key}
             color="primary"
             value={useValueAsValue ? value : key}
+            isDisabled={disabledKeysSet.has(key)}
           >
             {value}
           </Checkbox>

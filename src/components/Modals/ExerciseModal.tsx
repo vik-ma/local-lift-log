@@ -66,34 +66,37 @@ export const ExerciseModal = ({
     exerciseGroupStringListSecondary: string[]
   ) => {
     if (exerciseGroupStringListSecondary.length === 0) {
+      // If no Secondary Exercise Groups are selected
       setExercise((prev) => ({
         ...prev,
         exercise_group_set_string_secondary: null,
         exerciseGroupStringMapSecondary: undefined,
         formattedGroupStringSecondary: undefined,
       }));
-    } else {
-      const exerciseGroupMapSecondary = new Map<string, string>(
-        exercise.exerciseGroupStringMapSecondary ?? []
-      );
 
-      const exerciseGroupSetString =
-        ConvertExerciseGroupStringMapSecondaryToString(
-          exerciseGroupStringListSecondary,
-          exerciseGroupMapSecondary
-        );
-
-      const convertedValuesSecondary = ConvertExerciseGroupSetStringSecondary(
-        exerciseGroupSetString
-      );
-
-      setExercise((prev) => ({
-        ...prev,
-        exercise_group_set_string_secondary: exerciseGroupSetString,
-        exerciseGroupStringMapSecondary: convertedValuesSecondary.map,
-        formattedGroupStringSecondary: convertedValuesSecondary.formattedString,
-      }));
+      return;
     }
+
+    const exerciseGroupMapSecondary = new Map<string, string>(
+      exercise.exerciseGroupStringMapSecondary ?? []
+    );
+
+    const exerciseGroupSetString =
+      ConvertExerciseGroupStringMapSecondaryToString(
+        exerciseGroupStringListSecondary,
+        exerciseGroupMapSecondary
+      );
+
+    const convertedValuesSecondary = ConvertExerciseGroupSetStringSecondary(
+      exerciseGroupSetString
+    );
+
+    setExercise((prev) => ({
+      ...prev,
+      exercise_group_set_string_secondary: exerciseGroupSetString,
+      exerciseGroupStringMapSecondary: convertedValuesSecondary.map,
+      formattedGroupStringSecondary: convertedValuesSecondary.formattedString,
+    }));
   };
 
   return (
@@ -139,11 +142,15 @@ export const ExerciseModal = ({
                   <div
                     aria-label="Primary Exercise Groups Accordion"
                     className="flex flex-col select-none cursor-pointer"
-                    onClick={() =>
-                      setIsPrimaryAccordionExpanded(!isPrimaryAccordionExpanded)
-                    }
                   >
-                    <div className="flex justify-between items-center pl-1 pb-1.5">
+                    <div
+                      className="flex justify-between items-center cursor-pointer pl-1 pb-1"
+                      onClick={() =>
+                        setIsPrimaryAccordionExpanded(
+                          !isPrimaryAccordionExpanded
+                        )
+                      }
+                    >
                       <span
                         className={
                           isExerciseGroupSetPrimaryStringValid
@@ -189,14 +196,16 @@ export const ExerciseModal = ({
                   </div>
                   <div
                     aria-label="Primary Exercise Groups Accordion"
-                    className="flex flex-col select-none cursor-pointer"
-                    onClick={() =>
-                      setIsSecondaryAccordionExpanded(
-                        !isSecondaryAccordionExpanded
-                      )
-                    }
+                    className="flex flex-col select-none"
                   >
-                    <div className="flex justify-between items-center pl-1 pb-1">
+                    <div
+                      className="flex justify-between items-center cursor-pointer pl-1 pb-1"
+                      onClick={() =>
+                        setIsSecondaryAccordionExpanded(
+                          !isSecondaryAccordionExpanded
+                        )
+                      }
+                    >
                       <span className="font-medium">
                         Secondary Exercise Groups
                       </span>
@@ -228,6 +237,9 @@ export const ExerciseModal = ({
                             )}
                             handleChange={
                               handleExerciseGroupStringSecondaryChange
+                            }
+                            disabledKeys={
+                              exercise.exerciseGroupStringListPrimary
                             }
                           />
                         </motion.div>
