@@ -304,7 +304,6 @@ export default function ExerciseList() {
                     value={shownExerciseGroups}
                     handleChange={setShownExerciseGroups}
                     exerciseGroupList={exerciseGroupList}
-                    hideLabel
                   />
                 </div>
               </ModalBody>
