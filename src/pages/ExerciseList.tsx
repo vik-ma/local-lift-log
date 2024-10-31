@@ -302,6 +302,7 @@ export default function ExerciseList() {
                     isValid={true}
                     value={shownExerciseGroups}
                     handleChange={setShownExerciseGroups}
+                    useValueAsValue
                   />
                 </div>
               </ModalBody>

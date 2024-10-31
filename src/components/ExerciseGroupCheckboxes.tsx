@@ -6,6 +6,7 @@ type ExerciseGroupCheckboxesProps = {
   value: string[];
   handleChange: (value: string[]) => void;
   isSecondary?: boolean;
+  useValueAsValue?: boolean;
 };
 
 export const ExerciseGroupCheckboxes = ({
@@ -13,6 +14,7 @@ export const ExerciseGroupCheckboxes = ({
   value,
   handleChange,
   isSecondary,
+  useValueAsValue,
 }: ExerciseGroupCheckboxesProps) => {
   const exerciseGroupDictionary = useExerciseGroupDictionary();
 
@@ -33,7 +35,11 @@ export const ExerciseGroupCheckboxes = ({
     >
       <div className="grid grid-cols-2 gap-0.5">
         {Array.from(exerciseGroupDictionary).map(([key, value]) => (
-          <Checkbox key={key} color="primary" value={key}>
+          <Checkbox
+            key={useValueAsValue ? value : key}
+            color="primary"
+            value={useValueAsValue ? value : key}
+          >
             {value}
           </Checkbox>
         ))}
