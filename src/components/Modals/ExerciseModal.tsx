@@ -18,9 +18,10 @@ import {
   ConvertExerciseGroupSetStringPrimary,
   ConvertExerciseGroupSetStringSecondary,
   ConvertExerciseGroupStringMapSecondaryToString,
+  IsStringValidNumberBetween0And1,
 } from "../../helpers";
 import { ExerciseGroupCheckboxes } from "..";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ChevronIcon } from "../../assets";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -64,6 +65,18 @@ export const ExerciseModal = ({
 
     setMultiplierInputMap(multiplierInputMap);
   }, [exercise.exerciseGroupStringMapSecondary]);
+
+  const multiplierInputInvaliditySet: Set<string> = useMemo(() => {
+    const multiplierInputValiditySet = new Set<string>();
+
+    for (const [key, value] of multiplierInputMap) {
+      if (!IsStringValidNumberBetween0And1(value)) {
+        multiplierInputValiditySet.add(key);
+      }
+    }
+
+    return multiplierInputValiditySet;
+  }, [multiplierInputMap]);
 
   const handleExerciseGroupStringPrimaryChange = (
     exerciseGroupStringListPrimary: string[]
@@ -411,7 +424,9 @@ export const ExerciseModal = ({
                                       onValueChange={(value) =>
                                         handleMultiplierChange(value, key)
                                       }
-                                      // isInvalid={}
+                                      isInvalid={multiplierInputInvaliditySet.has(
+                                        key
+                                      )}
                                     />
                                   </div>
                                 );
@@ -433,7 +448,9 @@ export const ExerciseModal = ({
                 color="primary"
                 onPress={buttonAction}
                 isDisabled={
-                  !isExerciseNameValid || !isExerciseGroupSetPrimaryStringValid
+                  !isExerciseNameValid ||
+                  !isExerciseGroupSetPrimaryStringValid ||
+                  multiplierInputInvaliditySet.size > 0
                 }
               >
                 {exercise.id !== 0 ? "Save" : "Create"}
