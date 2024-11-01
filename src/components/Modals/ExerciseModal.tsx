@@ -21,7 +21,7 @@ import {
   IsStringValidNumberBetween0And1,
 } from "../../helpers";
 import { ExerciseGroupCheckboxes } from "..";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ChevronIcon } from "../../assets";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -53,6 +53,9 @@ export const ExerciseModal = ({
   const [multiplierInputMap, setMultiplierInputMap] = useState<
     Map<string, string>
   >(new Map());
+
+  const secondaryAccordionRef = useRef<HTMLDivElement>(null);
+  const multiplierAccordionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const multiplierInputMap: Map<string, string> = new Map();
@@ -182,6 +185,32 @@ export const ExerciseModal = ({
     //   formattedGroupStringSecondary: convertedValuesSecondary.formattedString,
     // }));
   };
+
+  useEffect(() => {
+    if (isSecondaryAccordionExpanded) {
+      requestAnimationFrame(() => {
+        if (secondaryAccordionRef.current !== null) {
+          secondaryAccordionRef.current.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        }
+      });
+    }
+  }, [isSecondaryAccordionExpanded]);
+
+  useEffect(() => {
+    if (isMultiplierAccordionExpanded) {
+      requestAnimationFrame(() => {
+        if (multiplierAccordionRef.current !== null) {
+          multiplierAccordionRef.current.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        }
+      });
+    }
+  }, [isMultiplierAccordionExpanded]);
 
   const handleDoneButton = () => {
     if (
@@ -315,6 +344,7 @@ export const ExerciseModal = ({
                           !isSecondaryAccordionExpanded
                         )
                       }
+                      ref={secondaryAccordionRef}
                     >
                       <span className="font-medium">
                         Secondary Exercise Groups
@@ -387,6 +417,7 @@ export const ExerciseModal = ({
                             !isMultiplierAccordionExpanded
                           )
                         }
+                        ref={multiplierAccordionRef}
                       >
                         <span className="font-medium">
                           Secondary Multipliers
