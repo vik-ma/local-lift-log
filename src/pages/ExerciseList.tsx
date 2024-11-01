@@ -42,6 +42,7 @@ import {
   useValidateName,
   useExerciseList,
   useDefaultExercise,
+  useExerciseGroupDictionary,
 } from "../hooks";
 
 type OperationType = "add" | "edit" | "delete";
@@ -68,6 +69,8 @@ export default function ExerciseList() {
     showSecondaryExerciseGroups,
     setShowSecondaryExerciseGroups,
   } = useExerciseList(true);
+
+  const exerciseGroupDictionary = useExerciseGroupDictionary();
 
   const deleteModal = useDisclosure();
   const exerciseModal = useDisclosure();
@@ -277,6 +280,7 @@ export default function ExerciseList() {
         isExerciseGroupSetPrimaryStringValid={
           isOperatingExerciseGroupSetStringPrimaryValid
         }
+        exerciseGroupDictionary={exerciseGroupDictionary}
         buttonAction={operationType === "edit" ? updateExercise : addExercise}
       />
       <Modal
@@ -302,6 +306,7 @@ export default function ExerciseList() {
                     isValid={true}
                     value={shownExerciseGroups}
                     handleChange={setShownExerciseGroups}
+                    exerciseGroupDictionary={exerciseGroupDictionary}
                     useValueAsValue
                   />
                 </div>

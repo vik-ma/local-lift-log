@@ -15,6 +15,7 @@ import {
   useValidateExerciseGroupStringPrimary,
   useValidateName,
   useDetailsHeaderOptionsMenu,
+  useExerciseGroupDictionary,
 } from "../hooks";
 import { FavoriteIcon } from "../assets";
 
@@ -30,6 +31,8 @@ export default function ExerciseDetails() {
   const navigate = useNavigate();
 
   const exerciseModal = useDisclosure();
+
+  const exerciseGroupDictionary = useExerciseGroupDictionary();
 
   useEffect(() => {
     const getExercise = async () => {
@@ -116,6 +119,7 @@ export default function ExerciseDetails() {
         isExerciseGroupSetPrimaryStringValid={
           isExerciseGroupSetPrimaryStringValid
         }
+        exerciseGroupDictionary={exerciseGroupDictionary}
         buttonAction={updateExercise}
       />
       <div className="flex flex-col gap-4">

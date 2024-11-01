@@ -8,7 +8,11 @@ import {
   Input,
   ScrollShadow,
 } from "@nextui-org/react";
-import { Exercise, UseDisclosureReturnType } from "../../typings";
+import {
+  Exercise,
+  ExerciseGroupMap,
+  UseDisclosureReturnType,
+} from "../../typings";
 import {
   ConvertExerciseGroupStringListPrimaryToString,
   ConvertExerciseGroupSetStringPrimary,
@@ -26,6 +30,7 @@ type ExerciseModalProps = {
   setExercise: React.Dispatch<React.SetStateAction<Exercise>>;
   isExerciseNameValid: boolean;
   isExerciseGroupSetPrimaryStringValid: boolean;
+  exerciseGroupDictionary: ExerciseGroupMap;
   buttonAction: () => void;
 };
 
@@ -35,6 +40,7 @@ export const ExerciseModal = ({
   setExercise,
   isExerciseNameValid,
   isExerciseGroupSetPrimaryStringValid,
+  exerciseGroupDictionary,
   buttonAction,
 }: ExerciseModalProps) => {
   const [isPrimaryAccordionExpanded, setIsPrimaryAccordionExpanded] =
@@ -209,6 +215,7 @@ export const ExerciseModal = ({
                             handleChange={
                               handleExerciseGroupStringPrimaryChange
                             }
+                            exerciseGroupDictionary={exerciseGroupDictionary}
                           />
                         </motion.div>
                       ) : (
@@ -270,6 +277,7 @@ export const ExerciseModal = ({
                             handleChange={
                               handleExerciseGroupStringSecondaryChange
                             }
+                            exerciseGroupDictionary={exerciseGroupDictionary}
                             disabledKeys={
                               exercise.exerciseGroupStringListPrimary
                             }
