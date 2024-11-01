@@ -210,7 +210,7 @@ export const ExerciseModal = ({
                           />
                         </motion.div>
                       ) : (
-                        <motion.div className="px-1 text-sm">
+                        <motion.div className="px-1 text-xs w-[21rem]">
                           {exercise.formattedGroupStringPrimary === "" ? (
                             <span className="text-stone-400">
                               No Exercise Group(s) Selected
@@ -274,7 +274,7 @@ export const ExerciseModal = ({
                           />
                         </motion.div>
                       ) : (
-                        <motion.div className="px-1 text-sm max-h-[5rem]">
+                        <motion.div className="px-1 text-xs w-[21rem] max-h-[5rem]">
                           {exercise.formattedGroupStringSecondary ===
                           undefined ? (
                             <span className="text-stone-400">
