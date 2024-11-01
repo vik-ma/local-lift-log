@@ -20,7 +20,7 @@ import {
   ConvertExerciseGroupStringMapSecondaryToString,
 } from "../../helpers";
 import { ExerciseGroupCheckboxes } from "..";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChevronIcon } from "../../assets";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -49,6 +49,21 @@ export const ExerciseModal = ({
     useState<boolean>(false);
   const [isMultiplierAccordionExpanded, setIsMultiplierAccordionExpanded] =
     useState<boolean>(false);
+  const [multiplierInputMap, setMultiplierInputMap] = useState<
+    Map<string, string>
+  >(new Map());
+
+  useEffect(() => {
+    const multiplierInputMap: Map<string, string> = new Map();
+
+    if (exercise.exerciseGroupStringMapSecondary !== undefined) {
+      for (const key of exercise.exerciseGroupStringMapSecondary.keys()) {
+        multiplierInputMap.set(key, "");
+      }
+    }
+
+    setMultiplierInputMap(multiplierInputMap);
+  }, [exercise.exerciseGroupStringMapSecondary]);
 
   const handleExerciseGroupStringPrimaryChange = (
     exerciseGroupStringListPrimary: string[]
@@ -122,31 +137,37 @@ export const ExerciseModal = ({
   };
 
   const handleMultiplierChange = (value: string, key: string) => {
-    // TODO: CHECK FOR INVALID
-    if (exercise.exerciseGroupStringMapSecondary === undefined) return;
+    const updatedMultiplierInputMap = new Map(multiplierInputMap);
 
-    const updatedExerciseGroupStringMapSecondary = new Map(
-      exercise.exerciseGroupStringMapSecondary
-    );
+    updatedMultiplierInputMap.set(key, value);
 
-    updatedExerciseGroupStringMapSecondary.set(key, value);
+    setMultiplierInputMap(updatedMultiplierInputMap);
 
-    const exerciseGroupSetString =
-      ConvertExerciseGroupStringMapSecondaryToString(
-        Array.from(updatedExerciseGroupStringMapSecondary.keys()),
-        updatedExerciseGroupStringMapSecondary
-      );
+    // TODO: MOVE
+    // if (exercise.exerciseGroupStringMapSecondary === undefined) return;
 
-    const convertedValuesSecondary = ConvertExerciseGroupSetStringSecondary(
-      exerciseGroupSetString
-    );
+    // const updatedExerciseGroupStringMapSecondary = new Map(
+    //   exercise.exerciseGroupStringMapSecondary
+    // );
 
-    setExercise((prev) => ({
-      ...prev,
-      exercise_group_set_string_secondary: exerciseGroupSetString,
-      exerciseGroupStringMapSecondary: convertedValuesSecondary.map,
-      formattedGroupStringSecondary: convertedValuesSecondary.formattedString,
-    }));
+    // updatedExerciseGroupStringMapSecondary.set(key, value);
+
+    // const exerciseGroupSetString =
+    //   ConvertExerciseGroupStringMapSecondaryToString(
+    //     Array.from(updatedExerciseGroupStringMapSecondary.keys()),
+    //     updatedExerciseGroupStringMapSecondary
+    //   );
+
+    // const convertedValuesSecondary = ConvertExerciseGroupSetStringSecondary(
+    //   exerciseGroupSetString
+    // );
+
+    // setExercise((prev) => ({
+    //   ...prev,
+    //   exercise_group_set_string_secondary: exerciseGroupSetString,
+    //   exerciseGroupStringMapSecondary: convertedValuesSecondary.map,
+    //   formattedGroupStringSecondary: convertedValuesSecondary.formattedString,
+    // }));
   };
 
   return (
@@ -368,31 +389,34 @@ export const ExerciseModal = ({
                               opacity: { duration: 0.05 },
                             }}
                           >
-                            {Array.from(
-                              exercise.exerciseGroupStringMapSecondary
-                            ).map(([key, value]) => {
-                              const exerciseGroup =
-                                exerciseGroupDictionary.get(key);
+                            {Array.from(multiplierInputMap).map(
+                              ([key, value]) => {
+                                const exerciseGroup =
+                                  exerciseGroupDictionary.get(key);
 
-                              return (
-                                <div className="flex gap-2 items-center">
-                                  <span className="text-sm w-[6.5rem]">
-                                    {exerciseGroup}
-                                  </span>
-                                  <Input
-                                    aria-label={`${exerciseGroup} Multiplier Input`}
-                                    className="w-[3.25rem]"
-                                    size="sm"
-                                    value={value}
-                                    variant="faded"
-                                    onValueChange={(value) =>
-                                      handleMultiplierChange(value, key)
-                                    }
-                                    // isInvalid={}
-                                  />
-                                </div>
-                              );
-                            })}
+                                return (
+                                  <div
+                                    className="flex gap-2 items-center"
+                                    key={`multiplier-input-${key}`}
+                                  >
+                                    <span className="text-sm w-[6.5rem]">
+                                      {exerciseGroup}
+                                    </span>
+                                    <Input
+                                      aria-label={`${exerciseGroup} Multiplier Input`}
+                                      className="w-[3.25rem]"
+                                      size="sm"
+                                      value={value}
+                                      variant="faded"
+                                      onValueChange={(value) =>
+                                        handleMultiplierChange(value, key)
+                                      }
+                                      // isInvalid={}
+                                    />
+                                  </div>
+                                );
+                              }
+                            )}
                           </motion.div>
                         )}
                       </AnimatePresence>
