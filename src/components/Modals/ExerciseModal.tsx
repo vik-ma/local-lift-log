@@ -126,7 +126,7 @@ export const ExerciseModal = ({
             </ModalHeader>
             <ModalBody>
               <ScrollShadow className="h-[440px]">
-                <div className="flex flex-col gap-2.5 w-[23.75rem]">
+                <div className="flex flex-col gap-1.5 w-[23.75rem]">
                   <div className="flex flex-col gap-0.5">
                     <Input
                       className="h-[5rem]"
@@ -158,7 +158,7 @@ export const ExerciseModal = ({
                     className="flex flex-col select-none cursor-pointer"
                   >
                     <div
-                      className="flex justify-between items-center cursor-pointer pl-1 pb-1"
+                      className="flex justify-between items-center cursor-pointer pl-1 pb-0.5"
                       onClick={() =>
                         setIsPrimaryAccordionExpanded(
                           !isPrimaryAccordionExpanded
@@ -184,7 +184,7 @@ export const ExerciseModal = ({
                       />
                     </div>
                     <AnimatePresence>
-                      {isPrimaryAccordionExpanded && (
+                      {isPrimaryAccordionExpanded ? (
                         <motion.div
                           className="px-1"
                           initial={{ height: 0 }}
@@ -205,11 +205,21 @@ export const ExerciseModal = ({
                             }
                           />
                         </motion.div>
+                      ) : (
+                        <motion.div className="px-1 text-sm">
+                          {exercise.formattedGroupStringPrimary === "" ? (
+                            <span className="text-stone-400">
+                              No Exercise Group(s) Selected
+                            </span>
+                          ) : (
+                            <span>{exercise.formattedGroupStringPrimary}</span>
+                          )}
+                        </motion.div>
                       )}
                     </AnimatePresence>
                   </div>
                   <div
-                    aria-label="Primary Exercise Groups Accordion"
+                    aria-label="Secondary Exercise Groups Accordion"
                     className="flex flex-col select-none"
                   >
                     <div
@@ -232,7 +242,7 @@ export const ExerciseModal = ({
                       />
                     </div>
                     <AnimatePresence>
-                      {isSecondaryAccordionExpanded && (
+                      {isSecondaryAccordionExpanded ? (
                         <motion.div
                           className="px-1"
                           initial={{ height: 0 }}
@@ -256,6 +266,19 @@ export const ExerciseModal = ({
                               exercise.exerciseGroupStringListPrimary
                             }
                           />
+                        </motion.div>
+                      ) : (
+                        <motion.div className="px-1 text-sm">
+                          {exercise.formattedGroupStringSecondary ===
+                          undefined ? (
+                            <span className="text-stone-400">
+                              No Exercise Group(s) Selected
+                            </span>
+                          ) : (
+                            <span>
+                              {exercise.formattedGroupStringSecondary}
+                            </span>
+                          )}
                         </motion.div>
                       )}
                     </AnimatePresence>
