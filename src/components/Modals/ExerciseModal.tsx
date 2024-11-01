@@ -305,7 +305,7 @@ export const ExerciseModal = ({
                   {exercise.exerciseGroupStringMapSecondary !== undefined && (
                     <div
                       aria-label="Secondary Exercise Group Multipliers Accordion"
-                      className="flex flex-col select-none cursor-pointer"
+                      className="flex flex-col select-none"
                     >
                       <div
                         className="flex relative cursor-pointer pl-1 pb-0.5"
@@ -331,7 +331,7 @@ export const ExerciseModal = ({
                       <AnimatePresence>
                         {isMultiplierAccordionExpanded && (
                           <motion.div
-                            className="flex flex-col gap-0.5 px-1 pt-0.5"
+                            className="grid grid-cols-2 gap-x-5 gap-y-1 px-1 pt-1.5"
                             initial={{ height: 0 }}
                             animate={{ height: "auto" }}
                             exit={{ height: 0, opacity: 0 }}
