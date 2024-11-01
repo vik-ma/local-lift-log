@@ -332,7 +332,25 @@ export const ExerciseModal = ({
                               opacity: { duration: 0.05 },
                             }}
                           >
-                            Multipliers
+                            {Array.from(
+                              exercise.exerciseGroupStringMapSecondary
+                            ).map(([key, value]) => (
+                              <Input
+                                className="w-auto"
+                                classNames={{
+                                  label: "whitespace-nowrap",
+                                  input: "w-[3.5rem]",
+                                }}
+                                size="sm"
+                                value={value}
+                                label={key}
+                                variant="faded"
+                                labelPlacement="outside-left"
+                                // onValueChange={(value) => {}}
+                                // isInvalid={}
+                                isClearable
+                              />
+                            ))}
                           </motion.div>
                         )}
                       </AnimatePresence>
