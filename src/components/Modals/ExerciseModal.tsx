@@ -331,7 +331,7 @@ export const ExerciseModal = ({
                       <AnimatePresence>
                         {isMultiplierAccordionExpanded && (
                           <motion.div
-                            className="flex flex-col px-1 pt-0.5"
+                            className="flex flex-col gap-0.5 px-1 pt-0.5"
                             initial={{ height: 0 }}
                             animate={{ height: "auto" }}
                             exit={{ height: 0, opacity: 0 }}
@@ -342,23 +342,27 @@ export const ExerciseModal = ({
                           >
                             {Array.from(
                               exercise.exerciseGroupStringMapSecondary
-                            ).map(([key, value]) => (
-                              <Input
-                                className="w-auto"
-                                classNames={{
-                                  label: "whitespace-nowrap",
-                                  input: "w-[3.5rem]",
-                                }}
-                                size="sm"
-                                value={value}
-                                label={key}
-                                variant="faded"
-                                labelPlacement="outside-left"
-                                // onValueChange={(value) => {}}
-                                // isInvalid={}
-                                isClearable
-                              />
-                            ))}
+                            ).map(([key, value]) => {
+                              const exerciseGroup =
+                                exerciseGroupDictionary.get(key);
+
+                              return (
+                                <div className="flex gap-2 items-center">
+                                  <span className="text-sm w-[6.5rem]">
+                                    {exerciseGroup}
+                                  </span>
+                                  <Input
+                                    aria-label={`${exerciseGroup} Multiplier Input`}
+                                    className="w-[3.25rem]"
+                                    size="sm"
+                                    value={value}
+                                    variant="faded"
+                                    // onValueChange={(value) => {}}
+                                    // isInvalid={}
+                                  />
+                                </div>
+                              );
+                            })}
                           </motion.div>
                         )}
                       </AnimatePresence>
