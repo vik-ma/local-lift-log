@@ -126,7 +126,7 @@ export const ExerciseModal = ({
             </ModalHeader>
             <ModalBody>
               <ScrollShadow className="h-[440px]">
-                <div className="flex flex-col gap-1.5 w-[23.75rem]">
+                <div className="flex flex-col gap-2 w-[23.75rem]">
                   <div className="flex flex-col gap-0.5">
                     <Input
                       className="h-[5rem]"
@@ -190,7 +190,7 @@ export const ExerciseModal = ({
                     <AnimatePresence>
                       {isPrimaryAccordionExpanded ? (
                         <motion.div
-                          className="px-1"
+                          className="px-1 pt-0.5"
                           initial={{ height: 0 }}
                           animate={{ height: "auto" }}
                           exit={{ height: 0, opacity: 0 }}
@@ -250,7 +250,7 @@ export const ExerciseModal = ({
                     <AnimatePresence>
                       {isSecondaryAccordionExpanded ? (
                         <motion.div
-                          className="px-1"
+                          className="px-1 pt-0.5"
                           initial={{ height: 0 }}
                           animate={{ height: "auto" }}
                           exit={{ height: 0, opacity: 0 }}
@@ -274,7 +274,7 @@ export const ExerciseModal = ({
                           />
                         </motion.div>
                       ) : (
-                        <motion.div className="px-1 text-sm">
+                        <motion.div className="px-1 text-sm max-h-[5rem]">
                           {exercise.formattedGroupStringSecondary ===
                           undefined ? (
                             <span className="text-stone-400">
