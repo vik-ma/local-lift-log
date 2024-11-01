@@ -41,6 +41,8 @@ export const ExerciseModal = ({
     useState<boolean>(true);
   const [isSecondaryAccordionExpanded, setIsSecondaryAccordionExpanded] =
     useState<boolean>(false);
+  const [isMultiplierAccordionExpanded, setIsMultiplierAccordionExpanded] =
+    useState<boolean>(false);
 
   const handleExerciseGroupStringPrimaryChange = (
     exerciseGroupStringListPrimary: string[]
@@ -289,6 +291,50 @@ export const ExerciseModal = ({
                       )}
                     </AnimatePresence>
                   </div>
+                  {exercise.exerciseGroupStringMapSecondary !== undefined && (
+                    <div
+                      aria-label="Secondary Exercise Group Multipliers Accordion"
+                      className="flex flex-col select-none cursor-pointer"
+                    >
+                      <div
+                        className="flex relative cursor-pointer pl-1 pb-0.5"
+                        onClick={() =>
+                          setIsMultiplierAccordionExpanded(
+                            !isMultiplierAccordionExpanded
+                          )
+                        }
+                      >
+                        <span className="font-medium">
+                          Secondary Multipliers
+                        </span>
+                        <div className="absolute right-0">
+                          <ChevronIcon
+                            size={31}
+                            color="#a8a29e"
+                            direction={
+                              isMultiplierAccordionExpanded ? "down" : "left"
+                            }
+                          />
+                        </div>
+                      </div>
+                      <AnimatePresence>
+                        {isMultiplierAccordionExpanded && (
+                          <motion.div
+                            className="flex flex-col px-1 pt-0.5"
+                            initial={{ height: 0 }}
+                            animate={{ height: "auto" }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{
+                              height: { duration: 0.1 },
+                              opacity: { duration: 0.05 },
+                            }}
+                          >
+                            Multipliers
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  )}
                 </div>
               </ScrollShadow>
             </ModalBody>
