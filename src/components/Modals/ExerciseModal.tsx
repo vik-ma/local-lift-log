@@ -121,6 +121,34 @@ export const ExerciseModal = ({
     }));
   };
 
+  const handleMultiplierChange = (value: string, key: string) => {
+    // TODO: CHECK FOR INVALID
+    if (exercise.exerciseGroupStringMapSecondary === undefined) return;
+
+    const updatedExerciseGroupStringMapSecondary = new Map(
+      exercise.exerciseGroupStringMapSecondary
+    );
+
+    updatedExerciseGroupStringMapSecondary.set(key, value);
+
+    const exerciseGroupSetString =
+      ConvertExerciseGroupStringMapSecondaryToString(
+        Array.from(updatedExerciseGroupStringMapSecondary.keys()),
+        updatedExerciseGroupStringMapSecondary
+      );
+
+    const convertedValuesSecondary = ConvertExerciseGroupSetStringSecondary(
+      exerciseGroupSetString
+    );
+
+    setExercise((prev) => ({
+      ...prev,
+      exercise_group_set_string_secondary: exerciseGroupSetString,
+      exerciseGroupStringMapSecondary: convertedValuesSecondary.map,
+      formattedGroupStringSecondary: convertedValuesSecondary.formattedString,
+    }));
+  };
+
   return (
     <Modal
       isOpen={exerciseModal.isOpen}
@@ -357,7 +385,9 @@ export const ExerciseModal = ({
                                     size="sm"
                                     value={value}
                                     variant="faded"
-                                    // onValueChange={(value) => {}}
+                                    onValueChange={(value) =>
+                                      handleMultiplierChange(value, key)
+                                    }
                                     // isInvalid={}
                                   />
                                 </div>
