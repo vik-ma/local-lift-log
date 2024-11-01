@@ -58,8 +58,8 @@ export const ExerciseModal = ({
     const multiplierInputMap: Map<string, string> = new Map();
 
     if (exercise.exerciseGroupStringMapSecondary !== undefined) {
-      for (const key of exercise.exerciseGroupStringMapSecondary.keys()) {
-        multiplierInputMap.set(key, "");
+      for (const [key, value] of exercise.exerciseGroupStringMapSecondary) {
+        multiplierInputMap.set(key, value);
       }
     }
 
