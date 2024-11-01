@@ -158,7 +158,7 @@ export const ExerciseModal = ({
                     className="flex flex-col select-none cursor-pointer"
                   >
                     <div
-                      className="flex justify-between items-center cursor-pointer pl-1 pb-0.5"
+                      className="flex relative cursor-pointer pl-1 pb-0.5"
                       onClick={() =>
                         setIsPrimaryAccordionExpanded(
                           !isPrimaryAccordionExpanded
@@ -177,11 +177,15 @@ export const ExerciseModal = ({
                           *
                         </span>
                       </span>
-                      <ChevronIcon
-                        size={25}
-                        color="#a8a29e"
-                        direction={isPrimaryAccordionExpanded ? "down" : "left"}
-                      />
+                      <div className="absolute top-1 right-0">
+                        <ChevronIcon
+                          size={31}
+                          color="#a8a29e"
+                          direction={
+                            isPrimaryAccordionExpanded ? "down" : "left"
+                          }
+                        />
+                      </div>
                     </div>
                     <AnimatePresence>
                       {isPrimaryAccordionExpanded ? (
@@ -223,7 +227,7 @@ export const ExerciseModal = ({
                     className="flex flex-col select-none"
                   >
                     <div
-                      className="flex justify-between items-center cursor-pointer pl-1 pb-1"
+                      className="flex relative cursor-pointer pl-1 pb-0.5"
                       onClick={() =>
                         setIsSecondaryAccordionExpanded(
                           !isSecondaryAccordionExpanded
@@ -233,13 +237,15 @@ export const ExerciseModal = ({
                       <span className="font-medium">
                         Secondary Exercise Groups
                       </span>
-                      <ChevronIcon
-                        size={25}
-                        color="#a8a29e"
-                        direction={
-                          isSecondaryAccordionExpanded ? "down" : "left"
-                        }
-                      />
+                      <div className="absolute top-1 right-0">
+                        <ChevronIcon
+                          size={31}
+                          color="#a8a29e"
+                          direction={
+                            isSecondaryAccordionExpanded ? "down" : "left"
+                          }
+                        />
+                      </div>
                     </div>
                     <AnimatePresence>
                       {isSecondaryAccordionExpanded ? (
