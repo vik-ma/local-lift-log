@@ -276,7 +276,10 @@ export const ExerciseModal = ({
                           />
                         </motion.div>
                       ) : (
-                        <motion.div className="px-1 text-xs w-[21rem] max-h-[5rem]">
+                        <motion.div
+                          className="px-1 text-xs w-[21rem]"
+                          style={{ height: "100%" }}
+                        >
                           {exercise.formattedGroupStringSecondary ===
                           undefined ? (
                             <span className="text-stone-400">
