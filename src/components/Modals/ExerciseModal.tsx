@@ -203,17 +203,6 @@ export const ExerciseModal = ({
     }
   }, [isMultiplierAccordionExpanded]);
 
-  const handleDoneButton = () => {
-    if (
-      !isExerciseNameValid ||
-      !isExerciseGroupSetPrimaryStringValid ||
-      multiplierInputInvaliditySet.size > 0
-    )
-      return;
-
-    buttonAction();
-  };
-
   return (
     <Modal
       isOpen={exerciseModal.isOpen}
@@ -484,7 +473,7 @@ export const ExerciseModal = ({
               </Button>
               <Button
                 color="primary"
-                onPress={handleDoneButton}
+                onPress={buttonAction}
                 isDisabled={
                   !isExerciseNameValid ||
                   !isExerciseGroupSetPrimaryStringValid ||

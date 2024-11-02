@@ -97,30 +97,6 @@ export default function ExerciseList() {
     multiplierInputInvaliditySet,
   } = useMultiplierInputMap();
 
-  const deleteExercise = async () => {
-    if (operatingExercise.id === 0 || operationType !== "delete") return;
-
-    try {
-      const db = await Database.load(import.meta.env.VITE_DB);
-
-      db.execute("DELETE from exercises WHERE id = $1", [operatingExercise.id]);
-
-      const updatedExercises = DeleteItemFromList(
-        exercises,
-        operatingExercise.id
-      );
-
-      setExercises(updatedExercises);
-
-      toast.success("Exercise Deleted");
-    } catch (error) {
-      console.log(error);
-    }
-
-    resetOperatingExercise();
-    deleteModal.onClose();
-  };
-
   const addExercise = async () => {
     if (
       !IsExerciseValid(
@@ -173,12 +149,6 @@ export default function ExerciseList() {
     }
   };
 
-  const restoreDefaultExercises = async () => {
-    await CreateDefaultExercises();
-    await getExercises();
-    toast.success("Default Exercises Restored");
-  };
-
   const updateExercise = async () => {
     if (
       operatingExercise === undefined ||
@@ -216,6 +186,36 @@ export default function ExerciseList() {
     resetOperatingExercise();
     toast.success("Exercise Updated");
     exerciseModal.onClose();
+  };
+
+  const deleteExercise = async () => {
+    if (operatingExercise.id === 0 || operationType !== "delete") return;
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      db.execute("DELETE from exercises WHERE id = $1", [operatingExercise.id]);
+
+      const updatedExercises = DeleteItemFromList(
+        exercises,
+        operatingExercise.id
+      );
+
+      setExercises(updatedExercises);
+
+      toast.success("Exercise Deleted");
+    } catch (error) {
+      console.log(error);
+    }
+
+    resetOperatingExercise();
+    deleteModal.onClose();
+  };
+
+  const restoreDefaultExercises = async () => {
+    await CreateDefaultExercises();
+    await getExercises();
+    toast.success("Default Exercises Restored");
   };
 
   const handleCreateNewExerciseButton = () => {
