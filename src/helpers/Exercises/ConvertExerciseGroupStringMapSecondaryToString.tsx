@@ -3,7 +3,8 @@ import { ConvertNumberToTwoDecimals } from "../Numbers/ConvertNumberToTwoDecimal
 import { IsStringValidNumberBetween0And1 } from "../Numbers/IsStringValidNumberBetween0And1";
 
 export const ConvertExerciseGroupStringMapSecondaryToString = (
-  exerciseGroupStringMap: Map<string, string>
+  exerciseGroupStringMap: Map<string, string>,
+  multiplierInputMap: Map<string, string>
 ): string | null => {
   if (exerciseGroupStringMap.size === 0) return null;
 
@@ -11,8 +12,11 @@ export const ConvertExerciseGroupStringMapSecondaryToString = (
 
   const exerciseGroupStrings: string[] = [];
 
-  for (const [key, value] of exerciseGroupStringMap) {
+  for (const key of exerciseGroupStringMap.keys()) {
+    const value = multiplierInputMap.get(key);
+
     if (
+      value === undefined ||
       !exerciseGroupDictionary.has(key) ||
       !IsStringValidNumberBetween0And1(value)
     )
