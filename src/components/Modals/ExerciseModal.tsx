@@ -444,7 +444,7 @@ export const ExerciseModal = ({
                               opacity: { duration: 0.05 },
                             }}
                           >
-                            <div className="grid grid-cols-2 gap-x-5 gap-y-1">
+                            <div className="grid grid-cols-2 gap-x-2 gap-y-1">
                               {Array.from(multiplierInputMap).map(
                                 ([key, value]) => {
                                   const exerciseGroup =
