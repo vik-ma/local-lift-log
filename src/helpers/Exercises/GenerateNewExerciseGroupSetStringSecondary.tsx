@@ -1,7 +1,7 @@
-export const ConvertExerciseGroupStringMapSecondaryToString = (
+export const GenerateNewExerciseGroupSetStringSecondary = (
   exerciseGroupStringListSecondary: string[],
   exerciseGroupStringMap: Map<string, string>
-): string  => {
+): string => {
   const exerciseGroupStrings: string[] = [];
 
   for (const group of exerciseGroupStringListSecondary) {

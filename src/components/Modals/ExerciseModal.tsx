@@ -17,7 +17,7 @@ import {
   ConvertExerciseGroupStringListPrimaryToString,
   ConvertExerciseGroupSetStringPrimary,
   ConvertExerciseGroupSetStringSecondary,
-  ConvertExerciseGroupStringMapSecondaryToString,
+  GenerateNewExerciseGroupSetStringSecondary,
   IsStringValidNumberBetween0And1,
 } from "../../helpers";
 import { ExerciseGroupCheckboxes } from "..";
@@ -134,11 +134,10 @@ export const ExerciseModal = ({
       exercise.exerciseGroupStringMapSecondary ?? []
     );
 
-    const exerciseGroupSetString =
-      ConvertExerciseGroupStringMapSecondaryToString(
-        exerciseGroupStringListSecondary,
-        exerciseGroupMapSecondary
-      );
+    const exerciseGroupSetString = GenerateNewExerciseGroupSetStringSecondary(
+      exerciseGroupStringListSecondary,
+      exerciseGroupMapSecondary
+    );
 
     const convertedValuesSecondary = ConvertExerciseGroupSetStringSecondary(
       exerciseGroupSetString
@@ -169,7 +168,7 @@ export const ExerciseModal = ({
     // updatedExerciseGroupStringMapSecondary.set(key, value);
 
     // const exerciseGroupSetString =
-    //   ConvertExerciseGroupStringMapSecondaryToString(
+    //   GenerateNewExerciseGroupSetStringSecondary(
     //     Array.from(updatedExerciseGroupStringMapSecondary.keys()),
     //     updatedExerciseGroupStringMapSecondary
     //   );

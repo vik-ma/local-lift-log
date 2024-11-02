@@ -22,7 +22,7 @@ export { GetExerciseListWithGroupStringsAndTotalSets } from "./Exercises/GetExer
 export { GetNumberOfUniqueExercisesInGroupedSets } from "./Exercises/GetNumberOfUniqueExercisesInGroupedSets";
 export { ValidateExerciseGroupSetStringSecondary } from "./Exercises/ValidateExerciseGroupSetStringSecondary";
 export { ConvertExerciseGroupSetStringSecondary } from "./Exercises/ConvertExerciseGroupSetStringSecondary";
-export { ConvertExerciseGroupStringMapSecondaryToString } from "./Exercises/ConvertExerciseGroupStringMapSecondaryToString";
+export { GenerateNewExerciseGroupSetStringSecondary } from "./Exercises/GenerateNewExerciseGroupSetStringSecondary";
 
 export { GetScheduleDayNames } from "./Routines/GetScheduleDayNames";
 export { GetScheduleDayValues } from "./Routines/GetScheduleValues";
