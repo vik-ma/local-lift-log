@@ -435,7 +435,7 @@ export const ExerciseModal = ({
                       <AnimatePresence>
                         {isMultiplierAccordionExpanded && (
                           <motion.div
-                            className="grid grid-cols-2 gap-x-5 gap-y-1 px-1 pt-1.5"
+                            className="px-1 pt-1.5"
                             initial={{ height: 0 }}
                             animate={{ height: "auto" }}
                             exit={{ height: 0, opacity: 0 }}
@@ -444,36 +444,41 @@ export const ExerciseModal = ({
                               opacity: { duration: 0.05 },
                             }}
                           >
-                            {Array.from(multiplierInputMap).map(
-                              ([key, value]) => {
-                                const exerciseGroup =
-                                  exerciseGroupDictionary.get(key);
+                            <div className="grid grid-cols-2 gap-x-5 gap-y-1">
+                              {Array.from(multiplierInputMap).map(
+                                ([key, value]) => {
+                                  const exerciseGroup =
+                                    exerciseGroupDictionary.get(key);
 
-                                return (
-                                  <div
-                                    className="flex gap-2 items-center"
-                                    key={`multiplier-input-${key}`}
-                                  >
-                                    <span className="text-sm w-[6.5rem]">
-                                      {exerciseGroup}
-                                    </span>
-                                    <Input
-                                      aria-label={`${exerciseGroup} Multiplier Input`}
-                                      className="w-[3.25rem]"
-                                      size="sm"
-                                      value={value}
-                                      variant="faded"
-                                      onValueChange={(value) =>
-                                        handleMultiplierChange(value, key)
-                                      }
-                                      isInvalid={multiplierInputInvaliditySet.has(
-                                        key
-                                      )}
-                                    />
-                                  </div>
-                                );
-                              }
-                            )}
+                                  return (
+                                    <div
+                                      className="flex gap-2 items-center"
+                                      key={`multiplier-input-${key}`}
+                                    >
+                                      <span className="text-sm w-[6.5rem]">
+                                        {exerciseGroup}
+                                      </span>
+                                      <Input
+                                        aria-label={`${exerciseGroup} Multiplier Input`}
+                                        className="w-[3.25rem]"
+                                        size="sm"
+                                        value={value}
+                                        variant="faded"
+                                        onValueChange={(value) =>
+                                          handleMultiplierChange(value, key)
+                                        }
+                                        isInvalid={multiplierInputInvaliditySet.has(
+                                          key
+                                        )}
+                                      />
+                                    </div>
+                                  );
+                                }
+                              )}
+                            </div>
+                            <span className="text-xs text-stone-500">
+                              Values must be between 0 and 1
+                            </span>
                           </motion.div>
                         )}
                       </AnimatePresence>
