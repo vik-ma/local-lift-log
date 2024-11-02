@@ -16,6 +16,7 @@ import {
   useValidateName,
   useDetailsHeaderOptionsMenu,
   useExerciseGroupDictionary,
+  useMultiplierInputMap,
 } from "../hooks";
 import { FavoriteIcon } from "../assets";
 
@@ -33,6 +34,12 @@ export default function ExerciseDetails() {
   const exerciseModal = useDisclosure();
 
   const exerciseGroupDictionary = useExerciseGroupDictionary();
+
+  const {
+    multiplierInputMap,
+    setMultiplierInputMap,
+    multiplierInputInvaliditySet,
+  } = useMultiplierInputMap();
 
   useEffect(() => {
     const getExercise = async () => {
@@ -120,6 +127,9 @@ export default function ExerciseDetails() {
           isExerciseGroupSetPrimaryStringValid
         }
         exerciseGroupDictionary={exerciseGroupDictionary}
+        multiplierInputMap={multiplierInputMap}
+        setMultiplierInputMap={setMultiplierInputMap}
+        multiplierInputInvaliditySet={multiplierInputInvaliditySet}
         buttonAction={updateExercise}
       />
       <div className="flex flex-col gap-4">

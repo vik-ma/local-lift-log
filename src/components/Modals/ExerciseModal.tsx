@@ -18,10 +18,9 @@ import {
   ConvertExerciseGroupSetStringPrimary,
   ConvertExerciseGroupSetStringSecondary,
   GenerateNewExerciseGroupSetStringSecondary,
-  IsStringValidNumberBetween0And1,
 } from "../../helpers";
 import { ExerciseGroupCheckboxes } from "..";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ChevronIcon } from "../../assets";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -32,6 +31,11 @@ type ExerciseModalProps = {
   isExerciseNameValid: boolean;
   isExerciseGroupSetPrimaryStringValid: boolean;
   exerciseGroupDictionary: ExerciseGroupMap;
+  multiplierInputMap: Map<string, string>;
+  setMultiplierInputMap: React.Dispatch<
+    React.SetStateAction<Map<string, string>>
+  >;
+  multiplierInputInvaliditySet: Set<string>;
   buttonAction: () => void;
 };
 
@@ -42,6 +46,9 @@ export const ExerciseModal = ({
   isExerciseNameValid,
   isExerciseGroupSetPrimaryStringValid,
   exerciseGroupDictionary,
+  multiplierInputMap,
+  setMultiplierInputMap,
+  multiplierInputInvaliditySet,
   buttonAction,
 }: ExerciseModalProps) => {
   const [isPrimaryAccordionExpanded, setIsPrimaryAccordionExpanded] =
@@ -50,9 +57,6 @@ export const ExerciseModal = ({
     useState<boolean>(false);
   const [isMultiplierAccordionExpanded, setIsMultiplierAccordionExpanded] =
     useState<boolean>(false);
-  const [multiplierInputMap, setMultiplierInputMap] = useState<
-    Map<string, string>
-  >(new Map());
 
   const secondaryAccordionRef = useRef<HTMLDivElement>(null);
   const multiplierAccordionRef = useRef<HTMLDivElement>(null);
@@ -67,19 +71,7 @@ export const ExerciseModal = ({
     }
 
     setMultiplierInputMap(multiplierInputMap);
-  }, [exercise.exerciseGroupStringMapSecondary]);
-
-  const multiplierInputInvaliditySet: Set<string> = useMemo(() => {
-    const multiplierInputValiditySet = new Set<string>();
-
-    for (const [key, value] of multiplierInputMap) {
-      if (!IsStringValidNumberBetween0And1(value)) {
-        multiplierInputValiditySet.add(key);
-      }
-    }
-
-    return multiplierInputValiditySet;
-  }, [multiplierInputMap]);
+  }, [exercise.exerciseGroupStringMapSecondary, setMultiplierInputMap]);
 
   const handleExerciseGroupStringPrimaryChange = (
     exerciseGroupStringListPrimary: string[]

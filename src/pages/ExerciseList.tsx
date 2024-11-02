@@ -43,6 +43,7 @@ import {
   useExerciseList,
   useDefaultExercise,
   useExerciseGroupDictionary,
+  useMultiplierInputMap,
 } from "../hooks";
 
 type OperationType = "add" | "edit" | "delete";
@@ -89,6 +90,12 @@ export default function ExerciseList() {
     useValidateExerciseGroupStringPrimary(
       operatingExercise.exercise_group_set_string_primary
     );
+
+  const {
+    multiplierInputMap,
+    setMultiplierInputMap,
+    multiplierInputInvaliditySet,
+  } = useMultiplierInputMap();
 
   const deleteExercise = async () => {
     if (operatingExercise.id === 0 || operationType !== "delete") return;
@@ -221,6 +228,7 @@ export default function ExerciseList() {
   const resetOperatingExercise = () => {
     setOperationType("add");
     setOperatingExercise(defaultExercise);
+    setMultiplierInputMap(new Map());
   };
 
   const handleExerciseOptionSelection = (key: string, exercise: Exercise) => {
@@ -281,6 +289,9 @@ export default function ExerciseList() {
           isOperatingExerciseGroupSetStringPrimaryValid
         }
         exerciseGroupDictionary={exerciseGroupDictionary}
+        multiplierInputMap={multiplierInputMap}
+        setMultiplierInputMap={setMultiplierInputMap}
+        multiplierInputInvaliditySet={multiplierInputInvaliditySet}
         buttonAction={operationType === "edit" ? updateExercise : addExercise}
       />
       <Modal
