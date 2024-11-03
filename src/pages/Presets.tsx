@@ -41,6 +41,7 @@ import {
   DeleteItemFromList,
   GetUserSettings,
   IsStringInvalidNumberOr0,
+  UpdateDefaultPlateCalculationId,
   UpdateItemInList,
 } from "../helpers";
 import toast, { Toaster } from "react-hot-toast";
@@ -647,7 +648,34 @@ export default function Presets() {
     } else if (key === "delete") {
       setOperationType("delete");
       deleteModal.onOpen();
+    } else if (key === "set-default") {
+      updateDefaultPlateCalculationId(plateCalculation.id);
+      resetOperatingPlateCalculation();
     }
+  };
+
+  const updateDefaultPlateCalculationId = async (
+    plateCalculationId: number
+  ) => {
+    if (
+      userSettings === undefined ||
+      plateCalculationId === userSettings.default_plate_calculation_id
+    )
+      return;
+
+    const success = await UpdateDefaultPlateCalculationId(
+      plateCalculationId,
+      userSettings.id
+    );
+
+    if (!success) return;
+
+    const updatedSettings: UserSettings = {
+      ...userSettings,
+      default_plate_calculation_id: plateCalculationId,
+    };
+
+    setUserSettings(updatedSettings);
   };
 
   const handleRestoreEquipmentButton = async () => {
@@ -1170,6 +1198,17 @@ export default function Presets() {
                             }
                           >
                             <DropdownItem key="edit">Edit</DropdownItem>
+                            <DropdownItem
+                              className={
+                                plate.id ===
+                                userSettings.default_plate_calculation_id
+                                  ? "hidden"
+                                  : ""
+                              }
+                              key="set-default"
+                            >
+                              Set As Default
+                            </DropdownItem>
                             <DropdownItem key="delete" className="text-danger">
                               Delete
                             </DropdownItem>
