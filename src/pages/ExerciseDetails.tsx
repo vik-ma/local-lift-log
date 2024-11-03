@@ -4,13 +4,11 @@ import { useState, useEffect } from "react";
 import { Button, useDisclosure } from "@nextui-org/react";
 import { LoadingSpinner, ExerciseModal, DetailsHeader } from "../components";
 import {
-  ConvertExerciseGroupSetStringPrimary,
   GetExerciseWithId,
   UpdateExercise,
   IsExerciseValid,
   ConvertEmptyStringToNull,
-  ConvertExerciseGroupStringMapSecondaryToString,
-  ConvertExerciseGroupSetStringSecondary,
+  UpdateExerciseValues,
 } from "../helpers";
 import {
   useDefaultExercise,
@@ -63,8 +61,6 @@ export default function ExerciseDetails() {
       editedExercise.exercise_group_set_string_primary
     );
 
-  // TODO: ADD SECONDARY
-
   const updateExercise = async () => {
     if (
       editedExercise === undefined ||
@@ -75,44 +71,14 @@ export default function ExerciseDetails() {
     )
       return;
 
-    const noteToInsert = ConvertEmptyStringToNull(editedExercise.note);
+    editedExercise.note = ConvertEmptyStringToNull(editedExercise.note);
 
-    const convertedValuesPrimary = ConvertExerciseGroupSetStringPrimary(
-      editedExercise.exercise_group_set_string_primary
+    const updatedExercise = await UpdateExerciseValues(
+      editedExercise,
+      multiplierInputMap
     );
 
-    const updatedExercise: Exercise = {
-      ...editedExercise,
-      note: noteToInsert,
-      formattedGroupStringPrimary: convertedValuesPrimary.formattedString,
-      exerciseGroupStringListPrimary: convertedValuesPrimary.list,
-    };
-
-    if (updatedExercise.exerciseGroupStringMapSecondary !== undefined) {
-      const exerciseGroupSetString =
-        ConvertExerciseGroupStringMapSecondaryToString(
-          updatedExercise.exerciseGroupStringMapSecondary,
-          multiplierInputMap
-        );
-
-      updatedExercise.exercise_group_set_string_secondary =
-        exerciseGroupSetString;
-
-      if (exerciseGroupSetString !== null) {
-        const convertedValuesSecondary = ConvertExerciseGroupSetStringSecondary(
-          exerciseGroupSetString
-        );
-
-        updatedExercise.exerciseGroupStringMapSecondary =
-          convertedValuesSecondary.map;
-        updatedExercise.formattedGroupStringSecondary =
-          convertedValuesSecondary.formattedString;
-      }
-    }
-
-    const success = await UpdateExercise(updatedExercise);
-
-    if (!success) return;
+    if (updatedExercise === undefined) return;
 
     setExercise(updatedExercise);
 

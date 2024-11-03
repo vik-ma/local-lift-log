@@ -3,15 +3,12 @@ import { useState } from "react";
 import { Exercise } from "../typings";
 import {
   ConvertEmptyStringToNull,
-  ConvertExerciseGroupSetStringPrimary,
   CreateDefaultExercises,
   DeleteItemFromList,
   IsExerciseValid,
-  UpdateExercise,
   UpdateItemInList,
   FormatSetsCompletedString,
-  ConvertExerciseGroupStringMapSecondaryToString,
-  ConvertExerciseGroupSetStringSecondary,
+  UpdateExerciseValues,
 } from "../helpers";
 import {
   Button,
@@ -112,7 +109,7 @@ export default function ExerciseList() {
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
-      const noteToInsert = ConvertEmptyStringToNull(operatingExercise.note);
+      operatingExercise.note = ConvertEmptyStringToNull(operatingExercise.note);
 
       const result = await db.execute(
         `INSERT into exercises 
@@ -123,42 +120,19 @@ export default function ExerciseList() {
           operatingExercise.name,
           operatingExercise.exercise_group_set_string_primary,
           operatingExercise.exercise_group_set_string_secondary,
-          noteToInsert,
+          operatingExercise.note,
           operatingExercise.is_favorite,
         ]
       );
 
-      const convertedValues = ConvertExerciseGroupSetStringPrimary(
-        operatingExercise.exercise_group_set_string_primary
+      operatingExercise.id = result.lastInsertId;
+
+      const newExercise = await UpdateExerciseValues(
+        operatingExercise,
+        multiplierInputMap
       );
 
-      const newExercise: Exercise = {
-        ...operatingExercise,
-        id: result.lastInsertId,
-        exerciseGroupStringListPrimary: convertedValues.list,
-        formattedGroupStringPrimary: convertedValues.formattedString,
-      };
-
-      if (newExercise.exerciseGroupStringMapSecondary !== undefined) {
-        const exerciseGroupSetString =
-          ConvertExerciseGroupStringMapSecondaryToString(
-            newExercise.exerciseGroupStringMapSecondary,
-            multiplierInputMap
-          );
-
-        newExercise.exercise_group_set_string_secondary =
-          exerciseGroupSetString;
-
-        if (exerciseGroupSetString !== null) {
-          const convertedValuesSecondary =
-            ConvertExerciseGroupSetStringSecondary(exerciseGroupSetString);
-
-          newExercise.exerciseGroupStringMapSecondary =
-            convertedValuesSecondary.map;
-          newExercise.formattedGroupStringSecondary =
-            convertedValuesSecondary.formattedString;
-        }
-      }
+      if (newExercise === undefined) return;
 
       sortExercisesByActiveCategory([...exercises, newExercise]);
 
@@ -182,44 +156,14 @@ export default function ExerciseList() {
     )
       return;
 
-    const noteToInsert = ConvertEmptyStringToNull(operatingExercise.note);
+    operatingExercise.note = ConvertEmptyStringToNull(operatingExercise.note);
 
-    const convertedValuesPrimary = ConvertExerciseGroupSetStringPrimary(
-      operatingExercise.exercise_group_set_string_primary
+    const updatedExercise = await UpdateExerciseValues(
+      operatingExercise,
+      multiplierInputMap
     );
 
-    const updatedExercise: Exercise = {
-      ...operatingExercise,
-      note: noteToInsert,
-      formattedGroupStringPrimary: convertedValuesPrimary.formattedString,
-      exerciseGroupStringListPrimary: convertedValuesPrimary.list,
-    };
-
-    if (updatedExercise.exerciseGroupStringMapSecondary !== undefined) {
-      const exerciseGroupSetString =
-        ConvertExerciseGroupStringMapSecondaryToString(
-          updatedExercise.exerciseGroupStringMapSecondary,
-          multiplierInputMap
-        );
-
-      updatedExercise.exercise_group_set_string_secondary =
-        exerciseGroupSetString;
-
-      if (exerciseGroupSetString !== null) {
-        const convertedValuesSecondary = ConvertExerciseGroupSetStringSecondary(
-          exerciseGroupSetString
-        );
-
-        updatedExercise.exerciseGroupStringMapSecondary =
-          convertedValuesSecondary.map;
-        updatedExercise.formattedGroupStringSecondary =
-          convertedValuesSecondary.formattedString;
-      }
-    }
-
-    const success = await UpdateExercise(updatedExercise);
-
-    if (!success) return;
+    if (updatedExercise === undefined) return;
 
     const updatedExercises = UpdateItemInList(exercises, updatedExercise);
 
