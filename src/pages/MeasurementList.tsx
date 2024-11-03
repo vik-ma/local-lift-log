@@ -297,6 +297,8 @@ export default function MeasurementList() {
       trackMeasurement(measurement.id);
     } else if (key === "untrack") {
       untrackMeasurement(measurement.id);
+    } else if (key === "toggle-favorite") {
+      toggleFavorite(measurement);
     }
   };
 
@@ -476,6 +478,11 @@ export default function MeasurementList() {
                           ) : (
                             <DropdownItem key="track">Track</DropdownItem>
                           )}
+                          <DropdownItem key="toggle-favorite">
+                            {measurement.is_favorite
+                              ? "Remove Favorite"
+                              : "Set Favorite"}
+                          </DropdownItem>
                           <DropdownItem className="text-danger" key="delete">
                             Delete
                           </DropdownItem>
