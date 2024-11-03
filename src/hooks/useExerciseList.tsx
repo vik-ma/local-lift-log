@@ -47,6 +47,7 @@ export const useExerciseList = (
           shownExerciseGroups.some(
             (group) =>
               item.formattedGroupStringPrimary!.includes(group) ||
+              // Only include Secondary Exercise Groups if showSecondaryExerciseGroups is true
               (showSecondaryExerciseGroups &&
                 item.formattedGroupStringSecondary !== undefined &&
                 item.formattedGroupStringSecondary.includes(group))
