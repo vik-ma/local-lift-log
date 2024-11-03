@@ -339,13 +339,13 @@ export default function RoutineList() {
                             handleWorkoutOptionSelection(key as string, routine)
                           }
                         >
+                          <DropdownItem key="edit">Edit</DropdownItem>
                           <DropdownItem
                             key="set-active"
                             className={isActiveRoutine ? "" : "text-success"}
                           >
                             {isActiveRoutine ? "Clear Active" : "Set Active"}
                           </DropdownItem>
-                          <DropdownItem key="edit">Edit</DropdownItem>
                           <DropdownItem key="delete" className="text-danger">
                             Delete
                           </DropdownItem>

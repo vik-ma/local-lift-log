@@ -446,6 +446,7 @@ export default function WorkoutList() {
                         handleWorkoutOptionSelection(key as string, workout)
                       }
                     >
+                      <DropdownItem key="edit">Edit</DropdownItem>
                       <DropdownItem
                         className={
                           workout.hasInvalidWorkoutTemplate ? "" : "hidden"
@@ -454,7 +455,6 @@ export default function WorkoutList() {
                       >
                         Reassign Workout Template
                       </DropdownItem>
-                      <DropdownItem key="edit">Edit</DropdownItem>
                       <DropdownItem key="delete" className="text-danger">
                         Delete
                       </DropdownItem>
