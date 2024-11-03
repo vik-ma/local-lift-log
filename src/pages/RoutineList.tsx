@@ -104,12 +104,8 @@ export default function RoutineList() {
       active_routine_id: newActiveRoutineId,
     };
 
-    await updateActiveRoutineId(updatedSettings);
-  };
-
-  const updateActiveRoutineId = async (userSettings: UserSettingsOptional) => {
-    await UpdateActiveRoutineId(userSettings);
-    setUserSettings(userSettings);
+    await UpdateActiveRoutineId(updatedSettings);
+    setUserSettings(updatedSettings);
   };
 
   const handleWorkoutOptionSelection = (key: string, routine: Routine) => {
@@ -191,7 +187,8 @@ export default function RoutineList() {
           active_routine_id: 0,
         };
 
-        await updateActiveRoutineId(updatedSettings);
+        await UpdateActiveRoutineId(updatedSettings);
+        setUserSettings(updatedSettings);
       }
 
       toast.success("Routine Deleted");
@@ -300,7 +297,7 @@ export default function RoutineList() {
                       className="flex flex-col justify-start items-start pl-2 py-1"
                       onClick={() => navigate(`/routines/${routine.id}`)}
                     >
-                      <span className="w-[15rem] truncate text-left">
+                      <span className="w-[15.5rem] truncate text-left">
                         {routine.name}
                       </span>
                       {numWorkoutTemplates > 0 && (
@@ -316,9 +313,10 @@ export default function RoutineList() {
                     </button>
                     <div className="flex items-center gap-1 pr-1">
                       <Button
-                        className="w-[6rem]"
+                        className="w-[5.25rem]"
                         color={isActiveRoutine ? "success" : "default"}
                         variant="flat"
+                        size="sm"
                         onPress={() => handleSetActiveButton(routine)}
                       >
                         {isActiveRoutine ? "Active" : "Set Active"}

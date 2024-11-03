@@ -1,13 +1,13 @@
 import Database from "tauri-plugin-sql-api";
 import { UserSettingsOptional } from "../../typings";
-import { IsNumberValidId } from "..";
+import { IsNumberValidIdOr0 } from "..";
 
 export const UpdateActiveRoutineId = async (
   userSettings: UserSettingsOptional
 ) => {
   if (
     userSettings.active_routine_id === undefined ||
-    !IsNumberValidId(userSettings.active_routine_id)
+    !IsNumberValidIdOr0(userSettings.active_routine_id)
   )
     return;
 
