@@ -605,6 +605,9 @@ export default function Presets() {
     } else if (key === "delete") {
       setOperationType("delete");
       deleteModal.onOpen();
+    } else if (key === "toggle-favorite") {
+      toggleFavoriteEquipmentWeight(equipment);
+      resetOperatingEquipment();
     }
   };
 
@@ -621,6 +624,9 @@ export default function Presets() {
     } else if (key === "delete") {
       setOperationType("delete");
       deleteModal.onOpen();
+    } else if (key === "toggle-favorite") {
+      toggleFavoriteDistance(distance);
+      resetOperatingDistance();
     }
   };
 
@@ -927,6 +933,11 @@ export default function Presets() {
                             }
                           >
                             <DropdownItem key="edit">Edit</DropdownItem>
+                            <DropdownItem key="toggle-favorite">
+                              {equipment.is_favorite
+                                ? "Remove Favorite"
+                                : "Set Favorite"}
+                            </DropdownItem>
                             <DropdownItem key="delete" className="text-danger">
                               Delete
                             </DropdownItem>
@@ -1048,6 +1059,11 @@ export default function Presets() {
                             }
                           >
                             <DropdownItem key="edit">Edit</DropdownItem>
+                            <DropdownItem key="toggle-favorite">
+                              {distance.is_favorite
+                                ? "Remove Favorite"
+                                : "Set Favorite"}
+                            </DropdownItem>
                             <DropdownItem key="delete" className="text-danger">
                               Delete
                             </DropdownItem>
