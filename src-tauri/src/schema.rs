@@ -5,8 +5,8 @@ diesel::table! {
         id -> Integer,
         name -> Text,
         note -> Nullable<Text>,
-        is_schedule_weekly -> SmallInt,
-        num_days_in_schedule -> SmallInt,
+        is_schedule_weekly -> Integer,
+        num_days_in_schedule -> Integer,
         custom_schedule_start_date -> Nullable<Text>,
     }
 }
@@ -14,7 +14,7 @@ diesel::table! {
 diesel::table! {
     user_settings (id) {
         id -> Integer,
-        show_timestamp_on_completed_set -> SmallInt,
+        show_timestamp_on_completed_set -> Integer,
         active_routine_id -> Integer,
         default_unit_weight -> Text,
         default_unit_distance -> Text,
@@ -29,8 +29,8 @@ diesel::table! {
         default_increment_distance -> Float,
         default_increment_time -> Integer,
         default_increment_resistance_level -> Float,
-        save_calculation_string -> SmallInt,
-        show_calculation_buttons -> SmallInt,
+        save_calculation_string -> Integer,
+        show_calculation_buttons -> Integer,
         default_increment_calculation_multiplier -> Float,
         default_calculation_tab -> Text,
         shown_workout_properties -> Text,
@@ -45,7 +45,7 @@ diesel::table! {
         exercise_group_set_string_primary -> Text,
         exercise_group_set_string_secondary -> Nullable<Text>,
         note -> Nullable<Text>,
-        is_favorite -> SmallInt,
+        is_favorite -> Integer,
         calculation_string -> Nullable<Text>,
     }
 }
@@ -62,7 +62,7 @@ diesel::table! {
 diesel::table! {
     workout_routine_schedules (id) {
         id -> Integer,
-        day -> SmallInt,
+        day -> Integer,
         workout_template_id -> Integer,
         routine_id -> Integer,
     }
@@ -73,30 +73,30 @@ diesel::table! {
         id -> Integer,
         workout_id -> Integer,
         exercise_id -> Integer,
-        is_template -> SmallInt,
+        is_template -> Integer,
         workout_template_id -> Integer,
         note -> Nullable<Text>,
         comment -> Nullable<Text>,
-        is_completed -> SmallInt,
+        is_completed -> Integer,
         time_completed -> Nullable<Text>,
-        is_warmup -> SmallInt,
+        is_warmup -> Integer,
         weight -> Float,
-        reps -> SmallInt,
-        rir -> SmallInt,
-        rpe -> SmallInt,
+        reps -> Integer,
+        rir -> Integer,
+        rpe -> Integer,
         time_in_seconds -> Integer,
         distance -> Float,
         resistance_level -> Float,
-        partial_reps -> SmallInt,
-        is_tracking_weight -> SmallInt,
-        is_tracking_reps -> SmallInt,
-        is_tracking_rir -> SmallInt,
-        is_tracking_rpe -> SmallInt,
-        is_tracking_time -> SmallInt,
-        is_tracking_distance -> SmallInt,
-        is_tracking_resistance_level -> SmallInt,
-        is_tracking_partial_reps -> SmallInt,
-        is_tracking_user_weight -> SmallInt,
+        partial_reps -> Integer,
+        is_tracking_weight -> Integer,
+        is_tracking_reps -> Integer,
+        is_tracking_rir -> Integer,
+        is_tracking_rpe -> Integer,
+        is_tracking_time -> Integer,
+        is_tracking_distance -> Integer,
+        is_tracking_resistance_level -> Integer,
+        is_tracking_partial_reps -> Integer,
+        is_tracking_user_weight -> Integer,
         weight_unit -> Text,
         distance_unit -> Text,
         multiset_id -> Integer,
@@ -139,7 +139,7 @@ diesel::table! {
         name -> Text,
         weight -> Float,
         weight_unit -> Text,
-        is_favorite -> SmallInt,
+        is_favorite -> Integer,
     }
 }
 
@@ -149,7 +149,7 @@ diesel::table! {
         name -> Text,
         distance -> Float,
         distance_unit -> Text,
-        is_favorite -> SmallInt,
+        is_favorite -> Integer,
     }
 }
 
@@ -159,7 +159,7 @@ diesel::table! {
         name -> Text,
         default_unit -> Text,
         measurement_type -> Text,
-        is_favorite -> SmallInt,
+        is_favorite -> Integer,
     }
 }
 
@@ -175,9 +175,9 @@ diesel::table! {
 diesel::table! {
     multisets (id) {
         id -> Integer,
-        multiset_type -> SmallInt,
+        multiset_type -> Integer,
         set_order -> Text,
-        is_template -> SmallInt,
+        is_template -> Integer,
         note -> Nullable<Text>,
     }
 }
@@ -188,7 +188,7 @@ diesel::table! {
         name -> Text,
         handle_id -> Integer,
         available_plates_string -> Text,
-        num_handles -> SmallInt,
+        num_handles -> Integer,
         weight_unit -> Text,
     }
 }

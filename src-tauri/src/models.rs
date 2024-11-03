@@ -7,8 +7,8 @@ pub struct Routine {
     pub id: i32,
     pub name: String,
     pub note: Option<String>,
-    pub is_schedule_weekly: i16,
-    pub num_days_in_schedule: i16,
+    pub is_schedule_weekly: i32,
+    pub num_days_in_schedule: i32,
     pub custom_schedule_start_date: Option<String>,
 }
 
@@ -17,7 +17,7 @@ pub struct Routine {
 #[diesel(check_for_backend(diesel::sqlite::Sqlite))]
 pub struct UserSetting {
     pub id: i32,
-    pub show_timestamp_on_completed_set: i16,
+    pub show_timestamp_on_completed_set: i32,
     pub active_routine_id: i32,
     pub default_unit_weight: String,
     pub default_unit_distance: String,
@@ -32,8 +32,8 @@ pub struct UserSetting {
     pub default_increment_distance: f32,
     pub default_increment_time: i32,
     pub default_increment_resistance_level: f32,
-    pub save_calculation_string: i16,
-    pub show_calculation_buttons: i16,
+    pub save_calculation_string: i32,
+    pub show_calculation_buttons: i32,
     pub default_increment_calculation_multiplier: f32,
     pub default_calculation_tab: String,
     pub shown_workout_properties: String,
@@ -49,7 +49,7 @@ pub struct Exercise {
     pub exercise_group_set_string_primary: String,
     pub exercise_group_set_string_secondary: Option<String>,
     pub note: Option<String>,
-    pub is_favorite: i16,
+    pub is_favorite: i32,
     pub calculation_string: String,
 }
 
@@ -68,7 +68,7 @@ pub struct WorkoutTemplate {
 #[diesel(check_for_backend(diesel::sqlite::Sqlite))]
 pub struct WorkoutRoutineSchedule {
     pub id: i32,
-    pub day: i16,
+    pub day: i32,
     pub workout_template_id: i32,
     pub routine_id: i32,
 }
@@ -80,33 +80,33 @@ pub struct Set {
     pub id: i32,
     pub workout_id: i32,
     pub exercise_id: i32,
-    pub is_template: i16,
+    pub is_template: i32,
     pub workout_template_id: i32,
     pub note: Option<String>,
     pub comment: Option<String>,
-    pub is_completed: i16,
+    pub is_completed: i32,
     pub time_completed: Option<String>,
-    pub is_warmup: i16,
+    pub is_warmup: i32,
     pub weight: f32,
     pub reps: i32,
-    pub rir: i16,
-    pub rpe: i16,
+    pub rir: i32,
+    pub rpe: i32,
     pub time_in_seconds: i32,
     pub distance: f32,
     pub resistance_level: f32,
-    pub partial_reps: i16,
-    pub is_tracking_weight: i16,
-    pub is_tracking_reps: i16,
-    pub is_tracking_rir: i16,
-    pub is_tracking_rpe: i16,
-    pub is_tracking_time: i16,
-    pub is_tracking_distance: i16,
-    pub is_tracking_resistance_level: i16,
-    pub is_tracking_partial_reps: i16,
-    pub is_tracking_user_weight: i16,
+    pub partial_reps: i32,
+    pub is_tracking_weight: i32,
+    pub is_tracking_reps: i32,
+    pub is_tracking_rir: i32,
+    pub is_tracking_rpe: i32,
+    pub is_tracking_time: i32,
+    pub is_tracking_distance: i32,
+    pub is_tracking_resistance_level: i32,
+    pub is_tracking_partial_reps: i32,
+    pub is_tracking_user_weight: i32,
     pub weight_unit: String,
     pub distance_unit: String,
-    pub multiset_id: i16,
+    pub multiset_id: i32,
     pub user_weight: f32,
     pub user_weight_unit: String,
 }
@@ -149,7 +149,7 @@ pub struct EquipmentWeight {
     pub name: String,
     pub weight: f32,
     pub weight_unit: String,
-    pub is_favorite: i16,
+    pub is_favorite: i32,
 }
 
 #[derive(Queryable, Selectable)]
@@ -160,7 +160,7 @@ pub struct Distance {
     pub name: String,
     pub distance: f32,
     pub distance_unit: String,
-    pub is_favorite: i16,
+    pub is_favorite: i32,
 }
 
 #[derive(Queryable, Selectable)]
@@ -189,9 +189,9 @@ pub struct UserMeasurement {
 #[diesel(check_for_backend(diesel::sqlite::Sqlite))]
 pub struct Multiset {
     pub id: i32,
-    pub multiset_type: i16,
+    pub multiset_type: i32,
     pub set_order: String,
-    pub is_template: i16,
+    pub is_template: i32,
     pub note: Option<String>,
 }
 
@@ -203,6 +203,6 @@ pub struct PlateCalculation {
     pub name: String,
     pub handle_id: i32,
     pub available_plates_string: String,
-    pub num_handles: i16,
+    pub num_handles: i32,
     pub weight_unit: String,
 }
