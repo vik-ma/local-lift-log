@@ -461,7 +461,10 @@ export default function ExerciseList() {
                         }
                       >
                         <DropdownItem key="edit">Edit</DropdownItem>
-                        <DropdownItem key="toggle-favorite">
+                        <DropdownItem
+                          key="toggle-favorite"
+                          className="text-secondary"
+                        >
                           {exercise.is_favorite
                             ? "Remove Favorite"
                             : "Set Favorite"}

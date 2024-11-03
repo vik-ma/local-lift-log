@@ -961,7 +961,10 @@ export default function Presets() {
                             }
                           >
                             <DropdownItem key="edit">Edit</DropdownItem>
-                            <DropdownItem key="toggle-favorite">
+                            <DropdownItem
+                              key="toggle-favorite"
+                              className="text-secondary"
+                            >
                               {equipment.is_favorite
                                 ? "Remove Favorite"
                                 : "Set Favorite"}
@@ -1087,7 +1090,10 @@ export default function Presets() {
                             }
                           >
                             <DropdownItem key="edit">Edit</DropdownItem>
-                            <DropdownItem key="toggle-favorite">
+                            <DropdownItem
+                              key="toggle-favorite"
+                              className="text-secondary"
+                            >
                               {distance.is_favorite
                                 ? "Remove Favorite"
                                 : "Set Favorite"}
@@ -1203,7 +1209,7 @@ export default function Presets() {
                                 plate.id ===
                                 userSettings.default_plate_calculation_id
                                   ? "hidden"
-                                  : ""
+                                  : "text-success"
                               }
                               key="set-default"
                             >

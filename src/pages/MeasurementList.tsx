@@ -474,11 +474,24 @@ export default function MeasurementList() {
                         >
                           <DropdownItem key="edit">Edit</DropdownItem>
                           {activeMeasurementSet.has(measurement.id) ? (
-                            <DropdownItem key="untrack">Untrack</DropdownItem>
+                            <DropdownItem
+                              key="untrack"
+                              className="text-success"
+                            >
+                              Untrack
+                            </DropdownItem>
                           ) : (
-                            <DropdownItem key="track">Track</DropdownItem>
+                            <DropdownItem
+                              key="track"
+                              className="text-success"
+                            >
+                              Track
+                            </DropdownItem>
                           )}
-                          <DropdownItem key="toggle-favorite">
+                          <DropdownItem
+                            key="toggle-favorite"
+                            className="text-secondary"
+                          >
                             {measurement.is_favorite
                               ? "Remove Favorite"
                               : "Set Favorite"}
