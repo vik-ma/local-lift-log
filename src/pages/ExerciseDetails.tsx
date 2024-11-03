@@ -9,6 +9,8 @@ import {
   UpdateExercise,
   IsExerciseValid,
   ConvertEmptyStringToNull,
+  ConvertExerciseGroupStringMapSecondaryToString,
+  ConvertExerciseGroupSetStringSecondary,
 } from "../helpers";
 import {
   useDefaultExercise,
@@ -75,18 +77,38 @@ export default function ExerciseDetails() {
 
     const noteToInsert = ConvertEmptyStringToNull(editedExercise.note);
 
-    const convertedValues = ConvertExerciseGroupSetStringPrimary(
+    const convertedValuesPrimary = ConvertExerciseGroupSetStringPrimary(
       editedExercise.exercise_group_set_string_primary
     );
-
-    // TODO: ADD SECONDARY
 
     const updatedExercise: Exercise = {
       ...editedExercise,
       note: noteToInsert,
-      formattedGroupStringPrimary: convertedValues.formattedString,
-      exerciseGroupStringListPrimary: convertedValues.list,
+      formattedGroupStringPrimary: convertedValuesPrimary.formattedString,
+      exerciseGroupStringListPrimary: convertedValuesPrimary.list,
     };
+
+    if (updatedExercise.exerciseGroupStringMapSecondary !== undefined) {
+      const exerciseGroupSetString =
+        ConvertExerciseGroupStringMapSecondaryToString(
+          updatedExercise.exerciseGroupStringMapSecondary,
+          multiplierInputMap
+        );
+
+      updatedExercise.exercise_group_set_string_secondary =
+        exerciseGroupSetString;
+
+      if (exerciseGroupSetString !== null) {
+        const convertedValuesSecondary = ConvertExerciseGroupSetStringSecondary(
+          exerciseGroupSetString
+        );
+
+        updatedExercise.exerciseGroupStringMapSecondary =
+          convertedValuesSecondary.map;
+        updatedExercise.formattedGroupStringSecondary =
+          convertedValuesSecondary.formattedString;
+      }
+    }
 
     const success = await UpdateExercise(updatedExercise);
 

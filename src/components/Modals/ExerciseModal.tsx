@@ -149,32 +149,6 @@ export const ExerciseModal = ({
     updatedMultiplierInputMap.set(key, value);
 
     setMultiplierInputMap(updatedMultiplierInputMap);
-
-    // TODO: MOVE
-    // if (exercise.exerciseGroupStringMapSecondary === undefined) return;
-
-    // const updatedExerciseGroupStringMapSecondary = new Map(
-    //   exercise.exerciseGroupStringMapSecondary
-    // );
-
-    // updatedExerciseGroupStringMapSecondary.set(key, value);
-
-    // const exerciseGroupSetString =
-    //   GenerateNewExerciseGroupSetStringSecondary(
-    //     Array.from(updatedExerciseGroupStringMapSecondary.keys()),
-    //     updatedExerciseGroupStringMapSecondary
-    //   );
-
-    // const convertedValuesSecondary = ConvertExerciseGroupSetStringSecondary(
-    //   exerciseGroupSetString
-    // );
-
-    // setExercise((prev) => ({
-    //   ...prev,
-    //   exercise_group_set_string_secondary: exerciseGroupSetString,
-    //   exerciseGroupStringMapSecondary: convertedValuesSecondary.map,
-    //   formattedGroupStringSecondary: convertedValuesSecondary.formattedString,
-    // }));
   };
 
   useEffect(() => {
