@@ -112,6 +112,14 @@ diesel::table! {
         date -> Text,
         exercise_order -> Text,
         note -> Nullable<Text>,
+        rating_general -> Integer,
+        rating_energy -> Integer,
+        rating_injury -> Integer,
+        rating_sleep -> Integer,
+        rating_calories -> Integer,
+        rating_fasting -> Integer,
+        rating_time -> Integer,
+        rating_stress -> Integer,
     }
 }
 
