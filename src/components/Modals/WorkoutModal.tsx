@@ -10,6 +10,9 @@ import {
 } from "@nextui-org/react";
 import { UseDisclosureReturnType, Workout } from "../../typings";
 import { ConvertEmptyStringToNull } from "../../helpers";
+import { useState } from "react";
+import { ChevronIcon } from "../../assets";
+import { AnimatePresence, motion } from "framer-motion";
 
 type WorkoutModalProps = {
   workoutModal: UseDisclosureReturnType;
@@ -32,6 +35,9 @@ export const WorkoutModal = ({
   header = "Workout Details",
   handleChangeWorkoutTemplateButton,
 }: WorkoutModalProps) => {
+  const [isRatingAccordionExpanded, setIsRatingAccordionExpanded] =
+    useState<boolean>(true);
+
   const handleSaveButton = () => {
     const noteToInsert = ConvertEmptyStringToNull(workoutNote);
 
@@ -51,7 +57,7 @@ export const WorkoutModal = ({
             <ModalHeader>{header}</ModalHeader>
             <ModalBody>
               <ScrollShadow className="h-[440px]">
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-3.5">
                   {workoutTemplateNote && (
                     <div className="flex flex-col px-0.5">
                       <span className="font-medium text-secondary">
@@ -64,7 +70,7 @@ export const WorkoutModal = ({
                   )}
                   {workout.workoutTemplateName &&
                     handleChangeWorkoutTemplateButton && (
-                      <div className="flex flex-col gap-0.5">
+                      <div className="flex flex-col gap-0.5 px-0.5">
                         <span className="font-medium text-secondary">
                           Workout Template
                         </span>
@@ -92,6 +98,44 @@ export const WorkoutModal = ({
                       onValueChange={(value) => setWorkoutNote(value)}
                       isClearable
                     />
+                  </div>
+                  <div
+                    aria-label="Workout Ratings Accordion"
+                    className="flex flex-col select-none cursor-pointer px-0.5"
+                  >
+                    <div
+                      className="flex relative cursor-pointer w-[23.75rem]"
+                      onClick={() =>
+                        setIsRatingAccordionExpanded(!isRatingAccordionExpanded)
+                      }
+                    >
+                      <span className="font-medium">Workout Ratings</span>
+                      <div className="absolute top-1 right-0">
+                        <ChevronIcon
+                          size={31}
+                          color="#a8a29e"
+                          direction={
+                            isRatingAccordionExpanded ? "down" : "left"
+                          }
+                        />
+                      </div>
+                    </div>
+                    <AnimatePresence>
+                      {isRatingAccordionExpanded && (
+                        <motion.div
+                          className="pt-0.5"
+                          initial={{ height: 0 }}
+                          animate={{ height: "auto" }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{
+                            height: { duration: 0.1 },
+                            opacity: { duration: 0.05 },
+                          }}
+                        >
+                          TEST
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
                 </div>
               </ScrollShadow>
