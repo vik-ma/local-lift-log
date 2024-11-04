@@ -262,6 +262,10 @@ export default function WorkoutList() {
     workoutTemplateList.workoutTemplatesModal.onClose();
   };
 
+  const listItemTextWidth = selectedWorkoutProperties.has("details")
+    ? "w-[18rem]"
+    : "w-[21rem]";
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -402,18 +406,22 @@ export default function WorkoutList() {
                 onClick={() => navigate(`/workouts/${workout.id}`)}
               >
                 <div className="flex flex-col pl-2 py-1">
-                  <span className="w-[18rem] truncate">
+                  <span className={`${listItemTextWidth} truncate`}>
                     {workout.formattedDate}
                   </span>
                   {workout.workoutTemplateName !== null &&
                     selectedWorkoutProperties.has("template") && (
-                      <span className="w-[18rem] truncate text-sm text-indigo-500">
+                      <span
+                        className={`${listItemTextWidth} truncate text-sm text-indigo-500`}
+                      >
                         {workout.workoutTemplateName}
                       </span>
                     )}
                   {workout.hasInvalidWorkoutTemplate &&
                     selectedWorkoutProperties.has("template") && (
-                      <span className="w-[18rem] truncate text-sm text-red-700">
+                      <span
+                        className={`${listItemTextWidth} truncate text-sm text-red-700`}
+                      >
                         Unknown Workout Template
                       </span>
                     )}
@@ -426,19 +434,23 @@ export default function WorkoutList() {
                     <span className="text-xs text-stone-400">Empty</span>
                   )}
                   {selectedWorkoutProperties.has("note") && (
-                    <span className="w-[18rem] break-all text-xs text-stone-500 text-left">
+                    <span
+                      className={`${listItemTextWidth} break-all text-xs text-stone-500 text-left`}
+                    >
                       {workout.note}
                     </span>
                   )}
                 </div>
                 <div className="flex items-center gap-1 pr-1">
-                  <Button
-                    variant="flat"
-                    isIconOnly
-                    onPress={() => editWorkout(workout)}
-                  >
-                    <RatingIcon />
-                  </Button>
+                  {selectedWorkoutProperties.has("details") && (
+                    <Button
+                      variant="flat"
+                      isIconOnly
+                      onPress={() => editWorkout(workout)}
+                    >
+                      <RatingIcon />
+                    </Button>
+                  )}
                   <Dropdown>
                     <DropdownTrigger>
                       <Button
