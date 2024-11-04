@@ -21,4 +21,5 @@ export { BackspaceIcon } from "./BackspaceIcon";
 export { EqualsIcon } from "./EqualsIcon";
 export { WeightPlatesIcon } from "./WeightPlatesIcon";
 export { CalculateIcon } from "./CalculateIcon";
-export { GoToArrowIcon } from "./GoToArrowIcon"
+export { GoToArrowIcon } from "./GoToArrowIcon";
+export { RatingIcon } from "./RatingIcon";
