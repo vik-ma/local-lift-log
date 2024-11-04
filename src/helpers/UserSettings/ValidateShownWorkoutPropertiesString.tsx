@@ -1,5 +1,4 @@
-import { ValidWorkoutPropertyKeys } from "../Constants/ValidWorkoutPropertyKeys";
-import { IsStringEmpty } from "../Strings/IsStringEmpty";
+import { ValidWorkoutPropertiesMap, IsStringEmpty } from "..";
 
 export const ValidateShownWorkoutPropertiesString = (str: string) => {
   if (IsStringEmpty(str)) return true;
@@ -8,10 +7,10 @@ export const ValidateShownWorkoutPropertiesString = (str: string) => {
 
   if (properties.length === 0) return false;
 
-  const validWorkoutPropertyKeys = ValidWorkoutPropertyKeys();
+  const validWorkoutPropertiesMap = ValidWorkoutPropertiesMap();
 
   for (const property of properties) {
-    if (!validWorkoutPropertyKeys.has(property)) return false;
+    if (!validWorkoutPropertiesMap.has(property)) return false;
   }
 
   return true;

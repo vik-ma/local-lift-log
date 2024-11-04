@@ -8,6 +8,8 @@ import {
 import Database from "tauri-plugin-sql-api";
 import { UserSettings } from "../../typings";
 import toast from "react-hot-toast";
+import { useMemo } from "react";
+import { ValidWorkoutPropertiesMap } from "../../helpers";
 
 type WorkoutPropertyDropdownProps = {
   selectedWorkoutProperties: Set<string>;
@@ -56,6 +58,10 @@ export const WorkoutPropertyDropdown = ({
     }
   };
 
+  const workoutProperties: Map<string, string> = useMemo(() => {
+    return ValidWorkoutPropertiesMap();
+  }, []);
+
   return (
     <Dropdown>
       <DropdownTrigger>
@@ -76,10 +82,9 @@ export const WorkoutPropertyDropdown = ({
         selectedKeys={selectedWorkoutProperties}
         onSelectionChange={(keys) => handleChange(keys as Set<string>)}
       >
-        <DropdownItem key="template">Workout Template</DropdownItem>
-        <DropdownItem key="routine">Routine</DropdownItem>
-        <DropdownItem key="note">Note</DropdownItem>
-        <DropdownItem key="details">Details Button</DropdownItem>
+        {Array.from(workoutProperties.entries()).map(([key, value]) => (
+          <DropdownItem key={key}>{value}</DropdownItem>
+        ))}
       </DropdownMenu>
     </Dropdown>
   );
