@@ -72,7 +72,6 @@ export const WorkoutPropertyDropdown = ({
       <DropdownMenu
         aria-label="Display Workout Properties Menu"
         closeOnSelect={false}
-        disallowEmptySelection
         selectionMode="multiple"
         selectedKeys={selectedWorkoutProperties}
         onSelectionChange={(keys) => handleChange(keys as Set<string>)}
