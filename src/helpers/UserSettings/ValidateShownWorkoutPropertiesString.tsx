@@ -8,7 +8,7 @@ export const ValidateShownWorkoutPropertiesString = (str: string) => {
 
   if (properties.length === 0) return false;
 
-  const validWorkoutPropertyKeys = new Set<string>(ValidWorkoutPropertyKeys());
+  const validWorkoutPropertyKeys = ValidWorkoutPropertyKeys();
 
   for (const property of properties) {
     if (!validWorkoutPropertyKeys.has(property)) return false;

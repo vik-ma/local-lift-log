@@ -79,6 +79,7 @@ export const WorkoutPropertyDropdown = ({
         <DropdownItem key="template">Workout Template</DropdownItem>
         <DropdownItem key="routine">Routine</DropdownItem>
         <DropdownItem key="note">Note</DropdownItem>
+        <DropdownItem key="details">Details Button</DropdownItem>
       </DropdownMenu>
     </Dropdown>
   );
