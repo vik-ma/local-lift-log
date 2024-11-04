@@ -31,7 +31,7 @@ import {
   UpdateItemInList,
   UpdateWorkout,
 } from "../helpers";
-import { VerticalMenuIcon } from "../assets";
+import { RatingIcon, VerticalMenuIcon } from "../assets";
 import {
   useDefaultWorkout,
   useWorkoutList,
@@ -138,10 +138,7 @@ export default function WorkoutList() {
 
   const handleWorkoutOptionSelection = (key: string, workout: Workout) => {
     if (key === "edit") {
-      setOperationType("edit");
-      setOperatingWorkout(workout);
-      setNewWorkoutNote(workout.note ?? "");
-      workoutModal.onOpen();
+      editWorkout(workout);
     } else if (key === "delete") {
       setOperationType("delete");
       setOperatingWorkout(workout);
@@ -151,6 +148,13 @@ export default function WorkoutList() {
       setOperatingWorkout(workout);
       workoutTemplateList.handleOpenWorkoutTemplatesModal();
     }
+  };
+
+  const editWorkout = (workout: Workout) => {
+    setOperationType("edit");
+    setOperatingWorkout(workout);
+    setNewWorkoutNote(workout.note ?? "");
+    workoutModal.onOpen();
   };
 
   const updateWorkout = async (updatedWorkout: Workout) => {
@@ -398,18 +402,18 @@ export default function WorkoutList() {
                 onClick={() => navigate(`/workouts/${workout.id}`)}
               >
                 <div className="flex flex-col pl-2 py-1">
-                  <span className="w-[21.5rem] truncate">
+                  <span className="w-[18rem] truncate">
                     {workout.formattedDate}
                   </span>
                   {workout.workoutTemplateName !== null &&
                     selectedWorkoutProperties.has("template") && (
-                      <span className="w-[21.5rem] truncate text-sm text-indigo-500">
+                      <span className="w-[18rem] truncate text-sm text-indigo-500">
                         {workout.workoutTemplateName}
                       </span>
                     )}
                   {workout.hasInvalidWorkoutTemplate &&
                     selectedWorkoutProperties.has("template") && (
-                      <span className="w-[21.5rem] truncate text-sm text-red-700">
+                      <span className="w-[18rem] truncate text-sm text-red-700">
                         Unknown Workout Template
                       </span>
                     )}
@@ -422,12 +426,19 @@ export default function WorkoutList() {
                     <span className="text-xs text-stone-400">Empty</span>
                   )}
                   {selectedWorkoutProperties.has("note") && (
-                    <span className="w-[21rem] break-all text-xs text-stone-500 text-left">
+                    <span className="w-[18rem] break-all text-xs text-stone-500 text-left">
                       {workout.note}
                     </span>
                   )}
                 </div>
                 <div className="flex items-center gap-1 pr-1">
+                  <Button
+                    variant="flat"
+                    isIconOnly
+                    onPress={() => editWorkout(workout)}
+                  >
+                    <RatingIcon />
+                  </Button>
                   <Dropdown>
                     <DropdownTrigger>
                       <Button
