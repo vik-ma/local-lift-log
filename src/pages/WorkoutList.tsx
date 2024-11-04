@@ -299,6 +299,7 @@ export default function WorkoutList() {
       <WorkoutModal
         workoutModal={workoutModal}
         workout={operatingWorkout}
+        setWorkout={setOperatingWorkout}
         workoutNote={newWorkoutNote}
         setWorkoutNote={setNewWorkoutNote}
         workoutTemplateNote={null}

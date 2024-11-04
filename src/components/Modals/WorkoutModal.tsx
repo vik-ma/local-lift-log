@@ -7,6 +7,7 @@ import {
   ModalFooter,
   Input,
   ScrollShadow,
+  Slider,
 } from "@nextui-org/react";
 import { UseDisclosureReturnType, Workout } from "../../typings";
 import { ConvertEmptyStringToNull } from "../../helpers";
@@ -17,6 +18,7 @@ import { AnimatePresence, motion } from "framer-motion";
 type WorkoutModalProps = {
   workoutModal: UseDisclosureReturnType;
   workout: Workout;
+  setWorkout: React.Dispatch<React.SetStateAction<Workout>>;
   workoutNote: string;
   setWorkoutNote: React.Dispatch<React.SetStateAction<string>>;
   workoutTemplateNote: string | null;
@@ -28,6 +30,7 @@ type WorkoutModalProps = {
 export const WorkoutModal = ({
   workoutModal,
   workout,
+  setWorkout,
   workoutNote,
   setWorkoutNote,
   workoutTemplateNote,
@@ -44,6 +47,21 @@ export const WorkoutModal = ({
     const updatedWorkout: Workout = { ...workout, note: noteToInsert };
 
     buttonAction(updatedWorkout);
+  };
+
+  const handleRatingChange = (value: number, key: string) => {
+    if (value < -5 || value > 5) return;
+
+    switch (key) {
+      case "general":
+        setWorkout((prev) => ({
+          ...prev,
+          rating_general: value,
+        }));
+        break;
+      default:
+        break;
+    }
   };
 
   return (
@@ -123,7 +141,7 @@ export const WorkoutModal = ({
                     <AnimatePresence>
                       {isRatingAccordionExpanded && (
                         <motion.div
-                          className="pt-0.5"
+                          className="pt-3"
                           initial={{ height: 0 }}
                           animate={{ height: "auto" }}
                           exit={{ height: 0, opacity: 0 }}
@@ -132,7 +150,30 @@ export const WorkoutModal = ({
                             opacity: { duration: 0.05 },
                           }}
                         >
-                          TEST
+                          <div className="flex flex-col gap-2 w-[23.25rem]">
+                            <Slider
+                              step={1}
+                              value={workout.rating_general}
+                              onChange={(value) =>
+                                handleRatingChange(value as number, "general")
+                              }
+                              label="General"
+                              maxValue={5}
+                              minValue={-5}
+                              fillOffset={0}
+                              marks={[
+                                {
+                                  value: -5,
+                                  label: "0",
+                                },
+                                {
+                                  value: 5,
+                                  label: "10",
+                                },
+                              ]}
+                              getValue={(value) => `${Number(value) + 5}`}
+                            />
+                          </div>
                         </motion.div>
                       )}
                     </AnimatePresence>
