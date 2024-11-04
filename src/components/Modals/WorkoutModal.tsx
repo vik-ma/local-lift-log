@@ -57,7 +57,7 @@ export const WorkoutModal = ({
                       <span className="font-medium text-secondary">
                         Workout Template Note
                       </span>
-                      <span className="break-all text-stone-500">
+                      <span className="break-all text-sm text-stone-500">
                         {workoutTemplateNote}
                       </span>
                     </div>
@@ -68,8 +68,8 @@ export const WorkoutModal = ({
                         <span className="font-medium text-secondary">
                           Workout Template
                         </span>
-                        <div className="flex gap-1 items-center">
-                          <span className="truncate w-[21rem] text-secondary">
+                        <div className="flex gap-2 items-center">
+                          <span className="w-[19rem] break-all text-sm text-stone-500">
                             {workout.workoutTemplateName}
                           </span>
                           <Button
@@ -85,6 +85,7 @@ export const WorkoutModal = ({
                   <div className="flex flex-col gap-1">
                     <span className="font-medium px-0.5">Workout Note</span>
                     <Input
+                      className="w-[23.75rem]"
                       aria-label="Workout Note Input"
                       value={workoutNote}
                       variant="faded"
