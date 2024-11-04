@@ -6,6 +6,7 @@ import {
   ModalBody,
   ModalFooter,
   Input,
+  ScrollShadow,
 } from "@nextui-org/react";
 import { UseDisclosureReturnType, Workout } from "../../typings";
 import { ConvertEmptyStringToNull } from "../../helpers";
@@ -49,44 +50,50 @@ export const WorkoutModal = ({
           <>
             <ModalHeader>{header}</ModalHeader>
             <ModalBody>
-              <div className="flex flex-col gap-2">
-                {workoutTemplateNote && (
-                  <div className="flex flex-col gap-0.5">
-                    <span className="font-medium">Workout Template Note</span>
-                    <span className="break-all">{workoutTemplateNote}</span>
-                  </div>
-                )}
-                {workout.workoutTemplateName &&
-                  handleChangeWorkoutTemplateButton && (
-                    <div className="flex flex-col gap-0.5">
-                      <span className="font-medium">Workout Template</span>
-                      <div className="flex gap-1 items-center">
-                        <span className="truncate w-[21rem] text-secondary">
-                          {workout.workoutTemplateName}
-                        </span>
-                        <Button
-                          variant="flat"
-                          size="sm"
-                          onPress={handleChangeWorkoutTemplateButton}
-                        >
-                          Change
-                        </Button>
-                      </div>
+              <ScrollShadow className="h-[440px]">
+                <div className="flex flex-col gap-2">
+                  {workoutTemplateNote && (
+                    <div className="flex flex-col px-0.5">
+                      <span className="font-medium text-secondary">
+                        Workout Template Note
+                      </span>
+                      <span className="break-all text-stone-500">
+                        {workoutTemplateNote}
+                      </span>
                     </div>
                   )}
-                <div className="flex flex-col gap-0.5">
-                  <span className="font-medium">Workout Note</span>
-                  <Input
-                    className="col-span-2"
-                    value={workoutNote}
-                    size="sm"
-                    label="Note"
-                    variant="faded"
-                    onValueChange={(value) => setWorkoutNote(value)}
-                    isClearable
-                  />
+                  {workout.workoutTemplateName &&
+                    handleChangeWorkoutTemplateButton && (
+                      <div className="flex flex-col gap-0.5">
+                        <span className="font-medium text-secondary">
+                          Workout Template
+                        </span>
+                        <div className="flex gap-1 items-center">
+                          <span className="truncate w-[21rem] text-secondary">
+                            {workout.workoutTemplateName}
+                          </span>
+                          <Button
+                            variant="flat"
+                            size="sm"
+                            onPress={handleChangeWorkoutTemplateButton}
+                          >
+                            Change
+                          </Button>
+                        </div>
+                      </div>
+                    )}
+                  <div className="flex flex-col gap-1">
+                    <span className="font-medium px-0.5">Workout Note</span>
+                    <Input
+                      aria-label="Workout Note Input"
+                      value={workoutNote}
+                      variant="faded"
+                      onValueChange={(value) => setWorkoutNote(value)}
+                      isClearable
+                    />
+                  </div>
                 </div>
-              </div>
+              </ScrollShadow>
             </ModalBody>
             <ModalFooter>
               <Button color="primary" variant="light" onPress={onClose}>
