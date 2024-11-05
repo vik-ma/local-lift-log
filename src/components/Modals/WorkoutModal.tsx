@@ -7,13 +7,13 @@ import {
   ModalFooter,
   Input,
   ScrollShadow,
-  Slider,
 } from "@nextui-org/react";
 import { UseDisclosureReturnType, Workout } from "../../typings";
 import { ConvertEmptyStringToNull } from "../../helpers";
 import { useState } from "react";
 import { ChevronIcon } from "../../assets";
 import { AnimatePresence, motion } from "framer-motion";
+import { WorkoutRatingSliders } from "../WorkoutRatingSliders";
 
 type WorkoutModalProps = {
   workoutModal: UseDisclosureReturnType;
@@ -47,27 +47,6 @@ export const WorkoutModal = ({
     const updatedWorkout: Workout = { ...workout, note: noteToInsert };
 
     buttonAction(updatedWorkout);
-  };
-
-  const handleRatingChange = (value: number, key: string) => {
-    if (!Number.isInteger(value) || value < -5 || value > 5) return;
-
-    switch (key) {
-      case "general":
-        setWorkout((prev) => ({
-          ...prev,
-          rating_general: value,
-        }));
-        break;
-      default:
-        break;
-    }
-  };
-
-  const getRatingSliderColor = (value: number) => {
-    if (value > 0) return "success";
-    if (value < 0) return "danger";
-    return "foreground";
   };
 
   return (
@@ -157,30 +136,9 @@ export const WorkoutModal = ({
                           }}
                         >
                           <div className="flex flex-col gap-2 w-[23.25rem]">
-                            <Slider
-                              step={1}
-                              value={workout.rating_general}
-                              onChange={(value) =>
-                                handleRatingChange(value as number, "general")
-                              }
-                              label="General"
-                              color={getRatingSliderColor(
-                                workout.rating_general
-                              )}
-                              maxValue={5}
-                              minValue={-5}
-                              fillOffset={0}
-                              marks={[
-                                {
-                                  value: -5,
-                                  label: "0",
-                                },
-                                {
-                                  value: 5,
-                                  label: "10",
-                                },
-                              ]}
-                              getValue={(value) => `${Number(value) + 5}`}
+                            <WorkoutRatingSliders
+                              workout={workout}
+                              setWorkout={setWorkout}
                             />
                           </div>
                         </motion.div>
