@@ -46,6 +46,7 @@ export { GetClockStyle } from "./UserSettings/GetClockStyle";
 export { ValidateShownWorkoutPropertiesString } from "./UserSettings/ValidateShownWorkoutPropertiesString";
 export { CreateWorkoutPropertySet } from "./UserSettings/CreateWorkoutPropertySet";
 export { UpdateDefaultPlateCalculationId } from "./UserSettings/UpdateDefaultPlateCalculationId";
+export { ValidateWorkoutRatingsOrderString } from "./UserSettings/ValidateWorkoutRatingsOrderString";
 
 export { OrderSetsBySetListOrderString } from "./Sets/OrderSetsBySetListOrderString";
 export { CreateSetsFromWorkoutTemplate } from "./Sets/CreateSetsFromWorkoutTemplate";
