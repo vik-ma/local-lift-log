@@ -12,7 +12,7 @@ export const UpdateWorkout = async (workout: Workout): Promise<boolean> => {
         rating_general = $5, rating_energy = $6, 
         rating_injury = $7, rating_sleep = $8, 
         rating_calories = $9, rating_fasting = $10, 
-        rating_time = $11, rating_stress = $12, 
+        rating_time = $11, rating_stress = $12
         WHERE id = $13`,
       [
         workout.workout_template_id,
