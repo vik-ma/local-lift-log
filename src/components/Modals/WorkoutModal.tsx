@@ -126,7 +126,7 @@ export const WorkoutModal = ({
                     <AnimatePresence>
                       {isRatingAccordionExpanded && (
                         <motion.div
-                          className="pt-3"
+                          className="pt-5"
                           initial={{ height: 0 }}
                           animate={{ height: "auto" }}
                           exit={{ height: 0, opacity: 0 }}
@@ -135,7 +135,7 @@ export const WorkoutModal = ({
                             opacity: { duration: 0.05 },
                           }}
                         >
-                          <div className="flex flex-col gap-5 w-[23.25rem] px-3">
+                          <div className="flex flex-col gap-4 w-[23.25rem] px-4">
                             <WorkoutRatingSliders
                               workout={workout}
                               setWorkout={setWorkout}
