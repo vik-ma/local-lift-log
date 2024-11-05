@@ -50,7 +50,7 @@ export const WorkoutModal = ({
   };
 
   const handleRatingChange = (value: number, key: string) => {
-    if (value < -5 || value > 5) return;
+    if (!Number.isInteger(value) || value < -5 || value > 5) return;
 
     switch (key) {
       case "general":
@@ -62,6 +62,12 @@ export const WorkoutModal = ({
       default:
         break;
     }
+  };
+
+  const getRatingSliderColor = (value: number) => {
+    if (value > 0) return "success";
+    if (value < 0) return "danger";
+    return "foreground";
   };
 
   return (
@@ -158,6 +164,9 @@ export const WorkoutModal = ({
                                 handleRatingChange(value as number, "general")
                               }
                               label="General"
+                              color={getRatingSliderColor(
+                                workout.rating_general
+                              )}
                               maxValue={5}
                               minValue={-5}
                               fillOffset={0}
