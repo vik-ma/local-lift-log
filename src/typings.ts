@@ -34,6 +34,7 @@ export type UserSettings = {
   default_calculation_tab: string;
   shown_workout_properties: string;
   default_plate_calculation_id: number;
+  workout_ratings_order: string;
 };
 
 export type UserSettingsOptional = {
@@ -61,6 +62,7 @@ export type UserSettingsOptional = {
   default_calculation_tab?: string;
   shown_workout_properties?: string;
   default_plate_calculation_id?: number;
+  workout_ratings_order?: string;
 };
 
 export type Exercise = {

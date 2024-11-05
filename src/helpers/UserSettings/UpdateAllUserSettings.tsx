@@ -20,8 +20,9 @@ export const UpdateAllUserSettings = async (
       default_increment_time = $14, default_increment_resistance_level = $15,
       save_calculation_string = $16, show_calculation_buttons = $17,
       default_increment_calculation_multiplier = $18, default_calculation_tab = $19,
-      shown_workout_properties = $20, default_plate_calculation_id = $21
-      WHERE id = $22`,
+      shown_workout_properties = $20, default_plate_calculation_id = $21, 
+      workout_ratings_order = $22 
+      WHERE id = $23`,
       [
         userSettings.show_timestamp_on_completed_set,
         userSettings.active_routine_id,
@@ -44,6 +45,7 @@ export const UpdateAllUserSettings = async (
         userSettings.default_calculation_tab,
         userSettings.shown_workout_properties,
         userSettings.default_plate_calculation_id,
+        userSettings.workout_ratings_order,
         userSettings.id,
       ]
     );
