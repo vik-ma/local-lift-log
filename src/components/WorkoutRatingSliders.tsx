@@ -86,11 +86,11 @@ export const WorkoutRatingSliders = ({
         marks={[
           {
             value: -5,
-            label: "0",
+            label: "Bad",
           },
           {
             value: 5,
-            label: "10",
+            label: "Good",
           },
         ]}
         getValue={(value) => `${Number(value) + 5}`}
@@ -99,7 +99,7 @@ export const WorkoutRatingSliders = ({
         step={1}
         value={workout.rating_energy}
         onChange={(value) => handleRatingChange(value as number, "energy")}
-        label="Energy"
+        label="Energy Level"
         color={getRatingSliderColor(workout.rating_energy)}
         maxValue={5}
         minValue={-5}
@@ -107,11 +107,11 @@ export const WorkoutRatingSliders = ({
         marks={[
           {
             value: -5,
-            label: "0",
+            label: "Low",
           },
           {
             value: 5,
-            label: "10",
+            label: "High",
           },
         ]}
         getValue={(value) => `${Number(value) + 5}`}
@@ -128,11 +128,11 @@ export const WorkoutRatingSliders = ({
         marks={[
           {
             value: -5,
-            label: "0",
+            label: "Serious",
           },
           {
             value: 5,
-            label: "10",
+            label: "None",
           },
         ]}
         getValue={(value) => `${Number(value) + 5}`}
@@ -149,11 +149,11 @@ export const WorkoutRatingSliders = ({
         marks={[
           {
             value: -5,
-            label: "0",
+            label: "Bad",
           },
           {
             value: 5,
-            label: "10",
+            label: "Good",
           },
         ]}
         getValue={(value) => `${Number(value) + 5}`}
@@ -170,11 +170,11 @@ export const WorkoutRatingSliders = ({
         marks={[
           {
             value: -5,
-            label: "0",
+            label: "Deficit",
           },
           {
             value: 5,
-            label: "10",
+            label: "Surplus",
           },
         ]}
         getValue={(value) => `${Number(value) + 5}`}
@@ -191,11 +191,11 @@ export const WorkoutRatingSliders = ({
         marks={[
           {
             value: -5,
-            label: "0",
+            label: "Long",
           },
           {
             value: 5,
-            label: "10",
+            label: "Short",
           },
         ]}
         getValue={(value) => `${Number(value) + 5}`}
@@ -212,11 +212,11 @@ export const WorkoutRatingSliders = ({
         marks={[
           {
             value: -5,
-            label: "0",
+            label: "Short",
           },
           {
             value: 5,
-            label: "10",
+            label: "Long",
           },
         ]}
         getValue={(value) => `${Number(value) + 5}`}
@@ -233,11 +233,11 @@ export const WorkoutRatingSliders = ({
         marks={[
           {
             value: -5,
-            label: "0",
+            label: "High",
           },
           {
             value: 5,
-            label: "10",
+            label: "Low",
           },
         ]}
         getValue={(value) => `${Number(value) + 5}`}

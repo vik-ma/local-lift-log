@@ -135,7 +135,7 @@ export const WorkoutModal = ({
                             opacity: { duration: 0.05 },
                           }}
                         >
-                          <div className="flex flex-col gap-2 w-[23.25rem]">
+                          <div className="flex flex-col gap-5 w-[23.25rem] px-3">
                             <WorkoutRatingSliders
                               workout={workout}
                               setWorkout={setWorkout}
