@@ -49,15 +49,19 @@ type DefaultIncrementInputValidityMap = {
   calculationMultiplier: boolean;
 };
 
+type SpecificSettingModalPage = "default-plate-calc" | "workout-rating-order";
+
 export default function Settings() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [selectedWorkoutProperties, setSelectedWorkoutProperties] = useState<
     Set<string>
   >(new Set());
   const [isTimeInputInvalid, setIsTimeInputInvalid] = useState<boolean>(false);
+  const [specificSettingModalPage, setSpecificSettingModalPage] =
+    useState<SpecificSettingModalPage>("default-plate-calc");
 
-  const settingsModal = useDisclosure();
-  const plateCalculationsModal = useDisclosure();
+  const restoreSettingsModal = useDisclosure();
+  const specificSettingModal = useDisclosure();
 
   const emptyDefaultIncrementValues: DefaultIncrementInputs = useMemo(() => {
     return {
@@ -420,7 +424,7 @@ export default function Settings() {
 
     updateSettings(updatedSettings);
 
-    plateCalculationsModal.onClose();
+    specificSettingModal.onClose();
   };
 
   const restoreDefaultSettings = async (
@@ -444,7 +448,7 @@ export default function Settings() {
 
       if (newUserSettings !== undefined) {
         setUserSettings(newUserSettings);
-        settingsModal.onClose();
+        restoreSettingsModal.onClose();
         toast.success("Settings Restored To Defaults");
       }
     } catch (error) {
@@ -457,7 +461,8 @@ export default function Settings() {
       await presetsList.getEquipmentWeights();
     }
 
-    plateCalculationsModal.onOpen();
+    setSpecificSettingModalPage("default-plate-calc");
+    specificSettingModal.onOpen();
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;
@@ -466,7 +471,7 @@ export default function Settings() {
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
       <SettingsModal
-        settingsModal={settingsModal}
+        settingsModal={restoreSettingsModal}
         doneButtonAction={restoreDefaultSettings}
         header="Restore Default Settings"
         extraContent={
@@ -481,24 +486,32 @@ export default function Settings() {
         isDismissible={true}
       />
       <Modal
-        isOpen={plateCalculationsModal.isOpen}
-        onOpenChange={plateCalculationsModal.onOpenChange}
+        isOpen={specificSettingModal.isOpen}
+        onOpenChange={specificSettingModal.onOpenChange}
       >
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader>Set Default Plate Calculation</ModalHeader>
+              <ModalHeader>
+                {specificSettingModalPage === "default-plate-calc"
+                  ? "Set Default Plate Calculation"
+                  : ""}
+              </ModalHeader>
               <ModalBody>
                 <div className="h-[400px] flex flex-col gap-2">
-                  <PlateCalculationModalList
-                    presetsList={presetsList}
-                    handlePlateCalculationClick={
-                      handleDefaultPlateCalculationIdChange
-                    }
-                    defaultPlateCalculationId={
-                      userSettings.default_plate_calculation_id
-                    }
-                  />
+                  {specificSettingModalPage === "default-plate-calc" ? (
+                    <PlateCalculationModalList
+                      presetsList={presetsList}
+                      handlePlateCalculationClick={
+                        handleDefaultPlateCalculationIdChange
+                      }
+                      defaultPlateCalculationId={
+                        userSettings.default_plate_calculation_id
+                      }
+                    />
+                  ) : (
+                    <></>
+                  )}
                 </div>
               </ModalBody>
               <ModalFooter>
@@ -847,7 +860,10 @@ export default function Settings() {
             </div>
           </div>
           <div className="flex justify-center">
-            <Button variant="flat" onPress={() => settingsModal.onOpen()}>
+            <Button
+              variant="flat"
+              onPress={() => restoreSettingsModal.onOpen()}
+            >
               Restore Default Settings
             </Button>
           </div>
