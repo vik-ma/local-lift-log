@@ -46,7 +46,7 @@ export const CreateDefaultUserSettings = async (
 
   const default_plate_calculation_id = 1;
 
-  const workout_ratings_order = "0,1,2,3,4,5,6,7";
+  const workout_ratings_order = "1,2,3,4,5,6,7,8";
 
   try {
     const db = await Database.load(import.meta.env.VITE_DB);

@@ -7,9 +7,18 @@ export const ValidateWorkoutRatingsOrderString = (str: string) => {
 
   if (order.length !== 8) return false;
 
+  const existingNumbers = new Set<string>();
+
   for (const num of order) {
-    if (IsStringInvalidInteger(num) || Number(num) < 0 || Number(num) > 7)
+    if (
+      existingNumbers.has(num) ||
+      IsStringInvalidInteger(num) ||
+      Number(num) < 1 ||
+      Number(num) > 8
+    )
       return false;
+
+    existingNumbers.add(num);
   }
 
   return true;
