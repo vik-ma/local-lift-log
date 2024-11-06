@@ -11,6 +11,7 @@ import {
   IsStringInvalidNumberOr0,
   ConvertNumberToTwoDecimals,
   CreateWorkoutPropertySet,
+  WorkoutRatingsMap,
 } from "../helpers";
 import {
   Switch,
@@ -41,6 +42,7 @@ import {
 import toast, { Toaster } from "react-hot-toast";
 import Database from "tauri-plugin-sql-api";
 import { usePresetsList, useTimeInputMap } from "../hooks";
+import { Reorder } from "framer-motion";
 
 type DefaultIncrementInputValidityMap = {
   weight: boolean;
@@ -48,6 +50,8 @@ type DefaultIncrementInputValidityMap = {
   resistanceLevel: boolean;
   calculationMultiplier: boolean;
 };
+
+type WorkoutRatingValues = { label: string; num: number };
 
 type SpecificSettingModalPage = "default-plate-calc" | "workout-rating-order";
 
@@ -58,7 +62,7 @@ export default function Settings() {
   >(new Set());
   const [isTimeInputInvalid, setIsTimeInputInvalid] = useState<boolean>(false);
   const [specificSettingModalPage, setSpecificSettingModalPage] =
-    useState<SpecificSettingModalPage>("default-plate-calc");
+    useState<SpecificSettingModalPage>("workout-rating-order");
 
   const restoreSettingsModal = useDisclosure();
   const specificSettingModal = useDisclosure();
@@ -72,6 +76,14 @@ export default function Settings() {
       calculationMultiplier: "",
     };
   }, []);
+
+  const workoutRatingsMap = useMemo(() => {
+    return WorkoutRatingsMap();
+  }, []);
+
+  const [workoutRatingsList, setWorkoutRatingsList] = useState<
+    WorkoutRatingValues[]
+  >(Object.values(workoutRatingsMap));
 
   const presetsList = usePresetsList(false, false);
 
@@ -427,6 +439,12 @@ export default function Settings() {
     specificSettingModal.onClose();
   };
 
+  const handleSaveSpecificSettingButton = async () => {
+    if (specificSettingModalPage === "workout-rating-order") {
+      // TODO: IMPLEMENT
+    }
+  };
+
   const restoreDefaultSettings = async (
     unitType: string,
     locale: string,
@@ -465,6 +483,11 @@ export default function Settings() {
     specificSettingModal.onOpen();
   };
 
+  const handleSetWorkoutRatingsOrderButton = async () => {
+    setSpecificSettingModalPage("workout-rating-order");
+    specificSettingModal.onOpen();
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -495,7 +518,7 @@ export default function Settings() {
               <ModalHeader>
                 {specificSettingModalPage === "default-plate-calc"
                   ? "Set Default Plate Calculation"
-                  : ""}
+                  : "Set Workout Rating Order"}
               </ModalHeader>
               <ModalBody>
                 <div className="h-[400px] flex flex-col gap-2">
@@ -510,7 +533,21 @@ export default function Settings() {
                       }
                     />
                   ) : (
-                    <></>
+                    <Reorder.Group
+                      className="flex flex-col gap-1"
+                      values={workoutRatingsList}
+                      onReorder={setWorkoutRatingsList}
+                    >
+                      {workoutRatingsList.map((item) => (
+                        <Reorder.Item
+                          className="border px-1"
+                          key={item.num}
+                          value={item}
+                        >
+                          {item.label}
+                        </Reorder.Item>
+                      ))}
+                    </Reorder.Group>
                   )}
                 </div>
               </ModalBody>
@@ -518,6 +555,14 @@ export default function Settings() {
                 <Button color="primary" variant="light" onPress={onClose}>
                   Close
                 </Button>
+                {specificSettingModalPage !== "default-plate-calc" && (
+                  <Button
+                    color="primary"
+                    onPress={handleSaveSpecificSettingButton}
+                  >
+                    Save
+                  </Button>
+                )}
               </ModalFooter>
             </>
           )}
@@ -633,6 +678,16 @@ export default function Settings() {
               setUserSettings={setUserSettings}
               isInSettingsPage
             />
+          </div>
+          <div className="flex gap-3 items-center justify-between">
+            <span className="text-lg">Workout Ratings Order</span>
+            <Button
+              color="primary"
+              size="sm"
+              onPress={handleSetWorkoutRatingsOrderButton}
+            >
+              Set
+            </Button>
           </div>
           <h3 className="flex justify-center text-lg font-medium">
             Calculations

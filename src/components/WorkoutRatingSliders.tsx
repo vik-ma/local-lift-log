@@ -1,7 +1,7 @@
 import { Slider } from "@nextui-org/react";
 import { Workout } from "../typings";
 import { useMemo } from "react";
-import { GetWorkoutRatingOrder } from "../helpers";
+import { GetWorkoutRatingOrder, WorkoutRatingsMap } from "../helpers";
 
 type WorkoutRatingSlidersProps = {
   workout: Workout;
@@ -16,6 +16,10 @@ export const WorkoutRatingSliders = ({
   const ratingsOrder = useMemo(() => {
     return GetWorkoutRatingOrder(workoutRatingsOrder);
   }, [workoutRatingsOrder]);
+
+  const workoutRatingsMap = useMemo(() => {
+    return WorkoutRatingsMap();
+  }, []);
 
   const handleRatingChange = (value: number, key: string) => {
     if (!Number.isInteger(value) || value < -5 || value > 5) return;
@@ -87,7 +91,7 @@ export const WorkoutRatingSliders = ({
         step={1}
         value={workout.rating_general}
         onChange={(value) => handleRatingChange(value as number, "general")}
-        label="General"
+        label={workoutRatingsMap["general"].label}
         color={getRatingSliderColor(workout.rating_general)}
         maxValue={5}
         minValue={-5}
@@ -109,7 +113,7 @@ export const WorkoutRatingSliders = ({
         step={1}
         value={workout.rating_energy}
         onChange={(value) => handleRatingChange(value as number, "energy")}
-        label="Energy Level"
+        label={workoutRatingsMap["energy"].label}
         color={getRatingSliderColor(workout.rating_energy)}
         maxValue={5}
         minValue={-5}
@@ -131,7 +135,7 @@ export const WorkoutRatingSliders = ({
         step={1}
         value={workout.rating_injury}
         onChange={(value) => handleRatingChange(value as number, "injury")}
-        label="Injury Level"
+        label={workoutRatingsMap["injury"].label}
         color={getRatingSliderColor(workout.rating_injury)}
         maxValue={5}
         minValue={-5}
@@ -153,7 +157,7 @@ export const WorkoutRatingSliders = ({
         step={1}
         value={workout.rating_sleep}
         onChange={(value) => handleRatingChange(value as number, "sleep")}
-        label="Sleep Quality"
+        label={workoutRatingsMap["sleep"].label}
         color={getRatingSliderColor(workout.rating_sleep)}
         maxValue={5}
         minValue={-5}
@@ -175,7 +179,7 @@ export const WorkoutRatingSliders = ({
         step={1}
         value={workout.rating_calories}
         onChange={(value) => handleRatingChange(value as number, "calories")}
-        label="Caloric Intake"
+        label={workoutRatingsMap["calories"].label}
         color={getRatingSliderColor(workout.rating_calories)}
         maxValue={5}
         minValue={-5}
@@ -197,7 +201,7 @@ export const WorkoutRatingSliders = ({
         step={1}
         value={workout.rating_fasting}
         onChange={(value) => handleRatingChange(value as number, "fasting")}
-        label="Time Fasted"
+        label={workoutRatingsMap["fasting"].label}
         color={getRatingSliderColor(workout.rating_fasting)}
         maxValue={5}
         minValue={-5}
@@ -219,7 +223,7 @@ export const WorkoutRatingSliders = ({
         step={1}
         value={workout.rating_time}
         onChange={(value) => handleRatingChange(value as number, "time")}
-        label="Time Available"
+        label={workoutRatingsMap["time"].label}
         color={getRatingSliderColor(workout.rating_time)}
         maxValue={5}
         minValue={-5}
@@ -241,7 +245,7 @@ export const WorkoutRatingSliders = ({
         step={1}
         value={workout.rating_stress}
         onChange={(value) => handleRatingChange(value as number, "stress")}
-        label="Stress Level"
+        label={workoutRatingsMap["stress"].label}
         color={getRatingSliderColor(workout.rating_stress)}
         maxValue={5}
         minValue={-5}
