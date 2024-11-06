@@ -303,6 +303,7 @@ export default function WorkoutList() {
         workoutNote={newWorkoutNote}
         setWorkoutNote={setNewWorkoutNote}
         workoutTemplateNote={null}
+        workoutRatingsOrder={userSettings.workout_ratings_order}
         buttonAction={updateWorkout}
         header={operatingWorkout.formattedDate}
         handleChangeWorkoutTemplateButton={

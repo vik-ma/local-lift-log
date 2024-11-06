@@ -404,6 +404,7 @@ export default function WorkoutDetails() {
         workoutNote={workoutNote}
         setWorkoutNote={setWorkoutNote}
         workoutTemplateNote={workoutTemplateNote}
+        workoutRatingsOrder={userSettings.workout_ratings_order}
         buttonAction={handleWorkoutModalSaveButton}
       />
       <WorkoutTemplateListModal

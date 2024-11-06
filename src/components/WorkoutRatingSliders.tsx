@@ -1,14 +1,22 @@
 import { Slider } from "@nextui-org/react";
 import { Workout } from "../typings";
+import { useMemo } from "react";
+import { GetWorkoutRatingOrder } from "../helpers";
 
 type WorkoutRatingSlidersProps = {
   workout: Workout;
   setWorkout: React.Dispatch<React.SetStateAction<Workout>>;
+  workoutRatingsOrder: string;
 };
 export const WorkoutRatingSliders = ({
   workout,
   setWorkout,
+  workoutRatingsOrder,
 }: WorkoutRatingSlidersProps) => {
+  const ratingsOrder = useMemo(() => {
+    return GetWorkoutRatingOrder(workoutRatingsOrder);
+  }, [workoutRatingsOrder]);
+
   const handleRatingChange = (value: number, key: string) => {
     if (!Number.isInteger(value) || value < -5 || value > 5) return;
 
@@ -75,6 +83,7 @@ export const WorkoutRatingSliders = ({
   return (
     <>
       <Slider
+        style={{ order: ratingsOrder[0] }}
         step={1}
         value={workout.rating_general}
         onChange={(value) => handleRatingChange(value as number, "general")}
@@ -96,6 +105,7 @@ export const WorkoutRatingSliders = ({
         getValue={(value) => `${Number(value) + 5}`}
       />
       <Slider
+        style={{ order: ratingsOrder[1] }}
         step={1}
         value={workout.rating_energy}
         onChange={(value) => handleRatingChange(value as number, "energy")}
@@ -117,6 +127,7 @@ export const WorkoutRatingSliders = ({
         getValue={(value) => `${Number(value) + 5}`}
       />
       <Slider
+        style={{ order: ratingsOrder[2] }}
         step={1}
         value={workout.rating_injury}
         onChange={(value) => handleRatingChange(value as number, "injury")}
@@ -138,6 +149,7 @@ export const WorkoutRatingSliders = ({
         getValue={(value) => `${Number(value) + 5}`}
       />
       <Slider
+        style={{ order: ratingsOrder[3] }}
         step={1}
         value={workout.rating_sleep}
         onChange={(value) => handleRatingChange(value as number, "sleep")}
@@ -159,6 +171,7 @@ export const WorkoutRatingSliders = ({
         getValue={(value) => `${Number(value) + 5}`}
       />
       <Slider
+        style={{ order: ratingsOrder[4] }}
         step={1}
         value={workout.rating_calories}
         onChange={(value) => handleRatingChange(value as number, "calories")}
@@ -180,6 +193,7 @@ export const WorkoutRatingSliders = ({
         getValue={(value) => `${Number(value) + 5}`}
       />
       <Slider
+        style={{ order: ratingsOrder[5] }}
         step={1}
         value={workout.rating_fasting}
         onChange={(value) => handleRatingChange(value as number, "fasting")}
@@ -201,6 +215,7 @@ export const WorkoutRatingSliders = ({
         getValue={(value) => `${Number(value) + 5}`}
       />
       <Slider
+        style={{ order: ratingsOrder[6] }}
         step={1}
         value={workout.rating_time}
         onChange={(value) => handleRatingChange(value as number, "time")}
@@ -222,6 +237,7 @@ export const WorkoutRatingSliders = ({
         getValue={(value) => `${Number(value) + 5}`}
       />
       <Slider
+        style={{ order: ratingsOrder[7] }}
         step={1}
         value={workout.rating_stress}
         onChange={(value) => handleRatingChange(value as number, "stress")}

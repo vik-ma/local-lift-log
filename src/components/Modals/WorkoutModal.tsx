@@ -13,7 +13,7 @@ import { ConvertEmptyStringToNull } from "../../helpers";
 import { useState } from "react";
 import { ChevronIcon } from "../../assets";
 import { AnimatePresence, motion } from "framer-motion";
-import { WorkoutRatingSliders } from "../WorkoutRatingSliders";
+import { WorkoutRatingSliders } from "../../components";
 
 type WorkoutModalProps = {
   workoutModal: UseDisclosureReturnType;
@@ -22,6 +22,7 @@ type WorkoutModalProps = {
   workoutNote: string;
   setWorkoutNote: React.Dispatch<React.SetStateAction<string>>;
   workoutTemplateNote: string | null;
+  workoutRatingsOrder: string;
   buttonAction: (updatedWorkout: Workout) => void;
   header?: string;
   handleChangeWorkoutTemplateButton?: () => void;
@@ -34,6 +35,7 @@ export const WorkoutModal = ({
   workoutNote,
   setWorkoutNote,
   workoutTemplateNote,
+  workoutRatingsOrder,
   buttonAction,
   header = "Workout Details",
   handleChangeWorkoutTemplateButton,
@@ -139,6 +141,7 @@ export const WorkoutModal = ({
                             <WorkoutRatingSliders
                               workout={workout}
                               setWorkout={setWorkout}
+                              workoutRatingsOrder={workoutRatingsOrder}
                             />
                           </div>
                         </motion.div>
