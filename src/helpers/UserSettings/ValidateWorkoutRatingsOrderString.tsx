@@ -1,4 +1,4 @@
-import { IsStringEmpty, IsStringInvalidInteger } from "..";
+import { IsStringEmpty, IsStringInvalidInteger, WorkoutRatingsMap } from "..";
 
 export const ValidateWorkoutRatingsOrderString = (str: string) => {
   if (IsStringEmpty(str)) return false;
@@ -7,14 +7,19 @@ export const ValidateWorkoutRatingsOrderString = (str: string) => {
 
   if (order.length !== 8) return false;
 
+  const numValues = Object.values(WorkoutRatingsMap()).map((item) => item.num);
+
+  const minNum = Math.min(...numValues);
+  const maxNum = Math.max(...numValues);
+
   const existingNumbers = new Set<string>();
 
   for (const num of order) {
     if (
       existingNumbers.has(num) ||
       IsStringInvalidInteger(num) ||
-      Number(num) < 1 ||
-      Number(num) > 8
+      Number(num) < minNum ||
+      Number(num) > maxNum
     )
       return false;
 

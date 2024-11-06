@@ -169,6 +169,7 @@ export { CalculationStringsRegex } from "./Constants/CalculationStringsRegex";
 export { ValidCalculationModalTabs } from "./Constants/ValidCalculationModalTabs";
 export { ValidWorkoutPropertiesMap } from "./Constants/ValidWorkoutPropertiesMap";
 export { DefaultPlateWeights } from "./Constants/DefaultPlateWeights";
+export { WorkoutRatingsMap } from "./Constants/WorkoutRatingsMap";
 
 export { ConvertEmptyStringToNull } from "./Strings/ConvertEmptyStringToNull";
 export { IsStringEmpty } from "./Strings/IsStringEmpty";

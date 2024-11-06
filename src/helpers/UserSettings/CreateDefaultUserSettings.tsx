@@ -1,6 +1,6 @@
 import Database from "tauri-plugin-sql-api";
 import { UserSettings } from "../../typings";
-import { LocaleList } from "..";
+import { LocaleList, WorkoutRatingsMap } from "..";
 
 export const CreateDefaultUserSettings = async (
   useMetricUnits: boolean,
@@ -9,6 +9,8 @@ export const CreateDefaultUserSettings = async (
 ): Promise<UserSettings | undefined> => {
   const show_timestamp_on_completed_set = 1;
   const active_routine_id = 0;
+
+  // TODO: DERIVE ALL STRING DEFAULT VALUES FROM CONSTANTS
 
   const default_unit_weight = useMetricUnits ? "kg" : "lbs";
   const default_unit_distance = useMetricUnits ? "km" : "mi";
@@ -42,11 +44,13 @@ export const CreateDefaultUserSettings = async (
 
   const default_calculation_tab = "plate";
 
-  const shown_workout_properties = "template,routine,note";
+  const shown_workout_properties = "template,routine,note,details";
 
   const default_plate_calculation_id = 1;
 
-  const workout_ratings_order = "1,2,3,4,5,6,7,8";
+  const workout_ratings_order = Object.values(WorkoutRatingsMap())
+    .map((item) => item.num)
+    .join(",");
 
   try {
     const db = await Database.load(import.meta.env.VITE_DB);

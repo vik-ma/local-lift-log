@@ -1,10 +1,10 @@
-import { ValidateWorkoutRatingsOrderString } from "..";
+import { ValidateWorkoutRatingsOrderString, WorkoutRatingsMap } from "..";
 
 export const GetWorkoutRatingOrder = (
   workoutRatingOrderString: string
 ): number[] => {
   if (!ValidateWorkoutRatingsOrderString(workoutRatingOrderString))
-    return [1, 2, 3, 4, 5, 6, 7, 8];
+    return Object.values(WorkoutRatingsMap()).map((item) => item.num);
 
   return workoutRatingOrderString.split(",").map(Number);
 };
