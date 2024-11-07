@@ -78,13 +78,9 @@ export default function Settings() {
     };
   }, []);
 
-  const workoutRatingsMap = useMemo(() => {
-    return WorkoutRatingsMap();
-  }, []);
-
   const [workoutRatingsList, setWorkoutRatingsList] = useState<
     WorkoutRatingValues[]
-  >(Object.values(workoutRatingsMap));
+  >([]);
 
   const presetsList = usePresetsList(false, false);
 
@@ -141,7 +137,7 @@ export default function Settings() {
           settings.workout_ratings_order
         );
 
-        const workoutRatingsList = Object.values(workoutRatingsMap);
+        const workoutRatingsList = Object.values(WorkoutRatingsMap());
 
         workoutRatingsList.sort((a, b) => {
           return (
@@ -155,7 +151,7 @@ export default function Settings() {
     };
 
     loadUserSettings();
-  }, [workoutRatingsMap]);
+  }, []);
 
   const updateSettings = async (
     updatedSettings: UserSettings
