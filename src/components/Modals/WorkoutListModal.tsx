@@ -70,18 +70,18 @@ export const WorkoutListModal = ({
                           onClick={() => onClickAction(workout, keepSetValues)}
                         >
                           <div className="flex flex-col pl-2 py-1">
-                            <span className={`w-[21rem] truncate`}>
+                            <span className={`w-[24rem] truncate`}>
                               {workout.formattedDate}
                             </span>
                             {workout.workoutTemplateName !== null &&
                               selectedWorkoutProperties.has("template") && (
-                                <span className="w-[21rem] truncate text-sm text-indigo-500">
+                                <span className="w-[24rem] truncate text-sm text-indigo-500">
                                   {workout.workoutTemplateName}
                                 </span>
                               )}
                             {workout.hasInvalidWorkoutTemplate &&
                               selectedWorkoutProperties.has("template") && (
-                                <span className="w-[21rem] truncate text-sm text-red-700">
+                                <span className="w-[24rem] truncate text-sm text-red-700">
                                   Unknown Workout Template
                                 </span>
                               )}
@@ -99,7 +99,7 @@ export const WorkoutListModal = ({
                               </span>
                             )}
                             {selectedWorkoutProperties.has("note") && (
-                              <span className="w-[21rem] break-all text-xs text-stone-500 text-left">
+                              <span className="w-[24rem] break-all text-xs text-stone-500 text-left">
                                 {workout.note}
                               </span>
                             )}
