@@ -13,22 +13,27 @@ import {
   UseWorkoutListReturnType,
   Workout,
 } from "../../typings";
-import { FormatNumItemsString } from "../../helpers";
+import { CreateWorkoutPropertySet, FormatNumItemsString } from "../../helpers";
 import { useState } from "react";
 import { EmptyListLabel } from "..";
 
 type WorkoutListModalProps = {
   workoutListModal: UseDisclosureReturnType;
   workoutList: UseWorkoutListReturnType;
+  shownWorkoutProperties: string;
   onClickAction: (workoutToCopy: Workout, keepSetValues: boolean) => void;
 };
 
 export const WorkoutListModal = ({
   workoutListModal,
   workoutList,
+  shownWorkoutProperties,
   onClickAction,
 }: WorkoutListModalProps) => {
   const [keepSetValues, setKeepSetValues] = useState<boolean>(false);
+  const [selectedWorkoutProperties, setSelectedWorkoutProperties] = useState<
+    Set<string>
+  >(CreateWorkoutPropertySet(shownWorkoutProperties));
 
   const { workouts } = workoutList;
 
@@ -44,7 +49,7 @@ export const WorkoutListModal = ({
             <ModalBody>
               <div className="h-[400px] flex flex-col gap-2">
                 {workouts.length > 0 && (
-                  <div className="flex justify-between items-center px-1">
+                  <div className="flex justify-between items-center px-0.5">
                     <Checkbox
                       color="primary"
                       isSelected={keepSetValues}
@@ -61,32 +66,43 @@ export const WorkoutListModal = ({
                       {workouts.map((workout) => (
                         <div
                           key={workout.id}
-                          className="flex cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                          className="flex justify-between items-center cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                           onClick={() => onClickAction(workout, keepSetValues)}
                         >
-                          <div className="flex gap-1 justify-between items-center w-full">
-                            <div className="flex flex-col justify-start items-start">
-                              <span className="w-[10.5rem] truncate text-left">
-                                {workout.formattedDate}
-                              </span>
-                              {workout.numSets! > 0 ? (
-                                <span className="text-xs text-secondary text-left">
-                                  {FormatNumItemsString(
-                                    workout.numExercises,
-                                    "Exercise"
-                                  )}
-                                  ,{" "}
-                                  {FormatNumItemsString(workout.numSets, "Set")}
-                                </span>
-                              ) : (
-                                <span className="text-xs text-stone-400 text-left">
-                                  Empty
+                          <div className="flex flex-col pl-2 py-1">
+                            <span className={`w-[21rem] truncate`}>
+                              {workout.formattedDate}
+                            </span>
+                            {workout.workoutTemplateName !== null &&
+                              selectedWorkoutProperties.has("template") && (
+                                <span className="w-[21rem] truncate text-sm text-indigo-500">
+                                  {workout.workoutTemplateName}
                                 </span>
                               )}
-                              <span className="w-[21.5rem] break-all text-xs text-stone-500 text-left">
+                            {workout.hasInvalidWorkoutTemplate &&
+                              selectedWorkoutProperties.has("template") && (
+                                <span className="w-[21rem] truncate text-sm text-red-700">
+                                  Unknown Workout Template
+                                </span>
+                              )}
+                            {workout.numSets! > 0 ? (
+                              <span className="text-xs text-secondary">
+                                {FormatNumItemsString(
+                                  workout.numExercises,
+                                  "Exercise"
+                                )}
+                                , {FormatNumItemsString(workout.numSets, "Set")}
+                              </span>
+                            ) : (
+                              <span className="text-xs text-stone-400">
+                                Empty
+                              </span>
+                            )}
+                            {selectedWorkoutProperties.has("note") && (
+                              <span className="w-[21rem] break-all text-xs text-stone-500 text-left">
                                 {workout.note}
                               </span>
-                            </div>
+                            )}
                           </div>
                         </div>
                       ))}
