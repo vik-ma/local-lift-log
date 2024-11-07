@@ -63,7 +63,7 @@ export default function Settings() {
   >(new Set());
   const [isTimeInputInvalid, setIsTimeInputInvalid] = useState<boolean>(false);
   const [specificSettingModalPage, setSpecificSettingModalPage] =
-    useState<SpecificSettingModalPage>("workout-rating-order");
+    useState<SpecificSettingModalPage>("default-plate-calc");
 
   const restoreSettingsModal = useDisclosure();
   const specificSettingModal = useDisclosure();
@@ -697,6 +697,9 @@ export default function Settings() {
               isHhmmss={false}
             />
           </div>
+          <h3 className="flex justify-center text-lg font-medium">
+            Workouts
+          </h3>
           <div className="flex gap-3 items-center justify-between">
             <span className="text-lg">
               Properties To Display In Workout List
