@@ -533,8 +533,8 @@ export default function Settings() {
                       }
                     />
                   ) : (
-                    <div className="flex flex-col gap-1.5">
-                      <span className="text-xs text-stone-400">
+                    <div className="flex flex-col gap-1">
+                      <span className="text-xs text-stone-400 px-0.5">
                         Drag To Reorder Ratings
                       </span>
                       <Reorder.Group
