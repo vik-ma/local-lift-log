@@ -12,6 +12,7 @@ import {
   ConvertNumberToTwoDecimals,
   CreateWorkoutPropertySet,
   WorkoutRatingsMap,
+  GetWorkoutRatingOrder,
 } from "../helpers";
 import {
   Switch,
@@ -135,11 +136,26 @@ export default function Settings() {
           settings.shown_workout_properties
         );
         setSelectedWorkoutProperties(workoutPropertySet);
+
+        const workoutRatingsOrder = GetWorkoutRatingOrder(
+          settings.workout_ratings_order
+        );
+
+        const workoutRatingsList = Object.values(workoutRatingsMap);
+
+        workoutRatingsList.sort((a, b) => {
+          return (
+            workoutRatingsOrder.indexOf(a.num) -
+            workoutRatingsOrder.indexOf(b.num)
+          );
+        });
+
+        setWorkoutRatingsList(workoutRatingsList);
       }
     };
 
     loadUserSettings();
-  }, []);
+  }, [workoutRatingsMap]);
 
   const updateSettings = async (
     updatedSettings: UserSettings
@@ -451,9 +467,9 @@ export default function Settings() {
         ...userSettings,
         workout_ratings_order: updatedWorkoutRatingOrder,
       };
-  
+
       updateSettings(updatedSettings);
-  
+
       specificSettingModal.onClose();
     }
   };
