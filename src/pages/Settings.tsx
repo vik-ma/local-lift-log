@@ -533,21 +533,24 @@ export default function Settings() {
                       }
                     />
                   ) : (
-                    <Reorder.Group
-                      className="flex flex-col gap-1"
-                      values={workoutRatingsList}
-                      onReorder={setWorkoutRatingsList}
-                    >
-                      {workoutRatingsList.map((item) => (
-                        <Reorder.Item
-                          className="border px-1"
-                          key={item.num}
-                          value={item}
-                        >
-                          {item.label}
-                        </Reorder.Item>
-                      ))}
-                    </Reorder.Group>
+                    <>
+                    <span className="text-sm text-stone-400">Drag To Reorder Ratings</span>
+                      <Reorder.Group
+                        className="flex flex-col gap-1"
+                        values={workoutRatingsList}
+                        onReorder={setWorkoutRatingsList}
+                      >
+                        {workoutRatingsList.map((item) => (
+                          <Reorder.Item
+                            className="border px-1"
+                            key={item.num}
+                            value={item}
+                          >
+                            {item.label}
+                          </Reorder.Item>
+                        ))}
+                      </Reorder.Group>
+                    </>
                   )}
                 </div>
               </ModalBody>
