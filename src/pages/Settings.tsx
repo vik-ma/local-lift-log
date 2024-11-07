@@ -440,8 +440,21 @@ export default function Settings() {
   };
 
   const handleSaveSpecificSettingButton = async () => {
+    if (userSettings === undefined) return;
+
     if (specificSettingModalPage === "workout-rating-order") {
-      // TODO: IMPLEMENT
+      const updatedWorkoutRatingOrder = workoutRatingsList
+        .map((item) => item.num)
+        .join(",");
+
+      const updatedSettings: UserSettings = {
+        ...userSettings,
+        workout_ratings_order: updatedWorkoutRatingOrder,
+      };
+  
+      updateSettings(updatedSettings);
+  
+      specificSettingModal.onClose();
     }
   };
 
