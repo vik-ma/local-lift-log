@@ -533,8 +533,10 @@ export default function Settings() {
                       }
                     />
                   ) : (
-                    <>
-                    <span className="text-sm text-stone-400">Drag To Reorder Ratings</span>
+                    <div className="flex flex-col gap-1.5">
+                      <span className="text-xs text-stone-400">
+                        Drag To Reorder Ratings
+                      </span>
                       <Reorder.Group
                         className="flex flex-col gap-1"
                         values={workoutRatingsList}
@@ -542,7 +544,7 @@ export default function Settings() {
                       >
                         {workoutRatingsList.map((item) => (
                           <Reorder.Item
-                            className="border px-1"
+                            className="py-0.5 px-1.5 text-lg rounded-lg border-2 bg-default-50 cursor-grab hover:bg-default-100 active:bg-default-100 active:cursor-grabbing"
                             key={item.num}
                             value={item}
                           >
@@ -550,7 +552,7 @@ export default function Settings() {
                           </Reorder.Item>
                         ))}
                       </Reorder.Group>
-                    </>
+                    </div>
                   )}
                 </div>
               </ModalBody>
