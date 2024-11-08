@@ -70,6 +70,7 @@ export const WorkoutListModal = ({
                         }
                         userSettings={userSettings}
                         setUserSettings={setUserSettings}
+                        hideDetailsButtonOption
                       />
                     </div>
                   </div>

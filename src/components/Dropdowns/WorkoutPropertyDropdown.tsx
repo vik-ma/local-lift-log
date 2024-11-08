@@ -21,6 +21,7 @@ type WorkoutPropertyDropdownProps = {
     React.SetStateAction<UserSettings | undefined>
   >;
   isInSettingsPage?: boolean;
+  hideDetailsButtonOption?: boolean;
 };
 
 export const WorkoutPropertyDropdown = ({
@@ -29,6 +30,7 @@ export const WorkoutPropertyDropdown = ({
   userSettings,
   setUserSettings,
   isInSettingsPage,
+  hideDetailsButtonOption,
 }: WorkoutPropertyDropdownProps) => {
   const handleChange = async (keys: Set<string>) => {
     const workoutPropertyString = Array.from(keys).join(",");
@@ -59,8 +61,12 @@ export const WorkoutPropertyDropdown = ({
   };
 
   const workoutProperties: Map<string, string> = useMemo(() => {
+    if (hideDetailsButtonOption) {
+      return ValidWorkoutPropertiesMap(true);
+    }
+
     return ValidWorkoutPropertiesMap();
-  }, []);
+  }, [hideDetailsButtonOption]);
 
   return (
     <Dropdown>
