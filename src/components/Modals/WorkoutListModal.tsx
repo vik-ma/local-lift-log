@@ -10,7 +10,6 @@ import {
 } from "@nextui-org/react";
 import {
   UseDisclosureReturnType,
-  UserSettings,
   UseWorkoutListReturnType,
   Workout,
 } from "../../typings";
@@ -21,24 +20,20 @@ import { EmptyListLabel, WorkoutPropertyDropdown } from "..";
 type WorkoutListModalProps = {
   workoutListModal: UseDisclosureReturnType;
   workoutList: UseWorkoutListReturnType;
-  userSettings: UserSettings;
-  setUserSettings: React.Dispatch<
-    React.SetStateAction<UserSettings | undefined>
-  >;
+  shownWorkoutProperties: string;
   onClickAction: (workoutToCopy: Workout, keepSetValues: boolean) => void;
 };
 
 export const WorkoutListModal = ({
   workoutListModal,
   workoutList,
-  userSettings,
-  setUserSettings,
+  shownWorkoutProperties,
   onClickAction,
 }: WorkoutListModalProps) => {
   const [keepSetValues, setKeepSetValues] = useState<boolean>(false);
   const [selectedWorkoutProperties, setSelectedWorkoutProperties] = useState<
     Set<string>
-  >(CreateWorkoutPropertySet(userSettings.shown_workout_properties));
+  >(CreateWorkoutPropertySet(shownWorkoutProperties));
 
   const { workouts } = workoutList;
 
@@ -68,8 +63,6 @@ export const WorkoutListModal = ({
                         setSelectedWorkoutProperties={
                           setSelectedWorkoutProperties
                         }
-                        userSettings={userSettings}
-                        setUserSettings={setUserSettings}
                         hideDetailsButtonOption
                       />
                     </div>

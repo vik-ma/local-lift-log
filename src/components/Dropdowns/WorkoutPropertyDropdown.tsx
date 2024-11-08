@@ -16,8 +16,8 @@ type WorkoutPropertyDropdownProps = {
   setSelectedWorkoutProperties: React.Dispatch<
     React.SetStateAction<Set<string>>
   >;
-  userSettings: UserSettings;
-  setUserSettings: React.Dispatch<
+  userSettings?: UserSettings;
+  setUserSettings?: React.Dispatch<
     React.SetStateAction<UserSettings | undefined>
   >;
   isInSettingsPage?: boolean;
@@ -33,30 +33,32 @@ export const WorkoutPropertyDropdown = ({
   hideDetailsButtonOption,
 }: WorkoutPropertyDropdownProps) => {
   const handleChange = async (keys: Set<string>) => {
-    const workoutPropertyString = Array.from(keys).join(",");
+    setSelectedWorkoutProperties(keys);
 
-    try {
-      const db = await Database.load(import.meta.env.VITE_DB);
+    if (userSettings !== undefined && setUserSettings !== undefined) {
+      const workoutPropertyString = Array.from(keys).join(",");
 
-      await db.execute(
-        "UPDATE user_settings SET shown_workout_properties = $1 WHERE id = $2",
-        [workoutPropertyString, userSettings.id]
-      );
+      try {
+        const db = await Database.load(import.meta.env.VITE_DB);
 
-      setSelectedWorkoutProperties(keys);
+        await db.execute(
+          "UPDATE user_settings SET shown_workout_properties = $1 WHERE id = $2",
+          [workoutPropertyString, userSettings.id]
+        );
 
-      const updatedUserSettings = {
-        ...userSettings,
-        shown_workout_properties: workoutPropertyString,
-      };
+        const updatedUserSettings = {
+          ...userSettings,
+          shown_workout_properties: workoutPropertyString,
+        };
 
-      setUserSettings(updatedUserSettings);
+        setUserSettings(updatedUserSettings);
 
-      if (isInSettingsPage) {
-        toast.success("Setting Updated");
+        if (isInSettingsPage) {
+          toast.success("Setting Updated");
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
     }
   };
 
