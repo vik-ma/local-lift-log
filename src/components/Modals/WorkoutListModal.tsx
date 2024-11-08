@@ -47,15 +47,15 @@ export const WorkoutListModal = ({
           <>
             <ModalHeader>Select Workout</ModalHeader>
             <ModalBody>
-              <div className="h-[400px] flex flex-col gap-2">
-                {workouts.length > 0 && (
-                  <div className="flex justify-between items-center px-0.5">
+              {workouts.length > 0 ? (
+                <div className="h-[400px] flex flex-col gap-1">
+                  <div className="flex justify-between items-center pl-0.5">
                     <Checkbox
                       color="primary"
                       isSelected={keepSetValues}
                       onValueChange={setKeepSetValues}
                     >
-                      Keep Set Values
+                      Also Copy Set Values
                     </Checkbox>
                     <div className="flex gap-1 pr-0.5">
                       <WorkoutPropertyDropdown
@@ -67,8 +67,6 @@ export const WorkoutListModal = ({
                       />
                     </div>
                   </div>
-                )}
-                {workouts.length > 0 ? (
                   <ScrollShadow className="flex flex-col gap-1">
                     <div className="flex flex-col gap-1 w-full">
                       {workouts.map((workout) => (
@@ -119,12 +117,12 @@ export const WorkoutListModal = ({
                       )}
                     </div>
                   </ScrollShadow>
-                ) : (
-                  <div className="flex justify-center text-stone-500 font-medium">
-                    No Workouts Completed
-                  </div>
-                )}
-              </div>
+                </div>
+              ) : (
+                <div className="flex justify-center text-stone-500 font-medium">
+                  No Workouts Created
+                </div>
+              )}
             </ModalBody>
             <ModalFooter>
               <Button color="primary" variant="light" onPress={onClose}>
