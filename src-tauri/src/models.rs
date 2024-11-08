@@ -129,6 +129,7 @@ pub struct Workout {
     pub rating_fasting: i32,
     pub rating_time: i32,
     pub rating_stress: i32,
+    pub routine_id: i32,
 }
 
 #[derive(Queryable, Selectable)]

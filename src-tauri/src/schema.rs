@@ -121,6 +121,7 @@ diesel::table! {
         rating_fasting -> Integer,
         rating_time -> Integer,
         rating_stress -> Integer,
+        routine_id -> Integer,
     }
 }
 
