@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import {
+  Routine,
   UseWorkoutListReturnType,
   Workout,
   WorkoutSortCategory,
@@ -17,6 +18,7 @@ export const useWorkoutList = (
   const [filterQuery, setFilterQuery] = useState<string>("");
   const [sortCategory, setSortCategory] =
     useState<WorkoutSortCategory>("date-desc");
+  const [routineMap, setRoutineMap] = useState<Map<number, Routine>>(new Map());
 
   const workoutListIsLoaded = useRef(false);
 
@@ -46,7 +48,7 @@ export const useWorkoutList = (
 
       // Get id, date and how many Sets and Exercises every Workout contains
       // Also get name of Workout Template from workout_template_id
-      const result = await db.select<Workout[]>(
+      const resultWorkouts = await db.select<Workout[]>(
         `SELECT 
           workouts.*, 
           workout_templates.name AS workoutTemplateName,
@@ -62,9 +64,17 @@ export const useWorkoutList = (
           workouts.id`
       );
 
+      const resultRoutines = await db.select<Routine[]>(
+        "SELECT * FROM routines"
+      );
+
+      const routineMap = new Map<number, Routine>(
+        resultRoutines.map((obj) => [obj.id, obj])
+      );
+
       const workouts: Workout[] = [];
 
-      for (const row of result) {
+      for (const row of resultWorkouts) {
         if (
           row.id === ignoreWorkoutId ||
           (ignoreEmptyWorkouts && row.numSets === 0)
@@ -87,17 +97,20 @@ export const useWorkoutList = (
           rating_fasting: row.rating_fasting,
           rating_time: row.rating_time,
           rating_stress: row.rating_stress,
+          routine_id: row.routine_id,
           numSets: row.numSets,
           numExercises: row.numExercises,
           formattedDate: formattedDate,
           workoutTemplateName: row.workoutTemplateName,
           hasInvalidWorkoutTemplate:
             row.workout_template_id > 0 && row.workoutTemplateName === null,
+          routine: routineMap.get(row.routine_id),
         };
 
         workouts.push(workout);
       }
 
+      setRoutineMap(routineMap);
       sortWorkoutsByDate(workouts, false);
       workoutListIsLoaded.current = true;
     } catch (error) {
@@ -152,5 +165,6 @@ export const useWorkoutList = (
     sortCategory,
     setSortCategory,
     handleSortOptionSelection,
+    routineMap,
   };
 };

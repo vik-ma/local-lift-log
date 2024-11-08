@@ -256,11 +256,13 @@ export type Workout = {
   rating_fasting: number;
   rating_time: number;
   rating_stress: number;
+  routine_id: number;
   numSets?: number;
   numExercises?: number;
   formattedDate?: string;
   workoutTemplateName?: string | null;
   hasInvalidWorkoutTemplate?: boolean;
+  routine?: Routine;
 };
 
 export type UserWeight = {
@@ -451,6 +453,7 @@ export type UseWorkoutListReturnType = {
   sortCategory: WorkoutSortCategory;
   setSortCategory: React.Dispatch<React.SetStateAction<WorkoutSortCategory>>;
   handleSortOptionSelection: (key: string) => void;
+  routineMap: Map<number, Routine>;
 };
 
 export type UseWorkoutTemplateListReturnType = {
