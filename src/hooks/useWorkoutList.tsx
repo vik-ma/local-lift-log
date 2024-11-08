@@ -36,6 +36,9 @@ export const useWorkoutList = (
             .includes(filterQuery.toLocaleLowerCase()) ||
           item.workoutTemplateName
             ?.toLocaleLowerCase()
+            .includes(filterQuery.toLocaleLowerCase()) ||
+          item.routine?.name
+            .toLocaleLowerCase()
             .includes(filterQuery.toLocaleLowerCase())
       );
     }

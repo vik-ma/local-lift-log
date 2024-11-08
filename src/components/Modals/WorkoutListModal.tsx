@@ -17,6 +17,7 @@ import { CreateWorkoutPropertySet } from "../../helpers";
 import { useState } from "react";
 import {
   EmptyListLabel,
+  SearchInput,
   WorkoutListItem,
   WorkoutPropertyDropdown,
   WorkoutSortDropdown,
@@ -40,7 +41,14 @@ export const WorkoutListModal = ({
     Set<string>
   >(CreateWorkoutPropertySet(shownWorkoutProperties));
 
-  const { workouts, sortCategory, handleSortOptionSelection } = workoutList;
+  const {
+    workouts,
+    filteredWorkouts,
+    filterQuery,
+    setFilterQuery,
+    sortCategory,
+    handleSortOptionSelection,
+  } = workoutList;
 
   return (
     <Modal
@@ -52,8 +60,14 @@ export const WorkoutListModal = ({
           <>
             <ModalHeader>Select Workout</ModalHeader>
             <ModalBody>
-              {workouts.length > 0 ? (
-                <div className="h-[400px] flex flex-col gap-1">
+              <SearchInput
+                filterQuery={filterQuery}
+                setFilterQuery={setFilterQuery}
+                filteredListLength={filteredWorkouts.length}
+                totalListLength={workouts.length}
+              />
+              {filteredWorkouts.length > 0 ? (
+                <div className="h-[440px] flex flex-col gap-1.5">
                   <div className="flex justify-between items-center pl-0.5">
                     <Checkbox
                       color="primary"
@@ -78,7 +92,7 @@ export const WorkoutListModal = ({
                   </div>
                   <ScrollShadow className="flex flex-col gap-1">
                     <div className="flex flex-col gap-1 w-full">
-                      {workouts.map((workout) => (
+                      {filteredWorkouts.map((workout) => (
                         <WorkoutListItem
                           key={workout.id}
                           workout={workout}
@@ -89,7 +103,7 @@ export const WorkoutListModal = ({
                           }
                         />
                       ))}
-                      {workouts.length === 0 && (
+                      {filteredWorkouts.length === 0 && (
                         <EmptyListLabel itemName="Workouts" />
                       )}
                     </div>
