@@ -60,14 +60,14 @@ export const WorkoutListModal = ({
           <>
             <ModalHeader>Select Workout</ModalHeader>
             <ModalBody>
-              <SearchInput
-                filterQuery={filterQuery}
-                setFilterQuery={setFilterQuery}
-                filteredListLength={filteredWorkouts.length}
-                totalListLength={workouts.length}
-              />
-              {filteredWorkouts.length > 0 ? (
-                <div className="h-[440px] flex flex-col gap-1.5">
+              <div className="h-[440px] flex flex-col gap-1.5">
+                <div className="flex flex-col gap-1.5">
+                  <SearchInput
+                    filterQuery={filterQuery}
+                    setFilterQuery={setFilterQuery}
+                    filteredListLength={filteredWorkouts.length}
+                    totalListLength={workouts.length}
+                  />
                   <div className="flex justify-between items-center pl-0.5">
                     <Checkbox
                       color="primary"
@@ -90,30 +90,26 @@ export const WorkoutListModal = ({
                       />
                     </div>
                   </div>
-                  <ScrollShadow className="flex flex-col gap-1">
-                    <div className="flex flex-col gap-1 w-full">
-                      {filteredWorkouts.map((workout) => (
-                        <WorkoutListItem
-                          key={workout.id}
-                          workout={workout}
-                          listItemTextWidth="w-[23rem]"
-                          selectedWorkoutProperties={selectedWorkoutProperties}
-                          onClickAction={() =>
-                            onClickAction(workout, keepSetValues)
-                          }
-                        />
-                      ))}
-                      {filteredWorkouts.length === 0 && (
-                        <EmptyListLabel itemName="Workouts" />
-                      )}
-                    </div>
-                  </ScrollShadow>
                 </div>
-              ) : (
-                <div className="flex justify-center text-stone-500 font-medium">
-                  No Workouts Created
-                </div>
-              )}
+                <ScrollShadow className="flex flex-col gap-1">
+                  <div className="flex flex-col gap-1 w-full">
+                    {filteredWorkouts.map((workout) => (
+                      <WorkoutListItem
+                        key={workout.id}
+                        workout={workout}
+                        listItemTextWidth="w-[23rem]"
+                        selectedWorkoutProperties={selectedWorkoutProperties}
+                        onClickAction={() =>
+                          onClickAction(workout, keepSetValues)
+                        }
+                      />
+                    ))}
+                    {filteredWorkouts.length === 0 && (
+                      <EmptyListLabel itemName="Workouts" />
+                    )}
+                  </div>
+                </ScrollShadow>
+              </div>
             </ModalBody>
             <ModalFooter>
               <Button color="primary" variant="light" onPress={onClose}>
