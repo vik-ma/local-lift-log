@@ -10,6 +10,7 @@ import {
   WorkoutTemplateListModal,
   WorkoutPropertyDropdown,
   WorkoutSortDropdown,
+  WorkoutListItem,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -26,13 +27,12 @@ import {
   DeleteItemFromList,
   DeleteMultisetWithId,
   DeleteWorkoutWithId,
-  FormatNumItemsString,
   GetUniqueMultisetIds,
   GetUserSettings,
   UpdateItemInList,
   UpdateWorkout,
 } from "../helpers";
-import { RatingIcon, VerticalMenuIcon } from "../assets";
+import { VerticalMenuIcon } from "../assets";
 import {
   useDefaultWorkout,
   useWorkoutList,
@@ -387,91 +387,15 @@ export default function WorkoutList() {
         ) : (
           <div className="flex flex-col gap-1 w-full">
             {filteredWorkouts.map((workout) => (
-              <div
+              <WorkoutListItem
                 key={workout.id}
-                className="flex justify-between items-center cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-                onClick={() => navigate(`/workouts/${workout.id}`)}
-              >
-                <div className="flex flex-col pl-2 py-1">
-                  <span className={`${listItemTextWidth} truncate`}>
-                    {workout.formattedDate}
-                  </span>
-                  {workout.workoutTemplateName !== null &&
-                    selectedWorkoutProperties.has("template") && (
-                      <span
-                        className={`${listItemTextWidth} truncate text-sm text-indigo-500`}
-                      >
-                        {workout.workoutTemplateName}
-                      </span>
-                    )}
-                  {workout.hasInvalidWorkoutTemplate &&
-                    selectedWorkoutProperties.has("template") && (
-                      <span
-                        className={`${listItemTextWidth} truncate text-sm text-red-700`}
-                      >
-                        Unknown Workout Template
-                      </span>
-                    )}
-                  {workout.numSets! > 0 ? (
-                    <span className="text-xs text-secondary">
-                      {FormatNumItemsString(workout.numExercises, "Exercise")},{" "}
-                      {FormatNumItemsString(workout.numSets, "Set")}
-                    </span>
-                  ) : (
-                    <span className="text-xs text-stone-400">Empty</span>
-                  )}
-                  {selectedWorkoutProperties.has("note") && (
-                    <span
-                      className={`${listItemTextWidth} break-all text-xs text-stone-500 text-left`}
-                    >
-                      {workout.note}
-                    </span>
-                  )}
-                </div>
-                <div className="flex items-center gap-1 pr-1">
-                  {selectedWorkoutProperties.has("details") && (
-                    <Button
-                      variant="flat"
-                      isIconOnly
-                      onPress={() => editWorkout(workout)}
-                    >
-                      <RatingIcon />
-                    </Button>
-                  )}
-                  <Dropdown>
-                    <DropdownTrigger>
-                      <Button
-                        aria-label={`Toggle Workout On ${workout.formattedDate} Options Menu`}
-                        isIconOnly
-                        className="z-1"
-                        radius="lg"
-                        variant="light"
-                      >
-                        <VerticalMenuIcon size={19} color="#888" />
-                      </Button>
-                    </DropdownTrigger>
-                    <DropdownMenu
-                      aria-label={`Option Menu For Workout On ${workout.formattedDate}`}
-                      onAction={(key) =>
-                        handleWorkoutOptionSelection(key as string, workout)
-                      }
-                    >
-                      <DropdownItem key="edit">Edit</DropdownItem>
-                      <DropdownItem
-                        className={
-                          workout.hasInvalidWorkoutTemplate ? "" : "hidden"
-                        }
-                        key="reassign-workout-template"
-                      >
-                        Reassign Workout Template
-                      </DropdownItem>
-                      <DropdownItem key="delete" className="text-danger">
-                        Delete
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </Dropdown>
-                </div>
-              </div>
+                workout={workout}
+                listItemTextWidth={listItemTextWidth}
+                selectedWorkoutProperties={selectedWorkoutProperties}
+                onClickAction={() => navigate(`/workouts/${workout.id}`)}
+                editWorkout={editWorkout}
+                handleWorkoutOptionSelection={handleWorkoutOptionSelection}
+              />
             ))}
             {workouts.length === 0 && <EmptyListLabel itemName="Workouts" />}
           </div>

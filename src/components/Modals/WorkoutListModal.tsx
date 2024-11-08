@@ -13,9 +13,14 @@ import {
   UseWorkoutListReturnType,
   Workout,
 } from "../../typings";
-import { CreateWorkoutPropertySet, FormatNumItemsString } from "../../helpers";
+import { CreateWorkoutPropertySet } from "../../helpers";
 import { useState } from "react";
-import { EmptyListLabel, WorkoutPropertyDropdown, WorkoutSortDropdown } from "..";
+import {
+  EmptyListLabel,
+  WorkoutListItem,
+  WorkoutPropertyDropdown,
+  WorkoutSortDropdown,
+} from "..";
 
 type WorkoutListModalProps = {
   workoutListModal: UseDisclosureReturnType;
@@ -74,47 +79,15 @@ export const WorkoutListModal = ({
                   <ScrollShadow className="flex flex-col gap-1">
                     <div className="flex flex-col gap-1 w-full">
                       {workouts.map((workout) => (
-                        <div
+                        <WorkoutListItem
                           key={workout.id}
-                          className="flex justify-between items-center cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-                          onClick={() => onClickAction(workout, keepSetValues)}
-                        >
-                          <div className="flex flex-col pl-2 py-1">
-                            <span className={`w-[24rem] truncate`}>
-                              {workout.formattedDate}
-                            </span>
-                            {workout.workoutTemplateName !== null &&
-                              selectedWorkoutProperties.has("template") && (
-                                <span className="w-[24rem] truncate text-sm text-indigo-500">
-                                  {workout.workoutTemplateName}
-                                </span>
-                              )}
-                            {workout.hasInvalidWorkoutTemplate &&
-                              selectedWorkoutProperties.has("template") && (
-                                <span className="w-[24rem] truncate text-sm text-red-700">
-                                  Unknown Workout Template
-                                </span>
-                              )}
-                            {workout.numSets! > 0 ? (
-                              <span className="text-xs text-secondary">
-                                {FormatNumItemsString(
-                                  workout.numExercises,
-                                  "Exercise"
-                                )}
-                                , {FormatNumItemsString(workout.numSets, "Set")}
-                              </span>
-                            ) : (
-                              <span className="text-xs text-stone-400">
-                                Empty
-                              </span>
-                            )}
-                            {selectedWorkoutProperties.has("note") && (
-                              <span className="w-[24rem] break-all text-xs text-stone-500 text-left">
-                                {workout.note}
-                              </span>
-                            )}
-                          </div>
-                        </div>
+                          workout={workout}
+                          listItemTextWidth="w-[23rem]"
+                          selectedWorkoutProperties={selectedWorkoutProperties}
+                          onClickAction={() =>
+                            onClickAction(workout, keepSetValues)
+                          }
+                        />
                       ))}
                       {workouts.length === 0 && (
                         <EmptyListLabel itemName="Workouts" />

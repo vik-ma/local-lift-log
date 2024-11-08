@@ -31,6 +31,7 @@ export { PlateCalculationButton } from "./PlateCalculationButton";
 export { PlateCalculationHandleConfig } from "./PlateCalculationHandleConfig";
 export { UserWeightListItem } from "./UserWeightListItem";
 export { WorkoutRatingSliders } from "./WorkoutRatingSliders";
+export { WorkoutListItem } from "./WorkoutListItem";
 
 export { WeightUnitDropdown } from "./Dropdowns/WeightUnitDropdown";
 export { DistanceUnitDropdown } from "./Dropdowns/DistanceUnitDropdown";
