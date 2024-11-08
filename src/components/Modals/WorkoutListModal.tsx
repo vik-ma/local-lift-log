@@ -15,7 +15,7 @@ import {
 } from "../../typings";
 import { CreateWorkoutPropertySet, FormatNumItemsString } from "../../helpers";
 import { useState } from "react";
-import { EmptyListLabel, WorkoutPropertyDropdown } from "..";
+import { EmptyListLabel, WorkoutPropertyDropdown, WorkoutSortDropdown } from "..";
 
 type WorkoutListModalProps = {
   workoutListModal: UseDisclosureReturnType;
@@ -35,7 +35,7 @@ export const WorkoutListModal = ({
     Set<string>
   >(CreateWorkoutPropertySet(shownWorkoutProperties));
 
-  const { workouts } = workoutList;
+  const { workouts, sortCategory, handleSortOptionSelection } = workoutList;
 
   return (
     <Modal
@@ -64,6 +64,10 @@ export const WorkoutListModal = ({
                           setSelectedWorkoutProperties
                         }
                         hideDetailsButtonOption
+                      />
+                      <WorkoutSortDropdown
+                        sortCategory={sortCategory}
+                        handleSortOptionSelection={handleSortOptionSelection}
                       />
                     </div>
                   </div>

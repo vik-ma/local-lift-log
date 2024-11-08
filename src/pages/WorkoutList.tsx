@@ -9,6 +9,7 @@ import {
   ListPageSearchInput,
   WorkoutTemplateListModal,
   WorkoutPropertyDropdown,
+  WorkoutSortDropdown,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -349,26 +350,10 @@ export default function WorkoutList() {
                   userSettings={userSettings}
                   setUserSettings={setUserSettings}
                 />
-                <Dropdown>
-                  <DropdownTrigger>
-                    <Button className="z-1" variant="flat" size="sm">
-                      Sort By
-                    </Button>
-                  </DropdownTrigger>
-                  <DropdownMenu
-                    aria-label="Sort Workouts Dropdown Menu"
-                    selectionMode="single"
-                    selectedKeys={[sortCategory]}
-                    onAction={(key) => handleSortOptionSelection(key as string)}
-                  >
-                    <DropdownItem key="date-desc">
-                      Date (Newest First)
-                    </DropdownItem>
-                    <DropdownItem key="date-asc">
-                      Date (Oldest First)
-                    </DropdownItem>
-                  </DropdownMenu>
-                </Dropdown>
+                <WorkoutSortDropdown
+                  sortCategory={sortCategory}
+                  handleSortOptionSelection={handleSortOptionSelection}
+                />
                 <Dropdown>
                   <DropdownTrigger>
                     <Button
