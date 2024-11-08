@@ -19,8 +19,7 @@ import {
   EmptyListLabel,
   SearchInput,
   WorkoutListItem,
-  WorkoutPropertyDropdown,
-  WorkoutSortDropdown,
+  WorkoutListOptions,
 } from "..";
 
 type WorkoutListModalProps = {
@@ -69,26 +68,16 @@ export const WorkoutListModal = ({
                     totalListLength={workouts.length}
                   />
                   <div className="flex justify-between items-center pl-0.5">
-                    <Checkbox
-                      color="primary"
-                      isSelected={keepSetValues}
-                      onValueChange={setKeepSetValues}
-                    >
-                      Also Copy Set Values
-                    </Checkbox>
-                    <div className="flex gap-1 pr-0.5">
-                      <WorkoutPropertyDropdown
-                        selectedWorkoutProperties={selectedWorkoutProperties}
-                        setSelectedWorkoutProperties={
-                          setSelectedWorkoutProperties
-                        }
-                        hideDetailsButtonOption
-                      />
-                      <WorkoutSortDropdown
-                        sortCategory={sortCategory}
-                        handleSortOptionSelection={handleSortOptionSelection}
-                      />
-                    </div>
+                    <div></div>
+                    <WorkoutListOptions
+                      sortCategory={sortCategory}
+                      handleSortOptionSelection={handleSortOptionSelection}
+                      selectedWorkoutProperties={selectedWorkoutProperties}
+                      setSelectedWorkoutProperties={
+                        setSelectedWorkoutProperties
+                      }
+                      hideDetailsButtonOption
+                    />
                   </div>
                 </div>
                 <ScrollShadow className="flex flex-col gap-1">
@@ -111,7 +100,14 @@ export const WorkoutListModal = ({
                 </ScrollShadow>
               </div>
             </ModalBody>
-            <ModalFooter>
+            <ModalFooter className="flex justify-between">
+              <Checkbox
+                color="primary"
+                isSelected={keepSetValues}
+                onValueChange={setKeepSetValues}
+              >
+                Also Copy Set Values
+              </Checkbox>
               <Button color="primary" variant="light" onPress={onClose}>
                 Close
               </Button>

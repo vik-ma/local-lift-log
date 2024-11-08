@@ -32,6 +32,7 @@ export { PlateCalculationHandleConfig } from "./PlateCalculationHandleConfig";
 export { UserWeightListItem } from "./UserWeightListItem";
 export { WorkoutRatingSliders } from "./WorkoutRatingSliders";
 export { WorkoutListItem } from "./WorkoutListItem";
+export { WorkoutListOptions } from "./WorkoutListOptions";
 
 export { WeightUnitDropdown } from "./Dropdowns/WeightUnitDropdown";
 export { DistanceUnitDropdown } from "./Dropdowns/DistanceUnitDropdown";
@@ -42,7 +43,6 @@ export { TimeInputBehaviorDropdown } from "./Dropdowns/TimeInputBehaviorDropdown
 export { MultisetDropdown } from "./Dropdowns/MultisetDropdown";
 export { WorkoutPropertyDropdown } from "./Dropdowns/WorkoutPropertyDropdown";
 export { AvailablePlatesDropdown } from "./Dropdowns/AvailablePlatesDropdown";
-export { WorkoutSortDropdown } from "./Dropdowns/WorkoutSortDropdown";
 
 export { DeleteModal } from "./Modals/DeleteModal";
 export { SetModal } from "./Modals/SetModal";

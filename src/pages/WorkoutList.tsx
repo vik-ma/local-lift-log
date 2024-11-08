@@ -8,19 +8,11 @@ import {
   EmptyListLabel,
   ListPageSearchInput,
   WorkoutTemplateListModal,
-  WorkoutPropertyDropdown,
-  WorkoutSortDropdown,
   WorkoutListItem,
+  WorkoutListOptions,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
-import {
-  Button,
-  useDisclosure,
-  Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownItem,
-} from "@nextui-org/react";
+import { Button, useDisclosure } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
 import {
   CreateWorkoutPropertySet,
@@ -32,7 +24,6 @@ import {
   UpdateItemInList,
   UpdateWorkout,
 } from "../helpers";
-import { VerticalMenuIcon } from "../assets";
 import {
   useDefaultWorkout,
   useWorkoutList,
@@ -344,40 +335,15 @@ export default function WorkoutList() {
                 New Workout
               </Button>
               <div className="flex gap-1 pr-0.5">
-                <WorkoutPropertyDropdown
+                <WorkoutListOptions
+                  sortCategory={sortCategory}
+                  handleSortOptionSelection={handleSortOptionSelection}
                   selectedWorkoutProperties={selectedWorkoutProperties}
                   setSelectedWorkoutProperties={setSelectedWorkoutProperties}
                   userSettings={userSettings}
                   setUserSettings={setUserSettings}
+                  handleOptionMenuSelection={handleOptionMenuSelection}
                 />
-                <WorkoutSortDropdown
-                  sortCategory={sortCategory}
-                  handleSortOptionSelection={handleSortOptionSelection}
-                />
-                <Dropdown>
-                  <DropdownTrigger>
-                    <Button
-                      aria-label="Toggle Workout List Options Menu"
-                      isIconOnly
-                      className="z-1"
-                      size="sm"
-                      variant="light"
-                    >
-                      <VerticalMenuIcon size={19} />
-                    </Button>
-                  </DropdownTrigger>
-                  <DropdownMenu
-                    aria-label="Workout List Option Menu"
-                    onAction={(key) => handleOptionMenuSelection(key as string)}
-                  >
-                    <DropdownItem
-                      className="text-danger"
-                      key="delete-empty-workouts"
-                    >
-                      Delete All Empty Workouts
-                    </DropdownItem>
-                  </DropdownMenu>
-                </Dropdown>
               </div>
             </div>
           }
