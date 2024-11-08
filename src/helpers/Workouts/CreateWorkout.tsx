@@ -27,8 +27,8 @@ export const CreateWorkout = async (
       (workout_template_id, date, exercise_order, note,
       rating_general, rating_energy, rating_injury, 
       rating_sleep, rating_calories, rating_fasting, 
-      rating_time, rating_stress) 
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)`,
+      rating_time, rating_stress, routine_id) 
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)`,
       [
         newWorkout.workout_template_id,
         newWorkout.date,
@@ -42,6 +42,7 @@ export const CreateWorkout = async (
         newWorkout.rating_fasting,
         newWorkout.rating_time,
         newWorkout.rating_stress,
+        newWorkout.routine_id,
       ]
     );
 

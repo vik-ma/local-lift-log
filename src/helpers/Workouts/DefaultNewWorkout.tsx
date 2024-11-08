@@ -17,6 +17,7 @@ export const DefaultNewWorkout = () => {
     rating_fasting: 0,
     rating_time: 0,
     rating_stress: 0,
+    routine_id: 0,
   };
 
   return defaultNewWorkout;
