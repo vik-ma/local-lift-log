@@ -107,7 +107,8 @@ export default function WorkoutIndex() {
       <WorkoutListModal
         workoutListModal={workoutList.workoutListModal}
         workoutList={workoutList}
-        shownWorkoutProperties={userSettings.shown_workout_properties}
+        userSettings={userSettings}
+        setUserSettings={setUserSettings}
         onClickAction={handleClickWorkout}
       />
       <div className="flex flex-col gap-3">

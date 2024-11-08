@@ -10,30 +10,35 @@ import {
 } from "@nextui-org/react";
 import {
   UseDisclosureReturnType,
+  UserSettings,
   UseWorkoutListReturnType,
   Workout,
 } from "../../typings";
 import { CreateWorkoutPropertySet, FormatNumItemsString } from "../../helpers";
 import { useState } from "react";
-import { EmptyListLabel } from "..";
+import { EmptyListLabel, WorkoutPropertyDropdown } from "..";
 
 type WorkoutListModalProps = {
   workoutListModal: UseDisclosureReturnType;
   workoutList: UseWorkoutListReturnType;
-  shownWorkoutProperties: string;
+  userSettings: UserSettings;
+  setUserSettings: React.Dispatch<
+    React.SetStateAction<UserSettings | undefined>
+  >;
   onClickAction: (workoutToCopy: Workout, keepSetValues: boolean) => void;
 };
 
 export const WorkoutListModal = ({
   workoutListModal,
   workoutList,
-  shownWorkoutProperties,
+  userSettings,
+  setUserSettings,
   onClickAction,
 }: WorkoutListModalProps) => {
   const [keepSetValues, setKeepSetValues] = useState<boolean>(false);
   const [selectedWorkoutProperties, setSelectedWorkoutProperties] = useState<
     Set<string>
-  >(CreateWorkoutPropertySet(shownWorkoutProperties));
+  >(CreateWorkoutPropertySet(userSettings.shown_workout_properties));
 
   const { workouts } = workoutList;
 
@@ -57,7 +62,16 @@ export const WorkoutListModal = ({
                     >
                       Keep Set Values
                     </Checkbox>
-                    {/* TODO: ADD SORT AND SEARCH INPUTS */}
+                    <div className="flex gap-1 pr-0.5">
+                      <WorkoutPropertyDropdown
+                        selectedWorkoutProperties={selectedWorkoutProperties}
+                        setSelectedWorkoutProperties={
+                          setSelectedWorkoutProperties
+                        }
+                        userSettings={userSettings}
+                        setUserSettings={setUserSettings}
+                      />
+                    </div>
                   </div>
                 )}
                 {workouts.length > 0 ? (
