@@ -97,6 +97,7 @@ export const TimeInputModal = ({
                   <TimeInput
                     aria-label="Current Time Read-Only TimeInput"
                     size="lg"
+                    variant="faded"
                     className={
                       clockStyle === "24h" ? "w-[6.5rem]" : "w-[8.5rem]"
                     }
@@ -109,6 +110,7 @@ export const TimeInputModal = ({
                     <DatePicker
                       aria-label="Current Time Read-Only DatePicker"
                       size="lg"
+                      variant="faded"
                       className="w-[10rem]"
                       isDisabled
                       value={currentDate}
@@ -116,10 +118,11 @@ export const TimeInputModal = ({
                   </I18nProvider>
                 </div>
                 <div className="flex gap-2.5 items-center justify-center">
-                  <span className="w-[5rem] text-lg text-stone-700">New</span>
+                  <span className="w-[5rem] text-lg text-stone-600">New</span>
                   <TimeInput
                     aria-label="New Time TimeInput"
                     size="lg"
+                    variant="faded"
                     className={
                       clockStyle === "24h" ? "w-[6.5rem]" : "w-[8.5rem]"
                     }
@@ -132,6 +135,7 @@ export const TimeInputModal = ({
                     <DatePicker
                       aria-label="New Time DatePicker"
                       size="lg"
+                      variant="faded"
                       className="w-[10rem]"
                       value={newDate}
                       onChange={setNewDate}

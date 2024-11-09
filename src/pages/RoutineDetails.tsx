@@ -392,7 +392,7 @@ export default function RoutineDetails() {
                   classNames={{ base: "font-medium" }}
                   label="Start date"
                   labelPlacement="outside"
-                  variant="flat"
+                  variant="faded"
                   value={
                     routine.custom_schedule_start_date
                       ? parseDate(routine.custom_schedule_start_date)
