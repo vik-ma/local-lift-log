@@ -323,7 +323,11 @@ export default function WorkoutList() {
           </span>
         }
       />
-      <RoutineListModal routineList={routineList} onClickAction={() => {}} />
+      <RoutineListModal
+        routineList={routineList}
+        activeRoutineId={userSettings.active_routine_id}
+        onClickAction={() => {}}
+      />
       <div className="flex flex-col items-center gap-1">
         <ListPageSearchInput
           header="Workout List"
