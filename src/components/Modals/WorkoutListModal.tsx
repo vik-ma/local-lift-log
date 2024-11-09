@@ -81,22 +81,20 @@ export const WorkoutListModal = ({
                   </div>
                 </div>
                 <ScrollShadow className="flex flex-col gap-1">
-                  <div className="flex flex-col gap-1 w-full">
-                    {filteredWorkouts.map((workout) => (
-                      <WorkoutListItem
-                        key={workout.id}
-                        workout={workout}
-                        listItemTextWidth="w-[23rem]"
-                        selectedWorkoutProperties={selectedWorkoutProperties}
-                        onClickAction={() =>
-                          onClickAction(workout, keepSetValues)
-                        }
-                      />
-                    ))}
-                    {filteredWorkouts.length === 0 && (
-                      <EmptyListLabel itemName="Workouts" />
-                    )}
-                  </div>
+                  {filteredWorkouts.map((workout) => (
+                    <WorkoutListItem
+                      key={workout.id}
+                      workout={workout}
+                      listItemTextWidth="w-[23rem]"
+                      selectedWorkoutProperties={selectedWorkoutProperties}
+                      onClickAction={() =>
+                        onClickAction(workout, keepSetValues)
+                      }
+                    />
+                  ))}
+                  {filteredWorkouts.length === 0 && (
+                    <EmptyListLabel itemName="Workouts" />
+                  )}
                 </ScrollShadow>
               </div>
             </ModalBody>
