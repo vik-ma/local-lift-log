@@ -6,23 +6,19 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@nextui-org/react";
-import {
-  Routine,
-  UseDisclosureReturnType,
-  UseRoutineListReturnType,
-} from "../../typings";
+import { Routine, UseRoutineListReturnType } from "../../typings";
 
 type RoutineListModal = {
-  routineListModal: UseDisclosureReturnType;
   routineList: UseRoutineListReturnType;
   onClickAction: (routine: Routine) => void;
 };
 
 export const RoutineListModal = ({
-  routineListModal,
   routineList,
   onClickAction,
 }: RoutineListModal) => {
+  const { routineListModal } = routineList;
+
   return (
     <Modal
       isOpen={routineListModal.isOpen}
@@ -31,7 +27,7 @@ export const RoutineListModal = ({
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalHeader>Select Workout</ModalHeader>
+            <ModalHeader>Select Routine</ModalHeader>
             <ModalBody>
               <div className="h-[440px] flex flex-col gap-1.5"></div>
             </ModalBody>

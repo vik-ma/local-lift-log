@@ -10,6 +10,7 @@ import {
   WorkoutTemplateListModal,
   WorkoutListItem,
   WorkoutListOptions,
+  RoutineListModal,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
 import { Button, useDisclosure } from "@nextui-org/react";
@@ -26,6 +27,7 @@ import {
 } from "../helpers";
 import {
   useDefaultWorkout,
+  useRoutineList,
   useWorkoutList,
   useWorkoutTemplateList,
 } from "../hooks";
@@ -66,6 +68,7 @@ export default function WorkoutList() {
   } = useWorkoutList(true);
 
   const workoutTemplateList = useWorkoutTemplateList(false, true);
+  const routineList = useRoutineList(false);
 
   useEffect(() => {
     const getUserSettings = async () => {
@@ -139,6 +142,9 @@ export default function WorkoutList() {
       setOperationType("reassign-workout-template");
       setOperatingWorkout(workout);
       workoutTemplateList.handleOpenWorkoutTemplatesModal();
+    } else if (key === "reassign-routine") {
+      setOperatingWorkout(workout);
+      routineList.handleOpenRoutineListModal();
     }
   };
 
@@ -317,6 +323,7 @@ export default function WorkoutList() {
           </span>
         }
       />
+      <RoutineListModal routineList={routineList} onClickAction={() => {}} />
       <div className="flex flex-col items-center gap-1">
         <ListPageSearchInput
           header="Workout List"

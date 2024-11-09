@@ -120,6 +120,12 @@ export const WorkoutListItem = ({
                 >
                   Reassign Workout Template
                 </DropdownItem>
+                <DropdownItem
+                  className={workout.hasInvalidRoutine ? "" : "hidden"}
+                  key="reassign-routine"
+                >
+                  Reassign Routine
+                </DropdownItem>
                 <DropdownItem key="delete" className="text-danger">
                   Delete
                 </DropdownItem>
