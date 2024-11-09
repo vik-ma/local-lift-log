@@ -46,7 +46,7 @@ export const WorkoutListItem = ({
         {workout.hasInvalidWorkoutTemplate &&
           selectedWorkoutProperties.has("template") && (
             <span
-              className={`${listItemTextWidth} truncate text-sm text-red-700`}
+              className={`${listItemTextWidth} truncate text-xs text-red-700`}
             >
               Unknown Workout Template
             </span>
@@ -57,6 +57,14 @@ export const WorkoutListItem = ({
               className={`${listItemTextWidth} truncate text-xs text-violet-700`}
             >
               {workout.routine.name}
+            </span>
+          )}
+        {workout.hasInvalidRoutine &&
+          selectedWorkoutProperties.has("routine") && (
+            <span
+              className={`${listItemTextWidth} truncate text-xs text-red-700`}
+            >
+              Unknown Routine
             </span>
           )}
         {workout.numSets! > 0 ? (

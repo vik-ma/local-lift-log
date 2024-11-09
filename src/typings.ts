@@ -263,6 +263,7 @@ export type Workout = {
   workoutTemplateName?: string | null;
   hasInvalidWorkoutTemplate?: boolean;
   routine?: Routine;
+  hasInvalidRoutine?: boolean;
 };
 
 export type UserWeight = {

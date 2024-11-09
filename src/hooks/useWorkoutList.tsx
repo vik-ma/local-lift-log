@@ -108,6 +108,8 @@ export const useWorkoutList = (
           hasInvalidWorkoutTemplate:
             row.workout_template_id > 0 && row.workoutTemplateName === null,
           routine: routineMap.get(row.routine_id),
+          hasInvalidRoutine:
+            row.routine_id !== 0 && !routineMap.has(row.routine_id),
         };
 
         workouts.push(workout);
