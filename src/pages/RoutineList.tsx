@@ -56,7 +56,6 @@ export default function RoutineList() {
     filteredRoutines,
     filterQuery,
     setFilterQuery,
-    handleOpenRoutineListModal,
   } = useRoutineList(true);
 
   useEffect(() => {

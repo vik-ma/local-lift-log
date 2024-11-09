@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Routine } from "../typings";
+import { Routine, UseRoutineListReturnType } from "../typings";
 import Database from "tauri-plugin-sql-api";
 import { useDisclosure } from "@nextui-org/react";
 
-export const useRoutineList = (getRoutinesOnLoad: boolean) => {
+export const useRoutineList = (
+  getRoutinesOnLoad: boolean
+): UseRoutineListReturnType => {
   const [routines, setRoutines] = useState<Routine[]>([]);
   const [filterQuery, setFilterQuery] = useState<string>("");
 
@@ -60,6 +62,7 @@ export const useRoutineList = (getRoutinesOnLoad: boolean) => {
     filteredRoutines,
     filterQuery,
     setFilterQuery,
+    routineListModal,
     handleOpenRoutineListModal,
   };
 };

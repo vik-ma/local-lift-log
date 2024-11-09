@@ -634,3 +634,13 @@ export type UsePlateCalculationModalReturnType = {
   plateCalculationModal: UseDisclosureReturnType;
   resetAndOpenPlateCalculationModal: () => void;
 };
+
+export type UseRoutineListReturnType = {
+  routines: Routine[];
+  setRoutines: React.Dispatch<React.SetStateAction<Routine[]>>;
+  filteredRoutines: Routine[];
+  filterQuery: string;
+  setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
+  routineListModal: UseDisclosureReturnType;
+  handleOpenRoutineListModal: () => void;
+};
