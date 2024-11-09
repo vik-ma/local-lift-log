@@ -7,7 +7,7 @@ import {
   DropdownItem,
 } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { Routine, UserSettingsOptional } from "../typings";
 import toast, { Toaster } from "react-hot-toast";
 import Database from "tauri-plugin-sql-api";
@@ -27,26 +27,15 @@ import {
   ListPageSearchInput,
   EmptyListLabel,
 } from "../components";
-import { useDefaultRoutine, useIsRoutineValid } from "../hooks";
+import { useDefaultRoutine, useIsRoutineValid, useRoutineList } from "../hooks";
 import { VerticalMenuIcon } from "../assets";
 
 type OperationType = "add" | "edit" | "delete";
 
 export default function RoutineList() {
-  const [routines, setRoutines] = useState<Routine[]>([]);
   const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [operationType, setOperationType] = useState<OperationType>("add");
-  const [filterQuery, setFilterQuery] = useState<string>("");
-
-  const filteredRoutines = useMemo(() => {
-    if (filterQuery !== "") {
-      return routines.filter((item) =>
-        item.name.toLocaleLowerCase().includes(filterQuery.toLocaleLowerCase())
-      );
-    }
-    return routines;
-  }, [routines, filterQuery]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const navigate = useNavigate();
 
@@ -61,36 +50,27 @@ export default function RoutineList() {
   const { isRoutineNameValid, isRoutineValid } =
     useIsRoutineValid(operatingRoutine);
 
+  const {
+    routines,
+    setRoutines,
+    filteredRoutines,
+    filterQuery,
+    setFilterQuery,
+    handleOpenRoutineListModal,
+  } = useRoutineList(true);
+
   useEffect(() => {
-    const getRoutines = async () => {
-      try {
-        const db = await Database.load(import.meta.env.VITE_DB);
-
-        // Get all columns and number of workout_routine_schedule entries for every Routine
-        const result = await db.select<Routine[]>(
-          `SELECT routines.*, 
-          COUNT(workout_routine_schedules.routine_id) AS numWorkoutTemplates 
-          FROM routines LEFT JOIN workout_routine_schedules
-          ON routines.id = workout_routine_schedules.routine_id 
-          GROUP BY routines.id`
-        );
-
-        setRoutines(result);
-        setIsLoading(false);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
     const getActiveRoutineId = async () => {
       const userSettings: UserSettingsOptional | undefined =
         await GetActiveRoutineId();
 
-      if (userSettings !== undefined) setUserSettings(userSettings);
+      if (userSettings !== undefined) {
+        setUserSettings(userSettings);
+        setIsLoading(false);
+      }
     };
 
     getActiveRoutineId();
-    getRoutines();
   }, []);
 
   const handleSetActiveButton = async (routine: Routine) => {
@@ -108,7 +88,7 @@ export default function RoutineList() {
     setUserSettings(updatedSettings);
   };
 
-  const handleWorkoutOptionSelection = (key: string, routine: Routine) => {
+  const handleRoutineOptionSelection = (key: string, routine: Routine) => {
     if (key === "edit") {
       setOperationType("edit");
       setOperatingRoutine(routine);
@@ -336,7 +316,7 @@ export default function RoutineList() {
                         <DropdownMenu
                           aria-label={`Option Menu For ${routine.name} Routine`}
                           onAction={(key) =>
-                            handleWorkoutOptionSelection(key as string, routine)
+                            handleRoutineOptionSelection(key as string, routine)
                           }
                         >
                           <DropdownItem key="edit">Edit</DropdownItem>
