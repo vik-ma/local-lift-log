@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { UserSettings, Workout, WorkoutTemplate } from "../typings";
+import { Routine, UserSettings, Workout, WorkoutTemplate } from "../typings";
 import { useNavigate } from "react-router-dom";
 import {
   LoadingSpinner,
@@ -260,6 +260,40 @@ export default function WorkoutList() {
     workoutTemplateList.workoutTemplatesModal.onClose();
   };
 
+  const reassignRoutine = async (routine: Routine) => {
+    if (operatingWorkout.id === 0 || !operatingWorkout.hasInvalidRoutine)
+      return;
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+      // Reassign ALL workouts with old routine_id to new routine_id
+      db.execute("UPDATE workouts SET routine_id = $1 WHERE routine_id = $2", [
+        routine.id,
+        operatingWorkout.routine_id,
+      ]);
+
+      const updatedWorkouts = workouts.map((item) =>
+        item.routine_id === operatingWorkout.routine_id
+          ? {
+              ...item,
+              routine_id: routine.id,
+              routine: routine,
+              hasInvalidRoutine: false,
+            }
+          : item
+      );
+
+      setWorkouts(updatedWorkouts);
+
+      toast.success("Routine Reassigned");
+    } catch (error) {
+      console.log(error);
+    }
+
+    resetOperatingWorkout();
+    routineList.routineListModal.onClose();
+  };
+
   const listItemTextWidth = selectedWorkoutProperties.has("details")
     ? "w-[18rem]"
     : "w-[21rem]";
@@ -326,7 +360,7 @@ export default function WorkoutList() {
       <RoutineListModal
         routineList={routineList}
         activeRoutineId={userSettings.active_routine_id}
-        onClickAction={() => {}}
+        onClickAction={reassignRoutine}
       />
       <div className="flex flex-col items-center gap-1">
         <ListPageSearchInput
