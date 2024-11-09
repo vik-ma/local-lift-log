@@ -3,6 +3,7 @@ import { useCalculationModal, usePresetsList } from "../hooks";
 import { Button, useDisclosure } from "@nextui-org/react";
 import {
   CalculationModal,
+  DateRangeModal,
   LoadingSpinner,
   TextInputModal,
 } from "../components";
@@ -29,6 +30,7 @@ export default function Test() {
 
   const calculationModal = useCalculationModal();
   const textInputModal = useDisclosure();
+  const dateRangeModal = useDisclosure();
 
   const presetsList = usePresetsList(false, false);
 
@@ -100,6 +102,7 @@ export default function Test() {
         userSettings={userSettings}
         setUserSettings={setUserSettings}
       />
+      <DateRangeModal dateRangeModal={dateRangeModal} buttonAction={() => {}} />
       <div className="flex flex-col gap-2">
         <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">
           <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">
@@ -175,6 +178,9 @@ export default function Test() {
             Distances
           </Button>
         </div>
+        <Button variant="flat" onPress={() => dateRangeModal.onOpen()}>
+          Open Date Range Modal
+        </Button>
         <div className="flex flex-col bg-white border border-black overflow-auto mb-20">
           Test
           <br />

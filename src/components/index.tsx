@@ -63,3 +63,4 @@ export { WorkoutListModal } from "./Modals/WorkoutListModal";
 export { CalculationModal } from "./Modals/CalculationModal";
 export { PlateCalculationModal } from "./Modals/PlateCalculationModal";
 export { RoutineListModal } from "./Modals/RoutineListModal";
+export { DateRangeModal } from "./Modals/DateRangeModal";
