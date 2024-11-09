@@ -59,7 +59,13 @@ export const RoutineListModal = ({
                         onClick={() => onClickAction(routine)}
                       >
                         <div className="flex flex-col justify-start items-start pl-2 py-1">
-                          <span className="w-[15.5rem] truncate text-left">
+                          <span
+                            className={
+                              isActiveRoutine
+                                ? "w-[16.5rem] truncate text-left"
+                                : "w-[23.5rem] truncate text-left"
+                            }
+                          >
                             {routine.name}
                           </span>
                           {numWorkoutTemplates > 0 && (
@@ -76,6 +82,13 @@ export const RoutineListModal = ({
                               : "Weekly Schedule"}
                           </span>
                         </div>
+                        {isActiveRoutine && (
+                          <div className="pr-2">
+                            <div className="flex justify-center px-1.5 py-0.5 text-sm text-success rounded-lg bg-success/10 border-2 border-success/40">
+                              Active Routine
+                            </div>
+                          </div>
+                        )}
                       </button>
                     );
                   })}
