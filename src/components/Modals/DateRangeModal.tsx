@@ -52,13 +52,26 @@ export const DateRangeModal = ({
                 </I18nProvider>
               </div>
             </ModalBody>
-            <ModalFooter>
-              <Button color="primary" variant="light" onPress={onClose}>
-                Close
-              </Button>
-              <Button color="primary" onPress={() => buttonAction()}>
-                Done
-              </Button>
+            <ModalFooter className="flex justify-between">
+              <div>
+                {dateRange !== null && (
+                  <Button variant="flat" onPress={() => setDateRange(null)}>
+                    Reset
+                  </Button>
+                )}
+              </div>
+              <div className="flex gap-2">
+                <Button color="primary" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+                <Button
+                  color="primary"
+                  onPress={() => buttonAction()}
+                  isDisabled={dateRange === null}
+                >
+                  Done
+                </Button>
+              </div>
             </ModalFooter>
           </>
         )}
