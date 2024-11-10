@@ -42,14 +42,17 @@ export const ExerciseGroupCheckboxes = ({
     >
       <div className="grid grid-cols-2 gap-0.5">
         {Array.from(exerciseGroupDictionary).map(([key, value]) => (
-          <Checkbox
-            key={useValueAsValue ? value : key}
-            color="primary"
-            value={useValueAsValue ? value : key}
-            isDisabled={disabledKeysSet.has(key)}
-          >
-            {value}
-          </Checkbox>
+          <div className="w-[10.5rem]">
+            <Checkbox
+              className="hover:underline w-full min-w-full"
+              key={useValueAsValue ? value : key}
+              color="primary"
+              value={useValueAsValue ? value : key}
+              isDisabled={disabledKeysSet.has(key)}
+            >
+              {value}
+            </Checkbox>
+          </div>
         ))}
       </div>
     </CheckboxGroup>
