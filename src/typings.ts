@@ -455,7 +455,9 @@ export type UseWorkoutListReturnType = {
   setSortCategory: React.Dispatch<React.SetStateAction<WorkoutSortCategory>>;
   handleSortOptionSelection: (key: string) => void;
   routineMap: Map<number, Routine>;
-  handleFilterButton: () => void;
+  filterWorkoutListModal: UseDisclosureReturnType;
+  handleOpenFilterButton: () => void;
+  handleFilterDoneButton: () => void;
 };
 
 export type UseWorkoutTemplateListReturnType = {

@@ -6,17 +6,17 @@ import {
   ModalHeader,
   ModalFooter,
 } from "@nextui-org/react";
-import { UseDisclosureReturnType } from "../../typings";
+import { UseWorkoutListReturnType } from "../../typings";
 
 type FilterWorkoutListModal = {
-  filterWorkoutListModal: UseDisclosureReturnType;
-  buttonAction: () => void;
+  useWorkoutList: UseWorkoutListReturnType;
 };
 
 export const FilterWorkoutListModal = ({
-  filterWorkoutListModal,
-  buttonAction,
+  useWorkoutList,
 }: FilterWorkoutListModal) => {
+  const { filterWorkoutListModal, handleFilterDoneButton } = useWorkoutList;
+
   return (
     <Modal
       isOpen={filterWorkoutListModal.isOpen}
@@ -31,7 +31,7 @@ export const FilterWorkoutListModal = ({
               <Button color="primary" variant="light" onPress={onClose}>
                 Close
               </Button>
-              <Button color="primary" onPress={buttonAction}>
+              <Button color="primary" onPress={handleFilterDoneButton}>
                 Save
               </Button>
             </ModalFooter>

@@ -11,6 +11,7 @@ import {
   WorkoutListItem,
   WorkoutListOptions,
   RoutineListModal,
+  FilterWorkoutListModal,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
 import { Button, useDisclosure } from "@nextui-org/react";
@@ -57,6 +58,8 @@ export default function WorkoutList() {
   const deleteModal = useDisclosure();
   const workoutModal = useDisclosure();
 
+  const workoutList = useWorkoutList(true);
+
   const {
     workouts,
     setWorkouts,
@@ -65,8 +68,8 @@ export default function WorkoutList() {
     filteredWorkouts,
     sortCategory,
     handleSortOptionSelection,
-    handleFilterButton,
-  } = useWorkoutList(true);
+    handleOpenFilterButton,
+  } = workoutList;
 
   const workoutTemplateList = useWorkoutTemplateList(false, true);
   const routineList = useRoutineList(false);
@@ -363,6 +366,7 @@ export default function WorkoutList() {
         activeRoutineId={userSettings.active_routine_id}
         onClickAction={reassignRoutine}
       />
+      <FilterWorkoutListModal useWorkoutList={workoutList} />
       <div className="flex flex-col items-center gap-1">
         <ListPageSearchInput
           header="Workout List"
@@ -386,7 +390,7 @@ export default function WorkoutList() {
                   handleSortOptionSelection={handleSortOptionSelection}
                   selectedWorkoutProperties={selectedWorkoutProperties}
                   setSelectedWorkoutProperties={setSelectedWorkoutProperties}
-                  handleFilterButton={handleFilterButton}
+                  handleFilterButton={handleOpenFilterButton}
                   userSettings={userSettings}
                   setUserSettings={setUserSettings}
                   handleOptionMenuSelection={handleOptionMenuSelection}

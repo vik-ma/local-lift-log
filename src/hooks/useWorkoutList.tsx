@@ -158,9 +158,11 @@ export const useWorkoutList = (
     }
   };
 
-  const handleFilterButton = () => {
+  const handleOpenFilterButton = () => {
     filterWorkoutListModal.onOpen();
   };
+
+  const handleFilterDoneButton = () => {};
 
   return {
     workouts,
@@ -176,6 +178,8 @@ export const useWorkoutList = (
     setSortCategory,
     handleSortOptionSelection,
     routineMap,
-    handleFilterButton,
+    filterWorkoutListModal,
+    handleOpenFilterButton,
+    handleFilterDoneButton,
   };
 };
