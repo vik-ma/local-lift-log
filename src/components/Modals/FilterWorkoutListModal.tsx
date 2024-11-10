@@ -6,6 +6,7 @@ import {
   ModalHeader,
   ModalFooter,
   DateRangePicker,
+  ScrollShadow,
 } from "@nextui-org/react";
 import { UseWorkoutListReturnType } from "../../typings";
 import { I18nProvider } from "@react-aria/i18n";
@@ -42,18 +43,22 @@ export const FilterWorkoutListModal = ({
           <>
             <ModalHeader>Filter Workouts</ModalHeader>
             <ModalBody>
-              <div className="flex flex-col gap-1">
-                <h3 className="font-semibold px-0.5">Date Range</h3>
-                <I18nProvider locale={locale}>
-                  <DateRangePicker
-                    label="Workout Dates"
-                    variant="faded"
-                    value={filterDateRange}
-                    onChange={setFilterDateRange}
-                    visibleMonths={2}
-                  />
-                </I18nProvider>
-              </div>
+              <ScrollShadow className="h-[440px]">
+                <div className="flex flex-col gap-2 w-[24rem]">
+                  <div className="flex flex-col gap-1">
+                    <h3 className="font-semibold px-0.5">Date Range</h3>
+                    <I18nProvider locale={locale}>
+                      <DateRangePicker
+                        label="Workout Dates"
+                        variant="faded"
+                        value={filterDateRange}
+                        onChange={setFilterDateRange}
+                        visibleMonths={2}
+                      />
+                    </I18nProvider>
+                  </div>
+                </div>
+              </ScrollShadow>
             </ModalBody>
             <ModalFooter>
               <Button color="primary" variant="light" onPress={onClose}>
