@@ -10,7 +10,6 @@ import {
 } from "@nextui-org/react";
 import { UseWorkoutListReturnType } from "../../typings";
 import { I18nProvider } from "@react-aria/i18n";
-import { useMemo } from "react";
 
 type FilterWorkoutListModal = {
   useWorkoutList: UseWorkoutListReturnType;
@@ -28,11 +27,6 @@ export const FilterWorkoutListModal = ({
     setFilterDateRange,
   } = useWorkoutList;
 
-  const isFilterInvalid = useMemo(() => {
-    if (filterDateRange === null) return true;
-    return false;
-  }, [filterDateRange]);
-
   return (
     <Modal
       isOpen={filterWorkoutListModal.isOpen}
@@ -46,7 +40,7 @@ export const FilterWorkoutListModal = ({
               <ScrollShadow className="h-[440px]">
                 <div className="flex flex-col gap-2 w-[24rem]">
                   <div className="flex flex-col gap-1">
-                    <h3 className="font-semibold px-0.5">Date Range</h3>
+                    <h3 className="font-semibold text-lg px-0.5">Date Range</h3>
                     <I18nProvider locale={locale}>
                       <DateRangePicker
                         label="Workout Dates"
@@ -64,11 +58,7 @@ export const FilterWorkoutListModal = ({
               <Button color="primary" variant="light" onPress={onClose}>
                 Close
               </Button>
-              <Button
-                color="primary"
-                isDisabled={isFilterInvalid}
-                onPress={handleFilterDoneButton}
-              >
+              <Button color="primary" onPress={handleFilterDoneButton}>
                 Save
               </Button>
             </ModalFooter>
