@@ -366,7 +366,10 @@ export default function WorkoutList() {
         activeRoutineId={userSettings.active_routine_id}
         onClickAction={reassignRoutine}
       />
-      <FilterWorkoutListModal useWorkoutList={workoutList} />
+      <FilterWorkoutListModal
+        useWorkoutList={workoutList}
+        locale={userSettings.locale}
+      />
       <div className="flex flex-col items-center gap-1">
         <ListPageSearchInput
           header="Workout List"

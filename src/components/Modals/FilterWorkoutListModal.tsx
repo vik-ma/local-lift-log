@@ -5,17 +5,32 @@ import {
   ModalBody,
   ModalHeader,
   ModalFooter,
+  DateRangePicker,
 } from "@nextui-org/react";
 import { UseWorkoutListReturnType } from "../../typings";
+import { I18nProvider } from "@react-aria/i18n";
+import { useMemo } from "react";
 
 type FilterWorkoutListModal = {
   useWorkoutList: UseWorkoutListReturnType;
+  locale: string;
 };
 
 export const FilterWorkoutListModal = ({
   useWorkoutList,
+  locale,
 }: FilterWorkoutListModal) => {
-  const { filterWorkoutListModal, handleFilterDoneButton } = useWorkoutList;
+  const {
+    filterWorkoutListModal,
+    handleFilterDoneButton,
+    filterDateRange,
+    setFilterDateRange,
+  } = useWorkoutList;
+
+  const isFilterInvalid = useMemo(() => {
+    if (filterDateRange === null) return true;
+    return false;
+  }, [filterDateRange]);
 
   return (
     <Modal
@@ -26,12 +41,29 @@ export const FilterWorkoutListModal = ({
         {(onClose) => (
           <>
             <ModalHeader>Filter Workouts</ModalHeader>
-            <ModalBody></ModalBody>
+            <ModalBody>
+              <div className="flex flex-col gap-1">
+                <h3 className="font-semibold px-0.5">Date Range</h3>
+                <I18nProvider locale={locale}>
+                  <DateRangePicker
+                    label="Stay duration"
+                    variant="faded"
+                    value={filterDateRange}
+                    onChange={setFilterDateRange}
+                    visibleMonths={2}
+                  />
+                </I18nProvider>
+              </div>
+            </ModalBody>
             <ModalFooter>
               <Button color="primary" variant="light" onPress={onClose}>
                 Close
               </Button>
-              <Button color="primary" onPress={handleFilterDoneButton}>
+              <Button
+                color="primary"
+                isDisabled={isFilterInvalid}
+                onPress={handleFilterDoneButton}
+              >
                 Save
               </Button>
             </ModalFooter>

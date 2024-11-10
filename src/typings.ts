@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { useDisclosure } from "@nextui-org/react";
+import { CalendarDate, RangeValue, useDisclosure } from "@nextui-org/react";
 
 export type Routine = {
   id: number;
@@ -458,6 +458,10 @@ export type UseWorkoutListReturnType = {
   filterWorkoutListModal: UseDisclosureReturnType;
   handleOpenFilterButton: () => void;
   handleFilterDoneButton: () => void;
+  filterDateRange: RangeValue<CalendarDate> | null;
+  setFilterDateRange: React.Dispatch<
+    React.SetStateAction<RangeValue<CalendarDate> | null>
+  >;
 };
 
 export type UseWorkoutTemplateListReturnType = {

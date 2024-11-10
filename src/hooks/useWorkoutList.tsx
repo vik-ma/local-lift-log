@@ -7,7 +7,7 @@ import {
 } from "../typings";
 import Database from "tauri-plugin-sql-api";
 import { FormatDateString } from "../helpers";
-import { useDisclosure } from "@nextui-org/react";
+import { CalendarDate, RangeValue, useDisclosure } from "@nextui-org/react";
 
 export const useWorkoutList = (
   getWorkoutsOnLoad: boolean,
@@ -19,6 +19,8 @@ export const useWorkoutList = (
   const [sortCategory, setSortCategory] =
     useState<WorkoutSortCategory>("date-desc");
   const [routineMap, setRoutineMap] = useState<Map<number, Routine>>(new Map());
+  const [filterDateRange, setFilterDateRange] =
+    useState<RangeValue<CalendarDate> | null>(null);
 
   const workoutListIsLoaded = useRef(false);
 
@@ -181,5 +183,7 @@ export const useWorkoutList = (
     filterWorkoutListModal,
     handleOpenFilterButton,
     handleFilterDoneButton,
+    filterDateRange,
+    setFilterDateRange,
   };
 };
