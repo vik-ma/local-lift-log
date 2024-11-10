@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { useCalculationModal, usePresetsList } from "../hooks";
-import { Button, useDisclosure } from "@nextui-org/react";
+import {
+  Button,
+  CalendarDate,
+  RangeValue,
+  useDisclosure,
+} from "@nextui-org/react";
 import {
   CalculationModal,
   DateRangeModal,
@@ -25,6 +30,9 @@ export default function Test() {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const [text, setText] = useState<string>("");
   const [isMetric, setIsMetric] = useState<boolean>(true);
+  const [dateRange, setDateRange] = useState<RangeValue<CalendarDate> | null>(
+    null
+  );
 
   const [userSettings, setUserSettings] = useState<UserSettings>();
 
@@ -104,6 +112,8 @@ export default function Test() {
       />
       <DateRangeModal
         header="Select Date Range"
+        dateRange={dateRange}
+        setDateRange={setDateRange}
         dateRangeModal={dateRangeModal}
         locale={userSettings.locale}
         buttonAction={() => {}}

@@ -11,10 +11,13 @@ import {
 } from "@nextui-org/react";
 import { UseDisclosureReturnType } from "../../typings";
 import { I18nProvider } from "@react-aria/i18n";
-import { useState } from "react";
 
 type DateRangeModalProps = {
   dateRangeModal: UseDisclosureReturnType;
+  dateRange: RangeValue<CalendarDate> | null;
+  setDateRange: React.Dispatch<
+    React.SetStateAction<RangeValue<CalendarDate> | null>
+  >;
   header: string;
   locale: string;
   buttonAction: () => void;
@@ -22,14 +25,12 @@ type DateRangeModalProps = {
 
 export const DateRangeModal = ({
   dateRangeModal,
+  dateRange,
+  setDateRange,
   header,
   locale,
   buttonAction,
 }: DateRangeModalProps) => {
-  const [dateRange, setDateRange] = useState<RangeValue<CalendarDate> | null>(
-    null
-  );
-
   return (
     <Modal
       isOpen={dateRangeModal.isOpen}
