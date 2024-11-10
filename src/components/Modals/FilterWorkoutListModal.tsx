@@ -46,7 +46,7 @@ export const FilterWorkoutListModal = ({
                 <h3 className="font-semibold px-0.5">Date Range</h3>
                 <I18nProvider locale={locale}>
                   <DateRangePicker
-                    label="Stay duration"
+                    label="Workout Dates"
                     variant="faded"
                     value={filterDateRange}
                     onChange={setFilterDateRange}

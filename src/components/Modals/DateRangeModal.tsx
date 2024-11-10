@@ -21,6 +21,7 @@ type DateRangeModalProps = {
   header: string;
   locale: string;
   buttonAction: () => void;
+  customLabel?: string;
 };
 
 export const DateRangeModal = ({
@@ -30,6 +31,7 @@ export const DateRangeModal = ({
   header,
   locale,
   buttonAction,
+  customLabel,
 }: DateRangeModalProps) => {
   return (
     <Modal
@@ -44,7 +46,7 @@ export const DateRangeModal = ({
               <div className="h-16">
                 <I18nProvider locale={locale}>
                   <DateRangePicker
-                    label="Stay duration"
+                    label={customLabel !== undefined ? customLabel : header}
                     variant="faded"
                     value={dateRange}
                     onChange={setDateRange}
