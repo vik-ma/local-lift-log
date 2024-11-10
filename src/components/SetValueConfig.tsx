@@ -119,6 +119,7 @@ export const SetValueConfig = ({
         <h3 className="text-xl font-semibold px-0.5">Track</h3>
         <div className="grid grid-cols-2 gap-1.5 px-1">
           <Checkbox
+            className="hover:underline"
             color="primary"
             isSelected={operatingSet.is_tracking_weight ? true : false}
             onValueChange={(value) =>
@@ -131,6 +132,7 @@ export const SetValueConfig = ({
             Weight
           </Checkbox>
           <Checkbox
+            className="hover:underline"
             color="primary"
             isSelected={operatingSet.is_tracking_reps ? true : false}
             onValueChange={(value) =>
@@ -143,6 +145,7 @@ export const SetValueConfig = ({
             Reps
           </Checkbox>
           <Checkbox
+            className="hover:underline"
             color="primary"
             isSelected={operatingSet.is_tracking_distance ? true : false}
             onValueChange={(value) =>
@@ -155,6 +158,7 @@ export const SetValueConfig = ({
             Distance
           </Checkbox>
           <Checkbox
+            className="hover:underline"
             color="primary"
             isSelected={operatingSet.is_tracking_time ? true : false}
             onValueChange={(value) =>
@@ -167,6 +171,7 @@ export const SetValueConfig = ({
             Time
           </Checkbox>
           <Checkbox
+            className="hover:underline"
             color="primary"
             isSelected={operatingSet.is_tracking_rir ? true : false}
             onValueChange={(value) =>
@@ -179,6 +184,7 @@ export const SetValueConfig = ({
             RIR
           </Checkbox>
           <Checkbox
+            className="hover:underline"
             color="primary"
             isSelected={operatingSet.is_tracking_rpe ? true : false}
             onValueChange={(value) =>
@@ -191,6 +197,7 @@ export const SetValueConfig = ({
             RPE
           </Checkbox>
           <Checkbox
+            className="hover:underline"
             color="primary"
             isSelected={
               operatingSet.is_tracking_resistance_level ? true : false
@@ -205,6 +212,7 @@ export const SetValueConfig = ({
             Resistance Level
           </Checkbox>
           <Checkbox
+            className="hover:underline"
             color="primary"
             isSelected={operatingSet.is_tracking_partial_reps ? true : false}
             onValueChange={(value) =>
@@ -217,6 +225,7 @@ export const SetValueConfig = ({
             Partial Reps
           </Checkbox>
           <Checkbox
+            className="hover:underline"
             color="primary"
             isSelected={operatingSet.is_tracking_user_weight ? true : false}
             onValueChange={(value) =>
@@ -229,6 +238,7 @@ export const SetValueConfig = ({
             User Weight
           </Checkbox>
           <Checkbox
+            className="hover:underline"
             color="primary"
             isSelected={operatingSet.is_warmup ? true : false}
             onValueChange={(value) =>

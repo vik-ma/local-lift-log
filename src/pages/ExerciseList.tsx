@@ -292,6 +292,7 @@ export default function ExerciseList() {
                 <div className="flex flex-col gap-5">
                   <div>
                     <Checkbox
+                      className="hover:underline"
                       isSelected={showSecondaryExerciseGroups}
                       onValueChange={setShowSecondaryExerciseGroups}
                       color="default"
@@ -355,7 +356,7 @@ export default function ExerciseList() {
                     setShowSecondaryExerciseGroups(!showSecondaryExerciseGroups)
                   }
                 >
-                  {showSecondaryExerciseGroups ? "Hide" : "Show"} Secondary
+                  Show Secondary
                 </Button>
                 <Button
                   className="z-1"

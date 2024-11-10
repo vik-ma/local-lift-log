@@ -100,6 +100,7 @@ export const WorkoutListModal = ({
             </ModalBody>
             <ModalFooter className="flex justify-between">
               <Checkbox
+                className="hover:underline"
                 color="primary"
                 isSelected={keepSetValues}
                 onValueChange={setKeepSetValues}

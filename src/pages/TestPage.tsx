@@ -111,10 +111,10 @@ export default function Test() {
         setUserSettings={setUserSettings}
       />
       <DateRangeModal
-        header="Select Date Range"
+        dateRangeModal={dateRangeModal}
         dateRange={dateRange}
         setDateRange={setDateRange}
-        dateRangeModal={dateRangeModal}
+        header="Select Date Range"
         locale={userSettings.locale}
         buttonAction={() => {}}
       />
