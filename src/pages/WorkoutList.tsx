@@ -65,6 +65,7 @@ export default function WorkoutList() {
     filteredWorkouts,
     sortCategory,
     handleSortOptionSelection,
+    handleFilterButton,
   } = useWorkoutList(true);
 
   const workoutTemplateList = useWorkoutTemplateList(false, true);
@@ -385,6 +386,7 @@ export default function WorkoutList() {
                   handleSortOptionSelection={handleSortOptionSelection}
                   selectedWorkoutProperties={selectedWorkoutProperties}
                   setSelectedWorkoutProperties={setSelectedWorkoutProperties}
+                  handleFilterButton={handleFilterButton}
                   userSettings={userSettings}
                   setUserSettings={setUserSettings}
                   handleOptionMenuSelection={handleOptionMenuSelection}

@@ -47,6 +47,7 @@ export const WorkoutListModal = ({
     setFilterQuery,
     sortCategory,
     handleSortOptionSelection,
+    handleFilterButton,
   } = workoutList;
 
   return (
@@ -76,6 +77,7 @@ export const WorkoutListModal = ({
                       setSelectedWorkoutProperties={
                         setSelectedWorkoutProperties
                       }
+                      handleFilterButton={handleFilterButton}
                       hideDetailsButtonOption
                     />
                   </div>

@@ -5,7 +5,10 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from "@nextui-org/react";
-import { UserSettings, WorkoutSortCategory } from "../typings";
+import {
+  UserSettings,
+  WorkoutSortCategory,
+} from "../typings";
 import { VerticalMenuIcon } from "../assets";
 import { WorkoutPropertyDropdown } from "./Dropdowns/WorkoutPropertyDropdown";
 
@@ -16,6 +19,7 @@ type WorkoutListOptionsProps = {
   setSelectedWorkoutProperties: React.Dispatch<
     React.SetStateAction<Set<string>>
   >;
+  handleFilterButton: () => void;
   userSettings?: UserSettings;
   setUserSettings?: React.Dispatch<
     React.SetStateAction<UserSettings | undefined>
@@ -29,6 +33,7 @@ export const WorkoutListOptions = ({
   handleSortOptionSelection,
   selectedWorkoutProperties,
   setSelectedWorkoutProperties,
+  handleFilterButton,
   userSettings,
   setUserSettings,
   hideDetailsButtonOption,
@@ -36,6 +41,16 @@ export const WorkoutListOptions = ({
 }: WorkoutListOptionsProps) => {
   return (
     <div className="flex gap-1 pr-0.5">
+      <Button
+        className="z-1"
+        variant="flat"
+        // TODO: ADD DIFFERENT COLOR FOR WHEN FILTERS ARE ACTIVE
+        // color={ ? "secondary" : "default"}
+        size="sm"
+        onPress={handleFilterButton}
+      >
+        Filter
+      </Button>
       <Dropdown>
         <DropdownTrigger>
           <Button className="z-1" variant="flat" size="sm">

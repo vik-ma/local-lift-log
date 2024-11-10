@@ -23,6 +23,7 @@ export const useWorkoutList = (
   const workoutListIsLoaded = useRef(false);
 
   const workoutListModal = useDisclosure();
+  const filterWorkoutListModal = useDisclosure();
 
   const filteredWorkouts = useMemo(() => {
     if (filterQuery !== "") {
@@ -157,6 +158,10 @@ export const useWorkoutList = (
     }
   };
 
+  const handleFilterButton = () => {
+    filterWorkoutListModal.onOpen();
+  };
+
   return {
     workouts,
     setWorkouts,
@@ -171,5 +176,6 @@ export const useWorkoutList = (
     setSortCategory,
     handleSortOptionSelection,
     routineMap,
+    handleFilterButton,
   };
 };
