@@ -377,7 +377,7 @@ export default function WorkoutList() {
           filteredListLength={filteredWorkouts.length}
           totalListLength={workouts.length}
           bottomContent={
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-1.5">
               <div className="flex justify-between">
                 <Button
                   size="sm"
