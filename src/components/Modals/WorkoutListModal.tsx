@@ -93,7 +93,7 @@ export const WorkoutListModal = ({
                     />
                   </div>
                   {filterMap.size > 0 && (
-                    <WorkoutListFilters filterMap={filterMap} />
+                    <WorkoutListFilters useWorkoutList={workoutList} />
                   )}
                 </div>
                 <ScrollShadow className="flex flex-col gap-1">

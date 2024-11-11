@@ -462,8 +462,11 @@ export type UseWorkoutListReturnType = {
   setFilterDateRange: React.Dispatch<
     React.SetStateAction<RangeValue<CalendarDate> | null>
   >;
-  filterMap: Map<string, string>;
+  filterMap: Map<WorkoutFilterMapKey, string>;
+  removeFilter: (key: WorkoutFilterMapKey) => void;
 };
+
+export type WorkoutFilterMapKey = "dates";
 
 export type UseWorkoutTemplateListReturnType = {
   workoutTemplatesModal: UseDisclosureReturnType;

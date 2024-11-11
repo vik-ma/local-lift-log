@@ -404,7 +404,7 @@ export default function WorkoutList() {
                 </div>
               </div>
               {filterMap.size > 0 && (
-                <WorkoutListFilters filterMap={filterMap} />
+                <WorkoutListFilters useWorkoutList={workoutList} />
               )}
             </div>
           }

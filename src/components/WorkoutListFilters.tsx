@@ -1,10 +1,15 @@
 import { Chip } from "@nextui-org/react";
+import { UseWorkoutListReturnType } from "../typings";
 
 type WorkoutListFiltersProps = {
-  filterMap: Map<string, string>;
+  useWorkoutList: UseWorkoutListReturnType;
 };
 
-export const WorkoutListFilters = ({ filterMap }: WorkoutListFiltersProps) => {
+export const WorkoutListFilters = ({
+  useWorkoutList,
+}: WorkoutListFiltersProps) => {
+  const { filterMap, removeFilter } = useWorkoutList;
+
   return (
     <div className="flex items-center gap-1 text-sm px-0.5">
       {Array.from(filterMap).map(([key, value]) => (
@@ -12,7 +17,7 @@ export const WorkoutListFilters = ({ filterMap }: WorkoutListFiltersProps) => {
           key={key}
           color="secondary"
           variant="flat"
-          onClose={() => console.log("close")}
+          onClose={() => removeFilter(key)}
         >
           {value}
         </Chip>
