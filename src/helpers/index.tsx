@@ -9,6 +9,7 @@ export { GetCurrentDateTimeISOString } from "./Dates/GetCurrentDateTimeISOString
 export { FormatYmdDateString } from "./Dates/FormatYmdDateString";
 export { IsDateStringOlderThanOneWeek } from "./Dates/IsDateStringOlderThanOneWeek";
 export { ConvertCalendarDateToLocalizedString } from "./Dates/ConvertCalendarDateToLocalizedString";
+export { IsDateWithinRange } from "./Dates/IsDateWithinRange";
 
 export { ConvertExerciseGroupSetStringPrimary } from "./Exercises/ConvertExerciseGroupSetStringPrimary";
 export { ConvertExerciseGroupStringListPrimaryToString } from "./Exercises/ConvertExerciseGroupStringListPrimaryToString";
