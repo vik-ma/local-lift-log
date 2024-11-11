@@ -18,6 +18,7 @@ import { useState } from "react";
 import {
   EmptyListLabel,
   SearchInput,
+  WorkoutListFilters,
   WorkoutListItem,
   WorkoutListOptions,
 } from "..";
@@ -48,6 +49,7 @@ export const WorkoutListModal = ({
     sortCategory,
     handleSortOptionSelection,
     handleOpenFilterButton,
+    filterMap,
   } = workoutList;
 
   return (
@@ -68,8 +70,17 @@ export const WorkoutListModal = ({
                     filteredListLength={filteredWorkouts.length}
                     totalListLength={workouts.length}
                   />
-                  <div className="flex justify-between items-center pl-0.5">
-                    <div></div>
+                  <div className="flex justify-between items-center pl-1">
+                    <div>
+                      <Checkbox
+                        className="hover:underline"
+                        color="primary"
+                        isSelected={keepSetValues}
+                        onValueChange={setKeepSetValues}
+                      >
+                        Copy Set Values
+                      </Checkbox>
+                    </div>
                     <WorkoutListOptions
                       sortCategory={sortCategory}
                       handleSortOptionSelection={handleSortOptionSelection}
@@ -81,6 +92,9 @@ export const WorkoutListModal = ({
                       hideDetailsButtonOption
                     />
                   </div>
+                  {filterMap.size > 0 && (
+                    <WorkoutListFilters filterMap={filterMap} />
+                  )}
                 </div>
                 <ScrollShadow className="flex flex-col gap-1">
                   {filteredWorkouts.map((workout) => (
@@ -100,15 +114,7 @@ export const WorkoutListModal = ({
                 </ScrollShadow>
               </div>
             </ModalBody>
-            <ModalFooter className="flex justify-between">
-              <Checkbox
-                className="hover:underline"
-                color="primary"
-                isSelected={keepSetValues}
-                onValueChange={setKeepSetValues}
-              >
-                Also Copy Set Values
-              </Checkbox>
+            <ModalFooter>
               <Button color="primary" variant="light" onPress={onClose}>
                 Close
               </Button>
