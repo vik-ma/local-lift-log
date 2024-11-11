@@ -67,9 +67,6 @@ export default function WorkoutList() {
     filterQuery,
     setFilterQuery,
     filteredWorkouts,
-    sortCategory,
-    handleSortOptionSelection,
-    handleOpenFilterButton,
     filterMap,
   } = workoutList;
 
@@ -392,11 +389,9 @@ export default function WorkoutList() {
                 </Button>
                 <div className="flex gap-1 pr-0.5">
                   <WorkoutListOptions
-                    sortCategory={sortCategory}
-                    handleSortOptionSelection={handleSortOptionSelection}
+                    useWorkoutList={workoutList}
                     selectedWorkoutProperties={selectedWorkoutProperties}
                     setSelectedWorkoutProperties={setSelectedWorkoutProperties}
-                    handleFilterButton={handleOpenFilterButton}
                     userSettings={userSettings}
                     setUserSettings={setUserSettings}
                     handleOptionMenuSelection={handleOptionMenuSelection}

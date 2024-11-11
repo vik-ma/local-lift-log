@@ -41,16 +41,8 @@ export const WorkoutListModal = ({
     Set<string>
   >(CreateWorkoutPropertySet(shownWorkoutProperties));
 
-  const {
-    workouts,
-    filteredWorkouts,
-    filterQuery,
-    setFilterQuery,
-    sortCategory,
-    handleSortOptionSelection,
-    handleOpenFilterButton,
-    filterMap,
-  } = workoutList;
+  const { workouts, filteredWorkouts, filterQuery, setFilterQuery, filterMap } =
+    workoutList;
 
   return (
     <Modal
@@ -82,13 +74,11 @@ export const WorkoutListModal = ({
                       </Checkbox>
                     </div>
                     <WorkoutListOptions
-                      sortCategory={sortCategory}
-                      handleSortOptionSelection={handleSortOptionSelection}
+                      useWorkoutList={workoutList}
                       selectedWorkoutProperties={selectedWorkoutProperties}
                       setSelectedWorkoutProperties={
                         setSelectedWorkoutProperties
                       }
-                      handleFilterButton={handleOpenFilterButton}
                       hideDetailsButtonOption
                     />
                   </div>
