@@ -10,6 +10,7 @@ import Database from "tauri-plugin-sql-api";
 import {
   ConvertCalendarDateToLocalizedString,
   FormatDateString,
+  IsDateWithinRange,
 } from "../helpers";
 import { CalendarDate, RangeValue, useDisclosure } from "@nextui-org/react";
 
@@ -35,25 +36,27 @@ export const useWorkoutList = (
   const filterWorkoutListModal = useDisclosure();
 
   const filteredWorkouts = useMemo(() => {
-    if (filterQuery !== "") {
+    if (filterQuery !== "" || filterDateRange !== null) {
       return workouts.filter(
         (item) =>
-          item.formattedDate
+          (item.formattedDate
             ?.toLocaleLowerCase()
             .includes(filterQuery.toLocaleLowerCase()) ||
-          item.note
-            ?.toLocaleLowerCase()
-            .includes(filterQuery.toLocaleLowerCase()) ||
-          item.workoutTemplateName
-            ?.toLocaleLowerCase()
-            .includes(filterQuery.toLocaleLowerCase()) ||
-          item.routine?.name
-            .toLocaleLowerCase()
-            .includes(filterQuery.toLocaleLowerCase())
+            item.note
+              ?.toLocaleLowerCase()
+              .includes(filterQuery.toLocaleLowerCase()) ||
+            item.workoutTemplateName
+              ?.toLocaleLowerCase()
+              .includes(filterQuery.toLocaleLowerCase()) ||
+            item.routine?.name
+              .toLocaleLowerCase()
+              .includes(filterQuery.toLocaleLowerCase())) &&
+          filterDateRange !== null &&
+          IsDateWithinRange(item.date, filterDateRange)
       );
     }
     return workouts;
-  }, [workouts, filterQuery]);
+  }, [workouts, filterQuery, filterDateRange]);
 
   const getWorkouts = useCallback(async () => {
     try {
@@ -234,6 +237,6 @@ export const useWorkoutList = (
     filterMap,
     removeFilter,
     resetFilter,
-    showResetFilterButton
+    showResetFilterButton,
   };
 };
