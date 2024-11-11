@@ -457,11 +457,12 @@ export type UseWorkoutListReturnType = {
   routineMap: Map<number, Routine>;
   filterWorkoutListModal: UseDisclosureReturnType;
   handleOpenFilterButton: () => void;
-  handleFilterDoneButton: () => void;
+  handleFilterDoneButton: (locale: string) => void;
   filterDateRange: RangeValue<CalendarDate> | null;
   setFilterDateRange: React.Dispatch<
     React.SetStateAction<RangeValue<CalendarDate> | null>
   >;
+  filterMap: Map<string, string>;
 };
 
 export type UseWorkoutTemplateListReturnType = {

@@ -6,7 +6,10 @@ import {
   WorkoutSortCategory,
 } from "../typings";
 import Database from "tauri-plugin-sql-api";
-import { FormatDateString } from "../helpers";
+import {
+  ConvertCalendarDateToLocalizedString,
+  FormatDateString,
+} from "../helpers";
 import { CalendarDate, RangeValue, useDisclosure } from "@nextui-org/react";
 
 export const useWorkoutList = (
@@ -21,6 +24,7 @@ export const useWorkoutList = (
   const [routineMap, setRoutineMap] = useState<Map<number, Routine>>(new Map());
   const [filterDateRange, setFilterDateRange] =
     useState<RangeValue<CalendarDate> | null>(null);
+  const [filterMap, setFilterMap] = useState<Map<string, string>>(new Map());
 
   const workoutListIsLoaded = useRef(false);
 
@@ -164,7 +168,23 @@ export const useWorkoutList = (
     filterWorkoutListModal.onOpen();
   };
 
-  const handleFilterDoneButton = () => {};
+  const handleFilterDoneButton = (locale: string) => {
+    const updatedFilterMap = new Map<string, string>();
+
+    if (filterDateRange !== null) {
+      const filterDateRangeString = `${ConvertCalendarDateToLocalizedString(
+        filterDateRange.start,
+        locale
+      )} - ${ConvertCalendarDateToLocalizedString(
+        filterDateRange.end,
+        locale
+      )}`;
+
+      updatedFilterMap.set("dates", filterDateRangeString);
+    }
+
+    setFilterMap(updatedFilterMap);
+  };
 
   return {
     workouts,
@@ -185,5 +205,6 @@ export const useWorkoutList = (
     handleFilterDoneButton,
     filterDateRange,
     setFilterDateRange,
+    filterMap,
   };
 };

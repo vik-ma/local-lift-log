@@ -58,7 +58,7 @@ export const FilterWorkoutListModal = ({
               <Button color="primary" variant="light" onPress={onClose}>
                 Close
               </Button>
-              <Button color="primary" onPress={handleFilterDoneButton}>
+              <Button color="primary" onPress={() => handleFilterDoneButton(locale)}>
                 Save
               </Button>
             </ModalFooter>
