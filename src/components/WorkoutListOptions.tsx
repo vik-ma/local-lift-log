@@ -44,8 +44,7 @@ export const WorkoutListOptions = ({
       <Button
         className="z-1"
         variant="flat"
-        // TODO: ADD DIFFERENT COLOR FOR WHEN FILTERS ARE ACTIVE
-        // color={ ? "secondary" : "default"}
+        color={filterMap.size > 0 ? "secondary" : "default"}
         size="sm"
         onPress={handleOpenFilterButton}
       >

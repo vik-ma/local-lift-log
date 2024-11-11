@@ -11,10 +11,11 @@ export const WorkoutListFilters = ({
   const { filterMap, removeFilter } = useWorkoutList;
 
   return (
-    <div className="flex items-center gap-1 text-sm px-0.5">
+    <div className="flex items-center gap-1 text-sm">
       {Array.from(filterMap).map(([key, value]) => (
         <Chip
           key={key}
+          radius="sm"
           color="secondary"
           variant="flat"
           onClose={() => removeFilter(key)}
