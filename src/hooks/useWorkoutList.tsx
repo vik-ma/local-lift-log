@@ -184,6 +184,8 @@ export const useWorkoutList = (
     }
 
     setFilterMap(updatedFilterMap);
+
+    filterWorkoutListModal.onClose();
   };
 
   return {

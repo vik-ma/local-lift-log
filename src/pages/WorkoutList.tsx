@@ -12,6 +12,7 @@ import {
   WorkoutListOptions,
   RoutineListModal,
   FilterWorkoutListModal,
+  WorkoutListFilters,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
 import { Button, useDisclosure } from "@nextui-org/react";
@@ -69,6 +70,7 @@ export default function WorkoutList() {
     sortCategory,
     handleSortOptionSelection,
     handleOpenFilterButton,
+    filterMap,
   } = workoutList;
 
   const workoutTemplateList = useWorkoutTemplateList(false, true);
@@ -378,27 +380,32 @@ export default function WorkoutList() {
           filteredListLength={filteredWorkouts.length}
           totalListLength={workouts.length}
           bottomContent={
-            <div className="flex justify-between">
-              <Button
-                size="sm"
-                variant="flat"
-                color="secondary"
-                onPress={() => navigate("/workouts")}
-              >
-                New Workout
-              </Button>
-              <div className="flex gap-1 pr-0.5">
-                <WorkoutListOptions
-                  sortCategory={sortCategory}
-                  handleSortOptionSelection={handleSortOptionSelection}
-                  selectedWorkoutProperties={selectedWorkoutProperties}
-                  setSelectedWorkoutProperties={setSelectedWorkoutProperties}
-                  handleFilterButton={handleOpenFilterButton}
-                  userSettings={userSettings}
-                  setUserSettings={setUserSettings}
-                  handleOptionMenuSelection={handleOptionMenuSelection}
-                />
+            <div className="flex flex-col gap-1">
+              <div className="flex justify-between">
+                <Button
+                  size="sm"
+                  variant="flat"
+                  color="secondary"
+                  onPress={() => navigate("/workouts")}
+                >
+                  New Workout
+                </Button>
+                <div className="flex gap-1 pr-0.5">
+                  <WorkoutListOptions
+                    sortCategory={sortCategory}
+                    handleSortOptionSelection={handleSortOptionSelection}
+                    selectedWorkoutProperties={selectedWorkoutProperties}
+                    setSelectedWorkoutProperties={setSelectedWorkoutProperties}
+                    handleFilterButton={handleOpenFilterButton}
+                    userSettings={userSettings}
+                    setUserSettings={setUserSettings}
+                    handleOptionMenuSelection={handleOptionMenuSelection}
+                  />
+                </div>
               </div>
+              {filterMap.size > 0 && (
+                <WorkoutListFilters filterMap={filterMap} />
+              )}
             </div>
           }
         />
