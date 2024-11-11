@@ -200,6 +200,18 @@ export const useWorkoutList = (
     }
   };
 
+  const resetFilter = () => {
+    setFilterMap(new Map());
+    setFilterDateRange(null);
+  };
+
+  const showResetFilterButton = useMemo(() => {
+    if (filterMap.size > 0) return true;
+    if (filterDateRange !== null) return true;
+
+    return false;
+  }, [filterMap, filterDateRange]);
+
   return {
     workouts,
     setWorkouts,
@@ -221,5 +233,7 @@ export const useWorkoutList = (
     setFilterDateRange,
     filterMap,
     removeFilter,
+    resetFilter,
+    showResetFilterButton
   };
 };

@@ -464,6 +464,8 @@ export type UseWorkoutListReturnType = {
   >;
   filterMap: Map<WorkoutFilterMapKey, string>;
   removeFilter: (key: WorkoutFilterMapKey) => void;
+  resetFilter: () => void;
+  showResetFilterButton: boolean;
 };
 
 export type WorkoutFilterMapKey = "dates";

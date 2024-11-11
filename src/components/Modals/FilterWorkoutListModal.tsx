@@ -25,6 +25,8 @@ export const FilterWorkoutListModal = ({
     handleFilterDoneButton,
     filterDateRange,
     setFilterDateRange,
+    resetFilter,
+    showResetFilterButton,
   } = useWorkoutList;
 
   return (
@@ -54,13 +56,25 @@ export const FilterWorkoutListModal = ({
                 </div>
               </ScrollShadow>
             </ModalBody>
-            <ModalFooter>
-              <Button color="primary" variant="light" onPress={onClose}>
-                Close
-              </Button>
-              <Button color="primary" onPress={() => handleFilterDoneButton(locale)}>
-                Save
-              </Button>
+            <ModalFooter className="flex justify-between">
+              <div>
+                {showResetFilterButton && (
+                  <Button variant="flat" onPress={resetFilter}>
+                    Reset All Filters
+                  </Button>
+                )}
+              </div>
+              <div className="flex gap-2">
+                <Button color="primary" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+                <Button
+                  color="primary"
+                  onPress={() => handleFilterDoneButton(locale)}
+                >
+                  Save
+                </Button>
+              </div>
             </ModalFooter>
           </>
         )}
