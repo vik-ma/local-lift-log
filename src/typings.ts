@@ -471,7 +471,7 @@ export type UseWorkoutListReturnType = {
   weekdayMap: Map<string, string>;
 };
 
-export type WorkoutFilterMapKey = "dates";
+export type WorkoutFilterMapKey = "dates" | "weekdays";
 
 export type UseWorkoutTemplateListReturnType = {
   workoutTemplatesModal: UseDisclosureReturnType;

@@ -198,6 +198,14 @@ export const useWorkoutList = (
       updatedFilterMap.set("dates", filterDateRangeString);
     }
 
+    if (filterWeekdays.size < 7) {
+      const filterWeekdaysString = Array.from(filterWeekdays)
+        .map((day) => (weekdayMap.get(day) ?? "").substring(0, 3))
+        .join(", ");
+
+      updatedFilterMap.set("weekdays", filterWeekdaysString);
+    }
+
     setFilterMap(updatedFilterMap);
 
     filterWorkoutListModal.onClose();
@@ -209,6 +217,13 @@ export const useWorkoutList = (
       updatedFilterMap.delete("dates");
       setFilterMap(updatedFilterMap);
       setFilterDateRange(null);
+    }
+
+    if (key === "weekdays" && filterMap.has("weekdays")) {
+      const updatedFilterMap = new Map(filterMap);
+      updatedFilterMap.delete("weekdays");
+      setFilterMap(updatedFilterMap);
+      setFilterWeekdays(new Set(weekdayMap.keys()));
     }
   };
 

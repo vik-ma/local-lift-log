@@ -31,6 +31,7 @@ export const WeekdaysDropdown = ({
       variant="faded"
       selectedKeys={values}
       onChange={(e) => handleChange(e)}
+      disableAnimation
       disallowEmptySelection
     >
       {Array.from(weekdayMap).map(([weekdayNum, weekdayLabel]) => (
