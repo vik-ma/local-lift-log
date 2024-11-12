@@ -11,16 +11,22 @@ import {
 import { UseWorkoutListReturnType } from "../../typings";
 import { I18nProvider } from "@react-aria/i18n";
 import { WeekdaysDropdown } from "../Dropdowns/WeekdaysDropdown";
+import { useState } from "react";
 
-type FilterWorkoutListModal = {
+type FilterWorkoutListModalProps = {
   useWorkoutList: UseWorkoutListReturnType;
   locale: string;
 };
 
+type FilterWorkoutListModalPage = "base" | "routine-list";
+
 export const FilterWorkoutListModal = ({
   useWorkoutList,
   locale,
-}: FilterWorkoutListModal) => {
+}: FilterWorkoutListModalProps) => {
+  const [filterWorkoutListModalPage, setFilterWorkoutListModalPage] =
+    useState<FilterWorkoutListModalPage>("base");
+
   const {
     filterWorkoutListModal,
     handleFilterDoneButton,
@@ -44,36 +50,72 @@ export const FilterWorkoutListModal = ({
             <ModalHeader>Filter Workouts</ModalHeader>
             <ModalBody>
               <ScrollShadow className="h-[440px]">
-                <div className="flex flex-col gap-3 w-[24rem]">
-                  <div className="flex flex-col gap-1">
-                    <h3 className="font-semibold text-lg px-0.5">Date Range</h3>
-                    <I18nProvider locale={locale}>
-                      <DateRangePicker
-                        label="Workout Dates"
-                        variant="faded"
-                        value={filterDateRange}
-                        onChange={setFilterDateRange}
-                        visibleMonths={2}
+                {filterWorkoutListModalPage === "routine-list" ? (
+                  <div>Test</div>
+                ) : (
+                  <div className="flex flex-col gap-3 w-[24rem]">
+                    <div className="flex flex-col gap-1">
+                      <h3 className="font-semibold text-lg px-0.5">
+                        Date Range
+                      </h3>
+                      <I18nProvider locale={locale}>
+                        <DateRangePicker
+                          label="Workout Dates"
+                          variant="faded"
+                          value={filterDateRange}
+                          onChange={setFilterDateRange}
+                          visibleMonths={2}
+                        />
+                      </I18nProvider>
+                    </div>
+                    <div className="flex flex-col gap-1">
+                      <h3 className="font-semibold text-lg px-0.5">Weekdays</h3>
+                      <WeekdaysDropdown
+                        values={filterWeekdays}
+                        setValues={setFilterWeekdays}
+                        weekdayMap={weekdayMap}
                       />
-                    </I18nProvider>
+                    </div>
+                    <div className="flex flex-col">
+                      <h3 className="font-semibold text-lg px-0.5">Routines</h3>
+                      <div className="flex justify-between items-center px-1">
+                        <div className="w-[16rem]"></div>
+                        <Button
+                          variant="flat"
+                          size="sm"
+                          onPress={() =>
+                            setFilterWorkoutListModalPage("routine-list")
+                          }
+                        >
+                          Filter Routines
+                        </Button>
+                      </div>
+                    </div>
                   </div>
-                  <div className="flex flex-col gap-1">
-                    <h3 className="font-semibold text-lg px-0.5">Weekdays</h3>
-                    <WeekdaysDropdown
-                      values={filterWeekdays}
-                      setValues={setFilterWeekdays}
-                      weekdayMap={weekdayMap}
-                    />
-                  </div>
-                </div>
+                )}
               </ScrollShadow>
             </ModalBody>
             <ModalFooter className="flex justify-between">
               <div>
-                {showResetFilterButton && (
-                  <Button variant="flat" onPress={resetFilter}>
-                    Reset All Filters
+                {filterWorkoutListModalPage !== "base" ? (
+                  <Button
+                    variant="flat"
+                    onPress={() => setFilterWorkoutListModalPage("base")}
+                  >
+                    Back
                   </Button>
+                ) : (
+                  <>
+                    {showResetFilterButton && (
+                      <Button
+                        variant="flat"
+                        color="danger"
+                        onPress={resetFilter}
+                      >
+                        Reset All Filters
+                      </Button>
+                    )}
+                  </>
                 )}
               </div>
               <div className="flex gap-2">
@@ -83,6 +125,7 @@ export const FilterWorkoutListModal = ({
                 <Button
                   color="primary"
                   onPress={() => handleFilterDoneButton(locale)}
+                  isDisabled={filterWorkoutListModalPage !== "base"}
                 >
                   Save
                 </Button>
