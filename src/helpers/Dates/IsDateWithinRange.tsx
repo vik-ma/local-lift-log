@@ -10,7 +10,7 @@ export const IsDateWithinRange = (
 
     const startDate = dateRange.start.toDate(getLocalTimeZone());
     const endDate = dateRange.end.toDate(getLocalTimeZone());
-    endDate.setHours(23, 59, 59);
+    endDate.setHours(23, 59, 59, 999);
 
     return date >= startDate && date <= endDate;
   } catch {
