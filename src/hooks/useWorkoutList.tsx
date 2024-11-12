@@ -10,6 +10,7 @@ import Database from "tauri-plugin-sql-api";
 import {
   ConvertCalendarDateToLocalizedString,
   FormatDateString,
+  IsDateInWeekdaySet,
   IsDateWithinRange,
   WeekdayMap,
 } from "../helpers";
@@ -45,7 +46,11 @@ export const useWorkoutList = (
   const filterWorkoutListModal = useDisclosure();
 
   const filteredWorkouts = useMemo(() => {
-    if (filterQuery !== "" || filterDateRange !== null) {
+    if (
+      filterQuery !== "" ||
+      filterDateRange !== null ||
+      filterWeekdays.size < 7
+    ) {
       return workouts.filter(
         (item) =>
           (item.formattedDate
@@ -60,12 +65,14 @@ export const useWorkoutList = (
             item.routine?.name
               .toLocaleLowerCase()
               .includes(filterQuery.toLocaleLowerCase())) &&
-          filterDateRange !== null &&
-          IsDateWithinRange(item.date, filterDateRange)
+          (filterDateRange === null ||
+            IsDateWithinRange(item.date, filterDateRange)) &&
+          (filterWeekdays.size === 7 ||
+            IsDateInWeekdaySet(item.date, filterWeekdays))
       );
     }
     return workouts;
-  }, [workouts, filterQuery, filterDateRange]);
+  }, [workouts, filterQuery, filterDateRange, filterWeekdays]);
 
   const getWorkouts = useCallback(async () => {
     try {
