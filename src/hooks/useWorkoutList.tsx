@@ -11,6 +11,7 @@ import {
   ConvertCalendarDateToLocalizedString,
   FormatDateString,
   IsDateWithinRange,
+  WeekdayMap,
 } from "../helpers";
 import { CalendarDate, RangeValue, useDisclosure } from "@nextui-org/react";
 
@@ -28,6 +29,14 @@ export const useWorkoutList = (
     useState<RangeValue<CalendarDate> | null>(null);
   const [filterMap, setFilterMap] = useState<Map<WorkoutFilterMapKey, string>>(
     new Map()
+  );
+
+  const weekdayMap = useMemo(() => {
+    return WeekdayMap();
+  }, []);
+
+  const [filterWeekdays, setFilterWeekdays] = useState<Set<string>>(
+    new Set(weekdayMap.keys())
   );
 
   const workoutListIsLoaded = useRef(false);
@@ -206,14 +215,16 @@ export const useWorkoutList = (
   const resetFilter = () => {
     setFilterMap(new Map());
     setFilterDateRange(null);
+    setFilterWeekdays(new Set(weekdayMap.keys()));
   };
 
   const showResetFilterButton = useMemo(() => {
     if (filterMap.size > 0) return true;
     if (filterDateRange !== null) return true;
+    if (filterWeekdays.size < 7) return true;
 
     return false;
-  }, [filterMap, filterDateRange]);
+  }, [filterMap, filterDateRange, filterWeekdays]);
 
   return {
     workouts,
@@ -238,5 +249,8 @@ export const useWorkoutList = (
     removeFilter,
     resetFilter,
     showResetFilterButton,
+    filterWeekdays,
+    setFilterWeekdays,
+    weekdayMap,
   };
 };

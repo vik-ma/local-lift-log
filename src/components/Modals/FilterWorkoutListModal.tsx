@@ -10,6 +10,7 @@ import {
 } from "@nextui-org/react";
 import { UseWorkoutListReturnType } from "../../typings";
 import { I18nProvider } from "@react-aria/i18n";
+import { WeekdaysDropdown } from "../Dropdowns/WeekdaysDropdown";
 
 type FilterWorkoutListModal = {
   useWorkoutList: UseWorkoutListReturnType;
@@ -27,6 +28,9 @@ export const FilterWorkoutListModal = ({
     setFilterDateRange,
     resetFilter,
     showResetFilterButton,
+    filterWeekdays,
+    setFilterWeekdays,
+    weekdayMap,
   } = useWorkoutList;
 
   return (
@@ -40,7 +44,7 @@ export const FilterWorkoutListModal = ({
             <ModalHeader>Filter Workouts</ModalHeader>
             <ModalBody>
               <ScrollShadow className="h-[440px]">
-                <div className="flex flex-col gap-2 w-[24rem]">
+                <div className="flex flex-col gap-3 w-[24rem]">
                   <div className="flex flex-col gap-1">
                     <h3 className="font-semibold text-lg px-0.5">Date Range</h3>
                     <I18nProvider locale={locale}>
@@ -52,6 +56,14 @@ export const FilterWorkoutListModal = ({
                         visibleMonths={2}
                       />
                     </I18nProvider>
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <h3 className="font-semibold text-lg px-0.5">Weekdays</h3>
+                    <WeekdaysDropdown
+                      values={filterWeekdays}
+                      setValues={setFilterWeekdays}
+                      weekdayMap={weekdayMap}
+                    />
                   </div>
                 </div>
               </ScrollShadow>

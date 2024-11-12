@@ -466,6 +466,9 @@ export type UseWorkoutListReturnType = {
   removeFilter: (key: WorkoutFilterMapKey) => void;
   resetFilter: () => void;
   showResetFilterButton: boolean;
+  filterWeekdays: Set<string>;
+  setFilterWeekdays: React.Dispatch<React.SetStateAction<Set<string>>>;
+  weekdayMap: Map<string, string>;
 };
 
 export type WorkoutFilterMapKey = "dates";
