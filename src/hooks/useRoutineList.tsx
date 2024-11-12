@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Routine, UseRoutineListReturnType } from "../typings";
-import Database from "tauri-plugin-sql-api";
 import { useDisclosure } from "@nextui-org/react";
+import { GetAllRoutinesWithNumWorkoutTemplates } from "../helpers";
 
 export const useRoutineList = (
   getRoutinesOnLoad: boolean
@@ -23,23 +23,10 @@ export const useRoutineList = (
   }, [routines, filterQuery]);
 
   const getRoutines = useCallback(async () => {
-    try {
-      const db = await Database.load(import.meta.env.VITE_DB);
+    const routines = await GetAllRoutinesWithNumWorkoutTemplates();
 
-      // Get all columns and number of workout_routine_schedule entries for every Routine
-      const result = await db.select<Routine[]>(
-        `SELECT routines.*, 
-        COUNT(workout_routine_schedules.routine_id) AS numWorkoutTemplates 
-        FROM routines LEFT JOIN workout_routine_schedules
-        ON routines.id = workout_routine_schedules.routine_id 
-        GROUP BY routines.id`
-      );
-
-      setRoutines(result);
-      routineListIsLoaded.current = true;
-    } catch (error) {
-      console.log(error);
-    }
+    setRoutines(routines);
+    routineListIsLoaded.current = true;
   }, []);
 
   useEffect(() => {

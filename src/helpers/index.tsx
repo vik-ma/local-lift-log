@@ -34,6 +34,7 @@ export { GetScheduleDayValues } from "./Routines/GetScheduleValues";
 export { NumDaysInScheduleOptions } from "./Routines/NumDaysInScheduleOptions";
 export { DefaultNewRoutine } from "./Routines/DefaultNewRoutine";
 export { UpdateRoutine } from "./Routines/UpdateRoutine";
+export { GetAllRoutinesWithNumWorkoutTemplates } from "./Routines/GetAllRoutinesWithNumWorkoutTemplates";
 
 export { CreateDefaultUserSettings } from "./UserSettings/CreateDefaultUserSettings";
 export { GetActiveRoutineId } from "./UserSettings/GetActiveRoutineId";

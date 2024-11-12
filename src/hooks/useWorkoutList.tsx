@@ -10,6 +10,7 @@ import Database from "tauri-plugin-sql-api";
 import {
   ConvertCalendarDateToLocalizedString,
   FormatDateString,
+  GetAllRoutinesWithNumWorkoutTemplates,
   IsDateInWeekdaySet,
   IsDateWithinRange,
   WeekdayMap,
@@ -97,9 +98,7 @@ export const useWorkoutList = (
           workouts.id`
       );
 
-      const resultRoutines = await db.select<Routine[]>(
-        "SELECT * FROM routines"
-      );
+      const resultRoutines = await GetAllRoutinesWithNumWorkoutTemplates();
 
       const routineMap = new Map<number, Routine>(
         resultRoutines.map((obj) => [obj.id, obj])
