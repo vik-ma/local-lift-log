@@ -31,6 +31,7 @@ export const useWorkoutList = (
   const [filterMap, setFilterMap] = useState<Map<WorkoutFilterMapKey, string>>(
     new Map()
   );
+  const [filterRoutines, setFilterRoutines] = useState<Set<number>>(new Set());
 
   const weekdayMap = useMemo(() => {
     return WeekdayMap();
@@ -274,5 +275,7 @@ export const useWorkoutList = (
     filterWeekdays,
     setFilterWeekdays,
     weekdayMap,
+    filterRoutines,
+    setFilterRoutines,
   };
 };

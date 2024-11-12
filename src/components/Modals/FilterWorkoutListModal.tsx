@@ -11,7 +11,8 @@ import {
 import { UseWorkoutListReturnType } from "../../typings";
 import { I18nProvider } from "@react-aria/i18n";
 import { WeekdaysDropdown } from "../Dropdowns/WeekdaysDropdown";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { FormatNumItemsString } from "../../helpers";
 
 type FilterWorkoutListModalProps = {
   useWorkoutList: UseWorkoutListReturnType;
@@ -37,7 +38,16 @@ export const FilterWorkoutListModal = ({
     filterWeekdays,
     setFilterWeekdays,
     weekdayMap,
+    routineMap,
+    filterRoutines,
+    setFilterRoutines,
   } = useWorkoutList;
+
+  const filterRoutinesString = useMemo(() => {
+    if (filterRoutines.size === 0) return "No Routines Selected";
+
+    return Array.from(filterRoutines).join(", ");
+  }, [filterRoutines]);
 
   return (
     <Modal
@@ -47,11 +57,48 @@ export const FilterWorkoutListModal = ({
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalHeader>Filter Workouts</ModalHeader>
+            <ModalHeader>
+              {filterWorkoutListModalPage === "routine-list"
+                ? "Select Routines To Filter"
+                : "Filter Workouts"}
+            </ModalHeader>
             <ModalBody>
               <ScrollShadow className="h-[440px]">
                 {filterWorkoutListModalPage === "routine-list" ? (
-                  <div>Test</div>
+                  <div className="flex flex-col gap-1">
+                    {Array.from(routineMap).map(([routineId, routine]) => {
+                      const numWorkoutTemplates =
+                        routine.numWorkoutTemplates ?? 0;
+                      return (
+                        <div
+                          className="flex justify-between items-center bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                          key={routineId}
+                        >
+                          <button
+                            className="flex flex-col justify-start items-start pl-2 py-1"
+                            onClick={() => {}}
+                          >
+                            <span className="w-[22rem] truncate text-left">
+                              {routine.name}
+                            </span>
+                            {numWorkoutTemplates > 0 && (
+                              <span className="text-xs text-secondary text-left">
+                                {FormatNumItemsString(
+                                  numWorkoutTemplates,
+                                  "Workout"
+                                )}
+                              </span>
+                            )}
+                            <span className="text-xs text-stone-400 text-left">
+                              {routine.is_schedule_weekly === 0
+                                ? `${routine.num_days_in_schedule} Day Schedule`
+                                : "Weekly Schedule"}
+                            </span>
+                          </button>
+                        </div>
+                      );
+                    })}
+                  </div>
                 ) : (
                   <div className="flex flex-col gap-3 w-[24rem]">
                     <div className="flex flex-col gap-1">
@@ -78,8 +125,16 @@ export const FilterWorkoutListModal = ({
                     </div>
                     <div className="flex flex-col">
                       <h3 className="font-semibold text-lg px-0.5">Routines</h3>
-                      <div className="flex justify-between items-center px-1">
-                        <div className="w-[16rem]"></div>
+                      <div className="flex justify-between items-center px-0.5">
+                        <div
+                          className={
+                            filterRoutines.size === 0
+                              ? "w-[16rem] text-sm break-all text-stone-400"
+                              : "w-[16rem] text-sm break-all"
+                          }
+                        >
+                          {filterRoutinesString}
+                        </div>
                         <Button
                           variant="flat"
                           size="sm"
