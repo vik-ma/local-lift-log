@@ -10,6 +10,7 @@ export { FormatYmdDateString } from "./Dates/FormatYmdDateString";
 export { IsDateStringOlderThanOneWeek } from "./Dates/IsDateStringOlderThanOneWeek";
 export { ConvertCalendarDateToLocalizedString } from "./Dates/ConvertCalendarDateToLocalizedString";
 export { IsDateWithinRange } from "./Dates/IsDateWithinRange";
+export { IsDateInWeekdaySet } from "./Dates/IsDateInWeekdaySet";
 
 export { ConvertExerciseGroupSetStringPrimary } from "./Exercises/ConvertExerciseGroupSetStringPrimary";
 export { ConvertExerciseGroupStringListPrimaryToString } from "./Exercises/ConvertExerciseGroupStringListPrimaryToString";
