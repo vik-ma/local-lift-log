@@ -172,6 +172,7 @@ export { ValidCalculationModalTabs } from "./Constants/ValidCalculationModalTabs
 export { ValidWorkoutPropertiesMap } from "./Constants/ValidWorkoutPropertiesMap";
 export { DefaultPlateWeights } from "./Constants/DefaultPlateWeights";
 export { WorkoutRatingsMap } from "./Constants/WorkoutRatingsMap";
+export { WeekdayMap } from "./Constants/WeekdayMap";
 
 export { ConvertEmptyStringToNull } from "./Strings/ConvertEmptyStringToNull";
 export { IsStringEmpty } from "./Strings/IsStringEmpty";
