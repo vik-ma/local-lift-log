@@ -46,8 +46,29 @@ export const FilterWorkoutListModal = ({
   const filterRoutinesString = useMemo(() => {
     if (filterRoutines.size === 0) return "No Routines Selected";
 
-    return Array.from(filterRoutines).join(", ");
-  }, [filterRoutines]);
+    const routineNames: string[] = [];
+
+    for (const routineId of filterRoutines) {
+      if (routineMap.has(routineId)) {
+        const routine = routineMap.get(routineId);
+        routineNames.push(routine!.name);
+      }
+    }
+
+    return routineNames.join(", ");
+  }, [filterRoutines, routineMap]);
+
+  const handleClickRoutine = (routineId: number) => {
+    const updatedRoutineSet = new Set(filterRoutines);
+
+    if (updatedRoutineSet.has(routineId)) {
+      updatedRoutineSet.delete(routineId);
+    } else {
+      updatedRoutineSet.add(routineId);
+    }
+
+    setFilterRoutines(updatedRoutineSet);
+  };
 
   return (
     <Modal
@@ -71,12 +92,16 @@ export const FilterWorkoutListModal = ({
                         routine.numWorkoutTemplates ?? 0;
                       return (
                         <div
-                          className="flex justify-between items-center bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                          className={
+                            filterRoutines.has(routineId)
+                              ? "flex justify-between items-center bg-lime-100 border-2 border-lime-300 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                              : "flex justify-between items-center bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                          }
                           key={routineId}
                         >
                           <button
                             className="flex flex-col justify-start items-start pl-2 py-1"
-                            onClick={() => {}}
+                            onClick={() => handleClickRoutine(routineId)}
                           >
                             <span className="w-[22rem] truncate text-left">
                               {routine.name}
@@ -130,7 +155,7 @@ export const FilterWorkoutListModal = ({
                           className={
                             filterRoutines.size === 0
                               ? "w-[16rem] text-sm break-all text-stone-400"
-                              : "w-[16rem] text-sm break-all"
+                              : "w-[16rem] text-sm break-all text-secondary"
                           }
                         >
                           {filterRoutinesString}
