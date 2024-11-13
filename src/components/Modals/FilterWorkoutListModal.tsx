@@ -89,8 +89,8 @@ export const FilterWorkoutListModal = ({
               <ScrollShadow className="h-[440px]">
                 {filterWorkoutListModalPage === "routine-list" ? (
                   <RoutineModalList
+                    useRoutineList={routineList}
                     onClickAction={handleClickRoutine}
-                    routineMap={routineMap}
                     filterRoutines={filterRoutines}
                   />
                 ) : (
