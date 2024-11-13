@@ -29,7 +29,7 @@ export const RoutineModalList = ({
           <div
             className={
               filterRoutines?.has(routine.id)
-                ? "flex justify-between items-center bg-lime-100 border-2 border-lime-300 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                ? "flex justify-between items-center bg-amber-100 border-2 border-amber-300 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                 : "flex justify-between items-center bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
             }
             key={routine.id}

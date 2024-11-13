@@ -121,8 +121,8 @@ export const FilterWorkoutListModal = ({
                         <div
                           className={
                             filterRoutines.size === 0
-                              ? "w-[16rem] text-sm break-all text-stone-400"
-                              : "w-[16rem] text-sm break-all text-secondary"
+                              ? "w-[16rem] text-sm break-words text-stone-400"
+                              : "w-[16rem] text-sm break-words text-secondary"
                           }
                         >
                           {filterRoutinesString}
