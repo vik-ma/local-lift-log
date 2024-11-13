@@ -193,7 +193,7 @@ export const useWorkoutList = (
     filterWorkoutListModal.onOpen();
   };
 
-  const handleFilterDoneButton = (locale: string) => {
+  const handleFilterSaveButton = (locale: string) => {
     const updatedFilterMap = new Map<WorkoutFilterMapKey, string>();
 
     if (filterDateRange !== null) {
@@ -287,7 +287,7 @@ export const useWorkoutList = (
     handleSortOptionSelection,
     filterWorkoutListModal,
     handleOpenFilterButton,
-    handleFilterDoneButton,
+    handleFilterSaveButton,
     filterDateRange,
     setFilterDateRange,
     filterMap,

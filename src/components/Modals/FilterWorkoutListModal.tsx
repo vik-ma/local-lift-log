@@ -30,7 +30,7 @@ export const FilterWorkoutListModal = ({
 
   const {
     filterWorkoutListModal,
-    handleFilterDoneButton,
+    handleFilterSaveButton,
     filterDateRange,
     setFilterDateRange,
     resetFilter,
@@ -151,12 +151,15 @@ export const FilterWorkoutListModal = ({
               <div className="flex gap-2">
                 {filterWorkoutListModalPage !== "base" ? (
                   <>
-                    <Button
-                      variant="flat"
-                      onPress={() => setFilterWorkoutListModalPage("base")}
-                    >
-                      Back
-                    </Button>
+                    {filterRoutines.size > 0 && (
+                      <Button
+                        variant="flat"
+                        color="danger"
+                        onPress={() => setFilterRoutines(new Set())}
+                      >
+                        Clear All
+                      </Button>
+                    )}
                   </>
                 ) : (
                   <>
@@ -178,10 +181,13 @@ export const FilterWorkoutListModal = ({
                 </Button>
                 <Button
                   color="primary"
-                  onPress={() => handleFilterDoneButton(locale)}
-                  isDisabled={filterWorkoutListModalPage !== "base"}
+                  onPress={
+                    filterWorkoutListModalPage === "base"
+                      ? () => handleFilterSaveButton(locale)
+                      : () => setFilterWorkoutListModalPage("base")
+                  }
                 >
-                  Save
+                  {filterWorkoutListModalPage !== "base" ? "Done" : "Save"}
                 </Button>
               </div>
             </ModalFooter>

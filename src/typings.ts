@@ -456,7 +456,7 @@ export type UseWorkoutListReturnType = {
   handleSortOptionSelection: (key: string) => void;
   filterWorkoutListModal: UseDisclosureReturnType;
   handleOpenFilterButton: () => void;
-  handleFilterDoneButton: (locale: string) => void;
+  handleFilterSaveButton: (locale: string) => void;
   filterDateRange: RangeValue<CalendarDate> | null;
   setFilterDateRange: React.Dispatch<
     React.SetStateAction<RangeValue<CalendarDate> | null>
