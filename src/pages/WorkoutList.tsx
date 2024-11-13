@@ -387,16 +387,14 @@ export default function WorkoutList() {
                 >
                   New Workout
                 </Button>
-                <div className="flex gap-1 pr-0.5">
-                  <WorkoutListOptions
-                    useWorkoutList={workoutList}
-                    selectedWorkoutProperties={selectedWorkoutProperties}
-                    setSelectedWorkoutProperties={setSelectedWorkoutProperties}
-                    userSettings={userSettings}
-                    setUserSettings={setUserSettings}
-                    handleOptionMenuSelection={handleOptionMenuSelection}
-                  />
-                </div>
+                <WorkoutListOptions
+                  useWorkoutList={workoutList}
+                  selectedWorkoutProperties={selectedWorkoutProperties}
+                  setSelectedWorkoutProperties={setSelectedWorkoutProperties}
+                  userSettings={userSettings}
+                  setUserSettings={setUserSettings}
+                  handleOptionMenuSelection={handleOptionMenuSelection}
+                />
               </div>
               {filterMap.size > 0 && (
                 <WorkoutListFilters useWorkoutList={workoutList} />
