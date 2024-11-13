@@ -8,11 +8,11 @@ import {
   DateRangePicker,
   ScrollShadow,
 } from "@nextui-org/react";
-import { UseWorkoutListReturnType } from "../../typings";
+import { Routine, UseWorkoutListReturnType } from "../../typings";
 import { I18nProvider } from "@react-aria/i18n";
 import { WeekdaysDropdown } from "../Dropdowns/WeekdaysDropdown";
 import { useMemo, useState } from "react";
-import { FormatNumItemsString } from "../../helpers";
+import { RoutineModalList } from "../RoutineModalList";
 
 type FilterWorkoutListModalProps = {
   useWorkoutList: UseWorkoutListReturnType;
@@ -58,13 +58,13 @@ export const FilterWorkoutListModal = ({
     return routineNames.join(", ");
   }, [filterRoutines, routineMap]);
 
-  const handleClickRoutine = (routineId: number) => {
+  const handleClickRoutine = (routine: Routine) => {
     const updatedRoutineSet = new Set(filterRoutines);
 
-    if (updatedRoutineSet.has(routineId)) {
-      updatedRoutineSet.delete(routineId);
+    if (updatedRoutineSet.has(routine.id)) {
+      updatedRoutineSet.delete(routine.id);
     } else {
-      updatedRoutineSet.add(routineId);
+      updatedRoutineSet.add(routine.id);
     }
 
     setFilterRoutines(updatedRoutineSet);
@@ -86,44 +86,11 @@ export const FilterWorkoutListModal = ({
             <ModalBody>
               <ScrollShadow className="h-[440px]">
                 {filterWorkoutListModalPage === "routine-list" ? (
-                  <div className="flex flex-col gap-1">
-                    {Array.from(routineMap).map(([routineId, routine]) => {
-                      const numWorkoutTemplates =
-                        routine.numWorkoutTemplates ?? 0;
-                      return (
-                        <div
-                          className={
-                            filterRoutines.has(routineId)
-                              ? "flex justify-between items-center bg-lime-100 border-2 border-lime-300 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-                              : "flex justify-between items-center bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-                          }
-                          key={routineId}
-                        >
-                          <button
-                            className="flex flex-col justify-start items-start pl-2 py-1"
-                            onClick={() => handleClickRoutine(routineId)}
-                          >
-                            <span className="w-[22rem] truncate text-left">
-                              {routine.name}
-                            </span>
-                            {numWorkoutTemplates > 0 && (
-                              <span className="text-xs text-secondary text-left">
-                                {FormatNumItemsString(
-                                  numWorkoutTemplates,
-                                  "Workout"
-                                )}
-                              </span>
-                            )}
-                            <span className="text-xs text-stone-400 text-left">
-                              {routine.is_schedule_weekly === 0
-                                ? `${routine.num_days_in_schedule} Day Schedule`
-                                : "Weekly Schedule"}
-                            </span>
-                          </button>
-                        </div>
-                      );
-                    })}
-                  </div>
+                  <RoutineModalList
+                    onClickAction={handleClickRoutine}
+                    routineMap={routineMap}
+                    filterRoutines={filterRoutines}
+                  />
                 ) : (
                   <div className="flex flex-col gap-3 w-[24rem]">
                     <div className="flex flex-col gap-1">
