@@ -15,11 +15,15 @@ export const WorkoutListFilters = ({
       {Array.from(filterMap).map(([key, value]) => (
         <Chip
           key={key}
+          classNames={{ content: "max-w-[22rem] truncate" }}
           radius="sm"
           color="secondary"
           variant="flat"
           onClose={() => removeFilter(key)}
         >
+          {key === "routines" && (
+            <span className="font-semibold">Routines: </span>
+          )}
           {value}
         </Chip>
       ))}
