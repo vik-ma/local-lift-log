@@ -1,3 +1,4 @@
+import { ScrollShadow } from "@nextui-org/react";
 import { SearchInput } from ".";
 import { FormatNumItemsString } from "../helpers";
 import { Routine, UseRoutineListReturnType } from "../typings";
@@ -17,14 +18,14 @@ export const RoutineModalList = ({
     useRoutineList;
 
   return (
-    <div className="flex flex-col gap-1.5">
+    <div className="h-[440px] flex flex-col gap-2">
       <SearchInput
         filterQuery={filterQuery}
         setFilterQuery={setFilterQuery}
         filteredListLength={filteredRoutines.length}
         totalListLength={routines.length}
       />
-      <div className="flex flex-col gap-1">
+      <ScrollShadow className="flex flex-col gap-1">
         {filteredRoutines.map((routine) => {
           const numWorkoutTemplates = routine.numWorkoutTemplates ?? 0;
           return (
@@ -57,7 +58,7 @@ export const RoutineModalList = ({
             </div>
           );
         })}
-      </div>
+      </ScrollShadow>
     </div>
   );
 };

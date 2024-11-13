@@ -86,14 +86,14 @@ export const FilterWorkoutListModal = ({
                 : "Filter Workouts"}
             </ModalHeader>
             <ModalBody>
-              <ScrollShadow className="h-[440px]">
-                {filterWorkoutListModalPage === "routine-list" ? (
-                  <RoutineModalList
-                    useRoutineList={routineList}
-                    onClickAction={handleClickRoutine}
-                    filterRoutines={filterRoutines}
-                  />
-                ) : (
+              {filterWorkoutListModalPage === "routine-list" ? (
+                <RoutineModalList
+                  useRoutineList={routineList}
+                  onClickAction={handleClickRoutine}
+                  filterRoutines={filterRoutines}
+                />
+              ) : (
+                <ScrollShadow className="h-[440px]">
                   <div className="flex flex-col gap-3 w-[24rem]">
                     <div className="flex flex-col gap-1">
                       <h3 className="font-semibold text-lg px-0.5">
@@ -144,8 +144,8 @@ export const FilterWorkoutListModal = ({
                       </div>
                     </div>
                   </div>
-                )}
-              </ScrollShadow>
+                </ScrollShadow>
+              )}
             </ModalBody>
             <ModalFooter className="flex justify-between">
               <div className="flex gap-2">
