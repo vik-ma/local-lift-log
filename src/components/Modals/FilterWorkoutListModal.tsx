@@ -116,7 +116,10 @@ export const FilterWorkoutListModal = ({
                       />
                     </div>
                     <div className="flex flex-col">
-                      <h3 className="font-semibold text-lg px-0.5">Routines</h3>
+                      <h3 className="font-semibold text-lg px-0.5">
+                        Routines{" "}
+                        {filterRoutines.size > 0 && `(${filterRoutines.size})`}
+                      </h3>
                       <div className="flex justify-between items-center px-0.5">
                         <div
                           className={
@@ -143,14 +146,16 @@ export const FilterWorkoutListModal = ({
               </ScrollShadow>
             </ModalBody>
             <ModalFooter className="flex justify-between">
-              <div>
+              <div className="flex gap-2">
                 {filterWorkoutListModalPage !== "base" ? (
-                  <Button
-                    variant="flat"
-                    onPress={() => setFilterWorkoutListModalPage("base")}
-                  >
-                    Back
-                  </Button>
+                  <>
+                    <Button
+                      variant="flat"
+                      onPress={() => setFilterWorkoutListModalPage("base")}
+                    >
+                      Back
+                    </Button>
+                  </>
                 ) : (
                   <>
                     {showResetFilterButton && (
