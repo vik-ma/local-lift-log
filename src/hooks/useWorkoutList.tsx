@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import {
-  Routine,
   UseWorkoutListReturnType,
   Workout,
   WorkoutFilterMapKey,
@@ -10,12 +9,12 @@ import Database from "tauri-plugin-sql-api";
 import {
   ConvertCalendarDateToLocalizedString,
   FormatDateString,
-  GetAllRoutinesWithNumWorkoutTemplates,
   IsDateInWeekdaySet,
   IsDateWithinRange,
   WeekdayMap,
 } from "../helpers";
 import { CalendarDate, RangeValue, useDisclosure } from "@nextui-org/react";
+import { useRoutineList } from "./useRoutineList";
 
 export const useWorkoutList = (
   getWorkoutsOnLoad: boolean,
@@ -26,7 +25,7 @@ export const useWorkoutList = (
   const [filterQuery, setFilterQuery] = useState<string>("");
   const [sortCategory, setSortCategory] =
     useState<WorkoutSortCategory>("date-desc");
-  const [routineMap, setRoutineMap] = useState<Map<number, Routine>>(new Map());
+
   const [filterDateRange, setFilterDateRange] =
     useState<RangeValue<CalendarDate> | null>(null);
   const [filterMap, setFilterMap] = useState<Map<WorkoutFilterMapKey, string>>(
@@ -41,6 +40,8 @@ export const useWorkoutList = (
   const [filterWeekdays, setFilterWeekdays] = useState<Set<string>>(
     new Set(weekdayMap.keys())
   );
+
+  const routineList = useRoutineList(true);
 
   const workoutListIsLoaded = useRef(false);
 
@@ -77,6 +78,8 @@ export const useWorkoutList = (
   }, [workouts, filterQuery, filterDateRange, filterWeekdays]);
 
   const getWorkouts = useCallback(async () => {
+    if (!routineList.routineListIsLoaded.current) return;
+
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -96,12 +99,6 @@ export const useWorkoutList = (
           workout_templates ON workouts.workout_template_id = workout_templates.id
         GROUP BY 
           workouts.id`
-      );
-
-      const resultRoutines = await GetAllRoutinesWithNumWorkoutTemplates();
-
-      const routineMap = new Map<number, Routine>(
-        resultRoutines.map((obj) => [obj.id, obj])
       );
 
       const workouts: Workout[] = [];
@@ -136,21 +133,25 @@ export const useWorkoutList = (
           workoutTemplateName: row.workoutTemplateName,
           hasInvalidWorkoutTemplate:
             row.workout_template_id > 0 && row.workoutTemplateName === null,
-          routine: routineMap.get(row.routine_id),
+          routine: routineList.routineMap.get(row.routine_id),
           hasInvalidRoutine:
-            row.routine_id !== 0 && !routineMap.has(row.routine_id),
+            row.routine_id !== 0 && !routineList.routineMap.has(row.routine_id),
         };
 
         workouts.push(workout);
       }
 
-      setRoutineMap(routineMap);
       sortWorkoutsByDate(workouts, false);
       workoutListIsLoaded.current = true;
     } catch (error) {
       console.log(error);
     }
-  }, [ignoreEmptyWorkouts, ignoreWorkoutId]);
+  }, [
+    ignoreEmptyWorkouts,
+    ignoreWorkoutId,
+    routineList.routineMap,
+    routineList.routineListIsLoaded,
+  ]);
 
   useEffect(() => {
     if (getWorkoutsOnLoad) {
@@ -261,7 +262,6 @@ export const useWorkoutList = (
     sortCategory,
     setSortCategory,
     handleSortOptionSelection,
-    routineMap,
     filterWorkoutListModal,
     handleOpenFilterButton,
     handleFilterDoneButton,
@@ -276,5 +276,6 @@ export const useWorkoutList = (
     weekdayMap,
     filterRoutines,
     setFilterRoutines,
+    routineList,
   };
 };

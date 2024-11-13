@@ -454,7 +454,6 @@ export type UseWorkoutListReturnType = {
   sortCategory: WorkoutSortCategory;
   setSortCategory: React.Dispatch<React.SetStateAction<WorkoutSortCategory>>;
   handleSortOptionSelection: (key: string) => void;
-  routineMap: Map<number, Routine>;
   filterWorkoutListModal: UseDisclosureReturnType;
   handleOpenFilterButton: () => void;
   handleFilterDoneButton: (locale: string) => void;
@@ -471,6 +470,7 @@ export type UseWorkoutListReturnType = {
   weekdayMap: Map<string, string>;
   filterRoutines: Set<number>;
   setFilterRoutines: React.Dispatch<React.SetStateAction<Set<number>>>;
+  routineList: UseRoutineListReturnType;
 };
 
 export type WorkoutFilterMapKey = "dates" | "weekdays" | "routines";
@@ -661,4 +661,6 @@ export type UseRoutineListReturnType = {
   setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
   routineListModal: UseDisclosureReturnType;
   handleOpenRoutineListModal: () => void;
+  routineMap: Map<number, Routine>;
+  routineListIsLoaded: React.MutableRefObject<boolean>;
 };

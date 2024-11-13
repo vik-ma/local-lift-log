@@ -38,10 +38,12 @@ export const FilterWorkoutListModal = ({
     filterWeekdays,
     setFilterWeekdays,
     weekdayMap,
-    routineMap,
     filterRoutines,
     setFilterRoutines,
+    routineList,
   } = useWorkoutList;
+
+  const { routineMap } = routineList;
 
   const filterRoutinesString = useMemo(() => {
     if (filterRoutines.size === 0) return "No Routines Selected";

@@ -8,6 +8,7 @@ export const useRoutineList = (
 ): UseRoutineListReturnType => {
   const [routines, setRoutines] = useState<Routine[]>([]);
   const [filterQuery, setFilterQuery] = useState<string>("");
+  const [routineMap, setRoutineMap] = useState<Map<number, Routine>>(new Map());
 
   const routineListIsLoaded = useRef(false);
 
@@ -25,7 +26,12 @@ export const useRoutineList = (
   const getRoutines = useCallback(async () => {
     const routines = await GetAllRoutinesWithNumWorkoutTemplates();
 
+    const routineMap = new Map<number, Routine>(
+      routines.map((obj) => [obj.id, obj])
+    );
+
     setRoutines(routines);
+    setRoutineMap(routineMap);
     routineListIsLoaded.current = true;
   }, []);
 
@@ -51,5 +57,7 @@ export const useRoutineList = (
     setFilterQuery,
     routineListModal,
     handleOpenRoutineListModal,
+    routineMap,
+    routineListIsLoaded
   };
 };
