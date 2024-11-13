@@ -52,7 +52,8 @@ export const useWorkoutList = (
     if (
       filterQuery !== "" ||
       filterDateRange !== null ||
-      filterWeekdays.size < 7
+      filterWeekdays.size < 7 ||
+      filterRoutines.size > 0
     ) {
       return workouts.filter(
         (item) =>
@@ -71,11 +72,12 @@ export const useWorkoutList = (
           (filterDateRange === null ||
             IsDateWithinRange(item.date, filterDateRange)) &&
           (filterWeekdays.size === 7 ||
-            IsDateInWeekdaySet(item.date, filterWeekdays))
+            IsDateInWeekdaySet(item.date, filterWeekdays)) &&
+          (filterRoutines.size === 0 || filterRoutines.has(item.routine_id))
       );
     }
     return workouts;
-  }, [workouts, filterQuery, filterDateRange, filterWeekdays]);
+  }, [workouts, filterQuery, filterDateRange, filterWeekdays, filterRoutines]);
 
   const getWorkouts = useCallback(async () => {
     if (!routineList.isRoutineListLoaded.current) return;
@@ -214,6 +216,18 @@ export const useWorkoutList = (
       updatedFilterMap.set("weekdays", filterWeekdaysString);
     }
 
+    if (filterRoutines.size > 0) {
+      const filterRoutinesString = Array.from(filterRoutines)
+        .map((id) =>
+          routineList.routineMap.has(id)
+            ? routineList.routineMap.get(id)!.name
+            : ""
+        )
+        .join(", ");
+
+      updatedFilterMap.set("routines", filterRoutinesString);
+    }
+
     setFilterMap(updatedFilterMap);
 
     filterWorkoutListModal.onClose();
@@ -233,21 +247,30 @@ export const useWorkoutList = (
       setFilterMap(updatedFilterMap);
       setFilterWeekdays(new Set(weekdayMap.keys()));
     }
+
+    if (key === "routines" && filterMap.has("routines")) {
+      const updatedFilterMap = new Map(filterMap);
+      updatedFilterMap.delete("routines");
+      setFilterMap(updatedFilterMap);
+      setFilterRoutines(new Set());
+    }
   };
 
   const resetFilter = () => {
     setFilterMap(new Map());
     setFilterDateRange(null);
     setFilterWeekdays(new Set(weekdayMap.keys()));
+    setFilterRoutines(new Set());
   };
 
   const showResetFilterButton = useMemo(() => {
     if (filterMap.size > 0) return true;
     if (filterDateRange !== null) return true;
     if (filterWeekdays.size < 7) return true;
+    if (filterRoutines.size > 0) return true;
 
     return false;
-  }, [filterMap, filterDateRange, filterWeekdays]);
+  }, [filterMap, filterDateRange, filterWeekdays, filterRoutines]);
 
   return {
     workouts,
