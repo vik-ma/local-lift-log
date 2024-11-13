@@ -43,7 +43,7 @@ export const useWorkoutList = (
 
   const routineList = useRoutineList(true);
 
-  const workoutListIsLoaded = useRef(false);
+  const isWorkoutListLoaded = useRef(false);
 
   const workoutListModal = useDisclosure();
   const filterWorkoutListModal = useDisclosure();
@@ -78,7 +78,7 @@ export const useWorkoutList = (
   }, [workouts, filterQuery, filterDateRange, filterWeekdays]);
 
   const getWorkouts = useCallback(async () => {
-    if (!routineList.routineListIsLoaded.current) return;
+    if (!routineList.isRoutineListLoaded.current) return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
@@ -142,7 +142,7 @@ export const useWorkoutList = (
       }
 
       sortWorkoutsByDate(workouts, false);
-      workoutListIsLoaded.current = true;
+      isWorkoutListLoaded.current = true;
     } catch (error) {
       console.log(error);
     }
@@ -150,7 +150,7 @@ export const useWorkoutList = (
     ignoreEmptyWorkouts,
     ignoreWorkoutId,
     routineList.routineMap,
-    routineList.routineListIsLoaded,
+    routineList.isRoutineListLoaded,
   ]);
 
   useEffect(() => {
@@ -170,7 +170,7 @@ export const useWorkoutList = (
   };
 
   const handleOpenWorkoutListModal = useCallback(() => {
-    if (!workoutListIsLoaded.current) {
+    if (!isWorkoutListLoaded.current) {
       getWorkouts();
     }
 

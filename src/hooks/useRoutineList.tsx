@@ -10,7 +10,7 @@ export const useRoutineList = (
   const [filterQuery, setFilterQuery] = useState<string>("");
   const [routineMap, setRoutineMap] = useState<Map<number, Routine>>(new Map());
 
-  const routineListIsLoaded = useRef(false);
+  const isRoutineListLoaded = useRef(false);
 
   const routineListModal = useDisclosure();
 
@@ -32,7 +32,7 @@ export const useRoutineList = (
 
     setRoutines(routines);
     setRoutineMap(routineMap);
-    routineListIsLoaded.current = true;
+    isRoutineListLoaded.current = true;
   }, []);
 
   useEffect(() => {
@@ -42,7 +42,7 @@ export const useRoutineList = (
   }, [getRoutinesOnLoad, getRoutines]);
 
   const handleOpenRoutineListModal = useCallback(() => {
-    if (!routineListIsLoaded.current) {
+    if (!isRoutineListLoaded.current) {
       getRoutines();
     }
 
@@ -58,6 +58,6 @@ export const useRoutineList = (
     routineListModal,
     handleOpenRoutineListModal,
     routineMap,
-    routineListIsLoaded
+    isRoutineListLoaded,
   };
 };

@@ -13,7 +13,7 @@ export const useWorkoutTemplateList = (
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [filterQuery, setFilterQuery] = useState<string>("");
 
-  const workoutTemplateListIsLoaded = useRef(false);
+  const isWorkoutTemplateListLoaded = useRef(false);
 
   const workoutTemplatesModal = useDisclosure();
 
@@ -78,9 +78,9 @@ export const useWorkoutTemplateList = (
   }, [getWorkoutTemplatesOnLoad, getWorkoutTemplates]);
 
   const handleOpenWorkoutTemplatesModal = useCallback(async () => {
-    if (!workoutTemplateListIsLoaded.current) {
+    if (!isWorkoutTemplateListLoaded.current) {
       getWorkoutTemplates();
-      workoutTemplateListIsLoaded.current = true;
+      isWorkoutTemplateListLoaded.current = true;
     }
 
     workoutTemplatesModal.onOpen();

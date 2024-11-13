@@ -662,5 +662,5 @@ export type UseRoutineListReturnType = {
   routineListModal: UseDisclosureReturnType;
   handleOpenRoutineListModal: () => void;
   routineMap: Map<number, Routine>;
-  routineListIsLoaded: React.MutableRefObject<boolean>;
+  isRoutineListLoaded: React.MutableRefObject<boolean>;
 };
