@@ -6,7 +6,11 @@ import {
   WorkoutListModal,
   WorkoutTemplateListModal,
 } from "../components";
-import { useWorkoutList, useWorkoutTemplateList } from "../hooks";
+import {
+  useExerciseList,
+  useWorkoutList,
+  useWorkoutTemplateList,
+} from "../hooks";
 import { useEffect, useState } from "react";
 import {
   CopyWorkoutSetList,
@@ -26,7 +30,9 @@ export default function WorkoutIndex() {
 
   const workoutTemplateList = useWorkoutTemplateList(true, true);
 
-  const workoutList = useWorkoutList(false, true);
+  const exerciseList = useExerciseList(false);
+
+  const workoutList = useWorkoutList(false, exerciseList, true);
 
   useEffect(() => {
     const getUserSettings = async () => {

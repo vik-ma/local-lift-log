@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import {
+  UseExerciseListReturnType,
   UseWorkoutListReturnType,
   Workout,
   WorkoutFilterMapKey,
@@ -20,6 +21,7 @@ import { useRoutineList } from "./useRoutineList";
 
 export const useWorkoutList = (
   getWorkoutsOnLoad: boolean,
+  useExerciseList: UseExerciseListReturnType,
   ignoreEmptyWorkouts?: boolean,
   ignoreWorkoutId?: number
 ): UseWorkoutListReturnType => {
@@ -212,7 +214,11 @@ export const useWorkoutList = (
     }
   };
 
-  const handleOpenFilterButton = () => {
+  const handleOpenFilterButton = async () => {
+    if (!useExerciseList.isExerciseListLoaded.current) {
+      await useExerciseList.getExercises();
+    }
+
     filterWorkoutListModal.onOpen();
   };
 

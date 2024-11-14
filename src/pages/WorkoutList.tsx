@@ -29,6 +29,7 @@ import {
 } from "../helpers";
 import {
   useDefaultWorkout,
+  useExerciseList,
   useRoutineList,
   useWorkoutList,
   useWorkoutTemplateList,
@@ -59,7 +60,9 @@ export default function WorkoutList() {
   const deleteModal = useDisclosure();
   const workoutModal = useDisclosure();
 
-  const workoutList = useWorkoutList(true);
+  const exerciseList = useExerciseList(false);
+
+  const workoutList = useWorkoutList(true, exerciseList);
 
   const {
     workouts,

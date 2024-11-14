@@ -60,37 +60,6 @@ export default function WorkoutDetails() {
   const [showWorkoutTemplateNote, setShowWorkoutTemplateNote] =
     useState<boolean>(false);
 
-  const workoutList = useWorkoutList(false, true, Number(id));
-  const workoutTemplateList = useWorkoutTemplateList(false, true);
-
-  const additionalMenuItems: DetailHeaderOptionItem = useMemo(() => {
-    return {
-      "toggle-workout-template-note": {
-        text: "Toggle Workout Template Note",
-        function: () => setShowWorkoutTemplateNote(!showWorkoutTemplateNote),
-        className: workoutTemplateNote === null ? "hidden" : "",
-      },
-      "load-workout-template": {
-        text: "Load Workout Template",
-        function: () => workoutTemplateList.handleOpenWorkoutTemplatesModal(),
-      },
-      "copy-workout": {
-        text: "Copy Previous Workout",
-        function: () => workoutList.handleOpenWorkoutListModal(),
-      },
-    };
-  }, [
-    workoutTemplateNote,
-    showWorkoutTemplateNote,
-    workoutList,
-    workoutTemplateList,
-  ]);
-
-  const useDetailsHeaderOptions = useDetailsHeaderOptionsMenu(
-    "Workout",
-    additionalMenuItems
-  );
-
   const {
     updateExerciseOrder,
     handleSaveSetButton,
@@ -164,6 +133,37 @@ export default function WorkoutDetails() {
     addCalculationResult,
     openCalculationModal,
   } = useWorkoutActions(false);
+
+  const workoutList = useWorkoutList(false, exerciseList, true, Number(id));
+  const workoutTemplateList = useWorkoutTemplateList(false, true);
+
+  const additionalMenuItems: DetailHeaderOptionItem = useMemo(() => {
+    return {
+      "toggle-workout-template-note": {
+        text: "Toggle Workout Template Note",
+        function: () => setShowWorkoutTemplateNote(!showWorkoutTemplateNote),
+        className: workoutTemplateNote === null ? "hidden" : "",
+      },
+      "load-workout-template": {
+        text: "Load Workout Template",
+        function: () => workoutTemplateList.handleOpenWorkoutTemplatesModal(),
+      },
+      "copy-workout": {
+        text: "Copy Previous Workout",
+        function: () => workoutList.handleOpenWorkoutListModal(),
+      },
+    };
+  }, [
+    workoutTemplateNote,
+    showWorkoutTemplateNote,
+    workoutList,
+    workoutTemplateList,
+  ]);
+
+  const useDetailsHeaderOptions = useDetailsHeaderOptionsMenu(
+    "Workout",
+    additionalMenuItems
+  );
 
   const userWeightInputs = useUserWeightInput(
     userWeight,
