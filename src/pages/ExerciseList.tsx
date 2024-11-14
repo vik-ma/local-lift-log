@@ -57,7 +57,6 @@ export default function ExerciseList() {
     exercises,
     setExercises,
     getExercises,
-    isExercisesLoading,
     toggleFavorite,
     handleSortOptionSelection,
     sortCategory,
@@ -68,7 +67,8 @@ export default function ExerciseList() {
     sortExercisesByActiveCategory,
     showSecondaryExerciseGroups,
     setShowSecondaryExerciseGroups,
-  } = useExerciseList(true);
+    isExerciseListLoaded,
+  } = useExerciseList(true, true);
 
   const exerciseGroupDictionary = useExerciseGroupDictionary();
 
@@ -390,7 +390,7 @@ export default function ExerciseList() {
             </div>
           }
         />
-        {isExercisesLoading ? (
+        {!isExerciseListLoaded.current ? (
           <LoadingSpinner />
         ) : (
           <>

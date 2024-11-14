@@ -66,7 +66,7 @@ export default function Multisets() {
 
   const operatingSetInputs = useSetTrackingInputs();
 
-  const exerciseList = useExerciseList();
+  const exerciseList = useExerciseList(true);
 
   const multisetActions = useMultisetActions({
     operatingMultiset,

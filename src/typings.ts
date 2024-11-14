@@ -387,7 +387,6 @@ export type UseExerciseListReturnType = {
   exercises: Exercise[];
   setExercises: React.Dispatch<React.SetStateAction<Exercise[]>>;
   getExercises: () => Promise<void>;
-  isExercisesLoading: boolean;
   toggleFavorite: (exercises: Exercise) => void;
   handleSortOptionSelection: (key: string) => void;
   sortCategory: ExerciseSortCategory;
@@ -399,6 +398,7 @@ export type UseExerciseListReturnType = {
   sortExercisesByActiveCategory: (exerciseList: Exercise[]) => void;
   showSecondaryExerciseGroups: boolean;
   setShowSecondaryExerciseGroups: React.Dispatch<React.SetStateAction<boolean>>;
+  isExerciseListLoaded: React.MutableRefObject<boolean>;
 };
 
 export type HandleMultisetSetOptionSelectionProps = (

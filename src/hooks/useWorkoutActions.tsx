@@ -148,7 +148,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   const operatingSetInputs = useSetTrackingInputs();
   const activeSetInputs = useSetTrackingInputs();
 
-  const exerciseList = useExerciseList();
+  const exerciseList = useExerciseList(true);
 
   const multisetActions = useMultisetActions({
     operatingMultiset,

@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import {
   GetExerciseListWithGroupStrings,
   GetExerciseListWithGroupStringsAndTotalSets,
@@ -13,11 +13,11 @@ import {
 import { useExerciseGroupList } from ".";
 
 export const useExerciseList = (
+  getExercisesOnLoad: boolean,
   showTotalNumSets?: boolean
 ): UseExerciseListReturnType => {
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [filterQuery, setFilterQuery] = useState<string>("");
-  const [isExercisesLoading, setIsExercisesLoading] = useState<boolean>(true);
   const [sortCategory, setSortCategory] =
     useState<ExerciseSortCategory>("favorite");
   const [showSecondaryExerciseGroups, setShowSecondaryExerciseGroups] =
@@ -27,6 +27,8 @@ export const useExerciseList = (
   const [shownExerciseGroups, setShownExerciseGroups] = useState<string[]>([
     ...exerciseGroupList,
   ]);
+
+  const isExerciseListLoaded = useRef(false);
 
   const areExerciseGroupsFiltered = useMemo(() => {
     return shownExerciseGroups.length !== exerciseGroupList.length;
@@ -154,12 +156,14 @@ export const useExerciseList = (
     if (exercises === undefined) return;
 
     sortExercisesByFavoritesFirst(exercises);
-    setIsExercisesLoading(false);
+    isExerciseListLoaded.current = true;
   }, [showTotalNumSets]);
 
   useEffect(() => {
-    getExercises();
-  }, [getExercises]);
+    if (getExercisesOnLoad) {
+      getExercises();
+    }
+  }, [getExercises, getExercisesOnLoad]);
 
   return {
     filterQuery,
@@ -168,7 +172,6 @@ export const useExerciseList = (
     exercises,
     setExercises,
     getExercises,
-    isExercisesLoading,
     toggleFavorite,
     handleSortOptionSelection,
     sortCategory,
@@ -180,5 +183,6 @@ export const useExerciseList = (
     sortExercisesByActiveCategory,
     showSecondaryExerciseGroups,
     setShowSecondaryExerciseGroups,
+    isExerciseListLoaded,
   };
 };
