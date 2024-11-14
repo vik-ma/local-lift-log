@@ -156,6 +156,7 @@ export { GetUniqueMultisetIds } from "./Workouts/GetUniqueMultisetIds";
 export { CreateWorkout } from "./Workouts/CreateWorkout";
 export { DeleteWorkoutWithId } from "./Workouts/DeleteWorkoutWithId";
 export { GetWorkoutRatingOrder } from "./Workouts/GetWorkoutRatingOrder";
+export { CreateWorkoutExerciseMapItem } from "./Workouts/CreateWorkoutExerciseMapItem";
 
 export { LocaleList } from "./Constants/LocaleList";
 export { ValidTimeInputs } from "./Constants/ValidTimeInputs";

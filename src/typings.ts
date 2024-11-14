@@ -265,10 +265,10 @@ export type Workout = {
   routine?: Routine;
   hasInvalidRoutine?: boolean;
   exerciseListString?: string;
-  exerciseList?: (WorkoutExerciseListItem | null)[];
+  exerciseMap?: Map<number, WorkoutExerciseMapItem | null>;
 };
 
-export type WorkoutExerciseListItem = {
+export type WorkoutExerciseMapItem = {
   id: number;
   name: string;
   exercise_group_set_string_primary: string;
