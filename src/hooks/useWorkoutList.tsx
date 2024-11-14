@@ -8,7 +8,8 @@ import {
 import Database from "tauri-plugin-sql-api";
 import {
   ConvertCalendarDateToLocalizedString,
-  CreateWorkoutExerciseMapItem,
+  CreateWorkoutExerciseSets,
+  ExerciseGroupDictionary,
   FormatDateString,
   IsDateInWeekdaySet,
   IsDateWithinRange,
@@ -95,8 +96,8 @@ export const useWorkoutList = (
           json_group_array(
             json_object(
               'id', COALESCE(exercises.id, distinct_sets.exercise_id),
-              'name', exercises.name,
-              'exercise_group_set_string_primary', exercises.exercise_group_set_string_primary
+              'exercise_group_set_string_primary', exercises.exercise_group_set_string_primary,
+              'exercise_group_set_string_secondary', exercises.exercise_group_set_string_secondary
             )
           ) AS exerciseListString,
           (SELECT COUNT(*) 
@@ -117,6 +118,8 @@ export const useWorkoutList = (
 
       const workouts: Workout[] = [];
 
+      const EXERCISE_GROUP_DICTIONARY = ExerciseGroupDictionary();
+
       for (const row of resultWorkouts) {
         if (
           row.id === ignoreWorkoutId ||
@@ -126,8 +129,9 @@ export const useWorkoutList = (
 
         const formattedDate = FormatDateString(row.date);
 
-        const exerciseMap = CreateWorkoutExerciseMapItem(
-          row.exerciseListString
+        const workoutExerciseSets = CreateWorkoutExerciseSets(
+          row.exerciseListString,
+          EXERCISE_GROUP_DICTIONARY
         );
 
         const workout: Workout = {
@@ -153,7 +157,10 @@ export const useWorkoutList = (
           routine: routineList.routineMap.get(row.routine_id),
           hasInvalidRoutine:
             row.routine_id !== 0 && !routineList.routineMap.has(row.routine_id),
-          exerciseMap: exerciseMap,
+          exerciseIdSet: workoutExerciseSets.exerciseIdSet,
+          exerciseGroupSetPrimary: workoutExerciseSets.exerciseGroupSetPrimary,
+          exerciseGroupSetSecondary:
+            workoutExerciseSets.exerciseGroupSetSecondary,
         };
 
         workouts.push(workout);

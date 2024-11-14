@@ -265,14 +265,9 @@ export type Workout = {
   routine?: Routine;
   hasInvalidRoutine?: boolean;
   exerciseListString?: string;
-  exerciseMap?: Map<number, WorkoutExerciseMapItem | null>;
-};
-
-export type WorkoutExerciseMapItem = {
-  id: number;
-  name: string;
-  exercise_group_set_string_primary: string;
-  exerciseGroupSet: Set<string>;
+  exerciseIdSet?: Set<number>;
+  exerciseGroupSetPrimary?: Set<string>;
+  exerciseGroupSetSecondary?: Set<string>;
 };
 
 export type UserWeight = {

@@ -27,7 +27,7 @@ export const WorkoutListItem = ({
   handleWorkoutOptionSelection,
 }: WorkoutListItemProps) => {
   const numExercises =
-    workout.exerciseMap !== undefined ? workout.exerciseMap.size : 0;
+    workout.exerciseIdSet !== undefined ? workout.exerciseIdSet.size : 0;
 
   return (
     <div
