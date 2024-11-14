@@ -278,33 +278,29 @@ export const useWorkoutList = (
   };
 
   const removeFilter = (key: WorkoutFilterMapKey) => {
+    const updatedFilterMap = new Map(filterMap);
+
     if (key === "dates" && filterMap.has("dates")) {
-      const updatedFilterMap = new Map(filterMap);
       updatedFilterMap.delete("dates");
-      setFilterMap(updatedFilterMap);
       setFilterDateRange(null);
     }
 
     if (key === "weekdays" && filterMap.has("weekdays")) {
-      const updatedFilterMap = new Map(filterMap);
       updatedFilterMap.delete("weekdays");
-      setFilterMap(updatedFilterMap);
       setFilterWeekdays(new Set(weekdayMap.keys()));
     }
 
     if (key === "routines" && filterMap.has("routines")) {
-      const updatedFilterMap = new Map(filterMap);
       updatedFilterMap.delete("routines");
-      setFilterMap(updatedFilterMap);
       setFilterRoutines(new Set());
     }
 
     if (key === "exercises" && filterMap.has("exercises")) {
-      const updatedFilterMap = new Map(filterMap);
       updatedFilterMap.delete("exercises");
-      setFilterMap(updatedFilterMap);
       setFilterExercises(new Set());
     }
+
+    setFilterMap(updatedFilterMap);
   };
 
   const resetFilter = () => {
