@@ -28,6 +28,7 @@ export { ConvertExerciseGroupSetStringSecondary } from "./Exercises/ConvertExerc
 export { GenerateNewExerciseGroupSetStringSecondary } from "./Exercises/GenerateNewExerciseGroupSetStringSecondary";
 export { ConvertExerciseGroupStringMapSecondaryToString } from "./Exercises/ConvertExerciseGroupStringMapSecondaryToString";
 export { UpdateExerciseValues } from "./Exercises/UpdateExerciseValues";
+export { CreateExerciseGroupSet } from "./Exercises/CreateExerciseGroupSet";
 
 export { GetScheduleDayNames } from "./Routines/GetScheduleDayNames";
 export { GetScheduleDayValues } from "./Routines/GetScheduleValues";
