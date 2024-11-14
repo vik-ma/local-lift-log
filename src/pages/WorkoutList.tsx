@@ -370,6 +370,7 @@ export default function WorkoutList() {
       />
       <FilterWorkoutListModal
         useWorkoutList={workoutList}
+        useExerciseList={exerciseList}
         locale={userSettings.locale}
       />
       <div className="flex flex-col items-center gap-1">
