@@ -399,6 +399,7 @@ export type UseExerciseListReturnType = {
   showSecondaryExerciseGroups: boolean;
   setShowSecondaryExerciseGroups: React.Dispatch<React.SetStateAction<boolean>>;
   isExerciseListLoaded: React.MutableRefObject<boolean>;
+  exerciseMap: Map<number, Exercise>;
 };
 
 export type HandleMultisetSetOptionSelectionProps = (
@@ -475,6 +476,8 @@ export type UseWorkoutListReturnType = {
   filterRoutines: Set<number>;
   setFilterRoutines: React.Dispatch<React.SetStateAction<Set<number>>>;
   routineList: UseRoutineListReturnType;
+  filterExercises: Set<number>;
+  setFilterExercises: React.Dispatch<React.SetStateAction<Set<number>>>;
 };
 
 export type WorkoutFilterMapKey = "dates" | "weekdays" | "routines";

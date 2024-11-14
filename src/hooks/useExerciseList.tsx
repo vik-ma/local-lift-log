@@ -22,6 +22,9 @@ export const useExerciseList = (
     useState<ExerciseSortCategory>("favorite");
   const [showSecondaryExerciseGroups, setShowSecondaryExerciseGroups] =
     useState<boolean>(false);
+  const [exerciseMap, setExerciseMap] = useState<Map<number, Exercise>>(
+    new Map()
+  );
 
   const exerciseGroupList = useExerciseGroupList();
   const [shownExerciseGroups, setShownExerciseGroups] = useState<string[]>([
@@ -155,7 +158,12 @@ export const useExerciseList = (
 
     if (exercises === undefined) return;
 
+    const exerciseMap = new Map<number, Exercise>(
+      exercises.map((obj) => [obj.id, obj])
+    );
+
     sortExercisesByFavoritesFirst(exercises);
+    setExerciseMap(exerciseMap);
     isExerciseListLoaded.current = true;
   }, [showTotalNumSets]);
 
@@ -184,5 +192,6 @@ export const useExerciseList = (
     showSecondaryExerciseGroups,
     setShowSecondaryExerciseGroups,
     isExerciseListLoaded,
+    exerciseMap,
   };
 };
