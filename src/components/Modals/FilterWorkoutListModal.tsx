@@ -103,6 +103,7 @@ export const FilterWorkoutListModal = ({
                 <ExerciseModalList
                   handleClickExercise={() => {}}
                   exerciseList={useExerciseList}
+                  customHeightString="h-[440px]"
                 />
               ) : (
                 <ScrollShadow className="h-[440px]">

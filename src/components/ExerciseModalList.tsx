@@ -6,11 +6,13 @@ import { EmptyListLabel, FavoriteButton, SearchInput } from ".";
 type ExerciseModalListProps = {
   handleClickExercise: (exercise: Exercise) => void;
   exerciseList: UseExerciseListReturnType;
+  customHeightString?: string;
 };
 
 export const ExerciseModalList = ({
   handleClickExercise,
   exerciseList,
+  customHeightString,
 }: ExerciseModalListProps) => {
   const {
     filterQuery,
@@ -20,8 +22,10 @@ export const ExerciseModalList = ({
     exercises,
   } = exerciseList;
 
+  const height = customHeightString !== undefined ? customHeightString : "h-[400px]";
+
   return (
-    <div className="h-[400px] flex flex-col gap-2">
+    <div className={`${height} flex flex-col gap-2`}>
       <SearchInput
         filterQuery={filterQuery}
         setFilterQuery={setFilterQuery}
