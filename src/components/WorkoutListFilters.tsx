@@ -28,6 +28,9 @@ export const WorkoutListFilters = ({
           {key === "routines" && (
             <span className="font-semibold">Routines: </span>
           )}
+          {key === "exercises" && (
+            <span className="font-semibold">Exercises: </span>
+          )}
           {value}
         </Chip>
       ))}
