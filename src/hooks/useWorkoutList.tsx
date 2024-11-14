@@ -8,6 +8,7 @@ import {
 import Database from "tauri-plugin-sql-api";
 import {
   ConvertCalendarDateToLocalizedString,
+  CreateWorkoutExerciseMapItem,
   FormatDateString,
   IsDateInWeekdaySet,
   IsDateWithinRange,
@@ -93,9 +94,9 @@ export const useWorkoutList = (
           workout_templates.name AS workoutTemplateName,
           json_group_array(
             json_object(
-                'id', exercises.id,
-                'name', exercises.name,
-                'exercise_group_set_string_primary', exercises.exercise_group_set_string_primary
+              'id', COALESCE(exercises.id, distinct_sets.exercise_id),
+              'name', exercises.name,
+              'exercise_group_set_string_primary', exercises.exercise_group_set_string_primary
             )
           ) AS exerciseListString,
           (SELECT COUNT(*) 
@@ -125,6 +126,10 @@ export const useWorkoutList = (
 
         const formattedDate = FormatDateString(row.date);
 
+        const exerciseMap = CreateWorkoutExerciseMapItem(
+          row.exerciseListString
+        );
+
         const workout: Workout = {
           id: row.id,
           workout_template_id: row.workout_template_id,
@@ -141,7 +146,6 @@ export const useWorkoutList = (
           rating_stress: row.rating_stress,
           routine_id: row.routine_id,
           numSets: row.numSets,
-          numExercises: row.numExercises,
           formattedDate: formattedDate,
           workoutTemplateName: row.workoutTemplateName,
           hasInvalidWorkoutTemplate:
@@ -149,6 +153,7 @@ export const useWorkoutList = (
           routine: routineList.routineMap.get(row.routine_id),
           hasInvalidRoutine:
             row.routine_id !== 0 && !routineList.routineMap.has(row.routine_id),
+          exerciseMap: exerciseMap,
         };
 
         workouts.push(workout);

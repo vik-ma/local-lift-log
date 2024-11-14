@@ -26,6 +26,9 @@ export const WorkoutListItem = ({
   editWorkout,
   handleWorkoutOptionSelection,
 }: WorkoutListItemProps) => {
+  const numExercises =
+    workout.exerciseMap !== undefined ? workout.exerciseMap.size : 0;
+
   return (
     <div
       className="flex justify-between items-center cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
@@ -69,7 +72,7 @@ export const WorkoutListItem = ({
           )}
         {workout.numSets! > 0 ? (
           <span className="text-xs text-secondary">
-            {FormatNumItemsString(workout.numExercises, "Exercise")},{" "}
+            {FormatNumItemsString(numExercises, "Exercise")},{" "}
             {FormatNumItemsString(workout.numSets, "Set")}
           </span>
         ) : (
