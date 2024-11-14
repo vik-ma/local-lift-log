@@ -480,7 +480,11 @@ export type UseWorkoutListReturnType = {
   setFilterExercises: React.Dispatch<React.SetStateAction<Set<number>>>;
 };
 
-export type WorkoutFilterMapKey = "dates" | "weekdays" | "routines";
+export type WorkoutFilterMapKey =
+  | "dates"
+  | "weekdays"
+  | "routines"
+  | "exercises";
 
 export type UseWorkoutTemplateListReturnType = {
   workoutTemplatesModal: UseDisclosureReturnType;

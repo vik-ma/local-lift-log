@@ -9,6 +9,7 @@ import {
   ScrollShadow,
 } from "@nextui-org/react";
 import {
+  Exercise,
   Routine,
   UseExerciseListReturnType,
   UseWorkoutListReturnType,
@@ -48,9 +49,13 @@ export const FilterWorkoutListModal = ({
     filterRoutines,
     setFilterRoutines,
     routineList,
+    filterExercises,
+    setFilterExercises,
   } = useWorkoutList;
 
   const { routineMap } = routineList;
+
+  const { exerciseMap } = useExerciseList;
 
   const filterRoutinesString = useMemo(() => {
     if (filterRoutines.size === 0) return "No Routines Selected";
@@ -67,6 +72,21 @@ export const FilterWorkoutListModal = ({
     return routineNames.join(", ");
   }, [filterRoutines, routineMap]);
 
+  const filterExercisesString = useMemo(() => {
+    if (filterExercises.size === 0) return "No Routines Selected";
+
+    const exerciseNames: string[] = [];
+
+    for (const exerciseId of filterExercises) {
+      if (exerciseMap.has(exerciseId)) {
+        const exercise = exerciseMap.get(exerciseId);
+        exerciseNames.push(exercise!.name);
+      }
+    }
+
+    return exerciseNames.join(", ");
+  }, [filterExercises, exerciseMap]);
+
   const handleClickRoutine = (routine: Routine) => {
     const updatedRoutineSet = new Set(filterRoutines);
 
@@ -77,6 +97,18 @@ export const FilterWorkoutListModal = ({
     }
 
     setFilterRoutines(updatedRoutineSet);
+  };
+
+  const handleClickExercise = (exercise: Exercise) => {
+    const updatedExerciseSet = new Set(filterExercises);
+
+    if (updatedExerciseSet.has(exercise.id)) {
+      updatedExerciseSet.delete(exercise.id);
+    } else {
+      updatedExerciseSet.add(exercise.id);
+    }
+
+    setFilterExercises(updatedExerciseSet);
   };
 
   return (
@@ -101,7 +133,7 @@ export const FilterWorkoutListModal = ({
                 />
               ) : filterWorkoutListModalPage === "exercise-list" ? (
                 <ExerciseModalList
-                  handleClickExercise={() => {}}
+                  handleClickExercise={handleClickExercise}
                   exerciseList={useExerciseList}
                   customHeightString="h-[440px]"
                 />
@@ -157,21 +189,20 @@ export const FilterWorkoutListModal = ({
                       </div>
                       <div className="flex flex-col">
                         <h3 className="font-semibold text-lg px-0.5">
-                          Exercises {/* TODO: ADD */}
-                          {/* {filterRoutines.size > 0 && `(${filterRoutines.size})`} */}
+                          Exercises{" "}
+                          {filterExercises.size > 0 &&
+                            `(${filterExercises.size})`}
                         </h3>
                         <div className="flex justify-between items-center px-0.5">
-                          {/* TODO: ADD */}
-                          {/* <div
-                          className={
-                            filterRoutines.size === 0
-                              ? "w-[16rem] text-sm break-words text-stone-400"
-                              : "w-[16rem] text-sm break-words text-secondary"
-                          }
-                        >
-                          {filterRoutinesString}
-                        </div> */}
-                          <div></div>
+                          <div
+                            className={
+                              filterExercises.size === 0
+                                ? "w-[16rem] text-sm break-words text-stone-400"
+                                : "w-[16rem] text-sm break-words text-secondary"
+                            }
+                          >
+                            {filterExercisesString}
+                          </div>
                           <Button
                             variant="flat"
                             size="sm"

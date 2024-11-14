@@ -36,6 +36,9 @@ export const useWorkoutList = (
     new Map()
   );
   const [filterRoutines, setFilterRoutines] = useState<Set<number>>(new Set());
+  const [filterExercises, setFilterExercises] = useState<Set<number>>(
+    new Set()
+  );
 
   const weekdayMap = useMemo(() => {
     return WeekdayMap();
@@ -257,6 +260,18 @@ export const useWorkoutList = (
       updatedFilterMap.set("routines", filterRoutinesString);
     }
 
+    if (filterExercises.size > 0) {
+      const filterExercisesString = Array.from(filterExercises)
+        .map((id) =>
+          useExerciseList.exerciseMap.has(id)
+            ? useExerciseList.exerciseMap.get(id)!.name
+            : ""
+        )
+        .join(", ");
+
+      updatedFilterMap.set("exercises", filterExercisesString);
+    }
+
     setFilterMap(updatedFilterMap);
 
     filterWorkoutListModal.onClose();
@@ -283,6 +298,13 @@ export const useWorkoutList = (
       setFilterMap(updatedFilterMap);
       setFilterRoutines(new Set());
     }
+
+    if (key === "exercises" && filterMap.has("exercises")) {
+      const updatedFilterMap = new Map(filterMap);
+      updatedFilterMap.delete("exercises");
+      setFilterMap(updatedFilterMap);
+      setFilterExercises(new Set());
+    }
   };
 
   const resetFilter = () => {
@@ -290,6 +312,7 @@ export const useWorkoutList = (
     setFilterDateRange(null);
     setFilterWeekdays(new Set(weekdayMap.keys()));
     setFilterRoutines(new Set());
+    setFilterExercises(new Set());
   };
 
   const showResetFilterButton = useMemo(() => {
@@ -297,9 +320,16 @@ export const useWorkoutList = (
     if (filterDateRange !== null) return true;
     if (filterWeekdays.size < 7) return true;
     if (filterRoutines.size > 0) return true;
+    if (filterExercises.size > 0) return true;
 
     return false;
-  }, [filterMap, filterDateRange, filterWeekdays, filterRoutines]);
+  }, [
+    filterMap,
+    filterDateRange,
+    filterWeekdays,
+    filterRoutines,
+    filterExercises,
+  ]);
 
   return {
     workouts,
@@ -328,6 +358,8 @@ export const useWorkoutList = (
     weekdayMap,
     filterRoutines,
     setFilterRoutines,
+    filterExercises,
+    setFilterExercises,
     routineList,
   };
 };
