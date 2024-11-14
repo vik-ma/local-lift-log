@@ -85,22 +85,33 @@ export const useWorkoutList = (
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
-      // Get id, date and how many Sets and Exercises every Workout contains
+      // Get all columns for Workout, number of Sets and simplified list of Exercises for every Workout
       // Also get name of Workout Template from workout_template_id
       const resultWorkouts = await db.select<Workout[]>(
         `SELECT 
           workouts.*, 
           workout_templates.name AS workoutTemplateName,
-          COUNT(DISTINCT CASE WHEN is_template = 0 THEN sets.exercise_id END) AS numExercises,
-          SUM(CASE WHEN is_template = 0 THEN 1 ELSE 0 END) AS numSets
-        FROM 
-          workouts
-        LEFT JOIN 
-          sets ON workouts.id = sets.workout_id
-        LEFT JOIN 
-          workout_templates ON workouts.workout_template_id = workout_templates.id
-        GROUP BY 
-          workouts.id`
+          json_group_array(
+            json_object(
+                'id', exercises.id,
+                'name', exercises.name,
+                'exercise_group_set_string_primary', exercises.exercise_group_set_string_primary
+            )
+          ) AS exerciseListString,
+          (SELECT COUNT(*) 
+            FROM sets 
+              WHERE sets.workout_id = workouts.id AND sets.is_template = 0) AS numSets
+          FROM 
+            workouts
+          LEFT JOIN 
+            (SELECT DISTINCT exercise_id, workout_id FROM sets WHERE is_template = 0) AS distinct_sets
+            ON workouts.id = distinct_sets.workout_id
+          LEFT JOIN 
+            exercises ON distinct_sets.exercise_id = exercises.id
+          LEFT JOIN 
+            workout_templates ON workouts.workout_template_id = workout_templates.id
+          GROUP BY 
+            workouts.id;`
       );
 
       const workouts: Workout[] = [];

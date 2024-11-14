@@ -264,6 +264,15 @@ export type Workout = {
   hasInvalidWorkoutTemplate?: boolean;
   routine?: Routine;
   hasInvalidRoutine?: boolean;
+  exerciseListString?: string;
+  exerciseList?: (WorkoutExerciseListItem | null)[];
+};
+
+export type WorkoutExerciseListItem = {
+  id: number;
+  name: string;
+  exercise_group_set_string_primary: string;
+  exerciseGroupSet: Set<string>;
 };
 
 export type UserWeight = {
