@@ -15,10 +15,9 @@ import {
   UseWorkoutListReturnType,
 } from "../../typings";
 import { I18nProvider } from "@react-aria/i18n";
-import { WeekdaysDropdown } from "../Dropdowns/WeekdaysDropdown";
 import { useMemo, useState } from "react";
-import { RoutineModalList } from "../RoutineModalList";
-import { ExerciseModalList } from "../ExerciseModalList";
+import { RoutineModalList, WeekdaysDropdown, ExerciseModalList } from "..";
+import { useExerciseGroupDictionary } from "../../hooks";
 
 type FilterWorkoutListModalProps = {
   useWorkoutList: UseWorkoutListReturnType;
@@ -26,7 +25,12 @@ type FilterWorkoutListModalProps = {
   locale: string;
 };
 
-type FilterWorkoutListModalPage = "base" | "routine-list" | "exercise-list";
+type FilterWorkoutListModalPage =
+  | "base"
+  | "routine-list"
+  | "exercise-list"
+  | "primary-checkboxes"
+  | "secondary-checkboxes";
 
 export const FilterWorkoutListModal = ({
   useWorkoutList,
@@ -56,6 +60,8 @@ export const FilterWorkoutListModal = ({
   const { routineMap } = routineList;
 
   const { exerciseMap } = useExerciseList;
+
+  const exerciseGroupDictionary = useExerciseGroupDictionary();
 
   const filterRoutinesString = useMemo(() => {
     if (filterRoutines.size === 0) return "No Routines Selected";
@@ -150,6 +156,12 @@ export const FilterWorkoutListModal = ({
             <ModalHeader>
               {filterWorkoutListModalPage === "routine-list"
                 ? "Select Routines To Filter"
+                : filterWorkoutListModalPage === "exercise-list"
+                ? "Select Exercises To Filter"
+                : filterWorkoutListModalPage === "primary-checkboxes"
+                ? "Select Primary Exercise Groups To Filter"
+                : filterWorkoutListModalPage === "secondary-checkboxes"
+                ? "Select Secondary Exercise Groups To Filter"
                 : "Filter Workouts"}
             </ModalHeader>
             <ModalBody>
@@ -166,6 +178,10 @@ export const FilterWorkoutListModal = ({
                   customHeightString="h-[440px]"
                   filterExercises={filterExercises}
                 />
+              ) : filterWorkoutListModalPage === "primary-checkboxes" ? (
+                <div>Primary</div>
+              ) : filterWorkoutListModalPage === "secondary-checkboxes" ? (
+                <div>Secondary</div>
               ) : (
                 <ScrollShadow className="h-[440px]">
                   <div className="flex flex-col gap-3 w-[24rem]">
@@ -242,6 +258,70 @@ export const FilterWorkoutListModal = ({
                             }
                           >
                             Filter Exercises
+                          </Button>
+                        </div>
+                      </div>
+                      <div className="flex flex-col">
+                        <h3 className="font-semibold text-lg px-0.5">
+                          Primary Exercise Groups {/* TODO: ADD */}
+                          {/* {filterExercises.size > 0 &&
+                            `(${filterExercises.size})`} */}
+                        </h3>
+                        <div className="flex justify-between items-center px-0.5">
+                          {/* TODO: ADD */}
+                          <div></div>
+                          {/* <div
+                            className={
+                              filterExercises.size === 0
+                                ? "w-[16rem] text-sm break-words text-stone-400"
+                                : "w-[16rem] text-sm break-words text-secondary"
+                            }
+                          >
+                            {filterExercisesString}
+                          </div> */}
+                          <Button
+                            className="w-[7rem]"
+                            variant="flat"
+                            size="sm"
+                            onPress={() =>
+                              setFilterWorkoutListModalPage(
+                                "primary-checkboxes"
+                              )
+                            }
+                          >
+                            Filter Primary
+                          </Button>
+                        </div>
+                      </div>
+                      <div className="flex flex-col">
+                        <h3 className="font-semibold text-lg px-0.5">
+                          Secondary Exercise Groups {/* TODO: ADD */}
+                          {/* {filterExercises.size > 0 &&
+                            `(${filterExercises.size})`} */}
+                        </h3>
+                        <div className="flex justify-between items-center px-0.5">
+                          {/* TODO: ADD */}
+                          <div></div>
+                          {/* <div
+                            className={
+                              filterExercises.size === 0
+                                ? "w-[16rem] text-sm break-words text-stone-400"
+                                : "w-[16rem] text-sm break-words text-secondary"
+                            }
+                          >
+                            {filterExercisesString}
+                          </div> */}
+                          <Button
+                            className="w-[7rem]"
+                            variant="flat"
+                            size="sm"
+                            onPress={() =>
+                              setFilterWorkoutListModalPage(
+                                "secondary-checkboxes"
+                              )
+                            }
+                          >
+                            Filter Secondary
                           </Button>
                         </div>
                       </div>
