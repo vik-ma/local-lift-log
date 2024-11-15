@@ -3,8 +3,10 @@ import { CalendarDate, RangeValue } from "@nextui-org/react";
 
 export const IsDateWithinRange = (
   dateISOString: string,
-  dateRange: RangeValue<CalendarDate>
+  dateRange: RangeValue<CalendarDate> | null
 ) => {
+  if (dateRange === null) return true;
+
   try {
     const date = new Date(dateISOString);
 

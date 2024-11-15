@@ -56,12 +56,7 @@ export const useWorkoutList = (
   const filterWorkoutListModal = useDisclosure();
 
   const filteredWorkouts = useMemo(() => {
-    if (
-      filterQuery !== "" ||
-      filterDateRange !== null ||
-      filterWeekdays.size < 7 ||
-      filterRoutines.size > 0
-    ) {
+    if (filterQuery !== "" || filterMap.size > 0) {
       return workouts.filter(
         (item) =>
           (item.formattedDate
@@ -76,15 +71,22 @@ export const useWorkoutList = (
             item.routine?.name
               .toLocaleLowerCase()
               .includes(filterQuery.toLocaleLowerCase())) &&
-          (filterDateRange === null ||
+          (!filterMap.has("dates") ||
             IsDateWithinRange(item.date, filterDateRange)) &&
-          (filterWeekdays.size === 7 ||
+          (!filterMap.has("weekdays") ||
             IsDateInWeekdaySet(item.date, filterWeekdays)) &&
-          (filterRoutines.size === 0 || filterRoutines.has(item.routine_id))
+          (!filterMap.has("routines") || filterRoutines.has(item.routine_id))
       );
     }
     return workouts;
-  }, [workouts, filterQuery, filterDateRange, filterWeekdays, filterRoutines]);
+  }, [
+    workouts,
+    filterQuery,
+    filterDateRange,
+    filterWeekdays,
+    filterRoutines,
+    filterMap,
+  ]);
 
   const getWorkouts = useCallback(async () => {
     if (!routineList.isRoutineListLoaded.current) return;
