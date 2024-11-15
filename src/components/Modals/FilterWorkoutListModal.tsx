@@ -111,6 +111,34 @@ export const FilterWorkoutListModal = ({
     setFilterExercises(updatedExerciseSet);
   };
 
+  const showClearAllButton = useMemo(() => {
+    if (
+      filterWorkoutListModalPage === "routine-list" &&
+      filterRoutines.size > 0
+    ) {
+      return true;
+    }
+
+    if (
+      filterWorkoutListModalPage === "exercise-list" &&
+      filterExercises.size > 0
+    ) {
+      return true;
+    }
+
+    return false;
+  }, [filterWorkoutListModalPage, filterRoutines, filterExercises]);
+
+  const handleClearAllButton = () => {
+    if (filterWorkoutListModalPage === "routine-list") {
+      setFilterRoutines(new Set());
+    }
+
+    if (filterWorkoutListModalPage === "exercise-list") {
+      setFilterExercises(new Set());
+    }
+  };
+
   return (
     <Modal
       isOpen={filterWorkoutListModal.isOpen}
@@ -179,6 +207,7 @@ export const FilterWorkoutListModal = ({
                           {filterRoutinesString}
                         </div>
                         <Button
+                          className="w-[7rem]"
                           variant="flat"
                           size="sm"
                           onPress={() =>
@@ -205,6 +234,7 @@ export const FilterWorkoutListModal = ({
                             {filterExercisesString}
                           </div>
                           <Button
+                            className="w-[7rem]"
                             variant="flat"
                             size="sm"
                             onPress={() =>
@@ -222,25 +252,13 @@ export const FilterWorkoutListModal = ({
             </ModalBody>
             <ModalFooter className="flex justify-between">
               <div className="flex gap-2">
-                {filterWorkoutListModalPage === "routine-list" ? (
+                {filterWorkoutListModalPage !== "base" ? (
                   <>
-                    {filterRoutines.size > 0 && (
+                    {showClearAllButton && (
                       <Button
                         variant="flat"
                         color="danger"
-                        onPress={() => setFilterRoutines(new Set())}
-                      >
-                        Clear All
-                      </Button>
-                    )}
-                  </>
-                ) : filterWorkoutListModalPage === "exercise-list" ? (
-                  <>
-                    {filterExercises.size > 0 && (
-                      <Button
-                        variant="flat"
-                        color="danger"
-                        onPress={() => setFilterExercises(new Set())}
+                        onPress={handleClearAllButton}
                       >
                         Clear All
                       </Button>
