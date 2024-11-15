@@ -40,6 +40,10 @@ export const useWorkoutList = (
   const [filterExercises, setFilterExercises] = useState<Set<number>>(
     new Set()
   );
+  const [filterExerciseGroupsPrimary, setFilterExerciseGroupsPrimary] =
+    useState<Set<string>>(new Set());
+  const [filterExerciseGroupsSecondary, setFilterExerciseGroupsSecondary] =
+    useState<Set<string>>(new Set());
 
   const weekdayMap = useMemo(() => {
     return WeekdayMap();
@@ -363,5 +367,9 @@ export const useWorkoutList = (
     filterExercises,
     setFilterExercises,
     routineList,
+    filterExerciseGroupsPrimary,
+    setFilterExerciseGroupsPrimary,
+    filterExerciseGroupsSecondary,
+    setFilterExerciseGroupsSecondary,
   };
 };

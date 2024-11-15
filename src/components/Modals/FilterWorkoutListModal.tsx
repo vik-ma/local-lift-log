@@ -55,6 +55,10 @@ export const FilterWorkoutListModal = ({
     routineList,
     filterExercises,
     setFilterExercises,
+    filterExerciseGroupsPrimary,
+    setFilterExerciseGroupsPrimary,
+    filterExerciseGroupsSecondary,
+    setFilterExerciseGroupsSecondary,
   } = useWorkoutList;
 
   const { routineMap } = routineList;
@@ -79,7 +83,7 @@ export const FilterWorkoutListModal = ({
   }, [filterRoutines, routineMap]);
 
   const filterExercisesString = useMemo(() => {
-    if (filterExercises.size === 0) return "No Routines Selected";
+    if (filterExercises.size === 0) return "No Exercises Selected";
 
     const exerciseNames: string[] = [];
 
@@ -92,6 +96,38 @@ export const FilterWorkoutListModal = ({
 
     return exerciseNames.join(", ");
   }, [filterExercises, exerciseMap]);
+
+  const filterExerciseGroupsPrimaryString = useMemo(() => {
+    if (filterExerciseGroupsPrimary.size === 0)
+      return "No Primary Groups Selected";
+
+    const exerciseGroupNames: string[] = [];
+
+    for (const group of filterExerciseGroupsPrimary) {
+      if (exerciseGroupDictionary.has(group)) {
+        const groupName = exerciseGroupDictionary.get(group);
+        exerciseGroupNames.push(groupName!);
+      }
+    }
+
+    return exerciseGroupNames.join(", ");
+  }, [filterExerciseGroupsPrimary, exerciseGroupDictionary]);
+
+  const filterExerciseGroupsSecondaryString = useMemo(() => {
+    if (filterExerciseGroupsSecondary.size === 0)
+      return "No Secondary Groups Selected";
+
+    const exerciseGroupNames: string[] = [];
+
+    for (const group of filterExerciseGroupsSecondary) {
+      if (exerciseGroupDictionary.has(group)) {
+        const groupName = exerciseGroupDictionary.get(group);
+        exerciseGroupNames.push(groupName!);
+      }
+    }
+
+    return exerciseGroupNames.join(", ");
+  }, [filterExerciseGroupsSecondary, exerciseGroupDictionary]);
 
   const handleClickRoutine = (routine: Routine) => {
     const updatedRoutineSet = new Set(filterRoutines);
@@ -263,22 +299,20 @@ export const FilterWorkoutListModal = ({
                       </div>
                       <div className="flex flex-col">
                         <h3 className="font-semibold text-lg px-0.5">
-                          Primary Exercise Groups {/* TODO: ADD */}
-                          {/* {filterExercises.size > 0 &&
-                            `(${filterExercises.size})`} */}
+                          Primary Exercise Groups{" "}
+                          {filterExerciseGroupsPrimary.size > 0 &&
+                            `(${filterExerciseGroupsPrimary.size})`}
                         </h3>
                         <div className="flex justify-between items-center px-0.5">
-                          {/* TODO: ADD */}
-                          <div></div>
-                          {/* <div
+                          <div
                             className={
-                              filterExercises.size === 0
+                              filterExerciseGroupsPrimary.size === 0
                                 ? "w-[16rem] text-sm break-words text-stone-400"
                                 : "w-[16rem] text-sm break-words text-secondary"
                             }
                           >
-                            {filterExercisesString}
-                          </div> */}
+                            {filterExerciseGroupsPrimaryString}
+                          </div>
                           <Button
                             className="w-[7rem]"
                             variant="flat"
@@ -295,22 +329,20 @@ export const FilterWorkoutListModal = ({
                       </div>
                       <div className="flex flex-col">
                         <h3 className="font-semibold text-lg px-0.5">
-                          Secondary Exercise Groups {/* TODO: ADD */}
-                          {/* {filterExercises.size > 0 &&
-                            `(${filterExercises.size})`} */}
+                          Secondary Exercise Groups{" "}
+                          {filterExerciseGroupsSecondary.size > 0 &&
+                            `(${filterExerciseGroupsSecondary.size})`}
                         </h3>
                         <div className="flex justify-between items-center px-0.5">
-                          {/* TODO: ADD */}
-                          <div></div>
-                          {/* <div
+                          <div
                             className={
-                              filterExercises.size === 0
+                              filterExerciseGroupsSecondary.size === 0
                                 ? "w-[16rem] text-sm break-words text-stone-400"
                                 : "w-[16rem] text-sm break-words text-secondary"
                             }
                           >
-                            {filterExercisesString}
-                          </div> */}
+                            {filterExerciseGroupsSecondaryString}
+                          </div>
                           <Button
                             className="w-[7rem]"
                             variant="flat"
