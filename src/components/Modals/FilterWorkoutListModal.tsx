@@ -279,8 +279,16 @@ export const FilterWorkoutListModal = ({
                 )}
               </div>
               <div className="flex gap-2">
-                <Button color="primary" variant="light" onPress={onClose}>
-                  Close
+                <Button
+                  color="primary"
+                  variant="light"
+                  onPress={
+                    filterWorkoutListModalPage === "base"
+                      ? onClose
+                      : () => setFilterWorkoutListModalPage("base")
+                  }
+                >
+                  {filterWorkoutListModalPage === "base" ? "Close" : "Back"}
                 </Button>
                 <Button
                   color="primary"
