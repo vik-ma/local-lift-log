@@ -10,6 +10,7 @@ import Database from "tauri-plugin-sql-api";
 import {
   ConvertCalendarDateToLocalizedString,
   CreateWorkoutExerciseSets,
+  DoesSetsHaveCommonElement,
   ExerciseGroupDictionary,
   FormatDateString,
   IsDateInWeekdaySet,
@@ -75,17 +76,20 @@ export const useWorkoutList = (
             IsDateWithinRange(item.date, filterDateRange)) &&
           (!filterMap.has("weekdays") ||
             IsDateInWeekdaySet(item.date, filterWeekdays)) &&
-          (!filterMap.has("routines") || filterRoutines.has(item.routine_id))
+          (!filterMap.has("routines") || filterRoutines.has(item.routine_id)) &&
+          (!filterMap.has("exercises") ||
+            DoesSetsHaveCommonElement(filterExercises, item.exerciseIdSet))
       );
     }
     return workouts;
   }, [
     workouts,
     filterQuery,
+    filterMap,
     filterDateRange,
     filterWeekdays,
     filterRoutines,
-    filterMap,
+    filterExercises,
   ]);
 
   const getWorkouts = useCallback(async () => {
