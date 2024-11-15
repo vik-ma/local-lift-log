@@ -222,13 +222,25 @@ export const FilterWorkoutListModal = ({
             </ModalBody>
             <ModalFooter className="flex justify-between">
               <div className="flex gap-2">
-                {filterWorkoutListModalPage !== "base" ? (
+                {filterWorkoutListModalPage === "routine-list" ? (
                   <>
                     {filterRoutines.size > 0 && (
                       <Button
                         variant="flat"
                         color="danger"
                         onPress={() => setFilterRoutines(new Set())}
+                      >
+                        Clear All
+                      </Button>
+                    )}
+                  </>
+                ) : filterWorkoutListModalPage === "exercise-list" ? (
+                  <>
+                    {filterExercises.size > 0 && (
+                      <Button
+                        variant="flat"
+                        color="danger"
+                        onPress={() => setFilterExercises(new Set())}
                       >
                         Clear All
                       </Button>
