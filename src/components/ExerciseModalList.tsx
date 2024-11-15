@@ -7,12 +7,14 @@ type ExerciseModalListProps = {
   handleClickExercise: (exercise: Exercise) => void;
   exerciseList: UseExerciseListReturnType;
   customHeightString?: string;
+  filterExercises?: Set<number>;
 };
 
 export const ExerciseModalList = ({
   handleClickExercise,
   exerciseList,
   customHeightString,
+  filterExercises,
 }: ExerciseModalListProps) => {
   const {
     filterQuery,
@@ -22,7 +24,8 @@ export const ExerciseModalList = ({
     exercises,
   } = exerciseList;
 
-  const height = customHeightString !== undefined ? customHeightString : "h-[400px]";
+  const height =
+    customHeightString !== undefined ? customHeightString : "h-[400px]";
 
   return (
     <div className={`${height} flex flex-col gap-2`}>
@@ -36,7 +39,11 @@ export const ExerciseModalList = ({
         {filteredExercises.map((exercise) => (
           <div
             key={exercise.id}
-            className="flex justify-between items-center gap-1 cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+            className={
+              filterExercises?.has(exercise.id)
+                ? "flex justify-between items-center gap-1 cursor-pointer bg-amber-100 border-2 border-amber-300 rounded-xl hover:border-default-400 focus:border-default-400"
+                : "flex justify-between items-center gap-1 cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:border-default-400"
+            }
             onClick={() => handleClickExercise(exercise)}
           >
             <div className="flex flex-col justify-start items-start pl-2 py-1">
