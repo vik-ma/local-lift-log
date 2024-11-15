@@ -29,7 +29,7 @@ export { GenerateNewExerciseGroupSetStringSecondary } from "./Exercises/Generate
 export { ConvertExerciseGroupStringMapSecondaryToString } from "./Exercises/ConvertExerciseGroupStringMapSecondaryToString";
 export { UpdateExerciseValues } from "./Exercises/UpdateExerciseValues";
 export { CreateExerciseGroupSetPrimary } from "./Exercises/CreateExerciseGroupSetPrimary";
-export { CreateExerciseGroupSetSecondary } from "./Exercises/CreateExerciseGroupSetSecondary"
+export { CreateExerciseGroupSetSecondary } from "./Exercises/CreateExerciseGroupSetSecondary";
 
 export { GetScheduleDayNames } from "./Routines/GetScheduleDayNames";
 export { GetScheduleDayValues } from "./Routines/GetScheduleValues";
@@ -192,6 +192,7 @@ export { DeleteItemFromList } from "./Lists/DeleteItemFromList";
 export { DeleteIdFromList } from "./Lists/DeleteIdFromList";
 export { FindIndexInList } from "./Lists/FindIndexInList";
 export { ReplaceNumberIn2DList } from "./Lists/ReplaceNumberIn2DList";
+export { DoesSetsHaveCommonElement } from "./Lists/DoesSetsHaveCommonElement";
 
 export { CreateCalculationString } from "./CalculationItems/CreateCalculationString";
 export { UpdateCalculationString } from "./CalculationItems/UpdateCalculationString";
