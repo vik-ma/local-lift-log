@@ -12,6 +12,7 @@ import {
   useDisclosure,
   DatePicker,
   DateValue,
+  Chip,
 } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -42,7 +43,6 @@ import {
   useWorkoutTemplateList,
   useDetailsHeaderOptionsMenu,
 } from "../hooks";
-import { CrossCircleIcon } from "../assets";
 import { Link } from "react-router-dom";
 
 export default function RoutineDetails() {
@@ -443,30 +443,19 @@ export default function RoutineDetails() {
                   {scheduleValues[i]?.length > 0 ? (
                     scheduleValues[i].map((schedule) => {
                       return (
-                        <div
+                        <Chip
                           key={schedule.id}
-                          className="flex gap-0.5 items-center"
+                          classNames={{ content: "max-w-64 truncate" }}
+                          onClose={() => {
+                            handleRemoveButton(schedule);
+                          }}
                         >
-                          <div className="truncate max-w-64">
-                            <Link
-                              to={`/workout-templates/${schedule.workout_template_id}/`}
-                            >
-                              {schedule.name}
-                            </Link>
-                          </div>
-                          <Button
-                            aria-label={`Remove ${schedule.name} From ${dayNameList[i]}`}
-                            size="sm"
-                            color="danger"
-                            isIconOnly
-                            variant="light"
-                            onPress={() => {
-                              handleRemoveButton(schedule);
-                            }}
+                          <Link
+                            to={`/workout-templates/${schedule.workout_template_id}/`}
                           >
-                            <CrossCircleIcon size={18} />
-                          </Button>
-                        </div>
+                            {schedule.name}
+                          </Link>
+                        </Chip>
                       );
                     })
                   ) : (
