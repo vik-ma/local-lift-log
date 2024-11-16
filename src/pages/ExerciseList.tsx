@@ -22,7 +22,6 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Checkbox,
 } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
@@ -289,25 +288,15 @@ export default function ExerciseList() {
             <>
               <ModalHeader>Filter Exercise Groups</ModalHeader>
               <ModalBody>
-                <div className="flex flex-col gap-5">
-                  <div>
-                    <Checkbox
-                      className="hover:underline"
-                      isSelected={showSecondaryExerciseGroups}
-                      onValueChange={setShowSecondaryExerciseGroups}
-                      color="default"
-                    >
-                      Include Secondary Exercise Groups
-                    </Checkbox>
-                  </div>
-                  <ExerciseGroupCheckboxes
-                    isValid={true}
-                    value={shownExerciseGroups}
-                    handleChange={setShownExerciseGroups}
-                    exerciseGroupDictionary={exerciseGroupDictionary}
-                    useValueAsValue
-                  />
-                </div>
+                <ExerciseGroupCheckboxes
+                  isValid={true}
+                  value={shownExerciseGroups}
+                  handleChange={setShownExerciseGroups}
+                  exerciseGroupDictionary={exerciseGroupDictionary}
+                  useValueAsValue
+                  includeSecondaryGroups={showSecondaryExerciseGroups}
+                  setIncludeSecondaryGroups={setShowSecondaryExerciseGroups}
+                />
               </ModalBody>
               <ModalFooter className="flex justify-between">
                 <div className="flex gap-2">

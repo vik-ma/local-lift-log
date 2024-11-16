@@ -10,6 +10,8 @@ type ExerciseGroupCheckboxesProps = {
   customAriaLabel?: string;
   useValueAsValue?: boolean;
   disabledKeys?: string[];
+  includeSecondaryGroups?: boolean;
+  setIncludeSecondaryGroups?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const ExerciseGroupCheckboxes = ({
@@ -20,41 +22,58 @@ export const ExerciseGroupCheckboxes = ({
   customAriaLabel,
   useValueAsValue,
   disabledKeys,
+  includeSecondaryGroups,
+  setIncludeSecondaryGroups,
 }: ExerciseGroupCheckboxesProps) => {
   const disabledKeysSet = useMemo(() => {
     return new Set(disabledKeys);
   }, [disabledKeys]);
 
   return (
-    <CheckboxGroup
-      isRequired
-      isInvalid={!isValid}
-      value={value}
-      aria-label={
-        customAriaLabel !== undefined
-          ? customAriaLabel
-          : "Select Exercise Groups"
-      }
-      errorMessage={
-        !isValid && "At least one Primary Exercise Group must be selected"
-      }
-      onValueChange={(value) => handleChange(value)}
-    >
-      <div className="grid grid-cols-2 gap-0.5">
-        {Array.from(exerciseGroupDictionary).map(([key, value]) => (
-          <div className="w-[10.5rem]">
+    <div className="flex flex-col gap-4">
+      {includeSecondaryGroups !== undefined &&
+        setIncludeSecondaryGroups !== undefined && (
+          <div>
             <Checkbox
-              className="hover:underline w-full min-w-full"
-              key={useValueAsValue ? value : key}
-              color="primary"
-              value={useValueAsValue ? value : key}
-              isDisabled={disabledKeysSet.has(key)}
+              className="hover:underline"
+              isSelected={includeSecondaryGroups}
+              onValueChange={setIncludeSecondaryGroups}
+              color="default"
             >
-              {value}
+              Include Secondary Exercise Groups
             </Checkbox>
           </div>
-        ))}
-      </div>
-    </CheckboxGroup>
+        )}
+      <CheckboxGroup
+        isRequired
+        isInvalid={!isValid}
+        value={value}
+        aria-label={
+          customAriaLabel !== undefined
+            ? customAriaLabel
+            : "Select Exercise Groups"
+        }
+        errorMessage={
+          !isValid && "At least one Primary Exercise Group must be selected"
+        }
+        onValueChange={(value) => handleChange(value)}
+      >
+        <div className="grid grid-cols-2 gap-0.5">
+          {Array.from(exerciseGroupDictionary).map(([key, value]) => (
+            <div className="w-[10.5rem]">
+              <Checkbox
+                className="hover:underline w-full min-w-full"
+                key={useValueAsValue ? value : key}
+                color="primary"
+                value={useValueAsValue ? value : key}
+                isDisabled={disabledKeysSet.has(key)}
+              >
+                {value}
+              </Checkbox>
+            </div>
+          ))}
+        </div>
+      </CheckboxGroup>
+    </div>
   );
 };
