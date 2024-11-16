@@ -482,6 +482,7 @@ export type UseWorkoutListReturnType = {
   setFilterExerciseGroups: React.Dispatch<React.SetStateAction<string[]>>;
   includeSecondaryGroups: boolean;
   setIncludeSecondaryGroups: React.Dispatch<React.SetStateAction<boolean>>;
+  exerciseGroupDictionary: ExerciseGroupMap;
 };
 
 export type WorkoutFilterMapKey =

@@ -22,7 +22,6 @@ import {
   ExerciseModalList,
   ExerciseGroupCheckboxes,
 } from "..";
-import { useExerciseGroupDictionary } from "../../hooks";
 
 type FilterWorkoutListModalProps = {
   useWorkoutList: UseWorkoutListReturnType;
@@ -63,13 +62,12 @@ export const FilterWorkoutListModal = ({
     setFilterExerciseGroups,
     includeSecondaryGroups,
     setIncludeSecondaryGroups,
+    exerciseGroupDictionary,
   } = useWorkoutList;
 
   const { routineMap } = routineList;
 
   const { exerciseMap } = useExerciseList;
-
-  const exerciseGroupDictionary = useExerciseGroupDictionary();
 
   const filterRoutinesString = useMemo(() => {
     if (filterRoutines.size === 0) return "No Routines Selected";

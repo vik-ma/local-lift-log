@@ -11,7 +11,6 @@ import {
   ConvertCalendarDateToLocalizedString,
   CreateWorkoutExerciseSets,
   DoesListOrSetHaveCommonElement,
-  ExerciseGroupDictionary,
   FormatDateString,
   IsDateInWeekdaySet,
   IsDateWithinRange,
@@ -19,6 +18,7 @@ import {
 } from "../helpers";
 import { CalendarDate, RangeValue, useDisclosure } from "@nextui-org/react";
 import { useRoutineList } from "./useRoutineList";
+import { useExerciseGroupDictionary } from ".";
 
 export const useWorkoutList = (
   getWorkoutsOnLoad: boolean,
@@ -49,6 +49,8 @@ export const useWorkoutList = (
   const weekdayMap = useMemo(() => {
     return WeekdayMap();
   }, []);
+
+  const exerciseGroupDictionary = useExerciseGroupDictionary();
 
   const [filterWeekdays, setFilterWeekdays] = useState<Set<string>>(
     new Set(weekdayMap.keys())
@@ -83,7 +85,15 @@ export const useWorkoutList = (
             IsDateInWeekdaySet(item.date, filterWeekdays)) &&
           (!filterMap.has("routines") || filterRoutines.has(item.routine_id)) &&
           (!filterMap.has("exercises") ||
-            DoesListOrSetHaveCommonElement(filterExercises, item.exerciseIdSet))
+            DoesListOrSetHaveCommonElement(
+              filterExercises,
+              item.exerciseIdSet
+            )) &&
+          (!filterMap.has("exercise-groups") ||
+            DoesListOrSetHaveCommonElement(
+              filterExerciseGroups,
+              item.exerciseGroupSetPrimary
+            ))
       );
     }
     return workouts;
@@ -95,6 +105,7 @@ export const useWorkoutList = (
     filterWeekdays,
     filterRoutines,
     filterExercises,
+    filterExerciseGroups,
   ]);
 
   const getWorkouts = useCallback(async () => {
@@ -134,8 +145,6 @@ export const useWorkoutList = (
 
       const workouts: Workout[] = [];
 
-      const EXERCISE_GROUP_DICTIONARY = ExerciseGroupDictionary();
-
       for (const row of resultWorkouts) {
         if (
           row.id === ignoreWorkoutId ||
@@ -147,7 +156,7 @@ export const useWorkoutList = (
 
         const workoutExerciseSets = CreateWorkoutExerciseSets(
           row.exerciseListString,
-          EXERCISE_GROUP_DICTIONARY
+          exerciseGroupDictionary
         );
 
         const workout: Workout = {
@@ -192,6 +201,7 @@ export const useWorkoutList = (
     ignoreWorkoutId,
     routineList.routineMap,
     routineList.isRoutineListLoaded,
+    exerciseGroupDictionary,
   ]);
 
   useEffect(() => {
@@ -283,6 +293,18 @@ export const useWorkoutList = (
       updatedFilterMap.set("exercises", filterExercisesString);
     }
 
+    if (filterExerciseGroups.length > 0) {
+      const filterExerciseGroupsString = Array.from(filterExerciseGroups)
+        .map((id) =>
+          exerciseGroupDictionary.has(id)
+            ? exerciseGroupDictionary.get(id)!
+            : ""
+        )
+        .join(", ");
+
+      updatedFilterMap.set("exercise-groups", filterExerciseGroupsString);
+    }
+
     setFilterMap(updatedFilterMap);
 
     filterWorkoutListModal.onClose();
@@ -311,6 +333,11 @@ export const useWorkoutList = (
       setFilterExercises(new Set());
     }
 
+    if (key === "exercise-groups" && filterMap.has("exercise-groups")) {
+      updatedFilterMap.delete("exercise-groups");
+      setFilterExerciseGroups([]);
+    }
+
     setFilterMap(updatedFilterMap);
   };
 
@@ -320,6 +347,7 @@ export const useWorkoutList = (
     setFilterWeekdays(new Set(weekdayMap.keys()));
     setFilterRoutines(new Set());
     setFilterExercises(new Set());
+    setFilterExerciseGroups([]);
   };
 
   const showResetFilterButton = useMemo(() => {
@@ -328,6 +356,7 @@ export const useWorkoutList = (
     if (filterWeekdays.size < 7) return true;
     if (filterRoutines.size > 0) return true;
     if (filterExercises.size > 0) return true;
+    if (filterExerciseGroups.length > 0) return true;
 
     return false;
   }, [
@@ -336,6 +365,7 @@ export const useWorkoutList = (
     filterWeekdays,
     filterRoutines,
     filterExercises,
+    filterExerciseGroups,
   ]);
 
   return {
@@ -372,5 +402,6 @@ export const useWorkoutList = (
     setFilterExerciseGroups,
     includeSecondaryGroups,
     setIncludeSecondaryGroups,
+    exerciseGroupDictionary,
   };
 };
