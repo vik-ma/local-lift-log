@@ -205,16 +205,16 @@ export const FilterWorkoutListModal = ({
                   useRoutineList={routineList}
                   onClickAction={handleClickRoutine}
                   filterRoutines={filterRoutines}
+                  customHeightString="h-[400px]"
                 />
               ) : filterWorkoutListModalPage === "exercise-list" ? (
                 <ExerciseModalList
                   handleClickExercise={handleClickExercise}
                   exerciseList={useExerciseList}
-                  customHeightString="h-[440px]"
                   filterExercises={filterExercises}
                 />
               ) : filterWorkoutListModalPage === "exercise-groups" ? (
-                <div className="h-[440px]">
+                <div className="h-[400px]">
                   <ExerciseGroupCheckboxes
                     isValid={true}
                     value={filterExerciseGroups}
@@ -225,7 +225,7 @@ export const FilterWorkoutListModal = ({
                   />
                 </div>
               ) : (
-                <ScrollShadow className="h-[440px]">
+                <ScrollShadow className="h-[400px]">
                   <div className="flex flex-col gap-3 w-[24rem]">
                     <div className="flex flex-col gap-1">
                       <h3 className="font-semibold text-lg px-0.5">
