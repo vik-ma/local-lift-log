@@ -7,7 +7,7 @@ type ExerciseGroupCheckboxesProps = {
   value: string[];
   handleChange: (value: string[]) => void;
   exerciseGroupDictionary: ExerciseGroupMap;
-  isSecondary?: boolean;
+  customAriaLabel?: string;
   useValueAsValue?: boolean;
   disabledKeys?: string[];
 };
@@ -17,7 +17,7 @@ export const ExerciseGroupCheckboxes = ({
   value,
   handleChange,
   exerciseGroupDictionary,
-  isSecondary,
+  customAriaLabel,
   useValueAsValue,
   disabledKeys,
 }: ExerciseGroupCheckboxesProps) => {
@@ -31,9 +31,9 @@ export const ExerciseGroupCheckboxes = ({
       isInvalid={!isValid}
       value={value}
       aria-label={
-        isSecondary
-          ? "Select Secondary Exercise Groups"
-          : "Select Primary Exercise Groups"
+        customAriaLabel !== undefined
+          ? customAriaLabel
+          : "Select Exercise Groups"
       }
       errorMessage={
         !isValid && "At least one Primary Exercise Group must be selected"

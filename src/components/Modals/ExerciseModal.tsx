@@ -272,6 +272,7 @@ export const ExerciseModal = ({
                               handleExerciseGroupStringPrimaryChange
                             }
                             exerciseGroupDictionary={exerciseGroupDictionary}
+                            customAriaLabel="Select Primary Exercise Groups"
                           />
                         </motion.div>
                       ) : (
@@ -335,6 +336,7 @@ export const ExerciseModal = ({
                               handleExerciseGroupStringSecondaryChange
                             }
                             exerciseGroupDictionary={exerciseGroupDictionary}
+                            customAriaLabel="Select Secondary Exercise Groups"
                             disabledKeys={
                               exercise.exerciseGroupStringListPrimary
                             }
