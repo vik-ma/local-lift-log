@@ -90,10 +90,16 @@ export const useWorkoutList = (
               item.exerciseIdSet
             )) &&
           (!filterMap.has("exercise-groups") ||
-            DoesListOrSetHaveCommonElement(
-              filterExerciseGroups,
-              item.exerciseGroupSetPrimary
-            ))
+            (!includeSecondaryGroups &&
+              DoesListOrSetHaveCommonElement(
+                filterExerciseGroups,
+                item.exerciseGroupSetPrimary
+              )) ||
+            (includeSecondaryGroups &&
+              DoesListOrSetHaveCommonElement(
+                filterExerciseGroups,
+                item.exerciseGroupSetSecondary
+              )))
       );
     }
     return workouts;
@@ -106,6 +112,7 @@ export const useWorkoutList = (
     filterRoutines,
     filterExercises,
     filterExerciseGroups,
+    includeSecondaryGroups,
   ]);
 
   const getWorkouts = useCallback(async () => {
