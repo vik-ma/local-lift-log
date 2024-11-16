@@ -315,11 +315,17 @@ export const FilterWorkoutListModal = ({
                           <div
                             className={
                               filterExerciseGroups.length === 0
-                                ? "w-[16rem] text-sm break-words text-stone-400"
-                                : "w-[16rem] text-sm break-words text-secondary"
+                                ? "flex flex-col w-[16rem] text-sm break-words text-stone-400"
+                                : "flex flex-col w-[16rem] text-sm break-words text-secondary"
                             }
                           >
-                            {filterExerciseGroupsString}
+                            <span>{filterExerciseGroupsString}</span>
+                            {filterExerciseGroups.length > 0 &&
+                              includeSecondaryGroups && (
+                                <span className="text-stone-600 font-medium text-xs">
+                                  Including Secondary Exercise Groups
+                                </span>
+                              )}
                           </div>
                           <Button
                             className="w-[7rem]"
