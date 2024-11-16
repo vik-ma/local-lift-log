@@ -1,5 +1,6 @@
 import { Chip } from "@nextui-org/react";
-import { UseWorkoutListReturnType } from "../typings";
+import { UseWorkoutListReturnType, WorkoutFilterMapKey } from "../typings";
+import { useMemo } from "react";
 
 type WorkoutListFiltersProps = {
   useWorkoutList: UseWorkoutListReturnType;
@@ -11,6 +12,16 @@ export const WorkoutListFilters = ({
   isInModal,
 }: WorkoutListFiltersProps) => {
   const { filterMap, removeFilter } = useWorkoutList;
+
+  const prefixMap = useMemo(() => {
+    const prefixMap = new Map<WorkoutFilterMapKey, string>();
+    prefixMap.set("dates", "Dates: ");
+    prefixMap.set("weekdays", "Days: ");
+    prefixMap.set("routines", "Routines: ");
+    prefixMap.set("exercises", "Exercises: ");
+    prefixMap.set("exercise-groups", "Exercise Groups: ");
+    return prefixMap;
+  }, []);
 
   const width = isInModal ? "max-w-[23.25rem]" : "max-w-[22.25rem]";
 
@@ -25,12 +36,7 @@ export const WorkoutListFilters = ({
           variant="flat"
           onClose={() => removeFilter(key)}
         >
-          {key === "routines" && (
-            <span className="font-semibold">Routines: </span>
-          )}
-          {key === "exercises" && (
-            <span className="font-semibold">Exercises: </span>
-          )}
+          <span className="font-semibold">{prefixMap.get(key)}</span>
           {value}
         </Chip>
       ))}
