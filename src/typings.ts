@@ -478,14 +478,10 @@ export type UseWorkoutListReturnType = {
   routineList: UseRoutineListReturnType;
   filterExercises: Set<number>;
   setFilterExercises: React.Dispatch<React.SetStateAction<Set<number>>>;
-  filterExerciseGroupsPrimary: Set<string>;
-  setFilterExerciseGroupsPrimary: React.Dispatch<
-    React.SetStateAction<Set<string>>
-  >;
-  filterExerciseGroupsSecondary: Set<string>;
-  setFilterExerciseGroupsSecondary: React.Dispatch<
-    React.SetStateAction<Set<string>>
-  >;
+  filterExerciseGroups: string[];
+  setFilterExerciseGroups: React.Dispatch<React.SetStateAction<string[]>>;
+  includeSecondaryGroups: boolean;
+  setIncludeSecondaryGroups: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export type WorkoutFilterMapKey =

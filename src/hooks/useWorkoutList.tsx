@@ -10,7 +10,7 @@ import Database from "tauri-plugin-sql-api";
 import {
   ConvertCalendarDateToLocalizedString,
   CreateWorkoutExerciseSets,
-  DoesSetsHaveCommonElement,
+  DoesListOrSetHaveCommonElement,
   ExerciseGroupDictionary,
   FormatDateString,
   IsDateInWeekdaySet,
@@ -40,10 +40,11 @@ export const useWorkoutList = (
   const [filterExercises, setFilterExercises] = useState<Set<number>>(
     new Set()
   );
-  const [filterExerciseGroupsPrimary, setFilterExerciseGroupsPrimary] =
-    useState<Set<string>>(new Set());
-  const [filterExerciseGroupsSecondary, setFilterExerciseGroupsSecondary] =
-    useState<Set<string>>(new Set());
+  const [filterExerciseGroups, setFilterExerciseGroups] = useState<string[]>(
+    []
+  );
+  const [includeSecondaryGroups, setIncludeSecondaryGroups] =
+    useState<boolean>(false);
 
   const weekdayMap = useMemo(() => {
     return WeekdayMap();
@@ -82,7 +83,7 @@ export const useWorkoutList = (
             IsDateInWeekdaySet(item.date, filterWeekdays)) &&
           (!filterMap.has("routines") || filterRoutines.has(item.routine_id)) &&
           (!filterMap.has("exercises") ||
-            DoesSetsHaveCommonElement(filterExercises, item.exerciseIdSet))
+            DoesListOrSetHaveCommonElement(filterExercises, item.exerciseIdSet))
       );
     }
     return workouts;
@@ -367,9 +368,9 @@ export const useWorkoutList = (
     filterExercises,
     setFilterExercises,
     routineList,
-    filterExerciseGroupsPrimary,
-    setFilterExerciseGroupsPrimary,
-    filterExerciseGroupsSecondary,
-    setFilterExerciseGroupsSecondary,
+    filterExerciseGroups,
+    setFilterExerciseGroups,
+    includeSecondaryGroups,
+    setIncludeSecondaryGroups,
   };
 };
