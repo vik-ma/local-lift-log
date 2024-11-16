@@ -488,7 +488,8 @@ export type WorkoutFilterMapKey =
   | "dates"
   | "weekdays"
   | "routines"
-  | "exercises";
+  | "exercises"
+  | "exercise-groups";
 
 export type UseWorkoutTemplateListReturnType = {
   workoutTemplatesModal: UseDisclosureReturnType;
