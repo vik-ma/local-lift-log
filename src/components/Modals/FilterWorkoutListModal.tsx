@@ -155,8 +155,20 @@ export const FilterWorkoutListModal = ({
       return true;
     }
 
+    if (
+      filterWorkoutListModalPage === "exercise-groups" &&
+      filterExerciseGroups.length > 0
+    ) {
+      return true;
+    }
+
     return false;
-  }, [filterWorkoutListModalPage, filterRoutines, filterExercises]);
+  }, [
+    filterWorkoutListModalPage,
+    filterRoutines,
+    filterExercises,
+    filterExerciseGroups,
+  ]);
 
   const handleClearAllButton = () => {
     if (filterWorkoutListModalPage === "routine-list") {
@@ -165,6 +177,10 @@ export const FilterWorkoutListModal = ({
 
     if (filterWorkoutListModalPage === "exercise-list") {
       setFilterExercises(new Set());
+    }
+
+    if (filterWorkoutListModalPage === "exercise-groups") {
+      setFilterExerciseGroups([]);
     }
   };
 
