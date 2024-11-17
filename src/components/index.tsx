@@ -35,6 +35,7 @@ export { WorkoutListItem } from "./WorkoutListItem";
 export { WorkoutListOptions } from "./WorkoutListOptions";
 export { WorkoutListFilters } from "./WorkoutListFilters";
 export { RoutineModalList } from "./RoutineModalList";
+export { ExerciseListOptions } from "./ExerciseListOptions";
 
 export { WeightUnitDropdown } from "./Dropdowns/WeightUnitDropdown";
 export { DistanceUnitDropdown } from "./Dropdowns/DistanceUnitDropdown";

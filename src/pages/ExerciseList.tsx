@@ -29,6 +29,7 @@ import {
   DeleteModal,
   EmptyListLabel,
   ExerciseGroupCheckboxes,
+  ExerciseListOptions,
   ExerciseModal,
   FavoriteButton,
   ListPageSearchInput,
@@ -49,6 +50,8 @@ type OperationType = "add" | "edit" | "delete";
 export default function ExerciseList() {
   const [operationType, setOperationType] = useState<OperationType>("add");
 
+  const exerciseList = useExerciseList(true, true);
+
   const {
     filterQuery,
     setFilterQuery,
@@ -57,8 +60,6 @@ export default function ExerciseList() {
     setExercises,
     getExercises,
     toggleFavorite,
-    handleSortOptionSelection,
-    sortCategory,
     exerciseGroupList,
     shownExerciseGroups,
     setShownExerciseGroups,
@@ -67,7 +68,7 @@ export default function ExerciseList() {
     showSecondaryExerciseGroups,
     setShowSecondaryExerciseGroups,
     isExerciseListLoaded,
-  } = useExerciseList(true, true);
+  } = exerciseList;
 
   const exerciseGroupDictionary = useExerciseGroupDictionary();
 
@@ -230,16 +231,16 @@ export default function ExerciseList() {
     }
   };
 
-  const handleFilterExerciseGroupsButton = () => {
-    exerciseGroupModal.onOpen();
-  };
-
   const handleToggleAllButton = () => {
     if (areExerciseGroupsFiltered) {
       setShownExerciseGroups([...exerciseGroupList]);
     } else {
       setShownExerciseGroups([]);
     }
+  };
+
+  const handleFilterExerciseGroupsButton = () => {
+    exerciseGroupModal.onOpen();
   };
 
   return (
@@ -335,47 +336,12 @@ export default function ExerciseList() {
               >
                 New Exercise
               </Button>
-              <div className="flex gap-1">
-                <Button
-                  className="z-1 w-[7.5rem]"
-                  variant="flat"
-                  color={showSecondaryExerciseGroups ? "secondary" : "default"}
-                  size="sm"
-                  onPress={() =>
-                    setShowSecondaryExerciseGroups(!showSecondaryExerciseGroups)
-                  }
-                >
-                  Show Secondary
-                </Button>
-                <Button
-                  className="z-1"
-                  variant="flat"
-                  color={areExerciseGroupsFiltered ? "secondary" : "default"}
-                  size="sm"
-                  onPress={handleFilterExerciseGroupsButton}
-                >
-                  Filter
-                </Button>
-                <Dropdown>
-                  <DropdownTrigger>
-                    <Button className="z-1" variant="flat" size="sm">
-                      Sort By
-                    </Button>
-                  </DropdownTrigger>
-                  <DropdownMenu
-                    aria-label="Sort Exercises Dropdown Menu"
-                    selectionMode="single"
-                    selectedKeys={[sortCategory]}
-                    onAction={(key) => handleSortOptionSelection(key as string)}
-                  >
-                    <DropdownItem key="favorite">Favorites First</DropdownItem>
-                    <DropdownItem key="name">Exercise Name (A-Z)</DropdownItem>
-                    <DropdownItem key="num-sets">
-                      Number Of Sets Completed
-                    </DropdownItem>
-                  </DropdownMenu>
-                </Dropdown>
-              </div>
+              <ExerciseListOptions
+                useExerciseList={exerciseList}
+                handleFilterExerciseGroupsButton={
+                  handleFilterExerciseGroupsButton
+                }
+              />
             </div>
           }
         />
