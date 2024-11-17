@@ -16,6 +16,7 @@ import {
   WorkoutTemplateListModal,
   WorkoutListModal,
   CalculationModal,
+  FilterWorkoutListModal,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -533,6 +534,11 @@ export default function WorkoutDetails() {
         setCommentInput={userWeightInputs.setWeightCommentInput}
         buttonAction={handleUserWeightModalAddButton}
         isEditing={false}
+      />
+      <FilterWorkoutListModal
+        useWorkoutList={workoutList}
+        useExerciseList={exerciseList}
+        locale={userSettings.locale}
       />
       {userSettings.show_calculation_buttons === 1 && (
         <CalculationModal
