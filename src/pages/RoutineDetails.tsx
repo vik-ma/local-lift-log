@@ -430,37 +430,40 @@ export default function RoutineDetails() {
                 key={`day-${i + 1}`}
                 className="flex items-center justify-between"
               >
-                <div className="flex flex-col flex-grow">
-                  <span
+                <div className="flex flex-col">
+                  <h3
                     className={
                       scheduleValues[i]?.length > 0
                         ? "text-yellow-600 font-medium"
-                        : "text-stone-500 font-medium"
+                        : "text-stone-600 font-medium"
                     }
                   >
                     {dayNameList[i]}
-                  </span>
-                  {scheduleValues[i]?.length > 0 ? (
-                    scheduleValues[i].map((schedule) => {
-                      return (
-                        <Chip
-                          key={schedule.id}
-                          classNames={{ content: "max-w-64 truncate" }}
-                          onClose={() => {
-                            handleRemoveButton(schedule);
-                          }}
-                        >
-                          <Link
-                            to={`/workout-templates/${schedule.workout_template_id}/`}
+                  </h3>
+                  <div className="flex flex-wrap gap-x-1.5 gap-y-1 w-[19rem]">
+                    {scheduleValues[i]?.length > 0 ? (
+                      scheduleValues[i].map((schedule) => {
+                        return (
+                          <Chip
+                            key={schedule.id}
+                            variant="flat"
+                            classNames={{ content: "max-w-[16rem] truncate" }}
+                            onClose={() => {
+                              handleRemoveButton(schedule);
+                            }}
                           >
-                            {schedule.name}
-                          </Link>
-                        </Chip>
-                      );
-                    })
-                  ) : (
-                    <div className="text-stone-400">No workout</div>
-                  )}
+                            <Link
+                              to={`/workout-templates/${schedule.workout_template_id}/`}
+                            >
+                              {schedule.name}
+                            </Link>
+                          </Chip>
+                        );
+                      })
+                    ) : (
+                      <div className="text-stone-400">No workout</div>
+                    )}
+                  </div>
                 </div>
                 <Button
                   className="w-24"
