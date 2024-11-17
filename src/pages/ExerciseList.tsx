@@ -36,7 +36,6 @@ import {
   useValidateName,
   useExerciseList,
   useDefaultExercise,
-  useExerciseGroupDictionary,
   useMultiplierInputMap,
 } from "../hooks";
 
@@ -58,9 +57,8 @@ export default function ExerciseList() {
     sortExercisesByActiveCategory,
     showSecondaryExerciseGroups,
     isExerciseListLoaded,
+    exerciseGroupDictionary,
   } = exerciseList;
-
-  const exerciseGroupDictionary = useExerciseGroupDictionary();
 
   const deleteModal = useDisclosure();
   const exerciseModal = useDisclosure();

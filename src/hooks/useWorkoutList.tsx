@@ -18,7 +18,6 @@ import {
 } from "../helpers";
 import { CalendarDate, RangeValue, useDisclosure } from "@nextui-org/react";
 import { useRoutineList } from "./useRoutineList";
-import { useExerciseGroupDictionary } from ".";
 
 export const useWorkoutList = (
   getWorkoutsOnLoad: boolean,
@@ -50,7 +49,7 @@ export const useWorkoutList = (
     return WeekdayMap();
   }, []);
 
-  const exerciseGroupDictionary = useExerciseGroupDictionary();
+  const exerciseGroupDictionary = useExerciseList.exerciseGroupDictionary;
 
   const [filterWeekdays, setFilterWeekdays] = useState<Set<string>>(
     new Set(weekdayMap.keys())
@@ -409,6 +408,5 @@ export const useWorkoutList = (
     setFilterExerciseGroups,
     includeSecondaryGroups,
     setIncludeSecondaryGroups,
-    exerciseGroupDictionary,
   };
 };

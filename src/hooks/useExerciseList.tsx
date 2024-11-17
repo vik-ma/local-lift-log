@@ -10,7 +10,7 @@ import {
   UseExerciseListReturnType,
   ExerciseSortCategory,
 } from "../typings";
-import { useExerciseGroupList } from ".";
+import { useExerciseGroupDictionary, useExerciseGroupList } from ".";
 
 export const useExerciseList = (
   getExercisesOnLoad: boolean,
@@ -27,6 +27,7 @@ export const useExerciseList = (
   );
 
   const exerciseGroupList = useExerciseGroupList();
+  const exerciseGroupDictionary = useExerciseGroupDictionary();
   const [shownExerciseGroups, setShownExerciseGroups] = useState<string[]>([
     ...exerciseGroupList,
   ]);
@@ -193,5 +194,6 @@ export const useExerciseList = (
     setShowSecondaryExerciseGroups,
     isExerciseListLoaded,
     exerciseMap,
+    exerciseGroupDictionary,
   };
 };

@@ -400,6 +400,7 @@ export type UseExerciseListReturnType = {
   setShowSecondaryExerciseGroups: React.Dispatch<React.SetStateAction<boolean>>;
   isExerciseListLoaded: React.MutableRefObject<boolean>;
   exerciseMap: Map<number, Exercise>;
+  exerciseGroupDictionary: ExerciseGroupMap;
 };
 
 export type HandleMultisetSetOptionSelectionProps = (
@@ -482,7 +483,6 @@ export type UseWorkoutListReturnType = {
   setFilterExerciseGroups: React.Dispatch<React.SetStateAction<string[]>>;
   includeSecondaryGroups: boolean;
   setIncludeSecondaryGroups: React.Dispatch<React.SetStateAction<boolean>>;
-  exerciseGroupDictionary: ExerciseGroupMap;
 };
 
 export type WorkoutFilterMapKey =
