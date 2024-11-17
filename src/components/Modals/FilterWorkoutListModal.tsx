@@ -62,12 +62,11 @@ export const FilterWorkoutListModal = ({
     setFilterExerciseGroups,
     includeSecondaryGroups,
     setIncludeSecondaryGroups,
-    exerciseGroupDictionary,
   } = useWorkoutList;
 
   const { routineMap } = routineList;
 
-  const { exerciseMap } = useExerciseList;
+  const { exerciseMap, exerciseGroupDictionary } = useExerciseList;
 
   const filterRoutinesString = useMemo(() => {
     if (filterRoutines.size === 0) return "No Routines Selected";
