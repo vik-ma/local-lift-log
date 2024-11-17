@@ -17,21 +17,16 @@ import {
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
 } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import {
   DeleteModal,
   EmptyListLabel,
-  ExerciseGroupCheckboxes,
   ExerciseListOptions,
   ExerciseModal,
   FavoriteButton,
+  FilterExerciseGroupsModal,
   ListPageSearchInput,
   LoadingSpinner,
 } from "../components";
@@ -60,13 +55,8 @@ export default function ExerciseList() {
     setExercises,
     getExercises,
     toggleFavorite,
-    exerciseGroupList,
-    shownExerciseGroups,
-    setShownExerciseGroups,
-    areExerciseGroupsFiltered,
     sortExercisesByActiveCategory,
     showSecondaryExerciseGroups,
-    setShowSecondaryExerciseGroups,
     isExerciseListLoaded,
   } = exerciseList;
 
@@ -231,14 +221,6 @@ export default function ExerciseList() {
     }
   };
 
-  const handleToggleAllButton = () => {
-    if (areExerciseGroupsFiltered) {
-      setShownExerciseGroups([...exerciseGroupList]);
-    } else {
-      setShownExerciseGroups([]);
-    }
-  };
-
   const handleFilterExerciseGroupsButton = () => {
     exerciseGroupModal.onOpen();
   };
@@ -280,45 +262,11 @@ export default function ExerciseList() {
         multiplierInputInvaliditySet={multiplierInputInvaliditySet}
         buttonAction={operationType === "edit" ? updateExercise : addExercise}
       />
-      <Modal
-        isOpen={exerciseGroupModal.isOpen}
-        onOpenChange={exerciseGroupModal.onOpenChange}
-      >
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader>Filter Exercise Groups</ModalHeader>
-              <ModalBody>
-                <ExerciseGroupCheckboxes
-                  isValid={true}
-                  value={shownExerciseGroups}
-                  handleChange={setShownExerciseGroups}
-                  exerciseGroupDictionary={exerciseGroupDictionary}
-                  useValueAsValue
-                  includeSecondaryGroups={showSecondaryExerciseGroups}
-                  setIncludeSecondaryGroups={setShowSecondaryExerciseGroups}
-                />
-              </ModalBody>
-              <ModalFooter className="flex justify-between">
-                <div className="flex gap-2">
-                  <Button
-                    variant="flat"
-                    color="secondary"
-                    onPress={handleToggleAllButton}
-                  >
-                    Toggle All
-                  </Button>
-                </div>
-                <div className="flex gap-2">
-                  <Button color="primary" variant="light" onPress={onClose}>
-                    Close
-                  </Button>
-                </div>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
+      <FilterExerciseGroupsModal
+        exerciseGroupModal={exerciseGroupModal}
+        useExerciseList={exerciseList}
+        exerciseGroupDictionary={exerciseGroupDictionary}
+      />
       <div className="flex flex-col items-center gap-1">
         <ListPageSearchInput
           header="Exercise List"
