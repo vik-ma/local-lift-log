@@ -228,7 +228,11 @@ export default function WorkoutDetails() {
         const setList = await GetWorkoutSetList(workout.id);
 
         const { groupedSetList, shouldUpdateExerciseOrder } =
-          await CreateGroupedWorkoutSetList(setList, workout.exercise_order);
+          await CreateGroupedWorkoutSetList(
+            setList,
+            workout.exercise_order,
+            exerciseList.exerciseGroupDictionary
+          );
 
         if (shouldUpdateExerciseOrder) {
           const { success, exerciseOrderString } = await UpdateExerciseOrder(
@@ -268,7 +272,7 @@ export default function WorkoutDetails() {
     loadWorkout();
     // Including useWorkoutActions-derived functions and setStates will cause useEffect to fire after initial load
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
+  }, [id, exerciseList.exerciseGroupDictionary]);
 
   const handleWorkoutModalSaveButton = async (updatedWorkout: Workout) => {
     if (updatedWorkout.id === 0) return;
@@ -288,7 +292,8 @@ export default function WorkoutDetails() {
   ) => {
     const templateGroupedSetList = await CreateSetsFromWorkoutTemplate(
       workout.id,
-      workoutTemplate.id
+      workoutTemplate.id,
+      exerciseList.exerciseGroupDictionary
     );
 
     const updatedGroupedSetList = MergeTwoGroupedSetLists(
@@ -356,7 +361,8 @@ export default function WorkoutDetails() {
     // Old workout GroupedSetList
     const { groupedSetList } = await CreateGroupedWorkoutSetList(
       newSetList,
-      oldWorkoutExerciseOrder
+      oldWorkoutExerciseOrder,
+      exerciseList.exerciseGroupDictionary
     );
 
     const updatedGroupedSetList = MergeTwoGroupedSetLists(

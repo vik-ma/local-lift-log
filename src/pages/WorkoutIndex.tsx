@@ -89,7 +89,8 @@ export default function WorkoutIndex() {
 
     const groupedSetList = await CreateSetsFromWorkoutTemplate(
       newWorkout.id,
-      workoutTemplate.id
+      workoutTemplate.id,
+      exerciseList.exerciseGroupDictionary
     );
 
     const exerciseOrder = GenerateExerciseOrderString(groupedSetList);

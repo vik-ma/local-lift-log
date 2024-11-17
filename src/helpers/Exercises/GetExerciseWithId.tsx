@@ -1,8 +1,14 @@
 import Database from "tauri-plugin-sql-api";
-import { Exercise } from "../../typings";
-import { ConvertExerciseGroupSetStringPrimary, ConvertExerciseGroupSetStringSecondary } from "..";
+import { Exercise, ExerciseGroupMap } from "../../typings";
+import {
+  ConvertExerciseGroupSetStringPrimary,
+  ConvertExerciseGroupSetStringSecondary,
+} from "..";
 
-export const GetExerciseWithId = async (exerciseId: number) => {
+export const GetExerciseWithId = async (
+  exerciseId: number,
+  exerciseGroupDictionary: ExerciseGroupMap
+) => {
   const invalidExercise: Exercise = {
     id: exerciseId,
     name: "Unknown Exercise",
@@ -27,7 +33,8 @@ export const GetExerciseWithId = async (exerciseId: number) => {
     if (!exercise) return invalidExercise;
 
     const convertedValuesPrimary = ConvertExerciseGroupSetStringPrimary(
-      exercise.exercise_group_set_string_primary
+      exercise.exercise_group_set_string_primary,
+      exerciseGroupDictionary
     );
 
     exercise.exerciseGroupStringListPrimary = convertedValuesPrimary.list;
@@ -36,7 +43,8 @@ export const GetExerciseWithId = async (exerciseId: number) => {
 
     if (exercise.exercise_group_set_string_secondary !== null) {
       const convertedValuesSecondary = ConvertExerciseGroupSetStringSecondary(
-        exercise.exercise_group_set_string_secondary
+        exercise.exercise_group_set_string_secondary,
+        exerciseGroupDictionary
       );
       exercise.exerciseGroupStringMapSecondary = convertedValuesSecondary.map;
       exercise.formattedGroupStringSecondary =

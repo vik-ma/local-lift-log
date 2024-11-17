@@ -1811,7 +1811,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         if (operatingMultisetSetId === 0) return;
 
         const exercise = await GetExerciseWithId(
-          operatingMultisetSet.exercise_id
+          operatingMultisetSet.exercise_id,
+          exerciseList.exerciseGroupDictionary
         );
 
         const newSet = { ...operatingMultisetSet, id: operatingMultisetSetId };
@@ -2086,7 +2087,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       }
 
       const exercise = await GetExerciseWithId(
-        operatingMultiset.setList[i].exercise_id
+        operatingMultiset.setList[i].exercise_id,
+        exerciseList.exerciseGroupDictionary
       );
 
       newExerciseList.push(exercise);
@@ -2208,7 +2210,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         isTemplate,
         multisetId,
         isTemplate ? undefined : workout,
-        isTemplate ? workoutTemplate : undefined
+        isTemplate ? workoutTemplate : undefined,
+        exerciseList.exerciseGroupDictionary
       );
 
     const indexCutoffs = CreateMultisetIndexCutoffs(setListIdList);
@@ -2299,7 +2302,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         isTemplate,
         multisetId,
         isTemplate ? undefined : workout,
-        isTemplate ? workoutTemplate : undefined
+        isTemplate ? workoutTemplate : undefined,
+        exerciseList.exerciseGroupDictionary
       );
 
     setListIdList.map((list) => existingSetListIds.push(list));

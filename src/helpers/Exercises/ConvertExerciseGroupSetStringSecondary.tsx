@@ -1,10 +1,11 @@
-import { ExerciseGroupDictionary, IsStringValidNumberBetween0And1 } from "..";
+import { IsStringValidNumberBetween0And1 } from "..";
+import { ExerciseGroupMap } from "../../typings";
 
 export const ConvertExerciseGroupSetStringSecondary = (
-  exerciseGroupSetString: string
+  exerciseGroupSetString: string,
+  exerciseGroupDictionary: ExerciseGroupMap
 ) => {
   const exerciseGroups = exerciseGroupSetString.split(",");
-  const EXERCISE_GROUP_DICTIONARY = ExerciseGroupDictionary();
 
   const exerciseGroupNameList: string[] = [];
   const exerciseGroupMultiplierMap: Map<string, string> = new Map();
@@ -17,11 +18,11 @@ export const ConvertExerciseGroupSetStringSecondary = (
 
     if (
       exerciseGroup !== undefined &&
-      EXERCISE_GROUP_DICTIONARY.has(exerciseGroup) &&
+      exerciseGroupDictionary.has(exerciseGroup) &&
       multiplier !== undefined &&
       IsStringValidNumberBetween0And1(multiplier)
     ) {
-      exerciseGroupNameList.push(EXERCISE_GROUP_DICTIONARY.get(exerciseGroup)!);
+      exerciseGroupNameList.push(exerciseGroupDictionary.get(exerciseGroup)!);
       exerciseGroupMultiplierMap.set(exerciseGroup, multiplier);
     }
   }

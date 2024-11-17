@@ -3,6 +3,7 @@ import {
   GroupedWorkoutSet,
   Exercise,
   Multiset,
+  ExerciseGroupMap,
 } from "../../typings";
 import {
   GetExerciseWithId,
@@ -29,7 +30,8 @@ export type CreateGroupedWorkoutSetListReturnType = {
 
 export const CreateGroupedWorkoutSetList = async (
   setList: WorkoutSet[],
-  exercise_order: string
+  exercise_order: string,
+  exerciseGroupDictionary: ExerciseGroupMap
 ): Promise<CreateGroupedWorkoutSetListReturnType> => {
   const groupedWorkoutSetsDictionary: GroupedWorkoutSetsDictionary = {};
 
@@ -46,7 +48,10 @@ export const CreateGroupedWorkoutSetList = async (
 
     if (!validatedEntry.isMultiset) {
       // If not Multiset
-      const exercise = await GetExerciseWithId(validatedEntry.id);
+      const exercise = await GetExerciseWithId(
+        validatedEntry.id,
+        exerciseGroupDictionary
+      );
 
       groupedWorkoutSetsDictionary[entry] = {
         id: entry,
@@ -63,7 +68,8 @@ export const CreateGroupedWorkoutSetList = async (
 
       const multisetGroupedSet = await GetMultisetGroupedSet(
         validatedEntry.id,
-        multisetSetList
+        multisetSetList,
+        exerciseGroupDictionary
       );
 
       if (multisetGroupedSet.multiset.id === 0) continue;
@@ -101,7 +107,10 @@ export const CreateGroupedWorkoutSetList = async (
   if (unassignedSetMap.size > 0) {
     // Add sets in setList that are not in exercise_order string
     for (const [exerciseId, setList] of unassignedSetMap) {
-      const exercise = await GetExerciseWithId(exerciseId);
+      const exercise = await GetExerciseWithId(
+        exerciseId,
+        exerciseGroupDictionary
+      );
 
       const entry = exerciseId.toString();
 

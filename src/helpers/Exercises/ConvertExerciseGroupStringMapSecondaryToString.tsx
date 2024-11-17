@@ -1,14 +1,15 @@
-import { ExerciseGroupDictionary } from "../Constants/ExerciseGroupDictionary";
-import { ConvertNumberToTwoDecimals } from "../Numbers/ConvertNumberToTwoDecimals";
-import { IsStringValidNumberBetween0And1 } from "../Numbers/IsStringValidNumberBetween0And1";
+import {
+  ConvertNumberToTwoDecimals,
+  IsStringValidNumberBetween0And1,
+} from "..";
+import { ExerciseGroupMap } from "../../typings";
 
 export const ConvertExerciseGroupStringMapSecondaryToString = (
   exerciseGroupStringMap: Map<string, string>,
-  multiplierInputMap: Map<string, string>
+  multiplierInputMap: Map<string, string>,
+  exerciseGroupDictionary: ExerciseGroupMap
 ): string | null => {
   if (exerciseGroupStringMap.size === 0) return null;
-
-  const exerciseGroupDictionary = ExerciseGroupDictionary();
 
   const exerciseGroupStrings: string[] = [];
 

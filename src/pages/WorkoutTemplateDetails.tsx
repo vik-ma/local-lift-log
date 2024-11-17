@@ -121,7 +121,8 @@ export default function WorkoutTemplateDetails() {
       const { groupedSetList, shouldUpdateExerciseOrder } =
         await CreateGroupedWorkoutSetList(
           setList,
-          workoutTemplate.exercise_order
+          workoutTemplate.exercise_order,
+          exerciseList.exerciseGroupDictionary
         );
 
       if (shouldUpdateExerciseOrder) {
@@ -146,7 +147,13 @@ export default function WorkoutTemplateDetails() {
     } catch (error) {
       console.log(error);
     }
-  }, [id, setGroupedSets, setWorkoutTemplate, workoutNumbers]);
+  }, [
+    id,
+    setGroupedSets,
+    setWorkoutTemplate,
+    workoutNumbers,
+    exerciseList.exerciseGroupDictionary,
+  ]);
 
   useEffect(() => {
     getWorkoutTemplateAndSetList();

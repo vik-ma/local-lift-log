@@ -1,4 +1,4 @@
-import { ExerciseGroupDictionary } from "..";
+import { ExerciseGroupMap } from "../../typings";
 
 type ConvertedExerciseGroupSet = {
   list: string[];
@@ -6,17 +6,17 @@ type ConvertedExerciseGroupSet = {
 };
 
 export const ConvertExerciseGroupSetStringPrimary = (
-  exerciseGroupSetString: string
+  exerciseGroupSetString: string,
+  exerciseGroupDictionary: ExerciseGroupMap
 ): ConvertedExerciseGroupSet => {
   const exerciseGroups: string[] = exerciseGroupSetString.split(",");
-  const EXERCISE_GROUP_DICTIONARY = ExerciseGroupDictionary();
 
   const exerciseGroupNumberList: string[] = [];
   const exerciseGroupNameList: string[] = [];
 
   exerciseGroups.map((group: string) => {
-    if (EXERCISE_GROUP_DICTIONARY.has(group)) {
-      exerciseGroupNameList.push(EXERCISE_GROUP_DICTIONARY.get(group)!);
+    if (exerciseGroupDictionary.has(group)) {
+      exerciseGroupNameList.push(exerciseGroupDictionary.get(group)!);
       exerciseGroupNumberList.push(group);
     }
   });

@@ -1,4 +1,4 @@
-import { GroupedWorkoutSet, WorkoutSet } from "../../typings";
+import { ExerciseGroupMap, GroupedWorkoutSet, WorkoutSet } from "../../typings";
 import Database from "tauri-plugin-sql-api";
 import {
   CreateGroupedWorkoutSetList,
@@ -14,7 +14,8 @@ import {
 
 export const CreateSetsFromWorkoutTemplate = async (
   workout_id: number,
-  workout_template_id: number
+  workout_template_id: number,
+  exerciseGroupDictionary: ExerciseGroupMap
 ): Promise<GroupedWorkoutSet[]> => {
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
@@ -113,7 +114,8 @@ export const CreateSetsFromWorkoutTemplate = async (
 
     const { groupedSetList } = await CreateGroupedWorkoutSetList(
       result,
-      exerciseOrderString
+      exerciseOrderString,
+      exerciseGroupDictionary
     );
 
     return groupedSetList;

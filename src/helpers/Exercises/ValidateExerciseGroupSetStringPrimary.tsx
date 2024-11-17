@@ -1,13 +1,13 @@
-import { ExerciseGroupDictionary } from "..";
+import { ExerciseGroupMap } from "../../typings";
 
 export const ValidateExerciseGroupSetStringPrimary = (
-  exerciseGroupSetString: string
+  exerciseGroupSetString: string,
+  exerciseGroupDictionary: ExerciseGroupMap
 ): boolean => {
   const exerciseGroupStrings = exerciseGroupSetString.split(",");
-  const EXERCISE_GROUP_DICTIONARY = ExerciseGroupDictionary();
 
   for (const exerciseGroup of exerciseGroupStrings) {
-    if (!EXERCISE_GROUP_DICTIONARY.has(exerciseGroup)) {
+    if (!exerciseGroupDictionary.has(exerciseGroup)) {
       return false;
     }
   }

@@ -1,11 +1,13 @@
 import Database from "tauri-plugin-sql-api";
-import { Exercise } from "../../typings";
+import { Exercise, ExerciseGroupMap } from "../../typings";
 import {
   ConvertExerciseGroupSetStringPrimary,
   ConvertExerciseGroupSetStringSecondary,
 } from "..";
 
-export const GetExerciseListWithGroupStringsAndTotalSets = async () => {
+export const GetExerciseListWithGroupStringsAndTotalSets = async (
+  exerciseGroupDictionary: ExerciseGroupMap
+) => {
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -23,7 +25,8 @@ export const GetExerciseListWithGroupStringsAndTotalSets = async () => {
 
     result.map((row) => {
       const convertedValuesPrimary = ConvertExerciseGroupSetStringPrimary(
-        row.exercise_group_set_string_primary
+        row.exercise_group_set_string_primary,
+        exerciseGroupDictionary
       );
 
       const exercise: Exercise = {
@@ -43,7 +46,8 @@ export const GetExerciseListWithGroupStringsAndTotalSets = async () => {
 
       if (row.exercise_group_set_string_secondary !== null) {
         const convertedValuesSecondary = ConvertExerciseGroupSetStringSecondary(
-          row.exercise_group_set_string_secondary
+          row.exercise_group_set_string_secondary,
+          exerciseGroupDictionary
         );
         exercise.exerciseGroupStringMapSecondary = convertedValuesSecondary.map;
         exercise.formattedGroupStringSecondary =

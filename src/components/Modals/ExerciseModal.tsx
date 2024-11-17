@@ -82,7 +82,8 @@ export const ExerciseModal = ({
       );
 
     const convertedValuesPrimary = ConvertExerciseGroupSetStringPrimary(
-      exerciseGroupSetString
+      exerciseGroupSetString,
+      exerciseGroupDictionary
     );
 
     setExercise((prev) => ({
@@ -132,7 +133,8 @@ export const ExerciseModal = ({
     );
 
     const convertedValuesSecondary = ConvertExerciseGroupSetStringSecondary(
-      exerciseGroupSetString
+      exerciseGroupSetString,
+      exerciseGroupDictionary
     );
 
     setExercise((prev) => ({

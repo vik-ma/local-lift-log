@@ -154,8 +154,8 @@ export const useExerciseList = (
 
   const getExercises = useCallback(async () => {
     const exercises = showTotalNumSets
-      ? await GetExerciseListWithGroupStringsAndTotalSets()
-      : await GetExerciseListWithGroupStrings();
+      ? await GetExerciseListWithGroupStringsAndTotalSets(exerciseGroupDictionary)
+      : await GetExerciseListWithGroupStrings(exerciseGroupDictionary);
 
     if (exercises === undefined) return;
 
@@ -166,7 +166,7 @@ export const useExerciseList = (
     sortExercisesByFavoritesFirst(exercises);
     setExerciseMap(exerciseMap);
     isExerciseListLoaded.current = true;
-  }, [showTotalNumSets]);
+  }, [showTotalNumSets, exerciseGroupDictionary]);
 
   useEffect(() => {
     if (getExercisesOnLoad) {

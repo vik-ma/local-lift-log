@@ -75,7 +75,8 @@ export default function ExerciseList() {
 
   const isOperatingExerciseGroupSetStringPrimaryValid =
     useValidateExerciseGroupStringPrimary(
-      operatingExercise.exercise_group_set_string_primary
+      operatingExercise.exercise_group_set_string_primary,
+      exerciseGroupDictionary
     );
 
   const {
@@ -117,7 +118,8 @@ export default function ExerciseList() {
 
       const newExercise = await UpdateExerciseValues(
         operatingExercise,
-        multiplierInputMap
+        multiplierInputMap,
+        exerciseGroupDictionary
       );
 
       if (newExercise === undefined) return;
@@ -148,7 +150,8 @@ export default function ExerciseList() {
 
     const updatedExercise = await UpdateExerciseValues(
       operatingExercise,
-      multiplierInputMap
+      multiplierInputMap,
+      exerciseGroupDictionary
     );
 
     if (updatedExercise === undefined) return;

@@ -44,14 +44,17 @@ export default function ExerciseDetails() {
 
   useEffect(() => {
     const getExercise = async () => {
-      const currentExercise = await GetExerciseWithId(Number(id));
+      const currentExercise = await GetExerciseWithId(
+        Number(id),
+        exerciseGroupDictionary
+      );
 
       setExercise(currentExercise);
       setEditedExercise(currentExercise);
     };
 
     getExercise();
-  }, [id]);
+  }, [id, exerciseGroupDictionary]);
 
   const useDetailsHeaderOptions = useDetailsHeaderOptionsMenu("Exercise");
 
@@ -59,7 +62,8 @@ export default function ExerciseDetails() {
 
   const isExerciseGroupSetPrimaryStringValid =
     useValidateExerciseGroupStringPrimary(
-      editedExercise.exercise_group_set_string_primary
+      editedExercise.exercise_group_set_string_primary,
+      exerciseGroupDictionary
     );
 
   const updateExercise = async () => {
@@ -76,7 +80,8 @@ export default function ExerciseDetails() {
 
     const updatedExercise = await UpdateExerciseValues(
       editedExercise,
-      multiplierInputMap
+      multiplierInputMap,
+      exerciseGroupDictionary
     );
 
     if (updatedExercise === undefined) return;

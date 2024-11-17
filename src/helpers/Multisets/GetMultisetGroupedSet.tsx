@@ -1,4 +1,9 @@
-import { Exercise, Multiset, WorkoutSet } from "../../typings";
+import {
+  Exercise,
+  ExerciseGroupMap,
+  Multiset,
+  WorkoutSet,
+} from "../../typings";
 import {
   DefaultNewMultiset,
   GenerateMultisetSetOrderList,
@@ -14,7 +19,8 @@ type MultisetGroupedSet = {
 
 export const GetMultisetGroupedSet = async (
   multisetId: number,
-  setList: WorkoutSet[]
+  setList: WorkoutSet[],
+  exerciseGroupDictionary: ExerciseGroupMap
 ): Promise<MultisetGroupedSet> => {
   const multisetExerciseAndSetList: MultisetGroupedSet = {
     multiset: DefaultNewMultiset(),
@@ -56,7 +62,10 @@ export const GetMultisetGroupedSet = async (
   });
 
   for (let i = 0; i < orderedSetList.length; i++) {
-    const exercise = await GetExerciseWithId(orderedSetList[i].exercise_id);
+    const exercise = await GetExerciseWithId(
+      orderedSetList[i].exercise_id,
+      exerciseGroupDictionary
+    );
 
     if (exercise.isInvalid) {
       orderedSetList[i].hasInvalidExerciseId = true;
