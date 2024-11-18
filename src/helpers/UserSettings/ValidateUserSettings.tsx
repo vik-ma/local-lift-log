@@ -102,5 +102,8 @@ export const ValidateUserSettings = (userSettings: UserSettings): boolean => {
   if (!ValidateWorkoutRatingsOrderString(userSettings.workout_ratings_order))
     return false;
 
+  if (!IsNumberValidBinary(userSettings.show_secondary_exercise_groups))
+    return false;
+
   return true;
 };

@@ -48,6 +48,8 @@ export const CreateDefaultUserSettings = async (
 
   const default_plate_calculation_id = 1;
 
+  const show_secondary_exercise_groups = 1;
+
   const workout_ratings_order = Object.values(WorkoutRatingsMap())
     .map((item) => item.num)
     .join(",");
@@ -71,9 +73,10 @@ export const CreateDefaultUserSettings = async (
         default_increment_time, default_increment_resistance_level, 
         save_calculation_string, show_calculation_buttons, 
         default_increment_calculation_multiplier, default_calculation_tab, 
-        shown_workout_properties, default_plate_calculation_id, workout_ratings_order) 
+        shown_workout_properties, default_plate_calculation_id, workout_ratings_order,
+        show_secondary_exercise_groups) 
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, 
-        $17, $18, $19, $20, $21, $22)`,
+        $17, $18, $19, $20, $21, $22, $23)`,
       [
         show_timestamp_on_completed_set,
         active_routine_id,
@@ -97,6 +100,7 @@ export const CreateDefaultUserSettings = async (
         shown_workout_properties,
         default_plate_calculation_id,
         workout_ratings_order,
+        show_secondary_exercise_groups,
       ]
     );
 
@@ -126,6 +130,7 @@ export const CreateDefaultUserSettings = async (
       shown_workout_properties,
       default_plate_calculation_id,
       workout_ratings_order,
+      show_secondary_exercise_groups,
     };
 
     return defaultUserSettings;
