@@ -451,6 +451,19 @@ export default function Settings() {
     specificSettingModal.onClose();
   };
 
+  const handleShowSecondaryExerciseGroupsButtonsChange = async (
+    value: boolean
+  ) => {
+    if (userSettings === undefined) return;
+
+    const updatedSettings: UserSettings = {
+      ...userSettings,
+      show_secondary_exercise_groups: value ? 1 : 0,
+    };
+
+    updateSettings(updatedSettings);
+  };
+
   const handleSaveSpecificSettingButton = async () => {
     if (userSettings === undefined) return;
 
@@ -697,9 +710,24 @@ export default function Settings() {
               isHhmmss={false}
             />
           </div>
-          <h3 className="flex justify-center text-lg font-medium">
-            Workouts
-          </h3>
+          <div className="flex gap-3 items-center justify-between">
+            <span className="text-lg">
+              Show Secondary Exercise Groups In Exercise List
+            </span>
+            <Switch
+              aria-label="Show Secondary Exercise Groups Switch Element"
+              className="flex-row-reverse gap-3"
+              color="primary"
+              size="lg"
+              isSelected={
+                userSettings.show_secondary_exercise_groups ? true : false
+              }
+              onValueChange={(value) =>
+                handleShowSecondaryExerciseGroupsButtonsChange(value)
+              }
+            />
+          </div>
+          <h3 className="flex justify-center text-lg font-medium">Workouts</h3>
           <div className="flex gap-3 items-center justify-between">
             <span className="text-lg">
               Properties To Display In Workout List
