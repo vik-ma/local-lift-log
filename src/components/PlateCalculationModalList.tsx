@@ -56,7 +56,7 @@ export const PlateCalculationModalList = ({
           onPress={() => navigate("/presets?tab=plate")}
           endContent={<GoToArrowIcon />}
         >
-          Modify Plate Calculation
+          Edit Plate Calculations
         </Button>
       </div>
       <ScrollShadow className="flex flex-col gap-1 w-full">

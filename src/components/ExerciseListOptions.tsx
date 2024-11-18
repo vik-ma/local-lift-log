@@ -30,7 +30,7 @@ export const ExerciseListOptions = ({
   return (
     <div className="flex gap-1">
       <Button
-        className="z-1 w-[7.5rem]"
+        className="z-1"
         variant="flat"
         color={showSecondaryExerciseGroups ? "secondary" : "default"}
         size="sm"

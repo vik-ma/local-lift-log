@@ -1,12 +1,13 @@
-import { ScrollShadow } from "@nextui-org/react";
+import { Button, ScrollShadow } from "@nextui-org/react";
 import { Exercise, UseExerciseListReturnType } from "../typings";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   EmptyListLabel,
   ExerciseListOptions,
   FavoriteButton,
   SearchInput,
 } from ".";
+import { GoToArrowIcon } from "../assets";
 
 type ExerciseModalListProps = {
   handleClickExercise: (exercise: Exercise) => void;
@@ -32,6 +33,8 @@ export const ExerciseModalList = ({
   const height =
     customHeightString !== undefined ? customHeightString : "h-[400px]";
 
+  const navigate = useNavigate();
+
   return (
     <div className={`${height} flex flex-col gap-1.5`}>
       <SearchInput
@@ -41,7 +44,17 @@ export const ExerciseModalList = ({
         totalListLength={exercises.length}
       />
       <div className="flex justify-between items-center">
-        <div></div>
+        <div>
+          <Button
+            variant="flat"
+            size="sm"
+            color="secondary"
+            onPress={() => navigate("/exercises")}
+            endContent={<GoToArrowIcon />}
+          >
+            Edit Exercises
+          </Button>
+        </div>
         <ExerciseListOptions useExerciseList={exerciseList} />
       </div>
       <ScrollShadow className="flex flex-col gap-1">
