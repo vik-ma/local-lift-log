@@ -13,6 +13,7 @@ import {
   MultisetModal,
   TextInputModal,
   CalculationModal,
+  FilterExerciseGroupsModal,
 } from "../components";
 import { Toaster } from "react-hot-toast";
 import {
@@ -285,6 +286,7 @@ export default function WorkoutTemplateDetails() {
         header="Set Note"
         buttonAction={handleTextInputModalButton}
       />
+      <FilterExerciseGroupsModal useExerciseList={exerciseList} />
       {userSettings.show_calculation_buttons === 1 && (
         <CalculationModal
           useCalculationModal={calculationModal}

@@ -35,6 +35,7 @@ import {
 import {
   CalculationModal,
   DeleteModal,
+  FilterExerciseGroupsModal,
   ListPageSearchInput,
   LoadingSpinner,
   MultisetAccordion,
@@ -535,6 +536,7 @@ export default function Multisets() {
         }
         openCalculationModal={openCalculationModal}
       />
+      <FilterExerciseGroupsModal useExerciseList={exerciseList} />
       {userSettings.show_calculation_buttons === 1 && (
         <CalculationModal
           useCalculationModal={calculationModal}

@@ -258,10 +258,7 @@ export default function ExerciseList() {
         multiplierInputInvaliditySet={multiplierInputInvaliditySet}
         buttonAction={operationType === "edit" ? updateExercise : addExercise}
       />
-      <FilterExerciseGroupsModal
-        useExerciseList={exerciseList}
-        exerciseGroupDictionary={exerciseGroupDictionary}
-      />
+      <FilterExerciseGroupsModal useExerciseList={exerciseList} />
       <div className="flex flex-col items-center gap-1">
         <ListPageSearchInput
           header="Exercise List"

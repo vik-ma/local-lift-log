@@ -1,7 +1,12 @@
 import { ScrollShadow } from "@nextui-org/react";
 import { Exercise, UseExerciseListReturnType } from "../typings";
 import { Link } from "react-router-dom";
-import { EmptyListLabel, FavoriteButton, SearchInput } from ".";
+import {
+  EmptyListLabel,
+  ExerciseListOptions,
+  FavoriteButton,
+  SearchInput,
+} from ".";
 
 type ExerciseModalListProps = {
   handleClickExercise: (exercise: Exercise) => void;
@@ -28,13 +33,17 @@ export const ExerciseModalList = ({
     customHeightString !== undefined ? customHeightString : "h-[400px]";
 
   return (
-    <div className={`${height} flex flex-col gap-2`}>
+    <div className={`${height} flex flex-col gap-1.5`}>
       <SearchInput
         filterQuery={filterQuery}
         setFilterQuery={setFilterQuery}
         filteredListLength={filteredExercises.length}
         totalListLength={exercises.length}
       />
+      <div className="flex justify-between items-center">
+        <div></div>
+        <ExerciseListOptions useExerciseList={exerciseList} />
+      </div>
       <ScrollShadow className="flex flex-col gap-1">
         {filteredExercises.map((exercise) => (
           <div
