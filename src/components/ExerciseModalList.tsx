@@ -28,6 +28,7 @@ export const ExerciseModalList = ({
     filteredExercises,
     toggleFavorite,
     exercises,
+    showSecondaryExerciseGroups,
   } = exerciseList;
 
   const height =
@@ -72,9 +73,26 @@ export const ExerciseModalList = ({
               <span className="w-[20rem] truncate text-left">
                 {exercise.name}
               </span>
-              <span className="text-xs text-stone-500 text-left">
-                {exercise.formattedGroupStringPrimary}
-              </span>
+              {!showSecondaryExerciseGroups ? (
+                <span className="text-xs text-stone-400 text-left">
+                  {exercise.formattedGroupStringPrimary}
+                </span>
+              ) : (
+                <>
+                  <span className="text-xs text-stone-400 text-left">
+                    <span className="font-medium text-stone-600">Primary:</span>{" "}
+                    {exercise.formattedGroupStringPrimary}
+                  </span>
+                  {exercise.formattedGroupStringSecondary !== undefined && (
+                    <span className="text-xs text-stone-400 text-left">
+                      <span className="font-medium text-stone-600">
+                        Secondary:
+                      </span>{" "}
+                      {exercise.formattedGroupStringSecondary}
+                    </span>
+                  )}
+                </>
+              )}
             </div>
             <div className="flex items-center pr-2">
               <FavoriteButton
