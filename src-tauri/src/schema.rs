@@ -36,6 +36,7 @@ diesel::table! {
         shown_workout_properties -> Text,
         default_plate_calculation_id -> Integer,
         workout_ratings_order -> Text,
+        show_secondary_exercise_groups -> Integer,
     }
 }
 
