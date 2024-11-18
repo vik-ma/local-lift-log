@@ -52,7 +52,11 @@ export const useExerciseList = (
             .includes(filterQuery.toLocaleLowerCase()) ||
             item
               .formattedGroupStringPrimary!.toLocaleLowerCase()
-              .includes(filterQuery.toLocaleLowerCase())) &&
+              .includes(filterQuery.toLocaleLowerCase()) ||
+            (showSecondaryExerciseGroups &&
+              item.formattedGroupStringSecondary
+                ?.toLocaleLowerCase()
+                .includes(filterQuery.toLocaleLowerCase()))) &&
           shownExerciseGroups.some(
             (group) =>
               item.formattedGroupStringPrimary!.includes(group) ||
