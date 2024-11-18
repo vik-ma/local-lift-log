@@ -9,12 +9,10 @@ import { UseExerciseListReturnType } from "../typings";
 
 type ExerciseListOptionsProps = {
   useExerciseList: UseExerciseListReturnType;
-  handleFilterExerciseGroupsButton: () => void;
 };
 
 export const ExerciseListOptions = ({
   useExerciseList,
-  handleFilterExerciseGroupsButton,
 }: ExerciseListOptionsProps) => {
   const {
     showSecondaryExerciseGroups,
@@ -22,7 +20,12 @@ export const ExerciseListOptions = ({
     areExerciseGroupsFiltered,
     handleSortOptionSelection,
     sortCategory,
+    exerciseGroupModal,
   } = useExerciseList;
+
+  const handleFilterExerciseGroupsButton = () => {
+    exerciseGroupModal.onOpen();
+  };
 
   return (
     <div className="flex gap-1">

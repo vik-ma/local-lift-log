@@ -401,6 +401,7 @@ export type UseExerciseListReturnType = {
   isExerciseListLoaded: React.MutableRefObject<boolean>;
   exerciseMap: Map<number, Exercise>;
   exerciseGroupDictionary: ExerciseGroupMap;
+  exerciseGroupModal: UseDisclosureReturnType;
 };
 
 export type HandleMultisetSetOptionSelectionProps = (

@@ -62,7 +62,6 @@ export default function ExerciseList() {
 
   const deleteModal = useDisclosure();
   const exerciseModal = useDisclosure();
-  const exerciseGroupModal = useDisclosure();
 
   const navigate = useNavigate();
 
@@ -222,10 +221,6 @@ export default function ExerciseList() {
     }
   };
 
-  const handleFilterExerciseGroupsButton = () => {
-    exerciseGroupModal.onOpen();
-  };
-
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
@@ -264,7 +259,6 @@ export default function ExerciseList() {
         buttonAction={operationType === "edit" ? updateExercise : addExercise}
       />
       <FilterExerciseGroupsModal
-        exerciseGroupModal={exerciseGroupModal}
         useExerciseList={exerciseList}
         exerciseGroupDictionary={exerciseGroupDictionary}
       />
@@ -285,12 +279,7 @@ export default function ExerciseList() {
               >
                 New Exercise
               </Button>
-              <ExerciseListOptions
-                useExerciseList={exerciseList}
-                handleFilterExerciseGroupsButton={
-                  handleFilterExerciseGroupsButton
-                }
-              />
+              <ExerciseListOptions useExerciseList={exerciseList} />
             </div>
           }
         />

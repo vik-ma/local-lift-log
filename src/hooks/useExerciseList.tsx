@@ -11,6 +11,7 @@ import {
   ExerciseSortCategory,
 } from "../typings";
 import { useExerciseGroupDictionary, useExerciseGroupList } from ".";
+import { useDisclosure } from "@nextui-org/react";
 
 export const useExerciseList = (
   getExercisesOnLoad: boolean,
@@ -31,6 +32,8 @@ export const useExerciseList = (
   const [shownExerciseGroups, setShownExerciseGroups] = useState<string[]>([
     ...exerciseGroupList,
   ]);
+
+  const exerciseGroupModal = useDisclosure();
 
   const isExerciseListLoaded = useRef(false);
 
@@ -154,7 +157,9 @@ export const useExerciseList = (
 
   const getExercises = useCallback(async () => {
     const exercises = showTotalNumSets
-      ? await GetExerciseListWithGroupStringsAndTotalSets(exerciseGroupDictionary)
+      ? await GetExerciseListWithGroupStringsAndTotalSets(
+          exerciseGroupDictionary
+        )
       : await GetExerciseListWithGroupStrings(exerciseGroupDictionary);
 
     if (exercises === undefined) return;
@@ -195,5 +200,6 @@ export const useExerciseList = (
     isExerciseListLoaded,
     exerciseMap,
     exerciseGroupDictionary,
+    exerciseGroupModal,
   };
 };
