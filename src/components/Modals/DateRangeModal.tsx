@@ -11,6 +11,8 @@ import {
 } from "@nextui-org/react";
 import { UseDisclosureReturnType } from "../../typings";
 import { I18nProvider } from "@react-aria/i18n";
+import { useMemo } from "react";
+import { WeekdaysDropdown } from "..";
 
 type DateRangeModalProps = {
   dateRangeModal: UseDisclosureReturnType;
@@ -22,6 +24,9 @@ type DateRangeModalProps = {
   locale: string;
   buttonAction: () => void;
   customLabel?: string;
+  filterWeekdays?: Set<string>;
+  setFilterWeekdays?: React.Dispatch<React.SetStateAction<Set<string>>>;
+  weekdayMap?: Map<string, string>;
 };
 
 export const DateRangeModal = ({
@@ -32,7 +37,34 @@ export const DateRangeModal = ({
   locale,
   buttonAction,
   customLabel,
+  filterWeekdays,
+  setFilterWeekdays,
+  weekdayMap,
 }: DateRangeModalProps) => {
+  const showWeekDayDropdown = useMemo(() => {
+    return (
+      filterWeekdays !== undefined &&
+      setFilterWeekdays !== undefined &&
+      weekdayMap !== undefined
+    );
+  }, [filterWeekdays, setFilterWeekdays, weekdayMap]);
+
+  const showResetButton = useMemo(() => {
+    if (!showWeekDayDropdown) {
+      return dateRange !== null;
+    }
+
+    return dateRange !== null || filterWeekdays!.size < 7;
+  }, [dateRange, filterWeekdays, showWeekDayDropdown]);
+
+  const handleResetButton = () => {
+    setDateRange(null);
+
+    if (setFilterWeekdays !== undefined && weekdayMap !== undefined) {
+      setFilterWeekdays(new Set(weekdayMap.keys()));
+    }
+  };
+
   return (
     <Modal
       isOpen={dateRangeModal.isOpen}
@@ -43,7 +75,13 @@ export const DateRangeModal = ({
           <>
             <ModalHeader>{header}</ModalHeader>
             <ModalBody>
-              <div className="h-16">
+              <div
+                className={
+                  showWeekDayDropdown
+                    ? "h-32 flex flex-col gap-4"
+                    : "h-16 flex flex-col gap-4"
+                }
+              >
                 <I18nProvider locale={locale}>
                   <DateRangePicker
                     label={customLabel !== undefined ? customLabel : header}
@@ -53,12 +91,19 @@ export const DateRangeModal = ({
                     visibleMonths={2}
                   />
                 </I18nProvider>
+                {showWeekDayDropdown && (
+                  <WeekdaysDropdown
+                    values={filterWeekdays!}
+                    setValues={setFilterWeekdays!}
+                    weekdayMap={weekdayMap!}
+                  />
+                )}
               </div>
             </ModalBody>
             <ModalFooter className="flex justify-between">
               <div>
-                {dateRange !== null && (
-                  <Button variant="flat" onPress={() => setDateRange(null)}>
+                {showResetButton && (
+                  <Button variant="flat" onPress={handleResetButton}>
                     Reset
                   </Button>
                 )}
@@ -67,11 +112,7 @@ export const DateRangeModal = ({
                 <Button color="primary" variant="light" onPress={onClose}>
                   Close
                 </Button>
-                <Button
-                  color="primary"
-                  onPress={() => buttonAction()}
-                  isDisabled={dateRange === null}
-                >
+                <Button color="primary" onPress={() => buttonAction()}>
                   Done
                 </Button>
               </div>

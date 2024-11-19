@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useCalculationModal, usePresetsList } from "../hooks";
+import { useCalculationModal, usePresetsList, useWeekdayMap } from "../hooks";
 import {
   Button,
   CalendarDate,
@@ -41,6 +41,12 @@ export default function Test() {
   const dateRangeModal = useDisclosure();
 
   const presetsList = usePresetsList(false, false);
+
+  const weekdayMap = useWeekdayMap();
+
+  const [filterWeekdays, setFilterWeekdays] = useState<Set<string>>(
+    new Set(weekdayMap.keys())
+  );
 
   const handleCreateDefaultsButton = async (key: string) => {
     if (key === "exercises") {
@@ -117,6 +123,9 @@ export default function Test() {
         header="Select Date Range"
         locale={userSettings.locale}
         buttonAction={() => {}}
+        filterWeekdays={filterWeekdays}
+        setFilterWeekdays={setFilterWeekdays}
+        weekdayMap={weekdayMap}
       />
       <div className="flex flex-col gap-2">
         <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">
