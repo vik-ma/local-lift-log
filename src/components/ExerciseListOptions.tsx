@@ -6,13 +6,16 @@ import {
   DropdownTrigger,
 } from "@nextui-org/react";
 import { UseExerciseListReturnType } from "../typings";
+import { UpdateShowSecondaryExerciseGroups } from "../helpers";
 
 type ExerciseListOptionsProps = {
   useExerciseList: UseExerciseListReturnType;
+  userSettingsId: number;
 };
 
 export const ExerciseListOptions = ({
   useExerciseList,
+  userSettingsId,
 }: ExerciseListOptionsProps) => {
   const {
     showSecondaryExerciseGroups,
@@ -27,6 +30,15 @@ export const ExerciseListOptions = ({
     exerciseGroupModal.onOpen();
   };
 
+  const handleShowSecondaryButton = async () => {
+    const newValue = !showSecondaryExerciseGroups;
+    const newValueNum = newValue ? 1 : 0;
+
+    setShowSecondaryExerciseGroups(newValue);
+
+    await UpdateShowSecondaryExerciseGroups(newValueNum, userSettingsId);
+  };
+
   return (
     <div className="flex gap-1">
       <Button
@@ -34,9 +46,7 @@ export const ExerciseListOptions = ({
         variant="flat"
         color={showSecondaryExerciseGroups ? "secondary" : "default"}
         size="sm"
-        onPress={() =>
-          setShowSecondaryExerciseGroups(!showSecondaryExerciseGroups)
-        }
+        onPress={handleShowSecondaryButton}
       >
         Show Secondary
       </Button>

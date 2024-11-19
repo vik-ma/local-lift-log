@@ -78,6 +78,7 @@ export const SetModal = ({
                 <ExerciseModalList
                   handleClickExercise={handleClickExercise}
                   exerciseList={exerciseList}
+                  userSettingsId={userSettings.id}
                 />
               ) : (
                 <SetValueConfig

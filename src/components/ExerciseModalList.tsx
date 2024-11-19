@@ -12,6 +12,7 @@ import { GoToArrowIcon } from "../assets";
 type ExerciseModalListProps = {
   handleClickExercise: (exercise: Exercise) => void;
   exerciseList: UseExerciseListReturnType;
+  userSettingsId: number;
   customHeightString?: string;
   filterExercises?: Set<number>;
 };
@@ -19,6 +20,7 @@ type ExerciseModalListProps = {
 export const ExerciseModalList = ({
   handleClickExercise,
   exerciseList,
+  userSettingsId,
   customHeightString,
   filterExercises,
 }: ExerciseModalListProps) => {
@@ -56,7 +58,10 @@ export const ExerciseModalList = ({
             Edit Exercises
           </Button>
         </div>
-        <ExerciseListOptions useExerciseList={exerciseList} />
+        <ExerciseListOptions
+          useExerciseList={exerciseList}
+          userSettingsId={userSettingsId}
+        />
       </div>
       <ScrollShadow className="flex flex-col gap-1">
         {filteredExercises.map((exercise) => (

@@ -152,6 +152,7 @@ export const MultisetModal = ({
                 <ExerciseModalList
                   handleClickExercise={handleClickExercise}
                   exerciseList={exerciseList}
+                  userSettingsId={userSettings.id}
                 />
               ) : modalPage === "edit-set" ? (
                 <SetValueConfig

@@ -539,7 +539,7 @@ export default function WorkoutDetails() {
       <FilterWorkoutListModal
         useWorkoutList={workoutList}
         useExerciseList={exerciseList}
-        locale={userSettings.locale}
+        userSettings={userSettings}
       />
       <FilterExerciseGroupsModal useExerciseList={exerciseList} />
       {userSettings.show_calculation_buttons === 1 && (

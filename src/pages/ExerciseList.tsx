@@ -295,7 +295,10 @@ export default function ExerciseList() {
               >
                 New Exercise
               </Button>
-              <ExerciseListOptions useExerciseList={exerciseList} />
+              <ExerciseListOptions  
+                useExerciseList={exerciseList}
+                userSettingsId={userSettings.id}
+              />
             </div>
           }
         />

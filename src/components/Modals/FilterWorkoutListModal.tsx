@@ -12,6 +12,7 @@ import {
   Exercise,
   Routine,
   UseExerciseListReturnType,
+  UserSettings,
   UseWorkoutListReturnType,
 } from "../../typings";
 import { I18nProvider } from "@react-aria/i18n";
@@ -26,7 +27,7 @@ import {
 type FilterWorkoutListModalProps = {
   useWorkoutList: UseWorkoutListReturnType;
   useExerciseList: UseExerciseListReturnType;
-  locale: string;
+  userSettings: UserSettings;
 };
 
 type FilterWorkoutListModalPage =
@@ -38,7 +39,7 @@ type FilterWorkoutListModalPage =
 export const FilterWorkoutListModal = ({
   useWorkoutList,
   useExerciseList,
-  locale,
+  userSettings,
 }: FilterWorkoutListModalProps) => {
   const [filterWorkoutListModalPage, setFilterWorkoutListModalPage] =
     useState<FilterWorkoutListModalPage>("base");
@@ -210,6 +211,7 @@ export const FilterWorkoutListModal = ({
                 <ExerciseModalList
                   handleClickExercise={handleClickExercise}
                   exerciseList={useExerciseList}
+                  userSettingsId={userSettings.id}
                   filterExercises={filterExercises}
                 />
               ) : filterWorkoutListModalPage === "exercise-groups" ? (
@@ -230,7 +232,7 @@ export const FilterWorkoutListModal = ({
                       <h3 className="font-semibold text-lg px-0.5">
                         Date Range
                       </h3>
-                      <I18nProvider locale={locale}>
+                      <I18nProvider locale={userSettings.locale}>
                         <DateRangePicker
                           label="Workout Dates"
                           variant="faded"
@@ -385,7 +387,7 @@ export const FilterWorkoutListModal = ({
                   color="primary"
                   onPress={
                     filterWorkoutListModalPage === "base"
-                      ? () => handleFilterSaveButton(locale)
+                      ? () => handleFilterSaveButton(userSettings.locale)
                       : () => setFilterWorkoutListModalPage("base")
                   }
                 >
