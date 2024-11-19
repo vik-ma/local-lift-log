@@ -62,6 +62,8 @@ export default function WorkoutList() {
 
   const exerciseList = useExerciseList(false);
 
+  const { setShowSecondaryExerciseGroups } = exerciseList;
+
   const workoutList = useWorkoutList(true, exerciseList);
 
   const {
@@ -78,20 +80,23 @@ export default function WorkoutList() {
 
   useEffect(() => {
     const getUserSettings = async () => {
-      const settings = await GetUserSettings();
+      const userSettings = await GetUserSettings();
 
-      if (settings !== undefined) {
-        setUserSettings(settings);
+      if (userSettings !== undefined) {
+        setUserSettings(userSettings);
         const workoutPropertySet = CreateWorkoutPropertySet(
-          settings.shown_workout_properties
+          userSettings.shown_workout_properties
         );
         setSelectedWorkoutProperties(workoutPropertySet);
+        setShowSecondaryExerciseGroups(
+          userSettings.show_secondary_exercise_groups === 1
+        );
         setIsLoading(false);
       }
     };
 
     getUserSettings();
-  }, []);
+  }, [setShowSecondaryExerciseGroups]);
 
   const deleteWorkout = async () => {
     if (operatingWorkout.id === 0 || operationType !== "delete") return;

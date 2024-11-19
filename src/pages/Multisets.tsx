@@ -69,6 +69,8 @@ export default function Multisets() {
 
   const exerciseList = useExerciseList(true);
 
+  const { setShowSecondaryExerciseGroups } = exerciseList;
+
   const multisetActions = useMultisetActions({
     operatingMultiset,
     setOperatingMultiset,
@@ -97,11 +99,14 @@ export default function Multisets() {
           distance_unit: userSettings.default_unit_distance,
           user_weight_unit: userSettings.default_unit_weight,
         }));
+        setShowSecondaryExerciseGroups(
+          userSettings.show_secondary_exercise_groups === 1
+        );
       }
     };
 
     loadUserSettings();
-  }, []);
+  }, [setShowSecondaryExerciseGroups]);
 
   const handleCreateNewMultisetButton = () => {
     if (operationType !== "add") {

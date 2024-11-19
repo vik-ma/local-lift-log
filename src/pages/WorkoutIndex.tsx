@@ -32,16 +32,23 @@ export default function WorkoutIndex() {
 
   const exerciseList = useExerciseList(false);
 
+  const { setShowSecondaryExerciseGroups } = exerciseList;
+
   const workoutList = useWorkoutList(false, exerciseList, true);
 
   useEffect(() => {
     const getUserSettings = async () => {
-      const settings = await GetUserSettings();
-      setUserSettings(settings);
+      const userSettings = await GetUserSettings();
+      if (userSettings !== undefined) {
+        setUserSettings(userSettings);
+        setShowSecondaryExerciseGroups(
+          userSettings.show_secondary_exercise_groups === 1
+        );
+      }
     };
 
     getUserSettings();
-  }, []);
+  }, [setShowSecondaryExerciseGroups]);
 
   const handleCreateEmptyWorkout = async () => {
     const newWorkout = await CreateWorkout(0);
