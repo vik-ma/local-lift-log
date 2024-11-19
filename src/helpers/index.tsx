@@ -53,6 +53,7 @@ export { ValidateShownWorkoutPropertiesString } from "./UserSettings/ValidateSho
 export { CreateWorkoutPropertySet } from "./UserSettings/CreateWorkoutPropertySet";
 export { UpdateDefaultPlateCalculationId } from "./UserSettings/UpdateDefaultPlateCalculationId";
 export { ValidateWorkoutRatingsOrderString } from "./UserSettings/ValidateWorkoutRatingsOrderString";
+export { UpdateShowSecondaryExerciseGroups } from "./UserSettings/UpdateShowSecondaryExerciseGroups";
 
 export { OrderSetsBySetListOrderString } from "./Sets/OrderSetsBySetListOrderString";
 export { CreateSetsFromWorkoutTemplate } from "./Sets/CreateSetsFromWorkoutTemplate";
