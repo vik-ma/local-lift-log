@@ -1,6 +1,6 @@
 import Database from "tauri-plugin-sql-api";
 import { useState, useEffect, useCallback, useMemo } from "react";
-import { UserWeight, UserSettingsOptional } from "../typings";
+import { UserWeight, UserSettings } from "../typings";
 import {
   LoadingSpinner,
   DeleteModal,
@@ -15,23 +15,27 @@ import {
   DeleteItemFromList,
   DeleteUserWeightWithId,
   FormatDateTimeString,
+  GetCurrentDateTimeISOString,
+  GetUserSettings,
+  InsertUserWeightIntoDatabase,
   UpdateItemInList,
   UpdateUserWeight,
 } from "../helpers";
-import { useDisclosure } from "@nextui-org/react";
+import { Button, useDisclosure } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
 import { useDefaultUserWeight, useIsStringValidNumber } from "../hooks";
 
-type OperationType = "edit" | "delete";
+type OperationType = "add" | "edit" | "delete";
 
 export default function UserWeightList() {
   const [userWeights, setUserWeights] = useState<UserWeight[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [operationType, setOperationType] = useState<OperationType>("edit");
+  const [operationType, setOperationType] = useState<OperationType>("add");
   const [userWeightInput, setUserWeightInput] = useState<string>("");
   const [weightUnit, setWeightUnit] = useState<string>("");
   const [commentInput, setCommentInput] = useState<string>("");
   const [filterQuery, setFilterQuery] = useState<string>("");
+  const [userSettings, setUserSettings] = useState<UserSettings>();
 
   const filteredWeights = useMemo(() => {
     if (filterQuery !== "") {
@@ -91,30 +95,68 @@ export default function UserWeightList() {
 
   useEffect(() => {
     const loadUserSettings = async () => {
-      try {
-        const db = await Database.load(import.meta.env.VITE_DB);
+      const userSettings = await GetUserSettings();
 
-        const result = await db.select<UserSettingsOptional[]>(
-          "SELECT id, default_unit_weight, clock_style FROM user_settings"
-        );
-
-        const userSettings: UserSettingsOptional = result[0];
-
-        if (userSettings !== undefined) {
-          setOperatingUserWeight((prev) => ({
-            ...prev,
-            weight_unit: userSettings.default_unit_weight!,
-          }));
-          getUserWeights(userSettings.clock_style!);
-          setIsLoading(false);
-        }
-      } catch (error) {
-        console.log(error);
+      if (userSettings !== undefined) {
+        setUserSettings(userSettings);
+        getUserWeights(userSettings.clock_style);
+        setWeightUnit(userSettings.default_unit_weight);
+        setIsLoading(false);
       }
     };
 
     loadUserSettings();
   }, [getUserWeights]);
+
+  const handleCreateNewUserWeightButton = () => {
+    resetUserWeight();
+    userWeightModal.onOpen();
+  };
+
+  const addUserWeight = async () => {
+    if (
+      !isWeightInputValid ||
+      operationType !== "add" ||
+      userSettings === undefined
+    )
+      return;
+
+    const newWeight = ConvertNumberToTwoDecimals(Number(userWeightInput));
+
+    const commentToInsert = ConvertEmptyStringToNull(commentInput);
+
+    const currentDateString = GetCurrentDateTimeISOString();
+
+    const userWeightId = await InsertUserWeightIntoDatabase(
+      newWeight,
+      weightUnit,
+      currentDateString,
+      commentToInsert
+    );
+
+    if (userWeightId === 0) return;
+
+    const formattedDate = FormatDateTimeString(
+      currentDateString,
+      userSettings.clock_style === "24h"
+    );
+
+    const newUserWeight = {
+      id: userWeightId,
+      weight: newWeight,
+      weight_unit: weightUnit,
+      date: currentDateString,
+      formattedDate: formattedDate,
+      comment: commentToInsert,
+    };
+
+    // TODO: UPDATE AFTER ADDING SORT
+    setUserWeights([newUserWeight, ...userWeights]);
+
+    resetUserWeight();
+    toast.success("User Weight Added");
+    userWeightModal.onClose();
+  };
 
   const deleteUserWeight = async () => {
     if (operatingUserWeight.id === 0 || operationType !== "delete") return;
@@ -190,9 +232,12 @@ export default function UserWeightList() {
   };
 
   const resetUserWeight = () => {
+    if (userSettings === undefined) return;
+
     setOperatingUserWeight(defaultUserWeight);
-    setOperationType("edit");
+    setOperationType("add");
     setUserWeightInput("");
+    setWeightUnit(userSettings.default_unit_weight);
     setCommentInput("");
   };
 
@@ -222,7 +267,9 @@ export default function UserWeightList() {
         setWeightUnit={setWeightUnit}
         commentInput={commentInput}
         setCommentInput={setCommentInput}
-        buttonAction={updateUserWeight}
+        buttonAction={
+          operationType === "edit" ? updateUserWeight : addUserWeight
+        }
         isEditing={operationType === "edit"}
       />
       <div className="flex flex-col items-center gap-1">
@@ -232,6 +279,18 @@ export default function UserWeightList() {
           setFilterQuery={setFilterQuery}
           filteredListLength={filteredWeights.length}
           totalListLength={userWeights.length}
+          bottomContent={
+            <div className="flex justify-between">
+              <Button
+                color="secondary"
+                variant="flat"
+                onPress={handleCreateNewUserWeightButton}
+                size="sm"
+              >
+                Add New Weight
+              </Button>
+            </div>
+          }
         />
         {isLoading ? (
           <LoadingSpinner />
