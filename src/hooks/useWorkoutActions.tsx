@@ -150,6 +150,13 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
   const exerciseList = useExerciseList(true);
 
+  const {
+    setShowSecondaryExerciseGroups,
+    exerciseGroupDictionary,
+    exercises,
+    setExercises,
+  } = exerciseList;
+
   const multisetActions = useMultisetActions({
     operatingMultiset,
     setOperatingMultiset,
@@ -178,6 +185,9 @@ export const useWorkoutActions = (isTemplate: boolean) => {
           distance_unit: userSettings.default_unit_distance!,
           user_weight_unit: userSettings.default_unit_weight!,
         }));
+        setShowSecondaryExerciseGroups(
+          userSettings.show_secondary_exercise_groups === 1
+        );
 
         if (!isTemplate) {
           const userWeight = await GetLatestUserWeight(
@@ -194,7 +204,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     };
 
     loadUserSettings();
-  }, [isTemplate]);
+  }, [isTemplate, setShowSecondaryExerciseGroups]);
 
   const addSetsToExercise = async (numSets: string) => {
     if (selectedExercise === undefined) return;
@@ -1812,7 +1822,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
         const exercise = await GetExerciseWithId(
           operatingMultisetSet.exercise_id,
-          exerciseList.exerciseGroupDictionary
+          exerciseGroupDictionary
         );
 
         const newSet = { ...operatingMultisetSet, id: operatingMultisetSetId };
@@ -2088,7 +2098,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
       const exercise = await GetExerciseWithId(
         operatingMultiset.setList[i].exercise_id,
-        exerciseList.exerciseGroupDictionary
+        exerciseGroupDictionary
       );
 
       newExerciseList.push(exercise);
@@ -2211,7 +2221,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         multisetId,
         isTemplate ? undefined : workout,
         isTemplate ? workoutTemplate : undefined,
-        exerciseList.exerciseGroupDictionary
+        exerciseGroupDictionary
       );
 
     const indexCutoffs = CreateMultisetIndexCutoffs(setListIdList);
@@ -2303,7 +2313,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         multisetId,
         isTemplate ? undefined : workout,
         isTemplate ? workoutTemplate : undefined,
-        exerciseList.exerciseGroupDictionary
+        exerciseGroupDictionary
       );
 
     setListIdList.map((list) => existingSetListIds.push(list));
@@ -2571,12 +2581,9 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
       if (!success) return;
 
-      const updatedExercises = UpdateItemInList(
-        exerciseList.exercises,
-        updatedExercise
-      );
+      const updatedExercises = UpdateItemInList(exercises, updatedExercise);
 
-      exerciseList.setExercises(updatedExercises);
+      setExercises(updatedExercises);
 
       if (selectedExercise?.id === exercise.id) {
         setSelectedExercise(updatedExercise);
