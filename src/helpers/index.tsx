@@ -131,6 +131,7 @@ export { ReassignMeasurementIdForUserMeasurements } from "./Measurements/Reassig
 export { GenerateMeasurementListText } from "./Measurements/GenerateMeasurementListText";
 export { GetUserMeasurements } from "./Measurements/GetUserMeasurements";
 export { SortMeasurementMap } from "./Measurements/SortMeasurementMap";
+export { InsertUserWeightIntoDatabase } from "./Measurements/InsertUserWeightIntoDatabase";
 
 export { CreateDefaultEquipmentWeights } from "./Presets/CreateDefaultEquipmentWeights";
 export { CreateDefaultDistances } from "./Presets/CreateDefaultDistances";

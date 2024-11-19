@@ -5,8 +5,8 @@ import {
   GetCurrentDateTimeISOString,
   FormatDateTimeString,
   UpdateUserWeight,
+  InsertUserWeightIntoDatabase,
 } from "../helpers";
-import Database from "tauri-plugin-sql-api";
 import {
   UserSettings,
   UserWeight,
@@ -45,40 +45,39 @@ export const useUserWeightInput = (
 
     const currentDateString = GetCurrentDateTimeISOString();
 
-    try {
-      const db = await Database.load(import.meta.env.VITE_DB);
+    const userWeightId = await InsertUserWeightIntoDatabase(
+      newWeight,
+      weightUnit,
+      currentDateString,
+      commentToInsert
+    );
 
-      const result = await db.execute(
-        "INSERT into user_weights (weight, weight_unit, date, comment) VALUES ($1, $2, $3, $4)",
-        [newWeight, weightUnit, currentDateString, commentToInsert]
-      );
-
-      const formattedDate: string = FormatDateTimeString(
-        currentDateString,
-        userSettings.clock_style === "24h"
-      );
-
-      const newUserWeight: UserWeight = {
-        id: result.lastInsertId,
-        weight: newWeight,
-        weight_unit: weightUnit,
-        date: currentDateString,
-        formattedDate: formattedDate,
-        comment: commentToInsert,
-      };
-
-      setLatestUserWeight(newUserWeight);
-
-      resetWeightInput();
-
-      userWeightModal.onClose();
-      toast.success("Body Weight Entry Added");
-
-      return { success: true, weight: newWeight, weight_unit: weightUnit };
-    } catch (error) {
-      console.log(error);
+    if (userWeightId === 0) {
       return { success: false, weight: 0, weight_unit: "" };
     }
+
+    const formattedDate: string = FormatDateTimeString(
+      currentDateString,
+      userSettings.clock_style === "24h"
+    );
+
+    const newUserWeight: UserWeight = {
+      id: userWeightId,
+      weight: newWeight,
+      weight_unit: weightUnit,
+      date: currentDateString,
+      formattedDate: formattedDate,
+      comment: commentToInsert,
+    };
+
+    setLatestUserWeight(newUserWeight);
+
+    resetWeightInput();
+
+    userWeightModal.onClose();
+    toast.success("Body Weight Entry Added");
+
+    return { success: true, weight: newWeight, weight_unit: weightUnit };
   };
 
   const updateUserWeight = async () => {
