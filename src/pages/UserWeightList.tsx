@@ -217,6 +217,7 @@ export default function UserWeightList() {
             <div className="flex flex-col gap-1 w-full">
               {userWeights.map((userWeight) => (
                 <UserWeightListItem
+                  key={userWeight.id}
                   userWeight={userWeight}
                   handleUserWeightOptionSelection={
                     handleUserWeightOptionSelection
