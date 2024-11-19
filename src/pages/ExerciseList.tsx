@@ -1,6 +1,6 @@
 import Database from "tauri-plugin-sql-api";
-import { useState } from "react";
-import { Exercise } from "../typings";
+import { useEffect, useState } from "react";
+import { Exercise, UserSettings } from "../typings";
 import {
   ConvertEmptyStringToNull,
   CreateDefaultExercises,
@@ -9,6 +9,7 @@ import {
   UpdateItemInList,
   FormatSetsCompletedString,
   UpdateExerciseValues,
+  GetUserSettings,
 } from "../helpers";
 import {
   Button,
@@ -42,6 +43,7 @@ import {
 type OperationType = "add" | "edit" | "delete";
 
 export default function ExerciseList() {
+  const [userSettings, setUserSettings] = useState<UserSettings>();
   const [operationType, setOperationType] = useState<OperationType>("add");
 
   const exerciseList = useExerciseList(true, true);
@@ -56,6 +58,7 @@ export default function ExerciseList() {
     toggleFavorite,
     sortExercisesByActiveCategory,
     showSecondaryExerciseGroups,
+    setShowSecondaryExerciseGroups,
     isExerciseListLoaded,
     exerciseGroupDictionary,
   } = exerciseList;
@@ -220,6 +223,22 @@ export default function ExerciseList() {
       toggleFavorite(exercise);
     }
   };
+
+  useEffect(() => {
+    const loadUserSettings = async () => {
+      const userSettings = await GetUserSettings();
+      if (userSettings !== undefined) {
+        setUserSettings(userSettings);
+        setShowSecondaryExerciseGroups(
+          userSettings.show_secondary_exercise_groups === 1
+        );
+      }
+    };
+
+    loadUserSettings();
+  }, [setShowSecondaryExerciseGroups]);
+
+  if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
     <>
