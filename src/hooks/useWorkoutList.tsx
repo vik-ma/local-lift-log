@@ -14,10 +14,9 @@ import {
   FormatDateString,
   IsDateInWeekdaySet,
   IsDateWithinRange,
-  WeekdayMap,
 } from "../helpers";
 import { CalendarDate, RangeValue, useDisclosure } from "@nextui-org/react";
-import { useRoutineList } from "./useRoutineList";
+import { useRoutineList, useWeekdayMap } from ".";
 
 export const useWorkoutList = (
   getWorkoutsOnLoad: boolean,
@@ -45,9 +44,7 @@ export const useWorkoutList = (
   const [includeSecondaryGroups, setIncludeSecondaryGroups] =
     useState<boolean>(false);
 
-  const weekdayMap = useMemo(() => {
-    return WeekdayMap();
-  }, []);
+  const weekdayMap = useWeekdayMap();
 
   const exerciseGroupDictionary = useExerciseList.exerciseGroupDictionary;
 

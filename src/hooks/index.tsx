@@ -41,3 +41,4 @@ export { usePlateCalculationModal } from "./usePlateCalculationModal";
 export { useValidateExerciseGroupStringSecondary } from "./useValidateExerciseGroupStringSecondary";
 export { useMultiplierInputMap } from "./useMultiplierInputMap";
 export { useRoutineList } from "./useRoutineList";
+export { useWeekdayMap } from "./useWeekdayMap";
