@@ -1,5 +1,5 @@
 import Database from "tauri-plugin-sql-api";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { UserWeight, UserSettingsOptional } from "../typings";
 import {
   LoadingSpinner,
@@ -7,6 +7,7 @@ import {
   UserWeightModal,
   EmptyListLabel,
   UserWeightListItem,
+  ListPageSearchInput,
 } from "../components";
 import {
   ConvertEmptyStringToNull,
@@ -30,6 +31,26 @@ export default function UserWeightList() {
   const [userWeightInput, setUserWeightInput] = useState<string>("");
   const [weightUnit, setWeightUnit] = useState<string>("");
   const [commentInput, setCommentInput] = useState<string>("");
+  const [filterQuery, setFilterQuery] = useState<string>("");
+
+  const filteredWeights = useMemo(() => {
+    if (filterQuery !== "") {
+      return userWeights.filter(
+        (item) =>
+          item.weight
+            .toString()
+            .toLocaleLowerCase()
+            .includes(filterQuery.toLocaleLowerCase()) ||
+          item.formattedDate
+            .toLocaleLowerCase()
+            .includes(filterQuery.toLocaleLowerCase()) ||
+          item.comment
+            ?.toLocaleLowerCase()
+            .includes(filterQuery.toLocaleLowerCase())
+      );
+    }
+    return userWeights;
+  }, [userWeights, filterQuery]);
 
   const defaultUserWeight = useDefaultUserWeight();
 
@@ -204,18 +225,20 @@ export default function UserWeightList() {
         buttonAction={updateUserWeight}
         isEditing={operationType === "edit"}
       />
-      <div className="flex flex-col items-center gap-4">
-        <div className="bg-neutral-900 px-6 py-4 rounded-xl">
-          <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">
-            Weight List
-          </h1>
-        </div>
+      <div className="flex flex-col items-center gap-1">
+        <ListPageSearchInput
+          header="User Weight List"
+          filterQuery={filterQuery}
+          setFilterQuery={setFilterQuery}
+          filteredListLength={filteredWeights.length}
+          totalListLength={userWeights.length}
+        />
         {isLoading ? (
           <LoadingSpinner />
         ) : (
           <>
             <div className="flex flex-col gap-1 w-full">
-              {userWeights.map((userWeight) => (
+              {filteredWeights.map((userWeight) => (
                 <UserWeightListItem
                   key={userWeight.id}
                   userWeight={userWeight}
@@ -224,7 +247,7 @@ export default function UserWeightList() {
                   }
                 />
               ))}
-              {userWeights.length === 0 && (
+              {filteredWeights.length === 0 && (
                 <EmptyListLabel itemName="User Weight Entries" />
               )}
             </div>
