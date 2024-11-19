@@ -27,7 +27,17 @@ export const WeekdaysDropdown = ({
   return (
     <Select
       selectionMode="multiple"
-      label="Weekdays"
+      label={
+        <>
+          Weekdays
+          {values.size < 7 && (
+            <span className="text-secondary">
+              {" "}
+              ({values.size} out of {weekdayMap.size})
+            </span>
+          )}
+        </>
+      }
       variant="faded"
       selectedKeys={values}
       onChange={(e) => handleChange(e)}
