@@ -1,6 +1,6 @@
 import Database from "tauri-plugin-sql-api";
 import { useState, useEffect, useCallback, useMemo } from "react";
-import { UserWeight, UserSettings } from "../typings";
+import { UserWeight, UserSettings, ListFilterMapKey } from "../typings";
 import {
   LoadingSpinner,
   DeleteModal,
@@ -8,6 +8,7 @@ import {
   EmptyListLabel,
   UserWeightListItem,
   ListPageSearchInput,
+  DateRangeModal,
 } from "../components";
 import {
   ConvertEmptyStringToNull,
@@ -21,9 +22,18 @@ import {
   UpdateItemInList,
   UpdateUserWeight,
 } from "../helpers";
-import { Button, useDisclosure } from "@nextui-org/react";
+import {
+  Button,
+  CalendarDate,
+  RangeValue,
+  useDisclosure,
+} from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
-import { useDefaultUserWeight, useIsStringValidNumber } from "../hooks";
+import {
+  useDefaultUserWeight,
+  useIsStringValidNumber,
+  useWeekdayMap,
+} from "../hooks";
 
 type OperationType = "add" | "edit" | "delete";
 
@@ -36,6 +46,19 @@ export default function UserWeightList() {
   const [commentInput, setCommentInput] = useState<string>("");
   const [filterQuery, setFilterQuery] = useState<string>("");
   const [userSettings, setUserSettings] = useState<UserSettings>();
+
+  const weekdayMap = useWeekdayMap();
+
+  const [filterDateRange, setFilterDateRange] =
+    useState<RangeValue<CalendarDate> | null>(null);
+  const [filterMap, setFilterMap] = useState<Map<ListFilterMapKey, string>>(
+    new Map()
+  );
+  const [filterWeekdays, setFilterWeekdays] = useState<Set<string>>(
+    new Set(weekdayMap.keys())
+  );
+
+  const dateRangeModal = useDisclosure();
 
   const filteredWeights = useMemo(() => {
     if (filterQuery !== "") {
@@ -241,6 +264,8 @@ export default function UserWeightList() {
     setCommentInput("");
   };
 
+  if (userSettings === undefined) return <LoadingSpinner />;
+
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
@@ -272,6 +297,17 @@ export default function UserWeightList() {
         }
         isEditing={operationType === "edit"}
       />
+      <DateRangeModal
+        dateRangeModal={dateRangeModal}
+        dateRange={filterDateRange}
+        setDateRange={setFilterDateRange}
+        header="Select Date Range"
+        locale={userSettings.locale}
+        buttonAction={() => {}}
+        filterWeekdays={filterWeekdays}
+        setFilterWeekdays={setFilterWeekdays}
+        weekdayMap={weekdayMap}
+      />
       <div className="flex flex-col items-center gap-1">
         <ListPageSearchInput
           header="User Weight List"
@@ -288,6 +324,15 @@ export default function UserWeightList() {
                 size="sm"
               >
                 Add New Weight
+              </Button>
+              <Button
+                className="z-1"
+                variant="flat"
+                color={filterMap.size > 0 ? "secondary" : "default"}
+                size="sm"
+                onPress={() => dateRangeModal.onOpen()}
+              >
+                Filter
               </Button>
             </div>
           }
