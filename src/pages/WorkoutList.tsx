@@ -73,6 +73,7 @@ export default function WorkoutList() {
     setFilterQuery,
     filteredWorkouts,
     filterMap,
+    listFilters,
   } = workoutList;
 
   const workoutTemplateList = useWorkoutTemplateList(false, true);
@@ -406,10 +407,7 @@ export default function WorkoutList() {
                 />
               </div>
               {filterMap.size > 0 && (
-                <ListFilters
-                  filterMap={workoutList.filterMap}
-                  removeFilter={workoutList.removeFilter}
-                />
+                <ListFilters useListFilters={listFilters} />
               )}
             </div>
           }

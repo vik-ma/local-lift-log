@@ -3,6 +3,7 @@ import {
   ListFilterMapKey,
   UseDisclosureReturnType,
   UseExerciseListReturnType,
+  UseListFiltersReturnType,
   UseRoutineListReturnType,
 } from "../typings";
 import { CalendarDate, RangeValue } from "@nextui-org/react";
@@ -12,7 +13,7 @@ import { ConvertCalendarDateToLocalizedString } from "../helpers";
 export const useListFilters = (
   useExerciseList?: UseExerciseListReturnType,
   useRoutineList?: UseRoutineListReturnType
-) => {
+): UseListFiltersReturnType => {
   const [filterMap, setFilterMap] = useState<Map<ListFilterMapKey, string>>(
     new Map()
   );
@@ -159,6 +160,16 @@ export const useListFilters = (
     filterExerciseGroups,
   ]);
 
+  const prefixMap = useMemo(() => {
+    const prefixMap = new Map<ListFilterMapKey, string>();
+    prefixMap.set("dates", "Dates: ");
+    prefixMap.set("weekdays", "Days: ");
+    prefixMap.set("routines", "Routines: ");
+    prefixMap.set("exercises", "Exercises: ");
+    prefixMap.set("exercise-groups", "Exercise Groups: ");
+    return prefixMap;
+  }, []);
+
   return {
     handleFilterSaveButton,
     filterDateRange,
@@ -178,5 +189,6 @@ export const useListFilters = (
     setFilterExerciseGroups,
     includeSecondaryGroups,
     setIncludeSecondaryGroups,
+    prefixMap,
   };
 };

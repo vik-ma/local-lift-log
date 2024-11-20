@@ -489,6 +489,34 @@ export type UseWorkoutListReturnType = {
   setFilterExerciseGroups: React.Dispatch<React.SetStateAction<string[]>>;
   includeSecondaryGroups: boolean;
   setIncludeSecondaryGroups: React.Dispatch<React.SetStateAction<boolean>>;
+  listFilters: UseListFiltersReturnType;
+};
+
+export type UseListFiltersReturnType = {
+  handleFilterSaveButton: (
+    locale: string,
+    activeModal: UseDisclosureReturnType
+  ) => void;
+  filterDateRange: RangeValue<CalendarDate> | null;
+  setFilterDateRange: React.Dispatch<
+    React.SetStateAction<RangeValue<CalendarDate> | null>
+  >;
+  filterMap: Map<ListFilterMapKey, string>;
+  removeFilter: (key: ListFilterMapKey) => void;
+  resetFilter: () => void;
+  showResetFilterButton: boolean;
+  filterWeekdays: Set<string>;
+  setFilterWeekdays: React.Dispatch<React.SetStateAction<Set<string>>>;
+  weekdayMap: Map<string, string>;
+  filterRoutines: Set<number>;
+  setFilterRoutines: React.Dispatch<React.SetStateAction<Set<number>>>;
+  filterExercises: Set<number>;
+  setFilterExercises: React.Dispatch<React.SetStateAction<Set<number>>>;
+  filterExerciseGroups: string[];
+  setFilterExerciseGroups: React.Dispatch<React.SetStateAction<string[]>>;
+  includeSecondaryGroups: boolean;
+  setIncludeSecondaryGroups: React.Dispatch<React.SetStateAction<boolean>>;
+  prefixMap: Map<ListFilterMapKey, string>;
 };
 
 export type ListFilterMapKey =

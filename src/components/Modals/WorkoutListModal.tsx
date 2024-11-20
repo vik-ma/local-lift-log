@@ -41,8 +41,14 @@ export const WorkoutListModal = ({
     Set<string>
   >(CreateWorkoutPropertySet(shownWorkoutProperties));
 
-  const { workouts, filteredWorkouts, filterQuery, setFilterQuery, filterMap } =
-    workoutList;
+  const {
+    workouts,
+    filteredWorkouts,
+    filterQuery,
+    setFilterQuery,
+    filterMap,
+    listFilters,
+  } = workoutList;
 
   return (
     <Modal
@@ -84,8 +90,7 @@ export const WorkoutListModal = ({
                   </div>
                   {filterMap.size > 0 && (
                     <ListFilters
-                      filterMap={workoutList.filterMap}
-                      removeFilter={workoutList.removeFilter}
+                      useListFilters={listFilters}
                       isInModal={true}
                     />
                   )}

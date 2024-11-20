@@ -31,6 +31,8 @@ export const useWorkoutList = (
 
   const routineList = useRoutineList(true);
 
+  const listFilters = useListFilters(useExerciseList, routineList);
+
   const {
     handleFilterSaveButton,
     filterDateRange,
@@ -50,7 +52,7 @@ export const useWorkoutList = (
     setFilterExerciseGroups,
     includeSecondaryGroups,
     setIncludeSecondaryGroups,
-  } = useListFilters(useExerciseList, routineList);
+  } = listFilters;
 
   const isWorkoutListLoaded = useRef(false);
 
@@ -281,5 +283,6 @@ export const useWorkoutList = (
     setFilterExerciseGroups,
     includeSecondaryGroups,
     setIncludeSecondaryGroups,
+    listFilters,
   };
 };
