@@ -8,7 +8,10 @@ import {
 } from "../typings";
 import { CalendarDate, RangeValue } from "@nextui-org/react";
 import { useWeekdayMap } from ".";
-import { ConvertCalendarDateToLocalizedString } from "../helpers";
+import {
+  CalculateNumDaysInCalendarDateRange,
+  ConvertCalendarDateToLocalizedString,
+} from "../helpers";
 
 export const useListFilters = (
   useExerciseList?: UseExerciseListReturnType,
@@ -162,7 +165,10 @@ export const useListFilters = (
 
   const prefixMap = useMemo(() => {
     const prefixMap = new Map<ListFilterMapKey, string>();
-    prefixMap.set("dates", `Dates (): `);
+    prefixMap.set(
+      "dates",
+      `Dates (${CalculateNumDaysInCalendarDateRange(filterDateRange)}): `
+    );
     prefixMap.set("weekdays", `Days (${filterWeekdays.size}): `);
     prefixMap.set("routines", `Routines (${filterRoutines.size}): `);
     prefixMap.set("exercises", `Exercises (${filterExercises.size}): `);
@@ -171,7 +177,13 @@ export const useListFilters = (
       `Exercise Groups (${filterExerciseGroups.length}): `
     );
     return prefixMap;
-  }, [filterWeekdays, filterRoutines, filterExercises, filterExerciseGroups]);
+  }, [
+    filterDateRange,
+    filterWeekdays,
+    filterRoutines,
+    filterExercises,
+    filterExerciseGroups,
+  ]);
 
   return {
     handleFilterSaveButton,
