@@ -62,7 +62,7 @@ export default function WorkoutList() {
 
   const exerciseList = useExerciseList(false);
 
-  const { setShowSecondaryExerciseGroups } = exerciseList;
+  const { setIncludeSecondaryGroups } = exerciseList;
 
   const workoutList = useWorkoutList(true, exerciseList);
 
@@ -89,7 +89,7 @@ export default function WorkoutList() {
           userSettings.shown_workout_properties
         );
         setSelectedWorkoutProperties(workoutPropertySet);
-        setShowSecondaryExerciseGroups(
+        setIncludeSecondaryGroups(
           userSettings.show_secondary_exercise_groups === 1
         );
         setIsLoading(false);
@@ -97,7 +97,7 @@ export default function WorkoutList() {
     };
 
     getUserSettings();
-  }, [setShowSecondaryExerciseGroups]);
+  }, [setIncludeSecondaryGroups]);
 
   const deleteWorkout = async () => {
     if (operatingWorkout.id === 0 || operationType !== "delete") return;

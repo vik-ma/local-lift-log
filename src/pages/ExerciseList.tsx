@@ -57,8 +57,8 @@ export default function ExerciseList() {
     getExercises,
     toggleFavorite,
     sortExercisesByActiveCategory,
-    showSecondaryExerciseGroups,
-    setShowSecondaryExerciseGroups,
+    includeSecondaryGroups,
+    setIncludeSecondaryGroups,
     isExerciseListLoaded,
     exerciseGroupDictionary,
   } = exerciseList;
@@ -229,14 +229,14 @@ export default function ExerciseList() {
       const userSettings = await GetUserSettings();
       if (userSettings !== undefined) {
         setUserSettings(userSettings);
-        setShowSecondaryExerciseGroups(
+        setIncludeSecondaryGroups(
           userSettings.show_secondary_exercise_groups === 1
         );
       }
     };
 
     loadUserSettings();
-  }, [setShowSecondaryExerciseGroups]);
+  }, [setIncludeSecondaryGroups]);
 
   if (userSettings === undefined) return <LoadingSpinner />;
 
@@ -295,7 +295,7 @@ export default function ExerciseList() {
               >
                 New Exercise
               </Button>
-              <ExerciseListOptions  
+              <ExerciseListOptions
                 useExerciseList={exerciseList}
                 userSettingsId={userSettings.id}
               />
@@ -324,7 +324,7 @@ export default function ExerciseList() {
                         {FormatSetsCompletedString(exercise.set_count)}
                       </span>
                     )}
-                    {!showSecondaryExerciseGroups ? (
+                    {!includeSecondaryGroups ? (
                       <span className="text-xs text-stone-400 text-left">
                         {exercise.formattedGroupStringPrimary}
                       </span>

@@ -27,7 +27,11 @@ export const useWorkoutList = (
   const [sortCategory, setSortCategory] =
     useState<WorkoutSortCategory>("date-desc");
 
-  const exerciseGroupDictionary = useExerciseList.exerciseGroupDictionary;
+  const {
+    exerciseGroupDictionary,
+    includeSecondaryGroups,
+    setIncludeSecondaryGroups,
+  } = useExerciseList;
 
   const routineList = useRoutineList(true);
 
@@ -50,8 +54,6 @@ export const useWorkoutList = (
     setFilterExercises,
     filterExerciseGroups,
     setFilterExerciseGroups,
-    includeSecondaryGroups,
-    setIncludeSecondaryGroups,
   } = listFilters;
 
   const isWorkoutListLoaded = useRef(false);

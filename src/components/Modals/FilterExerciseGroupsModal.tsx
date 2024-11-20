@@ -26,8 +26,8 @@ export const FilterExerciseGroupsModal = ({
 
   const {
     shownExerciseGroups,
-    showSecondaryExerciseGroups,
-    setShowSecondaryExerciseGroups,
+    includeSecondaryGroups,
+    setIncludeSecondaryGroups,
     exerciseGroupList,
     setShownExerciseGroups,
     areExerciseGroupsFiltered,
@@ -51,8 +51,8 @@ export const FilterExerciseGroupsModal = ({
                 handleChange={setShownExerciseGroups}
                 exerciseGroupDictionary={exerciseGroupDictionary}
                 useValueAsValue
-                includeSecondaryGroups={showSecondaryExerciseGroups}
-                setIncludeSecondaryGroups={setShowSecondaryExerciseGroups}
+                includeSecondaryGroups={includeSecondaryGroups}
+                setIncludeSecondaryGroups={setIncludeSecondaryGroups}
               />
             </ModalBody>
             <ModalFooter className="flex justify-between">

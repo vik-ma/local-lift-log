@@ -21,7 +21,7 @@ export const useExerciseList = (
   const [filterQuery, setFilterQuery] = useState<string>("");
   const [sortCategory, setSortCategory] =
     useState<ExerciseSortCategory>("favorite");
-  const [showSecondaryExerciseGroups, setShowSecondaryExerciseGroups] =
+  const [includeSecondaryGroups, setIncludeSecondaryGroups] =
     useState<boolean>(false);
   const [exerciseMap, setExerciseMap] = useState<Map<number, Exercise>>(
     new Map()
@@ -53,15 +53,15 @@ export const useExerciseList = (
             item
               .formattedGroupStringPrimary!.toLocaleLowerCase()
               .includes(filterQuery.toLocaleLowerCase()) ||
-            (showSecondaryExerciseGroups &&
+            (includeSecondaryGroups &&
               item.formattedGroupStringSecondary
                 ?.toLocaleLowerCase()
                 .includes(filterQuery.toLocaleLowerCase()))) &&
           shownExerciseGroups.some(
             (group) =>
               item.formattedGroupStringPrimary!.includes(group) ||
-              // Only include Secondary Exercise Groups if showSecondaryExerciseGroups is true
-              (showSecondaryExerciseGroups &&
+              // Only include Secondary Exercise Groups if includeSecondaryGroups is true
+              (includeSecondaryGroups &&
                 item.formattedGroupStringSecondary !== undefined &&
                 item.formattedGroupStringSecondary.includes(group))
           )
@@ -73,7 +73,7 @@ export const useExerciseList = (
     filterQuery,
     shownExerciseGroups,
     areExerciseGroupsFiltered,
-    showSecondaryExerciseGroups,
+    includeSecondaryGroups,
   ]);
 
   const sortExercisesByName = (exerciseList: Exercise[]) => {
@@ -199,8 +199,8 @@ export const useExerciseList = (
     setShownExerciseGroups,
     areExerciseGroupsFiltered,
     sortExercisesByActiveCategory,
-    showSecondaryExerciseGroups,
-    setShowSecondaryExerciseGroups,
+    includeSecondaryGroups,
+    setIncludeSecondaryGroups,
     isExerciseListLoaded,
     exerciseMap,
     exerciseGroupDictionary,

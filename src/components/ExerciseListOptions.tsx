@@ -18,8 +18,8 @@ export const ExerciseListOptions = ({
   userSettingsId,
 }: ExerciseListOptionsProps) => {
   const {
-    showSecondaryExerciseGroups,
-    setShowSecondaryExerciseGroups,
+    includeSecondaryGroups,
+    setIncludeSecondaryGroups,
     areExerciseGroupsFiltered,
     handleSortOptionSelection,
     sortCategory,
@@ -31,10 +31,10 @@ export const ExerciseListOptions = ({
   };
 
   const handleShowSecondaryButton = async () => {
-    const newValue = !showSecondaryExerciseGroups;
+    const newValue = !includeSecondaryGroups;
     const newValueNum = newValue ? 1 : 0;
 
-    setShowSecondaryExerciseGroups(newValue);
+    setIncludeSecondaryGroups(newValue);
 
     await UpdateShowSecondaryExerciseGroups(newValueNum, userSettingsId);
   };
@@ -44,7 +44,7 @@ export const ExerciseListOptions = ({
       <Button
         className="z-1"
         variant="flat"
-        color={showSecondaryExerciseGroups ? "secondary" : "default"}
+        color={includeSecondaryGroups ? "secondary" : "default"}
         size="sm"
         onPress={handleShowSecondaryButton}
       >

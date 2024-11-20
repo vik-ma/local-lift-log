@@ -151,7 +151,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   const exerciseList = useExerciseList(true);
 
   const {
-    setShowSecondaryExerciseGroups,
+    setIncludeSecondaryGroups,
     exerciseGroupDictionary,
     exercises,
     setExercises,
@@ -185,7 +185,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
           distance_unit: userSettings.default_unit_distance!,
           user_weight_unit: userSettings.default_unit_weight!,
         }));
-        setShowSecondaryExerciseGroups(
+        setIncludeSecondaryGroups(
           userSettings.show_secondary_exercise_groups === 1
         );
 
@@ -204,7 +204,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     };
 
     loadUserSettings();
-  }, [isTemplate, setShowSecondaryExerciseGroups]);
+  }, [isTemplate, setIncludeSecondaryGroups]);
 
   const addSetsToExercise = async (numSets: string) => {
     if (selectedExercise === undefined) return;

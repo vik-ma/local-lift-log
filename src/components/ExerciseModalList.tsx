@@ -30,7 +30,7 @@ export const ExerciseModalList = ({
     filteredExercises,
     toggleFavorite,
     exercises,
-    showSecondaryExerciseGroups,
+    includeSecondaryGroups,
   } = exerciseList;
 
   const height =
@@ -78,7 +78,7 @@ export const ExerciseModalList = ({
               <span className="w-[20rem] truncate text-left">
                 {exercise.name}
               </span>
-              {!showSecondaryExerciseGroups ? (
+              {!includeSecondaryGroups ? (
                 <span className="text-xs text-stone-400 text-left">
                   {exercise.formattedGroupStringPrimary}
                 </span>

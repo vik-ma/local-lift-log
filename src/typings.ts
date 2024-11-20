@@ -398,8 +398,8 @@ export type UseExerciseListReturnType = {
   setShownExerciseGroups: React.Dispatch<React.SetStateAction<string[]>>;
   areExerciseGroupsFiltered: boolean;
   sortExercisesByActiveCategory: (exerciseList: Exercise[]) => void;
-  showSecondaryExerciseGroups: boolean;
-  setShowSecondaryExerciseGroups: React.Dispatch<React.SetStateAction<boolean>>;
+  includeSecondaryGroups: boolean;
+  setIncludeSecondaryGroups: React.Dispatch<React.SetStateAction<boolean>>;
   isExerciseListLoaded: React.MutableRefObject<boolean>;
   exerciseMap: Map<number, Exercise>;
   exerciseGroupDictionary: ExerciseGroupMap;
@@ -514,8 +514,6 @@ export type UseListFiltersReturnType = {
   setFilterExercises: React.Dispatch<React.SetStateAction<Set<number>>>;
   filterExerciseGroups: string[];
   setFilterExerciseGroups: React.Dispatch<React.SetStateAction<string[]>>;
-  includeSecondaryGroups: boolean;
-  setIncludeSecondaryGroups: React.Dispatch<React.SetStateAction<boolean>>;
   prefixMap: Map<ListFilterMapKey, string>;
 };
 

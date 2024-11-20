@@ -29,8 +29,6 @@ export const useListFilters = (
   const [filterExerciseGroups, setFilterExerciseGroups] = useState<string[]>(
     []
   );
-  const [includeSecondaryGroups, setIncludeSecondaryGroups] =
-    useState<boolean>(false);
 
   const weekdayMap = useWeekdayMap();
 
@@ -202,8 +200,6 @@ export const useListFilters = (
     setFilterExercises,
     filterExerciseGroups,
     setFilterExerciseGroups,
-    includeSecondaryGroups,
-    setIncludeSecondaryGroups,
     prefixMap,
   };
 };
