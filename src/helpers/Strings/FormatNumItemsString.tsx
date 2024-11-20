@@ -6,5 +6,5 @@ export const FormatNumItemsString = (
 
   if (num && num > 0 && num !== Infinity) return `${num} ${name}s`;
 
-  return `0 ${name}`;
+  return `0 ${name}s`;
 };
