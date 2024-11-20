@@ -11,6 +11,7 @@ export { IsDateStringOlderThanOneWeek } from "./Dates/IsDateStringOlderThanOneWe
 export { ConvertCalendarDateToLocalizedString } from "./Dates/ConvertCalendarDateToLocalizedString";
 export { IsDateWithinRange } from "./Dates/IsDateWithinRange";
 export { IsDateInWeekdaySet } from "./Dates/IsDateInWeekdaySet";
+export { CalculateNumDaysInCalendarDateRange } from "./Dates/CalculateNumDaysInCalendarDateRange";
 
 export { ConvertExerciseGroupSetStringPrimary } from "./Exercises/ConvertExerciseGroupSetStringPrimary";
 export { ConvertExerciseGroupStringListPrimaryToString } from "./Exercises/ConvertExerciseGroupStringListPrimaryToString";
