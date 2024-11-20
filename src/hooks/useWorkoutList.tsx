@@ -3,20 +3,18 @@ import {
   UseExerciseListReturnType,
   UseWorkoutListReturnType,
   Workout,
-  ListFilterMapKey,
   WorkoutSortCategory,
 } from "../typings";
 import Database from "tauri-plugin-sql-api";
 import {
-  ConvertCalendarDateToLocalizedString,
   CreateWorkoutExerciseSets,
   DoesListOrSetHaveCommonElement,
   FormatDateString,
   IsDateInWeekdaySet,
   IsDateWithinRange,
 } from "../helpers";
-import { CalendarDate, RangeValue, useDisclosure } from "@nextui-org/react";
-import { useRoutineList, useWeekdayMap } from ".";
+import { useDisclosure } from "@nextui-org/react";
+import { useListFilters, useRoutineList } from ".";
 
 export const useWorkoutList = (
   getWorkoutsOnLoad: boolean,
@@ -29,30 +27,30 @@ export const useWorkoutList = (
   const [sortCategory, setSortCategory] =
     useState<WorkoutSortCategory>("date-desc");
 
-  const [filterDateRange, setFilterDateRange] =
-    useState<RangeValue<CalendarDate> | null>(null);
-  const [filterMap, setFilterMap] = useState<Map<ListFilterMapKey, string>>(
-    new Map()
-  );
-  const [filterRoutines, setFilterRoutines] = useState<Set<number>>(new Set());
-  const [filterExercises, setFilterExercises] = useState<Set<number>>(
-    new Set()
-  );
-  const [filterExerciseGroups, setFilterExerciseGroups] = useState<string[]>(
-    []
-  );
-  const [includeSecondaryGroups, setIncludeSecondaryGroups] =
-    useState<boolean>(false);
-
-  const weekdayMap = useWeekdayMap();
-
   const exerciseGroupDictionary = useExerciseList.exerciseGroupDictionary;
 
-  const [filterWeekdays, setFilterWeekdays] = useState<Set<string>>(
-    new Set(weekdayMap.keys())
-  );
-
   const routineList = useRoutineList(true);
+
+  const {
+    handleFilterSaveButton,
+    filterDateRange,
+    setFilterDateRange,
+    filterMap,
+    removeFilter,
+    resetFilter,
+    showResetFilterButton,
+    filterWeekdays,
+    setFilterWeekdays,
+    weekdayMap,
+    filterRoutines,
+    setFilterRoutines,
+    filterExercises,
+    setFilterExercises,
+    filterExerciseGroups,
+    setFilterExerciseGroups,
+    includeSecondaryGroups,
+    setIncludeSecondaryGroups,
+  } = useListFilters(useExerciseList, routineList);
 
   const isWorkoutListLoaded = useRef(false);
 
@@ -248,128 +246,6 @@ export const useWorkoutList = (
 
     filterWorkoutListModal.onOpen();
   };
-
-  const handleFilterSaveButton = (locale: string) => {
-    const updatedFilterMap = new Map<ListFilterMapKey, string>();
-
-    if (filterDateRange !== null) {
-      const filterDateRangeString = `${ConvertCalendarDateToLocalizedString(
-        filterDateRange.start,
-        locale
-      )} - ${ConvertCalendarDateToLocalizedString(
-        filterDateRange.end,
-        locale
-      )}`;
-
-      updatedFilterMap.set("dates", filterDateRangeString);
-    }
-
-    if (filterWeekdays.size < 7) {
-      const filterWeekdaysString = Array.from(filterWeekdays)
-        .map((day) => (weekdayMap.get(day) ?? "").substring(0, 3))
-        .join(", ");
-
-      updatedFilterMap.set("weekdays", filterWeekdaysString);
-    }
-
-    if (filterRoutines.size > 0) {
-      const filterRoutinesString = Array.from(filterRoutines)
-        .map((id) =>
-          routineList.routineMap.has(id)
-            ? routineList.routineMap.get(id)!.name
-            : ""
-        )
-        .join(", ");
-
-      updatedFilterMap.set("routines", filterRoutinesString);
-    }
-
-    if (filterExercises.size > 0) {
-      const filterExercisesString = Array.from(filterExercises)
-        .map((id) =>
-          useExerciseList.exerciseMap.has(id)
-            ? useExerciseList.exerciseMap.get(id)!.name
-            : ""
-        )
-        .join(", ");
-
-      updatedFilterMap.set("exercises", filterExercisesString);
-    }
-
-    if (filterExerciseGroups.length > 0) {
-      const filterExerciseGroupsString = Array.from(filterExerciseGroups)
-        .map((id) =>
-          exerciseGroupDictionary.has(id)
-            ? exerciseGroupDictionary.get(id)!
-            : ""
-        )
-        .join(", ");
-
-      updatedFilterMap.set("exercise-groups", filterExerciseGroupsString);
-    }
-
-    setFilterMap(updatedFilterMap);
-
-    filterWorkoutListModal.onClose();
-  };
-
-  const removeFilter = (key: ListFilterMapKey) => {
-    const updatedFilterMap = new Map(filterMap);
-
-    if (key === "dates" && filterMap.has("dates")) {
-      updatedFilterMap.delete("dates");
-      setFilterDateRange(null);
-    }
-
-    if (key === "weekdays" && filterMap.has("weekdays")) {
-      updatedFilterMap.delete("weekdays");
-      setFilterWeekdays(new Set(weekdayMap.keys()));
-    }
-
-    if (key === "routines" && filterMap.has("routines")) {
-      updatedFilterMap.delete("routines");
-      setFilterRoutines(new Set());
-    }
-
-    if (key === "exercises" && filterMap.has("exercises")) {
-      updatedFilterMap.delete("exercises");
-      setFilterExercises(new Set());
-    }
-
-    if (key === "exercise-groups" && filterMap.has("exercise-groups")) {
-      updatedFilterMap.delete("exercise-groups");
-      setFilterExerciseGroups([]);
-    }
-
-    setFilterMap(updatedFilterMap);
-  };
-
-  const resetFilter = () => {
-    setFilterMap(new Map());
-    setFilterDateRange(null);
-    setFilterWeekdays(new Set(weekdayMap.keys()));
-    setFilterRoutines(new Set());
-    setFilterExercises(new Set());
-    setFilterExerciseGroups([]);
-  };
-
-  const showResetFilterButton = useMemo(() => {
-    if (filterMap.size > 0) return true;
-    if (filterDateRange !== null) return true;
-    if (filterWeekdays.size < 7) return true;
-    if (filterRoutines.size > 0) return true;
-    if (filterExercises.size > 0) return true;
-    if (filterExerciseGroups.length > 0) return true;
-
-    return false;
-  }, [
-    filterMap,
-    filterDateRange,
-    filterWeekdays,
-    filterRoutines,
-    filterExercises,
-    filterExerciseGroups,
-  ]);
 
   return {
     workouts,

@@ -387,7 +387,11 @@ export const FilterWorkoutListModal = ({
                   color="primary"
                   onPress={
                     filterWorkoutListModalPage === "base"
-                      ? () => handleFilterSaveButton(userSettings.locale)
+                      ? () =>
+                          handleFilterSaveButton(
+                            userSettings.locale,
+                            filterWorkoutListModal
+                          )
                       : () => setFilterWorkoutListModalPage("base")
                   }
                 >
