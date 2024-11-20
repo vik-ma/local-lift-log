@@ -12,6 +12,7 @@ import {
   Exercise,
   Routine,
   UseExerciseListReturnType,
+  UseFilterExerciseListReturnType,
   UserSettings,
   UseWorkoutListReturnType,
 } from "../../typings";
@@ -27,6 +28,7 @@ import {
 type FilterWorkoutListModalProps = {
   useWorkoutList: UseWorkoutListReturnType;
   useExerciseList: UseExerciseListReturnType;
+  useFilterExerciseList: UseFilterExerciseListReturnType;
   userSettings: UserSettings;
 };
 
@@ -39,6 +41,7 @@ type FilterWorkoutListModalPage =
 export const FilterWorkoutListModal = ({
   useWorkoutList,
   useExerciseList,
+  useFilterExerciseList,
   userSettings,
 }: FilterWorkoutListModalProps) => {
   const [filterWorkoutListModalPage, setFilterWorkoutListModalPage] =
@@ -211,6 +214,7 @@ export const FilterWorkoutListModal = ({
                 <ExerciseModalList
                   handleClickExercise={handleClickExercise}
                   exerciseList={useExerciseList}
+                  useFilterExerciseList={useFilterExerciseList}
                   userSettingsId={userSettings.id}
                   filterExercises={filterExercises}
                 />

@@ -8,6 +8,7 @@ import {
 } from "../components";
 import {
   useExerciseList,
+  useFilterExerciseList,
   useWorkoutList,
   useWorkoutTemplateList,
 } from "../hooks";
@@ -35,6 +36,8 @@ export default function WorkoutIndex() {
   const { setIncludeSecondaryGroups } = exerciseList;
 
   const workoutList = useWorkoutList(false, exerciseList, true);
+
+  const filterExerciseList = useFilterExerciseList(exerciseList);
 
   useEffect(() => {
     const getUserSettings = async () => {
@@ -128,6 +131,7 @@ export default function WorkoutIndex() {
       <FilterWorkoutListModal
         useWorkoutList={workoutList}
         useExerciseList={exerciseList}
+        useFilterExerciseList={filterExerciseList}
         userSettings={userSettings}
       />
       <div className="flex flex-col gap-3">

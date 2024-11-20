@@ -134,6 +134,7 @@ export default function WorkoutDetails() {
     clearActiveSetInputValues,
     addCalculationResult,
     openCalculationModal,
+    filterExerciseList,
   } = useWorkoutActions(false);
 
   const workoutList = useWorkoutList(false, exerciseList, true, Number(id));
@@ -486,6 +487,7 @@ export default function WorkoutDetails() {
         exerciseList={exerciseList}
         numMultisetSets={numMultisetSets}
         openCalculationModal={openCalculationModal}
+        useFilterExerciseList={filterExerciseList}
       />
       <MultisetModal
         multisetModal={multisetModal}
@@ -507,6 +509,7 @@ export default function WorkoutDetails() {
           multisetActions.undoOperatingMultisetChanges
         }
         openCalculationModal={openCalculationModal}
+        useFilterExerciseList={filterExerciseList}
       />
       <TimeInputModal
         timeInputModal={timeInputModal}
@@ -539,9 +542,13 @@ export default function WorkoutDetails() {
       <FilterWorkoutListModal
         useWorkoutList={workoutList}
         useExerciseList={exerciseList}
+        useFilterExerciseList={filterExerciseList}
         userSettings={userSettings}
       />
-      <FilterExerciseGroupsModal useExerciseList={exerciseList} />
+      <FilterExerciseGroupsModal
+        useExerciseList={exerciseList}
+        useFilterExerciseList={filterExerciseList}
+      />
       {userSettings.show_calculation_buttons === 1 && (
         <CalculationModal
           useCalculationModal={calculationModal}

@@ -383,9 +383,6 @@ export type UseSetTrackingInputsReturnType = {
 export type ExerciseSortCategory = "favorite" | "name" | "num-sets";
 
 export type UseExerciseListReturnType = {
-  filterQuery: string;
-  setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
-  filteredExercises: Exercise[];
   exercises: Exercise[];
   setExercises: React.Dispatch<React.SetStateAction<Exercise[]>>;
   getExercises: () => Promise<void>;
@@ -394,15 +391,21 @@ export type UseExerciseListReturnType = {
   sortCategory: ExerciseSortCategory;
   setSortCategory: React.Dispatch<React.SetStateAction<ExerciseSortCategory>>;
   exerciseGroupList: string[];
-  shownExerciseGroups: string[];
-  setShownExerciseGroups: React.Dispatch<React.SetStateAction<string[]>>;
-  areExerciseGroupsFiltered: boolean;
   sortExercisesByActiveCategory: (exerciseList: Exercise[]) => void;
   includeSecondaryGroups: boolean;
   setIncludeSecondaryGroups: React.Dispatch<React.SetStateAction<boolean>>;
   isExerciseListLoaded: React.MutableRefObject<boolean>;
   exerciseMap: Map<number, Exercise>;
   exerciseGroupDictionary: ExerciseGroupMap;
+};
+
+export type UseFilterExerciseListReturnType = {
+  filterQuery: string;
+  setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
+  filteredExercises: Exercise[];
+  shownExerciseGroups: string[];
+  setShownExerciseGroups: React.Dispatch<React.SetStateAction<string[]>>;
+  areExerciseGroupsFiltered: boolean;
   exerciseGroupModal: UseDisclosureReturnType;
 };
 

@@ -1,5 +1,9 @@
 import { Button, ScrollShadow } from "@nextui-org/react";
-import { Exercise, UseExerciseListReturnType } from "../typings";
+import {
+  Exercise,
+  UseExerciseListReturnType,
+  UseFilterExerciseListReturnType,
+} from "../typings";
 import { Link, useNavigate } from "react-router-dom";
 import {
   EmptyListLabel,
@@ -12,6 +16,7 @@ import { GoToArrowIcon } from "../assets";
 type ExerciseModalListProps = {
   handleClickExercise: (exercise: Exercise) => void;
   exerciseList: UseExerciseListReturnType;
+  useFilterExerciseList: UseFilterExerciseListReturnType;
   userSettingsId: number;
   customHeightString?: string;
   filterExercises?: Set<number>;
@@ -20,18 +25,15 @@ type ExerciseModalListProps = {
 export const ExerciseModalList = ({
   handleClickExercise,
   exerciseList,
+  useFilterExerciseList,
   userSettingsId,
   customHeightString,
   filterExercises,
 }: ExerciseModalListProps) => {
-  const {
-    filterQuery,
-    setFilterQuery,
-    filteredExercises,
-    toggleFavorite,
-    exercises,
-    includeSecondaryGroups,
-  } = exerciseList;
+  const { toggleFavorite, exercises, includeSecondaryGroups } = exerciseList;
+
+  const { filterQuery, setFilterQuery, filteredExercises } =
+    useFilterExerciseList;
 
   const height =
     customHeightString !== undefined ? customHeightString : "h-[400px]";
@@ -60,6 +62,7 @@ export const ExerciseModalList = ({
         </div>
         <ExerciseListOptions
           useExerciseList={exerciseList}
+          useFilterExerciseList={useFilterExerciseList}
           userSettingsId={userSettingsId}
         />
       </div>

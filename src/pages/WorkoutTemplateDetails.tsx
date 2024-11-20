@@ -95,6 +95,7 @@ export default function WorkoutTemplateDetails() {
     calculationModal,
     addCalculationResult,
     openCalculationModal,
+    filterExerciseList,
   } = useWorkoutActions(true);
 
   const getWorkoutTemplateAndSetList = useCallback(async () => {
@@ -256,6 +257,7 @@ export default function WorkoutTemplateDetails() {
         exerciseList={exerciseList}
         numMultisetSets={numMultisetSets}
         openCalculationModal={openCalculationModal}
+        useFilterExerciseList={filterExerciseList}
       />
       <MultisetModal
         multisetModal={multisetModal}
@@ -277,6 +279,7 @@ export default function WorkoutTemplateDetails() {
           multisetActions.undoOperatingMultisetChanges
         }
         openCalculationModal={openCalculationModal}
+        useFilterExerciseList={filterExerciseList}
       />
       <TextInputModal
         textInputModal={textInputModal}
@@ -286,7 +289,10 @@ export default function WorkoutTemplateDetails() {
         header="Set Note"
         buttonAction={handleTextInputModalButton}
       />
-      <FilterExerciseGroupsModal useExerciseList={exerciseList} />
+      <FilterExerciseGroupsModal
+        useExerciseList={exerciseList}
+        useFilterExerciseList={filterExerciseList}
+      />
       {userSettings.show_calculation_buttons === 1 && (
         <CalculationModal
           useCalculationModal={calculationModal}

@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import {
   GetExerciseListWithGroupStrings,
   GetExerciseListWithGroupStringsAndTotalSets,
@@ -11,14 +11,12 @@ import {
   ExerciseSortCategory,
 } from "../typings";
 import { useExerciseGroupDictionary, useExerciseGroupList } from ".";
-import { useDisclosure } from "@nextui-org/react";
 
 export const useExerciseList = (
   getExercisesOnLoad: boolean,
   showTotalNumSets?: boolean
 ): UseExerciseListReturnType => {
   const [exercises, setExercises] = useState<Exercise[]>([]);
-  const [filterQuery, setFilterQuery] = useState<string>("");
   const [sortCategory, setSortCategory] =
     useState<ExerciseSortCategory>("favorite");
   const [includeSecondaryGroups, setIncludeSecondaryGroups] =
@@ -29,52 +27,8 @@ export const useExerciseList = (
 
   const exerciseGroupList = useExerciseGroupList();
   const exerciseGroupDictionary = useExerciseGroupDictionary();
-  const [shownExerciseGroups, setShownExerciseGroups] = useState<string[]>([
-    ...exerciseGroupList,
-  ]);
-
-  const exerciseGroupModal = useDisclosure();
 
   const isExerciseListLoaded = useRef(false);
-
-  const areExerciseGroupsFiltered = useMemo(() => {
-    return shownExerciseGroups.length !== exerciseGroupList.length;
-  }, [shownExerciseGroups, exerciseGroupList]);
-
-  const filteredExercises = useMemo(() => {
-    if (filterQuery !== "" || areExerciseGroupsFiltered) {
-      // Only show exercises whose name or Exercise Group is included in the filterQuery
-      // and whose Exercise Group is included in shownExerciseGroups
-      return exercises.filter(
-        (item) =>
-          (item.name
-            .toLocaleLowerCase()
-            .includes(filterQuery.toLocaleLowerCase()) ||
-            item
-              .formattedGroupStringPrimary!.toLocaleLowerCase()
-              .includes(filterQuery.toLocaleLowerCase()) ||
-            (includeSecondaryGroups &&
-              item.formattedGroupStringSecondary
-                ?.toLocaleLowerCase()
-                .includes(filterQuery.toLocaleLowerCase()))) &&
-          shownExerciseGroups.some(
-            (group) =>
-              item.formattedGroupStringPrimary!.includes(group) ||
-              // Only include Secondary Exercise Groups if includeSecondaryGroups is true
-              (includeSecondaryGroups &&
-                item.formattedGroupStringSecondary !== undefined &&
-                item.formattedGroupStringSecondary.includes(group))
-          )
-      );
-    }
-    return exercises;
-  }, [
-    exercises,
-    filterQuery,
-    shownExerciseGroups,
-    areExerciseGroupsFiltered,
-    includeSecondaryGroups,
-  ]);
 
   const sortExercisesByName = (exerciseList: Exercise[]) => {
     exerciseList.sort((a, b) => {
@@ -184,9 +138,6 @@ export const useExerciseList = (
   }, [getExercises, getExercisesOnLoad]);
 
   return {
-    filterQuery,
-    setFilterQuery,
-    filteredExercises,
     exercises,
     setExercises,
     getExercises,
@@ -195,15 +146,11 @@ export const useExerciseList = (
     sortCategory,
     setSortCategory,
     exerciseGroupList,
-    shownExerciseGroups,
-    setShownExerciseGroups,
-    areExerciseGroupsFiltered,
     sortExercisesByActiveCategory,
     includeSecondaryGroups,
     setIncludeSecondaryGroups,
     isExerciseListLoaded,
     exerciseMap,
     exerciseGroupDictionary,
-    exerciseGroupModal,
   };
 };

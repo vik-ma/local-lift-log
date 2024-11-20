@@ -43,3 +43,4 @@ export { useMultiplierInputMap } from "./useMultiplierInputMap";
 export { useRoutineList } from "./useRoutineList";
 export { useWeekdayMap } from "./useWeekdayMap";
 export { useListFilters } from "./useListFilters";
+export { useFilterExerciseList } from "./useFilterExerciseList";

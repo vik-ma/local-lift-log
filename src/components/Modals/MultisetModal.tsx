@@ -18,6 +18,7 @@ import {
   UserSettings,
   UseSetTrackingInputsReturnType,
   UseDisclosureReturnType,
+  UseFilterExerciseListReturnType,
 } from "../../typings";
 import {
   ExerciseModalList,
@@ -53,6 +54,7 @@ type MultisetModalProps = {
     setInputs: UseSetTrackingInputsReturnType,
     set: WorkoutSet
   ) => Promise<void>;
+  useFilterExerciseList: UseFilterExerciseListReturnType;
 };
 
 export const MultisetModal = ({
@@ -73,6 +75,7 @@ export const MultisetModal = ({
   operatingSetInputs,
   undoOperatingMultisetChanges,
   openCalculationModal,
+  useFilterExerciseList,
 }: MultisetModalProps) => {
   const [numNewSets, setNumNewSets] = useState<string>("3");
 
@@ -152,6 +155,7 @@ export const MultisetModal = ({
                 <ExerciseModalList
                   handleClickExercise={handleClickExercise}
                   exerciseList={exerciseList}
+                  useFilterExerciseList={useFilterExerciseList}
                   userSettingsId={userSettings.id}
                 />
               ) : modalPage === "edit-set" ? (

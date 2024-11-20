@@ -30,6 +30,7 @@ import {
 import {
   useDefaultWorkout,
   useExerciseList,
+  useFilterExerciseList,
   useRoutineList,
   useWorkoutList,
   useWorkoutTemplateList,
@@ -78,6 +79,8 @@ export default function WorkoutList() {
 
   const workoutTemplateList = useWorkoutTemplateList(false, true);
   const routineList = useRoutineList(false);
+
+  const filterExerciseList = useFilterExerciseList(exerciseList);
 
   useEffect(() => {
     const getUserSettings = async () => {
@@ -377,6 +380,7 @@ export default function WorkoutList() {
       <FilterWorkoutListModal
         useWorkoutList={workoutList}
         useExerciseList={exerciseList}
+        useFilterExerciseList={filterExerciseList}
         userSettings={userSettings}
       />
       <div className="flex flex-col items-center gap-1">

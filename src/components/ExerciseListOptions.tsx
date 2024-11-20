@@ -5,26 +5,32 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from "@nextui-org/react";
-import { UseExerciseListReturnType } from "../typings";
+import {
+  UseExerciseListReturnType,
+  UseFilterExerciseListReturnType,
+} from "../typings";
 import { UpdateShowSecondaryExerciseGroups } from "../helpers";
 
 type ExerciseListOptionsProps = {
   useExerciseList: UseExerciseListReturnType;
+  useFilterExerciseList: UseFilterExerciseListReturnType;
   userSettingsId: number;
 };
 
 export const ExerciseListOptions = ({
   useExerciseList,
+  useFilterExerciseList,
   userSettingsId,
 }: ExerciseListOptionsProps) => {
   const {
     includeSecondaryGroups,
     setIncludeSecondaryGroups,
-    areExerciseGroupsFiltered,
     handleSortOptionSelection,
     sortCategory,
-    exerciseGroupModal,
   } = useExerciseList;
+
+  const { areExerciseGroupsFiltered, exerciseGroupModal } =
+    useFilterExerciseList;
 
   const handleFilterExerciseGroupsButton = () => {
     exerciseGroupModal.onOpen();

@@ -13,6 +13,7 @@ import {
   useDefaultMultiset,
   useDefaultSet,
   useExerciseList,
+  useFilterExerciseList,
   useMultisetActions,
   usePresetsList,
   useSetTrackingInputs,
@@ -70,6 +71,8 @@ export default function Multisets() {
   const exerciseList = useExerciseList(true);
 
   const { setIncludeSecondaryGroups } = exerciseList;
+
+  const filterExerciseList = useFilterExerciseList(exerciseList);
 
   const multisetActions = useMultisetActions({
     operatingMultiset,
@@ -540,8 +543,12 @@ export default function Multisets() {
           multisetActions.undoOperatingMultisetChanges
         }
         openCalculationModal={openCalculationModal}
+        useFilterExerciseList={filterExerciseList}
       />
-      <FilterExerciseGroupsModal useExerciseList={exerciseList} />
+      <FilterExerciseGroupsModal
+        useExerciseList={exerciseList}
+        useFilterExerciseList={filterExerciseList}
+      />
       {userSettings.show_calculation_buttons === 1 && (
         <CalculationModal
           useCalculationModal={calculationModal}

@@ -7,14 +7,19 @@ import {
   ModalFooter,
 } from "@nextui-org/react";
 import { ExerciseGroupCheckboxes } from "..";
-import { UseExerciseListReturnType } from "../../typings";
+import {
+  UseExerciseListReturnType,
+  UseFilterExerciseListReturnType,
+} from "../../typings";
 
 type ExerciseGroupModalProps = {
   useExerciseList: UseExerciseListReturnType;
+  useFilterExerciseList: UseFilterExerciseListReturnType;
 };
 
 export const FilterExerciseGroupsModal = ({
   useExerciseList,
+  useFilterExerciseList,
 }: ExerciseGroupModalProps) => {
   const handleToggleAllButton = () => {
     if (areExerciseGroupsFiltered) {
@@ -25,15 +30,18 @@ export const FilterExerciseGroupsModal = ({
   };
 
   const {
-    shownExerciseGroups,
     includeSecondaryGroups,
     setIncludeSecondaryGroups,
     exerciseGroupList,
+    exerciseGroupDictionary,
+  } = useExerciseList;
+
+  const {
+    shownExerciseGroups,
     setShownExerciseGroups,
     areExerciseGroupsFiltered,
     exerciseGroupModal,
-    exerciseGroupDictionary,
-  } = useExerciseList;
+  } = useFilterExerciseList;
 
   return (
     <Modal

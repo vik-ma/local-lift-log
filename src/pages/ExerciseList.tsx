@@ -38,6 +38,7 @@ import {
   useExerciseList,
   useDefaultExercise,
   useMultiplierInputMap,
+  useFilterExerciseList,
 } from "../hooks";
 
 type OperationType = "add" | "edit" | "delete";
@@ -49,9 +50,6 @@ export default function ExerciseList() {
   const exerciseList = useExerciseList(true, true);
 
   const {
-    filterQuery,
-    setFilterQuery,
-    filteredExercises,
     exercises,
     setExercises,
     getExercises,
@@ -62,6 +60,10 @@ export default function ExerciseList() {
     isExerciseListLoaded,
     exerciseGroupDictionary,
   } = exerciseList;
+
+  const filterExerciseList = useFilterExerciseList(exerciseList);
+
+  const { filterQuery, setFilterQuery, filteredExercises } = filterExerciseList;
 
   const deleteModal = useDisclosure();
   const exerciseModal = useDisclosure();
@@ -277,7 +279,10 @@ export default function ExerciseList() {
         multiplierInputInvaliditySet={multiplierInputInvaliditySet}
         buttonAction={operationType === "edit" ? updateExercise : addExercise}
       />
-      <FilterExerciseGroupsModal useExerciseList={exerciseList} />
+      <FilterExerciseGroupsModal
+        useExerciseList={exerciseList}
+        useFilterExerciseList={filterExerciseList}
+      />
       <div className="flex flex-col items-center gap-1">
         <ListPageSearchInput
           header="Exercise List"
@@ -297,6 +302,7 @@ export default function ExerciseList() {
               </Button>
               <ExerciseListOptions
                 useExerciseList={exerciseList}
+                useFilterExerciseList={filterExerciseList}
                 userSettingsId={userSettings.id}
               />
             </div>

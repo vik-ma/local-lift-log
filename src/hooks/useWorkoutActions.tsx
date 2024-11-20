@@ -64,6 +64,7 @@ import {
   useDefaultUserWeight,
   useCalculationModal,
   usePresetsList,
+  useFilterExerciseList,
 } from "../hooks";
 
 type OperationType =
@@ -156,6 +157,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     exercises,
     setExercises,
   } = exerciseList;
+
+  const filterExerciseList = useFilterExerciseList(exerciseList);
 
   const multisetActions = useMultisetActions({
     operatingMultiset,
@@ -2719,5 +2722,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     clearActiveSetInputValues,
     addCalculationResult,
     openCalculationModal,
+    filterExerciseList,
   };
 };
