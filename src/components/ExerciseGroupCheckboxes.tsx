@@ -60,10 +60,9 @@ export const ExerciseGroupCheckboxes = ({
       >
         <div className="grid grid-cols-2 gap-0.5">
           {Array.from(exerciseGroupDictionary).map(([key, value]) => (
-            <div className="w-[10.5rem]">
+            <div className="w-[10.5rem]" key={useValueAsValue ? value : key}>
               <Checkbox
                 className="hover:underline w-full min-w-full"
-                key={useValueAsValue ? value : key}
                 color="primary"
                 value={useValueAsValue ? value : key}
                 isDisabled={disabledKeysSet.has(key)}
