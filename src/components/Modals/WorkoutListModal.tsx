@@ -18,7 +18,7 @@ import { useState } from "react";
 import {
   EmptyListLabel,
   SearchInput,
-  WorkoutListFilters,
+  ListFilters,
   WorkoutListItem,
   WorkoutListOptions,
 } from "..";
@@ -83,8 +83,9 @@ export const WorkoutListModal = ({
                     />
                   </div>
                   {filterMap.size > 0 && (
-                    <WorkoutListFilters
-                      useWorkoutList={workoutList}
+                    <ListFilters
+                      filterMap={workoutList.filterMap}
+                      removeFilter={workoutList.removeFilter}
                       isInModal={true}
                     />
                   )}

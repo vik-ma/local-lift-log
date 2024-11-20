@@ -470,8 +470,8 @@ export type UseWorkoutListReturnType = {
   setFilterDateRange: React.Dispatch<
     React.SetStateAction<RangeValue<CalendarDate> | null>
   >;
-  filterMap: Map<WorkoutFilterMapKey, string>;
-  removeFilter: (key: WorkoutFilterMapKey) => void;
+  filterMap: Map<ListFilterMapKey, string>;
+  removeFilter: (key: ListFilterMapKey) => void;
   resetFilter: () => void;
   showResetFilterButton: boolean;
   filterWeekdays: Set<string>;
@@ -488,7 +488,7 @@ export type UseWorkoutListReturnType = {
   setIncludeSecondaryGroups: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export type WorkoutFilterMapKey =
+export type ListFilterMapKey =
   | "dates"
   | "weekdays"
   | "routines"

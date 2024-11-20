@@ -12,7 +12,7 @@ import {
   WorkoutListOptions,
   RoutineListModal,
   FilterWorkoutListModal,
-  WorkoutListFilters,
+  ListFilters,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
 import { Button, useDisclosure } from "@nextui-org/react";
@@ -406,7 +406,10 @@ export default function WorkoutList() {
                 />
               </div>
               {filterMap.size > 0 && (
-                <WorkoutListFilters useWorkoutList={workoutList} />
+                <ListFilters
+                  filterMap={workoutList.filterMap}
+                  removeFilter={workoutList.removeFilter}
+                />
               )}
             </div>
           }

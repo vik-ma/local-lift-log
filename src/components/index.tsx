@@ -33,7 +33,7 @@ export { UserWeightListItem } from "./UserWeightListItem";
 export { WorkoutRatingSliders } from "./WorkoutRatingSliders";
 export { WorkoutListItem } from "./WorkoutListItem";
 export { WorkoutListOptions } from "./WorkoutListOptions";
-export { WorkoutListFilters } from "./WorkoutListFilters";
+export { ListFilters } from "./ListFilters";
 export { RoutineModalList } from "./RoutineModalList";
 export { ExerciseListOptions } from "./ExerciseListOptions";
 

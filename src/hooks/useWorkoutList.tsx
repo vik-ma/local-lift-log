@@ -3,7 +3,7 @@ import {
   UseExerciseListReturnType,
   UseWorkoutListReturnType,
   Workout,
-  WorkoutFilterMapKey,
+  ListFilterMapKey,
   WorkoutSortCategory,
 } from "../typings";
 import Database from "tauri-plugin-sql-api";
@@ -31,7 +31,7 @@ export const useWorkoutList = (
 
   const [filterDateRange, setFilterDateRange] =
     useState<RangeValue<CalendarDate> | null>(null);
-  const [filterMap, setFilterMap] = useState<Map<WorkoutFilterMapKey, string>>(
+  const [filterMap, setFilterMap] = useState<Map<ListFilterMapKey, string>>(
     new Map()
   );
   const [filterRoutines, setFilterRoutines] = useState<Set<number>>(new Set());
@@ -250,7 +250,7 @@ export const useWorkoutList = (
   };
 
   const handleFilterSaveButton = (locale: string) => {
-    const updatedFilterMap = new Map<WorkoutFilterMapKey, string>();
+    const updatedFilterMap = new Map<ListFilterMapKey, string>();
 
     if (filterDateRange !== null) {
       const filterDateRangeString = `${ConvertCalendarDateToLocalizedString(
@@ -313,7 +313,7 @@ export const useWorkoutList = (
     filterWorkoutListModal.onClose();
   };
 
-  const removeFilter = (key: WorkoutFilterMapKey) => {
+  const removeFilter = (key: ListFilterMapKey) => {
     const updatedFilterMap = new Map(filterMap);
 
     if (key === "dates" && filterMap.has("dates")) {
