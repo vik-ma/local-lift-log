@@ -162,13 +162,16 @@ export const useListFilters = (
 
   const prefixMap = useMemo(() => {
     const prefixMap = new Map<ListFilterMapKey, string>();
-    prefixMap.set("dates", "Dates: ");
-    prefixMap.set("weekdays", "Days: ");
-    prefixMap.set("routines", "Routines: ");
-    prefixMap.set("exercises", "Exercises: ");
-    prefixMap.set("exercise-groups", "Exercise Groups: ");
+    prefixMap.set("dates", `Dates (): `);
+    prefixMap.set("weekdays", `Days (${filterWeekdays.size}): `);
+    prefixMap.set("routines", `Routines (${filterRoutines.size}): `);
+    prefixMap.set("exercises", `Exercises (${filterExercises.size}): `);
+    prefixMap.set(
+      "exercise-groups",
+      `Exercise Groups (${filterExerciseGroups.length}): `
+    );
     return prefixMap;
-  }, []);
+  }, [filterWeekdays, filterRoutines, filterExercises, filterExerciseGroups]);
 
   return {
     handleFilterSaveButton,
