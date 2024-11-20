@@ -21,14 +21,6 @@ export const FilterExerciseGroupsModal = ({
   useExerciseList,
   useFilterExerciseList,
 }: ExerciseGroupModalProps) => {
-  const handleToggleAllButton = () => {
-    if (areExerciseGroupsFiltered) {
-      setShownExerciseGroups([...exerciseGroupList]);
-    } else {
-      setShownExerciseGroups([]);
-    }
-  };
-
   const {
     includeSecondaryGroups,
     setIncludeSecondaryGroups,
@@ -39,9 +31,19 @@ export const FilterExerciseGroupsModal = ({
   const {
     shownExerciseGroups,
     setShownExerciseGroups,
-    areExerciseGroupsFiltered,
     exerciseGroupModal,
+    listFilters,
   } = useFilterExerciseList;
+
+  const { filterMap } = listFilters;
+
+  const handleToggleAllButton = () => {
+    if (filterMap.size > 0) {
+      setShownExerciseGroups([...exerciseGroupList]);
+    } else {
+      setShownExerciseGroups([]);
+    }
+  };
 
   return (
     <Modal

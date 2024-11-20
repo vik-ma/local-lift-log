@@ -405,8 +405,8 @@ export type UseFilterExerciseListReturnType = {
   filteredExercises: Exercise[];
   shownExerciseGroups: string[];
   setShownExerciseGroups: React.Dispatch<React.SetStateAction<string[]>>;
-  areExerciseGroupsFiltered: boolean;
   exerciseGroupModal: UseDisclosureReturnType;
+  listFilters: UseListFiltersReturnType;
 };
 
 export type HandleMultisetSetOptionSelectionProps = (
