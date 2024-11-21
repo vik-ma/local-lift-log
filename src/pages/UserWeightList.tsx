@@ -1,6 +1,6 @@
 import Database from "tauri-plugin-sql-api";
 import { useState, useEffect, useCallback, useMemo } from "react";
-import { UserWeight, UserSettings, ListFilterMapKey } from "../typings";
+import { UserWeight, UserSettings } from "../typings";
 import {
   LoadingSpinner,
   DeleteModal,
@@ -9,6 +9,7 @@ import {
   UserWeightListItem,
   ListPageSearchInput,
   DateRangeModal,
+  ListFilters,
 } from "../components";
 import {
   ConvertEmptyStringToNull,
@@ -19,20 +20,17 @@ import {
   GetCurrentDateTimeISOString,
   GetUserSettings,
   InsertUserWeightIntoDatabase,
+  IsDateInWeekdaySet,
+  IsDateWithinRange,
   UpdateItemInList,
   UpdateUserWeight,
 } from "../helpers";
-import {
-  Button,
-  CalendarDate,
-  RangeValue,
-  useDisclosure,
-} from "@nextui-org/react";
+import { Button, useDisclosure } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
 import {
   useDefaultUserWeight,
   useIsStringValidNumber,
-  useWeekdayMap,
+  useListFilters,
 } from "../hooks";
 
 type OperationType = "add" | "edit" | "delete";
@@ -47,37 +45,44 @@ export default function UserWeightList() {
   const [filterQuery, setFilterQuery] = useState<string>("");
   const [userSettings, setUserSettings] = useState<UserSettings>();
 
-  const weekdayMap = useWeekdayMap();
+  const listFilters = useListFilters();
 
-  const [filterDateRange, setFilterDateRange] =
-    useState<RangeValue<CalendarDate> | null>(null);
-  const [filterMap, setFilterMap] = useState<Map<ListFilterMapKey, string>>(
-    new Map()
-  );
-  const [filterWeekdays, setFilterWeekdays] = useState<Set<string>>(
-    new Set(weekdayMap.keys())
-  );
+  const {
+    filterMap,
+    filterDateRange,
+    setFilterDateRange,
+    filterWeekdays,
+    setFilterWeekdays,
+    weekdayMap,
+    handleFilterSaveButton,
+    removeFilter,
+    prefixMap,
+  } = listFilters;
 
   const dateRangeModal = useDisclosure();
 
   const filteredWeights = useMemo(() => {
-    if (filterQuery !== "") {
+    if (filterQuery !== "" || filterMap.size > 0) {
       return userWeights.filter(
         (item) =>
-          item.weight
+          (item.weight
             .toString()
             .toLocaleLowerCase()
             .includes(filterQuery.toLocaleLowerCase()) ||
-          item.formattedDate
-            .toLocaleLowerCase()
-            .includes(filterQuery.toLocaleLowerCase()) ||
-          item.comment
-            ?.toLocaleLowerCase()
-            .includes(filterQuery.toLocaleLowerCase())
+            item.formattedDate
+              .toLocaleLowerCase()
+              .includes(filterQuery.toLocaleLowerCase()) ||
+            item.comment
+              ?.toLocaleLowerCase()
+              .includes(filterQuery.toLocaleLowerCase())) &&
+          (!filterMap.has("dates") ||
+            IsDateWithinRange(item.date, filterDateRange)) &&
+          (!filterMap.has("weekdays") ||
+            IsDateInWeekdaySet(item.date, filterWeekdays))
       );
     }
     return userWeights;
-  }, [userWeights, filterQuery]);
+  }, [userWeights, filterQuery, filterMap, filterDateRange, filterWeekdays]);
 
   const defaultUserWeight = useDefaultUserWeight();
 
@@ -303,7 +308,7 @@ export default function UserWeightList() {
         setDateRange={setFilterDateRange}
         header="Select Date Range"
         locale={userSettings.locale}
-        buttonAction={() => {}}
+        buttonAction={handleFilterSaveButton}
         filterWeekdays={filterWeekdays}
         setFilterWeekdays={setFilterWeekdays}
         weekdayMap={weekdayMap}
@@ -316,24 +321,33 @@ export default function UserWeightList() {
           filteredListLength={filteredWeights.length}
           totalListLength={userWeights.length}
           bottomContent={
-            <div className="flex justify-between">
-              <Button
-                color="secondary"
-                variant="flat"
-                onPress={handleCreateNewUserWeightButton}
-                size="sm"
-              >
-                Add New Weight
-              </Button>
-              <Button
-                className="z-1"
-                variant="flat"
-                color={filterMap.size > 0 ? "secondary" : "default"}
-                size="sm"
-                onPress={() => dateRangeModal.onOpen()}
-              >
-                Filter
-              </Button>
+            <div className="flex flex-col gap-1.5">
+              <div className="flex justify-between">
+                <Button
+                  color="secondary"
+                  variant="flat"
+                  onPress={handleCreateNewUserWeightButton}
+                  size="sm"
+                >
+                  Add New Weight
+                </Button>
+                <Button
+                  className="z-1"
+                  variant="flat"
+                  color={filterMap.size > 0 ? "secondary" : "default"}
+                  size="sm"
+                  onPress={() => dateRangeModal.onOpen()}
+                >
+                  Filter
+                </Button>
+              </div>
+              {filterMap.size > 0 && (
+                <ListFilters
+                  filterMap={filterMap}
+                  removeFilter={removeFilter}
+                  prefixMap={prefixMap}
+                />
+              )}
             </div>
           }
         />

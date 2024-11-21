@@ -22,7 +22,7 @@ type DateRangeModalProps = {
   >;
   header: string;
   locale: string;
-  buttonAction: () => void;
+  buttonAction: (locale: string, activeModal: UseDisclosureReturnType) => void;
   customLabel?: string;
   filterWeekdays?: Set<string>;
   setFilterWeekdays?: React.Dispatch<React.SetStateAction<Set<string>>>;
@@ -112,7 +112,10 @@ export const DateRangeModal = ({
                 <Button color="primary" variant="light" onPress={onClose}>
                   Close
                 </Button>
-                <Button color="primary" onPress={() => buttonAction()}>
+                <Button
+                  color="primary"
+                  onPress={() => buttonAction(locale, dateRangeModal)}
+                >
                   Done
                 </Button>
               </div>
