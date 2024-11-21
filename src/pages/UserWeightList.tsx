@@ -189,8 +189,7 @@ export default function UserWeightList() {
       comment: commentToInsert,
     };
 
-    // TODO: UPDATE AFTER ADDING SORT
-    setUserWeights([newUserWeight, ...userWeights]);
+    sortUserWeightsByActiveCategory([newUserWeight, ...userWeights]);
 
     resetUserWeight();
     toast.success("User Weight Added");
@@ -300,6 +299,19 @@ export default function UserWeightList() {
     } else if (key === "date-asc") {
       setSortCategory(key);
       sortUserWeightsByDate([...userWeights], true);
+    }
+  };
+
+  const sortUserWeightsByActiveCategory = (userWeightList: UserWeight[]) => {
+    switch (sortCategory) {
+      case "date-desc":
+        sortUserWeightsByDate([...userWeightList], false);
+        break;
+      case "date-asc":
+        sortUserWeightsByDate([...userWeightList], true);
+        break;
+      default:
+        break;
     }
   };
 
