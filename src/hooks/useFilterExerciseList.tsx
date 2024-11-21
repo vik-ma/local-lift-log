@@ -4,7 +4,6 @@ import {
   UseFilterExerciseListReturnType,
 } from "../typings";
 import { useMemo, useState } from "react";
-import { useListFilters } from "./useListFilters";
 
 export const useFilterExerciseList = (
   useExerciseList: UseExerciseListReturnType
@@ -18,12 +17,14 @@ export const useFilterExerciseList = (
     ...exerciseGroupList,
   ]);
 
-  const listFilters = useListFilters(useExerciseList);
+  const areExerciseGroupsFiltered = useMemo(() => {
+    return shownExerciseGroups.length !== exerciseGroupList.length;
+  }, [shownExerciseGroups, exerciseGroupList]);
 
   const exerciseGroupModal = useDisclosure();
 
   const filteredExercises = useMemo(() => {
-    if (filterQuery !== "") {
+    if (filterQuery !== "" || areExerciseGroupsFiltered) {
       // Only show exercises whose name or Exercise Group is included in the filterQuery
       // and whose Exercise Group is included in shownExerciseGroups
       return exercises.filter(
@@ -49,7 +50,13 @@ export const useFilterExerciseList = (
       );
     }
     return exercises;
-  }, [exercises, filterQuery, shownExerciseGroups, includeSecondaryGroups]);
+  }, [
+    exercises,
+    filterQuery,
+    shownExerciseGroups,
+    includeSecondaryGroups,
+    areExerciseGroupsFiltered,
+  ]);
 
   return {
     filterQuery,
@@ -58,6 +65,6 @@ export const useFilterExerciseList = (
     shownExerciseGroups,
     setShownExerciseGroups,
     exerciseGroupModal,
-    listFilters,
+    areExerciseGroupsFiltered,
   };
 };

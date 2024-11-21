@@ -32,13 +32,11 @@ export const FilterExerciseGroupsModal = ({
     shownExerciseGroups,
     setShownExerciseGroups,
     exerciseGroupModal,
-    listFilters,
+    areExerciseGroupsFiltered,
   } = useFilterExerciseList;
 
-  const { filterMap } = listFilters;
-
   const handleToggleAllButton = () => {
-    if (filterMap.size > 0) {
+    if (areExerciseGroupsFiltered) {
       setShownExerciseGroups([...exerciseGroupList]);
     } else {
       setShownExerciseGroups([]);
