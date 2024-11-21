@@ -78,6 +78,7 @@ export const ExerciseModalList = ({
             filterMap={filterMap}
             removeFilter={removeFilter}
             prefixMap={prefixMap}
+            isInModal
           />
         )}
       </div>

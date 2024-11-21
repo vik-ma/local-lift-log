@@ -13,6 +13,7 @@ import {
   RoutineListModal,
   FilterWorkoutListModal,
   ListFilters,
+  FilterExerciseGroupsModal,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
 import { Button, useDisclosure } from "@nextui-org/react";
@@ -382,6 +383,10 @@ export default function WorkoutList() {
         useExerciseList={exerciseList}
         useFilterExerciseList={filterExerciseList}
         userSettings={userSettings}
+      />
+      <FilterExerciseGroupsModal
+        useExerciseList={exerciseList}
+        useFilterExerciseList={filterExerciseList}
       />
       <div className="flex flex-col items-center gap-1">
         <ListPageSearchInput
