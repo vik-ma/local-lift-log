@@ -25,7 +25,14 @@ import {
   UpdateItemInList,
   UpdateUserWeight,
 } from "../helpers";
-import { Button, useDisclosure } from "@nextui-org/react";
+import {
+  Button,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  useDisclosure,
+} from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
 import {
   useDefaultUserWeight,
@@ -34,6 +41,8 @@ import {
 } from "../hooks";
 
 type OperationType = "add" | "edit" | "delete";
+
+type UserWeightSortCategory = "date-asc" | "date-desc";
 
 export default function UserWeightList() {
   const [userWeights, setUserWeights] = useState<UserWeight[]>([]);
@@ -44,6 +53,8 @@ export default function UserWeightList() {
   const [commentInput, setCommentInput] = useState<string>("");
   const [filterQuery, setFilterQuery] = useState<string>("");
   const [userSettings, setUserSettings] = useState<UserSettings>();
+  const [sortCategory, setSortCategory] =
+    useState<UserWeightSortCategory>("date-desc");
 
   const listFilters = useListFilters();
 
@@ -115,7 +126,7 @@ export default function UserWeightList() {
         };
       });
 
-      setUserWeights(userWeights);
+      sortUserWeightsByDate(userWeights, false);
     } catch (error) {
       console.log(error);
     }
@@ -269,6 +280,29 @@ export default function UserWeightList() {
     setCommentInput("");
   };
 
+  const sortUserWeightsByDate = (
+    userWeightList: UserWeight[],
+    isAscending: boolean
+  ) => {
+    if (isAscending) {
+      userWeightList.sort((a, b) => a.date.localeCompare(b.date));
+    } else {
+      userWeightList.sort((a, b) => b.date.localeCompare(a.date));
+    }
+
+    setUserWeights(userWeightList);
+  };
+
+  const handleSortOptionSelection = (key: string) => {
+    if (key === "date-desc") {
+      setSortCategory(key);
+      sortUserWeightsByDate([...userWeights], false);
+    } else if (key === "date-asc") {
+      setSortCategory(key);
+      sortUserWeightsByDate([...userWeights], true);
+    }
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -331,15 +365,39 @@ export default function UserWeightList() {
                 >
                   Add New Weight
                 </Button>
-                <Button
-                  className="z-1"
-                  variant="flat"
-                  color={filterMap.size > 0 ? "secondary" : "default"}
-                  size="sm"
-                  onPress={() => dateRangeModal.onOpen()}
-                >
-                  Filter
-                </Button>
+                <div className="flex gap-1">
+                  <Button
+                    className="z-1"
+                    variant="flat"
+                    color={filterMap.size > 0 ? "secondary" : "default"}
+                    size="sm"
+                    onPress={() => dateRangeModal.onOpen()}
+                  >
+                    Filter
+                  </Button>
+                  <Dropdown>
+                    <DropdownTrigger>
+                      <Button className="z-1" variant="flat" size="sm">
+                        Sort By
+                      </Button>
+                    </DropdownTrigger>
+                    <DropdownMenu
+                      aria-label="Sort User Weights Dropdown Menu"
+                      selectionMode="single"
+                      selectedKeys={[sortCategory]}
+                      onAction={(key) =>
+                        handleSortOptionSelection(key as string)
+                      }
+                    >
+                      <DropdownItem key="date-desc">
+                        Date (Newest First)
+                      </DropdownItem>
+                      <DropdownItem key="date-asc">
+                        Date (Oldest First)
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </div>
               </div>
               {filterMap.size > 0 && (
                 <ListFilters
