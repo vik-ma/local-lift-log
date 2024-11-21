@@ -8,7 +8,7 @@ import {
   EmptyListLabel,
   UserWeightListItem,
   ListPageSearchInput,
-  DateRangeModal,
+  FilterUserWeightListModal,
   ListFilters,
 } from "../components";
 import {
@@ -75,7 +75,7 @@ export default function UserWeightList() {
     prefixMap,
   } = listFilters;
 
-  const dateRangeModal = useDisclosure();
+  const filterUserWeightListModal = useDisclosure();
 
   const filteredWeights = useMemo(() => {
     if (filterQuery !== "" || filterMap.size > 0) {
@@ -388,8 +388,8 @@ export default function UserWeightList() {
         }
         isEditing={operationType === "edit"}
       />
-      <DateRangeModal
-        dateRangeModal={dateRangeModal}
+      <FilterUserWeightListModal
+        filterUserWeightListModal={filterUserWeightListModal}
         dateRange={filterDateRange}
         setDateRange={setFilterDateRange}
         header="Select Date Range"
@@ -415,7 +415,7 @@ export default function UserWeightList() {
                   onPress={handleCreateNewUserWeightButton}
                   size="sm"
                 >
-                  Add New Weight
+                  New Weight
                 </Button>
                 <div className="flex gap-1">
                   <Button
@@ -423,7 +423,7 @@ export default function UserWeightList() {
                     variant="flat"
                     color={filterMap.size > 0 ? "secondary" : "default"}
                     size="sm"
-                    onPress={() => dateRangeModal.onOpen()}
+                    onPress={() => filterUserWeightListModal.onOpen()}
                   >
                     Filter
                   </Button>

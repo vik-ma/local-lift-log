@@ -285,7 +285,7 @@ export default function UserMeasurementList() {
                   onPress={() => {}}
                   size="sm"
                 >
-                  Add New User Measurements
+                  New User Measurements
                 </Button>
                 <div className="flex gap-1">
                   {/* <Button
@@ -293,7 +293,7 @@ export default function UserMeasurementList() {
                     variant="flat"
                     color={filterMap.size > 0 ? "secondary" : "default"}
                     size="sm"
-                    onPress={() => dateRangeModal.onOpen()}
+                    onPress={() => filterUserWeightListModal.onOpen()}
                   >
                     Filter
                   </Button> */}

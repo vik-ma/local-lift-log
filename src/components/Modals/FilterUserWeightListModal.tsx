@@ -14,8 +14,8 @@ import { I18nProvider } from "@react-aria/i18n";
 import { useMemo } from "react";
 import { WeekdaysDropdown } from "..";
 
-type DateRangeModalProps = {
-  dateRangeModal: UseDisclosureReturnType;
+type FilterUserWeightListModalProps = {
+  filterUserWeightListModal: UseDisclosureReturnType;
   dateRange: RangeValue<CalendarDate> | null;
   setDateRange: React.Dispatch<
     React.SetStateAction<RangeValue<CalendarDate> | null>
@@ -29,8 +29,8 @@ type DateRangeModalProps = {
   weekdayMap?: Map<string, string>;
 };
 
-export const DateRangeModal = ({
-  dateRangeModal,
+export const FilterUserWeightListModal = ({
+  filterUserWeightListModal,
   dateRange,
   setDateRange,
   header,
@@ -40,7 +40,7 @@ export const DateRangeModal = ({
   filterWeekdays,
   setFilterWeekdays,
   weekdayMap,
-}: DateRangeModalProps) => {
+}: FilterUserWeightListModalProps) => {
   const showWeekDayDropdown = useMemo(() => {
     return (
       filterWeekdays !== undefined &&
@@ -67,8 +67,8 @@ export const DateRangeModal = ({
 
   return (
     <Modal
-      isOpen={dateRangeModal.isOpen}
-      onOpenChange={dateRangeModal.onOpenChange}
+      isOpen={filterUserWeightListModal.isOpen}
+      onOpenChange={filterUserWeightListModal.onOpenChange}
     >
       <ModalContent>
         {(onClose) => (
@@ -114,7 +114,9 @@ export const DateRangeModal = ({
                 </Button>
                 <Button
                   color="primary"
-                  onPress={() => buttonAction(locale, dateRangeModal)}
+                  onPress={() =>
+                    buttonAction(locale, filterUserWeightListModal)
+                  }
                 >
                   Done
                 </Button>

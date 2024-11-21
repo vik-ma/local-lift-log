@@ -8,7 +8,7 @@ import {
 } from "@nextui-org/react";
 import {
   CalculationModal,
-  DateRangeModal,
+  FilterUserWeightListModal,
   LoadingSpinner,
   TextInputModal,
 } from "../components";
@@ -38,7 +38,7 @@ export default function Test() {
 
   const calculationModal = useCalculationModal();
   const textInputModal = useDisclosure();
-  const dateRangeModal = useDisclosure();
+  const filterUserWeightListModal = useDisclosure();
 
   const presetsList = usePresetsList(false, false);
 
@@ -116,8 +116,8 @@ export default function Test() {
         userSettings={userSettings}
         setUserSettings={setUserSettings}
       />
-      <DateRangeModal
-        dateRangeModal={dateRangeModal}
+      <FilterUserWeightListModal
+        filterUserWeightListModal={filterUserWeightListModal}
         dateRange={dateRange}
         setDateRange={setDateRange}
         header="Select Date Range"
@@ -202,7 +202,10 @@ export default function Test() {
             Distances
           </Button>
         </div>
-        <Button variant="flat" onPress={() => dateRangeModal.onOpen()}>
+        <Button
+          variant="flat"
+          onPress={() => filterUserWeightListModal.onOpen()}
+        >
           Open Date Range Modal
         </Button>
         <div className="flex flex-col bg-white border border-black overflow-auto mb-20">
