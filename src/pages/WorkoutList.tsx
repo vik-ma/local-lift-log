@@ -411,7 +411,11 @@ export default function WorkoutList() {
                 />
               </div>
               {filterMap.size > 0 && (
-                <ListFilters useListFilters={listFilters} />
+                <ListFilters
+                  filterMap={listFilters.filterMap}
+                  removeFilter={listFilters.removeFilter}
+                  prefixMap={listFilters.prefixMap}
+                />
               )}
             </div>
           }

@@ -1,17 +1,19 @@
 import { Chip } from "@nextui-org/react";
-import { UseListFiltersReturnType } from "../typings";
+import { ListFilterMapKey } from "../typings";
 
 type ListFiltersProps = {
-  useListFilters: UseListFiltersReturnType;
+  filterMap: Map<ListFilterMapKey, string>;
+  removeFilter: (key: ListFilterMapKey) => void;
+  prefixMap: Map<ListFilterMapKey, string>;
   isInModal?: boolean;
 };
 
 export const ListFilters = ({
-  useListFilters,
+  filterMap,
+  removeFilter,
+  prefixMap,
   isInModal,
 }: ListFiltersProps) => {
-  const { filterMap, removeFilter, prefixMap } = useListFilters;
-
   const width = isInModal ? "max-w-[23.25rem]" : "max-w-[22.25rem]";
 
   return (

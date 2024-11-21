@@ -90,7 +90,9 @@ export const WorkoutListModal = ({
                   </div>
                   {filterMap.size > 0 && (
                     <ListFilters
-                      useListFilters={listFilters}
+                      filterMap={listFilters.filterMap}
+                      removeFilter={listFilters.removeFilter}
+                      prefixMap={listFilters.prefixMap}
                       isInModal={true}
                     />
                   )}
