@@ -679,6 +679,13 @@ export type OperationTypePlateCalc = "set-handle" | "show-list";
 
 export type AvailablePlatesMap = Map<EquipmentWeight, number>;
 
+export type NumberRange = {
+  start: number;
+  end: number;
+  startInput: string;
+  endInput: string;
+};
+
 export type PlateCalculation = {
   id: number;
   name: string;
