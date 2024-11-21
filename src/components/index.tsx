@@ -36,6 +36,7 @@ export { WorkoutListOptions } from "./WorkoutListOptions";
 export { ListFilters } from "./ListFilters";
 export { RoutineModalList } from "./RoutineModalList";
 export { ExerciseListOptions } from "./ExerciseListOptions";
+export { FilterDateRangeAndWeekdays } from "./FilterDateRangeAndWeekdays";
 
 export { WeightUnitDropdown } from "./Dropdowns/WeightUnitDropdown";
 export { DistanceUnitDropdown } from "./Dropdowns/DistanceUnitDropdown";

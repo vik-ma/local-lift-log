@@ -392,12 +392,11 @@ export default function UserWeightList() {
         filterUserWeightListModal={filterUserWeightListModal}
         dateRange={filterDateRange}
         setDateRange={setFilterDateRange}
-        header="Select Date Range"
-        locale={userSettings.locale}
-        buttonAction={handleFilterSaveButton}
         filterWeekdays={filterWeekdays}
         setFilterWeekdays={setFilterWeekdays}
         weekdayMap={weekdayMap}
+        locale={userSettings.locale}
+        buttonAction={handleFilterSaveButton}
       />
       <div className="flex flex-col items-center gap-1">
         <ListPageSearchInput

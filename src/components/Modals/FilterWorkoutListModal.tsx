@@ -5,7 +5,6 @@ import {
   ModalBody,
   ModalHeader,
   ModalFooter,
-  DateRangePicker,
   ScrollShadow,
 } from "@nextui-org/react";
 import {
@@ -16,13 +15,12 @@ import {
   UserSettings,
   UseWorkoutListReturnType,
 } from "../../typings";
-import { I18nProvider } from "@react-aria/i18n";
 import { useMemo, useState } from "react";
 import {
   RoutineModalList,
-  WeekdaysDropdown,
   ExerciseModalList,
   ExerciseGroupCheckboxes,
+  FilterDateRangeAndWeekdays,
 } from "..";
 
 type FilterWorkoutListModalProps = {
@@ -232,28 +230,15 @@ export const FilterWorkoutListModal = ({
               ) : (
                 <ScrollShadow className="h-[400px]">
                   <div className="flex flex-col gap-3 w-[24rem]">
-                    <div className="flex flex-col gap-1">
-                      <h3 className="font-semibold text-lg px-0.5">
-                        Date Range
-                      </h3>
-                      <I18nProvider locale={userSettings.locale}>
-                        <DateRangePicker
-                          label="Workout Dates"
-                          variant="faded"
-                          value={filterDateRange}
-                          onChange={setFilterDateRange}
-                          visibleMonths={2}
-                        />
-                      </I18nProvider>
-                    </div>
-                    <div className="flex flex-col gap-1">
-                      <h3 className="font-semibold text-lg px-0.5">Weekdays</h3>
-                      <WeekdaysDropdown
-                        values={filterWeekdays}
-                        setValues={setFilterWeekdays}
-                        weekdayMap={weekdayMap}
-                      />
-                    </div>
+                    <FilterDateRangeAndWeekdays
+                      filterDateRange={filterDateRange}
+                      setFilterDateRange={setFilterDateRange}
+                      filterWeekdays={filterWeekdays}
+                      setFilterWeekdays={setFilterWeekdays}
+                      weekdayMap={weekdayMap}
+                      locale={userSettings.locale}
+                      dateRangeLabel="Workout Dates"
+                    />
                     <div className="flex flex-col">
                       <h3 className="font-semibold text-lg px-0.5">
                         Routines{" "}

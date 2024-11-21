@@ -5,14 +5,12 @@ import {
   ModalBody,
   ModalHeader,
   ModalFooter,
-  DateRangePicker,
   RangeValue,
   CalendarDate,
 } from "@nextui-org/react";
 import { UseDisclosureReturnType } from "../../typings";
-import { I18nProvider } from "@react-aria/i18n";
 import { useMemo } from "react";
-import { WeekdaysDropdown } from "..";
+import { FilterDateRangeAndWeekdays } from "..";
 
 type FilterUserWeightListModalProps = {
   filterUserWeightListModal: UseDisclosureReturnType;
@@ -20,26 +18,22 @@ type FilterUserWeightListModalProps = {
   setDateRange: React.Dispatch<
     React.SetStateAction<RangeValue<CalendarDate> | null>
   >;
-  header: string;
+  filterWeekdays: Set<string>;
+  setFilterWeekdays: React.Dispatch<React.SetStateAction<Set<string>>>;
+  weekdayMap: Map<string, string>;
   locale: string;
   buttonAction: (locale: string, activeModal: UseDisclosureReturnType) => void;
-  customLabel?: string;
-  filterWeekdays?: Set<string>;
-  setFilterWeekdays?: React.Dispatch<React.SetStateAction<Set<string>>>;
-  weekdayMap?: Map<string, string>;
 };
 
 export const FilterUserWeightListModal = ({
   filterUserWeightListModal,
   dateRange,
   setDateRange,
-  header,
-  locale,
-  buttonAction,
-  customLabel,
   filterWeekdays,
   setFilterWeekdays,
   weekdayMap,
+  locale,
+  buttonAction,
 }: FilterUserWeightListModalProps) => {
   const showWeekDayDropdown = useMemo(() => {
     return (
@@ -59,10 +53,7 @@ export const FilterUserWeightListModal = ({
 
   const handleResetButton = () => {
     setDateRange(null);
-
-    if (setFilterWeekdays !== undefined && weekdayMap !== undefined) {
-      setFilterWeekdays(new Set(weekdayMap.keys()));
-    }
+    setFilterWeekdays(new Set(weekdayMap.keys()));
   };
 
   return (
@@ -73,31 +64,18 @@ export const FilterUserWeightListModal = ({
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalHeader>{header}</ModalHeader>
+            <ModalHeader>Filter User Weights</ModalHeader>
             <ModalBody>
-              <div
-                className={
-                  showWeekDayDropdown
-                    ? "h-32 flex flex-col gap-4"
-                    : "h-16 flex flex-col gap-4"
-                }
-              >
-                <I18nProvider locale={locale}>
-                  <DateRangePicker
-                    label={customLabel !== undefined ? customLabel : header}
-                    variant="faded"
-                    value={dateRange}
-                    onChange={setDateRange}
-                    visibleMonths={2}
-                  />
-                </I18nProvider>
-                {showWeekDayDropdown && (
-                  <WeekdaysDropdown
-                    values={filterWeekdays!}
-                    setValues={setFilterWeekdays!}
-                    weekdayMap={weekdayMap!}
-                  />
-                )}
+              <div className="flex flex-col gap-4">
+                <FilterDateRangeAndWeekdays
+                  dateRange={dateRange}
+                  setDateRange={setDateRange}
+                  filterWeekdays={filterWeekdays}
+                  setFilterWeekdays={setFilterWeekdays}
+                  weekdayMap={weekdayMap}
+                  locale={locale}
+                  dateRangeLabel="User Weight Dates"
+                />
               </div>
             </ModalBody>
             <ModalFooter className="flex justify-between">
