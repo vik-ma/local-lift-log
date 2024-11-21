@@ -1,5 +1,6 @@
 import { useDisclosure } from "@nextui-org/react";
 import {
+  ListFilterMapKey,
   UseExerciseListReturnType,
   UseFilterExerciseListReturnType,
 } from "../typings";
@@ -22,6 +23,33 @@ export const useFilterExerciseList = (
   }, [shownExerciseGroups, exerciseGroupList]);
 
   const exerciseGroupModal = useDisclosure();
+
+  const filterMap: Map<ListFilterMapKey, string> = useMemo(() => {
+    const filterMap: Map<ListFilterMapKey, string> = new Map();
+
+    if (shownExerciseGroups.length === exerciseGroupList.length)
+      return filterMap;
+
+    const filterExerciseGroupsString =
+      Array.from(shownExerciseGroups).join(", ");
+
+    filterMap.set("exercise-groups", filterExerciseGroupsString);
+
+    return filterMap;
+  }, [shownExerciseGroups, exerciseGroupList]);
+
+  const prefixMap = useMemo(() => {
+    const prefixMap = new Map<ListFilterMapKey, string>();
+    prefixMap.set(
+      "exercise-groups",
+      `Exercise Groups (${shownExerciseGroups.length}): `
+    );
+    return prefixMap;
+  }, [shownExerciseGroups]);
+
+  const removeFilter = () => {
+    setShownExerciseGroups([...exerciseGroupList]);
+  };
 
   const filteredExercises = useMemo(() => {
     if (filterQuery !== "" || areExerciseGroupsFiltered) {
@@ -66,5 +94,8 @@ export const useFilterExerciseList = (
     setShownExerciseGroups,
     exerciseGroupModal,
     areExerciseGroupsFiltered,
+    filterMap,
+    removeFilter,
+    prefixMap,
   };
 };

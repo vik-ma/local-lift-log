@@ -28,6 +28,7 @@ import {
   ExerciseModal,
   FavoriteButton,
   FilterExerciseGroupsModal,
+  ListFilters,
   ListPageSearchInput,
   LoadingSpinner,
 } from "../components";
@@ -63,7 +64,15 @@ export default function ExerciseList() {
 
   const filterExerciseList = useFilterExerciseList(exerciseList);
 
-  const { filterQuery, setFilterQuery, filteredExercises } = filterExerciseList;
+  const {
+    filterQuery,
+    setFilterQuery,
+    filteredExercises,
+    areExerciseGroupsFiltered,
+    filterMap,
+    removeFilter,
+    prefixMap,
+  } = filterExerciseList;
 
   const deleteModal = useDisclosure();
   const exerciseModal = useDisclosure();
@@ -291,20 +300,29 @@ export default function ExerciseList() {
           filteredListLength={filteredExercises.length}
           totalListLength={exercises.length}
           bottomContent={
-            <div className="flex justify-between gap-1 w-full items-center">
-              <Button
-                color="secondary"
-                variant="flat"
-                onPress={() => handleCreateNewExerciseButton()}
-                size="sm"
-              >
-                New Exercise
-              </Button>
-              <ExerciseListOptions
-                useExerciseList={exerciseList}
-                useFilterExerciseList={filterExerciseList}
-                userSettingsId={userSettings.id}
-              />
+            <div className="flex flex-col gap-1.5">
+              <div className="flex justify-between gap-1 w-full items-center">
+                <Button
+                  color="secondary"
+                  variant="flat"
+                  onPress={() => handleCreateNewExerciseButton()}
+                  size="sm"
+                >
+                  New Exercise
+                </Button>
+                <ExerciseListOptions
+                  useExerciseList={exerciseList}
+                  useFilterExerciseList={filterExerciseList}
+                  userSettingsId={userSettings.id}
+                />
+              </div>
+              {areExerciseGroupsFiltered && (
+                <ListFilters
+                  filterMap={filterMap}
+                  removeFilter={removeFilter}
+                  prefixMap={prefixMap}
+                />
+              )}
             </div>
           }
         />

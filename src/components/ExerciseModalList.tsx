@@ -9,6 +9,7 @@ import {
   EmptyListLabel,
   ExerciseListOptions,
   FavoriteButton,
+  ListFilters,
   SearchInput,
 } from ".";
 import { GoToArrowIcon } from "../assets";
@@ -32,8 +33,15 @@ export const ExerciseModalList = ({
 }: ExerciseModalListProps) => {
   const { toggleFavorite, exercises, includeSecondaryGroups } = exerciseList;
 
-  const { filterQuery, setFilterQuery, filteredExercises } =
-    useFilterExerciseList;
+  const {
+    filterQuery,
+    setFilterQuery,
+    filteredExercises,
+    areExerciseGroupsFiltered,
+    filterMap,
+    removeFilter,
+    prefixMap,
+  } = useFilterExerciseList;
 
   const height =
     customHeightString !== undefined ? customHeightString : "h-[400px]";
@@ -48,8 +56,8 @@ export const ExerciseModalList = ({
         filteredListLength={filteredExercises.length}
         totalListLength={exercises.length}
       />
-      <div className="flex justify-between items-center">
-        <div>
+      <div className="flex flex-col gap-1.5">
+        <div className="flex justify-between items-center">
           <Button
             variant="flat"
             size="sm"
@@ -59,12 +67,19 @@ export const ExerciseModalList = ({
           >
             Edit Exercises
           </Button>
+          <ExerciseListOptions
+            useExerciseList={exerciseList}
+            useFilterExerciseList={useFilterExerciseList}
+            userSettingsId={userSettingsId}
+          />
         </div>
-        <ExerciseListOptions
-          useExerciseList={exerciseList}
-          useFilterExerciseList={useFilterExerciseList}
-          userSettingsId={userSettingsId}
-        />
+        {areExerciseGroupsFiltered && (
+          <ListFilters
+            filterMap={filterMap}
+            removeFilter={removeFilter}
+            prefixMap={prefixMap}
+          />
+        )}
       </div>
       <ScrollShadow className="flex flex-col gap-1">
         {filteredExercises.map((exercise) => (
