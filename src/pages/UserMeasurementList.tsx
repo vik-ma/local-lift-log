@@ -25,7 +25,14 @@ import {
   useMeasurementsInputs,
   useReassignMeasurement,
 } from "../hooks";
-import { useDisclosure } from "@nextui-org/react";
+import {
+  Button,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  useDisclosure,
+} from "@nextui-org/react";
 import { toast, Toaster } from "react-hot-toast";
 
 type OperationType = "edit" | "delete";
@@ -62,6 +69,9 @@ export default function UserMeasurementList() {
     filterQuery,
     setFilterQuery,
     filteredUserMeasurements,
+    sortCategory,
+    handleSortOptionSelection,
+    sortUserMeasurementsByActiveCategory,
   } = useUserMeasurementList();
 
   const {
@@ -135,7 +145,7 @@ export default function UserMeasurementList() {
       detailedUpdatedUserMeasurement[0]
     );
 
-    setUserMeasurements(updatedUserMeasurementList);
+    sortUserMeasurementsByActiveCategory(updatedUserMeasurementList);
 
     resetUserMeasurements();
 
@@ -158,7 +168,7 @@ export default function UserMeasurementList() {
       operatingUserMeasurements.id
     );
 
-    setUserMeasurements(updatedUserMeasurements);
+    sortUserMeasurementsByActiveCategory(updatedUserMeasurements);
 
     resetUserMeasurements();
 
@@ -266,6 +276,53 @@ export default function UserMeasurementList() {
           setFilterQuery={setFilterQuery}
           filteredListLength={filteredUserMeasurements.length}
           totalListLength={userMeasurements.length}
+          bottomContent={
+            <div className="flex flex-col gap-1.5">
+              <div className="flex justify-between">
+                <Button
+                  color="secondary"
+                  variant="flat"
+                  onPress={() => {}}
+                  size="sm"
+                >
+                  Add New User Measurements
+                </Button>
+                <div className="flex gap-1">
+                  {/* <Button
+                    className="z-1"
+                    variant="flat"
+                    color={filterMap.size > 0 ? "secondary" : "default"}
+                    size="sm"
+                    onPress={() => dateRangeModal.onOpen()}
+                  >
+                    Filter
+                  </Button> */}
+                  <Dropdown>
+                    <DropdownTrigger>
+                      <Button className="z-1" variant="flat" size="sm">
+                        Sort By
+                      </Button>
+                    </DropdownTrigger>
+                    <DropdownMenu
+                      aria-label="Sort User Measurements Dropdown Menu"
+                      selectionMode="single"
+                      selectedKeys={[sortCategory]}
+                      onAction={(key) =>
+                        handleSortOptionSelection(key as string)
+                      }
+                    >
+                      <DropdownItem key="date-desc">
+                        Date (Newest First)
+                      </DropdownItem>
+                      <DropdownItem key="date-asc">
+                        Date (Oldest First)
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </div>
+              </div>
+            </div>
+          }
         />
         <UserMeasurementAccordion
           userMeasurementEntries={filteredUserMeasurements}
