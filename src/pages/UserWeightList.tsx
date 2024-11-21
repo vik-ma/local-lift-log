@@ -14,6 +14,7 @@ import {
 import {
   ConvertEmptyStringToNull,
   ConvertNumberToTwoDecimals,
+  ConvertWeightToKg,
   DeleteItemFromList,
   DeleteUserWeightWithId,
   FormatDateTimeString,
@@ -42,7 +43,11 @@ import {
 
 type OperationType = "add" | "edit" | "delete";
 
-type UserWeightSortCategory = "date-asc" | "date-desc";
+type UserWeightSortCategory =
+  | "date-asc"
+  | "date-desc"
+  | "weight-asc"
+  | "weight-desc";
 
 export default function UserWeightList() {
   const [userWeights, setUserWeights] = useState<UserWeight[]>([]);
@@ -189,7 +194,7 @@ export default function UserWeightList() {
       comment: commentToInsert,
     };
 
-    sortUserWeightsByActiveCategory([newUserWeight, ...userWeights]);
+    sortUserWeightsByActiveCategory([...userWeights, newUserWeight]);
 
     resetUserWeight();
     toast.success("User Weight Added");
@@ -208,7 +213,7 @@ export default function UserWeightList() {
       operatingUserWeight.id
     );
 
-    setUserWeights(updatedUserWeights);
+    sortUserWeightsByActiveCategory(updatedUserWeights);
 
     resetUserWeight();
 
@@ -243,7 +248,7 @@ export default function UserWeightList() {
 
     const updatedUserWeights = UpdateItemInList(userWeights, updatedUserWeight);
 
-    setUserWeights(updatedUserWeights);
+    sortUserWeightsByActiveCategory(updatedUserWeights);
 
     resetUserWeight();
 
@@ -292,6 +297,29 @@ export default function UserWeightList() {
     setUserWeights(userWeightList);
   };
 
+  const sortUserWeightsByWeight = (
+    userWeightList: UserWeight[],
+    isAscending: boolean
+  ) => {
+    userWeightList.sort((a, b) => {
+      const weightAInKg = ConvertWeightToKg(a.weight, a.weight_unit);
+      const weightBInKg = ConvertWeightToKg(b.weight, b.weight_unit);
+
+      if (weightAInKg !== weightBInKg) {
+        if (isAscending) {
+          return weightAInKg - weightBInKg;
+        } else {
+          return weightBInKg - weightAInKg;
+        }
+      } else {
+        // Show newest date first if same weight
+        return b.date.localeCompare(a.date);
+      }
+    });
+
+    setUserWeights(userWeightList);
+  };
+
   const handleSortOptionSelection = (key: string) => {
     if (key === "date-desc") {
       setSortCategory(key);
@@ -299,6 +327,12 @@ export default function UserWeightList() {
     } else if (key === "date-asc") {
       setSortCategory(key);
       sortUserWeightsByDate([...userWeights], true);
+    } else if (key === "weight-desc") {
+      setSortCategory(key);
+      sortUserWeightsByWeight([...userWeights], false);
+    } else if (key === "weight-asc") {
+      setSortCategory(key);
+      sortUserWeightsByWeight([...userWeights], true);
     }
   };
 
@@ -309,6 +343,12 @@ export default function UserWeightList() {
         break;
       case "date-asc":
         sortUserWeightsByDate([...userWeightList], true);
+        break;
+      case "weight-desc":
+        sortUserWeightsByWeight([...userWeightList], false);
+        break;
+      case "weight-asc":
+        sortUserWeightsByWeight([...userWeightList], true);
         break;
       default:
         break;
@@ -406,6 +446,12 @@ export default function UserWeightList() {
                       </DropdownItem>
                       <DropdownItem key="date-asc">
                         Date (Oldest First)
+                      </DropdownItem>
+                      <DropdownItem key="weight-desc">
+                        Weight (Highest First)
+                      </DropdownItem>
+                      <DropdownItem key="weight-asc">
+                        Weight (Lowest First)
                       </DropdownItem>
                     </DropdownMenu>
                   </Dropdown>
