@@ -39,8 +39,8 @@ export const FilterUserWeightListModal = ({
     weekdayMap,
     filterWeightRange,
     setFilterWeightRange,
-    weightUnit,
-    setWeightUnit,
+    filterWeightUnit,
+    setFilterWeightUnit,
     defaultNumberRange,
   } = useListFilters;
 
@@ -90,8 +90,8 @@ export const FilterUserWeightListModal = ({
                     numberRangeInvalidityMap={numberRangeInvalidityMap}
                   />
                   <WeightUnitDropdown
-                    value={weightUnit}
-                    setState={setWeightUnit}
+                    value={filterWeightUnit}
+                    setState={setFilterWeightUnit}
                     targetType="state"
                   />
                 </div>

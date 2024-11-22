@@ -43,7 +43,7 @@ export const useListFilters = (
     ...defaultNumberRange,
   });
 
-  const [weightUnit, setWeightUnit] = useState<string>("kg");
+  const [filterWeightUnit, setFilterWeightUnit] = useState<string>("kg");
 
   const handleFilterSaveButton = (
     locale: string,
@@ -212,8 +212,8 @@ export const useListFilters = (
     prefixMap,
     filterWeightRange,
     setFilterWeightRange,
-    weightUnit,
-    setWeightUnit,
+    filterWeightUnit,
+    setFilterWeightUnit,
     defaultNumberRange,
   };
 };
