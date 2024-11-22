@@ -214,5 +214,6 @@ export const useListFilters = (
     setFilterWeightRange,
     weightUnit,
     setWeightUnit,
+    defaultNumberRange,
   };
 };

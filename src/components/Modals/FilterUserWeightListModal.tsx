@@ -41,27 +41,22 @@ export const FilterUserWeightListModal = ({
     setFilterWeightRange,
     weightUnit,
     setWeightUnit,
+    defaultNumberRange,
   } = useListFilters;
 
-  const showWeekDayDropdown = useMemo(() => {
-    return (
-      filterWeekdays !== undefined &&
-      setFilterWeekdays !== undefined &&
-      weekdayMap !== undefined
-    );
-  }, [filterWeekdays, setFilterWeekdays, weekdayMap]);
-
   const showResetButton = useMemo(() => {
-    if (!showWeekDayDropdown) {
-      return filterDateRange !== null;
-    }
+    if (filterDateRange !== null) return true;
+    if (filterWeekdays!.size < 7) return true;
+    if (filterWeightRange.startInput !== "") return true;
+    if (filterWeightRange.endInput !== "") return true;
 
-    return filterDateRange !== null || filterWeekdays!.size < 7;
-  }, [filterDateRange, filterWeekdays, showWeekDayDropdown]);
+    return false;
+  }, [filterDateRange, filterWeekdays, filterWeightRange]);
 
   const handleResetButton = () => {
     setFilterDateRange(null);
     setFilterWeekdays(new Set(weekdayMap.keys()));
+    setFilterWeightRange(defaultNumberRange);
   };
 
   const numberRangeInvalidityMap =
