@@ -11,7 +11,11 @@ import {
   UseListFiltersReturnType,
 } from "../../typings";
 import { useMemo } from "react";
-import { FilterDateRangeAndWeekdays, NumberRangeInput } from "..";
+import {
+  FilterDateRangeAndWeekdays,
+  NumberRangeInput,
+  WeightUnitDropdown,
+} from "..";
 
 type FilterUserWeightListModalProps = {
   filterUserWeightListModal: UseDisclosureReturnType;
@@ -34,6 +38,8 @@ export const FilterUserWeightListModal = ({
     weekdayMap,
     filterWeightRange,
     setFilterWeightRange,
+    weightUnit,
+    setWeightUnit,
   } = useListFilters;
 
   const showWeekDayDropdown = useMemo(() => {
@@ -77,11 +83,16 @@ export const FilterUserWeightListModal = ({
                   locale={locale}
                   dateRangeLabel="User Weight Dates"
                 />
-                <div className="flex gap-3">
+                <div className="flex gap-2.5">
                   <NumberRangeInput
                     numberRange={filterWeightRange}
                     setNumberRange={setFilterWeightRange}
                     label="Weight Range"
+                  />
+                  <WeightUnitDropdown
+                    value={weightUnit}
+                    setState={setWeightUnit}
+                    targetType="state"
                   />
                 </div>
               </div>
