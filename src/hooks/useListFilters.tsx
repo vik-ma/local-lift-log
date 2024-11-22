@@ -171,7 +171,8 @@ export const useListFilters = (
     if (filterRoutines.size > 0) return true;
     if (filterExercises.size > 0) return true;
     if (filterExerciseGroups.length > 0) return true;
-    if (filterWeightRange.start > 0 && filterWeightRange.end > 0) return true;
+    if (filterWeightRange.startInput !== "") return true;
+    if (filterWeightRange.endInput !== "") return true;
 
     return false;
   }, [

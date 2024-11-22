@@ -10,7 +10,6 @@ import {
   UseDisclosureReturnType,
   UseListFiltersReturnType,
 } from "../../typings";
-import { useMemo } from "react";
 import {
   FilterDateRangeAndWeekdays,
   NumberRangeInput,
@@ -41,23 +40,9 @@ export const FilterUserWeightListModal = ({
     setFilterWeightRange,
     filterWeightUnit,
     setFilterWeightUnit,
-    defaultNumberRange,
+    showResetFilterButton,
+    resetFilter,
   } = useListFilters;
-
-  const showResetButton = useMemo(() => {
-    if (filterDateRange !== null) return true;
-    if (filterWeekdays!.size < 7) return true;
-    if (filterWeightRange.startInput !== "") return true;
-    if (filterWeightRange.endInput !== "") return true;
-
-    return false;
-  }, [filterDateRange, filterWeekdays, filterWeightRange]);
-
-  const handleResetButton = () => {
-    setFilterDateRange(null);
-    setFilterWeekdays(new Set(weekdayMap.keys()));
-    setFilterWeightRange(defaultNumberRange);
-  };
 
   const numberRangeInvalidityMap =
     useNumberRangeInvalidityMap(filterWeightRange);
@@ -99,8 +84,8 @@ export const FilterUserWeightListModal = ({
             </ModalBody>
             <ModalFooter className="flex justify-between">
               <div>
-                {showResetButton && (
-                  <Button variant="flat" onPress={handleResetButton}>
+                {showResetFilterButton && (
+                  <Button variant="flat" onPress={resetFilter}>
                     Reset
                   </Button>
                 )}
