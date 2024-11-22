@@ -109,7 +109,7 @@ export { ConvertWeightToKg } from "./Numbers/ConvertWeightToKg";
 export { ConvertDistanceToMeter } from "./Numbers/ConvertDistanceToMeter";
 export { IsNumberDivisibleBy2 } from "./Numbers/IsNumberDivisibleBy2";
 export { IsStringValidNumberBetween0And1 } from "./Numbers/IsStringValidNumberBetween0And1";
-export { ValidateNumberRangeNumbers } from "./Numbers/ValidateNumberRangeNumbers";
+export { IsNumberRangeValidAndFiltered } from "./Numbers/IsNumberRangeValidAndFiltered";
 
 export { GetLatestUserWeight } from "./Measurements/GetLatestUserWeight";
 export { CreateDefaultMeasurements } from "./Measurements/CreateDefaultMeasurements";

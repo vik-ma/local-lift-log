@@ -533,7 +533,8 @@ export type ListFilterMapKey =
   | "weekdays"
   | "routines"
   | "exercises"
-  | "exercise-groups";
+  | "exercise-groups"
+  | "weight";
 
 export type UseWorkoutTemplateListReturnType = {
   workoutTemplatesModal: UseDisclosureReturnType;
