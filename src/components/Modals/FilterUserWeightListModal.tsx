@@ -5,36 +5,37 @@ import {
   ModalBody,
   ModalHeader,
   ModalFooter,
-  RangeValue,
-  CalendarDate,
 } from "@nextui-org/react";
-import { UseDisclosureReturnType } from "../../typings";
+import {
+  UseDisclosureReturnType,
+  UseListFiltersReturnType,
+} from "../../typings";
 import { useMemo } from "react";
-import { FilterDateRangeAndWeekdays } from "..";
+import { FilterDateRangeAndWeekdays, NumberRangeInput } from "..";
 
 type FilterUserWeightListModalProps = {
   filterUserWeightListModal: UseDisclosureReturnType;
-  dateRange: RangeValue<CalendarDate> | null;
-  setDateRange: React.Dispatch<
-    React.SetStateAction<RangeValue<CalendarDate> | null>
-  >;
-  filterWeekdays: Set<string>;
-  setFilterWeekdays: React.Dispatch<React.SetStateAction<Set<string>>>;
-  weekdayMap: Map<string, string>;
+  useListFilters: UseListFiltersReturnType;
   locale: string;
   buttonAction: (locale: string, activeModal: UseDisclosureReturnType) => void;
 };
 
 export const FilterUserWeightListModal = ({
   filterUserWeightListModal,
-  dateRange,
-  setDateRange,
-  filterWeekdays,
-  setFilterWeekdays,
-  weekdayMap,
+  useListFilters,
   locale,
   buttonAction,
 }: FilterUserWeightListModalProps) => {
+  const {
+    filterDateRange,
+    setFilterDateRange,
+    filterWeekdays,
+    setFilterWeekdays,
+    weekdayMap,
+    filterWeightRange,
+    setFilterWeightRange,
+  } = useListFilters;
+
   const showWeekDayDropdown = useMemo(() => {
     return (
       filterWeekdays !== undefined &&
@@ -45,14 +46,14 @@ export const FilterUserWeightListModal = ({
 
   const showResetButton = useMemo(() => {
     if (!showWeekDayDropdown) {
-      return dateRange !== null;
+      return filterDateRange !== null;
     }
 
-    return dateRange !== null || filterWeekdays!.size < 7;
-  }, [dateRange, filterWeekdays, showWeekDayDropdown]);
+    return filterDateRange !== null || filterWeekdays!.size < 7;
+  }, [filterDateRange, filterWeekdays, showWeekDayDropdown]);
 
   const handleResetButton = () => {
-    setDateRange(null);
+    setFilterDateRange(null);
     setFilterWeekdays(new Set(weekdayMap.keys()));
   };
 
@@ -68,14 +69,21 @@ export const FilterUserWeightListModal = ({
             <ModalBody>
               <div className="flex flex-col gap-4">
                 <FilterDateRangeAndWeekdays
-                  dateRange={dateRange}
-                  setDateRange={setDateRange}
+                  filterDateRange={filterDateRange}
+                  setFilterDateRange={setFilterDateRange}
                   filterWeekdays={filterWeekdays}
                   setFilterWeekdays={setFilterWeekdays}
                   weekdayMap={weekdayMap}
                   locale={locale}
                   dateRangeLabel="User Weight Dates"
                 />
+                <div className="flex gap-3">
+                  <NumberRangeInput
+                    numberRange={filterWeightRange}
+                    setNumberRange={setFilterWeightRange}
+                    label="Weight Range"
+                  />
+                </div>
               </div>
             </ModalBody>
             <ModalFooter className="flex justify-between">

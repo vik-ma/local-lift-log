@@ -66,10 +66,7 @@ export default function UserWeightList() {
   const {
     filterMap,
     filterDateRange,
-    setFilterDateRange,
     filterWeekdays,
-    setFilterWeekdays,
-    weekdayMap,
     handleFilterSaveButton,
     removeFilter,
     prefixMap,
@@ -390,11 +387,7 @@ export default function UserWeightList() {
       />
       <FilterUserWeightListModal
         filterUserWeightListModal={filterUserWeightListModal}
-        dateRange={filterDateRange}
-        setDateRange={setFilterDateRange}
-        filterWeekdays={filterWeekdays}
-        setFilterWeekdays={setFilterWeekdays}
-        weekdayMap={weekdayMap}
+        useListFilters={listFilters}
         locale={userSettings.locale}
         buttonAction={handleFilterSaveButton}
       />

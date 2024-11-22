@@ -1,13 +1,14 @@
 import { useMemo, useState } from "react";
 import {
   ListFilterMapKey,
+  NumberRange,
   UseDisclosureReturnType,
   UseExerciseListReturnType,
   UseListFiltersReturnType,
   UseRoutineListReturnType,
 } from "../typings";
 import { CalendarDate, RangeValue } from "@nextui-org/react";
-import { useWeekdayMap } from ".";
+import { useDefaultNumberRange, useWeekdayMap } from ".";
 import {
   CalculateNumDaysInCalendarDateRange,
   ConvertCalendarDateToLocalizedString,
@@ -35,6 +36,14 @@ export const useListFilters = (
   const [filterWeekdays, setFilterWeekdays] = useState<Set<string>>(
     new Set(weekdayMap.keys())
   );
+
+  const defaultNumberRange = useDefaultNumberRange();
+
+  const [filterWeightRange, setFilterWeightRange] = useState<NumberRange>({
+    ...defaultNumberRange,
+  });
+
+  const [weightUnit, setWeightUnit] = useState<string>("kg");
 
   const handleFilterSaveButton = (
     locale: string,
@@ -201,5 +210,9 @@ export const useListFilters = (
     filterExerciseGroups,
     setFilterExerciseGroups,
     prefixMap,
+    filterWeightRange,
+    setFilterWeightRange,
+    weightUnit,
+    setWeightUnit,
   };
 };

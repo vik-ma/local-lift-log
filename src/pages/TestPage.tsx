@@ -1,11 +1,6 @@
 import { useEffect, useState } from "react";
-import { useCalculationModal, usePresetsList, useWeekdayMap } from "../hooks";
-import {
-  Button,
-  CalendarDate,
-  RangeValue,
-  useDisclosure,
-} from "@nextui-org/react";
+import { useCalculationModal, useListFilters, usePresetsList } from "../hooks";
+import { Button, useDisclosure } from "@nextui-org/react";
 import {
   CalculationModal,
   FilterUserWeightListModal,
@@ -30,9 +25,6 @@ export default function Test() {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const [text, setText] = useState<string>("");
   const [isMetric, setIsMetric] = useState<boolean>(true);
-  const [dateRange, setDateRange] = useState<RangeValue<CalendarDate> | null>(
-    null
-  );
 
   const [userSettings, setUserSettings] = useState<UserSettings>();
 
@@ -42,11 +34,9 @@ export default function Test() {
 
   const presetsList = usePresetsList(false, false);
 
-  const weekdayMap = useWeekdayMap();
+  const listFilters = useListFilters();
 
-  const [filterWeekdays, setFilterWeekdays] = useState<Set<string>>(
-    new Set(weekdayMap.keys())
-  );
+  const { setWeightUnit } = listFilters;
 
   const handleCreateDefaultsButton = async (key: string) => {
     if (key === "exercises") {
@@ -91,10 +81,11 @@ export default function Test() {
       const userSettings = await GetUserSettings();
       if (userSettings === undefined) return;
       setUserSettings(userSettings);
+      setWeightUnit(userSettings.default_unit_weight);
     };
 
     loadUserSettings();
-  }, []);
+  }, [setWeightUnit]);
 
   if (userSettings === undefined) return <LoadingSpinner />;
 
@@ -118,14 +109,9 @@ export default function Test() {
       />
       <FilterUserWeightListModal
         filterUserWeightListModal={filterUserWeightListModal}
-        dateRange={dateRange}
-        setDateRange={setDateRange}
-        header="Select Date Range"
+        useListFilters={listFilters}
         locale={userSettings.locale}
         buttonAction={() => {}}
-        filterWeekdays={filterWeekdays}
-        setFilterWeekdays={setFilterWeekdays}
-        weekdayMap={weekdayMap}
       />
       <div className="flex flex-col gap-2">
         <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">
@@ -154,7 +140,6 @@ export default function Test() {
             Change
           </Button>
         </div>
-
         <div className="flex gap-1 justify-center">
           <Button color="primary" size="sm" variant="flat">
             Primary
