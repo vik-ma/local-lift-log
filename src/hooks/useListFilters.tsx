@@ -12,6 +12,7 @@ import { useDefaultNumberRange, useWeekdayMap } from ".";
 import {
   CalculateNumDaysInCalendarDateRange,
   ConvertCalendarDateToLocalizedString,
+  IsNumberRangeValidAndFiltered,
 } from "../helpers";
 
 export const useListFilters = (
@@ -39,9 +40,8 @@ export const useListFilters = (
 
   const defaultNumberRange = useDefaultNumberRange();
 
-  const [filterWeightRange, setFilterWeightRange] = useState<NumberRange>({
-    ...defaultNumberRange,
-  });
+  const [filterWeightRange, setFilterWeightRange] =
+    useState<NumberRange>(defaultNumberRange);
 
   const [filterWeightUnit, setFilterWeightUnit] = useState<string>("kg");
 
@@ -107,6 +107,12 @@ export const useListFilters = (
       updatedFilterMap.set("exercise-groups", filterExerciseGroupsString);
     }
 
+    if (IsNumberRangeValidAndFiltered(filterWeightRange)) {
+      const filterWeightRangeString = `${filterWeightRange.start} ${filterWeightUnit} - ${filterWeightRange.end} ${filterWeightUnit}`;
+
+      updatedFilterMap.set("weight", filterWeightRangeString);
+    }
+
     setFilterMap(updatedFilterMap);
 
     activeModal.onClose();
@@ -140,6 +146,11 @@ export const useListFilters = (
       setFilterExerciseGroups([]);
     }
 
+    if (key === "weight" && filterMap.has("weight")) {
+      updatedFilterMap.delete("weight");
+      setFilterWeightRange(defaultNumberRange);
+    }
+
     setFilterMap(updatedFilterMap);
   };
 
@@ -150,6 +161,7 @@ export const useListFilters = (
     setFilterRoutines(new Set());
     setFilterExercises(new Set());
     setFilterExerciseGroups([]);
+    setFilterWeightRange(defaultNumberRange);
   };
 
   const showResetFilterButton = useMemo(() => {
@@ -159,6 +171,7 @@ export const useListFilters = (
     if (filterRoutines.size > 0) return true;
     if (filterExercises.size > 0) return true;
     if (filterExerciseGroups.length > 0) return true;
+    if (filterWeightRange.start > 0 && filterWeightRange.end > 0) return true;
 
     return false;
   }, [
@@ -168,6 +181,7 @@ export const useListFilters = (
     filterRoutines,
     filterExercises,
     filterExerciseGroups,
+    filterWeightRange,
   ]);
 
   const prefixMap = useMemo(() => {
@@ -183,6 +197,7 @@ export const useListFilters = (
       "exercise-groups",
       `Exercise Groups (${filterExerciseGroups.length}): `
     );
+    prefixMap.set("weight", `Weight: `);
     return prefixMap;
   }, [
     filterDateRange,
