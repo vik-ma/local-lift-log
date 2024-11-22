@@ -1,24 +1,33 @@
 import { Input } from "@nextui-org/react";
-import { NumberRange } from "../typings";
+import { NumberRange, NumberRangeInvalidityMap } from "../typings";
+import { IsStringInvalidNumber } from "../helpers";
 
 type NumberRangeInputProps = {
   numberRange: NumberRange;
   setNumberRange: React.Dispatch<React.SetStateAction<NumberRange>>;
   label: string;
+  numberRangeInvalidityMap: NumberRangeInvalidityMap;
 };
 
 export const NumberRangeInput = ({
   numberRange,
   setNumberRange,
   label,
+  numberRangeInvalidityMap,
 }: NumberRangeInputProps) => {
   const handleInputChange = (value: string, isStart: boolean) => {
     const updatedNumberRange = { ...numberRange };
 
     if (isStart) {
       updatedNumberRange.startInput = value;
+      if (!IsStringInvalidNumber(value)) {
+        updatedNumberRange.start = Number(value);
+      }
     } else {
       updatedNumberRange.endInput = value;
+      if (!IsStringInvalidNumber(value)) {
+        updatedNumberRange.end = Number(value);
+      }
     }
 
     setNumberRange(updatedNumberRange);
@@ -37,8 +46,7 @@ export const NumberRangeInput = ({
             variant="faded"
             labelPlacement="outside"
             onValueChange={(value) => handleInputChange(value, true)}
-            //   TODO: ADD
-            //   isInvalid={false}
+            isInvalid={numberRangeInvalidityMap.start}
             isClearable
           />
         </div>
@@ -51,8 +59,7 @@ export const NumberRangeInput = ({
             variant="faded"
             labelPlacement="outside"
             onValueChange={(value) => handleInputChange(value, false)}
-            //   TODO: ADD
-            //   isInvalid={false}
+            isInvalid={numberRangeInvalidityMap.end}
             isClearable
           />
         </div>

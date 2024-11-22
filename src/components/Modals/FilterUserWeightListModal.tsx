@@ -16,6 +16,7 @@ import {
   NumberRangeInput,
   WeightUnitDropdown,
 } from "..";
+import { useNumberRangeInvalidityMap } from "../../hooks";
 
 type FilterUserWeightListModalProps = {
   filterUserWeightListModal: UseDisclosureReturnType;
@@ -63,6 +64,9 @@ export const FilterUserWeightListModal = ({
     setFilterWeekdays(new Set(weekdayMap.keys()));
   };
 
+  const numberRangeInvalidityMap =
+    useNumberRangeInvalidityMap(filterWeightRange);
+
   return (
     <Modal
       isOpen={filterUserWeightListModal.isOpen}
@@ -88,6 +92,7 @@ export const FilterUserWeightListModal = ({
                     numberRange={filterWeightRange}
                     setNumberRange={setFilterWeightRange}
                     label="Weight Range"
+                    numberRangeInvalidityMap={numberRangeInvalidityMap}
                   />
                   <WeightUnitDropdown
                     value={weightUnit}
@@ -113,6 +118,10 @@ export const FilterUserWeightListModal = ({
                   color="primary"
                   onPress={() =>
                     buttonAction(locale, filterUserWeightListModal)
+                  }
+                  isDisabled={
+                    numberRangeInvalidityMap.start ||
+                    numberRangeInvalidityMap.end
                   }
                 >
                   Done

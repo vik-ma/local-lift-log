@@ -730,3 +730,8 @@ export type UseRoutineListReturnType = {
   routineMap: Map<number, Routine>;
   isRoutineListLoaded: React.MutableRefObject<boolean>;
 };
+
+export type NumberRangeInvalidityMap = {
+  start: boolean;
+  end: boolean;
+};
