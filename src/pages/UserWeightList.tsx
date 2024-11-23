@@ -70,6 +70,7 @@ export default function UserWeightList() {
     handleFilterSaveButton,
     removeFilter,
     prefixMap,
+    setFilterWeightUnit,
   } = listFilters;
 
   const filterUserWeightListModal = useDisclosure();
@@ -142,12 +143,13 @@ export default function UserWeightList() {
         setUserSettings(userSettings);
         getUserWeights(userSettings.clock_style);
         setWeightUnit(userSettings.default_unit_weight);
+        setFilterWeightUnit(userSettings.default_unit_weight);
         setIsLoading(false);
       }
     };
 
     loadUserSettings();
-  }, [getUserWeights]);
+  }, [getUserWeights, setFilterWeightUnit]);
 
   const handleCreateNewUserWeightButton = () => {
     resetUserWeight();
