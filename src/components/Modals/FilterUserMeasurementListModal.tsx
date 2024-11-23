@@ -8,16 +8,18 @@ import {
   ScrollShadow,
 } from "@nextui-org/react";
 import {
+  MeasurementMap,
   UseDisclosureReturnType,
   UseListFiltersReturnType,
 } from "../../typings";
 import { FilterDateRangeAndWeekdays } from "..";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 type FilterUserMeasurementListModalProps = {
   filterUserMeasurementListModal: UseDisclosureReturnType;
   useListFilters: UseListFiltersReturnType;
   locale: string;
+  measurementMap: MeasurementMap;
 };
 
 type ModalPage = "base" | "measurement-list";
@@ -26,6 +28,7 @@ export const FilterUserMeasurementListModal = ({
   filterUserMeasurementListModal,
   useListFilters,
   locale,
+  measurementMap,
 }: FilterUserMeasurementListModalProps) => {
   const [modalPage, setModalPage] = useState<ModalPage>("base");
 
@@ -38,7 +41,32 @@ export const FilterUserMeasurementListModal = ({
     showResetFilterButton,
     resetFilter,
     handleFilterSaveButton,
+    filterMeasurements,
+    setFilterMeasurements,
   } = useListFilters;
+
+  const filterMeasurementsString = useMemo(() => {
+    if (filterMeasurements.size === 0) return "No Measurements Selected";
+
+    const measurementNames: string[] = [];
+
+    for (const measurementId of filterMeasurements) {
+      if (measurementMap.has(measurementId)) {
+        const measurement = measurementMap.get(measurementId);
+        measurementNames.push(measurement!.name);
+      }
+    }
+
+    return measurementNames.join(", ");
+  }, [filterMeasurements, measurementMap]);
+
+  const showClearAllButton = useMemo(() => {
+    if (modalPage === "measurement-list" && filterMeasurements.size > 0) {
+      return true;
+    }
+
+    return false;
+  }, [modalPage, filterMeasurements]);
 
   return (
     <Modal
@@ -70,21 +98,19 @@ export const FilterUserMeasurementListModal = ({
                     />
                     <div className="flex flex-col">
                       <h3 className="font-semibold text-lg px-0.5">
-                        Measurements {/* TODO: ADD */}
-                        {/* {filterMeasurements.size > 0 && `(${filterMeasurements.size})`} */}
+                        Measurements{" "}
+                        {filterMeasurements.size > 0 &&
+                          `(${filterMeasurements.size})`}
                       </h3>
                       <div className="flex justify-between items-center px-0.5">
                         <div
-                          // className={
-                          //     filterMeasurements.size === 0
-                          //     ? "w-[15rem] text-sm break-words text-stone-400"
-                          //     : "w-[15rem] text-sm break-words text-secondary"
-                          // }
-                          // TODO: ADD
-                          className="w-[15rem] text-sm break-words text-secondary"
+                          className={
+                            filterMeasurements.size === 0
+                              ? "w-[15rem] text-sm break-words text-stone-400"
+                              : "w-[15rem] text-sm break-words text-secondary"
+                          }
                         >
-                          {/* TODO: ADD */}
-                          {/* {filterMeasurementsString} */}
+                          {filterMeasurementsString}
                         </div>
                         <Button
                           className="w-[9rem]"
@@ -104,16 +130,15 @@ export const FilterUserMeasurementListModal = ({
               <div className="flex gap-2">
                 {modalPage !== "base" ? (
                   <>
-                    {/* TODO: ADD */}
-                    {/* {showClearAllButton && (
+                    {showClearAllButton && (
                       <Button
                         variant="flat"
                         color="danger"
-                        onPress={handleClearAllButton}
+                        onPress={() => setFilterMeasurements(new Set())}
                       >
                         Clear All
                       </Button>
-                    )} */}
+                    )}
                   </>
                 ) : (
                   <>
