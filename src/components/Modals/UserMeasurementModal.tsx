@@ -41,6 +41,8 @@ type UserMeasurementModalProps = {
   ) => void;
 };
 
+type ModalPage = "base" | "measurement-list";
+
 export const UserMeasurementModal = ({
   userMeasurementModal,
   activeMeasurements,
@@ -56,12 +58,11 @@ export const UserMeasurementModal = ({
   isEditing,
   updateActiveTrackingMeasurementOrder = () => {},
 }: UserMeasurementModalProps) => {
-  const [isAddingMeasurement, setIsAddingMeasurement] =
-    useState<boolean>(false);
   const [measurements, setMeasurements] = useState<MeasurementMap>(
     new Map<string, Measurement>(measurementMap)
   );
   const [filterQuery, setFilterQuery] = useState<string>("");
+  const [modalPage, setModalPage] = useState<ModalPage>("base");
 
   const filteredMeasurements = useMemo(() => {
     if (filterQuery !== "") {
@@ -80,15 +81,7 @@ export const UserMeasurementModal = ({
     return measurements;
   }, [measurements, filterQuery]);
 
-  const showMeasurementList =
-    isAddingMeasurement || activeMeasurements.length === 0;
-
-  const handleAddMeasurement = () => {
-    if (isAddingMeasurement) {
-      setIsAddingMeasurement(false);
-      return;
-    }
-
+  const handleAddMeasurementButton = () => {
     const updatedMeasurements: MeasurementMap = new Map<string, Measurement>(
       measurementMap
     );
@@ -99,7 +92,7 @@ export const UserMeasurementModal = ({
 
     setMeasurements(updatedMeasurements);
 
-    setIsAddingMeasurement(true);
+    setModalPage("measurement-list");
   };
 
   const handleMeasurementClick = (key: string) => {
@@ -119,7 +112,7 @@ export const UserMeasurementModal = ({
       updateActiveTrackingMeasurementOrder(newMeasurements);
     }
 
-    setIsAddingMeasurement(false);
+    setModalPage("base");
   };
 
   const toggleFavorite = async (measurement: Measurement, key: string) => {
@@ -159,6 +152,15 @@ export const UserMeasurementModal = ({
     }
   };
 
+  const header = useMemo(() => {
+    if (modalPage === "base") {
+      if (isEditing) return "Edit User Measurements Entry";
+      else return "Add User Measurements Entry";
+    } else {
+      return "Add Measurement";
+    }
+  }, [modalPage, isEditing]);
+
   return (
     <Modal
       isOpen={userMeasurementModal.isOpen}
@@ -167,56 +169,50 @@ export const UserMeasurementModal = ({
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalHeader>
-              {showMeasurementList
-                ? "Add Measurement"
-                : "Edit Body Measurements Entry"}
-            </ModalHeader>
+            <ModalHeader>{header}</ModalHeader>
             <ModalBody>
-              <div className="h-[400px] flex flex-col gap-2">
-                {showMeasurementList ? (
-                  <>
-                    <SearchInput
-                      filterQuery={filterQuery}
-                      setFilterQuery={setFilterQuery}
-                      filteredListLength={filteredMeasurements.size}
-                      totalListLength={measurements.size}
-                    />
-                    <ScrollShadow className="flex flex-col gap-1">
-                      {Array.from(filteredMeasurements).map(([key, value]) => (
-                        <div
-                          key={key}
-                          className="flex cursor-pointer gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-                          onClick={() => handleMeasurementClick(key)}
-                        >
-                          <div className="flex justify-between items-center w-full">
-                            <div className="flex flex-col justify-start items-start">
-                              <span className="w-[20rem] truncate text-left">
-                                {value.name}
-                              </span>
-                              <span className="text-xs text-stone-400 text-left">
-                                {value.measurement_type}
-                              </span>
-                            </div>
-                            <div className="flex items-center pr-1">
-                              <FavoriteButton
-                                name={value.name}
-                                isFavorite={!!value.is_favorite}
-                                item={value}
-                                toggleFavorite={() =>
-                                  toggleFavorite(value, key)
-                                }
-                              />
-                            </div>
+              {modalPage === "measurement-list" ? (
+                <div className="h-[400px] flex flex-col gap-2">
+                  <SearchInput
+                    filterQuery={filterQuery}
+                    setFilterQuery={setFilterQuery}
+                    filteredListLength={filteredMeasurements.size}
+                    totalListLength={measurements.size}
+                  />
+                  <ScrollShadow className="flex flex-col gap-1">
+                    {Array.from(filteredMeasurements).map(([key, value]) => (
+                      <div
+                        key={key}
+                        className="flex cursor-pointer gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                        onClick={() => handleMeasurementClick(key)}
+                      >
+                        <div className="flex justify-between items-center w-full">
+                          <div className="flex flex-col justify-start items-start">
+                            <span className="w-[20rem] truncate text-left">
+                              {value.name}
+                            </span>
+                            <span className="text-xs text-stone-400 text-left">
+                              {value.measurement_type}
+                            </span>
+                          </div>
+                          <div className="flex items-center pr-1">
+                            <FavoriteButton
+                              name={value.name}
+                              isFavorite={!!value.is_favorite}
+                              item={value}
+                              toggleFavorite={() => toggleFavorite(value, key)}
+                            />
                           </div>
                         </div>
-                      ))}
-                      {filteredMeasurements.size === 0 && (
-                        <EmptyListLabel itemName="Measurements" />
-                      )}
-                    </ScrollShadow>
-                  </>
-                ) : (
+                      </div>
+                    ))}
+                    {filteredMeasurements.size === 0 && (
+                      <EmptyListLabel itemName="Measurements" />
+                    )}
+                  </ScrollShadow>
+                </div>
+              ) : (
+                <div className="h-[400px]">
                   <ScrollShadow className="flex flex-col gap-1.5 pr-2.5 h-full">
                     <Reorder.Group
                       className="flex flex-col gap-1.5 w-full"
@@ -251,22 +247,30 @@ export const UserMeasurementModal = ({
                       }
                       isClearable
                     />
+                    {activeMeasurements.length === 0 && (
+                      <EmptyListLabel
+                        itemName="Active Measurements"
+                        customLabel="Add a Body Measurement to log"
+                      />
+                    )}
                   </ScrollShadow>
-                )}
-              </div>
+                </div>
+              )}
             </ModalBody>
             <ModalFooter className="flex justify-between">
-              <div>
-                {activeMeasurements.length > 0 && (
-                  <Button
-                    className="w-40"
-                    variant="flat"
-                    onPress={handleAddMeasurement}
-                  >
-                    {isAddingMeasurement ? "Cancel" : "Add Measurement"}
-                  </Button>
-                )}
-              </div>
+              <Button
+                className="w-40"
+                variant="flat"
+                onPress={
+                  modalPage === "measurement-list"
+                    ? () => setModalPage("base")
+                    : handleAddMeasurementButton
+                }
+              >
+                {modalPage === "measurement-list"
+                  ? "Cancel"
+                  : "Add Measurement"}
+              </Button>
               <div className="flex gap-2">
                 <Button color="primary" variant="light" onPress={onClose}>
                   Close
@@ -275,7 +279,8 @@ export const UserMeasurementModal = ({
                   color="primary"
                   onPress={buttonAction}
                   isDisabled={
-                    !areActiveMeasurementsValid || isAddingMeasurement
+                    !areActiveMeasurementsValid ||
+                    modalPage === "measurement-list"
                   }
                 >
                   {isEditing ? "Update" : "Save"}
