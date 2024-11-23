@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import {
   ListFilterMapKey,
+  MeasurementMap,
   NumberRange,
   UseDisclosureReturnType,
   UseExerciseListReturnType,
@@ -17,7 +18,8 @@ import {
 
 export const useListFilters = (
   useExerciseList?: UseExerciseListReturnType,
-  useRoutineList?: UseRoutineListReturnType
+  useRoutineList?: UseRoutineListReturnType,
+  measurementMap?: MeasurementMap
 ): UseListFiltersReturnType => {
   const [filterMap, setFilterMap] = useState<Map<ListFilterMapKey, string>>(
     new Map()
@@ -30,6 +32,9 @@ export const useListFilters = (
   );
   const [filterExerciseGroups, setFilterExerciseGroups] = useState<string[]>(
     []
+  );
+  const [filterMeasurements, setFilterMeasurements] = useState<Set<string>>(
+    new Set()
   );
 
   const weekdayMap = useWeekdayMap();
@@ -113,6 +118,16 @@ export const useListFilters = (
       updatedFilterMap.set("weight", filterWeightRangeString);
     }
 
+    if (filterMeasurements.size > 0 && measurementMap !== undefined) {
+      const filterMeasurementsString = Array.from(filterMeasurements)
+        .map((id) =>
+          measurementMap.has(id) ? measurementMap.get(id)!.name : ""
+        )
+        .join(", ");
+
+      updatedFilterMap.set("measurements", filterMeasurementsString);
+    }
+
     setFilterMap(updatedFilterMap);
 
     activeModal.onClose();
@@ -151,6 +166,11 @@ export const useListFilters = (
       setFilterWeightRange(defaultNumberRange);
     }
 
+    if (key === "measurements" && filterMap.has("measurements")) {
+      updatedFilterMap.delete("measurements");
+      setFilterRoutines(new Set());
+    }
+
     setFilterMap(updatedFilterMap);
   };
 
@@ -162,6 +182,7 @@ export const useListFilters = (
     setFilterExercises(new Set());
     setFilterExerciseGroups([]);
     setFilterWeightRange(defaultNumberRange);
+    setFilterMeasurements(new Set());
   };
 
   const showResetFilterButton = useMemo(() => {
@@ -173,6 +194,7 @@ export const useListFilters = (
     if (filterExerciseGroups.length > 0) return true;
     if (filterWeightRange.startInput !== "") return true;
     if (filterWeightRange.endInput !== "") return true;
+    if (filterMeasurements.size > 0) return true;
 
     return false;
   }, [
@@ -183,6 +205,7 @@ export const useListFilters = (
     filterExercises,
     filterExerciseGroups,
     filterWeightRange,
+    filterMeasurements,
   ]);
 
   const prefixMap = useMemo(() => {
@@ -199,6 +222,10 @@ export const useListFilters = (
       `Exercise Groups (${filterExerciseGroups.length}): `
     );
     prefixMap.set("weight", `Weight: `);
+    prefixMap.set(
+      "measurements",
+      `Measurements (${filterMeasurements.size}): `
+    );
     return prefixMap;
   }, [
     filterDateRange,
@@ -206,6 +233,7 @@ export const useListFilters = (
     filterRoutines,
     filterExercises,
     filterExerciseGroups,
+    filterMeasurements,
   ]);
 
   return {
@@ -231,5 +259,7 @@ export const useListFilters = (
     filterWeightUnit,
     setFilterWeightUnit,
     defaultNumberRange,
+    filterMeasurements,
+    setFilterMeasurements,
   };
 };
