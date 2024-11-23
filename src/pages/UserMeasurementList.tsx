@@ -6,6 +6,7 @@ import {
   UserMeasurementModal,
   NameInputModal,
   ListPageSearchInput,
+  FilterUserMeasurementListModal,
 } from "../components";
 import { Measurement, UserMeasurement, UserSettings } from "../typings";
 import {
@@ -24,6 +25,7 @@ import {
   useUserMeasurementList,
   useMeasurementsInputs,
   useReassignMeasurement,
+  useListFilters,
 } from "../hooks";
 import {
   Button,
@@ -59,6 +61,19 @@ export default function UserMeasurementList() {
 
   const deleteModal = useDisclosure();
   const userMeasurementModal = useDisclosure();
+
+  const listFilters = useListFilters();
+
+  const {
+    filterMap,
+    filterDateRange,
+    filterWeekdays,
+    handleFilterSaveButton,
+    removeFilter,
+    prefixMap,
+  } = listFilters;
+
+  const filterUserMeasurementListModal = useDisclosure();
 
   const {
     measurementMap,
@@ -269,6 +284,12 @@ export default function UserMeasurementList() {
         isNameValid={isNewMeasurementNameValid}
         buttonAction={reassignUserMeasurements}
       />
+      <FilterUserMeasurementListModal
+        filterUserMeasurementListModal={filterUserMeasurementListModal}
+        useListFilters={listFilters}
+        locale={userSettings.locale}
+        buttonAction={handleFilterSaveButton}
+      />
       <div className="flex flex-col items-center gap-1">
         <ListPageSearchInput
           header="User Measurement List"
@@ -288,15 +309,15 @@ export default function UserMeasurementList() {
                   New User Measurements
                 </Button>
                 <div className="flex gap-1">
-                  {/* <Button
+                  <Button
                     className="z-1"
                     variant="flat"
                     color={filterMap.size > 0 ? "secondary" : "default"}
                     size="sm"
-                    onPress={() => filterUserWeightListModal.onOpen()}
+                    onPress={() => filterUserMeasurementListModal.onOpen()}
                   >
                     Filter
-                  </Button> */}
+                  </Button>
                   <Dropdown>
                     <DropdownTrigger>
                       <Button className="z-1" variant="flat" size="sm">
