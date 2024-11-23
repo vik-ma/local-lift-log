@@ -68,7 +68,6 @@ export default function UserMeasurementList() {
     filterMap,
     filterDateRange,
     filterWeekdays,
-    handleFilterSaveButton,
     removeFilter,
     prefixMap,
   } = listFilters;
@@ -288,7 +287,6 @@ export default function UserMeasurementList() {
         filterUserMeasurementListModal={filterUserMeasurementListModal}
         useListFilters={listFilters}
         locale={userSettings.locale}
-        buttonAction={handleFilterSaveButton}
       />
       <div className="flex flex-col items-center gap-1">
         <ListPageSearchInput

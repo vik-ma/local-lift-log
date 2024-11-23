@@ -16,14 +16,12 @@ type FilterUserMeasurementListModalProps = {
   filterUserMeasurementListModal: UseDisclosureReturnType;
   useListFilters: UseListFiltersReturnType;
   locale: string;
-  buttonAction: (locale: string, activeModal: UseDisclosureReturnType) => void;
 };
 
 export const FilterUserMeasurementListModal = ({
   filterUserMeasurementListModal,
   useListFilters,
   locale,
-  buttonAction,
 }: FilterUserMeasurementListModalProps) => {
   const {
     filterDateRange,
@@ -33,6 +31,7 @@ export const FilterUserMeasurementListModal = ({
     weekdayMap,
     showResetFilterButton,
     resetFilter,
+    handleFilterSaveButton,
   } = useListFilters;
 
   return (
@@ -72,7 +71,10 @@ export const FilterUserMeasurementListModal = ({
                 <Button
                   color="primary"
                   onPress={() =>
-                    buttonAction(locale, filterUserMeasurementListModal)
+                    handleFilterSaveButton(
+                      locale,
+                      filterUserMeasurementListModal
+                    )
                   }
                 >
                   Done

@@ -21,14 +21,12 @@ type FilterUserWeightListModalProps = {
   filterUserWeightListModal: UseDisclosureReturnType;
   useListFilters: UseListFiltersReturnType;
   locale: string;
-  buttonAction: (locale: string, activeModal: UseDisclosureReturnType) => void;
 };
 
 export const FilterUserWeightListModal = ({
   filterUserWeightListModal,
   useListFilters,
   locale,
-  buttonAction,
 }: FilterUserWeightListModalProps) => {
   const {
     filterDateRange,
@@ -42,6 +40,7 @@ export const FilterUserWeightListModal = ({
     setFilterWeightUnit,
     showResetFilterButton,
     resetFilter,
+    handleFilterSaveButton,
   } = useListFilters;
 
   const numberRangeInvalidityMap =
@@ -97,7 +96,7 @@ export const FilterUserWeightListModal = ({
                 <Button
                   color="primary"
                   onPress={() =>
-                    buttonAction(locale, filterUserWeightListModal)
+                    handleFilterSaveButton(locale, filterUserWeightListModal)
                   }
                   isDisabled={
                     numberRangeInvalidityMap.start ||
