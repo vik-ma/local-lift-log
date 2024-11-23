@@ -45,9 +45,6 @@ type OperationType = "add" | "edit" | "delete";
 
 export default function MeasurementList() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
-  const [activeMeasurementSet, setActiveMeasurementSet] = useState<Set<number>>(
-    new Set()
-  );
   const [operationType, setOperationType] = useState<OperationType>("add");
 
   const defaultMeasurement = useDefaultMeasurement();
@@ -58,6 +55,21 @@ export default function MeasurementList() {
   const deleteModal = useDisclosure();
   const measurementModal = useDisclosure();
   const setUnitsModal = useDisclosure();
+
+  const {
+    measurements,
+    setMeasurements,
+    isMeasurementsLoading,
+    filterQuery,
+    setFilterQuery,
+    filteredMeasurements,
+    toggleFavorite,
+    sortCategory,
+    handleSortOptionSelection,
+    sortMeasurementsByActiveCategory,
+    activeMeasurementSet,
+    setActiveMeasurementSet,
+  } = useMeasurementList();
 
   useEffect(() => {
     const loadUserSettings = async () => {
@@ -85,20 +97,7 @@ export default function MeasurementList() {
     };
 
     loadUserSettings();
-  }, []);
-
-  const {
-    measurements,
-    setMeasurements,
-    isMeasurementsLoading,
-    filterQuery,
-    setFilterQuery,
-    filteredMeasurements,
-    toggleFavorite,
-    sortCategory,
-    handleSortOptionSelection,
-    sortMeasurementsByActiveCategory,
-  } = useMeasurementList(activeMeasurementSet);
+  }, [setActiveMeasurementSet]);
 
   const addMeasurement = async () => {
     if (operationType !== "add" || !isNewMeasurementNameValid) return;
@@ -481,10 +480,7 @@ export default function MeasurementList() {
                               Untrack
                             </DropdownItem>
                           ) : (
-                            <DropdownItem
-                              key="track"
-                              className="text-success"
-                            >
+                            <DropdownItem key="track" className="text-success">
                               Track
                             </DropdownItem>
                           )}

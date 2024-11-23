@@ -5,13 +5,16 @@ import { UpdateIsFavorite, UpdateItemInList } from "../helpers";
 
 type MeasurementSortCategory = "favorite" | "active" | "name";
 
-export const useMeasurementList = (activeMeasurements: Set<number>) => {
+export const useMeasurementList = () => {
   const [isMeasurementsLoading, setIsMeasurementsLoading] =
     useState<boolean>(true);
   const [measurements, setMeasurements] = useState<Measurement[]>([]);
   const [filterQuery, setFilterQuery] = useState<string>("");
   const [sortCategory, setSortCategory] =
     useState<MeasurementSortCategory>("favorite");
+  const [activeMeasurementSet, setActiveMeasurementSet] = useState<Set<number>>(
+    new Set()
+  );
 
   const filteredMeasurements = useMemo(() => {
     if (filterQuery !== "") {
@@ -95,8 +98,8 @@ export const useMeasurementList = (activeMeasurements: Set<number>) => {
 
   const sortMeasurementsByActiveFirst = (measurements: Measurement[]) => {
     measurements.sort((a, b) => {
-      const aIsActive = activeMeasurements.has(a.id);
-      const bIsActive = activeMeasurements.has(b.id);
+      const aIsActive = activeMeasurementSet.has(a.id);
+      const bIsActive = activeMeasurementSet.has(b.id);
 
       if (aIsActive && !bIsActive) return -1;
 
@@ -148,5 +151,7 @@ export const useMeasurementList = (activeMeasurements: Set<number>) => {
     sortCategory,
     handleSortOptionSelection,
     sortMeasurementsByActiveCategory,
+    activeMeasurementSet,
+    setActiveMeasurementSet,
   };
 };
