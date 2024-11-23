@@ -84,8 +84,8 @@ export const FilterUserWeightListModal = ({
             <ModalFooter className="flex justify-between">
               <div>
                 {showResetFilterButton && (
-                  <Button variant="flat" onPress={resetFilter}>
-                    Reset
+                  <Button variant="flat" color="danger" onPress={resetFilter}>
+                    Reset All Filters
                   </Button>
                 )}
               </div>
