@@ -239,31 +239,34 @@ export const FilterWorkoutListModal = ({
                       locale={userSettings.locale}
                       dateRangeLabel="Workout Dates"
                     />
-                    <div className="flex flex-col">
-                      <h3 className="font-semibold text-lg px-0.5">
-                        Routines{" "}
-                        {filterRoutines.size > 0 && `(${filterRoutines.size})`}
-                      </h3>
-                      <div className="flex justify-between items-center px-0.5">
-                        <div
-                          className={
-                            filterRoutines.size === 0
-                              ? "w-[16rem] text-sm break-words text-stone-400"
-                              : "w-[16rem] text-sm break-words text-secondary"
-                          }
-                        >
-                          {filterRoutinesString}
+                    <div className="flex flex-col gap-1">
+                      <div className="flex flex-col">
+                        <h3 className="font-semibold text-lg px-0.5">
+                          Routines{" "}
+                          {filterRoutines.size > 0 &&
+                            `(${filterRoutines.size})`}
+                        </h3>
+                        <div className="flex justify-between items-center px-0.5">
+                          <div
+                            className={
+                              filterRoutines.size === 0
+                                ? "w-[16rem] text-sm break-words text-stone-400"
+                                : "w-[16rem] text-sm break-words text-secondary"
+                            }
+                          >
+                            {filterRoutinesString}
+                          </div>
+                          <Button
+                            className="w-[7rem]"
+                            variant="flat"
+                            size="sm"
+                            onPress={() =>
+                              setFilterWorkoutListModalPage("routine-list")
+                            }
+                          >
+                            Filter Routines
+                          </Button>
                         </div>
-                        <Button
-                          className="w-[7rem]"
-                          variant="flat"
-                          size="sm"
-                          onPress={() =>
-                            setFilterWorkoutListModalPage("routine-list")
-                          }
-                        >
-                          Filter Routines
-                        </Button>
                       </div>
                       <div className="flex flex-col">
                         <h3 className="font-semibold text-lg px-0.5">

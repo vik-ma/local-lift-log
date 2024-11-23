@@ -36,7 +36,7 @@ export const NumberRangeInput = ({
   return (
     <div className="flex flex-col gap-0.5">
       <h3 className="font-semibold text-lg px-0.5">{label}</h3>
-      <div className="flex gap-3 px-0.5">
+      <div className="flex gap-2.5 px-0.5">
         <div className="flex flex-col">
           <span className="font-medium text-sm px-0.5">From</span>
           <Input

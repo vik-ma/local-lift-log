@@ -56,7 +56,7 @@ export const FilterUserWeightListModal = ({
           <>
             <ModalHeader>Filter User Weights</ModalHeader>
             <ModalBody>
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-3">
                 <FilterDateRangeAndWeekdays
                   filterDateRange={filterDateRange}
                   setFilterDateRange={setFilterDateRange}
@@ -66,7 +66,7 @@ export const FilterUserWeightListModal = ({
                   locale={locale}
                   dateRangeLabel="User Weight Dates"
                 />
-                <div className="flex gap-2.5">
+                <div className="flex gap-2">
                   <NumberRangeInput
                     numberRange={filterWeightRange}
                     setNumberRange={setFilterWeightRange}
