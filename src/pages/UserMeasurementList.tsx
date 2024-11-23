@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import {
   LoadingSpinner,
   UserMeasurementAccordion,
@@ -47,6 +47,7 @@ export default function UserMeasurementList() {
   const [measurementsCommentInput, setMeasurementsCommentInput] =
     useState<string>("");
   const [userSettings, setUserSettings] = useState<UserSettings>();
+  const [filterQuery, setFilterQuery] = useState<string>("");
 
   const defaultUserMeasurements = useDefaultUserMeasurements();
 
@@ -54,10 +55,44 @@ export default function UserMeasurementList() {
     useState<UserMeasurement>(defaultUserMeasurements);
 
   const {
-    invalidMeasurementInputs,
-    areActiveMeasurementsValid,
-    handleActiveMeasurementInputChange,
-  } = useMeasurementsInputs(activeMeasurements, setActiveMeasurements);
+    measurementMap,
+    setMeasurementMap,
+    userMeasurements,
+    setUserMeasurements,
+    getUserMeasurements,
+    sortCategory,
+    handleSortOptionSelection,
+    sortUserMeasurementsByActiveCategory,
+  } = useUserMeasurementList();
+
+  const filteredUserMeasurements = useMemo(() => {
+    if (filterQuery !== "") {
+      return userMeasurements.filter(
+        (item) =>
+          (item.userMeasurementValues !== undefined &&
+            Object.keys(item.userMeasurementValues).some((key) =>
+              measurementMap
+                .get(key)
+                ?.name.toLocaleLowerCase()
+                .includes(filterQuery.toLocaleLowerCase())
+            )) ||
+          (item.comment !== null &&
+            item.comment
+              .toLocaleLowerCase()
+              .includes(filterQuery.toLocaleLowerCase()))
+      );
+    }
+    return userMeasurements;
+  }, [userMeasurements, filterQuery, measurementMap]);
+
+  const {
+    newMeasurementName,
+    setNewMeasurementName,
+    isNewMeasurementNameValid,
+    nameInputModal,
+    handleReassignMeasurement,
+    reassignMeasurement,
+  } = useReassignMeasurement();
 
   const deleteModal = useDisclosure();
   const userMeasurementModal = useDisclosure();
@@ -75,27 +110,10 @@ export default function UserMeasurementList() {
   const filterUserMeasurementListModal = useDisclosure();
 
   const {
-    measurementMap,
-    setMeasurementMap,
-    userMeasurements,
-    getUserMeasurements,
-    setUserMeasurements,
-    filterQuery,
-    setFilterQuery,
-    filteredUserMeasurements,
-    sortCategory,
-    handleSortOptionSelection,
-    sortUserMeasurementsByActiveCategory,
-  } = useUserMeasurementList();
-
-  const {
-    newMeasurementName,
-    setNewMeasurementName,
-    isNewMeasurementNameValid,
-    nameInputModal,
-    handleReassignMeasurement,
-    reassignMeasurement,
-  } = useReassignMeasurement();
+    invalidMeasurementInputs,
+    areActiveMeasurementsValid,
+    handleActiveMeasurementInputChange,
+  } = useMeasurementsInputs(activeMeasurements, setActiveMeasurements);
 
   useEffect(() => {
     const loadUserSettings = async () => {
