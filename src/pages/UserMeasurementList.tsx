@@ -7,6 +7,7 @@ import {
   NameInputModal,
   ListPageSearchInput,
   FilterUserMeasurementListModal,
+  ListFilters,
 } from "../components";
 import { Measurement, UserMeasurement, UserSettings } from "../typings";
 import {
@@ -19,6 +20,8 @@ import {
   UpdateUserMeasurements,
   DeleteItemFromList,
   UpdateItemInList,
+  IsDateWithinRange,
+  IsDateInWeekdaySet,
 } from "../helpers";
 import {
   useDefaultUserMeasurements,
@@ -65,8 +68,18 @@ export default function UserMeasurementList() {
     sortUserMeasurementsByActiveCategory,
   } = useUserMeasurementList();
 
+  const listFilters = useListFilters();
+
+  const {
+    filterMap,
+    filterDateRange,
+    filterWeekdays,
+    removeFilter,
+    prefixMap,
+  } = listFilters;
+
   const filteredUserMeasurements = useMemo(() => {
-    if (filterQuery !== "") {
+    if (filterQuery !== "" || filterMap.size > 0) {
       return userMeasurements.filter(
         (item) =>
           (item.userMeasurementValues !== undefined &&
@@ -79,11 +92,22 @@ export default function UserMeasurementList() {
           (item.comment !== null &&
             item.comment
               .toLocaleLowerCase()
-              .includes(filterQuery.toLocaleLowerCase()))
+              .includes(filterQuery.toLocaleLowerCase()) &&
+            (!filterMap.has("dates") ||
+              IsDateWithinRange(item.date, filterDateRange)) &&
+            (!filterMap.has("weekdays") ||
+              IsDateInWeekdaySet(item.date, filterWeekdays)))
       );
     }
     return userMeasurements;
-  }, [userMeasurements, filterQuery, measurementMap]);
+  }, [
+    userMeasurements,
+    filterQuery,
+    measurementMap,
+    filterMap,
+    filterDateRange,
+    filterWeekdays,
+  ]);
 
   const {
     newMeasurementName,
@@ -96,16 +120,6 @@ export default function UserMeasurementList() {
 
   const deleteModal = useDisclosure();
   const userMeasurementModal = useDisclosure();
-
-  const listFilters = useListFilters();
-
-  const {
-    filterMap,
-    filterDateRange,
-    filterWeekdays,
-    removeFilter,
-    prefixMap,
-  } = listFilters;
 
   const filterUserMeasurementListModal = useDisclosure();
 
@@ -358,6 +372,13 @@ export default function UserMeasurementList() {
                   </Dropdown>
                 </div>
               </div>
+              {filterMap.size > 0 && (
+                <ListFilters
+                  filterMap={filterMap}
+                  removeFilter={removeFilter}
+                  prefixMap={prefixMap}
+                />
+              )}
             </div>
           }
         />
