@@ -55,7 +55,12 @@ export const UserMeasurementReorderItem = ({
           isDisabled={measurement.measurement_type === "Caliper"}
         />
         {!isEditing && (
-          <ReorderIcon dragControls={dragControls} size={35} addPadding />
+          <ReorderIcon
+            dragControls={dragControls}
+            size={35}
+            color="#b6b6b6"
+            addPadding
+          />
         )}
       </div>
     </Reorder.Item>
