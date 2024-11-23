@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Routine, UseRoutineListReturnType } from "../typings";
+import { Routine, RoutineMap, UseRoutineListReturnType } from "../typings";
 import { useDisclosure } from "@nextui-org/react";
 import { GetAllRoutinesWithNumWorkoutTemplates } from "../helpers";
 
@@ -8,7 +8,7 @@ export const useRoutineList = (
 ): UseRoutineListReturnType => {
   const [routines, setRoutines] = useState<Routine[]>([]);
   const [filterQuery, setFilterQuery] = useState<string>("");
-  const [routineMap, setRoutineMap] = useState<Map<number, Routine>>(new Map());
+  const [routineMap, setRoutineMap] = useState<RoutineMap>(new Map());
 
   const isRoutineListLoaded = useRef(false);
 

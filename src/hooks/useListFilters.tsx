@@ -3,10 +3,10 @@ import {
   ListFilterMapKey,
   MeasurementMap,
   NumberRange,
+  RoutineMap,
   UseDisclosureReturnType,
   UseExerciseListReturnType,
   UseListFiltersReturnType,
-  UseRoutineListReturnType,
 } from "../typings";
 import { CalendarDate, RangeValue } from "@nextui-org/react";
 import { useDefaultNumberRange, useWeekdayMap } from ".";
@@ -18,7 +18,7 @@ import {
 
 export const useListFilters = (
   useExerciseList?: UseExerciseListReturnType,
-  useRoutineList?: UseRoutineListReturnType,
+  routineMap?: RoutineMap,
   measurementMap?: MeasurementMap
 ): UseListFiltersReturnType => {
   const [filterMap, setFilterMap] = useState<Map<ListFilterMapKey, string>>(
@@ -76,13 +76,9 @@ export const useListFilters = (
       updatedFilterMap.set("weekdays", filterWeekdaysString);
     }
 
-    if (filterRoutines.size > 0 && useRoutineList !== undefined) {
+    if (filterRoutines.size > 0 && routineMap !== undefined) {
       const filterRoutinesString = Array.from(filterRoutines)
-        .map((id) =>
-          useRoutineList.routineMap.has(id)
-            ? useRoutineList.routineMap.get(id)!.name
-            : ""
-        )
+        .map((id) => (routineMap.has(id) ? routineMap.get(id)!.name : ""))
         .join(", ");
 
       updatedFilterMap.set("routines", filterRoutinesString);

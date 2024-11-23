@@ -35,7 +35,7 @@ export const useWorkoutList = (
 
   const routineList = useRoutineList(true);
 
-  const listFilters = useListFilters(useExerciseList, routineList);
+  const listFilters = useListFilters(useExerciseList, routineList.routineMap);
 
   const {
     handleFilterSaveButton,

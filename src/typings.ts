@@ -724,6 +724,8 @@ export type UsePlateCalculationModalReturnType = {
   resetAndOpenPlateCalculationModal: () => void;
 };
 
+export type RoutineMap = Map<number, Routine>;
+
 export type UseRoutineListReturnType = {
   routines: Routine[];
   setRoutines: React.Dispatch<React.SetStateAction<Routine[]>>;
@@ -732,7 +734,7 @@ export type UseRoutineListReturnType = {
   setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
   routineListModal: UseDisclosureReturnType;
   handleOpenRoutineListModal: () => void;
-  routineMap: Map<number, Routine>;
+  routineMap: RoutineMap;
   isRoutineListLoaded: React.MutableRefObject<boolean>;
 };
 
