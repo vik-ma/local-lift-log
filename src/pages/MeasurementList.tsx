@@ -59,7 +59,7 @@ export default function MeasurementList() {
   const {
     measurements,
     setMeasurements,
-    isMeasurementsLoading,
+    isMeasurementListLoaded,
     filterQuery,
     setFilterQuery,
     filteredMeasurements,
@@ -412,7 +412,7 @@ export default function MeasurementList() {
             </div>
           }
         />
-        {isMeasurementsLoading ? (
+        {!isMeasurementListLoaded.current ? (
           <LoadingSpinner />
         ) : (
           <>

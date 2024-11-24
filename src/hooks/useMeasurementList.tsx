@@ -1,13 +1,11 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { Measurement } from "../typings";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Measurement, MeasurementMap } from "../typings";
 import Database from "tauri-plugin-sql-api";
 import { UpdateIsFavorite, UpdateItemInList } from "../helpers";
 
 type MeasurementSortCategory = "favorite" | "active" | "name";
 
 export const useMeasurementList = () => {
-  const [isMeasurementsLoading, setIsMeasurementsLoading] =
-    useState<boolean>(true);
   const [measurements, setMeasurements] = useState<Measurement[]>([]);
   const [filterQuery, setFilterQuery] = useState<string>("");
   const [sortCategory, setSortCategory] =
@@ -15,6 +13,11 @@ export const useMeasurementList = () => {
   const [activeMeasurementSet, setActiveMeasurementSet] = useState<Set<number>>(
     new Set()
   );
+  const [measurementMap, setMeasurementMap] = useState<MeasurementMap>(
+    new Map()
+  );
+
+  const isMeasurementListLoaded = useRef(false);
 
   const filteredMeasurements = useMemo(() => {
     if (filterQuery !== "") {
@@ -39,10 +42,15 @@ export const useMeasurementList = () => {
         "SELECT * FROM measurements"
       );
 
+      const measurementMap = new Map<string, Measurement>(
+        result.map((obj) => [obj.id.toString(), obj])
+      );
+
       sortMeasurementsByFavoritesFirst(result);
+      setMeasurementMap(measurementMap);
 
       setMeasurements(result);
-      setIsMeasurementsLoading(false);
+      isMeasurementListLoaded.current = true;
     } catch (error) {
       console.log(error);
     }
@@ -143,7 +151,7 @@ export const useMeasurementList = () => {
   return {
     measurements,
     setMeasurements,
-    isMeasurementsLoading,
+    isMeasurementListLoaded,
     filterQuery,
     setFilterQuery,
     filteredMeasurements,
@@ -153,5 +161,6 @@ export const useMeasurementList = () => {
     sortMeasurementsByActiveCategory,
     activeMeasurementSet,
     setActiveMeasurementSet,
+    measurementMap,
   };
 };

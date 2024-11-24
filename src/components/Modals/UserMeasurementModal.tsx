@@ -33,7 +33,6 @@ type UserMeasurementModalProps = {
   handleActiveMeasurementInputChange: (value: string, index: number) => void;
   areActiveMeasurementsValid: boolean;
   measurementMap: MeasurementMap;
-  setMeasurementMap: React.Dispatch<React.SetStateAction<MeasurementMap>>;
   buttonAction: () => void;
   isEditing: boolean;
   updateActiveTrackingMeasurementOrder?: (
@@ -53,7 +52,6 @@ export const UserMeasurementModal = ({
   handleActiveMeasurementInputChange,
   areActiveMeasurementsValid,
   measurementMap,
-  setMeasurementMap,
   buttonAction,
   isEditing,
   updateActiveTrackingMeasurementOrder = () => {},
@@ -139,7 +137,8 @@ export const UserMeasurementModal = ({
       updatedMeasurementMap
     );
 
-    setMeasurementMap(sortedUpdatedMeasurementMap);
+    // TODO: FIX
+    // setMeasurementMap(sortedUpdatedMeasurementMap);
 
     if (measurements.has(key)) {
       const updatedMeasurements = new Map<string, Measurement>(measurements);

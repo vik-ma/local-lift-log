@@ -4,7 +4,6 @@ import {
   UserSettings,
   UserWeight,
   UserMeasurement,
-  MeasurementMap,
   BodyMeasurementsOperationType,
 } from "../typings";
 import {
@@ -40,6 +39,7 @@ import { useNavigate } from "react-router-dom";
 import {
   useDefaultUserMeasurements,
   useDefaultUserWeight,
+  useMeasurementList,
   useMeasurementsInputs,
   useReassignMeasurement,
   useUserWeightInput,
@@ -53,9 +53,6 @@ export default function BodyMeasurements() {
 
   const [activeMeasurements, setActiveMeasurements] = useState<Measurement[]>(
     []
-  );
-  const [measurementMap, setMeasurementMap] = useState<MeasurementMap>(
-    new Map<string, Measurement>()
   );
 
   const activeMeasurementsValue = useRef<Measurement[]>([]);
@@ -113,6 +110,8 @@ export default function BodyMeasurements() {
     handleActiveMeasurementInputChange,
   } = useMeasurementsInputs(activeMeasurements, setActiveMeasurements);
 
+  const { measurementMap, isMeasurementListLoaded } = useMeasurementList();
+
   const getActiveMeasurements = useCallback(
     async (activeMeasurementsString: string) => {
       try {
@@ -141,9 +140,7 @@ export default function BodyMeasurements() {
 
   const getLatestUserMeasurement = useCallback(
     async (clockStyle: string) => {
-      const measurementMap = await GetMeasurementsMap();
-
-      setMeasurementMap(measurementMap);
+      if (!isMeasurementListLoaded.current) return;
 
       try {
         const db = await Database.load(import.meta.env.VITE_DB);
@@ -171,7 +168,7 @@ export default function BodyMeasurements() {
         console.log(error);
       }
     },
-    [defaultUserMeasurements]
+    [defaultUserMeasurements, isMeasurementListLoaded, measurementMap]
   );
 
   useEffect(() => {
@@ -400,7 +397,7 @@ export default function BodyMeasurements() {
 
     const updatedMeasurementMap = await GetMeasurementsMap();
 
-    setMeasurementMap(updatedMeasurementMap);
+    // setMeasurementMap(updatedMeasurementMap);
 
     const userMeasurements = await GetUserMeasurements(
       userSettings.clock_style,
@@ -468,7 +465,6 @@ export default function BodyMeasurements() {
         handleActiveMeasurementInputChange={handleActiveMeasurementInputChange}
         areActiveMeasurementsValid={areActiveMeasurementsValid}
         measurementMap={measurementMap}
-        setMeasurementMap={setMeasurementMap}
         buttonAction={
           operationType === "edit-measurements"
             ? updateLatestUserMeasurements
