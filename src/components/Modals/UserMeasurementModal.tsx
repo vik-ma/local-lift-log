@@ -75,22 +75,12 @@ export const UserMeasurementModal = ({
     ];
 
     setActiveMeasurements(updatedMeasurements);
-
-    if (!isEditing) {
-      // Update active_tracking_measurements string only if adding new Measurements
-      updateActiveTrackingMeasurementOrder(updatedMeasurements);
-    }
   };
 
   const handleClearAllButton = () => {
     const updatedMeasurements: Measurement[] = [];
 
     setActiveMeasurements(updatedMeasurements);
-
-    if (!isEditing) {
-      // Update active_tracking_measurements string only if adding new Measurements
-      updateActiveTrackingMeasurementOrder(updatedMeasurements);
-    }
   };
 
   const header = useMemo(() => {

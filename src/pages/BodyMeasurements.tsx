@@ -261,6 +261,8 @@ export default function BodyMeasurements() {
       );
 
       setLatestUserMeasurements(detailedActiveMeasurement[0]);
+
+      updateActiveTrackingMeasurementOrder();
     } catch (error) {
       console.log(error);
     }
