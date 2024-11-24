@@ -85,6 +85,12 @@ export const useMeasurementList = (): UseMeasurementListReturnType => {
     );
 
     sortMeasurementsByActiveCategory(updatedMeasurements);
+
+    const updatedMeasurementMap = new Map<string, Measurement>(measurementMap);
+
+    updatedMeasurementMap.set(measurement.id.toString(), updatedMeasurement);
+
+    setMeasurementMap(updatedMeasurementMap);
   };
 
   const sortMeasurementsByName = (measurements: Measurement[]) => {

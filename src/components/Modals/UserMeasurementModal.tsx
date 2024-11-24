@@ -98,44 +98,6 @@ export const UserMeasurementModal = ({
     // setModalPage("base");
   };
 
-  // const toggleFavorite = async (measurement: Measurement, key: string) => {
-  //   const newFavoriteValue = measurement.is_favorite === 1 ? 0 : 1;
-
-  //   const success = await UpdateIsFavorite(
-  //     measurement.id,
-  //     "measurement",
-  //     newFavoriteValue
-  //   );
-
-  //   if (!success) return;
-
-  //   const updatedMeasurement: Measurement = {
-  //     ...measurement,
-  //     is_favorite: newFavoriteValue,
-  //   };
-
-  //   const updatedMeasurementMap = new Map<string, Measurement>(measurementMap);
-
-  //   updatedMeasurementMap.set(key, updatedMeasurement);
-
-  //   const sortedUpdatedMeasurementMap = SortMeasurementMap(
-  //     updatedMeasurementMap
-  //   );
-
-  //   // TODO: FIX
-  //   // setMeasurementMap(sortedUpdatedMeasurementMap);
-
-  //   // if (measurements.has(key)) {
-  //   //   const updatedMeasurements = new Map<string, Measurement>(measurements);
-
-  //   //   updatedMeasurements.set(key, updatedMeasurement);
-
-  //   //   const sortedUpdatedMeasurements = SortMeasurementMap(updatedMeasurements);
-
-  //   //   setMeasurements(sortedUpdatedMeasurements);
-  //   // }
-  // };
-
   const header = useMemo(() => {
     if (modalPage === "base") {
       if (isEditing) return "Edit User Measurements Entry";
