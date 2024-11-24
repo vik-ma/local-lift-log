@@ -23,6 +23,7 @@ import {
 } from "../../typings";
 import { useMemo, useState } from "react";
 import { DeleteItemFromList } from "../../helpers";
+import { CheckmarkIcon } from "../../assets";
 
 type UserMeasurementModalProps = {
   userMeasurementModal: UseDisclosureReturnType;
@@ -126,19 +127,31 @@ export const UserMeasurementModal = ({
                     {filteredMeasurements.map((measurement) => (
                       <div
                         key={measurement.id}
-                        className="flex cursor-pointer gap-1 bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                        className={
+                          activeMeasurementSet.has(measurement.id)
+                            ? "flex cursor-pointer bg-yellow-100 border-2 border-yellow-300 rounded-xl transition-colors duration-100 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                            : "flex cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl transition-colors duration-100 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                        }
                         onClick={() => handleMeasurementClick(measurement)}
                       >
-                        <div className="flex justify-between items-center w-full">
-                          <div className="flex flex-col justify-start items-start">
-                            <span className="w-[20rem] truncate text-left">
-                              {measurement.name}
-                            </span>
-                            <span className="text-xs text-stone-400 text-left">
-                              {measurement.measurement_type}
-                            </span>
+                        <div className="flex justify-between items-center py-1 pl-2 w-full">
+                          <div className="flex gap-2.5 items-center">
+                            <CheckmarkIcon
+                              isChecked={activeMeasurementSet.has(
+                                measurement.id
+                              )}
+                              size={29}
+                            />
+                            <div className="flex flex-col justify-start items-start">
+                              <span className="w-[17.5rem] truncate text-left">
+                                {measurement.name}
+                              </span>
+                              <span className="text-xs text-stone-400 text-left">
+                                {measurement.measurement_type}
+                              </span>
+                            </div>
                           </div>
-                          <div className="flex items-center pr-1">
+                          <div className="flex items-center pr-2">
                             <FavoriteButton
                               name={measurement.name}
                               isFavorite={!!measurement.is_favorite}
@@ -205,11 +218,7 @@ export const UserMeasurementModal = ({
                 {modalPage === "measurement-list" ? (
                   <>
                     {activeMeasurements.length > 0 && (
-                      <Button
-                        variant="flat"
-                        color="danger"
-                        onPress={handleClearAllButton}
-                      >
+                      <Button variant="flat" onPress={handleClearAllButton}>
                         Clear All
                       </Button>
                     )}
@@ -235,13 +244,20 @@ export const UserMeasurementModal = ({
                 </Button>
                 <Button
                   color="primary"
-                  onPress={buttonAction}
-                  isDisabled={
-                    !areActiveMeasurementsValid ||
+                  onPress={
                     modalPage === "measurement-list"
+                      ? () => setModalPage("base")
+                      : buttonAction
+                  }
+                  isDisabled={
+                    !areActiveMeasurementsValid && modalPage === "base"
                   }
                 >
-                  {isEditing ? "Update" : "Save"}
+                  {modalPage === "measurement-list"
+                    ? "Done"
+                    : isEditing
+                    ? "Update"
+                    : "Save"}
                 </Button>
               </div>
             </ModalFooter>
