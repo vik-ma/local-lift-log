@@ -104,13 +104,14 @@ export default function BodyMeasurements() {
     reassignMeasurement,
   } = useReassignMeasurement();
 
-  const {
-    invalidMeasurementInputs,
-    areActiveMeasurementsValid,
-    handleActiveMeasurementInputChange,
-  } = useMeasurementsInputs(activeMeasurements, setActiveMeasurements);
+  const measurementsInputs = useMeasurementsInputs(
+    activeMeasurements,
+    setActiveMeasurements
+  );
 
-  const { measurementMap, isMeasurementListLoaded } = useMeasurementList();
+  const measurementList = useMeasurementList();
+
+  const { measurementMap, isMeasurementListLoaded } = measurementList;
 
   const getActiveMeasurements = useCallback(
     async (activeMeasurementsString: string) => {
@@ -224,7 +225,11 @@ export default function BodyMeasurements() {
   };
 
   const addActiveMeasurements = async () => {
-    if (!areActiveMeasurementsValid || userSettings === undefined) return;
+    if (
+      !measurementsInputs.areActiveMeasurementsValid ||
+      userSettings === undefined
+    )
+      return;
 
     const currentDateString = GetCurrentDateTimeISOString();
 
@@ -284,7 +289,7 @@ export default function BodyMeasurements() {
   const updateLatestUserMeasurements = async () => {
     if (
       latestUserMeasurements.id === 0 ||
-      !areActiveMeasurementsValid ||
+      !measurementsInputs.areActiveMeasurementsValid ||
       userSettings === undefined
     )
       return;
@@ -461,10 +466,8 @@ export default function BodyMeasurements() {
         setActiveMeasurements={setActiveMeasurements}
         measurementsCommentInput={measurementsCommentInput}
         setMeasurementsCommentInput={setMeasurementsCommentInput}
-        invalidMeasurementInputs={invalidMeasurementInputs}
-        handleActiveMeasurementInputChange={handleActiveMeasurementInputChange}
-        areActiveMeasurementsValid={areActiveMeasurementsValid}
-        measurementMap={measurementMap}
+        useMeasurementList={measurementList}
+        useMeasurementsInputs={measurementsInputs}
         buttonAction={
           operationType === "edit-measurements"
             ? updateLatestUserMeasurements
