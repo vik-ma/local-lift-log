@@ -83,19 +83,21 @@ export const UserMeasurementModal = ({
   };
 
   const handleMeasurementClick = (measurement: Measurement) => {
-    // TODO: FIX
-    // const measurement = measurementMap.get(key);
-    // if (measurement === undefined) return;
-    // const newMeasurements = [
-    //   ...activeMeasurements,
-    //   { ...measurement, input: "" },
-    // ];
-    // setActiveMeasurements(newMeasurements);
-    // if (!isEditing) {
-    //   // Update active_tracking_measurements string only if adding new Measurements
-    //   updateActiveTrackingMeasurementOrder(newMeasurements);
-    // }
-    // setModalPage("base");
+    const newMeasurements = [
+      ...activeMeasurements,
+      { ...measurement, input: "" },
+    ];
+
+    setActiveMeasurements(newMeasurements);
+
+    if (!isEditing) {
+      // Update active_tracking_measurements string only if adding new Measurements
+      updateActiveTrackingMeasurementOrder(newMeasurements);
+    }
+  };
+
+  const handleClearAllButton = () => {
+    // TODO: IMPLEMENT
   };
 
   const header = useMemo(() => {
@@ -204,22 +206,34 @@ export const UserMeasurementModal = ({
               )}
             </ModalBody>
             <ModalFooter className="flex justify-between">
-              <Button
-                className="w-40"
-                variant="flat"
-                onPress={
-                  modalPage === "measurement-list"
-                    ? () => setModalPage("base")
-                    : handleAddMeasurementButton
-                }
-              >
-                {modalPage === "measurement-list"
-                  ? "Cancel"
-                  : "Add Measurement"}
-              </Button>
+              {modalPage === "measurement-list" ? (
+                <Button
+                  className="w-[11rem]"
+                  variant="flat"
+                  color="danger"
+                  onPress={handleClearAllButton}
+                >
+                  Clear All
+                </Button>
+              ) : (
+                <Button
+                  className="w-[11rem]"
+                  variant="flat"
+                  onPress={handleAddMeasurementButton}
+                >
+                  Select Measurements
+                </Button>
+              )}
+
               <div className="flex gap-2">
-                <Button color="primary" variant="light" onPress={onClose}>
-                  Close
+                <Button
+                  color="primary"
+                  variant="light"
+                  onPress={
+                    modalPage === "base" ? onClose : () => setModalPage("base")
+                  }
+                >
+                  {modalPage === "base" ? "Close" : "Back"}
                 </Button>
                 <Button
                   color="primary"
