@@ -420,7 +420,11 @@ export default function MeasurementList() {
               {filteredMeasurements.map((measurement) => (
                 <div
                   key={measurement.id}
-                  className="flex cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                  className={
+                    activeMeasurementSet.has(measurement.id)
+                      ? "flex cursor-pointer bg-yellow-100 border-2 border-yellow-300 rounded-xl transition-colors duration-100 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                      : "flex cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl transition-colors duration-100 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                  }
                   onClick={() => handleMeasurementClick(measurement.id)}
                 >
                   <div className="flex justify-between items-center py-1 pl-2 w-full">
