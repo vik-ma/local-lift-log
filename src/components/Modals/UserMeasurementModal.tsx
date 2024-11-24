@@ -22,6 +22,7 @@ import {
   UseMeasurementsInputsReturnType,
 } from "../../typings";
 import { useMemo, useState } from "react";
+import { DeleteItemFromList } from "../../helpers";
 
 type UserMeasurementModalProps = {
   userMeasurementModal: UseDisclosureReturnType;
@@ -69,12 +70,19 @@ export const UserMeasurementModal = ({
   } = useMeasurementsInputs;
 
   const handleMeasurementClick = (measurement: Measurement) => {
-    const updatedMeasurements = [
-      ...activeMeasurements,
-      { ...measurement, input: "" },
-    ];
-
-    setActiveMeasurements(updatedMeasurements);
+    if (activeMeasurementSet.has(measurement.id)) {
+      const updatedMeasurements = DeleteItemFromList(
+        activeMeasurements,
+        measurement.id
+      );
+      setActiveMeasurements(updatedMeasurements);
+    } else {
+      const updatedMeasurements = [
+        ...activeMeasurements,
+        { ...measurement, input: "" },
+      ];
+      setActiveMeasurements(updatedMeasurements);
+    }
   };
 
   const handleClearAllButton = () => {
@@ -91,6 +99,10 @@ export const UserMeasurementModal = ({
       return "Select Body Measurements To Log";
     }
   }, [modalPage, isEditing]);
+
+  const activeMeasurementSet = useMemo(() => {
+    return new Set<number>(activeMeasurements.map((obj) => obj.id));
+  }, [activeMeasurements]);
 
   return (
     <Modal
