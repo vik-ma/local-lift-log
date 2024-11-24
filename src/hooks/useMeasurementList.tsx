@@ -1,11 +1,14 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Measurement, MeasurementMap } from "../typings";
+import {
+  Measurement,
+  MeasurementMap,
+  MeasurementSortCategory,
+  UseMeasurementListReturnType,
+} from "../typings";
 import Database from "tauri-plugin-sql-api";
 import { UpdateIsFavorite, UpdateItemInList } from "../helpers";
 
-type MeasurementSortCategory = "favorite" | "active" | "name";
-
-export const useMeasurementList = () => {
+export const useMeasurementList = (): UseMeasurementListReturnType => {
   const [measurements, setMeasurements] = useState<Measurement[]>([]);
   const [filterQuery, setFilterQuery] = useState<string>("");
   const [sortCategory, setSortCategory] =

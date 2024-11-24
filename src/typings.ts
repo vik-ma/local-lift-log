@@ -742,3 +742,27 @@ export type NumberRangeInvalidityMap = {
   start: boolean;
   end: boolean;
 };
+
+export type MeasurementSortCategory = "favorite" | "active" | "name";
+
+export type UseMeasurementListReturnType = {
+  measurements: Measurement[];
+  setMeasurements: React.Dispatch<React.SetStateAction<Measurement[]>>;
+  isMeasurementListLoaded: React.MutableRefObject<boolean>;
+  filterQuery: string;
+  setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
+  filteredMeasurements: Measurement[];
+  toggleFavorite: (measurement: Measurement) => Promise<void>;
+  sortCategory: MeasurementSortCategory;
+  handleSortOptionSelection: (key: string) => void;
+  sortMeasurementsByActiveCategory: (measurements: Measurement[]) => void;
+  activeMeasurementSet: Set<number>;
+  setActiveMeasurementSet: React.Dispatch<React.SetStateAction<Set<number>>>;
+  measurementMap: MeasurementMap;
+};
+
+export type UseMeasurementsInputsReturnType = {
+  invalidMeasurementInputs: Set<number>;
+  areActiveMeasurementsValid: boolean;
+  handleActiveMeasurementInputChange: (value: string, index: number) => void;
+};
