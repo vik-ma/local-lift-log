@@ -55,11 +55,9 @@ export const UserMeasurementModal = ({
   const [modalPage, setModalPage] = useState<ModalPage>("base");
 
   const {
-    measurementMap,
     filterQuery,
     setFilterQuery,
     measurements,
-    setMeasurements,
     filteredMeasurements,
     toggleFavorite,
   } = useMeasurementList;
@@ -70,34 +68,29 @@ export const UserMeasurementModal = ({
     handleActiveMeasurementInputChange,
   } = useMeasurementsInputs;
 
-  const handleAddMeasurementButton = () => {
-    // TODO: FIX
-    // const updatedMeasurements: MeasurementMap = new Map<string, Measurement>(
-    //   measurementMap
-    // );
-    // activeMeasurements.forEach((measurement) => {
-    //   updatedMeasurements.delete(measurement.id.toString());
-    // });
-    // setMeasurements(updatedMeasurements);
-    // setModalPage("measurement-list");
-  };
-
   const handleMeasurementClick = (measurement: Measurement) => {
-    const newMeasurements = [
+    const updatedMeasurements = [
       ...activeMeasurements,
       { ...measurement, input: "" },
     ];
 
-    setActiveMeasurements(newMeasurements);
+    setActiveMeasurements(updatedMeasurements);
 
     if (!isEditing) {
       // Update active_tracking_measurements string only if adding new Measurements
-      updateActiveTrackingMeasurementOrder(newMeasurements);
+      updateActiveTrackingMeasurementOrder(updatedMeasurements);
     }
   };
 
   const handleClearAllButton = () => {
-    // TODO: IMPLEMENT
+    const updatedMeasurements: Measurement[] = [];
+
+    setActiveMeasurements(updatedMeasurements);
+
+    if (!isEditing) {
+      // Update active_tracking_measurements string only if adding new Measurements
+      updateActiveTrackingMeasurementOrder(updatedMeasurements);
+    }
   };
 
   const header = useMemo(() => {
@@ -105,7 +98,7 @@ export const UserMeasurementModal = ({
       if (isEditing) return "Edit User Measurements Entry";
       else return "Add User Measurements Entry";
     } else {
-      return "Add Measurement";
+      return "Select Body Measurements To Log";
     }
   }, [modalPage, isEditing]);
 
@@ -206,25 +199,28 @@ export const UserMeasurementModal = ({
               )}
             </ModalBody>
             <ModalFooter className="flex justify-between">
-              {modalPage === "measurement-list" ? (
-                <Button
-                  className="w-[11rem]"
-                  variant="flat"
-                  color="danger"
-                  onPress={handleClearAllButton}
-                >
-                  Clear All
-                </Button>
-              ) : (
-                <Button
-                  className="w-[11rem]"
-                  variant="flat"
-                  onPress={handleAddMeasurementButton}
-                >
-                  Select Measurements
-                </Button>
-              )}
-
+              <div>
+                {modalPage === "measurement-list" ? (
+                  <>
+                    {activeMeasurements.length > 0 && (
+                      <Button
+                        variant="flat"
+                        color="danger"
+                        onPress={handleClearAllButton}
+                      >
+                        Clear All
+                      </Button>
+                    )}
+                  </>
+                ) : (
+                  <Button
+                    variant="flat"
+                    onPress={() => setModalPage("measurement-list")}
+                  >
+                    Select Measurements
+                  </Button>
+                )}
+              </div>
               <div className="flex gap-2">
                 <Button
                   color="primary"
