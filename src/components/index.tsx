@@ -38,6 +38,7 @@ export { RoutineModalList } from "./RoutineModalList";
 export { ExerciseListOptions } from "./ExerciseListOptions";
 export { FilterDateRangeAndWeekdays } from "./FilterDateRangeAndWeekdays";
 export { NumberRangeInput } from "./NumberRangeInput";
+export { MeasurementModalList } from "./MeasurementModalList";
 
 export { WeightUnitDropdown } from "./Dropdowns/WeightUnitDropdown";
 export { DistanceUnitDropdown } from "./Dropdowns/DistanceUnitDropdown";
