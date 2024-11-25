@@ -1,6 +1,11 @@
-import { useCallback, useState } from "react";
-import { GetUserMeasurements } from "../helpers";
+import { useCallback, useMemo, useState } from "react";
+import {
+  GetUserMeasurements,
+  IsDateInWeekdaySet,
+  IsDateWithinRange,
+} from "../helpers";
 import { UseMeasurementListReturnType, UserMeasurement } from "../typings";
+import { useListFilters } from "./useListFilters";
 
 type UserMeasurementSortCategory = "date-asc" | "date-desc";
 
@@ -12,8 +17,48 @@ export const useUserMeasurementList = (
   );
   const [sortCategory, setSortCategory] =
     useState<UserMeasurementSortCategory>("date-desc");
+  const [filterQuery, setFilterQuery] = useState<string>("");
+
+  const listFilters = useListFilters();
+
+  const {
+    filterMap,
+    filterDateRange,
+    filterWeekdays,
+  } = listFilters;
 
   const { measurementMap, isMeasurementListLoaded } = useMeasurementList;
+
+  const filteredUserMeasurements = useMemo(() => {
+    if (filterQuery !== "" || filterMap.size > 0) {
+      return userMeasurements.filter(
+        (item) =>
+          (item.userMeasurementValues !== undefined &&
+            Object.keys(item.userMeasurementValues).some((key) =>
+              measurementMap
+                .get(key)
+                ?.name.toLocaleLowerCase()
+                .includes(filterQuery.toLocaleLowerCase())
+            )) ||
+          (item.comment !== null &&
+            item.comment
+              .toLocaleLowerCase()
+              .includes(filterQuery.toLocaleLowerCase()) &&
+            (!filterMap.has("dates") ||
+              IsDateWithinRange(item.date, filterDateRange)) &&
+            (!filterMap.has("weekdays") ||
+              IsDateInWeekdaySet(item.date, filterWeekdays)))
+      );
+    }
+    return userMeasurements;
+  }, [
+    userMeasurements,
+    filterQuery,
+    measurementMap,
+    filterMap,
+    filterDateRange,
+    filterWeekdays,
+  ]);
 
   const getUserMeasurements = useCallback(
     async (clockStyle: string) => {
@@ -73,5 +118,9 @@ export const useUserMeasurementList = (
     sortCategory,
     handleSortOptionSelection,
     sortUserMeasurementsByActiveCategory,
+    filteredUserMeasurements,
+    filterQuery,
+    setFilterQuery,
+    listFilters,
   };
 };

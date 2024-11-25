@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import {
   LoadingSpinner,
   UserMeasurementAccordion,
@@ -20,15 +20,12 @@ import {
   UpdateUserMeasurements,
   DeleteItemFromList,
   UpdateItemInList,
-  IsDateWithinRange,
-  IsDateInWeekdaySet,
 } from "../helpers";
 import {
   useDefaultUserMeasurements,
   useUserMeasurementList,
   useMeasurementsInputs,
   useReassignMeasurement,
-  useListFilters,
   useMeasurementList,
 } from "../hooks";
 import {
@@ -51,7 +48,6 @@ export default function UserMeasurementList() {
   const [measurementsCommentInput, setMeasurementsCommentInput] =
     useState<string>("");
   const [userSettings, setUserSettings] = useState<UserSettings>();
-  const [filterQuery, setFilterQuery] = useState<string>("");
 
   const defaultUserMeasurements = useDefaultUserMeasurements();
 
@@ -69,48 +65,13 @@ export default function UserMeasurementList() {
     sortCategory,
     handleSortOptionSelection,
     sortUserMeasurementsByActiveCategory,
+    filteredUserMeasurements,
+    filterQuery,
+    setFilterQuery,
+    listFilters,
   } = useUserMeasurementList(measurementList);
 
-  const listFilters = useListFilters();
-
-  const {
-    filterMap,
-    filterDateRange,
-    filterWeekdays,
-    removeFilter,
-    prefixMap,
-  } = listFilters;
-
-  const filteredUserMeasurements = useMemo(() => {
-    if (filterQuery !== "" || filterMap.size > 0) {
-      return userMeasurements.filter(
-        (item) =>
-          (item.userMeasurementValues !== undefined &&
-            Object.keys(item.userMeasurementValues).some((key) =>
-              measurementMap
-                .get(key)
-                ?.name.toLocaleLowerCase()
-                .includes(filterQuery.toLocaleLowerCase())
-            )) ||
-          (item.comment !== null &&
-            item.comment
-              .toLocaleLowerCase()
-              .includes(filterQuery.toLocaleLowerCase()) &&
-            (!filterMap.has("dates") ||
-              IsDateWithinRange(item.date, filterDateRange)) &&
-            (!filterMap.has("weekdays") ||
-              IsDateInWeekdaySet(item.date, filterWeekdays)))
-      );
-    }
-    return userMeasurements;
-  }, [
-    userMeasurements,
-    filterQuery,
-    measurementMap,
-    filterMap,
-    filterDateRange,
-    filterWeekdays,
-  ]);
+  const { filterMap, removeFilter, prefixMap } = listFilters;
 
   const {
     newMeasurementName,
