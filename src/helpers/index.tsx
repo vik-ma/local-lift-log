@@ -134,6 +134,7 @@ export { GenerateMeasurementListText } from "./Measurements/GenerateMeasurementL
 export { GetUserMeasurements } from "./Measurements/GetUserMeasurements";
 export { SortMeasurementMap } from "./Measurements/SortMeasurementMap";
 export { InsertUserWeightIntoDatabase } from "./Measurements/InsertUserWeightIntoDatabase";
+export { IsMeasurementInUserMeasurementValues } from "./Measurements/IsMeasurementInUserMeasurementValues";
 
 export { CreateDefaultEquipmentWeights } from "./Presets/CreateDefaultEquipmentWeights";
 export { CreateDefaultDistances } from "./Presets/CreateDefaultDistances";

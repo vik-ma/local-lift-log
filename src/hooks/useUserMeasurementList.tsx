@@ -3,6 +3,7 @@ import {
   GetUserMeasurements,
   IsDateInWeekdaySet,
   IsDateWithinRange,
+  IsMeasurementInUserMeasurementValues,
 } from "../helpers";
 import { UseMeasurementListReturnType, UserMeasurement } from "../typings";
 import { useListFilters } from "./useListFilters";
@@ -19,35 +20,36 @@ export const useUserMeasurementList = (
     useState<UserMeasurementSortCategory>("date-desc");
   const [filterQuery, setFilterQuery] = useState<string>("");
 
-  const listFilters = useListFilters();
-
-  const {
-    filterMap,
-    filterDateRange,
-    filterWeekdays,
-  } = listFilters;
-
   const { measurementMap, isMeasurementListLoaded } = useMeasurementList;
+
+  const listFilters = useListFilters(undefined, undefined, measurementMap);
+
+  const { filterMap, filterDateRange, filterWeekdays, filterMeasurements } =
+    listFilters;
 
   const filteredUserMeasurements = useMemo(() => {
     if (filterQuery !== "" || filterMap.size > 0) {
       return userMeasurements.filter(
         (item) =>
-          (item.userMeasurementValues !== undefined &&
+          ((item.userMeasurementValues !== undefined &&
             Object.keys(item.userMeasurementValues).some((key) =>
               measurementMap
                 .get(key)
                 ?.name.toLocaleLowerCase()
                 .includes(filterQuery.toLocaleLowerCase())
             )) ||
-          (item.comment !== null &&
             item.comment
-              .toLocaleLowerCase()
-              .includes(filterQuery.toLocaleLowerCase()) &&
-            (!filterMap.has("dates") ||
-              IsDateWithinRange(item.date, filterDateRange)) &&
-            (!filterMap.has("weekdays") ||
-              IsDateInWeekdaySet(item.date, filterWeekdays)))
+              ?.toLocaleLowerCase()
+              .includes(filterQuery.toLocaleLowerCase())) &&
+          (!filterMap.has("dates") ||
+            IsDateWithinRange(item.date, filterDateRange)) &&
+          (!filterMap.has("weekdays") ||
+            IsDateInWeekdaySet(item.date, filterWeekdays)) &&
+          (!filterMap.has("measurements") ||
+            IsMeasurementInUserMeasurementValues(
+              item.userMeasurementValues,
+              filterMeasurements
+            ))
       );
     }
     return userMeasurements;
@@ -58,6 +60,7 @@ export const useUserMeasurementList = (
     filterMap,
     filterDateRange,
     filterWeekdays,
+    filterMeasurements,
   ]);
 
   const getUserMeasurements = useCallback(

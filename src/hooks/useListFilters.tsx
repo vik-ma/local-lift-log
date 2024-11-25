@@ -166,7 +166,7 @@ export const useListFilters = (
 
     if (key === "measurements" && filterMap.has("measurements")) {
       updatedFilterMap.delete("measurements");
-      setFilterRoutines(new Set());
+      setFilterMeasurements(new Set());
     }
 
     setFilterMap(updatedFilterMap);
