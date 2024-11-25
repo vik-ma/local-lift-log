@@ -29,6 +29,7 @@ import {
   useMeasurementsInputs,
   useReassignMeasurement,
   useListFilters,
+  useMeasurementList,
 } from "../hooks";
 import {
   Button,
@@ -57,15 +58,18 @@ export default function UserMeasurementList() {
   const [operatingUserMeasurements, setOperatingUserMeasurements] =
     useState<UserMeasurement>(defaultUserMeasurements);
 
+  const measurementList = useMeasurementList();
+
+  const { measurementMap } = measurementList;
+
   const {
-    measurementMap,
     userMeasurements,
     setUserMeasurements,
     getUserMeasurements,
     sortCategory,
     handleSortOptionSelection,
     sortUserMeasurementsByActiveCategory,
-  } = useUserMeasurementList();
+  } = useUserMeasurementList(measurementList);
 
   const listFilters = useListFilters();
 
@@ -122,11 +126,10 @@ export default function UserMeasurementList() {
 
   const filterUserMeasurementListModal = useDisclosure();
 
-  const {
-    invalidMeasurementInputs,
-    areActiveMeasurementsValid,
-    handleActiveMeasurementInputChange,
-  } = useMeasurementsInputs(activeMeasurements, setActiveMeasurements);
+  const measurementsInputs = useMeasurementsInputs(
+    activeMeasurements,
+    setActiveMeasurements
+  );
 
   useEffect(() => {
     const loadUserSettings = async () => {
@@ -159,7 +162,7 @@ export default function UserMeasurementList() {
   const updateUserMeasurements = async () => {
     if (
       operatingUserMeasurements.id === 0 ||
-      !areActiveMeasurementsValid ||
+      !measurementsInputs.areActiveMeasurementsValid ||
       userSettings === undefined
     )
       return;
@@ -298,10 +301,8 @@ export default function UserMeasurementList() {
         setActiveMeasurements={setActiveMeasurements}
         measurementsCommentInput={measurementsCommentInput}
         setMeasurementsCommentInput={setMeasurementsCommentInput}
-        invalidMeasurementInputs={invalidMeasurementInputs}
-        handleActiveMeasurementInputChange={handleActiveMeasurementInputChange}
-        areActiveMeasurementsValid={areActiveMeasurementsValid}
-        measurementMap={measurementMap}
+        useMeasurementList={measurementList}
+        useMeasurementsInputs={measurementsInputs}
         buttonAction={updateUserMeasurements}
         isEditing={operationType === "edit"}
       />

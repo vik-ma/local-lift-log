@@ -1,23 +1,23 @@
 import { useCallback, useState } from "react";
-import { GetMeasurementsMap, GetUserMeasurements } from "../helpers";
-import { MeasurementMap, UserMeasurement, Measurement } from "../typings";
+import { GetUserMeasurements } from "../helpers";
+import { UseMeasurementListReturnType, UserMeasurement } from "../typings";
 
 type UserMeasurementSortCategory = "date-asc" | "date-desc";
 
-export const useUserMeasurementList = () => {
-  const [measurementMap, setMeasurementMap] = useState<MeasurementMap>(
-    new Map<string, Measurement>()
-  );
+export const useUserMeasurementList = (
+  useMeasurementList: UseMeasurementListReturnType
+) => {
   const [userMeasurements, setUserMeasurements] = useState<UserMeasurement[]>(
     []
   );
   const [sortCategory, setSortCategory] =
     useState<UserMeasurementSortCategory>("date-desc");
 
+  const { measurementMap, isMeasurementListLoaded } = useMeasurementList;
+
   const getUserMeasurements = useCallback(
     async (clockStyle: string) => {
-      const measurementMap = await GetMeasurementsMap();
-      setMeasurementMap(measurementMap);
+      if (!isMeasurementListLoaded) return;
 
       const detailedUserMeasurements = await GetUserMeasurements(
         clockStyle,
@@ -25,7 +25,7 @@ export const useUserMeasurementList = () => {
       );
       setUserMeasurements(detailedUserMeasurements);
     },
-    [setMeasurementMap, setUserMeasurements]
+    [measurementMap, isMeasurementListLoaded]
   );
 
   const sortUserMeasurementsByDate = (
@@ -67,8 +67,6 @@ export const useUserMeasurementList = () => {
   };
 
   return {
-    measurementMap,
-    setMeasurementMap,
     userMeasurements,
     getUserMeasurements,
     setUserMeasurements,
