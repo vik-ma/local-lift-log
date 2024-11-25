@@ -24,7 +24,6 @@ import {
   DeleteUserWeightWithId,
   CreateUserMeasurementValues,
   CreateDetailedUserMeasurementList,
-  GetMeasurementsMap,
   DeleteUserMeasurementWithId,
   ConvertUserMeasurementValuesToMeasurementInputs,
   UpdateUserMeasurements,
@@ -402,13 +401,9 @@ export default function BodyMeasurements() {
   const reassignLatestMeasurement = async () => {
     if (userSettings === undefined) return;
 
-    const updatedMeasurementMap = await GetMeasurementsMap();
-
-    // setMeasurementMap(updatedMeasurementMap);
-
     const userMeasurements = await GetUserMeasurements(
       userSettings.clock_style,
-      updatedMeasurementMap
+      measurementMap
     );
 
     const success = await reassignMeasurement(userMeasurements);
