@@ -18,6 +18,7 @@ export const ConvertUserMeasurementValuesToMeasurementInputs = (
       name: measurement ? measurement.name : "Unknown",
       default_unit: values.unit,
       measurement_type: values.measurement_type,
+      is_favorite: measurement ? measurement.is_favorite : 0,
       input: values.value.toString(),
     };
 
