@@ -185,14 +185,17 @@ export const FilterUserMeasurementListModal = ({
                 </Button>
                 <Button
                   color="primary"
-                  onPress={() =>
-                    handleFilterSaveButton(
-                      locale,
-                      filterUserMeasurementListModal
-                    )
+                  onPress={
+                    modalPage === "base"
+                      ? () =>
+                          handleFilterSaveButton(
+                            locale,
+                            filterUserMeasurementListModal
+                          )
+                      : () => setModalPage("base")
                   }
                 >
-                  Done
+                  {modalPage === "base" ? "Filter" : "Done"}
                 </Button>
               </div>
             </ModalFooter>

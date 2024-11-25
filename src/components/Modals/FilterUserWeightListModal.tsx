@@ -103,7 +103,7 @@ export const FilterUserWeightListModal = ({
                     numberRangeInvalidityMap.end
                   }
                 >
-                  Done
+                  Filter
                 </Button>
               </div>
             </ModalFooter>

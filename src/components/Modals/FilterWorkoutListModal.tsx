@@ -387,7 +387,7 @@ export const FilterWorkoutListModal = ({
                       : () => setFilterWorkoutListModalPage("base")
                   }
                 >
-                  {filterWorkoutListModalPage !== "base" ? "Done" : "Save"}
+                  {filterWorkoutListModalPage === "base" ? "Filter" : "Done"}
                 </Button>
               </div>
             </ModalFooter>
