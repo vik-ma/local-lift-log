@@ -116,8 +116,8 @@ export const UserMeasurementAccordion = ({
                           <div
                             className={
                               values.isInvalid
-                                ? "flex gap-1.5 items-center w-[10rem] truncate text-red-700"
-                                : "w-[10rem] truncate"
+                                ? "flex gap-2 items-center w-[9rem] truncate text-red-700"
+                                : "w-[9rem] truncate"
                             }
                           >
                             <span>{values.isInvalid ? "Unknown" : name}</span>
@@ -140,7 +140,9 @@ export const UserMeasurementAccordion = ({
                           </div>
                           <div
                             className={
-                              values.unit === "in" ? "flex" : "flex gap-1"
+                              values.unit === "in"
+                                ? "flex w-[5.5rem]"
+                                : "flex gap-1 w-[5.5rem]"
                             }
                           >
                             <span className="max-w-[3.5rem] truncate font-medium">
@@ -150,9 +152,7 @@ export const UserMeasurementAccordion = ({
                               {values.unit === "in" ? `″` : values.unit}
                             </span>
                           </div>
-                          <span className="flex-grow text-right">
-                            {values.measurement_type}
-                          </span>
+                          <span>{values.measurement_type}</span>
                         </div>
                       );
                     }
