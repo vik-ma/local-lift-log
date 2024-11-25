@@ -8,18 +8,19 @@ import {
   ScrollShadow,
 } from "@nextui-org/react";
 import {
-  MeasurementMap,
+  Measurement,
   UseDisclosureReturnType,
   UseListFiltersReturnType,
+  UseMeasurementListReturnType,
 } from "../../typings";
-import { FilterDateRangeAndWeekdays } from "..";
+import { FilterDateRangeAndWeekdays, MeasurementModalList } from "..";
 import { useMemo, useState } from "react";
 
 type FilterUserMeasurementListModalProps = {
   filterUserMeasurementListModal: UseDisclosureReturnType;
   useListFilters: UseListFiltersReturnType;
   locale: string;
-  measurementMap: MeasurementMap;
+  useMeasurementList: UseMeasurementListReturnType;
 };
 
 type ModalPage = "base" | "measurement-list";
@@ -28,7 +29,7 @@ export const FilterUserMeasurementListModal = ({
   filterUserMeasurementListModal,
   useListFilters,
   locale,
-  measurementMap,
+  useMeasurementList,
 }: FilterUserMeasurementListModalProps) => {
   const [modalPage, setModalPage] = useState<ModalPage>("base");
 
@@ -44,6 +45,8 @@ export const FilterUserMeasurementListModal = ({
     filterMeasurements,
     setFilterMeasurements,
   } = useListFilters;
+
+  const { measurementMap } = useMeasurementList;
 
   const filterMeasurementsString = useMemo(() => {
     if (filterMeasurements.size === 0) return "No Measurements Selected";
@@ -68,6 +71,18 @@ export const FilterUserMeasurementListModal = ({
     return false;
   }, [modalPage, filterMeasurements]);
 
+  const handleMeasurementClick = (measurement: Measurement) => {
+    const updatedMeasurementSet = new Set(filterMeasurements);
+
+    if (updatedMeasurementSet.has(measurement.id.toString())) {
+      updatedMeasurementSet.delete(measurement.id.toString());
+    } else {
+      updatedMeasurementSet.add(measurement.id.toString());
+    }
+
+    setFilterMeasurements(updatedMeasurementSet);
+  };
+
   return (
     <Modal
       isOpen={filterUserMeasurementListModal.isOpen}
@@ -83,7 +98,10 @@ export const FilterUserMeasurementListModal = ({
             </ModalHeader>
             <ModalBody>
               {modalPage === "measurement-list" ? (
-                <div className="h-[400px]">Test</div>
+                <MeasurementModalList
+                  useMeasurementList={useMeasurementList}
+                  handleMeasurementClick={handleMeasurementClick}
+                />
               ) : (
                 <ScrollShadow className="h-[400px]">
                   <div className="flex flex-col gap-3">

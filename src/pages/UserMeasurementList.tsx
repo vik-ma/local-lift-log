@@ -318,7 +318,7 @@ export default function UserMeasurementList() {
         filterUserMeasurementListModal={filterUserMeasurementListModal}
         useListFilters={listFilters}
         locale={userSettings.locale}
-        measurementMap={measurementMap}
+        useMeasurementList={measurementList}
       />
       <div className="flex flex-col items-center gap-1">
         <ListPageSearchInput
