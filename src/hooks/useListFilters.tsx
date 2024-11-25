@@ -33,7 +33,7 @@ export const useListFilters = (
   const [filterExerciseGroups, setFilterExerciseGroups] = useState<string[]>(
     []
   );
-  const [filterMeasurements, setFilterMeasurements] = useState<Set<string>>(
+  const [filterMeasurements, setFilterMeasurements] = useState<Set<number>>(
     new Set()
   );
 
@@ -117,7 +117,9 @@ export const useListFilters = (
     if (filterMeasurements.size > 0 && measurementMap !== undefined) {
       const filterMeasurementsString = Array.from(filterMeasurements)
         .map((id) =>
-          measurementMap.has(id) ? measurementMap.get(id)!.name : ""
+          measurementMap.has(id.toString())
+            ? measurementMap.get(id.toString())!.name
+            : ""
         )
         .join(", ");
 

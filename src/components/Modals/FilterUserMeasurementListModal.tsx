@@ -54,8 +54,8 @@ export const FilterUserMeasurementListModal = ({
     const measurementNames: string[] = [];
 
     for (const measurementId of filterMeasurements) {
-      if (measurementMap.has(measurementId)) {
-        const measurement = measurementMap.get(measurementId);
+      if (measurementMap.has(measurementId.toString())) {
+        const measurement = measurementMap.get(measurementId.toString());
         measurementNames.push(measurement!.name);
       }
     }
@@ -74,10 +74,10 @@ export const FilterUserMeasurementListModal = ({
   const handleMeasurementClick = (measurement: Measurement) => {
     const updatedMeasurementSet = new Set(filterMeasurements);
 
-    if (updatedMeasurementSet.has(measurement.id.toString())) {
-      updatedMeasurementSet.delete(measurement.id.toString());
+    if (updatedMeasurementSet.has(measurement.id)) {
+      updatedMeasurementSet.delete(measurement.id);
     } else {
-      updatedMeasurementSet.add(measurement.id.toString());
+      updatedMeasurementSet.add(measurement.id);
     }
 
     setFilterMeasurements(updatedMeasurementSet);
@@ -101,6 +101,7 @@ export const FilterUserMeasurementListModal = ({
                 <MeasurementModalList
                   useMeasurementList={useMeasurementList}
                   handleMeasurementClick={handleMeasurementClick}
+                  filterMeasurements={filterMeasurements}
                 />
               ) : (
                 <ScrollShadow className="h-[400px]">

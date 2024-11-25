@@ -526,8 +526,8 @@ export type UseListFiltersReturnType = {
   filterWeightUnit: string;
   setFilterWeightUnit: React.Dispatch<React.SetStateAction<string>>;
   defaultNumberRange: NumberRange;
-  filterMeasurements: Set<string>;
-  setFilterMeasurements: React.Dispatch<React.SetStateAction<Set<string>>>;
+  filterMeasurements: Set<number>;
+  setFilterMeasurements: React.Dispatch<React.SetStateAction<Set<number>>>;
 };
 
 export type ListFilterMapKey =
