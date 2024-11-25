@@ -74,10 +74,10 @@ export const FilterUserMeasurementListModal = ({
   const handleMeasurementClick = (measurement: Measurement) => {
     const updatedMeasurementSet = new Set(filterMeasurements);
 
-    if (updatedMeasurementSet.has(measurement.id)) {
-      updatedMeasurementSet.delete(measurement.id);
+    if (updatedMeasurementSet.has(measurement.id.toString())) {
+      updatedMeasurementSet.delete(measurement.id.toString());
     } else {
-      updatedMeasurementSet.add(measurement.id);
+      updatedMeasurementSet.add(measurement.id.toString());
     }
 
     setFilterMeasurements(updatedMeasurementSet);

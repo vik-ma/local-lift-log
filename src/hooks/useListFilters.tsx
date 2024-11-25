@@ -33,7 +33,7 @@ export const useListFilters = (
   const [filterExerciseGroups, setFilterExerciseGroups] = useState<string[]>(
     []
   );
-  const [filterMeasurements, setFilterMeasurements] = useState<Set<number>>(
+  const [filterMeasurements, setFilterMeasurements] = useState<Set<string>>(
     new Set()
   );
 
