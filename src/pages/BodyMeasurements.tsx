@@ -162,6 +162,7 @@ export default function BodyMeasurements() {
         );
 
         if (detailedUserMeasurement.length === 1) {
+          detailedUserMeasurement[0].isExpanded = true;
           setLatestUserMeasurements(detailedUserMeasurement[0]);
         }
       } catch (error) {
@@ -177,9 +178,11 @@ export default function BodyMeasurements() {
       if (userSettings !== undefined) {
         setUserSettings(userSettings);
         setWeightUnit(userSettings.default_unit_weight);
-        getActiveMeasurements(userSettings.active_tracking_measurements);
-        getLatestUserWeight(userSettings.clock_style);
-        getLatestUserMeasurement(userSettings.clock_style);
+        await Promise.all([
+          getActiveMeasurements(userSettings.active_tracking_measurements),
+          getLatestUserWeight(userSettings.clock_style),
+          getLatestUserMeasurement(userSettings.clock_style),
+        ]);
         setIsLoading(false);
       }
     };
