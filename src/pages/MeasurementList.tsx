@@ -391,8 +391,8 @@ export default function MeasurementList() {
                     selectedKeys={[sortCategory]}
                     onAction={(key) => handleSortOptionSelection(key as string)}
                   >
-                    <DropdownItem key="favorite">Favorites First</DropdownItem>
                     <DropdownItem key="active">Active First</DropdownItem>
+                    <DropdownItem key="favorite">Favorites First</DropdownItem>
                     <DropdownItem key="name">Name (A-Z)</DropdownItem>
                   </DropdownMenu>
                 </Dropdown>

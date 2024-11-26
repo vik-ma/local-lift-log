@@ -16,7 +16,7 @@ export const useMeasurementList = (): UseMeasurementListReturnType => {
   const [measurements, setMeasurements] = useState<Measurement[]>([]);
   const [filterQuery, setFilterQuery] = useState<string>("");
   const [sortCategory, setSortCategory] =
-    useState<MeasurementSortCategory>("favorite");
+    useState<MeasurementSortCategory>("active");
   const [activeMeasurementSet, setActiveMeasurementSet] = useState<Set<number>>(
     new Set()
   );
@@ -41,6 +41,64 @@ export const useMeasurementList = (): UseMeasurementListReturnType => {
     return measurements;
   }, [measurements, filterQuery]);
 
+  const sortMeasurementsByName = (measurements: Measurement[]) => {
+    measurements.sort((a, b) => {
+      return a.name.localeCompare(b.name);
+    });
+
+    setMeasurements(measurements);
+  };
+
+  const sortMeasurementsByFavoritesFirst = useCallback(
+    (measurements: Measurement[]) => {
+      if (!isMeasurementListLoaded.current) return;
+
+      // Sort measurements by Favorite > Active > Name
+      measurements.sort((a, b) => {
+        if (b.is_favorite !== a.is_favorite) {
+          return b.is_favorite - a.is_favorite;
+        }
+
+        const aIsActive = +activeMeasurementSet.has(a.id);
+        const bIsActive = +activeMeasurementSet.has(b.id);
+
+        if (aIsActive !== bIsActive) {
+          return bIsActive - aIsActive;
+        }
+
+        return a.name.localeCompare(b.name);
+      });
+
+      setMeasurements(measurements);
+    },
+    [activeMeasurementSet]
+  );
+
+  const sortMeasurementsByActiveFirst = useCallback(
+    (measurements: Measurement[]) => {
+      if (!isMeasurementListLoaded.current) return;
+
+      // Sort measurements by Active > Favorite > Name
+      measurements.sort((a, b) => {
+        const aIsActive = +activeMeasurementSet.has(a.id);
+        const bIsActive = +activeMeasurementSet.has(b.id);
+
+        if (aIsActive !== bIsActive) {
+          return bIsActive - aIsActive;
+        }
+
+        if (b.is_favorite !== a.is_favorite) {
+          return b.is_favorite - a.is_favorite;
+        }
+
+        return a.name.localeCompare(b.name);
+      });
+
+      setMeasurements(measurements);
+    },
+    [activeMeasurementSet]
+  );
+
   const getMeasurements = useCallback(async () => {
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
@@ -53,15 +111,14 @@ export const useMeasurementList = (): UseMeasurementListReturnType => {
         result.map((obj) => [obj.id.toString(), obj])
       );
 
-      sortMeasurementsByFavoritesFirst(result);
       setMeasurementMap(measurementMap);
+      sortMeasurementsByActiveFirst(result);
 
-      setMeasurements(result);
       isMeasurementListLoaded.current = true;
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  }, [sortMeasurementsByActiveFirst]);
 
   useEffect(() => {
     getMeasurements();
@@ -116,41 +173,6 @@ export const useMeasurementList = (): UseMeasurementListReturnType => {
     updatedMeasurementMap.set(measurement.id.toString(), updatedMeasurement);
 
     setMeasurementMap(updatedMeasurementMap);
-  };
-
-  const sortMeasurementsByName = (measurements: Measurement[]) => {
-    measurements.sort((a, b) => {
-      return a.name.localeCompare(b.name);
-    });
-
-    setMeasurements(measurements);
-  };
-
-  const sortMeasurementsByFavoritesFirst = (measurements: Measurement[]) => {
-    measurements.sort((a, b) => {
-      if (b.is_favorite !== a.is_favorite) {
-        return b.is_favorite - a.is_favorite;
-      } else {
-        return a.name.localeCompare(b.name);
-      }
-    });
-
-    setMeasurements(measurements);
-  };
-
-  const sortMeasurementsByActiveFirst = (measurements: Measurement[]) => {
-    measurements.sort((a, b) => {
-      const aIsActive = activeMeasurementSet.has(a.id);
-      const bIsActive = activeMeasurementSet.has(b.id);
-
-      if (aIsActive && !bIsActive) return -1;
-
-      if (!aIsActive && bIsActive) return 1;
-
-      return a.name.localeCompare(b.name);
-    });
-
-    setMeasurements(measurements);
   };
 
   const handleSortOptionSelection = (key: string) => {
