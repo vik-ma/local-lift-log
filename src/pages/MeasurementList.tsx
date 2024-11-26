@@ -7,6 +7,7 @@ import {
   EmptyListLabel,
   FavoriteButton,
   ListFilters,
+  MeasurementListOptions,
 } from "../components";
 import { Measurement, UserSettings } from "../typings";
 import Database from "tauri-plugin-sql-api";
@@ -40,7 +41,6 @@ import {
   useHandleMeasurementTypeChange,
   useMeasurementList,
 } from "../hooks";
-import { useMeasurementTypes } from "../hooks/useMeasurementTypes";
 
 type OperationType = "add" | "edit" | "delete";
 
@@ -74,15 +74,7 @@ export default function MeasurementList() {
     listFilters,
   } = useMeasurementList();
 
-  const {
-    filterMeasurementTypes,
-    handleFilterMeasurementTypes,
-    filterMap,
-    removeFilter,
-    prefixMap,
-  } = listFilters;
-
-  const measurementTypes = useMeasurementTypes();
+  const { filterMap, removeFilter, prefixMap } = listFilters;
 
   useEffect(() => {
     const loadUserSettings = async () => {
@@ -392,60 +384,11 @@ export default function MeasurementList() {
                 >
                   New Measurement
                 </Button>
-                <div className="flex gap-1">
-                  <Dropdown>
-                    <DropdownTrigger>
-                      <Button
-                        className="z-1"
-                        variant="flat"
-                        color={
-                          filterMeasurementTypes.length === 2
-                            ? "default"
-                            : "secondary"
-                        }
-                        size="sm"
-                      >
-                        Filter
-                      </Button>
-                    </DropdownTrigger>
-                    <DropdownMenu
-                      aria-label="Filter Measurement Types Dropdown Menu"
-                      selectedKeys={filterMeasurementTypes}
-                      selectionMode="multiple"
-                      onAction={(key) =>
-                        handleFilterMeasurementTypes(key as string)
-                      }
-                      disallowEmptySelection
-                    >
-                      {measurementTypes.map((measurementType) => (
-                        <DropdownItem key={measurementType}>
-                          {measurementType}
-                        </DropdownItem>
-                      ))}
-                    </DropdownMenu>
-                  </Dropdown>
-                  <Dropdown>
-                    <DropdownTrigger>
-                      <Button className="z-1" variant="flat" size="sm">
-                        Sort By
-                      </Button>
-                    </DropdownTrigger>
-                    <DropdownMenu
-                      aria-label="Sort Measurements Dropdown Menu"
-                      selectionMode="single"
-                      selectedKeys={[sortCategory]}
-                      onAction={(key) =>
-                        handleSortOptionSelection(key as string)
-                      }
-                    >
-                      <DropdownItem key="active">Active First</DropdownItem>
-                      <DropdownItem key="favorite">
-                        Favorites First
-                      </DropdownItem>
-                      <DropdownItem key="name">Name (A-Z)</DropdownItem>
-                    </DropdownMenu>
-                  </Dropdown>
-                </div>
+                <MeasurementListOptions
+                  sortCategory={sortCategory}
+                  handleSortOptionSelection={handleSortOptionSelection}
+                  useListFilters={listFilters}
+                />
               </div>
               <span className="px-1 text-xs italic text-stone-500 font-normal">
                 Click on a Measurement to add to Active Measurements

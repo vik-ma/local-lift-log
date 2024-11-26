@@ -39,6 +39,7 @@ export { ExerciseListOptions } from "./ExerciseListOptions";
 export { FilterDateRangeAndWeekdays } from "./FilterDateRangeAndWeekdays";
 export { NumberRangeInput } from "./NumberRangeInput";
 export { MeasurementModalList } from "./MeasurementModalList";
+export { MeasurementListOptions } from "./MeasurementListOptions";
 
 export { WeightUnitDropdown } from "./Dropdowns/WeightUnitDropdown";
 export { DistanceUnitDropdown } from "./Dropdowns/DistanceUnitDropdown";
