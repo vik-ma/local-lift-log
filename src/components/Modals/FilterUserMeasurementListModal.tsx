@@ -101,7 +101,7 @@ export const FilterUserMeasurementListModal = ({
                 <MeasurementModalList
                   useMeasurementList={useMeasurementList}
                   handleMeasurementClick={handleMeasurementClick}
-                  filterMeasurements={filterMeasurements}
+                  highlightedMeasurements={filterMeasurements}
                 />
               ) : (
                 <ScrollShadow className="h-[400px]">

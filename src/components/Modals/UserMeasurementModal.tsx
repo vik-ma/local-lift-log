@@ -61,7 +61,7 @@ export const UserMeasurementModal = ({
   } = useMeasurementsInputs;
 
   const handleMeasurementClick = (measurement: Measurement) => {
-    if (activeMeasurementSet.has(measurement.id)) {
+    if (activeMeasurementSet.has(measurement.id.toString())) {
       const updatedMeasurements = DeleteItemFromList(
         activeMeasurements,
         measurement.id
@@ -92,7 +92,7 @@ export const UserMeasurementModal = ({
   }, [modalPage, isEditing]);
 
   const activeMeasurementSet = useMemo(() => {
-    return new Set<number>(activeMeasurements.map((obj) => obj.id));
+    return new Set<string>(activeMeasurements.map((obj) => obj.id.toString()));
   }, [activeMeasurements]);
 
   return (
@@ -109,6 +109,7 @@ export const UserMeasurementModal = ({
                 <MeasurementModalList
                   useMeasurementList={useMeasurementList}
                   handleMeasurementClick={handleMeasurementClick}
+                  highlightedMeasurements={activeMeasurementSet}
                 />
               ) : (
                 <div className="h-[400px]">

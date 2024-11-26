@@ -6,20 +6,19 @@ import { CheckmarkIcon } from "../assets";
 type MeasurementModalListProps = {
   useMeasurementList: UseMeasurementListReturnType;
   handleMeasurementClick: (measurement: Measurement) => void;
-  filterMeasurements?: Set<string>;
+  highlightedMeasurements: Set<string>;
 };
 
 export const MeasurementModalList = ({
   useMeasurementList,
   handleMeasurementClick,
-  filterMeasurements,
+  highlightedMeasurements,
 }: MeasurementModalListProps) => {
   const {
     measurements,
     filterQuery,
     setFilterQuery,
     filteredMeasurements,
-    activeMeasurementSet,
     toggleFavorite,
   } = useMeasurementList;
 
@@ -36,8 +35,7 @@ export const MeasurementModalList = ({
           <div
             key={measurement.id}
             className={
-              filterMeasurements?.has(measurement.id.toString()) ||
-              activeMeasurementSet.has(measurement.id)
+              highlightedMeasurements.has(measurement.id.toString())
                 ? "flex cursor-pointer bg-yellow-100 border-2 border-yellow-300 rounded-xl transition-colors duration-100 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                 : "flex cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl transition-colors duration-100 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
             }
@@ -46,10 +44,9 @@ export const MeasurementModalList = ({
             <div className="flex justify-between items-center py-1 pl-2 w-full">
               <div className="flex gap-2.5 items-center">
                 <CheckmarkIcon
-                  isChecked={
-                    filterMeasurements?.has(measurement.id.toString()) ||
-                    activeMeasurementSet.has(measurement.id)
-                  }
+                  isChecked={highlightedMeasurements.has(
+                    measurement.id.toString()
+                  )}
                   size={29}
                 />
                 <div className="flex flex-col justify-start items-start">
