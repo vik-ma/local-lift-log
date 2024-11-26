@@ -759,6 +759,7 @@ export type UseMeasurementListReturnType = {
   activeMeasurementSet: Set<number>;
   setActiveMeasurementSet: React.Dispatch<React.SetStateAction<Set<number>>>;
   measurementMap: MeasurementMap;
+  createMeasurement: (newMeasurement: Measurement) => Promise<number>;
 };
 
 export type UseMeasurementsInputsReturnType = {

@@ -6,7 +6,11 @@ import {
   UseMeasurementListReturnType,
 } from "../typings";
 import Database from "tauri-plugin-sql-api";
-import { UpdateIsFavorite, UpdateItemInList } from "../helpers";
+import {
+  InsertMeasurementIntoDatabase,
+  UpdateIsFavorite,
+  UpdateItemInList,
+} from "../helpers";
 
 export const useMeasurementList = (): UseMeasurementListReturnType => {
   const [measurements, setMeasurements] = useState<Measurement[]>([]);
@@ -62,6 +66,27 @@ export const useMeasurementList = (): UseMeasurementListReturnType => {
   useEffect(() => {
     getMeasurements();
   }, [getMeasurements]);
+
+  const createMeasurement = async (
+    newMeasurement: Measurement
+  ): Promise<number> => {
+    const newMeasurementId = await InsertMeasurementIntoDatabase(
+      newMeasurement
+    );
+
+    if (newMeasurementId === 0) return 0;
+
+    newMeasurement.id = newMeasurementId;
+
+    const updatedMeasurementMap = new Map(measurementMap);
+
+    updatedMeasurementMap.set(newMeasurementId.toString(), newMeasurement);
+
+    sortMeasurementsByActiveCategory([...measurements, newMeasurement]);
+    setMeasurementMap(updatedMeasurementMap);
+
+    return newMeasurementId;
+  };
 
   const toggleFavorite = async (measurement: Measurement) => {
     const newFavoriteValue = measurement.is_favorite === 1 ? 0 : 1;
@@ -171,5 +196,6 @@ export const useMeasurementList = (): UseMeasurementListReturnType => {
     activeMeasurementSet,
     setActiveMeasurementSet,
     measurementMap,
+    createMeasurement,
   };
 };

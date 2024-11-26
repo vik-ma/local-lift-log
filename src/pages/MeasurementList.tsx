@@ -29,7 +29,6 @@ import {
   GetUserSettings,
   UpdateActiveTrackingMeasurements,
   GenerateActiveMeasurementString,
-  InsertMeasurementIntoDatabase,
   UpdateItemInList,
   DeleteItemFromList,
 } from "../helpers";
@@ -69,6 +68,7 @@ export default function MeasurementList() {
     sortMeasurementsByActiveCategory,
     activeMeasurementSet,
     setActiveMeasurementSet,
+    createMeasurement,
   } = useMeasurementList();
 
   useEffect(() => {
@@ -102,19 +102,10 @@ export default function MeasurementList() {
   const addMeasurement = async () => {
     if (operationType !== "add" || !isNewMeasurementNameValid) return;
 
-    const id = await InsertMeasurementIntoDatabase(operatingMeasurement);
+    const newMeasurementId = await createMeasurement(operatingMeasurement);
 
-    if (id === 0) return;
+    if (newMeasurementId === 0) return;
 
-    const addedMeasurement: Measurement = {
-      id: id,
-      name: operatingMeasurement.name,
-      default_unit: operatingMeasurement.default_unit,
-      measurement_type: operatingMeasurement.measurement_type,
-      is_favorite: 0,
-    };
-
-    sortMeasurementsByActiveCategory([...measurements, addedMeasurement]);
     resetOperatingMeasurement();
 
     measurementModal.onClose();
