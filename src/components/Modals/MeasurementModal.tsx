@@ -11,6 +11,7 @@ import {
   RadioGroup,
 } from "@nextui-org/react";
 import { Measurement, UseDisclosureReturnType } from "../../typings";
+import { useMeasurementTypes } from "../../hooks/useMeasurementTypes";
 
 type MeasurementModalProps = {
   measurementModal: UseDisclosureReturnType;
@@ -29,6 +30,8 @@ export const MeasurementModal = ({
   handleMeasurementTypeChange,
   buttonAction,
 }: MeasurementModalProps) => {
+  const measurementTypes = useMeasurementTypes();
+
   return (
     <Modal
       isOpen={measurementModal.isOpen}
@@ -66,8 +69,11 @@ export const MeasurementModal = ({
                     }
                     label="Measurement Type"
                   >
-                    <Radio value="Circumference">Circumference</Radio>
-                    <Radio value="Caliper">Caliper</Radio>
+                    {measurementTypes.map((measurementType) => (
+                      <Radio key={measurementType} value={measurementType}>
+                        {measurementType}
+                      </Radio>
+                    ))}
                   </RadioGroup>
                   <MeasurementUnitDropdown
                     measurement={measurement}
