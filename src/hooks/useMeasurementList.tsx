@@ -11,6 +11,7 @@ import {
   UpdateIsFavorite,
   UpdateItemInList,
 } from "../helpers";
+import { useListFilters } from "./useListFilters";
 
 export const useMeasurementList = (): UseMeasurementListReturnType => {
   const [measurements, setMeasurements] = useState<Measurement[]>([]);
@@ -26,20 +27,26 @@ export const useMeasurementList = (): UseMeasurementListReturnType => {
 
   const isMeasurementListLoaded = useRef(false);
 
+  const listFilters = useListFilters();
+
+  const { filterMeasurementTypes, filterMap } = listFilters;
+
   const filteredMeasurements = useMemo(() => {
-    if (filterQuery !== "") {
+    if (filterQuery !== "" || filterMap.size > 0) {
       return measurements.filter(
         (item) =>
-          item.name
+          (item.name
             .toLocaleLowerCase()
             .includes(filterQuery.toLocaleLowerCase()) ||
-          item.measurement_type
-            .toLocaleLowerCase()
-            .includes(filterQuery.toLocaleLowerCase())
+            item.measurement_type
+              .toLocaleLowerCase()
+              .includes(filterQuery.toLocaleLowerCase())) &&
+          (!filterMap.has("measurement-types") ||
+            filterMeasurementTypes.includes(item.measurement_type))
       );
     }
     return measurements;
-  }, [measurements, filterQuery]);
+  }, [measurements, filterQuery, filterMap, filterMeasurementTypes]);
 
   const sortMeasurementsByName = (measurements: Measurement[]) => {
     measurements.sort((a, b) => {
@@ -219,5 +226,6 @@ export const useMeasurementList = (): UseMeasurementListReturnType => {
     setActiveMeasurementSet,
     measurementMap,
     createMeasurement,
+    listFilters,
   };
 };

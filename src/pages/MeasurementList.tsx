@@ -39,7 +39,6 @@ import {
   useValidateName,
   useHandleMeasurementTypeChange,
   useMeasurementList,
-  useListFilters,
 } from "../hooks";
 import { useMeasurementTypes } from "../hooks/useMeasurementTypes";
 
@@ -72,6 +71,7 @@ export default function MeasurementList() {
     activeMeasurementSet,
     setActiveMeasurementSet,
     createMeasurement,
+    listFilters,
   } = useMeasurementList();
 
   const {
@@ -80,7 +80,7 @@ export default function MeasurementList() {
     filterMap,
     removeFilter,
     prefixMap,
-  } = useListFilters();
+  } = listFilters;
 
   const measurementTypes = useMeasurementTypes();
 
