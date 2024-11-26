@@ -9,13 +9,12 @@ import {
   UseListFiltersReturnType,
 } from "../typings";
 import { CalendarDate, RangeValue } from "@nextui-org/react";
-import { useDefaultNumberRange, useWeekdayMap } from ".";
+import { useDefaultNumberRange, useWeekdayMap, useMeasurementTypes } from ".";
 import {
   CalculateNumDaysInCalendarDateRange,
   ConvertCalendarDateToLocalizedString,
   IsNumberRangeValidAndFiltered,
 } from "../helpers";
-import { useMeasurementTypes } from "./useMeasurementTypes";
 
 export const useListFilters = (
   useExerciseList?: UseExerciseListReturnType,

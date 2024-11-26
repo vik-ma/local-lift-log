@@ -11,7 +11,7 @@ import {
   RadioGroup,
 } from "@nextui-org/react";
 import { Measurement, UseDisclosureReturnType } from "../../typings";
-import { useMeasurementTypes } from "../../hooks/useMeasurementTypes";
+import { useMeasurementTypes } from "../../hooks/";
 
 type MeasurementModalProps = {
   measurementModal: UseDisclosureReturnType;
