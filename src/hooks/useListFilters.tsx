@@ -15,6 +15,7 @@ import {
   ConvertCalendarDateToLocalizedString,
   IsNumberRangeValidAndFiltered,
 } from "../helpers";
+import { useMeasurementTypes } from "./useMeasurementTypes";
 
 export const useListFilters = (
   useExerciseList?: UseExerciseListReturnType,
@@ -49,6 +50,11 @@ export const useListFilters = (
     useState<NumberRange>(defaultNumberRange);
 
   const [filterWeightUnit, setFilterWeightUnit] = useState<string>("kg");
+
+  const measurementTypes = useMeasurementTypes();
+
+  const [filterMeasurementTypes, setFilterMeasurementTypes] =
+    useState(measurementTypes);
 
   const handleFilterSaveButton = (
     locale: string,
@@ -126,6 +132,12 @@ export const useListFilters = (
       updatedFilterMap.set("measurements", filterMeasurementsString);
     }
 
+    if (filterMeasurementTypes.length < 2) {
+      const filterMeasurementTypesString = filterMeasurementTypes.join(", ");
+
+      updatedFilterMap.set("measurement-types", filterMeasurementTypesString);
+    }
+
     setFilterMap(updatedFilterMap);
 
     activeModal.onClose();
@@ -169,6 +181,11 @@ export const useListFilters = (
       setFilterMeasurements(new Set());
     }
 
+    if (key === "measurement-types" && filterMap.has("measurement-types")) {
+      updatedFilterMap.delete("measurement-types");
+      setFilterMeasurements(new Set());
+    }
+
     setFilterMap(updatedFilterMap);
   };
 
@@ -181,6 +198,7 @@ export const useListFilters = (
     setFilterExerciseGroups([]);
     setFilterWeightRange(defaultNumberRange);
     setFilterMeasurements(new Set());
+    setFilterMeasurementTypes(measurementTypes);
   };
 
   const showResetFilterButton = useMemo(() => {
@@ -193,6 +211,7 @@ export const useListFilters = (
     if (filterWeightRange.startInput !== "") return true;
     if (filterWeightRange.endInput !== "") return true;
     if (filterMeasurements.size > 0) return true;
+    if (filterMeasurementTypes.length < 2) return true;
 
     return false;
   }, [
@@ -204,10 +223,12 @@ export const useListFilters = (
     filterExerciseGroups,
     filterWeightRange,
     filterMeasurements,
+    filterMeasurementTypes,
   ]);
 
   const prefixMap = useMemo(() => {
     const prefixMap = new Map<ListFilterMapKey, string>();
+
     prefixMap.set(
       "dates",
       `Dates (${CalculateNumDaysInCalendarDateRange(filterDateRange)}): `
@@ -224,6 +245,8 @@ export const useListFilters = (
       "measurements",
       `Measurements (${filterMeasurements.size}): `
     );
+    prefixMap.set("measurement-types", `Measurement Type: `);
+    
     return prefixMap;
   }, [
     filterDateRange,
@@ -259,5 +282,7 @@ export const useListFilters = (
     defaultNumberRange,
     filterMeasurements,
     setFilterMeasurements,
+    filterMeasurementTypes,
+    setFilterMeasurementTypes,
   };
 };
