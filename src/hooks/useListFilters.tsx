@@ -132,15 +132,32 @@ export const useListFilters = (
       updatedFilterMap.set("measurements", filterMeasurementsString);
     }
 
-    if (filterMeasurementTypes.length < 2) {
-      const filterMeasurementTypesString = filterMeasurementTypes.join(", ");
-
-      updatedFilterMap.set("measurement-types", filterMeasurementTypesString);
-    }
-
     setFilterMap(updatedFilterMap);
 
     activeModal.onClose();
+  };
+
+  const handleFilterMeasurementTypes = (key: string) => {
+    const updatedFilterMap = new Map<ListFilterMapKey, string>();
+
+    if (filterMeasurementTypes.includes(key)) {
+      // Do nothing if trying to remove last item in filterMeasurementTypes
+      if (filterMeasurementTypes.length === 1) return;
+
+      const updatedMeasurementTypes = filterMeasurementTypes.filter(
+        (item) => item !== key
+      );
+
+      setFilterMeasurementTypes(updatedMeasurementTypes);
+
+      const filterMeasurementTypesString = updatedMeasurementTypes.join(", ");
+
+      updatedFilterMap.set("measurement-types", filterMeasurementTypesString);
+    } else {
+      setFilterMeasurementTypes(measurementTypes);
+    }
+
+    setFilterMap(updatedFilterMap);
   };
 
   const removeFilter = (key: ListFilterMapKey) => {
@@ -246,7 +263,7 @@ export const useListFilters = (
       `Measurements (${filterMeasurements.size}): `
     );
     prefixMap.set("measurement-types", `Measurement Type: `);
-    
+
     return prefixMap;
   }, [
     filterDateRange,
@@ -284,5 +301,6 @@ export const useListFilters = (
     setFilterMeasurements,
     filterMeasurementTypes,
     setFilterMeasurementTypes,
+    handleFilterMeasurementTypes,
   };
 };

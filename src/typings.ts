@@ -530,6 +530,7 @@ export type UseListFiltersReturnType = {
   setFilterMeasurements: React.Dispatch<React.SetStateAction<Set<string>>>;
   filterMeasurementTypes: string[];
   setFilterMeasurementTypes: React.Dispatch<React.SetStateAction<string[]>>;
+  handleFilterMeasurementTypes: (key: string) => void;
 };
 
 export type ListFilterMapKey =

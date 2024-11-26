@@ -6,6 +6,7 @@ import {
   ListPageSearchInput,
   EmptyListLabel,
   FavoriteButton,
+  ListFilters,
 } from "../components";
 import { Measurement, UserSettings } from "../typings";
 import Database from "tauri-plugin-sql-api";
@@ -38,7 +39,9 @@ import {
   useValidateName,
   useHandleMeasurementTypeChange,
   useMeasurementList,
+  useListFilters,
 } from "../hooks";
+import { useMeasurementTypes } from "../hooks/useMeasurementTypes";
 
 type OperationType = "add" | "edit" | "delete";
 
@@ -70,6 +73,16 @@ export default function MeasurementList() {
     setActiveMeasurementSet,
     createMeasurement,
   } = useMeasurementList();
+
+  const {
+    filterMeasurementTypes,
+    handleFilterMeasurementTypes,
+    filterMap,
+    removeFilter,
+    prefixMap,
+  } = useListFilters();
+
+  const measurementTypes = useMeasurementTypes();
 
   useEffect(() => {
     const loadUserSettings = async () => {
@@ -379,27 +392,71 @@ export default function MeasurementList() {
                 >
                   New Measurement
                 </Button>
-                <Dropdown>
-                  <DropdownTrigger>
-                    <Button className="z-1" variant="flat" size="sm">
-                      Sort By
-                    </Button>
-                  </DropdownTrigger>
-                  <DropdownMenu
-                    aria-label="Sort Measurements Dropdown Menu"
-                    selectionMode="single"
-                    selectedKeys={[sortCategory]}
-                    onAction={(key) => handleSortOptionSelection(key as string)}
-                  >
-                    <DropdownItem key="active">Active First</DropdownItem>
-                    <DropdownItem key="favorite">Favorites First</DropdownItem>
-                    <DropdownItem key="name">Name (A-Z)</DropdownItem>
-                  </DropdownMenu>
-                </Dropdown>
+                <div className="flex gap-1">
+                  <Dropdown>
+                    <DropdownTrigger>
+                      <Button
+                        className="z-1"
+                        variant="flat"
+                        color={
+                          filterMeasurementTypes.length === 2
+                            ? "default"
+                            : "secondary"
+                        }
+                        size="sm"
+                      >
+                        Filter
+                      </Button>
+                    </DropdownTrigger>
+                    <DropdownMenu
+                      aria-label="Filter Measurement Types Dropdown Menu"
+                      selectedKeys={filterMeasurementTypes}
+                      selectionMode="multiple"
+                      onAction={(key) =>
+                        handleFilterMeasurementTypes(key as string)
+                      }
+                      disallowEmptySelection
+                    >
+                      {measurementTypes.map((measurementType) => (
+                        <DropdownItem key={measurementType}>
+                          {measurementType}
+                        </DropdownItem>
+                      ))}
+                    </DropdownMenu>
+                  </Dropdown>
+                  <Dropdown>
+                    <DropdownTrigger>
+                      <Button className="z-1" variant="flat" size="sm">
+                        Sort By
+                      </Button>
+                    </DropdownTrigger>
+                    <DropdownMenu
+                      aria-label="Sort Measurements Dropdown Menu"
+                      selectionMode="single"
+                      selectedKeys={[sortCategory]}
+                      onAction={(key) =>
+                        handleSortOptionSelection(key as string)
+                      }
+                    >
+                      <DropdownItem key="active">Active First</DropdownItem>
+                      <DropdownItem key="favorite">
+                        Favorites First
+                      </DropdownItem>
+                      <DropdownItem key="name">Name (A-Z)</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </div>
               </div>
               <span className="px-1 text-xs italic text-stone-500 font-normal">
                 Click on a Measurement to add to Active Measurements
               </span>
+              {filterMap.size > 0 && (
+                <ListFilters
+                  filterMap={filterMap}
+                  removeFilter={removeFilter}
+                  prefixMap={prefixMap}
+                />
+              )}
             </div>
           }
         />
