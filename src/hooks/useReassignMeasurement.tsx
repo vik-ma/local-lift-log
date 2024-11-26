@@ -1,17 +1,17 @@
-import {
-  ReassignMeasurementIdForUserMeasurements,
-  InsertMeasurementIntoDatabase,
-} from "../helpers";
+import { ReassignMeasurementIdForUserMeasurements } from "../helpers";
 import {
   ReassignMeasurementsProps,
   Measurement,
   UserMeasurement,
+  UseMeasurementListReturnType,
 } from "../typings";
 import { useState } from "react";
 import useValidateName from "./useValidateName";
 import { useDisclosure } from "@nextui-org/react";
 
-export const useReassignMeasurement = () => {
+export const useReassignMeasurement = (
+  useMeasurementList: UseMeasurementListReturnType
+) => {
   const [newMeasurementName, setNewMeasurementName] = useState<string>("");
 
   const isNewMeasurementNameValid = useValidateName(newMeasurementName);
@@ -20,6 +20,8 @@ export const useReassignMeasurement = () => {
     useState<ReassignMeasurementsProps>();
 
   const nameInputModal = useDisclosure();
+
+  const { createMeasurement } = useMeasurementList;
 
   const handleReassignMeasurement = (values: ReassignMeasurementsProps) => {
     setMeasurementToReassign(values);
@@ -40,9 +42,7 @@ export const useReassignMeasurement = () => {
       is_favorite: 0,
     };
 
-    const newMeasurementId = await InsertMeasurementIntoDatabase(
-      newMeasurement
-    );
+    const newMeasurementId = await createMeasurement(newMeasurement);
 
     if (newMeasurementId === 0) return false;
 

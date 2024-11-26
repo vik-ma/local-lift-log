@@ -80,7 +80,7 @@ export default function UserMeasurementList() {
     nameInputModal,
     handleReassignMeasurement,
     reassignMeasurement,
-  } = useReassignMeasurement();
+  } = useReassignMeasurement(measurementList);
 
   const deleteModal = useDisclosure();
   const userMeasurementModal = useDisclosure();

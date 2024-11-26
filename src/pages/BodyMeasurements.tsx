@@ -94,6 +94,10 @@ export default function BodyMeasurements() {
     setOperationType
   );
 
+  const measurementList = useMeasurementList();
+
+  const { measurementMap, isMeasurementListLoaded } = measurementList;
+
   const {
     newMeasurementName,
     setNewMeasurementName,
@@ -101,16 +105,12 @@ export default function BodyMeasurements() {
     nameInputModal,
     handleReassignMeasurement,
     reassignMeasurement,
-  } = useReassignMeasurement();
+  } = useReassignMeasurement(measurementList);
 
   const measurementsInputs = useMeasurementsInputs(
     activeMeasurements,
     setActiveMeasurements
   );
-
-  const measurementList = useMeasurementList();
-
-  const { measurementMap, isMeasurementListLoaded } = measurementList;
 
   const getActiveMeasurements = useCallback(
     async (activeMeasurementsString: string) => {
@@ -409,8 +409,6 @@ export default function BodyMeasurements() {
     const success = await reassignMeasurement(userMeasurements);
 
     if (!success) return;
-
-    await getLatestUserMeasurement(userSettings.clock_style);
 
     nameInputModal.onClose();
     toast.success("Measurement Reassigned");
