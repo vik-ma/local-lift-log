@@ -154,7 +154,7 @@ export const useListFilters = (
 
       updatedFilterMap.set("measurement-types", filterMeasurementTypesString);
     } else {
-      setFilterMeasurementTypes(measurementTypes);
+      setFilterMeasurementTypes([...measurementTypes]);
     }
 
     setFilterMap(updatedFilterMap);
@@ -200,7 +200,7 @@ export const useListFilters = (
 
     if (key === "measurement-types" && filterMap.has("measurement-types")) {
       updatedFilterMap.delete("measurement-types");
-      setFilterMeasurements(new Set());
+      setFilterMeasurementTypes([...measurementTypes]);
     }
 
     setFilterMap(updatedFilterMap);
@@ -215,7 +215,7 @@ export const useListFilters = (
     setFilterExerciseGroups([]);
     setFilterWeightRange(defaultNumberRange);
     setFilterMeasurements(new Set());
-    setFilterMeasurementTypes(measurementTypes);
+    setFilterMeasurementTypes([...measurementTypes]);
   };
 
   const showResetFilterButton = useMemo(() => {
