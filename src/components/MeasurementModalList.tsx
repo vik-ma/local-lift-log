@@ -1,7 +1,13 @@
-import { ScrollShadow } from "@nextui-org/react";
-import { EmptyListLabel, FavoriteButton, SearchInput } from ".";
+import { Button, ScrollShadow } from "@nextui-org/react";
+import {
+  EmptyListLabel,
+  FavoriteButton,
+  MeasurementListOptions,
+  SearchInput,
+} from ".";
 import { Measurement, UseMeasurementListReturnType } from "../typings";
-import { CheckmarkIcon } from "../assets";
+import { CheckmarkIcon, GoToArrowIcon } from "../assets";
+import { useNavigate } from "react-router-dom";
 
 type MeasurementModalListProps = {
   useMeasurementList: UseMeasurementListReturnType;
@@ -22,14 +28,30 @@ export const MeasurementModalList = ({
     toggleFavorite,
   } = useMeasurementList;
 
+  const navigate = useNavigate();
+
   return (
-    <div className="h-[400px] flex flex-col gap-2">
+    <div className="h-[400px] flex flex-col gap-1.5">
       <SearchInput
         filterQuery={filterQuery}
         setFilterQuery={setFilterQuery}
         filteredListLength={filteredMeasurements.length}
         totalListLength={measurements.length}
       />
+      <div className="flex flex-col gap-1.5">
+        <div className="flex justify-between items-center">
+          <Button
+            variant="flat"
+            size="sm"
+            color="secondary"
+            onPress={() => navigate("/measurements/measurement-list")}
+            endContent={<GoToArrowIcon />}
+          >
+            Edit Measurements
+          </Button>
+          <MeasurementListOptions useMeasurementList={useMeasurementList} />
+        </div>
+      </div>
       <ScrollShadow className="flex flex-col gap-1">
         {filteredMeasurements.map((measurement) => (
           <div
