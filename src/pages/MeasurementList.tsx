@@ -57,6 +57,8 @@ export default function MeasurementList() {
   const measurementModal = useDisclosure();
   const setUnitsModal = useDisclosure();
 
+  const measurementList = useMeasurementList();
+
   const {
     measurements,
     setMeasurements,
@@ -65,14 +67,12 @@ export default function MeasurementList() {
     setFilterQuery,
     filteredMeasurements,
     toggleFavorite,
-    sortCategory,
-    handleSortOptionSelection,
     sortMeasurementsByActiveCategory,
     activeMeasurementSet,
     setActiveMeasurementSet,
     createMeasurement,
     listFilters,
-  } = useMeasurementList();
+  } = measurementList;
 
   const { filterMap, removeFilter, prefixMap } = listFilters;
 
@@ -384,11 +384,7 @@ export default function MeasurementList() {
                 >
                   New Measurement
                 </Button>
-                <MeasurementListOptions
-                  sortCategory={sortCategory}
-                  handleSortOptionSelection={handleSortOptionSelection}
-                  useListFilters={listFilters}
-                />
+                <MeasurementListOptions useMeasurementList={measurementList} />
               </div>
               <span className="px-1 text-xs italic text-stone-500 font-normal">
                 Click on a Measurement to add to Active Measurements

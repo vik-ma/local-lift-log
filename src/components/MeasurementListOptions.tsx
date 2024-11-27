@@ -5,21 +5,20 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from "@nextui-org/react";
-import { MeasurementSortCategory, UseListFiltersReturnType } from "../typings";
+import { UseMeasurementListReturnType } from "../typings";
 import { useMeasurementTypes } from "../hooks";
 
 type MeasurementListOptionsProps = {
-  sortCategory: MeasurementSortCategory;
-  handleSortOptionSelection: (key: string) => void;
-  useListFilters: UseListFiltersReturnType;
+  useMeasurementList: UseMeasurementListReturnType;
 };
 
 export const MeasurementListOptions = ({
-  sortCategory,
-  handleSortOptionSelection,
-  useListFilters,
+  useMeasurementList,
 }: MeasurementListOptionsProps) => {
-  const { filterMeasurementTypes, handleFilterMeasurementTypes } = useListFilters;
+  const { sortCategory, handleSortOptionSelection, listFilters } =
+    useMeasurementList;
+
+  const { filterMeasurementTypes, handleFilterMeasurementTypes } = listFilters;
 
   const measurementTypes = useMeasurementTypes();
 
