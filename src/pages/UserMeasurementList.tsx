@@ -21,6 +21,7 @@ import {
   DeleteItemFromList,
   UpdateItemInList,
   CreateActiveMeasurementInputs,
+  InsertUserMeasurementIntoDatabase,
 } from "../helpers";
 import {
   useDefaultUserMeasurements,
@@ -203,10 +204,45 @@ export default function UserMeasurementList() {
     const activeMeasurements = await CreateActiveMeasurementInputs(
       userSettings.active_tracking_measurements
     );
-    
+
     setActiveMeasurements(activeMeasurements);
 
     userMeasurementModal.onOpen();
+  };
+
+  const addUserMeasurements = async () => {
+    if (
+      operationType !== "add" ||
+      !measurementsInputs.areActiveMeasurementsValid ||
+      userSettings === undefined
+    )
+      return;
+
+    const commentToInsert = ConvertEmptyStringToNull(measurementsCommentInput);
+
+    const userMeasurementValues =
+      CreateUserMeasurementValues(activeMeasurements);
+
+    const newUserMeasurements = await InsertUserMeasurementIntoDatabase(
+      userMeasurementValues,
+      commentToInsert,
+      userSettings.clock_style,
+      measurementMap
+    );
+
+    if (newUserMeasurements === undefined) return;
+
+    const updatedUserMeasurementList = [
+      ...userMeasurements,
+      newUserMeasurements,
+    ];
+
+    sortUserMeasurementsByActiveCategory(updatedUserMeasurementList);
+
+    resetUserMeasurements();
+
+    userMeasurementModal.onClose();
+    toast.success("Body Measurements Added");
   };
 
   const handleEditUserMeasurements = (userMeasurements: UserMeasurement) => {
@@ -281,7 +317,11 @@ export default function UserMeasurementList() {
         setMeasurementsCommentInput={setMeasurementsCommentInput}
         useMeasurementList={measurementList}
         useMeasurementsInputs={measurementsInputs}
-        buttonAction={updateUserMeasurements}
+        buttonAction={
+          operationType === "edit"
+            ? updateUserMeasurements
+            : addUserMeasurements
+        }
         isEditing={operationType === "edit"}
       />
       <NameInputModal
