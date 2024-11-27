@@ -20,7 +20,6 @@ import {
   GetUserSettings,
   CreateActiveMeasurementInputs,
   ConvertEmptyStringToNull,
-  GetCurrentDateTimeISOString,
   DeleteUserWeightWithId,
   CreateUserMeasurementValues,
   CreateDetailedUserMeasurementList,
@@ -30,6 +29,7 @@ import {
   GenerateActiveMeasurementString,
   UpdateActiveTrackingMeasurements,
   GetUserMeasurements,
+  InsertUserMeasurementIntoDatabase,
 } from "../helpers";
 import { Button, useDisclosure } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
@@ -233,41 +233,23 @@ export default function BodyMeasurements() {
     )
       return;
 
-    const currentDateString = GetCurrentDateTimeISOString();
-
     const commentToInsert = ConvertEmptyStringToNull(measurementsCommentInput);
 
     const userMeasurementValues =
       CreateUserMeasurementValues(activeMeasurements);
 
-    try {
-      const db = await Database.load(import.meta.env.VITE_DB);
+    const newUserMeasurements = await InsertUserMeasurementIntoDatabase(
+      userMeasurementValues,
+      commentToInsert,
+      userSettings.clock_style,
+      measurementMap
+    );
 
-      const result = await db.execute(
-        `INSERT into user_measurements (date, comment, measurement_values) 
-        VALUES ($1, $2, $3)`,
-        [currentDateString, commentToInsert, userMeasurementValues]
-      );
+    if (newUserMeasurements === undefined) return;
 
-      const newUserMeasurements: UserMeasurement = {
-        id: result.lastInsertId,
-        date: currentDateString,
-        comment: commentToInsert,
-        measurement_values: userMeasurementValues,
-      };
+    setLatestUserMeasurements(newUserMeasurements);
 
-      const detailedActiveMeasurement = CreateDetailedUserMeasurementList(
-        [newUserMeasurements],
-        measurementMap,
-        userSettings.clock_style
-      );
-
-      setLatestUserMeasurements(detailedActiveMeasurement[0]);
-
-      updateActiveTrackingMeasurementOrder();
-    } catch (error) {
-      console.log(error);
-    }
+    updateActiveTrackingMeasurementOrder();
 
     resetMeasurementsInput();
 
