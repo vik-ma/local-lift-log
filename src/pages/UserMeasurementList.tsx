@@ -22,6 +22,8 @@ import {
   UpdateItemInList,
   CreateActiveMeasurementInputs,
   InsertUserMeasurementIntoDatabase,
+  GenerateActiveMeasurementString,
+  UpdateActiveTrackingMeasurements,
 } from "../helpers";
 import {
   useDefaultUserMeasurements,
@@ -241,6 +243,10 @@ export default function UserMeasurementList() {
 
     resetUserMeasurements();
 
+    if (userSettings.automatically_update_active_measurements === 1) {
+      await updateActiveTrackingMeasurementOrder();
+    }
+
     userMeasurementModal.onClose();
     toast.success("Body Measurements Added");
   };
@@ -287,6 +293,32 @@ export default function UserMeasurementList() {
 
     nameInputModal.onClose();
     toast.success("Measurement Reassigned");
+  };
+
+  const updateActiveTrackingMeasurementOrder = async () => {
+    if (userSettings === undefined) return;
+
+    const newActiveTrackingMeasurementIdList = activeMeasurements.map(
+      (obj) => obj.id
+    );
+
+    const newActiveTrackingMeasurementString = GenerateActiveMeasurementString(
+      newActiveTrackingMeasurementIdList
+    );
+
+    const success = await UpdateActiveTrackingMeasurements(
+      newActiveTrackingMeasurementString,
+      userSettings.id
+    );
+
+    if (!success) return;
+
+    const updatedUserSettings: UserSettings = {
+      ...userSettings,
+      active_tracking_measurements: newActiveTrackingMeasurementString,
+    };
+
+    setUserSettings(updatedUserSettings);
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;
