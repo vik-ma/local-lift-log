@@ -189,7 +189,7 @@ export default function UserMeasurementList() {
 
   const resetUserMeasurements = () => {
     setOperatingUserMeasurements(defaultUserMeasurements);
-    setOperationType("edit");
+    setOperationType("add");
     setActiveMeasurements([]);
     setMeasurementsCommentInput("");
   };
