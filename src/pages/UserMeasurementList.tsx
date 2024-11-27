@@ -20,6 +20,7 @@ import {
   UpdateUserMeasurements,
   DeleteItemFromList,
   UpdateItemInList,
+  CreateActiveMeasurementInputs,
 } from "../helpers";
 import {
   useDefaultUserMeasurements,
@@ -38,10 +39,10 @@ import {
 } from "@nextui-org/react";
 import { toast, Toaster } from "react-hot-toast";
 
-type OperationType = "edit" | "delete";
+type OperationType = "add" | "edit" | "delete";
 
 export default function UserMeasurementList() {
-  const [operationType, setOperationType] = useState<OperationType>("edit");
+  const [operationType, setOperationType] = useState<OperationType>("add");
   const [activeMeasurements, setActiveMeasurements] = useState<Measurement[]>(
     []
   );
@@ -192,6 +193,22 @@ export default function UserMeasurementList() {
     setMeasurementsCommentInput("");
   };
 
+  const handleAddUserMeasurements = async () => {
+    if (userSettings === undefined) return;
+
+    if (operationType !== "add") {
+      resetUserMeasurements();
+    }
+
+    const activeMeasurements = await CreateActiveMeasurementInputs(
+      userSettings.active_tracking_measurements
+    );
+    
+    setActiveMeasurements(activeMeasurements);
+
+    userMeasurementModal.onOpen();
+  };
+
   const handleEditUserMeasurements = (userMeasurements: UserMeasurement) => {
     if (userMeasurements.userMeasurementValues === undefined) return;
 
@@ -294,7 +311,7 @@ export default function UserMeasurementList() {
                 <Button
                   color="secondary"
                   variant="flat"
-                  onPress={() => {}}
+                  onPress={handleAddUserMeasurements}
                   size="sm"
                 >
                   New User Measurements
