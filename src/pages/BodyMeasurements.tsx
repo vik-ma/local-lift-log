@@ -249,7 +249,9 @@ export default function BodyMeasurements() {
 
     setLatestUserMeasurements(newUserMeasurements);
 
-    updateActiveTrackingMeasurementOrder();
+    if (userSettings.automatically_update_active_measurements === 1) {
+      await updateActiveTrackingMeasurementOrder();
+    }
 
     resetMeasurementsInput();
 
@@ -375,10 +377,19 @@ export default function BodyMeasurements() {
     const newActiveTrackingMeasurementString: string =
       GenerateActiveMeasurementString(newActiveTrackingMeasurementIdList);
 
-    await UpdateActiveTrackingMeasurements(
+    const success = await UpdateActiveTrackingMeasurements(
       newActiveTrackingMeasurementString,
       userSettings.id
     );
+
+    if (!success) return;
+
+    const updatedUserSettings: UserSettings = {
+      ...userSettings,
+      active_tracking_measurements: newActiveTrackingMeasurementString,
+    };
+
+    setUserSettings(updatedUserSettings);
 
     activeMeasurementsValue.current = updatedActiveMeasurements;
   };

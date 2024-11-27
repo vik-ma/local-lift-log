@@ -1,8 +1,5 @@
 import Database from "tauri-plugin-sql-api";
-import {
-  ValidateActiveMeasurementsString,
-  IsNumberNegativeOrInfinity,
-} from "..";
+import { ValidateActiveMeasurementsString, IsNumberValidBinary } from "..";
 
 export const UpdateActiveTrackingMeasurements = async (
   activeTrackingMeasurementString: string,
@@ -11,7 +8,7 @@ export const UpdateActiveTrackingMeasurements = async (
   if (!ValidateActiveMeasurementsString(activeTrackingMeasurementString))
     return false;
 
-  if (IsNumberNegativeOrInfinity(userSettingsId)) return false;
+  if (!IsNumberValidBinary(userSettingsId)) return false;
 
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
