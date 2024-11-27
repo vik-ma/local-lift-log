@@ -40,6 +40,7 @@ pub struct UserSetting {
     pub default_plate_calculation_id: i32,
     pub workout_ratings_order: String,
     pub show_secondary_exercise_groups: i32,
+    pub automatically_update_active_measurements: i32,
 }
 
 #[derive(Queryable, Selectable)]
