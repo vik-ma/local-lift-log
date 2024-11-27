@@ -36,6 +36,7 @@ export type UserSettings = {
   default_plate_calculation_id: number;
   workout_ratings_order: string;
   show_secondary_exercise_groups: number;
+  automatically_update_active_measurements: number;
 };
 
 export type UserSettingsOptional = {
@@ -65,6 +66,7 @@ export type UserSettingsOptional = {
   default_plate_calculation_id?: number;
   workout_ratings_order?: string;
   show_secondary_exercise_groups?: number;
+  automatically_update_active_measurements?: number;
 };
 
 export type Exercise = {

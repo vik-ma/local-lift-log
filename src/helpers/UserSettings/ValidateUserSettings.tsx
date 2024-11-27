@@ -105,5 +105,10 @@ export const ValidateUserSettings = (userSettings: UserSettings): boolean => {
   if (!IsNumberValidBinary(userSettings.show_secondary_exercise_groups))
     return false;
 
+  if (
+    !IsNumberValidBinary(userSettings.automatically_update_active_measurements)
+  )
+    return false;
+
   return true;
 };
