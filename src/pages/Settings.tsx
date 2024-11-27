@@ -464,6 +464,19 @@ export default function Settings() {
     updateSettings(updatedSettings);
   };
 
+  const handleAutomaticallyUpdateActiveMeasurementsChange = async (
+    value: boolean
+  ) => {
+    if (userSettings === undefined) return;
+
+    const updatedSettings: UserSettings = {
+      ...userSettings,
+      automatically_update_active_measurements: value ? 1 : 0,
+    };
+
+    updateSettings(updatedSettings);
+  };
+
   const handleSaveSpecificSettingButton = async () => {
     if (userSettings === undefined) return;
 
@@ -724,6 +737,26 @@ export default function Settings() {
               }
               onValueChange={(value) =>
                 handleShowSecondaryExerciseGroupsButtonsChange(value)
+              }
+            />
+          </div>
+          <div className="flex gap-3 items-center justify-between">
+            <span className="text-lg">
+              Automatically Update Active Measurements After Saving User
+              Measurements
+            </span>
+            <Switch
+              aria-label="Automatically Update Active Measurements Switch Element"
+              className="flex-row-reverse gap-3"
+              color="primary"
+              size="lg"
+              isSelected={
+                userSettings.automatically_update_active_measurements
+                  ? true
+                  : false
+              }
+              onValueChange={(value) =>
+                handleAutomaticallyUpdateActiveMeasurementsChange(value)
               }
             />
           </div>
