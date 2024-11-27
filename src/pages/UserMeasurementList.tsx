@@ -124,6 +124,45 @@ export default function UserMeasurementList() {
     setUserMeasurements(updatedMeasurementEntries);
   };
 
+  const addUserMeasurements = async () => {
+    if (
+      operationType !== "add" ||
+      !measurementsInputs.areActiveMeasurementsValid ||
+      userSettings === undefined
+    )
+      return;
+
+    const commentToInsert = ConvertEmptyStringToNull(measurementsCommentInput);
+
+    const userMeasurementValues =
+      CreateUserMeasurementValues(activeMeasurements);
+
+    const newUserMeasurements = await InsertUserMeasurementIntoDatabase(
+      userMeasurementValues,
+      commentToInsert,
+      userSettings.clock_style,
+      measurementMap
+    );
+
+    if (newUserMeasurements === undefined) return;
+
+    const updatedUserMeasurementList = [
+      ...userMeasurements,
+      newUserMeasurements,
+    ];
+
+    sortUserMeasurementsByActiveCategory(updatedUserMeasurementList);
+
+    resetUserMeasurements();
+
+    if (userSettings.automatically_update_active_measurements === 1) {
+      await updateActiveTrackingMeasurementOrder();
+    }
+
+    userMeasurementModal.onClose();
+    toast.success("Body Measurements Added");
+  };
+
   const updateUserMeasurements = async () => {
     if (
       operatingUserMeasurements.id === 0 ||
@@ -210,45 +249,6 @@ export default function UserMeasurementList() {
     setActiveMeasurements(activeMeasurements);
 
     userMeasurementModal.onOpen();
-  };
-
-  const addUserMeasurements = async () => {
-    if (
-      operationType !== "add" ||
-      !measurementsInputs.areActiveMeasurementsValid ||
-      userSettings === undefined
-    )
-      return;
-
-    const commentToInsert = ConvertEmptyStringToNull(measurementsCommentInput);
-
-    const userMeasurementValues =
-      CreateUserMeasurementValues(activeMeasurements);
-
-    const newUserMeasurements = await InsertUserMeasurementIntoDatabase(
-      userMeasurementValues,
-      commentToInsert,
-      userSettings.clock_style,
-      measurementMap
-    );
-
-    if (newUserMeasurements === undefined) return;
-
-    const updatedUserMeasurementList = [
-      ...userMeasurements,
-      newUserMeasurements,
-    ];
-
-    sortUserMeasurementsByActiveCategory(updatedUserMeasurementList);
-
-    resetUserMeasurements();
-
-    if (userSettings.automatically_update_active_measurements === 1) {
-      await updateActiveTrackingMeasurementOrder();
-    }
-
-    userMeasurementModal.onClose();
-    toast.success("Body Measurements Added");
   };
 
   const handleEditUserMeasurements = (userMeasurements: UserMeasurement) => {
