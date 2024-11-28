@@ -70,6 +70,12 @@ export const WorkoutListOptions = ({
           <DropdownItem key="num-sets-asc">
             Number Of Sets (Low-High)
           </DropdownItem>
+          <DropdownItem key="num-exercises-desc">
+            Number Of Exercises (High-Low)
+          </DropdownItem>
+          <DropdownItem key="num-exercises-asc">
+            Number Of Exercises (Low-High)
+          </DropdownItem>
         </DropdownMenu>
       </Dropdown>
       <WorkoutPropertyDropdown

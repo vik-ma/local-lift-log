@@ -238,6 +238,29 @@ export const useWorkoutList = (
         return sortKey;
       }
 
+      // Sort by newest date first if same number of Sets
+      return b.date.localeCompare(a.date);
+    });
+
+    setWorkouts(workoutList);
+  };
+
+  const sortWorkoutsByNumExercises = (
+    workoutList: Workout[],
+    isAscending: boolean
+  ) => {
+    workoutList.sort((a, b) => {
+      const aCount =
+        a.exerciseIdSet !== undefined ? a.exerciseIdSet.size : -Infinity;
+      const bCount =
+        b.exerciseIdSet !== undefined ? b.exerciseIdSet.size : -Infinity;
+
+      if (bCount !== aCount) {
+        const sortKey = isAscending ? bCount - aCount : aCount - bCount;
+        return sortKey;
+      }
+
+      // Sort by newest date first if same number of Exercises
       return b.date.localeCompare(a.date);
     });
 
@@ -265,6 +288,12 @@ export const useWorkoutList = (
     } else if (key === "num-sets-desc") {
       setSortCategory(key);
       sortWorkoutsByNumSets([...workouts], true);
+    } else if (key === "num-exercises-asc") {
+      setSortCategory(key);
+      sortWorkoutsByNumExercises([...workouts], false);
+    } else if (key === "num-exercises-desc") {
+      setSortCategory(key);
+      sortWorkoutsByNumExercises([...workouts], true);
     }
   };
 
