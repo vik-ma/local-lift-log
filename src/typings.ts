@@ -682,7 +682,13 @@ export type OperatingCalculationItem = {
   index: number;
 };
 
-export type WorkoutSortCategory = "date-asc" | "date-desc";
+export type WorkoutSortCategory =
+  | "date-asc"
+  | "date-desc"
+  | "num-sets-asc"
+  | "num-sets-desc"
+  | "num-exercises-asc"
+  | "num-exercises-desc";
 
 export type SumCalculatorPage = "base" | "list" | "calc";
 

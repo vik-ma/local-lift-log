@@ -64,6 +64,12 @@ export const WorkoutListOptions = ({
         >
           <DropdownItem key="date-desc">Date (Newest First)</DropdownItem>
           <DropdownItem key="date-asc">Date (Oldest First)</DropdownItem>
+          <DropdownItem key="num-sets-desc">
+            Number Of Sets (High-Low)
+          </DropdownItem>
+          <DropdownItem key="num-sets-asc">
+            Number Of Sets (Low-High)
+          </DropdownItem>
         </DropdownMenu>
       </Dropdown>
       <WorkoutPropertyDropdown

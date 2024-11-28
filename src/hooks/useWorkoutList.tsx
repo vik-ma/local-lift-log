@@ -225,6 +225,25 @@ export const useWorkoutList = (
     setWorkouts(workoutList);
   };
 
+  const sortWorkoutsByNumSets = (
+    workoutList: Workout[],
+    isAscending: boolean
+  ) => {
+    workoutList.sort((a, b) => {
+      const aCount = a.numSets !== undefined ? a.numSets : -Infinity;
+      const bCount = b.numSets !== undefined ? b.numSets : -Infinity;
+
+      if (bCount !== aCount) {
+        const sortKey = isAscending ? bCount - aCount : aCount - bCount;
+        return sortKey;
+      }
+
+      return b.date.localeCompare(a.date);
+    });
+
+    setWorkouts(workoutList);
+  };
+
   const handleOpenWorkoutListModal = useCallback(() => {
     if (!isWorkoutListLoaded.current) {
       getWorkouts();
@@ -240,6 +259,12 @@ export const useWorkoutList = (
     } else if (key === "date-asc") {
       setSortCategory(key);
       sortWorkoutsByDate([...workouts], true);
+    } else if (key === "num-sets-asc") {
+      setSortCategory(key);
+      sortWorkoutsByNumSets([...workouts], false);
+    } else if (key === "num-sets-desc") {
+      setSortCategory(key);
+      sortWorkoutsByNumSets([...workouts], true);
     }
   };
 
