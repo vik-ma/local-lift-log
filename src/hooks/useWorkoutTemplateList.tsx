@@ -26,7 +26,10 @@ export const useWorkoutTemplateList = (
 
   const workoutTemplatesModal = useDisclosure();
 
-  const { exerciseGroupDictionary } = useExerciseList;
+  const { exerciseGroupDictionary, isExerciseListLoaded, getExercises } =
+    useExerciseList;
+
+  const filterWorkoutTemplateListModal = useDisclosure();
 
   const filteredWorkoutTemplates = useMemo(() => {
     if (filterQuery !== "") {
@@ -191,6 +194,14 @@ export const useWorkoutTemplateList = (
     }
   };
 
+  const handleOpenFilterButton = async () => {
+    if (!isExerciseListLoaded.current) {
+      await getExercises();
+    }
+
+    filterWorkoutTemplateListModal.onOpen();
+  };
+
   return {
     workoutTemplatesModal,
     workoutTemplates,
@@ -202,5 +213,7 @@ export const useWorkoutTemplateList = (
     filteredWorkoutTemplates,
     handleSortOptionSelection,
     sortCategory,
+    filterWorkoutTemplateListModal,
+    handleOpenFilterButton,
   };
 };

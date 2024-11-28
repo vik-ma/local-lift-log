@@ -31,6 +31,8 @@ export const useWorkoutList = (
     exerciseGroupDictionary,
     includeSecondaryGroups,
     setIncludeSecondaryGroups,
+    isExerciseListLoaded,
+    getExercises,
   } = useExerciseList;
 
   const routineList = useRoutineList(true);
@@ -298,8 +300,8 @@ export const useWorkoutList = (
   };
 
   const handleOpenFilterButton = async () => {
-    if (!useExerciseList.isExerciseListLoaded.current) {
-      await useExerciseList.getExercises();
+    if (!isExerciseListLoaded.current) {
+      await getExercises();
     }
 
     filterWorkoutListModal.onOpen();
