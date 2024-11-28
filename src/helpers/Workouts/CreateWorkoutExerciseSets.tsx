@@ -34,6 +34,8 @@ export const CreateWorkoutExerciseSets = (
     const workoutExerciseGroupsSecondary: Set<string>[] = [];
 
     for (const exercise of exerciseList) {
+      if (exercise.id === null) continue;
+
       workoutExerciseSets.exerciseIdSet.add(exercise.id);
 
       if (exercise.exercise_group_set_string_primary !== null) {
