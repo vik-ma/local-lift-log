@@ -262,6 +262,12 @@ export default function WorkoutTemplateList() {
                     onAction={(key) => handleSortOptionSelection(key as string)}
                   >
                     <DropdownItem key="name">Name (A-Z)</DropdownItem>
+                    <DropdownItem key="num-sets-desc">
+                      Number Of Sets (High-Low)
+                    </DropdownItem>
+                    <DropdownItem key="num-sets-asc">
+                      Number Of Sets (Low-High)
+                    </DropdownItem>
                   </DropdownMenu>
                 </Dropdown>
               </div>

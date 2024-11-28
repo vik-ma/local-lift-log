@@ -695,8 +695,10 @@ export type WorkoutSortCategory =
 export type WorkoutTemplateSortCategory =
   | "name"
   | "date"
-  | "num-sets"
-  | "num-exercises";
+  | "num-sets-asc"
+  | "num-sets-desc"
+  | "num-exercises-asc"
+  | "num-exercises-desc";
 
 export type SumCalculatorPage = "base" | "list" | "calc";
 

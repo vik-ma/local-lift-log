@@ -117,10 +117,36 @@ export const useWorkoutTemplateList = (
     setWorkoutTemplates(workoutTemplateList);
   };
 
+  const sortWorkoutsByNumSets = (
+    workoutTemplateList: WorkoutTemplate[],
+    isAscending: boolean
+  ) => {
+    workoutTemplateList.sort((a, b) => {
+      const aCount = a.numSets !== undefined ? a.numSets : -Infinity;
+      const bCount = b.numSets !== undefined ? b.numSets : -Infinity;
+
+      if (bCount !== aCount) {
+        const sortKey = isAscending ? aCount - bCount : bCount - aCount;
+        return sortKey;
+      }
+
+      // Sort names alphabetically if same number of Sets
+      return a.name.localeCompare(b.name);
+    });
+
+    setWorkoutTemplates(workoutTemplateList);
+  };
+
   const handleSortOptionSelection = (key: string) => {
     if (key === "name") {
       setSortCategory(key);
       sortWorkoutTemplatesByName([...workoutTemplates]);
+    } else if (key === "num-sets-desc") {
+      setSortCategory(key);
+      sortWorkoutsByNumSets([...workoutTemplates], false);
+    } else if (key === "num-sets-asc") {
+      setSortCategory(key);
+      sortWorkoutsByNumSets([...workoutTemplates], true);
     }
   };
 
