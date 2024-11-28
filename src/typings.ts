@@ -93,7 +93,10 @@ export type WorkoutTemplate = {
   exercise_order: string;
   note: string | null;
   numSets?: number;
-  numExercises?: number;
+  exerciseListString?: string;
+  exerciseIdSet?: Set<number>;
+  exerciseGroupSetPrimary?: Set<string>;
+  exerciseGroupSetSecondary?: Set<string>;
 };
 
 export type WorkoutRoutineSchedule = {

@@ -7,6 +7,7 @@ import {
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { useDisclosure } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
+import { CreateWorkoutExerciseSets } from "../helpers";
 
 export const useWorkoutTemplateList = (
   getWorkoutTemplatesOnLoad: boolean,
@@ -24,6 +25,8 @@ export const useWorkoutTemplateList = (
   const isWorkoutTemplateListLoaded = useRef(false);
 
   const workoutTemplatesModal = useDisclosure();
+
+  const { exerciseGroupDictionary } = useExerciseList;
 
   const filteredWorkoutTemplates = useMemo(() => {
     if (filterQuery !== "") {
@@ -75,13 +78,21 @@ export const useWorkoutTemplateList = (
       for (const row of result) {
         if (ignoreEmptyWorkoutTemplates && row.numSets === 0) continue;
 
+        const workoutExerciseSets = CreateWorkoutExerciseSets(
+          row.exerciseListString,
+          exerciseGroupDictionary
+        );
+
         const workoutTemplate: WorkoutTemplate = {
           id: row.id,
           name: row.name,
           exercise_order: row.exercise_order,
           note: row.note,
           numSets: row.numSets,
-          numExercises: row.numExercises,
+          exerciseIdSet: workoutExerciseSets.exerciseIdSet,
+          exerciseGroupSetPrimary: workoutExerciseSets.exerciseGroupSetPrimary,
+          exerciseGroupSetSecondary:
+            workoutExerciseSets.exerciseGroupSetSecondary,
         };
 
         workoutTemplates.push(workoutTemplate);
@@ -92,7 +103,7 @@ export const useWorkoutTemplateList = (
     } catch (error) {
       console.log(error);
     }
-  }, [ignoreEmptyWorkoutTemplates]);
+  }, [ignoreEmptyWorkoutTemplates, exerciseGroupDictionary]);
 
   useEffect(() => {
     if (getWorkoutTemplatesOnLoad) {
