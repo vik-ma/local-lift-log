@@ -45,12 +45,27 @@ export const useWorkoutTemplateList = (
 
       // Get all columns and how many Sets and Exercises every WorkoutTemplate contains
       const result = await db.select<WorkoutTemplate[]>(
-        `SELECT workout_templates.*, 
-        COUNT(DISTINCT CASE WHEN is_template = 1 THEN sets.exercise_id END) AS numExercises,
-        SUM(CASE WHEN is_template = 1 THEN 1 ELSE 0 END) AS numSets
-        FROM workout_templates LEFT JOIN sets 
-        ON workout_templates.id = sets.workout_template_id 
-        GROUP BY workout_templates.id`
+        `SELECT 
+          workout_templates.*, 
+          json_group_array(
+            json_object(
+              'id', COALESCE(exercises.id, distinct_sets.exercise_id),
+              'exercise_group_set_string_primary', exercises.exercise_group_set_string_primary,
+              'exercise_group_set_string_secondary', exercises.exercise_group_set_string_secondary
+            )
+          ) AS exerciseListString,
+          (SELECT COUNT(*) 
+            FROM sets 
+              WHERE sets.workout_template_id = workout_templates.id AND sets.is_template = 1) AS numSets
+          FROM 
+            workout_templates
+          LEFT JOIN 
+            (SELECT DISTINCT exercise_id, workout_template_id FROM sets WHERE is_template = 1) AS distinct_sets
+            ON workout_templates.id = distinct_sets.workout_template_id
+          LEFT JOIN 
+            exercises ON distinct_sets.exercise_id = exercises.id
+          GROUP BY 
+            workout_templates.id`
       );
 
       const workoutTemplates: WorkoutTemplate[] = [];
