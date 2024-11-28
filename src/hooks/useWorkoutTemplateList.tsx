@@ -130,7 +130,7 @@ export const useWorkoutTemplateList = (
     setWorkoutTemplates(workoutTemplateList);
   };
 
-  const sortWorkoutsByNumSets = (
+  const sortWorkoutTemplatesByNumSets = (
     workoutTemplateList: WorkoutTemplate[],
     isAscending: boolean
   ) => {
@@ -150,16 +150,44 @@ export const useWorkoutTemplateList = (
     setWorkoutTemplates(workoutTemplateList);
   };
 
+  const sortWorkoutTemplatesByNumExercises = (
+    workoutTemplateList: WorkoutTemplate[],
+    isAscending: boolean
+  ) => {
+    workoutTemplateList.sort((a, b) => {
+      const aCount =
+        a.exerciseIdSet !== undefined ? a.exerciseIdSet.size : -Infinity;
+      const bCount =
+        b.exerciseIdSet !== undefined ? b.exerciseIdSet.size : -Infinity;
+
+      if (bCount !== aCount) {
+        const sortKey = isAscending ? aCount - bCount : bCount - aCount;
+        return sortKey;
+      }
+
+      // Sort names alphabetically if same number of Exercises
+      return a.name.localeCompare(b.name);
+    });
+
+    setWorkoutTemplates(workoutTemplateList);
+  };
+
   const handleSortOptionSelection = (key: string) => {
     if (key === "name") {
       setSortCategory(key);
       sortWorkoutTemplatesByName([...workoutTemplates]);
     } else if (key === "num-sets-desc") {
       setSortCategory(key);
-      sortWorkoutsByNumSets([...workoutTemplates], false);
+      sortWorkoutTemplatesByNumSets([...workoutTemplates], false);
     } else if (key === "num-sets-asc") {
       setSortCategory(key);
-      sortWorkoutsByNumSets([...workoutTemplates], true);
+      sortWorkoutTemplatesByNumSets([...workoutTemplates], true);
+    } else if (key === "num-exercises-desc") {
+      setSortCategory(key);
+      sortWorkoutTemplatesByNumExercises([...workoutTemplates], false);
+    } else if (key === "num-exercises-asc") {
+      setSortCategory(key);
+      sortWorkoutTemplatesByNumExercises([...workoutTemplates], true);
     }
   };
 
