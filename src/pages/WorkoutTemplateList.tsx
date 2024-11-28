@@ -20,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import {
   useDefaultWorkoutTemplate,
+  useExerciseList,
   useValidateName,
   useWorkoutTemplateList,
 } from "../hooks";
@@ -53,6 +54,8 @@ export default function WorkoutTemplateList() {
     operatingWorkoutTemplate.name
   );
 
+  const exerciseList = useExerciseList(false);
+
   const {
     workoutTemplates,
     setWorkoutTemplates,
@@ -62,7 +65,7 @@ export default function WorkoutTemplateList() {
     filteredWorkoutTemplates,
     handleSortOptionSelection,
     sortCategory,
-  } = useWorkoutTemplateList(true);
+  } = useWorkoutTemplateList(true, exerciseList);
 
   const addWorkoutTemplate = async () => {
     if (!isNewWorkoutTemplateNameValid) return;

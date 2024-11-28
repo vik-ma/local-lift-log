@@ -42,6 +42,7 @@ import {
   useIsRoutineValid,
   useWorkoutTemplateList,
   useDetailsHeaderOptionsMenu,
+  useExerciseList,
 } from "../hooks";
 import { Link } from "react-router-dom";
 
@@ -65,7 +66,9 @@ export default function RoutineDetails() {
   const { isRoutineNameValid, isRoutineValid } =
     useIsRoutineValid(editedRoutine);
 
-  const workoutTemplateList = useWorkoutTemplateList(true);
+  const exerciseList = useExerciseList(false);
+
+  const workoutTemplateList = useWorkoutTemplateList(true, exerciseList);
 
   const getWorkoutRoutineSchedules = useCallback(async () => {
     try {

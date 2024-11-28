@@ -2,6 +2,7 @@ import {
   WorkoutTemplate,
   UseWorkoutTemplateListReturnType,
   WorkoutTemplateSortCategory,
+  UseExerciseListReturnType,
 } from "../typings";
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { useDisclosure } from "@nextui-org/react";
@@ -9,6 +10,7 @@ import Database from "tauri-plugin-sql-api";
 
 export const useWorkoutTemplateList = (
   getWorkoutTemplatesOnLoad: boolean,
+  useExerciseList: UseExerciseListReturnType,
   ignoreEmptyWorkoutTemplates?: boolean
 ): UseWorkoutTemplateListReturnType => {
   const [workoutTemplates, setWorkoutTemplates] = useState<WorkoutTemplate[]>(

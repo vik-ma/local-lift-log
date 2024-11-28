@@ -138,7 +138,7 @@ export default function WorkoutDetails() {
   } = useWorkoutActions(false);
 
   const workoutList = useWorkoutList(false, exerciseList, true, Number(id));
-  const workoutTemplateList = useWorkoutTemplateList(false, true);
+  const workoutTemplateList = useWorkoutTemplateList(false, exerciseList, true);
 
   const additionalMenuItems: DetailHeaderOptionItem = useMemo(() => {
     return {

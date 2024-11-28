@@ -30,9 +30,9 @@ export default function WorkoutIndex() {
 
   const navigate = useNavigate();
 
-  const workoutTemplateList = useWorkoutTemplateList(true, true);
-
   const exerciseList = useExerciseList(false);
+
+  const workoutTemplateList = useWorkoutTemplateList(true, exerciseList, true);
 
   const { setIncludeSecondaryGroups } = exerciseList;
 
