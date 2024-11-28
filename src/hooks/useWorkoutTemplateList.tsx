@@ -3,6 +3,8 @@ import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { useDisclosure } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
 
+type SortCategory = "name" | "date" | "num-sets" | "num-exercises";
+
 export const useWorkoutTemplateList = (
   getWorkoutTemplatesOnLoad: boolean,
   ignoreEmptyWorkoutTemplates?: boolean
@@ -12,6 +14,7 @@ export const useWorkoutTemplateList = (
   );
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [filterQuery, setFilterQuery] = useState<string>("");
+  const [sortCategory, setSortCategory] = useState<SortCategory>("name");
 
   const isWorkoutTemplateListLoaded = useRef(false);
 
@@ -64,7 +67,7 @@ export const useWorkoutTemplateList = (
         workoutTemplates.push(workoutTemplate);
       }
 
-      setWorkoutTemplates(workoutTemplates);
+      sortWorkoutTemplatesByName(workoutTemplates);
       setIsLoading(false);
     } catch (error) {
       console.log(error);
@@ -85,6 +88,16 @@ export const useWorkoutTemplateList = (
 
     workoutTemplatesModal.onOpen();
   }, [workoutTemplatesModal, getWorkoutTemplates]);
+
+  const sortWorkoutTemplatesByName = (
+    workoutTemplateList: WorkoutTemplate[]
+  ) => {
+    workoutTemplateList.sort((a, b) => {
+      return a.name.localeCompare(b.name);
+    });
+
+    setWorkoutTemplates(workoutTemplateList);
+  };
 
   return {
     workoutTemplatesModal,
