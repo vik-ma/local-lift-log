@@ -554,6 +554,8 @@ export type UseWorkoutTemplateListReturnType = {
   filterQuery: string;
   setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
   filteredWorkoutTemplates: WorkoutTemplate[];
+  handleSortOptionSelection: (key: string) => void;
+  sortCategory: WorkoutTemplateSortCategory;
 };
 
 export type PresetsType = "equipment" | "distance";
@@ -689,6 +691,12 @@ export type WorkoutSortCategory =
   | "num-sets-desc"
   | "num-exercises-asc"
   | "num-exercises-desc";
+
+export type WorkoutTemplateSortCategory =
+  | "name"
+  | "date"
+  | "num-sets"
+  | "num-exercises";
 
 export type SumCalculatorPage = "base" | "list" | "calc";
 

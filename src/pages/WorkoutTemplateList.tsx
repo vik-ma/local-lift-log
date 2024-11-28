@@ -60,6 +60,8 @@ export default function WorkoutTemplateList() {
     filterQuery,
     setFilterQuery,
     filteredWorkoutTemplates,
+    handleSortOptionSelection,
+    sortCategory,
   } = useWorkoutTemplateList(true);
 
   const addWorkoutTemplate = async () => {
@@ -234,8 +236,35 @@ export default function WorkoutTemplateList() {
                 variant="flat"
                 onPress={handleCreateNewWorkoutTemplateButton}
               >
-                Create New Workout Template
+                New Workout Template
               </Button>
+              <div className="flex gap-1 pr-0.5">
+                {/* TODO: ADD FILTER */}
+                {/* <Button
+                  className="z-1"
+                  variant="flat"
+                  color={filterMap.size > 0 ? "secondary" : "default"}
+                  size="sm"
+                  onPress={handleOpenFilterButton}
+                >
+                  Filter
+                </Button> */}
+                <Dropdown>
+                  <DropdownTrigger>
+                    <Button className="z-1" variant="flat" size="sm">
+                      Sort By
+                    </Button>
+                  </DropdownTrigger>
+                  <DropdownMenu
+                    aria-label="Sort Workout Templates Dropdown Menu"
+                    selectionMode="single"
+                    selectedKeys={[sortCategory]}
+                    onAction={(key) => handleSortOptionSelection(key as string)}
+                  >
+                    <DropdownItem key="name">Name (A-Z)</DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+              </div>
             </div>
           }
         />

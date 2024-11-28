@@ -1,9 +1,11 @@
-import { WorkoutTemplate, UseWorkoutTemplateListReturnType } from "../typings";
+import {
+  WorkoutTemplate,
+  UseWorkoutTemplateListReturnType,
+  WorkoutTemplateSortCategory,
+} from "../typings";
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { useDisclosure } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
-
-type SortCategory = "name" | "date" | "num-sets" | "num-exercises";
 
 export const useWorkoutTemplateList = (
   getWorkoutTemplatesOnLoad: boolean,
@@ -14,7 +16,8 @@ export const useWorkoutTemplateList = (
   );
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [filterQuery, setFilterQuery] = useState<string>("");
-  const [sortCategory, setSortCategory] = useState<SortCategory>("name");
+  const [sortCategory, setSortCategory] =
+    useState<WorkoutTemplateSortCategory>("name");
 
   const isWorkoutTemplateListLoaded = useRef(false);
 
@@ -99,6 +102,13 @@ export const useWorkoutTemplateList = (
     setWorkoutTemplates(workoutTemplateList);
   };
 
+  const handleSortOptionSelection = (key: string) => {
+    if (key === "name") {
+      setSortCategory(key);
+      sortWorkoutTemplatesByName([...workoutTemplates]);
+    }
+  };
+
   return {
     workoutTemplatesModal,
     workoutTemplates,
@@ -108,5 +118,7 @@ export const useWorkoutTemplateList = (
     filterQuery,
     setFilterQuery,
     filteredWorkoutTemplates,
+    handleSortOptionSelection,
+    sortCategory,
   };
 };
