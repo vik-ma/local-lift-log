@@ -234,7 +234,7 @@ export const useWorkoutList = (
       const bCount = b.numSets !== undefined ? b.numSets : -Infinity;
 
       if (bCount !== aCount) {
-        const sortKey = isAscending ? bCount - aCount : aCount - bCount;
+        const sortKey = isAscending ? aCount - bCount : bCount - aCount;
         return sortKey;
       }
 
@@ -256,7 +256,7 @@ export const useWorkoutList = (
         b.exerciseIdSet !== undefined ? b.exerciseIdSet.size : -Infinity;
 
       if (bCount !== aCount) {
-        const sortKey = isAscending ? bCount - aCount : aCount - bCount;
+        const sortKey = isAscending ? aCount - bCount : bCount - aCount;
         return sortKey;
       }
 
@@ -282,16 +282,16 @@ export const useWorkoutList = (
     } else if (key === "date-asc") {
       setSortCategory(key);
       sortWorkoutsByDate([...workouts], true);
-    } else if (key === "num-sets-asc") {
-      setSortCategory(key);
-      sortWorkoutsByNumSets([...workouts], false);
     } else if (key === "num-sets-desc") {
       setSortCategory(key);
+      sortWorkoutsByNumSets([...workouts], false);
+    } else if (key === "num-sets-asc") {
+      setSortCategory(key);
       sortWorkoutsByNumSets([...workouts], true);
-    } else if (key === "num-exercises-asc") {
+    } else if (key === "num-exercises-desc") {
       setSortCategory(key);
       sortWorkoutsByNumExercises([...workouts], false);
-    } else if (key === "num-exercises-desc") {
+    } else if (key === "num-exercises-asc") {
       setSortCategory(key);
       sortWorkoutsByNumExercises([...workouts], true);
     }
