@@ -75,3 +75,4 @@ export { FilterUserWeightListModal } from "./Modals/FilterUserWeightListModal";
 export { FilterWorkoutListModal } from "./Modals/FilterWorkoutListModal";
 export { FilterExerciseGroupsModal } from "./Modals/FilterExerciseGroupsModal";
 export { FilterUserMeasurementListModal } from "./Modals/FilterUserMeasurementListModal";
+export { FilterWorkoutTemplateListModal } from "./Modals/FilterWorkoutTemplateListModal";

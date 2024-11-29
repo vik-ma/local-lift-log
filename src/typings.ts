@@ -561,6 +561,7 @@ export type UseWorkoutTemplateListReturnType = {
   sortCategory: WorkoutTemplateSortCategory;
   filterWorkoutTemplateListModal: UseDisclosureReturnType;
   handleOpenFilterButton: () => void;
+  listFilters: UseListFiltersReturnType;
 };
 
 export type PresetsType = "equipment" | "distance";

@@ -15,6 +15,7 @@ import {
   WorkoutTemplateModal,
   ListPageSearchInput,
   EmptyListLabel,
+  FilterWorkoutTemplateListModal,
 } from "../components";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
@@ -65,7 +66,12 @@ export default function WorkoutTemplateList() {
     filteredWorkoutTemplates,
     handleSortOptionSelection,
     sortCategory,
+    filterWorkoutTemplateListModal,
+    handleOpenFilterButton,
+    listFilters,
   } = useWorkoutTemplateList(true, exerciseList);
+
+  const { filterMap } = listFilters;
 
   const addWorkoutTemplate = async () => {
     if (!isNewWorkoutTemplateNameValid) return;
@@ -224,6 +230,9 @@ export default function WorkoutTemplateList() {
         }
         deleteButtonAction={deleteWorkoutTemplate}
       />
+      <FilterWorkoutTemplateListModal
+        filterWorkoutTemplateListModal={filterWorkoutTemplateListModal}
+      />
       <div className="flex flex-col items-center gap-1">
         <ListPageSearchInput
           header="Workout Templates"
@@ -242,8 +251,7 @@ export default function WorkoutTemplateList() {
                 New Workout Template
               </Button>
               <div className="flex gap-1 pr-0.5">
-                {/* TODO: ADD FILTER */}
-                {/* <Button
+                <Button
                   className="z-1"
                   variant="flat"
                   color={filterMap.size > 0 ? "secondary" : "default"}
@@ -251,7 +259,7 @@ export default function WorkoutTemplateList() {
                   onPress={handleOpenFilterButton}
                 >
                   Filter
-                </Button> */}
+                </Button>
                 <Dropdown>
                   <DropdownTrigger>
                     <Button className="z-1" variant="flat" size="sm">

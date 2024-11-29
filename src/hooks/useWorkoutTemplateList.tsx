@@ -8,6 +8,7 @@ import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { useDisclosure } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
 import { CreateWorkoutExerciseSets } from "../helpers";
+import { useListFilters } from "./useListFilters";
 
 export const useWorkoutTemplateList = (
   getWorkoutTemplatesOnLoad: boolean,
@@ -28,6 +29,8 @@ export const useWorkoutTemplateList = (
 
   const { exerciseGroupDictionary, isExerciseListLoaded, getExercises } =
     useExerciseList;
+
+  const listFilters = useListFilters();
 
   const filterWorkoutTemplateListModal = useDisclosure();
 
@@ -215,5 +218,6 @@ export const useWorkoutTemplateList = (
     sortCategory,
     filterWorkoutTemplateListModal,
     handleOpenFilterButton,
+    listFilters
   };
 };
