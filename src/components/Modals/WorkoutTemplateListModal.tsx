@@ -64,7 +64,9 @@ export const WorkoutTemplateListModal = ({
                       {template.numSets! > 0 ? (
                         <span className="text-xs text-secondary text-left">
                           {FormatNumItemsString(
-                            template.numExercises,
+                            template.exerciseIdSet !== undefined
+                              ? template.exerciseIdSet.size
+                              : 0,
                             "Exercise"
                           )}
                           , {FormatNumItemsString(template.numSets, "Set")}
