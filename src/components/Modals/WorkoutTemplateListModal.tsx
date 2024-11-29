@@ -125,8 +125,8 @@ export const WorkoutTemplateListModal = ({
               </div>
             </ModalBody>
             <ModalFooter>
-              <Button variant="light" onPress={onClose}>
-                Cancel
+              <Button color="primary" variant="light" onPress={onClose}>
+                Close
               </Button>
             </ModalFooter>
           </>

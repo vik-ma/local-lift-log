@@ -46,9 +46,10 @@ export const WorkoutListModal = ({
     filteredWorkouts,
     filterQuery,
     setFilterQuery,
-    filterMap,
     listFilters,
   } = workoutList;
+
+  const { filterMap } = listFilters;
 
   return (
     <Modal
