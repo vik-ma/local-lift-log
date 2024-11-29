@@ -13,7 +13,14 @@ import {
 } from "../../typings";
 import { ReactNode } from "react";
 import { FormatNumItemsString } from "../../helpers";
-import { EmptyListLabel, SearchInput } from "..";
+import {
+  EmptyListLabel,
+  ListFilters,
+  SearchInput,
+  WorkoutTemplateListOptions,
+} from "..";
+import { useNavigate } from "react-router-dom";
+import { GoToArrowIcon } from "../../assets";
 
 type WorkoutTemplateListModalProps = {
   workoutTemplateList: UseWorkoutTemplateListReturnType;
@@ -32,7 +39,12 @@ export const WorkoutTemplateListModal = ({
     filterQuery,
     setFilterQuery,
     workoutTemplates,
+    listFilters,
   } = workoutTemplateList;
+
+  const { filterMap, removeFilter, prefixMap } = listFilters;
+
+  const navigate = useNavigate();
 
   return (
     <Modal
@@ -51,6 +63,29 @@ export const WorkoutTemplateListModal = ({
                   filteredListLength={filteredWorkoutTemplates.length}
                   totalListLength={workoutTemplates.length}
                 />
+                <div className="flex flex-col gap-1.5">
+                  <div className="flex justify-between">
+                    <Button
+                      color="secondary"
+                      size="sm"
+                      variant="flat"
+                      onPress={() => navigate("/workout-templates")}
+                      endContent={<GoToArrowIcon />}
+                    >
+                      Edit Workout Templates
+                    </Button>
+                    <WorkoutTemplateListOptions
+                      useWorkoutTemplateList={workoutTemplateList}
+                    />
+                  </div>
+                  {filterMap.size > 0 && (
+                    <ListFilters
+                      filterMap={filterMap}
+                      removeFilter={removeFilter}
+                      prefixMap={prefixMap}
+                    />
+                  )}
+                </div>
                 <ScrollShadow className="flex flex-col gap-1">
                   {filteredWorkoutTemplates.map((template) => (
                     <button
