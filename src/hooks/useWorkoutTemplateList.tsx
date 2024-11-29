@@ -30,7 +30,7 @@ export const useWorkoutTemplateList = (
   const { exerciseGroupDictionary, isExerciseListLoaded, getExercises } =
     useExerciseList;
 
-  const listFilters = useListFilters();
+  const listFilters = useListFilters(useExerciseList);
 
   const filterWorkoutTemplateListModal = useDisclosure();
 
@@ -218,6 +218,6 @@ export const useWorkoutTemplateList = (
     sortCategory,
     filterWorkoutTemplateListModal,
     handleOpenFilterButton,
-    listFilters
+    listFilters,
   };
 };

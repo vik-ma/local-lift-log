@@ -16,6 +16,7 @@ import {
   ListPageSearchInput,
   EmptyListLabel,
   FilterWorkoutTemplateListModal,
+  ListFilters,
 } from "../components";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
@@ -80,7 +81,7 @@ export default function WorkoutTemplateList() {
     listFilters,
   } = workoutTemplateList;
 
-  const { filterMap } = listFilters;
+  const { filterMap, removeFilter, prefixMap } = listFilters;
 
   useEffect(() => {
     const getUserSettings = async () => {
@@ -271,53 +272,64 @@ export default function WorkoutTemplateList() {
           filteredListLength={filteredWorkoutTemplates.length}
           totalListLength={workoutTemplates.length}
           bottomContent={
-            <div className="flex justify-between w-full">
-              <Button
-                color="secondary"
-                size="sm"
-                variant="flat"
-                onPress={handleCreateNewWorkoutTemplateButton}
-              >
-                New Workout Template
-              </Button>
-              <div className="flex gap-1 pr-0.5">
+            <div className="flex flex-col gap-1.5">
+              <div className="flex justify-between">
                 <Button
-                  className="z-1"
-                  variant="flat"
-                  color={filterMap.size > 0 ? "secondary" : "default"}
+                  color="secondary"
                   size="sm"
-                  onPress={handleOpenFilterButton}
+                  variant="flat"
+                  onPress={handleCreateNewWorkoutTemplateButton}
                 >
-                  Filter
+                  New Workout Template
                 </Button>
-                <Dropdown>
-                  <DropdownTrigger>
-                    <Button className="z-1" variant="flat" size="sm">
-                      Sort By
-                    </Button>
-                  </DropdownTrigger>
-                  <DropdownMenu
-                    aria-label="Sort Workout Templates Dropdown Menu"
-                    selectionMode="single"
-                    selectedKeys={[sortCategory]}
-                    onAction={(key) => handleSortOptionSelection(key as string)}
+                <div className="flex gap-1 pr-0.5">
+                  <Button
+                    className="z-1"
+                    variant="flat"
+                    color={filterMap.size > 0 ? "secondary" : "default"}
+                    size="sm"
+                    onPress={handleOpenFilterButton}
                   >
-                    <DropdownItem key="name">Name (A-Z)</DropdownItem>
-                    <DropdownItem key="num-sets-desc">
-                      Number Of Sets (High-Low)
-                    </DropdownItem>
-                    <DropdownItem key="num-sets-asc">
-                      Number Of Sets (Low-High)
-                    </DropdownItem>
-                    <DropdownItem key="num-exercises-desc">
-                      Number Of Exercises (High-Low)
-                    </DropdownItem>
-                    <DropdownItem key="num-exercises-asc">
-                      Number Of Exercises (Low-High)
-                    </DropdownItem>
-                  </DropdownMenu>
-                </Dropdown>
+                    Filter
+                  </Button>
+                  <Dropdown>
+                    <DropdownTrigger>
+                      <Button className="z-1" variant="flat" size="sm">
+                        Sort By
+                      </Button>
+                    </DropdownTrigger>
+                    <DropdownMenu
+                      aria-label="Sort Workout Templates Dropdown Menu"
+                      selectionMode="single"
+                      selectedKeys={[sortCategory]}
+                      onAction={(key) =>
+                        handleSortOptionSelection(key as string)
+                      }
+                    >
+                      <DropdownItem key="name">Name (A-Z)</DropdownItem>
+                      <DropdownItem key="num-sets-desc">
+                        Number Of Sets (High-Low)
+                      </DropdownItem>
+                      <DropdownItem key="num-sets-asc">
+                        Number Of Sets (Low-High)
+                      </DropdownItem>
+                      <DropdownItem key="num-exercises-desc">
+                        Number Of Exercises (High-Low)
+                      </DropdownItem>
+                      <DropdownItem key="num-exercises-asc">
+                        Number Of Exercises (Low-High)
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </div>
               </div>
+              {filterMap.size > 0 && (
+                <ListFilters
+                  filterMap={filterMap}
+                  removeFilter={removeFilter}
+                  prefixMap={prefixMap}
+                />
+              )}
             </div>
           }
         />
