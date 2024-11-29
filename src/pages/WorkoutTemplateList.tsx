@@ -1,5 +1,5 @@
 import Database from "tauri-plugin-sql-api";
-import { WorkoutTemplate } from "../typings";
+import { UserSettings, WorkoutTemplate } from "../typings";
 import {
   Button,
   useDisclosure,
@@ -8,7 +8,7 @@ import {
   DropdownMenu,
   DropdownItem,
 } from "@nextui-org/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   LoadingSpinner,
   DeleteModal,
@@ -34,6 +34,7 @@ import {
   FormatNumItemsString,
   GetUniqueMultisetIds,
   DeleteMultisetWithId,
+  GetUserSettings,
 } from "../helpers";
 import { VerticalMenuIcon } from "../assets";
 
@@ -41,6 +42,7 @@ type OperationType = "add" | "edit" | "delete";
 
 export default function WorkoutTemplateList() {
   const [operationType, setOperationType] = useState<OperationType>("edit");
+  const [userSettings, setUserSettings] = useState<UserSettings>();
 
   const defaultWorkoutTemplate = useDefaultWorkoutTemplate();
 
@@ -57,6 +59,8 @@ export default function WorkoutTemplateList() {
   );
 
   const exerciseList = useExerciseList(false);
+
+  const { setIncludeSecondaryGroups } = exerciseList;
 
   const filterExerciseList = useFilterExerciseList(exerciseList);
 
@@ -77,6 +81,21 @@ export default function WorkoutTemplateList() {
   } = workoutTemplateList;
 
   const { filterMap } = listFilters;
+
+  useEffect(() => {
+    const getUserSettings = async () => {
+      const userSettings = await GetUserSettings();
+
+      if (userSettings !== undefined) {
+        setUserSettings(userSettings);
+        setIncludeSecondaryGroups(
+          userSettings.show_secondary_exercise_groups === 1
+        );
+      }
+    };
+
+    getUserSettings();
+  }, [setIncludeSecondaryGroups]);
 
   const addWorkoutTemplate = async () => {
     if (!isNewWorkoutTemplateNameValid) return;
@@ -212,6 +231,8 @@ export default function WorkoutTemplateList() {
     navigate(`/workout-templates/${workoutTemplate.id}`);
   };
 
+  if (userSettings === undefined) return <LoadingSpinner />;
+
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
@@ -240,6 +261,7 @@ export default function WorkoutTemplateList() {
         useWorkoutTemplate={workoutTemplateList}
         useExerciseList={exerciseList}
         useFilterExerciseList={filterExerciseList}
+        userSettings={userSettings}
       />
       <div className="flex flex-col items-center gap-1">
         <ListPageSearchInput
