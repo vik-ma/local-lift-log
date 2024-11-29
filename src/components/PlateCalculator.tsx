@@ -14,10 +14,12 @@ import {
   UsePresetsListReturnType,
   UserSettings,
 } from "../typings";
-import { PresetsModalList } from "./PresetsModalList";
-import WeightUnitDropdown from "./Dropdowns/WeightUnitDropdown";
-import { PlateCalculationModalList } from "./PlateCalculationModalList";
-import { PlateCalculationHandleConfig } from "./PlateCalculationHandleConfig";
+import {
+  PresetsModalList,
+  PlateCalculationModalList,
+  PlateCalculationHandleConfig,
+  WeightUnitDropdown,
+} from ".";
 
 type PlateCalculatorProps = {
   operatingPlateCalculation: PlateCalculation;

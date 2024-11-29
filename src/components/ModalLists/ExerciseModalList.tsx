@@ -3,7 +3,7 @@ import {
   Exercise,
   UseExerciseListReturnType,
   UseFilterExerciseListReturnType,
-} from "../typings";
+} from "../../typings";
 import { Link, useNavigate } from "react-router-dom";
 import {
   EmptyListLabel,
@@ -11,8 +11,8 @@ import {
   FavoriteButton,
   ListFilters,
   SearchInput,
-} from ".";
-import { GoToArrowIcon } from "../assets";
+} from "..";
+import { GoToArrowIcon } from "../../assets";
 
 type ExerciseModalListProps = {
   handleClickExercise: (exercise: Exercise) => void;

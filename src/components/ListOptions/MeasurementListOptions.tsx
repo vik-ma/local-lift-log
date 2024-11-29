@@ -5,8 +5,8 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from "@nextui-org/react";
-import { UseMeasurementListReturnType } from "../typings";
-import { useMeasurementTypes } from "../hooks";
+import { UseMeasurementListReturnType } from "../../typings";
+import { useMeasurementTypes } from "../../hooks";
 
 type MeasurementListOptionsProps = {
   useMeasurementList: UseMeasurementListReturnType;

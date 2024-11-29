@@ -8,8 +8,8 @@ import {
 import {
   UseExerciseListReturnType,
   UseFilterExerciseListReturnType,
-} from "../typings";
-import { UpdateShowSecondaryExerciseGroups } from "../helpers";
+} from "../../typings";
+import { UpdateShowSecondaryExerciseGroups } from "../../helpers";
 
 type ExerciseListOptionsProps = {
   useExerciseList: UseExerciseListReturnType;

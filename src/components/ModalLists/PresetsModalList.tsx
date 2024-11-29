@@ -6,13 +6,13 @@ import {
   LoadingSpinner,
   PresetsSortByMenu,
   SearchInput,
-} from ".";
-import { GoToArrowIcon, WeightPlatesIcon } from "../assets";
+} from "..";
+import { GoToArrowIcon, WeightPlatesIcon } from "../../assets";
 import {
   Distance,
   EquipmentWeight,
   UsePresetsListReturnType,
-} from "../typings";
+} from "../../typings";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 

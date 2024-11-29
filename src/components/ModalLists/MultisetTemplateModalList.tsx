@@ -1,6 +1,6 @@
 import { ScrollShadow, Select, SelectItem } from "@nextui-org/react";
-import { Multiset, MultisetTypeMap } from "../typings";
-import { EmptyListLabel, SearchInput } from ".";
+import { Multiset, MultisetTypeMap } from "../../typings";
+import { EmptyListLabel, SearchInput } from "..";
 import { Link } from "react-router-dom";
 
 type MultisetTemplateModalListProps = {

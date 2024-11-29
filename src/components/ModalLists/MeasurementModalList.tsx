@@ -4,9 +4,9 @@ import {
   FavoriteButton,
   MeasurementListOptions,
   SearchInput,
-} from ".";
-import { Measurement, UseMeasurementListReturnType } from "../typings";
-import { CheckmarkIcon, GoToArrowIcon } from "../assets";
+} from "..";
+import { Measurement, UseMeasurementListReturnType } from "../../typings";
+import { CheckmarkIcon, GoToArrowIcon } from "../../assets";
 import { useNavigate } from "react-router-dom";
 
 type MeasurementModalListProps = {

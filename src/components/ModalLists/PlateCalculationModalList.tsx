@@ -3,15 +3,15 @@ import {
   PlateCalculation,
   UsePresetsListReturnType,
   UserSettings,
-} from "../typings";
+} from "../../typings";
 import { Button, ScrollShadow } from "@nextui-org/react";
 import {
   EmptyListLabel,
   LoadingSpinner,
   PlateCalculationButton,
   SearchInput,
-} from ".";
-import { GoToArrowIcon } from "../assets";
+} from "..";
+import { GoToArrowIcon } from "../../assets";
 
 type PlateCalculationModalListProps = {
   presetsList: UsePresetsListReturnType;

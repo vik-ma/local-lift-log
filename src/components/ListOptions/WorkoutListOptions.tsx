@@ -5,9 +5,9 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from "@nextui-org/react";
-import { UserSettings, UseWorkoutListReturnType } from "../typings";
-import { VerticalMenuIcon } from "../assets";
-import { WorkoutPropertyDropdown } from "./Dropdowns/WorkoutPropertyDropdown";
+import { UserSettings, UseWorkoutListReturnType } from "../../typings";
+import { VerticalMenuIcon } from "../../assets";
+import { WorkoutPropertyDropdown } from "..";
 
 type WorkoutListOptionsProps = {
   useWorkoutList: UseWorkoutListReturnType;

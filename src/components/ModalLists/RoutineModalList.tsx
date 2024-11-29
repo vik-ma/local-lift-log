@@ -1,7 +1,7 @@
 import { ScrollShadow } from "@nextui-org/react";
-import { SearchInput } from ".";
-import { FormatNumItemsString } from "../helpers";
-import { Routine, UseRoutineListReturnType } from "../typings";
+import { SearchInput } from "..";
+import { FormatNumItemsString } from "../../helpers";
+import { Routine, UseRoutineListReturnType } from "../../typings";
 
 type RoutineModalListProps = {
   useRoutineList: UseRoutineListReturnType;
