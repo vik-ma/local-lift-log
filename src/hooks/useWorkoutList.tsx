@@ -30,7 +30,6 @@ export const useWorkoutList = (
   const {
     exerciseGroupDictionary,
     includeSecondaryGroups,
-    setIncludeSecondaryGroups,
     isExerciseListLoaded,
     getExercises,
   } = useExerciseList;
@@ -40,22 +39,12 @@ export const useWorkoutList = (
   const listFilters = useListFilters(useExerciseList, routineList.routineMap);
 
   const {
-    handleFilterSaveButton,
     filterDateRange,
-    setFilterDateRange,
     filterMap,
-    removeFilter,
-    resetFilter,
-    showResetFilterButton,
     filterWeekdays,
-    setFilterWeekdays,
-    weekdayMap,
     filterRoutines,
-    setFilterRoutines,
     filterExercises,
-    setFilterExercises,
     filterExerciseGroups,
-    setFilterExerciseGroups,
   } = listFilters;
 
   const isWorkoutListLoaded = useRef(false);
@@ -322,25 +311,7 @@ export const useWorkoutList = (
     handleSortOptionSelection,
     filterWorkoutListModal,
     handleOpenFilterButton,
-    handleFilterSaveButton,
-    filterDateRange,
-    setFilterDateRange,
-    filterMap,
-    removeFilter,
-    resetFilter,
-    showResetFilterButton,
-    filterWeekdays,
-    setFilterWeekdays,
-    weekdayMap,
-    filterRoutines,
-    setFilterRoutines,
-    filterExercises,
-    setFilterExercises,
     routineList,
-    filterExerciseGroups,
-    setFilterExerciseGroups,
-    includeSecondaryGroups,
-    setIncludeSecondaryGroups,
     listFilters,
   };
 };

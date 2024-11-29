@@ -74,9 +74,10 @@ export default function WorkoutList() {
     filterQuery,
     setFilterQuery,
     filteredWorkouts,
-    filterMap,
     listFilters,
   } = workoutList;
+
+  const { filterMap } = listFilters;
 
   const workoutTemplateList = useWorkoutTemplateList(false, exerciseList, true);
   const routineList = useRoutineList(false);

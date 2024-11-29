@@ -47,6 +47,12 @@ export const FilterWorkoutListModal = ({
 
   const {
     filterWorkoutListModal,
+
+    routineList,
+    listFilters,
+  } = useWorkoutList;
+
+  const {
     handleFilterSaveButton,
     filterDateRange,
     setFilterDateRange,
@@ -57,18 +63,20 @@ export const FilterWorkoutListModal = ({
     weekdayMap,
     filterRoutines,
     setFilterRoutines,
-    routineList,
     filterExercises,
     setFilterExercises,
     filterExerciseGroups,
     setFilterExerciseGroups,
-    includeSecondaryGroups,
-    setIncludeSecondaryGroups,
-  } = useWorkoutList;
+  } = listFilters;
 
   const { routineMap } = routineList;
 
-  const { exerciseMap, exerciseGroupDictionary } = useExerciseList;
+  const {
+    exerciseMap,
+    exerciseGroupDictionary,
+    includeSecondaryGroups,
+    setIncludeSecondaryGroups,
+  } = useExerciseList;
 
   const filterRoutinesString = useMemo(() => {
     if (filterRoutines.size === 0) return "No Routines Selected";

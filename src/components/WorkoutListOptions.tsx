@@ -36,8 +36,10 @@ export const WorkoutListOptions = ({
     sortCategory,
     handleSortOptionSelection,
     handleOpenFilterButton,
-    filterMap,
+    listFilters,
   } = useWorkoutList;
+
+  const { filterMap } = listFilters;
 
   return (
     <div className="flex gap-1 pr-0.5">
