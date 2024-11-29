@@ -20,7 +20,7 @@ import { ExerciseGroupCheckboxes, ExerciseModalList } from "..";
 
 type FilterWorkoutTemplateListModalProps = {
   filterWorkoutTemplateListModal: UseDisclosureReturnType;
-  useWorkoutTemplate: UseWorkoutTemplateListReturnType;
+  useWorkoutTemplateList: UseWorkoutTemplateListReturnType;
   useExerciseList: UseExerciseListReturnType;
   useFilterExerciseList: UseFilterExerciseListReturnType;
   userSettings: UserSettings;
@@ -30,14 +30,14 @@ type ModalPage = "base" | "exercise-list" | "exercise-groups";
 
 export const FilterWorkoutTemplateListModal = ({
   filterWorkoutTemplateListModal,
-  useWorkoutTemplate,
+  useWorkoutTemplateList,
   useExerciseList,
   useFilterExerciseList,
   userSettings,
 }: FilterWorkoutTemplateListModalProps) => {
   const [modalPage, setModalPage] = useState<ModalPage>("base");
 
-  const { listFilters } = useWorkoutTemplate;
+  const { listFilters } = useWorkoutTemplateList;
 
   const {
     exerciseGroupDictionary,

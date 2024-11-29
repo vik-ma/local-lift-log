@@ -257,7 +257,7 @@ export default function WorkoutTemplateList() {
       />
       <FilterWorkoutTemplateListModal
         filterWorkoutTemplateListModal={filterWorkoutTemplateListModal}
-        useWorkoutTemplate={workoutTemplateList}
+        useWorkoutTemplateList={workoutTemplateList}
         useExerciseList={exerciseList}
         useFilterExerciseList={filterExerciseList}
         userSettings={userSettings}
