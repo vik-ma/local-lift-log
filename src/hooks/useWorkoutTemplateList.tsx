@@ -7,7 +7,10 @@ import {
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { useDisclosure } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
-import { CreateWorkoutExerciseSets } from "../helpers";
+import {
+  CreateWorkoutExerciseSets,
+  DoesListOrSetHaveCommonElement,
+} from "../helpers";
 import { useListFilters } from "./useListFilters";
 
 export const useWorkoutTemplateList = (
@@ -27,28 +30,57 @@ export const useWorkoutTemplateList = (
 
   const workoutTemplatesModal = useDisclosure();
 
-  const { exerciseGroupDictionary, isExerciseListLoaded, getExercises } =
-    useExerciseList;
+  const {
+    exerciseGroupDictionary,
+    isExerciseListLoaded,
+    getExercises,
+    includeSecondaryGroups,
+  } = useExerciseList;
 
   const listFilters = useListFilters(useExerciseList);
+
+  const { filterMap, filterExercises, filterExerciseGroups } = listFilters;
 
   const filterWorkoutTemplateListModal = useDisclosure();
 
   const filteredWorkoutTemplates = useMemo(() => {
-    if (filterQuery !== "") {
+    if (filterQuery !== "" || filterMap.size > 0) {
       return workoutTemplates.filter(
         (item) =>
-          item.name
+          (item.name
             .toLocaleLowerCase()
             .includes(filterQuery.toLocaleLowerCase()) ||
-          (item.note !== null &&
-            item.note
-              .toLocaleLowerCase()
-              .includes(filterQuery.toLocaleLowerCase()))
+            (item.note !== null &&
+              item.note
+                .toLocaleLowerCase()
+                .includes(filterQuery.toLocaleLowerCase()))) &&
+          (!filterMap.has("exercises") ||
+            DoesListOrSetHaveCommonElement(
+              filterExercises,
+              item.exerciseIdSet
+            )) &&
+          (!filterMap.has("exercise-groups") ||
+            (!includeSecondaryGroups &&
+              DoesListOrSetHaveCommonElement(
+                filterExerciseGroups,
+                item.exerciseGroupSetPrimary
+              )) ||
+            (includeSecondaryGroups &&
+              DoesListOrSetHaveCommonElement(
+                filterExerciseGroups,
+                item.exerciseGroupSetSecondary
+              )))
       );
     }
     return workoutTemplates;
-  }, [workoutTemplates, filterQuery]);
+  }, [
+    workoutTemplates,
+    filterQuery,
+    filterMap,
+    filterExercises,
+    filterExerciseGroups,
+    includeSecondaryGroups,
+  ]);
 
   const getWorkoutTemplates = useCallback(async () => {
     try {
