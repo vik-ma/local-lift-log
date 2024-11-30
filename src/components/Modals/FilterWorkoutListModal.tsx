@@ -67,61 +67,16 @@ export const FilterWorkoutListModal = ({
     setFilterExercises,
     filterExerciseGroups,
     setFilterExerciseGroups,
+    filterRoutinesString,
+    filterExercisesString,
+    filterExerciseGroupsString,
   } = listFilters;
 
-  const { routineMap } = routineList;
-
   const {
-    exerciseMap,
     exerciseGroupDictionary,
     includeSecondaryGroups,
     setIncludeSecondaryGroups,
   } = useExerciseList;
-
-  const filterRoutinesString = useMemo(() => {
-    if (filterRoutines.size === 0) return "No Routines Selected";
-
-    const routineNames: string[] = [];
-
-    for (const routineId of filterRoutines) {
-      if (routineMap.has(routineId)) {
-        const routine = routineMap.get(routineId);
-        routineNames.push(routine!.name);
-      }
-    }
-
-    return routineNames.join(", ");
-  }, [filterRoutines, routineMap]);
-
-  const filterExercisesString = useMemo(() => {
-    if (filterExercises.size === 0) return "No Exercises Selected";
-
-    const exerciseNames: string[] = [];
-
-    for (const exerciseId of filterExercises) {
-      if (exerciseMap.has(exerciseId)) {
-        const exercise = exerciseMap.get(exerciseId);
-        exerciseNames.push(exercise!.name);
-      }
-    }
-
-    return exerciseNames.join(", ");
-  }, [filterExercises, exerciseMap]);
-
-  const filterExerciseGroupsString = useMemo(() => {
-    if (filterExerciseGroups.length === 0) return "No Exercise Groups Selected";
-
-    const exerciseGroupNames: string[] = [];
-
-    for (const group of filterExerciseGroups) {
-      if (exerciseGroupDictionary.has(group)) {
-        const groupName = exerciseGroupDictionary.get(group);
-        exerciseGroupNames.push(groupName!);
-      }
-    }
-
-    return exerciseGroupNames.join(", ");
-  }, [filterExerciseGroups, exerciseGroupDictionary]);
 
   const handleClickRoutine = (routine: Routine) => {
     const updatedRoutineSet = new Set(filterRoutines);

@@ -44,24 +44,8 @@ export const FilterUserMeasurementListModal = ({
     handleFilterSaveButton,
     filterMeasurements,
     setFilterMeasurements,
+    filterMeasurementsString,
   } = useListFilters;
-
-  const { measurementMap } = useMeasurementList;
-
-  const filterMeasurementsString = useMemo(() => {
-    if (filterMeasurements.size === 0) return "No Measurements Selected";
-
-    const measurementNames: string[] = [];
-
-    for (const measurementId of filterMeasurements) {
-      if (measurementMap.has(measurementId.toString())) {
-        const measurement = measurementMap.get(measurementId.toString());
-        measurementNames.push(measurement!.name);
-      }
-    }
-
-    return measurementNames.join(", ");
-  }, [filterMeasurements, measurementMap]);
 
   const showClearAllButton = useMemo(() => {
     if (modalPage === "measurement-list" && filterMeasurements.size > 0) {

@@ -43,7 +43,6 @@ export const FilterWorkoutTemplateListModal = ({
     exerciseGroupDictionary,
     includeSecondaryGroups,
     setIncludeSecondaryGroups,
-    exerciseMap,
   } = useExerciseList;
 
   const {
@@ -54,6 +53,8 @@ export const FilterWorkoutTemplateListModal = ({
     showResetFilterButton,
     resetFilter,
     handleFilterSaveButton,
+    filterExercisesString,
+    filterExerciseGroupsString,
   } = listFilters;
 
   const handleClickExercise = (exercise: Exercise) => {
@@ -67,36 +68,6 @@ export const FilterWorkoutTemplateListModal = ({
 
     setFilterExercises(updatedExerciseSet);
   };
-
-  const filterExercisesString = useMemo(() => {
-    if (filterExercises.size === 0) return "No Exercises Selected";
-
-    const exerciseNames: string[] = [];
-
-    for (const exerciseId of filterExercises) {
-      if (exerciseMap.has(exerciseId)) {
-        const exercise = exerciseMap.get(exerciseId);
-        exerciseNames.push(exercise!.name);
-      }
-    }
-
-    return exerciseNames.join(", ");
-  }, [filterExercises, exerciseMap]);
-
-  const filterExerciseGroupsString = useMemo(() => {
-    if (filterExerciseGroups.length === 0) return "No Exercise Groups Selected";
-
-    const exerciseGroupNames: string[] = [];
-
-    for (const group of filterExerciseGroups) {
-      if (exerciseGroupDictionary.has(group)) {
-        const groupName = exerciseGroupDictionary.get(group);
-        exerciseGroupNames.push(groupName!);
-      }
-    }
-
-    return exerciseGroupNames.join(", ");
-  }, [filterExerciseGroups, exerciseGroupDictionary]);
 
   const showClearAllButton = useMemo(() => {
     if (modalPage === "exercise-list" && filterExercises.size > 0) {
