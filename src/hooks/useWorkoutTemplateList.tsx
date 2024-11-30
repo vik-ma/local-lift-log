@@ -22,7 +22,6 @@ export const useWorkoutTemplateList = (
   const [workoutTemplates, setWorkoutTemplates] = useState<WorkoutTemplate[]>(
     []
   );
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [filterQuery, setFilterQuery] = useState<string>("");
   const [sortCategory, setSortCategory] =
     useState<WorkoutTemplateSortCategory>("name");
@@ -143,7 +142,7 @@ export const useWorkoutTemplateList = (
 
       sortWorkoutTemplatesByName(workoutTemplates);
       setWorkoutTemplateMap(workoutTemplateMap);
-      setIsLoading(false);
+      isWorkoutTemplateListLoaded.current = false;
     } catch (error) {
       console.log(error);
     }
@@ -158,7 +157,6 @@ export const useWorkoutTemplateList = (
   const handleOpenWorkoutTemplatesModal = useCallback(async () => {
     if (!isWorkoutTemplateListLoaded.current) {
       getWorkoutTemplates();
-      isWorkoutTemplateListLoaded.current = true;
     }
 
     workoutTemplatesModal.onOpen();
@@ -247,7 +245,6 @@ export const useWorkoutTemplateList = (
     workoutTemplatesModal,
     workoutTemplates,
     setWorkoutTemplates,
-    isLoading,
     handleOpenWorkoutTemplatesModal,
     filterQuery,
     setFilterQuery,
@@ -258,5 +255,6 @@ export const useWorkoutTemplateList = (
     handleOpenFilterButton,
     listFilters,
     workoutTemplateMap,
+    isWorkoutTemplateListLoaded,
   };
 };

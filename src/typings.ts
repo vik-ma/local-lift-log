@@ -541,7 +541,6 @@ export type UseWorkoutTemplateListReturnType = {
   workoutTemplatesModal: UseDisclosureReturnType;
   workoutTemplates: WorkoutTemplate[];
   setWorkoutTemplates: React.Dispatch<React.SetStateAction<WorkoutTemplate[]>>;
-  isLoading: boolean;
   handleOpenWorkoutTemplatesModal: () => void;
   filterQuery: string;
   setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
@@ -552,6 +551,7 @@ export type UseWorkoutTemplateListReturnType = {
   handleOpenFilterButton: () => void;
   listFilters: UseListFiltersReturnType;
   workoutTemplateMap: WorkoutTemplateMap;
+  isWorkoutTemplateListLoaded: React.MutableRefObject<boolean>;
 };
 
 export type PresetsType = "equipment" | "distance";

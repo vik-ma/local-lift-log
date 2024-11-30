@@ -71,12 +71,12 @@ export default function WorkoutTemplateList() {
   const {
     workoutTemplates,
     setWorkoutTemplates,
-    isLoading,
     filterQuery,
     setFilterQuery,
     filteredWorkoutTemplates,
     filterWorkoutTemplateListModal,
     listFilters,
+    isWorkoutTemplateListLoaded,
   } = workoutTemplateList;
 
   const { filterMap, removeFilter, prefixMap } = listFilters;
@@ -294,7 +294,7 @@ export default function WorkoutTemplateList() {
             </div>
           }
         />
-        {isLoading ? (
+        {isWorkoutTemplateListLoaded.current ? (
           <LoadingSpinner />
         ) : (
           <>
