@@ -32,7 +32,8 @@ type FilterWorkoutListModalPage =
   | "base"
   | "routine-list"
   | "exercise-list"
-  | "exercise-groups";
+  | "exercise-groups"
+  | "workout-template-list";
 
 export const FilterWorkoutListModal = ({
   useWorkoutList,
@@ -70,6 +71,10 @@ export const FilterWorkoutListModal = ({
     filterExerciseGroupsString,
     handleClickRoutine,
     handleClickExercise,
+    filterWorkoutTemplates,
+    setFilterWorkoutTemplates,
+    filterWorkoutTemplatesString,
+    handleClickWorkoutTemplate,
   } = listFilters;
 
   const {
@@ -120,6 +125,10 @@ export const FilterWorkoutListModal = ({
     if (filterWorkoutListModalPage === "exercise-groups") {
       setFilterExerciseGroups([]);
     }
+
+    if (filterWorkoutListModalPage === "workout-template-list") {
+      setFilterWorkoutTemplates(new Set());
+    }
   };
 
   return (
@@ -137,6 +146,8 @@ export const FilterWorkoutListModal = ({
                 ? "Select Exercises To Filter"
                 : filterWorkoutListModalPage === "exercise-groups"
                 ? "Select Exercise Groups To Filter"
+                : filterWorkoutListModalPage === "workout-template-list"
+                ? "Select Workout Templates To Filter"
                 : "Filter Workouts"}
             </ModalHeader>
             <ModalBody>
@@ -166,6 +177,8 @@ export const FilterWorkoutListModal = ({
                     setIncludeSecondaryGroups={setIncludeSecondaryGroups}
                   />
                 </div>
+              ) : filterWorkoutListModalPage === "workout-template-list" ? (
+                <>Test</>
               ) : (
                 <ScrollShadow className="h-[400px]">
                   <div className="flex flex-col gap-3 w-[24rem]">
@@ -204,6 +217,36 @@ export const FilterWorkoutListModal = ({
                             }
                           >
                             Filter Routines
+                          </Button>
+                        </div>
+                      </div>
+                      <div className="flex flex-col">
+                        <h3 className="font-semibold text-lg px-0.5">
+                          Workout Templates{" "}
+                          {filterWorkoutTemplates.size > 0 &&
+                            `(${filterWorkoutTemplates.size})`}
+                        </h3>
+                        <div className="flex justify-between items-center px-0.5">
+                          <div
+                            className={
+                              filterWorkoutTemplates.size === 0
+                                ? "w-[16rem] text-sm break-words text-stone-400"
+                                : "w-[16rem] text-sm break-words text-secondary"
+                            }
+                          >
+                            {filterWorkoutTemplatesString}
+                          </div>
+                          <Button
+                            className="w-[7rem]"
+                            variant="flat"
+                            size="sm"
+                            onPress={() =>
+                              setFilterWorkoutListModalPage(
+                                "workout-template-list"
+                              )
+                            }
+                          >
+                            Filter Templates
                           </Button>
                         </div>
                       </div>
