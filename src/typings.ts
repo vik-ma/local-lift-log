@@ -523,6 +523,7 @@ export type UseListFiltersReturnType = {
   handleClickRoutine: (routine: Routine) => void;
   handleClickExercise: (exercise: Exercise) => void;
   handleClickMeasurement: (measurement: Measurement) => void;
+  handleClickWorkoutTemplate: (workoutTemplate: WorkoutTemplate) => void;
 };
 
 export type ListFilterMapKey =

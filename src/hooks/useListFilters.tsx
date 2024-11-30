@@ -10,6 +10,8 @@ import {
   UseDisclosureReturnType,
   UseExerciseListReturnType,
   UseListFiltersReturnType,
+  WorkoutTemplate,
+  WorkoutTemplateMap,
 } from "../typings";
 import { CalendarDate, RangeValue } from "@nextui-org/react";
 import { useDefaultNumberRange, useWeekdayMap, useMeasurementTypes } from ".";
@@ -22,7 +24,8 @@ import {
 export const useListFilters = (
   useExerciseList?: UseExerciseListReturnType,
   routineMap?: RoutineMap,
-  measurementMap?: MeasurementMap
+  measurementMap?: MeasurementMap,
+  workoutTemplateMap?: WorkoutTemplateMap
 ): UseListFiltersReturnType => {
   const [filterMap, setFilterMap] = useState<Map<ListFilterMapKey, string>>(
     new Map()
@@ -109,7 +112,9 @@ export const useListFilters = (
       updatedFilterMap.set("measurements", filterMeasurementsString);
     }
 
-    // TODO: ADD FILTER FOR WORKOUT TEMPLATES
+    if (filterWorkoutTemplates.size > 0 && workoutTemplateMap !== undefined) {
+      updatedFilterMap.set("workout-templates", filterWorkoutTemplatesString);
+    }
 
     setFilterMap(updatedFilterMap);
 
@@ -330,10 +335,21 @@ export const useListFilters = (
     return measurementNames.join(", ");
   }, [filterMeasurements, measurementMap]);
 
-  // TODO: ADD
   const filterWorkoutTemplatesString = useMemo(() => {
-    return "";
-  }, []);
+    if (filterWorkoutTemplates.size === 0 || workoutTemplateMap === undefined)
+      return "No Workout Templates Selected";
+
+    const workoutTemplateNames: string[] = [];
+
+    for (const workoutTemplateId of filterWorkoutTemplates) {
+      if (workoutTemplateMap.has(workoutTemplateId)) {
+        const workoutTemplate = workoutTemplateMap.get(workoutTemplateId);
+        workoutTemplateNames.push(workoutTemplate!.name);
+      }
+    }
+
+    return workoutTemplateNames.join(", ");
+  }, [filterWorkoutTemplates, workoutTemplateMap]);
 
   const handleClickRoutine = (routine: Routine) => {
     const updatedRoutineSet = new Set(filterRoutines);
@@ -369,6 +385,18 @@ export const useListFilters = (
     }
 
     setFilterMeasurements(updatedMeasurementSet);
+  };
+
+  const handleClickWorkoutTemplate = (workoutTemplate: WorkoutTemplate) => {
+    const updatedWorkoutTemplateSet = new Set(filterWorkoutTemplates);
+
+    if (updatedWorkoutTemplateSet.has(workoutTemplate.id)) {
+      updatedWorkoutTemplateSet.delete(workoutTemplate.id);
+    } else {
+      updatedWorkoutTemplateSet.add(workoutTemplate.id);
+    }
+
+    setFilterWorkoutTemplates(updatedWorkoutTemplateSet);
   };
 
   return {
@@ -409,5 +437,6 @@ export const useListFilters = (
     handleClickRoutine,
     handleClickExercise,
     handleClickMeasurement,
+    handleClickWorkoutTemplate,
   };
 };
