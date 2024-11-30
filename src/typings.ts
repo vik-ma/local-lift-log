@@ -515,6 +515,11 @@ export type UseListFiltersReturnType = {
   handleFilterMeasurementTypes: (key: string) => void;
   filterWorkoutTemplates: Set<number>;
   setFilterWorkoutTemplates: React.Dispatch<React.SetStateAction<Set<number>>>;
+  filterRoutinesString: string;
+  filterExercisesString: string;
+  filterExerciseGroupsString: string;
+  filterMeasurementsString: string;
+  filterWorkoutTemplatesString: string;
 };
 
 export type ListFilterMapKey =

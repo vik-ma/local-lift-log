@@ -85,34 +85,14 @@ export const useListFilters = (
     }
 
     if (filterRoutines.size > 0 && routineMap !== undefined) {
-      const filterRoutinesString = Array.from(filterRoutines)
-        .map((id) => (routineMap.has(id) ? routineMap.get(id)!.name : ""))
-        .join(", ");
-
       updatedFilterMap.set("routines", filterRoutinesString);
     }
 
     if (filterExercises.size > 0 && useExerciseList !== undefined) {
-      const filterExercisesString = Array.from(filterExercises)
-        .map((id) =>
-          useExerciseList.exerciseMap.has(id)
-            ? useExerciseList.exerciseMap.get(id)!.name
-            : ""
-        )
-        .join(", ");
-
       updatedFilterMap.set("exercises", filterExercisesString);
     }
 
     if (filterExerciseGroups.length > 0 && useExerciseList !== undefined) {
-      const filterExerciseGroupsString = Array.from(filterExerciseGroups)
-        .map((id) =>
-          useExerciseList.exerciseGroupDictionary.has(id)
-            ? useExerciseList.exerciseGroupDictionary.get(id)!
-            : ""
-        )
-        .join(", ");
-
       updatedFilterMap.set("exercise-groups", filterExerciseGroupsString);
     }
 
@@ -122,15 +102,7 @@ export const useListFilters = (
       updatedFilterMap.set("weight", filterWeightRangeString);
     }
 
-    if (filterMeasurements.size > 0 && measurementMap !== undefined) {
-      const filterMeasurementsString = Array.from(filterMeasurements)
-        .map((id) =>
-          measurementMap.has(id.toString())
-            ? measurementMap.get(id.toString())!.name
-            : ""
-        )
-        .join(", ");
-
+    if (filterMeasurements.size > 0) {
       updatedFilterMap.set("measurements", filterMeasurementsString);
     }
 
@@ -291,6 +263,75 @@ export const useListFilters = (
     filterWorkoutTemplates,
   ]);
 
+  const filterRoutinesString = useMemo(() => {
+    if (filterRoutines.size === 0 || routineMap === undefined)
+      return "No Routines Selected";
+
+    const routineNames: string[] = [];
+
+    for (const routineId of filterRoutines) {
+      if (routineMap.has(routineId)) {
+        const routine = routineMap.get(routineId);
+        routineNames.push(routine!.name);
+      }
+    }
+
+    return routineNames.join(", ");
+  }, [filterRoutines, routineMap]);
+
+  const filterExercisesString = useMemo(() => {
+    if (filterExercises.size === 0 || useExerciseList === undefined)
+      return "No Exercises Selected";
+
+    const exerciseNames: string[] = [];
+
+    for (const exerciseId of filterExercises) {
+      if (useExerciseList.exerciseMap.has(exerciseId)) {
+        const exercise = useExerciseList.exerciseMap.get(exerciseId);
+        exerciseNames.push(exercise!.name);
+      }
+    }
+
+    return exerciseNames.join(", ");
+  }, [filterExercises, useExerciseList]);
+
+  const filterExerciseGroupsString = useMemo(() => {
+    if (filterExerciseGroups.length === 0 || useExerciseList === undefined)
+      return "No Exercise Groups Selected";
+
+    const exerciseGroupNames: string[] = [];
+
+    for (const group of filterExerciseGroups) {
+      if (useExerciseList.exerciseGroupDictionary.has(group)) {
+        const groupName = useExerciseList.exerciseGroupDictionary.get(group);
+        exerciseGroupNames.push(groupName!);
+      }
+    }
+
+    return exerciseGroupNames.join(", ");
+  }, [filterExerciseGroups, useExerciseList]);
+
+  const filterMeasurementsString = useMemo(() => {
+    if (filterMeasurements.size === 0 || measurementMap === undefined)
+      return "No Measurements Selected";
+
+    const measurementNames: string[] = [];
+
+    for (const measurementId of filterMeasurements) {
+      if (measurementMap.has(measurementId.toString())) {
+        const measurement = measurementMap.get(measurementId.toString());
+        measurementNames.push(measurement!.name);
+      }
+    }
+
+    return measurementNames.join(", ");
+  }, [filterMeasurements, measurementMap]);
+
+  // TODO: ADD
+  const filterWorkoutTemplatesString = useMemo(() => {
+    return "";
+  }, []);
+
   return {
     handleFilterSaveButton,
     filterDateRange,
@@ -321,5 +362,10 @@ export const useListFilters = (
     handleFilterMeasurementTypes,
     filterWorkoutTemplates,
     setFilterWorkoutTemplates,
+    filterRoutinesString,
+    filterExercisesString,
+    filterExerciseGroupsString,
+    filterMeasurementsString,
+    filterWorkoutTemplatesString,
   };
 };
