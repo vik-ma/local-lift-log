@@ -8,7 +8,6 @@ import {
   ScrollShadow,
 } from "@nextui-org/react";
 import {
-  Exercise,
   UseDisclosureReturnType,
   UseExerciseListReturnType,
   UseFilterExerciseListReturnType,
@@ -55,19 +54,8 @@ export const FilterWorkoutTemplateListModal = ({
     handleFilterSaveButton,
     filterExercisesString,
     filterExerciseGroupsString,
+    handleClickExercise,
   } = listFilters;
-
-  const handleClickExercise = (exercise: Exercise) => {
-    const updatedExerciseSet = new Set(filterExercises);
-
-    if (updatedExerciseSet.has(exercise.id)) {
-      updatedExerciseSet.delete(exercise.id);
-    } else {
-      updatedExerciseSet.add(exercise.id);
-    }
-
-    setFilterExercises(updatedExerciseSet);
-  };
 
   const showClearAllButton = useMemo(() => {
     if (modalPage === "exercise-list" && filterExercises.size > 0) {

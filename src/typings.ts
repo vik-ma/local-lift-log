@@ -520,6 +520,9 @@ export type UseListFiltersReturnType = {
   filterExerciseGroupsString: string;
   filterMeasurementsString: string;
   filterWorkoutTemplatesString: string;
+  handleClickRoutine: (routine: Routine) => void;
+  handleClickExercise: (exercise: Exercise) => void;
+  handleClickMeasurement: (measurement: Measurement) => void;
 };
 
 export type ListFilterMapKey =

@@ -1,8 +1,11 @@
 import { useMemo, useState } from "react";
 import {
+  Exercise,
   ListFilterMapKey,
+  Measurement,
   MeasurementMap,
   NumberRange,
+  Routine,
   RoutineMap,
   UseDisclosureReturnType,
   UseExerciseListReturnType,
@@ -332,6 +335,42 @@ export const useListFilters = (
     return "";
   }, []);
 
+  const handleClickRoutine = (routine: Routine) => {
+    const updatedRoutineSet = new Set(filterRoutines);
+
+    if (updatedRoutineSet.has(routine.id)) {
+      updatedRoutineSet.delete(routine.id);
+    } else {
+      updatedRoutineSet.add(routine.id);
+    }
+
+    setFilterRoutines(updatedRoutineSet);
+  };
+
+  const handleClickExercise = (exercise: Exercise) => {
+    const updatedExerciseSet = new Set(filterExercises);
+
+    if (updatedExerciseSet.has(exercise.id)) {
+      updatedExerciseSet.delete(exercise.id);
+    } else {
+      updatedExerciseSet.add(exercise.id);
+    }
+
+    setFilterExercises(updatedExerciseSet);
+  };
+
+  const handleClickMeasurement = (measurement: Measurement) => {
+    const updatedMeasurementSet = new Set(filterMeasurements);
+
+    if (updatedMeasurementSet.has(measurement.id.toString())) {
+      updatedMeasurementSet.delete(measurement.id.toString());
+    } else {
+      updatedMeasurementSet.add(measurement.id.toString());
+    }
+
+    setFilterMeasurements(updatedMeasurementSet);
+  };
+
   return {
     handleFilterSaveButton,
     filterDateRange,
@@ -367,5 +406,8 @@ export const useListFilters = (
     filterExerciseGroupsString,
     filterMeasurementsString,
     filterWorkoutTemplatesString,
+    handleClickRoutine,
+    handleClickExercise,
+    handleClickMeasurement,
   };
 };

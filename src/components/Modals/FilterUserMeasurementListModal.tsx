@@ -8,7 +8,6 @@ import {
   ScrollShadow,
 } from "@nextui-org/react";
 import {
-  Measurement,
   UseDisclosureReturnType,
   UseListFiltersReturnType,
   UseMeasurementListReturnType,
@@ -45,6 +44,7 @@ export const FilterUserMeasurementListModal = ({
     filterMeasurements,
     setFilterMeasurements,
     filterMeasurementsString,
+    handleClickMeasurement,
   } = useListFilters;
 
   const showClearAllButton = useMemo(() => {
@@ -54,18 +54,6 @@ export const FilterUserMeasurementListModal = ({
 
     return false;
   }, [modalPage, filterMeasurements]);
-
-  const handleMeasurementClick = (measurement: Measurement) => {
-    const updatedMeasurementSet = new Set(filterMeasurements);
-
-    if (updatedMeasurementSet.has(measurement.id.toString())) {
-      updatedMeasurementSet.delete(measurement.id.toString());
-    } else {
-      updatedMeasurementSet.add(measurement.id.toString());
-    }
-
-    setFilterMeasurements(updatedMeasurementSet);
-  };
 
   return (
     <Modal
@@ -84,7 +72,7 @@ export const FilterUserMeasurementListModal = ({
               {modalPage === "measurement-list" ? (
                 <MeasurementModalList
                   useMeasurementList={useMeasurementList}
-                  handleMeasurementClick={handleMeasurementClick}
+                  handleMeasurementClick={handleClickMeasurement}
                   highlightedMeasurements={filterMeasurements}
                 />
               ) : (

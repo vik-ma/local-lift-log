@@ -8,8 +8,6 @@ import {
   ScrollShadow,
 } from "@nextui-org/react";
 import {
-  Exercise,
-  Routine,
   UseExerciseListReturnType,
   UseFilterExerciseListReturnType,
   UserSettings,
@@ -70,6 +68,8 @@ export const FilterWorkoutListModal = ({
     filterRoutinesString,
     filterExercisesString,
     filterExerciseGroupsString,
+    handleClickRoutine,
+    handleClickExercise,
   } = listFilters;
 
   const {
@@ -77,30 +77,6 @@ export const FilterWorkoutListModal = ({
     includeSecondaryGroups,
     setIncludeSecondaryGroups,
   } = useExerciseList;
-
-  const handleClickRoutine = (routine: Routine) => {
-    const updatedRoutineSet = new Set(filterRoutines);
-
-    if (updatedRoutineSet.has(routine.id)) {
-      updatedRoutineSet.delete(routine.id);
-    } else {
-      updatedRoutineSet.add(routine.id);
-    }
-
-    setFilterRoutines(updatedRoutineSet);
-  };
-
-  const handleClickExercise = (exercise: Exercise) => {
-    const updatedExerciseSet = new Set(filterExercises);
-
-    if (updatedExerciseSet.has(exercise.id)) {
-      updatedExerciseSet.delete(exercise.id);
-    } else {
-      updatedExerciseSet.add(exercise.id);
-    }
-
-    setFilterExercises(updatedExerciseSet);
-  };
 
   const showClearAllButton = useMemo(() => {
     if (
