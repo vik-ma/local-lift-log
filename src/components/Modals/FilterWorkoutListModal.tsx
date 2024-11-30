@@ -12,6 +12,7 @@ import {
   UseFilterExerciseListReturnType,
   UserSettings,
   UseWorkoutListReturnType,
+  UseWorkoutTemplateListReturnType,
 } from "../../typings";
 import { useMemo, useState } from "react";
 import {
@@ -19,12 +20,14 @@ import {
   ExerciseModalList,
   ExerciseGroupCheckboxes,
   FilterDateRangeAndWeekdays,
+  WorkoutTemplateModalList,
 } from "..";
 
 type FilterWorkoutListModalProps = {
   useWorkoutList: UseWorkoutListReturnType;
   useExerciseList: UseExerciseListReturnType;
   useFilterExerciseList: UseFilterExerciseListReturnType;
+  useWorkoutTemplateList: UseWorkoutTemplateListReturnType;
   userSettings: UserSettings;
 };
 
@@ -39,17 +42,13 @@ export const FilterWorkoutListModal = ({
   useWorkoutList,
   useExerciseList,
   useFilterExerciseList,
+  useWorkoutTemplateList,
   userSettings,
 }: FilterWorkoutListModalProps) => {
   const [filterWorkoutListModalPage, setFilterWorkoutListModalPage] =
     useState<FilterWorkoutListModalPage>("base");
 
-  const {
-    filterWorkoutListModal,
-
-    routineList,
-    listFilters,
-  } = useWorkoutList;
+  const { filterWorkoutListModal, routineList, listFilters } = useWorkoutList;
 
   const {
     handleFilterSaveButton,
@@ -178,7 +177,10 @@ export const FilterWorkoutListModal = ({
                   />
                 </div>
               ) : filterWorkoutListModalPage === "workout-template-list" ? (
-                <>Test</>
+                <WorkoutTemplateModalList
+                  useWorkoutTemplateList={useWorkoutTemplateList}
+                  onClickAction={handleClickWorkoutTemplate}
+                />
               ) : (
                 <ScrollShadow className="h-[400px]">
                   <div className="flex flex-col gap-3 w-[24rem]">

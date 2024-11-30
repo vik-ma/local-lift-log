@@ -543,6 +543,7 @@ export default function WorkoutDetails() {
         useWorkoutList={workoutList}
         useExerciseList={exerciseList}
         useFilterExerciseList={filterExerciseList}
+        useWorkoutTemplateList={workoutTemplateList}
         userSettings={userSettings}
       />
       <FilterExerciseGroupsModal
