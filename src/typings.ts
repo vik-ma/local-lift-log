@@ -550,6 +550,7 @@ export type UseWorkoutTemplateListReturnType = {
   filterWorkoutTemplateListModal: UseDisclosureReturnType;
   handleOpenFilterButton: () => void;
   listFilters: UseListFiltersReturnType;
+  workoutTemplateMap: WorkoutTemplateMap;
 };
 
 export type PresetsType = "equipment" | "distance";
@@ -784,3 +785,5 @@ export type UseMeasurementsInputsReturnType = {
   areActiveMeasurementsValid: boolean;
   handleActiveMeasurementInputChange: (value: string, index: number) => void;
 };
+
+export type WorkoutTemplateMap = Map<number, WorkoutTemplate>;

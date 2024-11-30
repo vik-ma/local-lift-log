@@ -3,6 +3,7 @@ import {
   UseWorkoutTemplateListReturnType,
   WorkoutTemplateSortCategory,
   UseExerciseListReturnType,
+  WorkoutTemplateMap,
 } from "../typings";
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { useDisclosure } from "@nextui-org/react";
@@ -25,6 +26,8 @@ export const useWorkoutTemplateList = (
   const [filterQuery, setFilterQuery] = useState<string>("");
   const [sortCategory, setSortCategory] =
     useState<WorkoutTemplateSortCategory>("name");
+  const [workoutTemplateMap, setWorkoutTemplateMap] =
+    useState<WorkoutTemplateMap>(new Map());
 
   const isWorkoutTemplateListLoaded = useRef(false);
 
@@ -112,6 +115,7 @@ export const useWorkoutTemplateList = (
       );
 
       const workoutTemplates: WorkoutTemplate[] = [];
+      const workoutTemplateMap: WorkoutTemplateMap = new Map();
 
       for (const row of result) {
         if (ignoreEmptyWorkoutTemplates && row.numSets === 0) continue;
@@ -134,9 +138,11 @@ export const useWorkoutTemplateList = (
         };
 
         workoutTemplates.push(workoutTemplate);
+        workoutTemplateMap.set(workoutTemplate.id, workoutTemplate);
       }
 
       sortWorkoutTemplatesByName(workoutTemplates);
+      setWorkoutTemplateMap(workoutTemplateMap);
       setIsLoading(false);
     } catch (error) {
       console.log(error);
@@ -251,5 +257,6 @@ export const useWorkoutTemplateList = (
     filterWorkoutTemplateListModal,
     handleOpenFilterButton,
     listFilters,
+    workoutTemplateMap,
   };
 };
