@@ -36,6 +36,9 @@ export const useListFilters = (
   const [filterMeasurements, setFilterMeasurements] = useState<Set<string>>(
     new Set()
   );
+  const [filterWorkoutTemplates, setFilterWorkoutTemplates] = useState<
+    Set<number>
+  >(new Set());
 
   const weekdayMap = useWeekdayMap();
 
@@ -131,6 +134,8 @@ export const useListFilters = (
       updatedFilterMap.set("measurements", filterMeasurementsString);
     }
 
+    // TODO: ADD FILTER FOR WORKOUT TEMPLATES
+
     setFilterMap(updatedFilterMap);
 
     activeModal.onClose();
@@ -202,6 +207,11 @@ export const useListFilters = (
       setFilterMeasurementTypes([...measurementTypes]);
     }
 
+    if (key === "workout-templates" && filterMap.has("workout-templates")) {
+      updatedFilterMap.delete("workout-templates");
+      setFilterWorkoutTemplates(new Set());
+    }
+
     setFilterMap(updatedFilterMap);
   };
 
@@ -215,6 +225,7 @@ export const useListFilters = (
     setFilterWeightRange(defaultNumberRange);
     setFilterMeasurements(new Set());
     setFilterMeasurementTypes([...measurementTypes]);
+    setFilterWorkoutTemplates(new Set());
   };
 
   const showResetFilterButton = useMemo(() => {
@@ -228,6 +239,7 @@ export const useListFilters = (
     if (filterWeightRange.endInput !== "") return true;
     if (filterMeasurements.size > 0) return true;
     if (filterMeasurementTypes.length < 2) return true;
+    if (filterWorkoutTemplates.size > 0) return true;
 
     return false;
   }, [
@@ -240,6 +252,7 @@ export const useListFilters = (
     filterWeightRange,
     filterMeasurements,
     filterMeasurementTypes,
+    filterWorkoutTemplates,
   ]);
 
   const prefixMap = useMemo(() => {
@@ -262,6 +275,10 @@ export const useListFilters = (
       `Measurements (${filterMeasurements.size}): `
     );
     prefixMap.set("measurement-types", `Measurement Type: `);
+    prefixMap.set(
+      "workout-templates",
+      `Workout Templates (${filterWorkoutTemplates.size}): `
+    );
 
     return prefixMap;
   }, [
@@ -271,6 +288,7 @@ export const useListFilters = (
     filterExercises,
     filterExerciseGroups,
     filterMeasurements,
+    filterWorkoutTemplates,
   ]);
 
   return {
@@ -301,5 +319,7 @@ export const useListFilters = (
     filterMeasurementTypes,
     setFilterMeasurementTypes,
     handleFilterMeasurementTypes,
+    filterWorkoutTemplates,
+    setFilterWorkoutTemplates,
   };
 };

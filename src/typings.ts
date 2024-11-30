@@ -513,6 +513,8 @@ export type UseListFiltersReturnType = {
   filterMeasurementTypes: string[];
   setFilterMeasurementTypes: React.Dispatch<React.SetStateAction<string[]>>;
   handleFilterMeasurementTypes: (key: string) => void;
+  filterWorkoutTemplates: Set<number>;
+  setFilterWorkoutTemplates: React.Dispatch<React.SetStateAction<Set<number>>>;
 };
 
 export type ListFilterMapKey =
@@ -523,7 +525,8 @@ export type ListFilterMapKey =
   | "exercise-groups"
   | "weight"
   | "measurements"
-  | "measurement-types";
+  | "measurement-types"
+  | "workout-templates";
 
 export type UseWorkoutTemplateListReturnType = {
   workoutTemplatesModal: UseDisclosureReturnType;
