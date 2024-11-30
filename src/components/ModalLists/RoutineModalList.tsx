@@ -23,7 +23,7 @@ export const RoutineModalList = ({
     customHeightString !== undefined ? customHeightString : "h-[440px]";
 
   return (
-    <div className={`${height} flex flex-col gap-2`}>
+    <div className={`${height} flex flex-col gap-1.5`}>
       <SearchInput
         filterQuery={filterQuery}
         setFilterQuery={setFilterQuery}

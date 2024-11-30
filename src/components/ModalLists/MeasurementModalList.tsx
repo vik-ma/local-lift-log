@@ -32,13 +32,13 @@ export const MeasurementModalList = ({
 
   return (
     <div className="h-[400px] flex flex-col gap-1.5">
-      <SearchInput
-        filterQuery={filterQuery}
-        setFilterQuery={setFilterQuery}
-        filteredListLength={filteredMeasurements.length}
-        totalListLength={measurements.length}
-      />
       <div className="flex flex-col gap-1.5">
+        <SearchInput
+          filterQuery={filterQuery}
+          setFilterQuery={setFilterQuery}
+          filteredListLength={filteredMeasurements.length}
+          totalListLength={measurements.length}
+        />
         <div className="flex justify-between items-center">
           <Button
             variant="flat"

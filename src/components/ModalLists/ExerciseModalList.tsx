@@ -50,13 +50,13 @@ export const ExerciseModalList = ({
 
   return (
     <div className={`${height} flex flex-col gap-1.5`}>
-      <SearchInput
-        filterQuery={filterQuery}
-        setFilterQuery={setFilterQuery}
-        filteredListLength={filteredExercises.length}
-        totalListLength={exercises.length}
-      />
       <div className="flex flex-col gap-1.5">
+        <SearchInput
+          filterQuery={filterQuery}
+          setFilterQuery={setFilterQuery}
+          filteredListLength={filteredExercises.length}
+          totalListLength={exercises.length}
+        />
         <div className="flex justify-between items-center">
           <Button
             variant="flat"

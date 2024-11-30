@@ -56,14 +56,14 @@ export const WorkoutTemplateListModal = ({
           <>
             <ModalHeader>{header}</ModalHeader>
             <ModalBody>
-              <div className="h-[400px] flex flex-col gap-2">
-                <SearchInput
-                  filterQuery={filterQuery}
-                  setFilterQuery={setFilterQuery}
-                  filteredListLength={filteredWorkoutTemplates.length}
-                  totalListLength={workoutTemplates.length}
-                />
+              <div className="h-[400px] flex flex-col gap-1.5">
                 <div className="flex flex-col gap-1.5">
+                  <SearchInput
+                    filterQuery={filterQuery}
+                    setFilterQuery={setFilterQuery}
+                    filteredListLength={filteredWorkoutTemplates.length}
+                    totalListLength={workoutTemplates.length}
+                  />
                   <div className="flex justify-between">
                     <Button
                       color="secondary"
