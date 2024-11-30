@@ -119,7 +119,7 @@ export default function WorkoutIndex() {
   return (
     <>
       <WorkoutTemplateListModal
-        workoutTemplateList={workoutTemplateList}
+        useWorkoutTemplateList={workoutTemplateList}
         onClickAction={handleClickWorkoutTemplate}
         header={<span>Load Workout Template</span>}
       />

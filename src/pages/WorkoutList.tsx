@@ -360,7 +360,7 @@ export default function WorkoutList() {
         }
       />
       <WorkoutTemplateListModal
-        workoutTemplateList={workoutTemplateList}
+        useWorkoutTemplateList={workoutTemplateList}
         onClickAction={
           operationType === "reassign-workout-template"
             ? reassignWorkoutTemplate

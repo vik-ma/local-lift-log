@@ -74,6 +74,7 @@ export { PresetsModalList } from "./ModalLists/PresetsModalList";
 export { PlateCalculationModalList } from "./ModalLists/PlateCalculationModalList";
 export { RoutineModalList } from "./ModalLists/RoutineModalList";
 export { MeasurementModalList } from "./ModalLists/MeasurementModalList";
+export { WorkoutTemplateModalList } from "./ModalLists/WorkoutTemplateModalList";
 
 export { WorkoutListOptions } from "./ListOptions/WorkoutListOptions";
 export { ExerciseListOptions } from "./ListOptions/ExerciseListOptions";

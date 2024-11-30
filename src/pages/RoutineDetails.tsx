@@ -348,7 +348,7 @@ export default function RoutineDetails() {
         deleteButtonText="Remove"
       />
       <WorkoutTemplateListModal
-        workoutTemplateList={workoutTemplateList}
+        useWorkoutTemplateList={workoutTemplateList}
         onClickAction={addWorkoutTemplateToDay}
         header={
           <span>
