@@ -1,5 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Routine, RoutineMap, UseRoutineListReturnType } from "../typings";
+import {
+  Routine,
+  RoutineMap,
+  RoutineSortCategory,
+  UseRoutineListReturnType,
+} from "../typings";
 import { useDisclosure } from "@nextui-org/react";
 import { GetAllRoutinesWithNumWorkoutTemplates } from "../helpers";
 
@@ -9,6 +14,7 @@ export const useRoutineList = (
   const [routines, setRoutines] = useState<Routine[]>([]);
   const [filterQuery, setFilterQuery] = useState<string>("");
   const [routineMap, setRoutineMap] = useState<RoutineMap>(new Map());
+  const [sortCategory, setSortCategory] = useState<RoutineSortCategory>("name");
 
   const isRoutineListLoaded = useRef(false);
 
@@ -30,7 +36,7 @@ export const useRoutineList = (
       routines.map((obj) => [obj.id, obj])
     );
 
-    setRoutines(routines);
+    sortRoutinesByName(routines);
     setRoutineMap(routineMap);
     isRoutineListLoaded.current = true;
   }, []);
@@ -49,6 +55,34 @@ export const useRoutineList = (
     routineListModal.onOpen();
   }, [routineListModal, getRoutines]);
 
+  const sortRoutinesByName = (routineList: Routine[]) => {
+    routineList.sort((a, b) => {
+      return a.name.localeCompare(b.name);
+    });
+
+    setRoutines(routineList);
+  };
+
+  const handleSortOptionSelection = (key: string) => {
+    if (key === "name") {
+      setSortCategory(key);
+      sortRoutinesByName([...routines]);
+    }
+    // else if (key === "num-workouts-desc") {
+    //   setSortCategory(key);
+    //   sortRoutinesByNumWorkouts([...routines], false);
+    // } else if (key === "num-workouts-asc") {
+    //   setSortCategory(key);
+    //   sortRoutinesByNumWorkouts([...routines], true);
+    // } else if (key === "num-days-desc") {
+    //   setSortCategory(key);
+    //   sortRoutinesByNumDays([...routines], false);
+    // } else if (key === "num-days-asc") {
+    //   setSortCategory(key);
+    //   sortRoutinesByNumDays([...routines], true);
+    // }
+  };
+
   return {
     routines,
     setRoutines,
@@ -59,5 +93,7 @@ export const useRoutineList = (
     handleOpenRoutineListModal,
     routineMap,
     isRoutineListLoaded,
+    sortCategory,
+    handleSortOptionSelection,
   };
 };

@@ -698,6 +698,13 @@ export type WorkoutTemplateSortCategory =
   | "num-exercises-asc"
   | "num-exercises-desc";
 
+export type RoutineSortCategory =
+  | "name"
+  | "num-workouts-asc"
+  | "num-workouts-desc"
+  | "num-days-asc"
+  | "num-days-desc";
+
 export type SumCalculatorPage = "base" | "list" | "calc";
 
 export type PlateCalculatorPage = "base" | "equipment-list" | "plate-calc-list";
@@ -756,6 +763,8 @@ export type UseRoutineListReturnType = {
   handleOpenRoutineListModal: () => void;
   routineMap: RoutineMap;
   isRoutineListLoaded: React.MutableRefObject<boolean>;
+  sortCategory: RoutineSortCategory;
+  handleSortOptionSelection: (key: string) => void;
 };
 
 export type NumberRangeInvalidityMap = {
