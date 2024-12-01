@@ -28,7 +28,13 @@ import {
   EmptyListLabel,
   RoutineListOptions,
 } from "../components";
-import { useDefaultRoutine, useIsRoutineValid, useRoutineList } from "../hooks";
+import {
+  useDefaultRoutine,
+  useExerciseList,
+  useIsRoutineValid,
+  useRoutineList,
+  useWorkoutTemplateList,
+} from "../hooks";
 import { VerticalMenuIcon } from "../assets";
 
 type OperationType = "add" | "edit" | "delete";
@@ -50,7 +56,11 @@ export default function RoutineList() {
   const { isRoutineNameValid, isRoutineValid } =
     useIsRoutineValid(operatingRoutine);
 
-  const routineList = useRoutineList(true);
+  const exerciseList = useExerciseList(true, true);
+
+  const workoutTemplateList = useWorkoutTemplateList(true, exerciseList, true);
+
+  const routineList = useRoutineList(true, workoutTemplateList);
 
   const {
     routines,

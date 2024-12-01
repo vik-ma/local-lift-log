@@ -34,10 +34,6 @@ export const useWorkoutList = (
     getExercises,
   } = useExerciseList;
 
-  const routineList = useRoutineList(false);
-
-  const { routineMap, isRoutineListLoaded, getRoutines } = routineList;
-
   const workoutTemplateList = useWorkoutTemplateList(
     false,
     useExerciseList,
@@ -49,6 +45,10 @@ export const useWorkoutList = (
     getWorkoutTemplates,
     workoutTemplateMap,
   } = workoutTemplateList;
+
+  const routineList = useRoutineList(false, workoutTemplateList);
+
+  const { routineMap, isRoutineListLoaded, getRoutines } = routineList;
 
   const listFilters = useListFilters(
     useExerciseList,

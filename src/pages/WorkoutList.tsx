@@ -79,7 +79,7 @@ export default function WorkoutList() {
 
   const { filterMap } = listFilters;
 
-  const routineList = useRoutineList(false);
+  const routineList = useRoutineList(false, workoutTemplateList);
 
   const filterExerciseList = useFilterExerciseList(exerciseList);
 
