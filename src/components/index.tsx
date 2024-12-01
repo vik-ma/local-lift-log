@@ -67,6 +67,7 @@ export { FilterWorkoutListModal } from "./Modals/FilterWorkoutListModal";
 export { FilterExerciseGroupsModal } from "./Modals/FilterExerciseGroupsModal";
 export { FilterUserMeasurementListModal } from "./Modals/FilterUserMeasurementListModal";
 export { FilterWorkoutTemplateListModal } from "./Modals/FilterWorkoutTemplateListModal";
+export { FilterRoutineListModal } from "./Modals/FilterRoutineListModal";
 
 export { ExerciseModalList } from "./ModalLists/ExerciseModalList";
 export { MultisetTemplateModalList } from "./ModalLists/MultisetTemplateModalList";
