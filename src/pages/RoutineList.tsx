@@ -36,7 +36,6 @@ type OperationType = "add" | "edit" | "delete";
 export default function RoutineList() {
   const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
   const [operationType, setOperationType] = useState<OperationType>("add");
-  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const navigate = useNavigate();
 
@@ -59,6 +58,7 @@ export default function RoutineList() {
     filteredRoutines,
     filterQuery,
     setFilterQuery,
+    isRoutineListLoaded,
   } = routineList;
 
   useEffect(() => {
@@ -68,7 +68,6 @@ export default function RoutineList() {
 
       if (userSettings !== undefined) {
         setUserSettings(userSettings);
-        setIsLoading(false);
       }
     };
 
@@ -265,7 +264,7 @@ export default function RoutineList() {
             </div>
           }
         />
-        {isLoading ? (
+        {!isRoutineListLoaded.current ? (
           <LoadingSpinner />
         ) : (
           <>

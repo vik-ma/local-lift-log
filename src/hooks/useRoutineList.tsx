@@ -136,5 +136,6 @@ export const useRoutineList = (
     isRoutineListLoaded,
     sortCategory,
     handleSortOptionSelection,
+    getRoutines,
   };
 };

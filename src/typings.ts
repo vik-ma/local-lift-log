@@ -765,6 +765,7 @@ export type UseRoutineListReturnType = {
   isRoutineListLoaded: React.MutableRefObject<boolean>;
   sortCategory: RoutineSortCategory;
   handleSortOptionSelection: (key: string) => void;
+  getRoutines: () => Promise<void>;
 };
 
 export type NumberRangeInvalidityMap = {

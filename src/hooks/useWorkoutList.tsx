@@ -34,7 +34,9 @@ export const useWorkoutList = (
     getExercises,
   } = useExerciseList;
 
-  const routineList = useRoutineList(true);
+  const routineList = useRoutineList(false);
+
+  const { routineMap, isRoutineListLoaded, getRoutines } = routineList;
 
   const workoutTemplateList = useWorkoutTemplateList(
     false,
@@ -50,7 +52,7 @@ export const useWorkoutList = (
 
   const listFilters = useListFilters(
     useExerciseList,
-    routineList.routineMap,
+    routineMap,
     undefined,
     workoutTemplateMap
   );
@@ -126,7 +128,7 @@ export const useWorkoutList = (
   ]);
 
   const getWorkouts = useCallback(async () => {
-    if (!routineList.isRoutineListLoaded.current) return;
+    if (!isRoutineListLoaded.current) return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
@@ -196,9 +198,9 @@ export const useWorkoutList = (
           workoutTemplateName: row.workoutTemplateName,
           hasInvalidWorkoutTemplate:
             row.workout_template_id > 0 && row.workoutTemplateName === null,
-          routine: routineList.routineMap.get(row.routine_id),
+          routine: routineMap.get(row.routine_id),
           hasInvalidRoutine:
-            row.routine_id !== 0 && !routineList.routineMap.has(row.routine_id),
+            row.routine_id !== 0 && !routineMap.has(row.routine_id),
           exerciseIdSet: workoutExerciseSets.exerciseIdSet,
           exerciseGroupSetPrimary: workoutExerciseSets.exerciseGroupSetPrimary,
           exerciseGroupSetSecondary:
@@ -216,8 +218,8 @@ export const useWorkoutList = (
   }, [
     ignoreEmptyWorkouts,
     ignoreWorkoutId,
-    routineList.routineMap,
-    routineList.isRoutineListLoaded,
+    routineMap,
+    isRoutineListLoaded,
     exerciseGroupDictionary,
   ]);
 
@@ -311,6 +313,10 @@ export const useWorkoutList = (
 
   const handleOpenFilterButton = async () => {
     const tasks = [];
+
+    if (!isRoutineListLoaded.current) {
+      tasks.push(getRoutines());
+    }
 
     if (!isExerciseListLoaded.current) {
       tasks.push(getExercises());
