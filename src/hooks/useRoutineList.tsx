@@ -63,24 +63,65 @@ export const useRoutineList = (
     setRoutines(routineList);
   };
 
+  const sortRoutinesByNumWorkouts = (
+    routineList: Routine[],
+    isAscending: boolean
+  ) => {
+    routineList.sort((a, b) => {
+      const aCount =
+        a.numWorkoutTemplates !== undefined ? a.numWorkoutTemplates : -Infinity;
+      const bCount =
+        b.numWorkoutTemplates !== undefined ? b.numWorkoutTemplates : -Infinity;
+
+      if (bCount !== aCount) {
+        const sortKey = isAscending ? aCount - bCount : bCount - aCount;
+        return sortKey;
+      }
+
+      // Sort names alphabetically if same number of Workouts
+      return a.name.localeCompare(b.name);
+    });
+
+    setRoutines(routineList);
+  };
+
+  const sortRoutinesByNumDays = (
+    routineList: Routine[],
+    isAscending: boolean
+  ) => {
+    routineList.sort((a, b) => {
+      const aCount = a.num_days_in_schedule;
+      const bCount = b.num_days_in_schedule;
+
+      if (bCount !== aCount) {
+        const sortKey = isAscending ? aCount - bCount : bCount - aCount;
+        return sortKey;
+      }
+
+      // Sort names alphabetically if same number of Days
+      return a.name.localeCompare(b.name);
+    });
+
+    setRoutines(routineList);
+  };
+
   const handleSortOptionSelection = (key: string) => {
     if (key === "name") {
       setSortCategory(key);
       sortRoutinesByName([...routines]);
+    } else if (key === "num-workouts-desc") {
+      setSortCategory(key);
+      sortRoutinesByNumWorkouts([...routines], false);
+    } else if (key === "num-workouts-asc") {
+      setSortCategory(key);
+      sortRoutinesByNumWorkouts([...routines], true);
+    } else if (key === "num-days-desc") {
+      setSortCategory(key);
+      sortRoutinesByNumDays([...routines], false);
+    } else if (key === "num-days-asc") {
+      setSortCategory(key);
+      sortRoutinesByNumDays([...routines], true);
     }
-    // else if (key === "num-workouts-desc") {
-    //   setSortCategory(key);
-    //   sortRoutinesByNumWorkouts([...routines], false);
-    // } else if (key === "num-workouts-asc") {
-    //   setSortCategory(key);
-    //   sortRoutinesByNumWorkouts([...routines], true);
-    // } else if (key === "num-days-desc") {
-    //   setSortCategory(key);
-    //   sortRoutinesByNumDays([...routines], false);
-    // } else if (key === "num-days-asc") {
-    //   setSortCategory(key);
-    //   sortRoutinesByNumDays([...routines], true);
-    // }
   };
 
   return {
