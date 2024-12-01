@@ -4,12 +4,15 @@ import {
   RoutineMap,
   RoutineSortCategory,
   UseRoutineListReturnType,
+  UseWorkoutTemplateListReturnType,
 } from "../typings";
 import { useDisclosure } from "@nextui-org/react";
 import { GetAllRoutinesWithNumWorkoutTemplates } from "../helpers";
+import { useListFilters } from "./useListFilters";
 
 export const useRoutineList = (
-  getRoutinesOnLoad: boolean
+  getRoutinesOnLoad: boolean,
+  useWorkoutTemplateList: UseWorkoutTemplateListReturnType
 ): UseRoutineListReturnType => {
   const [routines, setRoutines] = useState<Routine[]>([]);
   const [filterQuery, setFilterQuery] = useState<string>("");
@@ -19,6 +22,22 @@ export const useRoutineList = (
   const isRoutineListLoaded = useRef(false);
 
   const routineListModal = useDisclosure();
+  const filterRoutineListModal = useDisclosure();
+
+  const {
+    isWorkoutTemplateListLoaded,
+    workoutTemplateMap,
+    getWorkoutTemplates,
+  } = useWorkoutTemplateList;
+
+  const listFilters = useListFilters(
+    undefined,
+    undefined,
+    undefined,
+    workoutTemplateMap
+  );
+
+  const { filterMap, filterWorkoutTemplates } = listFilters;
 
   const filteredRoutines = useMemo(() => {
     if (filterQuery !== "") {
@@ -124,6 +143,24 @@ export const useRoutineList = (
     }
   };
 
+  const handleOpenFilterButton = async () => {
+    const tasks = [];
+
+    if (!isRoutineListLoaded.current) {
+      tasks.push(getRoutines());
+    }
+
+    if (!isWorkoutTemplateListLoaded.current) {
+      tasks.push(getWorkoutTemplates());
+    }
+
+    if (tasks.length > 0) {
+      await Promise.all(tasks);
+    }
+
+    filterRoutineListModal.onOpen();
+  };
+
   return {
     routines,
     setRoutines,
@@ -137,5 +174,8 @@ export const useRoutineList = (
     sortCategory,
     handleSortOptionSelection,
     getRoutines,
+    listFilters,
+    filterRoutineListModal,
+    handleOpenFilterButton,
   };
 };

@@ -14,12 +14,18 @@ type RoutineListOptionsProps = {
 export const RoutineListOptions = ({
   useRoutineList,
 }: RoutineListOptionsProps) => {
-  const { sortCategory, handleSortOptionSelection } = useRoutineList;
+  const {
+    sortCategory,
+    handleSortOptionSelection,
+    listFilters,
+    handleOpenFilterButton,
+  } = useRoutineList;
+
+  const { filterMap } = listFilters;
 
   return (
     <div className="flex gap-1 pr-0.5">
-      {/* TODO: ADD */}
-      {/* <Button
+      <Button
         className="z-1"
         variant="flat"
         color={filterMap.size > 0 ? "secondary" : "default"}
@@ -27,7 +33,7 @@ export const RoutineListOptions = ({
         onPress={handleOpenFilterButton}
       >
         Filter
-      </Button> */}
+      </Button>
       <Dropdown>
         <DropdownTrigger>
           <Button className="z-1" variant="flat" size="sm">

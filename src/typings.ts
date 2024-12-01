@@ -766,6 +766,9 @@ export type UseRoutineListReturnType = {
   sortCategory: RoutineSortCategory;
   handleSortOptionSelection: (key: string) => void;
   getRoutines: () => Promise<void>;
+  listFilters: UseListFiltersReturnType;
+  filterRoutineListModal: UseDisclosureReturnType;
+  handleOpenFilterButton: () => Promise<void>;
 };
 
 export type NumberRangeInvalidityMap = {
