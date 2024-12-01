@@ -34,7 +34,6 @@ import {
   useFilterExerciseList,
   useRoutineList,
   useWorkoutList,
-  useWorkoutTemplateList,
 } from "../hooks";
 
 type OperationType =
@@ -75,11 +74,11 @@ export default function WorkoutList() {
     setFilterQuery,
     filteredWorkouts,
     listFilters,
+    workoutTemplateList,
   } = workoutList;
 
   const { filterMap } = listFilters;
 
-  const workoutTemplateList = useWorkoutTemplateList(false, exerciseList, true);
   const routineList = useRoutineList(false);
 
   const filterExerciseList = useFilterExerciseList(exerciseList);

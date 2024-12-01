@@ -11,7 +11,6 @@ import {
   useExerciseList,
   useFilterExerciseList,
   useWorkoutList,
-  useWorkoutTemplateList,
 } from "../hooks";
 import { useEffect, useState } from "react";
 import {
@@ -32,11 +31,11 @@ export default function WorkoutIndex() {
 
   const exerciseList = useExerciseList(false);
 
-  const workoutTemplateList = useWorkoutTemplateList(true, exerciseList, true);
-
   const { setIncludeSecondaryGroups } = exerciseList;
 
   const workoutList = useWorkoutList(false, exerciseList, true);
+
+  const { workoutTemplateList } = workoutList;
 
   const filterExerciseList = useFilterExerciseList(exerciseList);
 

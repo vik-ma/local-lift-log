@@ -42,7 +42,6 @@ import {
   useUserWeightInput,
   useWorkoutActions,
   useWorkoutList,
-  useWorkoutTemplateList,
 } from "../hooks";
 
 type WorkoutTemplateNote = {
@@ -138,7 +137,8 @@ export default function WorkoutDetails() {
   } = useWorkoutActions(false);
 
   const workoutList = useWorkoutList(false, exerciseList, true, Number(id));
-  const workoutTemplateList = useWorkoutTemplateList(false, exerciseList, true);
+
+  const { workoutTemplateList } = workoutList;
 
   const additionalMenuItems: DetailHeaderOptionItem = useMemo(() => {
     return {
