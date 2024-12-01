@@ -26,6 +26,7 @@ import {
   RoutineModal,
   ListPageSearchInput,
   EmptyListLabel,
+  RoutineListOptions,
 } from "../components";
 import { useDefaultRoutine, useIsRoutineValid, useRoutineList } from "../hooks";
 import { VerticalMenuIcon } from "../assets";
@@ -50,13 +51,15 @@ export default function RoutineList() {
   const { isRoutineNameValid, isRoutineValid } =
     useIsRoutineValid(operatingRoutine);
 
+  const routineList = useRoutineList(true);
+
   const {
     routines,
     setRoutines,
     filteredRoutines,
     filterQuery,
     setFilterQuery,
-  } = useRoutineList(true);
+  } = routineList;
 
   useEffect(() => {
     const getActiveRoutineId = async () => {
@@ -246,15 +249,19 @@ export default function RoutineList() {
           filteredListLength={filteredRoutines.length}
           totalListLength={routines.length}
           bottomContent={
-            <div className="flex justify-between gap-1 w-full items-center">
-              <Button
-                color="secondary"
-                variant="flat"
-                onPress={handleCreateNewRoutineButton}
-                size="sm"
-              >
-                New Routine
-              </Button>
+            <div className="flex flex-col gap-1.5">
+              <div className="flex justify-between">
+                <Button
+                  color="secondary"
+                  variant="flat"
+                  onPress={handleCreateNewRoutineButton}
+                  size="sm"
+                >
+                  New Routine
+                </Button>
+                <RoutineListOptions useRoutineList={routineList} />
+              </div>
+              {/* TODO: ADD LISTFILTERS */}
             </div>
           }
         />

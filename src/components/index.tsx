@@ -80,3 +80,4 @@ export { WorkoutListOptions } from "./ListOptions/WorkoutListOptions";
 export { ExerciseListOptions } from "./ListOptions/ExerciseListOptions";
 export { MeasurementListOptions } from "./ListOptions/MeasurementListOptions";
 export { WorkoutTemplateListOptions } from "./ListOptions/WorkoutTemplateListOptions";
+export { RoutineListOptions } from "./ListOptions/RoutineListOptions";
