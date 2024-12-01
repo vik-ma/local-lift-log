@@ -298,12 +298,18 @@ export const useWorkoutList = (
   };
 
   const handleOpenFilterButton = async () => {
+    const tasks = [];
+
     if (!isExerciseListLoaded.current) {
-      await getExercises();
+      tasks.push(getExercises());
     }
 
     if (!isWorkoutTemplateListLoaded.current) {
-      await getWorkoutTemplates();
+      tasks.push(getWorkoutTemplates());
+    }
+
+    if (tasks.length > 0) {
+      await Promise.all(tasks);
     }
 
     filterWorkoutListModal.onOpen();
