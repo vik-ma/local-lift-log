@@ -257,7 +257,7 @@ export const useListFilters = (
     prefixMap.set("measurement-types", `Measurement Type: `);
     prefixMap.set(
       "workout-templates",
-      `Workout Templates (${filterWorkoutTemplates.size}): `
+      `Templates (${filterWorkoutTemplates.size}): `
     );
 
     return prefixMap;

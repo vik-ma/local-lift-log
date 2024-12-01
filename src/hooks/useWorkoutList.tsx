@@ -62,6 +62,7 @@ export const useWorkoutList = (
     filterRoutines,
     filterExercises,
     filterExerciseGroups,
+    filterWorkoutTemplates,
   } = listFilters;
 
   const isWorkoutListLoaded = useRef(false);
@@ -105,7 +106,9 @@ export const useWorkoutList = (
               DoesListOrSetHaveCommonElement(
                 filterExerciseGroups,
                 item.exerciseGroupSetSecondary
-              )))
+              ))) &&
+          (!filterMap.has("workout-templates") ||
+            filterWorkoutTemplates.has(item.workout_template_id))
       );
     }
     return workouts;
@@ -119,6 +122,7 @@ export const useWorkoutList = (
     filterExercises,
     filterExerciseGroups,
     includeSecondaryGroups,
+    filterWorkoutTemplates,
   ]);
 
   const getWorkouts = useCallback(async () => {
