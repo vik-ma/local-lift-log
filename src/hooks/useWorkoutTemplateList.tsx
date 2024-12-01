@@ -256,5 +256,6 @@ export const useWorkoutTemplateList = (
     listFilters,
     workoutTemplateMap,
     isWorkoutTemplateListLoaded,
+    getWorkoutTemplates,
   };
 };

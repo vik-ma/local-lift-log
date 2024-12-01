@@ -14,7 +14,7 @@ import {
   IsDateWithinRange,
 } from "../helpers";
 import { useDisclosure } from "@nextui-org/react";
-import { useListFilters, useRoutineList } from ".";
+import { useListFilters, useRoutineList, useWorkoutTemplateList } from ".";
 
 export const useWorkoutList = (
   getWorkoutsOnLoad: boolean,
@@ -46,6 +46,15 @@ export const useWorkoutList = (
     filterExercises,
     filterExerciseGroups,
   } = listFilters;
+
+  const workoutTemplateList = useWorkoutTemplateList(
+    false,
+    useExerciseList,
+    true
+  );
+
+  const { isWorkoutTemplateListLoaded, getWorkoutTemplates } =
+    workoutTemplateList;
 
   const isWorkoutListLoaded = useRef(false);
 
@@ -293,6 +302,10 @@ export const useWorkoutList = (
       await getExercises();
     }
 
+    if (!isWorkoutTemplateListLoaded.current) {
+      await getWorkoutTemplates();
+    }
+
     filterWorkoutListModal.onOpen();
   };
 
@@ -313,5 +326,6 @@ export const useWorkoutList = (
     handleOpenFilterButton,
     routineList,
     listFilters,
+    workoutTemplateList,
   };
 };

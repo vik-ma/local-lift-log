@@ -478,6 +478,7 @@ export type UseWorkoutListReturnType = {
   handleOpenFilterButton: () => void;
   routineList: UseRoutineListReturnType;
   listFilters: UseListFiltersReturnType;
+  workoutTemplateList: UseWorkoutTemplateListReturnType;
 };
 
 export type UseListFiltersReturnType = {
@@ -552,6 +553,7 @@ export type UseWorkoutTemplateListReturnType = {
   listFilters: UseListFiltersReturnType;
   workoutTemplateMap: WorkoutTemplateMap;
   isWorkoutTemplateListLoaded: React.MutableRefObject<boolean>;
+  getWorkoutTemplates: () => Promise<void>;
 };
 
 export type PresetsType = "equipment" | "distance";
