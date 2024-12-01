@@ -36,7 +36,24 @@ export const useWorkoutList = (
 
   const routineList = useRoutineList(true);
 
-  const listFilters = useListFilters(useExerciseList, routineList.routineMap);
+  const workoutTemplateList = useWorkoutTemplateList(
+    false,
+    useExerciseList,
+    true
+  );
+
+  const {
+    isWorkoutTemplateListLoaded,
+    getWorkoutTemplates,
+    workoutTemplateMap,
+  } = workoutTemplateList;
+
+  const listFilters = useListFilters(
+    useExerciseList,
+    routineList.routineMap,
+    undefined,
+    workoutTemplateMap
+  );
 
   const {
     filterDateRange,
@@ -46,15 +63,6 @@ export const useWorkoutList = (
     filterExercises,
     filterExerciseGroups,
   } = listFilters;
-
-  const workoutTemplateList = useWorkoutTemplateList(
-    false,
-    useExerciseList,
-    true
-  );
-
-  const { isWorkoutTemplateListLoaded, getWorkoutTemplates } =
-    workoutTemplateList;
 
   const isWorkoutListLoaded = useRef(false);
 

@@ -180,6 +180,7 @@ export const FilterWorkoutListModal = ({
                 <WorkoutTemplateModalList
                   useWorkoutTemplateList={useWorkoutTemplateList}
                   onClickAction={handleClickWorkoutTemplate}
+                  filterWorkoutTemplates={filterWorkoutTemplates}
                 />
               ) : (
                 <ScrollShadow className="h-[400px]">

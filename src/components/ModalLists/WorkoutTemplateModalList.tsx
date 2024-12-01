@@ -72,8 +72,8 @@ export const WorkoutTemplateModalList = ({
           <button
             className={
               filterWorkoutTemplates?.has(template.id)
-                ? "flex flex-col justify-start items-start bg-amber-100 border-2 border-amber-300 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-400 focus:border-default-400"
-                : "flex flex-col justify-start items-start bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-400 focus:border-default-400"
+                ? "flex flex-col justify-start items-start bg-amber-100 border-2 border-amber-300 rounded-xl px-2 py-1 hover:border-default-400 focus:border-default-400"
+                : "flex flex-col justify-start items-start bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:border-default-400"
             }
             key={template.id}
             onClick={() => onClickAction(template)}
