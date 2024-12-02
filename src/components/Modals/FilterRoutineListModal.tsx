@@ -8,7 +8,6 @@ import {
   ScrollShadow,
 } from "@nextui-org/react";
 import {
-  UseDisclosureReturnType,
   UseRoutineListReturnType,
   UserSettings,
   UseWorkoutTemplateListReturnType,
@@ -17,7 +16,6 @@ import { useState } from "react";
 import { WorkoutTemplateModalList } from "..";
 
 type FilterRoutineListModalProps = {
-  filterRoutineListModal: UseDisclosureReturnType;
   useRoutineList: UseRoutineListReturnType;
   useWorkoutTemplateList: UseWorkoutTemplateListReturnType;
   userSettings: UserSettings;
@@ -26,14 +24,13 @@ type FilterRoutineListModalProps = {
 type ModalPage = "base" | "workout-template-list";
 
 export const FilterRoutineListModal = ({
-  filterRoutineListModal,
   useRoutineList,
   useWorkoutTemplateList,
   userSettings,
 }: FilterRoutineListModalProps) => {
   const [modalPage, setModalPage] = useState<ModalPage>("base");
 
-  const { listFilters } = useRoutineList;
+  const { listFilters, filterRoutineListModal } = useRoutineList;
 
   const {
     filterWorkoutTemplates,
