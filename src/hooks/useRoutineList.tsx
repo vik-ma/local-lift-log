@@ -47,9 +47,16 @@ export const useRoutineList = (
     if (filterQuery !== "" || filterMap.size > 0) {
       return routines.filter(
         (item) =>
-          item.name
+          (item.name
             .toLocaleLowerCase()
-            .includes(filterQuery.toLocaleLowerCase()) &&
+            .includes(filterQuery.toLocaleLowerCase()) ||
+            (item.is_schedule_weekly === 1 &&
+              "weekly".includes(filterQuery.toLocaleLowerCase())) ||
+            (item.is_schedule_weekly === 0 &&
+              (item.num_days_in_schedule
+                .toString()
+                .includes(filterQuery) ||
+                "custom".includes(filterQuery.toLocaleLowerCase())))) &&
           (!filterMap.has("workout-templates") ||
             DoesListOrSetHaveCommonElement(
               filterWorkoutTemplates,
