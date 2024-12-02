@@ -7,7 +7,10 @@ import {
   UseWorkoutTemplateListReturnType,
 } from "../typings";
 import { useDisclosure } from "@nextui-org/react";
-import { CreateRoutineWorkoutTemplateList } from "../helpers";
+import {
+  CreateRoutineWorkoutTemplateList,
+  DoesListOrSetHaveCommonElement,
+} from "../helpers";
 import { useListFilters } from "./useListFilters";
 import Database from "tauri-plugin-sql-api";
 
@@ -41,13 +44,21 @@ export const useRoutineList = (
   const { filterMap, filterWorkoutTemplates } = listFilters;
 
   const filteredRoutines = useMemo(() => {
-    if (filterQuery !== "") {
-      return routines.filter((item) =>
-        item.name.toLocaleLowerCase().includes(filterQuery.toLocaleLowerCase())
+    if (filterQuery !== "" || filterMap.size > 0) {
+      return routines.filter(
+        (item) =>
+          item.name
+            .toLocaleLowerCase()
+            .includes(filterQuery.toLocaleLowerCase()) &&
+          (!filterMap.has("workout-templates") ||
+            DoesListOrSetHaveCommonElement(
+              filterWorkoutTemplates,
+              item.workoutTemplateIdSet
+            ))
       );
     }
     return routines;
-  }, [routines, filterQuery]);
+  }, [routines, filterQuery, filterMap, filterWorkoutTemplates]);
 
   const getRoutines = useCallback(async () => {
     try {
