@@ -7,8 +7,9 @@ import {
   UseWorkoutTemplateListReturnType,
 } from "../typings";
 import { useDisclosure } from "@nextui-org/react";
-import { GetAllRoutinesWithNumWorkoutTemplates } from "../helpers";
+import { CreateRoutineWorkoutTemplateList } from "../helpers";
 import { useListFilters } from "./useListFilters";
+import Database from "tauri-plugin-sql-api";
 
 export const useRoutineList = (
   getRoutinesOnLoad: boolean,
@@ -49,15 +50,41 @@ export const useRoutineList = (
   }, [routines, filterQuery]);
 
   const getRoutines = useCallback(async () => {
-    const routines = await GetAllRoutinesWithNumWorkoutTemplates();
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
 
-    const routineMap = new Map<number, Routine>(
-      routines.map((obj) => [obj.id, obj])
-    );
+      // Get all columns and number of workout_routine_schedule entries for every Routine
+      const result = await db.select<Routine[]>(
+        `SELECT routines.*,
+         json_group_array(workout_routine_schedules.workout_template_id) AS workoutTemplateIds
+         FROM routines
+         LEFT JOIN workout_routine_schedules
+         ON routines.id = workout_routine_schedules.routine_id
+         GROUP BY routines.id`
+      );
 
-    sortRoutinesByName(routines);
-    setRoutineMap(routineMap);
-    isRoutineListLoaded.current = true;
+      const routines: Routine[] = [];
+      const routineMap = new Map<number, Routine>();
+
+      for (const row of result) {
+        const { workoutTemplateIdList, workoutTemplateIdSet } =
+          CreateRoutineWorkoutTemplateList(row.workoutTemplateIds);
+
+        const routine: Routine = {
+          ...row,
+          workoutTemplateIdList,
+          workoutTemplateIdSet,
+        };
+
+        routineMap.set(routine.id, routine);
+      }
+
+      sortRoutinesByName(routines);
+      setRoutineMap(routineMap);
+      isRoutineListLoaded.current = true;
+    } catch (error) {
+      console.log(error);
+    }
   }, []);
 
   useEffect(() => {
@@ -88,9 +115,13 @@ export const useRoutineList = (
   ) => {
     routineList.sort((a, b) => {
       const aCount =
-        a.numWorkoutTemplates !== undefined ? a.numWorkoutTemplates : -Infinity;
+        a.workoutTemplateIdList !== undefined
+          ? a.workoutTemplateIdList.length
+          : -Infinity;
       const bCount =
-        b.numWorkoutTemplates !== undefined ? b.numWorkoutTemplates : -Infinity;
+        b.workoutTemplateIdList !== undefined
+          ? b.workoutTemplateIdList.length
+          : -Infinity;
 
       if (bCount !== aCount) {
         const sortKey = isAscending ? aCount - bCount : bCount - aCount;
