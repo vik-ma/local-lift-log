@@ -8,17 +8,17 @@ import {
 } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { Routine, UserSettingsOptional } from "../typings";
+import { Routine, UserSettings } from "../typings";
 import toast, { Toaster } from "react-hot-toast";
 import Database from "tauri-plugin-sql-api";
 import {
   UpdateActiveRoutineId,
-  GetActiveRoutineId,
   ConvertEmptyStringToNull,
   UpdateRoutine,
   DeleteItemFromList,
   UpdateItemInList,
   FormatNumItemsString,
+  GetUserSettings,
 } from "../helpers";
 import {
   LoadingSpinner,
@@ -27,6 +27,7 @@ import {
   ListPageSearchInput,
   EmptyListLabel,
   RoutineListOptions,
+  FilterRoutineListModal,
 } from "../components";
 import {
   useDefaultRoutine,
@@ -40,7 +41,7 @@ import { VerticalMenuIcon } from "../assets";
 type OperationType = "add" | "edit" | "delete";
 
 export default function RoutineList() {
-  const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
+  const [userSettings, setUserSettings] = useState<UserSettings>();
   const [operationType, setOperationType] = useState<OperationType>("add");
 
   const navigate = useNavigate();
@@ -73,8 +74,7 @@ export default function RoutineList() {
 
   useEffect(() => {
     const getActiveRoutineId = async () => {
-      const userSettings: UserSettingsOptional | undefined =
-        await GetActiveRoutineId();
+      const userSettings = await GetUserSettings();
 
       if (userSettings !== undefined) {
         setUserSettings(userSettings);
@@ -90,7 +90,7 @@ export default function RoutineList() {
     const newActiveRoutineId =
       routine.id === userSettings.active_routine_id ? 0 : routine.id;
 
-    const updatedSettings: UserSettingsOptional = {
+    const updatedSettings = {
       ...userSettings,
       active_routine_id: newActiveRoutineId,
     };
@@ -173,7 +173,7 @@ export default function RoutineList() {
       setRoutines(updatedRoutines);
 
       if (operatingRoutine.id === userSettings.active_routine_id) {
-        const updatedSettings: UserSettingsOptional = {
+        const updatedSettings = {
           ...userSettings,
           active_routine_id: 0,
         };
@@ -249,7 +249,11 @@ export default function RoutineList() {
         }
         deleteButtonAction={deleteRoutine}
       />
-
+      <FilterRoutineListModal
+        useRoutineList={routineList}
+        useWorkoutTemplateList={workoutTemplateList}
+        userSettings={userSettings}
+      />
       <div className="flex flex-col items-center gap-1">
         <ListPageSearchInput
           header="Routine List"
