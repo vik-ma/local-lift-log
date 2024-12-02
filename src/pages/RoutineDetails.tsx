@@ -34,6 +34,7 @@ import {
   GetUserSettings,
   UpdateRoutine,
   FormatNumItemsString,
+  CreateRoutineWorkoutTemplateList,
 } from "../helpers";
 import toast, { Toaster } from "react-hot-toast";
 import { getLocalTimeZone, parseDate } from "@internationalized/date";
@@ -105,15 +106,24 @@ export default function RoutineDetails() {
 
         const result = await db.select<Routine[]>(
           `SELECT routines.*,
-          (SELECT COUNT(*) FROM workout_routine_schedules 
-          WHERE workout_routine_schedules.routine_id = routines.id) AS numWorkoutTemplates
-          FROM routines WHERE id = $1`,
+           json_group_array(workout_routine_schedules.workout_template_id) AS workoutTemplateIds
+           FROM routines
+           LEFT JOIN workout_routine_schedules
+           ON routines.id = workout_routine_schedules.routine_id WHERE routines.id = $1`,
           [id]
         );
 
         if (result.length === 0) return;
 
-        const currentRoutine: Routine = result[0];
+        const { workoutTemplateIdList, workoutTemplateIdSet } =
+          CreateRoutineWorkoutTemplateList(result[0].workoutTemplateIds);
+
+        const currentRoutine: Routine = {
+          ...result[0],
+          workoutTemplateIdList,
+          workoutTemplateIdSet,
+        };
+
         setRoutine(currentRoutine);
         setEditedRoutine(currentRoutine);
       } catch (error) {
@@ -181,9 +191,10 @@ export default function RoutineDetails() {
 
       await getWorkoutRoutineSchedules();
 
+      // TODO:FIX
       const updatedRoutine: Routine = {
         ...routine,
-        numWorkoutTemplates: routine.numWorkoutTemplates! + 1,
+        // numWorkoutTemplates: routine.numWorkoutTemplates! + 1,
       };
 
       setRoutine(updatedRoutine);
@@ -207,9 +218,10 @@ export default function RoutineDetails() {
 
       await getWorkoutRoutineSchedules();
 
+      // TODO: FIX
       const updatedRoutine: Routine = {
         ...routine,
-        numWorkoutTemplates: routine.numWorkoutTemplates! - 1,
+        // numWorkoutTemplates: routine.numWorkoutTemplates! - 1,
       };
 
       setRoutine(updatedRoutine);
@@ -298,9 +310,10 @@ export default function RoutineDetails() {
         [routine.id, numDaysInSchedule]
       );
 
+      // TODO: FIX
       const updatedRoutine: Routine = {
         ...routine,
-        numWorkoutTemplates: routine.numWorkoutTemplates! - result.rowsAffected,
+        // numWorkoutTemplates: routine.numWorkoutTemplates! - result.rowsAffected,
       };
 
       setRoutine(updatedRoutine);
@@ -361,9 +374,13 @@ export default function RoutineDetails() {
         <DetailsHeader
           header={routine.name}
           subHeader={
-            routine.numWorkoutTemplates === 0
+            routine.workoutTemplateIdList === undefined ||
+            routine.workoutTemplateIdList.length === 0
               ? "No Workouts Added"
-              : FormatNumItemsString(routine.numWorkoutTemplates, "Workout")
+              : FormatNumItemsString(
+                  routine.workoutTemplateIdList.length,
+                  "Workout"
+                )
           }
           note={routine.note}
           detailsType="Routine"
