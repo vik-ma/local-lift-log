@@ -31,7 +31,7 @@ type FilterWorkoutListModalProps = {
   userSettings: UserSettings;
 };
 
-type FilterWorkoutListModalPage =
+type ModalPage =
   | "base"
   | "routine-list"
   | "exercise-list"
@@ -45,8 +45,7 @@ export const FilterWorkoutListModal = ({
   useWorkoutTemplateList,
   userSettings,
 }: FilterWorkoutListModalProps) => {
-  const [filterWorkoutListModalPage, setFilterWorkoutListModalPage] =
-    useState<FilterWorkoutListModalPage>("base");
+  const [modalPage, setModalPage] = useState<ModalPage>("base");
 
   const { filterWorkoutListModal, routineList, listFilters } = useWorkoutList;
 
@@ -83,49 +82,48 @@ export const FilterWorkoutListModal = ({
   } = useExerciseList;
 
   const showClearAllButton = useMemo(() => {
-    if (
-      filterWorkoutListModalPage === "routine-list" &&
-      filterRoutines.size > 0
-    ) {
+    if (modalPage === "routine-list" && filterRoutines.size > 0) {
+      return true;
+    }
+
+    if (modalPage === "exercise-list" && filterExercises.size > 0) {
+      return true;
+    }
+
+    if (modalPage === "exercise-groups" && filterExerciseGroups.length > 0) {
       return true;
     }
 
     if (
-      filterWorkoutListModalPage === "exercise-list" &&
-      filterExercises.size > 0
-    ) {
-      return true;
-    }
-
-    if (
-      filterWorkoutListModalPage === "exercise-groups" &&
-      filterExerciseGroups.length > 0
+      modalPage === "workout-template-list" &&
+      filterWorkoutTemplates.size > 0
     ) {
       return true;
     }
 
     return false;
   }, [
-    filterWorkoutListModalPage,
+    modalPage,
     filterRoutines,
     filterExercises,
     filterExerciseGroups,
+    filterWorkoutTemplates,
   ]);
 
   const handleClearAllButton = () => {
-    if (filterWorkoutListModalPage === "routine-list") {
+    if (modalPage === "routine-list") {
       setFilterRoutines(new Set());
     }
 
-    if (filterWorkoutListModalPage === "exercise-list") {
+    if (modalPage === "exercise-list") {
       setFilterExercises(new Set());
     }
 
-    if (filterWorkoutListModalPage === "exercise-groups") {
+    if (modalPage === "exercise-groups") {
       setFilterExerciseGroups([]);
     }
 
-    if (filterWorkoutListModalPage === "workout-template-list") {
+    if (modalPage === "workout-template-list") {
       setFilterWorkoutTemplates(new Set());
     }
   };
@@ -139,25 +137,25 @@ export const FilterWorkoutListModal = ({
         {(onClose) => (
           <>
             <ModalHeader>
-              {filterWorkoutListModalPage === "routine-list"
+              {modalPage === "routine-list"
                 ? "Select Routines To Filter"
-                : filterWorkoutListModalPage === "exercise-list"
+                : modalPage === "exercise-list"
                 ? "Select Exercises To Filter"
-                : filterWorkoutListModalPage === "exercise-groups"
+                : modalPage === "exercise-groups"
                 ? "Select Exercise Groups To Filter"
-                : filterWorkoutListModalPage === "workout-template-list"
+                : modalPage === "workout-template-list"
                 ? "Select Workout Templates To Filter"
                 : "Filter Workouts"}
             </ModalHeader>
             <ModalBody>
-              {filterWorkoutListModalPage === "routine-list" ? (
+              {modalPage === "routine-list" ? (
                 <RoutineModalList
                   useRoutineList={routineList}
                   onClickAction={handleClickRoutine}
                   filterRoutines={filterRoutines}
                   customHeightString="h-[400px]"
                 />
-              ) : filterWorkoutListModalPage === "exercise-list" ? (
+              ) : modalPage === "exercise-list" ? (
                 <ExerciseModalList
                   handleClickExercise={handleClickExercise}
                   exerciseList={useExerciseList}
@@ -165,7 +163,7 @@ export const FilterWorkoutListModal = ({
                   userSettingsId={userSettings.id}
                   filterExercises={filterExercises}
                 />
-              ) : filterWorkoutListModalPage === "exercise-groups" ? (
+              ) : modalPage === "exercise-groups" ? (
                 <div className="h-[400px]">
                   <ExerciseGroupCheckboxes
                     isValid={true}
@@ -176,7 +174,7 @@ export const FilterWorkoutListModal = ({
                     setIncludeSecondaryGroups={setIncludeSecondaryGroups}
                   />
                 </div>
-              ) : filterWorkoutListModalPage === "workout-template-list" ? (
+              ) : modalPage === "workout-template-list" ? (
                 <WorkoutTemplateModalList
                   useWorkoutTemplateList={useWorkoutTemplateList}
                   onClickAction={handleClickWorkoutTemplate}
@@ -215,9 +213,7 @@ export const FilterWorkoutListModal = ({
                             className="w-[7rem]"
                             variant="flat"
                             size="sm"
-                            onPress={() =>
-                              setFilterWorkoutListModalPage("routine-list")
-                            }
+                            onPress={() => setModalPage("routine-list")}
                           >
                             Filter Routines
                           </Button>
@@ -244,9 +240,7 @@ export const FilterWorkoutListModal = ({
                             variant="flat"
                             size="sm"
                             onPress={() =>
-                              setFilterWorkoutListModalPage(
-                                "workout-template-list"
-                              )
+                              setModalPage("workout-template-list")
                             }
                           >
                             Filter Templates
@@ -273,9 +267,7 @@ export const FilterWorkoutListModal = ({
                             className="w-[7rem]"
                             variant="flat"
                             size="sm"
-                            onPress={() =>
-                              setFilterWorkoutListModalPage("exercise-list")
-                            }
+                            onPress={() => setModalPage("exercise-list")}
                           >
                             Filter Exercises
                           </Button>
@@ -307,9 +299,7 @@ export const FilterWorkoutListModal = ({
                             className="w-[7rem]"
                             variant="flat"
                             size="sm"
-                            onPress={() =>
-                              setFilterWorkoutListModalPage("exercise-groups")
-                            }
+                            onPress={() => setModalPage("exercise-groups")}
                           >
                             Filter Groups
                           </Button>
@@ -322,7 +312,7 @@ export const FilterWorkoutListModal = ({
             </ModalBody>
             <ModalFooter className="flex justify-between">
               <div className="flex gap-2">
-                {filterWorkoutListModalPage !== "base" ? (
+                {modalPage !== "base" ? (
                   <>
                     {showClearAllButton && (
                       <Button
@@ -353,26 +343,24 @@ export const FilterWorkoutListModal = ({
                   color="primary"
                   variant="light"
                   onPress={
-                    filterWorkoutListModalPage === "base"
-                      ? onClose
-                      : () => setFilterWorkoutListModalPage("base")
+                    modalPage === "base" ? onClose : () => setModalPage("base")
                   }
                 >
-                  {filterWorkoutListModalPage === "base" ? "Close" : "Back"}
+                  {modalPage === "base" ? "Close" : "Back"}
                 </Button>
                 <Button
                   color="primary"
                   onPress={
-                    filterWorkoutListModalPage === "base"
+                    modalPage === "base"
                       ? () =>
                           handleFilterSaveButton(
                             userSettings.locale,
                             filterWorkoutListModal
                           )
-                      : () => setFilterWorkoutListModalPage("base")
+                      : () => setModalPage("base")
                   }
                 >
-                  {filterWorkoutListModalPage === "base" ? "Filter" : "Done"}
+                  {modalPage === "base" ? "Filter" : "Done"}
                 </Button>
               </div>
             </ModalFooter>
