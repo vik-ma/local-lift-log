@@ -77,8 +77,6 @@ export default function WorkoutList() {
     workoutTemplateList,
   } = workoutList;
 
-  const { filterMap } = listFilters;
-
   const routineList = useRoutineList(false, workoutTemplateList);
 
   const filterExerciseList = useFilterExerciseList(exerciseList);
@@ -416,7 +414,7 @@ export default function WorkoutList() {
                   handleOptionMenuSelection={handleOptionMenuSelection}
                 />
               </div>
-              {filterMap.size > 0 && (
+              {listFilters.filterMap.size > 0 && (
                 <ListFilters
                   filterMap={listFilters.filterMap}
                   removeFilter={listFilters.removeFilter}

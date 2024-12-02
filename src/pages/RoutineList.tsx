@@ -28,6 +28,7 @@ import {
   EmptyListLabel,
   RoutineListOptions,
   FilterRoutineListModal,
+  ListFilters,
 } from "../components";
 import {
   useDefaultRoutine,
@@ -70,6 +71,7 @@ export default function RoutineList() {
     filterQuery,
     setFilterQuery,
     isRoutineListLoaded,
+    listFilters,
   } = routineList;
 
   useEffect(() => {
@@ -274,7 +276,13 @@ export default function RoutineList() {
                 </Button>
                 <RoutineListOptions useRoutineList={routineList} />
               </div>
-              {/* TODO: ADD LISTFILTERS */}
+              {listFilters.filterMap.size > 0 && (
+                <ListFilters
+                  filterMap={listFilters.filterMap}
+                  removeFilter={listFilters.removeFilter}
+                  prefixMap={listFilters.prefixMap}
+                />
+              )}
             </div>
           }
         />
