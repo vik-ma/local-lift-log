@@ -12,7 +12,7 @@ import {
   UserSettings,
   UseWorkoutTemplateListReturnType,
 } from "../../typings";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { WorkoutTemplateModalList } from "..";
 
 type FilterRoutineListModalProps = {
@@ -42,6 +42,23 @@ export const FilterRoutineListModal = ({
     filterWorkoutTemplatesString,
   } = listFilters;
 
+  const showClearAllButton = useMemo(() => {
+    if (
+      modalPage === "workout-template-list" &&
+      filterWorkoutTemplates.size > 0
+    ) {
+      return true;
+    }
+
+    return false;
+  }, [filterWorkoutTemplates, modalPage]);
+
+  const handleClearAllButton = () => {
+    if (modalPage === "workout-template-list") {
+      setFilterWorkoutTemplates(new Set());
+    }
+  };
+
   return (
     <Modal
       isOpen={filterRoutineListModal.isOpen}
@@ -60,6 +77,7 @@ export const FilterRoutineListModal = ({
                 <WorkoutTemplateModalList
                   useWorkoutTemplateList={useWorkoutTemplateList}
                   onClickAction={handleClickWorkoutTemplate}
+                  filterWorkoutTemplates={filterWorkoutTemplates}
                 />
               ) : (
                 <ScrollShadow className="h-[400px]">
@@ -102,8 +120,7 @@ export const FilterRoutineListModal = ({
               <div className="flex gap-2">
                 {modalPage !== "base" ? (
                   <>
-                    {/* TODO: ADD */}
-                    {/* {showClearAllButton && (
+                    {showClearAllButton && (
                       <Button
                         variant="flat"
                         color="danger"
@@ -111,7 +128,7 @@ export const FilterRoutineListModal = ({
                       >
                         Clear All
                       </Button>
-                    )} */}
+                    )}
                   </>
                 ) : (
                   <>
