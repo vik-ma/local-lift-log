@@ -77,6 +77,7 @@ export const useRoutineList = (
         };
 
         routineMap.set(routine.id, routine);
+        routines.push(routine);
       }
 
       sortRoutinesByName(routines);

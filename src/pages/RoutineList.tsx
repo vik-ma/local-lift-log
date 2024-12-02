@@ -286,7 +286,10 @@ export default function RoutineList() {
               {filteredRoutines.map((routine) => {
                 const isActiveRoutine =
                   userSettings.active_routine_id === routine.id;
-                const numWorkoutTemplates = routine.numWorkoutTemplates ?? 0;
+                const numWorkoutTemplates =
+                  routine.workoutTemplateIdList !== undefined
+                    ? routine.workoutTemplateIdList.length
+                    : 0;
                 return (
                   <div
                     className="flex justify-between items-center bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"

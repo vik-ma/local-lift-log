@@ -32,7 +32,10 @@ export const RoutineModalList = ({
       />
       <ScrollShadow className="flex flex-col gap-1">
         {filteredRoutines.map((routine) => {
-          const numWorkoutTemplates = routine.numWorkoutTemplates ?? 0;
+          const numWorkoutTemplates =
+            routine.workoutTemplateIdList !== undefined
+              ? routine.workoutTemplateIdList.length
+              : 0;
           return (
             <div
               className={
