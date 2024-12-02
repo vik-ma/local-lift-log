@@ -94,8 +94,11 @@ export default function RoutineDetails() {
         GetScheduleDayValues(routine.num_days_in_schedule, schedules);
 
       setScheduleValues(workoutScheduleStringList);
+
+      return result;
     } catch (error) {
       console.log(error);
+      return [];
     }
   }, [id, routine.num_days_in_schedule]);
 
@@ -189,15 +192,7 @@ export default function RoutineDetails() {
         [selectedDay, workoutTemplate.id, routine.id]
       );
 
-      await getWorkoutRoutineSchedules();
-
-      // TODO:FIX
-      const updatedRoutine: Routine = {
-        ...routine,
-        // numWorkoutTemplates: routine.numWorkoutTemplates! + 1,
-      };
-
-      setRoutine(updatedRoutine);
+      await updateRoutineWorkoutTemplateList();
 
       workoutTemplateList.workoutTemplatesModal.onClose();
       toast.success(`Workout added to ${dayNameList[selectedDay]}`);
@@ -216,15 +211,7 @@ export default function RoutineDetails() {
         workoutRoutineScheduleToRemove.id,
       ]);
 
-      await getWorkoutRoutineSchedules();
-
-      // TODO: FIX
-      const updatedRoutine: Routine = {
-        ...routine,
-        // numWorkoutTemplates: routine.numWorkoutTemplates! - 1,
-      };
-
-      setRoutine(updatedRoutine);
+      await updateRoutineWorkoutTemplateList();
 
       deleteModal.onClose();
       toast.success(
@@ -304,22 +291,36 @@ export default function RoutineDetails() {
 
       // Delete all workout_routine_schedules for routine_id
       // that contains a day number that exceeds numDaysInSchedule
-      const result = await db.execute(
+      await db.execute(
         `DELETE from workout_routine_schedules 
         WHERE routine_id = $1 AND day >= $2`,
         [routine.id, numDaysInSchedule]
       );
 
-      // TODO: FIX
-      const updatedRoutine: Routine = {
-        ...routine,
-        // numWorkoutTemplates: routine.numWorkoutTemplates! - result.rowsAffected,
-      };
-
-      setRoutine(updatedRoutine);
+      await updateRoutineWorkoutTemplateList();
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const updateRoutineWorkoutTemplateList = async () => {
+    const updatedSchedules = await getWorkoutRoutineSchedules();
+
+    const scheduleWorkoutTemplateIds = updatedSchedules.map((item) => item.id);
+
+    const workoutTemplateIds = JSON.stringify(scheduleWorkoutTemplateIds);
+
+    const { workoutTemplateIdList, workoutTemplateIdSet } =
+      CreateRoutineWorkoutTemplateList(workoutTemplateIds);
+
+    const updatedRoutine: Routine = {
+      ...routine,
+      workoutTemplateIds,
+      workoutTemplateIdList,
+      workoutTemplateIdSet,
+    };
+
+    setRoutine(updatedRoutine);
   };
 
   const dayNameList: string[] = useMemo(() => {
