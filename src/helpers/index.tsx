@@ -39,6 +39,7 @@ export { DefaultNewRoutine } from "./Routines/DefaultNewRoutine";
 export { UpdateRoutine } from "./Routines/UpdateRoutine";
 export { CreateRoutineWorkoutTemplateList } from "./Routines/CreateRoutineWorkoutTemplateList";
 export { IsRoutineScheduleTypeFiltered } from "./Routines/IsRoutineScheduleTypeFiltered";
+export { IsNumDaysInScheduleWithinRange } from "./Routines/IsNumDaysInScheduleWithinRange";
 
 export { CreateDefaultUserSettings } from "./UserSettings/CreateDefaultUserSettings";
 export { GetActiveRoutineId } from "./UserSettings/GetActiveRoutineId";
