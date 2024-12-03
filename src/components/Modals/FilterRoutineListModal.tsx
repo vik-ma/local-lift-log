@@ -6,6 +6,9 @@ import {
   ModalHeader,
   ModalFooter,
   ScrollShadow,
+  Select,
+  SelectItem,
+  SharedSelection,
 } from "@nextui-org/react";
 import {
   UseRoutineListReturnType,
@@ -40,6 +43,9 @@ export const FilterRoutineListModal = ({
     resetFilter,
     handleFilterSaveButton,
     filterWorkoutTemplatesString,
+    routineScheduleTypes,
+    filterScheduleTypes,
+    setFilterScheduleTypes,
   } = listFilters;
 
   const showClearAllButton = useMemo(() => {
@@ -82,6 +88,41 @@ export const FilterRoutineListModal = ({
               ) : (
                 <ScrollShadow className="h-[400px]">
                   <div className="flex flex-col gap-3 w-[24rem]">
+                    <div className="flex flex-col gap-1">
+                      <h3 className="font-semibold text-lg px-0.5">
+                        Schedule Types
+                      </h3>
+                      <Select
+                        selectionMode="multiple"
+                        label={
+                          <>
+                            Schedule Types
+                            {filterScheduleTypes.size < 2 && (
+                              <span className="text-secondary">
+                                {" "}
+                                ({filterScheduleTypes.size} out of{" "}
+                                {filterScheduleTypes.size})
+                              </span>
+                            )}
+                          </>
+                        }
+                        variant="faded"
+                        selectedKeys={filterScheduleTypes}
+                        onSelectionChange={
+                          setFilterScheduleTypes as React.Dispatch<
+                            React.SetStateAction<SharedSelection>
+                          >
+                        }
+                        disableAnimation
+                        disallowEmptySelection
+                      >
+                        {routineScheduleTypes.map((item) => (
+                          <SelectItem key={item} value={item}>
+                            {item}
+                          </SelectItem>
+                        ))}
+                      </Select>
+                    </div>
                     <div className="flex flex-col gap-1">
                       <div className="flex flex-col">
                         <h3 className="font-semibold text-lg px-0.5">
