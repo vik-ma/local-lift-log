@@ -71,7 +71,8 @@ export const FilterRoutineListModal = ({
   const numberRangeInvalidityMap = useNumberRangeInvalidityMap(
     filterNumScheduleDays,
     2,
-    14
+    14,
+    true
   );
 
   return (

@@ -1,20 +1,30 @@
 import { useMemo } from "react";
-import { IsStringInvalidNumber } from "../helpers";
+import { IsStringInvalidInteger, IsStringInvalidNumber } from "../helpers";
 import { NumberRange, NumberRangeInvalidityMap } from "../typings";
 
 export const useNumberRangeInvalidityMap = (
   numberRange: NumberRange,
   minValue?: number,
-  maxValue?: number
+  maxValue?: number,
+  isIntegerOnly?: boolean
 ) => {
   const numberRangeInvalidityMap: NumberRangeInvalidityMap = useMemo(() => {
     let isStartInputInvalid = false;
     let isEndInputInvalid = false;
 
-    if (IsStringInvalidNumber(numberRange.startInput))
+    if (
+      IsStringInvalidNumber(numberRange.startInput) ||
+      (isIntegerOnly && IsStringInvalidInteger(numberRange.startInput))
+    ) {
       isStartInputInvalid = true;
+    }
 
-    if (IsStringInvalidNumber(numberRange.endInput)) isEndInputInvalid = true;
+    if (
+      IsStringInvalidNumber(numberRange.endInput) ||
+      (isIntegerOnly && IsStringInvalidInteger(numberRange.endInput))
+    ) {
+      isEndInputInvalid = true;
+    }
 
     if (!isStartInputInvalid && !isEndInputInvalid) {
       if (numberRange.start > numberRange.end) {
@@ -29,7 +39,7 @@ export const useNumberRangeInvalidityMap = (
       isEndInputInvalid = true;
 
     return { start: isStartInputInvalid, end: isEndInputInvalid };
-  }, [numberRange, minValue, maxValue]);
+  }, [numberRange, minValue, maxValue, isIntegerOnly]);
 
   return numberRangeInvalidityMap;
 };
