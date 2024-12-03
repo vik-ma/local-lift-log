@@ -10,6 +10,7 @@ import { useDisclosure } from "@nextui-org/react";
 import {
   CreateRoutineWorkoutTemplateList,
   DoesListOrSetHaveCommonElement,
+  IsRoutineScheduleTypeFiltered,
 } from "../helpers";
 import { useListFilters } from "./useListFilters";
 import Database from "tauri-plugin-sql-api";
@@ -41,7 +42,8 @@ export const useRoutineList = (
     workoutTemplateMap
   );
 
-  const { filterMap, filterWorkoutTemplates } = listFilters;
+  const { filterMap, filterWorkoutTemplates, filterScheduleTypes } =
+    listFilters;
 
   const filteredRoutines = useMemo(() => {
     if (filterQuery !== "" || filterMap.size > 0) {
@@ -53,19 +55,28 @@ export const useRoutineList = (
             (item.is_schedule_weekly === 1 &&
               "weekly".includes(filterQuery.toLocaleLowerCase())) ||
             (item.is_schedule_weekly === 0 &&
-              (item.num_days_in_schedule
-                .toString()
-                .includes(filterQuery) ||
+              (item.num_days_in_schedule.toString().includes(filterQuery) ||
                 "custom".includes(filterQuery.toLocaleLowerCase())))) &&
           (!filterMap.has("workout-templates") ||
             DoesListOrSetHaveCommonElement(
               filterWorkoutTemplates,
               item.workoutTemplateIdSet
+            )) &&
+          (!filterMap.has("schedule-type") ||
+            IsRoutineScheduleTypeFiltered(
+              item.is_schedule_weekly,
+              filterScheduleTypes
             ))
       );
     }
     return routines;
-  }, [routines, filterQuery, filterMap, filterWorkoutTemplates]);
+  }, [
+    routines,
+    filterQuery,
+    filterMap,
+    filterWorkoutTemplates,
+    filterScheduleTypes,
+  ]);
 
   const getRoutines = useCallback(async () => {
     try {
