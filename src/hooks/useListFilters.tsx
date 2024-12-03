@@ -127,6 +127,13 @@ export const useListFilters = (
       updatedFilterMap.set("workout-templates", filterWorkoutTemplatesString);
     }
 
+    if (filterScheduleTypes.size < 2) {
+      const filterScheduleTypesString = Array.from(filterScheduleTypes)
+        .map((item) => item)
+        .join(", ");
+      updatedFilterMap.set("schedule-type", filterScheduleTypesString);
+    }
+
     setFilterMap(updatedFilterMap);
 
     activeModal.onClose();
@@ -203,7 +210,10 @@ export const useListFilters = (
       setFilterWorkoutTemplates(new Set());
     }
 
-    // TODO: ADD SCHEDULE TYPE
+    if (key === "schedule-type" && filterMap.has("schedule-type")) {
+      updatedFilterMap.delete("schedule-type");
+      setFilterScheduleTypes(new Set(routineScheduleTypes));
+    }
 
     setFilterMap(updatedFilterMap);
   };
@@ -275,7 +285,10 @@ export const useListFilters = (
       "workout-templates",
       `Templates (${filterWorkoutTemplates.size}): `
     );
-    prefixMap.set("schedule-type", `Templates (${filterScheduleTypes.size}): `);
+    prefixMap.set(
+      "schedule-type",
+      `Schedule Type (${filterScheduleTypes.size}): `
+    );
 
     return prefixMap;
   }, [

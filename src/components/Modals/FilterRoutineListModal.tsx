@@ -101,7 +101,7 @@ export const FilterRoutineListModal = ({
                               <span className="text-secondary">
                                 {" "}
                                 ({filterScheduleTypes.size} out of{" "}
-                                {filterScheduleTypes.size})
+                                {routineScheduleTypes.length})
                               </span>
                             )}
                           </>
