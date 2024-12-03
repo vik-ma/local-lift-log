@@ -85,13 +85,20 @@ export const useListFilters = (
     const updatedFilterMap = new Map<ListFilterMapKey, string>();
 
     if (filterDateRange !== null) {
-      const filterDateRangeString = `${ConvertCalendarDateToLocalizedString(
+      const startString = ConvertCalendarDateToLocalizedString(
         filterDateRange.start,
         locale
-      )} - ${ConvertCalendarDateToLocalizedString(
+      );
+
+      const endString = ConvertCalendarDateToLocalizedString(
         filterDateRange.end,
         locale
-      )}`;
+      );
+
+      const filterDateRangeString =
+        startString === endString
+          ? startString
+          : `${startString} - ${endString}`;
 
       updatedFilterMap.set("dates", filterDateRangeString);
     }
@@ -138,7 +145,10 @@ export const useListFilters = (
     }
 
     if (IsNumberRangeValidAndFiltered(filterNumScheduleDays)) {
-      const filterNumScheduleDaysString = `${filterNumScheduleDays.start} - ${filterNumScheduleDays.end}`;
+      const filterNumScheduleDaysString =
+        filterNumScheduleDays.start === filterNumScheduleDays.end
+          ? `${filterNumScheduleDays.start}`
+          : `${filterNumScheduleDays.start} - ${filterNumScheduleDays.end}`;
 
       updatedFilterMap.set("num-schedule-days", filterNumScheduleDaysString);
     }
@@ -307,6 +317,12 @@ export const useListFilters = (
       "schedule-type",
       `Schedule Type (${filterScheduleTypes.size}): `
     );
+    prefixMap.set(
+      "num-schedule-days",
+      `Number Of Days In Schedule (${
+        filterNumScheduleDays.end - filterNumScheduleDays.start + 1
+      }): `
+    );
 
     return prefixMap;
   }, [
@@ -318,6 +334,7 @@ export const useListFilters = (
     filterMeasurements,
     filterWorkoutTemplates,
     filterScheduleTypes,
+    filterNumScheduleDays,
   ]);
 
   const filterRoutinesString = useMemo(() => {
