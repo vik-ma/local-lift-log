@@ -16,7 +16,8 @@ import {
   UseWorkoutTemplateListReturnType,
 } from "../../typings";
 import { useMemo, useState } from "react";
-import { WorkoutTemplateModalList } from "..";
+import { NumberRangeInput, WorkoutTemplateModalList } from "..";
+import { useNumberRangeInvalidityMap } from "../../hooks";
 
 type FilterRoutineListModalProps = {
   useRoutineList: UseRoutineListReturnType;
@@ -46,6 +47,8 @@ export const FilterRoutineListModal = ({
     routineScheduleTypes,
     filterScheduleTypes,
     setFilterScheduleTypes,
+    filterNumScheduleDays,
+    setFilterNumScheduleDays,
   } = listFilters;
 
   const showClearAllButton = useMemo(() => {
@@ -64,6 +67,12 @@ export const FilterRoutineListModal = ({
       setFilterWorkoutTemplates(new Set());
     }
   };
+
+  const numberRangeInvalidityMap = useNumberRangeInvalidityMap(
+    filterNumScheduleDays,
+    2,
+    14
+  );
 
   return (
     <Modal
@@ -123,6 +132,12 @@ export const FilterRoutineListModal = ({
                         ))}
                       </Select>
                     </div>
+                    <NumberRangeInput
+                      numberRange={filterNumScheduleDays}
+                      setNumberRange={setFilterNumScheduleDays}
+                      label="Number Of Days In Schedule (2 - 14)"
+                      numberRangeInvalidityMap={numberRangeInvalidityMap}
+                    />
                     <div className="flex flex-col gap-1">
                       <div className="flex flex-col">
                         <h3 className="font-semibold text-lg px-0.5">
