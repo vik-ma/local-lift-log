@@ -14,7 +14,12 @@ import {
   WorkoutTemplateMap,
 } from "../typings";
 import { CalendarDate, RangeValue } from "@nextui-org/react";
-import { useDefaultNumberRange, useWeekdayMap, useMeasurementTypes } from ".";
+import {
+  useDefaultNumberRange,
+  useWeekdayMap,
+  useMeasurementTypes,
+  useRoutineScheduleTypes,
+} from ".";
 import {
   CalculateNumDaysInCalendarDateRange,
   ConvertCalendarDateToLocalizedString,
@@ -58,6 +63,12 @@ export const useListFilters = (
     useState<NumberRange>(defaultNumberRange);
 
   const [filterWeightUnit, setFilterWeightUnit] = useState<string>("kg");
+
+  const routineScheduleTypes = useRoutineScheduleTypes();
+
+  const [filterScheduleTypes, setFilterScheduleTypes] = useState<Set<string>>(
+    new Set(routineScheduleTypes)
+  );
 
   const measurementTypes = useMeasurementTypes();
 
@@ -192,6 +203,8 @@ export const useListFilters = (
       setFilterWorkoutTemplates(new Set());
     }
 
+    // TODO: ADD SCHEDULE TYPE
+
     setFilterMap(updatedFilterMap);
   };
 
@@ -206,6 +219,7 @@ export const useListFilters = (
     setFilterMeasurements(new Set());
     setFilterMeasurementTypes([...measurementTypes]);
     setFilterWorkoutTemplates(new Set());
+    setFilterScheduleTypes(new Set(routineScheduleTypes));
   };
 
   const showResetFilterButton = useMemo(() => {
@@ -220,6 +234,7 @@ export const useListFilters = (
     if (filterMeasurements.size > 0) return true;
     if (filterMeasurementTypes.length < 2) return true;
     if (filterWorkoutTemplates.size > 0) return true;
+    if (filterScheduleTypes.size < 2) return true;
 
     return false;
   }, [
@@ -233,6 +248,7 @@ export const useListFilters = (
     filterMeasurements,
     filterMeasurementTypes,
     filterWorkoutTemplates,
+    filterScheduleTypes,
   ]);
 
   const prefixMap = useMemo(() => {
@@ -259,6 +275,7 @@ export const useListFilters = (
       "workout-templates",
       `Templates (${filterWorkoutTemplates.size}): `
     );
+    prefixMap.set("schedule-type", `Templates (${filterScheduleTypes.size}): `);
 
     return prefixMap;
   }, [
@@ -269,6 +286,7 @@ export const useListFilters = (
     filterExerciseGroups,
     filterMeasurements,
     filterWorkoutTemplates,
+    filterScheduleTypes,
   ]);
 
   const filterRoutinesString = useMemo(() => {
@@ -438,5 +456,8 @@ export const useListFilters = (
     handleClickExercise,
     handleClickMeasurement,
     handleClickWorkoutTemplate,
+    routineScheduleTypes,
+    filterScheduleTypes,
+    setFilterScheduleTypes,
   };
 };
