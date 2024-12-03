@@ -75,6 +75,9 @@ export const useListFilters = (
   const [filterMeasurementTypes, setFilterMeasurementTypes] =
     useState(measurementTypes);
 
+  const [filterNumScheduleDays, setFilterNumScheduleDays] =
+    useState<NumberRange>(defaultNumberRange);
+
   const handleFilterSaveButton = (
     locale: string,
     activeModal: UseDisclosureReturnType
@@ -132,6 +135,12 @@ export const useListFilters = (
         .map((item) => item)
         .join(", ");
       updatedFilterMap.set("schedule-type", filterScheduleTypesString);
+    }
+
+    if (IsNumberRangeValidAndFiltered(filterNumScheduleDays)) {
+      const filterNumScheduleDaysString = `${filterNumScheduleDays.start} - ${filterNumScheduleDays.end}`;
+
+      updatedFilterMap.set("num-schedule-days", filterNumScheduleDaysString);
     }
 
     setFilterMap(updatedFilterMap);
@@ -215,6 +224,11 @@ export const useListFilters = (
       setFilterScheduleTypes(new Set(routineScheduleTypes));
     }
 
+    if (key === "num-schedule-days" && filterMap.has("num-schedule-days")) {
+      updatedFilterMap.delete("num-schedule-days");
+      setFilterNumScheduleDays(defaultNumberRange);
+    }
+
     setFilterMap(updatedFilterMap);
   };
 
@@ -230,6 +244,7 @@ export const useListFilters = (
     setFilterMeasurementTypes([...measurementTypes]);
     setFilterWorkoutTemplates(new Set());
     setFilterScheduleTypes(new Set(routineScheduleTypes));
+    setFilterNumScheduleDays(defaultNumberRange);
   };
 
   const showResetFilterButton = useMemo(() => {
@@ -245,6 +260,8 @@ export const useListFilters = (
     if (filterMeasurementTypes.length < 2) return true;
     if (filterWorkoutTemplates.size > 0) return true;
     if (filterScheduleTypes.size < 2) return true;
+    if (filterNumScheduleDays.startInput !== "") return true;
+    if (filterNumScheduleDays.endInput !== "") return true;
 
     return false;
   }, [
@@ -259,6 +276,7 @@ export const useListFilters = (
     filterMeasurementTypes,
     filterWorkoutTemplates,
     filterScheduleTypes,
+    filterNumScheduleDays,
   ]);
 
   const prefixMap = useMemo(() => {
@@ -472,5 +490,7 @@ export const useListFilters = (
     routineScheduleTypes,
     filterScheduleTypes,
     setFilterScheduleTypes,
+    filterNumScheduleDays,
+    setFilterNumScheduleDays,
   };
 };

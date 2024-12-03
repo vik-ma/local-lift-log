@@ -530,6 +530,8 @@ export type UseListFiltersReturnType = {
   routineScheduleTypes: string[];
   filterScheduleTypes: Set<string>;
   setFilterScheduleTypes: React.Dispatch<React.SetStateAction<Set<string>>>;
+  filterNumScheduleDays: NumberRange;
+  setFilterNumScheduleDays: React.Dispatch<React.SetStateAction<NumberRange>>;
 };
 
 export type ListFilterMapKey =
@@ -542,7 +544,8 @@ export type ListFilterMapKey =
   | "measurements"
   | "measurement-types"
   | "workout-templates"
-  | "schedule-type";
+  | "schedule-type"
+  | "num-schedule-days";
 
 export type UseWorkoutTemplateListReturnType = {
   workoutTemplatesModal: UseDisclosureReturnType;
