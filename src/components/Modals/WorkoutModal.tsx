@@ -7,11 +7,14 @@ import {
   ModalFooter,
   Input,
   ScrollShadow,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
 } from "@nextui-org/react";
 import { UseDisclosureReturnType, Workout } from "../../typings";
 import { ConvertEmptyStringToNull } from "../../helpers";
 import { useState } from "react";
-import { ChevronIcon } from "../../assets";
+import { ChevronIcon, InfoIcon } from "../../assets";
 import { AnimatePresence, motion } from "framer-motion";
 import { WorkoutRatingSliders } from "../../components";
 
@@ -132,8 +135,27 @@ export const WorkoutModal = ({
                   </div>
                   {handleChangeWorkoutTemplateButton !== undefined &&
                     handleRemoveWorkoutTemplateButton !== undefined && (
-                      <div className="flex flex-col gap-0.5 px-0.5">
-                        <span className="font-medium">Workout Template</span>
+                      <div className="flex flex-col px-0.5">
+                        <div className="flex items-center gap-0.5">
+                          <span className="font-medium">Workout Template</span>
+                          <Popover placement="top" offset={4} showArrow>
+                            <PopoverTrigger>
+                              <Button size="sm" variant="light" isIconOnly>
+                                <InfoIcon size={19} />
+                              </Button>
+                            </PopoverTrigger>
+                            <PopoverContent>
+                              <div className="px-1 py-2 max-w-[330px]">
+                                <div className="text-tiny">
+                                  Changing the Workout Template here does not
+                                  add or remove Sets from the Workout. It only
+                                  affects how the Workout get categorized for
+                                  Search and Analytics.
+                                </div>
+                              </div>
+                            </PopoverContent>
+                          </Popover>
+                        </div>
                         <div className="flex justify-between items-center">
                           {workout.workoutTemplate !== undefined ? (
                             <>
