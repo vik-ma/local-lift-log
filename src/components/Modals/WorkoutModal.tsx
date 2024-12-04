@@ -73,15 +73,15 @@ export const WorkoutModal = ({
                       </span>
                     </div>
                   )}
-                  {workout.workoutTemplateName &&
-                    handleChangeWorkoutTemplateButton && (
+                  {workout.workoutTemplate !== undefined &&
+                    handleChangeWorkoutTemplateButton !== undefined && (
                       <div className="flex flex-col gap-0.5 px-0.5">
                         <span className="font-medium text-secondary">
                           Workout Template
                         </span>
                         <div className="flex gap-2 items-center">
                           <span className="w-[19rem] break-all text-sm text-stone-500">
-                            {workout.workoutTemplateName}
+                            {workout.workoutTemplate.name}
                           </span>
                           <Button
                             variant="flat"

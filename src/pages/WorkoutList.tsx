@@ -266,7 +266,7 @@ export default function WorkoutList() {
     const updatedOperatingWorkout: Workout = {
       ...operatingWorkout,
       workout_template_id: workoutTemplate.id,
-      workoutTemplateName: workoutTemplate.name,
+      workoutTemplate: workoutTemplate,
     };
 
     setOperatingWorkout(updatedOperatingWorkout);
