@@ -23,3 +23,4 @@ export { WeightPlatesIcon } from "./WeightPlatesIcon";
 export { CalculateIcon } from "./CalculateIcon";
 export { GoToArrowIcon } from "./GoToArrowIcon";
 export { RatingIcon } from "./RatingIcon";
+export { InfoIcon } from "./InfoIcon";
