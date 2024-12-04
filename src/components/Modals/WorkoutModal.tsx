@@ -30,8 +30,10 @@ type WorkoutModalProps = {
   header?: string;
   handleChangeWorkoutTemplateButton?: () => void;
   handleRemoveWorkoutTemplateButton?: () => void;
+  handleReassignWorkoutTemplateButton?: () => void;
   handleChangeRoutineButton?: () => void;
   handleRemoveRoutineButton?: () => void;
+  handleReassignRoutineButton?: () => void;
 };
 
 export const WorkoutModal = ({
@@ -46,8 +48,10 @@ export const WorkoutModal = ({
   header = "Workout Details",
   handleChangeWorkoutTemplateButton,
   handleRemoveWorkoutTemplateButton,
+  handleReassignWorkoutTemplateButton,
   handleChangeRoutineButton,
   handleRemoveRoutineButton,
+  handleReassignRoutineButton,
 }: WorkoutModalProps) => {
   const [isRatingAccordionExpanded, setIsRatingAccordionExpanded] =
     useState<boolean>(true);
@@ -187,6 +191,22 @@ export const WorkoutModal = ({
                                   </Button>
                                 </div>
                               </>
+                            ) : workout.hasInvalidWorkoutTemplate &&
+                              handleReassignWorkoutTemplateButton !==
+                                undefined ? (
+                              <>
+                                <span className="text-red-700 text-sm">
+                                  Unknown Workout Template
+                                </span>
+                                <Button
+                                  variant="flat"
+                                  size="sm"
+                                  color="secondary"
+                                  onPress={handleReassignWorkoutTemplateButton}
+                                >
+                                  Reassign
+                                </Button>
+                              </>
                             ) : (
                               <>
                                 <span className="text-stone-400 text-sm">
@@ -250,6 +270,21 @@ export const WorkoutModal = ({
                                     Remove
                                   </Button>
                                 </div>
+                              </>
+                            ) : workout.hasInvalidRoutine &&
+                              handleReassignRoutineButton !== undefined ? (
+                              <>
+                                <span className="text-red-700 text-sm">
+                                  Unknown Routine
+                                </span>
+                                <Button
+                                  variant="flat"
+                                  size="sm"
+                                  color="secondary"
+                                  onPress={handleReassignRoutineButton}
+                                >
+                                  Reassign
+                                </Button>
                               </>
                             ) : (
                               <>

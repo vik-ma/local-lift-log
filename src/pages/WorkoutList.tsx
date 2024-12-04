@@ -246,6 +246,7 @@ export default function WorkoutList() {
           ? {
               ...item,
               workout_template_id: workoutTemplate.id,
+              workoutTemplate: workoutTemplate,
               hasInvalidWorkoutTemplate: false,
             }
           : item
@@ -258,17 +259,25 @@ export default function WorkoutList() {
       console.log(error);
     }
 
-    resetOperatingWorkout();
+    if (workoutModal.isOpen) {
+      // If reassigning from Edit Workout Modal
+      changeWorkoutTemplate(workoutTemplate);
+      setOperationType("edit");
+    } else {
+      resetOperatingWorkout();
+    }
+
     workoutTemplateList.workoutTemplatesModal.onClose();
   };
 
   const changeWorkoutTemplate = (workoutTemplate: WorkoutTemplate) => {
-    if (operatingWorkout.id === 0 || operationType !== "edit") return;
+    if (operatingWorkout.id === 0) return;
 
     const updatedOperatingWorkout: Workout = {
       ...operatingWorkout,
       workout_template_id: workoutTemplate.id,
       workoutTemplate: workoutTemplate,
+      hasInvalidWorkoutTemplate: false,
     };
 
     setOperatingWorkout(updatedOperatingWorkout);
@@ -283,9 +292,15 @@ export default function WorkoutList() {
       ...operatingWorkout,
       workout_template_id: 0,
       workoutTemplate: undefined,
+      hasInvalidWorkoutTemplate: false,
     };
 
     setOperatingWorkout(updatedOperatingWorkout);
+  };
+
+  const handleReassignWorkoutTemplateButton = () => {
+    setOperationType("reassign-workout-template");
+    workoutTemplateList.handleOpenWorkoutTemplatesModal();
   };
 
   const reassignRoutine = async (routine: Routine) => {
@@ -318,17 +333,25 @@ export default function WorkoutList() {
       console.log(error);
     }
 
-    resetOperatingWorkout();
+    if (workoutModal.isOpen) {
+      // If reassigning from Edit Workout Modal
+      changeRoutine(routine);
+      setOperationType("edit");
+    } else {
+      resetOperatingWorkout();
+    }
+
     routineList.routineListModal.onClose();
   };
 
   const changeRoutine = (routine: Routine) => {
-    if (operatingWorkout.id === 0 || operationType !== "edit") return;
+    if (operatingWorkout.id === 0) return;
 
     const updatedOperatingWorkout: Workout = {
       ...operatingWorkout,
       routine_id: routine.id,
       routine: routine,
+      hasInvalidRoutine: false,
     };
 
     setOperatingWorkout(updatedOperatingWorkout);
@@ -343,9 +366,15 @@ export default function WorkoutList() {
       ...operatingWorkout,
       routine_id: 0,
       routine: undefined,
+      hasInvalidRoutine: false,
     };
 
     setOperatingWorkout(updatedOperatingWorkout);
+  };
+
+  const handleReassignRoutineButton = () => {
+    setOperationType("reassign-routine");
+    routineList.handleOpenRoutineListModal();
   };
 
   const listItemTextWidth = selectedWorkoutProperties.has("details")
@@ -396,8 +425,12 @@ export default function WorkoutList() {
           workoutTemplateList.handleOpenWorkoutTemplatesModal
         }
         handleRemoveWorkoutTemplateButton={removeWorkoutTemplate}
+        handleReassignWorkoutTemplateButton={
+          handleReassignWorkoutTemplateButton
+        }
         handleChangeRoutineButton={routineList.handleOpenRoutineListModal}
         handleRemoveRoutineButton={removeRoutine}
+        handleReassignRoutineButton={handleReassignRoutineButton}
       />
       <WorkoutTemplateListModal
         useWorkoutTemplateList={workoutTemplateList}
