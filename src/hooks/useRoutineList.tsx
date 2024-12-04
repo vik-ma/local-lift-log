@@ -134,14 +134,6 @@ export const useRoutineList = (
     }
   }, [getRoutinesOnLoad, getRoutines]);
 
-  const handleOpenRoutineListModal = useCallback(() => {
-    if (!isRoutineListLoaded.current) {
-      getRoutines();
-    }
-
-    routineListModal.onOpen();
-  }, [routineListModal, getRoutines]);
-
   const sortRoutinesByName = (routineList: Routine[]) => {
     routineList.sort((a, b) => {
       return a.name.localeCompare(b.name);
@@ -215,7 +207,7 @@ export const useRoutineList = (
     }
   };
 
-  const handleOpenFilterButton = async () => {
+  const loadRoutineList = async () => {
     const tasks = [];
 
     if (!isRoutineListLoaded.current) {
@@ -229,6 +221,16 @@ export const useRoutineList = (
     if (tasks.length > 0) {
       await Promise.all(tasks);
     }
+  };
+
+  const handleOpenRoutineListModal = async () => {
+    await loadRoutineList();
+
+    routineListModal.onOpen();
+  };
+
+  const handleOpenFilterButton = async () => {
+    await loadRoutineList();
 
     filterRoutineListModal.onOpen();
   };

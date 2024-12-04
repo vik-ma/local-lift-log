@@ -40,7 +40,8 @@ type OperationType =
   | "edit"
   | "delete"
   | "delete-empty-workouts"
-  | "reassign-workout-template";
+  | "reassign-workout-template"
+  | "reassign-routine";
 
 export default function WorkoutList() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -157,6 +158,7 @@ export default function WorkoutList() {
       setOperatingWorkout(workout);
       workoutTemplateList.handleOpenWorkoutTemplatesModal();
     } else if (key === "reassign-routine") {
+      setOperationType("reassign-routine");
       setOperatingWorkout(workout);
       routineList.handleOpenRoutineListModal();
     }
@@ -261,7 +263,7 @@ export default function WorkoutList() {
   };
 
   const changeWorkoutTemplate = (workoutTemplate: WorkoutTemplate) => {
-    if (operatingWorkout.id === 0) return;
+    if (operatingWorkout.id === 0 || operationType !== "edit") return;
 
     const updatedOperatingWorkout: Workout = {
       ...operatingWorkout,
@@ -317,6 +319,20 @@ export default function WorkoutList() {
     }
 
     resetOperatingWorkout();
+    routineList.routineListModal.onClose();
+  };
+
+  const changeRoutine = (routine: Routine) => {
+    if (operatingWorkout.id === 0 || operationType !== "edit") return;
+
+    const updatedOperatingWorkout: Workout = {
+      ...operatingWorkout,
+      routine_id: routine.id,
+      routine: routine,
+    };
+
+    setOperatingWorkout(updatedOperatingWorkout);
+
     routineList.routineListModal.onClose();
   };
 
@@ -380,8 +396,7 @@ export default function WorkoutList() {
           workoutTemplateList.handleOpenWorkoutTemplatesModal
         }
         handleRemoveWorkoutTemplateButton={removeWorkoutTemplate}
-        // TODO: ADD
-        handleChangeRoutineButton={() => {}}
+        handleChangeRoutineButton={routineList.handleOpenRoutineListModal}
         handleRemoveRoutineButton={removeRoutine}
       />
       <WorkoutTemplateListModal
@@ -402,7 +417,9 @@ export default function WorkoutList() {
       <RoutineListModal
         routineList={routineList}
         activeRoutineId={userSettings.active_routine_id}
-        onClickAction={reassignRoutine}
+        onClickAction={
+          operationType === "reassign-routine" ? reassignRoutine : changeRoutine
+        }
       />
       <FilterWorkoutListModal
         useWorkoutList={workoutList}
