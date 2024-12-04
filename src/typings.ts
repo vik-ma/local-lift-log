@@ -269,7 +269,7 @@ export type Workout = {
   numSets?: number;
   numExercises?: number;
   formattedDate?: string;
-  workoutTemplateName?: string | null;
+  workoutTemplate?: WorkoutTemplate;
   hasInvalidWorkoutTemplate?: boolean;
   routine?: Routine;
   hasInvalidRoutine?: boolean;

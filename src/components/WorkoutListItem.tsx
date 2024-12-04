@@ -38,12 +38,12 @@ export const WorkoutListItem = ({
         <span className={`${listItemTextWidth} truncate`}>
           {workout.formattedDate}
         </span>
-        {workout.workoutTemplateName !== null &&
+        {workout.workoutTemplate !== undefined &&
           selectedWorkoutProperties.has("template") && (
             <span
               className={`${listItemTextWidth} truncate text-xs text-indigo-500`}
             >
-              {workout.workoutTemplateName}
+              {workout.workoutTemplate.name}
             </span>
           )}
         {workout.hasInvalidWorkoutTemplate &&

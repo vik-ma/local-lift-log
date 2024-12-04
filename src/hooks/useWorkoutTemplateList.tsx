@@ -142,7 +142,7 @@ export const useWorkoutTemplateList = (
 
       sortWorkoutTemplatesByName(workoutTemplates);
       setWorkoutTemplateMap(workoutTemplateMap);
-      isWorkoutTemplateListLoaded.current = false;
+      isWorkoutTemplateListLoaded.current = true;
     } catch (error) {
       console.log(error);
     }

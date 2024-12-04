@@ -35,7 +35,7 @@ export const useWorkoutList = (
   } = useExerciseList;
 
   const workoutTemplateList = useWorkoutTemplateList(
-    false,
+    getWorkoutsOnLoad,
     useExerciseList,
     true
   );
@@ -46,7 +46,7 @@ export const useWorkoutList = (
     workoutTemplateMap,
   } = workoutTemplateList;
 
-  const routineList = useRoutineList(true, workoutTemplateList);
+  const routineList = useRoutineList(getWorkoutsOnLoad, workoutTemplateList);
 
   const { routineMap, isRoutineListLoaded, getRoutines } = routineList;
 
@@ -82,8 +82,8 @@ export const useWorkoutList = (
             item.note
               ?.toLocaleLowerCase()
               .includes(filterQuery.toLocaleLowerCase()) ||
-            item.workoutTemplateName
-              ?.toLocaleLowerCase()
+            item.workoutTemplate?.name
+              .toLocaleLowerCase()
               .includes(filterQuery.toLocaleLowerCase()) ||
             item.routine?.name
               .toLocaleLowerCase()
@@ -128,7 +128,8 @@ export const useWorkoutList = (
   ]);
 
   const getWorkouts = useCallback(async () => {
-    if (!isRoutineListLoaded.current) return;
+    if (!isRoutineListLoaded.current || !isWorkoutTemplateListLoaded.current)
+      return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
@@ -137,8 +138,7 @@ export const useWorkoutList = (
       // Also get name of Workout Template from workout_template_id
       const resultWorkouts = await db.select<Workout[]>(
         `SELECT 
-          workouts.*, 
-          workout_templates.name AS workoutTemplateName,
+          workouts.*,
           json_group_array(
             json_object(
               'id', COALESCE(exercises.id, distinct_sets.exercise_id),
@@ -156,8 +156,6 @@ export const useWorkoutList = (
             ON workouts.id = distinct_sets.workout_id
           LEFT JOIN 
             exercises ON distinct_sets.exercise_id = exercises.id
-          LEFT JOIN 
-            workout_templates ON workouts.workout_template_id = workout_templates.id
           GROUP BY 
             workouts.id;`
       );
@@ -195,9 +193,10 @@ export const useWorkoutList = (
           routine_id: row.routine_id,
           numSets: row.numSets,
           formattedDate: formattedDate,
-          workoutTemplateName: row.workoutTemplateName,
+          workoutTemplate: workoutTemplateMap.get(row.workout_template_id),
           hasInvalidWorkoutTemplate:
-            row.workout_template_id > 0 && row.workoutTemplateName === null,
+            row.workout_template_id !== 0 &&
+            !workoutTemplateMap.has(row.workout_template_id),
           routine: routineMap.get(row.routine_id),
           hasInvalidRoutine:
             row.routine_id !== 0 && !routineMap.has(row.routine_id),
@@ -221,6 +220,8 @@ export const useWorkoutList = (
     routineMap,
     isRoutineListLoaded,
     exerciseGroupDictionary,
+    isWorkoutTemplateListLoaded,
+    workoutTemplateMap,
   ]);
 
   useEffect(() => {
