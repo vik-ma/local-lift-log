@@ -222,6 +222,11 @@ export const FilterRoutineListModal = ({
                           )
                       : () => setModalPage("base")
                   }
+                  isDisabled={
+                    modalPage === "base" &&
+                    (numberRangeInvalidityMap.start ||
+                      numberRangeInvalidityMap.end)
+                  }
                 >
                   {modalPage === "base" ? "Filter" : "Done"}
                 </Button>
