@@ -73,26 +73,6 @@ export const WorkoutModal = ({
                       </span>
                     </div>
                   )}
-                  {workout.workoutTemplate !== undefined &&
-                    handleChangeWorkoutTemplateButton !== undefined && (
-                      <div className="flex flex-col gap-0.5 px-0.5">
-                        <span className="font-medium text-secondary">
-                          Workout Template
-                        </span>
-                        <div className="flex gap-2 items-center">
-                          <span className="w-[19rem] break-all text-sm text-stone-500">
-                            {workout.workoutTemplate.name}
-                          </span>
-                          <Button
-                            variant="flat"
-                            size="sm"
-                            onPress={handleChangeWorkoutTemplateButton}
-                          >
-                            Change
-                          </Button>
-                        </div>
-                      </div>
-                    )}
                   <div className="flex flex-col gap-1">
                     <span className="font-medium px-0.5">Workout Note</span>
                     <Input
@@ -109,7 +89,7 @@ export const WorkoutModal = ({
                     className="flex flex-col select-none cursor-pointer px-0.5"
                   >
                     <div
-                      className="flex relative cursor-pointer w-[23.75rem]"
+                      className="flex relative cursor-pointer w-[23.75rem] pb-0.5"
                       onClick={() =>
                         setIsRatingAccordionExpanded(!isRatingAccordionExpanded)
                       }
@@ -148,6 +128,34 @@ export const WorkoutModal = ({
                       )}
                     </AnimatePresence>
                   </div>
+                  {handleChangeWorkoutTemplateButton !== undefined && (
+                    <div className="flex flex-col gap-0.5 px-0.5">
+                      <span className="font-medium">Workout Template</span>
+                      <div className="flex justify-between items-center">
+                        {workout.workoutTemplate !== undefined ? (
+                          <>
+                            <span className="w-[19rem] break-all text-sm text-secondary">
+                              {workout.workoutTemplate.name}
+                            </span>
+                            <Button
+                              variant="flat"
+                              size="sm"
+                              onPress={handleChangeWorkoutTemplateButton}
+                            >
+                              Change
+                            </Button>
+                          </>
+                        ) : (
+                          <>
+                            <span className="text-stone-400 text-sm">
+                              No Workout Template
+                            </span>
+                            {/* TODO: ADD ADD BUTTON */}
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </ScrollShadow>
             </ModalBody>
