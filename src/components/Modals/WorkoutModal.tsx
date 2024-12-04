@@ -130,44 +130,51 @@ export const WorkoutModal = ({
                       )}
                     </AnimatePresence>
                   </div>
-                  {handleChangeWorkoutTemplateButton !== undefined && (
-                    <div className="flex flex-col gap-0.5 px-0.5">
-                      <span className="font-medium">Workout Template</span>
-                      <div className="flex justify-between items-center">
-                        {workout.workoutTemplate !== undefined ? (
-                          <>
-                            <span className="w-[14rem] break-all text-sm text-secondary">
-                              {workout.workoutTemplate.name}
-                            </span>
-                            <div className="flex gap-1">
+                  {handleChangeWorkoutTemplateButton !== undefined &&
+                    handleRemoveWorkoutTemplateButton !== undefined && (
+                      <div className="flex flex-col gap-0.5 px-0.5">
+                        <span className="font-medium">Workout Template</span>
+                        <div className="flex justify-between items-center">
+                          {workout.workoutTemplate !== undefined ? (
+                            <>
+                              <span className="w-[14rem] break-all text-sm text-secondary">
+                                {workout.workoutTemplate.name}
+                              </span>
+                              <div className="flex gap-1">
+                                <Button
+                                  variant="flat"
+                                  size="sm"
+                                  onPress={handleChangeWorkoutTemplateButton}
+                                >
+                                  Change
+                                </Button>
+                                <Button
+                                  variant="flat"
+                                  size="sm"
+                                  color="danger"
+                                  onPress={handleRemoveWorkoutTemplateButton}
+                                >
+                                  Remove
+                                </Button>
+                              </div>
+                            </>
+                          ) : (
+                            <>
+                              <span className="text-stone-400 text-sm">
+                                No Workout Template
+                              </span>
                               <Button
                                 variant="flat"
                                 size="sm"
                                 onPress={handleChangeWorkoutTemplateButton}
                               >
-                                Change
+                                Add
                               </Button>
-                              <Button
-                                variant="flat"
-                                size="sm"
-                                color="danger"
-                                onPress={handleRemoveWorkoutTemplateButton}
-                              >
-                                Remove
-                              </Button>
-                            </div>
-                          </>
-                        ) : (
-                          <>
-                            <span className="text-stone-400 text-sm">
-                              No Workout Template
-                            </span>
-                            {/* TODO: ADD ADD BUTTON */}
-                          </>
-                        )}
+                            </>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
                 </div>
               </ScrollShadow>
             </ModalBody>
