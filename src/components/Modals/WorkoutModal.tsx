@@ -26,6 +26,7 @@ type WorkoutModalProps = {
   buttonAction: (updatedWorkout: Workout) => void;
   header?: string;
   handleChangeWorkoutTemplateButton?: () => void;
+  handleRemoveWorkoutTemplateButton?: () => void;
 };
 
 export const WorkoutModal = ({
@@ -39,6 +40,7 @@ export const WorkoutModal = ({
   buttonAction,
   header = "Workout Details",
   handleChangeWorkoutTemplateButton,
+  handleRemoveWorkoutTemplateButton,
 }: WorkoutModalProps) => {
   const [isRatingAccordionExpanded, setIsRatingAccordionExpanded] =
     useState<boolean>(true);
@@ -134,16 +136,26 @@ export const WorkoutModal = ({
                       <div className="flex justify-between items-center">
                         {workout.workoutTemplate !== undefined ? (
                           <>
-                            <span className="w-[19rem] break-all text-sm text-secondary">
+                            <span className="w-[14rem] break-all text-sm text-secondary">
                               {workout.workoutTemplate.name}
                             </span>
-                            <Button
-                              variant="flat"
-                              size="sm"
-                              onPress={handleChangeWorkoutTemplateButton}
-                            >
-                              Change
-                            </Button>
+                            <div className="flex gap-1">
+                              <Button
+                                variant="flat"
+                                size="sm"
+                                onPress={handleChangeWorkoutTemplateButton}
+                              >
+                                Change
+                              </Button>
+                              <Button
+                                variant="flat"
+                                size="sm"
+                                color="danger"
+                                onPress={handleRemoveWorkoutTemplateButton}
+                              >
+                                Remove
+                              </Button>
+                            </div>
                           </>
                         ) : (
                           <>

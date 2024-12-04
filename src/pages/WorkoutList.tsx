@@ -260,7 +260,7 @@ export default function WorkoutList() {
     workoutTemplateList.workoutTemplatesModal.onClose();
   };
 
-  const changeWorkoutTemplate = async (workoutTemplate: WorkoutTemplate) => {
+  const changeWorkoutTemplate = (workoutTemplate: WorkoutTemplate) => {
     if (operatingWorkout.id === 0) return;
 
     const updatedOperatingWorkout: Workout = {
@@ -272,6 +272,18 @@ export default function WorkoutList() {
     setOperatingWorkout(updatedOperatingWorkout);
 
     workoutTemplateList.workoutTemplatesModal.onClose();
+  };
+
+  const removeWorkoutTemplate = () => {
+    if (operatingWorkout.id === 0) return;
+
+    const updatedOperatingWorkout: Workout = {
+      ...operatingWorkout,
+      workout_template_id: 0,
+      workoutTemplate: undefined,
+    };
+
+    setOperatingWorkout(updatedOperatingWorkout);
   };
 
   const reassignRoutine = async (routine: Routine) => {
@@ -355,6 +367,7 @@ export default function WorkoutList() {
         handleChangeWorkoutTemplateButton={
           workoutTemplateList.handleOpenWorkoutTemplatesModal
         }
+        handleRemoveWorkoutTemplateButton={removeWorkoutTemplate}
       />
       <WorkoutTemplateListModal
         useWorkoutTemplateList={workoutTemplateList}
