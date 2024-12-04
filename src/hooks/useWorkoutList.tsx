@@ -46,7 +46,7 @@ export const useWorkoutList = (
     workoutTemplateMap,
   } = workoutTemplateList;
 
-  const routineList = useRoutineList(false, workoutTemplateList);
+  const routineList = useRoutineList(true, workoutTemplateList);
 
   const { routineMap, isRoutineListLoaded, getRoutines } = routineList;
 
