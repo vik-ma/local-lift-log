@@ -30,6 +30,8 @@ type WorkoutModalProps = {
   header?: string;
   handleChangeWorkoutTemplateButton?: () => void;
   handleRemoveWorkoutTemplateButton?: () => void;
+  handleChangeRoutineButton?: () => void;
+  handleRemoveRoutineButton?: () => void;
 };
 
 export const WorkoutModal = ({
@@ -44,6 +46,8 @@ export const WorkoutModal = ({
   header = "Workout Details",
   handleChangeWorkoutTemplateButton,
   handleRemoveWorkoutTemplateButton,
+  handleChangeRoutineButton,
+  handleRemoveRoutineButton,
 }: WorkoutModalProps) => {
   const [isRatingAccordionExpanded, setIsRatingAccordionExpanded] =
     useState<boolean>(true);
@@ -133,70 +137,138 @@ export const WorkoutModal = ({
                       )}
                     </AnimatePresence>
                   </div>
-                  {handleChangeWorkoutTemplateButton !== undefined &&
-                    handleRemoveWorkoutTemplateButton !== undefined && (
-                      <div className="flex flex-col px-0.5">
-                        <div className="flex items-center gap-0.5">
-                          <span className="font-medium">Workout Template</span>
-                          <Popover placement="top" offset={4} showArrow>
-                            <PopoverTrigger>
-                              <Button size="sm" variant="light" isIconOnly>
-                                <InfoIcon size={19} />
-                              </Button>
-                            </PopoverTrigger>
-                            <PopoverContent>
-                              <div className="px-1 py-2 max-w-[330px]">
-                                <div className="text-tiny">
-                                  Changing the Workout Template here does not
-                                  add or remove Sets from the Workout. It only
-                                  affects how the Workout get categorized for
-                                  Search and Analytics.
+                  <div className="flex flex-col gap-1">
+                    {handleChangeWorkoutTemplateButton !== undefined &&
+                      handleRemoveWorkoutTemplateButton !== undefined && (
+                        <div className="flex flex-col px-0.5">
+                          <div className="flex items-center gap-0.5">
+                            <span className="font-medium">
+                              Workout Template
+                            </span>
+                            <Popover placement="top" offset={4} showArrow>
+                              <PopoverTrigger>
+                                <Button size="sm" variant="light" isIconOnly>
+                                  <InfoIcon size={19} />
+                                </Button>
+                              </PopoverTrigger>
+                              <PopoverContent>
+                                <div className="px-1 py-2 max-w-[330px]">
+                                  <div className="text-tiny">
+                                    Changing the Workout Template here does not
+                                    add or remove Sets from the Workout. It only
+                                    affects how the Workout get categorized for
+                                    Search and Analytics.
+                                  </div>
                                 </div>
-                              </div>
-                            </PopoverContent>
-                          </Popover>
-                        </div>
-                        <div className="flex justify-between items-center">
-                          {workout.workoutTemplate !== undefined ? (
-                            <>
-                              <span className="w-[14rem] break-all text-sm text-secondary">
-                                {workout.workoutTemplate.name}
-                              </span>
-                              <div className="flex gap-1">
+                              </PopoverContent>
+                            </Popover>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            {workout.workoutTemplate !== undefined ? (
+                              <>
+                                <span className="w-[14rem] break-all text-sm text-secondary">
+                                  {workout.workoutTemplate.name}
+                                </span>
+                                <div className="flex gap-1">
+                                  <Button
+                                    variant="flat"
+                                    size="sm"
+                                    onPress={handleChangeWorkoutTemplateButton}
+                                  >
+                                    Change
+                                  </Button>
+                                  <Button
+                                    variant="flat"
+                                    size="sm"
+                                    color="danger"
+                                    onPress={handleRemoveWorkoutTemplateButton}
+                                  >
+                                    Remove
+                                  </Button>
+                                </div>
+                              </>
+                            ) : (
+                              <>
+                                <span className="text-stone-400 text-sm">
+                                  No Workout Template
+                                </span>
                                 <Button
                                   variant="flat"
                                   size="sm"
                                   onPress={handleChangeWorkoutTemplateButton}
                                 >
-                                  Change
+                                  Add
                                 </Button>
+                              </>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    {handleChangeRoutineButton !== undefined &&
+                      handleRemoveRoutineButton !== undefined && (
+                        <div className="flex flex-col px-0.5">
+                          <div className="flex items-center gap-0.5">
+                            <span className="font-medium">Routine</span>
+                            <Popover placement="top" offset={4} showArrow>
+                              <PopoverTrigger>
+                                <Button size="sm" variant="light" isIconOnly>
+                                  <InfoIcon size={19} />
+                                </Button>
+                              </PopoverTrigger>
+                              <PopoverContent>
+                                <div className="px-1 py-2 max-w-[330px]">
+                                  <div className="text-tiny">
+                                    Changing the Routine here does not modify
+                                    any existing Routines. It only affects how
+                                    the Workout get categorized for Search and
+                                    Analytics.
+                                  </div>
+                                </div>
+                              </PopoverContent>
+                            </Popover>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            {workout.routine !== undefined ? (
+                              <>
+                                <span className="w-[14rem] break-all text-sm text-secondary">
+                                  {workout.routine.name}
+                                </span>
+                                <div className="flex gap-1">
+                                  <Button
+                                    variant="flat"
+                                    size="sm"
+                                    onPress={handleChangeRoutineButton}
+                                  >
+                                    Change
+                                  </Button>
+                                  <Button
+                                    variant="flat"
+                                    size="sm"
+                                    color="danger"
+                                    onPress={handleRemoveRoutineButton}
+                                  >
+                                    Remove
+                                  </Button>
+                                </div>
+                              </>
+                            ) : (
+                              <>
+                                <span className="text-stone-400 text-sm">
+                                  No Routine
+                                </span>
                                 <Button
                                   variant="flat"
                                   size="sm"
-                                  color="danger"
-                                  onPress={handleRemoveWorkoutTemplateButton}
+                                  onPress={handleChangeRoutineButton}
                                 >
-                                  Remove
+                                  Add
                                 </Button>
-                              </div>
-                            </>
-                          ) : (
-                            <>
-                              <span className="text-stone-400 text-sm">
-                                No Workout Template
-                              </span>
-                              <Button
-                                variant="flat"
-                                size="sm"
-                                onPress={handleChangeWorkoutTemplateButton}
-                              >
-                                Add
-                              </Button>
-                            </>
-                          )}
+                              </>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    )}
+                      )}
+                  </div>
                 </div>
               </ScrollShadow>
             </ModalBody>

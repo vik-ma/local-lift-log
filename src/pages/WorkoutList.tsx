@@ -320,6 +320,18 @@ export default function WorkoutList() {
     routineList.routineListModal.onClose();
   };
 
+  const removeRoutine = () => {
+    if (operatingWorkout.id === 0) return;
+
+    const updatedOperatingWorkout: Workout = {
+      ...operatingWorkout,
+      routine_id: 0,
+      routine: undefined,
+    };
+
+    setOperatingWorkout(updatedOperatingWorkout);
+  };
+
   const listItemTextWidth = selectedWorkoutProperties.has("details")
     ? "w-[18rem]"
     : "w-[21rem]";
@@ -368,6 +380,9 @@ export default function WorkoutList() {
           workoutTemplateList.handleOpenWorkoutTemplatesModal
         }
         handleRemoveWorkoutTemplateButton={removeWorkoutTemplate}
+        // TODO: ADD
+        handleChangeRoutineButton={() => {}}
+        handleRemoveRoutineButton={removeRoutine}
       />
       <WorkoutTemplateListModal
         useWorkoutTemplateList={workoutTemplateList}
