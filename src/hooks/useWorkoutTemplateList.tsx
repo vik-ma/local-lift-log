@@ -25,8 +25,7 @@ export const useWorkoutTemplateList = (
   const [filterQuery, setFilterQuery] = useState<string>("");
   const [sortCategory, setSortCategory] =
     useState<WorkoutTemplateSortCategory>("name");
-  const [workoutTemplateMap, setWorkoutTemplateMap] =
-    useState<WorkoutTemplateMap>(new Map());
+  const workoutTemplateMap = useRef<WorkoutTemplateMap>(new Map());
 
   const isWorkoutTemplateListLoaded = useRef(false);
 
@@ -114,7 +113,7 @@ export const useWorkoutTemplateList = (
       );
 
       const workoutTemplates: WorkoutTemplate[] = [];
-      const workoutTemplateMap: WorkoutTemplateMap = new Map();
+      const newWorkoutTemplateMap: WorkoutTemplateMap = new Map();
 
       for (const row of result) {
         if (ignoreEmptyWorkoutTemplates && row.numSets === 0) continue;
@@ -122,7 +121,7 @@ export const useWorkoutTemplateList = (
         const workoutExerciseSets = CreateWorkoutExerciseSets(
           row.exerciseListString,
           exerciseGroupDictionary,
-          exerciseMap
+          exerciseMap.current
         );
 
         const workoutTemplate: WorkoutTemplate = {
@@ -138,11 +137,11 @@ export const useWorkoutTemplateList = (
         };
 
         workoutTemplates.push(workoutTemplate);
-        workoutTemplateMap.set(workoutTemplate.id, workoutTemplate);
+        newWorkoutTemplateMap.set(workoutTemplate.id, workoutTemplate);
       }
 
       sortWorkoutTemplatesByName(workoutTemplates);
-      setWorkoutTemplateMap(workoutTemplateMap);
+      workoutTemplateMap.current = newWorkoutTemplateMap;
       isWorkoutTemplateListLoaded.current = true;
     } catch (error) {
       console.log(error);

@@ -22,8 +22,8 @@ export const useRoutineList = (
 ): UseRoutineListReturnType => {
   const [routines, setRoutines] = useState<Routine[]>([]);
   const [filterQuery, setFilterQuery] = useState<string>("");
-  const [routineMap, setRoutineMap] = useState<RoutineMap>(new Map());
   const [sortCategory, setSortCategory] = useState<RoutineSortCategory>("name");
+  const routineMap = useRef<RoutineMap>(new Map());
 
   const isRoutineListLoaded = useRef(false);
 
@@ -40,7 +40,7 @@ export const useRoutineList = (
     undefined,
     undefined,
     undefined,
-    workoutTemplateMap
+    workoutTemplateMap.current
   );
 
   const {
@@ -104,7 +104,7 @@ export const useRoutineList = (
       );
 
       const routines: Routine[] = [];
-      const routineMap = new Map<number, Routine>();
+      const newRoutineMap = new Map<number, Routine>();
 
       for (const row of result) {
         const { workoutTemplateIdList, workoutTemplateIdSet } =
@@ -116,12 +116,12 @@ export const useRoutineList = (
           workoutTemplateIdSet,
         };
 
-        routineMap.set(routine.id, routine);
+        newRoutineMap.set(routine.id, routine);
         routines.push(routine);
       }
 
       sortRoutinesByName(routines);
-      setRoutineMap(routineMap);
+      routineMap.current = newRoutineMap;
       isRoutineListLoaded.current = true;
     } catch (error) {
       console.log(error);

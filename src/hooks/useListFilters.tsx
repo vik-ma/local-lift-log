@@ -360,8 +360,8 @@ export const useListFilters = (
     const exerciseNames: string[] = [];
 
     for (const exerciseId of filterExercises) {
-      if (useExerciseList.exerciseMap.has(exerciseId)) {
-        const exercise = useExerciseList.exerciseMap.get(exerciseId);
+      if (useExerciseList.exerciseMap.current.has(exerciseId)) {
+        const exercise = useExerciseList.exerciseMap.current.get(exerciseId);
         exerciseNames.push(exercise!.name);
       }
     }

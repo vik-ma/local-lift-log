@@ -404,7 +404,7 @@ export type UseExerciseListReturnType = {
   includeSecondaryGroups: boolean;
   setIncludeSecondaryGroups: React.Dispatch<React.SetStateAction<boolean>>;
   isExerciseListLoaded: React.MutableRefObject<boolean>;
-  exerciseMap: ExerciseMap;
+  exerciseMap: React.MutableRefObject<ExerciseMap>;
   exerciseGroupDictionary: ExerciseGroupMap;
 };
 
@@ -562,7 +562,7 @@ export type UseWorkoutTemplateListReturnType = {
   filterWorkoutTemplateListModal: UseDisclosureReturnType;
   handleOpenFilterButton: () => void;
   listFilters: UseListFiltersReturnType;
-  workoutTemplateMap: WorkoutTemplateMap;
+  workoutTemplateMap: React.MutableRefObject<WorkoutTemplateMap>;
   isWorkoutTemplateListLoaded: React.MutableRefObject<boolean>;
   getWorkoutTemplates: () => Promise<void>;
 };
@@ -772,7 +772,7 @@ export type UseRoutineListReturnType = {
   setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
   routineListModal: UseDisclosureReturnType;
   handleOpenRoutineListModal: () => void;
-  routineMap: RoutineMap;
+  routineMap: React.MutableRefObject<RoutineMap>;
   isRoutineListLoaded: React.MutableRefObject<boolean>;
   sortCategory: RoutineSortCategory;
   handleSortOptionSelection: (key: string) => void;
@@ -802,7 +802,7 @@ export type UseMeasurementListReturnType = {
   sortMeasurementsByActiveCategory: (measurements: Measurement[]) => void;
   activeMeasurementSet: Set<number>;
   setActiveMeasurementSet: React.Dispatch<React.SetStateAction<Set<number>>>;
-  measurementMap: MeasurementMap;
+  measurementMap: React.MutableRefObject<MeasurementMap>;
   createMeasurement: (newMeasurement: Measurement) => Promise<number>;
   listFilters: UseListFiltersReturnType;
 };

@@ -21,9 +21,7 @@ export const useMeasurementList = (): UseMeasurementListReturnType => {
   const [activeMeasurementSet, setActiveMeasurementSet] = useState<Set<number>>(
     new Set()
   );
-  const [measurementMap, setMeasurementMap] = useState<MeasurementMap>(
-    new Map()
-  );
+  const measurementMap = useRef<MeasurementMap>(new Map());
 
   const isMeasurementListLoaded = useRef(false);
 
@@ -114,11 +112,11 @@ export const useMeasurementList = (): UseMeasurementListReturnType => {
         "SELECT * FROM measurements"
       );
 
-      const measurementMap = new Map<string, Measurement>(
+      const newMeasurementMap = new Map<string, Measurement>(
         result.map((obj) => [obj.id.toString(), obj])
       );
 
-      setMeasurementMap(measurementMap);
+      measurementMap.current = newMeasurementMap;
       sortMeasurementsByActiveFirst(result);
 
       isMeasurementListLoaded.current = true;
@@ -142,12 +140,12 @@ export const useMeasurementList = (): UseMeasurementListReturnType => {
 
     newMeasurement.id = newMeasurementId;
 
-    const updatedMeasurementMap = new Map(measurementMap);
+    const updatedMeasurementMap = new Map(measurementMap.current);
 
     updatedMeasurementMap.set(newMeasurementId.toString(), newMeasurement);
 
     sortMeasurementsByActiveCategory([...measurements, newMeasurement]);
-    setMeasurementMap(updatedMeasurementMap);
+    measurementMap.current = updatedMeasurementMap;
 
     return newMeasurementId;
   };
@@ -175,11 +173,13 @@ export const useMeasurementList = (): UseMeasurementListReturnType => {
 
     sortMeasurementsByActiveCategory(updatedMeasurements);
 
-    const updatedMeasurementMap = new Map<string, Measurement>(measurementMap);
+    const updatedMeasurementMap = new Map<string, Measurement>(
+      measurementMap.current
+    );
 
     updatedMeasurementMap.set(measurement.id.toString(), updatedMeasurement);
 
-    setMeasurementMap(updatedMeasurementMap);
+    measurementMap.current = updatedMeasurementMap;
   };
 
   const handleSortOptionSelection = (key: string) => {

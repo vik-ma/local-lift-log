@@ -9,6 +9,7 @@ import {
   Exercise,
   UseExerciseListReturnType,
   ExerciseSortCategory,
+  ExerciseMap,
 } from "../typings";
 import { useExerciseGroupDictionary, useExerciseGroupList } from ".";
 
@@ -21,9 +22,7 @@ export const useExerciseList = (
     useState<ExerciseSortCategory>("favorite");
   const [includeSecondaryGroups, setIncludeSecondaryGroups] =
     useState<boolean>(false);
-  const [exerciseMap, setExerciseMap] = useState<Map<number, Exercise>>(
-    new Map()
-  );
+  const exerciseMap = useRef<ExerciseMap>(new Map());
 
   const exerciseGroupList = useExerciseGroupList();
   const exerciseGroupDictionary = useExerciseGroupDictionary();
@@ -122,12 +121,12 @@ export const useExerciseList = (
 
     if (exercises === undefined) return;
 
-    const exerciseMap = new Map<number, Exercise>(
+    const newExerciseMap = new Map<number, Exercise>(
       exercises.map((obj) => [obj.id, obj])
     );
 
     sortExercisesByFavoritesFirst(exercises);
-    setExerciseMap(exerciseMap);
+    exerciseMap.current = newExerciseMap;
     isExerciseListLoaded.current = true;
   }, [showTotalNumSets, exerciseGroupDictionary]);
 

@@ -36,7 +36,7 @@ export const useWorkoutList = (
   } = useExerciseList;
 
   const workoutTemplateList = useWorkoutTemplateList(
-    getWorkoutsOnLoad,
+    false,
     useExerciseList,
     true
   );
@@ -47,15 +47,15 @@ export const useWorkoutList = (
     workoutTemplateMap,
   } = workoutTemplateList;
 
-  const routineList = useRoutineList(getWorkoutsOnLoad, workoutTemplateList);
+  const routineList = useRoutineList(false, workoutTemplateList);
 
   const { routineMap, isRoutineListLoaded, getRoutines } = routineList;
 
   const listFilters = useListFilters(
     useExerciseList,
-    routineMap,
+    routineMap.current,
     undefined,
-    workoutTemplateMap
+    workoutTemplateMap.current
   );
 
   const {
@@ -176,7 +176,7 @@ export const useWorkoutList = (
         const workoutExerciseSets = CreateWorkoutExerciseSets(
           row.exerciseListString,
           exerciseGroupDictionary,
-          exerciseMap
+          exerciseMap.current
         );
 
         const workout: Workout = {
@@ -196,13 +196,15 @@ export const useWorkoutList = (
           routine_id: row.routine_id,
           numSets: row.numSets,
           formattedDate: formattedDate,
-          workoutTemplate: workoutTemplateMap.get(row.workout_template_id),
+          workoutTemplate: workoutTemplateMap.current.get(
+            row.workout_template_id
+          ),
           hasInvalidWorkoutTemplate:
             row.workout_template_id !== 0 &&
-            !workoutTemplateMap.has(row.workout_template_id),
-          routine: routineMap.get(row.routine_id),
+            !workoutTemplateMap.current.has(row.workout_template_id),
+          routine: routineMap.current.get(row.routine_id),
           hasInvalidRoutine:
-            row.routine_id !== 0 && !routineMap.has(row.routine_id),
+            row.routine_id !== 0 && !routineMap.current.has(row.routine_id),
           exerciseIdSet: workoutExerciseSets.exerciseIdSet,
           exerciseGroupSetPrimary: workoutExerciseSets.exerciseGroupSetPrimary,
           exerciseGroupSetSecondary:
@@ -287,14 +289,6 @@ export const useWorkoutList = (
     setWorkouts(workoutList);
   };
 
-  const handleOpenWorkoutListModal = useCallback(() => {
-    if (!isWorkoutListLoaded.current) {
-      getWorkouts();
-    }
-
-    workoutListModal.onOpen();
-  }, [workoutListModal, getWorkouts]);
-
   const handleSortOptionSelection = (key: string) => {
     if (key === "date-desc") {
       setSortCategory(key);
@@ -337,6 +331,26 @@ export const useWorkoutList = (
     }
 
     filterWorkoutListModal.onOpen();
+  };
+
+  const handleOpenWorkoutListModal = async () => {
+    if (!isExerciseListLoaded.current) {
+      await getExercises();
+    }
+
+    if (!isWorkoutTemplateListLoaded.current) {
+      await getWorkoutTemplates();
+    }
+
+    if (!isRoutineListLoaded.current) {
+      await getRoutines();
+    }
+
+    if (!isWorkoutListLoaded.current) {
+      await getWorkouts();
+    }
+
+    workoutListModal.onOpen();
   };
 
   return {
