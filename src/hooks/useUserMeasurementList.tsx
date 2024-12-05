@@ -22,7 +22,11 @@ export const useUserMeasurementList = (
 
   const { measurementMap, isMeasurementListLoaded } = useMeasurementList;
 
-  const listFilters = useListFilters(undefined, undefined, measurementMap);
+  const listFilters = useListFilters(
+    undefined,
+    undefined,
+    measurementMap.current
+  );
 
   const { filterMap, filterDateRange, filterWeekdays, filterMeasurements } =
     listFilters;
@@ -33,7 +37,7 @@ export const useUserMeasurementList = (
         (item) =>
           ((item.userMeasurementValues !== undefined &&
             Object.keys(item.userMeasurementValues).some((key) =>
-              measurementMap
+              measurementMap.current
                 .get(key)
                 ?.name.toLocaleLowerCase()
                 .includes(filterQuery.toLocaleLowerCase())
@@ -69,7 +73,7 @@ export const useUserMeasurementList = (
 
       const detailedUserMeasurements = await GetUserMeasurements(
         clockStyle,
-        measurementMap
+        measurementMap.current
       );
       setUserMeasurements(detailedUserMeasurements);
     },
