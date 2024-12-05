@@ -36,7 +36,7 @@ export const useWorkoutList = (
   } = useExerciseList;
 
   const workoutTemplateList = useWorkoutTemplateList(
-    false,
+    getWorkoutsOnLoad,
     useExerciseList,
     true
   );
@@ -47,7 +47,7 @@ export const useWorkoutList = (
     workoutTemplateMap,
   } = workoutTemplateList;
 
-  const routineList = useRoutineList(false, workoutTemplateList);
+  const routineList = useRoutineList(getWorkoutsOnLoad, workoutTemplateList);
 
   const { routineMap, isRoutineListLoaded, getRoutines } = routineList;
 
@@ -129,13 +129,6 @@ export const useWorkoutList = (
   ]);
 
   const getWorkouts = useCallback(async () => {
-    if (
-      !isRoutineListLoaded.current ||
-      !isWorkoutTemplateListLoaded.current ||
-      !isExerciseListLoaded.current
-    )
-      return;
-
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -223,19 +216,43 @@ export const useWorkoutList = (
     ignoreEmptyWorkouts,
     ignoreWorkoutId,
     routineMap,
-    isRoutineListLoaded,
     exerciseGroupDictionary,
-    isWorkoutTemplateListLoaded,
     workoutTemplateMap,
-    isExerciseListLoaded,
     exerciseMap,
+  ]);
+
+  const loadWorkoutList = useCallback(async () => {
+    if (!isExerciseListLoaded.current) {
+      await getExercises();
+    }
+
+    if (!isWorkoutTemplateListLoaded.current) {
+      await getWorkoutTemplates();
+    }
+
+    if (!isRoutineListLoaded.current) {
+      await getRoutines();
+    }
+
+    if (!isWorkoutListLoaded.current) {
+      await getWorkouts();
+    }
+  }, [
+    isExerciseListLoaded,
+    isWorkoutTemplateListLoaded,
+    isRoutineListLoaded,
+    isWorkoutListLoaded,
+    getExercises,
+    getWorkoutTemplates,
+    getRoutines,
+    getWorkouts,
   ]);
 
   useEffect(() => {
     if (getWorkoutsOnLoad) {
-      getWorkouts();
+      loadWorkoutList();
     }
-  }, [getWorkoutsOnLoad, getWorkouts]);
+  }, [getWorkoutsOnLoad, loadWorkoutList]);
 
   const sortWorkoutsByDate = (workoutList: Workout[], isAscending: boolean) => {
     if (isAscending) {
@@ -311,24 +328,6 @@ export const useWorkoutList = (
     }
   };
 
-  const loadWorkoutList = async () => {
-    if (!isExerciseListLoaded.current) {
-      await getExercises();
-    }
-
-    if (!isWorkoutTemplateListLoaded.current) {
-      await getWorkoutTemplates();
-    }
-
-    if (!isRoutineListLoaded.current) {
-      await getRoutines();
-    }
-
-    if (!isWorkoutListLoaded.current) {
-      await getWorkouts();
-    }
-  };
-
   const handleOpenFilterButton = async () => {
     await loadWorkoutList();
 
@@ -359,5 +358,6 @@ export const useWorkoutList = (
     routineList,
     listFilters,
     workoutTemplateList,
+    isWorkoutListLoaded,
   };
 };

@@ -483,6 +483,7 @@ export type UseWorkoutListReturnType = {
   routineList: UseRoutineListReturnType;
   listFilters: UseListFiltersReturnType;
   workoutTemplateList: UseWorkoutTemplateListReturnType;
+  isWorkoutListLoaded: React.MutableRefObject<boolean>;
 };
 
 export type UseListFiltersReturnType = {

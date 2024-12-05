@@ -32,7 +32,6 @@ import {
   useDefaultWorkout,
   useExerciseList,
   useFilterExerciseList,
-  useRoutineList,
   useWorkoutList,
 } from "../hooks";
 
@@ -44,7 +43,6 @@ type OperationType =
   | "reassign-routine";
 
 export default function WorkoutList() {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [operationType, setOperationType] = useState<OperationType>("edit");
   const [newWorkoutNote, setNewWorkoutNote] = useState<string>("");
@@ -76,9 +74,9 @@ export default function WorkoutList() {
     filteredWorkouts,
     listFilters,
     workoutTemplateList,
+    routineList,
+    isWorkoutListLoaded,
   } = workoutList;
-
-  const routineList = useRoutineList(false, workoutTemplateList);
 
   const filterExerciseList = useFilterExerciseList(exerciseList);
 
@@ -95,7 +93,6 @@ export default function WorkoutList() {
         setIncludeSecondaryGroups(
           userSettings.show_secondary_exercise_groups === 1
         );
-        setIsLoading(false);
       }
     };
 
@@ -381,7 +378,8 @@ export default function WorkoutList() {
     ? "w-[18rem]"
     : "w-[21rem]";
 
-  if (userSettings === undefined) return <LoadingSpinner />;
+  if (userSettings === undefined || !isWorkoutListLoaded.current)
+    return <LoadingSpinner />;
 
   return (
     <>
@@ -502,24 +500,20 @@ export default function WorkoutList() {
             </div>
           }
         />
-        {isLoading ? (
-          <LoadingSpinner />
-        ) : (
-          <div className="flex flex-col gap-1 w-full">
-            {filteredWorkouts.map((workout) => (
-              <WorkoutListItem
-                key={workout.id}
-                workout={workout}
-                listItemTextWidth={listItemTextWidth}
-                selectedWorkoutProperties={selectedWorkoutProperties}
-                onClickAction={() => navigate(`/workouts/${workout.id}`)}
-                editWorkout={editWorkout}
-                handleWorkoutOptionSelection={handleWorkoutOptionSelection}
-              />
-            ))}
-            {workouts.length === 0 && <EmptyListLabel itemName="Workouts" />}
-          </div>
-        )}
+        <div className="flex flex-col gap-1 w-full">
+          {filteredWorkouts.map((workout) => (
+            <WorkoutListItem
+              key={workout.id}
+              workout={workout}
+              listItemTextWidth={listItemTextWidth}
+              selectedWorkoutProperties={selectedWorkoutProperties}
+              onClickAction={() => navigate(`/workouts/${workout.id}`)}
+              editWorkout={editWorkout}
+              handleWorkoutOptionSelection={handleWorkoutOptionSelection}
+            />
+          ))}
+          {workouts.length === 0 && <EmptyListLabel itemName="Workouts" />}
+        </div>
       </div>
     </>
   );
