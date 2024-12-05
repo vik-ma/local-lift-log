@@ -74,7 +74,6 @@ export default function WorkoutTemplateList() {
     filterQuery,
     setFilterQuery,
     filteredWorkoutTemplates,
-    filterWorkoutTemplateListModal,
     listFilters,
     isWorkoutTemplateListLoaded,
   } = workoutTemplateList;
@@ -256,7 +255,6 @@ export default function WorkoutTemplateList() {
         deleteButtonAction={deleteWorkoutTemplate}
       />
       <FilterWorkoutTemplateListModal
-        filterWorkoutTemplateListModal={filterWorkoutTemplateListModal}
         useWorkoutTemplateList={workoutTemplateList}
         useExerciseList={exerciseList}
         useFilterExerciseList={filterExerciseList}

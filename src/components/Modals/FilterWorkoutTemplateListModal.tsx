@@ -8,7 +8,6 @@ import {
   ScrollShadow,
 } from "@nextui-org/react";
 import {
-  UseDisclosureReturnType,
   UseExerciseListReturnType,
   UseFilterExerciseListReturnType,
   UserSettings,
@@ -18,7 +17,6 @@ import { useMemo, useState } from "react";
 import { ExerciseGroupCheckboxes, ExerciseModalList } from "..";
 
 type FilterWorkoutTemplateListModalProps = {
-  filterWorkoutTemplateListModal: UseDisclosureReturnType;
   useWorkoutTemplateList: UseWorkoutTemplateListReturnType;
   useExerciseList: UseExerciseListReturnType;
   useFilterExerciseList: UseFilterExerciseListReturnType;
@@ -28,7 +26,6 @@ type FilterWorkoutTemplateListModalProps = {
 type ModalPage = "base" | "exercise-list" | "exercise-groups";
 
 export const FilterWorkoutTemplateListModal = ({
-  filterWorkoutTemplateListModal,
   useWorkoutTemplateList,
   useExerciseList,
   useFilterExerciseList,
@@ -36,7 +33,8 @@ export const FilterWorkoutTemplateListModal = ({
 }: FilterWorkoutTemplateListModalProps) => {
   const [modalPage, setModalPage] = useState<ModalPage>("base");
 
-  const { listFilters } = useWorkoutTemplateList;
+  const { listFilters, filterWorkoutTemplateListModal } =
+    useWorkoutTemplateList;
 
   const {
     exerciseGroupDictionary,
