@@ -32,6 +32,7 @@ export const useWorkoutList = (
     includeSecondaryGroups,
     isExerciseListLoaded,
     getExercises,
+    exerciseMap,
   } = useExerciseList;
 
   const workoutTemplateList = useWorkoutTemplateList(
@@ -128,7 +129,11 @@ export const useWorkoutList = (
   ]);
 
   const getWorkouts = useCallback(async () => {
-    if (!isRoutineListLoaded.current || !isWorkoutTemplateListLoaded.current)
+    if (
+      !isRoutineListLoaded.current ||
+      !isWorkoutTemplateListLoaded.current ||
+      !isExerciseListLoaded.current
+    )
       return;
 
     try {
@@ -140,24 +145,21 @@ export const useWorkoutList = (
         `SELECT 
           workouts.*,
           json_group_array(
-            json_object(
-              'id', COALESCE(exercises.id, distinct_sets.exercise_id),
-              'exercise_group_set_string_primary', exercises.exercise_group_set_string_primary,
-              'exercise_group_set_string_secondary', exercises.exercise_group_set_string_secondary
-            )
+              DISTINCT json_object('id', exercise_id)
           ) AS exerciseListString,
           (SELECT COUNT(*) 
             FROM sets 
-              WHERE sets.workout_id = workouts.id AND sets.is_template = 0) AS numSets
+            WHERE sets.workout_id = workouts.id AND sets.is_template = 0) AS numSets
           FROM 
             workouts
           LEFT JOIN 
-            (SELECT DISTINCT exercise_id, workout_id FROM sets WHERE is_template = 0) AS distinct_sets
-            ON workouts.id = distinct_sets.workout_id
-          LEFT JOIN 
-            exercises ON distinct_sets.exercise_id = exercises.id
+            (SELECT DISTINCT workout_id, exercise_id
+              FROM sets
+              WHERE is_template = 0) AS distinct_sets
+          ON 
+            workouts.id = distinct_sets.workout_id
           GROUP BY 
-            workouts.id;`
+            workouts.id`
       );
 
       const workouts: Workout[] = [];
@@ -173,7 +175,8 @@ export const useWorkoutList = (
 
         const workoutExerciseSets = CreateWorkoutExerciseSets(
           row.exerciseListString,
-          exerciseGroupDictionary
+          exerciseGroupDictionary,
+          exerciseMap
         );
 
         const workout: Workout = {
@@ -222,6 +225,8 @@ export const useWorkoutList = (
     exerciseGroupDictionary,
     isWorkoutTemplateListLoaded,
     workoutTemplateMap,
+    isExerciseListLoaded,
+    exerciseMap,
   ]);
 
   useEffect(() => {

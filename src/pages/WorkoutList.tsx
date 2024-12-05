@@ -62,7 +62,7 @@ export default function WorkoutList() {
   const deleteModal = useDisclosure();
   const workoutModal = useDisclosure();
 
-  const exerciseList = useExerciseList(false);
+  const exerciseList = useExerciseList(true);
 
   const { setIncludeSecondaryGroups } = exerciseList;
 

@@ -37,6 +37,7 @@ export const useWorkoutTemplateList = (
     isExerciseListLoaded,
     getExercises,
     includeSecondaryGroups,
+    exerciseMap,
   } = useExerciseList;
 
   const listFilters = useListFilters(useExerciseList);
@@ -85,6 +86,8 @@ export const useWorkoutTemplateList = (
   ]);
 
   const getWorkoutTemplates = useCallback(async () => {
+    if (!isExerciseListLoaded.current) return;
+
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -93,22 +96,19 @@ export const useWorkoutTemplateList = (
         `SELECT 
           workout_templates.*, 
           json_group_array(
-            json_object(
-              'id', COALESCE(exercises.id, distinct_sets.exercise_id),
-              'exercise_group_set_string_primary', exercises.exercise_group_set_string_primary,
-              'exercise_group_set_string_secondary', exercises.exercise_group_set_string_secondary
-            )
+              DISTINCT json_object('id', exercise_id)
           ) AS exerciseListString,
           (SELECT COUNT(*) 
             FROM sets 
-              WHERE sets.workout_template_id = workout_templates.id AND sets.is_template = 1) AS numSets
+            WHERE sets.workout_template_id = workout_templates.id AND sets.is_template = 1) AS numSets
           FROM 
             workout_templates
           LEFT JOIN 
-            (SELECT DISTINCT exercise_id, workout_template_id FROM sets WHERE is_template = 1) AS distinct_sets
-            ON workout_templates.id = distinct_sets.workout_template_id
-          LEFT JOIN 
-            exercises ON distinct_sets.exercise_id = exercises.id
+            (SELECT DISTINCT workout_template_id, exercise_id
+              FROM sets 
+              WHERE is_template = 1) AS distinct_sets
+          ON 
+            workout_templates.id = distinct_sets.workout_template_id
           GROUP BY 
             workout_templates.id`
       );
@@ -121,7 +121,8 @@ export const useWorkoutTemplateList = (
 
         const workoutExerciseSets = CreateWorkoutExerciseSets(
           row.exerciseListString,
-          exerciseGroupDictionary
+          exerciseGroupDictionary,
+          exerciseMap
         );
 
         const workoutTemplate: WorkoutTemplate = {
@@ -146,7 +147,12 @@ export const useWorkoutTemplateList = (
     } catch (error) {
       console.log(error);
     }
-  }, [ignoreEmptyWorkoutTemplates, exerciseGroupDictionary]);
+  }, [
+    ignoreEmptyWorkoutTemplates,
+    exerciseGroupDictionary,
+    isExerciseListLoaded,
+    exerciseMap,
+  ]);
 
   useEffect(() => {
     if (getWorkoutTemplatesOnLoad) {

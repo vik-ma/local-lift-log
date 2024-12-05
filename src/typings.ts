@@ -389,6 +389,8 @@ export type UseSetTrackingInputsReturnType = {
 
 export type ExerciseSortCategory = "favorite" | "name" | "num-sets";
 
+export type ExerciseMap = Map<number, Exercise>;
+
 export type UseExerciseListReturnType = {
   exercises: Exercise[];
   setExercises: React.Dispatch<React.SetStateAction<Exercise[]>>;
@@ -402,7 +404,7 @@ export type UseExerciseListReturnType = {
   includeSecondaryGroups: boolean;
   setIncludeSecondaryGroups: React.Dispatch<React.SetStateAction<boolean>>;
   isExerciseListLoaded: React.MutableRefObject<boolean>;
-  exerciseMap: Map<number, Exercise>;
+  exerciseMap: ExerciseMap;
   exerciseGroupDictionary: ExerciseGroupMap;
 };
 

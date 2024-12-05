@@ -1,4 +1,4 @@
-import { ExerciseGroupMap } from "../../typings";
+import { ExerciseGroupMap, ExerciseMap } from "../../typings";
 import { CreateExerciseGroupSetPrimary } from "../Exercises/CreateExerciseGroupSetPrimary";
 import { CreateExerciseGroupSetSecondary } from "../Exercises/CreateExerciseGroupSetSecondary";
 
@@ -8,18 +8,13 @@ type CreateWorkoutExerciseSetsReturnType = {
   exerciseGroupSetSecondary: Set<string>;
 };
 
-type WorkoutExerciseQueryItem = {
-  id: number;
-  exercise_group_set_string_primary: string;
-  exercise_group_set_string_secondary: string;
-};
-
 export const CreateWorkoutExerciseSets = (
   exerciseListString: string | undefined,
-  exerciseGroupDictionary: ExerciseGroupMap
+  exerciseGroupDictionary: ExerciseGroupMap,
+  exerciseMap: ExerciseMap
 ): CreateWorkoutExerciseSetsReturnType => {
   try {
-    const workoutExerciseSets = {
+    const workoutExerciseSets: CreateWorkoutExerciseSetsReturnType = {
       exerciseIdSet: new Set<number>(),
       exerciseGroupSetPrimary: new Set<string>(),
       exerciseGroupSetSecondary: new Set<string>(),
@@ -27,16 +22,17 @@ export const CreateWorkoutExerciseSets = (
 
     if (exerciseListString === undefined) return workoutExerciseSets;
 
-    const exerciseList: WorkoutExerciseQueryItem[] =
-      JSON.parse(exerciseListString);
+    const exerciseIdList: number[] = JSON.parse(exerciseListString);
 
     const workoutExerciseGroupsPrimary: Set<string>[] = [];
     const workoutExerciseGroupsSecondary: Set<string>[] = [];
 
-    for (const exercise of exerciseList) {
-      if (exercise.id === null) continue;
+    for (const id of exerciseIdList) {
+      workoutExerciseSets.exerciseIdSet.add(id);
 
-      workoutExerciseSets.exerciseIdSet.add(exercise.id);
+      const exercise = exerciseMap.get(id);
+
+      if (exercise === undefined) continue;
 
       if (exercise.exercise_group_set_string_primary !== null) {
         const exerciseGroupsPrimary = CreateExerciseGroupSetPrimary(

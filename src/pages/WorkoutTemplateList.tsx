@@ -60,7 +60,7 @@ export default function WorkoutTemplateList() {
     operatingWorkoutTemplate.name
   );
 
-  const exerciseList = useExerciseList(false);
+  const exerciseList = useExerciseList(true);
 
   const { setIncludeSecondaryGroups } = exerciseList;
 
