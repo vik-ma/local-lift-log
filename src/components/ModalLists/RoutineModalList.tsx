@@ -1,5 +1,10 @@
 import { Button, ScrollShadow } from "@nextui-org/react";
-import { ListFilters, RoutineListOptions, SearchInput } from "..";
+import {
+  EmptyListLabel,
+  ListFilters,
+  RoutineListOptions,
+  SearchInput,
+} from "..";
 import { FormatNumItemsString } from "../../helpers";
 import { Routine, UseRoutineListReturnType } from "../../typings";
 import { GoToArrowIcon } from "../../assets";
@@ -8,14 +13,16 @@ import { useNavigate } from "react-router-dom";
 type RoutineModalListProps = {
   useRoutineList: UseRoutineListReturnType;
   onClickAction: (routine: Routine) => void;
-  filterRoutines?: Set<number>;
+  activeRoutineId?: number;
+  highlightedRoutines?: Set<number>;
   customHeightString?: string;
 };
 
 export const RoutineModalList = ({
   useRoutineList,
   onClickAction,
-  filterRoutines,
+  activeRoutineId,
+  highlightedRoutines,
   customHeightString,
 }: RoutineModalListProps) => {
   const {
@@ -68,20 +75,28 @@ export const RoutineModalList = ({
             routine.workoutTemplateIdList !== undefined
               ? routine.workoutTemplateIdList.length
               : 0;
+
+          const isActiveRoutine = activeRoutineId === routine.id;
           return (
-            <div
+            <button
               className={
-                filterRoutines?.has(routine.id)
+                highlightedRoutines?.has(routine.id)
                   ? "flex justify-between items-center bg-amber-100 border-2 border-amber-300 rounded-xl hover:border-default-400 focus:border-default-400"
                   : "flex justify-between items-center bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:border-default-400"
               }
               key={routine.id}
             >
-              <button
+              <div
                 className="flex flex-col justify-start items-start pl-2 py-1"
                 onClick={() => onClickAction(routine)}
               >
-                <span className="w-[22rem] truncate text-left">
+                <span
+                  className={
+                    isActiveRoutine
+                      ? "w-[16.5rem] truncate text-left"
+                      : "w-[23.5rem] truncate text-left"
+                  }
+                >
                   {routine.name}
                 </span>
                 {numWorkoutTemplates > 0 && (
@@ -94,10 +109,20 @@ export const RoutineModalList = ({
                     ? `${routine.num_days_in_schedule} Day Schedule`
                     : "Weekly Schedule"}
                 </span>
-              </button>
-            </div>
+              </div>
+              {isActiveRoutine && (
+                <div className="pr-2">
+                  <div className="flex justify-center px-1.5 py-0.5 text-sm text-success rounded-lg bg-success/10 border-2 border-success/40">
+                    Active Routine
+                  </div>
+                </div>
+              )}
+            </button>
           );
         })}
+        {filteredRoutines.length === 0 && (
+          <EmptyListLabel itemName="Routines" />
+        )}
       </ScrollShadow>
     </div>
   );

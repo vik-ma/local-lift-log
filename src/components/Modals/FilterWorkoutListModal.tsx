@@ -152,7 +152,7 @@ export const FilterWorkoutListModal = ({
                 <RoutineModalList
                   useRoutineList={routineList}
                   onClickAction={handleClickRoutine}
-                  filterRoutines={filterRoutines}
+                  highlightedRoutines={filterRoutines}
                   customHeightString="h-[400px]"
                 />
               ) : modalPage === "exercise-list" ? (
