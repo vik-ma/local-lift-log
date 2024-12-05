@@ -159,14 +159,6 @@ export const useWorkoutTemplateList = (
     }
   }, [getWorkoutTemplatesOnLoad, getWorkoutTemplates]);
 
-  const handleOpenWorkoutTemplatesModal = useCallback(async () => {
-    if (!isWorkoutTemplateListLoaded.current) {
-      getWorkoutTemplates();
-    }
-
-    workoutTemplatesModal.onOpen();
-  }, [workoutTemplatesModal, getWorkoutTemplates]);
-
   const sortWorkoutTemplatesByName = (
     workoutTemplateList: WorkoutTemplate[]
   ) => {
@@ -238,12 +230,26 @@ export const useWorkoutTemplateList = (
     }
   };
 
-  const handleOpenFilterButton = async () => {
+  const loadWorkoutList = async () => {
     if (!isExerciseListLoaded.current) {
       await getExercises();
     }
 
+    if (!isWorkoutTemplateListLoaded.current) {
+      await getWorkoutTemplates();
+    }
+  };
+
+  const handleOpenFilterButton = async () => {
+    await loadWorkoutList();
+
     filterWorkoutTemplateListModal.onOpen();
+  };
+
+  const handleOpenWorkoutTemplatesModal = async () => {
+    await loadWorkoutList();
+
+    workoutTemplatesModal.onOpen();
   };
 
   return {

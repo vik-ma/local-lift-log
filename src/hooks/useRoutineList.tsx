@@ -208,18 +208,12 @@ export const useRoutineList = (
   };
 
   const loadRoutineList = async () => {
-    const tasks = [];
+    if (!isWorkoutTemplateListLoaded.current) {
+      await getWorkoutTemplates();
+    }
 
     if (!isRoutineListLoaded.current) {
-      tasks.push(getRoutines());
-    }
-
-    if (!isWorkoutTemplateListLoaded.current) {
-      tasks.push(getWorkoutTemplates());
-    }
-
-    if (tasks.length > 0) {
-      await Promise.all(tasks);
+      await getRoutines();
     }
   };
 

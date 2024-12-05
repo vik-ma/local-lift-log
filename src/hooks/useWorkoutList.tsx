@@ -311,29 +311,7 @@ export const useWorkoutList = (
     }
   };
 
-  const handleOpenFilterButton = async () => {
-    const tasks = [];
-
-    if (!isRoutineListLoaded.current) {
-      tasks.push(getRoutines());
-    }
-
-    if (!isExerciseListLoaded.current) {
-      tasks.push(getExercises());
-    }
-
-    if (!isWorkoutTemplateListLoaded.current) {
-      tasks.push(getWorkoutTemplates());
-    }
-
-    if (tasks.length > 0) {
-      await Promise.all(tasks);
-    }
-
-    filterWorkoutListModal.onOpen();
-  };
-
-  const handleOpenWorkoutListModal = async () => {
+  const loadWorkoutList = async () => {
     if (!isExerciseListLoaded.current) {
       await getExercises();
     }
@@ -349,6 +327,16 @@ export const useWorkoutList = (
     if (!isWorkoutListLoaded.current) {
       await getWorkouts();
     }
+  };
+
+  const handleOpenFilterButton = async () => {
+    await loadWorkoutList();
+
+    filterWorkoutListModal.onOpen();
+  };
+
+  const handleOpenWorkoutListModal = async () => {
+    await loadWorkoutList();
 
     workoutListModal.onOpen();
   };
