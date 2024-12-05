@@ -294,7 +294,7 @@ export default function WorkoutTemplateList() {
             </div>
           }
         />
-        {isWorkoutTemplateListLoaded.current ? (
+        {!isWorkoutTemplateListLoaded.current ? (
           <LoadingSpinner />
         ) : (
           <>
