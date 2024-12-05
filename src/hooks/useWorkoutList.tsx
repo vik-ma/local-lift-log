@@ -150,16 +150,16 @@ export const useWorkoutList = (
           (SELECT COUNT(*) 
             FROM sets 
             WHERE sets.workout_id = workouts.id AND sets.is_template = 0) AS numSets
-          FROM 
-            workouts
-          LEFT JOIN 
-            (SELECT DISTINCT workout_id, exercise_id
-              FROM sets
-              WHERE is_template = 0) AS distinct_sets
-          ON 
-            workouts.id = distinct_sets.workout_id
-          GROUP BY 
-            workouts.id`
+        FROM 
+          workouts
+        LEFT JOIN 
+          (SELECT DISTINCT workout_id, exercise_id
+            FROM sets
+            WHERE is_template = 0) AS distinct_sets
+        ON 
+          workouts.id = distinct_sets.workout_id
+        GROUP BY 
+          workouts.id`
       );
 
       const workouts: Workout[] = [];

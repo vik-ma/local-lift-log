@@ -101,16 +101,16 @@ export const useWorkoutTemplateList = (
           (SELECT COUNT(*) 
             FROM sets 
             WHERE sets.workout_template_id = workout_templates.id AND sets.is_template = 1) AS numSets
-          FROM 
-            workout_templates
-          LEFT JOIN 
-            (SELECT DISTINCT workout_template_id, exercise_id
-              FROM sets 
-              WHERE is_template = 1) AS distinct_sets
-          ON 
-            workout_templates.id = distinct_sets.workout_template_id
-          GROUP BY 
-            workout_templates.id`
+        FROM 
+          workout_templates
+        LEFT JOIN 
+          (SELECT DISTINCT workout_template_id, exercise_id
+            FROM sets 
+            WHERE is_template = 1) AS distinct_sets
+        ON 
+          workout_templates.id = distinct_sets.workout_template_id
+        GROUP BY 
+          workout_templates.id`
       );
 
       const workoutTemplates: WorkoutTemplate[] = [];
