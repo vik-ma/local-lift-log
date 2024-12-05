@@ -152,6 +152,7 @@ export const FilterWorkoutListModal = ({
                 <RoutineModalList
                   useRoutineList={routineList}
                   onClickAction={handleClickRoutine}
+                  activeRoutineId={userSettings.active_routine_id}
                   highlightedRoutines={filterRoutines}
                   customHeightString="h-[400px]"
                 />
