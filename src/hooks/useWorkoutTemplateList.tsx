@@ -153,11 +153,26 @@ export const useWorkoutTemplateList = (
     exerciseMap,
   ]);
 
+  const loadWorkoutTemplateList = useCallback(async () => {
+    if (!isExerciseListLoaded.current) {
+      await getExercises();
+    }
+
+    if (!isWorkoutTemplateListLoaded.current) {
+      await getWorkoutTemplates();
+    }
+  }, [
+    isExerciseListLoaded,
+    isWorkoutTemplateListLoaded,
+    getExercises,
+    getWorkoutTemplates,
+  ]);
+
   useEffect(() => {
     if (getWorkoutTemplatesOnLoad) {
-      getWorkoutTemplates();
+      loadWorkoutTemplateList();
     }
-  }, [getWorkoutTemplatesOnLoad, getWorkoutTemplates]);
+  }, [getWorkoutTemplatesOnLoad, loadWorkoutTemplateList]);
 
   const sortWorkoutTemplatesByName = (
     workoutTemplateList: WorkoutTemplate[]
@@ -230,24 +245,14 @@ export const useWorkoutTemplateList = (
     }
   };
 
-  const loadWorkoutList = async () => {
-    if (!isExerciseListLoaded.current) {
-      await getExercises();
-    }
-
-    if (!isWorkoutTemplateListLoaded.current) {
-      await getWorkoutTemplates();
-    }
-  };
-
   const handleOpenFilterButton = async () => {
-    await loadWorkoutList();
+    await loadWorkoutTemplateList();
 
     filterWorkoutTemplateListModal.onOpen();
   };
 
   const handleOpenWorkoutTemplatesModal = async () => {
-    await loadWorkoutList();
+    await loadWorkoutTemplateList();
 
     workoutTemplatesModal.onOpen();
   };

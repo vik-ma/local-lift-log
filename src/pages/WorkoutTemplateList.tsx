@@ -229,7 +229,8 @@ export default function WorkoutTemplateList() {
     navigate(`/workout-templates/${workoutTemplate.id}`);
   };
 
-  if (userSettings === undefined) return <LoadingSpinner />;
+  if (userSettings === undefined || !isWorkoutTemplateListLoaded.current)
+    return <LoadingSpinner />;
 
   return (
     <>
@@ -292,79 +293,73 @@ export default function WorkoutTemplateList() {
             </div>
           }
         />
-        {!isWorkoutTemplateListLoaded.current ? (
-          <LoadingSpinner />
-        ) : (
-          <>
-            <div className="flex flex-col gap-1 w-full">
-              {filteredWorkoutTemplates.map((template) => (
-                <div
-                  className="flex justify-between items-center bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-                  key={template.id}
-                >
-                  <button
-                    className="flex flex-col justify-start items-start pl-2 py-1"
-                    onClick={() => handleClickWorkoutTemplate(template)}
-                  >
-                    <span className="w-[21rem] truncate text-left">
-                      {template.name}
-                    </span>
-                    {template.numSets! > 0 ? (
-                      <span className="text-xs text-secondary text-left">
-                        {FormatNumItemsString(
-                          template.exerciseIdSet !== undefined
-                            ? template.exerciseIdSet.size
-                            : 0,
-                          "Exercise"
-                        )}
-                        , {FormatNumItemsString(template.numSets, "Set")}
-                      </span>
-                    ) : (
-                      <span className="text-xs text-stone-400 text-left">
-                        Empty
-                      </span>
+        <div className="flex flex-col gap-1 w-full">
+          {filteredWorkoutTemplates.map((template) => (
+            <div
+              className="flex justify-between items-center bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+              key={template.id}
+            >
+              <button
+                className="flex flex-col justify-start items-start pl-2 py-1"
+                onClick={() => handleClickWorkoutTemplate(template)}
+              >
+                <span className="w-[21rem] truncate text-left">
+                  {template.name}
+                </span>
+                {template.numSets! > 0 ? (
+                  <span className="text-xs text-secondary text-left">
+                    {FormatNumItemsString(
+                      template.exerciseIdSet !== undefined
+                        ? template.exerciseIdSet.size
+                        : 0,
+                      "Exercise"
                     )}
-                    <span className="w-[21rem] break-all text-xs text-stone-500 text-left">
-                      {template.note}
-                    </span>
-                  </button>
-                  <div className="flex items-center gap-0.5 pr-1">
-                    <Dropdown>
-                      <DropdownTrigger>
-                        <Button
-                          aria-label={`Toggle ${template.name} Options Menu`}
-                          isIconOnly
-                          className="z-1"
-                          radius="lg"
-                          variant="light"
-                        >
-                          <VerticalMenuIcon size={19} color="#888" />
-                        </Button>
-                      </DropdownTrigger>
-                      <DropdownMenu
-                        aria-label={`Option Menu For ${template.name} Workout Template`}
-                        onAction={(key) =>
-                          handleWorkoutTemplateOptionSelection(
-                            key as string,
-                            template
-                          )
-                        }
-                      >
-                        <DropdownItem key="edit">Edit</DropdownItem>
-                        <DropdownItem key="delete" className="text-danger">
-                          Delete
-                        </DropdownItem>
-                      </DropdownMenu>
-                    </Dropdown>
-                  </div>
-                </div>
-              ))}
-              {filteredWorkoutTemplates.length === 0 && (
-                <EmptyListLabel itemName="Workout Templates" />
-              )}
+                    , {FormatNumItemsString(template.numSets, "Set")}
+                  </span>
+                ) : (
+                  <span className="text-xs text-stone-400 text-left">
+                    Empty
+                  </span>
+                )}
+                <span className="w-[21rem] break-all text-xs text-stone-500 text-left">
+                  {template.note}
+                </span>
+              </button>
+              <div className="flex items-center gap-0.5 pr-1">
+                <Dropdown>
+                  <DropdownTrigger>
+                    <Button
+                      aria-label={`Toggle ${template.name} Options Menu`}
+                      isIconOnly
+                      className="z-1"
+                      radius="lg"
+                      variant="light"
+                    >
+                      <VerticalMenuIcon size={19} color="#888" />
+                    </Button>
+                  </DropdownTrigger>
+                  <DropdownMenu
+                    aria-label={`Option Menu For ${template.name} Workout Template`}
+                    onAction={(key) =>
+                      handleWorkoutTemplateOptionSelection(
+                        key as string,
+                        template
+                      )
+                    }
+                  >
+                    <DropdownItem key="edit">Edit</DropdownItem>
+                    <DropdownItem key="delete" className="text-danger">
+                      Delete
+                    </DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+              </div>
             </div>
-          </>
-        )}
+          ))}
+          {filteredWorkoutTemplates.length === 0 && (
+            <EmptyListLabel itemName="Workout Templates" />
+          )}
+        </div>
       </div>
     </>
   );
