@@ -8,11 +8,7 @@ import {
   ScrollShadow,
   Checkbox,
 } from "@nextui-org/react";
-import {
-  UseDisclosureReturnType,
-  UseWorkoutListReturnType,
-  Workout,
-} from "../../typings";
+import { UseWorkoutListReturnType, Workout } from "../../typings";
 import { CreateWorkoutPropertySet } from "../../helpers";
 import { useState } from "react";
 import {
@@ -24,14 +20,12 @@ import {
 } from "..";
 
 type WorkoutListModalProps = {
-  workoutListModal: UseDisclosureReturnType;
   workoutList: UseWorkoutListReturnType;
   shownWorkoutProperties: string;
   onClickAction: (workoutToCopy: Workout, keepSetValues: boolean) => void;
 };
 
 export const WorkoutListModal = ({
-  workoutListModal,
   workoutList,
   shownWorkoutProperties,
   onClickAction,
@@ -42,6 +36,7 @@ export const WorkoutListModal = ({
   >(CreateWorkoutPropertySet(shownWorkoutProperties));
 
   const {
+    workoutListModal,
     workouts,
     filteredWorkouts,
     filterQuery,

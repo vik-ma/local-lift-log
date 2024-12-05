@@ -422,7 +422,6 @@ export default function WorkoutDetails() {
         header={<span>Load Workout Template</span>}
       />
       <WorkoutListModal
-        workoutListModal={workoutList.workoutListModal}
         workoutList={workoutList}
         shownWorkoutProperties={userSettings.shown_workout_properties}
         onClickAction={handleClickWorkout}
