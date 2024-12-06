@@ -198,7 +198,7 @@ export type UnitDropdownProps = {
     | "equipment"
     | "distance"
     | "set-user-weight-unit"
-    | "plate-calculation";
+    | "plate-collection";
   showLabel?: boolean;
   isSmall?: boolean;
   isSetEdited?: boolean;
@@ -575,7 +575,7 @@ export type EquipmentWeightSortCategory =
   | "name"
   | "weight-desc"
   | "weight-asc"
-  | "plate-calc";
+  | "plate-col";
 
 export type DistanceSortCategory =
   | "favorite"
@@ -622,7 +622,7 @@ export type UsePresetsListReturnType = {
   filteredPlateCollections: PlateCollection[];
   filterQueryPlateCollection: string;
   setFilterQueryPlateCollection: React.Dispatch<React.SetStateAction<string>>;
-  updateAvailablePlatesMapKeys: (equipmentWeight: EquipmentWeight) => void;
+  updateAvailablePlatesMapKeys: (equipmentWeight?: EquipmentWeight) => void;
   otherUnitPlateCollection: PlateCollection;
   setOtherUnitPlateCollection: React.Dispatch<
     React.SetStateAction<PlateCollection>

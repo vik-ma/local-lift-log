@@ -85,6 +85,7 @@ export const PlateCalculator = ({
     handleSortOptionSelectionEquipment,
     isDefaultPlateCollectionInvalid,
     setIsDefaultPlateCollectionInvalid,
+    updateAvailablePlatesMapKeys,
   } = usePresetsList;
 
   const [plateCalculatorResult, setPlateCalculatorResult] =
@@ -130,8 +131,8 @@ export const PlateCalculator = ({
   };
 
   const handleEditAvailablePlatesButton = async () => {
-    if (sortCategoryEquipment !== "plate-calc") {
-      handleSortOptionSelectionEquipment("plate-calc");
+    if (sortCategoryEquipment !== "plate-col") {
+      handleSortOptionSelectionEquipment("plate-col");
     }
 
     setOperationTypePlateCalc("show-list");
@@ -342,7 +343,7 @@ export const PlateCalculator = ({
                     />
                     <WeightUnitDropdown
                       value={operatingPlateCollection.weight_unit}
-                      targetType="plate-calculation"
+                      targetType="plate-collection"
                       setPlateCollection={setOperatingPlateCollection}
                       isSmall
                       switchWeightUnit={switchWeightUnit}
@@ -473,13 +474,13 @@ export const PlateCalculator = ({
           handlePresetClick={
             operationTypePlateCalc === "set-handle"
               ? handlePresetClickSetHandle
-              : () => {}
+              : updateAvailablePlatesMapKeys
           }
           showModifyButton
           showSortButton
           heightString="h-[400px]"
           validWeightUnit={operatingPlateCollection.weight_unit}
-          showPlateCalculatorButton={operationTypePlateCalc === "show-list"}
+          isSelectingForPlateCollection={operationTypePlateCalc === "show-list"}
         />
       ) : (
         <PlateCollectionModalList

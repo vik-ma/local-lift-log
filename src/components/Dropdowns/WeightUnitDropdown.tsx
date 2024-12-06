@@ -49,10 +49,7 @@ export const WeightUnitDropdown = ({
       setState(e.target.value);
     }
 
-    if (
-      targetType === "plate-calculation" &&
-      setPlateCollection !== undefined
-    ) {
+    if (targetType === "plate-collection" && setPlateCollection !== undefined) {
       setPlateCollection((prev) => ({ ...prev, weight_unit: e.target.value }));
 
       if (switchWeightUnit !== undefined) switchWeightUnit();

@@ -300,7 +300,7 @@ export const usePresetsList = (
     } else if (key === "name") {
       setSortCategoryEquipment(key);
       sortEquipmentWeightsByName([...equipmentWeights]);
-    } else if (key === "plate-calc") {
+    } else if (key === "plate-col") {
       setSortCategoryEquipment(key);
       sortEquipmentWeightsByPlateCalcFirst([...equipmentWeights]);
     }
@@ -385,7 +385,7 @@ export const usePresetsList = (
       case "weight-desc":
         sortEquipmentWeightsByWeight(equipmentWeightList, false);
         break;
-      case "plate-calc":
+      case "plate-col":
         sortEquipmentWeightsByPlateCalcFirst(equipmentWeightList);
         break;
       default:
@@ -412,8 +412,12 @@ export const usePresetsList = (
     }
   };
 
-  const updateAvailablePlatesMapKeys = (equipmentWeight: EquipmentWeight) => {
-    if (operatingPlateCollection.availablePlatesMap === undefined) return;
+  const updateAvailablePlatesMapKeys = (equipmentWeight?: EquipmentWeight) => {
+    if (
+      operatingPlateCollection.availablePlatesMap === undefined ||
+      equipmentWeight === undefined
+    )
+      return;
 
     const updatedAvailablePlatesMap = new Map(
       operatingPlateCollection.availablePlatesMap

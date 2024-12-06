@@ -7,7 +7,7 @@ import {
   PresetsSortByMenu,
   SearchInput,
 } from "..";
-import { GoToArrowIcon, WeightPlatesIcon } from "../../assets";
+import { GoToArrowIcon } from "../../assets";
 import {
   Distance,
   EquipmentWeight,
@@ -23,7 +23,7 @@ type PresetsModalListProps = {
   showModifyButton?: boolean;
   showSortButton?: boolean;
   validWeightUnit?: string;
-  showPlateCalculatorButton?: boolean;
+  isSelectingForPlateCollection?: boolean;
 };
 
 export const PresetsModalList = ({
@@ -33,7 +33,7 @@ export const PresetsModalList = ({
   showModifyButton,
   showSortButton,
   validWeightUnit,
-  showPlateCalculatorButton,
+  isSelectingForPlateCollection,
 }: PresetsModalListProps) => {
   const {
     presetsType,
@@ -53,7 +53,6 @@ export const PresetsModalList = ({
     handleSortOptionSelectionEquipment,
     operatingPlateCollection,
     setOperatingPlateCollection,
-    updateAvailablePlatesMapKeys,
   } = presetsList;
 
   const [hideInvalidUnitItems, setHideInvalidUnitItems] =
@@ -117,7 +116,7 @@ export const PresetsModalList = ({
               handleSortOptionSelectionEquipment={
                 handleSortOptionSelectionEquipment
               }
-              showPlateCalculatorOption={showPlateCalculatorButton}
+              isSelectingForPlateCollection={isSelectingForPlateCollection}
             />
           )}
         </div>
@@ -149,8 +148,8 @@ export const PresetsModalList = ({
                         : validWeightUnit !== undefined &&
                           equipment.weight_unit !== validWeightUnit
                         ? "flex justify-between items-center gap-1 opacity-40 cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-                        : showPlateCalculatorButton
-                        ? "flex justify-between items-center gap-1 bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                        : isInPlateCollection
+                        ? "flex justify-between items-center gap-1 cursor-pointer bg-amber-100 border-2 border-amber-300 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                         : "flex justify-between items-center gap-1 cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                     }
                     key={`equipment-${equipment.id}`}
@@ -171,40 +170,15 @@ export const PresetsModalList = ({
                       </span>
                     </div>
                     <div className="flex gap-1 items-center pr-2">
-                      {showPlateCalculatorButton && (
-                        <>
-                          {numAvailable !== 0 && (
-                            <AvailablePlatesDropdown
-                              value={numAvailable}
-                              equipmentWeight={equipment}
-                              operatingPlateCollection={
-                                operatingPlateCollection
-                              }
-                              setOperatingPlateCollection={
-                                setOperatingPlateCollection
-                              }
-                            />
-                          )}
-                          <Button
-                            aria-label={
-                              isInPlateCollection
-                                ? `Remove ${equipment.name} From Plate Collection`
-                                : `Add ${equipment.name} To Plate Collection`
-                            }
-                            isIconOnly
-                            className="z-1 w-[3.5rem]"
-                            color={isInPlateCollection ? "success" : "default"}
-                            variant="light"
-                            onPress={() =>
-                              updateAvailablePlatesMapKeys(equipment)
-                            }
-                          >
-                            <WeightPlatesIcon
-                              isChecked={isInPlateCollection}
-                              size={31}
-                            />
-                          </Button>
-                        </>
+                      {numAvailable !== 0 && (
+                        <AvailablePlatesDropdown
+                          value={numAvailable}
+                          equipmentWeight={equipment}
+                          operatingPlateCollection={operatingPlateCollection}
+                          setOperatingPlateCollection={
+                            setOperatingPlateCollection
+                          }
+                        />
                       )}
                       <FavoriteButton
                         name={equipment.name}

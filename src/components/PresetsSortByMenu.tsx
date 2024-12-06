@@ -10,13 +10,13 @@ import { EquipmentWeightSortCategory } from "../typings";
 type PresetsSortByMenuProps = {
   sortCategoryEquipment: EquipmentWeightSortCategory;
   handleSortOptionSelectionEquipment: (key: string) => void;
-  showPlateCalculatorOption?: boolean;
+  isSelectingForPlateCollection?: boolean;
 };
 
 export const PresetsSortByMenu = ({
   sortCategoryEquipment,
   handleSortOptionSelectionEquipment,
-  showPlateCalculatorOption,
+  isSelectingForPlateCollection,
 }: PresetsSortByMenuProps) => {
   return (
     <Dropdown>
@@ -36,10 +36,10 @@ export const PresetsSortByMenu = ({
         <DropdownItem key="weight-desc">Weight (High-Low)</DropdownItem>
         <DropdownItem key="weight-asc">Weight (Low-High)</DropdownItem>
         <DropdownItem
-          className={showPlateCalculatorOption ? "" : "hidden"}
-          key="plate-calc"
+          className={isSelectingForPlateCollection ? "" : "hidden"}
+          key="plate-col"
         >
-          Plate Calculator Items First
+          Plate Collection Items First
         </DropdownItem>
       </DropdownMenu>
     </Dropdown>

@@ -52,6 +52,7 @@ export const PlateCollectionModal = ({
     handleSortOptionSelectionEquipment,
     otherUnitPlateCollection,
     setOtherUnitPlateCollection,
+    updateAvailablePlatesMapKeys,
   } = usePresetsList;
 
   const { plateCollectionModal, plateCalculatorPage, setPlateCalculatorPage } =
@@ -67,7 +68,7 @@ export const PlateCollectionModal = ({
 
   const handleSetAvailablePlatesButton = () => {
     setOperationType("set-plates");
-    handleSortOptionSelectionEquipment("plate-calc");
+    handleSortOptionSelectionEquipment("plate-col");
     setPlateCalculatorPage("equipment-list");
   };
 
@@ -162,7 +163,7 @@ export const PlateCollectionModal = ({
                       />
                       <WeightUnitDropdown
                         value={plateCollection.weight_unit}
-                        targetType="plate-calculation"
+                        targetType="plate-collection"
                         setPlateCollection={setPlateCollection}
                         showLabel
                         switchWeightUnit={switchWeightUnit}
@@ -226,12 +227,16 @@ export const PlateCollectionModal = ({
                   <PresetsModalList
                     presetsList={usePresetsList}
                     handlePresetClick={
-                      operationType === "set-handle" ? setHandle : () => {}
+                      operationType === "set-handle"
+                        ? setHandle
+                        : updateAvailablePlatesMapKeys
                     }
                     showSortButton
                     heightString="h-[450px]"
                     validWeightUnit={plateCollection.weight_unit}
-                    showPlateCalculatorButton={operationType === "set-plates"}
+                    isSelectingForPlateCollection={
+                      operationType === "set-plates"
+                    }
                   />
                 )}
               </div>
@@ -239,7 +244,6 @@ export const PlateCollectionModal = ({
             <ModalFooter className="flex justify-between">
               <div className="flex gap-2">
                 <Button
-                  className="w-[11rem]"
                   color={
                     plateCalculatorPage === "base" ? "secondary" : "default"
                   }
@@ -251,7 +255,7 @@ export const PlateCollectionModal = ({
                   }
                 >
                   {plateCalculatorPage === "base"
-                    ? "Set Available Weights"
+                    ? "Set Available Plates"
                     : "Back"}
                 </Button>
               </div>
