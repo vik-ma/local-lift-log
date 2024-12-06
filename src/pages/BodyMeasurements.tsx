@@ -157,7 +157,7 @@ export default function BodyMeasurements() {
 
         const detailedUserMeasurement = CreateDetailedUserMeasurementList(
           result,
-          measurementMap,
+          measurementMap.current,
           clockStyle
         );
 
@@ -242,7 +242,7 @@ export default function BodyMeasurements() {
       userMeasurementValues,
       commentToInsert,
       userSettings.clock_style,
-      measurementMap
+      measurementMap.current
     );
 
     if (newUserMeasurements === undefined) return;
@@ -299,7 +299,7 @@ export default function BodyMeasurements() {
 
     const detailedUpdatedUserMeasurement = CreateDetailedUserMeasurementList(
       [updatedUserMeasurements],
-      measurementMap,
+      measurementMap.current,
       userSettings.clock_style
     );
 
@@ -343,7 +343,7 @@ export default function BodyMeasurements() {
 
     const activeMeasurements = ConvertUserMeasurementValuesToMeasurementInputs(
       latestUserMeasurements.userMeasurementValues,
-      measurementMap
+      measurementMap.current
     );
 
     setActiveMeasurements(activeMeasurements);
@@ -399,7 +399,7 @@ export default function BodyMeasurements() {
 
     const userMeasurements = await GetUserMeasurements(
       userSettings.clock_style,
-      measurementMap
+      measurementMap.current
     );
 
     const success = await reassignMeasurement(userMeasurements);
@@ -571,7 +571,7 @@ export default function BodyMeasurements() {
                   handleMeasurementAccordionClick={
                     handleMeasurementAccordionClick
                   }
-                  measurementMap={measurementMap}
+                  measurementMap={measurementMap.current}
                   handleUserMeasurementsOptionSelection={
                     handleUserMeasurementsOptionSelection
                   }

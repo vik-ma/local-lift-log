@@ -141,7 +141,7 @@ export default function UserMeasurementList() {
       userMeasurementValues,
       commentToInsert,
       userSettings.clock_style,
-      measurementMap
+      measurementMap.current
     );
 
     if (newUserMeasurements === undefined) return;
@@ -188,7 +188,7 @@ export default function UserMeasurementList() {
 
     const detailedUpdatedUserMeasurement = CreateDetailedUserMeasurementList(
       [updatedUserMeasurements],
-      measurementMap,
+      measurementMap.current,
       userSettings.clock_style
     );
 
@@ -256,7 +256,7 @@ export default function UserMeasurementList() {
 
     const activeMeasurements = ConvertUserMeasurementValuesToMeasurementInputs(
       userMeasurements.userMeasurementValues,
-      measurementMap
+      measurementMap.current
     );
 
     setActiveMeasurements(activeMeasurements);
@@ -435,7 +435,7 @@ export default function UserMeasurementList() {
         <UserMeasurementAccordion
           userMeasurementEntries={filteredUserMeasurements}
           handleMeasurementAccordionClick={handleMeasurementAccordionClick}
-          measurementMap={measurementMap}
+          measurementMap={measurementMap.current}
           handleUserMeasurementsOptionSelection={
             handleUserMeasurementsOptionSelection
           }
