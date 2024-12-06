@@ -9,7 +9,7 @@ import {
 import {
   EquipmentWeight,
   OperationTypePlateCalc,
-  PlateCalculation,
+  PlateCollection,
   PlateCalculatorPage,
   UsePresetsListReturnType,
   UserSettings,
@@ -22,9 +22,9 @@ import {
 } from ".";
 
 type PlateCalculatorProps = {
-  operatingPlateCalculation: PlateCalculation;
+  operatingPlateCalculation: PlateCollection;
   setOperatingPlateCalculation: React.Dispatch<
-    React.SetStateAction<PlateCalculation>
+    React.SetStateAction<PlateCollection>
   >;
   plateCalculatorPage: PlateCalculatorPage;
   usePresetsList: UsePresetsListReturnType;
@@ -272,7 +272,7 @@ export const PlateCalculator = ({
   };
 
   const handlePlateCalculationClick = async (
-    plateCalculation: PlateCalculation
+    plateCalculation: PlateCollection
   ) => {
     setOperatingPlateCalculation(plateCalculation);
     setOtherUnitPlateCalculation((prev) => ({

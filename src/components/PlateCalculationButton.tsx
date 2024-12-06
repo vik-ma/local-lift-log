@@ -1,5 +1,5 @@
 import { Button } from "@nextui-org/react";
-import { PlateCalculation, UserSettings } from "../typings";
+import { PlateCollection, UserSettings } from "../typings";
 import { UpdateDefaultPlateCalculationId } from "../helpers";
 import { WeightPlatesIcon } from "../assets";
 
@@ -8,7 +8,7 @@ type PlateCalculationButtonProps = {
   setUserSettings: React.Dispatch<
     React.SetStateAction<UserSettings | undefined>
   >;
-  plateCalculation: PlateCalculation;
+  plateCalculation: PlateCollection;
 };
 
 export const PlateCalculationButton = ({
@@ -17,7 +17,7 @@ export const PlateCalculationButton = ({
   plateCalculation,
 }: PlateCalculationButtonProps) => {
   const handleSetDefaultPlateCalculationButton = async (
-    plateCalculation: PlateCalculation
+    plateCalculation: PlateCollection
   ) => {
     if (
       plateCalculation.id === userSettings.default_plate_calculation_id ||
@@ -42,7 +42,7 @@ export const PlateCalculationButton = ({
 
   return (
     <Button
-      aria-label="Set Plate Calculation As Default"
+      aria-label="Set Plate Collection As Default"
       isIconOnly
       className="z-1 w-[3.5rem]"
       color={

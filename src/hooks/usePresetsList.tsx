@@ -6,7 +6,7 @@ import {
   EquipmentWeightSortCategory,
   DistanceSortCategory,
   UsePresetsListReturnType,
-  PlateCalculation,
+  PlateCollection,
 } from "../typings";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -37,15 +37,15 @@ export const usePresetsList = (
     useState<DistanceSortCategory>("favorite");
   const [isLoadingEquipment, setIsLoadingEquipment] = useState<boolean>(true);
   const [isLoadingDistance, setIsLoadingDistance] = useState<boolean>(true);
-  const [plateCalculations, setPlateCalculations] = useState<
-    PlateCalculation[]
-  >([]);
+  const [plateCalculations, setPlateCalculations] = useState<PlateCollection[]>(
+    []
+  );
   const [
     isDefaultPlateCalculationInvalid,
     setIsDefaultPlateCalculationInvalid,
   ] = useState<boolean>(false);
 
-  const defaultPlateCalculation: PlateCalculation = useMemo(() => {
+  const defaultPlateCalculation: PlateCollection = useMemo(() => {
     return {
       id: 0,
       name: "",
@@ -58,9 +58,9 @@ export const usePresetsList = (
   }, []);
 
   const [operatingPlateCalculation, setOperatingPlateCalculation] =
-    useState<PlateCalculation>(defaultPlateCalculation);
+    useState<PlateCollection>(defaultPlateCalculation);
   const [otherUnitPlateCalculation, setOtherUnitPlateCalculation] =
-    useState<PlateCalculation>(defaultPlateCalculation);
+    useState<PlateCollection>(defaultPlateCalculation);
 
   const filteredEquipmentWeights = useMemo(() => {
     if (filterQueryEquipment !== "") {
@@ -114,7 +114,7 @@ export const usePresetsList = (
           "SELECT * FROM equipment_weights"
         );
 
-        const plateCalculations = await db.select<PlateCalculation[]>(
+        const plateCalculations = await db.select<PlateCollection[]>(
           "SELECT * FROM plate_calculations"
         );
 

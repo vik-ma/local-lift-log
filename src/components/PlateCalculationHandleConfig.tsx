@@ -1,9 +1,9 @@
 import { Button, Select, SelectItem } from "@nextui-org/react";
-import { PlateCalculation } from "../typings";
+import { PlateCollection } from "../typings";
 
 type PlateCalculationHandleConfigProps = {
-  plateCalculation: PlateCalculation;
-  setPlateCalculation: React.Dispatch<React.SetStateAction<PlateCalculation>>;
+  plateCalculation: PlateCollection;
+  setPlateCalculation: React.Dispatch<React.SetStateAction<PlateCollection>>;
   handleSetHandleButton: () => void;
 };
 
@@ -13,7 +13,7 @@ export const PlateCalculationHandleConfig = ({
   handleSetHandleButton,
 }: PlateCalculationHandleConfigProps) => {
   const handleHandlesChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const updatedOperatingPlateCalculation: PlateCalculation = {
+    const updatedOperatingPlateCalculation: PlateCollection = {
       ...plateCalculation,
       num_handles: Number(e.target.value),
     };
@@ -72,7 +72,7 @@ export const PlateCalculationHandleConfig = ({
         <div className="flex justify-between pr-1">
           <span className="px-0.5 text-stone-400">No Handle Set</span>
           <Button
-            aria-label="Set Plate Calculation Handle"
+            aria-label="Set Plate Collection Handle"
             size="sm"
             variant="flat"
             color="secondary"

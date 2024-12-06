@@ -188,8 +188,8 @@ export const PresetsModalList = ({
                           <Button
                             aria-label={
                               isInPlateCalculation
-                                ? `Remove ${equipment.name} From Plate Calculation`
-                                : `Add ${equipment.name} To Plate Calculation`
+                                ? `Remove ${equipment.name} From Plate Collection`
+                                : `Add ${equipment.name} To Plate Collection`
                             }
                             isIconOnly
                             className="z-1 w-[3.5rem]"

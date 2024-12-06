@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import {
-  PlateCalculation,
+  PlateCollection,
   UsePresetsListReturnType,
   UserSettings,
 } from "../../typings";
@@ -15,7 +15,7 @@ import { GoToArrowIcon } from "../../assets";
 
 type PlateCalculationModalListProps = {
   presetsList: UsePresetsListReturnType;
-  handlePlateCalculationClick: (plateCalculation: PlateCalculation) => void;
+  handlePlateCalculationClick: (plateCalculation: PlateCollection) => void;
   userSettings?: UserSettings;
   setUserSettings?: React.Dispatch<
     React.SetStateAction<UserSettings | undefined>
@@ -56,7 +56,7 @@ export const PlateCalculationModalList = ({
           onPress={() => navigate("/presets?tab=plate")}
           endContent={<GoToArrowIcon />}
         >
-          Edit Plate Calculations
+          Edit Plate Collections
         </Button>
       </div>
       <ScrollShadow className="flex flex-col gap-1 w-full">
@@ -101,7 +101,7 @@ export const PlateCalculationModalList = ({
               </div>
             ))}
             {filteredPlateCalculations.length === 0 && (
-              <EmptyListLabel itemName="Plate Calculations" />
+              <EmptyListLabel itemName="Plate Collections" />
             )}
           </>
         )}

@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from "react";
 import {
   UserSettings,
   DefaultIncrementInputs,
-  PlateCalculation,
+  PlateCollection,
 } from "../typings";
 import {
   GetUserSettings,
@@ -433,7 +433,7 @@ export default function Settings() {
   };
 
   const handleDefaultPlateCalculationIdChange = async (
-    plateCalculation: PlateCalculation
+    plateCalculation: PlateCollection
   ) => {
     if (
       userSettings === undefined ||
@@ -568,7 +568,7 @@ export default function Settings() {
             <>
               <ModalHeader>
                 {specificSettingModalPage === "default-plate-calc"
-                  ? "Set Default Plate Calculation"
+                  ? "Set Default Plate Collection"
                   : "Set Workout Rating Order"}
               </ModalHeader>
               <ModalBody>
@@ -835,7 +835,7 @@ export default function Settings() {
             </Select>
           </div>
           <div className="flex gap-3 items-center justify-between pr-1">
-            <span className="text-lg">Default Plate Calculation</span>
+            <span className="text-lg">Default Plate Collection</span>
             <Button
               color="primary"
               size="sm"

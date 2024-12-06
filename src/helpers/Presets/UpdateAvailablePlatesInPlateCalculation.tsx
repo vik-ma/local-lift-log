@@ -1,8 +1,8 @@
 import { GenerateFormattedAvailablePlatesString } from "..";
-import { AvailablePlatesMap, PlateCalculation } from "../../typings";
+import { AvailablePlatesMap, PlateCollection } from "../../typings";
 
 export const UpdateAvailablePlatesInPlateCalculation = (
-  plateCalculation: PlateCalculation,
+  plateCalculation: PlateCollection,
   availablePlatesMap: AvailablePlatesMap
 ) => {
   const {

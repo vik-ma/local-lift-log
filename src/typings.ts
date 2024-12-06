@@ -203,7 +203,7 @@ export type UnitDropdownProps = {
   isSmall?: boolean;
   isSetEdited?: boolean;
   setIsSetEdited?: React.Dispatch<React.SetStateAction<boolean>>;
-  setPlateCalculation?: React.Dispatch<React.SetStateAction<PlateCalculation>>;
+  setPlateCalculation?: React.Dispatch<React.SetStateAction<PlateCollection>>;
   switchWeightUnit?: () => void;
 };
 
@@ -613,23 +613,21 @@ export type UsePresetsListReturnType = {
     equipmentWeightList: EquipmentWeight[]
   ) => void;
   sortDistancesByActiveCategory: (distanceList: Distance[]) => void;
-  plateCalculations: PlateCalculation[];
-  setPlateCalculations: React.Dispatch<
-    React.SetStateAction<PlateCalculation[]>
-  >;
-  operatingPlateCalculation: PlateCalculation;
+  plateCalculations: PlateCollection[];
+  setPlateCalculations: React.Dispatch<React.SetStateAction<PlateCollection[]>>;
+  operatingPlateCalculation: PlateCollection;
   setOperatingPlateCalculation: React.Dispatch<
-    React.SetStateAction<PlateCalculation>
+    React.SetStateAction<PlateCollection>
   >;
-  filteredPlateCalculations: PlateCalculation[];
+  filteredPlateCalculations: PlateCollection[];
   filterQueryPlateCalculation: string;
   setFilterQueryPlateCalculation: React.Dispatch<React.SetStateAction<string>>;
   updateAvailablePlatesMapKeys: (equipmentWeight: EquipmentWeight) => void;
-  otherUnitPlateCalculation: PlateCalculation;
+  otherUnitPlateCalculation: PlateCollection;
   setOtherUnitPlateCalculation: React.Dispatch<
-    React.SetStateAction<PlateCalculation>
+    React.SetStateAction<PlateCollection>
   >;
-  defaultPlateCalculation: PlateCalculation;
+  defaultPlateCalculation: PlateCollection;
   updateAvailablePlatesMapValue: (
     equipmentWeight: EquipmentWeight,
     newValue: number
@@ -734,7 +732,7 @@ export type NumberRange = {
   endInput: string;
 };
 
-export type PlateCalculation = {
+export type PlateCollection = {
   id: number;
   name: string;
   handle_id: number;

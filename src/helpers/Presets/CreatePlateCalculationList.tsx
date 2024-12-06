@@ -1,11 +1,11 @@
-import { EquipmentWeight, PlateCalculation } from "../../typings";
+import { EquipmentWeight, PlateCollection } from "../../typings";
 import {
   GenerateFormattedAvailablePlatesString,
   IsNumberDivisibleBy2,
 } from "..";
 
 export const CreatePlateCalculationList = (
-  plateCalculations: PlateCalculation[],
+  plateCalculations: PlateCollection[],
   equipmentWeights: EquipmentWeight[]
 ) => {
   const equipmentWeightMap: Map<string, EquipmentWeight> =
@@ -14,7 +14,7 @@ export const CreatePlateCalculationList = (
       new Map<string, EquipmentWeight>()
     );
 
-  const plateCalculationList: PlateCalculation[] = [];
+  const plateCalculationList: PlateCollection[] = [];
 
   for (const plate of plateCalculations) {
     const weightUnit = plate.weight_unit;
@@ -48,9 +48,9 @@ export const CreatePlateCalculationList = (
       formattedAvailablePlatesMapString,
     } = GenerateFormattedAvailablePlatesString(availablePlatesMap);
 
-    const plateCalculation: PlateCalculation = {
+    const plateCalculation: PlateCollection = {
       ...plate,
-      // Don't add handle if handle's weight_unit doesn't match current Plate Calculation's weight_unit
+      // Don't add handle if handle's weight_unit doesn't match current Plate Collection's weight_unit
       handle:
         handle !== undefined && handle.weight_unit === weightUnit
           ? handle

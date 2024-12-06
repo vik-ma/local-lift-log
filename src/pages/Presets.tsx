@@ -16,7 +16,7 @@ import {
   EquipmentWeight,
   Distance,
   UserSettings,
-  PlateCalculation,
+  PlateCollection,
 } from "../typings";
 import {
   Button,
@@ -276,7 +276,7 @@ export default function Presets() {
         ]
       );
 
-      const newPlateCalculation: PlateCalculation = {
+      const newPlateCalculation: PlateCollection = {
         ...operatingPlateCalculation,
         id: result.lastInsertId,
       };
@@ -291,7 +291,7 @@ export default function Presets() {
       resetOperatingPlateCalculation();
       plateCalculationModal.plateCalculationModal.onClose();
 
-      toast.success("Plate Calculation Added");
+      toast.success("Plate Collection Added");
     } catch (error) {
       console.log(error);
     }
@@ -423,7 +423,7 @@ export default function Presets() {
       resetOperatingPlateCalculation();
       plateCalculationModal.plateCalculationModal.onClose();
 
-      toast.success("Plate Calculation Added");
+      toast.success("Plate Collection Added");
     } catch (error) {
       console.log(error);
     }
@@ -513,7 +513,7 @@ export default function Presets() {
 
       setPlateCalculations(updatedPlateCalculations);
 
-      toast.success("Plate Calculation Deleted");
+      toast.success("Plate Collection Deleted");
     } catch (error) {
       console.log(error);
     }
@@ -633,7 +633,7 @@ export default function Presets() {
 
   const handlePlateCalculationOptionSelection = (
     key: string,
-    plateCalculation: PlateCalculation
+    plateCalculation: PlateCollection
   ) => {
     setOperatingPlateCalculation(plateCalculation);
     setOtherUnitPlateCalculation({
@@ -727,7 +727,7 @@ export default function Presets() {
         deleteModal={deleteModal}
         header={
           isOperatingPlateCalculation
-            ? "Delete Plate Calculation"
+            ? "Delete Plate Collection"
             : presetType === "equipment"
             ? "Delete Equipment Weight"
             : "Delete Distance"
@@ -1122,9 +1122,9 @@ export default function Presets() {
               </div>
             )}
           </Tab>
-          <Tab className="w-full px-0" key="plate" title="Plate Calculations">
+          <Tab className="w-full px-0" key="plate" title="Plate Collections">
             <ListPageSearchInput
-              header="Plate Calculation List"
+              header="Plate Collection List"
               filterQuery={filterQueryPlateCalculation}
               setFilterQuery={setFilterQueryPlateCalculation}
               filteredListLength={filteredPlateCalculations.length}
@@ -1138,7 +1138,7 @@ export default function Presets() {
                     onPress={handleAddPlateCalculationButton}
                     size="sm"
                   >
-                    New Plate Calculation
+                    New Plate Collection
                   </Button>
                 </div>
               }
@@ -1195,7 +1195,7 @@ export default function Presets() {
                             </Button>
                           </DropdownTrigger>
                           <DropdownMenu
-                            aria-label={`Option Menu For ${plate.name} Plate Calculation`}
+                            aria-label={`Option Menu For ${plate.name} Plate Collection`}
                             onAction={(key) =>
                               handlePlateCalculationOptionSelection(
                                 key as string,
@@ -1224,7 +1224,7 @@ export default function Presets() {
                     </div>
                   ))}
                   {filteredPlateCalculations.length === 0 && (
-                    <EmptyListLabel itemName="Plate Calculation" />
+                    <EmptyListLabel itemName="Plate Collections" />
                   )}
                 </div>
               </div>

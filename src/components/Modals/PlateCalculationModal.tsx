@@ -10,7 +10,7 @@ import {
 } from "@nextui-org/react";
 import {
   EquipmentWeight,
-  PlateCalculation,
+  PlateCollection,
   UsePlateCalculationModalReturnType,
   UsePresetsListReturnType,
 } from "../../typings";
@@ -27,8 +27,8 @@ import { UpdateAvailablePlatesInPlateCalculation } from "../../helpers";
 
 type PlateCalculationModalProps = {
   usePlateCalculationModal: UsePlateCalculationModalReturnType;
-  plateCalculation: PlateCalculation;
-  setPlateCalculation: React.Dispatch<React.SetStateAction<PlateCalculation>>;
+  plateCalculation: PlateCollection;
+  setPlateCalculation: React.Dispatch<React.SetStateAction<PlateCollection>>;
   usePresetsList: UsePresetsListReturnType;
   buttonAction: () => void;
 };
@@ -79,7 +79,7 @@ export const PlateCalculationModal = ({
   const setHandle = (equipment?: EquipmentWeight) => {
     if (equipment === undefined) return;
 
-    const updatedPlateCalculation: PlateCalculation = {
+    const updatedPlateCalculation: PlateCollection = {
       ...plateCalculation,
       handle_id: equipment.id,
       handle: equipment,
@@ -134,8 +134,8 @@ export const PlateCalculationModal = ({
               {plateCalculatorPage === "equipment-list"
                 ? "Select Available Plates"
                 : plateCalculation.id === 0
-                ? "New Plate Calculation"
-                : "Edit Plate Calculation"}
+                ? "New Plate Collection"
+                : "Edit Plate Collection"}
             </ModalHeader>
             <ModalBody>
               <div className="h-[440px]">

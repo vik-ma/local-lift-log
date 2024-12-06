@@ -22,7 +22,7 @@ import {
   UserSettings,
   SumCalculatorPage,
   CalculationModalTab,
-  PlateCalculation,
+  PlateCollection,
 } from "../../typings";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
@@ -191,7 +191,7 @@ export const CalculationModal = ({
   const handlePresetClickSetHandle = (equipment?: EquipmentWeight) => {
     if (equipment === undefined) return;
 
-    const updatedOperatingPlateCalculation: PlateCalculation = {
+    const updatedOperatingPlateCalculation: PlateCollection = {
       ...operatingPlateCalculation,
       handle: equipment,
     };
@@ -357,7 +357,7 @@ export const CalculationModal = ({
                       color="secondary"
                       onPress={() => setPlateCalculatorPage("plate-calc-list")}
                     >
-                      Load Plate Calculation
+                      Load Plate Collection
                     </Button>
                   )}
               </div>

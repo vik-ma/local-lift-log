@@ -1,14 +1,14 @@
 import { Select, SelectItem } from "@nextui-org/react";
 import { useMemo } from "react";
-import { EquipmentWeight, PlateCalculation } from "../../typings";
+import { EquipmentWeight, PlateCollection } from "../../typings";
 import { UpdateAvailablePlatesInPlateCalculation } from "../../helpers";
 
 type AvailablePlatesDropdownProps = {
   value: number;
   equipmentWeight: EquipmentWeight;
-  operatingPlateCalculation: PlateCalculation;
+  operatingPlateCalculation: PlateCollection;
   setOperatingPlateCalculation: React.Dispatch<
-    React.SetStateAction<PlateCalculation>
+    React.SetStateAction<PlateCollection>
   >;
   isSmall?: boolean;
 };
