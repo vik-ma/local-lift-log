@@ -249,7 +249,8 @@ export default function ExerciseList() {
     loadUserSettings();
   }, [setIncludeSecondaryGroups]);
 
-  if (userSettings === undefined) return <LoadingSpinner />;
+  if (userSettings === undefined || !isExerciseListLoaded.current)
+    return <LoadingSpinner />;
 
   return (
     <>
@@ -326,103 +327,96 @@ export default function ExerciseList() {
             </div>
           }
         />
-        {!isExerciseListLoaded.current ? (
-          <LoadingSpinner />
-        ) : (
-          <>
-            <div className="flex flex-col gap-1 w-full">
-              {filteredExercises.map((exercise) => (
-                <div
-                  className="flex justify-between items-center bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-                  key={exercise.id}
-                >
-                  <button
-                    className="flex flex-col justify-start items-start pl-2 py-1"
-                    onClick={() => navigate(`/exercises/${exercise.id}`)}
-                  >
-                    <span className="w-[18.5rem] truncate text-left">
-                      {exercise.name}
+        <div className="flex flex-col gap-1 w-full">
+          {filteredExercises.map((exercise) => (
+            <div
+              className="flex justify-between items-center bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+              key={exercise.id}
+            >
+              <button
+                className="flex flex-col justify-start items-start pl-2 py-1"
+                onClick={() => navigate(`/exercises/${exercise.id}`)}
+              >
+                <span className="w-[18.5rem] truncate text-left">
+                  {exercise.name}
+                </span>
+                {exercise.set_count! > 0 && (
+                  <span className="text-xs text-secondary text-left">
+                    {FormatSetsCompletedString(exercise.set_count)}
+                  </span>
+                )}
+                {!includeSecondaryGroups ? (
+                  <span className="text-xs text-stone-400 text-left">
+                    {exercise.formattedGroupStringPrimary}
+                  </span>
+                ) : (
+                  <>
+                    <span className="text-xs text-stone-400 text-left">
+                      <span className="font-medium text-stone-600">
+                        Primary:
+                      </span>{" "}
+                      {exercise.formattedGroupStringPrimary}
                     </span>
-                    {exercise.set_count! > 0 && (
-                      <span className="text-xs text-secondary text-left">
-                        {FormatSetsCompletedString(exercise.set_count)}
-                      </span>
-                    )}
-                    {!includeSecondaryGroups ? (
+                    {exercise.formattedGroupStringSecondary !== undefined && (
                       <span className="text-xs text-stone-400 text-left">
-                        {exercise.formattedGroupStringPrimary}
+                        <span className="font-medium text-stone-600">
+                          Secondary:
+                        </span>{" "}
+                        {exercise.formattedGroupStringSecondary}
                       </span>
-                    ) : (
-                      <>
-                        <span className="text-xs text-stone-400 text-left">
-                          <span className="font-medium text-stone-600">
-                            Primary:
-                          </span>{" "}
-                          {exercise.formattedGroupStringPrimary}
-                        </span>
-                        {exercise.formattedGroupStringSecondary !==
-                          undefined && (
-                          <span className="text-xs text-stone-400 text-left">
-                            <span className="font-medium text-stone-600">
-                              Secondary:
-                            </span>{" "}
-                            {exercise.formattedGroupStringSecondary}
-                          </span>
-                        )}
-                      </>
                     )}
-                  </button>
-                  <div className="flex items-center gap-0.5 pr-1">
-                    <FavoriteButton
-                      name={exercise.name}
-                      isFavorite={!!exercise.is_favorite}
-                      item={exercise}
-                      toggleFavorite={toggleFavorite}
-                    />
-                    <Dropdown>
-                      <DropdownTrigger>
-                        <Button
-                          aria-label={`Toggle ${exercise.name} Options Menu`}
-                          isIconOnly
-                          className="z-1"
-                          radius="lg"
-                          variant="light"
-                        >
-                          <VerticalMenuIcon size={19} color="#888" />
-                        </Button>
-                      </DropdownTrigger>
-                      <DropdownMenu
-                        aria-label={`Option Menu For ${exercise.name} Exercise`}
-                        onAction={(key) =>
-                          handleExerciseOptionSelection(key as string, exercise)
-                        }
-                      >
-                        <DropdownItem key="edit">Edit</DropdownItem>
-                        <DropdownItem
-                          key="toggle-favorite"
-                          className="text-secondary"
-                        >
-                          {exercise.is_favorite
-                            ? "Remove Favorite"
-                            : "Set Favorite"}
-                        </DropdownItem>
-                        <DropdownItem key="delete" className="text-danger">
-                          Delete
-                        </DropdownItem>
-                      </DropdownMenu>
-                    </Dropdown>
-                  </div>
-                </div>
-              ))}
-              {filteredExercises.length === 0 && (
-                <EmptyListLabel itemName="Exercises" />
-              )}
+                  </>
+                )}
+              </button>
+              <div className="flex items-center gap-0.5 pr-1">
+                <FavoriteButton
+                  name={exercise.name}
+                  isFavorite={!!exercise.is_favorite}
+                  item={exercise}
+                  toggleFavorite={toggleFavorite}
+                />
+                <Dropdown>
+                  <DropdownTrigger>
+                    <Button
+                      aria-label={`Toggle ${exercise.name} Options Menu`}
+                      isIconOnly
+                      className="z-1"
+                      radius="lg"
+                      variant="light"
+                    >
+                      <VerticalMenuIcon size={19} color="#888" />
+                    </Button>
+                  </DropdownTrigger>
+                  <DropdownMenu
+                    aria-label={`Option Menu For ${exercise.name} Exercise`}
+                    onAction={(key) =>
+                      handleExerciseOptionSelection(key as string, exercise)
+                    }
+                  >
+                    <DropdownItem key="edit">Edit</DropdownItem>
+                    <DropdownItem
+                      key="toggle-favorite"
+                      className="text-secondary"
+                    >
+                      {exercise.is_favorite
+                        ? "Remove Favorite"
+                        : "Set Favorite"}
+                    </DropdownItem>
+                    <DropdownItem key="delete" className="text-danger">
+                      Delete
+                    </DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+              </div>
             </div>
-            <Button variant="flat" onPress={restoreDefaultExercises}>
-              Restore Default Exercises
-            </Button>
-          </>
-        )}
+          ))}
+          {filteredExercises.length === 0 && (
+            <EmptyListLabel itemName="Exercises" />
+          )}
+        </div>
+        <Button variant="flat" onPress={restoreDefaultExercises}>
+          Restore Default Exercises
+        </Button>
       </div>
     </>
   );
