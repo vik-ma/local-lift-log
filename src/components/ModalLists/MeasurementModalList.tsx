@@ -58,7 +58,7 @@ export const MeasurementModalList = ({
             key={measurement.id}
             className={
               highlightedMeasurements.has(measurement.id.toString())
-                ? "flex cursor-pointer bg-yellow-100 border-2 border-yellow-300 rounded-xl transition-colors duration-100 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                ? "flex cursor-pointer bg-amber-100 border-2 border-amber-300 rounded-xl transition-colors duration-100 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                 : "flex cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl transition-colors duration-100 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
             }
             onClick={() => handleMeasurementClick(measurement)}
