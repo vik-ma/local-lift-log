@@ -8,8 +8,8 @@ import {
   FavoriteButton,
   EmptyListLabel,
   PresetsSortByMenu,
-  PlateCalculationModal,
-  PlateCalculationButton,
+  PlateCollectionModal,
+  PlateCollectionButton,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -41,12 +41,12 @@ import {
   DeleteItemFromList,
   GetUserSettings,
   IsStringInvalidNumberOr0,
-  UpdateDefaultPlateCalculationId,
+  UpdateDefaultPlateCollectionId,
   UpdateItemInList,
 } from "../helpers";
 import toast, { Toaster } from "react-hot-toast";
 import {
-  usePlateCalculationModal,
+  usePlateCollectionModal,
   usePresetsList,
   useValidateName,
 } from "../hooks";
@@ -65,7 +65,7 @@ export default function Presets() {
   const [nameInput, setNameInput] = useState<string>("");
   const [valueInput, setValueInput] = useState<string>("");
   const [selectedTab, setSelectedTab] = useState<string>("equipment");
-  const [isOperatingPlateCalculation, setIsOperatingPlateCalculation] =
+  const [isOperatingPlateCollection, setIsOperatingPlateCollection] =
     useState<boolean>(false);
 
   const [searchParams] = useSearchParams();
@@ -98,7 +98,7 @@ export default function Presets() {
   const deleteModal = useDisclosure();
   const presetModal = useDisclosure();
   const setUnitsModal = useDisclosure();
-  const plateCalculationModal = usePlateCalculationModal();
+  const plateCollectionModal = usePlateCollectionModal();
 
   const presetsList = usePresetsList(true, true);
 
@@ -123,15 +123,15 @@ export default function Presets() {
     handleSortOptionSelectionDistance,
     sortEquipmentWeightByActiveCategory,
     sortDistancesByActiveCategory,
-    plateCalculations,
-    setPlateCalculations,
-    filterQueryPlateCalculation,
-    setFilterQueryPlateCalculation,
-    filteredPlateCalculations,
-    operatingPlateCalculation,
-    setOperatingPlateCalculation,
-    defaultPlateCalculation,
-    setOtherUnitPlateCalculation,
+    plateCollections,
+    setPlateCollections,
+    filterQueryPlateCollection,
+    setFilterQueryPlateCollection,
+    filteredPlateCollections,
+    operatingPlateCollection,
+    setOperatingPlateCollection,
+    defaultPlateCollection,
+    setOtherUnitPlateCollection,
   } = presetsList;
 
   useEffect(() => {
@@ -257,8 +257,8 @@ export default function Presets() {
     }
   };
 
-  const addPlateCalculation = async () => {
-    if (operationType !== "add" && operatingPlateCalculation.id !== 0) return;
+  const addPlateCollection = async () => {
+    if (operationType !== "add" && operatingPlateCollection.id !== 0) return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
@@ -268,28 +268,25 @@ export default function Presets() {
          (name, handle_id, available_plates_string, num_handles, weight_unit) 
          VALUES ($1, $2, $3, $4, $5)`,
         [
-          operatingPlateCalculation.name,
-          operatingPlateCalculation.handle_id,
-          operatingPlateCalculation.available_plates_string,
-          operatingPlateCalculation.num_handles,
-          operatingPlateCalculation.weight_unit,
+          operatingPlateCollection.name,
+          operatingPlateCollection.handle_id,
+          operatingPlateCollection.available_plates_string,
+          operatingPlateCollection.num_handles,
+          operatingPlateCollection.weight_unit,
         ]
       );
 
-      const newPlateCalculation: PlateCollection = {
-        ...operatingPlateCalculation,
+      const newPlateCollection: PlateCollection = {
+        ...operatingPlateCollection,
         id: result.lastInsertId,
       };
 
-      const updatedPlateCalculations = [
-        ...plateCalculations,
-        newPlateCalculation,
-      ];
+      const updatedPlateCollections = [...plateCollections, newPlateCollection];
 
-      setPlateCalculations(updatedPlateCalculations);
+      setPlateCollections(updatedPlateCollections);
 
-      resetOperatingPlateCalculation();
-      plateCalculationModal.plateCalculationModal.onClose();
+      resetOperatingPlateCollection();
+      plateCollectionModal.plateCollectionModal.onClose();
 
       toast.success("Plate Collection Added");
     } catch (error) {
@@ -392,8 +389,8 @@ export default function Presets() {
     }
   };
 
-  const updatePlateCalculation = async () => {
-    if (operationType !== "edit" || operatingPlateCalculation.id === 0) return;
+  const updatePlateCollection = async () => {
+    if (operationType !== "edit" || operatingPlateCollection.id === 0) return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
@@ -404,24 +401,24 @@ export default function Presets() {
          weight_unit = $5 
          WHERE id = $6`,
         [
-          operatingPlateCalculation.name,
-          operatingPlateCalculation.handle_id,
-          operatingPlateCalculation.available_plates_string,
-          operatingPlateCalculation.num_handles,
-          operatingPlateCalculation.weight_unit,
+          operatingPlateCollection.name,
+          operatingPlateCollection.handle_id,
+          operatingPlateCollection.available_plates_string,
+          operatingPlateCollection.num_handles,
+          operatingPlateCollection.weight_unit,
           operatingDistance.id,
         ]
       );
 
-      const updatedPlateCalculations = UpdateItemInList(
-        plateCalculations,
-        operatingPlateCalculation
+      const updatedPlateCollections = UpdateItemInList(
+        plateCollections,
+        operatingPlateCollection
       );
 
-      setPlateCalculations(updatedPlateCalculations);
+      setPlateCollections(updatedPlateCollections);
 
-      resetOperatingPlateCalculation();
-      plateCalculationModal.plateCalculationModal.onClose();
+      resetOperatingPlateCollection();
+      plateCollectionModal.plateCollectionModal.onClose();
 
       toast.success("Plate Collection Added");
     } catch (error) {
@@ -434,7 +431,7 @@ export default function Presets() {
       operatingEquipmentWeight.id === 0 ||
       operationType !== "delete" ||
       presetType !== "equipment" ||
-      isOperatingPlateCalculation
+      isOperatingPlateCollection
     )
       return;
 
@@ -466,7 +463,7 @@ export default function Presets() {
       operatingDistance.id === 0 ||
       operationType !== "delete" ||
       presetType !== "distance" ||
-      isOperatingPlateCalculation
+      isOperatingPlateCollection
     )
       return;
 
@@ -491,11 +488,11 @@ export default function Presets() {
     deleteModal.onClose();
   };
 
-  const deletePlateCalculation = async () => {
+  const deletePlateCollection = async () => {
     if (
-      operatingPlateCalculation.id === 0 ||
+      operatingPlateCollection.id === 0 ||
       operationType !== "delete" ||
-      !isOperatingPlateCalculation
+      !isOperatingPlateCollection
     )
       return;
 
@@ -503,22 +500,22 @@ export default function Presets() {
       const db = await Database.load(import.meta.env.VITE_DB);
 
       db.execute("DELETE from plate_calculations WHERE id = $1", [
-        operatingPlateCalculation.id,
+        operatingPlateCollection.id,
       ]);
 
-      const updatedPlateCalculations = DeleteItemFromList(
-        plateCalculations,
-        operatingPlateCalculation.id
+      const updatedPlateCollections = DeleteItemFromList(
+        plateCollections,
+        operatingPlateCollection.id
       );
 
-      setPlateCalculations(updatedPlateCalculations);
+      setPlateCollections(updatedPlateCollections);
 
       toast.success("Plate Collection Deleted");
     } catch (error) {
       console.log(error);
     }
 
-    resetOperatingPlateCalculation();
+    resetOperatingPlateCollection();
     deleteModal.onClose();
   };
 
@@ -543,7 +540,7 @@ export default function Presets() {
       ...defaultEquipmentWeight,
       weight_unit: userSettings.default_unit_weight!,
     });
-    setIsOperatingPlateCalculation(false);
+    setIsOperatingPlateCollection(false);
   };
 
   const resetOperatingDistance = () => {
@@ -557,22 +554,22 @@ export default function Presets() {
       ...defaultDistance,
       distance_unit: userSettings.default_unit_distance!,
     });
-    setIsOperatingPlateCalculation(false);
+    setIsOperatingPlateCollection(false);
   };
 
-  const resetOperatingPlateCalculation = () => {
+  const resetOperatingPlateCollection = () => {
     if (userSettings === undefined) return;
 
     setOperationType("add");
-    setOperatingPlateCalculation({
-      ...defaultPlateCalculation,
+    setOperatingPlateCollection({
+      ...defaultPlateCollection,
       weight_unit: userSettings.default_unit_weight!,
     });
-    setOtherUnitPlateCalculation({
-      ...defaultPlateCalculation,
+    setOtherUnitPlateCollection({
+      ...defaultPlateCollection,
       weight_unit: userSettings.default_unit_weight! === "kg" ? "lbs" : "kg",
     });
-    setIsOperatingPlateCalculation(false);
+    setIsOperatingPlateCollection(false);
   };
 
   const handleAddEquipmentWeightButton = () => {
@@ -585,9 +582,9 @@ export default function Presets() {
     presetModal.onOpen();
   };
 
-  const handleAddPlateCalculationButton = () => {
-    resetOperatingPlateCalculation();
-    plateCalculationModal.resetAndOpenPlateCalculationModal();
+  const handleAddPlateCollectionButton = () => {
+    resetOperatingPlateCollection();
+    plateCollectionModal.resetAndOpenPlateCollectionModal();
   };
 
   const handleEquipmentWeightOptionSelection = (
@@ -597,7 +594,7 @@ export default function Presets() {
     setPresetType("equipment");
     setOperatingEquipmentWeight(equipment);
     setValueInput(equipment.weight.toString());
-    setIsOperatingPlateCalculation(false);
+    setIsOperatingPlateCollection(false);
 
     if (key === "edit") {
       setOperationType("edit");
@@ -616,7 +613,7 @@ export default function Presets() {
     setPresetType("distance");
     setOperatingDistance(distance);
     setValueInput(distance.distance.toString());
-    setIsOperatingPlateCalculation(false);
+    setIsOperatingPlateCollection(false);
 
     if (key === "edit") {
       setOperationType("edit");
@@ -631,40 +628,38 @@ export default function Presets() {
     }
   };
 
-  const handlePlateCalculationOptionSelection = (
+  const handlePlateCollectionOptionSelection = (
     key: string,
-    plateCalculation: PlateCollection
+    plateCollection: PlateCollection
   ) => {
-    setOperatingPlateCalculation(plateCalculation);
-    setOtherUnitPlateCalculation({
-      ...defaultPlateCalculation,
-      weight_unit: plateCalculation.weight_unit === "kg" ? "lbs" : "kg",
+    setOperatingPlateCollection(plateCollection);
+    setOtherUnitPlateCollection({
+      ...defaultPlateCollection,
+      weight_unit: plateCollection.weight_unit === "kg" ? "lbs" : "kg",
     });
-    setIsOperatingPlateCalculation(true);
+    setIsOperatingPlateCollection(true);
 
     if (key === "edit") {
       setOperationType("edit");
-      plateCalculationModal.resetAndOpenPlateCalculationModal();
+      plateCollectionModal.resetAndOpenPlateCollectionModal();
     } else if (key === "delete") {
       setOperationType("delete");
       deleteModal.onOpen();
     } else if (key === "set-default") {
-      updateDefaultPlateCalculationId(plateCalculation.id);
-      resetOperatingPlateCalculation();
+      updateDefaultPlateCollectionId(plateCollection.id);
+      resetOperatingPlateCollection();
     }
   };
 
-  const updateDefaultPlateCalculationId = async (
-    plateCalculationId: number
-  ) => {
+  const updateDefaultPlateCollectionId = async (plateCollectionId: number) => {
     if (
       userSettings === undefined ||
-      plateCalculationId === userSettings.default_plate_calculation_id
+      plateCollectionId === userSettings.default_plate_calculation_id
     )
       return;
 
-    const success = await UpdateDefaultPlateCalculationId(
-      plateCalculationId,
+    const success = await UpdateDefaultPlateCollectionId(
+      plateCollectionId,
       userSettings.id
     );
 
@@ -672,7 +667,7 @@ export default function Presets() {
 
     const updatedSettings: UserSettings = {
       ...userSettings,
-      default_plate_calculation_id: plateCalculationId,
+      default_plate_calculation_id: plateCollectionId,
     };
 
     setUserSettings(updatedSettings);
@@ -707,8 +702,8 @@ export default function Presets() {
   };
 
   const handleDeleteButton = async () => {
-    if (isOperatingPlateCalculation) {
-      await deletePlateCalculation();
+    if (isOperatingPlateCollection) {
+      await deletePlateCollection();
     } else {
       if (presetType === "equipment") {
         await deleteEquipmentWeight();
@@ -726,7 +721,7 @@ export default function Presets() {
       <DeleteModal
         deleteModal={deleteModal}
         header={
-          isOperatingPlateCalculation
+          isOperatingPlateCollection
             ? "Delete Plate Collection"
             : presetType === "equipment"
             ? "Delete Equipment Weight"
@@ -736,8 +731,8 @@ export default function Presets() {
           <p className="break-words">
             Are you sure you want to permanently delete{" "}
             <span className="font-medium text-secondary">
-              {isOperatingPlateCalculation
-                ? operatingPlateCalculation.name
+              {isOperatingPlateCollection
+                ? operatingPlateCollection.name
                 : presetType === "equipment"
                 ? operatingEquipmentWeight.name
                 : operatingDistance.name}
@@ -747,15 +742,13 @@ export default function Presets() {
         }
         deleteButtonAction={handleDeleteButton}
       />
-      <PlateCalculationModal
-        usePlateCalculationModal={plateCalculationModal}
-        plateCalculation={operatingPlateCalculation}
-        setPlateCalculation={setOperatingPlateCalculation}
+      <PlateCollectionModal
+        usePlateCollectionModal={plateCollectionModal}
+        plateCollection={operatingPlateCollection}
+        setPlateCollection={setOperatingPlateCollection}
         usePresetsList={presetsList}
         buttonAction={
-          operationType === "edit"
-            ? updatePlateCalculation
-            : addPlateCalculation
+          operationType === "edit" ? updatePlateCollection : addPlateCollection
         }
       />
       <Modal
@@ -1125,17 +1118,17 @@ export default function Presets() {
           <Tab className="w-full px-0" key="plate" title="Plate Collections">
             <ListPageSearchInput
               header="Plate Collection List"
-              filterQuery={filterQueryPlateCalculation}
-              setFilterQuery={setFilterQueryPlateCalculation}
-              filteredListLength={filteredPlateCalculations.length}
-              totalListLength={plateCalculations.length}
+              filterQuery={filterQueryPlateCollection}
+              setFilterQuery={setFilterQueryPlateCollection}
+              filteredListLength={filteredPlateCollections.length}
+              totalListLength={plateCollections.length}
               extraTopSpace={true}
               bottomContent={
                 <div className="flex justify-between gap-1 w-full items-center">
                   <Button
                     color="secondary"
                     variant="flat"
-                    onPress={handleAddPlateCalculationButton}
+                    onPress={handleAddPlateCollectionButton}
                     size="sm"
                   >
                     New Plate Collection
@@ -1148,12 +1141,12 @@ export default function Presets() {
             ) : (
               <div className="flex flex-col gap-1.5">
                 <div className="flex flex-col gap-1">
-                  {filteredPlateCalculations.map((plate) => (
+                  {filteredPlateCollections.map((plate) => (
                     <div
                       className="flex justify-between items-center cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                       key={`plate-calculation-${plate.id}`}
                       onClick={() =>
-                        handlePlateCalculationOptionSelection("edit", plate)
+                        handlePlateCollectionOptionSelection("edit", plate)
                       }
                     >
                       <div className="flex flex-col justify-start items-start pl-2 py-1">
@@ -1177,10 +1170,10 @@ export default function Presets() {
                         </span>
                       </div>
                       <div className="flex items-center pr-1">
-                        <PlateCalculationButton
+                        <PlateCollectionButton
                           userSettings={userSettings}
                           setUserSettings={setUserSettings}
-                          plateCalculation={plate}
+                          plateCollection={plate}
                         />
                         <Dropdown>
                           <DropdownTrigger>
@@ -1197,7 +1190,7 @@ export default function Presets() {
                           <DropdownMenu
                             aria-label={`Option Menu For ${plate.name} Plate Collection`}
                             onAction={(key) =>
-                              handlePlateCalculationOptionSelection(
+                              handlePlateCollectionOptionSelection(
                                 key as string,
                                 plate
                               )
@@ -1223,7 +1216,7 @@ export default function Presets() {
                       </div>
                     </div>
                   ))}
-                  {filteredPlateCalculations.length === 0 && (
+                  {filteredPlateCollections.length === 0 && (
                     <EmptyListLabel itemName="Plate Collections" />
                   )}
                 </div>

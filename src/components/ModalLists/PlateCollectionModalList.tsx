@@ -8,33 +8,33 @@ import { Button, ScrollShadow } from "@nextui-org/react";
 import {
   EmptyListLabel,
   LoadingSpinner,
-  PlateCalculationButton,
+  PlateCollectionButton,
   SearchInput,
 } from "..";
 import { GoToArrowIcon } from "../../assets";
 
-type PlateCalculationModalListProps = {
+type PlateCollectionModalListProps = {
   presetsList: UsePresetsListReturnType;
-  handlePlateCalculationClick: (plateCalculation: PlateCollection) => void;
+  handlePlateCollectionClick: (plateCollection: PlateCollection) => void;
   userSettings?: UserSettings;
   setUserSettings?: React.Dispatch<
     React.SetStateAction<UserSettings | undefined>
   >;
-  defaultPlateCalculationId?: number;
+  defaultPlateCollectionId?: number;
 };
 
-export const PlateCalculationModalList = ({
+export const PlateCollectionModalList = ({
   presetsList,
-  handlePlateCalculationClick,
+  handlePlateCollectionClick,
   userSettings,
   setUserSettings,
-  defaultPlateCalculationId,
-}: PlateCalculationModalListProps) => {
+  defaultPlateCollectionId,
+}: PlateCollectionModalListProps) => {
   const {
-    plateCalculations,
-    filteredPlateCalculations,
-    filterQueryPlateCalculation,
-    setFilterQueryPlateCalculation,
+    plateCollections,
+    filteredPlateCollections,
+    filterQueryPlateCollection,
+    setFilterQueryPlateCollection,
     isLoadingEquipment,
   } = presetsList;
 
@@ -43,10 +43,10 @@ export const PlateCalculationModalList = ({
   return (
     <div className="flex flex-col gap-1.5 h-[400px]">
       <SearchInput
-        filterQuery={filterQueryPlateCalculation}
-        setFilterQuery={setFilterQueryPlateCalculation}
-        filteredListLength={filteredPlateCalculations.length}
-        totalListLength={plateCalculations.length}
+        filterQuery={filterQueryPlateCollection}
+        setFilterQuery={setFilterQueryPlateCollection}
+        filteredListLength={filteredPlateCollections.length}
+        totalListLength={plateCollections.length}
       />
       <div className="flex justify-between">
         <Button
@@ -64,15 +64,15 @@ export const PlateCalculationModalList = ({
           <LoadingSpinner />
         ) : (
           <>
-            {filteredPlateCalculations.map((plate) => (
+            {filteredPlateCollections.map((plate) => (
               <div
                 className={
-                  plate.id === defaultPlateCalculationId
+                  plate.id === defaultPlateCollectionId
                     ? "flex justify-between items-center gap-1 cursor-pointer bg-amber-100 border-2 border-amber-300 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                     : "flex justify-between items-center gap-1 cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                 }
                 key={`plate-calculation-${plate.id}`}
-                onClick={() => handlePlateCalculationClick(plate)}
+                onClick={() => handlePlateCollectionClick(plate)}
               >
                 <div className="flex flex-col justify-start items-start pl-2 py-1">
                   <span className="w-[19rem] truncate">{plate.name}</span>
@@ -91,16 +91,16 @@ export const PlateCalculationModalList = ({
                 {userSettings !== undefined &&
                   setUserSettings !== undefined && (
                     <div className="flex items-center pr-1">
-                      <PlateCalculationButton
+                      <PlateCollectionButton
                         userSettings={userSettings}
                         setUserSettings={setUserSettings}
-                        plateCalculation={plate}
+                        plateCollection={plate}
                       />
                     </div>
                   )}
               </div>
             ))}
-            {filteredPlateCalculations.length === 0 && (
+            {filteredPlateCollections.length === 0 && (
               <EmptyListLabel itemName="Plate Collections" />
             )}
           </>

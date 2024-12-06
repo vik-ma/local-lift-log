@@ -11,51 +11,51 @@ import {
 import {
   EquipmentWeight,
   PlateCollection,
-  UsePlateCalculationModalReturnType,
+  UsePlateCollectionModalReturnType,
   UsePresetsListReturnType,
 } from "../../typings";
 import { useValidateName } from "../../hooks";
 import { useMemo, useState } from "react";
 import {
   AvailablePlatesDropdown,
-  PlateCalculationHandleConfig,
+  PlateCollectionHandleConfig,
   PresetsModalList,
   WeightUnitDropdown,
 } from "..";
 import { CrossCircleIcon } from "../../assets";
-import { UpdateAvailablePlatesInPlateCalculation } from "../../helpers";
+import { UpdateAvailablePlatesInPlateCollection } from "../../helpers";
 
-type PlateCalculationModalProps = {
-  usePlateCalculationModal: UsePlateCalculationModalReturnType;
-  plateCalculation: PlateCollection;
-  setPlateCalculation: React.Dispatch<React.SetStateAction<PlateCollection>>;
+type PlateCollectionModalProps = {
+  usePlateCollectionModal: UsePlateCollectionModalReturnType;
+  plateCollection: PlateCollection;
+  setPlateCollection: React.Dispatch<React.SetStateAction<PlateCollection>>;
   usePresetsList: UsePresetsListReturnType;
   buttonAction: () => void;
 };
 
 type OperationType = "set-handle" | "set-plates";
 
-export const PlateCalculationModal = ({
-  usePlateCalculationModal,
-  plateCalculation,
-  setPlateCalculation,
+export const PlateCollectionModal = ({
+  usePlateCollectionModal,
+  plateCollection,
+  setPlateCollection,
   usePresetsList,
   buttonAction,
-}: PlateCalculationModalProps) => {
+}: PlateCollectionModalProps) => {
   const [operationType, setOperationType] =
     useState<OperationType>("set-handle");
 
-  const isNameInputValid = useValidateName(plateCalculation.name);
+  const isNameInputValid = useValidateName(plateCollection.name);
 
   const {
     sortCategoryEquipment,
     handleSortOptionSelectionEquipment,
-    otherUnitPlateCalculation,
-    setOtherUnitPlateCalculation,
+    otherUnitPlateCollection,
+    setOtherUnitPlateCollection,
   } = usePresetsList;
 
-  const { plateCalculationModal, plateCalculatorPage, setPlateCalculatorPage } =
-    usePlateCalculationModal;
+  const { plateCollectionModal, plateCalculatorPage, setPlateCalculatorPage } =
+    usePlateCollectionModal;
 
   const handleSetHandleButton = () => {
     if (sortCategoryEquipment !== "favorite") {
@@ -79,53 +79,53 @@ export const PlateCalculationModal = ({
   const setHandle = (equipment?: EquipmentWeight) => {
     if (equipment === undefined) return;
 
-    const updatedPlateCalculation: PlateCollection = {
-      ...plateCalculation,
+    const updatedPlateCollection: PlateCollection = {
+      ...plateCollection,
       handle_id: equipment.id,
       handle: equipment,
     };
 
-    setPlateCalculation(updatedPlateCalculation);
+    setPlateCollection(updatedPlateCollection);
 
     setPlateCalculatorPage("base");
     setOperationType("set-handle");
   };
 
   const switchWeightUnit = () => {
-    setOtherUnitPlateCalculation(plateCalculation);
-    setPlateCalculation(otherUnitPlateCalculation);
+    setOtherUnitPlateCollection(plateCollection);
+    setPlateCollection(otherUnitPlateCollection);
   };
 
   const removePlate = (equipmentWeight: EquipmentWeight) => {
-    if (plateCalculation.availablePlatesMap === undefined) return;
+    if (plateCollection.availablePlatesMap === undefined) return;
 
     const updatedAvailablePlatesMap = new Map(
-      plateCalculation.availablePlatesMap
+      plateCollection.availablePlatesMap
     );
 
     updatedAvailablePlatesMap.delete(equipmentWeight);
 
-    const updatedPlateCalculation = UpdateAvailablePlatesInPlateCalculation(
-      plateCalculation,
+    const updatedPlateCollection = UpdateAvailablePlatesInPlateCollection(
+      plateCollection,
       updatedAvailablePlatesMap
     );
 
-    setPlateCalculation(updatedPlateCalculation);
+    setPlateCollection(updatedPlateCollection);
   };
 
   const disableDoneButton = useMemo(() => {
     if (!isNameInputValid) return true;
     if (plateCalculatorPage === "equipment-list") return true;
-    if (plateCalculation.handle === undefined) return true;
-    if (plateCalculation.availablePlatesMap === undefined) return true;
-    if (plateCalculation.availablePlatesMap.size === 0) return true;
+    if (plateCollection.handle === undefined) return true;
+    if (plateCollection.availablePlatesMap === undefined) return true;
+    if (plateCollection.availablePlatesMap.size === 0) return true;
     return false;
-  }, [isNameInputValid, plateCalculation, plateCalculatorPage]);
+  }, [isNameInputValid, plateCollection, plateCalculatorPage]);
 
   return (
     <Modal
-      isOpen={plateCalculationModal.isOpen}
-      onOpenChange={plateCalculationModal.onOpenChange}
+      isOpen={plateCollectionModal.isOpen}
+      onOpenChange={plateCollectionModal.onOpenChange}
     >
       <ModalContent>
         {(onClose) => (
@@ -133,7 +133,7 @@ export const PlateCalculationModal = ({
             <ModalHeader>
               {plateCalculatorPage === "equipment-list"
                 ? "Select Available Plates"
-                : plateCalculation.id === 0
+                : plateCollection.id === 0
                 ? "New Plate Collection"
                 : "Edit Plate Collection"}
             </ModalHeader>
@@ -144,7 +144,7 @@ export const PlateCalculationModal = ({
                     <div className="flex gap-2.5 items-start">
                       <Input
                         className="h-[5rem]"
-                        value={plateCalculation.name}
+                        value={plateCollection.name}
                         isInvalid={!isNameInputValid}
                         label="Name"
                         errorMessage={
@@ -152,7 +152,7 @@ export const PlateCalculationModal = ({
                         }
                         variant="faded"
                         onValueChange={(value) =>
-                          setPlateCalculation((prev) => ({
+                          setPlateCollection((prev) => ({
                             ...prev,
                             name: value,
                           }))
@@ -161,16 +161,16 @@ export const PlateCalculationModal = ({
                         isClearable
                       />
                       <WeightUnitDropdown
-                        value={plateCalculation.weight_unit}
+                        value={plateCollection.weight_unit}
                         targetType="plate-calculation"
-                        setPlateCalculation={setPlateCalculation}
+                        setPlateCollection={setPlateCollection}
                         showLabel
                         switchWeightUnit={switchWeightUnit}
                       />
                     </div>
-                    <PlateCalculationHandleConfig
-                      plateCalculation={plateCalculation}
-                      setPlateCalculation={setPlateCalculation}
+                    <PlateCollectionHandleConfig
+                      plateCollection={plateCollection}
+                      setPlateCollection={setPlateCollection}
                       handleSetHandleButton={handleSetHandleButton}
                     />
                     <div className="flex flex-col gap-0.5">
@@ -178,7 +178,7 @@ export const PlateCalculationModal = ({
                         <h3 className="text-lg font-medium pl-0.5">
                           Available Plates
                         </h3>
-                        {plateCalculation.availablePlatesMap!.size > 0 && (
+                        {plateCollection.availablePlatesMap!.size > 0 && (
                           <span className="text-sm text-stone-500 pr-7">
                             Number Of Plates
                           </span>
@@ -186,7 +186,7 @@ export const PlateCalculationModal = ({
                       </div>
                       <ScrollShadow className="flex flex-col gap-1 h-[250px]">
                         {Array.from(
-                          plateCalculation.availablePlatesMap!.entries()
+                          plateCollection.availablePlatesMap!.entries()
                         ).map(([key, value]) => (
                           <div
                             key={`plate-${key.id}`}
@@ -203,8 +203,8 @@ export const PlateCalculationModal = ({
                             <AvailablePlatesDropdown
                               value={value}
                               equipmentWeight={key}
-                              operatingPlateCalculation={plateCalculation}
-                              setOperatingPlateCalculation={setPlateCalculation}
+                              operatingPlateCollection={plateCollection}
+                              setOperatingPlateCollection={setPlateCollection}
                               isSmall
                             />
                             <Button
@@ -230,7 +230,7 @@ export const PlateCalculationModal = ({
                     }
                     showSortButton
                     heightString="h-[450px]"
-                    validWeightUnit={plateCalculation.weight_unit}
+                    validWeightUnit={plateCollection.weight_unit}
                     showPlateCalculatorButton={operationType === "set-plates"}
                   />
                 )}
@@ -264,7 +264,7 @@ export const PlateCalculationModal = ({
                   onPress={buttonAction}
                   isDisabled={disableDoneButton}
                 >
-                  {plateCalculation.id !== 0 ? "Save" : "Create"}
+                  {plateCollection.id !== 0 ? "Save" : "Create"}
                 </Button>
               </div>
             </ModalFooter>

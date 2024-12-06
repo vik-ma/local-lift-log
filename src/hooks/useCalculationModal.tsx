@@ -63,7 +63,7 @@ export const useCalculationModal = (): UseCalculationModalReturnType => {
         );
       }
 
-      setUpPlateCalculationValues(set, presetsList);
+      setUpPlateCollectionValues(set, presetsList);
     } else {
       presetsList.setPresetsType("distance");
 
@@ -77,25 +77,25 @@ export const useCalculationModal = (): UseCalculationModalReturnType => {
     calculationModal.onOpen();
   };
 
-  const setUpPlateCalculationValues = (
+  const setUpPlateCollectionValues = (
     set: WorkoutSet,
     presetsList: UsePresetsListReturnType
   ) => {
     if (
-      presetsList.operatingPlateCalculation.id !== 0 &&
-      presetsList.operatingPlateCalculation.weight_unit !== set.weight_unit
+      presetsList.operatingPlateCollection.id !== 0 &&
+      presetsList.operatingPlateCollection.weight_unit !== set.weight_unit
     ) {
-      // Reset operatingPlateCalculation if Set unit doesn't match operatingPlateCalculation
-      // if operatingPlateCalculation is not defaultPlateCalculation
-      presetsList.setOperatingPlateCalculation({
-        ...presetsList.defaultPlateCalculation,
+      // Reset operatingPlateCollection if Set unit doesn't match operatingPlateCollection
+      // if operatingPlateCollection is not defaultPlateCollection
+      presetsList.setOperatingPlateCollection({
+        ...presetsList.defaultPlateCollection,
         weight_unit: set.weight_unit,
       });
     }
 
-    // Add opposite weight unit to otherUnitPlateCalculation
-    presetsList.setOtherUnitPlateCalculation({
-      ...presetsList.defaultPlateCalculation,
+    // Add opposite weight unit to otherUnitPlateCollection
+    presetsList.setOtherUnitPlateCollection({
+      ...presetsList.defaultPlateCollection,
       weight_unit: set.weight_unit === "kg" ? "lbs" : "kg",
     });
   };

@@ -38,7 +38,7 @@ import {
   SettingsModal,
   TimeInput,
   WorkoutPropertyDropdown,
-  PlateCalculationModalList,
+  PlateCollectionModalList,
 } from "../components";
 import toast, { Toaster } from "react-hot-toast";
 import Database from "tauri-plugin-sql-api";
@@ -432,18 +432,18 @@ export default function Settings() {
     updateSettings(updatedSettings);
   };
 
-  const handleDefaultPlateCalculationIdChange = async (
-    plateCalculation: PlateCollection
+  const handleDefaultPlateCollectionIdChange = async (
+    plateCollection: PlateCollection
   ) => {
     if (
       userSettings === undefined ||
-      userSettings.default_plate_calculation_id === plateCalculation.id
+      userSettings.default_plate_calculation_id === plateCollection.id
     )
       return;
 
     const updatedSettings: UserSettings = {
       ...userSettings,
-      default_plate_calculation_id: plateCalculation.id,
+      default_plate_calculation_id: plateCollection.id,
     };
 
     updateSettings(updatedSettings);
@@ -525,7 +525,7 @@ export default function Settings() {
     }
   };
 
-  const handleSetDefaultPlateCalculationButton = async () => {
+  const handleSetDefaultPlateCollectionButton = async () => {
     if (presetsList.isLoadingEquipment) {
       await presetsList.getEquipmentWeights();
     }
@@ -574,12 +574,12 @@ export default function Settings() {
               <ModalBody>
                 <div className="h-[400px] flex flex-col gap-2">
                   {specificSettingModalPage === "default-plate-calc" ? (
-                    <PlateCalculationModalList
+                    <PlateCollectionModalList
                       presetsList={presetsList}
-                      handlePlateCalculationClick={
-                        handleDefaultPlateCalculationIdChange
+                      handlePlateCollectionClick={
+                        handleDefaultPlateCollectionIdChange
                       }
-                      defaultPlateCalculationId={
+                      defaultPlateCollectionId={
                         userSettings.default_plate_calculation_id
                       }
                     />
@@ -839,7 +839,7 @@ export default function Settings() {
             <Button
               color="primary"
               size="sm"
-              onPress={handleSetDefaultPlateCalculationButton}
+              onPress={handleSetDefaultPlateCollectionButton}
             >
               Set
             </Button>

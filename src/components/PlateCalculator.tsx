@@ -4,7 +4,7 @@ import {
   ConvertNumberToTwoDecimals,
   IsStringEmpty,
   IsStringInvalidNumberOr0,
-  UpdateDefaultPlateCalculationId,
+  UpdateDefaultPlateCollectionId,
 } from "../helpers";
 import {
   EquipmentWeight,
@@ -16,14 +16,14 @@ import {
 } from "../typings";
 import {
   PresetsModalList,
-  PlateCalculationModalList,
-  PlateCalculationHandleConfig,
+  PlateCollectionModalList,
+  PlateCollectionHandleConfig,
   WeightUnitDropdown,
 } from ".";
 
 type PlateCalculatorProps = {
-  operatingPlateCalculation: PlateCollection;
-  setOperatingPlateCalculation: React.Dispatch<
+  operatingPlateCollection: PlateCollection;
+  setOperatingPlateCollection: React.Dispatch<
     React.SetStateAction<PlateCollection>
   >;
   plateCalculatorPage: PlateCalculatorPage;
@@ -54,8 +54,8 @@ type PlateCalculatorItems = {
 };
 
 export const PlateCalculator = ({
-  operatingPlateCalculation,
-  setOperatingPlateCalculation,
+  operatingPlateCollection,
+  setOperatingPlateCollection,
   plateCalculatorPage,
   usePresetsList,
   operationTypePlateCalc,
@@ -79,12 +79,12 @@ export const PlateCalculator = ({
   }, []);
 
   const {
-    otherUnitPlateCalculation,
-    setOtherUnitPlateCalculation,
+    otherUnitPlateCollection,
+    setOtherUnitPlateCollection,
     sortCategoryEquipment,
     handleSortOptionSelectionEquipment,
-    isDefaultPlateCalculationInvalid,
-    setIsDefaultPlateCalculationInvalid,
+    isDefaultPlateCollectionInvalid,
+    setIsDefaultPlateCollectionInvalid,
   } = usePresetsList;
 
   const [plateCalculatorResult, setPlateCalculatorResult] =
@@ -101,29 +101,24 @@ export const PlateCalculator = ({
 
   const disableCalculatePlates = useMemo(() => {
     if (isTargetWeightInputInvalid) return true;
-    if (operatingPlateCalculation.availablePlatesMap === undefined) return true;
-    if (operatingPlateCalculation.availablePlatesMap.size === 0) return true;
-    if (operatingPlateCalculation.handle === undefined) return true;
+    if (operatingPlateCollection.availablePlatesMap === undefined) return true;
+    if (operatingPlateCollection.availablePlatesMap.size === 0) return true;
+    if (operatingPlateCollection.handle === undefined) return true;
     if (
-      operatingPlateCalculation.num_handles !== 1 &&
-      operatingPlateCalculation.num_handles !== 2
+      operatingPlateCollection.num_handles !== 1 &&
+      operatingPlateCollection.num_handles !== 2
     )
       return true;
-    const handleMultiplier =
-      operatingPlateCalculation.num_handles === 1 ? 1 : 2;
+    const handleMultiplier = operatingPlateCollection.num_handles === 1 ? 1 : 2;
     if (
       Number(targetWeightInput) -
-        operatingPlateCalculation.handle.weight * handleMultiplier <=
+        operatingPlateCollection.handle.weight * handleMultiplier <=
       0
     )
       return true;
 
     return false;
-  }, [
-    isTargetWeightInputInvalid,
-    operatingPlateCalculation,
-    targetWeightInput,
-  ]);
+  }, [isTargetWeightInputInvalid, operatingPlateCollection, targetWeightInput]);
 
   const handleSetHandleButton = () => {
     if (sortCategoryEquipment !== "favorite") {
@@ -146,24 +141,24 @@ export const PlateCalculator = ({
   const calculatePlates = useCallback(() => {
     if (
       disableCalculatePlates ||
-      operatingPlateCalculation.availablePlatesMap === undefined ||
-      operatingPlateCalculation.handle === undefined
+      operatingPlateCollection.availablePlatesMap === undefined ||
+      operatingPlateCollection.handle === undefined
     ) {
       setPlateCalculatorResult(defaultPlateCalculatorItems);
       return;
     }
 
-    const isOneHandle = operatingPlateCalculation.num_handles === 1;
+    const isOneHandle = operatingPlateCollection.num_handles === 1;
     const plateFactor = isOneHandle ? 2 : 4;
 
     const sortedPlates = Array.from(
-      operatingPlateCalculation.availablePlatesMap.keys()
+      operatingPlateCollection.availablePlatesMap.keys()
     ).sort((a, b) => b.weight - a.weight);
 
     const sortedPlatesMap = new Map<number, number>();
 
     for (const key of sortedPlates) {
-      const value = operatingPlateCalculation.availablePlatesMap.get(key);
+      const value = operatingPlateCollection.availablePlatesMap.get(key);
       if (value !== undefined) {
         if (sortedPlatesMap.has(key.weight)) {
           // If different Equipment Weights has same weight value, add up values
@@ -177,8 +172,8 @@ export const PlateCalculator = ({
 
     const targetWeight = Number(targetWeightInput);
     const handleWeight = isOneHandle
-      ? operatingPlateCalculation.handle.weight
-      : operatingPlateCalculation.handle.weight * 2;
+      ? operatingPlateCollection.handle.weight
+      : operatingPlateCollection.handle.weight * 2;
     const weightToLoad = targetWeight - handleWeight;
 
     let plateCountResult: { [key: number]: number } = {};
@@ -255,7 +250,7 @@ export const PlateCalculator = ({
     setPlateCalculatorResult(plateCalculatorResult);
   }, [
     disableCalculatePlates,
-    operatingPlateCalculation,
+    operatingPlateCollection,
     targetWeightInput,
     defaultPlateCalculatorItems,
   ]);
@@ -266,33 +261,30 @@ export const PlateCalculator = ({
   };
 
   const switchWeightUnit = () => {
-    setOtherUnitPlateCalculation(operatingPlateCalculation);
-    setOperatingPlateCalculation(otherUnitPlateCalculation);
+    setOtherUnitPlateCollection(operatingPlateCollection);
+    setOperatingPlateCollection(otherUnitPlateCollection);
     resetPlateCalculatorResult();
   };
 
-  const handlePlateCalculationClick = async (
-    plateCalculation: PlateCollection
+  const handlePlateCollectionClick = async (
+    plateCollection: PlateCollection
   ) => {
-    setOperatingPlateCalculation(plateCalculation);
-    setOtherUnitPlateCalculation((prev) => ({
+    setOperatingPlateCollection(plateCollection);
+    setOtherUnitPlateCollection((prev) => ({
       ...prev,
-      weight_unit: plateCalculation.weight_unit === "kg" ? "lbs" : "kg",
+      weight_unit: plateCollection.weight_unit === "kg" ? "lbs" : "kg",
     }));
 
-    if (isDefaultPlateCalculationInvalid) {
-      await UpdateDefaultPlateCalculationId(
-        plateCalculation.id,
-        userSettings.id
-      );
+    if (isDefaultPlateCollectionInvalid) {
+      await UpdateDefaultPlateCollectionId(plateCollection.id, userSettings.id);
 
       const updatedSettings: UserSettings = {
         ...userSettings,
-        default_plate_calculation_id: plateCalculation.id,
+        default_plate_calculation_id: plateCollection.id,
       };
 
       setUserSettings(updatedSettings);
-      setIsDefaultPlateCalculationInvalid(false);
+      setIsDefaultPlateCollectionInvalid(false);
     }
 
     resetPlateCalculatorResult();
@@ -313,9 +305,9 @@ export const PlateCalculator = ({
         <div className="flex flex-col h-full justify-between">
           <div className="flex flex-col gap-1.5">
             <div className="flex flex-col gap-1.5">
-              <PlateCalculationHandleConfig
-                plateCalculation={operatingPlateCalculation}
-                setPlateCalculation={setOperatingPlateCalculation}
+              <PlateCollectionHandleConfig
+                plateCollection={operatingPlateCollection}
+                setPlateCollection={setOperatingPlateCollection}
                 handleSetHandleButton={handleSetHandleButton}
               />
               <div className="flex flex-col gap-1 px-0.5">
@@ -349,19 +341,19 @@ export const PlateCalculator = ({
                       onValueChange={setTargetWeightInput}
                     />
                     <WeightUnitDropdown
-                      value={operatingPlateCalculation.weight_unit}
+                      value={operatingPlateCollection.weight_unit}
                       targetType="plate-calculation"
-                      setPlateCalculation={setOperatingPlateCalculation}
+                      setPlateCollection={setOperatingPlateCollection}
                       isSmall
                       switchWeightUnit={switchWeightUnit}
                     />
                   </div>
-                  {operatingPlateCalculation.availablePlatesMap !==
+                  {operatingPlateCollection.availablePlatesMap !==
                     undefined && (
                     <ScrollShadow className="w-[13rem]">
                       <div className="flex divide-x divide-solid">
                         {Array.from(
-                          operatingPlateCalculation.availablePlatesMap
+                          operatingPlateCollection.availablePlatesMap
                         ).map(([key, value]) => (
                           <div
                             key={key.id}
@@ -399,7 +391,7 @@ export const PlateCalculator = ({
                           )}
                         </span>
                         <span className="text-secondary">
-                          {operatingPlateCalculation.weight_unit}
+                          {operatingPlateCollection.weight_unit}
                         </span>
                       </div>
                       <Button
@@ -440,7 +432,7 @@ export const PlateCalculator = ({
                             >
                               <div className="flex gap-[0.25rem] justify-between w-[6.5rem]">
                                 <span className="font-medium w-[4.5rem]">
-                                  {key} {operatingPlateCalculation.weight_unit}
+                                  {key} {operatingPlateCollection.weight_unit}
                                 </span>
                                 <span className="max-w-[1.75rem] truncate text-stone-500">
                                   {value}
@@ -449,8 +441,7 @@ export const PlateCalculator = ({
                               {!plateCalculatorResult.isOneHandle && (
                                 <div className="flex gap-[0.25rem] justify-between w-[6.5rem]">
                                   <span className="font-medium w-[4.5rem]">
-                                    {key}{" "}
-                                    {operatingPlateCalculation.weight_unit}
+                                    {key} {operatingPlateCollection.weight_unit}
                                   </span>
                                   <span className="max-w-[1.75rem] truncate text-stone-500">
                                     {value / 2}
@@ -459,7 +450,7 @@ export const PlateCalculator = ({
                               )}
                               <div className="flex gap-[0.25rem] justify-between w-[6.5rem]">
                                 <span className="font-medium w-[4.5rem]">
-                                  {key} {operatingPlateCalculation.weight_unit}
+                                  {key} {operatingPlateCollection.weight_unit}
                                 </span>
                                 <span className="max-w-[1.75rem] truncate text-stone-500">
                                   {value / handleFactor}
@@ -487,13 +478,13 @@ export const PlateCalculator = ({
           showModifyButton
           showSortButton
           heightString="h-[400px]"
-          validWeightUnit={operatingPlateCalculation.weight_unit}
+          validWeightUnit={operatingPlateCollection.weight_unit}
           showPlateCalculatorButton={operationTypePlateCalc === "show-list"}
         />
       ) : (
-        <PlateCalculationModalList
+        <PlateCollectionModalList
           presetsList={usePresetsList}
-          handlePlateCalculationClick={handlePlateCalculationClick}
+          handlePlateCollectionClick={handlePlateCollectionClick}
           userSettings={userSettings}
           setUserSettings={setUserSettings}
         />

@@ -37,7 +37,7 @@ export { useMeasurementList } from "./useMeasurementList";
 export { usePresetsList } from "./usePresetsList";
 export { useCalculationModal } from "./useCalculationModal";
 export { useExerciseGroupList } from "./useExerciseGroupList";
-export { usePlateCalculationModal } from "./usePlateCalculationModal";
+export { usePlateCollectionModal } from "./usePlateCollectionModal";
 export { useValidateExerciseGroupStringSecondary } from "./useValidateExerciseGroupStringSecondary";
 export { useMultiplierInputMap } from "./useMultiplierInputMap";
 export { useRoutineList } from "./useRoutineList";

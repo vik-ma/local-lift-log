@@ -1,13 +1,13 @@
 import { Select, SelectItem } from "@nextui-org/react";
 import { useMemo } from "react";
 import { EquipmentWeight, PlateCollection } from "../../typings";
-import { UpdateAvailablePlatesInPlateCalculation } from "../../helpers";
+import { UpdateAvailablePlatesInPlateCollection } from "../../helpers";
 
 type AvailablePlatesDropdownProps = {
   value: number;
   equipmentWeight: EquipmentWeight;
-  operatingPlateCalculation: PlateCollection;
-  setOperatingPlateCalculation: React.Dispatch<
+  operatingPlateCollection: PlateCollection;
+  setOperatingPlateCollection: React.Dispatch<
     React.SetStateAction<PlateCollection>
   >;
   isSmall?: boolean;
@@ -16,8 +16,8 @@ type AvailablePlatesDropdownProps = {
 export const AvailablePlatesDropdown = ({
   value,
   equipmentWeight,
-  operatingPlateCalculation,
-  setOperatingPlateCalculation,
+  operatingPlateCollection,
+  setOperatingPlateCollection,
   isSmall,
 }: AvailablePlatesDropdownProps) => {
   const availableNumbers = useMemo(() => {
@@ -26,8 +26,8 @@ export const AvailablePlatesDropdown = ({
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (
-      operatingPlateCalculation.availablePlatesMap === undefined ||
-      !operatingPlateCalculation.availablePlatesMap.has(equipmentWeight)
+      operatingPlateCollection.availablePlatesMap === undefined ||
+      !operatingPlateCollection.availablePlatesMap.has(equipmentWeight)
     )
       return;
 
@@ -38,17 +38,17 @@ export const AvailablePlatesDropdown = ({
     const numValue = Number(value);
 
     const updatedAvailablePlatesMap = new Map(
-      operatingPlateCalculation.availablePlatesMap
+      operatingPlateCollection.availablePlatesMap
     );
 
     updatedAvailablePlatesMap.set(equipmentWeight, numValue);
 
-    const updatedPlateCalculation = UpdateAvailablePlatesInPlateCalculation(
-      operatingPlateCalculation,
+    const updatedPlateCollection = UpdateAvailablePlatesInPlateCollection(
+      operatingPlateCollection,
       updatedAvailablePlatesMap
     );
 
-    setOperatingPlateCalculation(updatedPlateCalculation);
+    setOperatingPlateCollection(updatedPlateCollection);
   };
 
   return (

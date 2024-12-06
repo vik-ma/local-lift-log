@@ -1,8 +1,8 @@
 import { GenerateFormattedAvailablePlatesString } from "..";
 import { AvailablePlatesMap, PlateCollection } from "../../typings";
 
-export const UpdateAvailablePlatesInPlateCalculation = (
-  plateCalculation: PlateCollection,
+export const UpdateAvailablePlatesInPlateCollection = (
+  plateCollection: PlateCollection,
   availablePlatesMap: AvailablePlatesMap
 ) => {
   const {
@@ -11,13 +11,13 @@ export const UpdateAvailablePlatesInPlateCalculation = (
     formattedAvailablePlatesMapString,
   } = GenerateFormattedAvailablePlatesString(availablePlatesMap);
 
-  const updatedPlateCalculation = {
-    ...plateCalculation,
+  const updatedPlateCollection = {
+    ...plateCollection,
     available_plates_string,
     availablePlatesMap: availablePlatesMap,
     formattedAvailablePlatesString,
     formattedAvailablePlatesMapString,
   };
 
-  return updatedPlateCalculation;
+  return updatedPlateCollection;
 };

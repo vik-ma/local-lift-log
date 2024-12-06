@@ -86,8 +86,8 @@ export const CalculationModal = ({
     presetsType,
     isLoadingEquipment,
     isLoadingDistance,
-    operatingPlateCalculation,
-    setOperatingPlateCalculation,
+    operatingPlateCollection,
+    setOperatingPlateCollection,
   } = usePresetsList;
 
   const {
@@ -191,12 +191,12 @@ export const CalculationModal = ({
   const handlePresetClickSetHandle = (equipment?: EquipmentWeight) => {
     if (equipment === undefined) return;
 
-    const updatedOperatingPlateCalculation: PlateCollection = {
-      ...operatingPlateCalculation,
+    const updatedOperatingPlateCollection: PlateCollection = {
+      ...operatingPlateCollection,
       handle: equipment,
     };
 
-    setOperatingPlateCalculation(updatedOperatingPlateCalculation);
+    setOperatingPlateCollection(updatedOperatingPlateCollection);
 
     setPlateCalculatorPage("base");
     setOperationTypeSumCalc("add-preset");
@@ -288,10 +288,8 @@ export const CalculationModal = ({
                 >
                   <Tab key="plate" title="Plates">
                     <PlateCalculator
-                      operatingPlateCalculation={operatingPlateCalculation}
-                      setOperatingPlateCalculation={
-                        setOperatingPlateCalculation
-                      }
+                      operatingPlateCollection={operatingPlateCollection}
+                      setOperatingPlateCollection={setOperatingPlateCollection}
                       plateCalculatorPage={plateCalculatorPage}
                       usePresetsList={usePresetsList}
                       operationTypePlateCalc={operationTypePlateCalc}

@@ -54,7 +54,7 @@ export { ValidateUserSettings } from "./UserSettings/ValidateUserSettings";
 export { GetClockStyle } from "./UserSettings/GetClockStyle";
 export { ValidateShownWorkoutPropertiesString } from "./UserSettings/ValidateShownWorkoutPropertiesString";
 export { CreateWorkoutPropertySet } from "./UserSettings/CreateWorkoutPropertySet";
-export { UpdateDefaultPlateCalculationId } from "./UserSettings/UpdateDefaultPlateCalculationId";
+export { UpdateDefaultPlateCollectionId } from "./UserSettings/UpdateDefaultPlateCollectionId";
 export { ValidateWorkoutRatingsOrderString } from "./UserSettings/ValidateWorkoutRatingsOrderString";
 export { UpdateShowSecondaryExerciseGroups } from "./UserSettings/UpdateShowSecondaryExerciseGroups";
 
@@ -142,11 +142,11 @@ export { InsertUserMeasurementIntoDatabase } from "./Measurements/InsertUserMeas
 export { CreateDefaultEquipmentWeights } from "./Presets/CreateDefaultEquipmentWeights";
 export { CreateDefaultDistances } from "./Presets/CreateDefaultDistances";
 export { UpdateIsFavorite } from "./Presets/UpdateIsFavorite";
-export { CreateDefaultPlateCalculations } from "./Presets/CreateDefaultPlateCalculations";
+export { CreateDefaultPlateCollections } from "./Presets/CreateDefaultPlateCollections";
 export { GenerateAvailablePlatesString } from "./Presets/GenerateAvailablePlatesString";
-export { CreatePlateCalculationList } from "./Presets/CreatePlateCalculationList";
+export { CreatePlateCollectionList } from "./Presets/CreatePlateCollectionList";
 export { GenerateFormattedAvailablePlatesString } from "./Presets/GenerateFormattedAvailablePlatesString";
-export { UpdateAvailablePlatesInPlateCalculation } from "./Presets/UpdateAvailablePlatesInPlateCalculation";
+export { UpdateAvailablePlatesInPlateCollection } from "./Presets/UpdateAvailablePlatesInPlateCollection";
 
 export { CreateGroupedWorkoutSetList } from "./Workouts/CreateGroupedWorkoutSetList";
 export { GenerateExerciseOrderString } from "./Workouts/GenerateExerciseOrderString";

@@ -1,24 +1,24 @@
 import { Button, Select, SelectItem } from "@nextui-org/react";
 import { PlateCollection } from "../typings";
 
-type PlateCalculationHandleConfigProps = {
-  plateCalculation: PlateCollection;
-  setPlateCalculation: React.Dispatch<React.SetStateAction<PlateCollection>>;
+type PlateCollectionHandleConfigProps = {
+  plateCollection: PlateCollection;
+  setPlateCollection: React.Dispatch<React.SetStateAction<PlateCollection>>;
   handleSetHandleButton: () => void;
 };
 
-export const PlateCalculationHandleConfig = ({
-  plateCalculation,
-  setPlateCalculation,
+export const PlateCollectionHandleConfig = ({
+  plateCollection,
+  setPlateCollection,
   handleSetHandleButton,
-}: PlateCalculationHandleConfigProps) => {
+}: PlateCollectionHandleConfigProps) => {
   const handleHandlesChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const updatedOperatingPlateCalculation: PlateCollection = {
-      ...plateCalculation,
+    const updatedOperatingPlateCollection: PlateCollection = {
+      ...plateCollection,
       num_handles: Number(e.target.value),
     };
 
-    setPlateCalculation(updatedOperatingPlateCalculation);
+    setPlateCollection(updatedOperatingPlateCollection);
   };
 
   return (
@@ -32,7 +32,7 @@ export const PlateCalculationHandleConfig = ({
             className="w-[4rem]"
             size="sm"
             variant="faded"
-            selectedKeys={[plateCalculation.num_handles.toString()]}
+            selectedKeys={[plateCollection.num_handles.toString()]}
             onChange={(e) => handleHandlesChange(e)}
             disallowEmptySelection
           >
@@ -45,17 +45,17 @@ export const PlateCalculationHandleConfig = ({
           </Select>
         </div>
       </div>
-      {plateCalculation.handle !== undefined ? (
+      {plateCollection.handle !== undefined ? (
         <div className="flex gap-1 items-center">
           <div className="flex w-[20.5rem] justify-between gap-1 bg-default-50 px-1.5 py-0.5 border-2 rounded-lg">
             <span className="w-[16rem] truncate">
-              {plateCalculation.handle.name}
+              {plateCollection.handle.name}
             </span>
             <div className="flex gap-1 text-secondary">
               <span className="w-[3.5rem] truncate text-right">
-                {plateCalculation.handle.weight}
+                {plateCollection.handle.weight}
               </span>
-              <span>{plateCalculation.handle.weight_unit}</span>
+              <span>{plateCollection.handle.weight_unit}</span>
             </div>
           </div>
           <Button

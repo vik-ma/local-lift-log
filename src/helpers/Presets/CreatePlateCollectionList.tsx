@@ -4,8 +4,8 @@ import {
   IsNumberDivisibleBy2,
 } from "..";
 
-export const CreatePlateCalculationList = (
-  plateCalculations: PlateCollection[],
+export const CreatePlateCollectionList = (
+  plateCollections: PlateCollection[],
   equipmentWeights: EquipmentWeight[]
 ) => {
   const equipmentWeightMap: Map<string, EquipmentWeight> =
@@ -14,9 +14,9 @@ export const CreatePlateCalculationList = (
       new Map<string, EquipmentWeight>()
     );
 
-  const plateCalculationList: PlateCollection[] = [];
+  const plateCollectionList: PlateCollection[] = [];
 
-  for (const plate of plateCalculations) {
+  for (const plate of plateCollections) {
     const weightUnit = plate.weight_unit;
 
     const availablePlatesMap = new Map<EquipmentWeight, number>();
@@ -48,7 +48,7 @@ export const CreatePlateCalculationList = (
       formattedAvailablePlatesMapString,
     } = GenerateFormattedAvailablePlatesString(availablePlatesMap);
 
-    const plateCalculation: PlateCollection = {
+    const plateCollection: PlateCollection = {
       ...plate,
       // Don't add handle if handle's weight_unit doesn't match current Plate Collection's weight_unit
       handle:
@@ -60,8 +60,8 @@ export const CreatePlateCalculationList = (
       formattedAvailablePlatesMapString,
     };
 
-    plateCalculationList.push(plateCalculation);
+    plateCollectionList.push(plateCollection);
   }
 
-  return plateCalculationList;
+  return plateCollectionList;
 };

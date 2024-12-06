@@ -12,8 +12,8 @@ import Database from "tauri-plugin-sql-api";
 import {
   ConvertDistanceToMeter,
   ConvertWeightToKg,
-  CreatePlateCalculationList,
-  UpdateAvailablePlatesInPlateCalculation,
+  CreatePlateCollectionList,
+  UpdateAvailablePlatesInPlateCollection,
   UpdateIsFavorite,
   UpdateItemInList,
 } from "../helpers";
@@ -29,7 +29,7 @@ export const usePresetsList = (
   const [presetsType, setPresetsType] = useState<PresetsType>("equipment");
   const [filterQueryEquipment, setFilterQueryEquipment] = useState<string>("");
   const [filterQueryDistance, setFilterQueryDistance] = useState<string>("");
-  const [filterQueryPlateCalculation, setFilterQueryPlateCalculation] =
+  const [filterQueryPlateCollection, setFilterQueryPlateCollection] =
     useState<string>("");
   const [sortCategoryEquipment, setSortCategoryEquipment] =
     useState<EquipmentWeightSortCategory>("favorite");
@@ -37,15 +37,13 @@ export const usePresetsList = (
     useState<DistanceSortCategory>("favorite");
   const [isLoadingEquipment, setIsLoadingEquipment] = useState<boolean>(true);
   const [isLoadingDistance, setIsLoadingDistance] = useState<boolean>(true);
-  const [plateCalculations, setPlateCalculations] = useState<PlateCollection[]>(
+  const [plateCollections, setPlateCollections] = useState<PlateCollection[]>(
     []
   );
-  const [
-    isDefaultPlateCalculationInvalid,
-    setIsDefaultPlateCalculationInvalid,
-  ] = useState<boolean>(false);
+  const [isDefaultPlateCollectionInvalid, setIsDefaultPlateCollectionInvalid] =
+    useState<boolean>(false);
 
-  const defaultPlateCalculation: PlateCollection = useMemo(() => {
+  const defaultPlateCollection: PlateCollection = useMemo(() => {
     return {
       id: 0,
       name: "",
@@ -57,10 +55,10 @@ export const usePresetsList = (
     };
   }, []);
 
-  const [operatingPlateCalculation, setOperatingPlateCalculation] =
-    useState<PlateCollection>(defaultPlateCalculation);
-  const [otherUnitPlateCalculation, setOtherUnitPlateCalculation] =
-    useState<PlateCollection>(defaultPlateCalculation);
+  const [operatingPlateCollection, setOperatingPlateCollection] =
+    useState<PlateCollection>(defaultPlateCollection);
+  const [otherUnitPlateCollection, setOtherUnitPlateCollection] =
+    useState<PlateCollection>(defaultPlateCollection);
 
   const filteredEquipmentWeights = useMemo(() => {
     if (filterQueryEquipment !== "") {
@@ -94,19 +92,19 @@ export const usePresetsList = (
     return distances;
   }, [distances, filterQueryDistance]);
 
-  const filteredPlateCalculations = useMemo(() => {
-    if (filterQueryPlateCalculation !== "") {
-      return plateCalculations.filter((item) =>
+  const filteredPlateCollections = useMemo(() => {
+    if (filterQueryPlateCollection !== "") {
+      return plateCollections.filter((item) =>
         item.name
           .toLocaleLowerCase()
-          .includes(filterQueryPlateCalculation.toLocaleLowerCase())
+          .includes(filterQueryPlateCollection.toLocaleLowerCase())
       );
     }
-    return plateCalculations;
-  }, [plateCalculations, filterQueryPlateCalculation]);
+    return plateCollections;
+  }, [plateCollections, filterQueryPlateCollection]);
 
   const getEquipmentWeights = useCallback(
-    async (defaultPlateCalculationId?: number) => {
+    async (defaultPlateCollectionId?: number) => {
       try {
         const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -114,30 +112,29 @@ export const usePresetsList = (
           "SELECT * FROM equipment_weights"
         );
 
-        const plateCalculations = await db.select<PlateCollection[]>(
+        const plateCollections = await db.select<PlateCollection[]>(
           "SELECT * FROM plate_calculations"
         );
 
         sortEquipmentWeightsByFavoritesFirst(equipmentWeights);
 
-        const plateCalculationList = CreatePlateCalculationList(
-          plateCalculations,
+        const plateCollectionList = CreatePlateCollectionList(
+          plateCollections,
           equipmentWeights
         );
 
-        setPlateCalculations(plateCalculationList);
+        setPlateCollections(plateCollectionList);
         setIsLoadingEquipment(false);
 
-        if (defaultPlateCalculationId !== undefined) {
-          const defaultPlateCalculation = plateCalculationList.find(
-            (plateCalculation) =>
-              plateCalculation.id === defaultPlateCalculationId
+        if (defaultPlateCollectionId !== undefined) {
+          const defaultPlateCollection = plateCollectionList.find(
+            (plateCollection) => plateCollection.id === defaultPlateCollectionId
           );
 
-          if (defaultPlateCalculation !== undefined) {
-            setOperatingPlateCalculation(defaultPlateCalculation);
+          if (defaultPlateCollection !== undefined) {
+            setOperatingPlateCollection(defaultPlateCollection);
           } else {
-            setIsDefaultPlateCalculationInvalid(true);
+            setIsDefaultPlateCollectionInvalid(true);
           }
         }
       } catch (error) {
@@ -272,9 +269,9 @@ export const usePresetsList = (
   const sortEquipmentWeightsByPlateCalcFirst = (
     equipmentWeightList: EquipmentWeight[]
   ) => {
-    if (operatingPlateCalculation.availablePlatesMap === undefined) return;
+    if (operatingPlateCollection.availablePlatesMap === undefined) return;
 
-    const platesMap = operatingPlateCalculation.availablePlatesMap;
+    const platesMap = operatingPlateCollection.availablePlatesMap;
 
     equipmentWeightList.sort((a, b) => {
       const aInMap = platesMap.has(a) ? 1 : 0;
@@ -416,10 +413,10 @@ export const usePresetsList = (
   };
 
   const updateAvailablePlatesMapKeys = (equipmentWeight: EquipmentWeight) => {
-    if (operatingPlateCalculation.availablePlatesMap === undefined) return;
+    if (operatingPlateCollection.availablePlatesMap === undefined) return;
 
     const updatedAvailablePlatesMap = new Map(
-      operatingPlateCalculation.availablePlatesMap
+      operatingPlateCollection.availablePlatesMap
     );
 
     if (updatedAvailablePlatesMap.has(equipmentWeight)) {
@@ -441,32 +438,32 @@ export const usePresetsList = (
       }
     }
 
-    const updatedPlateCalculation = UpdateAvailablePlatesInPlateCalculation(
-      operatingPlateCalculation,
+    const updatedPlateCollection = UpdateAvailablePlatesInPlateCollection(
+      operatingPlateCollection,
       sortedAvailablePlatesMap
     );
 
-    setOperatingPlateCalculation(updatedPlateCalculation);
+    setOperatingPlateCollection(updatedPlateCollection);
   };
 
   const updateAvailablePlatesMapValue = (
     equipmentWeight: EquipmentWeight,
     newValue: number
   ) => {
-    if (operatingPlateCalculation.availablePlatesMap === undefined) return;
+    if (operatingPlateCollection.availablePlatesMap === undefined) return;
 
     const updatedAvailablePlatesMap = new Map(
-      operatingPlateCalculation.availablePlatesMap
+      operatingPlateCollection.availablePlatesMap
     );
 
     updatedAvailablePlatesMap.set(equipmentWeight, newValue);
 
-    const updatedPlateCalculation = UpdateAvailablePlatesInPlateCalculation(
-      operatingPlateCalculation,
+    const updatedPlateCollection = UpdateAvailablePlatesInPlateCollection(
+      operatingPlateCollection,
       updatedAvailablePlatesMap
     );
 
-    setOperatingPlateCalculation(updatedPlateCalculation);
+    setOperatingPlateCollection(updatedPlateCollection);
   };
 
   return {
@@ -494,19 +491,19 @@ export const usePresetsList = (
     isLoadingDistance,
     sortEquipmentWeightByActiveCategory,
     sortDistancesByActiveCategory,
-    plateCalculations,
-    setPlateCalculations,
-    operatingPlateCalculation,
-    setOperatingPlateCalculation,
-    filteredPlateCalculations,
-    filterQueryPlateCalculation,
-    setFilterQueryPlateCalculation,
+    plateCollections,
+    setPlateCollections,
+    operatingPlateCollection,
+    setOperatingPlateCollection,
+    filteredPlateCollections,
+    filterQueryPlateCollection,
+    setFilterQueryPlateCollection,
     updateAvailablePlatesMapKeys,
-    otherUnitPlateCalculation,
-    setOtherUnitPlateCalculation,
-    defaultPlateCalculation,
+    otherUnitPlateCollection,
+    setOtherUnitPlateCollection,
+    defaultPlateCollection,
     updateAvailablePlatesMapValue,
-    isDefaultPlateCalculationInvalid,
-    setIsDefaultPlateCalculationInvalid,
+    isDefaultPlateCollectionInvalid,
+    setIsDefaultPlateCollectionInvalid,
   };
 };

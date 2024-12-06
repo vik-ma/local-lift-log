@@ -1,32 +1,32 @@
 import { Button } from "@nextui-org/react";
 import { PlateCollection, UserSettings } from "../typings";
-import { UpdateDefaultPlateCalculationId } from "../helpers";
+import { UpdateDefaultPlateCollectionId } from "../helpers";
 import { WeightPlatesIcon } from "../assets";
 
-type PlateCalculationButtonProps = {
+type PlateCollectionButtonProps = {
   userSettings: UserSettings;
   setUserSettings: React.Dispatch<
     React.SetStateAction<UserSettings | undefined>
   >;
-  plateCalculation: PlateCollection;
+  plateCollection: PlateCollection;
 };
 
-export const PlateCalculationButton = ({
+export const PlateCollectionButton = ({
   userSettings,
   setUserSettings,
-  plateCalculation,
-}: PlateCalculationButtonProps) => {
-  const handleSetDefaultPlateCalculationButton = async (
-    plateCalculation: PlateCollection
+  plateCollection,
+}: PlateCollectionButtonProps) => {
+  const handleSetDefaultPlateCollectionButton = async (
+    plateCollection: PlateCollection
   ) => {
     if (
-      plateCalculation.id === userSettings.default_plate_calculation_id ||
-      plateCalculation.id === 0
+      plateCollection.id === userSettings.default_plate_calculation_id ||
+      plateCollection.id === 0
     )
       return;
 
-    const success = await UpdateDefaultPlateCalculationId(
-      plateCalculation.id,
+    const success = await UpdateDefaultPlateCollectionId(
+      plateCollection.id,
       userSettings.id
     );
 
@@ -34,7 +34,7 @@ export const PlateCalculationButton = ({
 
     const updatedSettings: UserSettings = {
       ...userSettings,
-      default_plate_calculation_id: plateCalculation.id,
+      default_plate_calculation_id: plateCollection.id,
     };
 
     setUserSettings(updatedSettings);
@@ -46,16 +46,16 @@ export const PlateCalculationButton = ({
       isIconOnly
       className="z-1 w-[3.5rem]"
       color={
-        userSettings.default_plate_calculation_id === plateCalculation.id
+        userSettings.default_plate_calculation_id === plateCollection.id
           ? "success"
           : "default"
       }
       variant="light"
-      onPress={() => handleSetDefaultPlateCalculationButton(plateCalculation)}
+      onPress={() => handleSetDefaultPlateCollectionButton(plateCollection)}
     >
       <WeightPlatesIcon
         isChecked={
-          userSettings.default_plate_calculation_id === plateCalculation.id
+          userSettings.default_plate_calculation_id === plateCollection.id
         }
         size={31}
       />

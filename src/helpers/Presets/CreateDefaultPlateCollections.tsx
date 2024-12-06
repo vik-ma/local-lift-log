@@ -3,7 +3,7 @@ import { AvailablePlates } from "../../typings";
 import { IsNumberValidId } from "../Numbers/IsNumberValidId";
 import { GenerateAvailablePlatesString } from "./GenerateAvailablePlatesString";
 
-type DefaultPlateCalculation = {
+type DefaultPlateCollection = {
   name: string;
   handle_id: number;
   available_plates_string: string;
@@ -11,7 +11,7 @@ type DefaultPlateCalculation = {
   weight_unit: string;
 };
 
-export const CreateDefaultPlateCalculations = async (
+export const CreateDefaultPlateCollections = async (
   weightIdList: number[],
   handleId: number,
   isMetric: boolean
@@ -32,7 +32,7 @@ export const CreateDefaultPlateCalculations = async (
 
   const availablePlatesString = GenerateAvailablePlatesString(availablePlates);
 
-  const DEFAULT_PLATE_CALCULATIONS: DefaultPlateCalculation[] = [
+  const DEFAULT_PLATE_CALCULATIONS: DefaultPlateCollection[] = [
     {
       name: "Barbell",
       handle_id: handleId,
@@ -46,18 +46,18 @@ export const CreateDefaultPlateCalculations = async (
     const db = await Database.load(import.meta.env.VITE_DB);
 
     for (let i = 0; i < DEFAULT_PLATE_CALCULATIONS.length; i++) {
-      const plateCalculation = DEFAULT_PLATE_CALCULATIONS[i];
+      const plateCollection = DEFAULT_PLATE_CALCULATIONS[i];
 
       await db.execute(
         `INSERT into plate_calculations 
          (name, handle_id, available_plates_string, num_handles, weight_unit) 
          VALUES ($1, $2, $3, $4, $5)`,
         [
-          plateCalculation.name,
-          plateCalculation.handle_id,
-          plateCalculation.available_plates_string,
-          plateCalculation.num_handles,
-          plateCalculation.weight_unit,
+          plateCollection.name,
+          plateCollection.handle_id,
+          plateCollection.available_plates_string,
+          plateCollection.num_handles,
+          plateCollection.weight_unit,
         ]
       );
     }

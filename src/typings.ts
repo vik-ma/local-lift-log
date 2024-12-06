@@ -203,7 +203,7 @@ export type UnitDropdownProps = {
   isSmall?: boolean;
   isSetEdited?: boolean;
   setIsSetEdited?: React.Dispatch<React.SetStateAction<boolean>>;
-  setPlateCalculation?: React.Dispatch<React.SetStateAction<PlateCollection>>;
+  setPlateCollection?: React.Dispatch<React.SetStateAction<PlateCollection>>;
   switchWeightUnit?: () => void;
 };
 
@@ -590,7 +590,7 @@ export type UsePresetsListReturnType = {
   setDistances: React.Dispatch<React.SetStateAction<Distance[]>>;
   getEquipmentWeights: (
     defaultEquipmentHandleId?: number,
-    defaultPlateCalculationId?: number
+    defaultPlateCollectionId?: number
   ) => Promise<void>;
   getDistances: () => Promise<void>;
   presetsType: PresetsType;
@@ -613,27 +613,27 @@ export type UsePresetsListReturnType = {
     equipmentWeightList: EquipmentWeight[]
   ) => void;
   sortDistancesByActiveCategory: (distanceList: Distance[]) => void;
-  plateCalculations: PlateCollection[];
-  setPlateCalculations: React.Dispatch<React.SetStateAction<PlateCollection[]>>;
-  operatingPlateCalculation: PlateCollection;
-  setOperatingPlateCalculation: React.Dispatch<
+  plateCollections: PlateCollection[];
+  setPlateCollections: React.Dispatch<React.SetStateAction<PlateCollection[]>>;
+  operatingPlateCollection: PlateCollection;
+  setOperatingPlateCollection: React.Dispatch<
     React.SetStateAction<PlateCollection>
   >;
-  filteredPlateCalculations: PlateCollection[];
-  filterQueryPlateCalculation: string;
-  setFilterQueryPlateCalculation: React.Dispatch<React.SetStateAction<string>>;
+  filteredPlateCollections: PlateCollection[];
+  filterQueryPlateCollection: string;
+  setFilterQueryPlateCollection: React.Dispatch<React.SetStateAction<string>>;
   updateAvailablePlatesMapKeys: (equipmentWeight: EquipmentWeight) => void;
-  otherUnitPlateCalculation: PlateCollection;
-  setOtherUnitPlateCalculation: React.Dispatch<
+  otherUnitPlateCollection: PlateCollection;
+  setOtherUnitPlateCollection: React.Dispatch<
     React.SetStateAction<PlateCollection>
   >;
-  defaultPlateCalculation: PlateCollection;
+  defaultPlateCollection: PlateCollection;
   updateAvailablePlatesMapValue: (
     equipmentWeight: EquipmentWeight,
     newValue: number
   ) => void;
-  isDefaultPlateCalculationInvalid: boolean;
-  setIsDefaultPlateCalculationInvalid: React.Dispatch<
+  isDefaultPlateCollectionInvalid: boolean;
+  setIsDefaultPlateCollectionInvalid: React.Dispatch<
     React.SetStateAction<boolean>
   >;
 };
@@ -750,15 +750,15 @@ export type AvailablePlates = {
   numAvailable: number;
 };
 
-export type PlateCalculationPage = "base" | "equipment-list";
+export type PlateCollectionPage = "base" | "equipment-list";
 
-export type UsePlateCalculationModalReturnType = {
-  plateCalculatorPage: PlateCalculationPage;
+export type UsePlateCollectionModalReturnType = {
+  plateCalculatorPage: PlateCollectionPage;
   setPlateCalculatorPage: React.Dispatch<
-    React.SetStateAction<PlateCalculationPage>
+    React.SetStateAction<PlateCollectionPage>
   >;
-  plateCalculationModal: UseDisclosureReturnType;
-  resetAndOpenPlateCalculationModal: () => void;
+  plateCollectionModal: UseDisclosureReturnType;
+  resetAndOpenPlateCollectionModal: () => void;
 };
 
 export type RoutineMap = Map<number, Routine>;

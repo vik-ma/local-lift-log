@@ -51,8 +51,8 @@ export const PresetsModalList = ({
     toggleFavoriteDistance,
     sortCategoryEquipment,
     handleSortOptionSelectionEquipment,
-    operatingPlateCalculation,
-    setOperatingPlateCalculation,
+    operatingPlateCollection,
+    setOperatingPlateCollection,
     updateAvailablePlatesMapKeys,
   } = presetsList;
 
@@ -129,13 +129,13 @@ export const PresetsModalList = ({
           ) : (
             <>
               {filteredEquipmentWeights.map((equipment) => {
-                const isInPlateCalculation =
-                  operatingPlateCalculation?.availablePlatesMap?.has(
+                const isInPlateCollection =
+                  operatingPlateCollection?.availablePlatesMap?.has(
                     equipment
                   ) ?? false;
 
                 const numAvailable =
-                  operatingPlateCalculation?.availablePlatesMap?.get(
+                  operatingPlateCollection?.availablePlatesMap?.get(
                     equipment
                   ) ?? 0;
 
@@ -159,7 +159,7 @@ export const PresetsModalList = ({
                     <div className="flex flex-col justify-start items-start pl-2 py-1">
                       <span
                         className={
-                          isInPlateCalculation
+                          isInPlateCollection
                             ? "w-[11.5rem] truncate text-left"
                             : "w-[16.25rem] truncate text-left"
                         }
@@ -177,30 +177,30 @@ export const PresetsModalList = ({
                             <AvailablePlatesDropdown
                               value={numAvailable}
                               equipmentWeight={equipment}
-                              operatingPlateCalculation={
-                                operatingPlateCalculation
+                              operatingPlateCollection={
+                                operatingPlateCollection
                               }
-                              setOperatingPlateCalculation={
-                                setOperatingPlateCalculation
+                              setOperatingPlateCollection={
+                                setOperatingPlateCollection
                               }
                             />
                           )}
                           <Button
                             aria-label={
-                              isInPlateCalculation
+                              isInPlateCollection
                                 ? `Remove ${equipment.name} From Plate Collection`
                                 : `Add ${equipment.name} To Plate Collection`
                             }
                             isIconOnly
                             className="z-1 w-[3.5rem]"
-                            color={isInPlateCalculation ? "success" : "default"}
+                            color={isInPlateCollection ? "success" : "default"}
                             variant="light"
                             onPress={() =>
                               updateAvailablePlatesMapKeys(equipment)
                             }
                           >
                             <WeightPlatesIcon
-                              isChecked={isInPlateCalculation}
+                              isChecked={isInPlateCollection}
                               size={31}
                             />
                           </Button>

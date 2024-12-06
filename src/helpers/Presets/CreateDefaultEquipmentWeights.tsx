@@ -1,5 +1,5 @@
 import Database from "tauri-plugin-sql-api";
-import { CreateDefaultPlateCalculations, DefaultEquipmentWeights } from "..";
+import { CreateDefaultPlateCollections, DefaultEquipmentWeights } from "..";
 
 export const CreateDefaultEquipmentWeights = async (isMetric: boolean) => {
   const DEFAULT_EQUIPMENT_WEIGHTS = DefaultEquipmentWeights(isMetric);
@@ -32,7 +32,7 @@ export const CreateDefaultEquipmentWeights = async (isMetric: boolean) => {
       }
     }
 
-    await CreateDefaultPlateCalculations(weightIdList, handleId, isMetric);
+    await CreateDefaultPlateCollections(weightIdList, handleId, isMetric);
   } catch (error) {
     console.log(error);
   }
