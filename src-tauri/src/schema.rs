@@ -34,7 +34,7 @@ diesel::table! {
         default_increment_calculation_multiplier -> Float,
         default_calculation_tab -> Text,
         shown_workout_properties -> Text,
-        default_plate_calculation_id -> Integer,
+        default_plate_collection_id -> Integer,
         workout_ratings_order -> Text,
         show_secondary_exercise_groups -> Integer,
         automatically_update_active_measurements -> Integer,
@@ -187,7 +187,7 @@ diesel::table! {
 }
 
 diesel::table! {
-    plate_calculations (id) {
+    plate_collections (id) {
         id -> Integer,
         name -> Text,
         handle_id -> Integer,

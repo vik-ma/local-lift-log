@@ -37,7 +37,7 @@ pub struct UserSetting {
     pub default_increment_calculation_multiplier: f32,
     pub default_calculation_tab: String,
     pub shown_workout_properties: String,
-    pub default_plate_calculation_id: i32,
+    pub default_plate_collection_id: i32,
     pub workout_ratings_order: String,
     pub show_secondary_exercise_groups: i32,
     pub automatically_update_active_measurements: i32,
@@ -200,9 +200,9 @@ pub struct Multiset {
 }
 
 #[derive(Queryable, Selectable)]
-#[diesel(table_name = crate::schema::plate_calculations)]
+#[diesel(table_name = crate::schema::plate_collections)]
 #[diesel(check_for_backend(diesel::sqlite::Sqlite))]
-pub struct PlateCalculation {
+pub struct PlateCollection {
     pub id: i32,
     pub name: String,
     pub handle_id: i32,
