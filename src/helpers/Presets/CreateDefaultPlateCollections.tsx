@@ -32,7 +32,7 @@ export const CreateDefaultPlateCollections = async (
 
   const availablePlatesString = GenerateAvailablePlatesString(availablePlates);
 
-  const DEFAULT_PLATE_CALCULATIONS: DefaultPlateCollection[] = [
+  const DEFAULT_PLATE_COLLECTIONS: DefaultPlateCollection[] = [
     {
       name: "Barbell",
       handle_id: handleId,
@@ -45,11 +45,11 @@ export const CreateDefaultPlateCollections = async (
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
 
-    for (let i = 0; i < DEFAULT_PLATE_CALCULATIONS.length; i++) {
-      const plateCollection = DEFAULT_PLATE_CALCULATIONS[i];
+    for (let i = 0; i < DEFAULT_PLATE_COLLECTIONS.length; i++) {
+      const plateCollection = DEFAULT_PLATE_COLLECTIONS[i];
 
       await db.execute(
-        `INSERT into plate_calculations 
+        `INSERT into plate_collections 
          (name, handle_id, available_plates_string, num_handles, weight_unit) 
          VALUES ($1, $2, $3, $4, $5)`,
         [

@@ -437,13 +437,13 @@ export default function Settings() {
   ) => {
     if (
       userSettings === undefined ||
-      userSettings.default_plate_calculation_id === plateCollection.id
+      userSettings.default_plate_collection_id === plateCollection.id
     )
       return;
 
     const updatedSettings: UserSettings = {
       ...userSettings,
-      default_plate_calculation_id: plateCollection.id,
+      default_plate_collection_id: plateCollection.id,
     };
 
     updateSettings(updatedSettings);
@@ -580,7 +580,7 @@ export default function Settings() {
                         handleDefaultPlateCollectionIdChange
                       }
                       defaultPlateCollectionId={
-                        userSettings.default_plate_calculation_id
+                        userSettings.default_plate_collection_id
                       }
                     />
                   ) : (

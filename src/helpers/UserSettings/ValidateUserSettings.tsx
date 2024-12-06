@@ -97,7 +97,7 @@ export const ValidateUserSettings = (userSettings: UserSettings): boolean => {
   )
     return false;
 
-  if (!IsNumberValidId(userSettings.default_plate_calculation_id)) return false;
+  if (!IsNumberValidId(userSettings.default_plate_collection_id)) return false;
 
   if (!ValidateWorkoutRatingsOrderString(userSettings.workout_ratings_order))
     return false;

@@ -11,7 +11,7 @@ export const UpdateDefaultPlateCollectionId = async (
     const db = await Database.load(import.meta.env.VITE_DB);
 
     db.execute(
-      "UPDATE user_settings SET default_plate_calculation_id = $1 WHERE id = $2",
+      "UPDATE user_settings SET default_plate_collection_id = $1 WHERE id = $2",
       [plateCollectionId, userSettingsId]
     );
 

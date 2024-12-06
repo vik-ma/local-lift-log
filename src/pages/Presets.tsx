@@ -264,7 +264,7 @@ export default function Presets() {
       const db = await Database.load(import.meta.env.VITE_DB);
 
       const result = await db.execute(
-        `INSERT into plate_calculations 
+        `INSERT into plate_collections 
          (name, handle_id, available_plates_string, num_handles, weight_unit) 
          VALUES ($1, $2, $3, $4, $5)`,
         [
@@ -396,7 +396,7 @@ export default function Presets() {
       const db = await Database.load(import.meta.env.VITE_DB);
 
       await db.execute(
-        `UPDATE plate_calculations 
+        `UPDATE plate_collections 
          SET name = $1, handle_id = $2, available_plates_string = $3, num_handles = $4,
          weight_unit = $5 
          WHERE id = $6`,
@@ -499,7 +499,7 @@ export default function Presets() {
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
-      db.execute("DELETE from plate_calculations WHERE id = $1", [
+      db.execute("DELETE from plate_collections WHERE id = $1", [
         operatingPlateCollection.id,
       ]);
 
@@ -654,7 +654,7 @@ export default function Presets() {
   const updateDefaultPlateCollectionId = async (plateCollectionId: number) => {
     if (
       userSettings === undefined ||
-      plateCollectionId === userSettings.default_plate_calculation_id
+      plateCollectionId === userSettings.default_plate_collection_id
     )
       return;
 
@@ -667,7 +667,7 @@ export default function Presets() {
 
     const updatedSettings: UserSettings = {
       ...userSettings,
-      default_plate_calculation_id: plateCollectionId,
+      default_plate_collection_id: plateCollectionId,
     };
 
     setUserSettings(updatedSettings);
@@ -1200,7 +1200,7 @@ export default function Presets() {
                             <DropdownItem
                               className={
                                 plate.id ===
-                                userSettings.default_plate_calculation_id
+                                userSettings.default_plate_collection_id
                                   ? "hidden"
                                   : "text-success"
                               }

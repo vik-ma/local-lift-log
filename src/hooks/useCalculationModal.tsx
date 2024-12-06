@@ -38,7 +38,7 @@ export const useCalculationModal = (): UseCalculationModalReturnType => {
   ) => {
     if (isWeight && presetsList.isLoadingEquipment) {
       await presetsList.getEquipmentWeights(
-        userSettings.default_plate_calculation_id
+        userSettings.default_plate_collection_id
       );
     } else if (!isWeight && presetsList.isLoadingDistance) {
       await presetsList.getDistances();

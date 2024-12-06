@@ -20,7 +20,7 @@ export const PlateCollectionButton = ({
     plateCollection: PlateCollection
   ) => {
     if (
-      plateCollection.id === userSettings.default_plate_calculation_id ||
+      plateCollection.id === userSettings.default_plate_collection_id ||
       plateCollection.id === 0
     )
       return;
@@ -34,7 +34,7 @@ export const PlateCollectionButton = ({
 
     const updatedSettings: UserSettings = {
       ...userSettings,
-      default_plate_calculation_id: plateCollection.id,
+      default_plate_collection_id: plateCollection.id,
     };
 
     setUserSettings(updatedSettings);
@@ -46,7 +46,7 @@ export const PlateCollectionButton = ({
       isIconOnly
       className="z-1 w-[3.5rem]"
       color={
-        userSettings.default_plate_calculation_id === plateCollection.id
+        userSettings.default_plate_collection_id === plateCollection.id
           ? "success"
           : "default"
       }
@@ -55,7 +55,7 @@ export const PlateCollectionButton = ({
     >
       <WeightPlatesIcon
         isChecked={
-          userSettings.default_plate_calculation_id === plateCollection.id
+          userSettings.default_plate_collection_id === plateCollection.id
         }
         size={31}
       />

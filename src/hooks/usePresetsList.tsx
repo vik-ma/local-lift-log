@@ -113,7 +113,7 @@ export const usePresetsList = (
         );
 
         const plateCollections = await db.select<PlateCollection[]>(
-          "SELECT * FROM plate_calculations"
+          "SELECT * FROM plate_collections"
         );
 
         sortEquipmentWeightsByFavoritesFirst(equipmentWeights);

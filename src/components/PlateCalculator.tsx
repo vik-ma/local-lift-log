@@ -280,7 +280,7 @@ export const PlateCalculator = ({
 
       const updatedSettings: UserSettings = {
         ...userSettings,
-        default_plate_calculation_id: plateCollection.id,
+        default_plate_collection_id: plateCollection.id,
       };
 
       setUserSettings(updatedSettings);

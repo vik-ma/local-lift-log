@@ -105,7 +105,7 @@ export const CalculationModal = ({
 
   const loadPresets = useCallback(async () => {
     if (presetsType === "equipment" && isLoadingEquipment) {
-      await getEquipmentWeights(userSettings.default_plate_calculation_id);
+      await getEquipmentWeights(userSettings.default_plate_collection_id);
     }
 
     if (presetsType === "distance" && isLoadingDistance) {
