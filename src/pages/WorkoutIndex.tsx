@@ -37,7 +37,10 @@ export default function WorkoutIndex() {
 
   const workoutList = useWorkoutList(false, exerciseList, true);
 
-  const { workoutTemplateList, routineList } = workoutList;
+  const { workoutTemplateList, routineList, handleOpenWorkoutListModal } =
+    workoutList;
+
+  const { handleOpenWorkoutTemplateListModal } = workoutTemplateList;
 
   const filterExerciseList = useFilterExerciseList(exerciseList);
 
@@ -169,14 +172,14 @@ export default function WorkoutIndex() {
             <Button
               className="font-medium text-base"
               color="primary"
-              onPress={() => workoutTemplateList.workoutTemplatesModal.onOpen()}
+              onPress={handleOpenWorkoutTemplateListModal}
             >
               New Workout From Template
             </Button>
             <Button
               className="font-medium text-base"
               color="primary"
-              onPress={workoutList.handleOpenWorkoutListModal}
+              onPress={handleOpenWorkoutListModal}
             >
               Copy Previous Workout
             </Button>

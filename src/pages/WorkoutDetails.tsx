@@ -140,7 +140,15 @@ export default function WorkoutDetails() {
 
   const workoutList = useWorkoutList(false, exerciseList, true, Number(id));
 
-  const { workoutTemplateList, routineList } = workoutList;
+  const {
+    workoutTemplateList,
+    routineList,
+    handleOpenWorkoutListModal,
+    workoutListModal,
+  } = workoutList;
+
+  const { handleOpenWorkoutTemplateListModal, workoutTemplatesModal } =
+    workoutTemplateList;
 
   const additionalMenuItems: DetailHeaderOptionItem = useMemo(() => {
     return {
@@ -151,18 +159,18 @@ export default function WorkoutDetails() {
       },
       "load-workout-template": {
         text: "Load Workout Template",
-        function: () => workoutTemplateList.handleOpenWorkoutTemplatesModal(),
+        function: () => handleOpenWorkoutTemplateListModal(),
       },
       "copy-workout": {
         text: "Copy Previous Workout",
-        function: () => workoutList.handleOpenWorkoutListModal(),
+        function: () => handleOpenWorkoutListModal(),
       },
     };
   }, [
     workoutTemplateNote,
     showWorkoutTemplateNote,
-    workoutList,
-    workoutTemplateList,
+    handleOpenWorkoutListModal,
+    handleOpenWorkoutTemplateListModal,
   ]);
 
   const useDetailsHeaderOptions = useDetailsHeaderOptionsMenu(
@@ -335,7 +343,7 @@ export default function WorkoutDetails() {
     await getWorkoutTemplateNote(workoutTemplate.id);
 
     toast.success("Workout Template Loaded");
-    workoutTemplateList.workoutTemplatesModal.onClose();
+    workoutTemplatesModal.onClose();
   };
 
   const handleClickWorkout = async (
@@ -400,7 +408,7 @@ export default function WorkoutDetails() {
     populateIncompleteSets(updatedGroupedSetList);
 
     toast.success("Workout Copied");
-    workoutList.workoutListModal.onClose();
+    workoutListModal.onClose();
   };
 
   if (workout.id === 0 || userSettings === undefined) return <LoadingSpinner />;

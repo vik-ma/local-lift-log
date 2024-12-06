@@ -82,6 +82,9 @@ export default function WorkoutList() {
 
   const filterExerciseList = useFilterExerciseList(exerciseList);
 
+  const { handleOpenWorkoutTemplateListModal, workoutTemplatesModal } =
+    workoutTemplateList;
+
   useEffect(() => {
     const getUserSettings = async () => {
       const userSettings = await GetUserSettings();
@@ -155,7 +158,7 @@ export default function WorkoutList() {
     } else if (key === "reassign-workout-template") {
       setOperationType("reassign-workout-template");
       setOperatingWorkout(workout);
-      workoutTemplateList.handleOpenWorkoutTemplatesModal();
+      handleOpenWorkoutTemplateListModal();
     } else if (key === "reassign-routine") {
       setOperationType("reassign-routine");
       setOperatingWorkout(workout);
@@ -266,7 +269,7 @@ export default function WorkoutList() {
       resetOperatingWorkout();
     }
 
-    workoutTemplateList.workoutTemplatesModal.onClose();
+    workoutTemplatesModal.onClose();
   };
 
   const changeWorkoutTemplate = (workoutTemplate: WorkoutTemplate) => {
@@ -281,7 +284,7 @@ export default function WorkoutList() {
 
     setOperatingWorkout(updatedOperatingWorkout);
 
-    workoutTemplateList.workoutTemplatesModal.onClose();
+    workoutTemplatesModal.onClose();
   };
 
   const removeWorkoutTemplate = () => {
@@ -299,7 +302,7 @@ export default function WorkoutList() {
 
   const handleReassignWorkoutTemplateButton = () => {
     setOperationType("reassign-workout-template");
-    workoutTemplateList.handleOpenWorkoutTemplatesModal();
+    handleOpenWorkoutTemplateListModal();
   };
 
   const reassignRoutine = async (routine: Routine) => {
@@ -421,9 +424,7 @@ export default function WorkoutList() {
         workoutRatingsOrder={userSettings.workout_ratings_order}
         buttonAction={updateWorkout}
         header={operatingWorkout.formattedDate}
-        handleChangeWorkoutTemplateButton={
-          workoutTemplateList.handleOpenWorkoutTemplatesModal
-        }
+        handleChangeWorkoutTemplateButton={handleOpenWorkoutTemplateListModal}
         handleRemoveWorkoutTemplateButton={removeWorkoutTemplate}
         handleReassignWorkoutTemplateButton={
           handleReassignWorkoutTemplateButton

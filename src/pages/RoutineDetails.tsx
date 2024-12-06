@@ -71,6 +71,9 @@ export default function RoutineDetails() {
 
   const workoutTemplateList = useWorkoutTemplateList(true, exerciseList);
 
+  const { handleOpenWorkoutTemplateListModal, workoutTemplatesModal } =
+    workoutTemplateList;
+
   const getWorkoutRoutineSchedules = useCallback(async () => {
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
@@ -175,7 +178,7 @@ export default function RoutineDetails() {
 
   const handleAddWorkoutButton = (day: number) => {
     setSelectedDay(day);
-    workoutTemplateList.workoutTemplatesModal.onOpen();
+    handleOpenWorkoutTemplateListModal();
   };
 
   const addWorkoutTemplateToDay = async (workoutTemplate: WorkoutTemplate) => {
@@ -194,7 +197,7 @@ export default function RoutineDetails() {
 
       await updateRoutineWorkoutTemplateList();
 
-      workoutTemplateList.workoutTemplatesModal.onClose();
+      workoutTemplatesModal.onClose();
       toast.success(`Workout added to ${dayNameList[selectedDay]}`);
     } catch (error) {
       console.log(error);

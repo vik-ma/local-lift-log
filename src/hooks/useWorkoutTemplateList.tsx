@@ -251,7 +251,7 @@ export const useWorkoutTemplateList = (
     filterWorkoutTemplateListModal.onOpen();
   };
 
-  const handleOpenWorkoutTemplatesModal = async () => {
+  const handleOpenWorkoutTemplateListModal = async () => {
     await loadWorkoutTemplateList();
 
     workoutTemplatesModal.onOpen();
@@ -261,7 +261,7 @@ export const useWorkoutTemplateList = (
     workoutTemplatesModal,
     workoutTemplates,
     setWorkoutTemplates,
-    handleOpenWorkoutTemplatesModal,
+    handleOpenWorkoutTemplateListModal,
     filterQuery,
     setFilterQuery,
     filteredWorkoutTemplates,

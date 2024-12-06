@@ -554,7 +554,7 @@ export type UseWorkoutTemplateListReturnType = {
   workoutTemplatesModal: UseDisclosureReturnType;
   workoutTemplates: WorkoutTemplate[];
   setWorkoutTemplates: React.Dispatch<React.SetStateAction<WorkoutTemplate[]>>;
-  handleOpenWorkoutTemplatesModal: () => void;
+  handleOpenWorkoutTemplateListModal: () => void;
   filterQuery: string;
   setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
   filteredWorkoutTemplates: WorkoutTemplate[];
