@@ -84,7 +84,7 @@ export const PlateCalculationModalList = ({
                     {plate.handle !== undefined ? (
                       ` (${plate.handle.name}: ${plate.handle.weight} ${plate.handle.weight_unit})`
                     ) : (
-                      <span className="text-red-700"> (Invalid Handle)</span>
+                      <span className="text-red-700"> (Unknown Handle)</span>
                     )}
                   </span>
                 </div>

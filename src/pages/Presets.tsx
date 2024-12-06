@@ -1171,7 +1171,7 @@ export default function Presets() {
                           ) : (
                             <span className="text-red-700">
                               {" "}
-                              (Invalid Handle)
+                              (Unknown Handle)
                             </span>
                           )}
                         </span>
