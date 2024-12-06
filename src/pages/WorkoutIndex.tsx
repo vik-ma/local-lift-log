@@ -2,7 +2,9 @@ import { Button } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import {
   FilterExerciseGroupsModal,
+  FilterRoutineListModal,
   FilterWorkoutListModal,
+  FilterWorkoutTemplateListModal,
   LoadingSpinner,
   WorkoutListModal,
   WorkoutTemplateListModal,
@@ -35,7 +37,7 @@ export default function WorkoutIndex() {
 
   const workoutList = useWorkoutList(false, exerciseList, true);
 
-  const { workoutTemplateList } = workoutList;
+  const { workoutTemplateList, routineList } = workoutList;
 
   const filterExerciseList = useFilterExerciseList(exerciseList);
 
@@ -137,6 +139,17 @@ export default function WorkoutIndex() {
       <FilterExerciseGroupsModal
         useExerciseList={exerciseList}
         useFilterExerciseList={filterExerciseList}
+      />
+      <FilterWorkoutTemplateListModal
+        useWorkoutTemplateList={workoutTemplateList}
+        useExerciseList={exerciseList}
+        useFilterExerciseList={filterExerciseList}
+        userSettings={userSettings}
+      />
+      <FilterRoutineListModal
+        useRoutineList={routineList}
+        useWorkoutTemplateList={workoutTemplateList}
+        userSettings={userSettings}
       />
       <div className="flex flex-col gap-3">
         <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">

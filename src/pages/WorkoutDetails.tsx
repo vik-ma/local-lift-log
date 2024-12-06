@@ -18,6 +18,8 @@ import {
   CalculationModal,
   FilterWorkoutListModal,
   FilterExerciseGroupsModal,
+  FilterWorkoutTemplateListModal,
+  FilterRoutineListModal,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -138,7 +140,7 @@ export default function WorkoutDetails() {
 
   const workoutList = useWorkoutList(false, exerciseList, true, Number(id));
 
-  const { workoutTemplateList } = workoutList;
+  const { workoutTemplateList, routineList } = workoutList;
 
   const additionalMenuItems: DetailHeaderOptionItem = useMemo(() => {
     return {
@@ -548,6 +550,17 @@ export default function WorkoutDetails() {
       <FilterExerciseGroupsModal
         useExerciseList={exerciseList}
         useFilterExerciseList={filterExerciseList}
+      />
+      <FilterWorkoutTemplateListModal
+        useWorkoutTemplateList={workoutTemplateList}
+        useExerciseList={exerciseList}
+        useFilterExerciseList={filterExerciseList}
+        userSettings={userSettings}
+      />
+      <FilterRoutineListModal
+        useRoutineList={routineList}
+        useWorkoutTemplateList={workoutTemplateList}
+        userSettings={userSettings}
       />
       {userSettings.show_calculation_buttons === 1 && (
         <CalculationModal
