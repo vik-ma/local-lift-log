@@ -36,6 +36,7 @@ import {
   useFilterExerciseList,
   useWorkoutList,
 } from "../hooks";
+import { GoToArrowIcon } from "../assets";
 
 type OperationType =
   | "edit"
@@ -492,6 +493,7 @@ export default function WorkoutList() {
                   variant="flat"
                   color="secondary"
                   onPress={() => navigate("/workouts")}
+                  endContent={<GoToArrowIcon />}
                 >
                   New Workout
                 </Button>
