@@ -11,6 +11,7 @@ import {
   PlateCollectionModal,
   PlateCollectionButton,
   FilterPresetsListModal,
+  ListFilters,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -131,7 +132,10 @@ export default function Presets() {
     setOperatingPlateCollection,
     defaultPlateCollection,
     setOtherUnitPlateCollection,
+    listFilters,
   } = presetsList;
+
+  const { filterMap, removeFilter, prefixMap } = listFilters;
 
   useEffect(() => {
     const loadUserSettings = async () => {
@@ -901,6 +905,13 @@ export default function Presets() {
                     </Button>
                     <PresetsListOptions usePresetsList={presetsList} />
                   </div>
+                  {filterMap.size > 0 && (
+                    <ListFilters
+                      filterMap={filterMap}
+                      removeFilter={removeFilter}
+                      prefixMap={prefixMap}
+                    />
+                  )}
                 </div>
               }
             />
