@@ -10,7 +10,7 @@ import {
   PresetsListOptions,
   PlateCollectionModal,
   PlateCollectionButton,
-  FilterPresetListModal,
+  FilterPresetsListModal,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -750,7 +750,7 @@ export default function Presets() {
           operationType === "edit" ? updatePlateCollection : addPlateCollection
         }
       />
-      <FilterPresetListModal
+      <FilterPresetsListModal
         usePresetsList={presetsList}
         userSettings={userSettings}
       />

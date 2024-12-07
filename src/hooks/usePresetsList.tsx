@@ -65,7 +65,7 @@ export const usePresetsList = (
 
   const listFilters = useListFilters();
 
-  const filterPresetListModal = useDisclosure();
+  const filterPresetsListModal = useDisclosure();
 
   const filteredEquipmentWeights = useMemo(() => {
     if (filterQueryEquipment !== "") {
@@ -488,7 +488,7 @@ export const usePresetsList = (
       await getDistances();
     }
 
-    filterPresetListModal.onOpen();
+    filterPresetsListModal.onOpen();
   };
 
   return {
@@ -531,7 +531,7 @@ export const usePresetsList = (
     isDefaultPlateCollectionInvalid,
     setIsDefaultPlateCollectionInvalid,
     listFilters,
-    filterPresetListModal,
+    filterPresetsListModal,
     presetsTypeString,
     handleOpenFilterButton,
   };

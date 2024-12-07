@@ -10,17 +10,21 @@ import { UsePresetsListReturnType, UserSettings } from "../../typings";
 import { NumberRangeInput, WeightUnitDropdown } from "..";
 import { useNumberRangeInvalidityMap } from "../../hooks";
 
-type FilterPresetListModalProps = {
+type FilterPresetsListModalProps = {
   usePresetsList: UsePresetsListReturnType;
   userSettings: UserSettings;
 };
 
-export const FilterPresetListModal = ({
+export const FilterPresetsListModal = ({
   usePresetsList,
   userSettings,
-}: FilterPresetListModalProps) => {
-  const { filterPresetListModal, listFilters, presetsType, presetsTypeString } =
-    usePresetsList;
+}: FilterPresetsListModalProps) => {
+  const {
+    filterPresetsListModal,
+    listFilters,
+    presetsType,
+    presetsTypeString,
+  } = usePresetsList;
 
   const {
     filterWeightRange,
@@ -37,8 +41,8 @@ export const FilterPresetListModal = ({
 
   return (
     <Modal
-      isOpen={filterPresetListModal.isOpen}
-      onOpenChange={filterPresetListModal.onOpenChange}
+      isOpen={filterPresetsListModal.isOpen}
+      onOpenChange={filterPresetsListModal.onOpenChange}
     >
       <ModalContent>
         {(onClose) => (
@@ -83,7 +87,7 @@ export const FilterPresetListModal = ({
                   onPress={() =>
                     handleFilterSaveButton(
                       userSettings.locale,
-                      filterPresetListModal
+                      filterPresetsListModal
                     )
                   }
                   isDisabled={

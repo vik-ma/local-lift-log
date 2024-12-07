@@ -637,7 +637,7 @@ export type UsePresetsListReturnType = {
     React.SetStateAction<boolean>
   >;
   listFilters: UseListFiltersReturnType;
-  filterPresetListModal: UseDisclosureReturnType;
+  filterPresetsListModal: UseDisclosureReturnType;
   presetsTypeString: string;
   handleOpenFilterButton: () => Promise<void>;
 };
