@@ -479,6 +479,18 @@ export const usePresetsList = (
 
   const presetsTypeString = usePresetsTypeString(presetsType);
 
+  const handleOpenFilterButton = async () => {
+    if (presetsType === "equipment" && isLoadingEquipment) {
+      await getEquipmentWeights();
+    }
+
+    if (presetsType === "distance" && isLoadingDistance) {
+      await getDistances();
+    }
+
+    filterPresetListModal.onOpen();
+  };
+
   return {
     equipmentWeights,
     setEquipmentWeights,
@@ -521,5 +533,6 @@ export const usePresetsList = (
     listFilters,
     filterPresetListModal,
     presetsTypeString,
+    handleOpenFilterButton,
   };
 };

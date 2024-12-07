@@ -4,7 +4,7 @@ import {
   EmptyListLabel,
   FavoriteButton,
   LoadingSpinner,
-  PresetsSortByMenu,
+  PresetsListOptions,
   SearchInput,
 } from "..";
 import { GoToArrowIcon } from "../../assets";
@@ -49,8 +49,6 @@ export const PresetsModalList = ({
     isLoadingDistance,
     toggleFavoriteEquipmentWeight,
     toggleFavoriteDistance,
-    sortCategoryEquipment,
-    handleSortOptionSelectionEquipment,
     operatingPlateCollection,
     setOperatingPlateCollection,
     presetsTypeString,
@@ -111,11 +109,8 @@ export const PresetsModalList = ({
             </Button>
           )}
           {showSortButton && (
-            <PresetsSortByMenu
-              sortCategoryEquipment={sortCategoryEquipment}
-              handleSortOptionSelectionEquipment={
-                handleSortOptionSelectionEquipment
-              }
+            <PresetsListOptions
+              usePresetsList={presetsList}
               isSelectingForPlateCollection={isSelectingForPlateCollection}
             />
           )}

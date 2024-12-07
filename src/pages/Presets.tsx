@@ -7,9 +7,10 @@ import {
   ListPageSearchInput,
   FavoriteButton,
   EmptyListLabel,
-  PresetsSortByMenu,
+  PresetsListOptions,
   PlateCollectionModal,
   PlateCollectionButton,
+  FilterPresetListModal,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -117,9 +118,7 @@ export default function Presets() {
     filteredDistances,
     toggleFavoriteEquipmentWeight,
     toggleFavoriteDistance,
-    sortCategoryEquipment,
     sortCategoryDistance,
-    handleSortOptionSelectionEquipment,
     handleSortOptionSelectionDistance,
     sortEquipmentWeightByActiveCategory,
     sortDistancesByActiveCategory,
@@ -751,6 +750,10 @@ export default function Presets() {
           operationType === "edit" ? updatePlateCollection : addPlateCollection
         }
       />
+      <FilterPresetListModal
+        usePresetsList={presetsList}
+        userSettings={userSettings}
+      />
       <Modal
         isOpen={presetModal.isOpen}
         onOpenChange={presetModal.onOpenChange}
@@ -886,21 +889,18 @@ export default function Presets() {
               totalListLength={equipmentWeights.length}
               extraTopSpace={true}
               bottomContent={
-                <div className="flex justify-between gap-1 w-full items-center">
-                  <Button
-                    color="secondary"
-                    variant="flat"
-                    onPress={handleAddEquipmentWeightButton}
-                    size="sm"
-                  >
-                    New Equipment Weight
-                  </Button>
-                  <PresetsSortByMenu
-                    sortCategoryEquipment={sortCategoryEquipment}
-                    handleSortOptionSelectionEquipment={
-                      handleSortOptionSelectionEquipment
-                    }
-                  />
+                <div className="flex flex-col gap-1.5">
+                  <div className="flex justify-between">
+                    <Button
+                      color="secondary"
+                      variant="flat"
+                      onPress={handleAddEquipmentWeightButton}
+                      size="sm"
+                    >
+                      New Equipment Weight
+                    </Button>
+                    <PresetsListOptions usePresetsList={presetsList} />
+                  </div>
                 </div>
               }
             />

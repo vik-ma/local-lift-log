@@ -639,6 +639,7 @@ export type UsePresetsListReturnType = {
   listFilters: UseListFiltersReturnType;
   filterPresetListModal: UseDisclosureReturnType;
   presetsTypeString: string;
+  handleOpenFilterButton: () => Promise<void>;
 };
 
 export type CalculationModalTab = "sum" | "plate";
