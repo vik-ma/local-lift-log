@@ -636,6 +636,9 @@ export type UsePresetsListReturnType = {
   setIsDefaultPlateCollectionInvalid: React.Dispatch<
     React.SetStateAction<boolean>
   >;
+  listFilters: UseListFiltersReturnType;
+  filterPresetListModal: UseDisclosureReturnType;
+  presetsTypeString: string;
 };
 
 export type CalculationModalTab = "sum" | "plate";

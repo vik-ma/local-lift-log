@@ -53,6 +53,7 @@ export const PresetsModalList = ({
     handleSortOptionSelectionEquipment,
     operatingPlateCollection,
     setOperatingPlateCollection,
+    presetsTypeString,
   } = presetsList;
 
   const [hideInvalidUnitItems, setHideInvalidUnitItems] =
@@ -94,8 +95,7 @@ export const PresetsModalList = ({
               onPress={() => navigate(`/presets?tab=${presetsType}`)}
               endContent={<GoToArrowIcon />}
             >
-              Modify{" "}
-              {presetsType === "equipment" ? "Equipment Weights" : "Distances"}
+              Modify {presetsTypeString}
             </Button>
           )}
         </div>

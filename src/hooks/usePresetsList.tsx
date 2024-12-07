@@ -17,6 +17,9 @@ import {
   UpdateIsFavorite,
   UpdateItemInList,
 } from "../helpers";
+import { useListFilters } from "./useListFilters";
+import { useDisclosure } from "@nextui-org/react";
+import { usePresetsTypeString } from "./usePresetsTypeString";
 
 export const usePresetsList = (
   getEquipmentWeightsOnLoad: boolean,
@@ -59,6 +62,10 @@ export const usePresetsList = (
     useState<PlateCollection>(defaultPlateCollection);
   const [otherUnitPlateCollection, setOtherUnitPlateCollection] =
     useState<PlateCollection>(defaultPlateCollection);
+
+  const listFilters = useListFilters();
+
+  const filterPresetListModal = useDisclosure();
 
   const filteredEquipmentWeights = useMemo(() => {
     if (filterQueryEquipment !== "") {
@@ -470,6 +477,8 @@ export const usePresetsList = (
     setOperatingPlateCollection(updatedPlateCollection);
   };
 
+  const presetsTypeString = usePresetsTypeString(presetsType);
+
   return {
     equipmentWeights,
     setEquipmentWeights,
@@ -509,5 +518,8 @@ export const usePresetsList = (
     updateAvailablePlatesMapValue,
     isDefaultPlateCollectionInvalid,
     setIsDefaultPlateCollectionInvalid,
+    listFilters,
+    filterPresetListModal,
+    presetsTypeString,
   };
 };
