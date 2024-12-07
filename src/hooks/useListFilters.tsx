@@ -62,7 +62,8 @@ export const useListFilters = (
   const [filterWeightRange, setFilterWeightRange] =
     useState<NumberRange>(defaultNumberRange);
 
-  const [filterWeightUnit, setFilterWeightUnit] = useState<string>("kg");
+  const [filterWeightRangeUnit, setFilterWeightRangeUnit] =
+    useState<string>("kg");
 
   const routineScheduleTypes = useRoutineScheduleTypes();
 
@@ -124,7 +125,7 @@ export const useListFilters = (
     }
 
     if (IsNumberRangeValidAndFiltered(filterWeightRange)) {
-      const filterWeightRangeString = `${filterWeightRange.start} ${filterWeightUnit} - ${filterWeightRange.end} ${filterWeightUnit}`;
+      const filterWeightRangeString = `${filterWeightRange.start} ${filterWeightRangeUnit} - ${filterWeightRange.end} ${filterWeightRangeUnit}`;
 
       updatedFilterMap.set("weight", filterWeightRangeString);
     }
@@ -485,8 +486,8 @@ export const useListFilters = (
     prefixMap,
     filterWeightRange,
     setFilterWeightRange,
-    filterWeightUnit,
-    setFilterWeightUnit,
+    filterWeightRangeUnit,
+    setFilterWeightRangeUnit,
     defaultNumberRange,
     filterMeasurements,
     setFilterMeasurements,

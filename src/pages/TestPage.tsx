@@ -36,7 +36,7 @@ export default function Test() {
 
   const listFilters = useListFilters();
 
-  const { setFilterWeightUnit } = listFilters;
+  const { setFilterWeightRangeUnit } = listFilters;
 
   const handleCreateDefaultsButton = async (key: string) => {
     if (key === "exercises") {
@@ -81,11 +81,11 @@ export default function Test() {
       const userSettings = await GetUserSettings();
       if (userSettings === undefined) return;
       setUserSettings(userSettings);
-      setFilterWeightUnit(userSettings.default_unit_weight);
+      setFilterWeightRangeUnit(userSettings.default_unit_weight);
     };
 
     loadUserSettings();
-  }, [setFilterWeightUnit]);
+  }, [setFilterWeightRangeUnit]);
 
   if (userSettings === undefined) return <LoadingSpinner />;
 

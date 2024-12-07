@@ -70,8 +70,8 @@ export default function UserWeightList() {
     filterWeekdays,
     removeFilter,
     prefixMap,
-    filterWeightUnit,
-    setFilterWeightUnit,
+    filterWeightRangeUnit,
+    setFilterWeightRangeUnit,
     filterWeightRange,
   } = listFilters;
 
@@ -100,7 +100,7 @@ export default function UserWeightList() {
               filterWeightRange,
               item.weight,
               item.weight_unit,
-              filterWeightUnit
+              filterWeightRangeUnit
             ))
       );
     }
@@ -112,7 +112,7 @@ export default function UserWeightList() {
     filterDateRange,
     filterWeekdays,
     filterWeightRange,
-    filterWeightUnit,
+    filterWeightRangeUnit,
   ]);
 
   const defaultUserWeight = useDefaultUserWeight();
@@ -160,13 +160,13 @@ export default function UserWeightList() {
         setUserSettings(userSettings);
         getUserWeights(userSettings.clock_style);
         setWeightUnit(userSettings.default_unit_weight);
-        setFilterWeightUnit(userSettings.default_unit_weight);
+        setFilterWeightRangeUnit(userSettings.default_unit_weight);
         setIsLoading(false);
       }
     };
 
     loadUserSettings();
-  }, [getUserWeights, setFilterWeightUnit]);
+  }, [getUserWeights, setFilterWeightRangeUnit]);
 
   const handleCreateNewUserWeightButton = () => {
     resetUserWeight();

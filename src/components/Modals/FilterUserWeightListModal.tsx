@@ -36,8 +36,8 @@ export const FilterUserWeightListModal = ({
     weekdayMap,
     filterWeightRange,
     setFilterWeightRange,
-    filterWeightUnit,
-    setFilterWeightUnit,
+    filterWeightRangeUnit,
+    setFilterWeightRangeUnit,
     showResetFilterButton,
     resetFilter,
     handleFilterSaveButton,
@@ -74,8 +74,8 @@ export const FilterUserWeightListModal = ({
                     numberRangeInvalidityMap={numberRangeInvalidityMap}
                   />
                   <WeightUnitDropdown
-                    value={filterWeightUnit}
-                    setState={setFilterWeightUnit}
+                    value={filterWeightRangeUnit}
+                    setState={setFilterWeightRangeUnit}
                     targetType="state"
                   />
                 </div>

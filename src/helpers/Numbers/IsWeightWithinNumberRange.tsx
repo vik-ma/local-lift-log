@@ -5,11 +5,14 @@ export const IsWeightWithinNumberRange = (
   numberRange: NumberRange,
   weight: number,
   weightUnit: string,
-  filterWeightUnit: string
+  filterWeightRangeUnit: string
 ) => {
   const weightInKg = ConvertWeightToKg(weight, weightUnit);
-  const startWeight = ConvertWeightToKg(numberRange.start, filterWeightUnit);
-  const endWeight = ConvertWeightToKg(numberRange.end, filterWeightUnit);
+  const startWeight = ConvertWeightToKg(
+    numberRange.start,
+    filterWeightRangeUnit
+  );
+  const endWeight = ConvertWeightToKg(numberRange.end, filterWeightRangeUnit);
 
   return weightInKg >= startWeight && weightInKg <= endWeight;
 };
