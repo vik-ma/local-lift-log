@@ -48,3 +48,4 @@ export { useDefaultNumberRange } from "./useDefaultNumberRange";
 export { useNumberRangeInvalidityMap } from "./useNumberRangeInvalidityMap";
 export { useMeasurementTypes } from "./useMeasurementTypes";
 export { useRoutineScheduleTypes } from "./useRoutineScheduleTypes";
+export { usePresetsTypeString } from "./usePresetsTypeString";

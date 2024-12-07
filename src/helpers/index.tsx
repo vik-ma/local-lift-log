@@ -147,6 +147,7 @@ export { GenerateAvailablePlatesString } from "./Presets/GenerateAvailablePlates
 export { CreatePlateCollectionList } from "./Presets/CreatePlateCollectionList";
 export { GenerateFormattedAvailablePlatesString } from "./Presets/GenerateFormattedAvailablePlatesString";
 export { UpdateAvailablePlatesInPlateCollection } from "./Presets/UpdateAvailablePlatesInPlateCollection";
+export { FormatPresetsTypeString } from "./Presets/FormatPresetsTypeString";
 
 export { CreateGroupedWorkoutSetList } from "./Workouts/CreateGroupedWorkoutSetList";
 export { GenerateExerciseOrderString } from "./Workouts/GenerateExerciseOrderString";
