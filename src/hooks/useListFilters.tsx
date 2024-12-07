@@ -19,6 +19,7 @@ import {
   useWeekdayMap,
   useMeasurementTypes,
   useRoutineScheduleTypes,
+  useValidWeightUnits,
 } from ".";
 import {
   CalculateNumDaysInCalendarDateRange,
@@ -78,6 +79,12 @@ export const useListFilters = (
 
   const [filterNumScheduleDays, setFilterNumScheduleDays] =
     useState<NumberRange>(defaultNumberRange);
+
+  const weightUnits = useValidWeightUnits();
+
+  const [filterWeightUnits, setFilterWeightUnits] = useState<Set<string>>(
+    new Set(weightUnits)
+  );
 
   const handleFilterSaveButton = (
     locale: string,
@@ -152,6 +159,13 @@ export const useListFilters = (
           : `${filterNumScheduleDays.start} - ${filterNumScheduleDays.end}`;
 
       updatedFilterMap.set("num-schedule-days", filterNumScheduleDaysString);
+    }
+
+    if (filterWeightUnits.size < 2) {
+      const filterWeightUnitString = Array.from(filterWeightUnits)
+        .map((item) => item)
+        .join(", ");
+      updatedFilterMap.set("weight-units", filterWeightUnitString);
     }
 
     setFilterMap(updatedFilterMap);
@@ -240,6 +254,11 @@ export const useListFilters = (
       setFilterNumScheduleDays(defaultNumberRange);
     }
 
+    if (key === "weight-units" && filterMap.has("weight-units")) {
+      updatedFilterMap.delete("weight-units");
+      setFilterWeightUnits(new Set(weightUnits));
+    }
+
     setFilterMap(updatedFilterMap);
   };
 
@@ -256,6 +275,7 @@ export const useListFilters = (
     setFilterWorkoutTemplates(new Set());
     setFilterScheduleTypes(new Set(routineScheduleTypes));
     setFilterNumScheduleDays(defaultNumberRange);
+    setFilterWeightUnits(new Set(weightUnits));
   };
 
   const showResetFilterButton = useMemo(() => {
@@ -273,6 +293,7 @@ export const useListFilters = (
     if (filterScheduleTypes.size < 2) return true;
     if (filterNumScheduleDays.startInput !== "") return true;
     if (filterNumScheduleDays.endInput !== "") return true;
+    if (filterWeightUnits.size < 2) return true;
 
     return false;
   }, [
@@ -288,6 +309,7 @@ export const useListFilters = (
     filterWorkoutTemplates,
     filterScheduleTypes,
     filterNumScheduleDays,
+    filterWeightUnits,
   ]);
 
   const prefixMap = useMemo(() => {
@@ -324,6 +346,7 @@ export const useListFilters = (
         filterNumScheduleDays.end - filterNumScheduleDays.start + 1
       }): `
     );
+    prefixMap.set("weight-units", `Weight Unit (${filterWeightUnits.size}): `);
 
     return prefixMap;
   }, [
@@ -336,6 +359,7 @@ export const useListFilters = (
     filterWorkoutTemplates,
     filterScheduleTypes,
     filterNumScheduleDays,
+    filterWeightUnits,
   ]);
 
   const filterRoutinesString = useMemo(() => {
@@ -510,5 +534,7 @@ export const useListFilters = (
     setFilterScheduleTypes,
     filterNumScheduleDays,
     setFilterNumScheduleDays,
+    filterWeightUnits,
+    setFilterWeightUnits,
   };
 };

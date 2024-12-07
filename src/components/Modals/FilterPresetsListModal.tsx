@@ -7,7 +7,11 @@ import {
   ModalFooter,
 } from "@nextui-org/react";
 import { UsePresetsListReturnType, UserSettings } from "../../typings";
-import { NumberRangeInput, WeightUnitDropdown } from "..";
+import {
+  MultipleChoiceUnitDropdown,
+  NumberRangeInput,
+  WeightUnitDropdown,
+} from "..";
 import { useNumberRangeInvalidityMap } from "../../hooks";
 
 type FilterPresetsListModalProps = {
@@ -34,6 +38,8 @@ export const FilterPresetsListModal = ({
     showResetFilterButton,
     resetFilter,
     handleFilterSaveButton,
+    filterWeightUnits,
+    setFilterWeightUnits,
   } = listFilters;
 
   const numberRangeInvalidityMap =
@@ -62,6 +68,16 @@ export const FilterPresetsListModal = ({
                       value={filterWeightRangeUnit}
                       setState={setFilterWeightRangeUnit}
                       targetType="state"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <h3 className="font-semibold text-lg px-0.5">
+                      Weight Units
+                    </h3>
+                    <MultipleChoiceUnitDropdown
+                      unitType="weight"
+                      filterUnits={filterWeightUnits}
+                      setFilterUnits={setFilterWeightUnits}
                     />
                   </div>
                 </div>

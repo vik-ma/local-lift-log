@@ -535,6 +535,8 @@ export type UseListFiltersReturnType = {
   setFilterScheduleTypes: React.Dispatch<React.SetStateAction<Set<string>>>;
   filterNumScheduleDays: NumberRange;
   setFilterNumScheduleDays: React.Dispatch<React.SetStateAction<NumberRange>>;
+  filterWeightUnits: Set<string>;
+  setFilterWeightUnits: React.Dispatch<React.SetStateAction<Set<string>>>;
 };
 
 export type ListFilterMapKey =
@@ -548,7 +550,8 @@ export type ListFilterMapKey =
   | "measurement-types"
   | "workout-templates"
   | "schedule-type"
-  | "num-schedule-days";
+  | "num-schedule-days"
+  | "weight-units";
 
 export type UseWorkoutTemplateListReturnType = {
   workoutTemplatesModal: UseDisclosureReturnType;
