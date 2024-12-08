@@ -894,7 +894,7 @@ export default function Presets() {
           onSelectionChange={(key) => changeTab(key as PresetTab)}
         >
           <Tab
-            className="w-full px-0"
+            className="flex flex-col gap-1 w-full px-0"
             key="equipment"
             title="Equipment Weights"
           >
@@ -1010,7 +1010,11 @@ export default function Presets() {
               </div>
             )}
           </Tab>
-          <Tab className="w-full px-0" key="distance" title="Distances">
+          <Tab
+            className="flex flex-col gap-1 w-full px-0"
+            key="distance"
+            title="Distances"
+          >
             <ListPageSearchInput
               header="Distance List"
               filterQuery={filterQueryDistance}
@@ -1123,7 +1127,11 @@ export default function Presets() {
               </div>
             )}
           </Tab>
-          <Tab className="w-full px-0" key="plate" title="Plate Collections">
+          <Tab
+            className="flex flex-col gap-1 w-full px-0"
+            key="plate"
+            title="Plate Collections"
+          >
             <ListPageSearchInput
               header="Plate Collection List"
               filterQuery={filterQueryPlateCollection}
