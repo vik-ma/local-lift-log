@@ -62,9 +62,13 @@ export const useListFilters = (
 
   const [filterWeightRange, setFilterWeightRange] =
     useState<NumberRange>(defaultNumberRange);
+  const [filterDistanceRange, setFilterDistanceRange] =
+    useState<NumberRange>(defaultNumberRange);
 
   const [filterWeightRangeUnit, setFilterWeightRangeUnit] =
     useState<string>("kg");
+  const [filterDistanceRangeUnit, setFilterDistanceRangeUnit] =
+    useState<string>("km");
 
   const routineScheduleTypes = useRoutineScheduleTypes();
 
@@ -168,6 +172,12 @@ export const useListFilters = (
       updatedFilterMap.set("weight-units", filterWeightUnitString);
     }
 
+    if (IsNumberRangeValidAndFiltered(filterDistanceRange)) {
+      const filterDistanceRangeString = `${filterDistanceRange.start} ${filterDistanceRangeUnit} - ${filterDistanceRange.end} ${filterDistanceRangeUnit}`;
+
+      updatedFilterMap.set("distance", filterDistanceRangeString);
+    }
+
     setFilterMap(updatedFilterMap);
 
     activeModal.onClose();
@@ -259,6 +269,11 @@ export const useListFilters = (
       setFilterWeightUnits(new Set(weightUnits));
     }
 
+    if (key === "distance" && filterMap.has("distance")) {
+      updatedFilterMap.delete("distance");
+      setFilterDistanceRange(defaultNumberRange);
+    }
+
     setFilterMap(updatedFilterMap);
   };
 
@@ -276,6 +291,7 @@ export const useListFilters = (
     setFilterScheduleTypes(new Set(routineScheduleTypes));
     setFilterNumScheduleDays(defaultNumberRange);
     setFilterWeightUnits(new Set(weightUnits));
+    setFilterDistanceRange(defaultNumberRange);
   };
 
   const showResetFilterButton = useMemo(() => {
@@ -294,6 +310,8 @@ export const useListFilters = (
     if (filterNumScheduleDays.startInput !== "") return true;
     if (filterNumScheduleDays.endInput !== "") return true;
     if (filterWeightUnits.size < 2) return true;
+    if (filterDistanceRange.startInput !== "") return true;
+    if (filterDistanceRange.endInput !== "") return true;
 
     return false;
   }, [
@@ -310,6 +328,7 @@ export const useListFilters = (
     filterScheduleTypes,
     filterNumScheduleDays,
     filterWeightUnits,
+    filterDistanceRange,
   ]);
 
   const prefixMap = useMemo(() => {
@@ -347,6 +366,7 @@ export const useListFilters = (
       }): `
     );
     prefixMap.set("weight-units", `Weight Unit (${filterWeightUnits.size}): `);
+    prefixMap.set("distance", `Distance: `);
 
     return prefixMap;
   }, [
@@ -536,5 +556,9 @@ export const useListFilters = (
     setFilterNumScheduleDays,
     filterWeightUnits,
     setFilterWeightUnits,
+    filterDistanceRange,
+    setFilterDistanceRange,
+    filterDistanceRangeUnit,
+    setFilterDistanceRangeUnit,
   };
 };
