@@ -57,15 +57,12 @@ import { useSearchParams } from "react-router-dom";
 
 type OperationType = "add" | "edit" | "delete";
 
-type PresetType = "equipment" | "distance";
-
 type PresetTab = "equipment" | "distance" | "plate";
 
 export default function Presets() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [operationType, setOperationType] = useState<OperationType>("add");
-  const [presetType, setPresetType] = useState<PresetType>("equipment");
   const [nameInput, setNameInput] = useState<string>("");
   const [valueInput, setValueInput] = useState<string>("");
   const [selectedTab, setSelectedTab] = useState<PresetTab>("equipment");
@@ -107,6 +104,8 @@ export default function Presets() {
   const presetsList = usePresetsList(true, true);
 
   const {
+    presetsType,
+    setPresetsType,
     equipmentWeights,
     setEquipmentWeights,
     distances,
@@ -179,7 +178,7 @@ export default function Presets() {
     if (
       isNewPresetInvalid ||
       operationType !== "add" ||
-      presetType !== "equipment"
+      presetsType !== "equipment"
     )
       return;
 
@@ -222,7 +221,7 @@ export default function Presets() {
     if (
       isNewPresetInvalid ||
       operationType !== "add" ||
-      presetType !== "distance"
+      presetsType !== "distance"
     )
       return;
 
@@ -302,7 +301,7 @@ export default function Presets() {
       operatingEquipmentWeight.id === 0 ||
       isNewPresetInvalid ||
       operationType !== "edit" ||
-      presetType !== "equipment"
+      presetsType !== "equipment"
     )
       return;
 
@@ -351,7 +350,7 @@ export default function Presets() {
       operatingDistance.id === 0 ||
       isNewPresetInvalid ||
       operationType !== "edit" ||
-      presetType !== "distance"
+      presetsType !== "distance"
     )
       return;
 
@@ -433,7 +432,7 @@ export default function Presets() {
     if (
       operatingEquipmentWeight.id === 0 ||
       operationType !== "delete" ||
-      presetType !== "equipment" ||
+      presetsType !== "equipment" ||
       isOperatingPlateCollection
     )
       return;
@@ -465,7 +464,7 @@ export default function Presets() {
     if (
       operatingDistance.id === 0 ||
       operationType !== "delete" ||
-      presetType !== "distance" ||
+      presetsType !== "distance" ||
       isOperatingPlateCollection
     )
       return;
@@ -523,19 +522,19 @@ export default function Presets() {
   };
 
   const handleCreateButton = async () => {
-    if (presetType === "equipment") await addEquipmentWeight();
-    if (presetType === "distance") await addDistance();
+    if (presetsType === "equipment") await addEquipmentWeight();
+    if (presetsType === "distance") await addDistance();
   };
 
   const handleUpdateButton = async () => {
-    if (presetType === "equipment") await updateEquipmentWeight();
-    if (presetType === "distance") await updateDistance();
+    if (presetsType === "equipment") await updateEquipmentWeight();
+    if (presetsType === "distance") await updateDistance();
   };
 
   const resetOperatingEquipment = () => {
     if (userSettings === undefined) return;
 
-    setPresetType("equipment");
+    setPresetsType("equipment");
     setOperationType("add");
     setNameInput("");
     setValueInput("");
@@ -549,7 +548,7 @@ export default function Presets() {
   const resetOperatingDistance = () => {
     if (userSettings === undefined) return;
 
-    setPresetType("distance");
+    setPresetsType("distance");
     setOperationType("add");
     setNameInput("");
     setValueInput("");
@@ -594,7 +593,7 @@ export default function Presets() {
     key: string,
     equipment: EquipmentWeight
   ) => {
-    setPresetType("equipment");
+    setPresetsType("equipment");
     setOperatingEquipmentWeight(equipment);
     setValueInput(equipment.weight.toString());
     setIsOperatingPlateCollection(false);
@@ -613,7 +612,7 @@ export default function Presets() {
   };
 
   const handleDistanceOptionSelection = (key: string, distance: Distance) => {
-    setPresetType("distance");
+    setPresetsType("distance");
     setOperatingDistance(distance);
     setValueInput(distance.distance.toString());
     setIsOperatingPlateCollection(false);
@@ -677,17 +676,17 @@ export default function Presets() {
   };
 
   const handleRestoreEquipmentButton = async () => {
-    setPresetType("equipment");
+    setPresetsType("equipment");
     setUnitsModal.onOpen();
   };
 
   const handleRestoreDistanceButton = async () => {
-    setPresetType("distance");
+    setPresetsType("distance");
     setUnitsModal.onOpen();
   };
 
   const createDefaultEquipmentWeights = async (useMetricUnits: boolean) => {
-    if (presetType !== "equipment") return;
+    if (presetsType !== "equipment") return;
 
     await CreateDefaultEquipmentWeights(useMetricUnits);
     await getEquipmentWeights();
@@ -696,7 +695,7 @@ export default function Presets() {
   };
 
   const createDefaultDistances = async (useMetricUnits: boolean) => {
-    if (presetType !== "distance") return;
+    if (presetsType !== "distance") return;
 
     await CreateDefaultDistances(useMetricUnits);
     await getDistances();
@@ -708,7 +707,7 @@ export default function Presets() {
     if (isOperatingPlateCollection) {
       await deletePlateCollection();
     } else {
-      if (presetType === "equipment") {
+      if (presetsType === "equipment") {
         await deleteEquipmentWeight();
       } else {
         await deleteDistance();
@@ -720,9 +719,9 @@ export default function Presets() {
     if (selectedTab !== key) {
       if (filterMap.size > 0) resetFilter();
 
-      if (selectedTab === "equipment") setPresetType("equipment");
+      if (key === "equipment") setPresetsType("equipment");
 
-      if (selectedTab === "distance") setPresetType("distance");
+      if (key === "distance") setPresetsType("distance");
     }
 
     setSelectedTab(key);
@@ -738,7 +737,7 @@ export default function Presets() {
         header={
           isOperatingPlateCollection
             ? "Delete Plate Collection"
-            : presetType === "equipment"
+            : presetsType === "equipment"
             ? "Delete Equipment Weight"
             : "Delete Distance"
         }
@@ -748,7 +747,7 @@ export default function Presets() {
             <span className="font-medium text-secondary">
               {isOperatingPlateCollection
                 ? operatingPlateCollection.name
-                : presetType === "equipment"
+                : presetsType === "equipment"
                 ? operatingEquipmentWeight.name
                 : operatingDistance.name}
             </span>
@@ -779,7 +778,7 @@ export default function Presets() {
             <>
               <ModalHeader>
                 {operationType === "edit" ? "Edit" : "New"}{" "}
-                {presetType === "equipment" ? "Equipment Weight" : "Distance"}
+                {presetsType === "equipment" ? "Equipment Weight" : "Distance"}
               </ModalHeader>
               <ModalBody>
                 <div className="flex flex-col gap-0.5">
@@ -797,14 +796,16 @@ export default function Presets() {
                   <div className="flex justify-between gap-2 items-center">
                     <Input
                       value={valueInput}
-                      label={presetType === "equipment" ? "Weight" : "Distance"}
+                      label={
+                        presetsType === "equipment" ? "Weight" : "Distance"
+                      }
                       variant="faded"
                       onValueChange={(value) => setValueInput(value)}
                       isInvalid={isValueInputInvalid}
                       isRequired
                       isClearable
                     />
-                    {presetType === "equipment" ? (
+                    {presetsType === "equipment" ? (
                       <WeightUnitDropdown
                         value={operatingEquipmentWeight.weight_unit}
                         setEquipmentWeight={setOperatingEquipmentWeight}
@@ -859,7 +860,7 @@ export default function Presets() {
                   size="lg"
                   color="primary"
                   onPress={
-                    presetType === "equipment"
+                    presetsType === "equipment"
                       ? () => createDefaultEquipmentWeights(true)
                       : () => createDefaultDistances(true)
                   }
@@ -871,7 +872,7 @@ export default function Presets() {
                   size="lg"
                   color="primary"
                   onPress={
-                    presetType === "equipment"
+                    presetsType === "equipment"
                       ? () => createDefaultEquipmentWeights(false)
                       : () => createDefaultDistances(false)
                   }
