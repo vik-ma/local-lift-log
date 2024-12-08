@@ -84,6 +84,9 @@ export default function Settings() {
 
   const presetsList = usePresetsList(false, false);
 
+  const { setFilterWeightRangeUnit, setFilterDistanceRangeUnit } =
+    presetsList.listFilters;
+
   const [defaultIncrementInputValues, setDefaultIncrementInputValues] =
     useState<DefaultIncrementInputs>(emptyDefaultIncrementValues);
 
@@ -147,11 +150,14 @@ export default function Settings() {
         });
 
         setWorkoutRatingsList(workoutRatingsList);
+
+        setFilterWeightRangeUnit(settings.default_unit_weight);
+        setFilterDistanceRangeUnit(settings.default_unit_distance);
       }
     };
 
     loadUserSettings();
-  }, []);
+  }, [setFilterWeightRangeUnit, setFilterDistanceRangeUnit]);
 
   const updateSettings = async (
     updatedSettings: UserSettings

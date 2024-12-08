@@ -144,6 +144,9 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
   const presetsList = usePresetsList(false, false);
 
+  const { setFilterWeightRangeUnit, setFilterDistanceRangeUnit } =
+    presetsList.listFilters;
+
   const defaultSetInputValues = useDefaultSetInputValues();
 
   const operatingSetInputs = useSetTrackingInputs();
@@ -180,14 +183,18 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     const loadUserSettings = async () => {
       try {
         const userSettings = await GetUserSettings();
+
         if (userSettings === undefined) return;
+
         setUserSettings(userSettings);
+
         setOperatingSet((prev) => ({
           ...prev,
           weight_unit: userSettings.default_unit_weight!,
           distance_unit: userSettings.default_unit_distance!,
           user_weight_unit: userSettings.default_unit_weight!,
         }));
+
         setIncludeSecondaryGroups(
           userSettings.show_secondary_exercise_groups === 1
         );
@@ -201,13 +208,21 @@ export const useWorkoutActions = (isTemplate: boolean) => {
             setUserWeight(userWeight);
           }
         }
+
+        setFilterWeightRangeUnit(userSettings.default_unit_weight);
+        setFilterDistanceRangeUnit(userSettings.default_unit_distance);
       } catch (error) {
         console.log(error);
       }
     };
 
     loadUserSettings();
-  }, [isTemplate, setIncludeSecondaryGroups]);
+  }, [
+    isTemplate,
+    setIncludeSecondaryGroups,
+    setFilterWeightRangeUnit,
+    setFilterDistanceRangeUnit,
+  ]);
 
   const addSetsToExercise = async (numSets: string) => {
     if (selectedExercise === undefined) return;

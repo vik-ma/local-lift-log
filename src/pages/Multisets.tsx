@@ -91,6 +91,9 @@ export default function Multisets() {
 
   const presetsList = usePresetsList(false, false);
 
+  const { setFilterWeightRangeUnit, setFilterDistanceRangeUnit } =
+    presetsList.listFilters;
+
   useEffect(() => {
     const loadUserSettings = async () => {
       const userSettings = await GetUserSettings();
@@ -105,11 +108,17 @@ export default function Multisets() {
         setIncludeSecondaryGroups(
           userSettings.show_secondary_exercise_groups === 1
         );
+        setFilterWeightRangeUnit(userSettings.default_unit_weight);
+        setFilterDistanceRangeUnit(userSettings.default_unit_distance);
       }
     };
 
     loadUserSettings();
-  }, [setIncludeSecondaryGroups]);
+  }, [
+    setIncludeSecondaryGroups,
+    setFilterWeightRangeUnit,
+    setFilterDistanceRangeUnit,
+  ]);
 
   const handleCreateNewMultisetButton = () => {
     if (operationType !== "add") {

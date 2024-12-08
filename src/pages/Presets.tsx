@@ -135,7 +135,14 @@ export default function Presets() {
     isDistanceListLoaded,
   } = presetsList;
 
-  const { filterMap, removeFilter, prefixMap, resetFilter } = listFilters;
+  const {
+    filterMap,
+    removeFilter,
+    prefixMap,
+    resetFilter,
+    setFilterWeightRangeUnit,
+    setFilterDistanceRangeUnit,
+  } = listFilters;
 
   useEffect(() => {
     const loadUserSettings = async () => {
@@ -150,6 +157,8 @@ export default function Presets() {
           ...prev,
           distance_unit: userSettings.default_unit_distance,
         }));
+        setFilterWeightRangeUnit(userSettings.default_unit_weight);
+        setFilterDistanceRangeUnit(userSettings.default_unit_distance);
       }
     };
 
@@ -160,7 +169,7 @@ export default function Presets() {
     }
 
     loadUserSettings();
-  }, [searchParams]);
+  }, [searchParams, setFilterWeightRangeUnit, setFilterDistanceRangeUnit]);
 
   const isNameInputValid = useValidateName(nameInput);
 
