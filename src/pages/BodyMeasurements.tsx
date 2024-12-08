@@ -175,16 +175,20 @@ export default function BodyMeasurements() {
   useEffect(() => {
     const loadUserSettings = async () => {
       const userSettings = await GetUserSettings();
-      if (userSettings !== undefined) {
-        setUserSettings(userSettings);
-        setWeightUnit(userSettings.default_unit_weight);
-        await Promise.all([
-          getActiveMeasurements(userSettings.active_tracking_measurements),
-          getLatestUserWeight(userSettings.clock_style),
-          getLatestUserMeasurement(userSettings.clock_style),
-        ]);
-        setIsLoading(false);
-      }
+
+      if (userSettings === undefined) return;
+
+      setUserSettings(userSettings);
+
+      setWeightUnit(userSettings.default_unit_weight);
+
+      await Promise.all([
+        getActiveMeasurements(userSettings.active_tracking_measurements),
+        getLatestUserWeight(userSettings.clock_style),
+        getLatestUserMeasurement(userSettings.clock_style),
+      ]);
+
+      setIsLoading(false);
     };
 
     loadUserSettings();

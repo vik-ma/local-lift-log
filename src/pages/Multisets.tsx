@@ -97,20 +97,24 @@ export default function Multisets() {
   useEffect(() => {
     const loadUserSettings = async () => {
       const userSettings = await GetUserSettings();
-      if (userSettings !== undefined) {
-        setUserSettings(userSettings);
-        setOperatingSet((prev) => ({
-          ...prev,
-          weight_unit: userSettings.default_unit_weight,
-          distance_unit: userSettings.default_unit_distance,
-          user_weight_unit: userSettings.default_unit_weight,
-        }));
-        setIncludeSecondaryGroups(
-          userSettings.show_secondary_exercise_groups === 1
-        );
-        setFilterWeightRangeUnit(userSettings.default_unit_weight);
-        setFilterDistanceRangeUnit(userSettings.default_unit_distance);
-      }
+
+      if (userSettings === undefined) return;
+
+      setUserSettings(userSettings);
+
+      setOperatingSet((prev) => ({
+        ...prev,
+        weight_unit: userSettings.default_unit_weight,
+        distance_unit: userSettings.default_unit_distance,
+        user_weight_unit: userSettings.default_unit_weight,
+      }));
+
+      setIncludeSecondaryGroups(
+        userSettings.show_secondary_exercise_groups === 1
+      );
+
+      setFilterWeightRangeUnit(userSettings.default_unit_weight);
+      setFilterDistanceRangeUnit(userSettings.default_unit_distance);
     };
 
     loadUserSettings();

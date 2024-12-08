@@ -114,46 +114,47 @@ export default function Settings() {
 
   useEffect(() => {
     const loadUserSettings = async () => {
-      const settings: UserSettings | undefined = await GetUserSettings();
-      if (settings !== undefined) {
-        setUserSettings(settings);
+      const userSettings = await GetUserSettings();
 
-        const defaultIncrementValues: DefaultIncrementInputs = {
-          weight: settings.default_increment_weight.toString(),
-          distance: settings.default_increment_distance.toString(),
-          time: settings.default_increment_time,
-          resistanceLevel:
-            settings.default_increment_resistance_level.toString(),
-          calculationMultiplier:
-            settings.default_increment_calculation_multiplier.toString(),
-        };
+      if (userSettings === undefined) return;
 
-        setDefaultIncrementInputValues(defaultIncrementValues);
-        setDefaultIncrementOriginalValues({ ...defaultIncrementValues });
+      setUserSettings(userSettings);
 
-        const workoutPropertySet = CreateWorkoutPropertySet(
-          settings.shown_workout_properties
+      const defaultIncrementValues: DefaultIncrementInputs = {
+        weight: userSettings.default_increment_weight.toString(),
+        distance: userSettings.default_increment_distance.toString(),
+        time: userSettings.default_increment_time,
+        resistanceLevel:
+          userSettings.default_increment_resistance_level.toString(),
+        calculationMultiplier:
+          userSettings.default_increment_calculation_multiplier.toString(),
+      };
+
+      setDefaultIncrementInputValues(defaultIncrementValues);
+      setDefaultIncrementOriginalValues({ ...defaultIncrementValues });
+
+      const workoutPropertySet = CreateWorkoutPropertySet(
+        userSettings.shown_workout_properties
+      );
+      setSelectedWorkoutProperties(workoutPropertySet);
+
+      const workoutRatingsOrder = GetWorkoutRatingOrder(
+        userSettings.workout_ratings_order
+      );
+
+      const workoutRatingsList = Object.values(WorkoutRatingsMap());
+
+      workoutRatingsList.sort((a, b) => {
+        return (
+          workoutRatingsOrder.indexOf(a.num) -
+          workoutRatingsOrder.indexOf(b.num)
         );
-        setSelectedWorkoutProperties(workoutPropertySet);
+      });
 
-        const workoutRatingsOrder = GetWorkoutRatingOrder(
-          settings.workout_ratings_order
-        );
+      setWorkoutRatingsList(workoutRatingsList);
 
-        const workoutRatingsList = Object.values(WorkoutRatingsMap());
-
-        workoutRatingsList.sort((a, b) => {
-          return (
-            workoutRatingsOrder.indexOf(a.num) -
-            workoutRatingsOrder.indexOf(b.num)
-          );
-        });
-
-        setWorkoutRatingsList(workoutRatingsList);
-
-        setFilterWeightRangeUnit(settings.default_unit_weight);
-        setFilterDistanceRangeUnit(settings.default_unit_distance);
-      }
+      setFilterWeightRangeUnit(userSettings.default_unit_weight);
+      setFilterDistanceRangeUnit(userSettings.default_unit_distance);
     };
 
     loadUserSettings();

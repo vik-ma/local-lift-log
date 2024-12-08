@@ -156,13 +156,16 @@ export default function UserWeightList() {
     const loadUserSettings = async () => {
       const userSettings = await GetUserSettings();
 
-      if (userSettings !== undefined) {
-        setUserSettings(userSettings);
-        getUserWeights(userSettings.clock_style);
-        setWeightUnit(userSettings.default_unit_weight);
-        setFilterWeightRangeUnit(userSettings.default_unit_weight);
-        setIsLoading(false);
-      }
+      if (userSettings === undefined) return;
+
+      getUserWeights(userSettings.clock_style);
+
+      setUserSettings(userSettings);
+
+      setWeightUnit(userSettings.default_unit_weight);
+      setFilterWeightRangeUnit(userSettings.default_unit_weight);
+
+      setIsLoading(false);
     };
 
     loadUserSettings();

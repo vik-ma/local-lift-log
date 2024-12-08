@@ -81,18 +81,19 @@ export default function WorkoutTemplateList() {
   const { filterMap, removeFilter, prefixMap } = listFilters;
 
   useEffect(() => {
-    const getUserSettings = async () => {
+    const loadUserSettings = async () => {
       const userSettings = await GetUserSettings();
 
-      if (userSettings !== undefined) {
-        setUserSettings(userSettings);
-        setIncludeSecondaryGroups(
-          userSettings.show_secondary_exercise_groups === 1
-        );
-      }
+      if (userSettings === undefined) return;
+
+      setUserSettings(userSettings);
+
+      setIncludeSecondaryGroups(
+        userSettings.show_secondary_exercise_groups === 1
+      );
     };
 
-    getUserSettings();
+    loadUserSettings();
   }, [setIncludeSecondaryGroups]);
 
   const addWorkoutTemplate = async () => {

@@ -147,19 +147,23 @@ export default function Presets() {
   useEffect(() => {
     const loadUserSettings = async () => {
       const userSettings = await GetUserSettings();
-      if (userSettings !== undefined) {
-        setUserSettings(userSettings);
-        setOperatingEquipmentWeight((prev) => ({
-          ...prev,
-          weight_unit: userSettings.default_unit_weight,
-        }));
-        setOperatingDistance((prev) => ({
-          ...prev,
-          distance_unit: userSettings.default_unit_distance,
-        }));
-        setFilterWeightRangeUnit(userSettings.default_unit_weight);
-        setFilterDistanceRangeUnit(userSettings.default_unit_distance);
-      }
+
+      if (userSettings === undefined) return;
+
+      setUserSettings(userSettings);
+
+      setOperatingEquipmentWeight((prev) => ({
+        ...prev,
+        weight_unit: userSettings.default_unit_weight,
+      }));
+
+      setOperatingDistance((prev) => ({
+        ...prev,
+        distance_unit: userSettings.default_unit_distance,
+      }));
+
+      setFilterWeightRangeUnit(userSettings.default_unit_weight);
+      setFilterDistanceRangeUnit(userSettings.default_unit_distance);
     };
 
     if (searchParams.get("tab") === "distance") {

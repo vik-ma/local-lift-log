@@ -59,10 +59,10 @@ export default function Home() {
       if (isUserSettingsLoaded) return;
 
       try {
-        const settings: UserSettings | undefined = await GetUserSettings();
-        if (settings !== undefined) {
+        const userSettings = await GetUserSettings();
+        if (userSettings !== undefined) {
           // If UserSettings exists
-          setUserSettings(settings);
+          setUserSettings(userSettings);
           setIsUserSettingsLoaded(true);
         } else {
           // If no UserSettings exists

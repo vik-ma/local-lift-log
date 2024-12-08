@@ -78,9 +78,9 @@ export default function RoutineList() {
     const getActiveRoutineId = async () => {
       const userSettings = await GetUserSettings();
 
-      if (userSettings !== undefined) {
-        setUserSettings(userSettings);
-      }
+      if (userSettings === undefined) return;
+
+      setUserSettings(userSettings);
     };
 
     getActiveRoutineId();

@@ -3,7 +3,6 @@ import {
   Routine,
   RoutineScheduleItem,
   UserSettingsOptional,
-  UserSettings,
   WorkoutTemplate,
 } from "../typings";
 import { useState, useEffect, useCallback, useMemo } from "react";
@@ -137,14 +136,15 @@ export default function RoutineDetails() {
       }
     };
 
-    const getUserSettings = async () => {
-      const settings: UserSettings | undefined = await GetUserSettings();
-      if (settings !== undefined) setUserSettings(settings);
+    const loadUserSettings = async () => {
+      const userSettings = await GetUserSettings();
+
+      if (userSettings !== undefined) setUserSettings(userSettings);
     };
 
     getRoutine();
     getWorkoutRoutineSchedules();
-    getUserSettings();
+    loadUserSettings();
   }, [id, getWorkoutRoutineSchedules]);
 
   const useDetailsHeaderOptions = useDetailsHeaderOptionsMenu("Routine");

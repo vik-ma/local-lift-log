@@ -45,17 +45,19 @@ export default function WorkoutIndex() {
   const filterExerciseList = useFilterExerciseList(exerciseList);
 
   useEffect(() => {
-    const getUserSettings = async () => {
+    const loadUserSettings = async () => {
       const userSettings = await GetUserSettings();
-      if (userSettings !== undefined) {
-        setUserSettings(userSettings);
-        setIncludeSecondaryGroups(
-          userSettings.show_secondary_exercise_groups === 1
-        );
-      }
+
+      if (userSettings === undefined) return;
+
+      setUserSettings(userSettings);
+
+      setIncludeSecondaryGroups(
+        userSettings.show_secondary_exercise_groups === 1
+      );
     };
 
-    getUserSettings();
+    loadUserSettings();
   }, [setIncludeSecondaryGroups]);
 
   const handleCreateEmptyWorkout = async () => {

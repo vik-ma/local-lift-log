@@ -87,22 +87,25 @@ export default function WorkoutList() {
     workoutTemplateList;
 
   useEffect(() => {
-    const getUserSettings = async () => {
+    const loadUserSettings = async () => {
       const userSettings = await GetUserSettings();
 
-      if (userSettings !== undefined) {
-        setUserSettings(userSettings);
-        const workoutPropertySet = CreateWorkoutPropertySet(
-          userSettings.shown_workout_properties
-        );
-        setSelectedWorkoutProperties(workoutPropertySet);
-        setIncludeSecondaryGroups(
-          userSettings.show_secondary_exercise_groups === 1
-        );
-      }
+      if (userSettings === undefined) return;
+
+      setUserSettings(userSettings);
+
+      const workoutPropertySet = CreateWorkoutPropertySet(
+        userSettings.shown_workout_properties
+      );
+
+      setSelectedWorkoutProperties(workoutPropertySet);
+
+      setIncludeSecondaryGroups(
+        userSettings.show_secondary_exercise_groups === 1
+      );
     };
 
-    getUserSettings();
+    loadUserSettings();
   }, [setIncludeSecondaryGroups]);
 
   const deleteWorkout = async () => {
