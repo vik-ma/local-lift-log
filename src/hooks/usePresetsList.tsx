@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   Distance,
   EquipmentWeight,
@@ -39,13 +39,14 @@ export const usePresetsList = (
     useState<EquipmentWeightSortCategory>("favorite");
   const [sortCategoryDistance, setSortCategoryDistance] =
     useState<DistanceSortCategory>("favorite");
-  const [isLoadingEquipment, setIsLoadingEquipment] = useState<boolean>(true);
-  const [isLoadingDistance, setIsLoadingDistance] = useState<boolean>(true);
   const [plateCollections, setPlateCollections] = useState<PlateCollection[]>(
     []
   );
   const [isDefaultPlateCollectionInvalid, setIsDefaultPlateCollectionInvalid] =
     useState<boolean>(false);
+
+  const isEquipmentWeightListLoaded = useRef(false);
+  const isDistanceListLoaded = useRef(false);
 
   const defaultPlateCollection: PlateCollection = useMemo(() => {
     return {
@@ -155,7 +156,7 @@ export const usePresetsList = (
         );
 
         setPlateCollections(plateCollectionList);
-        setIsLoadingEquipment(false);
+        isEquipmentWeightListLoaded.current = true;
 
         if (defaultPlateCollectionId !== undefined) {
           const defaultPlateCollection = plateCollectionList.find(
@@ -182,7 +183,7 @@ export const usePresetsList = (
       const result = await db.select<Distance[]>("SELECT * FROM distances");
 
       sortDistancesByFavoritesFirst(result);
-      setIsLoadingDistance(false);
+      isDistanceListLoaded.current = true;
     } catch (error) {
       console.log(error);
     }
@@ -504,11 +505,11 @@ export const usePresetsList = (
   const presetsTypeString = usePresetsTypeString(presetsType);
 
   const handleOpenFilterButton = async () => {
-    if (presetsType === "equipment" && isLoadingEquipment) {
+    if (presetsType === "equipment" && !isEquipmentWeightListLoaded.current) {
       await getEquipmentWeights();
     }
 
-    if (presetsType === "distance" && isLoadingDistance) {
+    if (presetsType === "distance" && !isDistanceListLoaded.current) {
       await getDistances();
     }
 
@@ -536,8 +537,8 @@ export const usePresetsList = (
     sortCategoryDistance,
     handleSortOptionSelectionEquipment,
     handleSortOptionSelectionDistance,
-    isLoadingEquipment,
-    isLoadingDistance,
+    isEquipmentWeightListLoaded,
+    isDistanceListLoaded,
     sortEquipmentWeightByActiveCategory,
     sortDistancesByActiveCategory,
     plateCollections,

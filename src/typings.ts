@@ -610,8 +610,8 @@ export type UsePresetsListReturnType = {
   sortCategoryDistance: DistanceSortCategory;
   handleSortOptionSelectionEquipment: (key: string) => void;
   handleSortOptionSelectionDistance: (key: string) => void;
-  isLoadingEquipment: boolean;
-  isLoadingDistance: boolean;
+  isEquipmentWeightListLoaded: React.MutableRefObject<boolean>;
+  isDistanceListLoaded: React.MutableRefObject<boolean>;
   sortEquipmentWeightByActiveCategory: (
     equipmentWeightList: EquipmentWeight[]
   ) => void;
