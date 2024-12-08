@@ -66,7 +66,12 @@ export const usePresetsList = (
 
   const listFilters = useListFilters();
 
-  const { filterMap, filterWeightRange, filterWeightRangeUnit } = listFilters;
+  const {
+    filterMap,
+    filterWeightRange,
+    filterWeightRangeUnit,
+    filterWeightUnits,
+  } = listFilters;
 
   const filterPresetsListModal = useDisclosure();
 
@@ -87,7 +92,9 @@ export const usePresetsList = (
               item.weight,
               item.weight_unit,
               filterWeightRangeUnit
-            ))
+            )) &&
+          (!filterMap.has("weight-units") ||
+            filterWeightUnits.has(item.weight_unit))
       );
     }
     return equipmentWeights;
@@ -97,6 +104,7 @@ export const usePresetsList = (
     filterMap,
     filterWeightRange,
     filterWeightRangeUnit,
+    filterWeightUnits,
   ]);
 
   const filteredDistances = useMemo(() => {
