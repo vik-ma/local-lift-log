@@ -18,9 +18,12 @@ export const PresetsListOptions = ({
 }: PresetsListOptionsProps) => {
   const {
     sortCategoryEquipment,
+    sortCategoryDistance,
     handleSortOptionSelectionEquipment,
+    handleSortOptionSelectionDistance,
     listFilters,
     handleOpenFilterButton,
+    presetsType,
   } = usePresetsList;
 
   const { filterMap } = listFilters;
@@ -42,23 +45,39 @@ export const PresetsListOptions = ({
             Sort By
           </Button>
         </DropdownTrigger>
-        <DropdownMenu
-          aria-label="Sort Equipment Weights Dropdown Menu"
-          selectionMode="single"
-          selectedKeys={[sortCategoryEquipment]}
-          onAction={(key) => handleSortOptionSelectionEquipment(key as string)}
-        >
-          <DropdownItem key="favorite">Favorites First</DropdownItem>
-          <DropdownItem key="name">Name (A-Z)</DropdownItem>
-          <DropdownItem key="weight-desc">Weight (High-Low)</DropdownItem>
-          <DropdownItem key="weight-asc">Weight (Low-High)</DropdownItem>
-          <DropdownItem
-            className={isSelectingForPlateCollection ? "" : "hidden"}
-            key="plate-col"
+        {presetsType === "equipment" ? (
+          <DropdownMenu
+            aria-label="Sort Equipment Weights Dropdown Menu"
+            selectionMode="single"
+            selectedKeys={[sortCategoryEquipment]}
+            onAction={(key) =>
+              handleSortOptionSelectionEquipment(key as string)
+            }
           >
-            Plate Collection Items First
-          </DropdownItem>
-        </DropdownMenu>
+            <DropdownItem key="favorite">Favorites First</DropdownItem>
+            <DropdownItem key="name">Name (A-Z)</DropdownItem>
+            <DropdownItem key="weight-desc">Weight (High-Low)</DropdownItem>
+            <DropdownItem key="weight-asc">Weight (Low-High)</DropdownItem>
+            <DropdownItem
+              className={isSelectingForPlateCollection ? "" : "hidden"}
+              key="plate-col"
+            >
+              Plate Collection Items First
+            </DropdownItem>
+          </DropdownMenu>
+        ) : (
+          <DropdownMenu
+            aria-label="Sort Distances Dropdown Menu"
+            selectionMode="single"
+            selectedKeys={[sortCategoryDistance]}
+            onAction={(key) => handleSortOptionSelectionDistance(key as string)}
+          >
+            <DropdownItem key="favorite">Favorites First</DropdownItem>
+            <DropdownItem key="name">Name (A-Z)</DropdownItem>
+            <DropdownItem key="distance-desc">Distance (High-Low)</DropdownItem>
+            <DropdownItem key="distance-asc">Distance (Low-High)</DropdownItem>
+          </DropdownMenu>
+        )}
       </Dropdown>
     </div>
   );

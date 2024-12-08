@@ -119,8 +119,6 @@ export default function Presets() {
     filteredDistances,
     toggleFavoriteEquipmentWeight,
     toggleFavoriteDistance,
-    sortCategoryDistance,
-    handleSortOptionSelectionDistance,
     sortEquipmentWeightByActiveCategory,
     sortDistancesByActiveCategory,
     plateCollections,
@@ -1006,41 +1004,25 @@ export default function Presets() {
               totalListLength={distances.length}
               extraTopSpace={true}
               bottomContent={
-                <div className="flex justify-between gap-1 w-full items-center">
-                  <Button
-                    color="secondary"
-                    variant="flat"
-                    onPress={handleAddDistanceButton}
-                    size="sm"
-                  >
-                    New Distance
-                  </Button>
-                  <Dropdown>
-                    <DropdownTrigger>
-                      <Button className="z-1" variant="flat" size="sm">
-                        Sort By
-                      </Button>
-                    </DropdownTrigger>
-                    <DropdownMenu
-                      aria-label="Sort Distances Dropdown Menu"
-                      selectionMode="single"
-                      selectedKeys={[sortCategoryDistance]}
-                      onAction={(key) =>
-                        handleSortOptionSelectionDistance(key as string)
-                      }
+                <div className="flex flex-col gap-1.5">
+                  <div className="flex justify-between">
+                    <Button
+                      color="secondary"
+                      variant="flat"
+                      onPress={handleAddDistanceButton}
+                      size="sm"
                     >
-                      <DropdownItem key="favorite">
-                        Favorites First
-                      </DropdownItem>
-                      <DropdownItem key="name">Name (A-Z)</DropdownItem>
-                      <DropdownItem key="distance-desc">
-                        Distance (High-Low)
-                      </DropdownItem>
-                      <DropdownItem key="distance-asc">
-                        Distance (Low-High)
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </Dropdown>
+                      New Distance
+                    </Button>
+                    <PresetsListOptions usePresetsList={presetsList} />
+                  </div>
+                  {filterMap.size > 0 && (
+                    <ListFilters
+                      filterMap={filterMap}
+                      removeFilter={removeFilter}
+                      prefixMap={prefixMap}
+                    />
+                  )}
                 </div>
               }
             />
