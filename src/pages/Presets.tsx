@@ -60,7 +60,6 @@ type OperationType = "add" | "edit" | "delete";
 type PresetTab = "equipment" | "distance" | "plate";
 
 export default function Presets() {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [operationType, setOperationType] = useState<OperationType>("add");
   const [nameInput, setNameInput] = useState<string>("");
@@ -132,6 +131,8 @@ export default function Presets() {
     defaultPlateCollection,
     setOtherUnitPlateCollection,
     listFilters,
+    isEquipmentWeightListLoaded,
+    isDistanceListLoaded,
   } = presetsList;
 
   const { filterMap, removeFilter, prefixMap, resetFilter } = listFilters;
@@ -150,7 +151,6 @@ export default function Presets() {
           distance_unit: userSettings.default_unit_distance,
         }));
       }
-      setIsLoading(false);
     };
 
     if (searchParams.get("tab") === "distance") {
@@ -898,116 +898,124 @@ export default function Presets() {
             key="equipment"
             title="Equipment Weights"
           >
-            <ListPageSearchInput
-              header="Equipment Weight List"
-              filterQuery={filterQueryEquipment}
-              setFilterQuery={setFilterQueryEquipment}
-              filteredListLength={filteredEquipmentWeights.length}
-              totalListLength={equipmentWeights.length}
-              extraTopSpace={true}
-              bottomContent={
-                <div className="flex flex-col gap-1.5">
-                  <div className="flex justify-between">
-                    <Button
-                      color="secondary"
-                      variant="flat"
-                      onPress={handleAddEquipmentWeightButton}
-                      size="sm"
-                    >
-                      New Equipment Weight
-                    </Button>
-                    <PresetsListOptions usePresetsList={presetsList} />
-                  </div>
-                  {filterMap.size > 0 && (
-                    <ListFilters
-                      filterMap={filterMap}
-                      removeFilter={removeFilter}
-                      prefixMap={prefixMap}
-                    />
-                  )}
-                </div>
-              }
-            />
-            {isLoading ? (
+            {!isEquipmentWeightListLoaded.current ? (
               <LoadingSpinner />
             ) : (
-              <div className="flex flex-col gap-1.5">
-                <div className="flex flex-col gap-1">
-                  {filteredEquipmentWeights.map((equipment) => (
-                    <div
-                      className="flex justify-between items-center cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-                      key={`equipment-${equipment.id}`}
-                      onClick={() =>
-                        handleEquipmentWeightOptionSelection("edit", equipment)
-                      }
-                    >
-                      <div className="flex flex-col justify-start items-start pl-2 py-1">
-                        <span className="w-[15.5rem] truncate text-left">
-                          {equipment.name}
-                        </span>
-                        <span className="text-xs text-secondary text-left">
-                          {equipment.weight} {equipment.weight_unit}
-                        </span>
+              <>
+                <ListPageSearchInput
+                  header="Equipment Weight List"
+                  filterQuery={filterQueryEquipment}
+                  setFilterQuery={setFilterQueryEquipment}
+                  filteredListLength={filteredEquipmentWeights.length}
+                  totalListLength={equipmentWeights.length}
+                  extraTopSpace={true}
+                  bottomContent={
+                    <div className="flex flex-col gap-1.5">
+                      <div className="flex justify-between">
+                        <Button
+                          color="secondary"
+                          variant="flat"
+                          onPress={handleAddEquipmentWeightButton}
+                          size="sm"
+                        >
+                          New Equipment Weight
+                        </Button>
+                        <PresetsListOptions usePresetsList={presetsList} />
                       </div>
-                      <div className="flex items-center pr-1">
-                        <FavoriteButton
-                          name={equipment.name}
-                          isFavorite={!!equipment.is_favorite}
-                          item={equipment}
-                          toggleFavorite={toggleFavoriteEquipmentWeight}
+                      {filterMap.size > 0 && (
+                        <ListFilters
+                          filterMap={filterMap}
+                          removeFilter={removeFilter}
+                          prefixMap={prefixMap}
                         />
-                        <Dropdown>
-                          <DropdownTrigger>
-                            <Button
-                              aria-label={`Toggle ${equipment.name} Options Menu`}
-                              isIconOnly
-                              className="z-1"
-                              radius="lg"
-                              variant="light"
-                            >
-                              <VerticalMenuIcon size={19} color="#888" />
-                            </Button>
-                          </DropdownTrigger>
-                          <DropdownMenu
-                            aria-label={`Option Menu For ${equipment.name} Equipment Weight`}
-                            onAction={(key) =>
-                              handleEquipmentWeightOptionSelection(
-                                key as string,
-                                equipment
-                              )
-                            }
-                          >
-                            <DropdownItem key="edit">Edit</DropdownItem>
-                            <DropdownItem
-                              key="toggle-favorite"
-                              className="text-secondary"
-                            >
-                              {equipment.is_favorite
-                                ? "Remove Favorite"
-                                : "Set Favorite"}
-                            </DropdownItem>
-                            <DropdownItem key="delete" className="text-danger">
-                              Delete
-                            </DropdownItem>
-                          </DropdownMenu>
-                        </Dropdown>
-                      </div>
+                      )}
                     </div>
-                  ))}
-                  {filteredEquipmentWeights.length === 0 && (
-                    <EmptyListLabel itemName="Equipment Weights" />
-                  )}
+                  }
+                />
+                <div className="flex flex-col gap-1.5">
+                  <div className="flex flex-col gap-1">
+                    {filteredEquipmentWeights.map((equipment) => (
+                      <div
+                        className="flex justify-between items-center cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                        key={`equipment-${equipment.id}`}
+                        onClick={() =>
+                          handleEquipmentWeightOptionSelection(
+                            "edit",
+                            equipment
+                          )
+                        }
+                      >
+                        <div className="flex flex-col justify-start items-start pl-2 py-1">
+                          <span className="w-[15.5rem] truncate text-left">
+                            {equipment.name}
+                          </span>
+                          <span className="text-xs text-secondary text-left">
+                            {equipment.weight} {equipment.weight_unit}
+                          </span>
+                        </div>
+                        <div className="flex items-center pr-1">
+                          <FavoriteButton
+                            name={equipment.name}
+                            isFavorite={!!equipment.is_favorite}
+                            item={equipment}
+                            toggleFavorite={toggleFavoriteEquipmentWeight}
+                          />
+                          <Dropdown>
+                            <DropdownTrigger>
+                              <Button
+                                aria-label={`Toggle ${equipment.name} Options Menu`}
+                                isIconOnly
+                                className="z-1"
+                                radius="lg"
+                                variant="light"
+                              >
+                                <VerticalMenuIcon size={19} color="#888" />
+                              </Button>
+                            </DropdownTrigger>
+                            <DropdownMenu
+                              aria-label={`Option Menu For ${equipment.name} Equipment Weight`}
+                              onAction={(key) =>
+                                handleEquipmentWeightOptionSelection(
+                                  key as string,
+                                  equipment
+                                )
+                              }
+                            >
+                              <DropdownItem key="edit">Edit</DropdownItem>
+                              <DropdownItem
+                                key="toggle-favorite"
+                                className="text-secondary"
+                              >
+                                {equipment.is_favorite
+                                  ? "Remove Favorite"
+                                  : "Set Favorite"}
+                              </DropdownItem>
+                              <DropdownItem
+                                key="delete"
+                                className="text-danger"
+                              >
+                                Delete
+                              </DropdownItem>
+                            </DropdownMenu>
+                          </Dropdown>
+                        </div>
+                      </div>
+                    ))}
+                    {filteredEquipmentWeights.length === 0 && (
+                      <EmptyListLabel itemName="Equipment Weights" />
+                    )}
+                  </div>
+                  <div className="flex justify-center">
+                    <Button
+                      size="sm"
+                      variant="flat"
+                      onPress={handleRestoreEquipmentButton}
+                    >
+                      Restore Default Equipment Weights
+                    </Button>
+                  </div>
                 </div>
-                <div className="flex justify-center">
-                  <Button
-                    size="sm"
-                    variant="flat"
-                    onPress={handleRestoreEquipmentButton}
-                  >
-                    Restore Default Equipment Weights
-                  </Button>
-                </div>
-              </div>
+              </>
             )}
           </Tab>
           <Tab
@@ -1015,116 +1023,121 @@ export default function Presets() {
             key="distance"
             title="Distances"
           >
-            <ListPageSearchInput
-              header="Distance List"
-              filterQuery={filterQueryDistance}
-              setFilterQuery={setFilterQueryDistance}
-              filteredListLength={filteredDistances.length}
-              totalListLength={distances.length}
-              extraTopSpace={true}
-              bottomContent={
-                <div className="flex flex-col gap-1.5">
-                  <div className="flex justify-between">
-                    <Button
-                      color="secondary"
-                      variant="flat"
-                      onPress={handleAddDistanceButton}
-                      size="sm"
-                    >
-                      New Distance
-                    </Button>
-                    <PresetsListOptions usePresetsList={presetsList} />
-                  </div>
-                  {filterMap.size > 0 && (
-                    <ListFilters
-                      filterMap={filterMap}
-                      removeFilter={removeFilter}
-                      prefixMap={prefixMap}
-                    />
-                  )}
-                </div>
-              }
-            />
-            {isLoading ? (
+            {!isDistanceListLoaded.current ? (
               <LoadingSpinner />
             ) : (
-              <div className="flex flex-col gap-1.5">
-                <div className="flex flex-col gap-1">
-                  {filteredDistances.map((distance) => (
-                    <div
-                      className="flex justify-between items-center cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-                      key={`distance-${distance.id}`}
-                      onClick={() =>
-                        handleDistanceOptionSelection("edit", distance)
-                      }
-                    >
-                      <div className="flex flex-col justify-start items-start pl-2 py-1">
-                        <span className="w-[18.5rem] truncate text-left">
-                          {distance.name}
-                        </span>
-                        <span className="text-xs text-secondary text-left">
-                          {distance.distance} {distance.distance_unit}
-                        </span>
+              <>
+                <ListPageSearchInput
+                  header="Distance List"
+                  filterQuery={filterQueryDistance}
+                  setFilterQuery={setFilterQueryDistance}
+                  filteredListLength={filteredDistances.length}
+                  totalListLength={distances.length}
+                  extraTopSpace={true}
+                  bottomContent={
+                    <div className="flex flex-col gap-1.5">
+                      <div className="flex justify-between">
+                        <Button
+                          color="secondary"
+                          variant="flat"
+                          onPress={handleAddDistanceButton}
+                          size="sm"
+                        >
+                          New Distance
+                        </Button>
+                        <PresetsListOptions usePresetsList={presetsList} />
                       </div>
-                      <div className="flex items-center pr-1">
-                        <FavoriteButton
-                          name={distance.name}
-                          isFavorite={!!distance.is_favorite}
-                          item={distance}
-                          toggleFavorite={toggleFavoriteDistance}
+                      {filterMap.size > 0 && (
+                        <ListFilters
+                          filterMap={filterMap}
+                          removeFilter={removeFilter}
+                          prefixMap={prefixMap}
                         />
-                        <Dropdown>
-                          <DropdownTrigger>
-                            <Button
-                              aria-label={`Toggle ${distance.name} Options Menu`}
-                              isIconOnly
-                              className="z-1"
-                              radius="lg"
-                              variant="light"
-                            >
-                              <VerticalMenuIcon size={19} color="#888" />
-                            </Button>
-                          </DropdownTrigger>
-                          <DropdownMenu
-                            aria-label={`Option Menu For ${distance.name} Distance`}
-                            onAction={(key) =>
-                              handleDistanceOptionSelection(
-                                key as string,
-                                distance
-                              )
-                            }
-                          >
-                            <DropdownItem key="edit">Edit</DropdownItem>
-                            <DropdownItem
-                              key="toggle-favorite"
-                              className="text-secondary"
-                            >
-                              {distance.is_favorite
-                                ? "Remove Favorite"
-                                : "Set Favorite"}
-                            </DropdownItem>
-                            <DropdownItem key="delete" className="text-danger">
-                              Delete
-                            </DropdownItem>
-                          </DropdownMenu>
-                        </Dropdown>
-                      </div>
+                      )}
                     </div>
-                  ))}
-                  {filteredDistances.length === 0 && (
-                    <EmptyListLabel itemName="Distances" />
-                  )}
+                  }
+                />
+                <div className="flex flex-col gap-1.5">
+                  <div className="flex flex-col gap-1">
+                    {filteredDistances.map((distance) => (
+                      <div
+                        className="flex justify-between items-center cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                        key={`distance-${distance.id}`}
+                        onClick={() =>
+                          handleDistanceOptionSelection("edit", distance)
+                        }
+                      >
+                        <div className="flex flex-col justify-start items-start pl-2 py-1">
+                          <span className="w-[18.5rem] truncate text-left">
+                            {distance.name}
+                          </span>
+                          <span className="text-xs text-secondary text-left">
+                            {distance.distance} {distance.distance_unit}
+                          </span>
+                        </div>
+                        <div className="flex items-center pr-1">
+                          <FavoriteButton
+                            name={distance.name}
+                            isFavorite={!!distance.is_favorite}
+                            item={distance}
+                            toggleFavorite={toggleFavoriteDistance}
+                          />
+                          <Dropdown>
+                            <DropdownTrigger>
+                              <Button
+                                aria-label={`Toggle ${distance.name} Options Menu`}
+                                isIconOnly
+                                className="z-1"
+                                radius="lg"
+                                variant="light"
+                              >
+                                <VerticalMenuIcon size={19} color="#888" />
+                              </Button>
+                            </DropdownTrigger>
+                            <DropdownMenu
+                              aria-label={`Option Menu For ${distance.name} Distance`}
+                              onAction={(key) =>
+                                handleDistanceOptionSelection(
+                                  key as string,
+                                  distance
+                                )
+                              }
+                            >
+                              <DropdownItem key="edit">Edit</DropdownItem>
+                              <DropdownItem
+                                key="toggle-favorite"
+                                className="text-secondary"
+                              >
+                                {distance.is_favorite
+                                  ? "Remove Favorite"
+                                  : "Set Favorite"}
+                              </DropdownItem>
+                              <DropdownItem
+                                key="delete"
+                                className="text-danger"
+                              >
+                                Delete
+                              </DropdownItem>
+                            </DropdownMenu>
+                          </Dropdown>
+                        </div>
+                      </div>
+                    ))}
+                    {filteredDistances.length === 0 && (
+                      <EmptyListLabel itemName="Distances" />
+                    )}
+                  </div>
+                  <div className="flex justify-center">
+                    <Button
+                      size="sm"
+                      variant="flat"
+                      onPress={handleRestoreDistanceButton}
+                    >
+                      Restore Default Distances
+                    </Button>
+                  </div>
                 </div>
-                <div className="flex justify-center">
-                  <Button
-                    size="sm"
-                    variant="flat"
-                    onPress={handleRestoreDistanceButton}
-                  >
-                    Restore Default Distances
-                  </Button>
-                </div>
-              </div>
+              </>
             )}
           </Tab>
           <Tab
@@ -1132,111 +1145,116 @@ export default function Presets() {
             key="plate"
             title="Plate Collections"
           >
-            <ListPageSearchInput
-              header="Plate Collection List"
-              filterQuery={filterQueryPlateCollection}
-              setFilterQuery={setFilterQueryPlateCollection}
-              filteredListLength={filteredPlateCollections.length}
-              totalListLength={plateCollections.length}
-              extraTopSpace={true}
-              bottomContent={
-                <div className="flex justify-between gap-1 w-full items-center">
-                  <Button
-                    color="secondary"
-                    variant="flat"
-                    onPress={handleAddPlateCollectionButton}
-                    size="sm"
-                  >
-                    New Plate Collection
-                  </Button>
-                </div>
-              }
-            />
-            {isLoading ? (
+            {!isEquipmentWeightListLoaded.current ? (
               <LoadingSpinner />
             ) : (
-              <div className="flex flex-col gap-1.5">
-                <div className="flex flex-col gap-1">
-                  {filteredPlateCollections.map((plate) => (
-                    <div
-                      className="flex justify-between items-center cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-                      key={`plate-calculation-${plate.id}`}
-                      onClick={() =>
-                        handlePlateCollectionOptionSelection("edit", plate)
-                      }
-                    >
-                      <div className="flex flex-col justify-start items-start pl-2 py-1">
-                        <span className="w-[17.5rem] truncate">
-                          {plate.name}
-                        </span>
-                        <span className="w-[17.5rem] truncate text-xs text-secondary">
-                          {plate.formattedAvailablePlatesString}{" "}
-                          {plate.weight_unit}
-                        </span>
-                        <span className="text-xs text-stone-400">
-                          {plate.num_handles === 1 ? "1 Handle" : "2 Handles"}
-                          {plate.handle !== undefined ? (
-                            ` (${plate.handle.name}: ${plate.handle.weight} ${plate.handle.weight_unit})`
-                          ) : (
-                            <span className="text-red-700">
-                              {" "}
-                              (Unknown Handle)
-                            </span>
-                          )}
-                        </span>
-                      </div>
-                      <div className="flex items-center pr-1">
-                        <PlateCollectionButton
-                          userSettings={userSettings}
-                          setUserSettings={setUserSettings}
-                          plateCollection={plate}
-                        />
-                        <Dropdown>
-                          <DropdownTrigger>
-                            <Button
-                              aria-label={`Toggle ${plate.name} Options Menu`}
-                              isIconOnly
-                              className="z-1"
-                              radius="lg"
-                              variant="light"
-                            >
-                              <VerticalMenuIcon size={19} color="#888" />
-                            </Button>
-                          </DropdownTrigger>
-                          <DropdownMenu
-                            aria-label={`Option Menu For ${plate.name} Plate Collection`}
-                            onAction={(key) =>
-                              handlePlateCollectionOptionSelection(
-                                key as string,
-                                plate
-                              )
-                            }
-                          >
-                            <DropdownItem key="edit">Edit</DropdownItem>
-                            <DropdownItem
-                              className={
-                                plate.id ===
-                                userSettings.default_plate_collection_id
-                                  ? "hidden"
-                                  : "text-success"
-                              }
-                              key="set-default"
-                            >
-                              Set As Default
-                            </DropdownItem>
-                            <DropdownItem key="delete" className="text-danger">
-                              Delete
-                            </DropdownItem>
-                          </DropdownMenu>
-                        </Dropdown>
-                      </div>
+              <>
+                <ListPageSearchInput
+                  header="Plate Collection List"
+                  filterQuery={filterQueryPlateCollection}
+                  setFilterQuery={setFilterQueryPlateCollection}
+                  filteredListLength={filteredPlateCollections.length}
+                  totalListLength={plateCollections.length}
+                  extraTopSpace={true}
+                  bottomContent={
+                    <div className="flex justify-between gap-1 w-full items-center">
+                      <Button
+                        color="secondary"
+                        variant="flat"
+                        onPress={handleAddPlateCollectionButton}
+                        size="sm"
+                      >
+                        New Plate Collection
+                      </Button>
                     </div>
-                  ))}
-                  {filteredPlateCollections.length === 0 && (
-                    <EmptyListLabel itemName="Plate Collections" />
-                  )}
+                  }
+                />
+                <div className="flex flex-col gap-1.5">
+                  <div className="flex flex-col gap-1">
+                    {filteredPlateCollections.map((plate) => (
+                      <div
+                        className="flex justify-between items-center cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                        key={`plate-calculation-${plate.id}`}
+                        onClick={() =>
+                          handlePlateCollectionOptionSelection("edit", plate)
+                        }
+                      >
+                        <div className="flex flex-col justify-start items-start pl-2 py-1">
+                          <span className="w-[17.5rem] truncate">
+                            {plate.name}
+                          </span>
+                          <span className="w-[17.5rem] truncate text-xs text-secondary">
+                            {plate.formattedAvailablePlatesString}{" "}
+                            {plate.weight_unit}
+                          </span>
+                          <span className="text-xs text-stone-400">
+                            {plate.num_handles === 1 ? "1 Handle" : "2 Handles"}
+                            {plate.handle !== undefined ? (
+                              ` (${plate.handle.name}: ${plate.handle.weight} ${plate.handle.weight_unit})`
+                            ) : (
+                              <span className="text-red-700">
+                                {" "}
+                                (Unknown Handle)
+                              </span>
+                            )}
+                          </span>
+                        </div>
+                        <div className="flex items-center pr-1">
+                          <PlateCollectionButton
+                            userSettings={userSettings}
+                            setUserSettings={setUserSettings}
+                            plateCollection={plate}
+                          />
+                          <Dropdown>
+                            <DropdownTrigger>
+                              <Button
+                                aria-label={`Toggle ${plate.name} Options Menu`}
+                                isIconOnly
+                                className="z-1"
+                                radius="lg"
+                                variant="light"
+                              >
+                                <VerticalMenuIcon size={19} color="#888" />
+                              </Button>
+                            </DropdownTrigger>
+                            <DropdownMenu
+                              aria-label={`Option Menu For ${plate.name} Plate Collection`}
+                              onAction={(key) =>
+                                handlePlateCollectionOptionSelection(
+                                  key as string,
+                                  plate
+                                )
+                              }
+                            >
+                              <DropdownItem key="edit">Edit</DropdownItem>
+                              <DropdownItem
+                                className={
+                                  plate.id ===
+                                  userSettings.default_plate_collection_id
+                                    ? "hidden"
+                                    : "text-success"
+                                }
+                                key="set-default"
+                              >
+                                Set As Default
+                              </DropdownItem>
+                              <DropdownItem
+                                key="delete"
+                                className="text-danger"
+                              >
+                                Delete
+                              </DropdownItem>
+                            </DropdownMenu>
+                          </Dropdown>
+                        </div>
+                      </div>
+                    ))}
+                    {filteredPlateCollections.length === 0 && (
+                      <EmptyListLabel itemName="Plate Collections" />
+                    )}
+                  </div>
                 </div>
-              </div>
+              </>
             )}
           </Tab>
         </Tabs>
