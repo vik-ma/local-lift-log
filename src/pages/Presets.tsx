@@ -716,13 +716,13 @@ export default function Presets() {
   };
 
   const changeTab = (key: PresetTab) => {
-    if (selectedTab !== key) {
-      if (filterMap.size > 0) resetFilter();
+    if (selectedTab === key) return;
 
-      if (key === "equipment") setPresetsType("equipment");
+    if (filterMap.size > 0) resetFilter();
 
-      if (key === "distance") setPresetsType("distance");
-    }
+    if (key === "equipment") setPresetsType("equipment");
+
+    if (key === "distance") setPresetsType("distance");
 
     setSelectedTab(key);
   };
