@@ -526,7 +526,7 @@ export default function Settings() {
   };
 
   const handleSetDefaultPlateCollectionButton = async () => {
-    if (presetsList.isLoadingEquipment) {
+    if (!presetsList.isEquipmentWeightListLoaded) {
       await presetsList.getEquipmentWeights();
     }
 

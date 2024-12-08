@@ -45,8 +45,8 @@ export const PresetsModalList = ({
     setFilterQueryDistance,
     filteredEquipmentWeights,
     filteredDistances,
-    isLoadingEquipment,
-    isLoadingDistance,
+    isEquipmentWeightListLoaded,
+    isDistanceListLoaded,
     toggleFavoriteEquipmentWeight,
     toggleFavoriteDistance,
     operatingPlateCollection,
@@ -118,7 +118,7 @@ export const PresetsModalList = ({
       </div>
       <ScrollShadow className="flex flex-col gap-1 w-full">
         {presetsType === "equipment" ? (
-          isLoadingEquipment ? (
+          !isEquipmentWeightListLoaded.current ? (
             <LoadingSpinner />
           ) : (
             <>
@@ -190,7 +190,7 @@ export const PresetsModalList = ({
               )}
             </>
           )
-        ) : isLoadingDistance ? (
+        ) : !isDistanceListLoaded.current ? (
           <LoadingSpinner />
         ) : (
           <>

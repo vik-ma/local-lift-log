@@ -35,7 +35,7 @@ export const PlateCollectionModalList = ({
     filteredPlateCollections,
     filterQueryPlateCollection,
     setFilterQueryPlateCollection,
-    isLoadingEquipment,
+    isEquipmentWeightListLoaded,
   } = presetsList;
 
   const navigate = useNavigate();
@@ -60,7 +60,7 @@ export const PlateCollectionModalList = ({
         </Button>
       </div>
       <ScrollShadow className="flex flex-col gap-1 w-full">
-        {isLoadingEquipment ? (
+        {!isEquipmentWeightListLoaded.current ? (
           <LoadingSpinner />
         ) : (
           <>

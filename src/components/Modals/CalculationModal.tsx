@@ -84,8 +84,8 @@ export const CalculationModal = ({
     getEquipmentWeights,
     getDistances,
     presetsType,
-    isLoadingEquipment,
-    isLoadingDistance,
+    isEquipmentWeightListLoaded,
+    isDistanceListLoaded,
     operatingPlateCollection,
     setOperatingPlateCollection,
   } = usePresetsList;
@@ -104,17 +104,17 @@ export const CalculationModal = ({
   } = useCalculationModal;
 
   const loadPresets = useCallback(async () => {
-    if (presetsType === "equipment" && isLoadingEquipment) {
+    if (presetsType === "equipment" && !isEquipmentWeightListLoaded.current) {
       await getEquipmentWeights(userSettings.default_plate_collection_id);
     }
 
-    if (presetsType === "distance" && isLoadingDistance) {
+    if (presetsType === "distance" && !isDistanceListLoaded.current) {
       await getDistances();
     }
   }, [
     presetsType,
-    isLoadingEquipment,
-    isLoadingDistance,
+    isEquipmentWeightListLoaded,
+    isDistanceListLoaded,
     getEquipmentWeights,
     getDistances,
     userSettings,
