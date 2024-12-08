@@ -59,6 +59,8 @@ type OperationType = "add" | "edit" | "delete";
 
 type PresetType = "equipment" | "distance";
 
+type PresetTab = "equipment" | "distance" | "plate";
+
 export default function Presets() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [userSettings, setUserSettings] = useState<UserSettings>();
@@ -66,7 +68,7 @@ export default function Presets() {
   const [presetType, setPresetType] = useState<PresetType>("equipment");
   const [nameInput, setNameInput] = useState<string>("");
   const [valueInput, setValueInput] = useState<string>("");
-  const [selectedTab, setSelectedTab] = useState<string>("equipment");
+  const [selectedTab, setSelectedTab] = useState<PresetTab>("equipment");
   const [isOperatingPlateCollection, setIsOperatingPlateCollection] =
     useState<boolean>(false);
 
@@ -133,7 +135,7 @@ export default function Presets() {
     listFilters,
   } = presetsList;
 
-  const { filterMap, removeFilter, prefixMap } = listFilters;
+  const { filterMap, removeFilter, prefixMap, resetFilter } = listFilters;
 
   useEffect(() => {
     const loadUserSettings = async () => {
@@ -714,6 +716,18 @@ export default function Presets() {
     }
   };
 
+  const changeTab = (key: PresetTab) => {
+    if (selectedTab !== key) {
+      if (filterMap.size > 0) resetFilter();
+
+      if (selectedTab === "equipment") setPresetType("equipment");
+
+      if (selectedTab === "distance") setPresetType("distance");
+    }
+
+    setSelectedTab(key);
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -876,7 +890,7 @@ export default function Presets() {
           size="sm"
           fullWidth
           selectedKey={selectedTab}
-          onSelectionChange={(key) => setSelectedTab(key as string)}
+          onSelectionChange={(key) => changeTab(key as PresetTab)}
         >
           <Tab
             className="w-full px-0"
