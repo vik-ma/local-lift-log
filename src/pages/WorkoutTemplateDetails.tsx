@@ -1,6 +1,10 @@
 import { useParams } from "react-router-dom";
-import { WorkoutSet, WorkoutTemplate } from "../typings";
-import { useState, useEffect, useCallback } from "react";
+import {
+  DetailHeaderOptionItem,
+  WorkoutSet,
+  WorkoutTemplate,
+} from "../typings";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { useDisclosure } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -107,6 +111,22 @@ export default function WorkoutTemplateDetails() {
     Number(id)
   );
 
+  const { handleOpenWorkoutTemplateListModal } = workoutTemplateList;
+
+  const additionalMenuItems: DetailHeaderOptionItem = useMemo(() => {
+    return {
+      "copy-workout-template": {
+        text: "Copy Workout Template",
+        function: () => handleOpenWorkoutTemplateListModal(),
+      },
+    };
+  }, [handleOpenWorkoutTemplateListModal]);
+
+  const useDetailsHeaderOptions = useDetailsHeaderOptionsMenu(
+    "Workout Template",
+    additionalMenuItems
+  );
+
   const getWorkoutTemplateAndSetList = useCallback(async () => {
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
@@ -169,9 +189,6 @@ export default function WorkoutTemplateDetails() {
   useEffect(() => {
     getWorkoutTemplateAndSetList();
   }, [id, getWorkoutTemplateAndSetList]);
-
-  const useDetailsHeaderOptions =
-    useDetailsHeaderOptionsMenu("Workout Template");
 
   const updateWorkoutTemplate = async () => {
     if (!isNewWorkoutTemplateNameValid) return;
