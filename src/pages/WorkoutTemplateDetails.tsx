@@ -14,6 +14,7 @@ import {
   TextInputModal,
   CalculationModal,
   FilterExerciseGroupsModal,
+  WorkoutTemplateListModal,
 } from "../components";
 import { Toaster } from "react-hot-toast";
 import {
@@ -29,6 +30,7 @@ import {
   useDefaultWorkoutTemplate,
   useWorkoutActions,
   useDetailsHeaderOptionsMenu,
+  useWorkoutTemplateList,
 } from "../hooks";
 
 export default function WorkoutTemplateDetails() {
@@ -97,6 +99,13 @@ export default function WorkoutTemplateDetails() {
     openCalculationModal,
     filterExerciseList,
   } = useWorkoutActions(true);
+
+  const workoutTemplateList = useWorkoutTemplateList(
+    false,
+    exerciseList,
+    true,
+    Number(id)
+  );
 
   const getWorkoutTemplateAndSetList = useCallback(async () => {
     try {
@@ -292,6 +301,12 @@ export default function WorkoutTemplateDetails() {
       <FilterExerciseGroupsModal
         useExerciseList={exerciseList}
         useFilterExerciseList={filterExerciseList}
+      />
+      <WorkoutTemplateListModal
+        useWorkoutTemplateList={workoutTemplateList}
+        // TODO: ADD
+        onClickAction={() => {}}
+        header="Select Workout Template To Copy"
       />
       {userSettings.show_calculation_buttons === 1 && (
         <CalculationModal
