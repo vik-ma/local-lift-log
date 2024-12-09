@@ -142,6 +142,7 @@ export default function Presets() {
     resetFilter,
     setFilterWeightRangeUnit,
     setFilterDistanceRangeUnit,
+    showResetFilterButton,
   } = listFilters;
 
   useEffect(() => {
@@ -731,7 +732,7 @@ export default function Presets() {
   const changeTab = (key: PresetTab) => {
     if (selectedTab === key) return;
 
-    if (filterMap.size > 0) resetFilter();
+    if (showResetFilterButton) resetFilter();
 
     if (key === "equipment") setPresetsType("equipment");
 
