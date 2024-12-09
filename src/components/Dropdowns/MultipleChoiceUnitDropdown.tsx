@@ -39,7 +39,7 @@ export const MultipleChoiceUnitDropdown = ({
       label={
         <>
           {unitTypeString} Units
-          {filterUnits.size < 2 && (
+          {filterUnits.size < unitList.length && (
             <span className="text-secondary">
               {" "}
               ({filterUnits.size} out of {unitList.length})

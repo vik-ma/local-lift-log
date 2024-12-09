@@ -46,6 +46,8 @@ export const FilterPresetsListModal = ({
     setFilterDistanceRange,
     filterDistanceRangeUnit,
     setFilterDistanceRangeUnit,
+    filterDistanceUnits,
+    setFilterDistanceUnits,
   } = listFilters;
 
   const numberRangeInvalidityMapWeight =
@@ -121,6 +123,16 @@ export const FilterPresetsListModal = ({
                       value={filterDistanceRangeUnit}
                       setState={setFilterDistanceRangeUnit}
                       targetType="state"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <h3 className="font-semibold text-lg px-0.5">
+                      Distance Units
+                    </h3>
+                    <MultipleChoiceUnitDropdown
+                      unitType="distance"
+                      filterUnits={filterDistanceUnits}
+                      setFilterUnits={setFilterDistanceUnits}
                     />
                   </div>
                 </div>
