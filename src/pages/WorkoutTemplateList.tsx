@@ -18,6 +18,7 @@ import {
   FilterWorkoutTemplateListModal,
   ListFilters,
   WorkoutTemplateListOptions,
+  FilterExerciseGroupsModal,
 } from "../components";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
@@ -261,6 +262,10 @@ export default function WorkoutTemplateList() {
         useExerciseList={exerciseList}
         useFilterExerciseList={filterExerciseList}
         userSettings={userSettings}
+      />
+      <FilterExerciseGroupsModal
+        useExerciseList={exerciseList}
+        useFilterExerciseList={filterExerciseList}
       />
       <div className="flex flex-col items-center gap-1">
         <ListPageSearchInput
