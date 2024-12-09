@@ -20,6 +20,7 @@ import {
   useMeasurementTypes,
   useRoutineScheduleTypes,
   useValidWeightUnits,
+  useValidDistanceUnits,
 } from ".";
 import {
   CalculateNumDaysInCalendarDateRange,
@@ -88,6 +89,12 @@ export const useListFilters = (
 
   const [filterWeightUnits, setFilterWeightUnits] = useState<Set<string>>(
     new Set(weightUnits)
+  );
+
+  const distanceUnits = useValidDistanceUnits();
+
+  const [filterDistanceUnits, setFilterDistanceUnits] = useState<Set<string>>(
+    new Set(distanceUnits)
   );
 
   const handleFilterSaveButton = (
@@ -176,6 +183,13 @@ export const useListFilters = (
       const filterDistanceRangeString = `${filterDistanceRange.start} ${filterDistanceRangeUnit} - ${filterDistanceRange.end} ${filterDistanceRangeUnit}`;
 
       updatedFilterMap.set("distance", filterDistanceRangeString);
+    }
+
+    if (filterDistanceUnits.size < 5) {
+      const filterDistanceUnitString = Array.from(filterDistanceUnits)
+        .map((item) => item)
+        .join(", ");
+      updatedFilterMap.set("distance-units", filterDistanceUnitString);
     }
 
     setFilterMap(updatedFilterMap);
@@ -274,6 +288,11 @@ export const useListFilters = (
       setFilterDistanceRange(defaultNumberRange);
     }
 
+    if (key === "distance-units" && filterMap.has("distance-units")) {
+      updatedFilterMap.delete("distance-units");
+      setFilterDistanceUnits(new Set(weightUnits));
+    }
+
     setFilterMap(updatedFilterMap);
   };
 
@@ -292,6 +311,7 @@ export const useListFilters = (
     setFilterNumScheduleDays(defaultNumberRange);
     setFilterWeightUnits(new Set(weightUnits));
     setFilterDistanceRange(defaultNumberRange);
+    setFilterDistanceUnits(new Set(distanceUnits));
   };
 
   const showResetFilterButton = useMemo(() => {
@@ -312,6 +332,7 @@ export const useListFilters = (
     if (filterWeightUnits.size < 2) return true;
     if (filterDistanceRange.startInput !== "") return true;
     if (filterDistanceRange.endInput !== "") return true;
+    if (filterDistanceUnits.size < 5) return true;
 
     return false;
   }, [
@@ -329,6 +350,7 @@ export const useListFilters = (
     filterNumScheduleDays,
     filterWeightUnits,
     filterDistanceRange,
+    filterDistanceUnits,
   ]);
 
   const prefixMap = useMemo(() => {
@@ -367,6 +389,10 @@ export const useListFilters = (
     );
     prefixMap.set("weight-units", `Weight Unit (${filterWeightUnits.size}): `);
     prefixMap.set("distance", `Distance: `);
+    prefixMap.set(
+      "distance-units",
+      `Distance Units (${filterDistanceUnits.size}): `
+    );
 
     return prefixMap;
   }, [
@@ -380,6 +406,7 @@ export const useListFilters = (
     filterScheduleTypes,
     filterNumScheduleDays,
     filterWeightUnits,
+    filterDistanceUnits,
   ]);
 
   const filterRoutinesString = useMemo(() => {
@@ -560,5 +587,7 @@ export const useListFilters = (
     setFilterDistanceRange,
     filterDistanceRangeUnit,
     setFilterDistanceRangeUnit,
+    filterDistanceUnits,
+    setFilterDistanceUnits,
   };
 };

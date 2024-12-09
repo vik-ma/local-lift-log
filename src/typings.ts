@@ -541,6 +541,8 @@ export type UseListFiltersReturnType = {
   setFilterDistanceRange: React.Dispatch<React.SetStateAction<NumberRange>>;
   filterDistanceRangeUnit: string;
   setFilterDistanceRangeUnit: React.Dispatch<React.SetStateAction<string>>;
+  filterDistanceUnits: Set<string>;
+  setFilterDistanceUnits: React.Dispatch<React.SetStateAction<Set<string>>>;
 };
 
 export type ListFilterMapKey =
@@ -556,7 +558,8 @@ export type ListFilterMapKey =
   | "schedule-type"
   | "num-schedule-days"
   | "weight-units"
-  | "distance";
+  | "distance"
+  | "distance-units";
 
 export type UseWorkoutTemplateListReturnType = {
   workoutTemplatesModal: UseDisclosureReturnType;
