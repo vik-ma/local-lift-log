@@ -8,11 +8,13 @@ import {
 } from "@nextui-org/react";
 import { UsePresetsListReturnType, UserSettings } from "../../typings";
 import {
+  DistanceUnitDropdown,
   MultipleChoiceUnitDropdown,
   NumberRangeInput,
   WeightUnitDropdown,
 } from "..";
 import { useNumberRangeInvalidityMap } from "../../hooks";
+import { useMemo } from "react";
 
 type FilterPresetsListModalProps = {
   usePresetsList: UsePresetsListReturnType;
@@ -40,10 +42,33 @@ export const FilterPresetsListModal = ({
     handleFilterSaveButton,
     filterWeightUnits,
     setFilterWeightUnits,
+    filterDistanceRange,
+    setFilterDistanceRange,
+    filterDistanceRangeUnit,
+    setFilterDistanceRangeUnit,
   } = listFilters;
 
-  const numberRangeInvalidityMap =
+  const numberRangeInvalidityMapWeight =
     useNumberRangeInvalidityMap(filterWeightRange);
+  const numberRangeInvalidityMapDistance =
+    useNumberRangeInvalidityMap(filterDistanceRange);
+
+  const isFilterButtonDisabled = useMemo(() => {
+    if (presetsType === "equipment")
+      return (
+        numberRangeInvalidityMapWeight.start ||
+        numberRangeInvalidityMapWeight.end
+      );
+    else
+      return (
+        numberRangeInvalidityMapDistance.start ||
+        numberRangeInvalidityMapDistance.end
+      );
+  }, [
+    numberRangeInvalidityMapWeight,
+    numberRangeInvalidityMapDistance,
+    presetsType,
+  ]);
 
   return (
     <Modal
@@ -62,7 +87,7 @@ export const FilterPresetsListModal = ({
                       numberRange={filterWeightRange}
                       setNumberRange={setFilterWeightRange}
                       label="Weight Range"
-                      numberRangeInvalidityMap={numberRangeInvalidityMap}
+                      numberRangeInvalidityMap={numberRangeInvalidityMapWeight}
                     />
                     <WeightUnitDropdown
                       value={filterWeightRangeUnit}
@@ -82,8 +107,23 @@ export const FilterPresetsListModal = ({
                   </div>
                 </div>
               ) : (
-                // TODO: ADD DISTANCE
-                <></>
+                <div className="flex flex-col gap-3">
+                  <div className="flex gap-2">
+                    <NumberRangeInput
+                      numberRange={filterDistanceRange}
+                      setNumberRange={setFilterDistanceRange}
+                      label="Distance Range"
+                      numberRangeInvalidityMap={
+                        numberRangeInvalidityMapDistance
+                      }
+                    />
+                    <DistanceUnitDropdown
+                      value={filterDistanceRangeUnit}
+                      setState={setFilterDistanceRangeUnit}
+                      targetType="state"
+                    />
+                  </div>
+                </div>
               )}
             </ModalBody>
             <ModalFooter className="flex justify-between">
@@ -106,10 +146,7 @@ export const FilterPresetsListModal = ({
                       filterPresetsListModal
                     )
                   }
-                  isDisabled={
-                    numberRangeInvalidityMap.start ||
-                    numberRangeInvalidityMap.end
-                  }
+                  isDisabled={isFilterButtonDisabled}
                 >
                   Filter
                 </Button>
