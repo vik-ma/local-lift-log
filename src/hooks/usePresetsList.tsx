@@ -13,6 +13,7 @@ import {
   ConvertDistanceToMeter,
   ConvertWeightToKg,
   CreatePlateCollectionList,
+  IsDistanceWithinNumberRange,
   IsWeightWithinNumberRange,
   UpdateAvailablePlatesInPlateCollection,
   UpdateIsFavorite,
@@ -72,6 +73,8 @@ export const usePresetsList = (
     filterWeightRange,
     filterWeightRangeUnit,
     filterWeightUnits,
+    filterDistanceRange,
+    filterDistanceRangeUnit,
   } = listFilters;
 
   const filterPresetsListModal = useDisclosure();
@@ -109,20 +112,33 @@ export const usePresetsList = (
   ]);
 
   const filteredDistances = useMemo(() => {
-    if (filterQueryDistance !== "") {
+    if (filterQueryDistance !== "" || filterMap.size > 0) {
       return distances.filter(
         (item) =>
-          item.name
+          (item.name
             .toLocaleLowerCase()
             .includes(filterQueryDistance.toLocaleLowerCase()) ||
-          item.distance
-            .toString()
-            .toLocaleLowerCase()
-            .includes(filterQueryDistance.toLocaleLowerCase())
+            item.distance
+              .toString()
+              .toLocaleLowerCase()
+              .includes(filterQueryDistance.toLocaleLowerCase())) &&
+          (!filterMap.has("distance") ||
+            IsDistanceWithinNumberRange(
+              filterDistanceRange,
+              item.distance,
+              item.distance_unit,
+              filterDistanceRangeUnit
+            ))
       );
     }
     return distances;
-  }, [distances, filterQueryDistance]);
+  }, [
+    distances,
+    filterQueryDistance,
+    filterMap,
+    filterDistanceRange,
+    filterDistanceRangeUnit,
+  ]);
 
   const filteredPlateCollections = useMemo(() => {
     if (filterQueryPlateCollection !== "") {
