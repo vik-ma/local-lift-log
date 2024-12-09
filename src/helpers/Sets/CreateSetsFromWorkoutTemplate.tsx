@@ -15,7 +15,8 @@ import {
 export const CreateSetsFromWorkoutTemplate = async (
   workout_id: number,
   workout_template_id: number,
-  exerciseGroupDictionary: ExerciseGroupMap
+  exerciseGroupDictionary: ExerciseGroupMap,
+  createSetsForWorkoutTemplate?: boolean
 ): Promise<GroupedWorkoutSet[]> => {
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
@@ -36,8 +37,14 @@ export const CreateSetsFromWorkoutTemplate = async (
 
     for (let i = 0; i < result.length; i++) {
       const set: WorkoutSet = result[i];
-      set.is_template = 0;
-      set.workout_id = workout_id;
+
+      if (createSetsForWorkoutTemplate) {
+        set.is_template = 1;
+        set.workout_template_id = workout_template_id;
+      } else {
+        set.is_template = 0;
+        set.workout_id = workout_id;
+      }
 
       if (set.multiset_id > 0) {
         if (newMultisetsMap.has(set.multiset_id)) {
@@ -71,8 +78,15 @@ export const CreateSetsFromWorkoutTemplate = async (
 
       for (let i = 0; i < setList.length; i++) {
         const set: WorkoutSet = setList[i];
-        set.is_template = 0;
-        set.workout_id = workout_id;
+
+        if (createSetsForWorkoutTemplate) {
+          set.is_template = 1;
+          set.workout_template_id = workout_template_id;
+        } else {
+          set.is_template = 0;
+          set.workout_id = workout_id;
+        }
+
         set.multiset_id = newMultisetId;
 
         const oldSetId = set.id;
