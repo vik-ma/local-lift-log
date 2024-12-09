@@ -75,6 +75,7 @@ export const usePresetsList = (
     filterWeightUnits,
     filterDistanceRange,
     filterDistanceRangeUnit,
+    filterDistanceUnits,
   } = listFilters;
 
   const filterPresetsListModal = useDisclosure();
@@ -128,7 +129,9 @@ export const usePresetsList = (
               item.distance,
               item.distance_unit,
               filterDistanceRangeUnit
-            ))
+            )) &&
+          (!filterMap.has("distance-units") ||
+            filterDistanceUnits.has(item.distance_unit))
       );
     }
     return distances;
@@ -138,6 +141,7 @@ export const usePresetsList = (
     filterMap,
     filterDistanceRange,
     filterDistanceRangeUnit,
+    filterDistanceUnits,
   ]);
 
   const filteredPlateCollections = useMemo(() => {
