@@ -17,7 +17,8 @@ import { useListFilters } from "./useListFilters";
 export const useWorkoutTemplateList = (
   getWorkoutTemplatesOnLoad: boolean,
   useExerciseList: UseExerciseListReturnType,
-  ignoreEmptyWorkoutTemplates?: boolean
+  ignoreEmptyWorkoutTemplates?: boolean,
+  ignoreWorkoutTemplateId?: number
 ): UseWorkoutTemplateListReturnType => {
   const [workoutTemplates, setWorkoutTemplates] = useState<WorkoutTemplate[]>(
     []
@@ -116,7 +117,11 @@ export const useWorkoutTemplateList = (
       const newWorkoutTemplateMap: WorkoutTemplateMap = new Map();
 
       for (const row of result) {
-        if (ignoreEmptyWorkoutTemplates && row.numSets === 0) continue;
+        if (
+          row.id === ignoreWorkoutTemplateId ||
+          (ignoreEmptyWorkoutTemplates && row.numSets === 0)
+        )
+          continue;
 
         const workoutExerciseSets = CreateWorkoutExerciseSets(
           row.exerciseListString,
@@ -151,6 +156,7 @@ export const useWorkoutTemplateList = (
     exerciseGroupDictionary,
     isExerciseListLoaded,
     exerciseMap,
+    ignoreWorkoutTemplateId,
   ]);
 
   const loadWorkoutTemplateList = useCallback(async () => {
