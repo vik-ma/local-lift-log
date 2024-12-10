@@ -5,6 +5,9 @@ import {
   UseExerciseListReturnType,
   UseSetTrackingInputsReturnType,
   UseDisclosureReturnType,
+  MultisetModalPage,
+  MultisetOperationType,
+  UseMultisetActionsReturnType,
 } from "../typings";
 import { useEffect, useState, useCallback, useMemo } from "react";
 import { useDefaultExercise, useMultisetTypeMap } from ".";
@@ -21,10 +24,6 @@ import {
 } from "../helpers";
 import { useDisclosure } from "@nextui-org/react";
 
-type OperationType = "" | "change-exercise" | "reassign-exercise";
-
-type ModalPage = "base" | "multiset-list" | "exercise-list" | "edit-set";
-
 type UseMultisetActionsProps = {
   operatingMultiset: Multiset;
   setOperatingMultiset: React.Dispatch<React.SetStateAction<Multiset>>;
@@ -34,7 +33,7 @@ type UseMultisetActionsProps = {
   exerciseList: UseExerciseListReturnType;
   defaultMultiset: Multiset;
   operatingSetInputs: UseSetTrackingInputsReturnType;
-  defaultPage?: ModalPage;
+  defaultPage?: MultisetModalPage;
   setOperationType?: React.Dispatch<
     React.SetStateAction<"add" | "edit" | "delete">
   >;
@@ -51,10 +50,12 @@ export const useMultisetActions = ({
   operatingSetInputs,
   defaultPage,
   setOperationType,
-}: UseMultisetActionsProps) => {
-  const [modalPage, setModalPage] = useState<ModalPage>(defaultPage ?? "base");
+}: UseMultisetActionsProps): UseMultisetActionsReturnType => {
+  const [modalPage, setModalPage] = useState<MultisetModalPage>(
+    defaultPage ?? "base"
+  );
   const [multisetSetOperationType, setMultisetSetOperationType] =
-    useState<OperationType>("");
+    useState<MultisetOperationType>("");
   const [calledOutsideModal, setCalledOutsideModal] = useState<boolean>(false);
   const [multisets, setMultisets] = useState<Multiset[]>([]);
   const [filterQuery, setFilterQuery] = useState<string>("");
@@ -385,7 +386,7 @@ export const useMultisetActions = ({
   };
 
   const clearMultiset = (
-    newModalPage?: ModalPage,
+    newModalPage?: MultisetModalPage,
     newOperatingMultiset?: Multiset
   ) => {
     setNewMultisetSetIndex(0);

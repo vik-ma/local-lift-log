@@ -828,3 +828,67 @@ export type UseMeasurementsInputsReturnType = {
 };
 
 export type WorkoutTemplateMap = Map<number, WorkoutTemplate>;
+
+export type MultisetModalPage =
+  | "base"
+  | "multiset-list"
+  | "exercise-list"
+  | "edit-set";
+
+export type MultisetOperationType =
+  | ""
+  | "change-exercise"
+  | "reassign-exercise";
+
+export type UseMultisetActionsReturnType = {
+  multisets: Multiset[];
+  setMultisets: React.Dispatch<React.SetStateAction<Multiset[]>>;
+  modalPage: MultisetModalPage;
+  setModalPage: React.Dispatch<React.SetStateAction<MultisetModalPage>>;
+  selectedMultisetExercise: Exercise;
+  setSelectedMultisetExercise: React.Dispatch<React.SetStateAction<Exercise>>;
+  handleMultisetSetOptionSelection: (
+    key: string,
+    set: WorkoutSet,
+    multiset: Multiset,
+    modalIsOpen: boolean,
+    index: number
+  ) => void;
+  multisetSetOperationType: MultisetOperationType;
+  setMultisetSetOperationType: React.Dispatch<
+    React.SetStateAction<MultisetOperationType>
+  >;
+  changeExerciseAndSave: (exercise: Exercise) => Promise<{
+    success: boolean;
+    updatedMultiset: Multiset | undefined;
+    updatedMultisets: Multiset[] | undefined;
+  }>;
+  reassignExercise: (exercise: Exercise) => Promise<boolean>;
+  closeMultisetModal: () => void;
+  filterQuery: string;
+  setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
+  filteredMultisets: Multiset[];
+  multisetTypeMap: MultisetTypeMap;
+  newMultisetSetIndex: number;
+  setNewMultisetSetIndex: React.Dispatch<React.SetStateAction<number>>;
+  newExerciseList: Exercise[];
+  setNewExerciseList: React.Dispatch<React.SetStateAction<Exercise[]>>;
+  clearMultiset: (
+    newModalPage?: MultisetModalPage,
+    newOperatingMultiset?: Multiset
+  ) => void;
+  calledOutsideModal: boolean;
+  updateExerciseInOperatingSet: (exercise: Exercise) => void;
+  undoOperatingMultisetChanges: () => void;
+  setUneditedMultiset: React.Dispatch<React.SetStateAction<Multiset>>;
+  setsToDelete: Set<number>;
+  updateOperatingSet: () => Promise<void>;
+  setCalledOutsideModal: React.Dispatch<React.SetStateAction<boolean>>;
+  handleChangeExercise: (
+    set: WorkoutSet,
+    multiset: Multiset,
+    modalIsOpen: boolean,
+    operationType: "change-exercise" | "reassign-exercise"
+  ) => void;
+  multisetModal: UseDisclosureReturnType;
+};

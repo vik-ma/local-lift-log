@@ -24,7 +24,6 @@ import {
   UseDisclosureReturnType,
   UseSetTrackingInputsReturnType,
 } from "../typings";
-import { useSetTrackingInputs } from "../hooks";
 import { useMemo } from "react";
 
 type ActiveSetProps = {
@@ -58,7 +57,7 @@ type ActiveSetProps = {
   ) => void;
   updateShownSetListComments: (groupedSetId: string, index: number) => void;
   shownSetListComments: SetListNotes;
-  activeSetInputs: ReturnType<typeof useSetTrackingInputs>;
+  activeSetInputs: UseSetTrackingInputsReturnType;
   handleEditSet: (
     set: WorkoutSet,
     index: number,
