@@ -24,12 +24,12 @@ export const WorkoutTemplateListModal = ({
   onClickAction,
   header,
 }: WorkoutTemplateListModalProps) => {
-  const { workoutTemplatesModal } = useWorkoutTemplateList;
+  const { workoutTemplateListModal } = useWorkoutTemplateList;
 
   return (
     <Modal
-      isOpen={workoutTemplatesModal.isOpen}
-      onOpenChange={workoutTemplatesModal.onOpenChange}
+      isOpen={workoutTemplateListModal.isOpen}
+      onOpenChange={workoutTemplateListModal.onOpenChange}
     >
       <ModalContent>
         {(onClose) => (

@@ -83,7 +83,7 @@ export default function WorkoutList() {
 
   const filterExerciseList = useFilterExerciseList(exerciseList);
 
-  const { handleOpenWorkoutTemplateListModal, workoutTemplatesModal } =
+  const { handleOpenWorkoutTemplateListModal, workoutTemplateListModal } =
     workoutTemplateList;
 
   useEffect(() => {
@@ -273,7 +273,7 @@ export default function WorkoutList() {
       resetOperatingWorkout();
     }
 
-    workoutTemplatesModal.onClose();
+    workoutTemplateListModal.onClose();
   };
 
   const changeWorkoutTemplate = (workoutTemplate: WorkoutTemplate) => {
@@ -288,7 +288,7 @@ export default function WorkoutList() {
 
     setOperatingWorkout(updatedOperatingWorkout);
 
-    workoutTemplatesModal.onClose();
+    workoutTemplateListModal.onClose();
   };
 
   const removeWorkoutTemplate = () => {

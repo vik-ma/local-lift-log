@@ -562,7 +562,7 @@ export type ListFilterMapKey =
   | "distance-units";
 
 export type UseWorkoutTemplateListReturnType = {
-  workoutTemplatesModal: UseDisclosureReturnType;
+  workoutTemplateListModal: UseDisclosureReturnType;
   workoutTemplates: WorkoutTemplate[];
   setWorkoutTemplates: React.Dispatch<React.SetStateAction<WorkoutTemplate[]>>;
   handleOpenWorkoutTemplateListModal: () => void;

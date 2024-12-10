@@ -70,7 +70,7 @@ export default function RoutineDetails() {
 
   const workoutTemplateList = useWorkoutTemplateList(true, exerciseList);
 
-  const { handleOpenWorkoutTemplateListModal, workoutTemplatesModal } =
+  const { handleOpenWorkoutTemplateListModal, workoutTemplateListModal } =
     workoutTemplateList;
 
   const getWorkoutRoutineSchedules = useCallback(async () => {
@@ -197,7 +197,7 @@ export default function RoutineDetails() {
 
       await updateRoutineWorkoutTemplateList();
 
-      workoutTemplatesModal.onClose();
+      workoutTemplateListModal.onClose();
       toast.success(`Workout added to ${dayNameList[selectedDay]}`);
     } catch (error) {
       console.log(error);

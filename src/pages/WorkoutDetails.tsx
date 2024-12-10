@@ -147,7 +147,7 @@ export default function WorkoutDetails() {
     workoutListModal,
   } = workoutList;
 
-  const { handleOpenWorkoutTemplateListModal, workoutTemplatesModal } =
+  const { handleOpenWorkoutTemplateListModal, workoutTemplateListModal } =
     workoutTemplateList;
 
   const additionalMenuItems: DetailHeaderOptionItem = useMemo(() => {
@@ -300,7 +300,7 @@ export default function WorkoutDetails() {
     workoutModal.onClose();
   };
 
-  const handleSelectWorkoutTemplate = async (
+  const handleClickWorkoutTemplate = async (
     workoutTemplate: WorkoutTemplate
   ) => {
     const templateGroupedSetList = await CreateSetsFromWorkoutTemplate(
@@ -343,7 +343,7 @@ export default function WorkoutDetails() {
     await getWorkoutTemplateNote(workoutTemplate.id);
 
     toast.success("Workout Template Loaded");
-    workoutTemplatesModal.onClose();
+    workoutTemplateListModal.onClose();
   };
 
   const handleClickWorkout = async (
@@ -428,7 +428,7 @@ export default function WorkoutDetails() {
       />
       <WorkoutTemplateListModal
         useWorkoutTemplateList={workoutTemplateList}
-        onClickAction={handleSelectWorkoutTemplate}
+        onClickAction={handleClickWorkoutTemplate}
         header={<span>Load Workout Template</span>}
       />
       <WorkoutListModal

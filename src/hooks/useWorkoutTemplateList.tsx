@@ -30,7 +30,7 @@ export const useWorkoutTemplateList = (
 
   const isWorkoutTemplateListLoaded = useRef(false);
 
-  const workoutTemplatesModal = useDisclosure();
+  const workoutTemplateListModal = useDisclosure();
 
   const {
     exerciseGroupDictionary,
@@ -260,11 +260,11 @@ export const useWorkoutTemplateList = (
   const handleOpenWorkoutTemplateListModal = async () => {
     await loadWorkoutTemplateList();
 
-    workoutTemplatesModal.onOpen();
+    workoutTemplateListModal.onOpen();
   };
 
   return {
-    workoutTemplatesModal,
+    workoutTemplateListModal,
     workoutTemplates,
     setWorkoutTemplates,
     handleOpenWorkoutTemplateListModal,
