@@ -593,13 +593,9 @@ export default function Multisets() {
           }
         />
         <MultisetAccordions
-          multisets={multisetActions.filteredMultisets}
+          useMultisetActions={multisetActions}
           handleMultisetAccordionsClick={handleMultisetAccordionsClick}
           handleMultisetOptionSelection={handleMultisetOptionSelection}
-          multisetTypeMap={multisetActions.multisetTypeMap}
-          handleMultisetSetOptionSelection={
-            multisetActions.handleMultisetSetOptionSelection
-          }
         />
       </div>
     </>

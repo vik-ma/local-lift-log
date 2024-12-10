@@ -7,28 +7,23 @@ import {
 } from "@nextui-org/react";
 import { VerticalMenuIcon, ChevronIcon } from "../assets";
 import { AnimatePresence, motion } from "framer-motion";
-import {
-  HandleMultisetSetOptionSelectionProps,
-  Multiset,
-  MultisetTypeMap,
-} from "../typings";
+import { Multiset, UseMultisetActionsReturnType } from "../typings";
 import { MultisetSetMenu } from ".";
 
 type MultisetAccordionsProps = {
-  multisets: Multiset[];
+  useMultisetActions: UseMultisetActionsReturnType;
   handleMultisetAccordionsClick: (multiset: Multiset, index: number) => void;
   handleMultisetOptionSelection: (key: string, multiset: Multiset) => void;
-  multisetTypeMap: MultisetTypeMap;
-  handleMultisetSetOptionSelection: HandleMultisetSetOptionSelectionProps;
 };
 
 export const MultisetAccordions = ({
-  multisets,
+  useMultisetActions,
   handleMultisetAccordionsClick,
   handleMultisetOptionSelection,
-  multisetTypeMap,
-  handleMultisetSetOptionSelection,
 }: MultisetAccordionsProps) => {
+  const { multisets, multisetTypeMap, handleMultisetSetOptionSelection } =
+    useMultisetActions;
+
   return (
     <div className="flex flex-col gap-1 w-full">
       {multisets.map((multiset, index) => {
