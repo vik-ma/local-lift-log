@@ -549,13 +549,9 @@ export default function Multisets() {
         saveButtonAction={
           operationType === "edit" ? updateMultiset : createMultiset
         }
-        updateOperatingSet={multisetActions.updateOperatingSet}
         handleClickMultiset={() => {}}
         showWorkoutItems={false}
         operatingSetInputs={operatingSetInputs}
-        undoOperatingMultisetChanges={
-          multisetActions.undoOperatingMultisetChanges
-        }
         openCalculationModal={openCalculationModal}
         useFilterExerciseList={filterExerciseList}
       />

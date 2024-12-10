@@ -42,11 +42,9 @@ type MultisetModalProps = {
   exerciseList: UseExerciseListReturnType;
   userSettings: UserSettings;
   saveButtonAction: (numSets?: string) => void;
-  updateOperatingSet: () => void;
   handleClickMultiset: (multiset: Multiset, numSets: string) => void;
   showWorkoutItems: boolean;
   operatingSetInputs: UseSetTrackingInputsReturnType;
-  undoOperatingMultisetChanges: () => void;
   openCalculationModal: (
     isWeight: boolean,
     exercise: Exercise,
@@ -69,17 +67,17 @@ export const MultisetModal = ({
   exerciseList,
   userSettings,
   saveButtonAction,
-  updateOperatingSet,
   handleClickMultiset,
   showWorkoutItems,
   operatingSetInputs,
-  undoOperatingMultisetChanges,
   openCalculationModal,
   useFilterExerciseList,
 }: MultisetModalProps) => {
   const [numNewSets, setNumNewSets] = useState<string>("3");
 
   const numSetsOptions = useNumSetsOptions();
+
+  const { updateOperatingSet, undoOperatingMultisetChanges} = useMultisetActions;
 
   const resetSetInputValues = () => {
     if (operatingSetInputs.uneditedSet?.id !== operatingSet.id) return;

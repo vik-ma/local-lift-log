@@ -348,13 +348,9 @@ export default function WorkoutTemplateDetails() {
         exerciseList={exerciseList}
         userSettings={userSettings}
         saveButtonAction={handleSaveMultisetButton}
-        updateOperatingSet={multisetActions.updateOperatingSet}
         handleClickMultiset={handleClickMultiset}
         showWorkoutItems={true}
         operatingSetInputs={operatingSetInputs}
-        undoOperatingMultisetChanges={
-          multisetActions.undoOperatingMultisetChanges
-        }
         openCalculationModal={openCalculationModal}
         useFilterExerciseList={filterExerciseList}
       />
