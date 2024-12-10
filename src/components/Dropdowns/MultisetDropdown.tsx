@@ -14,38 +14,39 @@ export const MultisetDropdown = ({
   setMultiset,
   isInModal,
 }: MultisetDropdownProps) => {
-  const [selectedKeys, setSelectedKeys] = useState<Set<string>>(
-    new Set([multiset_type.toString()])
+  const [selectedKeys, setSelectedKeys] = useState<Set<number>>(
+    new Set([multiset_type])
   );
 
-  const { multisetTypeMap, validDropdownTypeKeys } = useMultisetTypeMap();
+  const multisetTypeMap = useMultisetTypeMap();
 
   useEffect(() => {
-    const stringValue = multiset_type.toString();
+    if (!multisetTypeMap.has(multiset_type)) return;
 
-    if (!validDropdownTypeKeys.includes(stringValue)) return;
+    setSelectedKeys(new Set([multiset_type]));
+  }, [multiset_type, multisetTypeMap]);
 
-    setSelectedKeys(new Set([stringValue]));
-  }, [multiset_type, validDropdownTypeKeys]);
+  const handleChange = async (keys: Set<number>) => {
+    // TODO: FIX
+    // const stringValue: string = Array.from(keys)[0];
 
-  const handleChange = async (keys: Set<string>) => {
-    const stringValue: string = Array.from(keys)[0];
+    // if (!validDropdownTypeKeys.includes(stringValue)) return;
 
-    if (!validDropdownTypeKeys.includes(stringValue)) return;
+    // console.log(keys)
 
-    const numberValue: number = Number(stringValue);
+    // const numberValue: number = Number(stringValue);
 
-    setSelectedKeys(keys);
+    // setSelectedKeys(keys);
 
-    if (isInModal) {
-      setMultiset((prev) => ({
-        ...prev,
-        multiset_type: numberValue,
-        isEditedInModal: true,
-      }));
-    } else {
-      setMultiset((prev) => ({ ...prev, multiset_type: numberValue }));
-    }
+    // if (isInModal) {
+    //   setMultiset((prev) => ({
+    //     ...prev,
+    //     multiset_type: numberValue,
+    //     isEditedInModal: true,
+    //   }));
+    // } else {
+    //   setMultiset((prev) => ({ ...prev, multiset_type: numberValue }));
+    // }
   };
 
   return (
@@ -54,7 +55,7 @@ export const MultisetDropdown = ({
       className="w-[8.5rem]"
       variant="faded"
       selectedKeys={selectedKeys}
-      onSelectionChange={(keys) => handleChange(keys as Set<string>)}
+      onSelectionChange={(keys) => handleChange(keys as Set<number>)}
       disallowEmptySelection
     >
       {Object.entries(multisetTypeMap).map(([key, value]) => (

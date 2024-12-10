@@ -448,11 +448,9 @@ export default function WorkoutDetails() {
               operatingGroupedSet?.isMultiset ? (
                 <>
                   <span className="text-secondary">
-                    {
-                      multisetActions.multisetTypeMap[
-                        operatingGroupedSet.multiset!.multiset_type
-                      ].text
-                    }
+                    {multisetActions.multisetTypeMap.get(
+                      operatingGroupedSet.multiset!.multiset_type
+                    )}
                   </span>{" "}
                   from Workout
                 </>

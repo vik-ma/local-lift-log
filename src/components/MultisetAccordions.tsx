@@ -27,9 +27,8 @@ export const MultisetAccordions = ({
   return (
     <div className="flex flex-col gap-1 w-full">
       {multisets.map((multiset, index) => {
-        const multisetTypeText = multisetTypeMap[multiset.multiset_type]
-          ? multisetTypeMap[multiset.multiset_type].text
-          : "";
+        const multisetTypeText =
+          multisetTypeMap.get(multiset.multiset_type) ?? "";
 
         return (
           <div

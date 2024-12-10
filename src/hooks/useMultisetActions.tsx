@@ -65,7 +65,7 @@ export const useMultisetActions = ({
     useState<Multiset>(defaultMultiset);
   const [setsToDelete, setSetsToDelete] = useState<Set<number>>(new Set());
 
-  const { multisetTypeMap } = useMultisetTypeMap();
+  const multisetTypeMap = useMultisetTypeMap();
 
   const multisetModal = useDisclosure();
   const filterMultisetsModal = useDisclosure();
@@ -79,8 +79,9 @@ export const useMultisetActions = ({
           item
             .setListTextString!.toLocaleLowerCase()
             .includes(filterQuery.toLocaleLowerCase()) ||
-          multisetTypeMap[item.multiset_type].text
-            .toLocaleLowerCase()
+          multisetTypeMap
+            .get(item.multiset_type)
+            ?.toLocaleLowerCase()
             .includes(filterQuery.toLocaleLowerCase())
       );
     }

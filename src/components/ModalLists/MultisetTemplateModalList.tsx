@@ -55,9 +55,8 @@ export const MultisetTemplateModalList = ({
 
       <ScrollShadow className="flex flex-col gap-1">
         {filteredMultisets.map((multiset) => {
-          const multisetTypeText = multisetTypeMap[multiset.multiset_type]
-            ? multisetTypeMap[multiset.multiset_type].text
-            : "";
+          const multisetTypeText =
+            multisetTypeMap.get(multiset.multiset_type) ?? "";
 
           return (
             <button

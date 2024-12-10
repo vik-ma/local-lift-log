@@ -365,11 +365,7 @@ export type Multiset = {
   isEditedInModal?: boolean;
 };
 
-export type MultisetTypeMap = {
-  [key: number]: {
-    text: string;
-  };
-};
+export type MultisetTypeMap = Map<number, string>;
 
 export type UseSetTrackingInputsReturnType = {
   isSetTrackingValuesInvalid: boolean;

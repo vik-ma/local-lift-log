@@ -115,7 +115,7 @@ export const WorkoutGroupedSetList = ({
               : groupedSet.exerciseList[0].note !== null;
 
             const title = isMultiset
-              ? multisetTypeMap[groupedSet.multiset!.multiset_type].text
+              ? multisetTypeMap.get(groupedSet.multiset!.multiset_type)
               : groupedSet.exerciseList[0].name;
 
             return (
