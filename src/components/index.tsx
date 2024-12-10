@@ -37,7 +37,7 @@ export { MeasurementUnitDropdown } from "./Dropdowns/MeasurementUnitDropdown";
 export { LocaleDropdown } from "./Dropdowns/LocaleDropdown";
 export { ClockStyleDropdown } from "./Dropdowns/ClockStyleDropdown";
 export { TimeInputBehaviorDropdown } from "./Dropdowns/TimeInputBehaviorDropdown";
-export { MultisetDropdown } from "./Dropdowns/MultisetDropdown";
+export { MultisetTypeDropdown } from "./Dropdowns/MultisetTypeDropdown";
 export { WorkoutPropertyDropdown } from "./Dropdowns/WorkoutPropertyDropdown";
 export { AvailablePlatesDropdown } from "./Dropdowns/AvailablePlatesDropdown";
 export { WeekdaysDropdown } from "./Dropdowns/WeekdaysDropdown";
@@ -69,6 +69,7 @@ export { FilterUserMeasurementListModal } from "./Modals/FilterUserMeasurementLi
 export { FilterWorkoutTemplateListModal } from "./Modals/FilterWorkoutTemplateListModal";
 export { FilterRoutineListModal } from "./Modals/FilterRoutineListModal";
 export { FilterPresetsListModal } from "./Modals/FilterPresetsListModal";
+export { FilterMultisetListModal } from "./Modals/FilterMultisetListModal";
 
 export { ExerciseModalList } from "./ModalLists/ExerciseModalList";
 export { MultisetTemplateModalList } from "./ModalLists/MultisetTemplateModalList";

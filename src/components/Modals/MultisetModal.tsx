@@ -24,7 +24,7 @@ import {
   MultisetSetList,
   MultisetTemplateModalList,
   SetValueConfig,
-  MultisetDropdown,
+  MultisetTypeDropdown,
 } from "../";
 import { useMultisetActions, useNumSetsOptions } from "../../hooks";
 import { useMemo, useState } from "react";
@@ -181,10 +181,9 @@ export const MultisetModal = ({
               ) : (
                 <div className="flex flex-col items-center gap-2.5 h-[400px]">
                   <div className="flex items-center gap-2">
-                    <MultisetDropdown
+                    <MultisetTypeDropdown
                       multiset_type={multiset.multiset_type}
                       setMultiset={setMultiset}
-                      isInModal={true}
                     />
                     <Input
                       value={multiset.note ?? ""}
