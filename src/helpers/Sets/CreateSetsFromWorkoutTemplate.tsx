@@ -13,7 +13,7 @@ import {
 } from "..";
 
 export const CreateSetsFromWorkoutTemplate = async (
-  workout_id: number,
+  newWorkoutOrTemplateId: number,
   workout_template_id: number,
   exerciseGroupDictionary: ExerciseGroupMap,
   createSetsForWorkoutTemplate?: boolean
@@ -40,10 +40,10 @@ export const CreateSetsFromWorkoutTemplate = async (
 
       if (createSetsForWorkoutTemplate) {
         set.is_template = 1;
-        set.workout_template_id = workout_template_id;
+        set.workout_template_id = newWorkoutOrTemplateId;
       } else {
         set.is_template = 0;
-        set.workout_id = workout_id;
+        set.workout_id = newWorkoutOrTemplateId;
       }
 
       if (set.multiset_id > 0) {
@@ -81,10 +81,10 @@ export const CreateSetsFromWorkoutTemplate = async (
 
         if (createSetsForWorkoutTemplate) {
           set.is_template = 1;
-          set.workout_template_id = workout_template_id;
+          set.workout_template_id = newWorkoutOrTemplateId;
         } else {
           set.is_template = 0;
-          set.workout_id = workout_id;
+          set.workout_id = newWorkoutOrTemplateId;
         }
 
         set.multiset_id = newMultisetId;
