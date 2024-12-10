@@ -20,7 +20,7 @@ import {
   FilterExerciseGroupsModal,
   WorkoutTemplateListModal,
 } from "../components";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import {
   CreateGroupedWorkoutSetList,
   ConvertEmptyStringToNull,
@@ -28,6 +28,10 @@ import {
   GetNumberOfUniqueExercisesInGroupedSets,
   FormatNumItemsString,
   UpdateExerciseOrder,
+  CreateSetsFromWorkoutTemplate,
+  MergeTwoGroupedSetLists,
+  GenerateExerciseOrderString,
+  GetTotalNumberOfSetsInGroupedSetList,
 } from "../helpers";
 import {
   useValidateName,
@@ -102,6 +106,7 @@ export default function WorkoutTemplateDetails() {
     addCalculationResult,
     openCalculationModal,
     filterExerciseList,
+    setWorkoutNumbers,
   } = useWorkoutActions(true);
 
   const workoutTemplateList = useWorkoutTemplateList(
@@ -111,7 +116,8 @@ export default function WorkoutTemplateDetails() {
     Number(id)
   );
 
-  const { handleOpenWorkoutTemplateListModal } = workoutTemplateList;
+  const { handleOpenWorkoutTemplateListModal, workoutTemplateListModal } =
+    workoutTemplateList;
 
   const additionalMenuItems: DetailHeaderOptionItem = useMemo(() => {
     return {
@@ -207,6 +213,49 @@ export default function WorkoutTemplateDetails() {
     setWorkoutTemplate(updatedWorkoutTemplate);
     setEditedWorkoutTemplate(updatedWorkoutTemplate);
     workoutTemplateModal.onClose();
+  };
+
+  const handleClickWorkoutTemplate = async (
+    workoutTemplateToCopy: WorkoutTemplate
+  ) => {
+    const newGroupedSets = await CreateSetsFromWorkoutTemplate(
+      workoutTemplate.id,
+      workoutTemplateToCopy.id,
+      exerciseList.exerciseGroupDictionary,
+      true
+    );
+
+    const updatedGroupedSetList = MergeTwoGroupedSetLists(
+      groupedSets,
+      newGroupedSets
+    );
+
+    const exerciseOrder = GenerateExerciseOrderString(updatedGroupedSetList);
+
+    const updatedWorkoutTemplate: WorkoutTemplate = {
+      ...workoutTemplate,
+      exercise_order: exerciseOrder,
+    };
+
+    const success = await UpdateWorkoutTemplate(updatedWorkoutTemplate);
+
+    if (!success) return;
+
+    setWorkoutTemplate(updatedWorkoutTemplate);
+
+    const workoutNumbers = {
+      numSets: GetTotalNumberOfSetsInGroupedSetList(updatedGroupedSetList),
+      numExercises: GetNumberOfUniqueExercisesInGroupedSets(
+        updatedGroupedSetList
+      ),
+    };
+
+    setWorkoutNumbers(workoutNumbers);
+
+    setGroupedSets(updatedGroupedSetList);
+
+    toast.success("Workout Template Loaded");
+    workoutTemplateListModal.onClose();
   };
 
   if (workoutTemplate.id === 0 || userSettings === undefined)
@@ -321,8 +370,7 @@ export default function WorkoutTemplateDetails() {
       />
       <WorkoutTemplateListModal
         useWorkoutTemplateList={workoutTemplateList}
-        // TODO: ADD
-        onClickAction={() => {}}
+        onClickAction={handleClickWorkoutTemplate}
         header="Select Workout Template To Copy"
       />
       {userSettings.show_calculation_buttons === 1 && (
