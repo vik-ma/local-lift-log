@@ -20,6 +20,7 @@ import {
   FilterExerciseGroupsModal,
   FilterWorkoutTemplateListModal,
   FilterRoutineListModal,
+  FilterPresetsListModal,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -568,6 +569,10 @@ export default function WorkoutDetails() {
       <FilterRoutineListModal
         useRoutineList={routineList}
         useWorkoutTemplateList={workoutTemplateList}
+        userSettings={userSettings}
+      />
+      <FilterPresetsListModal
+        usePresetsList={presetsList}
         userSettings={userSettings}
       />
       {userSettings.show_calculation_buttons === 1 && (
