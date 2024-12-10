@@ -21,6 +21,7 @@ import {
   useRoutineScheduleTypes,
   useValidWeightUnits,
   useValidDistanceUnits,
+  useMultisetTypeMap,
 } from ".";
 import {
   CalculateNumDaysInCalendarDateRange,
@@ -95,6 +96,12 @@ export const useListFilters = (
 
   const [filterDistanceUnits, setFilterDistanceUnits] = useState<Set<string>>(
     new Set(distanceUnits)
+  );
+
+  const multisetTypeMap = useMultisetTypeMap();
+
+  const [filterMultisetTypes, setFilterMultisetTypes] = useState<Set<number>>(
+    new Set(multisetTypeMap.keys())
   );
 
   const handleFilterSaveButton = (
@@ -190,6 +197,14 @@ export const useListFilters = (
         .map((item) => item)
         .join(", ");
       updatedFilterMap.set("distance-units", filterDistanceUnitString);
+    }
+
+    if (filterMultisetTypes.size < multisetTypeMap.size) {
+      const filterMultisetTypesString = Array.from(filterMultisetTypes)
+        .map((type) => multisetTypeMap.get(type) ?? "")
+        .join(", ");
+
+      updatedFilterMap.set("multiset-types", filterMultisetTypesString);
     }
 
     setFilterMap(updatedFilterMap);
@@ -293,6 +308,11 @@ export const useListFilters = (
       setFilterDistanceUnits(new Set(weightUnits));
     }
 
+    if (key === "multiset-types" && filterMap.has("multiset-types")) {
+      updatedFilterMap.delete("multiset-types");
+      setFilterMultisetTypes(new Set(multisetTypeMap.keys()));
+    }
+
     setFilterMap(updatedFilterMap);
   };
 
@@ -312,6 +332,7 @@ export const useListFilters = (
     setFilterWeightUnits(new Set(weightUnits));
     setFilterDistanceRange(defaultNumberRange);
     setFilterDistanceUnits(new Set(distanceUnits));
+    setFilterMultisetTypes(new Set(multisetTypeMap.keys()));
   };
 
   const showResetFilterButton = useMemo(() => {
@@ -333,6 +354,7 @@ export const useListFilters = (
     if (filterDistanceRange.startInput !== "") return true;
     if (filterDistanceRange.endInput !== "") return true;
     if (filterDistanceUnits.size < 5) return true;
+    if (filterMultisetTypes.size < multisetTypeMap.size) return true;
 
     return false;
   }, [
@@ -351,6 +373,8 @@ export const useListFilters = (
     filterWeightUnits,
     filterDistanceRange,
     filterDistanceUnits,
+    filterMultisetTypes,
+    multisetTypeMap,
   ]);
 
   const prefixMap = useMemo(() => {
@@ -393,6 +417,10 @@ export const useListFilters = (
       "distance-units",
       `Distance Units (${filterDistanceUnits.size}): `
     );
+    prefixMap.set(
+      "multiset-types",
+      `Multiset Types (${filterMultisetTypes.size}): `
+    );
 
     return prefixMap;
   }, [
@@ -407,6 +435,7 @@ export const useListFilters = (
     filterNumScheduleDays,
     filterWeightUnits,
     filterDistanceUnits,
+    filterMultisetTypes,
   ]);
 
   const filterRoutinesString = useMemo(() => {
@@ -589,5 +618,8 @@ export const useListFilters = (
     setFilterDistanceRangeUnit,
     filterDistanceUnits,
     setFilterDistanceUnits,
+    multisetTypeMap,
+    filterMultisetTypes,
+    setFilterMultisetTypes,
   };
 };
