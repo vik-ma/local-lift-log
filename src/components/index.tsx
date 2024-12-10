@@ -84,3 +84,4 @@ export { MeasurementListOptions } from "./ListOptions/MeasurementListOptions";
 export { WorkoutTemplateListOptions } from "./ListOptions/WorkoutTemplateListOptions";
 export { RoutineListOptions } from "./ListOptions/RoutineListOptions";
 export { PresetsListOptions } from "./ListOptions/PresetsListOptions";
+export { MultisetListOptions } from "./ListOptions/MultisetListOptions";

@@ -891,4 +891,6 @@ export type UseMultisetActionsReturnType = {
     operationType: "change-exercise" | "reassign-exercise"
   ) => void;
   multisetModal: UseDisclosureReturnType;
+  listFilters: UseListFiltersReturnType;
+  handleOpenFilterButton: () => void;
 };

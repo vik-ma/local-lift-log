@@ -38,9 +38,11 @@ import {
   DeleteModal,
   FilterExerciseGroupsModal,
   FilterPresetsListModal,
+  ListFilters,
   ListPageSearchInput,
   LoadingSpinner,
   MultisetAccordions,
+  MultisetListOptions,
   MultisetModal,
 } from "../components";
 import toast, { Toaster } from "react-hot-toast";
@@ -580,15 +582,25 @@ export default function Multisets() {
           filteredListLength={multisetActions.filteredMultisets.length}
           totalListLength={multisetActions.multisets.length}
           bottomContent={
-            <div className="flex justify-between gap-1 w-full items-center">
-              <Button
-                color="secondary"
-                variant="flat"
-                onPress={handleCreateNewMultisetButton}
-                size="sm"
-              >
-                Create New Multiset
-              </Button>
+            <div className="flex flex-col gap-1.5">
+              <div className="flex justify-between">
+                <Button
+                  color="secondary"
+                  variant="flat"
+                  onPress={handleCreateNewMultisetButton}
+                  size="sm"
+                >
+                  Create New Multiset
+                </Button>
+                <MultisetListOptions useMultisetActions={multisetActions} />
+              </div>
+              {multisetActions.listFilters.filterMap.size > 0 && (
+                <ListFilters
+                  filterMap={multisetActions.listFilters.filterMap}
+                  removeFilter={multisetActions.listFilters.removeFilter}
+                  prefixMap={multisetActions.listFilters.prefixMap}
+                />
+              )}
             </div>
           }
         />
