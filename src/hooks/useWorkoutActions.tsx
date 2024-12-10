@@ -137,7 +137,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   const setModal = useDisclosure();
   const deleteModal = useDisclosure();
   const timeInputModal = useDisclosure();
-  const multisetModal = useDisclosure();
   const textInputModal = useDisclosure();
 
   const calculationModal = useCalculationModal();
@@ -169,7 +168,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     operatingSet,
     setOperatingSet,
     deleteModal,
-    multisetModal,
     exerciseList,
     defaultMultiset,
     operatingSetInputs,
@@ -684,7 +682,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     multisetActions.setMultisetSetOperationType(key);
     multisetActions.setModalPage("exercise-list");
     multisetActions.setCalledOutsideModal(true);
-    multisetModal.onOpen();
+    multisetActions.multisetModal.onOpen();
   };
 
   const handleUpdateSetTimeCompleted = (
@@ -1692,7 +1690,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     resetOperatingSet();
 
-    multisetModal.onOpen();
+    multisetActions.multisetModal.onOpen();
   };
 
   const resetOperatingMultiset = () => {
@@ -1915,7 +1913,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     resetOperatingMultiset();
     resetOperatingSet();
 
-    multisetModal.onClose();
+    multisetActions.multisetModal.onClose();
     toast.success("Multiset Created");
   };
 
@@ -2069,7 +2067,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   const updateMultiset = async () => {
     if (!operatingMultiset.isEditedInModal) {
       resetOperatingMultiset();
-      multisetModal.onClose();
+      multisetActions.multisetModal.onClose();
       return;
     }
 
@@ -2174,7 +2172,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     resetOperatingSet();
     resetOperatingMultiset();
 
-    multisetModal.onClose();
+    multisetActions.multisetModal.onClose();
     toast.success("Multiset Updated");
   };
 
@@ -2187,7 +2185,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     setOperatingGroupedSet(groupedSet);
     multisetActions.clearMultiset("base", { ...groupedSet.multiset });
     multisetActions.setUneditedMultiset({ ...groupedSet.multiset });
-    multisetModal.onOpen();
+    multisetActions.multisetModal.onOpen();
   };
 
   const handleClickExerciseMultiset = async (exercise: Exercise) => {
@@ -2284,7 +2282,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     resetOperatingMultiset();
     resetOperatingSet();
 
-    multisetModal.onClose();
+    multisetActions.multisetModal.onClose();
     toast.success("Multiset Added");
   };
 
@@ -2297,7 +2295,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     setOperatingGroupedSet(groupedSet);
     setOperatingMultiset(groupedSet.multiset);
     multisetActions.setModalPage("multiset-list");
-    multisetModal.onOpen();
+    multisetActions.multisetModal.onOpen();
   };
 
   const addMultisetToMultiset = async (
@@ -2378,7 +2376,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     resetOperatingMultiset();
     resetOperatingSet();
 
-    multisetModal.onClose();
+    multisetActions.multisetModal.onClose();
     toast.success("Multiset Added");
   };
 
@@ -2714,7 +2712,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     setWorkoutNumbers,
     multisetActions,
     exerciseList,
-    multisetModal,
     operatingMultiset,
     setOperatingMultiset,
     handleAddMultisetButton,

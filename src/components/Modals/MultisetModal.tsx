@@ -17,7 +17,6 @@ import {
   WorkoutSet,
   UserSettings,
   UseSetTrackingInputsReturnType,
-  UseDisclosureReturnType,
   UseFilterExerciseListReturnType,
 } from "../../typings";
 import {
@@ -31,7 +30,6 @@ import { useMultisetActions, useNumSetsOptions } from "../../hooks";
 import { useMemo, useState } from "react";
 
 type MultisetModalProps = {
-  multisetModal: UseDisclosureReturnType;
   multiset: Multiset;
   setMultiset: React.Dispatch<React.SetStateAction<Multiset>>;
   operatingSet: WorkoutSet;
@@ -56,7 +54,6 @@ type MultisetModalProps = {
 };
 
 export const MultisetModal = ({
-  multisetModal,
   multiset,
   setMultiset,
   operatingSet,
@@ -77,7 +74,8 @@ export const MultisetModal = ({
 
   const numSetsOptions = useNumSetsOptions();
 
-  const { updateOperatingSet, undoOperatingMultisetChanges} = useMultisetActions;
+  const { multisetModal, updateOperatingSet, undoOperatingMultisetChanges } =
+    useMultisetActions;
 
   const resetSetInputValues = () => {
     if (operatingSetInputs.uneditedSet?.id !== operatingSet.id) return;

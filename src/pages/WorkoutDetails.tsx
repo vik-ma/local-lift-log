@@ -113,7 +113,6 @@ export default function WorkoutDetails() {
     setWorkoutNumbers,
     multisetActions,
     exerciseList,
-    multisetModal,
     operatingMultiset,
     setOperatingMultiset,
     handleAddMultisetButton,
@@ -500,7 +499,6 @@ export default function WorkoutDetails() {
         useFilterExerciseList={filterExerciseList}
       />
       <MultisetModal
-        multisetModal={multisetModal}
         multiset={operatingMultiset}
         setMultiset={setOperatingMultiset}
         operatingSet={operatingSet}

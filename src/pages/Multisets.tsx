@@ -56,7 +56,6 @@ export default function Multisets() {
   const [operatingMultiset, setOperatingMultiset] =
     useState<Multiset>(defaultMultiset);
 
-  const multisetModal = useDisclosure();
   const deleteModal = useDisclosure();
 
   const defaultSet: WorkoutSet = {
@@ -81,7 +80,6 @@ export default function Multisets() {
     operatingSet,
     setOperatingSet,
     deleteModal,
-    multisetModal,
     exerciseList,
     defaultMultiset,
     operatingSetInputs,
@@ -129,7 +127,7 @@ export default function Multisets() {
     if (operationType !== "add") {
       resetOperatingMultiset();
     }
-    multisetModal.onOpen();
+    multisetActions.multisetModal.onOpen();
   };
 
   const resetOperatingMultiset = () => {
@@ -248,14 +246,14 @@ export default function Multisets() {
     ]);
 
     resetOperatingMultiset();
-    multisetModal.onClose();
+    multisetActions.multisetModal.onClose();
     toast.success("Multiset Created");
   };
 
   const updateMultiset = async () => {
     if (!operatingMultiset.isEditedInModal) {
       resetOperatingMultiset();
-      multisetModal.onClose();
+      multisetActions.multisetModal.onClose();
       return;
     }
 
@@ -313,7 +311,7 @@ export default function Multisets() {
     multisetActions.setMultisets(updatedMultisets);
 
     resetOperatingMultiset();
-    multisetModal.onClose();
+    multisetActions.multisetModal.onClose();
     toast.success("Multiset Updated");
   };
 
@@ -390,8 +388,8 @@ export default function Multisets() {
 
       toastMsg = "Multiset Deleted";
 
-      if (multisetModal.isOpen) {
-        multisetModal.onClose();
+      if (multisetActions.multisetModal.isOpen) {
+        multisetActions.multisetModal.onClose();
       }
     } else {
       updatedMultisets = UpdateItemInList(
@@ -402,7 +400,7 @@ export default function Multisets() {
 
     multisetActions.setMultisets(updatedMultisets);
 
-    if (!multisetModal.isOpen) {
+    if (!multisetActions.multisetModal.isOpen) {
       resetOperatingMultiset();
     }
 
@@ -415,7 +413,7 @@ export default function Multisets() {
       setOperationType("edit");
       multisetActions.clearMultiset("base", { ...multiset });
       multisetActions.setUneditedMultiset({ ...multiset });
-      multisetModal.onOpen();
+      multisetActions.multisetModal.onOpen();
     } else if (key === "delete") {
       setOperatingMultiset(multiset);
       setOperationType("delete");
@@ -536,7 +534,6 @@ export default function Multisets() {
         }
       />
       <MultisetModal
-        multisetModal={multisetModal}
         multiset={operatingMultiset}
         setMultiset={setOperatingMultiset}
         operatingSet={operatingSet}

@@ -19,6 +19,7 @@ import {
   ConvertSetInputValuesToNumbers,
   ConvertEmptyStringToNull,
 } from "../helpers";
+import { useDisclosure } from "@nextui-org/react";
 
 type OperationType = "" | "change-exercise" | "reassign-exercise";
 
@@ -30,7 +31,6 @@ type UseMultisetActionsProps = {
   operatingSet: WorkoutSet;
   setOperatingSet: React.Dispatch<React.SetStateAction<WorkoutSet>>;
   deleteModal: UseDisclosureReturnType;
-  multisetModal: UseDisclosureReturnType;
   exerciseList: UseExerciseListReturnType;
   defaultMultiset: Multiset;
   operatingSetInputs: UseSetTrackingInputsReturnType;
@@ -46,7 +46,6 @@ export const useMultisetActions = ({
   operatingSet,
   setOperatingSet,
   deleteModal,
-  multisetModal,
   exerciseList,
   defaultMultiset,
   operatingSetInputs,
@@ -66,6 +65,8 @@ export const useMultisetActions = ({
   const [setsToDelete, setSetsToDelete] = useState<Set<number>>(new Set());
 
   const { multisetTypeMap } = useMultisetTypeMap();
+
+  const multisetModal = useDisclosure();
 
   const filteredMultisets = useMemo(() => {
     if (filterQuery !== "") {
@@ -489,5 +490,6 @@ export const useMultisetActions = ({
     updateOperatingSet,
     setCalledOutsideModal,
     handleChangeExercise,
+    multisetModal,
   };
 };
