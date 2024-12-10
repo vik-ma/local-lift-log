@@ -129,7 +129,7 @@ export const useListFilters = (
       updatedFilterMap.set("dates", filterDateRangeString);
     }
 
-    if (filterWeekdays.size < 7) {
+    if (filterWeekdays.size < weekdayMap.size) {
       const filterWeekdaysString = Array.from(filterWeekdays)
         .map((day) => (weekdayMap.get(day) ?? "").substring(0, 3))
         .join(", ");
@@ -163,7 +163,7 @@ export const useListFilters = (
       updatedFilterMap.set("workout-templates", filterWorkoutTemplatesString);
     }
 
-    if (filterScheduleTypes.size < 2) {
+    if (filterScheduleTypes.size < routineScheduleTypes.length) {
       const filterScheduleTypesString = Array.from(filterScheduleTypes)
         .map((item) => item)
         .join(", ");
@@ -179,7 +179,7 @@ export const useListFilters = (
       updatedFilterMap.set("num-schedule-days", filterNumScheduleDaysString);
     }
 
-    if (filterWeightUnits.size < 2) {
+    if (filterWeightUnits.size < weightUnits.length) {
       const filterWeightUnitString = Array.from(filterWeightUnits)
         .map((item) => item)
         .join(", ");
@@ -192,7 +192,7 @@ export const useListFilters = (
       updatedFilterMap.set("distance", filterDistanceRangeString);
     }
 
-    if (filterDistanceUnits.size < 5) {
+    if (filterDistanceUnits.size < distanceUnits.length) {
       const filterDistanceUnitString = Array.from(filterDistanceUnits)
         .map((item) => item)
         .join(", ");
@@ -338,22 +338,22 @@ export const useListFilters = (
   const showResetFilterButton = useMemo(() => {
     if (filterMap.size > 0) return true;
     if (filterDateRange !== null) return true;
-    if (filterWeekdays.size < 7) return true;
+    if (filterWeekdays.size < weekdayMap.size) return true;
     if (filterRoutines.size > 0) return true;
     if (filterExercises.size > 0) return true;
     if (filterExerciseGroups.length > 0) return true;
     if (filterWeightRange.startInput !== "") return true;
     if (filterWeightRange.endInput !== "") return true;
     if (filterMeasurements.size > 0) return true;
-    if (filterMeasurementTypes.length < 2) return true;
+    if (filterMeasurementTypes.length < measurementTypes.length) return true;
     if (filterWorkoutTemplates.size > 0) return true;
-    if (filterScheduleTypes.size < 2) return true;
+    if (filterScheduleTypes.size < routineScheduleTypes.length) return true;
     if (filterNumScheduleDays.startInput !== "") return true;
     if (filterNumScheduleDays.endInput !== "") return true;
-    if (filterWeightUnits.size < 2) return true;
+    if (filterWeightUnits.size < weightUnits.length) return true;
     if (filterDistanceRange.startInput !== "") return true;
     if (filterDistanceRange.endInput !== "") return true;
-    if (filterDistanceUnits.size < 5) return true;
+    if (filterDistanceUnits.size < distanceUnits.length) return true;
     if (filterMultisetTypes.size < multisetTypeMap.size) return true;
 
     return false;
@@ -374,6 +374,11 @@ export const useListFilters = (
     filterDistanceRange,
     filterDistanceUnits,
     filterMultisetTypes,
+    weekdayMap,
+    measurementTypes,
+    routineScheduleTypes,
+    weightUnits,
+    distanceUnits,
     multisetTypeMap,
   ]);
 
