@@ -1,6 +1,6 @@
 import { useMultisetTypeMap } from "../../hooks";
 import { Multiset } from "../../typings";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Select, SelectItem } from "@nextui-org/react";
 
 type MultisetDropdownProps = {
@@ -14,39 +14,30 @@ export const MultisetDropdown = ({
   setMultiset,
   isInModal,
 }: MultisetDropdownProps) => {
-  const [selectedKeys, setSelectedKeys] = useState<Set<number>>(
-    new Set([multiset_type])
+  const [selectedKeys, setSelectedKeys] = useState<Set<string>>(
+    new Set([multiset_type.toString()])
   );
 
   const multisetTypeMap = useMultisetTypeMap();
 
-  useEffect(() => {
-    if (!multisetTypeMap.has(multiset_type)) return;
+  const handleChange = async (keys: Set<string>) => {
+    if (keys.size !== 1) return;
 
-    setSelectedKeys(new Set([multiset_type]));
-  }, [multiset_type, multisetTypeMap]);
+    const numberValue = Number(keys.values().next().value);
 
-  const handleChange = async (keys: Set<number>) => {
-    // TODO: FIX
-    // const stringValue: string = Array.from(keys)[0];
+    if (!multisetTypeMap.has(numberValue)) return;
 
-    // if (!validDropdownTypeKeys.includes(stringValue)) return;
+    setSelectedKeys(keys);
 
-    // console.log(keys)
-
-    // const numberValue: number = Number(stringValue);
-
-    // setSelectedKeys(keys);
-
-    // if (isInModal) {
-    //   setMultiset((prev) => ({
-    //     ...prev,
-    //     multiset_type: numberValue,
-    //     isEditedInModal: true,
-    //   }));
-    // } else {
-    //   setMultiset((prev) => ({ ...prev, multiset_type: numberValue }));
-    // }
+    if (isInModal) {
+      setMultiset((prev) => ({
+        ...prev,
+        multiset_type: numberValue,
+        isEditedInModal: true,
+      }));
+    } else {
+      setMultiset((prev) => ({ ...prev, multiset_type: numberValue }));
+    }
   };
 
   return (
@@ -55,12 +46,12 @@ export const MultisetDropdown = ({
       className="w-[8.5rem]"
       variant="faded"
       selectedKeys={selectedKeys}
-      onSelectionChange={(keys) => handleChange(keys as Set<number>)}
+      onSelectionChange={(keys) => handleChange(keys as Set<string>)}
       disallowEmptySelection
     >
-      {Object.entries(multisetTypeMap).map(([key, value]) => (
-        <SelectItem key={key.toString()} value={key.toString()}>
-          {value.text}
+      {Array.from(multisetTypeMap).map(([key, value]) => (
+        <SelectItem key={key} value={key}>
+          {value}
         </SelectItem>
       ))}
     </Select>
