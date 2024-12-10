@@ -14,21 +14,21 @@ import {
 } from "../typings";
 import { MultisetSetMenu } from ".";
 
-type MultisetAccordionProps = {
+type MultisetAccordionsProps = {
   multisets: Multiset[];
-  handleMultisetAccordionClick: (multiset: Multiset, index: number) => void;
+  handleMultisetAccordionsClick: (multiset: Multiset, index: number) => void;
   handleMultisetOptionSelection: (key: string, multiset: Multiset) => void;
   multisetTypeMap: MultisetTypeMap;
   handleMultisetSetOptionSelection: HandleMultisetSetOptionSelectionProps;
 };
 
-export const MultisetAccordion = ({
+export const MultisetAccordions = ({
   multisets,
-  handleMultisetAccordionClick,
+  handleMultisetAccordionsClick,
   handleMultisetOptionSelection,
   multisetTypeMap,
   handleMultisetSetOptionSelection,
-}: MultisetAccordionProps) => {
+}: MultisetAccordionsProps) => {
   return (
     <div className="flex flex-col gap-1 w-full">
       {multisets.map((multiset, index) => {
@@ -41,7 +41,7 @@ export const MultisetAccordion = ({
             key={multiset.id}
             aria-label={`Number ${index + 1} Multiset`}
             className="flex flex-col select-none cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-            onClick={() => handleMultisetAccordionClick(multiset, index)}
+            onClick={() => handleMultisetAccordionsClick(multiset, index)}
           >
             <div className="flex justify-between items-center pl-2 py-1">
               <div className="flex flex-col items-start">

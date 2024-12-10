@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import {
   LoadingSpinner,
-  UserMeasurementAccordion,
+  UserMeasurementAccordions,
   DeleteModal,
   UserMeasurementModal,
   NameInputModal,
@@ -432,7 +432,7 @@ export default function UserMeasurementList() {
             </div>
           }
         />
-        <UserMeasurementAccordion
+        <UserMeasurementAccordions
           userMeasurementEntries={filteredUserMeasurements}
           handleMeasurementAccordionClick={handleMeasurementAccordionClick}
           measurementMap={measurementMap.current}

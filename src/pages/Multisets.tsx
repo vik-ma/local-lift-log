@@ -40,7 +40,7 @@ import {
   FilterPresetsListModal,
   ListPageSearchInput,
   LoadingSpinner,
-  MultisetAccordion,
+  MultisetAccordions,
   MultisetModal,
 } from "../components";
 import toast, { Toaster } from "react-hot-toast";
@@ -334,7 +334,7 @@ export default function Multisets() {
     deleteModal.onClose();
   };
 
-  const handleMultisetAccordionClick = (multiset: Multiset, index: number) => {
+  const handleMultisetAccordionsClick = (multiset: Multiset, index: number) => {
     const updatedMultiset: Multiset = {
       ...multiset,
       isExpanded: !multiset.isExpanded,
@@ -592,9 +592,9 @@ export default function Multisets() {
             </div>
           }
         />
-        <MultisetAccordion
+        <MultisetAccordions
           multisets={multisetActions.filteredMultisets}
-          handleMultisetAccordionClick={handleMultisetAccordionClick}
+          handleMultisetAccordionsClick={handleMultisetAccordionsClick}
           handleMultisetOptionSelection={handleMultisetOptionSelection}
           multisetTypeMap={multisetActions.multisetTypeMap}
           handleMultisetSetOptionSelection={

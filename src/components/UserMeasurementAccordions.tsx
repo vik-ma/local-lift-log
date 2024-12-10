@@ -14,7 +14,7 @@ import {
 } from "../typings";
 import { EmptyListLabel } from ".";
 
-type UserMeasurementAccordionProps = {
+type UserMeasurementAccordionsProps = {
   userMeasurementEntries: UserMeasurement[];
   handleMeasurementAccordionClick: (
     measurement: UserMeasurement,
@@ -28,13 +28,13 @@ type UserMeasurementAccordionProps = {
   handleReassignMeasurement?: (values: ReassignMeasurementsProps) => void;
 };
 
-export const UserMeasurementAccordion = ({
+export const UserMeasurementAccordions = ({
   userMeasurementEntries,
   handleMeasurementAccordionClick,
   measurementMap,
   handleUserMeasurementsOptionSelection,
   handleReassignMeasurement = () => {},
-}: UserMeasurementAccordionProps) => {
+}: UserMeasurementAccordionsProps) => {
   return (
     <div className="flex flex-col gap-1 w-full">
       {userMeasurementEntries.map((measurement, index) => (

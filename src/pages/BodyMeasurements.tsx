@@ -9,7 +9,7 @@ import {
 import {
   DeleteModal,
   LoadingSpinner,
-  UserMeasurementAccordion,
+  UserMeasurementAccordions,
   UserMeasurementModal,
   UserWeightModal,
   NameInputModal,
@@ -570,7 +570,7 @@ export default function BodyMeasurements() {
                 )}
               </h3>
               {latestUserMeasurements.id !== 0 && (
-                <UserMeasurementAccordion
+                <UserMeasurementAccordions
                   userMeasurementEntries={[latestUserMeasurements]}
                   handleMeasurementAccordionClick={
                     handleMeasurementAccordionClick
