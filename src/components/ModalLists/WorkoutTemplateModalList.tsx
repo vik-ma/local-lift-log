@@ -44,6 +44,7 @@ export const WorkoutTemplateModalList = ({
           setFilterQuery={setFilterQuery}
           filteredListLength={filteredWorkoutTemplates.length}
           totalListLength={workoutTemplates.length}
+          isListFiltered={filterMap.size > 0}
         />
         <div className="flex justify-between">
           <Button

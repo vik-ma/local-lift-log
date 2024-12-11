@@ -6,6 +6,7 @@ type SearchInputProps = {
   setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
   filteredListLength: number;
   totalListLength: number;
+  isListFiltered: boolean;
   isSmall?: boolean;
 };
 
@@ -14,12 +15,13 @@ export const SearchInput = ({
   setFilterQuery,
   filteredListLength,
   totalListLength,
+  isListFiltered,
   isSmall,
 }: SearchInputProps) => {
   return (
     <Input
       label={
-        filteredListLength !== totalListLength ? (
+        filteredListLength !== totalListLength || isListFiltered ? (
           <>
             Search{" "}
             <span className="text-secondary">

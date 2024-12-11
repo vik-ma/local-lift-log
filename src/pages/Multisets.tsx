@@ -588,6 +588,7 @@ export default function Multisets() {
           setFilterQuery={multisetActions.setFilterQuery}
           filteredListLength={multisetActions.filteredMultisets.length}
           totalListLength={multisetActions.multisets.length}
+          isListFiltered={multisetActions.listFilters.filterMap.size > 0}
           bottomContent={
             <div className="flex flex-col gap-1.5">
               <div className="flex justify-between">

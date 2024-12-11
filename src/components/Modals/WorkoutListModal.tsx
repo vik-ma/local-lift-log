@@ -63,6 +63,7 @@ export const WorkoutListModal = ({
                     setFilterQuery={setFilterQuery}
                     filteredListLength={filteredWorkouts.length}
                     totalListLength={workouts.length}
+                    isListFiltered={filterMap.size > 0}
                   />
                   <div className="flex justify-between items-center pl-1">
                     <div>

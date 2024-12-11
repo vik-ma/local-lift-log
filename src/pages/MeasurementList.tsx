@@ -374,6 +374,7 @@ export default function MeasurementList() {
           setFilterQuery={setFilterQuery}
           filteredListLength={filteredMeasurements.length}
           totalListLength={measurements.length}
+          isListFiltered={filterMap.size > 0}
           bottomContent={
             <div className="flex flex-col gap-1">
               <div className="flex justify-between gap-1 w-full items-center">

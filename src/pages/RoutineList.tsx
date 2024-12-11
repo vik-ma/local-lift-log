@@ -74,6 +74,8 @@ export default function RoutineList() {
     listFilters,
   } = routineList;
 
+  const { filterMap } = listFilters;
+
   useEffect(() => {
     const getActiveRoutineId = async () => {
       const userSettings = await GetUserSettings();
@@ -264,6 +266,7 @@ export default function RoutineList() {
           setFilterQuery={setFilterQuery}
           filteredListLength={filteredRoutines.length}
           totalListLength={routines.length}
+          isListFiltered={filterMap.size > 0}
           bottomContent={
             <div className="flex flex-col gap-1.5">
               <div className="flex justify-between">

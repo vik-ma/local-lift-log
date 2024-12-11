@@ -1,5 +1,5 @@
 import { ScrollShadow, Select, SelectItem } from "@nextui-org/react";
-import { Multiset, MultisetTypeMap } from "../../typings";
+import { ListFilterMapKey, Multiset, MultisetTypeMap } from "../../typings";
 import { EmptyListLabel, SearchInput } from "..";
 import { Link } from "react-router-dom";
 
@@ -13,6 +13,7 @@ type MultisetTemplateModalListProps = {
   setNumNewSets: React.Dispatch<React.SetStateAction<string>>;
   numSetsOptions: string[];
   multisets: Multiset[];
+  filterMap: Map<ListFilterMapKey, string>;
 };
 
 export const MultisetTemplateModalList = ({
@@ -25,6 +26,7 @@ export const MultisetTemplateModalList = ({
   setNumNewSets,
   numSetsOptions,
   multisets,
+  filterMap,
 }: MultisetTemplateModalListProps) => {
   return (
     <div className="h-[400px] flex flex-col gap-2">
@@ -34,6 +36,7 @@ export const MultisetTemplateModalList = ({
           setFilterQuery={setFilterQuery}
           filteredListLength={filteredMultisets.length}
           totalListLength={multisets.length}
+          isListFiltered={filterMap.size > 0}
         />
         <Select
           label="Number Of Sets To Add"

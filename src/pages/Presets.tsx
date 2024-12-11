@@ -922,6 +922,7 @@ export default function Presets() {
                   setFilterQuery={setFilterQueryEquipment}
                   filteredListLength={filteredEquipmentWeights.length}
                   totalListLength={equipmentWeights.length}
+                  isListFiltered={filterMap.size > 0}
                   extraTopSpace={true}
                   bottomContent={
                     <div className="flex flex-col gap-1.5">
@@ -1047,6 +1048,7 @@ export default function Presets() {
                   setFilterQuery={setFilterQueryDistance}
                   filteredListLength={filteredDistances.length}
                   totalListLength={distances.length}
+                  isListFiltered={filterMap.size > 0}
                   extraTopSpace={true}
                   bottomContent={
                     <div className="flex flex-col gap-1.5">
@@ -1169,6 +1171,7 @@ export default function Presets() {
                   setFilterQuery={setFilterQueryPlateCollection}
                   filteredListLength={filteredPlateCollections.length}
                   totalListLength={plateCollections.length}
+                  isListFiltered={false}
                   extraTopSpace={true}
                   bottomContent={
                     <div className="flex justify-between gap-1 w-full items-center">

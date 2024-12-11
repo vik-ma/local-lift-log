@@ -83,6 +83,8 @@ export default function WorkoutList() {
 
   const filterExerciseList = useFilterExerciseList(exerciseList);
 
+  const { filterMap } = listFilters;
+
   const { handleOpenWorkoutTemplateListModal, workoutTemplateListModal } =
     workoutTemplateList;
 
@@ -488,6 +490,7 @@ export default function WorkoutList() {
           setFilterQuery={setFilterQuery}
           filteredListLength={filteredWorkouts.length}
           totalListLength={workouts.length}
+          isListFiltered={filterMap.size > 0}
           bottomContent={
             <div className="flex flex-col gap-1.5">
               <div className="flex justify-between">

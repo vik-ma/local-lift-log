@@ -377,6 +377,7 @@ export default function UserMeasurementList() {
           setFilterQuery={setFilterQuery}
           filteredListLength={filteredUserMeasurements.length}
           totalListLength={userMeasurements.length}
+          isListFiltered={filterMap.size > 0}
           bottomContent={
             <div className="flex flex-col gap-1.5">
               <div className="flex justify-between">

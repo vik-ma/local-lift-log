@@ -274,6 +274,7 @@ export default function WorkoutTemplateList() {
           setFilterQuery={setFilterQuery}
           filteredListLength={filteredWorkoutTemplates.length}
           totalListLength={workoutTemplates.length}
+          isListFiltered={filterMap.size > 0}
           bottomContent={
             <div className="flex flex-col gap-1.5">
               <div className="flex justify-between">

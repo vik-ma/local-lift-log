@@ -26,7 +26,10 @@ export const MeasurementModalList = ({
     setFilterQuery,
     filteredMeasurements,
     toggleFavorite,
+    listFilters,
   } = useMeasurementList;
+
+  const { filterMap } = listFilters;
 
   const navigate = useNavigate();
 
@@ -38,6 +41,7 @@ export const MeasurementModalList = ({
           setFilterQuery={setFilterQuery}
           filteredListLength={filteredMeasurements.length}
           totalListLength={measurements.length}
+          isListFiltered={filterMap.size > 0}
         />
         <div className="flex justify-between items-center">
           <Button

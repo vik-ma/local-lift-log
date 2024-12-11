@@ -36,7 +36,10 @@ export const PlateCollectionModalList = ({
     filterQueryPlateCollection,
     setFilterQueryPlateCollection,
     isEquipmentWeightListLoaded,
+    listFilters,
   } = presetsList;
+
+  const { filterMap } = listFilters;
 
   const navigate = useNavigate();
 
@@ -47,6 +50,7 @@ export const PlateCollectionModalList = ({
         setFilterQuery={setFilterQueryPlateCollection}
         filteredListLength={filteredPlateCollections.length}
         totalListLength={plateCollections.length}
+        isListFiltered={filterMap.size > 0}
       />
       <div className="flex justify-between">
         <Button

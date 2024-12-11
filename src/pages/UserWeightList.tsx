@@ -419,6 +419,7 @@ export default function UserWeightList() {
           setFilterQuery={setFilterQuery}
           filteredListLength={filteredWeights.length}
           totalListLength={userWeights.length}
+          isListFiltered={filterMap.size > 0}
           bottomContent={
             <div className="flex flex-col gap-1.5">
               <div className="flex justify-between">

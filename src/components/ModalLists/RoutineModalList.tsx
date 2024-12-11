@@ -48,6 +48,7 @@ export const RoutineModalList = ({
           setFilterQuery={setFilterQuery}
           filteredListLength={filteredRoutines.length}
           totalListLength={routines.length}
+          isListFiltered={filterMap.size > 0}
         />
         <div className="flex justify-between">
           <Button

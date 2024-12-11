@@ -52,7 +52,10 @@ export const PresetsModalList = ({
     operatingPlateCollection,
     setOperatingPlateCollection,
     presetsTypeString,
+    listFilters,
   } = presetsList;
+
+  const { filterMap } = listFilters;
 
   const [hideInvalidUnitItems, setHideInvalidUnitItems] =
     useState<boolean>(true);
@@ -82,6 +85,7 @@ export const PresetsModalList = ({
             ? equipmentWeights.length
             : distances.length
         }
+        isListFiltered={filterMap.size > 0}
       />
       <div className="flex justify-between">
         <div>
