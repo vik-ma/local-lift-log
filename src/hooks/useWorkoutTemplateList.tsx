@@ -9,7 +9,7 @@ import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { useDisclosure } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
 import {
-  CreateWorkoutExerciseSets,
+  CreateExerciseSetIds,
   DoesListOrSetHaveCommonElement,
 } from "../helpers";
 import { useListFilters } from "./useListFilters";
@@ -123,7 +123,7 @@ export const useWorkoutTemplateList = (
         )
           continue;
 
-        const workoutExerciseSets = CreateWorkoutExerciseSets(
+        const workoutExerciseSets = CreateExerciseSetIds(
           row.exerciseListString,
           exerciseGroupDictionary,
           exerciseMap.current

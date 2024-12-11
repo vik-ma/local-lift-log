@@ -2,19 +2,19 @@ import { ExerciseGroupMap, ExerciseMap } from "../../typings";
 import { CreateExerciseGroupSetPrimary } from "../Exercises/CreateExerciseGroupSetPrimary";
 import { CreateExerciseGroupSetSecondary } from "../Exercises/CreateExerciseGroupSetSecondary";
 
-type CreateWorkoutExerciseSetsReturnType = {
+type CreateExerciseSetIdsReturnType = {
   exerciseIdSet: Set<number>;
   exerciseGroupSetPrimary: Set<string>;
   exerciseGroupSetSecondary: Set<string>;
 };
 
-export const CreateWorkoutExerciseSets = (
+export const CreateExerciseSetIds = (
   exerciseListString: string | undefined,
   exerciseGroupDictionary: ExerciseGroupMap,
   exerciseMap: ExerciseMap
-): CreateWorkoutExerciseSetsReturnType => {
+): CreateExerciseSetIdsReturnType => {
   try {
-    const workoutExerciseSets: CreateWorkoutExerciseSetsReturnType = {
+    const workoutExerciseSets: CreateExerciseSetIdsReturnType = {
       exerciseIdSet: new Set<number>(),
       exerciseGroupSetPrimary: new Set<string>(),
       exerciseGroupSetSecondary: new Set<string>(),

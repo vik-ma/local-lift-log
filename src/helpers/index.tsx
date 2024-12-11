@@ -31,6 +31,7 @@ export { ConvertExerciseGroupStringMapSecondaryToString } from "./Exercises/Conv
 export { UpdateExerciseValues } from "./Exercises/UpdateExerciseValues";
 export { CreateExerciseGroupSetPrimary } from "./Exercises/CreateExerciseGroupSetPrimary";
 export { CreateExerciseGroupSetSecondary } from "./Exercises/CreateExerciseGroupSetSecondary";
+export { CreateExerciseSetIds } from "./Exercises/CreateExerciseSetIds";
 
 export { GetScheduleDayNames } from "./Routines/GetScheduleDayNames";
 export { GetScheduleDayValues } from "./Routines/GetScheduleValues";
@@ -167,7 +168,6 @@ export { GetUniqueMultisetIds } from "./Workouts/GetUniqueMultisetIds";
 export { CreateWorkout } from "./Workouts/CreateWorkout";
 export { DeleteWorkoutWithId } from "./Workouts/DeleteWorkoutWithId";
 export { GetWorkoutRatingOrder } from "./Workouts/GetWorkoutRatingOrder";
-export { CreateWorkoutExerciseSets } from "./Workouts/CreateWorkoutExerciseSets";
 
 export { LocaleList } from "./Constants/LocaleList";
 export { ValidTimeInputs } from "./Constants/ValidTimeInputs";

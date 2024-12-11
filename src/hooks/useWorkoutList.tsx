@@ -7,7 +7,7 @@ import {
 } from "../typings";
 import Database from "tauri-plugin-sql-api";
 import {
-  CreateWorkoutExerciseSets,
+  CreateExerciseSetIds,
   DoesListOrSetHaveCommonElement,
   FormatDateString,
   IsDateInWeekdaySet,
@@ -166,7 +166,7 @@ export const useWorkoutList = (
 
         const formattedDate = FormatDateString(row.date);
 
-        const workoutExerciseSets = CreateWorkoutExerciseSets(
+        const workoutExerciseSets = CreateExerciseSetIds(
           row.exerciseListString,
           exerciseGroupDictionary,
           exerciseMap.current
