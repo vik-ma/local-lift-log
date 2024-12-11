@@ -540,8 +540,8 @@ export type UseListFiltersReturnType = {
   filterDistanceUnits: Set<string>;
   setFilterDistanceUnits: React.Dispatch<React.SetStateAction<Set<string>>>;
   multisetTypeMap: MultisetTypeMap;
-  filterMultisetTypes: Set<number>;
-  setFilterMultisetTypes: React.Dispatch<React.SetStateAction<Set<number>>>;
+  filterMultisetTypes: Set<string>;
+  setFilterMultisetTypes: React.Dispatch<React.SetStateAction<Set<string>>>;
 };
 
 export type ListFilterMapKey =

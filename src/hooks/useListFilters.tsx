@@ -100,9 +100,14 @@ export const useListFilters = (
 
   const multisetTypeMap = useMultisetTypeMap();
 
-  const [filterMultisetTypes, setFilterMultisetTypes] = useState<Set<number>>(
-    new Set(multisetTypeMap.keys())
+  const multisetTypeMapKeys = useMemo(
+    () =>
+      new Set(Array.from(multisetTypeMap.keys()).map((key) => key.toString())),
+    [multisetTypeMap]
   );
+
+  const [filterMultisetTypes, setFilterMultisetTypes] =
+    useState<Set<string>>(multisetTypeMapKeys);
 
   const handleFilterSaveButton = (
     locale: string,
@@ -201,7 +206,7 @@ export const useListFilters = (
 
     if (filterMultisetTypes.size < multisetTypeMap.size) {
       const filterMultisetTypesString = Array.from(filterMultisetTypes)
-        .map((type) => multisetTypeMap.get(type) ?? "")
+        .map((type) => multisetTypeMap.get(Number(type)) ?? "")
         .join(", ");
 
       updatedFilterMap.set("multiset-types", filterMultisetTypesString);
@@ -310,7 +315,7 @@ export const useListFilters = (
 
     if (key === "multiset-types" && filterMap.has("multiset-types")) {
       updatedFilterMap.delete("multiset-types");
-      setFilterMultisetTypes(new Set(multisetTypeMap.keys()));
+      setFilterMultisetTypes(multisetTypeMapKeys);
     }
 
     setFilterMap(updatedFilterMap);
@@ -332,7 +337,7 @@ export const useListFilters = (
     setFilterWeightUnits(new Set(weightUnits));
     setFilterDistanceRange(defaultNumberRange);
     setFilterDistanceUnits(new Set(distanceUnits));
-    setFilterMultisetTypes(new Set(multisetTypeMap.keys()));
+    setFilterMultisetTypes(multisetTypeMapKeys);
   };
 
   const showResetFilterButton = useMemo(() => {
