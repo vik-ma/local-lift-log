@@ -119,6 +119,14 @@ export const FilterMultisetListModal = ({
                 <ScrollShadow className="h-[400px]">
                   <div className="flex flex-col gap-3 w-[24rem]">
                     <div className="flex flex-col gap-1">
+                      <h3 className="font-semibold text-lg px-0.5">
+                        Multiset Types
+                      </h3>
+                      <MultipleChoiceMultisetTypeDropdown
+                        useMultisetActions={useMultisetActions}
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1">
                       <div className="flex flex-col">
                         <h3 className="font-semibold text-lg px-0.5">
                           Exercises{" "}
@@ -175,14 +183,6 @@ export const FilterMultisetListModal = ({
                           >
                             Filter Groups
                           </Button>
-                        </div>
-                        <div className="flex flex-col gap-1">
-                          <h3 className="font-semibold text-lg px-0.5">
-                            Multiset Types
-                          </h3>
-                          <MultipleChoiceMultisetTypeDropdown
-                            useMultisetActions={useMultisetActions}
-                          />
                         </div>
                       </div>
                     </div>
