@@ -9,7 +9,7 @@ type CreateExerciseSetIdsReturnType = {
 };
 
 export const CreateExerciseSetIds = (
-  exerciseListString: string | undefined,
+  exerciseIdList: string | undefined,
   exerciseGroupDictionary: ExerciseGroupMap,
   exerciseMap: ExerciseMap
 ): CreateExerciseSetIdsReturnType => {
@@ -20,14 +20,14 @@ export const CreateExerciseSetIds = (
       exerciseGroupSetSecondary: new Set<string>(),
     };
 
-    if (exerciseListString === undefined) return workoutExerciseSets;
+    if (exerciseIdList === undefined) return workoutExerciseSets;
 
-    const exerciseIdList: number[] = JSON.parse(exerciseListString);
+    const exerciseIdNumList: number[] = JSON.parse(exerciseIdList);
 
     const workoutExerciseGroupsPrimary: Set<string>[] = [];
     const workoutExerciseGroupsSecondary: Set<string>[] = [];
 
-    for (const id of exerciseIdList) {
+    for (const id of exerciseIdNumList) {
       workoutExerciseSets.exerciseIdSet.add(id);
 
       const exercise = exerciseMap.get(id);

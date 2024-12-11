@@ -138,8 +138,8 @@ export const useWorkoutList = (
         `SELECT 
           workouts.*,
           json_group_array(
-              DISTINCT json_object('id', exercise_id)
-          ) AS exerciseListString,
+            DISTINCT exercise_id
+          ) AS exerciseIdList,
           (SELECT COUNT(*) 
             FROM sets 
             WHERE sets.workout_id = workouts.id AND sets.is_template = 0) AS numSets
@@ -147,8 +147,8 @@ export const useWorkoutList = (
           workouts
         LEFT JOIN 
           (SELECT DISTINCT workout_id, exercise_id
-            FROM sets
-            WHERE is_template = 0) AS distinct_sets
+          FROM sets
+          WHERE is_template = 0) AS distinct_sets
         ON 
           workouts.id = distinct_sets.workout_id
         GROUP BY 
@@ -167,7 +167,7 @@ export const useWorkoutList = (
         const formattedDate = FormatDateString(row.date);
 
         const workoutExerciseSets = CreateExerciseSetIds(
-          row.exerciseListString,
+          row.exerciseIdList,
           exerciseGroupDictionary,
           exerciseMap.current
         );

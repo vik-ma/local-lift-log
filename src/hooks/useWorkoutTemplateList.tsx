@@ -96,8 +96,8 @@ export const useWorkoutTemplateList = (
         `SELECT 
           workout_templates.*, 
           json_group_array(
-              DISTINCT json_object('id', exercise_id)
-          ) AS exerciseListString,
+            DISTINCT exercise_id
+          ) AS exerciseIdList,
           (SELECT COUNT(*) 
             FROM sets 
             WHERE sets.workout_template_id = workout_templates.id AND sets.is_template = 1) AS numSets
@@ -124,7 +124,7 @@ export const useWorkoutTemplateList = (
           continue;
 
         const workoutExerciseSets = CreateExerciseSetIds(
-          row.exerciseListString,
+          row.exerciseIdList,
           exerciseGroupDictionary,
           exerciseMap.current
         );

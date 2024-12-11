@@ -95,7 +95,7 @@ export type WorkoutTemplate = {
   exercise_order: string;
   note: string | null;
   numSets?: number;
-  exerciseListString?: string;
+  exerciseIdList?: string;
   exerciseIdSet?: Set<number>;
   exerciseGroupSetPrimary?: Set<string>;
   exerciseGroupSetSecondary?: Set<string>;
@@ -273,7 +273,7 @@ export type Workout = {
   hasInvalidWorkoutTemplate?: boolean;
   routine?: Routine;
   hasInvalidRoutine?: boolean;
-  exerciseListString?: string;
+  exerciseIdList?: string;
   exerciseIdSet?: Set<number>;
   exerciseGroupSetPrimary?: Set<string>;
   exerciseGroupSetSecondary?: Set<string>;
