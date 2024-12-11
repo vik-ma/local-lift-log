@@ -501,6 +501,7 @@ export const useMultisetActions = ({
     handleChangeExercise,
     multisetModal,
     listFilters,
+    filterMultisetsModal,
     handleOpenFilterButton,
   };
 };

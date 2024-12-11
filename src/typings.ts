@@ -892,5 +892,6 @@ export type UseMultisetActionsReturnType = {
   ) => void;
   multisetModal: UseDisclosureReturnType;
   listFilters: UseListFiltersReturnType;
+  filterMultisetsModal: UseDisclosureReturnType;
   handleOpenFilterButton: () => void;
 };
