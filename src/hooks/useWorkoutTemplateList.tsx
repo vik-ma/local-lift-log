@@ -123,7 +123,7 @@ export const useWorkoutTemplateList = (
         )
           continue;
 
-        const workoutExerciseSets = CreateExerciseSetIds(
+        const exerciseIds = CreateExerciseSetIds(
           row.exerciseIdList,
           exerciseGroupDictionary,
           exerciseMap.current
@@ -135,10 +135,10 @@ export const useWorkoutTemplateList = (
           exercise_order: row.exercise_order,
           note: row.note,
           numSets: row.numSets,
-          exerciseIdSet: workoutExerciseSets.exerciseIdSet,
-          exerciseGroupSetPrimary: workoutExerciseSets.exerciseGroupSetPrimary,
+          exerciseIdSet: exerciseIds.exerciseIdSet,
+          exerciseGroupSetPrimary: exerciseIds.exerciseGroupSetPrimary,
           exerciseGroupSetSecondary:
-            workoutExerciseSets.exerciseGroupSetSecondary,
+            exerciseIds.exerciseGroupSetSecondary,
         };
 
         workoutTemplates.push(workoutTemplate);

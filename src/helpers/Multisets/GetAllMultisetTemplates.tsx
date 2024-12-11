@@ -1,13 +1,22 @@
 import Database from "tauri-plugin-sql-api";
-import { Multiset, WorkoutSet } from "../../typings";
+import {
+  ExerciseGroupMap,
+  ExerciseMap,
+  Multiset,
+  WorkoutSet,
+} from "../../typings";
 import {
   GenerateMultisetSetOrderList,
   GetSetWithId,
   UpdateMultiset,
   GenerateSetListText,
+  CreateExerciseSetIds,
 } from "..";
 
-export const GetAllMultisetTemplates = async () => {
+export const GetAllMultisetTemplates = async (
+  exerciseGroupDictionary: ExerciseGroupMap,
+  exerciseMap: ExerciseMap
+) => {
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -26,6 +35,8 @@ export const GetAllMultisetTemplates = async () => {
 
       const setIdsToDelete: number[] = [];
 
+      const exerciseIdSet: Set<number> = new Set();
+
       for (let i = 0; i < setOrderList.length; i++) {
         const set = await GetSetWithId(setOrderList[i]);
 
@@ -35,6 +46,8 @@ export const GetAllMultisetTemplates = async () => {
         }
 
         setList.push(set);
+
+        exerciseIdSet.add(set.exercise_id);
       }
 
       if (setList.length === 0) {
@@ -61,6 +74,17 @@ export const GetAllMultisetTemplates = async () => {
       const setListValues = GenerateSetListText(setList);
       result[i].setListText = setListValues.setListText;
       result[i].setListTextString = setListValues.setListTextString;
+
+      const exerciseIds = CreateExerciseSetIds(
+        JSON.stringify(Array.from(exerciseIdSet)),
+        exerciseGroupDictionary,
+        exerciseMap
+      );
+
+      result[i].exerciseIdSet = exerciseIds.exerciseIdSet;
+      result[i].exerciseGroupSetPrimary = exerciseIds.exerciseGroupSetPrimary;
+      result[i].exerciseGroupSetSecondary =
+        exerciseIds.exerciseGroupSetSecondary;
 
       multisets.push(result[i]);
     }

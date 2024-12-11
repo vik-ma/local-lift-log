@@ -166,7 +166,7 @@ export const useWorkoutList = (
 
         const formattedDate = FormatDateString(row.date);
 
-        const workoutExerciseSets = CreateExerciseSetIds(
+        const exerciseIds = CreateExerciseSetIds(
           row.exerciseIdList,
           exerciseGroupDictionary,
           exerciseMap.current
@@ -198,10 +198,10 @@ export const useWorkoutList = (
           routine: routineMap.current.get(row.routine_id),
           hasInvalidRoutine:
             row.routine_id !== 0 && !routineMap.current.has(row.routine_id),
-          exerciseIdSet: workoutExerciseSets.exerciseIdSet,
-          exerciseGroupSetPrimary: workoutExerciseSets.exerciseGroupSetPrimary,
+          exerciseIdSet: exerciseIds.exerciseIdSet,
+          exerciseGroupSetPrimary: exerciseIds.exerciseGroupSetPrimary,
           exerciseGroupSetSecondary:
-            workoutExerciseSets.exerciseGroupSetSecondary,
+            exerciseIds.exerciseGroupSetSecondary,
         };
 
         workouts.push(workout);

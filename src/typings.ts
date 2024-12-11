@@ -363,6 +363,9 @@ export type Multiset = {
   isExpanded?: boolean;
   setListIndexCutoffs?: Map<number, number>;
   isEditedInModal?: boolean;
+  exerciseIdSet?: Set<number>;
+  exerciseGroupSetPrimary?: Set<string>;
+  exerciseGroupSetSecondary?: Set<string>;
 };
 
 export type MultisetTypeMap = Map<number, string>;

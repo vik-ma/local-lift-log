@@ -65,7 +65,8 @@ export const CreateExerciseSetIds = (
     workoutExerciseSets.exerciseGroupSetSecondary = exerciseGroupSetSecondary;
 
     return workoutExerciseSets;
-  } catch {
+  } catch (error) {
+    console.log(error);
     return {
       exerciseIdSet: new Set<number>(),
       exerciseGroupSetPrimary: new Set<string>(),
