@@ -42,6 +42,7 @@ export { WorkoutPropertyDropdown } from "./Dropdowns/WorkoutPropertyDropdown";
 export { AvailablePlatesDropdown } from "./Dropdowns/AvailablePlatesDropdown";
 export { WeekdaysDropdown } from "./Dropdowns/WeekdaysDropdown";
 export { MultipleChoiceUnitDropdown } from "./Dropdowns/MultipleChoiceUnitDropdown";
+export { MultipleChoiceMultisetTypeDropdown } from "./Dropdowns/MultipleChoiceMultisetTypeDropdown";
 
 export { DeleteModal } from "./Modals/DeleteModal";
 export { SetModal } from "./Modals/SetModal";
