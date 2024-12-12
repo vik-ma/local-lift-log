@@ -72,21 +72,27 @@ export const useMultisetActions = ({
 
   const listFilters = useListFilters(exerciseList);
 
+  const { filterMap, filterMultisetTypes } = listFilters;
+
   const filteredMultisets = useMemo(() => {
-    if (filterQuery !== "") {
+    if (filterQuery !== "" || filterMap.size > 0) {
       return multisets.filter(
         (item) =>
-          item
-            .setListTextString!.toLocaleLowerCase()
-            .includes(filterQuery.toLocaleLowerCase()) ||
-          multisetTypeMap
-            .get(item.multiset_type)
+          (item.setListTextString
             ?.toLocaleLowerCase()
-            .includes(filterQuery.toLocaleLowerCase())
+            .includes(filterQuery.toLocaleLowerCase()) ||
+            multisetTypeMap
+              .get(item.multiset_type)
+              ?.toLocaleLowerCase()
+              .includes(filterQuery.toLocaleLowerCase())) &&
+          (!filterMap.has("multiset-types") ||
+            filterMultisetTypes.has(item.multiset_type.toString()))
       );
     }
     return multisets;
-  }, [multisets, filterQuery, multisetTypeMap]);
+  }, [multisets, filterQuery, multisetTypeMap, filterMap, filterMultisetTypes]);
+
+  console.log(filterMultisetTypes)
 
   const defaultExercise = useDefaultExercise();
 
@@ -474,7 +480,7 @@ export const useMultisetActions = ({
     // isExerciseListLoaded.current need to be specifically included in array,
     // otherwise the function doesn't fire off after isExerciseListLoaded.current turns true.
     // Not including isExerciseListLoaded causes a "missing dependency" linting warning, even though it is unnecessary
-    // Including both causes an "unnecessary dependency" linting warning, even though both are necessary
+    // Including both causes an "unnecessary dependency" linting warning, even though isExerciseListLoaded.current is specifically necessary
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       setMultisets,

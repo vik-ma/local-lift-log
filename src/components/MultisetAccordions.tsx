@@ -21,12 +21,15 @@ export const MultisetAccordions = ({
   handleMultisetAccordionsClick,
   handleMultisetOptionSelection,
 }: MultisetAccordionsProps) => {
-  const { multisets, multisetTypeMap, handleMultisetSetOptionSelection } =
-    useMultisetActions;
+  const {
+    filteredMultisets,
+    multisetTypeMap,
+    handleMultisetSetOptionSelection,
+  } = useMultisetActions;
 
   return (
     <div className="flex flex-col gap-1 w-full">
-      {multisets.map((multiset, index) => {
+      {filteredMultisets.map((multiset, index) => {
         const multisetTypeText =
           multisetTypeMap.get(multiset.multiset_type) ?? "";
 
