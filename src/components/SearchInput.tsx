@@ -21,7 +21,9 @@ export const SearchInput = ({
   return (
     <Input
       label={
-        filteredListLength !== totalListLength || isListFiltered ? (
+        filteredListLength !== totalListLength ||
+        filterQuery !== "" ||
+        isListFiltered ? (
           <>
             Search{" "}
             <span className="text-secondary">
