@@ -1,34 +1,36 @@
 import { ScrollShadow, Select, SelectItem } from "@nextui-org/react";
-import { ListFilterMapKey, Multiset, MultisetTypeMap, UseMultisetActionsReturnType } from "../../typings";
+import {
+  Multiset,
+  UseMultisetActionsReturnType,
+} from "../../typings";
 import { EmptyListLabel, MultisetListOptions, SearchInput } from "..";
 
 type MultisetTemplateModalListProps = {
   useMultisetActions: UseMultisetActionsReturnType;
   handleClickMultiset: (multiset: Multiset, numSets: string) => void;
-  filterQuery: string;
-  setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
-  filteredMultisets: Multiset[];
-  multisetTypeMap: MultisetTypeMap;
   numNewSets: string;
   setNumNewSets: React.Dispatch<React.SetStateAction<string>>;
   numSetsOptions: string[];
-  multisets: Multiset[];
-  filterMap: Map<ListFilterMapKey, string>;
 };
 
 export const MultisetTemplateModalList = ({
   useMultisetActions,
   handleClickMultiset,
-  filterQuery,
-  setFilterQuery,
-  filteredMultisets,
-  multisetTypeMap,
   numNewSets,
   setNumNewSets,
   numSetsOptions,
-  multisets,
-  filterMap,
 }: MultisetTemplateModalListProps) => {
+  const {
+    multisets,
+    filterQuery,
+    setFilterQuery,
+    filteredMultisets,
+    multisetTypeMap,
+    listFilters,
+  } = useMultisetActions;
+
+  const { filterMap } = listFilters;
+
   return (
     <div className="h-[400px] flex flex-col gap-1.5">
       <div className="flex flex-col gap-1.5">
