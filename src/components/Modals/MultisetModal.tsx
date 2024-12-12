@@ -107,10 +107,11 @@ export const MultisetModal = ({
   const shouldBackButtonClose = useMemo(() => {
     if (modalPage === "edit-set" || modalPage === "exercise-list") return false;
 
-    if (showWorkoutItems && modalPage === "base") return false;
+    if (showWorkoutItems && modalPage === "base" && operationType === "add")
+      return false;
 
     return true;
-  }, [modalPage, showWorkoutItems]);
+  }, [modalPage, showWorkoutItems, operationType]);
 
   return (
     <Modal isOpen={multisetModal.isOpen} onOpenChange={closeMultisetModal}>
@@ -213,26 +214,28 @@ export const MultisetModal = ({
             </ModalBody>
             <ModalFooter className="flex justify-between items-center h-[5rem]">
               <div>
-                {showWorkoutItems && modalPage === "base" && (
-                  <Select
-                    className="w-[12rem]"
-                    label="Number Of Sets To Add"
-                    size="sm"
-                    variant="faded"
-                    classNames={{
-                      trigger: "bg-amber-50 border-amber-200",
-                    }}
-                    selectedKeys={[numNewSets]}
-                    onChange={(e) => setNumNewSets(e.target.value)}
-                    disallowEmptySelection
-                  >
-                    {numSetsOptions.map((num) => (
-                      <SelectItem key={num} value={num}>
-                        {num}
-                      </SelectItem>
-                    ))}
-                  </Select>
-                )}
+                {showWorkoutItems &&
+                  modalPage === "base" &&
+                  operationType === "add" && (
+                    <Select
+                      className="w-[12rem]"
+                      label="Number Of Sets To Add"
+                      size="sm"
+                      variant="faded"
+                      classNames={{
+                        trigger: "bg-amber-50 border-amber-200",
+                      }}
+                      selectedKeys={[numNewSets]}
+                      onChange={(e) => setNumNewSets(e.target.value)}
+                      disallowEmptySelection
+                    >
+                      {numSetsOptions.map((num) => (
+                        <SelectItem key={num} value={num}>
+                          {num}
+                        </SelectItem>
+                      ))}
+                    </Select>
+                  )}
               </div>
               <div className="flex gap-2">
                 <Button
