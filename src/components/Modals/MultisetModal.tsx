@@ -127,16 +127,6 @@ export const MultisetModal = ({
                 : operationType === "add"
                 ? "Create Multiset"
                 : "Edit Multiset"}
-              {modalPage === "base" && showWorkoutItems && (
-                <Button
-                  className="absolute right-10"
-                  variant="flat"
-                  size="sm"
-                  onPress={() => setModalPage("multiset-list")}
-                >
-                  Select Multiset Template
-                </Button>
-              )}
             </ModalHeader>
             <ModalBody>
               {modalPage === "exercise-list" ? (
