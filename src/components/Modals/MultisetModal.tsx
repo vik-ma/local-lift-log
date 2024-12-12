@@ -104,6 +104,14 @@ export const MultisetModal = ({
     clearMultiset,
   } = useMultisetActions;
 
+  const shouldBackButtonClose = useMemo(() => {
+    if (modalPage === "edit-set" || modalPage === "exercise-list") return false;
+
+    if (showWorkoutItems && modalPage === "base") return false;
+
+    return true;
+  }, [modalPage, showWorkoutItems]);
+
   return (
     <Modal isOpen={multisetModal.isOpen} onOpenChange={closeMultisetModal}>
       <ModalContent>
@@ -237,8 +245,18 @@ export const MultisetModal = ({
             <ModalFooter className="flex justify-between">
               <div></div>
               <div className="flex gap-2">
-                <Button color="primary" variant="light" onPress={onClose}>
-                  Close
+                <Button
+                  color="primary"
+                  variant="light"
+                  onPress={
+                    shouldBackButtonClose
+                      ? onClose
+                      : !shouldBackButtonClose && modalPage === "base"
+                      ? () => setModalPage("multiset-list")
+                      : () => setModalPage("base")
+                  }
+                >
+                  {shouldBackButtonClose ? "Close" : "Back"}
                 </Button>
                 <Button
                   className={
