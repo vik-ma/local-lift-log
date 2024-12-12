@@ -240,26 +240,30 @@ export const MultisetModal = ({
                 <Button color="primary" variant="light" onPress={onClose}>
                   Close
                 </Button>
-                {modalPage !== "multiset-list" && (
-                  <Button
-                    className="w-[6.5rem]"
-                    color="primary"
-                    isDisabled={
-                      modalPage === "exercise-list" ||
-                      (modalPage !== "edit-set" &&
-                        multiset.setList.length === 0) ||
-                      (modalPage === "edit-set" &&
-                        operatingSetInputs.isSetTrackingValuesInvalid)
-                    }
-                    onPress={
-                      modalPage === "edit-set"
-                        ? updateOperatingSet
-                        : () => saveButtonAction(numNewSets)
-                    }
-                  >
-                    {modalPage === "edit-set" ? "Update Set" : "Save"}
-                  </Button>
-                )}
+                <Button
+                  className={
+                    modalPage === "edit-set" ? "w-[6.5rem]" : "w-[4rem]"
+                  }
+                  color="primary"
+                  isDisabled={
+                    modalPage === "exercise-list" ||
+                    (modalPage !== "edit-set" &&
+                      multiset.setList.length === 0) ||
+                    (modalPage === "edit-set" &&
+                      operatingSetInputs.isSetTrackingValuesInvalid)
+                  }
+                  onPress={
+                    modalPage === "edit-set"
+                      ? updateOperatingSet
+                      : () => saveButtonAction(numNewSets)
+                  }
+                >
+                  {modalPage === "edit-set"
+                    ? "Update Set"
+                    : modalPage === "multiset-list"
+                    ? "Add"
+                    : "Save"}
+                </Button>
               </div>
             </ModalFooter>
           </>
