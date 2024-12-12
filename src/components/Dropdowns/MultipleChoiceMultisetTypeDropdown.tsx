@@ -13,6 +13,12 @@ export const MultipleChoiceMultisetTypeDropdown = ({
   const { filterMultisetTypes, setFilterMultisetTypes, multisetTypeMap } =
     listFilters;
 
+  const handleChange = (keys: SharedSelection) => {
+    const updatedFilterMultisetTypes = new Set(keys);
+
+    setFilterMultisetTypes(updatedFilterMultisetTypes as Set<string>);
+  };
+
   return (
     <Select
       selectionMode="multiple"
@@ -29,11 +35,7 @@ export const MultipleChoiceMultisetTypeDropdown = ({
       }
       variant="faded"
       selectedKeys={filterMultisetTypes}
-      onSelectionChange={
-        setFilterMultisetTypes as React.Dispatch<
-          React.SetStateAction<SharedSelection>
-        >
-      }
+      onSelectionChange={(keys) => handleChange(keys)}
       disableAnimation
       disallowEmptySelection
     >
