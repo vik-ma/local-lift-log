@@ -21,6 +21,7 @@ import {
   DeleteItemFromList,
   ConvertSetInputValuesToNumbers,
   ConvertEmptyStringToNull,
+  DoesListOrSetHaveCommonElement,
 } from "../helpers";
 import { useDisclosure } from "@nextui-org/react";
 
@@ -72,7 +73,20 @@ export const useMultisetActions = ({
 
   const listFilters = useListFilters(exerciseList);
 
-  const { filterMap, filterMultisetTypes } = listFilters;
+  const {
+    filterMap,
+    filterMultisetTypes,
+    filterExercises,
+    filterExerciseGroups,
+  } = listFilters;
+
+  const {
+    exercises,
+    exerciseGroupDictionary,
+    exerciseMap,
+    isExerciseListLoaded,
+    includeSecondaryGroups,
+  } = exerciseList;
 
   const filteredMultisets = useMemo(() => {
     if (filterQuery !== "" || filterMap.size > 0) {
@@ -86,25 +100,41 @@ export const useMultisetActions = ({
               ?.toLocaleLowerCase()
               .includes(filterQuery.toLocaleLowerCase())) &&
           (!filterMap.has("multiset-types") ||
-            filterMultisetTypes.has(item.multiset_type.toString()))
+            filterMultisetTypes.has(item.multiset_type.toString())) &&
+          (!filterMap.has("exercises") ||
+            DoesListOrSetHaveCommonElement(
+              filterExercises,
+              item.exerciseIdSet
+            )) &&
+          (!filterMap.has("exercise-groups") ||
+            (!includeSecondaryGroups &&
+              DoesListOrSetHaveCommonElement(
+                filterExerciseGroups,
+                item.exerciseGroupSetPrimary
+              )) ||
+            (includeSecondaryGroups &&
+              DoesListOrSetHaveCommonElement(
+                filterExerciseGroups,
+                item.exerciseGroupSetSecondary
+              )))
       );
     }
     return multisets;
-  }, [multisets, filterQuery, multisetTypeMap, filterMap, filterMultisetTypes]);
-
-  console.log(filterMultisetTypes)
+  }, [
+    multisets,
+    filterQuery,
+    multisetTypeMap,
+    filterMap,
+    filterMultisetTypes,
+    filterExercises,
+    filterExerciseGroups,
+    includeSecondaryGroups,
+  ]);
 
   const defaultExercise = useDefaultExercise();
 
   const [selectedMultisetExercise, setSelectedMultisetExercise] =
     useState<Exercise>(defaultExercise);
-
-  const {
-    exercises,
-    exerciseGroupDictionary,
-    exerciseMap,
-    isExerciseListLoaded,
-  } = exerciseList;
 
   const handleEditSet = (set: WorkoutSet, multiset: Multiset) => {
     const exercise = exercises.find((obj) => obj.id === set.exercise_id);
