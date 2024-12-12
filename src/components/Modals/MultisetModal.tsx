@@ -171,6 +171,7 @@ export const MultisetModal = ({
                 />
               ) : modalPage === "multiset-list" ? (
                 <MultisetTemplateModalList
+                  useMultisetActions={useMultisetActions}
                   handleClickMultiset={handleClickMultiset}
                   filterQuery={filterQuery}
                   setFilterQuery={setFilterQuery}

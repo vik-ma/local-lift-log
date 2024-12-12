@@ -1,9 +1,9 @@
 import { ScrollShadow, Select, SelectItem } from "@nextui-org/react";
-import { ListFilterMapKey, Multiset, MultisetTypeMap } from "../../typings";
-import { EmptyListLabel, SearchInput } from "..";
-import { Link } from "react-router-dom";
+import { ListFilterMapKey, Multiset, MultisetTypeMap, UseMultisetActionsReturnType } from "../../typings";
+import { EmptyListLabel, MultisetListOptions, SearchInput } from "..";
 
 type MultisetTemplateModalListProps = {
+  useMultisetActions: UseMultisetActionsReturnType;
   handleClickMultiset: (multiset: Multiset, numSets: string) => void;
   filterQuery: string;
   setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
@@ -17,6 +17,7 @@ type MultisetTemplateModalListProps = {
 };
 
 export const MultisetTemplateModalList = ({
+  useMultisetActions,
   handleClickMultiset,
   filterQuery,
   setFilterQuery,
@@ -29,8 +30,8 @@ export const MultisetTemplateModalList = ({
   filterMap,
 }: MultisetTemplateModalListProps) => {
   return (
-    <div className="h-[400px] flex flex-col gap-2">
-      <div className="flex gap-2">
+    <div className="h-[400px] flex flex-col gap-1.5">
+      <div className="flex flex-col gap-1.5">
         <SearchInput
           filterQuery={filterQuery}
           setFilterQuery={setFilterQuery}
@@ -38,24 +39,10 @@ export const MultisetTemplateModalList = ({
           totalListLength={multisets.length}
           isListFiltered={filterMap.size > 0}
         />
-        <Select
-          label="Number Of Sets To Add"
-          variant="faded"
-          classNames={{
-            trigger: "bg-amber-50 border-amber-200",
-          }}
-          selectedKeys={[numNewSets]}
-          onChange={(e) => setNumNewSets(e.target.value)}
-          disallowEmptySelection
-        >
-          {numSetsOptions.map((num) => (
-            <SelectItem key={num} value={num}>
-              {num}
-            </SelectItem>
-          ))}
-        </Select>
+        <div className="flex justify-between">
+          <MultisetListOptions useMultisetActions={useMultisetActions} />
+        </div>
       </div>
-
       <ScrollShadow className="flex flex-col gap-1">
         {filteredMultisets.map((multiset) => {
           const multisetTypeText =
@@ -77,14 +64,26 @@ export const MultisetTemplateModalList = ({
           );
         })}
         {filteredMultisets.length === 0 && (
-          <EmptyListLabel
-            itemName="Multiset Templates"
-            extraContent={
-              <Link to={"/multisets/"}>Create Multiset Templates Here</Link>
-            }
-          />
+          <EmptyListLabel itemName="Multiset Templates" />
         )}
       </ScrollShadow>
+      <Select
+        label="Number Of Sets To Add"
+        size="sm"
+        variant="faded"
+        classNames={{
+          trigger: "bg-amber-50 border-amber-200",
+        }}
+        selectedKeys={[numNewSets]}
+        onChange={(e) => setNumNewSets(e.target.value)}
+        disallowEmptySelection
+      >
+        {numSetsOptions.map((num) => (
+          <SelectItem key={num} value={num}>
+            {num}
+          </SelectItem>
+        ))}
+      </Select>
     </div>
   );
 };
