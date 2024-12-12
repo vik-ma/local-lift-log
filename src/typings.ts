@@ -897,4 +897,5 @@ export type UseMultisetActionsReturnType = {
   listFilters: UseListFiltersReturnType;
   filterMultisetsModal: UseDisclosureReturnType;
   handleOpenFilterButton: () => void;
+  isMultisetListLoaded: React.MutableRefObject<boolean>;
 };

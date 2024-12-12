@@ -490,7 +490,11 @@ export default function Multisets() {
     );
   };
 
-  if (userSettings === undefined) return <LoadingSpinner />;
+  if (
+    userSettings === undefined ||
+    !multisetActions.isMultisetListLoaded.current
+  )
+    return <LoadingSpinner />;
 
   return (
     <>

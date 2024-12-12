@@ -9,7 +9,7 @@ import {
   MultisetOperationType,
   UseMultisetActionsReturnType,
 } from "../typings";
-import { useEffect, useState, useCallback, useMemo } from "react";
+import { useEffect, useState, useCallback, useMemo, useRef } from "react";
 import { useDefaultExercise, useListFilters, useMultisetTypeMap } from ".";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -87,6 +87,8 @@ export const useMultisetActions = ({
     isExerciseListLoaded,
     includeSecondaryGroups,
   } = exerciseList;
+
+  const isMultisetListLoaded = useRef(false);
 
   const filteredMultisets = useMemo(() => {
     if (filterQuery !== "" || filterMap.size > 0) {
@@ -502,7 +504,9 @@ export const useMultisetActions = ({
           exerciseGroupDictionary,
           exerciseMap.current
         );
+
         setMultisets(multisets);
+        isMultisetListLoaded.current = true;
       } catch (error) {
         console.log(error);
       }
@@ -562,5 +566,6 @@ export const useMultisetActions = ({
     listFilters,
     filterMultisetsModal,
     handleOpenFilterButton,
+    isMultisetListLoaded,
   };
 };
