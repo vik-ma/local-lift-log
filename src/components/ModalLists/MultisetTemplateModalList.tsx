@@ -1,4 +1,4 @@
-import { Button, ScrollShadow, Select, SelectItem } from "@nextui-org/react";
+import { Button, ScrollShadow } from "@nextui-org/react";
 import {
   Multiset,
   MultisetModalPage,
@@ -10,8 +10,6 @@ type MultisetTemplateModalListProps = {
   useMultisetActions: UseMultisetActionsReturnType;
   handleClickMultiset: (multiset: Multiset, numSets: string) => void;
   numNewSets: string;
-  setNumNewSets: React.Dispatch<React.SetStateAction<string>>;
-  numSetsOptions: string[];
   setModalPage: React.Dispatch<React.SetStateAction<MultisetModalPage>>;
 };
 
@@ -19,8 +17,6 @@ export const MultisetTemplateModalList = ({
   useMultisetActions,
   handleClickMultiset,
   numNewSets,
-  setNumNewSets,
-  numSetsOptions,
   setModalPage,
 }: MultisetTemplateModalListProps) => {
   const {
@@ -80,23 +76,6 @@ export const MultisetTemplateModalList = ({
           <EmptyListLabel itemName="Multiset Templates" />
         )}
       </ScrollShadow>
-      <Select
-        label="Number Of Sets To Add"
-        size="sm"
-        variant="faded"
-        classNames={{
-          trigger: "bg-amber-50 border-amber-200",
-        }}
-        selectedKeys={[numNewSets]}
-        onChange={(e) => setNumNewSets(e.target.value)}
-        disallowEmptySelection
-      >
-        {numSetsOptions.map((num) => (
-          <SelectItem key={num} value={num}>
-            {num}
-          </SelectItem>
-        ))}
-      </Select>
     </div>
   );
 };

@@ -163,8 +163,6 @@ export const MultisetModal = ({
                   useMultisetActions={useMultisetActions}
                   handleClickMultiset={handleClickMultiset}
                   numNewSets={numNewSets}
-                  setNumNewSets={setNumNewSets}
-                  numSetsOptions={numSetsOptions}
                   setModalPage={setModalPage}
                 />
               ) : (
@@ -190,25 +188,6 @@ export const MultisetModal = ({
                       isClearable
                     />
                   </div>
-                  {showWorkoutItems && operationType === "add" && (
-                    <Select
-                      label="Number Of Sets To Add"
-                      size="sm"
-                      variant="faded"
-                      classNames={{
-                        trigger: "bg-amber-50 border-amber-200",
-                      }}
-                      selectedKeys={[numNewSets]}
-                      onChange={(e) => setNumNewSets(e.target.value)}
-                      disallowEmptySelection
-                    >
-                      {numSetsOptions.map((num) => (
-                        <SelectItem key={num} value={num}>
-                          {num}
-                        </SelectItem>
-                      ))}
-                    </Select>
-                  )}
                   <ScrollShadow className="w-full">
                     <MultisetSetList
                       multiset={multiset}
@@ -242,8 +221,29 @@ export const MultisetModal = ({
                 </div>
               )}
             </ModalBody>
-            <ModalFooter className="flex justify-between">
-              <div></div>
+            <ModalFooter className="flex justify-between items-center h-[5rem]">
+              <div>
+                {showWorkoutItems && modalPage === "base" && (
+                  <Select
+                    className="w-[12rem]"
+                    label="Number Of Sets To Add"
+                    size="sm"
+                    variant="faded"
+                    classNames={{
+                      trigger: "bg-amber-50 border-amber-200",
+                    }}
+                    selectedKeys={[numNewSets]}
+                    onChange={(e) => setNumNewSets(e.target.value)}
+                    disallowEmptySelection
+                  >
+                    {numSetsOptions.map((num) => (
+                      <SelectItem key={num} value={num}>
+                        {num}
+                      </SelectItem>
+                    ))}
+                  </Select>
+                )}
+              </div>
               <div className="flex gap-2">
                 <Button
                   color="primary"
