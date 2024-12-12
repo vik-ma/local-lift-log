@@ -1,6 +1,7 @@
-import { ScrollShadow, Select, SelectItem } from "@nextui-org/react";
+import { Button, ScrollShadow, Select, SelectItem } from "@nextui-org/react";
 import {
   Multiset,
+  MultisetModalPage,
   UseMultisetActionsReturnType,
 } from "../../typings";
 import { EmptyListLabel, MultisetListOptions, SearchInput } from "..";
@@ -11,6 +12,7 @@ type MultisetTemplateModalListProps = {
   numNewSets: string;
   setNumNewSets: React.Dispatch<React.SetStateAction<string>>;
   numSetsOptions: string[];
+  setModalPage: React.Dispatch<React.SetStateAction<MultisetModalPage>>;
 };
 
 export const MultisetTemplateModalList = ({
@@ -19,6 +21,7 @@ export const MultisetTemplateModalList = ({
   numNewSets,
   setNumNewSets,
   numSetsOptions,
+  setModalPage,
 }: MultisetTemplateModalListProps) => {
   const {
     multisets,
@@ -42,6 +45,14 @@ export const MultisetTemplateModalList = ({
           isListFiltered={filterMap.size > 0}
         />
         <div className="flex justify-between">
+          <Button
+            color="secondary"
+            size="sm"
+            variant="flat"
+            onPress={() => setModalPage("base")}
+          >
+            Create New Multiset
+          </Button>
           <MultisetListOptions useMultisetActions={useMultisetActions} />
         </div>
       </div>
