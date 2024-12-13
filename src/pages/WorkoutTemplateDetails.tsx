@@ -21,6 +21,7 @@ import {
   WorkoutTemplateListModal,
   FilterWorkoutTemplateListModal,
   FilterPresetsListModal,
+  FilterMultisetListModal,
 } from "../components";
 import toast, { Toaster } from "react-hot-toast";
 import {
@@ -375,6 +376,12 @@ export default function WorkoutTemplateDetails() {
       />
       <FilterPresetsListModal
         usePresetsList={presetsList}
+        userSettings={userSettings}
+      />
+      <FilterMultisetListModal
+        useMultisetActions={multisetActions}
+        useExerciseList={exerciseList}
+        useFilterExerciseList={filterExerciseList}
         userSettings={userSettings}
       />
       {userSettings.show_calculation_buttons === 1 && (

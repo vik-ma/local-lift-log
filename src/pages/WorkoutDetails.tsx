@@ -21,6 +21,7 @@ import {
   FilterWorkoutTemplateListModal,
   FilterRoutineListModal,
   FilterPresetsListModal,
+  FilterMultisetListModal,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -565,6 +566,12 @@ export default function WorkoutDetails() {
       />
       <FilterPresetsListModal
         usePresetsList={presetsList}
+        userSettings={userSettings}
+      />
+      <FilterMultisetListModal
+        useMultisetActions={multisetActions}
+        useExerciseList={exerciseList}
+        useFilterExerciseList={filterExerciseList}
         userSettings={userSettings}
       />
       {userSettings.show_calculation_buttons === 1 && (
