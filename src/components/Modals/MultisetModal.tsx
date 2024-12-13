@@ -157,7 +157,7 @@ export const MultisetModal = ({
                   setModalPage={setModalPage}
                 />
               ) : (
-                <div className="flex flex-col items-center gap-2.5 h-[400px]">
+                <div className="flex flex-col items-center gap-2 h-[400px]">
                   <div className="flex items-center gap-2">
                     <MultisetTypeDropdown
                       multiset_type={multiset.multiset_type}
@@ -179,6 +179,31 @@ export const MultisetModal = ({
                       isClearable
                     />
                   </div>
+                  <div className="flex gap-1 w-full justify-between">
+                    <Button
+                      color="secondary"
+                      variant="flat"
+                      onPress={() => setModalPage("exercise-list")}
+                    >
+                      Add Exercise
+                    </Button>
+                    {multiset.isEditedInModal && multiset.id !== 0 && (
+                      <Button
+                        variant="flat"
+                        onClick={undoOperatingMultisetChanges}
+                      >
+                        Undo Changes
+                      </Button>
+                    )}
+                    {showClearAllButton && (
+                      <Button
+                        variant="flat"
+                        onPress={() => clearMultiset()}
+                      >
+                        Clear All
+                      </Button>
+                    )}
+                  </div>
                   <ScrollShadow className="w-full">
                     <MultisetSetList
                       multiset={multiset}
@@ -188,31 +213,16 @@ export const MultisetModal = ({
                       }
                     />
                   </ScrollShadow>
-                  <div>
-                    {showClearAllButton && (
-                      <Button
-                        size="sm"
-                        variant="flat"
-                        onPress={() => clearMultiset()}
-                      >
-                        Clear All
-                      </Button>
-                    )}
-                    {multiset.isEditedInModal && multiset.id !== 0 && (
-                      <Button
-                        size="sm"
-                        color="danger"
-                        variant="flat"
-                        onClick={undoOperatingMultisetChanges}
-                      >
-                        Undo Changes
-                      </Button>
-                    )}
-                  </div>
                 </div>
               )}
             </ModalBody>
-            <ModalFooter className="flex justify-between items-center h-[5rem]">
+            <ModalFooter
+              className={
+                operationType === "add"
+                  ? "flex justify-between items-center h-[5rem]"
+                  : "flex justify-between items-center"
+              }
+            >
               <div>
                 {showWorkoutItems &&
                   modalPage === "base" &&
