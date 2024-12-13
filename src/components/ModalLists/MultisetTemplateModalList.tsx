@@ -4,7 +4,12 @@ import {
   MultisetModalPage,
   UseMultisetActionsReturnType,
 } from "../../typings";
-import { EmptyListLabel, MultisetListOptions, SearchInput } from "..";
+import {
+  EmptyListLabel,
+  ListFilters,
+  MultisetListOptions,
+  SearchInput,
+} from "..";
 
 type MultisetTemplateModalListProps = {
   useMultisetActions: UseMultisetActionsReturnType;
@@ -28,7 +33,7 @@ export const MultisetTemplateModalList = ({
     listFilters,
   } = useMultisetActions;
 
-  const { filterMap } = listFilters;
+  const { filterMap, removeFilter, prefixMap } = listFilters;
 
   return (
     <div className="h-[400px] flex flex-col gap-1.5">
@@ -51,6 +56,13 @@ export const MultisetTemplateModalList = ({
           </Button>
           <MultisetListOptions useMultisetActions={useMultisetActions} />
         </div>
+        {filterMap.size > 0 && (
+          <ListFilters
+            filterMap={filterMap}
+            removeFilter={removeFilter}
+            prefixMap={prefixMap}
+          />
+        )}
       </div>
       <ScrollShadow className="flex flex-col gap-1">
         {filteredMultisets.map((multiset) => {
