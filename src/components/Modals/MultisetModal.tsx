@@ -104,14 +104,17 @@ export const MultisetModal = ({
     clearMultiset,
   } = useMultisetActions;
 
+  const isAddingMultisetToWorkout = useMemo(() => {
+    return showWorkoutItems && operationType === "add";
+  }, [showWorkoutItems, operationType]);
+
   const shouldBackButtonClose = useMemo(() => {
     if (modalPage === "edit-set" || modalPage === "exercise-list") return false;
 
-    if (showWorkoutItems && modalPage === "base" && operationType === "add")
-      return false;
+    if (modalPage === "base" && isAddingMultisetToWorkout) return false;
 
     return true;
-  }, [modalPage, showWorkoutItems, operationType]);
+  }, [modalPage, isAddingMultisetToWorkout]);
 
   const handleSelectMultisetTemplate = (multiset: Multiset) => {
     setMultiset(multiset);
@@ -130,7 +133,7 @@ export const MultisetModal = ({
                 ? "Select Exercise"
                 : modalPage === "edit-set"
                 ? "Edit Set"
-                : showWorkoutItems && modalPage === "base"
+                : isAddingMultisetToWorkout && modalPage === "base"
                 ? "Add Multiset"
                 : operationType === "add"
                 ? "Create Multiset"
@@ -228,28 +231,26 @@ export const MultisetModal = ({
               }
             >
               <div>
-                {showWorkoutItems &&
-                  modalPage === "base" &&
-                  operationType === "add" && (
-                    <Select
-                      className="w-[12rem]"
-                      label="Number Of Sets To Add"
-                      size="sm"
-                      variant="faded"
-                      classNames={{
-                        trigger: "bg-amber-50 border-amber-200",
-                      }}
-                      selectedKeys={[numNewSets]}
-                      onChange={(e) => setNumNewSets(e.target.value)}
-                      disallowEmptySelection
-                    >
-                      {numSetsOptions.map((num) => (
-                        <SelectItem key={num} value={num}>
-                          {num}
-                        </SelectItem>
-                      ))}
-                    </Select>
-                  )}
+                {isAddingMultisetToWorkout && modalPage === "base" && (
+                  <Select
+                    className="w-[12rem]"
+                    label="Number Of Sets To Add"
+                    size="sm"
+                    variant="faded"
+                    classNames={{
+                      trigger: "bg-amber-50 border-amber-200",
+                    }}
+                    selectedKeys={[numNewSets]}
+                    onChange={(e) => setNumNewSets(e.target.value)}
+                    disallowEmptySelection
+                  >
+                    {numSetsOptions.map((num) => (
+                      <SelectItem key={num} value={num}>
+                        {num}
+                      </SelectItem>
+                    ))}
+                  </Select>
+                )}
               </div>
               <div className="flex gap-2">
                 <Button
@@ -285,7 +286,7 @@ export const MultisetModal = ({
                 >
                   {modalPage === "edit-set"
                     ? "Update Set"
-                    : showWorkoutItems && operationType === "add"
+                    : isAddingMultisetToWorkout
                     ? "Add"
                     : "Save"}
                 </Button>
