@@ -41,6 +41,7 @@ pub struct UserSetting {
     pub workout_ratings_order: String,
     pub show_secondary_exercise_groups: i32,
     pub automatically_update_active_measurements: i32,
+    pub default_num_new_sets: String,
 }
 
 #[derive(Queryable, Selectable)]

@@ -38,6 +38,7 @@ diesel::table! {
         workout_ratings_order -> Text,
         show_secondary_exercise_groups -> Integer,
         automatically_update_active_measurements -> Integer,
+        default_num_new_sets -> Text,
     }
 }
 
