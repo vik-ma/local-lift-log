@@ -6,7 +6,7 @@ import {
   ModalHeader,
   ModalFooter,
 } from "@nextui-org/react";
-import { ExerciseModalList, SetValueConfig } from "../";
+import { ExerciseModalList, NumSetsDropdown, SetValueConfig } from "../";
 import {
   Exercise,
   UserSettings,
@@ -102,21 +102,34 @@ export const SetModal = ({
                 />
               )}
             </ModalBody>
-            <ModalFooter className="flex justify-between">
+            <ModalFooter
+              className={
+                operationType === "add"
+                  ? "flex justify-between items-center h-[5rem]"
+                  : "flex justify-between items-center"
+              }
+            >
               <div>
                 {operationType === "add" && selectedExercise !== undefined && (
-                  <Button
-                    variant="flat"
-                    color="danger"
-                    onPress={() => setSelectedExercise(undefined)}
-                  >
-                    Change Exercise
-                  </Button>
+                  <NumSetsDropdown
+                    numNewSets={numNewSets}
+                    setNumNewSets={setNumNewSets}
+                  />
                 )}
               </div>
               <div className="flex gap-2">
-                <Button color="primary" variant="light" onPress={onClose}>
-                  Close
+                <Button
+                  color="primary"
+                  variant="light"
+                  onPress={
+                    operationType === "add" && selectedExercise !== undefined
+                      ? () => setSelectedExercise(undefined)
+                      : onClose
+                  }
+                >
+                  {operationType === "add" && selectedExercise !== undefined
+                    ? "Back"
+                    : "Close"}
                 </Button>
                 <Button
                   color="primary"
