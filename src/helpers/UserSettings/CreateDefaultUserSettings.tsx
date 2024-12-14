@@ -56,6 +56,8 @@ export const CreateDefaultUserSettings = async (
     .map((item) => item.num)
     .join(",");
 
+  const default_num_new_sets = "3";
+
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -76,9 +78,10 @@ export const CreateDefaultUserSettings = async (
         save_calculation_string, show_calculation_buttons, 
         default_increment_calculation_multiplier, default_calculation_tab, 
         shown_workout_properties, default_plate_collection_id, workout_ratings_order,
-        show_secondary_exercise_groups, automatically_update_active_measurements) 
+        show_secondary_exercise_groups, automatically_update_active_measurements, 
+        default_num_new_sets) 
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, 
-        $17, $18, $19, $20, $21, $22, $23, $24)`,
+        $17, $18, $19, $20, $21, $22, $23, $24, $25)`,
       [
         show_timestamp_on_completed_set,
         active_routine_id,
@@ -104,6 +107,7 @@ export const CreateDefaultUserSettings = async (
         workout_ratings_order,
         show_secondary_exercise_groups,
         automatically_update_active_measurements,
+        default_num_new_sets,
       ]
     );
 
@@ -135,6 +139,7 @@ export const CreateDefaultUserSettings = async (
       workout_ratings_order,
       show_secondary_exercise_groups,
       automatically_update_active_measurements,
+      default_num_new_sets,
     };
 
     return defaultUserSettings;

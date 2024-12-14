@@ -15,6 +15,7 @@ import {
   ValidCalculationModalTabs,
   ValidateShownWorkoutPropertiesString,
   ValidateWorkoutRatingsOrderString,
+  NumNewSetsOptionList,
 } from "..";
 
 export const ValidateUserSettings = (userSettings: UserSettings): boolean => {
@@ -108,6 +109,9 @@ export const ValidateUserSettings = (userSettings: UserSettings): boolean => {
   if (
     !IsNumberValidBinary(userSettings.automatically_update_active_measurements)
   )
+    return false;
+
+  if (!NumNewSetsOptionList().includes(userSettings.default_num_new_sets))
     return false;
 
   return true;

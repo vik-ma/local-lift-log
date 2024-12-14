@@ -39,6 +39,7 @@ export type UserSettings = {
   workout_ratings_order: string;
   show_secondary_exercise_groups: number;
   automatically_update_active_measurements: number;
+  default_num_new_sets: string;
 };
 
 export type UserSettingsOptional = {
@@ -69,6 +70,7 @@ export type UserSettingsOptional = {
   workout_ratings_order?: string;
   show_secondary_exercise_groups?: number;
   automatically_update_active_measurements?: number;
+  default_num_new_sets?: string;
 };
 
 export type Exercise = {
