@@ -113,6 +113,11 @@ export const MultisetModal = ({
     return true;
   }, [modalPage, showWorkoutItems, operationType]);
 
+  const handleSelectMultisetTemplate = (multiset: Multiset) => {
+    setMultiset(multiset);
+    setModalPage("base");
+  };
+
   return (
     <Modal isOpen={multisetModal.isOpen} onOpenChange={closeMultisetModal}>
       <ModalContent>
@@ -152,7 +157,7 @@ export const MultisetModal = ({
               ) : modalPage === "multiset-list" ? (
                 <MultisetTemplateModalList
                   useMultisetActions={useMultisetActions}
-                  handleClickMultiset={handleClickMultiset}
+                  handleClickMultiset={handleSelectMultisetTemplate}
                   numNewSets={numNewSets}
                   setModalPage={setModalPage}
                 />
@@ -196,10 +201,7 @@ export const MultisetModal = ({
                       </Button>
                     )}
                     {showClearAllButton && (
-                      <Button
-                        variant="flat"
-                        onPress={() => clearMultiset()}
-                      >
+                      <Button variant="flat" onPress={() => clearMultiset()}>
                         Clear All
                       </Button>
                     )}
