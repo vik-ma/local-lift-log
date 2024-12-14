@@ -116,11 +116,6 @@ export const MultisetModal = ({
     return true;
   }, [modalPage, isAddingMultisetToWorkout]);
 
-  const handleSelectMultisetTemplate = (multiset: Multiset) => {
-    setMultiset(multiset);
-    setModalPage("base");
-  };
-
   return (
     <Modal isOpen={multisetModal.isOpen} onOpenChange={closeMultisetModal}>
       <ModalContent>
@@ -162,7 +157,7 @@ export const MultisetModal = ({
               ) : modalPage === "multiset-list" ? (
                 <MultisetTemplateModalList
                   useMultisetActions={useMultisetActions}
-                  handleClickMultiset={handleSelectMultisetTemplate}
+                  handleClickMultiset={handleClickMultiset}
                   numNewSets={numNewSets}
                   setModalPage={setModalPage}
                 />
@@ -231,26 +226,27 @@ export const MultisetModal = ({
               }
             >
               <div>
-                {isAddingMultisetToWorkout && modalPage === "base" && (
-                  <Select
-                    className="w-[12rem]"
-                    label="Number Of Sets To Add"
-                    size="sm"
-                    variant="faded"
-                    classNames={{
-                      trigger: "bg-amber-50 border-amber-200",
-                    }}
-                    selectedKeys={[numNewSets]}
-                    onChange={(e) => setNumNewSets(e.target.value)}
-                    disallowEmptySelection
-                  >
-                    {numSetsOptions.map((num) => (
-                      <SelectItem key={num} value={num}>
-                        {num}
-                      </SelectItem>
-                    ))}
-                  </Select>
-                )}
+                {isAddingMultisetToWorkout &&
+                  (modalPage === "base" || modalPage === "multiset-list") && (
+                    <Select
+                      className="w-[12rem]"
+                      label="Number Of Sets To Add"
+                      size="sm"
+                      variant="faded"
+                      classNames={{
+                        trigger: "bg-amber-50 border-amber-200",
+                      }}
+                      selectedKeys={[numNewSets]}
+                      onChange={(e) => setNumNewSets(e.target.value)}
+                      disallowEmptySelection
+                    >
+                      {numSetsOptions.map((num) => (
+                        <SelectItem key={num} value={num}>
+                          {num}
+                        </SelectItem>
+                      ))}
+                    </Select>
+                  )}
               </div>
               <div className="flex gap-2">
                 <Button
@@ -266,30 +262,28 @@ export const MultisetModal = ({
                 >
                   {shouldBackButtonClose ? "Close" : "Back"}
                 </Button>
-                <Button
-                  className={
-                    modalPage === "edit-set" ? "w-[6.5rem]" : "w-[4rem]"
-                  }
-                  color="primary"
-                  isDisabled={
-                    modalPage === "exercise-list" ||
-                    (modalPage !== "edit-set" &&
-                      multiset.setList.length === 0) ||
-                    (modalPage === "edit-set" &&
-                      operatingSetInputs.isSetTrackingValuesInvalid)
-                  }
-                  onPress={
-                    modalPage === "edit-set"
-                      ? updateOperatingSet
-                      : () => saveButtonAction(numNewSets)
-                  }
-                >
-                  {modalPage === "edit-set"
-                    ? "Update Set"
-                    : isAddingMultisetToWorkout
-                    ? "Add"
-                    : "Save"}
-                </Button>
+                {modalPage !== "multiset-list" && (
+                  <Button
+                    className={
+                      modalPage === "edit-set" ? "w-[6.5rem]" : "w-[4rem]"
+                    }
+                    color="primary"
+                    isDisabled={
+                      modalPage === "exercise-list" ||
+                      (modalPage !== "edit-set" &&
+                        multiset.setList.length === 0) ||
+                      (modalPage === "edit-set" &&
+                        operatingSetInputs.isSetTrackingValuesInvalid)
+                    }
+                    onPress={
+                      modalPage === "edit-set"
+                        ? updateOperatingSet
+                        : () => saveButtonAction(numNewSets)
+                    }
+                  >
+                    {modalPage === "edit-set" ? "Update Set" : "Save"}
+                  </Button>
+                )}
               </div>
             </ModalFooter>
           </>
