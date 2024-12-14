@@ -39,6 +39,7 @@ import {
   TimeInput,
   WorkoutPropertyDropdown,
   PlateCollectionModalList,
+  NumSetsDropdown,
 } from "../components";
 import toast, { Toaster } from "react-hot-toast";
 import Database from "tauri-plugin-sql-api";
@@ -484,6 +485,19 @@ export default function Settings() {
     updateSettings(updatedSettings);
   };
 
+  const handleDefaultNumNewSetsChange = async (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    if (userSettings === undefined) return;
+
+    const updatedSettings: UserSettings = {
+      ...userSettings,
+      default_num_new_sets: e.target.value,
+    };
+
+    updateSettings(updatedSettings);
+  };
+
   const handleSaveSpecificSettingButton = async () => {
     if (userSettings === undefined) return;
 
@@ -765,6 +779,14 @@ export default function Settings() {
               onValueChange={(value) =>
                 handleAutomaticallyUpdateActiveMeasurementsChange(value)
               }
+            />
+          </div>
+          <div className="flex gap-3 items-center justify-between">
+            <span className="text-lg">Default Number Of New Sets</span>
+            <NumSetsDropdown
+              numNewSets={userSettings.default_num_new_sets}
+              targetType="settings"
+              setUserSettings={handleDefaultNumNewSetsChange}
             />
           </div>
           <h3 className="flex justify-center text-lg font-medium">Workouts</h3>
