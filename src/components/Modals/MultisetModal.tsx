@@ -125,11 +125,13 @@ export const MultisetModal = ({
           <>
             <ModalHeader>
               {modalPage === "multiset-list"
-                ? "Select Multiset"
+                ? "Select Multiset Template"
                 : modalPage === "exercise-list"
                 ? "Select Exercise"
                 : modalPage === "edit-set"
                 ? "Edit Set"
+                : showWorkoutItems && modalPage === "base"
+                ? "Add Multiset"
                 : operationType === "add"
                 ? "Create Multiset"
                 : "Edit Multiset"}
@@ -283,7 +285,7 @@ export const MultisetModal = ({
                 >
                   {modalPage === "edit-set"
                     ? "Update Set"
-                    : modalPage === "multiset-list"
+                    : showWorkoutItems && operationType === "add"
                     ? "Add"
                     : "Save"}
                 </Button>
