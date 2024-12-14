@@ -33,7 +33,13 @@ export const MultisetTemplateModalList = ({
     listFilters,
   } = useMultisetActions;
 
-  const { filterMap, removeFilter, prefixMap } = listFilters;
+  const { filterMap, removeFilter, prefixMap, resetFilter } = listFilters;
+
+  const handleCreateNewMultisetButton = () => {
+    setModalPage("base");
+
+    if (filterMap.size > 0) resetFilter();
+  };
 
   return (
     <div className="h-[400px] flex flex-col gap-1.5">
@@ -50,7 +56,7 @@ export const MultisetTemplateModalList = ({
             color="secondary"
             size="sm"
             variant="flat"
-            onPress={() => setModalPage("base")}
+            onPress={handleCreateNewMultisetButton}
           >
             Create New Multiset
           </Button>
