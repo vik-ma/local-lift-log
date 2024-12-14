@@ -95,8 +95,6 @@ export const SetModal = ({
                   resetSetInputValues={resetSetInputValues}
                   numMultisetSets={numMultisetSets}
                   openCalculationModal={openCalculationModal}
-                  numNewSets={numNewSets}
-                  setNumNewSets={setNumNewSets}
                   multisetSetTarget={multisetSetTarget}
                   setMultisetSetTarget={setMultisetSetTarget}
                 />

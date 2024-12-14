@@ -17,7 +17,6 @@ import {
   UserWeight,
   UseDisclosureReturnType,
 } from "../typings";
-import { useNumSetsOptions } from "../hooks";
 
 type SetValueConfigProps = {
   selectedExercise: Exercise;
@@ -34,8 +33,6 @@ type SetValueConfigProps = {
     setInputs: UseSetTrackingInputsReturnType,
     set: WorkoutSet
   ) => Promise<void>;
-  numNewSets?: string;
-  setNumNewSets?: React.Dispatch<React.SetStateAction<string>>;
   isMultiset?: boolean;
   numMultisetSets?: number;
   multisetSetTarget?: string;
@@ -53,8 +50,6 @@ export const SetValueConfig = ({
   userSettings,
   resetSetInputValues,
   openCalculationModal,
-  numNewSets,
-  setNumNewSets,
   isMultiset,
   numMultisetSets,
   multisetSetTarget,
@@ -64,8 +59,6 @@ export const SetValueConfig = ({
 }: SetValueConfigProps) => {
   const [showDefaultValues, setShowDefaultValues] = useState<boolean>(false);
   const [showNoteInput, setShowNoteInput] = useState<boolean>(false);
-
-  const numSetsOptions = useNumSetsOptions();
 
   const { isSetEdited } = useSetTrackingInputs;
 
@@ -274,27 +267,6 @@ export const SetValueConfig = ({
               </Checkbox>
             </div>
           </div>
-          {(operationType === "add" ||
-            operationType === "add-sets-to-multiset") &&
-            numNewSets &&
-            setNumNewSets && (
-              <div className="flex">
-                <Select
-                  label="Number Of Sets To Add"
-                  size="sm"
-                  variant="faded"
-                  selectedKeys={[numNewSets]}
-                  onChange={(e) => setNumNewSets(e.target.value)}
-                  disallowEmptySelection
-                >
-                  {numSetsOptions.map((num) => (
-                    <SelectItem key={num} value={num}>
-                      {num}
-                    </SelectItem>
-                  ))}
-                </Select>
-              </div>
-            )}
           <div className="flex items-center px-0.5">
             <h3 className="text-xl font-semibold">
               {isSetCompleted ? "Completed Values" : "Default Values"}
