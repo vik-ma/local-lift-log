@@ -211,3 +211,15 @@ pub struct PlateCollection {
     pub num_handles: i32,
     pub weight_unit: String,
 }
+
+#[derive(Queryable, Selectable)]
+#[diesel(table_name = crate::schema::time_periods)]
+#[diesel(check_for_backend(diesel::sqlite::Sqlite))]
+pub struct TimePeriod {
+    pub id: i32,
+    pub start_date: Option<String>,
+    pub end_date: Option<String>,
+    pub note: Option<String>,
+    pub caloric_intake: i32,
+    pub injury: Option<String>,
+}

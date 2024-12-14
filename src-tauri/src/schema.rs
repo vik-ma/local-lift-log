@@ -197,3 +197,14 @@ diesel::table! {
         weight_unit -> Text,
     }
 }
+
+diesel::table! {
+    time_periods (id) {
+        id -> Integer,
+        start_date -> Nullable<Text>,
+        end_date -> Nullable<Text>,
+        note -> Nullable<Text>,
+        caloric_intake -> Integer,
+        injury -> Nullable<Text>,
+    }
+}
