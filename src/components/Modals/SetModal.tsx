@@ -115,6 +115,7 @@ export const SetModal = ({
                 {isAddingExercise && (
                   <NumSetsDropdown
                     numNewSets={numNewSets}
+                    targetType="state"
                     setNumNewSets={setNumNewSets}
                   />
                 )}

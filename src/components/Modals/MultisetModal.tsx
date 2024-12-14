@@ -227,6 +227,7 @@ export const MultisetModal = ({
                   (modalPage === "base" || modalPage === "multiset-list") && (
                     <NumSetsDropdown
                       numNewSets={numNewSets}
+                      targetType="state"
                       setNumNewSets={setNumNewSets}
                     />
                   )}
