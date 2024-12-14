@@ -6,8 +6,6 @@ import {
   ModalHeader,
   ModalFooter,
   Input,
-  Select,
-  SelectItem,
   ScrollShadow,
 } from "@nextui-org/react";
 import {
@@ -25,8 +23,9 @@ import {
   MultisetTemplateModalList,
   SetValueConfig,
   MultisetTypeDropdown,
+  NumSetsDropdown,
 } from "../";
-import { useMultisetActions, useNumSetsOptions } from "../../hooks";
+import { useMultisetActions } from "../../hooks";
 import { useMemo, useState } from "react";
 
 type MultisetModalProps = {
@@ -71,8 +70,6 @@ export const MultisetModal = ({
   useFilterExerciseList,
 }: MultisetModalProps) => {
   const [numNewSets, setNumNewSets] = useState<string>("3");
-
-  const numSetsOptions = useNumSetsOptions();
 
   const { multisetModal, updateOperatingSet, undoOperatingMultisetChanges } =
     useMultisetActions;
@@ -228,24 +225,10 @@ export const MultisetModal = ({
               <div>
                 {isAddingMultisetToWorkout &&
                   (modalPage === "base" || modalPage === "multiset-list") && (
-                    <Select
-                      className="w-[12rem]"
-                      label="Number Of Sets To Add"
-                      size="sm"
-                      variant="faded"
-                      classNames={{
-                        trigger: "bg-amber-50 border-amber-200",
-                      }}
-                      selectedKeys={[numNewSets]}
-                      onChange={(e) => setNumNewSets(e.target.value)}
-                      disallowEmptySelection
-                    >
-                      {numSetsOptions.map((num) => (
-                        <SelectItem key={num} value={num}>
-                          {num}
-                        </SelectItem>
-                      ))}
-                    </Select>
+                    <NumSetsDropdown
+                      numNewSets={numNewSets}
+                      setNumNewSets={setNumNewSets}
+                    />
                   )}
               </div>
               <div className="flex gap-2">
