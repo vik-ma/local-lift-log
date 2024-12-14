@@ -69,7 +69,7 @@ export const MultisetModal = ({
   openCalculationModal,
   useFilterExerciseList,
 }: MultisetModalProps) => {
-  const [numNewSets, setNumNewSets] = useState<string>("3");
+  const [numNewSets, setNumNewSets] = useState<string>(userSettings.default_num_new_sets);
 
   const { multisetModal, updateOperatingSet, undoOperatingMultisetChanges } =
     useMultisetActions;

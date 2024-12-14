@@ -63,7 +63,9 @@ export const SetModal = ({
   openCalculationModal,
   useFilterExerciseList,
 }: SetModalProps) => {
-  const [numNewSets, setNumNewSets] = useState<string>("3");
+  const [numNewSets, setNumNewSets] = useState<string>(
+    userSettings.default_num_new_sets
+  );
   const [multisetSetTarget, setMultisetSetTarget] = useState<string>("1");
 
   const isAddingExercise = useMemo(() => {
