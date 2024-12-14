@@ -1,12 +1,12 @@
 import { Select, SelectItem } from "@nextui-org/react";
 import { useNumSetsOptions } from "../../hooks";
-import { UserSettings } from "../../typings";
+import { HTMLSelectElementChange } from "../../typings";
 
 type NumSetsDropdownProps = {
   numNewSets: string;
   targetType: "state" | "settings";
   setNumNewSets?: React.Dispatch<React.SetStateAction<string>>;
-  setUserSettings?: React.Dispatch<React.SetStateAction<UserSettings>>;
+  setUserSettings?: HTMLSelectElementChange;
 };
 
 export const NumSetsDropdown = ({
@@ -23,22 +23,24 @@ export const NumSetsDropdown = ({
     }
 
     if (targetType === "settings" && setUserSettings !== undefined) {
-      setUserSettings((prev) => ({
-        ...prev,
-        default_num_new_sets: e.target.value,
-      }));
+      setUserSettings(e);
     }
   };
 
   return (
     <Select
-      className="w-[12rem]"
-      label="Number Of Sets To Add"
-      size="sm"
+      className={targetType === "settings" ? "w-[4rem]" : "w-[12rem]"}
+      aria-label="Number Of Sets To Add Dropdown List"
+      label={targetType === "settings" ? undefined : "Number Of Sets To Add"}
+      size={targetType === "settings" ? "md" : "sm"}
       variant="faded"
-      classNames={{
-        trigger: "bg-amber-50 border-amber-200",
-      }}
+      classNames={
+        targetType === "settings"
+          ? undefined
+          : {
+              trigger: "bg-amber-50 border-amber-200",
+            }
+      }
       selectedKeys={[numNewSets]}
       onChange={(e) => handleChange(e)}
       disallowEmptySelection
