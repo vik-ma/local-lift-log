@@ -16,7 +16,7 @@ import {
   UseDisclosureReturnType,
   UseFilterExerciseListReturnType,
 } from "../../typings";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 type SetModalProps = {
   setModal: UseDisclosureReturnType;
@@ -66,6 +66,10 @@ export const SetModal = ({
   const [numNewSets, setNumNewSets] = useState<string>("3");
   const [multisetSetTarget, setMultisetSetTarget] = useState<string>("1");
 
+  const isAddingExercise = useMemo(() => {
+    return operationType === "add" && selectedExercise !== undefined;
+  }, [operationType, selectedExercise]);
+
   return (
     <Modal isOpen={setModal.isOpen} onOpenChange={setModal.onOpenChange}>
       <ModalContent>
@@ -108,7 +112,7 @@ export const SetModal = ({
               }
             >
               <div>
-                {operationType === "add" && selectedExercise !== undefined && (
+                {isAddingExercise && (
                   <NumSetsDropdown
                     numNewSets={numNewSets}
                     setNumNewSets={setNumNewSets}
@@ -120,14 +124,12 @@ export const SetModal = ({
                   color="primary"
                   variant="light"
                   onPress={
-                    operationType === "add" && selectedExercise !== undefined
+                    isAddingExercise
                       ? () => setSelectedExercise(undefined)
                       : onClose
                   }
                 >
-                  {operationType === "add" && selectedExercise !== undefined
-                    ? "Back"
-                    : "Close"}
+                  {isAddingExercise ? "Back" : "Close"}
                 </Button>
                 <Button
                   color="primary"
