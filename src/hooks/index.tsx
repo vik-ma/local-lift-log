@@ -50,3 +50,4 @@ export { useMeasurementTypes } from "./useMeasurementTypes";
 export { useRoutineScheduleTypes } from "./useRoutineScheduleTypes";
 export { usePresetsTypeString } from "./usePresetsTypeString";
 export { useTimePeriodList } from "./useTimePeriodList";
+export { useDefaultTimePeriod } from "./useDefaultTimePeriod";

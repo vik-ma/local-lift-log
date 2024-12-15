@@ -908,6 +908,6 @@ export type TimePeriod = {
   start_date: string | null;
   end_date: string | null;
   note: string | null;
-  caloric_intake: number;
+  caloric_intake: string | null;
   injury: string | null;
 };

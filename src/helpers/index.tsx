@@ -210,3 +210,5 @@ export { CreateCalculationString } from "./CalculationItems/CreateCalculationStr
 export { UpdateCalculationString } from "./CalculationItems/UpdateCalculationString";
 export { CreateNewCalculationItem } from "./CalculationItems/CreateNewCalculationItem";
 export { LoadCalculationString } from "./CalculationItems/LoadCalculationString";
+
+export { DefaultNewTimePeriod } from "./TimePeriods/DefaultNewTimePeriod";
