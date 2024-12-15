@@ -901,3 +901,13 @@ export type UseMultisetActionsReturnType = {
   handleOpenFilterButton: () => void;
   isMultisetListLoaded: React.MutableRefObject<boolean>;
 };
+
+export type TimePeriod = {
+  id: number;
+  name: string;
+  start_date: string | null;
+  end_date: string | null;
+  note: string | null;
+  caloric_intake: number;
+  injury: string | null;
+};
