@@ -11,7 +11,14 @@ export const useIsTimePeriodValid = (
     return timePeriod.start_date !== null;
   }, [timePeriod.start_date]);
 
+  const isTimePeriodValid = useMemo(() => {
+    if (!isTimePeriodNameValid) return false;
+    if (!isStartDateValid) return false;
+    // TODO: ADD ISENDDATEVALID
+    return true;
+  }, [isTimePeriodNameValid, isStartDateValid])
+
   // TODO: ADD ISENDDATEVALID
 
-  return { isTimePeriodNameValid, isStartDateValid };
+  return { isTimePeriodValid, isTimePeriodNameValid, isStartDateValid };
 };

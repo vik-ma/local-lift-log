@@ -913,6 +913,7 @@ export type TimePeriod = {
 };
 
 export type UseIsTimePeriodValidReturnType = {
+  isTimePeriodValid: boolean;
   isTimePeriodNameValid: boolean;
   isStartDateValid: boolean;
 };
