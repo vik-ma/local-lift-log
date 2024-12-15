@@ -217,9 +217,10 @@ pub struct PlateCollection {
 #[diesel(check_for_backend(diesel::sqlite::Sqlite))]
 pub struct TimePeriod {
     pub id: i32,
+    pub name: String,
     pub start_date: Option<String>,
     pub end_date: Option<String>,
     pub note: Option<String>,
-    pub caloric_intake: i32,
+    pub caloric_intake: Option<String>,
     pub injury: Option<String>,
 }

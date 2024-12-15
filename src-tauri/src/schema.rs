@@ -201,10 +201,11 @@ diesel::table! {
 diesel::table! {
     time_periods (id) {
         id -> Integer,
+        name -> Text,
         start_date -> Nullable<Text>,
         end_date -> Nullable<Text>,
         note -> Nullable<Text>,
-        caloric_intake -> Integer,
+        caloric_intake -> Nullable<Text>,
         injury -> Nullable<Text>,
     }
 }
