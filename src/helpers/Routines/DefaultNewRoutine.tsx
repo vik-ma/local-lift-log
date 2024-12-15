@@ -8,7 +8,6 @@ export const DefaultNewRoutine = () => {
     is_schedule_weekly: 1,
     num_days_in_schedule: 7,
     custom_schedule_start_date: null,
-    numWorkoutTemplates: 0,
   };
 
   return defaultNewRoutine;
