@@ -911,3 +911,8 @@ export type TimePeriod = {
   caloric_intake: string | null;
   injury: string | null;
 };
+
+export type UseIsTimePeriodValidReturnType = {
+  isTimePeriodNameValid: boolean;
+  isStartDateValid: boolean;
+};
