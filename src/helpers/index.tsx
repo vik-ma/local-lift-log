@@ -34,7 +34,7 @@ export { CreateExerciseGroupSetSecondary } from "./Exercises/CreateExerciseGroup
 export { CreateExerciseSetIds } from "./Exercises/CreateExerciseSetIds";
 
 export { GetScheduleDayNames } from "./Routines/GetScheduleDayNames";
-export { GetScheduleDayValues } from "./Routines/GetScheduleValues";
+export { GetScheduleDayValues } from "./Routines/GetScheduleDayValues";
 export { NumDaysInScheduleOptions } from "./Routines/NumDaysInScheduleOptions";
 export { DefaultNewRoutine } from "./Routines/DefaultNewRoutine";
 export { UpdateRoutine } from "./Routines/UpdateRoutine";

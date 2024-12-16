@@ -5,7 +5,7 @@ import {
   UserSettingsOptional,
   WorkoutTemplate,
 } from "../typings";
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import {
   Button,
   useDisclosure,
@@ -73,6 +73,8 @@ export default function RoutineDetails() {
   const { handleOpenWorkoutTemplateListModal, workoutTemplateListModal } =
     workoutTemplateList;
 
+  const isRoutineLoaded = useRef(false);
+
   const getWorkoutRoutineSchedules = useCallback(async () => {
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
@@ -131,6 +133,7 @@ export default function RoutineDetails() {
 
         setRoutine(currentRoutine);
         setEditedRoutine(currentRoutine);
+        isRoutineLoaded.current = true;
       } catch (error) {
         console.log(error);
       }
@@ -143,8 +146,11 @@ export default function RoutineDetails() {
     };
 
     getRoutine();
-    getWorkoutRoutineSchedules();
-    loadUserSettings();
+
+    if (isRoutineLoaded.current) {
+      getWorkoutRoutineSchedules();
+      loadUserSettings();
+    }
   }, [id, getWorkoutRoutineSchedules]);
 
   const useDetailsHeaderOptions = useDetailsHeaderOptionsMenu("Routine");
