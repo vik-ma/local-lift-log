@@ -416,12 +416,16 @@ export default function RoutineDetails() {
         </div>
         <div className="flex flex-col">
           {routine.is_schedule_weekly === 0 && (
-            <div className="flex gap-4 items-end">
+            <div className="flex gap-2 items-end">
               <I18nProvider locale={userSettings.locale}>
                 <DatePicker
                   className="w-40"
-                  classNames={{ base: "font-medium" }}
-                  label="Start date"
+                  classNames={{ base: "gap-0.5" }}
+                  label={
+                    <span className="font-medium text-base px-0.5">
+                      Start date
+                    </span>
+                  }
                   labelPlacement="outside"
                   variant="faded"
                   value={ParseDateString(routine.custom_schedule_start_date)}
@@ -430,12 +434,7 @@ export default function RoutineDetails() {
               </I18nProvider>
               <div className="pb-1">
                 {routine.custom_schedule_start_date !== null ? (
-                  <Button
-                    size="sm"
-                    color="danger"
-                    variant="flat"
-                    onPress={resetCustomStartDate}
-                  >
+                  <Button size="sm" onPress={resetCustomStartDate}>
                     Reset
                   </Button>
                 ) : (
