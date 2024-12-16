@@ -34,9 +34,10 @@ import {
   UpdateRoutine,
   FormatNumItemsString,
   CreateRoutineWorkoutTemplateList,
+  ParseDateString,
 } from "../helpers";
 import toast, { Toaster } from "react-hot-toast";
-import { getLocalTimeZone, parseDate } from "@internationalized/date";
+import { getLocalTimeZone } from "@internationalized/date";
 import { I18nProvider } from "@react-aria/i18n";
 import {
   useIsRoutineValid,
@@ -423,11 +424,7 @@ export default function RoutineDetails() {
                   label="Start date"
                   labelPlacement="outside"
                   variant="faded"
-                  value={
-                    routine.custom_schedule_start_date
-                      ? parseDate(routine.custom_schedule_start_date)
-                      : null
-                  }
+                  value={ParseDateString(routine.custom_schedule_start_date)}
                   onChange={handleSelectCustomStartDate}
                 />
               </I18nProvider>

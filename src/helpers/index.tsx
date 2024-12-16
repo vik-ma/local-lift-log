@@ -12,6 +12,7 @@ export { ConvertCalendarDateToLocalizedString } from "./Dates/ConvertCalendarDat
 export { IsDateWithinRange } from "./Dates/IsDateWithinRange";
 export { IsDateInWeekdaySet } from "./Dates/IsDateInWeekdaySet";
 export { CalculateNumDaysInCalendarDateRange } from "./Dates/CalculateNumDaysInCalendarDateRange";
+export { ParseDateString } from "./Dates/ParseDateString";
 
 export { ConvertExerciseGroupSetStringPrimary } from "./Exercises/ConvertExerciseGroupSetStringPrimary";
 export { ConvertExerciseGroupStringListPrimaryToString } from "./Exercises/ConvertExerciseGroupStringListPrimaryToString";
