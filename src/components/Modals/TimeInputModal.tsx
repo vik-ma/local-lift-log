@@ -99,7 +99,7 @@ export const TimeInputModal = ({
                     size="lg"
                     variant="faded"
                     className={
-                      clockStyle === "24h" ? "w-[6.5rem]" : "w-[8.5rem]"
+                      clockStyle === "24h" ? "w-[6.75rem]" : "w-[8.75rem]"
                     }
                     hourCycle={clockStyle === "24h" ? 24 : 12}
                     granularity="second"
@@ -124,7 +124,7 @@ export const TimeInputModal = ({
                     size="lg"
                     variant="faded"
                     className={
-                      clockStyle === "24h" ? "w-[6.5rem]" : "w-[8.5rem]"
+                      clockStyle === "24h" ? "w-[6.75rem]" : "w-[8.75rem]"
                     }
                     hourCycle={clockStyle === "24h" ? 24 : 12}
                     granularity="second"
