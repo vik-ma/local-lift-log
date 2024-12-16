@@ -9,12 +9,14 @@ import {
   useTimePeriodInputs,
   useTimePeriodList,
 } from "../hooks";
-import { useState } from "react";
-import { TimePeriod } from "../typings";
+import { useEffect, useState } from "react";
+import { TimePeriod, UserSettings } from "../typings";
+import { GetUserSettings } from "../helpers";
 
 type OperationType = "add" | "edit" | "delete";
 
 export default function TimePeriodList() {
+  const [userSettings, setUserSettings] = useState<UserSettings>();
   const [operationType, setOperationType] = useState<OperationType>("add");
 
   const defaultTimePeriod = useDefaultTimePeriod();
@@ -37,6 +39,18 @@ export default function TimePeriodList() {
     isTimePeriodListLoaded,
   } = timePeriodList;
 
+  useEffect(() => {
+    const loadUserSettings = async () => {
+      const userSettings = await GetUserSettings();
+
+      if (userSettings === undefined) return;
+
+      setUserSettings(userSettings);
+    };
+
+    loadUserSettings();
+  }, []);
+
   const resetOperatingTimePeriod = () => {
     setOperationType("add");
     setOperatingTimePeriod(defaultTimePeriod);
@@ -49,7 +63,8 @@ export default function TimePeriodList() {
     timePeriodModal.onOpen();
   };
 
-  if (!isTimePeriodListLoaded.current) return <LoadingSpinner />;
+  if (userSettings === undefined || !isTimePeriodListLoaded.current)
+    return <LoadingSpinner />;
 
   return (
     <>
@@ -58,7 +73,7 @@ export default function TimePeriodList() {
         timePeriod={operatingTimePeriod}
         setTimePeriod={setOperatingTimePeriod}
         useTimePeriodInputs={isTimePeriodValid}
-        // TODO: ADD
+        userSettings={userSettings}
         buttonAction={() => {}}
       />
       <div className="flex flex-col items-center gap-1">
