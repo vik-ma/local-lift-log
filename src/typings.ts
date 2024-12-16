@@ -916,4 +916,9 @@ export type UseTimePeriodInputsReturnType = {
   isTimePeriodValid: boolean;
   isTimePeriodNameValid: boolean;
   isStartDateValid: boolean;
+  isEndDateValid: boolean;
+  startDate: CalendarDate | null;
+  setStartDate: React.Dispatch<React.SetStateAction<CalendarDate | null>>;
+  endDate: CalendarDate | null;
+  setEndDate: React.Dispatch<React.SetStateAction<CalendarDate | null>>;
 };
