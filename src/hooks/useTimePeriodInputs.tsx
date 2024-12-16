@@ -1,10 +1,10 @@
 import { useMemo } from "react";
 import { useValidateName } from ".";
-import { TimePeriod, UseIsTimePeriodValidReturnType } from "../typings";
+import { TimePeriod, UseTimePeriodInputsReturnType } from "../typings";
 
-export const useIsTimePeriodValid = (
+export const useTimePeriodInputs = (
   timePeriod: TimePeriod
-): UseIsTimePeriodValidReturnType => {
+): UseTimePeriodInputsReturnType => {
   const isTimePeriodNameValid = useValidateName(timePeriod.name);
 
   const isStartDateValid = useMemo(() => {
@@ -16,7 +16,7 @@ export const useIsTimePeriodValid = (
     if (!isStartDateValid) return false;
     // TODO: ADD ISENDDATEVALID
     return true;
-  }, [isTimePeriodNameValid, isStartDateValid])
+  }, [isTimePeriodNameValid, isStartDateValid]);
 
   // TODO: ADD ISENDDATEVALID
 

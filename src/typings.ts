@@ -912,7 +912,7 @@ export type TimePeriod = {
   injury: string | null;
 };
 
-export type UseIsTimePeriodValidReturnType = {
+export type UseTimePeriodInputsReturnType = {
   isTimePeriodValid: boolean;
   isTimePeriodNameValid: boolean;
   isStartDateValid: boolean;

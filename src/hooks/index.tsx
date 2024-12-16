@@ -51,4 +51,4 @@ export { useRoutineScheduleTypes } from "./useRoutineScheduleTypes";
 export { usePresetsTypeString } from "./usePresetsTypeString";
 export { useTimePeriodList } from "./useTimePeriodList";
 export { useDefaultTimePeriod } from "./useDefaultTimePeriod";
-export { useIsTimePeriodValid } from "./useIsTimePeriodValid";
+export { useTimePeriodInputs } from "./useTimePeriodInputs";

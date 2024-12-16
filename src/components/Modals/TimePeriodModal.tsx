@@ -1,7 +1,7 @@
 import {
   TimePeriod,
   UseDisclosureReturnType,
-  UseIsTimePeriodValidReturnType,
+  UseTimePeriodInputsReturnType,
 } from "../../typings";
 import {
   Button,
@@ -17,7 +17,7 @@ type TimePeriodModalProps = {
   timePeriodModal: UseDisclosureReturnType;
   timePeriod: TimePeriod;
   setTimePeriod: React.Dispatch<React.SetStateAction<TimePeriod>>;
-  useIsTimePeriodValid: UseIsTimePeriodValidReturnType;
+  useTimePeriodInputs: UseTimePeriodInputsReturnType;
   buttonAction: () => void;
 };
 
@@ -25,11 +25,11 @@ export const TimePeriodModal = ({
   timePeriodModal,
   timePeriod,
   setTimePeriod,
-  useIsTimePeriodValid,
+  useTimePeriodInputs,
   buttonAction,
 }: TimePeriodModalProps) => {
   const { isTimePeriodValid, isTimePeriodNameValid, isStartDateValid } =
-    useIsTimePeriodValid;
+  useTimePeriodInputs;
 
   return (
     <Modal

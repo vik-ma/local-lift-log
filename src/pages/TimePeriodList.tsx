@@ -6,7 +6,7 @@ import {
 } from "../components";
 import {
   useDefaultTimePeriod,
-  useIsTimePeriodValid,
+  useTimePeriodInputs,
   useTimePeriodList,
 } from "../hooks";
 import { useState } from "react";
@@ -24,7 +24,7 @@ export default function TimePeriodList() {
 
   const timePeriodModal = useDisclosure();
 
-  const isTimePeriodValid = useIsTimePeriodValid(operatingTimePeriod);
+  const isTimePeriodValid = useTimePeriodInputs(operatingTimePeriod);
 
   const timePeriodList = useTimePeriodList(true);
 
@@ -57,7 +57,7 @@ export default function TimePeriodList() {
         timePeriodModal={timePeriodModal}
         timePeriod={operatingTimePeriod}
         setTimePeriod={setOperatingTimePeriod}
-        useIsTimePeriodValid={isTimePeriodValid}
+        useTimePeriodInputs={isTimePeriodValid}
         // TODO: ADD
         buttonAction={() => {}}
       />
