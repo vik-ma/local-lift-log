@@ -76,7 +76,9 @@ export const TimePeriodModal = ({
                       classNames={{ base: "gap-0.5" }}
                       dateInputClassNames={{ inputWrapper: "!bg-default-100" }}
                       label={
-                        <span className="font-medium px-0.5">Start date</span>
+                        <span className="font-medium text-base px-0.5">
+                          Start date
+                        </span>
                       }
                       labelPlacement="outside"
                       variant="faded"
@@ -91,7 +93,9 @@ export const TimePeriodModal = ({
                       classNames={{ base: "gap-0.5" }}
                       dateInputClassNames={{ inputWrapper: "!bg-default-100" }}
                       label={
-                        <span className="font-medium px-0.5">End date</span>
+                        <span className="font-medium text-base px-0.5">
+                          End date
+                        </span>
                       }
                       labelPlacement="outside"
                       variant="faded"
