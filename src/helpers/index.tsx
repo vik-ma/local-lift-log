@@ -192,6 +192,7 @@ export { WorkoutRatingsMap } from "./Constants/WorkoutRatingsMap";
 export { WeekdayMap } from "./Constants/WeekdayMap";
 export { MeasurementTypes } from "./Constants/MeasurementTypes";
 export { MultisetTypes } from "./Constants/MultisetTypes";
+export { CaloricIntakeTypes } from "./Constants/CaloricIntakeTypes";
 
 export { ConvertEmptyStringToNull } from "./Strings/ConvertEmptyStringToNull";
 export { IsStringEmpty } from "./Strings/IsStringEmpty";
