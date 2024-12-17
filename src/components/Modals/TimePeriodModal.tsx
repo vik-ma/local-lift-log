@@ -72,14 +72,14 @@ export const TimePeriodModal = ({
                   isRequired
                   isClearable
                 />
-                <div className="flex gap-4 justify-between pb-1.5">
+                <div className="flex relative gap-4 justify-between pb-1.5">
                   <I18nProvider locale={userSettings.locale}>
                     <DatePicker
                       classNames={{ base: "gap-0.5" }}
                       dateInputClassNames={{ inputWrapper: "!bg-default-100" }}
                       label={
                         <span className="font-medium text-base px-0.5">
-                          Start date
+                          Start Date
                         </span>
                       }
                       labelPlacement="outside"
@@ -87,7 +87,7 @@ export const TimePeriodModal = ({
                       value={startDate}
                       onChange={setStartDate}
                       isInvalid={!isStartDateValid}
-                      errorMessage="Start date must be selected"
+                      errorMessage="Start Date must be selected"
                     />
                   </I18nProvider>
                   <I18nProvider locale={userSettings.locale}>
@@ -96,7 +96,7 @@ export const TimePeriodModal = ({
                       dateInputClassNames={{ inputWrapper: "!bg-default-100" }}
                       label={
                         <span className="font-medium text-base px-0.5">
-                          End date
+                          End Date
                         </span>
                       }
                       labelPlacement="outside"
@@ -104,11 +104,22 @@ export const TimePeriodModal = ({
                       value={endDate}
                       onChange={setEndDate}
                       isInvalid={!isEndDateValid}
-                      errorMessage="End date is before Start date"
+                      errorMessage="End Date is before Start Date"
                     />
                   </I18nProvider>
+                  {endDate !== null && (
+                    <Button
+                      aria-label="Reset End Date"
+                      className="absolute right-0 -top-2.5"
+                      size="sm"
+                      variant="flat"
+                      onPress={() => setEndDate(null)}
+                    >
+                      Reset
+                    </Button>
+                  )}
                 </div>
-                <h3 className="font-medium px-0.5 pt-0.5 pb-1">
+                <h3 className="font-medium px-0.5 pb-1">
                   Additional Information
                 </h3>
                 <div className="flex flex-col gap-2.5">
