@@ -7,6 +7,7 @@ import {
   DropdownTrigger,
 } from "@nextui-org/react";
 import {
+  DeleteModal,
   EmptyListLabel,
   ListPageSearchInput,
   LoadingSpinner,
@@ -21,6 +22,7 @@ import { useEffect, useState } from "react";
 import { TimePeriod, UserSettings } from "../typings";
 import {
   ConvertEmptyStringToNull,
+  DeleteItemFromList,
   GetUserSettings,
   ParseDateString,
   UpdateItemInList,
@@ -41,6 +43,7 @@ export default function TimePeriodList() {
     useState<TimePeriod>(defaultTimePeriod);
 
   const timePeriodModal = useDisclosure();
+  const deleteModal = useDisclosure();
 
   const timePeriodInputs = useTimePeriodInputs(operatingTimePeriod);
 
@@ -148,17 +151,45 @@ export default function TimePeriodList() {
           updatedTimePeriod.id,
         ]
       );
+
+      const updatedTimePeriods = UpdateItemInList(
+        timePeriods,
+        updatedTimePeriod
+      );
+
+      setTimePeriods(updatedTimePeriods);
+
+      resetOperatingTimePeriod();
+      toast.success("Time Period Updated");
+      timePeriodModal.onClose();
     } catch (error) {
       console.log(error);
     }
+  };
 
-    const updatedTimePeriods = UpdateItemInList(timePeriods, updatedTimePeriod);
+  const deleteTimePeriod = async () => {
+    if (operatingTimePeriod.id === 0 || operationType !== "delete") return;
 
-    setTimePeriods(updatedTimePeriods);
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
 
-    resetOperatingTimePeriod();
-    toast.success("Time Period Updated");
-    timePeriodModal.onClose();
+      db.execute("DELETE from time_periods WHERE id = $1", [
+        operatingTimePeriod.id,
+      ]);
+
+      const updatedTimePeriods = DeleteItemFromList(
+        timePeriods,
+        operatingTimePeriod.id
+      );
+
+      setTimePeriods(updatedTimePeriods);
+
+      resetOperatingTimePeriod();
+      toast.success("Time Period Deleted");
+      deleteModal.onClose();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const resetOperatingTimePeriod = () => {
@@ -185,6 +216,10 @@ export default function TimePeriodList() {
       setEndDate(ParseDateString(timePeriod.end_date));
       setOperationType("edit");
       timePeriodModal.onOpen();
+    } else if (key === "delete") {
+      setOperationType("delete");
+      setOperatingTimePeriod(timePeriod);
+      deleteModal.onOpen();
     }
   };
 
@@ -203,6 +238,17 @@ export default function TimePeriodList() {
         buttonAction={
           operationType === "edit" ? updateTimePeriod : addTimePeriod
         }
+      />
+      <DeleteModal
+        deleteModal={deleteModal}
+        header="Delete Time Period"
+        body={
+          <p className="break-words">
+            Are you sure you want to permanently delete{" "}
+            {operatingTimePeriod.name}?
+          </p>
+        }
+        deleteButtonAction={deleteTimePeriod}
       />
       <div className="flex flex-col items-center gap-1">
         <ListPageSearchInput
