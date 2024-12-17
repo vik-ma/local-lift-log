@@ -1,5 +1,13 @@
-import { Button, useDisclosure } from "@nextui-org/react";
 import {
+  Button,
+  useDisclosure,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+} from "@nextui-org/react";
+import {
+  EmptyListLabel,
   ListPageSearchInput,
   LoadingSpinner,
   TimePeriodModal,
@@ -14,6 +22,7 @@ import { TimePeriod, UserSettings } from "../typings";
 import { ConvertEmptyStringToNull, GetUserSettings } from "../helpers";
 import Database from "tauri-plugin-sql-api";
 import toast, { Toaster } from "react-hot-toast";
+import { VerticalMenuIcon } from "../assets";
 
 type OperationType = "add" | "edit" | "delete";
 
@@ -147,6 +156,51 @@ export default function TimePeriodList() {
             </div>
           }
         />
+        {filteredTimePeriods.map((timePeriod) => (
+          <div
+            className="flex justify-between items-center cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+            onClick={() => {}}
+          >
+            <div className="flex flex-col justify-start items-start">
+              <span className="w-[20.75rem] truncate text-left">
+                {timePeriod.name}
+              </span>
+              <span className="text-xs text-secondary text-left">
+                {timePeriod.start_date} - {timePeriod.end_date}
+              </span>
+              <span className="w-[20.75rem] break-all text-xs text-stone-400 text-left">
+                {timePeriod.note}
+              </span>
+            </div>
+            <Dropdown>
+              <DropdownTrigger>
+                <Button
+                  aria-label={`Toggle ${timePeriod.name} Time Period Options Menu`}
+                  isIconOnly
+                  className="z-1"
+                  radius="lg"
+                  variant="light"
+                >
+                  <VerticalMenuIcon size={19} color="#888" />
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu
+                aria-label={`Option Menu For ${timePeriod.name} Time Period`}
+                // onAction={(key) =>
+                //   handleTimePeriodOptionSelection(key as string, timePeriod)
+                // }
+              >
+                <DropdownItem key="edit">Edit</DropdownItem>
+                <DropdownItem key="delete" className="text-danger">
+                  Delete
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          </div>
+        ))}
+        {filteredTimePeriods.length === 0 && (
+          <EmptyListLabel itemName="Time Periods" />
+        )}
       </div>
     </>
   );
