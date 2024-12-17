@@ -15,6 +15,7 @@ import {
   Input,
   DatePicker,
 } from "@nextui-org/react";
+import { CaloricIntakeDropdown } from "../Dropdowns/CaloricIntakeDropdown";
 
 type TimePeriodModalProps = {
   timePeriodModal: UseDisclosureReturnType;
@@ -106,6 +107,9 @@ export const TimePeriodModal = ({
                     />
                   </I18nProvider>
                 </div>
+                <h3 className="font-medium px-0.5 py-1">
+                  Additional Information
+                </h3>
                 <div className="flex flex-col gap-2">
                   <Input
                     value={timePeriod.note ?? ""}
@@ -115,6 +119,11 @@ export const TimePeriodModal = ({
                       setTimePeriod((prev) => ({ ...prev, note: value }))
                     }
                     isClearable
+                  />
+                  <CaloricIntakeDropdown
+                    value={timePeriod.caloric_intake}
+                    targetType="time-period"
+                    setTimePeriod={setTimePeriod}
                   />
                   <Input
                     value={timePeriod.injury ?? ""}
