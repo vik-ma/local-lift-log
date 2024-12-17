@@ -11,7 +11,9 @@ import {
 } from "../hooks";
 import { useEffect, useState } from "react";
 import { TimePeriod, UserSettings } from "../typings";
-import { GetUserSettings } from "../helpers";
+import { ConvertEmptyStringToNull, GetUserSettings } from "../helpers";
+import Database from "tauri-plugin-sql-api";
+import toast, { Toaster } from "react-hot-toast";
 
 type OperationType = "add" | "edit" | "delete";
 
@@ -26,7 +28,9 @@ export default function TimePeriodList() {
 
   const timePeriodModal = useDisclosure();
 
-  const isTimePeriodValid = useTimePeriodInputs(operatingTimePeriod);
+  const timePeriodInputs = useTimePeriodInputs(operatingTimePeriod);
+
+  const { isTimePeriodValid } = timePeriodInputs;
 
   const timePeriodList = useTimePeriodList(true);
 
@@ -51,6 +55,45 @@ export default function TimePeriodList() {
     loadUserSettings();
   }, []);
 
+  const addTimePeriod = async () => {
+    if (!isTimePeriodValid || operationType !== "add") return;
+
+    const noteToInsert = ConvertEmptyStringToNull(operatingTimePeriod.note);
+
+    const newTimePeriod: TimePeriod = {
+      ...operatingTimePeriod,
+      note: noteToInsert,
+    };
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      const result = await db.execute(
+        `INSERT into time_periods 
+         (name, start_date, end_date, note, injury, caloric_intake)
+         VALUES ($1, $2, $3, $4, $5, $6)`,
+        [
+          newTimePeriod.name,
+          newTimePeriod.start_date,
+          newTimePeriod.end_date,
+          newTimePeriod.note,
+          newTimePeriod.injury,
+          newTimePeriod.caloric_intake,
+        ]
+      );
+
+      newTimePeriod.id = result.lastInsertId;
+
+      setTimePeriods([...timePeriods, newTimePeriod]);
+
+      resetOperatingTimePeriod();
+      timePeriodModal.onClose();
+      toast.success("Time Period Created");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const resetOperatingTimePeriod = () => {
     setOperationType("add");
     setOperatingTimePeriod(defaultTimePeriod);
@@ -68,13 +111,14 @@ export default function TimePeriodList() {
 
   return (
     <>
+      <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
       <TimePeriodModal
         timePeriodModal={timePeriodModal}
         timePeriod={operatingTimePeriod}
         setTimePeriod={setOperatingTimePeriod}
-        useTimePeriodInputs={isTimePeriodValid}
+        useTimePeriodInputs={timePeriodInputs}
         userSettings={userSettings}
-        buttonAction={() => {}}
+        buttonAction={addTimePeriod}
       />
       <div className="flex flex-col items-center gap-1">
         <ListPageSearchInput
