@@ -19,7 +19,11 @@ import {
 } from "../hooks";
 import { useEffect, useState } from "react";
 import { TimePeriod, UserSettings } from "../typings";
-import { ConvertEmptyStringToNull, GetUserSettings } from "../helpers";
+import {
+  ConvertEmptyStringToNull,
+  GetUserSettings,
+  ParseDateString,
+} from "../helpers";
 import Database from "tauri-plugin-sql-api";
 import toast, { Toaster } from "react-hot-toast";
 import { VerticalMenuIcon } from "../assets";
@@ -39,8 +43,13 @@ export default function TimePeriodList() {
 
   const timePeriodInputs = useTimePeriodInputs(operatingTimePeriod);
 
-  const { isTimePeriodValid, startDateString, endDateString } =
-    timePeriodInputs;
+  const {
+    isTimePeriodValid,
+    startDateString,
+    endDateString,
+    setStartDate,
+    setEndDate,
+  } = timePeriodInputs;
 
   const timePeriodList = useTimePeriodList();
 
@@ -120,6 +129,19 @@ export default function TimePeriodList() {
     timePeriodModal.onOpen();
   };
 
+  const handleTimePeriodOptionSelection = (
+    key: string,
+    timePeriod: TimePeriod
+  ) => {
+    if (key === "edit") {
+      setOperatingTimePeriod(timePeriod);
+      setStartDate(ParseDateString(timePeriod.start_date));
+      setEndDate(ParseDateString(timePeriod.end_date));
+      setOperationType("edit");
+      timePeriodModal.onOpen();
+    }
+  };
+
   if (userSettings === undefined || !isTimePeriodListLoaded.current)
     return <LoadingSpinner />;
 
@@ -162,7 +184,7 @@ export default function TimePeriodList() {
           <div
             key={timePeriod.id}
             className="flex justify-between items-center cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-            onClick={() => {}}
+            onClick={() => handleTimePeriodOptionSelection("edit", timePeriod)}
           >
             <div className="flex flex-col justify-start items-start">
               <span className="w-[20.75rem] truncate text-left">
@@ -189,9 +211,9 @@ export default function TimePeriodList() {
               </DropdownTrigger>
               <DropdownMenu
                 aria-label={`Option Menu For ${timePeriod.name} Time Period`}
-                // onAction={(key) =>
-                //   handleTimePeriodOptionSelection(key as string, timePeriod)
-                // }
+                onAction={(key) =>
+                  handleTimePeriodOptionSelection(key as string, timePeriod)
+                }
               >
                 <DropdownItem key="edit">Edit</DropdownItem>
                 <DropdownItem key="delete" className="text-danger">
