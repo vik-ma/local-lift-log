@@ -1,6 +1,7 @@
 import { Select, SelectItem } from "@nextui-org/react";
 import { useCaloricIntakeTypes } from "../../hooks";
 import { TimePeriod } from "../../typings";
+import { ConvertEmptyStringToNull } from "../../helpers";
 
 type CaloricIntakeDropdownProps = {
   value: string | null;
@@ -16,10 +17,12 @@ export const CaloricIntakeDropdown = ({
   const caloricIntakeTypes = useCaloricIntakeTypes();
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = ConvertEmptyStringToNull(e.target.value);
+
     if (targetType === "time-period" && setTimePeriod !== undefined) {
       setTimePeriod((prev) => ({
         ...prev,
-        caloric_intake: e.target.value,
+        caloric_intake: value,
       }));
     }
   };
@@ -30,7 +33,6 @@ export const CaloricIntakeDropdown = ({
       variant="faded"
       selectedKeys={value ? [value] : undefined}
       onChange={(e) => handleChange(e)}
-      disallowEmptySelection
     >
       {caloricIntakeTypes.map((type) => (
         <SelectItem key={type} value={type}>
