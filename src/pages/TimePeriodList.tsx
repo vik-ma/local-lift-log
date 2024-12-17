@@ -23,6 +23,7 @@ import {
   ConvertEmptyStringToNull,
   GetUserSettings,
   ParseDateString,
+  UpdateItemInList,
 } from "../helpers";
 import Database from "tauri-plugin-sql-api";
 import toast, { Toaster } from "react-hot-toast";
@@ -117,6 +118,49 @@ export default function TimePeriodList() {
     }
   };
 
+  const updateTimePeriod = async () => {
+    if (!isTimePeriodValid) return;
+
+    const noteToInsert = ConvertEmptyStringToNull(operatingTimePeriod.note);
+
+    const updatedTimePeriod: TimePeriod = {
+      ...operatingTimePeriod,
+      start_date: startDateString,
+      end_date: endDateString,
+      note: noteToInsert,
+    };
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      await db.execute(
+        `UPDATE time_periods SET 
+         name = $1, start_date = $2, end_date = $3, note = $4, injury = $5, 
+         caloric_intake = $6 
+         WHERE id = $7`,
+        [
+          updatedTimePeriod.name,
+          updatedTimePeriod.start_date,
+          updatedTimePeriod.end_date,
+          updatedTimePeriod.note,
+          updatedTimePeriod.injury,
+          updatedTimePeriod.caloric_intake,
+          updatedTimePeriod.id,
+        ]
+      );
+    } catch (error) {
+      console.log(error);
+    }
+
+    const updatedTimePeriods = UpdateItemInList(timePeriods, updatedTimePeriod);
+
+    setTimePeriods(updatedTimePeriods);
+
+    resetOperatingTimePeriod();
+    toast.success("Time Period Updated");
+    timePeriodModal.onClose();
+  };
+
   const resetOperatingTimePeriod = () => {
     setOperationType("add");
     setStartDate(null);
@@ -156,7 +200,9 @@ export default function TimePeriodList() {
         setTimePeriod={setOperatingTimePeriod}
         useTimePeriodInputs={timePeriodInputs}
         userSettings={userSettings}
-        buttonAction={addTimePeriod}
+        buttonAction={
+          operationType === "edit" ? updateTimePeriod : addTimePeriod
+        }
       />
       <div className="flex flex-col items-center gap-1">
         <ListPageSearchInput
