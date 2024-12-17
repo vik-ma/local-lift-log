@@ -31,6 +31,7 @@ export const CaloricIntakeDropdown = ({
     <Select
       label="Caloric Intake"
       variant="faded"
+      size="sm"
       selectedKeys={value ? [value] : undefined}
       onChange={(e) => handleChange(e)}
     >

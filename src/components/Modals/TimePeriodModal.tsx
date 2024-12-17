@@ -59,12 +59,13 @@ export const TimePeriodModal = ({
             <ModalBody>
               <div className="flex flex-col">
                 <Input
-                  className="h-[5rem]"
+                  className="h-[4.5rem]"
                   value={timePeriod.name}
                   isInvalid={!isTimePeriodNameValid}
                   label="Name"
                   errorMessage={!isTimePeriodNameValid && "Name can't be empty"}
                   variant="faded"
+                  size="sm"
                   onValueChange={(value) =>
                     setTimePeriod((prev) => ({ ...prev, name: value }))
                   }
@@ -107,14 +108,15 @@ export const TimePeriodModal = ({
                     />
                   </I18nProvider>
                 </div>
-                <h3 className="font-medium px-0.5 py-1">
+                <h3 className="font-medium px-0.5 pt-0.5 pb-1">
                   Additional Information
                 </h3>
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-2.5">
                   <Input
                     value={timePeriod.note ?? ""}
                     label="Note"
                     variant="faded"
+                    size="sm"
                     onValueChange={(value) =>
                       setTimePeriod((prev) => ({ ...prev, note: value }))
                     }
@@ -129,6 +131,7 @@ export const TimePeriodModal = ({
                     value={timePeriod.injury ?? ""}
                     label="Injury"
                     variant="faded"
+                    size="sm"
                     onValueChange={(value) =>
                       setTimePeriod((prev) => ({ ...prev, injury: value }))
                     }
