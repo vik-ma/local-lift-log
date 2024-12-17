@@ -30,7 +30,8 @@ export default function TimePeriodList() {
 
   const timePeriodInputs = useTimePeriodInputs(operatingTimePeriod);
 
-  const { isTimePeriodValid } = timePeriodInputs;
+  const { isTimePeriodValid, startDateString, endDateString } =
+    timePeriodInputs;
 
   const timePeriodList = useTimePeriodList(true);
 
@@ -62,6 +63,8 @@ export default function TimePeriodList() {
 
     const newTimePeriod: TimePeriod = {
       ...operatingTimePeriod,
+      start_date: startDateString,
+      end_date: endDateString,
       note: noteToInsert,
     };
 

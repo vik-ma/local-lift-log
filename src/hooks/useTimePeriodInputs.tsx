@@ -33,6 +33,18 @@ export const useTimePeriodInputs = (
     return true;
   }, [isTimePeriodNameValid, isStartDateValid, isEndDateValid]);
 
+  const startDateString: string | null = useMemo(() => {
+    if (startDate === null) return null;
+
+    return startDate.toString();
+  }, [startDate]);
+
+  const endDateString: string | null = useMemo(() => {
+    if (endDate === null) return null;
+
+    return endDate.toString();
+  }, [endDate]);
+
   return {
     isTimePeriodValid,
     isTimePeriodNameValid,
@@ -42,5 +54,7 @@ export const useTimePeriodInputs = (
     setStartDate,
     endDate,
     setEndDate,
+    startDateString,
+    endDateString,
   };
 };

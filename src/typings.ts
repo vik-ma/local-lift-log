@@ -921,4 +921,6 @@ export type UseTimePeriodInputsReturnType = {
   setStartDate: React.Dispatch<React.SetStateAction<CalendarDate | null>>;
   endDate: CalendarDate | null;
   setEndDate: React.Dispatch<React.SetStateAction<CalendarDate | null>>;
+  startDateString: string | null;
+  endDateString: string | null;
 };
