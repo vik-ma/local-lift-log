@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { TimePeriod } from "../typings";
 import Database from "tauri-plugin-sql-api";
 
-export const useTimePeriodList = (getTimePeriodsOnLoad: boolean) => {
+export const useTimePeriodList = () => {
   const [timePeriods, setTimePeriods] = useState<TimePeriod[]>([]);
   const [filterQuery, setFilterQuery] = useState<string>("");
 
@@ -17,7 +17,7 @@ export const useTimePeriodList = (getTimePeriodsOnLoad: boolean) => {
     return timePeriods;
   }, [timePeriods, filterQuery]);
 
-  const getTimePeriods = useCallback(async () => {
+  const getTimePeriods = useCallback(async (locale: string) => {
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -33,12 +33,6 @@ export const useTimePeriodList = (getTimePeriodsOnLoad: boolean) => {
     }
   }, []);
 
-  useEffect(() => {
-    if (getTimePeriodsOnLoad) {
-      getTimePeriods();
-    }
-  }, [getTimePeriodsOnLoad, getTimePeriods]);
-
   return {
     timePeriods,
     setTimePeriods,
@@ -46,5 +40,6 @@ export const useTimePeriodList = (getTimePeriodsOnLoad: boolean) => {
     filterQuery,
     setFilterQuery,
     isTimePeriodListLoaded,
+    getTimePeriods,
   };
 };

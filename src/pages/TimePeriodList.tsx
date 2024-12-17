@@ -42,7 +42,7 @@ export default function TimePeriodList() {
   const { isTimePeriodValid, startDateString, endDateString } =
     timePeriodInputs;
 
-  const timePeriodList = useTimePeriodList(true);
+  const timePeriodList = useTimePeriodList();
 
   const {
     timePeriods,
@@ -51,6 +51,7 @@ export default function TimePeriodList() {
     filterQuery,
     setFilterQuery,
     isTimePeriodListLoaded,
+    getTimePeriods,
   } = timePeriodList;
 
   useEffect(() => {
@@ -60,10 +61,11 @@ export default function TimePeriodList() {
       if (userSettings === undefined) return;
 
       setUserSettings(userSettings);
+      getTimePeriods(userSettings.locale);
     };
 
     loadUserSettings();
-  }, []);
+  }, [getTimePeriods]);
 
   const addTimePeriod = async () => {
     if (!isTimePeriodValid || operationType !== "add") return;
