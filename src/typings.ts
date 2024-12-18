@@ -910,6 +910,8 @@ export type TimePeriod = {
   note: string | null;
   caloric_intake: string | null;
   injury: string | null;
+  formattedStartDate?: string | null;
+  formattedEndDate?: string | null;
 };
 
 export type UseTimePeriodInputsReturnType = {

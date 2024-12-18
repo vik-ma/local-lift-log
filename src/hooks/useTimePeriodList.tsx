@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useRef, useState } from "react";
 import { TimePeriod } from "../typings";
 import Database from "tauri-plugin-sql-api";
+import { FormatISODateString } from "../helpers";
 
 export const useTimePeriodList = () => {
   const [timePeriods, setTimePeriods] = useState<TimePeriod[]>([]);
@@ -25,7 +26,28 @@ export const useTimePeriodList = () => {
         `SELECT * FROM time_periods`
       );
 
-      setTimePeriods(result);
+      const timePeriods: TimePeriod[] = [];
+
+      for (const row of result) {
+        const formattedStartDate = FormatISODateString(row.start_date, locale);
+        const formattedEndDate = FormatISODateString(row.end_date, locale);
+
+        const timePeriod: TimePeriod = {
+          id: row.id,
+          name: row.name,
+          start_date: row.start_date,
+          end_date: row.end_date,
+          note: row.note,
+          caloric_intake: row.caloric_intake,
+          injury: row.injury,
+          formattedStartDate: formattedStartDate,
+          formattedEndDate: formattedEndDate,
+        };
+
+        timePeriods.push(timePeriod);
+      }
+
+      setTimePeriods(timePeriods);
 
       isTimePeriodListLoaded.current = true;
     } catch (error) {
