@@ -335,6 +335,12 @@ export default function TimePeriodList() {
               <span className="w-[20.75rem] break-all text-xs text-stone-400 text-left">
                 {timePeriod.note}
               </span>
+              {timePeriod.injury !== null && (
+                <span className="w-[20.75rem] break-all text-xs text-red-600">
+                  <span className="font-medium">Injury: </span>
+                  {timePeriod.injury}
+                </span>
+              )}
             </div>
             <Dropdown>
               <DropdownTrigger>
