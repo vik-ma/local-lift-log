@@ -15,6 +15,7 @@ export { CalculateNumDaysInCalendarDateRange } from "./Dates/CalculateNumDaysInC
 export { ConvertDateStringToCalendarDate } from "./Dates/ConvertDateStringToCalendarDate";
 export { IsEndDateBeforeStartDate } from "./Dates/IsEndDateBeforeStartDate";
 export { FormatISODateString } from "./Dates/FormatISODateString";
+export { ConvertISODateStringToCalendarDate } from "./Dates/ConvertISODateStringToCalendarDate";
 
 export { ConvertExerciseGroupSetStringPrimary } from "./Exercises/ConvertExerciseGroupSetStringPrimary";
 export { ConvertExerciseGroupStringListPrimaryToString } from "./Exercises/ConvertExerciseGroupStringListPrimaryToString";

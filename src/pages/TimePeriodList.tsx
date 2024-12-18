@@ -25,8 +25,8 @@ import {
   DeleteItemFromList,
   FormatISODateString,
   GetUserSettings,
-  ConvertDateStringToCalendarDate,
   UpdateItemInList,
+  ConvertISODateStringToCalendarDate,
 } from "../helpers";
 import Database from "tauri-plugin-sql-api";
 import toast, { Toaster } from "react-hot-toast";
@@ -240,8 +240,8 @@ export default function TimePeriodList() {
   ) => {
     if (key === "edit") {
       setOperatingTimePeriod(timePeriod);
-      setStartDate(ConvertDateStringToCalendarDate(timePeriod.start_date));
-      setEndDate(ConvertDateStringToCalendarDate(timePeriod.end_date));
+      setStartDate(ConvertISODateStringToCalendarDate(timePeriod.start_date));
+      setEndDate(ConvertISODateStringToCalendarDate(timePeriod.end_date));
       setOperationType("edit");
       timePeriodModal.onOpen();
     } else if (key === "delete") {
