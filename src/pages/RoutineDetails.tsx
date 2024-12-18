@@ -34,7 +34,7 @@ import {
   UpdateRoutine,
   FormatNumItemsString,
   CreateRoutineWorkoutTemplateList,
-  ParseDateString,
+  ConvertDateStringToCalendarDate,
 } from "../helpers";
 import toast, { Toaster } from "react-hot-toast";
 import { getLocalTimeZone } from "@internationalized/date";
@@ -428,7 +428,9 @@ export default function RoutineDetails() {
                   }
                   labelPlacement="outside"
                   variant="faded"
-                  value={ParseDateString(routine.custom_schedule_start_date)}
+                  value={ConvertDateStringToCalendarDate(
+                    routine.custom_schedule_start_date
+                  )}
                   onChange={handleSelectCustomStartDate}
                 />
               </I18nProvider>

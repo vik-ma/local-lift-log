@@ -1,6 +1,6 @@
 import { parseDate } from "@internationalized/date";
 
-export const ParseDateString = (dateString: string | null) => {
+export const ConvertDateStringToCalendarDate = (dateString: string | null) => {
   if (dateString === null) return null;
 
   try {

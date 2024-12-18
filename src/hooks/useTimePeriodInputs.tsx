@@ -2,16 +2,19 @@ import { useMemo, useState } from "react";
 import { useValidateName } from ".";
 import { TimePeriod, UseTimePeriodInputsReturnType } from "../typings";
 import { CalendarDate, getLocalTimeZone } from "@internationalized/date";
-import { IsEndDateBeforeStartDate, ParseDateString } from "../helpers";
+import {
+  IsEndDateBeforeStartDate,
+  ConvertDateStringToCalendarDate,
+} from "../helpers";
 
 export const useTimePeriodInputs = (
   timePeriod: TimePeriod
 ): UseTimePeriodInputsReturnType => {
   const [startDate, setStartDate] = useState<CalendarDate | null>(
-    ParseDateString(timePeriod.start_date)
+    ConvertDateStringToCalendarDate(timePeriod.start_date)
   );
   const [endDate, setEndDate] = useState<CalendarDate | null>(
-    ParseDateString(timePeriod.end_date)
+    ConvertDateStringToCalendarDate(timePeriod.end_date)
   );
 
   const isTimePeriodNameValid = useValidateName(timePeriod.name);

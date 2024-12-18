@@ -25,7 +25,7 @@ import {
   DeleteItemFromList,
   FormatISODateString,
   GetUserSettings,
-  ParseDateString,
+  ConvertDateStringToCalendarDate,
   UpdateItemInList,
 } from "../helpers";
 import Database from "tauri-plugin-sql-api";
@@ -240,8 +240,8 @@ export default function TimePeriodList() {
   ) => {
     if (key === "edit") {
       setOperatingTimePeriod(timePeriod);
-      setStartDate(ParseDateString(timePeriod.start_date));
-      setEndDate(ParseDateString(timePeriod.end_date));
+      setStartDate(ConvertDateStringToCalendarDate(timePeriod.start_date));
+      setEndDate(ConvertDateStringToCalendarDate(timePeriod.end_date));
       setOperationType("edit");
       timePeriodModal.onOpen();
     } else if (key === "delete") {
