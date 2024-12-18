@@ -319,7 +319,7 @@ export default function TimePeriodList() {
                   </span>
                   {timePeriod.formattedStartDate}
                 </span>
-                {timePeriod.formattedEndDate ? (
+                {timePeriod.formattedEndDate && (
                   <span className="text-secondary font-medium">
                     <span className="font-medium text-stone-500 pl-0.5">
                       {" "}
@@ -327,7 +327,8 @@ export default function TimePeriodList() {
                     </span>
                     {timePeriod.formattedEndDate}
                   </span>
-                ) : (
+                )}
+                {timePeriod.isOngoing && (
                   <span className="text-blue-500"> (Ongoing)</span>
                 )}
               </span>

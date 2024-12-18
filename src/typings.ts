@@ -912,6 +912,7 @@ export type TimePeriod = {
   injury: string | null;
   formattedStartDate?: string | null;
   formattedEndDate?: string | null;
+  isOngoing?: boolean;
 };
 
 export type UseTimePeriodInputsReturnType = {

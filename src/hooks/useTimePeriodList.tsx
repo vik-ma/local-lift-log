@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useRef, useState } from "react";
 import { TimePeriod } from "../typings";
 import Database from "tauri-plugin-sql-api";
-import { FormatISODateString } from "../helpers";
+import { FormatISODateString, IsDatePassed } from "../helpers";
 
 export const useTimePeriodList = () => {
   const [timePeriods, setTimePeriods] = useState<TimePeriod[]>([]);
@@ -32,6 +32,8 @@ export const useTimePeriodList = () => {
         const formattedStartDate = FormatISODateString(row.start_date, locale);
         const formattedEndDate = FormatISODateString(row.end_date, locale);
 
+        const isOngoing = row.end_date === null || !IsDatePassed(row.end_date);
+
         const timePeriod: TimePeriod = {
           id: row.id,
           name: row.name,
@@ -42,6 +44,7 @@ export const useTimePeriodList = () => {
           injury: row.injury,
           formattedStartDate: formattedStartDate,
           formattedEndDate: formattedEndDate,
+          isOngoing: isOngoing,
         };
 
         timePeriods.push(timePeriod);
