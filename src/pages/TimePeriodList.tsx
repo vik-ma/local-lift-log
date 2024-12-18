@@ -23,6 +23,7 @@ import { TimePeriod, UserSettings } from "../typings";
 import {
   ConvertEmptyStringToNull,
   DeleteItemFromList,
+  FormatISODateString,
   GetUserSettings,
   ParseDateString,
   UpdateItemInList,
@@ -81,15 +82,31 @@ export default function TimePeriodList() {
   }, [getTimePeriods]);
 
   const addTimePeriod = async () => {
-    if (!isTimePeriodValid || operationType !== "add") return;
+    if (
+      !isTimePeriodValid ||
+      operationType !== "add" ||
+      userSettings === undefined
+    )
+      return;
 
     const noteToInsert = ConvertEmptyStringToNull(operatingTimePeriod.note);
+
+    const formattedStartDate = FormatISODateString(
+      startDateString,
+      userSettings.locale
+    );
+    const formattedEndDate = FormatISODateString(
+      endDateString,
+      userSettings.locale
+    );
 
     const newTimePeriod: TimePeriod = {
       ...operatingTimePeriod,
       start_date: startDateString,
       end_date: endDateString,
       note: noteToInsert,
+      formattedStartDate,
+      formattedEndDate,
     };
 
     try {
@@ -122,15 +139,26 @@ export default function TimePeriodList() {
   };
 
   const updateTimePeriod = async () => {
-    if (!isTimePeriodValid) return;
+    if (!isTimePeriodValid || userSettings === undefined) return;
 
     const noteToInsert = ConvertEmptyStringToNull(operatingTimePeriod.note);
+
+    const formattedStartDate = FormatISODateString(
+      startDateString,
+      userSettings.locale
+    );
+    const formattedEndDate = FormatISODateString(
+      endDateString,
+      userSettings.locale
+    );
 
     const updatedTimePeriod: TimePeriod = {
       ...operatingTimePeriod,
       start_date: startDateString,
       end_date: endDateString,
       note: noteToInsert,
+      formattedStartDate,
+      formattedEndDate,
     };
 
     try {
