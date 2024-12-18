@@ -284,8 +284,18 @@ export default function TimePeriodList() {
               <span className="w-[20.75rem] truncate text-left">
                 {timePeriod.name}
               </span>
-              <span className="text-xs text-secondary text-left">
-                {timePeriod.start_date} - {timePeriod.end_date}
+              <span className="text-xs text-stone-400 text-left">
+                <span className="text-secondary">
+                  {timePeriod.formattedStartDate}
+                </span>
+                {timePeriod.formattedEndDate ? (
+                  <span className="text-secondary">
+                    {" "}
+                    - {timePeriod.formattedEndDate}
+                  </span>
+                ) : (
+                  <span className="text-stone-500"> (Ongoing)</span>
+                )}
               </span>
               <span className="w-[20.75rem] break-all text-xs text-stone-400 text-left">
                 {timePeriod.note}
