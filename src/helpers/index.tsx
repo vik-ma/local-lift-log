@@ -16,6 +16,7 @@ export { ConvertDateStringToCalendarDate } from "./Dates/ConvertDateStringToCale
 export { IsEndDateBeforeStartDate } from "./Dates/IsEndDateBeforeStartDate";
 export { FormatISODateString } from "./Dates/FormatISODateString";
 export { ConvertISODateStringToCalendarDate } from "./Dates/ConvertISODateStringToCalendarDate";
+export { IsDatePassed } from "./Dates/IsDatePassed";
 
 export { ConvertExerciseGroupSetStringPrimary } from "./Exercises/ConvertExerciseGroupSetStringPrimary";
 export { ConvertExerciseGroupStringListPrimaryToString } from "./Exercises/ConvertExerciseGroupStringListPrimaryToString";
