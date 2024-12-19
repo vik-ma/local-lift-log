@@ -7,6 +7,7 @@ import {
   DropdownTrigger,
 } from "@nextui-org/react";
 import {
+  CaloricIntakeTypeSpan,
   DeleteModal,
   EmptyListLabel,
   ListPageSearchInput,
@@ -313,14 +314,14 @@ export default function TimePeriodList() {
                 {timePeriod.name}
               </span>
               <span className="text-xs text-stone-400 text-left">
-                <span className="text-secondary font-medium">
+                <span className="text-secondary">
                   <span className="font-medium text-stone-500">
                     Start Date:{" "}
                   </span>
                   {timePeriod.formattedStartDate}
                 </span>
                 {timePeriod.formattedEndDate && (
-                  <span className="text-secondary font-medium">
+                  <span className="text-secondary">
                     <span className="font-medium text-stone-500 pl-0.5">
                       {" "}
                       End Date:{" "}
@@ -332,6 +333,7 @@ export default function TimePeriodList() {
                   <span className="text-blue-500"> (Ongoing)</span>
                 )}
               </span>
+              <CaloricIntakeTypeSpan value={timePeriod.caloric_intake} />
               <span className="w-[20.75rem] break-all text-xs text-stone-400 text-left">
                 {timePeriod.note}
               </span>
