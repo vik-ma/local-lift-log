@@ -91,3 +91,4 @@ export { WorkoutTemplateListOptions } from "./ListOptions/WorkoutTemplateListOpt
 export { RoutineListOptions } from "./ListOptions/RoutineListOptions";
 export { PresetsListOptions } from "./ListOptions/PresetsListOptions";
 export { MultisetListOptions } from "./ListOptions/MultisetListOptions";
+export { TimePeriodListOptions } from "./ListOptions/TimePeriodListOptions";

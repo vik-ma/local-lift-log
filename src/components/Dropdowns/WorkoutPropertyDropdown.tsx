@@ -90,7 +90,7 @@ export const WorkoutPropertyDropdown = ({
         selectedKeys={selectedWorkoutProperties}
         onSelectionChange={(keys) => handleChange(keys as Set<string>)}
       >
-        {Array.from(workoutProperties.entries()).map(([key, value]) => (
+        {Array.from(workoutProperties).map(([key, value]) => (
           <DropdownItem key={key}>{value}</DropdownItem>
         ))}
       </DropdownMenu>
