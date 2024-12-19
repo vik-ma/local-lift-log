@@ -927,3 +927,13 @@ export type UseTimePeriodInputsReturnType = {
   startDateString: string | null;
   endDateString: string | null;
 };
+
+export type UseTimePeriodListReturnType = {
+  timePeriods: TimePeriod[];
+  setTimePeriods: React.Dispatch<React.SetStateAction<TimePeriod[]>>;
+  filteredTimePeriods: TimePeriod[];
+  filterQuery: string;
+  setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
+  isTimePeriodListLoaded: React.MutableRefObject<boolean>;
+  getTimePeriods: (locale: string) => Promise<void>;
+};

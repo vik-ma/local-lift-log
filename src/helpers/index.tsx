@@ -196,6 +196,7 @@ export { WeekdayMap } from "./Constants/WeekdayMap";
 export { MeasurementTypes } from "./Constants/MeasurementTypes";
 export { MultisetTypes } from "./Constants/MultisetTypes";
 export { CaloricIntakeTypes } from "./Constants/CaloricIntakeTypes";
+export { ValidTimePeriodPropertiesMap } from "./Constants/ValidTimePeriodPropertiesMap";
 
 export { ConvertEmptyStringToNull } from "./Strings/ConvertEmptyStringToNull";
 export { IsStringEmpty } from "./Strings/IsStringEmpty";

@@ -1,9 +1,9 @@
 import { useCallback, useMemo, useRef, useState } from "react";
-import { TimePeriod } from "../typings";
+import { TimePeriod, UseTimePeriodListReturnType } from "../typings";
 import Database from "tauri-plugin-sql-api";
 import { FormatISODateString, IsDatePassed } from "../helpers";
 
-export const useTimePeriodList = () => {
+export const useTimePeriodList = (): UseTimePeriodListReturnType => {
   const [timePeriods, setTimePeriods] = useState<TimePeriod[]>([]);
   const [filterQuery, setFilterQuery] = useState<string>("");
 
