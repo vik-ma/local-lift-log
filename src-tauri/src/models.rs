@@ -42,6 +42,7 @@ pub struct UserSetting {
     pub show_secondary_exercise_groups: i32,
     pub automatically_update_active_measurements: i32,
     pub default_num_new_sets: String,
+    pub shown_time_period_properties: String,
 }
 
 #[derive(Queryable, Selectable)]
