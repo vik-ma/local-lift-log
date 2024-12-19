@@ -117,5 +117,13 @@ export const ValidateUserSettings = (userSettings: UserSettings): boolean => {
   if (!NumNewSetsOptionList().includes(userSettings.default_num_new_sets))
     return false;
 
+  if (
+    !ValidateShownPropertiesString(
+      userSettings.shown_time_period_properties,
+      "time-period"
+    )
+  )
+    return false;
+
   return true;
 };

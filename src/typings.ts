@@ -40,6 +40,7 @@ export type UserSettings = {
   show_secondary_exercise_groups: number;
   automatically_update_active_measurements: number;
   default_num_new_sets: string;
+  shown_time_period_properties: string;
 };
 
 export type UserSettingsOptional = {
@@ -71,6 +72,7 @@ export type UserSettingsOptional = {
   show_secondary_exercise_groups?: number;
   automatically_update_active_measurements?: number;
   default_num_new_sets?: string;
+  shown_time_period_properties?: string;
 };
 
 export type Exercise = {
