@@ -28,6 +28,7 @@ import {
   GetUserSettings,
   UpdateItemInList,
   ConvertISODateStringToCalendarDate,
+  IsDatePassed,
 } from "../helpers";
 import Database from "tauri-plugin-sql-api";
 import toast, { Toaster } from "react-hot-toast";
@@ -101,6 +102,8 @@ export default function TimePeriodList() {
       userSettings.locale
     );
 
+    const isOngoing = endDateString === null || !IsDatePassed(endDateString);
+
     const newTimePeriod: TimePeriod = {
       ...operatingTimePeriod,
       start_date: startDateString,
@@ -108,6 +111,7 @@ export default function TimePeriodList() {
       note: noteToInsert,
       formattedStartDate,
       formattedEndDate,
+      isOngoing,
     };
 
     try {
@@ -153,6 +157,8 @@ export default function TimePeriodList() {
       userSettings.locale
     );
 
+    const isOngoing = endDateString === null || !IsDatePassed(endDateString);
+
     const updatedTimePeriod: TimePeriod = {
       ...operatingTimePeriod,
       start_date: startDateString,
@@ -160,6 +166,7 @@ export default function TimePeriodList() {
       note: noteToInsert,
       formattedStartDate,
       formattedEndDate,
+      isOngoing,
     };
 
     try {
