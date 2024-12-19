@@ -337,7 +337,7 @@ export default function TimePeriodList() {
                   </span>
                 )}
                 {timePeriod.isOngoing && (
-                  <span className="text-blue-500"> (Ongoing)</span>
+                  <span className="text-blue-400"> (Ongoing)</span>
                 )}
               </span>
               <CaloricIntakeTypeSpan value={timePeriod.caloric_intake} />

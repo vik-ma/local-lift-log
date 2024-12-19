@@ -32,7 +32,7 @@ export const CaloricIntakeDropdown = ({
       label="Caloric Intake"
       variant="faded"
       size="sm"
-      selectedKeys={value ? [value] : []}
+      selectedKeys={value && caloricIntakeTypes.includes(value) ? [value] : []}
       onChange={(e) => handleChange(e)}
     >
       {caloricIntakeTypes.map((type) => (
