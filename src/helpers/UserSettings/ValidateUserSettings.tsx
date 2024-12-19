@@ -13,7 +13,7 @@ import {
   IsNumberValidAndAbove0,
   IsNumberValidId,
   ValidCalculationModalTabs,
-  ValidateShownWorkoutPropertiesString,
+  ValidateShownPropertiesString,
   ValidateWorkoutRatingsOrderString,
   NumNewSetsOptionList,
 } from "..";
@@ -94,7 +94,10 @@ export const ValidateUserSettings = (userSettings: UserSettings): boolean => {
     return false;
 
   if (
-    !ValidateShownWorkoutPropertiesString(userSettings.shown_workout_properties)
+    !ValidateShownPropertiesString(
+      userSettings.shown_workout_properties,
+      "workout"
+    )
   )
     return false;
 

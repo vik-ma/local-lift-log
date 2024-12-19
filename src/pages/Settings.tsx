@@ -10,7 +10,7 @@ import {
   CreateDefaultUserSettings,
   IsStringInvalidNumberOr0,
   ConvertNumberToTwoDecimals,
-  CreateWorkoutPropertySet,
+  CreateShownPropertiesSet,
   WorkoutRatingsMap,
   GetWorkoutRatingOrder,
 } from "../helpers";
@@ -134,8 +134,9 @@ export default function Settings() {
       setDefaultIncrementInputValues(defaultIncrementValues);
       setDefaultIncrementOriginalValues({ ...defaultIncrementValues });
 
-      const workoutPropertySet = CreateWorkoutPropertySet(
-        userSettings.shown_workout_properties
+      const workoutPropertySet = CreateShownPropertiesSet(
+        userSettings.shown_workout_properties,
+        "workout"
       );
       setSelectedWorkoutProperties(workoutPropertySet);
 

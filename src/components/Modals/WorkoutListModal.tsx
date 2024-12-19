@@ -9,7 +9,7 @@ import {
   Checkbox,
 } from "@nextui-org/react";
 import { UseWorkoutListReturnType, Workout } from "../../typings";
-import { CreateWorkoutPropertySet } from "../../helpers";
+import { CreateShownPropertiesSet } from "../../helpers";
 import { useState } from "react";
 import {
   EmptyListLabel,
@@ -33,7 +33,7 @@ export const WorkoutListModal = ({
   const [keepSetValues, setKeepSetValues] = useState<boolean>(false);
   const [selectedWorkoutProperties, setSelectedWorkoutProperties] = useState<
     Set<string>
-  >(CreateWorkoutPropertySet(shownWorkoutProperties));
+  >(CreateShownPropertiesSet(shownWorkoutProperties, "workout"));
 
   const {
     workoutListModal,

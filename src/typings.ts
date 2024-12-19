@@ -937,3 +937,5 @@ export type UseTimePeriodListReturnType = {
   isTimePeriodListLoaded: React.MutableRefObject<boolean>;
   getTimePeriods: (locale: string) => Promise<void>;
 };
+
+export type ShownPropertiesTargetType = "workout" | "time-period";

@@ -21,7 +21,7 @@ import Database from "tauri-plugin-sql-api";
 import { Button, useDisclosure } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
 import {
-  CreateWorkoutPropertySet,
+  CreateShownPropertiesSet,
   DeleteItemFromList,
   DeleteMultisetWithId,
   DeleteWorkoutWithId,
@@ -96,8 +96,9 @@ export default function WorkoutList() {
 
       setUserSettings(userSettings);
 
-      const workoutPropertySet = CreateWorkoutPropertySet(
-        userSettings.shown_workout_properties
+      const workoutPropertySet = CreateShownPropertiesSet(
+        userSettings.shown_workout_properties,
+        "workout"
       );
 
       setSelectedWorkoutProperties(workoutPropertySet);
