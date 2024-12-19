@@ -40,6 +40,7 @@ import {
   WorkoutPropertyDropdown,
   PlateCollectionModalList,
   NumSetsDropdown,
+  TimePeriodPropertyDropdown,
 } from "../components";
 import toast, { Toaster } from "react-hot-toast";
 import Database from "tauri-plugin-sql-api";
@@ -65,6 +66,8 @@ export default function Settings() {
   const [isTimeInputInvalid, setIsTimeInputInvalid] = useState<boolean>(false);
   const [specificSettingModalPage, setSpecificSettingModalPage] =
     useState<SpecificSettingModalPage>("default-plate-calc");
+  const [selectedTimePeriodProperties, setSelectedTimePeriodProperties] =
+    useState<Set<string>>(new Set());
 
   const restoreSettingsModal = useDisclosure();
   const specificSettingModal = useDisclosure();
@@ -139,6 +142,12 @@ export default function Settings() {
         "workout"
       );
       setSelectedWorkoutProperties(workoutPropertySet);
+
+      const timePeriodPropertySet = CreateShownPropertiesSet(
+        userSettings.shown_time_period_properties,
+        "time-period"
+      );
+      setSelectedTimePeriodProperties(timePeriodPropertySet);
 
       const workoutRatingsOrder = GetWorkoutRatingOrder(
         userSettings.workout_ratings_order
@@ -788,6 +797,18 @@ export default function Settings() {
               numNewSets={userSettings.default_num_new_sets}
               targetType="settings"
               setUserSettings={handleDefaultNumNewSetsChange}
+            />
+          </div>
+          <div className="flex gap-3 items-center justify-between">
+            <span className="text-lg">
+              Properties To Display In Time Period List
+            </span>
+            <TimePeriodPropertyDropdown
+              selectedTimePeriodProperties={selectedTimePeriodProperties}
+              setSelectedTimePeriodProperties={setSelectedTimePeriodProperties}
+              userSettings={userSettings}
+              setUserSettings={setUserSettings}
+              isInSettingsPage
             />
           </div>
           <h3 className="flex justify-center text-lg font-medium">Workouts</h3>
