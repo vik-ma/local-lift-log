@@ -12,6 +12,7 @@ import {
   EmptyListLabel,
   ListPageSearchInput,
   LoadingSpinner,
+  TimePeriodListOptions,
   TimePeriodModal,
 } from "../components";
 import {
@@ -29,6 +30,7 @@ import {
   UpdateItemInList,
   ConvertISODateStringToCalendarDate,
   IsDatePassed,
+  CreateShownPropertiesSet,
 } from "../helpers";
 import Database from "tauri-plugin-sql-api";
 import toast, { Toaster } from "react-hot-toast";
@@ -39,6 +41,8 @@ type OperationType = "add" | "edit" | "delete";
 export default function TimePeriodList() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [operationType, setOperationType] = useState<OperationType>("add");
+  const [selectedTimePeriodProperties, setSelectedTimePeriodProperties] =
+    useState<Set<string>>(new Set());
 
   const defaultTimePeriod = useDefaultTimePeriod();
 
@@ -78,6 +82,12 @@ export default function TimePeriodList() {
 
       setUserSettings(userSettings);
       getTimePeriods(userSettings.locale);
+
+      const timePeriodPropertySet = CreateShownPropertiesSet(
+        userSettings.shown_time_period_properties,
+        "time-period"
+      );
+      setSelectedTimePeriodProperties(timePeriodPropertySet);
     };
 
     loadUserSettings();
@@ -306,6 +316,14 @@ export default function TimePeriodList() {
                 >
                   New Time Period
                 </Button>
+                <TimePeriodListOptions
+                  selectedTimePeriodProperties={selectedTimePeriodProperties}
+                  setSelectedTimePeriodProperties={
+                    setSelectedTimePeriodProperties
+                  }
+                  userSettings={userSettings}
+                  setUserSettings={setUserSettings}
+                />
               </div>
             </div>
           }
@@ -340,16 +358,21 @@ export default function TimePeriodList() {
                   <span className="text-blue-400"> (Ongoing)</span>
                 )}
               </span>
-              <CaloricIntakeTypeSpan value={timePeriod.caloric_intake} />
-              <span className="w-[20.75rem] break-all text-xs text-stone-400 text-left">
-                {timePeriod.note}
-              </span>
-              {timePeriod.injury !== null && (
-                <span className="w-[20.75rem] break-all text-xs text-red-600">
-                  <span className="font-medium">Injury: </span>
-                  {timePeriod.injury}
+              {selectedTimePeriodProperties.has("caloric-intake") && (
+                <CaloricIntakeTypeSpan value={timePeriod.caloric_intake} />
+              )}
+              {selectedTimePeriodProperties.has("note") && (
+                <span className="w-[20.75rem] break-all text-xs text-stone-400 text-left">
+                  {timePeriod.note}
                 </span>
               )}
+              {timePeriod.injury !== null &&
+                selectedTimePeriodProperties.has("injury") && (
+                  <span className="w-[20.75rem] break-all text-xs text-red-600">
+                    <span className="font-medium">Injury: </span>
+                    {timePeriod.injury}
+                  </span>
+                )}
             </div>
             <Dropdown>
               <DropdownTrigger>
