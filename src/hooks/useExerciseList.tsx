@@ -143,7 +143,6 @@ export const useExerciseList = (
     toggleFavorite,
     handleSortOptionSelection,
     sortCategory,
-    setSortCategory,
     exerciseGroupList,
     sortExercisesByActiveCategory,
     includeSecondaryGroups,

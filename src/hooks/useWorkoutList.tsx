@@ -200,8 +200,7 @@ export const useWorkoutList = (
             row.routine_id !== 0 && !routineMap.current.has(row.routine_id),
           exerciseIdSet: exerciseIds.exerciseIdSet,
           exerciseGroupSetPrimary: exerciseIds.exerciseGroupSetPrimary,
-          exerciseGroupSetSecondary:
-            exerciseIds.exerciseGroupSetSecondary,
+          exerciseGroupSetSecondary: exerciseIds.exerciseGroupSetSecondary,
         };
 
         workouts.push(workout);
@@ -351,7 +350,6 @@ export const useWorkoutList = (
     setFilterQuery,
     sortWorkoutsByDate,
     sortCategory,
-    setSortCategory,
     handleSortOptionSelection,
     filterWorkoutListModal,
     handleOpenFilterButton,

@@ -401,7 +401,6 @@ export type UseExerciseListReturnType = {
   toggleFavorite: (exercises: Exercise) => void;
   handleSortOptionSelection: (key: string) => void;
   sortCategory: ExerciseSortCategory;
-  setSortCategory: React.Dispatch<React.SetStateAction<ExerciseSortCategory>>;
   exerciseGroupList: string[];
   sortExercisesByActiveCategory: (exerciseList: Exercise[]) => void;
   includeSecondaryGroups: boolean;
@@ -479,7 +478,6 @@ export type UseWorkoutListReturnType = {
   setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
   sortWorkoutsByDate: (workoutList: Workout[], isAscending: boolean) => void;
   sortCategory: WorkoutSortCategory;
-  setSortCategory: React.Dispatch<React.SetStateAction<WorkoutSortCategory>>;
   handleSortOptionSelection: (key: string) => void;
   filterWorkoutListModal: UseDisclosureReturnType;
   handleOpenFilterButton: () => void;
