@@ -582,6 +582,9 @@ export type UseWorkoutTemplateListReturnType = {
   workoutTemplateMap: React.MutableRefObject<WorkoutTemplateMap>;
   isWorkoutTemplateListLoaded: React.MutableRefObject<boolean>;
   getWorkoutTemplates: () => Promise<void>;
+  sortWorkoutTemplatesByActiveCategory: (
+    workoutTemplateList: WorkoutTemplate[]
+  ) => void;
 };
 
 export type PresetsType = "equipment" | "distance";
@@ -799,6 +802,7 @@ export type UseRoutineListReturnType = {
   listFilters: UseListFiltersReturnType;
   filterRoutineListModal: UseDisclosureReturnType;
   handleOpenFilterButton: () => Promise<void>;
+  sortRoutinesByActiveCategory: (routineList: Routine[]) => void;
 };
 
 export type NumberRangeInvalidityMap = {

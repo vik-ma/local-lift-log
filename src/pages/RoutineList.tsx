@@ -72,6 +72,7 @@ export default function RoutineList() {
     setFilterQuery,
     isRoutineListLoaded,
     listFilters,
+    sortRoutinesByActiveCategory,
   } = routineList;
 
   const { filterMap } = listFilters;
@@ -143,7 +144,7 @@ export default function RoutineList() {
 
       newRoutine.id = result.lastInsertId;
 
-      setRoutines([...routines, newRoutine]);
+      sortRoutinesByActiveCategory([...routines, newRoutine]);
 
       resetOperatingRoutine();
       routineModal.onClose();
@@ -211,7 +212,7 @@ export default function RoutineList() {
 
     const updatedRoutines = UpdateItemInList(routines, updatedRoutine);
 
-    setRoutines(updatedRoutines);
+    sortRoutinesByActiveCategory(updatedRoutines);
 
     resetOperatingRoutine();
     toast.success("Routine Updated");

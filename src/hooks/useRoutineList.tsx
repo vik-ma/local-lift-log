@@ -207,6 +207,28 @@ export const useRoutineList = (
     }
   };
 
+  const sortRoutinesByActiveCategory = (routineList: Routine[]) => {
+    switch (sortCategory) {
+      case "name":
+        sortRoutinesByName(routineList);
+        break;
+      case "num-workouts-desc":
+        sortRoutinesByNumWorkouts([...routines], false);
+        break;
+      case "num-workouts-asc":
+        sortRoutinesByNumWorkouts([...routines], true);
+        break;
+      case "num-days-desc":
+        sortRoutinesByNumDays([...routines], false);
+        break;
+      case "num-days-asc":
+        sortRoutinesByNumDays([...routines], true);
+        break;
+      default:
+        break;
+    }
+  };
+
   const loadRoutineList = async () => {
     if (!isWorkoutTemplateListLoaded.current) {
       await getWorkoutTemplates();
@@ -245,5 +267,6 @@ export const useRoutineList = (
     listFilters,
     filterRoutineListModal,
     handleOpenFilterButton,
+    sortRoutinesByActiveCategory,
   };
 };

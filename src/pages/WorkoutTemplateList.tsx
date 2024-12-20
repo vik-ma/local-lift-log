@@ -77,6 +77,7 @@ export default function WorkoutTemplateList() {
     filteredWorkoutTemplates,
     listFilters,
     isWorkoutTemplateListLoaded,
+    sortWorkoutTemplatesByActiveCategory,
   } = workoutTemplateList;
 
   const { filterMap, removeFilter, prefixMap } = listFilters;
@@ -121,7 +122,7 @@ export default function WorkoutTemplateList() {
         id: result.lastInsertId,
       };
 
-      setWorkoutTemplates([...workoutTemplates, newTemplate]);
+      sortWorkoutTemplatesByActiveCategory([...workoutTemplates, newTemplate]);
 
       workoutTemplateModal.onClose();
 
@@ -194,7 +195,7 @@ export default function WorkoutTemplateList() {
       updatedWorkoutTemplate
     );
 
-    setWorkoutTemplates(updatedWorkoutTemplates);
+    sortWorkoutTemplatesByActiveCategory(updatedWorkoutTemplates);
 
     resetOperatingWorkoutTemplate();
     workoutTemplateModal.onClose();

@@ -327,6 +327,33 @@ export const useWorkoutList = (
     }
   };
 
+  // REPLACE IN setWorkouts IN WorkoutList PAGE IN THE FUTURE
+  // IF ADDING ANY SORTABLE PROPS THAT CAN GET CHANGED IN WorkoutModal
+  // const sortWorkoutsByActiveCategory = (workoutList: Workout[]) => {
+  //   switch (sortCategory) {
+  //     case "date-desc":
+  //       sortWorkoutsByDate([...workoutList], false);
+  //       break;
+  //     case "date-asc":
+  //       sortWorkoutsByDate([...workoutList], true);
+  //       break;
+  //     case "num-sets-desc":
+  //       sortWorkoutsByNumSets([...workoutList], false);
+  //       break;
+  //     case "num-sets-asc":
+  //       sortWorkoutsByNumSets([...workoutList], true);
+  //       break;
+  //     case "num-exercises-desc":
+  //       sortWorkoutsByNumExercises([...workoutList], false);
+  //       break;
+  //     case "num-exercises-asc":
+  //       sortWorkoutsByNumExercises([...workoutList], true);
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  // };
+
   const handleOpenFilterButton = async () => {
     await loadWorkoutList();
 

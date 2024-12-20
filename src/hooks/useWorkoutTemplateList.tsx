@@ -137,8 +137,7 @@ export const useWorkoutTemplateList = (
           numSets: row.numSets,
           exerciseIdSet: exerciseIds.exerciseIdSet,
           exerciseGroupSetPrimary: exerciseIds.exerciseGroupSetPrimary,
-          exerciseGroupSetSecondary:
-            exerciseIds.exerciseGroupSetSecondary,
+          exerciseGroupSetSecondary: exerciseIds.exerciseGroupSetSecondary,
         };
 
         workoutTemplates.push(workoutTemplate);
@@ -251,6 +250,30 @@ export const useWorkoutTemplateList = (
     }
   };
 
+  const sortWorkoutTemplatesByActiveCategory = (
+    workoutTemplateList: WorkoutTemplate[]
+  ) => {
+    switch (sortCategory) {
+      case "name":
+        sortWorkoutTemplatesByName([...workoutTemplateList]);
+        break;
+      case "num-sets-desc":
+        sortWorkoutTemplatesByNumSets([...workoutTemplateList], false);
+        break;
+      case "num-sets-asc":
+        sortWorkoutTemplatesByNumSets([...workoutTemplateList], true);
+        break;
+      case "num-exercises-desc":
+        sortWorkoutTemplatesByNumExercises([...workoutTemplateList], false);
+        break;
+      case "num-exercises-asc":
+        sortWorkoutTemplatesByNumExercises([...workoutTemplateList], true);
+        break;
+      default:
+        break;
+    }
+  };
+
   const handleOpenFilterButton = async () => {
     await loadWorkoutTemplateList();
 
@@ -279,5 +302,6 @@ export const useWorkoutTemplateList = (
     workoutTemplateMap,
     isWorkoutTemplateListLoaded,
     getWorkoutTemplates,
+    sortWorkoutTemplatesByActiveCategory,
   };
 };

@@ -241,7 +241,8 @@ export default function MeasurementList() {
 
   const restoreDefaultMeasurements = async (useMetricUnits: boolean) => {
     const newMeasurements = await CreateDefaultMeasurements(useMetricUnits);
-    setMeasurements(newMeasurements);
+
+    sortMeasurementsByActiveCategory(newMeasurements);
 
     setUnitsModal.onClose();
     toast.success("Default Measurements Restored");
