@@ -949,6 +949,8 @@ export type UseTimePeriodListReturnType = {
   sortCategory: TimePeriodSortCategory;
   handleSortOptionSelection: (key: string) => void;
   sortTimePeriodByActiveCategory: (timePeriodList: TimePeriod[]) => void;
+  handleOpenFilterButton: () => Promise<void>;
+  filterTimePeriodListModal: UseDisclosureReturnType;
 };
 
 export type ShownPropertiesTargetType = "workout" | "time-period";

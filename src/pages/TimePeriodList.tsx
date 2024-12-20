@@ -10,6 +10,7 @@ import {
   CaloricIntakeTypeSpan,
   DeleteModal,
   EmptyListLabel,
+  FilterTimePeriodListModal,
   ListPageSearchInput,
   LoadingSpinner,
   TimePeriodListOptions,
@@ -286,6 +287,7 @@ export default function TimePeriodList() {
           operationType === "edit" ? updateTimePeriod : addTimePeriod
         }
       />
+      <FilterTimePeriodListModal useTimePeriodList={timePeriodList} />
       <DeleteModal
         deleteModal={deleteModal}
         header="Delete Time Period"
