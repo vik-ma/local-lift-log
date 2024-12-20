@@ -45,6 +45,18 @@ export const TimePeriodListOptions = ({
         >
           <DropdownItem key="ongoing">Ongoing First</DropdownItem>
           <DropdownItem key="name">Name (A-Z)</DropdownItem>
+          <DropdownItem key="start-date-desc">
+            Start Date (Newest First)
+          </DropdownItem>
+          <DropdownItem key="start-date-asc">
+            Start Date (Oldest First)
+          </DropdownItem>
+          <DropdownItem key="end-date-desc">
+            End Date (Newest First)
+          </DropdownItem>
+          <DropdownItem key="end-date-asc">
+            End Date (Oldest First)
+          </DropdownItem>
         </DropdownMenu>
       </Dropdown>
       <TimePeriodPropertyDropdown

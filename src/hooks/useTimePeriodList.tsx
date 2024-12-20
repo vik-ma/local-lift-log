@@ -110,6 +110,56 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
     setTimePeriods(timePeriodList);
   };
 
+  const sortTimePeriodsByStartDate = (
+    timePeriodList: TimePeriod[],
+    isAscending: boolean
+  ) => {
+    timePeriodList.sort((a, b) => {
+      const dateA = a.start_date ?? "";
+      const dateB = b.start_date ?? "";
+
+      const dateComparison = isAscending
+        ? dateA.localeCompare(dateB)
+        : dateB.localeCompare(dateA);
+
+      // Sort by date, then name if dates are equal
+      return dateComparison !== 0
+        ? dateComparison
+        : a.name.localeCompare(b.name);
+    });
+
+    setTimePeriods(timePeriodList);
+  };
+
+  const sortTimePeriodsByEndDate = (
+    timePeriodList: TimePeriod[],
+    isAscending: boolean
+  ) => {
+    timePeriodList.sort((a, b) => {
+      const dateA = a.end_date;
+      const dateB = b.end_date;
+
+      // Always place null end_dates last in list
+      // Sort by name if both end_dates are null
+      if (dateA === null && dateB === null) return a.name.localeCompare(b.name);
+      if (dateA === null) return 1;
+      if (dateB === null) return -1;
+
+      const dateComparison = isAscending
+        ? dateA.localeCompare(dateB)
+        : dateB.localeCompare(dateA);
+
+      // Sort by name if dates are equal
+      if (dateComparison === 0) {
+        return a.name.localeCompare(b.name);
+      }
+
+      return dateComparison;
+    });
+
+    setTimePeriods(timePeriodList);
+  };
+
   const handleSortOptionSelection = (key: string) => {
     if (key === "name") {
       setSortCategory(key);
@@ -117,6 +167,18 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
     } else if (key === "ongoing") {
       setSortCategory(key);
       sortTimePeriodsByOngoingFirst([...timePeriods]);
+    } else if (key === "start-date-desc") {
+      setSortCategory(key);
+      sortTimePeriodsByStartDate([...timePeriods], false);
+    } else if (key === "start-date-asc") {
+      setSortCategory(key);
+      sortTimePeriodsByStartDate([...timePeriods], true);
+    } else if (key === "end-date-desc") {
+      setSortCategory(key);
+      sortTimePeriodsByEndDate([...timePeriods], false);
+    } else if (key === "end-date-asc") {
+      setSortCategory(key);
+      sortTimePeriodsByEndDate([...timePeriods], true);
     }
   };
 
@@ -127,6 +189,18 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
         break;
       case "name":
         sortTimePeriodsByName([...timePeriodList]);
+        break;
+      case "start-date-desc":
+        sortTimePeriodsByStartDate([...timePeriodList], false);
+        break;
+      case "start-date-asc":
+        sortTimePeriodsByStartDate([...timePeriodList], true);
+        break;
+      case "end-date-desc":
+        sortTimePeriodsByEndDate([...timePeriodList], false);
+        break;
+      case "end-date-asc":
+        sortTimePeriodsByEndDate([...timePeriodList], true);
         break;
       default:
         break;
