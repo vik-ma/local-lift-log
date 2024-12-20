@@ -174,10 +174,15 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
 
       const startA = a.start_date ? new Date(a.start_date).getTime() : 0;
       const endA = new Date(a.end_date).getTime();
-      const durationA = endA - startA;
 
       const startB = b.start_date ? new Date(b.start_date).getTime() : 0;
       const endB = new Date(b.end_date).getTime();
+
+      // Place items with invalid date strings at end of list
+      if (isNaN(startA) || isNaN(endA)) return 1;
+      if (isNaN(startB) || isNaN(endB)) return -1;
+
+      const durationA = endA - startA;
       const durationB = endB - startB;
 
       // Calculate time duration delta
