@@ -340,16 +340,16 @@ export default function TimePeriodList() {
               <span className="w-[20.75rem] truncate text-left">
                 {timePeriod.name}
               </span>
-              <span className="text-xs text-stone-400 text-left">
+              <span className="text-xs text-left">
                 <span className="text-secondary">
-                  <span className="font-medium text-stone-500">
+                  <span className="font-medium text-stone-600">
                     Start Date:{" "}
                   </span>
                   {timePeriod.formattedStartDate}
                 </span>
                 {timePeriod.formattedEndDate && (
                   <span className="text-secondary">
-                    <span className="font-medium text-stone-500 pl-0.5">
+                    <span className="font-medium text-stone-600 pl-0.5">
                       {" "}
                       End Date:{" "}
                     </span>
@@ -370,8 +370,8 @@ export default function TimePeriodList() {
               )}
               {timePeriod.injury !== null &&
                 selectedTimePeriodProperties.has("injury") && (
-                  <span className="w-[20.75rem] break-all text-xs text-red-600">
-                    <span className="font-medium">Injury: </span>
+                  <span className="w-[20.75rem] break-all text-xs text-red-500">
+                    <span className="font-medium text-red-700">Injury: </span>
                     {timePeriod.injury}
                   </span>
                 )}
