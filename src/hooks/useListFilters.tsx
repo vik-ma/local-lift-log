@@ -598,7 +598,6 @@ export const useListFilters = (
     setFilterWeightRange,
     filterWeightRangeUnit,
     setFilterWeightRangeUnit,
-    defaultNumberRange,
     filterMeasurements,
     setFilterMeasurements,
     filterMeasurementTypes,

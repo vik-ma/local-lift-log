@@ -53,3 +53,4 @@ export { useTimePeriodList } from "./useTimePeriodList";
 export { useDefaultTimePeriod } from "./useDefaultTimePeriod";
 export { useTimePeriodInputs } from "./useTimePeriodInputs";
 export { useCaloricIntakeTypes } from "./useCaloricIntakeTypes";
+export { useTimePeriodListFilters } from "./useTimePeriodListFilters";

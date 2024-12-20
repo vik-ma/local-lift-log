@@ -514,7 +514,6 @@ export type UseListFiltersReturnType = {
   setFilterWeightRange: React.Dispatch<React.SetStateAction<NumberRange>>;
   filterWeightRangeUnit: string;
   setFilterWeightRangeUnit: React.Dispatch<React.SetStateAction<string>>;
-  defaultNumberRange: NumberRange;
   filterMeasurements: Set<string>;
   setFilterMeasurements: React.Dispatch<React.SetStateAction<Set<string>>>;
   filterMeasurementTypes: string[];
@@ -565,6 +564,13 @@ export type ListFilterMapKey =
   | "distance"
   | "distance-units"
   | "multiset-types";
+
+export type TimePeriodListFilterMapKey =
+  | "start-dates"
+  | "end-dates"
+  | "duration"
+  | "caloric-intake"
+  | "injury";
 
 export type UseWorkoutTemplateListReturnType = {
   workoutTemplateListModal: UseDisclosureReturnType;
@@ -956,3 +962,24 @@ export type TimePeriodSortCategory =
   | "end-date-desc"
   | "length-asc"
   | "length-desc";
+
+export type UseTimePeriodListFiltersReturnType = {
+  filterMap: Map<TimePeriodListFilterMapKey, string>;
+  filterStartDateRange: RangeValue<CalendarDate> | null;
+  setFilterStartDateRange: React.Dispatch<
+    React.SetStateAction<RangeValue<CalendarDate> | null>
+  >;
+  filterEndDateRange: RangeValue<CalendarDate> | null;
+  setFilterEndDateRange: React.Dispatch<
+    React.SetStateAction<RangeValue<CalendarDate> | null>
+  >;
+  filterInjury: boolean;
+  setFilterInjury: React.Dispatch<React.SetStateAction<boolean>>;
+  filterDurationRange: NumberRange;
+  setFilterDurationRange: React.Dispatch<React.SetStateAction<NumberRange>>;
+  filterCaloricIntakeTypes: Set<string>;
+  setFilterCaloricIntakeTypes: React.Dispatch<
+    React.SetStateAction<Set<string>>
+  >;
+  caloricIntakeTypes: string[];
+};
