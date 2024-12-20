@@ -43,6 +43,7 @@ export const TimePeriodListOptions = ({
           selectedKeys={[sortCategory]}
           onAction={(key) => handleSortOptionSelection(key as string)}
         >
+          <DropdownItem key="ongoing">Ongoing First</DropdownItem>
           <DropdownItem key="name">Name (A-Z)</DropdownItem>
         </DropdownMenu>
       </Dropdown>

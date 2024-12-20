@@ -11,7 +11,7 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
   const [timePeriods, setTimePeriods] = useState<TimePeriod[]>([]);
   const [filterQuery, setFilterQuery] = useState<string>("");
   const [sortCategory, setSortCategory] =
-    useState<TimePeriodSortCategory>("name");
+    useState<TimePeriodSortCategory>("ongoing");
 
   const isTimePeriodListLoaded = useRef(false);
 
@@ -79,7 +79,7 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
         timePeriods.push(timePeriod);
       }
 
-      setTimePeriods(timePeriods);
+      sortTimePeriodsByOngoingFirst(timePeriods);
 
       isTimePeriodListLoaded.current = true;
     } catch (error) {
@@ -95,17 +95,38 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
     setTimePeriods(timePeriodList);
   };
 
+  const sortTimePeriodsByOngoingFirst = (timePeriodList: TimePeriod[]) => {
+    timePeriodList.sort((a, b) => {
+      const aIsOngoing = a.isOngoing ? 1 : 0;
+      const bIsOngoing = b.isOngoing ? 1 : 0;
+
+      if (bIsOngoing !== aIsOngoing) {
+        return bIsOngoing - aIsOngoing;
+      } else {
+        return a.name.localeCompare(b.name);
+      }
+    });
+
+    setTimePeriods(timePeriodList);
+  };
+
   const handleSortOptionSelection = (key: string) => {
     if (key === "name") {
       setSortCategory(key);
       sortTimePeriodsByName([...timePeriods]);
+    } else if (key === "ongoing") {
+      setSortCategory(key);
+      sortTimePeriodsByOngoingFirst([...timePeriods]);
     }
   };
 
   const sortTimePeriodByActiveCategory = (timePeriodList: TimePeriod[]) => {
     switch (sortCategory) {
+      case "ongoing":
+        sortTimePeriodsByOngoingFirst([...timePeriodList]);
+        break;
       case "name":
-        sortTimePeriodsByName(timePeriodList);
+        sortTimePeriodsByName([...timePeriodList]);
         break;
       default:
         break;
