@@ -1,11 +1,17 @@
 import { useCallback, useMemo, useRef, useState } from "react";
-import { TimePeriod, UseTimePeriodListReturnType } from "../typings";
+import {
+  TimePeriod,
+  TimePeriodSortCategory,
+  UseTimePeriodListReturnType,
+} from "../typings";
 import Database from "tauri-plugin-sql-api";
 import { FormatISODateString, IsDatePassed } from "../helpers";
 
 export const useTimePeriodList = (): UseTimePeriodListReturnType => {
   const [timePeriods, setTimePeriods] = useState<TimePeriod[]>([]);
   const [filterQuery, setFilterQuery] = useState<string>("");
+  const [sortCategory, setSortCategory] =
+    useState<TimePeriodSortCategory>("name");
 
   const isTimePeriodListLoaded = useRef(false);
 
@@ -81,6 +87,31 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
     }
   }, []);
 
+  const sortTimePeriodsByName = (timePeriodList: TimePeriod[]) => {
+    timePeriodList.sort((a, b) => {
+      return a.name.localeCompare(b.name);
+    });
+
+    setTimePeriods(timePeriodList);
+  };
+
+  const handleSortOptionSelection = (key: string) => {
+    if (key === "name") {
+      setSortCategory(key);
+      sortTimePeriodsByName([...timePeriods]);
+    }
+  };
+
+  const sortTimePeriodByActiveCategory = (timePeriodList: TimePeriod[]) => {
+    switch (sortCategory) {
+      case "name":
+        sortTimePeriodsByName(timePeriodList);
+        break;
+      default:
+        break;
+    }
+  };
+
   return {
     timePeriods,
     setTimePeriods,
@@ -89,5 +120,8 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
     setFilterQuery,
     isTimePeriodListLoaded,
     getTimePeriods,
+    sortCategory,
+    handleSortOptionSelection,
+    sortTimePeriodByActiveCategory,
   };
 };

@@ -317,6 +317,7 @@ export default function TimePeriodList() {
                   New Time Period
                 </Button>
                 <TimePeriodListOptions
+                  useTimePeriodList={timePeriodList}
                   selectedTimePeriodProperties={selectedTimePeriodProperties}
                   setSelectedTimePeriodProperties={
                     setSelectedTimePeriodProperties

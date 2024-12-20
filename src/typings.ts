@@ -938,6 +938,19 @@ export type UseTimePeriodListReturnType = {
   setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
   isTimePeriodListLoaded: React.MutableRefObject<boolean>;
   getTimePeriods: (locale: string) => Promise<void>;
+  sortCategory: TimePeriodSortCategory;
+  handleSortOptionSelection: (key: string) => void;
+  sortTimePeriodByActiveCategory: (timePeriodList: TimePeriod[]) => void;
 };
 
 export type ShownPropertiesTargetType = "workout" | "time-period";
+
+export type TimePeriodSortCategory =
+  | "name"
+  | "ongoing"
+  | "start-date-asc"
+  | "start-date-desc"
+  | "end-date-asc"
+  | "end-date-desc"
+  | "time-period-asc"
+  | "time-period-desc";
