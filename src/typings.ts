@@ -954,5 +954,5 @@ export type TimePeriodSortCategory =
   | "start-date-desc"
   | "end-date-asc"
   | "end-date-desc"
-  | "time-period-asc"
-  | "time-period-desc";
+  | "length-asc"
+  | "length-desc";

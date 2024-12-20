@@ -160,6 +160,40 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
     setTimePeriods(timePeriodList);
   };
 
+  const sortTimePeriodsByLength = (
+    timePeriodList: TimePeriod[],
+    isAscending: boolean
+  ) => {
+    timePeriodList.sort((a, b) => {
+      // Always place null end_dates last in list
+      // Sort by name if both end_dates are null
+      if (a.end_date === null && b.end_date === null)
+        return a.name.localeCompare(b.name);
+      if (a.end_date === null) return 1;
+      if (b.end_date === null) return -1;
+
+      const startA = a.start_date ? new Date(a.start_date).getTime() : 0;
+      const endA = new Date(a.end_date).getTime();
+      const durationA = endA - startA;
+
+      const startB = b.start_date ? new Date(b.start_date).getTime() : 0;
+      const endB = new Date(b.end_date).getTime();
+      const durationB = endB - startB;
+
+      // Calculate time duration delta
+      const durationComparison = isAscending
+        ? durationA - durationB
+        : durationB - durationA;
+
+      // Sort by name if duration length are equal
+      return durationComparison !== 0
+        ? durationComparison
+        : a.name.localeCompare(b.name);
+    });
+
+    setTimePeriods(timePeriodList);
+  };
+
   const handleSortOptionSelection = (key: string) => {
     if (key === "name") {
       setSortCategory(key);
@@ -179,6 +213,12 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
     } else if (key === "end-date-asc") {
       setSortCategory(key);
       sortTimePeriodsByEndDate([...timePeriods], true);
+    } else if (key === "length-desc") {
+      setSortCategory(key);
+      sortTimePeriodsByLength([...timePeriods], false);
+    } else if (key === "length-asc") {
+      setSortCategory(key);
+      sortTimePeriodsByLength([...timePeriods], true);
     }
   };
 
@@ -201,6 +241,12 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
         break;
       case "end-date-asc":
         sortTimePeriodsByEndDate([...timePeriodList], true);
+        break;
+      case "length-desc":
+        sortTimePeriodsByLength([...timePeriodList], false);
+        break;
+      case "length-asc":
+        sortTimePeriodsByLength([...timePeriodList], true);
         break;
       default:
         break;

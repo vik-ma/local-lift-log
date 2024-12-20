@@ -57,6 +57,12 @@ export const TimePeriodListOptions = ({
           <DropdownItem key="end-date-asc">
             End Date (Oldest First)
           </DropdownItem>
+          <DropdownItem key="length-desc">
+            Duration (Longest First)
+          </DropdownItem>
+          <DropdownItem key="length-asc">
+            Duration (Shortest First)
+          </DropdownItem>
         </DropdownMenu>
       </Dropdown>
       <TimePeriodPropertyDropdown
