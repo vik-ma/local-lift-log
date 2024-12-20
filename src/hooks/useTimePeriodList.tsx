@@ -11,8 +11,31 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
 
   const filteredTimePeriods = useMemo(() => {
     if (filterQuery !== "") {
-      return timePeriods.filter((item) =>
-        item.name.toLocaleLowerCase().includes(filterQuery.toLocaleLowerCase())
+      return timePeriods.filter(
+        (item) =>
+          item.name
+            .toLocaleLowerCase()
+            .includes(filterQuery.toLocaleLowerCase()) ||
+          item.note
+            ?.toLocaleLowerCase()
+            .includes(filterQuery.toLocaleLowerCase()) ||
+          item.formattedStartDate
+            ?.toLocaleLowerCase()
+            .includes(filterQuery.toLocaleLowerCase()) ||
+          item.formattedEndDate
+            ?.toLocaleLowerCase()
+            .includes(filterQuery.toLocaleLowerCase()) ||
+          item.caloric_intake
+            ?.toLocaleLowerCase()
+            .includes(filterQuery.toLocaleLowerCase()) ||
+          item.injury
+            ?.toLocaleLowerCase()
+            .includes(filterQuery.toLocaleLowerCase()) ||
+          (item.injury && "injury".includes(filterQuery.toLocaleLowerCase())) ||
+          (item.isOngoing &&
+            "ongoing".includes(filterQuery.toLocaleLowerCase())) ||
+          (item.end_date &&
+            "end date".includes(filterQuery.toLocaleLowerCase()))
       );
     }
     return timePeriods;
