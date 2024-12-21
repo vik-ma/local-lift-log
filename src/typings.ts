@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { CalendarDate, RangeValue, useDisclosure } from "@nextui-org/react";
+import { CalendarDate, useDisclosure } from "@nextui-org/react";
 
 export type Routine = {
   id: number;
@@ -968,13 +968,21 @@ export type TimePeriodSortCategory =
 
 export type UseTimePeriodListFiltersReturnType = {
   filterMap: Map<TimePeriodListFilterMapKey, string>;
-  filterStartDateRange: RangeValue<CalendarDate> | null;
-  setFilterStartDateRange: React.Dispatch<
-    React.SetStateAction<RangeValue<CalendarDate> | null>
+  filterMinStartDate: CalendarDate | null;
+  setFilterMinStartDate: React.Dispatch<
+    React.SetStateAction<CalendarDate | null>
   >;
-  filterEndDateRange: RangeValue<CalendarDate> | null;
-  setFilterEndDateRange: React.Dispatch<
-    React.SetStateAction<RangeValue<CalendarDate> | null>
+  filterMaxStartDate: CalendarDate | null;
+  setFilterMaxStartDate: React.Dispatch<
+    React.SetStateAction<CalendarDate | null>
+  >;
+  filterMinEndDate: CalendarDate | null;
+  setFilterMinEndDate: React.Dispatch<
+    React.SetStateAction<CalendarDate | null>
+  >;
+  filterMaxEndDate: CalendarDate | null;
+  setFilterMaxEndDate: React.Dispatch<
+    React.SetStateAction<CalendarDate | null>
   >;
   filterInjury: boolean;
   setFilterInjury: React.Dispatch<React.SetStateAction<boolean>>;
