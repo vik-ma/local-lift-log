@@ -11,6 +11,7 @@ import {
   DeleteModal,
   EmptyListLabel,
   FilterTimePeriodListModal,
+  ListFilters,
   ListPageSearchInput,
   LoadingSpinner,
   TimePeriodListOptions,
@@ -74,6 +75,7 @@ export default function TimePeriodList() {
     isTimePeriodListLoaded,
     getTimePeriods,
     sortTimePeriodByActiveCategory,
+    timePeriodListFilters,
   } = timePeriodList;
 
   useEffect(() => {
@@ -309,8 +311,7 @@ export default function TimePeriodList() {
           setFilterQuery={setFilterQuery}
           filteredListLength={filteredTimePeriods.length}
           totalListLength={timePeriods.length}
-          // TODO: CHANGE IF ADDING FILTERS
-          isListFiltered={false}
+          isListFiltered={timePeriodListFilters.filterMap.size > 0}
           bottomContent={
             <div className="flex flex-col gap-1.5">
               <div className="flex justify-between">
@@ -332,6 +333,13 @@ export default function TimePeriodList() {
                   setUserSettings={setUserSettings}
                 />
               </div>
+              {timePeriodListFilters.filterMap.size > 0 && (
+                <ListFilters
+                  filterMap={timePeriodListFilters.filterMap}
+                  removeFilter={timePeriodListFilters.removeFilter}
+                  prefixMap={timePeriodListFilters.prefixMap}
+                />
+              )}
             </div>
           }
         />

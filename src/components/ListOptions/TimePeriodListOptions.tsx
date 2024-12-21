@@ -27,16 +27,21 @@ export const TimePeriodListOptions = ({
   userSettings,
   setUserSettings,
 }: TimePeriodListOptionsProps) => {
-  const { sortCategory, handleSortOptionSelection, handleOpenFilterButton } =
-    useTimePeriodList;
+  const {
+    sortCategory,
+    handleSortOptionSelection,
+    handleOpenFilterButton,
+    timePeriodListFilters,
+  } = useTimePeriodList;
 
   return (
     <div className="flex gap-1 pr-0.5">
       <Button
         className="z-1"
         variant="flat"
-        // TODO: FIX
-        // color={filterMap.size > 0 ? "secondary" : "default"}
+        color={
+          timePeriodListFilters.filterMap.size > 0 ? "secondary" : "default"
+        }
         size="sm"
         onPress={handleOpenFilterButton}
       >
