@@ -7,6 +7,7 @@ import {
 import Database from "tauri-plugin-sql-api";
 import { FormatISODateString, IsDatePassed } from "../helpers";
 import { useDisclosure } from "@nextui-org/react";
+import { useTimePeriodListFilters } from "./useTimePeriodListFilters";
 
 export const useTimePeriodList = (): UseTimePeriodListReturnType => {
   const [timePeriods, setTimePeriods] = useState<TimePeriod[]>([]);
@@ -17,6 +18,8 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
   const isTimePeriodListLoaded = useRef(false);
 
   const filterTimePeriodListModal = useDisclosure();
+
+  const timePeriodListFilters = useTimePeriodListFilters();
 
   const filteredTimePeriods = useMemo(() => {
     if (filterQuery !== "") {
@@ -278,5 +281,6 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
     sortTimePeriodByActiveCategory,
     handleOpenFilterButton,
     filterTimePeriodListModal,
+    timePeriodListFilters,
   };
 };

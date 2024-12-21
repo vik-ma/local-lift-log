@@ -952,6 +952,7 @@ export type UseTimePeriodListReturnType = {
   sortTimePeriodByActiveCategory: (timePeriodList: TimePeriod[]) => void;
   handleOpenFilterButton: () => Promise<void>;
   filterTimePeriodListModal: UseDisclosureReturnType;
+  timePeriodListFilters: UseTimePeriodListFiltersReturnType;
 };
 
 export type ShownPropertiesTargetType = "workout" | "time-period";

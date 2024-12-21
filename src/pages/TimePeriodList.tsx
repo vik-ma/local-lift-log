@@ -287,7 +287,10 @@ export default function TimePeriodList() {
           operationType === "edit" ? updateTimePeriod : addTimePeriod
         }
       />
-      <FilterTimePeriodListModal useTimePeriodList={timePeriodList} />
+      <FilterTimePeriodListModal
+        useTimePeriodList={timePeriodList}
+        locale={userSettings.locale}
+      />
       <DeleteModal
         deleteModal={deleteModal}
         header="Delete Time Period"
