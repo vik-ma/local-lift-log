@@ -5,7 +5,11 @@ import {
   UseTimePeriodListReturnType,
 } from "../typings";
 import Database from "tauri-plugin-sql-api";
-import { FormatISODateString, IsDatePassed } from "../helpers";
+import {
+  FormatISODateString,
+  IsDatePassed,
+  IsDateWithinLimit,
+} from "../helpers";
 import { useDisclosure } from "@nextui-org/react";
 import { useTimePeriodListFilters } from ".";
 
@@ -21,37 +25,62 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
 
   const timePeriodListFilters = useTimePeriodListFilters();
 
+  const {
+    filterMap,
+    filterMinStartDate,
+    filterMaxStartDate,
+    filterMinEndDate,
+    filterMaxEndDate,
+  } = timePeriodListFilters;
+
   const filteredTimePeriods = useMemo(() => {
-    if (filterQuery !== "") {
+    if (filterQuery !== "" || filterMap.size > 0) {
       return timePeriods.filter(
         (item) =>
-          item.name
+          (item.name
             .toLocaleLowerCase()
             .includes(filterQuery.toLocaleLowerCase()) ||
-          item.note
-            ?.toLocaleLowerCase()
-            .includes(filterQuery.toLocaleLowerCase()) ||
-          item.formattedStartDate
-            ?.toLocaleLowerCase()
-            .includes(filterQuery.toLocaleLowerCase()) ||
-          item.formattedEndDate
-            ?.toLocaleLowerCase()
-            .includes(filterQuery.toLocaleLowerCase()) ||
-          item.caloric_intake
-            ?.toLocaleLowerCase()
-            .includes(filterQuery.toLocaleLowerCase()) ||
-          item.injury
-            ?.toLocaleLowerCase()
-            .includes(filterQuery.toLocaleLowerCase()) ||
-          (item.injury && "injury".includes(filterQuery.toLocaleLowerCase())) ||
-          (item.isOngoing &&
-            "ongoing".includes(filterQuery.toLocaleLowerCase())) ||
-          (item.end_date &&
-            "end date".includes(filterQuery.toLocaleLowerCase()))
+            item.note
+              ?.toLocaleLowerCase()
+              .includes(filterQuery.toLocaleLowerCase()) ||
+            item.formattedStartDate
+              ?.toLocaleLowerCase()
+              .includes(filterQuery.toLocaleLowerCase()) ||
+            item.formattedEndDate
+              ?.toLocaleLowerCase()
+              .includes(filterQuery.toLocaleLowerCase()) ||
+            item.caloric_intake
+              ?.toLocaleLowerCase()
+              .includes(filterQuery.toLocaleLowerCase()) ||
+            item.injury
+              ?.toLocaleLowerCase()
+              .includes(filterQuery.toLocaleLowerCase()) ||
+            (item.injury &&
+              "injury".includes(filterQuery.toLocaleLowerCase())) ||
+            (item.isOngoing &&
+              "ongoing".includes(filterQuery.toLocaleLowerCase())) ||
+            (item.end_date &&
+              "end date".includes(filterQuery.toLocaleLowerCase()))) &&
+          (!filterMap.has("min-date-start") ||
+            IsDateWithinLimit(item.start_date, filterMinStartDate, false)) &&
+          (!filterMap.has("max-date-start") ||
+            IsDateWithinLimit(item.start_date, filterMaxStartDate, true)) &&
+          (!filterMap.has("min-date-end") ||
+            IsDateWithinLimit(item.end_date, filterMinEndDate, false)) &&
+          (!filterMap.has("max-date-end") ||
+            IsDateWithinLimit(item.end_date, filterMaxEndDate, true))
       );
     }
     return timePeriods;
-  }, [timePeriods, filterQuery]);
+  }, [
+    timePeriods,
+    filterQuery,
+    filterMap,
+    filterMinStartDate,
+    filterMaxStartDate,
+    filterMinEndDate,
+    filterMaxEndDate,
+  ]);
 
   const getTimePeriods = useCallback(async (locale: string) => {
     try {

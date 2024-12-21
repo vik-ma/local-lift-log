@@ -2,11 +2,11 @@ import { getLocalTimeZone } from "@internationalized/date";
 import { CalendarDate } from "@nextui-org/react";
 
 export const IsDateWithinLimit = (
-  dateISOString: string,
+  dateISOString: string | null,
   dateLimit: CalendarDate | null,
   isMaxDate: boolean
 ) => {
-  if (dateLimit === null) return true;
+  if (dateLimit === null || dateISOString === null) return true;
 
   try {
     const date = new Date(dateISOString);
