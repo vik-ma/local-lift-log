@@ -238,7 +238,7 @@ export const useListFilters = (
     setFilterMap(updatedFilterMap);
   };
 
-  const removeFilter = (key: ListFilterMapKey) => {
+  const removeFilter = (key: string) => {
     const updatedFilterMap = new Map(filterMap);
 
     if (key === "min-date" && filterMap.has("min-date")) {

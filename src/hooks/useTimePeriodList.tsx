@@ -7,7 +7,7 @@ import {
 import Database from "tauri-plugin-sql-api";
 import { FormatISODateString, IsDatePassed } from "../helpers";
 import { useDisclosure } from "@nextui-org/react";
-import { useTimePeriodListFilters } from "./useTimePeriodListFilters";
+import { useTimePeriodListFilters } from ".";
 
 export const useTimePeriodList = (): UseTimePeriodListReturnType => {
   const [timePeriods, setTimePeriods] = useState<TimePeriod[]>([]);

@@ -82,7 +82,7 @@ export const useTimePeriodListFilters =
       activeModal.onClose();
     };
 
-    const removeFilter = (key: TimePeriodListFilterMapKey) => {
+    const removeFilter = (key: string) => {
       const updatedFilterMap = new Map(filterMap);
 
       if (key === "min-date-start" && filterMap.has("min-date-start")) {

@@ -1,10 +1,10 @@
 import { Chip } from "@nextui-org/react";
-import { ListFilterMapKey } from "../typings";
+import { ListFilterMapKey, TimePeriodListFilterMapKey } from "../typings";
 
 type ListFiltersProps = {
-  filterMap: Map<ListFilterMapKey, string>;
-  removeFilter: (key: ListFilterMapKey) => void;
-  prefixMap: Map<ListFilterMapKey, string>;
+  filterMap: Map<ListFilterMapKey | TimePeriodListFilterMapKey, string>;
+  removeFilter: (key: string) => void;
+  prefixMap: Map<ListFilterMapKey | TimePeriodListFilterMapKey, string>;
   isInModal?: boolean;
 };
 

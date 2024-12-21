@@ -419,7 +419,7 @@ export type UseFilterExerciseListReturnType = {
   exerciseGroupModal: UseDisclosureReturnType;
   areExerciseGroupsFiltered: boolean;
   filterMap: Map<ListFilterMapKey, string>;
-  removeFilter: (key: ListFilterMapKey) => void;
+  removeFilter: (key: string) => void;
   prefixMap: Map<ListFilterMapKey, string>;
 };
 
@@ -493,7 +493,7 @@ export type UseListFiltersReturnType = {
     activeModal: UseDisclosureReturnType
   ) => void;
   filterMap: Map<ListFilterMapKey, string>;
-  removeFilter: (key: ListFilterMapKey) => void;
+  removeFilter: (key: string) => void;
   resetFilter: () => void;
   showResetFilterButton: boolean;
   filterWeekdays: Set<string>;
@@ -1000,7 +1000,7 @@ export type UseTimePeriodListFiltersReturnType = {
     locale: string,
     activeModal: UseDisclosureReturnType
   ) => void;
-  removeFilter: (key: TimePeriodListFilterMapKey) => void;
+  removeFilter: (key: string) => void;
   resetFilter: () => void;
   showResetFilterButton: boolean;
   prefixMap: Map<TimePeriodListFilterMapKey, string>;
