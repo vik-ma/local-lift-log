@@ -1,20 +1,25 @@
 import { getLocalTimeZone } from "@internationalized/date";
-import { CalendarDate, RangeValue } from "@nextui-org/react";
+import { CalendarDate } from "@nextui-org/react";
 
 export const IsDateWithinRange = (
   dateISOString: string,
-  dateRange: RangeValue<CalendarDate> | null
+  dateLimit: CalendarDate | null,
+  isMaxDate: boolean
 ) => {
-  if (dateRange === null) return true;
+  if (dateLimit === null) return true;
 
   try {
     const date = new Date(dateISOString);
 
-    const startDate = dateRange.start.toDate(getLocalTimeZone());
-    const endDate = dateRange.end.toDate(getLocalTimeZone());
-    endDate.setHours(23, 59, 59, 999);
+    const filterDate = dateLimit.toDate(getLocalTimeZone());
 
-    return date >= startDate && date <= endDate;
+    if (isMaxDate) {
+      filterDate.setHours(23, 59, 59, 999);
+
+      return date <= filterDate;
+    } else {
+      return date >= filterDate;
+    }
   } catch {
     return false;
   }

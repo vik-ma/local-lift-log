@@ -59,7 +59,8 @@ export const useWorkoutList = (
   );
 
   const {
-    filterDateRange,
+    filterMinDate,
+    filterMaxDate,
     filterMap,
     filterWeekdays,
     filterRoutines,
@@ -89,8 +90,10 @@ export const useWorkoutList = (
             item.routine?.name
               .toLocaleLowerCase()
               .includes(filterQuery.toLocaleLowerCase())) &&
-          (!filterMap.has("dates") ||
-            IsDateWithinRange(item.date, filterDateRange)) &&
+          (!filterMap.has("min-date") ||
+            IsDateWithinRange(item.date, filterMinDate, false)) &&
+          (!filterMap.has("max-date") ||
+            IsDateWithinRange(item.date, filterMaxDate, true)) &&
           (!filterMap.has("weekdays") ||
             IsDateInWeekdaySet(item.date, filterWeekdays)) &&
           (!filterMap.has("routines") || filterRoutines.has(item.routine_id)) &&
@@ -119,7 +122,8 @@ export const useWorkoutList = (
     workouts,
     filterQuery,
     filterMap,
-    filterDateRange,
+    filterMinDate,
+    filterMaxDate,
     filterWeekdays,
     filterRoutines,
     filterExercises,
