@@ -29,11 +29,6 @@ export const FilterUserWeightListModal = ({
   locale,
 }: FilterUserWeightListModalProps) => {
   const {
-    filterDateRange,
-    setFilterDateRange,
-    filterWeekdays,
-    setFilterWeekdays,
-    weekdayMap,
     filterWeightRange,
     setFilterWeightRange,
     filterWeightRangeUnit,
@@ -58,11 +53,7 @@ export const FilterUserWeightListModal = ({
             <ModalBody>
               <div className="flex flex-col gap-3">
                 <FilterDateRangeAndWeekdays
-                  filterDateRange={filterDateRange}
-                  setFilterDateRange={setFilterDateRange}
-                  filterWeekdays={filterWeekdays}
-                  setFilterWeekdays={setFilterWeekdays}
-                  weekdayMap={weekdayMap}
+                  useListFilters={useListFilters}
                   locale={locale}
                   dateRangeLabel="User Weight Dates"
                 />

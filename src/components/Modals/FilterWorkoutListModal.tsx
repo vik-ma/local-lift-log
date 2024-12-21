@@ -51,13 +51,8 @@ export const FilterWorkoutListModal = ({
 
   const {
     handleFilterSaveButton,
-    filterDateRange,
-    setFilterDateRange,
     resetFilter,
     showResetFilterButton,
-    filterWeekdays,
-    setFilterWeekdays,
-    weekdayMap,
     filterRoutines,
     setFilterRoutines,
     filterExercises,
@@ -185,11 +180,7 @@ export const FilterWorkoutListModal = ({
                 <ScrollShadow className="h-[400px]">
                   <div className="flex flex-col gap-3 w-[24rem]">
                     <FilterDateRangeAndWeekdays
-                      filterDateRange={filterDateRange}
-                      setFilterDateRange={setFilterDateRange}
-                      filterWeekdays={filterWeekdays}
-                      setFilterWeekdays={setFilterWeekdays}
-                      weekdayMap={weekdayMap}
+                      useListFilters={listFilters}
                       locale={userSettings.locale}
                       dateRangeLabel="Workout Dates"
                     />

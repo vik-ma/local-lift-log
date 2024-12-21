@@ -33,11 +33,6 @@ export const FilterUserMeasurementListModal = ({
   const [modalPage, setModalPage] = useState<ModalPage>("base");
 
   const {
-    filterDateRange,
-    setFilterDateRange,
-    filterWeekdays,
-    setFilterWeekdays,
-    weekdayMap,
     showResetFilterButton,
     resetFilter,
     handleFilterSaveButton,
@@ -79,11 +74,7 @@ export const FilterUserMeasurementListModal = ({
                 <ScrollShadow className="h-[400px]">
                   <div className="flex flex-col gap-3">
                     <FilterDateRangeAndWeekdays
-                      filterDateRange={filterDateRange}
-                      setFilterDateRange={setFilterDateRange}
-                      filterWeekdays={filterWeekdays}
-                      setFilterWeekdays={setFilterWeekdays}
-                      weekdayMap={weekdayMap}
+                      useListFilters={useListFilters}
                       locale={locale}
                       dateRangeLabel="User Measurement Dates"
                     />
