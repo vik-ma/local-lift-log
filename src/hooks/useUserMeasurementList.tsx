@@ -2,7 +2,7 @@ import { useCallback, useMemo, useState } from "react";
 import {
   GetUserMeasurements,
   IsDateInWeekdaySet,
-  IsDateWithinRange,
+  IsDateWithinLimit,
   IsMeasurementInUserMeasurementValues,
 } from "../helpers";
 import { UseMeasurementListReturnType, UserMeasurement } from "../typings";
@@ -28,8 +28,13 @@ export const useUserMeasurementList = (
     measurementMap.current
   );
 
-  const { filterMap, filterDateRange, filterWeekdays, filterMeasurements } =
-    listFilters;
+  const {
+    filterMap,
+    filterMinDate,
+    filterMaxDate,
+    filterWeekdays,
+    filterMeasurements,
+  } = listFilters;
 
   const filteredUserMeasurements = useMemo(() => {
     if (filterQuery !== "" || filterMap.size > 0) {
@@ -45,8 +50,10 @@ export const useUserMeasurementList = (
             item.comment
               ?.toLocaleLowerCase()
               .includes(filterQuery.toLocaleLowerCase())) &&
-          (!filterMap.has("dates") ||
-            IsDateWithinRange(item.date, filterDateRange)) &&
+          (!filterMap.has("min-date") ||
+            IsDateWithinLimit(item.date, filterMinDate, false)) &&
+          (!filterMap.has("max-date") ||
+            IsDateWithinLimit(item.date, filterMaxDate, true)) &&
           (!filterMap.has("weekdays") ||
             IsDateInWeekdaySet(item.date, filterWeekdays)) &&
           (!filterMap.has("measurements") ||
@@ -62,7 +69,8 @@ export const useUserMeasurementList = (
     filterQuery,
     measurementMap,
     filterMap,
-    filterDateRange,
+    filterMinDate,
+    filterMaxDate,
     filterWeekdays,
     filterMeasurements,
   ]);

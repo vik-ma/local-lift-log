@@ -1,7 +1,7 @@
 import { getLocalTimeZone } from "@internationalized/date";
 import { CalendarDate } from "@nextui-org/react";
 
-export const IsDateWithinRange = (
+export const IsDateWithinLimit = (
   dateISOString: string,
   dateLimit: CalendarDate | null,
   isMaxDate: boolean

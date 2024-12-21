@@ -11,7 +11,7 @@ import {
   DoesListOrSetHaveCommonElement,
   FormatDateString,
   IsDateInWeekdaySet,
-  IsDateWithinRange,
+  IsDateWithinLimit,
 } from "../helpers";
 import { useDisclosure } from "@nextui-org/react";
 import { useListFilters, useRoutineList, useWorkoutTemplateList } from ".";
@@ -91,9 +91,9 @@ export const useWorkoutList = (
               .toLocaleLowerCase()
               .includes(filterQuery.toLocaleLowerCase())) &&
           (!filterMap.has("min-date") ||
-            IsDateWithinRange(item.date, filterMinDate, false)) &&
+            IsDateWithinLimit(item.date, filterMinDate, false)) &&
           (!filterMap.has("max-date") ||
-            IsDateWithinRange(item.date, filterMaxDate, true)) &&
+            IsDateWithinLimit(item.date, filterMaxDate, true)) &&
           (!filterMap.has("weekdays") ||
             IsDateInWeekdaySet(item.date, filterWeekdays)) &&
           (!filterMap.has("routines") || filterRoutines.has(item.routine_id)) &&

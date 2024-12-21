@@ -22,7 +22,7 @@ import {
   GetUserSettings,
   InsertUserWeightIntoDatabase,
   IsDateInWeekdaySet,
-  IsDateWithinRange,
+  IsDateWithinLimit,
   IsWeightWithinNumberRange,
   UpdateItemInList,
   UpdateUserWeight,
@@ -66,7 +66,8 @@ export default function UserWeightList() {
 
   const {
     filterMap,
-    filterDateRange,
+    filterMinDate,
+    filterMaxDate,
     filterWeekdays,
     removeFilter,
     prefixMap,
@@ -91,8 +92,10 @@ export default function UserWeightList() {
             item.comment
               ?.toLocaleLowerCase()
               .includes(filterQuery.toLocaleLowerCase())) &&
-          (!filterMap.has("dates") ||
-            IsDateWithinRange(item.date, filterDateRange)) &&
+          (!filterMap.has("min-date") ||
+            IsDateWithinLimit(item.date, filterMinDate, false)) &&
+          (!filterMap.has("max-date") ||
+            IsDateWithinLimit(item.date, filterMaxDate, true)) &&
           (!filterMap.has("weekdays") ||
             IsDateInWeekdaySet(item.date, filterWeekdays)) &&
           (!filterMap.has("weight") ||
@@ -109,7 +112,8 @@ export default function UserWeightList() {
     userWeights,
     filterQuery,
     filterMap,
-    filterDateRange,
+    filterMinDate,
+    filterMaxDate,
     filterWeekdays,
     filterWeightRange,
     filterWeightRangeUnit,

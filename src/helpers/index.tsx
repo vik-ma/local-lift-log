@@ -9,7 +9,7 @@ export { GetCurrentDateTimeISOString } from "./Dates/GetCurrentDateTimeISOString
 export { FormatYmdDateString } from "./Dates/FormatYmdDateString";
 export { IsDateStringOlderThanOneWeek } from "./Dates/IsDateStringOlderThanOneWeek";
 export { ConvertCalendarDateToLocalizedString } from "./Dates/ConvertCalendarDateToLocalizedString";
-export { IsDateWithinRange } from "./Dates/IsDateWithinRange";
+export { IsDateWithinLimit } from "./Dates/IsDateWithinLimit";
 export { IsDateInWeekdaySet } from "./Dates/IsDateInWeekdaySet";
 export { CalculateNumDaysInCalendarDateRange } from "./Dates/CalculateNumDaysInCalendarDateRange";
 export { ConvertDateStringToCalendarDate } from "./Dates/ConvertDateStringToCalendarDate";
