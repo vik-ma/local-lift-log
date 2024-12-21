@@ -13,7 +13,7 @@ import {
   WorkoutTemplate,
   WorkoutTemplateMap,
 } from "../typings";
-import { CalendarDate, RangeValue } from "@nextui-org/react";
+import { CalendarDate } from "@nextui-org/react";
 import {
   useDefaultNumberRange,
   useWeekdayMap,
@@ -24,7 +24,6 @@ import {
   useMultisetTypeMap,
 } from ".";
 import {
-  CalculateNumDaysInCalendarDateRange,
   ConvertCalendarDateToLocalizedString,
   IsNumberRangeValidAndFiltered,
 } from "../helpers";
@@ -38,8 +37,6 @@ export const useListFilters = (
   const [filterMap, setFilterMap] = useState<Map<ListFilterMapKey, string>>(
     new Map()
   );
-  const [filterDateRange, setFilterDateRange] =
-    useState<RangeValue<CalendarDate> | null>(null);
   const [filterRoutines, setFilterRoutines] = useState<Set<number>>(new Set());
   const [filterExercises, setFilterExercises] = useState<Set<number>>(
     new Set()
@@ -53,6 +50,8 @@ export const useListFilters = (
   const [filterWorkoutTemplates, setFilterWorkoutTemplates] = useState<
     Set<number>
   >(new Set());
+  const [filterMinDate, setFilterMinDate] = useState<CalendarDate | null>(null);
+  const [filterMaxDate, setFilterMaxDate] = useState<CalendarDate | null>(null);
 
   const weekdayMap = useWeekdayMap();
 
@@ -115,23 +114,22 @@ export const useListFilters = (
   ) => {
     const updatedFilterMap = new Map<ListFilterMapKey, string>();
 
-    if (filterDateRange !== null) {
-      const startString = ConvertCalendarDateToLocalizedString(
-        filterDateRange.start,
+    if (filterMinDate !== null) {
+      const filterMinDateString = ConvertCalendarDateToLocalizedString(
+        filterMinDate,
         locale
       );
 
-      const endString = ConvertCalendarDateToLocalizedString(
-        filterDateRange.end,
+      updatedFilterMap.set("min-date", filterMinDateString);
+    }
+
+    if (filterMaxDate !== null) {
+      const filterMaxDateString = ConvertCalendarDateToLocalizedString(
+        filterMaxDate,
         locale
       );
 
-      const filterDateRangeString =
-        startString === endString
-          ? startString
-          : `${startString} - ${endString}`;
-
-      updatedFilterMap.set("dates", filterDateRangeString);
+      updatedFilterMap.set("max-date", filterMaxDateString);
     }
 
     if (filterWeekdays.size < weekdayMap.size) {
@@ -243,9 +241,14 @@ export const useListFilters = (
   const removeFilter = (key: ListFilterMapKey) => {
     const updatedFilterMap = new Map(filterMap);
 
-    if (key === "dates" && filterMap.has("dates")) {
-      updatedFilterMap.delete("dates");
-      setFilterDateRange(null);
+    if (key === "min-date" && filterMap.has("min-date")) {
+      updatedFilterMap.delete("min-date");
+      setFilterMinDate(null);
+    }
+
+    if (key === "max-date" && filterMap.has("max-date")) {
+      updatedFilterMap.delete("max-date");
+      setFilterMaxDate(null);
     }
 
     if (key === "weekdays" && filterMap.has("weekdays")) {
@@ -323,7 +326,8 @@ export const useListFilters = (
 
   const resetFilter = () => {
     setFilterMap(new Map());
-    setFilterDateRange(null);
+    setFilterMinDate(null);
+    setFilterMaxDate(null);
     setFilterWeekdays(new Set(weekdayMap.keys()));
     setFilterRoutines(new Set());
     setFilterExercises(new Set());
@@ -342,7 +346,8 @@ export const useListFilters = (
 
   const showResetFilterButton = useMemo(() => {
     if (filterMap.size > 0) return true;
-    if (filterDateRange !== null) return true;
+    if (filterMinDate !== null) return true;
+    if (filterMaxDate !== null) return true;
     if (filterWeekdays.size < weekdayMap.size) return true;
     if (filterRoutines.size > 0) return true;
     if (filterExercises.size > 0) return true;
@@ -364,7 +369,8 @@ export const useListFilters = (
     return false;
   }, [
     filterMap,
-    filterDateRange,
+    filterMinDate,
+    filterMaxDate,
     filterWeekdays,
     filterRoutines,
     filterExercises,
@@ -390,10 +396,8 @@ export const useListFilters = (
   const prefixMap = useMemo(() => {
     const prefixMap = new Map<ListFilterMapKey, string>();
 
-    prefixMap.set(
-      "dates",
-      `Dates (${CalculateNumDaysInCalendarDateRange(filterDateRange)}): `
-    );
+    prefixMap.set("min-date", `Min Date: `);
+    prefixMap.set("max-date", `Max Date: `);
     prefixMap.set("weekdays", `Days (${filterWeekdays.size}): `);
     prefixMap.set("routines", `Routines (${filterRoutines.size}): `);
     prefixMap.set("exercises", `Exercises (${filterExercises.size}): `);
@@ -434,7 +438,6 @@ export const useListFilters = (
 
     return prefixMap;
   }, [
-    filterDateRange,
     filterWeekdays,
     filterRoutines,
     filterExercises,
@@ -578,8 +581,6 @@ export const useListFilters = (
 
   return {
     handleFilterSaveButton,
-    filterDateRange,
-    setFilterDateRange,
     filterMap,
     removeFilter,
     resetFilter,
@@ -630,5 +631,9 @@ export const useListFilters = (
     multisetTypeMap,
     filterMultisetTypes,
     setFilterMultisetTypes,
+    filterMinDate,
+    setFilterMinDate,
+    filterMaxDate,
+    setFilterMaxDate,
   };
 };

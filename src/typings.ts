@@ -492,10 +492,6 @@ export type UseListFiltersReturnType = {
     locale: string,
     activeModal: UseDisclosureReturnType
   ) => void;
-  filterDateRange: RangeValue<CalendarDate> | null;
-  setFilterDateRange: React.Dispatch<
-    React.SetStateAction<RangeValue<CalendarDate> | null>
-  >;
   filterMap: Map<ListFilterMapKey, string>;
   removeFilter: (key: ListFilterMapKey) => void;
   resetFilter: () => void;
@@ -546,10 +542,15 @@ export type UseListFiltersReturnType = {
   multisetTypeMap: MultisetTypeMap;
   filterMultisetTypes: Set<string>;
   setFilterMultisetTypes: React.Dispatch<React.SetStateAction<Set<string>>>;
+  filterMinDate: CalendarDate | null;
+  setFilterMinDate: React.Dispatch<React.SetStateAction<CalendarDate | null>>;
+  filterMaxDate: CalendarDate | null;
+  setFilterMaxDate: React.Dispatch<React.SetStateAction<CalendarDate | null>>;
 };
 
 export type ListFilterMapKey =
-  | "dates"
+  | "min-date"
+  | "max-date"
   | "weekdays"
   | "routines"
   | "exercises"
