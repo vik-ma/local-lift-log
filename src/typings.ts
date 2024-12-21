@@ -567,8 +567,10 @@ export type ListFilterMapKey =
   | "multiset-types";
 
 export type TimePeriodListFilterMapKey =
-  | "start-dates"
-  | "end-dates"
+  | "min-date-start"
+  | "max-date-start"
+  | "min-date-end"
+  | "max-date-end"
   | "duration"
   | "caloric-intake"
   | "injury";
@@ -994,4 +996,12 @@ export type UseTimePeriodListFiltersReturnType = {
     React.SetStateAction<Set<string>>
   >;
   caloricIntakeTypes: string[];
+  handleFilterSaveButton: (
+    locale: string,
+    activeModal: UseDisclosureReturnType
+  ) => void;
+  removeFilter: (key: TimePeriodListFilterMapKey) => void;
+  resetFilter: () => void;
+  showResetFilterButton: boolean;
+  prefixMap: Map<TimePeriodListFilterMapKey, string>;
 };

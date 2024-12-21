@@ -31,6 +31,7 @@ export const FilterTimePeriodListModal = ({
     setFilterMinEndDate,
     filterMaxEndDate,
     setFilterMaxEndDate,
+    handleFilterSaveButton,
   } = timePeriodListFilters;
 
   return (
@@ -174,7 +175,12 @@ export const FilterTimePeriodListModal = ({
               <Button color="primary" variant="light" onPress={onClose}>
                 Close
               </Button>
-              <Button color="primary" onPress={() => {}}>
+              <Button
+                color="primary"
+                onPress={() =>
+                  handleFilterSaveButton(locale, filterTimePeriodListModal)
+                }
+              >
                 Filter
               </Button>
             </ModalFooter>
