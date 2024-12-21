@@ -55,7 +55,6 @@ export const FilterUserWeightListModal = ({
                 <FilterDateRangeAndWeekdays
                   useListFilters={useListFilters}
                   locale={locale}
-                  dateRangeLabel="User Weight Dates"
                 />
                 <div className="flex gap-2">
                   <NumberRangeInput

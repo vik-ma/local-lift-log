@@ -182,7 +182,6 @@ export const FilterWorkoutListModal = ({
                     <FilterDateRangeAndWeekdays
                       useListFilters={listFilters}
                       locale={userSettings.locale}
-                      dateRangeLabel="Workout Dates"
                     />
                     <div className="flex flex-col gap-1">
                       <div className="flex flex-col">

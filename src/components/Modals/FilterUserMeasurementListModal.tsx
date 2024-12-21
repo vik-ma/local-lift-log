@@ -76,7 +76,6 @@ export const FilterUserMeasurementListModal = ({
                     <FilterDateRangeAndWeekdays
                       useListFilters={useListFilters}
                       locale={locale}
-                      dateRangeLabel="User Measurement Dates"
                     />
                     <div className="flex flex-col">
                       <h3 className="font-semibold text-lg px-0.5">
