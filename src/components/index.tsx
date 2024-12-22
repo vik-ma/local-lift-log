@@ -31,6 +31,7 @@ export { ListFilters } from "./ListFilters";
 export { FilterDateRangeAndWeekdays } from "./FilterDateRangeAndWeekdays";
 export { NumberRangeInput } from "./NumberRangeInput";
 export { CaloricIntakeTypeSpan } from "./CaloricIntakeTypeSpan";
+export { FilterMinAndMaxValues } from "./FilterMinAndMaxValues";
 
 export { WeightUnitDropdown } from "./Dropdowns/WeightUnitDropdown";
 export { DistanceUnitDropdown } from "./Dropdowns/DistanceUnitDropdown";
