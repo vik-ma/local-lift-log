@@ -7,7 +7,10 @@ import {
 } from "../typings";
 import { CalendarDate } from "@nextui-org/react";
 import { useCaloricIntakeTypes, useDefaultNumberRange } from ".";
-import { ConvertCalendarDateToLocalizedString } from "../helpers";
+import {
+  ConvertCalendarDateToLocalizedString,
+  IsNumberRangeValidAndFiltered,
+} from "../helpers";
 
 export const useTimePeriodListFilters =
   (): UseTimePeriodListFiltersReturnType => {
@@ -77,6 +80,12 @@ export const useTimePeriodListFilters =
         updatedFilterMap.set("max-date-end", filterMaxEndDateString);
       }
 
+      if (IsNumberRangeValidAndFiltered(filterDurationRange)) {
+        const filterDurationRangeString = `${filterDurationRange.start} - ${filterDurationRange.end} Days`;
+
+        updatedFilterMap.set("duration", filterDurationRangeString);
+      }
+
       setFilterMap(updatedFilterMap);
 
       activeModal.onClose();
@@ -105,6 +114,11 @@ export const useTimePeriodListFilters =
         setFilterMaxEndDate(null);
       }
 
+      if (key === "duration" && filterMap.has("duration")) {
+        updatedFilterMap.delete("duration");
+        setFilterDurationRange(defaultNumberRange);
+      }
+
       setFilterMap(updatedFilterMap);
     };
 
@@ -114,6 +128,7 @@ export const useTimePeriodListFilters =
       setFilterMaxStartDate(null);
       setFilterMinEndDate(null);
       setFilterMaxEndDate(null);
+      setFilterDurationRange(defaultNumberRange);
     };
 
     const showResetFilterButton = useMemo(() => {
@@ -122,6 +137,8 @@ export const useTimePeriodListFilters =
       if (filterMaxStartDate !== null) return true;
       if (filterMinEndDate !== null) return true;
       if (filterMaxEndDate !== null) return true;
+      if (filterDurationRange.startInput !== "") return true;
+      if (filterDurationRange.endInput !== "") return true;
 
       return false;
     }, [
@@ -130,6 +147,7 @@ export const useTimePeriodListFilters =
       filterMaxStartDate,
       filterMinEndDate,
       filterMaxEndDate,
+      filterDurationRange,
     ]);
 
     const prefixMap = useMemo(() => {
@@ -139,6 +157,7 @@ export const useTimePeriodListFilters =
       prefixMap.set("max-date-start", `Max Start Date: `);
       prefixMap.set("min-date-end", `Min End Date: `);
       prefixMap.set("max-date-end", `Max End Date: `);
+      prefixMap.set("duration", `Duration: `);
 
       return prefixMap;
     }, []);
