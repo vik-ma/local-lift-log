@@ -7,6 +7,7 @@ type NumberRangeInputProps = {
   setNumberRange: React.Dispatch<React.SetStateAction<NumberRange>>;
   label: string;
   numberRangeInvalidityMap: NumberRangeInvalidityMap;
+  isSmall?: boolean;
 };
 
 export const NumberRangeInput = ({
@@ -14,6 +15,7 @@ export const NumberRangeInput = ({
   setNumberRange,
   label,
   numberRangeInvalidityMap,
+  isSmall,
 }: NumberRangeInputProps) => {
   const handleInputChange = (value: string, isStart: boolean) => {
     const updatedNumberRange = { ...numberRange };
@@ -40,7 +42,7 @@ export const NumberRangeInput = ({
         <div className="flex flex-col">
           <span className="font-medium text-sm px-0.5">From</span>
           <Input
-            className="w-[6.5rem]"
+            className={isSmall ? "w-[5.5rem]" : "w-[6.5rem]"}
             value={numberRange.startInput}
             aria-label={`${label} From Input`}
             variant="faded"
@@ -53,7 +55,7 @@ export const NumberRangeInput = ({
         <div className="flex flex-col">
           <span className="font-medium text-sm px-0.5">To</span>
           <Input
-            className="w-[6.5rem]"
+            className={isSmall ? "w-[5.5rem]" : "w-[6.5rem]"}
             value={numberRange.endInput}
             aria-label={`${label} To Input`}
             variant="faded"

@@ -186,6 +186,7 @@ export const FilterTimePeriodListModal = ({
                   setNumberRange={setFilterDurationRange}
                   label="Duration Range (Days)"
                   numberRangeInvalidityMap={numberRangeInvalidityMap}
+                  isSmall
                 />
               </div>
             </ModalBody>
