@@ -39,8 +39,12 @@ export const FilterTimePeriodListModal = ({
     setFilterDurationRange,
   } = timePeriodListFilters;
 
-  const numberRangeInvalidityMap =
-    useNumberRangeInvalidityMap(filterDurationRange);
+  const numberRangeInvalidityMap = useNumberRangeInvalidityMap(
+    filterDurationRange,
+    1,
+    undefined,
+    true
+  );
 
   const isFilterButtonDisabled = useMemo(() => {
     return numberRangeInvalidityMap.start || numberRangeInvalidityMap.end;
