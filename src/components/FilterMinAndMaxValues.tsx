@@ -49,11 +49,11 @@ export const FilterMinAndMaxValues = ({
 
   return (
     <div className="flex gap-4 justify-between">
-      <div className="flex flex-col">
-        <h3 className="text-lg font-semibold px-0.5">Min {label}</h3>
+      <div className="flex flex-col w-full">
+        <h3 className="text-base font-semibold px-0.5">Min {label}</h3>
         <Input
           aria-label={`Min ${label} Input`}
-          className={isSmall ? "w-[5.5rem]" : "w-[6.5rem]"}
+          className={isSmall ? "w-[6rem]" : "w-[6.5rem]"}
           value={minInput}
           variant="faded"
           onValueChange={setMinInput}
@@ -61,11 +61,11 @@ export const FilterMinAndMaxValues = ({
           isClearable
         />
       </div>
-      <div className="flex flex-col">
-        <h3 className="text-lg font-semibold px-0.5">Max {label}</h3>
+      <div className="flex flex-col w-full">
+        <h3 className="text-base font-semibold px-0.5">Max {label}</h3>
         <Input
           aria-label={`Max ${label} Input`}
-          className={isSmall ? "w-[5.5rem]" : "w-[6.5rem]"}
+          className={isSmall ? "w-[6rem]" : "w-[6.5rem]"}
           value={maxInput}
           variant="faded"
           onValueChange={setMaxInput}

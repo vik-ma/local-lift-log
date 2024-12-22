@@ -9,8 +9,8 @@ import {
 } from "@nextui-org/react";
 import { UseTimePeriodListReturnType } from "../../typings";
 import { I18nProvider } from "@react-aria/i18n";
-import { NumberRangeInput } from "..";
-import { useNumberRangeInvalidityMap } from "../../hooks";
+import { FilterMinAndMaxValues } from "..";
+import { useFilterMinAndMaxValueInputs } from "../../hooks";
 import { useMemo } from "react";
 
 type FilterTimePeriodListModalProps = {
@@ -35,20 +35,25 @@ export const FilterTimePeriodListModal = ({
     filterMaxEndDate,
     setFilterMaxEndDate,
     handleFilterSaveButton,
-    filterDurationRange,
-    setFilterDurationRange,
+    setFilterMinDuration,
+    setFilterMaxDuration,
   } = timePeriodListFilters;
 
-  const numberRangeInvalidityMap = useNumberRangeInvalidityMap(
-    filterDurationRange,
+  const filterMinAndMaxValueInputs = useFilterMinAndMaxValueInputs(
     1,
     undefined,
     true
   );
 
   const isFilterButtonDisabled = useMemo(() => {
-    return numberRangeInvalidityMap.start || numberRangeInvalidityMap.end;
-  }, [numberRangeInvalidityMap]);
+    return (
+      filterMinAndMaxValueInputs.isMinInputInvalid ||
+      filterMinAndMaxValueInputs.isMaxInputInvalid
+    );
+  }, [
+    filterMinAndMaxValueInputs.isMinInputInvalid,
+    filterMinAndMaxValueInputs.isMaxInputInvalid,
+  ]);
 
   return (
     <Modal
@@ -185,11 +190,11 @@ export const FilterTimePeriodListModal = ({
                     )}
                   </div>
                 </div>
-                <NumberRangeInput
-                  numberRange={filterDurationRange}
-                  setNumberRange={setFilterDurationRange}
-                  label="Duration Range (Days)"
-                  numberRangeInvalidityMap={numberRangeInvalidityMap}
+                <FilterMinAndMaxValues
+                  setFilterMinValue={setFilterMinDuration}
+                  setFilterMaxValue={setFilterMaxDuration}
+                  label="Duration (Days)"
+                  useFilterMinAndMaxValueInputs={filterMinAndMaxValueInputs}
                   isSmall
                 />
               </div>

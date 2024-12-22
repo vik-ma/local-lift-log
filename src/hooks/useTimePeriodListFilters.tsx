@@ -26,6 +26,12 @@ export const useTimePeriodListFilters =
     const [filterMaxEndDate, setFilterMaxEndDate] =
       useState<CalendarDate | null>(null);
     const [filterInjury, setFilterInjury] = useState<boolean>(false);
+    const [filterMinDuration, setFilterMinDuration] = useState<number | null>(
+      null
+    );
+    const [filterMaxDuration, setFilterMaxDuration] = useState<number | null>(
+      null
+    );
 
     const defaultNumberRange = useDefaultNumberRange();
 
@@ -184,5 +190,9 @@ export const useTimePeriodListFilters =
       resetFilter,
       showResetFilterButton,
       prefixMap,
+      filterMinDuration,
+      setFilterMinDuration,
+      filterMaxDuration,
+      setFilterMaxDuration,
     };
   };

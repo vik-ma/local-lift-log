@@ -1005,6 +1005,10 @@ export type UseTimePeriodListFiltersReturnType = {
   resetFilter: () => void;
   showResetFilterButton: boolean;
   prefixMap: Map<TimePeriodListFilterMapKey, string>;
+  filterMinDuration: number | null;
+  setFilterMinDuration: React.Dispatch<React.SetStateAction<number | null>>;
+  filterMaxDuration: number | null;
+  setFilterMaxDuration: React.Dispatch<React.SetStateAction<number | null>>;
 };
 
 export type UseFilterMinAndMaxValueInputsReturnType = {
