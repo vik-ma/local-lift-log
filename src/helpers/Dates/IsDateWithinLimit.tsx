@@ -6,7 +6,9 @@ export const IsDateWithinLimit = (
   dateLimit: CalendarDate | null,
   isMaxDate: boolean
 ) => {
-  if (dateLimit === null || dateISOString === null) return true;
+  if (dateLimit === null) return true;
+
+  if (dateISOString === null) return false;
 
   try {
     const date = new Date(dateISOString);
