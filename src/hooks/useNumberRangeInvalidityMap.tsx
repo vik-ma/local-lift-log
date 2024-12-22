@@ -32,11 +32,15 @@ export const useNumberRangeInvalidityMap = (
       }
     }
 
-    if (minValue !== undefined && numberRange.start < minValue)
-      isStartInputInvalid = true;
+    if (minValue !== undefined) {
+      if (numberRange.start < minValue) isStartInputInvalid = true;
+      if (numberRange.end < minValue) isEndInputInvalid = true;
+    }
 
-    if (maxValue !== undefined && numberRange.end > maxValue)
-      isEndInputInvalid = true;
+    if (maxValue !== undefined) {
+      if (numberRange.start > maxValue) isStartInputInvalid = true;
+      if (numberRange.end > maxValue) isEndInputInvalid = true;
+    }
 
     return { start: isStartInputInvalid, end: isEndInputInvalid };
   }, [numberRange, minValue, maxValue, isIntegerOnly]);
