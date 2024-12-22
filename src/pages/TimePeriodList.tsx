@@ -353,7 +353,7 @@ export default function TimePeriodList() {
               <span className="w-[20.75rem] truncate text-left">
                 {timePeriod.name}
               </span>
-              <span className="text-xs text-left">
+              <div className="text-xs text-left max-w-[20.75rem] truncate">
                 <span className="text-secondary">
                   <span className="font-medium text-stone-500">
                     Start Date:{" "}
@@ -369,10 +369,13 @@ export default function TimePeriodList() {
                     {timePeriod.formattedEndDate}
                   </span>
                 )}
-                {timePeriod.isOngoing && (
+                <span className="text-slate-400 pl-1">
+                  ({timePeriod.numDaysBetweenDates} Days)
+                </span>
+                {/* {timePeriod.isOngoing && (
                   <span className="text-blue-400"> (Ongoing)</span>
-                )}
-              </span>
+                )} */}
+              </div>
               {selectedTimePeriodProperties.has("caloric-intake") && (
                 <CaloricIntakeTypeSpan value={timePeriod.caloric_intake} />
               )}

@@ -926,6 +926,7 @@ export type TimePeriod = {
   formattedStartDate?: string | null;
   formattedEndDate?: string | null;
   isOngoing?: boolean;
+  numDaysBetweenDates?: number;
 };
 
 export type UseTimePeriodInputsReturnType = {

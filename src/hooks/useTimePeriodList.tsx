@@ -7,6 +7,7 @@ import {
 import Database from "tauri-plugin-sql-api";
 import {
   FormatISODateString,
+  GetNumberOfDaysBetweenDates,
   IsDatePassed,
   IsDateWithinLimit,
 } from "../helpers";
@@ -98,6 +99,11 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
 
         const isOngoing = row.end_date === null || !IsDatePassed(row.end_date);
 
+        const numDaysBetweenDates = GetNumberOfDaysBetweenDates(
+          row.start_date,
+          row.end_date
+        );
+
         const timePeriod: TimePeriod = {
           id: row.id,
           name: row.name,
@@ -109,6 +115,7 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
           formattedStartDate: formattedStartDate,
           formattedEndDate: formattedEndDate,
           isOngoing: isOngoing,
+          numDaysBetweenDates: numDaysBetweenDates,
         };
 
         timePeriods.push(timePeriod);
