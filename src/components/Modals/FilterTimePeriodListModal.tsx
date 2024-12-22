@@ -9,6 +9,9 @@ import {
 } from "@nextui-org/react";
 import { UseTimePeriodListReturnType } from "../../typings";
 import { I18nProvider } from "@react-aria/i18n";
+import { NumberRangeInput } from "..";
+import { useNumberRangeInvalidityMap } from "../../hooks";
+import { useMemo } from "react";
 
 type FilterTimePeriodListModalProps = {
   useTimePeriodList: UseTimePeriodListReturnType;
@@ -32,7 +35,16 @@ export const FilterTimePeriodListModal = ({
     filterMaxEndDate,
     setFilterMaxEndDate,
     handleFilterSaveButton,
+    filterDurationRange,
+    setFilterDurationRange,
   } = timePeriodListFilters;
+
+  const numberRangeInvalidityMap =
+    useNumberRangeInvalidityMap(filterDurationRange);
+
+  const isFilterButtonDisabled = useMemo(() => {
+    return numberRangeInvalidityMap.start || numberRangeInvalidityMap.end;
+  }, [numberRangeInvalidityMap]);
 
   return (
     <Modal
@@ -169,6 +181,12 @@ export const FilterTimePeriodListModal = ({
                     )}
                   </div>
                 </div>
+                <NumberRangeInput
+                  numberRange={filterDurationRange}
+                  setNumberRange={setFilterDurationRange}
+                  label="Duration Range (Days)"
+                  numberRangeInvalidityMap={numberRangeInvalidityMap}
+                />
               </div>
             </ModalBody>
             <ModalFooter>
@@ -180,6 +198,7 @@ export const FilterTimePeriodListModal = ({
                 onPress={() =>
                   handleFilterSaveButton(locale, filterTimePeriodListModal)
                 }
+                isDisabled={isFilterButtonDisabled}
               >
                 Filter
               </Button>
