@@ -350,9 +350,20 @@ export default function TimePeriodList() {
             onClick={() => handleTimePeriodOptionSelection("edit", timePeriod)}
           >
             <div className="flex flex-col justify-start items-start">
-              <span className="w-[20.75rem] truncate text-left">
-                {timePeriod.name}
-              </span>
+              <div className="flex gap-1 items-baseline">
+                <span
+                  className={
+                    timePeriod.isOngoing
+                      ? "max-w-[16.75rem] truncate"
+                      : "max-w-[20.75rem] truncate"
+                  }
+                >
+                  {timePeriod.name}
+                </span>
+                {timePeriod.isOngoing && (
+                  <span className="text-sm text-red-400">(Ongoing)</span>
+                )}
+              </div>
               <div className="text-xs text-left max-w-[20.75rem] truncate">
                 <span className="text-secondary">
                   <span className="font-medium text-stone-500">
@@ -372,9 +383,6 @@ export default function TimePeriodList() {
                 <span className="text-slate-400 pl-1">
                   ({timePeriod.numDaysBetweenDates} Days)
                 </span>
-                {/* {timePeriod.isOngoing && (
-                  <span className="text-blue-400"> (Ongoing)</span>
-                )} */}
               </div>
               {selectedTimePeriodProperties.has("caloric-intake") && (
                 <CaloricIntakeTypeSpan value={timePeriod.caloric_intake} />
