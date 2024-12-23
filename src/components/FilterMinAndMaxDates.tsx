@@ -8,6 +8,7 @@ type FilterMinAndMaxDatesProps = {
   setFilterMaxDate: React.Dispatch<React.SetStateAction<CalendarDate | null>>;
   locale: string;
   customLabel?: string;
+  isSmallLabel?: boolean;
 };
 
 export const FilterMinAndMaxDates = ({
@@ -17,6 +18,7 @@ export const FilterMinAndMaxDates = ({
   setFilterMaxDate,
   locale,
   customLabel,
+  isSmallLabel,
 }: FilterMinAndMaxDatesProps) => {
   return (
     <div className="flex gap-4 justify-between pt-1">
@@ -26,7 +28,13 @@ export const FilterMinAndMaxDates = ({
             classNames={{ base: "gap-0.5" }}
             dateInputClassNames={{ inputWrapper: "!bg-default-100" }}
             label={
-              <span className="text-lg font-semibold px-0.5">
+              <span
+                className={
+                  isSmallLabel
+                    ? "text-base font-semibold px-0.5"
+                    : "text-lg font-semibold px-0.5"
+                }
+              >
                 {customLabel !== undefined ? `Min ${customLabel}` : "Min Date"}
               </span>
             }
@@ -54,7 +62,13 @@ export const FilterMinAndMaxDates = ({
             classNames={{ base: "gap-0.5" }}
             dateInputClassNames={{ inputWrapper: "!bg-default-100" }}
             label={
-              <span className="text-lg font-semibold px-0.5">
+              <span
+                className={
+                  isSmallLabel
+                    ? "text-base font-semibold px-0.5"
+                    : "text-lg font-semibold px-0.5"
+                }
+              >
                 {customLabel !== undefined ? `Max ${customLabel}` : "Max Date"}
               </span>
             }
