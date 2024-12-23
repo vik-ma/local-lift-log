@@ -40,6 +40,7 @@ export const FilterUserMeasurementListModal = ({
     setFilterMeasurements,
     filterMeasurementsString,
     handleClickMeasurement,
+    isEndDateBeforeStartDate,
   } = useListFilters;
 
   const showClearAllButton = useMemo(() => {
@@ -156,6 +157,7 @@ export const FilterUserMeasurementListModal = ({
                           )
                       : () => setModalPage("base")
                   }
+                  isDisabled={modalPage === "base" && isEndDateBeforeStartDate}
                 >
                   {modalPage === "base" ? "Filter" : "Done"}
                 </Button>

@@ -36,6 +36,7 @@ export const FilterUserWeightListModal = ({
     showResetFilterButton,
     resetFilter,
     handleFilterSaveButton,
+    isEndDateBeforeStartDate,
   } = useListFilters;
 
   const numberRangeInvalidityMap =
@@ -90,7 +91,8 @@ export const FilterUserWeightListModal = ({
                   }
                   isDisabled={
                     numberRangeInvalidityMap.start ||
-                    numberRangeInvalidityMap.end
+                    numberRangeInvalidityMap.end ||
+                    isEndDateBeforeStartDate
                   }
                 >
                   Filter
