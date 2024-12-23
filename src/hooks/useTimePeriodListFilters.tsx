@@ -6,7 +6,11 @@ import {
   UseTimePeriodListFiltersReturnType,
 } from "../typings";
 import { CalendarDate } from "@nextui-org/react";
-import { useCaloricIntakeTypes, useDefaultNumberRange } from ".";
+import {
+  useCaloricIntakeTypes,
+  useDefaultNumberRange,
+  useIsEndDateBeforeStartDate,
+} from ".";
 import {
   ConvertCalendarDateToLocalizedString,
   IsNumberRangeValidAndFiltered,
@@ -43,6 +47,16 @@ export const useTimePeriodListFilters =
     const [filterCaloricIntakeTypes, setFilterCaloricIntakeTypes] = useState<
       Set<string>
     >(new Set(caloricIntakeTypes));
+
+    const isMaxDateBeforeMinDateStart = useIsEndDateBeforeStartDate(
+      filterMinStartDate,
+      filterMaxStartDate
+    );
+
+    const isMaxDateBeforeMinDateEnd = useIsEndDateBeforeStartDate(
+      filterMinEndDate,
+      filterMaxEndDate
+    );
 
     const handleFilterSaveButton = (
       locale: string,
@@ -194,5 +208,7 @@ export const useTimePeriodListFilters =
       setFilterMinDuration,
       filterMaxDuration,
       setFilterMaxDuration,
+      isMaxDateBeforeMinDateStart,
+      isMaxDateBeforeMinDateEnd,
     };
   };

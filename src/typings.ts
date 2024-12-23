@@ -1010,6 +1010,8 @@ export type UseTimePeriodListFiltersReturnType = {
   setFilterMinDuration: React.Dispatch<React.SetStateAction<number | null>>;
   filterMaxDuration: number | null;
   setFilterMaxDuration: React.Dispatch<React.SetStateAction<number | null>>;
+  isMaxDateBeforeMinDateStart: boolean;
+  isMaxDateBeforeMinDateEnd: boolean;
 };
 
 export type UseFilterMinAndMaxValueInputsReturnType = {
