@@ -79,7 +79,7 @@ export const FilterMinAndMaxDates = ({
             value={filterMaxDate}
             onChange={setFilterMaxDate}
             isInvalid={isEndDateBeforeStartDate}
-            errorMessage="End Date is before Start Date"
+            errorMessage="Max Date is before Min Date"
           />
         </I18nProvider>
         {filterMaxDate !== null && (
