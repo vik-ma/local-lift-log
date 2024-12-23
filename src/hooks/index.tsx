@@ -55,3 +55,4 @@ export { useTimePeriodInputs } from "./useTimePeriodInputs";
 export { useCaloricIntakeTypes } from "./useCaloricIntakeTypes";
 export { useTimePeriodListFilters } from "./useTimePeriodListFilters";
 export { useFilterMinAndMaxValueInputs } from "./useFilterMinAndMaxValueInputs";
+export { useIsEndDateBeforeStartDate } from "./useIsEndDateBeforeStartDate";
