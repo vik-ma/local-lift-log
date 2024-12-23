@@ -7,6 +7,7 @@ type FilterMinAndMaxDatesProps = {
   filterMaxDate: CalendarDate | null;
   setFilterMaxDate: React.Dispatch<React.SetStateAction<CalendarDate | null>>;
   locale: string;
+  isEndDateBeforeStartDate: boolean;
   customLabel?: string;
   isSmallLabel?: boolean;
 };
@@ -17,6 +18,7 @@ export const FilterMinAndMaxDates = ({
   filterMaxDate,
   setFilterMaxDate,
   locale,
+  isEndDateBeforeStartDate,
   customLabel,
   isSmallLabel,
 }: FilterMinAndMaxDatesProps) => {
@@ -76,6 +78,8 @@ export const FilterMinAndMaxDates = ({
             variant="faded"
             value={filterMaxDate}
             onChange={setFilterMaxDate}
+            isInvalid={isEndDateBeforeStartDate}
+            errorMessage="End Date is before Start Date"
           />
         </I18nProvider>
         {filterMaxDate !== null && (

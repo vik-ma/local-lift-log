@@ -546,6 +546,7 @@ export type UseListFiltersReturnType = {
   setFilterMinDate: React.Dispatch<React.SetStateAction<CalendarDate | null>>;
   filterMaxDate: CalendarDate | null;
   setFilterMaxDate: React.Dispatch<React.SetStateAction<CalendarDate | null>>;
+  isEndDateBeforeStartDate: boolean;
 };
 
 export type ListFilterMapKey =

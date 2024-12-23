@@ -18,6 +18,7 @@ export const FilterDateRangeAndWeekdays = ({
     filterWeekdays,
     setFilterWeekdays,
     weekdayMap,
+    isEndDateBeforeStartDate,
   } = useListFilters;
 
   return (
@@ -28,6 +29,7 @@ export const FilterDateRangeAndWeekdays = ({
         filterMaxDate={filterMaxDate}
         setFilterMaxDate={setFilterMaxDate}
         locale={locale}
+        isEndDateBeforeStartDate={isEndDateBeforeStartDate}
       />
       <div className="flex flex-col gap-1">
         <h3 className="font-semibold text-lg px-0.5">Weekdays</h3>

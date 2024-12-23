@@ -22,6 +22,7 @@ import {
   useValidWeightUnits,
   useValidDistanceUnits,
   useMultisetTypeMap,
+  useIsEndDateBeforeStartDate,
 } from ".";
 import {
   ConvertCalendarDateToLocalizedString,
@@ -107,6 +108,11 @@ export const useListFilters = (
 
   const [filterMultisetTypes, setFilterMultisetTypes] =
     useState<Set<string>>(multisetTypeMapKeys);
+
+  const isEndDateBeforeStartDate = useIsEndDateBeforeStartDate(
+    filterMinDate,
+    filterMaxDate
+  );
 
   const handleFilterSaveButton = (
     locale: string,
@@ -635,5 +641,6 @@ export const useListFilters = (
     setFilterMinDate,
     filterMaxDate,
     setFilterMaxDate,
+    isEndDateBeforeStartDate,
   };
 };
