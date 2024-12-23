@@ -68,7 +68,7 @@ export const FilterWorkoutListModal = ({
     setFilterWorkoutTemplates,
     filterWorkoutTemplatesString,
     handleClickWorkoutTemplate,
-    isEndDateBeforeStartDate,
+    isMaxDateBeforeMinDate,
   } = listFilters;
 
   const {
@@ -351,7 +351,7 @@ export const FilterWorkoutListModal = ({
                           )
                       : () => setModalPage("base")
                   }
-                  isDisabled={modalPage === "base" && isEndDateBeforeStartDate}
+                  isDisabled={modalPage === "base" && isMaxDateBeforeMinDate}
                 >
                   {modalPage === "base" ? "Filter" : "Done"}
                 </Button>

@@ -109,7 +109,7 @@ export const useListFilters = (
   const [filterMultisetTypes, setFilterMultisetTypes] =
     useState<Set<string>>(multisetTypeMapKeys);
 
-  const isEndDateBeforeStartDate = useIsEndDateBeforeStartDate(
+  const isMaxDateBeforeMinDate = useIsEndDateBeforeStartDate(
     filterMinDate,
     filterMaxDate
   );
@@ -641,6 +641,6 @@ export const useListFilters = (
     setFilterMinDate,
     filterMaxDate,
     setFilterMaxDate,
-    isEndDateBeforeStartDate,
+    isMaxDateBeforeMinDate,
   };
 };
