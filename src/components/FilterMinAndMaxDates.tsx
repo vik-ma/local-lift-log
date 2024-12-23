@@ -23,7 +23,13 @@ export const FilterMinAndMaxDates = ({
   isSmallLabel,
 }: FilterMinAndMaxDatesProps) => {
   return (
-    <div className="flex gap-4 justify-between pt-1">
+    <div
+      className={
+        isSmallLabel
+          ? "flex gap-4 justify-between"
+          : "flex gap-4 justify-between pt-1"
+      }
+    >
       <div className="relative w-full">
         <I18nProvider locale={locale}>
           <DatePicker
@@ -53,7 +59,11 @@ export const FilterMinAndMaxDates = ({
                 ? `Reset Min ${customLabel}`
                 : "Reset Min Date"
             }
-            className="absolute right-0 -top-0.5 h-7"
+            className={
+              isSmallLabel
+                ? "absolute right-0 -top-1.5 h-7"
+                : "absolute right-0 -top-0.5 h-7"
+            }
             size="sm"
             variant="flat"
             onPress={() => setFilterMinDate(null)}
@@ -93,7 +103,11 @@ export const FilterMinAndMaxDates = ({
                 ? `Reset Max ${customLabel}`
                 : "Reset Max Date"
             }
-            className="absolute right-0 -top-0.5 h-7"
+            className={
+              isSmallLabel
+                ? "absolute right-0 -top-1.5 h-7"
+                : "absolute right-0 -top-0.5 h-7"
+            }
             size="sm"
             variant="flat"
             onPress={() => setFilterMaxDate(null)}
