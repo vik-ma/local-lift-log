@@ -48,7 +48,11 @@ export const FilterMinAndMaxDates = ({
         </I18nProvider>
         {filterMinDate !== null && (
           <Button
-            aria-label="Reset Min Date"
+            aria-label={
+              customLabel !== undefined
+                ? `Reset Min ${customLabel}`
+                : "Reset Min Date"
+            }
             className="absolute right-0 -top-0.5 h-7"
             size="sm"
             variant="flat"
@@ -84,7 +88,11 @@ export const FilterMinAndMaxDates = ({
         </I18nProvider>
         {filterMaxDate !== null && (
           <Button
-            aria-label="Reset Max Date"
+            aria-label={
+              customLabel !== undefined
+                ? `Reset Max ${customLabel}`
+                : "Reset Max Date"
+            }
             className="absolute right-0 -top-0.5 h-7"
             size="sm"
             variant="flat"
