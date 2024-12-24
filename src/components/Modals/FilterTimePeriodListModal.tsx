@@ -45,19 +45,24 @@ export const FilterTimePeriodListModal = ({
     true
   );
 
-  const isFilterButtonDisabled = useMemo(
-    () =>
+  const isFilterButtonDisabled = useMemo(() => {
+    if (
       filterMinAndMaxValueInputs.isMinInputInvalid ||
       filterMinAndMaxValueInputs.isMaxInputInvalid ||
       isMaxDateBeforeMinDateStart ||
-      isMaxDateBeforeMinDateEnd,
-    [
-      filterMinAndMaxValueInputs.isMinInputInvalid,
-      filterMinAndMaxValueInputs.isMaxInputInvalid,
-      isMaxDateBeforeMinDateStart,
-      isMaxDateBeforeMinDateEnd,
-    ]
-  );
+      isMaxDateBeforeMinDateEnd ||
+      filterMinAndMaxValueInputs.isMaxValueBelowMinValue
+    )
+      return true;
+
+    return false;
+  }, [
+    filterMinAndMaxValueInputs.isMinInputInvalid,
+    filterMinAndMaxValueInputs.isMaxInputInvalid,
+    isMaxDateBeforeMinDateStart,
+    isMaxDateBeforeMinDateEnd,
+    filterMinAndMaxValueInputs.isMaxValueBelowMinValue,
+  ]);
 
   return (
     <Modal

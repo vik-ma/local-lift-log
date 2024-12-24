@@ -1021,4 +1021,5 @@ export type UseFilterMinAndMaxValueInputsReturnType = {
   setMaxInput: React.Dispatch<React.SetStateAction<string>>;
   isMinInputInvalid: boolean;
   isMaxInputInvalid: boolean;
+  isMaxValueBelowMinValue: boolean;
 };

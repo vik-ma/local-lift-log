@@ -25,6 +25,7 @@ export const FilterMinAndMaxValues = ({
     setMaxInput,
     isMinInputInvalid,
     isMaxInputInvalid,
+    isMaxValueBelowMinValue,
   } = useFilterMinAndMaxValueInputs;
 
   useEffect(() => {
@@ -69,8 +70,13 @@ export const FilterMinAndMaxValues = ({
           value={maxInput}
           variant="faded"
           onValueChange={setMaxInput}
-          isInvalid={isMaxInputInvalid}
+          isInvalid={isMaxInputInvalid || isMaxValueBelowMinValue}
           isClearable
+          errorMessage={
+            isMaxValueBelowMinValue && (
+              <span className="text-nowrap">Max Value is below Min Value</span>
+            )
+          }
         />
       </div>
     </div>
