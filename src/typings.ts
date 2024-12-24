@@ -572,7 +572,8 @@ export type TimePeriodListFilterMapKey =
   | "max-date-start"
   | "min-date-end"
   | "max-date-end"
-  | "duration"
+  | "min-duration"
+  | "max-duration"
   | "caloric-intake"
   | "injury";
 
@@ -991,8 +992,6 @@ export type UseTimePeriodListFiltersReturnType = {
   >;
   filterInjury: boolean;
   setFilterInjury: React.Dispatch<React.SetStateAction<boolean>>;
-  filterDurationRange: NumberRange;
-  setFilterDurationRange: React.Dispatch<React.SetStateAction<NumberRange>>;
   filterCaloricIntakeTypes: Set<string>;
   setFilterCaloricIntakeTypes: React.Dispatch<
     React.SetStateAction<Set<string>>

@@ -1,20 +1,12 @@
 import { useMemo, useState } from "react";
 import {
-  NumberRange,
   TimePeriodListFilterMapKey,
   UseDisclosureReturnType,
   UseTimePeriodListFiltersReturnType,
 } from "../typings";
 import { CalendarDate } from "@nextui-org/react";
-import {
-  useCaloricIntakeTypes,
-  useDefaultNumberRange,
-  useIsEndDateBeforeStartDate,
-} from ".";
-import {
-  ConvertCalendarDateToLocalizedString,
-  IsNumberRangeValidAndFiltered,
-} from "../helpers";
+import { useCaloricIntakeTypes, useIsEndDateBeforeStartDate } from ".";
+import { ConvertCalendarDateToLocalizedString } from "../helpers";
 
 export const useTimePeriodListFilters =
   (): UseTimePeriodListFiltersReturnType => {
@@ -36,11 +28,6 @@ export const useTimePeriodListFilters =
     const [filterMaxDuration, setFilterMaxDuration] = useState<number | null>(
       null
     );
-
-    const defaultNumberRange = useDefaultNumberRange();
-
-    const [filterDurationRange, setFilterDurationRange] =
-      useState<NumberRange>(defaultNumberRange);
 
     const caloricIntakeTypes = useCaloricIntakeTypes();
 
@@ -100,10 +87,18 @@ export const useTimePeriodListFilters =
         updatedFilterMap.set("max-date-end", filterMaxEndDateString);
       }
 
-      if (IsNumberRangeValidAndFiltered(filterDurationRange)) {
-        const filterDurationRangeString = `${filterDurationRange.start} - ${filterDurationRange.end} Days`;
+      if (filterMinDuration !== null) {
+        const filterMinDurationString = `${filterMinDuration} Days`;
 
-        updatedFilterMap.set("duration", filterDurationRangeString);
+        updatedFilterMap.set("min-duration", filterMinDurationString);
+      }
+
+      setFilterMap(updatedFilterMap);
+
+      if (filterMaxDuration !== null) {
+        const filterMaxDurationString = `${filterMaxDuration} Days`;
+
+        updatedFilterMap.set("max-duration", filterMaxDurationString);
       }
 
       setFilterMap(updatedFilterMap);
@@ -134,9 +129,14 @@ export const useTimePeriodListFilters =
         setFilterMaxEndDate(null);
       }
 
-      if (key === "duration" && filterMap.has("duration")) {
-        updatedFilterMap.delete("duration");
-        setFilterDurationRange(defaultNumberRange);
+      if (key === "min-duration" && filterMap.has("min-duration")) {
+        updatedFilterMap.delete("min-duration");
+        setFilterMinDuration(null);
+      }
+
+      if (key === "max-duration" && filterMap.has("max-duration")) {
+        updatedFilterMap.delete("max-duration");
+        setFilterMaxDuration(null);
       }
 
       setFilterMap(updatedFilterMap);
@@ -148,7 +148,8 @@ export const useTimePeriodListFilters =
       setFilterMaxStartDate(null);
       setFilterMinEndDate(null);
       setFilterMaxEndDate(null);
-      setFilterDurationRange(defaultNumberRange);
+      setFilterMinDuration(null);
+      setFilterMaxDuration(null);
     };
 
     const showResetFilterButton = useMemo(() => {
@@ -157,8 +158,8 @@ export const useTimePeriodListFilters =
       if (filterMaxStartDate !== null) return true;
       if (filterMinEndDate !== null) return true;
       if (filterMaxEndDate !== null) return true;
-      if (filterDurationRange.startInput !== "") return true;
-      if (filterDurationRange.endInput !== "") return true;
+      if (filterMinDuration !== null) return true;
+      if (filterMaxDuration !== null) return true;
 
       return false;
     }, [
@@ -167,7 +168,8 @@ export const useTimePeriodListFilters =
       filterMaxStartDate,
       filterMinEndDate,
       filterMaxEndDate,
-      filterDurationRange,
+      filterMinDuration,
+      filterMaxDuration,
     ]);
 
     const prefixMap = useMemo(() => {
@@ -177,7 +179,8 @@ export const useTimePeriodListFilters =
       prefixMap.set("max-date-start", `Max Start Date: `);
       prefixMap.set("min-date-end", `Min End Date: `);
       prefixMap.set("max-date-end", `Max End Date: `);
-      prefixMap.set("duration", `Duration: `);
+      prefixMap.set("min-duration", `Min Duration: `);
+      prefixMap.set("max-duration", `Max Duration: `);
 
       return prefixMap;
     }, []);
@@ -194,8 +197,6 @@ export const useTimePeriodListFilters =
       setFilterMaxEndDate,
       filterInjury,
       setFilterInjury,
-      filterDurationRange,
-      setFilterDurationRange,
       filterCaloricIntakeTypes,
       setFilterCaloricIntakeTypes,
       caloricIntakeTypes,

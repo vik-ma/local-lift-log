@@ -32,7 +32,6 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
     filterMaxStartDate,
     filterMinEndDate,
     filterMaxEndDate,
-    filterDurationRange,
   } = timePeriodListFilters;
 
   const filteredTimePeriods = useMemo(() => {
@@ -70,11 +69,7 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
           (!filterMap.has("min-date-end") ||
             IsDateWithinLimit(item.end_date, filterMinEndDate, false)) &&
           (!filterMap.has("max-date-end") ||
-            IsDateWithinLimit(item.end_date, filterMaxEndDate, true)) &&
-          (!filterMap.has("duration") ||
-            (item.numDaysBetweenDates &&
-              item.numDaysBetweenDates >= filterDurationRange.start &&
-              item.numDaysBetweenDates <= filterDurationRange.end))
+            IsDateWithinLimit(item.end_date, filterMaxEndDate, true))
       );
     }
     return timePeriods;
@@ -86,7 +81,6 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
     filterMaxStartDate,
     filterMinEndDate,
     filterMaxEndDate,
-    filterDurationRange,
   ]);
 
   const getTimePeriods = useCallback(async (locale: string) => {
