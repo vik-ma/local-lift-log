@@ -35,6 +35,7 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
     filterMaxEndDate,
     filterMinDuration,
     filterMaxDuration,
+    filterCaloricIntakeTypes,
   } = timePeriodListFilters;
 
   const filteredTimePeriods = useMemo(() => {
@@ -84,7 +85,10 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
               item.numDaysBetweenDates,
               filterMaxDuration,
               true
-            ))
+            )) &&
+          (!filterMap.has("caloric-intake") ||
+            (item.caloric_intake !== null &&
+              filterCaloricIntakeTypes.has(item.caloric_intake)))
       );
     }
     return timePeriods;
@@ -98,6 +102,7 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
     filterMaxEndDate,
     filterMinDuration,
     filterMaxDuration,
+    filterCaloricIntakeTypes,
   ]);
 
   const getTimePeriods = useCallback(async (locale: string) => {
