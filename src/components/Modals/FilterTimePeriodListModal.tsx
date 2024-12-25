@@ -80,37 +80,35 @@ export const FilterTimePeriodListModal = ({
           <>
             <ModalHeader>Filter Time Periods</ModalHeader>
             <ModalBody>
-              <div className="h-[400px] flex flex-col gap-3">
-                <div className="flex flex-col gap-2">
-                  <FilterMinAndMaxDates
-                    filterMinDate={filterMinStartDate}
-                    setFilterMinDate={setFilterMinStartDate}
-                    filterMaxDate={filterMaxStartDate}
-                    setFilterMaxDate={setFilterMaxStartDate}
-                    locale={locale}
-                    isMaxDateBeforeMinDate={isMaxDateBeforeMinDateStart}
-                    customLabel="Start Date"
-                    isSmallLabel
-                  />
-                  <FilterMinAndMaxDates
-                    filterMinDate={filterMinEndDate}
-                    setFilterMinDate={setFilterMinEndDate}
-                    filterMaxDate={filterMaxEndDate}
-                    setFilterMaxDate={setFilterMaxEndDate}
-                    locale={locale}
-                    isMaxDateBeforeMinDate={isMaxDateBeforeMinDateEnd}
-                    customLabel="End Date"
-                    isSmallLabel
-                  />
-                  <FilterMinAndMaxValues
-                    setFilterMinValue={setFilterMinDuration}
-                    setFilterMaxValue={setFilterMaxDuration}
-                    label="Duration (Days)"
-                    useFilterMinAndMaxValueInputs={filterMinAndMaxValueInputs}
-                    isSmall
-                  />
-                </div>
-                <div className="flex flex-col gap-0.5 py-1">
+              <div className="h-[400px] flex flex-col gap-2">
+                <FilterMinAndMaxDates
+                  filterMinDate={filterMinStartDate}
+                  setFilterMinDate={setFilterMinStartDate}
+                  filterMaxDate={filterMaxStartDate}
+                  setFilterMaxDate={setFilterMaxStartDate}
+                  locale={locale}
+                  isMaxDateBeforeMinDate={isMaxDateBeforeMinDateStart}
+                  customLabel="Start Date"
+                  isSmallLabel
+                />
+                <FilterMinAndMaxDates
+                  filterMinDate={filterMinEndDate}
+                  setFilterMinDate={setFilterMinEndDate}
+                  filterMaxDate={filterMaxEndDate}
+                  setFilterMaxDate={setFilterMaxEndDate}
+                  locale={locale}
+                  isMaxDateBeforeMinDate={isMaxDateBeforeMinDateEnd}
+                  customLabel="End Date"
+                  isSmallLabel
+                />
+                <FilterMinAndMaxValues
+                  setFilterMinValue={setFilterMinDuration}
+                  setFilterMaxValue={setFilterMaxDuration}
+                  label="Duration (Days)"
+                  useFilterMinAndMaxValueInputs={filterMinAndMaxValueInputs}
+                  isSmall
+                />
+                <div className="flex flex-col gap-0.5 py-0.5">
                   <h3 className="font-semibold text-base px-0.5">
                     Caloric Intake Types
                   </h3>
