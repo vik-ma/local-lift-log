@@ -1,4 +1,4 @@
-import { Select, SelectItem } from "@nextui-org/react";
+import { Select, SelectItem, SharedSelection } from "@nextui-org/react";
 import { useCaloricIntakeTypes } from "../../hooks";
 
 type MultipleChoiceCaloricIntakeDropdownProps = {
@@ -11,11 +11,6 @@ export const MultipleChoiceCaloricIntakeDropdown = ({
   setValues,
 }: MultipleChoiceCaloricIntakeDropdownProps) => {
   const caloricIntakeTypes = useCaloricIntakeTypes();
-
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const updatedSet = new Set(e.target.value);
-    setValues(updatedSet);
-  };
 
   return (
     <Select
@@ -35,9 +30,10 @@ export const MultipleChoiceCaloricIntakeDropdown = ({
       size="sm"
       radius="md"
       selectedKeys={values}
-      onChange={(e) => handleChange(e)}
+      onSelectionChange={
+        setValues as React.Dispatch<React.SetStateAction<SharedSelection>>
+      }
       disableAnimation
-      disallowEmptySelection
     >
       {caloricIntakeTypes.map((type) => (
         <SelectItem key={type} value={type}>
