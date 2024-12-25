@@ -48,6 +48,8 @@ export const MultipleChoiceUnitDropdown = ({
         </>
       }
       variant="faded"
+      size="sm"
+      radius="md"
       selectedKeys={filterUnits}
       onSelectionChange={
         setFilterUnits as React.Dispatch<React.SetStateAction<SharedSelection>>

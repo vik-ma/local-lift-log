@@ -118,7 +118,7 @@ export const FilterMultisetListModal = ({
               ) : (
                 <ScrollShadow className="h-[400px]">
                   <div className="flex flex-col gap-3 w-[24rem]">
-                    <div className="flex flex-col gap-1">
+                    <div className="flex flex-col gap-0.5 pb-0.5">
                       <h3 className="font-semibold text-lg px-0.5">
                         Multiset Types
                       </h3>
@@ -126,7 +126,7 @@ export const FilterMultisetListModal = ({
                         useMultisetActions={useMultisetActions}
                       />
                     </div>
-                    <div className="flex flex-col gap-1">
+                    <div className="flex flex-col gap-2">
                       <div className="flex flex-col">
                         <h3 className="font-semibold text-lg px-0.5">
                           Exercises{" "}

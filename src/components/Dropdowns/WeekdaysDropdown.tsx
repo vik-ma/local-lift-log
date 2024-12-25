@@ -39,6 +39,8 @@ export const WeekdaysDropdown = ({
         </>
       }
       variant="faded"
+      size="sm"
+      radius="md"
       selectedKeys={values}
       onChange={(e) => handleChange(e)}
       disableAnimation

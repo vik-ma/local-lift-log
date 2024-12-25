@@ -73,7 +73,7 @@ export const FilterUserMeasurementListModal = ({
                 />
               ) : (
                 <ScrollShadow className="h-[400px]">
-                  <div className="flex flex-col gap-3">
+                  <div className="flex flex-col gap-4">
                     <FilterDateRangeAndWeekdays
                       useListFilters={useListFilters}
                       locale={locale}

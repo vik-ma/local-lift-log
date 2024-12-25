@@ -31,7 +31,7 @@ export const FilterDateRangeAndWeekdays = ({
         locale={locale}
         isMaxDateBeforeMinDate={isMaxDateBeforeMinDate}
       />
-      <div className="flex flex-col gap-1 pb-0.5">
+      <div className="flex flex-col gap-1 pb-1">
         <h3 className="font-semibold text-lg px-0.5">Weekdays</h3>
         <WeekdaysDropdown
           values={filterWeekdays}

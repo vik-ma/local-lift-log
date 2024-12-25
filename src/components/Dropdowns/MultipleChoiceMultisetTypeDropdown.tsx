@@ -34,6 +34,8 @@ export const MultipleChoiceMultisetTypeDropdown = ({
         </>
       }
       variant="faded"
+      size="sm"
+      radius="md"
       selectedKeys={filterMultisetTypes}
       onSelectionChange={(keys) => handleChange(keys)}
       disableAnimation

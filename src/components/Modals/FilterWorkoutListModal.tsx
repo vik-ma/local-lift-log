@@ -184,7 +184,7 @@ export const FilterWorkoutListModal = ({
                       useListFilters={listFilters}
                       locale={userSettings.locale}
                     />
-                    <div className="flex flex-col gap-1">
+                    <div className="flex flex-col gap-2">
                       <div className="flex flex-col">
                         <h3 className="font-semibold text-lg px-0.5">
                           Routines{" "}

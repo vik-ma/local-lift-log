@@ -139,7 +139,7 @@ export const FilterRoutineListModal = ({
                       label="Number Of Days In Schedule (2 - 14)"
                       numberRangeInvalidityMap={numberRangeInvalidityMap}
                     />
-                    <div className="flex flex-col gap-1">
+                    <div className="flex flex-col gap-2">
                       <div className="flex flex-col">
                         <h3 className="font-semibold text-lg px-0.5">
                           Workout Templates{" "}
