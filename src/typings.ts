@@ -996,7 +996,6 @@ export type UseTimePeriodListFiltersReturnType = {
   setFilterCaloricIntakeTypes: React.Dispatch<
     React.SetStateAction<Set<string>>
   >;
-  caloricIntakeTypes: string[];
   handleFilterSaveButton: (
     locale: string,
     activeModal: UseDisclosureReturnType

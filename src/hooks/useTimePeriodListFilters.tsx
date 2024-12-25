@@ -5,7 +5,7 @@ import {
   UseTimePeriodListFiltersReturnType,
 } from "../typings";
 import { CalendarDate } from "@nextui-org/react";
-import { useCaloricIntakeTypes, useIsEndDateBeforeStartDate } from ".";
+import { useIsEndDateBeforeStartDate } from ".";
 import { ConvertCalendarDateToLocalizedString } from "../helpers";
 
 export const useTimePeriodListFilters =
@@ -28,12 +28,9 @@ export const useTimePeriodListFilters =
     const [filterMaxDuration, setFilterMaxDuration] = useState<number | null>(
       null
     );
-
-    const caloricIntakeTypes = useCaloricIntakeTypes();
-
     const [filterCaloricIntakeTypes, setFilterCaloricIntakeTypes] = useState<
       Set<string>
-    >(new Set(caloricIntakeTypes));
+    >(new Set());
 
     const isMaxDateBeforeMinDateStart = useIsEndDateBeforeStartDate(
       filterMinStartDate,
@@ -101,6 +98,14 @@ export const useTimePeriodListFilters =
         updatedFilterMap.set("max-duration", filterMaxDurationString);
       }
 
+      if (filterCaloricIntakeTypes.size > 0) {
+        const filterCaloricIntakeTypesString = Array.from(
+          filterCaloricIntakeTypes
+        ).join(", ");
+
+        updatedFilterMap.set("caloric-intake", filterCaloricIntakeTypesString);
+      }
+
       setFilterMap(updatedFilterMap);
 
       activeModal.onClose();
@@ -139,6 +144,11 @@ export const useTimePeriodListFilters =
         setFilterMaxDuration(null);
       }
 
+      if (key === "caloric-intake" && filterMap.has("caloric-intake")) {
+        updatedFilterMap.delete("caloric-intake");
+        setFilterCaloricIntakeTypes(new Set());
+      }
+
       setFilterMap(updatedFilterMap);
     };
 
@@ -150,6 +160,7 @@ export const useTimePeriodListFilters =
       setFilterMaxEndDate(null);
       setFilterMinDuration(null);
       setFilterMaxDuration(null);
+      setFilterCaloricIntakeTypes(new Set());
     };
 
     const showResetFilterButton = useMemo(() => {
@@ -160,6 +171,7 @@ export const useTimePeriodListFilters =
       if (filterMaxEndDate !== null) return true;
       if (filterMinDuration !== null) return true;
       if (filterMaxDuration !== null) return true;
+      if (filterCaloricIntakeTypes.size > 0) return true;
 
       return false;
     }, [
@@ -170,6 +182,7 @@ export const useTimePeriodListFilters =
       filterMaxEndDate,
       filterMinDuration,
       filterMaxDuration,
+      filterCaloricIntakeTypes,
     ]);
 
     const prefixMap = useMemo(() => {
@@ -181,9 +194,13 @@ export const useTimePeriodListFilters =
       prefixMap.set("max-date-end", `Max End Date: `);
       prefixMap.set("min-duration", `Min Duration: `);
       prefixMap.set("max-duration", `Max Duration: `);
+      prefixMap.set(
+        "caloric-intake",
+        `Caloric Intake Types (${filterCaloricIntakeTypes.size}): `
+      );
 
       return prefixMap;
-    }, []);
+    }, [filterCaloricIntakeTypes]);
 
     return {
       filterMap,
@@ -199,7 +216,6 @@ export const useTimePeriodListFilters =
       setFilterInjury,
       filterCaloricIntakeTypes,
       setFilterCaloricIntakeTypes,
-      caloricIntakeTypes,
       handleFilterSaveButton,
       removeFilter,
       resetFilter,
