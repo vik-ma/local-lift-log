@@ -7,7 +7,11 @@ import {
   ModalFooter,
 } from "@nextui-org/react";
 import { UseTimePeriodListReturnType } from "../../typings";
-import { FilterMinAndMaxDates, FilterMinAndMaxValues } from "..";
+import {
+  FilterCaloricIntakeDropdown,
+  FilterMinAndMaxDates,
+  FilterMinAndMaxValues,
+} from "..";
 import { useFilterMinAndMaxValueInputs } from "../../hooks";
 import { useMemo } from "react";
 
@@ -37,6 +41,8 @@ export const FilterTimePeriodListModal = ({
     setFilterMaxDuration,
     isMaxDateBeforeMinDateStart,
     isMaxDateBeforeMinDateEnd,
+    filterCaloricIntakeTypes,
+    setFilterCaloricIntakeTypes,
   } = timePeriodListFilters;
 
   const filterMinAndMaxValueInputs = useFilterMinAndMaxValueInputs(
@@ -74,34 +80,45 @@ export const FilterTimePeriodListModal = ({
           <>
             <ModalHeader>Filter Time Periods</ModalHeader>
             <ModalBody>
-              <div className="h-[400px] flex flex-col gap-2">
-                <FilterMinAndMaxDates
-                  filterMinDate={filterMinStartDate}
-                  setFilterMinDate={setFilterMinStartDate}
-                  filterMaxDate={filterMaxStartDate}
-                  setFilterMaxDate={setFilterMaxStartDate}
-                  locale={locale}
-                  isMaxDateBeforeMinDate={isMaxDateBeforeMinDateStart}
-                  customLabel="Start Date"
-                  isSmallLabel
-                />
-                <FilterMinAndMaxDates
-                  filterMinDate={filterMinEndDate}
-                  setFilterMinDate={setFilterMinEndDate}
-                  filterMaxDate={filterMaxEndDate}
-                  setFilterMaxDate={setFilterMaxEndDate}
-                  locale={locale}
-                  isMaxDateBeforeMinDate={isMaxDateBeforeMinDateEnd}
-                  customLabel="End Date"
-                  isSmallLabel
-                />
-                <FilterMinAndMaxValues
-                  setFilterMinValue={setFilterMinDuration}
-                  setFilterMaxValue={setFilterMaxDuration}
-                  label="Duration (Days)"
-                  useFilterMinAndMaxValueInputs={filterMinAndMaxValueInputs}
-                  isSmall
-                />
+              <div className="h-[400px] flex flex-col gap-3">
+                <div className="flex flex-col gap-2">
+                  <FilterMinAndMaxDates
+                    filterMinDate={filterMinStartDate}
+                    setFilterMinDate={setFilterMinStartDate}
+                    filterMaxDate={filterMaxStartDate}
+                    setFilterMaxDate={setFilterMaxStartDate}
+                    locale={locale}
+                    isMaxDateBeforeMinDate={isMaxDateBeforeMinDateStart}
+                    customLabel="Start Date"
+                    isSmallLabel
+                  />
+                  <FilterMinAndMaxDates
+                    filterMinDate={filterMinEndDate}
+                    setFilterMinDate={setFilterMinEndDate}
+                    filterMaxDate={filterMaxEndDate}
+                    setFilterMaxDate={setFilterMaxEndDate}
+                    locale={locale}
+                    isMaxDateBeforeMinDate={isMaxDateBeforeMinDateEnd}
+                    customLabel="End Date"
+                    isSmallLabel
+                  />
+                  <FilterMinAndMaxValues
+                    setFilterMinValue={setFilterMinDuration}
+                    setFilterMaxValue={setFilterMaxDuration}
+                    label="Duration (Days)"
+                    useFilterMinAndMaxValueInputs={filterMinAndMaxValueInputs}
+                    isSmall
+                  />
+                </div>
+                <div className="flex flex-col gap-0.5 py-1">
+                  <h3 className="font-semibold text-base px-0.5">
+                    Caloric Intake Types
+                  </h3>
+                  <FilterCaloricIntakeDropdown
+                    values={filterCaloricIntakeTypes}
+                    setValues={setFilterCaloricIntakeTypes}
+                  />
+                </div>
               </div>
             </ModalBody>
             <ModalFooter>
