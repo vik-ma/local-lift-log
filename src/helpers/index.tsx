@@ -121,6 +121,7 @@ export { IsStringValidNumberBetween0And1 } from "./Numbers/IsStringValidNumberBe
 export { IsNumberRangeValidAndFiltered } from "./Numbers/IsNumberRangeValidAndFiltered";
 export { IsWeightWithinNumberRange } from "./Numbers/IsWeightWithinNumberRange";
 export { IsDistanceWithinNumberRange } from "./Numbers/IsDistanceWithinNumberRange";
+export { IsNumberWithinLimit } from "./Numbers/IsNumberWithinLimit";
 
 export { GetLatestUserWeight } from "./Measurements/GetLatestUserWeight";
 export { CreateDefaultMeasurements } from "./Measurements/CreateDefaultMeasurements";
