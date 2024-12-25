@@ -10,6 +10,7 @@ import {
   GetNumberOfDaysBetweenDates,
   IsDatePassed,
   IsDateWithinLimit,
+  IsNumberWithinLimit,
 } from "../helpers";
 import { useDisclosure } from "@nextui-org/react";
 import { useTimePeriodListFilters } from ".";
@@ -32,6 +33,8 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
     filterMaxStartDate,
     filterMinEndDate,
     filterMaxEndDate,
+    filterMinDuration,
+    filterMaxDuration,
   } = timePeriodListFilters;
 
   const filteredTimePeriods = useMemo(() => {
@@ -69,7 +72,19 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
           (!filterMap.has("min-date-end") ||
             IsDateWithinLimit(item.end_date, filterMinEndDate, false)) &&
           (!filterMap.has("max-date-end") ||
-            IsDateWithinLimit(item.end_date, filterMaxEndDate, true))
+            IsDateWithinLimit(item.end_date, filterMaxEndDate, true)) &&
+          (!filterMap.has("min-duration") ||
+            IsNumberWithinLimit(
+              item.numDaysBetweenDates,
+              filterMinDuration,
+              false
+            )) &&
+          (!filterMap.has("max-duration") ||
+            IsNumberWithinLimit(
+              item.numDaysBetweenDates,
+              filterMaxDuration,
+              true
+            ))
       );
     }
     return timePeriods;
@@ -81,6 +96,8 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
     filterMaxStartDate,
     filterMinEndDate,
     filterMaxEndDate,
+    filterMinDuration,
+    filterMaxDuration,
   ]);
 
   const getTimePeriods = useCallback(async (locale: string) => {
