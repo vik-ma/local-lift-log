@@ -49,6 +49,7 @@ export { MultipleChoiceMultisetTypeDropdown } from "./Dropdowns/MultipleChoiceMu
 export { NumSetsDropdown } from "./Dropdowns/NumSetsDropdown";
 export { CaloricIntakeDropdown } from "./Dropdowns/CaloricIntakeDropdown";
 export { TimePeriodPropertyDropdown } from "./Dropdowns/TimePeriodPropertyDropdown";
+export { FilterCaloricIntakeDropdown } from "./Dropdowns/FilterCaloricIntakeDropdown";
 
 export { DeleteModal } from "./Modals/DeleteModal";
 export { SetModal } from "./Modals/SetModal";
