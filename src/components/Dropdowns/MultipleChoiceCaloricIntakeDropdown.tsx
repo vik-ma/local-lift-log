@@ -1,15 +1,15 @@
 import { Select, SelectItem } from "@nextui-org/react";
 import { useCaloricIntakeTypes } from "../../hooks";
 
-type FilterCaloricIntakeDropdownProps = {
+type MultipleChoiceCaloricIntakeDropdownProps = {
   values: Set<string>;
   setValues: React.Dispatch<React.SetStateAction<Set<string>>>;
 };
 
-export const FilterCaloricIntakeDropdown = ({
+export const MultipleChoiceCaloricIntakeDropdown = ({
   values,
   setValues,
-}: FilterCaloricIntakeDropdownProps) => {
+}: MultipleChoiceCaloricIntakeDropdownProps) => {
   const caloricIntakeTypes = useCaloricIntakeTypes();
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {

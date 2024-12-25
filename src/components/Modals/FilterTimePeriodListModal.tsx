@@ -8,7 +8,7 @@ import {
 } from "@nextui-org/react";
 import { UseTimePeriodListReturnType } from "../../typings";
 import {
-  FilterCaloricIntakeDropdown,
+  MultipleChoiceCaloricIntakeDropdown,
   FilterMinAndMaxDates,
   FilterMinAndMaxValues,
 } from "..";
@@ -112,7 +112,7 @@ export const FilterTimePeriodListModal = ({
                   <h3 className="font-semibold text-base px-0.5">
                     Caloric Intake Types
                   </h3>
-                  <FilterCaloricIntakeDropdown
+                  <MultipleChoiceCaloricIntakeDropdown
                     values={filterCaloricIntakeTypes}
                     setValues={setFilterCaloricIntakeTypes}
                   />
