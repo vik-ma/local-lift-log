@@ -8,6 +8,7 @@ import {
   Select,
   SharedSelection,
   SelectItem,
+  ScrollShadow,
 } from "@nextui-org/react";
 import { UseTimePeriodListReturnType } from "../../typings";
 import {
@@ -85,81 +86,83 @@ export const FilterTimePeriodListModal = ({
           <>
             <ModalHeader>Filter Time Periods</ModalHeader>
             <ModalBody>
-              <div className="h-[400px] flex flex-col gap-2">
-                <FilterMinAndMaxDates
-                  filterMinDate={filterMinStartDate}
-                  setFilterMinDate={setFilterMinStartDate}
-                  filterMaxDate={filterMaxStartDate}
-                  setFilterMaxDate={setFilterMaxStartDate}
-                  locale={locale}
-                  isMaxDateBeforeMinDate={isMaxDateBeforeMinDateStart}
-                  customLabel="Start Date"
-                  isSmallLabel
-                />
-                <FilterMinAndMaxDates
-                  filterMinDate={filterMinEndDate}
-                  setFilterMinDate={setFilterMinEndDate}
-                  filterMaxDate={filterMaxEndDate}
-                  setFilterMaxDate={setFilterMaxEndDate}
-                  locale={locale}
-                  isMaxDateBeforeMinDate={isMaxDateBeforeMinDateEnd}
-                  customLabel="End Date"
-                  isSmallLabel
-                />
-                <FilterMinAndMaxValues
-                  setFilterMinValue={setFilterMinDuration}
-                  setFilterMaxValue={setFilterMaxDuration}
-                  label="Duration (Days)"
-                  useFilterMinAndMaxValueInputs={filterMinAndMaxValueInputs}
-                  isSmall
-                />
-                <div className="flex flex-col gap-0.5 py-0.5">
-                  <h3 className="font-semibold text-base px-0.5">
-                    Caloric Intake Types
-                  </h3>
-                  <MultipleChoiceCaloricIntakeDropdown
-                    values={filterCaloricIntakeTypes}
-                    setValues={setFilterCaloricIntakeTypes}
+              <ScrollShadow className="h-[400px]">
+                <div className="flex flex-col gap-2 w-[24rem]">
+                  <FilterMinAndMaxDates
+                    filterMinDate={filterMinStartDate}
+                    setFilterMinDate={setFilterMinStartDate}
+                    filterMaxDate={filterMaxStartDate}
+                    setFilterMaxDate={setFilterMaxStartDate}
+                    locale={locale}
+                    isMaxDateBeforeMinDate={isMaxDateBeforeMinDateStart}
+                    customLabel="Start Date"
+                    isSmallLabel
                   />
-                </div>
-                <div className="flex flex-col gap-0.5 pt-3">
-                  <h3 className="font-semibold text-base px-0.5">Injury</h3>
-                  <div className="relative w-full">
-                    <Select
-                      selectionMode="multiple"
-                      label="Injury"
-                      variant="faded"
-                      size="sm"
-                      radius="md"
-                      selectedKeys={filterHasInjury}
-                      onSelectionChange={
-                        setFilterHasInjury as React.Dispatch<
-                          React.SetStateAction<SharedSelection>
-                        >
-                      }
-                      disableAnimation
-                    >
-                      <SelectItem key={"has-injury"} value={"has-injury"}>
-                        Has Injury
-                      </SelectItem>
-                      <SelectItem key={"no-injury"} value={"no-injury"}>
-                        No Injury
-                      </SelectItem>
-                    </Select>
-                    {filterHasInjury.size > 0 && (
-                      <Button
-                        aria-label="Reset Injury Filter"
-                        className="absolute right-0 -top-[2rem] h-7"
+                  <FilterMinAndMaxDates
+                    filterMinDate={filterMinEndDate}
+                    setFilterMinDate={setFilterMinEndDate}
+                    filterMaxDate={filterMaxEndDate}
+                    setFilterMaxDate={setFilterMaxEndDate}
+                    locale={locale}
+                    isMaxDateBeforeMinDate={isMaxDateBeforeMinDateEnd}
+                    customLabel="End Date"
+                    isSmallLabel
+                  />
+                  <FilterMinAndMaxValues
+                    setFilterMinValue={setFilterMinDuration}
+                    setFilterMaxValue={setFilterMaxDuration}
+                    label="Duration (Days)"
+                    useFilterMinAndMaxValueInputs={filterMinAndMaxValueInputs}
+                    isSmall
+                  />
+                  <div className="flex flex-col gap-0.5 py-0.5">
+                    <h3 className="font-semibold text-base px-0.5">
+                      Caloric Intake Types
+                    </h3>
+                    <MultipleChoiceCaloricIntakeDropdown
+                      values={filterCaloricIntakeTypes}
+                      setValues={setFilterCaloricIntakeTypes}
+                    />
+                  </div>
+                  <div className="flex flex-col gap-0.5 pt-2.5">
+                    <h3 className="font-semibold text-base px-0.5">Injury</h3>
+                    <div className="relative w-full">
+                      <Select
+                        selectionMode="multiple"
+                        label="Injury"
+                        variant="faded"
                         size="sm"
-                        variant="flat"
-                        onPress={() => setFilterHasInjury(new Set())}
+                        radius="md"
+                        selectedKeys={filterHasInjury}
+                        onSelectionChange={
+                          setFilterHasInjury as React.Dispatch<
+                            React.SetStateAction<SharedSelection>
+                          >
+                        }
+                        disableAnimation
                       >
-                        Reset
-                      </Button>
-                    )}
+                        <SelectItem key={"has-injury"} value={"has-injury"}>
+                          Has Injury
+                        </SelectItem>
+                        <SelectItem key={"no-injury"} value={"no-injury"}>
+                          No Injury
+                        </SelectItem>
+                      </Select>
+                      {filterHasInjury.size > 0 && (
+                        <Button
+                          aria-label="Reset Injury Filter"
+                          className="absolute right-0 -top-[2rem] h-7"
+                          size="sm"
+                          variant="flat"
+                          onPress={() => setFilterHasInjury(new Set())}
+                        >
+                          Reset
+                        </Button>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
+              </ScrollShadow>
             </ModalBody>
             <ModalFooter>
               <Button color="primary" variant="light" onPress={onClose}>
