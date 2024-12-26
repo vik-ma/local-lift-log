@@ -990,8 +990,8 @@ export type UseTimePeriodListFiltersReturnType = {
   setFilterMaxEndDate: React.Dispatch<
     React.SetStateAction<CalendarDate | null>
   >;
-  filterInjury: boolean;
-  setFilterInjury: React.Dispatch<React.SetStateAction<boolean>>;
+  filterHasInjury: Set<string>;
+  setFilterHasInjury: React.Dispatch<React.SetStateAction<Set<string>>>;
   filterCaloricIntakeTypes: Set<string>;
   setFilterCaloricIntakeTypes: React.Dispatch<
     React.SetStateAction<Set<string>>

@@ -5,6 +5,9 @@ import {
   ModalBody,
   ModalHeader,
   ModalFooter,
+  Select,
+  SharedSelection,
+  SelectItem,
 } from "@nextui-org/react";
 import { UseTimePeriodListReturnType } from "../../typings";
 import {
@@ -43,6 +46,8 @@ export const FilterTimePeriodListModal = ({
     isMaxDateBeforeMinDateEnd,
     filterCaloricIntakeTypes,
     setFilterCaloricIntakeTypes,
+    filterHasInjury,
+    setFilterHasInjury,
   } = timePeriodListFilters;
 
   const filterMinAndMaxValueInputs = useFilterMinAndMaxValueInputs(
@@ -116,6 +121,43 @@ export const FilterTimePeriodListModal = ({
                     values={filterCaloricIntakeTypes}
                     setValues={setFilterCaloricIntakeTypes}
                   />
+                </div>
+                <div className="flex flex-col gap-0.5 pt-3">
+                  <h3 className="font-semibold text-base px-0.5">Injury</h3>
+                  <div className="relative w-full">
+                    <Select
+                      selectionMode="multiple"
+                      label="Injury"
+                      variant="faded"
+                      size="sm"
+                      radius="md"
+                      selectedKeys={filterHasInjury}
+                      onSelectionChange={
+                        setFilterHasInjury as React.Dispatch<
+                          React.SetStateAction<SharedSelection>
+                        >
+                      }
+                      disableAnimation
+                    >
+                      <SelectItem key={"has-injury"} value={"has-injury"}>
+                        Has Injury
+                      </SelectItem>
+                      <SelectItem key={"no-injury"} value={"no-injury"}>
+                        No Injury
+                      </SelectItem>
+                    </Select>
+                    {filterHasInjury.size > 0 && (
+                      <Button
+                        aria-label="Reset Injury Filter"
+                        className="absolute right-0 -top-[2rem] h-7"
+                        size="sm"
+                        variant="flat"
+                        onPress={() => setFilterHasInjury(new Set())}
+                      >
+                        Reset
+                      </Button>
+                    )}
+                  </div>
                 </div>
               </div>
             </ModalBody>

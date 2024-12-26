@@ -21,7 +21,9 @@ export const useTimePeriodListFilters =
       useState<CalendarDate | null>(null);
     const [filterMaxEndDate, setFilterMaxEndDate] =
       useState<CalendarDate | null>(null);
-    const [filterInjury, setFilterInjury] = useState<boolean>(false);
+    const [filterHasInjury, setFilterHasInjury] = useState<Set<string>>(
+      new Set()
+    );
     const [filterMinDuration, setFilterMinDuration] = useState<number | null>(
       null
     );
@@ -212,8 +214,8 @@ export const useTimePeriodListFilters =
       setFilterMinEndDate,
       filterMaxEndDate,
       setFilterMaxEndDate,
-      filterInjury,
-      setFilterInjury,
+      filterHasInjury,
+      setFilterHasInjury,
       filterCaloricIntakeTypes,
       setFilterCaloricIntakeTypes,
       handleFilterSaveButton,
