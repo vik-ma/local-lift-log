@@ -49,6 +49,8 @@ export const FilterTimePeriodListModal = ({
     setFilterCaloricIntakeTypes,
     filterHasInjury,
     setFilterHasInjury,
+    filterStatus,
+    setFilterStatus,
   } = timePeriodListFilters;
 
   const filterMinAndMaxValueInputs = useFilterMinAndMaxValueInputs(
@@ -151,6 +153,39 @@ export const FilterTimePeriodListModal = ({
                           size="sm"
                           variant="flat"
                           onPress={() => setFilterHasInjury(new Set())}
+                        >
+                          Reset
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-0.5 pt-3">
+                    <h3 className="font-semibold text-base px-0.5">Status</h3>
+                    <div className="relative w-full">
+                      <Select
+                        selectionMode="multiple"
+                        label="Status"
+                        variant="faded"
+                        size="sm"
+                        radius="md"
+                        selectedKeys={filterStatus}
+                        onSelectionChange={
+                          setFilterStatus as React.Dispatch<
+                            React.SetStateAction<SharedSelection>
+                          >
+                        }
+                        disableAnimation
+                      >
+                        <SelectItem key="Ongoing">Ongoing</SelectItem>
+                        <SelectItem key="Finished">Finished</SelectItem>
+                      </Select>
+                      {filterStatus.size > 0 && (
+                        <Button
+                          aria-label="Reset Status Filter"
+                          className="absolute right-0 -top-[2rem] h-7"
+                          size="sm"
+                          variant="flat"
+                          onPress={() => setFilterStatus(new Set())}
                         >
                           Reset
                         </Button>

@@ -33,6 +33,7 @@ export const useTimePeriodListFilters =
     const [filterCaloricIntakeTypes, setFilterCaloricIntakeTypes] = useState<
       Set<string>
     >(new Set());
+    const [filterStatus, setFilterStatus] = useState<Set<string>>(new Set());
 
     const isMaxDateBeforeMinDateStart = useIsEndDateBeforeStartDate(
       filterMinStartDate,
@@ -244,5 +245,7 @@ export const useTimePeriodListFilters =
       setFilterMaxDuration,
       isMaxDateBeforeMinDateStart,
       isMaxDateBeforeMinDateEnd,
+      filterStatus,
+      setFilterStatus,
     };
   };
