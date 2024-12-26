@@ -96,7 +96,7 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
             (item.injury === null && filterHasInjury.has("No Injury"))) &&
           (!filterMap.has("status") ||
             (item.isOngoing && filterStatus.has("Ongoing")) ||
-            (!item.isOngoing && filterStatus.has("Finished")))
+            (!item.isOngoing && filterStatus.has("Ended")))
       );
     }
     return timePeriods;

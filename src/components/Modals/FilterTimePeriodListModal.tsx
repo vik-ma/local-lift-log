@@ -177,7 +177,7 @@ export const FilterTimePeriodListModal = ({
                         disableAnimation
                       >
                         <SelectItem key="Ongoing">Ongoing</SelectItem>
-                        <SelectItem key="Finished">Finished</SelectItem>
+                        <SelectItem key="Ended">Ended</SelectItem>
                       </Select>
                       {filterStatus.size > 0 && (
                         <Button
