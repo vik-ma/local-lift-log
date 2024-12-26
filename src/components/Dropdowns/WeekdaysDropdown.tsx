@@ -30,7 +30,7 @@ export const WeekdaysDropdown = ({
       label={
         <>
           Weekdays
-          {values.size < 7 && (
+          {values.size > 0 && (
             <span className="text-secondary">
               {" "}
               ({values.size} out of {weekdayMap.size})
@@ -44,7 +44,6 @@ export const WeekdaysDropdown = ({
       selectedKeys={values}
       onChange={(e) => handleChange(e)}
       disableAnimation
-      disallowEmptySelection
     >
       {Array.from(weekdayMap).map(([weekdayNum, weekdayLabel]) => (
         <SelectItem key={weekdayNum} value={weekdayNum}>

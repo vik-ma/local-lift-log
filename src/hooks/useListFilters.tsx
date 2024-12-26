@@ -56,9 +56,7 @@ export const useListFilters = (
 
   const weekdayMap = useWeekdayMap();
 
-  const [filterWeekdays, setFilterWeekdays] = useState<Set<string>>(
-    new Set(weekdayMap.keys())
-  );
+  const [filterWeekdays, setFilterWeekdays] = useState<Set<string>>(new Set());
 
   const defaultNumberRange = useDefaultNumberRange();
 
@@ -259,7 +257,7 @@ export const useListFilters = (
 
     if (key === "weekdays" && filterMap.has("weekdays")) {
       updatedFilterMap.delete("weekdays");
-      setFilterWeekdays(new Set(weekdayMap.keys()));
+      setFilterWeekdays(new Set());
     }
 
     if (key === "routines" && filterMap.has("routines")) {
@@ -334,7 +332,7 @@ export const useListFilters = (
     setFilterMap(new Map());
     setFilterMinDate(null);
     setFilterMaxDate(null);
-    setFilterWeekdays(new Set(weekdayMap.keys()));
+    setFilterWeekdays(new Set());
     setFilterRoutines(new Set());
     setFilterExercises(new Set());
     setFilterExerciseGroups([]);
@@ -354,7 +352,7 @@ export const useListFilters = (
     if (filterMap.size > 0) return true;
     if (filterMinDate !== null) return true;
     if (filterMaxDate !== null) return true;
-    if (filterWeekdays.size < weekdayMap.size) return true;
+    if (filterWeekdays.size > 0) return true;
     if (filterRoutines.size > 0) return true;
     if (filterExercises.size > 0) return true;
     if (filterExerciseGroups.length > 0) return true;
@@ -391,7 +389,6 @@ export const useListFilters = (
     filterDistanceRange,
     filterDistanceUnits,
     filterMultisetTypes,
-    weekdayMap,
     measurementTypes,
     routineScheduleTypes,
     weightUnits,
