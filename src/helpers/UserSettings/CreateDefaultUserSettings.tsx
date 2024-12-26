@@ -58,7 +58,7 @@ export const CreateDefaultUserSettings = async (
 
   const default_num_new_sets = "3";
 
-  const shown_time_period_properties = "caloric-intake,injury,note";
+  const shown_time_period_properties = "ongoing,caloric-intake,injury,note";
 
   try {
     const db = await Database.load(import.meta.env.VITE_DB);

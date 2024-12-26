@@ -353,16 +353,18 @@ export default function TimePeriodList() {
               <div className="flex gap-1 items-baseline">
                 <span
                   className={
-                    timePeriod.isOngoing
+                    timePeriod.isOngoing &&
+                    selectedTimePeriodProperties.has("ongoing")
                       ? "max-w-[16.75rem] truncate"
                       : "max-w-[20.75rem] truncate"
                   }
                 >
                   {timePeriod.name}
                 </span>
-                {timePeriod.isOngoing && (
-                  <span className="text-sm text-red-400">(Ongoing)</span>
-                )}
+                {timePeriod.isOngoing &&
+                  selectedTimePeriodProperties.has("ongoing") && (
+                    <span className="text-sm text-red-400">(Ongoing)</span>
+                  )}
               </div>
               <div className="text-xs text-left max-w-[20.75rem] truncate">
                 <span className="text-secondary">
