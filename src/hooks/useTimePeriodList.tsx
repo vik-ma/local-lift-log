@@ -36,6 +36,7 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
     filterMinDuration,
     filterMaxDuration,
     filterCaloricIntakeTypes,
+    filterHasInjury,
   } = timePeriodListFilters;
 
   const filteredTimePeriods = useMemo(() => {
@@ -88,7 +89,10 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
             )) &&
           (!filterMap.has("caloric-intake") ||
             (item.caloric_intake !== null &&
-              filterCaloricIntakeTypes.has(item.caloric_intake)))
+              filterCaloricIntakeTypes.has(item.caloric_intake))) &&
+          (!filterMap.has("injury") ||
+            (item.injury !== null && filterHasInjury.has("Has Injury")) ||
+            (item.injury === null && filterHasInjury.has("No Injury")))
       );
     }
     return timePeriods;
@@ -103,6 +107,7 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
     filterMinDuration,
     filterMaxDuration,
     filterCaloricIntakeTypes,
+    filterHasInjury,
   ]);
 
   const getTimePeriods = useCallback(async (locale: string) => {

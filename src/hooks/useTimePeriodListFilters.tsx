@@ -108,6 +108,12 @@ export const useTimePeriodListFilters =
         updatedFilterMap.set("caloric-intake", filterCaloricIntakeTypesString);
       }
 
+      if (filterHasInjury.size > 0) {
+        const filterHasInjuryString = Array.from(filterHasInjury).join(", ");
+
+        updatedFilterMap.set("injury", filterHasInjuryString);
+      }
+
       setFilterMap(updatedFilterMap);
 
       activeModal.onClose();
@@ -151,6 +157,11 @@ export const useTimePeriodListFilters =
         setFilterCaloricIntakeTypes(new Set());
       }
 
+      if (key === "injury" && filterMap.has("injury")) {
+        updatedFilterMap.delete("injury");
+        setFilterHasInjury(new Set());
+      }
+
       setFilterMap(updatedFilterMap);
     };
 
@@ -163,6 +174,7 @@ export const useTimePeriodListFilters =
       setFilterMinDuration(null);
       setFilterMaxDuration(null);
       setFilterCaloricIntakeTypes(new Set());
+      setFilterHasInjury(new Set());
     };
 
     const showResetFilterButton = useMemo(() => {
@@ -174,6 +186,7 @@ export const useTimePeriodListFilters =
       if (filterMinDuration !== null) return true;
       if (filterMaxDuration !== null) return true;
       if (filterCaloricIntakeTypes.size > 0) return true;
+      if (filterHasInjury.size > 0) return true;
 
       return false;
     }, [
@@ -185,6 +198,7 @@ export const useTimePeriodListFilters =
       filterMinDuration,
       filterMaxDuration,
       filterCaloricIntakeTypes,
+      filterHasInjury,
     ]);
 
     const prefixMap = useMemo(() => {
@@ -200,6 +214,7 @@ export const useTimePeriodListFilters =
         "caloric-intake",
         `Caloric Intake Types (${filterCaloricIntakeTypes.size}): `
       );
+      prefixMap.set("injury", `Injury: `);
 
       return prefixMap;
     }, [filterCaloricIntakeTypes]);

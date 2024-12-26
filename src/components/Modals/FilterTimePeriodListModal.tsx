@@ -141,12 +141,8 @@ export const FilterTimePeriodListModal = ({
                         }
                         disableAnimation
                       >
-                        <SelectItem key={"has-injury"} value={"has-injury"}>
-                          Has Injury
-                        </SelectItem>
-                        <SelectItem key={"no-injury"} value={"no-injury"}>
-                          No Injury
-                        </SelectItem>
+                        <SelectItem key="Has Injury">Has Injury</SelectItem>
+                        <SelectItem key="No Injury">No Injury</SelectItem>
                       </Select>
                       {filterHasInjury.size > 0 && (
                         <Button
