@@ -575,7 +575,8 @@ export type TimePeriodListFilterMapKey =
   | "min-duration"
   | "max-duration"
   | "caloric-intake"
-  | "injury";
+  | "injury"
+  | "status";
 
 export type UseWorkoutTemplateListReturnType = {
   workoutTemplateListModal: UseDisclosureReturnType;

@@ -115,6 +115,12 @@ export const useTimePeriodListFilters =
         updatedFilterMap.set("injury", filterHasInjuryString);
       }
 
+      if (filterStatus.size > 0) {
+        const filterStatusString = Array.from(filterStatus).join(", ");
+
+        updatedFilterMap.set("status", filterStatusString);
+      }
+
       setFilterMap(updatedFilterMap);
 
       activeModal.onClose();
@@ -163,6 +169,11 @@ export const useTimePeriodListFilters =
         setFilterHasInjury(new Set());
       }
 
+      if (key === "status" && filterMap.has("status")) {
+        updatedFilterMap.delete("status");
+        setFilterStatus(new Set());
+      }
+
       setFilterMap(updatedFilterMap);
     };
 
@@ -176,6 +187,7 @@ export const useTimePeriodListFilters =
       setFilterMaxDuration(null);
       setFilterCaloricIntakeTypes(new Set());
       setFilterHasInjury(new Set());
+      setFilterStatus(new Set());
     };
 
     const showResetFilterButton = useMemo(() => {
@@ -188,6 +200,7 @@ export const useTimePeriodListFilters =
       if (filterMaxDuration !== null) return true;
       if (filterCaloricIntakeTypes.size > 0) return true;
       if (filterHasInjury.size > 0) return true;
+      if (filterStatus.size > 0) return true;
 
       return false;
     }, [
@@ -200,6 +213,7 @@ export const useTimePeriodListFilters =
       filterMaxDuration,
       filterCaloricIntakeTypes,
       filterHasInjury,
+      filterStatus,
     ]);
 
     const prefixMap = useMemo(() => {
@@ -216,6 +230,7 @@ export const useTimePeriodListFilters =
         `Caloric Intake Types (${filterCaloricIntakeTypes.size}): `
       );
       prefixMap.set("injury", `Injury: `);
+      prefixMap.set("status", `Status: `);
 
       return prefixMap;
     }, [filterCaloricIntakeTypes]);
