@@ -17,10 +17,6 @@ import { CalendarDate } from "@nextui-org/react";
 import {
   useDefaultNumberRange,
   useWeekdayMap,
-  useMeasurementTypes,
-  useRoutineScheduleTypes,
-  useValidWeightUnits,
-  useValidDistanceUnits,
   useMultisetTypeMap,
   useIsEndDateBeforeStartDate,
 } from ".";
@@ -70,42 +66,30 @@ export const useListFilters = (
   const [filterDistanceRangeUnit, setFilterDistanceRangeUnit] =
     useState<string>("km");
 
-  const routineScheduleTypes = useRoutineScheduleTypes();
-
   const [filterScheduleTypes, setFilterScheduleTypes] = useState<Set<string>>(
-    new Set(routineScheduleTypes)
+    new Set()
   );
 
-  const measurementTypes = useMeasurementTypes();
-
-  const [filterMeasurementTypes, setFilterMeasurementTypes] =
-    useState(measurementTypes);
+  const [filterMeasurementTypes, setFilterMeasurementTypes] = useState<
+    Set<string>
+  >(new Set());
 
   const [filterNumScheduleDays, setFilterNumScheduleDays] =
     useState<NumberRange>(defaultNumberRange);
 
-  const weightUnits = useValidWeightUnits();
-
   const [filterWeightUnits, setFilterWeightUnits] = useState<Set<string>>(
-    new Set(weightUnits)
+    new Set()
   );
 
-  const distanceUnits = useValidDistanceUnits();
-
   const [filterDistanceUnits, setFilterDistanceUnits] = useState<Set<string>>(
-    new Set(distanceUnits)
+    new Set()
   );
 
   const multisetTypeMap = useMultisetTypeMap();
 
-  const multisetTypeMapKeys = useMemo(
-    () =>
-      new Set(Array.from(multisetTypeMap.keys()).map((key) => key.toString())),
-    [multisetTypeMap]
+  const [filterMultisetTypes, setFilterMultisetTypes] = useState<Set<string>>(
+    new Set()
   );
-
-  const [filterMultisetTypes, setFilterMultisetTypes] =
-    useState<Set<string>>(multisetTypeMapKeys);
 
   const isMaxDateBeforeMinDate = useIsEndDateBeforeStartDate(
     filterMinDate,
@@ -170,7 +154,7 @@ export const useListFilters = (
       updatedFilterMap.set("workout-templates", filterWorkoutTemplatesString);
     }
 
-    if (filterScheduleTypes.size < routineScheduleTypes.length) {
+    if (filterScheduleTypes.size > 0) {
       const filterScheduleTypesString = Array.from(filterScheduleTypes)
         .map((item) => item)
         .join(", ");
@@ -186,7 +170,7 @@ export const useListFilters = (
       updatedFilterMap.set("num-schedule-days", filterNumScheduleDaysString);
     }
 
-    if (filterWeightUnits.size < weightUnits.length) {
+    if (filterWeightUnits.size > 0) {
       const filterWeightUnitString = Array.from(filterWeightUnits)
         .map((item) => item)
         .join(", ");
@@ -199,14 +183,14 @@ export const useListFilters = (
       updatedFilterMap.set("distance", filterDistanceRangeString);
     }
 
-    if (filterDistanceUnits.size < distanceUnits.length) {
+    if (filterDistanceUnits.size > 0) {
       const filterDistanceUnitString = Array.from(filterDistanceUnits)
         .map((item) => item)
         .join(", ");
       updatedFilterMap.set("distance-units", filterDistanceUnitString);
     }
 
-    if (filterMultisetTypes.size < multisetTypeMap.size) {
+    if (filterMultisetTypes.size > 0) {
       const filterMultisetTypesString = Array.from(filterMultisetTypes)
         .map((type) => multisetTypeMap.get(Number(type)) ?? "")
         .join(", ");
@@ -222,22 +206,23 @@ export const useListFilters = (
   const handleFilterMeasurementTypes = (key: string) => {
     const updatedFilterMap = new Map<ListFilterMapKey, string>();
 
-    if (filterMeasurementTypes.includes(key)) {
-      // Do nothing if trying to remove last item in filterMeasurementTypes
-      if (filterMeasurementTypes.length === 1) return;
+    // TODO: FIX
+    // if (filterMeasurementTypes.includes(key)) {
+    //   // Do nothing if trying to remove last item in filterMeasurementTypes
+    //   if (filterMeasurementTypes.length === 1) return;
 
-      const updatedMeasurementTypes = filterMeasurementTypes.filter(
-        (item) => item !== key
-      );
+    //   const updatedMeasurementTypes = filterMeasurementTypes.filter(
+    //     (item) => item !== key
+    //   );
 
-      setFilterMeasurementTypes(updatedMeasurementTypes);
+    //   setFilterMeasurementTypes(updatedMeasurementTypes);
 
-      const filterMeasurementTypesString = updatedMeasurementTypes.join(", ");
+    //   const filterMeasurementTypesString = updatedMeasurementTypes.join(", ");
 
-      updatedFilterMap.set("measurement-types", filterMeasurementTypesString);
-    } else {
-      setFilterMeasurementTypes([...measurementTypes]);
-    }
+    //   updatedFilterMap.set("measurement-types", filterMeasurementTypesString);
+    // } else {
+    //   setFilterMeasurementTypes([...measurementTypes]);
+    // }
 
     setFilterMap(updatedFilterMap);
   };
@@ -287,7 +272,7 @@ export const useListFilters = (
 
     if (key === "measurement-types" && filterMap.has("measurement-types")) {
       updatedFilterMap.delete("measurement-types");
-      setFilterMeasurementTypes([...measurementTypes]);
+      setFilterMeasurementTypes(new Set());
     }
 
     if (key === "workout-templates" && filterMap.has("workout-templates")) {
@@ -297,7 +282,7 @@ export const useListFilters = (
 
     if (key === "schedule-type" && filterMap.has("schedule-type")) {
       updatedFilterMap.delete("schedule-type");
-      setFilterScheduleTypes(new Set(routineScheduleTypes));
+      setFilterScheduleTypes(new Set());
     }
 
     if (key === "num-schedule-days" && filterMap.has("num-schedule-days")) {
@@ -307,7 +292,7 @@ export const useListFilters = (
 
     if (key === "weight-units" && filterMap.has("weight-units")) {
       updatedFilterMap.delete("weight-units");
-      setFilterWeightUnits(new Set(weightUnits));
+      setFilterWeightUnits(new Set());
     }
 
     if (key === "distance" && filterMap.has("distance")) {
@@ -317,12 +302,12 @@ export const useListFilters = (
 
     if (key === "distance-units" && filterMap.has("distance-units")) {
       updatedFilterMap.delete("distance-units");
-      setFilterDistanceUnits(new Set(weightUnits));
+      setFilterDistanceUnits(new Set());
     }
 
     if (key === "multiset-types" && filterMap.has("multiset-types")) {
       updatedFilterMap.delete("multiset-types");
-      setFilterMultisetTypes(multisetTypeMapKeys);
+      setFilterMultisetTypes(new Set());
     }
 
     setFilterMap(updatedFilterMap);
@@ -338,14 +323,14 @@ export const useListFilters = (
     setFilterExerciseGroups([]);
     setFilterWeightRange(defaultNumberRange);
     setFilterMeasurements(new Set());
-    setFilterMeasurementTypes([...measurementTypes]);
+    setFilterMeasurementTypes(new Set());
     setFilterWorkoutTemplates(new Set());
-    setFilterScheduleTypes(new Set(routineScheduleTypes));
+    setFilterScheduleTypes(new Set());
     setFilterNumScheduleDays(defaultNumberRange);
-    setFilterWeightUnits(new Set(weightUnits));
+    setFilterWeightUnits(new Set());
     setFilterDistanceRange(defaultNumberRange);
-    setFilterDistanceUnits(new Set(distanceUnits));
-    setFilterMultisetTypes(multisetTypeMapKeys);
+    setFilterDistanceUnits(new Set());
+    setFilterMultisetTypes(new Set());
   };
 
   const showResetFilterButton = useMemo(() => {
@@ -359,16 +344,16 @@ export const useListFilters = (
     if (filterWeightRange.startInput !== "") return true;
     if (filterWeightRange.endInput !== "") return true;
     if (filterMeasurements.size > 0) return true;
-    if (filterMeasurementTypes.length < measurementTypes.length) return true;
+    if (filterMeasurementTypes.size > 0) return true;
     if (filterWorkoutTemplates.size > 0) return true;
-    if (filterScheduleTypes.size < routineScheduleTypes.length) return true;
+    if (filterScheduleTypes.size > 0) return true;
     if (filterNumScheduleDays.startInput !== "") return true;
     if (filterNumScheduleDays.endInput !== "") return true;
-    if (filterWeightUnits.size < weightUnits.length) return true;
+    if (filterWeightUnits.size > 0) return true;
     if (filterDistanceRange.startInput !== "") return true;
     if (filterDistanceRange.endInput !== "") return true;
-    if (filterDistanceUnits.size < distanceUnits.length) return true;
-    if (filterMultisetTypes.size < multisetTypeMap.size) return true;
+    if (filterDistanceUnits.size > 0) return true;
+    if (filterMultisetTypes.size > 0) return true;
 
     return false;
   }, [
@@ -389,11 +374,6 @@ export const useListFilters = (
     filterDistanceRange,
     filterDistanceUnits,
     filterMultisetTypes,
-    measurementTypes,
-    routineScheduleTypes,
-    weightUnits,
-    distanceUnits,
-    multisetTypeMap,
   ]);
 
   const prefixMap = useMemo(() => {
@@ -618,7 +598,6 @@ export const useListFilters = (
     handleClickExercise,
     handleClickMeasurement,
     handleClickWorkoutTemplate,
-    routineScheduleTypes,
     filterScheduleTypes,
     setFilterScheduleTypes,
     filterNumScheduleDays,

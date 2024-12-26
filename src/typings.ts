@@ -512,8 +512,8 @@ export type UseListFiltersReturnType = {
   setFilterWeightRangeUnit: React.Dispatch<React.SetStateAction<string>>;
   filterMeasurements: Set<string>;
   setFilterMeasurements: React.Dispatch<React.SetStateAction<Set<string>>>;
-  filterMeasurementTypes: string[];
-  setFilterMeasurementTypes: React.Dispatch<React.SetStateAction<string[]>>;
+  filterMeasurementTypes: Set<string>;
+  setFilterMeasurementTypes: React.Dispatch<React.SetStateAction<Set<string>>>;
   handleFilterMeasurementTypes: (key: string) => void;
   filterWorkoutTemplates: Set<number>;
   setFilterWorkoutTemplates: React.Dispatch<React.SetStateAction<Set<number>>>;
@@ -526,7 +526,6 @@ export type UseListFiltersReturnType = {
   handleClickExercise: (exercise: Exercise) => void;
   handleClickMeasurement: (measurement: Measurement) => void;
   handleClickWorkoutTemplate: (workoutTemplate: WorkoutTemplate) => void;
-  routineScheduleTypes: string[];
   filterScheduleTypes: Set<string>;
   setFilterScheduleTypes: React.Dispatch<React.SetStateAction<Set<string>>>;
   filterNumScheduleDays: NumberRange;
