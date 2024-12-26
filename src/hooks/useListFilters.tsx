@@ -136,7 +136,7 @@ export const useListFilters = (
       updatedFilterMap.set("max-date", filterMaxDateString);
     }
 
-    if (filterWeekdays.size < weekdayMap.size) {
+    if (filterWeekdays.size > 0) {
       const filterWeekdaysString = Array.from(filterWeekdays)
         .map((day) => (weekdayMap.get(day) ?? "").substring(0, 3))
         .join(", ");

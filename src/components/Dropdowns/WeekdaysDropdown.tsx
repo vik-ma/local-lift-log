@@ -1,4 +1,4 @@
-import { Select, SelectItem } from "@nextui-org/react";
+import { Button, Select, SelectItem } from "@nextui-org/react";
 
 type WeekdaysDropdownProps = {
   values: Set<string>;
@@ -25,31 +25,44 @@ export const WeekdaysDropdown = ({
   };
 
   return (
-    <Select
-      selectionMode="multiple"
-      label={
-        <>
-          Weekdays
-          {values.size > 0 && (
-            <span className="text-secondary">
-              {" "}
-              ({values.size} out of {weekdayMap.size})
-            </span>
-          )}
-        </>
-      }
-      variant="faded"
-      size="sm"
-      radius="md"
-      selectedKeys={values}
-      onChange={(e) => handleChange(e)}
-      disableAnimation
-    >
-      {Array.from(weekdayMap).map(([weekdayNum, weekdayLabel]) => (
-        <SelectItem key={weekdayNum} value={weekdayNum}>
-          {weekdayLabel}
-        </SelectItem>
-      ))}
-    </Select>
+    <div className="relative w-full">
+      <Select
+        selectionMode="multiple"
+        label={
+          <>
+            Weekdays
+            {values.size > 0 && (
+              <span className="text-secondary">
+                {" "}
+                ({values.size} out of {weekdayMap.size})
+              </span>
+            )}
+          </>
+        }
+        variant="faded"
+        size="sm"
+        radius="md"
+        selectedKeys={values}
+        onChange={(e) => handleChange(e)}
+        disableAnimation
+      >
+        {Array.from(weekdayMap).map(([weekdayNum, weekdayLabel]) => (
+          <SelectItem key={weekdayNum} value={weekdayNum}>
+            {weekdayLabel}
+          </SelectItem>
+        ))}
+      </Select>
+      {values.size > 0 && (
+        <Button
+          aria-label="Reset Weekday Selection"
+          className="absolute right-0 -top-[2rem] h-7"
+          size="sm"
+          variant="flat"
+          onPress={() => setValues(new Set())}
+        >
+          Reset
+        </Button>
+      )}
+    </div>
   );
 };
