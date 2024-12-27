@@ -16,9 +16,9 @@ import {
   UseWorkoutTemplateListReturnType,
 } from "../../typings";
 import { useMemo, useState } from "react";
-import { NumberRangeInput, WorkoutTemplateModalList } from "..";
+import { FilterMinAndMaxValues, WorkoutTemplateModalList } from "..";
 import {
-  useNumberRangeInvalidityMap,
+  useFilterMinAndMaxValueInputs,
   useRoutineScheduleTypes,
 } from "../../hooks";
 
@@ -51,8 +51,8 @@ export const FilterRoutineListModal = ({
     filterWorkoutTemplatesString,
     filterScheduleTypes,
     setFilterScheduleTypes,
-    filterNumScheduleDays,
-    setFilterNumScheduleDays,
+    setFilterMinNumScheduleDays,
+    setFilterMaxNumScheduleDays,
   } = listFilters;
 
   const showClearAllButton = useMemo(() => {
@@ -72,12 +72,7 @@ export const FilterRoutineListModal = ({
     }
   };
 
-  const numberRangeInvalidityMap = useNumberRangeInvalidityMap(
-    filterNumScheduleDays,
-    2,
-    14,
-    true
-  );
+  const filterMinAndMaxValueInputs = useFilterMinAndMaxValueInputs(2, 14, true);
 
   return (
     <Modal
@@ -138,12 +133,21 @@ export const FilterRoutineListModal = ({
                         ))}
                       </Select>
                     </div>
-                    <NumberRangeInput
-                      numberRange={filterNumScheduleDays}
-                      setNumberRange={setFilterNumScheduleDays}
-                      label="Number Of Days In Schedule (2 - 14)"
-                      numberRangeInvalidityMap={numberRangeInvalidityMap}
-                    />
+                    <div className="flex flex-col gap-0.5 pt-3">
+                      <h3 className="font-semibold text-lg px-0.5">
+                        Number Of Days In Schedule{" "}
+                        <span className="text-slate-500">(2 - 14)</span>
+                      </h3>
+                      <FilterMinAndMaxValues
+                        setFilterMinValue={setFilterMinNumScheduleDays}
+                        setFilterMaxValue={setFilterMaxNumScheduleDays}
+                        label="Days"
+                        useFilterMinAndMaxValueInputs={
+                          filterMinAndMaxValueInputs
+                        }
+                        isSmall
+                      />
+                    </div>
                     <div className="flex flex-col gap-2">
                       <div className="flex flex-col">
                         <h3 className="font-semibold text-lg px-0.5">
@@ -225,8 +229,9 @@ export const FilterRoutineListModal = ({
                   }
                   isDisabled={
                     modalPage === "base" &&
-                    (numberRangeInvalidityMap.start ||
-                      numberRangeInvalidityMap.end)
+                    (filterMinAndMaxValueInputs.isMinInputInvalid ||
+                      filterMinAndMaxValueInputs.isMaxInputInvalid ||
+                      filterMinAndMaxValueInputs.isMaxValueBelowMinValue)
                   }
                 >
                   {modalPage === "base" ? "Filter" : "Done"}
