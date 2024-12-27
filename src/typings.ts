@@ -1029,4 +1029,5 @@ export type UseFilterMinAndMaxValueInputsReturnType = {
   isMinInputInvalid: boolean;
   isMaxInputInvalid: boolean;
   isMaxValueBelowMinValue: boolean;
+  resetInputs: () => void;
 };

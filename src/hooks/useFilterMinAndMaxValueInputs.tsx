@@ -39,6 +39,11 @@ export const useFilterMinAndMaxValueInputs = (
     return false;
   }, [minInput, maxInput, isMinInputInvalid, isMaxInputInvalid]);
 
+  const resetInputs = () => {
+    setMinInput("");
+    setMaxInput("");
+  };
+
   return {
     minInput,
     setMinInput,
@@ -47,5 +52,6 @@ export const useFilterMinAndMaxValueInputs = (
     isMinInputInvalid,
     isMaxInputInvalid,
     isMaxValueBelowMinValue,
+    resetInputs
   };
 };

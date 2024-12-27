@@ -74,6 +74,11 @@ export const FilterRoutineListModal = ({
 
   const filterMinAndMaxValueInputs = useFilterMinAndMaxValueInputs(2, 14, true);
 
+  const handleResetAllFiltersButton = () => {
+    resetFilter();
+    filterMinAndMaxValueInputs.resetInputs();
+  };
+
   return (
     <Modal
       isOpen={filterRoutineListModal.isOpen}
@@ -199,7 +204,10 @@ export const FilterRoutineListModal = ({
                 ) : (
                   <>
                     {showResetFilterButton && (
-                      <Button variant="flat" onPress={resetFilter}>
+                      <Button
+                        variant="flat"
+                        onPress={handleResetAllFiltersButton}
+                      >
                         Reset All Filters
                       </Button>
                     )}
