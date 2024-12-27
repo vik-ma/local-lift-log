@@ -190,11 +190,7 @@ export const FilterRoutineListModal = ({
                 ) : (
                   <>
                     {showResetFilterButton && (
-                      <Button
-                        variant="flat"
-                        color="danger"
-                        onPress={resetFilter}
-                      >
+                      <Button variant="flat" onPress={resetFilter}>
                         Reset All Filters
                       </Button>
                     )}
