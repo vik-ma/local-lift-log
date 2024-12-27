@@ -144,25 +144,25 @@ export const useListFilters = (
     }
 
     if (filterMinWeight !== null) {
-      const filterMinWeightString = `${filterMinWeight} ${filterWeightRangeUnit}}`;
+      const filterMinWeightString = `${filterMinWeight} ${filterWeightRangeUnit}`;
 
       updatedFilterMap.set("min-weight", filterMinWeightString);
     }
 
     if (filterMaxWeight !== null) {
-      const filterMaxWeightString = `${filterMaxWeight} ${filterWeightRangeUnit}}`;
+      const filterMaxWeightString = `${filterMaxWeight} ${filterWeightRangeUnit}`;
 
       updatedFilterMap.set("max-weight", filterMaxWeightString);
     }
 
     if (filterMinDistance !== null) {
-      const filterMinDistanceString = `${filterMinDistance} ${filterDistanceRangeUnit}}`;
+      const filterMinDistanceString = `${filterMinDistance} ${filterDistanceRangeUnit}`;
 
       updatedFilterMap.set("min-distance", filterMinDistanceString);
     }
 
     if (filterMaxDistance !== null) {
-      const filterMaxDistanceString = `${filterMaxDistance} ${filterDistanceRangeUnit}}`;
+      const filterMaxDistanceString = `${filterMaxDistance} ${filterDistanceRangeUnit}`;
 
       updatedFilterMap.set("max-distance", filterMaxDistanceString);
     }

@@ -119,7 +119,7 @@ export { ConvertDistanceToMeter } from "./Numbers/ConvertDistanceToMeter";
 export { IsNumberDivisibleBy2 } from "./Numbers/IsNumberDivisibleBy2";
 export { IsStringValidNumberBetween0And1 } from "./Numbers/IsStringValidNumberBetween0And1";
 export { IsNumberRangeValidAndFiltered } from "./Numbers/IsNumberRangeValidAndFiltered";
-export { IsWeightWithinNumberRange } from "./Numbers/IsWeightWithinNumberRange";
+export { IsWeightWithinLimit } from "./Numbers/IsWeightWithinLimit";
 export { IsDistanceWithinNumberRange } from "./Numbers/IsDistanceWithinNumberRange";
 export { IsNumberWithinLimit } from "./Numbers/IsNumberWithinLimit";
 

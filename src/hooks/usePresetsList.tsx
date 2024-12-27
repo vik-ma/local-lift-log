@@ -14,7 +14,7 @@ import {
   ConvertWeightToKg,
   CreatePlateCollectionList,
   IsDistanceWithinNumberRange,
-  IsWeightWithinNumberRange,
+  IsWeightWithinLimit,
   UpdateAvailablePlatesInPlateCollection,
   UpdateIsFavorite,
   UpdateItemInList,
@@ -92,7 +92,7 @@ export const usePresetsList = (
               .toLocaleLowerCase()
               .includes(filterQueryEquipment.toLocaleLowerCase())) &&
           (!filterMap.has("weight") ||
-            IsWeightWithinNumberRange(
+            IsWeightWithinLimit(
               filterWeightRange,
               item.weight,
               item.weight_unit,

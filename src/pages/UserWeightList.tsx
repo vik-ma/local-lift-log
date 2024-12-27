@@ -23,7 +23,7 @@ import {
   InsertUserWeightIntoDatabase,
   IsDateInWeekdaySet,
   IsDateWithinLimit,
-  IsWeightWithinNumberRange,
+  IsWeightWithinLimit,
   UpdateItemInList,
   UpdateUserWeight,
 } from "../helpers";
@@ -73,7 +73,8 @@ export default function UserWeightList() {
     prefixMap,
     filterWeightRangeUnit,
     setFilterWeightRangeUnit,
-    filterWeightRange,
+    filterMinWeight,
+    filterMaxWeight,
   } = listFilters;
 
   const filterUserWeightListModal = useDisclosure();
@@ -98,12 +99,21 @@ export default function UserWeightList() {
             IsDateWithinLimit(item.date, filterMaxDate, true)) &&
           (!filterMap.has("weekdays") ||
             IsDateInWeekdaySet(item.date, filterWeekdays)) &&
-          (!filterMap.has("weight") ||
-            IsWeightWithinNumberRange(
-              filterWeightRange,
+          (!filterMap.has("min-weight") ||
+            IsWeightWithinLimit(
               item.weight,
+              filterMinWeight,
               item.weight_unit,
-              filterWeightRangeUnit
+              filterWeightRangeUnit,
+              false
+            )) &&
+          (!filterMap.has("max-weight") ||
+            IsWeightWithinLimit(
+              item.weight,
+              filterMaxWeight,
+              item.weight_unit,
+              filterWeightRangeUnit,
+              true
             ))
       );
     }
@@ -115,8 +125,9 @@ export default function UserWeightList() {
     filterMinDate,
     filterMaxDate,
     filterWeekdays,
-    filterWeightRange,
     filterWeightRangeUnit,
+    filterMinWeight,
+    filterMaxWeight,
   ]);
 
   const defaultUserWeight = useDefaultUserWeight();
