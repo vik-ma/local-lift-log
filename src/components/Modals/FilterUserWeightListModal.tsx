@@ -12,10 +12,10 @@ import {
 } from "../../typings";
 import {
   FilterDateRangeAndWeekdays,
-  NumberRangeInput,
+  FilterMinAndMaxValues,
   WeightUnitDropdown,
 } from "..";
-import { useNumberRangeInvalidityMap } from "../../hooks";
+import { useFilterMinAndMaxValueInputs } from "../../hooks";
 
 type FilterUserWeightListModalProps = {
   filterUserWeightListModal: UseDisclosureReturnType;
@@ -29,8 +29,8 @@ export const FilterUserWeightListModal = ({
   locale,
 }: FilterUserWeightListModalProps) => {
   const {
-    filterWeightRange,
-    setFilterWeightRange,
+    setFilterMinWeight,
+    setFilterMaxWeight,
     filterWeightRangeUnit,
     setFilterWeightRangeUnit,
     showResetFilterButton,
@@ -39,8 +39,12 @@ export const FilterUserWeightListModal = ({
     isMaxDateBeforeMinDate,
   } = useListFilters;
 
-  const numberRangeInvalidityMap =
-    useNumberRangeInvalidityMap(filterWeightRange);
+  const filterMinAndMaxValueInputs = useFilterMinAndMaxValueInputs();
+
+  const handleResetAllFiltersButton = () => {
+    resetFilter();
+    filterMinAndMaxValueInputs.resetInputs();
+  };
 
   return (
     <Modal
@@ -57,12 +61,12 @@ export const FilterUserWeightListModal = ({
                   useListFilters={useListFilters}
                   locale={locale}
                 />
-                <div className="flex gap-2">
-                  <NumberRangeInput
-                    numberRange={filterWeightRange}
-                    setNumberRange={setFilterWeightRange}
-                    label="Weight Range"
-                    numberRangeInvalidityMap={numberRangeInvalidityMap}
+                <div className="flex items-start gap-2">
+                  <FilterMinAndMaxValues
+                    setFilterMinValue={setFilterMinWeight}
+                    setFilterMaxValue={setFilterMaxWeight}
+                    label="Weight"
+                    useFilterMinAndMaxValueInputs={filterMinAndMaxValueInputs}
                   />
                   <WeightUnitDropdown
                     value={filterWeightRangeUnit}
@@ -75,7 +79,7 @@ export const FilterUserWeightListModal = ({
             <ModalFooter className="flex justify-between">
               <div>
                 {showResetFilterButton && (
-                  <Button variant="flat" onPress={resetFilter}>
+                  <Button variant="flat" onPress={handleResetAllFiltersButton}>
                     Reset All Filters
                   </Button>
                 )}
@@ -90,9 +94,10 @@ export const FilterUserWeightListModal = ({
                     handleFilterSaveButton(locale, filterUserWeightListModal)
                   }
                   isDisabled={
-                    numberRangeInvalidityMap.start ||
-                    numberRangeInvalidityMap.end ||
-                    isMaxDateBeforeMinDate
+                    isMaxDateBeforeMinDate ||
+                    filterMinAndMaxValueInputs.isMinInputInvalid ||
+                    filterMinAndMaxValueInputs.isMaxInputInvalid ||
+                    filterMinAndMaxValueInputs.isMaxValueBelowMinValue
                   }
                 >
                   Filter
