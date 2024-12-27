@@ -528,8 +528,14 @@ export type UseListFiltersReturnType = {
   handleClickWorkoutTemplate: (workoutTemplate: WorkoutTemplate) => void;
   filterScheduleTypes: Set<string>;
   setFilterScheduleTypes: React.Dispatch<React.SetStateAction<Set<string>>>;
-  filterNumScheduleDays: NumberRange;
-  setFilterNumScheduleDays: React.Dispatch<React.SetStateAction<NumberRange>>;
+  filterMinNumScheduleDays: number | null;
+  setFilterMinNumScheduleDays: React.Dispatch<
+    React.SetStateAction<number | null>
+  >;
+  filterMaxNumScheduleDays: number | null;
+  setFilterMaxNumScheduleDays: React.Dispatch<
+    React.SetStateAction<number | null>
+  >;
   filterWeightUnits: Set<string>;
   setFilterWeightUnits: React.Dispatch<React.SetStateAction<Set<string>>>;
   filterDistanceRange: NumberRange;
@@ -560,7 +566,8 @@ export type ListFilterMapKey =
   | "measurement-types"
   | "workout-templates"
   | "schedule-type"
-  | "num-schedule-days"
+  | "min-num-schedule-days"
+  | "max-num-schedule-days"
   | "weight-units"
   | "distance"
   | "distance-units"
