@@ -51,6 +51,8 @@ export const FilterTimePeriodListModal = ({
     setFilterHasInjury,
     filterStatus,
     setFilterStatus,
+    resetFilter,
+    showResetFilterButton,
   } = timePeriodListFilters;
 
   const filterMinAndMaxValueInputs = useFilterMinAndMaxValueInputs(
@@ -77,6 +79,11 @@ export const FilterTimePeriodListModal = ({
     isMaxDateBeforeMinDateEnd,
     filterMinAndMaxValueInputs.isMaxValueBelowMinValue,
   ]);
+
+  const handleResetAllFiltersButton = () => {
+    resetFilter();
+    filterMinAndMaxValueInputs.resetInputs();
+  };
 
   return (
     <Modal
@@ -195,19 +202,28 @@ export const FilterTimePeriodListModal = ({
                 </div>
               </ScrollShadow>
             </ModalBody>
-            <ModalFooter>
-              <Button color="primary" variant="light" onPress={onClose}>
-                Close
-              </Button>
-              <Button
-                color="primary"
-                onPress={() =>
-                  handleFilterSaveButton(locale, filterTimePeriodListModal)
-                }
-                isDisabled={isFilterButtonDisabled}
-              >
-                Filter
-              </Button>
+            <ModalFooter className="flex justify-between">
+              <div className="flex gap-2">
+                {showResetFilterButton && (
+                  <Button variant="flat" onPress={handleResetAllFiltersButton}>
+                    Reset All Filters
+                  </Button>
+                )}
+              </div>
+              <div className="flex gap-2">
+                <Button color="primary" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+                <Button
+                  color="primary"
+                  onPress={() =>
+                    handleFilterSaveButton(locale, filterTimePeriodListModal)
+                  }
+                  isDisabled={isFilterButtonDisabled}
+                >
+                  Filter
+                </Button>
+              </div>
             </ModalFooter>
           </>
         )}
