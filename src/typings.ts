@@ -209,6 +209,7 @@ export type UnitDropdownProps = {
   setIsSetEdited?: React.Dispatch<React.SetStateAction<boolean>>;
   setPlateCollection?: React.Dispatch<React.SetStateAction<PlateCollection>>;
   switchWeightUnit?: () => void;
+  showBigLabel?: boolean;
 };
 
 export type MeasurementDropdownProps = {

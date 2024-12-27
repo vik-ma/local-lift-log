@@ -15,6 +15,7 @@ export const WeightUnitDropdown = ({
   setIsSetEdited,
   setPlateCollection,
   switchWeightUnit,
+  showBigLabel,
 }: UnitDropdownProps) => {
   const validWeightUnits = useValidWeightUnits();
 
@@ -57,22 +58,27 @@ export const WeightUnitDropdown = ({
   };
 
   return (
-    <Select
-      aria-label="Weight Unit Dropdown List"
-      label={showLabel ? "Unit" : null}
-      className={showLabel ? "w-[6rem]" : "w-[4.5rem]"}
-      size={isSmall ? "sm" : "md"}
-      variant="faded"
-      selectedKeys={[value]}
-      onChange={(e) => handleChange(e)}
-      disallowEmptySelection
-    >
-      {validWeightUnits.map((unit) => (
-        <SelectItem key={unit} value={unit}>
-          {unit}
-        </SelectItem>
-      ))}
-    </Select>
+    <div className="flex flex-col gap-0.5">
+      {showBigLabel && (
+        <h3 className="text-base font-semibold px-0.5">Unit</h3>
+      )}
+      <Select
+        aria-label="Weight Unit Dropdown List"
+        label={showLabel ? "Unit" : null}
+        className={showLabel ? "w-[6rem]" : "w-[4.5rem]"}
+        size={isSmall ? "sm" : "md"}
+        variant="faded"
+        selectedKeys={[value]}
+        onChange={(e) => handleChange(e)}
+        disallowEmptySelection
+      >
+        {validWeightUnits.map((unit) => (
+          <SelectItem key={unit} value={unit}>
+            {unit}
+          </SelectItem>
+        ))}
+      </Select>
+    </div>
   );
 };
 
