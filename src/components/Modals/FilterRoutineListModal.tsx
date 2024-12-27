@@ -17,7 +17,10 @@ import {
 } from "../../typings";
 import { useMemo, useState } from "react";
 import { NumberRangeInput, WorkoutTemplateModalList } from "..";
-import { useNumberRangeInvalidityMap } from "../../hooks";
+import {
+  useNumberRangeInvalidityMap,
+  useRoutineScheduleTypes,
+} from "../../hooks";
 
 type FilterRoutineListModalProps = {
   useRoutineList: UseRoutineListReturnType;
@@ -36,6 +39,8 @@ export const FilterRoutineListModal = ({
 
   const { listFilters, filterRoutineListModal } = useRoutineList;
 
+  const routineScheduleTypes = useRoutineScheduleTypes();
+
   const {
     filterWorkoutTemplates,
     setFilterWorkoutTemplates,
@@ -44,7 +49,6 @@ export const FilterRoutineListModal = ({
     resetFilter,
     handleFilterSaveButton,
     filterWorkoutTemplatesString,
-    routineScheduleTypes,
     filterScheduleTypes,
     setFilterScheduleTypes,
     filterNumScheduleDays,
@@ -107,7 +111,7 @@ export const FilterRoutineListModal = ({
                         label={
                           <>
                             Schedule Types
-                            {filterScheduleTypes.size < 2 && (
+                            {filterScheduleTypes.size > 0 && (
                               <span className="text-secondary">
                                 {" "}
                                 ({filterScheduleTypes.size} out of{" "}
@@ -117,6 +121,8 @@ export const FilterRoutineListModal = ({
                           </>
                         }
                         variant="faded"
+                        size="sm"
+                        radius="md"
                         selectedKeys={filterScheduleTypes}
                         onSelectionChange={
                           setFilterScheduleTypes as React.Dispatch<
@@ -124,7 +130,6 @@ export const FilterRoutineListModal = ({
                           >
                         }
                         disableAnimation
-                        disallowEmptySelection
                       >
                         {routineScheduleTypes.map((item) => (
                           <SelectItem key={item} value={item}>
