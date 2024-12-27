@@ -25,7 +25,7 @@ export const MultipleChoiceMultisetTypeDropdown = ({
       label={
         <>
           Multiset Types
-          {filterMultisetTypes.size < multisetTypeMap.size && (
+          {filterMultisetTypes.size > 0 && (
             <span className="text-secondary">
               {" "}
               ({filterMultisetTypes.size} out of {multisetTypeMap.size})
@@ -39,7 +39,6 @@ export const MultipleChoiceMultisetTypeDropdown = ({
       selectedKeys={filterMultisetTypes}
       onSelectionChange={(keys) => handleChange(keys)}
       disableAnimation
-      disallowEmptySelection
     >
       {Array.from(multisetTypeMap).map(([key, value]) => (
         <SelectItem key={key.toString()} value={key.toString()}>

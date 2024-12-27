@@ -39,7 +39,7 @@ export const MultipleChoiceUnitDropdown = ({
       label={
         <>
           {unitTypeString} Units
-          {filterUnits.size < unitList.length && (
+          {filterUnits.size > 0 && (
             <span className="text-secondary">
               {" "}
               ({filterUnits.size} out of {unitList.length})
@@ -55,7 +55,6 @@ export const MultipleChoiceUnitDropdown = ({
         setFilterUnits as React.Dispatch<React.SetStateAction<SharedSelection>>
       }
       disableAnimation
-      disallowEmptySelection
     >
       {unitList.map((item) => (
         <SelectItem key={item} value={item}>
