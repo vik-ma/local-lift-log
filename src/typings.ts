@@ -506,8 +506,14 @@ export type UseListFiltersReturnType = {
   filterExerciseGroups: string[];
   setFilterExerciseGroups: React.Dispatch<React.SetStateAction<string[]>>;
   prefixMap: Map<ListFilterMapKey, string>;
-  filterWeightRange: NumberRange;
-  setFilterWeightRange: React.Dispatch<React.SetStateAction<NumberRange>>;
+  filterMinWeight: number | null;
+  setFilterMinWeight: React.Dispatch<React.SetStateAction<number | null>>;
+  filterMaxWeight: number | null;
+  setFilterMaxWeight: React.Dispatch<React.SetStateAction<number | null>>;
+  filterMinDistance: number | null;
+  setFilterMinDistance: React.Dispatch<React.SetStateAction<number | null>>;
+  filterMaxDistance: number | null;
+  setFilterMaxDistance: React.Dispatch<React.SetStateAction<number | null>>;
   filterWeightRangeUnit: string;
   setFilterWeightRangeUnit: React.Dispatch<React.SetStateAction<string>>;
   filterMeasurements: Set<string>;
@@ -538,8 +544,6 @@ export type UseListFiltersReturnType = {
   >;
   filterWeightUnits: Set<string>;
   setFilterWeightUnits: React.Dispatch<React.SetStateAction<Set<string>>>;
-  filterDistanceRange: NumberRange;
-  setFilterDistanceRange: React.Dispatch<React.SetStateAction<NumberRange>>;
   filterDistanceRangeUnit: string;
   setFilterDistanceRangeUnit: React.Dispatch<React.SetStateAction<string>>;
   filterDistanceUnits: Set<string>;
@@ -561,7 +565,8 @@ export type ListFilterMapKey =
   | "routines"
   | "exercises"
   | "exercise-groups"
-  | "weight"
+  | "min-weight"
+  | "max-weight"
   | "measurements"
   | "measurement-types"
   | "workout-templates"
@@ -569,7 +574,8 @@ export type ListFilterMapKey =
   | "min-num-schedule-days"
   | "max-num-schedule-days"
   | "weight-units"
-  | "distance"
+  | "min-distance"
+  | "max-distance"
   | "distance-units"
   | "multiset-types";
 

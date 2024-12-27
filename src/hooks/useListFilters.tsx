@@ -4,7 +4,6 @@ import {
   ListFilterMapKey,
   Measurement,
   MeasurementMap,
-  NumberRange,
   Routine,
   RoutineMap,
   UseDisclosureReturnType,
@@ -15,16 +14,12 @@ import {
 } from "../typings";
 import { CalendarDate } from "@nextui-org/react";
 import {
-  useDefaultNumberRange,
   useWeekdayMap,
   useMultisetTypeMap,
   useIsEndDateBeforeStartDate,
   useMeasurementTypes,
 } from ".";
-import {
-  ConvertCalendarDateToLocalizedString,
-  IsNumberRangeValidAndFiltered,
-} from "../helpers";
+import { ConvertCalendarDateToLocalizedString } from "../helpers";
 
 export const useListFilters = (
   useExerciseList?: UseExerciseListReturnType,
@@ -55,12 +50,14 @@ export const useListFilters = (
 
   const [filterWeekdays, setFilterWeekdays] = useState<Set<string>>(new Set());
 
-  const defaultNumberRange = useDefaultNumberRange();
-
-  const [filterWeightRange, setFilterWeightRange] =
-    useState<NumberRange>(defaultNumberRange);
-  const [filterDistanceRange, setFilterDistanceRange] =
-    useState<NumberRange>(defaultNumberRange);
+  const [filterMinWeight, setFilterMinWeight] = useState<number | null>(null);
+  const [filterMaxWeight, setFilterMaxWeight] = useState<number | null>(null);
+  const [filterMinDistance, setFilterMinDistance] = useState<number | null>(
+    null
+  );
+  const [filterMaxDistance, setFilterMaxDistance] = useState<number | null>(
+    null
+  );
 
   const [filterWeightRangeUnit, setFilterWeightRangeUnit] =
     useState<string>("kg");
@@ -146,10 +143,28 @@ export const useListFilters = (
       updatedFilterMap.set("exercise-groups", filterExerciseGroupsString);
     }
 
-    if (IsNumberRangeValidAndFiltered(filterWeightRange)) {
-      const filterWeightRangeString = `${filterWeightRange.start} ${filterWeightRangeUnit} - ${filterWeightRange.end} ${filterWeightRangeUnit}`;
+    if (filterMinWeight !== null) {
+      const filterMinWeightString = `${filterMinWeight} ${filterWeightRangeUnit}}`;
 
-      updatedFilterMap.set("weight", filterWeightRangeString);
+      updatedFilterMap.set("min-weight", filterMinWeightString);
+    }
+
+    if (filterMaxWeight !== null) {
+      const filterMaxWeightString = `${filterMaxWeight} ${filterWeightRangeUnit}}`;
+
+      updatedFilterMap.set("max-weight", filterMaxWeightString);
+    }
+
+    if (filterMinDistance !== null) {
+      const filterMinDistanceString = `${filterMinDistance} ${filterDistanceRangeUnit}}`;
+
+      updatedFilterMap.set("min-distance", filterMinDistanceString);
+    }
+
+    if (filterMaxDistance !== null) {
+      const filterMaxDistanceString = `${filterMaxDistance} ${filterDistanceRangeUnit}}`;
+
+      updatedFilterMap.set("max-distance", filterMaxDistanceString);
     }
 
     if (filterMeasurements.size > 0) {
@@ -176,8 +191,6 @@ export const useListFilters = (
       );
     }
 
-    setFilterMap(updatedFilterMap);
-
     if (filterMaxNumScheduleDays !== null) {
       const filterMaxNumScheduleDaysString = `${filterMaxNumScheduleDays} Days`;
 
@@ -192,12 +205,6 @@ export const useListFilters = (
         .map((item) => item)
         .join(", ");
       updatedFilterMap.set("weight-units", filterWeightUnitString);
-    }
-
-    if (IsNumberRangeValidAndFiltered(filterDistanceRange)) {
-      const filterDistanceRangeString = `${filterDistanceRange.start} ${filterDistanceRangeUnit} - ${filterDistanceRange.end} ${filterDistanceRangeUnit}`;
-
-      updatedFilterMap.set("distance", filterDistanceRangeString);
     }
 
     if (filterDistanceUnits.size > 0) {
@@ -276,9 +283,24 @@ export const useListFilters = (
       setFilterExerciseGroups([]);
     }
 
-    if (key === "weight" && filterMap.has("weight")) {
-      updatedFilterMap.delete("weight");
-      setFilterWeightRange(defaultNumberRange);
+    if (key === "min-weight" && filterMap.has("min-weight")) {
+      updatedFilterMap.delete("min-weight");
+      setFilterMinWeight(null);
+    }
+
+    if (key === "max-weight" && filterMap.has("max-weight")) {
+      updatedFilterMap.delete("max-weight");
+      setFilterMaxWeight(null);
+    }
+
+    if (key === "min-distance" && filterMap.has("min-distance")) {
+      updatedFilterMap.delete("min-distance");
+      setFilterMinDistance(null);
+    }
+
+    if (key === "max-distance" && filterMap.has("max-distance")) {
+      updatedFilterMap.delete("max-distance");
+      setFilterMaxDistance(null);
     }
 
     if (key === "measurements" && filterMap.has("measurements")) {
@@ -322,11 +344,6 @@ export const useListFilters = (
       setFilterWeightUnits(new Set());
     }
 
-    if (key === "distance" && filterMap.has("distance")) {
-      updatedFilterMap.delete("distance");
-      setFilterDistanceRange(defaultNumberRange);
-    }
-
     if (key === "distance-units" && filterMap.has("distance-units")) {
       updatedFilterMap.delete("distance-units");
       setFilterDistanceUnits(new Set());
@@ -348,7 +365,10 @@ export const useListFilters = (
     setFilterRoutines(new Set());
     setFilterExercises(new Set());
     setFilterExerciseGroups([]);
-    setFilterWeightRange(defaultNumberRange);
+    setFilterMinWeight(null);
+    setFilterMaxWeight(null);
+    setFilterMinDistance(null);
+    setFilterMaxDistance(null);
     setFilterMeasurements(new Set());
     setFilterMeasurementTypes([...measurementTypes]);
     setFilterWorkoutTemplates(new Set());
@@ -356,7 +376,6 @@ export const useListFilters = (
     setFilterMinNumScheduleDays(null);
     setFilterMaxNumScheduleDays(null);
     setFilterWeightUnits(new Set());
-    setFilterDistanceRange(defaultNumberRange);
     setFilterDistanceUnits(new Set());
     setFilterMultisetTypes(new Set());
   };
@@ -369,8 +388,10 @@ export const useListFilters = (
     if (filterRoutines.size > 0) return true;
     if (filterExercises.size > 0) return true;
     if (filterExerciseGroups.length > 0) return true;
-    if (filterWeightRange.startInput !== "") return true;
-    if (filterWeightRange.endInput !== "") return true;
+    if (filterMinWeight !== null) return true;
+    if (filterMaxWeight !== null) return true;
+    if (filterMinDistance !== null) return true;
+    if (filterMaxDistance !== null) return true;
     if (filterMeasurements.size > 0) return true;
     if (filterMeasurementTypes.length < measurementTypes.length) return true;
     if (filterWorkoutTemplates.size > 0) return true;
@@ -378,8 +399,6 @@ export const useListFilters = (
     if (filterMinNumScheduleDays !== null) return true;
     if (filterMaxNumScheduleDays !== null) return true;
     if (filterWeightUnits.size > 0) return true;
-    if (filterDistanceRange.startInput !== "") return true;
-    if (filterDistanceRange.endInput !== "") return true;
     if (filterDistanceUnits.size > 0) return true;
     if (filterMultisetTypes.size > 0) return true;
 
@@ -392,7 +411,10 @@ export const useListFilters = (
     filterRoutines,
     filterExercises,
     filterExerciseGroups,
-    filterWeightRange,
+    filterMinWeight,
+    filterMaxWeight,
+    filterMinDistance,
+    filterMaxDistance,
     filterMeasurements,
     filterMeasurementTypes,
     filterWorkoutTemplates,
@@ -400,7 +422,6 @@ export const useListFilters = (
     filterMinNumScheduleDays,
     filterMaxNumScheduleDays,
     filterWeightUnits,
-    filterDistanceRange,
     filterDistanceUnits,
     filterMultisetTypes,
     measurementTypes,
@@ -418,7 +439,10 @@ export const useListFilters = (
       "exercise-groups",
       `Exercise Groups (${filterExerciseGroups.length}): `
     );
-    prefixMap.set("weight", `Weight: `);
+    prefixMap.set("min-weight", `Min Weight: `);
+    prefixMap.set("max-weight", `Max Weight: `);
+    prefixMap.set("min-distance", `Min Distance: `);
+    prefixMap.set("max-distance", `Max Distance: `);
     prefixMap.set(
       "measurements",
       `Measurements (${filterMeasurements.size}): `
@@ -435,7 +459,6 @@ export const useListFilters = (
     prefixMap.set("min-num-schedule-days", `Min Number Of Days In Schedule: `);
     prefixMap.set("max-num-schedule-days", `Max Number Of Days In Schedule: `);
     prefixMap.set("weight-units", `Weight Unit (${filterWeightUnits.size}): `);
-    prefixMap.set("distance", `Distance: `);
     prefixMap.set(
       "distance-units",
       `Distance Units (${filterDistanceUnits.size}): `
@@ -603,8 +626,14 @@ export const useListFilters = (
     filterExerciseGroups,
     setFilterExerciseGroups,
     prefixMap,
-    filterWeightRange,
-    setFilterWeightRange,
+    filterMinWeight,
+    setFilterMinWeight,
+    filterMaxWeight,
+    setFilterMaxWeight,
+    filterMinDistance,
+    setFilterMinDistance,
+    filterMaxDistance,
+    setFilterMaxDistance,
     filterWeightRangeUnit,
     setFilterWeightRangeUnit,
     filterMeasurements,
@@ -631,8 +660,6 @@ export const useListFilters = (
     setFilterMaxNumScheduleDays,
     filterWeightUnits,
     setFilterWeightUnits,
-    filterDistanceRange,
-    setFilterDistanceRange,
     filterDistanceRangeUnit,
     setFilterDistanceRangeUnit,
     filterDistanceUnits,
