@@ -10,7 +10,7 @@ import { useDisclosure } from "@nextui-org/react";
 import {
   CreateRoutineWorkoutTemplateList,
   DoesListOrSetHaveCommonElement,
-  IsNumDaysInScheduleWithinRange,
+  IsNumberWithinLimit,
   IsRoutineScheduleTypeFiltered,
 } from "../helpers";
 import { useListFilters } from "./useListFilters";
@@ -47,7 +47,8 @@ export const useRoutineList = (
     filterMap,
     filterWorkoutTemplates,
     filterScheduleTypes,
-    filterNumScheduleDays,
+    filterMinNumScheduleDays,
+    filterMaxNumScheduleDays,
   } = listFilters;
 
   const filteredRoutines = useMemo(() => {
@@ -72,10 +73,17 @@ export const useRoutineList = (
               item.is_schedule_weekly,
               filterScheduleTypes
             )) &&
-          (!filterMap.has("num-schedule-days") ||
-            IsNumDaysInScheduleWithinRange(
+          (!filterMap.has("min-num-schedule-days") ||
+            IsNumberWithinLimit(
               item.num_days_in_schedule,
-              filterNumScheduleDays
+              filterMinNumScheduleDays,
+              false
+            )) &&
+          (!filterMap.has("max-num-schedule-days") ||
+            IsNumberWithinLimit(
+              item.num_days_in_schedule,
+              filterMaxNumScheduleDays,
+              true
             ))
       );
     }
@@ -86,7 +94,8 @@ export const useRoutineList = (
     filterMap,
     filterWorkoutTemplates,
     filterScheduleTypes,
-    filterNumScheduleDays,
+    filterMinNumScheduleDays,
+    filterMaxNumScheduleDays,
   ]);
 
   const getRoutines = useCallback(async () => {
