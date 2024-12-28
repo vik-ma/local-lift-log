@@ -9,11 +9,11 @@ import {
 import { UsePresetsListReturnType, UserSettings } from "../../typings";
 import {
   DistanceUnitDropdown,
+  FilterMinAndMaxValues,
   MultipleChoiceUnitDropdown,
-  NumberRangeInput,
   WeightUnitDropdown,
 } from "..";
-import { useNumberRangeInvalidityMap } from "../../hooks";
+import { useFilterMinAndMaxValueInputs } from "../../hooks";
 import { useMemo } from "react";
 
 type FilterPresetsListModalProps = {
@@ -33,8 +33,8 @@ export const FilterPresetsListModal = ({
   } = usePresetsList;
 
   const {
-    filterWeightRange,
-    setFilterWeightRange,
+    setFilterMinWeight,
+    setFilterMaxWeight,
     filterWeightRangeUnit,
     setFilterWeightRangeUnit,
     showResetFilterButton,
@@ -42,33 +42,33 @@ export const FilterPresetsListModal = ({
     handleFilterSaveButton,
     filterWeightUnits,
     setFilterWeightUnits,
-    filterDistanceRange,
-    setFilterDistanceRange,
+    setFilterMinDistance,
+    setFilterMaxDistance,
     filterDistanceRangeUnit,
     setFilterDistanceRangeUnit,
     filterDistanceUnits,
     setFilterDistanceUnits,
   } = listFilters;
 
-  const numberRangeInvalidityMapWeight =
-    useNumberRangeInvalidityMap(filterWeightRange);
-  const numberRangeInvalidityMapDistance =
-    useNumberRangeInvalidityMap(filterDistanceRange);
+  const filterMinAndMaxValueInputsWeight = useFilterMinAndMaxValueInputs();
+  const filterMinAndMaxValueInputsDistance = useFilterMinAndMaxValueInputs();
 
   const isFilterButtonDisabled = useMemo(() => {
     if (presetsType === "equipment")
       return (
-        numberRangeInvalidityMapWeight.start ||
-        numberRangeInvalidityMapWeight.end
+        filterMinAndMaxValueInputsWeight.isMinInputInvalid ||
+        filterMinAndMaxValueInputsWeight.isMaxInputInvalid ||
+        filterMinAndMaxValueInputsWeight.isMaxValueBelowMinValue
       );
     else
       return (
-        numberRangeInvalidityMapDistance.start ||
-        numberRangeInvalidityMapDistance.end
+        filterMinAndMaxValueInputsDistance.isMinInputInvalid ||
+        filterMinAndMaxValueInputsDistance.isMaxInputInvalid ||
+        filterMinAndMaxValueInputsDistance.isMaxValueBelowMinValue
       );
   }, [
-    numberRangeInvalidityMapWeight,
-    numberRangeInvalidityMapDistance,
+    filterMinAndMaxValueInputsWeight,
+    filterMinAndMaxValueInputsDistance,
     presetsType,
   ]);
 
@@ -84,17 +84,20 @@ export const FilterPresetsListModal = ({
             <ModalBody>
               {presetsType === "equipment" ? (
                 <div className="flex flex-col gap-3">
-                  <div className="flex gap-2">
-                    <NumberRangeInput
-                      numberRange={filterWeightRange}
-                      setNumberRange={setFilterWeightRange}
-                      label="Weight Range"
-                      numberRangeInvalidityMap={numberRangeInvalidityMapWeight}
+                  <div className="flex items-start gap-4">
+                    <FilterMinAndMaxValues
+                      setFilterMinValue={setFilterMinWeight}
+                      setFilterMaxValue={setFilterMaxWeight}
+                      label="Weight"
+                      useFilterMinAndMaxValueInputs={
+                        filterMinAndMaxValueInputsWeight
+                      }
                     />
                     <WeightUnitDropdown
                       value={filterWeightRangeUnit}
                       setState={setFilterWeightRangeUnit}
                       targetType="state"
+                      showBigLabel
                     />
                   </div>
                   <div className="flex flex-col gap-1">
@@ -111,18 +114,19 @@ export const FilterPresetsListModal = ({
               ) : (
                 <div className="flex flex-col gap-3">
                   <div className="flex gap-2">
-                    <NumberRangeInput
-                      numberRange={filterDistanceRange}
-                      setNumberRange={setFilterDistanceRange}
-                      label="Distance Range"
-                      numberRangeInvalidityMap={
-                        numberRangeInvalidityMapDistance
+                    <FilterMinAndMaxValues
+                      setFilterMinValue={setFilterMinDistance}
+                      setFilterMaxValue={setFilterMaxDistance}
+                      label="Distance"
+                      useFilterMinAndMaxValueInputs={
+                        filterMinAndMaxValueInputsDistance
                       }
                     />
                     <DistanceUnitDropdown
                       value={filterDistanceRangeUnit}
                       setState={setFilterDistanceRangeUnit}
                       targetType="state"
+                      showBigLabel
                     />
                   </div>
                   <div className="flex flex-col gap-1">
