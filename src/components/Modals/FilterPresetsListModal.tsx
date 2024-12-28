@@ -90,21 +90,24 @@ export const FilterPresetsListModal = ({
             <ModalBody>
               {presetsType === "equipment" ? (
                 <div className="flex flex-col gap-3">
-                  <div className="flex gap-5">
-                    <FilterMinAndMaxValues
-                      setFilterMinValue={setFilterMinWeight}
-                      setFilterMaxValue={setFilterMaxWeight}
-                      label="Weight"
-                      useFilterMinAndMaxValueInputs={
-                        filterMinAndMaxValueInputsWeight
-                      }
-                    />
-                    <WeightUnitDropdown
-                      value={filterWeightRangeUnit}
-                      setState={setFilterWeightRangeUnit}
-                      targetType="state"
-                      showBigLabel
-                    />
+                  <div className="flex flex-col gap-0.5">
+                    <h3 className="text-lg font-semibold px-0.5">Weight</h3>
+                    <div className="flex gap-5">
+                      <FilterMinAndMaxValues
+                        setFilterMinValue={setFilterMinWeight}
+                        setFilterMaxValue={setFilterMaxWeight}
+                        label="Weight"
+                        useFilterMinAndMaxValueInputs={
+                          filterMinAndMaxValueInputsWeight
+                        }
+                      />
+                      <WeightUnitDropdown
+                        value={filterWeightRangeUnit}
+                        setState={setFilterWeightRangeUnit}
+                        targetType="state"
+                        showBigLabel
+                      />
+                    </div>
                   </div>
                   <div className="flex flex-col gap-1">
                     <h3 className="font-semibold text-lg px-0.5">
@@ -119,21 +122,24 @@ export const FilterPresetsListModal = ({
                 </div>
               ) : (
                 <div className="flex flex-col gap-3">
-                  <div className="flex gap-5">
-                    <FilterMinAndMaxValues
-                      setFilterMinValue={setFilterMinDistance}
-                      setFilterMaxValue={setFilterMaxDistance}
-                      label="Distance"
-                      useFilterMinAndMaxValueInputs={
-                        filterMinAndMaxValueInputsDistance
-                      }
-                    />
-                    <DistanceUnitDropdown
-                      value={filterDistanceRangeUnit}
-                      setState={setFilterDistanceRangeUnit}
-                      targetType="state"
-                      showBigLabel
-                    />
+                  <div className="flex flex-col gap-0.5">
+                    <h3 className="text-lg font-semibold px-0.5">Distance</h3>
+                    <div className="flex gap-5">
+                      <FilterMinAndMaxValues
+                        setFilterMinValue={setFilterMinDistance}
+                        setFilterMaxValue={setFilterMaxDistance}
+                        label="Distance"
+                        useFilterMinAndMaxValueInputs={
+                          filterMinAndMaxValueInputsDistance
+                        }
+                      />
+                      <DistanceUnitDropdown
+                        value={filterDistanceRangeUnit}
+                        setState={setFilterDistanceRangeUnit}
+                        targetType="state"
+                        showBigLabel
+                      />
+                    </div>
                   </div>
                   <div className="flex flex-col gap-1">
                     <h3 className="font-semibold text-lg px-0.5">

@@ -96,36 +96,41 @@ export const FilterTimePeriodListModal = ({
             <ModalHeader>Filter Time Periods</ModalHeader>
             <ModalBody>
               <ScrollShadow className="h-[400px]">
-                <div className="flex flex-col gap-2 w-[24rem]">
-                  <FilterMinAndMaxDates
-                    filterMinDate={filterMinStartDate}
-                    setFilterMinDate={setFilterMinStartDate}
-                    filterMaxDate={filterMaxStartDate}
-                    setFilterMaxDate={setFilterMaxStartDate}
-                    locale={locale}
-                    isMaxDateBeforeMinDate={isMaxDateBeforeMinDateStart}
-                    customLabel="Start Date"
-                    isSmallLabel
-                  />
-                  <FilterMinAndMaxDates
-                    filterMinDate={filterMinEndDate}
-                    setFilterMinDate={setFilterMinEndDate}
-                    filterMaxDate={filterMaxEndDate}
-                    setFilterMaxDate={setFilterMaxEndDate}
-                    locale={locale}
-                    isMaxDateBeforeMinDate={isMaxDateBeforeMinDateEnd}
-                    customLabel="End Date"
-                    isSmallLabel
-                  />
-                  <FilterMinAndMaxValues
-                    setFilterMinValue={setFilterMinDuration}
-                    setFilterMaxValue={setFilterMaxDuration}
-                    label="Duration (Days)"
-                    useFilterMinAndMaxValueInputs={filterMinAndMaxValueInputs}
-                    isSmall
-                  />
+                <div className="flex flex-col gap-1 w-[24rem]">
+                  <div className="flex flex-col gap-2">
+                    <FilterMinAndMaxDates
+                      filterMinDate={filterMinStartDate}
+                      setFilterMinDate={setFilterMinStartDate}
+                      filterMaxDate={filterMaxStartDate}
+                      setFilterMaxDate={setFilterMaxStartDate}
+                      locale={locale}
+                      isMaxDateBeforeMinDate={isMaxDateBeforeMinDateStart}
+                      customLabel="Start Date"
+                      isSmallLabel
+                    />
+                    <FilterMinAndMaxDates
+                      filterMinDate={filterMinEndDate}
+                      setFilterMinDate={setFilterMinEndDate}
+                      filterMaxDate={filterMaxEndDate}
+                      setFilterMaxDate={setFilterMaxEndDate}
+                      locale={locale}
+                      isMaxDateBeforeMinDate={isMaxDateBeforeMinDateEnd}
+                      customLabel="End Date"
+                      isSmallLabel
+                    />
+                  </div>
+                  <div className="flex flex-col gap-0.5">
+                    <h3 className="text-lg font-semibold px-0.5">Duration</h3>
+                    <FilterMinAndMaxValues
+                      setFilterMinValue={setFilterMinDuration}
+                      setFilterMaxValue={setFilterMaxDuration}
+                      label="Days"
+                      useFilterMinAndMaxValueInputs={filterMinAndMaxValueInputs}
+                      isSmall
+                    />
+                  </div>
                   <div className="flex flex-col gap-0.5 py-0.5">
-                    <h3 className="font-semibold text-base px-0.5">
+                    <h3 className="font-semibold text-lg px-0.5">
                       Caloric Intake Types
                     </h3>
                     <MultipleChoiceCaloricIntakeDropdown
@@ -134,7 +139,7 @@ export const FilterTimePeriodListModal = ({
                     />
                   </div>
                   <div className="flex flex-col gap-0.5 pt-2.5">
-                    <h3 className="font-semibold text-base px-0.5">Injury</h3>
+                    <h3 className="font-semibold text-lg px-0.5">Injury</h3>
                     <div className="relative w-full">
                       <Select
                         selectionMode="multiple"
@@ -167,7 +172,7 @@ export const FilterTimePeriodListModal = ({
                     </div>
                   </div>
                   <div className="flex flex-col gap-0.5 pt-3">
-                    <h3 className="font-semibold text-base px-0.5">Status</h3>
+                    <h3 className="font-semibold text-lg px-0.5">Status</h3>
                     <div className="relative w-full">
                       <Select
                         selectionMode="multiple"

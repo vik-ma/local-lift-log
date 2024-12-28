@@ -61,19 +61,22 @@ export const FilterUserWeightListModal = ({
                   useListFilters={useListFilters}
                   locale={locale}
                 />
-                <div className="flex gap-5">
-                  <FilterMinAndMaxValues
-                    setFilterMinValue={setFilterMinWeight}
-                    setFilterMaxValue={setFilterMaxWeight}
-                    label="Weight"
-                    useFilterMinAndMaxValueInputs={filterMinAndMaxValueInputs}
-                  />
-                  <WeightUnitDropdown
-                    value={filterWeightRangeUnit}
-                    setState={setFilterWeightRangeUnit}
-                    targetType="state"
-                    showBigLabel
-                  />
+                <div className="flex flex-col gap-0.5">
+                  <h3 className="text-lg font-semibold px-0.5">Weight</h3>
+                  <div className="flex gap-5">
+                    <FilterMinAndMaxValues
+                      setFilterMinValue={setFilterMinWeight}
+                      setFilterMaxValue={setFilterMaxWeight}
+                      label="Weight"
+                      useFilterMinAndMaxValueInputs={filterMinAndMaxValueInputs}
+                    />
+                    <WeightUnitDropdown
+                      value={filterWeightRangeUnit}
+                      setState={setFilterWeightRangeUnit}
+                      targetType="state"
+                      showBigLabel
+                    />
+                  </div>
                 </div>
               </div>
             </ModalBody>
