@@ -13,7 +13,7 @@ import {
   ConvertDistanceToMeter,
   ConvertWeightToKg,
   CreatePlateCollectionList,
-  IsDistanceWithinNumberRange,
+  IsDistanceWithinLimit,
   IsWeightWithinLimit,
   UpdateAvailablePlatesInPlateCollection,
   UpdateIsFavorite,
@@ -124,7 +124,7 @@ export const usePresetsList = (
               .toLocaleLowerCase()
               .includes(filterQueryDistance.toLocaleLowerCase())) &&
           (!filterMap.has("distance") ||
-            IsDistanceWithinNumberRange(
+            IsDistanceWithinLimit(
               filterDistanceRange,
               item.distance,
               item.distance_unit,
