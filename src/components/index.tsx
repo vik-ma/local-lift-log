@@ -29,7 +29,6 @@ export { WorkoutRatingSliders } from "./WorkoutRatingSliders";
 export { WorkoutListItem } from "./WorkoutListItem";
 export { ListFilters } from "./ListFilters";
 export { FilterDateRangeAndWeekdays } from "./FilterDateRangeAndWeekdays";
-export { NumberRangeInput } from "./NumberRangeInput";
 export { CaloricIntakeTypeSpan } from "./CaloricIntakeTypeSpan";
 export { FilterMinAndMaxValues } from "./FilterMinAndMaxValues";
 export { FilterMinAndMaxDates } from "./FilterMinAndMaxDates";

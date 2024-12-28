@@ -44,8 +44,6 @@ export { useRoutineList } from "./useRoutineList";
 export { useWeekdayMap } from "./useWeekdayMap";
 export { useListFilters } from "./useListFilters";
 export { useFilterExerciseList } from "./useFilterExerciseList";
-export { useDefaultNumberRange } from "./useDefaultNumberRange";
-export { useNumberRangeInvalidityMap } from "./useNumberRangeInvalidityMap";
 export { useMeasurementTypes } from "./useMeasurementTypes";
 export { useRoutineScheduleTypes } from "./useRoutineScheduleTypes";
 export { usePresetsTypeString } from "./usePresetsTypeString";

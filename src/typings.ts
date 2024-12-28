@@ -773,13 +773,6 @@ export type OperationTypePlateCalc = "set-handle" | "show-list";
 
 export type AvailablePlatesMap = Map<EquipmentWeight, number>;
 
-export type NumberRange = {
-  start: number;
-  end: number;
-  startInput: string;
-  endInput: string;
-};
-
 export type PlateCollection = {
   id: number;
   name: string;
@@ -828,11 +821,6 @@ export type UseRoutineListReturnType = {
   filterRoutineListModal: UseDisclosureReturnType;
   handleOpenFilterButton: () => Promise<void>;
   sortRoutinesByActiveCategory: (routineList: Routine[]) => void;
-};
-
-export type NumberRangeInvalidityMap = {
-  start: boolean;
-  end: boolean;
 };
 
 export type MeasurementSortCategory = "favorite" | "active" | "name";

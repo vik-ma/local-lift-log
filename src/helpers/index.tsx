@@ -46,7 +46,6 @@ export { DefaultNewRoutine } from "./Routines/DefaultNewRoutine";
 export { UpdateRoutine } from "./Routines/UpdateRoutine";
 export { CreateRoutineWorkoutTemplateList } from "./Routines/CreateRoutineWorkoutTemplateList";
 export { IsRoutineScheduleTypeFiltered } from "./Routines/IsRoutineScheduleTypeFiltered";
-export { IsNumDaysInScheduleWithinRange } from "./Routines/IsNumDaysInScheduleWithinRange";
 
 export { CreateDefaultUserSettings } from "./UserSettings/CreateDefaultUserSettings";
 export { GetActiveRoutineId } from "./UserSettings/GetActiveRoutineId";
@@ -118,7 +117,6 @@ export { ConvertWeightToKg } from "./Numbers/ConvertWeightToKg";
 export { ConvertDistanceToMeter } from "./Numbers/ConvertDistanceToMeter";
 export { IsNumberDivisibleBy2 } from "./Numbers/IsNumberDivisibleBy2";
 export { IsStringValidNumberBetween0And1 } from "./Numbers/IsStringValidNumberBetween0And1";
-export { IsNumberRangeValidAndFiltered } from "./Numbers/IsNumberRangeValidAndFiltered";
 export { IsWeightWithinLimit } from "./Numbers/IsWeightWithinLimit";
 export { IsDistanceWithinLimit } from "./Numbers/IsDistanceWithinLimit";
 export { IsNumberWithinLimit } from "./Numbers/IsNumberWithinLimit";
