@@ -72,6 +72,12 @@ export const FilterPresetsListModal = ({
     presetsType,
   ]);
 
+  const handleResetAllFiltersButton = () => {
+    resetFilter();
+    filterMinAndMaxValueInputsWeight.resetInputs();
+    filterMinAndMaxValueInputsDistance.resetInputs();
+  };
+
   return (
     <Modal
       isOpen={filterPresetsListModal.isOpen}
@@ -145,7 +151,7 @@ export const FilterPresetsListModal = ({
             <ModalFooter className="flex justify-between">
               <div>
                 {showResetFilterButton && (
-                  <Button variant="flat" onPress={resetFilter}>
+                  <Button variant="flat" onPress={handleResetAllFiltersButton}>
                     Reset All Filters
                   </Button>
                 )}
