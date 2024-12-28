@@ -11,7 +11,6 @@ export { IsDateStringOlderThanOneWeek } from "./Dates/IsDateStringOlderThanOneWe
 export { ConvertCalendarDateToLocalizedString } from "./Dates/ConvertCalendarDateToLocalizedString";
 export { IsDateWithinLimit } from "./Dates/IsDateWithinLimit";
 export { IsDateInWeekdaySet } from "./Dates/IsDateInWeekdaySet";
-export { CalculateNumDaysInCalendarDateRange } from "./Dates/CalculateNumDaysInCalendarDateRange";
 export { ConvertDateStringToCalendarDate } from "./Dates/ConvertDateStringToCalendarDate";
 export { IsEndDateBeforeStartDate } from "./Dates/IsEndDateBeforeStartDate";
 export { FormatISODateString } from "./Dates/FormatISODateString";
