@@ -1,6 +1,7 @@
-import { Chip } from "@nextui-org/react";
+import { Button, Chip } from "@nextui-org/react";
 import { ListFilterMapKey, TimePeriodListFilterMapKey } from "../typings";
 import { useMemo, useState } from "react";
+import { ChevronIcon } from "../assets";
 
 type ListFiltersProps = {
   filterMap: Map<ListFilterMapKey | TimePeriodListFilterMapKey, string>;
@@ -22,7 +23,7 @@ export const ListFilters = ({
   }, [isInModal]);
 
   return (
-    <div className="cursor-pointer" onClick={() => setIsExpanded(!isExpanded)}>
+    <div className="relative select-none">
       {isExpanded ? (
         <div className="flex items-center gap-1 text-sm flex-wrap">
           {Array.from(filterMap).map(([key, value]) => (
@@ -50,6 +51,21 @@ export const ListFilters = ({
           Applied
         </Chip>
       )}
+      <div className="absolute right-0 top-0">
+        <Button
+          aria-label={isExpanded ? "Shrink Filter List" : "Expand Filter List"}
+          className="h-full"
+          isIconOnly
+          variant="light"
+          onPress={() => setIsExpanded(!isExpanded)}
+        >
+          <ChevronIcon
+            size={29}
+            color="#a8a29e"
+            direction={isExpanded ? "up" : "down"}
+          />
+        </Button>
+      </div>
     </div>
   );
 };
