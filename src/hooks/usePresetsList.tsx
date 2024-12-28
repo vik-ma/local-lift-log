@@ -70,10 +70,12 @@ export const usePresetsList = (
 
   const {
     filterMap,
-    filterWeightRange,
+    filterMinWeight,
+    filterMaxWeight,
     filterWeightRangeUnit,
     filterWeightUnits,
-    filterDistanceRange,
+    filterMinDistance,
+    filterMaxDistance,
     filterDistanceRangeUnit,
     filterDistanceUnits,
   } = listFilters;
@@ -91,12 +93,21 @@ export const usePresetsList = (
               .toString()
               .toLocaleLowerCase()
               .includes(filterQueryEquipment.toLocaleLowerCase())) &&
-          (!filterMap.has("weight") ||
+          (!filterMap.has("min-weight") ||
             IsWeightWithinLimit(
-              filterWeightRange,
               item.weight,
+              filterMinWeight,
               item.weight_unit,
-              filterWeightRangeUnit
+              filterWeightRangeUnit,
+              false
+            )) &&
+          (!filterMap.has("max-weight") ||
+            IsWeightWithinLimit(
+              item.weight,
+              filterMaxWeight,
+              item.weight_unit,
+              filterWeightRangeUnit,
+              true
             )) &&
           (!filterMap.has("weight-units") ||
             filterWeightUnits.has(item.weight_unit))
@@ -107,7 +118,8 @@ export const usePresetsList = (
     equipmentWeights,
     filterQueryEquipment,
     filterMap,
-    filterWeightRange,
+    filterMinWeight,
+    filterMaxWeight,
     filterWeightRangeUnit,
     filterWeightUnits,
   ]);
@@ -123,12 +135,21 @@ export const usePresetsList = (
               .toString()
               .toLocaleLowerCase()
               .includes(filterQueryDistance.toLocaleLowerCase())) &&
-          (!filterMap.has("distance") ||
+          (!filterMap.has("min-distance") ||
             IsDistanceWithinLimit(
-              filterDistanceRange,
               item.distance,
+              filterMinDistance,
               item.distance_unit,
-              filterDistanceRangeUnit
+              filterDistanceRangeUnit,
+              false
+            )) &&
+          (!filterMap.has("max-distance") ||
+            IsDistanceWithinLimit(
+              item.distance,
+              filterMaxDistance,
+              item.distance_unit,
+              filterDistanceRangeUnit,
+              true
             )) &&
           (!filterMap.has("distance-units") ||
             filterDistanceUnits.has(item.distance_unit))
@@ -139,7 +160,8 @@ export const usePresetsList = (
     distances,
     filterQueryDistance,
     filterMap,
-    filterDistanceRange,
+    filterMinDistance,
+    filterMaxDistance,
     filterDistanceRangeUnit,
     filterDistanceUnits,
   ]);
