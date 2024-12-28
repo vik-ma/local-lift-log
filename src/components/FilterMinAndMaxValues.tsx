@@ -49,7 +49,7 @@ export const FilterMinAndMaxValues = ({
   }, [maxInput, isMaxInputInvalid, setFilterMaxValue]);
 
   return (
-    <div className="flex gap-4">
+    <div className="flex gap-5">
       <div
         className={
           isSmall

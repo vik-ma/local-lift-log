@@ -61,7 +61,7 @@ export const FilterUserWeightListModal = ({
                   useListFilters={useListFilters}
                   locale={locale}
                 />
-                <div className="flex items-start gap-4">
+                <div className="flex gap-5">
                   <FilterMinAndMaxValues
                     setFilterMinValue={setFilterMinWeight}
                     setFilterMaxValue={setFilterMaxWeight}
