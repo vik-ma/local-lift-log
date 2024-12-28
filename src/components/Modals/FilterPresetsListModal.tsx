@@ -90,7 +90,7 @@ export const FilterPresetsListModal = ({
             <ModalBody>
               {presetsType === "equipment" ? (
                 <div className="flex flex-col gap-3">
-                  <div className="flex items-start gap-4">
+                  <div className="flex gap-4">
                     <FilterMinAndMaxValues
                       setFilterMinValue={setFilterMinWeight}
                       setFilterMaxValue={setFilterMaxWeight}
@@ -119,7 +119,7 @@ export const FilterPresetsListModal = ({
                 </div>
               ) : (
                 <div className="flex flex-col gap-3">
-                  <div className="flex gap-2">
+                  <div className="flex gap-4">
                     <FilterMinAndMaxValues
                       setFilterMinValue={setFilterMinDistance}
                       setFilterMaxValue={setFilterMaxDistance}

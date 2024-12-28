@@ -49,22 +49,26 @@ export const FilterMinAndMaxValues = ({
   }, [maxInput, isMaxInputInvalid, setFilterMaxValue]);
 
   return (
-    <div className="flex gap-4 justify-between">
-      <div className="flex flex-col gap-0.5 w-full">
+    <div className="flex gap-4">
+      <div
+        className={
+          isSmall
+            ? "w-[6rem] flex flex-col gap-0.5"
+            : "w-[6.5rem] flex flex-col gap-0.5"
+        }
+      >
         <h3
           className={
             isMinInputInvalid
-              ? "text-base font-semibold px-0.5 text-danger"
-              : "text-base font-semibold px-0.5"
+              ? "text-base font-semibold px-0.5 text-danger whitespace-nowrap"
+              : "text-base font-semibold px-0.5 whitespace-nowrap"
           }
         >
           Min {label}
         </h3>
         <Input
           aria-label={`Min ${label} Input`}
-          className={
-            isSmall ? "w-[6rem] h-[3.5rem]" : "w-[6.5rem] h-[3.5rem]"
-          }
+          className="h-[3.5rem]"
           value={minInput}
           variant="faded"
           onValueChange={setMinInput}
@@ -72,7 +76,13 @@ export const FilterMinAndMaxValues = ({
           isClearable
         />
       </div>
-      <div className="flex flex-col gap-0.5 w-full">
+      <div
+        className={
+          isSmall
+            ? "w-[6rem] flex flex-col gap-0.5 whitespace-nowrap"
+            : "w-[6.5rem] flex flex-col gap-0.5 whitespace-nowrap"
+        }
+      >
         <h3
           className={
             isMaxInputInvalid || isMaxValueBelowMinValue
@@ -84,9 +94,7 @@ export const FilterMinAndMaxValues = ({
         </h3>
         <Input
           aria-label={`Max ${label} Input`}
-          className={
-            isSmall ? "w-[6rem] h-[3.5rem]" : "w-[6.5rem] h-[3.5rem]"
-          }
+          className="h-[3.5rem]"
           value={maxInput}
           variant="faded"
           onValueChange={setMaxInput}
