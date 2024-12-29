@@ -17,7 +17,6 @@ import {
   useWeekdayMap,
   useMultisetTypeMap,
   useIsEndDateBeforeStartDate,
-  useMeasurementTypes,
 } from ".";
 import { ConvertCalendarDateToLocalizedString } from "../helpers";
 
@@ -68,10 +67,9 @@ export const useListFilters = (
     new Set()
   );
 
-  const measurementTypes = useMeasurementTypes();
-
-  const [filterMeasurementTypes, setFilterMeasurementTypes] =
-    useState<string[]>(measurementTypes);
+  const [filterMeasurementTypes, setFilterMeasurementTypes] = useState<
+    Set<string>
+  >(new Set());
 
   const [filterWeightUnits, setFilterWeightUnits] = useState<Set<string>>(
     new Set()
@@ -230,23 +228,19 @@ export const useListFilters = (
   const handleFilterMeasurementTypes = (key: string) => {
     const updatedFilterMap = new Map<ListFilterMapKey, string>();
 
-    if (filterMeasurementTypes.includes(key)) {
-      // Do nothing if trying to remove last item in filterMeasurementTypes
-      if (filterMeasurementTypes.length === 1) return;
+    const updatedFilterMeasurementTypes = new Set<string>();
 
-      const updatedMeasurementTypes = filterMeasurementTypes.filter(
-        (item) => item !== key
-      );
-
-      setFilterMeasurementTypes(updatedMeasurementTypes);
-
-      const filterMeasurementTypesString = updatedMeasurementTypes.join(", ");
-
-      updatedFilterMap.set("measurement-types", filterMeasurementTypesString);
+    if (filterMeasurementTypes.has(key)) {
+      removeFilter("measurement-types");
     } else {
-      setFilterMeasurementTypes([...measurementTypes]);
+      updatedFilterMeasurementTypes.add(key);
     }
 
+    if (updatedFilterMeasurementTypes.size > 0) {
+      updatedFilterMap.set("measurement-types", key);
+    }
+
+    setFilterMeasurementTypes(updatedFilterMeasurementTypes);
     setFilterMap(updatedFilterMap);
   };
 
@@ -310,7 +304,7 @@ export const useListFilters = (
 
     if (key === "measurement-types" && filterMap.has("measurement-types")) {
       updatedFilterMap.delete("measurement-types");
-      setFilterMeasurementTypes([...measurementTypes]);
+      setFilterMeasurementTypes(new Set());
     }
 
     if (key === "workout-templates" && filterMap.has("workout-templates")) {
@@ -370,7 +364,7 @@ export const useListFilters = (
     setFilterMinDistance(null);
     setFilterMaxDistance(null);
     setFilterMeasurements(new Set());
-    setFilterMeasurementTypes([...measurementTypes]);
+    setFilterMeasurementTypes(new Set());
     setFilterWorkoutTemplates(new Set());
     setFilterScheduleTypes(new Set());
     setFilterMinNumScheduleDays(null);
@@ -393,7 +387,7 @@ export const useListFilters = (
     if (filterMinDistance !== null) return true;
     if (filterMaxDistance !== null) return true;
     if (filterMeasurements.size > 0) return true;
-    if (filterMeasurementTypes.length < measurementTypes.length) return true;
+    if (filterMeasurementTypes.size > 0) return true;
     if (filterWorkoutTemplates.size > 0) return true;
     if (filterScheduleTypes.size > 0) return true;
     if (filterMinNumScheduleDays !== null) return true;
@@ -424,7 +418,6 @@ export const useListFilters = (
     filterWeightUnits,
     filterDistanceUnits,
     filterMultisetTypes,
-    measurementTypes,
   ]);
 
   const prefixMap = useMemo(() => {

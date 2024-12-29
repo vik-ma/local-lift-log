@@ -519,8 +519,8 @@ export type UseListFiltersReturnType = {
   setFilterWeightRangeUnit: React.Dispatch<React.SetStateAction<string>>;
   filterMeasurements: Set<string>;
   setFilterMeasurements: React.Dispatch<React.SetStateAction<Set<string>>>;
-  filterMeasurementTypes: string[];
-  setFilterMeasurementTypes: React.Dispatch<React.SetStateAction<string[]>>;
+  filterMeasurementTypes: Set<string>;
+  setFilterMeasurementTypes: React.Dispatch<React.SetStateAction<Set<string>>>;
   handleFilterMeasurementTypes: (key: string) => void;
   filterWorkoutTemplates: Set<number>;
   setFilterWorkoutTemplates: React.Dispatch<React.SetStateAction<Set<number>>>;

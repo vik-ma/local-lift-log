@@ -29,9 +29,7 @@ export const MeasurementListOptions = ({
           <Button
             className="z-1"
             variant="flat"
-            color={
-              filterMeasurementTypes.length === 2 ? "default" : "secondary"
-            }
+            color={filterMeasurementTypes.size > 0 ? "secondary" : "default"}
             size="sm"
           >
             Filter
@@ -40,9 +38,7 @@ export const MeasurementListOptions = ({
         <DropdownMenu
           aria-label="Filter Measurement Types Dropdown Menu"
           selectedKeys={filterMeasurementTypes}
-          selectionMode="multiple"
           onAction={(key) => handleFilterMeasurementTypes(key as string)}
-          disallowEmptySelection
         >
           {measurementTypes.map((measurementType) => (
             <DropdownItem key={measurementType}>{measurementType}</DropdownItem>

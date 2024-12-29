@@ -40,7 +40,7 @@ export const useMeasurementList = (): UseMeasurementListReturnType => {
               .toLocaleLowerCase()
               .includes(filterQuery.toLocaleLowerCase())) &&
           (!filterMap.has("measurement-types") ||
-            filterMeasurementTypes.includes(item.measurement_type))
+            filterMeasurementTypes.has(item.measurement_type))
       );
     }
     return measurements;
