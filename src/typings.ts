@@ -422,6 +422,7 @@ export type UseFilterExerciseListReturnType = {
   filterMap: Map<ListFilterMapKey, string>;
   removeFilter: (key: string) => void;
   prefixMap: Map<ListFilterMapKey, string>;
+  handleFilterSaveButton: (activeModal: UseDisclosureReturnType) => void;
 };
 
 export type HandleMultisetSetOptionSelectionProps = (

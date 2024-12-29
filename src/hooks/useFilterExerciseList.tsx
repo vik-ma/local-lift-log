@@ -1,6 +1,7 @@
 import { useDisclosure } from "@nextui-org/react";
 import {
   ListFilterMapKey,
+  UseDisclosureReturnType,
   UseExerciseListReturnType,
   UseFilterExerciseListReturnType,
 } from "../typings";
@@ -12,6 +13,9 @@ export const useFilterExerciseList = (
   const { exercises, includeSecondaryGroups } = useExerciseList;
 
   const [filterQuery, setFilterQuery] = useState<string>("");
+  const [filterMap, setFilterMap] = useState<Map<ListFilterMapKey, string>>(
+    new Map()
+  );
 
   const [shownExerciseGroups, setShownExerciseGroups] = useState<string[]>([]);
 
@@ -20,19 +24,6 @@ export const useFilterExerciseList = (
   }, [shownExerciseGroups]);
 
   const exerciseGroupModal = useDisclosure();
-
-  const filterMap: Map<ListFilterMapKey, string> = useMemo(() => {
-    const filterMap: Map<ListFilterMapKey, string> = new Map();
-
-    if (shownExerciseGroups.length === 0) return filterMap;
-
-    const filterExerciseGroupsString =
-      Array.from(shownExerciseGroups).join(", ");
-
-    filterMap.set("exercise-groups", filterExerciseGroupsString);
-
-    return filterMap;
-  }, [shownExerciseGroups]);
 
   const prefixMap = useMemo(() => {
     const prefixMap = new Map<ListFilterMapKey, string>();
@@ -45,6 +36,21 @@ export const useFilterExerciseList = (
 
   const removeFilter = () => {
     setShownExerciseGroups([]);
+  };
+
+  const handleFilterSaveButton = (activeModal: UseDisclosureReturnType) => {
+    const updatedFilterMap = new Map<ListFilterMapKey, string>();
+
+    if (shownExerciseGroups.length > 0) {
+      const filterExerciseGroupsString =
+        Array.from(shownExerciseGroups).join(", ");
+
+      updatedFilterMap.set("exercise-groups", filterExerciseGroupsString);
+    }
+
+    setFilterMap(updatedFilterMap);
+
+    activeModal.onClose();
   };
 
   const filteredExercises = useMemo(() => {
@@ -93,5 +99,6 @@ export const useFilterExerciseList = (
     filterMap,
     removeFilter,
     prefixMap,
+    handleFilterSaveButton,
   };
 };
