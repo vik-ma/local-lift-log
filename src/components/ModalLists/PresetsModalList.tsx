@@ -3,6 +3,7 @@ import {
   AvailablePlatesDropdown,
   EmptyListLabel,
   FavoriteButton,
+  ListFilters,
   LoadingSpinner,
   PresetsListOptions,
   SearchInput,
@@ -55,7 +56,7 @@ export const PresetsModalList = ({
     listFilters,
   } = presetsList;
 
-  const { filterMap } = listFilters;
+  const { filterMap, removeFilter, prefixMap } = listFilters;
 
   const [hideInvalidUnitItems, setHideInvalidUnitItems] =
     useState<boolean>(true);
@@ -64,61 +65,71 @@ export const PresetsModalList = ({
 
   return (
     <div className={`flex flex-col gap-1.5 ${heightString}`}>
-      <SearchInput
-        filterQuery={
-          presetsType === "equipment"
-            ? filterQueryEquipment
-            : filterQueryDistance
-        }
-        setFilterQuery={
-          presetsType === "equipment"
-            ? setFilterQueryEquipment
-            : setFilterQueryDistance
-        }
-        filteredListLength={
-          presetsType === "equipment"
-            ? filteredEquipmentWeights.length
-            : filteredDistances.length
-        }
-        totalListLength={
-          presetsType === "equipment"
-            ? equipmentWeights.length
-            : distances.length
-        }
-        isListFiltered={filterMap.size > 0}
-      />
-      <div className="flex justify-between">
-        <div>
-          {showModifyButton && (
-            <Button
-              variant="flat"
-              size="sm"
-              color="secondary"
-              onPress={() => navigate(`/presets?tab=${presetsType}`)}
-              endContent={<GoToArrowIcon />}
-            >
-              Modify {presetsTypeString}
-            </Button>
-          )}
+      <div className="flex flex-col gap-1.5">
+        <SearchInput
+          filterQuery={
+            presetsType === "equipment"
+              ? filterQueryEquipment
+              : filterQueryDistance
+          }
+          setFilterQuery={
+            presetsType === "equipment"
+              ? setFilterQueryEquipment
+              : setFilterQueryDistance
+          }
+          filteredListLength={
+            presetsType === "equipment"
+              ? filteredEquipmentWeights.length
+              : filteredDistances.length
+          }
+          totalListLength={
+            presetsType === "equipment"
+              ? equipmentWeights.length
+              : distances.length
+          }
+          isListFiltered={filterMap.size > 0}
+        />
+        <div className="flex justify-between">
+          <div>
+            {showModifyButton && (
+              <Button
+                variant="flat"
+                size="sm"
+                color="secondary"
+                onPress={() => navigate(`/presets?tab=${presetsType}`)}
+                endContent={<GoToArrowIcon />}
+              >
+                Modify {presetsTypeString}
+              </Button>
+            )}
+          </div>
+          <div className="flex gap-1">
+            {validWeightUnit !== undefined && (
+              <Button
+                className="w-[8rem]"
+                variant="flat"
+                size="sm"
+                onPress={() => setHideInvalidUnitItems(!hideInvalidUnitItems)}
+              >
+                {hideInvalidUnitItems ? "Show" : "Hide"} Invalid Units
+              </Button>
+            )}
+            {showSortButton && (
+              <PresetsListOptions
+                usePresetsList={presetsList}
+                isSelectingForPlateCollection={isSelectingForPlateCollection}
+              />
+            )}
+          </div>
         </div>
-        <div className="flex gap-1">
-          {validWeightUnit !== undefined && (
-            <Button
-              className="w-[8rem]"
-              variant="flat"
-              size="sm"
-              onPress={() => setHideInvalidUnitItems(!hideInvalidUnitItems)}
-            >
-              {hideInvalidUnitItems ? "Show" : "Hide"} Invalid Units
-            </Button>
-          )}
-          {showSortButton && (
-            <PresetsListOptions
-              usePresetsList={presetsList}
-              isSelectingForPlateCollection={isSelectingForPlateCollection}
-            />
-          )}
-        </div>
+        {filterMap.size > 0 && (
+          <ListFilters
+            filterMap={filterMap}
+            removeFilter={removeFilter}
+            prefixMap={prefixMap}
+            isInModal
+          />
+        )}
       </div>
       <ScrollShadow className="flex flex-col gap-1 w-full">
         {presetsType === "equipment" ? (

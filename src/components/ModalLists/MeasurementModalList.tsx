@@ -2,6 +2,7 @@ import { Button, ScrollShadow } from "@nextui-org/react";
 import {
   EmptyListLabel,
   FavoriteButton,
+  ListFilters,
   MeasurementListOptions,
   SearchInput,
 } from "..";
@@ -29,7 +30,7 @@ export const MeasurementModalList = ({
     listFilters,
   } = useMeasurementList;
 
-  const { filterMap } = listFilters;
+  const { filterMap, removeFilter, prefixMap } = listFilters;
 
   const navigate = useNavigate();
 
@@ -55,6 +56,14 @@ export const MeasurementModalList = ({
           </Button>
           <MeasurementListOptions useMeasurementList={useMeasurementList} />
         </div>
+        {filterMap.size > 0 && (
+          <ListFilters
+            filterMap={filterMap}
+            removeFilter={removeFilter}
+            prefixMap={prefixMap}
+            isInModal
+          />
+        )}
       </div>
       <ScrollShadow className="flex flex-col gap-1">
         {filteredMeasurements.map((measurement) => (
