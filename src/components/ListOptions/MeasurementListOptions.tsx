@@ -38,6 +38,7 @@ export const MeasurementListOptions = ({
         <DropdownMenu
           aria-label="Filter Measurement Types Dropdown Menu"
           selectedKeys={filterMeasurementTypes}
+          selectionMode="single"
           onAction={(key) => handleFilterMeasurementTypes(key as string)}
         >
           {measurementTypes.map((measurementType) => (
