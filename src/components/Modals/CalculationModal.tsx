@@ -343,11 +343,6 @@ export const CalculationModal = ({
             </ModalBody>
             <ModalFooter className="flex justify-between">
               <div className="flex gap-2">
-                {showBackButton && (
-                  <Button variant="flat" onPress={handleBackButton}>
-                    Back
-                  </Button>
-                )}
                 {calculationModalTab === "plate" &&
                   plateCalculatorPage === "base" && (
                     <Button
@@ -360,8 +355,12 @@ export const CalculationModal = ({
                   )}
               </div>
               <div className="flex gap-2">
-                <Button color="primary" variant="light" onPress={onClose}>
-                  Close
+                <Button
+                  color="primary"
+                  variant="light"
+                  onPress={showBackButton ? handleBackButton : onClose}
+                >
+                  {showBackButton ? "Back" : "Close"}
                 </Button>
                 {calculationModalTab === "sum" &&
                   sumCalculatorPage === "base" && (

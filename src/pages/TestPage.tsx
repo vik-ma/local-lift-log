@@ -3,6 +3,7 @@ import { useCalculationModal, useListFilters, usePresetsList } from "../hooks";
 import { Button, useDisclosure } from "@nextui-org/react";
 import {
   CalculationModal,
+  FilterPresetsListModal,
   FilterUserWeightListModal,
   LoadingSpinner,
   TextInputModal,
@@ -111,6 +112,10 @@ export default function Test() {
         filterUserWeightListModal={filterUserWeightListModal}
         useListFilters={listFilters}
         locale={userSettings.locale}
+      />
+      <FilterPresetsListModal
+        usePresetsList={presetsList}
+        userSettings={userSettings}
       />
       <div className="flex flex-col gap-2">
         <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">
