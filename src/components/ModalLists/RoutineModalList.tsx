@@ -67,6 +67,7 @@ export const RoutineModalList = ({
             filterMap={filterMap}
             removeFilter={removeFilter}
             prefixMap={prefixMap}
+            isInModal
           />
         )}
       </div>

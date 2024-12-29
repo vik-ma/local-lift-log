@@ -65,6 +65,7 @@ export const WorkoutTemplateModalList = ({
             filterMap={filterMap}
             removeFilter={removeFilter}
             prefixMap={prefixMap}
+            isInModal
           />
         )}
       </div>

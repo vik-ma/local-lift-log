@@ -67,6 +67,7 @@ export const MultisetTemplateModalList = ({
             filterMap={filterMap}
             removeFilter={removeFilter}
             prefixMap={prefixMap}
+            isInModal
           />
         )}
       </div>
