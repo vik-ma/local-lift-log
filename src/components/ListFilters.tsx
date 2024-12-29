@@ -22,12 +22,26 @@ export const ListFilters = ({
     return isInModal ? "max-w-[23.25rem]" : "max-w-[22.25rem]";
   }, [isInModal]);
 
+  const filterMapHasLessThanTwoItems = useMemo(() => {
+    return filterMap.size < 2;
+  }, [filterMap]);
+
+  const handleClickAccordion = () => {
+    if (filterMapHasLessThanTwoItems) return;
+
+    setIsExpanded(!isExpanded);
+  };
+
   return (
     <div
-      className="relative select-none cursor-pointer rounded-lg hover:bg-amber-50/80"
-      onClick={() => setIsExpanded(!isExpanded)}
+      className={
+        filterMapHasLessThanTwoItems
+          ? "relative select-none rounded-lg"
+          : "relative select-none rounded-lg cursor-pointer hover:bg-amber-50/80"
+      }
+      onClick={() => handleClickAccordion()}
     >
-      {isExpanded ? (
+      {isExpanded || filterMapHasLessThanTwoItems ? (
         <div className="flex items-center gap-1 text-sm flex-wrap">
           {Array.from(filterMap).map(([key, value]) => (
             <Chip
@@ -56,13 +70,15 @@ export const ListFilters = ({
           </span>
         </Chip>
       )}
-      <div className="absolute right-0 top-0">
-        <ChevronIcon
-          size={29}
-          color="#a8a29e"
-          direction={isExpanded ? "up" : "down"}
-        />
-      </div>
+      {!filterMapHasLessThanTwoItems && (
+        <div className="absolute right-0 top-0">
+          <ChevronIcon
+            size={29}
+            color="#a8a29e"
+            direction={isExpanded ? "up" : "down"}
+          />
+        </div>
+      )}
     </div>
   );
 };
