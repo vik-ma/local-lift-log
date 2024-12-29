@@ -9,26 +9,22 @@ import { useMemo, useState } from "react";
 export const useFilterExerciseList = (
   useExerciseList: UseExerciseListReturnType
 ): UseFilterExerciseListReturnType => {
-  const { exercises, exerciseGroupList, includeSecondaryGroups } =
-    useExerciseList;
+  const { exercises, includeSecondaryGroups } = useExerciseList;
 
   const [filterQuery, setFilterQuery] = useState<string>("");
 
-  const [shownExerciseGroups, setShownExerciseGroups] = useState<string[]>([
-    ...exerciseGroupList,
-  ]);
+  const [shownExerciseGroups, setShownExerciseGroups] = useState<string[]>([]);
 
   const areExerciseGroupsFiltered = useMemo(() => {
-    return shownExerciseGroups.length !== exerciseGroupList.length;
-  }, [shownExerciseGroups, exerciseGroupList]);
+    return shownExerciseGroups.length > 0;
+  }, [shownExerciseGroups]);
 
   const exerciseGroupModal = useDisclosure();
 
   const filterMap: Map<ListFilterMapKey, string> = useMemo(() => {
     const filterMap: Map<ListFilterMapKey, string> = new Map();
 
-    if (shownExerciseGroups.length === exerciseGroupList.length)
-      return filterMap;
+    if (shownExerciseGroups.length === 0) return filterMap;
 
     const filterExerciseGroupsString =
       Array.from(shownExerciseGroups).join(", ");
@@ -36,7 +32,7 @@ export const useFilterExerciseList = (
     filterMap.set("exercise-groups", filterExerciseGroupsString);
 
     return filterMap;
-  }, [shownExerciseGroups, exerciseGroupList]);
+  }, [shownExerciseGroups]);
 
   const prefixMap = useMemo(() => {
     const prefixMap = new Map<ListFilterMapKey, string>();
@@ -48,7 +44,7 @@ export const useFilterExerciseList = (
   }, [shownExerciseGroups]);
 
   const removeFilter = () => {
-    setShownExerciseGroups([...exerciseGroupList]);
+    setShownExerciseGroups([]);
   };
 
   const filteredExercises = useMemo(() => {
