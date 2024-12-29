@@ -19,7 +19,7 @@ export const ListFilters = ({
   const [isExpanded, setIsExpanded] = useState<boolean>(true);
 
   const chipMaxWidth = useMemo(() => {
-    return isInModal ? "max-w-[23.25rem]" : "max-w-[22.25rem]";
+    return isInModal ? "max-w-[21.25rem]" : "max-w-[20.25rem]";
   }, [isInModal]);
 
   const filterMapHasLessThanTwoItems = useMemo(() => {
