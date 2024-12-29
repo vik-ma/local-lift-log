@@ -418,7 +418,6 @@ export type UseFilterExerciseListReturnType = {
   shownExerciseGroups: string[];
   setShownExerciseGroups: React.Dispatch<React.SetStateAction<string[]>>;
   exerciseGroupModal: UseDisclosureReturnType;
-  areExerciseGroupsFiltered: boolean;
   filterMap: Map<ListFilterMapKey, string>;
   removeFilter: (key: string) => void;
   prefixMap: Map<ListFilterMapKey, string>;

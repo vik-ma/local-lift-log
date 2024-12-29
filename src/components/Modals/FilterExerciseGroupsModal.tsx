@@ -32,11 +32,11 @@ export const FilterExerciseGroupsModal = ({
     shownExerciseGroups,
     setShownExerciseGroups,
     exerciseGroupModal,
-    areExerciseGroupsFiltered,
+    handleFilterSaveButton,
   } = useFilterExerciseList;
 
   const handleToggleAllButton = () => {
-    if (areExerciseGroupsFiltered) {
+    if (shownExerciseGroups.length === 0) {
       setShownExerciseGroups([...exerciseGroupList]);
     } else {
       setShownExerciseGroups([]);
@@ -76,6 +76,12 @@ export const FilterExerciseGroupsModal = ({
               <div className="flex gap-2">
                 <Button color="primary" variant="light" onPress={onClose}>
                   Close
+                </Button>
+                <Button
+                  color="primary"
+                  onPress={() => handleFilterSaveButton(exerciseGroupModal)}
+                >
+                  Filter
                 </Button>
               </div>
             </ModalFooter>

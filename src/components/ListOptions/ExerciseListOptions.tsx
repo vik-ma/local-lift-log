@@ -29,8 +29,7 @@ export const ExerciseListOptions = ({
     sortCategory,
   } = useExerciseList;
 
-  const { exerciseGroupModal, areExerciseGroupsFiltered } =
-    useFilterExerciseList;
+  const { exerciseGroupModal, filterMap } = useFilterExerciseList;
 
   const handleFilterExerciseGroupsButton = () => {
     exerciseGroupModal.onOpen();
@@ -50,7 +49,7 @@ export const ExerciseListOptions = ({
       <Button
         className="z-1"
         variant="flat"
-        color={areExerciseGroupsFiltered ? "secondary" : "default"}
+        color={filterMap.size > 0 ? "secondary" : "default"}
         size="sm"
         onPress={handleFilterExerciseGroupsButton}
       >

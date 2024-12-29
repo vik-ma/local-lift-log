@@ -68,7 +68,6 @@ export default function ExerciseList() {
     filterQuery,
     setFilterQuery,
     filteredExercises,
-    areExerciseGroupsFiltered,
     filterMap,
     removeFilter,
     prefixMap,
@@ -319,7 +318,7 @@ export default function ExerciseList() {
                   userSettingsId={userSettings.id}
                 />
               </div>
-              {areExerciseGroupsFiltered && (
+              {filterMap.size > 0 && (
                 <ListFilters
                   filterMap={filterMap}
                   removeFilter={removeFilter}

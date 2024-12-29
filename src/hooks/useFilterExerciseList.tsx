@@ -19,10 +19,6 @@ export const useFilterExerciseList = (
 
   const [shownExerciseGroups, setShownExerciseGroups] = useState<string[]>([]);
 
-  const areExerciseGroupsFiltered = useMemo(() => {
-    return shownExerciseGroups.length > 0;
-  }, [shownExerciseGroups]);
-
   const exerciseGroupModal = useDisclosure();
 
   const prefixMap = useMemo(() => {
@@ -36,6 +32,7 @@ export const useFilterExerciseList = (
 
   const removeFilter = () => {
     setShownExerciseGroups([]);
+    setFilterMap(new Map());
   };
 
   const handleFilterSaveButton = (activeModal: UseDisclosureReturnType) => {
@@ -54,7 +51,7 @@ export const useFilterExerciseList = (
   };
 
   const filteredExercises = useMemo(() => {
-    if (filterQuery !== "" || areExerciseGroupsFiltered) {
+    if (filterQuery !== "" || filterMap.size > 0) {
       // Only show exercises whose name or Exercise Group is included in the filterQuery
       // and whose Exercise Group is included in shownExerciseGroups
       return exercises.filter(
@@ -85,7 +82,7 @@ export const useFilterExerciseList = (
     filterQuery,
     shownExerciseGroups,
     includeSecondaryGroups,
-    areExerciseGroupsFiltered,
+    filterMap,
   ]);
 
   return {
@@ -95,7 +92,6 @@ export const useFilterExerciseList = (
     shownExerciseGroups,
     setShownExerciseGroups,
     exerciseGroupModal,
-    areExerciseGroupsFiltered,
     filterMap,
     removeFilter,
     prefixMap,

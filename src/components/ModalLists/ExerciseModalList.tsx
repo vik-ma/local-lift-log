@@ -37,7 +37,6 @@ export const ExerciseModalList = ({
     filterQuery,
     setFilterQuery,
     filteredExercises,
-    areExerciseGroupsFiltered,
     filterMap,
     removeFilter,
     prefixMap,
@@ -74,7 +73,7 @@ export const ExerciseModalList = ({
             userSettingsId={userSettingsId}
           />
         </div>
-        {areExerciseGroupsFiltered && (
+        {filterMap.size > 0 && (
           <ListFilters
             filterMap={filterMap}
             removeFilter={removeFilter}
