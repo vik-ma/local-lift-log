@@ -24,7 +24,7 @@ export const ListFilters = ({
 
   return (
     <div
-      className="relative select-none cursor-pointer rounded-lg hover:bg-amber-50"
+      className="relative select-none cursor-pointer rounded-lg hover:bg-amber-50/80"
       onClick={() => setIsExpanded(!isExpanded)}
     >
       {isExpanded ? (
@@ -51,8 +51,9 @@ export const ListFilters = ({
           color="secondary"
           variant="flat"
         >
-          <span className="font-semibold">{filterMap.size}</span> Filters
-          Applied
+          <span className="font-semibold">
+            {filterMap.size} Filters Applied
+          </span>
         </Chip>
       )}
       <div className="absolute right-0 top-0">
