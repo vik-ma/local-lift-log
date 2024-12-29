@@ -29,10 +29,13 @@ import {
   RoutineListOptions,
   FilterRoutineListModal,
   ListFilters,
+  FilterWorkoutTemplateListModal,
+  FilterExerciseGroupsModal,
 } from "../components";
 import {
   useDefaultRoutine,
   useExerciseList,
+  useFilterExerciseList,
   useIsRoutineValid,
   useRoutineList,
   useWorkoutTemplateList,
@@ -59,6 +62,8 @@ export default function RoutineList() {
     useIsRoutineValid(operatingRoutine);
 
   const exerciseList = useExerciseList(true, true);
+
+  const filterExerciseList = useFilterExerciseList(exerciseList);
 
   const workoutTemplateList = useWorkoutTemplateList(true, exerciseList, true);
 
@@ -259,6 +264,16 @@ export default function RoutineList() {
         useRoutineList={routineList}
         useWorkoutTemplateList={workoutTemplateList}
         userSettings={userSettings}
+      />
+      <FilterWorkoutTemplateListModal
+        useWorkoutTemplateList={workoutTemplateList}
+        useExerciseList={exerciseList}
+        useFilterExerciseList={filterExerciseList}
+        userSettings={userSettings}
+      />
+      <FilterExerciseGroupsModal
+        useExerciseList={exerciseList}
+        useFilterExerciseList={filterExerciseList}
       />
       <div className="flex flex-col items-center gap-1">
         <ListPageSearchInput
