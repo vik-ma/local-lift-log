@@ -755,6 +755,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       handleAddMultisetToMultiset(groupedWorkoutSet);
     } else if (key === "fill-in-last-workout-set-values") {
       handleFillInLastWorkoutSetValues(groupedWorkoutSet);
+    } else if (key === "convert-exercise-to-multiset") {
+      convertExerciseIntoMultiset(groupedWorkoutSet);
     }
   };
 
@@ -2655,6 +2657,59 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       presetsList,
       userSettings
     );
+  };
+
+  const convertExerciseIntoMultiset = async (
+    groupedWorkoutSet: GroupedWorkoutSet
+  ) => {
+    if (
+      groupedWorkoutSet.isMultiset ||
+      groupedWorkoutSet.exerciseList[0] === undefined ||
+      groupedWorkoutSet.exerciseList[0].isInvalid
+    )
+      return;
+
+    const newMultiset: Multiset = { ...defaultMultiset };
+
+    const newMultisetId = await InsertMultisetIntoDatabase(newMultiset);
+
+    if (newMultisetId === 0) return;
+
+    newMultiset.id = newMultisetId;
+
+    for (const set of groupedWorkoutSet.setList) {
+      set.multiset_id = newMultisetId;
+    }
+
+    const setListIdOrder = groupedWorkoutSet.setList.map((set) => [set.id]);
+
+    const indexCutoffs = CreateMultisetIndexCutoffs(setListIdOrder);
+
+    const { success, updatedMultiset } = await UpdateMultisetSetOrder(
+      newMultiset,
+      setListIdOrder
+    );
+
+    if (!success) return;
+
+    updatedMultiset.setListIndexCutoffs = indexCutoffs;
+
+    const updatedGroupedSet: GroupedWorkoutSet = {
+      ...groupedWorkoutSet,
+      id: `m${updatedMultiset.id}`,
+      isMultiset: true,
+      multiset: updatedMultiset,
+    };
+
+
+
+    // TODO: FIX COMPLETEDSETSMAP
+
+    if (activeGroupedSet?.id === groupedWorkoutSet.id) {
+      setActiveGroupedSet(updatedGroupedSet);
+    }
+
+    toast.success("Exercise Converted To Multiset");
   };
 
   return {
