@@ -149,6 +149,16 @@ export const SiteHeader = () => {
             </DropdownItem>
             <DropdownItem
               className="nav-menu-dropdown-item"
+              textValue="Diet Log"
+              key="diet-log"
+              onPress={() => navigate("/diet-log")}
+            >
+              <NavLink className="nav-menu-dropdown-item-link" to="/diet-log">
+                Diet Log
+              </NavLink>
+            </DropdownItem>
+            <DropdownItem
+              className="nav-menu-dropdown-item"
               textValue="Settings"
               key="settings"
               onPress={() => navigate("/settings")}

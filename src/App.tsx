@@ -22,6 +22,7 @@ import {
   UserMeasurementListPage,
   MultisetsPage,
   TimePeriodListPage,
+  DietLogPage,
 } from "./pages";
 import { SiteHeader } from "./components";
 
@@ -75,6 +76,7 @@ function App() {
               </Route>
               <Route path="/presets" element={<PresetsPage />} />
               <Route path="/time-periods" element={<TimePeriodListPage />} />
+              <Route path="/diet-log" element={<DietLogPage />} />
               <Route path="/test" element={<TestPage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
