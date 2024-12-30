@@ -54,3 +54,4 @@ export { useCaloricIntakeTypes } from "./useCaloricIntakeTypes";
 export { useTimePeriodListFilters } from "./useTimePeriodListFilters";
 export { useFilterMinAndMaxValueInputs } from "./useFilterMinAndMaxValueInputs";
 export { useIsEndDateBeforeStartDate } from "./useIsEndDateBeforeStartDate";
+export { useDefaultDietLog } from "./useDefaultDietLog";

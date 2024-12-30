@@ -1026,3 +1026,13 @@ export type UseFilterMinAndMaxValueInputsReturnType = {
   isMaxValueBelowMinValue: boolean;
   resetInputs: () => void;
 };
+
+export type DietLog = {
+  id: number;
+  date: string;
+  calories: number;
+  fat: number | null;
+  carbs: number | null;
+  protein: number | null;
+  note: string | null;
+};
