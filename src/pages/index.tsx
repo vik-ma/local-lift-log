@@ -19,4 +19,4 @@ export { default as UserMeasurementListPage } from "./UserMeasurementList";
 export { default as TestPage } from "./TestPage";
 export { default as MultisetsPage } from "./Multisets";
 export { default as TimePeriodListPage } from "./TimePeriodList";
-export { default as DietLogPage } from "./DietLog";
+export { default as DietLogIndexPage } from "./DietLogIndex";

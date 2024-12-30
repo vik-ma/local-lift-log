@@ -1,4 +1,4 @@
-export default function DietLog() {
+export default function DietLogIndex() {
   return (
     <div className="flex flex-col items-center gap-4">
       <div className="bg-neutral-900 px-6 py-4 rounded-xl">
