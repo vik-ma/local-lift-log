@@ -2669,7 +2669,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     )
       return;
 
-    const newMultiset: Multiset = { ...defaultMultiset };
+    const newMultiset: Multiset = {
+      ...defaultMultiset,
+      is_template: 0,
+    };
 
     const newMultisetId = await InsertMultisetIntoDatabase(newMultiset);
 
@@ -2677,9 +2680,15 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     newMultiset.id = newMultisetId;
 
-    for (const set of groupedWorkoutSet.setList) {
+    const updatedSetList = [...groupedWorkoutSet.setList];
+
+    for (const set of updatedSetList) {
       set.multiset_id = newMultisetId;
+      await UpdateSet(set);
     }
+
+    groupedWorkoutSet.setList = updatedSetList;
+    newMultiset.setList = updatedSetList;
 
     const setListIdOrder = groupedWorkoutSet.setList.map((set) => [set.id]);
 
@@ -2694,16 +2703,45 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     updatedMultiset.setListIndexCutoffs = indexCutoffs;
 
+    const newGroupedSetId = `m${updatedMultiset.id}`;
+
+    const updatedExerciseList = Array(updatedSetList.length).fill(
+      groupedWorkoutSet.exerciseList[0]
+    );
+
     const updatedGroupedSet: GroupedWorkoutSet = {
       ...groupedWorkoutSet,
-      id: `m${updatedMultiset.id}`,
+      id: newGroupedSetId,
+      exerciseList: updatedExerciseList,
       isMultiset: true,
       multiset: updatedMultiset,
     };
 
+    const oldGroupedSetIndex = FindIndexInList(
+      groupedSets,
+      groupedWorkoutSet.id.toString()
+    );
 
+    if (oldGroupedSetIndex !== -1) {
+      const newGroupedSets = [...groupedSets];
+      newGroupedSets[oldGroupedSetIndex] = updatedGroupedSet;
 
-    // TODO: FIX COMPLETEDSETSMAP
+      setGroupedSets(newGroupedSets);
+      updateExerciseOrder(newGroupedSets);
+    }
+
+    const newCompletedSetsMap: Map<string, number> = new Map(completedSetsMap);
+
+    const completedSetsMapValue = completedSetsMap.get(
+      groupedWorkoutSet.id.toString()
+    );
+
+    if (completedSetsMapValue !== undefined) {
+      newCompletedSetsMap.delete(groupedWorkoutSet.id.toString());
+      newCompletedSetsMap.set(newGroupedSetId, completedSetsMapValue);
+
+      setCompletedSetsMap(newCompletedSetsMap);
+    }
 
     if (activeGroupedSet?.id === groupedWorkoutSet.id) {
       setActiveGroupedSet(updatedGroupedSet);
