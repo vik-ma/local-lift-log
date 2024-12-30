@@ -17,7 +17,9 @@ export const useFilterExerciseList = (
     new Map()
   );
 
-  const [shownExerciseGroups, setShownExerciseGroups] = useState<string[]>([]);
+  const [filterExerciseGroups, setFilterExerciseGroups] = useState<string[]>(
+    []
+  );
 
   const exerciseGroupModal = useDisclosure();
 
@@ -25,22 +27,22 @@ export const useFilterExerciseList = (
     const prefixMap = new Map<ListFilterMapKey, string>();
     prefixMap.set(
       "exercise-groups",
-      `Exercise Groups (${shownExerciseGroups.length}): `
+      `Exercise Groups (${filterExerciseGroups.length}): `
     );
     return prefixMap;
-  }, [shownExerciseGroups]);
+  }, [filterExerciseGroups]);
 
   const removeFilter = () => {
-    setShownExerciseGroups([]);
+    setFilterExerciseGroups([]);
     setFilterMap(new Map());
   };
 
   const handleFilterSaveButton = (activeModal: UseDisclosureReturnType) => {
     const updatedFilterMap = new Map<ListFilterMapKey, string>();
 
-    if (shownExerciseGroups.length > 0) {
+    if (filterExerciseGroups.length > 0) {
       const filterExerciseGroupsString =
-        Array.from(shownExerciseGroups).join(", ");
+        Array.from(filterExerciseGroups).join(", ");
 
       updatedFilterMap.set("exercise-groups", filterExerciseGroupsString);
     }
@@ -53,7 +55,7 @@ export const useFilterExerciseList = (
   const filteredExercises = useMemo(() => {
     if (filterQuery !== "" || filterMap.size > 0) {
       // Only show exercises whose name or Exercise Group is included in the filterQuery
-      // and whose Exercise Group is included in shownExerciseGroups
+      // and whose Exercise Group is included in filterExerciseGroups
       return exercises.filter(
         (item) =>
           (item.name
@@ -66,7 +68,7 @@ export const useFilterExerciseList = (
               item.formattedGroupStringSecondary
                 ?.toLocaleLowerCase()
                 .includes(filterQuery.toLocaleLowerCase()))) &&
-          shownExerciseGroups.some(
+          filterExerciseGroups.some(
             (group) =>
               item.formattedGroupStringPrimary!.includes(group) ||
               // Only include Secondary Exercise Groups if includeSecondaryGroups is true
@@ -80,7 +82,7 @@ export const useFilterExerciseList = (
   }, [
     exercises,
     filterQuery,
-    shownExerciseGroups,
+    filterExerciseGroups,
     includeSecondaryGroups,
     filterMap,
   ]);
@@ -89,8 +91,8 @@ export const useFilterExerciseList = (
     filterQuery,
     setFilterQuery,
     filteredExercises,
-    shownExerciseGroups,
-    setShownExerciseGroups,
+    filterExerciseGroups,
+    setFilterExerciseGroups,
     exerciseGroupModal,
     filterMap,
     removeFilter,

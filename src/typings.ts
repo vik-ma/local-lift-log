@@ -415,8 +415,8 @@ export type UseFilterExerciseListReturnType = {
   filterQuery: string;
   setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
   filteredExercises: Exercise[];
-  shownExerciseGroups: string[];
-  setShownExerciseGroups: React.Dispatch<React.SetStateAction<string[]>>;
+  filterExerciseGroups: string[];
+  setFilterExerciseGroups: React.Dispatch<React.SetStateAction<string[]>>;
   exerciseGroupModal: UseDisclosureReturnType;
   filterMap: Map<ListFilterMapKey, string>;
   removeFilter: (key: string) => void;

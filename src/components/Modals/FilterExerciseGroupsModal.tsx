@@ -29,17 +29,17 @@ export const FilterExerciseGroupsModal = ({
   } = useExerciseList;
 
   const {
-    shownExerciseGroups,
-    setShownExerciseGroups,
+    filterExerciseGroups,
+    setFilterExerciseGroups,
     exerciseGroupModal,
     handleFilterSaveButton,
   } = useFilterExerciseList;
 
   const handleToggleAllButton = () => {
-    if (shownExerciseGroups.length === 0) {
-      setShownExerciseGroups([...exerciseGroupList]);
+    if (filterExerciseGroups.length === 0) {
+      setFilterExerciseGroups([...exerciseGroupList]);
     } else {
-      setShownExerciseGroups([]);
+      setFilterExerciseGroups([]);
     }
   };
 
@@ -55,8 +55,8 @@ export const FilterExerciseGroupsModal = ({
             <ModalBody>
               <ExerciseGroupCheckboxes
                 isValid={true}
-                value={shownExerciseGroups}
-                handleChange={setShownExerciseGroups}
+                value={filterExerciseGroups}
+                handleChange={setFilterExerciseGroups}
                 exerciseGroupDictionary={exerciseGroupDictionary}
                 useValueAsValue
                 includeSecondaryGroups={includeSecondaryGroups}
