@@ -32,7 +32,7 @@ export const DietLogModal = ({
         {(onClose) => (
           <>
             <ModalHeader>
-              {dietLog.id === 0 ? "New" : "Edit"} Diet Log
+              {dietLog.id === 0 ? "New" : "Edit"} Diet Log Entry
             </ModalHeader>
             <ModalBody>Test</ModalBody>
             <ModalFooter>
