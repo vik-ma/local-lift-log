@@ -239,6 +239,18 @@ export const WorkoutGroupedSetList = ({
                           >
                             Copy Last Completed Values
                           </DropdownItem>
+                          {isMultiset ? (
+                            <DropdownItem key="split-multiset-into-exercises">
+                              Split Into Separate Exercises
+                            </DropdownItem>
+                          ) : (
+                            <DropdownItem
+                              className={isExerciseInvalid ? "hidden" : ""}
+                              key="convert-exercise-to-multiset"
+                            >
+                              Convert To Multiset
+                            </DropdownItem>
+                          )}
                           {isExerciseInvalid ? (
                             <DropdownItem key="reassign-exercise">
                               Reassign Exercise
