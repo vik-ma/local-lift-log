@@ -2685,6 +2685,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     for (const set of updatedSetList) {
       set.multiset_id = newMultisetId;
       await UpdateSet(set);
+
+      if (activeSet?.id === set.id) {
+        setActiveSet(set);
+      }
     }
 
     groupedWorkoutSet.setList = updatedSetList;
