@@ -225,3 +225,16 @@ pub struct TimePeriod {
     pub caloric_intake: Option<String>,
     pub injury: Option<String>,
 }
+
+#[derive(Queryable, Selectable)]
+#[diesel(table_name = crate::schema::diet_logs)]
+#[diesel(check_for_backend(diesel::sqlite::Sqlite))]
+pub struct DietLog {
+    pub id: i32,
+    pub date: String,
+    pub calories: i32,
+    pub fat: Option<i32>,
+    pub carbs: Option<i32>,
+    pub protein: Option<i32>,
+    pub note: Option<String>,
+}

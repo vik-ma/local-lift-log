@@ -210,3 +210,15 @@ diesel::table! {
         injury -> Nullable<Text>,
     }
 }
+
+diesel::table! {
+    diet_logs (id) {
+        id -> Integer,
+        date -> Text,
+        calories -> Integer,
+        fat -> Option<Integer>,
+        carbs -> Option<Integer>,
+        protein -> Option<Integer>,
+        note -> Option<Text>,
+    }
+}
