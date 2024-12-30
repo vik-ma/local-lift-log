@@ -267,8 +267,10 @@ export const WorkoutGroupedSetList = ({
                             className="text-danger"
                             key="delete-grouped_sets-sets"
                           >
-                            {isMultiset
+                            {isMultiset && isTemplate
                               ? `Remove ${title}`
+                              : isMultiset
+                              ? `Delete ${title}`
                               : isTemplate
                               ? "Remove All Sets"
                               : "Delete All Sets"}
