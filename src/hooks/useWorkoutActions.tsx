@@ -78,7 +78,8 @@ type OperationType =
   | "update-completed-set-time"
   | "add-sets-to-multiset"
   | "edit-multiset"
-  | "add-multiset-to-multiset";
+  | "add-multiset-to-multiset"
+  | "merge-grouped_set";
 
 type WorkoutNumbers = {
   numExercises: number;
@@ -139,6 +140,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   const deleteModal = useDisclosure();
   const timeInputModal = useDisclosure();
   const textInputModal = useDisclosure();
+  const groupedWorkoutSetListModal = useDisclosure();
 
   const calculationModal = useCalculationModal();
 
@@ -760,6 +762,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       convertExerciseIntoMultiset(groupedWorkoutSet);
     } else if (key === "split-multiset-into-exercises") {
       splitMultisetIntoExercises(groupedWorkoutSet);
+    } else if (key === "merge-grouped_set") {
+      handleMergeGroupedSet(groupedWorkoutSet);
     }
   };
 
@@ -2818,6 +2822,13 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     toast.success("Multiset Separated Into Exercises");
   };
 
+  const handleMergeGroupedSet = (groupedWorkoutSet: GroupedWorkoutSet) => {
+    setOperationType("merge-grouped_set");
+    setOperatingGroupedSet(groupedWorkoutSet);
+
+    groupedWorkoutSetListModal.onOpen();
+  };
+
   return {
     updateExerciseOrder,
     handleSaveSetButton,
@@ -2896,5 +2907,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     addCalculationResult,
     openCalculationModal,
     filterExerciseList,
+    groupedWorkoutSetListModal,
   };
 };

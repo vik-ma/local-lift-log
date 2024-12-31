@@ -251,6 +251,14 @@ export const WorkoutGroupedSetList = ({
                                   isMultiset ? "Multiset" : "Exercise"
                                 } Note`}
                           </DropdownItem>
+                          <DropdownItem
+                            className={
+                              isMultiset || isExerciseInvalid ? "hidden" : ""
+                            }
+                            key="merge-grouped_set"
+                          >
+                            Merge Exercise Into Multiset
+                          </DropdownItem>
                           {isMultiset ? (
                             <DropdownItem key="split-multiset-into-exercises">
                               Split Into Separate Exercises
