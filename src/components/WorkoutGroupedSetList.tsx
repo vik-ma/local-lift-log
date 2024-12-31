@@ -222,6 +222,24 @@ export const WorkoutGroupedSetList = ({
                             Edit Multiset
                           </DropdownItem>
                           <DropdownItem
+                            className={isMultiset || isTemplate ? "hidden" : ""}
+                            key="fill-in-last-workout-set-values"
+                          >
+                            Copy Last Completed Values
+                          </DropdownItem>
+                          {isExerciseInvalid ? (
+                            <DropdownItem key="reassign-exercise">
+                              Reassign Exercise
+                            </DropdownItem>
+                          ) : (
+                            <DropdownItem
+                              className={isMultiset ? "hidden" : ""}
+                              key="change-exercise"
+                            >
+                              Change Exercise
+                            </DropdownItem>
+                          )}
+                          <DropdownItem
                             className={hasNote ? "" : "hidden"}
                             key="toggle-exercise-note"
                           >
@@ -233,12 +251,6 @@ export const WorkoutGroupedSetList = ({
                                   isMultiset ? "Multiset" : "Exercise"
                                 } Note`}
                           </DropdownItem>
-                          <DropdownItem
-                            className={isMultiset || isTemplate ? "hidden" : ""}
-                            key="fill-in-last-workout-set-values"
-                          >
-                            Copy Last Completed Values
-                          </DropdownItem>
                           {isMultiset ? (
                             <DropdownItem key="split-multiset-into-exercises">
                               Split Into Separate Exercises
@@ -249,18 +261,6 @@ export const WorkoutGroupedSetList = ({
                               key="convert-exercise-to-multiset"
                             >
                               Convert To Multiset
-                            </DropdownItem>
-                          )}
-                          {isExerciseInvalid ? (
-                            <DropdownItem key="reassign-exercise">
-                              Reassign Exercise
-                            </DropdownItem>
-                          ) : (
-                            <DropdownItem
-                              className={isMultiset ? "hidden" : ""}
-                              key="change-exercise"
-                            >
-                              Change Exercise
                             </DropdownItem>
                           )}
                           <DropdownItem
