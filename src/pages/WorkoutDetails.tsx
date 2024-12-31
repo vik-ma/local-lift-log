@@ -547,6 +547,7 @@ export default function WorkoutDetails() {
       />
       <GroupedWorkoutSetListModal
         groupedWorkoutSetListModal={groupedWorkoutSetListModal}
+        operatingGroupedSet={operatingGroupedSet}
         groupedWorkoutSetList={groupedSets}
         onClickAction={mergeGroupedSets}
       />

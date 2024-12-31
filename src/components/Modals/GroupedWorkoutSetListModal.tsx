@@ -11,12 +11,14 @@ import { GroupedWorkoutSet, UseDisclosureReturnType } from "../../typings";
 
 type GroupedWorkoutSetListModal = {
   groupedWorkoutSetListModal: UseDisclosureReturnType;
+  operatingGroupedSet: GroupedWorkoutSet | undefined;
   groupedWorkoutSetList: GroupedWorkoutSet[];
   onClickAction: (groupedWorkoutSet: GroupedWorkoutSet) => void;
 };
 
 export const GroupedWorkoutSetListModal = ({
   groupedWorkoutSetListModal,
+  operatingGroupedSet,
   groupedWorkoutSetList,
   onClickAction,
 }: GroupedWorkoutSetListModal) => {
@@ -28,7 +30,7 @@ export const GroupedWorkoutSetListModal = ({
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalHeader>Select Workout</ModalHeader>
+            <ModalHeader>Select Exercise Or Multiset To Merge Into</ModalHeader>
             <ModalBody>
               <ScrollShadow className="h-[400px] flex flex-col gap-1"></ScrollShadow>
             </ModalBody>

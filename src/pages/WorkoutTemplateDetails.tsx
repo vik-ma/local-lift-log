@@ -364,6 +364,7 @@ export default function WorkoutTemplateDetails() {
       />
       <GroupedWorkoutSetListModal
         groupedWorkoutSetListModal={groupedWorkoutSetListModal}
+        operatingGroupedSet={operatingGroupedSet}
         groupedWorkoutSetList={groupedSets}
         onClickAction={mergeGroupedSets}
       />
