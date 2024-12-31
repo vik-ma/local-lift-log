@@ -757,6 +757,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       handleFillInLastWorkoutSetValues(groupedWorkoutSet);
     } else if (key === "convert-exercise-to-multiset") {
       convertExerciseIntoMultiset(groupedWorkoutSet);
+    } else if (key === "split-multiset-into-exercises") {
+      splitMultisetIntoExercises(groupedWorkoutSet);
     }
   };
 
@@ -2727,7 +2729,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     const oldGroupedSetIndex = FindIndexInList(
       groupedSets,
-      groupedWorkoutSet.id.toString()
+      groupedWorkoutSet.id
     );
 
     if (oldGroupedSetIndex !== -1) {
@@ -2740,9 +2742,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     const newCompletedSetsMap: Map<string, number> = new Map(completedSetsMap);
 
-    const completedSetsMapValue = completedSetsMap.get(
-      groupedWorkoutSet.id.toString()
-    );
+    const completedSetsMapValue = completedSetsMap.get(groupedWorkoutSet.id);
 
     if (completedSetsMapValue !== undefined) {
       newCompletedSetsMap.delete(groupedWorkoutSet.id.toString());
@@ -2756,6 +2756,75 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     }
 
     toast.success("Exercise Converted To Multiset");
+  };
+
+  const splitMultisetIntoExercises = async (
+    groupedWorkoutSet: GroupedWorkoutSet
+  ) => {
+    if (
+      !groupedWorkoutSet.isMultiset ||
+      groupedWorkoutSet.exerciseList.length !== groupedWorkoutSet.setList.length
+    )
+      return;
+
+    const groupedWorkoutSetsMap = new Map<number, GroupedWorkoutSet>();
+
+    for (let i = 0; i < groupedWorkoutSet.setList.length; i++) {
+      const set = groupedWorkoutSet.setList[i];
+      set.multiset_id = 0;
+
+      if (!groupedWorkoutSetsMap.has(set.exercise_id)) {
+        const exercise = groupedWorkoutSet.exerciseList[i];
+
+        const newGroupedWorkoutSet: GroupedWorkoutSet = {
+          id: exercise.id.toString(),
+          exerciseList: [exercise],
+          setList: [],
+          isExpanded: true,
+          showGroupedSetNote: exercise.note ? true : false,
+        };
+
+        groupedWorkoutSetsMap.set(exercise.id, newGroupedWorkoutSet);
+      }
+
+      groupedWorkoutSetsMap.get(set.exercise_id)!.setList.push(set);
+
+      // TODO: SAVE SET AND UPDATE ACTIVESET + ACTIVEGROUPEDSET
+    }
+
+    const oldMultisetGroupedSetIndex = FindIndexInList(
+      groupedSets,
+      groupedWorkoutSet.id
+    );
+
+    const newGroupedSetsToInsert: GroupedWorkoutSet[] = [];
+
+    const updatedGroupedSets = [...groupedSets];
+
+    for (const [id, groupedSet] of groupedWorkoutSetsMap) {
+      const groupedSetIndex = FindIndexInList(groupedSets, id.toString());
+
+      if (groupedSetIndex === -1) {
+        // If groupedSets does NOT contain Exercise
+        newGroupedSetsToInsert.push(groupedSet);
+      } else {
+        // If groupedSets DOES contain Exercise
+        updatedGroupedSets[groupedSetIndex].setList.push(...groupedSet.setList);
+      }
+    }
+
+    updatedGroupedSets.splice(oldMultisetGroupedSetIndex, 1);
+    updatedGroupedSets.splice(
+      oldMultisetGroupedSetIndex,
+      0,
+      ...newGroupedSetsToInsert
+    );
+
+    console.log(updatedGroupedSets);
+
+    // TODO: UPDATE WORKOUT SET ORDER
+
+    // TODO: UPDATE COMPLETEDSETSMAP
   };
 
   return {
