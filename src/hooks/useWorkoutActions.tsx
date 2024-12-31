@@ -2670,8 +2670,12 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       return;
 
     const newMultiset: Multiset = {
-      ...defaultMultiset,
+      id: 0,
+      multiset_type: 0,
+      set_order: "",
       is_template: 0,
+      note: null,
+      setList: [],
     };
 
     const newMultisetId = await InsertMultisetIntoDatabase(newMultiset);
