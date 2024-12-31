@@ -2732,24 +2732,15 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       groupedWorkoutSet.id
     );
 
-    if (oldGroupedSetIndex !== -1) {
-      const newGroupedSets = [...groupedSets];
-      newGroupedSets[oldGroupedSetIndex] = updatedGroupedSet;
+    if (oldGroupedSetIndex === -1) return;
 
-      setGroupedSets(newGroupedSets);
-      updateExerciseOrder(newGroupedSets);
-    }
+    const newGroupedSets = [...groupedSets];
+    newGroupedSets[oldGroupedSetIndex] = updatedGroupedSet;
 
-    const newCompletedSetsMap: Map<string, number> = new Map(completedSetsMap);
+    setGroupedSets(newGroupedSets);
+    updateExerciseOrder(newGroupedSets);
 
-    const completedSetsMapValue = completedSetsMap.get(groupedWorkoutSet.id);
-
-    if (completedSetsMapValue !== undefined) {
-      newCompletedSetsMap.delete(groupedWorkoutSet.id.toString());
-      newCompletedSetsMap.set(newGroupedSetId, completedSetsMapValue);
-
-      setCompletedSetsMap(newCompletedSetsMap);
-    }
+    if (!isTemplate) populateIncompleteSets(newGroupedSets);
 
     if (activeGroupedSet?.id === groupedWorkoutSet.id) {
       setActiveGroupedSet(updatedGroupedSet);
@@ -2808,12 +2799,15 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         // If groupedSets does NOT contain Exercise
         newGroupedSetsToInsert.push(groupedSet);
       } else {
-        // If groupedSets DOES contain Exercise
+        // If groupedSets DOES contain Exercise, add sets to Exercise
         updatedGroupedSets[groupedSetIndex].setList.push(...groupedSet.setList);
       }
     }
 
+    // Remove old Multiset
     updatedGroupedSets.splice(oldMultisetGroupedSetIndex, 1);
+
+    // Insert new Exercises at same index as old Multiset
     updatedGroupedSets.splice(
       oldMultisetGroupedSetIndex,
       0,
