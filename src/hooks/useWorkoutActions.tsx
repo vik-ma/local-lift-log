@@ -2829,6 +2829,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     groupedWorkoutSetListModal.onOpen();
   };
 
+  const mergeGroupedSets = async (groupedWorkoutSet: GroupedWorkoutSet) => {
+    if (operatingGroupedSet?.id === groupedWorkoutSet.id) return;
+  };
+
   return {
     updateExerciseOrder,
     handleSaveSetButton,
@@ -2908,5 +2912,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     openCalculationModal,
     filterExerciseList,
     groupedWorkoutSetListModal,
+    mergeGroupedSets,
   };
 };

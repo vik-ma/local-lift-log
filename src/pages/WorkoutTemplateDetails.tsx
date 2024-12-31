@@ -22,6 +22,7 @@ import {
   FilterWorkoutTemplateListModal,
   FilterPresetsListModal,
   FilterMultisetListModal,
+  GroupedWorkoutSetListModal,
 } from "../components";
 import toast, { Toaster } from "react-hot-toast";
 import {
@@ -109,6 +110,8 @@ export default function WorkoutTemplateDetails() {
     openCalculationModal,
     filterExerciseList,
     setWorkoutNumbers,
+    groupedWorkoutSetListModal,
+    mergeGroupedSets,
   } = useWorkoutActions(true);
 
   const workoutTemplateList = useWorkoutTemplateList(
@@ -358,6 +361,11 @@ export default function WorkoutTemplateDetails() {
         label="Note"
         header="Set Note"
         buttonAction={handleTextInputModalButton}
+      />
+      <GroupedWorkoutSetListModal
+        groupedWorkoutSetListModal={groupedWorkoutSetListModal}
+        groupedWorkoutSetList={groupedSets}
+        onClickAction={mergeGroupedSets}
       />
       <FilterExerciseGroupsModal
         useExerciseList={exerciseList}
