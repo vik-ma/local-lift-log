@@ -2692,10 +2692,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     for (const set of updatedSetList) {
       set.multiset_id = newMultisetId;
       await UpdateSet(set);
-
-      if (activeSet?.id === set.id) {
-        setActiveSet(set);
-      }
     }
 
     groupedWorkoutSet.setList = updatedSetList;
@@ -2742,10 +2738,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     updateExerciseOrder(newGroupedSets);
 
     if (!isTemplate) populateIncompleteSets(newGroupedSets);
-
-    if (activeGroupedSet?.id === groupedWorkoutSet.id) {
-      setActiveGroupedSet(updatedGroupedSet);
-    }
 
     toast.success("Exercise Converted To Multiset");
   };
