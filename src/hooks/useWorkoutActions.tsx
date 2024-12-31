@@ -52,6 +52,7 @@ import {
   GetSetsOfLastCompletedExercise,
   CopySetTrackingValues,
   UpdateCalculationString,
+  DeleteMultisetWithId,
 } from "../helpers";
 import {
   useDefaultSet,
@@ -2754,6 +2755,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   ) => {
     if (
       !groupedWorkoutSet.isMultiset ||
+      groupedWorkoutSet.multiset === undefined ||
       groupedWorkoutSet.exerciseList.length !== groupedWorkoutSet.setList.length
     )
       return;
@@ -2763,6 +2765,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     for (let i = 0; i < groupedWorkoutSet.setList.length; i++) {
       const set = groupedWorkoutSet.setList[i];
       set.multiset_id = 0;
+
+      await UpdateSet(set);
 
       if (!groupedWorkoutSetsMap.has(set.exercise_id)) {
         const exercise = groupedWorkoutSet.exerciseList[i];
@@ -2779,8 +2783,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       }
 
       groupedWorkoutSetsMap.get(set.exercise_id)!.setList.push(set);
-
-      // TODO: SAVE SET AND UPDATE ACTIVESET + ACTIVEGROUPEDSET
     }
 
     const oldMultisetGroupedSetIndex = FindIndexInList(
@@ -2814,11 +2816,14 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       ...newGroupedSetsToInsert
     );
 
-    console.log(updatedGroupedSets);
+    await DeleteMultisetWithId(groupedWorkoutSet.multiset.id);
 
-    // TODO: UPDATE WORKOUT SET ORDER
+    setGroupedSets(updatedGroupedSets);
+    updateExerciseOrder(updatedGroupedSets);
 
-    // TODO: UPDATE COMPLETEDSETSMAP
+    if (!isTemplate) populateIncompleteSets(updatedGroupedSets);
+
+    toast.success("Multiset Separated Into Exercises");
   };
 
   return {
