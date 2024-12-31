@@ -80,6 +80,7 @@ export { FilterMultisetListModal } from "./Modals/FilterMultisetListModal";
 export { TimePeriodModal } from "./Modals/TimePeriodModal";
 export { FilterTimePeriodListModal } from "./Modals/FilterTimePeriodListModal";
 export { DietLogModal } from "./Modals/DietLogModal";
+export { GroupedWorkoutSetListModal } from "./Modals/GroupedWorkoutSetListModal";
 
 export { ExerciseModalList } from "./ModalLists/ExerciseModalList";
 export { MultisetTemplateModalList } from "./ModalLists/MultisetTemplateModalList";
