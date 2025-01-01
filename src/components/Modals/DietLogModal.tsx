@@ -40,7 +40,7 @@ export const DietLogModal = ({
                 Close
               </Button>
               <Button color="primary" onPress={buttonAction}>
-                {dietLog.id !== 0 ? "Save" : "Update"}
+                {dietLog.id === 0 ? "Save" : "Update"}
               </Button>
             </ModalFooter>
           </>
