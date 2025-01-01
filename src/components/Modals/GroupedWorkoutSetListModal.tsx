@@ -7,13 +7,21 @@ import {
   ScrollShadow,
   Button,
 } from "@nextui-org/react";
-import { GroupedWorkoutSet, UseDisclosureReturnType } from "../../typings";
-import { GenerateMultisetExerciseListText } from "../../helpers";
+import {
+  GroupedWorkoutSet,
+  MultisetTypeMap,
+  UseDisclosureReturnType,
+} from "../../typings";
+import {
+  FormatNumItemsString,
+  GenerateMultisetExerciseListText,
+} from "../../helpers";
 
 type GroupedWorkoutSetListModal = {
   groupedWorkoutSetListModal: UseDisclosureReturnType;
   operatingGroupedSet: GroupedWorkoutSet | undefined;
   groupedWorkoutSetList: GroupedWorkoutSet[];
+  multisetTypeMap: MultisetTypeMap;
   onClickAction: (groupedWorkoutSet: GroupedWorkoutSet) => void;
 };
 
@@ -21,6 +29,7 @@ export const GroupedWorkoutSetListModal = ({
   groupedWorkoutSetListModal,
   operatingGroupedSet,
   groupedWorkoutSetList,
+  multisetTypeMap,
   onClickAction,
 }: GroupedWorkoutSetListModal) => {
   return (
@@ -38,19 +47,26 @@ export const GroupedWorkoutSetListModal = ({
                   const isOperatingGroupedSet =
                     operatingGroupedSet?.id === groupedSet.id;
 
-                  const name = groupedSet.isMultiset ? (
-                    GenerateMultisetExerciseListText(groupedSet.exerciseList)
-                  ) : (
-                    <span
-                      className={
-                        groupedSet.exerciseList[0].isInvalid
-                          ? "text-red-700"
-                          : ""
-                      }
-                    >
-                      {groupedSet.exerciseList[0].name}
-                    </span>
-                  );
+                  const header =
+                    groupedSet.isMultiset &&
+                    groupedSet.multiset !== undefined ? (
+                      multisetTypeMap.get(groupedSet.multiset.multiset_type) ??
+                      ""
+                    ) : (
+                      <span
+                        className={
+                          groupedSet.exerciseList[0].isInvalid
+                            ? "text-red-700"
+                            : ""
+                        }
+                      >
+                        {groupedSet.exerciseList[0].name}
+                      </span>
+                    );
+
+                  const subHeader = groupedSet.isMultiset
+                    ? GenerateMultisetExerciseListText(groupedSet.exerciseList)
+                    : FormatNumItemsString(groupedSet.setList.length, "Set");
 
                   return (
                     <button
@@ -62,7 +78,12 @@ export const GroupedWorkoutSetListModal = ({
                       key={groupedSet.id}
                       onClick={() => onClickAction(groupedSet)}
                     >
-                      <span className="w-full truncate text-left">{name}</span>
+                      <span className="w-full truncate text-left">
+                        {header}
+                      </span>
+                      <span className="w-full truncate text-left text-xs text-secondary ">
+                        {subHeader}
+                      </span>
                     </button>
                   );
                 })}

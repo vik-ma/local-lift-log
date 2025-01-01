@@ -549,6 +549,7 @@ export default function WorkoutDetails() {
         groupedWorkoutSetListModal={groupedWorkoutSetListModal}
         operatingGroupedSet={operatingGroupedSet}
         groupedWorkoutSetList={groupedSets}
+        multisetTypeMap={multisetActions.multisetTypeMap}
         onClickAction={mergeGroupedSets}
       />
       <FilterWorkoutListModal
