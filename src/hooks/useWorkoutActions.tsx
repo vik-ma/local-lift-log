@@ -2830,7 +2830,111 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   };
 
   const mergeGroupedSets = async (groupedWorkoutSet: GroupedWorkoutSet) => {
-    if (operatingGroupedSet?.id === groupedWorkoutSet.id) return;
+    if (
+      operatingGroupedSet === undefined ||
+      operatingGroupedSet.id === groupedWorkoutSet.id
+    )
+      return;
+
+    if (!groupedWorkoutSet.isMultiset) {
+      const newMultiset: Multiset = {
+        id: 0,
+        multiset_type: 0,
+        set_order: "",
+        is_template: 0,
+        note: null,
+        setList: [],
+      };
+
+      const newMultisetId = await InsertMultisetIntoDatabase(newMultiset);
+
+      if (newMultisetId === 0) return;
+
+      const maxSets = Math.max(
+        operatingGroupedSet.setList.length,
+        groupedWorkoutSet.setList.length
+      );
+
+      const setListIdList: number[][] = [];
+
+      const newSetList: WorkoutSet[] = [];
+      const newExerciseList: Exercise[] = [];
+
+      newMultiset.id = newMultisetId;
+
+      for (let i = 0; i < maxSets; i++) {
+        const setIdList: number[] = [];
+
+        if (i < operatingGroupedSet.setList.length) {
+          const set = operatingGroupedSet.setList[i];
+
+          set.multiset_id = newMultisetId;
+          await UpdateSet(set);
+
+          setIdList.push(set.id);
+          newSetList.push(set);
+          newExerciseList.push(operatingGroupedSet.exerciseList[0]);
+        }
+
+        if (i < groupedWorkoutSet.setList.length) {
+          const set = groupedWorkoutSet.setList[i];
+
+          set.multiset_id = newMultisetId;
+          await UpdateSet(set);
+
+          setIdList.push(set.id);
+          newSetList.push(set);
+          newExerciseList.push(groupedWorkoutSet.exerciseList[0]);
+        }
+
+        setListIdList.push(setIdList);
+      }
+
+      newMultiset.setList = newSetList;
+
+      const { success, updatedMultiset } = await UpdateMultisetSetOrder(
+        newMultiset,
+        setListIdList
+      );
+
+      if (!success) return;
+
+      const indexCutoffs = CreateMultisetIndexCutoffs(setListIdList);
+
+      updatedMultiset.setListIndexCutoffs = indexCutoffs;
+
+      const newGroupedSet: GroupedWorkoutSet = {
+        id: `m${updatedMultiset.id}`,
+        exerciseList: newExerciseList,
+        setList: newSetList,
+        isExpanded: true,
+        showGroupedSetNote: false,
+        isMultiset: true,
+        multiset: updatedMultiset,
+      };
+
+      const oldGroupedSetIndex1 = FindIndexInList(
+        groupedSets,
+        operatingGroupedSet.id
+      );
+
+      const oldGroupedSetIndex2 = FindIndexInList(
+        groupedSets,
+        groupedWorkoutSet.id
+      );
+
+      const updatedGroupedSets = [...groupedSets];
+      updatedGroupedSets[oldGroupedSetIndex1] = newGroupedSet;
+      updatedGroupedSets.splice(oldGroupedSetIndex2, 1);
+
+      setGroupedSets(updatedGroupedSets);
+      updateExerciseOrder(updatedGroupedSets);
+
+      if (!isTemplate) populateIncompleteSets(updatedGroupedSets);
+    }
+
+    groupedWorkoutSetListModal.onClose();
+    toast.success("Merged Exercise Into Multiset");
   };
 
   return {
