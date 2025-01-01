@@ -42,7 +42,7 @@ export const GroupedWorkoutSetListModal = ({
           <>
             <ModalHeader>Select Exercise Or Multiset To Merge Into</ModalHeader>
             <ModalBody>
-              <ScrollShadow className="h-[400px] flex flex-col gap-1">
+              <ScrollShadow className="max-h-[400px] flex flex-col gap-1">
                 {groupedWorkoutSetList.map((groupedSet) => {
                   const isOperatingGroupedSet =
                     operatingGroupedSet?.id === groupedSet.id;
