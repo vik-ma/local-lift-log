@@ -94,6 +94,7 @@ export { GenerateMultisetSetListIdList } from "./Multisets/GenerateMultisetSetLi
 export { CreateMultisetIndexCutoffs } from "./Multisets/CreateMultisetIndexCutoffs";
 export { AddNewSetsToMultiset } from "./Multisets/AddNewSetsToMultiset";
 export { GetMultisetWithId } from "./Multisets/GetMultisetWithId";
+export { GenerateMultisetExerciseListText } from "./Multisets/GenerateMultisetExerciseListText";
 
 export { IsNumberNegativeOrInfinity } from "./Numbers/IsNumberNegativeOrInfinity";
 export { IsStringInvalidNumberOrAbove59 } from "./Numbers/IsStringInvalidNumberOrAbove59";
