@@ -2833,7 +2833,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     if (!groupedWorkoutSet.isMultiset) {
       await mergeExerciseWithExercise(groupedWorkoutSet);
     } else {
-
     }
 
     groupedWorkoutSetListModal.onClose();
@@ -2877,17 +2876,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     for (let i = 0; i < maxSets; i++) {
       const setIdList: number[] = [];
 
-      if (i < operatingGroupedSet.setList.length) {
-        const set = operatingGroupedSet.setList[i];
-
-        set.multiset_id = newMultisetId;
-        await UpdateSet(set);
-
-        setIdList.push(set.id);
-        newSetList.push(set);
-        newExerciseList.push(operatingGroupedSet.exerciseList[0]);
-      }
-
       if (i < groupedWorkoutSet.setList.length) {
         const set = groupedWorkoutSet.setList[i];
 
@@ -2897,6 +2885,17 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         setIdList.push(set.id);
         newSetList.push(set);
         newExerciseList.push(groupedWorkoutSet.exerciseList[0]);
+      }
+
+      if (i < operatingGroupedSet.setList.length) {
+        const set = operatingGroupedSet.setList[i];
+
+        set.multiset_id = newMultisetId;
+        await UpdateSet(set);
+
+        setIdList.push(set.id);
+        newSetList.push(set);
+        newExerciseList.push(operatingGroupedSet.exerciseList[0]);
       }
 
       setListIdList.push(setIdList);
@@ -2927,12 +2926,12 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     const oldGroupedSetIndex1 = FindIndexInList(
       groupedSets,
-      operatingGroupedSet.id
+      groupedWorkoutSet.id
     );
 
     const oldGroupedSetIndex2 = FindIndexInList(
       groupedSets,
-      groupedWorkoutSet.id
+      operatingGroupedSet.id
     );
 
     const updatedGroupedSets = [...groupedSets];
