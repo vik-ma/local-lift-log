@@ -1014,7 +1014,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
           statement = `UPDATE sets SET exercise_id = $1 
                       WHERE exercise_id = $2 
                       AND workout_template_id = $3 
-                      AND is_template = 1`;
+                      AND is_template = 1
+                      AND multiset_id = 0`;
           id = workoutTemplate.id;
         }
 
@@ -1022,7 +1023,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
           statement = `UPDATE sets SET exercise_id = $1 
                       WHERE exercise_id = $2 
                       AND workout_id = $3 
-                      AND is_template = 0`;
+                      AND is_template = 0
+                      AND multiset_id = 0`;
           id = workout.id;
         }
 
@@ -1039,10 +1041,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       }
     } else return;
 
-    const updatedGroupedSets = reassignExerciseForMultisetGroupedSets(
-      newExercise,
-      oldExercise
-    );
+    const updatedGroupedSets =
+      operationType === "reassign-exercise"
+        ? reassignExerciseForMultisetGroupedSets(newExercise, oldExercise)
+        : [...groupedSets];
 
     const newGroupedWorkoutSet = updateExerciseInGroupedSet(
       operatingGroupedSet,
