@@ -2969,6 +2969,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         groupedWorkoutSet.multiset.setListIndexCutoffs.has(i) &&
         currentSetIdList.length > 0
       ) {
+        // Add operatingGroupedSet Set to the end of Multiset "Set"
         if (currentSetIndex < operatingGroupedSet.setList.length) {
           const set = operatingGroupedSet.setList[currentSetIndex];
 
@@ -2980,6 +2981,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
           newExerciseList.push(operatingGroupedSet.exerciseList[0]);
         }
 
+        // Add separate list for each Multiset "Set"
         setListIdList.push(currentSetIdList);
         currentSetIdList = [];
         currentSetIndex++;
@@ -2989,9 +2991,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       newExerciseList.push(groupedWorkoutSet.exerciseList[i]);
     }
 
+    // Add remaining Multiset "Sets" and corresponding operatingGroupedSet Set
     if (currentSetIdList.length > 0) {
-      setListIdList.push(currentSetIdList);
-
       if (currentSetIndex < operatingGroupedSet.setList.length) {
         const set = operatingGroupedSet.setList[currentSetIndex];
 
@@ -3003,9 +3004,11 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         newExerciseList.push(operatingGroupedSet.exerciseList[0]);
       }
 
+      setListIdList.push(currentSetIdList);
       currentSetIndex++;
     }
 
+    // Add remaining operatingGroupedSet Sets as separate Multiset "Sets"
     if (operatingGroupedSet.setList.length > currentSetIndex) {
       for (
         let i = currentSetIndex;
