@@ -2833,6 +2833,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     if (!groupedWorkoutSet.isMultiset) {
       await mergeExerciseWithExercise(groupedWorkoutSet);
     } else {
+      await mergeExerciseWithMultiset(groupedWorkoutSet);
     }
 
     groupedWorkoutSetListModal.onClose();
@@ -2936,6 +2937,125 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     const updatedGroupedSets = [...groupedSets];
     updatedGroupedSets[oldGroupedSetIndex1] = newGroupedSet;
+    updatedGroupedSets.splice(oldGroupedSetIndex2, 1);
+
+    setGroupedSets(updatedGroupedSets);
+    updateExerciseOrder(updatedGroupedSets);
+
+    if (!isTemplate) populateIncompleteSets(updatedGroupedSets);
+  };
+
+  const mergeExerciseWithMultiset = async (
+    groupedWorkoutSet: GroupedWorkoutSet
+  ) => {
+    if (
+      operatingGroupedSet === undefined ||
+      operatingGroupedSet.id === groupedWorkoutSet.id ||
+      groupedWorkoutSet.multiset === undefined ||
+      groupedWorkoutSet.multiset.setListIndexCutoffs === undefined
+    )
+      return;
+
+    const setListIdList: number[][] = [];
+
+    const newSetList: WorkoutSet[] = [];
+    const newExerciseList: Exercise[] = [];
+
+    let currentSetIdList: number[] = [];
+    let currentSetIndex = 0;
+
+    for (let i = 0; i < groupedWorkoutSet.setList.length; i++) {
+      if (
+        groupedWorkoutSet.multiset.setListIndexCutoffs.has(i) &&
+        currentSetIdList.length > 0
+      ) {
+        if (currentSetIndex < operatingGroupedSet.setList.length) {
+          const set = operatingGroupedSet.setList[currentSetIndex];
+
+          set.multiset_id = groupedWorkoutSet.multiset.id;
+          await UpdateSet(set);
+
+          currentSetIdList.push(set.id);
+          newSetList.push(set);
+          newExerciseList.push(operatingGroupedSet.exerciseList[0]);
+        }
+
+        setListIdList.push(currentSetIdList);
+        currentSetIdList = [];
+        currentSetIndex++;
+      }
+      currentSetIdList.push(groupedWorkoutSet.setList[i].id);
+      newSetList.push(groupedWorkoutSet.setList[i]);
+      newExerciseList.push(groupedWorkoutSet.exerciseList[i]);
+    }
+
+    if (currentSetIdList.length > 0) {
+      setListIdList.push(currentSetIdList);
+
+      if (currentSetIndex < operatingGroupedSet.setList.length) {
+        const set = operatingGroupedSet.setList[currentSetIndex];
+
+        set.multiset_id = groupedWorkoutSet.multiset.id;
+        await UpdateSet(set);
+
+        currentSetIdList.push(set.id);
+        newSetList.push(set);
+        newExerciseList.push(operatingGroupedSet.exerciseList[0]);
+      }
+
+      currentSetIndex++;
+    }
+
+    if (operatingGroupedSet.setList.length > currentSetIndex) {
+      for (
+        let i = currentSetIndex;
+        i < operatingGroupedSet.setList.length;
+        i++
+      ) {
+        const set = operatingGroupedSet.setList[i];
+
+        set.multiset_id = groupedWorkoutSet.multiset.id;
+        await UpdateSet(set);
+
+        setListIdList.push([set.id]);
+        newSetList.push(set);
+        newExerciseList.push(operatingGroupedSet.exerciseList[0]);
+      }
+    }
+
+    groupedWorkoutSet.multiset.setList = newSetList;
+
+    const { success, updatedMultiset } = await UpdateMultisetSetOrder(
+      groupedWorkoutSet.multiset,
+      setListIdList
+    );
+
+    if (!success) return;
+
+    const updatedIndexCutoffs = CreateMultisetIndexCutoffs(setListIdList);
+
+    updatedMultiset.setListIndexCutoffs = updatedIndexCutoffs;
+
+    const updatedGroupedSet: GroupedWorkoutSet = {
+      ...groupedWorkoutSet,
+      exerciseList: newExerciseList,
+      setList: newSetList,
+      isExpanded: true,
+      multiset: updatedMultiset,
+    };
+
+    const oldGroupedSetIndex1 = FindIndexInList(
+      groupedSets,
+      groupedWorkoutSet.id
+    );
+
+    const oldGroupedSetIndex2 = FindIndexInList(
+      groupedSets,
+      operatingGroupedSet.id
+    );
+
+    const updatedGroupedSets = [...groupedSets];
+    updatedGroupedSets[oldGroupedSetIndex1] = updatedGroupedSet;
     updatedGroupedSets.splice(oldGroupedSetIndex2, 1);
 
     setGroupedSets(updatedGroupedSets);
