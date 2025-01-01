@@ -8,6 +8,7 @@ import {
   Button,
 } from "@nextui-org/react";
 import { GroupedWorkoutSet, UseDisclosureReturnType } from "../../typings";
+import { GenerateMultisetExerciseListText } from "../../helpers";
 
 type GroupedWorkoutSetListModal = {
   groupedWorkoutSetListModal: UseDisclosureReturnType;
@@ -37,13 +38,14 @@ export const GroupedWorkoutSetListModal = ({
                   const isOperatingGroupedSet =
                     operatingGroupedSet?.id === groupedSet.id;
 
-                  // TODO: FIX FOR MULTISETS
-                  const name = (
+                  const name = groupedSet.isMultiset ? (
+                    GenerateMultisetExerciseListText(groupedSet.exerciseList)
+                  ) : (
                     <span
                       className={
                         groupedSet.exerciseList[0].isInvalid
-                          ? "w-full truncate text-left text-red-700"
-                          : "w-full truncate text-left"
+                          ? "text-red-700"
+                          : ""
                       }
                     >
                       {groupedSet.exerciseList[0].name}
@@ -60,7 +62,7 @@ export const GroupedWorkoutSetListModal = ({
                       key={groupedSet.id}
                       onClick={() => onClickAction(groupedSet)}
                     >
-                      {name}
+                      <span className="w-full truncate text-left">{name}</span>
                     </button>
                   );
                 })}
