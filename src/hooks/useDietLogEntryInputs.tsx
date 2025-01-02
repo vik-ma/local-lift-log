@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { IsStringEmpty, IsStringInvalidInteger } from "../helpers";
+import { IsStringEmpty, IsStringInvalidInteger, IsStringInvalidIntegerOr0 } from "../helpers";
 
 export const useDietLogEntryInputs = () => {
   const [caloriesInput, setCaloriesInput] = useState<string>("");
@@ -10,7 +10,8 @@ export const useDietLogEntryInputs = () => {
   const [targetDay, setTargetDay] = useState<string>("Today");
 
   const isCaloriesInputValid = useMemo(() => {
-    if (IsStringInvalidInteger(caloriesInput)) return false;
+    if (IsStringEmpty(caloriesInput)) return false;
+    if (IsStringInvalidIntegerOr0(caloriesInput)) return false;
     return true;
   }, [caloriesInput]);
 
