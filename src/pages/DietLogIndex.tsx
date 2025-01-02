@@ -1,17 +1,13 @@
 import { useEffect, useState } from "react";
 import { DietLog, UserSettings } from "../typings";
 import { DietLogModal, LoadingSpinner } from "../components";
-import {
-  ConvertISODateStringToCalendarDate,
-  GetCurrentDateTimeISOString,
-  GetUserSettings,
-} from "../helpers";
+import { GetUserSettings } from "../helpers";
 import { useDefaultDietLog } from "../hooks";
-import { Button, CalendarDate, useDisclosure } from "@nextui-org/react";
+import { Button, useDisclosure } from "@nextui-org/react";
 
 export default function DietLogIndex() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
-  const [selectedDate, setSelectedDate] = useState<CalendarDate | null>(null);
+  const [targetDay, setTargetDay] = useState<string>("Today");
 
   const defaultDietLog = useDefaultDietLog();
 
@@ -29,11 +25,6 @@ export default function DietLogIndex() {
       setUserSettings(userSettings);
     };
 
-    const currentDate = ConvertISODateStringToCalendarDate(
-      GetCurrentDateTimeISOString()
-    );
-    setSelectedDate(currentDate);
-
     loadUserSettings();
   }, []);
 
@@ -45,8 +36,8 @@ export default function DietLogIndex() {
         dietLogModal={dietLogModal}
         dietLog={operatingDietLog}
         setDietLog={setOperatingDietLog}
-        selectedDate={selectedDate}
-        setSelectedDate={setSelectedDate}
+        targetDay={targetDay}
+        setTargetDay={setTargetDay}
         userSettings={userSettings}
         buttonAction={() => {}}
       />

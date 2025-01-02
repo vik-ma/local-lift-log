@@ -5,18 +5,17 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  DatePicker,
-  CalendarDate,
+  Select,
+  SelectItem,
 } from "@nextui-org/react";
 import { DietLog, UseDisclosureReturnType, UserSettings } from "../../typings";
-import { I18nProvider } from "@react-aria/i18n";
 
 type DietLogModalProps = {
   dietLogModal: UseDisclosureReturnType;
   dietLog: DietLog;
   setDietLog: React.Dispatch<React.SetStateAction<DietLog>>;
-  selectedDate: CalendarDate | null;
-  setSelectedDate: React.Dispatch<React.SetStateAction<CalendarDate | null>>;
+  targetDay: string;
+  setTargetDay: React.Dispatch<React.SetStateAction<string>>;
   userSettings: UserSettings;
   buttonAction: () => void;
 };
@@ -25,11 +24,15 @@ export const DietLogModal = ({
   dietLogModal,
   dietLog,
   setDietLog,
-  selectedDate,
-  setSelectedDate,
+  targetDay,
+  setTargetDay,
   userSettings,
   buttonAction,
 }: DietLogModalProps) => {
+  const handleTargetDayChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setTargetDay(e.target.value);
+  };
+
   return (
     <Modal
       isOpen={dietLogModal.isOpen}
@@ -42,19 +45,19 @@ export const DietLogModal = ({
               {dietLog.id === 0 ? "New" : "Edit"} Diet Log Entry
             </ModalHeader>
             <ModalBody>
-              <I18nProvider locale={userSettings.locale}>
-                <DatePicker
-                  classNames={{ base: "gap-0.5" }}
-                  dateInputClassNames={{ inputWrapper: "!bg-default-100" }}
-                  label={
-                    <span className="text-lg font-semibold px-0.5">Date</span>
-                  }
-                  labelPlacement="outside"
-                  variant="faded"
-                  value={selectedDate}
-                  onChange={setSelectedDate}
-                />
-              </I18nProvider>
+              <Select
+                className="w-[7.5rem]"
+                classNames={{ label: "mt-1 text-base font-semibold px-0.5" }}
+                label="Day Of Diet"
+                labelPlacement="outside"
+                variant="faded"
+                selectedKeys={[targetDay]}
+                onChange={(e) => handleTargetDayChange(e)}
+                disallowEmptySelection
+              >
+                <SelectItem key="Today">Today</SelectItem>
+                <SelectItem key="Yesterday">Yesterday</SelectItem>
+              </Select>
             </ModalBody>
             <ModalFooter>
               <Button color="primary" variant="light" onPress={onClose}>
