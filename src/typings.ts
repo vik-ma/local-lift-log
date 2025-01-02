@@ -41,6 +41,7 @@ export type UserSettings = {
   automatically_update_active_measurements: number;
   default_num_new_sets: string;
   shown_time_period_properties: string;
+  default_diet_log_day_is_yesterday: number;
 };
 
 export type UserSettingsOptional = {
@@ -73,6 +74,7 @@ export type UserSettingsOptional = {
   automatically_update_active_measurements?: number;
   default_num_new_sets?: string;
   shown_time_period_properties?: string;
+  default_diet_log_day_is_yesterday?: number;
 };
 
 export type Exercise = {

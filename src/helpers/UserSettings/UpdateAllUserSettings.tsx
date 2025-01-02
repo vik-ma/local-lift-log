@@ -23,8 +23,8 @@ export const UpdateAllUserSettings = async (
       shown_workout_properties = $20, default_plate_collection_id = $21, 
       workout_ratings_order = $22, show_secondary_exercise_groups = $23, 
       automatically_update_active_measurements = $24, default_num_new_sets = $25, 
-      shown_time_period_properties = $26 
-      WHERE id = $27`,
+      shown_time_period_properties = $26, default_diet_log_day_is_yesterday = $27 
+      WHERE id = $28`,
       [
         userSettings.show_timestamp_on_completed_set,
         userSettings.active_routine_id,
@@ -52,6 +52,7 @@ export const UpdateAllUserSettings = async (
         userSettings.automatically_update_active_measurements,
         userSettings.default_num_new_sets,
         userSettings.shown_time_period_properties,
+        userSettings.default_diet_log_day_is_yesterday,
         userSettings.id,
       ]
     );

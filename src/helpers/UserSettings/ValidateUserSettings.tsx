@@ -125,5 +125,8 @@ export const ValidateUserSettings = (userSettings: UserSettings): boolean => {
   )
     return false;
 
+  if (!IsNumberValidBinary(userSettings.default_diet_log_day_is_yesterday))
+    return false;
+
   return true;
 };
