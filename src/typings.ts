@@ -1055,4 +1055,6 @@ export type UseDietLogEntryInputsReturnType = {
   isFatInputValid: boolean;
   isProteinInputValid: boolean;
   isDietLogEntryInputValid: boolean;
+  targetDay: string;
+  setTargetDay: React.Dispatch<React.SetStateAction<string>>;
 };

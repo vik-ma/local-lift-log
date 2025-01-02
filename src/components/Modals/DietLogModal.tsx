@@ -6,28 +6,28 @@ import {
   ModalBody,
   ModalFooter,
 } from "@nextui-org/react";
-import { DietLog, UseDisclosureReturnType, UserSettings } from "../../typings";
+import {
+  DietLog,
+  UseDietLogEntryInputsReturnType,
+  UseDisclosureReturnType,
+} from "../../typings";
 import { DietLogDayDropdown } from "../Dropdowns/DietLogDayDropdown";
 
 type DietLogModalProps = {
   dietLogModal: UseDisclosureReturnType;
   dietLog: DietLog;
-  setDietLog: React.Dispatch<React.SetStateAction<DietLog>>;
-  targetDay: string;
-  setTargetDay: React.Dispatch<React.SetStateAction<string>>;
-  userSettings: UserSettings;
+  useDietLogEntryInputs: UseDietLogEntryInputsReturnType;
   buttonAction: () => void;
 };
 
 export const DietLogModal = ({
   dietLogModal,
   dietLog,
-  setDietLog,
-  targetDay,
-  setTargetDay,
-  userSettings,
+  useDietLogEntryInputs,
   buttonAction,
 }: DietLogModalProps) => {
+  const { targetDay, setTargetDay } = useDietLogEntryInputs;
+
   return (
     <Modal
       isOpen={dietLogModal.isOpen}
@@ -40,7 +40,11 @@ export const DietLogModal = ({
               {dietLog.id === 0 ? "New" : "Edit"} Diet Log Entry
             </ModalHeader>
             <ModalBody>
-              <DietLogDayDropdown value={targetDay} setValue={setTargetDay} />
+              <DietLogDayDropdown
+                value={targetDay}
+                setState={setTargetDay}
+                targetType="state"
+              />
             </ModalBody>
             <ModalFooter>
               <Button color="primary" variant="light" onPress={onClose}>

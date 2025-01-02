@@ -2,12 +2,11 @@ import { useEffect, useState } from "react";
 import { DietLog, UserSettings } from "../typings";
 import { DietLogModal, LoadingSpinner } from "../components";
 import { GetUserSettings } from "../helpers";
-import { useDefaultDietLog } from "../hooks";
+import { useDefaultDietLog, useDietLogEntryInputs } from "../hooks";
 import { Button, useDisclosure } from "@nextui-org/react";
 
 export default function DietLogIndex() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
-  const [targetDay, setTargetDay] = useState<string>("Today");
 
   const defaultDietLog = useDefaultDietLog();
 
@@ -15,6 +14,10 @@ export default function DietLogIndex() {
     useState<DietLog>(defaultDietLog);
 
   const dietLogModal = useDisclosure();
+
+  const dietLogEntryInputs = useDietLogEntryInputs();
+
+  const { setTargetDay } = dietLogEntryInputs;
 
   useEffect(() => {
     const loadUserSettings = async () => {
@@ -30,7 +33,7 @@ export default function DietLogIndex() {
     };
 
     loadUserSettings();
-  }, []);
+  }, [setTargetDay]);
 
   if (userSettings === undefined) return <LoadingSpinner />;
 
@@ -39,10 +42,7 @@ export default function DietLogIndex() {
       <DietLogModal
         dietLogModal={dietLogModal}
         dietLog={operatingDietLog}
-        setDietLog={setOperatingDietLog}
-        targetDay={targetDay}
-        setTargetDay={setTargetDay}
-        userSettings={userSettings}
+        useDietLogEntryInputs={dietLogEntryInputs}
         buttonAction={() => {}}
       />
       <div className="flex flex-col items-center gap-4">

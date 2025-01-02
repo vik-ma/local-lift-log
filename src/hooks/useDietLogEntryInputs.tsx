@@ -7,6 +7,7 @@ export const useDietLogEntryInputs = () => {
   const [carbsInput, setCarbsInput] = useState<string>("");
   const [proteinInput, setProteinInput] = useState<string>("");
   const [noteInput, setNoteInput] = useState<string>("");
+  const [targetDay, setTargetDay] = useState<string>("Today");
 
   const isCaloriesInputValid = useMemo(() => {
     if (IsStringInvalidInteger(caloriesInput)) return false;
@@ -60,5 +61,7 @@ export const useDietLogEntryInputs = () => {
     isFatInputValid,
     isProteinInputValid,
     isDietLogEntryInputValid,
+    targetDay,
+    setTargetDay,
   };
 };
