@@ -55,3 +55,4 @@ export { useTimePeriodListFilters } from "./useTimePeriodListFilters";
 export { useFilterMinAndMaxValueInputs } from "./useFilterMinAndMaxValueInputs";
 export { useIsEndDateBeforeStartDate } from "./useIsEndDateBeforeStartDate";
 export { useDefaultDietLog } from "./useDefaultDietLog";
+export { useDietLogEntryInputs } from "./useDietLogEntryInputs";

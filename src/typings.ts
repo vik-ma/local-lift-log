@@ -1038,3 +1038,21 @@ export type DietLog = {
   protein: number | null;
   note: string | null;
 };
+
+export type UseDietLogEntryInputsReturnType = {
+  caloriesInput: string;
+  setCaloriesInput: React.Dispatch<React.SetStateAction<string>>;
+  fatInput: string;
+  setFatInput: React.Dispatch<React.SetStateAction<string>>;
+  carbsInput: string;
+  setCarbsInput: React.Dispatch<React.SetStateAction<string>>;
+  proteinInput: string;
+  setProteinInput: React.Dispatch<React.SetStateAction<string>>;
+  noteInput: string;
+  setNoteInput: React.Dispatch<React.SetStateAction<string>>;
+  isCaloriesInputValid: boolean;
+  isCarbsInputValid: boolean;
+  isFatInputValid: boolean;
+  isProteinInputValid: boolean;
+  isDietLogEntryInputValid: boolean;
+};
