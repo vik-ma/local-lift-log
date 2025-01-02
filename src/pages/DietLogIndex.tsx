@@ -23,6 +23,10 @@ export default function DietLogIndex() {
       if (userSettings === undefined) return;
 
       setUserSettings(userSettings);
+
+      if (userSettings.default_diet_log_day_is_yesterday === 1) {
+        setTargetDay("Yesterday");
+      }
     };
 
     loadUserSettings();
