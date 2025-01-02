@@ -1,5 +1,9 @@
 import { useMemo, useState } from "react";
-import { IsStringEmpty, IsStringInvalidInteger, IsStringInvalidIntegerOr0 } from "../helpers";
+import {
+  IsStringEmpty,
+  IsStringInvalidInteger,
+  IsStringInvalidIntegerOr0,
+} from "../helpers";
 
 export const useDietLogEntryInputs = () => {
   const [caloriesInput, setCaloriesInput] = useState<string>("");
@@ -46,6 +50,14 @@ export const useDietLogEntryInputs = () => {
     isProteinInputValid,
   ]);
 
+  const resetInputs = () => {
+    setCaloriesInput("");
+    setFatInput("");
+    setCarbsInput("");
+    setProteinInput("");
+    setNoteInput("");
+  };
+
   return {
     caloriesInput,
     setCaloriesInput,
@@ -64,5 +76,6 @@ export const useDietLogEntryInputs = () => {
     isDietLogEntryInputValid,
     targetDay,
     setTargetDay,
+    resetInputs,
   };
 };

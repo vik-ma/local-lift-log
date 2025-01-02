@@ -187,7 +187,9 @@ export default function UserWeightList() {
   }, [getUserWeights, setFilterWeightRangeUnit]);
 
   const handleCreateNewUserWeightButton = () => {
-    resetUserWeight();
+    if (operationType !== "add") {
+      resetUserWeight();
+    }
     userWeightModal.onOpen();
   };
 

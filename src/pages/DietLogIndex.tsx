@@ -5,8 +5,11 @@ import { GetUserSettings } from "../helpers";
 import { useDefaultDietLog, useDietLogEntryInputs } from "../hooks";
 import { Button, useDisclosure } from "@nextui-org/react";
 
+type OperationType = "add" | "edit" | "delete";
+
 export default function DietLogIndex() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
+  const [operationType, setOperationType] = useState<OperationType>("add");
 
   const defaultDietLog = useDefaultDietLog();
 
@@ -17,7 +20,7 @@ export default function DietLogIndex() {
 
   const dietLogEntryInputs = useDietLogEntryInputs();
 
-  const { setTargetDay } = dietLogEntryInputs;
+  const { setTargetDay, resetInputs } = dietLogEntryInputs;
 
   useEffect(() => {
     const loadUserSettings = async () => {
@@ -34,6 +37,19 @@ export default function DietLogIndex() {
 
     loadUserSettings();
   }, [setTargetDay]);
+
+  const resetDietLogEntry = () => {
+    setOperatingDietLog(defaultDietLog);
+    setOperationType("add");
+    resetInputs();
+  };
+
+  const handleAddDietLogEntryButton = () => {
+    if (operationType !== "add") {
+      resetDietLogEntry();
+    }
+    dietLogModal.onOpen();
+  };
 
   if (userSettings === undefined) return <LoadingSpinner />;
 
@@ -54,7 +70,7 @@ export default function DietLogIndex() {
         <Button
           className="font-medium"
           variant="flat"
-          onPress={() => dietLogModal.onOpen()}
+          onPress={handleAddDietLogEntryButton}
         >
           Add Diet Log Entry
         </Button>
