@@ -5,10 +5,9 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Select,
-  SelectItem,
 } from "@nextui-org/react";
 import { DietLog, UseDisclosureReturnType, UserSettings } from "../../typings";
+import { DietLogDayDropdown } from "../Dropdowns/DietLogDayDropdown";
 
 type DietLogModalProps = {
   dietLogModal: UseDisclosureReturnType;
@@ -29,10 +28,6 @@ export const DietLogModal = ({
   userSettings,
   buttonAction,
 }: DietLogModalProps) => {
-  const handleTargetDayChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setTargetDay(e.target.value);
-  };
-
   return (
     <Modal
       isOpen={dietLogModal.isOpen}
@@ -45,19 +40,7 @@ export const DietLogModal = ({
               {dietLog.id === 0 ? "New" : "Edit"} Diet Log Entry
             </ModalHeader>
             <ModalBody>
-              <Select
-                className="w-[7.5rem]"
-                classNames={{ label: "mt-1 text-base font-semibold px-0.5" }}
-                label="Day Of Diet"
-                labelPlacement="outside"
-                variant="faded"
-                selectedKeys={[targetDay]}
-                onChange={(e) => handleTargetDayChange(e)}
-                disallowEmptySelection
-              >
-                <SelectItem key="Today">Today</SelectItem>
-                <SelectItem key="Yesterday">Yesterday</SelectItem>
-              </Select>
+              <DietLogDayDropdown value={targetDay} setValue={setTargetDay} />
             </ModalBody>
             <ModalFooter>
               <Button color="primary" variant="light" onPress={onClose}>
