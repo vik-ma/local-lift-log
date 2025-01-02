@@ -41,6 +41,7 @@ import {
   PlateCollectionModalList,
   NumSetsDropdown,
   TimePeriodPropertyDropdown,
+  DietLogDayDropdown,
 } from "../components";
 import toast, { Toaster } from "react-hot-toast";
 import Database from "tauri-plugin-sql-api";
@@ -508,6 +509,21 @@ export default function Settings() {
     updateSettings(updatedSettings);
   };
 
+  const handleDefaultDietLogDayIsYesterdayChange = async (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    if (userSettings === undefined) return;
+
+    const value = e.target.value === "Yesterday" ? 1 : 0;
+
+    const updatedSettings: UserSettings = {
+      ...userSettings,
+      default_diet_log_day_is_yesterday: value,
+    };
+
+    updateSettings(updatedSettings);
+  };
+
   const handleSaveSpecificSettingButton = async () => {
     if (userSettings === undefined) return;
 
@@ -809,6 +825,18 @@ export default function Settings() {
               userSettings={userSettings}
               setUserSettings={setUserSettings}
               isInSettingsPage
+            />
+          </div>
+          <div className="flex gap-3 items-center justify-between">
+            <span className="text-lg">Default Diet Log Entry Day</span>
+            <DietLogDayDropdown
+              value={
+                userSettings.default_diet_log_day_is_yesterday === 1
+                  ? "Yesterday"
+                  : "Today"
+              }
+              targetType="settings"
+              setUserSettings={handleDefaultDietLogDayIsYesterdayChange}
             />
           </div>
           <h3 className="flex justify-center text-lg font-medium">Workouts</h3>
