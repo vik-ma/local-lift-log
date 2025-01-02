@@ -40,6 +40,7 @@ diesel::table! {
         automatically_update_active_measurements -> Integer,
         default_num_new_sets -> Text,
         shown_time_period_properties -> Text,
+        default_diet_log_day_is_yesterday -> Integer,
     }
 }
 
