@@ -64,7 +64,7 @@ export const WorkoutListOptions = ({
           selectedKeys={[sortCategory]}
           onAction={(key) => handleSortOptionSelection(key as string)}
         >
-          <DropdownItem key="date-desc">Date (Newest First)</DropdownItem>
+          <DropdownItem key="date-desc">Date (Latest First)</DropdownItem>
           <DropdownItem key="date-asc">Date (Oldest First)</DropdownItem>
           <DropdownItem key="num-sets-desc">
             Number Of Sets (High-Low)

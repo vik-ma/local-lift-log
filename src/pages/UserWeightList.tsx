@@ -346,7 +346,7 @@ export default function UserWeightList() {
           return weightBInKg - weightAInKg;
         }
       } else {
-        // Show newest date first if same weight
+        // Show latest date first if same weight
         return b.date.localeCompare(a.date);
       }
     });
@@ -471,7 +471,7 @@ export default function UserWeightList() {
                       }
                     >
                       <DropdownItem key="date-desc">
-                        Date (Newest First)
+                        Date (Latest First)
                       </DropdownItem>
                       <DropdownItem key="date-asc">
                         Date (Oldest First)

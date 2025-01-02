@@ -414,7 +414,7 @@ export default function UserMeasurementList() {
                       }
                     >
                       <DropdownItem key="date-desc">
-                        Date (Newest First)
+                        Date (Latest First)
                       </DropdownItem>
                       <DropdownItem key="date-asc">
                         Date (Oldest First)

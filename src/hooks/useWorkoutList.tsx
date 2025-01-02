@@ -280,7 +280,7 @@ export const useWorkoutList = (
         return sortKey;
       }
 
-      // Sort by newest date first if same number of Sets
+      // Sort by latest date first if same number of Sets
       return b.date.localeCompare(a.date);
     });
 
@@ -302,7 +302,7 @@ export const useWorkoutList = (
         return sortKey;
       }
 
-      // Sort by newest date first if same number of Exercises
+      // Sort by latest date first if same number of Exercises
       return b.date.localeCompare(a.date);
     });
 
