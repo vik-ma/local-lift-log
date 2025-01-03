@@ -1,6 +1,6 @@
 import Database from "tauri-plugin-sql-api";
 import { UserWeight } from "../../typings";
-import { FormatDateTimeString } from "..";
+import { FormatDateTimeString, ValidateISODateString } from "..";
 
 export const GetLatestUserWeight = async (clockStyle: string) => {
   try {
@@ -8,12 +8,14 @@ export const GetLatestUserWeight = async (clockStyle: string) => {
 
     const result = await db.select<UserWeight[]>(
       `SELECT * FROM user_weights
-      ORDER BY id DESC LIMIT 1`
+      ORDER BY date DESC LIMIT 1`
     );
 
     const userWeight: UserWeight = result[0];
 
     if (userWeight === undefined) return undefined;
+
+    if (!ValidateISODateString(userWeight.date)) return undefined;
 
     userWeight.formattedDate = FormatDateTimeString(
       userWeight.date,
