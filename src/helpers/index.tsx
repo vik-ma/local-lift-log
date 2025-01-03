@@ -17,6 +17,7 @@ export { FormatISODateString } from "./Dates/FormatISODateString";
 export { ConvertISODateStringToCalendarDate } from "./Dates/ConvertISODateStringToCalendarDate";
 export { IsDatePassed } from "./Dates/IsDatePassed";
 export { GetNumberOfDaysBetweenDates } from "./Dates/GetNumberOfDaysBetweenDates";
+export { GetYesterdayYmdDateString } from "./Dates/GetYesterdayYmdDateString";
 
 export { ConvertExerciseGroupSetStringPrimary } from "./Exercises/ConvertExerciseGroupSetStringPrimary";
 export { ConvertExerciseGroupStringListPrimaryToString } from "./Exercises/ConvertExerciseGroupStringListPrimaryToString";
