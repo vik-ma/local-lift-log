@@ -30,7 +30,6 @@ import {
   UpdateActiveTrackingMeasurements,
   GetUserMeasurements,
   InsertUserMeasurementIntoDatabase,
-  ValidateISODateString,
 } from "../helpers";
 import { Button, useDisclosure } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
@@ -152,8 +151,6 @@ export default function BodyMeasurements() {
         );
 
         if (result[0] === undefined) return;
-
-        if (!ValidateISODateString(result[0].date)) return undefined;
 
         const detailedUserMeasurement = CreateDetailedUserMeasurementList(
           result,

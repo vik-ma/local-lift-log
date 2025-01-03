@@ -1,6 +1,6 @@
 import Database from "tauri-plugin-sql-api";
 import { UserWeight } from "../../typings";
-import { FormatDateTimeString, ValidateISODateString } from "..";
+import { FormatDateTimeString } from "..";
 
 export const GetLatestUserWeight = async (clockStyle: string) => {
   try {
@@ -14,8 +14,6 @@ export const GetLatestUserWeight = async (clockStyle: string) => {
     const userWeight: UserWeight = result[0];
 
     if (userWeight === undefined) return undefined;
-
-    if (!ValidateISODateString(userWeight.date)) return undefined;
 
     userWeight.formattedDate = FormatDateTimeString(
       userWeight.date,
