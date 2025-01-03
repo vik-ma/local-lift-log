@@ -120,6 +120,7 @@ export { IsStringValidNumberBetween0And1 } from "./Numbers/IsStringValidNumberBe
 export { IsWeightWithinLimit } from "./Numbers/IsWeightWithinLimit";
 export { IsDistanceWithinLimit } from "./Numbers/IsDistanceWithinLimit";
 export { IsNumberWithinLimit } from "./Numbers/IsNumberWithinLimit";
+export { ConvertInputStringToNumberOrNull } from "./Numbers/ConvertInputStringToNumberOrNull";
 
 export { GetLatestUserWeight } from "./Measurements/GetLatestUserWeight";
 export { CreateDefaultMeasurements } from "./Measurements/CreateDefaultMeasurements";
