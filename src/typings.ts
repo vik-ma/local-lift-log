@@ -1059,3 +1059,11 @@ export type UseDietLogEntryInputsReturnType = {
   setTargetDay: React.Dispatch<React.SetStateAction<string>>;
   resetInputs: () => void;
 };
+
+export type DietLogMap = Map<string, DietLog>;
+
+export type UseDietLogListReturnType = {
+  dietLogs: DietLog[];
+  dietLogMap: React.MutableRefObject<DietLogMap>;
+  isDietLogListLoaded: React.MutableRefObject<boolean>;
+};
