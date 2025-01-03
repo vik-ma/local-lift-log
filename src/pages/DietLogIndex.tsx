@@ -1,9 +1,18 @@
 import { useEffect, useState } from "react";
 import { DietLog, UserSettings } from "../typings";
 import { DietLogModal, LoadingSpinner } from "../components";
-import { GetUserSettings } from "../helpers";
+import {
+  ConvertEmptyStringToNull,
+  ConvertInputStringToNumber,
+  ConvertInputStringToNumberOrNull,
+  GetCurrentYmdDateString,
+  GetUserSettings,
+  GetYesterdayYmdDateString,
+  InsertDietLogIntoDatabase,
+} from "../helpers";
 import { useDefaultDietLog, useDietLogEntryInputs } from "../hooks";
 import { Button, useDisclosure } from "@nextui-org/react";
+import toast, { Toaster } from "react-hot-toast";
 
 type OperationType = "add" | "edit" | "delete";
 
@@ -20,7 +29,17 @@ export default function DietLogIndex() {
 
   const dietLogEntryInputs = useDietLogEntryInputs();
 
-  const { setTargetDay, resetInputs } = dietLogEntryInputs;
+  const {
+    caloriesInput,
+    noteInput,
+    fatInput,
+    carbsInput,
+    proteinInput,
+    targetDay,
+    setTargetDay,
+    isDietLogEntryInputValid,
+    resetInputs,
+  } = dietLogEntryInputs;
 
   useEffect(() => {
     const loadUserSettings = async () => {
@@ -37,6 +56,48 @@ export default function DietLogIndex() {
 
     loadUserSettings();
   }, [setTargetDay]);
+
+  const addDietLogEntry = async () => {
+    if (
+      operatingDietLog.id !== 0 ||
+      operationType !== "add" ||
+      !isDietLogEntryInputValid
+    )
+      return;
+
+    const calories = ConvertInputStringToNumber(caloriesInput);
+    const note = ConvertEmptyStringToNull(noteInput);
+    const fat = ConvertInputStringToNumberOrNull(fatInput);
+    const carbs = ConvertInputStringToNumberOrNull(carbsInput);
+    const protein = ConvertInputStringToNumberOrNull(proteinInput);
+
+    const date =
+      targetDay === "Yesterday"
+        ? GetYesterdayYmdDateString()
+        : GetCurrentYmdDateString();
+
+    const newDietLog: DietLog = {
+      ...operatingDietLog,
+      date,
+      calories,
+      fat,
+      carbs,
+      protein,
+      note,
+    };
+
+    const newDietLogId = await InsertDietLogIntoDatabase(newDietLog);
+
+    if (newDietLogId === 0) return;
+
+    newDietLog.id = newDietLogId;
+
+    // TODO: UPDATE LATEST
+
+    resetDietLogEntry();
+    dietLogModal.onClose();
+    toast.success("Diet Log Entry Added");
+  };
 
   const resetDietLogEntry = () => {
     setOperatingDietLog(defaultDietLog);
@@ -55,11 +116,12 @@ export default function DietLogIndex() {
 
   return (
     <>
+      <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
       <DietLogModal
         dietLogModal={dietLogModal}
         dietLog={operatingDietLog}
         useDietLogEntryInputs={dietLogEntryInputs}
-        buttonAction={() => {}}
+        buttonAction={addDietLogEntry}
       />
       <div className="flex flex-col items-center gap-4">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">
