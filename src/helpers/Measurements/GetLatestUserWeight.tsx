@@ -13,7 +13,7 @@ export const GetLatestUserWeight = async (clockStyle: string) => {
 
     const userWeight: UserWeight = result[0];
 
-    if (userWeight === undefined) return userWeight;
+    if (userWeight === undefined) return undefined;
 
     userWeight.formattedDate = FormatDateTimeString(
       userWeight.date,

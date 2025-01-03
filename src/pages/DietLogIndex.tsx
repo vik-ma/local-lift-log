@@ -13,12 +13,14 @@ import {
 import { useDefaultDietLog, useDietLogEntryInputs } from "../hooks";
 import { Button, useDisclosure } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
+import Database from "tauri-plugin-sql-api";
 
 type OperationType = "add" | "edit" | "delete";
 
 export default function DietLogIndex() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [operationType, setOperationType] = useState<OperationType>("add");
+  const [latestDietLog, setLatestDietLog] = useState<DietLog>();
 
   const defaultDietLog = useDefaultDietLog();
 
@@ -42,6 +44,23 @@ export default function DietLogIndex() {
   } = dietLogEntryInputs;
 
   useEffect(() => {
+    const getLatestDietLog = async () => {
+      try {
+        const db = await Database.load(import.meta.env.VITE_DB);
+
+        const result = await db.select<DietLog[]>(
+          `SELECT * FROM diet_logs
+           ORDER BY date DESC LIMIT 1`
+        );
+
+        const dietLog: DietLog = result[0];
+
+        setLatestDietLog(dietLog);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     const loadUserSettings = async () => {
       const userSettings = await GetUserSettings();
 
@@ -54,6 +73,7 @@ export default function DietLogIndex() {
       }
     };
 
+    getLatestDietLog();
     loadUserSettings();
   }, [setTargetDay]);
 
@@ -92,7 +112,7 @@ export default function DietLogIndex() {
 
     newDietLog.id = newDietLogId;
 
-    // TODO: UPDATE LATEST
+    setLatestDietLog(newDietLog)
 
     resetDietLogEntry();
     dietLogModal.onClose();
