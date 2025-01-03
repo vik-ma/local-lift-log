@@ -30,6 +30,7 @@ import {
   UpdateActiveTrackingMeasurements,
   GetUserMeasurements,
   InsertUserMeasurementIntoDatabase,
+  ValidateISODateString,
 } from "../helpers";
 import { Button, useDisclosure } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
@@ -147,13 +148,12 @@ export default function BodyMeasurements() {
 
         const result = await db.select<UserMeasurement[]>(
           `SELECT * FROM user_measurements 
-          ORDER BY id DESC LIMIT 1`
+          ORDER BY date DESC LIMIT 1`
         );
 
-        if (result.length === 0) {
-          setLatestUserMeasurements(defaultUserMeasurements);
-          return;
-        }
+        if (result[0] === undefined) return;
+
+        if (!ValidateISODateString(result[0].date)) return undefined;
 
         const detailedUserMeasurement = CreateDetailedUserMeasurementList(
           result,
@@ -169,7 +169,7 @@ export default function BodyMeasurements() {
         console.log(error);
       }
     },
-    [defaultUserMeasurements, isMeasurementListLoaded, measurementMap]
+    [isMeasurementListLoaded, measurementMap]
   );
 
   useEffect(() => {
