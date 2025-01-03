@@ -10,10 +10,13 @@ import {
   GetYesterdayYmdDateString,
   InsertDietLogIntoDatabase,
 } from "../helpers";
-import { useDefaultDietLog, useDietLogEntryInputs } from "../hooks";
+import {
+  useDefaultDietLog,
+  useDietLogEntryInputs,
+  useDietLogList,
+} from "../hooks";
 import { Button, useDisclosure } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
-import Database from "tauri-plugin-sql-api";
 
 type OperationType = "add" | "edit" | "delete";
 
@@ -28,6 +31,10 @@ export default function DietLogIndex() {
     useState<DietLog>(defaultDietLog);
 
   const dietLogModal = useDisclosure();
+
+  const dietLogList = useDietLogList(true);
+
+  const { isDietLogListLoaded, dietLogs } = dietLogList;
 
   const dietLogEntryInputs = useDietLogEntryInputs();
 
@@ -44,22 +51,11 @@ export default function DietLogIndex() {
   } = dietLogEntryInputs;
 
   useEffect(() => {
-    const getLatestDietLog = async () => {
-      try {
-        const db = await Database.load(import.meta.env.VITE_DB);
+    if (!isDietLogListLoaded.current) return;
 
-        const result = await db.select<DietLog[]>(
-          `SELECT * FROM diet_logs
-           ORDER BY date DESC LIMIT 1`
-        );
-
-        const dietLog: DietLog = result[0];
-
-        setLatestDietLog(dietLog);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+    if (dietLogs[0] !== undefined) {
+      setLatestDietLog(dietLogs[0]);
+    }
 
     const loadUserSettings = async () => {
       const userSettings = await GetUserSettings();
@@ -73,9 +69,11 @@ export default function DietLogIndex() {
       }
     };
 
-    getLatestDietLog();
     loadUserSettings();
-  }, [setTargetDay]);
+    // isDietLogListLoaded.current need to be specifically included in array,
+    // but isDietLogListLoaded is not needed
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setTargetDay, isDietLogListLoaded.current]);
 
   const addDietLogEntry = async () => {
     if (
@@ -112,7 +110,7 @@ export default function DietLogIndex() {
 
     newDietLog.id = newDietLogId;
 
-    setLatestDietLog(newDietLog)
+    setLatestDietLog(newDietLog);
 
     resetDietLogEntry();
     dietLogModal.onClose();
