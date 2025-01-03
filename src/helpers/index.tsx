@@ -223,3 +223,4 @@ export { LoadCalculationString } from "./CalculationItems/LoadCalculationString"
 export { DefaultNewTimePeriod } from "./TimePeriods/DefaultNewTimePeriod";
 
 export { DefaultNewDietLog } from "./DietLogs/DefaultNewDietLog";
+export { InsertDietLogIntoDatabase } from "./DietLogs/InsertDietLogIntoDatabase";
