@@ -1,11 +1,18 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { DietLog, DietLogMap, UseDietLogListReturnType } from "../typings";
+import {
+  DietLog,
+  DietLogMap,
+  UseDietLogListReturnType,
+  DietLogSortCategory,
+} from "../typings";
 import Database from "tauri-plugin-sql-api";
 
 export const useDietLogList = (
   getDietLogsOnLoad: boolean
 ): UseDietLogListReturnType => {
   const [dietLogs, setDietLogs] = useState<DietLog[]>([]);
+  const [sortCategory, setSortCategory] =
+    useState<DietLogSortCategory>("date-desc");
   const dietLogMap = useRef<DietLogMap>(new Map());
 
   const isDietLogListLoaded = useRef(false);
@@ -20,7 +27,7 @@ export const useDietLogList = (
 
       result.map((item) => newDietLogMap.set(item.date, item));
 
-      setDietLogs(result);
+      sortDietLogsByDate(result, false);
 
       dietLogMap.current = newDietLogMap;
       isDietLogListLoaded.current = true;
@@ -35,9 +42,45 @@ export const useDietLogList = (
     }
   }, [getDietLogsOnLoad, getDietLogs]);
 
+  const sortDietLogsByDate = (dietLogList: DietLog[], isAscending: boolean) => {
+    if (isAscending) {
+      dietLogList.sort((a, b) => a.date.localeCompare(b.date));
+    } else {
+      dietLogList.sort((a, b) => b.date.localeCompare(a.date));
+    }
+
+    setDietLogs(dietLogList);
+  };
+
+  const handleSortOptionSelection = (key: string) => {
+    if (key === "date-desc") {
+      setSortCategory(key);
+      sortDietLogsByDate([...dietLogs], false);
+    } else if (key === "date-asc") {
+      setSortCategory(key);
+      sortDietLogsByDate([...dietLogs], true);
+    }
+  };
+
+  const sortDietLogsByActiveCategory = (dietLogList: DietLog[]) => {
+    switch (sortCategory) {
+      case "date-desc":
+        sortDietLogsByDate([...dietLogList], false);
+        break;
+      case "date-asc":
+        sortDietLogsByDate([...dietLogList], true);
+        break;
+      default:
+        break;
+    }
+  };
+
   return {
     dietLogs,
     dietLogMap,
     isDietLogListLoaded,
+    sortCategory,
+    sortDietLogsByActiveCategory,
+    handleSortOptionSelection,
   };
 };

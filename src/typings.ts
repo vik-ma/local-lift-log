@@ -1062,8 +1062,13 @@ export type UseDietLogEntryInputsReturnType = {
 
 export type DietLogMap = Map<string, DietLog>;
 
+export type DietLogSortCategory = "date-asc" | "date-desc";
+
 export type UseDietLogListReturnType = {
   dietLogs: DietLog[];
   dietLogMap: React.MutableRefObject<DietLogMap>;
   isDietLogListLoaded: React.MutableRefObject<boolean>;
+  sortCategory: DietLogSortCategory;
+  sortDietLogsByActiveCategory: (dietLogList: DietLog[]) => void;
+  handleSortOptionSelection: (key: string) => void;
 };
