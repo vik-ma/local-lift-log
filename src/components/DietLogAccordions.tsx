@@ -26,8 +26,16 @@ export const DietLogAccordions = ({
       {dietLogEntries.map((dietLog, index) => (
         <div
           key={dietLog.id}
-          className="flex flex-col select-none cursor-pointer gap-1 bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-          onClick={() => handleDietLogAccordionClick(dietLog, index)}
+          className={
+            dietLog.disableExpansion
+              ? "flex flex-col select-none gap-1 bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+              : "flex flex-col select-none cursor-pointer gap-1 bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+          }
+          onClick={
+            dietLog.disableExpansion
+              ? () => {}
+              : () => handleDietLogAccordionClick(dietLog, index)
+          }
         >
           <div className="flex justify-between items-center pl-2 py-1">
             <div className="flex flex-col items-start">
@@ -41,12 +49,14 @@ export const DietLogAccordions = ({
                 {dietLog.comment}
               </span>
             </div>
-            <div className="flex gap-0.5 pr-1 items-center">
-              <ChevronIcon
-                size={29}
-                color="#a8a29e"
-                direction={dietLog.isExpanded ? "down" : "left"}
-              />
+            <div className="flex justify-end w-[4.75rem] gap-0.5 pr-1 items-center">
+              {!dietLog.disableExpansion && (
+                <ChevronIcon
+                  size={29}
+                  color="#a8a29e"
+                  direction={dietLog.isExpanded ? "down" : "left"}
+                />
+              )}
               <Dropdown>
                 <DropdownTrigger>
                   <Button
