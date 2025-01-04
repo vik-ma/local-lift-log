@@ -60,8 +60,8 @@ export const DietLogModal = ({
               {dietLog.id === 0 ? "New" : "Edit"} Diet Log Entry
             </ModalHeader>
             <ModalBody>
-              <div className="flex gap-4">
-                <div className="flex flex-col gap-2 pt-[0.25rem] w-[15rem]">
+              <div className="flex gap-7">
+                <div className="flex flex-col gap-2 pt-[0.25rem] w-[12.5rem]">
                   <div className="flex flex-col gap-1.5">
                     <Input
                       value={caloriesInput}
@@ -124,8 +124,10 @@ export const DietLogModal = ({
                         isClearable
                       />
                       <Button
+                        className="mt-0.5"
                         color="secondary"
                         variant="flat"
+                        size="sm"
                         onPress={calculateCaloriesFromMacros}
                       >
                         Calculate Calories From Macros
