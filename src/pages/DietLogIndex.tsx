@@ -111,7 +111,9 @@ export default function DietLogIndex() {
 
     if (newDietLog === undefined) return;
 
-    setLatestDietLog(newDietLog);
+    if (latestDietLog === undefined || newDietLog.date > latestDietLog.date) {
+      setLatestDietLog(newDietLog);
+    }
 
     resetDietLogEntry();
     dietLogModal.onClose();
