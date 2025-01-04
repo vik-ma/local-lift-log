@@ -6,11 +6,7 @@ import {
   DietLogSortCategory,
 } from "../typings";
 import Database from "tauri-plugin-sql-api";
-import {
-  FormatYmdDateString,
-  InsertDietLogIntoDatabase,
-  ValidateISODateString,
-} from "../helpers";
+import { FormatYmdDateString, InsertDietLogIntoDatabase } from "../helpers";
 
 export const useDietLogList = (
   getDietLogsOnLoad: boolean
@@ -32,17 +28,19 @@ export const useDietLogList = (
       const newDietLogMap = new Map<string, DietLog>();
 
       for (const row of result) {
-        if (!ValidateISODateString(row.date)) continue;
-
         const formattedDate = FormatYmdDateString(row.date);
 
-        const dietLog: DietLog = { ...row, formattedDate };
+        const dietLog: DietLog = {
+          ...row,
+          formattedDate: formattedDate,
+          isExpanded: false,
+        };
 
         dietLogs.push(dietLog);
         newDietLogMap.set(dietLog.date, dietLog);
       }
 
-      sortDietLogsByDate(result, false);
+      sortDietLogsByDate(dietLogs, false);
       dietLogMap.current = newDietLogMap;
       isDietLogListLoaded.current = true;
     } catch (error) {

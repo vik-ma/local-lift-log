@@ -1038,6 +1038,7 @@ export type DietLog = {
   protein: number | null;
   comment: string | null;
   formattedDate?: string;
+  isExpanded?: boolean;
 };
 
 export type UseDietLogEntryInputsReturnType = {
