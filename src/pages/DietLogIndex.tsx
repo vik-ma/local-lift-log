@@ -133,7 +133,22 @@ export default function DietLogIndex() {
     dietLogModal.onOpen();
   };
 
-  // console.log(latestDietLog);
+  const handleDietLogOptionSelection = (key: string, dietLog: DietLog) => {
+    if (key === "edit") {
+      // TODO: ADD
+    } else if (key === "delete") {
+      // TODO: ADD
+    }
+  };
+
+  const handleDietLogAccordionClick = (dietLog: DietLog) => {
+    const updatedDietLog: DietLog = {
+      ...dietLog,
+      isExpanded: !dietLog.isExpanded,
+    };
+
+    setLatestDietLog(updatedDietLog);
+  };
 
   if (userSettings === undefined) return <LoadingSpinner />;
 
@@ -152,14 +167,14 @@ export default function DietLogIndex() {
             Diet Log
           </h1>
         </div>
-        <div className="flex flex-col gap-2.5">
+        <div className="flex flex-col items-center gap-2.5">
           {latestDietLog === undefined ? (
             <h2 className="text-stone-400">No Diet Log Entries Added</h2>
           ) : (
             <DietLogAccordions
               dietLogEntries={[latestDietLog]}
-              handleDietLogAccordionClick={() => {}}
-              handleDietLogOptionSelection={() => {}}
+              handleDietLogAccordionClick={handleDietLogAccordionClick}
+              handleDietLogOptionSelection={handleDietLogOptionSelection}
             />
           )}
           <Button

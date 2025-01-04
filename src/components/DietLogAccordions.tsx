@@ -84,8 +84,25 @@ export const DietLogAccordions = ({
                   opacity: { duration: 0.05 },
                 }}
               >
-                <div className="flex flex-col divide-y divide-stone-200 text-sm">
-                  {/* TODO: ADD MACROS */}
+                <div className="flex flex-col divide-y divide-stone-200 text-sm pb-0.5">
+                  {dietLog.fat !== null && (
+                    <span className="px-2">
+                      <span className="font-medium">Fat: </span>
+                      {dietLog.fat} g
+                    </span>
+                  )}
+                  {dietLog.carbs !== null && (
+                    <span className="px-2">
+                      <span className="font-medium">Carbs: </span>
+                      {dietLog.carbs} g
+                    </span>
+                  )}
+                  {dietLog.protein !== null && (
+                    <span className="px-2">
+                      <span className="font-medium">Protein: </span>
+                      {dietLog.protein} g
+                    </span>
+                  )}
                 </div>
               </motion.div>
             )}
