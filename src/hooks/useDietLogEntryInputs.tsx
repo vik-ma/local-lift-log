@@ -4,13 +4,14 @@ import {
   IsStringInvalidInteger,
   IsStringInvalidIntegerOr0,
 } from "../helpers";
+import { UseDietLogEntryInputsReturnType } from "../typings";
 
-export const useDietLogEntryInputs = () => {
+export const useDietLogEntryInputs = (): UseDietLogEntryInputsReturnType => {
   const [caloriesInput, setCaloriesInput] = useState<string>("");
   const [fatInput, setFatInput] = useState<string>("");
   const [carbsInput, setCarbsInput] = useState<string>("");
   const [proteinInput, setProteinInput] = useState<string>("");
-  const [noteInput, setNoteInput] = useState<string>("");
+  const [commentInput, setCommentInput] = useState<string>("");
   const [targetDay, setTargetDay] = useState<string>("Today");
 
   const isCaloriesInputValid = useMemo(() => {
@@ -55,7 +56,7 @@ export const useDietLogEntryInputs = () => {
     setFatInput("");
     setCarbsInput("");
     setProteinInput("");
-    setNoteInput("");
+    setCommentInput("");
   };
 
   const calculateCaloriesFromMacros = () => {
@@ -79,8 +80,8 @@ export const useDietLogEntryInputs = () => {
     setCarbsInput,
     proteinInput,
     setProteinInput,
-    noteInput,
-    setNoteInput,
+    commentInput,
+    setCommentInput,
     isCaloriesInputValid,
     isCarbsInputValid,
     isFatInputValid,

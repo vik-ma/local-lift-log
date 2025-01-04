@@ -40,7 +40,7 @@ export default function DietLogIndex() {
 
   const {
     caloriesInput,
-    noteInput,
+    commentInput,
     fatInput,
     carbsInput,
     proteinInput,
@@ -84,7 +84,7 @@ export default function DietLogIndex() {
       return;
 
     const calories = ConvertInputStringToNumber(caloriesInput);
-    const note = ConvertEmptyStringToNull(noteInput);
+    const comment = ConvertEmptyStringToNull(commentInput);
     const fat = ConvertInputStringToNumberOrNull(fatInput);
     const carbs = ConvertInputStringToNumberOrNull(carbsInput);
     const protein = ConvertInputStringToNumberOrNull(proteinInput);
@@ -103,7 +103,7 @@ export default function DietLogIndex() {
       fat,
       carbs,
       protein,
-      note,
+      comment,
       formattedDate,
     };
 

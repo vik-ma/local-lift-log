@@ -36,8 +36,8 @@ export const DietLogModal = ({
     setCarbsInput,
     proteinInput,
     setProteinInput,
-    noteInput,
-    setNoteInput,
+    commentInput,
+    setCommentInput,
     isCaloriesInputValid,
     isCarbsInputValid,
     isFatInputValid,
@@ -75,12 +75,12 @@ export const DietLogModal = ({
                       isClearable
                     />
                     <Input
-                      value={noteInput}
-                      label="Note"
+                      value={commentInput}
+                      label="Comment"
                       radius="lg"
                       size="sm"
                       variant="faded"
-                      onValueChange={(value) => setNoteInput(value)}
+                      onValueChange={(value) => setCommentInput(value)}
                       isClearable
                     />
                   </div>

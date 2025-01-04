@@ -7,7 +7,7 @@ export const InsertDietLogIntoDatabase = async (dietLog: DietLog) => {
 
     const result = await db.execute(
       `INSERT into diet_logs 
-        (date, calories, fat, carbs, protein, note) 
+        (date, calories, fat, carbs, protein, comment) 
        VALUES ($1, $2, $3, $4, $5, $6)`,
       [
         dietLog.date,
@@ -15,7 +15,7 @@ export const InsertDietLogIntoDatabase = async (dietLog: DietLog) => {
         dietLog.fat,
         dietLog.carbs,
         dietLog.protein,
-        dietLog.note,
+        dietLog.comment,
       ]
     );
 
