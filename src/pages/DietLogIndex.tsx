@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { DietLog, UserSettings } from "../typings";
-import { DietLogModal, LoadingSpinner } from "../components";
+import { DietLogAccordions, DietLogModal, LoadingSpinner } from "../components";
 import {
   ConvertEmptyStringToNull,
   ConvertInputStringToNumber,
@@ -133,6 +133,8 @@ export default function DietLogIndex() {
     dietLogModal.onOpen();
   };
 
+  // console.log(latestDietLog);
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -150,13 +152,24 @@ export default function DietLogIndex() {
             Diet Log
           </h1>
         </div>
-        <Button
-          className="font-medium"
-          variant="flat"
-          onPress={handleAddDietLogEntryButton}
-        >
-          Add Diet Log Entry
-        </Button>
+        <div className="flex flex-col gap-2.5">
+          {latestDietLog === undefined ? (
+            <h2 className="text-stone-400">No Diet Log Entries Added</h2>
+          ) : (
+            <DietLogAccordions
+              dietLogEntries={[latestDietLog]}
+              handleDietLogAccordionClick={() => {}}
+              handleDietLogOptionSelection={() => {}}
+            />
+          )}
+          <Button
+            className="font-medium"
+            variant="flat"
+            onPress={handleAddDietLogEntryButton}
+          >
+            Add Diet Log Entry
+          </Button>
+        </div>
       </div>
     </>
   );
