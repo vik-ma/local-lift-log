@@ -1037,6 +1037,7 @@ export type DietLog = {
   carbs: number | null;
   protein: number | null;
   note: string | null;
+  formattedDate?: string;
 };
 
 export type UseDietLogEntryInputsReturnType = {

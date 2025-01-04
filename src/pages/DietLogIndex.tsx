@@ -5,6 +5,7 @@ import {
   ConvertEmptyStringToNull,
   ConvertInputStringToNumber,
   ConvertInputStringToNumberOrNull,
+  FormatYmdDateString,
   GetCurrentYmdDateString,
   GetUserSettings,
   GetYesterdayYmdDateString,
@@ -93,6 +94,8 @@ export default function DietLogIndex() {
         ? GetYesterdayYmdDateString()
         : GetCurrentYmdDateString();
 
+    const formattedDate = FormatYmdDateString(date);
+
     const dietLog: DietLog = {
       ...operatingDietLog,
       date,
@@ -101,6 +104,7 @@ export default function DietLogIndex() {
       carbs,
       protein,
       note,
+      formattedDate,
     };
 
     const newDietLog = await addDietLog(dietLog);
