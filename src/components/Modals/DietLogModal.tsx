@@ -45,6 +45,7 @@ export const DietLogModal = ({
     isDietLogEntryInputValid,
     targetDay,
     setTargetDay,
+    calculateCaloriesFromMacros,
   } = useDietLogEntryInputs;
 
   return (
@@ -122,6 +123,13 @@ export const DietLogModal = ({
                         isInvalid={!isProteinInputValid}
                         isClearable
                       />
+                      <Button
+                        color="secondary"
+                        variant="flat"
+                        onPress={calculateCaloriesFromMacros}
+                      >
+                        Calculate Calories From Macros
+                      </Button>
                     </div>
                   </div>
                 </div>

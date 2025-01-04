@@ -1059,6 +1059,7 @@ export type UseDietLogEntryInputsReturnType = {
   targetDay: string;
   setTargetDay: React.Dispatch<React.SetStateAction<string>>;
   resetInputs: () => void;
+  calculateCaloriesFromMacros: () => void;
 };
 
 export type DietLogMap = Map<string, DietLog>;

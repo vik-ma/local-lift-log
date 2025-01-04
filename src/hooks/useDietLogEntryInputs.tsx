@@ -58,6 +58,18 @@ export const useDietLogEntryInputs = () => {
     setNoteInput("");
   };
 
+  const calculateCaloriesFromMacros = () => {
+    const fatCalories = !isFatInputValid ? 0 : Number(fatInput) * 9;
+    const carbsCalories = !isCarbsInputValid ? 0 : Number(carbsInput) * 4;
+    const proteinCalories = !isProteinInputValid ? 0 : Number(proteinInput) * 4;
+
+    const totalCalories = Math.round(
+      fatCalories + carbsCalories + proteinCalories
+    );
+
+    setCaloriesInput(totalCalories.toString());
+  };
+
   return {
     caloriesInput,
     setCaloriesInput,
@@ -77,5 +89,6 @@ export const useDietLogEntryInputs = () => {
     targetDay,
     setTargetDay,
     resetInputs,
+    calculateCaloriesFromMacros,
   };
 };
