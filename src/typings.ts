@@ -1039,6 +1039,7 @@ export type DietLog = {
   comment: string | null;
   formattedDate?: string;
   isExpanded?: boolean;
+  disableExpansion?: boolean;
 };
 
 export type UseDietLogEntryInputsReturnType = {

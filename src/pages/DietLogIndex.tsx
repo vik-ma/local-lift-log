@@ -9,6 +9,7 @@ import {
   GetCurrentYmdDateString,
   GetUserSettings,
   GetYesterdayYmdDateString,
+  ShouldDietLogDisableExpansion,
 } from "../helpers";
 import {
   useDefaultDietLog,
@@ -105,6 +106,7 @@ export default function DietLogIndex() {
       protein,
       comment,
       formattedDate,
+      disableExpansion: ShouldDietLogDisableExpansion(fat, carbs, protein),
     };
 
     const newDietLog = await addDietLog(dietLog);
