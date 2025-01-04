@@ -220,6 +220,6 @@ diesel::table! {
         fat -> Option<Integer>,
         carbs -> Option<Integer>,
         protein -> Option<Integer>,
-        note -> Option<Text>,
+        comment -> Option<Text>,
     }
 }

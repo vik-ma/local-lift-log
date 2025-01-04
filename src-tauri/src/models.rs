@@ -237,5 +237,5 @@ pub struct DietLog {
     pub fat: Option<i32>,
     pub carbs: Option<i32>,
     pub protein: Option<i32>,
-    pub note: Option<String>,
+    pub comment: Option<String>,
 }
