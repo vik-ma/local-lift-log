@@ -6,6 +6,7 @@ import {
   DietLogSortCategory,
 } from "../typings";
 import Database from "tauri-plugin-sql-api";
+import { InsertDietLogIntoDatabase } from "../helpers";
 
 export const useDietLogList = (
   getDietLogsOnLoad: boolean
@@ -41,6 +42,22 @@ export const useDietLogList = (
       getDietLogs();
     }
   }, [getDietLogsOnLoad, getDietLogs]);
+
+  const addDietLog = async (dietLog: DietLog) => {
+    const newDietLogId = await InsertDietLogIntoDatabase(dietLog);
+
+    if (newDietLogId === 0) return undefined;
+
+    const newDietLog: DietLog = { ...dietLog, id: newDietLogId };
+
+    const updatedDietLogs = [...dietLogs, newDietLog];
+
+    sortDietLogsByActiveCategory(updatedDietLogs);
+
+    dietLogMap.current.set(newDietLog.date, newDietLog);
+
+    return newDietLog;
+  };
 
   const sortDietLogsByDate = (dietLogList: DietLog[], isAscending: boolean) => {
     if (isAscending) {
@@ -82,5 +99,6 @@ export const useDietLogList = (
     sortCategory,
     sortDietLogsByActiveCategory,
     handleSortOptionSelection,
+    addDietLog,
   };
 };

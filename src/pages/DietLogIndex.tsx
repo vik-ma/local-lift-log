@@ -8,7 +8,6 @@ import {
   GetCurrentYmdDateString,
   GetUserSettings,
   GetYesterdayYmdDateString,
-  InsertDietLogIntoDatabase,
 } from "../helpers";
 import {
   useDefaultDietLog,
@@ -34,7 +33,7 @@ export default function DietLogIndex() {
 
   const dietLogList = useDietLogList(true);
 
-  const { isDietLogListLoaded, dietLogs } = dietLogList;
+  const { isDietLogListLoaded, dietLogs, addDietLog } = dietLogList;
 
   const dietLogEntryInputs = useDietLogEntryInputs();
 
@@ -94,7 +93,7 @@ export default function DietLogIndex() {
         ? GetYesterdayYmdDateString()
         : GetCurrentYmdDateString();
 
-    const newDietLog: DietLog = {
+    const dietLog: DietLog = {
       ...operatingDietLog,
       date,
       calories,
@@ -104,11 +103,9 @@ export default function DietLogIndex() {
       note,
     };
 
-    const newDietLogId = await InsertDietLogIntoDatabase(newDietLog);
+    const newDietLog = await addDietLog(dietLog);
 
-    if (newDietLogId === 0) return;
-
-    newDietLog.id = newDietLogId;
+    if (newDietLog === undefined) return;
 
     setLatestDietLog(newDietLog);
 

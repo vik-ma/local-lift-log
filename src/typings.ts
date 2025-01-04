@@ -1071,4 +1071,5 @@ export type UseDietLogListReturnType = {
   sortCategory: DietLogSortCategory;
   sortDietLogsByActiveCategory: (dietLogList: DietLog[]) => void;
   handleSortOptionSelection: (key: string) => void;
+  addDietLog: (dietLog: DietLog) => Promise<DietLog | undefined>;
 };
