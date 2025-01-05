@@ -177,6 +177,7 @@ export default function DietLogIndex() {
               dietLogEntries={[latestDietLog]}
               handleDietLogAccordionClick={handleDietLogAccordionClick}
               handleDietLogOptionSelection={handleDietLogOptionSelection}
+              showDayLabel
             />
           )}
           <Button
