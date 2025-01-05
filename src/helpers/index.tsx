@@ -226,3 +226,4 @@ export { DefaultNewTimePeriod } from "./TimePeriods/DefaultNewTimePeriod";
 export { DefaultNewDietLog } from "./DietLogs/DefaultNewDietLog";
 export { InsertDietLogIntoDatabase } from "./DietLogs/InsertDietLogIntoDatabase";
 export { ShouldDietLogDisableExpansion } from "./DietLogs/ShouldDietLogDisableExpansion";
+export { DeleteDietLogWithId } from "./DietLogs/DeleteDietLogWithId";

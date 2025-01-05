@@ -7,6 +7,8 @@ import {
 } from "../typings";
 import Database from "tauri-plugin-sql-api";
 import {
+  DeleteDietLogWithId,
+  DeleteItemFromList,
   FormatYmdDateString,
   InsertDietLogIntoDatabase,
   ShouldDietLogDisableExpansion,
@@ -81,6 +83,30 @@ export const useDietLogList = (
     return newDietLog;
   };
 
+  const deleteDietLog = async (
+    dietLog: DietLog,
+    returnNewLatestDietLog?: boolean
+  ): Promise<{ success: boolean; newLatestDietLog: DietLog | undefined }> => {
+    const success = await DeleteDietLogWithId(dietLog.id);
+
+    if (!success) return { success: false, newLatestDietLog: undefined };
+
+    const updatedDietLogs = DeleteItemFromList(dietLogs, dietLog.id);
+
+    setDietLogs(updatedDietLogs);
+    dietLogMap.current.delete(dietLog.date);
+
+    const newLatestDietLog =
+      returnNewLatestDietLog && updatedDietLogs.length > 0
+        ? updatedDietLogs[0]
+        : undefined;
+
+    return {
+      success: true,
+      newLatestDietLog,
+    };
+  };
+
   const sortDietLogsByDate = (dietLogList: DietLog[], isAscending: boolean) => {
     if (isAscending) {
       dietLogList.sort((a, b) => a.date.localeCompare(b.date));
@@ -122,5 +148,6 @@ export const useDietLogList = (
     sortDietLogsByActiveCategory,
     handleSortOptionSelection,
     addDietLog,
+    deleteDietLog,
   };
 };

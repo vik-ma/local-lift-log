@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { DietLog, UserSettings } from "../typings";
-import { DietLogAccordions, DietLogModal, LoadingSpinner } from "../components";
+import {
+  DeleteModal,
+  DietLogAccordions,
+  DietLogModal,
+  LoadingSpinner,
+} from "../components";
 import {
   ConvertEmptyStringToNull,
   ConvertInputStringToNumber,
@@ -32,10 +37,12 @@ export default function DietLogIndex() {
     useState<DietLog>(defaultDietLog);
 
   const dietLogModal = useDisclosure();
+  const deleteModal = useDisclosure();
 
   const dietLogList = useDietLogList(true);
 
-  const { isDietLogListLoaded, dietLogs, addDietLog } = dietLogList;
+  const { isDietLogListLoaded, dietLogs, addDietLog, deleteDietLog } =
+    dietLogList;
 
   const dietLogEntryInputs = useDietLogEntryInputs();
 
@@ -122,6 +129,26 @@ export default function DietLogIndex() {
     toast.success("Diet Log Entry Added");
   };
 
+  const deleteDietLogEntry = async () => {
+    if (latestDietLog === undefined || operationType !== "delete") return;
+
+    const { success, newLatestDietLog } = await deleteDietLog(
+      latestDietLog,
+      true
+    );
+
+    if (!success) return;
+
+    if (newLatestDietLog !== undefined) {
+      newLatestDietLog.isExpanded = true;
+    }
+
+    setLatestDietLog(newLatestDietLog);
+
+    toast.success("Diet Log Entry Deleted");
+    deleteModal.onClose();
+  };
+
   const resetDietLogEntry = () => {
     setOperatingDietLog(defaultDietLog);
     setOperationType("add");
@@ -135,11 +162,12 @@ export default function DietLogIndex() {
     dietLogModal.onOpen();
   };
 
-  const handleDietLogOptionSelection = (key: string, dietLog: DietLog) => {
+  const handleDietLogOptionSelection = (key: string) => {
     if (key === "edit") {
       // TODO: ADD
     } else if (key === "delete") {
-      // TODO: ADD
+      setOperationType("delete");
+      deleteModal.onOpen();
     }
   };
 
@@ -157,6 +185,17 @@ export default function DietLogIndex() {
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
+      <DeleteModal
+        deleteModal={deleteModal}
+        header="Delete Diet Log Entry"
+        body={
+          <p className="break-words">
+            Are you sure you want to permanently delete the latest Diet Log
+            entry?
+          </p>
+        }
+        deleteButtonAction={() => deleteDietLogEntry()}
+      />
       <DietLogModal
         dietLogModal={dietLogModal}
         dietLog={operatingDietLog}
