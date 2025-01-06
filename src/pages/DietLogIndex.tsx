@@ -199,9 +199,10 @@ export default function DietLogIndex() {
       />
       <DietLogModal
         dietLogModal={dietLogModal}
-        dietLog={operatingDietLog}
+        operatingDietLog={operatingDietLog}
         useDietLogEntryInputs={dietLogEntryInputs}
         buttonAction={addDietLogEntry}
+        latestDietLog={latestDietLog}
       />
       <div className="flex flex-col items-center gap-4">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">
