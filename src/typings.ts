@@ -1062,6 +1062,9 @@ export type UseDietLogEntryInputsReturnType = {
   setTargetDay: React.Dispatch<React.SetStateAction<string>>;
   resetInputs: () => void;
   calculateCaloriesFromMacros: () => void;
+  selectedDate: CalendarDate | null;
+  setSelectedDate: React.Dispatch<React.SetStateAction<CalendarDate | null>>;
+  loadDietLogInputs: (dietLog: DietLog) => void;
 };
 
 export type DietLogMap = Map<string, DietLog>;

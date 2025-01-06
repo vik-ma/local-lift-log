@@ -1,10 +1,12 @@
 import { useMemo, useState } from "react";
 import {
+  ConvertYmdDateStringToCalendarDate,
   IsStringEmpty,
   IsStringInvalidInteger,
   IsStringInvalidIntegerOr0,
 } from "../helpers";
-import { UseDietLogEntryInputsReturnType } from "../typings";
+import { DietLog, UseDietLogEntryInputsReturnType } from "../typings";
+import { CalendarDate } from "@nextui-org/react";
 
 export const useDietLogEntryInputs = (): UseDietLogEntryInputsReturnType => {
   const [caloriesInput, setCaloriesInput] = useState<string>("");
@@ -13,6 +15,7 @@ export const useDietLogEntryInputs = (): UseDietLogEntryInputsReturnType => {
   const [proteinInput, setProteinInput] = useState<string>("");
   const [commentInput, setCommentInput] = useState<string>("");
   const [targetDay, setTargetDay] = useState<string>("Today");
+  const [selectedDate, setSelectedDate] = useState<CalendarDate | null>(null);
 
   const isCaloriesInputValid = useMemo(() => {
     if (IsStringEmpty(caloriesInput)) return false;
@@ -53,6 +56,7 @@ export const useDietLogEntryInputs = (): UseDietLogEntryInputsReturnType => {
 
   const resetInputs = () => {
     setCaloriesInput("");
+    setSelectedDate(null);
     setFatInput("");
     setCarbsInput("");
     setProteinInput("");
@@ -69,6 +73,18 @@ export const useDietLogEntryInputs = (): UseDietLogEntryInputsReturnType => {
     );
 
     setCaloriesInput(totalCalories.toString());
+  };
+
+  const loadDietLogInputs = (dietLog: DietLog) => {
+    setCaloriesInput(dietLog.calories.toString());
+
+    setSelectedDate(ConvertYmdDateStringToCalendarDate(dietLog.date));
+
+    if (dietLog.fat !== null) setFatInput(dietLog.fat.toString());
+    if (dietLog.carbs !== null) setCarbsInput(dietLog.carbs.toString());
+    if (dietLog.protein !== null) setProteinInput(dietLog.protein.toString());
+
+    if (dietLog.comment !== null) setCommentInput(dietLog.comment.toString());
   };
 
   return {
@@ -91,5 +107,8 @@ export const useDietLogEntryInputs = (): UseDietLogEntryInputsReturnType => {
     setTargetDay,
     resetInputs,
     calculateCaloriesFromMacros,
+    selectedDate,
+    setSelectedDate,
+    loadDietLogInputs,
   };
 };
