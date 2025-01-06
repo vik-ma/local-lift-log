@@ -122,12 +122,11 @@ export const WorkoutModal = ({
                       {isRatingAccordionExpanded && (
                         <motion.div
                           className="pt-5"
-                          initial={{ height: 0 }}
+                          initial={{ height: 0, overflow: "hidden" }}
                           animate={{ height: "auto" }}
-                          exit={{ height: 0, opacity: 0 }}
+                          exit={{ height: 0, overflow: "hidden" }}
                           transition={{
-                            height: { duration: 0.1 },
-                            opacity: { duration: 0.05 },
+                            height: { duration: 0.15 },
                           }}
                         >
                           <div className="flex flex-col gap-4 w-[23.25rem] px-4">

@@ -93,12 +93,11 @@ export const UserMeasurementAccordions = ({
           <AnimatePresence>
             {measurement.isExpanded && (
               <motion.div
-                initial={{ height: 0 }}
+                initial={{ height: 0, overflow: "hidden" }}
                 animate={{ height: "auto" }}
-                exit={{ height: 0, opacity: 0 }}
+                exit={{ height: 0, overflow: "hidden" }}
                 transition={{
-                  height: { duration: 0.1 },
-                  opacity: { duration: 0.05 },
+                  height: { duration: 0.07 },
                 }}
               >
                 <div className="flex flex-col divide-y divide-stone-200 text-sm">
