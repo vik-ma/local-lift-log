@@ -36,8 +36,8 @@ export const DietLogAccordions = ({
             key={dietLog.id}
             className={
               dietLog.disableExpansion
-                ? "flex flex-col select-none gap-1 bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-                : "flex flex-col select-none cursor-pointer gap-1 bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                ? "flex flex-col select-none bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                : "flex flex-col select-none cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
             }
             onClick={
               dietLog.disableExpansion
@@ -100,12 +100,11 @@ export const DietLogAccordions = ({
             <AnimatePresence>
               {dietLog.isExpanded && (
                 <motion.div
-                  initial={{ height: 0 }}
+                  initial={{ height: 0, overflow: "hidden" }}
                   animate={{ height: "auto" }}
-                  exit={{ height: 0, opacity: 0 }}
+                  exit={{ height: 0, overflow: "hidden" }}
                   transition={{
-                    height: { duration: 0.1 },
-                    opacity: { duration: 0.05 },
+                    height: { duration: 0.07 },
                   }}
                 >
                   <div className="flex flex-col divide-y divide-stone-200 text-sm pb-0.5">
