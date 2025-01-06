@@ -165,27 +165,27 @@ export const ExerciseModal = ({
 
   useEffect(() => {
     if (isSecondaryAccordionExpanded) {
-      requestAnimationFrame(() => {
-        if (secondaryAccordionRef.current !== null) {
-          secondaryAccordionRef.current.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-          });
-        }
-      });
+        setTimeout(() => {
+          if (secondaryAccordionRef.current !== null) {
+            secondaryAccordionRef.current.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }
+        }, 105);
     }
   }, [isSecondaryAccordionExpanded]);
 
   useEffect(() => {
     if (isMultiplierAccordionExpanded) {
-      requestAnimationFrame(() => {
-        if (multiplierAccordionRef.current !== null) {
-          multiplierAccordionRef.current.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-          });
-        }
-      });
+        setTimeout(() => {
+          if (multiplierAccordionRef.current !== null) {
+            multiplierAccordionRef.current.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }
+        }, 105);
     }
   }, [isMultiplierAccordionExpanded]);
 
@@ -271,7 +271,7 @@ export const ExerciseModal = ({
                           animate={{ height: "auto" }}
                           exit={{ height: 0, overflow: "hidden" }}
                           transition={{
-                            height: { duration: 0.15 },
+                            height: { duration: 0.1 },
                           }}
                         >
                           <ExerciseGroupCheckboxes
@@ -311,7 +311,6 @@ export const ExerciseModal = ({
                           !isSecondaryAccordionExpanded
                         )
                       }
-                      ref={secondaryAccordionRef}
                     >
                       <span className="font-medium">
                         Secondary Exercise Groups
@@ -334,8 +333,9 @@ export const ExerciseModal = ({
                           animate={{ height: "auto" }}
                           exit={{ height: 0, overflow: "hidden" }}
                           transition={{
-                            height: { duration: 0.15 },
+                            height: { duration: 0.1 },
                           }}
+                          ref={secondaryAccordionRef}
                         >
                           <ExerciseGroupCheckboxes
                             isValid={true}
@@ -380,7 +380,6 @@ export const ExerciseModal = ({
                             !isMultiplierAccordionExpanded
                           )
                         }
-                        ref={multiplierAccordionRef}
                       >
                         <span className="font-medium">
                           Secondary Multipliers
@@ -405,6 +404,7 @@ export const ExerciseModal = ({
                             transition={{
                               height: { duration: 0.1 },
                             }}
+                            ref={multiplierAccordionRef}
                           >
                             <div className="grid grid-cols-2 gap-x-2 gap-y-1">
                               {Array.from(multiplierInputMap).map(
