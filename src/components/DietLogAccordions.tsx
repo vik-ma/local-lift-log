@@ -47,8 +47,8 @@ export const DietLogAccordions = ({
           >
             <div className="flex justify-between items-center pl-2 py-1">
               <div className="flex flex-col items-start">
-                <span className="w-[19rem] break-all text-left">
-                  {dietLog.calories} Calories
+                <span className="w-[19rem] break-all text-left font-semibold">
+                  {dietLog.calories} kcal
                 </span>
                 <span className="text-xs text-secondary text-left">
                   {dietLog.formattedDate}{" "}
@@ -111,19 +111,19 @@ export const DietLogAccordions = ({
                   <div className="flex flex-col divide-y divide-stone-200 text-sm pb-0.5">
                     {dietLog.fat !== null && (
                       <span className="px-2">
-                        <span className="font-medium">Fat: </span>
+                        <span className="font-semibold">Fat: </span>
                         {dietLog.fat} g
                       </span>
                     )}
                     {dietLog.carbs !== null && (
                       <span className="px-2">
-                        <span className="font-medium">Carbs: </span>
+                        <span className="font-semibold">Carbs: </span>
                         {dietLog.carbs} g
                       </span>
                     )}
                     {dietLog.protein !== null && (
                       <span className="px-2">
-                        <span className="font-medium">Protein: </span>
+                        <span className="font-semibold">Protein: </span>
                         {dietLog.protein} g
                       </span>
                     )}
