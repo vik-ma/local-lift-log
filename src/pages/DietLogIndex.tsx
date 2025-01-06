@@ -105,6 +105,8 @@ export default function DietLogIndex() {
 
     const formattedDate = FormatYmdDateString(date);
 
+    const disableExpansion = ShouldDietLogDisableExpansion(fat, carbs, protein);
+
     const dietLog: DietLog = {
       ...operatingDietLog,
       date,
@@ -114,7 +116,8 @@ export default function DietLogIndex() {
       protein,
       comment,
       formattedDate,
-      disableExpansion: ShouldDietLogDisableExpansion(fat, carbs, protein),
+      isExpanded: !disableExpansion,
+      disableExpansion,
     };
 
     const newDietLog = await addDietLog(dietLog);
