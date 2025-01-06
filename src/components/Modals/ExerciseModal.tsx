@@ -192,7 +192,7 @@ export const ExerciseModal = ({
             </ModalHeader>
             <ModalBody>
               <ScrollShadow className="h-[440px]">
-                <div className="flex flex-col gap-2 w-[23.75rem]">
+                <div className="flex flex-col gap-4 w-[23.75rem]">
                   <div className="flex flex-col gap-0.5">
                     <Input
                       className="h-[5rem]"
@@ -254,15 +254,14 @@ export const ExerciseModal = ({
                       </div>
                     </div>
                     <AnimatePresence>
-                      {isPrimaryAccordionExpanded ? (
+                      {isPrimaryAccordionExpanded && (
                         <motion.div
                           className="px-1 pt-0.5"
-                          initial={{ height: 0 }}
+                          initial={{ height: 0, overflow: "hidden" }}
                           animate={{ height: "auto" }}
-                          exit={{ height: 0, opacity: 0 }}
+                          exit={{ height: 0, overflow: "hidden" }}
                           transition={{
-                            height: { duration: 0.1 },
-                            opacity: { duration: 0.05 },
+                            height: { duration: 0.15 },
                           }}
                         >
                           <ExerciseGroupCheckboxes
@@ -277,18 +276,19 @@ export const ExerciseModal = ({
                             customAriaLabel="Select Primary Exercise Groups"
                           />
                         </motion.div>
-                      ) : (
-                        <motion.div className="px-1 text-sm w-[21rem] text-stone-500">
-                          {exercise.formattedGroupStringPrimary === "" ? (
-                            <span className="text-stone-400">
-                              No Exercise Group(s) Selected
-                            </span>
-                          ) : (
-                            <span>{exercise.formattedGroupStringPrimary}</span>
-                          )}
-                        </motion.div>
                       )}
                     </AnimatePresence>
+                    {!isPrimaryAccordionExpanded && (
+                      <div className="px-1 text-sm w-[21rem] text-stone-500">
+                        {exercise.formattedGroupStringPrimary === "" ? (
+                          <span className="text-stone-400">
+                            No Exercise Group(s) Selected
+                          </span>
+                        ) : (
+                          <span>{exercise.formattedGroupStringPrimary}</span>
+                        )}
+                      </div>
+                    )}
                   </div>
                   <div
                     aria-label="Secondary Exercise Groups Accordion"
@@ -317,15 +317,14 @@ export const ExerciseModal = ({
                       </div>
                     </div>
                     <AnimatePresence>
-                      {isSecondaryAccordionExpanded ? (
+                      {isSecondaryAccordionExpanded && (
                         <motion.div
                           className="px-1 pt-0.5"
-                          initial={{ height: 0 }}
+                          initial={{ height: 0, overflow: "hidden" }}
                           animate={{ height: "auto" }}
-                          exit={{ height: 0, opacity: 0 }}
+                          exit={{ height: 0, overflow: "hidden" }}
                           transition={{
-                            height: { duration: 0.1 },
-                            opacity: { duration: 0.05 },
+                            height: { duration: 0.15 },
                           }}
                         >
                           <ExerciseGroupCheckboxes
@@ -344,24 +343,20 @@ export const ExerciseModal = ({
                             }
                           />
                         </motion.div>
-                      ) : (
-                        <motion.div
-                          className="px-1 text-sm w-[21rem] text-stone-500"
-                          style={{ height: "100%" }}
-                        >
-                          {exercise.formattedGroupStringSecondary ===
-                          undefined ? (
-                            <span className="text-stone-400">
-                              No Exercise Group(s) Selected
-                            </span>
-                          ) : (
-                            <span>
-                              {exercise.formattedGroupStringSecondary}
-                            </span>
-                          )}
-                        </motion.div>
                       )}
                     </AnimatePresence>
+                    {!isSecondaryAccordionExpanded && (
+                      <div className="px-1 text-sm w-[21rem] text-stone-500">
+                        {exercise.formattedGroupStringSecondary ===
+                        undefined ? (
+                          <span className="text-stone-400">
+                            No Exercise Group(s) Selected
+                          </span>
+                        ) : (
+                          <span>{exercise.formattedGroupStringSecondary}</span>
+                        )}
+                      </div>
+                    )}
                   </div>
                   {exercise.exerciseGroupStringMapSecondary !== undefined && (
                     <div
@@ -394,12 +389,11 @@ export const ExerciseModal = ({
                         {isMultiplierAccordionExpanded && (
                           <motion.div
                             className="px-1 pt-1.5"
-                            initial={{ height: 0 }}
+                            initial={{ height: 0, overflow: "hidden" }}
                             animate={{ height: "auto" }}
-                            exit={{ height: 0, opacity: 0 }}
+                            exit={{ height: 0, overflow: "hidden" }}
                             transition={{
                               height: { duration: 0.1 },
-                              opacity: { duration: 0.05 },
                             }}
                           >
                             <div className="grid grid-cols-2 gap-x-2 gap-y-1">
