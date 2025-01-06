@@ -61,6 +61,16 @@ export const ExerciseModal = ({
   const secondaryAccordionRef = useRef<HTMLDivElement>(null);
   const multiplierAccordionRef = useRef<HTMLDivElement>(null);
 
+  const hasPrimaryAccordionBeenClosed = useRef<boolean>(false);
+
+  const handleClickPrimaryAccordion = () => {
+    setIsPrimaryAccordionExpanded(!isPrimaryAccordionExpanded);
+
+    if (!hasPrimaryAccordionBeenClosed.current) {
+      hasPrimaryAccordionBeenClosed.current = true;
+    }
+  };
+
   useEffect(() => {
     const multiplierInputMap: Map<string, string> = new Map();
 
@@ -225,11 +235,7 @@ export const ExerciseModal = ({
                   >
                     <div
                       className="flex relative cursor-pointer pl-1 pb-0.5"
-                      onClick={() =>
-                        setIsPrimaryAccordionExpanded(
-                          !isPrimaryAccordionExpanded
-                        )
-                      }
+                      onClick={handleClickPrimaryAccordion}
                     >
                       <span
                         className={
@@ -257,7 +263,11 @@ export const ExerciseModal = ({
                       {isPrimaryAccordionExpanded && (
                         <motion.div
                           className="px-1 pt-0.5"
-                          initial={{ height: 0, overflow: "hidden" }}
+                          initial={
+                            hasPrimaryAccordionBeenClosed.current
+                              ? { height: 0, overflow: "hidden" }
+                              : {}
+                          }
                           animate={{ height: "auto" }}
                           exit={{ height: 0, overflow: "hidden" }}
                           transition={{
