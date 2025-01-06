@@ -119,7 +119,9 @@ export const UserMeasurementAccordions = ({
                                 : "w-[9rem] truncate"
                             }
                           >
-                            <span>{values.isInvalid ? "Unknown" : name}</span>
+                            <span className="font-semibold">
+                              {values.isInvalid ? "Unknown" : name}
+                            </span>
                             {values.isInvalid && (
                               <Button
                                 className="h-6"
@@ -144,10 +146,10 @@ export const UserMeasurementAccordions = ({
                                 : "flex gap-1 w-[5.5rem]"
                             }
                           >
-                            <span className="max-w-[3.5rem] truncate font-medium">
+                            <span className="max-w-[3.5rem] truncate font-semibold">
                               {values.value}
                             </span>
-                            <span>
+                            <span className="font-medium">
                               {values.unit === "in" ? `″` : values.unit}
                             </span>
                           </div>
