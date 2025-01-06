@@ -165,27 +165,27 @@ export const ExerciseModal = ({
 
   useEffect(() => {
     if (isSecondaryAccordionExpanded) {
-        setTimeout(() => {
-          if (secondaryAccordionRef.current !== null) {
-            secondaryAccordionRef.current.scrollIntoView({
-              behavior: "smooth",
-              block: "start",
-            });
-          }
-        }, 105);
+      setTimeout(() => {
+        if (secondaryAccordionRef.current !== null) {
+          secondaryAccordionRef.current.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        }
+      }, 105);
     }
   }, [isSecondaryAccordionExpanded]);
 
   useEffect(() => {
     if (isMultiplierAccordionExpanded) {
-        setTimeout(() => {
-          if (multiplierAccordionRef.current !== null) {
-            multiplierAccordionRef.current.scrollIntoView({
-              behavior: "smooth",
-              block: "start",
-            });
-          }
-        }, 105);
+      setTimeout(() => {
+        if (multiplierAccordionRef.current !== null) {
+          multiplierAccordionRef.current.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        }
+      }, 105);
     }
   }, [isMultiplierAccordionExpanded]);
 
@@ -202,7 +202,7 @@ export const ExerciseModal = ({
             </ModalHeader>
             <ModalBody>
               <ScrollShadow className="h-[440px]">
-                <div className="flex flex-col gap-4 w-[23.75rem]">
+                <div className="flex flex-col gap-3 w-[23.75rem]">
                   <div className="flex flex-col gap-0.5">
                     <Input
                       className="h-[5rem]"
@@ -240,8 +240,8 @@ export const ExerciseModal = ({
                       <span
                         className={
                           isExerciseGroupSetPrimaryStringValid
-                            ? "flex items-start font-medium"
-                            : "flex items-start text-danger font-medium"
+                            ? "flex items-start font-medium text-lg"
+                            : "flex items-start text-danger font-medium text-lg"
                         }
                       >
                         Primary Exercise Groups
@@ -312,7 +312,7 @@ export const ExerciseModal = ({
                         )
                       }
                     >
-                      <span className="font-medium">
+                      <span className="font-medium text-lg">
                         Secondary Exercise Groups
                       </span>
                       <div className="absolute top-1 right-0">
@@ -381,7 +381,7 @@ export const ExerciseModal = ({
                           )
                         }
                       >
-                        <span className="font-medium">
+                        <span className="font-medium text-lg">
                           Secondary Multipliers
                         </span>
                         <div className="absolute right-0">
