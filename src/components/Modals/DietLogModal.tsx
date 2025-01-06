@@ -148,8 +148,10 @@ export const DietLogModal = ({
                   </div>
                   {operatingDietLog.id === 0 && latestDietLog !== undefined && (
                     <div className="flex flex-col gap-0.5">
-                      <h3 className="font-medium px-0.5 text-stone-500">Last Diet Log</h3>
-                      <div className="flex flex-col gap-0.5 px-0.5 break-all w-[11rem] text-sm">
+                      <h3 className="font-medium px-0.5 text-stone-500">
+                        Last Diet Log
+                      </h3>
+                      <div className="flex flex-col px-0.5 break-all w-[11rem] text-sm">
                         <div>
                           <span className="font-semibold">
                             {latestDietLog.calories}
@@ -175,7 +177,7 @@ export const DietLogModal = ({
                           </div>
                         )}
                         {latestDietLog.comment !== null && (
-                          <div className="text-slate-500">
+                          <div className="text-slate-500 max-h-[7.5rem] overflow-hidden">
                             <span className="font-semibold">Comment:</span>{" "}
                             {latestDietLog.comment}
                           </div>
