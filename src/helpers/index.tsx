@@ -19,6 +19,7 @@ export { IsDatePassed } from "./Dates/IsDatePassed";
 export { GetNumberOfDaysBetweenDates } from "./Dates/GetNumberOfDaysBetweenDates";
 export { GetYesterdayYmdDateString } from "./Dates/GetYesterdayYmdDateString";
 export { IsYmdDateStringTodayOrYesterday } from "./Dates/IsYmdDateStringTodayOrYesterday";
+export { ConvertYmdDateStringToCalendarDate } from "./Dates/ConvertYmdDateStringToCalendarDate";
 
 export { ConvertExerciseGroupSetStringPrimary } from "./Exercises/ConvertExerciseGroupSetStringPrimary";
 export { ConvertExerciseGroupStringListPrimaryToString } from "./Exercises/ConvertExerciseGroupStringListPrimaryToString";
