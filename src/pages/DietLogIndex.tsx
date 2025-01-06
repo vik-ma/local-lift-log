@@ -62,6 +62,7 @@ export default function DietLogIndex() {
     if (!isDietLogListLoaded.current) return;
 
     if (dietLogs[0] !== undefined) {
+      dietLogs[0].isExpanded = true;
       setLatestDietLog(dietLogs[0]);
     }
 
