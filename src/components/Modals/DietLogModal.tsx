@@ -50,6 +50,22 @@ export const DietLogModal = ({
     calculateCaloriesFromMacros,
   } = useDietLogEntryInputs;
 
+  const copyLastValues = () => {
+    if (latestDietLog === undefined) return;
+
+    setCaloriesInput(latestDietLog.calories.toString());
+
+    if (latestDietLog.fat !== null) {
+      setFatInput(latestDietLog.fat.toString());
+    }
+    if (latestDietLog.carbs !== null) {
+      setCarbsInput(latestDietLog.carbs.toString());
+    }
+    if (latestDietLog.protein !== null) {
+      setProteinInput(latestDietLog.protein.toString());
+    }
+  };
+
   return (
     <Modal
       isOpen={dietLogModal.isOpen}
@@ -182,6 +198,15 @@ export const DietLogModal = ({
                             {latestDietLog.comment}
                           </div>
                         )}
+                        <Button
+                          className="mt-1"
+                          color="secondary"
+                          variant="flat"
+                          size="sm"
+                          onPress={copyLastValues}
+                        >
+                          Copy Last Values
+                        </Button>
                       </div>
                     </div>
                   )}
