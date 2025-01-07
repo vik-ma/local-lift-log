@@ -11,6 +11,7 @@ import {
   DietLog,
   UseDietLogEntryInputsReturnType,
   UseDisclosureReturnType,
+  UserSettings,
 } from "../../typings";
 import { DietLogDayDropdown } from "../Dropdowns/DietLogDayDropdown";
 
@@ -20,6 +21,7 @@ type DietLogModalProps = {
   useDietLogEntryInputs: UseDietLogEntryInputsReturnType;
   buttonAction: () => void;
   latestDietLog?: DietLog | undefined;
+  userSettings?: UserSettings;
 };
 
 export const DietLogModal = ({
@@ -28,6 +30,7 @@ export const DietLogModal = ({
   useDietLogEntryInputs,
   buttonAction,
   latestDietLog,
+  userSettings,
 }: DietLogModalProps) => {
   const {
     caloriesInput,
@@ -160,6 +163,7 @@ export const DietLogModal = ({
                       value={targetDay}
                       setState={setTargetDay}
                       targetType="state"
+                      userSettings={userSettings}
                     />
                   </div>
                   {operatingDietLog.id === 0 && latestDietLog !== undefined && (

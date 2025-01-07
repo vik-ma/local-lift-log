@@ -1,11 +1,13 @@
 import { Select, SelectItem } from "@nextui-org/react";
-import { HTMLSelectElementChange } from "../../typings";
+import { HTMLSelectElementChange, UserSettings } from "../../typings";
+import { UpdateDefaultDietLogDayIsYesterday } from "../../helpers";
 
 type DietLogDayDropdownProps = {
   value: string;
   targetType: "state" | "settings";
   setState?: React.Dispatch<React.SetStateAction<string>>;
   setUserSettings?: HTMLSelectElementChange;
+  userSettings?: UserSettings;
 };
 
 export const DietLogDayDropdown = ({
@@ -13,10 +15,16 @@ export const DietLogDayDropdown = ({
   targetType,
   setState,
   setUserSettings,
+  userSettings,
 }: DietLogDayDropdownProps) => {
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (targetType === "state" && setState !== undefined) {
       setState(e.target.value);
+
+      if (userSettings !== undefined) {
+        const value = e.target.value === "Yesterday" ? 1 : 0;
+        await UpdateDefaultDietLogDayIsYesterday(value, userSettings.id);
+      }
     }
 
     if (targetType === "settings" && setUserSettings !== undefined) {
