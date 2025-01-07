@@ -8,6 +8,7 @@ type DietLogDayDropdownProps = {
   setState?: React.Dispatch<React.SetStateAction<string>>;
   setUserSettings?: HTMLSelectElementChange;
   userSettings?: UserSettings;
+  disabledKeys?: string[];
 };
 
 export const DietLogDayDropdown = ({
@@ -16,6 +17,7 @@ export const DietLogDayDropdown = ({
   setState,
   setUserSettings,
   userSettings,
+  disabledKeys,
 }: DietLogDayDropdownProps) => {
   const handleChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (targetType === "state" && setState !== undefined) {
@@ -39,6 +41,7 @@ export const DietLogDayDropdown = ({
       variant="faded"
       selectedKeys={[value]}
       onChange={(e) => handleChange(e)}
+      disabledKeys={disabledKeys}
       disallowEmptySelection
     >
       <SelectItem key="Today">Today</SelectItem>

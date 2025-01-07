@@ -41,7 +41,7 @@ export default function DietLogIndex() {
 
   const dietLogList = useDietLogList(true);
 
-  const { isDietLogListLoaded, dietLogs, addDietLog, deleteDietLog } =
+  const { isDietLogListLoaded, dietLogs, addDietLog, deleteDietLog, dietLogMap } =
     dietLogList;
 
   const dietLogEntryInputs = useDietLogEntryInputs();
@@ -204,6 +204,7 @@ export default function DietLogIndex() {
         dietLogModal={dietLogModal}
         operatingDietLog={operatingDietLog}
         useDietLogEntryInputs={dietLogEntryInputs}
+        dietLogMap={dietLogMap.current}
         buttonAction={addDietLogEntry}
         latestDietLog={latestDietLog}
         userSettings={userSettings}

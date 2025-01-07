@@ -9,16 +9,23 @@ import {
 } from "@nextui-org/react";
 import {
   DietLog,
+  DietLogMap,
   UseDietLogEntryInputsReturnType,
   UseDisclosureReturnType,
   UserSettings,
 } from "../../typings";
 import { DietLogDayDropdown } from "../Dropdowns/DietLogDayDropdown";
+import { useMemo } from "react";
+import {
+  GetCurrentYmdDateString,
+  GetYesterdayYmdDateString,
+} from "../../helpers";
 
 type DietLogModalProps = {
   dietLogModal: UseDisclosureReturnType;
   operatingDietLog: DietLog;
   useDietLogEntryInputs: UseDietLogEntryInputsReturnType;
+  dietLogMap: DietLogMap;
   buttonAction: () => void;
   latestDietLog?: DietLog | undefined;
   userSettings?: UserSettings;
@@ -28,6 +35,7 @@ export const DietLogModal = ({
   dietLogModal,
   operatingDietLog,
   useDietLogEntryInputs,
+  dietLogMap,
   buttonAction,
   latestDietLog,
   userSettings,
@@ -68,6 +76,27 @@ export const DietLogModal = ({
       setProteinInput(latestDietLog.protein.toString());
     }
   };
+
+  const disabledDropdownKeys = useMemo(() => {
+    if (dietLogMap === undefined) return undefined;
+
+    const disabledKeys: string[] = [];
+
+    const dateStringToday = GetCurrentYmdDateString();
+    const dateStringYesterday = GetYesterdayYmdDateString();
+
+    if (dietLogMap.has(dateStringToday)) {
+      disabledKeys.push("Today");
+      setTargetDay("Yesterday");
+    }
+
+    if (dietLogMap.has(dateStringYesterday)) {
+      disabledKeys.push("Yesterday");
+      setTargetDay("Today");
+    }
+
+    return disabledKeys;
+  }, [dietLogMap, setTargetDay]);
 
   return (
     <Modal
@@ -164,6 +193,7 @@ export const DietLogModal = ({
                       setState={setTargetDay}
                       targetType="state"
                       userSettings={userSettings}
+                      disabledKeys={disabledDropdownKeys}
                     />
                   </div>
                   {operatingDietLog.id === 0 && latestDietLog !== undefined && (
