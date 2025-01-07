@@ -97,13 +97,13 @@ export const DietLogModal = ({
   const disableDoneButton = useMemo(() => {
     if (!isDietLogEntryInputValid) return true;
     if (
-      isCustomDateEntry !== false &&
+      !isCustomDateEntry &&
       targetDay === "Today" &&
       dietLogMap.has(dateStringToday)
     )
       return true;
     if (
-      isCustomDateEntry !== false &&
+      !isCustomDateEntry &&
       targetDay === "Yesterday" &&
       dietLogMap.has(dateStringYesterday)
     )
@@ -222,8 +222,8 @@ export const DietLogModal = ({
                       <h3 className="font-medium text-lg px-0.5 border-b-1 text-stone-600">
                         Last Diet Log
                       </h3>
-                      <div className="flex flex-col px-0.5 break-all w-[11rem] text-sm">
-                        <div className="text-base">
+                      <div className="flex flex-col px-0.5 break-words w-[11rem] text-sm">
+                        <div className="text-base truncate">
                           <span className="font-semibold text-slate-500">
                             {latestDietLog.calories}{" "}
                           </span>
@@ -232,7 +232,7 @@ export const DietLogModal = ({
                           </span>
                         </div>
                         {latestDietLog.fat !== null && (
-                          <div>
+                          <div className="truncate">
                             <span className="font-semibold text-stone-600">
                               Fat:{" "}
                             </span>
@@ -242,7 +242,7 @@ export const DietLogModal = ({
                           </div>
                         )}
                         {latestDietLog.carbs !== null && (
-                          <div>
+                          <div className="truncate">
                             <span className="font-semibold text-stone-600">
                               Carbs:{" "}
                             </span>
@@ -252,7 +252,7 @@ export const DietLogModal = ({
                           </div>
                         )}
                         {latestDietLog.protein !== null && (
-                          <div>
+                          <div className="truncate">
                             <span className="font-semibold text-stone-600">
                               Protein:{" "}
                             </span>
@@ -262,7 +262,7 @@ export const DietLogModal = ({
                           </div>
                         )}
                         {latestDietLog.comment !== null && (
-                          <div className="text-stone-500 max-h-[7.5rem] overflow-hidden">
+                          <div className="text-stone-500 max-h-[6.25rem] overflow-hidden">
                             <span className="font-medium">Comment: </span>
                             {latestDietLog.comment}
                           </div>
