@@ -16,10 +16,6 @@ import {
 } from "../../typings";
 import { DietLogDayDropdown } from "../Dropdowns/DietLogDayDropdown";
 import { useMemo } from "react";
-import {
-  GetCurrentYmdDateString,
-  GetYesterdayYmdDateString,
-} from "../../helpers";
 
 type DietLogModalProps = {
   dietLogModal: UseDisclosureReturnType;
@@ -59,6 +55,9 @@ export const DietLogModal = ({
     targetDay,
     setTargetDay,
     calculateCaloriesFromMacros,
+    isCustomDateEntry,
+    dateStringToday,
+    dateStringYesterday,
   } = useDietLogEntryInputs;
 
   const copyLastValues = () => {
@@ -76,9 +75,6 @@ export const DietLogModal = ({
       setProteinInput(latestDietLog.protein.toString());
     }
   };
-
-  const dateStringToday = useMemo(() => GetCurrentYmdDateString(), []);
-  const dateStringYesterday = useMemo(() => GetYesterdayYmdDateString(), []);
 
   const disabledDropdownKeys = useMemo(() => {
     if (dietLogMap === undefined) return undefined;
@@ -101,13 +97,13 @@ export const DietLogModal = ({
   const disableDoneButton = useMemo(() => {
     if (!isDietLogEntryInputValid) return true;
     if (
-      operatingDietLog.id === 0 &&
+      isCustomDateEntry !== false &&
       targetDay === "Today" &&
       dietLogMap.has(dateStringToday)
     )
       return true;
     if (
-      operatingDietLog.id === 0 &&
+      isCustomDateEntry !== false &&
       targetDay === "Yesterday" &&
       dietLogMap.has(dateStringYesterday)
     )
@@ -116,11 +112,11 @@ export const DietLogModal = ({
     return false;
   }, [
     isDietLogEntryInputValid,
-    operatingDietLog,
     targetDay,
     dietLogMap,
     dateStringToday,
     dateStringYesterday,
+    isCustomDateEntry,
   ]);
 
   return (

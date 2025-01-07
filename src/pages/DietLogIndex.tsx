@@ -41,8 +41,13 @@ export default function DietLogIndex() {
 
   const dietLogList = useDietLogList(true);
 
-  const { isDietLogListLoaded, dietLogs, addDietLog, deleteDietLog, dietLogMap } =
-    dietLogList;
+  const {
+    isDietLogListLoaded,
+    dietLogs,
+    addDietLog,
+    deleteDietLog,
+    dietLogMap,
+  } = dietLogList;
 
   const dietLogEntryInputs = useDietLogEntryInputs();
 
@@ -56,6 +61,7 @@ export default function DietLogIndex() {
     setTargetDay,
     isDietLogEntryInputValid,
     resetInputs,
+    setIsCustomDateEntry,
   } = dietLogEntryInputs;
 
   useEffect(() => {
@@ -159,10 +165,11 @@ export default function DietLogIndex() {
     resetInputs();
   };
 
-  const handleAddDietLogEntryButton = () => {
+  const handleAddNewDietLogEntryButton = () => {
     if (operationType !== "add") {
       resetDietLogEntry();
     }
+    setIsCustomDateEntry(false);
     dietLogModal.onOpen();
   };
 
@@ -229,9 +236,9 @@ export default function DietLogIndex() {
           <Button
             className="font-medium"
             variant="flat"
-            onPress={handleAddDietLogEntryButton}
+            onPress={handleAddNewDietLogEntryButton}
           >
-            Add Diet Log Entry
+            Add New Diet Log Entry
           </Button>
         </div>
       </div>
