@@ -164,50 +164,64 @@ export const DietLogModal = ({
                   </div>
                   {operatingDietLog.id === 0 && latestDietLog !== undefined && (
                     <div className="flex flex-col gap-0.5">
-                      <h3 className="font-medium px-0.5 text-stone-500">
+                      <h3 className="font-medium text-lg px-0.5 border-b-1 text-stone-600">
                         Last Diet Log
                       </h3>
                       <div className="flex flex-col px-0.5 break-all w-[11rem] text-sm">
-                        <div>
-                          <span className="font-semibold">
-                            {latestDietLog.calories}
-                          </span>{" "}
-                          kcal
+                        <div className="text-base">
+                          <span className="font-semibold text-slate-500">
+                            {latestDietLog.calories}{" "}
+                          </span>
+                          <span className="font-medium text-stone-600">
+                            kcal
+                          </span>
                         </div>
                         {latestDietLog.fat !== null && (
                           <div>
-                            <span className="font-semibold">Fat:</span>{" "}
-                            {latestDietLog.fat} g
+                            <span className="font-semibold text-stone-600">
+                              Fat:{" "}
+                            </span>
+                            <span className="font-medium text-slate-500">
+                              {latestDietLog.fat} g
+                            </span>
                           </div>
                         )}
                         {latestDietLog.carbs !== null && (
                           <div>
-                            <span className="font-semibold">Carbs:</span>{" "}
-                            {latestDietLog.carbs} g
+                            <span className="font-semibold text-stone-600">
+                              Carbs:{" "}
+                            </span>
+                            <span className="font-medium text-slate-500">
+                              {latestDietLog.carbs} g
+                            </span>
                           </div>
                         )}
                         {latestDietLog.protein !== null && (
                           <div>
-                            <span className="font-semibold">Protein:</span>{" "}
-                            {latestDietLog.protein} g
+                            <span className="font-semibold text-stone-600">
+                              Protein:{" "}
+                            </span>
+                            <span className="font-medium text-slate-500">
+                              {latestDietLog.protein} g
+                            </span>
                           </div>
                         )}
                         {latestDietLog.comment !== null && (
-                          <div className="text-slate-500 max-h-[7.5rem] overflow-hidden">
-                            <span className="font-semibold">Comment:</span>{" "}
+                          <div className="text-stone-500 max-h-[7.5rem] overflow-hidden">
+                            <span className="font-medium">Comment: </span>
                             {latestDietLog.comment}
                           </div>
                         )}
-                        <Button
-                          className="mt-1"
-                          color="secondary"
-                          variant="flat"
-                          size="sm"
-                          onPress={copyLastValues}
-                        >
-                          Copy Last Values
-                        </Button>
                       </div>
+                      <Button
+                        className="mt-0.5"
+                        color="secondary"
+                        variant="flat"
+                        size="sm"
+                        onPress={copyLastValues}
+                      >
+                        Copy Last Diet Log Values
+                      </Button>
                     </div>
                   )}
                 </div>
