@@ -65,6 +65,7 @@ export { CreateShownPropertiesSet } from "./UserSettings/CreateShownPropertiesSe
 export { UpdateDefaultPlateCollectionId } from "./UserSettings/UpdateDefaultPlateCollectionId";
 export { ValidateWorkoutRatingsOrderString } from "./UserSettings/ValidateWorkoutRatingsOrderString";
 export { UpdateShowSecondaryExerciseGroups } from "./UserSettings/UpdateShowSecondaryExerciseGroups";
+export { UpdateDefaultDietLogDayIsYesterday } from "./UserSettings/UpdateDefaultDietLogDayIsYesterday";
 
 export { OrderSetsBySetListOrderString } from "./Sets/OrderSetsBySetListOrderString";
 export { CreateSetsFromWorkoutTemplate } from "./Sets/CreateSetsFromWorkoutTemplate";
