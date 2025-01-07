@@ -77,13 +77,13 @@ export const DietLogModal = ({
     }
   };
 
+  const dateStringToday = useMemo(() => GetCurrentYmdDateString(), []);
+  const dateStringYesterday = useMemo(() => GetYesterdayYmdDateString(), []);
+
   const disabledDropdownKeys = useMemo(() => {
     if (dietLogMap === undefined) return undefined;
 
     const disabledKeys: string[] = [];
-
-    const dateStringToday = GetCurrentYmdDateString();
-    const dateStringYesterday = GetYesterdayYmdDateString();
 
     if (dietLogMap.has(dateStringToday)) {
       disabledKeys.push("Today");
@@ -96,7 +96,32 @@ export const DietLogModal = ({
     }
 
     return disabledKeys;
-  }, [dietLogMap, setTargetDay]);
+  }, [dietLogMap, setTargetDay, dateStringToday, dateStringYesterday]);
+
+  const disableDoneButton = useMemo(() => {
+    if (!isDietLogEntryInputValid) return true;
+    if (
+      operatingDietLog.id === 0 &&
+      targetDay === "Today" &&
+      dietLogMap.has(dateStringToday)
+    )
+      return true;
+    if (
+      operatingDietLog.id === 0 &&
+      targetDay === "Yesterday" &&
+      dietLogMap.has(dateStringYesterday)
+    )
+      return true;
+
+    return false;
+  }, [
+    isDietLogEntryInputValid,
+    operatingDietLog,
+    targetDay,
+    dietLogMap,
+    dateStringToday,
+    dateStringYesterday,
+  ]);
 
   return (
     <Modal
@@ -268,7 +293,7 @@ export const DietLogModal = ({
               <Button
                 color="primary"
                 onPress={buttonAction}
-                isDisabled={!isDietLogEntryInputValid}
+                isDisabled={disableDoneButton}
               >
                 {operatingDietLog.id === 0 ? "Save" : "Update"}
               </Button>
