@@ -62,6 +62,8 @@ export default function DietLogIndex() {
     isDietLogEntryInputValid,
     resetInputs,
     setIsCustomDateEntry,
+    dateStringToday,
+    dateStringYesterday,
   } = dietLogEntryInputs;
 
   useEffect(() => {
@@ -237,6 +239,10 @@ export default function DietLogIndex() {
             className="font-medium"
             variant="flat"
             onPress={handleAddNewDietLogEntryButton}
+            isDisabled={
+              dietLogMap.current.has(dateStringToday) &&
+              dietLogMap.current.has(dateStringYesterday)
+            }
           >
             Add New Diet Log Entry
           </Button>
