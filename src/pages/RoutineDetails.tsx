@@ -152,7 +152,9 @@ export default function RoutineDetails() {
       getWorkoutRoutineSchedules();
       loadUserSettings();
     }
-  }, [id, getWorkoutRoutineSchedules]);
+    // isRoutineLoaded.current needs to be specifically included in array
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, getWorkoutRoutineSchedules, isRoutineLoaded.current]);
 
   const useDetailsHeaderOptions = useDetailsHeaderOptionsMenu("Routine");
 
