@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import {
+  ConvertCalendarDateToYmdString,
   ConvertYmdDateStringToCalendarDate,
   GetCurrentYmdDateString,
   GetYesterdayYmdDateString,
@@ -22,6 +23,10 @@ export const useDietLogEntryInputs = (): UseDietLogEntryInputsReturnType => {
 
   const dateStringToday = useMemo(() => GetCurrentYmdDateString(), []);
   const dateStringYesterday = useMemo(() => GetYesterdayYmdDateString(), []);
+  const dateStringSelectedDate = useMemo(
+    () => ConvertCalendarDateToYmdString(selectedDate),
+    [selectedDate]
+  );
 
   const isCaloriesInputValid = useMemo(() => {
     if (IsStringEmpty(caloriesInput)) return false;
@@ -120,5 +125,6 @@ export const useDietLogEntryInputs = (): UseDietLogEntryInputsReturnType => {
     setIsCustomDateEntry,
     dateStringToday,
     dateStringYesterday,
+    dateStringSelectedDate
   };
 };

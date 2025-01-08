@@ -59,6 +59,8 @@ export const DietLogModal = ({
     setIsCustomDateEntry,
     dateStringToday,
     dateStringYesterday,
+    dateStringSelectedDate,
+    selectedDate,
   } = useDietLogEntryInputs;
 
   const copyLastValues = () => {
@@ -126,16 +128,25 @@ export const DietLogModal = ({
 
   const disableDoneButton = useMemo(() => {
     if (!isDietLogEntryInputValid) return true;
+
     if (
       !isCustomDateEntry &&
       targetDay === "Today" &&
       dietLogMap.has(dateStringToday)
-    )
+    ) 
       return true;
+
     if (
       !isCustomDateEntry &&
       targetDay === "Yesterday" &&
       dietLogMap.has(dateStringYesterday)
+    )
+      return true;
+
+    if (
+      isCustomDateEntry &&
+      (dateStringSelectedDate === null ||
+        dietLogMap.has(dateStringSelectedDate))
     )
       return true;
 
@@ -146,6 +157,7 @@ export const DietLogModal = ({
     dietLogMap,
     dateStringToday,
     dateStringYesterday,
+    dateStringSelectedDate,
     isCustomDateEntry,
   ]);
 

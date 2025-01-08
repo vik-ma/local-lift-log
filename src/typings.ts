@@ -1069,6 +1069,7 @@ export type UseDietLogEntryInputsReturnType = {
   setIsCustomDateEntry: React.Dispatch<React.SetStateAction<boolean>>;
   dateStringToday: string;
   dateStringYesterday: string;
+  dateStringSelectedDate: string | null;
 };
 
 export type DietLogMap = Map<string, DietLog>;
