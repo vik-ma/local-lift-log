@@ -6,6 +6,7 @@ import {
   ModalBody,
   ModalFooter,
   Input,
+  DatePicker,
 } from "@nextui-org/react";
 import {
   DietLog,
@@ -16,15 +17,16 @@ import {
 } from "../../typings";
 import { DietLogDayDropdown } from "../Dropdowns/DietLogDayDropdown";
 import { useEffect, useMemo } from "react";
+import { I18nProvider } from "@react-aria/i18n";
 
 type DietLogModalProps = {
   dietLogModal: UseDisclosureReturnType;
   operatingDietLog: DietLog;
   useDietLogEntryInputs: UseDietLogEntryInputsReturnType;
   dietLogMap: DietLogMap;
+  userSettings: UserSettings;
   buttonAction: () => void;
   latestDietLog?: DietLog | undefined;
-  userSettings?: UserSettings;
 };
 
 export const DietLogModal = ({
@@ -32,9 +34,9 @@ export const DietLogModal = ({
   operatingDietLog,
   useDietLogEntryInputs,
   dietLogMap,
+  userSettings,
   buttonAction,
   latestDietLog,
-  userSettings,
 }: DietLogModalProps) => {
   const {
     caloriesInput,
@@ -61,6 +63,7 @@ export const DietLogModal = ({
     dateStringYesterday,
     dateStringSelectedDate,
     selectedDate,
+    setSelectedDate,
   } = useDietLogEntryInputs;
 
   const copyLastValues = () => {
@@ -133,7 +136,7 @@ export const DietLogModal = ({
       !isCustomDateEntry &&
       targetDay === "Today" &&
       dietLogMap.has(dateStringToday)
-    ) 
+    )
       return true;
 
     if (
@@ -325,7 +328,25 @@ export const DietLogModal = ({
                       )}
                   </div>
                 ) : (
-                  <div className="flex flex-col">Test</div>
+                  <div className="flex flex-col">
+                    <I18nProvider locale={userSettings.locale}>
+                      <DatePicker
+                        classNames={{ base: "gap-0.5" }}
+                        dateInputClassNames={{
+                          inputWrapper: "!bg-default-100",
+                        }}
+                        label={
+                          <span className="text-base font-medium px-0.5">
+                            Diet Entry For Day
+                          </span>
+                        }
+                        labelPlacement="outside"
+                        variant="faded"
+                        value={selectedDate}
+                        onChange={setSelectedDate}
+                      />
+                    </I18nProvider>
+                  </div>
                 )}
               </div>
             </ModalBody>

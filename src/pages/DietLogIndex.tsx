@@ -212,9 +212,9 @@ export default function DietLogIndex() {
         operatingDietLog={operatingDietLog}
         useDietLogEntryInputs={dietLogEntryInputs}
         dietLogMap={dietLogMap.current}
+        userSettings={userSettings}
         buttonAction={addDietLogEntry}
         latestDietLog={latestDietLog}
-        userSettings={userSettings}
       />
       <div className="flex flex-col items-center gap-4">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">
