@@ -56,6 +56,7 @@ export const DietLogModal = ({
     setTargetDay,
     calculateCaloriesFromMacros,
     isCustomDateEntry,
+    setIsCustomDateEntry,
     dateStringToday,
     dateStringYesterday,
   } = useDietLogEntryInputs;
@@ -92,14 +93,18 @@ export const DietLogModal = ({
     return disabledKeys;
   }, [dietLogMap, dateStringToday, dateStringYesterday]);
 
-  const disableDietLogDayDropdown = useMemo(() => {
+  const disableTodayOrYesterdayEntry = useMemo(() => {
     return (
       dietLogMap.has(dateStringToday) && dietLogMap.has(dateStringYesterday)
     );
   }, [dietLogMap, dateStringToday, dateStringYesterday]);
 
   useEffect(() => {
-    if (isCustomDateEntry || disableDietLogDayDropdown) return;
+    if (isCustomDateEntry) return;
+
+    if (disableTodayOrYesterdayEntry) {
+      setIsCustomDateEntry(true);
+    }
 
     if (targetDay === "Yesterday" && dietLogMap.has(dateStringYesterday)) {
       setTargetDay("Today");
@@ -115,7 +120,8 @@ export const DietLogModal = ({
     setTargetDay,
     dateStringToday,
     dateStringYesterday,
-    disableDietLogDayDropdown,
+    disableTodayOrYesterdayEntry,
+    setIsCustomDateEntry,
   ]);
 
   const disableDoneButton = useMemo(() => {
@@ -230,80 +236,85 @@ export const DietLogModal = ({
                     </div>
                   </div>
                 </div>
-                <div className="flex flex-col justify-between">
-                  <div className="flex flex-col gap-0.5">
-                    <h3 className="font-medium px-0.5">Diet Entry For Day</h3>
-                    <DietLogDayDropdown
-                      value={targetDay}
-                      setState={setTargetDay}
-                      targetType="state"
-                      userSettings={userSettings}
-                      disabledKeys={disabledDropdownKeys}
-                    />
-                  </div>
-                  {operatingDietLog.id === 0 && latestDietLog !== undefined && (
+                {!isCustomDateEntry ? (
+                  <div className="flex flex-col justify-between">
                     <div className="flex flex-col gap-0.5">
-                      <h3 className="font-medium text-lg px-0.5 border-b-1 text-stone-600">
-                        Last Diet Log
-                      </h3>
-                      <div className="flex flex-col px-0.5 break-words w-[11rem] text-sm">
-                        <div className="text-base truncate">
-                          <span className="font-semibold text-slate-500">
-                            {latestDietLog.calories}{" "}
-                          </span>
-                          <span className="font-medium text-stone-600">
-                            kcal
-                          </span>
-                        </div>
-                        {latestDietLog.fat !== null && (
-                          <div className="truncate">
-                            <span className="font-semibold text-stone-600">
-                              Fat:{" "}
-                            </span>
-                            <span className="font-medium text-slate-500">
-                              {latestDietLog.fat} g
-                            </span>
-                          </div>
-                        )}
-                        {latestDietLog.carbs !== null && (
-                          <div className="truncate">
-                            <span className="font-semibold text-stone-600">
-                              Carbs:{" "}
-                            </span>
-                            <span className="font-medium text-slate-500">
-                              {latestDietLog.carbs} g
-                            </span>
-                          </div>
-                        )}
-                        {latestDietLog.protein !== null && (
-                          <div className="truncate">
-                            <span className="font-semibold text-stone-600">
-                              Protein:{" "}
-                            </span>
-                            <span className="font-medium text-slate-500">
-                              {latestDietLog.protein} g
-                            </span>
-                          </div>
-                        )}
-                        {latestDietLog.comment !== null && (
-                          <div className="text-stone-500 max-h-[6.25rem] overflow-hidden">
-                            <span className="font-medium">Comment: </span>
-                            {latestDietLog.comment}
-                          </div>
-                        )}
-                      </div>
-                      <Button
-                        className="mt-0.5"
-                        color="secondary"
-                        variant="flat"
-                        size="sm"
-                        onPress={copyLastValues}
-                      >
-                        Copy Last Diet Log Values
-                      </Button>
+                      <h3 className="font-medium px-0.5">Diet Entry For Day</h3>
+                      <DietLogDayDropdown
+                        value={targetDay}
+                        setState={setTargetDay}
+                        targetType="state"
+                        userSettings={userSettings}
+                        disabledKeys={disabledDropdownKeys}
+                      />
                     </div>
-                  )}
-                </div>
+                    {operatingDietLog.id === 0 &&
+                      latestDietLog !== undefined && (
+                        <div className="flex flex-col gap-0.5">
+                          <h3 className="font-medium text-lg px-0.5 border-b-1 text-stone-600">
+                            Last Diet Log
+                          </h3>
+                          <div className="flex flex-col px-0.5 break-words w-[11rem] text-sm">
+                            <div className="text-base truncate">
+                              <span className="font-semibold text-slate-500">
+                                {latestDietLog.calories}{" "}
+                              </span>
+                              <span className="font-medium text-stone-600">
+                                kcal
+                              </span>
+                            </div>
+                            {latestDietLog.fat !== null && (
+                              <div className="truncate">
+                                <span className="font-semibold text-stone-600">
+                                  Fat:{" "}
+                                </span>
+                                <span className="font-medium text-slate-500">
+                                  {latestDietLog.fat} g
+                                </span>
+                              </div>
+                            )}
+                            {latestDietLog.carbs !== null && (
+                              <div className="truncate">
+                                <span className="font-semibold text-stone-600">
+                                  Carbs:{" "}
+                                </span>
+                                <span className="font-medium text-slate-500">
+                                  {latestDietLog.carbs} g
+                                </span>
+                              </div>
+                            )}
+                            {latestDietLog.protein !== null && (
+                              <div className="truncate">
+                                <span className="font-semibold text-stone-600">
+                                  Protein:{" "}
+                                </span>
+                                <span className="font-medium text-slate-500">
+                                  {latestDietLog.protein} g
+                                </span>
+                              </div>
+                            )}
+                            {latestDietLog.comment !== null && (
+                              <div className="text-stone-500 max-h-[6.25rem] overflow-hidden">
+                                <span className="font-medium">Comment: </span>
+                                {latestDietLog.comment}
+                              </div>
+                            )}
+                          </div>
+                          <Button
+                            className="mt-0.5"
+                            color="secondary"
+                            variant="flat"
+                            size="sm"
+                            onPress={copyLastValues}
+                          >
+                            Copy Last Diet Log Values
+                          </Button>
+                        </div>
+                      )}
+                  </div>
+                ) : (
+                  <div className="flex flex-col">Test</div>
+                )}
               </div>
             </ModalBody>
             <ModalFooter>
