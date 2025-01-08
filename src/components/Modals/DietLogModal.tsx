@@ -7,6 +7,8 @@ import {
   ModalFooter,
   Input,
   DatePicker,
+  CalendarDate,
+  DateValue,
 } from "@nextui-org/react";
 import {
   DietLog,
@@ -18,6 +20,7 @@ import {
 import { DietLogDayDropdown } from "../Dropdowns/DietLogDayDropdown";
 import { useEffect, useMemo } from "react";
 import { I18nProvider } from "@react-aria/i18n";
+import { ConvertCalendarDateToYmdString } from "../../helpers";
 
 type DietLogModalProps = {
   dietLogModal: UseDisclosureReturnType;
@@ -163,6 +166,14 @@ export const DietLogModal = ({
     dateStringSelectedDate,
     isCustomDateEntry,
   ]);
+
+  const isDateUnavailable = (date: DateValue) => {
+    const dateString = ConvertCalendarDateToYmdString(date as CalendarDate);
+
+    if (dateString === null) return false;
+
+    return dietLogMap.has(dateString);
+  };
 
   const handleSaveButton = () => {
     if (disableDoneButton) return;
@@ -358,6 +369,7 @@ export const DietLogModal = ({
                         variant="faded"
                         value={selectedDate}
                         onChange={setSelectedDate}
+                        isDateUnavailable={isDateUnavailable}
                       />
                     </I18nProvider>
                   </div>
