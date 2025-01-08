@@ -350,17 +350,32 @@ export const DietLogModal = ({
                 )}
               </div>
             </ModalBody>
-            <ModalFooter>
-              <Button color="primary" variant="light" onPress={onClose}>
-                Close
-              </Button>
-              <Button
-                color="primary"
-                onPress={buttonAction}
-                isDisabled={disableDoneButton}
-              >
-                {operatingDietLog.id === 0 ? "Save" : "Update"}
-              </Button>
+            <ModalFooter className="flex justify-between">
+              <div>
+                {!disableTodayOrYesterdayEntry && (
+                  <Button
+                    className="w-[12.5rem]"
+                    variant="flat"
+                    onPress={() => setIsCustomDateEntry(!isCustomDateEntry)}
+                  >
+                    {isCustomDateEntry
+                      ? "Cancel Custom Date Entry"
+                      : "Add Custom Date Entry"}
+                  </Button>
+                )}
+              </div>
+              <div className="flex gap-2">
+                <Button color="primary" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+                <Button
+                  color="primary"
+                  onPress={buttonAction}
+                  isDisabled={disableDoneButton}
+                >
+                  {operatingDietLog.id === 0 ? "Save" : "Update"}
+                </Button>
+              </div>
             </ModalFooter>
           </>
         )}
