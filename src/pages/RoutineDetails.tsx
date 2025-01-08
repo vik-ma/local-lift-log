@@ -477,6 +477,7 @@ export default function RoutineDetails() {
                           <Chip
                             key={schedule.id}
                             variant="flat"
+                            radius="sm"
                             classNames={{ content: "max-w-[16rem] truncate" }}
                             onClose={() => {
                               handleRemoveButton(schedule);
