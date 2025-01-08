@@ -25,7 +25,7 @@ type DietLogModalProps = {
   useDietLogEntryInputs: UseDietLogEntryInputsReturnType;
   dietLogMap: DietLogMap;
   userSettings: UserSettings;
-  buttonAction: () => void;
+  buttonAction: (date: string) => void;
   latestDietLog?: DietLog | undefined;
 };
 
@@ -163,6 +163,20 @@ export const DietLogModal = ({
     dateStringSelectedDate,
     isCustomDateEntry,
   ]);
+
+  const handleSaveButton = () => {
+    if (disableDoneButton) return;
+
+    const date = isCustomDateEntry
+      ? dateStringSelectedDate
+      : targetDay === "Yesterday"
+      ? dateStringYesterday
+      : dateStringToday;
+
+    if (date === null) return;
+
+    buttonAction(date);
+  };
 
   return (
     <Modal
@@ -370,7 +384,7 @@ export const DietLogModal = ({
                 </Button>
                 <Button
                   color="primary"
-                  onPress={buttonAction}
+                  onPress={handleSaveButton}
                   isDisabled={disableDoneButton}
                 >
                   {operatingDietLog.id === 0 ? "Save" : "Update"}

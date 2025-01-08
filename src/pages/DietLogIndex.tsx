@@ -11,9 +11,7 @@ import {
   ConvertInputStringToNumber,
   ConvertInputStringToNumberOrNull,
   FormatYmdDateString,
-  GetCurrentYmdDateString,
   GetUserSettings,
-  GetYesterdayYmdDateString,
   ShouldDietLogDisableExpansion,
 } from "../helpers";
 import {
@@ -57,7 +55,6 @@ export default function DietLogIndex() {
     fatInput,
     carbsInput,
     proteinInput,
-    targetDay,
     setTargetDay,
     isDietLogEntryInputValid,
     resetInputs,
@@ -90,11 +87,12 @@ export default function DietLogIndex() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setTargetDay, isDietLogListLoaded.current]);
 
-  const addDietLogEntry = async () => {
+  const addDietLogEntry = async (date: string) => {
     if (
       operatingDietLog.id !== 0 ||
       operationType !== "add" ||
-      !isDietLogEntryInputValid
+      !isDietLogEntryInputValid ||
+      dietLogMap.current.has(date)
     )
       return;
 
@@ -103,11 +101,6 @@ export default function DietLogIndex() {
     const fat = ConvertInputStringToNumberOrNull(fatInput);
     const carbs = ConvertInputStringToNumberOrNull(carbsInput);
     const protein = ConvertInputStringToNumberOrNull(proteinInput);
-
-    const date =
-      targetDay === "Yesterday"
-        ? GetYesterdayYmdDateString()
-        : GetCurrentYmdDateString();
 
     const formattedDate = FormatYmdDateString(date);
 
