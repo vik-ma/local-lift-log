@@ -15,7 +15,7 @@ import {
   UserSettings,
 } from "../../typings";
 import { DietLogDayDropdown } from "../Dropdowns/DietLogDayDropdown";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 
 type DietLogModalProps = {
   dietLogModal: UseDisclosureReturnType;
@@ -83,16 +83,40 @@ export const DietLogModal = ({
 
     if (dietLogMap.has(dateStringToday)) {
       disabledKeys.push("Today");
-      setTargetDay("Yesterday");
     }
 
     if (dietLogMap.has(dateStringYesterday)) {
       disabledKeys.push("Yesterday");
-      setTargetDay("Today");
     }
 
     return disabledKeys;
-  }, [dietLogMap, setTargetDay, dateStringToday, dateStringYesterday]);
+  }, [dietLogMap, dateStringToday, dateStringYesterday]);
+
+  const disableDietLogDayDropdown = useMemo(() => {
+    return (
+      dietLogMap.has(dateStringToday) && dietLogMap.has(dateStringYesterday)
+    );
+  }, [dietLogMap, dateStringToday, dateStringYesterday]);
+
+  useEffect(() => {
+    if (isCustomDateEntry || disableDietLogDayDropdown) return;
+
+    if (targetDay === "Yesterday" && dietLogMap.has(dateStringYesterday)) {
+      setTargetDay("Today");
+    }
+
+    if (targetDay === "Today" && dietLogMap.has(dateStringToday)) {
+      setTargetDay("Yesterday");
+    }
+  }, [
+    dietLogMap,
+    isCustomDateEntry,
+    targetDay,
+    setTargetDay,
+    dateStringToday,
+    dateStringYesterday,
+    disableDietLogDayDropdown,
+  ]);
 
   const disableDoneButton = useMemo(() => {
     if (!isDietLogEntryInputValid) return true;
