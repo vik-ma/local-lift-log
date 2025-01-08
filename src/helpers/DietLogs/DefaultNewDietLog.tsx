@@ -8,7 +8,7 @@ export const DefaultNewDietLog = () => {
     fat: null,
     carbs: null,
     protein: null,
-    note: null,
+    comment: null,
   };
 
   return defaultNewDietLog;
