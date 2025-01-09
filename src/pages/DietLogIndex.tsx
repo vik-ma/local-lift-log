@@ -27,12 +27,10 @@ type OperationType = "add" | "edit" | "delete";
 export default function DietLogIndex() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [operationType, setOperationType] = useState<OperationType>("add");
-  const [latestDietLog, setLatestDietLog] = useState<DietLog>();
 
   const defaultDietLog = useDefaultDietLog();
 
-  const [operatingDietLog, setOperatingDietLog] =
-    useState<DietLog>(defaultDietLog);
+  const [latestDietLog, setLatestDietLog] = useState<DietLog>(defaultDietLog);
 
   const dietLogModal = useDisclosure();
   const deleteModal = useDisclosure();
@@ -89,7 +87,6 @@ export default function DietLogIndex() {
 
   const addDietLogEntry = async (date: string) => {
     if (
-      operatingDietLog.id !== 0 ||
       operationType !== "add" ||
       !isDietLogEntryInputValid ||
       dietLogMap.has(date)
@@ -107,7 +104,7 @@ export default function DietLogIndex() {
     const disableExpansion = ShouldDietLogDisableExpansion(fat, carbs, protein);
 
     const dietLog: DietLog = {
-      ...operatingDietLog,
+      id: 0,
       date,
       calories,
       fat,
@@ -133,7 +130,7 @@ export default function DietLogIndex() {
   };
 
   const deleteDietLogEntry = async () => {
-    if (latestDietLog === undefined || operationType !== "delete") return;
+    if (operationType !== "delete" || latestDietLog.id === 0) return;
 
     const { success, newLatestDietLog } = await deleteDietLog(
       latestDietLog,
@@ -144,16 +141,16 @@ export default function DietLogIndex() {
 
     if (newLatestDietLog !== undefined) {
       newLatestDietLog.isExpanded = true;
+      setLatestDietLog(newLatestDietLog);
+    } else {
+      setLatestDietLog(defaultDietLog);
     }
-
-    setLatestDietLog(newLatestDietLog);
 
     toast.success("Diet Log Entry Deleted");
     deleteModal.onClose();
   };
 
   const resetDietLogEntry = () => {
-    setOperatingDietLog(defaultDietLog);
     setOperationType("add");
     resetInputs();
   };
@@ -202,7 +199,7 @@ export default function DietLogIndex() {
       />
       <DietLogModal
         dietLogModal={dietLogModal}
-        operatingDietLog={operatingDietLog}
+        operatingDietLog={latestDietLog}
         useDietLogEntryInputs={dietLogEntryInputs}
         dietLogMap={dietLogMap}
         userSettings={userSettings}
@@ -216,7 +213,7 @@ export default function DietLogIndex() {
           </h1>
         </div>
         <div className="flex flex-col items-center gap-2.5">
-          {latestDietLog === undefined ? (
+          {latestDietLog.id === 0 ? (
             <h2 className="text-stone-400">No Diet Log Entries Added</h2>
           ) : (
             <DietLogAccordions
