@@ -20,7 +20,7 @@ export const useDietLogList = (
   const [dietLogs, setDietLogs] = useState<DietLog[]>([]);
   const [sortCategory, setSortCategory] =
     useState<DietLogSortCategory>("date-desc");
-  const dietLogMap = useRef<DietLogMap>(new Map());
+  const [dietLogMap, setDietLogMap] = useState<DietLogMap>(new Map());
 
   const isDietLogListLoaded = useRef(false);
 
@@ -31,7 +31,7 @@ export const useDietLogList = (
       const result = await db.select<DietLog[]>(`SELECT * FROM diet_logs`);
 
       const dietLogs: DietLog[] = [];
-      const newDietLogMap = new Map<string, DietLog>();
+      const dietLogMap = new Map<string, DietLog>();
 
       for (const row of result) {
         const formattedDate = FormatYmdDateString(row.date);
@@ -50,11 +50,11 @@ export const useDietLogList = (
         };
 
         dietLogs.push(dietLog);
-        newDietLogMap.set(dietLog.date, dietLog);
+        dietLogMap.set(dietLog.date, dietLog);
       }
 
       sortDietLogsByDate(dietLogs, false);
-      dietLogMap.current = newDietLogMap;
+      setDietLogMap(dietLogMap);
       isDietLogListLoaded.current = true;
     } catch (error) {
       console.log(error);
@@ -78,7 +78,11 @@ export const useDietLogList = (
 
     sortDietLogsByActiveCategory(updatedDietLogs);
 
-    dietLogMap.current.set(newDietLog.date, newDietLog);
+    const updatedDietLogMap = new Map(dietLogMap);
+
+    updatedDietLogMap.set(newDietLog.date, newDietLog);
+
+    setDietLogMap(updatedDietLogMap);
 
     return newDietLog;
   };
@@ -94,7 +98,12 @@ export const useDietLogList = (
     const updatedDietLogs = DeleteItemFromList(dietLogs, dietLog.id);
 
     setDietLogs(updatedDietLogs);
-    dietLogMap.current.delete(dietLog.date);
+
+    const updatedDietLogMap = new Map(dietLogMap);
+
+    updatedDietLogMap.delete(dietLog.date);
+
+    setDietLogMap(updatedDietLogMap);
 
     const newLatestDietLog =
       returnNewLatestDietLog && updatedDietLogs.length > 0

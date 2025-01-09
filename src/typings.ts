@@ -1078,7 +1078,7 @@ export type DietLogSortCategory = "date-asc" | "date-desc";
 
 export type UseDietLogListReturnType = {
   dietLogs: DietLog[];
-  dietLogMap: React.MutableRefObject<DietLogMap>;
+  dietLogMap: DietLogMap;
   isDietLogListLoaded: React.MutableRefObject<boolean>;
   sortCategory: DietLogSortCategory;
   sortDietLogsByActiveCategory: (dietLogList: DietLog[]) => void;

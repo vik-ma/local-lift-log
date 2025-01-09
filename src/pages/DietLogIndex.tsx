@@ -92,7 +92,7 @@ export default function DietLogIndex() {
       operatingDietLog.id !== 0 ||
       operationType !== "add" ||
       !isDietLogEntryInputValid ||
-      dietLogMap.current.has(date)
+      dietLogMap.has(date)
     )
       return;
 
@@ -204,7 +204,7 @@ export default function DietLogIndex() {
         dietLogModal={dietLogModal}
         operatingDietLog={operatingDietLog}
         useDietLogEntryInputs={dietLogEntryInputs}
-        dietLogMap={dietLogMap.current}
+        dietLogMap={dietLogMap}
         userSettings={userSettings}
         buttonAction={addDietLogEntry}
         latestDietLog={latestDietLog}
