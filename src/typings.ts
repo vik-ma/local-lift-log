@@ -1084,6 +1084,10 @@ export type UseDietLogListReturnType = {
   sortDietLogsByActiveCategory: (dietLogList: DietLog[]) => void;
   handleSortOptionSelection: (key: string) => void;
   addDietLog: (dietLog: DietLog) => Promise<DietLog | undefined>;
+  updateDietLog: (
+    dietLog: DietLog,
+    returnNewLatestDietLog?: boolean
+  ) => Promise<{ success: boolean; newLatestDietLog: DietLog | undefined }>;
   deleteDietLog: (
     dietLog: DietLog,
     returnNewLatestDietLog?: boolean

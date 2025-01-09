@@ -10,6 +10,7 @@ import {
   DeleteItemFromList,
   FormatYmdDateString,
   ShouldDietLogDisableExpansion,
+  UpdateItemInList,
 } from "../helpers";
 
 export const useDietLogList = (
@@ -102,6 +103,57 @@ export const useDietLogList = (
     }
   };
 
+  const updateDietLog = async (
+    dietLog: DietLog,
+    returnNewLatestDietLog?: boolean
+  ): Promise<{ success: boolean; newLatestDietLog: DietLog | undefined }> => {
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      db.execute(
+        `UPDATE diet_logs SET 
+         date = $1, calories = $2, fat = $3, 
+         carbs = $4, protein = $5, comment = $6 
+         WHERE id = $7`,
+        [
+          dietLog.date,
+          dietLog.calories,
+          dietLog.fat,
+          dietLog.carbs,
+          dietLog.protein,
+          dietLog.comment,
+          dietLog.id,
+        ]
+      );
+
+      const updatedDietLogs = UpdateItemInList(dietLogs, dietLog);
+
+      if (returnNewLatestDietLog) {
+        sortDietLogsByDate(updatedDietLogs, false);
+      } else {
+        sortDietLogsByActiveCategory(updatedDietLogs);
+      }
+
+      const updatedDietLogMap = new Map(dietLogMap);
+
+      updatedDietLogMap.set(dietLog.date, dietLog);
+
+      setDietLogMap(updatedDietLogMap);
+
+      const newLatestDietLog = returnNewLatestDietLog
+        ? updatedDietLogs[0]
+        : undefined;
+
+      return {
+        success: true,
+        newLatestDietLog,
+      };
+    } catch (error) {
+      console.log(error);
+      return { success: false, newLatestDietLog: undefined };
+    }
+  };
+
   const deleteDietLog = async (
     dietLog: DietLog,
     returnNewLatestDietLog?: boolean
@@ -177,6 +229,7 @@ export const useDietLogList = (
     sortDietLogsByActiveCategory,
     handleSortOptionSelection,
     addDietLog,
+    updateDietLog,
     deleteDietLog,
   };
 };

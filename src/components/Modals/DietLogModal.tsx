@@ -151,6 +151,7 @@ export const DietLogModal = ({
 
     if (
       isCustomDateEntry &&
+      !isEditing &&
       (dateStringSelectedDate === null ||
         dietLogMap.has(dateStringSelectedDate))
     )
@@ -165,6 +166,7 @@ export const DietLogModal = ({
     dateStringYesterday,
     dateStringSelectedDate,
     isCustomDateEntry,
+    isEditing,
   ]);
 
   const isDateUnavailable = (date: DateValue) => {

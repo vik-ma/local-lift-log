@@ -41,6 +41,7 @@ export default function DietLogIndex() {
     isDietLogListLoaded,
     dietLogs,
     addDietLog,
+    updateDietLog,
     deleteDietLog,
     dietLogMap,
   } = dietLogList;
@@ -133,6 +134,47 @@ export default function DietLogIndex() {
     toast.success("Diet Log Entry Added");
   };
 
+  const updateDietLogEntry = async (date: string) => {
+    if (operationType !== "edit" || latestDietLog.id === 0) return;
+
+    const calories = ConvertInputStringToNumber(caloriesInput);
+    const comment = ConvertEmptyStringToNull(commentInput);
+    const fat = ConvertInputStringToNumberOrNull(fatInput);
+    const carbs = ConvertInputStringToNumberOrNull(carbsInput);
+    const protein = ConvertInputStringToNumberOrNull(proteinInput);
+
+    const formattedDate = FormatYmdDateString(date);
+
+    const disableExpansion = ShouldDietLogDisableExpansion(fat, carbs, protein);
+
+    const updatedDietLog: DietLog = {
+      id: latestDietLog.id,
+      date,
+      calories,
+      fat,
+      carbs,
+      protein,
+      comment,
+      formattedDate,
+      isExpanded: !disableExpansion,
+      disableExpansion,
+    };
+
+    const { success, newLatestDietLog } = await updateDietLog(
+      updatedDietLog,
+      true
+    );
+
+    if (!success || newLatestDietLog === undefined) return;
+
+    newLatestDietLog.isExpanded = !newLatestDietLog.disableExpansion;
+    setLatestDietLog(newLatestDietLog);
+
+    resetDietLogEntry();
+    dietLogModal.onClose();
+    toast.success("Diet Log Entry Updated");
+  };
+
   const deleteDietLogEntry = async () => {
     if (operationType !== "delete" || latestDietLog.id === 0) return;
 
@@ -218,7 +260,9 @@ export default function DietLogIndex() {
         dietLogMap={dietLogMap}
         userSettings={userSettings}
         isEditing={operationType === "edit"}
-        buttonAction={addDietLogEntry}
+        buttonAction={
+          operationType === "edit" ? updateDietLogEntry : addDietLogEntry
+        }
       />
       <div className="flex flex-col items-center gap-4">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">
