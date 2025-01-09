@@ -213,12 +213,12 @@ export default function DietLogIndex() {
       />
       <DietLogModal
         dietLogModal={dietLogModal}
-        operatingDietLog={latestDietLog}
+        dietLog={latestDietLog}
         useDietLogEntryInputs={dietLogEntryInputs}
         dietLogMap={dietLogMap}
         userSettings={userSettings}
+        isEditing={operationType === "edit"}
         buttonAction={addDietLogEntry}
-        latestDietLog={latestDietLog}
       />
       <div className="flex flex-col items-center gap-4">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">

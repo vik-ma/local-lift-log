@@ -24,22 +24,22 @@ import { ConvertCalendarDateToYmdString } from "../../helpers";
 
 type DietLogModalProps = {
   dietLogModal: UseDisclosureReturnType;
-  operatingDietLog: DietLog;
+  dietLog: DietLog;
   useDietLogEntryInputs: UseDietLogEntryInputsReturnType;
   dietLogMap: DietLogMap;
   userSettings: UserSettings;
+  isEditing: boolean;
   buttonAction: (date: string) => void;
-  latestDietLog?: DietLog | undefined;
 };
 
 export const DietLogModal = ({
   dietLogModal,
-  operatingDietLog,
+  dietLog,
   useDietLogEntryInputs,
   dietLogMap,
   userSettings,
+  isEditing,
   buttonAction,
-  latestDietLog,
 }: DietLogModalProps) => {
   const {
     caloriesInput,
@@ -67,22 +67,21 @@ export const DietLogModal = ({
     dateStringSelectedDate,
     selectedDate,
     setSelectedDate,
-    disableDatePicker,
   } = useDietLogEntryInputs;
 
   const copyLastValues = () => {
-    if (latestDietLog === undefined) return;
+    if (dietLog.id === 0) return;
 
-    setCaloriesInput(latestDietLog.calories.toString());
+    setCaloriesInput(dietLog.calories.toString());
 
-    if (latestDietLog.fat !== null) {
-      setFatInput(latestDietLog.fat.toString());
+    if (dietLog.fat !== null) {
+      setFatInput(dietLog.fat.toString());
     }
-    if (latestDietLog.carbs !== null) {
-      setCarbsInput(latestDietLog.carbs.toString());
+    if (dietLog.carbs !== null) {
+      setCarbsInput(dietLog.carbs.toString());
     }
-    if (latestDietLog.protein !== null) {
-      setProteinInput(latestDietLog.protein.toString());
+    if (dietLog.protein !== null) {
+      setProteinInput(dietLog.protein.toString());
     }
   };
 
@@ -169,6 +168,8 @@ export const DietLogModal = ({
   ]);
 
   const isDateUnavailable = (date: DateValue) => {
+    if (isEditing) return false;
+
     const dateString = ConvertCalendarDateToYmdString(date as CalendarDate);
 
     if (dateString === null) return false;
@@ -199,7 +200,7 @@ export const DietLogModal = ({
         {(onClose) => (
           <>
             <ModalHeader>
-              {operatingDietLog.id === 0 ? "New" : "Edit"} Diet Log Entry
+              {dietLog.id === 0 ? "New" : "Edit"} Diet Log Entry
             </ModalHeader>
             <ModalBody>
               <div className="flex gap-6">
@@ -289,69 +290,68 @@ export const DietLogModal = ({
                         disabledKeys={disabledDropdownKeys}
                       />
                     </div>
-                    {operatingDietLog.id === 0 &&
-                      latestDietLog !== undefined && (
-                        <div className="flex flex-col gap-0.5">
-                          <h3 className="font-medium text-lg px-0.5 border-b-1 text-stone-600">
-                            Last Diet Log
-                          </h3>
-                          <div className="flex flex-col px-0.5 break-words w-[11rem] text-sm">
-                            <div className="text-base truncate">
-                              <span className="font-semibold text-slate-500">
-                                {latestDietLog.calories}{" "}
+                    {dietLog.id !== 0 && !isEditing && (
+                      <div className="flex flex-col gap-0.5">
+                        <h3 className="font-medium text-lg px-0.5 border-b-1 text-stone-600">
+                          Last Diet Log
+                        </h3>
+                        <div className="flex flex-col px-0.5 break-words w-[11rem] text-sm">
+                          <div className="text-base truncate">
+                            <span className="font-semibold text-slate-500">
+                              {dietLog.calories}{" "}
+                            </span>
+                            <span className="font-medium text-stone-600">
+                              kcal
+                            </span>
+                          </div>
+                          {dietLog.fat !== null && (
+                            <div className="truncate">
+                              <span className="font-semibold text-stone-600">
+                                Fat:{" "}
                               </span>
-                              <span className="font-medium text-stone-600">
-                                kcal
+                              <span className="font-medium text-slate-500">
+                                {dietLog.fat} g
                               </span>
                             </div>
-                            {latestDietLog.fat !== null && (
-                              <div className="truncate">
-                                <span className="font-semibold text-stone-600">
-                                  Fat:{" "}
-                                </span>
-                                <span className="font-medium text-slate-500">
-                                  {latestDietLog.fat} g
-                                </span>
-                              </div>
-                            )}
-                            {latestDietLog.carbs !== null && (
-                              <div className="truncate">
-                                <span className="font-semibold text-stone-600">
-                                  Carbs:{" "}
-                                </span>
-                                <span className="font-medium text-slate-500">
-                                  {latestDietLog.carbs} g
-                                </span>
-                              </div>
-                            )}
-                            {latestDietLog.protein !== null && (
-                              <div className="truncate">
-                                <span className="font-semibold text-stone-600">
-                                  Protein:{" "}
-                                </span>
-                                <span className="font-medium text-slate-500">
-                                  {latestDietLog.protein} g
-                                </span>
-                              </div>
-                            )}
-                            {latestDietLog.comment !== null && (
-                              <div className="text-stone-500 max-h-[6.25rem] overflow-hidden">
-                                <span className="font-medium">Comment: </span>
-                                {latestDietLog.comment}
-                              </div>
-                            )}
-                          </div>
-                          <Button
-                            className="mt-0.5"
-                            color="secondary"
-                            variant="flat"
-                            size="sm"
-                            onPress={copyLastValues}
-                          >
-                            Copy Last Diet Log Values
-                          </Button>
+                          )}
+                          {dietLog.carbs !== null && (
+                            <div className="truncate">
+                              <span className="font-semibold text-stone-600">
+                                Carbs:{" "}
+                              </span>
+                              <span className="font-medium text-slate-500">
+                                {dietLog.carbs} g
+                              </span>
+                            </div>
+                          )}
+                          {dietLog.protein !== null && (
+                            <div className="truncate">
+                              <span className="font-semibold text-stone-600">
+                                Protein:{" "}
+                              </span>
+                              <span className="font-medium text-slate-500">
+                                {dietLog.protein} g
+                              </span>
+                            </div>
+                          )}
+                          {dietLog.comment !== null && (
+                            <div className="text-stone-500 max-h-[6.25rem] overflow-hidden">
+                              <span className="font-medium">Comment: </span>
+                              {dietLog.comment}
+                            </div>
+                          )}
                         </div>
-                      )}
+                        <Button
+                          className="mt-0.5"
+                          color="secondary"
+                          variant="flat"
+                          size="sm"
+                          onPress={copyLastValues}
+                        >
+                          Copy Last Diet Log Values
+                        </Button>
+                      </div>
+                    )}
                   </div>
                 ) : (
                   <div className="flex flex-col">
@@ -371,7 +371,7 @@ export const DietLogModal = ({
                         value={selectedDate}
                         onChange={setSelectedDate}
                         isDateUnavailable={isDateUnavailable}
-                        isDisabled={disableDatePicker}
+                        isDisabled={isEditing}
                       />
                     </I18nProvider>
                   </div>
@@ -380,7 +380,7 @@ export const DietLogModal = ({
             </ModalBody>
             <ModalFooter className="flex justify-between">
               <div>
-                {!disableTodayOrYesterdayEntry && (
+                {!disableTodayOrYesterdayEntry && !isEditing && (
                   <Button
                     className="w-[12.5rem]"
                     variant="flat"
@@ -401,7 +401,7 @@ export const DietLogModal = ({
                   onPress={handleSaveButton}
                   isDisabled={disableDoneButton}
                 >
-                  {operatingDietLog.id === 0 ? "Save" : "Update"}
+                  {dietLog.id === 0 ? "Save" : "Update"}
                 </Button>
               </div>
             </ModalFooter>

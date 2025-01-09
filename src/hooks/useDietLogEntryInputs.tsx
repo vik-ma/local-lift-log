@@ -20,7 +20,6 @@ export const useDietLogEntryInputs = (): UseDietLogEntryInputsReturnType => {
   const [targetDay, setTargetDay] = useState<string>("Today");
   const [selectedDate, setSelectedDate] = useState<CalendarDate | null>(null);
   const [isCustomDateEntry, setIsCustomDateEntry] = useState<boolean>(false);
-  const [disableDatePicker, setDisableDatePicker] = useState<boolean>(false);
 
   const dateStringToday = useMemo(() => GetCurrentYmdDateString(), []);
   const dateStringYesterday = useMemo(() => GetYesterdayYmdDateString(), []);
@@ -73,7 +72,6 @@ export const useDietLogEntryInputs = (): UseDietLogEntryInputsReturnType => {
     setCarbsInput("");
     setProteinInput("");
     setCommentInput("");
-    setDisableDatePicker(false);
   };
 
   const calculateCaloriesFromMacros = () => {
@@ -98,8 +96,6 @@ export const useDietLogEntryInputs = (): UseDietLogEntryInputsReturnType => {
     if (dietLog.protein !== null) setProteinInput(dietLog.protein.toString());
 
     if (dietLog.comment !== null) setCommentInput(dietLog.comment.toString());
-
-    setDisableDatePicker(true);
   };
 
   return {
@@ -130,6 +126,5 @@ export const useDietLogEntryInputs = (): UseDietLogEntryInputsReturnType => {
     dateStringToday,
     dateStringYesterday,
     dateStringSelectedDate,
-    disableDatePicker,
   };
 };
