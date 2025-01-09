@@ -21,6 +21,7 @@ import { DietLogDayDropdown } from "../Dropdowns/DietLogDayDropdown";
 import { useEffect, useMemo } from "react";
 import { I18nProvider } from "@react-aria/i18n";
 import { ConvertCalendarDateToYmdString } from "../../helpers";
+import { getLocalTimeZone, today } from "@internationalized/date";
 
 type DietLogModalProps = {
   dietLogModal: UseDisclosureReturnType;
@@ -169,7 +170,11 @@ export const DietLogModal = ({
     isEditing,
   ]);
 
+  const currentCalendarDate = useMemo(() => today(getLocalTimeZone()), []);
+
   const isDateUnavailable = (date: DateValue) => {
+    if (date.compare(currentCalendarDate) > 0) return true;
+
     const dateString = ConvertCalendarDateToYmdString(date as CalendarDate);
 
     if (dateString === null) return false;
