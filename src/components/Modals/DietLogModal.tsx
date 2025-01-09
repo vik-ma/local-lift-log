@@ -170,11 +170,16 @@ export const DietLogModal = ({
   ]);
 
   const isDateUnavailable = (date: DateValue) => {
-    if (isEditing) return false;
-
     const dateString = ConvertCalendarDateToYmdString(date as CalendarDate);
 
     if (dateString === null) return false;
+
+    if (
+      isEditing &&
+      dietLogMap.has(dateString) &&
+      dietLogMap.get(dateString)!.id === dietLog.id
+    )
+      return false;
 
     return dietLogMap.has(dateString);
   };
@@ -376,7 +381,6 @@ export const DietLogModal = ({
                         value={selectedDate}
                         onChange={setSelectedDate}
                         isDateUnavailable={isDateUnavailable}
-                        isDisabled={isEditing}
                       />
                     </I18nProvider>
                   </div>
