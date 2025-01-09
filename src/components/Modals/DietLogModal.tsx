@@ -296,6 +296,9 @@ export const DietLogModal = ({
                           Last Diet Log
                         </h3>
                         <div className="flex flex-col px-0.5 break-words w-[11rem] text-sm">
+                          <span className="text-sm font-medium text-secondary">
+                            {dietLog.formattedDate}
+                          </span>
                           <div className="text-base truncate">
                             <span className="font-semibold text-slate-500">
                               {dietLog.calories}{" "}
@@ -335,7 +338,7 @@ export const DietLogModal = ({
                             </div>
                           )}
                           {dietLog.comment !== null && (
-                            <div className="text-stone-500 max-h-[6.25rem] overflow-hidden">
+                            <div className="text-stone-500 max-h-[5rem] overflow-hidden">
                               <span className="font-medium">Comment: </span>
                               {dietLog.comment}
                             </div>
