@@ -21,6 +21,7 @@ import {
 } from "../hooks";
 import { Button, useDisclosure } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 type OperationType = "add" | "edit" | "delete";
 
@@ -36,6 +37,8 @@ export default function DietLogIndex() {
   const deleteModal = useDisclosure();
 
   const dietLogList = useDietLogList(true);
+
+  const navigate = useNavigate();
 
   const {
     isDietLogListLoaded,
@@ -264,30 +267,54 @@ export default function DietLogIndex() {
           operationType === "edit" ? updateDietLogEntry : addDietLogEntry
         }
       />
-      <div className="flex flex-col items-center gap-4">
+      <div className="flex flex-col items-center gap-3">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">
           <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">
             Diet Log
           </h1>
         </div>
         <div className="flex flex-col items-center gap-2.5">
-          {latestDietLog.id === 0 ? (
-            <h2 className="text-stone-400">No Diet Log Entries Added</h2>
-          ) : (
-            <DietLogAccordions
-              dietLogEntries={[latestDietLog]}
-              handleDietLogAccordionClick={handleDietLogAccordionClick}
-              handleDietLogOptionSelection={handleDietLogOptionSelection}
-              showDayLabel
-            />
-          )}
-          <Button
-            className="font-medium"
-            variant="flat"
-            onPress={handleAddDietLogEntryButton}
-          >
-            Add Diet Log Entry
-          </Button>
+          <div className="flex flex-col items-center gap-2">
+            <h2 className="flex items-center gap-2">
+              {latestDietLog.id === 0 ? (
+                <span className="text-stone-400">
+                  No Diet Log Entries Added
+                </span>
+              ) : (
+                <span className="font-semibold text-lg">
+                  Latest Diet Log Entry
+                </span>
+              )}
+            </h2>
+            {latestDietLog.id !== 0 && (
+              <DietLogAccordions
+                dietLogEntries={[latestDietLog]}
+                handleDietLogAccordionClick={handleDietLogAccordionClick}
+                handleDietLogOptionSelection={handleDietLogOptionSelection}
+                showDayLabel
+              />
+            )}
+          </div>
+          <div className="flex flex-col gap-2">
+            <Button
+              className="font-medium"
+              variant="flat"
+              color="secondary"
+              onPress={handleAddDietLogEntryButton}
+            >
+              Add Diet Log Entry
+            </Button>
+            {latestDietLog.id !== 0 && (
+              <Button
+                className="font-medium"
+                variant="flat"
+                size="sm"
+                onPress={() => navigate("/diet-log/list")}
+              >
+                View History
+              </Button>
+            )}
+          </div>
         </div>
       </div>
     </>

@@ -20,3 +20,4 @@ export { default as TestPage } from "./TestPage";
 export { default as MultisetsPage } from "./Multisets";
 export { default as TimePeriodListPage } from "./TimePeriodList";
 export { default as DietLogIndexPage } from "./DietLogIndex";
+export { default as DietLogListPage } from "./DietLogList";
