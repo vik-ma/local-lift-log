@@ -406,7 +406,7 @@ export const DietLogModal = ({
                   onPress={handleSaveButton}
                   isDisabled={disableDoneButton}
                 >
-                  {dietLog.id === 0 ? "Save" : "Update"}
+                  {isEditing ? "Update" : "Save"}
                 </Button>
               </div>
             </ModalFooter>
