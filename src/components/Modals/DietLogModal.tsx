@@ -67,6 +67,7 @@ export const DietLogModal = ({
     dateStringSelectedDate,
     selectedDate,
     setSelectedDate,
+    disableDatePicker,
   } = useDietLogEntryInputs;
 
   const copyLastValues = () => {
@@ -370,6 +371,7 @@ export const DietLogModal = ({
                         value={selectedDate}
                         onChange={setSelectedDate}
                         isDateUnavailable={isDateUnavailable}
+                        isDisabled={disableDatePicker}
                       />
                     </I18nProvider>
                   </div>

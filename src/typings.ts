@@ -1070,6 +1070,7 @@ export type UseDietLogEntryInputsReturnType = {
   dateStringToday: string;
   dateStringYesterday: string;
   dateStringSelectedDate: string | null;
+  disableDatePicker: boolean;
 };
 
 export type DietLogMap = Map<string, DietLog>;

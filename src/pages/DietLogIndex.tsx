@@ -57,6 +57,7 @@ export default function DietLogIndex() {
     isDietLogEntryInputValid,
     resetInputs,
     setIsCustomDateEntry,
+    loadDietLogInputs,
   } = dietLogEntryInputs;
 
   useEffect(() => {
@@ -168,11 +169,21 @@ export default function DietLogIndex() {
 
   const handleDietLogOptionSelection = (key: string) => {
     if (key === "edit") {
-      // TODO: ADD
+      handleEditLatestDietLog();
     } else if (key === "delete") {
       setOperationType("delete");
       deleteModal.onOpen();
     }
+  };
+
+  const handleEditLatestDietLog = () => {
+    if (latestDietLog === undefined) return;
+
+    setOperationType("edit");
+    loadDietLogInputs(latestDietLog);
+    setIsCustomDateEntry(true);
+
+    dietLogModal.onOpen();
   };
 
   const handleDietLogAccordionClick = (dietLog: DietLog) => {
