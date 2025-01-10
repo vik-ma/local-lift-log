@@ -45,6 +45,7 @@ export default function DietLogList() {
     filteredDietLogs,
     dietLogMap,
     isDietLogListLoaded,
+    addDietLog,
     updateDietLog,
     deleteDietLog,
     filterQuery,
@@ -74,6 +75,47 @@ export default function DietLogList() {
 
     loadUserSettings();
   }, []);
+
+  const addDietLogEntry = async (date: string) => {
+    if (
+      operationType !== "add" ||
+      operatingDietLog.id !== 0 ||
+      !isDietLogEntryInputValid ||
+      dietLogMap.has(date)
+    )
+      return;
+
+    const calories = ConvertInputStringToNumber(caloriesInput);
+    const comment = ConvertEmptyStringToNull(commentInput);
+    const fat = ConvertInputStringToNumberOrNull(fatInput);
+    const carbs = ConvertInputStringToNumberOrNull(carbsInput);
+    const protein = ConvertInputStringToNumberOrNull(proteinInput);
+
+    const formattedDate = FormatYmdDateString(date);
+
+    const disableExpansion = ShouldDietLogDisableExpansion(fat, carbs, protein);
+
+    const dietLog: DietLog = {
+      id: 0,
+      date,
+      calories,
+      fat,
+      carbs,
+      protein,
+      comment,
+      formattedDate,
+      isExpanded: false,
+      disableExpansion,
+    };
+
+    const newDietLog = await addDietLog(dietLog);
+
+    if (newDietLog === undefined) return;
+
+    resetDietLogEntry();
+    dietLogModal.onClose();
+    toast.success("Diet Log Entry Added");
+  };
 
   const updateDietLogEntry = async (date: string) => {
     if (
@@ -194,7 +236,9 @@ export default function DietLogList() {
         dietLogMap={dietLogMap}
         userSettings={userSettings}
         isEditing={operationType === "edit"}
-        buttonAction={operationType === "edit" ? updateDietLogEntry : () => {}}
+        buttonAction={
+          operationType === "edit" ? updateDietLogEntry : addDietLogEntry
+        }
       />
       <div className="flex flex-col items-center gap-1">
         <ListPageSearchInput
