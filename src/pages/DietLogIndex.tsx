@@ -281,9 +281,21 @@ export default function DietLogIndex() {
                   No Diet Log Entries Added
                 </span>
               ) : (
-                <span className="font-semibold text-lg">
-                  Latest Diet Log Entry
-                </span>
+                <>
+                  <span className="font-semibold text-lg">
+                    Latest Diet Log Entry
+                  </span>
+                  {latestDietLog.id !== 0 && (
+                    <Button
+                      color="secondary"
+                      variant="flat"
+                      size="sm"
+                      onPress={() => navigate("/diet-log/list")}
+                    >
+                      View History
+                    </Button>
+                  )}
+                </>
               )}
             </h2>
             {latestDietLog.id !== 0 && (
@@ -299,21 +311,10 @@ export default function DietLogIndex() {
             <Button
               className="font-medium"
               variant="flat"
-              color="secondary"
               onPress={handleAddDietLogEntryButton}
             >
               Add Diet Log Entry
             </Button>
-            {latestDietLog.id !== 0 && (
-              <Button
-                className="font-medium"
-                variant="flat"
-                size="sm"
-                onPress={() => navigate("/diet-log/list")}
-              >
-                View History
-              </Button>
-            )}
           </div>
         </div>
       </div>
