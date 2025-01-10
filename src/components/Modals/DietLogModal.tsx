@@ -87,8 +87,6 @@ export const DietLogModal = ({
   };
 
   const disabledDropdownKeys = useMemo(() => {
-    if (dietLogMap === undefined) return undefined;
-
     const disabledKeys: string[] = [];
 
     if (dietLogMap.has(dateStringToday)) {

@@ -203,6 +203,7 @@ export const useDietLogList = (
 
   return {
     dietLogs,
+    setDietLogs,
     dietLogMap,
     isDietLogListLoaded,
     sortCategory,
