@@ -113,11 +113,7 @@ export const useDietLogList = (
 
       const updatedDietLogs = UpdateItemInList(dietLogs, dietLog);
 
-      if (returnNewLatestDietLog) {
-        sortDietLogsByDate(updatedDietLogs, false);
-      } else {
-        sortDietLogsByActiveCategory(updatedDietLogs);
-      }
+      sortDietLogsByActiveCategory(updatedDietLogs);
 
       const updatedDietLogMap = new Map(dietLogMap);
 
@@ -149,7 +145,7 @@ export const useDietLogList = (
 
     const updatedDietLogs = DeleteItemFromList(dietLogs, dietLog.id);
 
-    setDietLogs(updatedDietLogs);
+    sortDietLogsByActiveCategory(updatedDietLogs);
 
     const updatedDietLogMap = new Map(dietLogMap);
 
