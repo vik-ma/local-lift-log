@@ -41,6 +41,7 @@ export default function DietLogList() {
   const {
     dietLogs,
     setDietLogs,
+    filteredDietLogs,
     dietLogMap,
     isDietLogListLoaded,
     updateDietLog,
@@ -187,7 +188,7 @@ export default function DietLogList() {
       />
       <div className="flex flex-col items-center gap-1">
         <DietLogAccordions
-          dietLogEntries={dietLogs}
+          dietLogEntries={filteredDietLogs}
           handleDietLogAccordionClick={handleDietLogAccordionClick}
           handleDietLogOptionSelection={handleDietLogOptionSelection}
         />

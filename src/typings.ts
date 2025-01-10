@@ -1093,4 +1093,7 @@ export type UseDietLogListReturnType = {
     dietLog: DietLog,
     returnNewLatestDietLog?: boolean
   ) => Promise<{ success: boolean; newLatestDietLog: DietLog | undefined }>;
+  filterQuery: string;
+  setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
+  filteredDietLogs: DietLog[];
 };

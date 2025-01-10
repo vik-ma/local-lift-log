@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   DietLog,
   DietLogMap,
@@ -22,8 +22,24 @@ export const useDietLogList = (
   const [sortCategory, setSortCategory] =
     useState<DietLogSortCategory>("date-desc");
   const [dietLogMap, setDietLogMap] = useState<DietLogMap>(new Map());
+  const [filterQuery, setFilterQuery] = useState<string>("");
 
   const isDietLogListLoaded = useRef(false);
+
+  const filteredDietLogs = useMemo(() => {
+    if (filterQuery !== "") {
+      return dietLogs.filter(
+        (item) =>
+          item.calories.toString().includes(filterQuery.toLocaleLowerCase()) ||
+          item.date.includes(filterQuery.toLocaleLowerCase()) ||
+          item.formattedDate?.includes(filterQuery.toLocaleLowerCase()) ||
+          item.comment
+            ?.toLocaleLowerCase()
+            .includes(filterQuery.toLocaleLowerCase())
+      );
+    }
+    return dietLogs;
+  }, [dietLogs, filterQuery]);
 
   const getDietLogs = useCallback(async () => {
     try {
@@ -208,5 +224,8 @@ export const useDietLogList = (
     addDietLog,
     updateDietLog,
     deleteDietLog,
+    filterQuery,
+    setFilterQuery,
+    filteredDietLogs,
   };
 };
