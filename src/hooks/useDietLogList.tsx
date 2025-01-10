@@ -7,8 +7,10 @@ import {
 } from "../typings";
 import Database from "tauri-plugin-sql-api";
 import {
+  DeleteDietLogWithId,
   DeleteItemFromList,
   FormatYmdDateString,
+  InsertDietLogIntoDatabase,
   ShouldDietLogDisableExpansion,
   UpdateItemInList,
 } from "../helpers";
@@ -67,40 +69,23 @@ export const useDietLogList = (
   }, [getDietLogsOnLoad, getDietLogs]);
 
   const addDietLog = async (dietLog: DietLog) => {
-    try {
-      const db = await Database.load(import.meta.env.VITE_DB);
+    const newDietLogId = await InsertDietLogIntoDatabase(dietLog);
 
-      const result = await db.execute(
-        `INSERT into diet_logs 
-        (date, calories, fat, carbs, protein, comment) 
-       VALUES ($1, $2, $3, $4, $5, $6)`,
-        [
-          dietLog.date,
-          dietLog.calories,
-          dietLog.fat,
-          dietLog.carbs,
-          dietLog.protein,
-          dietLog.comment,
-        ]
-      );
+    if (newDietLogId === 0) return undefined;
 
-      const newDietLog: DietLog = { ...dietLog, id: result.lastInsertId };
+    const newDietLog: DietLog = { ...dietLog, id: newDietLogId };
 
-      const updatedDietLogs = [...dietLogs, newDietLog];
+    const updatedDietLogs = [...dietLogs, newDietLog];
 
-      sortDietLogsByActiveCategory(updatedDietLogs);
+    sortDietLogsByActiveCategory(updatedDietLogs);
 
-      const updatedDietLogMap = new Map(dietLogMap);
+    const updatedDietLogMap = new Map(dietLogMap);
 
-      updatedDietLogMap.set(newDietLog.date, newDietLog);
+    updatedDietLogMap.set(newDietLog.date, newDietLog);
 
-      setDietLogMap(updatedDietLogMap);
+    setDietLogMap(updatedDietLogMap);
 
-      return newDietLog;
-    } catch (error) {
-      console.log(error);
-      return undefined;
-    }
+    return newDietLog;
   };
 
   const updateDietLog = async (
@@ -158,34 +143,29 @@ export const useDietLogList = (
     dietLog: DietLog,
     returnNewLatestDietLog?: boolean
   ): Promise<{ success: boolean; newLatestDietLog: DietLog | undefined }> => {
-    try {
-      const db = await Database.load(import.meta.env.VITE_DB);
+    const success = await DeleteDietLogWithId(dietLog.id);
 
-      db.execute("DELETE from diet_logs WHERE id = $1", [dietLog.id]);
+    if (!success) return { success: false, newLatestDietLog: undefined };
 
-      const updatedDietLogs = DeleteItemFromList(dietLogs, dietLog.id);
+    const updatedDietLogs = DeleteItemFromList(dietLogs, dietLog.id);
 
-      setDietLogs(updatedDietLogs);
+    setDietLogs(updatedDietLogs);
 
-      const updatedDietLogMap = new Map(dietLogMap);
+    const updatedDietLogMap = new Map(dietLogMap);
 
-      updatedDietLogMap.delete(dietLog.date);
+    updatedDietLogMap.delete(dietLog.date);
 
-      setDietLogMap(updatedDietLogMap);
+    setDietLogMap(updatedDietLogMap);
 
-      const newLatestDietLog =
-        returnNewLatestDietLog && updatedDietLogs.length > 0
-          ? updatedDietLogs[0]
-          : undefined;
+    const newLatestDietLog =
+      returnNewLatestDietLog && updatedDietLogs.length > 0
+        ? updatedDietLogs[0]
+        : undefined;
 
-      return {
-        success: true,
-        newLatestDietLog,
-      };
-    } catch (error) {
-      console.log(error);
-      return { success: false, newLatestDietLog: undefined };
-    }
+    return {
+      success: true,
+      newLatestDietLog,
+    };
   };
 
   const sortDietLogsByDate = (dietLogList: DietLog[], isAscending: boolean) => {
