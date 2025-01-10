@@ -138,7 +138,12 @@ export default function DietLogIndex() {
   };
 
   const updateDietLogEntry = async (date: string) => {
-    if (operationType !== "edit" || latestDietLog.id === 0) return;
+    if (
+      operationType !== "edit" ||
+      latestDietLog.id === 0 ||
+      !isDietLogEntryInputValid
+    )
+      return;
 
     const calories = ConvertInputStringToNumber(caloriesInput);
     const comment = ConvertEmptyStringToNull(commentInput);
@@ -222,7 +227,7 @@ export default function DietLogIndex() {
   };
 
   const handleEditLatestDietLog = () => {
-    if (latestDietLog === undefined) return;
+    if (latestDietLog.id === 0) return;
 
     setOperationType("edit");
     loadDietLogInputs(latestDietLog);
