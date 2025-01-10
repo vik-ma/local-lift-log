@@ -3,6 +3,7 @@ import {
   DeleteModal,
   DietLogAccordions,
   DietLogModal,
+  ListPageSearchInput,
   LoadingSpinner,
 } from "../components";
 import {
@@ -11,7 +12,7 @@ import {
   useDietLogList,
 } from "../hooks";
 import { DietLog, UserSettings } from "../typings";
-import { useDisclosure } from "@nextui-org/react";
+import { Button, useDisclosure } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
 import {
   ConvertEmptyStringToNull,
@@ -46,6 +47,8 @@ export default function DietLogList() {
     isDietLogListLoaded,
     updateDietLog,
     deleteDietLog,
+    filterQuery,
+    setFilterQuery,
   } = dietLogList;
 
   const dietLogEntryInputs = useDietLogEntryInputs(true);
@@ -156,6 +159,13 @@ export default function DietLogList() {
     }
   };
 
+  const handleAddDietLogEntry = () => {
+    if (operationType !== "add") {
+      resetDietLogEntry();
+    }
+    dietLogModal.onOpen();
+  };
+
   if (userSettings === undefined || !isDietLogListLoaded.current)
     return <LoadingSpinner />;
 
@@ -187,6 +197,71 @@ export default function DietLogList() {
         buttonAction={operationType === "edit" ? updateDietLogEntry : () => {}}
       />
       <div className="flex flex-col items-center gap-1">
+        <ListPageSearchInput
+          header="Diet Log Entries"
+          filterQuery={filterQuery}
+          setFilterQuery={setFilterQuery}
+          filteredListLength={filteredDietLogs.length}
+          totalListLength={dietLogs.length}
+          // TODO: FIX
+          isListFiltered={false}
+          bottomContent={
+            <div className="flex flex-col gap-1.5">
+              <div className="flex justify-between">
+                <Button
+                  color="secondary"
+                  variant="flat"
+                  onPress={handleAddDietLogEntry}
+                  size="sm"
+                >
+                  New Diet Log Entry
+                </Button>
+                {/* TODO: ADD */}
+                {/* <div className="flex gap-1">
+                  <Button
+                    className="z-1"
+                    variant="flat"
+                    color={filterMap.size > 0 ? "secondary" : "default"}
+                    size="sm"
+                    onPress={() => filterUserMeasurementListModal.onOpen()}
+                  >
+                    Filter
+                  </Button>
+                  <Dropdown>
+                    <DropdownTrigger>
+                      <Button className="z-1" variant="flat" size="sm">
+                        Sort By
+                      </Button>
+                    </DropdownTrigger>
+                    <DropdownMenu
+                      aria-label="Sort User Measurements Dropdown Menu"
+                      selectionMode="single"
+                      selectedKeys={[sortCategory]}
+                      onAction={(key) =>
+                        handleSortOptionSelection(key as string)
+                      }
+                    >
+                      <DropdownItem key="date-desc">
+                        Date (Latest First)
+                      </DropdownItem>
+                      <DropdownItem key="date-asc">
+                        Date (Oldest First)
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </div> */}
+              </div>
+              {/* TODO: ADD */}
+              {/* {filterMap.size > 0 && (
+                <ListFilters
+                  filterMap={filterMap}
+                  removeFilter={removeFilter}
+                  prefixMap={prefixMap}
+                />
+              )} */}
+            </div>
+          }
+        />
         <DietLogAccordions
           dietLogEntries={filteredDietLogs}
           handleDietLogAccordionClick={handleDietLogAccordionClick}
