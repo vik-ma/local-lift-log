@@ -1,10 +1,26 @@
 import { useEffect, useState } from "react";
-import { DeleteModal, DietLogAccordions, LoadingSpinner } from "../components";
-import { useDefaultDietLog, useDietLogList } from "../hooks";
+import {
+  DeleteModal,
+  DietLogAccordions,
+  DietLogModal,
+  LoadingSpinner,
+} from "../components";
+import {
+  useDefaultDietLog,
+  useDietLogEntryInputs,
+  useDietLogList,
+} from "../hooks";
 import { DietLog, UserSettings } from "../typings";
 import { useDisclosure } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
-import { GetUserSettings } from "../helpers";
+import {
+  ConvertEmptyStringToNull,
+  ConvertInputStringToNumber,
+  ConvertInputStringToNumberOrNull,
+  FormatYmdDateString,
+  GetUserSettings,
+  ShouldDietLogDisableExpansion,
+} from "../helpers";
 
 type OperationType = "add" | "edit" | "delete";
 
@@ -17,12 +33,32 @@ export default function DietLogList() {
   const [operatingDietLog, setOperatingDietLog] =
     useState<DietLog>(defaultDietLog);
 
+  const dietLogModal = useDisclosure();
   const deleteModal = useDisclosure();
 
   const dietLogList = useDietLogList(true);
 
-  const { dietLogs, setDietLogs, isDietLogListLoaded, deleteDietLog } =
-    dietLogList;
+  const {
+    dietLogs,
+    setDietLogs,
+    dietLogMap,
+    isDietLogListLoaded,
+    updateDietLog,
+    deleteDietLog,
+  } = dietLogList;
+
+  const dietLogEntryInputs = useDietLogEntryInputs(true);
+
+  const {
+    caloriesInput,
+    commentInput,
+    fatInput,
+    carbsInput,
+    proteinInput,
+    isDietLogEntryInputValid,
+    resetInputs,
+    loadDietLogInputs,
+  } = dietLogEntryInputs;
 
   useEffect(() => {
     const loadUserSettings = async () => {
@@ -35,6 +71,46 @@ export default function DietLogList() {
     loadUserSettings();
   }, []);
 
+  const updateDietLogEntry = async (date: string) => {
+    if (
+      operationType !== "edit" ||
+      operatingDietLog.id === 0 ||
+      !isDietLogEntryInputValid
+    )
+      return;
+
+    const calories = ConvertInputStringToNumber(caloriesInput);
+    const comment = ConvertEmptyStringToNull(commentInput);
+    const fat = ConvertInputStringToNumberOrNull(fatInput);
+    const carbs = ConvertInputStringToNumberOrNull(carbsInput);
+    const protein = ConvertInputStringToNumberOrNull(proteinInput);
+
+    const formattedDate = FormatYmdDateString(date);
+
+    const disableExpansion = ShouldDietLogDisableExpansion(fat, carbs, protein);
+
+    const updatedDietLog: DietLog = {
+      id: operatingDietLog.id,
+      date,
+      calories,
+      fat,
+      carbs,
+      protein,
+      comment,
+      formattedDate,
+      isExpanded: false,
+      disableExpansion,
+    };
+
+    const { success } = await updateDietLog(updatedDietLog);
+
+    if (!success) return;
+
+    resetDietLogEntry();
+    dietLogModal.onClose();
+    toast.success("Diet Log Entry Updated");
+  };
+
   const deleteDietLogEntry = async () => {
     if (operationType !== "delete" || operatingDietLog.id === 0) return;
 
@@ -46,6 +122,12 @@ export default function DietLogList() {
 
     toast.success("Diet Log Entry Deleted");
     deleteModal.onClose();
+  };
+
+  const resetDietLogEntry = () => {
+    setOperationType("add");
+    setOperatingDietLog(defaultDietLog);
+    resetInputs();
   };
 
   const handleDietLogAccordionClick = (dietLog: DietLog, index: number) => {
@@ -62,10 +144,13 @@ export default function DietLogList() {
 
   const handleDietLogOptionSelection = (key: string, dietLog: DietLog) => {
     if (key === "edit") {
-      //  TODO: ADD
-    } else if (key === "delete") {
+      setOperationType("edit");
       setOperatingDietLog(dietLog);
+      loadDietLogInputs(dietLog);
+      dietLogModal.onOpen();
+    } else if (key === "delete") {
       setOperationType("delete");
+      setOperatingDietLog(dietLog);
       deleteModal.onOpen();
     }
   };
@@ -90,6 +175,15 @@ export default function DietLogList() {
           </p>
         }
         deleteButtonAction={() => deleteDietLogEntry()}
+      />
+      <DietLogModal
+        dietLogModal={dietLogModal}
+        dietLog={operatingDietLog}
+        useDietLogEntryInputs={dietLogEntryInputs}
+        dietLogMap={dietLogMap}
+        userSettings={userSettings}
+        isEditing={operationType === "edit"}
+        buttonAction={operationType === "edit" ? updateDietLogEntry : () => {}}
       />
       <div className="flex flex-col items-center gap-1">
         <DietLogAccordions
