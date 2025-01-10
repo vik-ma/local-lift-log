@@ -11,7 +11,9 @@ import {
 import { DietLog, UseDietLogEntryInputsReturnType } from "../typings";
 import { CalendarDate } from "@nextui-org/react";
 
-export const useDietLogEntryInputs = (): UseDietLogEntryInputsReturnType => {
+export const useDietLogEntryInputs = (
+  isCustomDateEntryDefault: boolean
+): UseDietLogEntryInputsReturnType => {
   const [caloriesInput, setCaloriesInput] = useState<string>("");
   const [fatInput, setFatInput] = useState<string>("");
   const [carbsInput, setCarbsInput] = useState<string>("");
@@ -19,7 +21,9 @@ export const useDietLogEntryInputs = (): UseDietLogEntryInputsReturnType => {
   const [commentInput, setCommentInput] = useState<string>("");
   const [targetDay, setTargetDay] = useState<string>("Today");
   const [selectedDate, setSelectedDate] = useState<CalendarDate | null>(null);
-  const [isCustomDateEntry, setIsCustomDateEntry] = useState<boolean>(false);
+  const [isCustomDateEntry, setIsCustomDateEntry] = useState<boolean>(
+    isCustomDateEntryDefault
+  );
 
   const dateStringToday = useMemo(() => GetCurrentYmdDateString(), []);
   const dateStringYesterday = useMemo(() => GetYesterdayYmdDateString(), []);

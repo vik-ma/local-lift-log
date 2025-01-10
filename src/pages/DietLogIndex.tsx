@@ -49,7 +49,7 @@ export default function DietLogIndex() {
     dietLogMap,
   } = dietLogList;
 
-  const dietLogEntryInputs = useDietLogEntryInputs();
+  const dietLogEntryInputs = useDietLogEntryInputs(false);
 
   const {
     caloriesInput,
