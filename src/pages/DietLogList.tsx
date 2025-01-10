@@ -1,13 +1,15 @@
-import { useState } from "react";
-import { DeleteModal, DietLogAccordions } from "../components";
+import { useEffect, useState } from "react";
+import { DeleteModal, DietLogAccordions, LoadingSpinner } from "../components";
 import { useDefaultDietLog, useDietLogList } from "../hooks";
-import { DietLog } from "../typings";
+import { DietLog, UserSettings } from "../typings";
 import { useDisclosure } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
+import { GetUserSettings } from "../helpers";
 
 type OperationType = "add" | "edit" | "delete";
 
 export default function DietLogList() {
+  const [userSettings, setUserSettings] = useState<UserSettings>();
   const [operationType, setOperationType] = useState<OperationType>("add");
 
   const defaultDietLog = useDefaultDietLog();
@@ -19,7 +21,19 @@ export default function DietLogList() {
 
   const dietLogList = useDietLogList(true);
 
-  const { dietLogs, setDietLogs, deleteDietLog } = dietLogList;
+  const { dietLogs, setDietLogs, isDietLogListLoaded, deleteDietLog } =
+    dietLogList;
+
+  useEffect(() => {
+    const loadUserSettings = async () => {
+      const userSettings = await GetUserSettings();
+      if (userSettings === undefined) return;
+
+      setUserSettings(userSettings);
+    };
+
+    loadUserSettings();
+  }, []);
 
   const deleteDietLogEntry = async () => {
     if (operationType !== "delete" || operatingDietLog.id === 0) return;
@@ -55,6 +69,9 @@ export default function DietLogList() {
       deleteModal.onOpen();
     }
   };
+
+  if (userSettings === undefined || !isDietLogListLoaded.current)
+    return <LoadingSpinner />;
 
   return (
     <>
