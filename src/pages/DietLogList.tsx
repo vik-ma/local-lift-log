@@ -299,6 +299,12 @@ export default function DietLogList() {
                       <DropdownItem key="date-asc">
                         Date (Oldest First)
                       </DropdownItem>
+                      <DropdownItem key="kcal-desc">
+                        Calories (Highest First)
+                      </DropdownItem>
+                      <DropdownItem key="kcal-asc">
+                        Calories (Lowest First)
+                      </DropdownItem>
                     </DropdownMenu>
                   </Dropdown>
                 </div>
