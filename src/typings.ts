@@ -593,6 +593,19 @@ export type TimePeriodListFilterMapKey =
   | "injury"
   | "status";
 
+export type DietLogListFilterMapKey =
+  | "min-date"
+  | "max-date"
+  | "weekdays"
+  | "min-calories"
+  | "max-calories"
+  | "min-fat"
+  | "max-fat"
+  | "min-carbs"
+  | "max-carbs"
+  | "min-protein"
+  | "max-protein";
+
 export type UseWorkoutTemplateListReturnType = {
   workoutTemplateListModal: UseDisclosureReturnType;
   workoutTemplates: WorkoutTemplate[];
@@ -1101,4 +1114,37 @@ export type UseDietLogListReturnType = {
   setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
   filteredDietLogs: DietLog[];
   filterDietLogListModal: UseDisclosureReturnType;
+};
+
+export type UseDietLogListFiltersReturnType = {
+  handleFilterSaveButton: (activeModal: UseDisclosureReturnType) => void;
+  filterMap: Map<DietLogListFilterMapKey, string>;
+  removeFilter: (key: string) => void;
+  resetFilter: () => void;
+  showResetFilterButton: boolean;
+  prefixMap: Map<DietLogListFilterMapKey, string>;
+  filterMinDate: CalendarDate | null;
+  setFilterMinDate: React.Dispatch<React.SetStateAction<CalendarDate | null>>;
+  filterMaxDate: CalendarDate | null;
+  setFilterMaxDate: React.Dispatch<React.SetStateAction<CalendarDate | null>>;
+  isMaxDateBeforeMinDate: boolean;
+  filterWeekdays: Set<string>;
+  setFilterWeekdays: React.Dispatch<React.SetStateAction<Set<string>>>;
+  filterMinCalories: number | null;
+  setFilterMinCalories: React.Dispatch<React.SetStateAction<number | null>>;
+  filterMaxCalories: number | null;
+  setFilterMaxCalories: React.Dispatch<React.SetStateAction<number | null>>;
+  filterMinFat: number | null;
+  setFilterMinFat: React.Dispatch<React.SetStateAction<number | null>>;
+  filterMaxFat: number | null;
+  setFilterMaxFat: React.Dispatch<React.SetStateAction<number | null>>;
+  filterMinCarbs: number | null;
+  setFilterMinCarbs: React.Dispatch<React.SetStateAction<number | null>>;
+  filterMaxCarbs: number | null;
+  setFilterMaxCarbs: React.Dispatch<React.SetStateAction<number | null>>;
+  filterMinProtein: number | null;
+  setFilterMinProtein: React.Dispatch<React.SetStateAction<number | null>>;
+  filterMaxProtein: number | null;
+  setFilterMaxProtein: React.Dispatch<React.SetStateAction<number | null>>;
+  weekdayMap: Map<string, string>;
 };
