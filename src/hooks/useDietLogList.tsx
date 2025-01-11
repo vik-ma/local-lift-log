@@ -15,6 +15,7 @@ import {
   UpdateItemInList,
 } from "../helpers";
 import { useDisclosure } from "@nextui-org/react";
+import { useDietLogListFilters } from "./useDietLogListFilters";
 
 export const useDietLogList = (
   getDietLogsOnLoad: boolean
@@ -28,6 +29,8 @@ export const useDietLogList = (
   const filterDietLogListModal = useDisclosure();
 
   const isDietLogListLoaded = useRef(false);
+
+  const dietLogListFilters = useDietLogListFilters();
 
   const filteredDietLogs = useMemo(() => {
     if (filterQuery !== "") {
@@ -263,5 +266,6 @@ export const useDietLogList = (
     setFilterQuery,
     filteredDietLogs,
     filterDietLogListModal,
+    dietLogListFilters,
   };
 };
