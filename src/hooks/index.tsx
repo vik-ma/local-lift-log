@@ -57,3 +57,4 @@ export { useIsEndDateBeforeStartDate } from "./useIsEndDateBeforeStartDate";
 export { useDefaultDietLog } from "./useDefaultDietLog";
 export { useDietLogEntryInputs } from "./useDietLogEntryInputs";
 export { useDietLogList } from "./useDietLogList";
+export { useDietLogListFilters } from "./useDietLogListFilters";
