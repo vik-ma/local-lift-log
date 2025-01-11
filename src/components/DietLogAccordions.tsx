@@ -47,7 +47,7 @@ export const DietLogAccordions = ({
           >
             <div className="flex justify-between items-center pl-2 py-1">
               <div className="flex flex-col items-start">
-                <span className="w-[19rem] break-all text-left font-semibold text-stone-600">
+                <span className="w-[19rem] break-all text-left font-medium text-stone-600">
                   {dietLog.calories} kcal
                 </span>
                 <span className="text-xs text-secondary text-left">
@@ -110,24 +110,28 @@ export const DietLogAccordions = ({
                   <div className="flex flex-col divide-y divide-stone-200 text-sm pb-0.5">
                     {dietLog.fat !== null && (
                       <span className="px-2">
-                        <span className="font-semibold text-stone-600">Fat: </span>
-                        <span className="font-medium text-slate-500">
-                          {dietLog.fat} g
+                        <span className="font-medium text-stone-600">
+                          Fat:{" "}
                         </span>
+                        <span className="text-slate-500">{dietLog.fat} g</span>
                       </span>
                     )}
                     {dietLog.carbs !== null && (
                       <span className="px-2">
-                        <span className="font-semibold text-stone-600">Carbs: </span>
-                        <span className="font-medium text-slate-500">
+                        <span className="font-medium text-stone-600">
+                          Carbs:{" "}
+                        </span>
+                        <span className="text-slate-500">
                           {dietLog.carbs} g
                         </span>
                       </span>
                     )}
                     {dietLog.protein !== null && (
                       <span className="px-2">
-                        <span className="font-semibold text-stone-600">Protein: </span>
-                        <span className="font-medium text-slate-500">
+                        <span className="font-medium text-stone-600">
+                          Protein:{" "}
+                        </span>
+                        <span className="text-slate-500">
                           {dietLog.protein} g
                         </span>
                       </span>
