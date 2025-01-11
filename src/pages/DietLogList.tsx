@@ -12,7 +12,14 @@ import {
   useDietLogList,
 } from "../hooks";
 import { DietLog, UserSettings } from "../typings";
-import { Button, useDisclosure } from "@nextui-org/react";
+import {
+  Button,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  useDisclosure,
+} from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
 import {
   ConvertEmptyStringToNull,
@@ -50,6 +57,8 @@ export default function DietLogList() {
     deleteDietLog,
     filterQuery,
     setFilterQuery,
+    sortCategory,
+    handleSortOptionSelection,
   } = dietLogList;
 
   const dietLogEntryInputs = useDietLogEntryInputs(true);
@@ -260,9 +269,8 @@ export default function DietLogList() {
                 >
                   New Diet Log Entry
                 </Button>
-                {/* TODO: ADD */}
-                {/* <div className="flex gap-1">
-                  <Button
+                <div className="flex gap-1">
+                  {/* <Button
                     className="z-1"
                     variant="flat"
                     color={filterMap.size > 0 ? "secondary" : "default"}
@@ -270,7 +278,7 @@ export default function DietLogList() {
                     onPress={() => filterUserMeasurementListModal.onOpen()}
                   >
                     Filter
-                  </Button>
+                  </Button> */}
                   <Dropdown>
                     <DropdownTrigger>
                       <Button className="z-1" variant="flat" size="sm">
@@ -278,7 +286,7 @@ export default function DietLogList() {
                       </Button>
                     </DropdownTrigger>
                     <DropdownMenu
-                      aria-label="Sort User Measurements Dropdown Menu"
+                      aria-label="Sort Diet Logs Dropdown Menu"
                       selectionMode="single"
                       selectedKeys={[sortCategory]}
                       onAction={(key) =>
@@ -293,7 +301,7 @@ export default function DietLogList() {
                       </DropdownItem>
                     </DropdownMenu>
                   </Dropdown>
-                </div> */}
+                </div>
               </div>
               {/* TODO: ADD */}
               {/* {filterMap.size > 0 && (
