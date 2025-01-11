@@ -3,6 +3,7 @@ import {
   DeleteModal,
   DietLogAccordions,
   DietLogModal,
+  FilterDietLogListModal,
   ListPageSearchInput,
   LoadingSpinner,
 } from "../components";
@@ -59,6 +60,7 @@ export default function DietLogList() {
     setFilterQuery,
     sortCategory,
     handleSortOptionSelection,
+    filterDietLogListModal,
   } = dietLogList;
 
   const dietLogEntryInputs = useDietLogEntryInputs(true);
@@ -249,6 +251,7 @@ export default function DietLogList() {
           operationType === "edit" ? updateDietLogEntry : addDietLogEntry
         }
       />
+      <FilterDietLogListModal useDietLogList={dietLogList} />
       <div className="flex flex-col items-center gap-1">
         <ListPageSearchInput
           header="Diet Log Entries"
@@ -270,15 +273,16 @@ export default function DietLogList() {
                   New Diet Log Entry
                 </Button>
                 <div className="flex gap-1">
-                  {/* <Button
+                  <Button
                     className="z-1"
                     variant="flat"
-                    color={filterMap.size > 0 ? "secondary" : "default"}
+                    // TODO: ADD
+                    // color={filterMap.size > 0 ? "secondary" : "default"}
                     size="sm"
-                    onPress={() => filterUserMeasurementListModal.onOpen()}
+                    onPress={() => filterDietLogListModal.onOpen()}
                   >
                     Filter
-                  </Button> */}
+                  </Button>
                   <Dropdown>
                     <DropdownTrigger>
                       <Button className="z-1" variant="flat" size="sm">
