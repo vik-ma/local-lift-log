@@ -220,10 +220,10 @@ export const useDietLogList = (
     } else if (key === "date-asc") {
       setSortCategory(key);
       sortDietLogsByDate([...dietLogs], true);
-    } else if (key === "kcal-desc") {
+    } else if (key === "calories-desc") {
       setSortCategory(key);
       sortDietLogsByCalories([...dietLogs], false);
-    } else if (key === "kcal-asc") {
+    } else if (key === "calories-asc") {
       setSortCategory(key);
       sortDietLogsByCalories([...dietLogs], true);
     }
@@ -237,10 +237,10 @@ export const useDietLogList = (
       case "date-asc":
         sortDietLogsByDate([...dietLogList], true);
         break;
-      case "kcal-desc":
+      case "calories-desc":
         sortDietLogsByCalories([...dietLogList], false);
         break;
-      case "kcal-asc":
+      case "calories-asc":
         sortDietLogsByCalories([...dietLogList], true);
         break;
       default:

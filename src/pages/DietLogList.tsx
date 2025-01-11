@@ -303,10 +303,10 @@ export default function DietLogList() {
                       <DropdownItem key="date-asc">
                         Date (Oldest First)
                       </DropdownItem>
-                      <DropdownItem key="kcal-desc">
+                      <DropdownItem key="calories-desc">
                         Calories (Highest First)
                       </DropdownItem>
-                      <DropdownItem key="kcal-asc">
+                      <DropdownItem key="calories-asc">
                         Calories (Lowest First)
                       </DropdownItem>
                     </DropdownMenu>

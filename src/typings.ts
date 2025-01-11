@@ -1090,8 +1090,8 @@ export type DietLogMap = Map<string, DietLog>;
 export type DietLogSortCategory =
   | "date-asc"
   | "date-desc"
-  | "kcal-asc"
-  | "kcal-desc";
+  | "calories-asc"
+  | "calories-desc";
 
 export type UseDietLogListReturnType = {
   dietLogs: DietLog[];
