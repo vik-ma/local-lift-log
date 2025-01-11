@@ -190,6 +190,26 @@ export const useDietLogList = (
     setDietLogs(dietLogList);
   };
 
+  const sortDietLogsByCalories = (
+    dietLogList: DietLog[],
+    isAscending: boolean
+  ) => {
+    dietLogList.sort((a, b) => {
+      if (a.calories !== b.calories) {
+        if (isAscending) {
+          return a.calories - b.calories;
+        } else {
+          return b.calories - a.calories;
+        }
+      } else {
+        // Show latest date first if same calories
+        return b.date.localeCompare(a.date);
+      }
+    });
+
+    setDietLogs(dietLogList);
+  };
+
   const handleSortOptionSelection = (key: string) => {
     if (key === "date-desc") {
       setSortCategory(key);
@@ -197,6 +217,12 @@ export const useDietLogList = (
     } else if (key === "date-asc") {
       setSortCategory(key);
       sortDietLogsByDate([...dietLogs], true);
+    } else if (key === "kcal-desc") {
+      setSortCategory(key);
+      sortDietLogsByCalories([...dietLogs], false);
+    } else if (key === "kcal-asc") {
+      setSortCategory(key);
+      sortDietLogsByCalories([...dietLogs], true);
     }
   };
 
@@ -207,6 +233,12 @@ export const useDietLogList = (
         break;
       case "date-asc":
         sortDietLogsByDate([...dietLogList], true);
+        break;
+      case "kcal-desc":
+        sortDietLogsByCalories([...dietLogList], false);
+        break;
+      case "kcal-asc":
+        sortDietLogsByCalories([...dietLogList], true);
         break;
       default:
         break;

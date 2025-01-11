@@ -1074,7 +1074,11 @@ export type UseDietLogEntryInputsReturnType = {
 
 export type DietLogMap = Map<string, DietLog>;
 
-export type DietLogSortCategory = "date-asc" | "date-desc";
+export type DietLogSortCategory =
+  | "date-asc"
+  | "date-desc"
+  | "kcal-asc"
+  | "kcal-desc";
 
 export type UseDietLogListReturnType = {
   dietLogs: DietLog[];
