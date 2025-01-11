@@ -14,6 +14,7 @@ import {
   ShouldDietLogDisableExpansion,
   UpdateItemInList,
 } from "../helpers";
+import { useDisclosure } from "@nextui-org/react";
 
 export const useDietLogList = (
   getDietLogsOnLoad: boolean
@@ -23,6 +24,8 @@ export const useDietLogList = (
     useState<DietLogSortCategory>("date-desc");
   const [dietLogMap, setDietLogMap] = useState<DietLogMap>(new Map());
   const [filterQuery, setFilterQuery] = useState<string>("");
+
+  const filterDietLogListModal = useDisclosure();
 
   const isDietLogListLoaded = useRef(false);
 
@@ -259,5 +262,6 @@ export const useDietLogList = (
     filterQuery,
     setFilterQuery,
     filteredDietLogs,
+    filterDietLogListModal,
   };
 };

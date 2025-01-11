@@ -1100,4 +1100,5 @@ export type UseDietLogListReturnType = {
   filterQuery: string;
   setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
   filteredDietLogs: DietLog[];
+  filterDietLogListModal: UseDisclosureReturnType;
 };
