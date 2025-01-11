@@ -6,6 +6,7 @@ import {
 } from "../typings";
 import { CalendarDate } from "@nextui-org/react";
 import { useIsEndDateBeforeStartDate, useWeekdayMap } from ".";
+import { ConvertCalendarDateToYmdString } from "../helpers";
 
 export const useDietLogListFilters = (): UseDietLogListFiltersReturnType => {
   const [filterMap, setFilterMap] = useState<
@@ -37,24 +38,21 @@ export const useDietLogListFilters = (): UseDietLogListFiltersReturnType => {
   const handleFilterSaveButton = (activeModal: UseDisclosureReturnType) => {
     const updatedFilterMap = new Map<DietLogListFilterMapKey, string>();
 
-    // TODO: FIX
-    // if (filterMinDate !== null) {
-    //   const filterMinDateString = ConvertCalendarDateToLocalizedString(
-    //     filterMinDate,
-    //     locale
-    //   );
+    if (filterMinDate !== null) {
+      const filterMinDateString = ConvertCalendarDateToYmdString(filterMinDate);
 
-    //   updatedFilterMap.set("min-date", filterMinDateString);
-    // }
+      if (filterMinDateString !== null) {
+        updatedFilterMap.set("min-date", filterMinDateString);
+      }
+    }
 
-    // if (filterMaxDate !== null) {
-    //   const filterMaxDateString = ConvertCalendarDateToLocalizedString(
-    //     filterMaxDate,
-    //     locale
-    //   );
+    if (filterMaxDate !== null) {
+      const filterMaxDateString = ConvertCalendarDateToYmdString(filterMaxDate);
 
-    //   updatedFilterMap.set("max-date", filterMaxDateString);
-    // }
+      if (filterMaxDateString !== null) {
+        updatedFilterMap.set("max-date", filterMaxDateString);
+      }
+    }
 
     if (filterWeekdays.size > 0) {
       const filterWeekdaysString = Array.from(filterWeekdays)
