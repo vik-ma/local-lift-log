@@ -64,6 +64,54 @@ export const useDietLogListFilters = (): UseDietLogListFiltersReturnType => {
       updatedFilterMap.set("weekdays", filterWeekdaysString);
     }
 
+    if (filterMinCalories !== null) {
+      const filterMinCaloriesString = `${filterMinCalories} kcal`;
+
+      updatedFilterMap.set("min-calories", filterMinCaloriesString);
+    }
+
+    if (filterMaxCalories !== null) {
+      const filterMaxCaloriesString = `${filterMaxCalories} kcal`;
+
+      updatedFilterMap.set("max-calories", filterMaxCaloriesString);
+    }
+
+    if (filterMinFat !== null) {
+      const filterMinFatString = `${filterMinFat} g`;
+
+      updatedFilterMap.set("min-fat", filterMinFatString);
+    }
+
+    if (filterMaxFat !== null) {
+      const filterMaxFatString = `${filterMaxFat} g`;
+
+      updatedFilterMap.set("max-fat", filterMaxFatString);
+    }
+
+    if (filterMinCarbs !== null) {
+      const filterMinCarbsString = `${filterMinCarbs} g`;
+
+      updatedFilterMap.set("min-carbs", filterMinCarbsString);
+    }
+
+    if (filterMaxCarbs !== null) {
+      const filterMaxCarbsString = `${filterMaxCarbs} g`;
+
+      updatedFilterMap.set("max-carbs", filterMaxCarbsString);
+    }
+
+    if (filterMinProtein !== null) {
+      const filterMinProteinString = `${filterMinProtein} g`;
+
+      updatedFilterMap.set("min-protein", filterMinProteinString);
+    }
+
+    if (filterMaxProtein !== null) {
+      const filterMaxProteinString = `${filterMaxProtein} g`;
+
+      updatedFilterMap.set("max-protein", filterMaxProteinString);
+    }
+
     setFilterMap(updatedFilterMap);
 
     activeModal.onClose();
@@ -87,6 +135,46 @@ export const useDietLogListFilters = (): UseDietLogListFiltersReturnType => {
       setFilterWeekdays(new Set());
     }
 
+    if (key === "min-calories" && filterMap.has("min-calories")) {
+      updatedFilterMap.delete("min-calories");
+      setFilterMinCalories(null);
+    }
+
+    if (key === "max-calories" && filterMap.has("max-calories")) {
+      updatedFilterMap.delete("max-calories");
+      setFilterMaxCalories(null);
+    }
+
+    if (key === "min-fat" && filterMap.has("min-fat")) {
+      updatedFilterMap.delete("min-fat");
+      setFilterMinFat(null);
+    }
+
+    if (key === "max-fat" && filterMap.has("max-fat")) {
+      updatedFilterMap.delete("max-fat");
+      setFilterMaxFat(null);
+    }
+
+    if (key === "min-carbs" && filterMap.has("min-carbs")) {
+      updatedFilterMap.delete("min-carbs");
+      setFilterMinCarbs(null);
+    }
+
+    if (key === "max-carbs" && filterMap.has("max-carbs")) {
+      updatedFilterMap.delete("max-carbs");
+      setFilterMaxCarbs(null);
+    }
+
+    if (key === "min-protein" && filterMap.has("min-protein")) {
+      updatedFilterMap.delete("min-protein");
+      setFilterMinProtein(null);
+    }
+
+    if (key === "max-protein" && filterMap.has("max-protein")) {
+      updatedFilterMap.delete("max-protein");
+      setFilterMaxProtein(null);
+    }
+
     setFilterMap(updatedFilterMap);
   };
 
@@ -95,6 +183,14 @@ export const useDietLogListFilters = (): UseDietLogListFiltersReturnType => {
     setFilterMinDate(null);
     setFilterMaxDate(null);
     setFilterWeekdays(new Set());
+    setFilterMinCalories(null);
+    setFilterMaxCalories(null);
+    setFilterMinFat(null);
+    setFilterMaxFat(null);
+    setFilterMinCarbs(null);
+    setFilterMaxCarbs(null);
+    setFilterMinProtein(null);
+    setFilterMaxProtein(null);
   };
 
   const showResetFilterButton = useMemo(() => {
@@ -102,9 +198,30 @@ export const useDietLogListFilters = (): UseDietLogListFiltersReturnType => {
     if (filterMinDate !== null) return true;
     if (filterMaxDate !== null) return true;
     if (filterWeekdays.size > 0) return true;
+    if (filterMinCalories !== null) return true;
+    if (filterMaxCalories !== null) return true;
+    if (filterMinFat !== null) return true;
+    if (filterMaxFat !== null) return true;
+    if (filterMinCarbs !== null) return true;
+    if (filterMaxCarbs !== null) return true;
+    if (filterMinProtein !== null) return true;
+    if (filterMaxProtein !== null) return true;
 
     return false;
-  }, [filterMap, filterMinDate, filterMaxDate, filterWeekdays]);
+  }, [
+    filterMap,
+    filterMinDate,
+    filterMaxDate,
+    filterWeekdays,
+    filterMinCalories,
+    filterMaxCalories,
+    filterMinFat,
+    filterMaxFat,
+    filterMinCarbs,
+    filterMaxCarbs,
+    filterMinProtein,
+    filterMaxProtein,
+  ]);
 
   const prefixMap = useMemo(() => {
     const prefixMap = new Map<DietLogListFilterMapKey, string>();
@@ -112,6 +229,14 @@ export const useDietLogListFilters = (): UseDietLogListFiltersReturnType => {
     prefixMap.set("min-date", `Min Date: `);
     prefixMap.set("max-date", `Max Date: `);
     prefixMap.set("weekdays", `Days (${filterWeekdays.size}): `);
+    prefixMap.set("min-calories", `Min Calories: `);
+    prefixMap.set("max-calories", `Max Calories: `);
+    prefixMap.set("min-fat", `Min Fat: `);
+    prefixMap.set("max-fat", `Max Fat: `);
+    prefixMap.set("min-carbs", `Min Carbs: `);
+    prefixMap.set("max-carbs", `Max Carbs: `);
+    prefixMap.set("min-protein", `Min Protein: `);
+    prefixMap.set("max-protein", `Max Protein: `);
 
     return prefixMap;
   }, [filterWeekdays]);
