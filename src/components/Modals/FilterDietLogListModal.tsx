@@ -79,6 +79,14 @@ export const FilterDietLogListModal = ({
     filterMinAndMaxValueInputsProtein,
   ]);
 
+  const handleResetAllFiltersButton = () => {
+    resetFilter();
+    filterMinAndMaxValueInputsCalories.resetInputs();
+    filterMinAndMaxValueInputsFat.resetInputs();
+    filterMinAndMaxValueInputsCarbs.resetInputs();
+    filterMinAndMaxValueInputsProtein.resetInputs();
+  };
+
   return (
     <Modal
       isOpen={filterDietLogListModal.isOpen}
@@ -147,7 +155,7 @@ export const FilterDietLogListModal = ({
             <ModalFooter className="flex justify-between">
               <div>
                 {showResetFilterButton && (
-                  <Button variant="flat" onPress={resetFilter}>
+                  <Button variant="flat" onPress={handleResetAllFiltersButton}>
                     Reset All Filters
                   </Button>
                 )}
