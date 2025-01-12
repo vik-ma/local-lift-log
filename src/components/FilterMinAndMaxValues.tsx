@@ -53,19 +53,19 @@ export const FilterMinAndMaxValues = ({
       <div
         className={
           isSmall
-            ? "w-[6rem] flex flex-col gap-0.5"
-            : "w-[6.5rem] flex flex-col gap-0.5"
+            ? "w-[6rem] flex flex-col gap-0.5 whitespace-nowrap"
+            : "w-[6.5rem] flex flex-col gap-0.5 whitespace-nowrap"
         }
       >
-        <h3
+        <h4
           className={
             isMinInputInvalid
-              ? "text-base font-semibold px-0.5 text-danger whitespace-nowrap"
-              : "text-base font-semibold px-0.5 whitespace-nowrap"
+              ? "text-base font-semibold px-0.5 text-danger"
+              : "text-base font-semibold px-0.5 text-default-500"
           }
         >
           Min {label}
-        </h3>
+        </h4>
         <Input
           aria-label={`Min ${label} Input`}
           className="h-[3.5rem]"
@@ -83,15 +83,15 @@ export const FilterMinAndMaxValues = ({
             : "w-[6.5rem] flex flex-col gap-0.5 whitespace-nowrap"
         }
       >
-        <h3
+        <h4
           className={
             isMaxInputInvalid || isMaxValueBelowMinValue
               ? "text-base font-semibold px-0.5 text-danger"
-              : "text-base font-semibold px-0.5"
+              : "text-base font-semibold px-0.5 text-default-500"
           }
         >
           Max {label}
-        </h3>
+        </h4>
         <Input
           aria-label={`Max ${label} Input`}
           className="h-[3.5rem]"
