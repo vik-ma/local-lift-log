@@ -1,8 +1,11 @@
 import { FilterMinAndMaxDates, WeekdaysDropdown } from ".";
-import { UseListFiltersReturnType } from "../typings";
+import {
+  UseDietLogListFiltersReturnType,
+  UseListFiltersReturnType,
+} from "../typings";
 
 type FilterDateRangeAndWeekdaysProps = {
-  useListFilters: UseListFiltersReturnType;
+  useListFilters: UseListFiltersReturnType | UseDietLogListFiltersReturnType;
   locale: string;
 };
 

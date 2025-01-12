@@ -6,7 +6,10 @@ import {
   ModalBody,
   ModalHeader,
   ModalFooter,
+  ScrollShadow,
 } from "@nextui-org/react";
+import { FilterDateRangeAndWeekdays, FilterMinAndMaxValues } from "..";
+import { useFilterMinAndMaxValueInputs } from "../../hooks";
 
 type FilterDietLogListModal = {
   useDietLogList: UseDietLogListReturnType;
@@ -19,8 +22,24 @@ export const FilterDietLogListModal = ({
 }: FilterDietLogListModal) => {
   const { filterDietLogListModal, dietLogListFilters } = useDietLogList;
 
-  const { showResetFilterButton, handleFilterSaveButton, resetFilter } =
-    dietLogListFilters;
+  const {
+    setFilterMinCalories,
+    setFilterMaxCalories,
+    setFilterMinFat,
+    setFilterMaxFat,
+    setFilterMinCarbs,
+    setFilterMaxCarbs,
+    setFilterMinProtein,
+    setFilterMaxProtein,
+    showResetFilterButton,
+    handleFilterSaveButton,
+    resetFilter,
+  } = dietLogListFilters;
+
+  const filterMinAndMaxValueInputsCalories = useFilterMinAndMaxValueInputs();
+  const filterMinAndMaxValueInputsFat = useFilterMinAndMaxValueInputs();
+  const filterMinAndMaxValueInputsCarbs = useFilterMinAndMaxValueInputs();
+  const filterMinAndMaxValueInputsProtein = useFilterMinAndMaxValueInputs();
 
   return (
     <Modal
@@ -31,7 +50,62 @@ export const FilterDietLogListModal = ({
         {(onClose) => (
           <>
             <ModalHeader>Filter Diet Log Entries</ModalHeader>
-            <ModalBody></ModalBody>
+            <ModalBody>
+              <ScrollShadow className="h-[400px]">
+                <div className="flex flex-col gap-4 w-[24rem]">
+                  <FilterDateRangeAndWeekdays
+                    useListFilters={dietLogListFilters}
+                    locale={userSettings.locale}
+                  />
+                  <div className="flex flex-col gap-0.5">
+                    <div className="flex flex-col gap-0.5">
+                      <h3 className="text-lg font-semibold px-0.5">Calories</h3>
+                      <FilterMinAndMaxValues
+                        setFilterMinValue={setFilterMinCalories}
+                        setFilterMaxValue={setFilterMaxCalories}
+                        label="Calories"
+                        useFilterMinAndMaxValueInputs={
+                          filterMinAndMaxValueInputsCalories
+                        }
+                      />
+                    </div>
+                    <div className="flex flex-col gap-0.5">
+                      <h3 className="text-lg font-semibold px-0.5">Fat</h3>
+                      <FilterMinAndMaxValues
+                        setFilterMinValue={setFilterMinFat}
+                        setFilterMaxValue={setFilterMaxFat}
+                        label="Fat"
+                        useFilterMinAndMaxValueInputs={
+                          filterMinAndMaxValueInputsFat
+                        }
+                      />
+                    </div>
+                    <div className="flex flex-col gap-0.5">
+                      <h3 className="text-lg font-semibold px-0.5">Carbs</h3>
+                      <FilterMinAndMaxValues
+                        setFilterMinValue={setFilterMinCarbs}
+                        setFilterMaxValue={setFilterMaxCarbs}
+                        label="Carbs"
+                        useFilterMinAndMaxValueInputs={
+                          filterMinAndMaxValueInputsCarbs
+                        }
+                      />
+                    </div>
+                    <div className="flex flex-col gap-0.5">
+                      <h3 className="text-lg font-semibold px-0.5">Protein</h3>
+                      <FilterMinAndMaxValues
+                        setFilterMinValue={setFilterMinProtein}
+                        setFilterMaxValue={setFilterMaxProtein}
+                        label="Protein"
+                        useFilterMinAndMaxValueInputs={
+                          filterMinAndMaxValueInputsProtein
+                        }
+                      />
+                    </div>
+                  </div>
+                </div>
+              </ScrollShadow>
+            </ModalBody>
             <ModalFooter className="flex justify-between">
               <div>
                 {showResetFilterButton && (
