@@ -11,6 +11,9 @@ import {
   DeleteItemFromList,
   FormatYmdDateString,
   InsertDietLogIntoDatabase,
+  IsDateInWeekdaySet,
+  IsDateWithinLimit,
+  IsNumberWithinLimit,
   ShouldDietLogDisableExpansion,
   UpdateItemInList,
 } from "../helpers";
@@ -32,20 +35,72 @@ export const useDietLogList = (
 
   const dietLogListFilters = useDietLogListFilters();
 
+  const {
+    filterMap,
+    filterMinDate,
+    filterMaxDate,
+    filterWeekdays,
+    filterMinCalories,
+    filterMaxCalories,
+    filterMinFat,
+    filterMaxFat,
+    filterMinCarbs,
+    filterMaxCarbs,
+    filterMinProtein,
+    filterMaxProtein,
+  } = dietLogListFilters;
+
   const filteredDietLogs = useMemo(() => {
-    if (filterQuery !== "") {
+    if (filterQuery !== "" || filterMap.size > 0) {
       return dietLogs.filter(
         (item) =>
-          item.calories.toString().includes(filterQuery.toLocaleLowerCase()) ||
-          item.date.includes(filterQuery.toLocaleLowerCase()) ||
-          item.formattedDate?.includes(filterQuery.toLocaleLowerCase()) ||
-          item.comment
-            ?.toLocaleLowerCase()
-            .includes(filterQuery.toLocaleLowerCase())
+          (item.calories.toString().includes(filterQuery.toLocaleLowerCase()) ||
+            item.date.includes(filterQuery.toLocaleLowerCase()) ||
+            item.formattedDate?.includes(filterQuery.toLocaleLowerCase()) ||
+            item.comment
+              ?.toLocaleLowerCase()
+              .includes(filterQuery.toLocaleLowerCase())) &&
+          (!filterMap.has("min-date") ||
+            IsDateWithinLimit(item.date, filterMinDate, false)) &&
+          (!filterMap.has("max-date") ||
+            IsDateWithinLimit(item.date, filterMaxDate, true)) &&
+          (!filterMap.has("weekdays") ||
+            IsDateInWeekdaySet(item.date, filterWeekdays)) &&
+          (!filterMap.has("min-calories") ||
+            IsNumberWithinLimit(item.calories, filterMinCalories, false)) &&
+          (!filterMap.has("max-calories") ||
+            IsNumberWithinLimit(item.calories, filterMaxCalories, true)) &&
+          (!filterMap.has("min-fat") ||
+            IsNumberWithinLimit(item.fat, filterMinFat, false)) &&
+          (!filterMap.has("max-fat") ||
+            IsNumberWithinLimit(item.fat, filterMaxFat, true)) &&
+          (!filterMap.has("min-carbs") ||
+            IsNumberWithinLimit(item.carbs, filterMinCarbs, false)) &&
+          (!filterMap.has("max-carbs") ||
+            IsNumberWithinLimit(item.carbs, filterMaxCarbs, true)) &&
+          (!filterMap.has("min-protein") ||
+            IsNumberWithinLimit(item.protein, filterMinProtein, false)) &&
+          (!filterMap.has("max-protein") ||
+            IsNumberWithinLimit(item.protein, filterMaxProtein, true))
       );
     }
     return dietLogs;
-  }, [dietLogs, filterQuery]);
+  }, [
+    dietLogs,
+    filterQuery,
+    filterMap,
+    filterMinDate,
+    filterMaxDate,
+    filterWeekdays,
+    filterMinCalories,
+    filterMaxCalories,
+    filterMinFat,
+    filterMaxFat,
+    filterMinCarbs,
+    filterMaxCarbs,
+    filterMinProtein,
+    filterMaxProtein,
+  ]);
 
   const getDietLogs = useCallback(async () => {
     try {
