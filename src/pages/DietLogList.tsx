@@ -255,7 +255,10 @@ export default function DietLogList() {
           operationType === "edit" ? updateDietLogEntry : addDietLogEntry
         }
       />
-      <FilterDietLogListModal useDietLogList={dietLogList} />
+      <FilterDietLogListModal
+        useDietLogList={dietLogList}
+        userSettings={userSettings}
+      />
       <div className="flex flex-col items-center gap-1">
         <ListPageSearchInput
           header="Diet Log Entries"

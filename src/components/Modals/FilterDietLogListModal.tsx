@@ -1,4 +1,4 @@
-import { UseDietLogListReturnType } from "../../typings";
+import { UseDietLogListReturnType, UserSettings } from "../../typings";
 import {
   Button,
   Modal,
@@ -10,10 +10,12 @@ import {
 
 type FilterDietLogListModal = {
   useDietLogList: UseDietLogListReturnType;
+  userSettings: UserSettings;
 };
 
 export const FilterDietLogListModal = ({
   useDietLogList,
+  userSettings,
 }: FilterDietLogListModal) => {
   const { filterDietLogListModal, dietLogListFilters } = useDietLogList;
 
