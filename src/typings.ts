@@ -1149,3 +1149,8 @@ export type UseDietLogListFiltersReturnType = {
   setFilterMaxProtein: React.Dispatch<React.SetStateAction<number | null>>;
   weekdayMap: Map<string, string>;
 };
+
+export type FilterMinAndMaxValuesSetStateMap = Map<
+  string,
+  React.Dispatch<React.SetStateAction<number | null>>
+>;
