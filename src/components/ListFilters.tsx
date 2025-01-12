@@ -1,12 +1,22 @@
 import { Chip } from "@nextui-org/react";
-import { ListFilterMapKey, TimePeriodListFilterMapKey } from "../typings";
+import {
+  DietLogListFilterMapKey,
+  ListFilterMapKey,
+  TimePeriodListFilterMapKey,
+} from "../typings";
 import { useMemo, useState } from "react";
 import { ChevronIcon } from "../assets";
 
 type ListFiltersProps = {
-  filterMap: Map<ListFilterMapKey | TimePeriodListFilterMapKey, string>;
+  filterMap: Map<
+    ListFilterMapKey | TimePeriodListFilterMapKey | DietLogListFilterMapKey,
+    string
+  >;
   removeFilter: (key: string) => void;
-  prefixMap: Map<ListFilterMapKey | TimePeriodListFilterMapKey, string>;
+  prefixMap: Map<
+    ListFilterMapKey | TimePeriodListFilterMapKey | DietLogListFilterMapKey,
+    string
+  >;
   isInModal?: boolean;
 };
 

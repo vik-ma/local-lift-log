@@ -4,6 +4,7 @@ import {
   DietLogAccordions,
   DietLogModal,
   FilterDietLogListModal,
+  ListFilters,
   ListPageSearchInput,
   LoadingSpinner,
 } from "../components";
@@ -61,7 +62,10 @@ export default function DietLogList() {
     sortCategory,
     handleSortOptionSelection,
     filterDietLogListModal,
+    dietLogListFilters,
   } = dietLogList;
+
+  const { filterMap, removeFilter, prefixMap } = dietLogListFilters;
 
   const dietLogEntryInputs = useDietLogEntryInputs(true);
 
@@ -259,8 +263,7 @@ export default function DietLogList() {
           setFilterQuery={setFilterQuery}
           filteredListLength={filteredDietLogs.length}
           totalListLength={dietLogs.length}
-          // TODO: FIX
-          isListFiltered={false}
+          isListFiltered={filterMap.size > 0}
           bottomContent={
             <div className="flex flex-col gap-1.5">
               <div className="flex justify-between">
@@ -276,8 +279,7 @@ export default function DietLogList() {
                   <Button
                     className="z-1"
                     variant="flat"
-                    // TODO: ADD
-                    // color={filterMap.size > 0 ? "secondary" : "default"}
+                    color={filterMap.size > 0 ? "secondary" : "default"}
                     size="sm"
                     onPress={() => filterDietLogListModal.onOpen()}
                   >
@@ -313,14 +315,13 @@ export default function DietLogList() {
                   </Dropdown>
                 </div>
               </div>
-              {/* TODO: ADD */}
-              {/* {filterMap.size > 0 && (
+              {filterMap.size > 0 && (
                 <ListFilters
                   filterMap={filterMap}
                   removeFilter={removeFilter}
                   prefixMap={prefixMap}
                 />
-              )} */}
+              )}
             </div>
           }
         />

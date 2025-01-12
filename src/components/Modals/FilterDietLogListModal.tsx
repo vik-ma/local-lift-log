@@ -15,7 +15,10 @@ type FilterDietLogListModal = {
 export const FilterDietLogListModal = ({
   useDietLogList,
 }: FilterDietLogListModal) => {
-  const { filterDietLogListModal } = useDietLogList;
+  const { filterDietLogListModal, dietLogListFilters } = useDietLogList;
+
+  const { showResetFilterButton, handleFilterSaveButton, resetFilter } =
+    dietLogListFilters;
 
   return (
     <Modal
@@ -29,12 +32,11 @@ export const FilterDietLogListModal = ({
             <ModalBody></ModalBody>
             <ModalFooter className="flex justify-between">
               <div>
-                {/* TODO: ADD */}
-                {/* {showResetFilterButton && (
-                  <Button variant="flat" onPress={handleResetAllFiltersButton}>
+                {showResetFilterButton && (
+                  <Button variant="flat" onPress={resetFilter}>
                     Reset All Filters
                   </Button>
-                )} */}
+                )}
               </div>
               <div className="flex gap-2">
                 <Button color="primary" variant="light" onPress={onClose}>
@@ -42,9 +44,9 @@ export const FilterDietLogListModal = ({
                 </Button>
                 <Button
                   color="primary"
-                  //   TODO: ADD
-                  //   onPress={() => handleFilterSaveButton(filterPresetsListModal)}
-                  //   isDisabled={isFilterButtonDisabled}
+                  onPress={() => handleFilterSaveButton(filterDietLogListModal)}
+                  // TODO: FIX
+                  // isDisabled={isFilterButtonDisabled}
                 >
                   Filter
                 </Button>
