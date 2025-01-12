@@ -52,7 +52,13 @@ export const ListFilters = ({
       onClick={() => handleClickAccordion()}
     >
       {isExpanded || filterMapHasLessThanTwoItems ? (
-        <div className="flex items-center gap-1 text-sm flex-wrap">
+        <div
+          className={
+            isInModal
+              ? "flex items-center gap-1 text-sm flex-wrap max-w-[23.25rem]"
+              : "flex items-center gap-1 text-sm flex-wrap max-w-[22.25rem]"
+          }
+        >
           {Array.from(filterMap).map(([key, value]) => (
             <Chip
               key={key}
