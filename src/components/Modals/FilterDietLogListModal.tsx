@@ -57,8 +57,8 @@ export const FilterDietLogListModal = ({
                     useListFilters={dietLogListFilters}
                     locale={userSettings.locale}
                   />
-                  <div className="flex flex-col gap-0.5">
-                    <div className="flex flex-col gap-0.5">
+                  <div className="flex flex-col">
+                    <div className="flex flex-col gap-px">
                       <h3 className="text-lg font-semibold px-0.5">Calories</h3>
                       <FilterMinAndMaxValues
                         setFilterMinValue={setFilterMinCalories}
@@ -69,7 +69,7 @@ export const FilterDietLogListModal = ({
                         }
                       />
                     </div>
-                    <div className="flex flex-col gap-0.5">
+                    <div className="flex flex-col gap-px">
                       <h3 className="text-lg font-semibold px-0.5">Fat</h3>
                       <FilterMinAndMaxValues
                         setFilterMinValue={setFilterMinFat}
@@ -80,7 +80,7 @@ export const FilterDietLogListModal = ({
                         }
                       />
                     </div>
-                    <div className="flex flex-col gap-0.5">
+                    <div className="flex flex-col gap-px">
                       <h3 className="text-lg font-semibold px-0.5">Carbs</h3>
                       <FilterMinAndMaxValues
                         setFilterMinValue={setFilterMinCarbs}
@@ -91,7 +91,7 @@ export const FilterDietLogListModal = ({
                         }
                       />
                     </div>
-                    <div className="flex flex-col gap-0.5">
+                    <div className="flex flex-col gap-px">
                       <h3 className="text-lg font-semibold px-0.5">Protein</h3>
                       <FilterMinAndMaxValues
                         setFilterMinValue={setFilterMinProtein}

@@ -119,7 +119,7 @@ export const FilterTimePeriodListModal = ({
                       isSmallLabel
                     />
                   </div>
-                  <div className="flex flex-col gap-0.5">
+                  <div className="flex flex-col gap-px">
                     <h3 className="text-lg font-semibold px-0.5">Duration</h3>
                     <FilterMinAndMaxValues
                       setFilterMinValue={setFilterMinDuration}

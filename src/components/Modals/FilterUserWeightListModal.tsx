@@ -61,7 +61,7 @@ export const FilterUserWeightListModal = ({
                   useListFilters={useListFilters}
                   locale={locale}
                 />
-                <div className="flex flex-col gap-0.5">
+                <div className="flex flex-col gap-px">
                   <h3 className="text-lg font-semibold px-0.5">Weight</h3>
                   <div className="flex gap-5">
                     <FilterMinAndMaxValues
