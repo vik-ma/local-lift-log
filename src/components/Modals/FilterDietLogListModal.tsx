@@ -10,6 +10,7 @@ import {
 } from "@nextui-org/react";
 import { FilterDateRangeAndWeekdays, FilterMinAndMaxValues } from "..";
 import { useFilterMinAndMaxValueInputs } from "../../hooks";
+import { useMemo } from "react";
 
 type FilterDietLogListModal = {
   useDietLogList: UseDietLogListReturnType;
@@ -34,12 +35,49 @@ export const FilterDietLogListModal = ({
     showResetFilterButton,
     handleFilterSaveButton,
     resetFilter,
+    isMaxDateBeforeMinDate,
   } = dietLogListFilters;
 
   const filterMinAndMaxValueInputsCalories = useFilterMinAndMaxValueInputs();
   const filterMinAndMaxValueInputsFat = useFilterMinAndMaxValueInputs();
   const filterMinAndMaxValueInputsCarbs = useFilterMinAndMaxValueInputs();
   const filterMinAndMaxValueInputsProtein = useFilterMinAndMaxValueInputs();
+
+  const isFilterButtonDisabled = useMemo(() => {
+    if (isMaxDateBeforeMinDate) return true;
+    if (
+      filterMinAndMaxValueInputsCalories.isMinInputInvalid ||
+      filterMinAndMaxValueInputsCalories.isMaxInputInvalid ||
+      filterMinAndMaxValueInputsCalories.isMaxValueBelowMinValue
+    )
+      return true;
+    if (
+      filterMinAndMaxValueInputsFat.isMinInputInvalid ||
+      filterMinAndMaxValueInputsFat.isMaxInputInvalid ||
+      filterMinAndMaxValueInputsFat.isMaxValueBelowMinValue
+    )
+      return true;
+    if (
+      filterMinAndMaxValueInputsCarbs.isMinInputInvalid ||
+      filterMinAndMaxValueInputsCarbs.isMaxInputInvalid ||
+      filterMinAndMaxValueInputsCarbs.isMaxValueBelowMinValue
+    )
+      return true;
+    if (
+      filterMinAndMaxValueInputsProtein.isMinInputInvalid ||
+      filterMinAndMaxValueInputsProtein.isMaxInputInvalid ||
+      filterMinAndMaxValueInputsProtein.isMaxValueBelowMinValue
+    )
+      return true;
+
+    return false;
+  }, [
+    isMaxDateBeforeMinDate,
+    filterMinAndMaxValueInputsCalories,
+    filterMinAndMaxValueInputsFat,
+    filterMinAndMaxValueInputsCarbs,
+    filterMinAndMaxValueInputsProtein,
+  ]);
 
   return (
     <Modal
@@ -121,8 +159,7 @@ export const FilterDietLogListModal = ({
                 <Button
                   color="primary"
                   onPress={() => handleFilterSaveButton(filterDietLogListModal)}
-                  // TODO: FIX
-                  // isDisabled={isFilterButtonDisabled}
+                  isDisabled={isFilterButtonDisabled}
                 >
                   Filter
                 </Button>
