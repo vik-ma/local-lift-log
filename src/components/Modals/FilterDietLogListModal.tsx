@@ -74,7 +74,7 @@ export const FilterDietLogListModal = ({
                       <FilterMinAndMaxValues
                         setFilterMinValue={setFilterMinFat}
                         setFilterMaxValue={setFilterMaxFat}
-                        label="Fat"
+                        label="Grams"
                         useFilterMinAndMaxValueInputs={
                           filterMinAndMaxValueInputsFat
                         }
@@ -85,7 +85,7 @@ export const FilterDietLogListModal = ({
                       <FilterMinAndMaxValues
                         setFilterMinValue={setFilterMinCarbs}
                         setFilterMaxValue={setFilterMaxCarbs}
-                        label="Carbs"
+                        label="Grams"
                         useFilterMinAndMaxValueInputs={
                           filterMinAndMaxValueInputsCarbs
                         }
@@ -96,7 +96,7 @@ export const FilterDietLogListModal = ({
                       <FilterMinAndMaxValues
                         setFilterMinValue={setFilterMinProtein}
                         setFilterMaxValue={setFilterMaxProtein}
-                        label="Protein"
+                        label="Grams"
                         useFilterMinAndMaxValueInputs={
                           filterMinAndMaxValueInputsProtein
                         }
