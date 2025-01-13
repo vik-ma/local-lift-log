@@ -8,6 +8,7 @@ import {
   RoutineMap,
   UseDisclosureReturnType,
   UseExerciseListReturnType,
+  UseFilterMinAndMaxValueInputsArgs,
   UseListFiltersReturnType,
   WorkoutTemplate,
   WorkoutTemplateMap,
@@ -25,7 +26,8 @@ export const useListFilters = (
   useExerciseList?: UseExerciseListReturnType,
   routineMap?: RoutineMap,
   measurementMap?: MeasurementMap,
-  workoutTemplateMap?: WorkoutTemplateMap
+  workoutTemplateMap?: WorkoutTemplateMap,
+  useFilterMinAndMaxValueInputsArgs?: UseFilterMinAndMaxValueInputsArgs
 ): UseListFiltersReturnType => {
   const [filterMap, setFilterMap] = useState<Map<ListFilterMapKey, string>>(
     new Map()
@@ -98,7 +100,7 @@ export const useListFilters = (
     number | null
   >(null);
 
-  const filterMinAndMaxValueInputs = useFilterMinAndMaxValueInputs();
+  const filterMinAndMaxValueInputs = useFilterMinAndMaxValueInputs(useFilterMinAndMaxValueInputsArgs);
 
   const handleFilterSaveButton = (
     locale: string,

@@ -4,13 +4,16 @@ import {
   IsStringInvalidInteger,
   IsStringInvalidNumber,
 } from "../helpers";
-import { UseFilterMinAndMaxValueInputsReturnType } from "../typings";
+import {
+  UseFilterMinAndMaxValueInputsReturnType,
+  UseFilterMinAndMaxValueInputsArgs,
+} from "../typings";
 
-export const useFilterMinAndMaxValueInputs = (
-  minValue?: number,
-  maxValue?: number,
-  isIntegerOnly?: boolean
-): UseFilterMinAndMaxValueInputsReturnType => {
+export const useFilterMinAndMaxValueInputs = ({
+  minValue,
+  maxValue,
+  isIntegerOnly,
+}: UseFilterMinAndMaxValueInputsArgs = {}): UseFilterMinAndMaxValueInputsReturnType => {
   const [minInput, setMinInput] = useState<string>("");
   const [maxInput, setMaxInput] = useState<string>("");
 

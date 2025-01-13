@@ -3,6 +3,7 @@ import {
   Routine,
   RoutineMap,
   RoutineSortCategory,
+  UseFilterMinAndMaxValueInputsArgs,
   UseRoutineListReturnType,
   UseWorkoutTemplateListReturnType,
 } from "../typings";
@@ -36,11 +37,18 @@ export const useRoutineList = (
     getWorkoutTemplates,
   } = useWorkoutTemplateList;
 
+  const filterMinAndMaxValueInputsArgs: UseFilterMinAndMaxValueInputsArgs = {
+    minValue: 2,
+    maxValue: 14,
+    isIntegerOnly: true,
+  };
+
   const listFilters = useListFilters(
     undefined,
     undefined,
     undefined,
-    workoutTemplateMap.current
+    workoutTemplateMap.current,
+    filterMinAndMaxValueInputsArgs
   );
 
   const {

@@ -1032,6 +1032,12 @@ export type UseTimePeriodListFiltersReturnType = {
   setFilterStatus: React.Dispatch<React.SetStateAction<Set<string>>>;
 };
 
+export type UseFilterMinAndMaxValueInputsArgs = {
+  minValue?: number;
+  maxValue?: number;
+  isIntegerOnly?: boolean;
+};
+
 export type UseFilterMinAndMaxValueInputsReturnType = {
   minInput: string;
   setMinInput: React.Dispatch<React.SetStateAction<string>>;

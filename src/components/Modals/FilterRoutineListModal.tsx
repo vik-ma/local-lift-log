@@ -17,10 +17,7 @@ import {
 } from "../../typings";
 import { useMemo, useState } from "react";
 import { FilterMinAndMaxValues, WorkoutTemplateModalList } from "..";
-import {
-  useFilterMinAndMaxValueInputs,
-  useRoutineScheduleTypes,
-} from "../../hooks";
+import { useRoutineScheduleTypes } from "../../hooks";
 
 type FilterRoutineListModalProps = {
   useRoutineList: UseRoutineListReturnType;
@@ -53,6 +50,7 @@ export const FilterRoutineListModal = ({
     setFilterScheduleTypes,
     setFilterMinNumScheduleDays,
     setFilterMaxNumScheduleDays,
+    filterMinAndMaxValueInputs,
   } = listFilters;
 
   const showClearAllButton = useMemo(() => {
@@ -70,13 +68,6 @@ export const FilterRoutineListModal = ({
     if (modalPage === "workout-template-list") {
       setFilterWorkoutTemplates(new Set());
     }
-  };
-
-  const filterMinAndMaxValueInputs = useFilterMinAndMaxValueInputs(2, 14, true);
-
-  const handleResetAllFiltersButton = () => {
-    resetFilter();
-    filterMinAndMaxValueInputs.resetInputs();
   };
 
   return (
@@ -141,7 +132,9 @@ export const FilterRoutineListModal = ({
                     <div className="flex flex-col gap-px pt-3">
                       <h3 className="text-lg font-semibold px-0.5">
                         Number Of Days In Schedule{" "}
-                        <span className="text-default-500 text-base">(2 – 14)</span>
+                        <span className="text-default-500 text-base">
+                          (2 – 14)
+                        </span>
                       </h3>
                       <FilterMinAndMaxValues
                         setFilterMinValue={setFilterMinNumScheduleDays}
@@ -204,10 +197,7 @@ export const FilterRoutineListModal = ({
                 ) : (
                   <>
                     {showResetFilterButton && (
-                      <Button
-                        variant="flat"
-                        onPress={handleResetAllFiltersButton}
-                      >
+                      <Button variant="flat" onPress={resetFilter}>
                         Reset All Filters
                       </Button>
                     )}

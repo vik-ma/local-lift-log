@@ -15,7 +15,6 @@ import {
   FilterMinAndMaxValues,
   WeightUnitDropdown,
 } from "..";
-import { useFilterMinAndMaxValueInputs } from "../../hooks";
 
 type FilterUserWeightListModalProps = {
   filterUserWeightListModal: UseDisclosureReturnType;
@@ -37,14 +36,8 @@ export const FilterUserWeightListModal = ({
     resetFilter,
     handleFilterSaveButton,
     isMaxDateBeforeMinDate,
+    filterMinAndMaxValueInputs,
   } = useListFilters;
-
-  const filterMinAndMaxValueInputs = useFilterMinAndMaxValueInputs();
-
-  const handleResetAllFiltersButton = () => {
-    resetFilter();
-    filterMinAndMaxValueInputs.resetInputs();
-  };
 
   return (
     <Modal
@@ -83,7 +76,7 @@ export const FilterUserWeightListModal = ({
             <ModalFooter className="flex justify-between">
               <div>
                 {showResetFilterButton && (
-                  <Button variant="flat" onPress={handleResetAllFiltersButton}>
+                  <Button variant="flat" onPress={resetFilter}>
                     Reset All Filters
                   </Button>
                 )}
