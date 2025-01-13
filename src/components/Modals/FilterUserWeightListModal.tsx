@@ -92,9 +92,7 @@ export const FilterUserWeightListModal = ({
                   }
                   isDisabled={
                     isMaxDateBeforeMinDate ||
-                    filterMinAndMaxValueInputs.isMinInputInvalid ||
-                    filterMinAndMaxValueInputs.isMaxInputInvalid ||
-                    filterMinAndMaxValueInputs.isMaxValueBelowMinValue
+                    filterMinAndMaxValueInputs.isFilterInvalid
                   }
                 >
                   Filter

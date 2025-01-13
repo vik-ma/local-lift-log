@@ -45,47 +45,19 @@ export const FilterDietLogListModal = ({
 
   const isFilterButtonDisabled = useMemo(() => {
     if (isMaxDateBeforeMinDate) return true;
-    if (
-      filterMinAndMaxValueInputsCalories.isMinInputInvalid ||
-      filterMinAndMaxValueInputsCalories.isMaxInputInvalid ||
-      filterMinAndMaxValueInputsCalories.isMaxValueBelowMinValue
-    )
-      return true;
-    if (
-      filterMinAndMaxValueInputsFat.isMinInputInvalid ||
-      filterMinAndMaxValueInputsFat.isMaxInputInvalid ||
-      filterMinAndMaxValueInputsFat.isMaxValueBelowMinValue
-    )
-      return true;
-    if (
-      filterMinAndMaxValueInputsCarbs.isMinInputInvalid ||
-      filterMinAndMaxValueInputsCarbs.isMaxInputInvalid ||
-      filterMinAndMaxValueInputsCarbs.isMaxValueBelowMinValue
-    )
-      return true;
-    if (
-      filterMinAndMaxValueInputsProtein.isMinInputInvalid ||
-      filterMinAndMaxValueInputsProtein.isMaxInputInvalid ||
-      filterMinAndMaxValueInputsProtein.isMaxValueBelowMinValue
-    )
-      return true;
+    if (filterMinAndMaxValueInputsCalories.isFilterInvalid) return true;
+    if (filterMinAndMaxValueInputsFat.isFilterInvalid) return true;
+    if (filterMinAndMaxValueInputsCarbs.isFilterInvalid) return true;
+    if (filterMinAndMaxValueInputsProtein.isFilterInvalid) return true;
 
     return false;
   }, [
     isMaxDateBeforeMinDate,
-    filterMinAndMaxValueInputsCalories,
-    filterMinAndMaxValueInputsFat,
-    filterMinAndMaxValueInputsCarbs,
-    filterMinAndMaxValueInputsProtein,
+    filterMinAndMaxValueInputsCalories.isFilterInvalid,
+    filterMinAndMaxValueInputsFat.isFilterInvalid,
+    filterMinAndMaxValueInputsCarbs.isFilterInvalid,
+    filterMinAndMaxValueInputsProtein.isFilterInvalid,
   ]);
-
-  const handleResetAllFiltersButton = () => {
-    resetFilter();
-    filterMinAndMaxValueInputsCalories.resetInputs();
-    filterMinAndMaxValueInputsFat.resetInputs();
-    filterMinAndMaxValueInputsCarbs.resetInputs();
-    filterMinAndMaxValueInputsProtein.resetInputs();
-  };
 
   return (
     <Modal
@@ -155,7 +127,7 @@ export const FilterDietLogListModal = ({
             <ModalFooter className="flex justify-between">
               <div>
                 {showResetFilterButton && (
-                  <Button variant="flat" onPress={handleResetAllFiltersButton}>
+                  <Button variant="flat" onPress={resetFilter}>
                     Reset All Filters
                   </Button>
                 )}

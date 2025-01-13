@@ -63,27 +63,18 @@ export const FilterTimePeriodListModal = ({
 
   const isFilterButtonDisabled = useMemo(() => {
     if (
-      filterMinAndMaxValueInputs.isMinInputInvalid ||
-      filterMinAndMaxValueInputs.isMaxInputInvalid ||
+      filterMinAndMaxValueInputs.isFilterInvalid ||
       isMaxDateBeforeMinDateStart ||
-      isMaxDateBeforeMinDateEnd ||
-      filterMinAndMaxValueInputs.isMaxValueBelowMinValue
+      isMaxDateBeforeMinDateEnd
     )
       return true;
 
     return false;
   }, [
-    filterMinAndMaxValueInputs.isMinInputInvalid,
-    filterMinAndMaxValueInputs.isMaxInputInvalid,
+    filterMinAndMaxValueInputs.isFilterInvalid,
     isMaxDateBeforeMinDateStart,
     isMaxDateBeforeMinDateEnd,
-    filterMinAndMaxValueInputs.isMaxValueBelowMinValue,
   ]);
-
-  const handleResetAllFiltersButton = () => {
-    resetFilter();
-    filterMinAndMaxValueInputs.resetInputs();
-  };
 
   return (
     <Modal
@@ -210,7 +201,7 @@ export const FilterTimePeriodListModal = ({
             <ModalFooter className="flex justify-between">
               <div className="flex gap-2">
                 {showResetFilterButton && (
-                  <Button variant="flat" onPress={handleResetAllFiltersButton}>
+                  <Button variant="flat" onPress={resetFilter}>
                     Reset All Filters
                   </Button>
                 )}

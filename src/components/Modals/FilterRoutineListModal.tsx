@@ -227,9 +227,7 @@ export const FilterRoutineListModal = ({
                   }
                   isDisabled={
                     modalPage === "base" &&
-                    (filterMinAndMaxValueInputs.isMinInputInvalid ||
-                      filterMinAndMaxValueInputs.isMaxInputInvalid ||
-                      filterMinAndMaxValueInputs.isMaxValueBelowMinValue)
+                    filterMinAndMaxValueInputs.isFilterInvalid
                   }
                 >
                   {modalPage === "base" ? "Filter" : "Done"}
