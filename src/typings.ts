@@ -1040,6 +1040,9 @@ export type UseFilterMinAndMaxValueInputsReturnType = {
   isMaxInputInvalid: boolean;
   isMaxValueBelowMinValue: boolean;
   resetInputs: () => void;
+  resetMinInput: () => void;
+  resetMaxInput: () => void;
+  isFilterInvalid: boolean;
 };
 
 export type DietLog = {
