@@ -48,6 +48,9 @@ export const useDietLogList = (
     filterMaxCarbs,
     filterMinProtein,
     filterMaxProtein,
+    includeNullInMaxValuesFat,
+    includeNullInMaxValuesCarbs,
+    includeNullInMaxValuesProtein,
   } = dietLogListFilters;
 
   const filteredDietLogs = useMemo(() => {
@@ -73,15 +76,30 @@ export const useDietLogList = (
           (!filterMap.has("min-fat") ||
             IsNumberWithinLimit(item.fat, filterMinFat, false)) &&
           (!filterMap.has("max-fat") ||
-            IsNumberWithinLimit(item.fat, filterMaxFat, true)) &&
+            IsNumberWithinLimit(
+              item.fat,
+              filterMaxFat,
+              true,
+              includeNullInMaxValuesFat
+            )) &&
           (!filterMap.has("min-carbs") ||
             IsNumberWithinLimit(item.carbs, filterMinCarbs, false)) &&
           (!filterMap.has("max-carbs") ||
-            IsNumberWithinLimit(item.carbs, filterMaxCarbs, true)) &&
+            IsNumberWithinLimit(
+              item.carbs,
+              filterMaxCarbs,
+              true,
+              includeNullInMaxValuesCarbs
+            )) &&
           (!filterMap.has("min-protein") ||
             IsNumberWithinLimit(item.protein, filterMinProtein, false)) &&
           (!filterMap.has("max-protein") ||
-            IsNumberWithinLimit(item.protein, filterMaxProtein, true))
+            IsNumberWithinLimit(
+              item.protein,
+              filterMaxProtein,
+              true,
+              includeNullInMaxValuesProtein
+            ))
       );
     }
     return dietLogs;
@@ -100,6 +118,9 @@ export const useDietLogList = (
     filterMaxCarbs,
     filterMinProtein,
     filterMaxProtein,
+    includeNullInMaxValuesFat,
+    includeNullInMaxValuesCarbs,
+    includeNullInMaxValuesProtein,
   ]);
 
   const getDietLogs = useCallback(async () => {
