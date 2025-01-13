@@ -191,6 +191,7 @@ export const PresetsModalList = ({
                           setOperatingPlateCollection={
                             setOperatingPlateCollection
                           }
+                          isActive={isInPlateCollection}
                         />
                       )}
                       <FavoriteButton

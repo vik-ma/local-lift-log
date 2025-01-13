@@ -11,6 +11,7 @@ type AvailablePlatesDropdownProps = {
     React.SetStateAction<PlateCollection>
   >;
   isSmall?: boolean;
+  isActive?: boolean;
 };
 
 export const AvailablePlatesDropdown = ({
@@ -19,6 +20,7 @@ export const AvailablePlatesDropdown = ({
   operatingPlateCollection,
   setOperatingPlateCollection,
   isSmall,
+  isActive,
 }: AvailablePlatesDropdownProps) => {
   const availableNumbers = useMemo(() => {
     return ["2", "4", "6", "8", "10", "12", "16", "18", "20"];
@@ -55,8 +57,9 @@ export const AvailablePlatesDropdown = ({
     <Select
       aria-label="Number Of Available Plates Dropdown List"
       className={isSmall ? "w-[4rem]" : "w-[4.5rem]"}
+      classNames={isActive ? { trigger: "bg-white" } : {}}
       size={isSmall ? "sm" : "md"}
-      variant="faded"
+      variant={isActive ? "flat" : "faded"}
       selectedKeys={[value.toString()]}
       onChange={(e) => handleChange(e)}
       disallowEmptySelection
