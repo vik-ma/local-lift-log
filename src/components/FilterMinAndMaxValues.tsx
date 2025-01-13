@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { UseFilterMinAndMaxValueInputsReturnType } from "../typings";
 import { IsStringEmpty } from "../helpers";
-import { Input } from "@nextui-org/react";
+import { Checkbox, Input } from "@nextui-org/react";
 
 type FilterMinAndMaxValuesProps = {
   setFilterMinValue: React.Dispatch<React.SetStateAction<number | null>>;
@@ -9,6 +9,9 @@ type FilterMinAndMaxValuesProps = {
   label: string;
   useFilterMinAndMaxValueInputs: UseFilterMinAndMaxValueInputsReturnType;
   isSmall?: boolean;
+  includeNullInMaxValues?: boolean;
+  setIncludeNullInMaxValues?: React.Dispatch<React.SetStateAction<boolean>>;
+  customIncludeNullCheckboxLabel?: string;
 };
 
 export const FilterMinAndMaxValues = ({
@@ -17,6 +20,9 @@ export const FilterMinAndMaxValues = ({
   label,
   useFilterMinAndMaxValueInputs,
   isSmall,
+  includeNullInMaxValues,
+  setIncludeNullInMaxValues,
+  customIncludeNullCheckboxLabel,
 }: FilterMinAndMaxValuesProps) => {
   const {
     minInput,
@@ -49,7 +55,7 @@ export const FilterMinAndMaxValues = ({
   }, [maxInput, isMaxInputInvalid, setFilterMaxValue]);
 
   return (
-    <div className="flex gap-5">
+    <div className="flex items-center gap-5">
       <div
         className={
           isSmall
@@ -107,6 +113,22 @@ export const FilterMinAndMaxValues = ({
           }
         />
       </div>
+      {includeNullInMaxValues !== undefined &&
+        setIncludeNullInMaxValues !== undefined && (
+          <div className="w-[8rem]">
+            <Checkbox
+              className="hover:underline"
+              classNames={{ label: "text-sm" }}
+              color="primary"
+              isSelected={includeNullInMaxValues}
+              onValueChange={setIncludeNullInMaxValues}
+            >
+              {customIncludeNullCheckboxLabel !== undefined
+                ? customIncludeNullCheckboxLabel
+                : "Include entries with no values"}
+            </Checkbox>
+          </div>
+        )}
     </div>
   );
 };
