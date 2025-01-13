@@ -114,7 +114,8 @@ export const FilterMinAndMaxValues = ({
         />
       </div>
       {includeNullInMaxValues !== undefined &&
-        setIncludeNullInMaxValues !== undefined && (
+        setIncludeNullInMaxValues !== undefined &&
+        !IsStringEmpty(maxInput) && (
           <div className="w-[8rem]">
             <Checkbox
               className="hover:underline"
