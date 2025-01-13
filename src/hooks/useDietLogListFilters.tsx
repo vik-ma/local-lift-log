@@ -44,6 +44,13 @@ export const useDietLogListFilters = (): UseDietLogListFiltersReturnType => {
   const filterMinAndMaxValueInputsCarbs = useFilterMinAndMaxValueInputs();
   const filterMinAndMaxValueInputsProtein = useFilterMinAndMaxValueInputs();
 
+  const [includeNullInMaxValuesFat, setIncludeNullInMaxValuesFat] =
+    useState<boolean>(false);
+  const [includeNullInMaxValuesCarbs, setIncludeNullInMaxValuesCarbs] =
+    useState<boolean>(false);
+  const [includeNullInMaxValuesProtein, setIncludeNullInMaxValuesProtein] =
+    useState<boolean>(false);
+
   const handleFilterSaveButton = (activeModal: UseDisclosureReturnType) => {
     const updatedFilterMap = new Map<DietLogListFilterMapKey, string>();
 
@@ -295,5 +302,11 @@ export const useDietLogListFilters = (): UseDietLogListFiltersReturnType => {
     filterMinAndMaxValueInputsFat,
     filterMinAndMaxValueInputsCarbs,
     filterMinAndMaxValueInputsProtein,
+    includeNullInMaxValuesFat,
+    setIncludeNullInMaxValuesFat,
+    includeNullInMaxValuesCarbs,
+    setIncludeNullInMaxValuesCarbs,
+    includeNullInMaxValuesProtein,
+    setIncludeNullInMaxValuesProtein,
   };
 };

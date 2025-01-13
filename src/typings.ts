@@ -560,6 +560,8 @@ export type UseListFiltersReturnType = {
   setFilterMaxDate: React.Dispatch<React.SetStateAction<CalendarDate | null>>;
   isMaxDateBeforeMinDate: boolean;
   filterMinAndMaxValueInputs: UseFilterMinAndMaxValueInputsReturnType;
+  includeNullInMaxValues: boolean;
+  setIncludeNullInMaxValues: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export type ListFilterMapKey =
@@ -1163,6 +1165,12 @@ export type UseDietLogListFiltersReturnType = {
   filterMinAndMaxValueInputsFat: UseFilterMinAndMaxValueInputsReturnType;
   filterMinAndMaxValueInputsCarbs: UseFilterMinAndMaxValueInputsReturnType;
   filterMinAndMaxValueInputsProtein: UseFilterMinAndMaxValueInputsReturnType;
+  includeNullInMaxValuesFat: boolean;
+  setIncludeNullInMaxValuesFat: React.Dispatch<React.SetStateAction<boolean>>;
+  includeNullInMaxValuesCarbs: boolean;
+  setIncludeNullInMaxValuesCarbs: React.Dispatch<React.SetStateAction<boolean>>;
+  includeNullInMaxValuesProtein: boolean;
+  setIncludeNullInMaxValuesProtein: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export type FilterMinAndMaxValuesSetStateMap = Map<

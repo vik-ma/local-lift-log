@@ -39,6 +39,12 @@ export const FilterDietLogListModal = ({
     filterMinAndMaxValueInputsFat,
     filterMinAndMaxValueInputsCarbs,
     filterMinAndMaxValueInputsProtein,
+    includeNullInMaxValuesFat,
+    setIncludeNullInMaxValuesFat,
+    includeNullInMaxValuesCarbs,
+    setIncludeNullInMaxValuesCarbs,
+    includeNullInMaxValuesProtein,
+    setIncludeNullInMaxValuesProtein,
   } = dietLogListFilters;
 
   const isFilterButtonDisabled = useMemo(() => {
@@ -94,6 +100,8 @@ export const FilterDietLogListModal = ({
                         useFilterMinAndMaxValueInputs={
                           filterMinAndMaxValueInputsFat
                         }
+                        includeNullInMaxValues={includeNullInMaxValuesFat}
+                        setIncludeNullInMaxValues={setIncludeNullInMaxValuesFat}
                       />
                     </div>
                     <div className="flex flex-col gap-px">
@@ -105,6 +113,10 @@ export const FilterDietLogListModal = ({
                         useFilterMinAndMaxValueInputs={
                           filterMinAndMaxValueInputsCarbs
                         }
+                        includeNullInMaxValues={includeNullInMaxValuesCarbs}
+                        setIncludeNullInMaxValues={
+                          setIncludeNullInMaxValuesCarbs
+                        }
                       />
                     </div>
                     <div className="flex flex-col gap-px">
@@ -115,6 +127,10 @@ export const FilterDietLogListModal = ({
                         label="Grams"
                         useFilterMinAndMaxValueInputs={
                           filterMinAndMaxValueInputsProtein
+                        }
+                        includeNullInMaxValues={includeNullInMaxValuesProtein}
+                        setIncludeNullInMaxValues={
+                          setIncludeNullInMaxValuesProtein
                         }
                       />
                     </div>

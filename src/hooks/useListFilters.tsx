@@ -104,6 +104,9 @@ export const useListFilters = (
     useFilterMinAndMaxValueInputsArgs
   );
 
+  const [includeNullInMaxValues, setIncludeNullInMaxValues] =
+    useState<boolean>(false);
+
   const handleFilterSaveButton = (
     locale: string,
     activeModal: UseDisclosureReturnType
@@ -680,5 +683,7 @@ export const useListFilters = (
     setFilterMaxDate,
     isMaxDateBeforeMinDate,
     filterMinAndMaxValueInputs,
+    includeNullInMaxValues,
+    setIncludeNullInMaxValues,
   };
 };
