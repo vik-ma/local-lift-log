@@ -9,7 +9,6 @@ import {
   ScrollShadow,
 } from "@nextui-org/react";
 import { FilterDateRangeAndWeekdays, FilterMinAndMaxValues } from "..";
-import { useFilterMinAndMaxValueInputs } from "../../hooks";
 import { useMemo } from "react";
 
 type FilterDietLogListModal = {
@@ -36,12 +35,11 @@ export const FilterDietLogListModal = ({
     handleFilterSaveButton,
     resetFilter,
     isMaxDateBeforeMinDate,
+    filterMinAndMaxValueInputsCalories,
+    filterMinAndMaxValueInputsFat,
+    filterMinAndMaxValueInputsCarbs,
+    filterMinAndMaxValueInputsProtein,
   } = dietLogListFilters;
-
-  const filterMinAndMaxValueInputsCalories = useFilterMinAndMaxValueInputs();
-  const filterMinAndMaxValueInputsFat = useFilterMinAndMaxValueInputs();
-  const filterMinAndMaxValueInputsCarbs = useFilterMinAndMaxValueInputs();
-  const filterMinAndMaxValueInputsProtein = useFilterMinAndMaxValueInputs();
 
   const isFilterButtonDisabled = useMemo(() => {
     if (isMaxDateBeforeMinDate) return true;

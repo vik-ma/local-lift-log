@@ -16,7 +16,6 @@ import {
   FilterMinAndMaxDates,
   FilterMinAndMaxValues,
 } from "..";
-import { useFilterMinAndMaxValueInputs } from "../../hooks";
 import { useMemo } from "react";
 
 type FilterTimePeriodListModalProps = {
@@ -53,13 +52,8 @@ export const FilterTimePeriodListModal = ({
     setFilterStatus,
     resetFilter,
     showResetFilterButton,
+    filterMinAndMaxValueInputs,
   } = timePeriodListFilters;
-
-  const filterMinAndMaxValueInputs = useFilterMinAndMaxValueInputs(
-    1,
-    undefined,
-    true
-  );
 
   const isFilterButtonDisabled = useMemo(() => {
     if (

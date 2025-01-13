@@ -5,7 +5,11 @@ import {
   UseDisclosureReturnType,
 } from "../typings";
 import { CalendarDate } from "@nextui-org/react";
-import { useIsEndDateBeforeStartDate, useWeekdayMap } from ".";
+import {
+  useFilterMinAndMaxValueInputs,
+  useIsEndDateBeforeStartDate,
+  useWeekdayMap,
+} from ".";
 import { ConvertCalendarDateToYmdString } from "../helpers";
 
 export const useDietLogListFilters = (): UseDietLogListFiltersReturnType => {
@@ -34,6 +38,11 @@ export const useDietLogListFilters = (): UseDietLogListFiltersReturnType => {
   );
 
   const weekdayMap = useWeekdayMap();
+
+  const filterMinAndMaxValueInputsCalories = useFilterMinAndMaxValueInputs();
+  const filterMinAndMaxValueInputsFat = useFilterMinAndMaxValueInputs();
+  const filterMinAndMaxValueInputsCarbs = useFilterMinAndMaxValueInputs();
+  const filterMinAndMaxValueInputsProtein = useFilterMinAndMaxValueInputs();
 
   const handleFilterSaveButton = (activeModal: UseDisclosureReturnType) => {
     const updatedFilterMap = new Map<DietLogListFilterMapKey, string>();
@@ -136,41 +145,49 @@ export const useDietLogListFilters = (): UseDietLogListFiltersReturnType => {
     if (key === "min-calories" && filterMap.has("min-calories")) {
       updatedFilterMap.delete("min-calories");
       setFilterMinCalories(null);
+      filterMinAndMaxValueInputsCalories.resetMinInput();
     }
 
     if (key === "max-calories" && filterMap.has("max-calories")) {
       updatedFilterMap.delete("max-calories");
       setFilterMaxCalories(null);
+      filterMinAndMaxValueInputsCalories.resetMaxInput();
     }
 
     if (key === "min-fat" && filterMap.has("min-fat")) {
       updatedFilterMap.delete("min-fat");
       setFilterMinFat(null);
+      filterMinAndMaxValueInputsFat.resetMinInput();
     }
 
     if (key === "max-fat" && filterMap.has("max-fat")) {
       updatedFilterMap.delete("max-fat");
       setFilterMaxFat(null);
+      filterMinAndMaxValueInputsFat.resetMaxInput();
     }
 
     if (key === "min-carbs" && filterMap.has("min-carbs")) {
       updatedFilterMap.delete("min-carbs");
       setFilterMinCarbs(null);
+      filterMinAndMaxValueInputsCarbs.resetMinInput();
     }
 
     if (key === "max-carbs" && filterMap.has("max-carbs")) {
       updatedFilterMap.delete("max-carbs");
       setFilterMaxCarbs(null);
+      filterMinAndMaxValueInputsCarbs.resetMaxInput();
     }
 
     if (key === "min-protein" && filterMap.has("min-protein")) {
       updatedFilterMap.delete("min-protein");
       setFilterMinProtein(null);
+      filterMinAndMaxValueInputsProtein.resetMinInput();
     }
 
     if (key === "max-protein" && filterMap.has("max-protein")) {
       updatedFilterMap.delete("max-protein");
       setFilterMaxProtein(null);
+      filterMinAndMaxValueInputsProtein.resetMinInput();
     }
 
     setFilterMap(updatedFilterMap);
@@ -189,6 +206,10 @@ export const useDietLogListFilters = (): UseDietLogListFiltersReturnType => {
     setFilterMaxCarbs(null);
     setFilterMinProtein(null);
     setFilterMaxProtein(null);
+    filterMinAndMaxValueInputsCalories.resetInputs();
+    filterMinAndMaxValueInputsFat.resetInputs();
+    filterMinAndMaxValueInputsCarbs.resetInputs();
+    filterMinAndMaxValueInputsProtein.resetInputs();
   };
 
   const showResetFilterButton = useMemo(() => {
@@ -270,5 +291,9 @@ export const useDietLogListFilters = (): UseDietLogListFiltersReturnType => {
     filterMaxProtein,
     setFilterMaxProtein,
     weekdayMap,
+    filterMinAndMaxValueInputsCalories,
+    filterMinAndMaxValueInputsFat,
+    filterMinAndMaxValueInputsCarbs,
+    filterMinAndMaxValueInputsProtein,
   };
 };

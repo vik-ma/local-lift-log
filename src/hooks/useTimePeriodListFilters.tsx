@@ -2,10 +2,11 @@ import { useMemo, useState } from "react";
 import {
   TimePeriodListFilterMapKey,
   UseDisclosureReturnType,
+  UseFilterMinAndMaxValueInputsArgs,
   UseTimePeriodListFiltersReturnType,
 } from "../typings";
 import { CalendarDate } from "@nextui-org/react";
-import { useIsEndDateBeforeStartDate } from ".";
+import { useFilterMinAndMaxValueInputs, useIsEndDateBeforeStartDate } from ".";
 import { ConvertCalendarDateToLocalizedString } from "../helpers";
 
 export const useTimePeriodListFilters =
@@ -43,6 +44,16 @@ export const useTimePeriodListFilters =
     const isMaxDateBeforeMinDateEnd = useIsEndDateBeforeStartDate(
       filterMinEndDate,
       filterMaxEndDate
+    );
+
+    const filterMinAndMaxValueInputsArgs: UseFilterMinAndMaxValueInputsArgs = {
+      minValue: 1,
+      maxValue: undefined,
+      isIntegerOnly: true,
+    };
+
+    const filterMinAndMaxValueInputs = useFilterMinAndMaxValueInputs(
+      filterMinAndMaxValueInputsArgs
     );
 
     const handleFilterSaveButton = (
@@ -152,11 +163,13 @@ export const useTimePeriodListFilters =
       if (key === "min-duration" && filterMap.has("min-duration")) {
         updatedFilterMap.delete("min-duration");
         setFilterMinDuration(null);
+        filterMinAndMaxValueInputs.resetMinInput();
       }
 
       if (key === "max-duration" && filterMap.has("max-duration")) {
         updatedFilterMap.delete("max-duration");
         setFilterMaxDuration(null);
+        filterMinAndMaxValueInputs.resetMaxInput();
       }
 
       if (key === "caloric-intake" && filterMap.has("caloric-intake")) {
@@ -188,6 +201,7 @@ export const useTimePeriodListFilters =
       setFilterCaloricIntakeTypes(new Set());
       setFilterHasInjury(new Set());
       setFilterStatus(new Set());
+      filterMinAndMaxValueInputs.resetInputs();
     };
 
     const showResetFilterButton = useMemo(() => {
@@ -262,5 +276,6 @@ export const useTimePeriodListFilters =
       isMaxDateBeforeMinDateEnd,
       filterStatus,
       setFilterStatus,
+      filterMinAndMaxValueInputs,
     };
   };

@@ -1030,6 +1030,7 @@ export type UseTimePeriodListFiltersReturnType = {
   isMaxDateBeforeMinDateEnd: boolean;
   filterStatus: Set<string>;
   setFilterStatus: React.Dispatch<React.SetStateAction<Set<string>>>;
+  filterMinAndMaxValueInputs: UseFilterMinAndMaxValueInputsReturnType;
 };
 
 export type UseFilterMinAndMaxValueInputsArgs = {
@@ -1158,6 +1159,10 @@ export type UseDietLogListFiltersReturnType = {
   filterMaxProtein: number | null;
   setFilterMaxProtein: React.Dispatch<React.SetStateAction<number | null>>;
   weekdayMap: Map<string, string>;
+  filterMinAndMaxValueInputsCalories: UseFilterMinAndMaxValueInputsReturnType;
+  filterMinAndMaxValueInputsFat: UseFilterMinAndMaxValueInputsReturnType;
+  filterMinAndMaxValueInputsCarbs: UseFilterMinAndMaxValueInputsReturnType;
+  filterMinAndMaxValueInputsProtein: UseFilterMinAndMaxValueInputsReturnType;
 };
 
 export type FilterMinAndMaxValuesSetStateMap = Map<

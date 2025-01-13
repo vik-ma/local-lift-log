@@ -100,7 +100,9 @@ export const useListFilters = (
     number | null
   >(null);
 
-  const filterMinAndMaxValueInputs = useFilterMinAndMaxValueInputs(useFilterMinAndMaxValueInputsArgs);
+  const filterMinAndMaxValueInputs = useFilterMinAndMaxValueInputs(
+    useFilterMinAndMaxValueInputsArgs
+  );
 
   const handleFilterSaveButton = (
     locale: string,
