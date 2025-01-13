@@ -17,6 +17,7 @@ import {
   useWeekdayMap,
   useMultisetTypeMap,
   useIsEndDateBeforeStartDate,
+  useFilterMinAndMaxValueInputs,
 } from ".";
 import { ConvertCalendarDateToLocalizedString } from "../helpers";
 
@@ -96,6 +97,8 @@ export const useListFilters = (
   const [filterMaxNumScheduleDays, setFilterMaxNumScheduleDays] = useState<
     number | null
   >(null);
+
+  const filterMinAndMaxValueInputs = useFilterMinAndMaxValueInputs();
 
   const handleFilterSaveButton = (
     locale: string,
@@ -280,21 +283,25 @@ export const useListFilters = (
     if (key === "min-weight" && filterMap.has("min-weight")) {
       updatedFilterMap.delete("min-weight");
       setFilterMinWeight(null);
+      filterMinAndMaxValueInputs.resetMinInput();
     }
 
     if (key === "max-weight" && filterMap.has("max-weight")) {
       updatedFilterMap.delete("max-weight");
       setFilterMaxWeight(null);
+      filterMinAndMaxValueInputs.resetMaxInput();
     }
 
     if (key === "min-distance" && filterMap.has("min-distance")) {
       updatedFilterMap.delete("min-distance");
       setFilterMinDistance(null);
+      filterMinAndMaxValueInputs.resetMinInput();
     }
 
     if (key === "max-distance" && filterMap.has("max-distance")) {
       updatedFilterMap.delete("max-distance");
       setFilterMaxDistance(null);
+      filterMinAndMaxValueInputs.resetMaxInput();
     }
 
     if (key === "measurements" && filterMap.has("measurements")) {
@@ -323,6 +330,7 @@ export const useListFilters = (
     ) {
       updatedFilterMap.delete("min-num-schedule-days");
       setFilterMinNumScheduleDays(null);
+      filterMinAndMaxValueInputs.resetMinInput();
     }
 
     if (
@@ -331,6 +339,7 @@ export const useListFilters = (
     ) {
       updatedFilterMap.delete("max-num-schedule-days");
       setFilterMaxNumScheduleDays(null);
+      filterMinAndMaxValueInputs.resetMaxInput();
     }
 
     if (key === "weight-units" && filterMap.has("weight-units")) {
@@ -372,6 +381,7 @@ export const useListFilters = (
     setFilterWeightUnits(new Set());
     setFilterDistanceUnits(new Set());
     setFilterMultisetTypes(new Set());
+    filterMinAndMaxValueInputs.resetInputs();
   };
 
   const showResetFilterButton = useMemo(() => {
@@ -665,5 +675,6 @@ export const useListFilters = (
     filterMaxDate,
     setFilterMaxDate,
     isMaxDateBeforeMinDate,
+    filterMinAndMaxValueInputs,
   };
 };
