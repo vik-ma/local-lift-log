@@ -25,6 +25,7 @@ type PresetsModalListProps = {
   showSortButton?: boolean;
   validWeightUnit?: string;
   isSelectingForPlateCollection?: boolean;
+  hideToggleInvalidWeightUnitButton?: boolean;
 };
 
 export const PresetsModalList = ({
@@ -35,6 +36,7 @@ export const PresetsModalList = ({
   showSortButton,
   validWeightUnit,
   isSelectingForPlateCollection,
+  hideToggleInvalidWeightUnitButton,
 }: PresetsModalListProps) => {
   const {
     presetsType,
@@ -104,16 +106,17 @@ export const PresetsModalList = ({
             )}
           </div>
           <div className="flex gap-1">
-            {validWeightUnit !== undefined && (
-              <Button
-                className="w-[8rem]"
-                variant="flat"
-                size="sm"
-                onPress={() => setHideInvalidUnitItems(!hideInvalidUnitItems)}
-              >
-                {hideInvalidUnitItems ? "Show" : "Hide"} Invalid Units
-              </Button>
-            )}
+            {validWeightUnit !== undefined &&
+              hideToggleInvalidWeightUnitButton !== true && (
+                <Button
+                  className="w-[8rem]"
+                  variant="flat"
+                  size="sm"
+                  onPress={() => setHideInvalidUnitItems(!hideInvalidUnitItems)}
+                >
+                  {hideInvalidUnitItems ? "Show" : "Hide"} Invalid Units
+                </Button>
+              )}
             {showSortButton && (
               <PresetsListOptions
                 usePresetsList={presetsList}

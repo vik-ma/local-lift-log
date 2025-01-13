@@ -481,6 +481,7 @@ export const PlateCalculator = ({
           heightString="h-[400px]"
           validWeightUnit={operatingPlateCollection.weight_unit}
           isSelectingForPlateCollection={operationTypePlateCalc === "show-list"}
+          hideToggleInvalidWeightUnitButton
         />
       ) : (
         <PlateCollectionModalList
