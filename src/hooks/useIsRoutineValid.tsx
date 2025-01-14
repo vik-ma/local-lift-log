@@ -8,7 +8,7 @@ export const useIsRoutineValid = (routine: Routine) => {
   const isRoutineValid = useMemo(() => {
     if (!isRoutineNameValid) return false;
 
-    if (routine.is_schedule_weekly && routine.num_days_in_schedule !== 7)
+    if (routine.schedule_type === 0 && routine.num_days_in_schedule !== 7)
       return false;
 
     if (routine.num_days_in_schedule < 2 || routine.num_days_in_schedule > 14)
