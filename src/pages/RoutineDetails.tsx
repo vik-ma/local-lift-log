@@ -35,6 +35,7 @@ import {
   FormatNumItemsString,
   CreateRoutineWorkoutTemplateList,
   ConvertDateStringToCalendarDate,
+  FormatRoutineScheduleTypeString,
 } from "../helpers";
 import toast, { Toaster } from "react-hot-toast";
 import { getLocalTimeZone } from "@internationalized/date";
@@ -450,9 +451,11 @@ export default function RoutineDetails() {
             </div>
           )}
           <h2 className="text-xl font-semibold pt-3 pb-1">
-            {routine.schedule_type === 1
-              ? `${routine.num_days_in_schedule} Day Schedule`
-              : "Weekly Schedule"}
+            {FormatRoutineScheduleTypeString(
+              routine.schedule_type,
+              routine.num_days_in_schedule,
+              true
+            )}
           </h2>
           <div className="flex flex-col gap-1 py-1">
             {Array.from(Array(routine.num_days_in_schedule), (_, i) => (

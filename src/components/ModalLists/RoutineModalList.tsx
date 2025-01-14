@@ -5,7 +5,7 @@ import {
   RoutineListOptions,
   SearchInput,
 } from "..";
-import { FormatNumItemsString } from "../../helpers";
+import { FormatNumItemsString, FormatRoutineScheduleTypeString } from "../../helpers";
 import { Routine, UseRoutineListReturnType } from "../../typings";
 import { GoToArrowIcon } from "../../assets";
 import { useNavigate } from "react-router-dom";
@@ -107,9 +107,10 @@ export const RoutineModalList = ({
                   </span>
                 )}
                 <span className="text-xs text-stone-400 text-left">
-                  {routine.is_schedule_weekly === 0
-                    ? `${routine.num_days_in_schedule} Day Schedule`
-                    : "Weekly Schedule"}
+                  {FormatRoutineScheduleTypeString(
+                    routine.schedule_type,
+                    routine.num_days_in_schedule
+                  )}
                 </span>
               </div>
               {isActiveRoutine && (
