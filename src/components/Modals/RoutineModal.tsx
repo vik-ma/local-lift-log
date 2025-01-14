@@ -14,6 +14,7 @@ import {
 import { Routine, UseDisclosureReturnType } from "../../typings";
 import { useMemo } from "react";
 import { NumDaysInScheduleOptions } from "../../helpers";
+import { useRoutineScheduleTypeMap } from "../../hooks";
 
 type RoutineModalProps = {
   routineModal: UseDisclosureReturnType;
@@ -34,20 +35,32 @@ export const RoutineModal = ({
     return NumDaysInScheduleOptions();
   }, []);
 
+  const routineScheduleTypeMap = useRoutineScheduleTypeMap();
+
   const handleScheduleTypeChange = (scheduleType: string) => {
-    if (scheduleType === "weekly") {
+    if (scheduleType === "Weekly") {
       setRoutine((prev) => ({
         ...prev,
-        is_schedule_weekly: 1,
+        schedule_type: 0,
         num_days_in_schedule: 7,
       }));
-    } else setRoutine((prev) => ({ ...prev, is_schedule_weekly: 0 }));
+    } else if (scheduleType === "Custom") {
+      setRoutine((prev) => ({
+        ...prev,
+        schedule_type: 1,
+      }));
+    } else {
+      setRoutine((prev) => ({
+        ...prev,
+        schedule_type: 2,
+      }));
+    }
   };
 
   const handleNumDaysInScheduleChange = (
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
-    if (routine.is_schedule_weekly) return;
+    if (routine.schedule_type !== 1) return;
 
     const numDays: number = parseInt(e.target.value);
 
@@ -95,28 +108,34 @@ export const RoutineModal = ({
                 </div>
                 <div className="flex justify-between items-center px-1 py-0.5 gap-4">
                   <RadioGroup
-                    value={routine.is_schedule_weekly ? "weekly" : "custom"}
+                    value={
+                      routineScheduleTypeMap.get(routine.schedule_type) ??
+                      routineScheduleTypeMap.get(0)
+                    }
                     onValueChange={(value) => handleScheduleTypeChange(value)}
-                    defaultValue="weekly"
                     label="Schedule Type"
                   >
-                    <Radio value="weekly">Weekly</Radio>
-                    <Radio value="custom">Custom</Radio>
+                    {Array.from(routineScheduleTypeMap).map(([key, value]) => (
+                      <Radio key={key} value={value}>
+                        {value}
+                      </Radio>
+                    ))}
                   </RadioGroup>
                   <Select
-                    isRequired
+                    className={
+                      routine.schedule_type === 1 ? "w-[15rem]" : "hidden"
+                    }
+                    label={
+                      <span className="text-default-500">
+                        Number of days in schedule
+                      </span>
+                    }
+                    labelPlacement="outside"
                     size="lg"
                     variant="faded"
-                    label="Number of days in schedule"
-                    labelPlacement="outside"
-                    placeholder="Select number of days"
                     selectedKeys={[routine.num_days_in_schedule.toString()]}
                     onChange={handleNumDaysInScheduleChange}
-                    className={
-                      routine.is_schedule_weekly
-                        ? "hidden max-w-[240px]"
-                        : " max-w-[240px]"
-                    }
+                    isRequired
                     disallowEmptySelection
                   >
                     {numDaysInScheduleOptions.map((number) => (
