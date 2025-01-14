@@ -243,33 +243,35 @@ export const PlateCollectionModal = ({
             </ModalBody>
             <ModalFooter className="flex justify-between">
               <div className="flex gap-2">
-                <Button
-                  color={
-                    plateCalculatorPage === "base" ? "secondary" : "default"
-                  }
-                  variant="flat"
-                  onPress={
-                    plateCalculatorPage === "base"
-                      ? handleSetAvailablePlatesButton
-                      : handleBackButton
-                  }
-                >
-                  {plateCalculatorPage === "base"
-                    ? "Set Available Plates"
-                    : "Back"}
-                </Button>
+                {plateCalculatorPage === "base" && (
+                  <Button
+                    color="secondary"
+                    variant="flat"
+                    onPress={handleSetAvailablePlatesButton}
+                  >
+                    Set Available Plates
+                  </Button>
+                )}
               </div>
               <div className="flex gap-2">
-                <Button color="primary" variant="light" onPress={onClose}>
-                  Close
-                </Button>
                 <Button
                   color="primary"
-                  onPress={buttonAction}
-                  isDisabled={disableDoneButton}
+                  variant="light"
+                  onPress={
+                    plateCalculatorPage !== "base" ? handleBackButton : onClose
+                  }
                 >
-                  {plateCollection.id !== 0 ? "Save" : "Create"}
+                  {plateCalculatorPage !== "base" ? "Back" : "Close"}
                 </Button>
+                {plateCalculatorPage === "base" && (
+                  <Button
+                    color="primary"
+                    onPress={buttonAction}
+                    isDisabled={disableDoneButton}
+                  >
+                    {plateCollection.id !== 0 ? "Save" : "Create"}
+                  </Button>
+                )}
               </div>
             </ModalFooter>
           </>
