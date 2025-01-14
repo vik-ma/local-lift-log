@@ -203,6 +203,7 @@ export { MeasurementTypes } from "./Constants/MeasurementTypes";
 export { MultisetTypes } from "./Constants/MultisetTypes";
 export { CaloricIntakeTypes } from "./Constants/CaloricIntakeTypes";
 export { ValidTimePeriodPropertiesMap } from "./Constants/ValidTimePeriodPropertiesMap";
+export { RoutineScheduleTypes } from "./Constants/RoutineScheduleTypes";
 
 export { ConvertEmptyStringToNull } from "./Strings/ConvertEmptyStringToNull";
 export { IsStringEmpty } from "./Strings/IsStringEmpty";
@@ -230,4 +231,3 @@ export { DefaultNewDietLog } from "./DietLogs/DefaultNewDietLog";
 export { ShouldDietLogDisableExpansion } from "./DietLogs/ShouldDietLogDisableExpansion";
 export { InsertDietLogIntoDatabase } from "./DietLogs/InsertDietLogIntoDatabase";
 export { DeleteDietLogWithId } from "./DietLogs/DeleteDietLogWithId";
-

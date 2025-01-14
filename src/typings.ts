@@ -1180,3 +1180,5 @@ export type FilterMinAndMaxValuesSetStateMap = Map<
   string,
   React.Dispatch<React.SetStateAction<number | null>>
 >;
+
+export type RoutineScheduleTypeMap = Map<number, string>;
