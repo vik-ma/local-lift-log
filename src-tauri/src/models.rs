@@ -7,9 +7,10 @@ pub struct Routine {
     pub id: i32,
     pub name: String,
     pub note: Option<String>,
-    pub is_schedule_weekly: i32,
+    pub schedule_type: i32,
     pub num_days_in_schedule: i32,
     pub custom_schedule_start_date: Option<String>,
+    pub workout_template_order: Option<String>,
 }
 
 #[derive(Queryable, Selectable)]
