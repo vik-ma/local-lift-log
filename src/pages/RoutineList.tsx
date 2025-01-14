@@ -336,8 +336,10 @@ export default function RoutineList() {
                     </span>
                   )}
                   <span className="text-xs text-stone-400 text-left">
-                    {routine.is_schedule_weekly === 0
+                    {routine.schedule_type === 1
                       ? `${routine.num_days_in_schedule} Day Schedule`
+                      : routine.schedule_type === 2
+                      ? "Schedule With No Set Days"
                       : "Weekly Schedule"}
                   </span>
                 </button>
