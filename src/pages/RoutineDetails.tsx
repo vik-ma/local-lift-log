@@ -262,7 +262,7 @@ export default function RoutineDetails() {
   };
 
   const updateCustomStartDate = async (dateString: string) => {
-    if (routine.is_schedule_weekly) return;
+    if (routine.schedule_type !== 1) return;
 
     if (!IsYmdDateStringValid(dateString)) return;
 
@@ -338,9 +338,9 @@ export default function RoutineDetails() {
   const dayNameList: string[] = useMemo(() => {
     return GetScheduleDayNames(
       routine.num_days_in_schedule ?? 7,
-      !!routine.is_schedule_weekly
+      routine.schedule_type === 0
     );
-  }, [routine.num_days_in_schedule, routine.is_schedule_weekly]);
+  }, [routine.num_days_in_schedule, routine.schedule_type]);
 
   if (routine.id === 0 || userSettings === undefined) return <LoadingSpinner />;
 
@@ -417,7 +417,7 @@ export default function RoutineDetails() {
           )}
         </div>
         <div className="flex flex-col">
-          {routine.is_schedule_weekly === 0 && (
+          {routine.schedule_type === 1 && (
             <div className="flex gap-2 items-end">
               <I18nProvider locale={userSettings.locale}>
                 <DatePicker
@@ -450,7 +450,7 @@ export default function RoutineDetails() {
             </div>
           )}
           <h2 className="text-xl font-semibold pt-3 pb-1">
-            {routine.is_schedule_weekly === 0
+            {routine.schedule_type === 1
               ? `${routine.num_days_in_schedule} Day Schedule`
               : "Weekly Schedule"}
           </h2>
