@@ -11,8 +11,8 @@ import { useDisclosure } from "@nextui-org/react";
 import {
   CreateRoutineWorkoutTemplateList,
   DoesListOrSetHaveCommonElement,
+  FormatRoutineScheduleTypeString,
   IsNumberWithinLimit,
-  IsRoutineScheduleTypeFiltered,
 } from "../helpers";
 import { useListFilters } from "./useListFilters";
 import Database from "tauri-plugin-sql-api";
@@ -66,21 +66,22 @@ export const useRoutineList = (
           (item.name
             .toLocaleLowerCase()
             .includes(filterQuery.toLocaleLowerCase()) ||
-            (item.is_schedule_weekly === 1 &&
-              "weekly".includes(filterQuery.toLocaleLowerCase())) ||
-            (item.is_schedule_weekly === 0 &&
-              (item.num_days_in_schedule.toString().includes(filterQuery) ||
-                "custom".includes(filterQuery.toLocaleLowerCase())))) &&
+            FormatRoutineScheduleTypeString(
+              item.schedule_type,
+              item.num_days_in_schedule
+            )
+              .toLocaleLowerCase()
+              .includes(filterQuery.toLocaleLowerCase())) &&
           (!filterMap.has("workout-templates") ||
             DoesListOrSetHaveCommonElement(
               filterWorkoutTemplates,
               item.workoutTemplateIdSet
             )) &&
-          (!filterMap.has("schedule-type") ||
-            IsRoutineScheduleTypeFiltered(
-              item.is_schedule_weekly,
-              filterScheduleTypes
-            )) &&
+          // (!filterMap.has("schedule-type") ||
+          //   IsRoutineScheduleTypeFiltered(
+          //     item.is_schedule_weekly,
+          //     filterScheduleTypes
+          //   )) &&
           (!filterMap.has("min-num-schedule-days") ||
             IsNumberWithinLimit(
               item.num_days_in_schedule,
