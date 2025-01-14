@@ -137,13 +137,17 @@ export default function RoutineList() {
       const db = await Database.load(import.meta.env.VITE_DB);
 
       const result = await db.execute(
-        "INSERT into routines (name, note, is_schedule_weekly, num_days_in_schedule, custom_schedule_start_date) VALUES ($1, $2, $3, $4, $5)",
+        `INSERT into routines 
+         (name, note, schedule_type, num_days_in_schedule, 
+         custom_schedule_start_date, workout_template_order) 
+         VALUES ($1, $2, $3, $4, $5, $6)`,
         [
           newRoutine.name,
           newRoutine.note,
-          newRoutine.is_schedule_weekly,
+          newRoutine.schedule_type,
           newRoutine.num_days_in_schedule,
           newRoutine.custom_schedule_start_date,
+          newRoutine.workout_template_order,
         ]
       );
 

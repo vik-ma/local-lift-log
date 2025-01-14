@@ -5,9 +5,10 @@ export const DefaultNewRoutine = () => {
     id: 0,
     name: "",
     note: "",
-    is_schedule_weekly: 1,
+    schedule_type: 0,
     num_days_in_schedule: 7,
     custom_schedule_start_date: null,
+    workout_template_order: null,
   };
 
   return defaultNewRoutine;

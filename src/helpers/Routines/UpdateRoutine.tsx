@@ -8,14 +8,16 @@ export const UpdateRoutine = async (routine: Routine): Promise<boolean> => {
     db.execute(
       `UPDATE routines SET 
         name = $1, note = $2, is_schedule_weekly = $3, 
-        num_days_in_schedule = $4, custom_schedule_start_date = $5 
-        WHERE id = $6`,
+        num_days_in_schedule = $4, custom_schedule_start_date = $5, 
+        workout_template_order = $6 
+        WHERE id = $7`,
       [
         routine.name,
         routine.note,
-        routine.is_schedule_weekly,
+        routine.schedule_type,
         routine.num_days_in_schedule,
         routine.custom_schedule_start_date,
+        routine.workout_template_order,
         routine.id,
       ]
     );
