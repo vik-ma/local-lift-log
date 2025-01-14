@@ -151,22 +151,27 @@ export const PresetsModalList = ({
                     equipment
                   ) ?? 0;
 
+                const isInvalidUnit =
+                  validWeightUnit !== undefined &&
+                  equipment.weight_unit !== validWeightUnit;
+
                 return (
                   <div
                     className={
-                      validWeightUnit !== undefined &&
-                      equipment.weight_unit !== validWeightUnit &&
-                      hideInvalidUnitItems
+                      isInvalidUnit && hideInvalidUnitItems
                         ? "hidden"
-                        : validWeightUnit !== undefined &&
-                          equipment.weight_unit !== validWeightUnit
-                        ? "flex justify-between items-center gap-1 opacity-40 cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                        : isInvalidUnit
+                        ? "flex justify-between items-center gap-1 opacity-40 bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                         : isInPlateCollection
                         ? "flex justify-between items-center gap-1 cursor-pointer bg-amber-100 border-2 border-amber-300 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                         : "flex justify-between items-center gap-1 cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                     }
                     key={`equipment-${equipment.id}`}
-                    onClick={() => handlePresetClick(equipment, undefined)}
+                    onClick={
+                      isInvalidUnit
+                        ? () => {}
+                        : () => handlePresetClick(equipment, undefined)
+                    }
                   >
                     <div className="flex flex-col justify-start items-start pl-2 py-1">
                       <span

@@ -237,6 +237,7 @@ export const PlateCollectionModal = ({
                     isSelectingForPlateCollection={
                       operationType === "set-plates"
                     }
+                    hideToggleInvalidWeightUnitButton
                   />
                 )}
               </div>
