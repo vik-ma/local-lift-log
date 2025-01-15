@@ -563,7 +563,7 @@ export default function RoutineDetails() {
               </div>
             </div>
           )}
-          <div className="flex items-end justify-between">
+          <div className="flex items-center justify-between">
             <h2 className="text-xl font-semibold pt-3 pb-1">
               {FormatRoutineScheduleTypeString(
                 routine.schedule_type,
@@ -574,6 +574,7 @@ export default function RoutineDetails() {
             {routine.schedule_type === 2 && (
               <Button
                 className="font-medium"
+                color="secondary"
                 variant="flat"
                 onPress={() => workoutTemplateListModal.onOpen()}
               >
@@ -627,6 +628,7 @@ export default function RoutineDetails() {
                   <Button
                     className="w-24"
                     size="sm"
+                    color="secondary"
                     variant="flat"
                     onPress={() => handleAddWorkoutToDayButton(i)}
                   >
@@ -637,14 +639,15 @@ export default function RoutineDetails() {
             </div>
           ) : (
             <div className="flex flex-col gap-1 py-1">
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col w-full gap-1">
                 {noDayWorkoutTemplateList.map((item) => (
                   <Chip
+                    className="hover:bg-default-300"
                     key={item.index}
                     variant="flat"
                     radius="sm"
                     size="lg"
-                    classNames={{ content: "max-w-[15rem] truncate" }}
+                    classNames={{ content: "w-[22.75rem] truncate" }}
                     onClose={() =>
                       handleRemoveNoDayRoutineScheduleItemButton(item)
                     }
