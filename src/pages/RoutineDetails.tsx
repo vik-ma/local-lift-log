@@ -402,8 +402,13 @@ export default function RoutineDetails() {
     if (!IsNumberValidId(workoutTemplate.id) || routine.schedule_type !== 2)
       return;
 
+    const id =
+      noDayWorkoutTemplateList.length < 1
+        ? 0
+        : noDayWorkoutTemplateList[noDayWorkoutTemplateList.length - 1].id + 1;
+
     const noDayScheduleItem: NoDayRoutineScheduleItem = {
-      id: noDayWorkoutTemplateList.length,
+      id: id,
       workout_template_id: workoutTemplate.id,
       name: workoutTemplate.name,
     };
