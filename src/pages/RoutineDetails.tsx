@@ -577,7 +577,25 @@ export default function RoutineDetails() {
           ) : (
             <div className="flex flex-col gap-1 py-1">
               <div className="flex justify-between">
-                <div></div>
+                <div className="flex flex-col gap-1">
+                  {noDayWorkoutTemplateOrder.map((item, index) => (
+                    <Chip
+                      key={`workout-template-list-item-${index}`}
+                      variant="flat"
+                      radius="sm"
+                      size="lg"
+                      classNames={{ content: "max-w-[15rem] truncate" }}
+                      // TODO: ADD
+                      onClose={() => {}}
+                    >
+                      <Link
+                        to={`/workout-templates/${item.workout_template_id}/`}
+                      >
+                        {item.name}
+                      </Link>
+                    </Chip>
+                  ))}
+                </div>
                 <Button
                   className="font-medium"
                   variant="flat"
