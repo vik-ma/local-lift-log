@@ -123,6 +123,7 @@ export type RoutineScheduleItem = {
 };
 
 export type NoDayRoutineScheduleItem = {
+  index: number;
   workout_template_id: number;
   name: string;
 };

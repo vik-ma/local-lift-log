@@ -398,6 +398,7 @@ export default function RoutineDetails() {
       return;
 
     const noDayScheduleItem: NoDayRoutineScheduleItem = {
+      index: noDayWorkoutTemplateList.length,
       workout_template_id: workoutTemplate.id,
       name: workoutTemplate.name,
     };
@@ -637,9 +638,9 @@ export default function RoutineDetails() {
           ) : (
             <div className="flex flex-col gap-1 py-1">
               <div className="flex flex-col gap-1">
-                {noDayWorkoutTemplateList.map((item, index) => (
+                {noDayWorkoutTemplateList.map((item) => (
                   <Chip
-                    key={`workout-template-list-item-${index}`}
+                    key={item.index}
                     variant="flat"
                     radius="sm"
                     size="lg"

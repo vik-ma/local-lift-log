@@ -6,12 +6,13 @@ export const CreateNoDayWorkoutTemplateList = (
 ) => {
   const noDayWorkoutTemplateList: NoDayRoutineScheduleItem[] = [];
 
-  for (const id of workoutTemplateIds) {
-    const workoutTemplate = workoutTemplateMap.get(id);
+  for (let i = 0; i < workoutTemplateIds.length; i++) {
+    const workoutTemplate = workoutTemplateMap.get(workoutTemplateIds[i]);
 
     if (workoutTemplate === undefined) continue;
 
     const noDayScheduleItem: NoDayRoutineScheduleItem = {
+      index: i,
       workout_template_id: workoutTemplate.id,
       name: workoutTemplate.name,
     };
