@@ -391,7 +391,7 @@ export default function RoutineDetails() {
     );
   }, [routine.num_days_in_schedule, routine.schedule_type]);
 
-  const addWorkoutTemplateToOrder = async (
+  const addWorkoutTemplateToNoDaySchedule = async (
     workoutTemplate: WorkoutTemplate
   ) => {
     if (!IsNumberValidId(workoutTemplate.id) || routine.schedule_type !== 2)
@@ -408,7 +408,20 @@ export default function RoutineDetails() {
       noDayScheduleItem,
     ];
 
-    const updatedWorkoutTemplateIdList = updatedWorkoutTemplateOrder.map(
+    const success = await updateNoDayWorkoutTemplateList(
+      updatedWorkoutTemplateOrder
+    );
+
+    if (!success) return;
+
+    workoutTemplateListModal.onClose();
+    toast.success("Workout added");
+  };
+
+  const updateNoDayWorkoutTemplateList = async (
+    workoutTemplateOrder: NoDayRoutineScheduleItem[]
+  ) => {
+    const updatedWorkoutTemplateIdList = workoutTemplateOrder.map(
       (item) => item.workout_template_id
     );
     const updatedWorkoutTemplateSet = new Set(updatedWorkoutTemplateIdList);
@@ -423,14 +436,13 @@ export default function RoutineDetails() {
 
     const success = await UpdateRoutine(updatedRoutine);
 
-    if (!success) return;
+    if (!success) return false;
 
     setRoutine(updatedRoutine);
     setEditedRoutine(updatedRoutine);
-    setNoDayWorkoutTemplateList(updatedWorkoutTemplateOrder);
+    setNoDayWorkoutTemplateList(workoutTemplateOrder);
 
-    workoutTemplateListModal.onClose();
-    toast.success("Workout added");
+    return true;
   };
 
   if (routine.id === 0 || userSettings === undefined) return <LoadingSpinner />;
@@ -478,7 +490,7 @@ export default function RoutineDetails() {
         useWorkoutTemplateList={workoutTemplateList}
         onClickAction={
           routine.schedule_type == 2
-            ? addWorkoutTemplateToOrder
+            ? addWorkoutTemplateToNoDaySchedule
             : addWorkoutTemplateToDay
         }
         header={
