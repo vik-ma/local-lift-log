@@ -66,7 +66,7 @@ export default function RoutineDetails() {
   const [workoutRoutineScheduleToRemove, setWorkoutRoutineScheduleToRemove] =
     useState<RoutineScheduleItem>();
   const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
-  const [noDayWorkoutTemplateOrder, setNoDayWorkoutTemplateOrder] = useState<
+  const [noDayWorkoutTemplateList, setNoDayWorkoutTemplateList] = useState<
     NoDayScheduleItem[]
   >([]);
 
@@ -132,11 +132,19 @@ export default function RoutineDetails() {
 
         if (result.length === 0) return;
 
+        const routine = result[0];
+
+        const isNoDaySchedule = routine.schedule_type === 2;
+
         const { workoutTemplateIdList, workoutTemplateIdSet } =
-          CreateRoutineWorkoutTemplateList(result[0].workoutTemplateIds);
+          CreateRoutineWorkoutTemplateList(
+            isNoDaySchedule
+              ? `[${routine.workout_template_order}]`
+              : routine.workoutTemplateIds
+          );
 
         const currentRoutine: Routine = {
-          ...result[0],
+          ...routine,
           workoutTemplateIdList,
           workoutTemplateIdSet,
         };
@@ -364,7 +372,7 @@ export default function RoutineDetails() {
     };
 
     const updatedWorkoutTemplateOrder = [
-      ...noDayWorkoutTemplateOrder,
+      ...noDayWorkoutTemplateList,
       noDayScheduleItem,
     ];
 
@@ -385,7 +393,9 @@ export default function RoutineDetails() {
 
     if (!success) return;
 
-    setNoDayWorkoutTemplateOrder(updatedWorkoutTemplateOrder);
+    setRoutine(updatedRoutine);
+    setEditedRoutine(updatedRoutine);
+    setNoDayWorkoutTemplateList(updatedWorkoutTemplateOrder);
 
     workoutTemplateListModal.onClose();
     toast.success("Workout added");
@@ -578,7 +588,7 @@ export default function RoutineDetails() {
             <div className="flex flex-col gap-1 py-1">
               <div className="flex justify-between">
                 <div className="flex flex-col gap-1">
-                  {noDayWorkoutTemplateOrder.map((item, index) => (
+                  {noDayWorkoutTemplateList.map((item, index) => (
                     <Chip
                       key={`workout-template-list-item-${index}`}
                       variant="flat"
