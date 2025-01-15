@@ -12,7 +12,7 @@ export const CreateNoDayWorkoutTemplateList = (
     if (workoutTemplate === undefined) continue;
 
     const noDayScheduleItem: NoDayRoutineScheduleItem = {
-      index: i,
+      id: i,
       workout_template_id: workoutTemplate.id,
       name: workoutTemplate.name,
     };

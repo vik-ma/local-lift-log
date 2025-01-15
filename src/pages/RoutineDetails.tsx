@@ -38,6 +38,7 @@ import {
   ConvertDateStringToCalendarDate,
   FormatRoutineScheduleTypeString,
   CreateNoDayWorkoutTemplateList,
+  DeleteItemFromList,
 } from "../helpers";
 import toast, { Toaster } from "react-hot-toast";
 import { getLocalTimeZone } from "@internationalized/date";
@@ -254,7 +255,11 @@ export default function RoutineDetails() {
   };
 
   const removeWorkoutTemplateFromDay = async () => {
-    if (operatingRoutineScheduleItem === undefined) return;
+    if (
+      operatingRoutineScheduleItem === undefined ||
+      routine.schedule_type === 2
+    )
+      return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
@@ -398,7 +403,7 @@ export default function RoutineDetails() {
       return;
 
     const noDayScheduleItem: NoDayRoutineScheduleItem = {
-      index: noDayWorkoutTemplateList.length,
+      id: noDayWorkoutTemplateList.length,
       workout_template_id: workoutTemplate.id,
       name: workoutTemplate.name,
     };
@@ -416,6 +421,28 @@ export default function RoutineDetails() {
 
     workoutTemplateListModal.onClose();
     toast.success("Workout added");
+  };
+
+  const removeWorkoutTemplateFromNoDaySchedule = async () => {
+    if (
+      operatingNoDayRoutineScheduleItem === undefined ||
+      routine.schedule_type !== 2
+    )
+      return;
+
+    const updatedWorkoutTemplateOrder = DeleteItemFromList(
+      noDayWorkoutTemplateList,
+      operatingNoDayRoutineScheduleItem.id
+    );
+
+    const success = await updateNoDayWorkoutTemplateList(
+      updatedWorkoutTemplateOrder
+    );
+
+    if (!success) return;
+
+    deleteModal.onClose();
+    toast.success("Workout removed");
   };
 
   const updateNoDayWorkoutTemplateList = async (
@@ -483,7 +510,11 @@ export default function RoutineDetails() {
             </p>
           )
         }
-        deleteButtonAction={removeWorkoutTemplateFromDay}
+        deleteButtonAction={
+          routine.schedule_type === 2
+            ? removeWorkoutTemplateFromNoDaySchedule
+            : removeWorkoutTemplateFromDay
+        }
         deleteButtonText="Remove"
       />
       <WorkoutTemplateListModal
@@ -655,7 +686,7 @@ export default function RoutineDetails() {
                 {noDayWorkoutTemplateList.map((item) => (
                   <Chip
                     className="hover:bg-default-300"
-                    key={item.index}
+                    key={item.id}
                     variant="flat"
                     radius="sm"
                     size="lg"
