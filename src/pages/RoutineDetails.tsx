@@ -60,8 +60,12 @@ export default function RoutineDetails() {
   const [scheduleValues, setScheduleValues] = useState<RoutineScheduleItem[][]>(
     []
   );
-  const [workoutRoutineScheduleToRemove, setWorkoutRoutineScheduleToRemove] =
+  const [operatingRoutineScheduleItem, setOperatingRoutineScheduleItem] =
     useState<RoutineScheduleItem>();
+  const [
+    operatingNoDayRoutineScheduleItem,
+    setOperatingNoDayRoutineScheduleItem,
+  ] = useState<NoDayRoutineScheduleItem>();
   const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
   const [noDayWorkoutTemplateList, setNoDayWorkoutTemplateList] = useState<
     NoDayRoutineScheduleItem[]
@@ -151,7 +155,7 @@ export default function RoutineDetails() {
         };
 
         if (isNoDaySchedule) {
-          const noDayWorkoutTemplateList = await CreateNoDayWorkoutTemplateList(
+          const noDayWorkoutTemplateList = CreateNoDayWorkoutTemplateList(
             workoutTemplateIdList,
             workoutTemplateMap.current
           );
@@ -250,29 +254,38 @@ export default function RoutineDetails() {
   };
 
   const removeWorkoutTemplateFromDay = async () => {
-    if (workoutRoutineScheduleToRemove === undefined) return;
+    if (operatingRoutineScheduleItem === undefined) return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
       await db.execute("DELETE from workout_routine_schedules WHERE id = $1", [
-        workoutRoutineScheduleToRemove.id,
+        operatingRoutineScheduleItem.id,
       ]);
 
       await updateRoutineWorkoutTemplateList();
 
       deleteModal.onClose();
       toast.success(
-        `${workoutRoutineScheduleToRemove.name} removed from ${dayNameList[selectedDay]}`
+        `${operatingRoutineScheduleItem.name} removed from ${dayNameList[selectedDay]}`
       );
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleRemoveButton = (schedule: RoutineScheduleItem) => {
+  const handleRemoveRoutineScheduleItemButton = (
+    schedule: RoutineScheduleItem
+  ) => {
     setSelectedDay(schedule.day);
-    setWorkoutRoutineScheduleToRemove(schedule);
+    setOperatingRoutineScheduleItem(schedule);
+    deleteModal.onOpen();
+  };
+
+  const handleRemoveNoDayRoutineScheduleItemButton = (
+    schedule: NoDayRoutineScheduleItem
+  ) => {
+    setOperatingNoDayRoutineScheduleItem(schedule);
     deleteModal.onOpen();
   };
 
@@ -435,17 +448,27 @@ export default function RoutineDetails() {
         deleteModal={deleteModal}
         header="Remove Workout Template"
         body={
-          <p className="break-words">
-            Are you sure you want to remove{" "}
-            <span className="font-medium text-yellow-500">
-              {workoutRoutineScheduleToRemove?.name}
-            </span>{" "}
-            from{" "}
-            <span className="font-medium text-yellow-500">
-              {dayNameList[selectedDay]}
-            </span>
-            ?
-          </p>
+          routine.schedule_type === 2 ? (
+            <p className="break-words">
+              Are you sure you want to remove{" "}
+              <span className="font-medium text-yellow-500">
+                {operatingNoDayRoutineScheduleItem?.name}
+              </span>
+              ?
+            </p>
+          ) : (
+            <p className="break-words">
+              Are you sure you want to remove{" "}
+              <span className="font-medium text-yellow-500">
+                {operatingRoutineScheduleItem?.name}
+              </span>{" "}
+              from{" "}
+              <span className="font-medium text-yellow-500">
+                {dayNameList[selectedDay]}
+              </span>
+              ?
+            </p>
+          )
         }
         deleteButtonAction={removeWorkoutTemplateFromDay}
         deleteButtonText="Remove"
@@ -583,9 +606,9 @@ export default function RoutineDetails() {
                               variant="flat"
                               radius="sm"
                               classNames={{ content: "max-w-[16rem] truncate" }}
-                              onClose={() => {
-                                handleRemoveButton(schedule);
-                              }}
+                              onClose={() =>
+                                handleRemoveRoutineScheduleItemButton(schedule)
+                              }
                             >
                               <Link
                                 to={`/workout-templates/${schedule.workout_template_id}/`}
@@ -621,8 +644,9 @@ export default function RoutineDetails() {
                     radius="sm"
                     size="lg"
                     classNames={{ content: "max-w-[15rem] truncate" }}
-                    // TODO: ADD
-                    onClose={() => {}}
+                    onClose={() =>
+                      handleRemoveNoDayRoutineScheduleItemButton(item)
+                    }
                   >
                     <Link
                       to={`/workout-templates/${item.workout_template_id}/`}

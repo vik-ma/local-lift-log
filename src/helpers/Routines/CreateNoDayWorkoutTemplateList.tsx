@@ -1,6 +1,6 @@
 import { NoDayRoutineScheduleItem, WorkoutTemplateMap } from "../../typings";
 
-export const CreateNoDayWorkoutTemplateList = async (
+export const CreateNoDayWorkoutTemplateList = (
   workoutTemplateIds: number[],
   workoutTemplateMap: WorkoutTemplateMap
 ) => {
