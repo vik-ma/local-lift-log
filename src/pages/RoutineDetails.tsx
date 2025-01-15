@@ -387,8 +387,17 @@ export default function RoutineDetails() {
         onClickAction={addWorkoutTemplateToDay}
         header={
           <span>
-            Add Workout Template to{" "}
-            <span className="text-secondary">{dayNameList[selectedDay]}</span>
+            Add Workout Template
+            {routine.schedule_type !== 2 && (
+              <span>
+                {" "}
+                to
+                <span className="text-secondary">
+                  {" "}
+                  {dayNameList[selectedDay]}
+                </span>
+              </span>
+            )}
           </span>
         }
       />
