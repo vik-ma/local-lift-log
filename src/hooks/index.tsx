@@ -45,7 +45,6 @@ export { useWeekdayMap } from "./useWeekdayMap";
 export { useListFilters } from "./useListFilters";
 export { useFilterExerciseList } from "./useFilterExerciseList";
 export { useMeasurementTypes } from "./useMeasurementTypes";
-export { useRoutineScheduleTypes } from "./useRoutineScheduleTypes";
 export { usePresetsTypeString } from "./usePresetsTypeString";
 export { useTimePeriodList } from "./useTimePeriodList";
 export { useDefaultTimePeriod } from "./useDefaultTimePeriod";
