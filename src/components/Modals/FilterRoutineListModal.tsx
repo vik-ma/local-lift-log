@@ -17,7 +17,7 @@ import {
 } from "../../typings";
 import { useMemo, useState } from "react";
 import { FilterMinAndMaxValues, WorkoutTemplateModalList } from "..";
-import { useRoutineScheduleTypes } from "../../hooks";
+import { useRoutineScheduleTypeMap } from "../../hooks";
 
 type FilterRoutineListModalProps = {
   useRoutineList: UseRoutineListReturnType;
@@ -36,7 +36,7 @@ export const FilterRoutineListModal = ({
 
   const { listFilters, filterRoutineListModal } = useRoutineList;
 
-  const routineScheduleTypes = useRoutineScheduleTypes();
+  const routineScheduleTypeMap = useRoutineScheduleTypeMap();
 
   const {
     filterWorkoutTemplates,
@@ -106,7 +106,7 @@ export const FilterRoutineListModal = ({
                               <span className="text-secondary">
                                 {" "}
                                 ({filterScheduleTypes.size} out of{" "}
-                                {routineScheduleTypes.length})
+                                {routineScheduleTypeMap.size})
                               </span>
                             )}
                           </>
@@ -122,11 +122,13 @@ export const FilterRoutineListModal = ({
                         }
                         disableAnimation
                       >
-                        {routineScheduleTypes.map((item) => (
-                          <SelectItem key={item} value={item}>
-                            {item}
-                          </SelectItem>
-                        ))}
+                        {Array.from(routineScheduleTypeMap.values()).map(
+                          (value) => (
+                            <SelectItem key={value} value={value}>
+                              {value}
+                            </SelectItem>
+                          )
+                        )}
                       </Select>
                     </div>
                     <div className="flex flex-col gap-px pt-3">

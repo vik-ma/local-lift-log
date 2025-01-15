@@ -13,6 +13,7 @@ import {
   DoesListOrSetHaveCommonElement,
   FormatRoutineScheduleTypeString,
   IsNumberWithinLimit,
+  IsRoutineScheduleTypeFiltered,
 } from "../helpers";
 import { useListFilters } from "./useListFilters";
 import Database from "tauri-plugin-sql-api";
@@ -77,11 +78,11 @@ export const useRoutineList = (
               filterWorkoutTemplates,
               item.workoutTemplateIdSet
             )) &&
-          // (!filterMap.has("schedule-type") ||
-          //   IsRoutineScheduleTypeFiltered(
-          //     item.is_schedule_weekly,
-          //     filterScheduleTypes
-          //   )) &&
+          (!filterMap.has("schedule-type") ||
+            IsRoutineScheduleTypeFiltered(
+              item.schedule_type,
+              filterScheduleTypes
+            )) &&
           (!filterMap.has("min-num-schedule-days") ||
             IsNumberWithinLimit(
               item.num_days_in_schedule,
