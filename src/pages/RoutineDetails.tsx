@@ -539,7 +539,7 @@ export default function RoutineDetails() {
               </div>
             </div>
           )}
-          <div className="flex items-center justify-between">
+          <div className="flex items-end justify-between">
             <h2 className="text-xl font-semibold pt-3 pb-1">
               {FormatRoutineScheduleTypeString(
                 routine.schedule_type,
@@ -547,6 +547,15 @@ export default function RoutineDetails() {
                 true
               )}
             </h2>
+            {routine.schedule_type === 2 && (
+              <Button
+                className="font-medium"
+                variant="flat"
+                onPress={() => workoutTemplateListModal.onOpen()}
+              >
+                Add Workout
+              </Button>
+            )}
           </div>
           {routine.schedule_type !== 2 ? (
             <div className="flex flex-col gap-1 py-1">
@@ -604,33 +613,24 @@ export default function RoutineDetails() {
             </div>
           ) : (
             <div className="flex flex-col gap-1 py-1">
-              <div className="flex justify-between">
-                <div className="flex flex-col gap-1">
-                  {noDayWorkoutTemplateList.map((item, index) => (
-                    <Chip
-                      key={`workout-template-list-item-${index}`}
-                      variant="flat"
-                      radius="sm"
-                      size="lg"
-                      classNames={{ content: "max-w-[15rem] truncate" }}
-                      // TODO: ADD
-                      onClose={() => {}}
+              <div className="flex flex-col gap-1">
+                {noDayWorkoutTemplateList.map((item, index) => (
+                  <Chip
+                    key={`workout-template-list-item-${index}`}
+                    variant="flat"
+                    radius="sm"
+                    size="lg"
+                    classNames={{ content: "max-w-[15rem] truncate" }}
+                    // TODO: ADD
+                    onClose={() => {}}
+                  >
+                    <Link
+                      to={`/workout-templates/${item.workout_template_id}/`}
                     >
-                      <Link
-                        to={`/workout-templates/${item.workout_template_id}/`}
-                      >
-                        {item.name}
-                      </Link>
-                    </Chip>
-                  ))}
-                </div>
-                <Button
-                  className="font-medium"
-                  variant="flat"
-                  onPress={() => workoutTemplateListModal.onOpen()}
-                >
-                  Add Workout
-                </Button>
+                      {item.name}
+                    </Link>
+                  </Chip>
+                ))}
               </div>
             </div>
           )}
