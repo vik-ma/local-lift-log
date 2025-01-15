@@ -50,6 +50,7 @@ export { UpdateRoutine } from "./Routines/UpdateRoutine";
 export { CreateRoutineWorkoutTemplateList } from "./Routines/CreateRoutineWorkoutTemplateList";
 export { IsRoutineScheduleTypeFiltered } from "./Routines/IsRoutineScheduleTypeFiltered";
 export { FormatRoutineScheduleTypeString } from "./Routines/FormatRoutineScheduleTypeString";
+export { CreateNoDayWorkoutTemplateList } from "./Routines/CreateNoDayWorkoutTemplateList";
 
 export { CreateDefaultUserSettings } from "./UserSettings/CreateDefaultUserSettings";
 export { GetActiveRoutineId } from "./UserSettings/GetActiveRoutineId";

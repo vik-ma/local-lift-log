@@ -122,6 +122,11 @@ export type RoutineScheduleItem = {
   name: string;
 };
 
+export type NoDayRoutineScheduleItem = {
+  workout_template_id: number;
+  name: string;
+};
+
 export type WorkoutSet = {
   id: number;
   workout_id: number;
