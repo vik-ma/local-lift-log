@@ -48,6 +48,11 @@ import {
 } from "../hooks";
 import { Link } from "react-router-dom";
 
+type NoDayScheduleItem = {
+  workout_template_id: number;
+  name: string;
+};
+
 export default function RoutineDetails() {
   const { id } = useParams();
   const [routine, setRoutine] = useState<Routine>(DefaultNewRoutine());
@@ -61,8 +66,9 @@ export default function RoutineDetails() {
   const [workoutRoutineScheduleToRemove, setWorkoutRoutineScheduleToRemove] =
     useState<RoutineScheduleItem>();
   const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
-  const [isAddingWorkoutTemplateToDay, setIsAddingWorkoutTemplateToDay] =
-    useState<boolean>(true);
+  const [noDayWorkoutTemplateOrder, setNoDayWorkoutTemplateOrder] = useState<
+    NoDayScheduleItem[]
+  >([]);
 
   const deleteModal = useDisclosure();
   const routineModal = useDisclosure();
@@ -190,12 +196,12 @@ export default function RoutineDetails() {
 
   const handleAddWorkoutToDayButton = (day: number) => {
     setSelectedDay(day);
-    setIsAddingWorkoutTemplateToDay(true);
     handleOpenWorkoutTemplateListModal();
   };
 
   const addWorkoutTemplateToDay = async (workoutTemplate: WorkoutTemplate) => {
-    if (!IsNumberValidId(workoutTemplate.id)) return;
+    if (!IsNumberValidId(workoutTemplate.id) || routine.schedule_type === 2)
+      return;
 
     if (selectedDay < 0 || selectedDay > routine.num_days_in_schedule - 1)
       return;
@@ -346,9 +352,43 @@ export default function RoutineDetails() {
     );
   }, [routine.num_days_in_schedule, routine.schedule_type]);
 
-  const handleAddWorkoutToNoSetDaysButton = () => {
-    setIsAddingWorkoutTemplateToDay(false);
-    workoutTemplateListModal.onOpen();
+  const addWorkoutTemplateToOrder = async (
+    workoutTemplate: WorkoutTemplate
+  ) => {
+    if (!IsNumberValidId(workoutTemplate.id) || routine.schedule_type !== 2)
+      return;
+
+    const noDayScheduleItem: NoDayScheduleItem = {
+      workout_template_id: workoutTemplate.id,
+      name: workoutTemplate.name,
+    };
+
+    const updatedWorkoutTemplateOrder = [
+      ...noDayWorkoutTemplateOrder,
+      noDayScheduleItem,
+    ];
+
+    const updatedWorkoutTemplateIdList = updatedWorkoutTemplateOrder.map(
+      (item) => item.workout_template_id
+    );
+    const updatedWorkoutTemplateSet = new Set(updatedWorkoutTemplateIdList);
+    const workoutTemplateOrderString = updatedWorkoutTemplateIdList.join(",");
+
+    const updatedRoutine: Routine = {
+      ...routine,
+      workout_template_order: workoutTemplateOrderString,
+      workoutTemplateIdList: updatedWorkoutTemplateIdList,
+      workoutTemplateIdSet: updatedWorkoutTemplateSet,
+    };
+
+    const success = await UpdateRoutine(updatedRoutine);
+
+    if (!success) return;
+
+    setNoDayWorkoutTemplateOrder(updatedWorkoutTemplateOrder);
+
+    workoutTemplateListModal.onClose();
+    toast.success("Workout added");
   };
 
   if (routine.id === 0 || userSettings === undefined) return <LoadingSpinner />;
@@ -384,7 +424,11 @@ export default function RoutineDetails() {
       />
       <WorkoutTemplateListModal
         useWorkoutTemplateList={workoutTemplateList}
-        onClickAction={addWorkoutTemplateToDay}
+        onClickAction={
+          routine.schedule_type == 2
+            ? addWorkoutTemplateToOrder
+            : addWorkoutTemplateToDay
+        }
         header={
           <span>
             Add Workout Template
@@ -537,7 +581,7 @@ export default function RoutineDetails() {
                 <Button
                   className="font-medium"
                   variant="flat"
-                  onPress={() => handleAddWorkoutToNoSetDaysButton()}
+                  onPress={() => workoutTemplateListModal.onOpen()}
                 >
                   Add Workout
                 </Button>
