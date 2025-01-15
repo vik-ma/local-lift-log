@@ -61,6 +61,8 @@ export default function RoutineDetails() {
   const [workoutRoutineScheduleToRemove, setWorkoutRoutineScheduleToRemove] =
     useState<RoutineScheduleItem>();
   const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
+  const [isAddingWorkoutTemplateToDay, setIsAddingWorkoutTemplateToDay] =
+    useState<boolean>(true);
 
   const deleteModal = useDisclosure();
   const routineModal = useDisclosure();
@@ -186,8 +188,9 @@ export default function RoutineDetails() {
     toast.success("Routine Updated");
   };
 
-  const handleAddWorkoutButton = (day: number) => {
+  const handleAddWorkoutToDayButton = (day: number) => {
     setSelectedDay(day);
+    setIsAddingWorkoutTemplateToDay(true);
     handleOpenWorkoutTemplateListModal();
   };
 
@@ -343,6 +346,11 @@ export default function RoutineDetails() {
     );
   }, [routine.num_days_in_schedule, routine.schedule_type]);
 
+  const handleAddWorkoutToNoSetDaysButton = () => {
+    setIsAddingWorkoutTemplateToDay(false);
+    workoutTemplateListModal.onOpen();
+  };
+
   if (routine.id === 0 || userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -450,66 +458,83 @@ export default function RoutineDetails() {
               </div>
             </div>
           )}
-          <h2 className="text-xl font-semibold pt-3 pb-1">
-            {FormatRoutineScheduleTypeString(
-              routine.schedule_type,
-              routine.num_days_in_schedule,
-              true
-            )}
-          </h2>
-          <div className="flex flex-col gap-1 py-1">
-            {Array.from(Array(routine.num_days_in_schedule), (_, i) => (
-              <div
-                key={`day-${i + 1}`}
-                className="flex items-center justify-between"
-              >
-                <div className="flex flex-col">
-                  <h3
-                    className={
-                      scheduleValues[i]?.length > 0
-                        ? "text-yellow-600 font-medium"
-                        : "text-stone-600 font-medium"
-                    }
-                  >
-                    {dayNameList[i]}
-                  </h3>
-                  <div className="flex flex-wrap gap-x-1.5 gap-y-1 w-[19rem]">
-                    {scheduleValues[i]?.length > 0 ? (
-                      scheduleValues[i].map((schedule) => {
-                        return (
-                          <Chip
-                            key={schedule.id}
-                            variant="flat"
-                            radius="sm"
-                            classNames={{ content: "max-w-[16rem] truncate" }}
-                            onClose={() => {
-                              handleRemoveButton(schedule);
-                            }}
-                          >
-                            <Link
-                              to={`/workout-templates/${schedule.workout_template_id}/`}
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-semibold pt-3 pb-1">
+              {FormatRoutineScheduleTypeString(
+                routine.schedule_type,
+                routine.num_days_in_schedule,
+                true
+              )}
+            </h2>
+          </div>
+          {routine.schedule_type !== 2 ? (
+            <div className="flex flex-col gap-1 py-1">
+              {Array.from(Array(routine.num_days_in_schedule), (_, i) => (
+                <div
+                  key={`day-${i + 1}`}
+                  className="flex items-center justify-between"
+                >
+                  <div className="flex flex-col">
+                    <h3
+                      className={
+                        scheduleValues[i]?.length > 0
+                          ? "text-yellow-600 font-medium"
+                          : "text-stone-600 font-medium"
+                      }
+                    >
+                      {dayNameList[i]}
+                    </h3>
+                    <div className="flex flex-wrap gap-x-1.5 gap-y-1 w-[19rem]">
+                      {scheduleValues[i]?.length > 0 ? (
+                        scheduleValues[i].map((schedule) => {
+                          return (
+                            <Chip
+                              key={schedule.id}
+                              variant="flat"
+                              radius="sm"
+                              classNames={{ content: "max-w-[16rem] truncate" }}
+                              onClose={() => {
+                                handleRemoveButton(schedule);
+                              }}
                             >
-                              {schedule.name}
-                            </Link>
-                          </Chip>
-                        );
-                      })
-                    ) : (
-                      <div className="text-stone-400">No workout</div>
-                    )}
+                              <Link
+                                to={`/workout-templates/${schedule.workout_template_id}/`}
+                              >
+                                {schedule.name}
+                              </Link>
+                            </Chip>
+                          );
+                        })
+                      ) : (
+                        <div className="text-stone-400">No workout</div>
+                      )}
+                    </div>
                   </div>
+                  <Button
+                    className="w-24"
+                    size="sm"
+                    variant="flat"
+                    onPress={() => handleAddWorkoutToDayButton(i)}
+                  >
+                    Add Workout
+                  </Button>
                 </div>
+              ))}
+            </div>
+          ) : (
+            <div className="flex flex-col gap-1 py-1">
+              <div className="flex justify-between">
+                <div></div>
                 <Button
-                  className="w-24"
-                  size="sm"
+                  className="font-medium"
                   variant="flat"
-                  onPress={() => handleAddWorkoutButton(i)}
+                  onPress={() => handleAddWorkoutToNoSetDaysButton()}
                 >
                   Add Workout
                 </Button>
               </div>
-            ))}
-          </div>
+            </div>
+          )}
         </div>
       </div>
     </>
