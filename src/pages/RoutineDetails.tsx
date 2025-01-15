@@ -4,6 +4,7 @@ import {
   RoutineScheduleItem,
   UserSettingsOptional,
   WorkoutTemplate,
+  NoDayRoutineScheduleItem,
 } from "../typings";
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import {
@@ -36,6 +37,7 @@ import {
   CreateRoutineWorkoutTemplateList,
   ConvertDateStringToCalendarDate,
   FormatRoutineScheduleTypeString,
+  CreateNoDayWorkoutTemplateList,
 } from "../helpers";
 import toast, { Toaster } from "react-hot-toast";
 import { getLocalTimeZone } from "@internationalized/date";
@@ -47,11 +49,6 @@ import {
   useExerciseList,
 } from "../hooks";
 import { Link } from "react-router-dom";
-
-type NoDayScheduleItem = {
-  workout_template_id: number;
-  name: string;
-};
 
 export default function RoutineDetails() {
   const { id } = useParams();
@@ -67,7 +64,7 @@ export default function RoutineDetails() {
     useState<RoutineScheduleItem>();
   const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
   const [noDayWorkoutTemplateList, setNoDayWorkoutTemplateList] = useState<
-    NoDayScheduleItem[]
+    NoDayRoutineScheduleItem[]
   >([]);
 
   const deleteModal = useDisclosure();
@@ -80,8 +77,12 @@ export default function RoutineDetails() {
 
   const workoutTemplateList = useWorkoutTemplateList(true, exerciseList);
 
-  const { handleOpenWorkoutTemplateListModal, workoutTemplateListModal } =
-    workoutTemplateList;
+  const {
+    handleOpenWorkoutTemplateListModal,
+    workoutTemplateListModal,
+    isWorkoutTemplateListLoaded,
+    workoutTemplateMap,
+  } = workoutTemplateList;
 
   const isRoutineLoaded = useRef(false);
 
@@ -149,6 +150,15 @@ export default function RoutineDetails() {
           workoutTemplateIdSet,
         };
 
+        if (isNoDaySchedule) {
+          const noDayWorkoutTemplateList = await CreateNoDayWorkoutTemplateList(
+            workoutTemplateIdList,
+            workoutTemplateMap.current
+          );
+
+          setNoDayWorkoutTemplateList(noDayWorkoutTemplateList);
+        }
+
         setRoutine(currentRoutine);
         setEditedRoutine(currentRoutine);
         isRoutineLoaded.current = true;
@@ -163,15 +173,23 @@ export default function RoutineDetails() {
       if (userSettings !== undefined) setUserSettings(userSettings);
     };
 
-    getRoutine();
+    if (isWorkoutTemplateListLoaded.current) {
+      getRoutine();
+    }
 
     if (isRoutineLoaded.current) {
       getWorkoutRoutineSchedules();
       loadUserSettings();
     }
-    // isRoutineLoaded.current needs to be specifically included in array
+    // isRoutineLoaded.current and isWorkoutTemplateListLoaded.current
+    // needs to be specifically included in array
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, getWorkoutRoutineSchedules, isRoutineLoaded.current]);
+  }, [
+    id,
+    getWorkoutRoutineSchedules,
+    isRoutineLoaded.current,
+    isWorkoutTemplateListLoaded.current,
+  ]);
 
   const useDetailsHeaderOptions = useDetailsHeaderOptionsMenu("Routine");
 
@@ -366,7 +384,7 @@ export default function RoutineDetails() {
     if (!IsNumberValidId(workoutTemplate.id) || routine.schedule_type !== 2)
       return;
 
-    const noDayScheduleItem: NoDayScheduleItem = {
+    const noDayScheduleItem: NoDayRoutineScheduleItem = {
       workout_template_id: workoutTemplate.id,
       name: workoutTemplate.name,
     };
