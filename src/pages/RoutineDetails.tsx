@@ -403,10 +403,14 @@ export default function RoutineDetails() {
     if (!IsNumberValidId(workoutTemplate.id) || routine.schedule_type !== 2)
       return;
 
-    const id =
-      noDayWorkoutTemplateList.length < 1
-        ? 0
-        : noDayWorkoutTemplateList[noDayWorkoutTemplateList.length - 1].id + 1;
+    // Get max id of noDayWorkoutTemplateList items
+    const highestId = noDayWorkoutTemplateList.reduce(
+      (max, item) => (item.id > max ? item.id : max),
+      -Infinity
+    );
+
+    // Set id as 0 if noDayWorkoutTemplateList is empty, otherwise max + 1
+    const id = highestId === -Infinity ? 0 : highestId + 1;
 
     const noDayScheduleItem: NoDayRoutineScheduleItem = {
       id: id,
