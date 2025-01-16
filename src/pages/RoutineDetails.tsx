@@ -72,6 +72,8 @@ export default function RoutineDetails() {
   const [noDayWorkoutTemplateList, setNoDayWorkoutTemplateList] = useState<
     NoDayRoutineScheduleItem[]
   >([]);
+  const [isScheduleItemBeingDragged, setIsScheduleItemBeingDragged] =
+    useState<boolean>(false);
 
   const deleteModal = useDisclosure();
   const routineModal = useDisclosure();
@@ -459,6 +461,8 @@ export default function RoutineDetails() {
     const updatedWorkoutTemplateOrder = [...noDayWorkoutTemplateList];
 
     await updateNoDayWorkoutTemplateList(updatedWorkoutTemplateOrder);
+
+    setIsScheduleItemBeingDragged(false);
   };
 
   const updateNoDayWorkoutTemplateList = async (
@@ -715,6 +719,7 @@ export default function RoutineDetails() {
                   <Reorder.Item
                     key={item.id}
                     value={item}
+                    onDragStart={() => setIsScheduleItemBeingDragged(true)}
                     onDragEnd={() => updateWorkoutTemplateOrder()}
                   >
                     <Chip
@@ -728,6 +733,11 @@ export default function RoutineDetails() {
                       }
                     >
                       <Link
+                        className={
+                          isScheduleItemBeingDragged
+                            ? "pointer-events-none"
+                            : ""
+                        }
                         to={`/workout-templates/${item.workout_template_id}/`}
                       >
                         {item.name}
