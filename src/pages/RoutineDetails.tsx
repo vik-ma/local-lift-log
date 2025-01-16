@@ -211,6 +211,27 @@ export default function RoutineDetails() {
       note: noteToInsert,
     };
 
+    // If switching schedule_type from Weekly/Custom to No Day Set
+    if (routine.schedule_type !== 2 && updatedRoutine.schedule_type === 2) {
+      const { workoutTemplateIdList, workoutTemplateIdSet } =
+        CreateRoutineWorkoutTemplateList(`[${routine.workout_template_order}]`);
+
+      updatedRoutine.workoutTemplateIdList = workoutTemplateIdList;
+      updatedRoutine.workoutTemplateIdSet = workoutTemplateIdSet;
+
+      const noDayWorkoutTemplateList = CreateNoDayWorkoutTemplateList(
+        workoutTemplateIdList,
+        workoutTemplateMap.current
+      );
+
+      setNoDayWorkoutTemplateList(noDayWorkoutTemplateList);
+    }
+
+    // If switching schedule_type from No Day Set to Weekly/Custom
+    if (routine.schedule_type === 2 && updatedRoutine.schedule_type !== 2) {
+      await getWorkoutRoutineSchedules();
+    }
+
     const success = await UpdateRoutine(updatedRoutine);
 
     if (!success) return;
