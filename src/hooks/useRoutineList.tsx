@@ -127,7 +127,11 @@ export const useRoutineList = (
 
       for (const row of result) {
         const { workoutTemplateIdList, workoutTemplateIdSet } =
-          CreateRoutineWorkoutTemplateList(row.workoutTemplateIds);
+          CreateRoutineWorkoutTemplateList(
+            row.schedule_type === 2
+              ? `[${row.workout_template_order}]`
+              : row.workoutTemplateIds
+          );
 
         const routine: Routine = {
           ...row,
@@ -148,10 +152,12 @@ export const useRoutineList = (
   }, []);
 
   useEffect(() => {
-    if (getRoutinesOnLoad) {
+    if (getRoutinesOnLoad && isWorkoutTemplateListLoaded.current) {
       getRoutines();
     }
-  }, [getRoutinesOnLoad, getRoutines]);
+    // isWorkoutTemplateListLoaded.current needs to be specifically included in array
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [getRoutinesOnLoad, getRoutines, isWorkoutTemplateListLoaded.current]);
 
   const sortRoutinesByName = (routineList: Routine[]) => {
     routineList.sort((a, b) => {
