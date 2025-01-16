@@ -1,10 +1,13 @@
+import { WorkoutTemplateMap } from "../../typings";
+
 type CreateRoutineWorkoutTemplateListReturnType = {
   workoutTemplateIdList: number[];
   workoutTemplateIdSet: Set<number>;
 };
 
 export const CreateRoutineWorkoutTemplateList = (
-  workoutTemplateIds: string | undefined
+  workoutTemplateIds: string | undefined,
+  workoutTemplateMap: WorkoutTemplateMap
 ): CreateRoutineWorkoutTemplateListReturnType => {
   const emptyValues: CreateRoutineWorkoutTemplateListReturnType = {
     workoutTemplateIdList: [],
@@ -14,9 +17,17 @@ export const CreateRoutineWorkoutTemplateList = (
   if (workoutTemplateIds === undefined) return emptyValues;
 
   try {
-    const workoutTemplateIdList: number[] = JSON.parse(workoutTemplateIds);
+    const idList: number[] = JSON.parse(workoutTemplateIds);
 
-    if (workoutTemplateIdList[0] === null) return emptyValues;
+    if (idList[0] === null) return emptyValues;
+
+    const workoutTemplateIdList: number[] = [];
+
+    for (const id of idList) {
+      if (workoutTemplateMap.has(id)) {
+        workoutTemplateIdList.push(id);
+      }
+    }
 
     const workoutTemplateIdSet = new Set(workoutTemplateIdList);
 

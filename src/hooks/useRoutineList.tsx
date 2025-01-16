@@ -130,7 +130,8 @@ export const useRoutineList = (
           CreateRoutineWorkoutTemplateList(
             row.schedule_type === 2
               ? `[${row.workout_template_order}]`
-              : row.workoutTemplateIds
+              : row.workoutTemplateIds,
+            workoutTemplateMap.current
           );
 
         const routine: Routine = {
@@ -149,7 +150,9 @@ export const useRoutineList = (
     } catch (error) {
       console.log(error);
     }
-  }, []);
+    // isWorkoutTemplateListLoaded.current needs to be specifically included in array
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [workoutTemplateMap.current]);
 
   useEffect(() => {
     if (getRoutinesOnLoad && isWorkoutTemplateListLoaded.current) {

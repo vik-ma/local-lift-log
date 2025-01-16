@@ -149,7 +149,8 @@ export default function RoutineDetails() {
           CreateRoutineWorkoutTemplateList(
             isNoDaySchedule
               ? `[${routine.workout_template_order}]`
-              : routine.workoutTemplateIds
+              : routine.workoutTemplateIds,
+            workoutTemplateMap.current
           );
 
         const currentRoutine: Routine = {
@@ -189,14 +190,14 @@ export default function RoutineDetails() {
       getWorkoutRoutineSchedules();
       loadUserSettings();
     }
-    // isRoutineLoaded.current and isWorkoutTemplateListLoaded.current
-    // needs to be specifically included in array
+    // useRef currents needs to be specifically included in array
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     id,
     getWorkoutRoutineSchedules,
     isRoutineLoaded.current,
     isWorkoutTemplateListLoaded.current,
+    workoutTemplateMap.current,
   ]);
 
   const useDetailsHeaderOptions = useDetailsHeaderOptionsMenu("Routine");
@@ -214,7 +215,10 @@ export default function RoutineDetails() {
     // If switching schedule_type from Weekly/Custom to No Day Set
     if (routine.schedule_type !== 2 && updatedRoutine.schedule_type === 2) {
       const { workoutTemplateIdList, workoutTemplateIdSet } =
-        CreateRoutineWorkoutTemplateList(`[${routine.workout_template_order}]`);
+        CreateRoutineWorkoutTemplateList(
+          `[${routine.workout_template_order}]`,
+          workoutTemplateMap.current
+        );
 
       updatedRoutine.workoutTemplateIdList = workoutTemplateIdList;
       updatedRoutine.workoutTemplateIdSet = workoutTemplateIdSet;
@@ -401,7 +405,10 @@ export default function RoutineDetails() {
     const workoutTemplateIds = JSON.stringify(scheduleWorkoutTemplateIds);
 
     const { workoutTemplateIdList, workoutTemplateIdSet } =
-      CreateRoutineWorkoutTemplateList(workoutTemplateIds);
+      CreateRoutineWorkoutTemplateList(
+        workoutTemplateIds,
+        workoutTemplateMap.current
+      );
 
     const updatedRoutine: Routine = {
       ...routine,
