@@ -717,6 +717,11 @@ export default function RoutineDetails() {
               >
                 {noDayWorkoutTemplateList.map((item) => (
                   <Reorder.Item
+                    className={
+                      isScheduleItemBeingDragged
+                        ? "cursor-grabbing"
+                        : "cursor-grab"
+                    }
                     key={item.id}
                     value={item}
                     onDragStart={() => setIsScheduleItemBeingDragged(true)}
