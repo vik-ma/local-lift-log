@@ -50,6 +50,7 @@ import {
   useExerciseList,
 } from "../hooks";
 import { Link } from "react-router-dom";
+import { Reorder } from "framer-motion";
 
 export default function RoutineDetails() {
   const { id } = useParams();
@@ -450,6 +451,12 @@ export default function RoutineDetails() {
     toast.success("Workout removed");
   };
 
+  const updateWorkoutTemplateOrder = async () => {
+    const updatedWorkoutTemplateOrder = [...noDayWorkoutTemplateList];
+
+    await updateNoDayWorkoutTemplateList(updatedWorkoutTemplateOrder);
+  };
+
   const updateNoDayWorkoutTemplateList = async (
     workoutTemplateOrder: NoDayRoutineScheduleItem[]
   ) => {
@@ -611,14 +618,22 @@ export default function RoutineDetails() {
               </div>
             </div>
           )}
-          <div className="flex items-center justify-between">
-            <h2 className="text-xl font-semibold pt-3 pb-1">
-              {FormatRoutineScheduleTypeString(
-                routine.schedule_type,
-                routine.num_days_in_schedule,
-                true
-              )}
-            </h2>
+          <div className="flex items-end justify-between pl-0.5 pt-3 pb-1.5">
+            <div className="flex flex-col">
+              <h2 className="text-xl font-semibold">
+                {FormatRoutineScheduleTypeString(
+                  routine.schedule_type,
+                  routine.num_days_in_schedule,
+                  true
+                )}
+              </h2>
+              {routine.schedule_type === 2 &&
+                noDayWorkoutTemplateList.length > 1 && (
+                  <span className="text-xs italic text-stone-500 font-normal">
+                    Drag Workouts To Change Their Order
+                  </span>
+                )}
+            </div>
             {routine.schedule_type === 2 && (
               <Button
                 className="font-medium"
@@ -686,28 +701,37 @@ export default function RoutineDetails() {
               ))}
             </div>
           ) : (
-            <div className="flex flex-col gap-1 py-1">
-              <div className="flex flex-col w-full gap-1">
+            <div className="flex flex-col gap-1">
+              <Reorder.Group
+                className="flex flex-col w-full gap-1"
+                values={noDayWorkoutTemplateList}
+                onReorder={setNoDayWorkoutTemplateList}
+              >
                 {noDayWorkoutTemplateList.map((item) => (
-                  <Chip
-                    className="hover:bg-default-300"
+                  <Reorder.Item
                     key={item.id}
-                    variant="flat"
-                    radius="sm"
-                    size="lg"
-                    classNames={{ content: "w-[22.75rem] truncate" }}
-                    onClose={() =>
-                      handleRemoveNoDayRoutineScheduleItemButton(item)
-                    }
+                    value={item}
+                    onDragEnd={() => updateWorkoutTemplateOrder()}
                   >
-                    <Link
-                      to={`/workout-templates/${item.workout_template_id}/`}
+                    <Chip
+                      className="hover:bg-default-300"
+                      variant="flat"
+                      radius="sm"
+                      size="lg"
+                      classNames={{ content: "w-[22.75rem] truncate" }}
+                      onClose={() =>
+                        handleRemoveNoDayRoutineScheduleItemButton(item)
+                      }
                     >
-                      {item.name}
-                    </Link>
-                  </Chip>
+                      <Link
+                        to={`/workout-templates/${item.workout_template_id}/`}
+                      >
+                        {item.name}
+                      </Link>
+                    </Chip>
+                  </Reorder.Item>
                 ))}
-              </div>
+              </Reorder.Group>
             </div>
           )}
         </div>
