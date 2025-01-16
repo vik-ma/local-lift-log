@@ -106,12 +106,20 @@ export default function RoutineDetails() {
         [id]
       );
 
-      const schedules: RoutineScheduleItem[] = result.map((row) => ({
-        id: row.id,
-        day: row.day,
-        workout_template_id: row.workout_template_id,
-        name: row.name,
-      }));
+      const schedules: RoutineScheduleItem[] = [];
+
+      for (const row of result) {
+        if (workoutTemplateMap.current.has(row.workout_template_id)) {
+          const schedule: RoutineScheduleItem = {
+            id: row.id,
+            day: row.day,
+            workout_template_id: row.workout_template_id,
+            name: row.name,
+          };
+
+          schedules.push(schedule);
+        }
+      }
 
       const workoutScheduleStringList: RoutineScheduleItem[][] =
         GetScheduleDayValues(routine.num_days_in_schedule, schedules);
@@ -123,7 +131,7 @@ export default function RoutineDetails() {
       console.log(error);
       return [];
     }
-  }, [id, routine.num_days_in_schedule]);
+  }, [id, routine.num_days_in_schedule, workoutTemplateMap]);
 
   useEffect(() => {
     const getRoutine = async () => {
