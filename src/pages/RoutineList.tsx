@@ -20,6 +20,7 @@ import {
   FormatNumItemsString,
   GetUserSettings,
   FormatRoutineScheduleTypeString,
+  DeleteWorkoutRoutineSchedule,
 } from "../helpers";
 import {
   LoadingSpinner,
@@ -175,13 +176,12 @@ export default function RoutineList() {
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
-      db.execute("DELETE from routines WHERE id = $1", [operatingRoutine.id]);
+      await db.execute("DELETE from routines WHERE id = $1", [
+        operatingRoutine.id,
+      ]);
 
       // Delete all workout_routine_schedules referencing routine
-      db.execute(
-        "DELETE from workout_routine_schedules WHERE routine_id = $1",
-        [operatingRoutine.id]
-      );
+      await DeleteWorkoutRoutineSchedule(operatingRoutine.id, "routine_id");
 
       const updatedRoutines = DeleteItemFromList(routines, operatingRoutine.id);
 

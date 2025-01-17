@@ -39,6 +39,7 @@ import {
   FormatRoutineScheduleTypeString,
   CreateNoDayWorkoutTemplateList,
   DeleteItemFromList,
+  DeleteWorkoutRoutineSchedule,
 } from "../helpers";
 import toast, { Toaster } from "react-hot-toast";
 import { getLocalTimeZone } from "@internationalized/date";
@@ -297,22 +298,19 @@ export default function RoutineDetails() {
     )
       return;
 
-    try {
-      const db = await Database.load(import.meta.env.VITE_DB);
+    const success = await DeleteWorkoutRoutineSchedule(
+      operatingRoutineScheduleItem.id,
+      "id"
+    );
 
-      await db.execute("DELETE from workout_routine_schedules WHERE id = $1", [
-        operatingRoutineScheduleItem.id,
-      ]);
+    if (!success) return;
 
-      await updateRoutineWorkoutTemplateList();
+    await updateRoutineWorkoutTemplateList();
 
-      deleteModal.onClose();
-      toast.success(
-        `${operatingRoutineScheduleItem.name} removed from ${dayNameList[selectedDay]}`
-      );
-    } catch (error) {
-      console.log(error);
-    }
+    deleteModal.onClose();
+    toast.success(
+      `${operatingRoutineScheduleItem.name} removed from ${dayNameList[selectedDay]}`
+    );
   };
 
   const handleRemoveRoutineScheduleItemButton = (

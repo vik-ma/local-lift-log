@@ -82,12 +82,6 @@ export default function Home() {
     loadUserSettings();
   }, [settingsModal, isUserSettingsLoaded]);
 
-  const asd = null;
-
-  const aa = `[${asd}]`
-
-  console.log(aa)
-
   return (
     <>
       <SettingsModal
