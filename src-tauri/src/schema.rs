@@ -138,6 +138,7 @@ diesel::table! {
         weight_unit -> Text,
         date -> Text,
         comment -> Nullable<Text>,
+        body_fat_percentage -> Nullable<Float>,
     }
 }
 

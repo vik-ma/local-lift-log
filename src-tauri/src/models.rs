@@ -147,6 +147,7 @@ pub struct UserWeight {
     pub weight_unit: String,
     pub date: String,
     pub comment: Option<String>,
+    pub body_fat_percentage: Option<f32>,
 }
 
 #[derive(Queryable, Selectable)]
