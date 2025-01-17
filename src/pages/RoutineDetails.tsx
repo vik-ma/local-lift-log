@@ -13,6 +13,7 @@ import {
   DatePicker,
   DateValue,
   Chip,
+  Switch,
 } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -340,12 +341,14 @@ export default function RoutineDetails() {
     deleteModal.onOpen();
   };
 
-  const handleSetActiveButton = async () => {
+  const handleChangeIsActiveRoutine = async (value: boolean) => {
     if (userSettings === undefined) return;
+
+    const newValue = value ? routine.id : 0;
 
     const updatedSettings: UserSettingsOptional = {
       ...userSettings,
-      active_routine_id: routine.id,
+      active_routine_id: newValue,
     };
 
     await UpdateActiveRoutineId(updatedSettings);
@@ -624,20 +627,16 @@ export default function RoutineDetails() {
           useDetailsHeaderOptions={useDetailsHeaderOptions}
         />
         <div className="flex justify-center">
-          {userSettings.active_routine_id === routine.id ? (
-            <span className="text-success font-semibold">
-              Currently Active Routine
-            </span>
-          ) : (
-            <div className="flex flex-col items-center gap-0.5">
-              <span className="font-semibold text-stone-500">
-                Currently Not Active Routine
-              </span>
-              <Button size="sm" onPress={handleSetActiveButton}>
-                Set Active
-              </Button>
-            </div>
-          )}
+          <Switch
+            className="flex-row-reverse gap-3"
+            color="primary"
+            isSelected={
+              userSettings.active_routine_id === routine.id ? true : false
+            }
+            onValueChange={(value) => handleChangeIsActiveRoutine(value)}
+          >
+            Active Routine
+          </Switch>
         </div>
         <div className="flex flex-col">
           {routine.schedule_type === 1 && (
