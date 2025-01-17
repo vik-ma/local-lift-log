@@ -376,7 +376,7 @@ export default function RoutineList() {
                 <div className="flex items-center gap-1 pr-1">
                   <Button
                     className="w-[5.25rem]"
-                    color={isActiveRoutine ? "success" : "default"}
+                    color={isActiveRoutine ? "secondary" : "default"}
                     variant="flat"
                     size="sm"
                     onPress={() => handleSetActiveButton(routine)}
@@ -408,7 +408,7 @@ export default function RoutineList() {
                       <DropdownItem key="edit">Edit</DropdownItem>
                       <DropdownItem
                         key="set-active"
-                        className={isActiveRoutine ? "" : "text-success"}
+                        className={isActiveRoutine ? "" : "text-secondary"}
                       >
                         {isActiveRoutine ? "Clear Active" : "Set Active"}
                       </DropdownItem>
