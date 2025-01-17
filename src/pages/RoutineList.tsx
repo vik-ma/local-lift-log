@@ -49,6 +49,7 @@ type OperationType = "add" | "edit" | "delete";
 export default function RoutineList() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [operationType, setOperationType] = useState<OperationType>("add");
+  const [operatingRoutineIndex, setOperatingRoutineIndex] = useState<number>(0);
 
   const navigate = useNavigate();
 
@@ -111,10 +112,15 @@ export default function RoutineList() {
     setUserSettings(updatedSettings);
   };
 
-  const handleRoutineOptionSelection = (key: string, routine: Routine) => {
+  const handleRoutineOptionSelection = (
+    key: string,
+    routine: Routine,
+    index: number
+  ) => {
     if (key === "edit") {
       setOperationType("edit");
       setOperatingRoutine(routine);
+      setOperatingRoutineIndex(index);
       routineModal.onOpen();
     } else if (key === "delete") {
       setOperationType("delete");
@@ -207,7 +213,8 @@ export default function RoutineList() {
   };
 
   const updateRoutine = async () => {
-    if (!isRoutineValid) return;
+    if (!isRoutineValid || routines[operatingRoutineIndex] === undefined)
+      return;
 
     const noteToInsert = ConvertEmptyStringToNull(operatingRoutine.note);
 
@@ -232,6 +239,7 @@ export default function RoutineList() {
   const resetOperatingRoutine = () => {
     setOperationType("add");
     setOperatingRoutine(defaultRoutine);
+    setOperatingRoutineIndex(0);
   };
 
   const handleCreateNewRoutineButton = () => {
@@ -312,7 +320,7 @@ export default function RoutineList() {
           }
         />
         <div className="flex flex-col gap-1 w-full">
-          {filteredRoutines.map((routine) => {
+          {filteredRoutines.map((routine, index) => {
             const isActiveRoutine =
               userSettings.active_routine_id === routine.id;
             const numWorkoutTemplates =
@@ -368,7 +376,11 @@ export default function RoutineList() {
                     <DropdownMenu
                       aria-label={`Option Menu For ${routine.name} Routine`}
                       onAction={(key) =>
-                        handleRoutineOptionSelection(key as string, routine)
+                        handleRoutineOptionSelection(
+                          key as string,
+                          routine,
+                          index
+                        )
                       }
                     >
                       <DropdownItem key="edit">Edit</DropdownItem>
