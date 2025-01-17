@@ -21,6 +21,7 @@ import {
   GetUserSettings,
   FormatRoutineScheduleTypeString,
   DeleteWorkoutRoutineSchedule,
+  CreateRoutineWorkoutTemplateList,
 } from "../helpers";
 import {
   LoadingSpinner,
@@ -69,6 +70,8 @@ export default function RoutineList() {
   const filterExerciseList = useFilterExerciseList(exerciseList);
 
   const workoutTemplateList = useWorkoutTemplateList(true, exerciseList, true);
+
+  const { workoutTemplateMap } = workoutTemplateList;
 
   const routineList = useRoutineList(true, workoutTemplateList);
 
@@ -222,6 +225,25 @@ export default function RoutineList() {
       ...operatingRoutine,
       note: noteToInsert,
     };
+
+    // If switching schedule_type from Weekly/Custom to No Day Set or vice versa
+    if (
+      (routines[operatingRoutineIndex].schedule_type !== 2 &&
+        updatedRoutine.schedule_type === 2) ||
+      (routines[operatingRoutineIndex].schedule_type === 2 &&
+        updatedRoutine.schedule_type !== 2)
+    ) {
+      const { workoutTemplateIdList, workoutTemplateIdSet } =
+        CreateRoutineWorkoutTemplateList(
+          updatedRoutine.schedule_type === 2
+            ? `[${operatingRoutine.workout_template_order}]`
+            : updatedRoutine.workoutTemplateIds,
+          workoutTemplateMap.current
+        );
+
+      updatedRoutine.workoutTemplateIdList = workoutTemplateIdList;
+      updatedRoutine.workoutTemplateIdSet = workoutTemplateIdSet;
+    }
 
     const success = await UpdateRoutine(updatedRoutine);
 
