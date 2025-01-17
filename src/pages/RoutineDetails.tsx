@@ -109,6 +109,8 @@ export default function RoutineDetails() {
 
       const schedules: RoutineScheduleItem[] = [];
 
+      const invalidWorkoutTemplateIds: number[] = [];
+
       for (const row of result) {
         if (workoutTemplateMap.current.has(row.workout_template_id)) {
           const schedule: RoutineScheduleItem = {
@@ -119,7 +121,17 @@ export default function RoutineDetails() {
           };
 
           schedules.push(schedule);
+        } else {
+          invalidWorkoutTemplateIds.push(row.workout_template_id);
         }
+      }
+
+      if (invalidWorkoutTemplateIds.length > 0) {
+        for (const workoutTemplateId of invalidWorkoutTemplateIds)
+          await DeleteWorkoutRoutineSchedule(
+            workoutTemplateId,
+            "workout_template_id"
+          );
       }
 
       const workoutScheduleStringList: RoutineScheduleItem[][] =
