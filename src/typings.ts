@@ -300,6 +300,7 @@ export type UserWeight = {
   date: string;
   formattedDate: string;
   comment: string | null;
+  body_fat_percentage: number | null;
 };
 
 export type EquipmentWeight = {

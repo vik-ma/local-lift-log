@@ -6,11 +6,14 @@ export const UpdateUserWeight = async (userWeight: UserWeight) => {
     const db = await Database.load(import.meta.env.VITE_DB);
 
     await db.execute(
-      "UPDATE user_weights SET weight = $1, weight_unit = $2, comment = $3 WHERE id = $4",
+      `UPDATE user_weights 
+       SET weight = $1, weight_unit = $2, comment = $3, body_fat_percentage = $4 
+       WHERE id = $5`,
       [
         userWeight.weight,
         userWeight.weight_unit,
         userWeight.comment,
+        userWeight.body_fat_percentage,
         userWeight.id,
       ]
     );

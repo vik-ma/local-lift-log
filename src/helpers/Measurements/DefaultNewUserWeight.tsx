@@ -8,6 +8,7 @@ export const DefaultNewUserWeight = () => {
     date: "",
     formattedDate: "",
     comment: null,
+    body_fat_percentage: null,
   };
 
   return defaultNewUserWeight;
