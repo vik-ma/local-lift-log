@@ -609,7 +609,7 @@ export default function RoutineDetails() {
           </span>
         }
       />
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-3">
         <DetailsHeader
           header={routine.name}
           subHeader={
@@ -671,7 +671,7 @@ export default function RoutineDetails() {
               </div>
             </div>
           )}
-          <div className="flex items-end justify-between pl-0.5 pt-3 pb-1.5">
+          <div className="flex items-end justify-between pl-0.5 pb-1.5">
             <div className="flex flex-col">
               <h2 className="text-xl font-semibold">
                 {FormatRoutineScheduleTypeString(
