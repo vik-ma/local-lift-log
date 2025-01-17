@@ -22,7 +22,7 @@ import {
   DropdownTrigger,
   useDisclosure,
 } from "@nextui-org/react";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import {
   ConvertEmptyStringToNull,
   ConvertInputStringToNumber,
@@ -228,7 +228,6 @@ export default function DietLogList() {
 
   return (
     <>
-      <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
       <DeleteModal
         deleteModal={deleteModal}
         header="Delete Diet Log Entry"

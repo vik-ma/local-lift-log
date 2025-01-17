@@ -24,7 +24,7 @@ import {
   FilterMultisetListModal,
   GroupedWorkoutSetListModal,
 } from "../components";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import {
   CreateGroupedWorkoutSetList,
   ConvertEmptyStringToNull,
@@ -268,7 +268,6 @@ export default function WorkoutTemplateDetails() {
 
   return (
     <>
-      <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
       <WorkoutTemplateModal
         workoutTemplateModal={workoutTemplateModal}
         workoutTemplate={editedWorkoutTemplate}

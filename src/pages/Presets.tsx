@@ -46,7 +46,7 @@ import {
   UpdateDefaultPlateCollectionId,
   UpdateItemInList,
 } from "../helpers";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import {
   usePlateCollectionModal,
   usePresetsList,
@@ -745,7 +745,6 @@ export default function Presets() {
 
   return (
     <>
-      <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
       <DeleteModal
         deleteModal={deleteModal}
         header={

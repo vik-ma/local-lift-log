@@ -9,7 +9,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Routine, UserSettings } from "../typings";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import Database from "tauri-plugin-sql-api";
 import {
   UpdateActiveRoutineId,
@@ -276,7 +276,6 @@ export default function RoutineList() {
 
   return (
     <>
-      <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
       <RoutineModal
         routineModal={routineModal}
         routine={operatingRoutine}

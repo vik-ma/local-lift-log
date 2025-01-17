@@ -35,7 +35,7 @@ import {
   CreateShownPropertiesSet,
 } from "../helpers";
 import Database from "tauri-plugin-sql-api";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { VerticalMenuIcon } from "../assets";
 
 type OperationType = "add" | "edit" | "delete";
@@ -278,7 +278,6 @@ export default function TimePeriodList() {
 
   return (
     <>
-      <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
       <TimePeriodModal
         timePeriodModal={timePeriodModal}
         timePeriod={operatingTimePeriod}

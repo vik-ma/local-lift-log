@@ -42,7 +42,7 @@ import {
   DeleteItemFromList,
   DeleteWorkoutRoutineSchedule,
 } from "../helpers";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { getLocalTimeZone } from "@internationalized/date";
 import { I18nProvider } from "@react-aria/i18n";
 import {
@@ -545,7 +545,6 @@ export default function RoutineDetails() {
 
   return (
     <>
-      <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
       <RoutineModal
         routineModal={routineModal}
         routine={editedRoutine}

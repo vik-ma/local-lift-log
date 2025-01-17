@@ -24,7 +24,7 @@ import {
   DropdownItem,
   DropdownTrigger,
 } from "@nextui-org/react";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import {
   CreateDefaultMeasurements,
   GenerateActiveMeasurementList,
@@ -311,7 +311,6 @@ export default function MeasurementList() {
 
   return (
     <>
-      <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
       <DeleteModal
         deleteModal={deleteModal}
         header="Delete Measurement"

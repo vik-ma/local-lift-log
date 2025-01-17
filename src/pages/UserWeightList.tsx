@@ -35,7 +35,7 @@ import {
   DropdownTrigger,
   useDisclosure,
 } from "@nextui-org/react";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import {
   useDefaultUserWeight,
   useIsStringValidNumber,
@@ -395,7 +395,6 @@ export default function UserWeightList() {
 
   return (
     <>
-      <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
       <DeleteModal
         deleteModal={deleteModal}
         header="Delete Body Weight Entry"

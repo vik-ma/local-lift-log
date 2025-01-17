@@ -46,7 +46,7 @@ import {
   MultisetListOptions,
   MultisetModal,
 } from "../components";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 export type OperationType = "add" | "edit" | "delete";
 
@@ -498,7 +498,6 @@ export default function Multisets() {
 
   return (
     <>
-      <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
       <DeleteModal
         deleteModal={deleteModal}
         header={operationType === "delete" ? "Delete Multiset" : "Remove Set"}

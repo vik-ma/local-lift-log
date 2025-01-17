@@ -33,7 +33,7 @@ import {
 } from "../helpers";
 import { Button, useDisclosure } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import {
   useDefaultUserMeasurements,
@@ -415,7 +415,6 @@ export default function BodyMeasurements() {
 
   return (
     <>
-      <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
       <DeleteModal
         deleteModal={deleteModal}
         header={

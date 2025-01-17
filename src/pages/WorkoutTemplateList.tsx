@@ -21,7 +21,7 @@ import {
   FilterExerciseGroupsModal,
 } from "../components";
 import { useNavigate } from "react-router-dom";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import {
   useDefaultWorkoutTemplate,
   useExerciseList,
@@ -237,7 +237,6 @@ export default function WorkoutTemplateList() {
 
   return (
     <>
-      <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
       <WorkoutTemplateModal
         workoutTemplateModal={workoutTemplateModal}
         workoutTemplate={operatingWorkoutTemplate}

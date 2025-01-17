@@ -26,12 +26,14 @@ import {
   DietLogListPage,
 } from "./pages";
 import { SiteHeader } from "./components";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   const navigate = useNavigate();
 
   return (
     <>
+      <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
       <NextUIProvider navigate={navigate}>
         <SiteHeader />
         <main className="flex justify-center p-5">

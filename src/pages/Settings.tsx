@@ -43,7 +43,7 @@ import {
   TimePeriodPropertyDropdown,
   DietLogDayDropdown,
 } from "../components";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import Database from "tauri-plugin-sql-api";
 import { usePresetsList, useTimeInputMap } from "../hooks";
 import { Reorder } from "framer-motion";
@@ -590,7 +590,6 @@ export default function Settings() {
 
   return (
     <>
-      <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
       <SettingsModal
         settingsModal={restoreSettingsModal}
         doneButtonAction={restoreDefaultSettings}

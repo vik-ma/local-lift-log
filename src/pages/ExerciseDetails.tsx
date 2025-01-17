@@ -19,7 +19,7 @@ import {
   useMultiplierInputMap,
 } from "../hooks";
 import { FavoriteIcon } from "../assets";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 export default function ExerciseDetails() {
   const { id } = useParams();
@@ -113,7 +113,6 @@ export default function ExerciseDetails() {
 
   return (
     <>
-      <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
       <ExerciseModal
         exerciseModal={exerciseModal}
         exercise={editedExercise}

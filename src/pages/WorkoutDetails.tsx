@@ -41,7 +41,7 @@ import {
   UpdateExerciseOrder,
 } from "../helpers";
 import { useDisclosure } from "@nextui-org/react";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import {
   useDetailsHeaderOptionsMenu,
   useUserWeightInput,
@@ -419,7 +419,6 @@ export default function WorkoutDetails() {
 
   return (
     <>
-      <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
       <WorkoutModal
         workoutModal={workoutModal}
         workout={workout}

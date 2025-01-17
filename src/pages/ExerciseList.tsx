@@ -19,7 +19,7 @@ import {
   DropdownMenu,
   DropdownItem,
 } from "@nextui-org/react";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import {
   DeleteModal,
@@ -254,7 +254,6 @@ export default function ExerciseList() {
 
   return (
     <>
-      <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
       <DeleteModal
         deleteModal={deleteModal}
         header="Delete Exercise"
