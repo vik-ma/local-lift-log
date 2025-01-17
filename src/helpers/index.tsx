@@ -129,6 +129,7 @@ export { IsWeightWithinLimit } from "./Numbers/IsWeightWithinLimit";
 export { IsDistanceWithinLimit } from "./Numbers/IsDistanceWithinLimit";
 export { IsNumberWithinLimit } from "./Numbers/IsNumberWithinLimit";
 export { ConvertInputStringToNumberOrNull } from "./Numbers/ConvertInputStringToNumberOrNull";
+export { ConvertInputStringToNumberWithTwoDecimalsOrNull } from "./Numbers/ConvertInputStringToNumberWithTwoDecimalsOrNull";
 
 export { GetLatestUserWeight } from "./Measurements/GetLatestUserWeight";
 export { CreateDefaultMeasurements } from "./Measurements/CreateDefaultMeasurements";
