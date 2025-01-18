@@ -1203,4 +1203,5 @@ export type UseUserWeightInputsReturnType = {
   isBodyFatPercentageInputValid: boolean;
   isUserWeightValid: boolean;
   resetUserWeightInput: () => void;
+  loadUserWeightInputs: (userWeight: UserWeight) => void;
 };

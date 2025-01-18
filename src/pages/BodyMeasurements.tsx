@@ -88,7 +88,7 @@ export default function BodyMeasurements() {
     setOperationType
   );
 
-  const { setWeightUnit} = userWeightInputs;
+  const { setWeightUnit, loadUserWeightInputs } = userWeightInputs;
 
   const measurementList = useMeasurementList();
 
@@ -207,10 +207,7 @@ export default function BodyMeasurements() {
 
   const handleLatestUserWeightOptionSelection = (key: string) => {
     if (key === "edit") {
-      // TODO: FIX
-      // setUserWeightInput(latestUserWeight.weight.toString());
-      // setWeightCommentInput(latestUserWeight.comment ?? "");
-      // setWeightUnit(latestUserWeight.weight_unit);
+      loadUserWeightInputs(latestUserWeight);
       setOperationType("edit-weight");
       userWeightModal.onOpen();
     } else if (key === "delete") {

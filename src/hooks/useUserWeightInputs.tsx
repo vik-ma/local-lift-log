@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { useIsStringValidNumber } from ".";
-import { UseUserWeightInputsReturnType } from "../typings";
+import { UserWeight, UseUserWeightInputsReturnType } from "../typings";
 
 export const useUserWeightInputs = (): UseUserWeightInputsReturnType => {
   const [userWeightInput, setUserWeightInput] = useState<string>("");
@@ -26,6 +26,17 @@ export const useUserWeightInputs = (): UseUserWeightInputsReturnType => {
     setBodyFatPercentageInput("");
   };
 
+  const loadUserWeightInputs = (userWeight: UserWeight) => {
+    setUserWeightInput(userWeight.weight.toString());
+    setCommentInput(userWeight.comment ?? "");
+    setBodyFatPercentageInput(
+      userWeight.body_fat_percentage
+        ? userWeight.body_fat_percentage.toString()
+        : ""
+    );
+    setWeightUnit(userWeight.weight_unit);
+  };
+
   return {
     userWeightInput,
     setUserWeightInput,
@@ -39,5 +50,6 @@ export const useUserWeightInputs = (): UseUserWeightInputsReturnType => {
     isBodyFatPercentageInputValid,
     isUserWeightValid,
     resetUserWeightInput,
+    loadUserWeightInputs,
   };
 };
