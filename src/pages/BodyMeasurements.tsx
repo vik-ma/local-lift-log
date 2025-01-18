@@ -41,7 +41,7 @@ import {
   useMeasurementList,
   useMeasurementsInputs,
   useReassignMeasurement,
-  useUserWeightInput,
+  useLatestUserWeightInput,
 } from "../hooks";
 
 export default function BodyMeasurements() {
@@ -85,8 +85,8 @@ export default function BodyMeasurements() {
     setWeightUnit,
     weightCommentInput,
     setWeightCommentInput,
-    resetWeightInput,
-  } = useUserWeightInput(
+    resetLatestUserWeightInput,
+  } = useLatestUserWeightInput(
     latestUserWeight,
     setLatestUserWeight,
     userWeightModal,
@@ -223,7 +223,7 @@ export default function BodyMeasurements() {
   };
 
   const handleAddWeightButton = () => {
-    resetWeightInput();
+    resetLatestUserWeightInput();
     userWeightModal.onOpen();
   };
 

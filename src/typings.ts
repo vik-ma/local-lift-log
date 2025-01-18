@@ -1189,3 +1189,18 @@ export type FilterMinAndMaxValuesSetStateMap = Map<
 >;
 
 export type RoutineScheduleTypeMap = Map<number, string>;
+
+export type UseUserWeightInputsReturnType = {
+  userWeightInput: string;
+  setUserWeightInput: React.Dispatch<React.SetStateAction<string>>;
+  weightUnit: string;
+  setWeightUnit: React.Dispatch<React.SetStateAction<string>>;
+  weightCommentInput: string;
+  setWeightCommentInput: React.Dispatch<React.SetStateAction<string>>;
+  bodyFatPercentageInput: string;
+  setBodyFatPercentageInput: React.Dispatch<React.SetStateAction<string>>;
+  isWeightInputValid: boolean;
+  isBodyFatPercentageInputValid: boolean;
+  isUserWeightValid: boolean;
+  resetUserWeightInput: () => void;
+};

@@ -44,7 +44,7 @@ import { useDisclosure } from "@nextui-org/react";
 import toast from "react-hot-toast";
 import {
   useDetailsHeaderOptionsMenu,
-  useUserWeightInput,
+  useLatestUserWeightInput,
   useWorkoutActions,
   useWorkoutList,
 } from "../hooks";
@@ -182,7 +182,7 @@ export default function WorkoutDetails() {
     additionalMenuItems
   );
 
-  const userWeightInputs = useUserWeightInput(
+  const userWeightInputs = useLatestUserWeightInput(
     userWeight,
     setUserWeight,
     userWeightModal,

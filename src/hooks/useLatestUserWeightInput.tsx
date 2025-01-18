@@ -1,4 +1,4 @@
-import { useIsStringValidNumber } from ".";
+import { useUserWeightInputs } from ".";
 import {
   ConvertNumberToTwoDecimals,
   ConvertEmptyStringToNull,
@@ -14,10 +14,10 @@ import {
   BodyMeasurementsOperationType,
   UseDisclosureReturnType,
 } from "../typings";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect } from "react";
 import toast from "react-hot-toast";
 
-export const useUserWeightInput = (
+export const useLatestUserWeightInput = (
   latestUserWeight: UserWeight,
   setLatestUserWeight: React.Dispatch<React.SetStateAction<UserWeight>>,
   userWeightModal: UseDisclosureReturnType,
@@ -26,22 +26,22 @@ export const useUserWeightInput = (
     React.SetStateAction<BodyMeasurementsOperationType>
   >
 ) => {
-  const [userWeightInput, setUserWeightInput] = useState<string>("");
-  const [weightUnit, setWeightUnit] = useState<string>("");
-  const [weightCommentInput, setWeightCommentInput] = useState<string>("");
-  const [bodyFatPercentageInput, setBodyFatPercentageInput] =
-    useState<string>("");
+  const userWeightInputs = useUserWeightInputs();
 
-  const isWeightInputValid = useIsStringValidNumber(userWeightInput);
-  const isBodyFatPercentageInputValid = useIsStringValidNumber(
-    bodyFatPercentageInput
-  );
-
-  const isUserWeightValid = useMemo(() => {
-    if (!isWeightInputValid) return false;
-    if (!isBodyFatPercentageInputValid) return false;
-    return true;
-  }, [isWeightInputValid, isBodyFatPercentageInputValid]);
+  const {
+    userWeightInput,
+    setUserWeightInput,
+    weightUnit,
+    setWeightUnit,
+    weightCommentInput,
+    setWeightCommentInput,
+    bodyFatPercentageInput,
+    setBodyFatPercentageInput,
+    isWeightInputValid,
+    isBodyFatPercentageInputValid,
+    isUserWeightValid,
+    resetUserWeightInput,
+  } = userWeightInputs;
 
   const addUserWeight = async (): Promise<{
     success: boolean;
@@ -90,7 +90,7 @@ export const useUserWeightInput = (
 
     setLatestUserWeight(newUserWeight);
 
-    resetWeightInput();
+    resetLatestUserWeightInput();
 
     userWeightModal.onClose();
     toast.success("Body Weight Entry Added");
@@ -122,15 +122,14 @@ export const useUserWeightInput = (
 
     setLatestUserWeight(updatedUserWeight);
 
-    resetWeightInput();
+    resetLatestUserWeightInput();
 
     userWeightModal.onClose();
     toast.success("Body Weight Entry Updated");
   };
 
-  const resetWeightInput = () => {
-    setUserWeightInput("");
-    setWeightCommentInput("");
+  const resetLatestUserWeightInput = () => {
+    resetUserWeightInput();
 
     if (setOperationType) {
       setOperationType("add");
@@ -141,7 +140,7 @@ export const useUserWeightInput = (
     if (userSettings) {
       setWeightUnit(userSettings.default_unit_weight);
     }
-  }, [userSettings]);
+  }, [userSettings, setWeightUnit]);
 
   return {
     addUserWeight,
@@ -153,7 +152,7 @@ export const useUserWeightInput = (
     setWeightUnit,
     weightCommentInput,
     setWeightCommentInput,
-    resetWeightInput,
+    resetLatestUserWeightInput,
     bodyFatPercentageInput,
     setBodyFatPercentageInput,
     isBodyFatPercentageInputValid,
