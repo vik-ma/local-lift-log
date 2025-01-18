@@ -32,6 +32,11 @@ export const UserWeightListItem = ({
         <span className="text-xs text-secondary text-left">
           {userWeight.formattedDate}
         </span>
+        {userWeight.body_fat_percentage !== null && (
+          <span className="w-[20.75rem] break-all text-xs text-slate-500 text-left">
+            {userWeight.body_fat_percentage}% Body Fat
+          </span>
+        )}
         <span className="w-[20.75rem] break-all text-xs text-stone-400 text-left">
           {userWeight.comment}
         </span>
