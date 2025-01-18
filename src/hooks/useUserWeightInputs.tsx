@@ -1,6 +1,11 @@
 import { useMemo, useState } from "react";
-import { useIsStringValidNumberOrEmpty } from ".";
 import { UserWeight, UseUserWeightInputsReturnType } from "../typings";
+import { useIsStringValidNumberAbove0 } from ".";
+import {
+  IsNumberValidPercentage,
+  IsStringEmpty,
+  IsStringInvalidNumber,
+} from "../helpers";
 
 export const useUserWeightInputs = (): UseUserWeightInputsReturnType => {
   const [userWeightInput, setUserWeightInput] = useState<string>("");
@@ -9,10 +14,15 @@ export const useUserWeightInputs = (): UseUserWeightInputsReturnType => {
   const [bodyFatPercentageInput, setBodyFatPercentageInput] =
     useState<string>("");
 
-  const isWeightInputValid = useIsStringValidNumberOrEmpty(userWeightInput);
-  const isBodyFatPercentageInputValid = useIsStringValidNumberOrEmpty(
-    bodyFatPercentageInput
-  );
+  const isWeightInputValid = useIsStringValidNumberAbove0(userWeightInput);
+  const isBodyFatPercentageInputValid = useMemo(() => {
+    if (IsStringEmpty(bodyFatPercentageInput)) return true;
+    if (IsStringInvalidNumber(bodyFatPercentageInput)) return false;
+    if (!IsNumberValidPercentage(Number(bodyFatPercentageInput), false))
+      return false;
+
+    return true;
+  }, [bodyFatPercentageInput]);
 
   const isUserWeightValid = useMemo(() => {
     if (!isWeightInputValid) return false;

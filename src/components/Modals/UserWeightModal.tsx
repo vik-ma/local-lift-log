@@ -72,7 +72,7 @@ export const UserWeightModal = ({
                 </div>
                 <Input
                   value={bodyFatPercentageInput}
-                  label="Body Fat Percentage"
+                  label="Body Fat %"
                   variant="faded"
                   onValueChange={(value) => setBodyFatPercentageInput(value)}
                   isInvalid={!isBodyFatPercentageInputValid}
