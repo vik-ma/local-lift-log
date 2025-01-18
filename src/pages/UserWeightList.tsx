@@ -13,6 +13,7 @@ import {
 } from "../components";
 import {
   ConvertEmptyStringToNull,
+  ConvertInputStringToNumberWithTwoDecimalsOrNull,
   ConvertNumberToTwoDecimals,
   ConvertWeightToKg,
   DeleteItemFromList,
@@ -38,8 +39,8 @@ import {
 import toast from "react-hot-toast";
 import {
   useDefaultUserWeight,
-  useIsStringValidNumberOrEmpty,
   useListFilters,
+  useUserWeightInputs,
 } from "../hooks";
 
 type OperationType = "add" | "edit" | "delete";
@@ -54,13 +55,23 @@ export default function UserWeightList() {
   const [userWeights, setUserWeights] = useState<UserWeight[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [operationType, setOperationType] = useState<OperationType>("add");
-  const [userWeightInput, setUserWeightInput] = useState<string>("");
-  const [weightUnit, setWeightUnit] = useState<string>("");
-  const [commentInput, setCommentInput] = useState<string>("");
   const [filterQuery, setFilterQuery] = useState<string>("");
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [sortCategory, setSortCategory] =
     useState<UserWeightSortCategory>("date-desc");
+
+  const userWeightInputs = useUserWeightInputs();
+
+  const {
+    userWeightInput,
+    weightUnit,
+    setWeightUnit,
+    commentInput,
+    bodyFatPercentageInput,
+    isUserWeightValid,
+    resetUserWeightInput,
+    loadUserWeightInputs,
+  } = userWeightInputs;
 
   const listFilters = useListFilters();
 
@@ -158,6 +169,7 @@ export default function UserWeightList() {
           date: row.date,
           formattedDate: formattedDate,
           comment: row.comment,
+          body_fat_percentage: row.body_fat_percentage,
         };
       });
 
@@ -184,7 +196,7 @@ export default function UserWeightList() {
     };
 
     loadUserSettings();
-  }, [getUserWeights, setFilterWeightRangeUnit]);
+  }, [getUserWeights, setFilterWeightRangeUnit, setWeightUnit]);
 
   const handleCreateNewUserWeightButton = () => {
     if (operationType !== "add") {
@@ -195,7 +207,7 @@ export default function UserWeightList() {
 
   const addUserWeight = async () => {
     if (
-      !isWeightInputValid ||
+      !isUserWeightValid ||
       operationType !== "add" ||
       userSettings === undefined
     )
@@ -207,11 +219,16 @@ export default function UserWeightList() {
 
     const currentDateString = GetCurrentDateTimeISOString();
 
+    const bodyFatPercentage = ConvertInputStringToNumberWithTwoDecimalsOrNull(
+      bodyFatPercentageInput
+    );
+
     const userWeightId = await InsertUserWeightIntoDatabase(
       newWeight,
       weightUnit,
       currentDateString,
-      commentToInsert
+      commentToInsert,
+      bodyFatPercentage
     );
 
     if (userWeightId === 0) return;
@@ -221,19 +238,58 @@ export default function UserWeightList() {
       userSettings.clock_style === "24h"
     );
 
-    const newUserWeight = {
+    const newUserWeight: UserWeight = {
       id: userWeightId,
       weight: newWeight,
       weight_unit: weightUnit,
       date: currentDateString,
       formattedDate: formattedDate,
       comment: commentToInsert,
+      body_fat_percentage: bodyFatPercentage,
     };
 
     sortUserWeightsByActiveCategory([...userWeights, newUserWeight]);
 
     resetUserWeight();
     toast.success("User Weight Added");
+    userWeightModal.onClose();
+  };
+
+  const updateUserWeight = async () => {
+    if (
+      operatingUserWeight.id === 0 ||
+      operationType !== "edit" ||
+      !isUserWeightValid
+    )
+      return;
+
+    const newWeight = ConvertNumberToTwoDecimals(Number(userWeightInput));
+
+    const commentToInsert = ConvertEmptyStringToNull(commentInput);
+
+    const bodyFatPercentage = ConvertInputStringToNumberWithTwoDecimalsOrNull(
+      bodyFatPercentageInput
+    );
+
+    const updatedUserWeight: UserWeight = {
+      ...operatingUserWeight,
+      weight: newWeight,
+      weight_unit: weightUnit,
+      comment: commentToInsert,
+      body_fat_percentage: bodyFatPercentage,
+    };
+
+    const success = await UpdateUserWeight(updatedUserWeight);
+
+    if (!success) return;
+
+    const updatedUserWeights = UpdateItemInList(userWeights, updatedUserWeight);
+
+    sortUserWeightsByActiveCategory(updatedUserWeights);
+
+    resetUserWeight();
+
+    toast.success("Body Weight Entry Updated");
     userWeightModal.onClose();
   };
 
@@ -257,50 +313,13 @@ export default function UserWeightList() {
     deleteModal.onClose();
   };
 
-  const isWeightInputValid = useIsStringValidNumberOrEmpty(userWeightInput);
-
-  const updateUserWeight = async () => {
-    if (
-      operatingUserWeight.id === 0 ||
-      operationType !== "edit" ||
-      !isWeightInputValid
-    )
-      return;
-
-    const newWeight = ConvertNumberToTwoDecimals(Number(userWeightInput));
-
-    const commentToInsert = ConvertEmptyStringToNull(commentInput);
-
-    const updatedUserWeight: UserWeight = {
-      ...operatingUserWeight,
-      weight: newWeight,
-      weight_unit: weightUnit,
-      comment: commentToInsert,
-    };
-
-    const success = await UpdateUserWeight(updatedUserWeight);
-
-    if (!success) return;
-
-    const updatedUserWeights = UpdateItemInList(userWeights, updatedUserWeight);
-
-    sortUserWeightsByActiveCategory(updatedUserWeights);
-
-    resetUserWeight();
-
-    toast.success("Body Weight Entry Updated");
-    userWeightModal.onClose();
-  };
-
   const handleUserWeightOptionSelection = (
     key: string,
     userWeight: UserWeight
   ) => {
     if (key === "edit") {
+      loadUserWeightInputs(userWeight);
       setOperatingUserWeight(userWeight);
-      setUserWeightInput(userWeight.weight.toString());
-      setWeightUnit(userWeight.weight_unit);
-      setCommentInput(userWeight.comment ?? "");
       setOperationType("edit");
       userWeightModal.onOpen();
     } else if (key === "delete") {
@@ -315,9 +334,8 @@ export default function UserWeightList() {
 
     setOperatingUserWeight(defaultUserWeight);
     setOperationType("add");
-    setUserWeightInput("");
+    resetUserWeightInput();
     setWeightUnit(userSettings.default_unit_weight);
-    setCommentInput("");
   };
 
   const sortUserWeightsByDate = (
@@ -411,13 +429,7 @@ export default function UserWeightList() {
       />
       <UserWeightModal
         userWeightModal={userWeightModal}
-        userWeightInput={userWeightInput}
-        setUserWeightInput={setUserWeightInput}
-        isWeightInputValid={isWeightInputValid}
-        weightUnit={weightUnit}
-        setWeightUnit={setWeightUnit}
-        commentInput={commentInput}
-        setCommentInput={setCommentInput}
+        userWeightInputs={userWeightInputs}
         buttonAction={
           operationType === "edit" ? updateUserWeight : addUserWeight
         }
