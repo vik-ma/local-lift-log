@@ -182,7 +182,7 @@ export default function WorkoutDetails() {
     additionalMenuItems
   );
 
-  const userWeightInputs = useLatestUserWeightInput(
+  const latestUserWeightInputs = useLatestUserWeightInput(
     userWeight,
     setUserWeight,
     userWeightModal,
@@ -191,7 +191,7 @@ export default function WorkoutDetails() {
 
   const handleUserWeightModalAddButton = async () => {
     const { success, weight, weight_unit } =
-      await userWeightInputs.addUserWeight();
+      await latestUserWeightInputs.addUserWeight();
 
     if (!success) return;
 
@@ -534,13 +534,7 @@ export default function WorkoutDetails() {
       />
       <UserWeightModal
         userWeightModal={userWeightModal}
-        userWeightInput={userWeightInputs.userWeightInput}
-        setUserWeightInput={userWeightInputs.setUserWeightInput}
-        isWeightInputValid={userWeightInputs.isWeightInputValid}
-        weightUnit={userWeightInputs.weightUnit}
-        setWeightUnit={userWeightInputs.setWeightUnit}
-        commentInput={userWeightInputs.weightCommentInput}
-        setCommentInput={userWeightInputs.setWeightCommentInput}
+        userWeightInputs={latestUserWeightInputs.userWeightInputs}
         buttonAction={handleUserWeightModalAddButton}
         isEditing={false}
       />
