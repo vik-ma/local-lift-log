@@ -1195,8 +1195,8 @@ export type UseUserWeightInputsReturnType = {
   setUserWeightInput: React.Dispatch<React.SetStateAction<string>>;
   weightUnit: string;
   setWeightUnit: React.Dispatch<React.SetStateAction<string>>;
-  weightCommentInput: string;
-  setWeightCommentInput: React.Dispatch<React.SetStateAction<string>>;
+  commentInput: string;
+  setCommentInput: React.Dispatch<React.SetStateAction<string>>;
   bodyFatPercentageInput: string;
   setBodyFatPercentageInput: React.Dispatch<React.SetStateAction<string>>;
   isWeightInputValid: boolean;

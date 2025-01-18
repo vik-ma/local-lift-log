@@ -78,13 +78,7 @@ export default function BodyMeasurements() {
   const {
     addUserWeight,
     updateUserWeight,
-    isWeightInputValid,
-    userWeightInput,
-    setUserWeightInput,
-    weightUnit,
-    setWeightUnit,
-    weightCommentInput,
-    setWeightCommentInput,
+    userWeightInputs,
     resetLatestUserWeightInput,
   } = useLatestUserWeightInput(
     latestUserWeight,
@@ -93,6 +87,8 @@ export default function BodyMeasurements() {
     userSettings,
     setOperationType
   );
+
+  const { setWeightUnit} = userWeightInputs;
 
   const measurementList = useMeasurementList();
 
@@ -211,9 +207,10 @@ export default function BodyMeasurements() {
 
   const handleLatestUserWeightOptionSelection = (key: string) => {
     if (key === "edit") {
-      setUserWeightInput(latestUserWeight.weight.toString());
-      setWeightCommentInput(latestUserWeight.comment ?? "");
-      setWeightUnit(latestUserWeight.weight_unit);
+      // TODO: FIX
+      // setUserWeightInput(latestUserWeight.weight.toString());
+      // setWeightCommentInput(latestUserWeight.comment ?? "");
+      // setWeightUnit(latestUserWeight.weight_unit);
       setOperationType("edit-weight");
       userWeightModal.onOpen();
     } else if (key === "delete") {
@@ -439,13 +436,7 @@ export default function BodyMeasurements() {
       />
       <UserWeightModal
         userWeightModal={userWeightModal}
-        userWeightInput={userWeightInput}
-        setUserWeightInput={setUserWeightInput}
-        isWeightInputValid={isWeightInputValid}
-        weightUnit={weightUnit}
-        setWeightUnit={setWeightUnit}
-        commentInput={weightCommentInput}
-        setCommentInput={setWeightCommentInput}
+        userWeightInputs={userWeightInputs}
         buttonAction={
           operationType === "edit-weight" ? updateUserWeight : addUserWeight
         }

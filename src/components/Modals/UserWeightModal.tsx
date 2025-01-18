@@ -8,33 +8,38 @@ import {
   Input,
 } from "@nextui-org/react";
 import { WeightUnitDropdown } from "..";
-import { UseDisclosureReturnType } from "../../typings";
+import {
+  UseDisclosureReturnType,
+  UseUserWeightInputsReturnType,
+} from "../../typings";
 
 type UserWeightModalProps = {
   userWeightModal: UseDisclosureReturnType;
-  userWeightInput: string;
-  setUserWeightInput: React.Dispatch<React.SetStateAction<string>>;
-  isWeightInputValid: boolean;
-  weightUnit: string;
-  setWeightUnit: React.Dispatch<React.SetStateAction<string>>;
-  commentInput: string;
-  setCommentInput: React.Dispatch<React.SetStateAction<string>>;
+  userWeightInputs: UseUserWeightInputsReturnType;
   buttonAction: () => void;
   isEditing: boolean;
 };
 
 export const UserWeightModal = ({
   userWeightModal,
-  userWeightInput,
-  setUserWeightInput,
-  isWeightInputValid,
-  weightUnit,
-  setWeightUnit,
-  commentInput,
-  setCommentInput,
+  userWeightInputs,
   buttonAction,
   isEditing,
 }: UserWeightModalProps) => {
+  const {
+    userWeightInput,
+    setUserWeightInput,
+    weightUnit,
+    setWeightUnit,
+    commentInput,
+    setCommentInput,
+    bodyFatPercentageInput,
+    setBodyFatPercentageInput,
+    isWeightInputValid,
+    isBodyFatPercentageInputValid,
+    isUserWeightValid,
+  } = userWeightInputs;
+
   return (
     <Modal
       isOpen={userWeightModal.isOpen}
@@ -66,6 +71,14 @@ export const UserWeightModal = ({
                   />
                 </div>
                 <Input
+                  value={bodyFatPercentageInput}
+                  label="Body Fat Percentage"
+                  variant="faded"
+                  onValueChange={(value) => setBodyFatPercentageInput(value)}
+                  isInvalid={!isBodyFatPercentageInputValid}
+                  isClearable
+                />
+                <Input
                   value={commentInput}
                   label="Comment"
                   variant="faded"
@@ -81,7 +94,7 @@ export const UserWeightModal = ({
               <Button
                 color="primary"
                 onPress={buttonAction}
-                isDisabled={!isWeightInputValid}
+                isDisabled={!isUserWeightValid}
               >
                 {isEditing ? "Update" : "Add"}
               </Button>

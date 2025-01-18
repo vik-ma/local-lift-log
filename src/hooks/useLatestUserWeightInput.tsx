@@ -30,15 +30,10 @@ export const useLatestUserWeightInput = (
 
   const {
     userWeightInput,
-    setUserWeightInput,
     weightUnit,
     setWeightUnit,
-    weightCommentInput,
-    setWeightCommentInput,
+    commentInput,
     bodyFatPercentageInput,
-    setBodyFatPercentageInput,
-    isWeightInputValid,
-    isBodyFatPercentageInputValid,
     isUserWeightValid,
     resetUserWeightInput,
   } = userWeightInputs;
@@ -48,12 +43,12 @@ export const useLatestUserWeightInput = (
     weight: number;
     weight_unit: string;
   }> => {
-    if (!isWeightInputValid || userSettings === undefined)
+    if (!isUserWeightValid || userSettings === undefined)
       return { success: false, weight: 0, weight_unit: "" };
 
     const newWeight = ConvertNumberToTwoDecimals(Number(userWeightInput));
 
-    const commentToInsert = ConvertEmptyStringToNull(weightCommentInput);
+    const commentToInsert = ConvertEmptyStringToNull(commentInput);
 
     const currentDateString = GetCurrentDateTimeISOString();
 
@@ -99,11 +94,11 @@ export const useLatestUserWeightInput = (
   };
 
   const updateUserWeight = async () => {
-    if (latestUserWeight.id === 0 || !isWeightInputValid) return;
+    if (latestUserWeight.id === 0 || !isUserWeightValid) return;
 
     const newWeight = ConvertNumberToTwoDecimals(Number(userWeightInput));
 
-    const commentToInsert = ConvertEmptyStringToNull(weightCommentInput);
+    const commentToInsert = ConvertEmptyStringToNull(commentInput);
 
     const bodyFatPercentage = ConvertInputStringToNumberWithTwoDecimalsOrNull(
       bodyFatPercentageInput
@@ -145,17 +140,7 @@ export const useLatestUserWeightInput = (
   return {
     addUserWeight,
     updateUserWeight,
-    isWeightInputValid,
-    userWeightInput,
-    setUserWeightInput,
-    weightUnit,
-    setWeightUnit,
-    weightCommentInput,
-    setWeightCommentInput,
     resetLatestUserWeightInput,
-    bodyFatPercentageInput,
-    setBodyFatPercentageInput,
-    isBodyFatPercentageInputValid,
-    isUserWeightValid,
+    userWeightInputs,
   };
 };

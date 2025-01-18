@@ -5,7 +5,7 @@ import { UseUserWeightInputsReturnType } from "../typings";
 export const useUserWeightInputs = (): UseUserWeightInputsReturnType => {
   const [userWeightInput, setUserWeightInput] = useState<string>("");
   const [weightUnit, setWeightUnit] = useState<string>("");
-  const [weightCommentInput, setWeightCommentInput] = useState<string>("");
+  const [commentInput, setCommentInput] = useState<string>("");
   const [bodyFatPercentageInput, setBodyFatPercentageInput] =
     useState<string>("");
 
@@ -22,7 +22,7 @@ export const useUserWeightInputs = (): UseUserWeightInputsReturnType => {
 
   const resetUserWeightInput = () => {
     setUserWeightInput("");
-    setWeightCommentInput("");
+    setCommentInput("");
     setBodyFatPercentageInput("");
   };
 
@@ -31,8 +31,8 @@ export const useUserWeightInputs = (): UseUserWeightInputsReturnType => {
     setUserWeightInput,
     weightUnit,
     setWeightUnit,
-    weightCommentInput,
-    setWeightCommentInput,
+    commentInput,
+    setCommentInput,
     bodyFatPercentageInput,
     setBodyFatPercentageInput,
     isWeightInputValid,
