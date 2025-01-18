@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { useIsStringValidNumber } from ".";
+import { useIsStringValidNumberOrEmpty } from ".";
 import { UserWeight, UseUserWeightInputsReturnType } from "../typings";
 
 export const useUserWeightInputs = (): UseUserWeightInputsReturnType => {
@@ -9,8 +9,8 @@ export const useUserWeightInputs = (): UseUserWeightInputsReturnType => {
   const [bodyFatPercentageInput, setBodyFatPercentageInput] =
     useState<string>("");
 
-  const isWeightInputValid = useIsStringValidNumber(userWeightInput);
-  const isBodyFatPercentageInputValid = useIsStringValidNumber(
+  const isWeightInputValid = useIsStringValidNumberOrEmpty(userWeightInput);
+  const isBodyFatPercentageInputValid = useIsStringValidNumberOrEmpty(
     bodyFatPercentageInput
   );
 

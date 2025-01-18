@@ -38,7 +38,7 @@ import {
 import toast from "react-hot-toast";
 import {
   useDefaultUserWeight,
-  useIsStringValidNumber,
+  useIsStringValidNumberOrEmpty,
   useListFilters,
 } from "../hooks";
 
@@ -257,7 +257,7 @@ export default function UserWeightList() {
     deleteModal.onClose();
   };
 
-  const isWeightInputValid = useIsStringValidNumber(userWeightInput);
+  const isWeightInputValid = useIsStringValidNumberOrEmpty(userWeightInput);
 
   const updateUserWeight = async () => {
     if (

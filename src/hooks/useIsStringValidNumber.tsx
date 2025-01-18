@@ -1,9 +1,8 @@
 import { useMemo } from "react";
-import { IsStringEmpty, IsStringInvalidNumber } from "../helpers";
+import { IsStringInvalidNumber } from "../helpers";
 
-export const useIsStringValidNumber = (str: string): boolean => {
+export const useIsStringValidNumber = (str: string) => {
   const isStringValidNumber = useMemo(() => {
-    if (IsStringEmpty(str)) return false;
     if (IsStringInvalidNumber(str)) return false;
     return true;
   }, [str]);
