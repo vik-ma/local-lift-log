@@ -103,9 +103,19 @@ export const useListFilters = (
   const filterMinAndMaxValueInputs = useFilterMinAndMaxValueInputs(
     useFilterMinAndMaxValueInputsArgs
   );
+  const filterMinAndMaxValueInputsSecondary = useFilterMinAndMaxValueInputs(
+    useFilterMinAndMaxValueInputsArgs
+  );
 
   const [includeNullInMaxValues, setIncludeNullInMaxValues] =
     useState<boolean>(false);
+
+  const [filterMinBodyFatPercentage, setFilterMinBodyFatPercentage] = useState<
+    number | null
+  >(null);
+  const [filterMaxBodyFatPercentage, setFilterMaxBodyFatPercentage] = useState<
+    number | null
+  >(null);
 
   const handleFilterSaveButton = (
     locale: string,
@@ -228,6 +238,18 @@ export const useListFilters = (
         .join(", ");
 
       updatedFilterMap.set("multiset-types", filterMultisetTypesString);
+    }
+
+    if (filterMinBodyFatPercentage !== null) {
+      const filterMinBodyFatPercentageString = `${filterMinBodyFatPercentage}%`;
+
+      updatedFilterMap.set("min-bf", filterMinBodyFatPercentageString);
+    }
+
+    if (filterMaxBodyFatPercentage !== null) {
+      const filterMaxBodyFatPercentageString = `${filterMaxBodyFatPercentage}%`;
+
+      updatedFilterMap.set("max-bf", filterMaxBodyFatPercentageString);
     }
 
     setFilterMap(updatedFilterMap);
@@ -364,6 +386,18 @@ export const useListFilters = (
       setFilterMultisetTypes(new Set());
     }
 
+    if (key === "min-bf" && filterMap.has("min-bf")) {
+      updatedFilterMap.delete("min-bf");
+      setFilterMinBodyFatPercentage(null);
+      filterMinAndMaxValueInputsSecondary.resetMinInput();
+    }
+
+    if (key === "max-bf" && filterMap.has("max-bf")) {
+      updatedFilterMap.delete("max-bf");
+      setFilterMaxBodyFatPercentage(null);
+      filterMinAndMaxValueInputsSecondary.resetMaxInput();
+    }
+
     setFilterMap(updatedFilterMap);
   };
 
@@ -388,7 +422,10 @@ export const useListFilters = (
     setFilterWeightUnits(new Set());
     setFilterDistanceUnits(new Set());
     setFilterMultisetTypes(new Set());
+    setFilterMinBodyFatPercentage(null);
+    setFilterMaxBodyFatPercentage(null);
     filterMinAndMaxValueInputs.resetInputs();
+    filterMinAndMaxValueInputsSecondary.resetInputs();
   };
 
   const showResetFilterButton = useMemo(() => {
@@ -412,6 +449,8 @@ export const useListFilters = (
     if (filterWeightUnits.size > 0) return true;
     if (filterDistanceUnits.size > 0) return true;
     if (filterMultisetTypes.size > 0) return true;
+    if (filterMinBodyFatPercentage !== null) return true;
+    if (filterMaxBodyFatPercentage !== null) return true;
 
     return false;
   }, [
@@ -435,6 +474,8 @@ export const useListFilters = (
     filterWeightUnits,
     filterDistanceUnits,
     filterMultisetTypes,
+    filterMinBodyFatPercentage,
+    filterMaxBodyFatPercentage,
   ]);
 
   const prefixMap = useMemo(() => {
@@ -477,6 +518,8 @@ export const useListFilters = (
       "multiset-types",
       `Multiset Types (${filterMultisetTypes.size}): `
     );
+    prefixMap.set("min-bf", `Min Body Fat %: `);
+    prefixMap.set("max-bf", `Max Body Fat %: `);
 
     return prefixMap;
   }, [
@@ -685,5 +728,10 @@ export const useListFilters = (
     filterMinAndMaxValueInputs,
     includeNullInMaxValues,
     setIncludeNullInMaxValues,
+    filterMinBodyFatPercentage,
+    setFilterMinBodyFatPercentage,
+    filterMaxBodyFatPercentage,
+    setFilterMaxBodyFatPercentage,
+    filterMinAndMaxValueInputsSecondary,
   };
 };

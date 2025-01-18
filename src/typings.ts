@@ -570,6 +570,15 @@ export type UseListFiltersReturnType = {
   filterMinAndMaxValueInputs: UseFilterMinAndMaxValueInputsReturnType;
   includeNullInMaxValues: boolean;
   setIncludeNullInMaxValues: React.Dispatch<React.SetStateAction<boolean>>;
+  filterMinBodyFatPercentage: number | null;
+  setFilterMinBodyFatPercentage: React.Dispatch<
+    React.SetStateAction<number | null>
+  >;
+  filterMaxBodyFatPercentage: number | null;
+  setFilterMaxBodyFatPercentage: React.Dispatch<
+    React.SetStateAction<number | null>
+  >;
+  filterMinAndMaxValueInputsSecondary: UseFilterMinAndMaxValueInputsReturnType;
 };
 
 export type ListFilterMapKey =
@@ -591,7 +600,9 @@ export type ListFilterMapKey =
   | "min-distance"
   | "max-distance"
   | "distance-units"
-  | "multiset-types";
+  | "multiset-types"
+  | "min-bf"
+  | "max-bf";
 
 export type TimePeriodListFilterMapKey =
   | "min-date-start"
