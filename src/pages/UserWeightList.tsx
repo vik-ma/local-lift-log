@@ -49,7 +49,9 @@ type UserWeightSortCategory =
   | "date-asc"
   | "date-desc"
   | "weight-asc"
-  | "weight-desc";
+  | "weight-desc"
+  | "bf-asc"
+  | "bf-desc";
 
 export default function UserWeightList() {
   const [userWeights, setUserWeights] = useState<UserWeight[]>([]);
@@ -374,6 +376,35 @@ export default function UserWeightList() {
     setUserWeights(userWeightList);
   };
 
+  const sortUserWeightsByBodyFatPercentage = (
+    userWeightList: UserWeight[],
+    isAscending: boolean
+  ) => {
+    userWeightList.sort((a, b) => {
+      // Always place null body_fat_percentages last in list
+      if (a.body_fat_percentage === null && b.body_fat_percentage === null) {
+        // Sort by date if both body_fat_percentages are null
+        return b.date.localeCompare(a.date);
+      } else if (a.body_fat_percentage === null) {
+        return 1;
+      } else if (b.body_fat_percentage === null) {
+        return -1;
+      }
+
+      // Sort by body_fat_percentage
+      if (a.body_fat_percentage !== b.body_fat_percentage) {
+        return isAscending
+          ? a.body_fat_percentage - b.body_fat_percentage
+          : b.body_fat_percentage - a.body_fat_percentage;
+      }
+
+      // Sort by latest date if same body_fat_percentage
+      return b.date.localeCompare(a.date);
+    });
+
+    setUserWeights(userWeightList);
+  };
+
   const handleSortOptionSelection = (key: string) => {
     if (key === "date-desc") {
       setSortCategory(key);
@@ -387,6 +418,12 @@ export default function UserWeightList() {
     } else if (key === "weight-asc") {
       setSortCategory(key);
       sortUserWeightsByWeight([...userWeights], true);
+    } else if (key === "bf-desc") {
+      setSortCategory(key);
+      sortUserWeightsByBodyFatPercentage([...userWeights], false);
+    } else if (key === "bf-asc") {
+      setSortCategory(key);
+      sortUserWeightsByBodyFatPercentage([...userWeights], true);
     }
   };
 
@@ -403,6 +440,12 @@ export default function UserWeightList() {
         break;
       case "weight-asc":
         sortUserWeightsByWeight([...userWeightList], true);
+        break;
+      case "bf-desc":
+        sortUserWeightsByBodyFatPercentage([...userWeightList], false);
+        break;
+      case "bf-asc":
+        sortUserWeightsByBodyFatPercentage([...userWeightList], true);
         break;
       default:
         break;
@@ -494,6 +537,12 @@ export default function UserWeightList() {
                       </DropdownItem>
                       <DropdownItem key="weight-asc">
                         Weight (Lowest First)
+                      </DropdownItem>
+                      <DropdownItem key="bf-desc">
+                        Body Fat % (Highest First)
+                      </DropdownItem>
+                      <DropdownItem key="bf-asc">
+                        Body Fat % (Lowest First)
                       </DropdownItem>
                     </DropdownMenu>
                   </Dropdown>
