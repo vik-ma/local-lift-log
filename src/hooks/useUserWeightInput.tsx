@@ -6,6 +6,7 @@ import {
   FormatDateTimeString,
   UpdateUserWeight,
   InsertUserWeightIntoDatabase,
+  ConvertInputStringToNumberWithTwoDecimalsOrNull,
 } from "../helpers";
 import {
   UserSettings,
@@ -13,7 +14,7 @@ import {
   BodyMeasurementsOperationType,
   UseDisclosureReturnType,
 } from "../typings";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
 
 export const useUserWeightInput = (
@@ -28,8 +29,19 @@ export const useUserWeightInput = (
   const [userWeightInput, setUserWeightInput] = useState<string>("");
   const [weightUnit, setWeightUnit] = useState<string>("");
   const [weightCommentInput, setWeightCommentInput] = useState<string>("");
+  const [bodyFatPercentageInput, setBodyFatPercentageInput] =
+    useState<string>("");
 
   const isWeightInputValid = useIsStringValidNumber(userWeightInput);
+  const isBodyFatPercentageInputValid = useIsStringValidNumber(
+    bodyFatPercentageInput
+  );
+
+  const isUserWeightValid = useMemo(() => {
+    if (!isWeightInputValid) return false;
+    if (!isBodyFatPercentageInputValid) return false;
+    return true;
+  }, [isWeightInputValid, isBodyFatPercentageInputValid]);
 
   const addUserWeight = async (): Promise<{
     success: boolean;
@@ -45,11 +57,16 @@ export const useUserWeightInput = (
 
     const currentDateString = GetCurrentDateTimeISOString();
 
+    const bodyFatPercentage = ConvertInputStringToNumberWithTwoDecimalsOrNull(
+      bodyFatPercentageInput
+    );
+
     const userWeightId = await InsertUserWeightIntoDatabase(
       newWeight,
       weightUnit,
       currentDateString,
-      commentToInsert
+      commentToInsert,
+      bodyFatPercentage
     );
 
     if (userWeightId === 0) {
@@ -68,6 +85,7 @@ export const useUserWeightInput = (
       date: currentDateString,
       formattedDate: formattedDate,
       comment: commentToInsert,
+      body_fat_percentage: bodyFatPercentage,
     };
 
     setLatestUserWeight(newUserWeight);
@@ -87,10 +105,15 @@ export const useUserWeightInput = (
 
     const commentToInsert = ConvertEmptyStringToNull(weightCommentInput);
 
+    const bodyFatPercentage = ConvertInputStringToNumberWithTwoDecimalsOrNull(
+      bodyFatPercentageInput
+    );
+
     const updatedUserWeight: UserWeight = {
       ...latestUserWeight,
       weight: newWeight,
       comment: commentToInsert,
+      body_fat_percentage: bodyFatPercentage,
     };
 
     const success = await UpdateUserWeight(updatedUserWeight);
@@ -131,5 +154,9 @@ export const useUserWeightInput = (
     weightCommentInput,
     setWeightCommentInput,
     resetWeightInput,
+    bodyFatPercentageInput,
+    setBodyFatPercentageInput,
+    isBodyFatPercentageInputValid,
+    isUserWeightValid,
   };
 };
