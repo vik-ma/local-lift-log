@@ -24,6 +24,7 @@ import {
   InsertUserWeightIntoDatabase,
   IsDateInWeekdaySet,
   IsDateWithinLimit,
+  IsNumberWithinLimit,
   IsWeightWithinLimit,
   UpdateItemInList,
   UpdateUserWeight,
@@ -95,6 +96,8 @@ export default function UserWeightList() {
     setFilterWeightRangeUnit,
     filterMinWeight,
     filterMaxWeight,
+    filterMinBodyFatPercentage,
+    filterMaxBodyFatPercentage,
   } = listFilters;
 
   const filterUserWeightListModal = useDisclosure();
@@ -134,6 +137,19 @@ export default function UserWeightList() {
               item.weight_unit,
               filterWeightRangeUnit,
               true
+            )) &&
+          (!filterMap.has("min-bf") ||
+            IsNumberWithinLimit(
+              item.body_fat_percentage,
+              filterMinBodyFatPercentage,
+              false
+            )) &&
+          (!filterMap.has("max-bf") ||
+            IsNumberWithinLimit(
+              item.body_fat_percentage,
+              filterMaxBodyFatPercentage,
+              true,
+              includeNullInMaxValuesSecondary
             ))
       );
     }
@@ -148,6 +164,9 @@ export default function UserWeightList() {
     filterWeightRangeUnit,
     filterMinWeight,
     filterMaxWeight,
+    filterMinBodyFatPercentage,
+    filterMaxBodyFatPercentage,
+    includeNullInMaxValuesSecondary,
   ]);
 
   const defaultUserWeight = useDefaultUserWeight();
