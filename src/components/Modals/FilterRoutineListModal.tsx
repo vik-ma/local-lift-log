@@ -51,6 +51,8 @@ export const FilterRoutineListModal = ({
     setFilterMinNumScheduleDays,
     setFilterMaxNumScheduleDays,
     filterMinAndMaxValueInputs,
+    includeNullInMaxValues,
+    setIncludeNullInMaxValues,
   } = listFilters;
 
   const showClearAllButton = useMemo(() => {
@@ -146,6 +148,11 @@ export const FilterRoutineListModal = ({
                           filterMinAndMaxValueInputs
                         }
                         isSmall
+                        includeNullInMaxValues={includeNullInMaxValues}
+                        setIncludeNullInMaxValues={setIncludeNullInMaxValues}
+                        customIncludeNullCheckboxLabel={
+                          "Include entries with no days"
+                        }
                       />
                     </div>
                     <div className="flex flex-col gap-2">
