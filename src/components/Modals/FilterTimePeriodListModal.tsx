@@ -81,7 +81,7 @@ export const FilterTimePeriodListModal = ({
             <ModalHeader>Filter Time Periods</ModalHeader>
             <ModalBody>
               <ScrollShadow className="h-[400px]">
-                <div className="flex flex-col gap-1 w-[24rem]">
+                <div className="flex flex-col gap-0.5 w-[24rem]">
                   <div className="flex flex-col gap-2">
                     <FilterMinAndMaxDates
                       filterMinDate={filterMinStartDate}
@@ -114,7 +114,7 @@ export const FilterTimePeriodListModal = ({
                       isSmall
                     />
                   </div>
-                  <div className="flex flex-col gap-0.5 py-0.5">
+                  <div className="flex flex-col gap-0.5">
                     <h3 className="font-semibold text-lg px-0.5">
                       Caloric Intake Types
                     </h3>
@@ -123,7 +123,7 @@ export const FilterTimePeriodListModal = ({
                       setValues={setFilterCaloricIntakeTypes}
                     />
                   </div>
-                  <div className="flex flex-col gap-0.5 pt-2.5">
+                  <div className="flex flex-col gap-0.5 pt-3.5">
                     <h3 className="font-semibold text-lg px-0.5">Injury</h3>
                     <div className="relative w-full">
                       <Select
@@ -156,7 +156,7 @@ export const FilterTimePeriodListModal = ({
                       )}
                     </div>
                   </div>
-                  <div className="flex flex-col gap-0.5 pt-3">
+                  <div className="flex flex-col gap-0.5 pt-3.5">
                     <h3 className="font-semibold text-lg px-0.5">Status</h3>
                     <div className="relative w-full">
                       <Select

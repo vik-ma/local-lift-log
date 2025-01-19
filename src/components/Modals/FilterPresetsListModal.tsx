@@ -60,7 +60,7 @@ export const FilterPresetsListModal = ({
             <ModalHeader>Filter {presetsTypeString}</ModalHeader>
             <ModalBody>
               {presetsType === "equipment" ? (
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-2">
                   <div className="flex flex-col gap-px">
                     <h3 className="text-lg font-semibold px-0.5">Weight</h3>
                     <div className="flex gap-5">
@@ -92,7 +92,7 @@ export const FilterPresetsListModal = ({
                   </div>
                 </div>
               ) : (
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-2">
                   <div className="flex flex-col gap-px">
                     <h3 className="text-lg font-semibold px-0.5">Distance</h3>
                     <div className="flex gap-5">

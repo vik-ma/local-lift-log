@@ -79,7 +79,7 @@ export const FilterDietLogListModal = ({
                     useListFilters={dietLogListFilters}
                     locale={userSettings.locale}
                   />
-                  <div className="flex flex-col">
+                  <div className="flex flex-col gap-0.5">
                     <div className="flex flex-col gap-px">
                       <h3 className="text-lg font-semibold px-0.5">Calories</h3>
                       <FilterMinAndMaxValues
