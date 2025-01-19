@@ -55,6 +55,7 @@ export const useRoutineList = (
     filterScheduleTypes,
     filterMinNumScheduleDays,
     filterMaxNumScheduleDays,
+    includeNullInMaxValues,
   } = listFilters;
 
   const filteredRoutines = useMemo(() => {
@@ -81,17 +82,19 @@ export const useRoutineList = (
               filterScheduleTypes
             )) &&
           (!filterMap.has("min-num-schedule-days") ||
-            IsNumberWithinLimit(
-              item.num_days_in_schedule,
-              filterMinNumScheduleDays,
-              false
-            )) &&
+            (item.schedule_type !== 2 &&
+              IsNumberWithinLimit(
+                item.num_days_in_schedule,
+                filterMinNumScheduleDays,
+                false
+              ))) &&
           (!filterMap.has("max-num-schedule-days") ||
-            IsNumberWithinLimit(
-              item.num_days_in_schedule,
-              filterMaxNumScheduleDays,
-              true
-            ))
+            ((item.schedule_type !== 2 || includeNullInMaxValues) &&
+              IsNumberWithinLimit(
+                item.num_days_in_schedule,
+                filterMaxNumScheduleDays,
+                true
+              )))
       );
     }
     return routines;
@@ -103,6 +106,7 @@ export const useRoutineList = (
     filterScheduleTypes,
     filterMinNumScheduleDays,
     filterMaxNumScheduleDays,
+    includeNullInMaxValues,
   ]);
 
   const getRoutines = useCallback(async () => {
