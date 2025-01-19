@@ -39,6 +39,7 @@ import {
 import toast from "react-hot-toast";
 import {
   useDefaultUserWeight,
+  useFilterMinAndMaxValueInputs,
   useListFilters,
   useUserWeightInputs,
 } from "../hooks";
@@ -75,7 +76,16 @@ export default function UserWeightList() {
     loadUserWeightInputs,
   } = userWeightInputs;
 
-  const listFilters = useListFilters();
+  const filterMinAndMaxValueInputs = useFilterMinAndMaxValueInputs();
+
+  const listFilters = useListFilters(
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    filterMinAndMaxValueInputs
+  );
 
   const {
     filterMap,

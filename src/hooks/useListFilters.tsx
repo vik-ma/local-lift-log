@@ -9,6 +9,7 @@ import {
   UseDisclosureReturnType,
   UseExerciseListReturnType,
   UseFilterMinAndMaxValueInputsArgs,
+  UseFilterMinAndMaxValueInputsReturnType,
   UseListFiltersReturnType,
   WorkoutTemplate,
   WorkoutTemplateMap,
@@ -27,7 +28,8 @@ export const useListFilters = (
   routineMap?: RoutineMap,
   measurementMap?: MeasurementMap,
   workoutTemplateMap?: WorkoutTemplateMap,
-  useFilterMinAndMaxValueInputsArgs?: UseFilterMinAndMaxValueInputsArgs
+  useFilterMinAndMaxValueInputsArgs?: UseFilterMinAndMaxValueInputsArgs,
+  filterMinAndMaxValueInputsSecondary?: UseFilterMinAndMaxValueInputsReturnType
 ): UseListFiltersReturnType => {
   const [filterMap, setFilterMap] = useState<Map<ListFilterMapKey, string>>(
     new Map()
@@ -101,9 +103,6 @@ export const useListFilters = (
   >(null);
 
   const filterMinAndMaxValueInputs = useFilterMinAndMaxValueInputs(
-    useFilterMinAndMaxValueInputsArgs
-  );
-  const filterMinAndMaxValueInputsSecondary = useFilterMinAndMaxValueInputs(
     useFilterMinAndMaxValueInputsArgs
   );
 
@@ -386,13 +385,21 @@ export const useListFilters = (
       setFilterMultisetTypes(new Set());
     }
 
-    if (key === "min-bf" && filterMap.has("min-bf")) {
+    if (
+      key === "min-bf" &&
+      filterMap.has("min-bf") &&
+      filterMinAndMaxValueInputsSecondary !== undefined
+    ) {
       updatedFilterMap.delete("min-bf");
       setFilterMinBodyFatPercentage(null);
       filterMinAndMaxValueInputsSecondary.resetMinInput();
     }
 
-    if (key === "max-bf" && filterMap.has("max-bf")) {
+    if (
+      key === "max-bf" &&
+      filterMap.has("max-bf") &&
+      filterMinAndMaxValueInputsSecondary !== undefined
+    ) {
       updatedFilterMap.delete("max-bf");
       setFilterMaxBodyFatPercentage(null);
       filterMinAndMaxValueInputsSecondary.resetMaxInput();
@@ -425,7 +432,9 @@ export const useListFilters = (
     setFilterMinBodyFatPercentage(null);
     setFilterMaxBodyFatPercentage(null);
     filterMinAndMaxValueInputs.resetInputs();
-    filterMinAndMaxValueInputsSecondary.resetInputs();
+    if (filterMinAndMaxValueInputsSecondary !== undefined) {
+      filterMinAndMaxValueInputsSecondary.resetInputs();
+    }
   };
 
   const showResetFilterButton = useMemo(() => {
@@ -732,6 +741,5 @@ export const useListFilters = (
     setFilterMinBodyFatPercentage,
     filterMaxBodyFatPercentage,
     setFilterMaxBodyFatPercentage,
-    filterMinAndMaxValueInputsSecondary,
   };
 };

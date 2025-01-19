@@ -578,7 +578,6 @@ export type UseListFiltersReturnType = {
   setFilterMaxBodyFatPercentage: React.Dispatch<
     React.SetStateAction<number | null>
   >;
-  filterMinAndMaxValueInputsSecondary: UseFilterMinAndMaxValueInputsReturnType;
 };
 
 export type ListFilterMapKey =
