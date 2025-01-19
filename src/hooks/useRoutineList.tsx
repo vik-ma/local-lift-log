@@ -89,7 +89,8 @@ export const useRoutineList = (
                 false
               ))) &&
           (!filterMap.has("max-num-schedule-days") ||
-            ((item.schedule_type !== 2 || includeNullInMaxValues) &&
+            (item.schedule_type === 2 && includeNullInMaxValues) ||
+            (item.schedule_type !== 2 &&
               IsNumberWithinLimit(
                 item.num_days_in_schedule,
                 filterMaxNumScheduleDays,
