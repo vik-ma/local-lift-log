@@ -536,8 +536,8 @@ export const useListFilters = ({
       "multiset-types",
       `Multiset Types (${filterMultisetTypes.size}): `
     );
-    prefixMap.set("min-bf", `Min Body Fat %: `);
-    prefixMap.set("max-bf", `Max Body Fat %: `);
+    prefixMap.set("min-bf", `Min Body Fat Percentage: `);
+    prefixMap.set("max-bf", `Max Body Fat Percentage: `);
 
     return prefixMap;
   }, [
