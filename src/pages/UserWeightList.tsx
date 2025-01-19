@@ -77,7 +77,10 @@ export default function UserWeightList() {
     loadUserWeightInputs,
   } = userWeightInputs;
 
-  const filterMinAndMaxValueInputsSecondary = useFilterMinAndMaxValueInputs();
+  const filterMinAndMaxValueInputsSecondary = useFilterMinAndMaxValueInputs({
+    maxValue: 100,
+  });
+  
   const [includeNullInMaxValuesSecondary, setIncludeNullInMaxValuesSecondary] =
     useState<boolean>(false);
 
