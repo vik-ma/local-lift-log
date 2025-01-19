@@ -40,7 +40,7 @@ export const useWorkoutTemplateList = (
     exerciseMap,
   } = useExerciseList;
 
-  const listFilters = useListFilters(useExerciseList);
+  const listFilters = useListFilters({useExerciseList});
 
   const { filterMap, filterExercises, filterExerciseGroups } = listFilters;
 

@@ -23,14 +23,23 @@ import {
 } from ".";
 import { ConvertCalendarDateToLocalizedString } from "../helpers";
 
-export const useListFilters = (
-  useExerciseList?: UseExerciseListReturnType,
-  routineMap?: RoutineMap,
-  measurementMap?: MeasurementMap,
-  workoutTemplateMap?: WorkoutTemplateMap,
-  useFilterMinAndMaxValueInputsArgs?: UseFilterMinAndMaxValueInputsArgs,
-  filterMinAndMaxValueInputsSecondary?: UseFilterMinAndMaxValueInputsReturnType
-): UseListFiltersReturnType => {
+type UseListFiltersProps = {
+  useExerciseList?: UseExerciseListReturnType;
+  routineMap?: RoutineMap;
+  measurementMap?: MeasurementMap;
+  workoutTemplateMap?: WorkoutTemplateMap;
+  useFilterMinAndMaxValueInputsArgs?: UseFilterMinAndMaxValueInputsArgs;
+  filterMinAndMaxValueInputsSecondary?: UseFilterMinAndMaxValueInputsReturnType;
+};
+
+export const useListFilters = ({
+  useExerciseList,
+  routineMap,
+  measurementMap,
+  workoutTemplateMap,
+  useFilterMinAndMaxValueInputsArgs,
+  filterMinAndMaxValueInputsSecondary,
+}: UseListFiltersProps = {}): UseListFiltersReturnType => {
   const [filterMap, setFilterMap] = useState<Map<ListFilterMapKey, string>>(
     new Map()
   );

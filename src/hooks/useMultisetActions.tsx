@@ -71,7 +71,7 @@ export const useMultisetActions = ({
   const multisetModal = useDisclosure();
   const filterMultisetsModal = useDisclosure();
 
-  const listFilters = useListFilters(exerciseList);
+  const listFilters = useListFilters({ useExerciseList: exerciseList });
 
   const {
     filterMap,

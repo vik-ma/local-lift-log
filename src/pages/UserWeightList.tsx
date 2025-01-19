@@ -78,14 +78,9 @@ export default function UserWeightList() {
 
   const filterMinAndMaxValueInputs = useFilterMinAndMaxValueInputs();
 
-  const listFilters = useListFilters(
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    filterMinAndMaxValueInputs
-  );
+  const listFilters = useListFilters({
+    filterMinAndMaxValueInputsSecondary: filterMinAndMaxValueInputs,
+  });
 
   const {
     filterMap,

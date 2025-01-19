@@ -51,12 +51,11 @@ export const useWorkoutList = (
 
   const { routineMap, isRoutineListLoaded, getRoutines } = routineList;
 
-  const listFilters = useListFilters(
+  const listFilters = useListFilters({
     useExerciseList,
-    routineMap.current,
-    undefined,
-    workoutTemplateMap.current
-  );
+    routineMap: routineMap.current,
+    workoutTemplateMap: workoutTemplateMap.current,
+  });
 
   const {
     filterMinDate,

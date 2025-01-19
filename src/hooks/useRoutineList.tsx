@@ -44,13 +44,10 @@ export const useRoutineList = (
     isIntegerOnly: true,
   };
 
-  const listFilters = useListFilters(
-    undefined,
-    undefined,
-    undefined,
-    workoutTemplateMap.current,
-    filterMinAndMaxValueInputsArgs
-  );
+  const listFilters = useListFilters({
+    workoutTemplateMap: workoutTemplateMap.current,
+    useFilterMinAndMaxValueInputsArgs: filterMinAndMaxValueInputsArgs,
+  });
 
   const {
     filterMap,

@@ -22,11 +22,9 @@ export const useUserMeasurementList = (
 
   const { measurementMap, isMeasurementListLoaded } = useMeasurementList;
 
-  const listFilters = useListFilters(
-    undefined,
-    undefined,
-    measurementMap.current
-  );
+  const listFilters = useListFilters({
+    measurementMap: measurementMap.current,
+  });
 
   const {
     filterMap,
