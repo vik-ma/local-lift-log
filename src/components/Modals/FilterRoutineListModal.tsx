@@ -92,7 +92,7 @@ export const FilterRoutineListModal = ({
                 />
               ) : (
                 <ScrollShadow className="h-[400px]">
-                  <div className="flex flex-col gap-3 w-[24rem]">
+                  <div className="flex flex-col gap-2 w-[24rem]">
                     <div className="flex flex-col gap-1">
                       <h3 className="font-semibold text-lg px-0.5">
                         Schedule Types
@@ -131,7 +131,7 @@ export const FilterRoutineListModal = ({
                         )}
                       </Select>
                     </div>
-                    <div className="flex flex-col gap-px pt-3">
+                    <div className="flex flex-col gap-px pt-4">
                       <h3 className="text-lg font-semibold px-0.5">
                         Number Of Days In Schedule{" "}
                         <span className="text-default-500 text-base">
