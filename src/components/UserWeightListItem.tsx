@@ -26,17 +26,18 @@ export const UserWeightListItem = ({
       onClick={() => handleUserWeightOptionSelection("edit", userWeight)}
     >
       <div className="flex flex-col justify-start items-start">
-        <span className="w-[20.75rem] truncate text-left">
+        <span className="w-[20.75rem] text-stone-600 font-medium truncate text-left">
           {userWeight.weight} {userWeight.weight_unit}
+          {userWeight.body_fat_percentage !== null && (
+            <span className="text-xs text-slate-500">
+              {" "}
+              ({userWeight.body_fat_percentage}% Body Fat)
+            </span>
+          )}
         </span>
         <span className="text-xs text-secondary text-left">
           {userWeight.formattedDate}
         </span>
-        {userWeight.body_fat_percentage !== null && (
-          <span className="w-[20.75rem] break-all text-xs text-slate-500 text-left">
-            {userWeight.body_fat_percentage}% Body Fat
-          </span>
-        )}
         <span className="w-[20.75rem] break-all text-xs text-stone-400 text-left">
           {userWeight.comment}
         </span>
