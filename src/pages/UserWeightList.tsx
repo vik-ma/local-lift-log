@@ -76,10 +76,12 @@ export default function UserWeightList() {
     loadUserWeightInputs,
   } = userWeightInputs;
 
-  const filterMinAndMaxValueInputs = useFilterMinAndMaxValueInputs();
+  const filterMinAndMaxValueInputsSecondary = useFilterMinAndMaxValueInputs();
+  const [includeNullInMaxValuesSecondary, setIncludeNullInMaxValuesSecondary] =
+    useState<boolean>(false);
 
   const listFilters = useListFilters({
-    filterMinAndMaxValueInputsSecondary: filterMinAndMaxValueInputs,
+    filterMinAndMaxValueInputsSecondary: filterMinAndMaxValueInputsSecondary,
   });
 
   const {
@@ -486,6 +488,11 @@ export default function UserWeightList() {
       <FilterUserWeightListModal
         filterUserWeightListModal={filterUserWeightListModal}
         useListFilters={listFilters}
+        filterMinAndMaxValueInputsSecondary={
+          filterMinAndMaxValueInputsSecondary
+        }
+        includeNullInMaxValuesSecondary={includeNullInMaxValuesSecondary}
+        setIncludeNullInMaxValuesSecondary={setIncludeNullInMaxValuesSecondary}
         locale={userSettings.locale}
       />
       <div className="flex flex-col items-center gap-1">

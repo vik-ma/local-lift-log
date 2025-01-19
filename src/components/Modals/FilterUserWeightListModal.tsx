@@ -5,9 +5,11 @@ import {
   ModalBody,
   ModalHeader,
   ModalFooter,
+  ScrollShadow,
 } from "@nextui-org/react";
 import {
   UseDisclosureReturnType,
+  UseFilterMinAndMaxValueInputsReturnType,
   UseListFiltersReturnType,
 } from "../../typings";
 import {
@@ -19,12 +21,20 @@ import {
 type FilterUserWeightListModalProps = {
   filterUserWeightListModal: UseDisclosureReturnType;
   useListFilters: UseListFiltersReturnType;
+  filterMinAndMaxValueInputsSecondary: UseFilterMinAndMaxValueInputsReturnType;
+  includeNullInMaxValuesSecondary: boolean;
+  setIncludeNullInMaxValuesSecondary: React.Dispatch<
+    React.SetStateAction<boolean>
+  >;
   locale: string;
 };
 
 export const FilterUserWeightListModal = ({
   filterUserWeightListModal,
   useListFilters,
+  filterMinAndMaxValueInputsSecondary,
+  includeNullInMaxValuesSecondary,
+  setIncludeNullInMaxValuesSecondary,
   locale,
 }: FilterUserWeightListModalProps) => {
   const {
@@ -37,6 +47,8 @@ export const FilterUserWeightListModal = ({
     handleFilterSaveButton,
     isMaxDateBeforeMinDate,
     filterMinAndMaxValueInputs,
+    setFilterMinBodyFatPercentage,
+    setFilterMaxBodyFatPercentage,
   } = useListFilters;
 
   return (
@@ -49,29 +61,56 @@ export const FilterUserWeightListModal = ({
           <>
             <ModalHeader>Filter User Weights</ModalHeader>
             <ModalBody>
-              <div className="flex flex-col gap-4">
-                <FilterDateRangeAndWeekdays
-                  useListFilters={useListFilters}
-                  locale={locale}
-                />
-                <div className="flex flex-col gap-px">
-                  <h3 className="text-lg font-semibold px-0.5">Weight</h3>
-                  <div className="flex gap-5">
-                    <FilterMinAndMaxValues
-                      setFilterMinValue={setFilterMinWeight}
-                      setFilterMaxValue={setFilterMaxWeight}
-                      label="Weight"
-                      useFilterMinAndMaxValueInputs={filterMinAndMaxValueInputs}
+              <ScrollShadow className="h-[400px]">
+                <div className="flex flex-col gap-4 w-[24rem]">
+                  <div className="flex flex-col gap-4">
+                    <FilterDateRangeAndWeekdays
+                      useListFilters={useListFilters}
+                      locale={locale}
                     />
-                    <WeightUnitDropdown
-                      value={filterWeightRangeUnit}
-                      setState={setFilterWeightRangeUnit}
-                      targetType="state"
-                      showBigLabel
-                    />
+                    <div className="flex flex-col gap-1">
+                      <div className="flex flex-col gap-px">
+                        <h3 className="text-lg font-semibold px-0.5">Weight</h3>
+                        <div className="flex gap-5">
+                          <FilterMinAndMaxValues
+                            setFilterMinValue={setFilterMinWeight}
+                            setFilterMaxValue={setFilterMaxWeight}
+                            label="Weight"
+                            useFilterMinAndMaxValueInputs={
+                              filterMinAndMaxValueInputs
+                            }
+                          />
+                          <WeightUnitDropdown
+                            value={filterWeightRangeUnit}
+                            setState={setFilterWeightRangeUnit}
+                            targetType="state"
+                            showBigLabel
+                          />
+                        </div>
+                      </div>
+                      <div className="flex flex-col gap-px">
+                        <h3 className="text-lg font-semibold px-0.5">
+                          Body Fat Percentage
+                        </h3>
+                        <FilterMinAndMaxValues
+                          setFilterMinValue={setFilterMinBodyFatPercentage}
+                          setFilterMaxValue={setFilterMaxBodyFatPercentage}
+                          label="%"
+                          useFilterMinAndMaxValueInputs={
+                            filterMinAndMaxValueInputsSecondary
+                          }
+                          includeNullInMaxValues={
+                            includeNullInMaxValuesSecondary
+                          }
+                          setIncludeNullInMaxValues={
+                            setIncludeNullInMaxValuesSecondary
+                          }
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </ScrollShadow>
             </ModalBody>
             <ModalFooter className="flex justify-between">
               <div>
