@@ -46,7 +46,7 @@ import {
   useUserWeightInputs,
 } from "../hooks";
 
-type OperationType = "add" | "edit" | "delete";
+type OperationType = "add" | "edit" | "delete" | "edit-timestamp";
 
 type UserWeightSortCategory =
   | "date-asc"
@@ -359,6 +359,10 @@ export default function UserWeightList() {
       setOperatingUserWeight(userWeight);
       setOperationType("delete");
       deleteModal.onOpen();
+    } else if (key === "edit-timestamp") {
+      setOperatingUserWeight(userWeight);
+      setOperationType("edit-timestamp");
+      timeInputModal.onOpen();
     }
   };
 
@@ -508,7 +512,6 @@ export default function UserWeightList() {
           operationType === "edit" ? updateUserWeight : addUserWeight
         }
         isEditing={operationType === "edit"}
-        timeInputModal={timeInputModal}
       />
       <FilterUserWeightListModal
         filterUserWeightListModal={filterUserWeightListModal}

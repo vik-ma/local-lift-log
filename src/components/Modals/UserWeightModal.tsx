@@ -18,7 +18,6 @@ type UserWeightModalProps = {
   userWeightInputs: UseUserWeightInputsReturnType;
   buttonAction: () => void;
   isEditing: boolean;
-  timeInputModal?: UseDisclosureReturnType;
 };
 
 export const UserWeightModal = ({
@@ -26,7 +25,6 @@ export const UserWeightModal = ({
   userWeightInputs,
   buttonAction,
   isEditing,
-  timeInputModal,
 }: UserWeightModalProps) => {
   const {
     userWeightInput,
@@ -90,28 +88,16 @@ export const UserWeightModal = ({
               </div>
             </ModalBody>
             <ModalFooter className="flex justify-between">
-              <div>
-                {isEditing && timeInputModal !== undefined && (
-                  <Button
-                    variant="flat"
-                    onPress={() => timeInputModal.onOpen()}
-                  >
-                    Edit Timestamp
-                  </Button>
-                )}
-              </div>
-              <div className="flex gap-2">
-                <Button color="primary" variant="light" onPress={onClose}>
-                  Close
-                </Button>
-                <Button
-                  color="primary"
-                  onPress={buttonAction}
-                  isDisabled={!isUserWeightValid}
-                >
-                  {isEditing ? "Update" : "Add"}
-                </Button>
-              </div>
+              <Button color="primary" variant="light" onPress={onClose}>
+                Close
+              </Button>
+              <Button
+                color="primary"
+                onPress={buttonAction}
+                isDisabled={!isUserWeightValid}
+              >
+                {isEditing ? "Update" : "Add"}
+              </Button>
             </ModalFooter>
           </>
         )}

@@ -61,6 +61,7 @@ export const UserWeightListItem = ({
           }
         >
           <DropdownItem key="edit">Edit</DropdownItem>
+          <DropdownItem key="edit-timestamp">Change Timestamp</DropdownItem>
           <DropdownItem key="delete" className="text-danger">
             Delete
           </DropdownItem>
