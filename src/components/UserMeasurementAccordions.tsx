@@ -40,7 +40,7 @@ export const UserMeasurementAccordions = ({
       {userMeasurementEntries.map((measurement, index) => (
         <div
           key={measurement.id}
-          className="flex flex-col select-none cursor-pointer gap-1 bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+          className="flex flex-col select-none cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
           onClick={() => handleMeasurementAccordionClick(measurement, index)}
         >
           <div className="flex justify-between items-center pl-2 py-1">
@@ -103,7 +103,7 @@ export const UserMeasurementAccordions = ({
                   height: { duration: 0.07 },
                 }}
               >
-                <div className="flex flex-col divide-y divide-stone-200 text-sm">
+                <div className="flex flex-col divide-y divide-stone-200 text-sm pb-px">
                   {Object.entries(measurement.userMeasurementValues!).map(
                     ([key, values]) => {
                       const item = measurementMap.get(key);
