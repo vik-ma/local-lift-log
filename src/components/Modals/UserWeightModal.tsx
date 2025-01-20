@@ -87,7 +87,7 @@ export const UserWeightModal = ({
                 />
               </div>
             </ModalBody>
-            <ModalFooter className="flex justify-between">
+            <ModalFooter>
               <Button color="primary" variant="light" onPress={onClose}>
                 Close
               </Button>
