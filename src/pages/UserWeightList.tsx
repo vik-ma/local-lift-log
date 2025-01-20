@@ -10,6 +10,7 @@ import {
   ListPageSearchInput,
   FilterUserWeightListModal,
   ListFilters,
+  TimeInputModal,
 } from "../components";
 import {
   ConvertEmptyStringToNull,
@@ -80,7 +81,7 @@ export default function UserWeightList() {
   const filterMinAndMaxValueInputsSecondary = useFilterMinAndMaxValueInputs({
     maxValue: 100,
   });
-  
+
   const [includeNullInMaxValuesSecondary, setIncludeNullInMaxValuesSecondary] =
     useState<boolean>(false);
 
@@ -104,6 +105,7 @@ export default function UserWeightList() {
   } = listFilters;
 
   const filterUserWeightListModal = useDisclosure();
+  const timeInputModal = useDisclosure();
 
   const filteredWeights = useMemo(() => {
     if (filterQuery !== "" || filterMap.size > 0) {
@@ -506,6 +508,7 @@ export default function UserWeightList() {
           operationType === "edit" ? updateUserWeight : addUserWeight
         }
         isEditing={operationType === "edit"}
+        timeInputModal={timeInputModal}
       />
       <FilterUserWeightListModal
         filterUserWeightListModal={filterUserWeightListModal}
@@ -516,6 +519,14 @@ export default function UserWeightList() {
         includeNullInMaxValuesSecondary={includeNullInMaxValuesSecondary}
         setIncludeNullInMaxValuesSecondary={setIncludeNullInMaxValuesSecondary}
         locale={userSettings.locale}
+      />
+      <TimeInputModal
+        timeInputModal={timeInputModal}
+        header="Edit Timestamp"
+        clockStyle={userSettings.clock_style}
+        locale={userSettings.locale}
+        value={operatingUserWeight.date}
+        saveButtonAction={() => {}}
       />
       <div className="flex flex-col items-center gap-1">
         <ListPageSearchInput
