@@ -477,28 +477,25 @@ export default function BodyMeasurements() {
           <>
             <div className="flex flex-col gap-2.5 items-center">
               <h2 className="flex text-3xl font-semibold">Body Weight</h2>
-              <div className="flex flex-col items-center gap-2">
+              <div className="flex flex-col items-center gap-2 relative">
                 <h3 className="flex items-center gap-2">
                   {latestUserWeight.id === 0 ? (
                     <span className="text-stone-400">
                       No Body Weight Entries Added
                     </span>
                   ) : (
-                    <>
-                      <span className="font-semibold text-lg">
-                        Latest Weight
-                      </span>
-                      <Button
-                        color="secondary"
-                        variant="flat"
-                        size="sm"
-                        onPress={() =>
-                          navigate("/measurements/body-weight-list")
-                        }
-                      >
-                        View History
-                      </Button>
-                    </>
+                    <span className="font-semibold text-lg">Latest Weight</span>
+                  )}
+                  {latestUserWeight.id !== 0 && (
+                    <Button
+                      className="absolute right-0"
+                      color="secondary"
+                      variant="flat"
+                      size="sm"
+                      onPress={() => navigate("/measurements/body-weight-list")}
+                    >
+                      View History
+                    </Button>
                   )}
                 </h3>
                 {latestUserWeight.id !== 0 && (
@@ -530,17 +527,20 @@ export default function BodyMeasurements() {
                   List of Measurements
                 </Button>
               </div>
-              <h3 className="flex items-center gap-2">
-                {latestUserMeasurements.id === 0 ? (
-                  <span className="flex justify-center text-stone-400">
-                    No Body Measurement Entries Added
-                  </span>
-                ) : (
-                  <>
+              <div className="flex flex-col items-center gap-2 relative">
+                <h3 className="flex items-center gap-2">
+                  {latestUserMeasurements.id === 0 ? (
+                    <span className="flex justify-center text-stone-400">
+                      No Body Measurement Entries Added
+                    </span>
+                  ) : (
                     <span className="font-semibold text-lg">
                       Latest Measurements
                     </span>
+                  )}
+                  {latestUserMeasurements.id !== 0 && (
                     <Button
+                      className="absolute right-0"
                       color="secondary"
                       variant="flat"
                       size="sm"
@@ -550,22 +550,22 @@ export default function BodyMeasurements() {
                     >
                       View History
                     </Button>
-                  </>
+                  )}
+                </h3>
+                {latestUserMeasurements.id !== 0 && (
+                  <UserMeasurementAccordions
+                    userMeasurementEntries={[latestUserMeasurements]}
+                    handleMeasurementAccordionClick={
+                      handleMeasurementAccordionClick
+                    }
+                    measurementMap={measurementMap.current}
+                    handleUserMeasurementsOptionSelection={
+                      handleUserMeasurementsOptionSelection
+                    }
+                    handleReassignMeasurement={handleReassignMeasurement}
+                  />
                 )}
-              </h3>
-              {latestUserMeasurements.id !== 0 && (
-                <UserMeasurementAccordions
-                  userMeasurementEntries={[latestUserMeasurements]}
-                  handleMeasurementAccordionClick={
-                    handleMeasurementAccordionClick
-                  }
-                  measurementMap={measurementMap.current}
-                  handleUserMeasurementsOptionSelection={
-                    handleUserMeasurementsOptionSelection
-                  }
-                  handleReassignMeasurement={handleReassignMeasurement}
-                />
-              )}
+              </div>
               <Button
                 className="font-medium"
                 variant="flat"
