@@ -105,9 +105,6 @@ export default function UserWeightList() {
     filterMaxBodyFatPercentage,
   } = listFilters;
 
-  const filterUserWeightListModal = useDisclosure();
-  const timeInputModal = useDisclosure();
-
   const filteredWeights = useMemo(() => {
     if (filterQuery !== "" || filterMap.size > 0) {
       return userWeights.filter(
@@ -182,6 +179,8 @@ export default function UserWeightList() {
 
   const deleteModal = useDisclosure();
   const userWeightModal = useDisclosure();
+  const timeInputModal = useDisclosure();
+  const filterUserWeightListModal = useDisclosure();
 
   const getUserWeights = useCallback(async (clockStyle: string) => {
     try {

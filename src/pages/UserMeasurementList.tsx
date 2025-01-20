@@ -8,6 +8,7 @@ import {
   ListPageSearchInput,
   FilterUserMeasurementListModal,
   ListFilters,
+  TimeInputModal,
 } from "../components";
 import { Measurement, UserMeasurement, UserSettings } from "../typings";
 import {
@@ -24,6 +25,8 @@ import {
   InsertUserMeasurementIntoDatabase,
   GenerateActiveMeasurementString,
   UpdateActiveTrackingMeasurements,
+  ValidateISODateString,
+  FormatDateTimeString,
 } from "../helpers";
 import {
   useDefaultUserMeasurements,
@@ -42,7 +45,7 @@ import {
 } from "@nextui-org/react";
 import toast from "react-hot-toast";
 
-type OperationType = "add" | "edit" | "delete";
+type OperationType = "add" | "edit" | "delete" | "edit-timestamp";
 
 export default function UserMeasurementList() {
   const [operationType, setOperationType] = useState<OperationType>("add");
@@ -88,7 +91,7 @@ export default function UserMeasurementList() {
 
   const deleteModal = useDisclosure();
   const userMeasurementModal = useDisclosure();
-
+  const timeInputModal = useDisclosure();
   const filterUserMeasurementListModal = useDisclosure();
 
   const measurementsInputs = useMeasurementsInputs(
@@ -205,6 +208,43 @@ export default function UserMeasurementList() {
     userMeasurementModal.onClose();
   };
 
+  const updateUserMeasurementTimestamp = async (dateString: string) => {
+    if (
+      operatingUserMeasurements.id === 0 ||
+      operationType !== "edit-timestamp" ||
+      userSettings === undefined ||
+      !ValidateISODateString(dateString)
+    )
+      return;
+
+    const formattedDate = FormatDateTimeString(
+      dateString,
+      userSettings.clock_style === "24h"
+    );
+
+    const updatedUserMeasurements: UserMeasurement = {
+      ...operatingUserMeasurements,
+      date: dateString,
+      formattedDate,
+    };
+
+    const success = await UpdateUserMeasurements(updatedUserMeasurements);
+
+    if (!success) return;
+
+    const updatedUserMeasurementList = UpdateItemInList(
+      userMeasurements,
+      updatedUserMeasurements
+    );
+
+    sortUserMeasurementsByActiveCategory(updatedUserMeasurementList);
+
+    resetUserMeasurements();
+
+    toast.success("Timestamp Updated");
+    timeInputModal.onClose();
+  };
+
   const deleteUserMeasurements = async () => {
     if (operatingUserMeasurements.id === 0 || operationType !== "delete")
       return;
@@ -277,6 +317,10 @@ export default function UserMeasurementList() {
       setOperatingUserMeasurements(userMeasurements);
       setOperationType("delete");
       deleteModal.onOpen();
+    } else if (key === "edit-timestamp") {
+      setOperatingUserMeasurements(userMeasurements);
+      setOperationType("edit-timestamp");
+      timeInputModal.onOpen();
     }
   };
 
@@ -368,6 +412,14 @@ export default function UserMeasurementList() {
         useListFilters={listFilters}
         locale={userSettings.locale}
         useMeasurementList={measurementList}
+      />
+      <TimeInputModal
+        timeInputModal={timeInputModal}
+        header="Edit Timestamp"
+        clockStyle={userSettings.clock_style}
+        locale={userSettings.locale}
+        value={operatingUserMeasurements.date}
+        saveButtonAction={updateUserMeasurementTimestamp}
       />
       <div className="flex flex-col items-center gap-1">
         <ListPageSearchInput
