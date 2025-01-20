@@ -91,15 +91,14 @@ export const TimeInputModal = ({
             <ModalBody>
               <div className="flex flex-col gap-2.5 font-medium">
                 <div className="flex gap-2.5 items-center justify-center">
-                  <span className="w-[5rem] text-lg text-stone-400">
+                  <span className="w-[5rem] text-lg text-default-400">
                     Current
                   </span>
                   <TimeInput
                     aria-label="Current Time Read-Only TimeInput"
-                    size="lg"
                     variant="faded"
                     className={
-                      clockStyle === "24h" ? "w-[6.75rem]" : "w-[8.75rem]"
+                      clockStyle === "24h" ? "w-[6.25rem]" : "w-[8rem]"
                     }
                     hourCycle={clockStyle === "24h" ? 24 : 12}
                     granularity="second"
@@ -109,22 +108,20 @@ export const TimeInputModal = ({
                   <I18nProvider locale={locale}>
                     <DatePicker
                       aria-label="Current Time Read-Only DatePicker"
-                      size="lg"
                       variant="faded"
-                      className="w-[10rem]"
+                      className="w-[9.5rem]"
                       isDisabled
                       value={currentDate}
                     />
                   </I18nProvider>
                 </div>
                 <div className="flex gap-2.5 items-center justify-center">
-                  <span className="w-[5rem] text-lg text-stone-600">New</span>
+                  <span className="w-[5rem] text-lg text-default-600">New</span>
                   <TimeInput
                     aria-label="New Time TimeInput"
-                    size="lg"
                     variant="faded"
                     className={
-                      clockStyle === "24h" ? "w-[6.75rem]" : "w-[8.75rem]"
+                      clockStyle === "24h" ? "w-[6.25rem]" : "w-[8rem]"
                     }
                     hourCycle={clockStyle === "24h" ? 24 : 12}
                     granularity="second"
@@ -134,9 +131,8 @@ export const TimeInputModal = ({
                   <I18nProvider locale={locale}>
                     <DatePicker
                       aria-label="New Time DatePicker"
-                      size="lg"
                       variant="faded"
-                      className="w-[10rem]"
+                      className="w-[9.5rem]"
                       value={newDate}
                       onChange={setNewDate}
                     />
