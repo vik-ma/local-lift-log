@@ -14,6 +14,7 @@ import {
   UserWeightModal,
   NameInputModal,
   UserWeightListItem,
+  TimeInputModal,
 } from "../components";
 import {
   GetLatestUserWeight,
@@ -30,6 +31,9 @@ import {
   UpdateActiveTrackingMeasurements,
   GetUserMeasurements,
   InsertUserMeasurementIntoDatabase,
+  ValidateISODateString,
+  FormatDateTimeString,
+  UpdateUserWeight,
 } from "../helpers";
 import { Button, useDisclosure } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
@@ -74,6 +78,7 @@ export default function BodyMeasurements() {
   const deleteModal = useDisclosure();
   const userWeightModal = useDisclosure();
   const userMeasurementModal = useDisclosure();
+  const timeInputModal = useDisclosure();
 
   const {
     addUserWeight,
@@ -192,6 +197,36 @@ export default function BodyMeasurements() {
     setWeightUnit,
   ]);
 
+  const updateUserWeightTimeStamp = async (dateString: string) => {
+    if (
+      latestUserWeight.id === 0 ||
+      operationType !== "edit-weight-timestamp" ||
+      userSettings === undefined ||
+      !ValidateISODateString(dateString)
+    )
+      return;
+
+    const formattedDate = FormatDateTimeString(
+      dateString,
+      userSettings.clock_style === "24h"
+    );
+
+    const updatedUserWeight: UserWeight = {
+      ...latestUserWeight,
+      date: dateString,
+      formattedDate,
+    };
+
+    const success = await UpdateUserWeight(updatedUserWeight);
+
+    if (!success) return;
+
+    await getLatestUserWeight(userSettings.clock_style);
+
+    toast.success("Timestamp Updated");
+    timeInputModal.onClose();
+  };
+
   const deleteLatestUserWeight = async () => {
     if (latestUserWeight.id === 0 || userSettings === undefined) return;
 
@@ -199,7 +234,7 @@ export default function BodyMeasurements() {
 
     if (!success) return;
 
-    getLatestUserWeight(userSettings.clock_style);
+    await getLatestUserWeight(userSettings.clock_style);
 
     toast.success("Body Weight Entry Deleted");
     deleteModal.onClose();
@@ -213,6 +248,9 @@ export default function BodyMeasurements() {
     } else if (key === "delete") {
       setOperationType("delete-weight");
       deleteModal.onOpen();
+    } else if (key === "edit-timestamp") {
+      setOperationType("edit-weight-timestamp");
+      timeInputModal.onOpen();
     }
   };
 
@@ -263,13 +301,13 @@ export default function BodyMeasurements() {
 
     if (!success) return;
 
-    getLatestUserMeasurement(userSettings.clock_style);
+    await getLatestUserMeasurement(userSettings.clock_style);
 
     toast.success("Body Measurements Entry Deleted");
     deleteModal.onClose();
   };
 
-  const updateLatestUserMeasurements = async () => {
+  const updateUserMeasurements = async () => {
     if (
       latestUserMeasurements.id === 0 ||
       !measurementsInputs.areActiveMeasurementsValid ||
@@ -304,6 +342,36 @@ export default function BodyMeasurements() {
 
     toast.success("Body Measurements Entry Updated");
     userMeasurementModal.onClose();
+  };
+
+  const updateUserMeasurementsTimeStamp = async (dateString: string) => {
+    if (
+      latestUserMeasurements.id === 0 ||
+      operationType !== "edit-measurements-timestamp" ||
+      userSettings === undefined ||
+      !ValidateISODateString(dateString)
+    )
+      return;
+
+    const formattedDate = FormatDateTimeString(
+      dateString,
+      userSettings.clock_style === "24h"
+    );
+
+    const updatedUserMeasurements: UserMeasurement = {
+      ...latestUserMeasurements,
+      date: dateString,
+      formattedDate,
+    };
+
+    const success = await UpdateUserMeasurements(updatedUserMeasurements);
+
+    if (!success) return;
+
+    await getLatestUserMeasurement(userSettings.clock_style);
+
+    toast.success("Timestamp Updated");
+    timeInputModal.onClose();
   };
 
   const handleAddMeasurements = () => {
@@ -354,6 +422,9 @@ export default function BodyMeasurements() {
     } else if (key === "delete") {
       setOperationType("delete-measurements");
       deleteModal.onOpen();
+    } else if (key === "edit-timestamp") {
+      setOperationType("edit-measurements-timestamp");
+      timeInputModal.onOpen();
     }
   };
 
@@ -449,7 +520,7 @@ export default function BodyMeasurements() {
         useMeasurementsInputs={measurementsInputs}
         buttonAction={
           operationType === "edit-measurements"
-            ? updateLatestUserMeasurements
+            ? updateUserMeasurements
             : addActiveMeasurements
         }
         isEditing={operationType === "edit-measurements"}
@@ -464,6 +535,22 @@ export default function BodyMeasurements() {
         header="Enter Measurement Name"
         isNameValid={isNewMeasurementNameValid}
         buttonAction={reassignLatestMeasurement}
+      />
+      <TimeInputModal
+        timeInputModal={timeInputModal}
+        header="Edit Timestamp"
+        clockStyle={userSettings.clock_style}
+        locale={userSettings.locale}
+        value={
+          operationType === "edit-weight-timestamp"
+            ? latestUserWeight.date
+            : latestUserMeasurements.date
+        }
+        saveButtonAction={
+          operationType === "edit-weight-timestamp"
+            ? updateUserWeightTimeStamp
+            : updateUserMeasurementsTimeStamp
+        }
       />
       <div className="flex flex-col items-center gap-4">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">

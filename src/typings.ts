@@ -451,7 +451,9 @@ export type BodyMeasurementsOperationType =
   | "edit-weight"
   | "delete-weight"
   | "edit-measurements"
-  | "delete-measurements";
+  | "delete-measurements"
+  | "edit-weight-timestamp"
+  | "edit-measurements-timestamp";
 
 export type DefaultIncrementInputs = {
   weight: string;
