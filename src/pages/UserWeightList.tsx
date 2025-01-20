@@ -29,6 +29,7 @@ import {
   IsWeightWithinLimit,
   UpdateItemInList,
   UpdateUserWeight,
+  ValidateISODateString,
 } from "../helpers";
 import {
   Button,
@@ -326,6 +327,40 @@ export default function UserWeightList() {
     userWeightModal.onClose();
   };
 
+  const updateUserWeightTimestamp = async (dateString: string) => {
+    if (
+      operatingUserWeight.id === 0 ||
+      operationType !== "edit-timestamp" ||
+      userSettings === undefined ||
+      !ValidateISODateString(dateString)
+    )
+      return;
+
+    const formattedDate = FormatDateTimeString(
+      dateString,
+      userSettings.clock_style === "24h"
+    );
+
+    const updatedUserWeight: UserWeight = {
+      ...operatingUserWeight,
+      date: dateString,
+      formattedDate,
+    };
+
+    const success = await UpdateUserWeight(updatedUserWeight);
+
+    if (!success) return;
+
+    const updatedUserWeights = UpdateItemInList(userWeights, updatedUserWeight);
+
+    sortUserWeightsByActiveCategory(updatedUserWeights);
+
+    resetUserWeight();
+
+    toast.success("Timestamp Updated");
+    timeInputModal.onClose();
+  };
+
   const deleteUserWeight = async () => {
     if (operatingUserWeight.id === 0 || operationType !== "delete") return;
 
@@ -529,7 +564,7 @@ export default function UserWeightList() {
         clockStyle={userSettings.clock_style}
         locale={userSettings.locale}
         value={operatingUserWeight.date}
-        saveButtonAction={() => {}}
+        saveButtonAction={updateUserWeightTimestamp}
       />
       <div className="flex flex-col items-center gap-1">
         <ListPageSearchInput
