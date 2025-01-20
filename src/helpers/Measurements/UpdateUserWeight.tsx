@@ -7,11 +7,13 @@ export const UpdateUserWeight = async (userWeight: UserWeight) => {
 
     await db.execute(
       `UPDATE user_weights 
-       SET weight = $1, weight_unit = $2, comment = $3, body_fat_percentage = $4 
-       WHERE id = $5`,
+       SET weight = $1, weight_unit = $2, date = $3, 
+       comment = $4, body_fat_percentage = $5  
+       WHERE id = $6`,
       [
         userWeight.weight,
         userWeight.weight_unit,
+        userWeight.date,
         userWeight.comment,
         userWeight.body_fat_percentage,
         userWeight.id,
