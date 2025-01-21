@@ -108,8 +108,9 @@ export const TimeInputModal = ({
                   <I18nProvider locale={locale}>
                     <DatePicker
                       aria-label="Current Time Read-Only DatePicker"
+                      dateInputClassNames={{ innerWrapper: "gap-x-0" }}
+                      className="w-[9rem]"
                       variant="faded"
-                      className="w-[9.5rem]"
                       isDisabled
                       value={currentDate}
                     />
@@ -131,8 +132,9 @@ export const TimeInputModal = ({
                   <I18nProvider locale={locale}>
                     <DatePicker
                       aria-label="New Time DatePicker"
+                      dateInputClassNames={{ innerWrapper: "gap-x-0" }}
+                      className="w-[9rem]"
                       variant="faded"
-                      className="w-[9.5rem]"
                       value={newDate}
                       onChange={setNewDate}
                     />
