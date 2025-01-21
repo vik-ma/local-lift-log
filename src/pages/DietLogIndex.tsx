@@ -49,7 +49,7 @@ export default function DietLogIndex() {
     dietLogMap,
   } = dietLogList;
 
-  const dietLogEntryInputs = useDietLogEntryInputs(false);
+  const dietLogEntryInputs = useDietLogEntryInputs("custom");
 
   const {
     caloriesInput,
@@ -60,7 +60,7 @@ export default function DietLogIndex() {
     setTargetDay,
     isDietLogEntryInputValid,
     resetInputs,
-    setIsCustomDateEntry,
+    setDateEntryType,
     loadDietLogInputs,
   } = dietLogEntryInputs;
 
@@ -213,7 +213,7 @@ export default function DietLogIndex() {
     if (operationType !== "add") {
       resetDietLogEntry();
     }
-    setIsCustomDateEntry(false);
+    setDateEntryType("recent");
     dietLogModal.onOpen();
   };
 
@@ -231,7 +231,7 @@ export default function DietLogIndex() {
 
     setOperationType("edit");
     loadDietLogInputs(latestDietLog);
-    setIsCustomDateEntry(true);
+    setDateEntryType("custom");
 
     dietLogModal.onOpen();
   };

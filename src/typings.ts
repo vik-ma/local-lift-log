@@ -1111,12 +1111,14 @@ export type UseDietLogEntryInputsReturnType = {
   selectedDate: CalendarDate | null;
   setSelectedDate: React.Dispatch<React.SetStateAction<CalendarDate | null>>;
   loadDietLogInputs: (dietLog: DietLog) => void;
-  isCustomDateEntry: boolean;
-  setIsCustomDateEntry: React.Dispatch<React.SetStateAction<boolean>>;
+  dateEntryType: DietLogDateEntryType;
+  setDateEntryType: React.Dispatch<React.SetStateAction<DietLogDateEntryType>>;
   dateStringToday: string;
   dateStringYesterday: string;
   dateStringSelectedDate: string | null;
 };
+
+export type DietLogDateEntryType = "recent" | "custom" | "range";
 
 export type DietLogMap = Map<string, DietLog>;
 
