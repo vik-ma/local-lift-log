@@ -229,7 +229,11 @@ export const DietLogModal = ({
         {(onClose) => (
           <>
             <ModalHeader>
-              {dietLog.id === 0 ? "New" : "Edit"} Diet Log Entry
+              {dateEntryType === "range"
+                ? "Add Diet Log Entry For Date Range"
+                : isEditing
+                ? "Edit Diet Log Entry"
+                : "New Diet Log Entry"}
             </ModalHeader>
             <ModalBody>
               <div
@@ -445,21 +449,23 @@ export const DietLogModal = ({
             </ModalBody>
             <ModalFooter className="flex justify-between">
               <div>
-                {!disableTodayOrYesterdayEntry && !isEditing && (
-                  <Button
-                    className="w-[12.5rem]"
-                    variant="flat"
-                    onPress={() =>
-                      setDateEntryType(
-                        dateEntryType === "custom" ? "recent" : "custom"
-                      )
-                    }
-                  >
-                    {dateEntryType === "custom"
-                      ? "Cancel Custom Date Entry"
-                      : "Add Custom Date Entry"}
-                  </Button>
-                )}
+                {!disableTodayOrYesterdayEntry &&
+                  !isEditing &&
+                  dateEntryType !== "range" && (
+                    <Button
+                      className="w-[12.5rem]"
+                      variant="flat"
+                      onPress={() =>
+                        setDateEntryType(
+                          dateEntryType === "custom" ? "recent" : "custom"
+                        )
+                      }
+                    >
+                      {dateEntryType === "custom"
+                        ? "Cancel Custom Date Entry"
+                        : "Add Custom Date Entry"}
+                    </Button>
+                  )}
               </div>
               <div className="flex gap-2">
                 <Button color="primary" variant="light" onPress={onClose}>
