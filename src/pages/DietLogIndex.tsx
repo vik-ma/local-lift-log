@@ -279,28 +279,27 @@ export default function DietLogIndex() {
           </h1>
         </div>
         <div className="flex flex-col items-center gap-2.5">
-          <div className="flex flex-col items-center gap-2">
+          <div className="flex flex-col items-center gap-2 relative">
             <h2 className="flex items-center gap-2">
               {latestDietLog.id === 0 ? (
                 <span className="text-stone-400">
                   No Diet Log Entries Added
                 </span>
               ) : (
-                <>
-                  <span className="font-semibold text-lg">
-                    Latest Diet Log Entry
-                  </span>
-                  {latestDietLog.id !== 0 && (
-                    <Button
-                      color="secondary"
-                      variant="flat"
-                      size="sm"
-                      onPress={() => navigate("/diet-log/list")}
-                    >
-                      View History
-                    </Button>
-                  )}
-                </>
+                <span className="font-semibold text-lg">
+                  Latest Diet Log Entry
+                </span>
+              )}
+              {latestDietLog.id !== 0 && (
+                <Button
+                  className="absolute right-0"
+                  color="secondary"
+                  variant="flat"
+                  size="sm"
+                  onPress={() => navigate("/diet-log/list")}
+                >
+                  View History
+                </Button>
               )}
             </h2>
             {latestDietLog.id !== 0 && (
