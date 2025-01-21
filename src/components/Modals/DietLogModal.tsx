@@ -235,18 +235,8 @@ export const DietLogModal = ({
                 : "New Diet Log Entry"}
             </ModalHeader>
             <ModalBody>
-              <div
-                className={
-                  dateEntryType === "range" ? "flex gap-4" : "flex gap-6"
-                }
-              >
-                <div
-                  className={
-                    dateEntryType === "range"
-                      ? "flex flex-col gap-2 pt-[0.25rem] w-[8.75rem]"
-                      : "flex flex-col gap-2 pt-[0.25rem] w-[12.5rem]"
-                  }
-                >
+              <div className="flex gap-6">
+                <div className="flex flex-col gap-2 pt-[0.25rem] w-[12.5rem]">
                   <div className="flex flex-col gap-1.5">
                     <Input
                       value={caloriesInput}
@@ -315,9 +305,7 @@ export const DietLogModal = ({
                         size="sm"
                         onPress={calculateCaloriesFromMacros}
                       >
-                        {dateEntryType === "range"
-                          ? "Calculate Calories"
-                          : "Calculate Calories From Macros"}
+                        Calculate Calories From Macros
                       </Button>
                     </div>
                   </div>
@@ -422,7 +410,7 @@ export const DietLogModal = ({
                     </I18nProvider>
                   </div>
                 ) : (
-                  <div className="flex flex-col gap-2">
+                  <div className="flex flex-col gap-3">
                     <I18nProvider locale={userSettings.locale}>
                       <DatePicker
                         classNames={{ base: "gap-0.5" }}
@@ -430,7 +418,7 @@ export const DietLogModal = ({
                           inputWrapper: "!bg-default-100",
                         }}
                         label={
-                          <span className="text-lg font-semibold px-0.5">
+                          <span className="text-base font-medium px-0.5">
                             Start Date
                           </span>
                         }
@@ -448,7 +436,7 @@ export const DietLogModal = ({
                           errorMessage: "w-[10.5rem] bg-red-200",
                         }}
                         label={
-                          <span className="text-lg font-semibold px-0.5">
+                          <span className="text-base font-medium px-0.5">
                             End Date
                           </span>
                         }
