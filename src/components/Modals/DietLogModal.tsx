@@ -9,6 +9,8 @@ import {
   DatePicker,
   CalendarDate,
   DateValue,
+  DateRangePicker,
+  RangeValue,
 } from "@nextui-org/react";
 import {
   DietLog,
@@ -18,10 +20,9 @@ import {
   UserSettings,
 } from "../../typings";
 import { DietLogDayDropdown } from "../Dropdowns/DietLogDayDropdown";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { I18nProvider } from "@react-aria/i18n";
 import { ConvertCalendarDateToYmdString } from "../../helpers";
-import { ZonedDateTime } from "@internationalized/date";
 // import { getLocalTimeZone, today } from "@internationalized/date";
 
 type DietLogModalProps = {
@@ -32,7 +33,7 @@ type DietLogModalProps = {
   userSettings: UserSettings;
   isEditing: boolean;
   doneButtonAction: (date: string) => void;
-  saveRangeButtonAction: (dateRange: ZonedDateTime) => void;
+  saveRangeButtonAction: (dateRange: RangeValue<CalendarDate>) => void;
 };
 
 export const DietLogModal = ({
@@ -45,6 +46,10 @@ export const DietLogModal = ({
   doneButtonAction,
   saveRangeButtonAction,
 }: DietLogModalProps) => {
+  const [dateRange, setDateRange] = useState<RangeValue<CalendarDate> | null>(
+    null
+  );
+
   const {
     caloriesInput,
     setCaloriesInput,
@@ -380,7 +385,7 @@ export const DietLogModal = ({
                       </div>
                     )}
                   </div>
-                ) : (
+                ) : dateEntryType === "custom" ? (
                   <div className="flex flex-col">
                     <I18nProvider locale={userSettings.locale}>
                       <DatePicker
@@ -397,6 +402,26 @@ export const DietLogModal = ({
                         variant="faded"
                         value={selectedDate}
                         onChange={setSelectedDate}
+                        isDateUnavailable={isDateUnavailable}
+                      />
+                    </I18nProvider>
+                  </div>
+                ) : (
+                  <div className="flex flex-col">
+                    <I18nProvider locale={userSettings.locale}>
+                      <DateRangePicker
+                        classNames={{
+                          base: "gap-0.5",
+                        }}
+                        label={
+                          <span className="text-base font-medium px-0.5">
+                            Diet Entry For Day
+                          </span>
+                        }
+                        labelPlacement="outside"
+                        variant="faded"
+                        value={dateRange}
+                        onChange={setDateRange}
                         isDateUnavailable={isDateUnavailable}
                       />
                     </I18nProvider>

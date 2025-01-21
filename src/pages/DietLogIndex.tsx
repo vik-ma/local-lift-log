@@ -245,6 +245,14 @@ export default function DietLogIndex() {
     setLatestDietLog(updatedDietLog);
   };
 
+  const handleAddDietLogRangeEntryButton = () => {
+    if (operationType !== "add") {
+      resetDietLogEntry();
+    }
+    setDateEntryType("range");
+    dietLogModal.onOpen();
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -311,13 +319,20 @@ export default function DietLogIndex() {
               />
             )}
           </div>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col items-center gap-2">
             <Button
               className="font-medium"
               variant="flat"
               onPress={handleAddDietLogEntryButton}
             >
               Add Diet Log Entry
+            </Button>
+            <Button
+              className="font-medium"
+              variant="flat"
+              onPress={handleAddDietLogRangeEntryButton}
+            >
+              Add Diet Log Entries For Multiple Dates
             </Button>
           </div>
         </div>
