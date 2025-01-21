@@ -244,7 +244,7 @@ export const DietLogModal = ({
                 <div
                   className={
                     dateEntryType === "range"
-                      ? "flex flex-col gap-2 pt-[0.25rem] w-[7.5rem]"
+                      ? "flex flex-col gap-2 pt-[0.25rem] w-[8.75rem]"
                       : "flex flex-col gap-2 pt-[0.25rem] w-[12.5rem]"
                   }
                 >
@@ -291,9 +291,7 @@ export const DietLogModal = ({
                       />
                       <Input
                         value={carbsInput}
-                        label={
-                          dateEntryType === "range" ? "Carbs" : "Carbohydrates"
-                        }
+                        label="Carbohydrates"
                         radius="lg"
                         size="sm"
                         variant="faded"
@@ -428,19 +426,23 @@ export const DietLogModal = ({
                   <div className="flex flex-col">
                     <I18nProvider locale={userSettings.locale}>
                       <DateRangePicker
+                        className="w-[15.25rem]"
                         classNames={{
                           base: "gap-0.5",
+                          selectorButton: "-mx-2",
                         }}
                         label={
                           <span className="text-base font-medium px-0.5">
-                            Diet Entry For Day
+                            Date Range
                           </span>
                         }
+                        radius="md"
+                        size="sm"
                         labelPlacement="outside"
                         variant="faded"
+                        visibleMonths={2}
                         value={dateRange}
                         onChange={setDateRange}
-                        isDateUnavailable={isDateUnavailable}
                       />
                     </I18nProvider>
                   </div>
