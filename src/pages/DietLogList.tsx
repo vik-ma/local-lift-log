@@ -67,7 +67,7 @@ export default function DietLogList() {
 
   const { filterMap, removeFilter, prefixMap } = dietLogListFilters;
 
-  const dietLogEntryInputs = useDietLogEntryInputs(true);
+  const dietLogEntryInputs = useDietLogEntryInputs("custom");
 
   const {
     caloriesInput,
@@ -250,9 +250,10 @@ export default function DietLogList() {
         dietLogMap={dietLogMap}
         userSettings={userSettings}
         isEditing={operationType === "edit"}
-        buttonAction={
+        doneButtonAction={
           operationType === "edit" ? updateDietLogEntry : addDietLogEntry
         }
+        saveRangeButtonAction={() => {}}
       />
       <FilterDietLogListModal
         useDietLogList={dietLogList}

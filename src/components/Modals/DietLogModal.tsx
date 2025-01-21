@@ -21,6 +21,7 @@ import { DietLogDayDropdown } from "../Dropdowns/DietLogDayDropdown";
 import { useEffect, useMemo } from "react";
 import { I18nProvider } from "@react-aria/i18n";
 import { ConvertCalendarDateToYmdString } from "../../helpers";
+import { ZonedDateTime } from "@internationalized/date";
 // import { getLocalTimeZone, today } from "@internationalized/date";
 
 type DietLogModalProps = {
@@ -30,7 +31,8 @@ type DietLogModalProps = {
   dietLogMap: DietLogMap;
   userSettings: UserSettings;
   isEditing: boolean;
-  buttonAction: (date: string) => void;
+  doneButtonAction: (date: string) => void;
+  saveRangeButtonAction: (dateRange: ZonedDateTime) => void;
 };
 
 export const DietLogModal = ({
@@ -40,7 +42,8 @@ export const DietLogModal = ({
   dietLogMap,
   userSettings,
   isEditing,
-  buttonAction,
+  doneButtonAction,
+  saveRangeButtonAction,
 }: DietLogModalProps) => {
   const {
     caloriesInput,
@@ -107,7 +110,7 @@ export const DietLogModal = ({
   }, [dietLogMap, dateStringToday, dateStringYesterday]);
 
   useEffect(() => {
-    if (dateEntryType === "custom") return;
+    if (dateEntryType === "custom" || dateEntryType === "range") return;
 
     if (disableTodayOrYesterdayEntry) {
       setDateEntryType("custom");
@@ -131,7 +134,7 @@ export const DietLogModal = ({
     setDateEntryType,
   ]);
 
-  const disableDoneButton = useMemo(() => {
+  const disableSaveButton = useMemo(() => {
     if (!isDietLogEntryInputValid) return true;
 
     if (
@@ -189,7 +192,12 @@ export const DietLogModal = ({
   };
 
   const handleSaveButton = () => {
-    if (disableDoneButton) return;
+    if (disableSaveButton) return;
+
+    if (dateEntryType === "range") {
+      handleSaveRange();
+      return;
+    }
 
     const date =
       dateEntryType === "custom"
@@ -200,7 +208,11 @@ export const DietLogModal = ({
 
     if (date === null) return;
 
-    buttonAction(date);
+    doneButtonAction(date);
+  };
+
+  const handleSaveRange = () => {
+    // TODO: ADD
   };
 
   return (
@@ -417,7 +429,7 @@ export const DietLogModal = ({
                 <Button
                   color="primary"
                   onPress={handleSaveButton}
-                  isDisabled={disableDoneButton}
+                  isDisabled={disableSaveButton}
                 >
                   {isEditing ? "Update" : "Save"}
                 </Button>

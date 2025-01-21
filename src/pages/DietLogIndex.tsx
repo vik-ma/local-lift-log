@@ -267,9 +267,10 @@ export default function DietLogIndex() {
         dietLogMap={dietLogMap}
         userSettings={userSettings}
         isEditing={operationType === "edit"}
-        buttonAction={
+        doneButtonAction={
           operationType === "edit" ? updateDietLogEntry : addDietLogEntry
         }
+        saveRangeButtonAction={() => {}}
       />
       <div className="flex flex-col items-center gap-3">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">
