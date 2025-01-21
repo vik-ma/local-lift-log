@@ -232,8 +232,18 @@ export const DietLogModal = ({
               {dietLog.id === 0 ? "New" : "Edit"} Diet Log Entry
             </ModalHeader>
             <ModalBody>
-              <div className="flex gap-6">
-                <div className="flex flex-col gap-2 pt-[0.25rem] w-[12.5rem]">
+              <div
+                className={
+                  dateEntryType === "range" ? "flex gap-4" : "flex gap-6"
+                }
+              >
+                <div
+                  className={
+                    dateEntryType === "range"
+                      ? "flex flex-col gap-2 pt-[0.25rem] w-[7.5rem]"
+                      : "flex flex-col gap-2 pt-[0.25rem] w-[12.5rem]"
+                  }
+                >
                   <div className="flex flex-col gap-1.5">
                     <Input
                       value={caloriesInput}
@@ -277,7 +287,9 @@ export const DietLogModal = ({
                       />
                       <Input
                         value={carbsInput}
-                        label="Carbohydrates"
+                        label={
+                          dateEntryType === "range" ? "Carbs" : "Carbohydrates"
+                        }
                         radius="lg"
                         size="sm"
                         variant="faded"
@@ -302,7 +314,9 @@ export const DietLogModal = ({
                         size="sm"
                         onPress={calculateCaloriesFromMacros}
                       >
-                        Calculate Calories From Macros
+                        {dateEntryType === "range"
+                          ? "Calculate Calories"
+                          : "Calculate Calories From Macros"}
                       </Button>
                     </div>
                   </div>
