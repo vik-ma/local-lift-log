@@ -137,6 +137,12 @@ export const UserMeasurementModal = ({
                         />
                       ))}
                     </Reorder.Group>
+                    {activeMeasurements.length === 0 && (
+                      <EmptyListLabel
+                        itemName="Active Measurements"
+                        customLabel="Add a Body Measurement to log"
+                      />
+                    )}
                     <Input
                       value={measurementsCommentInput}
                       label="Comment"
@@ -147,12 +153,6 @@ export const UserMeasurementModal = ({
                       }
                       isClearable
                     />
-                    {activeMeasurements.length === 0 && (
-                      <EmptyListLabel
-                        itemName="Active Measurements"
-                        customLabel="Add a Body Measurement to log"
-                      />
-                    )}
                   </ScrollShadow>
                 </div>
               )}
@@ -170,6 +170,7 @@ export const UserMeasurementModal = ({
                 ) : (
                   <Button
                     variant="flat"
+                    color="secondary"
                     onPress={() => setModalPage("measurement-list")}
                   >
                     Select Measurements
