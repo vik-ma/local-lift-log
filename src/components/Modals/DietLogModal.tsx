@@ -61,8 +61,8 @@ export const DietLogModal = ({
     targetDay,
     setTargetDay,
     calculateCaloriesFromMacros,
-    isCustomDateEntry,
-    setIsCustomDateEntry,
+    dateEntryType,
+    setDateEntryType,
     dateStringToday,
     dateStringYesterday,
     dateStringSelectedDate,
@@ -107,10 +107,10 @@ export const DietLogModal = ({
   }, [dietLogMap, dateStringToday, dateStringYesterday]);
 
   useEffect(() => {
-    if (isCustomDateEntry) return;
+    if (dateEntryType === "custom") return;
 
     if (disableTodayOrYesterdayEntry) {
-      setIsCustomDateEntry(true);
+      setDateEntryType("custom");
     }
 
     if (targetDay === "Yesterday" && dietLogMap.has(dateStringYesterday)) {
@@ -122,34 +122,34 @@ export const DietLogModal = ({
     }
   }, [
     dietLogMap,
-    isCustomDateEntry,
     targetDay,
     setTargetDay,
     dateStringToday,
     dateStringYesterday,
     disableTodayOrYesterdayEntry,
-    setIsCustomDateEntry,
+    dateEntryType,
+    setDateEntryType,
   ]);
 
   const disableDoneButton = useMemo(() => {
     if (!isDietLogEntryInputValid) return true;
 
     if (
-      !isCustomDateEntry &&
+      dateEntryType === "recent" &&
       targetDay === "Today" &&
       dietLogMap.has(dateStringToday)
     )
       return true;
 
     if (
-      !isCustomDateEntry &&
+      dateEntryType === "recent" &&
       targetDay === "Yesterday" &&
       dietLogMap.has(dateStringYesterday)
     )
       return true;
 
     if (
-      isCustomDateEntry &&
+      dateEntryType === "custom" &&
       !isEditing &&
       (dateStringSelectedDate === null ||
         dietLogMap.has(dateStringSelectedDate))
@@ -164,7 +164,7 @@ export const DietLogModal = ({
     dateStringToday,
     dateStringYesterday,
     dateStringSelectedDate,
-    isCustomDateEntry,
+    dateEntryType,
     isEditing,
   ]);
 
@@ -191,11 +191,12 @@ export const DietLogModal = ({
   const handleSaveButton = () => {
     if (disableDoneButton) return;
 
-    const date = isCustomDateEntry
-      ? dateStringSelectedDate
-      : targetDay === "Yesterday"
-      ? dateStringYesterday
-      : dateStringToday;
+    const date =
+      dateEntryType === "custom"
+        ? dateStringSelectedDate
+        : targetDay === "Yesterday"
+        ? dateStringYesterday
+        : dateStringToday;
 
     if (date === null) return;
 
@@ -289,7 +290,7 @@ export const DietLogModal = ({
                     </div>
                   </div>
                 </div>
-                {!isCustomDateEntry ? (
+                {dateEntryType === "recent" ? (
                   <div className="flex flex-col justify-between">
                     <div className="flex flex-col gap-0.5">
                       <h3 className="font-medium px-0.5">Diet Entry For Day</h3>
@@ -397,9 +398,13 @@ export const DietLogModal = ({
                   <Button
                     className="w-[12.5rem]"
                     variant="flat"
-                    onPress={() => setIsCustomDateEntry(!isCustomDateEntry)}
+                    onPress={() =>
+                      setDateEntryType(
+                        dateEntryType === "custom" ? "recent" : "custom"
+                      )
+                    }
                   >
-                    {isCustomDateEntry
+                    {dateEntryType === "custom"
                       ? "Cancel Custom Date Entry"
                       : "Add Custom Date Entry"}
                   </Button>
