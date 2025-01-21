@@ -9,7 +9,6 @@ import {
   DatePicker,
   CalendarDate,
   DateValue,
-  DateRangePicker,
   RangeValue,
 } from "@nextui-org/react";
 import {
@@ -20,7 +19,7 @@ import {
   UserSettings,
 } from "../../typings";
 import { DietLogDayDropdown } from "../Dropdowns/DietLogDayDropdown";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { I18nProvider } from "@react-aria/i18n";
 import { ConvertCalendarDateToYmdString } from "../../helpers";
 // import { getLocalTimeZone, today } from "@internationalized/date";
@@ -46,10 +45,6 @@ export const DietLogModal = ({
   doneButtonAction,
   saveRangeButtonAction,
 }: DietLogModalProps) => {
-  const [dateRange, setDateRange] = useState<RangeValue<CalendarDate> | null>(
-    null
-  );
-
   const {
     caloriesInput,
     setCaloriesInput,
@@ -76,6 +71,10 @@ export const DietLogModal = ({
     dateStringSelectedDate,
     selectedDate,
     setSelectedDate,
+    startDate,
+    setStartDate,
+    endDate,
+    setEndDate,
   } = useDietLogEntryInputs;
 
   const copyLastValues = () => {
@@ -423,26 +422,42 @@ export const DietLogModal = ({
                     </I18nProvider>
                   </div>
                 ) : (
-                  <div className="flex flex-col">
+                  <div className="flex flex-col gap-2">
                     <I18nProvider locale={userSettings.locale}>
-                      <DateRangePicker
-                        className="w-[15.25rem]"
-                        classNames={{
-                          base: "gap-0.5",
-                          selectorButton: "-mx-2",
+                      <DatePicker
+                        classNames={{ base: "gap-0.5" }}
+                        dateInputClassNames={{
+                          inputWrapper: "!bg-default-100",
                         }}
                         label={
-                          <span className="text-base font-medium px-0.5">
-                            Date Range
+                          <span className="text-lg font-semibold px-0.5">
+                            Start Date
                           </span>
                         }
-                        radius="md"
-                        size="sm"
                         labelPlacement="outside"
                         variant="faded"
-                        visibleMonths={2}
-                        value={dateRange}
-                        onChange={setDateRange}
+                        value={startDate}
+                        onChange={setStartDate}
+                      />
+                    </I18nProvider>
+                    <I18nProvider locale={userSettings.locale}>
+                      <DatePicker
+                        classNames={{ base: "gap-0.5" }}
+                        dateInputClassNames={{
+                          inputWrapper: "!bg-default-100",
+                          errorMessage: "w-[10.5rem] bg-red-200",
+                        }}
+                        label={
+                          <span className="text-lg font-semibold px-0.5">
+                            End Date
+                          </span>
+                        }
+                        labelPlacement="outside"
+                        variant="faded"
+                        value={endDate}
+                        onChange={setEndDate}
+                        // isInvalid={isEndDateBeforeStartDate}
+                        errorMessage="Start Date is before End Date"
                       />
                     </I18nProvider>
                   </div>

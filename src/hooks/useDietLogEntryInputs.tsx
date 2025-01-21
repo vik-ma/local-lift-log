@@ -27,6 +27,8 @@ export const useDietLogEntryInputs = (
   const [selectedDate, setSelectedDate] = useState<CalendarDate | null>(null);
   const [dateEntryType, setDateEntryType] =
     useState<DietLogDateEntryType>(defaultDateEntryType);
+  const [startDate, setStartDate] = useState<CalendarDate | null>(null);
+  const [endDate, setEndDate] = useState<CalendarDate | null>(null);
 
   const dateStringToday = useMemo(() => GetCurrentYmdDateString(), []);
   const dateStringYesterday = useMemo(() => GetYesterdayYmdDateString(), []);
@@ -79,6 +81,8 @@ export const useDietLogEntryInputs = (
     setCarbsInput("");
     setProteinInput("");
     setCommentInput("");
+    setStartDate(null);
+    setEndDate(null);
   };
 
   const calculateCaloriesFromMacros = () => {
@@ -133,5 +137,9 @@ export const useDietLogEntryInputs = (
     dateStringToday,
     dateStringYesterday,
     dateStringSelectedDate,
+    startDate,
+    setStartDate,
+    endDate,
+    setEndDate,
   };
 };

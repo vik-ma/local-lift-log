@@ -1116,6 +1116,10 @@ export type UseDietLogEntryInputsReturnType = {
   dateStringToday: string;
   dateStringYesterday: string;
   dateStringSelectedDate: string | null;
+  startDate: CalendarDate | null;
+  setStartDate: React.Dispatch<React.SetStateAction<CalendarDate | null>>;
+  endDate: CalendarDate | null;
+  setEndDate: React.Dispatch<React.SetStateAction<CalendarDate | null>>;
 };
 
 export type DietLogDateEntryType = "recent" | "custom" | "range";
