@@ -11,6 +11,7 @@ import {
   ConvertEmptyStringToNull,
   ConvertInputStringToNumber,
   ConvertInputStringToNumberOrNull,
+  DeleteDietLogWithId,
   FormatYmdDateString,
   GetUserSettings,
   InsertDietLogIntoDatabase,
@@ -230,7 +231,7 @@ export default function DietLogIndex() {
     while (date <= endDate) {
       const dateString = ConvertDateToYmdString(date);
 
-      if (!dietLogMap.has(dateString)) {
+      if (overwriteExistingDietLogs || !dietLogMap.has(dateString)) {
         const formattedDate = FormatYmdDateString(dateString);
 
         const dietLog: DietLog = {
@@ -245,6 +246,13 @@ export default function DietLogIndex() {
           isExpanded: !disableExpansion,
           disableExpansion,
         };
+
+        if (dietLogMap.has(dateString)) {
+          // Delete old Diet Log for date
+          const id = dietLogMap.get(dateString)!.id;
+
+          await DeleteDietLogWithId(id);
+        }
 
         const dietLogId = await InsertDietLogIntoDatabase(dietLog);
 
