@@ -4,9 +4,9 @@ import { Button, useDisclosure } from "@nextui-org/react";
 import {
   CalculationModal,
   FilterPresetsListModal,
-  FilterUserWeightListModal,
   LoadingSpinner,
   TextInputModal,
+  TimeInputModal,
 } from "../components";
 import {
   CalculationListItem,
@@ -19,6 +19,7 @@ import {
   CreateDefaultEquipmentWeights,
   CreateDefaultExercises,
   CreateDefaultMeasurements,
+  GetCurrentDateTimeISOString,
   GetUserSettings,
 } from "../helpers";
 
@@ -27,11 +28,13 @@ export default function Test() {
   const [text, setText] = useState<string>("");
   const [isMetric, setIsMetric] = useState<boolean>(true);
 
+  const currentDate = GetCurrentDateTimeISOString();
+
   const [userSettings, setUserSettings] = useState<UserSettings>();
 
   const calculationModal = useCalculationModal();
   const textInputModal = useDisclosure();
-  const filterUserWeightListModal = useDisclosure();
+  const timeInputModal = useDisclosure();
 
   const presetsList = usePresetsList(false, false);
 
@@ -97,8 +100,16 @@ export default function Test() {
         value={text}
         setValue={setText}
         label="Test"
-        header="TEST"
-        buttonAction={() => calculationModal.calculationModal.onOpen()}
+        header="Test Text Input Modal"
+        buttonAction={() => {}}
+      />
+      <TimeInputModal
+        timeInputModal={timeInputModal}
+        header="Test Time Input Modal"
+        clockStyle={userSettings.clock_style}
+        locale={userSettings.locale}
+        value={currentDate}
+        saveButtonAction={() => {}}
       />
       <CalculationModal
         useCalculationModal={calculationModal}
@@ -107,11 +118,6 @@ export default function Test() {
         multiplierIncrement={2}
         userSettings={userSettings}
         setUserSettings={setUserSettings}
-      />
-      <FilterUserWeightListModal
-        filterUserWeightListModal={filterUserWeightListModal}
-        useListFilters={listFilters}
-        locale={userSettings.locale}
       />
       <FilterPresetsListModal
         usePresetsList={presetsList}
@@ -191,11 +197,11 @@ export default function Test() {
             Distances
           </Button>
         </div>
-        <Button
-          variant="flat"
-          onPress={() => filterUserWeightListModal.onOpen()}
-        >
-          Open Date Range Modal
+        <Button variant="flat" onPress={() => textInputModal.onOpen()}>
+          Open Text Input Modal
+        </Button>
+        <Button variant="flat" onPress={() => timeInputModal.onOpen()}>
+          Open Time Input Modal
         </Button>
         <div className="flex flex-col bg-white border border-black overflow-auto mb-20">
           Test
