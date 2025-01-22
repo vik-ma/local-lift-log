@@ -98,7 +98,7 @@ export const TimeInputModal = ({
                     aria-label="Current Time Read-Only TimeInput"
                     variant="faded"
                     className={
-                      clockStyle === "24h" ? "w-[6.25rem]" : "w-[8rem]"
+                      clockStyle === "24h" ? "w-[6.125rem]" : "w-[7.875rem]"
                     }
                     hourCycle={clockStyle === "24h" ? 24 : 12}
                     granularity="second"
@@ -108,8 +108,8 @@ export const TimeInputModal = ({
                   <I18nProvider locale={locale}>
                     <DatePicker
                       aria-label="Current Time Read-Only DatePicker"
-                      dateInputClassNames={{ innerWrapper: "gap-x-0" }}
-                      className="w-[9rem]"
+                      className="w-[9.25rem]"
+                      dateInputClassNames={{ innerWrapper: "gap-x-0.5" }}
                       variant="faded"
                       isDisabled
                       value={currentDate}
@@ -122,7 +122,7 @@ export const TimeInputModal = ({
                     aria-label="New Time TimeInput"
                     variant="faded"
                     className={
-                      clockStyle === "24h" ? "w-[6.25rem]" : "w-[8rem]"
+                      clockStyle === "24h" ? "w-[6.125rem]" : "w-[7.875rem]"
                     }
                     hourCycle={clockStyle === "24h" ? 24 : 12}
                     granularity="second"
@@ -132,8 +132,8 @@ export const TimeInputModal = ({
                   <I18nProvider locale={locale}>
                     <DatePicker
                       aria-label="New Time DatePicker"
-                      dateInputClassNames={{ innerWrapper: "gap-x-0" }}
-                      className="w-[9rem]"
+                      className="w-[9.25rem]"
+                      dateInputClassNames={{ innerWrapper: "gap-x-0.5" }}
                       variant="faded"
                       value={newDate}
                       onChange={setNewDate}
