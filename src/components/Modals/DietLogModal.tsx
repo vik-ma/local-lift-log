@@ -23,9 +23,15 @@ import {
 import { DietLogDayDropdown } from "../Dropdowns/DietLogDayDropdown";
 import { useEffect, useMemo, useState } from "react";
 import { I18nProvider } from "@react-aria/i18n";
-import { ConvertCalendarDateToYmdString } from "../../helpers";
+import {
+  ConvertCalendarDateToYmdString,
+  ConvertDateToYmdString,
+} from "../../helpers";
 import { DateRange } from "../DateRange";
-// import { getLocalTimeZone, today } from "@internationalized/date";
+import {
+  getLocalTimeZone,
+  // today
+} from "@internationalized/date";
 
 type DietLogModalProps = {
   dietLogModal: UseDisclosureReturnType;
@@ -79,7 +85,8 @@ export const DietLogModal = ({
     dateRange,
   } = useDietLogEntryInputs;
 
-  const { isDateRangeInvalid } = dateRange;
+  const { startDate, endDate, isEndDateBeforeStartDate, isDateRangeInvalid } =
+    dateRange;
 
   const copyLastValues = () => {
     if (dietLog.id === 0) return;
@@ -225,6 +232,25 @@ export const DietLogModal = ({
   const handleSaveRange = () => {
     // TODO: ADD
   };
+
+  const showOverwriteOptions = useMemo(() => {
+    if (startDate === null || endDate === null || isEndDateBeforeStartDate)
+      return false;
+
+    const endDateDate = endDate.toDate(getLocalTimeZone());
+
+    const date = startDate.toDate(getLocalTimeZone());
+
+    while (date <= endDateDate) {
+      const dateString = ConvertDateToYmdString(date);
+      if (dietLogMap.has(dateString)) {
+        return true;
+      }
+      date.setDate(date.getDate() + 1);
+    }
+
+    return false;
+  }, [startDate, endDate, isEndDateBeforeStartDate, dietLogMap]);
 
   return (
     <Modal
@@ -422,23 +448,25 @@ export const DietLogModal = ({
                       dateRange={dateRange}
                       locale={userSettings.locale}
                     />
-                    <div className="flex flex-col gap-2">
-                      <span className="text-xs font-medium text-yellow-600">
-                        Diet Log entries already exist for one or more dates
-                        within the selected date range.
-                        <br />
-                        <br />
-                        Overwrite existing Diet Log entries for those dates?
-                      </span>
-                      <RadioGroup
-                        color="secondary"
-                        value={dateRangeSaveType}
-                        onValueChange={(value) => setDateRangeSaveType(value)}
-                      >
-                        <Radio value="pass">Don't Overwrite</Radio>
-                        <Radio value="overwrite">Overwrite</Radio>
-                      </RadioGroup>
-                    </div>
+                    {showOverwriteOptions && (
+                      <div className="flex flex-col gap-2.5">
+                        <span className="text-xs font-medium text-yellow-600">
+                          Diet Log entries already exist for one or more dates
+                          within the selected date range.
+                          <br />
+                          <br />
+                          Overwrite existing Diet Log entries for those dates?
+                        </span>
+                        <RadioGroup
+                          color="secondary"
+                          value={dateRangeSaveType}
+                          onValueChange={(value) => setDateRangeSaveType(value)}
+                        >
+                          <Radio value="pass">Don't Overwrite</Radio>
+                          <Radio value="overwrite">Overwrite</Radio>
+                        </RadioGroup>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
