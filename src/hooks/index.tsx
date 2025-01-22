@@ -61,3 +61,4 @@ export { useRoutineScheduleTypeMap } from "./useRoutineScheduleTypeMap";
 export { useUserWeightInputs } from "./useUserWeightInputs";
 export { useIsStringValidNumber } from "./useIsStringValidNumber";
 export { useIsStringValidNumberAbove0 } from "./useIsStringValidNumberAbove0";
+export { useDateRange } from "./useDateRange";

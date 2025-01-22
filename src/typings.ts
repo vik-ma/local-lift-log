@@ -1116,10 +1116,7 @@ export type UseDietLogEntryInputsReturnType = {
   dateStringToday: string;
   dateStringYesterday: string;
   dateStringSelectedDate: string | null;
-  startDate: CalendarDate | null;
-  setStartDate: React.Dispatch<React.SetStateAction<CalendarDate | null>>;
-  endDate: CalendarDate | null;
-  setEndDate: React.Dispatch<React.SetStateAction<CalendarDate | null>>;
+  dateRange: UseDateRangeReturnType;
 };
 
 export type DietLogDateEntryType = "recent" | "custom" | "range";
@@ -1222,4 +1219,13 @@ export type UseUserWeightInputsReturnType = {
   isUserWeightValid: boolean;
   resetUserWeightInput: () => void;
   loadUserWeightInputs: (userWeight: UserWeight) => void;
+};
+
+export type UseDateRangeReturnType = {
+  startDate: CalendarDate | null;
+  setStartDate: React.Dispatch<React.SetStateAction<CalendarDate | null>>;
+  endDate: CalendarDate | null;
+  setEndDate: React.Dispatch<React.SetStateAction<CalendarDate | null>>;
+  isEndDateBeforeStartDate: boolean;
+  isDateRangeInvalid: boolean;
 };
