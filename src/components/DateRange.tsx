@@ -1,0 +1,54 @@
+import { DatePicker } from "@nextui-org/react";
+import { I18nProvider } from "@react-aria/i18n";
+import { UseDateRangeReturnType } from "../typings";
+
+type DateRangeProps = {
+  dateRange: UseDateRangeReturnType;
+  locale: string;
+};
+
+export const DateRange = ({ dateRange, locale }: DateRangeProps) => {
+  const {
+    startDate,
+    setStartDate,
+    endDate,
+    setEndDate,
+    isEndDateBeforeStartDate,
+  } = dateRange;
+
+  return (
+    <div className="flex flex-col gap-3">
+      <I18nProvider locale={locale}>
+        <DatePicker
+          classNames={{ base: "gap-0.5" }}
+          dateInputClassNames={{
+            inputWrapper: "!bg-default-100",
+          }}
+          label={
+            <span className="text-base font-medium px-0.5">Start Date</span>
+          }
+          labelPlacement="outside"
+          variant="faded"
+          value={startDate}
+          onChange={setStartDate}
+        />
+      </I18nProvider>
+      <I18nProvider locale={locale}>
+        <DatePicker
+          classNames={{ base: "gap-0.5" }}
+          dateInputClassNames={{
+            inputWrapper: "!bg-default-100",
+            errorMessage: "w-[10.5rem] bg-red-200",
+          }}
+          label={<span className="text-base font-medium px-0.5">End Date</span>}
+          labelPlacement="outside"
+          variant="faded"
+          value={endDate}
+          onChange={setEndDate}
+          isInvalid={isEndDateBeforeStartDate}
+          errorMessage="Start Date is before End Date"
+        />
+      </I18nProvider>
+    </div>
+  );
+};

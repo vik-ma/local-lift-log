@@ -22,6 +22,7 @@ import { DietLogDayDropdown } from "../Dropdowns/DietLogDayDropdown";
 import { useEffect, useMemo } from "react";
 import { I18nProvider } from "@react-aria/i18n";
 import { ConvertCalendarDateToYmdString } from "../../helpers";
+import { DateRange } from "../DateRange";
 // import { getLocalTimeZone, today } from "@internationalized/date";
 
 type DietLogModalProps = {
@@ -74,14 +75,7 @@ export const DietLogModal = ({
     dateRange,
   } = useDietLogEntryInputs;
 
-  const {
-    startDate,
-    setStartDate,
-    endDate,
-    setEndDate,
-    isEndDateBeforeStartDate,
-    isDateRangeInvalid,
-  } = dateRange;
+  const { isDateRangeInvalid } = dateRange;
 
   const copyLastValues = () => {
     if (dietLog.id === 0) return;
@@ -419,45 +413,10 @@ export const DietLogModal = ({
                     </I18nProvider>
                   </div>
                 ) : (
-                  <div className="flex flex-col gap-3">
-                    <I18nProvider locale={userSettings.locale}>
-                      <DatePicker
-                        classNames={{ base: "gap-0.5" }}
-                        dateInputClassNames={{
-                          inputWrapper: "!bg-default-100",
-                        }}
-                        label={
-                          <span className="text-base font-medium px-0.5">
-                            Start Date
-                          </span>
-                        }
-                        labelPlacement="outside"
-                        variant="faded"
-                        value={startDate}
-                        onChange={setStartDate}
-                      />
-                    </I18nProvider>
-                    <I18nProvider locale={userSettings.locale}>
-                      <DatePicker
-                        classNames={{ base: "gap-0.5" }}
-                        dateInputClassNames={{
-                          inputWrapper: "!bg-default-100",
-                          errorMessage: "w-[10.5rem] bg-red-200",
-                        }}
-                        label={
-                          <span className="text-base font-medium px-0.5">
-                            End Date
-                          </span>
-                        }
-                        labelPlacement="outside"
-                        variant="faded"
-                        value={endDate}
-                        onChange={setEndDate}
-                        isInvalid={isEndDateBeforeStartDate}
-                        errorMessage="Start Date is before End Date"
-                      />
-                    </I18nProvider>
-                  </div>
+                  <DateRange
+                    dateRange={dateRange}
+                    locale={userSettings.locale}
+                  />
                 )}
               </div>
             </ModalBody>
