@@ -22,6 +22,7 @@ import { DietLogDayDropdown } from "../Dropdowns/DietLogDayDropdown";
 import { useEffect, useMemo } from "react";
 import { I18nProvider } from "@react-aria/i18n";
 import { ConvertCalendarDateToYmdString } from "../../helpers";
+import { useIsEndDateBeforeStartDate } from "../../hooks";
 // import { getLocalTimeZone, today } from "@internationalized/date";
 
 type DietLogModalProps = {
@@ -138,6 +139,17 @@ export const DietLogModal = ({
     setDateEntryType,
   ]);
 
+  const isEndDateBeforeStartDate = useIsEndDateBeforeStartDate(
+    startDate,
+    endDate
+  );
+
+  const isDateRangeInvalid = useMemo(() => {
+    if (startDate === null || endDate === null) return true;
+    if (isEndDateBeforeStartDate) return true;
+    return false;
+  }, [startDate, endDate, isEndDateBeforeStartDate]);
+
   const disableSaveButton = useMemo(() => {
     if (!isDietLogEntryInputValid) return true;
 
@@ -163,6 +175,8 @@ export const DietLogModal = ({
     )
       return true;
 
+    if (dateEntryType === "range" && isDateRangeInvalid) return true;
+
     return false;
   }, [
     isDietLogEntryInputValid,
@@ -173,6 +187,7 @@ export const DietLogModal = ({
     dateStringSelectedDate,
     dateEntryType,
     isEditing,
+    isDateRangeInvalid,
   ]);
 
   // const currentCalendarDate = useMemo(() => today(getLocalTimeZone()), []);
@@ -444,7 +459,7 @@ export const DietLogModal = ({
                         variant="faded"
                         value={endDate}
                         onChange={setEndDate}
-                        // isInvalid={isEndDateBeforeStartDate}
+                        isInvalid={isEndDateBeforeStartDate}
                         errorMessage="Start Date is before End Date"
                       />
                     </I18nProvider>
