@@ -10,6 +10,8 @@ import {
   CalendarDate,
   DateValue,
   RangeValue,
+  RadioGroup,
+  Radio,
 } from "@nextui-org/react";
 import {
   DietLog,
@@ -19,7 +21,7 @@ import {
   UserSettings,
 } from "../../typings";
 import { DietLogDayDropdown } from "../Dropdowns/DietLogDayDropdown";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { I18nProvider } from "@react-aria/i18n";
 import { ConvertCalendarDateToYmdString } from "../../helpers";
 import { DateRange } from "../DateRange";
@@ -46,6 +48,8 @@ export const DietLogModal = ({
   doneButtonAction,
   saveRangeButtonAction,
 }: DietLogModalProps) => {
+  const [dateRangeSaveType, setDateRangeSaveType] = useState<string>("pass");
+
   const {
     caloriesInput,
     setCaloriesInput,
@@ -413,10 +417,29 @@ export const DietLogModal = ({
                     </I18nProvider>
                   </div>
                 ) : (
-                  <DateRange
-                    dateRange={dateRange}
-                    locale={userSettings.locale}
-                  />
+                  <div className="flex flex-col justify-between">
+                    <DateRange
+                      dateRange={dateRange}
+                      locale={userSettings.locale}
+                    />
+                    <div className="flex flex-col gap-2">
+                      <span className="text-xs font-medium text-yellow-600">
+                        Diet Log entries already exist for one or more dates
+                        within the selected date range.
+                        <br />
+                        <br />
+                        Overwrite existing Diet Log entries for those dates?
+                      </span>
+                      <RadioGroup
+                        color="secondary"
+                        value={dateRangeSaveType}
+                        onValueChange={(value) => setDateRangeSaveType(value)}
+                      >
+                        <Radio value="pass">Don't Overwrite</Radio>
+                        <Radio value="overwrite">Overwrite</Radio>
+                      </RadioGroup>
+                    </div>
+                  </div>
                 )}
               </div>
             </ModalBody>
