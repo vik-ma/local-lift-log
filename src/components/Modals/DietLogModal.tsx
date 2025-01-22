@@ -9,7 +9,6 @@ import {
   DatePicker,
   CalendarDate,
   DateValue,
-  RangeValue,
   RadioGroup,
   Radio,
 } from "@nextui-org/react";
@@ -41,7 +40,11 @@ type DietLogModalProps = {
   userSettings: UserSettings;
   isEditing: boolean;
   doneButtonAction: (date: string) => void;
-  saveRangeButtonAction: (dateRange: RangeValue<CalendarDate>) => void;
+  saveRangeButtonAction: (
+    startDate: Date,
+    endDate: Date,
+    overwriteExistingDietLogs: boolean
+  ) => void;
 };
 
 export const DietLogModal = ({
@@ -230,7 +233,19 @@ export const DietLogModal = ({
   };
 
   const handleSaveRange = () => {
-    // TODO: ADD
+    if (startDate === null || endDate === null || isEndDateBeforeStartDate)
+      return;
+
+    const startDateDate = startDate.toDate(getLocalTimeZone());
+    const endDateDate = endDate.toDate(getLocalTimeZone());
+
+    const overwriteExistingDietLogs = dateRangeSaveType === "overwrite";
+
+    saveRangeButtonAction(
+      startDateDate,
+      endDateDate,
+      overwriteExistingDietLogs
+    );
   };
 
   const showOverwriteOptions = useMemo(() => {

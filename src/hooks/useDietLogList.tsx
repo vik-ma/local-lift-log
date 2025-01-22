@@ -331,6 +331,7 @@ export const useDietLogList = (
     dietLogs,
     setDietLogs,
     dietLogMap,
+    setDietLogMap,
     isDietLogListLoaded,
     sortCategory,
     sortDietLogsByActiveCategory,

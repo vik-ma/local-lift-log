@@ -1133,6 +1133,7 @@ export type UseDietLogListReturnType = {
   dietLogs: DietLog[];
   setDietLogs: React.Dispatch<React.SetStateAction<DietLog[]>>;
   dietLogMap: DietLogMap;
+  setDietLogMap: React.Dispatch<React.SetStateAction<DietLogMap>>;
   isDietLogListLoaded: React.MutableRefObject<boolean>;
   sortCategory: DietLogSortCategory;
   sortDietLogsByActiveCategory: (dietLogList: DietLog[]) => void;
