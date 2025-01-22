@@ -20,9 +20,11 @@ export const DateRange = ({ dateRange, locale }: DateRangeProps) => {
     <div className="flex flex-col gap-3">
       <I18nProvider locale={locale}>
         <DatePicker
+          className="w-[9rem]"
           classNames={{ base: "gap-0.5" }}
           dateInputClassNames={{
             inputWrapper: "!bg-default-100",
+            innerWrapper: "gap-x-0",
           }}
           label={
             <span className="text-base font-medium px-0.5">Start Date</span>
@@ -35,10 +37,13 @@ export const DateRange = ({ dateRange, locale }: DateRangeProps) => {
       </I18nProvider>
       <I18nProvider locale={locale}>
         <DatePicker
+          className="w-[9rem]"
           classNames={{ base: "gap-0.5" }}
           dateInputClassNames={{
             inputWrapper: "!bg-default-100",
-            errorMessage: "w-[10.5rem] bg-red-200",
+            innerWrapper: "gap-x-0",
+            errorMessage: "w-[10.5rem]",
+            helperWrapper: "px-px",
           }}
           label={<span className="text-base font-medium px-0.5">End Date</span>}
           labelPlacement="outside"
