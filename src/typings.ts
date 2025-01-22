@@ -1133,7 +1133,6 @@ export type UseDietLogListReturnType = {
   dietLogs: DietLog[];
   setDietLogs: React.Dispatch<React.SetStateAction<DietLog[]>>;
   dietLogMap: DietLogMap;
-  setDietLogMap: React.Dispatch<React.SetStateAction<DietLogMap>>;
   isDietLogListLoaded: React.MutableRefObject<boolean>;
   sortCategory: DietLogSortCategory;
   sortDietLogsByActiveCategory: (dietLogList: DietLog[]) => void;
@@ -1152,6 +1151,12 @@ export type UseDietLogListReturnType = {
   filteredDietLogs: DietLog[];
   filterDietLogListModal: UseDisclosureReturnType;
   dietLogListFilters: UseDietLogListFiltersReturnType;
+  addDietLogEntryRange: (
+    startDate: Date,
+    endDate: Date,
+    overwriteExistingDietLogs: boolean,
+    dietLogTemplate: DietLog
+  ) => Promise<void>;
 };
 
 export type UseDietLogListFiltersReturnType = {

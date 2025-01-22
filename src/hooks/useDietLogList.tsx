@@ -7,6 +7,7 @@ import {
 } from "../typings";
 import Database from "tauri-plugin-sql-api";
 import {
+  ConvertDateToYmdString,
   DeleteDietLogWithId,
   DeleteItemFromList,
   FormatYmdDateString,
@@ -262,6 +263,57 @@ export const useDietLogList = (
     };
   };
 
+  const addDietLogEntryRange = async (
+    startDate: Date,
+    endDate: Date,
+    overwriteExistingDietLogs: boolean,
+    dietLogTemplate: DietLog
+  ) => {
+    const date = startDate;
+
+    const updatedDietLogMap = new Map(dietLogMap);
+
+    const newDietLogs: DietLog[] = [];
+
+    while (date <= endDate) {
+      const dateString = ConvertDateToYmdString(date);
+
+      if (overwriteExistingDietLogs || !dietLogMap.has(dateString)) {
+        const formattedDate = FormatYmdDateString(dateString);
+
+        const dietLog: DietLog = {
+          ...dietLogTemplate,
+          date: dateString,
+          formattedDate,
+        };
+
+        if (dietLogMap.has(dateString)) {
+          // Delete old Diet Log for date
+          const id = dietLogMap.get(dateString)!.id;
+
+          await DeleteDietLogWithId(id);
+        }
+
+        const dietLogId = await InsertDietLogIntoDatabase(dietLog);
+
+        if (dietLogId !== 0) {
+          dietLog.id = dietLogId;
+          newDietLogs.push(dietLog);
+          updatedDietLogMap.set(dateString, dietLog);
+
+          // TODO: RETURN LATEST
+          // if (date.getTime() === endDate.getTime()) setLatestDietLog(dietLog);
+        }
+      }
+
+      date.setDate(date.getDate() + 1);
+    }
+
+    const updatedDietLogs = Array.from(updatedDietLogMap.values());
+    sortDietLogsByActiveCategory(updatedDietLogs);
+    setDietLogMap(updatedDietLogMap);
+  };
+
   const sortDietLogsByDate = (dietLogList: DietLog[], isAscending: boolean) => {
     if (isAscending) {
       dietLogList.sort((a, b) => a.date.localeCompare(b.date));
@@ -331,7 +383,6 @@ export const useDietLogList = (
     dietLogs,
     setDietLogs,
     dietLogMap,
-    setDietLogMap,
     isDietLogListLoaded,
     sortCategory,
     sortDietLogsByActiveCategory,
@@ -344,5 +395,6 @@ export const useDietLogList = (
     filteredDietLogs,
     filterDietLogListModal,
     dietLogListFilters,
+    addDietLogEntryRange,
   };
 };

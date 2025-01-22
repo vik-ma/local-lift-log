@@ -7,14 +7,11 @@ import {
   LoadingSpinner,
 } from "../components";
 import {
-  ConvertDateToYmdString,
   ConvertEmptyStringToNull,
   ConvertInputStringToNumber,
   ConvertInputStringToNumberOrNull,
-  DeleteDietLogWithId,
   FormatYmdDateString,
   GetUserSettings,
-  InsertDietLogIntoDatabase,
   ShouldDietLogDisableExpansion,
 } from "../helpers";
 import {
@@ -50,8 +47,7 @@ export default function DietLogIndex() {
     updateDietLog,
     deleteDietLog,
     dietLogMap,
-    setDietLogMap,
-    sortDietLogsByActiveCategory,
+    addDietLogEntryRange,
   } = dietLogList;
 
   const dietLogEntryInputs = useDietLogEntryInputs("custom");
@@ -209,13 +205,11 @@ export default function DietLogIndex() {
     deleteModal.onClose();
   };
 
-  const addDietLogEntryRange = async (
+  const addDietLogEntries = async (
     startDate: Date,
     endDate: Date,
     overwriteExistingDietLogs: boolean
   ) => {
-    const date = startDate;
-
     const calories = ConvertInputStringToNumber(caloriesInput);
     const comment = ConvertEmptyStringToNull(commentInput);
     const fat = ConvertInputStringToNumberOrNull(fatInput);
@@ -224,58 +218,31 @@ export default function DietLogIndex() {
 
     const disableExpansion = ShouldDietLogDisableExpansion(fat, carbs, protein);
 
-    const updatedDietLogMap = new Map(dietLogMap);
+    const dietLogTemplate: DietLog = {
+      id: 0,
+      date: "",
+      calories,
+      fat,
+      carbs,
+      protein,
+      comment,
+      isExpanded: !disableExpansion,
+      disableExpansion,
+    };
 
-    const newDietLogs: DietLog[] = [];
-
-    while (date <= endDate) {
-      const dateString = ConvertDateToYmdString(date);
-
-      if (overwriteExistingDietLogs || !dietLogMap.has(dateString)) {
-        const formattedDate = FormatYmdDateString(dateString);
-
-        const dietLog: DietLog = {
-          id: 0,
-          date: dateString,
-          calories,
-          fat,
-          carbs,
-          protein,
-          comment,
-          formattedDate,
-          isExpanded: !disableExpansion,
-          disableExpansion,
-        };
-
-        if (dietLogMap.has(dateString)) {
-          // Delete old Diet Log for date
-          const id = dietLogMap.get(dateString)!.id;
-
-          await DeleteDietLogWithId(id);
-        }
-
-        const dietLogId = await InsertDietLogIntoDatabase(dietLog);
-
-        if (dietLogId !== 0) {
-          dietLog.id = dietLogId;
-          newDietLogs.push(dietLog);
-          updatedDietLogMap.set(dateString, dietLog);
-
-          if (date.getTime() === endDate.getTime()) setLatestDietLog(dietLog);
-        }
-      }
-
-      date.setDate(date.getDate() + 1);
-    }
-
-    const updatedDietLogs = [...dietLogs, ...newDietLogs];
-    sortDietLogsByActiveCategory(updatedDietLogs);
-    setDietLogMap(updatedDietLogMap);
+    await addDietLogEntryRange(
+      startDate,
+      endDate,
+      overwriteExistingDietLogs,
+      dietLogTemplate
+    );
 
     resetDietLogEntry();
     dietLogModal.onClose();
     toast.success("Diet Log Entries Added");
   };
+
+  console.log(dietLogMap, dietLogs);
 
   const resetDietLogEntry = () => {
     setOperationType("add");
@@ -351,7 +318,7 @@ export default function DietLogIndex() {
         doneButtonAction={
           operationType === "edit" ? updateDietLogEntry : addDietLogEntry
         }
-        saveRangeButtonAction={addDietLogEntryRange}
+        saveRangeButtonAction={addDietLogEntries}
       />
       <div className="flex flex-col items-center gap-3">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">
