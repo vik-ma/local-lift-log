@@ -117,15 +117,6 @@ export default function WorkoutTemplateList() {
         ]
       );
 
-      const newTemplate: WorkoutTemplate = {
-        ...operatingWorkoutTemplate,
-        id: result.lastInsertId,
-      };
-
-      sortWorkoutTemplatesByActiveCategory([...workoutTemplates, newTemplate]);
-
-      workoutTemplateModal.onClose();
-
       navigate(`/workout-templates/${result.lastInsertId}`);
     } catch (error) {
       console.log(error);
