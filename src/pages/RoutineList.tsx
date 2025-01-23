@@ -137,15 +137,10 @@ export default function RoutineList() {
   const addRoutine = async () => {
     if (!isRoutineValid || operationType !== "add") return;
 
-    const noteToInsert = ConvertEmptyStringToNull(operatingRoutine.note);
-
-    const newRoutine: Routine = {
-      ...operatingRoutine,
-      note: noteToInsert,
-    };
-
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
+
+      const noteToInsert = ConvertEmptyStringToNull(operatingRoutine.note);
 
       const result = await db.execute(
         `INSERT into routines 
@@ -153,22 +148,16 @@ export default function RoutineList() {
          custom_schedule_start_date, workout_template_order) 
          VALUES ($1, $2, $3, $4, $5, $6)`,
         [
-          newRoutine.name,
-          newRoutine.note,
-          newRoutine.schedule_type,
-          newRoutine.num_days_in_schedule,
-          newRoutine.custom_schedule_start_date,
-          newRoutine.workout_template_order,
+          operatingRoutine.name,
+          noteToInsert,
+          operatingRoutine.schedule_type,
+          operatingRoutine.num_days_in_schedule,
+          operatingRoutine.custom_schedule_start_date,
+          operatingRoutine.workout_template_order,
         ]
       );
 
-      newRoutine.id = result.lastInsertId;
-
-      sortRoutinesByActiveCategory([...routines, newRoutine]);
-
-      resetOperatingRoutine();
-      routineModal.onClose();
-      toast.success("Routine Created");
+      navigate(`/routines/${result.lastInsertId}`);
     } catch (error) {
       console.log(error);
     }
