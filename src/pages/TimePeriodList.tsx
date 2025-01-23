@@ -354,8 +354,8 @@ export default function TimePeriodList() {
                   className={
                     timePeriod.isOngoing &&
                     selectedTimePeriodProperties.has("ongoing")
-                      ? "max-w-[16.75rem] truncate"
-                      : "max-w-[20.75rem] truncate"
+                      ? "max-w-[16.75rem] truncate text-stone-600"
+                      : "max-w-[20.75rem] truncate text-stone-600"
                   }
                 >
                   {timePeriod.name}

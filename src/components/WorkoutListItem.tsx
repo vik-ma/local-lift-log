@@ -35,7 +35,7 @@ export const WorkoutListItem = ({
       onClick={onClickAction}
     >
       <div className="flex flex-col pl-2 py-1">
-        <span className={`${listItemTextWidth} truncate`}>
+        <span className={`${listItemTextWidth} truncate text-stone-600`}>
           {workout.formattedDate}
         </span>
         {workout.workoutTemplate !== undefined &&
