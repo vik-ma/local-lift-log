@@ -15,6 +15,13 @@ export const CreateDetailedUserMeasurementList = (
   for (let i = 0; i < userMeasurementList.length; i++) {
     const userMeasurement = userMeasurementList[i];
 
+    const formattedDate = FormatDateTimeString(
+      userMeasurement.date,
+      clockStyle === "24h"
+    );
+
+    if (formattedDate === "Invalid Date") continue;
+
     try {
       const userMeasurementValues: UserMeasurementValues = JSON.parse(
         userMeasurement.measurement_values
@@ -22,11 +29,6 @@ export const CreateDetailedUserMeasurementList = (
 
       const { measurementListText, containsInvalidMeasurement } =
         GenerateMeasurementListText(userMeasurementValues, measurementMap);
-
-      const formattedDate = FormatDateTimeString(
-        userMeasurement.date,
-        clockStyle === "24h"
-      );
 
       const detailedUserMeasurement: UserMeasurement = {
         ...userMeasurement,

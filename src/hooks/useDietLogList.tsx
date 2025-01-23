@@ -136,6 +136,8 @@ export const useDietLogList = (
       for (const row of result) {
         const formattedDate = FormatYmdDateString(row.date);
 
+        if (formattedDate === "Invalid Date") continue;
+
         const disableExpansion = ShouldDietLogDisableExpansion(
           row.fat,
           row.carbs,
