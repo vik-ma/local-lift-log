@@ -7,7 +7,7 @@ export type Routine = {
   note: string | null;
   schedule_type: number;
   num_days_in_schedule: number;
-  custom_schedule_start_date: string | null;
+  start_day: number;
   workout_template_order: string | null;
   workoutTemplateIds?: string;
   workoutTemplateIdList?: number[];

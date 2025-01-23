@@ -7,14 +7,7 @@ import {
   NoDayRoutineScheduleItem,
 } from "../typings";
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
-import {
-  Button,
-  useDisclosure,
-  DatePicker,
-  DateValue,
-  Chip,
-  Switch,
-} from "@nextui-org/react";
+import { Button, useDisclosure, Chip, Switch } from "@nextui-org/react";
 import Database from "tauri-plugin-sql-api";
 import {
   LoadingSpinner,
@@ -27,8 +20,6 @@ import {
   GetScheduleDayNames,
   GetScheduleDayValues,
   UpdateActiveRoutineId,
-  ConvertDateToYmdString,
-  IsYmdDateStringValid,
   ConvertEmptyStringToNull,
   DefaultNewRoutine,
   IsNumberValidId,
@@ -36,15 +27,12 @@ import {
   UpdateRoutine,
   FormatNumItemsString,
   CreateRoutineWorkoutTemplateList,
-  ConvertDateStringToCalendarDate,
   FormatRoutineScheduleTypeString,
   CreateNoDayWorkoutTemplateList,
   DeleteItemFromList,
   DeleteWorkoutRoutineSchedule,
 } from "../helpers";
 import toast from "react-hot-toast";
-import { getLocalTimeZone } from "@internationalized/date";
-import { I18nProvider } from "@react-aria/i18n";
 import {
   useIsRoutineValid,
   useWorkoutTemplateList,
@@ -356,48 +344,6 @@ export default function RoutineDetails() {
     setUserSettings(updatedSettings);
   };
 
-  const handleSelectCustomStartDate = (selectedDate: DateValue) => {
-    const formattedDate = ConvertDateToYmdString(
-      selectedDate.toDate(getLocalTimeZone())
-    );
-
-    updateCustomStartDate(formattedDate);
-  };
-
-  const updateCustomStartDate = async (dateString: string) => {
-    if (routine.schedule_type !== 1) return;
-
-    if (!IsYmdDateStringValid(dateString)) return;
-
-    const updatedRoutine = {
-      ...routine,
-      custom_schedule_start_date: dateString,
-    };
-
-    const success = await UpdateRoutine(updatedRoutine);
-
-    if (!success) return;
-
-    setRoutine(updatedRoutine);
-    toast.success("Start Date Updated");
-  };
-
-  const resetCustomStartDate = async () => {
-    if (routine.custom_schedule_start_date === null) return;
-
-    const updatedRoutine = {
-      ...routine,
-      custom_schedule_start_date: null,
-    };
-
-    const success = await UpdateRoutine(updatedRoutine);
-
-    if (!success) return;
-
-    setRoutine(updatedRoutine);
-    toast.success("Start Date Reset");
-  };
-
   const deleteWorkoutTemplateSchedulesAboveDayNumber = async (
     numDaysInSchedule: number
   ) => {
@@ -638,38 +584,7 @@ export default function RoutineDetails() {
           </Switch>
         </div>
         <div className="flex flex-col">
-          {routine.schedule_type === 1 && (
-            <div className="flex gap-2 items-end">
-              <I18nProvider locale={userSettings.locale}>
-                <DatePicker
-                  className="w-40"
-                  classNames={{ base: "gap-0.5" }}
-                  label={
-                    <span className="font-medium text-base px-0.5">
-                      Start date
-                    </span>
-                  }
-                  labelPlacement="outside"
-                  variant="faded"
-                  value={ConvertDateStringToCalendarDate(
-                    routine.custom_schedule_start_date
-                  )}
-                  onChange={handleSelectCustomStartDate}
-                />
-              </I18nProvider>
-              <div className="pb-1">
-                {routine.custom_schedule_start_date !== null ? (
-                  <Button size="sm" onPress={resetCustomStartDate}>
-                    Reset
-                  </Button>
-                ) : (
-                  <span className="font-medium text-stone-500">
-                    No Start Date Set
-                  </span>
-                )}
-              </div>
-            </div>
-          )}
+          {/* TODO: ADD START DAY DROPDOWN */}
           <div className="flex items-end justify-between pl-0.5 pb-1.5">
             <div className="flex flex-col">
               <h2 className="text-xl font-semibold">

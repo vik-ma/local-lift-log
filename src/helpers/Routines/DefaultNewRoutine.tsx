@@ -7,7 +7,7 @@ export const DefaultNewRoutine = () => {
     note: "",
     schedule_type: 0,
     num_days_in_schedule: 7,
-    custom_schedule_start_date: null,
+    start_day: 0,
     workout_template_order: null,
   };
 
