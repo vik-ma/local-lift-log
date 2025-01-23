@@ -9,7 +9,7 @@ pub struct Routine {
     pub note: Option<String>,
     pub schedule_type: i32,
     pub num_days_in_schedule: i32,
-    pub custom_schedule_start_date: Option<String>,
+    pub start_day: i32,
     pub workout_template_order: Option<String>,
 }
 
