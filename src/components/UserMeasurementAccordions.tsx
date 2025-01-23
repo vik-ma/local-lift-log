@@ -45,7 +45,7 @@ export const UserMeasurementAccordions = ({
         >
           <div className="flex justify-between items-center pl-2 py-1">
             <div className="flex flex-col items-start">
-              <span className="w-[19rem] break-all text-left">
+              <span className="w-[19rem] text-stone-600 break-all text-left">
                 {measurement.measurementListText}
               </span>
               <span className="text-xs text-secondary text-left">
@@ -112,7 +112,7 @@ export const UserMeasurementAccordions = ({
 
                       return (
                         <div
-                          className="flex gap-2 text-left items-center px-2 py-0.5"
+                          className="flex gap-2 text-stone-600 text-left items-center px-2 py-0.5"
                           key={key}
                         >
                           <div
@@ -122,7 +122,7 @@ export const UserMeasurementAccordions = ({
                                 : "w-[9rem] truncate"
                             }
                           >
-                            <span className="font-semibold">
+                            <span className="font-medium">
                               {values.isInvalid ? "Unknown" : name}
                             </span>
                             {values.isInvalid && (
