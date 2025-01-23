@@ -190,12 +190,17 @@ export default function UserWeightList() {
         "SELECT * FROM user_weights ORDER BY id DESC"
       );
 
-      const userWeights: UserWeight[] = result.map((row) => {
+      const userWeights: UserWeight[] = [];
+
+      for (const row of result) {
         const formattedDate: string = FormatDateTimeString(
           row.date,
           clockStyle === "24h"
         );
-        return {
+
+        if (formattedDate === "Invalid Date") continue;
+
+        const userWeight: UserWeight = {
           id: row.id,
           weight: row.weight,
           weight_unit: row.weight_unit,
@@ -204,7 +209,9 @@ export default function UserWeightList() {
           comment: row.comment,
           body_fat_percentage: row.body_fat_percentage,
         };
-      });
+
+        userWeights.push(userWeight);
+      }
 
       sortUserWeightsByDate(userWeights, false);
     } catch (error) {
