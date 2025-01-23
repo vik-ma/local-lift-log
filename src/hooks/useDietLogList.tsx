@@ -267,13 +267,16 @@ export const useDietLogList = (
     startDate: Date,
     endDate: Date,
     overwriteExistingDietLogs: boolean,
-    dietLogTemplate: DietLog
+    dietLogTemplate: DietLog,
+    latestDate?: number
   ) => {
     const date = startDate;
 
     const updatedDietLogMap = new Map(dietLogMap);
 
     const newDietLogs: DietLog[] = [];
+
+    let latestDietLog: DietLog | undefined = undefined;
 
     while (date <= endDate) {
       const dateString = ConvertDateToYmdString(date);
@@ -301,8 +304,10 @@ export const useDietLogList = (
           newDietLogs.push(dietLog);
           updatedDietLogMap.set(dateString, dietLog);
 
-          // TODO: RETURN LATEST
-          // if (date.getTime() === endDate.getTime()) setLatestDietLog(dietLog);
+          if (latestDate !== undefined && date.getTime() >= latestDate) {
+            // Return the latest DietLog if a new one was created
+            latestDietLog = dietLog;
+          }
         }
       }
 
@@ -312,6 +317,8 @@ export const useDietLogList = (
     const updatedDietLogs = Array.from(updatedDietLogMap.values());
     sortDietLogsByActiveCategory(updatedDietLogs);
     setDietLogMap(updatedDietLogMap);
+
+    return latestDietLog;
   };
 
   const sortDietLogsByDate = (dietLogList: DietLog[], isAscending: boolean) => {

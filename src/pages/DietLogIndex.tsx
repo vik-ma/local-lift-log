@@ -230,19 +230,26 @@ export default function DietLogIndex() {
       disableExpansion,
     };
 
-    await addDietLogEntryRange(
+    const latestDate = !isNaN(Date.parse(latestDietLog.date))
+      ? Date.parse(latestDietLog.date)
+      : 0;
+
+    const newLatestDietLog = await addDietLogEntryRange(
       startDate,
       endDate,
       overwriteExistingDietLogs,
-      dietLogTemplate
+      dietLogTemplate,
+      latestDate
     );
+
+    if (newLatestDietLog !== undefined) {
+      setLatestDietLog(newLatestDietLog);
+    }
 
     resetDietLogEntry();
     dietLogModal.onClose();
     toast.success("Diet Log Entries Added");
   };
-
-  console.log(dietLogMap, dietLogs);
 
   const resetDietLogEntry = () => {
     setOperationType("add");
