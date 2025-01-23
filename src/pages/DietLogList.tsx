@@ -63,6 +63,7 @@ export default function DietLogList() {
     handleSortOptionSelection,
     filterDietLogListModal,
     dietLogListFilters,
+    addDietLogEntryRange,
   } = dietLogList;
 
   const { filterMap, removeFilter, prefixMap } = dietLogListFilters;
@@ -77,6 +78,7 @@ export default function DietLogList() {
     proteinInput,
     isDietLogEntryInputValid,
     resetInputs,
+    setDateEntryType,
     loadDietLogInputs,
   } = dietLogEntryInputs;
 
@@ -185,6 +187,43 @@ export default function DietLogList() {
     deleteModal.onClose();
   };
 
+  const addDietLogEntries = async (
+    startDate: Date,
+    endDate: Date,
+    overwriteExistingDietLogs: boolean
+  ) => {
+    const calories = ConvertInputStringToNumber(caloriesInput);
+    const comment = ConvertEmptyStringToNull(commentInput);
+    const fat = ConvertInputStringToNumberOrNull(fatInput);
+    const carbs = ConvertInputStringToNumberOrNull(carbsInput);
+    const protein = ConvertInputStringToNumberOrNull(proteinInput);
+
+    const disableExpansion = ShouldDietLogDisableExpansion(fat, carbs, protein);
+
+    const dietLogTemplate: DietLog = {
+      id: 0,
+      date: "",
+      calories,
+      fat,
+      carbs,
+      protein,
+      comment,
+      isExpanded: false,
+      disableExpansion,
+    };
+
+    await addDietLogEntryRange(
+      startDate,
+      endDate,
+      overwriteExistingDietLogs,
+      dietLogTemplate
+    );
+
+    resetDietLogEntry();
+    dietLogModal.onClose();
+    toast.success("Diet Log Entries Added");
+  };
+
   const resetDietLogEntry = () => {
     setOperationType("add");
     setOperatingDietLog(defaultDietLog);
@@ -223,6 +262,14 @@ export default function DietLogList() {
     dietLogModal.onOpen();
   };
 
+  const handleAddDietLogRangeEntry = () => {
+    if (operationType !== "add") {
+      resetDietLogEntry();
+    }
+    setDateEntryType("range");
+    dietLogModal.onOpen();
+  };
+
   if (userSettings === undefined || !isDietLogListLoaded.current)
     return <LoadingSpinner />;
 
@@ -253,7 +300,7 @@ export default function DietLogList() {
         doneButtonAction={
           operationType === "edit" ? updateDietLogEntry : addDietLogEntry
         }
-        saveRangeButtonAction={() => {}}
+        saveRangeButtonAction={addDietLogEntries}
       />
       <FilterDietLogListModal
         useDietLogList={dietLogList}
@@ -270,14 +317,24 @@ export default function DietLogList() {
           bottomContent={
             <div className="flex flex-col gap-1.5">
               <div className="flex justify-between">
-                <Button
-                  color="secondary"
-                  variant="flat"
-                  onPress={handleAddDietLogEntry}
-                  size="sm"
-                >
-                  New Diet Log Entry
-                </Button>
+                <div className="flex gap-1">
+                  <Button
+                    color="secondary"
+                    variant="flat"
+                    onPress={handleAddDietLogEntry}
+                    size="sm"
+                  >
+                    New Diet Log Entry
+                  </Button>
+                  <Button
+                    color="secondary"
+                    variant="flat"
+                    onPress={handleAddDietLogRangeEntry}
+                    size="sm"
+                  >
+                    Add Multiple
+                  </Button>
+                </div>
                 <div className="flex gap-1">
                   <Button
                     className="z-1"
