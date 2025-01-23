@@ -5,9 +5,14 @@ import { UseDateRangeReturnType } from "../typings";
 type DateRangeProps = {
   dateRange: UseDateRangeReturnType;
   locale: string;
+  isVertical?: boolean;
 };
 
-export const DateRange = ({ dateRange, locale }: DateRangeProps) => {
+export const DateRange = ({
+  dateRange,
+  locale,
+  isVertical,
+}: DateRangeProps) => {
   const {
     startDate,
     setStartDate,
@@ -17,7 +22,7 @@ export const DateRange = ({ dateRange, locale }: DateRangeProps) => {
   } = dateRange;
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className={isVertical ? "flex flex-col gap-3" : "flex gap-7"}>
       <I18nProvider locale={locale}>
         <DatePicker
           className="w-[9.25rem]"

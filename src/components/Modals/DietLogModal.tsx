@@ -462,6 +462,7 @@ export const DietLogModal = ({
                     <DateRange
                       dateRange={dateRange}
                       locale={userSettings.locale}
+                      isVertical
                     />
                     {showOverwriteOptions && (
                       <div className="flex flex-col gap-2.5">
