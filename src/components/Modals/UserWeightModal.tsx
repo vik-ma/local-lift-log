@@ -52,11 +52,12 @@ export const UserWeightModal = ({
               {isEditing ? "Edit" : "Add"} Body Weight Entry
             </ModalHeader>
             <ModalBody>
-              <div className="flex flex-col gap-2">
-                <div className="flex gap-2 items-center">
+              <div className="flex flex-col gap-1.5">
+                <div className="flex gap-1.5 items-center">
                   <Input
                     value={userWeightInput}
                     label="Weight"
+                    size="sm"
                     variant="faded"
                     onValueChange={(value) => setUserWeightInput(value)}
                     isInvalid={!isWeightInputValid}
@@ -68,11 +69,13 @@ export const UserWeightModal = ({
                     setState={setWeightUnit}
                     targetType="state"
                     showLabel
+                    isSmall
                   />
                 </div>
                 <Input
                   value={bodyFatPercentageInput}
                   label="Body Fat %"
+                  size="sm"
                   variant="faded"
                   onValueChange={(value) => setBodyFatPercentageInput(value)}
                   isInvalid={!isBodyFatPercentageInputValid}
@@ -81,6 +84,7 @@ export const UserWeightModal = ({
                 <Input
                   value={commentInput}
                   label="Comment"
+                  size="sm"
                   variant="faded"
                   onValueChange={(value) => setCommentInput(value)}
                   isClearable
