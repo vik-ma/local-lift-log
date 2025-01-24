@@ -59,10 +59,10 @@ export const SiteHeader = () => {
           <NavLink to="/">Home</NavLink>
         </NavbarItem>
         <NavbarItem>
-          <NavLink to="/routines">Routines</NavLink>
+          <NavLink to="/workouts">Workouts</NavLink>
         </NavbarItem>
         <NavbarItem>
-          <NavLink to="/workouts">Workouts</NavLink>
+          <NavLink to="/analytics">Analytics</NavLink>
         </NavbarItem>
         <Dropdown>
           <DropdownTrigger>
@@ -86,6 +86,16 @@ export const SiteHeader = () => {
             >
               <NavLink className="nav-menu-dropdown-item-link" to="/exercises">
                 Exercise List
+              </NavLink>
+            </DropdownItem>
+            <DropdownItem
+              className="nav-menu-dropdown-item"
+              textValue="Routines"
+              key="exercises"
+              onPress={() => navigate("/routines")}
+            >
+              <NavLink className="nav-menu-dropdown-item-link" to="/routines">
+                Routines
               </NavLink>
             </DropdownItem>
             <DropdownItem
