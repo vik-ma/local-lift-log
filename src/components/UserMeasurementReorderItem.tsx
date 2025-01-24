@@ -55,12 +55,12 @@ export const UserMeasurementReorderItem = ({
           isDisabled={measurement.measurement_type === "Caliper"}
         />
         {!isEditing && (
-          <ReorderIcon
-            dragControls={dragControls}
-            size={35}
-            color="#b6b6b6"
-            addPadding
-          />
+          <div
+            className="flex items-center h-[2.75rem] cursor-grab active:cursor-grabbing select-none"
+            onPointerDown={(event) => dragControls.start(event)}
+          >
+            <ReorderIcon size={21} color="#b6b6b6" addPadding />
+          </div>
         )}
       </div>
     </Reorder.Item>

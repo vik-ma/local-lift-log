@@ -1,7 +1,7 @@
 import { DragControls } from "framer-motion";
 
 interface ReorderIconProps {
-  dragControls: DragControls;
+  dragControls?: DragControls;
   size?: number;
   color?: string;
   addPadding?: boolean;
@@ -24,7 +24,11 @@ export function ReorderIcon({
           ? "cursor-grab active:cursor-grabbing select-none pl-0.5"
           : "cursor-grab active:cursor-grabbing select-none"
       }
-      onPointerDown={(event) => dragControls.start(event)}
+      onPointerDown={
+        dragControls !== undefined
+          ? (event) => dragControls.start(event)
+          : () => {}
+      }
       fill={color || "#CCC"}
     >
       <path d="M 5 0 C 7.761 0 10 2.239 10 5 C 10 7.761 7.761 10 5 10 C 2.239 10 0 7.761 0 5 C 0 2.239 2.239 0 5 0 Z"></path>
