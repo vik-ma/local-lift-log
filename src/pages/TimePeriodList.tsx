@@ -362,7 +362,7 @@ export default function TimePeriodList() {
                 </span>
                 {timePeriod.isOngoing &&
                   selectedTimePeriodProperties.has("ongoing") && (
-                    <span className="text-sm text-red-400">(Ongoing)</span>
+                    <span className="text-sm text-orange-400">(Ongoing)</span>
                   )}
               </div>
               <div className="text-xs text-left max-w-[20.75rem] truncate">
