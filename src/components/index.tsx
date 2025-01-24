@@ -51,6 +51,7 @@ export { CaloricIntakeDropdown } from "./Dropdowns/CaloricIntakeDropdown";
 export { TimePeriodPropertyDropdown } from "./Dropdowns/TimePeriodPropertyDropdown";
 export { MultipleChoiceCaloricIntakeDropdown } from "./Dropdowns/MultipleChoiceCaloricIntakeDropdown";
 export { DietLogDayDropdown } from "./Dropdowns/DietLogDayDropdown";
+export { WeekdayDropdown } from "./Dropdowns/WeekdayDropdown";
 
 export { DeleteModal } from "./Modals/DeleteModal";
 export { SetModal } from "./Modals/SetModal";
