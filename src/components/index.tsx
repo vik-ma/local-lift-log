@@ -43,7 +43,7 @@ export { TimeInputBehaviorDropdown } from "./Dropdowns/TimeInputBehaviorDropdown
 export { MultisetTypeDropdown } from "./Dropdowns/MultisetTypeDropdown";
 export { WorkoutPropertyDropdown } from "./Dropdowns/WorkoutPropertyDropdown";
 export { AvailablePlatesDropdown } from "./Dropdowns/AvailablePlatesDropdown";
-export { WeekdaysDropdown } from "./Dropdowns/WeekdaysDropdown";
+export { MultipleChoiceWeekdayDropdown } from "./Dropdowns/MultipleChoiceWeekdayDropdown";
 export { MultipleChoiceUnitDropdown } from "./Dropdowns/MultipleChoiceUnitDropdown";
 export { MultipleChoiceMultisetTypeDropdown } from "./Dropdowns/MultipleChoiceMultisetTypeDropdown";
 export { NumSetsDropdown } from "./Dropdowns/NumSetsDropdown";

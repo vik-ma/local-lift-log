@@ -1,16 +1,16 @@
 import { Button, Select, SelectItem } from "@nextui-org/react";
 
-type WeekdaysDropdownProps = {
+type MultipleChoiceWeekdayDropdownProps = {
   values: Set<string>;
   setValues: React.Dispatch<React.SetStateAction<Set<string>>>;
   weekdayMap: Map<string, string>;
 };
 
-export const WeekdaysDropdown = ({
+export const MultipleChoiceWeekdayDropdown = ({
   values,
   setValues,
   weekdayMap,
-}: WeekdaysDropdownProps) => {
+}: MultipleChoiceWeekdayDropdownProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const weekdayKeys = e.target.value.split(",");
     // Sort the keys 1-6 numerically, with 0 (Sunday) always last

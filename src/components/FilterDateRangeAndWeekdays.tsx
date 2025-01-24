@@ -1,4 +1,4 @@
-import { FilterMinAndMaxDates, WeekdaysDropdown } from ".";
+import { FilterMinAndMaxDates, MultipleChoiceWeekdayDropdown } from ".";
 import {
   UseDietLogListFiltersReturnType,
   UseListFiltersReturnType,
@@ -36,7 +36,7 @@ export const FilterDateRangeAndWeekdays = ({
       />
       <div className="flex flex-col gap-1 pb-1">
         <h3 className="font-semibold text-lg px-0.5">Weekdays</h3>
-        <WeekdaysDropdown
+        <MultipleChoiceWeekdayDropdown
           values={filterWeekdays}
           setValues={setFilterWeekdays}
           weekdayMap={weekdayMap}
