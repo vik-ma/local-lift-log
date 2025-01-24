@@ -666,15 +666,19 @@ export default function RoutineDetails() {
                         scheduleValues[i].map((schedule) => {
                           return (
                             <Chip
+                              className="bg-stone-300/80"
+                              classNames={{
+                                content: "max-w-[16rem] truncate pl-1.5",
+                              }}
                               key={schedule.id}
                               variant="flat"
                               radius="sm"
-                              classNames={{ content: "max-w-[16rem] truncate" }}
                               onClose={() =>
                                 handleRemoveRoutineScheduleItemButton(schedule)
                               }
                             >
                               <Link
+                                className="hover:text-white"
                                 to={`/workout-templates/${schedule.workout_template_id}/`}
                               >
                                 {schedule.name}
@@ -719,11 +723,11 @@ export default function RoutineDetails() {
                     onDragEnd={() => updateWorkoutTemplateOrder()}
                   >
                     <Chip
-                      className="hover:bg-default-300"
+                      className="bg-stone-300/80 hover:bg-stone-400/40"
+                      classNames={{ content: "w-[22.75rem] truncate pl-1" }}
                       variant="flat"
                       radius="sm"
                       size="lg"
-                      classNames={{ content: "w-[22.75rem] truncate" }}
                       onClose={() =>
                         handleRemoveNoDayRoutineScheduleItemButton(item)
                       }
@@ -732,7 +736,7 @@ export default function RoutineDetails() {
                         className={
                           isScheduleItemBeingDragged
                             ? "pointer-events-none"
-                            : ""
+                            : "hover:text-white"
                         }
                         to={`/workout-templates/${item.workout_template_id}/`}
                       >
