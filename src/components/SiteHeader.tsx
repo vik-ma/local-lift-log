@@ -170,9 +170,10 @@ export const SiteHeader = () => {
             <DropdownItem
               className="nav-menu-dropdown-item"
               textValue="TEST PAGE"
+              key="test"
               onPress={() => navigate("/test")}
             >
-              <NavLink className="test-page-link" to="/test">
+              <NavLink className="!text-violet-500" to="/test">
                 TEST PAGE
               </NavLink>
             </DropdownItem>

@@ -30,7 +30,7 @@ a:hover {
   color: var(--foreground-hover-color);
 }
 a.active {
-  color: #ffb34f;
+  color: #d4aa1e;
 }
 .nav-menu-dropdown-item-link:hover {
   color: var(--foreground-color);
@@ -133,8 +133,4 @@ body {
 
 .multiset-divider {
   border-top: 1px solid theme("colors.stone.400") !important;
-}
-
-.test-page-link {
-  color: var(--secondary-color) !important;
 }
