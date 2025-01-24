@@ -592,7 +592,18 @@ export default function RoutineDetails() {
           editButtonAction={() => routineModal.onOpen()}
           useDetailsHeaderOptions={useDetailsHeaderOptions}
         />
-        <div className="flex justify-center">
+        <div className="flex items-center justify-between">
+          <div>
+            {routine.schedule_type === 1 && (
+              <WeekdayDropdown
+                value={routine.start_day}
+                label="Start Day"
+                weekdayMap={weekdayMap}
+                targetType="routine"
+                updateRoutineStartDay={updateRoutineStartDay}
+              />
+            )}
+          </div>
           <Switch
             className="flex-row-reverse gap-3"
             color="primary"
@@ -601,34 +612,21 @@ export default function RoutineDetails() {
             }
             onValueChange={(value) => handleChangeIsActiveRoutine(value)}
           >
-            Active Routine
+            <span className="text-stone-600 font-medium">Active Routine</span>
           </Switch>
         </div>
-        <div className="flex flex-col">
-          <WeekdayDropdown
-            value={routine.start_day}
-            label="Start Day"
-            weekdayMap={weekdayMap}
-            targetType="routine"
-            updateRoutineStartDay={updateRoutineStartDay}
-          />
-          <div className="flex items-end justify-between pl-0.5 pb-1.5">
-            <div className="flex flex-col">
-              <h2 className="text-xl font-semibold">
-                {FormatRoutineScheduleTypeString(
-                  routine.schedule_type,
-                  routine.num_days_in_schedule,
-                  true
-                )}
-              </h2>
-              {routine.schedule_type === 2 &&
-                noDayWorkoutTemplateList.length > 1 && (
-                  <span className="text-xs italic text-stone-500 font-normal">
-                    Drag Workouts To Change Their Order
-                  </span>
-                )}
-            </div>
-            {routine.schedule_type === 2 && (
+        <div className="flex flex-col gap-0.5">
+          {routine.schedule_type === 2 ? (
+            <div className="flex items-end justify-between">
+              <div className="flex flex-col px-1">
+                <h2 className="text-xl font-semibold">Workout Order</h2>
+                {routine.schedule_type === 2 &&
+                  noDayWorkoutTemplateList.length > 1 && (
+                    <span className="text-xs italic text-stone-500 font-normal">
+                      Drag Workouts To Change Order
+                    </span>
+                  )}
+              </div>
               <Button
                 className="font-medium"
                 color="secondary"
@@ -637,10 +635,17 @@ export default function RoutineDetails() {
               >
                 Add Workout
               </Button>
-            )}
-          </div>
+            </div>
+          ) : (
+            <h2 className="text-xl font-semibold">
+              {FormatRoutineScheduleTypeString(
+                routine.schedule_type,
+                routine.num_days_in_schedule
+              )}
+            </h2>
+          )}
           {routine.schedule_type !== 2 ? (
-            <div className="flex flex-col gap-1 py-1">
+            <div className="flex flex-col gap-0.5">
               {Array.from(Array(routine.num_days_in_schedule), (_, i) => (
                 <div
                   key={`day-${i + 1}`}
@@ -650,8 +655,8 @@ export default function RoutineDetails() {
                     <h3
                       className={
                         scheduleValues[i]?.length > 0
-                          ? "text-yellow-600 font-medium"
-                          : "text-stone-600 font-medium"
+                          ? "text-yellow-600 font-medium pb-0.5"
+                          : "text-stone-600 font-medium pb-0.5"
                       }
                     >
                       {dayNameList[i]}
@@ -695,7 +700,7 @@ export default function RoutineDetails() {
               ))}
             </div>
           ) : (
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-1 pt-1.5">
               <Reorder.Group
                 className="flex flex-col w-full gap-1"
                 values={noDayWorkoutTemplateList}
