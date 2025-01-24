@@ -15,6 +15,7 @@ import {
   RoutineModal,
   WorkoutTemplateListModal,
   DetailsHeader,
+  WeekdayDropdown,
 } from "../components";
 import {
   GetScheduleDayNames,
@@ -38,6 +39,7 @@ import {
   useWorkoutTemplateList,
   useDetailsHeaderOptionsMenu,
   useExerciseList,
+  useWeekdayMap,
 } from "../hooks";
 import { Link } from "react-router-dom";
 import { Reorder } from "framer-motion";
@@ -64,6 +66,8 @@ export default function RoutineDetails() {
   >([]);
   const [isScheduleItemBeingDragged, setIsScheduleItemBeingDragged] =
     useState<boolean>(false);
+
+  const weekdayMap = useWeekdayMap();
 
   const deleteModal = useDisclosure();
   const routineModal = useDisclosure();
@@ -452,6 +456,23 @@ export default function RoutineDetails() {
     toast.success("Workout removed");
   };
 
+  const updateRoutineStartDay = async (weekdayNum: string) => {
+    const startDay = Number(weekdayNum);
+
+    if (isNaN(startDay) || startDay < 0 || startDay > 7) return;
+
+    const updatedRoutine: Routine = { ...routine, start_day: startDay };
+
+    const success = await UpdateRoutine(updatedRoutine);
+
+    if (!success) return;
+
+    setRoutine(updatedRoutine);
+    setEditedRoutine(updatedRoutine);
+
+    toast.success("Start day updated");
+  };
+
   const updateWorkoutTemplateOrder = async () => {
     const updatedWorkoutTemplateOrder = [...noDayWorkoutTemplateList];
 
@@ -584,7 +605,13 @@ export default function RoutineDetails() {
           </Switch>
         </div>
         <div className="flex flex-col">
-          {/* TODO: ADD START DAY DROPDOWN */}
+          <WeekdayDropdown
+            value={routine.start_day}
+            label="Start Day"
+            weekdayMap={weekdayMap}
+            targetType="routine"
+            updateRoutineStartDay={updateRoutineStartDay}
+          />
           <div className="flex items-end justify-between pl-0.5 pb-1.5">
             <div className="flex flex-col">
               <h2 className="text-xl font-semibold">
