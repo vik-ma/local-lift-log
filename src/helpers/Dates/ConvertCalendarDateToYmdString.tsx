@@ -1,5 +1,5 @@
 import { getLocalTimeZone } from "@internationalized/date";
-import { CalendarDate } from "@nextui-org/react";
+import { CalendarDate } from "@heroui/react";
 
 export const ConvertCalendarDateToYmdString = (
   calendarDate: CalendarDate | null

@@ -1,4 +1,4 @@
-import { DatePicker } from "@nextui-org/react";
+import { DatePicker } from "@heroui/react";
 import { I18nProvider } from "@react-aria/i18n";
 import { UseDateRangeReturnType } from "../typings";
 

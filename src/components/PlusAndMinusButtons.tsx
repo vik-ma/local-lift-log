@@ -1,4 +1,4 @@
-import { Button } from "@nextui-org/react";
+import { Button } from "@heroui/react";
 import { MinusIcon, PlusIcon } from "../assets";
 import { CalculationListItem } from "../typings";
 

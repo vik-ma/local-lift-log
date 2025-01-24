@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { CalendarDate, useDisclosure } from "@nextui-org/react";
+import { CalendarDate, useDisclosure } from "@heroui/react";
 
 export type Routine = {
   id: number;

@@ -18,7 +18,7 @@ import {
   FilterRoutineListModal,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
-import { Button, useDisclosure } from "@nextui-org/react";
+import { Button, useDisclosure } from "@heroui/react";
 import toast from "react-hot-toast";
 import {
   CreateShownPropertiesSet,

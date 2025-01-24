@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { UseFilterMinAndMaxValueInputsReturnType } from "../typings";
 import { IsStringEmpty } from "../helpers";
-import { Checkbox, Input } from "@nextui-org/react";
+import { Checkbox, Input } from "@heroui/react";
 
 type FilterMinAndMaxValuesProps = {
   setFilterMinValue: React.Dispatch<React.SetStateAction<number | null>>;

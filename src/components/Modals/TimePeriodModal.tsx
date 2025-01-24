@@ -14,7 +14,7 @@ import {
   ModalFooter,
   Input,
   DatePicker,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { CaloricIntakeDropdown } from "../Dropdowns/CaloricIntakeDropdown";
 
 type TimePeriodModalProps = {

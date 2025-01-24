@@ -5,7 +5,7 @@ import {
   WorkoutTemplate,
 } from "../typings";
 import { useState, useEffect, useCallback, useMemo } from "react";
-import { useDisclosure } from "@nextui-org/react";
+import { useDisclosure } from "@heroui/react";
 import Database from "tauri-plugin-sql-api";
 import {
   LoadingSpinner,

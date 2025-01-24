@@ -7,7 +7,7 @@ import {
   ModalFooter,
   Select,
   SelectItem,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { ClockStyleDropdown, LocaleDropdown } from "../../components";
 import { useState, ReactNode } from "react";
 import { UseDisclosureReturnType } from "../../typings";

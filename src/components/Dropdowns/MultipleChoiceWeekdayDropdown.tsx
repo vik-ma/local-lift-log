@@ -1,4 +1,4 @@
-import { Button, Select, SelectItem } from "@nextui-org/react";
+import { Button, Select, SelectItem } from "@heroui/react";
 
 type MultipleChoiceWeekdayDropdownProps = {
   values: Set<string>;

@@ -6,7 +6,7 @@ import {
   ModalHeader,
   ModalFooter,
   ScrollShadow,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import {
   UseDisclosureReturnType,
   UseFilterMinAndMaxValueInputsReturnType,

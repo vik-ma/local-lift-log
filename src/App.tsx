@@ -1,5 +1,5 @@
 import { Route, Routes, useNavigate } from "react-router-dom";
-import { NextUIProvider } from "@nextui-org/react";
+import { HeroUIProvider } from "@heroui/react";
 import {
   HomePage,
   RoutineListPage,
@@ -34,7 +34,7 @@ function App() {
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
-      <NextUIProvider navigate={navigate}>
+      <HeroUIProvider navigate={navigate}>
         <SiteHeader />
         <main className="flex justify-center p-5">
           <div className="w-[400px]">
@@ -88,7 +88,7 @@ function App() {
             </Routes>
           </div>
         </main>
-      </NextUIProvider>
+      </HeroUIProvider>
     </>
   );
 }

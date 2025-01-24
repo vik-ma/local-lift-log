@@ -5,7 +5,7 @@ import {
   UseFilterMinAndMaxValueInputsArgs,
   UseTimePeriodListFiltersReturnType,
 } from "../typings";
-import { CalendarDate } from "@nextui-org/react";
+import { CalendarDate } from "@heroui/react";
 import { useFilterMinAndMaxValueInputs, useIsEndDateBeforeStartDate } from ".";
 import { ConvertCalendarDateToLocalizedString } from "../helpers";
 

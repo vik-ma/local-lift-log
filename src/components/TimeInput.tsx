@@ -5,7 +5,7 @@ import {
   DropdownMenu,
   DropdownTrigger,
   Input,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { WorkoutSet, DefaultIncrementInputs } from "../typings";
 import { useState, useMemo, useEffect, useRef } from "react";
 import {

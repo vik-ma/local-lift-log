@@ -7,7 +7,7 @@ import {
   ModalFooter,
   ScrollShadow,
   Checkbox,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { UseWorkoutListReturnType, Workout } from "../../typings";
 import { CreateShownPropertiesSet } from "../../helpers";
 import { useState } from "react";

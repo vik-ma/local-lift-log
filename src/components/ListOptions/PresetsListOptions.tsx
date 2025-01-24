@@ -4,7 +4,7 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { UsePresetsListReturnType } from "../../typings";
 
 type PresetsListOptionsProps = {

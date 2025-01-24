@@ -7,7 +7,7 @@ import {
   NoDayRoutineScheduleItem,
 } from "../typings";
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
-import { Button, useDisclosure, Chip, Switch } from "@nextui-org/react";
+import { Button, useDisclosure, Chip, Switch } from "@heroui/react";
 import Database from "tauri-plugin-sql-api";
 import {
   LoadingSpinner,

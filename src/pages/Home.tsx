@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Button, useDisclosure } from "@nextui-org/react";
+import { Button, useDisclosure } from "@heroui/react";
 import { useNavigate } from "react-router-dom";
 import { UserSettings } from "../typings";
 import {

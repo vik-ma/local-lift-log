@@ -6,7 +6,7 @@ import {
   ModalBody,
   ModalFooter,
   Input,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { WorkoutTemplate, UseDisclosureReturnType } from "../../typings";
 
 type WorkoutTemplateModalProps = {

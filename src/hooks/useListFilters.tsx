@@ -14,7 +14,7 @@ import {
   WorkoutTemplate,
   WorkoutTemplateMap,
 } from "../typings";
-import { CalendarDate } from "@nextui-org/react";
+import { CalendarDate } from "@heroui/react";
 import {
   useWeekdayMap,
   useMultisetTypeMap,

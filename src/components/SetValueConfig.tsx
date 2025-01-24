@@ -5,7 +5,7 @@ import {
   Checkbox,
   Select,
   SelectItem,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { useMemo, useState } from "react";
 import { SetValueInputs } from ".";
 import { CommentIcon } from "../assets";

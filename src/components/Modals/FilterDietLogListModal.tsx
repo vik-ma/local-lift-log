@@ -7,7 +7,7 @@ import {
   ModalHeader,
   ModalFooter,
   ScrollShadow,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { FilterDateRangeAndWeekdays, FilterMinAndMaxValues } from "..";
 import { useMemo } from "react";
 

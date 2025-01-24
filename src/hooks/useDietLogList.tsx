@@ -18,7 +18,7 @@ import {
   ShouldDietLogDisableExpansion,
   UpdateItemInList,
 } from "../helpers";
-import { useDisclosure } from "@nextui-org/react";
+import { useDisclosure } from "@heroui/react";
 import { useDietLogListFilters } from "./useDietLogListFilters";
 
 export const useDietLogList = (

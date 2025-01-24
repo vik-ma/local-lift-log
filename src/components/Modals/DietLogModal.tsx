@@ -11,7 +11,7 @@ import {
   DateValue,
   RadioGroup,
   Radio,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import {
   DietLog,
   DietLogMap,

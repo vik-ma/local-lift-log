@@ -9,7 +9,7 @@ import {
   Input,
   Radio,
   RadioGroup,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { Measurement, UseDisclosureReturnType } from "../../typings";
 import { useMeasurementTypes } from "../../hooks/";
 

@@ -7,7 +7,7 @@ import {
   ModalFooter,
   Input,
   ScrollShadow,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import {
   EquipmentWeight,
   PlateCollection,

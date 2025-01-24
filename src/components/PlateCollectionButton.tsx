@@ -1,4 +1,4 @@
-import { Button } from "@nextui-org/react";
+import { Button } from "@heroui/react";
 import { PlateCollection, UserSettings } from "../typings";
 import { UpdateDefaultPlateCollectionId } from "../helpers";
 import { WeightPlatesIcon } from "../assets";

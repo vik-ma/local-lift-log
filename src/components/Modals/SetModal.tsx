@@ -5,7 +5,7 @@ import {
   ModalBody,
   ModalHeader,
   ModalFooter,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { ExerciseModalList, NumSetsDropdown, SetValueConfig } from "../";
 import {
   Exercise,

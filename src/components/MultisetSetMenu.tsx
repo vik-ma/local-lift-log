@@ -4,7 +4,7 @@ import {
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { VerticalMenuIcon } from "../assets";
 import {
   HandleMultisetSetOptionSelectionProps,

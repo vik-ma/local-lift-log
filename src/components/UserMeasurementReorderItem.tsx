@@ -1,6 +1,6 @@
 import { Reorder, useDragControls } from "framer-motion";
 import { Measurement } from "../typings";
-import { Input } from "@nextui-org/react";
+import { Input } from "@heroui/react";
 import MeasurementUnitDropdown from "./Dropdowns/MeasurementUnitDropdown";
 import { ReorderIcon } from "../assets";
 

@@ -7,7 +7,7 @@ import {
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { EmptyListLabel } from "./EmptyListLabel";
 import { IsYmdDateStringTodayOrYesterday } from "../helpers";
 

@@ -1,4 +1,4 @@
-import { Button, Select, SelectItem, SharedSelection } from "@nextui-org/react";
+import { Button, Select, SelectItem, SharedSelection } from "@heroui/react";
 import { useCaloricIntakeTypes } from "../../hooks";
 
 type MultipleChoiceCaloricIntakeDropdownProps = {

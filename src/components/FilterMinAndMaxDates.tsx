@@ -1,4 +1,4 @@
-import { Button, CalendarDate, DatePicker } from "@nextui-org/react";
+import { Button, CalendarDate, DatePicker } from "@heroui/react";
 import { I18nProvider } from "@react-aria/i18n";
 
 type FilterMinAndMaxDatesProps = {

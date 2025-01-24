@@ -9,7 +9,7 @@ import {
   Select,
   SelectItem,
   SharedSelection,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import {
   UseRoutineListReturnType,
   UserSettings,

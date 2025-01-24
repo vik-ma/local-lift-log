@@ -6,7 +6,7 @@ import {
   ModalFooter,
   ScrollShadow,
   Button,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import {
   GroupedWorkoutSet,
   MultisetTypeMap,

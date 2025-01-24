@@ -1,4 +1,4 @@
-import { Select, SelectItem, SharedSelection } from "@nextui-org/react";
+import { Select, SelectItem, SharedSelection } from "@heroui/react";
 import { UseMultisetActionsReturnType } from "../../typings";
 
 type MultipleChoiceMultisetTypeDropdown = {

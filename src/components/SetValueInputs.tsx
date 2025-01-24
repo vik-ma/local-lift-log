@@ -13,7 +13,7 @@ import {
   TimeInput,
   PlusAndMinusButtons,
 } from ".";
-import { Button, Input } from "@nextui-org/react";
+import { Button, Input } from "@heroui/react";
 import {
   ConvertInputStringToNumber,
   ShouldSetTrackingValueButtonBeDisabled,

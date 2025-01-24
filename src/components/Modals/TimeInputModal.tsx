@@ -7,7 +7,7 @@ import {
   ModalFooter,
   TimeInput,
   DatePicker,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import {
   CalendarDate,
   CalendarDateTime,

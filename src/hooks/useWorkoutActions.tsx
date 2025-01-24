@@ -15,7 +15,7 @@ import {
   UseSetTrackingInputsReturnType,
 } from "../typings";
 import { useState, useCallback, useEffect } from "react";
-import { useDisclosure } from "@nextui-org/react";
+import { useDisclosure } from "@heroui/react";
 import Database from "tauri-plugin-sql-api";
 
 import toast from "react-hot-toast";

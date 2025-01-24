@@ -4,7 +4,7 @@ import {
   UsePresetsListReturnType,
   UserSettings,
 } from "../../typings";
-import { Button, ScrollShadow } from "@nextui-org/react";
+import { Button, ScrollShadow } from "@heroui/react";
 import {
   EmptyListLabel,
   LoadingSpinner,

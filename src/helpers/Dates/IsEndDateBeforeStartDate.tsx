@@ -1,4 +1,4 @@
-import { CalendarDate } from "@nextui-org/react";
+import { CalendarDate } from "@heroui/react";
 
 export const IsEndDateBeforeStartDate = (
   startDate: CalendarDate,

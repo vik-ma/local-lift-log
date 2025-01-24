@@ -1,4 +1,4 @@
-import { CalendarDate } from "@nextui-org/react";
+import { CalendarDate } from "@heroui/react";
 import { useMemo } from "react";
 
 export const useIsEndDateBeforeStartDate = (

@@ -1,4 +1,4 @@
-import { CalendarDate } from "@nextui-org/react";
+import { CalendarDate } from "@heroui/react";
 import { useMemo, useState } from "react";
 import { useIsEndDateBeforeStartDate } from ".";
 import { UseDateRangeReturnType } from "../typings";

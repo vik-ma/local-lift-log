@@ -7,7 +7,7 @@ import {
   PlusIcon,
 } from "../assets";
 import { evaluate } from "mathjs";
-import { Button } from "@nextui-org/react";
+import { Button } from "@heroui/react";
 import { OperatingCalculationItem } from "../typings";
 
 type CalculatorProps = {

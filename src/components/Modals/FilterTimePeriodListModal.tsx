@@ -9,7 +9,7 @@ import {
   SharedSelection,
   SelectItem,
   ScrollShadow,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { UseTimePeriodListReturnType } from "../../typings";
 import {
   MultipleChoiceCaloricIntakeDropdown,

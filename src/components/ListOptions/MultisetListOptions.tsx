@@ -1,4 +1,4 @@
-import { Button } from "@nextui-org/react";
+import { Button } from "@heroui/react";
 import { UseMultisetActionsReturnType } from "../../typings";
 
 type MultisetListOptionsProps = {

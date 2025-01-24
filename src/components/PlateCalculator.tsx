@@ -1,4 +1,4 @@
-import { Button, Input, ScrollShadow } from "@nextui-org/react";
+import { Button, Input, ScrollShadow } from "@heroui/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   ConvertNumberToTwoDecimals,

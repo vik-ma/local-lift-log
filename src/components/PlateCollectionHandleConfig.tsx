@@ -1,4 +1,4 @@
-import { Button, Select, SelectItem } from "@nextui-org/react";
+import { Button, Select, SelectItem } from "@heroui/react";
 import { PlateCollection } from "../typings";
 
 type PlateCollectionHandleConfigProps = {

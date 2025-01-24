@@ -20,7 +20,7 @@ import {
   UpdateItemInList,
 } from "../helpers";
 import { useListFilters } from "./useListFilters";
-import { useDisclosure } from "@nextui-org/react";
+import { useDisclosure } from "@heroui/react";
 import { usePresetsTypeString } from "./usePresetsTypeString";
 
 export const usePresetsList = (

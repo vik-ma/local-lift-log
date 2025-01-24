@@ -19,7 +19,7 @@ import {
   useDietLogEntryInputs,
   useDietLogList,
 } from "../hooks";
-import { Button, useDisclosure } from "@nextui-org/react";
+import { Button, useDisclosure } from "@heroui/react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 

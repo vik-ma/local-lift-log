@@ -4,7 +4,7 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { UseMeasurementListReturnType } from "../../typings";
 import { useMeasurementTypes } from "../../hooks";
 

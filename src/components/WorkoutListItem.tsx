@@ -4,7 +4,7 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { Workout } from "../typings";
 import { RatingIcon, VerticalMenuIcon } from "../assets";
 import { FormatNumItemsString } from "../helpers";

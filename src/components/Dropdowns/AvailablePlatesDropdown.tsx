@@ -1,4 +1,4 @@
-import { Select, SelectItem } from "@nextui-org/react";
+import { Select, SelectItem } from "@heroui/react";
 import { useMemo } from "react";
 import { EquipmentWeight, PlateCollection } from "../../typings";
 import { UpdateAvailablePlatesInPlateCollection } from "../../helpers";

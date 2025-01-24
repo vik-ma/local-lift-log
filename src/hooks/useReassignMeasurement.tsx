@@ -7,7 +7,7 @@ import {
 } from "../typings";
 import { useState } from "react";
 import useValidateName from "./useValidateName";
-import { useDisclosure } from "@nextui-org/react";
+import { useDisclosure } from "@heroui/react";
 
 export const useReassignMeasurement = (
   useMeasurementList: UseMeasurementListReturnType

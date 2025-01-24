@@ -4,7 +4,7 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { UserSettings } from "../../typings";
 import Database from "tauri-plugin-sql-api";
 import { ValidTimePeriodPropertiesMap } from "../../helpers";

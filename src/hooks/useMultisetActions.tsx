@@ -23,7 +23,7 @@ import {
   ConvertEmptyStringToNull,
   DoesListOrSetHaveCommonElement,
 } from "../helpers";
-import { useDisclosure } from "@nextui-org/react";
+import { useDisclosure } from "@heroui/react";
 
 type UseMultisetActionsProps = {
   operatingMultiset: Multiset;

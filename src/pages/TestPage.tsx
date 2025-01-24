@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useCalculationModal, useListFilters, usePresetsList } from "../hooks";
-import { Button, useDisclosure } from "@nextui-org/react";
+import { Button, useDisclosure } from "@heroui/react";
 import {
   CalculationModal,
   FilterPresetsListModal,

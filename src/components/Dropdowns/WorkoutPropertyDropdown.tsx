@@ -4,7 +4,7 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import Database from "tauri-plugin-sql-api";
 import { UserSettings } from "../../typings";
 import toast from "react-hot-toast";

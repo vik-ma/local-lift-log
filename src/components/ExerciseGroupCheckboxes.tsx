@@ -1,4 +1,4 @@
-import { Checkbox, CheckboxGroup } from "@nextui-org/react";
+import { Checkbox, CheckboxGroup } from "@heroui/react";
 import { useMemo } from "react";
 import { ExerciseGroupMap } from "../typings";
 

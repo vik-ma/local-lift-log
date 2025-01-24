@@ -35,7 +35,7 @@ import {
   FormatDateTimeString,
   UpdateUserWeight,
 } from "../helpers";
-import { Button, useDisclosure } from "@nextui-org/react";
+import { Button, useDisclosure } from "@heroui/react";
 import Database from "tauri-plugin-sql-api";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";

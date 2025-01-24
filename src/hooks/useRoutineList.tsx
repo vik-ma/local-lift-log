@@ -7,7 +7,7 @@ import {
   UseRoutineListReturnType,
   UseWorkoutTemplateListReturnType,
 } from "../typings";
-import { useDisclosure } from "@nextui-org/react";
+import { useDisclosure } from "@heroui/react";
 import {
   CreateRoutineWorkoutTemplateList,
   DoesListOrSetHaveCommonElement,

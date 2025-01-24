@@ -1,7 +1,7 @@
 import { useMultisetTypeMap } from "../../hooks";
 import { Multiset } from "../../typings";
 import { useState } from "react";
-import { Select, SelectItem } from "@nextui-org/react";
+import { Select, SelectItem } from "@heroui/react";
 
 type MultisetTypeDropdownProps = {
   multiset_type: number;

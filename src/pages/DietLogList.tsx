@@ -21,7 +21,7 @@ import {
   DropdownMenu,
   DropdownTrigger,
   useDisclosure,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import toast from "react-hot-toast";
 import {
   ConvertEmptyStringToNull,

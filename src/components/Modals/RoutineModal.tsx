@@ -10,7 +10,7 @@ import {
   RadioGroup,
   Select,
   SelectItem,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { Routine, UseDisclosureReturnType } from "../../typings";
 import { useMemo } from "react";
 import { NumDaysInScheduleOptions } from "../../helpers";

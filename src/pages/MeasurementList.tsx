@@ -23,7 +23,7 @@ import {
   DropdownMenu,
   DropdownItem,
   DropdownTrigger,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import toast from "react-hot-toast";
 import {
   CreateDefaultMeasurements,

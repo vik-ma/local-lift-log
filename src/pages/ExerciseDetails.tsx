@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { Exercise } from "../typings";
 import { useState, useEffect } from "react";
-import { Button, useDisclosure } from "@nextui-org/react";
+import { Button, useDisclosure } from "@heroui/react";
 import { LoadingSpinner, ExerciseModal, DetailsHeader } from "../components";
 import {
   GetExerciseWithId,
