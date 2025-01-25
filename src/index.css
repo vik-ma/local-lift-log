@@ -134,3 +134,9 @@ body {
 .multiset-divider {
   border-top: 1px solid theme("colors.stone.400") !important;
 }
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+  }
+}
