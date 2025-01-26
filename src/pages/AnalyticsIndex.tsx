@@ -7,17 +7,22 @@ import {
   ModalFooter,
   useDisclosure,
 } from "@heroui/react";
-import { useExerciseList, useFilterExerciseList } from "../hooks";
+import {
+  useExerciseList,
+  useFilterExerciseList,
+  useMeasurementList,
+} from "../hooks";
 import { useEffect, useState } from "react";
 import {
   ExerciseModalList,
   FilterExerciseGroupsModal,
   LoadingSpinner,
+  MeasurementModalList,
 } from "../components";
 import { UserSettings } from "../typings";
 import { GetUserSettings } from "../helpers";
 
-type ListType = "exercise";
+type ListType = "exercise" | "measurement";
 
 export default function AnalyticsIndex() {
   const [listType, setListType] = useState<ListType>("exercise");
@@ -31,6 +36,8 @@ export default function AnalyticsIndex() {
 
   const filterExerciseList = useFilterExerciseList(exerciseList);
 
+  const measurementList = useMeasurementList();
+
   useEffect(() => {
     const loadUserSettings = async () => {
       const userSettings = await GetUserSettings();
@@ -42,6 +49,15 @@ export default function AnalyticsIndex() {
 
     loadUserSettings();
   }, []);
+
+  const handleOpenListModal = (selectedListType: ListType) => {
+    setListType(selectedListType);
+
+    if (selectedListType) {
+    }
+
+    listModal.onOpen();
+  };
 
   if (userSettings === undefined || !isExerciseListLoaded)
     return <LoadingSpinner />;
@@ -66,7 +82,10 @@ export default function AnalyticsIndex() {
                     isInAnalyticsPage
                   />
                 ) : (
-                  <></>
+                  <MeasurementModalList
+                    useMeasurementList={measurementList}
+                    handleMeasurementClick={() => {}}
+                  />
                 )}
               </ModalBody>
               <ModalFooter>
@@ -83,13 +102,22 @@ export default function AnalyticsIndex() {
         useFilterExerciseList={filterExerciseList}
       />
       <div className="flex flex-col items-center gap-3">
-        <Button
-          variant="flat"
-          color="secondary"
-          onPress={() => listModal.onOpen()}
-        >
-          Select Exercise
-        </Button>
+        <div className="flex flex-col gap-1.5">
+          <Button
+            variant="flat"
+            color="secondary"
+            onPress={() => handleOpenListModal("exercise")}
+          >
+            Select Exercise
+          </Button>
+          <Button
+            variant="flat"
+            color="secondary"
+            onPress={() => handleOpenListModal("measurement")}
+          >
+            Select Measurement
+          </Button>
+        </div>
       </div>
     </>
   );
