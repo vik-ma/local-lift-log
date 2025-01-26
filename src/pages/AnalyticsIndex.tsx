@@ -8,19 +8,43 @@ import {
   useDisclosure,
 } from "@heroui/react";
 import { useExerciseList, useFilterExerciseList } from "../hooks";
-import { useState } from "react";
-import { ExerciseModalList, FilterExerciseGroupsModal } from "../components";
+import { useEffect, useState } from "react";
+import {
+  ExerciseModalList,
+  FilterExerciseGroupsModal,
+  LoadingSpinner,
+} from "../components";
+import { UserSettings } from "../typings";
+import { GetUserSettings } from "../helpers";
 
 type ListType = "exercise";
 
 export default function AnalyticsIndex() {
   const [listType, setListType] = useState<ListType>("exercise");
+  const [userSettings, setUserSettings] = useState<UserSettings>();
 
   const listModal = useDisclosure();
 
   const exerciseList = useExerciseList(true, true, true);
 
+  const { isExerciseListLoaded } = exerciseList;
+
   const filterExerciseList = useFilterExerciseList(exerciseList);
+
+  useEffect(() => {
+    const loadUserSettings = async () => {
+      const userSettings = await GetUserSettings();
+
+      if (userSettings === undefined) return;
+
+      setUserSettings(userSettings);
+    };
+
+    loadUserSettings();
+  }, []);
+
+  if (userSettings === undefined || !isExerciseListLoaded)
+    return <LoadingSpinner />;
 
   return (
     <>
@@ -37,7 +61,7 @@ export default function AnalyticsIndex() {
                     handleClickExercise={() => {}}
                     useExerciseList={exerciseList}
                     useFilterExerciseList={filterExerciseList}
-                    userSettingsId={0}
+                    userSettingsId={userSettings.id}
                     customHeightString="h-[440px]"
                   />
                 ) : (
