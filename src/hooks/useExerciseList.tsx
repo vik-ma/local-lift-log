@@ -15,7 +15,8 @@ import { useExerciseGroupDictionary, useExerciseGroupList } from ".";
 
 export const useExerciseList = (
   getExercisesOnLoad: boolean,
-  showTotalNumSets?: boolean
+  showTotalNumSets?: boolean,
+  ignoreExercisesWithNoSets?: boolean
 ): UseExerciseListReturnType => {
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [sortCategory, setSortCategory] =
@@ -115,7 +116,8 @@ export const useExerciseList = (
   const getExercises = useCallback(async () => {
     const exercises = showTotalNumSets
       ? await GetExerciseListWithGroupStringsAndTotalSets(
-          exerciseGroupDictionary
+          exerciseGroupDictionary,
+          ignoreExercisesWithNoSets
         )
       : await GetExerciseListWithGroupStrings(exerciseGroupDictionary);
 

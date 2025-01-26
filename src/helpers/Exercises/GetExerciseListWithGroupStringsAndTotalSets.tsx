@@ -6,7 +6,8 @@ import {
 } from "..";
 
 export const GetExerciseListWithGroupStringsAndTotalSets = async (
-  exerciseGroupDictionary: ExerciseGroupMap
+  exerciseGroupDictionary: ExerciseGroupMap,
+  ignoreExercisesWithNoSets?: boolean
 ) => {
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
@@ -25,7 +26,9 @@ export const GetExerciseListWithGroupStringsAndTotalSets = async (
 
     const exercises: Exercise[] = [];
 
-    result.map((row) => {
+    for (const row of result) {
+      if (ignoreExercisesWithNoSets && row.set_count === 0) continue;
+
       const convertedValuesPrimary = ConvertExerciseGroupSetStringPrimary(
         row.exercise_group_set_string_primary,
         exerciseGroupDictionary
@@ -57,7 +60,7 @@ export const GetExerciseListWithGroupStringsAndTotalSets = async (
       }
 
       exercises.push(exercise);
-    });
+    }
 
     return exercises;
   } catch (error) {
