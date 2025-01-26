@@ -21,6 +21,7 @@ type ExerciseModalListProps = {
   userSettingsId: number;
   customHeightString?: string;
   selectedExercises?: Set<number>;
+  isInAnalyticsPage?: boolean;
 };
 
 export const ExerciseModalList = ({
@@ -30,6 +31,7 @@ export const ExerciseModalList = ({
   userSettingsId,
   customHeightString,
   selectedExercises,
+  isInAnalyticsPage,
 }: ExerciseModalListProps) => {
   const { toggleFavorite, exercises, includeSecondaryGroups } = useExerciseList;
 
@@ -131,10 +133,15 @@ export const ExerciseModalList = ({
         {filteredExercises.length === 0 && (
           <EmptyListLabel
             itemName="Exercises"
+            customLabel={
+              isInAnalyticsPage ? "No Exercises Has Been Completed" : undefined
+            }
             extraContent={
-              <Link to={"/exercises/"}>
-                Create Or Restore Default Exercises Here
-              </Link>
+              isInAnalyticsPage ? undefined : (
+                <Link to={"/exercises/"}>
+                  Create Or Restore Default Exercises Here
+                </Link>
+              )
             }
           />
         )}

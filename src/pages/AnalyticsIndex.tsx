@@ -25,7 +25,7 @@ export default function AnalyticsIndex() {
 
   const listModal = useDisclosure();
 
-  const exerciseList = useExerciseList(true, true, true);
+  const exerciseList = useExerciseList(false, true, true);
 
   const { isExerciseListLoaded } = exerciseList;
 
@@ -63,6 +63,7 @@ export default function AnalyticsIndex() {
                     useFilterExerciseList={filterExerciseList}
                     userSettingsId={userSettings.id}
                     customHeightString="h-[440px]"
+                    isInAnalyticsPage
                   />
                 ) : (
                   <></>
