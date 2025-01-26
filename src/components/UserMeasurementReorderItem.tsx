@@ -1,7 +1,7 @@
 import { Reorder, useDragControls } from "framer-motion";
 import { Measurement } from "../typings";
 import { Input } from "@heroui/react";
-import MeasurementUnitDropdown from "./Dropdowns/MeasurementUnitDropdown";
+import { MeasurementUnitDropdown } from ".";
 import { ReorderIcon } from "../assets";
 
 type UserMeasurementReorderItemProps = {

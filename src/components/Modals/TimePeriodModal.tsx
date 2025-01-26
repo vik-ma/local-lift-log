@@ -15,7 +15,7 @@ import {
   Input,
   DatePicker,
 } from "@heroui/react";
-import { CaloricIntakeDropdown } from "../Dropdowns/CaloricIntakeDropdown";
+import { CaloricIntakeDropdown } from "..";
 
 type TimePeriodModalProps = {
   timePeriodModal: UseDisclosureReturnType;

@@ -33,6 +33,7 @@ export { CaloricIntakeTypeSpan } from "./CaloricIntakeTypeSpan";
 export { FilterMinAndMaxValues } from "./FilterMinAndMaxValues";
 export { FilterMinAndMaxDates } from "./FilterMinAndMaxDates";
 export { DietLogAccordions } from "./DietLogAccordions";
+export { DateRange } from "./DateRange";
 
 export { WeightUnitDropdown } from "./Dropdowns/WeightUnitDropdown";
 export { DistanceUnitDropdown } from "./Dropdowns/DistanceUnitDropdown";

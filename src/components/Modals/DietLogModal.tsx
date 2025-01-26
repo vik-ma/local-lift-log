@@ -19,14 +19,13 @@ import {
   UseDisclosureReturnType,
   UserSettings,
 } from "../../typings";
-import { DietLogDayDropdown } from "../Dropdowns/DietLogDayDropdown";
+import { DietLogDayDropdown, DateRange } from "..";
 import { useEffect, useMemo, useState } from "react";
 import { I18nProvider } from "@react-aria/i18n";
 import {
   ConvertCalendarDateToYmdString,
   ConvertDateToYmdString,
 } from "../../helpers";
-import { DateRange } from "../DateRange";
 import {
   getLocalTimeZone,
   // today
