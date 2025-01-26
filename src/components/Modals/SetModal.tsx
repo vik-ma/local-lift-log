@@ -86,7 +86,7 @@ export const SetModal = ({
               {selectedExercise === undefined ? (
                 <ExerciseModalList
                   handleClickExercise={handleClickExercise}
-                  exerciseList={exerciseList}
+                  useExerciseList={exerciseList}
                   useFilterExerciseList={useFilterExerciseList}
                   userSettingsId={userSettings.id}
                 />

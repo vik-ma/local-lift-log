@@ -99,10 +99,10 @@ export const FilterMultisetListModal = ({
               {modalPage === "exercise-list" ? (
                 <ExerciseModalList
                   handleClickExercise={handleClickExercise}
-                  exerciseList={useExerciseList}
+                  useExerciseList={useExerciseList}
                   useFilterExerciseList={useFilterExerciseList}
                   userSettingsId={userSettings.id}
-                  filterExercises={filterExercises}
+                  selectedExercises={filterExercises}
                 />
               ) : modalPage === "exercise-groups" ? (
                 <div className="h-[400px]">

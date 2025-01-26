@@ -16,22 +16,22 @@ import { GoToArrowIcon } from "../../assets";
 
 type ExerciseModalListProps = {
   handleClickExercise: (exercise: Exercise) => void;
-  exerciseList: UseExerciseListReturnType;
+  useExerciseList: UseExerciseListReturnType;
   useFilterExerciseList: UseFilterExerciseListReturnType;
   userSettingsId: number;
   customHeightString?: string;
-  filterExercises?: Set<number>;
+  selectedExercises?: Set<number>;
 };
 
 export const ExerciseModalList = ({
   handleClickExercise,
-  exerciseList,
+  useExerciseList,
   useFilterExerciseList,
   userSettingsId,
   customHeightString,
-  filterExercises,
+  selectedExercises,
 }: ExerciseModalListProps) => {
-  const { toggleFavorite, exercises, includeSecondaryGroups } = exerciseList;
+  const { toggleFavorite, exercises, includeSecondaryGroups } = useExerciseList;
 
   const {
     filterQuery,
@@ -68,7 +68,7 @@ export const ExerciseModalList = ({
             Edit Exercises
           </Button>
           <ExerciseListOptions
-            useExerciseList={exerciseList}
+            useExerciseList={useExerciseList}
             useFilterExerciseList={useFilterExerciseList}
             userSettingsId={userSettingsId}
           />
@@ -87,7 +87,7 @@ export const ExerciseModalList = ({
           <div
             key={exercise.id}
             className={
-              filterExercises?.has(exercise.id)
+              selectedExercises?.has(exercise.id)
                 ? "flex justify-between items-center gap-1 cursor-pointer bg-amber-100 border-2 border-amber-300 rounded-xl hover:border-default-400 focus:border-default-400"
                 : "flex justify-between items-center gap-1 cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:border-default-400"
             }

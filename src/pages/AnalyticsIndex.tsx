@@ -35,9 +35,10 @@ export default function AnalyticsIndex() {
                 {listType === "exercise" ? (
                   <ExerciseModalList
                     handleClickExercise={() => {}}
-                    exerciseList={exerciseList}
+                    useExerciseList={exerciseList}
                     useFilterExerciseList={filterExerciseList}
                     userSettingsId={0}
+                    customHeightString="h-[440px]"
                   />
                 ) : (
                   <></>

@@ -135,7 +135,7 @@ export const MultisetModal = ({
               {modalPage === "exercise-list" ? (
                 <ExerciseModalList
                   handleClickExercise={handleClickExercise}
-                  exerciseList={exerciseList}
+                  useExerciseList={exerciseList}
                   useFilterExerciseList={useFilterExerciseList}
                   userSettingsId={userSettings.id}
                 />
