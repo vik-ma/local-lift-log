@@ -13,6 +13,7 @@ import {
   SearchInput,
 } from "..";
 import { GoToArrowIcon } from "../../assets";
+import { FormatSetsCompletedString } from "../../helpers";
 
 type ExerciseModalListProps = {
   handleClickExercise: (exercise: Exercise) => void;
@@ -99,6 +100,11 @@ export const ExerciseModalList = ({
               <span className="w-[20rem] truncate text-left">
                 {exercise.name}
               </span>
+              {isInAnalyticsPage && (
+                <span className="text-xs text-secondary text-left">
+                  {FormatSetsCompletedString(exercise.set_count)}
+                </span>
+              )}
               {!includeSecondaryGroups ? (
                 <span className="text-xs text-stone-400 text-left">
                   {exercise.formattedGroupStringPrimary}

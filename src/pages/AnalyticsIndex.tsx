@@ -25,7 +25,7 @@ export default function AnalyticsIndex() {
 
   const listModal = useDisclosure();
 
-  const exerciseList = useExerciseList(false, true, true);
+  const exerciseList = useExerciseList(true, true, true);
 
   const { isExerciseListLoaded } = exerciseList;
 
