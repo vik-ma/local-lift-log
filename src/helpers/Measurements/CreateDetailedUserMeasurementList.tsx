@@ -8,7 +8,8 @@ import { FormatDateTimeString, GenerateMeasurementListText } from "..";
 export const CreateDetailedUserMeasurementList = (
   userMeasurementList: UserMeasurement[],
   measurementMap: MeasurementMap,
-  clockStyle: string
+  clockStyle: string,
+  idToExpand: number
 ) => {
   const detailedUserMeasurementList: UserMeasurement[] = [];
 
@@ -34,7 +35,7 @@ export const CreateDetailedUserMeasurementList = (
         ...userMeasurement,
         measurementListText: measurementListText,
         formattedDate: formattedDate,
-        isExpanded: false,
+        isExpanded: userMeasurement.id === idToExpand,
         userMeasurementValues: userMeasurementValues,
         isInvalid: containsInvalidMeasurement,
       };

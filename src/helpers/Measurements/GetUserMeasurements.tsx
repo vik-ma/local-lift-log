@@ -16,7 +16,8 @@ export const GetUserMeasurements = async (
     const detailedUserMeasurements = CreateDetailedUserMeasurementList(
       result,
       measurementMap,
-      clockStyle
+      clockStyle,
+      0
     );
 
     return detailedUserMeasurements;

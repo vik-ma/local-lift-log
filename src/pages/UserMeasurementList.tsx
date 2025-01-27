@@ -192,7 +192,8 @@ export default function UserMeasurementList() {
     const detailedUpdatedUserMeasurement = CreateDetailedUserMeasurementList(
       [updatedUserMeasurements],
       measurementMap.current,
-      userSettings.clock_style
+      userSettings.clock_style,
+      updatedUserMeasurements.id
     );
 
     const updatedUserMeasurementList = UpdateItemInList(

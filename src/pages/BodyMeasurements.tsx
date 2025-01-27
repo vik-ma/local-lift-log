@@ -162,13 +162,11 @@ export default function BodyMeasurements() {
         const detailedUserMeasurement = CreateDetailedUserMeasurementList(
           result,
           measurementMap.current,
-          clockStyle
+          clockStyle,
+          result[0].id
         );
 
-        if (detailedUserMeasurement.length === 1) {
-          detailedUserMeasurement[0].isExpanded = true;
-          setLatestUserMeasurements(detailedUserMeasurement[0]);
-        }
+        setLatestUserMeasurements(detailedUserMeasurement[0]);
       } catch (error) {
         console.log(error);
       }
@@ -339,7 +337,8 @@ export default function BodyMeasurements() {
     const detailedUpdatedUserMeasurement = CreateDetailedUserMeasurementList(
       [updatedUserMeasurements],
       measurementMap.current,
-      userSettings.clock_style
+      userSettings.clock_style,
+      updatedUserMeasurements.id
     );
 
     setLatestUserMeasurements(detailedUpdatedUserMeasurement[0]);

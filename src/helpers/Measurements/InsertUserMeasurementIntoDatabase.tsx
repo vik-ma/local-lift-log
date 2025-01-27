@@ -32,7 +32,8 @@ export const InsertUserMeasurementIntoDatabase = async (
     const detailedActiveMeasurement = CreateDetailedUserMeasurementList(
       [newUserMeasurements],
       measurementMap,
-      clockStyle
+      clockStyle,
+      result.lastInsertId
     );
 
     return detailedActiveMeasurement[0];
