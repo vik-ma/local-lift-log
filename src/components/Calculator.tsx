@@ -318,17 +318,18 @@ export const Calculator = ({
           <PlusIcon size={36} color="#848484" />
         </button>
       </div>
-      <div className="flex justify-end pt-1">
-        <Button
-          color="primary"
-          isDisabled={isCalculationInvalid}
-          onPress={() => buttonAction(input)}
-        >
-          {operatingCalculationItem === undefined
-            ? "Add Calculation"
-            : "Save Calculation"}
-        </Button>
-      </div>
+      <Button
+        className="text-xl font-medium"
+        size="lg"
+        radius="sm"
+        color="primary"
+        isDisabled={isCalculationInvalid}
+        onPress={() => buttonAction(input)}
+      >
+        {operatingCalculationItem === undefined
+          ? "Add Calculation"
+          : "Save Calculation"}
+      </Button>
     </div>
   );
 };
