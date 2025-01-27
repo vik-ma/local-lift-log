@@ -14,6 +14,7 @@ import {
 } from "..";
 import { GoToArrowIcon } from "../../assets";
 import { FormatSetsCompletedString } from "../../helpers";
+import { useMemo } from "react";
 
 type ExerciseModalListProps = {
   handleClickExercise: (exercise: Exercise) => void;
@@ -45,8 +46,9 @@ export const ExerciseModalList = ({
     prefixMap,
   } = useFilterExerciseList;
 
-  const height =
-    customHeightString !== undefined ? customHeightString : "h-[400px]";
+  const height = useMemo(() => {
+    return customHeightString !== undefined ? customHeightString : "h-[400px]";
+  }, []);
 
   const navigate = useNavigate();
 
