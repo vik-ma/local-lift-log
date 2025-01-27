@@ -144,14 +144,14 @@ export const WorkoutModal = ({
                     {handleChangeWorkoutTemplateButton !== undefined &&
                       handleRemoveWorkoutTemplateButton !== undefined && (
                         <div className="flex flex-col px-0.5">
-                          <div className="flex items-center gap-0.5">
+                          <div className="flex items-center gap-px">
                             <span className="font-medium">
                               Workout Template
                             </span>
                             <Popover placement="top" offset={4} showArrow>
                               <PopoverTrigger>
                                 <Button size="sm" variant="light" isIconOnly>
-                                  <InfoIcon size={19} />
+                                  <InfoIcon size={18} />
                                 </Button>
                               </PopoverTrigger>
                               <PopoverContent>
@@ -226,12 +226,12 @@ export const WorkoutModal = ({
                     {handleChangeRoutineButton !== undefined &&
                       handleRemoveRoutineButton !== undefined && (
                         <div className="flex flex-col px-0.5">
-                          <div className="flex items-center gap-0.5">
+                          <div className="flex items-center gap-px">
                             <span className="font-medium">Routine</span>
                             <Popover placement="top" offset={4} showArrow>
                               <PopoverTrigger>
                                 <Button size="sm" variant="light" isIconOnly>
-                                  <InfoIcon size={19} />
+                                  <InfoIcon size={18} />
                                 </Button>
                               </PopoverTrigger>
                               <PopoverContent>
