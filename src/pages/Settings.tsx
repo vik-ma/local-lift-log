@@ -608,6 +608,8 @@ export default function Settings() {
       <Modal
         isOpen={specificSettingModal.isOpen}
         onOpenChange={specificSettingModal.onOpenChange}
+        // TODO: REMOVE WHEN BUG IS FIXED
+        disableAnimation
       >
         <ModalContent>
           {(onClose) => (

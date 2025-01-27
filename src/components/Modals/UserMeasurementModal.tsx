@@ -99,6 +99,8 @@ export const UserMeasurementModal = ({
     <Modal
       isOpen={userMeasurementModal.isOpen}
       onOpenChange={userMeasurementModal.onOpenChange}
+      // TODO: REMOVE WHEN BUG IS FIXED
+      disableAnimation
     >
       <ModalContent>
         {(onClose) => (

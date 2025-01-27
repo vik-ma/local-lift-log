@@ -69,7 +69,9 @@ export const MultisetModal = ({
   openCalculationModal,
   useFilterExerciseList,
 }: MultisetModalProps) => {
-  const [numNewSets, setNumNewSets] = useState<string>(userSettings.default_num_new_sets);
+  const [numNewSets, setNumNewSets] = useState<string>(
+    userSettings.default_num_new_sets
+  );
 
   const { multisetModal, updateOperatingSet, undoOperatingMultisetChanges } =
     useMultisetActions;
@@ -114,7 +116,12 @@ export const MultisetModal = ({
   }, [modalPage, isAddingMultisetToWorkout]);
 
   return (
-    <Modal isOpen={multisetModal.isOpen} onOpenChange={closeMultisetModal}>
+    <Modal
+      isOpen={multisetModal.isOpen}
+      onOpenChange={closeMultisetModal}
+      // TODO: REMOVE WHEN BUG IS FIXED
+      disableAnimation
+    >
       <ModalContent>
         {(onClose) => (
           <>
