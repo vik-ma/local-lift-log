@@ -112,51 +112,55 @@ export const UserMeasurementAccordions = ({
 
                       return (
                         <div
-                          className="flex gap-2 text-stone-600 text-left items-center px-2 py-0.5"
+                          className="flex justify-between text-stone-600 text-left items-center px-2 py-0.5"
                           key={key}
                         >
-                          <div
-                            className={
-                              values.isInvalid
-                                ? "flex gap-2 items-center w-[9rem] truncate text-red-700"
-                                : "w-[9rem] truncate"
-                            }
-                          >
-                            <span className="font-medium">
-                              {values.isInvalid ? "Unknown" : name}
-                            </span>
-                            {values.isInvalid && (
-                              <Button
-                                className="h-6"
-                                size="sm"
-                                variant="flat"
-                                onPress={() =>
-                                  handleReassignMeasurement({
-                                    id: key,
-                                    unit: values.unit,
-                                    measurement_type: values.measurement_type,
-                                  })
-                                }
-                              >
-                                Reassign
-                              </Button>
-                            )}
+                          <div className="flex gap-2">
+                            <div
+                              className={
+                                values.isInvalid
+                                  ? "flex gap-2 items-center w-[9.75rem] truncate text-red-700"
+                                  : "w-[9.75rem] truncate "
+                              }
+                            >
+                              <span className="font-medium">
+                                {values.isInvalid ? "Unknown" : name}
+                              </span>
+                              {values.isInvalid && (
+                                <Button
+                                  className="h-6"
+                                  size="sm"
+                                  variant="flat"
+                                  onPress={() =>
+                                    handleReassignMeasurement({
+                                      id: key,
+                                      unit: values.unit,
+                                      measurement_type: values.measurement_type,
+                                    })
+                                  }
+                                >
+                                  Reassign
+                                </Button>
+                              )}
+                            </div>
+                            <div
+                              className={
+                                values.unit === "in"
+                                  ? "flex w-[6rem] bg-red-30"
+                                  : "flex gap-1 w-[6rem] bg-red-30"
+                              }
+                            >
+                              <span className="max-w-[4rem] truncate font-semibold">
+                                {values.value}
+                              </span>
+                              <span className="font-medium">
+                                {values.unit === "in" ? `″` : values.unit}
+                              </span>
+                            </div>
                           </div>
-                          <div
-                            className={
-                              values.unit === "in"
-                                ? "flex w-[5.5rem]"
-                                : "flex gap-1 w-[5.5rem]"
-                            }
-                          >
-                            <span className="max-w-[3.5rem] truncate font-semibold">
-                              {values.value}
-                            </span>
-                            <span className="font-medium">
-                              {values.unit === "in" ? `″` : values.unit}
-                            </span>
-                          </div>
-                          <span>{values.measurement_type}</span>
+                          <span className="text-right w-[6rem]">
+                            {values.measurement_type}
+                          </span>
                         </div>
                       );
                     }
