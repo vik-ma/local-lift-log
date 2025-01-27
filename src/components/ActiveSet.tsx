@@ -354,8 +354,8 @@ export const ActiveSet = ({
                       <div className="flex justify-between">
                         <div className="flex gap-1">
                           <Button
-                            color="primary"
                             variant="light"
+                            color="primary"
                             onPress={() =>
                               handleEditSet(
                                 activeSet,
@@ -369,18 +369,17 @@ export const ActiveSet = ({
                           </Button>
                         </div>
                         <div className="flex gap-1.5">
-                          {activeSetInputs.isSetEdited && (
-                            <Button
-                              color="danger"
-                              variant="flat"
-                              onPress={() => resetSetInputValues(false)}
-                            >
-                              Reset
-                            </Button>
-                          )}
+                          {activeSetInputs.isSetEdited &&
+                            activeSet.is_completed === 1 && (
+                              <Button
+                                variant="light"
+                                onPress={() => resetSetInputValues(false)}
+                              >
+                                Reset
+                              </Button>
+                            )}
                           <Button
-                            color="secondary"
-                            variant="flat"
+                            variant="light"
                             onPress={clearActiveSetInputValues}
                           >
                             Clear
