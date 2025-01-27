@@ -14,7 +14,7 @@ type MultisetReorderItemProps = {
   setMultiset: React.Dispatch<React.SetStateAction<Multiset>>;
   set: WorkoutSet;
   handleMultisetSetOptionSelection: HandleMultisetSetOptionSelectionProps;
-  dragConstraintsRef: React.RefObject<HTMLDivElement>;
+  dragConstraintsRef: React.RefObject<HTMLDivElement | null>;
 };
 
 export const MultisetReorderItem = ({
