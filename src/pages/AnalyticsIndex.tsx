@@ -38,6 +38,8 @@ export default function AnalyticsIndex() {
 
   const measurementList = useMeasurementList();
 
+  const { isMeasurementListLoaded } = measurementList;
+
   useEffect(() => {
     const loadUserSettings = async () => {
       const userSettings = await GetUserSettings();
@@ -59,7 +61,11 @@ export default function AnalyticsIndex() {
     listModal.onOpen();
   };
 
-  if (userSettings === undefined || !isExerciseListLoaded)
+  if (
+    userSettings === undefined ||
+    !isExerciseListLoaded.current ||
+    !isMeasurementListLoaded.current
+  )
     return <LoadingSpinner />;
 
   return (
@@ -85,6 +91,7 @@ export default function AnalyticsIndex() {
                   <MeasurementModalList
                     useMeasurementList={measurementList}
                     handleMeasurementClick={() => {}}
+                    customHeightString="h-[440px]"
                   />
                 )}
               </ModalBody>

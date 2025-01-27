@@ -9,17 +9,20 @@ import {
 import { Measurement, UseMeasurementListReturnType } from "../../typings";
 import { CheckmarkIcon, GoToArrowIcon } from "../../assets";
 import { useNavigate } from "react-router-dom";
+import { useMemo } from "react";
 
 type MeasurementModalListProps = {
   useMeasurementList: UseMeasurementListReturnType;
   handleMeasurementClick: (measurement: Measurement) => void;
   highlightedMeasurements?: Set<string>;
+  customHeightString?: string;
 };
 
 export const MeasurementModalList = ({
   useMeasurementList,
   handleMeasurementClick,
   highlightedMeasurements,
+  customHeightString,
 }: MeasurementModalListProps) => {
   const {
     measurements,
@@ -32,10 +35,14 @@ export const MeasurementModalList = ({
 
   const { filterMap, removeFilter, prefixMap } = listFilters;
 
+  const height = useMemo(() => {
+    return customHeightString !== undefined ? customHeightString : "h-[400px]";
+  }, []);
+
   const navigate = useNavigate();
 
   return (
-    <div className="h-[400px] flex flex-col gap-1.5">
+    <div className={`${height} flex flex-col gap-1.5`}>
       <div className="flex flex-col gap-1.5">
         <SearchInput
           filterQuery={filterQuery}
