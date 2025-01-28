@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Measurement,
   MeasurementMap,
@@ -56,53 +56,47 @@ export const useMeasurementList = (
     setMeasurements(measurements);
   };
 
-  const sortMeasurementsByFavoritesFirst = useCallback(
-    (measurements: Measurement[]) => {
-      // Sort measurements by Favorite > Active > Name
-      measurements.sort((a, b) => {
-        if (b.is_favorite !== a.is_favorite) {
-          return b.is_favorite - a.is_favorite;
-        }
+  const sortMeasurementsByFavoritesFirst = (measurements: Measurement[]) => {
+    // Sort measurements by Favorite > Active > Name
+    measurements.sort((a, b) => {
+      if (b.is_favorite !== a.is_favorite) {
+        return b.is_favorite - a.is_favorite;
+      }
 
-        const aIsActive = +activeMeasurementSet.has(a.id);
-        const bIsActive = +activeMeasurementSet.has(b.id);
+      const aIsActive = +activeMeasurementSet.has(a.id);
+      const bIsActive = +activeMeasurementSet.has(b.id);
 
-        if (aIsActive !== bIsActive) {
-          return bIsActive - aIsActive;
-        }
+      if (aIsActive !== bIsActive) {
+        return bIsActive - aIsActive;
+      }
 
-        return a.name.localeCompare(b.name);
-      });
+      return a.name.localeCompare(b.name);
+    });
 
-      setMeasurements(measurements);
-    },
-    [activeMeasurementSet]
-  );
+    setMeasurements(measurements);
+  };
 
-  const sortMeasurementsByActiveFirst = useCallback(
-    (measurements: Measurement[]) => {
-      // Sort measurements by Active > Favorite > Name
-      measurements.sort((a, b) => {
-        const aIsActive = +activeMeasurementSet.has(a.id);
-        const bIsActive = +activeMeasurementSet.has(b.id);
+  const sortMeasurementsByActiveFirst = (measurements: Measurement[]) => {
+    // Sort measurements by Active > Favorite > Name
+    measurements.sort((a, b) => {
+      const aIsActive = +activeMeasurementSet.has(a.id);
+      const bIsActive = +activeMeasurementSet.has(b.id);
 
-        if (aIsActive !== bIsActive) {
-          return bIsActive - aIsActive;
-        }
+      if (aIsActive !== bIsActive) {
+        return bIsActive - aIsActive;
+      }
 
-        if (b.is_favorite !== a.is_favorite) {
-          return b.is_favorite - a.is_favorite;
-        }
+      if (b.is_favorite !== a.is_favorite) {
+        return b.is_favorite - a.is_favorite;
+      }
 
-        return a.name.localeCompare(b.name);
-      });
+      return a.name.localeCompare(b.name);
+    });
 
-      setMeasurements(measurements);
-    },
-    [activeMeasurementSet]
-  );
+    setMeasurements(measurements);
+  };
 
-  const getMeasurements = useCallback(async () => {
+  const getMeasurements = async () => {
     if (isMeasurementListLoaded.current) return;
 
     try {
@@ -123,13 +117,13 @@ export const useMeasurementList = (
     } catch (error) {
       console.log(error);
     }
-  }, [sortMeasurementsByActiveFirst]);
+  };
 
   useEffect(() => {
     if (getMeasurementsOnLoad) {
       getMeasurements();
     }
-  }, [getMeasurements]);
+  }, []);
 
   const createMeasurement = async (
     newMeasurement: Measurement
