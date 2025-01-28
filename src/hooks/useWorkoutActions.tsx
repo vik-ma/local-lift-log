@@ -1574,8 +1574,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       activeSetInputs.setUneditedSet({ ...activeSet });
       activeSetInputs.setIsSetEdited(false);
     },
-    // Including activeSetInputs in the dependency array causes constant re-renders
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
 

@@ -204,8 +204,6 @@ export default function RoutineDetails() {
       getWorkoutRoutineSchedules();
       loadUserSettings();
     }
-    // useRef currents needs to be specifically included in array
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     id,
     getWorkoutRoutineSchedules,

@@ -89,9 +89,6 @@ export default function DietLogIndex() {
     };
 
     loadUserSettings();
-    // isDietLogListLoaded.current need to be specifically included in array,
-    // but isDietLogListLoaded is not needed
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setTargetDay, isDietLogListLoaded.current]);
 
   const addDietLogEntry = async (date: string) => {

@@ -495,34 +495,26 @@ export const useMultisetActions = ({
     setModalPage("base");
   };
 
-  const loadMultisets = useCallback(
-    async () => {
-      if (!isExerciseListLoaded.current) return;
+  const loadMultisets = useCallback(async () => {
+    if (!isExerciseListLoaded.current) return;
 
-      try {
-        const multisets = await GetAllMultisetTemplates(
-          exerciseGroupDictionary,
-          exerciseMap.current
-        );
+    try {
+      const multisets = await GetAllMultisetTemplates(
+        exerciseGroupDictionary,
+        exerciseMap.current
+      );
 
-        setMultisets(multisets);
-        isMultisetListLoaded.current = true;
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    // isExerciseListLoaded.current need to be specifically included in array,
-    // otherwise the function doesn't fire off after isExerciseListLoaded.current turns true.
-    // Not including isExerciseListLoaded causes a "missing dependency" linting warning, even though it is unnecessary
-    // Including both causes an "unnecessary dependency" linting warning, even though isExerciseListLoaded.current is specifically necessary
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [
-      setMultisets,
-      exerciseGroupDictionary,
-      exerciseMap,
-      isExerciseListLoaded.current,
-    ]
-  );
+      setMultisets(multisets);
+      isMultisetListLoaded.current = true;
+    } catch (error) {
+      console.log(error);
+    }
+  }, [
+    setMultisets,
+    exerciseGroupDictionary,
+    exerciseMap,
+    isExerciseListLoaded.current,
+  ]);
 
   useEffect(() => {
     loadMultisets();

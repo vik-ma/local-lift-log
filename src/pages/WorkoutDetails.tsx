@@ -287,8 +287,6 @@ export default function WorkoutDetails() {
     };
 
     loadWorkout();
-    // Including useWorkoutActions-derived functions and setStates will cause useEffect to fire after initial load
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, exerciseList.exerciseGroupDictionary]);
 
   const handleWorkoutModalSaveButton = async (updatedWorkout: Workout) => {
