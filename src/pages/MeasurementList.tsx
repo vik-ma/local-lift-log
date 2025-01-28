@@ -57,7 +57,7 @@ export default function MeasurementList() {
   const measurementModal = useDisclosure();
   const setUnitsModal = useDisclosure();
 
-  const measurementList = useMeasurementList();
+  const measurementList = useMeasurementList(true);
 
   const {
     measurements,

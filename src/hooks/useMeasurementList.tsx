@@ -13,7 +13,9 @@ import {
 } from "../helpers";
 import { useListFilters } from "./useListFilters";
 
-export const useMeasurementList = (): UseMeasurementListReturnType => {
+export const useMeasurementList = (
+  getMeasurementsOnLoad: boolean
+): UseMeasurementListReturnType => {
   const [measurements, setMeasurements] = useState<Measurement[]>([]);
   const [filterQuery, setFilterQuery] = useState<string>("");
   const [sortCategory, setSortCategory] =
@@ -126,7 +128,9 @@ export const useMeasurementList = (): UseMeasurementListReturnType => {
   }, [sortMeasurementsByActiveFirst]);
 
   useEffect(() => {
-    getMeasurements();
+    if (getMeasurementsOnLoad) {
+      getMeasurements();
+    }
   }, [getMeasurements]);
 
   const createMeasurement = async (

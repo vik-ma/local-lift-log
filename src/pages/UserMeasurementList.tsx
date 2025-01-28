@@ -61,7 +61,7 @@ export default function UserMeasurementList() {
   const [operatingUserMeasurements, setOperatingUserMeasurements] =
     useState<UserMeasurement>(defaultUserMeasurements);
 
-  const measurementList = useMeasurementList();
+  const measurementList = useMeasurementList(true);
 
   const { measurementMap } = measurementList;
 

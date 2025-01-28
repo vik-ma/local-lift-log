@@ -95,7 +95,7 @@ export default function BodyMeasurements() {
 
   const { setWeightUnit, loadUserWeightInputs } = userWeightInputs;
 
-  const measurementList = useMeasurementList();
+  const measurementList = useMeasurementList(true);
 
   const { measurementMap, isMeasurementListLoaded } = measurementList;
 
