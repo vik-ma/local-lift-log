@@ -58,8 +58,6 @@ export const useMeasurementList = (
 
   const sortMeasurementsByFavoritesFirst = useCallback(
     (measurements: Measurement[]) => {
-      if (!isMeasurementListLoaded.current) return;
-
       // Sort measurements by Favorite > Active > Name
       measurements.sort((a, b) => {
         if (b.is_favorite !== a.is_favorite) {
@@ -83,8 +81,6 @@ export const useMeasurementList = (
 
   const sortMeasurementsByActiveFirst = useCallback(
     (measurements: Measurement[]) => {
-      if (!isMeasurementListLoaded.current) return;
-
       // Sort measurements by Active > Favorite > Name
       measurements.sort((a, b) => {
         const aIsActive = +activeMeasurementSet.has(a.id);
@@ -107,6 +103,8 @@ export const useMeasurementList = (
   );
 
   const getMeasurements = useCallback(async () => {
+    if (isMeasurementListLoaded.current) return;
+
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
