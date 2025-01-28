@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   GetUserMeasurements,
   IsDateInWeekdaySet,
@@ -73,18 +73,15 @@ export const useUserMeasurementList = (
     filterMeasurements,
   ]);
 
-  const getUserMeasurements = useCallback(
-    async (clockStyle: string) => {
-      if (!isMeasurementListLoaded) return;
+  const getUserMeasurements = async (clockStyle: string) => {
+    if (!isMeasurementListLoaded) return;
 
-      const detailedUserMeasurements = await GetUserMeasurements(
-        clockStyle,
-        measurementMap.current
-      );
-      setUserMeasurements(detailedUserMeasurements);
-    },
-    [measurementMap, isMeasurementListLoaded]
-  );
+    const detailedUserMeasurements = await GetUserMeasurements(
+      clockStyle,
+      measurementMap.current
+    );
+    setUserMeasurements(detailedUserMeasurements);
+  };
 
   const sortUserMeasurementsByDate = (
     userMeasurementList: UserMeasurement[],

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Routine,
   RoutineMap,
@@ -110,7 +110,7 @@ export const useRoutineList = (
     includeNullInMaxValues,
   ]);
 
-  const getRoutines = useCallback(async () => {
+  const getRoutines = async () => {
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -152,13 +152,13 @@ export const useRoutineList = (
     } catch (error) {
       console.log(error);
     }
-  }, [workoutTemplateMap.current]);
+  };
 
   useEffect(() => {
     if (getRoutinesOnLoad && isWorkoutTemplateListLoaded.current) {
       getRoutines();
     }
-  }, [getRoutines, isWorkoutTemplateListLoaded.current]);
+  }, []);
 
   const sortRoutinesByName = (routineList: Routine[]) => {
     routineList.sort((a, b) => {

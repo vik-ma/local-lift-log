@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   DietLog,
   DietLogMap,
@@ -124,7 +124,7 @@ export const useDietLogList = (
     includeNullInMaxValuesProtein,
   ]);
 
-  const getDietLogs = useCallback(async () => {
+  const getDietLogs = async () => {
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -161,13 +161,13 @@ export const useDietLogList = (
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  };
 
   useEffect(() => {
     if (getDietLogsOnLoad) {
       getDietLogs();
     }
-  }, [getDietLogs]);
+  }, []);
 
   const addDietLog = async (dietLog: DietLog) => {
     const newDietLogId = await InsertDietLogIntoDatabase(dietLog);

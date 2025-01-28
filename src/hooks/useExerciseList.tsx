@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   GetExerciseListWithGroupStrings,
   GetExerciseListWithGroupStringsAndTotalSets,
@@ -113,7 +113,7 @@ export const useExerciseList = (
     }
   };
 
-  const getExercises = useCallback(async () => {
+  const getExercises = async () => {
     const exercises = showTotalNumSets
       ? await GetExerciseListWithGroupStringsAndTotalSets(
           exerciseGroupDictionary,
@@ -130,13 +130,13 @@ export const useExerciseList = (
     sortExercisesByFavoritesFirst(exercises);
     exerciseMap.current = newExerciseMap;
     isExerciseListLoaded.current = true;
-  }, [showTotalNumSets, exerciseGroupDictionary]);
+  };
 
   useEffect(() => {
     if (getExercisesOnLoad) {
       getExercises();
     }
-  }, [getExercises]);
+  }, []);
 
   return {
     exercises,

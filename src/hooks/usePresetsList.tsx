@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Distance,
   EquipmentWeight,
@@ -177,48 +177,45 @@ export const usePresetsList = (
     return plateCollections;
   }, [plateCollections, filterQueryPlateCollection]);
 
-  const getEquipmentWeights = useCallback(
-    async (defaultPlateCollectionId?: number) => {
-      try {
-        const db = await Database.load(import.meta.env.VITE_DB);
+  const getEquipmentWeights = async (defaultPlateCollectionId?: number) => {
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
 
-        const equipmentWeights = await db.select<EquipmentWeight[]>(
-          "SELECT * FROM equipment_weights"
+      const equipmentWeights = await db.select<EquipmentWeight[]>(
+        "SELECT * FROM equipment_weights"
+      );
+
+      const plateCollections = await db.select<PlateCollection[]>(
+        "SELECT * FROM plate_collections"
+      );
+
+      sortEquipmentWeightsByFavoritesFirst(equipmentWeights);
+
+      const plateCollectionList = CreatePlateCollectionList(
+        plateCollections,
+        equipmentWeights
+      );
+
+      setPlateCollections(plateCollectionList);
+      isEquipmentWeightListLoaded.current = true;
+
+      if (defaultPlateCollectionId !== undefined) {
+        const defaultPlateCollection = plateCollectionList.find(
+          (plateCollection) => plateCollection.id === defaultPlateCollectionId
         );
 
-        const plateCollections = await db.select<PlateCollection[]>(
-          "SELECT * FROM plate_collections"
-        );
-
-        sortEquipmentWeightsByFavoritesFirst(equipmentWeights);
-
-        const plateCollectionList = CreatePlateCollectionList(
-          plateCollections,
-          equipmentWeights
-        );
-
-        setPlateCollections(plateCollectionList);
-        isEquipmentWeightListLoaded.current = true;
-
-        if (defaultPlateCollectionId !== undefined) {
-          const defaultPlateCollection = plateCollectionList.find(
-            (plateCollection) => plateCollection.id === defaultPlateCollectionId
-          );
-
-          if (defaultPlateCollection !== undefined) {
-            setOperatingPlateCollection(defaultPlateCollection);
-          } else {
-            setIsDefaultPlateCollectionInvalid(true);
-          }
+        if (defaultPlateCollection !== undefined) {
+          setOperatingPlateCollection(defaultPlateCollection);
+        } else {
+          setIsDefaultPlateCollectionInvalid(true);
         }
-      } catch (error) {
-        console.log(error);
       }
-    },
-    []
-  );
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-  const getDistances = useCallback(async () => {
+  const getDistances = async () => {
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -229,7 +226,7 @@ export const usePresetsList = (
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  };
 
   useEffect(() => {
     if (getEquipmentWeightsOnLoad) {
@@ -239,10 +236,7 @@ export const usePresetsList = (
     if (getDistancesOnLoad) {
       getDistances();
     }
-  }, [
-    getEquipmentWeights,
-    getDistances,
-  ]);
+  }, []);
 
   const sortEquipmentWeightsByName = (
     equipmentWeightList: EquipmentWeight[]

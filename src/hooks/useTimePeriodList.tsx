@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import {
   TimePeriod,
   TimePeriodSortCategory,
@@ -115,7 +115,7 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
     filterStatus,
   ]);
 
-  const getTimePeriods = useCallback(async (locale: string) => {
+  const getTimePeriods = async (locale: string) => {
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -159,7 +159,7 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  }
 
   const sortTimePeriodsByName = (timePeriodList: TimePeriod[]) => {
     timePeriodList.sort((a, b) => {

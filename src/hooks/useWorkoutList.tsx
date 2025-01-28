@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef, useMemo } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import {
   UseExerciseListReturnType,
   UseWorkoutListReturnType,
@@ -131,7 +131,7 @@ export const useWorkoutList = (
     filterWorkoutTemplates,
   ]);
 
-  const getWorkouts = useCallback(async () => {
+  const getWorkouts = async () => {
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -214,16 +214,9 @@ export const useWorkoutList = (
     } catch (error) {
       console.log(error);
     }
-  }, [
-    ignoreEmptyWorkouts,
-    ignoreWorkoutId,
-    routineMap,
-    exerciseGroupDictionary,
-    workoutTemplateMap,
-    exerciseMap,
-  ]);
+  };
 
-  const loadWorkoutList = useCallback(async () => {
+  const loadWorkoutList = async () => {
     if (!isExerciseListLoaded.current) {
       await getExercises();
     }
@@ -239,22 +232,13 @@ export const useWorkoutList = (
     if (!isWorkoutListLoaded.current) {
       await getWorkouts();
     }
-  }, [
-    isExerciseListLoaded,
-    isWorkoutTemplateListLoaded,
-    isRoutineListLoaded,
-    isWorkoutListLoaded,
-    getExercises,
-    getWorkoutTemplates,
-    getRoutines,
-    getWorkouts,
-  ]);
+  };
 
   useEffect(() => {
     if (getWorkoutsOnLoad) {
       loadWorkoutList();
     }
-  }, [loadWorkoutList]);
+  }, []);
 
   const sortWorkoutsByDate = (workoutList: Workout[], isAscending: boolean) => {
     if (isAscending) {

@@ -5,14 +5,14 @@ import {
   UseExerciseListReturnType,
   WorkoutTemplateMap,
 } from "../typings";
-import { useState, useEffect, useCallback, useRef, useMemo } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { useDisclosure } from "@heroui/react";
 import Database from "tauri-plugin-sql-api";
 import {
   CreateExerciseSetIds,
   DoesListOrSetHaveCommonElement,
 } from "../helpers";
-import { useListFilters } from "./useListFilters";
+import { useListFilters } from ".";
 
 export const useWorkoutTemplateList = (
   getWorkoutTemplatesOnLoad: boolean,
@@ -85,7 +85,7 @@ export const useWorkoutTemplateList = (
     includeSecondaryGroups,
   ]);
 
-  const getWorkoutTemplates = useCallback(async () => {
+  const getWorkoutTemplates = async () => {
     if (!isExerciseListLoaded.current) return;
 
     try {
@@ -150,15 +150,9 @@ export const useWorkoutTemplateList = (
     } catch (error) {
       console.log(error);
     }
-  }, [
-    ignoreEmptyWorkoutTemplates,
-    exerciseGroupDictionary,
-    isExerciseListLoaded,
-    exerciseMap,
-    ignoreWorkoutTemplateId,
-  ]);
+  };
 
-  const loadWorkoutTemplateList = useCallback(async () => {
+  const loadWorkoutTemplateList = async () => {
     if (!isExerciseListLoaded.current) {
       await getExercises();
     }
@@ -166,18 +160,13 @@ export const useWorkoutTemplateList = (
     if (!isWorkoutTemplateListLoaded.current) {
       await getWorkoutTemplates();
     }
-  }, [
-    isExerciseListLoaded,
-    isWorkoutTemplateListLoaded,
-    getExercises,
-    getWorkoutTemplates,
-  ]);
+  };
 
   useEffect(() => {
     if (getWorkoutTemplatesOnLoad) {
       loadWorkoutTemplateList();
     }
-  }, [loadWorkoutTemplateList]);
+  }, []);
 
   const sortWorkoutTemplatesByName = (
     workoutTemplateList: WorkoutTemplate[]
