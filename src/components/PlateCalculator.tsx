@@ -1,5 +1,5 @@
 import { Button, Input, ScrollShadow } from "@heroui/react";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ConvertNumberToTwoDecimals,
   IsStringEmpty,
@@ -139,7 +139,7 @@ export const PlateCalculator = ({
     setPlateCalculatorPage("equipment-list");
   };
 
-  const calculatePlates = useCallback(() => {
+  const calculatePlates = () => {
     if (
       disableCalculatePlates ||
       operatingPlateCollection.availablePlatesMap === undefined ||
@@ -249,12 +249,7 @@ export const PlateCalculator = ({
     };
 
     setPlateCalculatorResult(plateCalculatorResult);
-  }, [
-    disableCalculatePlates,
-    operatingPlateCollection,
-    targetWeightInput,
-    defaultPlateCalculatorItems,
-  ]);
+  };
 
   const resetPlateCalculatorResult = () => {
     setTargetWeightInput("");
@@ -293,12 +288,12 @@ export const PlateCalculator = ({
   };
 
   useEffect(() => {
-    if (targetWeightInputRef.current) {
+    if (targetWeightInputRef.current !== null) {
       targetWeightInputRef.current.focus();
     }
 
     calculatePlates();
-  }, [calculatePlates]);
+  }, [targetWeightInput, ]);
 
   return (
     <>
