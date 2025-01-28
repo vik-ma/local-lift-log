@@ -8,6 +8,7 @@ import {
   useDisclosure,
 } from "@heroui/react";
 import {
+  useDietLogList,
   useExerciseList,
   useFilterExerciseList,
   useMeasurementList,
@@ -40,6 +41,10 @@ export default function AnalyticsIndex() {
 
   const { isMeasurementListLoaded } = measurementList;
 
+  const dietLogList = useDietLogList(false);
+
+  const { isDietLogListLoaded, getDietLogs } = dietLogList;
+
   useEffect(() => {
     const loadUserSettings = async () => {
       const userSettings = await GetUserSettings();
@@ -59,6 +64,12 @@ export default function AnalyticsIndex() {
     }
 
     listModal.onOpen();
+  };
+
+  const loadDietLogList = () => {
+    if (!isDietLogListLoaded.current) {
+      getDietLogs();
+    }
   };
 
   if (
@@ -123,6 +134,9 @@ export default function AnalyticsIndex() {
             onPress={() => handleOpenListModal("measurement")}
           >
             Select Measurement
+          </Button>
+          <Button variant="flat" onPress={loadDietLogList}>
+            Load Diet Logs
           </Button>
         </div>
       </div>

@@ -405,5 +405,6 @@ export const useDietLogList = (
     filterDietLogListModal,
     dietLogListFilters,
     addDietLogEntryRange,
+    getDietLogs,
   };
 };

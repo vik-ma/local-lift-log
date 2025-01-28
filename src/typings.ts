@@ -1158,6 +1158,7 @@ export type UseDietLogListReturnType = {
     dietLogTemplate: DietLog,
     latestDate?: number
   ) => Promise<DietLog | undefined>;
+  getDietLogs: () => void;
 };
 
 export type UseDietLogListFiltersReturnType = {
