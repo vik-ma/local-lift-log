@@ -167,7 +167,7 @@ export const useDietLogList = (
     if (getDietLogsOnLoad) {
       getDietLogs();
     }
-  }, [getDietLogsOnLoad, getDietLogs]);
+  }, [getDietLogs]);
 
   const addDietLog = async (dietLog: DietLog) => {
     const newDietLogId = await InsertDietLogIntoDatabase(dietLog);

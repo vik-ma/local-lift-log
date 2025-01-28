@@ -240,8 +240,6 @@ export const usePresetsList = (
       getDistances();
     }
   }, [
-    getEquipmentWeightsOnLoad,
-    getDistancesOnLoad,
     getEquipmentWeights,
     getDistances,
   ]);

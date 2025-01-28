@@ -254,7 +254,7 @@ export const useWorkoutList = (
     if (getWorkoutsOnLoad) {
       loadWorkoutList();
     }
-  }, [getWorkoutsOnLoad, loadWorkoutList]);
+  }, [loadWorkoutList]);
 
   const sortWorkoutsByDate = (workoutList: Workout[], isAscending: boolean) => {
     if (isAscending) {

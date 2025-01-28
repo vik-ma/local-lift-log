@@ -136,7 +136,7 @@ export const useExerciseList = (
     if (getExercisesOnLoad) {
       getExercises();
     }
-  }, [getExercises, getExercisesOnLoad]);
+  }, [getExercises]);
 
   return {
     exercises,

@@ -40,7 +40,7 @@ export const useWorkoutTemplateList = (
     exerciseMap,
   } = useExerciseList;
 
-  const listFilters = useListFilters({useExerciseList});
+  const listFilters = useListFilters({ useExerciseList });
 
   const { filterMap, filterExercises, filterExerciseGroups } = listFilters;
 
@@ -177,7 +177,7 @@ export const useWorkoutTemplateList = (
     if (getWorkoutTemplatesOnLoad) {
       loadWorkoutTemplateList();
     }
-  }, [getWorkoutTemplatesOnLoad, loadWorkoutTemplateList]);
+  }, [loadWorkoutTemplateList]);
 
   const sortWorkoutTemplatesByName = (
     workoutTemplateList: WorkoutTemplate[]

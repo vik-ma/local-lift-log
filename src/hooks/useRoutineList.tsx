@@ -152,17 +152,13 @@ export const useRoutineList = (
     } catch (error) {
       console.log(error);
     }
-    // isWorkoutTemplateListLoaded.current needs to be specifically included in array
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [workoutTemplateMap.current]);
 
   useEffect(() => {
     if (getRoutinesOnLoad && isWorkoutTemplateListLoaded.current) {
       getRoutines();
     }
-    // isWorkoutTemplateListLoaded.current needs to be specifically included in array
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [getRoutinesOnLoad, getRoutines, isWorkoutTemplateListLoaded.current]);
+  }, [getRoutines, isWorkoutTemplateListLoaded.current]);
 
   const sortRoutinesByName = (routineList: Routine[]) => {
     routineList.sort((a, b) => {
