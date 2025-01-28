@@ -1,5 +1,5 @@
 import Database from "tauri-plugin-sql-api";
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { UserWeight, UserSettings } from "../typings";
 import {
   LoadingSpinner,
@@ -182,7 +182,7 @@ export default function UserWeightList() {
   const timeInputModal = useDisclosure();
   const filterUserWeightListModal = useDisclosure();
 
-  const getUserWeights = useCallback(async (clockStyle: string) => {
+  const getUserWeights = async (clockStyle: string) => {
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -217,7 +217,7 @@ export default function UserWeightList() {
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  };
 
   useEffect(() => {
     const loadUserSettings = async () => {
@@ -236,7 +236,7 @@ export default function UserWeightList() {
     };
 
     loadUserSettings();
-  }, [getUserWeights, setFilterWeightRangeUnit, setWeightUnit]);
+  }, []);
 
   const handleCreateNewUserWeightButton = () => {
     if (operationType !== "add") {

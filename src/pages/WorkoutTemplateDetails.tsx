@@ -4,7 +4,7 @@ import {
   WorkoutSet,
   WorkoutTemplate,
 } from "../typings";
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useDisclosure } from "@heroui/react";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -138,7 +138,7 @@ export default function WorkoutTemplateDetails() {
     additionalMenuItems
   );
 
-  const getWorkoutTemplateAndSetList = useCallback(async () => {
+  const getWorkoutTemplateAndSetList = async () => {
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -189,17 +189,11 @@ export default function WorkoutTemplateDetails() {
     } catch (error) {
       console.log(error);
     }
-  }, [
-    id,
-    setGroupedSets,
-    setWorkoutTemplate,
-    workoutNumbers,
-    exerciseList.exerciseGroupDictionary,
-  ]);
+  }
 
   useEffect(() => {
     getWorkoutTemplateAndSetList();
-  }, [id, getWorkoutTemplateAndSetList]);
+  }, []);
 
   const updateWorkoutTemplate = async () => {
     if (!isNewWorkoutTemplateNameValid) return;

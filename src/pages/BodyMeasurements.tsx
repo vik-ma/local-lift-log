@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Measurement,
   UserSettings,
@@ -113,66 +113,57 @@ export default function BodyMeasurements() {
     setActiveMeasurements
   );
 
-  const getActiveMeasurements = useCallback(
-    async (activeMeasurementsString: string) => {
-      try {
-        const activeMeasurements = await CreateActiveMeasurementInputs(
-          activeMeasurementsString
-        );
-        setActiveMeasurements(activeMeasurements);
-        activeMeasurementsValue.current = activeMeasurements;
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    []
-  );
-
-  const getLatestUserWeight = useCallback(
-    async (clockStyle: string) => {
-      const userWeight: UserWeight | undefined = await GetLatestUserWeight(
-        clockStyle
+  const getActiveMeasurements = async (activeMeasurementsString: string) => {
+    try {
+      const activeMeasurements = await CreateActiveMeasurementInputs(
+        activeMeasurementsString
       );
+      setActiveMeasurements(activeMeasurements);
+      activeMeasurementsValue.current = activeMeasurements;
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-      setLatestUserWeight(userWeight ?? defaultUserWeight);
-    },
-    [defaultUserWeight]
-  );
+  const getLatestUserWeight = async (clockStyle: string) => {
+    const userWeight: UserWeight | undefined = await GetLatestUserWeight(
+      clockStyle
+    );
 
-  const getLatestUserMeasurement = useCallback(
-    async (clockStyle: string) => {
-      if (!isMeasurementListLoaded.current) return;
+    setLatestUserWeight(userWeight ?? defaultUserWeight);
+  };
 
-      try {
-        const db = await Database.load(import.meta.env.VITE_DB);
+  const getLatestUserMeasurement = async (clockStyle: string) => {
+    if (!isMeasurementListLoaded.current) return;
 
-        // Get the user_measurement row with the latest valid ISO 8601 date string value
-        const result = await db.select<UserMeasurement[]>(
-          `SELECT *
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      // Get the user_measurement row with the latest valid ISO 8601 date string value
+      const result = await db.select<UserMeasurement[]>(
+        `SELECT *
            FROM user_measurements
            WHERE date IS NOT NULL 
             AND date LIKE '____-__-__T__:__:__.___Z'
             AND date GLOB '[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]T[0-2][0-9]:[0-5][0-9]:[0-5][0-9].[0-9][0-9][0-9]Z'
            ORDER BY date DESC
            LIMIT 1`
-        );
+      );
 
-        if (result[0] === undefined) return;
+      if (result[0] === undefined) return;
 
-        const detailedUserMeasurement = CreateDetailedUserMeasurementList(
-          result,
-          measurementMap.current,
-          clockStyle,
-          result[0].id
-        );
+      const detailedUserMeasurement = CreateDetailedUserMeasurementList(
+        result,
+        measurementMap.current,
+        clockStyle,
+        result[0].id
+      );
 
-        setLatestUserMeasurements(detailedUserMeasurement[0]);
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    [isMeasurementListLoaded, measurementMap]
-  );
+      setLatestUserMeasurements(detailedUserMeasurement[0]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     const loadUserSettings = async () => {
@@ -194,12 +185,7 @@ export default function BodyMeasurements() {
     };
 
     loadUserSettings();
-  }, [
-    getActiveMeasurements,
-    getLatestUserWeight,
-    getLatestUserMeasurement,
-    setWeightUnit,
-  ]);
+  }, []);
 
   const updateUserWeightTimeStamp = async (dateString: string) => {
     if (

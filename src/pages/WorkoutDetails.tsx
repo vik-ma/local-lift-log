@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { Workout, DetailHeaderOptionItem, WorkoutTemplate } from "../typings";
 import {
@@ -199,34 +199,31 @@ export default function WorkoutDetails() {
     setIsUserWeightOlderThanOneWeek(false);
   };
 
-  const getWorkoutTemplateNote = useCallback(
-    async (workoutTemplateId: number) => {
-      try {
-        const db = await Database.load(import.meta.env.VITE_DB);
+  const getWorkoutTemplateNote = async (workoutTemplateId: number) => {
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
 
-        const result = await db.select<WorkoutTemplateNote[]>(
-          "SELECT note FROM workout_templates WHERE id = $1",
-          [workoutTemplateId]
-        );
+      const result = await db.select<WorkoutTemplateNote[]>(
+        "SELECT note FROM workout_templates WHERE id = $1",
+        [workoutTemplateId]
+      );
 
-        const note = result[0].note;
+      const note = result[0].note;
 
-        if (!note) return;
+      if (!note) return;
 
-        if (workoutTemplateNote === null) {
-          setWorkoutTemplateNote(note);
-        } else {
-          // If a Workout Template note already exists, extend existing note
-          const newNote = workoutTemplateNote.concat(", ", note);
+      if (workoutTemplateNote === null) {
+        setWorkoutTemplateNote(note);
+      } else {
+        // If a Workout Template note already exists, extend existing note
+        const newNote = workoutTemplateNote.concat(", ", note);
 
-          setWorkoutTemplateNote(newNote);
-        }
-      } catch (error) {
-        console.log(error);
+        setWorkoutTemplateNote(newNote);
       }
-    },
-    [workoutTemplateNote]
-  );
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     const loadWorkout = async () => {
@@ -287,7 +284,7 @@ export default function WorkoutDetails() {
     };
 
     loadWorkout();
-  }, [id, exerciseList.exerciseGroupDictionary]);
+  }, []);
 
   const handleWorkoutModalSaveButton = async (updatedWorkout: Workout) => {
     if (updatedWorkout.id === 0) return;

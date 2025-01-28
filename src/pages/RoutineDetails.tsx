@@ -6,7 +6,7 @@ import {
   WorkoutTemplate,
   NoDayRoutineScheduleItem,
 } from "../typings";
-import { useState, useEffect, useCallback, useMemo, useRef } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { Button, useDisclosure, Chip, Switch } from "@heroui/react";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -88,7 +88,7 @@ export default function RoutineDetails() {
 
   const isRoutineLoaded = useRef(false);
 
-  const getWorkoutRoutineSchedules = useCallback(async () => {
+  const getWorkoutRoutineSchedules = async () => {
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -137,7 +137,7 @@ export default function RoutineDetails() {
       console.log(error);
       return [];
     }
-  }, [id, routine.num_days_in_schedule, workoutTemplateMap]);
+  };
 
   useEffect(() => {
     const getRoutine = async () => {
@@ -204,13 +204,7 @@ export default function RoutineDetails() {
       getWorkoutRoutineSchedules();
       loadUserSettings();
     }
-  }, [
-    id,
-    getWorkoutRoutineSchedules,
-    isRoutineLoaded.current,
-    isWorkoutTemplateListLoaded.current,
-    workoutTemplateMap.current,
-  ]);
+  }, []);
 
   const useDetailsHeaderOptions = useDetailsHeaderOptionsMenu("Routine");
 
