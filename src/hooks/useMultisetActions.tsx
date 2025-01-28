@@ -9,7 +9,7 @@ import {
   MultisetOperationType,
   UseMultisetActionsReturnType,
 } from "../typings";
-import { useEffect, useState, useCallback, useMemo, useRef } from "react";
+import { useEffect, useState, useMemo, useRef } from "react";
 import { useDefaultExercise, useListFilters, useMultisetTypeMap } from ".";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -495,7 +495,7 @@ export const useMultisetActions = ({
     setModalPage("base");
   };
 
-  const loadMultisets = useCallback(async () => {
+  const loadMultisets = async () => {
     if (!isExerciseListLoaded.current) return;
 
     try {
@@ -509,16 +509,11 @@ export const useMultisetActions = ({
     } catch (error) {
       console.log(error);
     }
-  }, [
-    setMultisets,
-    exerciseGroupDictionary,
-    exerciseMap,
-    isExerciseListLoaded.current,
-  ]);
+  };
 
   useEffect(() => {
     loadMultisets();
-  }, [loadMultisets]);
+  }, []);
 
   const handleOpenFilterButton = () => {
     filterMultisetsModal.onOpen();

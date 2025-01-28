@@ -14,7 +14,7 @@ import {
   PresetsType,
   UseSetTrackingInputsReturnType,
 } from "../typings";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDisclosure } from "@heroui/react";
 import Database from "tauri-plugin-sql-api";
 
@@ -218,12 +218,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     };
 
     loadUserSettings();
-  }, [
-    isTemplate,
-    setIncludeSecondaryGroups,
-    setFilterWeightRangeUnit,
-    setFilterDistanceRangeUnit,
-  ]);
+  }, []);
 
   const addSetsToExercise = async (numSets: string) => {
     if (selectedExercise === undefined) return;
@@ -1468,150 +1463,146 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     setIncompleteSetIds(updatedIncompleteSetIds);
   };
 
-  const updateActiveSetTrackingValues = useCallback(
-    (activeSet: WorkoutSet, lastSet: WorkoutSet | undefined) => {
-      const activeSetInputValues: SetTrackingValuesInput = {
-        weight:
-          activeSet.weight > 0 && activeSet.is_tracking_weight
-            ? activeSet.weight.toString()
-            : "",
-        reps:
-          activeSet.reps > 0 && activeSet.is_tracking_reps
-            ? activeSet.reps.toString()
-            : "",
-        rir:
-          activeSet.rir > -1 && activeSet.is_tracking_rir
-            ? activeSet.rir.toString()
-            : "",
-        rpe:
-          activeSet.rpe > 0 && activeSet.is_tracking_rpe
-            ? activeSet.rpe.toString()
-            : "",
-        distance:
-          activeSet.distance > 0 && activeSet.is_tracking_distance
-            ? activeSet.distance.toString()
-            : "",
-        resistance_level:
-          activeSet.resistance_level > 0 &&
-          activeSet.is_tracking_resistance_level
-            ? activeSet.resistance_level.toString()
-            : "",
-        partial_reps:
-          activeSet.partial_reps > 0 && activeSet.is_tracking_partial_reps
-            ? activeSet.partial_reps.toString()
-            : "",
-        user_weight:
-          activeSet.user_weight > 0 && activeSet.is_tracking_user_weight
-            ? activeSet.user_weight.toString()
-            : "",
-      };
+  const updateActiveSetTrackingValues = (
+    activeSet: WorkoutSet,
+    lastSet: WorkoutSet | undefined
+  ) => {
+    const activeSetInputValues: SetTrackingValuesInput = {
+      weight:
+        activeSet.weight > 0 && activeSet.is_tracking_weight
+          ? activeSet.weight.toString()
+          : "",
+      reps:
+        activeSet.reps > 0 && activeSet.is_tracking_reps
+          ? activeSet.reps.toString()
+          : "",
+      rir:
+        activeSet.rir > -1 && activeSet.is_tracking_rir
+          ? activeSet.rir.toString()
+          : "",
+      rpe:
+        activeSet.rpe > 0 && activeSet.is_tracking_rpe
+          ? activeSet.rpe.toString()
+          : "",
+      distance:
+        activeSet.distance > 0 && activeSet.is_tracking_distance
+          ? activeSet.distance.toString()
+          : "",
+      resistance_level:
+        activeSet.resistance_level > 0 && activeSet.is_tracking_resistance_level
+          ? activeSet.resistance_level.toString()
+          : "",
+      partial_reps:
+        activeSet.partial_reps > 0 && activeSet.is_tracking_partial_reps
+          ? activeSet.partial_reps.toString()
+          : "",
+      user_weight:
+        activeSet.user_weight > 0 && activeSet.is_tracking_user_weight
+          ? activeSet.user_weight.toString()
+          : "",
+    };
 
+    if (
+      lastSet !== undefined &&
+      activeSet.exercise_id === lastSet.exercise_id
+    ) {
+      // If same exercise, keep input values from last set, unless it already has values set
       if (
-        lastSet !== undefined &&
-        activeSet.exercise_id === lastSet.exercise_id
+        activeSet.is_tracking_weight === 1 &&
+        activeSet.weight === 0 &&
+        lastSet.weight > 0
       ) {
-        // If same exercise, keep input values from last set, unless it already has values set
-        if (
-          activeSet.is_tracking_weight === 1 &&
-          activeSet.weight === 0 &&
-          lastSet.weight > 0
-        ) {
-          activeSetInputValues.weight = lastSet.weight.toString();
-        }
-        if (
-          activeSet.is_tracking_reps === 1 &&
-          activeSet.reps === 0 &&
-          lastSet.reps > 0
-        ) {
-          activeSetInputValues.reps = lastSet.reps.toString();
-        }
-        if (
-          activeSet.is_tracking_rir === 1 &&
-          activeSet.rir === -1 &&
-          lastSet.rir > -1
-        ) {
-          activeSetInputValues.rir = lastSet.rir.toString();
-        }
-        if (
-          activeSet.is_tracking_rpe === 1 &&
-          activeSet.rpe === 0 &&
-          lastSet.rpe > 0
-        ) {
-          activeSetInputValues.rpe = lastSet.rpe.toString();
-        }
-        if (
-          activeSet.is_tracking_distance === 1 &&
-          activeSet.distance === 0 &&
-          lastSet.distance > 0
-        ) {
-          activeSetInputValues.distance = lastSet.distance.toString();
-        }
-        if (
-          activeSet.is_tracking_resistance_level === 1 &&
-          activeSet.resistance_level === 0 &&
-          lastSet.resistance_level > 0
-        ) {
-          activeSetInputValues.resistance_level =
-            lastSet.resistance_level.toString();
-        }
-        if (
-          activeSet.is_tracking_partial_reps === 1 &&
-          activeSet.partial_reps === 0 &&
-          lastSet.partial_reps > 0
-        ) {
-          activeSetInputValues.partial_reps = lastSet.partial_reps.toString();
-        }
-        if (
-          activeSet.is_tracking_user_weight === 1 &&
-          activeSet.user_weight === 0 &&
-          lastSet.user_weight > 0
-        ) {
-          activeSetInputValues.user_weight = lastSet.user_weight.toString();
-        }
+        activeSetInputValues.weight = lastSet.weight.toString();
       }
+      if (
+        activeSet.is_tracking_reps === 1 &&
+        activeSet.reps === 0 &&
+        lastSet.reps > 0
+      ) {
+        activeSetInputValues.reps = lastSet.reps.toString();
+      }
+      if (
+        activeSet.is_tracking_rir === 1 &&
+        activeSet.rir === -1 &&
+        lastSet.rir > -1
+      ) {
+        activeSetInputValues.rir = lastSet.rir.toString();
+      }
+      if (
+        activeSet.is_tracking_rpe === 1 &&
+        activeSet.rpe === 0 &&
+        lastSet.rpe > 0
+      ) {
+        activeSetInputValues.rpe = lastSet.rpe.toString();
+      }
+      if (
+        activeSet.is_tracking_distance === 1 &&
+        activeSet.distance === 0 &&
+        lastSet.distance > 0
+      ) {
+        activeSetInputValues.distance = lastSet.distance.toString();
+      }
+      if (
+        activeSet.is_tracking_resistance_level === 1 &&
+        activeSet.resistance_level === 0 &&
+        lastSet.resistance_level > 0
+      ) {
+        activeSetInputValues.resistance_level =
+          lastSet.resistance_level.toString();
+      }
+      if (
+        activeSet.is_tracking_partial_reps === 1 &&
+        activeSet.partial_reps === 0 &&
+        lastSet.partial_reps > 0
+      ) {
+        activeSetInputValues.partial_reps = lastSet.partial_reps.toString();
+      }
+      if (
+        activeSet.is_tracking_user_weight === 1 &&
+        activeSet.user_weight === 0 &&
+        lastSet.user_weight > 0
+      ) {
+        activeSetInputValues.user_weight = lastSet.user_weight.toString();
+      }
+    }
 
-      activeSetInputs.setSetTrackingValuesInput(activeSetInputValues);
-      activeSetInputs.setUneditedSet({ ...activeSet });
-      activeSetInputs.setIsSetEdited(false);
-    },
-    []
-  );
+    activeSetInputs.setSetTrackingValuesInput(activeSetInputValues);
+    activeSetInputs.setUneditedSet({ ...activeSet });
+    activeSetInputs.setIsSetEdited(false);
+  };
 
-  const populateIncompleteSets = useCallback(
-    (groupedSetList: GroupedWorkoutSet[]) => {
-      const incompleteSetIdList: number[] = [];
-      let firstSetIndex: number = -1;
-      const newCompletedSetsMap: Map<string, number> = new Map();
+  const populateIncompleteSets = (groupedSetList: GroupedWorkoutSet[]) => {
+    const incompleteSetIdList: number[] = [];
+    let firstSetIndex: number = -1;
+    const newCompletedSetsMap: Map<string, number> = new Map();
 
-      // Add Set ids of all incomplete Sets to incompleteSetIds list
-      for (let i = 0; i < groupedSetList.length; i++) {
-        const setList: WorkoutSet[] = groupedSetList[i].setList;
-        let numCompletedSets: number = 0;
-        for (let j = 0; j < setList.length; j++) {
-          if (setList[j].is_completed === 0) {
-            incompleteSetIdList.push(setList[j].id);
-            if (firstSetIndex === -1) {
-              // Set first incomplete Set as activeSet
-              firstSetIndex = j;
-              const newActiveSet = {
-                ...setList[j],
-                set_index: firstSetIndex,
-              };
-              setActiveSet(newActiveSet);
-              setActiveGroupedSet(groupedSetList[i]);
-              updateActiveSetTrackingValues(newActiveSet, undefined);
-            }
-          } else {
-            numCompletedSets += 1;
+    // Add Set ids of all incomplete Sets to incompleteSetIds list
+    for (let i = 0; i < groupedSetList.length; i++) {
+      const setList: WorkoutSet[] = groupedSetList[i].setList;
+      let numCompletedSets: number = 0;
+      for (let j = 0; j < setList.length; j++) {
+        if (setList[j].is_completed === 0) {
+          incompleteSetIdList.push(setList[j].id);
+          if (firstSetIndex === -1) {
+            // Set first incomplete Set as activeSet
+            firstSetIndex = j;
+            const newActiveSet = {
+              ...setList[j],
+              set_index: firstSetIndex,
+            };
+            setActiveSet(newActiveSet);
+            setActiveGroupedSet(groupedSetList[i]);
+            updateActiveSetTrackingValues(newActiveSet, undefined);
           }
+        } else {
+          numCompletedSets += 1;
         }
-        newCompletedSetsMap.set(groupedSetList[i].id, numCompletedSets);
       }
-      setIncompleteSetIds(incompleteSetIdList);
-      setCompletedSetsMap(newCompletedSetsMap);
-    },
-    [updateActiveSetTrackingValues]
-  );
+      newCompletedSetsMap.set(groupedSetList[i].id, numCompletedSets);
+    }
+    setIncompleteSetIds(incompleteSetIdList);
+    setCompletedSetsMap(newCompletedSetsMap);
+  };
 
   const handleActiveSetOptionSelection = (key: string) => {
     if (
