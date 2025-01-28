@@ -37,9 +37,9 @@ export default function AnalyticsIndex() {
 
   const filterExerciseList = useFilterExerciseList(exerciseList);
 
-  const measurementList = useMeasurementList(true);
+  const measurementList = useMeasurementList(false);
 
-  const { isMeasurementListLoaded } = measurementList;
+  const { isMeasurementListLoaded, getMeasurements } = measurementList;
 
   const dietLogList = useDietLogList(false);
 
@@ -57,26 +57,26 @@ export default function AnalyticsIndex() {
     loadUserSettings();
   }, []);
 
-  const handleOpenListModal = (selectedListType: ListType) => {
+  const handleOpenListModal = async (selectedListType: ListType) => {
     setListType(selectedListType);
 
-    if (selectedListType) {
+    if (
+      selectedListType === "measurement" &&
+      !isMeasurementListLoaded.current
+    ) {
+      await getMeasurements();
     }
 
     listModal.onOpen();
   };
 
-  const loadDietLogList = () => {
+  const loadDietLogList = async () => {
     if (!isDietLogListLoaded.current) {
-      getDietLogs();
+      await getDietLogs();
     }
   };
 
-  if (
-    userSettings === undefined ||
-    !isExerciseListLoaded.current ||
-    !isMeasurementListLoaded.current
-  )
+  if (userSettings === undefined || !isExerciseListLoaded.current)
     return <LoadingSpinner />;
 
   return (

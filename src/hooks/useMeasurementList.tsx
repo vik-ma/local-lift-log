@@ -231,5 +231,6 @@ export const useMeasurementList = (
     measurementMap,
     createMeasurement,
     listFilters,
+    getMeasurements,
   };
 };

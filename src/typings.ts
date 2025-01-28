@@ -879,6 +879,7 @@ export type UseMeasurementListReturnType = {
   measurementMap: React.MutableRefObject<MeasurementMap>;
   createMeasurement: (newMeasurement: Measurement) => Promise<number>;
   listFilters: UseListFiltersReturnType;
+  getMeasurements: () => Promise<void>;
 };
 
 export type UseMeasurementsInputsReturnType = {
@@ -1158,7 +1159,7 @@ export type UseDietLogListReturnType = {
     dietLogTemplate: DietLog,
     latestDate?: number
   ) => Promise<DietLog | undefined>;
-  getDietLogs: () => void;
+  getDietLogs: () => Promise<void>;
 };
 
 export type UseDietLogListFiltersReturnType = {
