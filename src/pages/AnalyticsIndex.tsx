@@ -122,6 +122,7 @@ export default function AnalyticsIndex() {
       <div className="flex flex-col items-center gap-3">
         <div className="flex flex-col gap-1.5">
           <Button
+            className="font-medium"
             variant="flat"
             color="secondary"
             onPress={() => handleOpenListModal("exercise")}
@@ -129,13 +130,18 @@ export default function AnalyticsIndex() {
             Select Exercise
           </Button>
           <Button
+            className="font-medium"
             variant="flat"
             color="secondary"
             onPress={() => handleOpenListModal("measurement")}
           >
             Select Measurement
           </Button>
-          <Button variant="flat" onPress={loadDietLogList}>
+          <Button
+            className="font-medium"
+            variant="flat"
+            onPress={loadDietLogList}
+          >
             Load Diet Logs
           </Button>
         </div>
