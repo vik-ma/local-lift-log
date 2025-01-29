@@ -293,7 +293,7 @@ export const PlateCalculator = ({
     }
 
     calculatePlates();
-  }, [targetWeightInput, ]);
+  }, [targetWeightInput, operatingPlateCollection]);
 
   return (
     <>
