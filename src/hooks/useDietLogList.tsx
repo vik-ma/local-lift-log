@@ -11,6 +11,7 @@ import {
   DeleteDietLogWithId,
   DeleteItemFromList,
   FormatYmdDateString,
+  GetAllDietLogs,
   InsertDietLogIntoDatabase,
   IsDateInWeekdaySet,
   IsDateWithinLimit,
@@ -125,42 +126,36 @@ export const useDietLogList = (
   ]);
 
   const getDietLogs = async () => {
-    try {
-      const db = await Database.load(import.meta.env.VITE_DB);
+    const result = await GetAllDietLogs();
 
-      const result = await db.select<DietLog[]>(`SELECT * FROM diet_logs`);
+    const dietLogs: DietLog[] = [];
+    const dietLogMap = new Map<string, DietLog>();
 
-      const dietLogs: DietLog[] = [];
-      const dietLogMap = new Map<string, DietLog>();
+    for (const row of result) {
+      const formattedDate = FormatYmdDateString(row.date);
 
-      for (const row of result) {
-        const formattedDate = FormatYmdDateString(row.date);
+      if (formattedDate === "Invalid Date") continue;
 
-        if (formattedDate === "Invalid Date") continue;
+      const disableExpansion = ShouldDietLogDisableExpansion(
+        row.fat,
+        row.carbs,
+        row.protein
+      );
 
-        const disableExpansion = ShouldDietLogDisableExpansion(
-          row.fat,
-          row.carbs,
-          row.protein
-        );
+      const dietLog: DietLog = {
+        ...row,
+        formattedDate: formattedDate,
+        isExpanded: false,
+        disableExpansion: disableExpansion,
+      };
 
-        const dietLog: DietLog = {
-          ...row,
-          formattedDate: formattedDate,
-          isExpanded: false,
-          disableExpansion: disableExpansion,
-        };
-
-        dietLogs.push(dietLog);
-        dietLogMap.set(dietLog.date, dietLog);
-      }
-
-      sortDietLogsByDate(dietLogs, false);
-      setDietLogMap(dietLogMap);
-      isDietLogListLoaded.current = true;
-    } catch (error) {
-      console.log(error);
+      dietLogs.push(dietLog);
+      dietLogMap.set(dietLog.date, dietLog);
     }
+
+    sortDietLogsByDate(dietLogs, false);
+    setDietLogMap(dietLogMap);
+    isDietLogListLoaded.current = true;
   };
 
   useEffect(() => {
