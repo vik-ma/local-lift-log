@@ -111,14 +111,7 @@ export const CalculationModal = ({
     if (presetsType === "distance" && !isDistanceListLoaded.current) {
       await getDistances();
     }
-  }, [
-    presetsType,
-    isEquipmentWeightListLoaded,
-    isDistanceListLoaded,
-    getEquipmentWeights,
-    getDistances,
-    userSettings,
-  ]);
+  }, [presetsType]);
 
   const {
     totalMultiplier,
@@ -229,7 +222,7 @@ export const CalculationModal = ({
     if (calculationModal.isOpen && calculationModalTab === "plate") {
       loadPresets();
     }
-  }, [calculationModal.isOpen, calculationModalTab, loadPresets]);
+  }, [calculationModal.isOpen]);
 
   const showBackButton = useMemo(() => {
     if (calculationModalTab === "sum" && sumCalculatorPage !== "base")
