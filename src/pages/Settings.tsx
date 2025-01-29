@@ -47,6 +47,7 @@ import toast from "react-hot-toast";
 import Database from "tauri-plugin-sql-api";
 import { usePresetsList, useTimeInputMap } from "../hooks";
 import { Reorder } from "framer-motion";
+import { ReorderIcon } from "../assets";
 
 type DefaultIncrementInputValidityMap = {
   weight: boolean;
@@ -643,11 +644,12 @@ export default function Settings() {
                       >
                         {workoutRatingsList.map((item) => (
                           <Reorder.Item
-                            className="py-0.5 px-1.5 text-lg rounded-lg border-2 bg-default-50 cursor-grab hover:bg-default-100 active:bg-default-100 active:cursor-grabbing"
+                            className="flex justify-between items-center py-1 px-2 rounded-lg border-2 bg-default-50 cursor-grab hover:bg-default-100 active:bg-default-100 active:cursor-grabbing"
                             key={item.num}
                             value={item}
                           >
-                            {item.label}
+                            <span>{item.label}</span>
+                            <ReorderIcon size={16} />
                           </Reorder.Item>
                         ))}
                       </Reorder.Group>
