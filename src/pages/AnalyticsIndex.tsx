@@ -8,7 +8,6 @@ import {
   useDisclosure,
 } from "@heroui/react";
 import {
-  useDietLogList,
   useExerciseList,
   useFilterExerciseList,
   useMeasurementList,
@@ -20,8 +19,8 @@ import {
   LoadingSpinner,
   MeasurementModalList,
 } from "../components";
-import { UserSettings } from "../typings";
-import { GetUserSettings } from "../helpers";
+import { DietLog, UserSettings } from "../typings";
+import { GetAllDietLogs, GetUserSettings } from "../helpers";
 import {
   LineChart,
   Line,
@@ -38,6 +37,7 @@ type ListType = "exercise" | "measurement";
 export default function AnalyticsIndex() {
   const [listType, setListType] = useState<ListType>("exercise");
   const [userSettings, setUserSettings] = useState<UserSettings>();
+  const [chartData, setChartData] = useState<DietLog[]>([]);
 
   const listModal = useDisclosure();
 
@@ -50,55 +50,6 @@ export default function AnalyticsIndex() {
   const measurementList = useMeasurementList(false);
 
   const { isMeasurementListLoaded, getMeasurements } = measurementList;
-
-  const dietLogList = useDietLogList(false);
-
-  const { isDietLogListLoaded, getDietLogs } = dietLogList;
-
-  const data = [
-    {
-      name: "Page A",
-      uv: 4000,
-      pv: 2400,
-      amt: 2400,
-    },
-    {
-      name: "Page B",
-      uv: 3000,
-      pv: 1398,
-      amt: 2210,
-    },
-    {
-      name: "Page C",
-      uv: 2000,
-      pv: 9800,
-      amt: 2290,
-    },
-    {
-      name: "Page D",
-      uv: 2780,
-      pv: 3908,
-      amt: 2000,
-    },
-    {
-      name: "Page E",
-      uv: 1890,
-      pv: 4800,
-      amt: 2181,
-    },
-    {
-      name: "Page F",
-      uv: 2390,
-      pv: 3800,
-      amt: 2500,
-    },
-    {
-      name: "Page G",
-      uv: 3490,
-      pv: 4300,
-      amt: 2100,
-    },
-  ];
 
   const chartConfig: ChartConfig = {};
 
@@ -127,10 +78,10 @@ export default function AnalyticsIndex() {
     listModal.onOpen();
   };
 
-  const loadDietLogList = async () => {
-    if (!isDietLogListLoaded.current) {
-      await getDietLogs();
-    }
+  const getDietLogList = async () => {
+    const dietLogs = await GetAllDietLogs(true);
+
+    setChartData(dietLogs);
   };
 
   if (userSettings === undefined || !isExerciseListLoaded.current)
@@ -177,27 +128,27 @@ export default function AnalyticsIndex() {
         useFilterExerciseList={filterExerciseList}
       />
       <div className="flex flex-col items-center gap-3">
-        <div className="bg-white pt-5 pb-1.5 rounded-xl">
+        <div className="bg-default-50 pt-5 pb-1.5 rounded-xl">
           <ChartContainer config={chartConfig} className="min-h-[450px]">
-            <LineChart width={0} height={0} data={data}>
+            <LineChart width={0} height={0} data={chartData}>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis yAxisId="left" />
-              <YAxis yAxisId="right" orientation="right" />
+              <XAxis dataKey="date" />
+              <YAxis yAxisId="calories" />
+              <YAxis yAxisId="fat" orientation="right" />
               <Tooltip />
               <Legend />
               <Line
-                yAxisId="left"
+                yAxisId="calories"
                 type="monotone"
-                dataKey="pv"
+                dataKey="calories"
                 stroke="#8884d8"
                 strokeWidth={2}
                 activeDot={{ r: 8 }}
               />
               <Line
-                yAxisId="right"
+                yAxisId="fat"
                 type="monotone"
-                dataKey="uv"
+                dataKey="fat"
                 stroke="#82ca9d"
                 strokeWidth={2}
                 activeDot={{ r: 8 }}
@@ -225,7 +176,7 @@ export default function AnalyticsIndex() {
           <Button
             className="font-medium"
             variant="flat"
-            onPress={loadDietLogList}
+            onPress={getDietLogList}
           >
             Load Diet Logs
           </Button>
