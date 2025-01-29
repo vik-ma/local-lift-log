@@ -160,14 +160,14 @@ export const ActiveSet = ({
                       <span className="text-stone-300">(Warmup)</span>
                     )}
                   </div>
-                  <div className="flex gap-1.5 text-base font-medium justify-between w-80">
+                  <div className="flex gap-1.5 items-baseline text-base font-medium justify-between w-80">
                     <span className="text-stone-500">
                       {activeGroupedSet?.isMultiset
                         ? `Superset Set ${setCounter}`
                         : `Set ${activeSet.set_index! + 1}`}
                     </span>
                     {activeSet.time_completed !== null && (
-                      <div className="text-stone-500">
+                      <div className="text-slate-500 text-sm">
                         {userSettings.show_timestamp_on_completed_set === 1 ? (
                           <>
                             Completed at{" "}

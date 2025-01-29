@@ -191,7 +191,7 @@ export const SetList = ({
                   {set.is_tracking_user_weight === 1 &&
                     set.user_weight > 0 &&
                     set.is_completed === 1 && (
-                      <div className="flex gap-1 text-slate-500">
+                      <div className="flex gap-1 text-slate-400">
                         <span>Body Weight</span>
                         <span className="truncate max-w-14">
                           {set.user_weight}
