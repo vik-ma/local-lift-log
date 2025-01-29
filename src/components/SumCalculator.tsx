@@ -369,7 +369,7 @@ export const SumCalculator = ({
 
     const disableDecreaseButton =
       isInputInvalid || multiplier - multiplierIncrement <= 0;
-    const disableIncreaseButton = isInputInvalid;
+    const disableIncreaseButton = isInputInvalid && !IsStringEmpty(value);
 
     const updatedCalculationItem = {
       ...weight,
@@ -399,7 +399,7 @@ export const SumCalculator = ({
 
     const disableDecreaseButton =
       isInputInvalid || multiplier - multiplierIncrement <= 0;
-    const disableIncreaseButton = isInputInvalid;
+    const disableIncreaseButton = isInputInvalid && !IsStringEmpty(value);
 
     const updatedCalculationItem = {
       ...distance,
@@ -427,7 +427,8 @@ export const SumCalculator = ({
 
     switch (key) {
       case "total": {
-        if (isTotalMultiplierInvalid) return;
+        if (isTotalMultiplierInvalid && !IsStringEmpty(totalMultiplierInput))
+          return;
 
         const totalInputNum = IsStringEmpty(totalMultiplierInput)
           ? 1

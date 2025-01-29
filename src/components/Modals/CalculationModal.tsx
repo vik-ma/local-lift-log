@@ -133,7 +133,8 @@ export const CalculationModal = ({
     return {
       totalMultiplier: multiplier,
       disableTotalMultiplierDecreaseButton: disableButton,
-      disableTotalMultiplierIncreaseButton: isInputInvalid,
+      disableTotalMultiplierIncreaseButton:
+        isInputInvalid && !IsStringEmpty(totalMultiplierInput),
     };
   }, [totalMultiplierInput, multiplierIncrement]);
 
