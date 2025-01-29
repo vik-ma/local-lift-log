@@ -126,15 +126,13 @@ export const useDietLogList = (
   ]);
 
   const getDietLogs = async () => {
-    const result = await GetAllDietLogs();
+    const result = await GetAllDietLogs(false);
 
     const dietLogs: DietLog[] = [];
     const dietLogMap = new Map<string, DietLog>();
 
     for (const row of result) {
       const formattedDate = FormatYmdDateString(row.date);
-
-      if (formattedDate === "Invalid Date") continue;
 
       const disableExpansion = ShouldDietLogDisableExpansion(
         row.fat,
@@ -153,7 +151,7 @@ export const useDietLogList = (
       dietLogMap.set(dietLog.date, dietLog);
     }
 
-    sortDietLogsByDate(dietLogs, false);
+    setDietLogs(dietLogs);
     setDietLogMap(dietLogMap);
     isDietLogListLoaded.current = true;
   };
