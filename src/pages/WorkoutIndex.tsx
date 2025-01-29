@@ -58,7 +58,7 @@ export default function WorkoutIndex() {
     };
 
     loadUserSettings();
-  }, [setIncludeSecondaryGroups]);
+  }, []);
 
   const handleCreateEmptyWorkout = async () => {
     const newWorkout = await CreateWorkout(0);

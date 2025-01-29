@@ -143,12 +143,10 @@ export const DietLogModal = ({
   }, [
     dietLogMap,
     targetDay,
-    setTargetDay,
     dateStringToday,
     dateStringYesterday,
     disableTodayOrYesterdayEntry,
     dateEntryType,
-    setDateEntryType,
   ]);
 
   const disableSaveButton = useMemo(() => {

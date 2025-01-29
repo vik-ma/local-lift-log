@@ -174,7 +174,7 @@ export default function Presets() {
     }
 
     loadUserSettings();
-  }, [searchParams, setFilterWeightRangeUnit, setFilterDistanceRangeUnit]);
+  }, []);
 
   const isNameInputValid = useValidateName(nameInput);
 

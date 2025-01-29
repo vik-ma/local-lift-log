@@ -89,7 +89,7 @@ export default function Test() {
     };
 
     loadUserSettings();
-  }, [setFilterWeightRangeUnit]);
+  }, []);
 
   if (userSettings === undefined) return <LoadingSpinner />;
 

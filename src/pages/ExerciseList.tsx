@@ -247,7 +247,7 @@ export default function ExerciseList() {
     };
 
     loadUserSettings();
-  }, [setIncludeSecondaryGroups]);
+  }, []);
 
   if (userSettings === undefined || !isExerciseListLoaded.current)
     return <LoadingSpinner />;

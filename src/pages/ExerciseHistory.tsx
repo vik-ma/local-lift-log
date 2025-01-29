@@ -47,7 +47,7 @@ export default function ExerciseHistory() {
 
     getExercise();
     getSets();
-  }, [id]);
+  }, []);
 
   if (exercise === undefined) return <LoadingSpinner />;
 

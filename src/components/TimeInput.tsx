@@ -320,7 +320,7 @@ export const TimeInput = ({
     if (defaultIncrementInputValues !== undefined) {
       setTimeInSeconds(defaultIncrementInputValues.time);
     }
-  }, [set, defaultIncrementInputValues]);
+  }, [set]);
 
   useEffect(() => {
     setSecondsInput(timeInSeconds === 0 ? "" : timeInSeconds.toString());

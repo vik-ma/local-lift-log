@@ -132,10 +132,10 @@ export const useLatestUserWeightInput = (
   };
 
   useEffect(() => {
-    if (userSettings) {
+    if (userSettings !== undefined) {
       setWeightUnit(userSettings.default_unit_weight);
     }
-  }, [userSettings, setWeightUnit]);
+  }, []);
 
   return {
     addUserWeight,

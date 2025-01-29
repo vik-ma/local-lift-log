@@ -54,7 +54,7 @@ export default function ExerciseDetails() {
     };
 
     getExercise();
-  }, [id, exerciseGroupDictionary]);
+  }, []);
 
   const useDetailsHeaderOptions = useDetailsHeaderOptionsMenu("Exercise");
 

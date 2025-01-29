@@ -170,7 +170,7 @@ export default function Settings() {
     };
 
     loadUserSettings();
-  }, [setFilterWeightRangeUnit, setFilterDistanceRangeUnit]);
+  }, []);
 
   const updateSettings = async (
     updatedSettings: UserSettings

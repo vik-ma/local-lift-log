@@ -110,7 +110,7 @@ export default function UserMeasurementList() {
     };
 
     loadUserSettings();
-  }, [getUserMeasurements]);
+  }, []);
 
   const handleMeasurementAccordionClick = (
     measurement: UserMeasurement,

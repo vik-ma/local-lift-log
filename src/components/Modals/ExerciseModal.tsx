@@ -81,7 +81,7 @@ export const ExerciseModal = ({
     }
 
     setMultiplierInputMap(multiplierInputMap);
-  }, [exercise.exerciseGroupStringMapSecondary, setMultiplierInputMap]);
+  }, [exercise.exerciseGroupStringMapSecondary]);
 
   const handleExerciseGroupStringPrimaryChange = (
     exerciseGroupStringListPrimary: string[]

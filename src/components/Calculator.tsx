@@ -193,7 +193,7 @@ export const Calculator = ({
         setIsCalculationInvalid(true);
       }
     }
-  }, [input, setIsCalculationInvalid]);
+  }, [input]);
 
   useEffect(() => {
     if (

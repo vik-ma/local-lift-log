@@ -144,18 +144,7 @@ export const SumCalculator = ({
     } else {
       setCalculationListDistance(calculationList);
     }
-  }, [
-    calculationString,
-    presetsType,
-    equipmentWeights,
-    distances,
-    weightUnit,
-    distanceUnit,
-    loadPresets,
-    setTotalMultiplierInput,
-    setCalculationListWeight,
-    setCalculationListDistance,
-  ]);
+  }, []);
 
   const addItemToCalculationList = (calculationItem: CalculationListItem) => {
     if (presetsType === "equipment") {

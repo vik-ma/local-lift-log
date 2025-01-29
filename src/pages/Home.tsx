@@ -80,7 +80,7 @@ export default function Home() {
     };
 
     loadUserSettings();
-  }, [settingsModal, isUserSettingsLoaded]);
+  }, []);
 
   return (
     <>

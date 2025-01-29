@@ -102,7 +102,7 @@ export default function MeasurementList() {
     };
 
     loadUserSettings();
-  }, [setActiveMeasurementSet]);
+  }, []);
 
   const addMeasurement = async () => {
     if (operationType !== "add" || !isNewMeasurementNameValid) return;

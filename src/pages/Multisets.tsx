@@ -120,11 +120,7 @@ export default function Multisets() {
     };
 
     loadUserSettings();
-  }, [
-    setIncludeSecondaryGroups,
-    setFilterWeightRangeUnit,
-    setFilterDistanceRangeUnit,
-  ]);
+  }, []);
 
   const handleCreateNewMultisetButton = () => {
     if (operationType !== "add") {
@@ -496,127 +492,131 @@ export default function Multisets() {
   )
     return <LoadingSpinner />;
 
-  return (<>
-    <DeleteModal
-      deleteModal={deleteModal}
-      header={operationType === "delete" ? "Delete Multiset" : "Remove Set"}
-      body={
-        operationType === "delete" ? (
-          <p className="break-words">
-            Are you sure you want to permanently delete the Multiset
-            containing{" "}
-            <span className="text-secondary">
-              {operatingMultiset.setListText}
-            </span>
-            ?
-          </p>
-        ) : operatingMultiset.setList.length === 1 &&
-          operationType === "edit" ? (
-          // If trying to delete last Set in Multiset
-          (<p className="break-words">Are you sure you want to remove{" "}
-            <span className="text-secondary">
-              {operatingSet.exercise_name}
-            </span>{" "}and permanently delete Multiset?
-                        </p>)
-        ) : (
-          <p className="break-words">
-            Are you sure you want to remove{" "}
-            <span className="text-secondary">
-              {operatingSet.exercise_name}
-            </span>{" "}
-            from{" "}
-            <span className="text-secondary">
-              {operatingMultiset.setListText}
-            </span>{" "}
-            Multiset?
-          </p>
-        )
-      }
-      deleteButtonAction={
-        operationType === "delete" ? deleteMultiset : removeSetFromMultiset
-      }
-    />
-    <MultisetModal
-      multiset={operatingMultiset}
-      setMultiset={setOperatingMultiset}
-      operatingSet={operatingSet}
-      setOperatingSet={setOperatingSet}
-      operationType={operationType}
-      handleClickExercise={handleClickExercise}
-      useMultisetActions={multisetActions}
-      exerciseList={exerciseList}
-      userSettings={userSettings}
-      saveButtonAction={
-        operationType === "edit" ? updateMultiset : createMultiset
-      }
-      handleClickMultiset={() => {}}
-      showWorkoutItems={false}
-      operatingSetInputs={operatingSetInputs}
-      openCalculationModal={openCalculationModal}
-      useFilterExerciseList={filterExerciseList}
-    />
-    <FilterExerciseGroupsModal
-      useExerciseList={exerciseList}
-      useFilterExerciseList={filterExerciseList}
-    />
-    <FilterPresetsListModal
-      usePresetsList={presetsList}
-      userSettings={userSettings}
-    />
-    <FilterMultisetListModal
-      useMultisetActions={multisetActions}
-      useExerciseList={exerciseList}
-      useFilterExerciseList={filterExerciseList}
-      userSettings={userSettings}
-    />
-    {userSettings.show_calculation_buttons === 1 && (
-      <CalculationModal
-        useCalculationModal={calculationModal}
-        usePresetsList={presetsList}
-        doneButtonAction={addCalculationResult}
-        multiplierIncrement={
-          userSettings.default_increment_calculation_multiplier
+  return (
+    <>
+      <DeleteModal
+        deleteModal={deleteModal}
+        header={operationType === "delete" ? "Delete Multiset" : "Remove Set"}
+        body={
+          operationType === "delete" ? (
+            <p className="break-words">
+              Are you sure you want to permanently delete the Multiset
+              containing{" "}
+              <span className="text-secondary">
+                {operatingMultiset.setListText}
+              </span>
+              ?
+            </p>
+          ) : operatingMultiset.setList.length === 1 &&
+            operationType === "edit" ? (
+            // If trying to delete last Set in Multiset
+            <p className="break-words">
+              Are you sure you want to remove{" "}
+              <span className="text-secondary">
+                {operatingSet.exercise_name}
+              </span>{" "}
+              and permanently delete Multiset?
+            </p>
+          ) : (
+            <p className="break-words">
+              Are you sure you want to remove{" "}
+              <span className="text-secondary">
+                {operatingSet.exercise_name}
+              </span>{" "}
+              from{" "}
+              <span className="text-secondary">
+                {operatingMultiset.setListText}
+              </span>{" "}
+              Multiset?
+            </p>
+          )
         }
-        userSettings={userSettings}
-        setUserSettings={setUserSettings}
-      />
-    )}
-    <div className="flex flex-col items-center gap-1">
-      <ListPageSearchInput
-        header="Multiset Templates"
-        filterQuery={multisetActions.filterQuery}
-        setFilterQuery={multisetActions.setFilterQuery}
-        filteredListLength={multisetActions.filteredMultisets.length}
-        totalListLength={multisetActions.multisets.length}
-        isListFiltered={multisetActions.listFilters.filterMap.size > 0}
-        bottomContent={
-          <div className="flex flex-col gap-1.5">
-            <div className="flex justify-between">
-              <Button
-                color="secondary"
-                variant="flat"
-                onPress={handleCreateNewMultisetButton}
-                size="sm"
-              >
-                Create New Multiset
-              </Button>
-              <MultisetListOptions useMultisetActions={multisetActions} />
-            </div>
-            {multisetActions.listFilters.filterMap.size > 0 && (
-              <ListFilters
-                filterMap={multisetActions.listFilters.filterMap}
-                removeFilter={multisetActions.listFilters.removeFilter}
-                prefixMap={multisetActions.listFilters.prefixMap}
-              />
-            )}
-          </div>
+        deleteButtonAction={
+          operationType === "delete" ? deleteMultiset : removeSetFromMultiset
         }
       />
-      <MultisetAccordions
+      <MultisetModal
+        multiset={operatingMultiset}
+        setMultiset={setOperatingMultiset}
+        operatingSet={operatingSet}
+        setOperatingSet={setOperatingSet}
+        operationType={operationType}
+        handleClickExercise={handleClickExercise}
         useMultisetActions={multisetActions}
-        handleMultisetAccordionsClick={handleMultisetAccordionsClick}
-        handleMultisetOptionSelection={handleMultisetOptionSelection}
+        exerciseList={exerciseList}
+        userSettings={userSettings}
+        saveButtonAction={
+          operationType === "edit" ? updateMultiset : createMultiset
+        }
+        handleClickMultiset={() => {}}
+        showWorkoutItems={false}
+        operatingSetInputs={operatingSetInputs}
+        openCalculationModal={openCalculationModal}
+        useFilterExerciseList={filterExerciseList}
       />
-    </div>
-  </>);
+      <FilterExerciseGroupsModal
+        useExerciseList={exerciseList}
+        useFilterExerciseList={filterExerciseList}
+      />
+      <FilterPresetsListModal
+        usePresetsList={presetsList}
+        userSettings={userSettings}
+      />
+      <FilterMultisetListModal
+        useMultisetActions={multisetActions}
+        useExerciseList={exerciseList}
+        useFilterExerciseList={filterExerciseList}
+        userSettings={userSettings}
+      />
+      {userSettings.show_calculation_buttons === 1 && (
+        <CalculationModal
+          useCalculationModal={calculationModal}
+          usePresetsList={presetsList}
+          doneButtonAction={addCalculationResult}
+          multiplierIncrement={
+            userSettings.default_increment_calculation_multiplier
+          }
+          userSettings={userSettings}
+          setUserSettings={setUserSettings}
+        />
+      )}
+      <div className="flex flex-col items-center gap-1">
+        <ListPageSearchInput
+          header="Multiset Templates"
+          filterQuery={multisetActions.filterQuery}
+          setFilterQuery={multisetActions.setFilterQuery}
+          filteredListLength={multisetActions.filteredMultisets.length}
+          totalListLength={multisetActions.multisets.length}
+          isListFiltered={multisetActions.listFilters.filterMap.size > 0}
+          bottomContent={
+            <div className="flex flex-col gap-1.5">
+              <div className="flex justify-between">
+                <Button
+                  color="secondary"
+                  variant="flat"
+                  onPress={handleCreateNewMultisetButton}
+                  size="sm"
+                >
+                  Create New Multiset
+                </Button>
+                <MultisetListOptions useMultisetActions={multisetActions} />
+              </div>
+              {multisetActions.listFilters.filterMap.size > 0 && (
+                <ListFilters
+                  filterMap={multisetActions.listFilters.filterMap}
+                  removeFilter={multisetActions.listFilters.removeFilter}
+                  prefixMap={multisetActions.listFilters.prefixMap}
+                />
+              )}
+            </div>
+          }
+        />
+        <MultisetAccordions
+          useMultisetActions={multisetActions}
+          handleMultisetAccordionsClick={handleMultisetAccordionsClick}
+          handleMultisetOptionSelection={handleMultisetOptionSelection}
+        />
+      </div>
+    </>
+  );
 }

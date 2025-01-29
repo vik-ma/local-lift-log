@@ -42,7 +42,7 @@ export const FilterMinAndMaxValues = ({
     } else {
       setFilterMinValue(Number(minInput));
     }
-  }, [minInput, isMinInputInvalid, setFilterMinValue]);
+  }, [minInput, isMinInputInvalid]);
 
   useEffect(() => {
     if (isMaxInputInvalid) return;
@@ -52,7 +52,7 @@ export const FilterMinAndMaxValues = ({
     } else {
       setFilterMaxValue(Number(maxInput));
     }
-  }, [maxInput, isMaxInputInvalid, setFilterMaxValue]);
+  }, [maxInput, isMaxInputInvalid]);
 
   return (
     <div className="flex items-center gap-5">

@@ -89,7 +89,7 @@ export default function DietLogIndex() {
     };
 
     loadUserSettings();
-  }, [setTargetDay, isDietLogListLoaded.current]);
+  }, [isDietLogListLoaded.current]);
 
   const addDietLogEntry = async (date: string) => {
     if (

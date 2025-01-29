@@ -95,7 +95,7 @@ export default function TimePeriodList() {
     };
 
     loadUserSettings();
-  }, [getTimePeriods]);
+  }, []);
 
   const addTimePeriod = async () => {
     if (

@@ -109,7 +109,7 @@ export default function WorkoutList() {
     };
 
     loadUserSettings();
-  }, [setIncludeSecondaryGroups]);
+  }, []);
 
   const deleteWorkout = async () => {
     if (operatingWorkout.id === 0 || operationType !== "delete") return;

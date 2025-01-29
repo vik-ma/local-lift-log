@@ -96,7 +96,7 @@ export default function WorkoutTemplateList() {
     };
 
     loadUserSettings();
-  }, [setIncludeSecondaryGroups]);
+  }, []);
 
   const addWorkoutTemplate = async () => {
     if (!isNewWorkoutTemplateNameValid) return;
