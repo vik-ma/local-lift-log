@@ -47,9 +47,9 @@ export default function AnalyticsIndex() {
 
   const listModal = useDisclosure();
 
-  const exerciseList = useExerciseList(true, true, true);
+  const exerciseList = useExerciseList(false, true, true);
 
-  const { isExerciseListLoaded } = exerciseList;
+  const { isExerciseListLoaded, getExercises } = exerciseList;
 
   const filterExerciseList = useFilterExerciseList(exerciseList);
 
@@ -73,11 +73,16 @@ export default function AnalyticsIndex() {
       setUserSettings(userSettings);
     };
 
+    getDietLogList();
     loadUserSettings();
   }, []);
 
   const handleOpenListModal = async (modalListType: ModalListType) => {
     setModalListType(modalListType);
+
+    if (modalListType === "exercise" && !isExerciseListLoaded.current) {
+      await getExercises();
+    }
 
     if (modalListType === "measurement" && !isMeasurementListLoaded.current) {
       await getMeasurements();
@@ -92,8 +97,7 @@ export default function AnalyticsIndex() {
     setChartData(dietLogs);
   };
 
-  if (userSettings === undefined || !isExerciseListLoaded.current)
-    return <LoadingSpinner />;
+  if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
     <>
