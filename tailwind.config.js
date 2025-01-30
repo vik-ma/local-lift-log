@@ -41,8 +41,8 @@ export default {
               700: "#57870c",
             },
             danger: {
-              DEFAULT: "#ef5844",
-              600: "#991b1b",
+              DEFAULT: "#ef8b44",
+              600: "#99431b",
             },
             focus: "#f7bf24",
           },
