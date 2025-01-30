@@ -21,16 +21,15 @@ import {
 } from "../components";
 import { DietLog, UserSettings } from "../typings";
 import { GetAllDietLogs, GetUserSettings } from "../helpers";
+import { XAxis, YAxis, CartesianGrid, AreaChart, Area } from "recharts";
 import {
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  AreaChart,
-  Area,
-} from "recharts";
-import { ChartConfig, ChartContainer } from "../components/ui/chart";
+  ChartConfig,
+  ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "../components/ui/chart";
 
 type ModalListType = "exercise" | "measurement";
 
@@ -51,7 +50,12 @@ export default function AnalyticsIndex() {
 
   const { isMeasurementListLoaded, getMeasurements } = measurementList;
 
-  const chartConfig: ChartConfig = {};
+  const chartConfig: ChartConfig = {
+    calories: {
+      label: "Calories",
+    },
+    fat: { label: "Fat" },
+  };
 
   useEffect(() => {
     const loadUserSettings = async () => {
@@ -132,8 +136,8 @@ export default function AnalyticsIndex() {
               <XAxis dataKey="date" />
               <YAxis yAxisId="calories" />
               <YAxis yAxisId="fat" orientation="right" />
-              <Tooltip />
-              <Legend />
+              <ChartTooltip content={<ChartTooltipContent />} />
+              <ChartLegend content={<ChartLegendContent />} />
               <Area
                 yAxisId="calories"
                 dataKey="calories"
