@@ -21,7 +21,14 @@ import {
 } from "../components";
 import { DietLog, UserSettings } from "../typings";
 import { GetAllDietLogs, GetUserSettings } from "../helpers";
-import { XAxis, YAxis, CartesianGrid, ComposedChart, Area, Line } from "recharts";
+import {
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  ComposedChart,
+  Area,
+  Line,
+} from "recharts";
 import {
   ChartConfig,
   ChartContainer,
@@ -130,7 +137,7 @@ export default function AnalyticsIndex() {
       />
       <div className="flex flex-col items-center gap-3">
         <div className="bg-default-50 pt-5 pb-1.5 rounded-xl">
-          <ChartContainer config={chartConfig} className="w-[800px]">
+          <ChartContainer config={chartConfig} className="w-[900px]">
             <ComposedChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="date" />
@@ -157,7 +164,7 @@ export default function AnalyticsIndex() {
             </ComposedChart>
           </ChartContainer>
         </div>
-        <div className="flex flex-col gap-1.5">
+        <div className="flex gap-2">
           <Button
             className="font-medium"
             variant="flat"
