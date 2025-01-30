@@ -126,8 +126,8 @@ export default function AnalyticsIndex() {
       />
       <div className="flex flex-col items-center gap-3">
         <div className="bg-default-50 pt-5 pb-1.5 rounded-xl">
-          <ChartContainer config={chartConfig} className="min-h-[450px]">
-            <AreaChart width={0} height={0} data={chartData}>
+          <ChartContainer config={chartConfig} className="w-[800px]">
+            <AreaChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="date" />
               <YAxis yAxisId="calories" />
@@ -136,16 +136,16 @@ export default function AnalyticsIndex() {
               <Legend />
               <Area
                 yAxisId="calories"
-                type="monotone"
                 dataKey="calories"
-                stroke="#8884d8"
+                stroke="#ffc658"
+                fill="#ffc658"
                 activeDot={{ r: 6 }}
               />
               <Area
                 yAxisId="fat"
-                type="monotone"
                 dataKey="fat"
-                stroke="#82ca9d"
+                stroke="#8884d8"
+                fill="#8884d8"
                 activeDot={{ r: 6 }}
               />
             </AreaChart>
