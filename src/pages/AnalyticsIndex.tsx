@@ -139,6 +139,7 @@ export default function AnalyticsIndex() {
               <ChartTooltip content={<ChartTooltipContent />} />
               <ChartLegend content={<ChartLegendContent />} />
               <Area
+                isAnimationActive={false}
                 yAxisId="calories"
                 dataKey="calories"
                 stroke="#ffc658"
@@ -146,6 +147,7 @@ export default function AnalyticsIndex() {
                 activeDot={{ r: 6 }}
               />
               <Area
+                isAnimationActive={false}
                 yAxisId="fat"
                 dataKey="fat"
                 stroke="#8884d8"
