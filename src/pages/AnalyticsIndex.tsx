@@ -22,13 +22,13 @@ import {
 import { DietLog, UserSettings } from "../typings";
 import { GetAllDietLogs, GetUserSettings } from "../helpers";
 import {
-  LineChart,
-  Line,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
   Legend,
+  AreaChart,
+  Area,
 } from "recharts";
 import { ChartConfig, ChartContainer } from "../components/ui/chart";
 
@@ -127,30 +127,28 @@ export default function AnalyticsIndex() {
       <div className="flex flex-col items-center gap-3">
         <div className="bg-default-50 pt-5 pb-1.5 rounded-xl">
           <ChartContainer config={chartConfig} className="min-h-[450px]">
-            <LineChart width={0} height={0} data={chartData}>
+            <AreaChart width={0} height={0} data={chartData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="date" />
               <YAxis yAxisId="calories" />
               <YAxis yAxisId="fat" orientation="right" />
               <Tooltip />
               <Legend />
-              <Line
+              <Area
                 yAxisId="calories"
                 type="monotone"
                 dataKey="calories"
                 stroke="#8884d8"
-                strokeWidth={2}
-                activeDot={{ r: 8 }}
+                activeDot={{ r: 6 }}
               />
-              <Line
+              <Area
                 yAxisId="fat"
                 type="monotone"
                 dataKey="fat"
                 stroke="#82ca9d"
-                strokeWidth={2}
-                activeDot={{ r: 8 }}
+                activeDot={{ r: 6 }}
               />
-            </LineChart>
+            </AreaChart>
           </ChartContainer>
         </div>
         <div className="flex flex-col gap-1.5">
