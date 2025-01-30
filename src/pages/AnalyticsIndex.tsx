@@ -32,10 +32,10 @@ import {
 } from "recharts";
 import { ChartConfig, ChartContainer } from "../components/ui/chart";
 
-type ListType = "exercise" | "measurement";
+type ModalListType = "exercise" | "measurement";
 
 export default function AnalyticsIndex() {
-  const [listType, setListType] = useState<ListType>("exercise");
+  const [modalListType, setModalListType] = useState<ModalListType>("exercise");
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [chartData, setChartData] = useState<DietLog[]>([]);
 
@@ -65,13 +65,10 @@ export default function AnalyticsIndex() {
     loadUserSettings();
   }, []);
 
-  const handleOpenListModal = async (selectedListType: ListType) => {
-    setListType(selectedListType);
+  const handleOpenListModal = async (modalListType: ModalListType) => {
+    setModalListType(modalListType);
 
-    if (
-      selectedListType === "measurement" &&
-      !isMeasurementListLoaded.current
-    ) {
+    if (modalListType === "measurement" && !isMeasurementListLoaded.current) {
       await getMeasurements();
     }
 
@@ -94,10 +91,10 @@ export default function AnalyticsIndex() {
           {(onClose) => (
             <>
               <ModalHeader>
-                {listType === "exercise" ? "Select Exercise" : ""}
+                {modalListType === "exercise" ? "Select Exercise" : ""}
               </ModalHeader>
               <ModalBody>
-                {listType === "exercise" ? (
+                {modalListType === "exercise" ? (
                   <ExerciseModalList
                     handleClickExercise={() => {}}
                     useExerciseList={exerciseList}
