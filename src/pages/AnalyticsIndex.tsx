@@ -166,7 +166,7 @@ export default function AnalyticsIndex() {
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="date" />
               <YAxis yAxisId="calories" />
-              <YAxis yAxisId="fat" orientation="right" />
+              <YAxis dataKey="fat" orientation="right" />
               <ChartTooltip content={<ChartTooltipContent />} />
               <ChartLegend content={<ChartLegendContent />} />
               <Area
@@ -179,8 +179,21 @@ export default function AnalyticsIndex() {
               />
               <Line
                 isAnimationActive={false}
-                yAxisId="fat"
                 dataKey="fat"
+                stroke="#8884d8"
+                strokeWidth={2}
+                activeDot={{ r: 6 }}
+              />
+              <Line
+                isAnimationActive={false}
+                dataKey="carbs"
+                stroke="#8884d8"
+                strokeWidth={2}
+                activeDot={{ r: 6 }}
+              />
+              <Line
+                isAnimationActive={false}
+                dataKey="protein"
                 stroke="#8884d8"
                 strokeWidth={2}
                 activeDot={{ r: 6 }}
