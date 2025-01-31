@@ -12,7 +12,7 @@ import {
   useFilterExerciseList,
   useMeasurementList,
 } from "../hooks";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ExerciseModalList,
   FilterExerciseGroupsModal,
@@ -78,6 +78,10 @@ export default function AnalyticsIndex() {
     carbs: { label: "Carbs" },
     protein: { label: "Protein" },
   };
+
+  const chartLineColorList = useMemo(() => {
+    return ["#6b80ed", "#e6475a", "#56db67"];
+  }, []);
 
   useEffect(() => {
     const loadUserSettings = async () => {
@@ -196,11 +200,11 @@ export default function AnalyticsIndex() {
                 fill="#edc345"
                 activeDot={{ r: 6 }}
               />
-              {chartDataLines.map((item) => (
+              {chartDataLines.map((item, index) => (
                 <Line
                   isAnimationActive={false}
                   dataKey={item}
-                  stroke="#6b80ed"
+                  stroke={chartLineColorList[index % chartLineColorList.length]}
                   strokeWidth={2}
                   dot={false}
                   activeDot={{ r: 6 }}
