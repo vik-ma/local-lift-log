@@ -182,6 +182,7 @@ export default function AnalyticsIndex() {
                 dataKey="fat"
                 stroke="#6b80ed"
                 strokeWidth={2}
+                dot={false}
                 activeDot={{ r: 6 }}
               />
               <Line
@@ -189,6 +190,7 @@ export default function AnalyticsIndex() {
                 dataKey="carbs"
                 stroke="#e6475a"
                 strokeWidth={2}
+                dot={false}
                 activeDot={{ r: 6 }}
               />
               <Line
@@ -196,6 +198,7 @@ export default function AnalyticsIndex() {
                 dataKey="protein"
                 stroke="#56db67"
                 strokeWidth={2}
+                dot={false}
                 activeDot={{ r: 6 }}
               />
             </ComposedChart>
