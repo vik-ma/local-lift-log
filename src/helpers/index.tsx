@@ -21,6 +21,7 @@ export { GetYesterdayYmdDateString } from "./Dates/GetYesterdayYmdDateString";
 export { IsYmdDateStringTodayOrYesterday } from "./Dates/IsYmdDateStringTodayOrYesterday";
 export { ConvertYmdDateStringToCalendarDate } from "./Dates/ConvertYmdDateStringToCalendarDate";
 export { ConvertCalendarDateToYmdString } from "./Dates/ConvertCalendarDateToYmdString";
+export { FormatDateStringShort } from "./Dates/FormatDateStringShort";
 
 export { ConvertExerciseGroupSetStringPrimary } from "./Exercises/ConvertExerciseGroupSetStringPrimary";
 export { ConvertExerciseGroupStringListPrimaryToString } from "./Exercises/ConvertExerciseGroupStringListPrimaryToString";
