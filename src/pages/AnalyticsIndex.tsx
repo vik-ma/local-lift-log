@@ -52,11 +52,15 @@ type ChartData = {
   protein?: number | null;
 }[];
 
+type ChartDataCategory = "calories" | "fat" | "carbs" | "protein";
+
+type ChartDataUnitMap = Map<ChartDataCategory, string>;
+
 export default function AnalyticsIndex() {
   const [modalListType, setModalListType] = useState<ModalListType>("exercise");
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [chartData, setChartData] = useState<ChartData>([]);
-  const [chartDataLines, setChartDataLines] = useState<string[]>([]);
+  const [chartDataLines, setChartDataLines] = useState<ChartDataCategory[]>([]);
 
   const listModal = useDisclosure();
 
@@ -70,17 +74,30 @@ export default function AnalyticsIndex() {
 
   const { isMeasurementListLoaded, getMeasurements } = measurementList;
 
-  const chartConfig: ChartConfig = {
-    calories: {
-      label: "Calories",
-    },
-    fat: { label: "Fat" },
-    carbs: { label: "Carbs" },
-    protein: { label: "Protein" },
-  };
+  const chartConfig: ChartConfig = useMemo(() => {
+    return {
+      calories: {
+        label: "Calories",
+      },
+      fat: { label: "Fat" },
+      carbs: { label: "Carbs" },
+      protein: { label: "Protein" },
+    };
+  }, []);
 
   const chartLineColorList = useMemo(() => {
     return ["#6b80ed", "#e6475a", "#56db67"];
+  }, []);
+
+  const chartDataUnitMap = useMemo(() => {
+    const unitMap: ChartDataUnitMap = new Map<ChartDataCategory, string>();
+
+    unitMap.set("calories", " kcal");
+    unitMap.set("fat", " g");
+    unitMap.set("carbs", " g");
+    unitMap.set("protein", " g");
+
+    return unitMap;
   }, []);
 
   useEffect(() => {
