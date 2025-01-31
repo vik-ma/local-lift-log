@@ -20,7 +20,11 @@ import {
   MeasurementModalList,
 } from "../components";
 import { UserSettings } from "../typings";
-import { GetAllDietLogs, GetUserSettings } from "../helpers";
+import {
+  FormatDateStringShort,
+  GetAllDietLogs,
+  GetUserSettings,
+} from "../helpers";
 import {
   XAxis,
   YAxis,
@@ -81,9 +85,10 @@ export default function AnalyticsIndex() {
       if (userSettings === undefined) return;
 
       setUserSettings(userSettings);
+
+      getDietLogList(userSettings.locale);
     };
 
-    getDietLogList();
     loadUserSettings();
   }, []);
 
@@ -101,18 +106,20 @@ export default function AnalyticsIndex() {
     listModal.onOpen();
   };
 
-  const getDietLogList = async () => {
+  const getDietLogList = async (locale: string) => {
     const dietLogs = await GetAllDietLogs(true);
 
-    const chartData: ChartData = dietLogs.map(
-      ({ date, calories, fat, carbs, protein }) => ({
-        date,
-        calories,
-        fat,
-        carbs,
-        protein,
-      })
-    );
+    const chartData: ChartData = dietLogs.map((dietLog) => {
+      const chartDataItem = {
+        date: FormatDateStringShort(dietLog.date, locale),
+        calories: dietLog.calories,
+        fat: dietLog.fat,
+        carbs: dietLog.carbs,
+        protein: dietLog.protein,
+      };
+
+      return chartDataItem;
+    });
 
     setChartData(chartData);
   };
@@ -224,7 +231,7 @@ export default function AnalyticsIndex() {
           <Button
             className="font-medium"
             variant="flat"
-            onPress={getDietLogList}
+            onPress={() => getDietLogList(userSettings.locale)}
           >
             Load Diet Logs
           </Button>
