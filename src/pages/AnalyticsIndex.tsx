@@ -19,7 +19,7 @@ import {
   LoadingSpinner,
   MeasurementModalList,
 } from "../components";
-import { DietLog, UserSettings } from "../typings";
+import { UserSettings } from "../typings";
 import { GetAllDietLogs, GetUserSettings } from "../helpers";
 import {
   XAxis,
@@ -40,10 +40,18 @@ import {
 
 type ModalListType = "exercise" | "measurement";
 
+type ChartData = {
+  date: string;
+  calories?: number;
+  fat?: number | null;
+  carbs?: number | null;
+  protein?: number | null;
+}[];
+
 export default function AnalyticsIndex() {
   const [modalListType, setModalListType] = useState<ModalListType>("exercise");
   const [userSettings, setUserSettings] = useState<UserSettings>();
-  const [chartData, setChartData] = useState<DietLog[]>([]);
+  const [chartData, setChartData] = useState<ChartData>([]);
 
   const listModal = useDisclosure();
 
@@ -62,6 +70,8 @@ export default function AnalyticsIndex() {
       label: "Calories",
     },
     fat: { label: "Fat" },
+    carbs: { label: "Carbs" },
+    protein: { label: "Protein" },
   };
 
   useEffect(() => {
@@ -94,7 +104,17 @@ export default function AnalyticsIndex() {
   const getDietLogList = async () => {
     const dietLogs = await GetAllDietLogs(true);
 
-    setChartData(dietLogs);
+    const chartData: ChartData = dietLogs.map(
+      ({ date, calories, fat, carbs, protein }) => ({
+        date,
+        calories,
+        fat,
+        carbs,
+        protein,
+      })
+    );
+
+    setChartData(chartData);
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;
