@@ -124,6 +124,13 @@ export default function AnalyticsIndex() {
     setChartData(chartData);
   };
 
+  const formatXAxisDate = (date: string) => {
+    const cutoff =
+      userSettings === undefined || userSettings.locale === "en-US" ? 6 : 5;
+
+    return date.substring(0, date.length - cutoff);
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -171,7 +178,10 @@ export default function AnalyticsIndex() {
           <ChartContainer config={chartConfig} className="w-[900px]">
             <ComposedChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="date" />
+              <XAxis
+                dataKey="date"
+                tickFormatter={(date) => formatXAxisDate(date)}
+              />
               <YAxis yAxisId="calories" />
               <YAxis dataKey="fat" orientation="right" />
               <ChartTooltip content={<ChartTooltipContent />} />
