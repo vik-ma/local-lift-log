@@ -61,6 +61,8 @@ export default function AnalyticsIndex() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [chartData, setChartData] = useState<ChartData>([]);
   const [chartDataLines, setChartDataLines] = useState<ChartDataCategory[]>([]);
+  const [primaryDataKey, setPrimaryDataKey] = useState<ChartDataCategory>();
+  const [secondaryDataKey, setSecondaryDataKey] = useState<ChartDataCategory>();
 
   const listModal = useDisclosure();
 
@@ -145,6 +147,8 @@ export default function AnalyticsIndex() {
 
     setChartData(chartData);
     setChartDataLines(["fat", "carbs", "protein"]);
+    setPrimaryDataKey("calories");
+    setSecondaryDataKey("fat");
   };
 
   const formatXAxisDate = (date: string) => {
@@ -205,14 +209,14 @@ export default function AnalyticsIndex() {
                 dataKey="date"
                 tickFormatter={(date) => formatXAxisDate(date)}
               />
-              <YAxis yAxisId="calories" />
-              <YAxis dataKey="fat" orientation="right" />
+              <YAxis yAxisId={primaryDataKey} />
+              <YAxis dataKey={secondaryDataKey ?? ""} orientation="right" />
               <ChartTooltip content={<ChartTooltipContent />} />
               <ChartLegend content={<ChartLegendContent />} />
               <Area
                 isAnimationActive={false}
-                yAxisId="calories"
-                dataKey="calories"
+                yAxisId={primaryDataKey}
+                dataKey={primaryDataKey ?? ""}
                 stroke="#edc345"
                 fill="#edc345"
                 activeDot={{ r: 6 }}
