@@ -52,7 +52,7 @@ type ChartData = {
   protein?: number | null;
 }[];
 
-type ChartDataCategory = "calories" | "fat" | "carbs" | "protein";
+type ChartDataCategory = undefined | "calories" | "fat" | "carbs" | "protein";
 
 type ChartDataUnitMap = Map<ChartDataCategory, string>;
 
@@ -209,8 +209,15 @@ export default function AnalyticsIndex() {
                 dataKey="date"
                 tickFormatter={(date) => formatXAxisDate(date)}
               />
-              <YAxis yAxisId={primaryDataKey} />
-              <YAxis dataKey={secondaryDataKey ?? ""} orientation="right" />
+              <YAxis
+                yAxisId={primaryDataKey}
+                unit={chartDataUnitMap.get(primaryDataKey)}
+              />
+              <YAxis
+                dataKey={secondaryDataKey ?? ""}
+                unit={chartDataUnitMap.get(secondaryDataKey)}
+                orientation="right"
+              />
               <ChartTooltip content={<ChartTooltipContent />} />
               <ChartLegend content={<ChartLegendContent />} />
               <Area
