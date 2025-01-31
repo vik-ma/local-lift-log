@@ -56,6 +56,7 @@ export default function AnalyticsIndex() {
   const [modalListType, setModalListType] = useState<ModalListType>("exercise");
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [chartData, setChartData] = useState<ChartData>([]);
+  const [chartDataLines, setChartDataLines] = useState<string[]>([]);
 
   const listModal = useDisclosure();
 
@@ -122,6 +123,7 @@ export default function AnalyticsIndex() {
     });
 
     setChartData(chartData);
+    setChartDataLines(["fat", "carbs", "protein"]);
   };
 
   const formatXAxisDate = (date: string) => {
@@ -194,30 +196,16 @@ export default function AnalyticsIndex() {
                 fill="#edc345"
                 activeDot={{ r: 6 }}
               />
-              <Line
-                isAnimationActive={false}
-                dataKey="fat"
-                stroke="#6b80ed"
-                strokeWidth={2}
-                dot={false}
-                activeDot={{ r: 6 }}
-              />
-              <Line
-                isAnimationActive={false}
-                dataKey="carbs"
-                stroke="#e6475a"
-                strokeWidth={2}
-                dot={false}
-                activeDot={{ r: 6 }}
-              />
-              <Line
-                isAnimationActive={false}
-                dataKey="protein"
-                stroke="#56db67"
-                strokeWidth={2}
-                dot={false}
-                activeDot={{ r: 6 }}
-              />
+              {chartDataLines.map((item) => (
+                <Line
+                  isAnimationActive={false}
+                  dataKey={item}
+                  stroke="#6b80ed"
+                  strokeWidth={2}
+                  dot={false}
+                  activeDot={{ r: 6 }}
+                />
+              ))}
             </ComposedChart>
           </ChartContainer>
         </div>
