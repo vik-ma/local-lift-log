@@ -173,28 +173,28 @@ export default function AnalyticsIndex() {
                 isAnimationActive={false}
                 yAxisId="calories"
                 dataKey="calories"
-                stroke="#ffc658"
-                fill="#ffc658"
+                stroke="#edc345"
+                fill="#edc345"
                 activeDot={{ r: 6 }}
               />
               <Line
                 isAnimationActive={false}
                 dataKey="fat"
-                stroke="#8884d8"
+                stroke="#6b80ed"
                 strokeWidth={2}
                 activeDot={{ r: 6 }}
               />
               <Line
                 isAnimationActive={false}
                 dataKey="carbs"
-                stroke="#8884d8"
+                stroke="#e6475a"
                 strokeWidth={2}
                 activeDot={{ r: 6 }}
               />
               <Line
                 isAnimationActive={false}
                 dataKey="protein"
-                stroke="#8884d8"
+                stroke="#56db67"
                 strokeWidth={2}
                 activeDot={{ r: 6 }}
               />
