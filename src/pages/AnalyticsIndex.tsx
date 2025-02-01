@@ -239,6 +239,8 @@ export default function AnalyticsIndex() {
   };
 
   const addSecondArea = () => {
+    if (chartDataAreas.includes("test")) return;
+
     const updatedChartData = chartData.map((item) => ({
       ...item,
       test: Math.floor(Math.random() * 3000),
