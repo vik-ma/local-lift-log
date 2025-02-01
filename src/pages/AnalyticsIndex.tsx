@@ -282,6 +282,7 @@ export default function AnalyticsIndex() {
               />
               {chartDataLines.map((item, index) => (
                 <Line
+                  key={item}
                   isAnimationActive={false}
                   dataKey={item}
                   stroke={chartLineColorList[index % chartLineColorList.length]}
