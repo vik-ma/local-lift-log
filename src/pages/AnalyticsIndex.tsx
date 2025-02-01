@@ -50,9 +50,16 @@ type ChartData = {
   fat?: number | null;
   carbs?: number | null;
   protein?: number | null;
+  test?: number;
 }[];
 
-type ChartDataCategory = undefined | "calories" | "fat" | "carbs" | "protein";
+type ChartDataCategory =
+  | undefined
+  | "calories"
+  | "fat"
+  | "carbs"
+  | "protein"
+  | "test";
 
 type ChartDataUnitMap = Map<ChartDataCategory, string>;
 
@@ -88,6 +95,7 @@ export default function AnalyticsIndex() {
       fat: { label: "Fat" },
       carbs: { label: "Carbs" },
       protein: { label: "Protein" },
+      test: { label: "Test" },
     };
   }, []);
 
@@ -102,6 +110,7 @@ export default function AnalyticsIndex() {
     unitMap.set("fat", " g");
     unitMap.set("carbs", " g");
     unitMap.set("protein", " g");
+    unitMap.set("test", " kcal");
 
     return unitMap;
   }, []);
@@ -151,6 +160,7 @@ export default function AnalyticsIndex() {
         fat: dietLog.fat,
         carbs: dietLog.carbs,
         protein: dietLog.protein,
+        test: Math.floor(Math.random() * 3000),
       };
 
       if (
