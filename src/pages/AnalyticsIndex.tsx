@@ -76,6 +76,8 @@ export default function AnalyticsIndex() {
     new Map()
   );
 
+  const isChartDataLoaded = useRef<boolean>(false);
+
   const listModal = useDisclosure();
 
   const exerciseList = useExerciseList(false, true, true);
@@ -226,6 +228,8 @@ export default function AnalyticsIndex() {
       // Set the category with the highest gram value as second Y-axis
       setSecondaryDataKey(highestGramValueCategory as ChartDataCategory);
     }
+
+    isChartDataLoaded.current = true;
   };
 
   const formatXAxisDate = (date: string) => {
@@ -278,53 +282,59 @@ export default function AnalyticsIndex() {
         useFilterExerciseList={filterExerciseList}
       />
       <div className="flex flex-col items-center gap-3">
-        <div className="bg-default-50 pt-4 pb-1.5 rounded-xl">
-          <ChartContainer config={chartConfig} className="w-[960px]">
-            <ComposedChart
-              data={chartData}
-              margin={{ top: 15, right: 15, left: 15 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis
-                dataKey="date"
-                tickFormatter={(date) => formatXAxisDate(date)}
-              />
-              <YAxis
-                yAxisId={primaryDataKey}
-                unit={chartDataUnitMap.get(primaryDataKey)}
-              />
-              <YAxis
-                dataKey={secondaryDataKey ?? ""}
-                unit={chartDataUnitMap.get(secondaryDataKey)}
-                orientation="right"
-              />
-              <ChartTooltip content={<ChartTooltipContent />} />
-              <ChartLegend content={<ChartLegendContent />} />
-              {chartDataAreas.map((item, index) => (
-                <Area
-                  key={item}
-                  isAnimationActive={false}
+        {isChartDataLoaded.current && (
+          <div className="bg-default-50 pt-4 pb-1.5 rounded-xl">
+            <ChartContainer config={chartConfig} className="w-[960px]">
+              <ComposedChart
+                data={chartData}
+                margin={{ top: 15, right: 15, left: 15 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis
+                  dataKey="date"
+                  tickFormatter={(date) => formatXAxisDate(date)}
+                />
+                <YAxis
                   yAxisId={primaryDataKey}
-                  dataKey={item ?? ""}
-                  stroke={chartAreaColorList[index % chartAreaColorList.length]}
-                  fill={chartAreaColorList[index % chartAreaColorList.length]}
-                  activeDot={{ r: 6 }}
+                  unit={chartDataUnitMap.get(primaryDataKey)}
                 />
-              ))}
-              {chartDataLines.map((item, index) => (
-                <Line
-                  key={item}
-                  isAnimationActive={false}
-                  dataKey={item}
-                  stroke={chartLineColorList[index % chartLineColorList.length]}
-                  strokeWidth={2}
-                  dot={false}
-                  activeDot={{ r: 6 }}
+                <YAxis
+                  dataKey={secondaryDataKey ?? ""}
+                  unit={chartDataUnitMap.get(secondaryDataKey)}
+                  orientation="right"
                 />
-              ))}
-            </ComposedChart>
-          </ChartContainer>
-        </div>
+                <ChartTooltip content={<ChartTooltipContent />} />
+                <ChartLegend content={<ChartLegendContent />} />
+                {chartDataAreas.map((item, index) => (
+                  <Area
+                    key={item}
+                    isAnimationActive={false}
+                    yAxisId={primaryDataKey}
+                    dataKey={item ?? ""}
+                    stroke={
+                      chartAreaColorList[index % chartAreaColorList.length]
+                    }
+                    fill={chartAreaColorList[index % chartAreaColorList.length]}
+                    activeDot={{ r: 6 }}
+                  />
+                ))}
+                {chartDataLines.map((item, index) => (
+                  <Line
+                    key={item}
+                    isAnimationActive={false}
+                    dataKey={item}
+                    stroke={
+                      chartLineColorList[index % chartLineColorList.length]
+                    }
+                    strokeWidth={2}
+                    dot={false}
+                    activeDot={{ r: 6 }}
+                  />
+                ))}
+              </ComposedChart>
+            </ChartContainer>
+          </div>
+        )}
         <div className="flex gap-2">
           <Button
             className="font-medium"
