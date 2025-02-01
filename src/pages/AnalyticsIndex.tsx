@@ -279,8 +279,11 @@ export default function AnalyticsIndex() {
       />
       <div className="flex flex-col items-center gap-3">
         <div className="bg-default-50 pt-4 pb-1.5 rounded-xl">
-          <ChartContainer config={chartConfig} className="w-[950px]">
-            <ComposedChart data={chartData} margin={{ top: 20 }}>
+          <ChartContainer config={chartConfig} className="w-[960px]">
+            <ComposedChart
+              data={chartData}
+              margin={{ top: 15, right: 15, left: 15 }}
+            >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis
                 dataKey="date"
