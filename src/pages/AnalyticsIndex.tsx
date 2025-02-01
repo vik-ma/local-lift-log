@@ -253,9 +253,9 @@ export default function AnalyticsIndex() {
         useFilterExerciseList={filterExerciseList}
       />
       <div className="flex flex-col items-center gap-3">
-        <div className="bg-default-50 pt-5 pb-1.5 rounded-xl">
-          <ChartContainer config={chartConfig} className="w-[900px]">
-            <ComposedChart data={chartData}>
+        <div className="bg-default-50 pt-4 pb-1.5 rounded-xl">
+          <ChartContainer config={chartConfig} className="w-[950px]">
+            <ComposedChart data={chartData} margin={{ top: 20 }}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis
                 dataKey="date"
