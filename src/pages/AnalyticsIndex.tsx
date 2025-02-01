@@ -133,7 +133,12 @@ export default function AnalyticsIndex() {
   const getDietLogList = async (locale: string) => {
     const dietLogs = await GetAllDietLogs(true);
 
-    const chartData: ChartData = dietLogs.map((dietLog) => {
+    const chartData: ChartData = [];
+
+    let highestGramValue = 0;
+    let highestGramValueCategory = "";
+
+    for (const dietLog of dietLogs) {
       const chartDataItem = {
         date: FormatDateStringShort(dietLog.date, locale),
         calories: dietLog.calories,
@@ -142,13 +147,32 @@ export default function AnalyticsIndex() {
         protein: dietLog.protein,
       };
 
-      return chartDataItem;
-    });
+      if (dietLog.fat !== null && dietLog.fat > highestGramValue) {
+        highestGramValue = dietLog.fat;
+        highestGramValueCategory = "fat";
+      }
+
+      if (dietLog.carbs !== null && dietLog.carbs > highestGramValue) {
+        highestGramValue = dietLog.carbs;
+        highestGramValueCategory = "carbs";
+      }
+
+      if (dietLog.protein !== null && dietLog.protein > highestGramValue) {
+        highestGramValue = dietLog.protein;
+        highestGramValueCategory = "protein";
+      }
+
+      chartData.push(chartDataItem);
+    }
 
     setChartData(chartData);
     setChartDataLines(["fat", "carbs", "protein"]);
     setPrimaryDataKey("calories");
-    setSecondaryDataKey("fat");
+
+    if (highestGramValueCategory !== "") {
+      // Set the category with the highest gram value as second Y-axis
+      setSecondaryDataKey(highestGramValueCategory as ChartDataCategory);
+    }
   };
 
   const formatXAxisDate = (date: string) => {
