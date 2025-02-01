@@ -176,7 +176,6 @@ export default function AnalyticsIndex() {
         fat: dietLog.fat,
         carbs: dietLog.carbs,
         protein: dietLog.protein,
-        test: Math.floor(Math.random() * 3000),
       };
 
       if (
@@ -204,7 +203,7 @@ export default function AnalyticsIndex() {
     }
 
     setChartData(chartData);
-    setChartDataAreas(["calories", "test"]);
+    setChartDataAreas(["calories"]);
     setChartDataLines(["fat", "carbs", "protein"]);
     setPrimaryDataKey("calories");
 
@@ -237,6 +236,21 @@ export default function AnalyticsIndex() {
       userSettings === undefined || userSettings.locale === "en-US" ? 6 : 5;
 
     return date.substring(0, date.length - cutoff);
+  };
+
+  const addSecondArea = () => {
+    const updatedChartData = chartData.map((item) => ({
+      ...item,
+      test: Math.floor(Math.random() * 3000),
+    }));
+
+    const updatedChartDataAreas = [
+      ...chartDataAreas,
+      "test" as ChartDataCategory,
+    ];
+
+    setChartData(updatedChartData);
+    setChartDataAreas(updatedChartDataAreas);
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;
@@ -358,6 +372,13 @@ export default function AnalyticsIndex() {
             onPress={() => getDietLogList(userSettings.locale)}
           >
             Load Diet Logs
+          </Button>
+          <Button
+            className="font-medium"
+            variant="flat"
+            onPress={addSecondArea}
+          >
+            Add Second Area
           </Button>
         </div>
       </div>
