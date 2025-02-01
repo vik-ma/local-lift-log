@@ -253,6 +253,17 @@ export default function AnalyticsIndex() {
     setChartDataAreas(updatedChartDataAreas);
   };
 
+  const removeSecondArea = () => {
+    const updatedChartData = chartData.map(({ test, ...rest }) => rest);
+
+    const updatedChartDataAreas = chartDataAreas.filter(
+      (item) => item !== "test"
+    );
+
+    setChartData(updatedChartData);
+    setChartDataAreas(updatedChartDataAreas);
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -379,6 +390,13 @@ export default function AnalyticsIndex() {
             onPress={addSecondArea}
           >
             Add Second Area
+          </Button>
+          <Button
+            className="font-medium"
+            variant="flat"
+            onPress={removeSecondArea}
+          >
+            Remove Second Area
           </Button>
         </div>
       </div>
