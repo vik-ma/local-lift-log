@@ -67,6 +67,7 @@ export default function AnalyticsIndex() {
   const [modalListType, setModalListType] = useState<ModalListType>("exercise");
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [chartData, setChartData] = useState<ChartData>([]);
+  const [chartDataAreas, setChartDataAreas] = useState<ChartDataCategory[]>([]);
   const [chartDataLines, setChartDataLines] = useState<ChartDataCategory[]>([]);
   const [primaryDataKey, setPrimaryDataKey] = useState<ChartDataCategory>();
   const [secondaryDataKey, setSecondaryDataKey] = useState<ChartDataCategory>();
@@ -188,6 +189,7 @@ export default function AnalyticsIndex() {
     }
 
     setChartData(chartData);
+    setChartDataAreas(["calories", "test"]);
     setChartDataLines(["fat", "carbs", "protein"]);
     setPrimaryDataKey("calories");
 
@@ -282,14 +284,17 @@ export default function AnalyticsIndex() {
               />
               <ChartTooltip content={<ChartTooltipContent />} />
               <ChartLegend content={<ChartLegendContent />} />
-              <Area
-                isAnimationActive={false}
-                yAxisId={primaryDataKey}
-                dataKey={primaryDataKey ?? ""}
-                stroke="#edc345"
-                fill="#edc345"
-                activeDot={{ r: 6 }}
-              />
+              {chartDataAreas.map((item, index) => (
+                <Area
+                  key={item}
+                  isAnimationActive={false}
+                  yAxisId={primaryDataKey}
+                  dataKey={item ?? ""}
+                  stroke="#edc345"
+                  fill="#edc345"
+                  activeDot={{ r: 6 }}
+                />
+              ))}
               {chartDataLines.map((item, index) => (
                 <Line
                   key={item}
