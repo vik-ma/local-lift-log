@@ -104,6 +104,19 @@ export default function AnalyticsIndex() {
     return ["#6b80ed", "#e6475a", "#56db67"];
   }, []);
 
+  const chartAreaColorList = useMemo(() => {
+    return [
+      "#edc345",
+      "#a8a29e",
+      "#7d8db6",
+      "#c5bcb5",
+      "#b8a9c9",
+      "#a5b4ac",
+      "#d4a5a5",
+      "#b1a89f",
+    ];
+  }, []);
+
   const chartDataUnitMap = useMemo(() => {
     const unitMap: ChartDataUnitMap = new Map<ChartDataCategory, string>();
 
@@ -290,8 +303,8 @@ export default function AnalyticsIndex() {
                   isAnimationActive={false}
                   yAxisId={primaryDataKey}
                   dataKey={item ?? ""}
-                  stroke="#edc345"
-                  fill="#edc345"
+                  stroke={chartAreaColorList[index % chartAreaColorList.length]}
+                  fill={chartAreaColorList[index % chartAreaColorList.length]}
                   activeDot={{ r: 6 }}
                 />
               ))}
