@@ -12,7 +12,7 @@ import {
   useFilterExerciseList,
   useMeasurementList,
 } from "../hooks";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ExerciseModalList,
   FilterExerciseGroupsModal,
@@ -63,6 +63,10 @@ export default function AnalyticsIndex() {
   const [chartDataLines, setChartDataLines] = useState<ChartDataCategory[]>([]);
   const [primaryDataKey, setPrimaryDataKey] = useState<ChartDataCategory>();
   const [secondaryDataKey, setSecondaryDataKey] = useState<ChartDataCategory>();
+
+  const highestCategoryValues = useRef<Map<ChartDataCategory, number>>(
+    new Map()
+  );
 
   const listModal = useDisclosure();
 
@@ -135,8 +139,10 @@ export default function AnalyticsIndex() {
 
     const chartData: ChartData = [];
 
-    let highestGramValue = 0;
-    let highestGramValueCategory = "";
+    const highestGramValueMap = new Map<ChartDataCategory, number>();
+    highestGramValueMap.set("fat", 0);
+    highestGramValueMap.set("carbs", 0);
+    highestGramValueMap.set("protein", 0);
 
     for (const dietLog of dietLogs) {
       const chartDataItem = {
@@ -147,19 +153,25 @@ export default function AnalyticsIndex() {
         protein: dietLog.protein,
       };
 
-      if (dietLog.fat !== null && dietLog.fat > highestGramValue) {
-        highestGramValue = dietLog.fat;
-        highestGramValueCategory = "fat";
+      if (
+        dietLog.fat !== null &&
+        dietLog.fat > highestGramValueMap.get("fat")!
+      ) {
+        highestGramValueMap.set("fat", dietLog.fat);
       }
 
-      if (dietLog.carbs !== null && dietLog.carbs > highestGramValue) {
-        highestGramValue = dietLog.carbs;
-        highestGramValueCategory = "carbs";
+      if (
+        dietLog.carbs !== null &&
+        dietLog.carbs > highestGramValueMap.get("carbs")!
+      ) {
+        highestGramValueMap.set("carbs", dietLog.carbs);
       }
 
-      if (dietLog.protein !== null && dietLog.protein > highestGramValue) {
-        highestGramValue = dietLog.protein;
-        highestGramValueCategory = "protein";
+      if (
+        dietLog.protein !== null &&
+        dietLog.protein > highestGramValueMap.get("protein")!
+      ) {
+        highestGramValueMap.set("protein", dietLog.protein);
       }
 
       chartData.push(chartDataItem);
@@ -168,6 +180,22 @@ export default function AnalyticsIndex() {
     setChartData(chartData);
     setChartDataLines(["fat", "carbs", "protein"]);
     setPrimaryDataKey("calories");
+
+    let highestGramValueCategory = "";
+    let highestGramValue = 0;
+
+    const updatedHighestCategoryValues = new Map(highestCategoryValues.current);
+
+    for (const [key, value] of highestGramValueMap) {
+      if (value > highestGramValue) {
+        highestGramValueCategory = key!;
+        highestGramValue = value;
+      }
+
+      updatedHighestCategoryValues.set(key, value);
+    }
+
+    highestCategoryValues.current = updatedHighestCategoryValues;
 
     if (highestGramValueCategory !== "") {
       // Set the category with the highest gram value as second Y-axis
