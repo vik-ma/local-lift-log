@@ -225,6 +225,7 @@ export { DeleteIdFromList } from "./Lists/DeleteIdFromList";
 export { FindIndexInList } from "./Lists/FindIndexInList";
 export { ReplaceNumberIn2DList } from "./Lists/ReplaceNumberIn2DList";
 export { DoesListOrSetHaveCommonElement } from "./Lists/DoesListOrSetHaveCommonElement";
+export { MoveItemToStartOfList } from "./Lists/MoveItemToStartOfList";
 
 export { CreateCalculationString } from "./CalculationItems/CreateCalculationString";
 export { UpdateCalculationString } from "./CalculationItems/UpdateCalculationString";
