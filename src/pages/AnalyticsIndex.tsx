@@ -255,7 +255,8 @@ export default function AnalyticsIndex() {
   };
 
   const addSecondArea = () => {
-    if (chartDataAreas.includes("test")) return;
+    if (chartDataAreas.includes("test") || chartDataLines.includes("test"))
+      return;
 
     const updatedChartData = chartData.map((item) => ({
       ...item,
@@ -283,7 +284,8 @@ export default function AnalyticsIndex() {
   };
 
   const addTestLine = () => {
-    if (chartDataAreas.includes("test")) return;
+    if (chartDataAreas.includes("test") || chartDataLines.includes("test"))
+      return;
 
     const updatedChartData = chartData.map((item) => ({
       ...item,
@@ -292,6 +294,7 @@ export default function AnalyticsIndex() {
 
     setChartData(updatedChartData);
     setChartDataLines(["test", ...chartDataLines]);
+    setSecondaryDataKeyList([...secondaryDataKeyList, "Calories"]);
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;
@@ -339,7 +342,7 @@ export default function AnalyticsIndex() {
       <div className="flex flex-col items-center gap-3">
         {isChartDataLoaded.current && (
           <div className="bg-default-50 pt-4 pb-1.5 rounded-xl">
-            <ChartContainer config={chartConfig} className="w-[960px]">
+            <ChartContainer config={chartConfig} className="w-[870px]">
               <ComposedChart
                 data={chartData}
                 margin={{ top: 15, right: 15, left: 15 }}
@@ -430,6 +433,7 @@ export default function AnalyticsIndex() {
             Add Test Line
           </Button>
         </div>
+        <div className="flex gap-2"></div>
       </div>
     </>
   );
