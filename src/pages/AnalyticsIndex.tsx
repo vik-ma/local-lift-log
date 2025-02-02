@@ -370,7 +370,6 @@ export default function AnalyticsIndex() {
                       chartLineColorList[index % chartLineColorList.length]
                     }
                     strokeWidth={2}
-                    dot={false}
                     activeDot={{ r: 6 }}
                   />
                 ))}
