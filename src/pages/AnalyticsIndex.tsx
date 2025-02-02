@@ -61,7 +61,7 @@ type ChartDataCategory =
   | "protein"
   | "test";
 
-type ChartDataUnitMap = Map<ChartDataCategory, string>;
+type ChartDataUnitCategory = undefined | "Calories" | "Macros";
 
 export default function AnalyticsIndex() {
   const [modalListType, setModalListType] = useState<ModalListType>("exercise");
@@ -71,6 +71,9 @@ export default function AnalyticsIndex() {
   const [chartDataLines, setChartDataLines] = useState<ChartDataCategory[]>([]);
   const [primaryDataKey, setPrimaryDataKey] = useState<ChartDataCategory>();
   const [secondaryDataKey, setSecondaryDataKey] = useState<ChartDataCategory>();
+  const [secondaryDataKeyList, setSecondaryDataKeyList] = useState<
+    ChartDataUnitCategory[]
+  >([]);
 
   const highestCategoryValues = useRef<Map<ChartDataCategory, number>>(
     new Map()
@@ -120,7 +123,7 @@ export default function AnalyticsIndex() {
   }, []);
 
   const chartDataUnitMap = useMemo(() => {
-    const unitMap: ChartDataUnitMap = new Map<ChartDataCategory, string>();
+    const unitMap = new Map<ChartDataCategory, string>();
 
     unitMap.set("calories", " kcal");
     unitMap.set("fat", " g");
@@ -129,6 +132,18 @@ export default function AnalyticsIndex() {
     unitMap.set("test", " kcal");
 
     return unitMap;
+  }, []);
+
+  const chartDataUnitCategoryMap = useMemo(() => {
+    const unitCategoryMap = new Map<ChartDataCategory, ChartDataUnitCategory>();
+
+    unitCategoryMap.set("calories", "Calories");
+    unitCategoryMap.set("fat", "Macros");
+    unitCategoryMap.set("carbs", "Macros");
+    unitCategoryMap.set("protein", "Macros");
+    unitCategoryMap.set("test", "Calories");
+
+    return unitCategoryMap;
   }, []);
 
   useEffect(() => {
@@ -206,6 +221,7 @@ export default function AnalyticsIndex() {
     setChartDataAreas(["calories"]);
     setChartDataLines(["fat", "carbs", "protein"]);
     setPrimaryDataKey("calories");
+    setSecondaryDataKeyList([...secondaryDataKeyList, "Macros"]);
 
     let highestGramValueCategory = "";
     let highestGramValue = 0;
