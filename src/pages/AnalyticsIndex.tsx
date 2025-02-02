@@ -230,6 +230,26 @@ export default function AnalyticsIndex() {
     setChartData(chartData);
     setChartDataAreas(["calories"]);
 
+    const { highestGramValueCategory, updatedHighestCategoryValues } =
+      getHighestGramValueForMacros(highestGramValueMap);
+
+    highestCategoryValues.current = updatedHighestCategoryValues;
+
+    if (highestGramValueCategory !== "") {
+      // Set the category with the highest gram value as second Y-axis
+      setSecondaryDataKey(highestGramValueCategory as ChartDataCategory);
+      setChartDataLines(["fat", "carbs", "protein"]);
+      setPrimaryDataKey("calories");
+      setSecondaryDataKeyList([...secondaryDataKeyList, "Macros"]);
+      setSecondaryDataUnitCategory("Macros");
+    }
+
+    isChartDataLoaded.current = true;
+  };
+
+  const getHighestGramValueForMacros = (
+    highestGramValueMap: Map<ChartDataCategory, number>
+  ) => {
     let highestGramValueCategory = "";
     let highestGramValue = 0;
 
@@ -244,18 +264,7 @@ export default function AnalyticsIndex() {
       updatedHighestCategoryValues.set(key, value);
     }
 
-    highestCategoryValues.current = updatedHighestCategoryValues;
-
-    if (highestGramValueCategory !== "") {
-      // Set the category with the highest gram value as second Y-axis
-      setSecondaryDataKey(highestGramValueCategory as ChartDataCategory);
-      setChartDataLines(["fat", "carbs", "protein"]);
-      setPrimaryDataKey("calories");
-      setSecondaryDataKeyList([...secondaryDataKeyList, "Macros"]);
-      setSecondaryDataUnitCategory("Macros");
-    }
-
-    isChartDataLoaded.current = true;
+    return { highestGramValueCategory, updatedHighestCategoryValues };
   };
 
   const formatXAxisDate = (date: string) => {
@@ -310,7 +319,11 @@ export default function AnalyticsIndex() {
   };
 
   const changeSecondaryDataUnitCategory = (unitCategory: string) => {
-    setSecondaryDataUnitCategory(unitCategory as ChartDataUnitCategory);
+    if (unitCategory === "Macros") {
+      setSecondaryDataUnitCategory(unitCategory);
+    } else if (unitCategory === "Calories") {
+      setSecondaryDataUnitCategory(unitCategory);
+    }
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;
@@ -465,9 +478,9 @@ export default function AnalyticsIndex() {
                   ? [secondaryDataUnitCategory]
                   : []
               }
-              onSelectionChange={(e) => changeSecondaryDataUnitCategory(e as string)}
+              onChange={(e) => changeSecondaryDataUnitCategory(e.target.value)}
               disallowEmptySelection
-              isDisabled={secondaryDataKeyList.length === 0}
+              isDisabled={secondaryDataKeyList.length < 2}
             >
               {secondaryDataKeyList.map((dataKey) => (
                 <SelectItem key={dataKey} value={dataKey}>
