@@ -282,6 +282,18 @@ export default function AnalyticsIndex() {
     setChartDataAreas(updatedChartDataAreas);
   };
 
+  const addTestLine = () => {
+    if (chartDataAreas.includes("test")) return;
+
+    const updatedChartData = chartData.map((item) => ({
+      ...item,
+      test: Math.floor(Math.random() * 3000),
+    }));
+
+    setChartData(updatedChartData);
+    setChartDataLines(["test", ...chartDataLines]);
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -342,7 +354,6 @@ export default function AnalyticsIndex() {
                   unit={chartDataUnitMap.get(primaryDataKey)}
                 />
                 <YAxis
-                  dataKey={secondaryDataKey ?? ""}
                   unit={chartDataUnitMap.get(secondaryDataKey)}
                   orientation="right"
                 />
@@ -414,6 +425,9 @@ export default function AnalyticsIndex() {
             onPress={removeSecondArea}
           >
             Remove Second Area
+          </Button>
+          <Button className="font-medium" variant="flat" onPress={addTestLine}>
+            Add Test Line
           </Button>
         </div>
       </div>
