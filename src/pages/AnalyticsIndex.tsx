@@ -41,6 +41,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "../components/ui/chart";
+import toast from "react-hot-toast";
 
 type ModalListType = "exercise" | "measurement";
 
@@ -177,6 +178,11 @@ export default function AnalyticsIndex() {
   const getDietLogList = async (locale: string) => {
     const dietLogs = await GetAllDietLogs(true);
 
+    if (dietLogs.length === 0) {
+      toast.error("No Diet Logs Entries Recorded");
+      return;
+    }
+
     const chartData: ChartData = [];
 
     const highestGramValueMap = new Map<ChartDataCategory, number>();
@@ -219,9 +225,6 @@ export default function AnalyticsIndex() {
 
     setChartData(chartData);
     setChartDataAreas(["calories"]);
-    setChartDataLines(["fat", "carbs", "protein"]);
-    setPrimaryDataKey("calories");
-    setSecondaryDataKeyList([...secondaryDataKeyList, "Macros"]);
 
     let highestGramValueCategory = "";
     let highestGramValue = 0;
@@ -242,6 +245,9 @@ export default function AnalyticsIndex() {
     if (highestGramValueCategory !== "") {
       // Set the category with the highest gram value as second Y-axis
       setSecondaryDataKey(highestGramValueCategory as ChartDataCategory);
+      setChartDataLines(["fat", "carbs", "protein"]);
+      setPrimaryDataKey("calories");
+      setSecondaryDataKeyList([...secondaryDataKeyList, "Macros"]);
     }
 
     isChartDataLoaded.current = true;
