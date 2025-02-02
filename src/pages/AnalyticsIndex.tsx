@@ -496,7 +496,7 @@ export default function AnalyticsIndex() {
           </div>
           <div className="flex gap-2">
             <Select
-              className="w-[11rem]"
+              className="w-[10rem]"
               label="Right Y-Axis Value"
               size="sm"
               variant="faded"

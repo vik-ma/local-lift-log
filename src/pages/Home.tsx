@@ -82,10 +82,6 @@ export default function Home() {
     loadUserSettings();
   }, []);
 
-  const asd = "23 Jan, 2025";
-
-  console.log(asd.substring(0, asd.length - 5))
-
   return (
     <>
       <SettingsModal
