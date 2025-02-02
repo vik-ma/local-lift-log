@@ -26,6 +26,7 @@ import {
   FormatDateStringShort,
   GetAllDietLogs,
   GetUserSettings,
+  MoveItemToStartOfList,
   MoveListOfItemsToStartOfList,
 } from "../helpers";
 import {
@@ -339,6 +340,14 @@ export default function AnalyticsIndex() {
       setSecondaryDataKey(highestGramValueCategory as ChartDataCategory);
       setSecondaryDataUnitCategory(unitCategory);
     } else if (unitCategory === "Calories") {
+      setChartDataLines(
+        MoveItemToStartOfList(
+          chartDataLines as string[],
+          "test"
+        ) as ChartDataCategory[]
+      );
+
+      setSecondaryDataKey("test");
       setSecondaryDataUnitCategory(unitCategory);
     }
   };
