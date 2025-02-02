@@ -26,6 +26,7 @@ import {
   FormatDateStringShort,
   GetAllDietLogs,
   GetUserSettings,
+  MoveListOfItemsToStartOfList,
 } from "../helpers";
 import {
   XAxis,
@@ -256,6 +257,8 @@ export default function AnalyticsIndex() {
     const updatedHighestCategoryValues = new Map(highestCategoryValues.current);
 
     for (const [key, value] of highestGramValueMap) {
+      if (key !== "fat" && key !== "carbs" && key !== "protein") continue;
+
       if (value > highestGramValue) {
         highestGramValueCategory = key!;
         highestGramValue = value;
@@ -316,10 +319,24 @@ export default function AnalyticsIndex() {
     setChartDataLines(["test", ...chartDataLines]);
     setSecondaryDataKeyList([...secondaryDataKeyList, "Calories"]);
     setSecondaryDataKey("test");
+    setSecondaryDataUnitCategory("Calories");
   };
 
   const changeSecondaryDataUnitCategory = (unitCategory: string) => {
     if (unitCategory === "Macros") {
+      const { highestGramValueCategory } = getHighestGramValueForMacros(
+        highestCategoryValues.current
+      );
+
+      setChartDataLines(
+        MoveListOfItemsToStartOfList(chartDataLines as string[], [
+          "fat",
+          "carbs",
+          "protein",
+        ]) as ChartDataCategory[]
+      );
+
+      setSecondaryDataKey(highestGramValueCategory as ChartDataCategory);
       setSecondaryDataUnitCategory(unitCategory);
     } else if (unitCategory === "Calories") {
       setSecondaryDataUnitCategory(unitCategory);
@@ -386,6 +403,7 @@ export default function AnalyticsIndex() {
                   unit={chartDataUnitMap.get(primaryDataKey)}
                 />
                 <YAxis
+                  dataKey={secondaryDataKey}
                   unit={chartDataUnitMap.get(secondaryDataKey)}
                   orientation="right"
                 />
