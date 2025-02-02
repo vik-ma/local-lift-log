@@ -6,6 +6,8 @@ import {
   ModalHeader,
   ModalFooter,
   useDisclosure,
+  Select,
+  SelectItem,
 } from "@heroui/react";
 import {
   useExerciseList,
@@ -75,6 +77,8 @@ export default function AnalyticsIndex() {
   const [secondaryDataKeyList, setSecondaryDataKeyList] = useState<
     ChartDataUnitCategory[]
   >([]);
+  const [secondaryDataUnitCategory, setSecondaryDataUnitCategory] =
+    useState<ChartDataUnitCategory>();
 
   const highestCategoryValues = useRef<Map<ChartDataCategory, number>>(
     new Map()
@@ -248,6 +252,7 @@ export default function AnalyticsIndex() {
       setChartDataLines(["fat", "carbs", "protein"]);
       setPrimaryDataKey("calories");
       setSecondaryDataKeyList([...secondaryDataKeyList, "Macros"]);
+      setSecondaryDataUnitCategory("Macros");
     }
 
     isChartDataLoaded.current = true;
@@ -301,6 +306,11 @@ export default function AnalyticsIndex() {
     setChartData(updatedChartData);
     setChartDataLines(["test", ...chartDataLines]);
     setSecondaryDataKeyList([...secondaryDataKeyList, "Calories"]);
+    setSecondaryDataKey("test");
+  };
+
+  const changeSecondaryDataUnitCategory = (unitCategory: string) => {
+    setSecondaryDataUnitCategory(unitCategory as ChartDataUnitCategory);
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;
@@ -348,7 +358,7 @@ export default function AnalyticsIndex() {
       <div className="flex flex-col items-center gap-3">
         {isChartDataLoaded.current && (
           <div className="bg-default-50 pt-4 pb-1.5 rounded-xl">
-            <ChartContainer config={chartConfig} className="w-[870px]">
+            <ChartContainer config={chartConfig} className="w-[860px]">
               <ComposedChart
                 data={chartData}
                 margin={{ top: 15, right: 15, left: 15 }}
@@ -397,49 +407,76 @@ export default function AnalyticsIndex() {
             </ChartContainer>
           </div>
         )}
-        <div className="flex gap-2">
-          <Button
-            className="font-medium"
-            variant="flat"
-            color="secondary"
-            onPress={() => handleOpenListModal("exercise")}
-          >
-            Select Exercise
-          </Button>
-          <Button
-            className="font-medium"
-            variant="flat"
-            color="secondary"
-            onPress={() => handleOpenListModal("measurement")}
-          >
-            Select Measurement
-          </Button>
-          <Button
-            className="font-medium"
-            variant="flat"
-            onPress={() => getDietLogList(userSettings.locale)}
-          >
-            Load Diet Logs
-          </Button>
-          <Button
-            className="font-medium"
-            variant="flat"
-            onPress={addSecondArea}
-          >
-            Add Second Area
-          </Button>
-          <Button
-            className="font-medium"
-            variant="flat"
-            onPress={removeSecondArea}
-          >
-            Remove Second Area
-          </Button>
-          <Button className="font-medium" variant="flat" onPress={addTestLine}>
-            Add Test Line
-          </Button>
+        <div className="flex flex-col gap-2">
+          <div className="flex gap-2">
+            <Button
+              className="font-medium"
+              variant="flat"
+              color="secondary"
+              onPress={() => handleOpenListModal("exercise")}
+            >
+              Select Exercise
+            </Button>
+            <Button
+              className="font-medium"
+              variant="flat"
+              color="secondary"
+              onPress={() => handleOpenListModal("measurement")}
+            >
+              Select Measurement
+            </Button>
+            <Button
+              className="font-medium"
+              variant="flat"
+              onPress={() => getDietLogList(userSettings.locale)}
+            >
+              Load Diet Logs
+            </Button>
+            <Button
+              className="font-medium"
+              variant="flat"
+              onPress={addSecondArea}
+            >
+              Add Second Area
+            </Button>
+            <Button
+              className="font-medium"
+              variant="flat"
+              onPress={removeSecondArea}
+            >
+              Remove Second Area
+            </Button>
+            <Button
+              className="font-medium"
+              variant="flat"
+              onPress={addTestLine}
+            >
+              Add Test Line
+            </Button>
+          </div>
+          <div className="flex gap-2">
+            <Select
+              className="w-[11rem]"
+              label="Right Y-Axis Value"
+              size="sm"
+              variant="faded"
+              selectedKeys={
+                secondaryDataUnitCategory !== undefined
+                  ? [secondaryDataUnitCategory]
+                  : []
+              }
+              onSelectionChange={(e) => changeSecondaryDataUnitCategory(e as string)}
+              disallowEmptySelection
+              isDisabled={secondaryDataKeyList.length === 0}
+            >
+              {secondaryDataKeyList.map((dataKey) => (
+                <SelectItem key={dataKey} value={dataKey}>
+                  {dataKey}
+                </SelectItem>
+              ))}
+            </Select>
+          </div>
         </div>
-        <div className="flex gap-2"></div>
       </div>
     </>
   );
