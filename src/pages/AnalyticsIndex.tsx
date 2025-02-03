@@ -298,7 +298,7 @@ export default function AnalyticsIndex() {
     return date.substring(0, date.length - cutoff);
   };
 
-  const addSecondArea = () => {
+  const addTestArea = () => {
     if (chartDataAreas.includes("test") || chartDataLines.includes("test"))
       return;
 
@@ -316,7 +316,7 @@ export default function AnalyticsIndex() {
     setChartDataAreas(updatedChartDataAreas);
   };
 
-  const removeSecondArea = () => {
+  const removeTestArea = () => {
     const updatedChartData = chartData.map(({ test, ...rest }) => rest);
 
     const updatedChartDataAreas = chartDataAreas.filter(
@@ -468,7 +468,7 @@ export default function AnalyticsIndex() {
           </div>
         )}
         <div className="flex flex-col gap-2">
-          <div className="flex gap-2">
+          <div className="flex gap-2 items-center">
             <Button
               className="font-medium"
               variant="flat"
@@ -492,29 +492,6 @@ export default function AnalyticsIndex() {
             >
               Load Diet Logs
             </Button>
-            <Button
-              className="font-medium"
-              variant="flat"
-              onPress={addSecondArea}
-            >
-              Add Second Area
-            </Button>
-            <Button
-              className="font-medium"
-              variant="flat"
-              onPress={removeSecondArea}
-            >
-              Remove Second Area
-            </Button>
-            <Button
-              className="font-medium"
-              variant="flat"
-              onPress={addTestLine}
-            >
-              Add Test Line
-            </Button>
-          </div>
-          <div className="flex gap-2">
             <Select
               className="w-[10rem]"
               label="Right Y-Axis Value"
@@ -535,6 +512,29 @@ export default function AnalyticsIndex() {
                 </SelectItem>
               ))}
             </Select>
+          </div>
+          <div className="flex gap-2">
+            <Button
+              className="font-medium"
+              variant="flat"
+              onPress={addTestArea}
+            >
+              Add Test Area
+            </Button>
+            <Button
+              className="font-medium"
+              variant="flat"
+              onPress={removeTestArea}
+            >
+              Remove Test Area
+            </Button>
+            <Button
+              className="font-medium"
+              variant="flat"
+              onPress={addTestLine}
+            >
+              Add Test Line
+            </Button>
           </div>
         </div>
       </div>
