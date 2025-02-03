@@ -88,6 +88,19 @@ export default function AnalyticsIndex() {
 
   const isChartDataLoaded = useRef<boolean>(false);
 
+  const filteredChartData: ChartData = useMemo(() => {
+    return chartData.map((entry) =>
+      Object.fromEntries(
+        Object.entries(entry).filter(
+          ([key]) =>
+            key === "date" ||
+            chartDataAreas.includes(key as ChartDataCategory) ||
+            chartDataLines.includes(key as ChartDataCategory)
+        )
+      )
+    );
+  }, [chartData]);
+
   const listModal = useDisclosure();
 
   const exerciseList = useExerciseList(false, true, true);
