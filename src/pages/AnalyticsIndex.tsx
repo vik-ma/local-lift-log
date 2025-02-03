@@ -355,11 +355,16 @@ export default function AnalyticsIndex() {
     setSecondaryDataUnitCategory("Calories");
   };
 
-  const removeTestLine = () => {
-    const updatedChartData = chartData.map(({ test, ...rest }) => rest);
+  const removeChartLine = (chartDataCategory: ChartDataCategory) => {
+    if (chartDataCategory === undefined) return;
+
+    // Remove the chartDataCategory prop from chartData
+    const updatedChartData = chartData.map(
+      ({ [chartDataCategory]: _, ...rest }) => rest
+    );
 
     const updatedChartDataLines = chartDataLines.filter(
-      (item) => item !== "test"
+      (item) => item !== chartDataCategory
     );
 
     setChartData(updatedChartData);
@@ -380,7 +385,7 @@ export default function AnalyticsIndex() {
 
     setSecondaryDataUnitCategory(updatedSecondaryDataUnitCategory);
 
-    const unitCategory = chartDataUnitCategoryMap.get("test");
+    const unitCategory = chartDataUnitCategoryMap.get(chartDataCategory);
 
     let shouldDeleteSecondaryDataKeyFromList = true;
 
@@ -594,7 +599,7 @@ export default function AnalyticsIndex() {
             <Button
               className="font-medium"
               variant="flat"
-              onPress={removeTestLine}
+              onPress={() => removeChartLine("test")}
             >
               Remove Test Line
             </Button>
