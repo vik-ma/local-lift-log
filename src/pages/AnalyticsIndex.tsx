@@ -566,55 +566,61 @@ export default function AnalyticsIndex() {
             >
               Load Diet Logs
             </Button>
-            <Select
-              className="w-[10rem]"
-              label="Shown Areas"
-              size="sm"
-              variant="faded"
-              selectionMode="multiple"
-              selectedKeys={chartDataAreas as string[]}
-              isDisabled={chartDataAreas.length < 2}
-            >
-              {chartDataAreas.map((area) => (
-                <SelectItem key={area} value={area}>
-                  {chartDataCategoryLabelMap.get(area)}
-                </SelectItem>
-              ))}
-            </Select>
-            <Select
-              className="w-[10rem]"
-              label="Shown Lines"
-              size="sm"
-              variant="faded"
-              selectionMode="multiple"
-              selectedKeys={chartDataLines as string[]}
-            >
-              {chartDataLines.map((line) => (
-                <SelectItem key={line} value={line}>
-                  {chartDataCategoryLabelMap.get(line)}
-                </SelectItem>
-              ))}
-            </Select>
-            <Select
-              className="w-[10rem]"
-              label="Right Y-Axis Value"
-              size="sm"
-              variant="faded"
-              selectedKeys={
-                secondaryDataUnitCategory !== undefined
-                  ? [secondaryDataUnitCategory]
-                  : []
-              }
-              onChange={(e) => changeSecondaryDataUnitCategory(e.target.value)}
-              disallowEmptySelection
-              isDisabled={secondaryDataKeyList.length < 2}
-            >
-              {secondaryDataKeyList.map((dataKey) => (
-                <SelectItem key={dataKey} value={dataKey}>
-                  {dataKey}
-                </SelectItem>
-              ))}
-            </Select>
+            {isChartDataLoaded.current && (
+              <>
+                <Select
+                  className="w-[10rem]"
+                  label="Shown Areas"
+                  size="sm"
+                  variant="faded"
+                  selectionMode="multiple"
+                  selectedKeys={chartDataAreas as string[]}
+                  isDisabled={chartDataAreas.length < 2}
+                >
+                  {chartDataAreas.map((area) => (
+                    <SelectItem key={area} value={area}>
+                      {chartDataCategoryLabelMap.get(area)}
+                    </SelectItem>
+                  ))}
+                </Select>
+                <Select
+                  className="w-[10rem]"
+                  label="Shown Lines"
+                  size="sm"
+                  variant="faded"
+                  selectionMode="multiple"
+                  selectedKeys={chartDataLines as string[]}
+                >
+                  {chartDataLines.map((line) => (
+                    <SelectItem key={line} value={line}>
+                      {chartDataCategoryLabelMap.get(line)}
+                    </SelectItem>
+                  ))}
+                </Select>
+                <Select
+                  className="w-[10rem]"
+                  label="Right Y-Axis Value"
+                  size="sm"
+                  variant="faded"
+                  selectedKeys={
+                    secondaryDataUnitCategory !== undefined
+                      ? [secondaryDataUnitCategory]
+                      : []
+                  }
+                  onChange={(e) =>
+                    changeSecondaryDataUnitCategory(e.target.value)
+                  }
+                  disallowEmptySelection
+                  isDisabled={secondaryDataKeyList.length < 2}
+                >
+                  {secondaryDataKeyList.map((dataKey) => (
+                    <SelectItem key={dataKey} value={dataKey}>
+                      {dataKey}
+                    </SelectItem>
+                  ))}
+                </Select>
+              </>
+            )}
           </div>
           <div className="flex gap-2">
             <Button
