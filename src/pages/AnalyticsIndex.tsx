@@ -98,7 +98,7 @@ export default function AnalyticsIndex() {
             chartDataLines.includes(key as ChartDataCategory)
         )
       )
-    );
+    ) as ChartData;
   }, [chartData]);
 
   const listModal = useDisclosure();
