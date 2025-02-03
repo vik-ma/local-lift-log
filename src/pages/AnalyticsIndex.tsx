@@ -81,6 +81,12 @@ export default function AnalyticsIndex() {
   >([]);
   const [secondaryDataUnitCategory, setSecondaryDataUnitCategory] =
     useState<ChartDataUnitCategory>();
+  const [shownChartDataAreas, setShownChartDataAreas] = useState<
+    ChartDataCategory[]
+  >([]);
+  const [shownChartDataLines, setShownChartDataLines] = useState<
+    ChartDataCategory[]
+  >([]);
 
   const highestCategoryValues = useRef<Map<ChartDataCategory, number>>(
     new Map()
@@ -259,6 +265,7 @@ export default function AnalyticsIndex() {
     // TODO: Change based on primary/secondary
     setPrimaryDataKey("calories");
     setChartDataAreas(["calories"]);
+    setShownChartDataAreas(["calories"]);
 
     const { highestGramValueCategory, updatedHighestCategoryValues } =
       getHighestGramValueForMacros(highestGramValueMap);
@@ -290,6 +297,7 @@ export default function AnalyticsIndex() {
     }
 
     setChartDataLines(updatedChartDataLines);
+    setShownChartDataLines([...updatedChartDataLines]);
 
     isChartDataLoaded.current = true;
   };
@@ -512,7 +520,7 @@ export default function AnalyticsIndex() {
                 />
                 <ChartTooltip content={<ChartTooltipContent />} />
                 <ChartLegend content={<ChartLegendContent />} />
-                {chartDataAreas.map((item, index) => (
+                {shownChartDataAreas.map((item, index) => (
                   <Area
                     key={item}
                     isAnimationActive={false}
@@ -525,7 +533,7 @@ export default function AnalyticsIndex() {
                     activeDot={{ r: 6 }}
                   />
                 ))}
-                {chartDataLines.map((item, index) => (
+                {shownChartDataLines.map((item, index) => (
                   <Line
                     key={item}
                     isAnimationActive={false}
@@ -574,8 +582,13 @@ export default function AnalyticsIndex() {
                   size="sm"
                   variant="faded"
                   selectionMode="multiple"
-                  selectedKeys={chartDataAreas as string[]}
+                  selectedKeys={shownChartDataAreas as string[]}
                   isDisabled={chartDataAreas.length < 2}
+                  onSelectionChange={(value) =>
+                    setShownChartDataAreas(
+                      Array.from(value) as ChartDataCategory[]
+                    )
+                  }
                 >
                   {chartDataAreas.map((area) => (
                     <SelectItem key={area} value={area}>
@@ -589,7 +602,12 @@ export default function AnalyticsIndex() {
                   size="sm"
                   variant="faded"
                   selectionMode="multiple"
-                  selectedKeys={chartDataLines as string[]}
+                  selectedKeys={shownChartDataLines as string[]}
+                  onSelectionChange={(value) =>
+                    setShownChartDataLines(
+                      Array.from(value) as ChartDataCategory[]
+                    )
+                  }
                 >
                   {chartDataLines.map((line) => (
                     <SelectItem key={line} value={line}>
