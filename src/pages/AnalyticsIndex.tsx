@@ -230,6 +230,9 @@ export default function AnalyticsIndex() {
     }
 
     setChartData(chartData);
+
+    // TODO: Change based on primary/secondary
+    setPrimaryDataKey("calories");
     setChartDataAreas(["calories"]);
 
     const { highestGramValueCategory, updatedHighestCategoryValues } =
@@ -240,11 +243,28 @@ export default function AnalyticsIndex() {
     if (highestGramValueCategory !== "") {
       // Set the category with the highest gram value as second Y-axis
       setSecondaryDataKey(highestGramValueCategory as ChartDataCategory);
-      setChartDataLines(["fat", "carbs", "protein"]);
-      setPrimaryDataKey("calories");
+
+      // TODO: Change based on primary/secondary
       setSecondaryDataKeyList([...secondaryDataKeyList, "Macros"]);
       setSecondaryDataUnitCategory("Macros");
     }
+
+    let updatedChartDataLines = [...chartDataLines];
+
+    // Add in reverse order of Fat -> Carbs -> Protein
+    if (highestGramValueMap.get("protein")! > 0) {
+      updatedChartDataLines = ["protein", ...updatedChartDataLines];
+    }
+
+    if (highestGramValueMap.get("carbs")! > 0) {
+      updatedChartDataLines = ["carbs", ...updatedChartDataLines];
+    }
+
+    if (highestGramValueMap.get("fat")! > 0) {
+      updatedChartDataLines = ["fat", ...updatedChartDataLines];
+    }
+
+    setChartDataLines(updatedChartDataLines);
 
     isChartDataLoaded.current = true;
   };
