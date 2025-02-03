@@ -343,6 +343,50 @@ export default function AnalyticsIndex() {
     setSecondaryDataUnitCategory("Calories");
   };
 
+  const removeTestLine = () => {
+    const updatedChartData = chartData.map(({ test, ...rest }) => rest);
+
+    const updatedChartDataLines = chartDataLines.filter(
+      (item) => item !== "test"
+    );
+
+    setChartData(updatedChartData);
+    setChartDataLines(updatedChartDataLines);
+
+    if (updatedChartDataLines.length === 0) {
+      setSecondaryDataKey(undefined);
+      setSecondaryDataUnitCategory(undefined);
+      setSecondaryDataKeyList([]);
+      return;
+    }
+
+    setSecondaryDataKey(updatedChartDataLines[0]);
+
+    const updatedSecondaryDataUnitCategory = chartDataUnitCategoryMap.get(
+      updatedChartDataLines[0]
+    );
+
+    setSecondaryDataUnitCategory(updatedSecondaryDataUnitCategory);
+
+    const unitCategory = chartDataUnitCategoryMap.get("test");
+
+    let shouldDeleteSecondaryDataKeyFromList = true;
+
+    for (const line of updatedChartDataLines) {
+      if (chartDataUnitCategoryMap.get(line) === unitCategory) {
+        shouldDeleteSecondaryDataKeyFromList = false;
+        break;
+      }
+    }
+
+    if (shouldDeleteSecondaryDataKeyFromList) {
+      const updatedSecondaryDataKeyList = secondaryDataKeyList.filter(
+        (item) => item !== unitCategory
+      );
+      setSecondaryDataKeyList(updatedSecondaryDataKeyList);
+    }
+  };
+
   const changeSecondaryDataUnitCategory = (unitCategory: string) => {
     if (unitCategory === "Macros") {
       const { highestGramValueCategory } = getHighestGramValueForMacros(
@@ -534,6 +578,13 @@ export default function AnalyticsIndex() {
               onPress={addTestLine}
             >
               Add Test Line
+            </Button>
+            <Button
+              className="font-medium"
+              variant="flat"
+              onPress={removeTestLine}
+            >
+              Remove Test Line
             </Button>
           </div>
         </div>
