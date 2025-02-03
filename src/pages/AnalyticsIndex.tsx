@@ -568,15 +568,30 @@ export default function AnalyticsIndex() {
             </Button>
             <Select
               className="w-[10rem]"
+              label="Shown Areas"
+              size="sm"
+              variant="faded"
+              selectionMode="multiple"
+              selectedKeys={chartDataAreas as string[]}
+              isDisabled={chartDataAreas.length < 2}
+            >
+              {chartDataAreas.map((area) => (
+                <SelectItem key={area} value={area}>
+                  {chartDataCategoryLabelMap.get(area)}
+                </SelectItem>
+              ))}
+            </Select>
+            <Select
+              className="w-[10rem]"
               label="Shown Lines"
               size="sm"
               variant="faded"
               selectionMode="multiple"
               selectedKeys={chartDataLines as string[]}
             >
-              {chartDataLines.map((chartLine) => (
-                <SelectItem key={chartLine} value={chartLine}>
-                  {chartDataCategoryLabelMap.get(chartLine)}
+              {chartDataLines.map((line) => (
+                <SelectItem key={line} value={line}>
+                  {chartDataCategoryLabelMap.get(line)}
                 </SelectItem>
               ))}
             </Select>
