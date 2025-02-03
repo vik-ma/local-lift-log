@@ -100,15 +100,27 @@ export default function AnalyticsIndex() {
 
   const { isMeasurementListLoaded, getMeasurements } = measurementList;
 
+  const chartDataCategoryLabelMap = useMemo(() => {
+    const categoryMap = new Map<ChartDataCategory, string>();
+
+    categoryMap.set("calories", "Calories");
+    categoryMap.set("fat", "Fat");
+    categoryMap.set("carbs", "Carbs");
+    categoryMap.set("protein", "Protein");
+    categoryMap.set("test", "Test");
+
+    return categoryMap;
+  }, []);
+
   const chartConfig: ChartConfig = useMemo(() => {
     return {
       calories: {
-        label: "Calories",
+        label: chartDataCategoryLabelMap.get("calories"),
       },
-      fat: { label: "Fat" },
-      carbs: { label: "Carbs" },
-      protein: { label: "Protein" },
-      test: { label: "Test" },
+      fat: { label: chartDataCategoryLabelMap.get("fat") },
+      carbs: { label: chartDataCategoryLabelMap.get("carbs") },
+      protein: { label: chartDataCategoryLabelMap.get("protein") },
+      test: { label: chartDataCategoryLabelMap.get("test") },
     };
   }, []);
 
