@@ -493,7 +493,7 @@ export default function AnalyticsIndex() {
           <div className="bg-default-50 pt-4 pb-1.5 rounded-xl">
             <ChartContainer config={chartConfig} className="w-[860px]">
               <ComposedChart
-                data={chartData}
+                data={filteredChartData}
                 margin={{ top: 15, right: 15, left: 15 }}
               >
                 <CartesianGrid strokeDasharray="3 3" />
@@ -566,6 +566,20 @@ export default function AnalyticsIndex() {
             >
               Load Diet Logs
             </Button>
+            <Select
+              className="w-[10rem]"
+              label="Shown Lines"
+              size="sm"
+              variant="faded"
+              selectionMode="multiple"
+              selectedKeys={chartDataLines as string[]}
+            >
+              {chartDataLines.map((chartLine) => (
+                <SelectItem key={chartLine} value={chartLine}>
+                  {chartDataCategoryLabelMap.get(chartLine)}
+                </SelectItem>
+              ))}
+            </Select>
             <Select
               className="w-[10rem]"
               label="Right Y-Axis Value"
