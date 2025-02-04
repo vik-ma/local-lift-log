@@ -26,8 +26,6 @@ import {
   FormatDateStringShort,
   GetAllDietLogs,
   GetUserSettings,
-  MoveItemToStartOfList,
-  MoveListOfItemsToStartOfList,
 } from "../helpers";
 import {
   XAxis,
@@ -470,24 +468,9 @@ export default function AnalyticsIndex() {
         highestCategoryValues.current
       );
 
-      setChartDataLines(
-        MoveListOfItemsToStartOfList(chartDataLines as string[], [
-          "fat",
-          "carbs",
-          "protein",
-        ]) as ChartDataCategory[]
-      );
-
       setSecondaryDataKey(highestGramValueCategory as ChartDataCategory);
       setSecondaryDataUnitCategory(unitCategory);
     } else if (unitCategory === "Calories") {
-      setChartDataLines(
-        MoveItemToStartOfList(
-          chartDataLines as string[],
-          "test"
-        ) as ChartDataCategory[]
-      );
-
       setSecondaryDataKey("test");
       setSecondaryDataUnitCategory(unitCategory);
     }
