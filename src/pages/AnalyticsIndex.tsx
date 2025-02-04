@@ -144,7 +144,7 @@ export default function AnalyticsIndex() {
   }, []);
 
   const chartLineColorList = useMemo(() => {
-    return ["#6b80ed", "#e6475a", "#56db67"];
+    return ["#6b80ed", "#e6475a", "#56db67", "#cf820e", "#8739cf", "#525252"];
   }, []);
 
   const chartAreaColorList = useMemo(() => {
