@@ -370,13 +370,9 @@ export default function AnalyticsIndex() {
       test: Math.floor(Math.random() * 3000),
     }));
 
-    const updatedChartDataAreas = [
-      ...chartDataAreas,
-      "test" as ChartDataCategory,
-    ];
-
     setChartData(updatedChartData);
-    setChartDataAreas(updatedChartDataAreas);
+    setChartDataAreas([...chartDataAreas, "test"]);
+    setShownChartDataAreas([...shownChartDataAreas, "test"]);
   };
 
   const removeTestArea = () => {
@@ -386,8 +382,13 @@ export default function AnalyticsIndex() {
       (item) => item !== "test"
     );
 
+    const updatedShownChartDataAreas = shownChartDataAreas.filter(
+      (item) => item !== "test"
+    );
+
     setChartData(updatedChartData);
     setChartDataAreas(updatedChartDataAreas);
+    setShownChartDataAreas(updatedShownChartDataAreas);
   };
 
   const addTestLine = () => {
@@ -400,10 +401,9 @@ export default function AnalyticsIndex() {
     }));
 
     setChartData(updatedChartData);
-    setChartDataLines(["test", ...chartDataLines]);
+    setChartDataLines([...chartDataLines, "test"]);
+    setShownChartDataLines([...chartDataLines, "test"]);
     setSecondaryDataKeyList([...secondaryDataKeyList, "Calories"]);
-    setSecondaryDataKey("test");
-    setSecondaryDataUnitCategory("Calories");
   };
 
   const removeChartLine = (chartDataCategory: ChartDataCategory) => {
@@ -418,8 +418,13 @@ export default function AnalyticsIndex() {
       (item) => item !== chartDataCategory
     );
 
+    const updatedShownChartDataLines = shownChartDataLines.filter(
+      (item) => item !== chartDataCategory
+    );
+
     setChartData(updatedChartData);
     setChartDataLines(updatedChartDataLines);
+    setShownChartDataLines(updatedShownChartDataLines);
 
     if (updatedChartDataLines.length === 0) {
       setSecondaryDataKey(undefined);
