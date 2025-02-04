@@ -302,6 +302,36 @@ export default function AnalyticsIndex() {
     isChartDataLoaded.current = true;
   };
 
+  const updateShownChartLines = (chartLines: ChartDataCategory[]) => {
+    if (chartLines.length > 0) {
+      const chartLineSet = new Set(chartLines);
+
+      const unitCategory = chartDataUnitCategoryMap.get(chartLines[0]);
+
+      let highestCategory: ChartDataCategory = undefined;
+      let highestValue = 0;
+
+      for (const [key, value] of highestCategoryValues.current) {
+        if (
+          !chartLineSet.has(key) ||
+          chartDataUnitCategoryMap.get(key) !== unitCategory
+        )
+          continue;
+
+        if (value > highestValue) {
+          highestCategory = key;
+        }
+      }
+
+      // Set secondaryDataKey as the category with the highest value of the unitCategory
+      setSecondaryDataKey(highestCategory);
+    } else {
+      setSecondaryDataKey(undefined);
+    }
+
+    setShownChartDataLines(chartLines);
+  };
+
   const getHighestGramValueForMacros = (
     highestGramValueMap: Map<ChartDataCategory, number>
   ) => {
@@ -605,7 +635,7 @@ export default function AnalyticsIndex() {
                   selectionMode="multiple"
                   selectedKeys={shownChartDataLines as string[]}
                   onSelectionChange={(value) =>
-                    setShownChartDataLines(
+                    updateShownChartLines(
                       Array.from(value) as ChartDataCategory[]
                     )
                   }
