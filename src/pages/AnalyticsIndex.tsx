@@ -321,10 +321,15 @@ export default function AnalyticsIndex() {
         }
       }
 
+      if (secondaryDataUnitCategory === undefined) {
+        setSecondaryDataUnitCategory(unitCategory);
+      }
+
       // Set secondaryDataKey as the category with the highest value of the unitCategory
       setSecondaryDataKey(highestCategory);
     } else {
       setSecondaryDataKey(undefined);
+      setSecondaryDataUnitCategory(undefined);
     }
 
     setShownChartDataLines(chartLines);
