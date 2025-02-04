@@ -400,7 +400,7 @@ export default function AnalyticsIndex() {
 
     setChartData(updatedChartData);
     setChartDataLines([...chartDataLines, "test"]);
-    setShownChartDataLines([...chartDataLines, "test"]);
+    setShownChartDataLines([...shownChartDataLines, "test"]);
     setChartLineUnitCategoryList([...chartLineUnitCategoryList, "Calories"]);
   };
 
