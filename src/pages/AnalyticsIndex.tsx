@@ -407,6 +407,10 @@ export default function AnalyticsIndex() {
     setChartDataLines([...chartDataLines, "test"]);
     setShownChartDataLines([...shownChartDataLines, "test"]);
     setChartLineUnitCategoryList([...chartLineUnitCategoryList, "Calories"]);
+
+    if (secondaryDataUnitCategory === undefined) {
+      setSecondaryDataUnitCategory("Calories");
+    }
   };
 
   const removeTestLine = () => {
