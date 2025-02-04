@@ -580,7 +580,7 @@ export default function AnalyticsIndex() {
             </ChartContainer>
           </div>
         )}
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 w-[960px]">
           <div className="flex gap-2 items-center">
             <Button
               className="font-medium"
@@ -647,28 +647,30 @@ export default function AnalyticsIndex() {
                     </SelectItem>
                   ))}
                 </Select>
-                <Select
-                  className="w-[10rem]"
-                  label="Right Y-Axis Value"
-                  size="sm"
-                  variant="faded"
-                  selectedKeys={
-                    secondaryDataUnitCategory !== undefined
-                      ? [secondaryDataUnitCategory]
-                      : []
-                  }
-                  onChange={(e) =>
-                    changeSecondaryDataUnitCategory(e.target.value)
-                  }
-                  disallowEmptySelection
-                  isDisabled={chartLineUnitCategoryList.length < 2}
-                >
-                  {chartLineUnitCategoryList.map((dataKey) => (
-                    <SelectItem key={dataKey} value={dataKey}>
-                      {dataKey}
-                    </SelectItem>
-                  ))}
-                </Select>
+                {secondaryDataUnitCategory !== undefined && (
+                  <Select
+                    className="w-[10rem]"
+                    label="Right Y-Axis Value"
+                    size="sm"
+                    variant="faded"
+                    selectedKeys={
+                      secondaryDataUnitCategory !== undefined
+                        ? [secondaryDataUnitCategory]
+                        : []
+                    }
+                    onChange={(e) =>
+                      changeSecondaryDataUnitCategory(e.target.value)
+                    }
+                    disallowEmptySelection
+                    isDisabled={chartLineUnitCategoryList.length < 2}
+                  >
+                    {chartLineUnitCategoryList.map((dataKey) => (
+                      <SelectItem key={dataKey} value={dataKey}>
+                        {dataKey}
+                      </SelectItem>
+                    ))}
+                  </Select>
+                )}
               </>
             )}
           </div>
