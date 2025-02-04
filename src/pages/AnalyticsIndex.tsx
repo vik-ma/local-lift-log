@@ -76,7 +76,7 @@ export default function AnalyticsIndex() {
   const [chartDataLines, setChartDataLines] = useState<ChartDataCategory[]>([]);
   const [primaryDataKey, setPrimaryDataKey] = useState<ChartDataCategory>();
   const [secondaryDataKey, setSecondaryDataKey] = useState<ChartDataCategory>();
-  const [secondaryDataKeyList, setSecondaryDataKeyList] = useState<
+  const [chartLineUnitCategoryList, setChartLineUnitCategoryList] = useState<
     ChartDataUnitCategory[]
   >([]);
   const [secondaryDataUnitCategory, setSecondaryDataUnitCategory] =
@@ -277,7 +277,7 @@ export default function AnalyticsIndex() {
       setSecondaryDataKey(highestGramValueCategory as ChartDataCategory);
 
       // TODO: Change based on primary/secondary
-      setSecondaryDataKeyList([...secondaryDataKeyList, "Macros"]);
+      setChartLineUnitCategoryList([...chartLineUnitCategoryList, "Macros"]);
       setSecondaryDataUnitCategory("Macros");
     }
 
@@ -403,7 +403,7 @@ export default function AnalyticsIndex() {
     setChartData(updatedChartData);
     setChartDataLines([...chartDataLines, "test"]);
     setShownChartDataLines([...chartDataLines, "test"]);
-    setSecondaryDataKeyList([...secondaryDataKeyList, "Calories"]);
+    setChartLineUnitCategoryList([...chartLineUnitCategoryList, "Calories"]);
   };
 
   const removeChartLine = (chartDataCategory: ChartDataCategory) => {
@@ -429,7 +429,7 @@ export default function AnalyticsIndex() {
     if (updatedChartDataLines.length === 0) {
       setSecondaryDataKey(undefined);
       setSecondaryDataUnitCategory(undefined);
-      setSecondaryDataKeyList([]);
+      setChartLineUnitCategoryList([]);
       return;
     }
 
@@ -453,10 +453,10 @@ export default function AnalyticsIndex() {
     }
 
     if (shouldDeleteSecondaryDataKeyFromList) {
-      const updatedSecondaryDataKeyList = secondaryDataKeyList.filter(
+      const updatedSecondaryDataKeyList = chartLineUnitCategoryList.filter(
         (item) => item !== unitCategory
       );
-      setSecondaryDataKeyList(updatedSecondaryDataKeyList);
+      setChartLineUnitCategoryList(updatedSecondaryDataKeyList);
     }
   };
 
@@ -665,9 +665,9 @@ export default function AnalyticsIndex() {
                     changeSecondaryDataUnitCategory(e.target.value)
                   }
                   disallowEmptySelection
-                  isDisabled={secondaryDataKeyList.length < 2}
+                  isDisabled={chartLineUnitCategoryList.length < 2}
                 >
-                  {secondaryDataKeyList.map((dataKey) => (
+                  {chartLineUnitCategoryList.map((dataKey) => (
                     <SelectItem key={dataKey} value={dataKey}>
                       {dataKey}
                     </SelectItem>
