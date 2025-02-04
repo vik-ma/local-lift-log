@@ -406,37 +406,38 @@ export default function AnalyticsIndex() {
     setChartLineUnitCategoryList([...chartLineUnitCategoryList, "Calories"]);
   };
 
-  const removeChartLine = (chartDataCategory: ChartDataCategory) => {
-    if (chartDataCategory === undefined) return;
-
-    // Remove the chartDataCategory prop from chartData
-    const updatedChartData = chartData.map(
-      ({ [chartDataCategory]: _, ...rest }) => rest
-    );
+  const removeTestLine = () => {
+    // Remove the test prop from chartData
+    const updatedChartData = chartData.map(({ test, ...rest }) => rest);
 
     const updatedChartDataLines = chartDataLines.filter(
-      (item) => item !== chartDataCategory
+      (item) => item !== "test"
     );
+
+    setChartData(updatedChartData);
+    setChartDataLines(updatedChartDataLines);
+
+    if (updatedChartDataLines.length === 0) {
+      setSecondaryDataUnitCategory(undefined);
+      setChartLineUnitCategoryList([]);
+    }
+
+    removeChartLine("test");
+  };
+
+  const removeChartLine = (chartDataCategory: ChartDataCategory) => {
+    if (chartDataCategory === undefined) return;
 
     const updatedShownChartDataLines = shownChartDataLines.filter(
       (item) => item !== chartDataCategory
     );
 
-    setChartData(updatedChartData);
-    setChartDataLines(updatedChartDataLines);
     setShownChartDataLines(updatedShownChartDataLines);
 
-    if (updatedChartDataLines.length === 0) {
-      setSecondaryDataKey(undefined);
-      setSecondaryDataUnitCategory(undefined);
-      setChartLineUnitCategoryList([]);
-      return;
-    }
-
-    setSecondaryDataKey(updatedChartDataLines[0]);
+    setSecondaryDataKey(updatedShownChartDataLines[0]);
 
     const updatedSecondaryDataUnitCategory = chartDataUnitCategoryMap.get(
-      updatedChartDataLines[0]
+      updatedShownChartDataLines[0]
     );
 
     setSecondaryDataUnitCategory(updatedSecondaryDataUnitCategory);
@@ -445,7 +446,7 @@ export default function AnalyticsIndex() {
 
     let shouldDeleteSecondaryDataKeyFromList = true;
 
-    for (const line of updatedChartDataLines) {
+    for (const line of updatedShownChartDataLines) {
       if (chartDataUnitCategoryMap.get(line) === unitCategory) {
         shouldDeleteSecondaryDataKeyFromList = false;
         break;
@@ -456,7 +457,10 @@ export default function AnalyticsIndex() {
       const updatedSecondaryDataKeyList = chartLineUnitCategoryList.filter(
         (item) => item !== unitCategory
       );
+
       setChartLineUnitCategoryList(updatedSecondaryDataKeyList);
+
+      updateShownChartLines(updatedShownChartDataLines);
     }
   };
 
@@ -701,7 +705,7 @@ export default function AnalyticsIndex() {
             <Button
               className="font-medium"
               variant="flat"
-              onPress={() => removeChartLine("test")}
+              onPress={removeTestLine}
             >
               Remove Test Line
             </Button>
