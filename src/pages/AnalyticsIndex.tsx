@@ -589,6 +589,7 @@ export default function AnalyticsIndex() {
                       Array.from(value) as ChartDataCategory[]
                     )
                   }
+                  disallowEmptySelection
                 >
                   {chartDataAreas.map((area) => (
                     <SelectItem key={area} value={area}>
