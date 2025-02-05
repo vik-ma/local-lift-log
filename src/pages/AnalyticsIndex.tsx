@@ -551,7 +551,7 @@ export default function AnalyticsIndex() {
       setSecondaryDataKey(highestGramValueCategory as ChartDataCategory);
       setSecondaryDataUnitCategory(unitCategory);
     } else if (unitCategory === "Calories") {
-      setSecondaryDataKey("test");
+      setSecondaryDataKey("calories");
       setSecondaryDataUnitCategory(unitCategory);
     }
   };
