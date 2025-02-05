@@ -190,7 +190,7 @@ export default function AnalyticsIndex() {
 
       setUserSettings(userSettings);
 
-      getDietLogList(userSettings.locale);
+      getDietLogList(userSettings.locale, false);
     };
 
     loadUserSettings();
@@ -210,7 +210,10 @@ export default function AnalyticsIndex() {
     listModal.onOpen();
   };
 
-  const getDietLogList = async (locale: string) => {
+  const getDietLogList = async (
+    locale: string,
+    loadCaloriesPrimary: boolean
+  ) => {
     const dietLogs = await GetAllDietLogs(true);
 
     if (dietLogs.length === 0) {
@@ -262,42 +265,61 @@ export default function AnalyticsIndex() {
 
     setChartData(chartData);
 
-    // TODO: Change based on primary/secondary
-    setPrimaryDataKey("calories");
-    setChartDataAreas(["calories"]);
-    setShownChartDataAreas(["calories"]);
+    const updatedChartDataLines = [...chartDataLines];
+    const updatedShownChartDataLines = [...shownChartDataLines];
+    const updatedChartLineUnitCategoryList = [...chartLineUnitCategoryList];
+
+    if (loadCaloriesPrimary) {
+      setPrimaryDataKey("calories");
+      setChartDataAreas(["calories"]);
+      setShownChartDataAreas(["calories"]);
+    } else {
+      if (secondaryDataKey === undefined) {
+        setSecondaryDataKey("calories");
+      }
+
+      if (secondaryDataUnitCategory === undefined) {
+        setSecondaryDataUnitCategory("Calories");
+      }
+
+      updatedChartDataLines.push("calories");
+      updatedShownChartDataLines.push("calories");
+      updatedChartLineUnitCategoryList.push("Calories");
+    }
 
     const { highestGramValueCategory, updatedHighestCategoryValues } =
       getHighestGramValueForMacros(highestValueMap);
 
     highestCategoryValues.current = updatedHighestCategoryValues;
 
-    if (highestGramValueCategory !== "") {
-      // Set the category with the highest gram value as second Y-axis
-      setSecondaryDataKey(highestGramValueCategory as ChartDataCategory);
+    // TODO: FIX
+    // if (highestGramValueCategory !== "") {
+    //   // Set the category with the highest gram value as second Y-axis
+    //   setSecondaryDataKey(highestGramValueCategory as ChartDataCategory);
 
-      // TODO: Change based on primary/secondary
-      setChartLineUnitCategoryList([...chartLineUnitCategoryList, "Macros"]);
-      setSecondaryDataUnitCategory("Macros");
-    }
+    //   // TODO: Change based on primary/secondary
+    //   setChartLineUnitCategoryList([...chartLineUnitCategoryList, "Macros"]);
+    //   setSecondaryDataUnitCategory("Macros");
+    // }
 
-    let updatedChartDataLines = [...chartDataLines];
+    let macroLines: ChartDataCategory[] = [];
 
     // Add in reverse order of Fat -> Carbs -> Protein
     if (highestValueMap.get("protein")! > 0) {
-      updatedChartDataLines = ["protein", ...updatedChartDataLines];
+      macroLines = ["protein", ...updatedChartDataLines];
     }
 
     if (highestValueMap.get("carbs")! > 0) {
-      updatedChartDataLines = ["carbs", ...updatedChartDataLines];
+      macroLines = ["carbs", ...updatedChartDataLines];
     }
 
     if (highestValueMap.get("fat")! > 0) {
-      updatedChartDataLines = ["fat", ...updatedChartDataLines];
+      macroLines = ["fat", ...updatedChartDataLines];
     }
 
     setChartDataLines(updatedChartDataLines);
-    setShownChartDataLines([...updatedChartDataLines]);
+    setShownChartDataLines(updatedShownChartDataLines);
+    setChartLineUnitCategoryList(updatedChartLineUnitCategoryList);
 
     isChartDataLoaded.current = true;
   };
@@ -430,7 +452,10 @@ export default function AnalyticsIndex() {
     setChartData(updatedChartData);
     setChartDataLines([...chartDataLines, "test"]);
     setShownChartDataLines([...shownChartDataLines, "test"]);
-    setChartLineUnitCategoryList([...chartLineUnitCategoryList, "Calories"]);
+
+    if (!chartLineUnitCategoryList.includes("Calories")) {
+      setChartLineUnitCategoryList([...chartLineUnitCategoryList, "Calories"]);
+    }
 
     if (secondaryDataUnitCategory === undefined) {
       setSecondaryDataUnitCategory("Calories");
@@ -627,7 +652,7 @@ export default function AnalyticsIndex() {
             <Button
               className="font-medium"
               variant="flat"
-              onPress={() => getDietLogList(userSettings.locale)}
+              onPress={() => getDietLogList(userSettings.locale, true)}
             >
               Load Diet Logs
             </Button>
