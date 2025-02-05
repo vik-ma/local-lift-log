@@ -220,10 +220,11 @@ export default function AnalyticsIndex() {
 
     const chartData: ChartData = [];
 
-    const highestGramValueMap = new Map<ChartDataCategory, number>();
-    highestGramValueMap.set("fat", 0);
-    highestGramValueMap.set("carbs", 0);
-    highestGramValueMap.set("protein", 0);
+    const highestValueMap = new Map<ChartDataCategory, number>();
+    highestValueMap.set("calories", 0);
+    highestValueMap.set("fat", 0);
+    highestValueMap.set("carbs", 0);
+    highestValueMap.set("protein", 0);
 
     for (const dietLog of dietLogs) {
       const chartDataItem = {
@@ -234,25 +235,26 @@ export default function AnalyticsIndex() {
         protein: dietLog.protein,
       };
 
-      if (
-        dietLog.fat !== null &&
-        dietLog.fat > highestGramValueMap.get("fat")!
-      ) {
-        highestGramValueMap.set("fat", dietLog.fat);
+      if (dietLog.calories > highestValueMap.get("calories")!) {
+        highestValueMap.set("calories", dietLog.calories);
+      }
+
+      if (dietLog.fat !== null && dietLog.fat > highestValueMap.get("fat")!) {
+        highestValueMap.set("fat", dietLog.fat);
       }
 
       if (
         dietLog.carbs !== null &&
-        dietLog.carbs > highestGramValueMap.get("carbs")!
+        dietLog.carbs > highestValueMap.get("carbs")!
       ) {
-        highestGramValueMap.set("carbs", dietLog.carbs);
+        highestValueMap.set("carbs", dietLog.carbs);
       }
 
       if (
         dietLog.protein !== null &&
-        dietLog.protein > highestGramValueMap.get("protein")!
+        dietLog.protein > highestValueMap.get("protein")!
       ) {
-        highestGramValueMap.set("protein", dietLog.protein);
+        highestValueMap.set("protein", dietLog.protein);
       }
 
       chartData.push(chartDataItem);
@@ -266,7 +268,7 @@ export default function AnalyticsIndex() {
     setShownChartDataAreas(["calories"]);
 
     const { highestGramValueCategory, updatedHighestCategoryValues } =
-      getHighestGramValueForMacros(highestGramValueMap);
+      getHighestGramValueForMacros(highestValueMap);
 
     highestCategoryValues.current = updatedHighestCategoryValues;
 
@@ -282,15 +284,15 @@ export default function AnalyticsIndex() {
     let updatedChartDataLines = [...chartDataLines];
 
     // Add in reverse order of Fat -> Carbs -> Protein
-    if (highestGramValueMap.get("protein")! > 0) {
+    if (highestValueMap.get("protein")! > 0) {
       updatedChartDataLines = ["protein", ...updatedChartDataLines];
     }
 
-    if (highestGramValueMap.get("carbs")! > 0) {
+    if (highestValueMap.get("carbs")! > 0) {
       updatedChartDataLines = ["carbs", ...updatedChartDataLines];
     }
 
-    if (highestGramValueMap.get("fat")! > 0) {
+    if (highestValueMap.get("fat")! > 0) {
       updatedChartDataLines = ["fat", ...updatedChartDataLines];
     }
 
@@ -336,14 +338,14 @@ export default function AnalyticsIndex() {
   };
 
   const getHighestGramValueForMacros = (
-    highestGramValueMap: Map<ChartDataCategory, number>
+    highestValueMap: Map<ChartDataCategory, number>
   ) => {
     let highestGramValueCategory = "";
     let highestGramValue = 0;
 
-    const updatedHighestCategoryValues = new Map(highestCategoryValues.current);
+    const updatedHighestCategoryValues = new Map(highestValueMap);
 
-    for (const [key, value] of highestGramValueMap) {
+    for (const [key, value] of highestValueMap) {
       if (key !== "fat" && key !== "carbs" && key !== "protein") continue;
 
       if (value > highestGramValue) {
