@@ -435,6 +435,8 @@ export default function AnalyticsIndex() {
     setChartData(updatedChartData);
     setChartDataLines(updatedChartDataLines);
 
+    highestCategoryValues.current.delete("test");
+
     if (updatedChartDataLines.length === 0) {
       setSecondaryDataUnitCategory(undefined);
       setChartLineUnitCategoryList([]);
