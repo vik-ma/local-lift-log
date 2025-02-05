@@ -224,6 +224,9 @@ export default function AnalyticsIndex() {
     locale: string,
     loadCaloriesPrimary: boolean
   ) => {
+    if (chartDataAreaSet.has("calories") || chartDataLineSet.has("calories"))
+      return;
+
     const dietLogs = await GetAllDietLogs(true);
 
     if (dietLogs.length === 0) {
@@ -663,6 +666,10 @@ export default function AnalyticsIndex() {
               className="font-medium"
               variant="flat"
               onPress={() => getDietLogList(userSettings.locale, true)}
+              isDisabled={
+                chartDataAreaSet.has("calories") ||
+                chartDataLineSet.has("calories")
+              }
             >
               Load Diet Logs
             </Button>
