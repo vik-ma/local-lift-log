@@ -305,33 +305,33 @@ export default function AnalyticsIndex() {
 
     highestCategoryValues.current = updatedHighestCategoryValues;
 
-    // TODO: FIX
-    // if (highestGramValueCategory !== "") {
-    //   // Set the category with the highest gram value as second Y-axis
-    //   setSecondaryDataKey(highestGramValueCategory as ChartDataCategory);
+    if (highestGramValueCategory !== "") {
+      if (loadCaloriesPrimary) {
+        // Set the category with the highest gram value as second Y-axis
+        setSecondaryDataKey(highestGramValueCategory as ChartDataCategory);
+        setSecondaryDataUnitCategory("Macros");
+      }
 
-    //   // TODO: Change based on primary/secondary
-    //   setChartLineUnitCategoryList([...chartLineUnitCategoryList, "Macros"]);
-    //   setSecondaryDataUnitCategory("Macros");
-    // }
+      updatedChartLineUnitCategoryList.push("Macros");
+    }
 
-    let macroLines: ChartDataCategory[] = [];
+    const macroLines: ChartDataCategory[] = [];
 
     // Add in reverse order of Fat -> Carbs -> Protein
     if (highestValueMap.get("protein")! > 0) {
-      macroLines = ["protein", ...updatedChartDataLines];
+      macroLines.unshift("protein");
     }
 
     if (highestValueMap.get("carbs")! > 0) {
-      macroLines = ["carbs", ...updatedChartDataLines];
+      macroLines.unshift("carbs");
     }
 
     if (highestValueMap.get("fat")! > 0) {
-      macroLines = ["fat", ...updatedChartDataLines];
+      macroLines.unshift("fat");
     }
 
-    setChartDataLines(updatedChartDataLines);
-    setShownChartDataLines(updatedShownChartDataLines);
+    setChartDataLines([...updatedChartDataLines, ...macroLines]);
+    setShownChartDataLines([...updatedShownChartDataLines, ...macroLines]);
     setChartLineUnitCategoryList(updatedChartLineUnitCategoryList);
 
     isChartDataLoaded.current = true;
