@@ -442,10 +442,10 @@ export default function AnalyticsIndex() {
       setChartLineUnitCategoryList([]);
     }
 
-    removeChartLine("test");
+    hideChartLine("test");
   };
 
-  const removeChartLine = (chartDataCategory: ChartDataCategory) => {
+  const hideChartLine = (chartDataCategory: ChartDataCategory) => {
     if (chartDataCategory === undefined) return;
 
     const updatedShownChartDataLines = shownChartDataLines.filter(
