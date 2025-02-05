@@ -90,6 +90,16 @@ export default function AnalyticsIndex() {
     new Map()
   );
 
+  const chartDataAreaSet = useMemo(
+    () => new Set<ChartDataCategory>(chartDataAreas),
+    [chartDataAreas]
+  );
+
+  const chartDataLineSet = useMemo(
+    () => new Set<ChartDataCategory>(chartDataLines),
+    [chartDataLines]
+  );
+
   const isChartDataLoaded = useRef<boolean>(false);
 
   const filteredChartData: ChartData = useMemo(() => {
