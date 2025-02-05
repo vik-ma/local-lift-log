@@ -379,15 +379,26 @@ export default function AnalyticsIndex() {
   };
 
   const removeTestArea = () => {
-    const updatedChartData = chartData.map(({ test, ...rest }) => rest);
+    const updatedChartData: ChartData = chartData.map(
+      ({ test, ...rest }) => rest
+    );
 
-    const updatedChartDataAreas = chartDataAreas.filter(
+    const updatedChartDataAreas: ChartDataCategory[] = chartDataAreas.filter(
       (item) => item !== "test"
     );
 
-    const updatedShownChartDataAreas = shownChartDataAreas.filter(
-      (item) => item !== "test"
-    );
+    const updatedShownChartDataAreas: ChartDataCategory[] =
+      shownChartDataAreas.filter((item) => item !== "test");
+
+    if (updatedShownChartDataAreas.length === 0 && chartDataAreas.length > 0) {
+      updatedShownChartDataAreas.push(chartDataAreas[0]);
+      setPrimaryDataKey(chartDataAreas[0]);
+    } else if (
+      updatedShownChartDataAreas.length === 0 &&
+      chartDataAreas.length === 0
+    ) {
+      setPrimaryDataKey(undefined);
+    }
 
     setChartData(updatedChartData);
     setChartDataAreas(updatedChartDataAreas);
