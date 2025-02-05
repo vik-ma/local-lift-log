@@ -321,7 +321,7 @@ export default function AnalyticsIndex() {
         }
       }
 
-      if (secondaryDataUnitCategory === undefined) {
+      if (secondaryDataUnitCategory !== unitCategory) {
         setSecondaryDataUnitCategory(unitCategory);
       }
 
@@ -398,10 +398,21 @@ export default function AnalyticsIndex() {
     if (chartDataAreas.includes("test") || chartDataLines.includes("test"))
       return;
 
-    const updatedChartData = chartData.map((item) => ({
-      ...item,
-      test: Math.floor(Math.random() * 3000),
-    }));
+    const updatedChartData: ChartData = [...chartData];
+
+    let maxNum = 0;
+
+    for (let i = 0; i < chartData.length; i++) {
+      const testNum = Math.floor(Math.random() * 3000);
+
+      if (testNum > maxNum) {
+        maxNum = testNum;
+      }
+
+      updatedChartData[i].test = testNum;
+    }
+
+    highestCategoryValues.current.set("test", maxNum);
 
     setChartData(updatedChartData);
     setChartDataLines([...chartDataLines, "test"]);
