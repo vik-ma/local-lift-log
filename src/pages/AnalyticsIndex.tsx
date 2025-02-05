@@ -35,6 +35,7 @@ import {
   ComposedChart,
   Area,
   Line,
+  ReferenceArea,
 } from "recharts";
 import {
   ChartConfig,
@@ -618,6 +619,11 @@ export default function AnalyticsIndex() {
                   dataKey={secondaryDataKey}
                   unit={chartDataUnitMap.get(secondaryDataKey)}
                   orientation="right"
+                />
+                <ReferenceArea
+                  x1={"2025-01-22"}
+                  x2={"2025-01-25"}
+                  label="Test Period"
                 />
                 <ChartTooltip content={<ChartTooltipContent />} />
                 <ChartLegend content={<ChartLegendContent />} />
