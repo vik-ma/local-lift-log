@@ -13,6 +13,7 @@ import {
   useExerciseList,
   useFilterExerciseList,
   useMeasurementList,
+  useTimePeriodList,
 } from "../hooks";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -127,6 +128,10 @@ export default function AnalyticsIndex() {
 
   const { isMeasurementListLoaded, getMeasurements } = measurementList;
 
+  const timePeriods = useTimePeriodList();
+
+  const { getTimePeriods } = timePeriods;
+
   const chartDataCategoryLabelMap = useMemo(() => {
     const categoryMap = new Map<ChartDataCategory, string>();
 
@@ -201,6 +206,7 @@ export default function AnalyticsIndex() {
       setUserSettings(userSettings);
 
       getDietLogList(userSettings.locale, false);
+      getTimePeriods(userSettings.locale);
     };
 
     loadUserSettings();
