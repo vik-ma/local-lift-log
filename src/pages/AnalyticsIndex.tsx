@@ -95,15 +95,7 @@ export default function AnalyticsIndex() {
   const [shownChartDataLines, setShownChartDataLines] = useState<
     ChartDataCategory[]
   >([]);
-  const [referenceAreas, setReferenceAreas] = useState<ReferenceAreaItem[]>([
-    {
-      x1: "Jan 22, 2025",
-      x2: "Jan 25, 2025",
-      label: "Test Period",
-      startDate: "2025-01-22",
-      endDate: "2025-01-25",
-    },
-  ]);
+  const [referenceAreas, setReferenceAreas] = useState<ReferenceAreaItem[]>([]);
 
   const highestCategoryValues = useRef<Map<ChartDataCategory, number>>(
     new Map()
@@ -581,6 +573,22 @@ export default function AnalyticsIndex() {
     }
   };
 
+  const toggleTimePeriod = () => {
+    if (referenceAreas.length === 0) {
+      setReferenceAreas([
+        {
+          x1: "Jan 22, 2025",
+          x2: "Jan 25, 2025",
+          label: "Test Period",
+          startDate: "2025-01-22",
+          endDate: "2025-01-25",
+        },
+      ]);
+    } else {
+      setReferenceAreas([]);
+    }
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -805,6 +813,13 @@ export default function AnalyticsIndex() {
               onPress={removeTestLine}
             >
               Remove Test Line
+            </Button>
+            <Button
+              className="font-medium"
+              variant="flat"
+              onPress={toggleTimePeriod}
+            >
+              Toggle Time Period
             </Button>
           </div>
         </div>
