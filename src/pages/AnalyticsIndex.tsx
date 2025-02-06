@@ -68,6 +68,14 @@ type ChartDataCategory =
 
 type ChartDataUnitCategory = undefined | "Calories" | "Macros";
 
+type ReferenceAreaItem = {
+  x1: string;
+  x2: string;
+  label: string;
+  startDate: string;
+  endDate: string;
+};
+
 export default function AnalyticsIndex() {
   const [modalListType, setModalListType] = useState<ModalListType>("exercise");
   const [userSettings, setUserSettings] = useState<UserSettings>();
@@ -87,6 +95,15 @@ export default function AnalyticsIndex() {
   const [shownChartDataLines, setShownChartDataLines] = useState<
     ChartDataCategory[]
   >([]);
+  const [referenceAreas, setReferenceAreas] = useState<ReferenceAreaItem[]>([
+    {
+      x1: "Jan 22, 2025",
+      x2: "Jan 25, 2025",
+      label: "Test Period",
+      startDate: "2025-01-22",
+      endDate: "2025-01-25",
+    },
+  ]);
 
   const highestCategoryValues = useRef<Map<ChartDataCategory, number>>(
     new Map()
@@ -206,7 +223,7 @@ export default function AnalyticsIndex() {
 
       setUserSettings(userSettings);
 
-      getDietLogList(userSettings.locale, false);
+      getDietLogList(userSettings.locale, true);
       getTimePeriods(userSettings.locale);
     };
 
@@ -628,11 +645,9 @@ export default function AnalyticsIndex() {
                   unit={chartDataUnitMap.get(secondaryDataKey)}
                   orientation="right"
                 />
-                <ReferenceArea
-                  x1={"2025-01-22"}
-                  x2={"2025-01-25"}
-                  label="Test Period"
-                />
+                {referenceAreas.map((area) => (
+                  <ReferenceArea x1={area.x1} x2={area.x2} label={area.label} />
+                ))}
                 <ChartTooltip content={<ChartTooltipContent />} />
                 <ChartLegend content={<ChartLegendContent />} />
                 {shownChartDataAreas.map((item, index) => (
