@@ -207,6 +207,10 @@ export default function AnalyticsIndex() {
     ];
   }, []);
 
+  const referenceAreaColorList = useMemo(() => {
+    return ["#2862cc", "#26be21", "#ff3ba7", "#c93814", "#1ab2f8"];
+  }, []);
+
   useEffect(() => {
     const loadUserSettings = async () => {
       const userSettings = await GetUserSettings();
@@ -670,12 +674,22 @@ export default function AnalyticsIndex() {
                     activeDot={{ r: 6 }}
                   />
                 ))}
-                {referenceAreas.map((area) => (
+                {referenceAreas.map((area, index) => (
                   <ReferenceArea
                     x1={area.x1}
                     x2={area.x2}
                     label={area.label}
                     opacity={0.3}
+                    fill={
+                      referenceAreaColorList[
+                        index % referenceAreaColorList.length
+                      ]
+                    }
+                    stroke={
+                      referenceAreaColorList[
+                        index % referenceAreaColorList.length
+                      ]
+                    }
                   />
                 ))}
                 {shownChartDataLines.map((item, index) => (
