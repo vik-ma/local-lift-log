@@ -653,9 +653,6 @@ export default function AnalyticsIndex() {
                   unit={chartDataUnitMap.get(secondaryDataKey)}
                   orientation="right"
                 />
-                {referenceAreas.map((area) => (
-                  <ReferenceArea x1={area.x1} x2={area.x2} label={area.label} />
-                ))}
                 <ChartTooltip content={<ChartTooltipContent />} />
                 <ChartLegend content={<ChartLegendContent />} />
                 {shownChartDataAreas.map((item, index) => (
@@ -669,6 +666,14 @@ export default function AnalyticsIndex() {
                     }
                     fill={chartAreaColorList[index % chartAreaColorList.length]}
                     activeDot={{ r: 6 }}
+                  />
+                ))}
+                {referenceAreas.map((area) => (
+                  <ReferenceArea
+                    x1={area.x1}
+                    x2={area.x2}
+                    label={area.label}
+                    opacity={0.3}
                   />
                 ))}
                 {shownChartDataLines.map((item, index) => (
