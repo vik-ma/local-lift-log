@@ -362,6 +362,7 @@ export default function AnalyticsIndex() {
 
         if (value > highestValue) {
           highestCategory = key;
+          highestValue = value;
         }
       }
 
