@@ -574,11 +574,13 @@ export default function AnalyticsIndex() {
   };
 
   const toggleTimePeriod = () => {
+    if (userSettings === undefined) return;
+
     if (referenceAreas.length === 0) {
       setReferenceAreas([
         {
-          x1: "Jan 22, 2025",
-          x2: "Jan 25, 2025",
+          x1: FormatDateStringShort("Jan 22, 2025", userSettings.locale),
+          x2: FormatDateStringShort("Jan 25, 2025", userSettings.locale),
           label: "Test Period",
           startDate: "2025-01-22",
           endDate: "2025-01-25",
