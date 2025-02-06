@@ -10,10 +10,6 @@ import {
 
 type TimePeriodListOptionsProps = {
   useTimePeriodList: UseTimePeriodListReturnType;
-  selectedTimePeriodProperties: Set<string>;
-  setSelectedTimePeriodProperties: React.Dispatch<
-    React.SetStateAction<Set<string>>
-  >;
   userSettings?: UserSettings;
   setUserSettings?: React.Dispatch<
     React.SetStateAction<UserSettings | undefined>
@@ -22,8 +18,6 @@ type TimePeriodListOptionsProps = {
 
 export const TimePeriodListOptions = ({
   useTimePeriodList,
-  selectedTimePeriodProperties,
-  setSelectedTimePeriodProperties,
   userSettings,
   setUserSettings,
 }: TimePeriodListOptionsProps) => {
@@ -32,6 +26,8 @@ export const TimePeriodListOptions = ({
     handleSortOptionSelection,
     handleOpenFilterButton,
     timePeriodListFilters,
+    selectedTimePeriodProperties,
+    setSelectedTimePeriodProperties,
   } = useTimePeriodList;
 
   return (

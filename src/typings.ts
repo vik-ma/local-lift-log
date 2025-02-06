@@ -999,6 +999,10 @@ export type UseTimePeriodListReturnType = {
   handleOpenFilterButton: () => Promise<void>;
   filterTimePeriodListModal: UseDisclosureReturnType;
   timePeriodListFilters: UseTimePeriodListFiltersReturnType;
+  selectedTimePeriodProperties: Set<string>;
+  setSelectedTimePeriodProperties: React.Dispatch<
+    React.SetStateAction<Set<string>>
+  >;
 };
 
 export type ShownPropertiesTargetType = "workout" | "time-period";

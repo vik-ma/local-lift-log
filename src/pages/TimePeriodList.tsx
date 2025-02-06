@@ -43,8 +43,6 @@ type OperationType = "add" | "edit" | "delete";
 export default function TimePeriodList() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [operationType, setOperationType] = useState<OperationType>("add");
-  const [selectedTimePeriodProperties, setSelectedTimePeriodProperties] =
-    useState<Set<string>>(new Set());
 
   const defaultTimePeriod = useDefaultTimePeriod();
 
@@ -76,6 +74,8 @@ export default function TimePeriodList() {
     getTimePeriods,
     sortTimePeriodByActiveCategory,
     timePeriodListFilters,
+    selectedTimePeriodProperties,
+    setSelectedTimePeriodProperties,
   } = timePeriodList;
 
   useEffect(() => {
@@ -324,10 +324,6 @@ export default function TimePeriodList() {
                 </Button>
                 <TimePeriodListOptions
                   useTimePeriodList={timePeriodList}
-                  selectedTimePeriodProperties={selectedTimePeriodProperties}
-                  setSelectedTimePeriodProperties={
-                    setSelectedTimePeriodProperties
-                  }
                   userSettings={userSettings}
                   setUserSettings={setUserSettings}
                 />

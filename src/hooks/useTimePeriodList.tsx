@@ -20,6 +20,8 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
   const [filterQuery, setFilterQuery] = useState<string>("");
   const [sortCategory, setSortCategory] =
     useState<TimePeriodSortCategory>("ongoing");
+  const [selectedTimePeriodProperties, setSelectedTimePeriodProperties] =
+    useState<Set<string>>(new Set());
 
   const isTimePeriodListLoaded = useRef(false);
 
@@ -159,7 +161,7 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   const sortTimePeriodsByName = (timePeriodList: TimePeriod[]) => {
     timePeriodList.sort((a, b) => {
@@ -350,5 +352,7 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
     handleOpenFilterButton,
     filterTimePeriodListModal,
     timePeriodListFilters,
+    selectedTimePeriodProperties,
+    setSelectedTimePeriodProperties,
   };
 };
