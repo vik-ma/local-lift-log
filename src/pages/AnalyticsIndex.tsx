@@ -377,7 +377,14 @@ export default function AnalyticsIndex() {
       setSecondaryDataUnitCategory(undefined);
     }
 
+    const chartLineUnitCategorySet = new Set<ChartDataUnitCategory>();
+
+    for (const line of chartLines) {
+      chartLineUnitCategorySet.add(chartDataUnitCategoryMap.get(line));
+    }
+
     setShownChartDataLines(chartLines);
+    setChartLineUnitCategoryList(Array.from(chartLineUnitCategorySet));
   };
 
   const getHighestGramValueForMacros = (
