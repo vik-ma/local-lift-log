@@ -21,6 +21,7 @@ import {
   FilterExerciseGroupsModal,
   LoadingSpinner,
   MeasurementModalList,
+  TimePeriodModalList,
 } from "../components";
 import { UserSettings } from "../typings";
 import {
@@ -47,7 +48,7 @@ import {
 } from "../components/ui/chart";
 import toast from "react-hot-toast";
 
-type ModalListType = "exercise" | "measurement";
+type ModalListType = "exercise" | "measurement" | "time-period";
 
 type ChartData = {
   date: string;
@@ -138,9 +139,9 @@ export default function AnalyticsIndex() {
 
   const { isMeasurementListLoaded, getMeasurements } = measurementList;
 
-  const timePeriods = useTimePeriodList();
+  const timePeriodList = useTimePeriodList();
 
-  const { getTimePeriods } = timePeriods;
+  const { getTimePeriods, isTimePeriodListLoaded } = timePeriodList;
 
   const chartDataCategoryLabelMap = useMemo(() => {
     const categoryMap = new Map<ChartDataCategory, string>();
@@ -227,6 +228,8 @@ export default function AnalyticsIndex() {
   }, []);
 
   const handleOpenListModal = async (modalListType: ModalListType) => {
+    if (userSettings === undefined) return;
+
     setModalListType(modalListType);
 
     if (modalListType === "exercise" && !isExerciseListLoaded.current) {
@@ -235,6 +238,10 @@ export default function AnalyticsIndex() {
 
     if (modalListType === "measurement" && !isMeasurementListLoaded.current) {
       await getMeasurements();
+    }
+
+    if (modalListType === "time-period" && !isTimePeriodListLoaded.current) {
+      await getTimePeriods(userSettings.locale);
     }
 
     listModal.onOpen();
@@ -616,11 +623,20 @@ export default function AnalyticsIndex() {
                     customHeightString="h-[440px]"
                     isInAnalyticsPage
                   />
-                ) : (
+                ) : modalListType === "measurement" ? (
                   <MeasurementModalList
                     useMeasurementList={measurementList}
                     handleMeasurementClick={() => {}}
                     customHeightString="h-[440px]"
+                  />
+                ) : (
+                  <TimePeriodModalList
+                    useTimePeriodList={timePeriodList}
+                    handleTimePeriodClick={() => {}}
+                    userSettings={userSettings}
+                    setUserSettings={setUserSettings}
+                    customHeightString="h-[440px]"
+                    // TODO: ADD hiddenTimePeriods
                   />
                 )}
               </ModalBody>
@@ -840,7 +856,15 @@ export default function AnalyticsIndex() {
               variant="flat"
               onPress={toggleTestTimePeriod}
             >
-              Toggle Time Period
+              Toggle Test Time Period
+            </Button>
+            <Button
+              className="font-medium"
+              variant="flat"
+              color="secondary"
+              onPress={() => handleOpenListModal("time-period")}
+            >
+              Select Time Period
             </Button>
           </div>
         </div>
