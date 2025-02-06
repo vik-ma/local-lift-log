@@ -577,14 +577,14 @@ export default function AnalyticsIndex() {
     }
   };
 
-  const toggleTimePeriod = () => {
+  const toggleTestTimePeriod = () => {
     if (userSettings === undefined) return;
 
     if (referenceAreas.length === 0) {
       setReferenceAreas([
         {
-          x1: FormatDateStringShort("Jan 22, 2025", userSettings.locale),
-          x2: FormatDateStringShort("Jan 25, 2025", userSettings.locale),
+          x1: FormatDateStringShort("2025-01-22", userSettings.locale),
+          x2: FormatDateStringShort("2025-01-25", userSettings.locale),
           label: "Test Period",
           startDate: "2025-01-22",
           endDate: "2025-01-25",
@@ -838,7 +838,7 @@ export default function AnalyticsIndex() {
             <Button
               className="font-medium"
               variant="flat"
-              onPress={toggleTimePeriod}
+              onPress={toggleTestTimePeriod}
             >
               Toggle Time Period
             </Button>
