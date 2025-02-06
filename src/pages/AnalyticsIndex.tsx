@@ -145,6 +145,30 @@ export default function AnalyticsIndex() {
     return categoryMap;
   }, []);
 
+  const chartDataUnitMap = useMemo(() => {
+    const unitMap = new Map<ChartDataCategory, string>();
+
+    unitMap.set("calories", " kcal");
+    unitMap.set("fat", " g");
+    unitMap.set("carbs", " g");
+    unitMap.set("protein", " g");
+    unitMap.set("test", " kcal");
+
+    return unitMap;
+  }, []);
+
+  const chartDataUnitCategoryMap = useMemo(() => {
+    const unitCategoryMap = new Map<ChartDataCategory, ChartDataUnitCategory>();
+
+    unitCategoryMap.set("calories", "Calories");
+    unitCategoryMap.set("fat", "Macros");
+    unitCategoryMap.set("carbs", "Macros");
+    unitCategoryMap.set("protein", "Macros");
+    unitCategoryMap.set("test", "Calories");
+
+    return unitCategoryMap;
+  }, []);
+
   const chartConfig: ChartConfig = useMemo(() => {
     return {
       calories: {
@@ -172,30 +196,6 @@ export default function AnalyticsIndex() {
       "#d4a5a5",
       "#b1a89f",
     ];
-  }, []);
-
-  const chartDataUnitMap = useMemo(() => {
-    const unitMap = new Map<ChartDataCategory, string>();
-
-    unitMap.set("calories", " kcal");
-    unitMap.set("fat", " g");
-    unitMap.set("carbs", " g");
-    unitMap.set("protein", " g");
-    unitMap.set("test", " kcal");
-
-    return unitMap;
-  }, []);
-
-  const chartDataUnitCategoryMap = useMemo(() => {
-    const unitCategoryMap = new Map<ChartDataCategory, ChartDataUnitCategory>();
-
-    unitCategoryMap.set("calories", "Calories");
-    unitCategoryMap.set("fat", "Macros");
-    unitCategoryMap.set("carbs", "Macros");
-    unitCategoryMap.set("protein", "Macros");
-    unitCategoryMap.set("test", "Calories");
-
-    return unitCategoryMap;
   }, []);
 
   useEffect(() => {
