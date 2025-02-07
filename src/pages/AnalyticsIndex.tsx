@@ -23,7 +23,7 @@ import {
   MeasurementModalList,
   TimePeriodModalList,
 } from "../components";
-import { UserSettings } from "../typings";
+import { TimePeriod, UserSettings } from "../typings";
 import {
   CreateShownPropertiesSet,
   FormatDateStringShort,
@@ -98,6 +98,7 @@ export default function AnalyticsIndex() {
     ChartDataCategory[]
   >([]);
   const [referenceAreas, setReferenceAreas] = useState<ReferenceAreaItem[]>([]);
+  const [timePeriods, setTimePeriods] = useState<TimePeriod[]>([]);
 
   const highestCategoryValues = useRef<Map<ChartDataCategory, number>>(
     new Map()
@@ -111,6 +112,11 @@ export default function AnalyticsIndex() {
   const chartDataLineSet = useMemo(
     () => new Set<ChartDataCategory>(chartDataLines),
     [chartDataLines]
+  );
+
+  const timePeriodIdSet = useMemo(
+    () => new Set<number>(timePeriods.map((item) => item.id)),
+    [timePeriods]
   );
 
   const isChartDataLoaded = useRef<boolean>(false);
@@ -251,7 +257,7 @@ export default function AnalyticsIndex() {
         userSettings.shown_time_period_properties,
         "time-period"
       );
-      
+
       setSelectedTimePeriodProperties(timePeriodPropertySet);
     }
 
@@ -613,6 +619,14 @@ export default function AnalyticsIndex() {
     }
   };
 
+  const handleClickTimePeriod = (timePeriod: TimePeriod) => {
+    if (timePeriodIdSet.has(timePeriod.id)) return;
+
+    setTimePeriods([...timePeriods, timePeriod]);
+
+    listModal.onClose();
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -643,11 +657,11 @@ export default function AnalyticsIndex() {
                 ) : (
                   <TimePeriodModalList
                     useTimePeriodList={timePeriodList}
-                    handleTimePeriodClick={() => {}}
+                    handleTimePeriodClick={handleClickTimePeriod}
                     userSettings={userSettings}
                     setUserSettings={setUserSettings}
                     customHeightString="h-[440px]"
-                    // TODO: ADD hiddenTimePeriods
+                    hiddenTimePeriods={timePeriodIdSet}
                   />
                 )}
               </ModalBody>
