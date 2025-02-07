@@ -127,6 +127,14 @@ export default function AnalyticsIndex() {
     [referenceAreas]
   );
 
+  const shownTimePeriodIdSet = useMemo(
+    () =>
+      new Set<string>(
+        shownReferenceAreas.map((area) => area.timePeriodId.toString())
+      ),
+    [shownReferenceAreas]
+  );
+
   const isChartDataLoaded = useRef<boolean>(false);
 
   const filteredChartData: ChartData = useMemo(() => {
@@ -659,6 +667,14 @@ export default function AnalyticsIndex() {
     listModal.onClose();
   };
 
+  const updateShownReferenceAreas = (timePeriodIds: Set<string>) => {
+    const updatedShownReferenceAreas = referenceAreas.filter((item) =>
+      timePeriodIds.has(item.timePeriodId.toString())
+    );
+
+    setShownReferenceAreas(updatedShownReferenceAreas);
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -931,8 +947,10 @@ export default function AnalyticsIndex() {
                 size="sm"
                 variant="faded"
                 selectionMode="multiple"
-                selectedKeys={timePeriodIdSet}
-                // onSelectionChange={(keys) => updateShownReferenceAreas(keys)}
+                selectedKeys={shownTimePeriodIdSet}
+                onSelectionChange={(keys) =>
+                  updateShownReferenceAreas(new Set(keys) as Set<string>)
+                }
               >
                 {referenceAreas.map((area) => (
                   <SelectItem
