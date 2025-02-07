@@ -25,6 +25,7 @@ import {
 } from "../components";
 import { UserSettings } from "../typings";
 import {
+  CreateShownPropertiesSet,
   FormatDateStringShort,
   GetAllDietLogs,
   GetUserSettings,
@@ -141,7 +142,11 @@ export default function AnalyticsIndex() {
 
   const timePeriodList = useTimePeriodList();
 
-  const { getTimePeriods, isTimePeriodListLoaded } = timePeriodList;
+  const {
+    getTimePeriods,
+    isTimePeriodListLoaded,
+    setSelectedTimePeriodProperties,
+  } = timePeriodList;
 
   const chartDataCategoryLabelMap = useMemo(() => {
     const categoryMap = new Map<ChartDataCategory, string>();
@@ -221,7 +226,6 @@ export default function AnalyticsIndex() {
       setUserSettings(userSettings);
 
       getDietLogList(userSettings.locale, true);
-      getTimePeriods(userSettings.locale);
     };
 
     loadUserSettings();
@@ -242,6 +246,13 @@ export default function AnalyticsIndex() {
 
     if (modalListType === "time-period" && !isTimePeriodListLoaded.current) {
       await getTimePeriods(userSettings.locale);
+
+      const timePeriodPropertySet = CreateShownPropertiesSet(
+        userSettings.shown_time_period_properties,
+        "time-period"
+      );
+      
+      setSelectedTimePeriodProperties(timePeriodPropertySet);
     }
 
     listModal.onOpen();
