@@ -23,6 +23,7 @@ export { ConvertYmdDateStringToCalendarDate } from "./Dates/ConvertYmdDateString
 export { ConvertCalendarDateToYmdString } from "./Dates/ConvertCalendarDateToYmdString";
 export { FormatDateStringShort } from "./Dates/FormatDateStringShort";
 export { ValidateStartAndEndDateStrings } from "./Dates/ValidateStartAndEndDateStrings";
+export { ConvertISODateStringToYmdDateString } from "./Dates/ConvertISODateStringToYmdDateString";
 
 export { ConvertExerciseGroupSetStringPrimary } from "./Exercises/ConvertExerciseGroupSetStringPrimary";
 export { ConvertExerciseGroupStringListPrimaryToString } from "./Exercises/ConvertExerciseGroupStringListPrimaryToString";
