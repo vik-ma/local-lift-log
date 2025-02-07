@@ -11,6 +11,7 @@ import {
   IsDatePassed,
   IsDateWithinLimit,
   IsNumberWithinLimit,
+  ValidateStartAndEndDateStrings,
 } from "../helpers";
 import { useDisclosure } from "@heroui/react";
 import { useTimePeriodListFilters } from ".";
@@ -128,6 +129,9 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
       const timePeriods: TimePeriod[] = [];
 
       for (const row of result) {
+        if (!ValidateStartAndEndDateStrings(row.start_date, row.end_date))
+          continue;
+
         const formattedStartDate = FormatISODateString(row.start_date, locale);
         const formattedEndDate = FormatISODateString(row.end_date, locale);
 
