@@ -66,10 +66,10 @@ export const TimePeriodModalList = ({
             variant="flat"
             size="sm"
             color="secondary"
-            onPress={() => navigate("/measurements/measurement-list")}
+            onPress={() => navigate("/time-periods")}
             endContent={<GoToArrowIcon />}
           >
-            Edit Measurements
+            Edit Time Periods
           </Button>
           <TimePeriodListOptions
             useTimePeriodList={useTimePeriodList}
@@ -103,8 +103,8 @@ export const TimePeriodModalList = ({
                   className={
                     timePeriod.isOngoing &&
                     selectedTimePeriodProperties.has("ongoing")
-                      ? "max-w-[16.75rem] truncate text-stone-600"
-                      : "max-w-[20.75rem] truncate text-stone-600"
+                      ? "max-w-[18.25rem] truncate text-stone-600"
+                      : "max-w-[22.75rem] truncate text-stone-600"
                   }
                 >
                   {timePeriod.name}
@@ -114,7 +114,7 @@ export const TimePeriodModalList = ({
                     <span className="text-sm text-orange-400">(Ongoing)</span>
                   )}
               </div>
-              <div className="text-xs text-left max-w-[20.75rem] truncate">
+              <div className="text-xs text-left max-w-[22.75rem] truncate">
                 <span className="text-secondary">
                   <span className="font-medium text-stone-500">
                     Start Date:{" "}
@@ -138,13 +138,13 @@ export const TimePeriodModalList = ({
                 <CaloricIntakeTypeSpan value={timePeriod.caloric_intake} />
               )}
               {selectedTimePeriodProperties.has("note") && (
-                <span className="w-[20.75rem] break-all text-xs text-stone-400 text-left">
+                <span className="w-[22.75rem] break-all text-xs text-stone-400 text-left">
                   {timePeriod.note}
                 </span>
               )}
               {timePeriod.injury !== null &&
                 selectedTimePeriodProperties.has("injury") && (
-                  <span className="w-[20.75rem] break-all text-xs text-red-600">
+                  <span className="w-[22.75rem] break-all text-xs text-red-600">
                     <span className="font-medium text-red-800">Injury: </span>
                     {timePeriod.injury}
                   </span>
@@ -153,7 +153,7 @@ export const TimePeriodModalList = ({
           </div>
         ))}
         {filteredTimePeriods.length === 0 && (
-          <EmptyListLabel itemName="Measurements" />
+          <EmptyListLabel itemName="Time Periods" />
         )}
       </ScrollShadow>
     </div>
