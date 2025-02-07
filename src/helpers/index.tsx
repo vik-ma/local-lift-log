@@ -22,6 +22,7 @@ export { IsYmdDateStringTodayOrYesterday } from "./Dates/IsYmdDateStringTodayOrY
 export { ConvertYmdDateStringToCalendarDate } from "./Dates/ConvertYmdDateStringToCalendarDate";
 export { ConvertCalendarDateToYmdString } from "./Dates/ConvertCalendarDateToYmdString";
 export { FormatDateStringShort } from "./Dates/FormatDateStringShort";
+export { ValidateStartAndEndDateStrings } from "./Dates/ValidateStartAndEndDateStrings";
 
 export { ConvertExerciseGroupSetStringPrimary } from "./Exercises/ConvertExerciseGroupSetStringPrimary";
 export { ConvertExerciseGroupStringListPrimaryToString } from "./Exercises/ConvertExerciseGroupStringListPrimaryToString";
