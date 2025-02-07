@@ -23,7 +23,7 @@ type TimePeriodModalListProps = {
     React.SetStateAction<UserSettings | undefined>
   >;
   customHeightString?: string;
-  hiddenTimePeriods?: Set<number>;
+  hiddenTimePeriods?: Set<string>;
 };
 
 export const TimePeriodModalList = ({
@@ -91,7 +91,7 @@ export const TimePeriodModalList = ({
           <div
             key={timePeriod.id}
             className={
-              hiddenTimePeriods?.has(timePeriod.id)
+              hiddenTimePeriods?.has(timePeriod.id.toString())
                 ? "hidden"
                 : "flex justify-between items-center cursor-pointer w-full bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
             }

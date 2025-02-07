@@ -25,9 +25,11 @@ import {
 } from "../components";
 import { TimePeriod, UserSettings } from "../typings";
 import {
+  ConvertISODateStringToYmdDateString,
   CreateShownPropertiesSet,
   FormatDateStringShort,
   GetAllDietLogs,
+  GetCurrentYmdDateString,
   GetUserSettings,
 } from "../helpers";
 import {
@@ -71,6 +73,7 @@ type ChartDataCategory =
 type ChartDataUnitCategory = undefined | "Calories" | "Macros";
 
 type ReferenceAreaItem = {
+  timePeriodId: number;
   x1: string;
   x2: string;
   label: string;
@@ -98,7 +101,9 @@ export default function AnalyticsIndex() {
     ChartDataCategory[]
   >([]);
   const [referenceAreas, setReferenceAreas] = useState<ReferenceAreaItem[]>([]);
-  const [timePeriods, setTimePeriods] = useState<TimePeriod[]>([]);
+  const [shownReferenceAreas, setShownReferenceAreas] = useState<
+    ReferenceAreaItem[]
+  >([]);
 
   const highestCategoryValues = useRef<Map<ChartDataCategory, number>>(
     new Map()
@@ -115,8 +120,11 @@ export default function AnalyticsIndex() {
   );
 
   const timePeriodIdSet = useMemo(
-    () => new Set<number>(timePeriods.map((item) => item.id)),
-    [timePeriods]
+    () =>
+      new Set<string>(
+        referenceAreas.map((area) => area.timePeriodId.toString())
+      ),
+    [referenceAreas]
   );
 
   const isChartDataLoaded = useRef<boolean>(false);
@@ -607,6 +615,7 @@ export default function AnalyticsIndex() {
     if (referenceAreas.length === 0) {
       setReferenceAreas([
         {
+          timePeriodId: 0,
           x1: FormatDateStringShort("2025-01-22", userSettings.locale),
           x2: FormatDateStringShort("2025-01-25", userSettings.locale),
           label: "Test Period",
@@ -620,9 +629,32 @@ export default function AnalyticsIndex() {
   };
 
   const handleClickTimePeriod = (timePeriod: TimePeriod) => {
-    if (timePeriodIdSet.has(timePeriod.id)) return;
+    if (
+      timePeriodIdSet.has(timePeriod.id.toString()) ||
+      timePeriod.start_date === null ||
+      userSettings === undefined
+    )
+      return;
 
-    setTimePeriods([...timePeriods, timePeriod]);
+    const startDate = ConvertISODateStringToYmdDateString(
+      timePeriod.start_date
+    );
+    const endDate =
+      timePeriod.end_date === null
+        ? GetCurrentYmdDateString()
+        : ConvertISODateStringToYmdDateString(timePeriod.end_date);
+
+    const referenceArea: ReferenceAreaItem = {
+      timePeriodId: timePeriod.id,
+      x1: FormatDateStringShort(startDate, userSettings.locale),
+      x2: FormatDateStringShort(endDate, userSettings.locale),
+      label: timePeriod.name,
+      startDate,
+      endDate,
+    };
+
+    setReferenceAreas([...referenceAreas, referenceArea]);
+    setShownReferenceAreas([...shownReferenceAreas, referenceArea]);
 
     listModal.onClose();
   };
@@ -715,8 +747,9 @@ export default function AnalyticsIndex() {
                     activeDot={{ r: 6 }}
                   />
                 ))}
-                {referenceAreas.map((area, index) => (
+                {shownReferenceAreas.map((area, index) => (
                   <ReferenceArea
+                    key={area.timePeriodId}
                     x1={area.x1}
                     x2={area.x2}
                     label={area.label}
@@ -847,8 +880,8 @@ export default function AnalyticsIndex() {
               </>
             )}
           </div>
-          <div className="flex gap-2">
-            <Button
+          <div className="flex items-center gap-2">
+            {/* <Button
               className="font-medium"
               variant="flat"
               onPress={addTestArea}
@@ -882,7 +915,7 @@ export default function AnalyticsIndex() {
               onPress={toggleTestTimePeriod}
             >
               Toggle Test Time Period
-            </Button>
+            </Button> */}
             <Button
               className="font-medium"
               variant="flat"
@@ -891,6 +924,26 @@ export default function AnalyticsIndex() {
             >
               Select Time Period
             </Button>
+            {referenceAreas.length > 0 && (
+              <Select
+                className="w-[11.75rem]"
+                label="Shown Time Periods"
+                size="sm"
+                variant="faded"
+                selectionMode="multiple"
+                selectedKeys={timePeriodIdSet}
+                // onSelectionChange={(keys) => updateShownReferenceAreas(keys)}
+              >
+                {referenceAreas.map((area) => (
+                  <SelectItem
+                    key={area.timePeriodId.toString()}
+                    value={area.timePeriodId.toString()}
+                  >
+                    {area.label}
+                  </SelectItem>
+                ))}
+              </Select>
+            )}
           </div>
         </div>
       </div>
