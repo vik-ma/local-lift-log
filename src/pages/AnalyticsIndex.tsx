@@ -53,14 +53,14 @@ import toast from "react-hot-toast";
 
 type ModalListType = "exercise" | "measurement" | "time-period";
 
-type ChartData = {
+type ChartDataItem = {
   date: string;
   calories?: number;
   fat?: number | null;
   carbs?: number | null;
   protein?: number | null;
   test?: number;
-}[];
+};
 
 type ChartDataCategory =
   | undefined
@@ -84,7 +84,7 @@ type ReferenceAreaItem = {
 export default function AnalyticsIndex() {
   const [modalListType, setModalListType] = useState<ModalListType>("exercise");
   const [userSettings, setUserSettings] = useState<UserSettings>();
-  const [chartData, setChartData] = useState<ChartData>([]);
+  const [chartData, setChartData] = useState<ChartDataItem[]>([]);
   const [chartDataAreas, setChartDataAreas] = useState<ChartDataCategory[]>([]);
   const [chartDataLines, setChartDataLines] = useState<ChartDataCategory[]>([]);
   const [primaryDataKey, setPrimaryDataKey] = useState<ChartDataCategory>();
@@ -139,7 +139,7 @@ export default function AnalyticsIndex() {
 
   const isChartDataLoaded = useRef<boolean>(false);
 
-  const filteredChartData: ChartData = useMemo(() => {
+  const filteredChartData: ChartDataItem[] = useMemo(() => {
     return chartData.map((entry) =>
       Object.fromEntries(
         Object.entries(entry).filter(
@@ -149,7 +149,7 @@ export default function AnalyticsIndex() {
             chartDataLines.includes(key as ChartDataCategory)
         )
       )
-    ) as ChartData;
+    ) as ChartDataItem[];
   }, [chartData]);
 
   const listModal = useDisclosure();
@@ -296,7 +296,7 @@ export default function AnalyticsIndex() {
       return;
     }
 
-    const chartData: ChartData = [];
+    const chartData: ChartDataItem[] = [];
 
     const highestValueMap = new Map<ChartDataCategory, number>();
     highestValueMap.set("calories", 0);
@@ -486,7 +486,7 @@ export default function AnalyticsIndex() {
   };
 
   const removeTestArea = () => {
-    const updatedChartData: ChartData = chartData.map(
+    const updatedChartData: ChartDataItem[] = chartData.map(
       ({ test, ...rest }) => rest
     );
 
@@ -516,7 +516,7 @@ export default function AnalyticsIndex() {
     if (chartDataAreas.includes("test") || chartDataLines.includes("test"))
       return;
 
-    const updatedChartData: ChartData = [...chartData];
+    const updatedChartData: ChartDataItem[] = [...chartData];
 
     let maxNum = 0;
 
