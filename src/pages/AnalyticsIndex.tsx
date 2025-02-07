@@ -25,11 +25,10 @@ import {
 } from "../components";
 import { TimePeriod, UserSettings } from "../typings";
 import {
-  ConvertISODateStringToYmdDateString,
+  ConvertDateToYmdString,
   CreateShownPropertiesSet,
-  FormatDateStringShort,
+  FormatDateToShortString,
   GetAllDietLogs,
-  GetCurrentYmdDateString,
   GetUserSettings,
 } from "../helpers";
 import {
@@ -306,7 +305,7 @@ export default function AnalyticsIndex() {
 
     for (const dietLog of dietLogs) {
       const chartDataItem = {
-        date: FormatDateStringShort(dietLog.date, locale),
+        date: FormatDateToShortString(new Date(dietLog.date), locale),
         calories: dietLog.calories,
         fat: dietLog.fat,
         carbs: dietLog.carbs,
@@ -626,8 +625,14 @@ export default function AnalyticsIndex() {
       setReferenceAreas([
         {
           timePeriodId: 0,
-          x1: FormatDateStringShort("2025-01-22", userSettings.locale),
-          x2: FormatDateStringShort("2025-01-25", userSettings.locale),
+          x1: FormatDateToShortString(
+            new Date("2025-01-22"),
+            userSettings.locale
+          ),
+          x2: FormatDateToShortString(
+            new Date("2025-01-25"),
+            userSettings.locale
+          ),
           label: "Test Period",
           startDate: "2025-01-22",
           endDate: "2025-01-25",
@@ -646,21 +651,17 @@ export default function AnalyticsIndex() {
     )
       return;
 
-    const startDate = ConvertISODateStringToYmdDateString(
-      timePeriod.start_date
-    );
+    const startDate = new Date(timePeriod.start_date);
     const endDate =
-      timePeriod.end_date === null
-        ? GetCurrentYmdDateString()
-        : ConvertISODateStringToYmdDateString(timePeriod.end_date);
+      timePeriod.end_date === null ? new Date() : new Date(timePeriod.end_date);
 
     const referenceArea: ReferenceAreaItem = {
       timePeriodId: timePeriod.id,
-      x1: FormatDateStringShort(startDate, userSettings.locale),
-      x2: FormatDateStringShort(endDate, userSettings.locale),
+      x1: FormatDateToShortString(startDate, userSettings.locale),
+      x2: FormatDateToShortString(endDate, userSettings.locale),
       label: timePeriod.name,
-      startDate,
-      endDate,
+      startDate: ConvertDateToYmdString(startDate),
+      endDate: ConvertDateToYmdString(endDate),
     };
 
     setReferenceAreas([...referenceAreas, referenceArea]);
@@ -675,6 +676,46 @@ export default function AnalyticsIndex() {
     );
 
     setShownReferenceAreas(updatedShownReferenceAreas);
+  };
+
+  const fillInMissingDates = (chartData: ChartDataItem[]): ChartDataItem[] => {
+    if (chartData.length === 0 || userSettings === undefined) return [];
+
+    // Get all props for the chartData objects except "date"
+    const chartDataProps = Object.getOwnPropertyNames(chartData[0]).slice(1);
+
+    // Create chartData item with all null values for those props
+    const emptyChartDataItem = chartDataProps.reduce((acc, key) => {
+      acc[key] = null;
+      return acc;
+    }, {} as Record<string, null>);
+
+    const filledInChartData: ChartDataItem[] = [];
+
+    const chartDataDateMap = new Map(
+      chartData.map((item) => [item.date, item])
+    );
+
+    let currentDate = new Date(chartData[0].date);
+    const endDate = new Date(chartData[chartData.length - 1].date);
+
+    while (currentDate <= endDate) {
+      const dateString = FormatDateToShortString(
+        currentDate,
+        userSettings.locale
+      );
+
+      if (chartDataDateMap.has(dateString)) {
+        filledInChartData.push(chartDataDateMap.get(dateString)!);
+      } else {
+        // Fill in null values for missing dates
+        filledInChartData.push({ ...emptyChartDataItem, date: dateString });
+      }
+
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    return filledInChartData;
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;
