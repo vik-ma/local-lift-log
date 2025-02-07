@@ -416,8 +416,8 @@ export type UseExerciseListReturnType = {
   sortExercisesByActiveCategory: (exerciseList: Exercise[]) => void;
   includeSecondaryGroups: boolean;
   setIncludeSecondaryGroups: React.Dispatch<React.SetStateAction<boolean>>;
-  isExerciseListLoaded: React.MutableRefObject<boolean>;
-  exerciseMap: React.MutableRefObject<ExerciseMap>;
+  isExerciseListLoaded: React.RefObject<boolean>;
+  exerciseMap: React.RefObject<ExerciseMap>;
   exerciseGroupDictionary: ExerciseGroupMap;
 };
 
@@ -497,7 +497,7 @@ export type UseWorkoutListReturnType = {
   routineList: UseRoutineListReturnType;
   listFilters: UseListFiltersReturnType;
   workoutTemplateList: UseWorkoutTemplateListReturnType;
-  isWorkoutListLoaded: React.MutableRefObject<boolean>;
+  isWorkoutListLoaded: React.RefObject<boolean>;
 };
 
 export type UseListFiltersReturnType = {
@@ -642,8 +642,8 @@ export type UseWorkoutTemplateListReturnType = {
   filterWorkoutTemplateListModal: UseDisclosureReturnType;
   handleOpenFilterButton: () => void;
   listFilters: UseListFiltersReturnType;
-  workoutTemplateMap: React.MutableRefObject<WorkoutTemplateMap>;
-  isWorkoutTemplateListLoaded: React.MutableRefObject<boolean>;
+  workoutTemplateMap: React.RefObject<WorkoutTemplateMap>;
+  isWorkoutTemplateListLoaded: React.RefObject<boolean>;
   getWorkoutTemplates: () => Promise<void>;
   sortWorkoutTemplatesByActiveCategory: (
     workoutTemplateList: WorkoutTemplate[]
@@ -689,8 +689,8 @@ export type UsePresetsListReturnType = {
   sortCategoryDistance: DistanceSortCategory;
   handleSortOptionSelectionEquipment: (key: string) => void;
   handleSortOptionSelectionDistance: (key: string) => void;
-  isEquipmentWeightListLoaded: React.MutableRefObject<boolean>;
-  isDistanceListLoaded: React.MutableRefObject<boolean>;
+  isEquipmentWeightListLoaded: React.RefObject<boolean>;
+  isDistanceListLoaded: React.RefObject<boolean>;
   sortEquipmentWeightByActiveCategory: (
     equipmentWeightList: EquipmentWeight[]
   ) => void;
@@ -850,8 +850,8 @@ export type UseRoutineListReturnType = {
   setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
   routineListModal: UseDisclosureReturnType;
   handleOpenRoutineListModal: () => void;
-  routineMap: React.MutableRefObject<RoutineMap>;
-  isRoutineListLoaded: React.MutableRefObject<boolean>;
+  routineMap: React.RefObject<RoutineMap>;
+  isRoutineListLoaded: React.RefObject<boolean>;
   sortCategory: RoutineSortCategory;
   handleSortOptionSelection: (key: string) => void;
   getRoutines: () => Promise<void>;
@@ -866,7 +866,7 @@ export type MeasurementSortCategory = "favorite" | "active" | "name";
 export type UseMeasurementListReturnType = {
   measurements: Measurement[];
   setMeasurements: React.Dispatch<React.SetStateAction<Measurement[]>>;
-  isMeasurementListLoaded: React.MutableRefObject<boolean>;
+  isMeasurementListLoaded: React.RefObject<boolean>;
   filterQuery: string;
   setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
   filteredMeasurements: Measurement[];
@@ -876,7 +876,7 @@ export type UseMeasurementListReturnType = {
   sortMeasurementsByActiveCategory: (measurements: Measurement[]) => void;
   activeMeasurementSet: Set<number>;
   setActiveMeasurementSet: React.Dispatch<React.SetStateAction<Set<number>>>;
-  measurementMap: React.MutableRefObject<MeasurementMap>;
+  measurementMap: React.RefObject<MeasurementMap>;
   createMeasurement: (newMeasurement: Measurement) => Promise<number>;
   listFilters: UseListFiltersReturnType;
   getMeasurements: () => Promise<void>;
@@ -955,7 +955,7 @@ export type UseMultisetActionsReturnType = {
   listFilters: UseListFiltersReturnType;
   filterMultisetsModal: UseDisclosureReturnType;
   handleOpenFilterButton: () => void;
-  isMultisetListLoaded: React.MutableRefObject<boolean>;
+  isMultisetListLoaded: React.RefObject<boolean>;
 };
 
 export type TimePeriod = {
@@ -991,7 +991,7 @@ export type UseTimePeriodListReturnType = {
   filteredTimePeriods: TimePeriod[];
   filterQuery: string;
   setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
-  isTimePeriodListLoaded: React.MutableRefObject<boolean>;
+  isTimePeriodListLoaded: React.RefObject<boolean>;
   getTimePeriods: (locale: string) => Promise<void>;
   sortCategory: TimePeriodSortCategory;
   handleSortOptionSelection: (key: string) => void;
@@ -1138,7 +1138,7 @@ export type UseDietLogListReturnType = {
   dietLogs: DietLog[];
   setDietLogs: React.Dispatch<React.SetStateAction<DietLog[]>>;
   dietLogMap: DietLogMap;
-  isDietLogListLoaded: React.MutableRefObject<boolean>;
+  isDietLogListLoaded: React.RefObject<boolean>;
   sortCategory: DietLogSortCategory;
   sortDietLogsByActiveCategory: (dietLogList: DietLog[]) => void;
   handleSortOptionSelection: (key: string) => void;
