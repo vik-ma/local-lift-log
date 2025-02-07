@@ -105,6 +105,8 @@ export default function AnalyticsIndex() {
     ReferenceAreaItem[]
   >([]);
 
+  const [showTestButtons, setShowTestButtons] = useState<boolean>(false);
+
   const highestCategoryValues = useRef<Map<ChartDataCategory, number>>(
     new Map()
   );
@@ -729,7 +731,7 @@ export default function AnalyticsIndex() {
       <div className="flex flex-col items-center gap-3">
         {isChartDataLoaded.current && (
           <div className="bg-default-50 pt-4 pb-1.5 rounded-xl">
-            <ChartContainer config={chartConfig} className="w-[860px]">
+            <ChartContainer config={chartConfig} className="w-[850px]">
               <ComposedChart
                 data={filteredChartData}
                 margin={{ top: 15, right: 15, left: 15 }}
@@ -896,73 +898,87 @@ export default function AnalyticsIndex() {
               </>
             )}
           </div>
-          <div className="flex items-center gap-2">
-            {/* <Button
-              className="font-medium"
-              variant="flat"
-              onPress={addTestArea}
-            >
-              Add Test Area
-            </Button>
-            <Button
-              className="font-medium"
-              variant="flat"
-              onPress={removeTestArea}
-            >
-              Remove Test Area
-            </Button>
-            <Button
-              className="font-medium"
-              variant="flat"
-              onPress={addTestLine}
-            >
-              Add Test Line
-            </Button>
-            <Button
-              className="font-medium"
-              variant="flat"
-              onPress={removeTestLine}
-            >
-              Remove Test Line
-            </Button>
-            <Button
-              className="font-medium"
-              variant="flat"
-              onPress={toggleTestTimePeriod}
-            >
-              Toggle Test Time Period
-            </Button> */}
-            <Button
-              className="font-medium"
-              variant="flat"
-              color="secondary"
-              onPress={() => handleOpenListModal("time-period")}
-            >
-              Select Time Period
-            </Button>
-            {referenceAreas.length > 0 && (
-              <Select
-                className="w-[11.75rem]"
-                label="Shown Time Periods"
-                size="sm"
-                variant="faded"
-                selectionMode="multiple"
-                selectedKeys={shownTimePeriodIdSet}
-                onSelectionChange={(keys) =>
-                  updateShownReferenceAreas(new Set(keys) as Set<string>)
-                }
+          <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center gap-2">
+              <Button
+                className="font-medium"
+                variant="flat"
+                color="secondary"
+                onPress={() => handleOpenListModal("time-period")}
               >
-                {referenceAreas.map((area) => (
-                  <SelectItem
-                    key={area.timePeriodId.toString()}
-                    value={area.timePeriodId.toString()}
-                  >
-                    {area.label}
-                  </SelectItem>
-                ))}
-              </Select>
-            )}
+                Select Time Period
+              </Button>
+              {referenceAreas.length > 0 && (
+                <Select
+                  className="w-[11.75rem]"
+                  label="Shown Time Periods"
+                  size="sm"
+                  variant="faded"
+                  selectionMode="multiple"
+                  selectedKeys={shownTimePeriodIdSet}
+                  onSelectionChange={(keys) =>
+                    updateShownReferenceAreas(new Set(keys) as Set<string>)
+                  }
+                >
+                  {referenceAreas.map((area) => (
+                    <SelectItem
+                      key={area.timePeriodId.toString()}
+                      value={area.timePeriodId.toString()}
+                    >
+                      {area.label}
+                    </SelectItem>
+                  ))}
+                </Select>
+              )}
+            </div>
+            <Button
+              className="font-medium"
+              variant="flat"
+              color="danger"
+              onPress={() => setShowTestButtons(!showTestButtons)}
+            >
+              Toggle Test Buttons
+            </Button>
           </div>
+          {showTestButtons && (
+            <div className="flex items-center gap-2">
+              <Button
+                className="font-medium"
+                variant="flat"
+                onPress={addTestArea}
+              >
+                Add Test Area
+              </Button>
+              <Button
+                className="font-medium"
+                variant="flat"
+                onPress={removeTestArea}
+              >
+                Remove Test Area
+              </Button>
+              <Button
+                className="font-medium"
+                variant="flat"
+                onPress={addTestLine}
+              >
+                Add Test Line
+              </Button>
+              <Button
+                className="font-medium"
+                variant="flat"
+                onPress={removeTestLine}
+              >
+                Remove Test Line
+              </Button>
+              <Button
+                className="font-medium"
+                variant="flat"
+                onPress={toggleTestTimePeriod}
+              >
+                Toggle Test Time Period
+              </Button>
+            </div>
+          )}
         </div>
       </div>
     </>
