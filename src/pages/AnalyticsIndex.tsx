@@ -995,14 +995,16 @@ export default function AnalyticsIndex() {
           </div>
           <div className="flex justify-between items-center">
             <div className="flex justify-between items-center gap-2">
-              <Button
-                className="font-medium"
-                variant="flat"
-                color="secondary"
-                onPress={() => handleOpenListModal("time-period")}
-              >
-                Select Time Period
-              </Button>
+              {filteredChartData.length > 0 && (
+                <Button
+                  className="font-medium"
+                  variant="flat"
+                  color="secondary"
+                  onPress={() => handleOpenListModal("time-period")}
+                >
+                  Select Time Period
+                </Button>
+              )}
               {referenceAreas.length > 0 && (
                 <Select
                   className="w-[11.75rem]"
