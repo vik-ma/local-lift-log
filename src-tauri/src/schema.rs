@@ -209,7 +209,7 @@ diesel::table! {
         start_date -> Nullable<Text>,
         end_date -> Nullable<Text>,
         note -> Nullable<Text>,
-        caloric_intake -> Nullable<Text>,
+        diet_phase -> Nullable<Text>,
         injury -> Nullable<Text>,
     }
 }

@@ -225,7 +225,7 @@ pub struct TimePeriod {
     pub start_date: Option<String>,
     pub end_date: Option<String>,
     pub note: Option<String>,
-    pub caloric_intake: Option<String>,
+    pub diet_phase: Option<String>,
     pub injury: Option<String>,
 }
 
