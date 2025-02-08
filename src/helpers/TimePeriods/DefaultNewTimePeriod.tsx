@@ -7,7 +7,7 @@ export const DefaultNewTimePeriod = () => {
     start_date: null,
     end_date: null,
     note: null,
-    caloric_intake: null,
+    diet_phase: null,
     injury: null,
   };
 

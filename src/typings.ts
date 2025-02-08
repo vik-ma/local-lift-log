@@ -612,7 +612,7 @@ export type TimePeriodListFilterMapKey =
   | "max-date-end"
   | "min-duration"
   | "max-duration"
-  | "caloric-intake"
+  | "diet-phase"
   | "injury"
   | "status";
 
@@ -964,7 +964,7 @@ export type TimePeriod = {
   start_date: string | null;
   end_date: string | null;
   note: string | null;
-  caloric_intake: string | null;
+  diet_phase: string | null;
   injury: string | null;
   formattedStartDate?: string | null;
   formattedEndDate?: string | null;
@@ -1037,8 +1037,8 @@ export type UseTimePeriodListFiltersReturnType = {
   >;
   filterHasInjury: Set<string>;
   setFilterHasInjury: React.Dispatch<React.SetStateAction<Set<string>>>;
-  filterCaloricIntakeTypes: Set<string>;
-  setFilterCaloricIntakeTypes: React.Dispatch<
+  filterDietPhaseTypes: Set<string>;
+  setFilterDietPhaseTypes: React.Dispatch<
     React.SetStateAction<Set<string>>
   >;
   handleFilterSaveButton: (

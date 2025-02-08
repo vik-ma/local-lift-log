@@ -134,7 +134,7 @@ export const TimePeriodModal = ({
                     isClearable
                   />
                   <CaloricIntakeDropdown
-                    value={timePeriod.caloric_intake}
+                    value={timePeriod.diet_phase}
                     targetType="time-period"
                     setTimePeriod={setTimePeriod}
                   />

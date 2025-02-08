@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { CaloricIntakeTypes } from "../helpers";
 
 export const useCaloricIntakeTypes = () => {
-  const caloricIntakeTypes = useMemo(() => CaloricIntakeTypes(), []);
+  const dietPhaseTypes = useMemo(() => CaloricIntakeTypes(), []);
 
-  return caloricIntakeTypes;
+  return dietPhaseTypes;
 };

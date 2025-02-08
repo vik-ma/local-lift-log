@@ -60,7 +60,7 @@ export const CreateDefaultUserSettings = async (
 
   const default_diet_log_day_is_yesterday = 0;
 
-  const shown_time_period_properties = "ongoing,caloric-intake,injury,note";
+  const shown_time_period_properties = "ongoing,diet-phase,injury,note";
 
   try {
     const db = await Database.load(import.meta.env.VITE_DB);

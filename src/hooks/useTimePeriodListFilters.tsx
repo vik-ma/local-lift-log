@@ -31,7 +31,7 @@ export const useTimePeriodListFilters =
     const [filterMaxDuration, setFilterMaxDuration] = useState<number | null>(
       null
     );
-    const [filterCaloricIntakeTypes, setFilterCaloricIntakeTypes] = useState<
+    const [filterDietPhaseTypes, setFilterDietPhaseTypes] = useState<
       Set<string>
     >(new Set());
     const [filterStatus, setFilterStatus] = useState<Set<string>>(new Set());
@@ -112,12 +112,11 @@ export const useTimePeriodListFilters =
         updatedFilterMap.set("max-duration", filterMaxDurationString);
       }
 
-      if (filterCaloricIntakeTypes.size > 0) {
-        const filterCaloricIntakeTypesString = Array.from(
-          filterCaloricIntakeTypes
-        ).join(", ");
+      if (filterDietPhaseTypes.size > 0) {
+        const filterDietPhaseTypesString =
+          Array.from(filterDietPhaseTypes).join(", ");
 
-        updatedFilterMap.set("caloric-intake", filterCaloricIntakeTypesString);
+        updatedFilterMap.set("diet-phase", filterDietPhaseTypesString);
       }
 
       if (filterHasInjury.size > 0) {
@@ -172,9 +171,9 @@ export const useTimePeriodListFilters =
         filterMinAndMaxValueInputs.resetMaxInput();
       }
 
-      if (key === "caloric-intake" && filterMap.has("caloric-intake")) {
-        updatedFilterMap.delete("caloric-intake");
-        setFilterCaloricIntakeTypes(new Set());
+      if (key === "diet-phase" && filterMap.has("diet-phase")) {
+        updatedFilterMap.delete("diet-phase");
+        setFilterDietPhaseTypes(new Set());
       }
 
       if (key === "injury" && filterMap.has("injury")) {
@@ -198,7 +197,7 @@ export const useTimePeriodListFilters =
       setFilterMaxEndDate(null);
       setFilterMinDuration(null);
       setFilterMaxDuration(null);
-      setFilterCaloricIntakeTypes(new Set());
+      setFilterDietPhaseTypes(new Set());
       setFilterHasInjury(new Set());
       setFilterStatus(new Set());
       filterMinAndMaxValueInputs.resetInputs();
@@ -212,7 +211,7 @@ export const useTimePeriodListFilters =
       if (filterMaxEndDate !== null) return true;
       if (filterMinDuration !== null) return true;
       if (filterMaxDuration !== null) return true;
-      if (filterCaloricIntakeTypes.size > 0) return true;
+      if (filterDietPhaseTypes.size > 0) return true;
       if (filterHasInjury.size > 0) return true;
       if (filterStatus.size > 0) return true;
 
@@ -225,7 +224,7 @@ export const useTimePeriodListFilters =
       filterMaxEndDate,
       filterMinDuration,
       filterMaxDuration,
-      filterCaloricIntakeTypes,
+      filterDietPhaseTypes,
       filterHasInjury,
       filterStatus,
     ]);
@@ -240,14 +239,14 @@ export const useTimePeriodListFilters =
       prefixMap.set("min-duration", `Min Duration: `);
       prefixMap.set("max-duration", `Max Duration: `);
       prefixMap.set(
-        "caloric-intake",
-        `Caloric Intake Types (${filterCaloricIntakeTypes.size}): `
+        "diet-phase",
+        `Diet Phase Types (${filterDietPhaseTypes.size}): `
       );
       prefixMap.set("injury", `Injury: `);
       prefixMap.set("status", `Status: `);
 
       return prefixMap;
-    }, [filterCaloricIntakeTypes]);
+    }, [filterDietPhaseTypes]);
 
     return {
       filterMap,
@@ -261,8 +260,8 @@ export const useTimePeriodListFilters =
       setFilterMaxEndDate,
       filterHasInjury,
       setFilterHasInjury,
-      filterCaloricIntakeTypes,
-      setFilterCaloricIntakeTypes,
+      filterDietPhaseTypes,
+      setFilterDietPhaseTypes,
       handleFilterSaveButton,
       removeFilter,
       resetFilter,

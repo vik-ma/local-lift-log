@@ -10,7 +10,7 @@ export const MultipleChoiceCaloricIntakeDropdown = ({
   values,
   setValues,
 }: MultipleChoiceCaloricIntakeDropdownProps) => {
-  const caloricIntakeTypes = useCaloricIntakeTypes();
+  const dietPhaseTypes = useCaloricIntakeTypes();
 
   return (
     <div className="relative w-full">
@@ -18,11 +18,11 @@ export const MultipleChoiceCaloricIntakeDropdown = ({
         selectionMode="multiple"
         label={
           <>
-            Caloric Intake Types
+            Diet Phase Types
             {values.size > 0 && (
               <span className="text-secondary">
                 {" "}
-                ({values.size} out of {caloricIntakeTypes.length})
+                ({values.size} out of {dietPhaseTypes.length})
               </span>
             )}
           </>
@@ -36,7 +36,7 @@ export const MultipleChoiceCaloricIntakeDropdown = ({
         }
         disableAnimation
       >
-        {caloricIntakeTypes.map((type) => (
+        {dietPhaseTypes.map((type) => (
           <SelectItem key={type} value={type}>
             {type}
           </SelectItem>
@@ -44,7 +44,7 @@ export const MultipleChoiceCaloricIntakeDropdown = ({
       </Select>
       {values.size > 0 && (
         <Button
-          aria-label="Reset Caloric Intake Types"
+          aria-label="Reset Diet Phase Types"
           className="absolute right-0 -top-[2rem] h-7"
           size="sm"
           variant="flat"

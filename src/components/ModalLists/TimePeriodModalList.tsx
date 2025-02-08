@@ -134,8 +134,8 @@ export const TimePeriodModalList = ({
                   ({timePeriod.numDaysBetweenDates} Days)
                 </span>
               </div>
-              {selectedTimePeriodProperties.has("caloric-intake") && (
-                <CaloricIntakeTypeSpan value={timePeriod.caloric_intake} />
+              {selectedTimePeriodProperties.has("diet-phase") && (
+                <CaloricIntakeTypeSpan value={timePeriod.diet_phase} />
               )}
               {selectedTimePeriodProperties.has("note") && (
                 <span className="w-[22.75rem] break-all text-xs text-stone-400 text-left">

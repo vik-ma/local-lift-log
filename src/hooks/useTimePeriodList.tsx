@@ -38,7 +38,7 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
     filterMaxEndDate,
     filterMinDuration,
     filterMaxDuration,
-    filterCaloricIntakeTypes,
+    filterDietPhaseTypes,
     filterHasInjury,
     filterStatus,
   } = timePeriodListFilters;
@@ -59,7 +59,7 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
             item.formattedEndDate
               ?.toLocaleLowerCase()
               .includes(filterQuery.toLocaleLowerCase()) ||
-            item.caloric_intake
+            item.diet_phase
               ?.toLocaleLowerCase()
               .includes(filterQuery.toLocaleLowerCase()) ||
             item.injury
@@ -91,9 +91,9 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
               filterMaxDuration,
               true
             )) &&
-          (!filterMap.has("caloric-intake") ||
-            (item.caloric_intake !== null &&
-              filterCaloricIntakeTypes.has(item.caloric_intake))) &&
+          (!filterMap.has("diet-phase") ||
+            (item.diet_phase !== null &&
+              filterDietPhaseTypes.has(item.diet_phase))) &&
           (!filterMap.has("injury") ||
             (item.injury !== null && filterHasInjury.has("Has Injury")) ||
             (item.injury === null && filterHasInjury.has("No Injury"))) &&
@@ -113,7 +113,7 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
     filterMaxEndDate,
     filterMinDuration,
     filterMaxDuration,
-    filterCaloricIntakeTypes,
+    filterDietPhaseTypes,
     filterHasInjury,
     filterStatus,
   ]);
@@ -148,7 +148,7 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
           start_date: row.start_date,
           end_date: row.end_date,
           note: row.note,
-          caloric_intake: row.caloric_intake,
+          diet_phase: row.diet_phase,
           injury: row.injury,
           formattedStartDate: formattedStartDate,
           formattedEndDate: formattedEndDate,

@@ -14,7 +14,7 @@ export const CaloricIntakeDropdown = ({
   targetType,
   setTimePeriod,
 }: CaloricIntakeDropdownProps) => {
-  const caloricIntakeTypes = useCaloricIntakeTypes();
+  const dietPhaseTypes = useCaloricIntakeTypes();
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = ConvertEmptyStringToNull(e.target.value);
@@ -22,7 +22,7 @@ export const CaloricIntakeDropdown = ({
     if (targetType === "time-period" && setTimePeriod !== undefined) {
       setTimePeriod((prev) => ({
         ...prev,
-        caloric_intake: value,
+        diet_phase: value,
       }));
     }
   };
@@ -32,10 +32,10 @@ export const CaloricIntakeDropdown = ({
       label="Caloric Intake"
       variant="faded"
       size="sm"
-      selectedKeys={value && caloricIntakeTypes.includes(value) ? [value] : []}
+      selectedKeys={value && dietPhaseTypes.includes(value) ? [value] : []}
       onChange={(e) => handleChange(e)}
     >
-      {caloricIntakeTypes.map((type) => (
+      {dietPhaseTypes.map((type) => (
         <SelectItem key={type} value={type}>
           {type}
         </SelectItem>

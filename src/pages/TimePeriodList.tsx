@@ -133,7 +133,7 @@ export default function TimePeriodList() {
 
       const result = await db.execute(
         `INSERT into time_periods 
-         (name, start_date, end_date, note, injury, caloric_intake)
+         (name, start_date, end_date, note, injury, diet_phase)
          VALUES ($1, $2, $3, $4, $5, $6)`,
         [
           newTimePeriod.name,
@@ -141,7 +141,7 @@ export default function TimePeriodList() {
           newTimePeriod.end_date,
           newTimePeriod.note,
           newTimePeriod.injury,
-          newTimePeriod.caloric_intake,
+          newTimePeriod.diet_phase,
         ]
       );
 
@@ -189,7 +189,7 @@ export default function TimePeriodList() {
       await db.execute(
         `UPDATE time_periods SET 
          name = $1, start_date = $2, end_date = $3, note = $4, injury = $5, 
-         caloric_intake = $6 
+         diet_phase = $6 
          WHERE id = $7`,
         [
           updatedTimePeriod.name,
@@ -197,7 +197,7 @@ export default function TimePeriodList() {
           updatedTimePeriod.end_date,
           updatedTimePeriod.note,
           updatedTimePeriod.injury,
-          updatedTimePeriod.caloric_intake,
+          updatedTimePeriod.diet_phase,
           updatedTimePeriod.id,
         ]
       );
@@ -381,8 +381,8 @@ export default function TimePeriodList() {
                   ({timePeriod.numDaysBetweenDates} Days)
                 </span>
               </div>
-              {selectedTimePeriodProperties.has("caloric-intake") && (
-                <CaloricIntakeTypeSpan value={timePeriod.caloric_intake} />
+              {selectedTimePeriodProperties.has("diet_phase") && (
+                <CaloricIntakeTypeSpan value={timePeriod.diet_phase} />
               )}
               {selectedTimePeriodProperties.has("note") && (
                 <span className="w-[20.75rem] break-all text-xs text-stone-400 text-left">
