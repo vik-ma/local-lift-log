@@ -806,6 +806,7 @@ export default function AnalyticsIndex() {
                     }
                     fill={chartAreaColorList[index % chartAreaColorList.length]}
                     activeDot={{ r: 6 }}
+                    connectNulls
                   />
                 ))}
                 {shownReferenceAreas.map((area, index) => (
@@ -837,6 +838,7 @@ export default function AnalyticsIndex() {
                     }
                     strokeWidth={2}
                     activeDot={{ r: 6 }}
+                    connectNulls
                   />
                 ))}
               </ComposedChart>
