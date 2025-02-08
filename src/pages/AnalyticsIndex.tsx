@@ -79,7 +79,7 @@ type ReferenceAreaItem = {
   x2: string;
   label: string;
   startDate: string;
-  endDate: string;
+  endDate: string | null;
 };
 
 export default function AnalyticsIndex() {
@@ -663,15 +663,15 @@ export default function AnalyticsIndex() {
 
     if (startAndEndDates === undefined) return;
 
-    const { startDate, endDate } = startAndEndDates;
+    const { formattedStartDate, formattedEndDate } = startAndEndDates;
 
     const referenceArea: ReferenceAreaItem = {
       timePeriodId: timePeriod.id,
-      x1: startDate,
-      x2: endDate,
+      x1: formattedStartDate,
+      x2: formattedEndDate,
       label: timePeriod.name,
-      startDate,
-      endDate,
+      startDate: timePeriod.start_date,
+      endDate: timePeriod.end_date,
     };
 
     setReferenceAreas([...referenceAreas, referenceArea]);
@@ -753,21 +753,21 @@ export default function AnalyticsIndex() {
         : ConvertISODateStringToYmdDateString(endDateString);
 
     // If Time Period's Start Date is outside of visible chart, set start date to first item in chart's X-axis
-    const startDate = FormatDateToShortString(
+    const formattedStartDate = FormatDateToShortString(
       timePeriodStartDate < ymdChartStartDate
         ? chartStartDate
         : new Date(timePeriodStartDate),
       locale
     );
     // If Time Period's End Date is outside of visible chart, set end date to last item in chart's X-axis
-    const endDate = FormatDateToShortString(
+    const formattedEndDate = FormatDateToShortString(
       timePeriodEndDate > ymdChartEndDate
         ? chartEndDate
         : new Date(timePeriodEndDate),
       locale
     );
 
-    return { startDate, endDate };
+    return { formattedStartDate, formattedEndDate };
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;
