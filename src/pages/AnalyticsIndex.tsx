@@ -337,7 +337,9 @@ export default function AnalyticsIndex() {
       chartData.push(chartDataItem);
     }
 
-    setChartData(chartData);
+    const filledInChartData = fillInMissingDates(chartData, locale);
+
+    setChartData(filledInChartData);
 
     const updatedChartDataLines = [...chartDataLines];
     const updatedShownChartDataLines = [...shownChartDataLines];
@@ -678,8 +680,11 @@ export default function AnalyticsIndex() {
     setShownReferenceAreas(updatedShownReferenceAreas);
   };
 
-  const fillInMissingDates = (chartData: ChartDataItem[]): ChartDataItem[] => {
-    if (chartData.length === 0 || userSettings === undefined) return [];
+  const fillInMissingDates = (
+    chartData: ChartDataItem[],
+    locale: string
+  ): ChartDataItem[] => {
+    if (chartData.length === 0) return [];
 
     // Get all props for the chartData objects except "date"
     const chartDataProps = Object.getOwnPropertyNames(chartData[0]).slice(1);
@@ -700,10 +705,7 @@ export default function AnalyticsIndex() {
     const endDate = new Date(chartData[chartData.length - 1].date);
 
     while (currentDate <= endDate) {
-      const dateString = FormatDateToShortString(
-        currentDate,
-        userSettings.locale
-      );
+      const dateString = FormatDateToShortString(currentDate, locale);
 
       if (chartDataDateMap.has(dateString)) {
         filledInChartData.push(chartDataDateMap.get(dateString)!);
