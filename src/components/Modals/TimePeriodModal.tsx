@@ -15,7 +15,7 @@ import {
   Input,
   DatePicker,
 } from "@heroui/react";
-import { CaloricIntakeDropdown } from "..";
+import { DietPhaseDropdown } from "..";
 
 type TimePeriodModalProps = {
   timePeriodModal: UseDisclosureReturnType;
@@ -133,7 +133,7 @@ export const TimePeriodModal = ({
                     }
                     isClearable
                   />
-                  <CaloricIntakeDropdown
+                  <DietPhaseDropdown
                     value={timePeriod.diet_phase}
                     targetType="time-period"
                     setTimePeriod={setTimePeriod}

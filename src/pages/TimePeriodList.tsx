@@ -7,7 +7,7 @@ import {
   DropdownTrigger,
 } from "@heroui/react";
 import {
-  CaloricIntakeTypeSpan,
+  DietPhaseTypeSpan,
   DeleteModal,
   EmptyListLabel,
   FilterTimePeriodListModal,
@@ -382,7 +382,7 @@ export default function TimePeriodList() {
                 </span>
               </div>
               {selectedTimePeriodProperties.has("diet_phase") && (
-                <CaloricIntakeTypeSpan value={timePeriod.diet_phase} />
+                <DietPhaseTypeSpan value={timePeriod.diet_phase} />
               )}
               {selectedTimePeriodProperties.has("note") && (
                 <span className="w-[20.75rem] break-all text-xs text-stone-400 text-left">

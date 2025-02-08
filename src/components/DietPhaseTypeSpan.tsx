@@ -1,10 +1,8 @@
-type CaloricIntakeTypeSpanProps = {
+type DietPhaseTypeSpanProps = {
   value: string | null;
 };
 
-export const CaloricIntakeTypeSpan = ({
-  value,
-}: CaloricIntakeTypeSpanProps) => {
+export const DietPhaseTypeSpan = ({ value }: DietPhaseTypeSpanProps) => {
   if (value === "Bulk")
     return <span className="text-xs text-violet-600">Bulk</span>;
 

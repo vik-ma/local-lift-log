@@ -49,7 +49,7 @@ export { usePresetsTypeString } from "./usePresetsTypeString";
 export { useTimePeriodList } from "./useTimePeriodList";
 export { useDefaultTimePeriod } from "./useDefaultTimePeriod";
 export { useTimePeriodInputs } from "./useTimePeriodInputs";
-export { useCaloricIntakeTypes } from "./useCaloricIntakeTypes";
+export { useDietPhaseTypes } from "./useDietPhaseTypes";
 export { useTimePeriodListFilters } from "./useTimePeriodListFilters";
 export { useFilterMinAndMaxValueInputs } from "./useFilterMinAndMaxValueInputs";
 export { useIsEndDateBeforeStartDate } from "./useIsEndDateBeforeStartDate";

@@ -29,7 +29,7 @@ export { WorkoutRatingSliders } from "./WorkoutRatingSliders";
 export { WorkoutListItem } from "./WorkoutListItem";
 export { ListFilters } from "./ListFilters";
 export { FilterDateRangeAndWeekdays } from "./FilterDateRangeAndWeekdays";
-export { CaloricIntakeTypeSpan } from "./CaloricIntakeTypeSpan";
+export { DietPhaseTypeSpan } from "./DietPhaseTypeSpan";
 export { FilterMinAndMaxValues } from "./FilterMinAndMaxValues";
 export { FilterMinAndMaxDates } from "./FilterMinAndMaxDates";
 export { DietLogAccordions } from "./DietLogAccordions";
@@ -48,9 +48,9 @@ export { MultipleChoiceWeekdayDropdown } from "./Dropdowns/MultipleChoiceWeekday
 export { MultipleChoiceUnitDropdown } from "./Dropdowns/MultipleChoiceUnitDropdown";
 export { MultipleChoiceMultisetTypeDropdown } from "./Dropdowns/MultipleChoiceMultisetTypeDropdown";
 export { NumSetsDropdown } from "./Dropdowns/NumSetsDropdown";
-export { CaloricIntakeDropdown } from "./Dropdowns/CaloricIntakeDropdown";
+export { DietPhaseDropdown } from "./Dropdowns/DietPhaseDropdown";
 export { TimePeriodPropertyDropdown } from "./Dropdowns/TimePeriodPropertyDropdown";
-export { MultipleChoiceCaloricIntakeDropdown } from "./Dropdowns/MultipleChoiceCaloricIntakeDropdown";
+export { MultipleChoiceDietPhaseDropdown } from "./Dropdowns/MultipleChoiceDietPhaseDropdown";
 export { DietLogDayDropdown } from "./Dropdowns/DietLogDayDropdown";
 export { WeekdayDropdown } from "./Dropdowns/WeekdayDropdown";
 

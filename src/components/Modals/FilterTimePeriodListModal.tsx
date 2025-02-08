@@ -12,7 +12,7 @@ import {
 } from "@heroui/react";
 import { UseTimePeriodListReturnType } from "../../typings";
 import {
-  MultipleChoiceCaloricIntakeDropdown,
+  MultipleChoiceDietPhaseDropdown,
   FilterMinAndMaxDates,
   FilterMinAndMaxValues,
 } from "..";
@@ -44,8 +44,8 @@ export const FilterTimePeriodListModal = ({
     setFilterMaxDuration,
     isMaxDateBeforeMinDateStart,
     isMaxDateBeforeMinDateEnd,
-    filterCaloricIntakeTypes,
-    setFilterCaloricIntakeTypes,
+    filterDietPhaseTypes,
+    setFilterDietPhaseTypes,
     filterHasInjury,
     setFilterHasInjury,
     filterStatus,
@@ -116,11 +116,11 @@ export const FilterTimePeriodListModal = ({
                   </div>
                   <div className="flex flex-col gap-0.5">
                     <h3 className="font-semibold text-lg px-0.5">
-                      Caloric Intake Types
+                      Diet Phase Types
                     </h3>
-                    <MultipleChoiceCaloricIntakeDropdown
-                      values={filterCaloricIntakeTypes}
-                      setValues={setFilterCaloricIntakeTypes}
+                    <MultipleChoiceDietPhaseDropdown
+                      values={filterDietPhaseTypes}
+                      setValues={setFilterDietPhaseTypes}
                     />
                   </div>
                   <div className="flex flex-col gap-0.5 pt-3.5">

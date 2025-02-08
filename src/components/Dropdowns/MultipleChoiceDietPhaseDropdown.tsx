@@ -1,16 +1,16 @@
 import { Button, Select, SelectItem, SharedSelection } from "@heroui/react";
-import { useCaloricIntakeTypes } from "../../hooks";
+import { useDietPhaseTypes } from "../../hooks";
 
-type MultipleChoiceCaloricIntakeDropdownProps = {
+type MultipleChoiceDietPhaseDropdownProps = {
   values: Set<string>;
   setValues: React.Dispatch<React.SetStateAction<Set<string>>>;
 };
 
-export const MultipleChoiceCaloricIntakeDropdown = ({
+export const MultipleChoiceDietPhaseDropdown = ({
   values,
   setValues,
-}: MultipleChoiceCaloricIntakeDropdownProps) => {
-  const dietPhaseTypes = useCaloricIntakeTypes();
+}: MultipleChoiceDietPhaseDropdownProps) => {
+  const dietPhaseTypes = useDietPhaseTypes();
 
   return (
     <div className="relative w-full">

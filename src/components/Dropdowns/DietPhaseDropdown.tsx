@@ -1,20 +1,20 @@
 import { Select, SelectItem } from "@heroui/react";
-import { useCaloricIntakeTypes } from "../../hooks";
+import { useDietPhaseTypes } from "../../hooks";
 import { TimePeriod } from "../../typings";
 import { ConvertEmptyStringToNull } from "../../helpers";
 
-type CaloricIntakeDropdownProps = {
+type DietPhaseDropdownProps = {
   value: string | null;
   targetType: "time-period";
   setTimePeriod?: React.Dispatch<React.SetStateAction<TimePeriod>>;
 };
 
-export const CaloricIntakeDropdown = ({
+export const DietPhaseDropdown = ({
   value,
   targetType,
   setTimePeriod,
-}: CaloricIntakeDropdownProps) => {
-  const dietPhaseTypes = useCaloricIntakeTypes();
+}: DietPhaseDropdownProps) => {
+  const dietPhaseTypes = useDietPhaseTypes();
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = ConvertEmptyStringToNull(e.target.value);
@@ -29,7 +29,7 @@ export const CaloricIntakeDropdown = ({
 
   return (
     <Select
-      label="Caloric Intake"
+      label="Diet Phase"
       variant="faded"
       size="sm"
       selectedKeys={value && dietPhaseTypes.includes(value) ? [value] : []}

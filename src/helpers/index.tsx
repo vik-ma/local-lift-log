@@ -209,7 +209,7 @@ export { WorkoutRatingsMap } from "./Constants/WorkoutRatingsMap";
 export { WeekdayMap } from "./Constants/WeekdayMap";
 export { MeasurementTypes } from "./Constants/MeasurementTypes";
 export { MultisetTypes } from "./Constants/MultisetTypes";
-export { CaloricIntakeTypes } from "./Constants/CaloricIntakeTypes";
+export { DietPhaseTypes } from "./Constants/DietPhaseTypes";
 export { ValidTimePeriodPropertiesMap } from "./Constants/ValidTimePeriodPropertiesMap";
 export { RoutineScheduleTypes } from "./Constants/RoutineScheduleTypes";
 

@@ -6,7 +6,7 @@ import {
 } from "../../typings";
 import { Button, ScrollShadow } from "@heroui/react";
 import {
-  CaloricIntakeTypeSpan,
+  DietPhaseTypeSpan,
   EmptyListLabel,
   ListFilters,
   SearchInput,
@@ -135,7 +135,7 @@ export const TimePeriodModalList = ({
                 </span>
               </div>
               {selectedTimePeriodProperties.has("diet-phase") && (
-                <CaloricIntakeTypeSpan value={timePeriod.diet_phase} />
+                <DietPhaseTypeSpan value={timePeriod.diet_phase} />
               )}
               {selectedTimePeriodProperties.has("note") && (
                 <span className="w-[22.75rem] break-all text-xs text-stone-400 text-left">
