@@ -26,9 +26,11 @@ import {
 import { TimePeriod, UserSettings } from "../typings";
 import {
   ConvertDateToYmdString,
+  ConvertISODateStringToYmdDateString,
   CreateShownPropertiesSet,
   FormatDateToShortString,
   GetAllDietLogs,
+  GetCurrentYmdDateString,
   GetUserSettings,
 } from "../helpers";
 import {
@@ -653,17 +655,23 @@ export default function AnalyticsIndex() {
     )
       return;
 
-    const startDate = new Date(timePeriod.start_date);
-    const endDate =
-      timePeriod.end_date === null ? new Date() : new Date(timePeriod.end_date);
+    const startAndEndDates = getTimePeriodStartAndEndDates(
+      timePeriod.start_date,
+      timePeriod.end_date,
+      userSettings.locale
+    );
+
+    if (startAndEndDates === undefined) return;
+
+    const { startDate, endDate } = startAndEndDates;
 
     const referenceArea: ReferenceAreaItem = {
       timePeriodId: timePeriod.id,
-      x1: FormatDateToShortString(startDate, userSettings.locale),
-      x2: FormatDateToShortString(endDate, userSettings.locale),
+      x1: startDate,
+      x2: endDate,
       label: timePeriod.name,
-      startDate: ConvertDateToYmdString(startDate),
-      endDate: ConvertDateToYmdString(endDate),
+      startDate,
+      endDate,
     };
 
     setReferenceAreas([...referenceAreas, referenceArea]);
@@ -718,6 +726,48 @@ export default function AnalyticsIndex() {
     }
 
     return filledInChartData;
+  };
+
+  const getTimePeriodStartAndEndDates = (
+    startDateString: string,
+    endDateString: string | null,
+    locale: string
+  ) => {
+    if (filteredChartData.length === 0) return;
+
+    const chartStartDate = new Date(filteredChartData[0].date);
+    const chartEndDate = new Date(
+      filteredChartData[filteredChartData.length - 1].date
+    );
+
+    const ymdChartStartDate = ConvertDateToYmdString(chartStartDate);
+    const ymdChartEndDate = ConvertDateToYmdString(chartEndDate);
+
+    const timePeriodStartDate =
+      ConvertISODateStringToYmdDateString(startDateString);
+
+    // Assign if Time Period is ongoing (end_date is null) set Time Periods's end point as today
+    const timePeriodEndDate =
+      endDateString === null
+        ? GetCurrentYmdDateString()
+        : ConvertISODateStringToYmdDateString(endDateString);
+
+    // If Time Period's Start Date is outside of visible chart, set start date to first item in chart's X-axis
+    const startDate = FormatDateToShortString(
+      timePeriodStartDate < ymdChartStartDate
+        ? chartStartDate
+        : new Date(timePeriodStartDate),
+      locale
+    );
+    // If Time Period's End Date is outside of visible chart, set end date to last item in chart's X-axis
+    const endDate = FormatDateToShortString(
+      timePeriodEndDate > ymdChartEndDate
+        ? chartEndDate
+        : new Date(timePeriodEndDate),
+      locale
+    );
+
+    return { startDate, endDate };
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;
