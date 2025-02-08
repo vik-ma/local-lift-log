@@ -865,7 +865,7 @@ export default function AnalyticsIndex() {
                     x1={area.x1}
                     x2={area.x2}
                     label={area.label}
-                    opacity={0.3}
+                    opacity={0.2}
                     fill={
                       referenceAreaColorList[
                         index % referenceAreaColorList.length
