@@ -1,4 +1,3 @@
-import Database from "tauri-plugin-sql-api";
 import { useState, useEffect, useMemo } from "react";
 import { UserWeight, UserSettings } from "../typings";
 import {
@@ -20,6 +19,7 @@ import {
   DeleteItemFromList,
   DeleteUserWeightWithId,
   FormatDateTimeString,
+  GetAllUserWeights,
   GetCurrentDateTimeISOString,
   GetUserSettings,
   InsertUserWeightIntoDatabase,
@@ -183,40 +183,30 @@ export default function UserWeightList() {
   const filterUserWeightListModal = useDisclosure();
 
   const getUserWeights = async (clockStyle: string) => {
-    try {
-      const db = await Database.load(import.meta.env.VITE_DB);
+    const result = await GetAllUserWeights();
 
-      const result = await db.select<UserWeight[]>(
-        "SELECT * FROM user_weights ORDER BY id DESC"
+    const userWeights: UserWeight[] = [];
+
+    for (const row of result) {
+      const formattedDate: string = FormatDateTimeString(
+        row.date,
+        clockStyle === "24h"
       );
 
-      const userWeights: UserWeight[] = [];
+      const userWeight: UserWeight = {
+        id: row.id,
+        weight: row.weight,
+        weight_unit: row.weight_unit,
+        date: row.date,
+        formattedDate: formattedDate,
+        comment: row.comment,
+        body_fat_percentage: row.body_fat_percentage,
+      };
 
-      for (const row of result) {
-        const formattedDate: string = FormatDateTimeString(
-          row.date,
-          clockStyle === "24h"
-        );
-
-        if (formattedDate === "Invalid Date") continue;
-
-        const userWeight: UserWeight = {
-          id: row.id,
-          weight: row.weight,
-          weight_unit: row.weight_unit,
-          date: row.date,
-          formattedDate: formattedDate,
-          comment: row.comment,
-          body_fat_percentage: row.body_fat_percentage,
-        };
-
-        userWeights.push(userWeight);
-      }
-
-      sortUserWeightsByDate(userWeights, false);
-    } catch (error) {
-      console.log(error);
+      userWeights.push(userWeight);
     }
+
+    setUserWeights(userWeights);
   };
 
   useEffect(() => {

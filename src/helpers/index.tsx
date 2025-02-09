@@ -159,6 +159,7 @@ export { SortMeasurementMap } from "./Measurements/SortMeasurementMap";
 export { InsertUserWeightIntoDatabase } from "./Measurements/InsertUserWeightIntoDatabase";
 export { IsMeasurementInUserMeasurementValues } from "./Measurements/IsMeasurementInUserMeasurementValues";
 export { InsertUserMeasurementIntoDatabase } from "./Measurements/InsertUserMeasurementIntoDatabase";
+export { GetAllUserWeights } from "./Measurements/GetAllUserWeights";
 
 export { CreateDefaultEquipmentWeights } from "./Presets/CreateDefaultEquipmentWeights";
 export { CreateDefaultDistances } from "./Presets/CreateDefaultDistances";
