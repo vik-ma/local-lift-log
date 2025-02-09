@@ -183,7 +183,7 @@ export default function UserWeightList() {
   const filterUserWeightListModal = useDisclosure();
 
   const getUserWeights = async (clockStyle: string) => {
-    const result = await GetAllUserWeights();
+    const result = await GetAllUserWeights(false);
 
     const userWeights: UserWeight[] = [];
 
