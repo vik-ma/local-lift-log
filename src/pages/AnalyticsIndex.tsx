@@ -857,6 +857,7 @@ export default function AnalyticsIndex() {
                     fill={chartAreaColorList[index % chartAreaColorList.length]}
                     activeDot={{ r: 6 }}
                     connectNulls
+                    dot
                   />
                 ))}
                 {shownReferenceAreas.map((area, index) => (
