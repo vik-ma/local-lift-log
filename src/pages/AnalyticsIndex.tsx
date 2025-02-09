@@ -152,8 +152,8 @@ export default function AnalyticsIndex() {
   );
 
   const isChartDataLoaded = useRef<boolean>(false);
-  const isDietLogListLoaded = useRef<boolean>(false);
-  const isUserWeightListLoaded = useRef<boolean>(false);
+
+  const loadedLists = useRef<Set<string>>(new Set());
 
   // Filter out props in all items from chartData that are not available in either
   // chartDataAreas or chartDataLines. Always keep date prop.
@@ -316,7 +316,7 @@ export default function AnalyticsIndex() {
     locale: string,
     loadCaloriesPrimary: boolean
   ) => {
-    if (isDietLogListLoaded.current) return;
+    if (loadedLists.current.has("diet-logs")) return;
 
     const dietLogs = await GetAllDietLogs(true);
 
@@ -427,7 +427,7 @@ export default function AnalyticsIndex() {
     setShownChartDataLines([...updatedShownChartDataLines, ...macroLines]);
     setChartLineUnitCategoryList(updatedChartLineUnitCategoryList);
 
-    isDietLogListLoaded.current = true;
+    loadedLists.current.add("diet-logs");
     if (!isChartDataLoaded.current) isChartDataLoaded.current = true;
   };
 
@@ -804,7 +804,7 @@ export default function AnalyticsIndex() {
     weightUnit: string,
     loadPrimary: boolean
   ) => {
-    if (isUserWeightListLoaded.current) return;
+    if (loadedLists.current.has("user-weights")) return;
 
     const userWeights = await GetAllUserWeights(true);
 
@@ -891,7 +891,7 @@ export default function AnalyticsIndex() {
     setShownChartDataLines(updatedChartDataLines);
     setChartLineUnitCategoryList(updatedChartLineUnitCategoryList);
 
-    isUserWeightListLoaded.current = true;
+    loadedLists.current.add("user-weights");
     if (!isChartDataLoaded.current) isChartDataLoaded.current = true;
   };
 
@@ -968,7 +968,7 @@ export default function AnalyticsIndex() {
             className="font-medium"
             variant="flat"
             onPress={() => getDietLogList(userSettings.locale, true)}
-            isDisabled={isDietLogListLoaded.current}
+            isDisabled={loadedLists.current.has("diet-logs")}
           >
             Load Diet Logs
           </Button>
