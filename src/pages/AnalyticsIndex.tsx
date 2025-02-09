@@ -69,9 +69,16 @@ type ChartDataCategory =
   | "fat"
   | "carbs"
   | "protein"
+  | "body_weight"
+  | "body_fat_percentage"
   | "test";
 
-type ChartDataUnitCategory = undefined | "Calories" | "Macros";
+type ChartDataUnitCategory =
+  | undefined
+  | "Calories"
+  | "Macros"
+  | "Body Weight"
+  | "Body Fat %";
 
 type ReferenceAreaItem = {
   timePeriodId: number;
@@ -186,6 +193,8 @@ export default function AnalyticsIndex() {
     categoryMap.set("fat", "Fat");
     categoryMap.set("carbs", "Carbs");
     categoryMap.set("protein", "Protein");
+    categoryMap.set("body_weight", "Body Weight");
+    categoryMap.set("body_fat_percentage", "Body Fat %");
     categoryMap.set("test", "Test");
 
     return categoryMap;
@@ -198,10 +207,12 @@ export default function AnalyticsIndex() {
     unitMap.set("fat", " g");
     unitMap.set("carbs", " g");
     unitMap.set("protein", " g");
+    unitMap.set("body_weight", ` ${weightUnit}`);
+    unitMap.set("body_fat_percentage", " %");
     unitMap.set("test", " kcal");
 
     return unitMap;
-  }, []);
+  }, [weightUnit]);
 
   const chartDataUnitCategoryMap = useMemo(() => {
     const unitCategoryMap = new Map<ChartDataCategory, ChartDataUnitCategory>();
@@ -210,6 +221,8 @@ export default function AnalyticsIndex() {
     unitCategoryMap.set("fat", "Macros");
     unitCategoryMap.set("carbs", "Macros");
     unitCategoryMap.set("protein", "Macros");
+    unitCategoryMap.set("body_weight", "Body Weight");
+    unitCategoryMap.set("body_fat_percentage", "Body Fat %");
     unitCategoryMap.set("test", "Calories");
 
     return unitCategoryMap;
@@ -223,6 +236,10 @@ export default function AnalyticsIndex() {
       fat: { label: chartDataCategoryLabelMap.get("fat") },
       carbs: { label: chartDataCategoryLabelMap.get("carbs") },
       protein: { label: chartDataCategoryLabelMap.get("protein") },
+      body_weight: { label: chartDataCategoryLabelMap.get("body_weight") },
+      body_fat_percentage: {
+        label: chartDataCategoryLabelMap.get("body_fat_percentage"),
+      },
       test: { label: chartDataCategoryLabelMap.get("test") },
     };
   }, []);
