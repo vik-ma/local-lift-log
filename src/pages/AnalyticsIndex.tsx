@@ -30,6 +30,7 @@ import {
   CreateShownPropertiesSet,
   FormatDateToShortString,
   GetAllDietLogs,
+  GetAllUserWeights,
   GetCurrentYmdDateString,
   GetUserSettings,
 } from "../helpers";
@@ -60,6 +61,8 @@ type ChartDataItem = {
   fat?: number | null;
   carbs?: number | null;
   protein?: number | null;
+  body_weight?: number | null;
+  body_fat_percentage?: number | null;
   test?: number;
 };
 
@@ -150,6 +153,7 @@ export default function AnalyticsIndex() {
 
   const isChartDataLoaded = useRef<boolean>(false);
   const isDietLogListLoaded = useRef<boolean>(false);
+  const isUserWeightListLoaded = useRef<boolean>(false);
 
   // Filter out props in all items from chartData that are not available in either
   // chartDataAreas or chartDataLines. Always keep date prop.
@@ -330,7 +334,7 @@ export default function AnalyticsIndex() {
     highestValueMap.set("protein", 0);
 
     for (const dietLog of dietLogs) {
-      const chartDataItem = {
+      const chartDataItem: ChartDataItem = {
         date: FormatDateToShortString(new Date(dietLog.date), locale),
         calories: dietLog.calories,
         fat: dietLog.fat,
@@ -423,8 +427,8 @@ export default function AnalyticsIndex() {
     setShownChartDataLines([...updatedShownChartDataLines, ...macroLines]);
     setChartLineUnitCategoryList(updatedChartLineUnitCategoryList);
 
-    isChartDataLoaded.current = true;
     isDietLogListLoaded.current = true;
+    if (!isChartDataLoaded.current) isChartDataLoaded.current = true;
   };
 
   const updateShownChartLines = (chartLines: ChartDataCategory[]) => {
@@ -793,6 +797,102 @@ export default function AnalyticsIndex() {
     );
 
     return { formattedStartDate, formattedEndDate };
+  };
+
+  const getUserWeightList = async (
+    locale: string,
+    weightUnit: string,
+    loadPrimary: boolean
+  ) => {
+    if (isUserWeightListLoaded.current) return;
+
+    const userWeights = await GetAllUserWeights(true);
+
+    if (userWeights.length === 0) {
+      toast.error("No Body Weight Entries Recorded");
+      return;
+    }
+
+    const chartData: ChartDataItem[] = [];
+
+    const highestValueMap = new Map<ChartDataCategory, number>();
+    highestValueMap.set("body_weight", 0);
+    highestValueMap.set("body_fat_percentage", 0);
+
+    const dateSet = new Set<string>();
+
+    for (const userWeight of userWeights) {
+      const date = FormatDateToShortString(new Date(userWeight.date), locale);
+
+      // Only load first entry per day
+      if (dateSet.has(date)) continue;
+
+      dateSet.add(date);
+
+      // TODO: HANDLE DIFFERENT WEIGHT UNITS
+      const chartDataItem: ChartDataItem = {
+        date,
+        body_weight: userWeight.weight,
+        body_fat_percentage: userWeight.body_fat_percentage,
+      };
+
+      if (userWeight.weight > highestValueMap.get("body_weight")!) {
+        highestValueMap.set("body_weight", userWeight.weight);
+      }
+
+      if (
+        userWeight.body_fat_percentage !== null &&
+        userWeight.body_fat_percentage >
+          highestValueMap.get("body_fat_percentage")!
+      ) {
+        highestValueMap.set(
+          "body_fat_percentage",
+          userWeight.body_fat_percentage
+        );
+      }
+
+      chartData.push(chartDataItem);
+    }
+
+    const filledInChartData = fillInMissingDates(chartData, locale);
+
+    setChartData(filledInChartData);
+
+    const updatedChartDataLines = [...chartDataLines];
+    const updatedShownChartDataLines = [...shownChartDataLines];
+    const updatedChartLineUnitCategoryList = [...chartLineUnitCategoryList];
+
+    if (loadPrimary) {
+      setPrimaryDataKey("body_weight");
+      setChartDataAreas(["body_weight"]);
+      setShownChartDataAreas(["body_weight"]);
+    } else {
+      if (secondaryDataKey === undefined) {
+        setSecondaryDataKey("body_weight");
+      }
+
+      if (secondaryDataUnitCategory === undefined) {
+        setSecondaryDataUnitCategory("Body Weight");
+      }
+
+      updatedChartDataLines.push("body_weight");
+      updatedShownChartDataLines.push("body_weight");
+      updatedChartLineUnitCategoryList.push("Body Weight");
+    }
+
+    if (highestValueMap.get("body_fat_percentage")! > 0) {
+      setSecondaryDataKey("body_fat_percentage");
+      setSecondaryDataUnitCategory("Body Fat %");
+
+      updatedChartLineUnitCategoryList.push("Body Fat %");
+    }
+
+    setChartDataLines(updatedChartDataLines);
+    setShownChartDataLines(updatedChartDataLines);
+    setChartLineUnitCategoryList(updatedChartLineUnitCategoryList);
+
+    isUserWeightListLoaded.current = true;
+    if (!isChartDataLoaded.current) isChartDataLoaded.current = true;
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;
