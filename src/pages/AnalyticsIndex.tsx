@@ -114,15 +114,16 @@ export default function AnalyticsIndex() {
     new Map()
   );
 
-  const chartDataAreaSet = useMemo(
-    () => new Set<ChartDataCategory>(chartDataAreas),
-    [chartDataAreas]
-  );
+  // TODO: REMOVE?
+  // const chartDataAreaSet = useMemo(
+  //   () => new Set<ChartDataCategory>(chartDataAreas),
+  //   [chartDataAreas]
+  // );
 
-  const chartDataLineSet = useMemo(
-    () => new Set<ChartDataCategory>(chartDataLines),
-    [chartDataLines]
-  );
+  // const chartDataLineSet = useMemo(
+  //   () => new Set<ChartDataCategory>(chartDataLines),
+  //   [chartDataLines]
+  // );
 
   const timePeriodIdSet = useMemo(
     () =>
@@ -141,6 +142,7 @@ export default function AnalyticsIndex() {
   );
 
   const isChartDataLoaded = useRef<boolean>(false);
+  const isDietLogListLoaded = useRef<boolean>(false);
 
   const filteredChartData: ChartDataItem[] = useMemo(() => {
     return chartData.map((entry) =>
@@ -291,8 +293,7 @@ export default function AnalyticsIndex() {
     locale: string,
     loadCaloriesPrimary: boolean
   ) => {
-    if (chartDataAreaSet.has("calories") || chartDataLineSet.has("calories"))
-      return;
+    if (isDietLogListLoaded.current) return;
 
     const dietLogs = await GetAllDietLogs(true);
 
@@ -404,6 +405,7 @@ export default function AnalyticsIndex() {
     setChartLineUnitCategoryList(updatedChartLineUnitCategoryList);
 
     isChartDataLoaded.current = true;
+    isDietLogListLoaded.current = true;
   };
 
   const updateShownChartLines = (chartLines: ChartDataCategory[]) => {
@@ -847,10 +849,7 @@ export default function AnalyticsIndex() {
             className="font-medium"
             variant="flat"
             onPress={() => getDietLogList(userSettings.locale, true)}
-            isDisabled={
-              chartDataAreaSet.has("calories") ||
-              chartDataLineSet.has("calories")
-            }
+            isDisabled={isDietLogListLoaded.current}
           >
             Load Diet Logs
           </Button>
