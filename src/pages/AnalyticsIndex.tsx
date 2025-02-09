@@ -279,7 +279,12 @@ export default function AnalyticsIndex() {
       setWeightUnit(userSettings.default_unit_weight);
       setDistanceUnit(userSettings.default_unit_distance);
 
-      getDietLogList(userSettings.locale, true);
+      // getDietLogList(userSettings.locale, true);
+      getUserWeightList(
+        userSettings.locale,
+        userSettings.default_unit_weight,
+        true
+      );
     };
 
     loadUserSettings();
@@ -724,6 +729,7 @@ export default function AnalyticsIndex() {
     if (chartData.length === 0) return [];
 
     // Get all props for the chartData objects except "date"
+    // TODO: FILTER DATE SPECIFICALLY
     const chartDataProps = Object.getOwnPropertyNames(chartData[0]).slice(1);
 
     // Create chartData item with all null values for those props
@@ -854,6 +860,11 @@ export default function AnalyticsIndex() {
       chartData.push(chartDataItem);
     }
 
+    highestCategoryValues.current.set(
+      "body_weight",
+      highestValueMap.get("body_weight")!
+    );
+
     const filledInChartData = fillInMissingDates(chartData, locale);
 
     setChartData(filledInChartData);
@@ -884,7 +895,14 @@ export default function AnalyticsIndex() {
       setSecondaryDataKey("body_fat_percentage");
       setSecondaryDataUnitCategory("Body Fat %");
 
+      updatedChartDataLines.push("body_fat_percentage");
+      updatedShownChartDataLines.push("body_fat_percentage");
       updatedChartLineUnitCategoryList.push("Body Fat %");
+
+      highestCategoryValues.current.set(
+        "body_fat_percentage",
+        highestValueMap.get("body_fat_percentage")!
+      );
     }
 
     setChartDataLines(updatedChartDataLines);
@@ -971,6 +989,16 @@ export default function AnalyticsIndex() {
             isDisabled={loadedLists.current.has("diet-logs")}
           >
             Load Diet Logs
+          </Button>
+          <Button
+            className="font-medium"
+            variant="flat"
+            onPress={() =>
+              getUserWeightList(userSettings.locale, weightUnit, true)
+            }
+            isDisabled={loadedLists.current.has("user-weights")}
+          >
+            Load User Weights
           </Button>
           {filteredChartData.length > 0 && (
             <Button
