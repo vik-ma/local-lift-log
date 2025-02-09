@@ -864,10 +864,10 @@ export default function AnalyticsIndex() {
         </div>
         {isChartDataLoaded.current && (
           <div className="bg-default-50 pt-4 pb-1.5 rounded-xl">
-            <ChartContainer config={chartConfig} className="w-[850px]">
+            <ChartContainer config={chartConfig} className="w-[870px]">
               <ComposedChart
                 data={filteredChartData}
-                margin={{ top: 15, right: 15, left: 15 }}
+                margin={{ top: 15, right: 5, left: 5 }}
               >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis
