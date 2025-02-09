@@ -144,6 +144,8 @@ export default function AnalyticsIndex() {
   const isChartDataLoaded = useRef<boolean>(false);
   const isDietLogListLoaded = useRef<boolean>(false);
 
+  // Filter out props in all items from chartData that are not available in either
+  // chartDataAreas or chartDataLines. Always keep date prop.
   const filteredChartData: ChartDataItem[] = useMemo(() => {
     return chartData.map((entry) =>
       Object.fromEntries(
