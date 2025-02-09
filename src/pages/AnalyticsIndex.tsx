@@ -105,6 +105,8 @@ export default function AnalyticsIndex() {
   const [shownReferenceAreas, setShownReferenceAreas] = useState<
     ReferenceAreaItem[]
   >([]);
+  const [weightUnit, setWeightUnit] = useState<string>("kg");
+  const [distanceUnit, setDistanceUnit] = useState<string>("km");
 
   const [showTestButtons, setShowTestButtons] = useState<boolean>(false);
 
@@ -249,6 +251,8 @@ export default function AnalyticsIndex() {
       if (userSettings === undefined) return;
 
       setUserSettings(userSettings);
+      setWeightUnit(userSettings.default_unit_weight);
+      setDistanceUnit(userSettings.default_unit_distance);
 
       getDietLogList(userSettings.locale, true);
     };
@@ -842,7 +846,6 @@ export default function AnalyticsIndex() {
           <Button
             className="font-medium"
             variant="flat"
-            color="secondary"
             onPress={() => getDietLogList(userSettings.locale, true)}
             isDisabled={
               chartDataAreaSet.has("calories") ||
