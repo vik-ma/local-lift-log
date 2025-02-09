@@ -821,7 +821,47 @@ export default function AnalyticsIndex() {
         useExerciseList={exerciseList}
         useFilterExerciseList={filterExerciseList}
       />
-      <div className="flex flex-col items-center gap-3">
+      <div className="flex flex-col items-center gap-2">
+        <div className="flex items-center gap-2">
+          <Button
+            className="font-medium"
+            variant="flat"
+            color="secondary"
+            onPress={() => handleOpenListModal("exercise")}
+          >
+            Select Exercise
+          </Button>
+          <Button
+            className="font-medium"
+            variant="flat"
+            color="secondary"
+            onPress={() => handleOpenListModal("measurement")}
+          >
+            Select Measurement
+          </Button>
+          <Button
+            className="font-medium"
+            variant="flat"
+            color="secondary"
+            onPress={() => getDietLogList(userSettings.locale, true)}
+            isDisabled={
+              chartDataAreaSet.has("calories") ||
+              chartDataLineSet.has("calories")
+            }
+          >
+            Load Diet Logs
+          </Button>
+          {filteredChartData.length > 0 && (
+            <Button
+              className="font-medium"
+              variant="flat"
+              color="secondary"
+              onPress={() => handleOpenListModal("time-period")}
+            >
+              Select Time Period
+            </Button>
+          )}
+        </div>
         {isChartDataLoaded.current && (
           <div className="bg-default-50 pt-4 pb-1.5 rounded-xl">
             <ChartContainer config={chartConfig} className="w-[850px]">
@@ -897,114 +937,75 @@ export default function AnalyticsIndex() {
           </div>
         )}
         <div className="flex flex-col gap-2 w-[960px]">
-          <div className="flex gap-2 items-center">
-            <Button
-              className="font-medium"
-              variant="flat"
-              color="secondary"
-              onPress={() => handleOpenListModal("exercise")}
-            >
-              Select Exercise
-            </Button>
-            <Button
-              className="font-medium"
-              variant="flat"
-              color="secondary"
-              onPress={() => handleOpenListModal("measurement")}
-            >
-              Select Measurement
-            </Button>
-            <Button
-              className="font-medium"
-              variant="flat"
-              onPress={() => getDietLogList(userSettings.locale, true)}
-              isDisabled={
-                chartDataAreaSet.has("calories") ||
-                chartDataLineSet.has("calories")
-              }
-            >
-              Load Diet Logs
-            </Button>
-            {isChartDataLoaded.current && (
-              <>
-                <Select
-                  className="w-[10rem]"
-                  label="Shown Areas"
-                  size="sm"
-                  variant="faded"
-                  selectionMode="multiple"
-                  selectedKeys={shownChartDataAreas as string[]}
-                  isDisabled={chartDataAreas.length < 2}
-                  onSelectionChange={(value) =>
-                    setShownChartDataAreas(
-                      Array.from(value) as ChartDataCategory[]
-                    )
-                  }
-                  disallowEmptySelection
-                >
-                  {chartDataAreas.map((area) => (
-                    <SelectItem key={area} value={area}>
-                      {chartDataCategoryLabelMap.get(area)}
-                    </SelectItem>
-                  ))}
-                </Select>
-                <Select
-                  className="w-[10rem]"
-                  label="Shown Lines"
-                  size="sm"
-                  variant="faded"
-                  selectionMode="multiple"
-                  selectedKeys={shownChartDataLines as string[]}
-                  onSelectionChange={(value) =>
-                    updateShownChartLines(
-                      Array.from(value) as ChartDataCategory[]
-                    )
-                  }
-                >
-                  {chartDataLines.map((line) => (
-                    <SelectItem key={line} value={line}>
-                      {chartDataCategoryLabelMap.get(line)}
-                    </SelectItem>
-                  ))}
-                </Select>
-                {secondaryDataUnitCategory !== undefined && (
+          <div className="flex items-center justify-between">
+            <div className="flex gap-2 items-center">
+              {isChartDataLoaded.current && (
+                <>
                   <Select
                     className="w-[10rem]"
-                    label="Right Y-Axis Value"
+                    label="Shown Areas"
                     size="sm"
                     variant="faded"
-                    selectedKeys={
-                      secondaryDataUnitCategory !== undefined
-                        ? [secondaryDataUnitCategory]
-                        : []
-                    }
-                    onChange={(e) =>
-                      changeSecondaryDataUnitCategory(e.target.value)
+                    selectionMode="multiple"
+                    selectedKeys={shownChartDataAreas as string[]}
+                    isDisabled={chartDataAreas.length < 2}
+                    onSelectionChange={(value) =>
+                      setShownChartDataAreas(
+                        Array.from(value) as ChartDataCategory[]
+                      )
                     }
                     disallowEmptySelection
-                    isDisabled={chartLineUnitCategoryList.length < 2}
                   >
-                    {chartLineUnitCategoryList.map((dataKey) => (
-                      <SelectItem key={dataKey} value={dataKey}>
-                        {dataKey}
+                    {chartDataAreas.map((area) => (
+                      <SelectItem key={area} value={area}>
+                        {chartDataCategoryLabelMap.get(area)}
                       </SelectItem>
                     ))}
                   </Select>
-                )}
-              </>
-            )}
-          </div>
-          <div className="flex justify-between items-center">
-            <div className="flex justify-between items-center gap-2">
-              {filteredChartData.length > 0 && (
-                <Button
-                  className="font-medium"
-                  variant="flat"
-                  color="secondary"
-                  onPress={() => handleOpenListModal("time-period")}
-                >
-                  Select Time Period
-                </Button>
+                  <Select
+                    className="w-[10rem]"
+                    label="Shown Lines"
+                    size="sm"
+                    variant="faded"
+                    selectionMode="multiple"
+                    selectedKeys={shownChartDataLines as string[]}
+                    onSelectionChange={(value) =>
+                      updateShownChartLines(
+                        Array.from(value) as ChartDataCategory[]
+                      )
+                    }
+                  >
+                    {chartDataLines.map((line) => (
+                      <SelectItem key={line} value={line}>
+                        {chartDataCategoryLabelMap.get(line)}
+                      </SelectItem>
+                    ))}
+                  </Select>
+                  {secondaryDataUnitCategory !== undefined && (
+                    <Select
+                      className="w-[10rem]"
+                      label="Right Y-Axis Value"
+                      size="sm"
+                      variant="faded"
+                      selectedKeys={
+                        secondaryDataUnitCategory !== undefined
+                          ? [secondaryDataUnitCategory]
+                          : []
+                      }
+                      onChange={(e) =>
+                        changeSecondaryDataUnitCategory(e.target.value)
+                      }
+                      disallowEmptySelection
+                      isDisabled={chartLineUnitCategoryList.length < 2}
+                    >
+                      {chartLineUnitCategoryList.map((dataKey) => (
+                        <SelectItem key={dataKey} value={dataKey}>
+                          {dataKey}
+                        </SelectItem>
+                      ))}
+                    </Select>
+                  )}
+                </>
               )}
               {referenceAreas.length > 0 && (
                 <Select
