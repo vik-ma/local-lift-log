@@ -27,6 +27,7 @@ import { TimePeriod, UserSettings } from "../typings";
 import {
   ConvertDateToYmdString,
   ConvertISODateStringToYmdDateString,
+  ConvertWeightValue,
   CreateShownPropertiesSet,
   FormatDateToShortString,
   GetAllDietLogs,
@@ -836,10 +837,13 @@ export default function AnalyticsIndex() {
 
       dateSet.add(date);
 
-      // TODO: HANDLE DIFFERENT WEIGHT UNITS
       const chartDataItem: ChartDataItem = {
         date,
-        body_weight: userWeight.weight,
+        body_weight: ConvertWeightValue(
+          userWeight.weight,
+          userWeight.weight_unit,
+          weightUnit
+        ),
         body_fat_percentage: userWeight.body_fat_percentage,
       };
 
