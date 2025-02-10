@@ -1037,7 +1037,13 @@ export default function AnalyticsIndex() {
                   unit={chartDataUnitMap.get(secondaryDataKey)}
                   orientation="right"
                 />
-                <ChartTooltip content={<ChartTooltipContent />} />
+                <ChartTooltip
+                  content={
+                    <ChartTooltipContent
+                      chartDataUnitMap={chartDataUnitMap as Map<string, string>}
+                    />
+                  }
+                />
                 <ChartLegend content={<ChartLegendContent />} />
                 {shownChartDataAreas.map((item, index) => (
                   <Area
