@@ -285,12 +285,12 @@ export default function AnalyticsIndex() {
       setWeightUnit(userSettings.default_unit_weight);
       setDistanceUnit(userSettings.default_unit_distance);
 
-      // getDietLogList(userSettings.locale, true);
-      getUserWeightList(
-        userSettings.locale,
-        userSettings.default_unit_weight,
-        false
-      );
+      getDietLogList(userSettings.locale, true, true);
+      // getUserWeightList(
+      //   userSettings.locale,
+      //   userSettings.default_unit_weight,
+      //   false
+      // );
     };
 
     loadUserSettings();
@@ -325,7 +325,8 @@ export default function AnalyticsIndex() {
 
   const getDietLogList = async (
     locale: string,
-    loadCaloriesPrimary: boolean
+    loadCaloriesPrimary: boolean,
+    loadOnlyCalories: boolean
   ) => {
     if (
       loadedLists.current.has("diet-logs-calories") &&
@@ -352,31 +353,34 @@ export default function AnalyticsIndex() {
       const chartDataItem: ChartDataItem = {
         date: FormatDateToShortString(new Date(dietLog.date), locale),
         calories: dietLog.calories,
-        fat: dietLog.fat,
-        carbs: dietLog.carbs,
-        protein: dietLog.protein,
       };
 
       if (dietLog.calories > highestValueMap.get("calories")!) {
         highestValueMap.set("calories", dietLog.calories);
       }
 
-      if (dietLog.fat !== null && dietLog.fat > highestValueMap.get("fat")!) {
-        highestValueMap.set("fat", dietLog.fat);
-      }
+      if (!loadOnlyCalories) {
+        chartDataItem.fat = dietLog.fat;
+        chartDataItem.carbs = dietLog.carbs;
+        chartDataItem.protein = dietLog.protein;
 
-      if (
-        dietLog.carbs !== null &&
-        dietLog.carbs > highestValueMap.get("carbs")!
-      ) {
-        highestValueMap.set("carbs", dietLog.carbs);
-      }
+        if (dietLog.fat !== null && dietLog.fat > highestValueMap.get("fat")!) {
+          highestValueMap.set("fat", dietLog.fat);
+        }
 
-      if (
-        dietLog.protein !== null &&
-        dietLog.protein > highestValueMap.get("protein")!
-      ) {
-        highestValueMap.set("protein", dietLog.protein);
+        if (
+          dietLog.carbs !== null &&
+          dietLog.carbs > highestValueMap.get("carbs")!
+        ) {
+          highestValueMap.set("carbs", dietLog.carbs);
+        }
+
+        if (
+          dietLog.protein !== null &&
+          dietLog.protein > highestValueMap.get("protein")!
+        ) {
+          highestValueMap.set("protein", dietLog.protein);
+        }
       }
 
       chartData.push(chartDataItem);
@@ -408,41 +412,46 @@ export default function AnalyticsIndex() {
       updatedChartLineUnitCategoryList.push("Calories");
     }
 
-    const { highestGramValueCategory, updatedHighestCategoryValues } =
-      getHighestGramValueForMacros(highestValueMap);
-
-    highestCategoryValues.current = updatedHighestCategoryValues;
-
-    if (highestGramValueCategory !== "") {
-      if (loadCaloriesPrimary) {
-        // Set the category with the highest gram value as second Y-axis
-        setSecondaryDataKey(highestGramValueCategory as ChartDataCategory);
-        setSecondaryDataUnitCategory("Macros");
-      }
-
-      updatedChartLineUnitCategoryList.push("Macros");
-    }
+    loadedLists.current.add("diet-logs-calories");
 
     const macroLines: ChartDataCategory[] = [];
 
-    // Add in reverse order of Fat -> Carbs -> Protein
-    if (highestValueMap.get("protein")! > 0) {
-      macroLines.unshift("protein");
-    }
+    if (!loadOnlyCalories) {
+      const { highestGramValueCategory, updatedHighestCategoryValues } =
+        getHighestGramValueForMacros(highestValueMap);
 
-    if (highestValueMap.get("carbs")! > 0) {
-      macroLines.unshift("carbs");
-    }
+      highestCategoryValues.current = updatedHighestCategoryValues;
 
-    if (highestValueMap.get("fat")! > 0) {
-      macroLines.unshift("fat");
+      if (highestGramValueCategory !== "") {
+        if (loadCaloriesPrimary) {
+          // Set the category with the highest gram value as second Y-axis
+          setSecondaryDataKey(highestGramValueCategory as ChartDataCategory);
+          setSecondaryDataUnitCategory("Macros");
+        }
+
+        updatedChartLineUnitCategoryList.push("Macros");
+      }
+
+      // Add in reverse order of Fat -> Carbs -> Protein
+      if (highestValueMap.get("protein")! > 0) {
+        macroLines.unshift("protein");
+      }
+
+      if (highestValueMap.get("carbs")! > 0) {
+        macroLines.unshift("carbs");
+      }
+
+      if (highestValueMap.get("fat")! > 0) {
+        macroLines.unshift("fat");
+      }
+
+      loadedLists.current.add("diet-logs-macros");
     }
 
     setChartDataLines([...updatedChartDataLines, ...macroLines]);
     setShownChartDataLines([...updatedShownChartDataLines, ...macroLines]);
     setChartLineUnitCategoryList(updatedChartLineUnitCategoryList);
 
-    loadedLists.current.add("diet-logs-calories");
     if (!isChartDataLoaded.current) isChartDataLoaded.current = true;
   };
 
@@ -1033,7 +1042,7 @@ export default function AnalyticsIndex() {
           <Button
             className="font-medium"
             variant="flat"
-            onPress={() => getDietLogList(userSettings.locale, true)}
+            onPress={() => getDietLogList(userSettings.locale, true, false)}
             isDisabled={
               loadedLists.current.has("diet-logs-calories") &&
               loadedLists.current.has("diet-logs-macros")
