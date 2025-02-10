@@ -729,8 +729,9 @@ export default function AnalyticsIndex() {
     if (chartData.length === 0) return [];
 
     // Get all props for the chartData objects except "date"
-    // TODO: FILTER DATE SPECIFICALLY
-    const chartDataProps = Object.getOwnPropertyNames(chartData[0]).slice(1);
+    const chartDataProps = Object.getOwnPropertyNames(chartData[0]).filter(
+      (item) => item !== "date"
+    );
 
     // Create chartData item with all null values for those props
     const emptyChartDataItem = chartDataProps.reduce((acc, key) => {
