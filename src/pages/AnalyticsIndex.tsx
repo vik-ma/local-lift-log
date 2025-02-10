@@ -341,7 +341,7 @@ export default function AnalyticsIndex() {
       return;
     }
 
-    const chartData: ChartDataItem[] = [];
+    const loadedChartData: ChartDataItem[] = [];
 
     const highestValueMap = new Map<ChartDataCategory, number>();
     highestValueMap.set("calories", 0);
@@ -383,10 +383,10 @@ export default function AnalyticsIndex() {
         }
       }
 
-      chartData.push(chartDataItem);
+      loadedChartData.push(chartDataItem);
     }
 
-    const filledInChartData = fillInMissingDates(chartData, locale);
+    const filledInChartData = fillInMissingDates(loadedChartData, locale);
 
     setChartData(filledInChartData);
 
@@ -774,17 +774,17 @@ export default function AnalyticsIndex() {
   };
 
   const fillInMissingDates = (
-    chartData: ChartDataItem[],
+    loadedChartData: ChartDataItem[],
     locale: string
   ): ChartDataItem[] => {
-    if (chartData.length === 0) return [];
+    if (loadedChartData.length === 0) return [];
 
-    // Get all props for the chartData objects except "date"
-    const chartDataProps = Object.getOwnPropertyNames(chartData[0]).filter(
+    // Get all props for the ChartDataItem objects except "date"
+    const chartDataProps = Object.getOwnPropertyNames(loadedChartData[0]).filter(
       (item) => item !== "date"
     );
 
-    // Create chartData item with all null values for those props
+    // Create ChartDataItem with all null values for those props
     const emptyChartDataItem = chartDataProps.reduce((acc, key) => {
       acc[key] = null;
       return acc;
@@ -793,11 +793,11 @@ export default function AnalyticsIndex() {
     const filledInChartData: ChartDataItem[] = [];
 
     const chartDataDateMap = new Map(
-      chartData.map((item) => [item.date, item])
+      loadedChartData.map((item) => [item.date, item])
     );
 
-    let currentDate = new Date(chartData[0].date);
-    const endDate = new Date(chartData[chartData.length - 1].date);
+    let currentDate = new Date(loadedChartData[0].date);
+    const endDate = new Date(loadedChartData[loadedChartData.length - 1].date);
 
     while (currentDate <= endDate) {
       const dateString = FormatDateToShortString(currentDate, locale);
@@ -871,7 +871,7 @@ export default function AnalyticsIndex() {
       return;
     }
 
-    const chartData: ChartDataItem[] = [];
+    const loadedChartData: ChartDataItem[] = [];
 
     const highestValueMap = new Map<ChartDataCategory, number>();
     highestValueMap.set("body_weight", 0);
@@ -912,7 +912,7 @@ export default function AnalyticsIndex() {
         );
       }
 
-      chartData.push(chartDataItem);
+      loadedChartData.push(chartDataItem);
     }
 
     highestCategoryValues.current.set(
@@ -920,7 +920,7 @@ export default function AnalyticsIndex() {
       highestValueMap.get("body_weight")!
     );
 
-    const filledInChartData = fillInMissingDates(chartData, locale);
+    const filledInChartData = fillInMissingDates(loadedChartData, locale);
 
     setChartData(filledInChartData);
 
