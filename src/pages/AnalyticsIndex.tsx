@@ -285,7 +285,7 @@ export default function AnalyticsIndex() {
       setWeightUnit(userSettings.default_unit_weight);
       setDistanceUnit(userSettings.default_unit_distance);
 
-      getDietLogList(userSettings.locale, true, true);
+      getDietLogList(userSettings.locale, true, false);
       // getUserWeightList(
       //   userSettings.locale,
       //   userSettings.default_unit_weight,
@@ -388,7 +388,9 @@ export default function AnalyticsIndex() {
 
     const filledInChartData = fillInMissingDates(loadedChartData, locale);
 
-    setChartData(filledInChartData);
+    const mergedChartData = mergeChartData(filledInChartData, chartData);
+
+    setChartData(mergedChartData);
 
     const updatedChartDataLines = [...chartDataLines];
     const updatedShownChartDataLines = [...shownChartDataLines];
@@ -780,9 +782,9 @@ export default function AnalyticsIndex() {
     if (loadedChartData.length === 0) return [];
 
     // Get all props for the ChartDataItem objects except "date"
-    const chartDataProps = Object.getOwnPropertyNames(loadedChartData[0]).filter(
-      (item) => item !== "date"
-    );
+    const chartDataProps = Object.getOwnPropertyNames(
+      loadedChartData[0]
+    ).filter((item) => item !== "date");
 
     // Create ChartDataItem with all null values for those props
     const emptyChartDataItem = chartDataProps.reduce((acc, key) => {
@@ -922,7 +924,9 @@ export default function AnalyticsIndex() {
 
     const filledInChartData = fillInMissingDates(loadedChartData, locale);
 
-    setChartData(filledInChartData);
+    const mergedChartData = mergeChartData(filledInChartData, chartData);
+
+    setChartData(mergedChartData);
 
     const updatedChartDataLines = [...chartDataLines];
     const updatedShownChartDataLines = [...shownChartDataLines];
@@ -968,6 +972,30 @@ export default function AnalyticsIndex() {
 
     loadedLists.current.add("user-weights");
     if (!isChartDataLoaded.current) isChartDataLoaded.current = true;
+  };
+
+  const mergeChartData = (list1: ChartDataItem[], list2: ChartDataItem[]) => {
+    const chartDataDateMap = new Map<string, ChartDataItem>();
+
+    const mergeIntoMap = (list: ChartDataItem[]) => {
+      for (const item of list) {
+        if (!chartDataDateMap.has(item.date)) {
+          chartDataDateMap.set(item.date, { ...item });
+        } else {
+          chartDataDateMap.set(item.date, {
+            ...chartDataDateMap.get(item.date),
+            ...item,
+          });
+        }
+      }
+    };
+
+    mergeIntoMap(list1);
+    mergeIntoMap(list2);
+
+    return Array.from(chartDataDateMap.values()).sort(
+      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+    );
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;
@@ -1054,7 +1082,7 @@ export default function AnalyticsIndex() {
             className="font-medium"
             variant="flat"
             onPress={() =>
-              getUserWeightList(userSettings.locale, weightUnit, true)
+              getUserWeightList(userSettings.locale, weightUnit, false)
             }
             isDisabled={loadedLists.current.has("user-weights")}
           >
