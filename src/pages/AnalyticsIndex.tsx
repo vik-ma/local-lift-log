@@ -404,7 +404,6 @@ export default function AnalyticsIndex() {
       if (secondaryDataKey === undefined) {
         setSecondaryDataKey("calories");
       }
-
       if (secondaryDataUnitCategory === undefined) {
         setSecondaryDataUnitCategory("Calories");
       }
@@ -425,9 +424,11 @@ export default function AnalyticsIndex() {
       highestCategoryValues.current = updatedHighestCategoryValues;
 
       if (highestGramValueCategory !== "") {
-        if (loadCaloriesPrimary) {
+        if (loadCaloriesPrimary && secondaryDataKey === undefined) {
           // Set the category with the highest gram value as second Y-axis
           setSecondaryDataKey(highestGramValueCategory as ChartDataCategory);
+        }
+        if (loadCaloriesPrimary && secondaryDataUnitCategory === undefined) {
           setSecondaryDataUnitCategory("Macros");
         }
 
@@ -940,7 +941,6 @@ export default function AnalyticsIndex() {
       if (secondaryDataKey === undefined) {
         setSecondaryDataKey("body_weight");
       }
-
       if (secondaryDataUnitCategory === undefined) {
         setSecondaryDataUnitCategory("Body Weight");
       }
@@ -951,8 +951,10 @@ export default function AnalyticsIndex() {
     }
 
     if (highestValueMap.get("body_fat_percentage")! > 0) {
-      if (loadPrimary) {
+      if (loadPrimary && secondaryDataKey === undefined) {
         setSecondaryDataKey("body_fat_percentage");
+      }
+      if (loadPrimary && secondaryDataUnitCategory === undefined) {
         setSecondaryDataUnitCategory("Body Fat %");
       }
 
@@ -977,6 +979,7 @@ export default function AnalyticsIndex() {
   const mergeChartData = (list1: ChartDataItem[], list2: ChartDataItem[]) => {
     const chartDataDateMap = new Map<string, ChartDataItem>();
 
+    // Add all props from both lists to ChartDataItem of same date
     const mergeIntoMap = (list: ChartDataItem[]) => {
       for (const item of list) {
         if (!chartDataDateMap.has(item.date)) {
@@ -993,6 +996,7 @@ export default function AnalyticsIndex() {
     mergeIntoMap(list1);
     mergeIntoMap(list2);
 
+    // Return chartData array with dates sorted from oldest to newest
     return Array.from(chartDataDateMap.values()).sort(
       (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
     );
