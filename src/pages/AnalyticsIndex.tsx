@@ -284,7 +284,7 @@ export default function AnalyticsIndex() {
       getUserWeightList(
         userSettings.locale,
         userSettings.default_unit_weight,
-        true
+        false
       );
     };
 
@@ -897,8 +897,10 @@ export default function AnalyticsIndex() {
     }
 
     if (highestValueMap.get("body_fat_percentage")! > 0) {
-      setSecondaryDataKey("body_fat_percentage");
-      setSecondaryDataUnitCategory("Body Fat %");
+      if (loadPrimary) {
+        setSecondaryDataKey("body_fat_percentage");
+        setSecondaryDataUnitCategory("Body Fat %");
+      }
 
       updatedChartDataLines.push("body_fat_percentage");
       updatedShownChartDataLines.push("body_fat_percentage");
