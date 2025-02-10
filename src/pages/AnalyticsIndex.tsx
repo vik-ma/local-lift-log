@@ -93,6 +93,11 @@ type ReferenceAreaItem = {
   endDate: string | null;
 };
 
+type LoadedListType =
+  | "diet-logs-calories"
+  | "diet-logs-macros"
+  | "user-weights";
+
 export default function AnalyticsIndex() {
   const [modalListType, setModalListType] = useState<ModalListType>("exercise");
   const [userSettings, setUserSettings] = useState<UserSettings>();
@@ -154,7 +159,7 @@ export default function AnalyticsIndex() {
 
   const isChartDataLoaded = useRef<boolean>(false);
 
-  const loadedLists = useRef<Set<string>>(new Set());
+  const loadedLists = useRef<Set<LoadedListType>>(new Set());
 
   // Filter out props in all items from chartData that are not available in either
   // chartDataAreas or chartDataLines. Always keep date prop.
@@ -322,7 +327,11 @@ export default function AnalyticsIndex() {
     locale: string,
     loadCaloriesPrimary: boolean
   ) => {
-    if (loadedLists.current.has("diet-logs")) return;
+    if (
+      loadedLists.current.has("diet-logs-calories") &&
+      loadedLists.current.has("diet-logs-macros")
+    )
+      return;
 
     const dietLogs = await GetAllDietLogs(true);
 
@@ -433,7 +442,7 @@ export default function AnalyticsIndex() {
     setShownChartDataLines([...updatedShownChartDataLines, ...macroLines]);
     setChartLineUnitCategoryList(updatedChartLineUnitCategoryList);
 
-    loadedLists.current.add("diet-logs");
+    loadedLists.current.add("diet-logs-calories");
     if (!isChartDataLoaded.current) isChartDataLoaded.current = true;
   };
 
@@ -1025,7 +1034,10 @@ export default function AnalyticsIndex() {
             className="font-medium"
             variant="flat"
             onPress={() => getDietLogList(userSettings.locale, true)}
-            isDisabled={loadedLists.current.has("diet-logs")}
+            isDisabled={
+              loadedLists.current.has("diet-logs-calories") &&
+              loadedLists.current.has("diet-logs-macros")
+            }
           >
             Load Diet Logs
           </Button>
