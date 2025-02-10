@@ -673,25 +673,44 @@ export default function AnalyticsIndex() {
   const toggleTestTimePeriod = () => {
     if (userSettings === undefined) return;
 
-    if (referenceAreas.length === 0) {
-      setReferenceAreas([
-        {
-          timePeriodId: 0,
-          x1: FormatDateToShortString(
-            new Date("2025-01-22"),
-            userSettings.locale
-          ),
-          x2: FormatDateToShortString(
-            new Date("2025-01-25"),
-            userSettings.locale
-          ),
-          label: "Test Period",
-          startDate: "2025-01-22",
-          endDate: "2025-01-25",
-        },
-      ]);
+    const testPeriodIndex = referenceAreas.findIndex(
+      (obj) => obj.timePeriodId === 0
+    );
+
+    if (testPeriodIndex === -1) {
+      const newReferenceArea: ReferenceAreaItem = {
+        timePeriodId: 0,
+        x1: FormatDateToShortString(
+          new Date("2025-01-22"),
+          userSettings.locale
+        ),
+        x2: FormatDateToShortString(
+          new Date("2025-01-25"),
+          userSettings.locale
+        ),
+        label: "Test Period",
+        startDate: "2025-01-22",
+        endDate: "2025-01-25",
+      };
+
+      const updatedReferenceAreas = [...referenceAreas, newReferenceArea];
+      const updatedShownReferenceAreas = [
+        ...shownReferenceAreas,
+        newReferenceArea,
+      ];
+
+      setReferenceAreas(updatedReferenceAreas);
+      setShownReferenceAreas(updatedShownReferenceAreas);
     } else {
-      setReferenceAreas([]);
+      const updatedReferenceAreas = referenceAreas.filter(
+        (item) => item.timePeriodId !== 0
+      );
+      const updatedShownReferenceAreas = shownReferenceAreas.filter(
+        (item) => item.timePeriodId !== 0
+      );
+
+      setReferenceAreas(updatedReferenceAreas);
+      setShownReferenceAreas(updatedShownReferenceAreas);
     }
   };
 
