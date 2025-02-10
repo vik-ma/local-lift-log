@@ -644,16 +644,29 @@ export default function AnalyticsIndex() {
   };
 
   const changeSecondaryDataUnitCategory = (unitCategory: string) => {
-    if (unitCategory === "Macros") {
-      const { highestGramValueCategory } = getHighestGramValueForMacros(
-        highestCategoryValues.current
-      );
+    switch (unitCategory) {
+      case "Macros":
+        const { highestGramValueCategory } = getHighestGramValueForMacros(
+          highestCategoryValues.current
+        );
 
-      setSecondaryDataKey(highestGramValueCategory as ChartDataCategory);
-      setSecondaryDataUnitCategory(unitCategory);
-    } else if (unitCategory === "Calories") {
-      setSecondaryDataKey("calories");
-      setSecondaryDataUnitCategory(unitCategory);
+        setSecondaryDataKey(highestGramValueCategory as ChartDataCategory);
+        setSecondaryDataUnitCategory(unitCategory);
+        break;
+      case "Calories":
+        setSecondaryDataKey("calories");
+        setSecondaryDataUnitCategory(unitCategory);
+        break;
+      case "Body Weight":
+        setSecondaryDataKey("body_weight");
+        setSecondaryDataUnitCategory(unitCategory);
+        break;
+      case "Body Fat %":
+        setSecondaryDataKey("body_fat_percentage");
+        setSecondaryDataUnitCategory(unitCategory);
+        break;
+      default:
+        break;
     }
   };
 
