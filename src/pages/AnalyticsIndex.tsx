@@ -418,6 +418,7 @@ export default function AnalyticsIndex() {
         chartDataUnitCategoryMap.get("calories") !==
           chartDataUnitCategoryMap.get(primaryDataKey)
       ) {
+        // Convert existing Chart Areas to Chart Lines
         updatedChartDataLines.push(...chartDataAreas);
         updatedShownChartDataLines.push(...shownChartDataAreas);
         updatedChartLineUnitCategorySet.add(
@@ -428,7 +429,9 @@ export default function AnalyticsIndex() {
       setPrimaryDataKey("calories");
       setChartDataAreas(["calories"]);
       setShownChartDataAreas(["calories"]);
-    } else if (!loadCaloriesPrimary && !areCaloriesAlreadyLoaded) {
+    }
+
+    if (!loadCaloriesPrimary && !areCaloriesAlreadyLoaded) {
       if (secondaryDataKey === undefined) {
         setSecondaryDataKey("calories");
       }
@@ -440,8 +443,6 @@ export default function AnalyticsIndex() {
       updatedShownChartDataLines.push("calories");
       updatedChartLineUnitCategorySet.add("Calories");
     }
-
-    loadedLists.current.add("diet-logs-calories");
 
     const macroLines: ChartDataCategory[] = [];
 
@@ -488,6 +489,7 @@ export default function AnalyticsIndex() {
     setShownChartDataLines([...updatedShownChartDataLines, ...macroLines]);
     setChartLineUnitCategorySet(updatedChartLineUnitCategorySet);
 
+    loadedLists.current.add("diet-logs-calories");
     if (!isChartDataLoaded.current) isChartDataLoaded.current = true;
   };
 
