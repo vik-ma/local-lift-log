@@ -107,9 +107,9 @@ export default function AnalyticsIndex() {
   const [chartDataLines, setChartDataLines] = useState<ChartDataCategory[]>([]);
   const [primaryDataKey, setPrimaryDataKey] = useState<ChartDataCategory>();
   const [secondaryDataKey, setSecondaryDataKey] = useState<ChartDataCategory>();
-  const [chartLineUnitCategoryList, setChartLineUnitCategoryList] = useState<
-    ChartDataUnitCategory[]
-  >([]);
+  const [chartLineUnitCategorySet, setChartLineUnitCategorySet] = useState<
+    Set<ChartDataUnitCategory>
+  >(new Set());
   const [secondaryDataUnitCategory, setSecondaryDataUnitCategory] =
     useState<ChartDataUnitCategory>();
   const [shownChartDataAreas, setShownChartDataAreas] = useState<
@@ -410,7 +410,7 @@ export default function AnalyticsIndex() {
 
     const updatedChartDataLines = [...chartDataLines];
     const updatedShownChartDataLines = [...shownChartDataLines];
-    const updatedChartLineUnitCategoryList = [...chartLineUnitCategoryList];
+    const updatedChartLineUnitCategorySet = new Set(chartLineUnitCategorySet);
 
     if (loadCaloriesPrimary) {
       setPrimaryDataKey("calories");
@@ -426,7 +426,7 @@ export default function AnalyticsIndex() {
 
       updatedChartDataLines.push("calories");
       updatedShownChartDataLines.push("calories");
-      updatedChartLineUnitCategoryList.push("Calories");
+      updatedChartLineUnitCategorySet.add("Calories");
     }
 
     loadedLists.current.add("diet-logs-calories");
@@ -448,7 +448,7 @@ export default function AnalyticsIndex() {
           setSecondaryDataUnitCategory("Macros");
         }
 
-        updatedChartLineUnitCategoryList.push("Macros");
+        updatedChartLineUnitCategorySet.add("Macros");
       }
 
       // Add in reverse order of Fat -> Carbs -> Protein
@@ -474,7 +474,7 @@ export default function AnalyticsIndex() {
 
     setChartDataLines([...updatedChartDataLines, ...macroLines]);
     setShownChartDataLines([...updatedShownChartDataLines, ...macroLines]);
-    setChartLineUnitCategoryList(updatedChartLineUnitCategoryList);
+    setChartLineUnitCategorySet(updatedChartLineUnitCategorySet);
 
     if (!isChartDataLoaded.current) isChartDataLoaded.current = true;
   };
@@ -519,7 +519,7 @@ export default function AnalyticsIndex() {
     }
 
     setShownChartDataLines(chartLines);
-    setChartLineUnitCategoryList(Array.from(chartLineUnitCategorySet));
+    setChartLineUnitCategorySet(chartLineUnitCategorySet);
   };
 
   const getHighestGramValueForMacros = (
@@ -616,8 +616,10 @@ export default function AnalyticsIndex() {
     setChartDataLines([...chartDataLines, "test"]);
     setShownChartDataLines([...shownChartDataLines, "test"]);
 
-    if (!chartLineUnitCategoryList.includes("Calories")) {
-      setChartLineUnitCategoryList([...chartLineUnitCategoryList, "Calories"]);
+    if (!chartLineUnitCategorySet.has("Calories")) {
+      const updatedChartLineUnitCategorySet = new Set(chartLineUnitCategorySet);
+      updatedChartLineUnitCategorySet.add("Calories");
+      setChartLineUnitCategorySet(updatedChartLineUnitCategorySet);
     }
 
     if (secondaryDataUnitCategory === undefined) {
@@ -640,7 +642,7 @@ export default function AnalyticsIndex() {
 
     if (updatedChartDataLines.length === 0) {
       setSecondaryDataUnitCategory(undefined);
-      setChartLineUnitCategoryList([]);
+      setChartLineUnitCategorySet(new Set());
     }
 
     hideChartLine("test");
@@ -663,26 +665,28 @@ export default function AnalyticsIndex() {
 
     setSecondaryDataUnitCategory(updatedSecondaryDataUnitCategory);
 
-    const unitCategory = chartDataUnitCategoryMap.get(chartDataCategory);
+    // TODO: FIX
 
-    let shouldDeleteSecondaryDataKeyFromList = true;
+    // const unitCategory = chartDataUnitCategoryMap.get(chartDataCategory);
 
-    for (const line of updatedShownChartDataLines) {
-      if (chartDataUnitCategoryMap.get(line) === unitCategory) {
-        shouldDeleteSecondaryDataKeyFromList = false;
-        break;
-      }
-    }
+    // let shouldDeleteSecondaryDataKeyFromList = true;
 
-    if (shouldDeleteSecondaryDataKeyFromList) {
-      const updatedSecondaryDataKeyList = chartLineUnitCategoryList.filter(
-        (item) => item !== unitCategory
-      );
+    // for (const line of updatedShownChartDataLines) {
+    //   if (chartDataUnitCategoryMap.get(line) === unitCategory) {
+    //     shouldDeleteSecondaryDataKeyFromList = false;
+    //     break;
+    //   }
+    // }
 
-      setChartLineUnitCategoryList(updatedSecondaryDataKeyList);
+    // if (shouldDeleteSecondaryDataKeyFromList) {
+    //   const updatedSecondaryDataKeyList = chartLineUnitCategoryList.filter(
+    //     (item) => item !== unitCategory
+    //   );
 
-      updateShownChartLines(updatedShownChartDataLines);
-    }
+    //   setChartLineUnitCategoryList(updatedSecondaryDataKeyList);
+
+    //   updateShownChartLines(updatedShownChartDataLines);
+    // }
   };
 
   const changeSecondaryDataUnitCategory = (unitCategory: string) => {
@@ -969,7 +973,7 @@ export default function AnalyticsIndex() {
 
     const updatedChartDataLines = [...chartDataLines];
     const updatedShownChartDataLines = [...shownChartDataLines];
-    const updatedChartLineUnitCategoryList = [...chartLineUnitCategoryList];
+    const updatedChartLineUnitCategorySet = new Set(chartLineUnitCategorySet);
 
     if (loadWeightPrimary) {
       setPrimaryDataKey("body_weight");
@@ -985,7 +989,7 @@ export default function AnalyticsIndex() {
 
       updatedChartDataLines.push("body_weight");
       updatedShownChartDataLines.push("body_weight");
-      updatedChartLineUnitCategoryList.push("Body Weight");
+      updatedChartLineUnitCategorySet.add("Body Weight");
     }
 
     if (!loadOnlyWeight && highestValueMap.get("body_fat_percentage")! > 0) {
@@ -998,7 +1002,7 @@ export default function AnalyticsIndex() {
 
       updatedChartDataLines.push("body_fat_percentage");
       updatedShownChartDataLines.push("body_fat_percentage");
-      updatedChartLineUnitCategoryList.push("Body Fat %");
+      updatedChartLineUnitCategorySet.add("Body Fat %");
 
       highestCategoryValues.current.set(
         "body_fat_percentage",
@@ -1010,7 +1014,7 @@ export default function AnalyticsIndex() {
 
     setChartDataLines(updatedChartDataLines);
     setShownChartDataLines(updatedChartDataLines);
-    setChartLineUnitCategoryList(updatedChartLineUnitCategoryList);
+    setChartLineUnitCategorySet(updatedChartLineUnitCategorySet);
 
     loadedLists.current.add("user-weights-weight");
     if (!isChartDataLoaded.current) isChartDataLoaded.current = true;
@@ -1287,9 +1291,9 @@ export default function AnalyticsIndex() {
                         changeSecondaryDataUnitCategory(e.target.value)
                       }
                       disallowEmptySelection
-                      isDisabled={chartLineUnitCategoryList.length < 2}
+                      isDisabled={chartLineUnitCategorySet.size < 2}
                     >
-                      {chartLineUnitCategoryList.map((dataKey) => (
+                      {Array.from(chartLineUnitCategorySet).map((dataKey) => (
                         <SelectItem key={dataKey} value={dataKey}>
                           {dataKey}
                         </SelectItem>
