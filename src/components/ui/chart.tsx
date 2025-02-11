@@ -228,22 +228,22 @@ const ChartTooltipContent = React.forwardRef<
                     )}
                     <div
                       className={cn(
-                        "flex flex-1 justify-between leading-none gap-1.5",
+                        "flex flex-1 justify-between leading-none gap-2",
                         nestLabel ? "items-end" : "items-center"
                       )}
                     >
-                      <div className="grid gap-2">
+                      <div className="grid gap-1.5">
                         {nestLabel ? tooltipLabel : null}
                         <span className="text-stone-500 dark:text-stone-400">
                           {itemConfig?.label || item.name}
                         </span>
                       </div>
                       {item.value && (
-                        <div className="flex gap-0.5 text-stone-950 dark:text-stone-50">
+                        <div className="flex gap-[3px] text-stone-950 dark:text-stone-50">
                           <span className="font-semibold">
                             {item.value.toLocaleString()}
                           </span>
-                          <span className="">
+                          <span>
                             {chartDataUnitMap.get(item.dataKey as string)}
                           </span>
                         </div>
