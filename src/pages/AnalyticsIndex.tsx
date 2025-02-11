@@ -967,22 +967,42 @@ export default function AnalyticsIndex() {
     const updatedChartLineUnitCategorySet = new Set(chartLineUnitCategorySet);
 
     if (loadWeightPrimary) {
+      if (primaryDataKey === undefined) {
+        // If no Chart Areas exist
+        setPrimaryDataKey("body_weight");
+        setChartDataAreas(["body_weight"]);
+        setShownChartDataAreas(["body_weight"]);
+      }
+
       if (
         primaryDataKey !== undefined &&
         chartDataUnitCategoryMap.get("body_weight") !==
           chartDataUnitCategoryMap.get(primaryDataKey)
       ) {
+        // Replace existing Chart Areas if existing Chart Areas does not share Unit Category
         updatedChartDataLines.push(...chartDataAreas);
         updatedShownChartDataLines.push(...shownChartDataAreas);
         updatedChartLineUnitCategorySet.add(
           chartDataUnitCategoryMap.get(primaryDataKey)
         );
+
+        setPrimaryDataKey("body_weight");
+        setChartDataAreas(["body_weight"]);
+        setShownChartDataAreas(["body_weight"]);
       }
 
-      setPrimaryDataKey("body_weight");
-      setChartDataAreas(["body_weight"]);
-      setShownChartDataAreas(["body_weight"]);
-    } else if (!loadWeightPrimary && !isWeightAlreadyLoaded) {
+      if (
+        primaryDataKey !== undefined &&
+        chartDataUnitCategoryMap.get("body_weight") ===
+          chartDataUnitCategoryMap.get(primaryDataKey)
+      ) {
+        // Append new Chart Area if existing Chart Area(s) share Unit Category
+        setChartDataAreas([...chartDataAreas, "body_weight"]);
+        setShownChartDataAreas([...shownChartDataAreas, "body_weight"]);
+      }
+    }
+
+    if (!loadWeightPrimary && !isWeightAlreadyLoaded) {
       if (secondaryDataKey === undefined) {
         setSecondaryDataKey("body_weight");
       }
