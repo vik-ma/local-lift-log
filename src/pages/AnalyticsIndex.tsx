@@ -294,13 +294,13 @@ export default function AnalyticsIndex() {
       setWeightUnit(userSettings.default_unit_weight);
       // setDistanceUnit(userSettings.default_unit_distance);
 
-      // getDietLogList(userSettings.locale, true, false);
-      getUserWeightList(
-        userSettings.locale,
-        userSettings.default_unit_weight,
-        true,
-        true
-      );
+      getDietLogList(userSettings.locale, true, false);
+      // getUserWeightList(
+      //   userSettings.locale,
+      //   userSettings.default_unit_weight,
+      //   true,
+      //   true
+      // );
     };
 
     loadUserSettings();
@@ -665,28 +665,7 @@ export default function AnalyticsIndex() {
 
     setSecondaryDataUnitCategory(updatedSecondaryDataUnitCategory);
 
-    // TODO: FIX
-
-    // const unitCategory = chartDataUnitCategoryMap.get(chartDataCategory);
-
-    // let shouldDeleteSecondaryDataKeyFromList = true;
-
-    // for (const line of updatedShownChartDataLines) {
-    //   if (chartDataUnitCategoryMap.get(line) === unitCategory) {
-    //     shouldDeleteSecondaryDataKeyFromList = false;
-    //     break;
-    //   }
-    // }
-
-    // if (shouldDeleteSecondaryDataKeyFromList) {
-    //   const updatedSecondaryDataKeyList = chartLineUnitCategoryList.filter(
-    //     (item) => item !== unitCategory
-    //   );
-
-    //   setChartLineUnitCategoryList(updatedSecondaryDataKeyList);
-
-    //   updateShownChartLines(updatedShownChartDataLines);
-    // }
+    updateShownChartLines(updatedShownChartDataLines);
   };
 
   const changeSecondaryDataUnitCategory = (unitCategory: string) => {
