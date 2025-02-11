@@ -228,7 +228,7 @@ export default function AnalyticsIndex() {
     unitMap.set("protein", " g");
     unitMap.set("body_weight", ` ${weightUnit}`);
     unitMap.set("body_fat_percentage", " %");
-    unitMap.set("test", " kcal");
+    unitMap.set("test", ` ${weightUnit}`);
 
     return unitMap;
   }, [weightUnit]);
@@ -242,7 +242,7 @@ export default function AnalyticsIndex() {
     unitCategoryMap.set("protein", "Macros");
     unitCategoryMap.set("body_weight", "Body Weight");
     unitCategoryMap.set("body_fat_percentage", "Body Fat %");
-    unitCategoryMap.set("test", "Calories");
+    unitCategoryMap.set("test", "Body Weight");
 
     return unitCategoryMap;
   }, []);
@@ -294,13 +294,13 @@ export default function AnalyticsIndex() {
       setWeightUnit(userSettings.default_unit_weight);
       // setDistanceUnit(userSettings.default_unit_distance);
 
-      getDietLogList(userSettings.locale, true, false);
-      // getUserWeightList(
-      //   userSettings.locale,
-      //   userSettings.default_unit_weight,
-      //   true,
-      //   true
-      // );
+      // getDietLogList(userSettings.locale, true, false);
+      getUserWeightList(
+        userSettings.locale,
+        userSettings.default_unit_weight,
+        true,
+        false
+      );
     };
 
     loadUserSettings();
@@ -571,7 +571,7 @@ export default function AnalyticsIndex() {
 
     const updatedChartData = chartData.map((item) => ({
       ...item,
-      test: Math.floor(Math.random() * 3000),
+      test: Math.floor(Math.random() * 400),
     }));
 
     setChartData(updatedChartData);
@@ -615,7 +615,7 @@ export default function AnalyticsIndex() {
     let maxNum = 0;
 
     for (let i = 0; i < chartData.length; i++) {
-      const testNum = Math.floor(Math.random() * 3000);
+      const testNum = Math.floor(Math.random() * 400);
 
       if (testNum > maxNum) {
         maxNum = testNum;
