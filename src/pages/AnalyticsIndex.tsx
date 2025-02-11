@@ -338,13 +338,13 @@ export default function AnalyticsIndex() {
     loadCaloriesPrimary: boolean,
     loadOnlyCalories: boolean
   ) => {
-    if (
-      loadedLists.current.has("diet-logs-calories") &&
-      loadedLists.current.has("diet-logs-macros")
-    )
-      return;
+    const areCaloriesAlreadyLoaded =
+      loadedLists.current.has("diet-logs-calories");
 
-    if (loadOnlyCalories && loadedLists.current.has("diet-logs-calories"))
+    if (
+      areCaloriesAlreadyLoaded &&
+      (loadOnlyCalories || loadedLists.current.has("diet-logs-macros"))
+    )
       return;
 
     const dietLogs = await GetAllDietLogs(true);
@@ -365,11 +365,14 @@ export default function AnalyticsIndex() {
     for (const dietLog of dietLogs) {
       const chartDataItem: ChartDataItem = {
         date: FormatDateToShortString(new Date(dietLog.date), locale),
-        calories: dietLog.calories,
       };
 
-      if (dietLog.calories > highestValueMap.get("calories")!) {
-        highestValueMap.set("calories", dietLog.calories);
+      if (!areCaloriesAlreadyLoaded) {
+        chartDataItem.calories = dietLog.calories;
+
+        if (dietLog.calories > highestValueMap.get("calories")!) {
+          highestValueMap.set("calories", dietLog.calories);
+        }
       }
 
       if (!loadOnlyCalories) {
@@ -413,7 +416,7 @@ export default function AnalyticsIndex() {
       setPrimaryDataKey("calories");
       setChartDataAreas(["calories"]);
       setShownChartDataAreas(["calories"]);
-    } else {
+    } else if (!loadCaloriesPrimary && !areCaloriesAlreadyLoaded) {
       if (secondaryDataKey === undefined) {
         setSecondaryDataKey("calories");
       }
@@ -879,13 +882,14 @@ export default function AnalyticsIndex() {
     loadWeightPrimary: boolean,
     loadOnlyWeight: boolean
   ) => {
-    if (
-      loadedLists.current.has("user-weights-weight") &&
-      loadedLists.current.has("user-weights-body-fat")
-    )
-      return;
+    const isWeightAlreadyLoaded = loadedLists.current.has(
+      "user-weights-weight"
+    );
 
-    if (loadOnlyWeight && loadedLists.current.has("user-weights-weight"))
+    if (
+      isWeightAlreadyLoaded &&
+      (loadOnlyWeight || loadedLists.current.has("user-weights-body-fat"))
+    )
       return;
 
     const userWeights = await GetAllUserWeights(true);
@@ -913,15 +917,18 @@ export default function AnalyticsIndex() {
 
       const chartDataItem: ChartDataItem = {
         date,
-        body_weight: ConvertWeightValue(
+      };
+
+      if (!isWeightAlreadyLoaded) {
+        chartDataItem.body_weight = ConvertWeightValue(
           userWeight.weight,
           userWeight.weight_unit,
           weightUnit
-        ),
-      };
+        );
 
-      if (userWeight.weight > highestValueMap.get("body_weight")!) {
-        highestValueMap.set("body_weight", userWeight.weight);
+        if (userWeight.weight > highestValueMap.get("body_weight")!) {
+          highestValueMap.set("body_weight", userWeight.weight);
+        }
       }
 
       if (!loadOnlyWeight) {
@@ -942,10 +949,10 @@ export default function AnalyticsIndex() {
       loadedChartData.push(chartDataItem);
     }
 
-    highestCategoryValues.current.set(
-      "body_weight",
-      highestValueMap.get("body_weight")!
-    );
+    // highestCategoryValues.current.set(
+    //   "body_weight",
+    //   highestValueMap.get("body_weight")!
+    // );
 
     const filledInChartData = fillInMissingDates(loadedChartData, locale);
 
@@ -961,7 +968,7 @@ export default function AnalyticsIndex() {
       setPrimaryDataKey("body_weight");
       setChartDataAreas(["body_weight"]);
       setShownChartDataAreas(["body_weight"]);
-    } else {
+    } else if (!loadWeightPrimary && !isWeightAlreadyLoaded) {
       if (secondaryDataKey === undefined) {
         setSecondaryDataKey("body_weight");
       }
@@ -1112,7 +1119,7 @@ export default function AnalyticsIndex() {
             className="font-medium"
             variant="flat"
             onPress={() =>
-              getUserWeightList(userSettings.locale, weightUnit, true, false)
+              getUserWeightList(userSettings.locale, weightUnit, false, false)
             }
             isDisabled={
               loadedLists.current.has("user-weights-weight") &&
