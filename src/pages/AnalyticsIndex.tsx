@@ -96,7 +96,8 @@ type ReferenceAreaItem = {
 type LoadedListType =
   | "diet-logs-calories"
   | "diet-logs-macros"
-  | "user-weights";
+  | "user-weights-weight"
+  | "user-weights-body-fat";
 
 export default function AnalyticsIndex() {
   const [modalListType, setModalListType] = useState<ModalListType>("exercise");
@@ -122,7 +123,7 @@ export default function AnalyticsIndex() {
     ReferenceAreaItem[]
   >([]);
   const [weightUnit, setWeightUnit] = useState<string>("kg");
-  const [distanceUnit, setDistanceUnit] = useState<string>("km");
+  // const [distanceUnit, setDistanceUnit] = useState<string>("km");
 
   const [showTestButtons, setShowTestButtons] = useState<boolean>(false);
 
@@ -283,14 +284,15 @@ export default function AnalyticsIndex() {
 
       setUserSettings(userSettings);
       setWeightUnit(userSettings.default_unit_weight);
-      setDistanceUnit(userSettings.default_unit_distance);
+      // setDistanceUnit(userSettings.default_unit_distance);
 
-      getDietLogList(userSettings.locale, true, false);
-      // getUserWeightList(
-      //   userSettings.locale,
-      //   userSettings.default_unit_weight,
-      //   false
-      // );
+      // getDietLogList(userSettings.locale, true, false);
+      getUserWeightList(
+        userSettings.locale,
+        userSettings.default_unit_weight,
+        true,
+        true
+      );
     };
 
     loadUserSettings();
@@ -863,9 +865,14 @@ export default function AnalyticsIndex() {
   const getUserWeightList = async (
     locale: string,
     weightUnit: string,
-    loadPrimary: boolean
+    loadPrimary: boolean,
+    loadOnlyWeight: boolean
   ) => {
-    if (loadedLists.current.has("user-weights")) return;
+    if (
+      loadedLists.current.has("user-weights-weight") &&
+      loadedLists.current.has("user-weights-body-fat")
+    )
+      return;
 
     const userWeights = await GetAllUserWeights(true);
 
@@ -897,22 +904,25 @@ export default function AnalyticsIndex() {
           userWeight.weight_unit,
           weightUnit
         ),
-        body_fat_percentage: userWeight.body_fat_percentage,
       };
 
       if (userWeight.weight > highestValueMap.get("body_weight")!) {
         highestValueMap.set("body_weight", userWeight.weight);
       }
 
-      if (
-        userWeight.body_fat_percentage !== null &&
-        userWeight.body_fat_percentage >
-          highestValueMap.get("body_fat_percentage")!
-      ) {
-        highestValueMap.set(
-          "body_fat_percentage",
-          userWeight.body_fat_percentage
-        );
+      if (!loadOnlyWeight) {
+        chartDataItem.body_fat_percentage = userWeight.body_fat_percentage;
+
+        if (
+          userWeight.body_fat_percentage !== null &&
+          userWeight.body_fat_percentage >
+            highestValueMap.get("body_fat_percentage")!
+        ) {
+          highestValueMap.set(
+            "body_fat_percentage",
+            userWeight.body_fat_percentage
+          );
+        }
       }
 
       loadedChartData.push(chartDataItem);
@@ -950,7 +960,7 @@ export default function AnalyticsIndex() {
       updatedChartLineUnitCategoryList.push("Body Weight");
     }
 
-    if (highestValueMap.get("body_fat_percentage")! > 0) {
+    if (!loadOnlyWeight && highestValueMap.get("body_fat_percentage")! > 0) {
       if (loadPrimary && secondaryDataKey === undefined) {
         setSecondaryDataKey("body_fat_percentage");
       }
@@ -966,13 +976,15 @@ export default function AnalyticsIndex() {
         "body_fat_percentage",
         highestValueMap.get("body_fat_percentage")!
       );
+
+      loadedLists.current.add("user-weights-body-fat");
     }
 
     setChartDataLines(updatedChartDataLines);
     setShownChartDataLines(updatedChartDataLines);
     setChartLineUnitCategoryList(updatedChartLineUnitCategoryList);
 
-    loadedLists.current.add("user-weights");
+    loadedLists.current.add("user-weights-weight");
     if (!isChartDataLoaded.current) isChartDataLoaded.current = true;
   };
 
@@ -1086,9 +1098,12 @@ export default function AnalyticsIndex() {
             className="font-medium"
             variant="flat"
             onPress={() =>
-              getUserWeightList(userSettings.locale, weightUnit, false)
+              getUserWeightList(userSettings.locale, weightUnit, true, false)
             }
-            isDisabled={loadedLists.current.has("user-weights")}
+            isDisabled={
+              loadedLists.current.has("user-weights-weight") &&
+              loadedLists.current.has("user-weights-body-fat")
+            }
           >
             Load User Weights
           </Button>
