@@ -344,6 +344,9 @@ export default function AnalyticsIndex() {
     )
       return;
 
+    if (loadOnlyCalories && loadedLists.current.has("diet-logs-calories"))
+      return;
+
     const dietLogs = await GetAllDietLogs(true);
 
     if (dietLogs.length === 0) {
@@ -873,13 +876,16 @@ export default function AnalyticsIndex() {
   const getUserWeightList = async (
     locale: string,
     weightUnit: string,
-    loadPrimary: boolean,
+    loadWeightPrimary: boolean,
     loadOnlyWeight: boolean
   ) => {
     if (
       loadedLists.current.has("user-weights-weight") &&
       loadedLists.current.has("user-weights-body-fat")
     )
+      return;
+
+    if (loadOnlyWeight && loadedLists.current.has("user-weights-weight"))
       return;
 
     const userWeights = await GetAllUserWeights(true);
@@ -951,7 +957,7 @@ export default function AnalyticsIndex() {
     const updatedShownChartDataLines = [...shownChartDataLines];
     const updatedChartLineUnitCategoryList = [...chartLineUnitCategoryList];
 
-    if (loadPrimary) {
+    if (loadWeightPrimary) {
       setPrimaryDataKey("body_weight");
       setChartDataAreas(["body_weight"]);
       setShownChartDataAreas(["body_weight"]);
@@ -969,10 +975,10 @@ export default function AnalyticsIndex() {
     }
 
     if (!loadOnlyWeight && highestValueMap.get("body_fat_percentage")! > 0) {
-      if (loadPrimary && secondaryDataKey === undefined) {
+      if (loadWeightPrimary && secondaryDataKey === undefined) {
         setSecondaryDataKey("body_fat_percentage");
       }
-      if (loadPrimary && secondaryDataUnitCategory === undefined) {
+      if (loadWeightPrimary && secondaryDataUnitCategory === undefined) {
         setSecondaryDataUnitCategory("Body Fat %");
       }
 
