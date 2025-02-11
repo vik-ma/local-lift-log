@@ -413,6 +413,11 @@ export default function AnalyticsIndex() {
     const updatedChartLineUnitCategorySet = new Set(chartLineUnitCategorySet);
 
     if (loadCaloriesPrimary) {
+      if (primaryDataKey !== undefined) {
+        updatedChartDataLines.push(primaryDataKey);
+        updatedShownChartDataLines.push(primaryDataKey);
+      }
+
       setPrimaryDataKey("calories");
       setChartDataAreas(["calories"]);
       setShownChartDataAreas(["calories"]);
@@ -955,6 +960,11 @@ export default function AnalyticsIndex() {
     const updatedChartLineUnitCategorySet = new Set(chartLineUnitCategorySet);
 
     if (loadWeightPrimary) {
+      if (primaryDataKey !== undefined) {
+        updatedChartDataLines.push(primaryDataKey);
+        updatedShownChartDataLines.push(primaryDataKey);
+      }
+
       setPrimaryDataKey("body_weight");
       setChartDataAreas(["body_weight"]);
       setShownChartDataAreas(["body_weight"]);
@@ -1109,7 +1119,7 @@ export default function AnalyticsIndex() {
             className="font-medium"
             variant="flat"
             onPress={() =>
-              getUserWeightList(userSettings.locale, weightUnit, false, false)
+              getUserWeightList(userSettings.locale, weightUnit, true, false)
             }
             isDisabled={
               loadedLists.current.has("user-weights-weight") &&
