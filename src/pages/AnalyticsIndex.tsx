@@ -131,6 +131,14 @@ export default function AnalyticsIndex() {
     new Map()
   );
 
+  const chartDataCategorySet: Set<ChartDataCategory> = useMemo(() => {
+    if (chartData.length === 0) return new Set<ChartDataCategory>();
+
+    return new Set(
+      Object.getOwnPropertyNames(chartData[0]).filter((item) => item !== "date")
+    ) as Set<ChartDataCategory>;
+  }, [chartData]);
+
   // TODO: REMOVE?
   // const chartDataAreaSet = useMemo(
   //   () => new Set<ChartDataCategory>(chartDataAreas),
