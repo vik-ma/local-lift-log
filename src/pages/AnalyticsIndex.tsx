@@ -413,9 +413,16 @@ export default function AnalyticsIndex() {
     const updatedChartLineUnitCategorySet = new Set(chartLineUnitCategorySet);
 
     if (loadCaloriesPrimary) {
-      if (primaryDataKey !== undefined) {
-        updatedChartDataLines.push(primaryDataKey);
-        updatedShownChartDataLines.push(primaryDataKey);
+      if (
+        primaryDataKey !== undefined &&
+        chartDataUnitCategoryMap.get("calories") !==
+          chartDataUnitCategoryMap.get(primaryDataKey)
+      ) {
+        updatedChartDataLines.push(...chartDataAreas);
+        updatedShownChartDataLines.push(...shownChartDataAreas);
+        updatedChartLineUnitCategorySet.add(
+          chartDataUnitCategoryMap.get(primaryDataKey)
+        );
       }
 
       setPrimaryDataKey("calories");
@@ -960,9 +967,16 @@ export default function AnalyticsIndex() {
     const updatedChartLineUnitCategorySet = new Set(chartLineUnitCategorySet);
 
     if (loadWeightPrimary) {
-      if (primaryDataKey !== undefined) {
-        updatedChartDataLines.push(primaryDataKey);
-        updatedShownChartDataLines.push(primaryDataKey);
+      if (
+        primaryDataKey !== undefined &&
+        chartDataUnitCategoryMap.get("body_weight") !==
+          chartDataUnitCategoryMap.get(primaryDataKey)
+      ) {
+        updatedChartDataLines.push(...chartDataAreas);
+        updatedShownChartDataLines.push(...shownChartDataAreas);
+        updatedChartLineUnitCategorySet.add(
+          chartDataUnitCategoryMap.get(primaryDataKey)
+        );
       }
 
       setPrimaryDataKey("body_weight");
