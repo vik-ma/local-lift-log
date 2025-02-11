@@ -1154,6 +1154,7 @@ export default function AnalyticsIndex() {
                   orientation="right"
                 />
                 <ChartTooltip
+                  isAnimationActive={false}
                   content={
                     <ChartTooltipContent
                       chartDataUnitMap={chartDataUnitMap as Map<string, string>}
