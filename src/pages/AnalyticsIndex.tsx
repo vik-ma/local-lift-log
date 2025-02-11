@@ -131,13 +131,13 @@ export default function AnalyticsIndex() {
     new Map()
   );
 
-  const chartDataCategorySet: Set<ChartDataCategory> = useMemo(() => {
-    if (chartData.length === 0) return new Set<ChartDataCategory>();
+  // const chartDataCategorySet: Set<ChartDataCategory> = useMemo(() => {
+  //   if (chartData.length === 0) return new Set<ChartDataCategory>();
 
-    return new Set(
-      Object.getOwnPropertyNames(chartData[0]).filter((item) => item !== "date")
-    ) as Set<ChartDataCategory>;
-  }, [chartData]);
+  //   return new Set(
+  //     Object.getOwnPropertyNames(chartData[0]).filter((item) => item !== "date")
+  //   ) as Set<ChartDataCategory>;
+  // }, [chartData]);
 
   // TODO: REMOVE?
   // const chartDataAreaSet = useMemo(
@@ -465,6 +465,11 @@ export default function AnalyticsIndex() {
       }
 
       loadedLists.current.add("diet-logs-macros");
+    } else if (loadOnlyCalories && !areCaloriesAlreadyLoaded) {
+      highestCategoryValues.current.set(
+        "calories",
+        highestValueMap.get("calories")!
+      );
     }
 
     setChartDataLines([...updatedChartDataLines, ...macroLines]);
@@ -949,10 +954,12 @@ export default function AnalyticsIndex() {
       loadedChartData.push(chartDataItem);
     }
 
-    // highestCategoryValues.current.set(
-    //   "body_weight",
-    //   highestValueMap.get("body_weight")!
-    // );
+    if (!isWeightAlreadyLoaded) {
+      highestCategoryValues.current.set(
+        "body_weight",
+        highestValueMap.get("body_weight")!
+      );
+    }
 
     const filledInChartData = fillInMissingDates(loadedChartData, locale);
 
