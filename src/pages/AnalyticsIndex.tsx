@@ -590,7 +590,9 @@ export default function AnalyticsIndex() {
   };
 
   const removeTestArea = () => {
+    // Remove the test prop from chartData
     const updatedChartData: ChartDataItem[] = chartData.map(
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       ({ test, ...rest }) => rest
     );
 
@@ -653,6 +655,7 @@ export default function AnalyticsIndex() {
 
   const removeTestLine = () => {
     // Remove the test prop from chartData
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const updatedChartData = chartData.map(({ test, ...rest }) => rest);
 
     const updatedChartDataLines = chartDataLines.filter(
@@ -694,7 +697,7 @@ export default function AnalyticsIndex() {
 
   const changeSecondaryDataUnitCategory = (unitCategory: string) => {
     switch (unitCategory) {
-      case "Macros":
+      case "Macros": {
         const { highestGramValueCategory } = getHighestGramValueForMacros(
           highestCategoryValues.current
         );
@@ -702,6 +705,7 @@ export default function AnalyticsIndex() {
         setSecondaryDataKey(highestGramValueCategory as ChartDataCategory);
         setSecondaryDataUnitCategory(unitCategory);
         break;
+      }
       case "Calories":
         setSecondaryDataKey("calories");
         setSecondaryDataUnitCategory(unitCategory);
@@ -827,7 +831,7 @@ export default function AnalyticsIndex() {
       loadedChartData.map((item) => [item.date, item])
     );
 
-    let currentDate = new Date(loadedChartData[0].date);
+    const currentDate = new Date(loadedChartData[0].date);
     const endDate = new Date(loadedChartData[loadedChartData.length - 1].date);
 
     while (currentDate <= endDate) {
