@@ -303,13 +303,13 @@ export default function AnalyticsIndex() {
       setWeightUnit(userSettings.default_unit_weight);
       // setDistanceUnit(userSettings.default_unit_distance);
 
-      getDietLogList(userSettings.locale, true, false);
-      // getUserWeightList(
-      //   userSettings.locale,
-      //   userSettings.default_unit_weight,
-      //   true,
-      //   true
-      // );
+      // getDietLogList(userSettings.locale, true, true);
+      getUserWeightList(
+        userSettings.locale,
+        userSettings.default_unit_weight,
+        true,
+        false
+      );
     };
 
     loadUserSettings();
@@ -438,6 +438,23 @@ export default function AnalyticsIndex() {
       setPrimaryDataKey("calories");
       setChartDataAreas(["calories"]);
       setShownChartDataAreas(["calories"]);
+
+      if (areCaloriesAlreadyLoaded && primaryDataKey !== "calories") {
+        // Replace calories chartLine with chartArea
+        const chartDataLineIndex = updatedChartDataLines.findIndex(
+          (item) => item === "calories"
+        );
+        const shownChartDataLineIndex = updatedShownChartDataLines.findIndex(
+          (item) => item === "calories"
+        );
+
+        updatedChartDataLines.splice(chartDataLineIndex, 1);
+        updatedShownChartDataLines.splice(shownChartDataLineIndex, 1);
+
+        updatedChartLineUnitCategorySet.delete(
+          chartDataUnitCategoryMap.get("calories")
+        );
+      }
     }
 
     if (!loadCaloriesPrimary && !areCaloriesAlreadyLoaded) {
@@ -1452,19 +1469,6 @@ export default function AnalyticsIndex() {
             </div>
           )}
         </div>
-        <Button
-          className="font-medium"
-          variant="flat"
-          onPress={() =>
-            getUserWeightList(userSettings.locale, weightUnit, false, true)
-          }
-          isDisabled={
-            loadedLists.current.has("user-weights-weight") &&
-            loadedLists.current.has("user-weights-body-fat")
-          }
-        >
-          Load User Weights
-        </Button>
       </div>
     </>
   );
