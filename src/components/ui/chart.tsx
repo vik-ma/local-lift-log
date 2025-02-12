@@ -109,8 +109,8 @@ const ChartTooltipContent = React.forwardRef<
       indicator?: "line" | "dot" | "dashed";
       nameKey?: string;
       labelKey?: string;
-      chartDataUnitMap: Map<string, string>;
-      noteMapMap: Map<string, Map<string, string>>;
+      chartDataUnitMap?: Map<string, string>;
+      noteMapMap?: Map<string, Map<string, string>>;
     }
 >(
   (
@@ -172,7 +172,7 @@ const ChartTooltipContent = React.forwardRef<
     ]);
 
     const noteMap = React.useMemo(
-      () => noteMapMap.get(label),
+      () => (noteMapMap ? noteMapMap.get(label) : undefined),
       [label, noteMapMap]
     );
 
@@ -250,9 +250,11 @@ const ChartTooltipContent = React.forwardRef<
                           <span className="font-semibold">
                             {item.value.toLocaleString()}
                           </span>
-                          <span>
-                            {chartDataUnitMap.get(item.dataKey as string)}
-                          </span>
+                          {chartDataUnitMap && (
+                            <span>
+                              {chartDataUnitMap.get(item.dataKey as string)}
+                            </span>
+                          )}
                         </div>
                       )}
                     </div>
