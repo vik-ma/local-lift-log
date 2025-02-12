@@ -192,7 +192,7 @@ export default function AnalyticsIndex() {
         )
       )
     ) as ChartDataItem[];
-  }, [chartData]);
+  }, [chartData, chartDataAreas, chartDataLines]);
 
   const listModal = useDisclosure();
 
@@ -270,7 +270,7 @@ export default function AnalyticsIndex() {
       },
       test: { label: chartDataCategoryLabelMap.get("test") },
     };
-  }, []);
+  }, [chartDataCategoryLabelMap]);
 
   const chartLineColorList = useMemo(() => {
     return ["#6b80ed", "#e6475a", "#56db67", "#cf820e", "#8739cf", "#525252"];
@@ -293,27 +293,31 @@ export default function AnalyticsIndex() {
     return ["#2862cc", "#26be21", "#ff3ba7", "#c93814", "#1ab2f8"];
   }, []);
 
-  useEffect(() => {
-    const loadUserSettings = async () => {
-      const userSettings = await GetUserSettings();
+  useEffect(
+    () => {
+      const loadUserSettings = async () => {
+        const userSettings = await GetUserSettings();
 
-      if (userSettings === undefined) return;
+        if (userSettings === undefined) return;
 
-      setUserSettings(userSettings);
-      setWeightUnit(userSettings.default_unit_weight);
-      // setDistanceUnit(userSettings.default_unit_distance);
+        setUserSettings(userSettings);
+        setWeightUnit(userSettings.default_unit_weight);
+        // setDistanceUnit(userSettings.default_unit_distance);
 
-      // getDietLogList(userSettings.locale, true, true);
-      getUserWeightList(
-        userSettings.locale,
-        userSettings.default_unit_weight,
-        true,
-        false
-      );
-    };
+        // getDietLogList(userSettings.locale, true, true);
+        getUserWeightList(
+          userSettings.locale,
+          userSettings.default_unit_weight,
+          true,
+          false
+        );
+      };
 
-    loadUserSettings();
-  }, []);
+      loadUserSettings();
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
 
   const handleOpenListModal = async (modalListType: ModalListType) => {
     if (userSettings === undefined) return;
