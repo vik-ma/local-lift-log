@@ -154,7 +154,13 @@ export default function AnalyticsIndex() {
   const noteMapMap = useMemo(() => {
     const unitMap = new Map<string, Map<string, string>>();
 
-    unitMap.set("Nov 19, 2024", new Map([["Note", "Test"]]));
+    unitMap.set(
+      "Nov 19, 2024",
+      new Map([
+        ["Note", "Test"],
+        ["Second Note", "Test Test"],
+      ])
+    );
 
     return unitMap;
   }, []);

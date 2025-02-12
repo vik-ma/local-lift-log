@@ -264,6 +264,16 @@ const ChartTooltipContent = React.forwardRef<
             );
           })}
         </div>
+        {noteMap && (
+          <div className="flex flex-col">
+            {Array.from(noteMap).map(([noteType, note]) => (
+              <div key={noteType} className="flex gap-1 text-stone-950 dark:text-stone-50">
+                <span className="font-semibold">{noteType}:</span>
+                <span className="">{note}</span>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     );
   }
