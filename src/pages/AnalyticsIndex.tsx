@@ -65,6 +65,7 @@ type ChartDataItem = {
   body_weight?: number | null;
   body_fat_percentage?: number | null;
   test?: number;
+  notes?: string[];
 };
 
 type ChartDataCategory =
@@ -149,6 +150,14 @@ export default function AnalyticsIndex() {
   //   () => new Set<ChartDataCategory>(chartDataLines),
   //   [chartDataLines]
   // );
+
+  const noteMapMap = useMemo(() => {
+    const unitMap = new Map<string, Map<string, string>>();
+
+    unitMap.set("Nov 19, 2024", new Map([["Note", "Test"]]));
+
+    return unitMap;
+  }, []);
 
   const timePeriodIdSet = useMemo(
     () =>
@@ -572,6 +581,7 @@ export default function AnalyticsIndex() {
     const updatedChartData = chartData.map((item) => ({
       ...item,
       test: Math.floor(Math.random() * 400),
+      notes: ["asd"],
     }));
 
     setChartData(updatedChartData);
@@ -1201,6 +1211,7 @@ export default function AnalyticsIndex() {
                   content={
                     <ChartTooltipContent
                       chartDataUnitMap={chartDataUnitMap as Map<string, string>}
+                      noteMapMap={noteMapMap}
                     />
                   }
                 />

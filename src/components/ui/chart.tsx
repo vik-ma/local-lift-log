@@ -110,6 +110,7 @@ const ChartTooltipContent = React.forwardRef<
       nameKey?: string;
       labelKey?: string;
       chartDataUnitMap: Map<string, string>;
+      noteMapMap: Map<string, Map<string, string>>;
     }
 >(
   (
@@ -128,6 +129,7 @@ const ChartTooltipContent = React.forwardRef<
       nameKey,
       labelKey,
       chartDataUnitMap,
+      noteMapMap,
     },
     ref
   ) => {
@@ -168,6 +170,11 @@ const ChartTooltipContent = React.forwardRef<
       config,
       labelKey,
     ]);
+
+    const noteMap = React.useMemo(
+      () => noteMapMap.get(label),
+      [label, noteMapMap]
+    );
 
     if (!active || !payload?.length) {
       return null;
