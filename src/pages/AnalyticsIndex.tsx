@@ -217,10 +217,10 @@ export default function AnalyticsIndex() {
   const chartNoteMap = useMemo(() => {
     const unitMap = new Map<string, ChartNote[]>();
 
-    unitMap.set("Nov 19, 2024", [
+    unitMap.set("Jan 22, 2025", [
       {
         dataKeys: new Set(["body_weight", "body_fat_percentage"]),
-        noteType: "Diet Log Note:",
+        noteType: "Diet Log Note",
         note: "Test Test",
       },
     ]);

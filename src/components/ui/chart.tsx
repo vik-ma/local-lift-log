@@ -2,7 +2,7 @@ import * as React from "react";
 import * as RechartsPrimitive from "recharts";
 
 import { cn } from "../../lib/utils";
-import { ChartDataCategory } from "../../pages/AnalyticsIndex";
+import { ChartDataCategory, ChartNote } from "../../pages/AnalyticsIndex";
 
 // Format: { THEME_NAME: CSS_SELECTOR }
 const THEMES = { light: "", dark: ".dark" } as const;
@@ -111,7 +111,7 @@ const ChartTooltipContent = React.forwardRef<
       nameKey?: string;
       labelKey?: string;
       chartDataUnitMap?: Map<ChartDataCategory, string>;
-      noteMapMap?: Map<string, Map<string, string>>;
+      chartNoteMap?: Map<string, ChartNote[]>;
     }
 >(
   (
@@ -130,7 +130,7 @@ const ChartTooltipContent = React.forwardRef<
       nameKey,
       labelKey,
       chartDataUnitMap,
-      noteMapMap,
+      chartNoteMap,
     },
     ref
   ) => {
@@ -173,8 +173,8 @@ const ChartTooltipContent = React.forwardRef<
     ]);
 
     const noteMap = React.useMemo(
-      () => (noteMapMap ? noteMapMap.get(label) : null),
-      [label, noteMapMap]
+      () => (chartNoteMap ? chartNoteMap.get(label) : null),
+      [label, chartNoteMap]
     );
 
     const dataKeys = React.useMemo(() => {
@@ -281,13 +281,13 @@ const ChartTooltipContent = React.forwardRef<
         </div>
         {noteMap && (
           <div className="flex flex-col">
-            {Array.from(noteMap).map(([noteType, note]) => (
+            {Array.from(noteMap).map((chartNote) => (
               <div
-                key={noteType}
-                className="flex gap-1 text-stone-950 dark:text-stone-50"
+                key={chartNote.noteType}
+                className="flex gap-[3px] text-stone-950 dark:text-stone-50"
               >
-                <span className="font-semibold">{noteType}:</span>
-                <span className="">{note}</span>
+                <span className="font-semibold">{chartNote.noteType}:</span>
+                <span className="">{chartNote.note}</span>
               </div>
             ))}
           </div>
