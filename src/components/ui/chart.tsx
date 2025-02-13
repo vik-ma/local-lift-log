@@ -2,7 +2,7 @@ import * as React from "react";
 import * as RechartsPrimitive from "recharts";
 
 import { cn } from "../../lib/utils";
-import { ChartDataCategory, ChartNote } from "../../pages/AnalyticsIndex";
+import { ChartDataCategory, ChartComment } from "../../pages/AnalyticsIndex";
 
 // Format: { THEME_NAME: CSS_SELECTOR }
 const THEMES = { light: "", dark: ".dark" } as const;
@@ -111,7 +111,7 @@ const ChartTooltipContent = React.forwardRef<
       nameKey?: string;
       labelKey?: string;
       chartDataUnitMap?: Map<ChartDataCategory, string>;
-      chartNoteMap?: Map<string, ChartNote[]>;
+      chartCommentMap?: Map<string, ChartComment[]>;
     }
 >(
   (
@@ -130,7 +130,7 @@ const ChartTooltipContent = React.forwardRef<
       nameKey,
       labelKey,
       chartDataUnitMap,
-      chartNoteMap,
+      chartCommentMap,
     },
     ref
   ) => {
@@ -172,9 +172,9 @@ const ChartTooltipContent = React.forwardRef<
       labelKey,
     ]);
 
-    const noteMap = React.useMemo(
-      () => (chartNoteMap ? chartNoteMap.get(label) : null),
-      [label, chartNoteMap]
+    const commentMap = React.useMemo(
+      () => (chartCommentMap ? chartCommentMap.get(label) : null),
+      [label, chartCommentMap]
     );
 
     const dataKeys = React.useMemo(() => {
@@ -279,28 +279,30 @@ const ChartTooltipContent = React.forwardRef<
             );
           })}
         </div>
-        {noteMap && dataKeys && (
+        {commentMap && dataKeys && (
           <div className="flex flex-col">
-            {Array.from(noteMap).map((chartNote) => {
-              let showNote = false;
+            {Array.from(commentMap).map((chartComment) => {
+              let showComment = false;
 
-              for (const key of chartNote.dataKeys) {
+              for (const key of chartComment.dataKeys) {
                 if (dataKeys.has(key)) {
-                  showNote = true;
+                  showComment = true;
                   break;
                 }
               }
 
-              // Only show notes if they have a related dataKey being rendered
-              if (!showNote) return null;
+              // Only show comments if they have a related dataKey being rendered
+              if (!showComment) return null;
 
               return (
                 <div
-                  key={chartNote.noteType}
+                  key={chartComment.label}
                   className="flex gap-[3px] text-stone-950 dark:text-stone-50"
                 >
-                  <span className="font-semibold">{chartNote.noteType}:</span>
-                  <span className="max-w-[15rem] break-all">{chartNote.note}</span>
+                  <span className="font-semibold">{chartComment.label}:</span>
+                  <span className="max-w-[15rem] break-all">
+                    {chartComment.comment}
+                  </span>
                 </div>
               );
             })}

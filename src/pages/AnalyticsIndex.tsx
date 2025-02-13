@@ -102,10 +102,10 @@ type LoadedListType =
   | "user-weights-body-fat";
 
 // TODO: MOVE TO typings.ts
-export type ChartNote = {
+export type ChartComment = {
   dataKeys: Set<ChartDataCategory>;
-  noteType: string;
-  note: string;
+  label: string;
+  comment: string;
 };
 
 export default function AnalyticsIndex() {
@@ -214,19 +214,19 @@ export default function AnalyticsIndex() {
     setSelectedTimePeriodProperties,
   } = timePeriodList;
 
-  const chartNoteMap = useMemo(() => {
-    const unitMap = new Map<string, ChartNote[]>();
+  const chartCommentMap = useMemo(() => {
+    const unitMap = new Map<string, ChartComment[]>();
 
     unitMap.set("Jan 22, 2025", [
       {
         dataKeys: new Set(["body_weight", "body_fat_percentage"]),
-        noteType: "User Weight Note",
-        note: "Test Test",
+        label: "User Weight Comment",
+        comment: "Test Test",
       },
       {
         dataKeys: new Set(["calories", "fat", "carbs", "protein"]),
-        noteType: "Diet Log Note",
-        note: "Test Test Test Test Test",
+        label: "Diet Log Comment",
+        comment: "Test Test Test Test Test",
       },
     ]);
 
@@ -1293,7 +1293,7 @@ export default function AnalyticsIndex() {
                   content={
                     <ChartTooltipContent
                       chartDataUnitMap={chartDataUnitMap}
-                      chartNoteMap={chartNoteMap}
+                      chartCommentMap={chartCommentMap}
                     />
                   }
                 />
