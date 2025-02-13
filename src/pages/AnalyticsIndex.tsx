@@ -67,7 +67,7 @@ type ChartDataItem = {
   test?: number;
 };
 
-// TODO: MOVE TO typings.ts
+// TODO: MOVE TO typings.ts LATER
 export type ChartDataCategory =
   | undefined
   | "calories"
@@ -100,7 +100,7 @@ type LoadedListType =
   | "user-weights-weight"
   | "user-weights-body-fat";
 
-// TODO: MOVE TO typings.ts
+// TODO: MOVE TO typings.ts LATER
 export type ChartComment = {
   dataKeys: Set<ChartDataCategory>;
   label: string;
@@ -215,25 +215,6 @@ export default function AnalyticsIndex() {
     isTimePeriodListLoaded,
     setSelectedTimePeriodProperties,
   } = timePeriodList;
-
-  // const chartCommentMap = useMemo(() => {
-  //   const unitMap = new Map<string, ChartComment[]>();
-
-  //   unitMap.set("Jan 22, 2025", [
-  //     {
-  //       dataKeys: new Set(["body_weight", "body_fat_percentage"]),
-  //       label: "User Weight Comment",
-  //       comment: "Test Test",
-  //     },
-  //     {
-  //       dataKeys: new Set(["calories", "fat", "carbs", "protein"]),
-  //       label: "Diet Log Comment",
-  //       comment: "Test Test Test Test Test",
-  //     },
-  //   ]);
-
-  //   return unitMap;
-  // }, []);
 
   const chartDataCategoryLabelMap = useMemo(() => {
     const categoryMap = new Map<ChartDataCategory, string>();
