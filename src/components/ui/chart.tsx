@@ -279,17 +279,31 @@ const ChartTooltipContent = React.forwardRef<
             );
           })}
         </div>
-        {noteMap && (
+        {noteMap && dataKeys && (
           <div className="flex flex-col">
-            {Array.from(noteMap).map((chartNote) => (
-              <div
-                key={chartNote.noteType}
-                className="flex gap-[3px] text-stone-950 dark:text-stone-50"
-              >
-                <span className="font-semibold">{chartNote.noteType}:</span>
-                <span className="">{chartNote.note}</span>
-              </div>
-            ))}
+            {Array.from(noteMap).map((chartNote) => {
+              let showNote = false;
+
+              for (const key of chartNote.dataKeys) {
+                if (dataKeys.has(key)) {
+                  showNote = true;
+                  break;
+                }
+              }
+
+              // Only show notes if they have a related dataKey being rendered
+              if (!showNote) return null;
+
+              return (
+                <div
+                  key={chartNote.noteType}
+                  className="flex gap-[3px] text-stone-950 dark:text-stone-50"
+                >
+                  <span className="font-semibold">{chartNote.noteType}:</span>
+                  <span className="">{chartNote.note}</span>
+                </div>
+              );
+            })}
           </div>
         )}
       </div>

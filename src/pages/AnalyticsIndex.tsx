@@ -220,8 +220,13 @@ export default function AnalyticsIndex() {
     unitMap.set("Jan 22, 2025", [
       {
         dataKeys: new Set(["body_weight", "body_fat_percentage"]),
-        noteType: "Diet Log Note",
+        noteType: "User Weight Note",
         note: "Test Test",
+      },
+      {
+        dataKeys: new Set(["calories", "fat", "carbs", "protein"]),
+        noteType: "Diet Log Note",
+        note: "Test Test Test Test Test",
       },
     ]);
 
@@ -1230,7 +1235,7 @@ export default function AnalyticsIndex() {
           <Button
             className="font-medium"
             variant="flat"
-            onPress={() => getDietLogList(userSettings.locale, true, false)}
+            onPress={() => getDietLogList(userSettings.locale, false, false)}
             isDisabled={
               loadedLists.current.has("diet-logs-calories") &&
               loadedLists.current.has("diet-logs-macros")
