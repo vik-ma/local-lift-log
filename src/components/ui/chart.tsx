@@ -199,12 +199,12 @@ const ChartTooltipContent = React.forwardRef<
       <div
         ref={ref}
         className={cn(
-          "grid min-w-[8rem] items-start gap-1.5 rounded-lg border border-stone-200 border-stone-200/50 bg-white px-2.5 py-1.5 text-xs shadow-xl dark:border-stone-800 dark:border-stone-800/50 dark:bg-stone-950",
+          "grid min-w-[8rem] items-start gap-1 rounded-lg border border-stone-200 border-stone-200/50 bg-white px-2.5 py-1.5 text-xs shadow-xl dark:border-stone-800 dark:border-stone-800/50 dark:bg-stone-950",
           className
         )}
       >
         {!nestLabel ? tooltipLabel : null}
-        <div className="grid gap-1.5">
+        <div className="grid gap-1.5 pt-0.5">
           {payload.map((item, index) => {
             const key = `${nameKey || item.name || item.dataKey || "value"}`;
             const itemConfig = getPayloadConfigFromPayload(config, item, key);
@@ -297,7 +297,7 @@ const ChartTooltipContent = React.forwardRef<
               return (
                 <div
                   key={chartComment.label}
-                  className="flex gap-[3px] text-stone-950 dark:text-stone-50"
+                  className="flex gap-[3px] text-stone-600 dark:text-stone-50"
                 >
                   <span className="font-semibold">{chartComment.label}:</span>
                   <span className="max-w-[15rem] break-all">
