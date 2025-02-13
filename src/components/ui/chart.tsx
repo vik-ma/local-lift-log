@@ -177,6 +177,20 @@ const ChartTooltipContent = React.forwardRef<
       [label, noteMapMap]
     );
 
+    const dataKeys = React.useMemo(() => {
+      const dataKeySet = new Set<ChartDataCategory>();
+
+      if (payload === undefined) return dataKeySet;
+
+      for (const item of payload) {
+        dataKeySet.add(item.dataKey as ChartDataCategory);
+      }
+
+      return dataKeySet;
+    }, [payload]);
+
+    console.log(dataKeys);
+
     if (!active || !payload?.length) {
       return null;
     }
