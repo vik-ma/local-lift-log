@@ -65,7 +65,6 @@ type ChartDataItem = {
   body_weight?: number | null;
   body_fat_percentage?: number | null;
   test?: number;
-  notes?: string[];
 };
 
 // TODO: MOVE TO typings.ts
@@ -624,7 +623,6 @@ export default function AnalyticsIndex() {
     const updatedChartData = chartData.map((item) => ({
       ...item,
       test: Math.floor(Math.random() * 400),
-      notes: ["asd"],
     }));
 
     setChartData(updatedChartData);
