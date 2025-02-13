@@ -133,6 +133,9 @@ export default function AnalyticsIndex() {
   >([]);
   const [weightUnit, setWeightUnit] = useState<string>("kg");
   // const [distanceUnit, setDistanceUnit] = useState<string>("km");
+  const [chartCommentMap, setChartCommentMap] = useState<
+    Map<string, ChartComment[]>
+  >(new Map());
 
   const [showTestButtons, setShowTestButtons] = useState<boolean>(false);
 
@@ -214,24 +217,24 @@ export default function AnalyticsIndex() {
     setSelectedTimePeriodProperties,
   } = timePeriodList;
 
-  const chartCommentMap = useMemo(() => {
-    const unitMap = new Map<string, ChartComment[]>();
+  // const chartCommentMap = useMemo(() => {
+  //   const unitMap = new Map<string, ChartComment[]>();
 
-    unitMap.set("Jan 22, 2025", [
-      {
-        dataKeys: new Set(["body_weight", "body_fat_percentage"]),
-        label: "User Weight Comment",
-        comment: "Test Test",
-      },
-      {
-        dataKeys: new Set(["calories", "fat", "carbs", "protein"]),
-        label: "Diet Log Comment",
-        comment: "Test Test Test Test Test",
-      },
-    ]);
+  //   unitMap.set("Jan 22, 2025", [
+  //     {
+  //       dataKeys: new Set(["body_weight", "body_fat_percentage"]),
+  //       label: "User Weight Comment",
+  //       comment: "Test Test",
+  //     },
+  //     {
+  //       dataKeys: new Set(["calories", "fat", "carbs", "protein"]),
+  //       label: "Diet Log Comment",
+  //       comment: "Test Test Test Test Test",
+  //     },
+  //   ]);
 
-    return unitMap;
-  }, []);
+  //   return unitMap;
+  // }, []);
 
   const chartDataCategoryLabelMap = useMemo(() => {
     const categoryMap = new Map<ChartDataCategory, string>();
@@ -963,6 +966,8 @@ export default function AnalyticsIndex() {
 
     const dateSet = new Set<string>();
 
+    const updatedChartCommentMap = new Map(chartCommentMap);
+
     for (const userWeight of userWeights) {
       const date = FormatDateToShortString(new Date(userWeight.date), locale);
 
@@ -974,6 +979,23 @@ export default function AnalyticsIndex() {
       const chartDataItem: ChartDataItem = {
         date,
       };
+
+      if (userWeight.comment !== null) {
+        const chartComment: ChartComment = {
+          dataKeys: new Set(["body_weight", "body_fat_percentage"]),
+          label: "Body Weight Comment",
+          comment: userWeight.comment,
+        };
+
+        if (updatedChartCommentMap.has(date)) {
+          const updatedChartCommentList = updatedChartCommentMap.get(date)!;
+          updatedChartCommentList.push(chartComment);
+        } else {
+          updatedChartCommentMap.set(date, [chartComment]);
+        }
+
+        setChartCommentMap(updatedChartCommentMap);
+      }
 
       if (!isWeightAlreadyLoaded) {
         chartDataItem.body_weight = ConvertWeightValue(
