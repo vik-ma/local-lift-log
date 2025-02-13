@@ -101,6 +101,13 @@ type LoadedListType =
   | "user-weights-weight"
   | "user-weights-body-fat";
 
+// TODO: MOVE TO typings.ts
+export type ChartNote = {
+  dataKeys: Set<ChartDataCategory>;
+  noteType: string;
+  note: string;
+};
+
 export default function AnalyticsIndex() {
   const [modalListType, setModalListType] = useState<ModalListType>("exercise");
   const [userSettings, setUserSettings] = useState<UserSettings>();
@@ -151,20 +158,6 @@ export default function AnalyticsIndex() {
   //   () => new Set<ChartDataCategory>(chartDataLines),
   //   [chartDataLines]
   // );
-
-  const noteMapMap = useMemo(() => {
-    const unitMap = new Map<string, Map<string, string>>();
-
-    unitMap.set(
-      "Nov 19, 2024",
-      new Map([
-        ["Note", "Test"],
-        ["Second Note", "Test Test"],
-      ])
-    );
-
-    return unitMap;
-  }, []);
 
   const timePeriodIdSet = useMemo(
     () =>
@@ -220,6 +213,20 @@ export default function AnalyticsIndex() {
     isTimePeriodListLoaded,
     setSelectedTimePeriodProperties,
   } = timePeriodList;
+
+  const chartNoteMap = useMemo(() => {
+    const unitMap = new Map<string, ChartNote[]>();
+
+    unitMap.set("Nov 19, 2024", [
+      {
+        dataKeys: new Set(["body_weight", "body_fat_percentage"]),
+        noteType: "Diet Log Note:",
+        note: "Test Test",
+      },
+    ]);
+
+    return unitMap;
+  }, []);
 
   const chartDataCategoryLabelMap = useMemo(() => {
     const categoryMap = new Map<ChartDataCategory, string>();
@@ -1281,7 +1288,7 @@ export default function AnalyticsIndex() {
                   content={
                     <ChartTooltipContent
                       chartDataUnitMap={chartDataUnitMap}
-                      noteMapMap={noteMapMap}
+                      chartNoteMap={chartNoteMap}
                     />
                   }
                 />
