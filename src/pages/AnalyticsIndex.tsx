@@ -396,10 +396,29 @@ export default function AnalyticsIndex() {
     highestValueMap.set("carbs", 0);
     highestValueMap.set("protein", 0);
 
+    const updatedChartCommentMap = new Map(chartCommentMap);
+
     for (const dietLog of dietLogs) {
+      const date = FormatDateToShortString(new Date(dietLog.date), locale);
+
       const chartDataItem: ChartDataItem = {
-        date: FormatDateToShortString(new Date(dietLog.date), locale),
+        date,
       };
+
+      if (dietLog.comment !== null) {
+        const chartComment: ChartComment = {
+          dataKeys: new Set(["calories", "fat", "carbs", "protein"]),
+          label: "Diet Log Comment",
+          comment: dietLog.comment,
+        };
+
+        if (updatedChartCommentMap.has(date)) {
+          const updatedChartCommentList = updatedChartCommentMap.get(date)!;
+          updatedChartCommentList.push(chartComment);
+        } else {
+          updatedChartCommentMap.set(date, [chartComment]);
+        }
+      }
 
       if (!areCaloriesAlreadyLoaded) {
         chartDataItem.calories = dietLog.calories;
@@ -435,6 +454,8 @@ export default function AnalyticsIndex() {
 
       loadedChartData.push(chartDataItem);
     }
+
+    setChartCommentMap(updatedChartCommentMap);
 
     const filledInChartData = fillInMissingDates(loadedChartData, locale);
 
@@ -991,8 +1012,6 @@ export default function AnalyticsIndex() {
         } else {
           updatedChartCommentMap.set(date, [chartComment]);
         }
-
-        setChartCommentMap(updatedChartCommentMap);
       }
 
       if (!isWeightAlreadyLoaded) {
@@ -1024,6 +1043,8 @@ export default function AnalyticsIndex() {
 
       loadedChartData.push(chartDataItem);
     }
+
+    setChartCommentMap(updatedChartCommentMap);
 
     if (!isWeightAlreadyLoaded) {
       highestCategoryValues.current.set(
