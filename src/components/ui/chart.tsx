@@ -2,6 +2,7 @@ import * as React from "react";
 import * as RechartsPrimitive from "recharts";
 
 import { cn } from "../../lib/utils";
+import { ChartDataCategory } from "../../pages/AnalyticsIndex";
 
 // Format: { THEME_NAME: CSS_SELECTOR }
 const THEMES = { light: "", dark: ".dark" } as const;
@@ -109,7 +110,7 @@ const ChartTooltipContent = React.forwardRef<
       indicator?: "line" | "dot" | "dashed";
       nameKey?: string;
       labelKey?: string;
-      chartDataUnitMap?: Map<string, string>;
+      chartDataUnitMap?: Map<ChartDataCategory, string>;
       noteMapMap?: Map<string, Map<string, string>>;
     }
 >(
@@ -252,7 +253,9 @@ const ChartTooltipContent = React.forwardRef<
                           </span>
                           {chartDataUnitMap && (
                             <span>
-                              {chartDataUnitMap.get(item.dataKey as string)}
+                              {chartDataUnitMap.get(
+                                item.dataKey as ChartDataCategory
+                              )}
                             </span>
                           )}
                         </div>
@@ -267,7 +270,10 @@ const ChartTooltipContent = React.forwardRef<
         {noteMap && (
           <div className="flex flex-col">
             {Array.from(noteMap).map(([noteType, note]) => (
-              <div key={noteType} className="flex gap-1 text-stone-950 dark:text-stone-50">
+              <div
+                key={noteType}
+                className="flex gap-1 text-stone-950 dark:text-stone-50"
+              >
                 <span className="font-semibold">{noteType}:</span>
                 <span className="">{note}</span>
               </div>

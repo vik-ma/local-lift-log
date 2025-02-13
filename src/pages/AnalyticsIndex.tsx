@@ -68,7 +68,8 @@ type ChartDataItem = {
   notes?: string[];
 };
 
-type ChartDataCategory =
+// TODO: MOVE TO typings.ts
+export type ChartDataCategory =
   | undefined
   | "calories"
   | "fat"
@@ -1279,7 +1280,7 @@ export default function AnalyticsIndex() {
                   isAnimationActive={false}
                   content={
                     <ChartTooltipContent
-                      chartDataUnitMap={chartDataUnitMap as Map<string, string>}
+                      chartDataUnitMap={chartDataUnitMap}
                       noteMapMap={noteMapMap}
                     />
                   }
