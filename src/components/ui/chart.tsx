@@ -300,7 +300,7 @@ const ChartTooltipContent = React.forwardRef<
                   className="flex gap-[3px] text-stone-950 dark:text-stone-50"
                 >
                   <span className="font-semibold">{chartNote.noteType}:</span>
-                  <span className="">{chartNote.note}</span>
+                  <span className="max-w-[15rem] break-all">{chartNote.note}</span>
                 </div>
               );
             })}
