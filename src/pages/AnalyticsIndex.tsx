@@ -1190,6 +1190,13 @@ export default function AnalyticsIndex() {
   };
 
   const setChartDataLineAsArea = (chartDataLine: ChartDataCategory) => {
+    const updatedChartDataLines = chartDataLines.filter(
+      (item) => item !== chartDataLine
+    );
+    const updatedShownChartDataLines = shownChartDataLines.filter(
+      (item) => item !== chartDataLine
+    );
+
     if (
       chartDataUnitMap.get(chartDataLine) ===
       chartDataUnitMap.get(shownChartDataAreas[0])
@@ -1197,33 +1204,6 @@ export default function AnalyticsIndex() {
       // Add new Chart Area if same unit as current Chart Area
       setChartDataAreas([...chartDataAreas, chartDataLine]);
       setShownChartDataAreas([...shownChartDataAreas, chartDataLine]);
-
-      const updatedChartDataLines = chartDataLines.filter(
-        (item) => item !== chartDataLine
-      );
-      const updatedShownChartDataLines = shownChartDataLines.filter(
-        (item) => item !== chartDataLine
-      );
-
-      setChartDataLines(updatedChartDataLines);
-      setShownChartDataLines(updatedShownChartDataLines);
-
-      const updatedChartLineUnitCategorySet = new Set(
-        updatedShownChartDataLines.map((item) =>
-          chartDataUnitCategoryMap.get(item)
-        )
-      );
-
-      setChartLineUnitCategorySet(updatedChartLineUnitCategorySet);
-
-      if (secondaryDataKey === chartDataLine) {
-        setSecondaryDataKey(updatedShownChartDataLines[0]);
-        setSecondaryDataUnitCategory(
-          chartDataUnitCategoryMap.get(updatedShownChartDataLines[0])
-        );
-        // TODO: FIX RIGHT Y-AXIS
-      }
-      // TODO: FIX LEFT Y-AXIS
     } else {
       // Create new Chart Area and change all existing Chart Areas to Chart Lines
       const currentAreas = [...chartDataAreas];
@@ -1231,38 +1211,31 @@ export default function AnalyticsIndex() {
 
       setChartDataAreas([chartDataLine]);
       setShownChartDataAreas([chartDataLine]);
-      setSecondaryDataKey(chartDataLine);
-
-      const updatedChartDataLines = chartDataLines.filter(
-        (item) => item !== chartDataLine
-      );
-      const updatedShownChartDataLines = shownChartDataLines.filter(
-        (item) => item !== chartDataLine
-      );
+      setPrimaryDataKey(chartDataLine);
 
       updatedChartDataLines.push(...currentAreas);
       updatedShownChartDataLines.push(...currentShownAreas);
-
-      setChartDataLines(updatedChartDataLines);
-      setShownChartDataLines(updatedShownChartDataLines);
-
-      const updatedChartLineUnitCategorySet = new Set(
-        updatedShownChartDataLines.map((item) =>
-          chartDataUnitCategoryMap.get(item)
-        )
-      );
-
-      setChartLineUnitCategorySet(updatedChartLineUnitCategorySet);
-
-      if (secondaryDataKey === chartDataLine) {
-        setSecondaryDataKey(updatedShownChartDataLines[0]);
-        setSecondaryDataUnitCategory(
-          chartDataUnitCategoryMap.get(updatedShownChartDataLines[0])
-        );
-        // TODO: FIX RIGHT Y-AXIS
-      }
-      // TODO: FIX LEFT Y-AXIS
     }
+
+    setChartDataLines(updatedChartDataLines);
+    setShownChartDataLines(updatedShownChartDataLines);
+
+    const updatedChartLineUnitCategorySet = new Set(
+      updatedShownChartDataLines.map((item) =>
+        chartDataUnitCategoryMap.get(item)
+      )
+    );
+
+    setChartLineUnitCategorySet(updatedChartLineUnitCategorySet);
+
+    if (secondaryDataKey === chartDataLine) {
+      setSecondaryDataKey(updatedShownChartDataLines[0]);
+      setSecondaryDataUnitCategory(
+        chartDataUnitCategoryMap.get(updatedShownChartDataLines[0])
+      );
+      // TODO: FIX RIGHT Y-AXIS
+    }
+    // TODO: FIX LEFT Y-AXIS
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;
