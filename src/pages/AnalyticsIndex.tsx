@@ -1189,6 +1189,35 @@ export default function AnalyticsIndex() {
     );
   };
 
+  const setChartDataLineAsArea = (chartDataLine: ChartDataCategory) => {
+    if (
+      chartDataUnitMap.get(chartDataLine) ===
+      chartDataUnitMap.get(shownChartDataAreas[0])
+    ) {
+      // Add new Chart Area if same unit as current Chart Area
+      setChartDataAreas([...chartDataAreas, chartDataLine]);
+      setShownChartDataAreas([...shownChartDataAreas, chartDataLine]);
+
+      const updatedChartDataLines = chartDataLines.filter(
+        (item) => item !== chartDataLine
+      );
+      const updatedShownChartDataLines = shownChartDataLines.filter(
+        (item) => item !== chartDataLine
+      );
+
+      setChartDataLines(updatedChartDataLines);
+      setShownChartDataLines(updatedShownChartDataLines);
+
+      if (secondaryDataKey === chartDataLine) {
+        setSecondaryDataKey(updatedShownChartDataLines[0]);
+      }
+
+      // TODO: FIX Y-AXIS
+    } else {
+      // TODO: FIX Y-AXIS
+    }
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -1453,15 +1482,11 @@ export default function AnalyticsIndex() {
                       Set Area
                     </Button>
                   </DropdownTrigger>
-                  <DropdownMenu
-                    aria-label="Chart data lines"
-                    variant="flat"
-                    disallowEmptySelection
-                  >
+                  <DropdownMenu aria-label="Chart data lines" variant="flat">
                     {chartDataLines.map((line) => (
                       <DropdownItem
                         key={line as string}
-                        onPress={() => console.log(line)}
+                        onPress={() => setChartDataLineAsArea(line)}
                       >
                         {chartDataCategoryLabelMap.get(line)}
                       </DropdownItem>
