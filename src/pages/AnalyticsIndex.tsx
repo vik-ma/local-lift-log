@@ -1208,8 +1208,19 @@ export default function AnalyticsIndex() {
       setChartDataLines(updatedChartDataLines);
       setShownChartDataLines(updatedShownChartDataLines);
 
+      const updatedChartLineUnitCategorySet = new Set(
+        updatedShownChartDataLines.map((item) =>
+          chartDataUnitCategoryMap.get(item)
+        )
+      );
+
+      setChartLineUnitCategorySet(updatedChartLineUnitCategorySet);
+
       if (secondaryDataKey === chartDataLine) {
         setSecondaryDataKey(updatedShownChartDataLines[0]);
+        setSecondaryDataUnitCategory(
+          chartDataUnitCategoryMap.get(updatedShownChartDataLines[0])
+        );
         // TODO: FIX RIGHT Y-AXIS
       }
       // TODO: FIX LEFT Y-AXIS
@@ -1235,8 +1246,19 @@ export default function AnalyticsIndex() {
       setChartDataLines(updatedChartDataLines);
       setShownChartDataLines(updatedShownChartDataLines);
 
+      const updatedChartLineUnitCategorySet = new Set(
+        updatedShownChartDataLines.map((item) =>
+          chartDataUnitCategoryMap.get(item)
+        )
+      );
+
+      setChartLineUnitCategorySet(updatedChartLineUnitCategorySet);
+
       if (secondaryDataKey === chartDataLine) {
         setSecondaryDataKey(updatedShownChartDataLines[0]);
+        setSecondaryDataUnitCategory(
+          chartDataUnitCategoryMap.get(updatedShownChartDataLines[0])
+        );
         // TODO: FIX RIGHT Y-AXIS
       }
       // TODO: FIX LEFT Y-AXIS
