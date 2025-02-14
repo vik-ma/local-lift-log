@@ -8,6 +8,10 @@ import {
   useDisclosure,
   Select,
   SelectItem,
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
 } from "@heroui/react";
 import {
   useExerciseList,
@@ -1441,6 +1445,29 @@ export default function AnalyticsIndex() {
                     </Select>
                   )}
                 </>
+              )}
+              {chartDataLines.length > 0 && (
+                <Dropdown>
+                  <DropdownTrigger>
+                    <Button className="font-medium" variant="flat">
+                      Set Area
+                    </Button>
+                  </DropdownTrigger>
+                  <DropdownMenu
+                    aria-label="Chart data lines"
+                    variant="flat"
+                    disallowEmptySelection
+                  >
+                    {chartDataLines.map((line) => (
+                      <DropdownItem
+                        key={line as string}
+                        onPress={() => console.log(line)}
+                      >
+                        {chartDataCategoryLabelMap.get(line)}
+                      </DropdownItem>
+                    ))}
+                  </DropdownMenu>
+                </Dropdown>
               )}
               {referenceAreas.length > 0 && (
                 <Select
