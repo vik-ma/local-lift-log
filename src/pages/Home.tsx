@@ -14,12 +14,10 @@ import { SettingsModal } from "../components";
 
 export default function Home() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
-  const [isUserSettingsLoaded, setIsUserSettingsLoaded] =
-    useState<boolean>(false);
 
   const navigate = useNavigate();
 
-  const initialized = useRef(false);
+  const isUserSettingsLoaded = useRef(false);
 
   const settingsModal = useDisclosure();
 
@@ -49,38 +47,35 @@ export default function Home() {
       // Create Default Distance List
       await CreateDefaultDistances(useMetricUnits);
 
-      setIsUserSettingsLoaded(true);
+      isUserSettingsLoaded.current = true;
       settingsModal.onClose();
     }
   };
 
-  useEffect(() => {
-    const loadUserSettings = async () => {
-      if (isUserSettingsLoaded) return;
+  useEffect(
+    () => {
+      const loadUserSettings = async () => {
+        if (isUserSettingsLoaded.current) return;
 
-      try {
-        const userSettings = await GetUserSettings();
-        if (userSettings !== undefined) {
-          // If UserSettings exists
-          setUserSettings(userSettings);
-          setIsUserSettingsLoaded(true);
-        } else {
-          // If no UserSettings exists
-
-          // Stop useEffect running twice in dev
-          if (!initialized.current) {
-            initialized.current = true;
-          } else return;
-
-          settingsModal.onOpen();
+        try {
+          const userSettings = await GetUserSettings();
+          if (userSettings !== undefined) {
+            // If UserSettings exists
+            setUserSettings(userSettings);
+            isUserSettingsLoaded.current = true;
+          } else {
+            settingsModal.onOpen();
+          }
+        } catch (error) {
+          console.log(error);
         }
-      } catch (error) {
-        console.log(error);
-      }
-    };
+      };
 
-    loadUserSettings();
-  }, []);
+      loadUserSettings();
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
 
   return (
     <>
