@@ -1210,11 +1210,36 @@ export default function AnalyticsIndex() {
 
       if (secondaryDataKey === chartDataLine) {
         setSecondaryDataKey(updatedShownChartDataLines[0]);
+        // TODO: FIX RIGHT Y-AXIS
       }
-
-      // TODO: FIX Y-AXIS
+      // TODO: FIX LEFT Y-AXIS
     } else {
-      // TODO: FIX Y-AXIS
+      // Create new Chart Area and change all existing Chart Areas to Chart Lines
+      const currentAreas = [...chartDataAreas];
+      const currentShownAreas = [...shownChartDataAreas];
+
+      setChartDataAreas([chartDataLine]);
+      setShownChartDataAreas([chartDataLine]);
+      setSecondaryDataKey(chartDataLine);
+
+      const updatedChartDataLines = chartDataLines.filter(
+        (item) => item !== chartDataLine
+      );
+      const updatedShownChartDataLines = shownChartDataLines.filter(
+        (item) => item !== chartDataLine
+      );
+
+      updatedChartDataLines.push(...currentAreas);
+      updatedShownChartDataLines.push(...currentShownAreas);
+
+      setChartDataLines(updatedChartDataLines);
+      setShownChartDataLines(updatedShownChartDataLines);
+
+      if (secondaryDataKey === chartDataLine) {
+        setSecondaryDataKey(updatedShownChartDataLines[0]);
+        // TODO: FIX RIGHT Y-AXIS
+      }
+      // TODO: FIX LEFT Y-AXIS
     }
   };
 
