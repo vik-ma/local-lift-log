@@ -1514,6 +1514,25 @@ export default function AnalyticsIndex() {
                   </DropdownMenu>
                 </Dropdown>
               )}
+              {chartDataAreas.length > 1 && (
+                <Dropdown>
+                  <DropdownTrigger>
+                    <Button className="font-medium" variant="flat">
+                      Set Line
+                    </Button>
+                  </DropdownTrigger>
+                  <DropdownMenu aria-label="Chart data areas" variant="flat">
+                    {chartDataAreas.map((area) => (
+                      <DropdownItem
+                        key={area as string}
+                        // onPress={() => setChartDataAreaAsLine(area)}
+                      >
+                        {chartDataCategoryLabelMap.get(area)}
+                      </DropdownItem>
+                    ))}
+                  </DropdownMenu>
+                </Dropdown>
+              )}
               {referenceAreas.length > 0 && (
                 <Select
                   className="w-[11.75rem]"
