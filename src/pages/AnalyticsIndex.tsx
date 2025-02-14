@@ -1238,6 +1238,37 @@ export default function AnalyticsIndex() {
     // TODO: FIX LEFT Y-AXIS
   };
 
+  const changeChartAreaLineToLine = (chartDataArea: ChartDataCategory) => {
+    if (chartDataAreas.length < 2) return;
+
+    const updatedChartDataAreas = chartDataAreas.filter(
+      (item) => item !== chartDataArea
+    );
+    const updatedShownChartDataAreas = shownChartDataAreas.filter(
+      (item) => item !== chartDataArea
+    );
+
+    setChartDataAreas(updatedChartDataAreas);
+    setShownChartDataAreas(updatedShownChartDataAreas);
+    setChartDataLines([...chartDataLines, chartDataArea]);
+
+    const updatedShownChartDataLines = [...shownChartDataLines, chartDataArea];
+
+    const updatedChartLineUnitCategorySet = new Set(
+      updatedShownChartDataLines.map((item) =>
+        chartDataUnitCategoryMap.get(item)
+      )
+    );
+
+    setChartLineUnitCategorySet(updatedChartLineUnitCategorySet);
+
+    if (primaryDataKey === chartDataArea) {
+      setPrimaryDataKey(updatedShownChartDataAreas[0]);
+      // TODO: FIX RIGHT Y-AXIS
+    }
+    // TODO: FIX LEFT Y-AXIS
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -1525,7 +1556,7 @@ export default function AnalyticsIndex() {
                     {chartDataAreas.map((area) => (
                       <DropdownItem
                         key={area as string}
-                        // onPress={() => setChartDataAreaAsLine(area)}
+                        onPress={() => changeChartAreaLineToLine(area)}
                       >
                         {chartDataCategoryLabelMap.get(area)}
                       </DropdownItem>
