@@ -1189,7 +1189,7 @@ export default function AnalyticsIndex() {
     );
   };
 
-  const setChartDataLineAsArea = (chartDataLine: ChartDataCategory) => {
+  const changeChartDataLineToArea = (chartDataLine: ChartDataCategory) => {
     const updatedChartDataLines = chartDataLines.filter(
       (item) => item !== chartDataLine
     );
@@ -1506,7 +1506,7 @@ export default function AnalyticsIndex() {
                     {chartDataLines.map((line) => (
                       <DropdownItem
                         key={line as string}
-                        onPress={() => setChartDataLineAsArea(line)}
+                        onPress={() => changeChartDataLineToArea(line)}
                       >
                         {chartDataCategoryLabelMap.get(line)}
                       </DropdownItem>
