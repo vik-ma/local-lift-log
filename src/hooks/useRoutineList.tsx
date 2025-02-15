@@ -158,7 +158,8 @@ export const useRoutineList = (
     if (getRoutinesOnLoad && isWorkoutTemplateListLoaded.current) {
       getRoutines();
     }
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isWorkoutTemplateListLoaded.current]);
 
   const sortRoutinesByName = (routineList: Routine[]) => {
     routineList.sort((a, b) => {
