@@ -139,6 +139,8 @@ export default function AnalyticsIndex() {
   const [chartCommentMap, setChartCommentMap] = useState<
     Map<string, ChartComment[]>
   >(new Map());
+  const [chartStartDate, setChartStartDate] = useState<Date>();
+  const [chartEndDate, setChartEndDate] = useState<Date>();
 
   const [showTestButtons, setShowTestButtons] = useState<boolean>(false);
 
@@ -1209,10 +1211,15 @@ export default function AnalyticsIndex() {
     mergeIntoMap(list1);
     mergeIntoMap(list2);
 
-    // Return chartData array with dates sorted from oldest to newest
-    return Array.from(chartDataDateMap.values()).sort(
+    const mergedChartData = Array.from(chartDataDateMap.values()).sort(
       (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
     );
+
+    setChartStartDate(new Date(mergedChartData[0].date));
+    setChartEndDate(new Date(mergedChartData[mergedChartData.length - 1].date));
+
+    // Return chartData array with dates sorted from oldest to newest
+    return mergedChartData;
   };
 
   const changeChartDataLineToArea = (chartDataLine: ChartDataCategory) => {
