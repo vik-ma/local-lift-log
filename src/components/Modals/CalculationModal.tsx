@@ -24,7 +24,7 @@ import {
   CalculationModalTab,
   PlateCollection,
 } from "../../typings";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ConvertNumberToTwoDecimals,
   IsStringEmpty,
@@ -103,7 +103,7 @@ export const CalculationModal = ({
     setTargetWeightInput,
   } = useCalculationModal;
 
-  const loadPresets = useCallback(async () => {
+  const loadPresets = async () => {
     if (presetsType === "equipment" && !isEquipmentWeightListLoaded.current) {
       await getEquipmentWeights(userSettings.default_plate_collection_id);
     }
@@ -111,7 +111,7 @@ export const CalculationModal = ({
     if (presetsType === "distance" && !isDistanceListLoaded.current) {
       await getDistances();
     }
-  }, [presetsType]);
+  };
 
   const {
     totalMultiplier,
