@@ -1549,6 +1549,23 @@ export default function AnalyticsIndex() {
                       ))}
                     </Select>
                   )}
+                  <Select
+                    className="w-[10rem]"
+                    label="Filter Dates"
+                    size="sm"
+                    variant="faded"
+                    // selectedKeys={}
+                    onChange={(e) => console.log(e.target.value)}
+                  >
+                    <>
+                      {Array.from(dateMap).map(([label, date]) => (
+                        <SelectItem key={label} value={label}>
+                          {label}
+                        </SelectItem>
+                      ))}
+                      <SelectItem>Custom</SelectItem>
+                    </>
+                  </Select>
                 </>
               )}
               {chartDataLines.length > 0 && (
