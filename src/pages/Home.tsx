@@ -52,30 +52,27 @@ export default function Home() {
     }
   };
 
-  useEffect(
-    () => {
-      const loadUserSettings = async () => {
-        if (isUserSettingsLoaded.current) return;
+  useEffect(() => {
+    const loadUserSettings = async () => {
+      if (isUserSettingsLoaded.current) return;
 
-        try {
-          const userSettings = await GetUserSettings();
-          if (userSettings !== undefined) {
-            // If UserSettings exists
-            setUserSettings(userSettings);
-            isUserSettingsLoaded.current = true;
-          } else {
-            settingsModal.onOpen();
-          }
-        } catch (error) {
-          console.log(error);
+      try {
+        const userSettings = await GetUserSettings();
+        if (userSettings !== undefined) {
+          // If UserSettings exists
+          setUserSettings(userSettings);
+          isUserSettingsLoaded.current = true;
+        } else {
+          settingsModal.onOpen();
         }
-      };
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
-      loadUserSettings();
-    },
+    loadUserSettings();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
+  }, []);
 
   return (
     <>
