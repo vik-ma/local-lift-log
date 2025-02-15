@@ -110,6 +110,7 @@ export default function UserMeasurementList() {
     };
 
     loadUserSettings();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleMeasurementAccordionClick = (

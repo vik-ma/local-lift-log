@@ -193,6 +193,7 @@ export const Calculator = ({
         setIsCalculationInvalid(true);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [input]);
 
   useEffect(() => {

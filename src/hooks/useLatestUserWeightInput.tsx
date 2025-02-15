@@ -135,6 +135,7 @@ export const useLatestUserWeightInput = (
     if (userSettings !== undefined) {
       setWeightUnit(userSettings.default_unit_weight);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return {

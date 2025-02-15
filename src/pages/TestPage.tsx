@@ -89,6 +89,7 @@ export default function Test() {
     };
 
     loadUserSettings();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (userSettings === undefined) return <LoadingSpinner />;

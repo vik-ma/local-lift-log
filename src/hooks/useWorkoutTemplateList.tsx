@@ -166,6 +166,7 @@ export const useWorkoutTemplateList = (
     if (getWorkoutTemplatesOnLoad) {
       loadWorkoutTemplateList();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const sortWorkoutTemplatesByName = (

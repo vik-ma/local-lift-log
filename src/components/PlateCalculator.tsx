@@ -293,6 +293,7 @@ export const PlateCalculator = ({
     }
 
     calculatePlates();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [targetWeightInput, operatingPlateCollection]);
 
   return (

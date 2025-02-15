@@ -123,6 +123,7 @@ export const useMeasurementList = (
     if (getMeasurementsOnLoad) {
       getMeasurements();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const createMeasurement = async (

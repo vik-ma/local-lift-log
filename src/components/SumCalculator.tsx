@@ -144,6 +144,7 @@ export const SumCalculator = ({
     } else {
       setCalculationListDistance(calculationList);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const addItemToCalculationList = (calculationItem: CalculationListItem) => {

@@ -185,6 +185,7 @@ export default function BodyMeasurements() {
     };
 
     loadUserSettings();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const updateUserWeightTimeStamp = async (dateString: string) => {

@@ -109,6 +109,7 @@ export default function WorkoutList() {
     };
 
     loadUserSettings();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const deleteWorkout = async () => {

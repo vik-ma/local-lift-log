@@ -58,6 +58,7 @@ export default function WorkoutIndex() {
     };
 
     loadUserSettings();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleCreateEmptyWorkout = async () => {

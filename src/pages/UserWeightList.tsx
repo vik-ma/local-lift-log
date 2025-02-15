@@ -226,6 +226,7 @@ export default function UserWeightList() {
     };
 
     loadUserSettings();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleCreateNewUserWeightButton = () => {

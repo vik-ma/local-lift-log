@@ -136,6 +136,7 @@ export const useExerciseList = (
     if (getExercisesOnLoad) {
       getExercises();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return {

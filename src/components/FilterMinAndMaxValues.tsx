@@ -42,6 +42,7 @@ export const FilterMinAndMaxValues = ({
     } else {
       setFilterMinValue(Number(minInput));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [minInput, isMinInputInvalid]);
 
   useEffect(() => {
@@ -52,6 +53,7 @@ export const FilterMinAndMaxValues = ({
     } else {
       setFilterMaxValue(Number(maxInput));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [maxInput, isMaxInputInvalid]);
 
   return (

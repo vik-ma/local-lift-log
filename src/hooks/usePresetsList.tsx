@@ -236,6 +236,7 @@ export const usePresetsList = (
     if (getDistancesOnLoad) {
       getDistances();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const sortEquipmentWeightsByName = (

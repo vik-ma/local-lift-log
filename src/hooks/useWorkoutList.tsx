@@ -238,6 +238,7 @@ export const useWorkoutList = (
     if (getWorkoutsOnLoad) {
       loadWorkoutList();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const sortWorkoutsByDate = (workoutList: Workout[], isAscending: boolean) => {

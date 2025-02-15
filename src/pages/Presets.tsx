@@ -174,6 +174,7 @@ export default function Presets() {
     }
 
     loadUserSettings();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const isNameInputValid = useValidateName(nameInput);

@@ -89,6 +89,7 @@ export default function DietLogIndex() {
     };
 
     loadUserSettings();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDietLogListLoaded.current]);
 
   const addDietLogEntry = async (date: string) => {

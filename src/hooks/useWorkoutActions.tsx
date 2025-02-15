@@ -218,6 +218,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     };
 
     loadUserSettings();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const addSetsToExercise = async (numSets: string) => {

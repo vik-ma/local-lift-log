@@ -81,6 +81,7 @@ export const ExerciseModal = ({
     }
 
     setMultiplierInputMap(multiplierInputMap);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [exercise.exerciseGroupStringMapSecondary]);
 
   const handleExerciseGroupStringPrimaryChange = (

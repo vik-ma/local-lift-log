@@ -140,6 +140,7 @@ export const DietLogModal = ({
     if (targetDay === "Today" && dietLogMap.has(dateStringToday)) {
       setTargetDay("Yesterday");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     dietLogMap,
     targetDay,

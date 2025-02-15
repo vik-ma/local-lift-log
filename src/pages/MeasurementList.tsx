@@ -102,6 +102,7 @@ export default function MeasurementList() {
     };
 
     loadUserSettings();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const addMeasurement = async () => {

@@ -95,6 +95,7 @@ export default function TimePeriodList() {
     };
 
     loadUserSettings();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const addTimePeriod = async () => {

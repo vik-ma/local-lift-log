@@ -204,6 +204,7 @@ export default function RoutineDetails() {
       getWorkoutRoutineSchedules();
       loadUserSettings();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const useDetailsHeaderOptions = useDetailsHeaderOptionsMenu("Routine");

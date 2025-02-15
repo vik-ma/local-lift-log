@@ -284,6 +284,7 @@ export default function WorkoutDetails() {
     };
 
     loadWorkout();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleWorkoutModalSaveButton = async (updatedWorkout: Workout) => {

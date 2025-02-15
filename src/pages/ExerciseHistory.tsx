@@ -47,6 +47,7 @@ export default function ExerciseHistory() {
 
     getExercise();
     getSets();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (exercise === undefined) return <LoadingSpinner />;

@@ -96,6 +96,7 @@ export default function WorkoutTemplateList() {
     };
 
     loadUserSettings();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const addWorkoutTemplate = async () => {

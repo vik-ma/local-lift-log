@@ -54,6 +54,7 @@ export default function ExerciseDetails() {
     };
 
     getExercise();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const useDetailsHeaderOptions = useDetailsHeaderOptionsMenu("Exercise");

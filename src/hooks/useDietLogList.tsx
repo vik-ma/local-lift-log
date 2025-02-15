@@ -160,6 +160,7 @@ export const useDietLogList = (
     if (getDietLogsOnLoad) {
       getDietLogs();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const addDietLog = async (dietLog: DietLog) => {

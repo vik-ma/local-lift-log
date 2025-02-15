@@ -247,6 +247,7 @@ export default function ExerciseList() {
     };
 
     loadUserSettings();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (userSettings === undefined || !isExerciseListLoaded.current)

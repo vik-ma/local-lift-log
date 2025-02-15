@@ -189,10 +189,11 @@ export default function WorkoutTemplateDetails() {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   useEffect(() => {
     getWorkoutTemplateAndSetList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const updateWorkoutTemplate = async () => {

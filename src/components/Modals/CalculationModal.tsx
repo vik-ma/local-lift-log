@@ -223,6 +223,7 @@ export const CalculationModal = ({
     if (calculationModal.isOpen && calculationModalTab === "plate") {
       loadPresets();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [calculationModal.isOpen]);
 
   const showBackButton = useMemo(() => {
