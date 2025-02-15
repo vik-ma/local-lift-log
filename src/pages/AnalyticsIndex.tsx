@@ -146,6 +146,31 @@ export default function AnalyticsIndex() {
     new Map()
   );
 
+  const dateMap = useMemo(() => {
+    const dateMap = new Map<string, Date>();
+
+    const dateCurrent = new Date();
+    const date30DaysAgo = new Date();
+    date30DaysAgo.setDate(date30DaysAgo.getDate() - 30);
+    const date90DaysAgo = new Date();
+    date90DaysAgo.setDate(date90DaysAgo.getDate() - 30);
+    const date180DaysAgo = new Date();
+    date180DaysAgo.setDate(date180DaysAgo.getDate() - 30);
+    const date365DaysAgo = new Date();
+    date365DaysAgo.setDate(date365DaysAgo.getDate() - 30);
+    const date730DaysAgo = new Date();
+    date730DaysAgo.setDate(date730DaysAgo.getDate() - 30);
+
+    dateMap.set("Today", dateCurrent);
+    dateMap.set("Last 30 Days", date30DaysAgo);
+    dateMap.set("Last 90 Days", date90DaysAgo);
+    dateMap.set("Last 180 Days", date180DaysAgo);
+    dateMap.set("Last Year", date365DaysAgo);
+    dateMap.set("Last Two Years", date730DaysAgo);
+
+    return dateMap;
+  }, []);
+
   // const chartDataCategorySet: Set<ChartDataCategory> = useMemo(() => {
   //   if (chartData.length === 0) return new Set<ChartDataCategory>();
 
