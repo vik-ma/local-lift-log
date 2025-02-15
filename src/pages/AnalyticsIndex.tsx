@@ -1577,11 +1577,13 @@ export default function AnalyticsIndex() {
                     onChange={(e) => console.log(e.target.value)}
                   >
                     <>
-                      {Array.from(dateMap).map(([label, date]) => (
-                        <SelectItem key={label} value={label}>
-                          {label}
-                        </SelectItem>
-                      ))}
+                      {Array.from(dateMap)
+                        .slice(1)
+                        .map(([label, date]) => (
+                          <SelectItem key={label} value={label}>
+                            {label}
+                          </SelectItem>
+                        ))}
                       <SelectItem value={"Custom"}>Custom</SelectItem>
                     </>
                   </Select>
