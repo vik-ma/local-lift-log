@@ -120,6 +120,7 @@ export default function Multisets() {
     };
 
     loadUserSettings();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleCreateNewMultisetButton = () => {

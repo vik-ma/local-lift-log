@@ -496,8 +496,6 @@ export const useMultisetActions = ({
   };
 
   const loadMultisets = async () => {
-    if (!isExerciseListLoaded.current) return;
-
     try {
       const multisets = await GetAllMultisetTemplates(
         exerciseGroupDictionary,
@@ -512,8 +510,11 @@ export const useMultisetActions = ({
   };
 
   useEffect(() => {
-    loadMultisets();
-  }, []);
+    if (!isExerciseListLoaded.current) {
+      loadMultisets();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isExerciseListLoaded.current]);
 
   const handleOpenFilterButton = () => {
     filterMultisetsModal.onOpen();
