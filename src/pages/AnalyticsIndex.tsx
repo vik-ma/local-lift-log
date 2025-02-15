@@ -12,6 +12,7 @@ import {
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
+  CalendarDate,
 } from "@heroui/react";
 import {
   useExerciseList,
@@ -139,8 +140,10 @@ export default function AnalyticsIndex() {
   const [chartCommentMap, setChartCommentMap] = useState<
     Map<string, ChartComment[]>
   >(new Map());
-  const [chartStartDate, setChartStartDate] = useState<Date>();
-  const [chartEndDate, setChartEndDate] = useState<Date>();
+  const [chartStartDate, setChartStartDate] = useState<Date | null>(null);
+  const [chartEndDate, setChartEndDate] = useState<Date | null>(null);
+  const [filterMinDate, setFilterMinDate] = useState<CalendarDate | null>(null);
+  const [filterMaxDate, setFilterMaxDate] = useState<CalendarDate | null>(null);
 
   const [showTestButtons, setShowTestButtons] = useState<boolean>(false);
 
