@@ -226,6 +226,7 @@ export default function AnalyticsIndex() {
   }, [chartData, chartDataAreas, chartDataLines]);
 
   const listModal = useDisclosure();
+  const filterMinAndMaxDateModal = useDisclosure();
 
   const exerciseList = useExerciseList(false, true, true);
 
@@ -1341,6 +1342,24 @@ export default function AnalyticsIndex() {
           )}
         </ModalContent>
       </Modal>
+      <Modal
+        isOpen={filterMinAndMaxDateModal.isOpen}
+        onOpenChange={filterMinAndMaxDateModal.onOpenChange}
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader>Filter Dates</ModalHeader>
+              <ModalBody></ModalBody>
+              <ModalFooter>
+                <Button color="primary" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
       <FilterExerciseGroupsModal
         useExerciseList={exerciseList}
         useFilterExerciseList={filterExerciseList}
@@ -1563,7 +1582,7 @@ export default function AnalyticsIndex() {
                           {label}
                         </SelectItem>
                       ))}
-                      <SelectItem>Custom</SelectItem>
+                      <SelectItem value={"Custom"}>Custom</SelectItem>
                     </>
                   </Select>
                 </>
