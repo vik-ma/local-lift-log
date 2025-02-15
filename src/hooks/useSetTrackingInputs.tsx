@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo } from "react";
 import {
   DefaultSetInputValues,
   IsStringEmpty,
@@ -63,7 +63,7 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
     return false;
   }, [setInputsInvalidityMap, isTimeInputInvalid]);
 
-  const setTrackingValuesInputStrings = useCallback((set: WorkoutSet) => {
+  const setTrackingValuesInputStrings = (set: WorkoutSet) => {
     const newSetTrackingValuesInput = {
       weight:
         set.is_tracking_weight && set.weight !== 0 ? set.weight.toString() : "",
@@ -88,7 +88,7 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
           : "",
     };
     setSetTrackingValuesInput(newSetTrackingValuesInput);
-  }, []);
+  };
 
   return {
     isSetTrackingValuesInvalid,
