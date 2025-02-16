@@ -1587,7 +1587,15 @@ export default function AnalyticsIndex() {
                   )}
                   <Dropdown>
                     <DropdownTrigger>
-                      <Button className="font-medium" variant="flat">
+                      <Button
+                        className="font-medium"
+                        variant="flat"
+                        color={
+                          filterMinDate || filterMaxDate
+                            ? "secondary"
+                            : "default"
+                        }
+                      >
                         Filter Dates
                       </Button>
                     </DropdownTrigger>
