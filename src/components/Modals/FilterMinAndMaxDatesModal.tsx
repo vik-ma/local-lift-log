@@ -33,7 +33,7 @@ export const FilterMinAndMaxDatesModal = ({
   );
 
   const handleFilterButton = () => {
-    if (!isMaxDateBeforeMinDate) return;
+    if (isMaxDateBeforeMinDate) return;
 
     const minDate =
       filterMinDate === null ? null : filterMinDate.toDate(getLocalTimeZone());

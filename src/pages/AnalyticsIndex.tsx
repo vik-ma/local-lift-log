@@ -213,20 +213,30 @@ export default function AnalyticsIndex() {
 
   const loadedLists = useRef<Set<LoadedListType>>(new Set());
 
-  // Filter out props in all items from chartData that are not available in either
-  // chartDataAreas or chartDataLines. Always keep date prop.
   const filteredChartData: ChartDataItem[] = useMemo(() => {
-    return chartData.map((entry) =>
-      Object.fromEntries(
+    const filteredChartData: ChartDataItem[] = [];
+
+    // Filter out dates before/after min/max date filters from chartData and
+    // then filter out the props in the remaining items that are not available
+    // in either chartDataAreas or chartDataLines. Always keep date prop.
+    for (const entry of chartData) {
+      if (filterMinDate && new Date(entry.date) <= filterMinDate) continue;
+      if (filterMaxDate && new Date(entry.date) >= filterMaxDate) continue;
+
+      const chartDataItem = Object.fromEntries(
         Object.entries(entry).filter(
           ([key]) =>
             key === "date" ||
             chartDataAreas.includes(key as ChartDataCategory) ||
             chartDataLines.includes(key as ChartDataCategory)
         )
-      )
-    ) as ChartDataItem[];
-  }, [chartData, chartDataAreas, chartDataLines]);
+      );
+
+      filteredChartData.push(chartDataItem as ChartDataItem);
+    }
+
+    return filteredChartData;
+  }, [chartData, chartDataAreas, chartDataLines, filterMinDate, filterMaxDate]);
 
   const listModal = useDisclosure();
   const filterMinAndMaxDatesModal = useDisclosure();
@@ -1309,6 +1319,8 @@ export default function AnalyticsIndex() {
   ) => {
     setFilterMinDate(minDate);
     setFilterMaxDate(maxDate);
+
+    filterMinAndMaxDatesModal.onClose();
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;
