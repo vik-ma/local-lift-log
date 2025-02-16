@@ -10,28 +10,28 @@ import {
 import { UseDisclosureReturnType } from "../../typings";
 import { useIsEndDateBeforeStartDate } from "../../hooks";
 import { FilterMinAndMaxDates } from "..";
+import { useState } from "react";
 
 type FilterMinAndMaxDatesModalProps = {
   filterMinAndMaxDatesModal: UseDisclosureReturnType;
-  filterMinDate: CalendarDate | null;
-  setFilterMinDate: React.Dispatch<React.SetStateAction<CalendarDate | null>>;
-  filterMaxDate: CalendarDate | null;
-  setFilterMaxDate: React.Dispatch<React.SetStateAction<CalendarDate | null>>;
   locale: string;
+  doneButtonAction: (minDate: Date | null, maxDate: Date | null) => void;
 };
 
 export const FilterMinAndMaxDatesModal = ({
   filterMinAndMaxDatesModal,
-  filterMinDate,
-  setFilterMinDate,
-  filterMaxDate,
-  setFilterMaxDate,
   locale,
+  doneButtonAction,
 }: FilterMinAndMaxDatesModalProps) => {
+  const [filterMinDate, setFilterMinDate] = useState<CalendarDate | null>(null);
+  const [filterMaxDate, setFilterMaxDate] = useState<CalendarDate | null>(null);
+
   const isMaxDateBeforeMinDate = useIsEndDateBeforeStartDate(
     filterMinDate,
     filterMaxDate
   );
+
+  const handleFilterButton = () => {};
 
   return (
     <Modal
@@ -55,6 +55,13 @@ export const FilterMinAndMaxDatesModal = ({
             <ModalFooter>
               <Button color="primary" variant="light" onPress={onClose}>
                 Close
+              </Button>
+              <Button
+                color="primary"
+                onPress={handleFilterButton}
+                isDisabled={isMaxDateBeforeMinDate}
+              >
+                Filter
               </Button>
             </ModalFooter>
           </>

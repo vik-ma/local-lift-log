@@ -12,7 +12,6 @@ import {
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
-  CalendarDate,
 } from "@heroui/react";
 import {
   useExerciseList,
@@ -143,8 +142,6 @@ export default function AnalyticsIndex() {
   >(new Map());
   const [chartStartDate, setChartStartDate] = useState<Date | null>(null);
   const [chartEndDate, setChartEndDate] = useState<Date | null>(null);
-  const [filterMinDate, setFilterMinDate] = useState<CalendarDate | null>(null);
-  const [filterMaxDate, setFilterMaxDate] = useState<CalendarDate | null>(null);
 
   const [showTestButtons, setShowTestButtons] = useState<boolean>(false);
 
@@ -1304,6 +1301,11 @@ export default function AnalyticsIndex() {
     // TODO: FIX LEFT Y-AXIS
   };
 
+  const setCustomMinAndMaxDatesFilter = (
+    minDate: Date | null,
+    maxDate: Date | null
+  ) => {};
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -1353,11 +1355,8 @@ export default function AnalyticsIndex() {
       </Modal>
       <FilterMinAndMaxDatesModal
         filterMinAndMaxDatesModal={filterMinAndMaxDatesModal}
-        filterMinDate={filterMinDate}
-        setFilterMinDate={setFilterMinDate}
-        filterMaxDate={filterMaxDate}
-        setFilterMaxDate={setFilterMaxDate}
         locale={userSettings.locale}
+        doneButtonAction={setCustomMinAndMaxDatesFilter}
       />
       <FilterExerciseGroupsModal
         useExerciseList={exerciseList}
@@ -1586,7 +1585,12 @@ export default function AnalyticsIndex() {
                               <DropdownItem key={label}>{label}</DropdownItem>
                             )
                         )}
-                        <DropdownItem key="Custom">Custom</DropdownItem>
+                        <DropdownItem
+                          key="Custom"
+                          onPress={() => filterMinAndMaxDatesModal.onOpen()}
+                        >
+                          Custom
+                        </DropdownItem>
                       </>
                     </DropdownMenu>
                   </Dropdown>
