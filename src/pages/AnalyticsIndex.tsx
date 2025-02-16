@@ -24,6 +24,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ExerciseModalList,
   FilterExerciseGroupsModal,
+  FilterMinAndMaxDatesModal,
   LoadingSpinner,
   MeasurementModalList,
   TimePeriodModalList,
@@ -231,7 +232,7 @@ export default function AnalyticsIndex() {
   }, [chartData, chartDataAreas, chartDataLines]);
 
   const listModal = useDisclosure();
-  const filterMinAndMaxDateModal = useDisclosure();
+  const filterMinAndMaxDatesModal = useDisclosure();
 
   const exerciseList = useExerciseList(false, true, true);
 
@@ -1352,24 +1353,14 @@ export default function AnalyticsIndex() {
           )}
         </ModalContent>
       </Modal>
-      <Modal
-        isOpen={filterMinAndMaxDateModal.isOpen}
-        onOpenChange={filterMinAndMaxDateModal.onOpenChange}
-      >
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader>Filter Dates</ModalHeader>
-              <ModalBody></ModalBody>
-              <ModalFooter>
-                <Button color="primary" variant="light" onPress={onClose}>
-                  Close
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
+      <FilterMinAndMaxDatesModal
+        filterMinAndMaxDatesModal={filterMinAndMaxDatesModal}
+        filterMinDate={filterMinDate}
+        setFilterMinDate={setFilterMinDate}
+        filterMaxDate={filterMaxDate}
+        setFilterMaxDate={setFilterMaxDate}
+        locale={userSettings.locale}
+      />
       <FilterExerciseGroupsModal
         useExerciseList={exerciseList}
         useFilterExerciseList={filterExerciseList}
