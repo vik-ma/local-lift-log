@@ -1569,25 +1569,30 @@ export default function AnalyticsIndex() {
                       ))}
                     </Select>
                   )}
-                  <Select
-                    className="w-[10rem]"
-                    label="Filter Dates"
-                    size="sm"
-                    variant="faded"
-                    // selectedKeys={}
-                    onChange={(e) => console.log(e.target.value)}
-                  >
-                    <>
-                      {Array.from(dateMap)
-                        .slice(1)
-                        .map(([label, date]) => (
-                          <SelectItem key={label} value={label}>
-                            {label}
-                          </SelectItem>
-                        ))}
-                      <SelectItem value={"Custom"}>Custom</SelectItem>
-                    </>
-                  </Select>
+                  <Dropdown>
+                    <DropdownTrigger>
+                      <Button className="font-medium" variant="flat">
+                        Filter Dates
+                      </Button>
+                    </DropdownTrigger>
+                    <DropdownMenu
+                      aria-label="Filter dates option menu"
+                      variant="flat"
+                    >
+                      <>
+                        {Array.from(dateMap)
+                          .slice(1)
+                          .map(([label, date]) => (
+                            <DropdownItem key={label} value={label}>
+                              {label}
+                            </DropdownItem>
+                          ))}
+                        <DropdownItem key="Custom" value="Custom">
+                          Custom
+                        </DropdownItem>
+                      </>
+                    </DropdownMenu>
+                  </Dropdown>
                 </>
               )}
               {chartDataLines.length > 0 && (
