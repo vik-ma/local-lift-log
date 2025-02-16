@@ -155,7 +155,6 @@ export default function AnalyticsIndex() {
   const dateMap = useMemo(() => {
     const dateMap = new Map<string, Date>();
 
-    const dateCurrent = new Date();
     const date30DaysAgo = new Date();
     date30DaysAgo.setDate(date30DaysAgo.getDate() - 30);
     const date90DaysAgo = new Date();
@@ -167,7 +166,6 @@ export default function AnalyticsIndex() {
     const date730DaysAgo = new Date();
     date730DaysAgo.setDate(date730DaysAgo.getDate() - 730);
 
-    dateMap.set("Today", dateCurrent);
     dateMap.set("Last 30 Days", date30DaysAgo);
     dateMap.set("Last 90 Days", date90DaysAgo);
     dateMap.set("Last 180 Days", date180DaysAgo);
@@ -1580,16 +1578,14 @@ export default function AnalyticsIndex() {
                       variant="flat"
                     >
                       <>
-                        {/* Show only options that can meaningfully filter the Chart */}
-                        {Array.from(dateMap)
-                          .slice(1)
-                          .map(
-                            ([label, date]) =>
-                              date >= chartStartDate! &&
-                              date <= chartEndDate! && (
-                                <DropdownItem key={label}>{label}</DropdownItem>
-                              )
-                          )}
+                        {/* Only show the options that can meaningfully filter the Chart */}
+                        {Array.from(dateMap).map(
+                          ([label, date]) =>
+                            date >= chartStartDate! &&
+                            date <= chartEndDate! && (
+                              <DropdownItem key={label}>{label}</DropdownItem>
+                            )
+                        )}
                         <DropdownItem key="Custom">Custom</DropdownItem>
                       </>
                     </DropdownMenu>
