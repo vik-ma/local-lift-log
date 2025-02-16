@@ -155,15 +155,15 @@ export default function AnalyticsIndex() {
     const dateMap = new Map<string, Date>();
 
     const date30DaysAgo = new Date();
-    date30DaysAgo.setDate(date30DaysAgo.getDate() - 30);
+    date30DaysAgo.setHours(-720, 0, 0, 0);
     const date90DaysAgo = new Date();
-    date90DaysAgo.setDate(date90DaysAgo.getDate() - 90);
+    date90DaysAgo.setHours(-2160, 0, 0, 0);
     const date180DaysAgo = new Date();
-    date180DaysAgo.setDate(date180DaysAgo.getDate() - 180);
+    date180DaysAgo.setHours(-4320, 0, 0, 0);
     const date365DaysAgo = new Date();
-    date365DaysAgo.setDate(date365DaysAgo.getDate() - 365);
+    date365DaysAgo.setHours(-8760, 0, 0, 0);
     const date730DaysAgo = new Date();
-    date730DaysAgo.setDate(date730DaysAgo.getDate() - 730);
+    date730DaysAgo.setHours(-17520, 0, 0, 0);
 
     dateMap.set("Last 30 Days", date30DaysAgo);
     dateMap.set("Last 90 Days", date90DaysAgo);
@@ -220,8 +220,8 @@ export default function AnalyticsIndex() {
     // then filter out the props in the remaining items that are not available
     // in either chartDataAreas or chartDataLines. Always keep date prop.
     for (const entry of chartData) {
-      if (filterMinDate && new Date(entry.date) <= filterMinDate) continue;
-      if (filterMaxDate && new Date(entry.date) >= filterMaxDate) continue;
+      if (filterMinDate && new Date(entry.date) < filterMinDate) continue;
+      if (filterMaxDate && new Date(entry.date) > filterMaxDate) continue;
 
       const chartDataItem = Object.fromEntries(
         Object.entries(entry).filter(
@@ -1597,8 +1597,8 @@ export default function AnalyticsIndex() {
                         {/* Only show the options that can meaningfully filter the Chart */}
                         {Array.from(dateMap).map(
                           ([label, date]) =>
-                            date >= chartStartDate! &&
-                            date <= chartEndDate! && (
+                            date > chartStartDate! &&
+                            date < chartEndDate! && (
                               <DropdownItem
                                 key={label}
                                 onPress={() => setFilterMinDate(date)}
