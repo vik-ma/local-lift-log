@@ -11,6 +11,7 @@ import { UseDisclosureReturnType } from "../../typings";
 import { useIsEndDateBeforeStartDate } from "../../hooks";
 import { FilterMinAndMaxDates } from "..";
 import { useState } from "react";
+import { getLocalTimeZone } from "@internationalized/date";
 
 type FilterMinAndMaxDatesModalProps = {
   filterMinAndMaxDatesModal: UseDisclosureReturnType;
@@ -31,7 +32,16 @@ export const FilterMinAndMaxDatesModal = ({
     filterMaxDate
   );
 
-  const handleFilterButton = () => {};
+  const handleFilterButton = () => {
+    if (!isMaxDateBeforeMinDate) return;
+
+    const minDate =
+      filterMinDate === null ? null : filterMinDate.toDate(getLocalTimeZone());
+    const maxDate =
+      filterMaxDate === null ? null : filterMaxDate.toDate(getLocalTimeZone());
+
+    doneButtonAction(minDate, maxDate);
+  };
 
   return (
     <Modal

@@ -142,6 +142,8 @@ export default function AnalyticsIndex() {
   >(new Map());
   const [chartStartDate, setChartStartDate] = useState<Date | null>(null);
   const [chartEndDate, setChartEndDate] = useState<Date | null>(null);
+  const [filterMinDate, setFilterMinDate] = useState<Date | null>(null);
+  const [filterMaxDate, setFilterMaxDate] = useState<Date | null>(null);
 
   const [showTestButtons, setShowTestButtons] = useState<boolean>(false);
 
@@ -1304,7 +1306,10 @@ export default function AnalyticsIndex() {
   const setCustomMinAndMaxDatesFilter = (
     minDate: Date | null,
     maxDate: Date | null
-  ) => {};
+  ) => {
+    setFilterMinDate(minDate);
+    setFilterMaxDate(maxDate);
+  };
 
   if (userSettings === undefined) return <LoadingSpinner />;
 
@@ -1582,7 +1587,12 @@ export default function AnalyticsIndex() {
                           ([label, date]) =>
                             date >= chartStartDate! &&
                             date <= chartEndDate! && (
-                              <DropdownItem key={label}>{label}</DropdownItem>
+                              <DropdownItem
+                                key={label}
+                                onPress={() => setFilterMinDate(date)}
+                              >
+                                {label}
+                              </DropdownItem>
                             )
                         )}
                         <DropdownItem
