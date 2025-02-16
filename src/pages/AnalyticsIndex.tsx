@@ -158,13 +158,13 @@ export default function AnalyticsIndex() {
     const date30DaysAgo = new Date();
     date30DaysAgo.setDate(date30DaysAgo.getDate() - 30);
     const date90DaysAgo = new Date();
-    date90DaysAgo.setDate(date90DaysAgo.getDate() - 30);
+    date90DaysAgo.setDate(date90DaysAgo.getDate() - 90);
     const date180DaysAgo = new Date();
-    date180DaysAgo.setDate(date180DaysAgo.getDate() - 30);
+    date180DaysAgo.setDate(date180DaysAgo.getDate() - 180);
     const date365DaysAgo = new Date();
-    date365DaysAgo.setDate(date365DaysAgo.getDate() - 30);
+    date365DaysAgo.setDate(date365DaysAgo.getDate() - 365);
     const date730DaysAgo = new Date();
-    date730DaysAgo.setDate(date730DaysAgo.getDate() - 30);
+    date730DaysAgo.setDate(date730DaysAgo.getDate() - 730);
 
     dateMap.set("Today", dateCurrent);
     dateMap.set("Last 30 Days", date30DaysAgo);
@@ -1214,6 +1214,7 @@ export default function AnalyticsIndex() {
     mergeIntoMap(list1);
     mergeIntoMap(list2);
 
+    // Create chartData array with dates sorted from oldest to newest
     const mergedChartData = Array.from(chartDataDateMap.values()).sort(
       (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
     );
@@ -1221,7 +1222,6 @@ export default function AnalyticsIndex() {
     setChartStartDate(new Date(mergedChartData[0].date));
     setChartEndDate(new Date(mergedChartData[mergedChartData.length - 1].date));
 
-    // Return chartData array with dates sorted from oldest to newest
     return mergedChartData;
   };
 
