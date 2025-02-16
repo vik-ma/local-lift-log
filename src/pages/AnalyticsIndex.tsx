@@ -1373,6 +1373,8 @@ export default function AnalyticsIndex() {
       <FilterMinAndMaxDatesModal
         filterMinAndMaxDatesModal={filterMinAndMaxDatesModal}
         locale={userSettings.locale}
+        validStartDate={chartStartDate}
+        validEndDate={chartEndDate}
         doneButtonAction={setCustomMinAndMaxDatesFilter}
       />
       <FilterExerciseGroupsModal

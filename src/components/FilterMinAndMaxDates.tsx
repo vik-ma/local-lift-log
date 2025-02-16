@@ -1,4 +1,4 @@
-import { Button, CalendarDate, DatePicker } from "@heroui/react";
+import { Button, CalendarDate, DatePicker, DateValue } from "@heroui/react";
 import { I18nProvider } from "@react-aria/i18n";
 
 type FilterMinAndMaxDatesProps = {
@@ -10,6 +10,7 @@ type FilterMinAndMaxDatesProps = {
   isMaxDateBeforeMinDate: boolean;
   customLabel?: string;
   isSmallLabel?: boolean;
+  isDateUnavailable?: (date: DateValue) => boolean;
 };
 
 export const FilterMinAndMaxDates = ({
@@ -21,6 +22,7 @@ export const FilterMinAndMaxDates = ({
   isMaxDateBeforeMinDate,
   customLabel,
   isSmallLabel,
+  isDateUnavailable
 }: FilterMinAndMaxDatesProps) => {
   return (
     <div
@@ -50,6 +52,7 @@ export const FilterMinAndMaxDates = ({
             variant="faded"
             value={filterMinDate}
             onChange={setFilterMinDate}
+            isDateUnavailable={isDateUnavailable}
           />
         </I18nProvider>
         {filterMinDate !== null && (
@@ -97,6 +100,7 @@ export const FilterMinAndMaxDates = ({
             onChange={setFilterMaxDate}
             isInvalid={isMaxDateBeforeMinDate}
             errorMessage="Max Date is before Min Date"
+            isDateUnavailable={isDateUnavailable}
           />
         </I18nProvider>
         {filterMaxDate !== null && (
