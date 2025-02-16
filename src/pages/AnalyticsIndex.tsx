@@ -1580,16 +1580,17 @@ export default function AnalyticsIndex() {
                       variant="flat"
                     >
                       <>
+                        {/* Show only options that can meaningfully filter the Chart */}
                         {Array.from(dateMap)
                           .slice(1)
-                          .map(([label, date]) => (
-                            <DropdownItem key={label} value={label}>
-                              {label}
-                            </DropdownItem>
-                          ))}
-                        <DropdownItem key="Custom" value="Custom">
-                          Custom
-                        </DropdownItem>
+                          .map(
+                            ([label, date]) =>
+                              date >= chartStartDate! &&
+                              date <= chartEndDate! && (
+                                <DropdownItem key={label}>{label}</DropdownItem>
+                              )
+                          )}
+                        <DropdownItem key="Custom">Custom</DropdownItem>
                       </>
                     </DropdownMenu>
                   </Dropdown>
