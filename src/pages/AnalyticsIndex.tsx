@@ -1283,7 +1283,7 @@ export default function AnalyticsIndex() {
     // TODO: FIX LEFT Y-AXIS
   };
 
-  const changeChartAreaLineToLine = (chartDataArea: ChartDataCategory) => {
+  const changeChartDataAreaToLine = (chartDataArea: ChartDataCategory) => {
     if (chartDataAreas.length < 2) return;
 
     const updatedChartDataAreas = chartDataAreas.filter(
@@ -1586,7 +1586,7 @@ export default function AnalyticsIndex() {
                     <Dropdown>
                       <DropdownTrigger>
                         <Button className="font-medium" variant="flat">
-                          Set Area
+                          Convert Area To Line
                         </Button>
                       </DropdownTrigger>
                       <DropdownMenu
@@ -1608,7 +1608,7 @@ export default function AnalyticsIndex() {
                     <Dropdown>
                       <DropdownTrigger>
                         <Button className="font-medium" variant="flat">
-                          Set Line
+                          Convert Line To Area
                         </Button>
                       </DropdownTrigger>
                       <DropdownMenu
@@ -1618,7 +1618,7 @@ export default function AnalyticsIndex() {
                         {chartDataAreas.map((area) => (
                           <DropdownItem
                             key={area as string}
-                            onPress={() => changeChartAreaLineToLine(area)}
+                            onPress={() => changeChartDataAreaToLine(area)}
                           >
                             {chartDataCategoryLabelMap.get(area)}
                           </DropdownItem>
