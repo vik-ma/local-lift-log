@@ -1691,46 +1691,9 @@ export default function AnalyticsIndex() {
             >
               Select Measurement
             </Button>
-            <Button
-              className="font-medium"
-              variant="flat"
-              onPress={() => getDietLogList(userSettings.locale, false, false)}
-              isDisabled={
-                loadedLists.current.has("diet-logs-calories") &&
-                loadedLists.current.has("diet-logs-macros")
-              }
-            >
-              Load Diet Logs
-            </Button>
-            <Button
-              className="font-medium"
-              variant="flat"
-              onPress={() =>
-                getUserWeightList(userSettings.locale, weightUnit, true, false)
-              }
-              isDisabled={
-                loadedLists.current.has("user-weights-weight") &&
-                loadedLists.current.has("user-weights-body-fat")
-              }
-            >
-              Load User Weights
-            </Button>
-            {filteredChartData.length > 0 && (
-              <Button
-                className="font-medium"
-                variant="flat"
-                onPress={() => handleOpenListModal("time-period")}
-              >
-                Select Time Period
-              </Button>
-            )}
             <Dropdown>
               <DropdownTrigger>
-                <Button
-                  className="font-medium"
-                  variant="flat"
-                  color="secondary"
-                >
+                <Button className="font-medium" variant="flat">
                   Load Area
                 </Button>
               </DropdownTrigger>
@@ -1838,6 +1801,15 @@ export default function AnalyticsIndex() {
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>
+            {filteredChartData.length > 0 && (
+              <Button
+                className="font-medium"
+                variant="flat"
+                onPress={() => handleOpenListModal("time-period")}
+              >
+                Select Time Period
+              </Button>
+            )}
           </div>
         </div>
         <div className="flex items-center justify-between gap-2 w-[960px]">
