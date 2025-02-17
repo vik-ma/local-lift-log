@@ -1436,10 +1436,10 @@ export default function AnalyticsIndex() {
           )}
         </div>
         {isChartDataLoaded.current && (
-          <div className="flex gap-1.5">
+          <div className="flex gap-1.5 relative">
             <ChartContainer
               config={chartConfig}
-              className="w-[800px] bg-default-50 pt-4 pb-1.5 rounded-xl"
+              className="w-[870px] bg-default-50 pt-4 pb-1.5 rounded-xl"
             >
               <ComposedChart
                 data={filteredChartData}
@@ -1518,7 +1518,7 @@ export default function AnalyticsIndex() {
                 ))}
               </ComposedChart>
             </ChartContainer>
-            <div className="flex flex-col gap-1">
+            <div className="absolute left-full pl-1.5 flex flex-col gap-1">
               {filterMinDate !== null && (
                 <Chip
                   classNames={{ content: "w-[10.5rem]" }}
