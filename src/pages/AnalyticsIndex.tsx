@@ -1719,7 +1719,6 @@ export default function AnalyticsIndex() {
               <Button
                 className="font-medium"
                 variant="flat"
-                color="secondary"
                 onPress={() => handleOpenListModal("time-period")}
               >
                 Select Time Period
@@ -1774,9 +1773,63 @@ export default function AnalyticsIndex() {
                   Diet Logs (Only Calories)
                 </DropdownItem>
                 <DropdownItem
-                  key="diet-logs-calories"
+                  key="diet-logs-macros"
                   onPress={() =>
                     getDietLogList(userSettings.locale, true, false)
+                  }
+                >
+                  Diet Logs (With Macros)
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+            <Dropdown>
+              <DropdownTrigger>
+                <Button className="font-medium" variant="flat">
+                  Load Line
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu
+                aria-label="Load category as line options"
+                variant="flat"
+              >
+                <DropdownItem
+                  key="user-weights-weight"
+                  onPress={() =>
+                    getUserWeightList(
+                      userSettings.locale,
+                      weightUnit,
+                      false,
+                      true
+                    )
+                  }
+                >
+                  User Weights (Only Weight)
+                </DropdownItem>
+                <DropdownItem
+                  key="user-weights-body-fat"
+                  onPress={() =>
+                    getUserWeightList(
+                      userSettings.locale,
+                      weightUnit,
+                      false,
+                      false
+                    )
+                  }
+                >
+                  User Weights (With Body Fat %)
+                </DropdownItem>
+                <DropdownItem
+                  key="diet-logs-calories"
+                  onPress={() =>
+                    getDietLogList(userSettings.locale, false, true)
+                  }
+                >
+                  Diet Logs (Only Calories)
+                </DropdownItem>
+                <DropdownItem
+                  key="diet-logs-macros"
+                  onPress={() =>
+                    getDietLogList(userSettings.locale, false, false)
                   }
                 >
                   Diet Logs (With Macros)
