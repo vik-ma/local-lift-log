@@ -1489,7 +1489,7 @@ export default function AnalyticsIndex() {
                     key={area.timePeriodId}
                     x1={area.x1}
                     x2={area.x2}
-                    label={area.label}
+                    label={{ position: "top", value: area.label }}
                     opacity={0.2}
                     fill={
                       referenceAreaColorList[
