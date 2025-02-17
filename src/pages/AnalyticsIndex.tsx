@@ -1518,11 +1518,10 @@ export default function AnalyticsIndex() {
                 ))}
               </ComposedChart>
             </ChartContainer>
-            <div className="absolute left-full pl-1.5">
+            <div className="absolute left-full pl-[5px]">
               {isChartDataLoaded.current && (
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-1 w-[12.25rem]">
                   <Select
-                    className="w-[10rem]"
                     label="Shown Areas"
                     size="sm"
                     variant="faded"
@@ -1543,7 +1542,6 @@ export default function AnalyticsIndex() {
                     ))}
                   </Select>
                   <Select
-                    className="w-[10rem]"
                     label="Shown Lines"
                     size="sm"
                     variant="faded"
@@ -1563,7 +1561,6 @@ export default function AnalyticsIndex() {
                   </Select>
                   {secondaryDataUnitCategory !== undefined && (
                     <Select
-                      className="w-[10rem]"
                       label="Right Y-Axis Value"
                       size="sm"
                       variant="faded"
@@ -1631,7 +1628,6 @@ export default function AnalyticsIndex() {
                   )}
                   {referenceAreas.length > 0 && (
                     <Select
-                      className="w-[11.75rem]"
                       label="Shown Time Periods"
                       size="sm"
                       variant="faded"
@@ -1694,7 +1690,7 @@ export default function AnalyticsIndex() {
                   </Dropdown>
                   {filterMinDate !== null && (
                     <Chip
-                      classNames={{ content: "w-[10.5rem]" }}
+                      classNames={{ content: "w-[10.625rem]" }}
                       radius="sm"
                       color="secondary"
                       variant="flat"
@@ -1710,7 +1706,7 @@ export default function AnalyticsIndex() {
                   )}
                   {filterMaxDate !== null && (
                     <Chip
-                      classNames={{ content: "w-[10.5rem]" }}
+                      classNames={{ content: "w-[10.625rem]" }}
                       radius="sm"
                       color="secondary"
                       variant="flat"
