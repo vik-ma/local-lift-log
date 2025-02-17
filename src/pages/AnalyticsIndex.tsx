@@ -351,12 +351,12 @@ export default function AnalyticsIndex() {
         // setDistanceUnit(userSettings.default_unit_distance);
 
         // getDietLogList(userSettings.locale, true, true);
-        getUserWeightList(
-          userSettings.locale,
-          userSettings.default_unit_weight,
-          true,
-          false
-        );
+        // getUserWeightList(
+        //   userSettings.locale,
+        //   userSettings.default_unit_weight,
+        //   true,
+        //   false
+        // );
       };
 
       loadUserSettings();
@@ -1725,6 +1725,64 @@ export default function AnalyticsIndex() {
                 Select Time Period
               </Button>
             )}
+            <Dropdown>
+              <DropdownTrigger>
+                <Button
+                  className="font-medium"
+                  variant="flat"
+                  color="secondary"
+                >
+                  Load Area
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu
+                aria-label="Load category as area options"
+                variant="flat"
+              >
+                <DropdownItem
+                  key="user-weights-weight"
+                  onPress={() =>
+                    getUserWeightList(
+                      userSettings.locale,
+                      weightUnit,
+                      true,
+                      true
+                    )
+                  }
+                >
+                  User Weights (Only Weight)
+                </DropdownItem>
+                <DropdownItem
+                  key="user-weights-body-fat"
+                  onPress={() =>
+                    getUserWeightList(
+                      userSettings.locale,
+                      weightUnit,
+                      true,
+                      false
+                    )
+                  }
+                >
+                  User Weights (With Body Fat %)
+                </DropdownItem>
+                <DropdownItem
+                  key="diet-logs-calories"
+                  onPress={() =>
+                    getDietLogList(userSettings.locale, true, true)
+                  }
+                >
+                  Diet Logs (Only Calories)
+                </DropdownItem>
+                <DropdownItem
+                  key="diet-logs-calories"
+                  onPress={() =>
+                    getDietLogList(userSettings.locale, true, false)
+                  }
+                >
+                  Diet Logs (With Macros)
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
           </div>
         </div>
         <div className="flex items-center justify-between gap-2 w-[960px]">
