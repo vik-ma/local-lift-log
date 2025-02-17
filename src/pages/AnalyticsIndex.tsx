@@ -1673,76 +1673,72 @@ export default function AnalyticsIndex() {
             </div>
           </div>
         )}
-        <div className="flex flex-col gap-2 w-[960px]">
-          <div className="flex items-center justify-between">
-            <div className="flex gap-2 items-center">
-              <Button
-                className="font-medium"
-                variant="flat"
-                color="secondary"
-                onPress={() => handleOpenListModal("exercise")}
-              >
-                Select Exercise
-              </Button>
-              <Button
-                className="font-medium"
-                variant="flat"
-                color="secondary"
-                onPress={() => handleOpenListModal("measurement")}
-              >
-                Select Measurement
-              </Button>
-              <Button
-                className="font-medium"
-                variant="flat"
-                onPress={() =>
-                  getDietLogList(userSettings.locale, false, false)
-                }
-                isDisabled={
-                  loadedLists.current.has("diet-logs-calories") &&
-                  loadedLists.current.has("diet-logs-macros")
-                }
-              >
-                Load Diet Logs
-              </Button>
-              <Button
-                className="font-medium"
-                variant="flat"
-                onPress={() =>
-                  getUserWeightList(
-                    userSettings.locale,
-                    weightUnit,
-                    true,
-                    false
-                  )
-                }
-                isDisabled={
-                  loadedLists.current.has("user-weights-weight") &&
-                  loadedLists.current.has("user-weights-body-fat")
-                }
-              >
-                Load User Weights
-              </Button>
-              {filteredChartData.length > 0 && (
-                <Button
-                  className="font-medium"
-                  variant="flat"
-                  color="secondary"
-                  onPress={() => handleOpenListModal("time-period")}
-                >
-                  Select Time Period
-                </Button>
-              )}
-            </div>
+        <div className="flex flex-col gap-2">
+          <div className="flex gap-2 items-center w-[960px]">
             <Button
               className="font-medium"
               variant="flat"
-              color="danger"
-              onPress={() => setShowTestButtons(!showTestButtons)}
+              color="secondary"
+              onPress={() => handleOpenListModal("exercise")}
             >
-              Toggle Test Buttons
+              Select Exercise
             </Button>
+            <Button
+              className="font-medium"
+              variant="flat"
+              color="secondary"
+              onPress={() => handleOpenListModal("measurement")}
+            >
+              Select Measurement
+            </Button>
+            <Button
+              className="font-medium"
+              variant="flat"
+              onPress={() => getDietLogList(userSettings.locale, false, false)}
+              isDisabled={
+                loadedLists.current.has("diet-logs-calories") &&
+                loadedLists.current.has("diet-logs-macros")
+              }
+            >
+              Load Diet Logs
+            </Button>
+            <Button
+              className="font-medium"
+              variant="flat"
+              onPress={() =>
+                getUserWeightList(userSettings.locale, weightUnit, true, false)
+              }
+              isDisabled={
+                loadedLists.current.has("user-weights-weight") &&
+                loadedLists.current.has("user-weights-body-fat")
+              }
+            >
+              Load User Weights
+            </Button>
+            {filteredChartData.length > 0 && (
+              <Button
+                className="font-medium"
+                variant="flat"
+                color="secondary"
+                onPress={() => handleOpenListModal("time-period")}
+              >
+                Select Time Period
+              </Button>
+            )}
           </div>
+        </div>
+        <div className="flex items-center justify-between gap-2 w-[960px]">
+          <div></div>
+          <Button
+            className="font-medium"
+            variant="flat"
+            color="danger"
+            onPress={() => setShowTestButtons(!showTestButtons)}
+          >
+            Toggle Test Buttons
+          </Button>
+        </div>
+        <div className="flex items-center">
           {showTestButtons && (
             <div className="flex items-center gap-2">
               <Button
