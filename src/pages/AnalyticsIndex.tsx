@@ -1521,6 +1521,7 @@ export default function AnalyticsIndex() {
             <div className="flex flex-col gap-1">
               {filterMinDate !== null && (
                 <Chip
+                  classNames={{ content: "w-[10.5rem]" }}
                   radius="sm"
                   color="secondary"
                   variant="flat"
@@ -1533,6 +1534,7 @@ export default function AnalyticsIndex() {
               )}
               {filterMaxDate !== null && (
                 <Chip
+                  classNames={{ content: "w-[10.5rem]" }}
                   radius="sm"
                   color="secondary"
                   variant="flat"
