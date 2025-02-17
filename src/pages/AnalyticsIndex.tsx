@@ -1737,6 +1737,7 @@ export default function AnalyticsIndex() {
               <DropdownMenu
                 aria-label="Load category as area options"
                 variant="flat"
+                disabledKeys={loadedLists.current}
               >
                 <DropdownItem
                   key="user-weights-weight"
@@ -1791,6 +1792,7 @@ export default function AnalyticsIndex() {
               <DropdownMenu
                 aria-label="Load category as line options"
                 variant="flat"
+                disabledKeys={loadedLists.current}
               >
                 <DropdownItem
                   key="user-weights-weight"
