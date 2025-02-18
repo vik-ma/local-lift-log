@@ -417,9 +417,9 @@ export default function AnalyticsIndex() {
 
     const highestValueMap = new Map<ChartDataCategory, number>();
     highestValueMap.set("calories", 0);
-    highestValueMap.set("fat", 0);
-    highestValueMap.set("carbs", 0);
-    highestValueMap.set("protein", 0);
+    highestValueMap.set("fat", -1);
+    highestValueMap.set("carbs", -1);
+    highestValueMap.set("protein", -1);
 
     const updatedChartCommentMap = new Map(chartCommentMap);
 
@@ -488,6 +488,16 @@ export default function AnalyticsIndex() {
 
     setChartData(mergedChartData);
 
+    // Filter out categories with no values
+    const updatedHighestValueMap = new Map(
+      Array.from(highestValueMap).filter(([, value]) => value > -1)
+    );
+
+    highestCategoryValues.current = new Map([
+      ...highestCategoryValues.current,
+      ...updatedHighestValueMap,
+    ]);
+
     const updatedChartDataLines = [...chartDataLines];
     const updatedShownChartDataLines = [...shownChartDataLines];
     const updatedChartLineUnitCategorySet = new Set(chartLineUnitCategorySet);
@@ -529,13 +539,6 @@ export default function AnalyticsIndex() {
     }
 
     if (!loadCaloriesPrimary && !areCaloriesAlreadyLoaded) {
-      if (secondaryDataKey === undefined) {
-        setSecondaryDataKey("calories");
-      }
-      if (secondaryDataUnitCategory === undefined) {
-        setSecondaryDataUnitCategory("Calories");
-      }
-
       updatedChartDataLines.push("calories");
       updatedShownChartDataLines.push("calories");
       updatedChartLineUnitCategorySet.add("Calories");
@@ -543,42 +546,32 @@ export default function AnalyticsIndex() {
 
     const macroLines: ChartDataCategory[] = [];
 
-    if (!loadOnlyCalories) {
-      const { highestGramValueCategory, updatedHighestCategoryValues } =
-        getHighestGramValueForMacros(highestValueMap);
-
-      if (highestGramValueCategory !== "") {
-        if (loadCaloriesPrimary && secondaryDataKey === undefined) {
-          // Set the category with the highest gram value as second Y-axis
-          setSecondaryDataKey(highestGramValueCategory as ChartDataCategory);
-        }
-        if (loadCaloriesPrimary && secondaryDataUnitCategory === undefined) {
-          setSecondaryDataUnitCategory("Macros");
-        }
-
-        updatedChartLineUnitCategorySet.add("Macros");
-      }
+    if (!loadOnlyCalories && updatedHighestValueMap.size > 1) {
+      updatedChartLineUnitCategorySet.add("Macros");
 
       // Add in reverse order of Fat -> Carbs -> Protein
-      if (highestValueMap.get("protein")! > 0) {
+      if (highestValueMap.get("protein")! > -1) {
         macroLines.unshift("protein");
       }
 
-      if (highestValueMap.get("carbs")! > 0) {
+      if (highestValueMap.get("carbs")! > -1) {
         macroLines.unshift("carbs");
       }
 
-      if (highestValueMap.get("fat")! > 0) {
+      if (highestValueMap.get("fat")! > -1) {
         macroLines.unshift("fat");
       }
 
       loadedLists.current.add("diet-logs-macros");
     }
 
-    highestCategoryValues.current = new Map([
-      ...highestCategoryValues.current,
-      ...highestValueMap,
-    ]);
+    if (!loadCaloriesPrimary) {
+      updateRightYAxis(updatedChartDataLines, "calories");
+    }
+
+    if (loadCaloriesPrimary && updatedHighestValueMap.size > 1) {
+      updateRightYAxis(updatedChartDataLines, "fat");
+    }
 
     setChartDataLines([...updatedChartDataLines, ...macroLines]);
     setShownChartDataLines([...updatedShownChartDataLines, ...macroLines]);
