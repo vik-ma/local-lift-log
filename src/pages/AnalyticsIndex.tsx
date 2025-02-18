@@ -350,13 +350,13 @@ export default function AnalyticsIndex() {
         setWeightUnit(userSettings.default_unit_weight);
         // setDistanceUnit(userSettings.default_unit_distance);
 
-        // getDietLogList(userSettings.locale, true, true);
-        getUserWeightList(
-          userSettings.locale,
-          userSettings.default_unit_weight,
-          true,
-          false
-        );
+        getDietLogList(userSettings.locale, true, true);
+        // getUserWeightList(
+        //   userSettings.locale,
+        //   userSettings.default_unit_weight,
+        //   true,
+        //   false
+        // );
       };
 
       loadUserSettings();
@@ -1028,18 +1028,21 @@ export default function AnalyticsIndex() {
 
     setChartCommentMap(updatedChartCommentMap);
 
-    if (!isWeightAlreadyLoaded) {
-      highestCategoryValues.current.set(
-        "body_weight",
-        highestValueMap.get("body_weight")!
-      );
-    }
-
     const filledInChartData = fillInMissingDates(loadedChartData, locale);
 
     const mergedChartData = mergeChartData(filledInChartData, chartData);
 
     setChartData(mergedChartData);
+
+    // Filter out categories with no values
+    const updatedHighestValueMap = new Map(
+      Array.from(highestValueMap).filter(([, value]) => value > 0)
+    );
+
+    highestCategoryValues.current = new Map([
+      ...highestCategoryValues.current,
+      ...updatedHighestValueMap,
+    ]);
 
     const updatedChartDataLines = [...chartDataLines];
     const updatedShownChartDataLines = [...shownChartDataLines];
@@ -1120,36 +1123,34 @@ export default function AnalyticsIndex() {
     }
 
     if (!loadWeightPrimary && !isWeightAlreadyLoaded) {
-      if (secondaryDataKey === undefined) {
-        setSecondaryDataKey("body_weight");
-      }
-      if (secondaryDataUnitCategory === undefined) {
-        setSecondaryDataUnitCategory("Body Weight");
-      }
-
       updatedChartDataLines.push("body_weight");
       updatedShownChartDataLines.push("body_weight");
       updatedChartLineUnitCategorySet.add("Body Weight");
     }
 
-    if (!loadOnlyWeight && highestValueMap.get("body_fat_percentage")! > 0) {
-      if (loadWeightPrimary && secondaryDataKey === undefined) {
-        setSecondaryDataKey("body_fat_percentage");
-      }
-      if (loadWeightPrimary && secondaryDataUnitCategory === undefined) {
-        setSecondaryDataUnitCategory("Body Fat %");
-      }
+    if (!loadOnlyWeight && updatedHighestValueMap.size > 1) {
+      updatedChartLineUnitCategorySet.add("Body Fat %");
 
       updatedChartDataLines.push("body_fat_percentage");
       updatedShownChartDataLines.push("body_fat_percentage");
-      updatedChartLineUnitCategorySet.add("Body Fat %");
-
-      highestCategoryValues.current.set(
-        "body_fat_percentage",
-        highestValueMap.get("body_fat_percentage")!
-      );
 
       loadedLists.current.add("user-weights-body-fat");
+    }
+
+    if (!loadWeightPrimary) {
+      updateRightYAxis(
+        updatedChartDataLines,
+        "body_weight",
+        updatedHighestValueMap
+      );
+    }
+
+    if (loadWeightPrimary && updatedHighestValueMap.size > 1) {
+      updateRightYAxis(
+        updatedChartDataLines,
+        "body_fat_percentage",
+        updatedHighestValueMap
+      );
     }
 
     setChartDataLines(updatedChartDataLines);
