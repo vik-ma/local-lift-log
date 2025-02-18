@@ -594,28 +594,6 @@ export default function AnalyticsIndex() {
     updateRightYAxis(chartLines, secondaryDataKey);
   };
 
-  const getHighestGramValueForMacros = (
-    highestValueMap: Map<ChartDataCategory, number>
-  ) => {
-    let highestGramValueCategory = "";
-    let highestGramValue = 0;
-
-    const updatedHighestCategoryValues = new Map(highestValueMap);
-
-    for (const [key, value] of highestValueMap) {
-      if (key !== "fat" && key !== "carbs" && key !== "protein") continue;
-
-      if (value > highestGramValue) {
-        highestGramValueCategory = key!;
-        highestGramValue = value;
-      }
-
-      updatedHighestCategoryValues.set(key, value);
-    }
-
-    return { highestGramValueCategory, updatedHighestCategoryValues };
-  };
-
   const formatXAxisDate = (date: string) => {
     const cutoff =
       userSettings === undefined || userSettings.locale === "en-US" ? 6 : 5;
@@ -746,25 +724,17 @@ export default function AnalyticsIndex() {
   const changeSecondaryDataUnitCategory = (unitCategory: string) => {
     switch (unitCategory) {
       case "Macros": {
-        const { highestGramValueCategory } = getHighestGramValueForMacros(
-          highestCategoryValues.current
-        );
-
-        setSecondaryDataKey(highestGramValueCategory as ChartDataCategory);
-        setSecondaryDataUnitCategory(unitCategory);
+        updateRightYAxis(shownChartDataLines, "fat");
         break;
       }
       case "Calories":
-        setSecondaryDataKey("calories");
-        setSecondaryDataUnitCategory(unitCategory);
+        updateRightYAxis(shownChartDataLines, "calories");
         break;
       case "Body Weight":
-        setSecondaryDataKey("body_weight");
-        setSecondaryDataUnitCategory(unitCategory);
+        updateRightYAxis(shownChartDataLines, "body_weight");
         break;
       case "Body Fat %":
-        setSecondaryDataKey("body_fat_percentage");
-        setSecondaryDataUnitCategory(unitCategory);
+        updateRightYAxis(shownChartDataLines, "body_fat_percentage");
         break;
       default:
         break;
