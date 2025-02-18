@@ -544,37 +544,43 @@ export default function AnalyticsIndex() {
       updatedChartLineUnitCategorySet.add("Calories");
     }
 
-    const macroLines: ChartDataCategory[] = [];
-
     if (!loadOnlyCalories && updatedHighestValueMap.size > 1) {
       updatedChartLineUnitCategorySet.add("Macros");
 
-      // Add in reverse order of Fat -> Carbs -> Protein
-      if (highestValueMap.get("protein")! > -1) {
-        macroLines.unshift("protein");
+      if (highestValueMap.get("fat")! > -1) {
+        updatedChartDataLines.push("fat");
+        updatedShownChartDataLines.push("fat");
       }
 
       if (highestValueMap.get("carbs")! > -1) {
-        macroLines.unshift("carbs");
+        updatedChartDataLines.push("carbs");
+        updatedShownChartDataLines.push("carbs");
       }
 
-      if (highestValueMap.get("fat")! > -1) {
-        macroLines.unshift("fat");
+      if (highestValueMap.get("protein")! > -1) {
+        updatedChartDataLines.push("protein");
+        updatedShownChartDataLines.push("protein");
       }
 
       loadedLists.current.add("diet-logs-macros");
     }
 
     if (!loadCaloriesPrimary) {
-      updateRightYAxis(updatedChartDataLines, "calories");
+      updateRightYAxis(
+        updatedChartDataLines,
+        "calories",
+        updatedHighestValueMap
+      );
     }
 
     if (loadCaloriesPrimary && updatedHighestValueMap.size > 1) {
-      updateRightYAxis(updatedChartDataLines, "fat");
+      // The category "fat" will still set the highest macro value as right Y-axis,
+      // even if no "fat" value was loaded
+      updateRightYAxis(updatedChartDataLines, "fat", updatedHighestValueMap);
     }
 
-    setChartDataLines([...updatedChartDataLines, ...macroLines]);
-    setShownChartDataLines([...updatedShownChartDataLines, ...macroLines]);
+    setChartDataLines([...updatedChartDataLines]);
+    setShownChartDataLines([...updatedShownChartDataLines]);
     setChartLineUnitCategorySet(updatedChartLineUnitCategorySet);
 
     loadedLists.current.add("diet-logs-calories");
@@ -591,7 +597,11 @@ export default function AnalyticsIndex() {
     setShownChartDataLines(chartLines);
     setChartLineUnitCategorySet(chartLineUnitCategorySet);
 
-    updateRightYAxis(chartLines, secondaryDataKey);
+    updateRightYAxis(
+      chartLines,
+      secondaryDataKey,
+      highestCategoryValues.current
+    );
   };
 
   const formatXAxisDate = (date: string) => {
@@ -724,17 +734,33 @@ export default function AnalyticsIndex() {
   const changeSecondaryDataUnitCategory = (unitCategory: string) => {
     switch (unitCategory) {
       case "Macros": {
-        updateRightYAxis(shownChartDataLines, "fat");
+        updateRightYAxis(
+          shownChartDataLines,
+          "fat",
+          highestCategoryValues.current
+        );
         break;
       }
       case "Calories":
-        updateRightYAxis(shownChartDataLines, "calories");
+        updateRightYAxis(
+          shownChartDataLines,
+          "calories",
+          highestCategoryValues.current
+        );
         break;
       case "Body Weight":
-        updateRightYAxis(shownChartDataLines, "body_weight");
+        updateRightYAxis(
+          shownChartDataLines,
+          "body_weight",
+          highestCategoryValues.current
+        );
         break;
       case "Body Fat %":
-        updateRightYAxis(shownChartDataLines, "body_fat_percentage");
+        updateRightYAxis(
+          shownChartDataLines,
+          "body_fat_percentage",
+          highestCategoryValues.current
+        );
         break;
       default:
         break;
@@ -1257,7 +1283,8 @@ export default function AnalyticsIndex() {
 
   const updateRightYAxis = (
     chartLines: ChartDataCategory[],
-    activeSecondaryDataKey: ChartDataCategory
+    activeSecondaryDataKey: ChartDataCategory,
+    highestValueMap: Map<ChartDataCategory, number>
   ) => {
     if (chartLines.length === 0) {
       setSecondaryDataKey(undefined);
@@ -1287,7 +1314,7 @@ export default function AnalyticsIndex() {
     let highestCategory: ChartDataCategory = undefined;
     let highestValue = 0;
 
-    for (const [key, value] of highestCategoryValues.current) {
+    for (const [key, value] of highestValueMap) {
       if (
         !chartLineSet.has(key) ||
         chartDataUnitCategoryMap.get(key) !== unitCategory
