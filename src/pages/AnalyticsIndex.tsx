@@ -1324,6 +1324,42 @@ export default function AnalyticsIndex() {
     filterMinAndMaxDatesModal.onClose();
   };
 
+  const updateRightYAxis = (
+    chartLines: ChartDataCategory[],
+    activeSecondaryDataKey: ChartDataCategory
+  ) => {
+    if (chartLines.length === 0) {
+      setSecondaryDataKey(undefined);
+      setSecondaryDataUnitCategory(undefined);
+      return;
+    }
+
+    const chartLineSet = new Set(chartLines);
+
+    const unitCategory = chartLineSet.has(activeSecondaryDataKey)
+      ? chartDataUnitCategoryMap.get(activeSecondaryDataKey)
+      : chartDataUnitCategoryMap.get(chartLines[0]);
+
+    let highestCategory: ChartDataCategory = undefined;
+    let highestValue = 0;
+
+    for (const [key, value] of highestCategoryValues.current) {
+      if (
+        !chartLineSet.has(key) ||
+        chartDataUnitCategoryMap.get(key) !== unitCategory
+      )
+        continue;
+
+      if (value > highestValue) {
+        highestCategory = key;
+        highestValue = value;
+      }
+    }
+
+    setSecondaryDataKey(highestCategory);
+    setSecondaryDataUnitCategory(unitCategory);
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
