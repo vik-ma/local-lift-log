@@ -351,12 +351,12 @@ export default function AnalyticsIndex() {
         // setDistanceUnit(userSettings.default_unit_distance);
 
         // getDietLogList(userSettings.locale, true, true);
-        // getUserWeightList(
-        //   userSettings.locale,
-        //   userSettings.default_unit_weight,
-        //   true,
-        //   false
-        // );
+        getUserWeightList(
+          userSettings.locale,
+          userSettings.default_unit_weight,
+          true,
+          false
+        );
       };
 
       loadUserSettings();
@@ -591,38 +591,6 @@ export default function AnalyticsIndex() {
   };
 
   const updateShownChartLines = (chartLines: ChartDataCategory[]) => {
-    if (chartLines.length > 0) {
-      const chartLineSet = new Set(chartLines);
-
-      const unitCategory = chartDataUnitCategoryMap.get(chartLines[0]);
-
-      let highestCategory: ChartDataCategory = undefined;
-      let highestValue = 0;
-
-      for (const [key, value] of highestCategoryValues.current) {
-        if (
-          !chartLineSet.has(key) ||
-          chartDataUnitCategoryMap.get(key) !== unitCategory
-        )
-          continue;
-
-        if (value > highestValue) {
-          highestCategory = key;
-          highestValue = value;
-        }
-      }
-
-      if (secondaryDataUnitCategory !== unitCategory) {
-        setSecondaryDataUnitCategory(unitCategory);
-      }
-
-      // Set secondaryDataKey as the category with the highest value of the unitCategory
-      setSecondaryDataKey(highestCategory);
-    } else {
-      setSecondaryDataKey(undefined);
-      setSecondaryDataUnitCategory(undefined);
-    }
-
     const chartLineUnitCategorySet = new Set<ChartDataUnitCategory>();
 
     for (const line of chartLines) {
@@ -631,6 +599,8 @@ export default function AnalyticsIndex() {
 
     setShownChartDataLines(chartLines);
     setChartLineUnitCategorySet(chartLineUnitCategorySet);
+
+    updateRightYAxis(chartLines, secondaryDataKey);
   };
 
   const getHighestGramValueForMacros = (
@@ -1334,11 +1304,24 @@ export default function AnalyticsIndex() {
       return;
     }
 
-    const chartLineSet = new Set(chartLines);
+    const activeUnitCategory = chartDataUnitCategoryMap.get(
+      activeSecondaryDataKey
+    );
 
-    const unitCategory = chartLineSet.has(activeSecondaryDataKey)
-      ? chartDataUnitCategoryMap.get(activeSecondaryDataKey)
-      : chartDataUnitCategoryMap.get(chartLines[0]);
+    let shouldChangeCategory = true;
+
+    for (const line of chartLines) {
+      if (chartDataUnitCategoryMap.get(line) === activeUnitCategory) {
+        shouldChangeCategory = false;
+        break;
+      }
+    }
+
+    const unitCategory = shouldChangeCategory
+      ? chartDataUnitCategoryMap.get(chartLines[0])
+      : activeUnitCategory;
+
+    const chartLineSet = new Set(chartLines);
 
     let highestCategory: ChartDataCategory = undefined;
     let highestValue = 0;
