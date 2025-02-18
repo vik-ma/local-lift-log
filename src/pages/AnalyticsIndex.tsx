@@ -430,7 +430,7 @@ export default function AnalyticsIndex() {
         date,
       };
 
-      if (dietLog.comment !== null) {
+      if (dietLog.comment !== null && !areCaloriesAlreadyLoaded) {
         const chartComment: ChartComment = {
           dataKeys: new Set(["calories", "fat", "carbs", "protein"]),
           label: "Diet Log Comment",
@@ -981,7 +981,7 @@ export default function AnalyticsIndex() {
         date,
       };
 
-      if (userWeight.comment !== null) {
+      if (userWeight.comment !== null && !isWeightAlreadyLoaded) {
         const chartComment: ChartComment = {
           dataKeys: new Set(["body_weight", "body_fat_percentage"]),
           label: "Body Weight Comment",
