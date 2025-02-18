@@ -1500,24 +1500,26 @@ export default function AnalyticsIndex() {
                       </SelectItem>
                     ))}
                   </Select>
-                  <Select
-                    label="Shown Lines"
-                    size="sm"
-                    variant="faded"
-                    selectionMode="multiple"
-                    selectedKeys={shownChartDataLines as string[]}
-                    onSelectionChange={(value) =>
-                      updateShownChartLines(
-                        Array.from(value) as ChartDataCategory[]
-                      )
-                    }
-                  >
-                    {chartDataLines.map((line) => (
-                      <SelectItem key={line} value={line}>
-                        {chartDataCategoryLabelMap.get(line)}
-                      </SelectItem>
-                    ))}
-                  </Select>
+                  {chartDataLines.length > 0 && (
+                    <Select
+                      label="Shown Lines"
+                      size="sm"
+                      variant="faded"
+                      selectionMode="multiple"
+                      selectedKeys={shownChartDataLines as string[]}
+                      onSelectionChange={(value) =>
+                        updateShownChartLines(
+                          Array.from(value) as ChartDataCategory[]
+                        )
+                      }
+                    >
+                      {chartDataLines.map((line) => (
+                        <SelectItem key={line} value={line}>
+                          {chartDataCategoryLabelMap.get(line)}
+                        </SelectItem>
+                      ))}
+                    </Select>
+                  )}
                   {secondaryDataUnitCategory !== undefined && (
                     <Select
                       label="Right Y-Axis Value"
