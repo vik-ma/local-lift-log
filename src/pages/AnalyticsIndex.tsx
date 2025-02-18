@@ -1128,7 +1128,7 @@ export default function AnalyticsIndex() {
       updatedChartLineUnitCategorySet.add("Body Weight");
     }
 
-    if (!loadOnlyWeight && updatedHighestValueMap.size > 1) {
+    if (!loadOnlyWeight && updatedHighestValueMap.has("body_fat_percentage")) {
       updatedChartLineUnitCategorySet.add("Body Fat %");
 
       updatedChartDataLines.push("body_fat_percentage");
@@ -1145,7 +1145,10 @@ export default function AnalyticsIndex() {
       );
     }
 
-    if (loadWeightPrimary && updatedHighestValueMap.size > 1) {
+    if (
+      loadWeightPrimary &&
+      updatedHighestValueMap.has("body_fat_percentage")
+    ) {
       updateRightYAxis(
         updatedChartDataLines,
         "body_fat_percentage",
