@@ -547,8 +547,6 @@ export default function AnalyticsIndex() {
       const { highestGramValueCategory, updatedHighestCategoryValues } =
         getHighestGramValueForMacros(highestValueMap);
 
-      highestCategoryValues.current = updatedHighestCategoryValues;
-
       if (highestGramValueCategory !== "") {
         if (loadCaloriesPrimary && secondaryDataKey === undefined) {
           // Set the category with the highest gram value as second Y-axis
@@ -575,12 +573,12 @@ export default function AnalyticsIndex() {
       }
 
       loadedLists.current.add("diet-logs-macros");
-    } else if (loadOnlyCalories && !areCaloriesAlreadyLoaded) {
-      highestCategoryValues.current.set(
-        "calories",
-        highestValueMap.get("calories")!
-      );
     }
+
+    highestCategoryValues.current = new Map([
+      ...highestCategoryValues.current,
+      ...highestValueMap,
+    ]);
 
     setChartDataLines([...updatedChartDataLines, ...macroLines]);
     setShownChartDataLines([...updatedShownChartDataLines, ...macroLines]);
