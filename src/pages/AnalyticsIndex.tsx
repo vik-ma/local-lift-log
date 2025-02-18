@@ -1545,7 +1545,7 @@ export default function AnalyticsIndex() {
                     <Dropdown>
                       <DropdownTrigger>
                         <Button className="font-medium" variant="flat">
-                          Convert Area To Line
+                          Convert Line To Area
                         </Button>
                       </DropdownTrigger>
                       <DropdownMenu
@@ -1567,7 +1567,7 @@ export default function AnalyticsIndex() {
                     <Dropdown>
                       <DropdownTrigger>
                         <Button className="font-medium" variant="flat">
-                          Convert Line To Area
+                          Convert Area To Line
                         </Button>
                       </DropdownTrigger>
                       <DropdownMenu
