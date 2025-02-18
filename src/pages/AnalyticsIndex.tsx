@@ -567,7 +567,7 @@ export default function AnalyticsIndex() {
 
     if (!loadCaloriesPrimary) {
       updateRightYAxis(
-        updatedChartDataLines,
+        updatedShownChartDataLines,
         "calories",
         updatedHighestValueMap
       );
@@ -576,7 +576,11 @@ export default function AnalyticsIndex() {
     if (loadCaloriesPrimary && updatedHighestValueMap.size > 1) {
       // The category "fat" will still set the highest macro value as right Y-axis,
       // even if no "fat" value was loaded
-      updateRightYAxis(updatedChartDataLines, "fat", updatedHighestValueMap);
+      updateRightYAxis(
+        updatedShownChartDataLines,
+        "fat",
+        updatedHighestValueMap
+      );
     }
 
     setChartDataLines([...updatedChartDataLines]);
@@ -1139,7 +1143,7 @@ export default function AnalyticsIndex() {
 
     if (!loadWeightPrimary) {
       updateRightYAxis(
-        updatedChartDataLines,
+        updatedShownChartDataLines,
         "body_weight",
         updatedHighestValueMap
       );
@@ -1150,7 +1154,7 @@ export default function AnalyticsIndex() {
       updatedHighestValueMap.has("body_fat_percentage")
     ) {
       updateRightYAxis(
-        updatedChartDataLines,
+        updatedShownChartDataLines,
         "body_fat_percentage",
         updatedHighestValueMap
       );
