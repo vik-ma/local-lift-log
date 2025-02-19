@@ -675,6 +675,8 @@ export default function AnalyticsIndex() {
     setChartData(updatedChartData);
     setChartDataAreas(updatedChartDataAreas);
     setShownChartDataAreas(updatedShownChartDataAreas);
+
+    updateLeftYAxis(updatedShownChartDataAreas, highestCategoryValues.current);
   };
 
   const addTestLine = () => {
@@ -1384,11 +1386,17 @@ export default function AnalyticsIndex() {
 
     const unitCategory = chartDataUnitCategoryMap.get(chartAreas[0]);
 
+    const chartAreaSet = new Set(chartAreas);
+
     let highestCategory: ChartDataCategory = undefined;
     let highestValue = 0;
 
     for (const [key, value] of highestValueMap) {
-      if (chartDataUnitCategoryMap.get(key) !== unitCategory) continue;
+      if (
+        !chartAreaSet.has(key) ||
+        chartDataUnitCategoryMap.get(key) !== unitCategory
+      )
+        continue;
 
       if (value > highestValue) {
         highestCategory = key;
