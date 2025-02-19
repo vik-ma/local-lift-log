@@ -1247,6 +1247,10 @@ export default function AnalyticsIndex() {
       );
     }
 
+    setChartDataLines(updatedChartDataLines);
+    setShownChartDataLines(updatedChartDataLines);
+    setChartLineUnitCategorySet(updatedChartLineUnitCategorySet);
+
     loadedLists.current.add("user-weights-body-fat");
     if (!isChartDataLoaded.current) isChartDataLoaded.current = true;
   };
