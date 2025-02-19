@@ -351,11 +351,10 @@ export default function AnalyticsIndex() {
         // setDistanceUnit(userSettings.default_unit_distance);
 
         getDietLogList(userSettings.locale, true, true);
-        // getUserWeightList(
+        // getUserWeightListWeights(
         //   userSettings.locale,
         //   userSettings.default_unit_weight,
-        //   true,
-        //   false
+        //   true
         // );
       };
 
@@ -1850,25 +1849,19 @@ export default function AnalyticsIndex() {
                     getUserWeightListWeights(
                       userSettings.locale,
                       weightUnit,
-                      true,
                       true
                     )
                   }
                 >
-                  User Weights (Only Weight)
+                  User Weights
                 </DropdownItem>
                 <DropdownItem
                   key="user-weights-body-fat"
                   onPress={() =>
-                    getUserWeightListWeights(
-                      userSettings.locale,
-                      weightUnit,
-                      true,
-                      false
-                    )
+                    getUserWeightListBodyFat(userSettings.locale, false)
                   }
                 >
-                  User Weights (With Body Fat %)
+                  User Body Fat %
                 </DropdownItem>
                 <DropdownItem
                   key="diet-logs-calories"
@@ -1905,25 +1898,19 @@ export default function AnalyticsIndex() {
                     getUserWeightListWeights(
                       userSettings.locale,
                       weightUnit,
-                      false,
-                      true
-                    )
-                  }
-                >
-                  User Weights (Only Weight)
-                </DropdownItem>
-                <DropdownItem
-                  key="user-weights-body-fat"
-                  onPress={() =>
-                    getUserWeightListWeights(
-                      userSettings.locale,
-                      weightUnit,
-                      false,
                       false
                     )
                   }
                 >
-                  User Weights (With Body Fat %)
+                  User Weights
+                </DropdownItem>
+                <DropdownItem
+                  key="user-weights-body-fat"
+                  onPress={() =>
+                    getUserWeightListBodyFat(userSettings.locale, false)
+                  }
+                >
+                  User Body Fat %
                 </DropdownItem>
                 <DropdownItem
                   key="diet-logs-calories"
