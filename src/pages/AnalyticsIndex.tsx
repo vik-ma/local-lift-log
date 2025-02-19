@@ -1269,13 +1269,20 @@ export default function AnalyticsIndex() {
       )
     );
 
+    setShownChartDataLines(updatedShownChartDataLines);
+
     setChartLineUnitCategorySet(updatedChartLineUnitCategorySet);
 
     if (primaryDataKey === chartDataArea) {
       setPrimaryDataKey(updatedShownChartDataAreas[0]);
-      // TODO: FIX RIGHT Y-AXIS
+      // TODO: FIX LEFT Y-AXIS
     }
-    // TODO: FIX LEFT Y-AXIS
+
+    updateRightYAxis(
+      updatedShownChartDataLines,
+      secondaryDataKey,
+      highestCategoryValues.current
+    );
   };
 
   const setCustomMinAndMaxDatesFilter = (
