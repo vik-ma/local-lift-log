@@ -973,27 +973,12 @@ export default function AnalyticsIndex() {
     return { formattedStartDate, formattedEndDate };
   };
 
-  const getUserWeightList = async (
+  const getUserWeightListWeights = async (
     locale: string,
     weightUnit: string,
-    setPrimary: boolean,
-    loadWeight: boolean,
-    loadBodyFat: boolean
+    loadPrimary: boolean
   ) => {
-    const isWeightAlreadyLoaded = loadedLists.current.has(
-      "user-weights-weight"
-    );
-    const isBodyFatAlreadyLoaded = loadedLists.current.has(
-      "user-weights-body-fat"
-    );
-
-    if (
-      (!loadWeight && !loadBodyFat) ||
-      (isWeightAlreadyLoaded && isBodyFatAlreadyLoaded) ||
-      (isWeightAlreadyLoaded && !loadBodyFat) ||
-      (isBodyFatAlreadyLoaded && !loadWeight)
-    )
-      return;
+    if (loadedLists.current.has("user-weights-weight")) return;
 
     const userWeights = await GetAllUserWeights(true);
 
@@ -1006,7 +991,6 @@ export default function AnalyticsIndex() {
 
     const highestValueMap = new Map<ChartDataCategory, number>();
     highestValueMap.set("body_weight", 0);
-    highestValueMap.set("body_fat_percentage", 0);
 
     const dateSet = new Set<string>();
 
@@ -1026,7 +1010,7 @@ export default function AnalyticsIndex() {
 
       if (
         userWeight.comment !== null &&
-        !(isWeightAlreadyLoaded || isBodyFatAlreadyLoaded)
+        loadedLists.current.has("user-weights-body-fat")
       ) {
         const chartComment: ChartComment = {
           dataKeys: new Set(["body_weight", "body_fat_percentage"]),
@@ -1042,31 +1026,14 @@ export default function AnalyticsIndex() {
         }
       }
 
-      if (loadWeight && !isWeightAlreadyLoaded) {
-        chartDataItem.body_weight = ConvertWeightValue(
-          userWeight.weight,
-          userWeight.weight_unit,
-          weightUnit
-        );
+      chartDataItem.body_weight = ConvertWeightValue(
+        userWeight.weight,
+        userWeight.weight_unit,
+        weightUnit
+      );
 
-        if (userWeight.weight > highestValueMap.get("body_weight")!) {
-          highestValueMap.set("body_weight", userWeight.weight);
-        }
-      }
-
-      if (loadBodyFat && !isBodyFatAlreadyLoaded) {
-        chartDataItem.body_fat_percentage = userWeight.body_fat_percentage;
-
-        if (
-          userWeight.body_fat_percentage !== null &&
-          userWeight.body_fat_percentage >
-            highestValueMap.get("body_fat_percentage")!
-        ) {
-          highestValueMap.set(
-            "body_fat_percentage",
-            userWeight.body_fat_percentage
-          );
-        }
+      if (userWeight.weight > highestValueMap.get("body_weight")!) {
+        highestValueMap.set("body_weight", userWeight.weight);
       }
 
       loadedChartData.push(chartDataItem);
@@ -1080,29 +1047,17 @@ export default function AnalyticsIndex() {
 
     setChartData(mergedChartData);
 
-    // Filter out categories with no values
-    const updatedHighestValueMap = new Map(
-      Array.from(highestValueMap).filter(([, value]) => value > 0)
-    );
-
     highestCategoryValues.current = new Map([
       ...highestCategoryValues.current,
-      ...updatedHighestValueMap,
+      ...highestValueMap,
     ]);
 
     const updatedChartDataLines = [...chartDataLines];
     const updatedShownChartDataLines = [...shownChartDataLines];
     const updatedChartLineUnitCategorySet = new Set(chartLineUnitCategorySet);
 
-    // TODO: SET BF% PRIMARY
-
     // TODO: COMBINE NEXT FOUR IF CASES AND MOVE TO SEPARATE FUNCTION
-    if (
-      setPrimary &&
-      loadWeight &&
-      !isWeightAlreadyLoaded &&
-      primaryDataKey === undefined
-    ) {
+    if (loadPrimary && primaryDataKey === undefined) {
       // If no Chart Areas exist
       setPrimaryDataKey("body_weight");
       setChartDataAreas(["body_weight"]);
@@ -1110,9 +1065,7 @@ export default function AnalyticsIndex() {
     }
 
     if (
-      setPrimary &&
-      loadWeight &&
-      !isWeightAlreadyLoaded &&
+      loadPrimary &&
       primaryDataKey !== undefined &&
       chartDataUnitCategoryMap.get("body_weight") !==
         chartDataUnitCategoryMap.get(primaryDataKey)
@@ -1130,9 +1083,7 @@ export default function AnalyticsIndex() {
     }
 
     if (
-      setPrimary &&
-      loadWeight &&
-      !isWeightAlreadyLoaded &&
+      loadPrimary &&
       primaryDataKey !== undefined &&
       chartDataUnitCategoryMap.get("body_weight") ===
         chartDataUnitCategoryMap.get(primaryDataKey)
@@ -1142,12 +1093,7 @@ export default function AnalyticsIndex() {
       setShownChartDataAreas([...shownChartDataAreas, "body_weight"]);
     }
 
-    if (
-      setPrimary &&
-      loadWeight &&
-      isWeightAlreadyLoaded &&
-      primaryDataKey !== "body_weight"
-    ) {
+    if (loadPrimary && primaryDataKey !== "body_weight") {
       // Replace body_weight chartLines with chartAreas
       const chartDataLineIndex = updatedChartDataLines.findIndex(
         (item) => item === "body_weight"
@@ -1183,43 +1129,15 @@ export default function AnalyticsIndex() {
       setShownChartDataAreas(["body_weight"]);
     }
 
-    if (!setPrimary && loadWeight && !isWeightAlreadyLoaded) {
+    if (!loadPrimary) {
       updatedChartDataLines.push("body_weight");
       updatedShownChartDataLines.push("body_weight");
       updatedChartLineUnitCategorySet.add("Body Weight");
-    }
 
-    // TODO: UPDATE WITH SETPRIMARY
-    if (
-      loadBodyFat &&
-      !isBodyFatAlreadyLoaded &&
-      updatedHighestValueMap.has("body_fat_percentage")
-    ) {
-      updatedChartLineUnitCategorySet.add("Body Fat %");
-
-      updatedChartDataLines.push("body_fat_percentage");
-      updatedShownChartDataLines.push("body_fat_percentage");
-
-      loadedLists.current.add("user-weights-body-fat");
-    }
-
-    if (!setPrimary && loadWeight && !isWeightAlreadyLoaded) {
       updateRightYAxis(
         updatedShownChartDataLines,
         "body_weight",
-        updatedHighestValueMap
-      );
-    }
-
-    if (
-      setPrimary &&
-      loadWeight &&
-      updatedHighestValueMap.has("body_fat_percentage")
-    ) {
-      updateRightYAxis(
-        updatedShownChartDataLines,
-        "body_fat_percentage",
-        updatedHighestValueMap
+        highestValueMap
       );
     }
 
@@ -1228,6 +1146,109 @@ export default function AnalyticsIndex() {
     setChartLineUnitCategorySet(updatedChartLineUnitCategorySet);
 
     loadedLists.current.add("user-weights-weight");
+    if (!isChartDataLoaded.current) isChartDataLoaded.current = true;
+  };
+
+  const getUserWeightListBodyFat = async (
+    locale: string,
+    loadPrimary: boolean
+  ) => {
+    if (loadedLists.current.has("user-weights-body-fat")) return;
+
+    const userWeights = await GetAllUserWeights(true);
+
+    if (userWeights.length === 0) {
+      toast.error("No Body Weight Entries Recorded");
+      return;
+    }
+
+    const loadedChartData: ChartDataItem[] = [];
+
+    const highestValueMap = new Map<ChartDataCategory, number>();
+    highestValueMap.set("body_fat_percentage", 0);
+
+    const dateSet = new Set<string>();
+
+    const updatedChartCommentMap = new Map(chartCommentMap);
+
+    for (const userWeight of userWeights) {
+      const date = FormatDateToShortString(new Date(userWeight.date), locale);
+
+      // Only load first entry per day
+      if (dateSet.has(date)) continue;
+
+      dateSet.add(date);
+
+      const chartDataItem: ChartDataItem = {
+        date,
+      };
+
+      if (
+        userWeight.comment !== null &&
+        loadedLists.current.has("user-weights-body-fat")
+      ) {
+        const chartComment: ChartComment = {
+          dataKeys: new Set(["body_weight", "body_fat_percentage"]),
+          label: "Body Weight Comment",
+          comment: userWeight.comment,
+        };
+
+        if (updatedChartCommentMap.has(date)) {
+          const updatedChartCommentList = updatedChartCommentMap.get(date)!;
+          updatedChartCommentList.push(chartComment);
+        } else {
+          updatedChartCommentMap.set(date, [chartComment]);
+        }
+      }
+
+      chartDataItem.body_fat_percentage = userWeight.body_fat_percentage;
+
+      if (
+        userWeight.body_fat_percentage !== null &&
+        userWeight.body_fat_percentage >
+          highestValueMap.get("body_fat_percentage")!
+      ) {
+        highestValueMap.set(
+          "body_fat_percentage",
+          userWeight.body_fat_percentage
+        );
+      }
+
+      loadedChartData.push(chartDataItem);
+    }
+
+    setChartCommentMap(updatedChartCommentMap);
+
+    const filledInChartData = fillInMissingDates(loadedChartData, locale);
+
+    const mergedChartData = mergeChartData(filledInChartData, chartData);
+
+    setChartData(mergedChartData);
+
+    highestCategoryValues.current = new Map([
+      ...highestCategoryValues.current,
+      ...highestValueMap,
+    ]);
+
+    const updatedChartDataLines = [...chartDataLines];
+    const updatedShownChartDataLines = [...shownChartDataLines];
+    const updatedChartLineUnitCategorySet = new Set(chartLineUnitCategorySet);
+
+    // TODO: SET BF% PRIMARY
+
+    if (!loadPrimary) {
+      updatedChartDataLines.push("body_fat_percentage");
+      updatedShownChartDataLines.push("body_fat_percentage");
+      updatedChartLineUnitCategorySet.add("Body Fat %");
+
+      updateRightYAxis(
+        updatedShownChartDataLines,
+        "body_fat_percentage",
+        highestValueMap
+      );
+    }
+
+    loadedLists.current.add("user-weights-body-fat");
     if (!isChartDataLoaded.current) isChartDataLoaded.current = true;
   };
 
@@ -1826,7 +1847,7 @@ export default function AnalyticsIndex() {
                 <DropdownItem
                   key="user-weights-weight"
                   onPress={() =>
-                    getUserWeightList(
+                    getUserWeightListWeights(
                       userSettings.locale,
                       weightUnit,
                       true,
@@ -1839,7 +1860,7 @@ export default function AnalyticsIndex() {
                 <DropdownItem
                   key="user-weights-body-fat"
                   onPress={() =>
-                    getUserWeightList(
+                    getUserWeightListWeights(
                       userSettings.locale,
                       weightUnit,
                       true,
@@ -1881,7 +1902,7 @@ export default function AnalyticsIndex() {
                 <DropdownItem
                   key="user-weights-weight"
                   onPress={() =>
-                    getUserWeightList(
+                    getUserWeightListWeights(
                       userSettings.locale,
                       weightUnit,
                       false,
@@ -1894,7 +1915,7 @@ export default function AnalyticsIndex() {
                 <DropdownItem
                   key="user-weights-body-fat"
                   onPress={() =>
-                    getUserWeightList(
+                    getUserWeightListWeights(
                       userSettings.locale,
                       weightUnit,
                       false,
