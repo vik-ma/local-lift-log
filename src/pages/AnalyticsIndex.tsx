@@ -1246,7 +1246,18 @@ export default function AnalyticsIndex() {
     ) {
       // Add new Chart Area if same unit as current Chart Area
       setChartDataAreas([...chartDataAreas, chartDataLine]);
-      setShownChartDataAreas([...shownChartDataAreas, chartDataLine]);
+
+      const updatedShownChartDataAreas = [
+        ...shownChartDataAreas,
+        chartDataLine,
+      ];
+
+      setShownChartDataAreas(updatedShownChartDataAreas);
+
+      updateLeftYAxis(
+        updatedShownChartDataAreas,
+        highestCategoryValues.current
+      );
     } else {
       // Create new Chart Area and change all existing Chart Areas to Chart Lines
       const currentAreas = [...chartDataAreas];
@@ -1276,8 +1287,6 @@ export default function AnalyticsIndex() {
       secondaryDataKey,
       highestCategoryValues.current
     );
-
-    // TODO: FIX LEFT Y-AXIS
   };
 
   const changeChartDataAreaToLine = (chartDataArea: ChartDataCategory) => {
@@ -1306,10 +1315,7 @@ export default function AnalyticsIndex() {
 
     setChartLineUnitCategorySet(updatedChartLineUnitCategorySet);
 
-    if (primaryDataKey === chartDataArea) {
-      setPrimaryDataKey(updatedShownChartDataAreas[0]);
-      // TODO: FIX LEFT Y-AXIS
-    }
+    updateLeftYAxis(updatedShownChartDataAreas, highestCategoryValues.current);
 
     updateRightYAxis(
       updatedShownChartDataLines,
