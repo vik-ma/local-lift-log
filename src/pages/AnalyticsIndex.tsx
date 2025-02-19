@@ -350,13 +350,13 @@ export default function AnalyticsIndex() {
         setWeightUnit(userSettings.default_unit_weight);
         // setDistanceUnit(userSettings.default_unit_distance);
 
-        getDietLogList(userSettings.locale, true, true);
-        // getUserWeightList(
-        //   userSettings.locale,
-        //   userSettings.default_unit_weight,
-        //   true,
-        //   false
-        // );
+        // getDietLogList(userSettings.locale, true, true);
+        getUserWeightList(
+          userSettings.locale,
+          userSettings.default_unit_weight,
+          true,
+          false
+        );
       };
 
       loadUserSettings();
@@ -1238,13 +1238,12 @@ export default function AnalyticsIndex() {
 
     setChartLineUnitCategorySet(updatedChartLineUnitCategorySet);
 
-    if (secondaryDataKey === chartDataLine) {
-      setSecondaryDataKey(updatedShownChartDataLines[0]);
-      setSecondaryDataUnitCategory(
-        chartDataUnitCategoryMap.get(updatedShownChartDataLines[0])
-      );
-      // TODO: FIX RIGHT Y-AXIS
-    }
+    updateRightYAxis(
+      updatedShownChartDataLines,
+      secondaryDataKey,
+      highestCategoryValues.current
+    );
+
     // TODO: FIX LEFT Y-AXIS
   };
 
