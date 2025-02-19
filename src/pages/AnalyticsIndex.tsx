@@ -565,21 +565,13 @@ export default function AnalyticsIndex() {
     }
 
     if (!loadCaloriesPrimary) {
-      updateRightYAxis(
-        updatedShownChartDataLines,
-        "calories",
-        updatedHighestValueMap
-      );
+      updateRightYAxis(updatedShownChartDataLines, "calories");
     }
 
     if (loadCaloriesPrimary && updatedHighestValueMap.size > 1) {
       // The category "fat" will still set the highest macro value as right Y-axis,
       // even if no "fat" value was loaded
-      updateRightYAxis(
-        updatedShownChartDataLines,
-        "fat",
-        updatedHighestValueMap
-      );
+      updateRightYAxis(updatedShownChartDataLines, "fat");
     }
 
     setChartDataLines([...updatedChartDataLines]);
@@ -600,11 +592,7 @@ export default function AnalyticsIndex() {
     setShownChartDataLines(chartLines);
     setChartLineUnitCategorySet(chartLineUnitCategorySet);
 
-    updateRightYAxis(
-      chartLines,
-      secondaryDataKey,
-      highestCategoryValues.current
-    );
+    updateRightYAxis(chartLines, secondaryDataKey);
   };
 
   const formatXAxisDate = (date: string) => {
@@ -718,11 +706,7 @@ export default function AnalyticsIndex() {
       setSecondaryDataUnitCategory("Body Weight");
     }
 
-    updateRightYAxis(
-      updatedShownChartDataLines,
-      secondaryDataKey,
-      highestCategoryValues.current
-    );
+    updateRightYAxis(updatedShownChartDataLines, secondaryDataKey);
   };
 
   const removeTestLine = () => {
@@ -770,33 +754,17 @@ export default function AnalyticsIndex() {
   const changeSecondaryDataUnitCategory = (unitCategory: string) => {
     switch (unitCategory) {
       case "Macros": {
-        updateRightYAxis(
-          shownChartDataLines,
-          "fat",
-          highestCategoryValues.current
-        );
+        updateRightYAxis(shownChartDataLines, "fat");
         break;
       }
       case "Calories":
-        updateRightYAxis(
-          shownChartDataLines,
-          "calories",
-          highestCategoryValues.current
-        );
+        updateRightYAxis(shownChartDataLines, "calories");
         break;
       case "Body Weight":
-        updateRightYAxis(
-          shownChartDataLines,
-          "body_weight",
-          highestCategoryValues.current
-        );
+        updateRightYAxis(shownChartDataLines, "body_weight");
         break;
       case "Body Fat %":
-        updateRightYAxis(
-          shownChartDataLines,
-          "body_fat_percentage",
-          highestCategoryValues.current
-        );
+        updateRightYAxis(shownChartDataLines, "body_fat_percentage");
         break;
       default:
         break;
@@ -1129,11 +1097,7 @@ export default function AnalyticsIndex() {
       updatedShownChartDataLines.push("body_weight");
       updatedChartLineUnitCategorySet.add("Body Weight");
 
-      updateRightYAxis(
-        updatedShownChartDataLines,
-        "body_weight",
-        highestCategoryValues.current
-      );
+      updateRightYAxis(updatedShownChartDataLines, "body_weight");
     }
 
     setChartDataLines(updatedChartDataLines);
@@ -1233,11 +1197,7 @@ export default function AnalyticsIndex() {
       updatedShownChartDataLines.push("body_fat_percentage");
       updatedChartLineUnitCategorySet.add("Body Fat %");
 
-      updateRightYAxis(
-        updatedShownChartDataLines,
-        "body_fat_percentage",
-        highestCategoryValues.current
-      );
+      updateRightYAxis(updatedShownChartDataLines, "body_fat_percentage");
     }
 
     setChartDataLines(updatedChartDataLines);
@@ -1329,11 +1289,7 @@ export default function AnalyticsIndex() {
 
     setChartLineUnitCategorySet(updatedChartLineUnitCategorySet);
 
-    updateRightYAxis(
-      updatedShownChartDataLines,
-      secondaryDataKey,
-      highestCategoryValues.current
-    );
+    updateRightYAxis(updatedShownChartDataLines, secondaryDataKey);
   };
 
   const changeChartDataAreaToLine = (chartDataArea: ChartDataCategory) => {
@@ -1364,11 +1320,7 @@ export default function AnalyticsIndex() {
 
     updateLeftYAxis(updatedShownChartDataAreas, highestCategoryValues.current);
 
-    updateRightYAxis(
-      updatedShownChartDataLines,
-      secondaryDataKey,
-      highestCategoryValues.current
-    );
+    updateRightYAxis(updatedShownChartDataLines, secondaryDataKey);
   };
 
   const setCustomMinAndMaxDatesFilter = (
@@ -1383,8 +1335,7 @@ export default function AnalyticsIndex() {
 
   const updateRightYAxis = (
     chartLines: ChartDataCategory[],
-    activeSecondaryDataKey: ChartDataCategory,
-    highestValueMap: Map<ChartDataCategory, number>
+    activeSecondaryDataKey: ChartDataCategory
   ) => {
     if (chartLines.length === 0) {
       setSecondaryDataKey(undefined);
@@ -1414,7 +1365,7 @@ export default function AnalyticsIndex() {
     let highestCategory: ChartDataCategory = undefined;
     let highestValue = 0;
 
-    for (const [key, value] of highestValueMap) {
+    for (const [key, value] of highestCategoryValues.current) {
       if (
         !chartLineSet.has(key) ||
         chartDataUnitCategoryMap.get(key) !== unitCategory
