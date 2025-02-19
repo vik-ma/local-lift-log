@@ -621,12 +621,14 @@ export default function AnalyticsIndex() {
 
     const updatedChartData = chartData.map((item) => ({
       ...item,
-      test: Math.floor(Math.random() * 400),
+      test: Math.floor(Math.random() * 1000),
     }));
 
     setChartData(updatedChartData);
     setChartDataAreas([...chartDataAreas, "test"]);
     setShownChartDataAreas([...shownChartDataAreas, "test"]);
+
+    // TODO: UPDATE LEFT Y-AXIS
   };
 
   const removeTestArea = () => {
@@ -667,7 +669,7 @@ export default function AnalyticsIndex() {
     let maxNum = 0;
 
     for (let i = 0; i < chartData.length; i++) {
-      const testNum = Math.floor(Math.random() * 400);
+      const testNum = Math.floor(Math.random() * 1000);
 
       if (testNum > maxNum) {
         maxNum = testNum;
@@ -680,17 +682,29 @@ export default function AnalyticsIndex() {
 
     setChartData(updatedChartData);
     setChartDataLines([...chartDataLines, "test"]);
-    setShownChartDataLines([...shownChartDataLines, "test"]);
 
-    if (!chartLineUnitCategorySet.has("Calories")) {
+    const updatedShownChartDataLines: ChartDataCategory[] = [
+      ...shownChartDataLines,
+      "test",
+    ];
+
+    setShownChartDataLines(updatedShownChartDataLines);
+
+    if (!chartLineUnitCategorySet.has("Body Weight")) {
       const updatedChartLineUnitCategorySet = new Set(chartLineUnitCategorySet);
-      updatedChartLineUnitCategorySet.add("Calories");
+      updatedChartLineUnitCategorySet.add("Body Weight");
       setChartLineUnitCategorySet(updatedChartLineUnitCategorySet);
     }
 
     if (secondaryDataUnitCategory === undefined) {
-      setSecondaryDataUnitCategory("Calories");
+      setSecondaryDataUnitCategory("Body Weight");
     }
+
+    updateRightYAxis(
+      updatedShownChartDataLines,
+      secondaryDataKey,
+      highestCategoryValues.current
+    );
   };
 
   const removeTestLine = () => {
