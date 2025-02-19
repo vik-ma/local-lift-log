@@ -619,16 +619,33 @@ export default function AnalyticsIndex() {
     if (chartDataAreas.includes("test") || chartDataLines.includes("test"))
       return;
 
-    const updatedChartData = chartData.map((item) => ({
-      ...item,
-      test: Math.floor(Math.random() * 1000),
-    }));
+    const updatedChartData: ChartDataItem[] = [...chartData];
+
+    let maxNum = 0;
+
+    for (let i = 0; i < chartData.length; i++) {
+      const testNum = Math.floor(Math.random() * 1000);
+
+      if (testNum > maxNum) {
+        maxNum = testNum;
+      }
+
+      updatedChartData[i].test = testNum;
+    }
+
+    highestCategoryValues.current.set("test", maxNum);
 
     setChartData(updatedChartData);
     setChartDataAreas([...chartDataAreas, "test"]);
-    setShownChartDataAreas([...shownChartDataAreas, "test"]);
 
-    // TODO: UPDATE LEFT Y-AXIS
+    const updatedShownChartDataAreas: ChartDataCategory[] = [
+      ...shownChartDataAreas,
+      "test",
+    ];
+
+    setShownChartDataAreas(updatedShownChartDataAreas);
+
+    updateLeftYAxis(updatedShownChartDataAreas, highestCategoryValues.current);
   };
 
   const removeTestArea = () => {
@@ -1357,6 +1374,29 @@ export default function AnalyticsIndex() {
 
     setSecondaryDataKey(highestCategory);
     setSecondaryDataUnitCategory(unitCategory);
+  };
+
+  const updateLeftYAxis = (
+    chartAreas: ChartDataCategory[],
+    highestValueMap: Map<ChartDataCategory, number>
+  ) => {
+    if (chartAreas.length === 0) return;
+
+    const unitCategory = chartDataUnitCategoryMap.get(chartAreas[0]);
+
+    let highestCategory: ChartDataCategory = undefined;
+    let highestValue = 0;
+
+    for (const [key, value] of highestValueMap) {
+      if (chartDataUnitCategoryMap.get(key) !== unitCategory) continue;
+
+      if (value > highestValue) {
+        highestCategory = key;
+        highestValue = value;
+      }
+    }
+
+    setPrimaryDataKey(highestCategory);
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;
