@@ -988,8 +988,7 @@ export default function AnalyticsIndex() {
 
     const loadedChartData: ChartDataItem[] = [];
 
-    const highestValueMap = new Map<ChartDataCategory, number>();
-    highestValueMap.set("body_weight", 0);
+    let highestValue = 0;
 
     const dateSet = new Set<string>();
 
@@ -1031,8 +1030,8 @@ export default function AnalyticsIndex() {
         weightUnit
       );
 
-      if (userWeight.weight > highestValueMap.get("body_weight")!) {
-        highestValueMap.set("body_weight", userWeight.weight);
+      if (userWeight.weight > highestValue) {
+        highestValue = userWeight.weight;
       }
 
       loadedChartData.push(chartDataItem);
@@ -1046,10 +1045,7 @@ export default function AnalyticsIndex() {
 
     setChartData(mergedChartData);
 
-    highestCategoryValues.current = new Map([
-      ...highestCategoryValues.current,
-      ...highestValueMap,
-    ]);
+    highestCategoryValues.current.set("body_weight", highestValue);
 
     const updatedChartDataLines = [...chartDataLines];
     const updatedShownChartDataLines = [...shownChartDataLines];
@@ -1136,7 +1132,7 @@ export default function AnalyticsIndex() {
       updateRightYAxis(
         updatedShownChartDataLines,
         "body_weight",
-        highestValueMap
+        highestCategoryValues.current
       );
     }
 
@@ -1163,8 +1159,7 @@ export default function AnalyticsIndex() {
 
     const loadedChartData: ChartDataItem[] = [];
 
-    const highestValueMap = new Map<ChartDataCategory, number>();
-    highestValueMap.set("body_fat_percentage", 0);
+    let highestValue = 0;
 
     const dateSet = new Set<string>();
 
@@ -1204,16 +1199,17 @@ export default function AnalyticsIndex() {
 
       if (
         userWeight.body_fat_percentage !== null &&
-        userWeight.body_fat_percentage >
-          highestValueMap.get("body_fat_percentage")!
+        userWeight.body_fat_percentage > highestValue
       ) {
-        highestValueMap.set(
-          "body_fat_percentage",
-          userWeight.body_fat_percentage
-        );
+        highestValue = userWeight.body_fat_percentage;
       }
 
       loadedChartData.push(chartDataItem);
+    }
+
+    if (highestValue === 0) {
+      toast.error("No Body Fat Percentages Recorded");
+      return;
     }
 
     setChartCommentMap(updatedChartCommentMap);
@@ -1224,10 +1220,7 @@ export default function AnalyticsIndex() {
 
     setChartData(mergedChartData);
 
-    highestCategoryValues.current = new Map([
-      ...highestCategoryValues.current,
-      ...highestValueMap,
-    ]);
+    highestCategoryValues.current.set("body_fat_percentage", highestValue);
 
     const updatedChartDataLines = [...chartDataLines];
     const updatedShownChartDataLines = [...shownChartDataLines];
@@ -1243,7 +1236,7 @@ export default function AnalyticsIndex() {
       updateRightYAxis(
         updatedShownChartDataLines,
         "body_fat_percentage",
-        highestValueMap
+        highestCategoryValues.current
       );
     }
 
