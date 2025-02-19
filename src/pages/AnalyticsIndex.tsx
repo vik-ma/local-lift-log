@@ -350,13 +350,13 @@ export default function AnalyticsIndex() {
         setWeightUnit(userSettings.default_unit_weight);
         // setDistanceUnit(userSettings.default_unit_distance);
 
-        // getDietLogList(userSettings.locale, true, true);
-        getUserWeightList(
-          userSettings.locale,
-          userSettings.default_unit_weight,
-          true,
-          false
-        );
+        getDietLogList(userSettings.locale, true, true);
+        // getUserWeightList(
+        //   userSettings.locale,
+        //   userSettings.default_unit_weight,
+        //   true,
+        //   false
+        // );
       };
 
       loadUserSettings();
@@ -976,16 +976,22 @@ export default function AnalyticsIndex() {
   const getUserWeightList = async (
     locale: string,
     weightUnit: string,
-    loadWeightPrimary: boolean,
-    loadOnlyWeight: boolean
+    setPrimary: boolean,
+    loadWeight: boolean,
+    loadBodyFat: boolean
   ) => {
     const isWeightAlreadyLoaded = loadedLists.current.has(
       "user-weights-weight"
     );
+    const isBodyFatAlreadyLoaded = loadedLists.current.has(
+      "user-weights-body-fat"
+    );
 
     if (
-      isWeightAlreadyLoaded &&
-      (loadOnlyWeight || loadedLists.current.has("user-weights-body-fat"))
+      (!loadWeight && !loadBodyFat) ||
+      (isWeightAlreadyLoaded && isBodyFatAlreadyLoaded) ||
+      (isWeightAlreadyLoaded && !loadBodyFat) ||
+      (isBodyFatAlreadyLoaded && !loadWeight)
     )
       return;
 
@@ -1018,7 +1024,10 @@ export default function AnalyticsIndex() {
         date,
       };
 
-      if (userWeight.comment !== null && !isWeightAlreadyLoaded) {
+      if (
+        userWeight.comment !== null &&
+        !(isWeightAlreadyLoaded || isBodyFatAlreadyLoaded)
+      ) {
         const chartComment: ChartComment = {
           dataKeys: new Set(["body_weight", "body_fat_percentage"]),
           label: "Body Weight Comment",
@@ -1033,7 +1042,7 @@ export default function AnalyticsIndex() {
         }
       }
 
-      if (!isWeightAlreadyLoaded) {
+      if (loadWeight && !isWeightAlreadyLoaded) {
         chartDataItem.body_weight = ConvertWeightValue(
           userWeight.weight,
           userWeight.weight_unit,
@@ -1045,7 +1054,7 @@ export default function AnalyticsIndex() {
         }
       }
 
-      if (!loadOnlyWeight) {
+      if (loadBodyFat && !isBodyFatAlreadyLoaded) {
         chartDataItem.body_fat_percentage = userWeight.body_fat_percentage;
 
         if (
@@ -1085,87 +1094,107 @@ export default function AnalyticsIndex() {
     const updatedShownChartDataLines = [...shownChartDataLines];
     const updatedChartLineUnitCategorySet = new Set(chartLineUnitCategorySet);
 
-    if (loadWeightPrimary) {
-      if (!isWeightAlreadyLoaded && primaryDataKey === undefined) {
-        // If no Chart Areas exist
-        setPrimaryDataKey("body_weight");
-        setChartDataAreas(["body_weight"]);
-        setShownChartDataAreas(["body_weight"]);
-      }
+    // TODO: SET BF% PRIMARY
 
-      if (
-        !isWeightAlreadyLoaded &&
-        primaryDataKey !== undefined &&
-        chartDataUnitCategoryMap.get("body_weight") !==
-          chartDataUnitCategoryMap.get(primaryDataKey)
-      ) {
-        // Replace existing Chart Areas if existing Chart Areas does not share Unit Category
-        updatedChartDataLines.push(...chartDataAreas);
-        updatedShownChartDataLines.push(...shownChartDataAreas);
-        updatedChartLineUnitCategorySet.add(
-          chartDataUnitCategoryMap.get(primaryDataKey)
-        );
-
-        setPrimaryDataKey("body_weight");
-        setChartDataAreas(["body_weight"]);
-        setShownChartDataAreas(["body_weight"]);
-      }
-
-      if (
-        !isWeightAlreadyLoaded &&
-        primaryDataKey !== undefined &&
-        chartDataUnitCategoryMap.get("body_weight") ===
-          chartDataUnitCategoryMap.get(primaryDataKey)
-      ) {
-        // Append new Chart Area if existing Chart Area(s) share Unit Category
-        setChartDataAreas([...chartDataAreas, "body_weight"]);
-        setShownChartDataAreas([...shownChartDataAreas, "body_weight"]);
-      }
-
-      if (isWeightAlreadyLoaded && primaryDataKey !== "body_weight") {
-        // Replace body_weight chartLines with chartAreas
-        const chartDataLineIndex = updatedChartDataLines.findIndex(
-          (item) => item === "body_weight"
-        );
-        const shownChartDataLineIndex = updatedShownChartDataLines.findIndex(
-          (item) => item === "body_weight"
-        );
-
-        updatedChartDataLines.splice(chartDataLineIndex, 1);
-        updatedShownChartDataLines.splice(shownChartDataLineIndex, 1);
-
-        let isOnlyCategory = true;
-
-        for (const line of updatedShownChartDataLines) {
-          if (
-            chartDataUnitCategoryMap.get("body_weight") ===
-            chartDataUnitCategoryMap.get(line)
-          ) {
-            isOnlyCategory = false;
-            break;
-          }
-        }
-
-        if (isOnlyCategory) {
-          // Remove ChartLineUnitCategory if no other shownChartLines share the unit
-          updatedChartLineUnitCategorySet.delete(
-            chartDataUnitCategoryMap.get("body_weight")
-          );
-        }
-
-        setPrimaryDataKey("body_weight");
-        setChartDataAreas(["body_weight"]);
-        setShownChartDataAreas(["body_weight"]);
-      }
+    // TODO: COMBINE NEXT FOUR IF CASES AND MOVE TO SEPARATE FUNCTION
+    if (
+      setPrimary &&
+      loadWeight &&
+      !isWeightAlreadyLoaded &&
+      primaryDataKey === undefined
+    ) {
+      // If no Chart Areas exist
+      setPrimaryDataKey("body_weight");
+      setChartDataAreas(["body_weight"]);
+      setShownChartDataAreas(["body_weight"]);
     }
 
-    if (!loadWeightPrimary && !isWeightAlreadyLoaded) {
+    if (
+      setPrimary &&
+      loadWeight &&
+      !isWeightAlreadyLoaded &&
+      primaryDataKey !== undefined &&
+      chartDataUnitCategoryMap.get("body_weight") !==
+        chartDataUnitCategoryMap.get(primaryDataKey)
+    ) {
+      // Replace existing Chart Areas if existing Chart Areas does not share Unit Category
+      updatedChartDataLines.push(...chartDataAreas);
+      updatedShownChartDataLines.push(...shownChartDataAreas);
+      updatedChartLineUnitCategorySet.add(
+        chartDataUnitCategoryMap.get(primaryDataKey)
+      );
+
+      setPrimaryDataKey("body_weight");
+      setChartDataAreas(["body_weight"]);
+      setShownChartDataAreas(["body_weight"]);
+    }
+
+    if (
+      setPrimary &&
+      loadWeight &&
+      !isWeightAlreadyLoaded &&
+      primaryDataKey !== undefined &&
+      chartDataUnitCategoryMap.get("body_weight") ===
+        chartDataUnitCategoryMap.get(primaryDataKey)
+    ) {
+      // Append new Chart Area if existing Chart Area(s) share Unit Category
+      setChartDataAreas([...chartDataAreas, "body_weight"]);
+      setShownChartDataAreas([...shownChartDataAreas, "body_weight"]);
+    }
+
+    if (
+      setPrimary &&
+      loadWeight &&
+      isWeightAlreadyLoaded &&
+      primaryDataKey !== "body_weight"
+    ) {
+      // Replace body_weight chartLines with chartAreas
+      const chartDataLineIndex = updatedChartDataLines.findIndex(
+        (item) => item === "body_weight"
+      );
+      const shownChartDataLineIndex = updatedShownChartDataLines.findIndex(
+        (item) => item === "body_weight"
+      );
+
+      updatedChartDataLines.splice(chartDataLineIndex, 1);
+      updatedShownChartDataLines.splice(shownChartDataLineIndex, 1);
+
+      let isOnlyCategory = true;
+
+      for (const line of updatedShownChartDataLines) {
+        if (
+          chartDataUnitCategoryMap.get("body_weight") ===
+          chartDataUnitCategoryMap.get(line)
+        ) {
+          isOnlyCategory = false;
+          break;
+        }
+      }
+
+      if (isOnlyCategory) {
+        // Remove ChartLineUnitCategory if no other shownChartLines share the unit
+        updatedChartLineUnitCategorySet.delete(
+          chartDataUnitCategoryMap.get("body_weight")
+        );
+      }
+
+      setPrimaryDataKey("body_weight");
+      setChartDataAreas(["body_weight"]);
+      setShownChartDataAreas(["body_weight"]);
+    }
+
+    if (!setPrimary && loadWeight && !isWeightAlreadyLoaded) {
       updatedChartDataLines.push("body_weight");
       updatedShownChartDataLines.push("body_weight");
       updatedChartLineUnitCategorySet.add("Body Weight");
     }
 
-    if (!loadOnlyWeight && updatedHighestValueMap.has("body_fat_percentage")) {
+    // TODO: UPDATE WITH SETPRIMARY
+    if (
+      loadBodyFat &&
+      !isBodyFatAlreadyLoaded &&
+      updatedHighestValueMap.has("body_fat_percentage")
+    ) {
       updatedChartLineUnitCategorySet.add("Body Fat %");
 
       updatedChartDataLines.push("body_fat_percentage");
@@ -1174,7 +1203,7 @@ export default function AnalyticsIndex() {
       loadedLists.current.add("user-weights-body-fat");
     }
 
-    if (!loadWeightPrimary) {
+    if (!setPrimary && loadWeight && !isWeightAlreadyLoaded) {
       updateRightYAxis(
         updatedShownChartDataLines,
         "body_weight",
@@ -1183,7 +1212,8 @@ export default function AnalyticsIndex() {
     }
 
     if (
-      loadWeightPrimary &&
+      setPrimary &&
+      loadWeight &&
       updatedHighestValueMap.has("body_fat_percentage")
     ) {
       updateRightYAxis(
