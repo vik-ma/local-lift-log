@@ -350,7 +350,7 @@ export default function AnalyticsIndex() {
         setWeightUnit(userSettings.default_unit_weight);
         // setDistanceUnit(userSettings.default_unit_distance);
 
-        getDietLogList(userSettings.locale, true, true);
+        getDietLogListCalories(userSettings.locale, true);
         // getUserWeightListWeights(
         //   userSettings.locale,
         //   userSettings.default_unit_weight,
@@ -391,19 +391,11 @@ export default function AnalyticsIndex() {
     listModal.onOpen();
   };
 
-  const getDietLogList = async (
+  const getDietLogListCalories = async (
     locale: string,
-    loadCaloriesPrimary: boolean,
-    loadOnlyCalories: boolean
+    loadPrimary: boolean
   ) => {
-    const areCaloriesAlreadyLoaded =
-      loadedLists.current.has("diet-logs-calories");
-
-    if (
-      areCaloriesAlreadyLoaded &&
-      (loadOnlyCalories || loadedLists.current.has("diet-logs-macros"))
-    )
-      return;
+    if (loadedLists.current.has("diet-logs-calories")) return;
 
     const dietLogs = await GetAllDietLogs(true);
 
@@ -414,13 +406,24 @@ export default function AnalyticsIndex() {
 
     const loadedChartData: ChartDataItem[] = [];
 
-    const highestValueMap = new Map<ChartDataCategory, number>();
-    highestValueMap.set("calories", 0);
-    highestValueMap.set("fat", -1);
-    highestValueMap.set("carbs", -1);
-    highestValueMap.set("protein", -1);
+    let highestValue = 0;
+
+    // const highestValueMap = new Map<ChartDataCategory, number>();
+    // highestValueMap.set("fat", -1);
+    // highestValueMap.set("carbs", -1);
+    // highestValueMap.set("protein", -1);
 
     const updatedChartCommentMap = new Map(chartCommentMap);
+    const commentDataKeys: Set<ChartDataCategory> = new Set([
+      "calories",
+      "fat",
+      "carbs",
+      "protein",
+    ]);
+    const commentLabel = "Diet Log Comment";
+
+    const areCommentsAlreadyLoaded =
+      loadedLists.current.has("diet-logs-macros");
 
     for (const dietLog of dietLogs) {
       const date = FormatDateToShortString(new Date(dietLog.date), locale);
@@ -429,52 +432,45 @@ export default function AnalyticsIndex() {
         date,
       };
 
-      if (dietLog.comment !== null && !areCaloriesAlreadyLoaded) {
-        const chartComment: ChartComment = {
-          dataKeys: new Set(["calories", "fat", "carbs", "protein"]),
-          label: "Diet Log Comment",
-          comment: dietLog.comment,
-        };
-
-        if (updatedChartCommentMap.has(date)) {
-          const updatedChartCommentList = updatedChartCommentMap.get(date)!;
-          updatedChartCommentList.push(chartComment);
-        } else {
-          updatedChartCommentMap.set(date, [chartComment]);
-        }
+      if (!areCommentsAlreadyLoaded && dietLog.comment !== null) {
+        addChartComment(
+          updatedChartCommentMap,
+          date,
+          commentDataKeys,
+          commentLabel,
+          dietLog.comment
+        );
       }
 
-      if (!areCaloriesAlreadyLoaded) {
-        chartDataItem.calories = dietLog.calories;
+      chartDataItem.calories = dietLog.calories;
 
-        if (dietLog.calories > highestValueMap.get("calories")!) {
-          highestValueMap.set("calories", dietLog.calories);
-        }
+      if (dietLog.calories > highestValue) {
+        highestValue = dietLog.calories;
       }
 
-      if (!loadOnlyCalories) {
-        chartDataItem.fat = dietLog.fat;
-        chartDataItem.carbs = dietLog.carbs;
-        chartDataItem.protein = dietLog.protein;
+      // if (!loadOnlyCalories) {
+      //   chartDataItem.fat = dietLog.fat;
+      //   chartDataItem.carbs = dietLog.carbs;
+      //   chartDataItem.protein = dietLog.protein;
 
-        if (dietLog.fat !== null && dietLog.fat > highestValueMap.get("fat")!) {
-          highestValueMap.set("fat", dietLog.fat);
-        }
+      //   if (dietLog.fat !== null && dietLog.fat > highestValueMap.get("fat")!) {
+      //     highestValueMap.set("fat", dietLog.fat);
+      //   }
 
-        if (
-          dietLog.carbs !== null &&
-          dietLog.carbs > highestValueMap.get("carbs")!
-        ) {
-          highestValueMap.set("carbs", dietLog.carbs);
-        }
+      //   if (
+      //     dietLog.carbs !== null &&
+      //     dietLog.carbs > highestValueMap.get("carbs")!
+      //   ) {
+      //     highestValueMap.set("carbs", dietLog.carbs);
+      //   }
 
-        if (
-          dietLog.protein !== null &&
-          dietLog.protein > highestValueMap.get("protein")!
-        ) {
-          highestValueMap.set("protein", dietLog.protein);
-        }
-      }
+      //   if (
+      //     dietLog.protein !== null &&
+      //     dietLog.protein > highestValueMap.get("protein")!
+      //   ) {
+      //     highestValueMap.set("protein", dietLog.protein);
+      //   }
+      // }
 
       loadedChartData.push(chartDataItem);
     }
@@ -487,96 +483,44 @@ export default function AnalyticsIndex() {
 
     setChartData(mergedChartData);
 
+    highestCategoryValues.current.set("calories", highestValue);
+
+    if (loadPrimary) {
+      loadChartArea("calories");
+    } else {
+      loadChartLines(["calories"], ["Calories"], "calories");
+    }
+
     // Filter out categories with no values
-    const updatedHighestValueMap = new Map(
-      Array.from(highestValueMap).filter(([, value]) => value > -1)
-    );
+    // const updatedHighestValueMap = new Map(
+    //   Array.from(highestValueMap).filter(([, value]) => value > -1)
+    // );
 
-    highestCategoryValues.current = new Map([
-      ...highestCategoryValues.current,
-      ...updatedHighestValueMap,
-    ]);
+    // highestCategoryValues.current = new Map([
+    //   ...highestCategoryValues.current,
+    //   ...updatedHighestValueMap,
+    // ]);
 
-    const updatedChartDataLines = [...chartDataLines];
-    const updatedShownChartDataLines = [...shownChartDataLines];
-    const updatedChartLineUnitCategorySet = new Set(chartLineUnitCategorySet);
+    // if (!loadOnlyCalories && updatedHighestValueMap.size > 1) {
+    //   updatedChartLineUnitCategorySet.add("Macros");
 
-    if (loadCaloriesPrimary) {
-      if (
-        primaryDataKey !== undefined &&
-        chartDataUnitCategoryMap.get("calories") !==
-          chartDataUnitCategoryMap.get(primaryDataKey)
-      ) {
-        // Convert existing Chart Areas to Chart Lines
-        updatedChartDataLines.push(...chartDataAreas);
-        updatedShownChartDataLines.push(...shownChartDataAreas);
-        updatedChartLineUnitCategorySet.add(
-          chartDataUnitCategoryMap.get(primaryDataKey)
-        );
-      }
+    //   if (highestValueMap.get("fat")! > -1) {
+    //     updatedChartDataLines.push("fat");
+    //     updatedShownChartDataLines.push("fat");
+    //   }
 
-      setPrimaryDataKey("calories");
-      setChartDataAreas(["calories"]);
-      setShownChartDataAreas(["calories"]);
+    //   if (highestValueMap.get("carbs")! > -1) {
+    //     updatedChartDataLines.push("carbs");
+    //     updatedShownChartDataLines.push("carbs");
+    //   }
 
-      if (areCaloriesAlreadyLoaded && primaryDataKey !== "calories") {
-        // Replace calories chartLine with chartArea
-        const chartDataLineIndex = updatedChartDataLines.findIndex(
-          (item) => item === "calories"
-        );
-        const shownChartDataLineIndex = updatedShownChartDataLines.findIndex(
-          (item) => item === "calories"
-        );
+    //   if (highestValueMap.get("protein")! > -1) {
+    //     updatedChartDataLines.push("protein");
+    //     updatedShownChartDataLines.push("protein");
+    //   }
 
-        updatedChartDataLines.splice(chartDataLineIndex, 1);
-        updatedShownChartDataLines.splice(shownChartDataLineIndex, 1);
-
-        updatedChartLineUnitCategorySet.delete(
-          chartDataUnitCategoryMap.get("calories")
-        );
-      }
-    }
-
-    if (!loadCaloriesPrimary && !areCaloriesAlreadyLoaded) {
-      updatedChartDataLines.push("calories");
-      updatedShownChartDataLines.push("calories");
-      updatedChartLineUnitCategorySet.add("Calories");
-    }
-
-    if (!loadOnlyCalories && updatedHighestValueMap.size > 1) {
-      updatedChartLineUnitCategorySet.add("Macros");
-
-      if (highestValueMap.get("fat")! > -1) {
-        updatedChartDataLines.push("fat");
-        updatedShownChartDataLines.push("fat");
-      }
-
-      if (highestValueMap.get("carbs")! > -1) {
-        updatedChartDataLines.push("carbs");
-        updatedShownChartDataLines.push("carbs");
-      }
-
-      if (highestValueMap.get("protein")! > -1) {
-        updatedChartDataLines.push("protein");
-        updatedShownChartDataLines.push("protein");
-      }
-
-      loadedLists.current.add("diet-logs-macros");
-    }
-
-    if (!loadCaloriesPrimary) {
-      updateRightYAxis(updatedShownChartDataLines, "calories");
-    }
-
-    if (loadCaloriesPrimary && updatedHighestValueMap.size > 1) {
-      // The category "fat" will still set the highest macro value as right Y-axis,
-      // even if no "fat" value was loaded
-      updateRightYAxis(updatedShownChartDataLines, "fat");
-    }
-
-    setChartDataLines([...updatedChartDataLines]);
-    setShownChartDataLines([...updatedShownChartDataLines]);
-    setChartLineUnitCategorySet(updatedChartLineUnitCategorySet);
+    //   loadedLists.current.add("diet-logs-macros");
+    // }
 
     loadedLists.current.add("diet-logs-calories");
     if (!isChartDataLoaded.current) isChartDataLoaded.current = true;
@@ -1804,18 +1748,18 @@ export default function AnalyticsIndex() {
                 <DropdownItem
                   key="diet-logs-calories"
                   onPress={() =>
-                    getDietLogList(userSettings.locale, true, true)
+                    getDietLogListCalories(userSettings.locale, true)
                   }
                 >
-                  Diet Logs (Only Calories)
+                  Diet Log Calories
                 </DropdownItem>
                 <DropdownItem
                   key="diet-logs-macros"
-                  onPress={() =>
-                    getDietLogList(userSettings.locale, true, false)
-                  }
+                  // onPress={() =>
+                  //   getDietLogList(userSettings.locale, true, false)
+                  // }
                 >
-                  Diet Logs (With Macros)
+                  Diet Log Macros
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>
@@ -1853,18 +1797,18 @@ export default function AnalyticsIndex() {
                 <DropdownItem
                   key="diet-logs-calories"
                   onPress={() =>
-                    getDietLogList(userSettings.locale, false, true)
+                    getDietLogListCalories(userSettings.locale, false)
                   }
                 >
-                  Diet Logs (Only Calories)
+                  Diet Log Calories
                 </DropdownItem>
                 <DropdownItem
                   key="diet-logs-macros"
-                  onPress={() =>
-                    getDietLogList(userSettings.locale, false, false)
-                  }
+                  // onPress={() =>
+                  //   getDietLogList(userSettings.locale, false, false)
+                  // }
                 >
-                  Diet Logs (With Macros)
+                  Diet Log Macros
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>
