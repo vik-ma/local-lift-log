@@ -632,7 +632,7 @@ export default function AnalyticsIndex() {
 
     setShownChartDataAreas(updatedShownChartDataAreas);
 
-    updateLeftYAxis(updatedShownChartDataAreas, highestCategoryValues.current);
+    updateLeftYAxis(updatedShownChartDataAreas);
   };
 
   const removeTestArea = () => {
@@ -663,7 +663,7 @@ export default function AnalyticsIndex() {
     setChartDataAreas(updatedChartDataAreas);
     setShownChartDataAreas(updatedShownChartDataAreas);
 
-    updateLeftYAxis(updatedShownChartDataAreas, highestCategoryValues.current);
+    updateLeftYAxis(updatedShownChartDataAreas);
   };
 
   const addTestLine = () => {
@@ -1263,10 +1263,7 @@ export default function AnalyticsIndex() {
 
       setShownChartDataAreas(updatedShownChartDataAreas);
 
-      updateLeftYAxis(
-        updatedShownChartDataAreas,
-        highestCategoryValues.current
-      );
+      updateLeftYAxis(updatedShownChartDataAreas);
     } else {
       // Create new Chart Area and change all existing Chart Areas to Chart Lines
       const currentAreas = [...chartDataAreas];
@@ -1320,7 +1317,7 @@ export default function AnalyticsIndex() {
 
     setChartLineUnitCategorySet(updatedChartLineUnitCategorySet);
 
-    updateLeftYAxis(updatedShownChartDataAreas, highestCategoryValues.current);
+    updateLeftYAxis(updatedShownChartDataAreas);
 
     updateRightYAxis(updatedShownChartDataLines, secondaryDataKey);
   };
@@ -1384,10 +1381,7 @@ export default function AnalyticsIndex() {
     setSecondaryDataUnitCategory(unitCategory);
   };
 
-  const updateLeftYAxis = (
-    chartAreas: ChartDataCategory[],
-    highestValueMap: Map<ChartDataCategory, number>
-  ) => {
+  const updateLeftYAxis = (chartAreas: ChartDataCategory[]) => {
     if (chartAreas.length === 0) return;
 
     const unitCategory = chartDataUnitCategoryMap.get(chartAreas[0]);
@@ -1397,7 +1391,7 @@ export default function AnalyticsIndex() {
     let highestCategory: ChartDataCategory = undefined;
     let highestValue = 0;
 
-    for (const [key, value] of highestValueMap) {
+    for (const [key, value] of highestCategoryValues.current) {
       if (
         !chartAreaSet.has(key) ||
         chartDataUnitCategoryMap.get(key) !== unitCategory
