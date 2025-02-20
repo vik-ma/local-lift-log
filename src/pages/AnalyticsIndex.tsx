@@ -961,6 +961,11 @@ export default function AnalyticsIndex() {
     const dateSet = new Set<string>();
 
     const updatedChartCommentMap = new Map(chartCommentMap);
+    const commentDataKeys: Set<ChartDataCategory> = new Set([
+      "body_weight",
+      "body_fat_percentage",
+    ]);
+    const commentLabel = "Body Weight Comment";
 
     const areCommentsAlreadyLoaded = loadedLists.current.has(
       "user-weights-body-fat"
@@ -979,18 +984,13 @@ export default function AnalyticsIndex() {
       };
 
       if (!areCommentsAlreadyLoaded && userWeight.comment !== null) {
-        const chartComment: ChartComment = {
-          dataKeys: new Set(["body_weight", "body_fat_percentage"]),
-          label: "Body Weight Comment",
-          comment: userWeight.comment,
-        };
-
-        if (updatedChartCommentMap.has(date)) {
-          const updatedChartCommentList = updatedChartCommentMap.get(date)!;
-          updatedChartCommentList.push(chartComment);
-        } else {
-          updatedChartCommentMap.set(date, [chartComment]);
-        }
+        addChartComment(
+          updatedChartCommentMap,
+          date,
+          commentDataKeys,
+          commentLabel,
+          userWeight.comment
+        );
       }
 
       chartDataItem.body_weight = ConvertWeightValue(
@@ -1046,6 +1046,11 @@ export default function AnalyticsIndex() {
     const dateSet = new Set<string>();
 
     const updatedChartCommentMap = new Map(chartCommentMap);
+    const commentDataKeys: Set<ChartDataCategory> = new Set([
+      "body_weight",
+      "body_fat_percentage",
+    ]);
+    const commentLabel = "Body Weight Comment";
 
     const areCommentsAlreadyLoaded = loadedLists.current.has(
       "user-weights-weight"
@@ -1064,18 +1069,13 @@ export default function AnalyticsIndex() {
       };
 
       if (!areCommentsAlreadyLoaded && userWeight.comment !== null) {
-        const chartComment: ChartComment = {
-          dataKeys: new Set(["body_weight", "body_fat_percentage"]),
-          label: "Body Weight Comment",
-          comment: userWeight.comment,
-        };
-
-        if (updatedChartCommentMap.has(date)) {
-          const updatedChartCommentList = updatedChartCommentMap.get(date)!;
-          updatedChartCommentList.push(chartComment);
-        } else {
-          updatedChartCommentMap.set(date, [chartComment]);
-        }
+        addChartComment(
+          updatedChartCommentMap,
+          date,
+          commentDataKeys,
+          commentLabel,
+          userWeight.comment
+        );
       }
 
       chartDataItem.body_fat_percentage = userWeight.body_fat_percentage;
@@ -1378,6 +1378,27 @@ export default function AnalyticsIndex() {
     setShownChartDataLines(updatedShownChartDataLines);
 
     updateRightYAxis(updatedShownChartDataLines, rightYAxisDataKey);
+  };
+
+  const addChartComment = (
+    chartCommentMap: Map<string, ChartComment[]>,
+    date: string,
+    dataKeys: Set<ChartDataCategory>,
+    label: string,
+    comment: string
+  ) => {
+    const chartComment: ChartComment = {
+      dataKeys,
+      label,
+      comment,
+    };
+
+    if (chartCommentMap.has(date)) {
+      const updatedChartCommentList = chartCommentMap.get(date)!;
+      updatedChartCommentList.push(chartComment);
+    } else {
+      chartCommentMap.set(date, [chartComment]);
+    }
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;
