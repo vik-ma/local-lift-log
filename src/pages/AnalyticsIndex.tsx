@@ -962,6 +962,10 @@ export default function AnalyticsIndex() {
 
     const updatedChartCommentMap = new Map(chartCommentMap);
 
+    const areCommentsAlreadyLoaded = loadedLists.current.has(
+      "user-weights-body-fat"
+    );
+
     for (const userWeight of userWeights) {
       const date = FormatDateToShortString(new Date(userWeight.date), locale);
 
@@ -974,10 +978,7 @@ export default function AnalyticsIndex() {
         date,
       };
 
-      if (
-        userWeight.comment !== null &&
-        loadedLists.current.has("user-weights-body-fat")
-      ) {
+      if (!areCommentsAlreadyLoaded && userWeight.comment !== null) {
         const chartComment: ChartComment = {
           dataKeys: new Set(["body_weight", "body_fat_percentage"]),
           label: "Body Weight Comment",
@@ -1129,6 +1130,10 @@ export default function AnalyticsIndex() {
 
     const updatedChartCommentMap = new Map(chartCommentMap);
 
+    const areCommentsAlreadyLoaded = loadedLists.current.has(
+      "user-weights-weight"
+    );
+
     for (const userWeight of userWeights) {
       const date = FormatDateToShortString(new Date(userWeight.date), locale);
 
@@ -1141,10 +1146,7 @@ export default function AnalyticsIndex() {
         date,
       };
 
-      if (
-        userWeight.comment !== null &&
-        loadedLists.current.has("user-weights-body-fat")
-      ) {
+      if (!areCommentsAlreadyLoaded && userWeight.comment !== null) {
         const chartComment: ChartComment = {
           dataKeys: new Set(["body_weight", "body_fat_percentage"]),
           label: "Body Weight Comment",
