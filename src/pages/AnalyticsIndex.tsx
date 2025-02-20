@@ -457,7 +457,7 @@ export default function AnalyticsIndex() {
     highestCategoryValues.current.set("calories", highestValue);
 
     if (loadPrimary) {
-      loadChartArea("calories");
+      loadChartAreas(["calories"]);
     } else {
       loadChartLines(["calories"], ["Calories"], "calories");
     }
@@ -560,22 +560,12 @@ export default function AnalyticsIndex() {
       ...updatedHighestValueMap,
     ]);
 
-    const dataKeys: ChartDataCategory[] = [];
-
-    if (updatedHighestValueMap.has("fat")) {
-      dataKeys.push("fat");
-    }
-
-    if (updatedHighestValueMap.has("carbs")) {
-      dataKeys.push("carbs");
-    }
-
-    if (updatedHighestValueMap.has("protein")) {
-      dataKeys.push("protein");
-    }
+    const dataKeys: ChartDataCategory[] = Array.from(
+      updatedHighestValueMap.keys()
+    );
 
     if (loadPrimary) {
-      loadChartArea("fat");
+      loadChartAreas(dataKeys);
     } else {
       loadChartLines(dataKeys, ["Macros"], "fat");
     }
@@ -1019,7 +1009,7 @@ export default function AnalyticsIndex() {
     highestCategoryValues.current.set("body_weight", highestValue);
 
     if (loadPrimary) {
-      loadChartArea("body_weight");
+      loadChartAreas(["body_weight"]);
     } else {
       loadChartLines(["body_weight"], ["Weight"], "body_weight");
     }
@@ -1108,7 +1098,7 @@ export default function AnalyticsIndex() {
     highestCategoryValues.current.set("body_fat_percentage", highestValue);
 
     if (loadPrimary) {
-      loadChartArea("body_fat_percentage");
+      loadChartAreas(["body_fat_percentage"]);
     } else {
       loadChartLines(
         ["body_fat_percentage"],
@@ -1318,23 +1308,25 @@ export default function AnalyticsIndex() {
     setPrimaryDataKey(highestCategory);
   };
 
-  const loadChartArea = (dataKey: ChartDataCategory) => {
+  const loadChartAreas = (dataKeys: ChartDataCategory[]) => {
+    if (dataKeys.length === 0) return;
+
     if (primaryDataKey === undefined) {
       // If no Chart Areas exist
-      setPrimaryDataKey(dataKey);
-      setChartDataAreas([dataKey]);
-      setShownChartDataAreas([dataKey]);
+      setChartDataAreas(dataKeys);
+      setShownChartDataAreas(dataKeys);
+
+      updateLeftYAxis(dataKeys);
     }
 
     if (
       primaryDataKey !== undefined &&
-      chartDataUnitCategoryMap.get(dataKey) !==
+      chartDataUnitCategoryMap.get(dataKeys[0]) !==
         chartDataUnitCategoryMap.get(primaryDataKey)
     ) {
       // Replace existing Chart Areas if existing Chart Areas does not share Unit Category
-      setPrimaryDataKey(dataKey);
-      setChartDataAreas([dataKey]);
-      setShownChartDataAreas([dataKey]);
+      setChartDataAreas(dataKeys);
+      setShownChartDataAreas(dataKeys);
 
       setChartDataLines([...chartDataLines, ...chartDataAreas]);
       setChartLineUnitCategorySet(
@@ -1351,17 +1343,18 @@ export default function AnalyticsIndex() {
 
       setShownChartDataLines(updatedShownChartDataLines);
 
+      updateLeftYAxis(dataKeys);
       updateRightYAxis(updatedShownChartDataLines, secondaryDataKey);
     }
 
     if (
       primaryDataKey !== undefined &&
-      chartDataUnitCategoryMap.get(dataKey) ===
+      chartDataUnitCategoryMap.get(dataKeys[0]) ===
         chartDataUnitCategoryMap.get(primaryDataKey)
     ) {
       // Append new Chart Area if existing Chart Area(s) share Unit Category
-      setChartDataAreas([...chartDataAreas, dataKey]);
-      setShownChartDataAreas([...shownChartDataAreas, dataKey]);
+      setChartDataAreas([...chartDataAreas, ...dataKeys]);
+      setShownChartDataAreas([...shownChartDataAreas, ...dataKeys]);
     }
   };
 
