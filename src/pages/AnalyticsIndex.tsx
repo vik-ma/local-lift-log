@@ -1018,15 +1018,9 @@ export default function AnalyticsIndex() {
 
     if (loadPrimary) {
       loadChartArea("body_weight");
+    } else {
+      loadChartLines(["body_weight"], ["Weight"], "body_weight");
     }
-
-    // if (!loadPrimary) {
-    //   updatedChartDataLines.push("body_weight");
-    //   updatedShownChartDataLines.push("body_weight");
-    //   updatedChartLineUnitCategorySet.add("Weight");
-
-    //   updateRightYAxis(updatedShownChartDataLines, "body_weight");
-    // }
 
     loadedLists.current.add("user-weights-weight");
     if (!isChartDataLoaded.current) isChartDataLoaded.current = true;
@@ -1408,6 +1402,23 @@ export default function AnalyticsIndex() {
     setChartDataLines(updatedChartDataLines);
     setShownChartDataLines(updatedChartDataLines);
     setChartLineUnitCategorySet(updatedChartLineUnitCategorySet);
+  };
+
+  const loadChartLines = (
+    dataKeys: ChartDataCategory[],
+    unitCategories: ChartDataUnitCategory[],
+    rightYAxisDataKey: ChartDataCategory
+  ) => {
+    setChartDataLines([...chartDataLines, ...dataKeys]);
+    setChartLineUnitCategorySet(
+      new Set([...chartLineUnitCategorySet, ...unitCategories])
+    );
+
+    const updatedShownChartDataLines = [...shownChartDataLines, ...dataKeys];
+
+    setShownChartDataLines(updatedShownChartDataLines);
+
+    updateRightYAxis(updatedShownChartDataLines, rightYAxisDataKey);
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;
