@@ -88,7 +88,7 @@ type ChartDataUnitCategory =
   | undefined
   | "Calories"
   | "Macros"
-  | "Body Weight"
+  | "Weight"
   | "Body Fat %";
 
 type ReferenceAreaItem = {
@@ -295,9 +295,9 @@ export default function AnalyticsIndex() {
     unitCategoryMap.set("fat", "Macros");
     unitCategoryMap.set("carbs", "Macros");
     unitCategoryMap.set("protein", "Macros");
-    unitCategoryMap.set("body_weight", "Body Weight");
+    unitCategoryMap.set("body_weight", "Weight");
     unitCategoryMap.set("body_fat_percentage", "Body Fat %");
-    unitCategoryMap.set("test", "Body Weight");
+    unitCategoryMap.set("test", "Weight");
 
     return unitCategoryMap;
   }, []);
@@ -696,14 +696,14 @@ export default function AnalyticsIndex() {
 
     setShownChartDataLines(updatedShownChartDataLines);
 
-    if (!chartLineUnitCategorySet.has("Body Weight")) {
+    if (!chartLineUnitCategorySet.has("Weight")) {
       const updatedChartLineUnitCategorySet = new Set(chartLineUnitCategorySet);
-      updatedChartLineUnitCategorySet.add("Body Weight");
+      updatedChartLineUnitCategorySet.add("Weight");
       setChartLineUnitCategorySet(updatedChartLineUnitCategorySet);
     }
 
     if (secondaryDataUnitCategory === undefined) {
-      setSecondaryDataUnitCategory("Body Weight");
+      setSecondaryDataUnitCategory("Weight");
     }
 
     updateRightYAxis(updatedShownChartDataLines, secondaryDataKey);
@@ -1095,7 +1095,7 @@ export default function AnalyticsIndex() {
     if (!loadPrimary) {
       updatedChartDataLines.push("body_weight");
       updatedShownChartDataLines.push("body_weight");
-      updatedChartLineUnitCategorySet.add("Body Weight");
+      updatedChartLineUnitCategorySet.add("Weight");
 
       updateRightYAxis(updatedShownChartDataLines, "body_weight");
     }
