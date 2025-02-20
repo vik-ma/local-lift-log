@@ -1363,42 +1363,6 @@ export default function AnalyticsIndex() {
       setShownChartDataAreas([...shownChartDataAreas, dataKey]);
     }
 
-    if (primaryDataKey !== dataKey) {
-      // Replace body_weight chartLines with chartAreas
-      const chartDataLineIndex = updatedChartDataLines.findIndex(
-        (item) => item === dataKey
-      );
-      const shownChartDataLineIndex = updatedShownChartDataLines.findIndex(
-        (item) => item === dataKey
-      );
-
-      updatedChartDataLines.splice(chartDataLineIndex, 1);
-      updatedShownChartDataLines.splice(shownChartDataLineIndex, 1);
-
-      let isOnlyCategory = true;
-
-      for (const line of updatedShownChartDataLines) {
-        if (
-          chartDataUnitCategoryMap.get(dataKey) ===
-          chartDataUnitCategoryMap.get(line)
-        ) {
-          isOnlyCategory = false;
-          break;
-        }
-      }
-
-      if (isOnlyCategory) {
-        // Remove ChartLineUnitCategory if no other shownChartLines share the unit
-        updatedChartLineUnitCategorySet.delete(
-          chartDataUnitCategoryMap.get(dataKey)
-        );
-      }
-
-      setPrimaryDataKey(dataKey);
-      setChartDataAreas([dataKey]);
-      setShownChartDataAreas([dataKey]);
-    }
-
     setChartDataLines(updatedChartDataLines);
     setShownChartDataLines(updatedChartDataLines);
     setChartLineUnitCategorySet(updatedChartLineUnitCategorySet);
