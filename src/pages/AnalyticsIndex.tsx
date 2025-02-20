@@ -1105,23 +1105,15 @@ export default function AnalyticsIndex() {
 
     highestCategoryValues.current.set("body_fat_percentage", highestValue);
 
-    const updatedChartDataLines = [...chartDataLines];
-    const updatedShownChartDataLines = [...shownChartDataLines];
-    const updatedChartLineUnitCategorySet = new Set(chartLineUnitCategorySet);
-
-    // TODO: SET BF% PRIMARY
-
-    if (!loadPrimary) {
-      updatedChartDataLines.push("body_fat_percentage");
-      updatedShownChartDataLines.push("body_fat_percentage");
-      updatedChartLineUnitCategorySet.add("Body Fat %");
-
-      updateRightYAxis(updatedShownChartDataLines, "body_fat_percentage");
+    if (loadPrimary) {
+      loadChartArea("body_fat_percentage");
+    } else {
+      loadChartLines(
+        ["body_fat_percentage"],
+        ["Body Fat %"],
+        "body_fat_percentage"
+      );
     }
-
-    setChartDataLines(updatedChartDataLines);
-    setShownChartDataLines(updatedChartDataLines);
-    setChartLineUnitCategorySet(updatedChartLineUnitCategorySet);
 
     loadedLists.current.add("user-weights-body-fat");
     if (!isChartDataLoaded.current) isChartDataLoaded.current = true;
@@ -1780,7 +1772,7 @@ export default function AnalyticsIndex() {
                 <DropdownItem
                   key="user-weights-body-fat"
                   onPress={() =>
-                    getUserWeightListBodyFat(userSettings.locale, false)
+                    getUserWeightListBodyFat(userSettings.locale, true)
                   }
                 >
                   User Body Fat %
