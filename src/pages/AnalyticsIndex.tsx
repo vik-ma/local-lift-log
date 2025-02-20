@@ -1016,94 +1016,17 @@ export default function AnalyticsIndex() {
 
     highestCategoryValues.current.set("body_weight", highestValue);
 
-    const updatedChartDataLines = [...chartDataLines];
-    const updatedShownChartDataLines = [...shownChartDataLines];
-    const updatedChartLineUnitCategorySet = new Set(chartLineUnitCategorySet);
-
-    // TODO: COMBINE NEXT FOUR IF CASES AND MOVE TO SEPARATE FUNCTION
-    if (loadPrimary && primaryDataKey === undefined) {
-      // If no Chart Areas exist
-      setPrimaryDataKey("body_weight");
-      setChartDataAreas(["body_weight"]);
-      setShownChartDataAreas(["body_weight"]);
+    if (loadPrimary) {
+      loadChartArea("body_weight");
     }
 
-    if (
-      loadPrimary &&
-      primaryDataKey !== undefined &&
-      chartDataUnitCategoryMap.get("body_weight") !==
-        chartDataUnitCategoryMap.get(primaryDataKey)
-    ) {
-      // Replace existing Chart Areas if existing Chart Areas does not share Unit Category
-      updatedChartDataLines.push(...chartDataAreas);
-      updatedShownChartDataLines.push(...shownChartDataAreas);
-      updatedChartLineUnitCategorySet.add(
-        chartDataUnitCategoryMap.get(primaryDataKey)
-      );
+    // if (!loadPrimary) {
+    //   updatedChartDataLines.push("body_weight");
+    //   updatedShownChartDataLines.push("body_weight");
+    //   updatedChartLineUnitCategorySet.add("Weight");
 
-      setPrimaryDataKey("body_weight");
-      setChartDataAreas(["body_weight"]);
-      setShownChartDataAreas(["body_weight"]);
-    }
-
-    if (
-      loadPrimary &&
-      primaryDataKey !== undefined &&
-      chartDataUnitCategoryMap.get("body_weight") ===
-        chartDataUnitCategoryMap.get(primaryDataKey)
-    ) {
-      // Append new Chart Area if existing Chart Area(s) share Unit Category
-      setChartDataAreas([...chartDataAreas, "body_weight"]);
-      setShownChartDataAreas([...shownChartDataAreas, "body_weight"]);
-    }
-
-    if (loadPrimary && primaryDataKey !== "body_weight") {
-      // Replace body_weight chartLines with chartAreas
-      const chartDataLineIndex = updatedChartDataLines.findIndex(
-        (item) => item === "body_weight"
-      );
-      const shownChartDataLineIndex = updatedShownChartDataLines.findIndex(
-        (item) => item === "body_weight"
-      );
-
-      updatedChartDataLines.splice(chartDataLineIndex, 1);
-      updatedShownChartDataLines.splice(shownChartDataLineIndex, 1);
-
-      let isOnlyCategory = true;
-
-      for (const line of updatedShownChartDataLines) {
-        if (
-          chartDataUnitCategoryMap.get("body_weight") ===
-          chartDataUnitCategoryMap.get(line)
-        ) {
-          isOnlyCategory = false;
-          break;
-        }
-      }
-
-      if (isOnlyCategory) {
-        // Remove ChartLineUnitCategory if no other shownChartLines share the unit
-        updatedChartLineUnitCategorySet.delete(
-          chartDataUnitCategoryMap.get("body_weight")
-        );
-      }
-
-      setPrimaryDataKey("body_weight");
-      setChartDataAreas(["body_weight"]);
-      setShownChartDataAreas(["body_weight"]);
-    }
-
-    if (!loadPrimary) {
-      updatedChartDataLines.push("body_weight");
-      updatedShownChartDataLines.push("body_weight");
-      updatedChartLineUnitCategorySet.add("Weight");
-
-      updateRightYAxis(updatedShownChartDataLines, "body_weight");
-    }
-
-    setChartDataLines(updatedChartDataLines);
-    setShownChartDataLines(updatedChartDataLines);
-    setChartLineUnitCategorySet(updatedChartLineUnitCategorySet);
+    //   updateRightYAxis(updatedShownChartDataLines, "body_weight");
+    // }
 
     loadedLists.current.add("user-weights-weight");
     if (!isChartDataLoaded.current) isChartDataLoaded.current = true;
@@ -1405,6 +1328,86 @@ export default function AnalyticsIndex() {
     }
 
     setPrimaryDataKey(highestCategory);
+  };
+
+  const loadChartArea = (dataKey: ChartDataCategory) => {
+    const updatedChartDataLines = [...chartDataLines];
+    const updatedShownChartDataLines = [...shownChartDataLines];
+    const updatedChartLineUnitCategorySet = new Set(chartLineUnitCategorySet);
+
+    if (primaryDataKey === undefined) {
+      // If no Chart Areas exist
+      setPrimaryDataKey(dataKey);
+      setChartDataAreas([dataKey]);
+      setShownChartDataAreas([dataKey]);
+    }
+
+    if (
+      primaryDataKey !== undefined &&
+      chartDataUnitCategoryMap.get(dataKey) !==
+        chartDataUnitCategoryMap.get(primaryDataKey)
+    ) {
+      // Replace existing Chart Areas if existing Chart Areas does not share Unit Category
+      updatedChartDataLines.push(...chartDataAreas);
+      updatedShownChartDataLines.push(...shownChartDataAreas);
+      updatedChartLineUnitCategorySet.add(
+        chartDataUnitCategoryMap.get(primaryDataKey)
+      );
+
+      setPrimaryDataKey(dataKey);
+      setChartDataAreas([dataKey]);
+      setShownChartDataAreas([dataKey]);
+    }
+
+    if (
+      primaryDataKey !== undefined &&
+      chartDataUnitCategoryMap.get(dataKey) ===
+        chartDataUnitCategoryMap.get(primaryDataKey)
+    ) {
+      // Append new Chart Area if existing Chart Area(s) share Unit Category
+      setChartDataAreas([...chartDataAreas, dataKey]);
+      setShownChartDataAreas([...shownChartDataAreas, dataKey]);
+    }
+
+    if (primaryDataKey !== dataKey) {
+      // Replace body_weight chartLines with chartAreas
+      const chartDataLineIndex = updatedChartDataLines.findIndex(
+        (item) => item === dataKey
+      );
+      const shownChartDataLineIndex = updatedShownChartDataLines.findIndex(
+        (item) => item === dataKey
+      );
+
+      updatedChartDataLines.splice(chartDataLineIndex, 1);
+      updatedShownChartDataLines.splice(shownChartDataLineIndex, 1);
+
+      let isOnlyCategory = true;
+
+      for (const line of updatedShownChartDataLines) {
+        if (
+          chartDataUnitCategoryMap.get(dataKey) ===
+          chartDataUnitCategoryMap.get(line)
+        ) {
+          isOnlyCategory = false;
+          break;
+        }
+      }
+
+      if (isOnlyCategory) {
+        // Remove ChartLineUnitCategory if no other shownChartLines share the unit
+        updatedChartLineUnitCategorySet.delete(
+          chartDataUnitCategoryMap.get(dataKey)
+        );
+      }
+
+      setPrimaryDataKey(dataKey);
+      setChartDataAreas([dataKey]);
+      setShownChartDataAreas([dataKey]);
+    }
+
+    setChartDataLines(updatedChartDataLines);
+    setShownChartDataLines(updatedChartDataLines);
+    setChartLineUnitCategorySet(updatedChartLineUnitCategorySet);
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;
