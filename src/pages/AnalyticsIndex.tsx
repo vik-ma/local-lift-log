@@ -1317,10 +1317,6 @@ export default function AnalyticsIndex() {
   };
 
   const loadChartArea = (dataKey: ChartDataCategory) => {
-    const updatedChartDataLines = [...chartDataLines];
-    const updatedShownChartDataLines = [...shownChartDataLines];
-    const updatedChartLineUnitCategorySet = new Set(chartLineUnitCategorySet);
-
     if (primaryDataKey === undefined) {
       // If no Chart Areas exist
       setPrimaryDataKey(dataKey);
@@ -1334,15 +1330,26 @@ export default function AnalyticsIndex() {
         chartDataUnitCategoryMap.get(primaryDataKey)
     ) {
       // Replace existing Chart Areas if existing Chart Areas does not share Unit Category
-      updatedChartDataLines.push(...chartDataAreas);
-      updatedShownChartDataLines.push(...shownChartDataAreas);
-      updatedChartLineUnitCategorySet.add(
-        chartDataUnitCategoryMap.get(primaryDataKey)
-      );
-
       setPrimaryDataKey(dataKey);
       setChartDataAreas([dataKey]);
       setShownChartDataAreas([dataKey]);
+
+      setChartDataLines([...chartDataLines, ...chartDataAreas]);
+      setChartLineUnitCategorySet(
+        new Set([
+          ...chartLineUnitCategorySet,
+          chartDataUnitCategoryMap.get(primaryDataKey),
+        ])
+      );
+
+      const updatedShownChartDataLines = [
+        ...shownChartDataLines,
+        ...shownChartDataAreas,
+      ];
+
+      setShownChartDataLines(updatedShownChartDataLines);
+
+      updateRightYAxis(updatedShownChartDataLines, secondaryDataKey);
     }
 
     if (
@@ -1354,10 +1361,6 @@ export default function AnalyticsIndex() {
       setChartDataAreas([...chartDataAreas, dataKey]);
       setShownChartDataAreas([...shownChartDataAreas, dataKey]);
     }
-
-    setChartDataLines(updatedChartDataLines);
-    setShownChartDataLines(updatedChartDataLines);
-    setChartLineUnitCategorySet(updatedChartLineUnitCategorySet);
   };
 
   const loadChartLines = (
