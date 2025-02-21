@@ -1,11 +1,11 @@
 import { useState, useMemo } from "react";
 import { IsStringInvalidNumber } from "../helpers";
-import { Measurement, UseMeasurementsInputsReturnType } from "../typings";
+import { Measurement, useUserMeasurementInputsReturnType } from "../typings";
 
-export const useMeasurementsInputs = (
+export const useUserMeasurementInputs = (
   activeMeasurements: Measurement[],
   setActiveMeasurements: React.Dispatch<React.SetStateAction<Measurement[]>>
-): UseMeasurementsInputsReturnType => {
+): useUserMeasurementInputsReturnType => {
   const [invalidMeasurementInputs, setInvalidMeasurementInputs] = useState<
     Set<number>
   >(new Set<number>());

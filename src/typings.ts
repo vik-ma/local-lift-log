@@ -882,7 +882,7 @@ export type UseMeasurementListReturnType = {
   getMeasurements: () => Promise<void>;
 };
 
-export type UseMeasurementsInputsReturnType = {
+export type useUserMeasurementInputsReturnType = {
   invalidMeasurementInputs: Set<number>;
   areActiveMeasurementsValid: boolean;
   handleActiveMeasurementInputChange: (value: string, index: number) => void;
@@ -1038,9 +1038,7 @@ export type UseTimePeriodListFiltersReturnType = {
   filterHasInjury: Set<string>;
   setFilterHasInjury: React.Dispatch<React.SetStateAction<Set<string>>>;
   filterDietPhaseTypes: Set<string>;
-  setFilterDietPhaseTypes: React.Dispatch<
-    React.SetStateAction<Set<string>>
-  >;
+  setFilterDietPhaseTypes: React.Dispatch<React.SetStateAction<Set<string>>>;
   handleFilterSaveButton: (
     locale: string,
     activeModal: UseDisclosureReturnType

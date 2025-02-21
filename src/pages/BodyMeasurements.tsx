@@ -43,7 +43,7 @@ import {
   useDefaultUserMeasurements,
   useDefaultUserWeight,
   useMeasurementList,
-  useMeasurementsInputs,
+  useUserMeasurementInputs,
   useReassignMeasurement,
   useLatestUserWeightInput,
 } from "../hooks";
@@ -108,7 +108,7 @@ export default function BodyMeasurements() {
     reassignMeasurement,
   } = useReassignMeasurement(measurementList);
 
-  const measurementsInputs = useMeasurementsInputs(
+  const measurementsInputs = useUserMeasurementInputs(
     activeMeasurements,
     setActiveMeasurements
   );
@@ -509,7 +509,7 @@ export default function BodyMeasurements() {
         measurementsCommentInput={measurementsCommentInput}
         setMeasurementsCommentInput={setMeasurementsCommentInput}
         useMeasurementList={measurementList}
-        useMeasurementsInputs={measurementsInputs}
+        useUserMeasurementInputs={measurementsInputs}
         buttonAction={
           operationType === "edit-measurements"
             ? updateUserMeasurements

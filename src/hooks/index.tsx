@@ -20,7 +20,7 @@ export { useDefaultWorkout } from "./useDefaultWorkout";
 export { useWorkoutTemplateList } from "./useWorkoutTemplateList";
 export { useDefaultUserWeight } from "./useDefaultUserWeight";
 export { useIsStringValidNumberOrEmpty } from "./useIsStringValidNumberOrEmpty";
-export { useMeasurementsInputs } from "./useMeasurementsInputs";
+export { useUserMeasurementInputs } from "./useUserMeasurementInputs";
 export { useDefaultUserMeasurements } from "./useDefaultUserMeasurements";
 export { useDefaultMeasurement } from "./useDefaultMeasurement";
 export { useHandleMeasurementTypeChange } from "./useHandleMeasurementTypeChange";

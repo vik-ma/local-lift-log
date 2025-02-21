@@ -31,7 +31,7 @@ import {
 import {
   useDefaultUserMeasurements,
   useUserMeasurementList,
-  useMeasurementsInputs,
+  useUserMeasurementInputs,
   useReassignMeasurement,
   useMeasurementList,
 } from "../hooks";
@@ -94,7 +94,7 @@ export default function UserMeasurementList() {
   const timeInputModal = useDisclosure();
   const filterUserMeasurementListModal = useDisclosure();
 
-  const measurementsInputs = useMeasurementsInputs(
+  const measurementsInputs = useUserMeasurementInputs(
     activeMeasurements,
     setActiveMeasurements
   );
@@ -393,7 +393,7 @@ export default function UserMeasurementList() {
         measurementsCommentInput={measurementsCommentInput}
         setMeasurementsCommentInput={setMeasurementsCommentInput}
         useMeasurementList={measurementList}
-        useMeasurementsInputs={measurementsInputs}
+        useUserMeasurementInputs={measurementsInputs}
         buttonAction={
           operationType === "edit"
             ? updateUserMeasurements

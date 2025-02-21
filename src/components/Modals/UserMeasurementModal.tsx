@@ -18,7 +18,7 @@ import {
   Measurement,
   UseDisclosureReturnType,
   UseMeasurementListReturnType,
-  UseMeasurementsInputsReturnType,
+  useUserMeasurementInputsReturnType,
 } from "../../typings";
 import { useMemo, useState } from "react";
 import { DeleteItemFromList } from "../../helpers";
@@ -29,7 +29,7 @@ type UserMeasurementModalProps = {
   setActiveMeasurements: React.Dispatch<React.SetStateAction<Measurement[]>>;
   measurementsCommentInput: string;
   setMeasurementsCommentInput: React.Dispatch<React.SetStateAction<string>>;
-  useMeasurementsInputs: UseMeasurementsInputsReturnType;
+  useUserMeasurementInputs: useUserMeasurementInputsReturnType;
   useMeasurementList: UseMeasurementListReturnType;
   buttonAction: () => void;
   isEditing: boolean;
@@ -46,7 +46,7 @@ export const UserMeasurementModal = ({
   setActiveMeasurements,
   measurementsCommentInput,
   setMeasurementsCommentInput,
-  useMeasurementsInputs,
+  useUserMeasurementInputs,
   useMeasurementList,
   buttonAction,
   isEditing,
@@ -58,7 +58,7 @@ export const UserMeasurementModal = ({
     invalidMeasurementInputs,
     areActiveMeasurementsValid,
     handleActiveMeasurementInputChange,
-  } = useMeasurementsInputs;
+  } = useUserMeasurementInputs;
 
   const handleMeasurementClick = (measurement: Measurement) => {
     if (activeMeasurementSet.has(measurement.id.toString())) {
