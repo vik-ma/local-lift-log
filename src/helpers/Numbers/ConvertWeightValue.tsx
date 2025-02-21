@@ -7,6 +7,8 @@ export const ConvertWeightValue = (
 ) => {
   if (!IsNumberValidAndAbove0(value)) return 0;
 
+  if (currentUnit === newUnit) return value;
+
   const kgToLbs = 2.20462;
   const lbsToKg = 1 / kgToLbs;
 

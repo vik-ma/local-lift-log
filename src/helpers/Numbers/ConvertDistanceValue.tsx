@@ -1,4 +1,4 @@
-import { IsNumberValidAndAbove0, ValidDistanceUnits } from "..";
+import { IsNumberValidAndAbove0 } from "..";
 
 export const ConvertDistanceValue = (
   value: number,
@@ -7,10 +7,7 @@ export const ConvertDistanceValue = (
 ) => {
   if (!IsNumberValidAndAbove0(value)) return 0;
 
-  const validUnits = ValidDistanceUnits();
-
-  if (!validUnits.includes(currentUnit) || !validUnits.includes(newUnit))
-    return value;
+  if (currentUnit === newUnit) return value;
 
   const conversionToMeters: { [key: string]: number } = {
     km: 1000,
@@ -30,5 +27,9 @@ export const ConvertDistanceValue = (
     yd: 1 / 0.9144,
   };
 
-  return valueInMeters * conversionFromMeters[newUnit];
+  const convertedValue = valueInMeters * conversionFromMeters[newUnit];
+
+  if (isNaN(convertedValue)) return value;
+
+  return convertedValue;
 };
