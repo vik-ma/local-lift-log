@@ -19,6 +19,7 @@
   --danger-color: theme("colors.danger");
   --foreground-hover-color: theme("colors.stone.400");
   --secondary-color: theme("colors.secondary");
+  --asd: #9c9794;
 }
 
 a {

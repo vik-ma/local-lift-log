@@ -325,13 +325,12 @@ export default function AnalyticsIndex() {
   const chartAreaColorList = useMemo(() => {
     return [
       "#edc345",
-      "#a8a29e",
-      "#7d8db6",
-      "#c5bcb5",
-      "#b8a9c9",
-      "#a5b4ac",
-      "#d4a5a5",
-      "#b1a89f",
+      "#f57489",
+      "#8ba1db",
+      "#9c9794",
+      "#8fe296",
+      "#c3a6e4",
+      "#e9b287",
     ];
   }, []);
 
