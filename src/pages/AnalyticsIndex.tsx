@@ -568,6 +568,7 @@ export default function AnalyticsIndex() {
     if (loadPrimary) {
       loadChartAreas(dataKeys);
     } else {
+      // All macro dataKeys will work, even if they have no values loaded
       loadChartLines(dataKeys, ["Macros"], "fat");
     }
 
@@ -1792,7 +1793,7 @@ export default function AnalyticsIndex() {
                     )
                   }
                 >
-                  User Weights
+                  Body Weights
                 </DropdownItem>
                 <DropdownItem
                   key="user-weights-body-fat"
@@ -1800,7 +1801,7 @@ export default function AnalyticsIndex() {
                     getUserWeightListBodyFat(userSettings.locale, true)
                   }
                 >
-                  User Body Fat %
+                  Body Fat Percentages
                 </DropdownItem>
                 <DropdownItem
                   key="diet-logs-calories"
@@ -1808,7 +1809,7 @@ export default function AnalyticsIndex() {
                     getDietLogListCalories(userSettings.locale, true)
                   }
                 >
-                  Diet Log Calories
+                  Calories
                 </DropdownItem>
                 <DropdownItem
                   key="diet-logs-macros"
@@ -1816,7 +1817,7 @@ export default function AnalyticsIndex() {
                     getDietLogListMacros(userSettings.locale, true)
                   }
                 >
-                  Diet Log Macros
+                  Macros
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>
@@ -1841,7 +1842,7 @@ export default function AnalyticsIndex() {
                     )
                   }
                 >
-                  User Weights
+                  Body Weights
                 </DropdownItem>
                 <DropdownItem
                   key="user-weights-body-fat"
@@ -1849,7 +1850,7 @@ export default function AnalyticsIndex() {
                     getUserWeightListBodyFat(userSettings.locale, false)
                   }
                 >
-                  User Body Fat %
+                  Body Fat Percentages
                 </DropdownItem>
                 <DropdownItem
                   key="diet-logs-calories"
@@ -1857,7 +1858,7 @@ export default function AnalyticsIndex() {
                     getDietLogListCalories(userSettings.locale, false)
                   }
                 >
-                  Diet Log Calories
+                  Calories
                 </DropdownItem>
                 <DropdownItem
                   key="diet-logs-macros"
@@ -1865,7 +1866,7 @@ export default function AnalyticsIndex() {
                     getDietLogListMacros(userSettings.locale, false)
                   }
                 >
-                  Diet Log Macros
+                  Macros
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>
