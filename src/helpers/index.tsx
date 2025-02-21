@@ -134,6 +134,7 @@ export { IsNumberWithinLimit } from "./Numbers/IsNumberWithinLimit";
 export { ConvertInputStringToNumberOrNull } from "./Numbers/ConvertInputStringToNumberOrNull";
 export { ConvertInputStringToNumberWithTwoDecimalsOrNull } from "./Numbers/ConvertInputStringToNumberWithTwoDecimalsOrNull";
 export { IsNumberValidPercentage } from "./Numbers/IsNumberValidPercentage";
+export { ConvertMeasurementValue } from "./Numbers/ConvertMeasurementValue";
 
 export { GetLatestUserWeight } from "./Measurements/GetLatestUserWeight";
 export { CreateDefaultMeasurements } from "./Measurements/CreateDefaultMeasurements";
