@@ -138,6 +138,7 @@ export default function AnalyticsIndex() {
   >([]);
   const [weightUnit, setWeightUnit] = useState<string>("kg");
   // const [distanceUnit, setDistanceUnit] = useState<string>("km");
+  const [circumferenceUnit, setCircumferenceUnit] = useState<string>("cm");
   const [chartCommentMap, setChartCommentMap] = useState<
     Map<string, ChartComment[]>
   >(new Map());
@@ -348,6 +349,7 @@ export default function AnalyticsIndex() {
         setUserSettings(userSettings);
         setWeightUnit(userSettings.default_unit_weight);
         // setDistanceUnit(userSettings.default_unit_distance);
+        setCircumferenceUnit(userSettings.default_unit_measurement);
 
         getDietLogListCalories(userSettings.locale, true);
         // getUserWeightListWeights(
