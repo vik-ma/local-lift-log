@@ -319,7 +319,7 @@ export default function AnalyticsIndex() {
   }, [chartDataCategoryLabelMap]);
 
   const chartLineColorList = useMemo(() => {
-    return ["#6b80ed", "#e6475a", "#56db67", "#cf820e", "#8739cf", "#525252"];
+    return ["#6b80ed", "#e6475a", "#525252", "#07e0e7", "#8739cf", "#56db67"];
   }, []);
 
   const chartAreaColorList = useMemo(() => {
