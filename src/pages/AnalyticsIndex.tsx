@@ -1285,6 +1285,11 @@ export default function AnalyticsIndex() {
   const updateLeftYAxis = (chartAreas: ChartDataCategory[]) => {
     if (chartAreas.length === 0) return;
 
+    if (chartAreas.length === 1) {
+      setPrimaryDataKey(chartAreas[0]);
+      return;
+    }
+
     const unitCategory = chartDataUnitCategoryMap.get(chartAreas[0]);
 
     const chartAreaSet = new Set(chartAreas);
