@@ -559,10 +559,9 @@ export default function AnalyticsIndex() {
       ...updatedHighestValueMap,
     ]);
 
-    // Sort dataKeys with highest values first
-    const dataKeys = Array.from(updatedHighestValueMap.entries())
-      .sort(([, valueA], [, valueB]) => valueB - valueA)
-      .map(([key]) => key);
+    const dataKeys: ChartDataCategory[] = Array.from(
+      updatedHighestValueMap.keys()
+    );
 
     if (loadPrimary) {
       loadChartAreas(dataKeys);
@@ -623,8 +622,6 @@ export default function AnalyticsIndex() {
       "test",
     ];
 
-    setShownChartDataAreas(updatedShownChartDataAreas);
-
     updateLeftYAxis(updatedShownChartDataAreas);
   };
 
@@ -654,7 +651,6 @@ export default function AnalyticsIndex() {
 
     setChartData(updatedChartData);
     setChartDataAreas(updatedChartDataAreas);
-    setShownChartDataAreas(updatedShownChartDataAreas);
 
     updateLeftYAxis(updatedShownChartDataAreas);
   };
@@ -1163,8 +1159,6 @@ export default function AnalyticsIndex() {
         chartDataLine,
       ];
 
-      setShownChartDataAreas(updatedShownChartDataAreas);
-
       updateLeftYAxis(updatedShownChartDataAreas);
     } else {
       // Create new Chart Area and change all existing Chart Areas to Chart Lines
@@ -1172,7 +1166,6 @@ export default function AnalyticsIndex() {
       const currentShownAreas = [...shownChartDataAreas];
 
       setChartDataAreas([chartDataLine]);
-      setShownChartDataAreas([chartDataLine]);
       setPrimaryDataKey(chartDataLine);
 
       updatedChartDataLines.push(...currentAreas);
@@ -1204,7 +1197,6 @@ export default function AnalyticsIndex() {
     );
 
     setChartDataAreas(updatedChartDataAreas);
-    setShownChartDataAreas(updatedShownChartDataAreas);
     setChartDataLines([...chartDataLines, chartDataArea]);
 
     const updatedShownChartDataLines = [...shownChartDataLines, chartDataArea];
@@ -1288,6 +1280,7 @@ export default function AnalyticsIndex() {
 
     if (chartAreas.length === 1) {
       setPrimaryDataKey(chartAreas[0]);
+      setShownChartDataAreas(chartAreas);
       return;
     }
 
@@ -1295,8 +1288,7 @@ export default function AnalyticsIndex() {
 
     const chartAreaSet = new Set(chartAreas);
 
-    let highestCategory: ChartDataCategory = undefined;
-    let highestValue = 0;
+    const chartAreasValueMap = new Map<ChartDataCategory, number>();
 
     for (const [key, value] of highestCategoryValues.current) {
       if (
@@ -1305,13 +1297,17 @@ export default function AnalyticsIndex() {
       )
         continue;
 
-      if (value > highestValue) {
-        highestCategory = key;
-        highestValue = value;
-      }
+      // Create highest value Map of only chartAreas dataKeys
+      chartAreasValueMap.set(key, value);
     }
 
-    setPrimaryDataKey(highestCategory);
+    // Sort dataKeys with highest values first
+    const sortedDataKeys = Array.from(chartAreasValueMap.entries())
+      .sort(([, valueA], [, valueB]) => valueB - valueA)
+      .map(([key]) => key);
+
+    setPrimaryDataKey(sortedDataKeys[0]);
+    setShownChartDataAreas(sortedDataKeys);
   };
 
   const loadChartAreas = (dataKeys: ChartDataCategory[]) => {
@@ -1320,7 +1316,6 @@ export default function AnalyticsIndex() {
     if (primaryDataKey === undefined) {
       // If no Chart Areas exist
       setChartDataAreas(dataKeys);
-      setShownChartDataAreas(dataKeys);
 
       updateLeftYAxis(dataKeys);
     }
@@ -1332,7 +1327,6 @@ export default function AnalyticsIndex() {
     ) {
       // Replace existing Chart Areas if existing Chart Areas does not share Unit Category
       setChartDataAreas(dataKeys);
-      setShownChartDataAreas(dataKeys);
 
       setChartDataLines([...chartDataLines, ...chartDataAreas]);
       setChartLineUnitCategorySet(
@@ -1350,6 +1344,7 @@ export default function AnalyticsIndex() {
       setShownChartDataLines(updatedShownChartDataLines);
 
       updateLeftYAxis(dataKeys);
+
       updateRightYAxis(updatedShownChartDataLines, secondaryDataKey);
     }
 
@@ -1360,7 +1355,8 @@ export default function AnalyticsIndex() {
     ) {
       // Append new Chart Area if existing Chart Area(s) share Unit Category
       setChartDataAreas([...chartDataAreas, ...dataKeys]);
-      setShownChartDataAreas([...shownChartDataAreas, ...dataKeys]);
+
+      updateLeftYAxis(dataKeys);
     }
   };
 
@@ -1555,9 +1551,7 @@ export default function AnalyticsIndex() {
                     selectedKeys={shownChartDataAreas as string[]}
                     isDisabled={chartDataAreas.length < 2}
                     onSelectionChange={(value) =>
-                      setShownChartDataAreas(
-                        Array.from(value) as ChartDataCategory[]
-                      )
+                      updateLeftYAxis(Array.from(value) as ChartDataCategory[])
                     }
                     disallowEmptySelection
                   >
