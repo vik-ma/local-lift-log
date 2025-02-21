@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { IsStringInvalidNumber } from "../helpers";
+import { IsStringInvalidNumberOr0 } from "../helpers";
 import { Measurement, useUserMeasurementInputsReturnType } from "../typings";
 
 export const useUserMeasurementInputs = (
@@ -38,7 +38,7 @@ export const useUserMeasurementInputs = (
 
   const validateActiveMeasurementInput = (value: string, index: number) => {
     const updatedSet = new Set(invalidMeasurementInputs);
-    if (IsStringInvalidNumber(value)) {
+    if (IsStringInvalidNumberOr0(value)) {
       updatedSet.add(index);
     } else {
       updatedSet.delete(index);
