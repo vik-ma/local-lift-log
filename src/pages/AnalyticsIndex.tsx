@@ -1162,14 +1162,12 @@ export default function AnalyticsIndex() {
       updateLeftYAxis(updatedShownChartDataAreas);
     } else {
       // Create new Chart Area and change all existing Chart Areas to Chart Lines
-      const currentAreas = [...chartDataAreas];
-      const currentShownAreas = [...shownChartDataAreas];
+      updatedChartDataLines.push(...[...chartDataAreas]);
+      updatedShownChartDataLines.push(...[...shownChartDataAreas]);
 
       setChartDataAreas([chartDataLine]);
-      setPrimaryDataKey(chartDataLine);
 
-      updatedChartDataLines.push(...currentAreas);
-      updatedShownChartDataLines.push(...currentShownAreas);
+      updateLeftYAxis([chartDataLine]);
     }
 
     setChartDataLines(updatedChartDataLines);
