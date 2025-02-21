@@ -560,9 +560,10 @@ export default function AnalyticsIndex() {
       ...updatedHighestValueMap,
     ]);
 
-    const dataKeys: ChartDataCategory[] = Array.from(
-      updatedHighestValueMap.keys()
-    );
+    // Sort dataKeys with highest values first
+    const dataKeys = Array.from(updatedHighestValueMap.entries())
+      .sort(([, valueA], [, valueB]) => valueB - valueA)
+      .map(([key]) => key);
 
     if (loadPrimary) {
       loadChartAreas(dataKeys);
