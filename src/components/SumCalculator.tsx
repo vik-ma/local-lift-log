@@ -262,7 +262,7 @@ export const SumCalculator = ({
     if (equipment !== undefined) {
       const updatedCalculationItem: CalculationListItem = {
         ...operatingCalculationItem.calculationItem,
-        value: equipment.weight,
+        value: ConvertNumberToTwoDecimals(equipment.weight),
         label: equipment.name,
         unit: equipment.weight_unit,
       };
@@ -273,7 +273,7 @@ export const SumCalculator = ({
           equipment.weight_unit,
           weightUnit
         );
-        updatedCalculationItem.value = newValue;
+        updatedCalculationItem.value = ConvertNumberToTwoDecimals(newValue);
         updatedCalculationItem.unit = weightUnit;
       }
 
@@ -283,7 +283,7 @@ export const SumCalculator = ({
     if (distance !== undefined) {
       const updatedCalculationItem: CalculationListItem = {
         ...operatingCalculationItem.calculationItem,
-        value: distance.distance,
+        value: ConvertNumberToTwoDecimals(distance.distance),
         label: distance.name,
         unit: distance.distance_unit,
       };
@@ -294,7 +294,7 @@ export const SumCalculator = ({
           distance.distance_unit,
           distanceUnit
         );
-        updatedCalculationItem.value = newValue;
+        updatedCalculationItem.value = ConvertNumberToTwoDecimals(newValue);
         updatedCalculationItem.unit = distanceUnit;
       }
 
@@ -495,7 +495,7 @@ export const SumCalculator = ({
       // Edit operatingCalculationItem
       const updatedCalculationItem: CalculationListItem = {
         ...operatingCalculationItem.calculationItem,
-        value: result,
+        value: ConvertNumberToTwoDecimals(result),
         label: calculationString,
       };
 

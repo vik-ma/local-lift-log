@@ -33,6 +33,7 @@ import { TimePeriod, UserSettings } from "../typings";
 import {
   ConvertDateToYmdString,
   ConvertISODateStringToYmdDateString,
+  ConvertNumberToTwoDecimals,
   ConvertWeightValue,
   CreateShownPropertiesSet,
   FormatDateToShortString,
@@ -984,10 +985,12 @@ export default function AnalyticsIndex() {
         );
       }
 
-      chartDataItem.body_weight = ConvertWeightValue(
-        userWeight.weight,
-        userWeight.weight_unit,
-        weightUnit
+      chartDataItem.body_weight = ConvertNumberToTwoDecimals(
+        ConvertWeightValue(
+          userWeight.weight,
+          userWeight.weight_unit,
+          weightUnit
+        )
       );
 
       if (userWeight.weight > highestValue) {

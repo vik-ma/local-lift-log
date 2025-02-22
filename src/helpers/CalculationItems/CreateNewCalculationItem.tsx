@@ -4,7 +4,11 @@ import {
   EquipmentWeight,
   CalculationListItem,
 } from "../../typings";
-import { ConvertDistanceValue, ConvertWeightValue } from "..";
+import {
+  ConvertDistanceValue,
+  ConvertNumberToTwoDecimals,
+  ConvertWeightValue,
+} from "..";
 
 export const CreateNewCalculationItem = (
   itemType: CalculationItemType,
@@ -19,7 +23,7 @@ export const CreateNewCalculationItem = (
     const calculationItem: CalculationListItem = {
       itemType: "number",
       label: `${number} ${unit}`,
-      value: number,
+      value: ConvertNumberToTwoDecimals(number),
       unit: unit,
       multiplierInput: multiplier === 1 ? "" : multiplier.toString(),
       multiplier: multiplier ?? 1,
@@ -35,7 +39,7 @@ export const CreateNewCalculationItem = (
     const calculationItem: CalculationListItem = {
       itemType: "calculation",
       label: calculationString,
-      value: number,
+      value: ConvertNumberToTwoDecimals(number),
       unit: unit,
       multiplierInput: multiplier === 1 ? "" : multiplier.toString(),
       multiplier: multiplier ?? 1,
@@ -61,7 +65,7 @@ export const CreateNewCalculationItem = (
     const calculationItem: CalculationListItem = {
       itemType: "preset",
       label: equipmentWeight.name,
-      value: weightValue,
+      value: ConvertNumberToTwoDecimals(weightValue),
       unit: unit,
       multiplierInput: multiplier === 1 ? "" : multiplier.toString(),
       multiplier: multiplier ?? 1,
@@ -84,7 +88,7 @@ export const CreateNewCalculationItem = (
     const calculationItem: CalculationListItem = {
       itemType: "preset",
       label: distance.name,
-      value: distanceValue,
+      value: ConvertNumberToTwoDecimals(distanceValue),
       unit: unit,
       multiplierInput: multiplier === 1 ? "" : multiplier.toString(),
       multiplier: multiplier ?? 1,
