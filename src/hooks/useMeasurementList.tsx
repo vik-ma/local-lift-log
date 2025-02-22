@@ -5,8 +5,8 @@ import {
   MeasurementSortCategory,
   UseMeasurementListReturnType,
 } from "../typings";
-import Database from "tauri-plugin-sql-api";
 import {
+  GetMeasurementList,
   InsertMeasurementIntoDatabase,
   UpdateIsFavorite,
   UpdateItemInList,
@@ -99,24 +99,12 @@ export const useMeasurementList = (
   const getMeasurements = async () => {
     if (isMeasurementListLoaded.current) return;
 
-    try {
-      const db = await Database.load(import.meta.env.VITE_DB);
+    const { measurements, newMeasurementMap } = await GetMeasurementList();
 
-      const result = await db.select<Measurement[]>(
-        "SELECT * FROM measurements"
-      );
+    measurementMap.current = newMeasurementMap;
+    sortMeasurementsByActiveFirst(measurements);
 
-      const newMeasurementMap = new Map<string, Measurement>(
-        result.map((obj) => [obj.id.toString(), obj])
-      );
-
-      measurementMap.current = newMeasurementMap;
-      sortMeasurementsByActiveFirst(result);
-
-      isMeasurementListLoaded.current = true;
-    } catch (error) {
-      console.log(error);
-    }
+    isMeasurementListLoaded.current = true;
   };
 
   useEffect(() => {
