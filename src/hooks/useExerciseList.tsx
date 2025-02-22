@@ -114,18 +114,12 @@ export const useExerciseList = (
   };
 
   const getExercises = async () => {
-    const exercises = showTotalNumSets
+    const { exercises, newExerciseMap } = showTotalNumSets
       ? await GetExerciseListWithGroupStringsAndTotalSets(
           exerciseGroupDictionary,
           ignoreExercisesWithNoSets
         )
       : await GetExerciseListWithGroupStrings(exerciseGroupDictionary);
-
-    if (exercises === undefined) return;
-
-    const newExerciseMap = new Map<number, Exercise>(
-      exercises.map((obj) => [obj.id, obj])
-    );
 
     sortExercisesByFavoritesFirst(exercises);
     exerciseMap.current = newExerciseMap;

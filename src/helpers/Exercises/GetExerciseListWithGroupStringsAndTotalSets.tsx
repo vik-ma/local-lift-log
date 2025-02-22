@@ -8,7 +8,10 @@ import {
 export const GetExerciseListWithGroupStringsAndTotalSets = async (
   exerciseGroupDictionary: ExerciseGroupMap,
   ignoreExercisesWithNoSets?: boolean
-) => {
+): Promise<{
+  exercises: Exercise[];
+  newExerciseMap: Map<number, Exercise>;
+}> => {
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -25,6 +28,7 @@ export const GetExerciseListWithGroupStringsAndTotalSets = async (
       ON e.id = s.exercise_id`);
 
     const exercises: Exercise[] = [];
+    const newExerciseMap = new Map<number, Exercise>();
 
     for (const row of result) {
       if (ignoreExercisesWithNoSets && row.set_count === 0) continue;
@@ -60,10 +64,12 @@ export const GetExerciseListWithGroupStringsAndTotalSets = async (
       }
 
       exercises.push(exercise);
+      newExerciseMap.set(exercise.id, exercise);
     }
 
-    return exercises;
+    return { exercises, newExerciseMap };
   } catch (error) {
     console.log(error);
+    return { exercises: [], newExerciseMap: new Map() };
   }
 };

@@ -7,13 +7,17 @@ import {
 
 export const GetExerciseListWithGroupStrings = async (
   exerciseGroupDictionary: ExerciseGroupMap
-) => {
+): Promise<{
+  exercises: Exercise[];
+  newExerciseMap: Map<number, Exercise>;
+}> => {
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
 
     const result: Exercise[] = await db.select("SELECT * FROM exercises");
 
     const exercises: Exercise[] = [];
+    const newExerciseMap = new Map<number, Exercise>();
 
     result.map((row) => {
       const convertedValuesPrimary = ConvertExerciseGroupSetStringPrimary(
@@ -46,10 +50,12 @@ export const GetExerciseListWithGroupStrings = async (
       }
 
       exercises.push(exercise);
+      newExerciseMap.set(exercise.id, exercise);
     });
 
-    return exercises;
+    return { exercises, newExerciseMap };
   } catch (error) {
     console.log(error);
+    return { exercises: [], newExerciseMap: new Map() };
   }
 };
