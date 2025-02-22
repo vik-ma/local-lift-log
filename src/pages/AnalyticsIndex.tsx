@@ -101,7 +101,7 @@ type ReferenceAreaItem = {
   endDate: string | null;
 };
 
-type LoadedListType =
+type LoadedChartType =
   | "diet-logs-calories"
   | "diet-logs-macros"
   | "user-weights-weight"
@@ -214,7 +214,7 @@ export default function AnalyticsIndex() {
 
   const isChartDataLoaded = useRef<boolean>(false);
 
-  const loadedLists = useRef<Set<LoadedListType>>(new Set());
+  const loadedCharts = useRef<Set<LoadedChartType>>(new Set());
 
   const filteredChartData: ChartDataItem[] = useMemo(() => {
     const filteredChartData: ChartDataItem[] = [];
@@ -397,7 +397,7 @@ export default function AnalyticsIndex() {
     locale: string,
     loadPrimary: boolean
   ) => {
-    if (loadedLists.current.has("diet-logs-calories")) return;
+    if (loadedCharts.current.has("diet-logs-calories")) return;
 
     const dietLogs = await GetAllDietLogs(true);
 
@@ -420,7 +420,7 @@ export default function AnalyticsIndex() {
     const commentLabel = "Diet Log Comment";
 
     const areCommentsAlreadyLoaded =
-      loadedLists.current.has("diet-logs-macros");
+      loadedCharts.current.has("diet-logs-macros");
 
     for (const dietLog of dietLogs) {
       const date = FormatDateToShortString(new Date(dietLog.date), locale);
@@ -464,12 +464,12 @@ export default function AnalyticsIndex() {
       loadChartLines(["calories"], ["Calories"], "calories");
     }
 
-    loadedLists.current.add("diet-logs-calories");
+    loadedCharts.current.add("diet-logs-calories");
     if (!isChartDataLoaded.current) isChartDataLoaded.current = true;
   };
 
   const getDietLogListMacros = async (locale: string, loadPrimary: boolean) => {
-    if (loadedLists.current.has("diet-logs-macros")) return;
+    if (loadedCharts.current.has("diet-logs-macros")) return;
 
     const dietLogs = await GetAllDietLogs(true);
 
@@ -495,7 +495,7 @@ export default function AnalyticsIndex() {
     const commentLabel = "Diet Log Comment";
 
     const areCommentsAlreadyLoaded =
-      loadedLists.current.has("diet-logs-calories");
+      loadedCharts.current.has("diet-logs-calories");
 
     for (const dietLog of dietLogs) {
       const date = FormatDateToShortString(new Date(dietLog.date), locale);
@@ -573,7 +573,7 @@ export default function AnalyticsIndex() {
       loadChartLines(dataKeys, ["Macros"], "fat");
     }
 
-    loadedLists.current.add("diet-logs-macros");
+    loadedCharts.current.add("diet-logs-macros");
     if (!isChartDataLoaded.current) isChartDataLoaded.current = true;
   };
 
@@ -937,7 +937,7 @@ export default function AnalyticsIndex() {
     weightUnit: string,
     loadPrimary: boolean
   ) => {
-    if (loadedLists.current.has("user-weights-weight")) return;
+    if (loadedCharts.current.has("user-weights-weight")) return;
 
     const userWeights = await GetAllUserWeights(true);
 
@@ -959,7 +959,7 @@ export default function AnalyticsIndex() {
     ]);
     const commentLabel = "Body Weight Comment";
 
-    const areCommentsAlreadyLoaded = loadedLists.current.has(
+    const areCommentsAlreadyLoaded = loadedCharts.current.has(
       "user-weights-body-fat"
     );
 
@@ -1016,7 +1016,7 @@ export default function AnalyticsIndex() {
       loadChartLines(["body_weight"], ["Weight"], "body_weight");
     }
 
-    loadedLists.current.add("user-weights-weight");
+    loadedCharts.current.add("user-weights-weight");
     if (!isChartDataLoaded.current) isChartDataLoaded.current = true;
   };
 
@@ -1024,7 +1024,7 @@ export default function AnalyticsIndex() {
     locale: string,
     loadPrimary: boolean
   ) => {
-    if (loadedLists.current.has("user-weights-body-fat")) return;
+    if (loadedCharts.current.has("user-weights-body-fat")) return;
 
     const userWeights = await GetAllUserWeights(true);
 
@@ -1046,7 +1046,7 @@ export default function AnalyticsIndex() {
     ]);
     const commentLabel = "Body Weight Comment";
 
-    const areCommentsAlreadyLoaded = loadedLists.current.has(
+    const areCommentsAlreadyLoaded = loadedCharts.current.has(
       "user-weights-weight"
     );
 
@@ -1109,7 +1109,7 @@ export default function AnalyticsIndex() {
       );
     }
 
-    loadedLists.current.add("user-weights-body-fat");
+    loadedCharts.current.add("user-weights-body-fat");
     if (!isChartDataLoaded.current) isChartDataLoaded.current = true;
   };
 
@@ -1777,7 +1777,7 @@ export default function AnalyticsIndex() {
               <DropdownMenu
                 aria-label="Load category as area options"
                 variant="flat"
-                disabledKeys={loadedLists.current}
+                disabledKeys={loadedCharts.current}
               >
                 <DropdownItem
                   key="user-weights-weight"
@@ -1826,7 +1826,7 @@ export default function AnalyticsIndex() {
               <DropdownMenu
                 aria-label="Load category as line options"
                 variant="flat"
-                disabledKeys={loadedLists.current}
+                disabledKeys={loadedCharts.current}
               >
                 <DropdownItem
                   key="user-weights-weight"
