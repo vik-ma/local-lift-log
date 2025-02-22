@@ -47,7 +47,7 @@ export const TimePeriodModalList = ({
 
   const height = useMemo(() => {
     return customHeightString !== undefined ? customHeightString : "h-[400px]";
-  }, []);
+  }, [customHeightString]);
 
   const navigate = useNavigate();
 

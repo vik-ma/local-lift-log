@@ -41,7 +41,7 @@ export const RoutineModalList = ({
 
   const height = useMemo(() => {
     return customHeightString !== undefined ? customHeightString : "h-[440px]";
-  }, []);
+  }, [customHeightString]);
 
   const navigate = useNavigate();
 

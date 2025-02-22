@@ -48,7 +48,7 @@ export const ExerciseModalList = ({
 
   const height = useMemo(() => {
     return customHeightString !== undefined ? customHeightString : "h-[400px]";
-  }, []);
+  }, [customHeightString]);
 
   const navigate = useNavigate();
 
