@@ -147,6 +147,7 @@ export default function AnalyticsIndex() {
   const [chartEndDate, setChartEndDate] = useState<Date | null>(null);
   const [filterMinDate, setFilterMinDate] = useState<Date | null>(null);
   const [filterMaxDate, setFilterMaxDate] = useState<Date | null>(null);
+  const [loadChartAsArea, setLoadChartAsArea] = useState<boolean>(true);
 
   const [showTestButtons, setShowTestButtons] = useState<boolean>(false);
 
@@ -1401,6 +1402,12 @@ export default function AnalyticsIndex() {
     }
   };
 
+  const handleLoadMeasurementClick = async (loadPrimary: boolean) => {
+    await handleOpenListModal("measurement");
+
+    setLoadChartAsArea(loadPrimary);
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -1760,14 +1767,6 @@ export default function AnalyticsIndex() {
             >
               Select Exercise
             </Button>
-            <Button
-              className="font-medium"
-              variant="flat"
-              color="secondary"
-              onPress={() => handleOpenListModal("measurement")}
-            >
-              Select Measurement
-            </Button>
             <Dropdown>
               <DropdownTrigger>
                 <Button className="font-medium" variant="flat">
@@ -1779,6 +1778,12 @@ export default function AnalyticsIndex() {
                 variant="flat"
                 disabledKeys={loadedCharts.current}
               >
+                <DropdownItem
+                  key="measurement"
+                  onPress={() => handleLoadMeasurementClick(true)}
+                >
+                  Measurement
+                </DropdownItem>
                 <DropdownItem
                   key="user-weights-weight"
                   onPress={() =>
@@ -1828,6 +1833,12 @@ export default function AnalyticsIndex() {
                 variant="flat"
                 disabledKeys={loadedCharts.current}
               >
+                <DropdownItem
+                  key="measurement"
+                  onPress={() => handleLoadMeasurementClick(false)}
+                >
+                  Measurement
+                </DropdownItem>
                 <DropdownItem
                   key="user-weights-weight"
                   onPress={() =>
