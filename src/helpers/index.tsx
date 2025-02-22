@@ -161,6 +161,7 @@ export { InsertUserWeightIntoDatabase } from "./Measurements/InsertUserWeightInt
 export { IsMeasurementInUserMeasurementValues } from "./Measurements/IsMeasurementInUserMeasurementValues";
 export { InsertUserMeasurementIntoDatabase } from "./Measurements/InsertUserMeasurementIntoDatabase";
 export { GetAllUserWeights } from "./Measurements/GetAllUserWeights";
+export { GetUserMeasurementsWithMeasurementId } from "./Measurements/GetUserMeasurementsWithMeasurementId";
 
 export { CreateDefaultEquipmentWeights } from "./Presets/CreateDefaultEquipmentWeights";
 export { CreateDefaultDistances } from "./Presets/CreateDefaultDistances";
