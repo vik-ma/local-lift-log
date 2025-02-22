@@ -7,6 +7,7 @@ import {
 } from "../typings";
 import {
   GetMeasurementList,
+  GetMeasurementListWithNumberOfUserMeasurementEntries,
   InsertMeasurementIntoDatabase,
   UpdateIsFavorite,
   UpdateItemInList,
@@ -14,7 +15,9 @@ import {
 import { useListFilters } from "./useListFilters";
 
 export const useMeasurementList = (
-  getMeasurementsOnLoad: boolean
+  getMeasurementsOnLoad: boolean,
+  showNumberOfUserMeasurementEntries?: boolean,
+  ignoreMeasurementsWithNoEntries?: boolean
 ): UseMeasurementListReturnType => {
   const [measurements, setMeasurements] = useState<Measurement[]>([]);
   const [filterQuery, setFilterQuery] = useState<string>("");
@@ -99,7 +102,12 @@ export const useMeasurementList = (
   const getMeasurements = async () => {
     if (isMeasurementListLoaded.current) return;
 
-    const { measurements, newMeasurementMap } = await GetMeasurementList();
+    const { measurements, newMeasurementMap } =
+      showNumberOfUserMeasurementEntries
+        ? await GetMeasurementListWithNumberOfUserMeasurementEntries(
+            ignoreMeasurementsWithNoEntries
+          )
+        : await GetMeasurementList();
 
     measurementMap.current = newMeasurementMap;
     sortMeasurementsByActiveFirst(measurements);
