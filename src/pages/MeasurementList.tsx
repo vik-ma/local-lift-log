@@ -33,6 +33,7 @@ import {
   GenerateActiveMeasurementString,
   UpdateItemInList,
   DeleteItemFromList,
+  FormatNumUserMeasurementEntriesString,
 } from "../helpers";
 import { CheckmarkIcon, VerticalMenuIcon } from "../assets";
 import {
@@ -57,7 +58,7 @@ export default function MeasurementList() {
   const measurementModal = useDisclosure();
   const setUnitsModal = useDisclosure();
 
-  const measurementList = useMeasurementList(true);
+  const measurementList = useMeasurementList(true, true);
 
   const {
     measurements,
@@ -426,6 +427,13 @@ export default function MeasurementList() {
                     <span className="text-xs text-stone-400 text-left">
                       {measurement.measurement_type}
                     </span>
+                    {measurement.numUserMeasurementEntries! > 0 && (
+                      <span className="w-[13.5rem] truncate text-xs text-secondary text-left">
+                        {FormatNumUserMeasurementEntriesString(
+                          measurement.numUserMeasurementEntries
+                        )}
+                      </span>
+                    )}
                   </div>
                 </div>
                 <div className="flex items-center gap-1.5 pr-1">
