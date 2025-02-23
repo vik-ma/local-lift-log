@@ -804,6 +804,22 @@ export default function AnalyticsIndex() {
       case "Body Fat %":
         updateRightYAxis(shownChartDataLines, "body_fat_percentage");
         break;
+      case "Caliper Measurement":
+        for (const [key, value] of loadedMeasurements) {
+          if (value.measurement_type === "Caliper") {
+            updateRightYAxis(shownChartDataLines, `measurement_${key}`);
+            break;
+          }
+        }
+        break;
+      case "Circumference Measurement":
+        for (const [key, value] of loadedMeasurements) {
+          if (value.measurement_type === "Circumference") {
+            updateRightYAxis(shownChartDataLines, `measurement_${key}`);
+            break;
+          }
+        }
+        break;
       default:
         break;
     }
