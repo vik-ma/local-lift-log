@@ -325,27 +325,17 @@ export default function AnalyticsIndex() {
     return unitMap;
   }, [weightUnit, circumferenceUnit, loadedMeasurements]);
 
-  const chartDataUnitCategoryMap = useMemo(() => {
-    const unitCategoryMap = new Map<ChartDataCategory, ChartDataUnitCategory>();
-
-    unitCategoryMap.set("calories", "Calories");
-    unitCategoryMap.set("fat", "Macros");
-    unitCategoryMap.set("carbs", "Macros");
-    unitCategoryMap.set("protein", "Macros");
-    unitCategoryMap.set("body_weight", "Weight");
-    unitCategoryMap.set("body_fat_percentage", "Body Fat %");
-    unitCategoryMap.set("test", "Weight");
-
-    Array.from(loadedMeasurements).map(([key, value]) => {
-      if (value.measurement_type === "Circumference") {
-        unitCategoryMap.set(`measurement_${key}`, "Circumference Measurement");
-      } else {
-        unitCategoryMap.set(`measurement_${key}`, "Caliper Measurement");
-      }
-    });
-
-    return unitCategoryMap;
-  }, [loadedMeasurements]);
+  const chartDataUnitCategoryMap = useRef(
+    new Map<ChartDataCategory, ChartDataUnitCategory>([
+      ["calories", "Calories"],
+      ["fat", "Macros"],
+      ["carbs", "Macros"],
+      ["protein", "Macros"],
+      ["body_weight", "Weight"],
+      ["body_fat_percentage", "Body Fat %"],
+      ["test", "Weight"],
+    ])
+  );
 
   const chartConfig: ChartConfig = useMemo(() => {
     const chartConfig: ChartConfig = {};
@@ -638,7 +628,7 @@ export default function AnalyticsIndex() {
     const chartLineUnitCategorySet = new Set<ChartDataUnitCategory>();
 
     for (const line of chartLines) {
-      chartLineUnitCategorySet.add(chartDataUnitCategoryMap.get(line));
+      chartLineUnitCategorySet.add(chartDataUnitCategoryMap.current.get(line));
     }
 
     setShownChartDataLines(chartLines);
@@ -791,9 +781,8 @@ export default function AnalyticsIndex() {
 
     setSecondaryDataKey(updatedShownChartDataLines[0]);
 
-    const updatedSecondaryDataUnitCategory = chartDataUnitCategoryMap.get(
-      updatedShownChartDataLines[0]
-    );
+    const updatedSecondaryDataUnitCategory =
+      chartDataUnitCategoryMap.current.get(updatedShownChartDataLines[0]);
 
     setSecondaryDataUnitCategory(updatedSecondaryDataUnitCategory);
 
@@ -1237,7 +1226,7 @@ export default function AnalyticsIndex() {
 
     const updatedChartLineUnitCategorySet = new Set(
       updatedShownChartDataLines.map((item) =>
-        chartDataUnitCategoryMap.get(item)
+        chartDataUnitCategoryMap.current.get(item)
       )
     );
 
@@ -1263,7 +1252,7 @@ export default function AnalyticsIndex() {
 
     const updatedChartLineUnitCategorySet = new Set(
       updatedShownChartDataLines.map((item) =>
-        chartDataUnitCategoryMap.get(item)
+        chartDataUnitCategoryMap.current.get(item)
       )
     );
 
@@ -1296,21 +1285,21 @@ export default function AnalyticsIndex() {
       return;
     }
 
-    const activeUnitCategory = chartDataUnitCategoryMap.get(
+    const activeUnitCategory = chartDataUnitCategoryMap.current.get(
       activeSecondaryDataKey
     );
 
     let shouldChangeCategory = true;
 
     for (const line of chartLines) {
-      if (chartDataUnitCategoryMap.get(line) === activeUnitCategory) {
+      if (chartDataUnitCategoryMap.current.get(line) === activeUnitCategory) {
         shouldChangeCategory = false;
         break;
       }
     }
 
     const unitCategory = shouldChangeCategory
-      ? chartDataUnitCategoryMap.get(chartLines[0])
+      ? chartDataUnitCategoryMap.current.get(chartLines[0])
       : activeUnitCategory;
 
     const chartLineSet = new Set(chartLines);
@@ -1321,7 +1310,7 @@ export default function AnalyticsIndex() {
     for (const [key, value] of highestCategoryValues.current) {
       if (
         !chartLineSet.has(key) ||
-        chartDataUnitCategoryMap.get(key) !== unitCategory
+        chartDataUnitCategoryMap.current.get(key) !== unitCategory
       )
         continue;
 
@@ -1344,7 +1333,7 @@ export default function AnalyticsIndex() {
       return;
     }
 
-    const unitCategory = chartDataUnitCategoryMap.get(chartAreas[0]);
+    const unitCategory = chartDataUnitCategoryMap.current.get(chartAreas[0]);
 
     const chartAreaSet = new Set(chartAreas);
 
@@ -1353,7 +1342,7 @@ export default function AnalyticsIndex() {
     for (const [key, value] of highestCategoryValues.current) {
       if (
         !chartAreaSet.has(key) ||
-        chartDataUnitCategoryMap.get(key) !== unitCategory
+        chartDataUnitCategoryMap.current.get(key) !== unitCategory
       )
         continue;
 
@@ -1382,8 +1371,8 @@ export default function AnalyticsIndex() {
 
     if (
       primaryDataKey !== undefined &&
-      chartDataUnitCategoryMap.get(dataKeys[0]) !==
-        chartDataUnitCategoryMap.get(primaryDataKey)
+      chartDataUnitCategoryMap.current.get(dataKeys[0]) !==
+        chartDataUnitCategoryMap.current.get(primaryDataKey)
     ) {
       // Replace existing Chart Areas if existing Chart Areas does not share Unit Category
       setChartDataAreas(dataKeys);
@@ -1392,7 +1381,7 @@ export default function AnalyticsIndex() {
       setChartLineUnitCategorySet(
         new Set([
           ...chartLineUnitCategorySet,
-          chartDataUnitCategoryMap.get(primaryDataKey),
+          chartDataUnitCategoryMap.current.get(primaryDataKey),
         ])
       );
 
@@ -1410,8 +1399,8 @@ export default function AnalyticsIndex() {
 
     if (
       primaryDataKey !== undefined &&
-      chartDataUnitCategoryMap.get(dataKeys[0]) ===
-        chartDataUnitCategoryMap.get(primaryDataKey)
+      chartDataUnitCategoryMap.current.get(dataKeys[0]) ===
+        chartDataUnitCategoryMap.current.get(primaryDataKey)
     ) {
       // Append new Chart Area if existing Chart Area(s) share Unit Category
       setChartDataAreas([...chartDataAreas, ...dataKeys]);
@@ -1579,10 +1568,19 @@ export default function AnalyticsIndex() {
 
     if (measurementType === "Caliper") {
       highestCategoryValues.current.set(measurementIdString, highestValue);
+      chartDataUnitCategoryMap.current.set(
+        measurementIdString,
+        "Caliper Measurement"
+      );
+
       // TODO: ADD loadChartLines
       loadChartAreas([measurementIdString]);
     } else {
       highestCategoryValues.current.set(measurementIdString, highestValue);
+      chartDataUnitCategoryMap.current.set(
+        measurementIdString,
+        "Circumference Measurement"
+      );
       // TODO: ADD loadChartLines
       loadChartAreas([measurementIdString]);
     }
