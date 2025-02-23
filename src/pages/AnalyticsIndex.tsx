@@ -1573,16 +1573,31 @@ export default function AnalyticsIndex() {
         "Caliper Measurement"
       );
 
-      // TODO: ADD loadChartLines
-      loadChartAreas([measurementIdString]);
+      if (loadChartAsArea) {
+        loadChartAreas([measurementIdString]);
+      } else {
+        loadChartLines(
+          [measurementIdString],
+          ["Caliper Measurement"],
+          measurementIdString
+        );
+      }
     } else {
       highestCategoryValues.current.set(measurementIdString, highestValue);
       chartDataUnitCategoryMap.current.set(
         measurementIdString,
         "Circumference Measurement"
       );
-      // TODO: ADD loadChartLines
-      loadChartAreas([measurementIdString]);
+
+      if (loadChartAsArea) {
+        loadChartAreas([measurementIdString]);
+      } else {
+        loadChartLines(
+          [measurementIdString],
+          ["Circumference Measurement"],
+          measurementIdString
+        );
+      }
     }
 
     const updatedLoadedMeasurements = new Map(loadedMeasurements);
