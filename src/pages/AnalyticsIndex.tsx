@@ -83,6 +83,8 @@ export type ChartDataCategory =
   | "protein"
   | "body_weight"
   | "body_fat_percentage"
+  | "measurement_caliper"
+  | "measurement_circumference"
   | "test";
 
 type ChartDataUnitCategory =
@@ -90,7 +92,9 @@ type ChartDataUnitCategory =
   | "Calories"
   | "Macros"
   | "Weight"
-  | "Body Fat %";
+  | "Body Fat %"
+  | "Caliper Measurement"
+  | "Circumference Measurement";
 
 type ReferenceAreaItem = {
   timePeriodId: number;
@@ -105,7 +109,8 @@ type LoadedChartType =
   | "diet-logs-calories"
   | "diet-logs-macros"
   | "user-weights-weight"
-  | "user-weights-body-fat";
+  | "user-weights-body-fat"
+  | `measurement-${number}`;
 
 // TODO: MOVE TO typings.ts LATER
 export type ChartComment = {
@@ -272,6 +277,8 @@ export default function AnalyticsIndex() {
     categoryMap.set("protein", "Protein");
     categoryMap.set("body_weight", "Body Weight");
     categoryMap.set("body_fat_percentage", "Body Fat %");
+    categoryMap.set("measurement_caliper", "Caliper Measurement");
+    categoryMap.set("measurement_circumference", "Circumference Measurement");
     categoryMap.set("test", "Test");
 
     return categoryMap;
@@ -286,10 +293,12 @@ export default function AnalyticsIndex() {
     unitMap.set("protein", " g");
     unitMap.set("body_weight", ` ${weightUnit}`);
     unitMap.set("body_fat_percentage", " %");
+    unitMap.set("measurement_caliper", " mm");
+    unitMap.set("measurement_circumference", ` ${circumferenceUnit}`);
     unitMap.set("test", ` ${weightUnit}`);
 
     return unitMap;
-  }, [weightUnit]);
+  }, [weightUnit, circumferenceUnit]);
 
   const chartDataUnitCategoryMap = useMemo(() => {
     const unitCategoryMap = new Map<ChartDataCategory, ChartDataUnitCategory>();
@@ -300,6 +309,11 @@ export default function AnalyticsIndex() {
     unitCategoryMap.set("protein", "Macros");
     unitCategoryMap.set("body_weight", "Weight");
     unitCategoryMap.set("body_fat_percentage", "Body Fat %");
+    unitCategoryMap.set("measurement_caliper", "Caliper Measurement");
+    unitCategoryMap.set(
+      "measurement_circumference",
+      "Circumference Measurement"
+    );
     unitCategoryMap.set("test", "Weight");
 
     return unitCategoryMap;
@@ -316,6 +330,12 @@ export default function AnalyticsIndex() {
       body_weight: { label: chartDataCategoryLabelMap.get("body_weight") },
       body_fat_percentage: {
         label: chartDataCategoryLabelMap.get("body_fat_percentage"),
+      },
+      measurement_caliper: {
+        label: chartDataCategoryLabelMap.get("measurement_caliper"),
+      },
+      measurement_circumference: {
+        label: chartDataCategoryLabelMap.get("measurement_circumference"),
       },
       test: { label: chartDataCategoryLabelMap.get("test") },
     };
