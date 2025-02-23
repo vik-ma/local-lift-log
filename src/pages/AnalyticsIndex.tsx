@@ -79,9 +79,9 @@ type ChartDataItem = {
   protein?: number | null;
   body_weight?: number;
   body_fat_percentage?: number | null;
-  measurement_caliper?: number;
-  measurement_circumference?: number;
   test?: number;
+} & {
+  [key in `measurement_${number}`]?: number;
 };
 
 // TODO: MOVE TO typings.ts LATER
@@ -93,8 +93,7 @@ export type ChartDataCategory =
   | "protein"
   | "body_weight"
   | "body_fat_percentage"
-  | "measurement_caliper"
-  | "measurement_circumference"
+  | `measurement_${number}`
   | "test";
 
 type ChartDataUnitCategory =
@@ -120,7 +119,7 @@ type LoadedChartType =
   | "diet-logs-macros"
   | "user-weights-weight"
   | "user-weights-body-fat"
-  | `measurement-${number}`;
+  | `measurement_${number}`;
 
 // TODO: MOVE TO typings.ts LATER
 export type ChartComment = {
@@ -236,6 +235,7 @@ export default function AnalyticsIndex() {
   const isChartDataLoaded = useRef<boolean>(false);
 
   const loadedCharts = useRef<Set<LoadedChartType>>(new Set());
+  const loadedMeasurements = useRef<Map<number, Measurement>>(new Map());
 
   const filteredChartData: ChartDataItem[] = useMemo(() => {
     const filteredChartData: ChartDataItem[] = [];
@@ -292,12 +292,15 @@ export default function AnalyticsIndex() {
     categoryMap.set("protein", "Protein");
     categoryMap.set("body_weight", "Body Weight");
     categoryMap.set("body_fat_percentage", "Body Fat %");
-    categoryMap.set("measurement_caliper", "Caliper Measurement");
-    categoryMap.set("measurement_circumference", "Circumference Measurement");
     categoryMap.set("test", "Test");
 
+    Array.from(loadedMeasurements.current).map(([key, value]) =>
+      categoryMap.set(`measurement_${key}`, `${value.name} (Measurement)`)
+    );
+
     return categoryMap;
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loadedMeasurements.current]);
 
   const chartDataUnitMap = useMemo(() => {
     const unitMap = new Map<ChartDataCategory, string>();
@@ -308,12 +311,19 @@ export default function AnalyticsIndex() {
     unitMap.set("protein", " g");
     unitMap.set("body_weight", ` ${weightUnit}`);
     unitMap.set("body_fat_percentage", " %");
-    unitMap.set("measurement_caliper", " mm");
-    unitMap.set("measurement_circumference", ` ${circumferenceUnit}`);
     unitMap.set("test", ` ${weightUnit}`);
 
+    Array.from(loadedMeasurements.current).map(([key, value]) => {
+      if (value.measurement_type === "Circumference") {
+        unitMap.set(`measurement_${key}`, ` ${circumferenceUnit}`);
+      } else {
+        unitMap.set(`measurement_${key}`, " mm");
+      }
+    });
+
     return unitMap;
-  }, [weightUnit, circumferenceUnit]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [weightUnit, circumferenceUnit, loadedMeasurements.current]);
 
   const chartDataUnitCategoryMap = useMemo(() => {
     const unitCategoryMap = new Map<ChartDataCategory, ChartDataUnitCategory>();
@@ -324,37 +334,47 @@ export default function AnalyticsIndex() {
     unitCategoryMap.set("protein", "Macros");
     unitCategoryMap.set("body_weight", "Weight");
     unitCategoryMap.set("body_fat_percentage", "Body Fat %");
-    unitCategoryMap.set("measurement_caliper", "Caliper Measurement");
-    unitCategoryMap.set(
-      "measurement_circumference",
-      "Circumference Measurement"
-    );
     unitCategoryMap.set("test", "Weight");
 
+    Array.from(loadedMeasurements.current).map(([key, value]) => {
+      if (value.measurement_type === "Circumference") {
+        unitCategoryMap.set(`measurement_${key}`, "Circumference Measurement");
+      } else {
+        unitCategoryMap.set(`measurement_${key}`, "Caliper Measurement");
+      }
+    });
+
     return unitCategoryMap;
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loadedMeasurements.current]);
 
   const chartConfig: ChartConfig = useMemo(() => {
-    return {
-      calories: {
-        label: chartDataCategoryLabelMap.get("calories"),
-      },
-      fat: { label: chartDataCategoryLabelMap.get("fat") },
-      carbs: { label: chartDataCategoryLabelMap.get("carbs") },
-      protein: { label: chartDataCategoryLabelMap.get("protein") },
-      body_weight: { label: chartDataCategoryLabelMap.get("body_weight") },
-      body_fat_percentage: {
-        label: chartDataCategoryLabelMap.get("body_fat_percentage"),
-      },
-      measurement_caliper: {
-        label: chartDataCategoryLabelMap.get("measurement_caliper"),
-      },
-      measurement_circumference: {
-        label: chartDataCategoryLabelMap.get("measurement_circumference"),
-      },
-      test: { label: chartDataCategoryLabelMap.get("test") },
+    const chartConfig: ChartConfig = {};
+
+    chartConfig.calories = {
+      label: chartDataCategoryLabelMap.get("calories"),
     };
-  }, [chartDataCategoryLabelMap]);
+    chartConfig.fat = { label: chartDataCategoryLabelMap.get("fat") };
+    chartConfig.carbs = { label: chartDataCategoryLabelMap.get("carbs") };
+    chartConfig.protein = { label: chartDataCategoryLabelMap.get("protein") };
+    chartConfig.body_weight = {
+      label: chartDataCategoryLabelMap.get("body_weight"),
+    };
+    chartConfig.body_fat_percentage = {
+      label: chartDataCategoryLabelMap.get("body_fat_percentage"),
+    };
+    chartConfig.test = { label: chartDataCategoryLabelMap.get("test") };
+
+    Object.keys(loadedMeasurements.current).map((id) => {
+      const key = `measurement_${id}`;
+      chartConfig[key] = {
+        label: chartDataCategoryLabelMap.get(key as ChartDataCategory),
+      };
+    });
+
+    return chartConfig;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chartDataCategoryLabelMap, loadedMeasurements.current]);
 
   const chartLineColorList = useMemo(() => {
     return ["#6b80ed", "#e6475a", "#525252", "#07e0e7", "#8739cf", "#56db67"];
@@ -1447,8 +1467,12 @@ export default function AnalyticsIndex() {
   };
 
   const loadMeasurement = async (measurement: Measurement) => {
+    const measurementIdString:
+      | LoadedChartType
+      | ChartDataCategory = `measurement_${measurement.id}`;
+
     if (
-      loadedCharts.current.has(`measurement-${measurement.id}`) ||
+      loadedCharts.current.has(measurementIdString) ||
       userSettings === undefined
     )
       return;
@@ -1472,8 +1496,7 @@ export default function AnalyticsIndex() {
 
     const updatedChartCommentMap = new Map(chartCommentMap);
     const commentDataKeys: Set<ChartDataCategory> = new Set([
-      "measurement_caliper",
-      "measurement_circumference",
+      measurementIdString,
     ]);
     const commentLabel = "Body Measurement Comment";
 
@@ -1512,7 +1535,7 @@ export default function AnalyticsIndex() {
 
       const areCommentsAlreadyLoaded = Object.keys(userMeasurementValues).some(
         (item) =>
-          loadedCharts.current.has(`measurement-${item}` as LoadedChartType)
+          loadedCharts.current.has(`measurement_${item}` as LoadedChartType)
       );
 
       if (!areCommentsAlreadyLoaded && userMeasurement.comment !== null) {
@@ -1536,11 +1559,7 @@ export default function AnalyticsIndex() {
             )
           : ConvertNumberToTwoDecimals(measurementValues.value);
 
-      if (measurementValues.measurement_type === "Caliper") {
-        chartDataItem.measurement_caliper = value;
-      } else {
-        chartDataItem.measurement_circumference = value;
-      }
+      chartDataItem[measurementIdString] = value;
 
       if (value > highestValue) {
         highestValue = value;
@@ -1561,19 +1580,16 @@ export default function AnalyticsIndex() {
     setChartData(mergedChartData);
 
     if (measurementType === "Caliper") {
-      highestCategoryValues.current.set("measurement_caliper", highestValue);
+      highestCategoryValues.current.set(measurementIdString, highestValue);
       // TODO: ADD loadChartLines
-      loadChartAreas(["measurement_caliper"]);
+      loadChartAreas([measurementIdString]);
     } else {
-      highestCategoryValues.current.set(
-        "measurement_circumference",
-        highestValue
-      );
+      highestCategoryValues.current.set(measurementIdString, highestValue);
       // TODO: ADD loadChartLines
-      loadChartAreas(["measurement_circumference"]);
+      loadChartAreas([measurementIdString]);
     }
 
-    loadedCharts.current.add(`measurement-${measurement.id}`);
+    loadedCharts.current.add(measurementIdString);
     if (!isChartDataLoaded.current) isChartDataLoaded.current = true;
     listModal.onClose();
   };
@@ -1604,7 +1620,7 @@ export default function AnalyticsIndex() {
                     useMeasurementList={measurementList}
                     handleMeasurementClick={loadMeasurement}
                     customHeightString="h-[440px]"
-                    hiddenMeasurements={loadedCharts.current}
+                    hiddenMeasurements={loadedMeasurements.current}
                   />
                 ) : (
                   <TimePeriodModalList
