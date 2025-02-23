@@ -95,14 +95,26 @@ export const MeasurementModalList = ({
                   />
                 )}
                 <div className="flex flex-col justify-start items-start">
-                  <span className="w-[17.5rem] truncate text-left">
+                  <span
+                    className={
+                      highlightedMeasurements !== undefined
+                        ? "w-[17.5rem] truncate text-left"
+                        : "w-[21rem] truncate text-left"
+                    }
+                  >
                     {measurement.name}
                   </span>
                   <span className="text-xs text-stone-400 text-left">
                     {measurement.measurement_type}
                   </span>
                   {measurement.numUserMeasurementEntries! > 0 && (
-                    <span className="w-[17.5rem] truncate text-xs text-secondary text-left">
+                    <span
+                      className={
+                        highlightedMeasurements !== undefined
+                          ? "w-[17.5rem] truncate text-xs text-secondary text-left"
+                          : "w-[21rem] truncate text-xs text-secondary text-left"
+                      }
+                    >
                       {FormatNumUserMeasurementEntriesString(
                         measurement.numUserMeasurementEntries
                       )}
