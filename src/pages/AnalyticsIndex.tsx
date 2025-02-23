@@ -29,10 +29,16 @@ import {
   MeasurementModalList,
   TimePeriodModalList,
 } from "../components";
-import { TimePeriod, UserSettings } from "../typings";
+import {
+  Measurement,
+  TimePeriod,
+  UserMeasurementValues,
+  UserSettings,
+} from "../typings";
 import {
   ConvertDateToYmdString,
   ConvertISODateStringToYmdDateString,
+  ConvertMeasurementValue,
   ConvertNumberToTwoDecimals,
   ConvertWeightValue,
   CreateShownPropertiesSet,
@@ -40,7 +46,9 @@ import {
   GetAllDietLogs,
   GetAllUserWeights,
   GetCurrentYmdDateString,
+  GetUserMeasurementsWithMeasurementId,
   GetUserSettings,
+  ValidMeasurementUnits,
 } from "../helpers";
 import {
   XAxis,
@@ -69,8 +77,10 @@ type ChartDataItem = {
   fat?: number | null;
   carbs?: number | null;
   protein?: number | null;
-  body_weight?: number | null;
+  body_weight?: number;
   body_fat_percentage?: number | null;
+  measurement_caliper?: number;
+  measurement_circumference?: number;
   test?: number;
 };
 
@@ -201,6 +211,11 @@ export default function AnalyticsIndex() {
   //   () => new Set<ChartDataCategory>(chartDataLines),
   //   [chartDataLines]
   // );
+
+  const validCircumferenceUnits = useMemo(
+    () => new Set(ValidMeasurementUnits()),
+    []
+  );
 
   const timePeriodIdSet = useMemo(
     () =>
@@ -1431,6 +1446,136 @@ export default function AnalyticsIndex() {
     setLoadChartAsArea(loadPrimary);
   };
 
+  const loadMeasurement = async (measurement: Measurement) => {
+    if (
+      loadedCharts.current.has(`measurement-${measurement.id}`) ||
+      userSettings === undefined
+    )
+      return;
+
+    const measurementType = measurement.measurement_type;
+
+    if (measurementType !== "Caliper" && measurementType !== "Circumference")
+      return;
+
+    const userMeasurements = await GetUserMeasurementsWithMeasurementId(
+      measurement.id
+    );
+
+    if (userMeasurements.length === 0) return;
+
+    const loadedChartData: ChartDataItem[] = [];
+
+    let highestValue = 0;
+
+    const dateSet = new Set<string>();
+
+    const updatedChartCommentMap = new Map(chartCommentMap);
+    const commentDataKeys: Set<ChartDataCategory> = new Set([
+      "measurement_caliper",
+      "measurement_circumference",
+    ]);
+    const commentLabel = "Body Measurement Comment";
+
+    // TODO: ADD areCommentsAlreadyLoaded
+
+    for (const userMeasurement of userMeasurements) {
+      const date = FormatDateToShortString(
+        new Date(userMeasurement.date),
+        userSettings.locale
+      );
+
+      // Only load first entry per day
+      if (dateSet.has(date)) continue;
+
+      dateSet.add(date);
+
+      const userMeasurementValues: UserMeasurementValues = JSON.parse(
+        userMeasurement.measurement_values
+      );
+
+      const measurementValues = userMeasurementValues[`${measurement.id}`];
+
+      // Check if measurement_type and unit combo is valid
+      if (
+        measurementValues.measurement_type !== measurementType ||
+        (measurementValues.measurement_type !== "Caliper" &&
+          measurementValues.measurement_type !== "Circumference") ||
+        (measurementValues.measurement_type === "Caliper" &&
+          measurementValues.unit !== "mm") ||
+        (measurementValues.measurement_type === "Circumference" &&
+          !validCircumferenceUnits.has(measurementValues.unit))
+      )
+        continue;
+
+      const chartDataItem: ChartDataItem = {
+        date,
+      };
+
+      // TODO: ADD areCommentsAlreadyLoaded
+      if (userMeasurement.comment !== null) {
+        addChartComment(
+          updatedChartCommentMap,
+          date,
+          commentDataKeys,
+          commentLabel,
+          userMeasurement.comment
+        );
+      }
+
+      const value =
+        measurementValues.measurement_type === "Circumference"
+          ? ConvertNumberToTwoDecimals(
+              ConvertMeasurementValue(
+                measurementValues.value,
+                measurementValues.unit,
+                circumferenceUnit
+              )
+            )
+          : ConvertNumberToTwoDecimals(measurementValues.value);
+
+      if (measurementValues.measurement_type === "Caliper") {
+        chartDataItem.measurement_caliper = value;
+      } else {
+        chartDataItem.measurement_circumference = value;
+      }
+
+      if (value > highestValue) {
+        highestValue = value;
+      }
+
+      loadedChartData.push(chartDataItem);
+    }
+
+    setChartCommentMap(updatedChartCommentMap);
+
+    const filledInChartData = fillInMissingDates(
+      loadedChartData,
+      userSettings.locale
+    );
+
+    const mergedChartData = mergeChartData(filledInChartData, chartData);
+
+    setChartData(mergedChartData);
+
+    if (measurementType === "Caliper") {
+      highestCategoryValues.current.set("measurement_caliper", highestValue);
+      // TODO: ADD loadChartLines
+      loadChartAreas(["measurement_caliper"]);
+    } else {
+      highestCategoryValues.current.set(
+        "measurement_circumference",
+        highestValue
+      );
+      // TODO: ADD loadChartLines
+      loadChartAreas(["measurement_circumference"]);
+    }
+
+    loadedCharts.current.add(`measurement-${measurement.id}`);
+    if (!isChartDataLoaded.current) isChartDataLoaded.current = true;
+    listModal.onClose();
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -1455,7 +1600,7 @@ export default function AnalyticsIndex() {
                 ) : modalListType === "measurement" ? (
                   <MeasurementModalList
                     useMeasurementList={measurementList}
-                    handleMeasurementClick={() => {}}
+                    handleMeasurementClick={loadMeasurement}
                     customHeightString="h-[440px]"
                   />
                 ) : (
