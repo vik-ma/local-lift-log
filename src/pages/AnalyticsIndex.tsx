@@ -373,7 +373,7 @@ export default function AnalyticsIndex() {
         // setDistanceUnit(userSettings.default_unit_distance);
         setCircumferenceUnit(userSettings.default_unit_measurement);
 
-        getDietLogListCalories(userSettings.locale, true);
+        loadDietLogListCalories(userSettings.locale, true);
         // getUserWeightListWeights(
         //   userSettings.locale,
         //   userSettings.default_unit_weight,
@@ -414,7 +414,7 @@ export default function AnalyticsIndex() {
     listModal.onOpen();
   };
 
-  const getDietLogListCalories = async (
+  const loadDietLogListCalories = async (
     locale: string,
     loadPrimary: boolean
   ) => {
@@ -489,7 +489,10 @@ export default function AnalyticsIndex() {
     if (!isChartDataLoaded.current) isChartDataLoaded.current = true;
   };
 
-  const getDietLogListMacros = async (locale: string, loadPrimary: boolean) => {
+  const loadDietLogListMacros = async (
+    locale: string,
+    loadPrimary: boolean
+  ) => {
     if (loadedCharts.current.has("diet-logs-macros")) return;
 
     const dietLogs = await GetAllDietLogs(true);
@@ -953,7 +956,7 @@ export default function AnalyticsIndex() {
     return { formattedStartDate, formattedEndDate };
   };
 
-  const getUserWeightListWeights = async (
+  const loadUserWeightListWeights = async (
     locale: string,
     weightUnit: string,
     loadPrimary: boolean
@@ -1041,7 +1044,7 @@ export default function AnalyticsIndex() {
     if (!isChartDataLoaded.current) isChartDataLoaded.current = true;
   };
 
-  const getUserWeightListBodyFat = async (
+  const loadUserWeightListBodyFat = async (
     locale: string,
     loadPrimary: boolean
   ) => {
@@ -1807,7 +1810,7 @@ export default function AnalyticsIndex() {
                 <DropdownItem
                   key="user-weights-weight"
                   onPress={() =>
-                    getUserWeightListWeights(
+                    loadUserWeightListWeights(
                       userSettings.locale,
                       weightUnit,
                       true
@@ -1819,7 +1822,7 @@ export default function AnalyticsIndex() {
                 <DropdownItem
                   key="user-weights-body-fat"
                   onPress={() =>
-                    getUserWeightListBodyFat(userSettings.locale, true)
+                    loadUserWeightListBodyFat(userSettings.locale, true)
                   }
                 >
                   Body Fat Percentages
@@ -1827,7 +1830,7 @@ export default function AnalyticsIndex() {
                 <DropdownItem
                   key="diet-logs-calories"
                   onPress={() =>
-                    getDietLogListCalories(userSettings.locale, true)
+                    loadDietLogListCalories(userSettings.locale, true)
                   }
                 >
                   Calories
@@ -1835,7 +1838,7 @@ export default function AnalyticsIndex() {
                 <DropdownItem
                   key="diet-logs-macros"
                   onPress={() =>
-                    getDietLogListMacros(userSettings.locale, true)
+                    loadDietLogListMacros(userSettings.locale, true)
                   }
                 >
                   Macros
@@ -1862,7 +1865,7 @@ export default function AnalyticsIndex() {
                 <DropdownItem
                   key="user-weights-weight"
                   onPress={() =>
-                    getUserWeightListWeights(
+                    loadUserWeightListWeights(
                       userSettings.locale,
                       weightUnit,
                       false
@@ -1874,7 +1877,7 @@ export default function AnalyticsIndex() {
                 <DropdownItem
                   key="user-weights-body-fat"
                   onPress={() =>
-                    getUserWeightListBodyFat(userSettings.locale, false)
+                    loadUserWeightListBodyFat(userSettings.locale, false)
                   }
                 >
                   Body Fat Percentages
@@ -1882,7 +1885,7 @@ export default function AnalyticsIndex() {
                 <DropdownItem
                   key="diet-logs-calories"
                   onPress={() =>
-                    getDietLogListCalories(userSettings.locale, false)
+                    loadDietLogListCalories(userSettings.locale, false)
                   }
                 >
                   Calories
@@ -1890,7 +1893,7 @@ export default function AnalyticsIndex() {
                 <DropdownItem
                   key="diet-logs-macros"
                   onPress={() =>
-                    getDietLogListMacros(userSettings.locale, false)
+                    loadDietLogListMacros(userSettings.locale, false)
                   }
                 >
                   Macros
