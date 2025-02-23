@@ -251,7 +251,7 @@ export default function AnalyticsIndex() {
 
   const filterExerciseList = useFilterExerciseList(exerciseList);
 
-  const measurementList = useMeasurementList(false);
+  const measurementList = useMeasurementList(false, true, true);
 
   const { isMeasurementListLoaded, getMeasurements } = measurementList;
 

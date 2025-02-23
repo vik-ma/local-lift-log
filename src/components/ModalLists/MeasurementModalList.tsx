@@ -10,6 +10,7 @@ import { Measurement, UseMeasurementListReturnType } from "../../typings";
 import { CheckmarkIcon, GoToArrowIcon } from "../../assets";
 import { useNavigate } from "react-router-dom";
 import { useMemo } from "react";
+import { FormatNumUserMeasurementEntriesString } from "../../helpers";
 
 type MeasurementModalListProps = {
   useMeasurementList: UseMeasurementListReturnType;
@@ -100,6 +101,13 @@ export const MeasurementModalList = ({
                   <span className="text-xs text-stone-400 text-left">
                     {measurement.measurement_type}
                   </span>
+                  {measurement.numUserMeasurementEntries! > 0 && (
+                    <span className="w-[17.5rem] truncate text-xs text-secondary text-left">
+                      {FormatNumUserMeasurementEntriesString(
+                        measurement.numUserMeasurementEntries
+                      )}
+                    </span>
+                  )}
                 </div>
               </div>
               <div className="flex items-center pr-2">
