@@ -1602,6 +1602,7 @@ export default function AnalyticsIndex() {
                     useMeasurementList={measurementList}
                     handleMeasurementClick={loadMeasurement}
                     customHeightString="h-[440px]"
+                    hiddenMeasurements={loadedCharts.current}
                   />
                 ) : (
                   <TimePeriodModalList

@@ -17,6 +17,7 @@ type MeasurementModalListProps = {
   handleMeasurementClick: (measurement: Measurement) => void;
   highlightedMeasurements?: Set<string>;
   customHeightString?: string;
+  hiddenMeasurements?: Set<string>;
 };
 
 export const MeasurementModalList = ({
@@ -24,6 +25,7 @@ export const MeasurementModalList = ({
   handleMeasurementClick,
   highlightedMeasurements,
   customHeightString,
+  hiddenMeasurements,
 }: MeasurementModalListProps) => {
   const {
     measurements,
@@ -78,7 +80,9 @@ export const MeasurementModalList = ({
           <div
             key={measurement.id}
             className={
-              highlightedMeasurements?.has(measurement.id.toString())
+              hiddenMeasurements?.has(`measurement-${measurement.id}`)
+                ? "hidden"
+                : highlightedMeasurements?.has(measurement.id.toString())
                 ? "flex cursor-pointer bg-amber-100 border-2 border-amber-300 rounded-xl transition-colors duration-100 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                 : "flex cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl transition-colors duration-100 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
             }
