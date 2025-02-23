@@ -162,6 +162,9 @@ export default function AnalyticsIndex() {
   const [filterMinDate, setFilterMinDate] = useState<Date | null>(null);
   const [filterMaxDate, setFilterMaxDate] = useState<Date | null>(null);
   const [loadChartAsArea, setLoadChartAsArea] = useState<boolean>(true);
+  const [loadedMeasurements, setLoadedMeasurements] = useState<
+    Map<number, Measurement>
+  >(new Map());
 
   const [showTestButtons, setShowTestButtons] = useState<boolean>(false);
 
@@ -235,7 +238,6 @@ export default function AnalyticsIndex() {
   const isChartDataLoaded = useRef<boolean>(false);
 
   const loadedCharts = useRef<Set<LoadedChartType>>(new Set());
-  const loadedMeasurements = useRef<Map<number, Measurement>>(new Map());
 
   const filteredChartData: ChartDataItem[] = useMemo(() => {
     const filteredChartData: ChartDataItem[] = [];
@@ -294,13 +296,12 @@ export default function AnalyticsIndex() {
     categoryMap.set("body_fat_percentage", "Body Fat %");
     categoryMap.set("test", "Test");
 
-    Array.from(loadedMeasurements.current).map(([key, value]) =>
+    Array.from(loadedMeasurements).map(([key, value]) =>
       categoryMap.set(`measurement_${key}`, `${value.name} (Measurement)`)
     );
 
     return categoryMap;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loadedMeasurements.current]);
+  }, [loadedMeasurements]);
 
   const chartDataUnitMap = useMemo(() => {
     const unitMap = new Map<ChartDataCategory, string>();
@@ -313,7 +314,7 @@ export default function AnalyticsIndex() {
     unitMap.set("body_fat_percentage", " %");
     unitMap.set("test", ` ${weightUnit}`);
 
-    Array.from(loadedMeasurements.current).map(([key, value]) => {
+    Array.from(loadedMeasurements).map(([key, value]) => {
       if (value.measurement_type === "Circumference") {
         unitMap.set(`measurement_${key}`, ` ${circumferenceUnit}`);
       } else {
@@ -322,8 +323,7 @@ export default function AnalyticsIndex() {
     });
 
     return unitMap;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [weightUnit, circumferenceUnit, loadedMeasurements.current]);
+  }, [weightUnit, circumferenceUnit, loadedMeasurements]);
 
   const chartDataUnitCategoryMap = useMemo(() => {
     const unitCategoryMap = new Map<ChartDataCategory, ChartDataUnitCategory>();
@@ -336,7 +336,7 @@ export default function AnalyticsIndex() {
     unitCategoryMap.set("body_fat_percentage", "Body Fat %");
     unitCategoryMap.set("test", "Weight");
 
-    Array.from(loadedMeasurements.current).map(([key, value]) => {
+    Array.from(loadedMeasurements).map(([key, value]) => {
       if (value.measurement_type === "Circumference") {
         unitCategoryMap.set(`measurement_${key}`, "Circumference Measurement");
       } else {
@@ -345,8 +345,7 @@ export default function AnalyticsIndex() {
     });
 
     return unitCategoryMap;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loadedMeasurements.current]);
+  }, [loadedMeasurements]);
 
   const chartConfig: ChartConfig = useMemo(() => {
     const chartConfig: ChartConfig = {};
@@ -365,16 +364,15 @@ export default function AnalyticsIndex() {
     };
     chartConfig.test = { label: chartDataCategoryLabelMap.get("test") };
 
-    Object.keys(loadedMeasurements.current).map((id) => {
-      const key = `measurement_${id}`;
-      chartConfig[key] = {
-        label: chartDataCategoryLabelMap.get(key as ChartDataCategory),
+    Array.from(loadedMeasurements).map(([key]) => {
+      const prop = `measurement_${key}`;
+      chartConfig[prop] = {
+        label: chartDataCategoryLabelMap.get(prop as ChartDataCategory),
       };
     });
 
     return chartConfig;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chartDataCategoryLabelMap, loadedMeasurements.current]);
+  }, [chartDataCategoryLabelMap, loadedMeasurements]);
 
   const chartLineColorList = useMemo(() => {
     return ["#6b80ed", "#e6475a", "#525252", "#07e0e7", "#8739cf", "#56db67"];
@@ -1589,6 +1587,10 @@ export default function AnalyticsIndex() {
       loadChartAreas([measurementIdString]);
     }
 
+    const updatedLoadedMeasurements = new Map(loadedMeasurements);
+    updatedLoadedMeasurements.set(measurement.id, measurement);
+
+    setLoadedMeasurements(updatedLoadedMeasurements);
     loadedCharts.current.add(measurementIdString);
     if (!isChartDataLoaded.current) isChartDataLoaded.current = true;
     listModal.onClose();
@@ -1620,7 +1622,7 @@ export default function AnalyticsIndex() {
                     useMeasurementList={measurementList}
                     handleMeasurementClick={loadMeasurement}
                     customHeightString="h-[440px]"
-                    hiddenMeasurements={loadedMeasurements.current}
+                    hiddenMeasurements={loadedMeasurements}
                   />
                 ) : (
                   <TimePeriodModalList
