@@ -1477,8 +1477,6 @@ export default function AnalyticsIndex() {
     ]);
     const commentLabel = "Body Measurement Comment";
 
-    // TODO: ADD areCommentsAlreadyLoaded
-
     for (const userMeasurement of userMeasurements) {
       const date = FormatDateToShortString(
         new Date(userMeasurement.date),
@@ -1512,8 +1510,12 @@ export default function AnalyticsIndex() {
         date,
       };
 
-      // TODO: ADD areCommentsAlreadyLoaded
-      if (userMeasurement.comment !== null) {
+      const areCommentsAlreadyLoaded = Object.keys(userMeasurementValues).some(
+        (item) =>
+          loadedCharts.current.has(`measurement-${item}` as LoadedChartType)
+      );
+
+      if (!areCommentsAlreadyLoaded && userMeasurement.comment !== null) {
         addChartComment(
           updatedChartCommentMap,
           date,
