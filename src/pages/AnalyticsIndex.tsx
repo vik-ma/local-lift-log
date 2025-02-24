@@ -214,10 +214,7 @@ export default function AnalyticsIndex() {
   //   [chartDataLines]
   // );
 
-  const validCircumferenceUnits = useMemo(
-    () => new Set(ValidMeasurementUnits()),
-    []
-  );
+  const validCircumferenceUnits = new Set(ValidMeasurementUnits());
 
   const timePeriodIdSet = useMemo(
     () =>
@@ -335,25 +332,32 @@ export default function AnalyticsIndex() {
     test: { label: chartDataCategoryLabelMap.current.get("test") },
   });
 
-  const chartLineColorList = useMemo(() => {
-    return ["#6b80ed", "#e6475a", "#525252", "#07e0e7", "#8739cf", "#56db67"];
-  }, []);
+  const chartLineColorList = [
+    "#6b80ed",
+    "#e6475a",
+    "#525252",
+    "#07e0e7",
+    "#8739cf",
+    "#56db67",
+  ];
 
-  const chartAreaColorList = useMemo(() => {
-    return [
-      "#edc345",
-      "#f57489",
-      "#8ba1db",
-      "#9c9794",
-      "#8fe296",
-      "#c3a6e4",
-      "#e9b287",
-    ];
-  }, []);
+  const chartAreaColorList = [
+    "#edc345",
+    "#f57489",
+    "#8ba1db",
+    "#9c9794",
+    "#8fe296",
+    "#c3a6e4",
+    "#e9b287",
+  ];
 
-  const referenceAreaColorList = useMemo(() => {
-    return ["#2862cc", "#26be21", "#ff3ba7", "#c93814", "#1ab2f8"];
-  }, []);
+  const referenceAreaColorList = [
+    "#2862cc",
+    "#26be21",
+    "#ff3ba7",
+    "#c93814",
+    "#1ab2f8",
+  ];
 
   useEffect(
     () => {
