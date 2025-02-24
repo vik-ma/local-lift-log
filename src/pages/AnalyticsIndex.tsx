@@ -575,26 +575,28 @@ export default function AnalyticsIndex() {
         );
       }
 
-      chartDataItem.fat = dietLog.fat;
-      chartDataItem.carbs = dietLog.carbs;
-      chartDataItem.protein = dietLog.protein;
+      if (dietLog.fat !== null) {
+        chartDataItem.fat = dietLog.fat;
 
-      if (dietLog.fat !== null && dietLog.fat > highestValueMap.get("fat")!) {
-        highestValueMap.set("fat", dietLog.fat);
+        if (dietLog.fat > highestValueMap.get("fat")!) {
+          highestValueMap.set("fat", dietLog.fat);
+        }
       }
 
-      if (
-        dietLog.carbs !== null &&
-        dietLog.carbs > highestValueMap.get("carbs")!
-      ) {
-        highestValueMap.set("carbs", dietLog.carbs);
+      if (dietLog.carbs !== null) {
+        chartDataItem.carbs = dietLog.carbs;
+
+        if (dietLog.carbs > highestValueMap.get("carbs")!) {
+          highestValueMap.set("carbs", dietLog.carbs);
+        }
       }
 
-      if (
-        dietLog.protein !== null &&
-        dietLog.protein > highestValueMap.get("protein")!
-      ) {
-        highestValueMap.set("protein", dietLog.protein);
+      if (dietLog.protein !== null) {
+        chartDataItem.protein = dietLog.protein;
+
+        if (dietLog.protein > highestValueMap.get("protein")!) {
+          highestValueMap.set("protein", dietLog.protein);
+        }
       }
 
       loadedChartData.push(chartDataItem);
@@ -1153,13 +1155,12 @@ export default function AnalyticsIndex() {
         );
       }
 
-      chartDataItem.body_fat_percentage = userWeight.body_fat_percentage;
+      if (userWeight.body_fat_percentage !== null) {
+        chartDataItem.body_fat_percentage = userWeight.body_fat_percentage;
 
-      if (
-        userWeight.body_fat_percentage !== null &&
-        userWeight.body_fat_percentage > highestValue
-      ) {
-        highestValue = userWeight.body_fat_percentage;
+        if (userWeight.body_fat_percentage > highestValue) {
+          highestValue = userWeight.body_fat_percentage;
+        }
       }
 
       loadedChartData.push(chartDataItem);
