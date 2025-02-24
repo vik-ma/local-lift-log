@@ -1669,7 +1669,13 @@ export default function AnalyticsIndex() {
           {(onClose) => (
             <>
               <ModalHeader>
-                {listModalPage === "exercise-list" ? "Select Exercise" : ""}
+                {listModalPage === "exercise-list"
+                  ? "Select Exercise"
+                  : listModalPage === "measurement-list"
+                  ? "Select Measurement"
+                  : listModalPage === "time-period-list"
+                  ? "Select Time Period"
+                  : "Select Statistics To Load"}
               </ModalHeader>
               <ModalBody>
                 {listModalPage === "exercise-list" ? (
@@ -1688,7 +1694,7 @@ export default function AnalyticsIndex() {
                     customHeightString="h-[440px]"
                     hiddenMeasurements={loadedMeasurements}
                   />
-                ) : (
+                ) : listModalPage === "time-period-list" ? (
                   <TimePeriodModalList
                     useTimePeriodList={timePeriodList}
                     handleTimePeriodClick={handleClickTimePeriod}
@@ -1697,6 +1703,8 @@ export default function AnalyticsIndex() {
                     customHeightString="h-[440px]"
                     hiddenTimePeriods={timePeriodIdSet}
                   />
+                ) : (
+                  <></>
                 )}
               </ModalBody>
               <ModalFooter>
