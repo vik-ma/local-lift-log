@@ -324,6 +324,57 @@ export default function AnalyticsIndex() {
     "#1ab2f8",
   ];
 
+  const loadExerciseOptionsMap = useMemo(() => {
+    const optionsMap = new Map<string, string>();
+
+    optionsMap.set("weight_min", "Min Weight");
+    optionsMap.set("weight_max", "Max Weight");
+    optionsMap.set("weight_average", "Average Weight");
+    optionsMap.set("weight_total", "Total Weight");
+    optionsMap.set("distance_min", "Min Distance");
+    optionsMap.set("distance_max", "Max Distance");
+    optionsMap.set("distance_average", "Average Distance");
+    optionsMap.set("distance_total", "Total Distance");
+    optionsMap.set("total_volume", "Volume");
+    optionsMap.set("time_min", "Min Time");
+    optionsMap.set("time_max", "Max Time");
+    optionsMap.set("time_average", "Average Time");
+    optionsMap.set("time_total", "Total Time");
+    optionsMap.set("distance_per_time_min", "Min Pace");
+    optionsMap.set("distance_per_time_max", "Max Pace");
+    optionsMap.set("distance_per_time_average", "Average Pace");
+    optionsMap.set("num_sets", "Number Of Sets");
+    optionsMap.set("num_reps_min", "Min Reps");
+    optionsMap.set("num_reps_max", "Max Reps");
+    optionsMap.set("num_reps_average", "Average Reps");
+    optionsMap.set("num_reps_total", "Total Reps");
+    optionsMap.set("num_reps_and_partial_reps_min", "Min Reps + Partial Reps");
+    optionsMap.set("num_reps_and_partial_reps_max", "Max Reps + Partial Reps");
+    optionsMap.set(
+      "num_reps_and_partial_reps_average",
+      "Average Reps + Partial Reps"
+    );
+    optionsMap.set(
+      "num_reps_and_partial_reps_total",
+      "Total Reps + Partial Reps"
+    );
+    optionsMap.set("num_partial_reps_min", "Min Partial Reps");
+    optionsMap.set("num_partial_reps_max", "Max Partial Reps");
+    optionsMap.set("num_partial_reps_average", "Average Partial Reps");
+    optionsMap.set("num_partial_reps_total", "Total Partial Reps");
+    optionsMap.set("rir_min", "Min RIR");
+    optionsMap.set("rir_max", "Max RIR");
+    optionsMap.set("rir_average", "Average RIR");
+    optionsMap.set("rpe_min", "Min RPE");
+    optionsMap.set("rpe_max", "Max RPE");
+    optionsMap.set("rpe_average", "Average RPE");
+    optionsMap.set("resistance_level_min", "Min Resistance Level");
+    optionsMap.set("resistance_level_max", "Max Resistance Level");
+    optionsMap.set("resistance_level_average", "Average Resistance Level");
+
+    return optionsMap;
+  }, []);
+
   useEffect(
     () => {
       const loadUserSettings = async () => {
