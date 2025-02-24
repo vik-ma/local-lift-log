@@ -285,23 +285,17 @@ export default function AnalyticsIndex() {
     setSelectedTimePeriodProperties,
   } = timePeriodList;
 
-  const chartDataCategoryLabelMap = useMemo(() => {
-    const categoryMap = new Map<ChartDataCategory, string>();
-
-    categoryMap.set("calories", "Calories");
-    categoryMap.set("fat", "Fat");
-    categoryMap.set("carbs", "Carbs");
-    categoryMap.set("protein", "Protein");
-    categoryMap.set("body_weight", "Body Weight");
-    categoryMap.set("body_fat_percentage", "Body Fat %");
-    categoryMap.set("test", "Test");
-
-    Array.from(loadedMeasurements).map(([key, value]) =>
-      categoryMap.set(`measurement_${key}`, `${value.name} (Measurement)`)
-    );
-
-    return categoryMap;
-  }, [loadedMeasurements]);
+  const chartDataCategoryLabelMap = useRef<Map<ChartDataCategory, string>>(
+    new Map([
+      ["calories", "Calories"],
+      ["fat", "Fat"],
+      ["carbs", "Carbs"],
+      ["protein", "Protein"],
+      ["body_weight", "Body Weight"],
+      ["body_fat_percentage", "Body Fat %"],
+      ["test", "Test"],
+    ])
+  );
 
   const chartDataUnitMap = useMemo(() => {
     const unitMap = new Map<ChartDataCategory, string>();
@@ -339,18 +333,18 @@ export default function AnalyticsIndex() {
 
   const chartConfig = useRef<ChartConfig>({
     calories: {
-      label: chartDataCategoryLabelMap.get("calories"),
+      label: chartDataCategoryLabelMap.current.get("calories"),
     },
-    fat: { label: chartDataCategoryLabelMap.get("fat") },
-    carbs: { label: chartDataCategoryLabelMap.get("carbs") },
-    protein: { label: chartDataCategoryLabelMap.get("protein") },
+    fat: { label: chartDataCategoryLabelMap.current.get("fat") },
+    carbs: { label: chartDataCategoryLabelMap.current.get("carbs") },
+    protein: { label: chartDataCategoryLabelMap.current.get("protein") },
     body_weight: {
-      label: chartDataCategoryLabelMap.get("body_weight"),
+      label: chartDataCategoryLabelMap.current.get("body_weight"),
     },
     body_fat_percentage: {
-      label: chartDataCategoryLabelMap.get("body_fat_percentage"),
+      label: chartDataCategoryLabelMap.current.get("body_fat_percentage"),
     },
-    test: { label: chartDataCategoryLabelMap.get("test") },
+    test: { label: chartDataCategoryLabelMap.current.get("test") },
   });
 
   const chartLineColorList = useMemo(() => {
@@ -1589,8 +1583,12 @@ export default function AnalyticsIndex() {
         "Caliper Measurement"
       );
 
+      const label = `${measurement.name} [Caliper]`;
+
+      chartDataCategoryLabelMap.current.set(measurementIdString, label);
+
       chartConfig.current[measurementIdString] = {
-        label: `${measurement.name} [Caliper]`,
+        label,
       };
 
       if (loadChartAsArea) {
@@ -1610,8 +1608,12 @@ export default function AnalyticsIndex() {
         "Circumference Measurement"
       );
 
+      const label = `${measurement.name} [Circumference]`;
+
+      chartDataCategoryLabelMap.current.set(measurementIdString, label);
+
       chartConfig.current[measurementIdString] = {
-        label: `${measurement.name} [Circumference]`,
+        label,
       };
 
       if (loadChartAsArea) {
@@ -1794,7 +1796,7 @@ export default function AnalyticsIndex() {
                   >
                     {chartDataAreas.map((area) => (
                       <SelectItem key={area} value={area}>
-                        {chartDataCategoryLabelMap.get(area)}
+                        {chartDataCategoryLabelMap.current.get(area)}
                       </SelectItem>
                     ))}
                   </Select>
@@ -1813,7 +1815,7 @@ export default function AnalyticsIndex() {
                     >
                       {chartDataLines.map((line) => (
                         <SelectItem key={line} value={line}>
-                          {chartDataCategoryLabelMap.get(line)}
+                          {chartDataCategoryLabelMap.current.get(line)}
                         </SelectItem>
                       ))}
                     </Select>
@@ -1857,7 +1859,7 @@ export default function AnalyticsIndex() {
                             key={line as string}
                             onPress={() => changeChartDataLineToArea(line)}
                           >
-                            {chartDataCategoryLabelMap.get(line)}
+                            {chartDataCategoryLabelMap.current.get(line)}
                           </DropdownItem>
                         ))}
                       </DropdownMenu>
@@ -1879,7 +1881,7 @@ export default function AnalyticsIndex() {
                             key={area as string}
                             onPress={() => changeChartDataAreaToLine(area)}
                           >
-                            {chartDataCategoryLabelMap.get(area)}
+                            {chartDataCategoryLabelMap.current.get(area)}
                           </DropdownItem>
                         ))}
                       </DropdownMenu>
