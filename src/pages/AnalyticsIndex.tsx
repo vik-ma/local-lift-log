@@ -337,32 +337,21 @@ export default function AnalyticsIndex() {
     ])
   );
 
-  const chartConfig: ChartConfig = useMemo(() => {
-    const chartConfig: ChartConfig = {};
-
-    chartConfig.calories = {
+  const chartConfig = useRef<ChartConfig>({
+    calories: {
       label: chartDataCategoryLabelMap.get("calories"),
-    };
-    chartConfig.fat = { label: chartDataCategoryLabelMap.get("fat") };
-    chartConfig.carbs = { label: chartDataCategoryLabelMap.get("carbs") };
-    chartConfig.protein = { label: chartDataCategoryLabelMap.get("protein") };
-    chartConfig.body_weight = {
+    },
+    fat: { label: chartDataCategoryLabelMap.get("fat") },
+    carbs: { label: chartDataCategoryLabelMap.get("carbs") },
+    protein: { label: chartDataCategoryLabelMap.get("protein") },
+    body_weight: {
       label: chartDataCategoryLabelMap.get("body_weight"),
-    };
-    chartConfig.body_fat_percentage = {
+    },
+    body_fat_percentage: {
       label: chartDataCategoryLabelMap.get("body_fat_percentage"),
-    };
-    chartConfig.test = { label: chartDataCategoryLabelMap.get("test") };
-
-    Array.from(loadedMeasurements).map(([key]) => {
-      const prop = `measurement_${key}`;
-      chartConfig[prop] = {
-        label: chartDataCategoryLabelMap.get(prop as ChartDataCategory),
-      };
-    });
-
-    return chartConfig;
-  }, [chartDataCategoryLabelMap, loadedMeasurements]);
+    },
+    test: { label: chartDataCategoryLabelMap.get("test") },
+  });
 
   const chartLineColorList = useMemo(() => {
     return ["#6b80ed", "#e6475a", "#525252", "#07e0e7", "#8739cf", "#56db67"];
@@ -1594,10 +1583,15 @@ export default function AnalyticsIndex() {
 
     if (measurementType === "Caliper") {
       highestCategoryValues.current.set(measurementIdString, highestValue);
+
       chartDataUnitCategoryMap.current.set(
         measurementIdString,
         "Caliper Measurement"
       );
+
+      chartConfig.current[measurementIdString] = {
+        label: `${measurement.name} [Caliper]`,
+      };
 
       if (loadChartAsArea) {
         loadChartAreas([measurementIdString]);
@@ -1610,10 +1604,15 @@ export default function AnalyticsIndex() {
       }
     } else {
       highestCategoryValues.current.set(measurementIdString, highestValue);
+
       chartDataUnitCategoryMap.current.set(
         measurementIdString,
         "Circumference Measurement"
       );
+
+      chartConfig.current[measurementIdString] = {
+        label: `${measurement.name} [Circumference]`,
+      };
 
       if (loadChartAsArea) {
         loadChartAreas([measurementIdString]);
@@ -1698,7 +1697,7 @@ export default function AnalyticsIndex() {
         {isChartDataLoaded.current && (
           <div className="flex gap-1.5 relative">
             <ChartContainer
-              config={chartConfig}
+              config={chartConfig.current}
               className="w-[870px] bg-default-50 pt-4 pb-1.5 rounded-xl"
             >
               <ComposedChart
