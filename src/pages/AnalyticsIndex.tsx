@@ -69,7 +69,7 @@ import {
 } from "../components/ui/chart";
 import toast from "react-hot-toast";
 
-type ModalListType = "exercise" | "measurement" | "time-period";
+type ListModalPage = "exercise-list" | "measurement-list" | "time-period-list";
 
 type ChartDataItem = {
   date: string;
@@ -129,7 +129,8 @@ export type ChartComment = {
 };
 
 export default function AnalyticsIndex() {
-  const [modalListType, setModalListType] = useState<ModalListType>("exercise");
+  const [listModalPage, setListModalPage] =
+    useState<ListModalPage>("exercise-list");
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [chartData, setChartData] = useState<ChartDataItem[]>([]);
   const [chartDataAreas, setChartDataAreas] = useState<ChartDataCategory[]>([]);
@@ -360,7 +361,6 @@ export default function AnalyticsIndex() {
           "test",
           ` ${userSettings.default_unit_weight}`
         );
-        // TODO: SET DISTANCE UNIT
 
         loadDietLogListCalories(userSettings.locale, true);
         // getUserWeightListWeights(
@@ -376,20 +376,26 @@ export default function AnalyticsIndex() {
     []
   );
 
-  const handleOpenListModal = async (modalListType: ModalListType) => {
+  const handleOpenListModal = async (modalListType: ListModalPage) => {
     if (userSettings === undefined) return;
 
-    setModalListType(modalListType);
+    setListModalPage(modalListType);
 
-    if (modalListType === "exercise" && !isExerciseListLoaded.current) {
+    if (modalListType === "exercise-list" && !isExerciseListLoaded.current) {
       await getExercises();
     }
 
-    if (modalListType === "measurement" && !isMeasurementListLoaded.current) {
+    if (
+      modalListType === "measurement-list" &&
+      !isMeasurementListLoaded.current
+    ) {
       await getMeasurements();
     }
 
-    if (modalListType === "time-period" && !isTimePeriodListLoaded.current) {
+    if (
+      modalListType === "time-period-list" &&
+      !isTimePeriodListLoaded.current
+    ) {
       await getTimePeriods(userSettings.locale);
 
       const timePeriodPropertySet = CreateShownPropertiesSet(
@@ -1440,7 +1446,7 @@ export default function AnalyticsIndex() {
   };
 
   const handleLoadMeasurementClick = async (loadPrimary: boolean) => {
-    await handleOpenListModal("measurement");
+    await handleOpenListModal("measurement-list");
 
     setLoadChartAsArea(loadPrimary);
   };
@@ -1628,10 +1634,10 @@ export default function AnalyticsIndex() {
           {(onClose) => (
             <>
               <ModalHeader>
-                {modalListType === "exercise" ? "Select Exercise" : ""}
+                {listModalPage === "exercise-list" ? "Select Exercise" : ""}
               </ModalHeader>
               <ModalBody>
-                {modalListType === "exercise" ? (
+                {listModalPage === "exercise-list" ? (
                   <ExerciseModalList
                     handleClickExercise={() => {}}
                     useExerciseList={exerciseList}
@@ -1640,7 +1646,7 @@ export default function AnalyticsIndex() {
                     customHeightString="h-[440px]"
                     isInAnalyticsPage
                   />
-                ) : modalListType === "measurement" ? (
+                ) : listModalPage === "measurement-list" ? (
                   <MeasurementModalList
                     useMeasurementList={measurementList}
                     handleMeasurementClick={loadMeasurement}
@@ -1975,7 +1981,7 @@ export default function AnalyticsIndex() {
               className="font-medium"
               variant="flat"
               color="secondary"
-              onPress={() => handleOpenListModal("exercise")}
+              onPress={() => handleOpenListModal("exercise-list")}
             >
               Select Exercise
             </Button>
@@ -2093,7 +2099,7 @@ export default function AnalyticsIndex() {
               <Button
                 className="font-medium"
                 variant="flat"
-                onPress={() => handleOpenListModal("time-period")}
+                onPress={() => handleOpenListModal("time-period-list")}
               >
                 Select Time Period
               </Button>
