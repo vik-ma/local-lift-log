@@ -71,19 +71,6 @@ import toast from "react-hot-toast";
 
 type ListModalPage = "exercise-list" | "measurement-list" | "time-period-list";
 
-type ChartDataItem = {
-  date: string;
-  calories?: number;
-  fat?: number | null;
-  carbs?: number | null;
-  protein?: number | null;
-  body_weight?: number;
-  body_fat_percentage?: number | null;
-  test?: number;
-} & {
-  [key in `measurement_${number}`]?: number;
-};
-
 // TODO: MOVE TO typings.ts LATER
 export type ChartDataCategory =
   | undefined
@@ -94,7 +81,51 @@ export type ChartDataCategory =
   | "body_weight"
   | "body_fat_percentage"
   | `measurement_${number}`
+  | `weight_min_${number}`
+  | `weight_max_${number}`
+  | `weight_average_${number}`
+  | `weight_total_${number}`
+  | `distance_min_${number}`
+  | `distance_max_${number}`
+  | `distance_average_${number}`
+  | `distance_total_${number}`
+  | `total_volume_${number}`
+  | `time_min_${number}`
+  | `time_max_${number}`
+  | `time_average_${number}`
+  | `time_total_${number}`
+  | `distance_per_time_min_${number}`
+  | `distance_per_time_max_${number}`
+  | `distance_per_time_average_${number}`
+  | "num_sets"
+  | `num_reps_min_${number}`
+  | `num_reps_max_${number}`
+  | `num_reps_average_${number}`
+  | `num_reps_total_${number}`
+  | `num_reps_and_partial_reps_min_${number}`
+  | `num_reps_and_partial_reps_max_${number}`
+  | `num_reps_and_partial_reps_average_${number}`
+  | `num_reps_and_partial_reps_total_${number}`
+  | `num_partial_reps_min_${number}`
+  | `num_partial_reps_max_${number}`
+  | `num_partial_reps_average_${number}`
+  | `num_partial_reps_total_${number}`
+  | `rir_min_${number}`
+  | `rir_max_${number}`
+  | `rir_average_${number}`
+  | `rpe_min_${number}`
+  | `rpe_max_${number}`
+  | `rpe_average_${number}`
+  | `resistance_level_min_${number}`
+  | `resistance_level_max_${number}`
+  | `resistance_level_average_${number}`
   | "test";
+
+type ChartDataItem = {
+  date: string;
+} & {
+  [key in Exclude<ChartDataCategory, undefined>]?: number;
+};
 
 type ChartDataUnitCategory =
   | undefined
@@ -103,7 +134,21 @@ type ChartDataUnitCategory =
   | "Weight"
   | "Body Fat %"
   | "Caliper"
-  | "Circumference";
+  | "Circumference"
+  | "Distance"
+  | "Time"
+  | "Number Of Sets"
+  | "Number Of Reps"
+  | "RIR"
+  | "RPE"
+  | "Resistance Level";
+
+type LoadedChartType =
+  | "diet-logs-calories"
+  | "diet-logs-macros"
+  | "user-weights-weight"
+  | "user-weights-body-fat"
+  | `measurement_${number}`;
 
 type ReferenceAreaItem = {
   timePeriodId: number;
@@ -113,13 +158,6 @@ type ReferenceAreaItem = {
   startDate: string;
   endDate: string | null;
 };
-
-type LoadedChartType =
-  | "diet-logs-calories"
-  | "diet-logs-macros"
-  | "user-weights-weight"
-  | "user-weights-body-fat"
-  | `measurement_${number}`;
 
 // TODO: MOVE TO typings.ts LATER
 export type ChartComment = {
