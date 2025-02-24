@@ -446,6 +446,8 @@ export default function AnalyticsIndex() {
     const dietLogs = await GetAllDietLogs(true);
 
     if (dietLogs.length === 0) {
+      loadedCharts.current.add("diet-logs-calories");
+      loadedCharts.current.add("diet-logs-macros");
       toast.error("No Diet Logs Entries Recorded");
       return;
     }
@@ -521,6 +523,8 @@ export default function AnalyticsIndex() {
     const dietLogs = await GetAllDietLogs(true);
 
     if (dietLogs.length === 0) {
+      loadedCharts.current.add("diet-logs-calories");
+      loadedCharts.current.add("diet-logs-macros");
       toast.error("No Diet Logs Entries Recorded");
       return;
     }
@@ -592,6 +596,7 @@ export default function AnalyticsIndex() {
     );
 
     if (updatedHighestValueMap.size === 0) {
+      loadedCharts.current.add("diet-logs-macros");
       toast.error("No Diet Logs With Macros Recorded");
       return;
     }
@@ -1004,6 +1009,8 @@ export default function AnalyticsIndex() {
     const userWeights = await GetAllUserWeights(true);
 
     if (userWeights.length === 0) {
+      loadedCharts.current.add("user-weights-weight");
+      loadedCharts.current.add("user-weights-body-fat");
       toast.error("No Body Weight Entries Recorded");
       return;
     }
@@ -1091,6 +1098,8 @@ export default function AnalyticsIndex() {
     const userWeights = await GetAllUserWeights(true);
 
     if (userWeights.length === 0) {
+      loadedCharts.current.add("user-weights-weight");
+      loadedCharts.current.add("user-weights-body-fat");
       toast.error("No Body Weight Entries Recorded");
       return;
     }
@@ -1147,6 +1156,7 @@ export default function AnalyticsIndex() {
     }
 
     if (highestValue === 0) {
+      loadedCharts.current.add("user-weights-body-fat");
       toast.error("No Body Fat Percentages Recorded");
       return;
     }
