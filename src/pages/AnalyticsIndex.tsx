@@ -195,25 +195,6 @@ export default function AnalyticsIndex() {
     return dateMap;
   }, []);
 
-  // const chartDataCategorySet: Set<ChartDataCategory> = useMemo(() => {
-  //   if (chartData.length === 0) return new Set<ChartDataCategory>();
-
-  //   return new Set(
-  //     Object.getOwnPropertyNames(chartData[0]).filter((item) => item !== "date")
-  //   ) as Set<ChartDataCategory>;
-  // }, [chartData]);
-
-  // TODO: REMOVE?
-  // const chartDataAreaSet = useMemo(
-  //   () => new Set<ChartDataCategory>(chartDataAreas),
-  //   [chartDataAreas]
-  // );
-
-  // const chartDataLineSet = useMemo(
-  //   () => new Set<ChartDataCategory>(chartDataLines),
-  //   [chartDataLines]
-  // );
-
   const validCircumferenceUnits = new Set(ValidMeasurementUnits());
 
   const timePeriodIdSet = useMemo(
