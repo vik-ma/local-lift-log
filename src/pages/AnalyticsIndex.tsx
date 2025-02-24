@@ -297,27 +297,15 @@ export default function AnalyticsIndex() {
     ])
   );
 
-  const chartDataUnitMap = useMemo(() => {
-    const unitMap = new Map<ChartDataCategory, string>();
-
-    unitMap.set("calories", " kcal");
-    unitMap.set("fat", " g");
-    unitMap.set("carbs", " g");
-    unitMap.set("protein", " g");
-    unitMap.set("body_weight", ` ${weightUnit}`);
-    unitMap.set("body_fat_percentage", " %");
-    unitMap.set("test", ` ${weightUnit}`);
-
-    Array.from(loadedMeasurements).map(([key, value]) => {
-      if (value.measurement_type === "Circumference") {
-        unitMap.set(`measurement_${key}`, ` ${circumferenceUnit}`);
-      } else {
-        unitMap.set(`measurement_${key}`, " mm");
-      }
-    });
-
-    return unitMap;
-  }, [weightUnit, circumferenceUnit, loadedMeasurements]);
+  const chartDataUnitMap = useRef<Map<ChartDataCategory, string>>(
+    new Map([
+      ["calories", " kcal"],
+      ["fat", " g"],
+      ["carbs", " g"],
+      ["protein", " g"],
+      ["body_fat_percentage", " %"],
+    ])
+  );
 
   const chartDataUnitCategoryMap = useRef(
     new Map<ChartDataCategory, ChartDataUnitCategory>([
@@ -378,6 +366,16 @@ export default function AnalyticsIndex() {
         setWeightUnit(userSettings.default_unit_weight);
         // setDistanceUnit(userSettings.default_unit_distance);
         setCircumferenceUnit(userSettings.default_unit_measurement);
+
+        chartDataUnitMap.current.set(
+          "body_weight",
+          ` ${userSettings.default_unit_weight}`
+        );
+        chartDataUnitMap.current.set(
+          "test",
+          ` ${userSettings.default_unit_weight}`
+        );
+        // TODO: SET DISTANCE UNIT
 
         loadDietLogListCalories(userSettings.locale, true);
         // getUserWeightListWeights(
@@ -1208,8 +1206,8 @@ export default function AnalyticsIndex() {
     );
 
     if (
-      chartDataUnitMap.get(chartDataLine) ===
-      chartDataUnitMap.get(shownChartDataAreas[0])
+      chartDataUnitMap.current.get(chartDataLine) ===
+      chartDataUnitMap.current.get(shownChartDataAreas[0])
     ) {
       // Add new Chart Area if same unit as current Chart Area
       setChartDataAreas([...chartDataAreas, chartDataLine]);
@@ -1578,27 +1576,22 @@ export default function AnalyticsIndex() {
     if (measurementType === "Caliper") {
       highestCategoryValues.current.set(measurementIdString, highestValue);
 
-      chartDataUnitCategoryMap.current.set(
-        measurementIdString,
-        "Caliper"
-      );
+      chartDataUnitCategoryMap.current.set(measurementIdString, "Caliper");
 
-      const label = `${measurement.name} [Caliper]`;
+      const chartLabel = `${measurement.name} [Caliper]`;
 
-      chartDataCategoryLabelMap.current.set(measurementIdString, label);
+      chartDataCategoryLabelMap.current.set(measurementIdString, chartLabel);
 
       chartConfig.current[measurementIdString] = {
-        label,
+        label: chartLabel,
       };
+
+      chartDataUnitMap.current.set(measurementIdString, " mm");
 
       if (loadChartAsArea) {
         loadChartAreas([measurementIdString]);
       } else {
-        loadChartLines(
-          [measurementIdString],
-          ["Caliper"],
-          measurementIdString
-        );
+        loadChartLines([measurementIdString], ["Caliper"], measurementIdString);
       }
     } else {
       highestCategoryValues.current.set(measurementIdString, highestValue);
@@ -1608,13 +1601,18 @@ export default function AnalyticsIndex() {
         "Circumference"
       );
 
-      const label = `${measurement.name} [Circumference]`;
+      const chartLabel = `${measurement.name} [Circumference]`;
 
-      chartDataCategoryLabelMap.current.set(measurementIdString, label);
+      chartDataCategoryLabelMap.current.set(measurementIdString, chartLabel);
 
       chartConfig.current[measurementIdString] = {
-        label,
+        label: chartLabel,
       };
+
+      chartDataUnitMap.current.set(
+        measurementIdString,
+        ` ${circumferenceUnit}`
+      );
 
       if (loadChartAsArea) {
         loadChartAreas([measurementIdString]);
@@ -1713,18 +1711,18 @@ export default function AnalyticsIndex() {
                 />
                 <YAxis
                   yAxisId={primaryDataKey}
-                  unit={chartDataUnitMap.get(primaryDataKey)}
+                  unit={chartDataUnitMap.current.get(primaryDataKey)}
                 />
                 <YAxis
                   dataKey={secondaryDataKey}
-                  unit={chartDataUnitMap.get(secondaryDataKey)}
+                  unit={chartDataUnitMap.current.get(secondaryDataKey)}
                   orientation="right"
                 />
                 <ChartTooltip
                   isAnimationActive={false}
                   content={
                     <ChartTooltipContent
-                      chartDataUnitMap={chartDataUnitMap}
+                      chartDataUnitMap={chartDataUnitMap.current}
                       chartCommentMap={chartCommentMap}
                     />
                   }
