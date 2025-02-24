@@ -13,6 +13,8 @@ import {
   DropdownMenu,
   DropdownItem,
   Chip,
+  Checkbox,
+  ScrollShadow,
 } from "@heroui/react";
 import {
   useExerciseList,
@@ -32,6 +34,7 @@ import {
 import {
   ChartComment,
   ChartDataCategory,
+  Exercise,
   Measurement,
   TimePeriod,
   UserMeasurementValues,
@@ -71,7 +74,11 @@ import {
 } from "../components/ui/chart";
 import toast from "react-hot-toast";
 
-type ListModalPage = "exercise-list" | "measurement-list" | "time-period-list";
+type ListModalPage =
+  | "exercise-list"
+  | "measurement-list"
+  | "time-period-list"
+  | "load-exercise-options";
 
 type ChartDataItem = {
   date: string;
@@ -149,6 +156,7 @@ export default function AnalyticsIndex() {
   const [loadedMeasurements, setLoadedMeasurements] = useState<
     Map<number, Measurement>
   >(new Map());
+  const [selectedExercise, setSelectedExercise] = useState<Exercise>();
 
   const [showTestButtons, setShowTestButtons] = useState<boolean>(false);
 
@@ -1660,6 +1668,11 @@ export default function AnalyticsIndex() {
     listModal.onClose();
   };
 
+  const handleClickExercise = (exercise: Exercise) => {
+    setSelectedExercise(exercise);
+    setListModalPage("load-exercise-options");
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -1680,7 +1693,7 @@ export default function AnalyticsIndex() {
               <ModalBody>
                 {listModalPage === "exercise-list" ? (
                   <ExerciseModalList
-                    handleClickExercise={() => {}}
+                    handleClickExercise={handleClickExercise}
                     useExerciseList={exerciseList}
                     useFilterExerciseList={filterExerciseList}
                     userSettingsId={userSettings.id}
@@ -1704,7 +1717,19 @@ export default function AnalyticsIndex() {
                     hiddenTimePeriods={timePeriodIdSet}
                   />
                 ) : (
-                  <></>
+                  <ScrollShadow className="h-[440px] grid grid-cols-2 gap-y-1">
+                    {Array.from(loadExerciseOptionsMap).map(([key, value]) => (
+                      <Checkbox
+                        key={key}
+                        className="hover:underline w-full min-w-full"
+                        color="primary"
+                        // isSelected={}
+                        // onValueChange={(value) =>}
+                      >
+                        {value}
+                      </Checkbox>
+                    ))}
+                  </ScrollShadow>
                 )}
               </ModalBody>
               <ModalFooter>
