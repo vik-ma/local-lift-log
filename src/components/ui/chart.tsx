@@ -2,7 +2,7 @@ import * as React from "react";
 import * as RechartsPrimitive from "recharts";
 
 import { cn } from "../../lib/utils";
-import { ChartDataCategory, ChartComment } from "../../pages/AnalyticsIndex";
+import { ChartComment, ChartDataCategory } from "../../typings";
 
 // Format: { THEME_NAME: CSS_SELECTOR }
 const THEMES = { light: "", dark: ".dark" } as const;

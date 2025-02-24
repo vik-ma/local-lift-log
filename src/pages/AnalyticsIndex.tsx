@@ -30,6 +30,8 @@ import {
   TimePeriodModalList,
 } from "../components";
 import {
+  ChartComment,
+  ChartDataCategory,
   Measurement,
   TimePeriod,
   UserMeasurementValues,
@@ -71,56 +73,6 @@ import toast from "react-hot-toast";
 
 type ListModalPage = "exercise-list" | "measurement-list" | "time-period-list";
 
-// TODO: MOVE TO typings.ts LATER
-export type ChartDataCategory =
-  | undefined
-  | "calories"
-  | "fat"
-  | "carbs"
-  | "protein"
-  | "body_weight"
-  | "body_fat_percentage"
-  | `measurement_${number}`
-  | `weight_min_${number}`
-  | `weight_max_${number}`
-  | `weight_average_${number}`
-  | `weight_total_${number}`
-  | `distance_min_${number}`
-  | `distance_max_${number}`
-  | `distance_average_${number}`
-  | `distance_total_${number}`
-  | `total_volume_${number}`
-  | `time_min_${number}`
-  | `time_max_${number}`
-  | `time_average_${number}`
-  | `time_total_${number}`
-  | `distance_per_time_min_${number}`
-  | `distance_per_time_max_${number}`
-  | `distance_per_time_average_${number}`
-  | "num_sets"
-  | `num_reps_min_${number}`
-  | `num_reps_max_${number}`
-  | `num_reps_average_${number}`
-  | `num_reps_total_${number}`
-  | `num_reps_and_partial_reps_min_${number}`
-  | `num_reps_and_partial_reps_max_${number}`
-  | `num_reps_and_partial_reps_average_${number}`
-  | `num_reps_and_partial_reps_total_${number}`
-  | `num_partial_reps_min_${number}`
-  | `num_partial_reps_max_${number}`
-  | `num_partial_reps_average_${number}`
-  | `num_partial_reps_total_${number}`
-  | `rir_min_${number}`
-  | `rir_max_${number}`
-  | `rir_average_${number}`
-  | `rpe_min_${number}`
-  | `rpe_max_${number}`
-  | `rpe_average_${number}`
-  | `resistance_level_min_${number}`
-  | `resistance_level_max_${number}`
-  | `resistance_level_average_${number}`
-  | "test";
-
 type ChartDataItem = {
   date: string;
 } & {
@@ -157,13 +109,6 @@ type ReferenceAreaItem = {
   label: string;
   startDate: string;
   endDate: string | null;
-};
-
-// TODO: MOVE TO typings.ts LATER
-export type ChartComment = {
-  dataKeys: Set<ChartDataCategory>;
-  label: string;
-  comment: string;
 };
 
 export default function AnalyticsIndex() {
