@@ -102,8 +102,8 @@ type ChartDataUnitCategory =
   | "Macros"
   | "Weight"
   | "Body Fat %"
-  | "Caliper Measurement"
-  | "Circumference Measurement";
+  | "Caliper"
+  | "Circumference";
 
 type ReferenceAreaItem = {
   timePeriodId: number;
@@ -792,7 +792,7 @@ export default function AnalyticsIndex() {
       case "Body Fat %":
         updateRightYAxis(shownChartDataLines, "body_fat_percentage");
         break;
-      case "Caliper Measurement":
+      case "Caliper":
         for (const [key, value] of loadedMeasurements) {
           if (value.measurement_type === "Caliper") {
             updateRightYAxis(shownChartDataLines, `measurement_${key}`);
@@ -800,7 +800,7 @@ export default function AnalyticsIndex() {
           }
         }
         break;
-      case "Circumference Measurement":
+      case "Circumference":
         for (const [key, value] of loadedMeasurements) {
           if (value.measurement_type === "Circumference") {
             updateRightYAxis(shownChartDataLines, `measurement_${key}`);
@@ -1580,7 +1580,7 @@ export default function AnalyticsIndex() {
 
       chartDataUnitCategoryMap.current.set(
         measurementIdString,
-        "Caliper Measurement"
+        "Caliper"
       );
 
       const label = `${measurement.name} [Caliper]`;
@@ -1596,7 +1596,7 @@ export default function AnalyticsIndex() {
       } else {
         loadChartLines(
           [measurementIdString],
-          ["Caliper Measurement"],
+          ["Caliper"],
           measurementIdString
         );
       }
@@ -1605,7 +1605,7 @@ export default function AnalyticsIndex() {
 
       chartDataUnitCategoryMap.current.set(
         measurementIdString,
-        "Circumference Measurement"
+        "Circumference"
       );
 
       const label = `${measurement.name} [Circumference]`;
@@ -1621,7 +1621,7 @@ export default function AnalyticsIndex() {
       } else {
         loadChartLines(
           [measurementIdString],
-          ["Circumference Measurement"],
+          ["Circumference"],
           measurementIdString
         );
       }
