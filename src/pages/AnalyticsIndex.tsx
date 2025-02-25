@@ -96,6 +96,7 @@ type ChartDataUnitCategory =
   | "Circumference"
   | "Distance"
   | "Time"
+  | "Pace"
   | "Number Of Sets"
   | "Number Of Reps"
   | "RIR"
@@ -1732,7 +1733,7 @@ export default function AnalyticsIndex() {
                     hiddenTimePeriods={timePeriodIdSet}
                   />
                 ) : (
-                  <ScrollShadow className="h-[440px] flex flex-col gap-2">
+                  <ScrollShadow className="h-[440px] flex flex-col gap-1">
                     <div className="flex justify-between">
                       {selectedExercise && (
                         <span className="w-[11.5rem] truncate text-2xl font-semibold text-yellow-500">
@@ -1741,7 +1742,7 @@ export default function AnalyticsIndex() {
                       )}
                       <div className="w-[12.25rem]"></div>
                     </div>
-                    <div className="grid grid-cols-2 gap-y-1">
+                    <div className="grid grid-cols-2 gap-y-0.5">
                       {Array.from(loadExerciseOptionsMap).map(
                         ([key, value]) => (
                           <Checkbox
