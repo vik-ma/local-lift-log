@@ -158,9 +158,9 @@ export default function AnalyticsIndex() {
     Map<number, Measurement>
   >(new Map());
   const [selectedExercise, setSelectedExercise] = useState<Exercise>();
-  const [loadExerciseOptions, setLoadExerciseOptions] = useState<Set<string>>(
-    new Set()
-  );
+  const [loadExerciseOptions, setLoadExerciseOptions] = useState<
+    Set<ChartDataCategory>
+  >(new Set());
 
   const [showTestButtons, setShowTestButtons] = useState<boolean>(false);
 
@@ -423,6 +423,18 @@ export default function AnalyticsIndex() {
 
     return optionsMap;
   }, []);
+
+  const loadExerciseOptionsUnitCategories = useMemo(() => {
+    const unitCategories = new Set<ChartDataUnitCategory>();
+
+    for (const chartDataCategory of loadExerciseOptions) {
+      unitCategories.add(
+        chartDataUnitCategoryMap.current.get(chartDataCategory)
+      );
+    }
+
+    return unitCategories;
+  }, [loadExerciseOptions]);
 
   useEffect(
     () => {
@@ -1714,7 +1726,7 @@ export default function AnalyticsIndex() {
     setListModalPage("load-exercise-options");
   };
 
-  const handleLoadExerciseOptionsChange = (key: string) => {
+  const handleLoadExerciseOptionsChange = (key: ChartDataCategory) => {
     const updatedLoadExerciseOptions = new Set(loadExerciseOptions);
 
     if (updatedLoadExerciseOptions.has(key)) {
@@ -1786,9 +1798,13 @@ export default function AnalyticsIndex() {
                             key={key}
                             className="hover:underline w-full min-w-full"
                             color="primary"
-                            isSelected={loadExerciseOptions.has(key)}
+                            isSelected={loadExerciseOptions.has(
+                              key as ChartDataCategory
+                            )}
                             onValueChange={() =>
-                              handleLoadExerciseOptionsChange(key)
+                              handleLoadExerciseOptionsChange(
+                                key as ChartDataCategory
+                              )
                             }
                           >
                             {value}
