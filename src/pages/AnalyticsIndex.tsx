@@ -1731,10 +1731,20 @@ export default function AnalyticsIndex() {
   const handleLoadExerciseOptionsChange = (key: ChartDataCategory) => {
     const updatedLoadExerciseOptions = new Set(loadExerciseOptions);
 
+    if (updatedLoadExerciseOptions.size === 0) {
+      setLoadExerciseOptionsUnitCategory(
+        chartDataUnitCategoryMap.current.get(key)
+      );
+    }
+
     if (updatedLoadExerciseOptions.has(key)) {
       updatedLoadExerciseOptions.delete(key);
     } else {
       updatedLoadExerciseOptions.add(key);
+    }
+
+    if (updatedLoadExerciseOptions.size === 0) {
+      setLoadExerciseOptionsUnitCategory(undefined);
     }
 
     setLoadExerciseOptions(updatedLoadExerciseOptions);
@@ -1796,7 +1806,11 @@ export default function AnalyticsIndex() {
                           label="Chart Area Category"
                           size="sm"
                           variant="faded"
-                          selectedKeys={loadExerciseOptionsUnitCategory}
+                          selectedKeys={
+                            loadExerciseOptionsUnitCategory !== undefined
+                              ? ([loadExerciseOptionsUnitCategory] as string[])
+                              : []
+                          }
                           onChange={(e) =>
                             setLoadExerciseOptionsUnitCategory(
                               e.target.value as ChartDataUnitCategory
