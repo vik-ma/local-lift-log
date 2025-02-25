@@ -296,7 +296,7 @@ export default function AnalyticsIndex() {
       ["weight_average", "Weight"],
       ["weight_total", "Weight"],
       ["volume", "Weight"],
-      ["num_sets", "Number Of Reps"],
+      ["num_sets", "Number Of Sets"],
       ["num_reps_min", "Number Of Reps"],
       ["num_reps_max", "Number Of Reps"],
       ["num_reps_average", "Number Of Reps"],
@@ -1731,6 +1731,7 @@ export default function AnalyticsIndex() {
   const handleLoadExerciseOptionsChange = (key: ChartDataCategory) => {
     const updatedLoadExerciseOptions = new Set(loadExerciseOptions);
 
+    // Set key as loadExerciseOptionsUnitCategory if loadExerciseOptions was empty
     if (updatedLoadExerciseOptions.size === 0) {
       setLoadExerciseOptionsUnitCategory(
         chartDataUnitCategoryMap.current.get(key)
@@ -1741,6 +1742,29 @@ export default function AnalyticsIndex() {
       updatedLoadExerciseOptions.delete(key);
     } else {
       updatedLoadExerciseOptions.add(key);
+    }
+
+    if (updatedLoadExerciseOptions.size > 0) {
+      let shouldChangeCategory = true;
+
+      for (const option of updatedLoadExerciseOptions) {
+        if (
+          chartDataUnitCategoryMap.current.get(option) ===
+          loadExerciseOptionsUnitCategory
+        ) {
+          shouldChangeCategory = false;
+          break;
+        }
+      }
+
+      // Change loadExerciseOptionsUnitCategory if last option with that category was deleted
+      if (shouldChangeCategory) {
+        const newValue = chartDataUnitCategoryMap.current.get(
+          updatedLoadExerciseOptions.values().next().value
+        );
+
+        setLoadExerciseOptionsUnitCategory(newValue);
+      }
     }
 
     if (updatedLoadExerciseOptions.size === 0) {
