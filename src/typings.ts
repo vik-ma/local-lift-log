@@ -1251,22 +1251,22 @@ export type ChartDataCategory =
   | "body_weight"
   | "body_fat_percentage"
   | `measurement_${number}`
-  | `weight_${"min" | "max" | "average" | "total"}${`_${number}` | ""}`
-  | `distance_${"min" | "max" | "average" | "total"}${`_${number}` | ""}`
-  | `total_volume${`_${number}` | ""}`
-  | `time_${"min" | "max" | "average" | "total"}${`_${number}` | ""}`
-  | `distance_per_time_${"min" | "max" | "average"}${`_${number}` | ""}`
+  | `weight${`_${"min" | "max" | "average" | "total"}`}${`_${number}` | ""}`
+  | `distance${`_${"min" | "max" | "average" | "total"}`}${`_${number}` | ""}`
+  | `volume${`_${number}` | ""}`
+  | `time${`_${"min" | "max" | "average" | "total"}`}${`_${number}` | ""}`
+  | `distance_per_time${`_${"min" | "max" | "average"}`}${`_${number}` | ""}`
   | `num_sets${`_${number}` | ""}`
-  | `num_reps_${"min" | "max" | "average" | "total"}${`_${number}` | ""}`
-  | `num_reps_and_partial_reps_${"min" | "max" | "average" | "total"}${
+  | `num_reps${`_${"min" | "max" | "average" | "total"}`}${`_${number}` | ""}`
+  | `num_reps_and_partial_reps${`_${"min" | "max" | "average" | "total"}`}${
       | `_${number}`
       | ""}`
-  | `num_partial_reps_${"min" | "max" | "average" | "total"}${
+  | `num_partial_reps${`_${"min" | "max" | "average" | "total"}`}${
       | `_${number}`
       | ""}`
-  | `rir_${"min" | "max" | "average"}${`_${number}` | ""}`
-  | `rpe_${"min" | "max" | "average"}${`_${number}` | ""}`
-  | `resistance_level_${"min" | "max" | "average"}${`_${number}` | ""}`
+  | `rir${`_${"min" | "max" | "average"}`}${`_${number}` | ""}`
+  | `rpe${`_${"min" | "max" | "average"}`}${`_${number}` | ""}`
+  | `resistance_level${`_${"min" | "max" | "average"}`}${`_${number}` | ""}`
   | "test";
 // TODO: REMOVE TEST LATER
 
