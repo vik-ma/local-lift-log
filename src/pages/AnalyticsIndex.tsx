@@ -1717,18 +1717,30 @@ export default function AnalyticsIndex() {
                     hiddenTimePeriods={timePeriodIdSet}
                   />
                 ) : (
-                  <ScrollShadow className="h-[440px] grid grid-cols-2 gap-y-1">
-                    {Array.from(loadExerciseOptionsMap).map(([key, value]) => (
-                      <Checkbox
-                        key={key}
-                        className="hover:underline w-full min-w-full"
-                        color="primary"
-                        // isSelected={}
-                        // onValueChange={(value) =>}
-                      >
-                        {value}
-                      </Checkbox>
-                    ))}
+                  <ScrollShadow className="h-[440px] flex flex-col gap-2">
+                    <div className="flex justify-between">
+                      {selectedExercise && (
+                        <span className="w-[11.5rem] truncate text-2xl font-semibold text-yellow-500">
+                          {selectedExercise.name}
+                        </span>
+                      )}
+                      <div className="w-[12.25rem]"></div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-y-1">
+                      {Array.from(loadExerciseOptionsMap).map(
+                        ([key, value]) => (
+                          <Checkbox
+                            key={key}
+                            className="hover:underline w-full min-w-full"
+                            color="primary"
+                            // isSelected={}
+                            // onValueChange={(value) =>}
+                          >
+                            {value}
+                          </Checkbox>
+                        )
+                      )}
+                    </div>
                   </ScrollShadow>
                 )}
               </ModalBody>
