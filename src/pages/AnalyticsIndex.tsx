@@ -157,6 +157,9 @@ export default function AnalyticsIndex() {
     Map<number, Measurement>
   >(new Map());
   const [selectedExercise, setSelectedExercise] = useState<Exercise>();
+  const [loadExerciseOptions, setLoadExerciseOptions] = useState<Set<string>>(
+    new Set()
+  );
 
   const [showTestButtons, setShowTestButtons] = useState<boolean>(false);
 
@@ -1673,6 +1676,18 @@ export default function AnalyticsIndex() {
     setListModalPage("load-exercise-options");
   };
 
+  const handleLoadExerciseOptionsChange = (key: string) => {
+    const updatedLoadExerciseOptions = new Set(loadExerciseOptions);
+
+    if (updatedLoadExerciseOptions.has(key)) {
+      updatedLoadExerciseOptions.delete(key);
+    } else {
+      updatedLoadExerciseOptions.add(key);
+    }
+
+    setLoadExerciseOptions(updatedLoadExerciseOptions);
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -1733,8 +1748,10 @@ export default function AnalyticsIndex() {
                             key={key}
                             className="hover:underline w-full min-w-full"
                             color="primary"
-                            // isSelected={}
-                            // onValueChange={(value) =>}
+                            isSelected={loadExerciseOptions.has(key)}
+                            onValueChange={() =>
+                              handleLoadExerciseOptionsChange(key)
+                            }
                           >
                             {value}
                           </Checkbox>
