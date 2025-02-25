@@ -161,6 +161,8 @@ export default function AnalyticsIndex() {
   const [loadExerciseOptions, setLoadExerciseOptions] = useState<
     Set<ChartDataCategory>
   >(new Set());
+  const [loadExerciseOptionsUnitCategory, setLoadExerciseOptionsUnitCategory] =
+    useState<ChartDataUnitCategory>();
 
   const [showTestButtons, setShowTestButtons] = useState<boolean>(false);
 
@@ -1782,14 +1784,35 @@ export default function AnalyticsIndex() {
                     hiddenTimePeriods={timePeriodIdSet}
                   />
                 ) : (
-                  <ScrollShadow className="h-[440px] flex flex-col gap-1">
-                    <div className="flex justify-between">
+                  <ScrollShadow className="h-[440px] flex flex-col gap-2">
+                    <div className="flex justify-between items-center">
                       {selectedExercise && (
                         <span className="w-[11.5rem] truncate text-2xl font-semibold text-yellow-500">
                           {selectedExercise.name}
                         </span>
                       )}
-                      <div className="w-[12.25rem]"></div>
+                      <div className="w-[12.25rem] mr-0.5">
+                        <Select
+                          label="Chart Area Category"
+                          size="sm"
+                          variant="faded"
+                          selectedKeys={loadExerciseOptionsUnitCategory}
+                          onChange={(e) =>
+                            setLoadExerciseOptionsUnitCategory(
+                              e.target.value as ChartDataUnitCategory
+                            )
+                          }
+                          disallowEmptySelection={chartDataAreas.length === 0}
+                        >
+                          {Array.from(loadExerciseOptionsUnitCategories).map(
+                            (category) => (
+                              <SelectItem key={category} value={category}>
+                                {category}
+                              </SelectItem>
+                            )
+                          )}
+                        </Select>
+                      </div>
                     </div>
                     <div className="grid grid-cols-2 gap-y-0.5">
                       {Array.from(loadExerciseOptionsMap).map(
@@ -1976,9 +1999,9 @@ export default function AnalyticsIndex() {
                       disallowEmptySelection
                       isDisabled={chartLineUnitCategorySet.size < 2}
                     >
-                      {Array.from(chartLineUnitCategorySet).map((dataKey) => (
-                        <SelectItem key={dataKey} value={dataKey}>
-                          {dataKey}
+                      {Array.from(chartLineUnitCategorySet).map((category) => (
+                        <SelectItem key={category} value={category}>
+                          {category}
                         </SelectItem>
                       ))}
                     </Select>
