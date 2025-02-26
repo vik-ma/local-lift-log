@@ -27,6 +27,7 @@ import {
   ExerciseModalList,
   FilterExerciseGroupsModal,
   FilterMinAndMaxDatesModal,
+  LoadExerciseOptionsUnitCategoryDropdown,
   LoadingSpinner,
   MeasurementModalList,
   TimePeriodModalList,
@@ -34,6 +35,7 @@ import {
 import {
   ChartComment,
   ChartDataCategory,
+  ChartDataUnitCategory,
   Exercise,
   Measurement,
   TimePeriod,
@@ -85,23 +87,6 @@ type ChartDataItem = {
 } & {
   [key in Exclude<ChartDataCategory, undefined>]?: number;
 };
-
-type ChartDataUnitCategory =
-  | undefined
-  | "Calories"
-  | "Macros"
-  | "Weight"
-  | "Body Fat %"
-  | "Caliper"
-  | "Circumference"
-  | "Distance"
-  | "Time"
-  | "Pace"
-  | "Number Of Sets"
-  | "Number Of Reps"
-  | "RIR"
-  | "RPE"
-  | "Resistance Level";
 
 type LoadedChartType =
   | "diet-logs-calories"
@@ -1867,35 +1852,18 @@ export default function AnalyticsIndex() {
               >
                 <div>
                   {listModalPage === "load-exercise-options" && (
-                    <div className="w-[12.25rem]">
-                      <Select
-                        label="Chart Area Category"
-                        classNames={{
-                          trigger: "bg-amber-50 border-amber-200",
-                        }}
-                        size="sm"
-                        variant="faded"
-                        selectedKeys={
-                          loadExerciseOptionsUnitCategory !== undefined
-                            ? ([loadExerciseOptionsUnitCategory] as string[])
-                            : []
-                        }
-                        onChange={(e) =>
-                          setLoadExerciseOptionsUnitCategory(
-                            e.target.value as ChartDataUnitCategory
-                          )
-                        }
-                        disallowEmptySelection={chartDataAreas.length === 0}
-                      >
-                        {Array.from(loadExerciseOptionsUnitCategories).map(
-                          (category) => (
-                            <SelectItem key={category} value={category}>
-                              {category}
-                            </SelectItem>
-                          )
-                        )}
-                      </Select>
-                    </div>
+                    <LoadExerciseOptionsUnitCategoryDropdown
+                      loadExerciseOptionsUnitCategory={
+                        loadExerciseOptionsUnitCategory
+                      }
+                      setLoadExerciseOptionsUnitCategory={
+                        setLoadExerciseOptionsUnitCategory
+                      }
+                      chartDataAreas={chartDataAreas}
+                      loadExerciseOptionsUnitCategories={
+                        loadExerciseOptionsUnitCategories
+                      }
+                    />
                   )}
                 </div>
                 <div className="flex gap-2">

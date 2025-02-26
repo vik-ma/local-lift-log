@@ -1270,6 +1270,23 @@ export type ChartDataCategory =
   | "test";
 // TODO: REMOVE TEST LATER
 
+export type ChartDataUnitCategory =
+  | undefined
+  | "Calories"
+  | "Macros"
+  | "Weight"
+  | "Body Fat %"
+  | "Caliper"
+  | "Circumference"
+  | "Distance"
+  | "Time"
+  | "Pace"
+  | "Number Of Sets"
+  | "Number Of Reps"
+  | "RIR"
+  | "RPE"
+  | "Resistance Level";
+
 export type ChartComment = {
   dataKeys: Set<ChartDataCategory>;
   label: string;
