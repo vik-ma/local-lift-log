@@ -13,8 +13,6 @@ import {
   DropdownMenu,
   DropdownItem,
   Chip,
-  Checkbox,
-  ScrollShadow,
 } from "@heroui/react";
 import {
   useExerciseList,
@@ -27,6 +25,7 @@ import {
   ExerciseModalList,
   FilterExerciseGroupsModal,
   FilterMinAndMaxDatesModal,
+  LoadExerciseChartModal,
   LoadExerciseOptionsUnitCategoryDropdown,
   LoadingSpinner,
   MeasurementModalList,
@@ -228,6 +227,7 @@ export default function AnalyticsIndex() {
   }, [chartData, chartDataAreas, chartDataLines, filterMinDate, filterMaxDate]);
 
   const listModal = useDisclosure();
+  const loadExerciseChartModal = useDisclosure();
   const filterMinAndMaxDatesModal = useDisclosure();
 
   const exerciseList = useExerciseList(false, true, true);
@@ -362,58 +362,6 @@ export default function AnalyticsIndex() {
     "#c93814",
     "#1ab2f8",
   ];
-
-  const loadExerciseOptionsMap = useMemo(() => {
-    const optionsMap = new Map<string, string>();
-
-    optionsMap.set("weight_min", "Min Weight");
-    optionsMap.set("weight_max", "Max Weight");
-    optionsMap.set("weight_average", "Average Weight");
-    optionsMap.set("weight_total", "Total Weight");
-    optionsMap.set("volume", "Volume");
-    optionsMap.set("num_sets", "Number Of Sets");
-    optionsMap.set("num_reps_min", "Min Reps");
-    optionsMap.set("num_reps_max", "Max Reps");
-    optionsMap.set("num_reps_average", "Average Reps");
-    optionsMap.set("num_reps_total", "Total Reps");
-    optionsMap.set("num_reps_and_partial_reps_min", "Min Reps + Partial Reps");
-    optionsMap.set("num_reps_and_partial_reps_max", "Max Reps + Partial Reps");
-    optionsMap.set(
-      "num_reps_and_partial_reps_average",
-      "Average Reps + Partial Reps"
-    );
-    optionsMap.set(
-      "num_reps_and_partial_reps_total",
-      "Total Reps + Partial Reps"
-    );
-    optionsMap.set("num_partial_reps_min", "Min Partial Reps");
-    optionsMap.set("num_partial_reps_max", "Max Partial Reps");
-    optionsMap.set("num_partial_reps_average", "Average Partial Reps");
-    optionsMap.set("num_partial_reps_total", "Total Partial Reps");
-    optionsMap.set("set_body_weight", "Body Weight");
-    optionsMap.set("rir_min", "Min RIR");
-    optionsMap.set("rir_max", "Max RIR");
-    optionsMap.set("rir_average", "Average RIR");
-    optionsMap.set("rpe_min", "Min RPE");
-    optionsMap.set("rpe_max", "Max RPE");
-    optionsMap.set("rpe_average", "Average RPE");
-    optionsMap.set("distance_min", "Min Distance");
-    optionsMap.set("distance_max", "Max Distance");
-    optionsMap.set("distance_average", "Average Distance");
-    optionsMap.set("distance_total", "Total Distance");
-    optionsMap.set("time_min", "Min Time");
-    optionsMap.set("time_max", "Max Time");
-    optionsMap.set("time_average", "Average Time");
-    optionsMap.set("time_total", "Total Time");
-    optionsMap.set("distance_per_time_min", "Min Pace");
-    optionsMap.set("distance_per_time_max", "Max Pace");
-    optionsMap.set("distance_per_time_average", "Average Pace");
-    optionsMap.set("resistance_level_min", "Min Resistance Level");
-    optionsMap.set("resistance_level_max", "Max Resistance Level");
-    optionsMap.set("resistance_level_average", "Average Resistance Level");
-
-    return optionsMap;
-  }, []);
 
   const loadExerciseOptionsUnitCategories = useMemo(() => {
     const unitCategories = new Set<ChartDataUnitCategory>();
@@ -1751,52 +1699,6 @@ export default function AnalyticsIndex() {
     setListModalPage("load-exercise-options");
   };
 
-  const handleLoadExerciseOptionsChange = (key: ChartDataCategory) => {
-    const updatedLoadExerciseOptions = new Set(loadExerciseOptions);
-
-    // Set key as loadExerciseOptionsUnitCategory if loadExerciseOptions was empty
-    if (updatedLoadExerciseOptions.size === 0) {
-      setLoadExerciseOptionsUnitCategory(
-        chartDataUnitCategoryMap.current.get(key)
-      );
-    }
-
-    if (updatedLoadExerciseOptions.has(key)) {
-      updatedLoadExerciseOptions.delete(key);
-    } else {
-      updatedLoadExerciseOptions.add(key);
-    }
-
-    if (updatedLoadExerciseOptions.size > 0) {
-      let shouldChangeCategory = true;
-
-      for (const option of updatedLoadExerciseOptions) {
-        if (
-          chartDataUnitCategoryMap.current.get(option) ===
-          loadExerciseOptionsUnitCategory
-        ) {
-          shouldChangeCategory = false;
-          break;
-        }
-      }
-
-      // Change loadExerciseOptionsUnitCategory if last option with that category was deleted
-      if (shouldChangeCategory) {
-        const newValue = chartDataUnitCategoryMap.current.get(
-          updatedLoadExerciseOptions.values().next().value
-        );
-
-        setLoadExerciseOptionsUnitCategory(newValue);
-      }
-    }
-
-    if (updatedLoadExerciseOptions.size === 0) {
-      setLoadExerciseOptionsUnitCategory(undefined);
-    }
-
-    setLoadExerciseOptions(updatedLoadExerciseOptions);
-  };
-
   const loadExerciseStats = () => {
     if (selectedExercise === undefined) return;
 
@@ -1827,23 +1729,11 @@ export default function AnalyticsIndex() {
           {(onClose) => (
             <>
               <ModalHeader>
-                {listModalPage === "exercise-list" ? (
-                  "Select Exercise"
-                ) : listModalPage === "measurement-list" ? (
-                  "Select Measurement"
-                ) : listModalPage === "time-period-list" ? (
-                  "Select Time Period"
-                ) : listModalPage === "load-exercise-options" &&
-                  selectedExercise !== undefined ? (
-                  <span className="w-[24rem] truncate">
-                    Stats To Load For{" "}
-                    <span className="text-secondary">
-                      {selectedExercise.name}
-                    </span>
-                  </span>
-                ) : (
-                  ""
-                )}
+                {listModalPage === "exercise-list"
+                  ? "Select Exercise"
+                  : listModalPage === "measurement-list"
+                  ? "Select Measurement"
+                  : "Select Time Period"}
               </ModalHeader>
               <ModalBody>
                 {listModalPage === "exercise-list" ? (
@@ -1862,7 +1752,7 @@ export default function AnalyticsIndex() {
                     customHeightString="h-[440px]"
                     hiddenMeasurements={loadedMeasurements}
                   />
-                ) : listModalPage === "time-period-list" ? (
+                ) : (
                   <TimePeriodModalList
                     useTimePeriodList={timePeriodList}
                     handleTimePeriodClick={handleClickTimePeriod}
@@ -1871,33 +1761,6 @@ export default function AnalyticsIndex() {
                     customHeightString="h-[440px]"
                     hiddenTimePeriods={timePeriodIdSet}
                   />
-                ) : (
-                  <ScrollShadow className="h-[432px] flex flex-col gap-2">
-                    <div className="columns-2">
-                      {Array.from(loadExerciseOptionsMap).map(
-                        ([key, value]) => (
-                          <Checkbox
-                            key={key}
-                            className="hover:underline w-full min-w-full -mb-1"
-                            color="primary"
-                            isSelected={loadExerciseOptions.has(
-                              key as ChartDataCategory
-                            )}
-                            onValueChange={() =>
-                              handleLoadExerciseOptionsChange(
-                                key as ChartDataCategory
-                              )
-                            }
-                            isDisabled={disabledLoadExerciseOptions.has(
-                              key as ChartDataUnitCategory
-                            )}
-                          >
-                            {value}
-                          </Checkbox>
-                        )
-                      )}
-                    </div>
-                  </ScrollShadow>
                 )}
               </ModalBody>
               <ModalFooter
@@ -1955,6 +1818,19 @@ export default function AnalyticsIndex() {
           )}
         </ModalContent>
       </Modal>
+      <LoadExerciseChartModal
+        loadExerciseChartModal={loadExerciseChartModal}
+        selectedExercise={selectedExercise}
+        loadExerciseOptions={loadExerciseOptions}
+        setLoadExerciseOptions={setLoadExerciseOptions}
+        disabledLoadExerciseOptions={disabledLoadExerciseOptions}
+        loadExerciseOptionsUnitCategory={loadExerciseOptionsUnitCategory}
+        setLoadExerciseOptionsUnitCategory={setLoadExerciseOptionsUnitCategory}
+        loadExerciseOptionsUnitCategories={loadExerciseOptionsUnitCategories}
+        chartDataAreas={chartDataAreas}
+        chartDataUnitCategoryMap={chartDataUnitCategoryMap.current}
+        loadExerciseStats={loadExerciseStats}
+      />
       <FilterMinAndMaxDatesModal
         filterMinAndMaxDatesModal={filterMinAndMaxDatesModal}
         locale={userSettings.locale}
