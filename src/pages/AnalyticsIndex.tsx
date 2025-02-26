@@ -1822,12 +1822,12 @@ export default function AnalyticsIndex() {
                   />
                 ) : (
                   <ScrollShadow className="h-[432px] flex flex-col gap-2">
-                    <div className="grid grid-cols-2 gap-y-1.5">
+                    <div className="columns-2">
                       {Array.from(loadExerciseOptionsMap).map(
                         ([key, value]) => (
                           <Checkbox
                             key={key}
-                            className="hover:underline w-full min-w-full"
+                            className="hover:underline w-full min-w-full -mb-1"
                             color="primary"
                             isSelected={loadExerciseOptions.has(
                               key as ChartDataCategory
