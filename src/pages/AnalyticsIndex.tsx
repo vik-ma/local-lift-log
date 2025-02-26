@@ -476,10 +476,15 @@ export default function AnalyticsIndex() {
   const handleOpenListModal = async (modalListType: ListModalPage) => {
     if (userSettings === undefined) return;
 
-    setListModalPage(modalListType);
-
     if (modalListType === "exercise-list" && !isExerciseListLoaded.current) {
       await getExercises();
+
+      if (
+        listModalPage === "measurement-list" ||
+        listModalPage === "time-period-list"
+      ) {
+        setListModalPage(modalListType);
+      }
     }
 
     if (
@@ -487,6 +492,8 @@ export default function AnalyticsIndex() {
       !isMeasurementListLoaded.current
     ) {
       await getMeasurements();
+
+      setListModalPage(modalListType);
     }
 
     if (
@@ -500,6 +507,7 @@ export default function AnalyticsIndex() {
         "time-period"
       );
 
+      setListModalPage(modalListType);
       setSelectedTimePeriodProperties(timePeriodPropertySet);
     }
 
