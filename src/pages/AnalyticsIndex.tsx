@@ -26,7 +26,6 @@ import {
   FilterExerciseGroupsModal,
   FilterMinAndMaxDatesModal,
   LoadExerciseChartModal,
-  LoadExerciseOptionsUnitCategoryDropdown,
   LoadingSpinner,
   MeasurementModalList,
   TimePeriodModalList,
@@ -76,11 +75,7 @@ import {
 } from "../components/ui/chart";
 import toast from "react-hot-toast";
 
-type ListModalPage =
-  | "exercise-list"
-  | "measurement-list"
-  | "time-period-list"
-  | "load-exercise-options";
+type ListModalPage = "exercise-list" | "measurement-list" | "time-period-list";
 
 type ChartDataItem = {
   date: string;
@@ -439,15 +434,10 @@ export default function AnalyticsIndex() {
   const handleOpenListModal = async (modalListType: ListModalPage) => {
     if (userSettings === undefined) return;
 
+    setListModalPage(modalListType);
+
     if (modalListType === "exercise-list" && !isExerciseListLoaded.current) {
       await getExercises();
-
-      if (
-        listModalPage === "measurement-list" ||
-        listModalPage === "time-period-list"
-      ) {
-        setListModalPage(modalListType);
-      }
     }
 
     if (
@@ -455,8 +445,6 @@ export default function AnalyticsIndex() {
       !isMeasurementListLoaded.current
     ) {
       await getMeasurements();
-
-      setListModalPage(modalListType);
     }
 
     if (
@@ -470,7 +458,6 @@ export default function AnalyticsIndex() {
         "time-period"
       );
 
-      setListModalPage(modalListType);
       setSelectedTimePeriodProperties(timePeriodPropertySet);
     }
 
@@ -1696,7 +1683,8 @@ export default function AnalyticsIndex() {
 
   const handleClickExercise = (exercise: Exercise) => {
     setSelectedExercise(exercise);
-    setListModalPage("load-exercise-options");
+    listModal.onClose();
+    loadExerciseChartModal.onOpen();
   };
 
   const loadExerciseStats = () => {
@@ -1710,12 +1698,11 @@ export default function AnalyticsIndex() {
     }
 
     resetSelectedExercise();
-    listModal.onClose();
+    loadExerciseChartModal.onClose();
   };
 
   const resetSelectedExercise = () => {
     setSelectedExercise(undefined);
-    setListModalPage("exercise-list");
     setLoadExerciseOptions(new Set());
     setLoadExerciseOptionsUnitCategory(undefined);
   };
@@ -1763,56 +1750,10 @@ export default function AnalyticsIndex() {
                   />
                 )}
               </ModalBody>
-              <ModalFooter
-                className={
-                  listModalPage === "load-exercise-options"
-                    ? "h-[80px] flex justify-between items-center"
-                    : "flex justify-between items-center"
-                }
-              >
-                <div>
-                  {listModalPage === "load-exercise-options" && (
-                    <LoadExerciseOptionsUnitCategoryDropdown
-                      loadExerciseOptionsUnitCategory={
-                        loadExerciseOptionsUnitCategory
-                      }
-                      setLoadExerciseOptionsUnitCategory={
-                        setLoadExerciseOptionsUnitCategory
-                      }
-                      chartDataAreas={chartDataAreas}
-                      loadExerciseOptionsUnitCategories={
-                        loadExerciseOptionsUnitCategories
-                      }
-                    />
-                  )}
-                </div>
-                <div className="flex gap-2">
-                  <Button
-                    color="primary"
-                    variant="light"
-                    onPress={
-                      listModalPage === "load-exercise-options"
-                        ? () => setListModalPage("exercise-list")
-                        : onClose
-                    }
-                  >
-                    {listModalPage === "load-exercise-options"
-                      ? "Back"
-                      : "Close"}
-                  </Button>
-                  {listModalPage === "load-exercise-options" && (
-                    <Button
-                      color="primary"
-                      isDisabled={
-                        loadExerciseOptions.size === 0 ||
-                        loadExerciseOptionsUnitCategory === undefined
-                      }
-                      onPress={loadExerciseStats}
-                    >
-                      Load
-                    </Button>
-                  )}
-                </div>
+              <ModalFooter>
+                <Button color="primary" variant="light" onPress={onClose}>
+                  Close
+                </Button>
               </ModalFooter>
             </>
           )}
