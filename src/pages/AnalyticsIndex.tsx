@@ -35,6 +35,7 @@ import {
 import {
   ChartComment,
   ChartDataCategory,
+  ChartDataExerciseCategory,
   ChartDataUnitCategory,
   Exercise,
   Measurement,
@@ -93,7 +94,8 @@ type LoadedChartType =
   | "diet-logs-macros"
   | "user-weights-weight"
   | "user-weights-body-fat"
-  | `measurement_${number}`;
+  | `measurement_${number}`
+  | ChartDataExerciseCategory;
 
 type ReferenceAreaItem = {
   timePeriodId: number;
@@ -424,6 +426,32 @@ export default function AnalyticsIndex() {
 
     return unitCategories;
   }, [loadExerciseOptions]);
+
+  const disabledLoadExerciseOptions = useMemo(() => {
+    const disabledKeys = new Set<ChartDataUnitCategory>();
+
+    if (selectedExercise === undefined || loadedCharts.current.size === 0)
+      return disabledKeys;
+
+    const id = selectedExercise.id;
+
+    // Check if a ChartDataExerciseCategory value exists for selectedExercise id
+    for (const chart of loadedCharts.current) {
+      const lastIndex = chart.lastIndexOf("_");
+
+      if (lastIndex === -1) continue;
+
+      const chartName = chart.substring(0, lastIndex);
+      const chartId = chart.substring(lastIndex + 1);
+
+      if (chartId === id.toString() && chartName !== "measurement") {
+        disabledKeys.add(chartName as ChartDataUnitCategory);
+      }
+    }
+
+    return disabledKeys;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedExercise, loadedCharts.current]);
 
   useEffect(
     () => {
@@ -1769,6 +1797,20 @@ export default function AnalyticsIndex() {
     setLoadExerciseOptions(updatedLoadExerciseOptions);
   };
 
+  const loadExerciseStats = () => {
+    if (selectedExercise === undefined) return;
+
+    const exerciseId = selectedExercise.id;
+
+    for (const option of loadExerciseOptions) {
+      const chartName = `${option}_${exerciseId}`;
+      loadedCharts.current.add(chartName as LoadedChartType);
+    }
+
+    setSelectedExercise(undefined);
+    listModal.onClose();
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -1839,6 +1881,9 @@ export default function AnalyticsIndex() {
                                 key as ChartDataCategory
                               )
                             }
+                            isDisabled={disabledLoadExerciseOptions.has(
+                              key as ChartDataUnitCategory
+                            )}
                           >
                             {value}
                           </Checkbox>
@@ -1892,7 +1937,7 @@ export default function AnalyticsIndex() {
                         loadExerciseOptions.size === 0 ||
                         loadExerciseOptionsUnitCategory === undefined
                       }
-                      onPress={() => {}}
+                      onPress={loadExerciseStats}
                     >
                       Load
                     </Button>
