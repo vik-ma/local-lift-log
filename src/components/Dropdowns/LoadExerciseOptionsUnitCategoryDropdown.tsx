@@ -17,7 +17,7 @@ export const LoadExerciseOptionsUnitCategoryDropdown = ({
   loadExerciseOptionsUnitCategories,
 }: LoadExerciseOptionsUnitCategoryDropdownProps) => {
   return (
-    <div className="w-[12.25rem]">
+    <div className="w-[11.75rem]">
       <Select
         label="Chart Area Category"
         classNames={{

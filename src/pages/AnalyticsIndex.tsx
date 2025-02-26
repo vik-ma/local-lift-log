@@ -1776,13 +1776,23 @@ export default function AnalyticsIndex() {
           {(onClose) => (
             <>
               <ModalHeader>
-                {listModalPage === "exercise-list"
-                  ? "Select Exercise"
-                  : listModalPage === "measurement-list"
-                  ? "Select Measurement"
-                  : listModalPage === "time-period-list"
-                  ? "Select Time Period"
-                  : "Select Statistics To Load"}
+                {listModalPage === "exercise-list" ? (
+                  "Select Exercise"
+                ) : listModalPage === "measurement-list" ? (
+                  "Select Measurement"
+                ) : listModalPage === "time-period-list" ? (
+                  "Select Time Period"
+                ) : listModalPage === "load-exercise-options" &&
+                  selectedExercise !== undefined ? (
+                  <span className="w-[24rem] truncate">
+                    Stats To Load For{" "}
+                    <span className="text-secondary">
+                      {selectedExercise.name}
+                    </span>
+                  </span>
+                ) : (
+                  ""
+                )}
               </ModalHeader>
               <ModalBody>
                 {listModalPage === "exercise-list" ? (
@@ -1812,13 +1822,6 @@ export default function AnalyticsIndex() {
                   />
                 ) : (
                   <ScrollShadow className="h-[432px] flex flex-col gap-2">
-                    <div className="flex gap-1.5 items-center text-3xl font-semibold">
-                      {selectedExercise && (
-                        <span className="w-[24rem] truncate text-yellow-500">
-                          {selectedExercise.name}
-                        </span>
-                      )}
-                    </div>
                     <div className="grid grid-cols-2 gap-y-1.5">
                       {Array.from(loadExerciseOptionsMap).map(
                         ([key, value]) => (
