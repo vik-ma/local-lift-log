@@ -1807,8 +1807,15 @@ export default function AnalyticsIndex() {
       loadedCharts.current.add(chartName as LoadedChartType);
     }
 
-    setSelectedExercise(undefined);
+    resetSelectedExercise();
     listModal.onClose();
+  };
+
+  const resetSelectedExercise = () => {
+    setSelectedExercise(undefined);
+    setListModalPage("exercise-list");
+    setLoadExerciseOptions(new Set());
+    setLoadExerciseOptionsUnitCategory(undefined);
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;
