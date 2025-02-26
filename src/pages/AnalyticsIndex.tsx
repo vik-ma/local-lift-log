@@ -1818,41 +1818,15 @@ export default function AnalyticsIndex() {
                     hiddenTimePeriods={timePeriodIdSet}
                   />
                 ) : (
-                  <ScrollShadow className="h-[440px] flex flex-col gap-2">
+                  <ScrollShadow className="h-[432px] flex flex-col gap-2">
                     <div className="flex justify-between items-center">
                       {selectedExercise && (
                         <span className="w-[11.5rem] truncate text-2xl font-semibold text-yellow-500">
                           {selectedExercise.name}
                         </span>
                       )}
-                      <div className="w-[12.25rem] mr-0.5">
-                        <Select
-                          label="Chart Area Category"
-                          size="sm"
-                          variant="faded"
-                          selectedKeys={
-                            loadExerciseOptionsUnitCategory !== undefined
-                              ? ([loadExerciseOptionsUnitCategory] as string[])
-                              : []
-                          }
-                          onChange={(e) =>
-                            setLoadExerciseOptionsUnitCategory(
-                              e.target.value as ChartDataUnitCategory
-                            )
-                          }
-                          disallowEmptySelection={chartDataAreas.length === 0}
-                        >
-                          {Array.from(loadExerciseOptionsUnitCategories).map(
-                            (category) => (
-                              <SelectItem key={category} value={category}>
-                                {category}
-                              </SelectItem>
-                            )
-                          )}
-                        </Select>
-                      </div>
                     </div>
-                    <div className="grid grid-cols-2 gap-y-0.5">
+                    <div className="grid grid-cols-2 gap-y-1">
                       {Array.from(loadExerciseOptionsMap).map(
                         ([key, value]) => (
                           <Checkbox
@@ -1876,10 +1850,48 @@ export default function AnalyticsIndex() {
                   </ScrollShadow>
                 )}
               </ModalBody>
-              <ModalFooter>
-                <Button color="primary" variant="light" onPress={onClose}>
-                  Close
-                </Button>
+              <ModalFooter
+                className={
+                  listModalPage === "load-exercise-options"
+                    ? "h-[80px] flex justify-between items-center"
+                    : "flex justify-between items-center"
+                }
+              >
+                <div>
+                  {listModalPage === "load-exercise-options" && (
+                    <div className="w-[12.25rem]">
+                      <Select
+                        label="Chart Area Category"
+                        size="sm"
+                        variant="faded"
+                        selectedKeys={
+                          loadExerciseOptionsUnitCategory !== undefined
+                            ? ([loadExerciseOptionsUnitCategory] as string[])
+                            : []
+                        }
+                        onChange={(e) =>
+                          setLoadExerciseOptionsUnitCategory(
+                            e.target.value as ChartDataUnitCategory
+                          )
+                        }
+                        disallowEmptySelection={chartDataAreas.length === 0}
+                      >
+                        {Array.from(loadExerciseOptionsUnitCategories).map(
+                          (category) => (
+                            <SelectItem key={category} value={category}>
+                              {category}
+                            </SelectItem>
+                          )
+                        )}
+                      </Select>
+                    </div>
+                  )}
+                </div>
+                <div className="flex gap-2">
+                  <Button color="primary" variant="light" onPress={onClose}>
+                    Close
+                  </Button>
+                </div>
               </ModalFooter>
             </>
           )}
