@@ -1867,9 +1867,31 @@ export default function AnalyticsIndex() {
                   )}
                 </div>
                 <div className="flex gap-2">
-                  <Button color="primary" variant="light" onPress={onClose}>
-                    Close
+                  <Button
+                    color="primary"
+                    variant="light"
+                    onPress={
+                      listModalPage === "load-exercise-options"
+                        ? () => setListModalPage("exercise-list")
+                        : onClose
+                    }
+                  >
+                    {listModalPage === "load-exercise-options"
+                      ? "Back"
+                      : "Close"}
                   </Button>
+                  {listModalPage === "load-exercise-options" && (
+                    <Button
+                      color="primary"
+                      isDisabled={
+                        loadExerciseOptions.size === 0 ||
+                        loadExerciseOptionsUnitCategory === undefined
+                      }
+                      onPress={() => {}}
+                    >
+                      Load
+                    </Button>
+                  )}
                 </div>
               </ModalFooter>
             </>
