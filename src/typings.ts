@@ -1251,6 +1251,11 @@ export type ChartDataCategory =
   | "body_weight"
   | "body_fat_percentage"
   | `measurement_${number}`
+  | ChartDataExerciseCategory
+  | "test";
+// TODO: REMOVE TEST LATER
+
+export type ChartDataExerciseCategory =
   | `weight${`_${"min" | "max" | "average" | "total"}`}${`_${number}` | ""}`
   | `distance${`_${"min" | "max" | "average" | "total"}`}${`_${number}` | ""}`
   | `volume${`_${number}` | ""}`
@@ -1264,11 +1269,10 @@ export type ChartDataCategory =
   | `num_partial_reps${`_${"min" | "max" | "average" | "total"}`}${
       | `_${number}`
       | ""}`
+  | `set_body_weight${`_${number}` | ""}`
   | `rir${`_${"min" | "max" | "average"}`}${`_${number}` | ""}`
   | `rpe${`_${"min" | "max" | "average"}`}${`_${number}` | ""}`
-  | `resistance_level${`_${"min" | "max" | "average"}`}${`_${number}` | ""}`
-  | "test";
-// TODO: REMOVE TEST LATER
+  | `resistance_level${`_${"min" | "max" | "average"}`}${`_${number}` | ""}`;
 
 export type ChartDataUnitCategory =
   | undefined

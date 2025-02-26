@@ -293,6 +293,7 @@ export default function AnalyticsIndex() {
       ["num_partial_reps_max", "Number Of Reps"],
       ["num_partial_reps_average", "Number Of Reps"],
       ["num_partial_reps_total", "Number Of Reps"],
+      ["set_body_weight", "Weight"],
       ["rir_min", "RIR"],
       ["rir_max", "RIR"],
       ["rir_average", "RIR"],
@@ -387,6 +388,7 @@ export default function AnalyticsIndex() {
     optionsMap.set("num_partial_reps_max", "Max Partial Reps");
     optionsMap.set("num_partial_reps_average", "Average Partial Reps");
     optionsMap.set("num_partial_reps_total", "Total Partial Reps");
+    optionsMap.set("set_body_weight", "Body Weight");
     optionsMap.set("rir_min", "Min RIR");
     optionsMap.set("rir_max", "Max RIR");
     optionsMap.set("rir_average", "Average RIR");
