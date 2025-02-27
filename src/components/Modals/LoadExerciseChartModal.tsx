@@ -9,6 +9,11 @@ import {
   ScrollShadow,
   Select,
   SelectItem,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  SharedSelection,
 } from "@heroui/react";
 import {
   ChartDataCategory,
@@ -53,7 +58,19 @@ export const LoadExerciseChartModal = ({
 }: LoadExerciseChartModalProps) => {
   const [filterCategories, setFilterCategories] = useState<
     Set<ChartDataUnitCategory>
-  >(new Set(["Weight"]));
+  >(new Set());
+
+  const optionCategories = [
+    "Weight",
+    "Number Of Sets",
+    "Number Of Reps",
+    "RIR",
+    "RPE",
+    "Distance",
+    "Time",
+    "Pace",
+    "Resistance Level",
+  ];
 
   const filteredLoadExerciseOptionsMap = useMemo(() => {
     if (filterCategories.size > 0) {
@@ -132,6 +149,39 @@ export const LoadExerciseChartModal = ({
             </ModalHeader>
             <ModalBody>
               <ScrollShadow className="h-[432px] flex flex-col gap-2">
+                <div className="flex justify-between">
+                  <div></div>
+                  <div className="pr-1">
+                    <Dropdown>
+                      <DropdownTrigger>
+                        <Button
+                          className="z-1"
+                          variant="flat"
+                          color={
+                            filterCategories.size > 0 ? "secondary" : "default"
+                          }
+                          size="sm"
+                        >
+                          Filter
+                        </Button>
+                      </DropdownTrigger>
+                      <DropdownMenu
+                        aria-label="Filter Option Categories Dropdown Menu"
+                        selectedKeys={filterCategories as Set<string>}
+                        selectionMode="multiple"
+                        onSelectionChange={
+                          setFilterCategories as React.Dispatch<
+                            React.SetStateAction<SharedSelection>
+                          >
+                        }
+                      >
+                        {optionCategories.map((category) => (
+                          <DropdownItem key={category}>{category}</DropdownItem>
+                        ))}
+                      </DropdownMenu>
+                    </Dropdown>
+                  </div>
+                </div>
                 <div className="columns-2">
                   {Array.from(filteredLoadExerciseOptionsMap).map(
                     ([key, value]) => (
