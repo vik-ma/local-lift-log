@@ -155,7 +155,7 @@ export const LoadExerciseChartModal = ({
                   )}
                 </span>
                 <div className="pr-0.5">
-                  <Dropdown>
+                  <Dropdown closeOnSelect={false}>
                     <DropdownTrigger>
                       <Button
                         className="z-1"
@@ -188,12 +188,22 @@ export const LoadExerciseChartModal = ({
             </ModalHeader>
             <ModalBody className="pt-0">
               <ScrollShadow className="h-[436px] flex flex-col gap-1.5">
-                {filterCategories.size > 0 && (
-                  <div className="flex flex-col gap-0.5">
-                    <span className="text-secondary text-xs px-0.5">
-                      (Showing {filteredLoadExerciseOptionsMap.size} out of{" "}
-                      {loadExerciseOptionsMap.size} options)
-                    </span>
+                <div className="flex flex-col">
+                  <div className="flex gap-1 items-baseline">
+                    <div className="flex items-baseline gap-[5px] font-medium text-lg">
+                      <span className="font-semibold text-2xl text-yellow-500">
+                        {loadExerciseOptions.size}
+                      </span>
+                      <span>Stats Selected</span>
+                    </div>
+                    {filterCategories.size > 0 && (
+                      <span className="text-secondary text-xs px-0.5">
+                        (Showing {filteredLoadExerciseOptionsMap.size} out of{" "}
+                        {loadExerciseOptionsMap.size} options)
+                      </span>
+                    )}
+                  </div>
+                  {filterCategories.size > 0 && (
                     <div className="flex items-center gap-1 flex-wrap max-w-[24rem]">
                       {Array.from(filterCategories).map((category) => (
                         <Chip
@@ -209,8 +219,8 @@ export const LoadExerciseChartModal = ({
                         </Chip>
                       ))}
                     </div>
-                  </div>
-                )}
+                  )}
+                </div>
                 <div className="columns-2">
                   {Array.from(filteredLoadExerciseOptionsMap).map(
                     ([key, value]) => (
