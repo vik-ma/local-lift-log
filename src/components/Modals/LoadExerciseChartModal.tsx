@@ -138,7 +138,7 @@ export const LoadExerciseChartModal = ({
         {(onClose) => (
           <>
             <ModalHeader>
-              <div className="flex items-center justify-between w-[24rem]">
+              <div className="flex items-end justify-between w-[24rem]">
                 <span className="w-[19.5rem] truncate">
                   Stats To Load For{" "}
                   {selectedExercise !== undefined && (
@@ -147,7 +147,7 @@ export const LoadExerciseChartModal = ({
                     </span>
                   )}
                 </span>
-                <div className="pr-1">
+                <div className="pr-0.5">
                   <Dropdown>
                     <DropdownTrigger>
                       <Button
@@ -179,8 +179,8 @@ export const LoadExerciseChartModal = ({
                 </div>
               </div>
             </ModalHeader>
-            <ModalBody>
-              <ScrollShadow className="h-[432px] flex flex-col gap-1.5">
+            <ModalBody className="pt-0">
+              <ScrollShadow className="h-[436px] flex flex-col gap-1.5">
                 <div className="flex"></div>
                 <div className="columns-2">
                   {Array.from(filteredLoadExerciseOptionsMap).map(
