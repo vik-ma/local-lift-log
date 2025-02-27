@@ -194,7 +194,7 @@ export const LoadExerciseChartModal = ({
               </div>
             </ModalHeader>
             <ModalBody className="pt-0">
-              <ScrollShadow className="h-[436px] flex flex-col gap-1.5">
+              <div className="h-[436px] flex flex-col gap-1.5">
                 <div className="flex flex-col">
                   <div className="flex gap-1 items-baseline">
                     <div className="flex items-baseline gap-[5px] font-medium text-lg">
@@ -228,31 +228,33 @@ export const LoadExerciseChartModal = ({
                     </div>
                   )}
                 </div>
-                <div className="columns-2">
-                  {Array.from(filteredLoadExerciseOptionsMap).map(
-                    ([key, value]) => (
-                      <Checkbox
-                        key={key}
-                        className="hover:underline w-full min-w-full -mb-1"
-                        color="primary"
-                        isSelected={loadExerciseOptions.has(
-                          key as ChartDataCategory
-                        )}
-                        onValueChange={() =>
-                          handleLoadExerciseOptionsChange(
+                <ScrollShadow className="pb-1">
+                  <div className="columns-2">
+                    {Array.from(filteredLoadExerciseOptionsMap).map(
+                      ([key, value]) => (
+                        <Checkbox
+                          key={key}
+                          className="hover:underline w-full min-w-full -mb-1"
+                          color="primary"
+                          isSelected={loadExerciseOptions.has(
                             key as ChartDataCategory
-                          )
-                        }
-                        isDisabled={disabledLoadExerciseOptions.has(
-                          key as ChartDataUnitCategory
-                        )}
-                      >
-                        {value}
-                      </Checkbox>
-                    )
-                  )}
-                </div>
-              </ScrollShadow>
+                          )}
+                          onValueChange={() =>
+                            handleLoadExerciseOptionsChange(
+                              key as ChartDataCategory
+                            )
+                          }
+                          isDisabled={disabledLoadExerciseOptions.has(
+                            key as ChartDataUnitCategory
+                          )}
+                        >
+                          {value}
+                        </Checkbox>
+                      )
+                    )}
+                  </div>
+                </ScrollShadow>
+              </div>
             </ModalBody>
             <ModalFooter
               className={"h-[80px] flex justify-between items-center"}
