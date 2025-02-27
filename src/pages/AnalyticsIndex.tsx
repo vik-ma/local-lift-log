@@ -421,10 +421,10 @@ export default function AnalyticsIndex() {
         );
 
         loadDietLogListCalories(userSettings.locale, true);
-        // getUserWeightListWeights(
+        // loadUserWeightListWeights(
         //   userSettings.locale,
         //   userSettings.default_unit_weight,
-        //   true
+        //   false
         // );
       };
 
@@ -1322,6 +1322,57 @@ export default function AnalyticsIndex() {
     updateRightYAxis(updatedShownChartDataLines, secondaryDataKey);
   };
 
+  const changeChartDataLineCategoryToArea = (
+    unitCategory: ChartDataUnitCategory
+  ) => {
+    const updatedChartDataLines: ChartDataCategory[] = [];
+    const updatedShownChartDataLines: ChartDataCategory[] = [];
+    const updatedChartDataAreas: ChartDataCategory[] = [];
+    const updatedShownChartDataAreas: ChartDataCategory[] = [];
+
+    for (const line of chartDataLines) {
+      if (chartDataUnitCategoryMap.current.get(line) === unitCategory) {
+        updatedChartDataAreas.push(line);
+      } else {
+        updatedChartDataLines.push(line);
+      }
+    }
+
+    for (const line of shownChartDataLines) {
+      if (chartDataUnitCategoryMap.current.get(line) === unitCategory) {
+        updatedShownChartDataAreas.push(line);
+      } else {
+        updatedShownChartDataLines.push(line);
+      }
+    }
+
+    if (
+      chartDataUnitCategoryMap.current.get(shownChartDataAreas[0]) ===
+      unitCategory
+    ) {
+      updatedChartDataAreas.push(...chartDataAreas);
+      updatedShownChartDataAreas.push(...shownChartDataAreas);
+    } else {
+      updatedChartDataLines.push(...chartDataAreas);
+      updatedShownChartDataLines.push(...shownChartDataAreas);
+    }
+
+    setChartDataAreas(updatedChartDataAreas);
+    setChartDataLines(updatedChartDataLines);
+    setShownChartDataLines(updatedChartDataLines);
+
+    const updatedChartLineUnitCategorySet = new Set(
+      updatedShownChartDataLines.map((item) =>
+        chartDataUnitCategoryMap.current.get(item)
+      )
+    );
+
+    setChartLineUnitCategorySet(updatedChartLineUnitCategorySet);
+
+    updateLeftYAxis(updatedShownChartDataAreas);
+    updateRightYAxis(updatedShownChartDataLines, secondaryDataKey);
+  };
+
   const setCustomMinAndMaxDatesFilter = (
     minDate: Date | null,
     maxDate: Date | null
@@ -1935,6 +1986,28 @@ export default function AnalyticsIndex() {
                       ))}
                     </Select>
                   )}
+                  {chartDataAreas.length > 1 && (
+                    <Dropdown>
+                      <DropdownTrigger>
+                        <Button className="font-medium" variant="flat">
+                          Convert Area To Line
+                        </Button>
+                      </DropdownTrigger>
+                      <DropdownMenu
+                        aria-label="Chart data areas"
+                        variant="flat"
+                      >
+                        {chartDataAreas.map((area) => (
+                          <DropdownItem
+                            key={area as string}
+                            onPress={() => changeChartDataAreaToLine(area)}
+                          >
+                            {chartDataCategoryLabelMap.current.get(area)}
+                          </DropdownItem>
+                        ))}
+                      </DropdownMenu>
+                    </Dropdown>
+                  )}
                   {chartDataLines.length > 0 && (
                     <Dropdown>
                       <DropdownTrigger>
@@ -1957,25 +2030,29 @@ export default function AnalyticsIndex() {
                       </DropdownMenu>
                     </Dropdown>
                   )}
-                  {chartDataAreas.length > 1 && (
+                  {chartLineUnitCategorySet.size > 0 && (
                     <Dropdown>
                       <DropdownTrigger>
                         <Button className="font-medium" variant="flat">
-                          Convert Area To Line
+                          Change Area Category
                         </Button>
                       </DropdownTrigger>
                       <DropdownMenu
-                        aria-label="Chart data areas"
+                        aria-label="Chart data line unit categories"
                         variant="flat"
                       >
-                        {chartDataAreas.map((area) => (
-                          <DropdownItem
-                            key={area as string}
-                            onPress={() => changeChartDataAreaToLine(area)}
-                          >
-                            {chartDataCategoryLabelMap.current.get(area)}
-                          </DropdownItem>
-                        ))}
+                        {Array.from(chartLineUnitCategorySet).map(
+                          (category) => (
+                            <DropdownItem
+                              key={category as string}
+                              onPress={() =>
+                                changeChartDataLineCategoryToArea(category)
+                              }
+                            >
+                              {category}
+                            </DropdownItem>
+                          )
+                        )}
                       </DropdownMenu>
                     </Dropdown>
                   )}
