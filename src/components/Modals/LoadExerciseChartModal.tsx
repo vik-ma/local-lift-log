@@ -138,50 +138,50 @@ export const LoadExerciseChartModal = ({
         {(onClose) => (
           <>
             <ModalHeader>
-              <span className="w-[24rem] truncate">
-                Stats To Load For{" "}
-                {selectedExercise !== undefined && (
-                  <span className="text-secondary">
-                    {selectedExercise.name}
-                  </span>
-                )}
-              </span>
+              <div className="flex items-center justify-between w-[24rem]">
+                <span className="w-[19.5rem] truncate">
+                  Stats To Load For{" "}
+                  {selectedExercise !== undefined && (
+                    <span className="text-secondary">
+                      {selectedExercise.name}
+                    </span>
+                  )}
+                </span>
+                <div className="pr-1">
+                  <Dropdown>
+                    <DropdownTrigger>
+                      <Button
+                        className="z-1"
+                        variant="flat"
+                        color={
+                          filterCategories.size > 0 ? "secondary" : "default"
+                        }
+                        size="sm"
+                      >
+                        Filter
+                      </Button>
+                    </DropdownTrigger>
+                    <DropdownMenu
+                      aria-label="Filter Option Categories Dropdown Menu"
+                      selectedKeys={filterCategories as Set<string>}
+                      selectionMode="multiple"
+                      onSelectionChange={
+                        setFilterCategories as React.Dispatch<
+                          React.SetStateAction<SharedSelection>
+                        >
+                      }
+                    >
+                      {optionCategories.map((category) => (
+                        <DropdownItem key={category}>{category}</DropdownItem>
+                      ))}
+                    </DropdownMenu>
+                  </Dropdown>
+                </div>
+              </div>
             </ModalHeader>
             <ModalBody>
-              <ScrollShadow className="h-[432px] flex flex-col gap-2">
-                <div className="flex justify-between">
-                  <div></div>
-                  <div className="pr-1">
-                    <Dropdown>
-                      <DropdownTrigger>
-                        <Button
-                          className="z-1"
-                          variant="flat"
-                          color={
-                            filterCategories.size > 0 ? "secondary" : "default"
-                          }
-                          size="sm"
-                        >
-                          Filter
-                        </Button>
-                      </DropdownTrigger>
-                      <DropdownMenu
-                        aria-label="Filter Option Categories Dropdown Menu"
-                        selectedKeys={filterCategories as Set<string>}
-                        selectionMode="multiple"
-                        onSelectionChange={
-                          setFilterCategories as React.Dispatch<
-                            React.SetStateAction<SharedSelection>
-                          >
-                        }
-                      >
-                        {optionCategories.map((category) => (
-                          <DropdownItem key={category}>{category}</DropdownItem>
-                        ))}
-                      </DropdownMenu>
-                    </Dropdown>
-                  </div>
-                </div>
+              <ScrollShadow className="h-[432px] flex flex-col gap-1.5">
+                <div className="flex"></div>
                 <div className="columns-2">
                   {Array.from(filteredLoadExerciseOptionsMap).map(
                     ([key, value]) => (
