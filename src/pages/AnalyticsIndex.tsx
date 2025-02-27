@@ -17,6 +17,7 @@ import {
 import {
   useExerciseList,
   useFilterExerciseList,
+  useLoadExerciseOptionsMap,
   useMeasurementList,
   useTimePeriodList,
 } from "../hooks";
@@ -357,6 +358,8 @@ export default function AnalyticsIndex() {
     "#c93814",
     "#1ab2f8",
   ];
+
+  const loadExerciseOptionsMap = useLoadExerciseOptionsMap();
 
   const loadExerciseOptionsUnitCategories = useMemo(() => {
     const unitCategories = new Set<ChartDataUnitCategory>();
@@ -1770,6 +1773,7 @@ export default function AnalyticsIndex() {
         loadExerciseOptionsUnitCategories={loadExerciseOptionsUnitCategories}
         chartDataAreas={chartDataAreas}
         chartDataUnitCategoryMap={chartDataUnitCategoryMap.current}
+        loadExerciseOptionsMap={loadExerciseOptionsMap}
         loadExerciseStats={loadExerciseStats}
       />
       <FilterMinAndMaxDatesModal
