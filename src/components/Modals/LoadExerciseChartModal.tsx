@@ -18,6 +18,7 @@ import {
 } from "@heroui/react";
 import {
   ChartDataCategory,
+  ChartDataExerciseCategory,
   ChartDataUnitCategory,
   Exercise,
   UseDisclosureReturnType,
@@ -39,7 +40,7 @@ type LoadExerciseChartModalProps = {
   loadExerciseOptionsUnitCategories: Set<ChartDataUnitCategory>;
   chartDataAreas: ChartDataCategory[];
   chartDataUnitCategoryMap: Map<ChartDataCategory, ChartDataUnitCategory>;
-  loadExerciseOptionsMap: Map<string, string>;
+  loadExerciseOptionsMap: Map<ChartDataExerciseCategory, string>;
   loadExerciseStats: () => void;
 };
 
@@ -76,15 +77,21 @@ export const LoadExerciseChartModal = ({
   const filteredLoadExerciseOptionsMap = useMemo(() => {
     if (filterCategories.size > 0) {
       return new Map(
-        [...loadExerciseOptionsMap].filter(([key]) =>
-          filterCategories.has(
-            chartDataUnitCategoryMap.get(key as ChartDataCategory)
-          )
+        [...loadExerciseOptionsMap].filter(
+          ([key]) =>
+            filterCategories.has(
+              chartDataUnitCategoryMap.get(key as ChartDataCategory)
+            ) || loadExerciseOptions.has(key)
         )
       );
     }
     return loadExerciseOptionsMap;
-  }, [filterCategories, loadExerciseOptionsMap, chartDataUnitCategoryMap]);
+  }, [
+    filterCategories,
+    loadExerciseOptionsMap,
+    chartDataUnitCategoryMap,
+    loadExerciseOptions,
+  ]);
 
   const handleLoadExerciseOptionsChange = (key: ChartDataCategory) => {
     const updatedLoadExerciseOptions = new Set(loadExerciseOptions);
