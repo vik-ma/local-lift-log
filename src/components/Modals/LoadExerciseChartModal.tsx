@@ -201,7 +201,7 @@ export const LoadExerciseChartModal = ({
                       <span className="font-semibold text-2xl text-yellow-500">
                         {loadExerciseOptions.size}
                       </span>
-                      <span>Stats Selected</span>
+                      <span className="text-stone-500">Stats Selected</span>
                     </div>
                     {filterCategories.size > 0 && (
                       <span className="text-secondary text-xs px-0.5">
