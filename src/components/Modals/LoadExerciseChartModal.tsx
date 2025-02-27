@@ -16,6 +16,7 @@ import {
   Exercise,
   UseDisclosureReturnType,
 } from "../../typings";
+import { useMemo, useState } from "react";
 
 type LoadExerciseChartModalProps = {
   loadExerciseChartModal: UseDisclosureReturnType;
@@ -50,6 +51,23 @@ export const LoadExerciseChartModal = ({
   loadExerciseOptionsMap,
   loadExerciseStats,
 }: LoadExerciseChartModalProps) => {
+  const [filterCategories, setFilterCategories] = useState<
+    Set<ChartDataUnitCategory>
+  >(new Set(["Weight"]));
+
+  const filteredLoadExerciseOptionsMap = useMemo(() => {
+    if (filterCategories.size > 0) {
+      return new Map(
+        [...loadExerciseOptionsMap].filter(([key]) =>
+          filterCategories.has(
+            chartDataUnitCategoryMap.get(key as ChartDataCategory)
+          )
+        )
+      );
+    }
+    return loadExerciseOptionsMap;
+  }, [filterCategories, loadExerciseOptionsMap, chartDataUnitCategoryMap]);
+
   const handleLoadExerciseOptionsChange = (key: ChartDataCategory) => {
     const updatedLoadExerciseOptions = new Set(loadExerciseOptions);
 
@@ -94,8 +112,6 @@ export const LoadExerciseChartModal = ({
     setLoadExerciseOptions(updatedLoadExerciseOptions);
   };
 
-
-
   return (
     <Modal
       isOpen={loadExerciseChartModal.isOpen}
@@ -117,26 +133,28 @@ export const LoadExerciseChartModal = ({
             <ModalBody>
               <ScrollShadow className="h-[432px] flex flex-col gap-2">
                 <div className="columns-2">
-                  {Array.from(loadExerciseOptionsMap).map(([key, value]) => (
-                    <Checkbox
-                      key={key}
-                      className="hover:underline w-full min-w-full -mb-1"
-                      color="primary"
-                      isSelected={loadExerciseOptions.has(
-                        key as ChartDataCategory
-                      )}
-                      onValueChange={() =>
-                        handleLoadExerciseOptionsChange(
+                  {Array.from(filteredLoadExerciseOptionsMap).map(
+                    ([key, value]) => (
+                      <Checkbox
+                        key={key}
+                        className="hover:underline w-full min-w-full -mb-1"
+                        color="primary"
+                        isSelected={loadExerciseOptions.has(
                           key as ChartDataCategory
-                        )
-                      }
-                      isDisabled={disabledLoadExerciseOptions.has(
-                        key as ChartDataUnitCategory
-                      )}
-                    >
-                      {value}
-                    </Checkbox>
-                  ))}
+                        )}
+                        onValueChange={() =>
+                          handleLoadExerciseOptionsChange(
+                            key as ChartDataCategory
+                          )
+                        }
+                        isDisabled={disabledLoadExerciseOptions.has(
+                          key as ChartDataUnitCategory
+                        )}
+                      >
+                        {value}
+                      </Checkbox>
+                    )
+                  )}
                 </div>
               </ScrollShadow>
             </ModalBody>
