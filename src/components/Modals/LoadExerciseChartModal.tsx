@@ -7,6 +7,8 @@ import {
   ModalFooter,
   Checkbox,
   ScrollShadow,
+  Select,
+  SelectItem,
 } from "@heroui/react";
 import {
   ChartDataCategory,
@@ -14,7 +16,6 @@ import {
   Exercise,
   UseDisclosureReturnType,
 } from "../../typings";
-import { LoadExerciseOptionsUnitCategoryDropdown } from "..";
 import { useMemo } from "react";
 
 type LoadExerciseChartModalProps = {
@@ -191,19 +192,34 @@ export const LoadExerciseChartModal = ({
             <ModalFooter
               className={"h-[80px] flex justify-between items-center"}
             >
-              <div>
-                <LoadExerciseOptionsUnitCategoryDropdown
-                  loadExerciseOptionsUnitCategory={
-                    loadExerciseOptionsUnitCategory
+              <div className="w-[11.75rem]">
+                <Select
+                  label="Chart Area Category"
+                  classNames={{
+                    trigger: "bg-amber-50 border-amber-200",
+                  }}
+                  size="sm"
+                  variant="faded"
+                  selectedKeys={
+                    loadExerciseOptionsUnitCategory !== undefined
+                      ? ([loadExerciseOptionsUnitCategory] as string[])
+                      : []
                   }
-                  setLoadExerciseOptionsUnitCategory={
-                    setLoadExerciseOptionsUnitCategory
+                  onChange={(e) =>
+                    setLoadExerciseOptionsUnitCategory(
+                      e.target.value as ChartDataUnitCategory
+                    )
                   }
-                  chartDataAreas={chartDataAreas}
-                  loadExerciseOptionsUnitCategories={
-                    loadExerciseOptionsUnitCategories
-                  }
-                />
+                  disallowEmptySelection={chartDataAreas.length === 0}
+                >
+                  {Array.from(loadExerciseOptionsUnitCategories).map(
+                    (category) => (
+                      <SelectItem key={category} value={category}>
+                        {category}
+                      </SelectItem>
+                    )
+                  )}
+                </Select>
               </div>
               <div className="flex gap-2">
                 <Button color="primary" variant="light" onPress={onClose}>
