@@ -14,6 +14,7 @@ import {
   DropdownMenu,
   DropdownTrigger,
   SharedSelection,
+  Chip,
 } from "@heroui/react";
 import {
   ChartDataCategory,
@@ -129,6 +130,12 @@ export const LoadExerciseChartModal = ({
     setLoadExerciseOptions(updatedLoadExerciseOptions);
   };
 
+  const removeFilter = (key: ChartDataUnitCategory) => {
+    const updatedFilterCategories = new Set(filterCategories);
+    updatedFilterCategories.delete(key);
+    setFilterCategories(updatedFilterCategories);
+  };
+
   return (
     <Modal
       isOpen={loadExerciseChartModal.isOpen}
@@ -181,7 +188,29 @@ export const LoadExerciseChartModal = ({
             </ModalHeader>
             <ModalBody className="pt-0">
               <ScrollShadow className="h-[436px] flex flex-col gap-1.5">
-                <div className="flex"></div>
+                {filterCategories.size > 0 && (
+                  <div className="flex flex-col gap-0.5">
+                    <span className="text-secondary text-xs px-0.5">
+                      (Showing {filteredLoadExerciseOptionsMap.size} out of{" "}
+                      {loadExerciseOptionsMap.size} options)
+                    </span>
+                    <div className="flex items-center gap-1 flex-wrap max-w-[24rem]">
+                      {Array.from(filterCategories).map((category) => (
+                        <Chip
+                          key={category}
+                          classNames={{ content: "max-w-[20rem] truncate" }}
+                          radius="sm"
+                          color="secondary"
+                          variant="flat"
+                          onClose={() => removeFilter(category)}
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <span className="font-medium">{category}</span>
+                        </Chip>
+                      ))}
+                    </div>
+                  </div>
+                )}
                 <div className="columns-2">
                   {Array.from(filteredLoadExerciseOptionsMap).map(
                     ([key, value]) => (
