@@ -73,6 +73,7 @@ export { UpdateDefaultPlateCollectionId } from "./UserSettings/UpdateDefaultPlat
 export { ValidateWorkoutRatingsOrderString } from "./UserSettings/ValidateWorkoutRatingsOrderString";
 export { UpdateShowSecondaryExerciseGroups } from "./UserSettings/UpdateShowSecondaryExerciseGroups";
 export { UpdateDefaultDietLogDayIsYesterday } from "./UserSettings/UpdateDefaultDietLogDayIsYesterday";
+export { ValidateDefaultLoadExerciseOptionsString } from "./UserSettings/ValidateDefaultLoadExerciseOptionsString";
 
 export { OrderSetsBySetListOrderString } from "./Sets/OrderSetsBySetListOrderString";
 export { CreateSetsFromWorkoutTemplate } from "./Sets/CreateSetsFromWorkoutTemplate";

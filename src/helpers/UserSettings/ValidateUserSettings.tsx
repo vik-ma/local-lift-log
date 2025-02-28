@@ -16,6 +16,7 @@ import {
   ValidateShownPropertiesString,
   ValidateWorkoutRatingsOrderString,
   NumNewSetsOptionList,
+  ValidateDefaultLoadExerciseOptionsString,
 } from "..";
 
 export const ValidateUserSettings = (userSettings: UserSettings): boolean => {
@@ -126,6 +127,13 @@ export const ValidateUserSettings = (userSettings: UserSettings): boolean => {
     return false;
 
   if (!IsNumberValidBinary(userSettings.default_diet_log_day_is_yesterday))
+    return false;
+
+  if (
+    !ValidateDefaultLoadExerciseOptionsString(
+      userSettings.default_load_exercise_options
+    )
+  )
     return false;
 
   return true;
