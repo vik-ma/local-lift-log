@@ -48,6 +48,7 @@ import {
   ConvertMeasurementValue,
   ConvertNumberToTwoDecimals,
   ConvertWeightValue,
+  CreateLoadExerciseOptionsList,
   CreateShownPropertiesSet,
   FormatDateToShortString,
   GetAllDietLogs,
@@ -141,7 +142,7 @@ export default function AnalyticsIndex() {
   >(new Map());
   const [selectedExercise, setSelectedExercise] = useState<Exercise>();
   const [loadExerciseOptions, setLoadExerciseOptions] = useState<
-    Set<ChartDataCategory>
+    Set<ChartDataExerciseCategory>
   >(new Set());
   const [loadExerciseOptionsUnitCategory, setLoadExerciseOptionsUnitCategory] =
     useState<ChartDataUnitCategory>();
@@ -419,6 +420,13 @@ export default function AnalyticsIndex() {
           "test",
           ` ${userSettings.default_unit_weight}`
         );
+
+        const loadExerciseOptionsList = new Set(
+          CreateLoadExerciseOptionsList(
+            userSettings.default_load_exercise_options
+          )
+        );
+        setLoadExerciseOptions(loadExerciseOptionsList);
 
         loadDietLogListCalories(userSettings.locale, true);
         // loadUserWeightListWeights(

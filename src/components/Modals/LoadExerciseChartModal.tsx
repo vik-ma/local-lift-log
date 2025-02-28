@@ -28,9 +28,9 @@ import { useMemo, useState } from "react";
 type LoadExerciseChartModalProps = {
   loadExerciseChartModal: UseDisclosureReturnType;
   selectedExercise: Exercise | undefined;
-  loadExerciseOptions: Set<ChartDataCategory>;
+  loadExerciseOptions: Set<ChartDataExerciseCategory>;
   setLoadExerciseOptions: React.Dispatch<
-    React.SetStateAction<Set<ChartDataCategory>>
+    React.SetStateAction<Set<ChartDataExerciseCategory>>
   >;
   disabledLoadExerciseOptions: Set<ChartDataUnitCategory>;
   loadExerciseOptionsUnitCategory: ChartDataUnitCategory;
@@ -93,7 +93,7 @@ export const LoadExerciseChartModal = ({
     loadExerciseOptions,
   ]);
 
-  const handleLoadExerciseOptionsChange = (key: ChartDataCategory) => {
+  const handleLoadExerciseOptionsChange = (key: ChartDataExerciseCategory) => {
     const updatedLoadExerciseOptions = new Set(loadExerciseOptions);
 
     // Set key as loadExerciseOptionsUnitCategory if loadExerciseOptions was empty
@@ -237,11 +237,11 @@ export const LoadExerciseChartModal = ({
                           className="hover:underline w-full min-w-full -mb-1"
                           color="primary"
                           isSelected={loadExerciseOptions.has(
-                            key as ChartDataCategory
+                            key as ChartDataExerciseCategory
                           )}
                           onValueChange={() =>
                             handleLoadExerciseOptionsChange(
-                              key as ChartDataCategory
+                              key as ChartDataExerciseCategory
                             )
                           }
                           isDisabled={disabledLoadExerciseOptions.has(
