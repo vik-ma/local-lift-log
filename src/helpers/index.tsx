@@ -74,6 +74,7 @@ export { ValidateWorkoutRatingsOrderString } from "./UserSettings/ValidateWorkou
 export { UpdateShowSecondaryExerciseGroups } from "./UserSettings/UpdateShowSecondaryExerciseGroups";
 export { UpdateDefaultDietLogDayIsYesterday } from "./UserSettings/UpdateDefaultDietLogDayIsYesterday";
 export { ValidateDefaultLoadExerciseOptionsString } from "./UserSettings/ValidateDefaultLoadExerciseOptionsString";
+export { UpdateDefaultLoadExerciseOptions } from "./UserSettings/UpdateDefaultLoadExerciseOptions";
 
 export { OrderSetsBySetListOrderString } from "./Sets/OrderSetsBySetListOrderString";
 export { CreateSetsFromWorkoutTemplate } from "./Sets/CreateSetsFromWorkoutTemplate";
