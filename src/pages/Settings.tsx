@@ -905,7 +905,7 @@ export default function Settings() {
               size="sm"
               onPress={handleSetWorkoutRatingsOrderButton}
             >
-              Set
+              Select
             </Button>
           </div>
           <h3 className="flex justify-center text-lg font-medium">
@@ -966,7 +966,7 @@ export default function Settings() {
               size="sm"
               onPress={handleSetDefaultPlateCollectionButton}
             >
-              Set
+              Select
             </Button>
           </div>
           <h3 className="flex justify-center text-lg font-medium">
