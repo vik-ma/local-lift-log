@@ -3,6 +3,7 @@ import {
   UserSettings,
   DefaultIncrementInputs,
   PlateCollection,
+  ChartDataCategory,
 } from "../typings";
 import {
   GetUserSettings,
@@ -26,6 +27,9 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
+  ScrollShadow,
+  Checkbox,
+  CheckboxGroup,
 } from "@heroui/react";
 import {
   LoadingSpinner,
@@ -45,7 +49,11 @@ import {
 } from "../components";
 import toast from "react-hot-toast";
 import Database from "tauri-plugin-sql-api";
-import { usePresetsList, useTimeInputMap } from "../hooks";
+import {
+  useLoadExerciseOptionsMap,
+  usePresetsList,
+  useTimeInputMap,
+} from "../hooks";
 import { Reorder } from "framer-motion";
 import { ReorderIcon } from "../assets";
 
@@ -58,7 +66,10 @@ type DefaultIncrementInputValidityMap = {
 
 type WorkoutRatingValues = { label: string; num: number };
 
-type SpecificSettingModalPage = "default-plate-calc" | "workout-rating-order";
+type SpecificSettingModalPage =
+  | "default-plate-calc"
+  | "workout-rating-order"
+  | "default-load-exercise-options";
 
 export default function Settings() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
@@ -70,6 +81,9 @@ export default function Settings() {
     useState<SpecificSettingModalPage>("default-plate-calc");
   const [selectedTimePeriodProperties, setSelectedTimePeriodProperties] =
     useState<Set<string>>(new Set());
+  const [loadExerciseOptions, setLoadExerciseOptions] = useState<
+    ChartDataCategory[]
+  >([]);
 
   const restoreSettingsModal = useDisclosure();
   const specificSettingModal = useDisclosure();
@@ -117,6 +131,8 @@ export default function Settings() {
     }, [defaultIncrementInputValues]);
 
   const timeInputMap = useTimeInputMap();
+
+  const loadExerciseOptionsMap = useLoadExerciseOptionsMap();
 
   useEffect(() => {
     const loadUserSettings = async () => {
@@ -619,7 +635,9 @@ export default function Settings() {
               <ModalHeader>
                 {specificSettingModalPage === "default-plate-calc"
                   ? "Set Default Plate Collection"
-                  : "Set Workout Rating Order"}
+                  : specificSettingModalPage === "workout-rating-order"
+                  ? "Set Workout Rating Order"
+                  : "Set Default Load Exercise Options"}
               </ModalHeader>
               <ModalBody>
                 <div className="h-[400px] flex flex-col gap-2">
@@ -633,7 +651,7 @@ export default function Settings() {
                         userSettings.default_plate_collection_id
                       }
                     />
-                  ) : (
+                  ) : specificSettingModalPage === "workout-rating-order" ? (
                     <div className="flex flex-col gap-1">
                       <span className="text-xs text-stone-400 px-0.5">
                         Drag To Reorder Ratings
@@ -655,6 +673,30 @@ export default function Settings() {
                         ))}
                       </Reorder.Group>
                     </div>
+                  ) : (
+                    <ScrollShadow className="pb-1">
+                      <CheckboxGroup
+                        aria-label="Select Default Load Exercise Options"
+                        value={loadExerciseOptions as string[]}
+                        onValueChange={(value) =>
+                          setLoadExerciseOptions(value as ChartDataCategory[])
+                        }
+                      >
+                        <div className="columns-2">
+                          {Array.from(loadExerciseOptionsMap).map(
+                            ([key, value]) => (
+                              <Checkbox
+                                key={key}
+                                className="hover:underline w-full min-w-full -mb-1"
+                                color="primary"
+                              >
+                                {value}
+                              </Checkbox>
+                            )
+                          )}
+                        </div>
+                      </CheckboxGroup>
+                    </ScrollShadow>
                   )}
                 </div>
               </ModalBody>
