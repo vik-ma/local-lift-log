@@ -217,6 +217,7 @@ export { MultisetTypes } from "./Constants/MultisetTypes";
 export { DietPhaseTypes } from "./Constants/DietPhaseTypes";
 export { ValidTimePeriodPropertiesMap } from "./Constants/ValidTimePeriodPropertiesMap";
 export { RoutineScheduleTypes } from "./Constants/RoutineScheduleTypes";
+export { ValidLoadExerciseOptionsMap } from "./Constants/ValidLoadExerciseOptionsMap";
 
 export { ConvertEmptyStringToNull } from "./Strings/ConvertEmptyStringToNull";
 export { IsStringEmpty } from "./Strings/IsStringEmpty";
