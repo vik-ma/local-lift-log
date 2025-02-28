@@ -3,7 +3,7 @@ import {
   UserSettings,
   DefaultIncrementInputs,
   PlateCollection,
-  ChartDataCategory,
+  ChartDataExerciseCategory,
 } from "../typings";
 import {
   GetUserSettings,
@@ -14,6 +14,7 @@ import {
   CreateShownPropertiesSet,
   WorkoutRatingsMap,
   GetWorkoutRatingOrder,
+  CreateLoadExerciseOptionsList,
 } from "../helpers";
 import {
   Switch,
@@ -82,7 +83,7 @@ export default function Settings() {
   const [selectedTimePeriodProperties, setSelectedTimePeriodProperties] =
     useState<Set<string>>(new Set());
   const [loadExerciseOptions, setLoadExerciseOptions] = useState<
-    ChartDataCategory[]
+    ChartDataExerciseCategory[]
   >([]);
 
   const restoreSettingsModal = useDisclosure();
@@ -184,6 +185,11 @@ export default function Settings() {
 
       setFilterWeightRangeUnit(userSettings.default_unit_weight);
       setFilterDistanceRangeUnit(userSettings.default_unit_distance);
+
+      const loadExerciseOptionsList = CreateLoadExerciseOptionsList(
+        userSettings.default_load_exercise_options
+      );
+      setLoadExerciseOptions(loadExerciseOptionsList);
     };
 
     loadUserSettings();
@@ -695,7 +701,9 @@ export default function Settings() {
                         aria-label="Select Default Load Exercise Options"
                         value={loadExerciseOptions as string[]}
                         onValueChange={(value) =>
-                          setLoadExerciseOptions(value as ChartDataCategory[])
+                          setLoadExerciseOptions(
+                            value as ChartDataExerciseCategory[]
+                          )
                         }
                       >
                         <div className="columns-2">
