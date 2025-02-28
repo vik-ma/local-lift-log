@@ -45,6 +45,7 @@ pub struct UserSetting {
     pub default_num_new_sets: String,
     pub shown_time_period_properties: String,
     pub default_diet_log_day_is_yesterday: i32,
+    pub default_load_exercise_options: String,
 }
 
 #[derive(Queryable, Selectable)]
