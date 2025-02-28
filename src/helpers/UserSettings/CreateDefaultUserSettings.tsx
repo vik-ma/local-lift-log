@@ -62,6 +62,8 @@ export const CreateDefaultUserSettings = async (
 
   const shown_time_period_properties = "ongoing,diet-phase,injury,note";
 
+  const default_load_exercise_options = "";
+
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -83,9 +85,10 @@ export const CreateDefaultUserSettings = async (
         default_increment_calculation_multiplier, default_calculation_tab, 
         shown_workout_properties, default_plate_collection_id, workout_ratings_order,
         show_secondary_exercise_groups, automatically_update_active_measurements, 
-        default_num_new_sets, shown_time_period_properties, default_diet_log_day_is_yesterday) 
+        default_num_new_sets, shown_time_period_properties, default_diet_log_day_is_yesterday, 
+        default_load_exercise_options) 
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, 
-        $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27)`,
+        $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28)`,
       [
         show_timestamp_on_completed_set,
         active_routine_id,
@@ -114,6 +117,7 @@ export const CreateDefaultUserSettings = async (
         default_num_new_sets,
         shown_time_period_properties,
         default_diet_log_day_is_yesterday,
+        default_load_exercise_options,
       ]
     );
 
@@ -148,6 +152,7 @@ export const CreateDefaultUserSettings = async (
       default_num_new_sets,
       shown_time_period_properties,
       default_diet_log_day_is_yesterday,
+      default_load_exercise_options,
     };
 
     return defaultUserSettings;
