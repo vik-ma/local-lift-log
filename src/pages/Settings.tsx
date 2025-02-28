@@ -556,9 +556,20 @@ export default function Settings() {
       };
 
       updateSettings(updatedSettings);
-
-      specificSettingModal.onClose();
     }
+
+    if (specificSettingModalPage === "default-load-exercise-options") {
+      const loadExerciseOptionsString = loadExerciseOptions.join(",");
+
+      const updatedSettings: UserSettings = {
+        ...userSettings,
+        default_load_exercise_options: loadExerciseOptionsString,
+      };
+
+      updateSettings(updatedSettings);
+    }
+
+    specificSettingModal.onClose();
   };
 
   const restoreDefaultSettings = async (
@@ -599,8 +610,13 @@ export default function Settings() {
     specificSettingModal.onOpen();
   };
 
-  const handleSetWorkoutRatingsOrderButton = async () => {
+  const handleSetWorkoutRatingsOrderButton = () => {
     setSpecificSettingModalPage("workout-rating-order");
+    specificSettingModal.onOpen();
+  };
+
+  const handleLoadExerciseOptionsButton = () => {
+    setSpecificSettingModalPage("default-load-exercise-options");
     specificSettingModal.onOpen();
   };
 
@@ -687,6 +703,7 @@ export default function Settings() {
                             ([key, value]) => (
                               <Checkbox
                                 key={key}
+                                value={key}
                                 className="hover:underline w-full min-w-full -mb-1"
                                 color="primary"
                               >
@@ -884,6 +901,16 @@ export default function Settings() {
               targetType="settings"
               setUserSettings={handleDefaultDietLogDayIsYesterdayChange}
             />
+          </div>
+          <div className="flex gap-3 items-center justify-between pr-1">
+            <span className="text-lg">Default Load Exercise Options</span>
+            <Button
+              color="primary"
+              size="sm"
+              onPress={handleLoadExerciseOptionsButton}
+            >
+              Select
+            </Button>
           </div>
           <h3 className="flex justify-center text-lg font-medium">Workouts</h3>
           <div className="flex gap-3 items-center justify-between">
