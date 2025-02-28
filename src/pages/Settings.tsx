@@ -717,18 +717,33 @@ export default function Settings() {
                   )}
                 </div>
               </ModalBody>
-              <ModalFooter>
-                <Button color="primary" variant="light" onPress={onClose}>
-                  Close
-                </Button>
-                {specificSettingModalPage !== "default-plate-calc" && (
-                  <Button
-                    color="primary"
-                    onPress={handleSaveSpecificSettingButton}
-                  >
-                    Save
+              <ModalFooter className="flex justify-between">
+                <div>
+                  {specificSettingModalPage ===
+                    "default-load-exercise-options" &&
+                    loadExerciseOptions.length > 0 && (
+                      <Button
+                        color="danger"
+                        variant="flat"
+                        onPress={() => setLoadExerciseOptions([])}
+                      >
+                        Reset
+                      </Button>
+                    )}
+                </div>
+                <div className="flex gap-2">
+                  <Button color="primary" variant="light" onPress={onClose}>
+                    Close
                   </Button>
-                )}
+                  {specificSettingModalPage !== "default-plate-calc" && (
+                    <Button
+                      color="primary"
+                      onPress={handleSaveSpecificSettingButton}
+                    >
+                      Save
+                    </Button>
+                  )}
+                </div>
               </ModalFooter>
             </>
           )}
