@@ -561,7 +561,7 @@ export default function Settings() {
         workout_ratings_order: updatedWorkoutRatingOrder,
       };
 
-      updateSettings(updatedSettings);
+      await updateSettings(updatedSettings);
     }
 
     if (specificSettingModalPage === "default-load-exercise-options") {
@@ -572,7 +572,7 @@ export default function Settings() {
         default_load_exercise_options: loadExerciseOptionsString,
       };
 
-      updateSettings(updatedSettings);
+      await updateSettings(updatedSettings);
     }
 
     specificSettingModal.onClose();

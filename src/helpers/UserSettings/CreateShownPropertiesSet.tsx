@@ -1,4 +1,5 @@
 import {
+  IsStringEmpty,
   ValidTimePeriodPropertiesMap,
   ValidWorkoutPropertiesMap,
   ValidateShownPropertiesString,
@@ -17,6 +18,8 @@ export const CreateShownPropertiesSet = (
 
     return new Set<string>(keys);
   }
+
+  if (IsStringEmpty(str)) return new Set<string>();
 
   const workoutPropertySet = new Set<string>(str.split(","));
 
