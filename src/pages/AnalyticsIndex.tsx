@@ -400,6 +400,21 @@ export default function AnalyticsIndex() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedExercise, loadedCharts.current]);
 
+  const updateLoadExerciseOptions = (loadExerciseOptionsString: string) => {
+    const loadExerciseOptionsList = CreateLoadExerciseOptionsList(
+      loadExerciseOptionsString
+    );
+
+    setLoadExerciseOptions(new Set(loadExerciseOptionsList));
+
+    if (loadExerciseOptionsList.length > 0) {
+      const unitCategories = loadExerciseOptionsList.map((option) =>
+        chartDataUnitCategoryMap.current.get(option)
+      );
+      setLoadExerciseOptionsUnitCategory(unitCategories[0]);
+    }
+  };
+
   useEffect(
     () => {
       const loadUserSettings = async () => {
@@ -421,18 +436,7 @@ export default function AnalyticsIndex() {
           ` ${userSettings.default_unit_weight}`
         );
 
-        const loadExerciseOptionsList = CreateLoadExerciseOptionsList(
-          userSettings.default_load_exercise_options
-        );
-
-        setLoadExerciseOptions(new Set(loadExerciseOptionsList));
-
-        if (loadExerciseOptionsList.length > 0) {
-          const unitCategories = loadExerciseOptionsList.map((option) =>
-            chartDataUnitCategoryMap.current.get(option)
-          );
-          setLoadExerciseOptionsUnitCategory(unitCategories[0]);
-        }
+        updateLoadExerciseOptions(userSettings.default_load_exercise_options);
 
         loadDietLogListCalories(userSettings.locale, true);
         // loadUserWeightListWeights(
@@ -1765,14 +1769,7 @@ export default function AnalyticsIndex() {
       loadedCharts.current.add(chartName as LoadedChartType);
     }
 
-    resetSelectedExercise();
     loadExerciseChartModal.onClose();
-  };
-
-  const resetSelectedExercise = () => {
-    setSelectedExercise(undefined);
-    setLoadExerciseOptions(new Set());
-    setLoadExerciseOptionsUnitCategory(undefined);
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;
