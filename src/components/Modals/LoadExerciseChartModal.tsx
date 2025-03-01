@@ -159,19 +159,17 @@ export const LoadExerciseChartModal = ({
         {(onClose) => (
           <>
             <ModalHeader>
-              <div className="flex items-end justify-between w-[24rem]">
-                <span className="w-[19.5rem] truncate">
-                  Stats To Load For{" "}
-                  {selectedExercise !== undefined && (
-                    <span className="text-secondary">
-                      {selectedExercise.name}
-                    </span>
-                  )}
-                </span>
-              </div>
+              <span className="w-[24rem] truncate">
+                Stats To Load For{" "}
+                {selectedExercise !== undefined && (
+                  <span className="text-secondary">
+                    {selectedExercise.name}
+                  </span>
+                )}
+              </span>
             </ModalHeader>
             <ModalBody className="pt-0">
-              <div className="h-[440px] flex flex-col gap-2">
+              <div className="h-[448px] flex flex-col gap-2">
                 <div className="flex flex-col gap-1">
                   <div className="flex justify-between">
                     <div className="w-[11.75rem]">
