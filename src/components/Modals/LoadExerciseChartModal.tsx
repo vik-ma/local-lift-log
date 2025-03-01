@@ -196,35 +196,27 @@ export const LoadExerciseChartModal = ({
             <ModalBody className="pt-0">
               <div className="h-[436px] flex flex-col gap-1.5">
                 <div className="flex flex-col">
-                  <div className="flex gap-1 items-baseline">
-                    <div className="flex items-baseline gap-[5px] font-medium text-lg">
-                      <span className="font-semibold text-2xl text-yellow-500">
-                        {loadExerciseOptions.size}
-                      </span>
-                      <span className="text-stone-500">Stats Selected</span>
-                    </div>
-                    {filterCategories.size > 0 && (
-                      <span className="text-secondary text-xs px-0.5">
+                  {filterCategories.size > 0 && (
+                    <div className="flex flex-col gap-0.5">
+                      <div className="flex items-center gap-1 flex-wrap max-w-[24rem]">
+                        {Array.from(filterCategories).map((category) => (
+                          <Chip
+                            key={category}
+                            classNames={{ content: "max-w-[20rem] truncate" }}
+                            radius="sm"
+                            color="secondary"
+                            variant="flat"
+                            onClose={() => removeFilter(category)}
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <span className="font-medium">{category}</span>
+                          </Chip>
+                        ))}
+                      </div>
+                      <span className="text-secondary text-sm px-0.5">
                         (Showing {filteredLoadExerciseOptionsMap.size} out of{" "}
                         {loadExerciseOptionsMap.size} options)
                       </span>
-                    )}
-                  </div>
-                  {filterCategories.size > 0 && (
-                    <div className="flex items-center gap-1 flex-wrap max-w-[24rem]">
-                      {Array.from(filterCategories).map((category) => (
-                        <Chip
-                          key={category}
-                          classNames={{ content: "max-w-[20rem] truncate" }}
-                          radius="sm"
-                          color="secondary"
-                          variant="flat"
-                          onClose={() => removeFilter(category)}
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          <span className="font-medium">{category}</span>
-                        </Chip>
-                      ))}
                     </div>
                   )}
                 </div>
