@@ -421,12 +421,18 @@ export default function AnalyticsIndex() {
           ` ${userSettings.default_unit_weight}`
         );
 
-        const loadExerciseOptionsList = new Set(
-          CreateLoadExerciseOptionsList(
-            userSettings.default_load_exercise_options
-          )
+        const loadExerciseOptionsList = CreateLoadExerciseOptionsList(
+          userSettings.default_load_exercise_options
         );
-        setLoadExerciseOptions(loadExerciseOptionsList);
+
+        setLoadExerciseOptions(new Set(loadExerciseOptionsList));
+
+        if (loadExerciseOptionsList.length > 0) {
+          const unitCategories = loadExerciseOptionsList.map((option) =>
+            chartDataUnitCategoryMap.current.get(option)
+          );
+          setLoadExerciseOptionsUnitCategory(unitCategories[0]);
+        }
 
         loadDietLogListCalories(userSettings.locale, true);
         // loadUserWeightListWeights(
