@@ -150,6 +150,12 @@ export const LoadExerciseChartModal = ({
     setFilterCategories(updatedFilterCategories);
   };
 
+  const handleResetButton = () => {
+    setLoadExerciseOptions(new Set());
+    setLoadExerciseOptionsUnitCategories(new Set());
+    setLoadExerciseOptionsUnitCategory(undefined);
+  };
+
   return (
     <Modal
       isOpen={loadExerciseChartModal.isOpen}
@@ -202,7 +208,18 @@ export const LoadExerciseChartModal = ({
                       </Select>
                     </div>
                     <div className="flex flex-col items-end">
-                      <div>
+                      <div className="flex gap-1">
+                        {loadExerciseOptions.size > 0 && (
+                          <Button
+                            className="z-1"
+                            variant="flat"
+                            color="danger"
+                            size="sm"
+                            onPress={handleResetButton}
+                          >
+                            Reset
+                          </Button>
+                        )}
                         <Dropdown closeOnSelect={false}>
                           <DropdownTrigger>
                             <Button
