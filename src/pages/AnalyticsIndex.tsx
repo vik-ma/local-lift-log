@@ -403,8 +403,12 @@ export default function AnalyticsIndex() {
       const unitCategories = loadExerciseOptionsList.map((option) =>
         chartDataUnitCategoryMap.current.get(option)
       );
+
       setLoadExerciseOptionsUnitCategories(new Set(unitCategories));
       setLoadExerciseOptionsUnitCategory(unitCategories[0]);
+    } else {
+      setLoadExerciseOptionsUnitCategories(new Set());
+      setLoadExerciseOptionsUnitCategory(undefined);
     }
   };
 
