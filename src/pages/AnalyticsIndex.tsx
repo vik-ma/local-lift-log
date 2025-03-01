@@ -150,6 +150,8 @@ export default function AnalyticsIndex() {
     loadExerciseOptionsUnitCategories,
     setLoadExerciseOptionsUnitCategories,
   ] = useState<Set<ChartDataUnitCategory>>(new Set());
+  const [disabledLoadExerciseOptions, setDisabledLoadExerciseOptions] =
+    useState<Set<ChartDataUnitCategory>>(new Set());
 
   const [showTestButtons, setShowTestButtons] = useState<boolean>(false);
 
@@ -366,11 +368,27 @@ export default function AnalyticsIndex() {
 
   const loadExerciseOptionsMap = useLoadExerciseOptionsMap();
 
-  const disabledLoadExerciseOptions = useMemo(() => {
-    const disabledKeys = new Set<ChartDataUnitCategory>();
+  const updateLoadExerciseOptions = (loadExerciseOptionsString: string) => {
+    const loadExerciseOptionsList = CreateLoadExerciseOptionsList(
+      loadExerciseOptionsString
+    );
 
-    if (selectedExercise === undefined || loadedCharts.current.size === 0)
-      return disabledKeys;
+    setLoadExerciseOptions(new Set(loadExerciseOptionsList));
+
+    if (loadExerciseOptionsList.length > 0) {
+      const unitCategories = loadExerciseOptionsList.map((option) =>
+        chartDataUnitCategoryMap.current.get(option)
+      );
+      setLoadExerciseOptionsUnitCategories(new Set(unitCategories));
+      setLoadExerciseOptionsUnitCategory(unitCategories[0]);
+    }
+
+    if (selectedExercise === undefined) {
+      setDisabledLoadExerciseOptions(new Set());
+      return;
+    }
+
+    const disabledKeys = new Set<ChartDataUnitCategory>();
 
     const id = selectedExercise.id;
 
@@ -388,24 +406,7 @@ export default function AnalyticsIndex() {
       }
     }
 
-    return disabledKeys;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedExercise, loadedCharts.current]);
-
-  const updateLoadExerciseOptions = (loadExerciseOptionsString: string) => {
-    const loadExerciseOptionsList = CreateLoadExerciseOptionsList(
-      loadExerciseOptionsString
-    );
-
-    setLoadExerciseOptions(new Set(loadExerciseOptionsList));
-
-    if (loadExerciseOptionsList.length > 0) {
-      const unitCategories = loadExerciseOptionsList.map((option) =>
-        chartDataUnitCategoryMap.current.get(option)
-      );
-      setLoadExerciseOptionsUnitCategories(new Set(unitCategories));
-      setLoadExerciseOptionsUnitCategory(unitCategories[0]);
-    }
+    setDisabledLoadExerciseOptions(disabledKeys);
   };
 
   useEffect(() => {
