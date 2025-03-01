@@ -146,6 +146,10 @@ export default function AnalyticsIndex() {
   >(new Set());
   const [loadExerciseOptionsUnitCategory, setLoadExerciseOptionsUnitCategory] =
     useState<ChartDataUnitCategory>();
+  const [
+    loadExerciseOptionsUnitCategories,
+    setLoadExerciseOptionsUnitCategories,
+  ] = useState<Set<ChartDataUnitCategory>>(new Set());
 
   const [showTestButtons, setShowTestButtons] = useState<boolean>(false);
 
@@ -362,18 +366,6 @@ export default function AnalyticsIndex() {
 
   const loadExerciseOptionsMap = useLoadExerciseOptionsMap();
 
-  const loadExerciseOptionsUnitCategories = useMemo(() => {
-    const unitCategories = new Set<ChartDataUnitCategory>();
-
-    for (const chartDataCategory of loadExerciseOptions) {
-      unitCategories.add(
-        chartDataUnitCategoryMap.current.get(chartDataCategory)
-      );
-    }
-
-    return unitCategories;
-  }, [loadExerciseOptions]);
-
   const disabledLoadExerciseOptions = useMemo(() => {
     const disabledKeys = new Set<ChartDataUnitCategory>();
 
@@ -411,9 +403,16 @@ export default function AnalyticsIndex() {
       const unitCategories = loadExerciseOptionsList.map((option) =>
         chartDataUnitCategoryMap.current.get(option)
       );
+      setLoadExerciseOptionsUnitCategories(new Set(unitCategories));
       setLoadExerciseOptionsUnitCategory(unitCategories[0]);
     }
   };
+
+  useEffect(() => {
+    if (userSettings === undefined) return;
+
+    updateLoadExerciseOptions(userSettings.default_load_exercise_options);
+  }, [selectedExercise]);
 
   useEffect(
     () => {
@@ -1769,6 +1768,7 @@ export default function AnalyticsIndex() {
       loadedCharts.current.add(chartName as LoadedChartType);
     }
 
+    setSelectedExercise(undefined);
     loadExerciseChartModal.onClose();
   };
 
