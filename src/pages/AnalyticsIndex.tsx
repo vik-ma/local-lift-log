@@ -151,7 +151,7 @@ export default function AnalyticsIndex() {
     setLoadExerciseOptionsUnitCategories,
   ] = useState<Set<ChartDataUnitCategory>>(new Set());
   const [disabledLoadExerciseOptions, setDisabledLoadExerciseOptions] =
-    useState<Set<ChartDataUnitCategory>>(new Set());
+    useState<Set<ChartDataExerciseCategory>>(new Set());
 
   const [showTestButtons, setShowTestButtons] = useState<boolean>(false);
 
@@ -369,9 +369,33 @@ export default function AnalyticsIndex() {
   const loadExerciseOptionsMap = useLoadExerciseOptionsMap();
 
   const updateLoadExerciseOptions = (loadExerciseOptionsString: string) => {
+    const disabledKeys = new Set<ChartDataExerciseCategory>();
+
+    // Disable any options that have already been loaded for Exercise
+    if (selectedExercise !== undefined) {
+      const id = selectedExercise.id;
+
+      // Check if a ChartDataExerciseCategory value exists for selectedExercise id
+      for (const chart of loadedCharts.current) {
+        const lastIndex = chart.lastIndexOf("_");
+
+        if (lastIndex === -1) continue;
+
+        const chartName = chart.substring(0, lastIndex);
+        const chartId = chart.substring(lastIndex + 1);
+
+        if (chartId === id.toString() && chartName !== "measurement") {
+          disabledKeys.add(chartName as ChartDataExerciseCategory);
+        }
+      }
+    }
+
+    setDisabledLoadExerciseOptions(disabledKeys);
+
+    // Create list from default string, without any disabled options
     const loadExerciseOptionsList = CreateLoadExerciseOptionsList(
       loadExerciseOptionsString
-    );
+    ).filter((option) => !disabledKeys.has(option));
 
     setLoadExerciseOptions(new Set(loadExerciseOptionsList));
 
@@ -382,31 +406,6 @@ export default function AnalyticsIndex() {
       setLoadExerciseOptionsUnitCategories(new Set(unitCategories));
       setLoadExerciseOptionsUnitCategory(unitCategories[0]);
     }
-
-    if (selectedExercise === undefined) {
-      setDisabledLoadExerciseOptions(new Set());
-      return;
-    }
-
-    const disabledKeys = new Set<ChartDataUnitCategory>();
-
-    const id = selectedExercise.id;
-
-    // Check if a ChartDataExerciseCategory value exists for selectedExercise id
-    for (const chart of loadedCharts.current) {
-      const lastIndex = chart.lastIndexOf("_");
-
-      if (lastIndex === -1) continue;
-
-      const chartName = chart.substring(0, lastIndex);
-      const chartId = chart.substring(lastIndex + 1);
-
-      if (chartId === id.toString() && chartName !== "measurement") {
-        disabledKeys.add(chartName as ChartDataUnitCategory);
-      }
-    }
-
-    setDisabledLoadExerciseOptions(disabledKeys);
   };
 
   useEffect(() => {

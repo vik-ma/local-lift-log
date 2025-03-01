@@ -32,7 +32,7 @@ type LoadExerciseChartModalProps = {
   setLoadExerciseOptions: React.Dispatch<
     React.SetStateAction<Set<ChartDataExerciseCategory>>
   >;
-  disabledLoadExerciseOptions: Set<ChartDataUnitCategory>;
+  disabledLoadExerciseOptions: Set<ChartDataExerciseCategory>;
   loadExerciseOptionsUnitCategory: ChartDataUnitCategory;
   setLoadExerciseOptionsUnitCategory: React.Dispatch<
     React.SetStateAction<ChartDataUnitCategory>
@@ -245,7 +245,7 @@ export const LoadExerciseChartModal = ({
                             )
                           }
                           isDisabled={disabledLoadExerciseOptions.has(
-                            key as ChartDataUnitCategory
+                            key as ChartDataExerciseCategory
                           )}
                         >
                           {value}
