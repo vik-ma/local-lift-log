@@ -168,62 +168,99 @@ export const LoadExerciseChartModal = ({
                     </span>
                   )}
                 </span>
-                <div className="pr-0.5">
-                  <Dropdown closeOnSelect={false}>
-                    <DropdownTrigger>
-                      <Button
-                        className="z-1"
-                        variant="flat"
-                        color={
-                          filterCategories.size > 0 ? "secondary" : "default"
-                        }
-                        size="sm"
-                      >
-                        Filter
-                      </Button>
-                    </DropdownTrigger>
-                    <DropdownMenu
-                      aria-label="Filter Option Categories Dropdown Menu"
-                      selectedKeys={filterCategories as Set<string>}
-                      selectionMode="multiple"
-                      onSelectionChange={
-                        setFilterCategories as React.Dispatch<
-                          React.SetStateAction<SharedSelection>
-                        >
-                      }
-                    >
-                      {optionCategories.map((category) => (
-                        <DropdownItem key={category}>{category}</DropdownItem>
-                      ))}
-                    </DropdownMenu>
-                  </Dropdown>
-                </div>
               </div>
             </ModalHeader>
             <ModalBody className="pt-0">
-              <div className="h-[436px] flex flex-col gap-1.5">
-                <div className="flex flex-col">
-                  {filterCategories.size > 0 && (
-                    <div className="flex flex-col gap-0.5">
-                      <div className="flex items-center gap-1 flex-wrap max-w-[24rem]">
-                        {Array.from(filterCategories).map((category) => (
-                          <Chip
-                            key={category}
-                            classNames={{ content: "max-w-[20rem] truncate" }}
-                            radius="sm"
-                            color="secondary"
-                            variant="flat"
-                            onClose={() => removeFilter(category)}
-                            onClick={(e) => e.stopPropagation()}
+              <div className="h-[440px] flex flex-col gap-2">
+                <div className="flex flex-col gap-1">
+                  <div className="flex justify-between">
+                    <div className="w-[11.75rem]">
+                      <Select
+                        label="Chart Area Category"
+                        classNames={{
+                          trigger: "bg-amber-50 border-amber-200",
+                        }}
+                        size="sm"
+                        variant="faded"
+                        selectedKeys={
+                          loadExerciseOptionsUnitCategory !== undefined
+                            ? ([loadExerciseOptionsUnitCategory] as string[])
+                            : []
+                        }
+                        onChange={(e) =>
+                          setLoadExerciseOptionsUnitCategory(
+                            e.target.value as ChartDataUnitCategory
+                          )
+                        }
+                        disallowEmptySelection={chartDataAreas.length === 0}
+                      >
+                        {Array.from(loadExerciseOptionsUnitCategories).map(
+                          (category) => (
+                            <SelectItem key={category} value={category}>
+                              {category}
+                            </SelectItem>
+                          )
+                        )}
+                      </Select>
+                    </div>
+                    <div className="flex flex-col items-end">
+                      <div>
+                        <Dropdown closeOnSelect={false}>
+                          <DropdownTrigger>
+                            <Button
+                              className="z-1"
+                              variant="flat"
+                              color={
+                                filterCategories.size > 0
+                                  ? "secondary"
+                                  : "default"
+                              }
+                              size="sm"
+                            >
+                              Filter
+                            </Button>
+                          </DropdownTrigger>
+                          <DropdownMenu
+                            aria-label="Filter Option Categories Dropdown Menu"
+                            selectedKeys={filterCategories as Set<string>}
+                            selectionMode="multiple"
+                            onSelectionChange={
+                              setFilterCategories as React.Dispatch<
+                                React.SetStateAction<SharedSelection>
+                              >
+                            }
                           >
-                            <span className="font-medium">{category}</span>
-                          </Chip>
-                        ))}
+                            {optionCategories.map((category) => (
+                              <DropdownItem key={category}>
+                                {category}
+                              </DropdownItem>
+                            ))}
+                          </DropdownMenu>
+                        </Dropdown>
                       </div>
-                      <span className="text-secondary text-sm px-0.5">
-                        (Showing {filteredLoadExerciseOptionsMap.size} out of{" "}
-                        {loadExerciseOptionsMap.size} options)
-                      </span>
+                      {filterCategories.size > 0 && (
+                        <span className="text-secondary text-sm px-0.5">
+                          (Showing {filteredLoadExerciseOptionsMap.size} out of{" "}
+                          {loadExerciseOptionsMap.size} options)
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  {filterCategories.size > 0 && (
+                    <div className="flex items-center gap-1 flex-wrap max-w-[24rem]">
+                      {Array.from(filterCategories).map((category) => (
+                        <Chip
+                          key={category}
+                          classNames={{ content: "max-w-[20rem] truncate" }}
+                          radius="sm"
+                          color="secondary"
+                          variant="flat"
+                          onClose={() => removeFilter(category)}
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <span className="font-medium">{category}</span>
+                        </Chip>
+                      ))}
                     </div>
                   )}
                 </div>
@@ -255,38 +292,8 @@ export const LoadExerciseChartModal = ({
                 </ScrollShadow>
               </div>
             </ModalBody>
-            <ModalFooter
-              className={"h-[80px] flex justify-between items-center"}
-            >
-              <div className="w-[11.75rem]">
-                <Select
-                  label="Chart Area Category"
-                  classNames={{
-                    trigger: "bg-amber-50 border-amber-200",
-                  }}
-                  size="sm"
-                  variant="faded"
-                  selectedKeys={
-                    loadExerciseOptionsUnitCategory !== undefined
-                      ? ([loadExerciseOptionsUnitCategory] as string[])
-                      : []
-                  }
-                  onChange={(e) =>
-                    setLoadExerciseOptionsUnitCategory(
-                      e.target.value as ChartDataUnitCategory
-                    )
-                  }
-                  disallowEmptySelection={chartDataAreas.length === 0}
-                >
-                  {Array.from(loadExerciseOptionsUnitCategories).map(
-                    (category) => (
-                      <SelectItem key={category} value={category}>
-                        {category}
-                      </SelectItem>
-                    )
-                  )}
-                </Select>
-              </div>
+            <ModalFooter className="flex justify-between items-center">
+              <div></div>
               <div className="flex gap-2">
                 <Button color="primary" variant="light" onPress={onClose}>
                   Close
