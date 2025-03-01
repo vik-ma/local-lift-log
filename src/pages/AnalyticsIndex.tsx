@@ -1837,6 +1837,9 @@ export default function AnalyticsIndex() {
         loadExerciseOptionsUnitCategory={loadExerciseOptionsUnitCategory}
         setLoadExerciseOptionsUnitCategory={setLoadExerciseOptionsUnitCategory}
         loadExerciseOptionsUnitCategories={loadExerciseOptionsUnitCategories}
+        setLoadExerciseOptionsUnitCategories={
+          setLoadExerciseOptionsUnitCategories
+        }
         chartDataAreas={chartDataAreas}
         chartDataUnitCategoryMap={chartDataUnitCategoryMap.current}
         loadExerciseOptionsMap={loadExerciseOptionsMap}

@@ -38,6 +38,9 @@ type LoadExerciseChartModalProps = {
     React.SetStateAction<ChartDataUnitCategory>
   >;
   loadExerciseOptionsUnitCategories: Set<ChartDataUnitCategory>;
+  setLoadExerciseOptionsUnitCategories: React.Dispatch<
+    React.SetStateAction<Set<ChartDataUnitCategory>>
+  >;
   chartDataAreas: ChartDataCategory[];
   chartDataUnitCategoryMap: Map<ChartDataCategory, ChartDataUnitCategory>;
   loadExerciseOptionsMap: Map<ChartDataExerciseCategory, string>;
@@ -53,6 +56,7 @@ export const LoadExerciseChartModal = ({
   loadExerciseOptionsUnitCategory,
   setLoadExerciseOptionsUnitCategory,
   loadExerciseOptionsUnitCategories,
+  setLoadExerciseOptionsUnitCategories,
   chartDataAreas,
   chartDataUnitCategoryMap,
   loadExerciseOptionsMap,
@@ -108,17 +112,21 @@ export const LoadExerciseChartModal = ({
     }
 
     if (updatedLoadExerciseOptions.size > 0) {
+      const updatedUnitCategories = new Set<ChartDataUnitCategory>();
+
       let shouldChangeCategory = true;
 
       for (const option of updatedLoadExerciseOptions) {
-        if (
-          chartDataUnitCategoryMap.get(option) ===
-          loadExerciseOptionsUnitCategory
-        ) {
+        const unitCategory = chartDataUnitCategoryMap.get(option);
+
+        updatedUnitCategories.add(unitCategory);
+
+        if (unitCategory === loadExerciseOptionsUnitCategory) {
           shouldChangeCategory = false;
-          break;
         }
       }
+
+      setLoadExerciseOptionsUnitCategories(updatedUnitCategories);
 
       // Change loadExerciseOptionsUnitCategory if last option with that category was deleted
       if (shouldChangeCategory) {
@@ -128,9 +136,8 @@ export const LoadExerciseChartModal = ({
 
         setLoadExerciseOptionsUnitCategory(newValue);
       }
-    }
-
-    if (updatedLoadExerciseOptions.size === 0) {
+    } else {
+      setLoadExerciseOptionsUnitCategories(new Set());
       setLoadExerciseOptionsUnitCategory(undefined);
     }
 
