@@ -416,6 +416,7 @@ export default function AnalyticsIndex() {
     if (userSettings === undefined) return;
 
     updateLoadExerciseOptions(userSettings.default_load_exercise_options);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedExercise]);
 
   useEffect(
