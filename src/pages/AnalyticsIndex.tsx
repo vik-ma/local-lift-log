@@ -57,6 +57,7 @@ import {
   GetCurrentYmdDateString,
   GetUserMeasurementsWithMeasurementId,
   GetUserSettings,
+  UpdateDefaultLoadExerciseOptions,
   ValidMeasurementUnits,
 } from "../helpers";
 import {
@@ -1763,7 +1764,7 @@ export default function AnalyticsIndex() {
     loadExerciseChartModal.onOpen();
   };
 
-  const loadExerciseStats = () => {
+  const loadExerciseStats = async () => {
     if (selectedExercise === undefined) return;
 
     const exerciseId = selectedExercise.id;
@@ -1774,7 +1775,26 @@ export default function AnalyticsIndex() {
     }
 
     setSelectedExercise(undefined);
+    await updateDefaultLoadExerciseOptions();
     loadExerciseChartModal.onClose();
+  };
+
+  const updateDefaultLoadExerciseOptions = async () => {
+    if (userSettings === undefined) return;
+
+    const loadExerciseOptionsString = Array.from(loadExerciseOptions).join(",");
+
+    const updatedUserSettings: UserSettings = {
+      ...userSettings,
+      default_load_exercise_options: loadExerciseOptionsString,
+    };
+
+    await UpdateDefaultLoadExerciseOptions(
+      loadExerciseOptionsString,
+      userSettings.id
+    );
+
+    setUserSettings(updatedUserSettings);
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;
