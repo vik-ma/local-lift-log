@@ -1257,23 +1257,23 @@ export type ChartDataCategory =
   | "test";
 // TODO: REMOVE TEST LATER
 
+export type ChartDataExerciseCategoryBase =
+  | `weight_${"min" | "max" | "average" | "total"}`
+  | `distance_${"min" | "max" | "average" | "total"}`
+  | `time_${"min" | "max" | "average" | "total"}`
+  | `distance_per_time_${"min" | "max" | "average"}`
+  | `num_sets`
+  | `num_reps_${"min" | "max" | "average" | "total"}`
+  | `num_reps_and_partial_reps_${"min" | "max" | "average" | "total"}`
+  | `num_partial_reps_${"min" | "max" | "average" | "total"}`
+  | `set_body_weight`
+  | `rir_${"min" | "max" | "average"}`
+  | `rpe_${"min" | "max" | "average"}`
+  | `resistance_level_${"min" | "max" | "average"}`;
+
 export type ChartDataExerciseCategory =
-  | `weight${`_${"min" | "max" | "average" | "total"}`}${`_${number}` | ""}`
-  | `distance${`_${"min" | "max" | "average" | "total"}`}${`_${number}` | ""}`
-  | `time${`_${"min" | "max" | "average" | "total"}`}${`_${number}` | ""}`
-  | `distance_per_time${`_${"min" | "max" | "average"}`}${`_${number}` | ""}`
-  | `num_sets${`_${number}` | ""}`
-  | `num_reps${`_${"min" | "max" | "average" | "total"}`}${`_${number}` | ""}`
-  | `num_reps_and_partial_reps${`_${"min" | "max" | "average" | "total"}`}${
-      | `_${number}`
-      | ""}`
-  | `num_partial_reps${`_${"min" | "max" | "average" | "total"}`}${
-      | `_${number}`
-      | ""}`
-  | `set_body_weight${`_${number}` | ""}`
-  | `rir${`_${"min" | "max" | "average"}`}${`_${number}` | ""}`
-  | `rpe${`_${"min" | "max" | "average"}`}${`_${number}` | ""}`
-  | `resistance_level${`_${"min" | "max" | "average"}`}${`_${number}` | ""}`;
+  | ChartDataExerciseCategoryBase
+  | `${ChartDataExerciseCategoryBase}_${number}`;
 
 export type ChartDataUnitCategory =
   | undefined
