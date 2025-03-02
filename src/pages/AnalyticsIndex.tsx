@@ -42,6 +42,7 @@ import {
   TimePeriod,
   UserMeasurementValues,
   UserSettings,
+  WorkoutSet,
 } from "../typings";
 import {
   ConvertDateToYmdString,
@@ -54,6 +55,8 @@ import {
   FormatDateToShortString,
   GetAllDietLogs,
   GetAllUserWeights,
+  GetAnalyticsValuesForSetList,
+  GetCompletedSetsWithExerciseId,
   GetCurrentYmdDateString,
   GetUserMeasurementsWithMeasurementId,
   GetUserSettings,
@@ -129,7 +132,7 @@ export default function AnalyticsIndex() {
     ReferenceAreaItem[]
   >([]);
   const [weightUnit, setWeightUnit] = useState<string>("kg");
-  // const [distanceUnit, setDistanceUnit] = useState<string>("km");
+  const [distanceUnit, setDistanceUnit] = useState<string>("km");
   const [circumferenceUnit, setCircumferenceUnit] = useState<string>("cm");
   const [chartCommentMap, setChartCommentMap] = useState<
     Map<string, ChartComment[]>
@@ -429,7 +432,7 @@ export default function AnalyticsIndex() {
 
         setUserSettings(userSettings);
         setWeightUnit(userSettings.default_unit_weight);
-        // setDistanceUnit(userSettings.default_unit_distance);
+        setDistanceUnit(userSettings.default_unit_distance);
         setCircumferenceUnit(userSettings.default_unit_measurement);
 
         chartDataUnitMap.current.set(
@@ -1765,18 +1768,74 @@ export default function AnalyticsIndex() {
   };
 
   const loadExerciseStats = async () => {
-    if (selectedExercise === undefined) return;
+    if (selectedExercise === undefined || userSettings === undefined) return;
 
     const exerciseId = selectedExercise.id;
+
+    const fullSetList = await GetCompletedSetsWithExerciseId(exerciseId);
+
+    if (fullSetList.length === 0) return;
+
+    const loadedChartData: ChartDataItem[] = [];
+
+    const dateMap = new Map<string, WorkoutSet[]>();
+
+    // TODO: ADD comments
+
+    for (const set of fullSetList) {
+      const date = FormatDateToShortString(
+        new Date(set.time_completed!),
+        userSettings.locale
+      );
+
+      if (dateMap.has(date)) {
+        dateMap.get(date)!.push(set);
+      } else {
+        dateMap.set(date, [set]);
+      }
+    }
+
+    for (const [date, setList] of dateMap) {
+      const analyticsValuesMap = GetAnalyticsValuesForSetList(
+        setList,
+        loadExerciseOptions,
+        weightUnit,
+        distanceUnit
+      );
+
+      const chartDataItem: ChartDataItem = {
+        date,
+      };
+
+      for (const [key, value] of analyticsValuesMap) {
+        chartDataItem[key] = value;
+      }
+
+      loadedChartData.push(chartDataItem);
+    }
+
+    // TODO: ADD highestValues
+
+    const filledInChartData = fillInMissingDates(
+      loadedChartData,
+      userSettings.locale
+    );
+
+    const mergedChartData = mergeChartData(filledInChartData, chartData);
+
+    setChartData(mergedChartData);
 
     for (const option of loadExerciseOptions) {
       const chartName = `${option}_${exerciseId}`;
       loadedCharts.current.add(chartName as LoadedChartType);
     }
 
+    // TODO: FIX PRIMARY/SECONDARY
+
     setSelectedExercise(undefined);
     await updateDefaultLoadExerciseOptions();
     loadExerciseChartModal.onClose();
+    if (!isChartDataLoaded.current) isChartDataLoaded.current = true;
   };
 
   const updateDefaultLoadExerciseOptions = async () => {
