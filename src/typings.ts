@@ -1260,7 +1260,6 @@ export type ChartDataCategory =
 export type ChartDataExerciseCategory =
   | `weight${`_${"min" | "max" | "average" | "total"}`}${`_${number}` | ""}`
   | `distance${`_${"min" | "max" | "average" | "total"}`}${`_${number}` | ""}`
-  | `volume${`_${number}` | ""}`
   | `time${`_${"min" | "max" | "average" | "total"}`}${`_${number}` | ""}`
   | `distance_per_time${`_${"min" | "max" | "average"}`}${`_${number}` | ""}`
   | `num_sets${`_${number}` | ""}`

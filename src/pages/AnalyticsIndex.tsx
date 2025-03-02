@@ -285,7 +285,6 @@ export default function AnalyticsIndex() {
       ["weight_max", "Weight"],
       ["weight_average", "Weight"],
       ["weight_total", "Weight"],
-      ["volume", "Weight"],
       ["num_sets", "Number Of Sets"],
       ["num_reps_min", "Number Of Reps"],
       ["num_reps_max", "Number Of Reps"],
