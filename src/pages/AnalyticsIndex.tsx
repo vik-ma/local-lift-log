@@ -1772,7 +1772,7 @@ export default function AnalyticsIndex() {
 
     const exerciseId = selectedExercise.id;
 
-    const fullSetList = await GetCompletedSetsWithExerciseId(exerciseId);
+    const fullSetList = await GetCompletedSetsWithExerciseId(exerciseId, true);
 
     if (fullSetList.length === 0) return;
 
@@ -1808,7 +1808,7 @@ export default function AnalyticsIndex() {
       };
 
       for (const [key, value] of analyticsValuesMap) {
-        chartDataItem[key] = value;
+                chartDataItem[key] = value;
       }
 
       loadedChartData.push(chartDataItem);
