@@ -3,6 +3,7 @@ import { Exercise, WorkoutSet } from "../typings";
 import { useState, useEffect } from "react";
 import Database from "tauri-plugin-sql-api";
 import { LoadingSpinner } from "../components";
+import { GetCompletedSetsWithExerciseId } from "../helpers";
 
 export default function ExerciseHistory() {
   const [exercise, setExercise] = useState<Exercise>();
@@ -31,18 +32,9 @@ export default function ExerciseHistory() {
     };
 
     const getSets = async () => {
-      try {
-        const db = await Database.load(import.meta.env.VITE_DB);
+      const setList = await GetCompletedSetsWithExerciseId(Number(id));
 
-        const result = await db.select<WorkoutSet[]>(
-          "SELECT * FROM sets WHERE exercise_id = $1 AND is_completed = 1",
-          [id]
-        );
-
-        setSets(result);
-      } catch (error) {
-        console.log(error);
-      }
+      setSets(setList);
     };
 
     getExercise();
