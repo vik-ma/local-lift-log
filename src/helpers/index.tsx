@@ -95,6 +95,7 @@ export { ShouldSetTrackingValueButtonBeDisabled } from "./Sets/ShouldSetTracking
 export { GetSetsOfLastCompletedExercise } from "./Sets/GetSetsOfLastCompletedExercise";
 export { CopySetTrackingValues } from "./Sets/CopySetTrackingValues";
 export { GetCompletedSetsWithExerciseId } from "./Sets/GetCompletedSetsWithExerciseId";
+export { GetAnalyticsValuesForSetList } from "./Sets/GetAnalyticsValuesForSetList";
 
 export { GenerateMultisetSetOrderString } from "./Multisets/GenerateMultisetSetOrderString";
 export { DefaultNewMultiset } from "./Multisets/DefaultNewMultiset";
