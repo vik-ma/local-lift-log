@@ -12,6 +12,7 @@ export const GetAnalyticsValuesForSetList = (
 
   let minWeight = Infinity;
   let maxWeight = 0;
+  let addedWeight = 0;
   let totalWeight = 0;
 
   for (const set of setList) {
@@ -24,6 +25,8 @@ export const GetAnalyticsValuesForSetList = (
 
       if (weight < minWeight) minWeight = weight;
       if (weight > maxWeight) maxWeight = weight;
+
+      addedWeight += weight;
 
       if (set.is_tracking_reps) {
         totalWeight += weight * set.reps;
@@ -44,8 +47,8 @@ export const GetAnalyticsValuesForSetList = (
 
   if (loadExerciseOptions.has("weight_avg")) {
     analyticsValues.set(
-      "weight_max",
-      ConvertNumberToTwoDecimals(totalWeight / setList.length)
+      "weight_avg",
+      ConvertNumberToTwoDecimals(addedWeight / setList.length)
     );
   }
 
