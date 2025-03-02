@@ -1,8 +1,8 @@
-import { ChartDataExerciseCategory } from "../../typings";
+import { ChartDataExerciseCategoryBase } from "../../typings";
 
 export const ValidLoadExerciseOptionsMap = () => {
   const VALID_LOAD_EXERCISE_OPTIONS_MAP = new Map<
-    ChartDataExerciseCategory,
+    ChartDataExerciseCategoryBase,
     string
   >([
     ["weight_min", "Min Weight"],

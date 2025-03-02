@@ -1,4 +1,4 @@
-import { ChartDataExerciseCategory } from "../../typings";
+import { ChartDataExerciseCategoryBase } from "../../typings";
 import { IsStringEmpty } from "../Strings/IsStringEmpty";
 import { ValidateDefaultLoadExerciseOptionsString } from "./ValidateDefaultLoadExerciseOptionsString";
 
@@ -7,5 +7,5 @@ export const CreateLoadExerciseOptionsList = (str: string) => {
 
   if (IsStringEmpty(str)) return [];
 
-  return str.split(",") as ChartDataExerciseCategory[];
+  return str.split(",") as ChartDataExerciseCategoryBase[];
 };

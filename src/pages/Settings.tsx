@@ -3,7 +3,7 @@ import {
   UserSettings,
   DefaultIncrementInputs,
   PlateCollection,
-  ChartDataExerciseCategory,
+  ChartDataExerciseCategoryBase,
 } from "../typings";
 import {
   GetUserSettings,
@@ -83,7 +83,7 @@ export default function Settings() {
   const [selectedTimePeriodProperties, setSelectedTimePeriodProperties] =
     useState<Set<string>>(new Set());
   const [loadExerciseOptions, setLoadExerciseOptions] = useState<
-    ChartDataExerciseCategory[]
+    ChartDataExerciseCategoryBase[]
   >([]);
 
   const restoreSettingsModal = useDisclosure();
@@ -702,7 +702,7 @@ export default function Settings() {
                         value={loadExerciseOptions as string[]}
                         onValueChange={(value) =>
                           setLoadExerciseOptions(
-                            value as ChartDataExerciseCategory[]
+                            value as ChartDataExerciseCategoryBase[]
                           )
                         }
                       >

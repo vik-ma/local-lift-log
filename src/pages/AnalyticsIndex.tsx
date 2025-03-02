@@ -35,6 +35,7 @@ import {
   ChartComment,
   ChartDataCategory,
   ChartDataExerciseCategory,
+  ChartDataExerciseCategoryBase,
   ChartDataUnitCategory,
   Exercise,
   Measurement,
@@ -142,7 +143,7 @@ export default function AnalyticsIndex() {
   >(new Map());
   const [selectedExercise, setSelectedExercise] = useState<Exercise>();
   const [loadExerciseOptions, setLoadExerciseOptions] = useState<
-    Set<ChartDataExerciseCategory>
+    Set<ChartDataExerciseCategoryBase>
   >(new Set());
   const [loadExerciseOptionsUnitCategory, setLoadExerciseOptionsUnitCategory] =
     useState<ChartDataUnitCategory>();
@@ -151,7 +152,7 @@ export default function AnalyticsIndex() {
     setLoadExerciseOptionsUnitCategories,
   ] = useState<Set<ChartDataUnitCategory>>(new Set());
   const [disabledLoadExerciseOptions, setDisabledLoadExerciseOptions] =
-    useState<Set<ChartDataExerciseCategory>>(new Set());
+    useState<Set<ChartDataExerciseCategoryBase>>(new Set());
 
   const [showTestButtons, setShowTestButtons] = useState<boolean>(false);
 
@@ -368,13 +369,13 @@ export default function AnalyticsIndex() {
   const loadExerciseOptionsMap = useLoadExerciseOptionsMap();
 
   const updateLoadExerciseOptions = (loadExerciseOptionsString: string) => {
-    const disabledKeys = new Set<ChartDataExerciseCategory>();
+    const disabledKeys = new Set<ChartDataExerciseCategoryBase>();
 
     // Disable any options that have already been loaded for Exercise
     if (selectedExercise !== undefined) {
       const id = selectedExercise.id;
 
-      // Check if a ChartDataExerciseCategory value exists for selectedExercise id
+      // Check if a ChartDataExerciseCategoryBase value exists for selectedExercise id
       for (const chart of loadedCharts.current) {
         const lastIndex = chart.lastIndexOf("_");
 
@@ -384,7 +385,7 @@ export default function AnalyticsIndex() {
         const chartId = chart.substring(lastIndex + 1);
 
         if (chartId === id.toString() && chartName !== "measurement") {
-          disabledKeys.add(chartName as ChartDataExerciseCategory);
+          disabledKeys.add(chartName as ChartDataExerciseCategoryBase);
         }
       }
     }

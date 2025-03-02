@@ -18,7 +18,7 @@ import {
 } from "@heroui/react";
 import {
   ChartDataCategory,
-  ChartDataExerciseCategory,
+  ChartDataExerciseCategoryBase,
   ChartDataUnitCategory,
   Exercise,
   UseDisclosureReturnType,
@@ -28,11 +28,11 @@ import { useMemo, useState } from "react";
 type LoadExerciseChartModalProps = {
   loadExerciseChartModal: UseDisclosureReturnType;
   selectedExercise: Exercise | undefined;
-  loadExerciseOptions: Set<ChartDataExerciseCategory>;
+  loadExerciseOptions: Set<ChartDataExerciseCategoryBase>;
   setLoadExerciseOptions: React.Dispatch<
-    React.SetStateAction<Set<ChartDataExerciseCategory>>
+    React.SetStateAction<Set<ChartDataExerciseCategoryBase>>
   >;
-  disabledLoadExerciseOptions: Set<ChartDataExerciseCategory>;
+  disabledLoadExerciseOptions: Set<ChartDataExerciseCategoryBase>;
   loadExerciseOptionsUnitCategory: ChartDataUnitCategory;
   setLoadExerciseOptionsUnitCategory: React.Dispatch<
     React.SetStateAction<ChartDataUnitCategory>
@@ -43,7 +43,7 @@ type LoadExerciseChartModalProps = {
   >;
   chartDataAreas: ChartDataCategory[];
   chartDataUnitCategoryMap: Map<ChartDataCategory, ChartDataUnitCategory>;
-  loadExerciseOptionsMap: Map<ChartDataExerciseCategory, string>;
+  loadExerciseOptionsMap: Map<ChartDataExerciseCategoryBase, string>;
   loadExerciseStats: () => void;
 };
 
@@ -97,7 +97,7 @@ export const LoadExerciseChartModal = ({
     loadExerciseOptions,
   ]);
 
-  const handleLoadExerciseOptionsChange = (key: ChartDataExerciseCategory) => {
+  const handleLoadExerciseOptionsChange = (key: ChartDataExerciseCategoryBase) => {
     const updatedLoadExerciseOptions = new Set(loadExerciseOptions);
 
     // Set key as loadExerciseOptionsUnitCategory if loadExerciseOptions was empty
@@ -288,15 +288,15 @@ export const LoadExerciseChartModal = ({
                           className="hover:underline w-full min-w-full -mb-1"
                           color="primary"
                           isSelected={loadExerciseOptions.has(
-                            key as ChartDataExerciseCategory
+                            key as ChartDataExerciseCategoryBase
                           )}
                           onValueChange={() =>
                             handleLoadExerciseOptionsChange(
-                              key as ChartDataExerciseCategory
+                              key as ChartDataExerciseCategoryBase
                             )
                           }
                           isDisabled={disabledLoadExerciseOptions.has(
-                            key as ChartDataExerciseCategory
+                            key as ChartDataExerciseCategoryBase
                           )}
                         >
                           {value}
