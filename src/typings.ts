@@ -1258,18 +1258,18 @@ export type ChartDataCategory =
 // TODO: REMOVE TEST LATER
 
 export type ChartDataExerciseCategoryBase =
-  | `weight_${"min" | "max" | "average" | "total"}`
-  | `distance_${"min" | "max" | "average" | "total"}`
-  | `time_${"min" | "max" | "average" | "total"}`
-  | `distance_per_time_${"min" | "max" | "average"}`
+  | `weight_${"min" | "max" | "avg" | "total"}`
+  | `distance_${"min" | "max" | "avg" | "total"}`
+  | `time_${"min" | "max" | "avg" | "total"}`
+  | `distance_per_time_${"min" | "max" | "avg"}`
   | `num_sets`
-  | `num_reps_${"min" | "max" | "average" | "total"}`
-  | `num_reps_and_partial_reps_${"min" | "max" | "average" | "total"}`
-  | `num_partial_reps_${"min" | "max" | "average" | "total"}`
+  | `num_reps_${"min" | "max" | "avg" | "total"}`
+  | `num_reps_and_partial_reps_${"min" | "max" | "avg" | "total"}`
+  | `num_partial_reps_${"min" | "max" | "avg" | "total"}`
   | `set_body_weight`
-  | `rir_${"min" | "max" | "average"}`
-  | `rpe_${"min" | "max" | "average"}`
-  | `resistance_level_${"min" | "max" | "average"}`;
+  | `rir_${"min" | "max" | "avg"}`
+  | `rpe_${"min" | "max" | "avg"}`
+  | `resistance_level_${"min" | "max" | "avg"}`;
 
 export type ChartDataExerciseCategory =
   | ChartDataExerciseCategoryBase
