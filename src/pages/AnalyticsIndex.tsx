@@ -1914,20 +1914,30 @@ export default function AnalyticsIndex() {
 
     for (const option of loadExerciseOptions) {
       const chartName: ChartDataCategory = `${option}_${exerciseId}`;
+
+      if (loadedCharts.current.has(chartName)) continue;
+
       const optionCategory = chartDataUnitCategoryMap.current.get(option);
 
       loadedCharts.current.add(chartName);
       chartDataUnitCategoryMap.current.set(chartName, optionCategory);
 
+      const chartLabel = `${loadExerciseOptionsMap.get(option)} [${
+        selectedExercise.name
+      }]`;
+
+      chartDataCategoryLabelMap.current.set(chartName, chartLabel);
+
+      chartConfig.current[chartName] = {
+        label: chartLabel,
+      };
+
       updateExerciseStatUnit(chartName, optionCategory);
 
-      // TODO: CHANGE TO CHECK highestValues
       // TODO: FIX PRIMARY/SECONDARY
-      // TODO: HANDLE CHART ALREADY LOADED
 
       if (
-        loadedChartData[0] &&
-        Object.hasOwn(loadedChartData[0], chartName) &&
+        updatedHighestValueMap.has(chartName) &&
         loadExerciseOptionsUnitCategory === optionCategory
       ) {
         primaryDataKeys.push(chartName);
