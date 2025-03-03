@@ -1887,7 +1887,10 @@ export default function AnalyticsIndex() {
 
     for (const option of loadExerciseOptions) {
       const chartName: ChartDataCategory = `${option}_${exerciseId}`;
+      const optionCategory = chartDataUnitCategoryMap.current.get(option);
+
       loadedCharts.current.add(chartName);
+      chartDataUnitCategoryMap.current.set(chartName, optionCategory);
 
       // TODO: CHANGE TO CHECK highestValues
       // TODO: FIX PRIMARY/SECONDARY
@@ -1896,8 +1899,7 @@ export default function AnalyticsIndex() {
       if (
         loadedChartData[0] &&
         Object.hasOwn(loadedChartData[0], chartName) &&
-        loadExerciseOptionsUnitCategory ===
-          chartDataUnitCategoryMap.current.get(option)
+        loadExerciseOptionsUnitCategory === optionCategory
       ) {
         primaryDataKeys.push(chartName);
       }
