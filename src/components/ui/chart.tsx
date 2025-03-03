@@ -254,7 +254,7 @@ const ChartTooltipContent = React.forwardRef<
                     >
                       <div className="grid gap-1.5">
                         {nestLabel ? tooltipLabel : null}
-                        <span className="text-stone-500 dark:text-stone-400">
+                        <span className="max-w-[20rem] truncate text-stone-500 dark:text-stone-400">
                           {itemConfig?.label || item.name}
                         </span>
                       </div>
@@ -364,7 +364,9 @@ const ChartLegendContent = React.forwardRef<
                   }}
                 />
               )}
-              {itemConfig?.label}
+              <span className="max-w-[12rem] truncate">
+                {itemConfig?.label}
+              </span>
             </div>
           );
         })}
