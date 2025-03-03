@@ -1273,6 +1273,7 @@ export default function AnalyticsIndex() {
       const maxDate2 = new Date(list2[list2.length - 1].date);
       maxDate2.setDate(maxDate2.getDate() + 1);
 
+      // Check if there is a gap of dates between the end of one list and the start of the other
       const isGapAndList1ComesFirst = maxDate1.getTime() < minDate2.getTime();
       const isGapAndList2ComesFirst = maxDate2.getTime() < minDate1.getTime();
 
@@ -1285,6 +1286,7 @@ export default function AnalyticsIndex() {
 
           const chartDataItem: ChartDataItem = { date: dateString };
 
+          // Fill in the gaps in list that is chronologically first
           if (isGapAndList1ComesFirst) {
             list1.push(chartDataItem);
           } else {
