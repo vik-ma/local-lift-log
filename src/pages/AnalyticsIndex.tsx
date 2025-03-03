@@ -1808,13 +1808,17 @@ export default function AnalyticsIndex() {
       };
 
       for (const [key, value] of analyticsValuesMap) {
-                chartDataItem[key] = value;
+        const chartName: ChartDataCategory = `${key}_${exerciseId}`;
+        chartDataItem[chartName] = value;
       }
 
       loadedChartData.push(chartDataItem);
     }
 
+    // TODO: HANDLE EMPTY LISTS
+
     // TODO: ADD highestValues
+
 
     const filledInChartData = fillInMissingDates(
       loadedChartData,
@@ -1825,12 +1829,29 @@ export default function AnalyticsIndex() {
 
     setChartData(mergedChartData);
 
+    const primaryDataKeys: ChartDataCategory[] = [];
+    const secondaryDataKeys: ChartDataCategory[] = [];
+
     for (const option of loadExerciseOptions) {
-      const chartName = `${option}_${exerciseId}`;
-      loadedCharts.current.add(chartName as LoadedChartType);
+      const chartName: ChartDataCategory = `${option}_${exerciseId}`;
+      loadedCharts.current.add(chartName);
+
+      // TODO: CHANGE TO CHECK highestValues
+      // TODO: FIX PRIMARY/SECONDARY
+      // TODO: HANDLE CHART ALREADY LOADED
+
+      if (
+        loadedChartData[0] &&
+        Object.hasOwn(loadedChartData[0], chartName) &&
+        loadExerciseOptionsUnitCategory ===
+          chartDataUnitCategoryMap.current.get(option)
+      ) {
+        primaryDataKeys.push(chartName);
+      }
     }
 
     // TODO: FIX PRIMARY/SECONDARY
+    loadChartAreas(primaryDataKeys);
 
     setSelectedExercise(undefined);
     await updateDefaultLoadExerciseOptions();
