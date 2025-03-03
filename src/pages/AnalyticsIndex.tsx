@@ -1830,6 +1830,12 @@ export default function AnalyticsIndex() {
 
     const dateMap = new Map<string, WorkoutSet[]>();
 
+    const highestValueMap = new Map<ChartDataExerciseCategory, number>();
+
+    for (const option of loadExerciseOptions) {
+      highestValueMap.set(`${option}_${exerciseId}`, -1);
+    }
+
     // TODO: ADD comments
 
     for (const set of fullSetList) {
@@ -1860,14 +1866,30 @@ export default function AnalyticsIndex() {
       for (const [key, value] of analyticsValuesMap) {
         const chartName: ChartDataCategory = `${key}_${exerciseId}`;
         chartDataItem[chartName] = value;
+
+        if (value > highestValueMap.get(chartName)!) {
+          highestValueMap.set(chartName, value);
+        }
       }
 
       loadedChartData.push(chartDataItem);
     }
 
-    // TODO: HANDLE EMPTY LISTS
+    // Filter out categories with no values
+    const updatedHighestValueMap = new Map(
+      Array.from(highestValueMap).filter(([, value]) => value > -1)
+    );
 
-    // TODO: ADD highestValues
+    if (updatedHighestValueMap.size === 0) {
+      for (const chart of highestValueMap.keys()) {
+        loadedCharts.current.add(chart);
+      }
+
+      setSelectedExercise(undefined);
+      toast.error("No Values Found For Selected Stats");
+      loadExerciseChartModal.onClose();
+      return;
+    }
 
     const filledInChartData = fillInMissingDates(
       loadedChartData,
@@ -1881,6 +1903,11 @@ export default function AnalyticsIndex() {
     );
 
     setChartData(mergedChartData);
+
+    highestCategoryValues.current = new Map([
+      ...highestCategoryValues.current,
+      ...updatedHighestValueMap,
+    ]);
 
     const primaryDataKeys: ChartDataCategory[] = [];
     const secondaryDataKeys: ChartDataCategory[] = [];
@@ -1910,8 +1937,8 @@ export default function AnalyticsIndex() {
     // TODO: FIX PRIMARY/SECONDARY
     loadChartAreas(primaryDataKeys);
 
-    setSelectedExercise(undefined);
     await updateDefaultLoadExerciseOptions();
+    setSelectedExercise(undefined);
     loadExerciseChartModal.onClose();
     if (!isChartDataLoaded.current) isChartDataLoaded.current = true;
   };
