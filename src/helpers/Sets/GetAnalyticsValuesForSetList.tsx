@@ -10,13 +10,19 @@ export const GetAnalyticsValuesForSetList = (
 ) => {
   const analyticsValues = new Map<ChartDataExerciseCategoryBase, number>();
 
+  // If -1 is returned for option, no tracked value was found
   let minWeight = Infinity;
-  let maxWeight = 0;
-  let addedWeight = 0;
-  let totalWeight = 0;
+  let maxWeight = -1;
+  let addedWeight = -1;
+  let totalWeight = -1;
 
   for (const set of setList) {
     if (set.is_tracking_weight) {
+      if (maxWeight === -1) {
+        maxWeight = 0;
+        addedWeight = 0;
+      }
+
       const weight = ConvertWeightValue(
         set.weight,
         set.weight_unit,
@@ -29,6 +35,8 @@ export const GetAnalyticsValuesForSetList = (
       addedWeight += weight;
 
       if (set.is_tracking_reps) {
+        if (totalWeight === -1) totalWeight = 0;
+
         totalWeight += weight * set.reps;
       }
     }
@@ -37,7 +45,7 @@ export const GetAnalyticsValuesForSetList = (
   if (loadExerciseOptions.has("weight_min")) {
     analyticsValues.set(
       "weight_min",
-      minWeight === Infinity ? 0 : ConvertNumberToTwoDecimals(minWeight)
+      minWeight === Infinity ? -1 : ConvertNumberToTwoDecimals(minWeight)
     );
   }
 
