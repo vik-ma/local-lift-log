@@ -987,17 +987,6 @@ export default function AnalyticsIndex() {
   ): ChartDataItem[] => {
     if (loadedChartData.length === 0) return [];
 
-    // Get all props for the ChartDataItem objects except "date"
-    const chartDataProps = Object.getOwnPropertyNames(
-      loadedChartData[0]
-    ).filter((item) => item !== "date");
-
-    // Create ChartDataItem with all null values for those props
-    const emptyChartDataItem = chartDataProps.reduce((acc, key) => {
-      acc[key] = null;
-      return acc;
-    }, {} as Record<string, null>);
-
     const filledInChartData: ChartDataItem[] = [];
 
     const chartDataDateMap = new Map(
@@ -1013,8 +1002,12 @@ export default function AnalyticsIndex() {
       if (chartDataDateMap.has(dateString)) {
         filledInChartData.push(chartDataDateMap.get(dateString)!);
       } else {
-        // Fill in null values for missing dates
-        filledInChartData.push({ ...emptyChartDataItem, date: dateString });
+        // Fill in empty ChartDataItems for missing dates
+        const chartDataItem: ChartDataItem = {
+          date: dateString,
+        };
+
+        filledInChartData.push(chartDataItem);
       }
 
       currentDate.setDate(currentDate.getDate() + 1);
