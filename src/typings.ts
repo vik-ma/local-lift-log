@@ -1258,7 +1258,7 @@ export type ChartDataCategory =
 // TODO: REMOVE TEST LATER
 
 export type ChartDataExerciseCategoryBase =
-  | `weight_${"min" | "max" | "avg" | "total"}`
+  | `weight_${"min" | "max" | "avg" | "volume"}`
   | `distance_${"min" | "max" | "avg" | "total"}`
   | `time_${"min" | "max" | "avg" | "total"}`
   | `distance_per_time_${"min" | "max" | "avg"}`

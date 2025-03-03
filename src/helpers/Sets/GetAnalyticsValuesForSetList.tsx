@@ -14,7 +14,7 @@ export const GetAnalyticsValuesForSetList = (
   let minWeight = Infinity;
   let maxWeight = -1;
   let addedWeight = -1;
-  let totalWeight = -1;
+  let weightVolume = -1;
 
   for (const set of setList) {
     if (set.is_tracking_weight) {
@@ -35,9 +35,9 @@ export const GetAnalyticsValuesForSetList = (
       addedWeight += weight;
 
       if (set.is_tracking_reps) {
-        if (totalWeight === -1) totalWeight = 0;
+        if (weightVolume === -1) weightVolume = 0;
 
-        totalWeight += weight * set.reps;
+        weightVolume += weight * set.reps;
       }
     }
   }
@@ -60,10 +60,10 @@ export const GetAnalyticsValuesForSetList = (
     );
   }
 
-  if (loadExerciseOptions.has("weight_total")) {
+  if (loadExerciseOptions.has("weight_volume")) {
     analyticsValues.set(
-      "weight_total",
-      ConvertNumberToTwoDecimals(totalWeight)
+      "weight_volume",
+      ConvertNumberToTwoDecimals(weightVolume)
     );
   }
 

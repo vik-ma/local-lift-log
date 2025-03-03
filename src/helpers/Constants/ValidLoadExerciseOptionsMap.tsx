@@ -8,7 +8,7 @@ export const ValidLoadExerciseOptionsMap = () => {
     ["weight_min", "Min Weight"],
     ["weight_max", "Max Weight"],
     ["weight_avg", "Average Weight"],
-    ["weight_total", "Total Weight"],
+    ["weight_volume", "Weight Volume"],
     ["num_sets", "Number Of Sets"],
     ["num_reps_min", "Min Reps"],
     ["num_reps_max", "Max Reps"],
