@@ -1892,6 +1892,8 @@ export default function AnalyticsIndex() {
       loadedCharts.current.add(chartName);
       chartDataUnitCategoryMap.current.set(chartName, optionCategory);
 
+      updateExerciseStatUnit(chartName, optionCategory);
+
       // TODO: CHANGE TO CHECK highestValues
       // TODO: FIX PRIMARY/SECONDARY
       // TODO: HANDLE CHART ALREADY LOADED
@@ -1930,6 +1932,50 @@ export default function AnalyticsIndex() {
     );
 
     setUserSettings(updatedUserSettings);
+  };
+
+  const updateExerciseStatUnit = (
+    chartName: ChartDataExerciseCategory,
+    optionCategory: ChartDataUnitCategory
+  ) => {
+    let unit = "";
+
+    switch (optionCategory) {
+      case "Weight":
+        unit = ` ${weightUnit}`;
+        break;
+      case "Distance":
+        unit = ` ${distanceUnit}`;
+        break;
+      case "Time":
+        // TODO: ADD HRS+MIN?
+        unit = " min";
+        break;
+      case "Pace":
+        // TODO: ADD OTHER UNITS?
+        unit = distanceUnit === "km" || distanceUnit === "m" ? " km/h" : " mph";
+        break;
+      // TODO: REMOVE ALL?
+      // case "Number Of Sets":
+      //   unit = " sets";
+      //   break;
+      // case "Number Of Reps":
+      //   unit = " reps";
+      //   break;
+      // case "RIR":
+      //   unit = " RIR";
+      //   break;
+      // case "RPE":
+      //   unit = " RPE";
+      //   break;
+      // case "Resistance Level":
+      //   unit = " level";
+      //   break;
+      default:
+        break;
+    }
+
+    chartDataUnitMap.current.set(chartName, unit);
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;
