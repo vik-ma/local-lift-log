@@ -1912,10 +1912,16 @@ export default function AnalyticsIndex() {
     const primaryDataKeys: ChartDataCategory[] = [];
     const secondaryDataKeys: ChartDataCategory[] = [];
 
+    const chartLineUnitCategories = new Set<ChartDataUnitCategory>();
+
     for (const option of loadExerciseOptions) {
       const chartName: ChartDataCategory = `${option}_${exerciseId}`;
 
-      if (loadedCharts.current.has(chartName)) continue;
+      if (
+        !updatedHighestValueMap.has(chartName) ||
+        loadedCharts.current.has(chartName)
+      )
+        continue;
 
       const optionCategory = chartDataUnitCategoryMap.current.get(option);
 
@@ -1934,18 +1940,25 @@ export default function AnalyticsIndex() {
 
       updateExerciseStatUnit(chartName, optionCategory);
 
-      // TODO: FIX PRIMARY/SECONDARY
-
-      if (
-        updatedHighestValueMap.has(chartName) &&
-        loadExerciseOptionsUnitCategory === optionCategory
-      ) {
+      if (loadExerciseOptionsUnitCategory === optionCategory) {
         primaryDataKeys.push(chartName);
+      } else {
+        secondaryDataKeys.push(chartName);
+        chartLineUnitCategories.add(optionCategory);
       }
     }
 
-    // TODO: FIX PRIMARY/SECONDARY
-    loadChartAreas(primaryDataKeys);
+    if (primaryDataKeys.length > 0) {
+      loadChartAreas(primaryDataKeys);
+    }
+
+    if (secondaryDataKeys.length > 0) {
+      loadChartLines(
+        secondaryDataKeys,
+        Array.from(chartLineUnitCategories),
+        secondaryDataKeys[0]
+      );
+    }
 
     await updateDefaultLoadExerciseOptions();
     setSelectedExercise(undefined);
