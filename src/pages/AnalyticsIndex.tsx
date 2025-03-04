@@ -430,11 +430,11 @@ export default function AnalyticsIndex() {
         updateLoadExerciseOptions(userSettings.default_load_exercise_options);
 
         // loadDietLogListCalories(userSettings.locale, true);
-        loadUserWeightListWeights(
-          userSettings.locale,
-          userSettings.default_unit_weight,
-          true
-        );
+        // loadUserWeightListWeights(
+        //   userSettings.locale,
+        //   userSettings.default_unit_weight,
+        //   true
+        // );
       };
 
       loadUserSettings();
@@ -2033,6 +2033,100 @@ export default function AnalyticsIndex() {
     chartDataUnitMap.current.set(chartName, unit);
   };
 
+  const showAllLinesAndAreas = () => {
+    if (
+      chartDataAreas.includes("weight_min_111111") ||
+      userSettings === undefined
+    )
+      return;
+
+    const updatedChartData: ChartDataItem[] = [...chartData];
+
+    const highestValueMap = new Map<ChartDataExerciseCategory, number>();
+
+    const areaKeys: ChartDataExerciseCategory[] = [
+      "weight_min_111111",
+      "weight_min_222222",
+      "weight_min_333333",
+      "weight_min_444444",
+      "weight_min_555555",
+      "weight_min_666666",
+      "weight_min_777777",
+    ];
+
+    const lineKeys: ChartDataExerciseCategory[] = [
+      "weight_max_111111",
+      "weight_max_222222",
+      "weight_max_333333",
+      "weight_max_444444",
+      "weight_max_555555",
+      "weight_max_666666",
+    ];
+
+    const keys = [...areaKeys, ...lineKeys];
+
+    keys.map((key) => highestValueMap.set(key, 0));
+
+    const currentDate = new Date("2025-01-01");
+    const endDate = new Date("2025-01-10");
+
+    while (currentDate <= endDate) {
+      const newValues: Record<string, number> = {
+        weight_min_111111: Math.floor(Math.random() * 1000),
+        weight_min_222222: Math.floor(Math.random() * 800),
+        weight_min_333333: Math.floor(Math.random() * 600),
+        weight_min_444444: Math.floor(Math.random() * 400),
+        weight_min_555555: Math.floor(Math.random() * 200),
+        weight_min_666666: Math.floor(Math.random() * 100),
+        weight_min_777777: Math.floor(Math.random() * 50),
+        weight_max_111111: Math.floor(Math.random() * 800),
+        weight_max_222222: Math.floor(Math.random() * 800),
+        weight_max_333333: Math.floor(Math.random() * 800),
+        weight_max_444444: Math.floor(Math.random() * 800),
+        weight_max_555555: Math.floor(Math.random() * 800),
+        weight_max_666666: Math.floor(Math.random() * 800),
+      };
+
+      const dateString = FormatDateToShortString(
+        currentDate,
+        userSettings.locale
+      );
+
+      const chartDataItem: ChartDataItem = {
+        date: dateString,
+      };
+
+      for (const key in newValues) {
+        chartDataItem[key as ChartDataExerciseCategory] = newValues[key];
+        highestValueMap.set(
+          key as ChartDataExerciseCategory,
+          Math.max(
+            highestValueMap.get(key as ChartDataExerciseCategory)!,
+            newValues[key]
+          )
+        );
+      }
+
+      updatedChartData.push(chartDataItem);
+
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    for (const [key, value] of highestValueMap) {
+      highestCategoryValues.current.set(key, value);
+      chartConfig.current[key] = { label: "Test" };
+      chartDataUnitMap.current.set(key, ` ${weightUnit}`);
+      chartDataUnitCategoryMap.current.set(key, "Weight");
+    }
+
+    setChartData(updatedChartData);
+
+    loadChartAreas(areaKeys);
+    loadChartLines(lineKeys, ["Weight"], lineKeys[0]);
+
+    if (!isChartDataLoaded.current) isChartDataLoaded.current = true;
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -2607,6 +2701,13 @@ export default function AnalyticsIndex() {
                   onPress={toggleTestTimePeriod}
                 >
                   Toggle Test Time Period
+                </Button>
+                <Button
+                  className="font-medium"
+                  variant="flat"
+                  onPress={showAllLinesAndAreas}
+                >
+                  Show All Lines And Areas
                 </Button>
               </div>
             )}
