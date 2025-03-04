@@ -97,7 +97,9 @@ export const LoadExerciseChartModal = ({
     loadExerciseOptions,
   ]);
 
-  const handleLoadExerciseOptionsChange = (key: ChartDataExerciseCategoryBase) => {
+  const handleLoadExerciseOptionsChange = (
+    key: ChartDataExerciseCategoryBase
+  ) => {
     const updatedLoadExerciseOptions = new Set(loadExerciseOptions);
 
     // Set key as loadExerciseOptionsUnitCategory if loadExerciseOptions was empty
@@ -156,6 +158,14 @@ export const LoadExerciseChartModal = ({
     setLoadExerciseOptionsUnitCategory(undefined);
   };
 
+  const handleLoadExerciseOptionsUnitCategoryChange = (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const value = e.target.value === "" ? undefined : e.target.value;
+
+    setLoadExerciseOptionsUnitCategory(value as ChartDataUnitCategory);
+  };
+
   return (
     <Modal
       isOpen={loadExerciseChartModal.isOpen}
@@ -192,9 +202,7 @@ export const LoadExerciseChartModal = ({
                             : []
                         }
                         onChange={(e) =>
-                          setLoadExerciseOptionsUnitCategory(
-                            e.target.value as ChartDataUnitCategory
-                          )
+                          handleLoadExerciseOptionsUnitCategoryChange(e)
                         }
                         disallowEmptySelection={chartDataAreas.length === 0}
                       >
@@ -317,7 +325,8 @@ export const LoadExerciseChartModal = ({
                   color="primary"
                   isDisabled={
                     loadExerciseOptions.size === 0 ||
-                    loadExerciseOptionsUnitCategory === undefined
+                    (loadExerciseOptionsUnitCategory === undefined &&
+                      chartDataAreas.length === 0)
                   }
                   onPress={loadExerciseStats}
                 >
