@@ -1951,7 +1951,10 @@ export default function AnalyticsIndex() {
     const currentChartAreaCategory =
       chartDataUnitCategoryMap.current.get(primaryDataKey);
 
-    if (chartDataAreas.length > 0) {
+    if (
+      loadExerciseOptionsUnitCategory !== undefined &&
+      chartDataAreas.length > 0
+    ) {
       if (currentChartAreaCategory !== loadExerciseOptionsUnitCategory) {
         // Move current Chart Areas to Chart Lines if different categories
         secondaryDataKeys.unshift(...chartDataAreas);
@@ -1962,7 +1965,10 @@ export default function AnalyticsIndex() {
       }
     }
 
-    if (primaryDataKeys.length > 0) {
+    if (
+      loadExerciseOptionsUnitCategory !== undefined &&
+      primaryDataKeys.length > 0
+    ) {
       loadChartAreas(primaryDataKeys);
     }
 
