@@ -264,7 +264,7 @@ export default function AnalyticsIndex() {
       ["protein", "Protein"],
       ["body_weight", "Body Weight"],
       ["body_fat_percentage", "Body Fat %"],
-      ["test", "Test"],
+      ["weight_min_0", "Test"],
     ])
   );
 
@@ -323,7 +323,7 @@ export default function AnalyticsIndex() {
       ["resistance_level_min", "Resistance Level"],
       ["resistance_level_max", "Resistance Level"],
       ["resistance_level_avg", "Resistance Level"],
-      ["test", "Weight"],
+      ["weight_min_0", "Weight"],
     ])
   );
 
@@ -340,7 +340,7 @@ export default function AnalyticsIndex() {
     body_fat_percentage: {
       label: chartDataCategoryLabelMap.current.get("body_fat_percentage"),
     },
-    test: { label: chartDataCategoryLabelMap.current.get("test") },
+    weight_min_0: { label: chartDataCategoryLabelMap.current.get("weight_min_0") },
   });
 
   const chartLineColorList = [
@@ -440,7 +440,7 @@ export default function AnalyticsIndex() {
           ` ${userSettings.default_unit_weight}`
         );
         chartDataUnitMap.current.set(
-          "test",
+          "weight_min_0",
           ` ${userSettings.default_unit_weight}`
         );
 
@@ -716,7 +716,10 @@ export default function AnalyticsIndex() {
   };
 
   const addTestArea = () => {
-    if (chartDataAreas.includes("test") || chartDataLines.includes("test"))
+    if (
+      chartDataAreas.includes("weight_min_0") ||
+      chartDataLines.includes("weight_min_0")
+    )
       return;
 
     const updatedChartData: ChartDataItem[] = [...chartData];
@@ -730,17 +733,17 @@ export default function AnalyticsIndex() {
         maxNum = testNum;
       }
 
-      updatedChartData[i].test = testNum;
+      updatedChartData[i].weight_min_0 = testNum;
     }
 
-    highestCategoryValues.current.set("test", maxNum);
+    highestCategoryValues.current.set("weight_min_0", maxNum);
 
     setChartData(updatedChartData);
-    setChartDataAreas([...chartDataAreas, "test"]);
+    setChartDataAreas([...chartDataAreas, "weight_min_0"]);
 
     const updatedShownChartDataAreas: ChartDataCategory[] = [
       ...shownChartDataAreas,
-      "test",
+      "weight_min_0",
     ];
 
     updateLeftYAxis(updatedShownChartDataAreas);
@@ -750,15 +753,15 @@ export default function AnalyticsIndex() {
     // Remove the test prop from chartData
     const updatedChartData: ChartDataItem[] = chartData.map(
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      ({ test, ...rest }) => rest
+      ({ weight_min_0, ...rest }) => rest
     );
 
     const updatedChartDataAreas: ChartDataCategory[] = chartDataAreas.filter(
-      (item) => item !== "test"
+      (item) => item !== "weight_min_0"
     );
 
     const updatedShownChartDataAreas: ChartDataCategory[] =
-      shownChartDataAreas.filter((item) => item !== "test");
+      shownChartDataAreas.filter((item) => item !== "weight_min_0");
 
     if (updatedShownChartDataAreas.length === 0 && chartDataAreas.length > 0) {
       updatedShownChartDataAreas.push(chartDataAreas[0]);
@@ -777,7 +780,10 @@ export default function AnalyticsIndex() {
   };
 
   const addTestLine = () => {
-    if (chartDataAreas.includes("test") || chartDataLines.includes("test"))
+    if (
+      chartDataAreas.includes("weight_min_0") ||
+      chartDataLines.includes("weight_min_0")
+    )
       return;
 
     const updatedChartData: ChartDataItem[] = [...chartData];
@@ -791,17 +797,17 @@ export default function AnalyticsIndex() {
         maxNum = testNum;
       }
 
-      updatedChartData[i].test = testNum;
+      updatedChartData[i].weight_min_0 = testNum;
     }
 
-    highestCategoryValues.current.set("test", maxNum);
+    highestCategoryValues.current.set("weight_min_0", maxNum);
 
     setChartData(updatedChartData);
-    setChartDataLines([...chartDataLines, "test"]);
+    setChartDataLines([...chartDataLines, "weight_min_0"]);
 
     const updatedShownChartDataLines: ChartDataCategory[] = [
       ...shownChartDataLines,
-      "test",
+      "weight_min_0",
     ];
 
     setShownChartDataLines(updatedShownChartDataLines);
@@ -822,23 +828,23 @@ export default function AnalyticsIndex() {
   const removeTestLine = () => {
     // Remove the test prop from chartData
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const updatedChartData = chartData.map(({ test, ...rest }) => rest);
+    const updatedChartData = chartData.map(({ weight_min_0, ...rest }) => rest);
 
     const updatedChartDataLines = chartDataLines.filter(
-      (item) => item !== "test"
+      (item) => item !== "weight_min_0"
     );
 
     setChartData(updatedChartData);
     setChartDataLines(updatedChartDataLines);
 
-    highestCategoryValues.current.delete("test");
+    highestCategoryValues.current.delete("weight_min_0");
 
     if (updatedChartDataLines.length === 0) {
       setSecondaryDataUnitCategory(undefined);
       setChartLineUnitCategorySet(new Set());
     }
 
-    hideChartLine("test");
+    hideChartLine("weight_min_0");
   };
 
   const hideChartLine = (chartDataCategory: ChartDataCategory) => {

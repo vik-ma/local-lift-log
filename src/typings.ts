@@ -1254,8 +1254,6 @@ export type ChartDataCategory =
   | "body_fat_percentage"
   | `measurement_${number}`
   | ChartDataExerciseCategory
-  | "test";
-// TODO: REMOVE TEST LATER
 
 export type ChartDataExerciseCategoryBase =
   | `weight_${"min" | "max" | "avg" | "volume"}`
