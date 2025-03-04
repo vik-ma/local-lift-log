@@ -256,17 +256,6 @@ export default function AnalyticsIndex() {
     setSelectedTimePeriodProperties,
   } = timePeriodList;
 
-  const chartDataCategoryLabelMap = useRef<Map<ChartDataCategory, string>>(
-    new Map([
-      ["calories", "Calories"],
-      ["fat", "Fat"],
-      ["carbs", "Carbs"],
-      ["protein", "Protein"],
-      ["body_weight", "Body Weight"],
-      ["body_fat_percentage", "Body Fat %"],
-    ])
-  );
-
   const chartDataUnitMap = useRef<Map<ChartDataCategory, string>>(
     new Map([
       ["calories", " kcal"],
@@ -326,17 +315,18 @@ export default function AnalyticsIndex() {
   );
 
   const chartConfig = useRef<ChartConfig>({
+    default: { label: "Unknown" },
     calories: {
-      label: chartDataCategoryLabelMap.current.get("calories"),
+      label: "Calories",
     },
-    fat: { label: chartDataCategoryLabelMap.current.get("fat") },
-    carbs: { label: chartDataCategoryLabelMap.current.get("carbs") },
-    protein: { label: chartDataCategoryLabelMap.current.get("protein") },
+    fat: { label: "Fat" },
+    carbs: { label: "Carbs" },
+    protein: { label: "Protein" },
     body_weight: {
-      label: chartDataCategoryLabelMap.current.get("body_weight"),
+      label: "Body Weight",
     },
     body_fat_percentage: {
-      label: chartDataCategoryLabelMap.current.get("body_fat_percentage"),
+      label: "Body Fat %",
     },
   });
 
@@ -730,7 +720,6 @@ export default function AnalyticsIndex() {
     }
 
     highestCategoryValues.current.set("weight_min_0", maxNum);
-    chartDataCategoryLabelMap.current.set("weight_min_0", "Test");
     chartConfig.current["weight_min_0"] = { label: "Test" };
     chartDataUnitMap.current.set("weight_min_0", ` ${weightUnit}`);
     chartDataUnitCategoryMap.current.set("weight_min_0", "Weight");
@@ -798,7 +787,6 @@ export default function AnalyticsIndex() {
     }
 
     highestCategoryValues.current.set("weight_min_0", maxNum);
-    chartDataCategoryLabelMap.current.set("weight_min_0", "Test");
     chartConfig.current["weight_min_0"] = { label: "Test" };
     chartDataUnitMap.current.set("weight_min_0", ` ${weightUnit}`);
     chartDataUnitCategoryMap.current.set("weight_min_0", "Weight");
@@ -1764,8 +1752,6 @@ export default function AnalyticsIndex() {
 
       const chartLabel = `${measurement.name} [Caliper]`;
 
-      chartDataCategoryLabelMap.current.set(measurementIdString, chartLabel);
-
       chartConfig.current[measurementIdString] = {
         label: chartLabel,
       };
@@ -1786,8 +1772,6 @@ export default function AnalyticsIndex() {
       );
 
       const chartLabel = `${measurement.name} [Circumference]`;
-
-      chartDataCategoryLabelMap.current.set(measurementIdString, chartLabel);
 
       chartConfig.current[measurementIdString] = {
         label: chartLabel,
@@ -1938,8 +1922,6 @@ export default function AnalyticsIndex() {
       const chartLabel = `${loadExerciseOptionsMap.get(option)} [${
         selectedExercise.name
       }]`;
-
-      chartDataCategoryLabelMap.current.set(chartName, chartLabel);
 
       chartConfig.current[chartName] = {
         label: chartLabel,
@@ -2236,7 +2218,7 @@ export default function AnalyticsIndex() {
                   >
                     {chartDataAreas.map((area) => (
                       <SelectItem key={area} value={area}>
-                        {chartDataCategoryLabelMap.current.get(area)}
+                        {chartConfig.current[area ?? "default"].label}
                       </SelectItem>
                     ))}
                   </Select>
@@ -2255,7 +2237,7 @@ export default function AnalyticsIndex() {
                     >
                       {chartDataLines.map((line) => (
                         <SelectItem key={line} value={line}>
-                          {chartDataCategoryLabelMap.current.get(line)}
+                          {chartConfig.current[line ?? "default"].label}
                         </SelectItem>
                       ))}
                     </Select>
@@ -2299,7 +2281,7 @@ export default function AnalyticsIndex() {
                             key={area as string}
                             onPress={() => changeChartDataAreaToLine(area)}
                           >
-                            {chartDataCategoryLabelMap.current.get(area)}
+                            {chartConfig.current[area ?? "default"].label}
                           </DropdownItem>
                         ))}
                       </DropdownMenu>
@@ -2321,7 +2303,7 @@ export default function AnalyticsIndex() {
                             key={line as string}
                             onPress={() => changeChartDataLineToArea(line)}
                           >
-                            {chartDataCategoryLabelMap.current.get(line)}
+                            {chartConfig.current[line ?? "default"].label}
                           </DropdownItem>
                         ))}
                       </DropdownMenu>
