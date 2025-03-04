@@ -264,7 +264,6 @@ export default function AnalyticsIndex() {
       ["protein", "Protein"],
       ["body_weight", "Body Weight"],
       ["body_fat_percentage", "Body Fat %"],
-      ["weight_min_0", "Test"],
     ])
   );
 
@@ -323,7 +322,6 @@ export default function AnalyticsIndex() {
       ["resistance_level_min", "Resistance Level"],
       ["resistance_level_max", "Resistance Level"],
       ["resistance_level_avg", "Resistance Level"],
-      ["weight_min_0", "Weight"],
     ])
   );
 
@@ -340,7 +338,6 @@ export default function AnalyticsIndex() {
     body_fat_percentage: {
       label: chartDataCategoryLabelMap.current.get("body_fat_percentage"),
     },
-    weight_min_0: { label: chartDataCategoryLabelMap.current.get("weight_min_0") },
   });
 
   const chartLineColorList = [
@@ -437,10 +434,6 @@ export default function AnalyticsIndex() {
 
         chartDataUnitMap.current.set(
           "body_weight",
-          ` ${userSettings.default_unit_weight}`
-        );
-        chartDataUnitMap.current.set(
-          "weight_min_0",
           ` ${userSettings.default_unit_weight}`
         );
 
@@ -737,6 +730,10 @@ export default function AnalyticsIndex() {
     }
 
     highestCategoryValues.current.set("weight_min_0", maxNum);
+    chartDataCategoryLabelMap.current.set("weight_min_0", "Test");
+    chartConfig.current["weight_min_0"] = { label: "Test" };
+    chartDataUnitMap.current.set("weight_min_0", ` ${weightUnit}`);
+    chartDataUnitCategoryMap.current.set("weight_min_0", "Weight");
 
     setChartData(updatedChartData);
     setChartDataAreas([...chartDataAreas, "weight_min_0"]);
@@ -801,6 +798,10 @@ export default function AnalyticsIndex() {
     }
 
     highestCategoryValues.current.set("weight_min_0", maxNum);
+    chartDataCategoryLabelMap.current.set("weight_min_0", "Test");
+    chartConfig.current["weight_min_0"] = { label: "Test" };
+    chartDataUnitMap.current.set("weight_min_0", ` ${weightUnit}`);
+    chartDataUnitCategoryMap.current.set("weight_min_0", "Weight");
 
     setChartData(updatedChartData);
     setChartDataLines([...chartDataLines, "weight_min_0"]);
