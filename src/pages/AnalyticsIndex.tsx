@@ -331,30 +331,30 @@ export default function AnalyticsIndex() {
   });
 
   const chartLineColorList = [
-    "#6b80ed",
-    "#e6475a",
-    "#525252",
-    "#07e0e7",
-    "#8739cf",
-    "#56db67",
+    "#6b80ed", // Blue
+    "#e6475a", // Red
+    "#525252", // Grey
+    "#07e0e7", // Cyan
+    "#8739cf", // Purple
+    "#56db67", // Green
   ];
 
   const chartAreaColorList = [
-    "#edc345",
-    "#f57489",
-    "#8ba1db",
-    "#9c9794",
-    "#8fe296",
-    "#c3a6e4",
-    "#e9b287",
+    "#edc345", // Yellow
+    "#f57489", // Light Red
+    "#8ba1db", // Light Blue
+    "#9c9794", // Light Grey
+    "#8fe296", // Light Green
+    "#c3a6e4", // Light Purple
+    "#e9b287", // Light Orange
   ];
 
   const referenceAreaColorList = [
-    "#2862cc",
-    "#26be21",
-    "#ff3ba7",
-    "#c93814",
-    "#1ab2f8",
+    "#2862cc", // Blue
+    "#26be21", // Green
+    "#ff3ba7", // Pink
+    "#c93814", // Brown/Red
+    "#1ab2f8", // Light Blue
   ];
 
   const loadExerciseOptionsMap = useLoadExerciseOptionsMap();
@@ -2079,12 +2079,12 @@ export default function AnalyticsIndex() {
         weight_min_555555: Math.floor(Math.random() * 200),
         weight_min_666666: Math.floor(Math.random() * 100),
         weight_min_777777: Math.floor(Math.random() * 50),
-        weight_max_111111: Math.floor(Math.random() * 800),
-        weight_max_222222: Math.floor(Math.random() * 800),
-        weight_max_333333: Math.floor(Math.random() * 800),
-        weight_max_444444: Math.floor(Math.random() * 800),
-        weight_max_555555: Math.floor(Math.random() * 800),
-        weight_max_666666: Math.floor(Math.random() * 800),
+        weight_max_111111: Math.floor(Math.random() * 1000),
+        weight_max_222222: Math.floor(Math.random() * 1000),
+        weight_max_333333: Math.floor(Math.random() * 1000),
+        weight_max_444444: Math.floor(Math.random() * 1000),
+        weight_max_555555: Math.floor(Math.random() * 1000),
+        weight_max_666666: Math.floor(Math.random() * 1000),
       };
 
       const dateString = FormatDateToShortString(
