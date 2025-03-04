@@ -2445,188 +2445,187 @@ export default function AnalyticsIndex() {
             </div>
           </div>
         )}
-        <div className="flex flex-col gap-2">
-          <div className="flex gap-2 items-center w-[960px]">
-            <Button
-              className="font-medium"
-              variant="flat"
-              color="secondary"
-              onPress={() => handleOpenListModal("exercise-list")}
-            >
-              Select Exercise
-            </Button>
-            <Dropdown>
-              <DropdownTrigger>
-                <Button className="font-medium" variant="flat">
-                  Load Area
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                aria-label="Load category as area options"
-                variant="flat"
-                disabledKeys={loadedCharts.current}
-              >
-                <DropdownItem
-                  key="measurement"
-                  onPress={() => handleLoadMeasurementClick(true)}
-                >
-                  Measurement
-                </DropdownItem>
-                <DropdownItem
-                  key="user-weights-weight"
-                  onPress={() =>
-                    loadUserWeightListWeights(
-                      userSettings.locale,
-                      weightUnit,
-                      true
-                    )
-                  }
-                >
-                  Body Weights
-                </DropdownItem>
-                <DropdownItem
-                  key="user-weights-body-fat"
-                  onPress={() =>
-                    loadUserWeightListBodyFat(userSettings.locale, true)
-                  }
-                >
-                  Body Fat Percentages
-                </DropdownItem>
-                <DropdownItem
-                  key="diet-logs-calories"
-                  onPress={() =>
-                    loadDietLogListCalories(userSettings.locale, true)
-                  }
-                >
-                  Calories
-                </DropdownItem>
-                <DropdownItem
-                  key="diet-logs-macros"
-                  onPress={() =>
-                    loadDietLogListMacros(userSettings.locale, true)
-                  }
-                >
-                  Macros
-                </DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-            <Dropdown>
-              <DropdownTrigger>
-                <Button className="font-medium" variant="flat">
-                  Load Line
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                aria-label="Load category as line options"
-                variant="flat"
-                disabledKeys={loadedCharts.current}
-              >
-                <DropdownItem
-                  key="measurement"
-                  onPress={() => handleLoadMeasurementClick(false)}
-                >
-                  Measurement
-                </DropdownItem>
-                <DropdownItem
-                  key="user-weights-weight"
-                  onPress={() =>
-                    loadUserWeightListWeights(
-                      userSettings.locale,
-                      weightUnit,
-                      false
-                    )
-                  }
-                >
-                  Body Weights
-                </DropdownItem>
-                <DropdownItem
-                  key="user-weights-body-fat"
-                  onPress={() =>
-                    loadUserWeightListBodyFat(userSettings.locale, false)
-                  }
-                >
-                  Body Fat Percentages
-                </DropdownItem>
-                <DropdownItem
-                  key="diet-logs-calories"
-                  onPress={() =>
-                    loadDietLogListCalories(userSettings.locale, false)
-                  }
-                >
-                  Calories
-                </DropdownItem>
-                <DropdownItem
-                  key="diet-logs-macros"
-                  onPress={() =>
-                    loadDietLogListMacros(userSettings.locale, false)
-                  }
-                >
-                  Macros
-                </DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-            {filteredChartData.length > 0 && (
-              <Button
-                className="font-medium"
-                variant="flat"
-                onPress={() => handleOpenListModal("time-period-list")}
-              >
-                Select Time Period
-              </Button>
-            )}
-          </div>
-        </div>
-        <div className="flex items-center justify-between gap-2 w-[960px]">
-          <div></div>
-          <Button
-            className="font-medium"
-            variant="flat"
-            color="danger"
-            onPress={() => setShowTestButtons(!showTestButtons)}
-          >
-            Toggle Test Buttons
-          </Button>
-        </div>
-        <div className="flex items-center">
-          {showTestButtons && (
+        <div className="flex flex-col gap-3">
+          <div className="flex justify-between w-[960px]">
             <div className="flex items-center gap-2">
               <Button
                 className="font-medium"
                 variant="flat"
-                onPress={addTestArea}
+                color="secondary"
+                onPress={() => handleOpenListModal("exercise-list")}
               >
-                Add Test Area
+                Select Exercise
               </Button>
-              <Button
-                className="font-medium"
-                variant="flat"
-                onPress={removeTestArea}
-              >
-                Remove Test Area
-              </Button>
-              <Button
-                className="font-medium"
-                variant="flat"
-                onPress={addTestLine}
-              >
-                Add Test Line
-              </Button>
-              <Button
-                className="font-medium"
-                variant="flat"
-                onPress={removeTestLine}
-              >
-                Remove Test Line
-              </Button>
-              <Button
-                className="font-medium"
-                variant="flat"
-                onPress={toggleTestTimePeriod}
-              >
-                Toggle Test Time Period
-              </Button>
+              <Dropdown>
+                <DropdownTrigger>
+                  <Button className="font-medium" variant="flat">
+                    Load Area
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu
+                  aria-label="Load category as area options"
+                  variant="flat"
+                  disabledKeys={loadedCharts.current}
+                >
+                  <DropdownItem
+                    key="measurement"
+                    onPress={() => handleLoadMeasurementClick(true)}
+                  >
+                    Measurement
+                  </DropdownItem>
+                  <DropdownItem
+                    key="user-weights-weight"
+                    onPress={() =>
+                      loadUserWeightListWeights(
+                        userSettings.locale,
+                        weightUnit,
+                        true
+                      )
+                    }
+                  >
+                    Body Weights
+                  </DropdownItem>
+                  <DropdownItem
+                    key="user-weights-body-fat"
+                    onPress={() =>
+                      loadUserWeightListBodyFat(userSettings.locale, true)
+                    }
+                  >
+                    Body Fat Percentages
+                  </DropdownItem>
+                  <DropdownItem
+                    key="diet-logs-calories"
+                    onPress={() =>
+                      loadDietLogListCalories(userSettings.locale, true)
+                    }
+                  >
+                    Calories
+                  </DropdownItem>
+                  <DropdownItem
+                    key="diet-logs-macros"
+                    onPress={() =>
+                      loadDietLogListMacros(userSettings.locale, true)
+                    }
+                  >
+                    Macros
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+              <Dropdown>
+                <DropdownTrigger>
+                  <Button className="font-medium" variant="flat">
+                    Load Line
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu
+                  aria-label="Load category as line options"
+                  variant="flat"
+                  disabledKeys={loadedCharts.current}
+                >
+                  <DropdownItem
+                    key="measurement"
+                    onPress={() => handleLoadMeasurementClick(false)}
+                  >
+                    Measurement
+                  </DropdownItem>
+                  <DropdownItem
+                    key="user-weights-weight"
+                    onPress={() =>
+                      loadUserWeightListWeights(
+                        userSettings.locale,
+                        weightUnit,
+                        false
+                      )
+                    }
+                  >
+                    Body Weights
+                  </DropdownItem>
+                  <DropdownItem
+                    key="user-weights-body-fat"
+                    onPress={() =>
+                      loadUserWeightListBodyFat(userSettings.locale, false)
+                    }
+                  >
+                    Body Fat Percentages
+                  </DropdownItem>
+                  <DropdownItem
+                    key="diet-logs-calories"
+                    onPress={() =>
+                      loadDietLogListCalories(userSettings.locale, false)
+                    }
+                  >
+                    Calories
+                  </DropdownItem>
+                  <DropdownItem
+                    key="diet-logs-macros"
+                    onPress={() =>
+                      loadDietLogListMacros(userSettings.locale, false)
+                    }
+                  >
+                    Macros
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+              {filteredChartData.length > 0 && (
+                <Button
+                  className="font-medium"
+                  variant="flat"
+                  onPress={() => handleOpenListModal("time-period-list")}
+                >
+                  Select Time Period
+                </Button>
+              )}
             </div>
-          )}
+            <Button
+              className="font-medium"
+              variant="flat"
+              color="danger"
+              onPress={() => setShowTestButtons(!showTestButtons)}
+            >
+              Toggle Test Buttons
+            </Button>
+          </div>
+          <div className="flex items-center">
+            {showTestButtons && (
+              <div className="flex items-center gap-2">
+                <Button
+                  className="font-medium"
+                  variant="flat"
+                  onPress={addTestArea}
+                >
+                  Add Test Area
+                </Button>
+                <Button
+                  className="font-medium"
+                  variant="flat"
+                  onPress={removeTestArea}
+                >
+                  Remove Test Area
+                </Button>
+                <Button
+                  className="font-medium"
+                  variant="flat"
+                  onPress={addTestLine}
+                >
+                  Add Test Line
+                </Button>
+                <Button
+                  className="font-medium"
+                  variant="flat"
+                  onPress={removeTestLine}
+                >
+                  Remove Test Line
+                </Button>
+                <Button
+                  className="font-medium"
+                  variant="flat"
+                  onPress={toggleTestTimePeriod}
+                >
+                  Toggle Test Time Period
+                </Button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </>
