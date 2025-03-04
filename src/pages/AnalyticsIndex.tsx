@@ -1580,7 +1580,7 @@ export default function AnalyticsIndex() {
       // Append new Chart Area if existing Chart Area(s) share Unit Category
       setChartDataAreas([...chartDataAreas, ...dataKeys]);
 
-      updateLeftYAxis(dataKeys);
+      updateLeftYAxis([...shownChartDataAreas, ...dataKeys]);
     }
   };
 
@@ -1942,16 +1942,12 @@ export default function AnalyticsIndex() {
 
     if (
       loadExerciseOptionsUnitCategory !== undefined &&
-      chartDataAreas.length > 0
+      chartDataAreas.length > 0 &&
+      currentChartAreaCategory !== loadExerciseOptionsUnitCategory
     ) {
-      if (currentChartAreaCategory !== loadExerciseOptionsUnitCategory) {
-        // Move current Chart Areas to Chart Lines if different categories
-        secondaryDataKeys.unshift(...chartDataAreas);
-        chartLineUnitCategories.add(currentChartAreaCategory);
-      } else {
-        // Add new Chart Areas to existing Chart Areas
-        primaryDataKeys.push(...chartDataAreas);
-      }
+      // Move current Chart Areas to Chart Lines if different categories
+      secondaryDataKeys.unshift(...chartDataAreas);
+      chartLineUnitCategories.add(currentChartAreaCategory);
     }
 
     if (
