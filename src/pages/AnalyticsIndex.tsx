@@ -446,11 +446,11 @@ export default function AnalyticsIndex() {
 
         updateLoadExerciseOptions(userSettings.default_load_exercise_options);
 
-        loadDietLogListCalories(userSettings.locale, true);
+        // loadDietLogListCalories(userSettings.locale, true);
         // loadUserWeightListWeights(
         //   userSettings.locale,
         //   userSettings.default_unit_weight,
-        //   false
+        //   true
         // );
       };
 
@@ -1950,6 +1950,18 @@ export default function AnalyticsIndex() {
 
     if (primaryDataKeys.length > 0) {
       loadChartAreas(primaryDataKeys);
+    }
+
+    const currentChartAreaCategory =
+      chartDataUnitCategoryMap.current.get(primaryDataKey);
+
+    if (
+      chartDataAreas.length > 0 &&
+      currentChartAreaCategory !== loadExerciseOptionsUnitCategory
+    ) {
+      // Move current Chart Areas to Chart Lines
+      secondaryDataKeys.unshift(...chartDataAreas);
+      chartLineUnitCategories.add(currentChartAreaCategory);
     }
 
     if (secondaryDataKeys.length > 0) {
