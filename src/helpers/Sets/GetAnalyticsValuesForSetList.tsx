@@ -8,7 +8,8 @@ export const GetAnalyticsValuesForSetList = (
   weightUnit: string,
   distanceUnit: string
 ) => {
-  const analyticsValues = new Map<ChartDataExerciseCategoryBase, number>();
+  const analyticsValuesMap = new Map<ChartDataExerciseCategoryBase, number>();
+  const commentMap = new Map<number, string>();
 
   // If -1 is returned for option, no tracked value was found
   let minWeight = Infinity;
@@ -16,7 +17,11 @@ export const GetAnalyticsValuesForSetList = (
   let addedWeight = -1;
   let weightVolume = -1;
 
+  let setNum = 0;
+
   for (const set of setList) {
+    setNum++;
+
     if (set.is_tracking_weight) {
       if (maxWeight === -1) {
         maxWeight = 0;
@@ -39,37 +44,41 @@ export const GetAnalyticsValuesForSetList = (
 
         weightVolume += weight * set.reps;
       }
+
+      if (set.comment !== null) {
+        commentMap.set(setNum, set.comment);
+      }
     }
   }
 
   if (loadExerciseOptions.has("weight_min")) {
-    analyticsValues.set(
+    analyticsValuesMap.set(
       "weight_min",
       minWeight === Infinity ? -1 : ConvertNumberToTwoDecimals(minWeight)
     );
   }
 
   if (loadExerciseOptions.has("weight_max")) {
-    analyticsValues.set("weight_max", ConvertNumberToTwoDecimals(maxWeight));
+    analyticsValuesMap.set("weight_max", ConvertNumberToTwoDecimals(maxWeight));
   }
 
   if (loadExerciseOptions.has("weight_avg")) {
-    analyticsValues.set(
+    analyticsValuesMap.set(
       "weight_avg",
       ConvertNumberToTwoDecimals(addedWeight / setList.length)
     );
   }
 
   if (loadExerciseOptions.has("weight_volume")) {
-    analyticsValues.set(
+    analyticsValuesMap.set(
       "weight_volume",
       ConvertNumberToTwoDecimals(weightVolume)
     );
   }
 
   if (loadExerciseOptions.has("num_sets")) {
-    analyticsValues.set("num_sets", setList.length);
+    analyticsValuesMap.set("num_sets", setList.length);
   }
 
-  return analyticsValues;
+  return { analyticsValuesMap, commentMap };
 };

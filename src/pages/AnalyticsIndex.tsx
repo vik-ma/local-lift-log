@@ -1768,7 +1768,7 @@ export default function AnalyticsIndex() {
       highestValueMap.set(`${option}_${exerciseId}`, -1);
     }
 
-    // TODO: ADD comments
+    // TODO: ADD areCommentsAlreadyLoaded
 
     for (const set of fullSetList) {
       const date = FormatDateToShortString(
@@ -1784,7 +1784,7 @@ export default function AnalyticsIndex() {
     }
 
     for (const [date, setList] of dateMap) {
-      const analyticsValuesMap = GetAnalyticsValuesForSetList(
+      const { analyticsValuesMap, commentMap } = GetAnalyticsValuesForSetList(
         setList,
         loadExerciseOptions,
         weightUnit,
