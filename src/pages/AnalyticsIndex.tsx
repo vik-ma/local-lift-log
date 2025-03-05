@@ -331,20 +331,20 @@ export default function AnalyticsIndex() {
   const chartLineColorList = [
     "#6b80ed", // Blue
     "#e6475a", // Red
-    "#525252", // Grey
+    "#525252", // Dark Grey
     "#07e0e7", // Cyan
     "#8739cf", // Purple
-    "#56db67", // Green
+    "#4e9907", // Green
   ];
 
   const chartAreaColorList = [
     "#edc345", // Yellow
     "#f57489", // Light Red
-    "#8ba1db", // Light Blue
-    "#9c9794", // Light Grey
-    "#8fe296", // Light Green
-    "#c3a6e4", // Light Purple
+    "#7bdf83", // Light Green
+    "#84a0eb", // Light Blue
     "#e9b287", // Light Orange
+    "#918c8c", // Light Grey
+    "#d79de9", // Light Purple
   ];
 
   const referenceAreaColorList = [
@@ -2064,19 +2064,19 @@ export default function AnalyticsIndex() {
 
     while (currentDate <= endDate) {
       const newValues: Record<string, number> = {
-        weight_min_111111: Math.floor(Math.random() * 1000),
-        weight_min_222222: Math.floor(Math.random() * 800),
-        weight_min_333333: Math.floor(Math.random() * 600),
-        weight_min_444444: Math.floor(Math.random() * 400),
-        weight_min_555555: Math.floor(Math.random() * 200),
-        weight_min_666666: Math.floor(Math.random() * 100),
-        weight_min_777777: Math.floor(Math.random() * 50),
-        weight_max_111111: Math.floor(Math.random() * 1000),
-        weight_max_222222: Math.floor(Math.random() * 1000),
-        weight_max_333333: Math.floor(Math.random() * 1000),
-        weight_max_444444: Math.floor(Math.random() * 1000),
-        weight_max_555555: Math.floor(Math.random() * 1000),
-        weight_max_666666: Math.floor(Math.random() * 1000),
+        weight_min_111111: Math.floor(Math.random() * 201) + 1200,
+        weight_min_222222: Math.floor(Math.random() * 201) + 1000,
+        weight_min_333333: Math.floor(Math.random() * 201) + 800,
+        weight_min_444444: Math.floor(Math.random() * 201) + 600,
+        weight_min_555555: Math.floor(Math.random() * 201) + 400,
+        weight_min_666666: Math.floor(Math.random() * 201) + 200,
+        weight_min_777777: Math.floor(Math.random() * 200),
+        weight_max_111111: Math.floor(Math.random() * 5),
+        weight_max_222222: Math.floor(Math.random() * 5),
+        weight_max_333333: Math.floor(Math.random() * 5),
+        weight_max_444444: Math.floor(Math.random() * 5),
+        weight_max_555555: Math.floor(Math.random() * 5),
+        weight_max_666666: Math.floor(Math.random() * 5),
       };
 
       const dateString = FormatDateToShortString(
