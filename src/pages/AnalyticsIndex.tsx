@@ -846,16 +846,16 @@ export default function AnalyticsIndex() {
       const newReferenceArea: ReferenceAreaItem = {
         timePeriodId: 0,
         x1: FormatDateToShortString(
-          new Date("2025-01-22"),
+          new Date("2025-01-03"),
           userSettings.locale
         ),
         x2: FormatDateToShortString(
-          new Date("2025-01-25"),
+          new Date("2025-01-07"),
           userSettings.locale
         ),
         label: "Test Period",
-        startDate: "2025-01-22",
-        endDate: "2025-01-25",
+        startDate: "2025-01-03",
+        endDate: "2025-01-07",
       };
 
       const updatedReferenceAreas = [...referenceAreas, newReferenceArea];
@@ -2068,6 +2068,108 @@ export default function AnalyticsIndex() {
     loadChartLines(lineKeys, ["Weight"], lineKeys[0]);
   };
 
+  const toggleAllTimePeriods = () => {
+    if (userSettings === undefined) return;
+
+    const isAlreadyLoaded = referenceAreas.some(
+      (obj) => obj.timePeriodId === 111111
+    );
+
+    const updatedReferenceAreas: ReferenceAreaItem[] = [];
+    const updatedShownReferenceAreas: ReferenceAreaItem[] = [];
+
+    if (!isAlreadyLoaded) {
+      const referenceArea1: ReferenceAreaItem = {
+        timePeriodId: 111111,
+        x1: FormatDateToShortString(
+          new Date("2025-01-01"),
+          userSettings.locale
+        ),
+        x2: FormatDateToShortString(
+          new Date("2025-01-06"),
+          userSettings.locale
+        ),
+        label: "Test Period 1",
+        startDate: "2025-01-01",
+        endDate: "2025-01-06",
+      };
+
+      const referenceArea2: ReferenceAreaItem = {
+        timePeriodId: 222222,
+        x1: FormatDateToShortString(
+          new Date("2025-01-02"),
+          userSettings.locale
+        ),
+        x2: FormatDateToShortString(
+          new Date("2025-01-07"),
+          userSettings.locale
+        ),
+        label: "Test Period 2",
+        startDate: "2025-01-02",
+        endDate: "2025-01-07",
+      };
+
+      const referenceArea3: ReferenceAreaItem = {
+        timePeriodId: 333333,
+        x1: FormatDateToShortString(
+          new Date("2025-01-03"),
+          userSettings.locale
+        ),
+        x2: FormatDateToShortString(
+          new Date("2025-01-08"),
+          userSettings.locale
+        ),
+        label: "Test Period 3",
+        startDate: "2025-01-03",
+        endDate: "2025-01-08",
+      };
+
+      const referenceArea4: ReferenceAreaItem = {
+        timePeriodId: 444444,
+        x1: FormatDateToShortString(
+          new Date("2025-01-04"),
+          userSettings.locale
+        ),
+        x2: FormatDateToShortString(
+          new Date("2025-01-09"),
+          userSettings.locale
+        ),
+        label: "Test Period 4",
+        startDate: "2025-01-04",
+        endDate: "2025-01-09",
+      };
+
+      const referenceArea5: ReferenceAreaItem = {
+        timePeriodId: 555555,
+        x1: FormatDateToShortString(
+          new Date("2025-01-05"),
+          userSettings.locale
+        ),
+        x2: FormatDateToShortString(
+          new Date("2025-01-10"),
+          userSettings.locale
+        ),
+        label: "Test Period 5",
+        startDate: "2025-01-05",
+        endDate: "2025-01-10",
+      };
+
+      const referenceAreas = [
+        referenceArea1,
+        referenceArea2,
+        referenceArea3,
+        referenceArea4,
+        referenceArea5,
+      ];
+
+      updatedReferenceAreas.push(...referenceAreas);
+      updatedShownReferenceAreas.push(...referenceAreas);
+    }
+
+    setReferenceAreas(updatedReferenceAreas);
+    setShownReferenceAreas(updatedShownReferenceAreas);
+  };
+
   const resetChart = () => {
     setChartData([]);
     setChartDataAreas([]);
@@ -2645,49 +2747,60 @@ export default function AnalyticsIndex() {
             </Button>
           </div>
           {showTestButtons && (
-            <div className="flex items-center gap-2">
-              <Button
-                className="font-medium"
-                variant="flat"
-                onPress={addTestArea}
-              >
-                Add Test Area
-              </Button>
-              <Button
-                className="font-medium"
-                variant="flat"
-                onPress={removeTestArea}
-              >
-                Remove Test Area
-              </Button>
-              <Button
-                className="font-medium"
-                variant="flat"
-                onPress={addTestLine}
-              >
-                Add Test Line
-              </Button>
-              <Button
-                className="font-medium"
-                variant="flat"
-                onPress={removeTestLine}
-              >
-                Remove Test Line
-              </Button>
-              <Button
-                className="font-medium"
-                variant="flat"
-                onPress={toggleTestTimePeriod}
-              >
-                Toggle Test Time Period
-              </Button>
-              <Button
-                className="font-medium"
-                variant="flat"
-                onPress={showAllLinesAndAreas}
-              >
-                Show All Lines And Areas
-              </Button>
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center gap-2">
+                <Button
+                  className="font-medium"
+                  variant="flat"
+                  onPress={addTestArea}
+                >
+                  Add Test Area
+                </Button>
+                <Button
+                  className="font-medium"
+                  variant="flat"
+                  onPress={removeTestArea}
+                >
+                  Remove Test Area
+                </Button>
+                <Button
+                  className="font-medium"
+                  variant="flat"
+                  onPress={addTestLine}
+                >
+                  Add Test Line
+                </Button>
+                <Button
+                  className="font-medium"
+                  variant="flat"
+                  onPress={removeTestLine}
+                >
+                  Remove Test Line
+                </Button>
+                <Button
+                  className="font-medium"
+                  variant="flat"
+                  onPress={toggleTestTimePeriod}
+                >
+                  Toggle Test Time Period
+                </Button>
+              </div>
+              <div className="flex items-center gap-2">
+                <Button
+                  className="font-medium"
+                  variant="flat"
+                  onPress={showAllLinesAndAreas}
+                >
+                  Show All Lines And Areas
+                </Button>
+                <Button
+                  className="font-medium"
+                  variant="flat"
+                  onPress={toggleAllTimePeriods}
+                >
+                  Toggle All Time Periods
+                </Button>
+              </div>
             </div>
           )}
         </div>
