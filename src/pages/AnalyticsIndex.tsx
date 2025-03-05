@@ -24,6 +24,7 @@ import {
 } from "../hooks";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
+  DeleteModal,
   ExerciseModalList,
   FilterExerciseGroupsModal,
   FilterMinAndMaxDatesModal,
@@ -236,6 +237,7 @@ export default function AnalyticsIndex() {
   const listModal = useDisclosure();
   const loadExerciseChartModal = useDisclosure();
   const filterMinAndMaxDatesModal = useDisclosure();
+  const deleteModal = useDisclosure();
 
   const exerciseList = useExerciseList(false, true, true);
 
@@ -2092,6 +2094,8 @@ export default function AnalyticsIndex() {
     chartDataUnitMap.current = new Map(defaultChartDataUnitMap);
     chartDataUnitCategoryMap.current = new Map(defaultChartDataUnitCategoryMap);
     chartConfig.current = { ...defaultChartConfig };
+
+    deleteModal.onClose();
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;
@@ -2173,6 +2177,17 @@ export default function AnalyticsIndex() {
       <FilterExerciseGroupsModal
         useExerciseList={exerciseList}
         useFilterExerciseList={filterExerciseList}
+      />
+      <DeleteModal
+        deleteModal={deleteModal}
+        header="Reset Chart"
+        body={
+          <p>
+            Are you sure you want to completely remove all values from chart?
+          </p>
+        }
+        deleteButtonAction={() => resetChart()}
+        deleteButtonText="Reset"
       />
       <div className="flex flex-col items-center gap-2">
         {loadedCharts.current.size > 0 && (
@@ -2614,7 +2629,7 @@ export default function AnalyticsIndex() {
                   className="font-medium"
                   variant="flat"
                   color="danger"
-                  onPress={() => resetChart()}
+                  onPress={() => deleteModal.onOpen()}
                 >
                   Reset Chart
                 </Button>
