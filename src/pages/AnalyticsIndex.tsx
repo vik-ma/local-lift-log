@@ -205,8 +205,6 @@ export default function AnalyticsIndex() {
     [shownReferenceAreas]
   );
 
-  const isChartDataLoaded = useRef<boolean>(false);
-
   const loadedCharts = useRef<Set<LoadedChartType>>(new Set());
 
   const filteredChartData: ChartDataItem[] = useMemo(() => {
@@ -554,7 +552,6 @@ export default function AnalyticsIndex() {
     }
 
     loadedCharts.current.add("diet-logs-calories");
-    if (!isChartDataLoaded.current) isChartDataLoaded.current = true;
   };
 
   const loadDietLogListMacros = async (
@@ -675,7 +672,6 @@ export default function AnalyticsIndex() {
     }
 
     loadedCharts.current.add("diet-logs-macros");
-    if (!isChartDataLoaded.current) isChartDataLoaded.current = true;
   };
 
   const updateShownChartLines = (chartLines: ChartDataCategory[]) => {
@@ -1144,7 +1140,6 @@ export default function AnalyticsIndex() {
     }
 
     loadedCharts.current.add("user-weights-weight");
-    if (!isChartDataLoaded.current) isChartDataLoaded.current = true;
   };
 
   const loadUserWeightListBodyFat = async (
@@ -1243,7 +1238,6 @@ export default function AnalyticsIndex() {
     }
 
     loadedCharts.current.add("user-weights-body-fat");
-    if (!isChartDataLoaded.current) isChartDataLoaded.current = true;
   };
 
   const mergeChartData = (
@@ -1798,7 +1792,6 @@ export default function AnalyticsIndex() {
 
     setLoadedMeasurements(updatedLoadedMeasurements);
     loadedCharts.current.add(measurementIdString);
-    if (!isChartDataLoaded.current) isChartDataLoaded.current = true;
     listModal.onClose();
   };
 
@@ -1968,7 +1961,6 @@ export default function AnalyticsIndex() {
     await updateDefaultLoadExerciseOptions();
     setSelectedExercise(undefined);
     loadExerciseChartModal.onClose();
-    if (!isChartDataLoaded.current) isChartDataLoaded.current = true;
   };
 
   const updateDefaultLoadExerciseOptions = async () => {
@@ -2117,14 +2109,13 @@ export default function AnalyticsIndex() {
       chartConfig.current[key] = { label: "Test" };
       chartDataUnitMap.current.set(key, ` ${weightUnit}`);
       chartDataUnitCategoryMap.current.set(key, "Weight");
+      loadedCharts.current.add(key);
     }
 
     setChartData(updatedChartData);
 
     loadChartAreas(areaKeys);
     loadChartLines(lineKeys, ["Weight"], lineKeys[0]);
-
-    if (!isChartDataLoaded.current) isChartDataLoaded.current = true;
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;
@@ -2208,7 +2199,7 @@ export default function AnalyticsIndex() {
         useFilterExerciseList={filterExerciseList}
       />
       <div className="flex flex-col items-center gap-2">
-        {isChartDataLoaded.current && (
+        {loadedCharts.current.size > 0 && (
           <div className="flex gap-1.5 relative">
             <ChartContainer
               config={chartConfig.current}
@@ -2292,7 +2283,7 @@ export default function AnalyticsIndex() {
               </ComposedChart>
             </ChartContainer>
             <div className="absolute left-full pl-[5px]">
-              {isChartDataLoaded.current && (
+              {loadedCharts.current.size > 0 && (
                 <div className="flex flex-col gap-1 w-[12.25rem]">
                   <Select
                     label="Shown Areas"
