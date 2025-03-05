@@ -1764,11 +1764,16 @@ export default function AnalyticsIndex() {
 
     const highestValueMap = new Map<ChartDataExerciseCategory, number>();
 
+    const updatedChartCommentMap = new Map(chartCommentMap);
+    const commentDataKeys: Set<ChartDataCategory> = new Set();
+
     for (const option of loadExerciseOptions) {
-      highestValueMap.set(`${option}_${exerciseId}`, -1);
+      const chartName: ChartDataExerciseCategory = `${option}_${exerciseId}`;
+      highestValueMap.set(chartName, -1);
+      commentDataKeys.add(chartName);
     }
 
-    // TODO: ADD areCommentsAlreadyLoaded
+    // TODO: ADD areCommentsAlreadyLoaded AND ADD NEW DATAKEYS TO EXISTING ONES
 
     for (const set of fullSetList) {
       const date = FormatDateToShortString(
@@ -1804,6 +1809,18 @@ export default function AnalyticsIndex() {
         }
       }
 
+      for (const [setNum, comment] of commentMap) {
+        const commentLabel = `Set ${setNum} Comment`;
+
+        addChartComment(
+          updatedChartCommentMap,
+          date,
+          commentDataKeys,
+          commentLabel,
+          comment
+        );
+      }
+
       loadedChartData.push(chartDataItem);
     }
 
@@ -1822,6 +1839,8 @@ export default function AnalyticsIndex() {
       loadExerciseChartModal.onClose();
       return;
     }
+
+    setChartCommentMap(updatedChartCommentMap);
 
     const filledInChartData = fillInMissingDates(
       loadedChartData,
