@@ -334,7 +334,8 @@ export default function AnalyticsIndex() {
     "#525252", // Dark Grey
     "#07e0e7", // Cyan
     "#8739cf", // Purple
-    "#4e9907", // Green
+    "#53a804", // Green
+    "#9e5a01", // Brown
   ];
 
   const chartAreaColorList = [
@@ -342,7 +343,7 @@ export default function AnalyticsIndex() {
     "#f57489", // Light Red
     "#7bdf83", // Light Green
     "#84a0eb", // Light Blue
-    "#e9b287", // Light Orange
+    "#f5af79", // Light Orange
     "#918c8c", // Light Grey
     "#d79de9", // Light Purple
   ];
@@ -2053,6 +2054,7 @@ export default function AnalyticsIndex() {
       "weight_max_444444",
       "weight_max_555555",
       "weight_max_666666",
+      "weight_max_777777",
     ];
 
     const keys = [...areaKeys, ...lineKeys];
@@ -2077,6 +2079,7 @@ export default function AnalyticsIndex() {
         weight_max_444444: Math.floor(Math.random() * 5),
         weight_max_555555: Math.floor(Math.random() * 5),
         weight_max_666666: Math.floor(Math.random() * 5),
+        weight_max_777777: Math.floor(Math.random() * 5),
       };
 
       const dateString = FormatDateToShortString(
