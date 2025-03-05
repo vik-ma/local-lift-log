@@ -63,3 +63,4 @@ export { useIsStringValidNumber } from "./useIsStringValidNumber";
 export { useIsStringValidNumberAbove0 } from "./useIsStringValidNumberAbove0";
 export { useDateRange } from "./useDateRange";
 export { useLoadExerciseOptionsMap } from "./useLoadExerciseOptionsMap";
+export { useDefaultChartMapsAndConfig } from "./useDefaultChartMapsAndConfig";

@@ -15,6 +15,7 @@ import {
   Chip,
 } from "@heroui/react";
 import {
+  useDefaultChartMapsAndConfig,
   useExerciseList,
   useFilterExerciseList,
   useLoadExerciseOptionsMap,
@@ -254,79 +255,23 @@ export default function AnalyticsIndex() {
     setSelectedTimePeriodProperties,
   } = timePeriodList;
 
+  const {
+    defaultChartDataUnitMap,
+    defaultChartDataUnitCategoryMap,
+    defaultChartConfig,
+  } = useDefaultChartMapsAndConfig();
+
   const chartDataUnitMap = useRef<Map<ChartDataCategory, string>>(
-    new Map([
-      ["calories", " kcal"],
-      ["fat", " g"],
-      ["carbs", " g"],
-      ["protein", " g"],
-      ["body_fat_percentage", " %"],
-    ])
+    new Map(defaultChartDataUnitMap)
   );
 
   const chartDataUnitCategoryMap = useRef(
-    new Map<ChartDataCategory, ChartDataUnitCategory>([
-      ["calories", "Calories"],
-      ["fat", "Macros"],
-      ["carbs", "Macros"],
-      ["protein", "Macros"],
-      ["body_weight", "Weight"],
-      ["body_fat_percentage", "Body Fat %"],
-      ["weight_min", "Weight"],
-      ["weight_max", "Weight"],
-      ["weight_avg", "Weight"],
-      ["weight_volume", "Weight"],
-      ["num_sets", "Number Of Sets"],
-      ["num_reps_min", "Number Of Reps"],
-      ["num_reps_max", "Number Of Reps"],
-      ["num_reps_avg", "Number Of Reps"],
-      ["num_reps_total", "Number Of Reps"],
-      ["num_reps_and_partial_reps_min", "Number Of Reps"],
-      ["num_reps_and_partial_reps_max", "Number Of Reps"],
-      ["num_reps_and_partial_reps_total", "Number Of Reps"],
-      ["num_partial_reps_min", "Number Of Reps"],
-      ["num_partial_reps_max", "Number Of Reps"],
-      ["num_partial_reps_avg", "Number Of Reps"],
-      ["num_partial_reps_total", "Number Of Reps"],
-      ["set_body_weight", "Weight"],
-      ["rir_min", "RIR"],
-      ["rir_max", "RIR"],
-      ["rir_avg", "RIR"],
-      ["rpe_min", "RPE"],
-      ["rpe_max", "RPE"],
-      ["rpe_avg", "RPE"],
-      ["distance_min", "Distance"],
-      ["distance_max", "Distance"],
-      ["distance_avg", "Distance"],
-      ["distance_total", "Distance"],
-      ["time_min", "Time"],
-      ["time_max", "Time"],
-      ["time_avg", "Time"],
-      ["time_total", "Time"],
-      ["distance_per_time_min", "Pace"],
-      ["distance_per_time_max", "Pace"],
-      ["distance_per_time_avg", "Pace"],
-      ["resistance_level_min", "Resistance Level"],
-      ["resistance_level_max", "Resistance Level"],
-      ["resistance_level_avg", "Resistance Level"],
-    ])
+    new Map<ChartDataCategory, ChartDataUnitCategory>(
+      defaultChartDataUnitCategoryMap
+    )
   );
 
-  const chartConfig = useRef<ChartConfig>({
-    default: { label: "Unknown" },
-    calories: {
-      label: "Calories",
-    },
-    fat: { label: "Fat" },
-    carbs: { label: "Carbs" },
-    protein: { label: "Protein" },
-    body_weight: {
-      label: "Body Weight",
-    },
-    body_fat_percentage: {
-      label: "Body Fat %",
-    },
-  });
+  const chartConfig = useRef<ChartConfig>({ ...defaultChartConfig });
 
   const chartLineColorList = [
     "#6b80ed", // Blue
@@ -2140,11 +2085,13 @@ export default function AnalyticsIndex() {
     setFilterMaxDate(null);
     setLoadedMeasurements(new Map());
     setDisabledLoadExerciseOptions(new Set());
+    setSelectedExercise(undefined);
 
     highestCategoryValues.current = new Map();
     loadedCharts.current = new Set();
-
-    setSelectedExercise(undefined);
+    chartDataUnitMap.current = new Map(defaultChartDataUnitMap);
+    chartDataUnitCategoryMap.current = new Map(defaultChartDataUnitCategoryMap);
+    chartConfig.current = { ...defaultChartConfig };
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;
