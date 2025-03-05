@@ -258,7 +258,7 @@ const ChartTooltipContent = React.forwardRef<
                           {itemConfig?.label || item.name}
                         </span>
                       </div>
-                      {item.value && (
+                      {item.value !== undefined && (
                         <div className="flex gap-[3px] text-stone-950 dark:text-stone-50">
                           <span className="font-semibold">
                             {item.value.toLocaleString()}
