@@ -2121,6 +2121,32 @@ export default function AnalyticsIndex() {
     loadChartLines(lineKeys, ["Weight"], lineKeys[0]);
   };
 
+  const resetChart = () => {
+    setChartData([]);
+    setChartDataAreas([]);
+    setChartDataLines([]);
+    setShownChartDataAreas([]);
+    setShownChartDataLines([]);
+    setPrimaryDataKey(undefined);
+    setSecondaryDataKey(undefined);
+    setChartLineUnitCategorySet(new Set());
+    setSecondaryDataUnitCategory(undefined);
+    setReferenceAreas([]);
+    setShownReferenceAreas([]);
+    setChartCommentMap(new Map());
+    setChartStartDate(null);
+    setChartEndDate(null);
+    setFilterMinDate(null);
+    setFilterMaxDate(null);
+    setLoadedMeasurements(new Map());
+    setDisabledLoadExerciseOptions(new Set());
+
+    highestCategoryValues.current = new Map();
+    loadedCharts.current = new Set();
+
+    setSelectedExercise(undefined);
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -2634,6 +2660,16 @@ export default function AnalyticsIndex() {
                   onPress={() => handleOpenListModal("time-period-list")}
                 >
                   Select Time Period
+                </Button>
+              )}
+              {loadedCharts.current.size > 0 && (
+                <Button
+                  className="font-medium"
+                  variant="flat"
+                  color="danger"
+                  onPress={() => resetChart()}
+                >
+                  Reset Chart
                 </Button>
               )}
             </div>
