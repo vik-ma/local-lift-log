@@ -2283,239 +2283,227 @@ export default function AnalyticsIndex() {
               </ComposedChart>
             </ChartContainer>
             <div className="absolute left-full pl-[5px]">
-              {loadedCharts.current.size > 0 && (
-                <div className="flex flex-col gap-1 w-[12.25rem]">
+              <div className="flex flex-col gap-1 w-[12.25rem]">
+                <Select
+                  label="Shown Areas"
+                  size="sm"
+                  variant="faded"
+                  selectionMode="multiple"
+                  selectedKeys={shownChartDataAreas as string[]}
+                  isDisabled={chartDataAreas.length < 2}
+                  onSelectionChange={(value) =>
+                    updateLeftYAxis(Array.from(value) as ChartDataCategory[])
+                  }
+                  disallowEmptySelection
+                >
+                  {chartDataAreas.map((area) => (
+                    <SelectItem key={area} value={area}>
+                      {chartConfig.current[area ?? "default"].label}
+                    </SelectItem>
+                  ))}
+                </Select>
+                {chartDataLines.length > 0 && (
                   <Select
-                    label="Shown Areas"
+                    label="Shown Lines"
                     size="sm"
                     variant="faded"
                     selectionMode="multiple"
-                    selectedKeys={shownChartDataAreas as string[]}
-                    isDisabled={chartDataAreas.length < 2}
+                    selectedKeys={shownChartDataLines as string[]}
                     onSelectionChange={(value) =>
-                      updateLeftYAxis(Array.from(value) as ChartDataCategory[])
+                      updateShownChartLines(
+                        Array.from(value) as ChartDataCategory[]
+                      )
                     }
-                    disallowEmptySelection
                   >
-                    {chartDataAreas.map((area) => (
-                      <SelectItem key={area} value={area}>
-                        {chartConfig.current[area ?? "default"].label}
+                    {chartDataLines.map((line) => (
+                      <SelectItem key={line} value={line}>
+                        {chartConfig.current[line ?? "default"].label}
                       </SelectItem>
                     ))}
                   </Select>
-                  {chartDataLines.length > 0 && (
-                    <Select
-                      label="Shown Lines"
-                      size="sm"
-                      variant="faded"
-                      selectionMode="multiple"
-                      selectedKeys={shownChartDataLines as string[]}
-                      onSelectionChange={(value) =>
-                        updateShownChartLines(
-                          Array.from(value) as ChartDataCategory[]
-                        )
-                      }
-                    >
-                      {chartDataLines.map((line) => (
-                        <SelectItem key={line} value={line}>
-                          {chartConfig.current[line ?? "default"].label}
-                        </SelectItem>
-                      ))}
-                    </Select>
-                  )}
-                  {secondaryDataUnitCategory !== undefined && (
-                    <Select
-                      label="Right Y-Axis Value"
-                      size="sm"
-                      variant="faded"
-                      selectedKeys={
-                        secondaryDataUnitCategory !== undefined
-                          ? [secondaryDataUnitCategory]
-                          : []
-                      }
-                      onChange={(e) =>
-                        changeSecondaryDataUnitCategory(e.target.value)
-                      }
-                      disallowEmptySelection
-                      isDisabled={chartLineUnitCategorySet.size < 2}
-                    >
-                      {Array.from(chartLineUnitCategorySet).map((category) => (
-                        <SelectItem key={category} value={category}>
-                          {category}
-                        </SelectItem>
-                      ))}
-                    </Select>
-                  )}
-                  {chartDataAreas.length > 1 && (
-                    <Dropdown>
-                      <DropdownTrigger>
-                        <Button className="font-medium" variant="flat">
-                          Convert Area To Line
-                        </Button>
-                      </DropdownTrigger>
-                      <DropdownMenu
-                        aria-label="Chart data areas"
-                        variant="flat"
-                      >
-                        {chartDataAreas.map((area) => (
-                          <DropdownItem
-                            key={area as string}
-                            onPress={() => changeChartDataAreaToLine(area)}
-                          >
-                            {chartConfig.current[area ?? "default"].label}
-                          </DropdownItem>
-                        ))}
-                      </DropdownMenu>
-                    </Dropdown>
-                  )}
-                  {chartDataLines.length > 0 && (
-                    <Dropdown>
-                      <DropdownTrigger>
-                        <Button className="font-medium" variant="flat">
-                          Convert Line To Area
-                        </Button>
-                      </DropdownTrigger>
-                      <DropdownMenu
-                        aria-label="Chart data lines"
-                        variant="flat"
-                      >
-                        {chartDataLines.map((line) => (
-                          <DropdownItem
-                            key={line as string}
-                            onPress={() => changeChartDataLineToArea(line)}
-                          >
-                            {chartConfig.current[line ?? "default"].label}
-                          </DropdownItem>
-                        ))}
-                      </DropdownMenu>
-                    </Dropdown>
-                  )}
-                  {chartLineUnitCategorySet.size > 0 && (
-                    <Dropdown>
-                      <DropdownTrigger>
-                        <Button className="font-medium" variant="flat">
-                          Change Area Category
-                        </Button>
-                      </DropdownTrigger>
-                      <DropdownMenu
-                        aria-label="Chart data line unit categories"
-                        variant="flat"
-                      >
-                        {Array.from(chartLineUnitCategorySet).map(
-                          (category) => (
-                            <DropdownItem
-                              key={category as string}
-                              onPress={() =>
-                                changeChartDataLineCategoryToArea(category)
-                              }
-                            >
-                              {category}
-                            </DropdownItem>
-                          )
-                        )}
-                      </DropdownMenu>
-                    </Dropdown>
-                  )}
-                  {referenceAreas.length > 0 && (
-                    <Select
-                      label="Shown Time Periods"
-                      size="sm"
-                      variant="faded"
-                      selectionMode="multiple"
-                      selectedKeys={shownTimePeriodIdSet}
-                      onSelectionChange={(keys) =>
-                        updateShownReferenceAreas(new Set(keys) as Set<string>)
-                      }
-                    >
-                      {referenceAreas.map((area) => (
-                        <SelectItem
-                          key={area.timePeriodId.toString()}
-                          value={area.timePeriodId.toString()}
-                        >
-                          {area.label}
-                        </SelectItem>
-                      ))}
-                    </Select>
-                  )}
+                )}
+                {secondaryDataUnitCategory !== undefined && (
+                  <Select
+                    label="Right Y-Axis Value"
+                    size="sm"
+                    variant="faded"
+                    selectedKeys={
+                      secondaryDataUnitCategory !== undefined
+                        ? [secondaryDataUnitCategory]
+                        : []
+                    }
+                    onChange={(e) =>
+                      changeSecondaryDataUnitCategory(e.target.value)
+                    }
+                    disallowEmptySelection
+                    isDisabled={chartLineUnitCategorySet.size < 2}
+                  >
+                    {Array.from(chartLineUnitCategorySet).map((category) => (
+                      <SelectItem key={category} value={category}>
+                        {category}
+                      </SelectItem>
+                    ))}
+                  </Select>
+                )}
+                {chartDataAreas.length > 1 && (
                   <Dropdown>
                     <DropdownTrigger>
-                      <Button
-                        className="font-medium"
-                        variant="flat"
-                        color={
-                          filterMinDate || filterMaxDate
-                            ? "secondary"
-                            : "default"
-                        }
-                      >
-                        Filter Dates
+                      <Button className="font-medium" variant="flat">
+                        Convert Area To Line
+                      </Button>
+                    </DropdownTrigger>
+                    <DropdownMenu aria-label="Chart data areas" variant="flat">
+                      {chartDataAreas.map((area) => (
+                        <DropdownItem
+                          key={area as string}
+                          onPress={() => changeChartDataAreaToLine(area)}
+                        >
+                          {chartConfig.current[area ?? "default"].label}
+                        </DropdownItem>
+                      ))}
+                    </DropdownMenu>
+                  </Dropdown>
+                )}
+                {chartDataLines.length > 0 && (
+                  <Dropdown>
+                    <DropdownTrigger>
+                      <Button className="font-medium" variant="flat">
+                        Convert Line To Area
+                      </Button>
+                    </DropdownTrigger>
+                    <DropdownMenu aria-label="Chart data lines" variant="flat">
+                      {chartDataLines.map((line) => (
+                        <DropdownItem
+                          key={line as string}
+                          onPress={() => changeChartDataLineToArea(line)}
+                        >
+                          {chartConfig.current[line ?? "default"].label}
+                        </DropdownItem>
+                      ))}
+                    </DropdownMenu>
+                  </Dropdown>
+                )}
+                {chartLineUnitCategorySet.size > 0 && (
+                  <Dropdown>
+                    <DropdownTrigger>
+                      <Button className="font-medium" variant="flat">
+                        Change Area Category
                       </Button>
                     </DropdownTrigger>
                     <DropdownMenu
-                      aria-label="Filter dates option menu"
+                      aria-label="Chart data line unit categories"
                       variant="flat"
                     >
-                      <>
-                        {/* Only show the options that can meaningfully filter the Chart */}
-                        {Array.from(dateMap).map(
-                          ([label, date]) =>
-                            date > chartStartDate! &&
-                            date < chartEndDate! && (
-                              <DropdownItem
-                                key={label}
-                                onPress={() => setFilterMinDate(date)}
-                              >
-                                {label}
-                              </DropdownItem>
-                            )
-                        )}
+                      {Array.from(chartLineUnitCategorySet).map((category) => (
                         <DropdownItem
-                          key="Custom"
-                          onPress={() => filterMinAndMaxDatesModal.onOpen()}
+                          key={category as string}
+                          onPress={() =>
+                            changeChartDataLineCategoryToArea(category)
+                          }
                         >
-                          Custom
+                          {category}
                         </DropdownItem>
-                      </>
+                      ))}
                     </DropdownMenu>
                   </Dropdown>
-                  {filterMinDate !== null && (
-                    <Chip
-                      classNames={{ content: "w-[10.625rem]" }}
-                      radius="sm"
-                      color="secondary"
+                )}
+                {referenceAreas.length > 0 && (
+                  <Select
+                    label="Shown Time Periods"
+                    size="sm"
+                    variant="faded"
+                    selectionMode="multiple"
+                    selectedKeys={shownTimePeriodIdSet}
+                    onSelectionChange={(keys) =>
+                      updateShownReferenceAreas(new Set(keys) as Set<string>)
+                    }
+                  >
+                    {referenceAreas.map((area) => (
+                      <SelectItem
+                        key={area.timePeriodId.toString()}
+                        value={area.timePeriodId.toString()}
+                      >
+                        {area.label}
+                      </SelectItem>
+                    ))}
+                  </Select>
+                )}
+                <Dropdown>
+                  <DropdownTrigger>
+                    <Button
+                      className="font-medium"
                       variant="flat"
-                      onClose={() => setFilterMinDate(null)}
-                      onClick={(e) => e.stopPropagation()}
+                      color={
+                        filterMinDate || filterMaxDate ? "secondary" : "default"
+                      }
                     >
-                      <span className="font-semibold">Min Date: </span>
-                      {FormatDateToShortString(
-                        filterMinDate,
-                        userSettings.locale
+                      Filter Dates
+                    </Button>
+                  </DropdownTrigger>
+                  <DropdownMenu
+                    aria-label="Filter dates option menu"
+                    variant="flat"
+                  >
+                    <>
+                      {/* Only show the options that can meaningfully filter the Chart */}
+                      {Array.from(dateMap).map(
+                        ([label, date]) =>
+                          date > chartStartDate! &&
+                          date < chartEndDate! && (
+                            <DropdownItem
+                              key={label}
+                              onPress={() => setFilterMinDate(date)}
+                            >
+                              {label}
+                            </DropdownItem>
+                          )
                       )}
-                    </Chip>
-                  )}
-                  {filterMaxDate !== null && (
-                    <Chip
-                      classNames={{ content: "w-[10.625rem]" }}
-                      radius="sm"
-                      color="secondary"
-                      variant="flat"
-                      onClose={() => setFilterMaxDate(null)}
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <span className="font-semibold">Max Date: </span>
-                      {FormatDateToShortString(
-                        filterMaxDate,
-                        userSettings.locale
-                      )}
-                    </Chip>
-                  )}
-                </div>
-              )}
+                      <DropdownItem
+                        key="Custom"
+                        onPress={() => filterMinAndMaxDatesModal.onOpen()}
+                      >
+                        Custom
+                      </DropdownItem>
+                    </>
+                  </DropdownMenu>
+                </Dropdown>
+                {filterMinDate !== null && (
+                  <Chip
+                    classNames={{ content: "w-[10.625rem]" }}
+                    radius="sm"
+                    color="secondary"
+                    variant="flat"
+                    onClose={() => setFilterMinDate(null)}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <span className="font-semibold">Min Date: </span>
+                    {FormatDateToShortString(
+                      filterMinDate,
+                      userSettings.locale
+                    )}
+                  </Chip>
+                )}
+                {filterMaxDate !== null && (
+                  <Chip
+                    classNames={{ content: "w-[10.625rem]" }}
+                    radius="sm"
+                    color="secondary"
+                    variant="flat"
+                    onClose={() => setFilterMaxDate(null)}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <span className="font-semibold">Max Date: </span>
+                    {FormatDateToShortString(
+                      filterMaxDate,
+                      userSettings.locale
+                    )}
+                  </Chip>
+                )}
+              </div>
             </div>
           </div>
         )}
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-2">
           <div className="flex justify-between w-[960px]">
             <div className="flex items-center gap-2">
               <Button
@@ -2655,54 +2643,52 @@ export default function AnalyticsIndex() {
               Toggle Test Buttons
             </Button>
           </div>
-          <div className="flex items-center">
-            {showTestButtons && (
-              <div className="flex items-center gap-2">
-                <Button
-                  className="font-medium"
-                  variant="flat"
-                  onPress={addTestArea}
-                >
-                  Add Test Area
-                </Button>
-                <Button
-                  className="font-medium"
-                  variant="flat"
-                  onPress={removeTestArea}
-                >
-                  Remove Test Area
-                </Button>
-                <Button
-                  className="font-medium"
-                  variant="flat"
-                  onPress={addTestLine}
-                >
-                  Add Test Line
-                </Button>
-                <Button
-                  className="font-medium"
-                  variant="flat"
-                  onPress={removeTestLine}
-                >
-                  Remove Test Line
-                </Button>
-                <Button
-                  className="font-medium"
-                  variant="flat"
-                  onPress={toggleTestTimePeriod}
-                >
-                  Toggle Test Time Period
-                </Button>
-                <Button
-                  className="font-medium"
-                  variant="flat"
-                  onPress={showAllLinesAndAreas}
-                >
-                  Show All Lines And Areas
-                </Button>
-              </div>
-            )}
-          </div>
+          {showTestButtons && (
+            <div className="flex items-center gap-2">
+              <Button
+                className="font-medium"
+                variant="flat"
+                onPress={addTestArea}
+              >
+                Add Test Area
+              </Button>
+              <Button
+                className="font-medium"
+                variant="flat"
+                onPress={removeTestArea}
+              >
+                Remove Test Area
+              </Button>
+              <Button
+                className="font-medium"
+                variant="flat"
+                onPress={addTestLine}
+              >
+                Add Test Line
+              </Button>
+              <Button
+                className="font-medium"
+                variant="flat"
+                onPress={removeTestLine}
+              >
+                Remove Test Line
+              </Button>
+              <Button
+                className="font-medium"
+                variant="flat"
+                onPress={toggleTestTimePeriod}
+              >
+                Toggle Test Time Period
+              </Button>
+              <Button
+                className="font-medium"
+                variant="flat"
+                onPress={showAllLinesAndAreas}
+              >
+                Show All Lines And Areas
+              </Button>
+            </div>
+          )}
         </div>
       </div>
     </>
