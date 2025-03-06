@@ -32,7 +32,7 @@ export default function ExerciseHistory() {
     };
 
     const getSets = async () => {
-      const setList = await GetCompletedSetsWithExerciseId(Number(id), false);
+      const setList = await GetCompletedSetsWithExerciseId(Number(id));
 
       setSets(setList);
     };

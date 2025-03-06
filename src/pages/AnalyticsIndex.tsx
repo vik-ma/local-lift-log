@@ -1754,7 +1754,7 @@ export default function AnalyticsIndex() {
 
     const exerciseId = selectedExercise.id;
 
-    const fullSetList = await GetCompletedSetsWithExerciseId(exerciseId, true);
+    const fullSetList = await GetCompletedSetsWithExerciseId(exerciseId);
 
     if (fullSetList.length === 0) return;
 
