@@ -1908,6 +1908,7 @@ export default function AnalyticsIndex() {
       currentChartAreaCategory !== loadExerciseOptionsUnitCategory
     ) {
       // Move current Chart Areas to Chart Lines if different categories
+      // (Needed because loadChartLines will update Chart Lines after loadChartAreas)
       secondaryDataKeys.unshift(...chartDataAreas);
       chartLineUnitCategories.add(currentChartAreaCategory);
     }
