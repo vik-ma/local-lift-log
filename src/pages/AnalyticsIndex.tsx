@@ -308,13 +308,6 @@ export default function AnalyticsIndex() {
         );
 
         updateLoadExerciseOptions(userSettings.default_load_exercise_options);
-
-        // loadDietLogListCalories(userSettings.locale, true);
-        // loadUserWeightListWeights(
-        //   userSettings.locale,
-        //   userSettings.default_unit_weight,
-        //   true
-        // );
       };
 
       loadUserSettings();
@@ -356,11 +349,12 @@ export default function AnalyticsIndex() {
     listModal.onOpen();
   };
 
-  const loadDietLogListCalories = async (
-    locale: string,
-    loadPrimary: boolean
-  ) => {
-    if (loadedCharts.current.has("diet-logs-calories")) return;
+  const loadDietLogListCalories = async (loadPrimary: boolean) => {
+    if (
+      loadedCharts.current.has("diet-logs-calories") ||
+      userSettings === undefined
+    )
+      return;
 
     const dietLogs = await GetAllDietLogs(true);
 
@@ -388,7 +382,10 @@ export default function AnalyticsIndex() {
       loadedCharts.current.has("diet-logs-macros");
 
     for (const dietLog of dietLogs) {
-      const date = FormatDateToShortString(new Date(dietLog.date), locale);
+      const date = FormatDateToShortString(
+        new Date(dietLog.date),
+        userSettings.locale
+      );
 
       const chartDataItem: ChartDataItem = {
         date,
@@ -415,12 +412,15 @@ export default function AnalyticsIndex() {
 
     setChartCommentMap(updatedChartCommentMap);
 
-    const filledInChartData = fillInMissingDates(loadedChartData, locale);
+    const filledInChartData = fillInMissingDates(
+      loadedChartData,
+      userSettings.locale
+    );
 
     const mergedChartData = mergeChartData(
       filledInChartData,
       chartData,
-      locale
+      userSettings.locale
     );
 
     setChartData(mergedChartData);
@@ -436,11 +436,12 @@ export default function AnalyticsIndex() {
     loadedCharts.current.add("diet-logs-calories");
   };
 
-  const loadDietLogListMacros = async (
-    locale: string,
-    loadPrimary: boolean
-  ) => {
-    if (loadedCharts.current.has("diet-logs-macros")) return;
+  const loadDietLogListMacros = async (loadPrimary: boolean) => {
+    if (
+      loadedCharts.current.has("diet-logs-macros") ||
+      userSettings === undefined
+    )
+      return;
 
     const dietLogs = await GetAllDietLogs(true);
 
@@ -471,7 +472,10 @@ export default function AnalyticsIndex() {
       loadedCharts.current.has("diet-logs-calories");
 
     for (const dietLog of dietLogs) {
-      const date = FormatDateToShortString(new Date(dietLog.date), locale);
+      const date = FormatDateToShortString(
+        new Date(dietLog.date),
+        userSettings.locale
+      );
 
       const chartDataItem: ChartDataItem = {
         date,
@@ -527,12 +531,15 @@ export default function AnalyticsIndex() {
 
     setChartCommentMap(updatedChartCommentMap);
 
-    const filledInChartData = fillInMissingDates(loadedChartData, locale);
+    const filledInChartData = fillInMissingDates(
+      loadedChartData,
+      userSettings.locale
+    );
 
     const mergedChartData = mergeChartData(
       filledInChartData,
       chartData,
-      locale
+      userSettings.locale
     );
 
     setChartData(mergedChartData);
@@ -902,11 +909,14 @@ export default function AnalyticsIndex() {
   };
 
   const loadUserWeightListWeights = async (
-    locale: string,
     weightUnit: string,
     loadPrimary: boolean
   ) => {
-    if (loadedCharts.current.has("user-weights-weight")) return;
+    if (
+      loadedCharts.current.has("user-weights-weight") ||
+      userSettings === undefined
+    )
+      return;
 
     const userWeights = await GetAllUserWeights(true);
 
@@ -935,7 +945,10 @@ export default function AnalyticsIndex() {
     );
 
     for (const userWeight of userWeights) {
-      const date = FormatDateToShortString(new Date(userWeight.date), locale);
+      const date = FormatDateToShortString(
+        new Date(userWeight.date),
+        userSettings.locale
+      );
 
       // Only load first entry per day
       if (dateSet.has(date)) continue;
@@ -973,12 +986,15 @@ export default function AnalyticsIndex() {
 
     setChartCommentMap(updatedChartCommentMap);
 
-    const filledInChartData = fillInMissingDates(loadedChartData, locale);
+    const filledInChartData = fillInMissingDates(
+      loadedChartData,
+      userSettings.locale
+    );
 
     const mergedChartData = mergeChartData(
       filledInChartData,
       chartData,
-      locale
+      userSettings.locale
     );
 
     setChartData(mergedChartData);
@@ -994,11 +1010,12 @@ export default function AnalyticsIndex() {
     loadedCharts.current.add("user-weights-weight");
   };
 
-  const loadUserWeightListBodyFat = async (
-    locale: string,
-    loadPrimary: boolean
-  ) => {
-    if (loadedCharts.current.has("user-weights-body-fat")) return;
+  const loadUserWeightListBodyFat = async (loadPrimary: boolean) => {
+    if (
+      loadedCharts.current.has("user-weights-body-fat") ||
+      userSettings === undefined
+    )
+      return;
 
     const userWeights = await GetAllUserWeights(true);
 
@@ -1027,7 +1044,10 @@ export default function AnalyticsIndex() {
     );
 
     for (const userWeight of userWeights) {
-      const date = FormatDateToShortString(new Date(userWeight.date), locale);
+      const date = FormatDateToShortString(
+        new Date(userWeight.date),
+        userSettings.locale
+      );
 
       // Only load first entry per day
       if (dateSet.has(date)) continue;
@@ -1067,12 +1087,15 @@ export default function AnalyticsIndex() {
 
     setChartCommentMap(updatedChartCommentMap);
 
-    const filledInChartData = fillInMissingDates(loadedChartData, locale);
+    const filledInChartData = fillInMissingDates(
+      loadedChartData,
+      userSettings.locale
+    );
 
     const mergedChartData = mergeChartData(
       filledInChartData,
       chartData,
-      locale
+      userSettings.locale
     );
 
     setChartData(mergedChartData);
@@ -2566,37 +2589,25 @@ export default function AnalyticsIndex() {
                   </DropdownItem>
                   <DropdownItem
                     key="user-weights-weight"
-                    onPress={() =>
-                      loadUserWeightListWeights(
-                        userSettings.locale,
-                        weightUnit,
-                        true
-                      )
-                    }
+                    onPress={() => loadUserWeightListWeights(weightUnit, true)}
                   >
                     Body Weights
                   </DropdownItem>
                   <DropdownItem
                     key="user-weights-body-fat"
-                    onPress={() =>
-                      loadUserWeightListBodyFat(userSettings.locale, true)
-                    }
+                    onPress={() => loadUserWeightListBodyFat(true)}
                   >
                     Body Fat Percentages
                   </DropdownItem>
                   <DropdownItem
                     key="diet-logs-calories"
-                    onPress={() =>
-                      loadDietLogListCalories(userSettings.locale, true)
-                    }
+                    onPress={() => loadDietLogListCalories(true)}
                   >
                     Calories
                   </DropdownItem>
                   <DropdownItem
                     key="diet-logs-macros"
-                    onPress={() =>
-                      loadDietLogListMacros(userSettings.locale, true)
-                    }
+                    onPress={() => loadDietLogListMacros(true)}
                   >
                     Macros
                   </DropdownItem>
@@ -2621,37 +2632,25 @@ export default function AnalyticsIndex() {
                   </DropdownItem>
                   <DropdownItem
                     key="user-weights-weight"
-                    onPress={() =>
-                      loadUserWeightListWeights(
-                        userSettings.locale,
-                        weightUnit,
-                        false
-                      )
-                    }
+                    onPress={() => loadUserWeightListWeights(weightUnit, false)}
                   >
                     Body Weights
                   </DropdownItem>
                   <DropdownItem
                     key="user-weights-body-fat"
-                    onPress={() =>
-                      loadUserWeightListBodyFat(userSettings.locale, false)
-                    }
+                    onPress={() => loadUserWeightListBodyFat(false)}
                   >
                     Body Fat Percentages
                   </DropdownItem>
                   <DropdownItem
                     key="diet-logs-calories"
-                    onPress={() =>
-                      loadDietLogListCalories(userSettings.locale, false)
-                    }
+                    onPress={() => loadDietLogListCalories(false)}
                   >
                     Calories
                   </DropdownItem>
                   <DropdownItem
                     key="diet-logs-macros"
-                    onPress={() =>
-                      loadDietLogListMacros(userSettings.locale, false)
-                    }
+                    onPress={() => loadDietLogListMacros(false)}
                   >
                     Macros
                   </DropdownItem>
