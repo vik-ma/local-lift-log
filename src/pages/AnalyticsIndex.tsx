@@ -40,6 +40,7 @@ import {
   ChartDataExerciseCategoryBase,
   ChartDataUnitCategory,
   Exercise,
+  LoadedChartType,
   Measurement,
   TimePeriod,
   UserMeasurementValues,
@@ -91,14 +92,6 @@ type ChartDataItem = {
 } & {
   [key in Exclude<ChartDataCategory, undefined>]?: number;
 };
-
-type LoadedChartType =
-  | "diet-logs-calories"
-  | "diet-logs-macros"
-  | "user-weights-weight"
-  | "user-weights-body-fat"
-  | `measurement_${number}`
-  | ChartDataExerciseCategory;
 
 type ReferenceAreaItem = {
   timePeriodId: number;

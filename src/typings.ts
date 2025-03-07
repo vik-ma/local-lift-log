@@ -1253,7 +1253,7 @@ export type ChartDataCategory =
   | "body_weight"
   | "body_fat_percentage"
   | `measurement_${number}`
-  | ChartDataExerciseCategory
+  | ChartDataExerciseCategory;
 
 export type ChartDataExerciseCategoryBase =
   | `weight_${"min" | "max" | "avg" | "volume"}`
@@ -1295,3 +1295,11 @@ export type ChartComment = {
   label: string;
   comment: string;
 };
+
+export type LoadedChartType =
+  | "diet-logs-calories"
+  | "diet-logs-macros"
+  | "user-weights-weight"
+  | "user-weights-body-fat"
+  | `measurement_${number}`
+  | ChartDataExerciseCategory;
