@@ -739,43 +739,6 @@ export default function AnalyticsIndex() {
     updateShownChartLines(updatedShownChartDataLines);
   };
 
-  const changeSecondaryDataUnitCategory = (unitCategory: string) => {
-    // TODO: FIX
-    // switch (unitCategory) {
-    //   case "Macros": {
-    //     updateRightYAxis(shownChartDataLines, "fat");
-    //     break;
-    //   }
-    //   case "Calories":
-    //     updateRightYAxis(shownChartDataLines, "calories");
-    //     break;
-    //   case "Body Weight":
-    //     updateRightYAxis(shownChartDataLines, "body_weight");
-    //     break;
-    //   case "Body Fat %":
-    //     updateRightYAxis(shownChartDataLines, "body_fat_percentage");
-    //     break;
-    //   case "Caliper":
-    //     for (const [key, value] of loadedMeasurements) {
-    //       if (value.measurement_type === "Caliper") {
-    //         updateRightYAxis(shownChartDataLines, `measurement_${key}`);
-    //         break;
-    //       }
-    //     }
-    //     break;
-    //   case "Circumference":
-    //     for (const [key, value] of loadedMeasurements) {
-    //       if (value.measurement_type === "Circumference") {
-    //         updateRightYAxis(shownChartDataLines, `measurement_${key}`);
-    //         break;
-    //       }
-    //     }
-    //     break;
-    //   default:
-    //     break;
-    // }
-  };
-
   const toggleTestTimePeriod = () => {
     if (userSettings === undefined) return;
 
@@ -2400,7 +2363,10 @@ export default function AnalyticsIndex() {
                         : []
                     }
                     onChange={(e) =>
-                      changeSecondaryDataUnitCategory(e.target.value)
+                      updateRightYAxis(
+                        shownChartDataLines,
+                        e.target.value as ChartDataUnitCategory
+                      )
                     }
                     disallowEmptySelection
                     isDisabled={chartLineUnitCategorySet.size < 2}
