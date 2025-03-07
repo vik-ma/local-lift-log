@@ -16,6 +16,9 @@ export const GetAnalyticsValuesForSetList = (
   let maxWeight = -1;
   let addedWeight = -1;
   let weightVolume = -1;
+  let minReps = Infinity;
+  let maxReps = -1;
+  let totalReps = -1;
 
   for (let i = 0; i < setList.length; i++) {
     const set = setList[i];
@@ -42,10 +45,24 @@ export const GetAnalyticsValuesForSetList = (
 
         weightVolume += weight * set.reps;
       }
+    }
 
-      if (set.comment !== null) {
-        commentMap.set(i + 1, set.comment);
+    if (set.is_tracking_reps) {
+      if (maxReps === -1) {
+        maxReps = 0;
+        totalReps = 0;
       }
+
+      const reps = set.reps;
+
+      if (reps < minReps) minReps = reps;
+      if (reps > maxReps) maxReps = reps;
+
+      totalReps += reps;
+    }
+
+    if (set.comment !== null) {
+      commentMap.set(i + 1, set.comment);
     }
   }
 
@@ -76,6 +93,28 @@ export const GetAnalyticsValuesForSetList = (
 
   if (loadExerciseOptions.has("num_sets")) {
     analyticsValuesMap.set("num_sets", setList.length);
+  }
+
+  if (loadExerciseOptions.has("num_reps_min")) {
+    analyticsValuesMap.set(
+      "num_reps_min",
+      minWeight === Infinity ? -1 : minReps
+    );
+  }
+
+  if (loadExerciseOptions.has("num_reps_max")) {
+    analyticsValuesMap.set("num_reps_max", maxReps);
+  }
+
+  if (loadExerciseOptions.has("num_reps_avg")) {
+    analyticsValuesMap.set(
+      "num_reps_avg",
+      Math.round(totalReps / setList.length)
+    );
+  }
+
+  if (loadExerciseOptions.has("num_reps_total")) {
+    analyticsValuesMap.set("num_reps_total", totalReps);
   }
 
   return { analyticsValuesMap, commentMap };
