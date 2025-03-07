@@ -430,7 +430,7 @@ export default function AnalyticsIndex() {
     if (loadPrimary) {
       loadChartAreas(["calories"]);
     } else {
-      loadChartLines(["calories"], ["Calories"], "calories");
+      loadChartLines(["calories"], ["Calories"], "Calories");
     }
 
     loadedCharts.current.add("diet-logs-calories");
@@ -550,7 +550,7 @@ export default function AnalyticsIndex() {
       loadChartAreas(dataKeys);
     } else {
       // All macro dataKeys will work, even if they have no values loaded
-      loadChartLines(dataKeys, ["Macros"], "fat");
+      loadChartLines(dataKeys, ["Macros"], "Macros");
     }
 
     loadedCharts.current.add("diet-logs-macros");
@@ -566,7 +566,10 @@ export default function AnalyticsIndex() {
     setShownChartDataLines(chartLines);
     setChartLineUnitCategorySet(chartLineUnitCategorySet);
 
-    updateRightYAxis(chartLines, secondaryDataKey);
+    const activeUnitCategory =
+      chartDataUnitCategoryMap.current.get(secondaryDataKey);
+
+    updateRightYAxis(chartLines, activeUnitCategory);
   };
 
   const formatXAxisDate = (date: string) => {
@@ -689,7 +692,10 @@ export default function AnalyticsIndex() {
       setSecondaryDataUnitCategory("Weight");
     }
 
-    updateRightYAxis(updatedShownChartDataLines, secondaryDataKey);
+    const activeUnitCategory =
+      chartDataUnitCategoryMap.current.get(secondaryDataKey);
+
+    updateRightYAxis(updatedShownChartDataLines, activeUnitCategory);
   };
 
   const removeTestLine = () => {
@@ -734,39 +740,40 @@ export default function AnalyticsIndex() {
   };
 
   const changeSecondaryDataUnitCategory = (unitCategory: string) => {
-    switch (unitCategory) {
-      case "Macros": {
-        updateRightYAxis(shownChartDataLines, "fat");
-        break;
-      }
-      case "Calories":
-        updateRightYAxis(shownChartDataLines, "calories");
-        break;
-      case "Body Weight":
-        updateRightYAxis(shownChartDataLines, "body_weight");
-        break;
-      case "Body Fat %":
-        updateRightYAxis(shownChartDataLines, "body_fat_percentage");
-        break;
-      case "Caliper":
-        for (const [key, value] of loadedMeasurements) {
-          if (value.measurement_type === "Caliper") {
-            updateRightYAxis(shownChartDataLines, `measurement_${key}`);
-            break;
-          }
-        }
-        break;
-      case "Circumference":
-        for (const [key, value] of loadedMeasurements) {
-          if (value.measurement_type === "Circumference") {
-            updateRightYAxis(shownChartDataLines, `measurement_${key}`);
-            break;
-          }
-        }
-        break;
-      default:
-        break;
-    }
+    // TODO: FIX
+    // switch (unitCategory) {
+    //   case "Macros": {
+    //     updateRightYAxis(shownChartDataLines, "fat");
+    //     break;
+    //   }
+    //   case "Calories":
+    //     updateRightYAxis(shownChartDataLines, "calories");
+    //     break;
+    //   case "Body Weight":
+    //     updateRightYAxis(shownChartDataLines, "body_weight");
+    //     break;
+    //   case "Body Fat %":
+    //     updateRightYAxis(shownChartDataLines, "body_fat_percentage");
+    //     break;
+    //   case "Caliper":
+    //     for (const [key, value] of loadedMeasurements) {
+    //       if (value.measurement_type === "Caliper") {
+    //         updateRightYAxis(shownChartDataLines, `measurement_${key}`);
+    //         break;
+    //       }
+    //     }
+    //     break;
+    //   case "Circumference":
+    //     for (const [key, value] of loadedMeasurements) {
+    //       if (value.measurement_type === "Circumference") {
+    //         updateRightYAxis(shownChartDataLines, `measurement_${key}`);
+    //         break;
+    //       }
+    //     }
+    //     break;
+    //   default:
+    //     break;
+    // }
   };
 
   const toggleTestTimePeriod = () => {
@@ -1018,7 +1025,7 @@ export default function AnalyticsIndex() {
     if (loadPrimary) {
       loadChartAreas(["body_weight"]);
     } else {
-      loadChartLines(["body_weight"], ["Weight"], "body_weight");
+      loadChartLines(["body_weight"], ["Weight"], "Weight");
     }
 
     loadedCharts.current.add("user-weights-weight");
@@ -1112,11 +1119,7 @@ export default function AnalyticsIndex() {
     if (loadPrimary) {
       loadChartAreas(["body_fat_percentage"]);
     } else {
-      loadChartLines(
-        ["body_fat_percentage"],
-        ["Body Fat %"],
-        "body_fat_percentage"
-      );
+      loadChartLines(["body_fat_percentage"], ["Body Fat %"], "Body Fat %");
     }
 
     loadedCharts.current.add("user-weights-body-fat");
@@ -1232,7 +1235,10 @@ export default function AnalyticsIndex() {
 
     setChartLineUnitCategorySet(updatedChartLineUnitCategorySet);
 
-    updateRightYAxis(updatedShownChartDataLines, secondaryDataKey);
+    const activeUnitCategory =
+      chartDataUnitCategoryMap.current.get(secondaryDataKey);
+
+    updateRightYAxis(updatedShownChartDataLines, activeUnitCategory);
   };
 
   const changeChartDataAreaToLine = (chartDataArea: ChartDataCategory) => {
@@ -1262,7 +1268,10 @@ export default function AnalyticsIndex() {
 
     updateLeftYAxis(updatedShownChartDataAreas);
 
-    updateRightYAxis(updatedShownChartDataLines, secondaryDataKey);
+    const activeUnitCategory =
+      chartDataUnitCategoryMap.current.get(secondaryDataKey);
+
+    updateRightYAxis(updatedShownChartDataLines, activeUnitCategory);
   };
 
   const changeChartDataLineCategoryToArea = (
@@ -1313,7 +1322,11 @@ export default function AnalyticsIndex() {
     setChartLineUnitCategorySet(updatedChartLineUnitCategorySet);
 
     updateLeftYAxis(updatedShownChartDataAreas);
-    updateRightYAxis(updatedShownChartDataLines, secondaryDataKey);
+
+    const activeUnitCategory =
+      chartDataUnitCategoryMap.current.get(secondaryDataKey);
+
+    updateRightYAxis(updatedShownChartDataLines, activeUnitCategory);
   };
 
   const setCustomMinAndMaxDatesFilter = (
@@ -1328,17 +1341,13 @@ export default function AnalyticsIndex() {
 
   const updateRightYAxis = (
     chartLines: ChartDataCategory[],
-    activeSecondaryDataKey: ChartDataCategory
+    activeUnitCategory: ChartDataUnitCategory
   ) => {
     if (chartLines.length === 0) {
       setSecondaryDataKey(undefined);
       setSecondaryDataUnitCategory(undefined);
       return;
     }
-
-    const activeUnitCategory = chartDataUnitCategoryMap.current.get(
-      activeSecondaryDataKey
-    );
 
     let shouldChangeCategory = true;
 
@@ -1445,7 +1454,10 @@ export default function AnalyticsIndex() {
 
       updateLeftYAxis(dataKeys);
 
-      updateRightYAxis(updatedShownChartDataLines, secondaryDataKey);
+      const activeUnitCategory =
+        chartDataUnitCategoryMap.current.get(secondaryDataKey);
+
+      updateRightYAxis(updatedShownChartDataLines, activeUnitCategory);
     }
 
     if (
@@ -1463,7 +1475,7 @@ export default function AnalyticsIndex() {
   const loadChartLines = (
     dataKeys: ChartDataCategory[],
     unitCategories: ChartDataUnitCategory[],
-    rightYAxisDataKey: ChartDataCategory
+    activeUnitCategory: ChartDataUnitCategory
   ) => {
     setChartDataLines([...chartDataLines, ...dataKeys]);
     setChartLineUnitCategorySet(
@@ -1474,7 +1486,7 @@ export default function AnalyticsIndex() {
 
     setShownChartDataLines(updatedShownChartDataLines);
 
-    updateRightYAxis(updatedShownChartDataLines, rightYAxisDataKey);
+    updateRightYAxis(updatedShownChartDataLines, activeUnitCategory);
   };
 
   const addChartComment = (
@@ -1637,7 +1649,7 @@ export default function AnalyticsIndex() {
       if (loadChartAsArea) {
         loadChartAreas([measurementIdString]);
       } else {
-        loadChartLines([measurementIdString], ["Caliper"], measurementIdString);
+        loadChartLines([measurementIdString], ["Caliper"], "Caliper");
       }
     } else {
       highestCategoryValues.current.set(measurementIdString, highestValue);
@@ -1664,7 +1676,7 @@ export default function AnalyticsIndex() {
         loadChartLines(
           [measurementIdString],
           ["Circumference"],
-          measurementIdString
+          "Circumference"
         );
       }
     }
@@ -1864,7 +1876,7 @@ export default function AnalyticsIndex() {
       loadChartLines(
         secondaryDataKeys,
         Array.from(chartLineUnitCategories),
-        secondaryDataKeys[0]
+        chartDataUnitCategoryMap.current.get(secondaryDataKeys[0])
       );
     }
 
@@ -2027,7 +2039,7 @@ export default function AnalyticsIndex() {
     setChartData(updatedChartData);
 
     loadChartAreas(areaKeys);
-    loadChartLines(lineKeys, ["Weight"], lineKeys[0]);
+    loadChartLines(lineKeys, ["Weight"], "Weight");
   };
 
   const toggleAllTimePeriods = () => {
