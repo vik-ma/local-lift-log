@@ -63,6 +63,7 @@ import {
   GetCurrentYmdDateString,
   GetUserMeasurementsWithMeasurementId,
   GetUserSettings,
+  UpdateChartCommentMapForExercise,
   UpdateDefaultLoadExerciseOptions,
   ValidMeasurementUnits,
 } from "../helpers";
@@ -1757,7 +1758,15 @@ export default function AnalyticsIndex() {
 
     const highestValueMap = new Map<ChartDataExerciseCategory, number>();
 
-    const updatedChartCommentMap = new Map(chartCommentMap);
+    const { areCommentsAlreadyLoaded, updatedChartCommentMap } =
+      UpdateChartCommentMapForExercise(
+        loadExerciseOptions,
+        exerciseId,
+        loadedCharts.current,
+        chartCommentMap,
+        loadExerciseOptionsMap
+      );
+
     const commentDataKeys: Set<ChartDataCategory> = new Set();
 
     for (const option of loadExerciseOptions) {
@@ -1765,8 +1774,6 @@ export default function AnalyticsIndex() {
       highestValueMap.set(chartName, -1);
       commentDataKeys.add(chartName);
     }
-
-    // TODO: ADD areCommentsAlreadyLoaded AND ADD NEW DATAKEYS TO EXISTING ONES
 
     for (const set of fullSetList) {
       const date = FormatDateToShortString(
@@ -1802,16 +1809,18 @@ export default function AnalyticsIndex() {
         }
       }
 
-      for (const [setNum, comment] of commentMap) {
-        const commentLabel = `Set ${setNum} Comment`;
+      if (!areCommentsAlreadyLoaded) {
+        for (const [setNum, comment] of commentMap) {
+          const commentLabel = `Set ${setNum} Comment`;
 
-        addChartComment(
-          updatedChartCommentMap,
-          date,
-          commentDataKeys,
-          commentLabel,
-          comment
-        );
+          addChartComment(
+            updatedChartCommentMap,
+            date,
+            commentDataKeys,
+            commentLabel,
+            comment
+          );
+        }
       }
 
       loadedChartData.push(chartDataItem);
