@@ -65,3 +65,5 @@ export { useDateRange } from "./useDateRange";
 export { useLoadExerciseOptionsMap } from "./useLoadExerciseOptionsMap";
 export { useDefaultChartMapsAndConfig } from "./useDefaultChartMapsAndConfig";
 export { useChartColorLists } from "./useChartColorLists";
+export { useChartDateMap } from "./useChartDateMap";
+export { useChartTimePeriodIdSets } from "./useChartTimePeriodIdSets";

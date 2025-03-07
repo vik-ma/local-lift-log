@@ -16,6 +16,8 @@ import {
 } from "@heroui/react";
 import {
   useChartColorLists,
+  useChartDateMap,
+  useChartTimePeriodIdSets,
   useDefaultChartMapsAndConfig,
   useExerciseList,
   useFilterExerciseList,
@@ -40,6 +42,7 @@ import {
   ChartDataExerciseCategory,
   ChartDataExerciseCategoryBase,
   ChartDataUnitCategory,
+  ChartReferenceAreaItem,
   Exercise,
   LoadedChartType,
   Measurement,
@@ -95,15 +98,6 @@ type ChartDataItem = {
   [key in Exclude<ChartDataCategory, undefined>]?: number;
 };
 
-type ReferenceAreaItem = {
-  timePeriodId: number;
-  x1: string;
-  x2: string;
-  label: string;
-  startDate: string;
-  endDate: string | null;
-};
-
 export default function AnalyticsIndex() {
   const [listModalPage, setListModalPage] =
     useState<ListModalPage>("exercise-list");
@@ -124,9 +118,11 @@ export default function AnalyticsIndex() {
   const [shownChartDataLines, setShownChartDataLines] = useState<
     ChartDataCategory[]
   >([]);
-  const [referenceAreas, setReferenceAreas] = useState<ReferenceAreaItem[]>([]);
+  const [referenceAreas, setReferenceAreas] = useState<
+    ChartReferenceAreaItem[]
+  >([]);
   const [shownReferenceAreas, setShownReferenceAreas] = useState<
-    ReferenceAreaItem[]
+    ChartReferenceAreaItem[]
   >([]);
   const [weightUnit, setWeightUnit] = useState<string>("kg");
   const [distanceUnit, setDistanceUnit] = useState<string>("km");
@@ -161,45 +157,13 @@ export default function AnalyticsIndex() {
     new Map()
   );
 
-  const dateMap = useMemo(() => {
-    const dateMap = new Map<string, Date>();
-
-    const date30DaysAgo = new Date();
-    date30DaysAgo.setHours(-720, 0, 0, 0);
-    const date90DaysAgo = new Date();
-    date90DaysAgo.setHours(-2160, 0, 0, 0);
-    const date180DaysAgo = new Date();
-    date180DaysAgo.setHours(-4320, 0, 0, 0);
-    const date365DaysAgo = new Date();
-    date365DaysAgo.setHours(-8760, 0, 0, 0);
-    const date730DaysAgo = new Date();
-    date730DaysAgo.setHours(-17520, 0, 0, 0);
-
-    dateMap.set("Last 30 Days", date30DaysAgo);
-    dateMap.set("Last 90 Days", date90DaysAgo);
-    dateMap.set("Last 180 Days", date180DaysAgo);
-    dateMap.set("Last Year", date365DaysAgo);
-    dateMap.set("Last Two Years", date730DaysAgo);
-
-    return dateMap;
-  }, []);
+  const dateMap = useChartDateMap();
 
   const validCircumferenceUnits = new Set(ValidMeasurementUnits());
 
-  const timePeriodIdSet = useMemo(
-    () =>
-      new Set<string>(
-        referenceAreas.map((area) => area.timePeriodId.toString())
-      ),
-    [referenceAreas]
-  );
-
-  const shownTimePeriodIdSet = useMemo(
-    () =>
-      new Set<string>(
-        shownReferenceAreas.map((area) => area.timePeriodId.toString())
-      ),
-    [shownReferenceAreas]
+  const { timePeriodIdSet, shownTimePeriodIdSet } = useChartTimePeriodIdSets(
+    referenceAreas,
+    shownReferenceAreas
   );
 
   const loadedCharts = useRef<Set<LoadedChartType>>(new Set());
@@ -813,7 +777,7 @@ export default function AnalyticsIndex() {
     );
 
     if (testPeriodIndex === -1) {
-      const newReferenceArea: ReferenceAreaItem = {
+      const newReferenceArea: ChartReferenceAreaItem = {
         timePeriodId: 0,
         x1: FormatDateToShortString(
           new Date("2025-01-03"),
@@ -867,7 +831,7 @@ export default function AnalyticsIndex() {
 
     const { formattedStartDate, formattedEndDate } = startAndEndDates;
 
-    const referenceArea: ReferenceAreaItem = {
+    const referenceArea: ChartReferenceAreaItem = {
       timePeriodId: timePeriod.id,
       x1: formattedStartDate,
       x2: formattedEndDate,
@@ -2073,11 +2037,11 @@ export default function AnalyticsIndex() {
       (obj) => obj.timePeriodId === 111111
     );
 
-    const updatedReferenceAreas: ReferenceAreaItem[] = [];
-    const updatedShownReferenceAreas: ReferenceAreaItem[] = [];
+    const updatedReferenceAreas: ChartReferenceAreaItem[] = [];
+    const updatedShownReferenceAreas: ChartReferenceAreaItem[] = [];
 
     if (!isAlreadyLoaded) {
-      const referenceArea1: ReferenceAreaItem = {
+      const referenceArea1: ChartReferenceAreaItem = {
         timePeriodId: 111111,
         x1: FormatDateToShortString(
           new Date("2025-01-01"),
@@ -2092,7 +2056,7 @@ export default function AnalyticsIndex() {
         endDate: "2025-01-06",
       };
 
-      const referenceArea2: ReferenceAreaItem = {
+      const referenceArea2: ChartReferenceAreaItem = {
         timePeriodId: 222222,
         x1: FormatDateToShortString(
           new Date("2025-01-02"),
@@ -2107,7 +2071,7 @@ export default function AnalyticsIndex() {
         endDate: "2025-01-07",
       };
 
-      const referenceArea3: ReferenceAreaItem = {
+      const referenceArea3: ChartReferenceAreaItem = {
         timePeriodId: 333333,
         x1: FormatDateToShortString(
           new Date("2025-01-03"),
@@ -2122,7 +2086,7 @@ export default function AnalyticsIndex() {
         endDate: "2025-01-08",
       };
 
-      const referenceArea4: ReferenceAreaItem = {
+      const referenceArea4: ChartReferenceAreaItem = {
         timePeriodId: 444444,
         x1: FormatDateToShortString(
           new Date("2025-01-04"),
@@ -2137,7 +2101,7 @@ export default function AnalyticsIndex() {
         endDate: "2025-01-09",
       };
 
-      const referenceArea5: ReferenceAreaItem = {
+      const referenceArea5: ChartReferenceAreaItem = {
         timePeriodId: 555555,
         x1: FormatDateToShortString(
           new Date("2025-01-05"),

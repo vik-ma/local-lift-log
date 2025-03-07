@@ -1303,3 +1303,12 @@ export type LoadedChartType =
   | "user-weights-body-fat"
   | `measurement_${number}`
   | ChartDataExerciseCategory;
+
+export type ChartReferenceAreaItem = {
+  timePeriodId: number;
+  x1: string;
+  x2: string;
+  label: string;
+  startDate: string;
+  endDate: string | null;
+};
