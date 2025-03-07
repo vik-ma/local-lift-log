@@ -5,7 +5,7 @@ import {
   GenerateMultisetSetOrderString,
 } from "..";
 
-type UpdateMultisetSetOrderReturnProps = {
+type UpdateMultisetSetOrderReturnType = {
   success: boolean;
   updatedMultiset: Multiset;
 };
@@ -13,7 +13,7 @@ type UpdateMultisetSetOrderReturnProps = {
 export const UpdateMultisetSetOrder = async (
   multiset: Multiset,
   setListIdOrder: number[][]
-): Promise<UpdateMultisetSetOrderReturnProps> => {
+): Promise<UpdateMultisetSetOrderReturnType> => {
   const updatedMultiset = { ...multiset };
 
   const setOrder = GenerateMultisetSetOrderString(setListIdOrder);
