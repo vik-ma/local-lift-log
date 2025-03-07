@@ -17,10 +17,8 @@ export const GetAnalyticsValuesForSetList = (
   let addedWeight = -1;
   let weightVolume = -1;
 
-  let setNum = 0;
-
-  for (const set of setList) {
-    setNum++;
+  for (let i = 0; i < setList.length; i++) {
+    const set = setList[i];
 
     if (set.is_tracking_weight) {
       if (maxWeight === -1) {
@@ -46,7 +44,7 @@ export const GetAnalyticsValuesForSetList = (
       }
 
       if (set.comment !== null) {
-        commentMap.set(setNum, set.comment);
+        commentMap.set(i + 1, set.comment);
       }
     }
   }
