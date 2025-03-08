@@ -155,6 +155,29 @@ export const LoadExerciseChartModal = ({
 
         setLoadExerciseOptionsUnitCategoryPrimary(newValue);
       }
+
+      // Modify loadExerciseOptionsUnitCategorySecondary if previously undefined
+      // or if deleting last option with that category
+      if (
+        (loadExerciseOptionsUnitCategorySecondary === undefined ||
+          !updatedUnitCategories.has(
+            loadExerciseOptionsUnitCategorySecondary
+          )) &&
+        updatedUnitCategories.size > 1
+      ) {
+        setLoadExerciseOptionsUnitCategorySecondary(
+          Array.from(updatedUnitCategories)[1]
+        );
+      }
+
+      // Set loadExerciseOptionsUnitCategorySecondary to undefined
+      // if there is only one category left
+      if (
+        loadExerciseOptionsUnitCategorySecondary !== undefined &&
+        updatedUnitCategories.size < 2
+      ) {
+        setLoadExerciseOptionsUnitCategorySecondary(undefined);
+      }
     }
 
     if (chartDataAreas.length > 0 && updatedLoadExerciseOptions.size === 0) {
