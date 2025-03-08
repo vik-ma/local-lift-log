@@ -149,6 +149,15 @@ export const LoadExerciseChartModal = ({
       }
     }
 
+    if (chartDataAreas.length > 0 && updatedLoadExerciseOptions.size === 0) {
+      const chartAreaUnitCategory = chartDataUnitCategoryMap.get(
+        chartDataAreas[0]
+      );
+
+      setLoadExerciseOptionsUnitCategories(new Set([chartAreaUnitCategory]));
+      setLoadExerciseOptionsUnitCategory(chartAreaUnitCategory);
+    }
+
     if (chartDataAreas.length === 0 && updatedLoadExerciseOptions.size === 0) {
       setLoadExerciseOptionsUnitCategories(new Set());
       setLoadExerciseOptionsUnitCategory(undefined);
