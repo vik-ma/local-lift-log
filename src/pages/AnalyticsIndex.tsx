@@ -142,8 +142,10 @@ export default function AnalyticsIndex() {
   const [loadExerciseOptions, setLoadExerciseOptions] = useState<
     Set<ChartDataExerciseCategoryBase>
   >(new Set());
-  const [loadExerciseOptionsUnitCategory, setLoadExerciseOptionsUnitCategory] =
-    useState<ChartDataUnitCategory>();
+  const [
+    loadExerciseOptionsUnitCategoryPrimary,
+    setLoadExerciseOptionsUnitCategoryPrimary,
+  ] = useState<ChartDataUnitCategory>();
   const [
     loadExerciseOptionsUnitCategories,
     setLoadExerciseOptionsUnitCategories,
@@ -287,7 +289,7 @@ export default function AnalyticsIndex() {
     );
 
     setLoadExerciseOptionsUnitCategories(new Set(unitCategories));
-    setLoadExerciseOptionsUnitCategory(unitCategories[0]);
+    setLoadExerciseOptionsUnitCategoryPrimary(unitCategories[0]);
   };
 
   useEffect(() => {
@@ -1411,7 +1413,7 @@ export default function AnalyticsIndex() {
     setPrimaryDataKey(sortedDataKeys[0]);
     setShownChartDataAreas(sortedDataKeys);
 
-    setLoadExerciseOptionsUnitCategory(unitCategory);
+    setLoadExerciseOptionsUnitCategoryPrimary(unitCategory);
   };
 
   const loadChartAreas = (dataKeys: ChartDataCategory[]) => {
@@ -1838,7 +1840,7 @@ export default function AnalyticsIndex() {
 
       updateExerciseStatUnit(chartName, optionCategory);
 
-      if (loadExerciseOptionsUnitCategory === optionCategory) {
+      if (loadExerciseOptionsUnitCategoryPrimary === optionCategory) {
         primaryDataKeys.push(chartName);
       } else {
         secondaryDataKeys.push(chartName);
@@ -1850,9 +1852,9 @@ export default function AnalyticsIndex() {
       chartDataUnitCategoryMap.current.get(primaryDataKey);
 
     if (
-      loadExerciseOptionsUnitCategory !== undefined &&
+      loadExerciseOptionsUnitCategoryPrimary !== undefined &&
       chartDataAreas.length > 0 &&
-      currentChartAreaCategory !== loadExerciseOptionsUnitCategory
+      currentChartAreaCategory !== loadExerciseOptionsUnitCategoryPrimary
     ) {
       // Move current Chart Areas to Chart Lines if different categories
       // (Needed because loadChartLines will update Chart Lines after loadChartAreas)
@@ -1861,7 +1863,7 @@ export default function AnalyticsIndex() {
     }
 
     if (
-      loadExerciseOptionsUnitCategory !== undefined &&
+      loadExerciseOptionsUnitCategoryPrimary !== undefined &&
       primaryDataKeys.length > 0
     ) {
       loadChartAreas(primaryDataKeys);
@@ -2227,8 +2229,12 @@ export default function AnalyticsIndex() {
         loadExerciseOptions={loadExerciseOptions}
         setLoadExerciseOptions={setLoadExerciseOptions}
         disabledLoadExerciseOptions={disabledLoadExerciseOptions}
-        loadExerciseOptionsUnitCategory={loadExerciseOptionsUnitCategory}
-        setLoadExerciseOptionsUnitCategory={setLoadExerciseOptionsUnitCategory}
+        loadExerciseOptionsUnitCategoryPrimary={
+          loadExerciseOptionsUnitCategoryPrimary
+        }
+        setLoadExerciseOptionsUnitCategoryPrimary={
+          setLoadExerciseOptionsUnitCategoryPrimary
+        }
         loadExerciseOptionsUnitCategories={loadExerciseOptionsUnitCategories}
         setLoadExerciseOptionsUnitCategories={
           setLoadExerciseOptionsUnitCategories

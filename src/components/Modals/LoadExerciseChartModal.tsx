@@ -33,8 +33,8 @@ type LoadExerciseChartModalProps = {
     React.SetStateAction<Set<ChartDataExerciseCategoryBase>>
   >;
   disabledLoadExerciseOptions: Set<ChartDataExerciseCategoryBase>;
-  loadExerciseOptionsUnitCategory: ChartDataUnitCategory;
-  setLoadExerciseOptionsUnitCategory: React.Dispatch<
+  loadExerciseOptionsUnitCategoryPrimary: ChartDataUnitCategory;
+  setLoadExerciseOptionsUnitCategoryPrimary: React.Dispatch<
     React.SetStateAction<ChartDataUnitCategory>
   >;
   loadExerciseOptionsUnitCategories: Set<ChartDataUnitCategory>;
@@ -53,8 +53,8 @@ export const LoadExerciseChartModal = ({
   loadExerciseOptions,
   setLoadExerciseOptions,
   disabledLoadExerciseOptions,
-  loadExerciseOptionsUnitCategory,
-  setLoadExerciseOptionsUnitCategory,
+  loadExerciseOptionsUnitCategoryPrimary,
+  setLoadExerciseOptionsUnitCategoryPrimary,
   loadExerciseOptionsUnitCategories,
   setLoadExerciseOptionsUnitCategories,
   chartDataAreas,
@@ -102,10 +102,12 @@ export const LoadExerciseChartModal = ({
   ) => {
     const updatedLoadExerciseOptions = new Set(loadExerciseOptions);
 
-    // Set key as loadExerciseOptionsUnitCategory if no Chart Areas exist
+    // Set key as loadExerciseOptionsUnitCategoryPrimary if no Chart Areas exist
     // and loadExerciseOptions was previously empty
     if (chartDataAreas.length === 0 && updatedLoadExerciseOptions.size === 0) {
-      setLoadExerciseOptionsUnitCategory(chartDataUnitCategoryMap.get(key));
+      setLoadExerciseOptionsUnitCategoryPrimary(
+        chartDataUnitCategoryMap.get(key)
+      );
     }
 
     if (updatedLoadExerciseOptions.has(key)) {
@@ -132,20 +134,20 @@ export const LoadExerciseChartModal = ({
 
         updatedUnitCategories.add(unitCategory);
 
-        if (unitCategory === loadExerciseOptionsUnitCategory) {
+        if (unitCategory === loadExerciseOptionsUnitCategoryPrimary) {
           shouldChangeCategory = false;
         }
       }
 
       setLoadExerciseOptionsUnitCategories(updatedUnitCategories);
 
-      // Change loadExerciseOptionsUnitCategory if last option with that category was deleted
+      // Change loadExerciseOptionsUnitCategoryPrimary if last option with that category was deleted
       if (shouldChangeCategory) {
         const newValue = chartDataUnitCategoryMap.get(
           updatedLoadExerciseOptions.values().next().value
         );
 
-        setLoadExerciseOptionsUnitCategory(newValue);
+        setLoadExerciseOptionsUnitCategoryPrimary(newValue);
       }
     }
 
@@ -155,12 +157,12 @@ export const LoadExerciseChartModal = ({
       );
 
       setLoadExerciseOptionsUnitCategories(new Set([chartAreaUnitCategory]));
-      setLoadExerciseOptionsUnitCategory(chartAreaUnitCategory);
+      setLoadExerciseOptionsUnitCategoryPrimary(chartAreaUnitCategory);
     }
 
     if (chartDataAreas.length === 0 && updatedLoadExerciseOptions.size === 0) {
       setLoadExerciseOptionsUnitCategories(new Set());
-      setLoadExerciseOptionsUnitCategory(undefined);
+      setLoadExerciseOptionsUnitCategoryPrimary(undefined);
     }
 
     setLoadExerciseOptions(updatedLoadExerciseOptions);
@@ -175,7 +177,7 @@ export const LoadExerciseChartModal = ({
   const handleClearAllStatsButton = () => {
     setLoadExerciseOptions(new Set());
     setLoadExerciseOptionsUnitCategories(new Set());
-    setLoadExerciseOptionsUnitCategory(undefined);
+    setLoadExerciseOptionsUnitCategoryPrimary(undefined);
   };
 
   const handleLoadExerciseOptionsUnitCategoryChange = (
@@ -183,7 +185,7 @@ export const LoadExerciseChartModal = ({
   ) => {
     const value = e.target.value === "" ? undefined : e.target.value;
 
-    setLoadExerciseOptionsUnitCategory(value as ChartDataUnitCategory);
+    setLoadExerciseOptionsUnitCategoryPrimary(value as ChartDataUnitCategory);
   };
 
   return (
@@ -314,8 +316,10 @@ export const LoadExerciseChartModal = ({
                       size="sm"
                       variant="faded"
                       selectedKeys={
-                        loadExerciseOptionsUnitCategory !== undefined
-                          ? ([loadExerciseOptionsUnitCategory] as string[])
+                        loadExerciseOptionsUnitCategoryPrimary !== undefined
+                          ? ([
+                              loadExerciseOptionsUnitCategoryPrimary,
+                            ] as string[])
                           : []
                       }
                       onChange={(e) =>
@@ -346,7 +350,7 @@ export const LoadExerciseChartModal = ({
                   color="primary"
                   isDisabled={
                     loadExerciseOptions.size === 0 ||
-                    (loadExerciseOptionsUnitCategory === undefined &&
+                    (loadExerciseOptionsUnitCategoryPrimary === undefined &&
                       chartDataAreas.length === 0)
                   }
                   onPress={loadExerciseStats}
