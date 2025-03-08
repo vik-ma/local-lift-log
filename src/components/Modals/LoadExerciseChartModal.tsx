@@ -205,38 +205,8 @@ export const LoadExerciseChartModal = ({
               </span>
             </ModalHeader>
             <ModalBody className="pt-0">
-              <div className="h-[448px] flex flex-col gap-2">
+              <div className="h-[448px] flex flex-col gap-1.5">
                 <div className="flex flex-col gap-1">
-                  <div className="flex justify-between">
-                    <div className="w-[11.75rem]">
-                      <Select
-                        label="Chart Area Category"
-                        classNames={{
-                          trigger: "bg-amber-50 border-amber-200",
-                        }}
-                        size="sm"
-                        variant="faded"
-                        selectedKeys={
-                          loadExerciseOptionsUnitCategory !== undefined
-                            ? ([loadExerciseOptionsUnitCategory] as string[])
-                            : []
-                        }
-                        onChange={(e) =>
-                          handleLoadExerciseOptionsUnitCategoryChange(e)
-                        }
-                        isDisabled={loadExerciseOptionsUnitCategories.size < 2}
-                        disallowEmptySelection
-                      >
-                        {Array.from(loadExerciseOptionsUnitCategories).map(
-                          (category) => (
-                            <SelectItem key={category} value={category}>
-                              {category}
-                            </SelectItem>
-                          )
-                        )}
-                      </Select>
-                    </div>
-                  </div>
                   <div className="flex justify-between">
                     <div className="flex items-center gap-1">
                       <Dropdown closeOnSelect={false}>
@@ -308,7 +278,7 @@ export const LoadExerciseChartModal = ({
                     </div>
                   )}
                 </div>
-                <ScrollShadow className="pb-1">
+                <ScrollShadow className="px-0.5 pb-1">
                   <div className="columns-2">
                     {Array.from(filteredLoadExerciseOptionsMap).map(
                       ([key, value]) => (
@@ -334,6 +304,36 @@ export const LoadExerciseChartModal = ({
                     )}
                   </div>
                 </ScrollShadow>
+                <div className="flex justify-between">
+                  <div className="w-[11.75rem]">
+                    <Select
+                      label="Chart Area Category"
+                      classNames={{
+                        trigger: "bg-amber-50 border-amber-200",
+                      }}
+                      size="sm"
+                      variant="faded"
+                      selectedKeys={
+                        loadExerciseOptionsUnitCategory !== undefined
+                          ? ([loadExerciseOptionsUnitCategory] as string[])
+                          : []
+                      }
+                      onChange={(e) =>
+                        handleLoadExerciseOptionsUnitCategoryChange(e)
+                      }
+                      isDisabled={loadExerciseOptionsUnitCategories.size < 2}
+                      disallowEmptySelection
+                    >
+                      {Array.from(loadExerciseOptionsUnitCategories).map(
+                        (category) => (
+                          <SelectItem key={category} value={category}>
+                            {category}
+                          </SelectItem>
+                        )
+                      )}
+                    </Select>
+                  </div>
+                </div>
               </div>
             </ModalBody>
             <ModalFooter className="flex justify-between items-center">
