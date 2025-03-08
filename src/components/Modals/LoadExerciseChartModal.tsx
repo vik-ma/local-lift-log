@@ -215,7 +215,8 @@ export const LoadExerciseChartModal = ({
                         onChange={(e) =>
                           handleLoadExerciseOptionsUnitCategoryChange(e)
                         }
-                        disallowEmptySelection={chartDataAreas.length === 0}
+                        isDisabled={loadExerciseOptionsUnitCategories.size < 2}
+                        disallowEmptySelection
                       >
                         {Array.from(loadExerciseOptionsUnitCategories).map(
                           (category) => (
