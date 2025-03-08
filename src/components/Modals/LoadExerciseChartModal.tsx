@@ -172,7 +172,7 @@ export const LoadExerciseChartModal = ({
     setFilterCategories(updatedFilterCategories);
   };
 
-  const handleResetButton = () => {
+  const handleClearAllStatsButton = () => {
     setLoadExerciseOptions(new Set());
     setLoadExerciseOptionsUnitCategories(new Set());
     setLoadExerciseOptionsUnitCategory(undefined);
@@ -236,52 +236,41 @@ export const LoadExerciseChartModal = ({
                         )}
                       </Select>
                     </div>
-                    <div className="flex flex-col items-end">
-                      <div className="flex gap-1">
-                        {loadExerciseOptions.size > 0 && (
+                  </div>
+                  <div className="flex justify-between">
+                    <div className="flex items-center gap-1">
+                      <Dropdown closeOnSelect={false}>
+                        <DropdownTrigger>
                           <Button
                             className="z-1"
                             variant="flat"
-                            color="danger"
-                            size="sm"
-                            onPress={handleResetButton}
-                          >
-                            Reset
-                          </Button>
-                        )}
-                        <Dropdown closeOnSelect={false}>
-                          <DropdownTrigger>
-                            <Button
-                              className="z-1"
-                              variant="flat"
-                              color={
-                                filterCategories.size > 0
-                                  ? "secondary"
-                                  : "default"
-                              }
-                              size="sm"
-                            >
-                              Filter
-                            </Button>
-                          </DropdownTrigger>
-                          <DropdownMenu
-                            aria-label="Filter Option Categories Dropdown Menu"
-                            selectedKeys={filterCategories as Set<string>}
-                            selectionMode="multiple"
-                            onSelectionChange={
-                              setFilterCategories as React.Dispatch<
-                                React.SetStateAction<SharedSelection>
-                              >
+                            color={
+                              filterCategories.size > 0
+                                ? "secondary"
+                                : "default"
                             }
+                            size="sm"
                           >
-                            {optionCategories.map((category) => (
-                              <DropdownItem key={category}>
-                                {category}
-                              </DropdownItem>
-                            ))}
-                          </DropdownMenu>
-                        </Dropdown>
-                      </div>
+                            Filter
+                          </Button>
+                        </DropdownTrigger>
+                        <DropdownMenu
+                          aria-label="Filter Option Categories Dropdown Menu"
+                          selectedKeys={filterCategories as Set<string>}
+                          selectionMode="multiple"
+                          onSelectionChange={
+                            setFilterCategories as React.Dispatch<
+                              React.SetStateAction<SharedSelection>
+                            >
+                          }
+                        >
+                          {optionCategories.map((category) => (
+                            <DropdownItem key={category}>
+                              {category}
+                            </DropdownItem>
+                          ))}
+                        </DropdownMenu>
+                      </Dropdown>
                       {filterCategories.size > 0 && (
                         <span className="text-secondary text-sm px-0.5">
                           (Showing {filteredLoadExerciseOptionsMap.size} out of{" "}
@@ -289,9 +278,20 @@ export const LoadExerciseChartModal = ({
                         </span>
                       )}
                     </div>
+                    {loadExerciseOptions.size > 0 && (
+                      <Button
+                        className="z-1"
+                        variant="flat"
+                        color="danger"
+                        size="sm"
+                        onPress={handleClearAllStatsButton}
+                      >
+                        Clear All Stats
+                      </Button>
+                    )}
                   </div>
                   {filterCategories.size > 0 && (
-                    <div className="flex items-center gap-1 flex-wrap max-w-[24rem]">
+                    <div className="flex items-center gap-1 flex-wrap max-w-[25rem]">
                       {Array.from(filterCategories).map((category) => (
                         <Chip
                           key={category}
