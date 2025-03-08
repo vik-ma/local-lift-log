@@ -147,6 +147,10 @@ export default function AnalyticsIndex() {
     setLoadExerciseOptionsUnitCategoryPrimary,
   ] = useState<ChartDataUnitCategory>();
   const [
+    loadExerciseOptionsUnitCategorySecondary,
+    setLoadExerciseOptionsUnitCategorySecondary,
+  ] = useState<ChartDataUnitCategory>();
+  const [
     loadExerciseOptionsUnitCategories,
     setLoadExerciseOptionsUnitCategories,
   ] = useState<Set<ChartDataUnitCategory>>(new Set());
@@ -2234,6 +2238,12 @@ export default function AnalyticsIndex() {
         }
         setLoadExerciseOptionsUnitCategoryPrimary={
           setLoadExerciseOptionsUnitCategoryPrimary
+        }
+        loadExerciseOptionsUnitCategorySecondary={
+          loadExerciseOptionsUnitCategorySecondary
+        }
+        setLoadExerciseOptionsUnitCategorySecondary={
+          setLoadExerciseOptionsUnitCategorySecondary
         }
         loadExerciseOptionsUnitCategories={loadExerciseOptionsUnitCategories}
         setLoadExerciseOptionsUnitCategories={

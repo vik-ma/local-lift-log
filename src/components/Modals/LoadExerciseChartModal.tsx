@@ -37,6 +37,10 @@ type LoadExerciseChartModalProps = {
   setLoadExerciseOptionsUnitCategoryPrimary: React.Dispatch<
     React.SetStateAction<ChartDataUnitCategory>
   >;
+  loadExerciseOptionsUnitCategorySecondary: ChartDataUnitCategory;
+  setLoadExerciseOptionsUnitCategorySecondary: React.Dispatch<
+    React.SetStateAction<ChartDataUnitCategory>
+  >;
   loadExerciseOptionsUnitCategories: Set<ChartDataUnitCategory>;
   setLoadExerciseOptionsUnitCategories: React.Dispatch<
     React.SetStateAction<Set<ChartDataUnitCategory>>
@@ -55,6 +59,8 @@ export const LoadExerciseChartModal = ({
   disabledLoadExerciseOptions,
   loadExerciseOptionsUnitCategoryPrimary,
   setLoadExerciseOptionsUnitCategoryPrimary,
+  loadExerciseOptionsUnitCategorySecondary,
+  setLoadExerciseOptionsUnitCategorySecondary,
   loadExerciseOptionsUnitCategories,
   setLoadExerciseOptionsUnitCategories,
   chartDataAreas,
@@ -306,7 +312,7 @@ export const LoadExerciseChartModal = ({
                     )}
                   </div>
                 </ScrollShadow>
-                <div className="flex justify-between">
+                <div className="flex gap-3">
                   <div className="w-[11.75rem]">
                     <Select
                       label="Chart Area Category"
@@ -327,6 +333,32 @@ export const LoadExerciseChartModal = ({
                       }
                       isDisabled={loadExerciseOptionsUnitCategories.size < 2}
                       disallowEmptySelection
+                    >
+                      {Array.from(loadExerciseOptionsUnitCategories).map(
+                        (category) => (
+                          <SelectItem key={category} value={category}>
+                            {category}
+                          </SelectItem>
+                        )
+                      )}
+                    </Select>
+                  </div>
+                  <div className="w-[11.75rem]">
+                    <Select
+                      label="Chart Line Category"
+                      size="sm"
+                      variant="faded"
+                      selectedKeys={
+                        loadExerciseOptionsUnitCategorySecondary !== undefined
+                          ? ([
+                              loadExerciseOptionsUnitCategorySecondary,
+                            ] as string[])
+                          : []
+                      }
+                      onChange={(e) =>
+                        handleLoadExerciseOptionsUnitCategoryChange(e)
+                      }
+                      isDisabled={loadExerciseOptionsUnitCategories.size < 2}
                     >
                       {Array.from(loadExerciseOptionsUnitCategories).map(
                         (category) => (
