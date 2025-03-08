@@ -270,17 +270,24 @@ export default function AnalyticsIndex() {
 
     setLoadExerciseOptions(new Set(loadExerciseOptionsList));
 
-    if (loadExerciseOptionsList.length > 0) {
-      const unitCategories = loadExerciseOptionsList.map((option) =>
-        chartDataUnitCategoryMap.current.get(option)
-      );
+    const chartAreaUnitCategory = chartDataUnitCategoryMap.current.get(
+      chartDataAreas[0]
+    );
 
-      setLoadExerciseOptionsUnitCategories(new Set(unitCategories));
-      setLoadExerciseOptionsUnitCategory(unitCategories[0]);
-    } else {
-      setLoadExerciseOptionsUnitCategories(new Set());
-      setLoadExerciseOptionsUnitCategory(undefined);
+    const unitCategories: ChartDataUnitCategory[] = [];
+
+    if (chartAreaUnitCategory !== undefined) {
+      unitCategories.push(chartAreaUnitCategory);
     }
+
+    unitCategories.push(
+      ...loadExerciseOptionsList.map((option) =>
+        chartDataUnitCategoryMap.current.get(option)
+      )
+    );
+
+    setLoadExerciseOptionsUnitCategories(new Set(unitCategories));
+    setLoadExerciseOptionsUnitCategory(unitCategories[0]);
   };
 
   useEffect(() => {
@@ -1403,6 +1410,8 @@ export default function AnalyticsIndex() {
 
     setPrimaryDataKey(sortedDataKeys[0]);
     setShownChartDataAreas(sortedDataKeys);
+
+    setLoadExerciseOptionsUnitCategory(unitCategory);
   };
 
   const loadChartAreas = (dataKeys: ChartDataCategory[]) => {

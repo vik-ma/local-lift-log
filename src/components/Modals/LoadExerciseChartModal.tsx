@@ -102,8 +102,9 @@ export const LoadExerciseChartModal = ({
   ) => {
     const updatedLoadExerciseOptions = new Set(loadExerciseOptions);
 
-    // Set key as loadExerciseOptionsUnitCategory if loadExerciseOptions was empty
-    if (updatedLoadExerciseOptions.size === 0) {
+    // Set key as loadExerciseOptionsUnitCategory if no Chart Areas exist
+    // and loadExerciseOptions was previously empty
+    if (chartDataAreas.length === 0 && updatedLoadExerciseOptions.size === 0) {
       setLoadExerciseOptionsUnitCategory(chartDataUnitCategoryMap.get(key));
     }
 
@@ -117,6 +118,14 @@ export const LoadExerciseChartModal = ({
       const updatedUnitCategories = new Set<ChartDataUnitCategory>();
 
       let shouldChangeCategory = true;
+
+      if (chartDataAreas.length > 0) {
+        // Never automatically change category if any Chart Areas exist
+        shouldChangeCategory = false;
+        updatedUnitCategories.add(
+          chartDataUnitCategoryMap.get(chartDataAreas[0])
+        );
+      }
 
       for (const option of updatedLoadExerciseOptions) {
         const unitCategory = chartDataUnitCategoryMap.get(option);
@@ -138,7 +147,9 @@ export const LoadExerciseChartModal = ({
 
         setLoadExerciseOptionsUnitCategory(newValue);
       }
-    } else {
+    }
+
+    if (chartDataAreas.length === 0 && updatedLoadExerciseOptions.size === 0) {
       setLoadExerciseOptionsUnitCategories(new Set());
       setLoadExerciseOptionsUnitCategory(undefined);
     }
