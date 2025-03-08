@@ -372,24 +372,20 @@ export const LoadExerciseChartModal = ({
                 </div>
               </div>
             </ModalBody>
-            <ModalFooter className="flex justify-between items-center">
-              <div></div>
-              <div className="flex gap-2">
-                <Button color="primary" variant="light" onPress={onClose}>
-                  Close
-                </Button>
-                <Button
-                  color="primary"
-                  isDisabled={
-                    loadExerciseOptions.size === 0 ||
-                    (loadExerciseOptionsUnitCategoryPrimary === undefined &&
-                      chartDataAreas.length === 0)
-                  }
-                  onPress={loadExerciseStats}
-                >
-                  Load
-                </Button>
-              </div>
+            <ModalFooter>
+              <Button color="primary" variant="light" onPress={onClose}>
+                Close
+              </Button>
+              <Button
+                color="primary"
+                isDisabled={
+                  loadExerciseOptions.size === 0 ||
+                  loadExerciseOptionsUnitCategoryPrimary === undefined
+                }
+                onPress={loadExerciseStats}
+              >
+                Load
+              </Button>
             </ModalFooter>
           </>
         )}
