@@ -191,6 +191,12 @@ export const LoadExerciseChartModal = ({
   ) => {
     const value = e.target.value === "" ? undefined : e.target.value;
 
+    if (value === loadExerciseOptionsUnitCategorySecondary) {
+      setLoadExerciseOptionsUnitCategorySecondary(
+        loadExerciseOptionsUnitCategoryPrimary
+      );
+    }
+
     setLoadExerciseOptionsUnitCategoryPrimary(value as ChartDataUnitCategory);
   };
 
@@ -364,10 +370,14 @@ export const LoadExerciseChartModal = ({
                             ] as string[])
                           : []
                       }
-                      // onChange={(e) =>
-                      //   handleLoadExerciseOptionsUnitCategoryChange(e)
-                      // }
-                      isDisabled={loadExerciseOptionsUnitCategoriesSecondary.length < 2}
+                      onChange={(e) =>
+                        setLoadExerciseOptionsUnitCategorySecondary(
+                          e.target.value as ChartDataUnitCategory
+                        )
+                      }
+                      isDisabled={
+                        loadExerciseOptionsUnitCategoriesSecondary.length < 2
+                      }
                       disallowEmptySelection
                     >
                       {loadExerciseOptionsUnitCategoriesSecondary.map(
