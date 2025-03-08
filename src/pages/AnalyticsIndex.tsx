@@ -294,6 +294,7 @@ export default function AnalyticsIndex() {
 
     setLoadExerciseOptionsUnitCategories(new Set(unitCategories));
     setLoadExerciseOptionsUnitCategoryPrimary(unitCategories[0]);
+    setLoadExerciseOptionsUnitCategorySecondary(unitCategories[1]);
   };
 
   useEffect(() => {
@@ -1416,8 +1417,6 @@ export default function AnalyticsIndex() {
 
     setPrimaryDataKey(sortedDataKeys[0]);
     setShownChartDataAreas(sortedDataKeys);
-
-    setLoadExerciseOptionsUnitCategoryPrimary(unitCategory);
   };
 
   const loadChartAreas = (dataKeys: ChartDataCategory[]) => {
@@ -1877,7 +1876,7 @@ export default function AnalyticsIndex() {
       loadChartLines(
         secondaryDataKeys,
         Array.from(chartLineUnitCategories),
-        chartDataUnitCategoryMap.current.get(secondaryDataKeys[0])
+        loadExerciseOptionsUnitCategorySecondary
       );
     }
 
