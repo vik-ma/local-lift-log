@@ -194,6 +194,15 @@ export const LoadExerciseChartModal = ({
     setLoadExerciseOptionsUnitCategoryPrimary(value as ChartDataUnitCategory);
   };
 
+  const loadExerciseOptionsUnitCategoriesSecondary = useMemo(() => {
+    return Array.from(loadExerciseOptionsUnitCategories).filter(
+      (value) => value !== loadExerciseOptionsUnitCategoryPrimary
+    );
+  }, [
+    loadExerciseOptionsUnitCategories,
+    loadExerciseOptionsUnitCategoryPrimary,
+  ]);
+
   return (
     <Modal
       isOpen={loadExerciseChartModal.isOpen}
@@ -355,12 +364,13 @@ export const LoadExerciseChartModal = ({
                             ] as string[])
                           : []
                       }
-                      onChange={(e) =>
-                        handleLoadExerciseOptionsUnitCategoryChange(e)
-                      }
-                      isDisabled={loadExerciseOptionsUnitCategories.size < 2}
+                      // onChange={(e) =>
+                      //   handleLoadExerciseOptionsUnitCategoryChange(e)
+                      // }
+                      isDisabled={loadExerciseOptionsUnitCategoriesSecondary.length < 2}
+                      disallowEmptySelection
                     >
-                      {Array.from(loadExerciseOptionsUnitCategories).map(
+                      {loadExerciseOptionsUnitCategoriesSecondary.map(
                         (category) => (
                           <SelectItem key={category} value={category}>
                             {category}
