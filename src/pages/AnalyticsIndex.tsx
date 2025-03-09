@@ -292,9 +292,11 @@ export default function AnalyticsIndex() {
       )
     );
 
-    setLoadExerciseOptionsUnitCategories(new Set(unitCategories));
+    const unitCategorySet = new Set(unitCategories);
+
+    setLoadExerciseOptionsUnitCategories(unitCategorySet);
     setLoadExerciseOptionsUnitCategoryPrimary(unitCategories[0]);
-    setLoadExerciseOptionsUnitCategorySecondary(unitCategories[1]);
+    setLoadExerciseOptionsUnitCategorySecondary(Array.from(unitCategorySet)[1]);
   };
 
   useEffect(() => {
