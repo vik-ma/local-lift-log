@@ -284,26 +284,39 @@ export default function AnalyticsIndex() {
       chartDataAreas[0]
     );
 
-    const unitCategories: ChartDataUnitCategory[] = [];
+    const unitCategoriesPrimary: ChartDataUnitCategory[] = [];
 
     if (chartAreaUnitCategory !== undefined) {
-      unitCategories.push(chartAreaUnitCategory);
+      unitCategoriesPrimary.push(chartAreaUnitCategory);
     }
 
-    unitCategories.push(
+    unitCategoriesPrimary.push(
       ...loadExerciseOptionsList.map((option) =>
         chartDataUnitCategoryMap.current.get(option)
       )
     );
 
-    const unitCategorySet = new Set(unitCategories);
+    const unitCategorySetPrimary = new Set(unitCategoriesPrimary);
 
-    setLoadExerciseOptionsUnitCategoriesPrimary(unitCategorySet);
-    setLoadExerciseOptionsUnitCategoryPrimary(unitCategories[0]);
+    const unitCategoriesSecondary: ChartDataUnitCategory[] = [];
+
+    if (secondaryDataUnitCategory !== undefined) {
+      unitCategoriesSecondary.push(secondaryDataUnitCategory);
+    }
+
+    unitCategoriesSecondary.push(
+      ...Array.from(unitCategorySetPrimary).filter(
+        (value) => value !== unitCategoriesPrimary[0]
+      )
+    );
+
+    setLoadExerciseOptionsUnitCategoriesPrimary(unitCategorySetPrimary);
+    setLoadExerciseOptionsUnitCategoriesSecondary(unitCategoriesSecondary);
+    setLoadExerciseOptionsUnitCategoryPrimary(unitCategoriesPrimary[0]);
     setLoadExerciseOptionsUnitCategorySecondary(
       secondaryDataUnitCategory !== undefined
         ? secondaryDataUnitCategory
-        : Array.from(unitCategorySet)[1]
+        : Array.from(unitCategorySetPrimary)[1]
     );
   };
 
@@ -2260,8 +2273,12 @@ export default function AnalyticsIndex() {
         setLoadExerciseOptionsUnitCategoriesPrimary={
           setLoadExerciseOptionsUnitCategoriesPrimary
         }
-        loadExerciseOptionsUnitCategoriesSecondary={loadExerciseOptionsUnitCategoriesSecondary}
-        setLoadExerciseOptionsUnitCategoriesSecondary={setLoadExerciseOptionsUnitCategoriesSecondary}
+        loadExerciseOptionsUnitCategoriesSecondary={
+          loadExerciseOptionsUnitCategoriesSecondary
+        }
+        setLoadExerciseOptionsUnitCategoriesSecondary={
+          setLoadExerciseOptionsUnitCategoriesSecondary
+        }
         chartDataAreas={chartDataAreas}
         chartDataUnitCategoryMap={chartDataUnitCategoryMap.current}
         loadExerciseOptionsMap={loadExerciseOptionsMap}
