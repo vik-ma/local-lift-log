@@ -117,9 +117,7 @@ export const LoadExerciseChartModal = ({
     const updatedLoadExerciseOptions = new Set(loadExerciseOptions);
 
     let updatedUnitCategoryPrimary: ChartDataUnitCategory =
-      chartDataAreas.length > 0
-        ? chartDataUnitCategoryMap.get(chartDataAreas[0])
-        : undefined;
+      loadExerciseOptionsUnitCategoryPrimary;
 
     // Set key as loadExerciseOptionsUnitCategoryPrimary if no Chart Areas exist
     // and loadExerciseOptions was previously empty
@@ -133,9 +131,9 @@ export const LoadExerciseChartModal = ({
       updatedLoadExerciseOptions.add(key);
     }
 
-    if (updatedLoadExerciseOptions.size > 0) {
-      const updatedUnitCategoriesPrimary = new Set<ChartDataUnitCategory>();
+    const updatedUnitCategoriesPrimary = new Set<ChartDataUnitCategory>();
 
+    if (updatedLoadExerciseOptions.size > 0) {
       let shouldChangeCategory = true;
 
       if (chartDataAreas.length > 0) {
@@ -214,8 +212,8 @@ export const LoadExerciseChartModal = ({
     }
 
     updatedUnitCategoriesSecondary.push(
-      ...Array.from(loadExerciseOptionsUnitCategoriesPrimary).filter(
-        (value) => value !== loadExerciseOptionsUnitCategoryPrimary
+      ...Array.from(updatedUnitCategoriesPrimary).filter(
+        (value) => value !== updatedUnitCategoryPrimary
       )
     );
 
