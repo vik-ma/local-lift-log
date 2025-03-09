@@ -271,8 +271,8 @@ export const LoadExerciseChartModal = ({
                 )}
               </span>
             </ModalHeader>
-            <ModalBody className="pt-0">
-              <div className="h-[448px] flex flex-col gap-1.5">
+            <ModalBody className="py-0">
+              <div className="h-[456px] flex flex-col gap-1.5">
                 <div className="flex flex-col gap-1">
                   <div className="flex justify-between">
                     <div className="flex items-center gap-1">
