@@ -48,6 +48,7 @@ type LoadExerciseChartModalProps = {
   chartDataAreas: ChartDataCategory[];
   chartDataUnitCategoryMap: Map<ChartDataCategory, ChartDataUnitCategory>;
   loadExerciseOptionsMap: Map<ChartDataExerciseCategoryBase, string>;
+  secondaryDataUnitCategory: ChartDataUnitCategory;
   loadExerciseStats: () => void;
 };
 
@@ -66,6 +67,7 @@ export const LoadExerciseChartModal = ({
   chartDataAreas,
   chartDataUnitCategoryMap,
   loadExerciseOptionsMap,
+  secondaryDataUnitCategory,
   loadExerciseStats,
 }: LoadExerciseChartModalProps) => {
   const [filterCategories, setFilterCategories] = useState<
@@ -224,12 +226,26 @@ export const LoadExerciseChartModal = ({
   };
 
   const loadExerciseOptionsUnitCategoriesSecondary = useMemo(() => {
-    return Array.from(loadExerciseOptionsUnitCategories).filter(
-      (value) => value !== loadExerciseOptionsUnitCategoryPrimary
+    const loadExerciseOptionsUnitCategoriesSecondary: ChartDataUnitCategory[] =
+      [];
+
+    if (secondaryDataUnitCategory !== undefined) {
+      loadExerciseOptionsUnitCategoriesSecondary.push(
+        secondaryDataUnitCategory
+      );
+    }
+
+    loadExerciseOptionsUnitCategoriesSecondary.push(
+      ...Array.from(loadExerciseOptionsUnitCategories).filter(
+        (value) => value !== loadExerciseOptionsUnitCategoryPrimary
+      )
     );
+
+    return loadExerciseOptionsUnitCategoriesSecondary;
   }, [
     loadExerciseOptionsUnitCategories,
     loadExerciseOptionsUnitCategoryPrimary,
+    secondaryDataUnitCategory,
   ]);
 
   return (

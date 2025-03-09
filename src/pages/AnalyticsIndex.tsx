@@ -296,7 +296,11 @@ export default function AnalyticsIndex() {
 
     setLoadExerciseOptionsUnitCategories(unitCategorySet);
     setLoadExerciseOptionsUnitCategoryPrimary(unitCategories[0]);
-    setLoadExerciseOptionsUnitCategorySecondary(Array.from(unitCategorySet)[1]);
+    setLoadExerciseOptionsUnitCategorySecondary(
+      secondaryDataUnitCategory !== undefined
+        ? secondaryDataUnitCategory
+        : Array.from(unitCategorySet)[1]
+    );
   };
 
   useEffect(() => {
@@ -2253,6 +2257,7 @@ export default function AnalyticsIndex() {
         chartDataAreas={chartDataAreas}
         chartDataUnitCategoryMap={chartDataUnitCategoryMap.current}
         loadExerciseOptionsMap={loadExerciseOptionsMap}
+        secondaryDataUnitCategory={secondaryDataUnitCategory}
         loadExerciseStats={loadExerciseStats}
       />
       <FilterMinAndMaxDatesModal
