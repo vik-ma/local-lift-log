@@ -230,10 +230,30 @@ export const LoadExerciseChartModal = ({
     setFilterCategories(updatedFilterCategories);
   };
 
-  const handleClearAllStatsButton = () => {
+  const handleClearAllButton = () => {
     setLoadExerciseOptions(new Set());
-    setLoadExerciseOptionsUnitCategoriesPrimary(new Set());
-    setLoadExerciseOptionsUnitCategoryPrimary(undefined);
+
+    let updatedUnitCategoryPrimary: ChartDataUnitCategory = undefined;
+    const updatedUnitCategoriesPrimary = new Set<ChartDataUnitCategory>();
+    const updatedUnitCategoriesSecondary: ChartDataUnitCategory[] = [];
+
+    if (chartDataAreas.length > 0) {
+      updatedUnitCategoryPrimary = chartDataUnitCategoryMap.get(
+        chartDataAreas[0]
+      );
+      updatedUnitCategoriesPrimary.add(updatedUnitCategoryPrimary);
+    }
+
+    if (secondaryDataUnitCategory !== undefined) {
+      updatedUnitCategoriesSecondary.push(secondaryDataUnitCategory);
+    }
+
+    setLoadExerciseOptionsUnitCategoryPrimary(updatedUnitCategoryPrimary);
+    setLoadExerciseOptionsUnitCategoriesPrimary(updatedUnitCategoriesPrimary);
+    setLoadExerciseOptionsUnitCategorySecondary(secondaryDataUnitCategory);
+    setLoadExerciseOptionsUnitCategoriesSecondary(
+      updatedUnitCategoriesSecondary
+    );
   };
 
   const handleLoadExerciseOptionsUnitCategoryChange = (
@@ -321,9 +341,9 @@ export const LoadExerciseChartModal = ({
                         variant="flat"
                         color="danger"
                         size="sm"
-                        onPress={handleClearAllStatsButton}
+                        onPress={handleClearAllButton}
                       >
-                        Clear All Stats
+                        Clear All
                       </Button>
                     )}
                   </div>
