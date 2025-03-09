@@ -176,7 +176,8 @@ export const LoadExerciseChartModal = ({
       // if there is only one category left
       if (
         loadExerciseOptionsUnitCategorySecondary !== undefined &&
-        updatedUnitCategories.size < 2
+        updatedUnitCategories.size < 2 &&
+        loadExerciseOptionsUnitCategorySecondary !== secondaryDataUnitCategory
       ) {
         setLoadExerciseOptionsUnitCategorySecondary(undefined);
       }
@@ -216,7 +217,10 @@ export const LoadExerciseChartModal = ({
   ) => {
     const value = e.target.value === "" ? undefined : e.target.value;
 
-    if (value === loadExerciseOptionsUnitCategorySecondary) {
+    if (
+      value === loadExerciseOptionsUnitCategorySecondary &&
+      loadExerciseOptionsUnitCategorySecondary !== secondaryDataUnitCategory
+    ) {
       setLoadExerciseOptionsUnitCategorySecondary(
         loadExerciseOptionsUnitCategoryPrimary
       );
