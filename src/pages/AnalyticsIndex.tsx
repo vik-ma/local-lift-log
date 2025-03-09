@@ -151,8 +151,8 @@ export default function AnalyticsIndex() {
     setLoadExerciseOptionsUnitCategorySecondary,
   ] = useState<ChartDataUnitCategory>();
   const [
-    loadExerciseOptionsUnitCategories,
-    setLoadExerciseOptionsUnitCategories,
+    loadExerciseOptionsUnitCategoriesPrimary,
+    setLoadExerciseOptionsUnitCategoriesPrimary,
   ] = useState<Set<ChartDataUnitCategory>>(new Set());
   const [disabledLoadExerciseOptions, setDisabledLoadExerciseOptions] =
     useState<Set<ChartDataExerciseCategoryBase>>(new Set());
@@ -294,7 +294,7 @@ export default function AnalyticsIndex() {
 
     const unitCategorySet = new Set(unitCategories);
 
-    setLoadExerciseOptionsUnitCategories(unitCategorySet);
+    setLoadExerciseOptionsUnitCategoriesPrimary(unitCategorySet);
     setLoadExerciseOptionsUnitCategoryPrimary(unitCategories[0]);
     setLoadExerciseOptionsUnitCategorySecondary(
       secondaryDataUnitCategory !== undefined
@@ -2250,9 +2250,11 @@ export default function AnalyticsIndex() {
         setLoadExerciseOptionsUnitCategorySecondary={
           setLoadExerciseOptionsUnitCategorySecondary
         }
-        loadExerciseOptionsUnitCategories={loadExerciseOptionsUnitCategories}
-        setLoadExerciseOptionsUnitCategories={
-          setLoadExerciseOptionsUnitCategories
+        loadExerciseOptionsUnitCategoriesPrimary={
+          loadExerciseOptionsUnitCategoriesPrimary
+        }
+        setLoadExerciseOptionsUnitCategoriesPrimary={
+          setLoadExerciseOptionsUnitCategoriesPrimary
         }
         chartDataAreas={chartDataAreas}
         chartDataUnitCategoryMap={chartDataUnitCategoryMap.current}
