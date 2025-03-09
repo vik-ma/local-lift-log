@@ -361,9 +361,7 @@ export const LoadExerciseChartModal = ({
                       variant="faded"
                       selectedKeys={
                         loadExerciseOptionsUnitCategoryPrimary !== undefined
-                          ? ([
-                              loadExerciseOptionsUnitCategoryPrimary,
-                            ] as string[])
+                          ? [loadExerciseOptionsUnitCategoryPrimary]
                           : []
                       }
                       onChange={(e) =>
@@ -388,9 +386,7 @@ export const LoadExerciseChartModal = ({
                       variant="faded"
                       selectedKeys={
                         loadExerciseOptionsUnitCategorySecondary !== undefined
-                          ? ([
-                              loadExerciseOptionsUnitCategorySecondary,
-                            ] as string[])
+                          ? [loadExerciseOptionsUnitCategorySecondary]
                           : []
                       }
                       onChange={(e) =>
