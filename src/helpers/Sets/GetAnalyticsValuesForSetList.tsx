@@ -16,9 +16,14 @@ export const GetAnalyticsValuesForSetList = (
   let maxWeight = -1;
   let addedWeight = -1;
   let weightVolume = -1;
+
   let minReps = Infinity;
   let maxReps = -1;
   let totalReps = -1;
+
+  let minPartialReps = Infinity;
+  let maxPartialReps = -1;
+  let totalPartialReps = -1;
 
   for (let i = 0; i < setList.length; i++) {
     const set = setList[i];
@@ -61,6 +66,20 @@ export const GetAnalyticsValuesForSetList = (
       totalReps += reps;
     }
 
+    if (set.is_tracking_partial_reps) {
+      if (maxPartialReps === -1) {
+        maxPartialReps = 0;
+        totalPartialReps = 0;
+      }
+
+      const partialReps = set.partial_reps;
+
+      if (partialReps < minPartialReps) minPartialReps = partialReps;
+      if (partialReps > maxPartialReps) maxPartialReps = partialReps;
+
+      totalPartialReps += partialReps;
+    }
+
     if (set.comment !== null) {
       commentMap.set(i + 1, set.comment);
     }
@@ -98,7 +117,7 @@ export const GetAnalyticsValuesForSetList = (
   if (loadExerciseOptions.has("num_reps_min")) {
     analyticsValuesMap.set(
       "num_reps_min",
-      minWeight === Infinity ? -1 : minReps
+      minReps === Infinity ? -1 : minReps
     );
   }
 
@@ -113,8 +132,30 @@ export const GetAnalyticsValuesForSetList = (
     );
   }
 
-  if (loadExerciseOptions.has("num_reps_total")) {
-    analyticsValuesMap.set("num_reps_total", totalReps);
+  if (loadExerciseOptions.has("num_partial_reps_total")) {
+    analyticsValuesMap.set("num_partial_reps_total", totalPartialReps);
+  }
+
+  if (loadExerciseOptions.has("num_partial_reps_min")) {
+    analyticsValuesMap.set(
+      "num_partial_reps_min",
+      minPartialReps === Infinity ? -1 : minPartialReps
+    );
+  }
+
+  if (loadExerciseOptions.has("num_partial_reps_max")) {
+    analyticsValuesMap.set("num_partial_reps_max", maxPartialReps);
+  }
+
+  if (loadExerciseOptions.has("num_partial_reps_avg")) {
+    analyticsValuesMap.set(
+      "num_partial_reps_avg",
+      Math.round(totalPartialReps / setList.length)
+    );
+  }
+
+  if (loadExerciseOptions.has("num_partial_reps_total")) {
+    analyticsValuesMap.set("num_partial_reps_total", totalPartialReps);
   }
 
   return { analyticsValuesMap, commentMap };
