@@ -45,6 +45,10 @@ type LoadExerciseChartModalProps = {
   setLoadExerciseOptionsUnitCategoriesPrimary: React.Dispatch<
     React.SetStateAction<Set<ChartDataUnitCategory>>
   >;
+  loadExerciseOptionsUnitCategoriesSecondary: ChartDataUnitCategory[];
+  setLoadExerciseOptionsUnitCategoriesSecondary: React.Dispatch<
+    React.SetStateAction<ChartDataUnitCategory[]>
+  >;
   chartDataAreas: ChartDataCategory[];
   chartDataUnitCategoryMap: Map<ChartDataCategory, ChartDataUnitCategory>;
   loadExerciseOptionsMap: Map<ChartDataExerciseCategoryBase, string>;
@@ -64,6 +68,8 @@ export const LoadExerciseChartModal = ({
   setLoadExerciseOptionsUnitCategorySecondary,
   loadExerciseOptionsUnitCategoriesPrimary,
   setLoadExerciseOptionsUnitCategoriesPrimary,
+  loadExerciseOptionsUnitCategoriesSecondary,
+  setLoadExerciseOptionsUnitCategoriesSecondary,
   chartDataAreas,
   chartDataUnitCategoryMap,
   loadExerciseOptionsMap,
@@ -110,12 +116,15 @@ export const LoadExerciseChartModal = ({
   ) => {
     const updatedLoadExerciseOptions = new Set(loadExerciseOptions);
 
+    let updatedUnitCategoryPrimary: ChartDataUnitCategory =
+      chartDataAreas.length > 0
+        ? chartDataUnitCategoryMap.get(chartDataAreas[0])
+        : undefined;
+
     // Set key as loadExerciseOptionsUnitCategoryPrimary if no Chart Areas exist
     // and loadExerciseOptions was previously empty
     if (chartDataAreas.length === 0 && updatedLoadExerciseOptions.size === 0) {
-      setLoadExerciseOptionsUnitCategoryPrimary(
-        chartDataUnitCategoryMap.get(key)
-      );
+      updatedUnitCategoryPrimary = chartDataUnitCategoryMap.get(key);
     }
 
     if (updatedLoadExerciseOptions.has(key)) {
@@ -125,14 +134,14 @@ export const LoadExerciseChartModal = ({
     }
 
     if (updatedLoadExerciseOptions.size > 0) {
-      const updatedUnitCategories = new Set<ChartDataUnitCategory>();
+      const updatedUnitCategoriesPrimary = new Set<ChartDataUnitCategory>();
 
       let shouldChangeCategory = true;
 
       if (chartDataAreas.length > 0) {
         // Never automatically change category if any Chart Areas exist
         shouldChangeCategory = false;
-        updatedUnitCategories.add(
+        updatedUnitCategoriesPrimary.add(
           chartDataUnitCategoryMap.get(chartDataAreas[0])
         );
       }
@@ -140,35 +149,33 @@ export const LoadExerciseChartModal = ({
       for (const option of updatedLoadExerciseOptions) {
         const unitCategory = chartDataUnitCategoryMap.get(option);
 
-        updatedUnitCategories.add(unitCategory);
+        updatedUnitCategoriesPrimary.add(unitCategory);
 
         if (unitCategory === loadExerciseOptionsUnitCategoryPrimary) {
           shouldChangeCategory = false;
         }
       }
 
-      setLoadExerciseOptionsUnitCategoriesPrimary(updatedUnitCategories);
+      setLoadExerciseOptionsUnitCategoriesPrimary(updatedUnitCategoriesPrimary);
 
       // Change loadExerciseOptionsUnitCategoryPrimary if last option with that category was deleted
       if (shouldChangeCategory) {
-        const newValue = chartDataUnitCategoryMap.get(
+        updatedUnitCategoryPrimary = chartDataUnitCategoryMap.get(
           updatedLoadExerciseOptions.values().next().value
         );
-
-        setLoadExerciseOptionsUnitCategoryPrimary(newValue);
       }
 
       // Modify loadExerciseOptionsUnitCategorySecondary if previously undefined
       // or if deleting last option with that category
       if (
         (loadExerciseOptionsUnitCategorySecondary === undefined ||
-          !updatedUnitCategories.has(
+          !updatedUnitCategoriesPrimary.has(
             loadExerciseOptionsUnitCategorySecondary
           )) &&
-        updatedUnitCategories.size > 1
+        updatedUnitCategoriesPrimary.size > 1
       ) {
         setLoadExerciseOptionsUnitCategorySecondary(
-          Array.from(updatedUnitCategories)[1]
+          Array.from(updatedUnitCategoriesPrimary)[1]
         );
       }
 
@@ -176,7 +183,7 @@ export const LoadExerciseChartModal = ({
       // if there is only one category left
       if (
         loadExerciseOptionsUnitCategorySecondary !== undefined &&
-        updatedUnitCategories.size < 2 &&
+        updatedUnitCategoriesPrimary.size < 2 &&
         loadExerciseOptionsUnitCategorySecondary !== secondaryDataUnitCategory
       ) {
         setLoadExerciseOptionsUnitCategorySecondary(undefined);
@@ -191,15 +198,32 @@ export const LoadExerciseChartModal = ({
       setLoadExerciseOptionsUnitCategoriesPrimary(
         new Set([chartAreaUnitCategory])
       );
-      setLoadExerciseOptionsUnitCategoryPrimary(chartAreaUnitCategory);
+
+      updatedUnitCategoryPrimary = chartAreaUnitCategory;
     }
 
     if (chartDataAreas.length === 0 && updatedLoadExerciseOptions.size === 0) {
       setLoadExerciseOptionsUnitCategoriesPrimary(new Set());
-      setLoadExerciseOptionsUnitCategoryPrimary(undefined);
+      updatedUnitCategoryPrimary = undefined;
     }
 
+    const updatedUnitCategoriesSecondary: ChartDataUnitCategory[] = [];
+
+    if (secondaryDataUnitCategory !== undefined) {
+      updatedUnitCategoriesSecondary.push(secondaryDataUnitCategory);
+    }
+
+    updatedUnitCategoriesSecondary.push(
+      ...Array.from(loadExerciseOptionsUnitCategoriesPrimary).filter(
+        (value) => value !== loadExerciseOptionsUnitCategoryPrimary
+      )
+    );
+
     setLoadExerciseOptions(updatedLoadExerciseOptions);
+    setLoadExerciseOptionsUnitCategoryPrimary(updatedUnitCategoryPrimary);
+    setLoadExerciseOptionsUnitCategoriesSecondary(
+      updatedUnitCategoriesSecondary
+    );
   };
 
   const removeFilter = (key: ChartDataUnitCategory) => {
@@ -230,29 +254,6 @@ export const LoadExerciseChartModal = ({
 
     setLoadExerciseOptionsUnitCategoryPrimary(value as ChartDataUnitCategory);
   };
-
-  const loadExerciseOptionsUnitCategoriesSecondary = useMemo(() => {
-    const loadExerciseOptionsUnitCategoriesSecondary: ChartDataUnitCategory[] =
-      [];
-
-    if (secondaryDataUnitCategory !== undefined) {
-      loadExerciseOptionsUnitCategoriesSecondary.push(
-        secondaryDataUnitCategory
-      );
-    }
-
-    loadExerciseOptionsUnitCategoriesSecondary.push(
-      ...Array.from(loadExerciseOptionsUnitCategoriesPrimary).filter(
-        (value) => value !== loadExerciseOptionsUnitCategoryPrimary
-      )
-    );
-
-    return loadExerciseOptionsUnitCategoriesSecondary;
-  }, [
-    loadExerciseOptionsUnitCategoriesPrimary,
-    loadExerciseOptionsUnitCategoryPrimary,
-    secondaryDataUnitCategory,
-  ]);
 
   return (
     <Modal
