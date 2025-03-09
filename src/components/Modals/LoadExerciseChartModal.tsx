@@ -116,13 +116,15 @@ export const LoadExerciseChartModal = ({
   ) => {
     const updatedLoadExerciseOptions = new Set(loadExerciseOptions);
 
+    const unitCategoryKey = chartDataUnitCategoryMap.get(key);
+
     let updatedUnitCategoryPrimary: ChartDataUnitCategory =
       loadExerciseOptionsUnitCategoryPrimary;
 
     // Set key as loadExerciseOptionsUnitCategoryPrimary if no Chart Areas exist
     // and loadExerciseOptions was previously empty
     if (chartDataAreas.length === 0 && updatedLoadExerciseOptions.size === 0) {
-      updatedUnitCategoryPrimary = chartDataUnitCategoryMap.get(key);
+      updatedUnitCategoryPrimary = unitCategoryKey;
     }
 
     if (updatedLoadExerciseOptions.has(key)) {
@@ -162,30 +164,6 @@ export const LoadExerciseChartModal = ({
           updatedLoadExerciseOptions.values().next().value
         );
       }
-
-      // Modify loadExerciseOptionsUnitCategorySecondary if previously undefined
-      // or if deleting last option with that category
-      if (
-        (loadExerciseOptionsUnitCategorySecondary === undefined ||
-          !updatedUnitCategoriesPrimary.has(
-            loadExerciseOptionsUnitCategorySecondary
-          )) &&
-        updatedUnitCategoriesPrimary.size > 1
-      ) {
-        setLoadExerciseOptionsUnitCategorySecondary(
-          Array.from(updatedUnitCategoriesPrimary)[1]
-        );
-      }
-
-      // Set loadExerciseOptionsUnitCategorySecondary to undefined
-      // if there is only one category left
-      if (
-        loadExerciseOptionsUnitCategorySecondary !== undefined &&
-        updatedUnitCategoriesPrimary.size < 2 &&
-        loadExerciseOptionsUnitCategorySecondary !== secondaryDataUnitCategory
-      ) {
-        setLoadExerciseOptionsUnitCategorySecondary(undefined);
-      }
     }
 
     if (chartDataAreas.length > 0 && updatedLoadExerciseOptions.size === 0) {
@@ -221,6 +199,9 @@ export const LoadExerciseChartModal = ({
     setLoadExerciseOptionsUnitCategoryPrimary(updatedUnitCategoryPrimary);
     setLoadExerciseOptionsUnitCategoriesSecondary(
       updatedUnitCategoriesSecondary
+    );
+    setLoadExerciseOptionsUnitCategorySecondary(
+      updatedUnitCategoriesSecondary[0]
     );
   };
 
