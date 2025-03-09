@@ -261,12 +261,21 @@ export const LoadExerciseChartModal = ({
   ) => {
     const value = e.target.value === "" ? undefined : e.target.value;
 
-    if (
-      value === loadExerciseOptionsUnitCategorySecondary &&
-      loadExerciseOptionsUnitCategorySecondary !== secondaryDataUnitCategory
-    ) {
+    if (value === loadExerciseOptionsUnitCategorySecondary) {
+      const updatedUnitCategoriesSecondary =
+        loadExerciseOptionsUnitCategoriesSecondary.filter(
+          (category) => category !== value
+        );
+
+      updatedUnitCategoriesSecondary.push(
+        loadExerciseOptionsUnitCategoryPrimary
+      );
+
       setLoadExerciseOptionsUnitCategorySecondary(
         loadExerciseOptionsUnitCategoryPrimary
+      );
+      setLoadExerciseOptionsUnitCategoriesSecondary(
+        updatedUnitCategoriesSecondary
       );
     }
 
