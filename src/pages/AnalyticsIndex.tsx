@@ -1777,6 +1777,8 @@ export default function AnalyticsIndex() {
         date,
       };
 
+      let shouldAddChartDataItem = false;
+
       for (const [key, value] of analyticsValuesMap) {
         const chartName: ChartDataCategory = `${key}_${exerciseId}`;
 
@@ -1784,9 +1786,16 @@ export default function AnalyticsIndex() {
           highestValueMap.set(chartName, value);
         }
 
-        // Convert -1 and -0 to 0 for Chart
-        chartDataItem[chartName] =
-          value === -1 || Object.is(value, -0) ? 0 : value;
+        if (value !== -1) {
+          shouldAddChartDataItem = true;
+          chartDataItem[chartName] = value;
+        }
+      }
+
+      if (shouldAddChartDataItem) {
+        loadedChartData.push(chartDataItem);
+      } else {
+        continue;
       }
 
       if (!areCommentsAlreadyLoaded) {
@@ -1802,8 +1811,6 @@ export default function AnalyticsIndex() {
           );
         }
       }
-
-      loadedChartData.push(chartDataItem);
     }
 
     // Filter out categories with no values

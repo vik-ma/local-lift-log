@@ -192,6 +192,7 @@ export const GetAnalyticsValuesForSetList = (
       "num_reps_and_partial_reps_avg",
       Math.round(totalRepsAndPartialReps / setList.length)
     );
+    console.log(Math.round(totalRepsAndPartialReps / setList.length))
   }
 
   if (loadExerciseOptions.has("num_reps_and_partial_reps_total")) {

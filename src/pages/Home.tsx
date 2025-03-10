@@ -74,6 +74,8 @@ export default function Home() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  console.log(Math.round(-1/5))
+
   return (
     <>
       <SettingsModal
