@@ -33,6 +33,7 @@ export const useDefaultChartMapsAndConfig = () => {
       ["num_reps_total", "Number Of Reps"],
       ["num_reps_and_partial_reps_min", "Number Of Reps"],
       ["num_reps_and_partial_reps_max", "Number Of Reps"],
+      ["num_reps_and_partial_reps_avg", "Number Of Reps"],
       ["num_reps_and_partial_reps_total", "Number Of Reps"],
       ["num_partial_reps_min", "Number Of Reps"],
       ["num_partial_reps_max", "Number Of Reps"],
