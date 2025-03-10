@@ -33,6 +33,10 @@ export const GetAnalyticsValuesForSetList = (
   let maxRir = -1;
   let totalRir = -1;
 
+  let minRpe = Infinity;
+  let maxRpe = -1;
+  let totalRpe = -1;
+
   let bodyWeight = -1;
 
   for (let i = 0; i < setList.length; i++) {
@@ -118,6 +122,20 @@ export const GetAnalyticsValuesForSetList = (
       if (rir > maxRir) maxRir = rir;
 
       totalRir += rir;
+    }
+
+    if (set.is_tracking_rpe) {
+      if (maxRpe === -1) {
+        maxRpe = 0;
+        totalRpe = 0;
+      }
+
+      const rpe = set.rpe;
+
+      if (rpe < minRpe) minRpe = rpe;
+      if (rpe > maxRpe) maxRpe = rpe;
+
+      totalRpe += rpe;
     }
 
     if (set.is_tracking_user_weight && bodyWeight === -1) {
@@ -253,6 +271,21 @@ export const GetAnalyticsValuesForSetList = (
     analyticsValuesMap.set(
       "rir_avg",
       totalRir === -1 ? -1 : Math.round(totalRir / setList.length)
+    );
+  }
+
+  if (loadExerciseOptions.has("rpe_min")) {
+    analyticsValuesMap.set("rpe_min", minRpe === Infinity ? -1 : minRpe);
+  }
+
+  if (loadExerciseOptions.has("rpe_max")) {
+    analyticsValuesMap.set("rpe_max", maxRpe);
+  }
+
+  if (loadExerciseOptions.has("rpe_avg")) {
+    analyticsValuesMap.set(
+      "rpe_avg",
+      totalRpe === -1 ? -1 : Math.round(totalRpe / setList.length)
     );
   }
 
