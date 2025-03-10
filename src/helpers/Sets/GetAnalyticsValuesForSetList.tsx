@@ -14,7 +14,7 @@ export const GetAnalyticsValuesForSetList = (
   // If -1 is returned for option, no tracked value was found
   let minWeight = Infinity;
   let maxWeight = -1;
-  let addedWeight = -1;
+  let totalWeight = -1;
   let weightVolume = -1;
 
   let minReps = Infinity;
@@ -35,7 +35,7 @@ export const GetAnalyticsValuesForSetList = (
     if (set.is_tracking_weight) {
       if (maxWeight === -1) {
         maxWeight = 0;
-        addedWeight = 0;
+        totalWeight = 0;
       }
 
       const weight = ConvertWeightValue(
@@ -47,7 +47,7 @@ export const GetAnalyticsValuesForSetList = (
       if (weight < minWeight) minWeight = weight;
       if (weight > maxWeight) maxWeight = weight;
 
-      addedWeight += weight;
+      totalWeight += weight;
 
       if (set.is_tracking_reps) {
         if (weightVolume === -1) weightVolume = 0;
@@ -77,9 +77,11 @@ export const GetAnalyticsValuesForSetList = (
 
         const repsAndPartialReps = set.reps + set.partial_reps;
 
-        if (repsAndPartialReps < minRepsAndPartialReps) minRepsAndPartialReps = repsAndPartialReps;
-        if (repsAndPartialReps > maxRepsAndPartialReps) maxRepsAndPartialReps = repsAndPartialReps;
-  
+        if (repsAndPartialReps < minRepsAndPartialReps)
+          minRepsAndPartialReps = repsAndPartialReps;
+        if (repsAndPartialReps > maxRepsAndPartialReps)
+          maxRepsAndPartialReps = repsAndPartialReps;
+
         totalRepsAndPartialReps += repsAndPartialReps;
       }
     }
@@ -117,7 +119,9 @@ export const GetAnalyticsValuesForSetList = (
   if (loadExerciseOptions.has("weight_avg")) {
     analyticsValuesMap.set(
       "weight_avg",
-      ConvertNumberToTwoDecimals(addedWeight / setList.length)
+      totalWeight === -1
+        ? -1
+        : ConvertNumberToTwoDecimals(totalWeight / setList.length)
     );
   }
 
@@ -133,10 +137,7 @@ export const GetAnalyticsValuesForSetList = (
   }
 
   if (loadExerciseOptions.has("num_reps_min")) {
-    analyticsValuesMap.set(
-      "num_reps_min",
-      minReps === Infinity ? -1 : minReps
-    );
+    analyticsValuesMap.set("num_reps_min", minReps === Infinity ? -1 : minReps);
   }
 
   if (loadExerciseOptions.has("num_reps_max")) {
@@ -146,7 +147,7 @@ export const GetAnalyticsValuesForSetList = (
   if (loadExerciseOptions.has("num_reps_avg")) {
     analyticsValuesMap.set(
       "num_reps_avg",
-      Math.round(totalReps / setList.length)
+      totalReps === -1 ? -1 : Math.round(totalReps / setList.length)
     );
   }
 
@@ -168,7 +169,9 @@ export const GetAnalyticsValuesForSetList = (
   if (loadExerciseOptions.has("num_partial_reps_avg")) {
     analyticsValuesMap.set(
       "num_partial_reps_avg",
-      Math.round(totalPartialReps / setList.length)
+      totalPartialReps === -1
+        ? -1
+        : Math.round(totalPartialReps / setList.length)
     );
   }
 
@@ -184,19 +187,26 @@ export const GetAnalyticsValuesForSetList = (
   }
 
   if (loadExerciseOptions.has("num_reps_and_partial_reps_max")) {
-    analyticsValuesMap.set("num_reps_and_partial_reps_max", maxRepsAndPartialReps);
+    analyticsValuesMap.set(
+      "num_reps_and_partial_reps_max",
+      maxRepsAndPartialReps
+    );
   }
 
   if (loadExerciseOptions.has("num_reps_and_partial_reps_avg")) {
     analyticsValuesMap.set(
       "num_reps_and_partial_reps_avg",
-      Math.round(totalRepsAndPartialReps / setList.length)
+      totalRepsAndPartialReps === -1
+        ? -1
+        : Math.round(totalRepsAndPartialReps / setList.length)
     );
-    console.log(Math.round(totalRepsAndPartialReps / setList.length))
   }
 
   if (loadExerciseOptions.has("num_reps_and_partial_reps_total")) {
-    analyticsValuesMap.set("num_reps_and_partial_reps_total", totalRepsAndPartialReps);
+    analyticsValuesMap.set(
+      "num_reps_and_partial_reps_total",
+      totalRepsAndPartialReps
+    );
   }
 
   return { analyticsValuesMap, commentMap };
