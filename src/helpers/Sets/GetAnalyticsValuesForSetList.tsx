@@ -29,6 +29,8 @@ export const GetAnalyticsValuesForSetList = (
   let maxRepsAndPartialReps = -1;
   let totalRepsAndPartialReps = -1;
 
+  let bodyWeight = -1;
+
   for (let i = 0; i < setList.length; i++) {
     const set = setList[i];
 
@@ -98,6 +100,18 @@ export const GetAnalyticsValuesForSetList = (
       if (partialReps > maxPartialReps) maxPartialReps = partialReps;
 
       totalPartialReps += partialReps;
+    }
+
+    if (set.is_tracking_user_weight && bodyWeight === -1) {
+      // Only add first value in Set
+
+      const userWeight = ConvertWeightValue(
+        set.user_weight,
+        set.user_weight_unit,
+        weightUnit
+      );
+
+      bodyWeight = userWeight;
     }
 
     if (set.comment !== null) {
@@ -207,6 +221,10 @@ export const GetAnalyticsValuesForSetList = (
       "num_reps_and_partial_reps_total",
       totalRepsAndPartialReps
     );
+  }
+
+  if (loadExerciseOptions.has("set_body_weight")) {
+    analyticsValuesMap.set("set_body_weight", bodyWeight);
   }
 
   return { analyticsValuesMap, commentMap };
