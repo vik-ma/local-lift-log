@@ -25,6 +25,10 @@ export const GetAnalyticsValuesForSetList = (
   let maxPartialReps = -1;
   let totalPartialReps = -1;
 
+  let minRepsAndPartialReps = Infinity;
+  let maxRepsAndPartialReps = -1;
+  let totalRepsAndPartialReps = -1;
+
   for (let i = 0; i < setList.length; i++) {
     const set = setList[i];
 
@@ -64,6 +68,20 @@ export const GetAnalyticsValuesForSetList = (
       if (reps > maxReps) maxReps = reps;
 
       totalReps += reps;
+
+      if (set.is_tracking_partial_reps) {
+        if (maxRepsAndPartialReps === -1) {
+          maxRepsAndPartialReps = 0;
+          totalRepsAndPartialReps = 0;
+        }
+
+        const repsAndPartialReps = set.reps + set.partial_reps;
+
+        if (repsAndPartialReps < minRepsAndPartialReps) minRepsAndPartialReps = repsAndPartialReps;
+        if (repsAndPartialReps > maxRepsAndPartialReps) maxRepsAndPartialReps = repsAndPartialReps;
+  
+        totalRepsAndPartialReps += repsAndPartialReps;
+      }
     }
 
     if (set.is_tracking_partial_reps) {
@@ -132,8 +150,8 @@ export const GetAnalyticsValuesForSetList = (
     );
   }
 
-  if (loadExerciseOptions.has("num_partial_reps_total")) {
-    analyticsValuesMap.set("num_partial_reps_total", totalPartialReps);
+  if (loadExerciseOptions.has("num_reps_total")) {
+    analyticsValuesMap.set("num_reps_total", totalReps);
   }
 
   if (loadExerciseOptions.has("num_partial_reps_min")) {
@@ -156,6 +174,28 @@ export const GetAnalyticsValuesForSetList = (
 
   if (loadExerciseOptions.has("num_partial_reps_total")) {
     analyticsValuesMap.set("num_partial_reps_total", totalPartialReps);
+  }
+
+  if (loadExerciseOptions.has("num_reps_and_partial_reps_min")) {
+    analyticsValuesMap.set(
+      "num_reps_and_partial_reps_min",
+      minRepsAndPartialReps === Infinity ? -1 : minRepsAndPartialReps
+    );
+  }
+
+  if (loadExerciseOptions.has("num_reps_and_partial_reps_max")) {
+    analyticsValuesMap.set("num_reps_and_partial_reps_max", maxRepsAndPartialReps);
+  }
+
+  if (loadExerciseOptions.has("num_reps_and_partial_reps_avg")) {
+    analyticsValuesMap.set(
+      "num_reps_and_partial_reps_avg",
+      Math.round(totalRepsAndPartialReps / setList.length)
+    );
+  }
+
+  if (loadExerciseOptions.has("num_reps_and_partial_reps_total")) {
+    analyticsValuesMap.set("num_reps_and_partial_reps_total", totalRepsAndPartialReps);
   }
 
   return { analyticsValuesMap, commentMap };
