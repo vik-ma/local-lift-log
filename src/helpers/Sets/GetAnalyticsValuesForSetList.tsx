@@ -43,6 +43,11 @@ export const GetAnalyticsValuesForSetList = (
   let totalRpe = -1;
   let numRpeSets = 0;
 
+  let minResistanceLevel = Infinity;
+  let maxResistanceLevel = -1;
+  let totalResistanceLevel = -1;
+  let numResistanceLevelSets = 0;
+
   let bodyWeight = -1;
 
   for (let i = 0; i < setList.length; i++) {
@@ -154,6 +159,24 @@ export const GetAnalyticsValuesForSetList = (
       if (rpe > maxRpe) maxRpe = rpe;
 
       totalRpe += rpe;
+    }
+
+    if (set.is_tracking_resistance_level) {
+      numResistanceLevelSets++;
+
+      if (maxResistanceLevel === -1) {
+        maxResistanceLevel = 0;
+        totalResistanceLevel = 0;
+      }
+
+      const resistanceLevel = set.resistance_level;
+
+      if (resistanceLevel < minResistanceLevel)
+        minResistanceLevel = resistanceLevel;
+      if (resistanceLevel > maxResistanceLevel)
+        maxResistanceLevel = resistanceLevel;
+
+      totalResistanceLevel += resistanceLevel;
     }
 
     if (set.is_tracking_user_weight && bodyWeight === -1) {
@@ -304,6 +327,26 @@ export const GetAnalyticsValuesForSetList = (
     analyticsValuesMap.set(
       "rpe_avg",
       totalRpe === -1 ? -1 : Math.round(totalRpe / numRpeSets)
+    );
+  }
+
+  if (loadExerciseOptions.has("resistance_level_min")) {
+    analyticsValuesMap.set(
+      "resistance_level_min",
+      minResistanceLevel === Infinity ? -1 : minResistanceLevel
+    );
+  }
+
+  if (loadExerciseOptions.has("resistance_level_max")) {
+    analyticsValuesMap.set("resistance_level_max", maxResistanceLevel);
+  }
+
+  if (loadExerciseOptions.has("resistance_level_avg")) {
+    analyticsValuesMap.set(
+      "resistance_level_avg",
+      totalResistanceLevel === -1
+        ? -1
+        : Math.round(totalResistanceLevel / numResistanceLevelSets)
     );
   }
 
