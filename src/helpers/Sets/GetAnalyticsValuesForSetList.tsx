@@ -16,26 +16,32 @@ export const GetAnalyticsValuesForSetList = (
   let maxWeight = -1;
   let totalWeight = -1;
   let weightVolume = -1;
+  let numWeightSets = 0;
 
   let minReps = Infinity;
   let maxReps = -1;
   let totalReps = -1;
+  let numRepsSets = 0;
 
   let minPartialReps = Infinity;
   let maxPartialReps = -1;
   let totalPartialReps = -1;
+  let numPartialRepSets = 0;
 
   let minRepsAndPartialReps = Infinity;
   let maxRepsAndPartialReps = -1;
   let totalRepsAndPartialReps = -1;
+  let numRepsAndPartialRepsSets = 0;
 
   let minRir = Infinity;
   let maxRir = -1;
   let totalRir = -1;
+  let numRirSets = 0;
 
   let minRpe = Infinity;
   let maxRpe = -1;
   let totalRpe = -1;
+  let numRpeSets = 0;
 
   let bodyWeight = -1;
 
@@ -43,6 +49,8 @@ export const GetAnalyticsValuesForSetList = (
     const set = setList[i];
 
     if (set.is_tracking_weight) {
+      numWeightSets++;
+
       if (maxWeight === -1) {
         maxWeight = 0;
         totalWeight = 0;
@@ -67,6 +75,8 @@ export const GetAnalyticsValuesForSetList = (
     }
 
     if (set.is_tracking_reps) {
+      numRepsSets++;
+
       if (maxReps === -1) {
         maxReps = 0;
         totalReps = 0;
@@ -80,6 +90,8 @@ export const GetAnalyticsValuesForSetList = (
       totalReps += reps;
 
       if (set.is_tracking_partial_reps) {
+        numRepsAndPartialRepsSets++;
+
         if (maxRepsAndPartialReps === -1) {
           maxRepsAndPartialReps = 0;
           totalRepsAndPartialReps = 0;
@@ -97,6 +109,8 @@ export const GetAnalyticsValuesForSetList = (
     }
 
     if (set.is_tracking_partial_reps) {
+      numPartialRepSets++;
+
       if (maxPartialReps === -1) {
         maxPartialReps = 0;
         totalPartialReps = 0;
@@ -111,6 +125,8 @@ export const GetAnalyticsValuesForSetList = (
     }
 
     if (set.is_tracking_rir) {
+      numRirSets++;
+
       if (maxRir === -1) {
         maxRir = 0;
         totalRir = 0;
@@ -125,6 +141,8 @@ export const GetAnalyticsValuesForSetList = (
     }
 
     if (set.is_tracking_rpe) {
+      numRpeSets++;
+
       if (maxRpe === -1) {
         maxRpe = 0;
         totalRpe = 0;
@@ -139,7 +157,7 @@ export const GetAnalyticsValuesForSetList = (
     }
 
     if (set.is_tracking_user_weight && bodyWeight === -1) {
-      // Only add first value in Set
+      // Only add first value in Set List
 
       const userWeight = ConvertWeightValue(
         set.user_weight,
@@ -171,7 +189,7 @@ export const GetAnalyticsValuesForSetList = (
       "weight_avg",
       totalWeight === -1
         ? -1
-        : ConvertNumberToTwoDecimals(totalWeight / setList.length)
+        : ConvertNumberToTwoDecimals(totalWeight / numWeightSets)
     );
   }
 
@@ -197,7 +215,7 @@ export const GetAnalyticsValuesForSetList = (
   if (loadExerciseOptions.has("num_reps_avg")) {
     analyticsValuesMap.set(
       "num_reps_avg",
-      totalReps === -1 ? -1 : Math.round(totalReps / setList.length)
+      totalReps === -1 ? -1 : Math.round(totalReps / numRepsSets)
     );
   }
 
@@ -221,7 +239,7 @@ export const GetAnalyticsValuesForSetList = (
       "num_partial_reps_avg",
       totalPartialReps === -1
         ? -1
-        : Math.round(totalPartialReps / setList.length)
+        : Math.round(totalPartialReps / numPartialRepSets)
     );
   }
 
@@ -248,7 +266,7 @@ export const GetAnalyticsValuesForSetList = (
       "num_reps_and_partial_reps_avg",
       totalRepsAndPartialReps === -1
         ? -1
-        : Math.round(totalRepsAndPartialReps / setList.length)
+        : Math.round(totalRepsAndPartialReps / numRepsAndPartialRepsSets)
     );
   }
 
@@ -270,7 +288,7 @@ export const GetAnalyticsValuesForSetList = (
   if (loadExerciseOptions.has("rir_avg")) {
     analyticsValuesMap.set(
       "rir_avg",
-      totalRir === -1 ? -1 : Math.round(totalRir / setList.length)
+      totalRir === -1 ? -1 : Math.round(totalRir / numRirSets)
     );
   }
 
@@ -285,7 +303,7 @@ export const GetAnalyticsValuesForSetList = (
   if (loadExerciseOptions.has("rpe_avg")) {
     analyticsValuesMap.set(
       "rpe_avg",
-      totalRpe === -1 ? -1 : Math.round(totalRpe / setList.length)
+      totalRpe === -1 ? -1 : Math.round(totalRpe / numRpeSets)
     );
   }
 
