@@ -1777,11 +1777,14 @@ export default function AnalyticsIndex() {
 
       for (const [key, value] of analyticsValuesMap) {
         const chartName: ChartDataCategory = `${key}_${exerciseId}`;
-        chartDataItem[chartName] = value;
 
         if (value > highestValueMap.get(chartName)!) {
           highestValueMap.set(chartName, value);
         }
+
+        // Convert -1 and -0 to 0 for Chart
+        chartDataItem[chartName] =
+          value === -1 || Object.is(value, -0) ? 0 : value;
       }
 
       if (!areCommentsAlreadyLoaded) {
