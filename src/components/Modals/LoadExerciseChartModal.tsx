@@ -156,6 +156,7 @@ export const LoadExerciseChartModal = ({
         }
       }
 
+      updatedUnitCategoriesPrimary.delete(undefined);
       setLoadExerciseOptionsUnitCategoriesPrimary(updatedUnitCategoriesPrimary);
 
       // Change loadExerciseOptionsUnitCategoryPrimary if last option with that category was deleted

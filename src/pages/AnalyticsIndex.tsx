@@ -298,6 +298,8 @@ export default function AnalyticsIndex() {
 
     const unitCategorySetPrimary = new Set(unitCategoriesPrimary);
 
+    unitCategorySetPrimary.delete(undefined);
+
     const unitCategoriesSecondary: ChartDataUnitCategory[] = [];
 
     if (secondaryDataUnitCategory !== undefined) {
