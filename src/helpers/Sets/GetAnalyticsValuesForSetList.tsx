@@ -1,4 +1,5 @@
 import { ChartDataExerciseCategoryBase, WorkoutSet } from "../../typings";
+import { ConvertDistanceValue } from "../Numbers/ConvertDistanceValue";
 import { ConvertNumberToTwoDecimals } from "../Numbers/ConvertNumberToTwoDecimals";
 import { ConvertWeightValue } from "../Numbers/ConvertWeightValue";
 
@@ -17,6 +18,11 @@ export const GetAnalyticsValuesForSetList = (
   let totalWeight = -1;
   let weightVolume = -1;
   let numWeightSets = 0;
+
+  let minDistance = Infinity;
+  let maxDistance = -1;
+  let totalDistance = -1;
+  let numDistanceSets = 0;
 
   let minReps = Infinity;
   let maxReps = -1;
@@ -77,6 +83,26 @@ export const GetAnalyticsValuesForSetList = (
 
         weightVolume += weight * set.reps;
       }
+    }
+
+    if (set.is_tracking_distance) {
+      numDistanceSets++;
+
+      if (maxDistance === -1) {
+        maxDistance = 0;
+        totalDistance = 0;
+      }
+
+      const distance = ConvertDistanceValue(
+        set.distance,
+        set.distance_unit,
+        distanceUnit
+      );
+
+      if (distance < minDistance) minDistance = distance;
+      if (distance > maxDistance) maxDistance = distance;
+
+      totalDistance += distance;
     }
 
     if (set.is_tracking_reps) {
@@ -221,6 +247,28 @@ export const GetAnalyticsValuesForSetList = (
       "weight_volume",
       ConvertNumberToTwoDecimals(weightVolume)
     );
+  }
+
+  if (loadExerciseOptions.has("distance_min")) {
+    analyticsValuesMap.set(
+      "distance_min",
+      minDistance === Infinity ? -1 : minDistance
+    );
+  }
+
+  if (loadExerciseOptions.has("distance_max")) {
+    analyticsValuesMap.set("distance_max", maxDistance);
+  }
+
+  if (loadExerciseOptions.has("distance_avg")) {
+    analyticsValuesMap.set(
+      "distance_avg",
+      totalDistance === -1 ? -1 : Math.round(totalDistance / numDistanceSets)
+    );
+  }
+
+  if (loadExerciseOptions.has("distance_total")) {
+    analyticsValuesMap.set("distance_total", totalDistance);
   }
 
   if (loadExerciseOptions.has("num_sets")) {
