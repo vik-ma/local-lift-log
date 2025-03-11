@@ -251,6 +251,8 @@ export default function AnalyticsIndex() {
 
   const loadExerciseOptionsMap = useLoadExerciseOptionsMap();
 
+  const isChartDataLoaded = useRef<boolean>(false);
+
   const updateLoadExerciseOptions = (loadExerciseOptionsString: string) => {
     const disabledKeys = new Set<ChartDataExerciseCategoryBase>();
 
@@ -483,6 +485,7 @@ export default function AnalyticsIndex() {
     }
 
     loadedCharts.current.add("diet-logs-calories");
+    isChartDataLoaded.current = true;
   };
 
   const loadDietLogListMacros = async (loadPrimary: boolean) => {
@@ -610,6 +613,7 @@ export default function AnalyticsIndex() {
     }
 
     loadedCharts.current.add("diet-logs-macros");
+    isChartDataLoaded.current = true;
   };
 
   const updateShownChartLines = (chartLines: ChartDataCategory[]) => {
@@ -1057,6 +1061,7 @@ export default function AnalyticsIndex() {
     }
 
     loadedCharts.current.add("user-weights-weight");
+    isChartDataLoaded.current = true;
   };
 
   const loadUserWeightListBodyFat = async (loadPrimary: boolean) => {
@@ -1158,6 +1163,7 @@ export default function AnalyticsIndex() {
     }
 
     loadedCharts.current.add("user-weights-body-fat");
+    isChartDataLoaded.current = true;
   };
 
   const mergeChartData = (
@@ -1721,6 +1727,7 @@ export default function AnalyticsIndex() {
 
     setLoadedMeasurements(updatedLoadedMeasurements);
     loadedCharts.current.add(measurementIdString);
+    isChartDataLoaded.current = true;
     listModal.onClose();
   };
 
@@ -1928,6 +1935,7 @@ export default function AnalyticsIndex() {
 
     await updateDefaultLoadExerciseOptions();
     setSelectedExercise(undefined);
+    isChartDataLoaded.current = true;
     loadExerciseChartModal.onClose();
   };
 
@@ -2313,7 +2321,7 @@ export default function AnalyticsIndex() {
         deleteButtonText="Reset"
       />
       <div className="flex flex-col items-center gap-2">
-        {loadedCharts.current.size > 0 && (
+        {isChartDataLoaded.current && (
           <div className="flex gap-1.5 relative">
             <ChartContainer
               config={chartConfig.current}
@@ -2726,7 +2734,7 @@ export default function AnalyticsIndex() {
                   Select Time Period
                 </Button>
               )}
-              {loadedCharts.current.size > 0 && (
+              {isChartDataLoaded.current && (
                 <Button
                   className="font-medium"
                   variant="flat"
