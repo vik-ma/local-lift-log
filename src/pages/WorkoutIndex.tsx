@@ -14,7 +14,7 @@ import {
   useFilterExerciseList,
   useWorkoutList,
 } from "../hooks";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   CopyWorkoutSetList,
   GetUserSettings,
@@ -23,6 +23,7 @@ import {
   UpdateWorkout,
   CreateSetsFromWorkoutTemplate,
   GenerateExerciseOrderString,
+  GetValidatedUserSettingsUnits,
 } from "../helpers";
 import { UserSettings, Workout, WorkoutTemplate } from "../typings";
 
@@ -44,6 +45,9 @@ export default function WorkoutIndex() {
 
   const filterExerciseList = useFilterExerciseList(exerciseList);
 
+  const defaultWeightUnit = useRef<string>("kg");
+  const defaultDistanceUnit = useRef<string>("km");
+
   useEffect(() => {
     const loadUserSettings = async () => {
       const userSettings = await GetUserSettings();
@@ -51,6 +55,11 @@ export default function WorkoutIndex() {
       if (userSettings === undefined) return;
 
       setUserSettings(userSettings);
+
+      const validUnits = GetValidatedUserSettingsUnits(userSettings);
+
+      defaultWeightUnit.current = validUnits.weightUnit;
+      defaultDistanceUnit.current = validUnits.distanceUnit;
 
       setIncludeSecondaryGroups(
         userSettings.show_secondary_exercise_groups === 1
@@ -73,8 +82,6 @@ export default function WorkoutIndex() {
     workoutToCopy: Workout,
     keepSetValues: boolean
   ) => {
-    if (userSettings === undefined) return;
-
     const newWorkout = await CreateWorkout(0);
 
     if (newWorkout === undefined) return;
@@ -85,7 +92,8 @@ export default function WorkoutIndex() {
       oldWorkoutSetList,
       newWorkout.id,
       keepSetValues,
-      userSettings,
+      defaultWeightUnit.current,
+      defaultDistanceUnit.current,
       workoutToCopy.exercise_order
     );
 

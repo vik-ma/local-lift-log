@@ -6,7 +6,7 @@ import {
   UpdateMultiset,
   UpdateSet,
 } from "..";
-import { UserSettings, WorkoutSet } from "../../typings";
+import { WorkoutSet } from "../../typings";
 
 type NewMultisetValues = {
   [key: number]: {
@@ -19,7 +19,8 @@ export const CopyWorkoutSetList = async (
   setList: WorkoutSet[],
   newWorkoutId: number,
   keepSetValues: boolean,
-  userSettings: UserSettings,
+  defaultWeightUnit: string,
+  defaultDistanceUnit: string,
   workoutExerciseOrder: string
 ) => {
   const newSetList = [...setList];
@@ -43,9 +44,9 @@ export const CopyWorkoutSetList = async (
       set.partial_reps = 0;
       set.user_weight = 0;
     } else {
-      set.weight_unit = userSettings.default_unit_weight;
-      set.distance_unit = userSettings.default_unit_distance;
-      set.user_weight_unit = userSettings.default_unit_weight;
+      set.weight_unit = defaultWeightUnit;
+      set.distance_unit = defaultDistanceUnit;
+      set.user_weight_unit = defaultWeightUnit;
     }
 
     const newSetId = await InsertSetIntoDatabase(set);

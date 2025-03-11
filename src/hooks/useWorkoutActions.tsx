@@ -14,7 +14,7 @@ import {
   PresetsType,
   UseSetTrackingInputsReturnType,
 } from "../typings";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useDisclosure } from "@heroui/react";
 import Database from "tauri-plugin-sql-api";
 
@@ -181,6 +181,9 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   const [isUserWeightOlderThanOneWeek, setIsUserWeightOlderThanOneWeek] =
     useState<boolean>(false);
 
+  const defaultWeightUnit = useRef<string>("kg");
+  const defaultDistanceUnit = useRef<string>("km");
+
   useEffect(() => {
     const loadUserSettings = async () => {
       try {
@@ -215,6 +218,9 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
         setFilterWeightRangeUnit(validUnits.weightUnit);
         setFilterDistanceRangeUnit(validUnits.distanceUnit);
+
+        defaultWeightUnit.current = validUnits.weightUnit;
+        defaultDistanceUnit.current = validUnits.distanceUnit;
       } catch (error) {
         console.log(error);
       }
@@ -3142,5 +3148,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     filterExerciseList,
     groupedWorkoutSetListModal,
     mergeGroupedSets,
+    defaultWeightUnit,
+    defaultDistanceUnit,
   };
 };

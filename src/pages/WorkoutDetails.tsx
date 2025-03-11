@@ -140,6 +140,8 @@ export default function WorkoutDetails() {
     filterExerciseList,
     groupedWorkoutSetListModal,
     mergeGroupedSets,
+    defaultWeightUnit,
+    defaultDistanceUnit,
   } = useWorkoutActions(false);
 
   const workoutList = useWorkoutList(false, exerciseList, true, Number(id));
@@ -350,7 +352,7 @@ export default function WorkoutDetails() {
     workoutToCopy: Workout,
     keepSetValues: boolean
   ) => {
-    if (workout.id === 0 || userSettings === undefined) return;
+    if (workout.id === 0) return;
 
     let oldWorkoutExerciseOrder = await GetExerciseOrder(
       workoutToCopy.id,
@@ -365,7 +367,8 @@ export default function WorkoutDetails() {
       oldWorkoutSetList,
       workout.id,
       keepSetValues,
-      userSettings,
+      defaultWeightUnit.current,
+      defaultDistanceUnit.current,
       oldWorkoutExerciseOrder
     );
 
