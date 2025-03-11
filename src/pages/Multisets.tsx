@@ -32,6 +32,7 @@ import {
   DeleteItemFromList,
   UpdateItemInList,
   UpdateCalculationString,
+  GetValidatedUserSettingsUnits,
 } from "../helpers";
 import {
   CalculationModal,
@@ -104,19 +105,21 @@ export default function Multisets() {
 
       setUserSettings(userSettings);
 
+      const validUnits = GetValidatedUserSettingsUnits(userSettings);
+
       setOperatingSet((prev) => ({
         ...prev,
-        weight_unit: userSettings.default_unit_weight,
-        distance_unit: userSettings.default_unit_distance,
-        user_weight_unit: userSettings.default_unit_weight,
+        weight_unit: validUnits.weightUnit,
+        distance_unit: validUnits.distanceUnit,
+        user_weight_unit: validUnits.weightUnit,
       }));
 
       setIncludeSecondaryGroups(
         userSettings.show_secondary_exercise_groups === 1
       );
 
-      setFilterWeightRangeUnit(userSettings.default_unit_weight);
-      setFilterDistanceRangeUnit(userSettings.default_unit_distance);
+      setFilterWeightRangeUnit(validUnits.weightUnit);
+      setFilterDistanceRangeUnit(validUnits.distanceUnit);
     };
 
     loadUserSettings();

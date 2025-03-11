@@ -34,6 +34,7 @@ import {
   UpdateItemInList,
   DeleteItemFromList,
   FormatNumUserMeasurementEntriesString,
+  GetValidatedUserSettingsUnits,
 } from "../helpers";
 import { CheckmarkIcon, VerticalMenuIcon } from "../assets";
 import {
@@ -85,9 +86,12 @@ export default function MeasurementList() {
         if (userSettings === undefined) return;
 
         setUserSettings(userSettings);
+
+        const validUnits = GetValidatedUserSettingsUnits(userSettings);
+
         setOperatingMeasurement((prev) => ({
           ...prev,
-          default_unit: userSettings.default_unit_measurement!,
+          default_unit: validUnits.measurementUnit,
         }));
 
         const activeMeasurementList = GenerateActiveMeasurementList(

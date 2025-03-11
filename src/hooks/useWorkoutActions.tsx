@@ -53,6 +53,7 @@ import {
   CopySetTrackingValues,
   UpdateCalculationString,
   DeleteMultisetWithId,
+  GetValidatedUserSettingsUnits,
 } from "../helpers";
 import {
   useDefaultSet,
@@ -189,11 +190,13 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
         setUserSettings(userSettings);
 
+        const validUnits = GetValidatedUserSettingsUnits(userSettings);
+
         setOperatingSet((prev) => ({
           ...prev,
-          weight_unit: userSettings.default_unit_weight!,
-          distance_unit: userSettings.default_unit_distance!,
-          user_weight_unit: userSettings.default_unit_weight!,
+          weight_unit: validUnits.weightUnit,
+          distance_unit: validUnits.distanceUnit,
+          user_weight_unit: validUnits.weightUnit,
         }));
 
         setIncludeSecondaryGroups(
@@ -210,8 +213,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
           }
         }
 
-        setFilterWeightRangeUnit(userSettings.default_unit_weight);
-        setFilterDistanceRangeUnit(userSettings.default_unit_distance);
+        setFilterWeightRangeUnit(validUnits.weightUnit);
+        setFilterDistanceRangeUnit(validUnits.distanceUnit);
       } catch (error) {
         console.log(error);
       }

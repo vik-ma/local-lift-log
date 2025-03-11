@@ -7,6 +7,7 @@ import {
   UpdateUserWeight,
   InsertUserWeightIntoDatabase,
   ConvertInputStringToNumberWithTwoDecimalsOrNull,
+  GetValidatedUserSettingsUnits,
 } from "../helpers";
 import {
   UserSettings,
@@ -133,7 +134,9 @@ export const useLatestUserWeightInput = (
 
   useEffect(() => {
     if (userSettings !== undefined) {
-      setWeightUnit(userSettings.default_unit_weight);
+      const validUnits = GetValidatedUserSettingsUnits(userSettings);
+
+      setWeightUnit(validUnits.weightUnit);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

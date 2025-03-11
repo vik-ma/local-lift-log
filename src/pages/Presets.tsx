@@ -42,6 +42,7 @@ import {
   CreateDefaultEquipmentWeights,
   DeleteItemFromList,
   GetUserSettings,
+  GetValidatedUserSettingsUnits,
   IsStringInvalidNumberOr0,
   UpdateDefaultPlateCollectionId,
   UpdateItemInList,
@@ -153,18 +154,20 @@ export default function Presets() {
 
       setUserSettings(userSettings);
 
+      const validUnits = GetValidatedUserSettingsUnits(userSettings);
+
       setOperatingEquipmentWeight((prev) => ({
         ...prev,
-        weight_unit: userSettings.default_unit_weight,
+        weight_unit: validUnits.weightUnit,
       }));
 
       setOperatingDistance((prev) => ({
         ...prev,
-        distance_unit: userSettings.default_unit_distance,
+        distance_unit: validUnits.distanceUnit,
       }));
 
-      setFilterWeightRangeUnit(userSettings.default_unit_weight);
-      setFilterDistanceRangeUnit(userSettings.default_unit_distance);
+      setFilterWeightRangeUnit(validUnits.weightUnit);
+      setFilterDistanceRangeUnit(validUnits.distanceUnit);
     };
 
     if (searchParams.get("tab") === "distance") {

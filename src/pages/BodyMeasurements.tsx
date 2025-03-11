@@ -34,6 +34,7 @@ import {
   ValidateISODateString,
   FormatDateTimeString,
   UpdateUserWeight,
+  GetValidatedUserSettingsUnits,
 } from "../helpers";
 import { Button, useDisclosure } from "@heroui/react";
 import Database from "tauri-plugin-sql-api";
@@ -173,7 +174,9 @@ export default function BodyMeasurements() {
 
       setUserSettings(userSettings);
 
-      setWeightUnit(userSettings.default_unit_weight);
+      const validUnits = GetValidatedUserSettingsUnits(userSettings);
+
+      setWeightUnit(validUnits.weightUnit);
 
       await Promise.all([
         getActiveMeasurements(userSettings.active_tracking_measurements),

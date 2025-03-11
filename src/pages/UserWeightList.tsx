@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { UserWeight, UserSettings } from "../typings";
 import {
   LoadingSpinner,
@@ -22,6 +22,7 @@ import {
   GetAllUserWeights,
   GetCurrentDateTimeISOString,
   GetUserSettings,
+  GetValidatedUserSettingsUnits,
   InsertUserWeightIntoDatabase,
   IsDateInWeekdaySet,
   IsDateWithinLimit,
@@ -182,6 +183,8 @@ export default function UserWeightList() {
   const timeInputModal = useDisclosure();
   const filterUserWeightListModal = useDisclosure();
 
+  const defaultWeightUnit = useRef<string>("kg");
+
   const getUserWeights = async (clockStyle: string) => {
     const result = await GetAllUserWeights(false);
 
@@ -219,8 +222,12 @@ export default function UserWeightList() {
 
       setUserSettings(userSettings);
 
-      setWeightUnit(userSettings.default_unit_weight);
-      setFilterWeightRangeUnit(userSettings.default_unit_weight);
+      const validUnits = GetValidatedUserSettingsUnits(userSettings);
+
+      setWeightUnit(validUnits.weightUnit);
+      setFilterWeightRangeUnit(validUnits.weightUnit);
+
+      defaultWeightUnit.current = validUnits.weightUnit;
 
       setIsLoading(false);
     };
@@ -404,7 +411,7 @@ export default function UserWeightList() {
     setOperatingUserWeight(defaultUserWeight);
     setOperationType("add");
     resetUserWeightInput();
-    setWeightUnit(userSettings.default_unit_weight);
+    setWeightUnit(defaultWeightUnit.current);
   };
 
   const sortUserWeightsByDate = (

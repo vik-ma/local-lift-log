@@ -67,6 +67,7 @@ import {
   GetCurrentYmdDateString,
   GetUserMeasurementsWithMeasurementId,
   GetUserSettings,
+  GetValidatedUserSettingsUnits,
   UpdateChartCommentMapForExercise,
   UpdateDefaultLoadExerciseOptions,
   ValidMeasurementUnits,
@@ -337,13 +338,16 @@ export default function AnalyticsIndex() {
         if (userSettings === undefined) return;
 
         setUserSettings(userSettings);
-        setWeightUnit(userSettings.default_unit_weight);
-        setDistanceUnit(userSettings.default_unit_distance);
-        setCircumferenceUnit(userSettings.default_unit_measurement);
+
+        const validUnits = GetValidatedUserSettingsUnits(userSettings);
+
+        setWeightUnit(validUnits.weightUnit);
+        setDistanceUnit(validUnits.distanceUnit);
+        setCircumferenceUnit(validUnits.measurementUnit);
 
         chartDataUnitMap.current.set(
           "body_weight",
-          ` ${userSettings.default_unit_weight}`
+          ` ${validUnits.weightUnit}`
         );
 
         updateLoadExerciseOptions(userSettings.default_load_exercise_options);

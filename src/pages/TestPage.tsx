@@ -21,6 +21,7 @@ import {
   CreateDefaultMeasurements,
   GetCurrentDateTimeISOString,
   GetUserSettings,
+  GetValidatedUserSettingsUnits,
 } from "../helpers";
 
 export default function Test() {
@@ -83,9 +84,14 @@ export default function Test() {
   useEffect(() => {
     const loadUserSettings = async () => {
       const userSettings = await GetUserSettings();
+
       if (userSettings === undefined) return;
+
       setUserSettings(userSettings);
-      setFilterWeightRangeUnit(userSettings.default_unit_weight);
+
+      const validUnits = GetValidatedUserSettingsUnits(userSettings);
+
+      setFilterWeightRangeUnit(validUnits.weightUnit);
     };
 
     loadUserSettings();

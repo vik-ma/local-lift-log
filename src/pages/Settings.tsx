@@ -15,6 +15,7 @@ import {
   WorkoutRatingsMap,
   GetWorkoutRatingOrder,
   CreateLoadExerciseOptionsList,
+  GetValidatedUserSettingsUnits,
 } from "../helpers";
 import {
   Switch,
@@ -142,6 +143,12 @@ export default function Settings() {
       if (userSettings === undefined) return;
 
       setUserSettings(userSettings);
+
+      const validUnits = GetValidatedUserSettingsUnits(userSettings);
+
+      userSettings.default_unit_weight = validUnits.weightUnit;
+      userSettings.default_unit_distance = validUnits.distanceUnit;
+      userSettings.default_unit_measurement = validUnits.measurementUnit;
 
       const defaultIncrementValues: DefaultIncrementInputs = {
         weight: userSettings.default_increment_weight.toString(),
