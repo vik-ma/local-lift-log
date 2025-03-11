@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import {
   DistanceUnitDropdown,
   LoadingSpinner,
@@ -146,6 +146,9 @@ export default function Presets() {
     showResetFilterButton,
   } = listFilters;
 
+  const defaultWeightUnit = useRef<string>("kg");
+  const defaultDistanceUnit = useRef<string>("km");
+
   useEffect(() => {
     const loadUserSettings = async () => {
       const userSettings = await GetUserSettings();
@@ -168,6 +171,9 @@ export default function Presets() {
 
       setFilterWeightRangeUnit(validUnits.weightUnit);
       setFilterDistanceRangeUnit(validUnits.distanceUnit);
+
+      defaultWeightUnit.current = validUnits.weightUnit;
+      defaultDistanceUnit.current = validUnits.distanceUnit;
     };
 
     if (searchParams.get("tab") === "distance") {
@@ -558,7 +564,7 @@ export default function Presets() {
     setValueInput("");
     setOperatingEquipmentWeight({
       ...defaultEquipmentWeight,
-      weight_unit: userSettings.default_unit_weight!,
+      weight_unit: defaultWeightUnit.current,
     });
     setIsOperatingPlateCollection(false);
   };
@@ -572,7 +578,7 @@ export default function Presets() {
     setValueInput("");
     setOperatingDistance({
       ...defaultDistance,
-      distance_unit: userSettings.default_unit_distance!,
+      distance_unit: defaultDistanceUnit.current,
     });
     setIsOperatingPlateCollection(false);
   };
@@ -583,11 +589,11 @@ export default function Presets() {
     setOperationType("add");
     setOperatingPlateCollection({
       ...defaultPlateCollection,
-      weight_unit: userSettings.default_unit_weight!,
+      weight_unit: defaultWeightUnit.current,
     });
     setOtherUnitPlateCollection({
       ...defaultPlateCollection,
-      weight_unit: userSettings.default_unit_weight! === "kg" ? "lbs" : "kg",
+      weight_unit: defaultWeightUnit.current,
     });
     setIsOperatingPlateCollection(false);
   };
