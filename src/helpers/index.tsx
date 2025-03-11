@@ -76,6 +76,7 @@ export { UpdateDefaultDietLogDayIsYesterday } from "./UserSettings/UpdateDefault
 export { ValidateDefaultLoadExerciseOptionsString } from "./UserSettings/ValidateDefaultLoadExerciseOptionsString";
 export { UpdateDefaultLoadExerciseOptions } from "./UserSettings/UpdateDefaultLoadExerciseOptions";
 export { CreateLoadExerciseOptionsList } from "./UserSettings/CreateLoadExerciseOptionsList";
+export { GetValidatedUserSettingsUnits } from "./UserSettings/GetValidatedUserSettingsUnits";
 
 export { OrderSetsBySetListOrderString } from "./Sets/OrderSetsBySetListOrderString";
 export { CreateSetsFromWorkoutTemplate } from "./Sets/CreateSetsFromWorkoutTemplate";
