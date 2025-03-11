@@ -142,6 +142,7 @@ export { ConvertInputStringToNumberWithTwoDecimalsOrNull } from "./Numbers/Conve
 export { IsNumberValidPercentage } from "./Numbers/IsNumberValidPercentage";
 export { ConvertMeasurementValue } from "./Numbers/ConvertMeasurementValue";
 export { ConvertSecondsToMinutes } from "./Numbers/ConvertSecondsToMinutes";
+export { CalculatePaceValue } from "./Numbers/CalculatePaceValue";
 
 export { GetLatestUserWeight } from "./Measurements/GetLatestUserWeight";
 export { CreateDefaultMeasurements } from "./Measurements/CreateDefaultMeasurements";
