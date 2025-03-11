@@ -140,6 +140,7 @@ export { ConvertInputStringToNumberOrNull } from "./Numbers/ConvertInputStringTo
 export { ConvertInputStringToNumberWithTwoDecimalsOrNull } from "./Numbers/ConvertInputStringToNumberWithTwoDecimalsOrNull";
 export { IsNumberValidPercentage } from "./Numbers/IsNumberValidPercentage";
 export { ConvertMeasurementValue } from "./Numbers/ConvertMeasurementValue";
+export { ConvertSecondsToMinutes } from "./Numbers/ConvertSecondsToMinutes";
 
 export { GetLatestUserWeight } from "./Measurements/GetLatestUserWeight";
 export { CreateDefaultMeasurements } from "./Measurements/CreateDefaultMeasurements";
