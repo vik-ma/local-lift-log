@@ -1780,7 +1780,8 @@ export default function AnalyticsIndex() {
         setList,
         loadExerciseOptions,
         weightUnit,
-        distanceUnit
+        distanceUnit,
+        paceUnit
       );
 
       const chartDataItem: ChartDataItem = {
