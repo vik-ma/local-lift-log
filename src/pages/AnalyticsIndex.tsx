@@ -128,6 +128,7 @@ export default function AnalyticsIndex() {
   const [weightUnit, setWeightUnit] = useState<string>("kg");
   const [distanceUnit, setDistanceUnit] = useState<string>("km");
   const [circumferenceUnit, setCircumferenceUnit] = useState<string>("cm");
+  const [paceUnit, setPaceUnit] = useState<string>("km/h");
   const [chartCommentMap, setChartCommentMap] = useState<
     Map<string, ChartComment[]>
   >(new Map());
@@ -344,6 +345,11 @@ export default function AnalyticsIndex() {
         setWeightUnit(validUnits.weightUnit);
         setDistanceUnit(validUnits.distanceUnit);
         setCircumferenceUnit(validUnits.measurementUnit);
+        setPaceUnit(
+          validUnits.distanceUnit === "km" || validUnits.distanceUnit === "m"
+            ? "km/h"
+            : "mph"
+        );
 
         chartDataUnitMap.current.set(
           "body_weight",
@@ -1956,29 +1962,11 @@ export default function AnalyticsIndex() {
         unit = ` ${distanceUnit}`;
         break;
       case "Time":
-        // TODO: ADD HRS+MIN?
         unit = " min";
         break;
       case "Pace":
-        // TODO: ADD OTHER UNITS?
-        unit = distanceUnit === "km" || distanceUnit === "m" ? " km/h" : " mph";
+        unit = ` ${paceUnit}`;
         break;
-      // TODO: REMOVE ALL?
-      // case "Number Of Sets":
-      //   unit = " sets";
-      //   break;
-      // case "Number Of Reps":
-      //   unit = " reps";
-      //   break;
-      // case "RIR":
-      //   unit = " RIR";
-      //   break;
-      // case "RPE":
-      //   unit = " RPE";
-      //   break;
-      // case "Resistance Level":
-      //   unit = " level";
-      //   break;
       default:
         break;
     }
