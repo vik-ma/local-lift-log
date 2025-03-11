@@ -1,6 +1,7 @@
 import { ChartDataExerciseCategoryBase, WorkoutSet } from "../../typings";
 import { ConvertDistanceValue } from "../Numbers/ConvertDistanceValue";
 import { ConvertNumberToTwoDecimals } from "../Numbers/ConvertNumberToTwoDecimals";
+import { ConvertSecondsToMinutes } from "../Numbers/ConvertSecondsToMinutes";
 import { ConvertWeightValue } from "../Numbers/ConvertWeightValue";
 
 export const GetAnalyticsValuesForSetList = (
@@ -23,6 +24,11 @@ export const GetAnalyticsValuesForSetList = (
   let maxDistance = -1;
   let totalDistance = -1;
   let numDistanceSets = 0;
+
+  let minTime = Infinity;
+  let maxTime = -1;
+  let totalTime = -1;
+  let numTimeSets = 0;
 
   let minReps = Infinity;
   let maxReps = -1;
@@ -103,6 +109,22 @@ export const GetAnalyticsValuesForSetList = (
       if (distance > maxDistance) maxDistance = distance;
 
       totalDistance += distance;
+    }
+
+    if (set.is_tracking_time) {
+      numTimeSets++;
+
+      if (maxTime === -1) {
+        maxTime = 0;
+        totalTime = 0;
+      }
+
+      const timeInMinutes = ConvertSecondsToMinutes(set.time_in_seconds);
+
+      if (timeInMinutes < minTime) minTime = timeInMinutes;
+      if (timeInMinutes > maxTime) maxTime = timeInMinutes;
+
+      totalTime += timeInMinutes;
     }
 
     if (set.is_tracking_reps) {
@@ -269,6 +291,25 @@ export const GetAnalyticsValuesForSetList = (
 
   if (loadExerciseOptions.has("distance_total")) {
     analyticsValuesMap.set("distance_total", totalDistance);
+  }
+
+  if (loadExerciseOptions.has("time_min")) {
+    analyticsValuesMap.set("time_min", minTime === Infinity ? -1 : minTime);
+  }
+
+  if (loadExerciseOptions.has("time_max")) {
+    analyticsValuesMap.set("time_max", maxTime);
+  }
+
+  if (loadExerciseOptions.has("time_avg")) {
+    analyticsValuesMap.set(
+      "time_avg",
+      totalTime === -1 ? -1 : Math.round(totalTime / numTimeSets)
+    );
+  }
+
+  if (loadExerciseOptions.has("time_total")) {
+    analyticsValuesMap.set("time_total", totalTime);
   }
 
   if (loadExerciseOptions.has("num_sets")) {
