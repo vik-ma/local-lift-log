@@ -345,20 +345,17 @@ export const GetAnalyticsValuesForSetList = (
     analyticsValuesMap.set("time_total", totalTime);
   }
 
-  if (loadExerciseOptions.has("distance_per_time_min")) {
-    analyticsValuesMap.set(
-      "distance_per_time_min",
-      minPace === Infinity ? -1 : minPace
-    );
+  if (loadExerciseOptions.has("pace_min")) {
+    analyticsValuesMap.set("pace_min", minPace === Infinity ? -1 : minPace);
   }
 
-  if (loadExerciseOptions.has("distance_per_time_max")) {
-    analyticsValuesMap.set("distance_per_time_max", maxPace);
+  if (loadExerciseOptions.has("pace_max")) {
+    analyticsValuesMap.set("pace_max", maxPace);
   }
 
-  if (loadExerciseOptions.has("distance_per_time_avg")) {
+  if (loadExerciseOptions.has("pace_avg")) {
     analyticsValuesMap.set(
-      "distance_per_time_avg",
+      "pace_avg",
       totalPace === -1 ? -1 : Math.round(totalPace / numPaceSets)
     );
   }
