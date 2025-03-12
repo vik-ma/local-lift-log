@@ -1539,7 +1539,8 @@ export default function AnalyticsIndex() {
     date: string,
     dataKeys: Set<ChartDataCategory>,
     label: string,
-    comment: string
+    comment: string,
+    areCommentsAlreadyLoaded?: boolean
   ) => {
     const chartComment: ChartComment = {
       dataKeys,
@@ -1549,7 +1550,23 @@ export default function AnalyticsIndex() {
 
     if (chartCommentMap.has(date)) {
       const updatedChartCommentList = chartCommentMap.get(date)!;
-      updatedChartCommentList.push(chartComment);
+
+      let shouldAddChartComment = true;
+
+      if (areCommentsAlreadyLoaded) {
+        for (const chartComment of updatedChartCommentList) {
+          if (
+            chartComment.label === label &&
+            chartComment.comment === comment
+          ) {
+            shouldAddChartComment = false;
+          }
+        }
+      }
+
+      if (shouldAddChartComment) {
+        updatedChartCommentList.push(chartComment);
+      }
     } else {
       chartCommentMap.set(date, [chartComment]);
     }
@@ -1826,18 +1843,17 @@ export default function AnalyticsIndex() {
         continue;
       }
 
-      if (!areCommentsAlreadyLoaded) {
-        for (const [setNum, comment] of commentMap) {
-          const commentLabel = `${selectedExercise.name} Set ${setNum} Comment`;
+      for (const [setNum, comment] of commentMap) {
+        const commentLabel = `${selectedExercise.name} Set ${setNum} Comment`;
 
-          addChartComment(
-            updatedChartCommentMap,
-            date,
-            chartDataKeys,
-            commentLabel,
-            comment
-          );
-        }
+        addChartComment(
+          updatedChartCommentMap,
+          date,
+          chartDataKeys,
+          commentLabel,
+          comment,
+          areCommentsAlreadyLoaded
+        );
       }
 
       if (includesMultiset) {
