@@ -253,6 +253,8 @@ export default function AnalyticsIndex() {
 
   const isChartDataLoaded = useRef<boolean>(false);
 
+  const multisetMap = useRef<Map<string, Set<number>>>(new Map());
+
   const updateLoadExerciseOptions = (loadExerciseOptionsString: string) => {
     const disabledKeys = new Set<ChartDataExerciseCategoryBase>();
 
@@ -1783,13 +1785,14 @@ export default function AnalyticsIndex() {
     }
 
     for (const [date, setList] of dateMap) {
-      const { analyticsValuesMap, commentMap } = GetAnalyticsValuesForSetList(
-        setList,
-        loadExerciseOptions,
-        weightUnit,
-        distanceUnit,
-        paceUnit
-      );
+      const { analyticsValuesMap, commentMap, multisetIndexSet } =
+        GetAnalyticsValuesForSetList(
+          setList,
+          loadExerciseOptions,
+          weightUnit,
+          distanceUnit,
+          paceUnit
+        );
 
       const chartDataItem: ChartDataItem = {
         date,
@@ -1828,6 +1831,10 @@ export default function AnalyticsIndex() {
             comment
           );
         }
+      }
+
+      if (multisetIndexSet.size > 0) {
+        multisetMap.current.set(date, multisetIndexSet);
       }
     }
 
@@ -2211,6 +2218,7 @@ export default function AnalyticsIndex() {
     chartDataUnitMap.current = new Map(defaultChartDataUnitMap);
     chartDataUnitCategoryMap.current = new Map(defaultChartDataUnitCategoryMap);
     chartConfig.current = { ...defaultChartConfig };
+    multisetMap.current = new Map();
 
     deleteModal.onClose();
   };
