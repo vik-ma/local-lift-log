@@ -53,7 +53,7 @@ type LoadExerciseChartModalProps = {
   chartDataUnitCategoryMap: Map<ChartDataCategory, ChartDataUnitCategory>;
   loadExerciseOptionsMap: Map<ChartDataExerciseCategoryBase, string>;
   secondaryDataUnitCategory: ChartDataUnitCategory;
-  loadExerciseStats: () => void;
+  loadExerciseStats: (ignoreWarmups: boolean, ignoreMultisets: boolean) => void;
 };
 
 export const LoadExerciseChartModal = ({
@@ -485,7 +485,9 @@ export const LoadExerciseChartModal = ({
                     loadExerciseOptions.size === 0 ||
                     loadExerciseOptionsUnitCategoryPrimary === undefined
                   }
-                  onPress={loadExerciseStats}
+                  onPress={() =>
+                    loadExerciseStats(ignoreWarmups, ignoreMultisets)
+                  }
                 >
                   Load
                 </Button>

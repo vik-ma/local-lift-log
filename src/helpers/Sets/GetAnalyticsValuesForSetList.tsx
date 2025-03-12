@@ -10,7 +10,9 @@ export const GetAnalyticsValuesForSetList = (
   loadExerciseOptions: Set<ChartDataExerciseCategoryBase>,
   weightUnit: string,
   distanceUnit: string,
-  paceUnit: string
+  paceUnit: string,
+  ignoreWarmups: boolean,
+  ignoreMultisets: boolean
 ) => {
   const analyticsValuesMap = new Map<ChartDataExerciseCategoryBase, number>();
   const commentMap = new Map<number, string>();
@@ -72,6 +74,9 @@ export const GetAnalyticsValuesForSetList = (
 
   for (let i = 0; i < setList.length; i++) {
     const set = setList[i];
+
+    if (ignoreWarmups && set.is_warmup) continue;
+    if (ignoreMultisets && set.multiset_id > 0) continue;
 
     if (set.is_tracking_weight) {
       numWeightSets++;

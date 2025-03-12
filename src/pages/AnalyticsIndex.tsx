@@ -1739,7 +1739,10 @@ export default function AnalyticsIndex() {
     loadExerciseChartModal.onOpen();
   };
 
-  const loadExerciseStats = async () => {
+  const loadExerciseStats = async (
+    ignoreWarmups: boolean,
+    ignoreMultisets: boolean
+  ) => {
     if (selectedExercise === undefined || userSettings === undefined) return;
 
     const exerciseId = selectedExercise.id;
@@ -1791,7 +1794,9 @@ export default function AnalyticsIndex() {
           loadExerciseOptions,
           weightUnit,
           distanceUnit,
-          paceUnit
+          paceUnit,
+          ignoreWarmups,
+          ignoreMultisets
         );
 
       const chartDataItem: ChartDataItem = {
