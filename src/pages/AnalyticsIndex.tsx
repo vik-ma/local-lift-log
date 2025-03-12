@@ -2364,6 +2364,7 @@ export default function AnalyticsIndex() {
                     <ChartTooltipContent
                       chartDataUnitMap={chartDataUnitMap.current}
                       chartCommentMap={chartCommentMap}
+                      chartMultisetMap={multisetMap.current}
                     />
                   }
                 />
