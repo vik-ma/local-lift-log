@@ -314,10 +314,12 @@ const ChartTooltipContent = React.forwardRef<
               return (
                 <div
                   key={chartComment.label}
-                  className="flex gap-[3px] text-stone-950 dark:text-stone-50"
+                  className="flex max-w-[25rem] gap-[3px] text-stone-950 dark:text-stone-50"
                 >
-                  <span className="font-semibold">{chartComment.label}:</span>
-                  <span className="max-w-[15rem] break-all">
+                  <span className="font-semibold max-w-[10rem] break-words">
+                    {chartComment.label}:
+                  </span>
+                  <span className="max-w-[15rem] break-words">
                     {chartComment.comment}
                   </span>
                 </div>
