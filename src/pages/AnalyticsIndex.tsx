@@ -1849,8 +1849,13 @@ export default function AnalyticsIndex() {
 
     setChartCommentMap(updatedChartCommentMap);
 
+    // Sort by date, since Sets from GetCompletedSetsWithExerciseId are sorted by id
+    const sortedLoadedChartData = loadedChartData.sort(
+      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+    );
+
     const filledInChartData = fillInMissingDates(
-      loadedChartData,
+      sortedLoadedChartData,
       userSettings.locale
     );
 
