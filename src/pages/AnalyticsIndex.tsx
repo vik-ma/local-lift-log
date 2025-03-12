@@ -253,7 +253,9 @@ export default function AnalyticsIndex() {
 
   const isChartDataLoaded = useRef<boolean>(false);
 
-  const multisetMap = useRef<Map<string, Set<number>>>(new Map());
+  const includesMultisetMap = useRef<Map<string, Set<ChartDataCategory>>>(
+    new Map()
+  );
 
   const updateLoadExerciseOptions = (loadExerciseOptionsString: string) => {
     const disabledKeys = new Set<ChartDataExerciseCategoryBase>();
@@ -1766,12 +1768,12 @@ export default function AnalyticsIndex() {
         loadExerciseOptionsMap
       );
 
-    const commentDataKeys: Set<ChartDataCategory> = new Set();
+    const chartDataKeys: Set<ChartDataCategory> = new Set();
 
     for (const option of loadExerciseOptions) {
       const chartName: ChartDataExerciseCategory = `${option}_${exerciseId}`;
       highestValueMap.set(chartName, -1);
-      commentDataKeys.add(chartName);
+      chartDataKeys.add(chartName);
     }
 
     for (const set of fullSetList) {
@@ -1788,7 +1790,7 @@ export default function AnalyticsIndex() {
     }
 
     for (const [date, setList] of dateMap) {
-      const { analyticsValuesMap, commentMap, multisetIndexSet } =
+      const { analyticsValuesMap, commentMap, includesMultiset } =
         GetAnalyticsValuesForSetList(
           setList,
           loadExerciseOptions,
@@ -1831,15 +1833,15 @@ export default function AnalyticsIndex() {
           addChartComment(
             updatedChartCommentMap,
             date,
-            commentDataKeys,
+            chartDataKeys,
             commentLabel,
             comment
           );
         }
       }
 
-      if (multisetIndexSet.size > 0) {
-        multisetMap.current.set(date, multisetIndexSet);
+      if (includesMultiset) {
+        includesMultisetMap.current.set(date, new Set(chartDataKeys));
       }
     }
 
@@ -2223,7 +2225,7 @@ export default function AnalyticsIndex() {
     chartDataUnitMap.current = new Map(defaultChartDataUnitMap);
     chartDataUnitCategoryMap.current = new Map(defaultChartDataUnitCategoryMap);
     chartConfig.current = { ...defaultChartConfig };
-    multisetMap.current = new Map();
+    includesMultisetMap.current = new Map();
 
     deleteModal.onClose();
   };
@@ -2369,7 +2371,7 @@ export default function AnalyticsIndex() {
                     <ChartTooltipContent
                       chartDataUnitMap={chartDataUnitMap.current}
                       chartCommentMap={chartCommentMap}
-                      chartMultisetMap={multisetMap.current}
+                      chartIncludesMultisetMap={includesMultisetMap.current}
                     />
                   }
                 />

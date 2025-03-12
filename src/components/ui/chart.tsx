@@ -112,7 +112,7 @@ const ChartTooltipContent = React.forwardRef<
       labelKey?: string;
       chartDataUnitMap?: Map<ChartDataCategory, string>;
       chartCommentMap?: Map<string, ChartComment[]>;
-      chartMultisetMap?: Map<string, Set<number>>;
+      chartIncludesMultisetMap?: Map<string, Set<ChartDataCategory>>;
     }
 >(
   (
@@ -132,7 +132,7 @@ const ChartTooltipContent = React.forwardRef<
       labelKey,
       chartDataUnitMap,
       chartCommentMap,
-      chartMultisetMap,
+      chartIncludesMultisetMap,
     },
     ref
   ) => {
@@ -191,9 +191,10 @@ const ChartTooltipContent = React.forwardRef<
       return dataKeySet;
     }, [payload]);
 
-    const multisetSet = React.useMemo(
-      () => (chartMultisetMap ? chartMultisetMap.get(label) : null),
-      [label, chartMultisetMap]
+    const multisetDataKeySet = React.useMemo(
+      () =>
+        chartIncludesMultisetMap ? chartIncludesMultisetMap.get(label) : null,
+      [label, chartIncludesMultisetMap]
     );
 
     if (!active || !payload?.length) {
@@ -263,12 +264,15 @@ const ChartTooltipContent = React.forwardRef<
                         {nestLabel ? tooltipLabel : null}
                         <span className="max-w-[20rem] truncate text-stone-500 dark:text-stone-400">
                           {itemConfig?.label || item.name}
-                          {multisetSet && multisetSet.has(index) && (
-                            <span className="text-indigo-500">
-                              {" "}
-                              (Incl. Multisets)
-                            </span>
-                          )}
+                          {multisetDataKeySet &&
+                            multisetDataKeySet.has(
+                              item.name as ChartDataCategory
+                            ) && (
+                              <span className="text-indigo-500">
+                                {" "}
+                                (Incl. Multisets)
+                              </span>
+                            )}
                         </span>
                       </div>
                       {item.value !== undefined && (

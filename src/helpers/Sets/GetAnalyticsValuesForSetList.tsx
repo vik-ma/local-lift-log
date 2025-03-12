@@ -16,7 +16,7 @@ export const GetAnalyticsValuesForSetList = (
 ) => {
   const analyticsValuesMap = new Map<ChartDataExerciseCategoryBase, number>();
   const commentMap = new Map<number, string>();
-  const multisetIndexSet = new Set<number>();
+  let includesMultiset = false;
 
   // If -1 is returned for option, no tracked value was found
   let minWeight = Infinity;
@@ -278,7 +278,7 @@ export const GetAnalyticsValuesForSetList = (
     }
 
     if (set.multiset_id > 0) {
-      multisetIndexSet.add(i);
+      includesMultiset = true;
     }
   }
 
@@ -496,5 +496,5 @@ export const GetAnalyticsValuesForSetList = (
     analyticsValuesMap.set("set_body_weight", bodyWeight);
   }
 
-  return { analyticsValuesMap, commentMap, multisetIndexSet };
+  return { analyticsValuesMap, commentMap, includesMultiset };
 };
