@@ -284,9 +284,25 @@ export const LoadExerciseChartModal = ({
             </ModalHeader>
             <ModalBody className="py-0">
               <div className="h-[456px] flex flex-col gap-1.5">
-                <div className="flex flex-col gap-1">
-                  <div className="flex justify-between">
-                    <div className="flex items-center gap-1">
+                <div className="flex flex-col gap-0.5">
+                  <div className="relative">
+                    <div className="flex items-end">
+                      <div className="flex items-baseline gap-0.5">
+                        <span className="font-medium">
+                          <span className="text-secondary text-lg">
+                            {loadExerciseOptions.size}
+                          </span>{" "}
+                          Stat{loadExerciseOptions.size !== 1 && "s"} Selected
+                        </span>
+                        {filterCategories.size > 0 && (
+                          <span className="text-secondary text-xs px-0.5">
+                            (Showing {filteredLoadExerciseOptionsMap.size} out
+                            of {loadExerciseOptionsMap.size} options)
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    <div className="absolute right-0 -top-2">
                       <Dropdown closeOnSelect={false}>
                         <DropdownTrigger>
                           <Button
@@ -319,12 +335,6 @@ export const LoadExerciseChartModal = ({
                           ))}
                         </DropdownMenu>
                       </Dropdown>
-                      {filterCategories.size > 0 && (
-                        <span className="text-secondary text-sm px-0.5">
-                          (Showing {filteredLoadExerciseOptionsMap.size} out of{" "}
-                          {loadExerciseOptionsMap.size} options)
-                        </span>
-                      )}
                     </div>
                   </div>
                   {filterCategories.size > 0 && (
