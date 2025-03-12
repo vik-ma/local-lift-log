@@ -326,17 +326,6 @@ export const LoadExerciseChartModal = ({
                         </span>
                       )}
                     </div>
-                    {loadExerciseOptions.size > 0 && (
-                      <Button
-                        className="z-1"
-                        variant="flat"
-                        color="danger"
-                        size="sm"
-                        onPress={handleClearAllButton}
-                      >
-                        Clear All
-                      </Button>
-                    )}
                   </div>
                   {filterCategories.size > 0 && (
                     <div className="flex items-center gap-1 flex-wrap max-w-[25rem]">
@@ -445,20 +434,34 @@ export const LoadExerciseChartModal = ({
                 </div>
               </div>
             </ModalBody>
-            <ModalFooter>
-              <Button color="primary" variant="light" onPress={onClose}>
-                Close
-              </Button>
-              <Button
-                color="primary"
-                isDisabled={
-                  loadExerciseOptions.size === 0 ||
-                  loadExerciseOptionsUnitCategoryPrimary === undefined
-                }
-                onPress={loadExerciseStats}
-              >
-                Load
-              </Button>
+            <ModalFooter className="flex justify-between">
+              <div>
+                {loadExerciseOptions.size > 0 && (
+                  <Button
+                    className="z-1"
+                    variant="flat"
+                    color="secondary"
+                    onPress={handleClearAllButton}
+                  >
+                    Clear All
+                  </Button>
+                )}
+              </div>
+              <div className="flex gap-2">
+                <Button color="primary" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+                <Button
+                  color="primary"
+                  isDisabled={
+                    loadExerciseOptions.size === 0 ||
+                    loadExerciseOptionsUnitCategoryPrimary === undefined
+                  }
+                  onPress={loadExerciseStats}
+                >
+                  Load
+                </Button>
+              </div>
             </ModalFooter>
           </>
         )}
