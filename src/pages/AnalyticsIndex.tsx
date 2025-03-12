@@ -1828,7 +1828,7 @@ export default function AnalyticsIndex() {
 
       if (!areCommentsAlreadyLoaded) {
         for (const [setNum, comment] of commentMap) {
-          const commentLabel = `Set ${setNum} Comment`;
+          const commentLabel = `${selectedExercise.name} Set ${setNum} Comment`;
 
           addChartComment(
             updatedChartCommentMap,
