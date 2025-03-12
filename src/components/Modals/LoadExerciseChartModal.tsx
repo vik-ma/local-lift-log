@@ -79,6 +79,8 @@ export const LoadExerciseChartModal = ({
   const [filterCategories, setFilterCategories] = useState<
     Set<ChartDataUnitCategory>
   >(new Set());
+  const [ignoreWarmups, setIgnoreWarmups] = useState<boolean>(true);
+  const [ignoreMultisets, setIgnoreMultisets] = useState<boolean>(false);
 
   const optionCategories = [
     "Weight",
@@ -381,6 +383,22 @@ export const LoadExerciseChartModal = ({
                     )}
                   </div>
                 </ScrollShadow>
+                <div className="px-0.5 py-0.5 flex gap-12">
+                  <Checkbox
+                    color="default"
+                    isSelected={ignoreWarmups}
+                    onValueChange={setIgnoreWarmups}
+                  >
+                    Ignore Warmups
+                  </Checkbox>
+                  <Checkbox
+                    color="default"
+                    isSelected={ignoreMultisets}
+                    onValueChange={setIgnoreMultisets}
+                  >
+                    Ignore Multisets
+                  </Checkbox>
+                </div>
                 <div className="flex gap-3">
                   <div className="w-[11.75rem]">
                     <Select
