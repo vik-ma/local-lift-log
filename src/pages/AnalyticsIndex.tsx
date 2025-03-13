@@ -2266,6 +2266,28 @@ export default function AnalyticsIndex() {
     highestCategoryValues.current.delete(dataKey);
     includesMultisetMap.current.delete(dataKey);
 
+    // TODO: UPDATE loadedMeasurements
+
+    const updatedChartCommentMap = new Map<string, ChartComment[]>();
+
+    for (const [date, chartComments] of chartCommentMap) {
+      const updatedCommentList: ChartComment[] = [];
+
+      for (const comment of chartComments) {
+        const updatedComment: ChartComment = { ...comment };
+
+        updatedComment.dataKeys.delete(dataKey);
+
+        updatedCommentList.push(updatedComment);
+      }
+
+      if (updatedCommentList.length !== 0) {
+        updatedChartCommentMap.set(date, updatedCommentList);
+      }
+    }
+
+    setChartCommentMap(updatedChartCommentMap);
+
     const updatedChartAreas: ChartDataCategory[] = [];
 
     for (const area of chartDataAreas) {
