@@ -44,7 +44,6 @@ import {
   ChartDataUnitCategory,
   ChartReferenceAreaItem,
   Exercise,
-  LoadedChartType,
   Measurement,
   TimePeriod,
   UserMeasurementValues,
@@ -180,7 +179,9 @@ export default function AnalyticsIndex() {
     shownReferenceAreas
   );
 
-  const loadedCharts = useRef<Set<LoadedChartType>>(new Set());
+  const loadedCharts = useRef<Set<Exclude<ChartDataCategory, undefined>>>(
+    new Set()
+  );
 
   const filteredChartData: ChartDataItem[] = useMemo(() => {
     const filteredChartData: ChartDataItem[] = [];
@@ -407,16 +408,13 @@ export default function AnalyticsIndex() {
   };
 
   const loadDietLogListCalories = async (loadPrimary: boolean) => {
-    if (
-      loadedCharts.current.has("diet-logs-calories") ||
-      userSettings === undefined
-    )
+    if (loadedCharts.current.has("calories") || userSettings === undefined)
       return;
 
     const dietLogs = await GetAllDietLogs(true);
 
     if (dietLogs.length === 0) {
-      loadedCharts.current.add("diet-logs-calories");
+      loadedCharts.current.add("calories");
       loadedCharts.current.add("fat");
       loadedCharts.current.add("carbs");
       loadedCharts.current.add("protein");
@@ -493,7 +491,7 @@ export default function AnalyticsIndex() {
       loadChartLines(["calories"], ["Calories"], "Calories");
     }
 
-    loadedCharts.current.add("diet-logs-calories");
+    loadedCharts.current.add("calories");
     isChartDataLoaded.current = true;
   };
 
@@ -507,7 +505,7 @@ export default function AnalyticsIndex() {
     const dietLogs = await GetAllDietLogs(true);
 
     if (dietLogs.length === 0) {
-      loadedCharts.current.add("diet-logs-calories");
+      loadedCharts.current.add("calories");
       loadedCharts.current.add("fat");
       loadedCharts.current.add("carbs");
       loadedCharts.current.add("protein");
@@ -582,7 +580,7 @@ export default function AnalyticsIndex() {
     if (highestValue === -1) {
       loadedCharts.current.add(macroType);
       toast.error(
-        `No Diet Logs With ${chartConfig.current[macroType].label} Has Been Recorded`
+        `No Values For ${chartConfig.current[macroType].label} Have Been Recorded`
       );
       return;
     }
@@ -964,17 +962,14 @@ export default function AnalyticsIndex() {
     weightUnit: string,
     loadPrimary: boolean
   ) => {
-    if (
-      loadedCharts.current.has("user-weights-weight") ||
-      userSettings === undefined
-    )
+    if (loadedCharts.current.has("body_weight") || userSettings === undefined)
       return;
 
     const userWeights = await GetAllUserWeights(true);
 
     if (userWeights.length === 0) {
-      loadedCharts.current.add("user-weights-weight");
-      loadedCharts.current.add("user-weights-body-fat");
+      loadedCharts.current.add("body_weight");
+      loadedCharts.current.add("body_fat_percentage");
       toast.error("No Body Weight Entries Recorded");
       return;
     }
@@ -993,7 +988,7 @@ export default function AnalyticsIndex() {
     const commentLabel = "Body Weight Comment";
 
     const areCommentsAlreadyLoaded = loadedCharts.current.has(
-      "user-weights-body-fat"
+      "body_fat_percentage"
     );
 
     for (const userWeight of userWeights) {
@@ -1059,13 +1054,13 @@ export default function AnalyticsIndex() {
       loadChartLines(["body_weight"], ["Weight"], "Weight");
     }
 
-    loadedCharts.current.add("user-weights-weight");
+    loadedCharts.current.add("body_weight");
     isChartDataLoaded.current = true;
   };
 
   const loadUserWeightListBodyFat = async (loadPrimary: boolean) => {
     if (
-      loadedCharts.current.has("user-weights-body-fat") ||
+      loadedCharts.current.has("body_fat_percentage") ||
       userSettings === undefined
     )
       return;
@@ -1073,8 +1068,8 @@ export default function AnalyticsIndex() {
     const userWeights = await GetAllUserWeights(true);
 
     if (userWeights.length === 0) {
-      loadedCharts.current.add("user-weights-weight");
-      loadedCharts.current.add("user-weights-body-fat");
+      loadedCharts.current.add("body_weight");
+      loadedCharts.current.add("body_fat_percentage");
       toast.error("No Body Weight Entries Recorded");
       return;
     }
@@ -1092,9 +1087,7 @@ export default function AnalyticsIndex() {
     ]);
     const commentLabel = "Body Weight Comment";
 
-    const areCommentsAlreadyLoaded = loadedCharts.current.has(
-      "user-weights-weight"
-    );
+    const areCommentsAlreadyLoaded = loadedCharts.current.has("body_weight");
 
     for (const userWeight of userWeights) {
       const date = FormatDateToShortString(
@@ -1133,7 +1126,7 @@ export default function AnalyticsIndex() {
     }
 
     if (highestValue === 0) {
-      loadedCharts.current.add("user-weights-body-fat");
+      loadedCharts.current.add("body_fat_percentage");
       toast.error("No Body Fat Percentages Recorded");
       return;
     }
@@ -1161,7 +1154,7 @@ export default function AnalyticsIndex() {
       loadChartLines(["body_fat_percentage"], ["Body Fat %"], "Body Fat %");
     }
 
-    loadedCharts.current.add("user-weights-body-fat");
+    loadedCharts.current.add("body_fat_percentage");
     isChartDataLoaded.current = true;
   };
 
@@ -1574,9 +1567,7 @@ export default function AnalyticsIndex() {
   };
 
   const loadMeasurement = async (measurement: Measurement) => {
-    const measurementIdString:
-      | LoadedChartType
-      | ChartDataCategory = `measurement_${measurement.id}`;
+    const measurementIdString: ChartDataCategory = `measurement_${measurement.id}`;
 
     if (
       loadedCharts.current.has(measurementIdString) ||
@@ -1642,7 +1633,9 @@ export default function AnalyticsIndex() {
 
       const areCommentsAlreadyLoaded = Object.keys(userMeasurementValues).some(
         (item) =>
-          loadedCharts.current.has(`measurement_${item}` as LoadedChartType)
+          loadedCharts.current.has(
+            `measurement_${item}` as Exclude<ChartDataCategory, undefined>
+          )
       );
 
       if (!areCommentsAlreadyLoaded && userMeasurement.comment !== null) {

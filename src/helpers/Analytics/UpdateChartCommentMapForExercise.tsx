@@ -3,7 +3,6 @@ import {
   ChartDataCategory,
   ChartDataExerciseCategory,
   ChartDataExerciseCategoryBase,
-  LoadedChartType,
 } from "../../typings";
 
 type UpdateChartCommentMapForExerciseReturnType = {
@@ -14,7 +13,7 @@ type UpdateChartCommentMapForExerciseReturnType = {
 export const UpdateChartCommentMapForExercise = (
   loadExerciseOptions: Set<ChartDataExerciseCategoryBase>,
   exerciseId: number,
-  loadedCharts: Set<LoadedChartType>,
+  loadedCharts: Set<ChartDataCategory>,
   chartCommentMap: Map<string, ChartComment[]>,
   loadExerciseOptionsMap: Map<ChartDataExerciseCategoryBase, string>
 ): UpdateChartCommentMapForExerciseReturnType => {

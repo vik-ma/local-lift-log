@@ -1296,16 +1296,6 @@ export type ChartComment = {
   comment: string;
 };
 
-export type LoadedChartType =
-  | "diet-logs-calories"
-  | "fat"
-  | "carbs"
-  | "protein"
-  | "user-weights-weight"
-  | "user-weights-body-fat"
-  | `measurement_${number}`
-  | ChartDataExerciseCategory;
-
 export type ChartReferenceAreaItem = {
   timePeriodId: number;
   x1: string;
