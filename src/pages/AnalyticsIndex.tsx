@@ -417,7 +417,9 @@ export default function AnalyticsIndex() {
 
     if (dietLogs.length === 0) {
       loadedCharts.current.add("diet-logs-calories");
-      loadedCharts.current.add("diet-logs-macros");
+      loadedCharts.current.add("fat");
+      loadedCharts.current.add("carbs");
+      loadedCharts.current.add("protein");
       toast.error("No Diet Logs Entries Recorded");
       return;
     }
@@ -435,6 +437,7 @@ export default function AnalyticsIndex() {
     ]);
     const commentLabel = "Diet Log Comment";
 
+    // TODO: FIX
     const areCommentsAlreadyLoaded =
       loadedCharts.current.has("diet-logs-macros");
 
@@ -494,28 +497,27 @@ export default function AnalyticsIndex() {
     isChartDataLoaded.current = true;
   };
 
-  const loadDietLogListMacros = async (loadPrimary: boolean) => {
-    if (
-      loadedCharts.current.has("diet-logs-macros") ||
-      userSettings === undefined
-    )
+  const loadDietLogListMacros = async (
+    loadPrimary: boolean,
+    macroType: "fat" | "carbs" | "protein"
+  ) => {
+    if (loadedCharts.current.has(macroType) || userSettings === undefined)
       return;
 
     const dietLogs = await GetAllDietLogs(true);
 
     if (dietLogs.length === 0) {
       loadedCharts.current.add("diet-logs-calories");
-      loadedCharts.current.add("diet-logs-macros");
+      loadedCharts.current.add("fat");
+      loadedCharts.current.add("carbs");
+      loadedCharts.current.add("protein");
       toast.error("No Diet Logs Entries Recorded");
       return;
     }
 
     const loadedChartData: ChartDataItem[] = [];
 
-    const highestValueMap = new Map<ChartDataCategory, number>();
-    highestValueMap.set("fat", -1);
-    highestValueMap.set("carbs", -1);
-    highestValueMap.set("protein", -1);
+    let highestValue = -1;
 
     const updatedChartCommentMap = new Map(chartCommentMap);
     const commentDataKeys: Set<ChartDataCategory> = new Set([
@@ -526,6 +528,7 @@ export default function AnalyticsIndex() {
     ]);
     const commentLabel = "Diet Log Comment";
 
+    // TODO: FIX
     const areCommentsAlreadyLoaded =
       loadedCharts.current.has("diet-logs-calories");
 
@@ -549,41 +552,38 @@ export default function AnalyticsIndex() {
         );
       }
 
-      if (dietLog.fat !== null) {
+      if (macroType === "fat" && dietLog.fat !== null) {
         chartDataItem.fat = dietLog.fat;
 
-        if (dietLog.fat > highestValueMap.get("fat")!) {
-          highestValueMap.set("fat", dietLog.fat);
+        if (dietLog.fat > highestValue) {
+          highestValue = dietLog.fat;
         }
       }
 
-      if (dietLog.carbs !== null) {
+      if (macroType === "carbs" && dietLog.carbs !== null) {
         chartDataItem.carbs = dietLog.carbs;
 
-        if (dietLog.carbs > highestValueMap.get("carbs")!) {
-          highestValueMap.set("carbs", dietLog.carbs);
+        if (dietLog.carbs > highestValue) {
+          highestValue = dietLog.carbs;
         }
       }
 
-      if (dietLog.protein !== null) {
+      if (macroType === "protein" && dietLog.protein !== null) {
         chartDataItem.protein = dietLog.protein;
 
-        if (dietLog.protein > highestValueMap.get("protein")!) {
-          highestValueMap.set("protein", dietLog.protein);
+        if (dietLog.protein > highestValue) {
+          highestValue = dietLog.protein;
         }
       }
 
       loadedChartData.push(chartDataItem);
     }
 
-    // Filter out categories with no values
-    const updatedHighestValueMap = new Map(
-      Array.from(highestValueMap).filter(([, value]) => value > -1)
-    );
-
-    if (updatedHighestValueMap.size === 0) {
-      loadedCharts.current.add("diet-logs-macros");
-      toast.error("No Diet Logs With Macros Recorded");
+    if (highestValue === -1) {
+      loadedCharts.current.add(macroType);
+      toast.error(
+        `No Diet Logs With ${chartConfig.current[macroType].label} Has Been Recorded`
+      );
       return;
     }
 
@@ -602,23 +602,16 @@ export default function AnalyticsIndex() {
 
     setChartData(mergedChartData);
 
-    highestCategoryValues.current = new Map([
-      ...highestCategoryValues.current,
-      ...updatedHighestValueMap,
-    ]);
-
-    const dataKeys: ChartDataCategory[] = Array.from(
-      updatedHighestValueMap.keys()
-    );
+    highestCategoryValues.current.set(macroType, highestValue);
 
     if (loadPrimary) {
-      loadChartAreas(dataKeys);
+      loadChartAreas([macroType]);
     } else {
       // All macro dataKeys will work, even if they have no values loaded
-      loadChartLines(dataKeys, ["Macros"], "Macros");
+      loadChartLines([macroType], ["Macros"], "Macros");
     }
 
-    loadedCharts.current.add("diet-logs-macros");
+    loadedCharts.current.add(macroType);
     isChartDataLoaded.current = true;
   };
 
@@ -2864,10 +2857,22 @@ export default function AnalyticsIndex() {
                     Calories
                   </DropdownItem>
                   <DropdownItem
-                    key="diet-logs-macros"
-                    onPress={() => loadDietLogListMacros(true)}
+                    key="fat"
+                    onPress={() => loadDietLogListMacros(false, "fat")}
                   >
-                    Macros
+                    Fat
+                  </DropdownItem>
+                  <DropdownItem
+                    key="carbs"
+                    onPress={() => loadDietLogListMacros(false, "carbs")}
+                  >
+                    Carbs
+                  </DropdownItem>
+                  <DropdownItem
+                    key="protein"
+                    onPress={() => loadDietLogListMacros(false, "protein")}
+                  >
+                    Protein
                   </DropdownItem>
                 </DropdownMenu>
               </Dropdown>
@@ -2907,10 +2912,22 @@ export default function AnalyticsIndex() {
                     Calories
                   </DropdownItem>
                   <DropdownItem
-                    key="diet-logs-macros"
-                    onPress={() => loadDietLogListMacros(false)}
+                    key="fat"
+                    onPress={() => loadDietLogListMacros(false, "fat")}
                   >
-                    Macros
+                    Fat
+                  </DropdownItem>
+                  <DropdownItem
+                    key="carbs"
+                    onPress={() => loadDietLogListMacros(false, "carbs")}
+                  >
+                    Carbs
+                  </DropdownItem>
+                  <DropdownItem
+                    key="protein"
+                    onPress={() => loadDietLogListMacros(false, "protein")}
+                  >
+                    Protein
                   </DropdownItem>
                 </DropdownMenu>
               </Dropdown>

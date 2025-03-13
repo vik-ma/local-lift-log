@@ -1298,7 +1298,9 @@ export type ChartComment = {
 
 export type LoadedChartType =
   | "diet-logs-calories"
-  | "diet-logs-macros"
+  | "fat"
+  | "carbs"
+  | "protein"
   | "user-weights-weight"
   | "user-weights-body-fat"
   | `measurement_${number}`
