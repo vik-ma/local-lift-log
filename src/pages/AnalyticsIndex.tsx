@@ -163,6 +163,8 @@ export default function AnalyticsIndex() {
   const [disabledLoadExerciseOptions, setDisabledLoadExerciseOptions] =
     useState<Set<ChartDataExerciseCategoryBase>>(new Set());
 
+  const allChartDataCategories = [...chartDataAreas, ...chartDataLines];
+
   const [showTestButtons, setShowTestButtons] = useState<boolean>(false);
 
   const highestCategoryValues = useRef<Map<ChartDataCategory, number>>(
@@ -2246,6 +2248,10 @@ export default function AnalyticsIndex() {
     deleteModal.onClose();
   };
 
+  const removeChartStat = (dataKey: ChartDataCategory) => {
+    if (allChartDataCategories.length < 2) return;
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -2661,6 +2667,28 @@ export default function AnalyticsIndex() {
                     )}
                   </Chip>
                 )}
+                <Dropdown>
+                  <DropdownTrigger>
+                    <Button
+                      className="font-medium"
+                      variant="flat"
+                      color="danger"
+                      isDisabled={allChartDataCategories.length < 2}
+                    >
+                      Remove Chart Stat
+                    </Button>
+                  </DropdownTrigger>
+                  <DropdownMenu aria-label="Chart data lines" variant="flat">
+                    {allChartDataCategories.map((dataKey) => (
+                      <DropdownItem
+                        key={dataKey as string}
+                        onPress={() => removeChartStat(dataKey)}
+                      >
+                        {chartConfig.current[dataKey ?? "default"].label}
+                      </DropdownItem>
+                    ))}
+                  </DropdownMenu>
+                </Dropdown>
               </div>
             </div>
           </div>
