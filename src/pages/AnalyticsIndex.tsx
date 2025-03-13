@@ -2293,6 +2293,9 @@ export default function AnalyticsIndex() {
 
         const newChartArea = chartDataLines[0];
 
+        updatedChartAreas.push(newChartArea);
+        updatedShownChartDataAreas.push(newChartArea);
+
         const updatedChartDataLines = chartDataLines.filter(
           (item) => item !== newChartArea
         );
@@ -2311,8 +2314,9 @@ export default function AnalyticsIndex() {
 
         setChartLineUnitCategorySet(updatedChartLineUnitCategorySet);
 
-        const activeUnitCategory =
-          chartDataUnitCategoryMap.current.get(updatedShownChartDataLines[0]);
+        const activeUnitCategory = chartDataUnitCategoryMap.current.get(
+          updatedShownChartDataLines[0]
+        );
 
         updateRightYAxis(updatedShownChartDataLines, activeUnitCategory);
       }
