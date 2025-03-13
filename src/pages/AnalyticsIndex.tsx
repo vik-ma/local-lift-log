@@ -2238,18 +2238,92 @@ export default function AnalyticsIndex() {
     setDisabledLoadExerciseOptions(new Set());
     setSelectedExercise(undefined);
 
-    highestCategoryValues.current = new Map();
+    chartConfig.current = { ...defaultChartConfig };
     loadedCharts.current = new Set();
     chartDataUnitMap.current = new Map(defaultChartDataUnitMap);
     chartDataUnitCategoryMap.current = new Map(defaultChartDataUnitCategoryMap);
-    chartConfig.current = { ...defaultChartConfig };
+    highestCategoryValues.current = new Map();
     includesMultisetMap.current = new Map();
 
     deleteModal.onClose();
   };
 
   const removeChartStat = (dataKey: ChartDataCategory) => {
-    if (allChartDataCategories.length < 2) return;
+    if (allChartDataCategories.length < 2 || dataKey === undefined) return;
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const updatedChartData = chartData.map(({ [dataKey]: _, ...rest }) => rest);
+
+    setChartData(updatedChartData);
+
+    // TODO: CHECK IF DATAKEY IS DIETLOG/USERWEIGHT AND UPDATE ACCORDINGLY
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { [dataKey]: _, ...updatedChartConfig } = chartConfig.current;
+    chartConfig.current = updatedChartConfig;
+    loadedCharts.current.delete(dataKey);
+    chartDataUnitMap.current.delete(dataKey);
+    chartDataUnitCategoryMap.current.delete(dataKey);
+    highestCategoryValues.current.delete(dataKey);
+    includesMultisetMap.current.delete(dataKey);
+
+    const updatedChartAreas: ChartDataCategory[] = [];
+
+    for (const area of chartDataAreas) {
+      if (area !== dataKey) updatedChartAreas.push(area);
+    }
+
+    if (updatedChartAreas.length !== chartDataAreas.length) {
+      // If dataKey was Chart Area
+
+      const updatedShownChartDataAreas = shownChartDataAreas.filter(
+        (item) => item !== dataKey
+      );
+
+      if (updatedChartAreas.length !== 0) {
+        // If more Chart Areas exist
+
+        if (updatedShownChartDataAreas.length === 0) {
+          // If dataKey was only the shown Chart Area
+          updatedShownChartDataAreas.push(updatedChartAreas[0]);
+        }
+
+        setPrimaryDataKey(updatedChartAreas[0]);
+      } else {
+        // If dataKey was last Chart Area
+
+        const newChartArea = chartDataLines[0];
+
+        const updatedChartDataLines = chartDataLines.filter(
+          (item) => item !== newChartArea
+        );
+        const updatedShownChartDataLines = shownChartDataLines.filter(
+          (item) => item !== newChartArea
+        );
+
+        setChartDataLines(updatedChartDataLines);
+        setShownChartDataLines(updatedShownChartDataLines);
+
+        const updatedChartLineUnitCategorySet = new Set(
+          updatedShownChartDataLines.map((item) =>
+            chartDataUnitCategoryMap.current.get(item)
+          )
+        );
+
+        setChartLineUnitCategorySet(updatedChartLineUnitCategorySet);
+
+        const activeUnitCategory =
+          chartDataUnitCategoryMap.current.get(updatedShownChartDataLines[0]);
+
+        updateRightYAxis(updatedShownChartDataLines, activeUnitCategory);
+      }
+
+      setChartDataAreas(updatedChartAreas);
+      setShownChartDataAreas(updatedShownChartDataAreas);
+
+      updateLeftYAxis(updatedShownChartDataAreas);
+    } else {
+      // If dataKey was Chart Line
+    }
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;
