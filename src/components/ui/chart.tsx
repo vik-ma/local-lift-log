@@ -262,7 +262,7 @@ const ChartTooltipContent = React.forwardRef<
                     >
                       <div className="grid gap-1.5">
                         {nestLabel ? tooltipLabel : null}
-                        <span className="max-w-[25rem] truncate text-stone-500 dark:text-stone-400">
+                        <span className="max-w-[20rem] truncate text-stone-500 dark:text-stone-400">
                           {itemConfig?.label || item.name}
                           {multisetDataKeySet &&
                             multisetDataKeySet.has(
@@ -276,7 +276,7 @@ const ChartTooltipContent = React.forwardRef<
                         </span>
                       </div>
                       {item.value !== undefined && (
-                        <div className="flex gap-[3px] text-stone-950 dark:text-stone-50">
+                        <div className="flex max-w-[5rem] gap-[3px] text-stone-950 dark:text-stone-50">
                           <span className="font-semibold">
                             {item.value.toLocaleString()}
                           </span>
