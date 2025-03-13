@@ -2336,9 +2336,8 @@ export default function AnalyticsIndex() {
 
         setChartLineUnitCategorySet(updatedChartLineUnitCategorySet);
 
-        const activeUnitCategory = chartDataUnitCategoryMap.current.get(
-          updatedShownChartDataLines[0]
-        );
+        const activeUnitCategory =
+          chartDataUnitCategoryMap.current.get(secondaryDataKey);
 
         updateRightYAxis(updatedShownChartDataLines, activeUnitCategory);
       }
