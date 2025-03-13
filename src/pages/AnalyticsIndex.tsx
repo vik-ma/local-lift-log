@@ -433,9 +433,7 @@ export default function AnalyticsIndex() {
     ]);
     const commentLabel = "Diet Log Comment";
 
-    // TODO: FIX
-    const areCommentsAlreadyLoaded =
-      loadedCharts.current.has("diet-logs-macros");
+    const areCommentsAlreadyLoaded = areAnyDietLogsLoaded();
 
     for (const dietLog of dietLogs) {
       const date = FormatDateToShortString(
@@ -524,9 +522,7 @@ export default function AnalyticsIndex() {
     ]);
     const commentLabel = "Diet Log Comment";
 
-    // TODO: FIX
-    const areCommentsAlreadyLoaded =
-      loadedCharts.current.has("diet-logs-calories");
+    const areCommentsAlreadyLoaded = areAnyDietLogsLoaded();
 
     for (const dietLog of dietLogs) {
       const date = FormatDateToShortString(
@@ -609,6 +605,15 @@ export default function AnalyticsIndex() {
 
     loadedCharts.current.add(macroType);
     isChartDataLoaded.current = true;
+  };
+
+  const areAnyDietLogsLoaded = () => {
+    return (
+      loadedCharts.current.has("calories") ||
+      loadedCharts.current.has("fat") ||
+      loadedCharts.current.has("carbs") ||
+      loadedCharts.current.has("protein")
+    );
   };
 
   const updateShownChartLines = (chartLines: ChartDataCategory[]) => {
