@@ -2348,6 +2348,29 @@ export default function AnalyticsIndex() {
       updateLeftYAxis(updatedShownChartDataAreas);
     } else {
       // If dataKey was Chart Line
+
+      const updatedChartDataLines = chartDataLines.filter(
+        (item) => item !== dataKey
+      );
+      const updatedShownChartDataLines = shownChartDataLines.filter(
+        (item) => item !== dataKey
+      );
+
+      setChartDataLines(updatedChartDataLines);
+      setShownChartDataLines(updatedShownChartDataLines);
+
+      const updatedChartLineUnitCategorySet = new Set(
+        updatedShownChartDataLines.map((item) =>
+          chartDataUnitCategoryMap.current.get(item)
+        )
+      );
+
+      setChartLineUnitCategorySet(updatedChartLineUnitCategorySet);
+
+      const activeUnitCategory =
+        chartDataUnitCategoryMap.current.get(secondaryDataKey);
+
+      updateRightYAxis(updatedShownChartDataLines, activeUnitCategory);
     }
   };
 
@@ -2566,135 +2589,137 @@ export default function AnalyticsIndex() {
                     </SelectItem>
                   ))}
                 </Select>
-                {chartDataLines.length > 0 && (
-                  <Select
-                    label="Shown Lines"
-                    size="sm"
-                    variant="faded"
-                    selectionMode="multiple"
-                    selectedKeys={shownChartDataLines as string[]}
-                    onSelectionChange={(value) =>
-                      updateShownChartLines(
-                        Array.from(value) as ChartDataCategory[]
-                      )
-                    }
-                  >
-                    {chartDataLines.map((line) => (
-                      <SelectItem key={line} value={line}>
-                        {chartConfig.current[line ?? "default"].label}
-                      </SelectItem>
+                <Select
+                  label="Shown Lines"
+                  size="sm"
+                  variant="faded"
+                  selectionMode="multiple"
+                  selectedKeys={shownChartDataLines as string[]}
+                  onSelectionChange={(value) =>
+                    updateShownChartLines(
+                      Array.from(value) as ChartDataCategory[]
+                    )
+                  }
+                  isDisabled={chartDataLines.length === 0}
+                >
+                  {chartDataLines.map((line) => (
+                    <SelectItem key={line} value={line}>
+                      {chartConfig.current[line ?? "default"].label}
+                    </SelectItem>
+                  ))}
+                </Select>
+                <Select
+                  label="Right Y-Axis Value"
+                  size="sm"
+                  variant="faded"
+                  selectedKeys={
+                    secondaryDataUnitCategory !== undefined
+                      ? [secondaryDataUnitCategory]
+                      : []
+                  }
+                  onChange={(e) =>
+                    updateRightYAxis(
+                      shownChartDataLines,
+                      e.target.value as ChartDataUnitCategory
+                    )
+                  }
+                  disallowEmptySelection
+                  isDisabled={chartLineUnitCategorySet.size < 2}
+                >
+                  {Array.from(chartLineUnitCategorySet).map((category) => (
+                    <SelectItem key={category} value={category}>
+                      {category}
+                    </SelectItem>
+                  ))}
+                </Select>
+                <Dropdown>
+                  <DropdownTrigger>
+                    <Button
+                      className="font-medium"
+                      variant="flat"
+                      isDisabled={chartDataAreas.length === 0}
+                    >
+                      Convert Area To Line
+                    </Button>
+                  </DropdownTrigger>
+                  <DropdownMenu aria-label="Chart data areas" variant="flat">
+                    {chartDataAreas.map((area) => (
+                      <DropdownItem
+                        key={area as string}
+                        onPress={() => changeChartDataAreaToLine(area)}
+                      >
+                        {chartConfig.current[area ?? "default"].label}
+                      </DropdownItem>
                     ))}
-                  </Select>
-                )}
-                {secondaryDataUnitCategory !== undefined && (
-                  <Select
-                    label="Right Y-Axis Value"
-                    size="sm"
-                    variant="faded"
-                    selectedKeys={
-                      secondaryDataUnitCategory !== undefined
-                        ? [secondaryDataUnitCategory]
-                        : []
-                    }
-                    onChange={(e) =>
-                      updateRightYAxis(
-                        shownChartDataLines,
-                        e.target.value as ChartDataUnitCategory
-                      )
-                    }
-                    disallowEmptySelection
-                    isDisabled={chartLineUnitCategorySet.size < 2}
+                  </DropdownMenu>
+                </Dropdown>
+                <Dropdown>
+                  <DropdownTrigger>
+                    <Button
+                      className="font-medium"
+                      variant="flat"
+                      isDisabled={chartDataLines.length === 0}
+                    >
+                      Convert Line To Area
+                    </Button>
+                  </DropdownTrigger>
+                  <DropdownMenu aria-label="Chart data lines" variant="flat">
+                    {chartDataLines.map((line) => (
+                      <DropdownItem
+                        key={line as string}
+                        onPress={() => changeChartDataLineToArea(line)}
+                      >
+                        {chartConfig.current[line ?? "default"].label}
+                      </DropdownItem>
+                    ))}
+                  </DropdownMenu>
+                </Dropdown>
+                <Dropdown>
+                  <DropdownTrigger>
+                    <Button
+                      className="font-medium"
+                      variant="flat"
+                      isDisabled={chartLineUnitCategorySet.size === 0}
+                    >
+                      Change Area Category
+                    </Button>
+                  </DropdownTrigger>
+                  <DropdownMenu
+                    aria-label="Chart data line unit categories"
+                    variant="flat"
                   >
                     {Array.from(chartLineUnitCategorySet).map((category) => (
-                      <SelectItem key={category} value={category}>
-                        {category}
-                      </SelectItem>
-                    ))}
-                  </Select>
-                )}
-                {chartDataAreas.length > 1 && (
-                  <Dropdown>
-                    <DropdownTrigger>
-                      <Button className="font-medium" variant="flat">
-                        Convert Area To Line
-                      </Button>
-                    </DropdownTrigger>
-                    <DropdownMenu aria-label="Chart data areas" variant="flat">
-                      {chartDataAreas.map((area) => (
-                        <DropdownItem
-                          key={area as string}
-                          onPress={() => changeChartDataAreaToLine(area)}
-                        >
-                          {chartConfig.current[area ?? "default"].label}
-                        </DropdownItem>
-                      ))}
-                    </DropdownMenu>
-                  </Dropdown>
-                )}
-                {chartDataLines.length > 0 && (
-                  <Dropdown>
-                    <DropdownTrigger>
-                      <Button className="font-medium" variant="flat">
-                        Convert Line To Area
-                      </Button>
-                    </DropdownTrigger>
-                    <DropdownMenu aria-label="Chart data lines" variant="flat">
-                      {chartDataLines.map((line) => (
-                        <DropdownItem
-                          key={line as string}
-                          onPress={() => changeChartDataLineToArea(line)}
-                        >
-                          {chartConfig.current[line ?? "default"].label}
-                        </DropdownItem>
-                      ))}
-                    </DropdownMenu>
-                  </Dropdown>
-                )}
-                {chartLineUnitCategorySet.size > 0 && (
-                  <Dropdown>
-                    <DropdownTrigger>
-                      <Button className="font-medium" variant="flat">
-                        Change Area Category
-                      </Button>
-                    </DropdownTrigger>
-                    <DropdownMenu
-                      aria-label="Chart data line unit categories"
-                      variant="flat"
-                    >
-                      {Array.from(chartLineUnitCategorySet).map((category) => (
-                        <DropdownItem
-                          key={category as string}
-                          onPress={() =>
-                            changeChartDataLineCategoryToArea(category)
-                          }
-                        >
-                          {category}
-                        </DropdownItem>
-                      ))}
-                    </DropdownMenu>
-                  </Dropdown>
-                )}
-                {referenceAreas.length > 0 && (
-                  <Select
-                    label="Shown Time Periods"
-                    size="sm"
-                    variant="faded"
-                    selectionMode="multiple"
-                    selectedKeys={shownTimePeriodIdSet}
-                    onSelectionChange={(keys) =>
-                      updateShownReferenceAreas(new Set(keys) as Set<string>)
-                    }
-                  >
-                    {referenceAreas.map((area) => (
-                      <SelectItem
-                        key={area.timePeriodId.toString()}
-                        value={area.timePeriodId.toString()}
+                      <DropdownItem
+                        key={category as string}
+                        onPress={() =>
+                          changeChartDataLineCategoryToArea(category)
+                        }
                       >
-                        {area.label}
-                      </SelectItem>
+                        {category}
+                      </DropdownItem>
                     ))}
-                  </Select>
-                )}
+                  </DropdownMenu>
+                </Dropdown>
+                <Select
+                  label="Shown Time Periods"
+                  size="sm"
+                  variant="faded"
+                  selectionMode="multiple"
+                  selectedKeys={shownTimePeriodIdSet}
+                  onSelectionChange={(keys) =>
+                    updateShownReferenceAreas(new Set(keys) as Set<string>)
+                  }
+                  isDisabled={referenceAreas.length === 0}
+                >
+                  {referenceAreas.map((area) => (
+                    <SelectItem
+                      key={area.timePeriodId.toString()}
+                      value={area.timePeriodId.toString()}
+                    >
+                      {area.label}
+                    </SelectItem>
+                  ))}
+                </Select>
                 <Dropdown>
                   <DropdownTrigger>
                     <Button
