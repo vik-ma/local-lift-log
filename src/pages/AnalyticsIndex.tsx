@@ -162,8 +162,6 @@ export default function AnalyticsIndex() {
   const [disabledLoadExerciseOptions, setDisabledLoadExerciseOptions] =
     useState<Set<ChartDataExerciseCategoryBase>>(new Set());
 
-  const allChartDataCategories = [...chartDataAreas, ...chartDataLines];
-
   const [showTestButtons, setShowTestButtons] = useState<boolean>(false);
 
   const highestCategoryValues = useRef<Map<ChartDataCategory, number>>(
@@ -2235,7 +2233,7 @@ export default function AnalyticsIndex() {
   };
 
   const removeChartStat = (dataKey: ChartDataCategory) => {
-    if (allChartDataCategories.length < 2 || dataKey === undefined) return;
+    if (loadedCharts.current.size < 2 || dataKey === undefined) return;
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const updatedChartData = chartData.map(({ [dataKey]: _, ...rest }) => rest);
@@ -2783,13 +2781,13 @@ export default function AnalyticsIndex() {
                       className="font-medium"
                       variant="flat"
                       color="danger"
-                      isDisabled={allChartDataCategories.length < 2}
+                      isDisabled={loadedCharts.current.size < 2}
                     >
                       Remove Chart Stat
                     </Button>
                   </DropdownTrigger>
                   <DropdownMenu aria-label="Chart data lines" variant="flat">
-                    {allChartDataCategories.map((dataKey) => (
+                    {Array.from(loadedCharts.current).map((dataKey) => (
                       <DropdownItem
                         key={dataKey as string}
                         onPress={() => removeChartStat(dataKey)}
