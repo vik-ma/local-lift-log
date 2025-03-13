@@ -2914,24 +2914,24 @@ export default function AnalyticsIndex() {
                   </DropdownItem>
                 </DropdownMenu>
               </Dropdown>
-              {filteredChartData.length > 0 && (
-                <Button
-                  className="font-medium"
-                  variant="flat"
-                  onPress={() => handleOpenListModal("time-period-list")}
-                >
-                  Select Time Period
-                </Button>
-              )}
               {isChartDataLoaded.current && (
-                <Button
-                  className="font-medium"
-                  variant="flat"
-                  color="danger"
-                  onPress={() => deleteModal.onOpen()}
-                >
-                  Reset Chart
-                </Button>
+                <>
+                  <Button
+                    className="font-medium"
+                    variant="flat"
+                    onPress={() => handleOpenListModal("time-period-list")}
+                  >
+                    Select Time Period
+                  </Button>
+                  <Button
+                    className="font-medium"
+                    variant="flat"
+                    color="danger"
+                    onPress={() => deleteModal.onOpen()}
+                  >
+                    Reset Chart
+                  </Button>
+                </>
               )}
             </div>
             <Button
