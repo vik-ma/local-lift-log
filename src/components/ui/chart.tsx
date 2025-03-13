@@ -262,7 +262,7 @@ const ChartTooltipContent = React.forwardRef<
                     >
                       <div className="grid gap-1.5">
                         {nestLabel ? tooltipLabel : null}
-                        <span className="max-w-[20rem] truncate text-stone-500 dark:text-stone-400">
+                        <span className="max-w-[25rem] truncate text-stone-500 dark:text-stone-400">
                           {itemConfig?.label || item.name}
                           {multisetDataKeySet &&
                             multisetDataKeySet.has(
@@ -297,7 +297,7 @@ const ChartTooltipContent = React.forwardRef<
           })}
         </div>
         {commentMap && dataKeys && (
-          <div className="flex flex-col">
+          <div className="grid grid-cols-[max-content_1fr] max-w-[25rem] gap-x-1.5 text-stone-950 dark:text-stone-50">
             {Array.from(commentMap).map((chartComment) => {
               let showComment = false;
 
@@ -312,17 +312,14 @@ const ChartTooltipContent = React.forwardRef<
               if (!showComment) return null;
 
               return (
-                <div
-                  key={chartComment.label}
-                  className="flex max-w-[25rem] gap-[3px] text-stone-950 dark:text-stone-50"
-                >
-                  <span className="font-semibold max-w-[10rem] break-words">
+                <React.Fragment key={chartComment.label}>
+                  <span className="font-semibold max-w-[15rem] break-words">
                     {chartComment.label}:
                   </span>
-                  <span className="max-w-[15rem] break-words">
+                  <span className="max-w-[10rem] break-words">
                     {chartComment.comment}
                   </span>
-                </div>
+                </React.Fragment>
               );
             })}
           </div>
