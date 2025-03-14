@@ -640,11 +640,7 @@ export default function AnalyticsIndex() {
   };
 
   const addTestArea = () => {
-    if (
-      chartDataAreas.includes("weight_min_0") ||
-      chartDataLines.includes("weight_min_0")
-    )
-      return;
+    if (loadedCharts.current.has("weight_min_0")) return;
 
     const updatedChartData: ChartDataItem[] = [...chartData];
 
@@ -674,6 +670,8 @@ export default function AnalyticsIndex() {
     ];
 
     updateLeftYAxis(updatedShownChartDataAreas);
+
+    loadedCharts.current.add("weight_min_0");
   };
 
   const removeTestArea = () => {
@@ -707,11 +705,7 @@ export default function AnalyticsIndex() {
   };
 
   const addTestLine = () => {
-    if (
-      chartDataAreas.includes("weight_min_0") ||
-      chartDataLines.includes("weight_min_0")
-    )
-      return;
+    if (loadedCharts.current.has("weight_min_0")) return;
 
     const updatedChartData: ChartDataItem[] = [...chartData];
 
@@ -742,20 +736,20 @@ export default function AnalyticsIndex() {
 
     setShownChartDataLines(updatedShownChartDataLines);
 
-    if (!chartLineUnitCategorySet.has("Weight")) {
-      const updatedChartLineUnitCategorySet = new Set(chartLineUnitCategorySet);
-      updatedChartLineUnitCategorySet.add("Weight");
-      setChartLineUnitCategorySet(updatedChartLineUnitCategorySet);
-    }
+    const updatedChartLineUnitCategorySet = new Set(
+      updatedShownChartDataLines.map((item) =>
+        chartDataUnitCategoryMap.current.get(item)
+      )
+    );
 
-    if (secondaryDataUnitCategory === undefined) {
-      setSecondaryDataUnitCategory("Weight");
-    }
+    setChartLineUnitCategorySet(updatedChartLineUnitCategorySet);
 
     const activeUnitCategory =
       chartDataUnitCategoryMap.current.get(secondaryDataKey);
 
     updateRightYAxis(updatedShownChartDataLines, activeUnitCategory);
+
+    loadedCharts.current.add("weight_min_0");
   };
 
   const removeTestLine = () => {
