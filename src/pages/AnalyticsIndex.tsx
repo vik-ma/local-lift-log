@@ -2885,7 +2885,11 @@ export default function AnalyticsIndex() {
               </Dropdown>
               <Dropdown>
                 <DropdownTrigger>
-                  <Button className="font-medium" variant="flat">
+                  <Button
+                    className="font-medium"
+                    variant="flat"
+                    isDisabled={chartDataAreas.length === 0}
+                  >
                     Load Line
                   </Button>
                 </DropdownTrigger>
