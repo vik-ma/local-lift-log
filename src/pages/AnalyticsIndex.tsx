@@ -2245,13 +2245,17 @@ export default function AnalyticsIndex() {
 
     setChartData(updatedChartData);
 
-    // TODO: CHECK IF DATAKEY IS DIETLOG/USERWEIGHT AND UPDATE ACCORDINGLY
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { [dataKey]: _, ...updatedChartConfig } = chartConfig.current;
-    chartConfig.current = updatedChartConfig;
+    const { categoryType, dataId } = getChartDataCategoryTypeAndId(dataKey);
+
+    if (categoryType !== "no-id") {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { [dataKey]: _, ...updatedChartConfig } = chartConfig.current;
+      chartConfig.current = updatedChartConfig;
+      chartDataUnitMap.current.delete(dataKey);
+      chartDataUnitCategoryMap.current.delete(dataKey);
+    }
+
     loadedCharts.current.delete(dataKey);
-    chartDataUnitMap.current.delete(dataKey);
-    chartDataUnitCategoryMap.current.delete(dataKey);
     highestCategoryValues.current.delete(dataKey);
     includesMultisetMap.current.delete(dataKey);
 
@@ -2361,6 +2365,32 @@ export default function AnalyticsIndex() {
 
       updateRightYAxis(updatedShownChartDataLines, activeUnitCategory);
     }
+  };
+
+  const getChartDataCategoryTypeAndId = (
+    dataKey: ChartDataCategory
+  ): { categoryType: string; dataId: number } => {
+    // Categories with no number ids at the end
+    if (
+      dataKey === undefined ||
+      dataKey === "calories" ||
+      dataKey === "fat" ||
+      dataKey === "carbs" ||
+      dataKey === "protein" ||
+      dataKey === "body_weight" ||
+      dataKey === "body_fat_percentage"
+    )
+      return { categoryType: "no-id", dataId: 0 };
+
+    const splitDataKey = dataKey.split("_");
+
+    if (splitDataKey[0] === "measurement")
+      return { categoryType: "measurement", dataId: Number(splitDataKey[1]) };
+
+    return {
+      categoryType: "exercise",
+      dataId: Number(splitDataKey[splitDataKey.length - 1]),
+    };
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;
