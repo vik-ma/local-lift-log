@@ -185,6 +185,11 @@ export default function AnalyticsIndex() {
   const isChartDataLoaded = useRef<boolean>(false);
   const areAllTestLinesAndAreasRendered = useRef<boolean>(false);
 
+  const allChartDataCategories = useMemo(
+    () => new Set([...chartDataAreas, ...chartDataLines]),
+    [chartDataAreas, chartDataLines]
+  );
+
   const filteredChartData: ChartDataItem[] = useMemo(() => {
     const filteredChartData: ChartDataItem[] = [];
 
@@ -611,10 +616,10 @@ export default function AnalyticsIndex() {
 
   const areAnyDietLogsLoaded = () => {
     return (
-      loadedCharts.current.has("calories") ||
-      loadedCharts.current.has("fat") ||
-      loadedCharts.current.has("carbs") ||
-      loadedCharts.current.has("protein")
+      allChartDataCategories.has("calories") ||
+      allChartDataCategories.has("fat") ||
+      allChartDataCategories.has("carbs") ||
+      allChartDataCategories.has("protein")
     );
   };
 
@@ -917,7 +922,7 @@ export default function AnalyticsIndex() {
     ]);
     const commentLabel = "Body Weight Comment";
 
-    const areCommentsAlreadyLoaded = loadedCharts.current.has(
+    const areCommentsAlreadyLoaded = allChartDataCategories.has(
       "body_fat_percentage"
     );
 
@@ -1017,7 +1022,7 @@ export default function AnalyticsIndex() {
     ]);
     const commentLabel = "Body Weight Comment";
 
-    const areCommentsAlreadyLoaded = loadedCharts.current.has("body_weight");
+    const areCommentsAlreadyLoaded = allChartDataCategories.has("body_weight");
 
     for (const userWeight of userWeights) {
       const date = FormatDateToShortString(
@@ -1563,7 +1568,7 @@ export default function AnalyticsIndex() {
 
       const areCommentsAlreadyLoaded = Object.keys(userMeasurementValues).some(
         (item) =>
-          loadedCharts.current.has(
+          allChartDataCategories.has(
             `measurement_${item}` as Exclude<ChartDataCategory, undefined>
           )
       );
@@ -2163,7 +2168,7 @@ export default function AnalyticsIndex() {
   };
 
   const removeChartStat = (dataKey: ChartDataCategory) => {
-    if (loadedCharts.current.size < 2 || dataKey === undefined) return;
+    if (allChartDataCategories.size < 2 || dataKey === undefined) return;
 
     const updatedChartData: ChartDataItem[] = chartData.map(
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -2792,13 +2797,13 @@ export default function AnalyticsIndex() {
                       className="font-medium"
                       variant="flat"
                       color="danger"
-                      isDisabled={loadedCharts.current.size < 2}
+                      isDisabled={allChartDataCategories.size < 2}
                     >
                       Remove Chart Stat
                     </Button>
                   </DropdownTrigger>
                   <DropdownMenu aria-label="Chart data lines" variant="flat">
-                    {Array.from(loadedCharts.current).map((dataKey) => (
+                    {Array.from(allChartDataCategories).map((dataKey) => (
                       <DropdownItem
                         key={dataKey as string}
                         onPress={() => removeChartStat(dataKey)}
