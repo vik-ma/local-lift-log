@@ -2259,7 +2259,11 @@ export default function AnalyticsIndex() {
     highestCategoryValues.current.delete(dataKey);
     includesMultisetMap.current.delete(dataKey);
 
-    // TODO: UPDATE loadedMeasurements
+    if (categoryType === "measurement") {
+      const updatedLoadedMeasurements = new Map(loadedMeasurements);
+      updatedLoadedMeasurements.delete(dataId);
+      setLoadedMeasurements(updatedLoadedMeasurements);
+    }
 
     const updatedChartCommentMap = new Map<string, ChartComment[]>();
 
