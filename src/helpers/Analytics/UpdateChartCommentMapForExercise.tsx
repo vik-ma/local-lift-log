@@ -13,7 +13,7 @@ type UpdateChartCommentMapForExerciseReturnType = {
 export const UpdateChartCommentMapForExercise = (
   loadExerciseOptions: Set<ChartDataExerciseCategoryBase>,
   exerciseId: number,
-  loadedCharts: Set<ChartDataCategory>,
+  allChartDataCategories: Set<ChartDataCategory>,
   chartCommentMap: Map<string, ChartComment[]>,
   loadExerciseOptionsMap: Map<ChartDataExerciseCategoryBase, string>
 ): UpdateChartCommentMapForExerciseReturnType => {
@@ -25,7 +25,7 @@ export const UpdateChartCommentMapForExercise = (
   for (const option of loadExerciseOptionsMap.keys()) {
     const chartName: ChartDataExerciseCategory = `${option}_${exerciseId}`;
 
-    if (loadedCharts.has(chartName)) {
+    if (allChartDataCategories.has(chartName)) {
       areCommentsAlreadyLoaded = true;
       existingDataKey = chartName;
       break;

@@ -1703,7 +1703,7 @@ export default function AnalyticsIndex() {
       UpdateChartCommentMapForExercise(
         loadExerciseOptions,
         exerciseId,
-        loadedCharts.current,
+        allChartDataCategories,
         chartCommentMap,
         loadExerciseOptionsMap
       );
