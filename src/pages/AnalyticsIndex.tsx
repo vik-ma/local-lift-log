@@ -674,36 +674,6 @@ export default function AnalyticsIndex() {
     loadedCharts.current.add("weight_min_0");
   };
 
-  const removeTestArea = () => {
-    // Remove the test prop from chartData
-    const updatedChartData: ChartDataItem[] = chartData.map(
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      ({ weight_min_0, ...rest }) => rest
-    );
-
-    const updatedChartDataAreas: ChartDataCategory[] = chartDataAreas.filter(
-      (item) => item !== "weight_min_0"
-    );
-
-    const updatedShownChartDataAreas: ChartDataCategory[] =
-      shownChartDataAreas.filter((item) => item !== "weight_min_0");
-
-    if (updatedShownChartDataAreas.length === 0 && chartDataAreas.length > 0) {
-      updatedShownChartDataAreas.push(chartDataAreas[0]);
-      setPrimaryDataKey(chartDataAreas[0]);
-    } else if (
-      updatedShownChartDataAreas.length === 0 &&
-      chartDataAreas.length === 0
-    ) {
-      setPrimaryDataKey(undefined);
-    }
-
-    setChartData(updatedChartData);
-    setChartDataAreas(updatedChartDataAreas);
-
-    updateLeftYAxis(updatedShownChartDataAreas);
-  };
-
   const addTestLine = () => {
     if (loadedCharts.current.has("weight_min_0")) return;
 
@@ -750,47 +720,6 @@ export default function AnalyticsIndex() {
     updateRightYAxis(updatedShownChartDataLines, activeUnitCategory);
 
     loadedCharts.current.add("weight_min_0");
-  };
-
-  const removeTestLine = () => {
-    // Remove the test prop from chartData
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const updatedChartData = chartData.map(({ weight_min_0, ...rest }) => rest);
-
-    const updatedChartDataLines = chartDataLines.filter(
-      (item) => item !== "weight_min_0"
-    );
-
-    setChartData(updatedChartData);
-    setChartDataLines(updatedChartDataLines);
-
-    highestCategoryValues.current.delete("weight_min_0");
-
-    if (updatedChartDataLines.length === 0) {
-      setSecondaryDataUnitCategory(undefined);
-      setChartLineUnitCategorySet(new Set());
-    }
-
-    hideChartLine("weight_min_0");
-  };
-
-  const hideChartLine = (chartDataCategory: ChartDataCategory) => {
-    if (chartDataCategory === undefined) return;
-
-    const updatedShownChartDataLines = shownChartDataLines.filter(
-      (item) => item !== chartDataCategory
-    );
-
-    setShownChartDataLines(updatedShownChartDataLines);
-
-    setSecondaryDataKey(updatedShownChartDataLines[0]);
-
-    const updatedSecondaryDataUnitCategory =
-      chartDataUnitCategoryMap.current.get(updatedShownChartDataLines[0]);
-
-    setSecondaryDataUnitCategory(updatedSecondaryDataUnitCategory);
-
-    updateShownChartLines(updatedShownChartDataLines);
   };
 
   const toggleTestTimePeriod = () => {
@@ -3044,23 +2973,9 @@ export default function AnalyticsIndex() {
                 <Button
                   className="font-medium"
                   variant="flat"
-                  onPress={removeTestArea}
-                >
-                  Remove Test Area
-                </Button>
-                <Button
-                  className="font-medium"
-                  variant="flat"
                   onPress={addTestLine}
                 >
                   Add Test Line
-                </Button>
-                <Button
-                  className="font-medium"
-                  variant="flat"
-                  onPress={removeTestLine}
-                >
-                  Remove Test Line
                 </Button>
                 <Button
                   className="font-medium"
@@ -3069,8 +2984,6 @@ export default function AnalyticsIndex() {
                 >
                   Toggle Test Time Period
                 </Button>
-              </div>
-              <div className="flex items-center gap-2">
                 <Button
                   className="font-medium"
                   variant="flat"
