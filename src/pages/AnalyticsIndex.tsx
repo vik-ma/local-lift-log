@@ -2240,10 +2240,14 @@ export default function AnalyticsIndex() {
   const removeChartStat = (dataKey: ChartDataCategory) => {
     if (loadedCharts.current.size < 2 || dataKey === undefined) return;
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const updatedChartData = chartData.map(({ [dataKey]: _, ...rest }) => rest);
+    const updatedChartData: ChartDataItem[] = chartData.map(
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      ({ [dataKey]: _, ...rest }) => rest
+    );
 
-    setChartData(updatedChartData);
+    const trimmedChartData = trimEmptyChartDataValues(updatedChartData);
+
+    setChartData(trimmedChartData);
 
     const { categoryType, dataId } = getChartDataCategoryTypeAndId(dataKey);
 
@@ -2395,6 +2399,49 @@ export default function AnalyticsIndex() {
       categoryType: "exercise",
       dataId: Number(splitDataKey[splitDataKey.length - 1]),
     };
+  };
+
+  const trimEmptyChartDataValues = (chartData: ChartDataItem[]) => {
+    if (chartData.length === 0) return chartData;
+
+    const hasEmptyStart = Object.keys(chartData[0]).length === 1;
+    const hasEmptyEnd =
+      Object.keys(chartData[chartData.length - 1]).length === 1;
+
+    if (!hasEmptyStart && !hasEmptyEnd) return chartData;
+
+    const trimmedChartData = [...chartData];
+
+    if (hasEmptyStart) {
+      let trimIndex = 0;
+
+      for (let i = 0; i < trimmedChartData.length; i++) {
+        if (Object.keys(trimmedChartData[i]).length > 1) {
+          trimIndex = i;
+          break;
+        }
+      }
+
+      trimmedChartData.splice(0, trimIndex);
+    }
+
+    if (hasEmptyEnd) {
+      let trimIndex = 0;
+
+      for (let i = trimmedChartData.length - 1; i > 0; i--) {
+        if (Object.keys(trimmedChartData[i]).length > 1) {
+          trimIndex = i;
+          break;
+        }
+      }
+
+      trimmedChartData.splice(
+        trimIndex + 1,
+        trimmedChartData.length - trimIndex
+      );
+    }
+
+    return trimmedChartData;
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;
