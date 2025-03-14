@@ -181,6 +181,8 @@ export default function AnalyticsIndex() {
     new Set()
   );
 
+  const areAllTestLinesAndAreasRendered = useRef<boolean>(false);
+
   const filteredChartData: ChartDataItem[] = useMemo(() => {
     const filteredChartData: ChartDataItem[] = [];
 
@@ -1933,10 +1935,7 @@ export default function AnalyticsIndex() {
   };
 
   const showAllLinesAndAreas = () => {
-    if (
-      chartDataAreas.includes("weight_min_111111") ||
-      userSettings === undefined
-    )
+    if (areAllTestLinesAndAreasRendered.current || userSettings === undefined)
       return;
 
     const updatedChartData: ChartDataItem[] = [...chartData];
@@ -2025,6 +2024,7 @@ export default function AnalyticsIndex() {
 
     loadChartAreas(areaKeys);
     loadChartLines(lineKeys, ["Weight"], "Weight");
+    areAllTestLinesAndAreasRendered.current = true;
   };
 
   const toggleAllTimePeriods = () => {
