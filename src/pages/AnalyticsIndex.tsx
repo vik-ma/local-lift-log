@@ -181,6 +181,8 @@ export default function AnalyticsIndex() {
     new Set()
   );
 
+  // Don't replace with size of loadedCharts
+  const isChartDataLoaded = useRef<boolean>(false);
   const areAllTestLinesAndAreasRendered = useRef<boolean>(false);
 
   const filteredChartData: ChartDataItem[] = useMemo(() => {
@@ -488,6 +490,7 @@ export default function AnalyticsIndex() {
     }
 
     loadedCharts.current.add("calories");
+    isChartDataLoaded.current = true;
   };
 
   const loadDietLogListMacros = async (
@@ -603,6 +606,7 @@ export default function AnalyticsIndex() {
     }
 
     loadedCharts.current.add(macroType);
+    isChartDataLoaded.current = true;
   };
 
   const areAnyDietLogsLoaded = () => {
@@ -638,10 +642,7 @@ export default function AnalyticsIndex() {
   };
 
   const addTestArea = () => {
-    if (
-      loadedCharts.current.size === 0 ||
-      loadedCharts.current.has("weight_min_0")
-    )
+    if (!isChartDataLoaded.current || loadedCharts.current.has("weight_min_0"))
       return;
 
     const updatedChartData: ChartDataItem[] = [...chartData];
@@ -677,10 +678,7 @@ export default function AnalyticsIndex() {
   };
 
   const addTestLine = () => {
-    if (
-      loadedCharts.current.size === 0 ||
-      loadedCharts.current.has("weight_min_0")
-    )
+    if (!isChartDataLoaded.current || loadedCharts.current.has("weight_min_0"))
       return;
 
     const updatedChartData: ChartDataItem[] = [...chartData];
@@ -987,6 +985,7 @@ export default function AnalyticsIndex() {
     }
 
     loadedCharts.current.add("body_weight");
+    isChartDataLoaded.current = true;
   };
 
   const loadUserWeightListBodyFat = async (loadPrimary: boolean) => {
@@ -1086,6 +1085,7 @@ export default function AnalyticsIndex() {
     }
 
     loadedCharts.current.add("body_fat_percentage");
+    isChartDataLoaded.current = true;
   };
 
   const mergeChartData = (
@@ -1666,6 +1666,7 @@ export default function AnalyticsIndex() {
 
     setLoadedMeasurements(updatedLoadedMeasurements);
     loadedCharts.current.add(measurementIdString);
+    isChartDataLoaded.current = true;
     listModal.onClose();
   };
 
@@ -1887,6 +1888,7 @@ export default function AnalyticsIndex() {
 
     await updateDefaultLoadExerciseOptions();
     setSelectedExercise(undefined);
+    isChartDataLoaded.current = true;
     loadExerciseChartModal.onClose();
   };
 
@@ -2478,7 +2480,7 @@ export default function AnalyticsIndex() {
         deleteButtonText="Reset"
       />
       <div className="flex flex-col items-center gap-2">
-        {loadedCharts.current.size > 0 && (
+        {isChartDataLoaded.current && (
           <div className="flex gap-1.5 relative">
             <ChartContainer
               config={chartConfig.current}
@@ -2931,7 +2933,7 @@ export default function AnalyticsIndex() {
                   </DropdownItem>
                 </DropdownMenu>
               </Dropdown>
-              {loadedCharts.current.size > 0 && (
+              {isChartDataLoaded.current && (
                 <>
                   <Button
                     className="font-medium"
