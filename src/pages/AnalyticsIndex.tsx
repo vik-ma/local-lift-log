@@ -1317,6 +1317,12 @@ export default function AnalyticsIndex() {
       maxDate
     );
 
+    updateLeftYAxis(shownChartDataAreas);
+    updateRightYAxis(
+      shownChartDataLines,
+      chartDataUnitCategoryMap.current.get(secondaryDataKey)
+    );
+
     filterMinAndMaxDatesModal.onClose();
   };
 
@@ -1327,6 +1333,12 @@ export default function AnalyticsIndex() {
       filterMaxDate
     );
 
+    updateLeftYAxis(shownChartDataAreas);
+    updateRightYAxis(
+      shownChartDataLines,
+      chartDataUnitCategoryMap.current.get(secondaryDataKey)
+    );
+
     setFilterMinDate(minDate);
   };
 
@@ -1335,6 +1347,12 @@ export default function AnalyticsIndex() {
       chartData,
       filterMinDate,
       maxDate
+    );
+
+    updateLeftYAxis(shownChartDataAreas);
+    updateRightYAxis(
+      shownChartDataLines,
+      chartDataUnitCategoryMap.current.get(secondaryDataKey)
     );
 
     setFilterMaxDate(maxDate);
