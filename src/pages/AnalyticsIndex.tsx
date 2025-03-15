@@ -705,6 +705,7 @@ export default function AnalyticsIndex() {
     updateLeftYAxis(updatedShownChartDataAreas);
 
     loadedCharts.current.add("weight_min_0");
+    isChartDataLoaded.current = true;
   };
 
   const addTestLine = () => {
@@ -754,6 +755,7 @@ export default function AnalyticsIndex() {
     updateRightYAxis(updatedShownChartDataLines, activeUnitCategory);
 
     loadedCharts.current.add("weight_min_0");
+    isChartDataLoaded.current = true;
   };
 
   const toggleTestTimePeriod = () => {
@@ -2067,6 +2069,7 @@ export default function AnalyticsIndex() {
     loadChartAreas(areaKeys);
     loadChartLines(lineKeys, ["Weight"], "Weight");
     areAllTestLinesAndAreasRendered.current = true;
+    isChartDataLoaded.current = true;
   };
 
   const toggleAllTimePeriods = () => {
