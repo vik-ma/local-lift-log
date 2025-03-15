@@ -1314,10 +1314,16 @@ export default function AnalyticsIndex() {
     filterMinAndMaxDatesModal.onClose();
   };
 
-  const updateMinDateFilter = (minDate: Date) => {
-    updateChartData(chartData, minDate);
+  const updateMinDateFilter = (minDate: Date | null) => {
+    updateChartData(chartData, minDate, filterMaxDate);
 
     setFilterMinDate(minDate);
+  };
+
+  const updateMaxDateFilter = (maxDate: Date | null) => {
+    updateChartData(chartData, filterMinDate, maxDate);
+
+    setFilterMaxDate(maxDate);
   };
 
   const updateRightYAxis = (
@@ -2812,7 +2818,7 @@ export default function AnalyticsIndex() {
                     radius="sm"
                     color="secondary"
                     variant="flat"
-                    onClose={() => setFilterMinDate(null)}
+                    onClose={() => updateMinDateFilter(null)}
                     onClick={(e) => e.stopPropagation()}
                   >
                     <span className="font-semibold">Min Date: </span>
@@ -2828,7 +2834,7 @@ export default function AnalyticsIndex() {
                     radius="sm"
                     color="secondary"
                     variant="flat"
-                    onClose={() => setFilterMaxDate(null)}
+                    onClose={() => updateMaxDateFilter(null)}
                     onClick={(e) => e.stopPropagation()}
                   >
                     <span className="font-semibold">Max Date: </span>
