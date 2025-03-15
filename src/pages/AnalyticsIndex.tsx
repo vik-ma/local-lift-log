@@ -1302,14 +1302,22 @@ export default function AnalyticsIndex() {
     updateRightYAxis(updatedShownChartDataLines, activeUnitCategory);
   };
 
-  const setCustomMinAndMaxDatesFilter = (
+  const updateCustomMinAndMaxDatesFilter = (
     minDate: Date | null,
     maxDate: Date | null
   ) => {
     setFilterMinDate(minDate);
     setFilterMaxDate(maxDate);
 
+    updateChartData(chartData, minDate, maxDate);
+
     filterMinAndMaxDatesModal.onClose();
+  };
+
+  const updateMinDateFilter = (minDate: Date) => {
+    updateChartData(chartData, minDate);
+
+    setFilterMinDate(minDate);
   };
 
   const updateRightYAxis = (
@@ -2406,7 +2414,7 @@ export default function AnalyticsIndex() {
         if (minDate && new Date(entry.date) < minDate) continue;
         if (maxDate && new Date(entry.date) > maxDate) continue;
 
-        filteredChartData.push(entry);
+        updatedFilteredChartData.push(entry);
       }
 
       setFilteredChartData(updatedFilteredChartData);
@@ -2506,7 +2514,7 @@ export default function AnalyticsIndex() {
         locale={userSettings.locale}
         validStartDate={chartStartDate}
         validEndDate={chartEndDate}
-        doneButtonAction={setCustomMinAndMaxDatesFilter}
+        doneButtonAction={updateCustomMinAndMaxDatesFilter}
       />
       <FilterExerciseGroupsModal
         useExerciseList={exerciseList}
@@ -2783,7 +2791,7 @@ export default function AnalyticsIndex() {
                           date < chartEndDate! && (
                             <DropdownItem
                               key={label}
-                              onPress={() => setFilterMinDate(date)}
+                              onPress={() => updateMinDateFilter(date)}
                             >
                               {label}
                             </DropdownItem>
