@@ -462,9 +462,13 @@ export default function AnalyticsIndex() {
       userSettings.locale
     );
 
-    updateChartDataAndGetFilteredHighestCategoryValues(mergedChartData);
-
     highestCategoryValues.current.set("calories", highestValue);
+
+    updateChartDataAndGetFilteredHighestCategoryValues(
+      mergedChartData,
+      filterMinDate,
+      filterMaxDate
+    );
 
     if (loadPrimary) {
       loadChartAreas(["calories"]);
@@ -577,9 +581,13 @@ export default function AnalyticsIndex() {
       userSettings.locale
     );
 
-    updateChartDataAndGetFilteredHighestCategoryValues(mergedChartData);
-
     highestCategoryValues.current.set(macroType, highestValue);
+
+    updateChartDataAndGetFilteredHighestCategoryValues(
+      mergedChartData,
+      filterMinDate,
+      filterMaxDate
+    );
 
     if (loadPrimary) {
       loadChartAreas([macroType]);
@@ -647,7 +655,11 @@ export default function AnalyticsIndex() {
     chartDataUnitMap.current.set("weight_min_0", ` ${weightUnit}`);
     chartDataUnitCategoryMap.current.set("weight_min_0", "Weight");
 
-    updateChartDataAndGetFilteredHighestCategoryValues(updatedChartData);
+    updateChartDataAndGetFilteredHighestCategoryValues(
+      updatedChartData,
+      filterMinDate,
+      filterMaxDate
+    );
     setChartDataAreas([...chartDataAreas, "weight_min_0"]);
 
     const updatedShownChartDataAreas: ChartDataCategory[] = [
@@ -684,7 +696,11 @@ export default function AnalyticsIndex() {
     chartDataUnitMap.current.set("weight_min_0", ` ${weightUnit}`);
     chartDataUnitCategoryMap.current.set("weight_min_0", "Weight");
 
-    updateChartDataAndGetFilteredHighestCategoryValues(updatedChartData);
+    updateChartDataAndGetFilteredHighestCategoryValues(
+      updatedChartData,
+      filterMinDate,
+      filterMaxDate
+    );
     setChartDataLines([...chartDataLines, "weight_min_0"]);
 
     const updatedShownChartDataLines: ChartDataCategory[] = [
@@ -959,9 +975,13 @@ export default function AnalyticsIndex() {
       userSettings.locale
     );
 
-    updateChartDataAndGetFilteredHighestCategoryValues(mergedChartData);
-
     highestCategoryValues.current.set("body_weight", highestValue);
+
+    updateChartDataAndGetFilteredHighestCategoryValues(
+      mergedChartData,
+      filterMinDate,
+      filterMaxDate
+    );
 
     if (loadPrimary) {
       loadChartAreas(["body_weight"]);
@@ -1059,9 +1079,13 @@ export default function AnalyticsIndex() {
       userSettings.locale
     );
 
-    updateChartDataAndGetFilteredHighestCategoryValues(mergedChartData);
-
     highestCategoryValues.current.set("body_fat_percentage", highestValue);
+
+    updateChartDataAndGetFilteredHighestCategoryValues(
+      mergedChartData,
+      filterMinDate,
+      filterMaxDate
+    );
 
     if (loadPrimary) {
       loadChartAreas(["body_fat_percentage"]);
@@ -1632,11 +1656,15 @@ export default function AnalyticsIndex() {
       userSettings.locale
     );
 
-    updateChartDataAndGetFilteredHighestCategoryValues(mergedChartData);
+    highestCategoryValues.current.set(measurementIdString, highestValue);
+
+    updateChartDataAndGetFilteredHighestCategoryValues(
+      mergedChartData,
+      filterMinDate,
+      filterMaxDate
+    );
 
     if (measurementType === "Caliper") {
-      highestCategoryValues.current.set(measurementIdString, highestValue);
-
       chartDataUnitCategoryMap.current.set(measurementIdString, "Caliper");
 
       const chartLabel = `${measurement.name} [Caliper]`;
@@ -1653,8 +1681,6 @@ export default function AnalyticsIndex() {
         loadChartLines([measurementIdString], ["Caliper"], "Caliper");
       }
     } else {
-      highestCategoryValues.current.set(measurementIdString, highestValue);
-
       chartDataUnitCategoryMap.current.set(
         measurementIdString,
         "Circumference"
@@ -1834,12 +1860,16 @@ export default function AnalyticsIndex() {
       userSettings.locale
     );
 
-    updateChartDataAndGetFilteredHighestCategoryValues(mergedChartData);
-
     highestCategoryValues.current = new Map([
       ...highestCategoryValues.current,
       ...updatedHighestValueMap,
     ]);
+
+    updateChartDataAndGetFilteredHighestCategoryValues(
+      mergedChartData,
+      filterMinDate,
+      filterMaxDate
+    );
 
     const primaryDataKeys: ChartDataCategory[] = [];
     const secondaryDataKeys: ChartDataCategory[] = [];
@@ -2043,7 +2073,11 @@ export default function AnalyticsIndex() {
       loadedCharts.current.add(key);
     }
 
-    updateChartDataAndGetFilteredHighestCategoryValues(updatedChartData);
+    updateChartDataAndGetFilteredHighestCategoryValues(
+      updatedChartData,
+      filterMinDate,
+      filterMaxDate
+    );
 
     loadChartAreas(areaKeys);
     loadChartLines(lineKeys, ["Weight"], "Weight");
@@ -2154,7 +2188,7 @@ export default function AnalyticsIndex() {
   };
 
   const resetChart = () => {
-    updateChartDataAndGetFilteredHighestCategoryValues([]);
+    updateChartDataAndGetFilteredHighestCategoryValues([], null, null);
     setChartDataAreas([]);
     setChartDataLines([]);
     setShownChartDataAreas([]);
@@ -2194,7 +2228,11 @@ export default function AnalyticsIndex() {
 
     const trimmedChartData = trimEmptyChartDataValues(updatedChartData);
 
-    updateChartDataAndGetFilteredHighestCategoryValues(trimmedChartData);
+    updateChartDataAndGetFilteredHighestCategoryValues(
+      trimmedChartData,
+      filterMinDate,
+      filterMaxDate
+    );
 
     const { categoryType, dataId } = getChartDataCategoryTypeAndId(dataKey);
 
@@ -2393,8 +2431,8 @@ export default function AnalyticsIndex() {
 
   const updateChartDataAndGetFilteredHighestCategoryValues = (
     updatedChartData: ChartDataItem[],
-    minDate?: Date | null,
-    maxDate?: Date | null
+    minDate: Date | null,
+    maxDate: Date | null
   ) => {
     setChartData(updatedChartData);
 
@@ -2404,7 +2442,10 @@ export default function AnalyticsIndex() {
       return highestCategoryValues.current;
     } else {
       const updatedFilteredChartData: ChartDataItem[] = [];
-      const filteredHighestCategoryValues = new Map<ChartDataCategory, number>();
+      const filteredHighestCategoryValues = new Map<
+        ChartDataCategory,
+        number
+      >();
 
       for (const entry of chartData) {
         if (minDate && new Date(entry.date) < minDate) continue;
