@@ -2390,17 +2390,21 @@ export default function AnalyticsIndex() {
     return trimmedChartData;
   };
 
-  const updateChartData = (updatedChartData: ChartDataItem[]) => {
+  const updateChartData = (
+    updatedChartData: ChartDataItem[],
+    minDate?: Date | null,
+    maxDate?: Date | null
+  ) => {
     setChartData(updatedChartData);
 
-    if (filterMinDate === null && filterMaxDate === null) {
+    if (!minDate && !maxDate) {
       setFilteredChartData(updatedChartData);
     } else {
       const updatedFilteredChartData: ChartDataItem[] = [];
 
       for (const entry of chartData) {
-        if (filterMinDate && new Date(entry.date) < filterMinDate) continue;
-        if (filterMaxDate && new Date(entry.date) > filterMaxDate) continue;
+        if (minDate && new Date(entry.date) < minDate) continue;
+        if (maxDate && new Date(entry.date) > maxDate) continue;
 
         filteredChartData.push(entry);
       }
