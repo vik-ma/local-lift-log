@@ -215,6 +215,31 @@ export default function AnalyticsIndex() {
     return filteredChartData;
   }, [chartData, chartDataAreas, chartDataLines, filterMinDate, filterMaxDate]);
 
+  const filteredHighestCategoryValues = useMemo(() => {
+    if (filterMinDate === null && filterMaxDate === null)
+      return highestCategoryValues.current;
+
+    const filteredHighestValues = new Map<ChartDataCategory, number>();
+
+    filteredChartData.forEach((entry) => {
+      Object.keys(entry).forEach((key) => {
+        if (key !== "date") {
+          const category = key as Exclude<ChartDataCategory, undefined>;
+          const value = entry[category] ?? 0;
+
+          if (
+            !filteredHighestValues.has(category) ||
+            value > filteredHighestValues.get(category)!
+          ) {
+            filteredHighestValues.set(category, value);
+          }
+        }
+      });
+    });
+
+    return filteredHighestValues;
+  }, [filterMinDate, filterMaxDate, filteredChartData]);
+
   const listModal = useDisclosure();
   const loadExerciseChartModal = useDisclosure();
   const filterMinAndMaxDatesModal = useDisclosure();
