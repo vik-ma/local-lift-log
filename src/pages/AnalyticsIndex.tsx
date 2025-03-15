@@ -170,6 +170,9 @@ export default function AnalyticsIndex() {
   const highestCategoryValues = useRef<Map<ChartDataCategory, number>>(
     new Map()
   );
+  const filteredHighestCategoryValues = useRef<Map<ChartDataCategory, number>>(
+    new Map()
+  );
 
   const dateMap = useChartDateMap();
 
@@ -2213,6 +2216,7 @@ export default function AnalyticsIndex() {
     chartDataUnitMap.current = new Map(defaultChartDataUnitMap);
     chartDataUnitCategoryMap.current = new Map(defaultChartDataUnitCategoryMap);
     highestCategoryValues.current = new Map();
+    filteredHighestCategoryValues.current = new Map();
     includesMultisetMap.current = new Map();
 
     deleteModal.onClose();
@@ -2246,6 +2250,7 @@ export default function AnalyticsIndex() {
 
     loadedCharts.current.delete(dataKey);
     highestCategoryValues.current.delete(dataKey);
+    filteredHighestCategoryValues.current.delete(dataKey);
     includesMultisetMap.current.delete(dataKey);
 
     if (categoryType === "measurement") {
