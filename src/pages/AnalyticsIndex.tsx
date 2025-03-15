@@ -467,7 +467,7 @@ export default function AnalyticsIndex() {
 
     highestCategoryValues.current.set("calories", highestValue);
 
-    updateChartDataAndGetFilteredHighestCategoryValues(
+    updateChartDataAndFilteredHighestCategoryValues(
       mergedChartData,
       filterMinDate,
       filterMaxDate
@@ -586,7 +586,7 @@ export default function AnalyticsIndex() {
 
     highestCategoryValues.current.set(macroType, highestValue);
 
-    updateChartDataAndGetFilteredHighestCategoryValues(
+    updateChartDataAndFilteredHighestCategoryValues(
       mergedChartData,
       filterMinDate,
       filterMaxDate
@@ -658,7 +658,7 @@ export default function AnalyticsIndex() {
     chartDataUnitMap.current.set("weight_min_0", ` ${weightUnit}`);
     chartDataUnitCategoryMap.current.set("weight_min_0", "Weight");
 
-    updateChartDataAndGetFilteredHighestCategoryValues(
+    updateChartDataAndFilteredHighestCategoryValues(
       updatedChartData,
       filterMinDate,
       filterMaxDate
@@ -699,7 +699,7 @@ export default function AnalyticsIndex() {
     chartDataUnitMap.current.set("weight_min_0", ` ${weightUnit}`);
     chartDataUnitCategoryMap.current.set("weight_min_0", "Weight");
 
-    updateChartDataAndGetFilteredHighestCategoryValues(
+    updateChartDataAndFilteredHighestCategoryValues(
       updatedChartData,
       filterMinDate,
       filterMaxDate
@@ -980,7 +980,7 @@ export default function AnalyticsIndex() {
 
     highestCategoryValues.current.set("body_weight", highestValue);
 
-    updateChartDataAndGetFilteredHighestCategoryValues(
+    updateChartDataAndFilteredHighestCategoryValues(
       mergedChartData,
       filterMinDate,
       filterMaxDate
@@ -1084,7 +1084,7 @@ export default function AnalyticsIndex() {
 
     highestCategoryValues.current.set("body_fat_percentage", highestValue);
 
-    updateChartDataAndGetFilteredHighestCategoryValues(
+    updateChartDataAndFilteredHighestCategoryValues(
       mergedChartData,
       filterMinDate,
       filterMaxDate
@@ -1311,7 +1311,7 @@ export default function AnalyticsIndex() {
     setFilterMinDate(minDate);
     setFilterMaxDate(maxDate);
 
-    updateChartDataAndGetFilteredHighestCategoryValues(
+    updateChartDataAndFilteredHighestCategoryValues(
       chartData,
       minDate,
       maxDate
@@ -1321,7 +1321,7 @@ export default function AnalyticsIndex() {
   };
 
   const updateMinDateFilter = (minDate: Date | null) => {
-    updateChartDataAndGetFilteredHighestCategoryValues(
+    updateChartDataAndFilteredHighestCategoryValues(
       chartData,
       minDate,
       filterMaxDate
@@ -1331,7 +1331,7 @@ export default function AnalyticsIndex() {
   };
 
   const updateMaxDateFilter = (maxDate: Date | null) => {
-    updateChartDataAndGetFilteredHighestCategoryValues(
+    updateChartDataAndFilteredHighestCategoryValues(
       chartData,
       filterMinDate,
       maxDate
@@ -1661,7 +1661,7 @@ export default function AnalyticsIndex() {
 
     highestCategoryValues.current.set(measurementIdString, highestValue);
 
-    updateChartDataAndGetFilteredHighestCategoryValues(
+    updateChartDataAndFilteredHighestCategoryValues(
       mergedChartData,
       filterMinDate,
       filterMaxDate
@@ -1868,7 +1868,7 @@ export default function AnalyticsIndex() {
       ...updatedHighestValueMap,
     ]);
 
-    updateChartDataAndGetFilteredHighestCategoryValues(
+    updateChartDataAndFilteredHighestCategoryValues(
       mergedChartData,
       filterMinDate,
       filterMaxDate
@@ -2076,7 +2076,7 @@ export default function AnalyticsIndex() {
       loadedCharts.current.add(key);
     }
 
-    updateChartDataAndGetFilteredHighestCategoryValues(
+    updateChartDataAndFilteredHighestCategoryValues(
       updatedChartData,
       filterMinDate,
       filterMaxDate
@@ -2191,7 +2191,7 @@ export default function AnalyticsIndex() {
   };
 
   const resetChart = () => {
-    updateChartDataAndGetFilteredHighestCategoryValues([], null, null);
+    updateChartDataAndFilteredHighestCategoryValues([], null, null);
     setChartDataAreas([]);
     setChartDataLines([]);
     setShownChartDataAreas([]);
@@ -2232,7 +2232,7 @@ export default function AnalyticsIndex() {
 
     const trimmedChartData = trimEmptyChartDataValues(updatedChartData);
 
-    updateChartDataAndGetFilteredHighestCategoryValues(
+    updateChartDataAndFilteredHighestCategoryValues(
       trimmedChartData,
       filterMinDate,
       filterMaxDate
@@ -2434,7 +2434,7 @@ export default function AnalyticsIndex() {
     return trimmedChartData;
   };
 
-  const updateChartDataAndGetFilteredHighestCategoryValues = (
+  const updateChartDataAndFilteredHighestCategoryValues = (
     updatedChartData: ChartDataItem[],
     minDate: Date | null,
     maxDate: Date | null
@@ -2444,10 +2444,10 @@ export default function AnalyticsIndex() {
     if (!minDate && !maxDate) {
       setFilteredChartData(updatedChartData);
 
-      return highestCategoryValues.current;
+      filteredHighestCategoryValues.current = highestCategoryValues.current;
     } else {
       const updatedFilteredChartData: ChartDataItem[] = [];
-      const filteredHighestCategoryValues = new Map<
+      const updatedFilteredHighestCategoryValues = new Map<
         ChartDataCategory,
         number
       >();
@@ -2464,10 +2464,10 @@ export default function AnalyticsIndex() {
             const value = entry[category] ?? 0;
 
             if (
-              !filteredHighestCategoryValues.has(category) ||
-              value > filteredHighestCategoryValues.get(category)!
+              !updatedFilteredHighestCategoryValues.has(category) ||
+              value > updatedFilteredHighestCategoryValues.get(category)!
             ) {
-              filteredHighestCategoryValues.set(category, value);
+              updatedFilteredHighestCategoryValues.set(category, value);
             }
           }
         });
@@ -2475,7 +2475,8 @@ export default function AnalyticsIndex() {
 
       setFilteredChartData(updatedFilteredChartData);
 
-      return filteredHighestCategoryValues;
+      filteredHighestCategoryValues.current =
+        updatedFilteredHighestCategoryValues;
     }
   };
 
