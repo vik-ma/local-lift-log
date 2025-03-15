@@ -1342,8 +1342,7 @@ export default function AnalyticsIndex() {
 
   const updateRightYAxis = (
     chartLines: ChartDataCategory[],
-    activeUnitCategory: ChartDataUnitCategory,
-    filteredHighestCategoryValues?: Map<ChartDataCategory, number>
+    activeUnitCategory: ChartDataUnitCategory
   ) => {
     if (chartLines.length === 0) {
       setSecondaryDataKey(undefined);
@@ -1369,10 +1368,7 @@ export default function AnalyticsIndex() {
     let highestCategory: ChartDataCategory = undefined;
     let highestValue = 0;
 
-    const highestCategoryValueMap =
-      filteredHighestCategoryValues ?? highestCategoryValues.current;
-
-    for (const [key, value] of highestCategoryValueMap) {
+    for (const [key, value] of filteredHighestCategoryValues.current) {
       if (
         !chartLineSet.has(key) ||
         chartDataUnitCategoryMap.current.get(key) !== unitCategory
@@ -1389,10 +1385,7 @@ export default function AnalyticsIndex() {
     setSecondaryDataUnitCategory(unitCategory);
   };
 
-  const updateLeftYAxis = (
-    chartAreas: ChartDataCategory[],
-    filteredHighestCategoryValues?: Map<ChartDataCategory, number>
-  ) => {
+  const updateLeftYAxis = (chartAreas: ChartDataCategory[]) => {
     if (chartAreas.length === 0) return;
 
     if (chartAreas.length === 1) {
@@ -1407,10 +1400,7 @@ export default function AnalyticsIndex() {
 
     const chartAreasValueMap = new Map<ChartDataCategory, number>();
 
-    const highestCategoryValueMap =
-      filteredHighestCategoryValues ?? highestCategoryValues.current;
-
-    for (const [key, value] of highestCategoryValueMap) {
+    for (const [key, value] of filteredHighestCategoryValues.current) {
       if (
         !chartAreaSet.has(key) ||
         chartDataUnitCategoryMap.current.get(key) !== unitCategory
