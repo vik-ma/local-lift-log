@@ -246,6 +246,32 @@ export default function AnalyticsIndex() {
     new Map()
   );
 
+  const { weightCharts, distanceCharts, paceCharts } = useMemo(() => {
+    const weightCharts: ChartDataCategory[] = [];
+    const distanceCharts: ChartDataCategory[] = [];
+    const paceCharts: ChartDataCategory[] = [];
+
+    for (const chart of allChartDataCategories) {
+      const unitCategory = chartDataUnitCategoryMap.current.get(chart);
+
+      switch (unitCategory) {
+        case "Weight":
+          weightCharts.push(chart);
+          break;
+        case "Distance":
+          distanceCharts.push(chart);
+          break;
+        case "Pace":
+          paceCharts.push(chart);
+          break;
+        default:
+          break;
+      }
+    }
+
+    return { weightCharts, distanceCharts, paceCharts };
+  }, [allChartDataCategories]);
+
   const updateLoadExerciseOptions = (loadExerciseOptionsString: string) => {
     const disabledKeys = new Set<ChartDataExerciseCategoryBase>();
 
