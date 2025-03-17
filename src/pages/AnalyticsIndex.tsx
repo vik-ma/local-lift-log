@@ -248,22 +248,22 @@ export default function AnalyticsIndex() {
   );
 
   const { weightCharts, distanceCharts, paceCharts } = useMemo(() => {
-    const weightCharts: ChartDataCategory[] = [];
-    const distanceCharts: ChartDataCategory[] = [];
-    const paceCharts: ChartDataCategory[] = [];
+    const weightCharts = new Set<ChartDataCategory>();
+    const distanceCharts = new Set<ChartDataCategory>();
+    const paceCharts = new Set<ChartDataCategory>();
 
     for (const chart of allChartDataCategories) {
       const unitCategory = chartDataUnitCategoryMap.current.get(chart);
 
       switch (unitCategory) {
         case "Weight":
-          weightCharts.push(chart);
+          weightCharts.add(chart);
           break;
         case "Distance":
-          distanceCharts.push(chart);
+          distanceCharts.add(chart);
           break;
         case "Pace":
-          paceCharts.push(chart);
+          paceCharts.add(chart);
           break;
         default:
           break;
@@ -2519,7 +2519,9 @@ export default function AnalyticsIndex() {
     newUnit: string,
     unitCategory: "Weight" | "Distance" | "Pace"
   ) => {
-    console.log(newUnit, unitCategory);
+    if (unitCategory === "Weight") {
+      if (newUnit === weightUnit) return;
+    }
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;
@@ -3108,7 +3110,7 @@ export default function AnalyticsIndex() {
                 </Button>
               </>
             )}
-            {weightCharts.length > 0 && (
+            {weightCharts.size > 0 && (
               <div className="pb-px">
                 <WeightUnitDropdown
                   value={weightUnit}
