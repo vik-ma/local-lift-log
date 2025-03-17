@@ -28,6 +28,7 @@ import {
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   DeleteModal,
+  DistanceUnitDropdown,
   ExerciseModalList,
   FilterExerciseGroupsModal,
   FilterMinAndMaxDatesModal,
@@ -53,6 +54,7 @@ import {
 } from "../typings";
 import {
   ConvertDateToYmdString,
+  ConvertDistanceValue,
   ConvertISODateStringToYmdDateString,
   ConvertMeasurementValue,
   ConvertNumberToTwoDecimals,
@@ -2533,6 +2535,19 @@ export default function AnalyticsIndex() {
 
       setWeightUnit(newUnit);
     }
+
+    if (unitCategory === "Distance") {
+      if (newUnit === distanceUnit) return;
+
+      changeUnitInChartData(
+        newUnit,
+        distanceUnit,
+        distanceCharts,
+        ConvertDistanceValue
+      );
+
+      setDistanceUnit(newUnit);
+    }
   };
 
   const changeUnitInChartData = (
@@ -3174,6 +3189,18 @@ export default function AnalyticsIndex() {
                   changeUnitInChart={handleChangeUnit}
                   customLabel="Weight Unit"
                   customWidthString="w-[5rem]"
+                  isSmall
+                />
+              </div>
+            )}
+            {distanceCharts.size > 0 && (
+              <div className="pb-px">
+                <DistanceUnitDropdown
+                  value={distanceUnit}
+                  targetType="chart"
+                  changeUnitInChart={handleChangeUnit}
+                  customLabel="Distance Unit"
+                  customWidthString="w-[5.5rem]"
                   isSmall
                 />
               </div>
