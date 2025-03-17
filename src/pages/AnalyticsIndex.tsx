@@ -2517,52 +2517,67 @@ export default function AnalyticsIndex() {
     }
   };
 
-  const changeUnit = (
+  const handleChangeUnit = (
     newUnit: string,
     unitCategory: "Weight" | "Distance" | "Pace"
   ) => {
     if (unitCategory === "Weight") {
       if (newUnit === weightUnit) return;
 
-      const updatedChartData: ChartDataItem[] = [];
-
-      for (const chartDataItem of chartData) {
-        const chartNames: ChartDataCategory[] = Object.keys(
-          chartDataItem
-        ).filter((key) => key !== "date") as ChartDataCategory[];
-
-        const newChartDataItem: ChartDataItem = { ...chartDataItem };
-
-        for (const chart of chartNames) {
-          if (chart === undefined) continue;
-
-          if (weightCharts.has(chart)) {
-            const oldValue = newChartDataItem[chart] ?? 0;
-
-            const updatedWeight = ConvertWeightValue(
-              oldValue,
-              weightUnit,
-              newUnit
-            );
-
-            newChartDataItem[chart] = ConvertNumberToTwoDecimals(updatedWeight);
-          }
-        }
-
-        updatedChartData.push(newChartDataItem);
-      }
-
-      for (const chart of weightCharts) {
-        chartDataUnitMap.current.set(chart, ` ${newUnit}`);
-      }
-
-      updateChartDataAndFilteredHighestCategoryValues(
-        updatedChartData,
-        filterMinDate,
-        filterMaxDate
+      changeUnitInChartData(
+        newUnit,
+        weightUnit,
+        weightCharts,
+        ConvertWeightValue
       );
+
       setWeightUnit(newUnit);
     }
+  };
+
+  const changeUnitInChartData = (
+    newUnit: string,
+    oldUnit: string,
+    categoryChart: Set<Exclude<ChartDataCategory, undefined>>,
+    conversionFunction: (
+      value: number,
+      currentUnit: string,
+      newUnit: string
+    ) => number
+  ) => {
+    const updatedChartData: ChartDataItem[] = [];
+
+    for (const chartDataItem of chartData) {
+      const chartNames: ChartDataCategory[] = Object.keys(chartDataItem).filter(
+        (key) => key !== "date"
+      ) as ChartDataCategory[];
+
+      const newChartDataItem: ChartDataItem = { ...chartDataItem };
+
+      for (const chart of chartNames) {
+        if (chart === undefined) continue;
+
+        if (categoryChart.has(chart)) {
+          const oldValue = newChartDataItem[chart] ?? 0;
+
+          const updatedValue = conversionFunction(oldValue, oldUnit, newUnit);
+
+          newChartDataItem[chart] = ConvertNumberToTwoDecimals(updatedValue);
+        }
+      }
+
+      updatedChartData.push(newChartDataItem);
+    }
+
+    for (const chart of categoryChart) {
+      chartDataUnitMap.current.set(chart, ` ${newUnit}`);
+    }
+
+    updateChartDataAndFilteredHighestCategoryValues(
+      updatedChartData,
+      filterMinDate,
+      filterMaxDate
+    );
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;
@@ -3156,7 +3171,7 @@ export default function AnalyticsIndex() {
                 <WeightUnitDropdown
                   value={weightUnit}
                   targetType="chart"
-                  changeUnitInChart={changeUnit}
+                  changeUnitInChart={handleChangeUnit}
                   customLabel="Weight Unit"
                   customWidthString="w-[5rem]"
                   isSmall
