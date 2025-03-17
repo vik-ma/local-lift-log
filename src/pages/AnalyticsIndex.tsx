@@ -35,6 +35,7 @@ import {
   LoadExerciseChartModal,
   LoadingSpinner,
   MeasurementModalList,
+  PaceUnitDropdown,
   TimePeriodModalList,
   WeightUnitDropdown,
 } from "../components";
@@ -58,6 +59,7 @@ import {
   ConvertISODateStringToYmdDateString,
   ConvertMeasurementValue,
   ConvertNumberToTwoDecimals,
+  ConvertPaceValue,
   ConvertWeightValue,
   CreateLoadExerciseOptionsList,
   CreateShownPropertiesSet,
@@ -2548,6 +2550,19 @@ export default function AnalyticsIndex() {
 
       setDistanceUnit(newUnit);
     }
+
+    if (unitCategory === "Pace") {
+      if (newUnit === paceUnit) return;
+
+      changeUnitInChartData(
+        newUnit,
+        paceUnit,
+        paceCharts,
+        ConvertPaceValue
+      );
+
+      setPaceUnit(newUnit)
+    }
   };
 
   const changeUnitInChartData = (
@@ -3202,6 +3217,15 @@ export default function AnalyticsIndex() {
                   customLabel="Distance Unit"
                   customWidthString="w-[5.5rem]"
                   isSmall
+                />
+              </div>
+            )}
+            {paceCharts.size > 0 && (
+              <div className="pb-px">
+                <PaceUnitDropdown
+                  value={paceUnit}
+                  targetType="chart"
+                  changeUnitInChart={handleChangeUnit}
                 />
               </div>
             )}
