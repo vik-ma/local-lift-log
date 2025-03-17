@@ -201,11 +201,6 @@ export type HTMLSelectElementChange = (
 
 export type UnitDropdownProps = {
   value: string;
-  setSet?: SetWorkoutSetAction;
-  setUserSettings?: HTMLSelectElementChange;
-  setState?: React.Dispatch<React.SetStateAction<string>>;
-  setEquipmentWeight?: React.Dispatch<React.SetStateAction<EquipmentWeight>>;
-  setDistance?: React.Dispatch<React.SetStateAction<Distance>>;
   targetType:
     | "set"
     | "settings"
@@ -213,13 +208,23 @@ export type UnitDropdownProps = {
     | "equipment"
     | "distance"
     | "set-user-weight-unit"
-    | "plate-collection";
+    | "plate-collection"
+    | "chart";
+  setSet?: SetWorkoutSetAction;
+  setUserSettings?: HTMLSelectElementChange;
+  setState?: React.Dispatch<React.SetStateAction<string>>;
+  setEquipmentWeight?: React.Dispatch<React.SetStateAction<EquipmentWeight>>;
+  setDistance?: React.Dispatch<React.SetStateAction<Distance>>;
   showLabel?: boolean;
   isSmall?: boolean;
   isSetEdited?: boolean;
   setIsSetEdited?: React.Dispatch<React.SetStateAction<boolean>>;
   setPlateCollection?: React.Dispatch<React.SetStateAction<PlateCollection>>;
   switchWeightUnit?: () => void;
+  changeWeightUnitInChart?: (
+    newUnit: string,
+    unitCategory: "Weight" | "Distance" | "Pace"
+  ) => void;
   showBigLabel?: boolean;
 };
 

@@ -35,6 +35,7 @@ import {
   LoadingSpinner,
   MeasurementModalList,
   TimePeriodModalList,
+  WeightUnitDropdown,
 } from "../components";
 import {
   ChartComment,
@@ -2514,6 +2515,13 @@ export default function AnalyticsIndex() {
     }
   };
 
+  const changeWeightUnit = (
+    newUnit: string,
+    unitCategory: "Weight" | "Distance" | "Pace"
+  ) => {
+    console.log(newUnit, unitCategory);
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -3100,6 +3108,13 @@ export default function AnalyticsIndex() {
                     Reset Chart
                   </Button>
                 </>
+              )}
+              {weightCharts.length > 0 && (
+                <WeightUnitDropdown
+                  value={weightUnit}
+                  targetType="chart"
+                  changeWeightUnitInChart={changeWeightUnit}
+                />
               )}
             </div>
           </div>
