@@ -17,6 +17,7 @@ export const WeightUnitDropdown = ({
   switchWeightUnit,
   showBigLabel,
   changeWeightUnitInChart,
+  customLabel,
 }: UnitDropdownProps) => {
   const validWeightUnits = useValidWeightUnits();
 
@@ -62,13 +63,18 @@ export const WeightUnitDropdown = ({
     }
   };
 
+  const showCustomLabel = customLabel !== undefined;
+
   return (
     <div className="flex flex-col gap-0.5">
       {showBigLabel && <h3 className="text-base font-semibold px-0.5">Unit</h3>}
       <Select
         aria-label="Weight Unit Dropdown List"
-        label={showLabel ? "Unit" : null}
-        className={showLabel ? "w-[6rem]" : "w-[4.5rem]"}
+        label={showCustomLabel ? customLabel : showLabel ? "Unit" : null}
+        labelPlacement={showCustomLabel ? "outside" : "inside"}
+        classNames={{
+          mainWrapper: showLabel ? "w-[5rem]" : "w-[4.5rem]",
+        }}
         size={isSmall ? "sm" : "md"}
         variant="faded"
         selectedKeys={[value]}
