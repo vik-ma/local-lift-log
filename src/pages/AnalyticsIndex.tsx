@@ -2521,6 +2521,41 @@ export default function AnalyticsIndex() {
   ) => {
     if (unitCategory === "Weight") {
       if (newUnit === weightUnit) return;
+
+      const updatedChartData: ChartDataItem[] = [];
+
+      for (const chartDataItem of chartData) {
+        const chartNames: ChartDataCategory[] = Object.keys(
+          chartDataItem
+        ).filter((key) => key !== "date") as ChartDataCategory[];
+
+        const newChartDataItem: ChartDataItem = { ...chartDataItem };
+
+        for (const chart of chartNames) {
+          if (weightCharts.has(chart)) {
+            if (chart === undefined) continue;
+
+            const oldValue = newChartDataItem[chart] ?? 0;
+
+            const updatedWeight = ConvertWeightValue(
+              oldValue,
+              weightUnit,
+              newUnit
+            );
+
+            newChartDataItem[chart] = ConvertNumberToTwoDecimals(updatedWeight);
+          }
+        }
+
+        updatedChartData.push(newChartDataItem);
+      }
+
+      updateChartDataAndFilteredHighestCategoryValues(
+        updatedChartData,
+        filterMinDate,
+        filterMaxDate
+      );
+      setWeightUnit(newUnit);
     }
   };
 
