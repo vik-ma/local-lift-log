@@ -2515,7 +2515,7 @@ export default function AnalyticsIndex() {
     }
   };
 
-  const changeWeightUnit = (
+  const changeUnit = (
     newUnit: string,
     unitCategory: "Weight" | "Distance" | "Pace"
   ) => {
@@ -3113,7 +3113,7 @@ export default function AnalyticsIndex() {
                 <WeightUnitDropdown
                   value={weightUnit}
                   targetType="chart"
-                  changeWeightUnitInChart={changeWeightUnit}
+                  changeUnitInChart={changeUnit}
                   customLabel="Weight Unit"
                   customWidthString="w-[5rem]"
                   isSmall

@@ -222,7 +222,7 @@ export type UnitDropdownProps = {
   setPlateCollection?: React.Dispatch<React.SetStateAction<PlateCollection>>;
   switchWeightUnit?: () => void;
   showBigLabel?: boolean;
-  changeWeightUnitInChart?: (
+  changeUnitInChart?: (
     newUnit: string,
     unitCategory: "Weight" | "Distance" | "Pace"
   ) => void;

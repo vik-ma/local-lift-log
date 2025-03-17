@@ -16,7 +16,7 @@ export const WeightUnitDropdown = ({
   setPlateCollection,
   switchWeightUnit,
   showBigLabel,
-  changeWeightUnitInChart,
+  changeUnitInChart,
   customLabel,
   customWidthString,
 }: UnitDropdownProps) => {
@@ -59,8 +59,8 @@ export const WeightUnitDropdown = ({
       if (switchWeightUnit !== undefined) switchWeightUnit();
     }
 
-    if (targetType === "chart" && changeWeightUnitInChart !== undefined) {
-      changeWeightUnitInChart(e.target.value, "Weight");
+    if (targetType === "chart" && changeUnitInChart !== undefined) {
+      changeUnitInChart(e.target.value, "Weight");
     }
   };
 
