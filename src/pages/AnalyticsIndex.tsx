@@ -2966,157 +2966,160 @@ export default function AnalyticsIndex() {
           </div>
         )}
         <div className="flex flex-col gap-2">
-          <div className="flex justify-between w-[960px]">
-            <div className="flex items-center gap-2">
-              <Button
-                className="font-medium"
+          <div className="flex items-end gap-2 w-[960px]">
+            <Button
+              className="font-medium"
+              variant="flat"
+              color="secondary"
+              onPress={() => handleOpenListModal("exercise-list")}
+            >
+              Select Exercise
+            </Button>
+            <Dropdown>
+              <DropdownTrigger>
+                <Button className="font-medium" variant="flat">
+                  Load Area
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu
+                aria-label="Load category as area options"
                 variant="flat"
-                color="secondary"
-                onPress={() => handleOpenListModal("exercise-list")}
+                disabledKeys={loadedCharts.current}
               >
-                Select Exercise
-              </Button>
-              <Dropdown>
-                <DropdownTrigger>
-                  <Button className="font-medium" variant="flat">
-                    Load Area
-                  </Button>
-                </DropdownTrigger>
-                <DropdownMenu
-                  aria-label="Load category as area options"
-                  variant="flat"
-                  disabledKeys={loadedCharts.current}
+                <DropdownItem
+                  key="measurement"
+                  onPress={() => handleLoadMeasurementClick(true)}
                 >
-                  <DropdownItem
-                    key="measurement"
-                    onPress={() => handleLoadMeasurementClick(true)}
-                  >
-                    Measurement
-                  </DropdownItem>
-                  <DropdownItem
-                    key="user-weights-weight"
-                    onPress={() => loadUserWeightListWeights(weightUnit, true)}
-                  >
-                    Body Weights
-                  </DropdownItem>
-                  <DropdownItem
-                    key="user-weights-body-fat"
-                    onPress={() => loadUserWeightListBodyFat(true)}
-                  >
-                    Body Fat Percentages
-                  </DropdownItem>
-                  <DropdownItem
-                    key="diet-logs-calories"
-                    onPress={() => loadDietLogListCalories(true)}
-                  >
-                    Calories
-                  </DropdownItem>
-                  <DropdownItem
-                    key="fat"
-                    onPress={() => loadDietLogListMacros(false, "fat")}
-                  >
-                    Fat
-                  </DropdownItem>
-                  <DropdownItem
-                    key="carbs"
-                    onPress={() => loadDietLogListMacros(false, "carbs")}
-                  >
-                    Carbs
-                  </DropdownItem>
-                  <DropdownItem
-                    key="protein"
-                    onPress={() => loadDietLogListMacros(false, "protein")}
-                  >
-                    Protein
-                  </DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-              <Dropdown>
-                <DropdownTrigger>
-                  <Button
-                    className="font-medium"
-                    variant="flat"
-                    isDisabled={chartDataAreas.length === 0}
-                  >
-                    Load Line
-                  </Button>
-                </DropdownTrigger>
-                <DropdownMenu
-                  aria-label="Load category as line options"
-                  variant="flat"
-                  disabledKeys={loadedCharts.current}
+                  Measurement
+                </DropdownItem>
+                <DropdownItem
+                  key="user-weights-weight"
+                  onPress={() => loadUserWeightListWeights(weightUnit, true)}
                 >
-                  <DropdownItem
-                    key="measurement"
-                    onPress={() => handleLoadMeasurementClick(false)}
-                  >
-                    Measurement
-                  </DropdownItem>
-                  <DropdownItem
-                    key="user-weights-weight"
-                    onPress={() => loadUserWeightListWeights(weightUnit, false)}
-                  >
-                    Body Weights
-                  </DropdownItem>
-                  <DropdownItem
-                    key="user-weights-body-fat"
-                    onPress={() => loadUserWeightListBodyFat(false)}
-                  >
-                    Body Fat Percentages
-                  </DropdownItem>
-                  <DropdownItem
-                    key="diet-logs-calories"
-                    onPress={() => loadDietLogListCalories(false)}
-                  >
-                    Calories
-                  </DropdownItem>
-                  <DropdownItem
-                    key="fat"
-                    onPress={() => loadDietLogListMacros(false, "fat")}
-                  >
-                    Fat
-                  </DropdownItem>
-                  <DropdownItem
-                    key="carbs"
-                    onPress={() => loadDietLogListMacros(false, "carbs")}
-                  >
-                    Carbs
-                  </DropdownItem>
-                  <DropdownItem
-                    key="protein"
-                    onPress={() => loadDietLogListMacros(false, "protein")}
-                  >
-                    Protein
-                  </DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-              {isChartDataLoaded.current && (
-                <>
-                  <Button
-                    className="font-medium"
-                    variant="flat"
-                    onPress={() => handleOpenListModal("time-period-list")}
-                  >
-                    Select Time Period
-                  </Button>
-                  <Button
-                    className="font-medium"
-                    variant="flat"
-                    color="danger"
-                    onPress={() => deleteModal.onOpen()}
-                  >
-                    Reset Chart
-                  </Button>
-                </>
-              )}
-              {weightCharts.length > 0 && (
+                  Body Weights
+                </DropdownItem>
+                <DropdownItem
+                  key="user-weights-body-fat"
+                  onPress={() => loadUserWeightListBodyFat(true)}
+                >
+                  Body Fat Percentages
+                </DropdownItem>
+                <DropdownItem
+                  key="diet-logs-calories"
+                  onPress={() => loadDietLogListCalories(true)}
+                >
+                  Calories
+                </DropdownItem>
+                <DropdownItem
+                  key="fat"
+                  onPress={() => loadDietLogListMacros(false, "fat")}
+                >
+                  Fat
+                </DropdownItem>
+                <DropdownItem
+                  key="carbs"
+                  onPress={() => loadDietLogListMacros(false, "carbs")}
+                >
+                  Carbs
+                </DropdownItem>
+                <DropdownItem
+                  key="protein"
+                  onPress={() => loadDietLogListMacros(false, "protein")}
+                >
+                  Protein
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+            <Dropdown>
+              <DropdownTrigger>
+                <Button
+                  className="font-medium"
+                  variant="flat"
+                  isDisabled={chartDataAreas.length === 0}
+                >
+                  Load Line
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu
+                aria-label="Load category as line options"
+                variant="flat"
+                disabledKeys={loadedCharts.current}
+              >
+                <DropdownItem
+                  key="measurement"
+                  onPress={() => handleLoadMeasurementClick(false)}
+                >
+                  Measurement
+                </DropdownItem>
+                <DropdownItem
+                  key="user-weights-weight"
+                  onPress={() => loadUserWeightListWeights(weightUnit, false)}
+                >
+                  Body Weights
+                </DropdownItem>
+                <DropdownItem
+                  key="user-weights-body-fat"
+                  onPress={() => loadUserWeightListBodyFat(false)}
+                >
+                  Body Fat Percentages
+                </DropdownItem>
+                <DropdownItem
+                  key="diet-logs-calories"
+                  onPress={() => loadDietLogListCalories(false)}
+                >
+                  Calories
+                </DropdownItem>
+                <DropdownItem
+                  key="fat"
+                  onPress={() => loadDietLogListMacros(false, "fat")}
+                >
+                  Fat
+                </DropdownItem>
+                <DropdownItem
+                  key="carbs"
+                  onPress={() => loadDietLogListMacros(false, "carbs")}
+                >
+                  Carbs
+                </DropdownItem>
+                <DropdownItem
+                  key="protein"
+                  onPress={() => loadDietLogListMacros(false, "protein")}
+                >
+                  Protein
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+            {isChartDataLoaded.current && (
+              <>
+                <Button
+                  className="font-medium"
+                  variant="flat"
+                  onPress={() => handleOpenListModal("time-period-list")}
+                >
+                  Select Time Period
+                </Button>
+                <Button
+                  className="font-medium"
+                  variant="flat"
+                  color="danger"
+                  onPress={() => deleteModal.onOpen()}
+                >
+                  Reset Chart
+                </Button>
+              </>
+            )}
+            {weightCharts.length > 0 && (
+              <div className="pb-px">
                 <WeightUnitDropdown
                   value={weightUnit}
                   targetType="chart"
                   changeWeightUnitInChart={changeWeightUnit}
+                  customLabel="Weight Unit"
+                  customWidthString="w-[5rem]"
+                  isSmall
                 />
-              )}
-            </div>
+              </div>
+            )}
           </div>
           <div className="flex gap-2 relative">
             <Button

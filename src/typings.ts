@@ -227,6 +227,7 @@ export type UnitDropdownProps = {
     unitCategory: "Weight" | "Distance" | "Pace"
   ) => void;
   customLabel?: string;
+  customWidthString?: string;
 };
 
 export type MeasurementDropdownProps = {

@@ -18,6 +18,7 @@ export const WeightUnitDropdown = ({
   showBigLabel,
   changeWeightUnitInChart,
   customLabel,
+  customWidthString,
 }: UnitDropdownProps) => {
   const validWeightUnits = useValidWeightUnits();
 
@@ -73,7 +74,13 @@ export const WeightUnitDropdown = ({
         label={showCustomLabel ? customLabel : showLabel ? "Unit" : null}
         labelPlacement={showCustomLabel ? "outside" : "inside"}
         classNames={{
-          mainWrapper: showLabel ? "w-[5rem]" : "w-[4.5rem]",
+          label: showCustomLabel ? "pl-0.5 mt-1" : "",
+          mainWrapper:
+            customWidthString !== undefined
+              ? customWidthString
+              : showLabel
+              ? "w-[5rem]"
+              : "w-[4.5rem]",
         }}
         size={isSmall ? "sm" : "md"}
         variant="faded"
