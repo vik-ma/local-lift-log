@@ -3102,18 +3102,17 @@ export default function AnalyticsIndex() {
                 </>
               )}
             </div>
+          </div>
+          <div className="flex gap-2 relative">
             <Button
               className="font-medium"
               variant="flat"
-              color="danger"
               onPress={() => setShowTestButtons(!showTestButtons)}
             >
               Toggle Test Buttons
             </Button>
-          </div>
-          {showTestButtons && (
-            <div className="flex flex-col gap-2">
-              <div className="flex items-center gap-2">
+            {showTestButtons && (
+              <div className="absolute left-[10.875rem] flex items-center gap-2">
                 <Button
                   className="font-medium"
                   variant="flat"
@@ -3150,8 +3149,8 @@ export default function AnalyticsIndex() {
                   Toggle All Time Periods
                 </Button>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </>
