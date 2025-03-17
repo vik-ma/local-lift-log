@@ -248,11 +248,13 @@ export default function AnalyticsIndex() {
   );
 
   const { weightCharts, distanceCharts, paceCharts } = useMemo(() => {
-    const weightCharts = new Set<ChartDataCategory>();
-    const distanceCharts = new Set<ChartDataCategory>();
-    const paceCharts = new Set<ChartDataCategory>();
+    const weightCharts = new Set<Exclude<ChartDataCategory, undefined>>();
+    const distanceCharts = new Set<Exclude<ChartDataCategory, undefined>>();
+    const paceCharts = new Set<Exclude<ChartDataCategory, undefined>>();
 
     for (const chart of allChartDataCategories) {
+      if (chart === undefined) continue;
+
       const unitCategory = chartDataUnitCategoryMap.current.get(chart);
 
       switch (unitCategory) {
@@ -2532,9 +2534,9 @@ export default function AnalyticsIndex() {
         const newChartDataItem: ChartDataItem = { ...chartDataItem };
 
         for (const chart of chartNames) {
-          if (weightCharts.has(chart)) {
-            if (chart === undefined) continue;
+          if (chart === undefined) continue;
 
+          if (weightCharts.has(chart)) {
             const oldValue = newChartDataItem[chart] ?? 0;
 
             const updatedWeight = ConvertWeightValue(
@@ -2548,6 +2550,10 @@ export default function AnalyticsIndex() {
         }
 
         updatedChartData.push(newChartDataItem);
+      }
+
+      for (const chart of weightCharts) {
+        chartDataUnitMap.current.set(chart, ` ${newUnit}`);
       }
 
       updateChartDataAndFilteredHighestCategoryValues(
