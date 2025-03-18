@@ -274,6 +274,8 @@ export default function AnalyticsIndex() {
     new Map()
   );
 
+  const disabledExerciseGroups = useRef<string[]>([]);
+
   const { weightCharts, distanceCharts, paceCharts } = useMemo(() => {
     const weightCharts = new Set<Exclude<ChartDataCategory, undefined>>();
     const distanceCharts = new Set<Exclude<ChartDataCategory, undefined>>();
@@ -2286,6 +2288,7 @@ export default function AnalyticsIndex() {
     highestCategoryValues.current = new Map();
     filteredHighestCategoryValues.current = new Map();
     includesMultisetMap.current = new Map();
+    disabledExerciseGroups.current = [];
 
     deleteModal.onClose();
   };
@@ -2642,13 +2645,18 @@ export default function AnalyticsIndex() {
         loadedCharts.current.add(
           `exercise_group_${group as unknown as number}`
         );
+        disabledExerciseGroups.current.push(group);
       }
 
+      setSelectedExerciseGroups([]);
       toast.error(
         "No Exercises In Selected Exercise Group(s) Have Been Completed"
       );
       listModal.onClose();
+      return;
     }
+
+    setSelectedExerciseGroups([]);
   };
 
   const getExerciseExerciseGroupValueMap = () => {
@@ -2736,6 +2744,7 @@ export default function AnalyticsIndex() {
                       exerciseGroupDictionary={exerciseGroupDictionary}
                       includeSecondaryGroups={includeSecondaryGroups}
                       setIncludeSecondaryGroups={setIncludeSecondaryGroups}
+                      disabledKeys={disabledExerciseGroups.current}
                     />
                     {includeSecondaryGroups && (
                       <RadioGroup
