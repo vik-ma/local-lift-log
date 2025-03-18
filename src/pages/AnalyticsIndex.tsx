@@ -2625,6 +2625,10 @@ export default function AnalyticsIndex() {
     );
   };
 
+  const loadNumExerciseGroupSets = () => {
+    if (selectedExerciseGroups.length === 0) return;
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -2669,7 +2673,7 @@ export default function AnalyticsIndex() {
                     hiddenTimePeriods={timePeriodIdSet}
                   />
                 ) : (
-                  <div className="h-[370px] flex flex-col gap-5">
+                  <div className="h-[360px] flex flex-col gap-4">
                     <ExerciseGroupCheckboxes
                       isValid={true}
                       value={selectedExerciseGroups}
@@ -2706,6 +2710,15 @@ export default function AnalyticsIndex() {
                 <Button color="primary" variant="light" onPress={onClose}>
                   Close
                 </Button>
+                {listModalPage === "exercise-groups" && (
+                  <Button
+                    color="primary"
+                    isDisabled={selectedExerciseGroups.length === 0}
+                    onPress={loadNumExerciseGroupSets}
+                  >
+                    Load
+                  </Button>
+                )}
               </ModalFooter>
             </>
           )}
