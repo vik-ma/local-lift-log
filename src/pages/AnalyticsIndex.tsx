@@ -2637,7 +2637,18 @@ export default function AnalyticsIndex() {
 
     const exerciseExerciseGroupValueMap = getExerciseExerciseGroupValueMap();
 
-    console.log(exerciseExerciseGroupValueMap);
+    if (exerciseExerciseGroupValueMap.size === 0) {
+      for (const group of selectedExerciseGroups) {
+        loadedCharts.current.add(
+          `exercise_group_${group as unknown as number}`
+        );
+      }
+
+      toast.error(
+        "No Exercises In Selected Exercise Group(s) Have Been Completed"
+      );
+      listModal.onClose();
+    }
   };
 
   const getExerciseExerciseGroupValueMap = () => {
