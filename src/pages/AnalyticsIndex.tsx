@@ -13,6 +13,8 @@ import {
   DropdownMenu,
   DropdownItem,
   Chip,
+  RadioGroup,
+  Radio,
 } from "@heroui/react";
 import {
   useChartColorLists,
@@ -29,6 +31,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import {
   DeleteModal,
   DistanceUnitDropdown,
+  ExerciseGroupCheckboxes,
   ExerciseModalList,
   FilterExerciseGroupsModal,
   FilterMinAndMaxDatesModal,
@@ -173,6 +176,13 @@ export default function AnalyticsIndex() {
   const [filteredChartData, setFilteredChartData] = useState<ChartDataItem[]>(
     []
   );
+  const [selectedExerciseGroups, setSelectedExerciseGroups] = useState<
+    string[]
+  >([]);
+  const [
+    countSecondaryExerciseGroupsAsOne,
+    setCountSecondaryExerciseGroupsAsOne,
+  ] = useState<boolean>(false);
 
   const [showTestButtons, setShowTestButtons] = useState<boolean>(false);
 
@@ -212,7 +222,13 @@ export default function AnalyticsIndex() {
 
   const exerciseList = useExerciseList(false, true, true);
 
-  const { isExerciseListLoaded, getExercises } = exerciseList;
+  const {
+    isExerciseListLoaded,
+    getExercises,
+    exerciseGroupDictionary,
+    includeSecondaryGroups,
+    setIncludeSecondaryGroups,
+  } = exerciseList;
 
   const filterExerciseList = useFilterExerciseList(exerciseList);
 
@@ -2653,7 +2669,37 @@ export default function AnalyticsIndex() {
                     hiddenTimePeriods={timePeriodIdSet}
                   />
                 ) : (
-                  <div className="h-[440px]"></div>
+                  <div className="h-[370px] flex flex-col gap-5">
+                    <ExerciseGroupCheckboxes
+                      isValid={true}
+                      value={selectedExerciseGroups}
+                      handleChange={setSelectedExerciseGroups}
+                      exerciseGroupDictionary={exerciseGroupDictionary}
+                      includeSecondaryGroups={includeSecondaryGroups}
+                      setIncludeSecondaryGroups={setIncludeSecondaryGroups}
+                    />
+                    {includeSecondaryGroups && (
+                      <RadioGroup
+                        label="Handle Secondary Exercise Groups"
+                        classNames={{ base: "gap-1", wrapper: "gap-1" }}
+                        value={
+                          countSecondaryExerciseGroupsAsOne
+                            ? "one"
+                            : "accumulate"
+                        }
+                        onValueChange={(value) =>
+                          setCountSecondaryExerciseGroupsAsOne(value === "one")
+                        }
+                      >
+                        <Radio value="accumulate">
+                          Accumulate Secondary Fractional Values
+                        </Radio>
+                        <Radio value="one">
+                          Count Secondary As One Full Set
+                        </Radio>
+                      </RadioGroup>
+                    )}
+                  </div>
                 )}
               </ModalBody>
               <ModalFooter>
