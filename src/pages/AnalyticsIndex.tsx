@@ -228,6 +228,7 @@ export default function AnalyticsIndex() {
     exerciseGroupDictionary,
     includeSecondaryGroups,
     setIncludeSecondaryGroups,
+    exercises,
   } = exerciseList;
 
   const filterExerciseList = useFilterExerciseList(exerciseList);
@@ -418,7 +419,11 @@ export default function AnalyticsIndex() {
 
     setListModalPage(modalListType);
 
-    if (modalListType === "exercise-list" && !isExerciseListLoaded.current) {
+    if (
+      (modalListType === "exercise-list" ||
+        modalListType === "exercise-groups") &&
+      !isExerciseListLoaded.current
+    ) {
       await getExercises();
     }
 
