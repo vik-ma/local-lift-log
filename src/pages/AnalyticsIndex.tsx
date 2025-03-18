@@ -110,6 +110,8 @@ type ChartDataItem = {
   [key in Exclude<ChartDataCategory, undefined>]?: number;
 };
 
+type ExerciseExerciseGroupValueMap = Map<number, Map<string, number>>;
+
 export default function AnalyticsIndex() {
   const [listModalPage, setListModalPage] =
     useState<ListModalPage>("exercise-list");
@@ -2632,6 +2634,43 @@ export default function AnalyticsIndex() {
 
   const loadNumExerciseGroupSets = () => {
     if (selectedExerciseGroups.length === 0) return;
+
+    const exerciseExerciseGroupValueMap = getExerciseExerciseGroupValueMap();
+
+    console.log(exerciseExerciseGroupValueMap);
+  };
+
+  const getExerciseExerciseGroupValueMap = () => {
+    const exerciseExerciseGroupValueMap: ExerciseExerciseGroupValueMap =
+      new Map();
+
+    for (const exercise of exercises) {
+      const exerciseGroupValueMap = new Map<string, number>();
+
+      for (const group of selectedExerciseGroups) {
+        if (exercise.exerciseGroupStringListPrimary!.includes(group)) {
+          exerciseGroupValueMap.set(group, 1);
+        }
+
+        if (
+          includeSecondaryGroups &&
+          exercise.exerciseGroupStringMapSecondary &&
+          exercise.exerciseGroupStringMapSecondary.has(group)
+        ) {
+          const value = countSecondaryExerciseGroupsAsOne
+            ? 1
+            : Number(exercise.exerciseGroupStringMapSecondary!.get(group));
+
+          exerciseGroupValueMap.set(group, value);
+        }
+      }
+
+      if (exerciseGroupValueMap.size > 0) {
+        exerciseExerciseGroupValueMap.set(exercise.id, exerciseGroupValueMap);
+      }
+    }
+
+    return exerciseExerciseGroupValueMap;
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;
