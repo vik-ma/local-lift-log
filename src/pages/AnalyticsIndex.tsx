@@ -2326,8 +2326,16 @@ export default function AnalyticsIndex() {
 
     if (categoryType === "measurement") {
       const updatedLoadedMeasurements = new Map(loadedMeasurements);
-      updatedLoadedMeasurements.delete(dataId);
+      updatedLoadedMeasurements.delete(dataId as number);
       setLoadedMeasurements(updatedLoadedMeasurements);
+    }
+
+    if (categoryType === "exercise-group") {
+      const updatedDisabledExerciseGroups =
+        disabledExerciseGroups.current.filter(
+          (item) => item !== dataId
+        );
+      disabledExerciseGroups.current = updatedDisabledExerciseGroups;
     }
 
     const updatedChartCommentMap = new Map<string, ChartComment[]>();
@@ -2438,7 +2446,7 @@ export default function AnalyticsIndex() {
 
   const getChartDataCategoryTypeAndId = (
     dataKey: ChartDataCategory
-  ): { categoryType: string; dataId: number } => {
+  ): { categoryType: string; dataId: number | string } => {
     // Categories with no number ids at the end
     if (
       dataKey === undefined ||
@@ -2453,12 +2461,24 @@ export default function AnalyticsIndex() {
 
     const splitDataKey = dataKey.split("_");
 
+    const dataIdIndex = splitDataKey.length - 1;
+
     if (splitDataKey[0] === "measurement")
-      return { categoryType: "measurement", dataId: Number(splitDataKey[1]) };
+      return {
+        categoryType: "measurement",
+        dataId: Number(splitDataKey[dataIdIndex]),
+      };
+
+    if (splitDataKey[0] === "exercise")
+      // Only exercise_group categories starts with "exercise"
+      return {
+        categoryType: "exercise-group",
+        dataId: splitDataKey[dataIdIndex],
+      };
 
     return {
       categoryType: "exercise",
-      dataId: Number(splitDataKey[splitDataKey.length - 1]),
+      dataId: Number(splitDataKey[dataIdIndex]),
     };
   };
 
@@ -2642,9 +2662,7 @@ export default function AnalyticsIndex() {
 
     if (exerciseExerciseGroupValueMap.size === 0) {
       for (const group of selectedExerciseGroups) {
-        loadedCharts.current.add(
-          `exercise_group_${group as unknown as number}`
-        );
+        loadedCharts.current.add(`exercise_group_${group}`);
         disabledExerciseGroups.current.push(group);
       }
 

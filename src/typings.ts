@@ -1260,7 +1260,7 @@ export type ChartDataCategory =
   | "body_weight"
   | "body_fat_percentage"
   | `measurement_${number}`
-  | `exercise_group_${number}`
+  | `exercise_group_${string}`
   | ChartDataExerciseCategory;
 
 export type ChartDataExerciseCategoryBase =
