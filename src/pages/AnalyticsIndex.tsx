@@ -95,7 +95,11 @@ import {
 } from "../components/ui/chart";
 import toast from "react-hot-toast";
 
-type ListModalPage = "exercise-list" | "measurement-list" | "time-period-list";
+type ListModalPage =
+  | "exercise-list"
+  | "measurement-list"
+  | "time-period-list"
+  | "exercise-groups";
 
 type ChartDataItem = {
   date: string;
@@ -2554,14 +2558,9 @@ export default function AnalyticsIndex() {
     if (unitCategory === "Pace") {
       if (newUnit === paceUnit) return;
 
-      changeUnitInChartData(
-        newUnit,
-        paceUnit,
-        paceCharts,
-        ConvertPaceValue
-      );
+      changeUnitInChartData(newUnit, paceUnit, paceCharts, ConvertPaceValue);
 
-      setPaceUnit(newUnit)
+      setPaceUnit(newUnit);
     }
   };
 
@@ -2623,7 +2622,9 @@ export default function AnalyticsIndex() {
                   ? "Select Exercise"
                   : listModalPage === "measurement-list"
                   ? "Select Measurement"
-                  : "Select Time Period"}
+                  : listModalPage === "time-period-list"
+                  ? "Select Time Period"
+                  : "Select Exercise Groups"}
               </ModalHeader>
               <ModalBody>
                 {listModalPage === "exercise-list" ? (
@@ -2642,7 +2643,7 @@ export default function AnalyticsIndex() {
                     customHeightString="h-[440px]"
                     hiddenMeasurements={loadedMeasurements}
                   />
-                ) : (
+                ) : listModalPage === "time-period-list" ? (
                   <TimePeriodModalList
                     useTimePeriodList={timePeriodList}
                     handleTimePeriodClick={handleClickTimePeriod}
@@ -2651,6 +2652,8 @@ export default function AnalyticsIndex() {
                     customHeightString="h-[440px]"
                     hiddenTimePeriods={timePeriodIdSet}
                   />
+                ) : (
+                  <div className="h-[440px]"></div>
                 )}
               </ModalBody>
               <ModalFooter>
@@ -3075,6 +3078,12 @@ export default function AnalyticsIndex() {
                 disabledKeys={loadedCharts.current}
               >
                 <DropdownItem
+                  key="exercise-group"
+                  onPress={() => handleOpenListModal("exercise-groups")}
+                >
+                  Sets Per Exercise Group
+                </DropdownItem>
+                <DropdownItem
                   key="measurement"
                   onPress={() => handleLoadMeasurementClick(true)}
                 >
@@ -3133,6 +3142,12 @@ export default function AnalyticsIndex() {
                 variant="flat"
                 disabledKeys={loadedCharts.current}
               >
+                <DropdownItem
+                  key="exercise-group"
+                  onPress={() => handleOpenListModal("exercise-groups")}
+                >
+                  Sets Per Exercise Group
+                </DropdownItem>
                 <DropdownItem
                   key="measurement"
                   onPress={() => handleLoadMeasurementClick(false)}
