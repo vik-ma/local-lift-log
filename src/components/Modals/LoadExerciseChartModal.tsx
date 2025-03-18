@@ -385,6 +385,7 @@ export const LoadExerciseChartModal = ({
                 </ScrollShadow>
                 <div className="px-0.5 py-0.5 flex gap-12">
                   <Checkbox
+                    className="hover:underline"
                     color="default"
                     isSelected={ignoreWarmups}
                     onValueChange={setIgnoreWarmups}
@@ -392,6 +393,7 @@ export const LoadExerciseChartModal = ({
                     Ignore Warmups
                   </Checkbox>
                   <Checkbox
+                    className="hover:underline"
                     color="default"
                     isSelected={ignoreMultisets}
                     onValueChange={setIgnoreMultisets}
