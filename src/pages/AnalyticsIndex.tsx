@@ -2659,13 +2659,19 @@ export default function AnalyticsIndex() {
       Map<number, number>
     >();
 
+    const exerciseIds = new Set<number>();
+
     for (const group of selectedExerciseGroups) {
       const multiplierMap = getExerciseMultiplierMapForExerciseGroup(group);
 
       exerciseGroupExerciseValueMap.set(group, multiplierMap);
+
+      for (const id of multiplierMap.keys()) {
+        exerciseIds.add(id);
+      }
     }
 
-    if (exerciseGroupExerciseValueMap.size === 0) {
+    if (exerciseIds.size === 0) {
       for (const group of selectedExerciseGroups) {
         loadedCharts.current.add(`exercise_group_${group}`);
         disabledExerciseGroups.current.push(group);
@@ -2673,10 +2679,26 @@ export default function AnalyticsIndex() {
 
       setSelectedExerciseGroups([]);
       toast.error(
-        "No Exercises In Selected Exercise Group(s) Have Been Completed"
+        "No Exercises With Selected Exercise Group(s) Have Been Completed"
       );
       listModal.onClose();
       return;
+    }
+
+    const loadedChartData: ChartDataItem[] = [];
+
+    const dateMap = new Map<string, WorkoutSet[]>();
+
+    const highestValueMap = new Map<ChartDataExerciseCategory, number>();
+
+    const chartDataKeys: Set<ChartDataCategory> = new Set();
+
+    for (const [group, valueMap] of exerciseGroupExerciseValueMap) {
+      // TODO: CHECK IF GROUP MAP IS EMPTY
+
+      const chartName: ChartDataExerciseCategory = `exercise_group_${group}`;
+      highestValueMap.set(chartName, 0);
+      chartDataKeys.add(chartName);
     }
 
     setSelectedExerciseGroups([]);
