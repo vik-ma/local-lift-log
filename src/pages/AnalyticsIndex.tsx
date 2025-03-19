@@ -2686,6 +2686,23 @@ export default function AnalyticsIndex() {
 
     for (const [id, multiplierMap] of exerciseMultiplierMap) {
       const setList = await GetTimeCompletedForSetsWithExerciseId(id);
+
+      for (const set of setList) {
+        const date = FormatDateToShortString(
+          new Date(set.time_completed!),
+          userSettings.locale
+        );
+
+        if (dateMap.has(date)) {
+          const existingMultiplierMap = dateMap.get(date)!;
+          dateMap.set(
+            date,
+            new Map([...existingMultiplierMap, ...multiplierMap])
+          );
+        } else {
+          dateMap.set(date, new Map(multiplierMap));
+        }
+      }
     }
 
     for (const group of selectedExerciseGroups) {
