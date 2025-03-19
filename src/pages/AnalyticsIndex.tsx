@@ -51,7 +51,6 @@ import {
   ChartReferenceAreaItem,
   Exercise,
   Measurement,
-  TimeCompleted,
   TimePeriod,
   UserMeasurementValues,
   UserSettings,
@@ -2657,25 +2656,9 @@ export default function AnalyticsIndex() {
     if (selectedExerciseGroups.length === 0 || userSettings === undefined)
       return;
 
-    const exerciseGroupExerciseMultiplierMap = new Map<
-      string,
-      Map<number, number>
-    >();
+    const exerciseMultiplierMap = getExerciseMultiplierMap();
 
-    const exerciseIds = new Set<number>();
-
-    // TODO: FIX
-    // for (const group of selectedExerciseGroups) {
-    //   const multiplierMap = getExerciseMultiplierMap(group);
-
-    //   exerciseGroupExerciseMultiplierMap.set(group, multiplierMap);
-
-    //   for (const id of multiplierMap.keys()) {
-    //     exerciseIds.add(id);
-    //   }
-    // }
-
-    if (exerciseIds.size === 0) {
+    if (exerciseMultiplierMap.size === 0) {
       for (const group of selectedExerciseGroups) {
         loadedCharts.current.add(`exercise_group_${group}`);
         disabledExerciseGroups.current.push(group);
@@ -2689,13 +2672,6 @@ export default function AnalyticsIndex() {
       return;
     }
 
-    const exerciseSetListMap = new Map<number, TimeCompleted[]>();
-
-    for (const id of exerciseIds) {
-      const setList = await GetTimeCompletedForSetsWithExerciseId(id);
-      exerciseSetListMap.set(id, setList);
-    }
-
     const loadedChartData: ChartDataItem[] = [];
 
     const dateMap = new Map<string, Map<string, number>>();
@@ -2707,6 +2683,10 @@ export default function AnalyticsIndex() {
     // LOOP THROUGH ALL SETS IN ALL SETLISTS
     // ACCUMULATE NUMSETS
     // CALCULATE HIGHESTVALUEMAP
+
+    for (const [id, multiplierMap] of exerciseMultiplierMap) {
+      const setList = await GetTimeCompletedForSetsWithExerciseId(id);
+    }
 
     for (const group of selectedExerciseGroups) {
       const chartName: ChartDataCategory = `exercise_group_${group}`;
