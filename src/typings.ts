@@ -1312,3 +1312,7 @@ export type ChartReferenceAreaItem = {
   startDate: string;
   endDate: string | null;
 };
+
+export type TimeCompleted = {
+  time_completed: string;
+};

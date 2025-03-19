@@ -1,17 +1,12 @@
 import Database from "tauri-plugin-sql-api";
 import { WorkoutSet } from "../../typings";
 
-export const GetCompletedSetsWithExerciseId = async (
-  exerciseId: number,
-  getOnlyTimeCompleted?: boolean
-) => {
+export const GetCompletedSetsWithExerciseId = async (exerciseId: number) => {
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
 
-    const columns = getOnlyTimeCompleted ? "time_completed" : "*";
-
     const result = await db.select<WorkoutSet[]>(
-      `SELECT ${columns} FROM sets 
+      `SELECT * FROM sets 
        WHERE exercise_id = $1 
         AND is_template = 0
         AND is_completed = 1 
