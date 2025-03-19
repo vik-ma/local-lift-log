@@ -110,8 +110,6 @@ type ChartDataItem = {
   [key in Exclude<ChartDataCategory, undefined>]?: number;
 };
 
-type ExerciseExerciseGroupValueMap = Map<number, Map<string, number>>;
-
 export default function AnalyticsIndex() {
   const [listModalPage, setListModalPage] =
     useState<ListModalPage>("exercise-list");
@@ -2332,9 +2330,7 @@ export default function AnalyticsIndex() {
 
     if (categoryType === "exercise-group") {
       const updatedDisabledExerciseGroups =
-        disabledExerciseGroups.current.filter(
-          (item) => item !== dataId
-        );
+        disabledExerciseGroups.current.filter((item) => item !== dataId);
       disabledExerciseGroups.current = updatedDisabledExerciseGroups;
     }
 
@@ -2655,12 +2651,21 @@ export default function AnalyticsIndex() {
     );
   };
 
-  const loadNumExerciseGroupSets = () => {
+  const loadNumExerciseGroupSets = async () => {
     if (selectedExerciseGroups.length === 0) return;
 
-    const exerciseExerciseGroupValueMap = getExerciseExerciseGroupValueMap();
+    const exerciseGroupExerciseValueMap = new Map<
+      string,
+      Map<number, number>
+    >();
 
-    if (exerciseExerciseGroupValueMap.size === 0) {
+    for (const group of selectedExerciseGroups) {
+      const multiplierMap = getExerciseMultiplierMapForExerciseGroup(group);
+
+      exerciseGroupExerciseValueMap.set(group, multiplierMap);
+    }
+
+    if (exerciseGroupExerciseValueMap.size === 0) {
       for (const group of selectedExerciseGroups) {
         loadedCharts.current.add(`exercise_group_${group}`);
         disabledExerciseGroups.current.push(group);
@@ -2675,39 +2680,33 @@ export default function AnalyticsIndex() {
     }
 
     setSelectedExerciseGroups([]);
+    listModal.onClose();
   };
 
-  const getExerciseExerciseGroupValueMap = () => {
-    const exerciseExerciseGroupValueMap: ExerciseExerciseGroupValueMap =
-      new Map();
+  const getExerciseMultiplierMapForExerciseGroup = (exerciseGroup: string) => {
+    const exerciseMultiplierMap = new Map<number, number>();
 
     for (const exercise of exercises) {
-      const exerciseGroupValueMap = new Map<string, number>();
-
-      for (const group of selectedExerciseGroups) {
-        if (exercise.exerciseGroupStringListPrimary!.includes(group)) {
-          exerciseGroupValueMap.set(group, 1);
-        }
-
-        if (
-          includeSecondaryGroups &&
-          exercise.exerciseGroupStringMapSecondary &&
-          exercise.exerciseGroupStringMapSecondary.has(group)
-        ) {
-          const value = countSecondaryExerciseGroupsAsOne
-            ? 1
-            : Number(exercise.exerciseGroupStringMapSecondary!.get(group));
-
-          exerciseGroupValueMap.set(group, value);
-        }
+      if (exercise.exerciseGroupStringListPrimary!.includes(exerciseGroup)) {
+        exerciseMultiplierMap.set(exercise.id, 1);
       }
 
-      if (exerciseGroupValueMap.size > 0) {
-        exerciseExerciseGroupValueMap.set(exercise.id, exerciseGroupValueMap);
+      if (
+        includeSecondaryGroups &&
+        exercise.exerciseGroupStringMapSecondary &&
+        exercise.exerciseGroupStringMapSecondary.has(exerciseGroup)
+      ) {
+        const value = countSecondaryExerciseGroupsAsOne
+          ? 1
+          : Number(
+              exercise.exerciseGroupStringMapSecondary!.get(exerciseGroup)
+            );
+
+        exerciseMultiplierMap.set(exercise.id, value);
       }
     }
 
-    return exerciseExerciseGroupValueMap;
+    return exerciseMultiplierMap;
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;
