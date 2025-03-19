@@ -2680,9 +2680,11 @@ export default function AnalyticsIndex() {
 
     const chartDataKeys: Set<ChartDataCategory> = new Set();
 
-    // LOOP THROUGH ALL SETS IN ALL SETLISTS
-    // ACCUMULATE NUMSETS
-    // CALCULATE HIGHESTVALUEMAP
+    for (const group of selectedExerciseGroups) {
+      const chartName: ChartDataCategory = `exercise_group_${group}`;
+      highestValueMap.set(chartName, 0);
+      chartDataKeys.add(chartName);
+    }
 
     for (const [id, multiplierMap] of exerciseMultiplierMap) {
       const setList = await GetTimeCompletedForSetsWithExerciseId(id);
@@ -2717,13 +2719,53 @@ export default function AnalyticsIndex() {
       }
     }
 
-    console.log(dateMap);
+    for (const [date, setCountMap] of dateMap) {
+      const chartDataItem: ChartDataItem = {
+        date,
+      };
 
-    for (const group of selectedExerciseGroups) {
-      const chartName: ChartDataCategory = `exercise_group_${group}`;
-      highestValueMap.set(chartName, 0);
-      chartDataKeys.add(chartName);
+      for (const [group, setCount] of setCountMap) {
+        const chartName: ChartDataCategory = `exercise_group_${group}`;
+
+        if (setCount > highestValueMap.get(chartName)!) {
+          highestValueMap.set(chartName, setCount);
+        }
+      }
+
+      loadedChartData.push(chartDataItem);
     }
+
+    // Filter out categories with no values
+    const updatedHighestValueMap = new Map(
+      Array.from(highestValueMap).filter(([, value]) => value > 0)
+    );
+
+    // Sort by date, since Sets from GetTimeCompletedForSetsWithExerciseId are not sorted
+    const sortedLoadedChartData = loadedChartData.sort(
+      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+    );
+
+    const filledInChartData = fillInMissingDates(
+      sortedLoadedChartData,
+      userSettings.locale
+    );
+
+    const mergedChartData = mergeChartData(
+      filledInChartData,
+      chartData,
+      userSettings.locale
+    );
+
+    highestCategoryValues.current = new Map([
+      ...highestCategoryValues.current,
+      ...updatedHighestValueMap,
+    ]);
+
+    updateChartDataAndFilteredHighestCategoryValues(
+      mergedChartData,
+      filterMinDate,
+      filterMaxDate
+    );
 
     setSelectedExerciseGroups([]);
     listModal.onClose();
