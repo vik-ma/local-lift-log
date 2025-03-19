@@ -51,6 +51,7 @@ import {
   ChartReferenceAreaItem,
   Exercise,
   Measurement,
+  TimeCompleted,
   TimePeriod,
   UserMeasurementValues,
   UserSettings,
@@ -72,6 +73,7 @@ import {
   GetAnalyticsValuesForSetList,
   GetCompletedSetsWithExerciseId,
   GetCurrentYmdDateString,
+  GetTimeCompletedForSetsWithExerciseId,
   GetUserMeasurementsWithMeasurementId,
   GetUserSettings,
   GetValidatedUserSettingsUnits,
@@ -2652,24 +2654,26 @@ export default function AnalyticsIndex() {
   };
 
   const loadNumExerciseGroupSets = async () => {
-    if (selectedExerciseGroups.length === 0) return;
+    if (selectedExerciseGroups.length === 0 || userSettings === undefined)
+      return;
 
-    const exerciseGroupExerciseValueMap = new Map<
+    const exerciseGroupExerciseMultiplierMap = new Map<
       string,
       Map<number, number>
     >();
 
     const exerciseIds = new Set<number>();
 
-    for (const group of selectedExerciseGroups) {
-      const multiplierMap = getExerciseMultiplierMapForExerciseGroup(group);
+    // TODO: FIX
+    // for (const group of selectedExerciseGroups) {
+    //   const multiplierMap = getExerciseMultiplierMap(group);
 
-      exerciseGroupExerciseValueMap.set(group, multiplierMap);
+    //   exerciseGroupExerciseMultiplierMap.set(group, multiplierMap);
 
-      for (const id of multiplierMap.keys()) {
-        exerciseIds.add(id);
-      }
-    }
+    //   for (const id of multiplierMap.keys()) {
+    //     exerciseIds.add(id);
+    //   }
+    // }
 
     if (exerciseIds.size === 0) {
       for (const group of selectedExerciseGroups) {
@@ -2685,18 +2689,27 @@ export default function AnalyticsIndex() {
       return;
     }
 
+    const exerciseSetListMap = new Map<number, TimeCompleted[]>();
+
+    for (const id of exerciseIds) {
+      const setList = await GetTimeCompletedForSetsWithExerciseId(id);
+      exerciseSetListMap.set(id, setList);
+    }
+
     const loadedChartData: ChartDataItem[] = [];
 
-    const dateMap = new Map<string, WorkoutSet[]>();
+    const dateMap = new Map<string, Map<string, number>>();
 
-    const highestValueMap = new Map<ChartDataExerciseCategory, number>();
+    const highestValueMap = new Map<ChartDataCategory, number>();
 
     const chartDataKeys: Set<ChartDataCategory> = new Set();
 
-    for (const [group, valueMap] of exerciseGroupExerciseValueMap) {
-      // TODO: CHECK IF GROUP MAP IS EMPTY
+    // LOOP THROUGH ALL SETS IN ALL SETLISTS
+    // ACCUMULATE NUMSETS
+    // CALCULATE HIGHESTVALUEMAP
 
-      const chartName: ChartDataExerciseCategory = `exercise_group_${group}`;
+    for (const group of selectedExerciseGroups) {
+      const chartName: ChartDataCategory = `exercise_group_${group}`;
       highestValueMap.set(chartName, 0);
       chartDataKeys.add(chartName);
     }
@@ -2705,26 +2718,32 @@ export default function AnalyticsIndex() {
     listModal.onClose();
   };
 
-  const getExerciseMultiplierMapForExerciseGroup = (exerciseGroup: string) => {
-    const exerciseMultiplierMap = new Map<number, number>();
+  const getExerciseMultiplierMap = () => {
+    const exerciseMultiplierMap = new Map<number, Map<string, number>>();
 
     for (const exercise of exercises) {
-      if (exercise.exerciseGroupStringListPrimary!.includes(exerciseGroup)) {
-        exerciseMultiplierMap.set(exercise.id, 1);
-      }
+      for (const group of selectedExerciseGroups) {
+        const multiplierMap = new Map<string, number>();
 
-      if (
-        includeSecondaryGroups &&
-        exercise.exerciseGroupStringMapSecondary &&
-        exercise.exerciseGroupStringMapSecondary.has(exerciseGroup)
-      ) {
-        const value = countSecondaryExerciseGroupsAsOne
-          ? 1
-          : Number(
-              exercise.exerciseGroupStringMapSecondary!.get(exerciseGroup)
-            );
+        if (exercise.exerciseGroupStringListPrimary!.includes(group)) {
+          multiplierMap.set(group, 1);
+        }
 
-        exerciseMultiplierMap.set(exercise.id, value);
+        if (
+          includeSecondaryGroups &&
+          exercise.exerciseGroupStringMapSecondary &&
+          exercise.exerciseGroupStringMapSecondary.has(group)
+        ) {
+          const value = countSecondaryExerciseGroupsAsOne
+            ? 1
+            : Number(exercise.exerciseGroupStringMapSecondary!.get(group));
+
+          multiplierMap.set(group, value);
+        }
+
+        if (multiplierMap.size > 0) {
+          exerciseMultiplierMap.set(exercise.id, multiplierMap);
+        }
       }
     }
 
