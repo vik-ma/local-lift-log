@@ -2652,6 +2652,12 @@ export default function AnalyticsIndex() {
     );
   };
 
+  const handleLoadNumExerciseGroupSetsClick = async (loadPrimary: boolean) => {
+    await handleOpenListModal("exercise-groups");
+
+    setLoadChartAsArea(loadPrimary);
+  };
+
   const loadNumExerciseGroupSets = async () => {
     if (selectedExerciseGroups.length === 0 || userSettings === undefined)
       return;
@@ -3313,7 +3319,7 @@ export default function AnalyticsIndex() {
               >
                 <DropdownItem
                   key="exercise-group"
-                  onPress={() => handleOpenListModal("exercise-groups")}
+                  onPress={() => handleLoadNumExerciseGroupSetsClick(true)}
                 >
                   Sets Per Exercise Group
                 </DropdownItem>
@@ -3378,7 +3384,7 @@ export default function AnalyticsIndex() {
               >
                 <DropdownItem
                   key="exercise-group"
-                  onPress={() => handleOpenListModal("exercise-groups")}
+                  onPress={() => handleLoadNumExerciseGroupSetsClick(false)}
                 >
                   Sets Per Exercise Group
                 </DropdownItem>
