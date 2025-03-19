@@ -68,14 +68,15 @@ export const useFilterExerciseList = (
               item.formattedGroupStringSecondary
                 ?.toLocaleLowerCase()
                 .includes(filterQuery.toLocaleLowerCase()))) &&
-          filterExerciseGroups.some(
-            (group) =>
-              item.formattedGroupStringPrimary!.includes(group) ||
-              // Only include Secondary Exercise Groups if includeSecondaryGroups is true
-              (includeSecondaryGroups &&
-                item.formattedGroupStringSecondary !== undefined &&
-                item.formattedGroupStringSecondary.includes(group))
-          )
+          (filterExerciseGroups.length === 0 ||
+            filterExerciseGroups.some(
+              (group) =>
+                item.formattedGroupStringPrimary!.includes(group) ||
+                // Only include Secondary Exercise Groups if includeSecondaryGroups is true
+                (includeSecondaryGroups &&
+                  item.formattedGroupStringSecondary !== undefined &&
+                  item.formattedGroupStringSecondary.includes(group))
+            ))
       );
     }
     return exercises;
