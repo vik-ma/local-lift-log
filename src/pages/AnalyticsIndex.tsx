@@ -2695,15 +2695,29 @@ export default function AnalyticsIndex() {
 
         if (dateMap.has(date)) {
           const existingMultiplierMap = dateMap.get(date)!;
-          dateMap.set(
-            date,
-            new Map([...existingMultiplierMap, ...multiplierMap])
-          );
+
+          for (const [group, multiplier] of multiplierMap) {
+            if (existingMultiplierMap.has(group)) {
+              // Update existing value (Number of Sets with multiplier)
+              // for specific Exercise Group
+              const currentNum = existingMultiplierMap.get(group)!;
+              const newNum = ConvertNumberToTwoDecimals(
+                currentNum + multiplier
+              );
+              existingMultiplierMap.set(group, newNum);
+            } else {
+              // Add the value (Number of Sets with multiplier) if
+              // Exercise Group has no values for this date
+              existingMultiplierMap.set(group, multiplier);
+            }
+          }
         } else {
           dateMap.set(date, new Map(multiplierMap));
         }
       }
     }
+
+    console.log(dateMap);
 
     for (const group of selectedExerciseGroups) {
       const chartName: ChartDataCategory = `exercise_group_${group}`;
