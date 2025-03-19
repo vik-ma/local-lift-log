@@ -1951,15 +1951,14 @@ export default function AnalyticsIndex() {
     for (const option of loadExerciseOptions) {
       const chartName: ChartDataCategory = `${option}_${exerciseId}`;
 
-      if (
-        !updatedHighestValueMap.has(chartName) ||
-        loadedCharts.current.has(chartName)
-      )
-        continue;
+      if (loadedCharts.current.has(chartName)) continue;
+
+      loadedCharts.current.add(chartName);
+
+      if (!updatedHighestValueMap.has(chartName)) continue;
 
       const optionCategory = chartDataUnitCategoryMap.current.get(option);
 
-      loadedCharts.current.add(chartName);
       chartDataUnitCategoryMap.current.set(chartName, optionCategory);
 
       const chartLabel = `${loadExerciseOptionsMap.get(option)} [${
