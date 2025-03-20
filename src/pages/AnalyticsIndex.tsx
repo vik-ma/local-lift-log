@@ -2790,10 +2790,10 @@ export default function AnalyticsIndex() {
 
       chartDataUnitCategoryMap.current.set(chartName, unitCategory);
 
-      const exerciseGroupLabel = exerciseGroupDictionary.get(group)!;
+      const exerciseGroupName = exerciseGroupDictionary.get(group)!;
 
       chartConfig.current[chartName] = {
-        label: exerciseGroupLabel,
+        label: `Number Of ${exerciseGroupName} Sets`,
       };
 
       if (loadChartAsArea) {
