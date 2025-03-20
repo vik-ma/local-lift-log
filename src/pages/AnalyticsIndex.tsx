@@ -2735,6 +2735,8 @@ export default function AnalyticsIndex() {
         if (setCount > highestValueMap.get(chartName)!) {
           highestValueMap.set(chartName, setCount);
         }
+
+        chartDataItem[chartName] = setCount;
       }
 
       loadedChartData.push(chartDataItem);
@@ -2808,6 +2810,7 @@ export default function AnalyticsIndex() {
     }
 
     setSelectedExerciseGroups([]);
+    disabledExerciseGroups.current.push(...selectedExerciseGroups);
     isChartDataLoaded.current = true;
     listModal.onClose();
   };
