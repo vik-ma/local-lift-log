@@ -2772,7 +2772,43 @@ export default function AnalyticsIndex() {
       filterMaxDate
     );
 
+    const primaryDataKeys: ChartDataCategory[] = [];
+    const secondaryDataKeys: ChartDataCategory[] = [];
+
+    const unitCategory = "Number Of Reps";
+
+    for (const group of selectedExerciseGroups) {
+      const chartName: ChartDataCategory = `exercise_group_${group}`;
+
+      if (loadedCharts.current.has(chartName)) continue;
+
+      loadedCharts.current.add(chartName);
+
+      if (!updatedHighestValueMap.has(chartName)) continue;
+
+      chartDataUnitCategoryMap.current.set(chartName, unitCategory);
+
+      const exerciseGroupLabel = exerciseGroupDictionary.get(group)!;
+
+      chartConfig.current[chartName] = {
+        label: exerciseGroupLabel,
+      };
+
+      if (loadChartAsArea) {
+        primaryDataKeys.push(chartName);
+      } else {
+        secondaryDataKeys.push(chartName);
+      }
+    }
+
+    if (loadChartAsArea) {
+      loadChartAreas(primaryDataKeys);
+    } else {
+      loadChartLines(secondaryDataKeys, [unitCategory], unitCategory);
+    }
+
     setSelectedExerciseGroups([]);
+    isChartDataLoaded.current = true;
     listModal.onClose();
   };
 
