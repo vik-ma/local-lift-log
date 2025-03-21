@@ -111,6 +111,11 @@ type ChartDataItem = {
   [key in Exclude<ChartDataCategory, undefined>]?: number;
 };
 
+// WHEN ADDING NEW STATS:
+// UPDATE useDefaultChartMapsAndConfig
+// IF STAT HAS ID (EXERCISE STAT OR EXERCISE GROUP STAT)
+// UPDATE getChartDataCategoryTypeAndId
+
 export default function AnalyticsIndex() {
   const [listModalPage, setListModalPage] =
     useState<ListModalPage>("exercise-list");
