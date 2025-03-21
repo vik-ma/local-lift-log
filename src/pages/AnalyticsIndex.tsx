@@ -2068,6 +2068,9 @@ export default function AnalyticsIndex() {
       case "RPE":
         unit = " RPE";
         break;
+      case "Resistance Level":
+        unit = " RL";
+        break;
       default:
         break;
     }
