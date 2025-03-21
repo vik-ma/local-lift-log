@@ -42,9 +42,9 @@ export const CreateExerciseSetIds = (
         workoutExerciseGroupsPrimary.push(exerciseGroupsPrimary);
       }
 
-      if (exercise.exercise_group_set_string_secondary !== null) {
+      if (exercise.exercise_group_map_string_secondary !== null) {
         const exerciseGroupsSecondary = CreateExerciseGroupSetSecondary(
-          exercise.exercise_group_set_string_secondary,
+          exercise.exercise_group_map_string_secondary,
           exerciseGroupDictionary
         );
         workoutExerciseGroupsSecondary.push(exerciseGroupsSecondary);

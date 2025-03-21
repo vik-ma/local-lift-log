@@ -30,7 +30,7 @@ export const UpdateExerciseValues = async (
         exerciseGroupDictionary
       );
 
-    updatedExercise.exercise_group_set_string_secondary =
+    updatedExercise.exercise_group_map_string_secondary =
       exerciseGroupSetString;
 
     if (exerciseGroupSetString !== null) {

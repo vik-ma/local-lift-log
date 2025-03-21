@@ -129,7 +129,7 @@ export const ExerciseModal = ({
       // If no Secondary Exercise Groups are selected
       setExercise((prev) => ({
         ...prev,
-        exercise_group_set_string_secondary: null,
+        exercise_group_map_string_secondary: null,
         exerciseGroupStringMapSecondary: undefined,
         formattedGroupStringSecondary: undefined,
       }));
@@ -153,7 +153,7 @@ export const ExerciseModal = ({
 
     setExercise((prev) => ({
       ...prev,
-      exercise_group_set_string_secondary: exerciseGroupSetString,
+      exercise_group_map_string_secondary: exerciseGroupSetString,
       exerciseGroupStringMapSecondary: convertedValuesSecondary.map,
       formattedGroupStringSecondary: convertedValuesSecondary.formattedString,
     }));

@@ -30,8 +30,8 @@ export const GetExerciseListWithGroupStrings = async (
         name: row.name,
         exercise_group_set_string_primary:
           row.exercise_group_set_string_primary,
-        exercise_group_set_string_secondary:
-          row.exercise_group_set_string_secondary,
+        exercise_group_map_string_secondary:
+          row.exercise_group_map_string_secondary,
         note: row.note,
         is_favorite: row.is_favorite,
         calculation_string: row.calculation_string,
@@ -39,9 +39,9 @@ export const GetExerciseListWithGroupStrings = async (
         formattedGroupStringPrimary: convertedValuesPrimary.formattedString,
       };
 
-      if (row.exercise_group_set_string_secondary !== null) {
+      if (row.exercise_group_map_string_secondary !== null) {
         const convertedValuesSecondary = ConvertExerciseGroupSetStringSecondary(
-          row.exercise_group_set_string_secondary,
+          row.exercise_group_map_string_secondary,
           exerciseGroupDictionary
         );
         exercise.exerciseGroupStringMapSecondary = convertedValuesSecondary.map;

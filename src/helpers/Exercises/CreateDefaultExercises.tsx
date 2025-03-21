@@ -11,12 +11,12 @@ export const CreateDefaultExercises = async () => {
       db.execute(
         `INSERT into exercises 
          (name, exercise_group_set_string_primary, 
-         exercise_group_set_string_secondary, is_favorite) 
+         exercise_group_map_string_secondary, is_favorite) 
          VALUES ($1, $2, $3, $4)`,
         [
           exercise.name,
           exercise.exercise_group_set_string_primary,
-          exercise.exercise_group_set_string_secondary,
+          exercise.exercise_group_map_string_secondary,
           0,
         ]
       );

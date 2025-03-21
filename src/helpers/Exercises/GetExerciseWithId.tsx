@@ -13,7 +13,7 @@ export const GetExerciseWithId = async (
     id: exerciseId,
     name: "Unknown Exercise",
     exercise_group_set_string_primary: "",
-    exercise_group_set_string_secondary: null,
+    exercise_group_map_string_secondary: null,
     note: null,
     is_favorite: 0,
     isInvalid: true,
@@ -41,9 +41,9 @@ export const GetExerciseWithId = async (
     exercise.formattedGroupStringPrimary =
       convertedValuesPrimary.formattedString;
 
-    if (exercise.exercise_group_set_string_secondary !== null) {
+    if (exercise.exercise_group_map_string_secondary !== null) {
       const convertedValuesSecondary = ConvertExerciseGroupSetStringSecondary(
-        exercise.exercise_group_set_string_secondary,
+        exercise.exercise_group_map_string_secondary,
         exerciseGroupDictionary
       );
       exercise.exerciseGroupStringMapSecondary = convertedValuesSecondary.map;
