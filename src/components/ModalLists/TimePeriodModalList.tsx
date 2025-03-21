@@ -13,7 +13,7 @@ import {
   TimePeriodListOptions,
 } from "..";
 import { GoToArrowIcon } from "../../assets";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 type TimePeriodModalListProps = {
   useTimePeriodList: UseTimePeriodListReturnType;
@@ -153,7 +153,14 @@ export const TimePeriodModalList = ({
           </div>
         ))}
         {filteredTimePeriods.length === 0 && (
-          <EmptyListLabel itemName="Time Periods" />
+          <EmptyListLabel
+            itemName="Time Periods"
+            extraContent={
+              timePeriods.length > 0 ? undefined : (
+                <Link to={"/time-periods"}>Create Time Periods Here</Link>
+              )
+            }
+          />
         )}
       </ScrollShadow>
     </div>
