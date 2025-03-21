@@ -1,4 +1,4 @@
-export const ConvertExerciseGroupStringListPrimaryToString = (
+export const ConvertExerciseGroupStringSetPrimaryToString = (
   exerciseGroupSetStringSet: Set<string>
 ): string => {
   const exerciseGroupSetString: string = Array.from(

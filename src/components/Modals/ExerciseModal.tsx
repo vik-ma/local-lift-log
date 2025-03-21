@@ -14,7 +14,7 @@ import {
   UseDisclosureReturnType,
 } from "../../typings";
 import {
-  ConvertExerciseGroupStringListPrimaryToString,
+  ConvertExerciseGroupStringSetPrimaryToString,
   ConvertExerciseGroupSetStringPrimary,
   ConvertExerciseGroupSetStringSecondary,
   GenerateNewExerciseGroupSetStringSecondary,
@@ -91,10 +91,9 @@ export const ExerciseModal = ({
       exerciseGroupStringListPrimary
     );
 
-    const exerciseGroupSetString =
-      ConvertExerciseGroupStringListPrimaryToString(
-        exerciseGroupStringSetPrimary
-      );
+    const exerciseGroupSetString = ConvertExerciseGroupStringSetPrimaryToString(
+      exerciseGroupStringSetPrimary
+    );
 
     const convertedValuesPrimary = ConvertExerciseGroupSetStringPrimary(
       exerciseGroupSetString,

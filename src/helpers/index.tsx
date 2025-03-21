@@ -26,7 +26,7 @@ export { ValidateStartAndEndDateStrings } from "./Dates/ValidateStartAndEndDateS
 export { ConvertISODateStringToYmdDateString } from "./Dates/ConvertISODateStringToYmdDateString";
 
 export { ConvertExerciseGroupSetStringPrimary } from "./Exercises/ConvertExerciseGroupSetStringPrimary";
-export { ConvertExerciseGroupStringListPrimaryToString } from "./Exercises/ConvertExerciseGroupStringListPrimaryToString";
+export { ConvertExerciseGroupStringSetPrimaryToString } from "./Exercises/ConvertExerciseGroupStringSetPrimaryToString";
 export { CreateDefaultExercises } from "./Exercises/CreateDefaultExercises";
 export { ValidateExerciseGroupSetStringPrimary } from "./Exercises/ValidateExerciseGroupSetStringPrimary";
 export { GetExerciseListWithGroupStrings } from "./Exercises/GetExerciseListWithGroupStrings";
