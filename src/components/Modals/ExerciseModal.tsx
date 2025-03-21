@@ -148,7 +148,8 @@ export const ExerciseModal = ({
 
     const convertedValuesSecondary = ConvertExerciseGroupSetStringSecondary(
       exerciseGroupSetString,
-      exerciseGroupDictionary
+      exerciseGroupDictionary,
+      exercise.exerciseGroupStringSetPrimary!
     );
 
     setExercise((prev) => ({

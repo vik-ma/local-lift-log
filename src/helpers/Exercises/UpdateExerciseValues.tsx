@@ -36,7 +36,8 @@ export const UpdateExerciseValues = async (
     if (exerciseGroupSetString !== null) {
       const convertedValuesSecondary = ConvertExerciseGroupSetStringSecondary(
         exerciseGroupSetString,
-        exerciseGroupDictionary
+        exerciseGroupDictionary,
+        convertedValuesPrimary.set
       );
 
       updatedExercise.exerciseGroupStringMapSecondary =

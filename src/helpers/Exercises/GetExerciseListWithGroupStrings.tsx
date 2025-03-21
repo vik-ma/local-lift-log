@@ -42,7 +42,8 @@ export const GetExerciseListWithGroupStrings = async (
       if (row.exercise_group_map_string_secondary !== null) {
         const convertedValuesSecondary = ConvertExerciseGroupSetStringSecondary(
           row.exercise_group_map_string_secondary,
-          exerciseGroupDictionary
+          exerciseGroupDictionary,
+          convertedValuesPrimary.set
         );
         exercise.exerciseGroupStringMapSecondary = convertedValuesSecondary.map;
         exercise.formattedGroupStringSecondary =

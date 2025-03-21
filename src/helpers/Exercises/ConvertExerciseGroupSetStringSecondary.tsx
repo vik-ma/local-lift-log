@@ -2,10 +2,11 @@ import { IsStringValidNumberBetween0And1 } from "..";
 import { ExerciseGroupMap } from "../../typings";
 
 export const ConvertExerciseGroupSetStringSecondary = (
-  exerciseGroupSetString: string,
-  exerciseGroupDictionary: ExerciseGroupMap
+  exerciseGroupMapStringSecondary: string,
+  exerciseGroupDictionary: ExerciseGroupMap,
+  exerciseGroupSetPrimary: Set<string>
 ) => {
-  const exerciseGroups = exerciseGroupSetString.split(",");
+  const exerciseGroups = exerciseGroupMapStringSecondary.split(",");
 
   const exerciseGroupNameList: string[] = [];
   const exerciseGroupMultiplierMap: Map<string, string> = new Map();
@@ -19,6 +20,7 @@ export const ConvertExerciseGroupSetStringSecondary = (
     if (
       exerciseGroup !== undefined &&
       exerciseGroupDictionary.has(exerciseGroup) &&
+      !exerciseGroupSetPrimary.has(exerciseGroup) &&
       multiplier !== undefined &&
       IsStringValidNumberBetween0And1(multiplier)
     ) {
