@@ -37,7 +37,7 @@ export const GetExerciseWithId = async (
       exerciseGroupDictionary
     );
 
-    exercise.exerciseGroupStringListPrimary = convertedValuesPrimary.list;
+    exercise.exerciseGroupStringSetPrimary = convertedValuesPrimary.set;
     exercise.formattedGroupStringPrimary =
       convertedValuesPrimary.formattedString;
 

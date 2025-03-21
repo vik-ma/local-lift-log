@@ -87,9 +87,13 @@ export const ExerciseModal = ({
   const handleExerciseGroupStringPrimaryChange = (
     exerciseGroupStringListPrimary: string[]
   ) => {
+    const exerciseGroupStringSetPrimary = new Set(
+      exerciseGroupStringListPrimary
+    );
+
     const exerciseGroupSetString =
       ConvertExerciseGroupStringListPrimaryToString(
-        exerciseGroupStringListPrimary
+        exerciseGroupStringSetPrimary
       );
 
     const convertedValuesPrimary = ConvertExerciseGroupSetStringPrimary(
@@ -100,12 +104,12 @@ export const ExerciseModal = ({
     setExercise((prev) => ({
       ...prev,
       exercise_group_set_string_primary: exerciseGroupSetString,
-      exerciseGroupStringListPrimary: exerciseGroupStringListPrimary,
+      exerciseGroupStringSetPrimary: exerciseGroupStringSetPrimary,
       formattedGroupStringPrimary: convertedValuesPrimary.formattedString,
     }));
 
     if (exercise.exerciseGroupStringMapSecondary !== undefined) {
-      for (const group of exerciseGroupStringListPrimary) {
+      for (const group of exerciseGroupStringSetPrimary) {
         if (exercise.exerciseGroupStringMapSecondary.has(group)) {
           // Remove Primary Exercise Group from Secondary Exercise Groups if it exists
           handleExerciseGroupStringSecondaryChange(
@@ -189,6 +193,11 @@ export const ExerciseModal = ({
       }, 105);
     }
   }, [isMultiplierAccordionExpanded]);
+
+  const exerciseGroupStringListPrimary: string[] =
+    exercise.exerciseGroupStringSetPrimary !== undefined
+      ? Array.from(exercise.exerciseGroupStringSetPrimary)
+      : [];
 
   return (
     <Modal
@@ -277,9 +286,7 @@ export const ExerciseModal = ({
                         >
                           <ExerciseGroupCheckboxes
                             isValid={isExerciseGroupSetPrimaryStringValid}
-                            value={
-                              exercise.exerciseGroupStringListPrimary ?? []
-                            }
+                            value={exerciseGroupStringListPrimary}
                             handleChange={
                               handleExerciseGroupStringPrimaryChange
                             }
@@ -349,9 +356,7 @@ export const ExerciseModal = ({
                             }
                             exerciseGroupDictionary={exerciseGroupDictionary}
                             customAriaLabel="Select Secondary Exercise Groups"
-                            disabledKeys={
-                              exercise.exerciseGroupStringListPrimary
-                            }
+                            disabledKeys={exerciseGroupStringListPrimary}
                           />
                         </motion.div>
                       )}

@@ -1,9 +1,9 @@
 export const ConvertExerciseGroupStringListPrimaryToString = (
-  exerciseGroupSetStringList: string[]
+  exerciseGroupSetStringSet: Set<string>
 ): string => {
-  const exerciseGroupSetString: string = [...exerciseGroupSetStringList].join(
-    ","
-  );
+  const exerciseGroupSetString: string = Array.from(
+    exerciseGroupSetStringSet
+  ).join(",");
 
   return exerciseGroupSetString;
 };

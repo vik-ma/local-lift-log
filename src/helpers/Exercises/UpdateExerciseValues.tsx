@@ -19,7 +19,7 @@ export const UpdateExerciseValues = async (
   const updatedExercise: Exercise = {
     ...exercise,
     formattedGroupStringPrimary: convertedValuesPrimary.formattedString,
-    exerciseGroupStringListPrimary: convertedValuesPrimary.list,
+    exerciseGroupStringSetPrimary: convertedValuesPrimary.set,
   };
 
   if (updatedExercise.exerciseGroupStringMapSecondary !== undefined) {

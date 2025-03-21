@@ -88,7 +88,7 @@ export type Exercise = {
   note: string | null;
   is_favorite: number;
   calculation_string: string | null;
-  exerciseGroupStringListPrimary?: string[];
+  exerciseGroupStringSetPrimary?: Set<string>;
   formattedGroupStringPrimary?: string;
   exerciseGroupStringMapSecondary?: Map<string, string>;
   formattedGroupStringSecondary?: string;

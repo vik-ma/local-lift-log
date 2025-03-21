@@ -2841,7 +2841,7 @@ export default function AnalyticsIndex() {
       for (const group of selectedExerciseGroups) {
         const multiplierMap = new Map<string, number>();
 
-        if (exercise.exerciseGroupStringListPrimary!.includes(group)) {
+        if (exercise.exerciseGroupStringSetPrimary!.has(group)) {
           multiplierMap.set(group, 1);
         }
 

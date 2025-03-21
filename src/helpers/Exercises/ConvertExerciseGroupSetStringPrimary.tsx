@@ -1,7 +1,7 @@
 import { ExerciseGroupMap } from "../../typings";
 
 type ConvertedExerciseGroupSet = {
-  list: string[];
+  set: Set<string>;
   formattedString: string;
 };
 
@@ -11,17 +11,17 @@ export const ConvertExerciseGroupSetStringPrimary = (
 ): ConvertedExerciseGroupSet => {
   const exerciseGroups: string[] = exerciseGroupSetString.split(",");
 
-  const exerciseGroupNumberList: string[] = [];
+  const exerciseGroupNumberSet = new Set<string>();
   const exerciseGroupNameList: string[] = [];
 
   exerciseGroups.map((group: string) => {
     if (exerciseGroupDictionary.has(group)) {
       exerciseGroupNameList.push(exerciseGroupDictionary.get(group)!);
-      exerciseGroupNumberList.push(group);
+      exerciseGroupNumberSet.add(group);
     }
   });
 
   const formattedString: string = [...exerciseGroupNameList].join(", ");
 
-  return { list: exerciseGroupNumberList, formattedString: formattedString };
+  return { set: exerciseGroupNumberSet, formattedString: formattedString };
 };

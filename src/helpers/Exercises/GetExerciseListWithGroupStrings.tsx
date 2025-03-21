@@ -35,7 +35,7 @@ export const GetExerciseListWithGroupStrings = async (
         note: row.note,
         is_favorite: row.is_favorite,
         calculation_string: row.calculation_string,
-        exerciseGroupStringListPrimary: convertedValuesPrimary.list,
+        exerciseGroupStringSetPrimary: convertedValuesPrimary.set,
         formattedGroupStringPrimary: convertedValuesPrimary.formattedString,
       };
 
