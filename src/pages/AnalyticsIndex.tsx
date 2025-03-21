@@ -2051,6 +2051,18 @@ export default function AnalyticsIndex() {
       case "Pace":
         unit = ` ${paceUnit}`;
         break;
+      case "Number Of Sets":
+        unit = " sets";
+        break;
+      case "Number Of Reps":
+        unit = " reps";
+        break;
+      case "RIR":
+        unit = " RIR";
+        break;
+      case "RPE":
+        unit = " RPE";
+        break;
       default:
         break;
     }
@@ -2795,6 +2807,8 @@ export default function AnalyticsIndex() {
       chartConfig.current[chartName] = {
         label: `Number Of ${exerciseGroupName} Sets`,
       };
+
+      chartDataUnitMap.current.set(chartName, " reps");
 
       if (loadChartAsArea) {
         primaryDataKeys.push(chartName);
