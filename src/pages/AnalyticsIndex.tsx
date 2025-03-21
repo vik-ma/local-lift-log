@@ -2899,6 +2899,7 @@ export default function AnalyticsIndex() {
                     handleMeasurementClick={loadMeasurement}
                     customHeightString="h-[440px]"
                     hiddenMeasurements={loadedMeasurements}
+                    isInAnalyticsPage
                   />
                 ) : listModalPage === "time-period-list" ? (
                   <TimePeriodModalList

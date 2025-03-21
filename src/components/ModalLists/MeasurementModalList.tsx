@@ -8,7 +8,7 @@ import {
 } from "..";
 import { Measurement, UseMeasurementListReturnType } from "../../typings";
 import { CheckmarkIcon, GoToArrowIcon } from "../../assets";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useMemo } from "react";
 import { FormatNumUserMeasurementEntriesString } from "../../helpers";
 
@@ -18,6 +18,7 @@ type MeasurementModalListProps = {
   highlightedMeasurements?: Set<string>;
   customHeightString?: string;
   hiddenMeasurements?: Map<number, Measurement>;
+  isInAnalyticsPage?: boolean;
 };
 
 export const MeasurementModalList = ({
@@ -26,6 +27,7 @@ export const MeasurementModalList = ({
   highlightedMeasurements,
   customHeightString,
   hiddenMeasurements,
+  isInAnalyticsPage,
 }: MeasurementModalListProps) => {
   const {
     measurements,
@@ -138,7 +140,21 @@ export const MeasurementModalList = ({
           </div>
         ))}
         {filteredMeasurements.length === 0 && (
-          <EmptyListLabel itemName="Measurements" />
+          <EmptyListLabel
+            itemName="Measurements"
+            customLabel={
+              isInAnalyticsPage && measurements.length === 0
+                ? "No User Measurements Has Been Recorded"
+                : undefined
+            }
+            extraContent={
+              measurements.length > 0 ? undefined : (
+                <Link to={"/measurements/measurement-list"}>
+                  Create Or Restore Default Body Measurements Here
+                </Link>
+              )
+            }
+          />
         )}
       </ScrollShadow>
     </div>
