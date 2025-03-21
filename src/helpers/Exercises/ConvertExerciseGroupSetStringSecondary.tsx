@@ -21,6 +21,7 @@ export const ConvertExerciseGroupSetStringSecondary = (
       exerciseGroup !== undefined &&
       exerciseGroupDictionary.has(exerciseGroup) &&
       !exerciseGroupSetPrimary.has(exerciseGroup) &&
+      !exerciseGroupMultiplierMap.has(exerciseGroup) &&
       multiplier !== undefined &&
       IsStringValidNumberBetween0And1(multiplier)
     ) {
