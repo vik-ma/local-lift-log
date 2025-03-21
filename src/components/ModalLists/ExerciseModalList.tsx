@@ -142,11 +142,13 @@ export const ExerciseModalList = ({
           <EmptyListLabel
             itemName="Exercises"
             customLabel={
-              isInAnalyticsPage ? "No Exercises Has Been Completed" : undefined
+              isInAnalyticsPage && exercises.length === 0
+                ? "No Exercises Has Been Completed"
+                : undefined
             }
             extraContent={
-              isInAnalyticsPage ? undefined : (
-                <Link to={"/exercises/"}>
+              isInAnalyticsPage || exercises.length > 0 ? undefined : (
+                <Link to={"/exercises"}>
                   Create Or Restore Default Exercises Here
                 </Link>
               )
