@@ -3386,12 +3386,12 @@ export default function AnalyticsIndex() {
               color="secondary"
               onPress={() => handleOpenListModal("exercise-list")}
             >
-              Select Exercise
+              Load Exercise Stat
             </Button>
             <Dropdown>
               <DropdownTrigger>
                 <Button className="font-medium" variant="flat">
-                  Load Area
+                  Load Other Stat As Area
                 </Button>
               </DropdownTrigger>
               <DropdownMenu
@@ -3399,12 +3399,6 @@ export default function AnalyticsIndex() {
                 variant="flat"
                 disabledKeys={loadedCharts.current}
               >
-                <DropdownItem
-                  key="exercise-group"
-                  onPress={() => handleLoadNumExerciseGroupSetsClick(true)}
-                >
-                  Sets Per Exercise Group
-                </DropdownItem>
                 <DropdownItem
                   key="measurement"
                   onPress={() => handleLoadMeasurementClick(true)}
@@ -3447,6 +3441,12 @@ export default function AnalyticsIndex() {
                 >
                   Protein
                 </DropdownItem>
+                <DropdownItem
+                  key="exercise-group"
+                  onPress={() => handleLoadNumExerciseGroupSetsClick(true)}
+                >
+                  Sets Per Exercise Group
+                </DropdownItem>
               </DropdownMenu>
             </Dropdown>
             <Dropdown>
@@ -3456,7 +3456,7 @@ export default function AnalyticsIndex() {
                   variant="flat"
                   isDisabled={chartDataAreas.length === 0}
                 >
-                  Load Line
+                  Load Other Stat As Line
                 </Button>
               </DropdownTrigger>
               <DropdownMenu
@@ -3464,12 +3464,6 @@ export default function AnalyticsIndex() {
                 variant="flat"
                 disabledKeys={loadedCharts.current}
               >
-                <DropdownItem
-                  key="exercise-group"
-                  onPress={() => handleLoadNumExerciseGroupSetsClick(false)}
-                >
-                  Sets Per Exercise Group
-                </DropdownItem>
                 <DropdownItem
                   key="measurement"
                   onPress={() => handleLoadMeasurementClick(false)}
@@ -3512,6 +3506,12 @@ export default function AnalyticsIndex() {
                 >
                   Protein
                 </DropdownItem>
+                <DropdownItem
+                  key="exercise-group"
+                  onPress={() => handleLoadNumExerciseGroupSetsClick(false)}
+                >
+                  Sets Per Exercise Group
+                </DropdownItem>
               </DropdownMenu>
             </Dropdown>
             {isChartDataLoaded.current && (
@@ -3521,7 +3521,7 @@ export default function AnalyticsIndex() {
                   variant="flat"
                   onPress={() => handleOpenListModal("time-period-list")}
                 >
-                  Select Time Period
+                  Load Time Period
                 </Button>
                 <Button
                   className="font-medium"
