@@ -222,15 +222,16 @@ export type UnitDropdownProps = {
   setPlateCollection?: React.Dispatch<React.SetStateAction<PlateCollection>>;
   switchWeightUnit?: () => void;
   showBigLabel?: boolean;
+  customLabel?: string;
   changeUnitInChart?: (
     newUnit: string,
-    unitCategory: "Weight" | "Distance" | "Pace"
+    unitCategory: "Weight" | "Distance" | "Pace" | "Circumference"
   ) => void;
-  customLabel?: string;
   customWidthString?: string;
 };
 
 export type MeasurementDropdownProps = {
+  targetType: "modal" | "settings" | "active" | "chart";
   measurement?: Measurement;
   isDisabled?: boolean;
   measurements?: Measurement[];
@@ -238,7 +239,14 @@ export type MeasurementDropdownProps = {
   setMeasurement?: SetMeasurementAction;
   value?: string;
   setUserSettings?: HTMLSelectElementChange;
-  targetType: "modal" | "settings" | "active";
+  showLabel?: boolean;
+  showBigLabel?: boolean;
+  customLabel?: string;
+  changeUnitInChart?: (
+    newUnit: string,
+    unitCategory: "Weight" | "Distance" | "Pace" | "Circumference"
+  ) => void;
+  customWidthString?: string;
 };
 
 export type SetTrackingValuesInput = {

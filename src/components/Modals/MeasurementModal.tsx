@@ -61,7 +61,7 @@ export const MeasurementModal = ({
                   isRequired
                   isClearable
                 />
-                <div className="flex justify-around items-center px-1">
+                <div className="flex justify-around px-1">
                   <RadioGroup
                     value={measurement.measurement_type}
                     onValueChange={(value) =>
@@ -82,6 +82,7 @@ export const MeasurementModal = ({
                     }
                     setMeasurement={setMeasurement}
                     targetType="modal"
+                    showBigLabel
                   />
                 </div>
               </div>

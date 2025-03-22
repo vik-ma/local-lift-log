@@ -3,6 +3,7 @@ import { MeasurementDropdownProps } from "../../typings";
 import { useValidMeasurementUnits } from "../../hooks";
 
 export const MeasurementUnitDropdown = ({
+  targetType,
   measurement,
   isDisabled = false,
   measurements,
@@ -10,7 +11,11 @@ export const MeasurementUnitDropdown = ({
   setMeasurement,
   value,
   setUserSettings,
-  targetType,
+  showLabel,
+  showBigLabel,
+  customLabel,
+  changeUnitInChart,
+  customWidthString,
 }: MeasurementDropdownProps) => {
   const validMeasurementUnits = useValidMeasurementUnits();
 
@@ -51,31 +56,44 @@ export const MeasurementUnitDropdown = ({
     }
   };
 
+  const showCustomLabel = customLabel !== undefined;
+
   return (
-    <Select
-      aria-label="Measurement Unit Dropdown List"
-      label={targetType === "settings" ? undefined : "Unit"}
-      size={
-        targetType === "modal" ? "lg" : targetType === "settings" ? "md" : "sm"
-      }
-      className={
-        targetType === "settings" || targetType === "active"
-          ? "max-w-[5rem]"
-          : "w-20"
-      }
-      labelPlacement={targetType === "modal" ? "outside" : "inside"}
-      variant="faded"
-      selectedKeys={[displayValue]}
-      onChange={(e) => handleChange(e)}
-      isDisabled={isDisabled}
-      disallowEmptySelection
-    >
-      {validMeasurementUnits.map((unit) => (
-        <SelectItem key={unit} value={unit}>
-          {unit}
-        </SelectItem>
-      ))}
-    </Select>
+    <div className="flex flex-col gap-0.5">
+      {showBigLabel && (
+        <h3 className="text-foreground-500 text-base px-0.5">Unit</h3>
+      )}
+      <Select
+        aria-label="Measurement Unit Dropdown List"
+        label={showCustomLabel ? customLabel : showLabel ? "Unit" : null}
+        size={
+          targetType === "modal"
+            ? "lg"
+            : targetType === "settings"
+            ? "md"
+            : "sm"
+        }
+        classNames={{
+          label: showCustomLabel ? "pl-0.5 mt-1" : "",
+          mainWrapper:
+            customWidthString !== undefined ? customWidthString : "w-[5rem]",
+        }}
+        labelPlacement={
+          targetType === "modal" || showCustomLabel ? "outside" : "inside"
+        }
+        variant="faded"
+        selectedKeys={[displayValue]}
+        onChange={(e) => handleChange(e)}
+        isDisabled={isDisabled}
+        disallowEmptySelection
+      >
+        {validMeasurementUnits.map((unit) => (
+          <SelectItem key={unit} value={unit}>
+            {unit}
+          </SelectItem>
+        ))}
+      </Select>
+    </div>
   );
 };
 

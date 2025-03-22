@@ -53,6 +53,7 @@ export const UserMeasurementReorderItem = ({
           measurement={measurement}
           targetType="active"
           isDisabled={measurement.measurement_type === "Caliper"}
+          showLabel
         />
         {!isEditing && (
           <div
