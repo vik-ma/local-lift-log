@@ -2307,6 +2307,7 @@ export default function AnalyticsIndex() {
     setDisabledLoadExerciseOptions(new Set());
     setSelectedExercise(undefined);
 
+    isChartDataLoaded.current = false;
     chartConfig.current = { ...defaultChartConfig };
     loadedCharts.current = new Set();
     chartDataUnitMap.current = new Map(defaultChartDataUnitMap);
