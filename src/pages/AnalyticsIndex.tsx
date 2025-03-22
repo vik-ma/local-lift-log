@@ -389,6 +389,21 @@ export default function AnalyticsIndex() {
     );
   };
 
+  const assignDefaultUnits = (userSettings: UserSettings) => {
+    const validUnits = GetValidatedUserSettingsUnits(userSettings);
+
+    setWeightUnit(validUnits.weightUnit);
+    setDistanceUnit(validUnits.distanceUnit);
+    setCircumferenceUnit(validUnits.measurementUnit);
+    setPaceUnit(
+      validUnits.distanceUnit === "km" || validUnits.distanceUnit === "m"
+        ? "km/h"
+        : "mph"
+    );
+
+    chartDataUnitMap.current.set("body_weight", ` ${validUnits.weightUnit}`);
+  };
+
   useEffect(() => {
     if (userSettings === undefined) return;
 
@@ -405,21 +420,7 @@ export default function AnalyticsIndex() {
 
         setUserSettings(userSettings);
 
-        const validUnits = GetValidatedUserSettingsUnits(userSettings);
-
-        setWeightUnit(validUnits.weightUnit);
-        setDistanceUnit(validUnits.distanceUnit);
-        setCircumferenceUnit(validUnits.measurementUnit);
-        setPaceUnit(
-          validUnits.distanceUnit === "km" || validUnits.distanceUnit === "m"
-            ? "km/h"
-            : "mph"
-        );
-
-        chartDataUnitMap.current.set(
-          "body_weight",
-          ` ${validUnits.weightUnit}`
-        );
+        assignDefaultUnits(userSettings);
 
         updateLoadExerciseOptions(userSettings.default_load_exercise_options);
       };
@@ -2287,6 +2288,8 @@ export default function AnalyticsIndex() {
   };
 
   const resetChart = () => {
+    if (userSettings === undefined) return;
+
     updateChartDataAndFilteredHighestCategoryValues([], null, null);
     setChartDataAreas([]);
     setChartDataLines([]);
@@ -2316,6 +2319,8 @@ export default function AnalyticsIndex() {
     filteredHighestCategoryValues.current = new Map();
     includesMultisetMap.current = new Map();
     disabledExerciseGroups.current = [];
+
+    assignDefaultUnits(userSettings);
 
     deleteModal.onClose();
   };

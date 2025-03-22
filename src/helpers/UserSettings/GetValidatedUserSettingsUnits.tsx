@@ -1,7 +1,9 @@
 import { UserSettings } from "../../typings";
-import { ValidDistanceUnits } from "../Constants/ValidDistanceUnits";
-import { ValidMeasurementUnits } from "../Constants/ValidMeasurementUnits";
-import { ValidWeightUnits } from "../Constants/ValidWeightUnits";
+import {
+  ValidDistanceUnits,
+  ValidMeasurementUnits,
+  ValidWeightUnits,
+} from "..";
 
 export const GetValidatedUserSettingsUnits = (
   userSettings: UserSettings
