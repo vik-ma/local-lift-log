@@ -2632,6 +2632,19 @@ export default function AnalyticsIndex() {
 
       setPaceUnit(newUnit);
     }
+
+    if (unitCategory === "Circumference") {
+      if (newUnit === circumferenceUnit) return;
+
+      changeUnitInChartData(
+        newUnit,
+        circumferenceUnit,
+        circumferenceCharts,
+        ConvertMeasurementValue
+      );
+
+      setCircumferenceUnit(newUnit);
+    }
   };
 
   const changeUnitInChartData = (
@@ -3559,7 +3572,7 @@ export default function AnalyticsIndex() {
                   value={circumferenceUnit}
                   targetType="chart"
                   changeUnitInChart={handleChangeUnit}
-                  customWidthString="w-[5.5rem]"
+                  customWidthString="w-[7.5rem]"
                   customLabel="Circumference Unit"
                 />
               </div>

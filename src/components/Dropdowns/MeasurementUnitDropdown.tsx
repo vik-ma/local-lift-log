@@ -56,7 +56,7 @@ export const MeasurementUnitDropdown = ({
     }
 
     if (targetType === "chart" && changeUnitInChart !== undefined) {
-      changeUnitInChart(e.target.value, "Weight");
+      changeUnitInChart(e.target.value, "Circumference");
     }
   };
 
