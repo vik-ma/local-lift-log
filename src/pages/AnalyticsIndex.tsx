@@ -3048,8 +3048,105 @@ export default function AnalyticsIndex() {
       <div className="absolute left-0 w-screen">
         <div className="flex flex-col gap-3">
           {isChartDataLoaded.current && (
-            <div className="flex gap-1.5 mx-1">
-              <div className="flex flex-col gap-1 w-[12.25rem]"></div>
+            <div className="flex gap-1 mx-1">
+              <div className="flex flex-col gap-1 w-[12.25rem]">
+                <Select
+                  label="Shown Areas"
+                  size="sm"
+                  variant="faded"
+                  selectionMode="multiple"
+                  selectedKeys={shownChartDataAreas as string[]}
+                  isDisabled={chartDataAreas.length < 2}
+                  onSelectionChange={(value) =>
+                    updateLeftYAxis(Array.from(value) as ChartDataCategory[])
+                  }
+                  disallowEmptySelection
+                >
+                  {chartDataAreas.map((area) => (
+                    <SelectItem key={area} value={area}>
+                      {chartConfig.current[area ?? "default"].label}
+                    </SelectItem>
+                  ))}
+                </Select>
+                <Select
+                  label="Shown Lines"
+                  size="sm"
+                  variant="faded"
+                  selectionMode="multiple"
+                  selectedKeys={shownChartDataLines as string[]}
+                  onSelectionChange={(value) =>
+                    updateShownChartLines(
+                      Array.from(value) as ChartDataCategory[]
+                    )
+                  }
+                  isDisabled={chartDataLines.length === 0}
+                >
+                  {chartDataLines.map((line) => (
+                    <SelectItem key={line} value={line}>
+                      {chartConfig.current[line ?? "default"].label}
+                    </SelectItem>
+                  ))}
+                </Select>
+                <Select
+                  label="Right Y-Axis Value"
+                  size="sm"
+                  variant="faded"
+                  selectedKeys={
+                    secondaryDataUnitCategory !== undefined
+                      ? [secondaryDataUnitCategory]
+                      : []
+                  }
+                  onChange={(e) =>
+                    updateRightYAxis(
+                      shownChartDataLines,
+                      e.target.value as ChartDataUnitCategory
+                    )
+                  }
+                  disallowEmptySelection
+                  isDisabled={chartLineUnitCategorySet.size < 2}
+                >
+                  {Array.from(chartLineUnitCategorySet).map((category) => (
+                    <SelectItem key={category} value={category}>
+                      {category}
+                    </SelectItem>
+                  ))}
+                </Select>
+                <Select
+                  label="Shown Time Periods"
+                  size="sm"
+                  variant="faded"
+                  selectionMode="multiple"
+                  selectedKeys={shownTimePeriodIdSet}
+                  onSelectionChange={(keys) =>
+                    updateShownReferenceAreas(new Set(keys) as Set<string>)
+                  }
+                  isDisabled={referenceAreas.length === 0}
+                >
+                  {referenceAreas.map((area) => (
+                    <SelectItem
+                      key={area.timePeriodId.toString()}
+                      value={area.timePeriodId.toString()}
+                    >
+                      {area.label}
+                    </SelectItem>
+                  ))}
+                </Select>
+                <Button
+                  className="font-medium"
+                  variant="flat"
+                  onPress={() => handleOpenListModal("time-period-list")}
+                >
+                  Load Time Period
+                </Button>
+                <Button
+                  className="font-medium"
+                  variant="flat"
+                  color="danger"
+                  onPress={() => deleteModal.onOpen()}
+                >
+                  Reset Chart
+                </Button>
+              </div>
               <ChartContainer
                 config={chartConfig.current}
                 className="grow bg-default-50 pt-4 pb-1.5 rounded-xl"
@@ -3135,67 +3232,6 @@ export default function AnalyticsIndex() {
                 </ComposedChart>
               </ChartContainer>
               <div className="flex flex-col gap-1 w-[12.25rem]">
-                <Select
-                  label="Shown Areas"
-                  size="sm"
-                  variant="faded"
-                  selectionMode="multiple"
-                  selectedKeys={shownChartDataAreas as string[]}
-                  isDisabled={chartDataAreas.length < 2}
-                  onSelectionChange={(value) =>
-                    updateLeftYAxis(Array.from(value) as ChartDataCategory[])
-                  }
-                  disallowEmptySelection
-                >
-                  {chartDataAreas.map((area) => (
-                    <SelectItem key={area} value={area}>
-                      {chartConfig.current[area ?? "default"].label}
-                    </SelectItem>
-                  ))}
-                </Select>
-                <Select
-                  label="Shown Lines"
-                  size="sm"
-                  variant="faded"
-                  selectionMode="multiple"
-                  selectedKeys={shownChartDataLines as string[]}
-                  onSelectionChange={(value) =>
-                    updateShownChartLines(
-                      Array.from(value) as ChartDataCategory[]
-                    )
-                  }
-                  isDisabled={chartDataLines.length === 0}
-                >
-                  {chartDataLines.map((line) => (
-                    <SelectItem key={line} value={line}>
-                      {chartConfig.current[line ?? "default"].label}
-                    </SelectItem>
-                  ))}
-                </Select>
-                <Select
-                  label="Right Y-Axis Value"
-                  size="sm"
-                  variant="faded"
-                  selectedKeys={
-                    secondaryDataUnitCategory !== undefined
-                      ? [secondaryDataUnitCategory]
-                      : []
-                  }
-                  onChange={(e) =>
-                    updateRightYAxis(
-                      shownChartDataLines,
-                      e.target.value as ChartDataUnitCategory
-                    )
-                  }
-                  disallowEmptySelection
-                  isDisabled={chartLineUnitCategorySet.size < 2}
-                >
-                  {Array.from(chartLineUnitCategorySet).map((category) => (
-                    <SelectItem key={category} value={category}>
-                      {category}
-                    </SelectItem>
-                  ))}
-                </Select>
                 <Dropdown>
                   <DropdownTrigger>
                     <Button
@@ -3264,26 +3300,6 @@ export default function AnalyticsIndex() {
                     ))}
                   </DropdownMenu>
                 </Dropdown>
-                <Select
-                  label="Shown Time Periods"
-                  size="sm"
-                  variant="faded"
-                  selectionMode="multiple"
-                  selectedKeys={shownTimePeriodIdSet}
-                  onSelectionChange={(keys) =>
-                    updateShownReferenceAreas(new Set(keys) as Set<string>)
-                  }
-                  isDisabled={referenceAreas.length === 0}
-                >
-                  {referenceAreas.map((area) => (
-                    <SelectItem
-                      key={area.timePeriodId.toString()}
-                      value={area.timePeriodId.toString()}
-                    >
-                      {area.label}
-                    </SelectItem>
-                  ))}
-                </Select>
                 <Dropdown>
                   <DropdownTrigger>
                     <Button
@@ -3377,6 +3393,50 @@ export default function AnalyticsIndex() {
                     ))}
                   </DropdownMenu>
                 </Dropdown>
+                {weightCharts.size > 0 && (
+                  <div className="pb-px">
+                    <WeightUnitDropdown
+                      value={weightUnit}
+                      targetType="chart"
+                      changeUnitInChart={handleChangeUnit}
+                      customLabel="Weight Unit"
+                      customWidthString="w-[5rem]"
+                      isSmall
+                    />
+                  </div>
+                )}
+                {distanceCharts.size > 0 && (
+                  <div className="pb-px">
+                    <DistanceUnitDropdown
+                      value={distanceUnit}
+                      targetType="chart"
+                      changeUnitInChart={handleChangeUnit}
+                      customLabel="Distance Unit"
+                      customWidthString="w-[5.5rem]"
+                      isSmall
+                    />
+                  </div>
+                )}
+                {paceCharts.size > 0 && (
+                  <div className="pb-px">
+                    <PaceUnitDropdown
+                      value={paceUnit}
+                      targetType="chart"
+                      changeUnitInChart={handleChangeUnit}
+                    />
+                  </div>
+                )}
+                {circumferenceCharts.size > 0 && (
+                  <div className="pb-px">
+                    <MeasurementUnitDropdown
+                      value={circumferenceUnit}
+                      targetType="chart"
+                      changeUnitInChart={handleChangeUnit}
+                      customWidthString="w-[7.5rem]"
+                      customLabel="Circumference Unit"
+                    />
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -3516,69 +3576,6 @@ export default function AnalyticsIndex() {
                   </DropdownItem>
                 </DropdownMenu>
               </Dropdown>
-              {isChartDataLoaded.current && (
-                <>
-                  <Button
-                    className="font-medium"
-                    variant="flat"
-                    onPress={() => handleOpenListModal("time-period-list")}
-                  >
-                    Load Time Period
-                  </Button>
-                  <Button
-                    className="font-medium"
-                    variant="flat"
-                    color="danger"
-                    onPress={() => deleteModal.onOpen()}
-                  >
-                    Reset Chart
-                  </Button>
-                </>
-              )}
-              {weightCharts.size > 0 && (
-                <div className="pb-px">
-                  <WeightUnitDropdown
-                    value={weightUnit}
-                    targetType="chart"
-                    changeUnitInChart={handleChangeUnit}
-                    customLabel="Weight Unit"
-                    customWidthString="w-[5rem]"
-                    isSmall
-                  />
-                </div>
-              )}
-              {distanceCharts.size > 0 && (
-                <div className="pb-px">
-                  <DistanceUnitDropdown
-                    value={distanceUnit}
-                    targetType="chart"
-                    changeUnitInChart={handleChangeUnit}
-                    customLabel="Distance Unit"
-                    customWidthString="w-[5.5rem]"
-                    isSmall
-                  />
-                </div>
-              )}
-              {paceCharts.size > 0 && (
-                <div className="pb-px">
-                  <PaceUnitDropdown
-                    value={paceUnit}
-                    targetType="chart"
-                    changeUnitInChart={handleChangeUnit}
-                  />
-                </div>
-              )}
-              {circumferenceCharts.size > 0 && (
-                <div className="pb-px">
-                  <MeasurementUnitDropdown
-                    value={circumferenceUnit}
-                    targetType="chart"
-                    changeUnitInChart={handleChangeUnit}
-                    customWidthString="w-[7.5rem]"
-                    customLabel="Circumference Unit"
-                  />
-                </div>
-              )}
               <Button
                 className="font-medium"
                 variant="flat"
