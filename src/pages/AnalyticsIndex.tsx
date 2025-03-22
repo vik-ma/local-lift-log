@@ -3054,7 +3054,7 @@ export default function AnalyticsIndex() {
       <div className="absolute left-0 w-screen">
         <div className="flex flex-col gap-3">
           {isChartDataLoaded.current && (
-            <div className="flex gap-1 mx-1">
+            <div className="flex gap-1.5 mx-1.5">
               <div className="flex flex-col gap-1 w-[12.25rem]">
                 <Select
                   label="Shown Areas"
@@ -3399,7 +3399,7 @@ export default function AnalyticsIndex() {
                     ))}
                   </DropdownMenu>
                 </Dropdown>
-                <div className="flex flex-col gap-px px-[3px]">
+                <div className="flex flex-col gap-px px-0.5">
                   {weightCharts.size > 0 && (
                     <WeightUnitDropdown
                       value={weightUnit}
