@@ -3393,8 +3393,8 @@ export default function AnalyticsIndex() {
                     ))}
                   </DropdownMenu>
                 </Dropdown>
-                {weightCharts.size > 0 && (
-                  <div className="pb-px">
+                <div className="flex flex-col gap-px px-[3px]">
+                  {weightCharts.size > 0 && (
                     <WeightUnitDropdown
                       value={weightUnit}
                       targetType="chart"
@@ -3403,10 +3403,8 @@ export default function AnalyticsIndex() {
                       customWidthString="w-[5rem]"
                       isSmall
                     />
-                  </div>
-                )}
-                {distanceCharts.size > 0 && (
-                  <div className="pb-px">
+                  )}
+                  {distanceCharts.size > 0 && (
                     <DistanceUnitDropdown
                       value={distanceUnit}
                       targetType="chart"
@@ -3415,19 +3413,15 @@ export default function AnalyticsIndex() {
                       customWidthString="w-[5.5rem]"
                       isSmall
                     />
-                  </div>
-                )}
-                {paceCharts.size > 0 && (
-                  <div className="pb-px">
+                  )}
+                  {paceCharts.size > 0 && (
                     <PaceUnitDropdown
                       value={paceUnit}
                       targetType="chart"
                       changeUnitInChart={handleChangeUnit}
                     />
-                  </div>
-                )}
-                {circumferenceCharts.size > 0 && (
-                  <div className="pb-px">
+                  )}
+                  {circumferenceCharts.size > 0 && (
                     <MeasurementUnitDropdown
                       value={circumferenceUnit}
                       targetType="chart"
@@ -3435,8 +3429,8 @@ export default function AnalyticsIndex() {
                       customWidthString="w-[7.5rem]"
                       customLabel="Circumference Unit"
                     />
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
             </div>
           )}
