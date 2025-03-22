@@ -38,6 +38,7 @@ import {
   LoadExerciseChartModal,
   LoadingSpinner,
   MeasurementModalList,
+  MeasurementUnitDropdown,
   PaceUnitDropdown,
   TimePeriodModalList,
   WeightUnitDropdown,
@@ -280,33 +281,40 @@ export default function AnalyticsIndex() {
 
   const disabledExerciseGroups = useRef<string[]>([]);
 
-  const { weightCharts, distanceCharts, paceCharts } = useMemo(() => {
-    const weightCharts = new Set<Exclude<ChartDataCategory, undefined>>();
-    const distanceCharts = new Set<Exclude<ChartDataCategory, undefined>>();
-    const paceCharts = new Set<Exclude<ChartDataCategory, undefined>>();
+  const { weightCharts, distanceCharts, paceCharts, circumferenceCharts } =
+    useMemo(() => {
+      const weightCharts = new Set<Exclude<ChartDataCategory, undefined>>();
+      const distanceCharts = new Set<Exclude<ChartDataCategory, undefined>>();
+      const paceCharts = new Set<Exclude<ChartDataCategory, undefined>>();
+      const circumferenceCharts = new Set<
+        Exclude<ChartDataCategory, undefined>
+      >();
 
-    for (const chart of allChartDataCategories) {
-      if (chart === undefined) continue;
+      for (const chart of allChartDataCategories) {
+        if (chart === undefined) continue;
 
-      const unitCategory = chartDataUnitCategoryMap.current.get(chart);
+        const unitCategory = chartDataUnitCategoryMap.current.get(chart);
 
-      switch (unitCategory) {
-        case "Weight":
-          weightCharts.add(chart);
-          break;
-        case "Distance":
-          distanceCharts.add(chart);
-          break;
-        case "Pace":
-          paceCharts.add(chart);
-          break;
-        default:
-          break;
+        switch (unitCategory) {
+          case "Weight":
+            weightCharts.add(chart);
+            break;
+          case "Distance":
+            distanceCharts.add(chart);
+            break;
+          case "Pace":
+            paceCharts.add(chart);
+            break;
+          case "Circumference":
+            circumferenceCharts.add(chart);
+            break;
+          default:
+            break;
+        }
       }
-    }
 
-    return { weightCharts, distanceCharts, paceCharts };
-  }, [allChartDataCategories]);
+      return { weightCharts, distanceCharts, paceCharts, circumferenceCharts };
+    }, [allChartDataCategories]);
 
   const updateLoadExerciseOptions = (loadExerciseOptionsString: string) => {
     const disabledKeys = new Set<ChartDataExerciseCategoryBase>();
@@ -2589,7 +2597,7 @@ export default function AnalyticsIndex() {
 
   const handleChangeUnit = (
     newUnit: string,
-    unitCategory: "Weight" | "Distance" | "Pace"
+    unitCategory: "Weight" | "Distance" | "Pace" | "Circumference"
   ) => {
     if (unitCategory === "Weight") {
       if (newUnit === weightUnit) return;
@@ -3542,6 +3550,17 @@ export default function AnalyticsIndex() {
                   value={paceUnit}
                   targetType="chart"
                   changeUnitInChart={handleChangeUnit}
+                />
+              </div>
+            )}
+            {circumferenceCharts.size > 0 && (
+              <div className="pb-px">
+                <MeasurementUnitDropdown
+                  value={circumferenceUnit}
+                  targetType="chart"
+                  changeUnitInChart={handleChangeUnit}
+                  customWidthString="w-[5.5rem]"
+                  customLabel="Circumference Unit"
                 />
               </div>
             )}

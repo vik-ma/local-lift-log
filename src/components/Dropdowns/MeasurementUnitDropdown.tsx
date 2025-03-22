@@ -54,6 +54,10 @@ export const MeasurementUnitDropdown = ({
       );
       setMeasurements(updatedMeasurements);
     }
+
+    if (targetType === "chart" && changeUnitInChart !== undefined) {
+      changeUnitInChart(e.target.value, "Weight");
+    }
   };
 
   const showCustomLabel = customLabel !== undefined;
@@ -74,7 +78,7 @@ export const MeasurementUnitDropdown = ({
             : "sm"
         }
         classNames={{
-          label: showCustomLabel ? "pl-0.5 mt-1" : "",
+          label: showCustomLabel ? "pl-0.5 mt-1 text-clip" : "",
           mainWrapper:
             customWidthString !== undefined ? customWidthString : "w-[5rem]",
         }}
