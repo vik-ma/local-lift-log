@@ -3045,154 +3045,412 @@ export default function AnalyticsIndex() {
         deleteButtonAction={() => resetChart()}
         deleteButtonText="Reset"
       />
-      <div className="absolute left-0 w-screen gap-2">
-        {isChartDataLoaded.current && (
-          <div className="flex gap-1.5 mx-1">
-            <div className="flex flex-col gap-1 w-[12.25rem]"></div>
-            <ChartContainer
-              config={chartConfig.current}
-              className="grow bg-default-50 pt-4 pb-1.5 rounded-xl"
-            >
-              <ComposedChart
-                data={filteredChartData}
-                margin={{ top: 15, right: 5, left: 5 }}
+      <div className="absolute left-0 w-screen">
+        <div className="flex flex-col gap-3">
+          {isChartDataLoaded.current && (
+            <div className="flex gap-1.5 mx-1">
+              <div className="flex flex-col gap-1 w-[12.25rem]"></div>
+              <ChartContainer
+                config={chartConfig.current}
+                className="grow bg-default-50 pt-4 pb-1.5 rounded-xl"
               >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis
-                  dataKey="date"
-                  tickFormatter={(date) => formatXAxisDate(date)}
-                />
-                <YAxis
-                  yAxisId={primaryDataKey}
-                  unit={chartDataUnitMap.current.get(primaryDataKey)}
-                />
-                <YAxis
-                  dataKey={secondaryDataKey}
-                  unit={chartDataUnitMap.current.get(secondaryDataKey)}
-                  orientation="right"
-                />
-                <ChartTooltip
-                  isAnimationActive={false}
-                  content={
-                    <ChartTooltipContent
-                      chartDataUnitMap={chartDataUnitMap.current}
-                      chartCommentMap={chartCommentMap}
-                      chartIncludesMultisetMap={includesMultisetMap.current}
-                    />
-                  }
-                />
-                <ChartLegend content={<ChartLegendContent />} />
-                {shownChartDataAreas.map((item, index) => (
-                  <Area
-                    key={item}
-                    isAnimationActive={false}
+                <ComposedChart
+                  data={filteredChartData}
+                  margin={{ top: 15, right: 5, left: 5 }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis
+                    dataKey="date"
+                    tickFormatter={(date) => formatXAxisDate(date)}
+                  />
+                  <YAxis
                     yAxisId={primaryDataKey}
-                    dataKey={item ?? ""}
-                    stroke={
-                      chartAreaColorList[index % chartAreaColorList.length]
-                    }
-                    fill={chartAreaColorList[index % chartAreaColorList.length]}
-                    activeDot={{ r: 6 }}
-                    connectNulls
-                    dot
+                    unit={chartDataUnitMap.current.get(primaryDataKey)}
                   />
-                ))}
-                {shownReferenceAreas.map((area, index) => (
-                  <ReferenceArea
-                    key={area.timePeriodId}
-                    x1={area.x1}
-                    x2={area.x2}
-                    label={{ position: "top", value: area.label }}
-                    opacity={0.2}
-                    fill={
-                      referenceAreaColorList[
-                        index % referenceAreaColorList.length
-                      ]
-                    }
-                    stroke={
-                      referenceAreaColorList[
-                        index % referenceAreaColorList.length
-                      ]
-                    }
+                  <YAxis
+                    dataKey={secondaryDataKey}
+                    unit={chartDataUnitMap.current.get(secondaryDataKey)}
+                    orientation="right"
                   />
-                ))}
-                {shownChartDataLines.map((item, index) => (
-                  <Line
-                    key={item}
+                  <ChartTooltip
                     isAnimationActive={false}
-                    dataKey={item}
-                    stroke={
-                      chartLineColorList[index % chartLineColorList.length]
+                    content={
+                      <ChartTooltipContent
+                        chartDataUnitMap={chartDataUnitMap.current}
+                        chartCommentMap={chartCommentMap}
+                        chartIncludesMultisetMap={includesMultisetMap.current}
+                      />
                     }
-                    strokeWidth={2}
-                    activeDot={{ r: 6 }}
-                    connectNulls
                   />
-                ))}
-              </ComposedChart>
-            </ChartContainer>
-            <div className="flex flex-col gap-1 w-[12.25rem]">
-              <Select
-                label="Shown Areas"
-                size="sm"
-                variant="faded"
-                selectionMode="multiple"
-                selectedKeys={shownChartDataAreas as string[]}
-                isDisabled={chartDataAreas.length < 2}
-                onSelectionChange={(value) =>
-                  updateLeftYAxis(Array.from(value) as ChartDataCategory[])
-                }
-                disallowEmptySelection
+                  <ChartLegend content={<ChartLegendContent />} />
+                  {shownChartDataAreas.map((item, index) => (
+                    <Area
+                      key={item}
+                      isAnimationActive={false}
+                      yAxisId={primaryDataKey}
+                      dataKey={item ?? ""}
+                      stroke={
+                        chartAreaColorList[index % chartAreaColorList.length]
+                      }
+                      fill={
+                        chartAreaColorList[index % chartAreaColorList.length]
+                      }
+                      activeDot={{ r: 6 }}
+                      connectNulls
+                      dot
+                    />
+                  ))}
+                  {shownReferenceAreas.map((area, index) => (
+                    <ReferenceArea
+                      key={area.timePeriodId}
+                      x1={area.x1}
+                      x2={area.x2}
+                      label={{ position: "top", value: area.label }}
+                      opacity={0.2}
+                      fill={
+                        referenceAreaColorList[
+                          index % referenceAreaColorList.length
+                        ]
+                      }
+                      stroke={
+                        referenceAreaColorList[
+                          index % referenceAreaColorList.length
+                        ]
+                      }
+                    />
+                  ))}
+                  {shownChartDataLines.map((item, index) => (
+                    <Line
+                      key={item}
+                      isAnimationActive={false}
+                      dataKey={item}
+                      stroke={
+                        chartLineColorList[index % chartLineColorList.length]
+                      }
+                      strokeWidth={2}
+                      activeDot={{ r: 6 }}
+                      connectNulls
+                    />
+                  ))}
+                </ComposedChart>
+              </ChartContainer>
+              <div className="flex flex-col gap-1 w-[12.25rem]">
+                <Select
+                  label="Shown Areas"
+                  size="sm"
+                  variant="faded"
+                  selectionMode="multiple"
+                  selectedKeys={shownChartDataAreas as string[]}
+                  isDisabled={chartDataAreas.length < 2}
+                  onSelectionChange={(value) =>
+                    updateLeftYAxis(Array.from(value) as ChartDataCategory[])
+                  }
+                  disallowEmptySelection
+                >
+                  {chartDataAreas.map((area) => (
+                    <SelectItem key={area} value={area}>
+                      {chartConfig.current[area ?? "default"].label}
+                    </SelectItem>
+                  ))}
+                </Select>
+                <Select
+                  label="Shown Lines"
+                  size="sm"
+                  variant="faded"
+                  selectionMode="multiple"
+                  selectedKeys={shownChartDataLines as string[]}
+                  onSelectionChange={(value) =>
+                    updateShownChartLines(
+                      Array.from(value) as ChartDataCategory[]
+                    )
+                  }
+                  isDisabled={chartDataLines.length === 0}
+                >
+                  {chartDataLines.map((line) => (
+                    <SelectItem key={line} value={line}>
+                      {chartConfig.current[line ?? "default"].label}
+                    </SelectItem>
+                  ))}
+                </Select>
+                <Select
+                  label="Right Y-Axis Value"
+                  size="sm"
+                  variant="faded"
+                  selectedKeys={
+                    secondaryDataUnitCategory !== undefined
+                      ? [secondaryDataUnitCategory]
+                      : []
+                  }
+                  onChange={(e) =>
+                    updateRightYAxis(
+                      shownChartDataLines,
+                      e.target.value as ChartDataUnitCategory
+                    )
+                  }
+                  disallowEmptySelection
+                  isDisabled={chartLineUnitCategorySet.size < 2}
+                >
+                  {Array.from(chartLineUnitCategorySet).map((category) => (
+                    <SelectItem key={category} value={category}>
+                      {category}
+                    </SelectItem>
+                  ))}
+                </Select>
+                <Dropdown>
+                  <DropdownTrigger>
+                    <Button
+                      className="font-medium"
+                      variant="flat"
+                      isDisabled={chartDataAreas.length === 0}
+                    >
+                      Convert Area To Line
+                    </Button>
+                  </DropdownTrigger>
+                  <DropdownMenu aria-label="Chart data areas" variant="flat">
+                    {chartDataAreas.map((area) => (
+                      <DropdownItem
+                        key={area as string}
+                        onPress={() => changeChartDataAreaToLine(area)}
+                      >
+                        {chartConfig.current[area ?? "default"].label}
+                      </DropdownItem>
+                    ))}
+                  </DropdownMenu>
+                </Dropdown>
+                <Dropdown>
+                  <DropdownTrigger>
+                    <Button
+                      className="font-medium"
+                      variant="flat"
+                      isDisabled={chartDataLines.length === 0}
+                    >
+                      Convert Line To Area
+                    </Button>
+                  </DropdownTrigger>
+                  <DropdownMenu aria-label="Chart data lines" variant="flat">
+                    {chartDataLines.map((line) => (
+                      <DropdownItem
+                        key={line as string}
+                        onPress={() => changeChartDataLineToArea(line)}
+                      >
+                        {chartConfig.current[line ?? "default"].label}
+                      </DropdownItem>
+                    ))}
+                  </DropdownMenu>
+                </Dropdown>
+                <Dropdown>
+                  <DropdownTrigger>
+                    <Button
+                      className="font-medium"
+                      variant="flat"
+                      isDisabled={chartLineUnitCategorySet.size === 0}
+                    >
+                      Change Area Category
+                    </Button>
+                  </DropdownTrigger>
+                  <DropdownMenu
+                    aria-label="Chart data line unit categories"
+                    variant="flat"
+                  >
+                    {Array.from(chartLineUnitCategorySet).map((category) => (
+                      <DropdownItem
+                        key={category as string}
+                        onPress={() =>
+                          changeChartDataLineCategoryToArea(category)
+                        }
+                      >
+                        {category}
+                      </DropdownItem>
+                    ))}
+                  </DropdownMenu>
+                </Dropdown>
+                <Select
+                  label="Shown Time Periods"
+                  size="sm"
+                  variant="faded"
+                  selectionMode="multiple"
+                  selectedKeys={shownTimePeriodIdSet}
+                  onSelectionChange={(keys) =>
+                    updateShownReferenceAreas(new Set(keys) as Set<string>)
+                  }
+                  isDisabled={referenceAreas.length === 0}
+                >
+                  {referenceAreas.map((area) => (
+                    <SelectItem
+                      key={area.timePeriodId.toString()}
+                      value={area.timePeriodId.toString()}
+                    >
+                      {area.label}
+                    </SelectItem>
+                  ))}
+                </Select>
+                <Dropdown>
+                  <DropdownTrigger>
+                    <Button
+                      className="font-medium"
+                      variant="flat"
+                      color={
+                        filterMinDate || filterMaxDate ? "secondary" : "default"
+                      }
+                    >
+                      Filter Dates
+                    </Button>
+                  </DropdownTrigger>
+                  <DropdownMenu
+                    aria-label="Filter dates option menu"
+                    variant="flat"
+                  >
+                    <>
+                      {/* Only show the options that can meaningfully filter the Chart */}
+                      {Array.from(dateMap).map(
+                        ([label, date]) =>
+                          date > chartStartDate! &&
+                          date < chartEndDate! && (
+                            <DropdownItem
+                              key={label}
+                              onPress={() => updateMinDateFilter(date)}
+                            >
+                              {label}
+                            </DropdownItem>
+                          )
+                      )}
+                      <DropdownItem
+                        key="Custom"
+                        onPress={() => filterMinAndMaxDatesModal.onOpen()}
+                      >
+                        Custom
+                      </DropdownItem>
+                    </>
+                  </DropdownMenu>
+                </Dropdown>
+                {filterMinDate !== null && (
+                  <Chip
+                    classNames={{ content: "w-[10.625rem]" }}
+                    radius="sm"
+                    color="secondary"
+                    variant="flat"
+                    onClose={() => updateMinDateFilter(null)}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <span className="font-semibold">Min Date: </span>
+                    {FormatDateToShortString(
+                      filterMinDate,
+                      userSettings.locale
+                    )}
+                  </Chip>
+                )}
+                {filterMaxDate !== null && (
+                  <Chip
+                    classNames={{ content: "w-[10.625rem]" }}
+                    radius="sm"
+                    color="secondary"
+                    variant="flat"
+                    onClose={() => updateMaxDateFilter(null)}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <span className="font-semibold">Max Date: </span>
+                    {FormatDateToShortString(
+                      filterMaxDate,
+                      userSettings.locale
+                    )}
+                  </Chip>
+                )}
+                <Dropdown>
+                  <DropdownTrigger>
+                    <Button
+                      className="font-medium"
+                      variant="flat"
+                      color="danger"
+                      isDisabled={allChartDataCategories.size < 2}
+                    >
+                      Remove Chart Stat
+                    </Button>
+                  </DropdownTrigger>
+                  <DropdownMenu aria-label="Chart data lines" variant="flat">
+                    {Array.from(allChartDataCategories).map((dataKey) => (
+                      <DropdownItem
+                        key={dataKey as string}
+                        onPress={() => removeChartStat(dataKey)}
+                      >
+                        {chartConfig.current[dataKey ?? "default"].label}
+                      </DropdownItem>
+                    ))}
+                  </DropdownMenu>
+                </Dropdown>
+              </div>
+            </div>
+          )}
+          <div className="flex flex-col items-center gap-3">
+            <div className="flex gap-2">
+              <Button
+                className="font-medium"
+                variant="flat"
+                color="secondary"
+                onPress={() => handleOpenListModal("exercise-list")}
               >
-                {chartDataAreas.map((area) => (
-                  <SelectItem key={area} value={area}>
-                    {chartConfig.current[area ?? "default"].label}
-                  </SelectItem>
-                ))}
-              </Select>
-              <Select
-                label="Shown Lines"
-                size="sm"
-                variant="faded"
-                selectionMode="multiple"
-                selectedKeys={shownChartDataLines as string[]}
-                onSelectionChange={(value) =>
-                  updateShownChartLines(
-                    Array.from(value) as ChartDataCategory[]
-                  )
-                }
-                isDisabled={chartDataLines.length === 0}
-              >
-                {chartDataLines.map((line) => (
-                  <SelectItem key={line} value={line}>
-                    {chartConfig.current[line ?? "default"].label}
-                  </SelectItem>
-                ))}
-              </Select>
-              <Select
-                label="Right Y-Axis Value"
-                size="sm"
-                variant="faded"
-                selectedKeys={
-                  secondaryDataUnitCategory !== undefined
-                    ? [secondaryDataUnitCategory]
-                    : []
-                }
-                onChange={(e) =>
-                  updateRightYAxis(
-                    shownChartDataLines,
-                    e.target.value as ChartDataUnitCategory
-                  )
-                }
-                disallowEmptySelection
-                isDisabled={chartLineUnitCategorySet.size < 2}
-              >
-                {Array.from(chartLineUnitCategorySet).map((category) => (
-                  <SelectItem key={category} value={category}>
-                    {category}
-                  </SelectItem>
-                ))}
-              </Select>
+                Load Exercise Stat
+              </Button>
+              <Dropdown>
+                <DropdownTrigger>
+                  <Button className="font-medium" variant="flat">
+                    Load Other Stat As Area
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu
+                  aria-label="Load category as area options"
+                  variant="flat"
+                  disabledKeys={loadedCharts.current}
+                >
+                  <DropdownItem
+                    key="measurement"
+                    onPress={() => handleLoadMeasurementClick(true)}
+                  >
+                    Measurement
+                  </DropdownItem>
+                  <DropdownItem
+                    key="user-weights-weight"
+                    onPress={() => loadUserWeightListWeights(weightUnit, true)}
+                  >
+                    Body Weights
+                  </DropdownItem>
+                  <DropdownItem
+                    key="user-weights-body-fat"
+                    onPress={() => loadUserWeightListBodyFat(true)}
+                  >
+                    Body Fat Percentages
+                  </DropdownItem>
+                  <DropdownItem
+                    key="diet-logs-calories"
+                    onPress={() => loadDietLogListCalories(true)}
+                  >
+                    Calories
+                  </DropdownItem>
+                  <DropdownItem
+                    key="fat"
+                    onPress={() => loadDietLogListMacros(false, "fat")}
+                  >
+                    Fat
+                  </DropdownItem>
+                  <DropdownItem
+                    key="carbs"
+                    onPress={() => loadDietLogListMacros(false, "carbs")}
+                  >
+                    Carbs
+                  </DropdownItem>
+                  <DropdownItem
+                    key="protein"
+                    onPress={() => loadDietLogListMacros(false, "protein")}
+                  >
+                    Protein
+                  </DropdownItem>
+                  <DropdownItem
+                    key="exercise-group"
+                    onPress={() => handleLoadNumExerciseGroupSetsClick(true)}
+                  >
+                    Sets Per Exercise Group
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
               <Dropdown>
                 <DropdownTrigger>
                   <Button
@@ -3200,387 +3458,137 @@ export default function AnalyticsIndex() {
                     variant="flat"
                     isDisabled={chartDataAreas.length === 0}
                   >
-                    Convert Area To Line
-                  </Button>
-                </DropdownTrigger>
-                <DropdownMenu aria-label="Chart data areas" variant="flat">
-                  {chartDataAreas.map((area) => (
-                    <DropdownItem
-                      key={area as string}
-                      onPress={() => changeChartDataAreaToLine(area)}
-                    >
-                      {chartConfig.current[area ?? "default"].label}
-                    </DropdownItem>
-                  ))}
-                </DropdownMenu>
-              </Dropdown>
-              <Dropdown>
-                <DropdownTrigger>
-                  <Button
-                    className="font-medium"
-                    variant="flat"
-                    isDisabled={chartDataLines.length === 0}
-                  >
-                    Convert Line To Area
-                  </Button>
-                </DropdownTrigger>
-                <DropdownMenu aria-label="Chart data lines" variant="flat">
-                  {chartDataLines.map((line) => (
-                    <DropdownItem
-                      key={line as string}
-                      onPress={() => changeChartDataLineToArea(line)}
-                    >
-                      {chartConfig.current[line ?? "default"].label}
-                    </DropdownItem>
-                  ))}
-                </DropdownMenu>
-              </Dropdown>
-              <Dropdown>
-                <DropdownTrigger>
-                  <Button
-                    className="font-medium"
-                    variant="flat"
-                    isDisabled={chartLineUnitCategorySet.size === 0}
-                  >
-                    Change Area Category
+                    Load Other Stat As Line
                   </Button>
                 </DropdownTrigger>
                 <DropdownMenu
-                  aria-label="Chart data line unit categories"
+                  aria-label="Load category as line options"
                   variant="flat"
+                  disabledKeys={loadedCharts.current}
                 >
-                  {Array.from(chartLineUnitCategorySet).map((category) => (
-                    <DropdownItem
-                      key={category as string}
-                      onPress={() =>
-                        changeChartDataLineCategoryToArea(category)
-                      }
-                    >
-                      {category}
-                    </DropdownItem>
-                  ))}
+                  <DropdownItem
+                    key="measurement"
+                    onPress={() => handleLoadMeasurementClick(false)}
+                  >
+                    Measurement
+                  </DropdownItem>
+                  <DropdownItem
+                    key="user-weights-weight"
+                    onPress={() => loadUserWeightListWeights(weightUnit, false)}
+                  >
+                    Body Weights
+                  </DropdownItem>
+                  <DropdownItem
+                    key="user-weights-body-fat"
+                    onPress={() => loadUserWeightListBodyFat(false)}
+                  >
+                    Body Fat Percentages
+                  </DropdownItem>
+                  <DropdownItem
+                    key="diet-logs-calories"
+                    onPress={() => loadDietLogListCalories(false)}
+                  >
+                    Calories
+                  </DropdownItem>
+                  <DropdownItem
+                    key="fat"
+                    onPress={() => loadDietLogListMacros(false, "fat")}
+                  >
+                    Fat
+                  </DropdownItem>
+                  <DropdownItem
+                    key="carbs"
+                    onPress={() => loadDietLogListMacros(false, "carbs")}
+                  >
+                    Carbs
+                  </DropdownItem>
+                  <DropdownItem
+                    key="protein"
+                    onPress={() => loadDietLogListMacros(false, "protein")}
+                  >
+                    Protein
+                  </DropdownItem>
+                  <DropdownItem
+                    key="exercise-group"
+                    onPress={() => handleLoadNumExerciseGroupSetsClick(false)}
+                  >
+                    Sets Per Exercise Group
+                  </DropdownItem>
                 </DropdownMenu>
               </Dropdown>
-              <Select
-                label="Shown Time Periods"
-                size="sm"
-                variant="faded"
-                selectionMode="multiple"
-                selectedKeys={shownTimePeriodIdSet}
-                onSelectionChange={(keys) =>
-                  updateShownReferenceAreas(new Set(keys) as Set<string>)
-                }
-                isDisabled={referenceAreas.length === 0}
-              >
-                {referenceAreas.map((area) => (
-                  <SelectItem
-                    key={area.timePeriodId.toString()}
-                    value={area.timePeriodId.toString()}
-                  >
-                    {area.label}
-                  </SelectItem>
-                ))}
-              </Select>
-              <Dropdown>
-                <DropdownTrigger>
+              {isChartDataLoaded.current && (
+                <>
                   <Button
                     className="font-medium"
                     variant="flat"
-                    color={
-                      filterMinDate || filterMaxDate ? "secondary" : "default"
-                    }
+                    onPress={() => handleOpenListModal("time-period-list")}
                   >
-                    Filter Dates
+                    Load Time Period
                   </Button>
-                </DropdownTrigger>
-                <DropdownMenu
-                  aria-label="Filter dates option menu"
-                  variant="flat"
-                >
-                  <>
-                    {/* Only show the options that can meaningfully filter the Chart */}
-                    {Array.from(dateMap).map(
-                      ([label, date]) =>
-                        date > chartStartDate! &&
-                        date < chartEndDate! && (
-                          <DropdownItem
-                            key={label}
-                            onPress={() => updateMinDateFilter(date)}
-                          >
-                            {label}
-                          </DropdownItem>
-                        )
-                    )}
-                    <DropdownItem
-                      key="Custom"
-                      onPress={() => filterMinAndMaxDatesModal.onOpen()}
-                    >
-                      Custom
-                    </DropdownItem>
-                  </>
-                </DropdownMenu>
-              </Dropdown>
-              {filterMinDate !== null && (
-                <Chip
-                  classNames={{ content: "w-[10.625rem]" }}
-                  radius="sm"
-                  color="secondary"
-                  variant="flat"
-                  onClose={() => updateMinDateFilter(null)}
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <span className="font-semibold">Min Date: </span>
-                  {FormatDateToShortString(filterMinDate, userSettings.locale)}
-                </Chip>
-              )}
-              {filterMaxDate !== null && (
-                <Chip
-                  classNames={{ content: "w-[10.625rem]" }}
-                  radius="sm"
-                  color="secondary"
-                  variant="flat"
-                  onClose={() => updateMaxDateFilter(null)}
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <span className="font-semibold">Max Date: </span>
-                  {FormatDateToShortString(filterMaxDate, userSettings.locale)}
-                </Chip>
-              )}
-              <Dropdown>
-                <DropdownTrigger>
                   <Button
                     className="font-medium"
                     variant="flat"
                     color="danger"
-                    isDisabled={allChartDataCategories.size < 2}
+                    onPress={() => deleteModal.onOpen()}
                   >
-                    Remove Chart Stat
+                    Reset Chart
                   </Button>
-                </DropdownTrigger>
-                <DropdownMenu aria-label="Chart data lines" variant="flat">
-                  {Array.from(allChartDataCategories).map((dataKey) => (
-                    <DropdownItem
-                      key={dataKey as string}
-                      onPress={() => removeChartStat(dataKey)}
-                    >
-                      {chartConfig.current[dataKey ?? "default"].label}
-                    </DropdownItem>
-                  ))}
-                </DropdownMenu>
-              </Dropdown>
+                </>
+              )}
+              {weightCharts.size > 0 && (
+                <div className="pb-px">
+                  <WeightUnitDropdown
+                    value={weightUnit}
+                    targetType="chart"
+                    changeUnitInChart={handleChangeUnit}
+                    customLabel="Weight Unit"
+                    customWidthString="w-[5rem]"
+                    isSmall
+                  />
+                </div>
+              )}
+              {distanceCharts.size > 0 && (
+                <div className="pb-px">
+                  <DistanceUnitDropdown
+                    value={distanceUnit}
+                    targetType="chart"
+                    changeUnitInChart={handleChangeUnit}
+                    customLabel="Distance Unit"
+                    customWidthString="w-[5.5rem]"
+                    isSmall
+                  />
+                </div>
+              )}
+              {paceCharts.size > 0 && (
+                <div className="pb-px">
+                  <PaceUnitDropdown
+                    value={paceUnit}
+                    targetType="chart"
+                    changeUnitInChart={handleChangeUnit}
+                  />
+                </div>
+              )}
+              {circumferenceCharts.size > 0 && (
+                <div className="pb-px">
+                  <MeasurementUnitDropdown
+                    value={circumferenceUnit}
+                    targetType="chart"
+                    changeUnitInChart={handleChangeUnit}
+                    customWidthString="w-[7.5rem]"
+                    customLabel="Circumference Unit"
+                  />
+                </div>
+              )}
+              <Button
+                className="font-medium"
+                variant="flat"
+                onPress={() => setShowTestButtons(!showTestButtons)}
+              >
+                Toggle Test Buttons
+              </Button>
             </div>
-          </div>
-        )}
-        <div className="flex flex-col gap-2">
-          <div className="flex items-end gap-2 w-[960px]">
-            <Button
-              className="font-medium"
-              variant="flat"
-              color="secondary"
-              onPress={() => handleOpenListModal("exercise-list")}
-            >
-              Load Exercise Stat
-            </Button>
-            <Dropdown>
-              <DropdownTrigger>
-                <Button className="font-medium" variant="flat">
-                  Load Other Stat As Area
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                aria-label="Load category as area options"
-                variant="flat"
-                disabledKeys={loadedCharts.current}
-              >
-                <DropdownItem
-                  key="measurement"
-                  onPress={() => handleLoadMeasurementClick(true)}
-                >
-                  Measurement
-                </DropdownItem>
-                <DropdownItem
-                  key="user-weights-weight"
-                  onPress={() => loadUserWeightListWeights(weightUnit, true)}
-                >
-                  Body Weights
-                </DropdownItem>
-                <DropdownItem
-                  key="user-weights-body-fat"
-                  onPress={() => loadUserWeightListBodyFat(true)}
-                >
-                  Body Fat Percentages
-                </DropdownItem>
-                <DropdownItem
-                  key="diet-logs-calories"
-                  onPress={() => loadDietLogListCalories(true)}
-                >
-                  Calories
-                </DropdownItem>
-                <DropdownItem
-                  key="fat"
-                  onPress={() => loadDietLogListMacros(false, "fat")}
-                >
-                  Fat
-                </DropdownItem>
-                <DropdownItem
-                  key="carbs"
-                  onPress={() => loadDietLogListMacros(false, "carbs")}
-                >
-                  Carbs
-                </DropdownItem>
-                <DropdownItem
-                  key="protein"
-                  onPress={() => loadDietLogListMacros(false, "protein")}
-                >
-                  Protein
-                </DropdownItem>
-                <DropdownItem
-                  key="exercise-group"
-                  onPress={() => handleLoadNumExerciseGroupSetsClick(true)}
-                >
-                  Sets Per Exercise Group
-                </DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-            <Dropdown>
-              <DropdownTrigger>
-                <Button
-                  className="font-medium"
-                  variant="flat"
-                  isDisabled={chartDataAreas.length === 0}
-                >
-                  Load Other Stat As Line
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                aria-label="Load category as line options"
-                variant="flat"
-                disabledKeys={loadedCharts.current}
-              >
-                <DropdownItem
-                  key="measurement"
-                  onPress={() => handleLoadMeasurementClick(false)}
-                >
-                  Measurement
-                </DropdownItem>
-                <DropdownItem
-                  key="user-weights-weight"
-                  onPress={() => loadUserWeightListWeights(weightUnit, false)}
-                >
-                  Body Weights
-                </DropdownItem>
-                <DropdownItem
-                  key="user-weights-body-fat"
-                  onPress={() => loadUserWeightListBodyFat(false)}
-                >
-                  Body Fat Percentages
-                </DropdownItem>
-                <DropdownItem
-                  key="diet-logs-calories"
-                  onPress={() => loadDietLogListCalories(false)}
-                >
-                  Calories
-                </DropdownItem>
-                <DropdownItem
-                  key="fat"
-                  onPress={() => loadDietLogListMacros(false, "fat")}
-                >
-                  Fat
-                </DropdownItem>
-                <DropdownItem
-                  key="carbs"
-                  onPress={() => loadDietLogListMacros(false, "carbs")}
-                >
-                  Carbs
-                </DropdownItem>
-                <DropdownItem
-                  key="protein"
-                  onPress={() => loadDietLogListMacros(false, "protein")}
-                >
-                  Protein
-                </DropdownItem>
-                <DropdownItem
-                  key="exercise-group"
-                  onPress={() => handleLoadNumExerciseGroupSetsClick(false)}
-                >
-                  Sets Per Exercise Group
-                </DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-            {isChartDataLoaded.current && (
-              <>
-                <Button
-                  className="font-medium"
-                  variant="flat"
-                  onPress={() => handleOpenListModal("time-period-list")}
-                >
-                  Load Time Period
-                </Button>
-                <Button
-                  className="font-medium"
-                  variant="flat"
-                  color="danger"
-                  onPress={() => deleteModal.onOpen()}
-                >
-                  Reset Chart
-                </Button>
-              </>
-            )}
-            {weightCharts.size > 0 && (
-              <div className="pb-px">
-                <WeightUnitDropdown
-                  value={weightUnit}
-                  targetType="chart"
-                  changeUnitInChart={handleChangeUnit}
-                  customLabel="Weight Unit"
-                  customWidthString="w-[5rem]"
-                  isSmall
-                />
-              </div>
-            )}
-            {distanceCharts.size > 0 && (
-              <div className="pb-px">
-                <DistanceUnitDropdown
-                  value={distanceUnit}
-                  targetType="chart"
-                  changeUnitInChart={handleChangeUnit}
-                  customLabel="Distance Unit"
-                  customWidthString="w-[5.5rem]"
-                  isSmall
-                />
-              </div>
-            )}
-            {paceCharts.size > 0 && (
-              <div className="pb-px">
-                <PaceUnitDropdown
-                  value={paceUnit}
-                  targetType="chart"
-                  changeUnitInChart={handleChangeUnit}
-                />
-              </div>
-            )}
-            {circumferenceCharts.size > 0 && (
-              <div className="pb-px">
-                <MeasurementUnitDropdown
-                  value={circumferenceUnit}
-                  targetType="chart"
-                  changeUnitInChart={handleChangeUnit}
-                  customWidthString="w-[7.5rem]"
-                  customLabel="Circumference Unit"
-                />
-              </div>
-            )}
-          </div>
-          <div className="flex gap-2 relative">
-            <Button
-              className="font-medium"
-              variant="flat"
-              onPress={() => setShowTestButtons(!showTestButtons)}
-            >
-              Toggle Test Buttons
-            </Button>
             {showTestButtons && (
-              <div className="absolute left-[10.875rem] flex items-center gap-2">
+              <div className="flex gap-2 relative">
                 <Button
                   className="font-medium"
                   variant="flat"
