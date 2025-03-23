@@ -1324,3 +1324,15 @@ export type ChartReferenceAreaItem = {
 export type TimeCompleted = {
   time_completed: string;
 };
+
+export type ChartDataItem = {
+  date: string;
+} & {
+  [key in Exclude<ChartDataCategory, undefined>]?: number;
+};
+
+export type AnalyticsChartListModalPage =
+  | "exercise-list"
+  | "measurement-list"
+  | "time-period-list"
+  | "exercise-groups";
