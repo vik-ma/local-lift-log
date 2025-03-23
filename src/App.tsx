@@ -24,7 +24,7 @@ import {
   TimePeriodListPage,
   DietLogIndexPage,
   DietLogListPage,
-  AnalyticsIndexPage,
+  AnalyticsPage,
 } from "./pages";
 import { SiteHeader } from "./components";
 import { Toaster } from "react-hot-toast";
@@ -63,7 +63,7 @@ function App() {
                 <Route path=":id" element={<WorkoutDetailsPage />} />
               </Route>
               <Route path="/analytics">
-                <Route index element={<AnalyticsIndexPage />} />
+                <Route index element={<AnalyticsPage />} />
               </Route>
               <Route path="/settings" element={<SettingsPage />} />
               <Route path="/measurements">

@@ -21,4 +21,4 @@ export { default as MultisetsPage } from "./Multisets";
 export { default as TimePeriodListPage } from "./TimePeriodList";
 export { default as DietLogIndexPage } from "./DietLogIndex";
 export { default as DietLogListPage } from "./DietLogList";
-export { default as AnalyticsIndexPage } from "./AnalyticsIndex";
+export { default as AnalyticsPage } from "./Analytics";

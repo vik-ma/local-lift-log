@@ -117,7 +117,7 @@ type ChartDataItem = {
 // IF STAT HAS ID (EXERCISE STAT OR EXERCISE GROUP STAT)
 // UPDATE getChartDataCategoryTypeAndId
 
-export default function AnalyticsIndex() {
+export default function Analytics() {
   const [listModalPage, setListModalPage] =
     useState<ListModalPage>("exercise-list");
   const [userSettings, setUserSettings] = useState<UserSettings>();
